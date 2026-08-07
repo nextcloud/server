@@ -12,6 +12,8 @@ namespace Test\Security\Signature\Model;
 use Firebase\JWT\JWK;
 use OC\Security\Signature\Model\Rfc9421IncomingSignedRequest;
 use OC\Security\Signature\Model\Rfc9421OutgoingSignedRequest;
+use OC\Security\Signature\Rfc9421\Algorithm;
+use OC\Security\Signature\Rfc9421\ContentDigest;
 use OCP\IRequest;
 use OCP\Security\Signature\Enum\DigestAlgorithm;
 use OCP\Security\Signature\Enum\SignatureAlgorithm;
@@ -39,6 +41,11 @@ class Rfc9421RoundTripTest extends TestCase {
 		$in->setKey($jwk);
 
 		$this->assertSame($out->getSignatureBaseString(), $in->getSignatureBaseString());
+		// the Date header is deliberately not covered by the signature
+		$this->assertSame(
+			['@method', '@target-uri', 'content-digest', 'content-length'],
+			$in->getCoveredComponents(),
+		);
 		$in->verify(); // throws on failure
 		$this->addToAssertionCount(1);
 	}
@@ -50,11 +57,18 @@ class Rfc9421RoundTripTest extends TestCase {
 
 		$body = '{"hello":"world"}';
 		$out = new Rfc9421OutgoingSignedRequest($body, $signatoryManager, 'receiver.example.org', 'POST', 'https://receiver.example.org/ocm/shares');
-		// Ed25519 sign() throws via Algorithm::sign; produce the signature directly.
-		$rawSig = sodium_crypto_sign_detached($out->getSignatureBaseString(), $signatory->getPrivateKey());
-		$out->setSignature(base64_encode($rawSig));
+		// Ed25519 sign() throws via Algorithm::sign; produce the signature directly
+		// over a manually reconstructed signature base.
 		$headers = $out->getHeaders();
-		$paramsLine = '("@method" "@target-uri" "content-digest" "content-length" "date");created=' . time() . ';keyid="' . $signatory->getKeyId() . '"';
+		$paramsLine = '("@method" "@target-uri" "content-digest" "content-length");created=' . time() . ';keyid="' . $signatory->getKeyId() . '";tag="ocm"';
+		$base = implode("\n", [
+			'"@method": POST',
+			'"@target-uri": https://receiver.example.org/ocm/shares',
+			'"content-digest": ' . $headers['Content-Digest'],
+			'"content-length": ' . $headers['Content-Length'],
+			'"@signature-params": ' . $paramsLine,
+		]);
+		$rawSig = sodium_crypto_sign_detached($base, $signatory->getPrivateKey());
 		$headers['Signature-Input'] = 'ocm=' . $paramsLine;
 		$headers['Signature'] = 'ocm=:' . base64_encode($rawSig) . ':';
 
@@ -98,7 +112,7 @@ class Rfc9421RoundTripTest extends TestCase {
 		$in->verify();
 	}
 
-	public function testOutgoingUsesOcmLabel(): void {
+	public function testOutgoingCarriesOcmTag(): void {
 		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
@@ -106,31 +120,72 @@ class Rfc9421RoundTripTest extends TestCase {
 		$out->sign();
 
 		$headers = $out->getHeaders();
+		// the label is cosmetic; the integrity-protected tag parameter is
+		// what marks the signature as the OCM one
 		$this->assertStringStartsWith('ocm=(', (string)$headers['Signature-Input']);
+		$this->assertStringContainsString(';tag="ocm"', (string)$headers['Signature-Input']);
 		$this->assertStringStartsWith('ocm=:', (string)$headers['Signature']);
 	}
 
-	public function testRequestWithoutOcmLabelRejected(): void {
+	public function testArbitraryLabelWithOcmTagVerifies(): void {
+		[$signatory, $jwk] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
+		$signatoryManager = $this->makeSignatoryManager($signatory);
+
+		$out = new Rfc9421OutgoingSignedRequest('msg', $signatoryManager, 'receiver.example.org', 'POST', 'https://receiver.example.org/ocm/shares');
+		$out->sign();
+
+		// Rename the dictionary label; the verifier MUST select by the
+		// tag="ocm" parameter and disregard labels.
+		$headers = $out->getHeaders();
+		$headers['Signature-Input'] = preg_replace('/^ocm=/', 'sig1=', (string)$headers['Signature-Input']);
+		$headers['Signature'] = preg_replace('/^ocm=/', 'sig1=', (string)$headers['Signature']);
+
+		$req = $this->mockRequest($headers, 'POST', '/ocm/shares', 'receiver.example.org');
+		$in = new Rfc9421IncomingSignedRequest('msg', $req);
+		$in->setKey($jwk);
+		$in->verify();
+		$this->addToAssertionCount(1);
+	}
+
+	public function testRequestWithoutOcmTagTreatedAsUnsigned(): void {
 		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
 		$out = new Rfc9421OutgoingSignedRequest('msg', $signatoryManager, 'receiver.example.org', 'POST', 'https://receiver.example.org/ocm/shares');
 		$out->sign();
 
-		// Rename the OCM label to something else; verifier MUST reject.
+		// Strip the tag parameter; without tag="ocm" the request carries no
+		// OCM signature and is handled as unsigned.
 		$headers = $out->getHeaders();
-		$headers['Signature-Input'] = preg_replace('/^ocm=/', 'sig1=', (string)$headers['Signature-Input']);
-		$headers['Signature'] = preg_replace('/^ocm=/', 'sig1=', (string)$headers['Signature']);
+		$headers['Signature-Input'] = str_replace(';tag="ocm"', '', (string)$headers['Signature-Input']);
 
 		$req = $this->mockRequest($headers, 'POST', '/ocm/shares', 'receiver.example.org');
 		$this->expectException(SignatureNotFoundException::class);
 		new Rfc9421IncomingSignedRequest('msg', $req);
 	}
 
+	public function testTwoSignaturesCarryingOcmTagRejected(): void {
+		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
+		$signatoryManager = $this->makeSignatoryManager($signatory);
+
+		$out = new Rfc9421OutgoingSignedRequest('msg', $signatoryManager, 'receiver.example.org', 'POST', 'https://receiver.example.org/ocm/shares');
+		$out->sign();
+
+		// A second, differently-labeled signature also carrying tag="ocm":
+		// the entire message MUST be rejected.
+		$headers = $out->getHeaders();
+		$headers['Signature-Input'] = (string)$headers['Signature-Input'] . ', ' . preg_replace('/^ocm=/', 'sig2=', (string)$headers['Signature-Input']);
+		$headers['Signature'] = (string)$headers['Signature'] . ', ' . preg_replace('/^ocm=/', 'sig2=', (string)$headers['Signature']);
+
+		$req = $this->mockRequest($headers, 'POST', '/ocm/shares', 'receiver.example.org');
+		$this->expectException(IncomingRequestException::class);
+		new Rfc9421IncomingSignedRequest('msg', $req);
+	}
+
 	public function testDuplicateOcmLabelRejected(): void {
-		// RFC 8941 §4.2 last-wins on duplicate dictionary keys, but OCM
-		// mandates that duplicate `ocm` entries cause the request to be
-		// rejected outright. The model layer enforces that.
+		// RFC 8941 §4.2 last-wins on duplicate dictionary keys, which would
+		// silently hide one of two identically-labeled OCM signatures; that
+		// ambiguity on the selected entry causes outright rejection.
 		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
 		$signatoryManager = $this->makeSignatoryManager($signatory);
 
@@ -223,6 +278,44 @@ class Rfc9421RoundTripTest extends TestCase {
 		new Rfc9421IncomingSignedRequest($body, $req);
 	}
 
+	public function testMissingKeyidRejected(): void {
+		[$signatory] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
+		$signatoryManager = $this->makeSignatoryManager($signatory);
+
+		$body = 'msg';
+		$out = new Rfc9421OutgoingSignedRequest($body, $signatoryManager, 'receiver.example.org', 'POST', 'https://receiver.example.org/ocm/shares');
+		$out->sign();
+
+		// Strip the `;keyid="..."` parameter; verifiers MUST reject
+		// signatures without it.
+		$headers = $out->getHeaders();
+		$headers['Signature-Input'] = preg_replace('/;keyid="[^"]*"/', '', (string)$headers['Signature-Input']);
+
+		$req = $this->mockRequest($headers, 'POST', '/ocm/shares', 'receiver.example.org');
+		$this->expectException(IncomingRequestException::class);
+		new Rfc9421IncomingSignedRequest($body, $req);
+	}
+
+	public function testExtraCoveredDateStillVerifies(): void {
+		// covering more than the mandatory components (here: `date`) is
+		// allowed; only the four baseline components are required
+		[$signatory, $jwk] = $this->ecdsaP256Material('https://sender.example.org/ocm#ecdsa-p256-sha256');
+		$signatoryManager = $this->makeSignatoryManagerWithComponents(
+			$signatory,
+			['@method', '@target-uri', 'content-digest', 'content-length', 'date'],
+		);
+
+		$body = 'msg';
+		$out = new Rfc9421OutgoingSignedRequest($body, $signatoryManager, 'receiver.example.org', 'POST', 'https://receiver.example.org/ocm/shares');
+		$out->sign();
+
+		$req = $this->mockRequestFromOutgoing($out, 'POST', '/ocm/shares', 'receiver.example.org');
+		$in = new Rfc9421IncomingSignedRequest($body, $req);
+		$in->setKey($jwk);
+		$in->verify();
+		$this->addToAssertionCount(1);
+	}
+
 	public function testSignatureNotCoveringRequiredComponentsRejected(): void {
 		// A peer that signs only `@method` and `@target-uri`: the body and
 		// freshness window aren't bound. Even with a valid signature we
@@ -240,6 +333,39 @@ class Rfc9421RoundTripTest extends TestCase {
 
 		$this->expectException(IncomingRequestException::class);
 		new Rfc9421IncomingSignedRequest($body, $req);
+	}
+
+	public function testKeyIdIsOpaqueAndOriginIsExternal(): void {
+		// keyid is opaque; the origin is supplied by the caller via setOrigin().
+		$kid = 'sender.example.org#key1';
+		[$privatePem, $jwk] = $this->ecdsaP256Jwk($kid);
+
+		$body = 'msg';
+		$digest = ContentDigest::compute($body, ContentDigest::ALGO_SHA256);
+		$paramsLine = '("@method" "@target-uri" "content-digest" "content-length");created=' . time() . ';keyid="' . $kid . '";tag="ocm"';
+		$base = implode("\n", [
+			'"@method": POST',
+			'"@target-uri": https://receiver.example.org/ocm/shares',
+			'"content-digest": ' . $digest,
+			'"content-length": ' . strlen($body),
+			'"@signature-params": ' . $paramsLine,
+		]);
+		$rawSig = Algorithm::sign($base, $privatePem, 'ecdsa-p256-sha256');
+		$headers = [
+			'Content-Digest' => $digest,
+			'Content-Length' => (string)strlen($body),
+			'Signature-Input' => 'sig1=' . $paramsLine,
+			'Signature' => 'sig1=:' . base64_encode($rawSig) . ':',
+		];
+
+		$req = $this->mockRequest($headers, 'POST', '/ocm/shares', 'receiver.example.org');
+		$in = new Rfc9421IncomingSignedRequest($body, $req);
+		// The keyid is not parsed; the origin comes from the caller.
+		$in->setOrigin('sender.example.org');
+		$this->assertSame('sender.example.org', $in->getOrigin());
+		$in->setKey($jwk);
+		$in->verify();
+		$this->addToAssertionCount(1);
 	}
 
 	private function skipUnlessSodium(): void {
@@ -323,9 +449,29 @@ class Rfc9421RoundTripTest extends TestCase {
 		$signatory->setPublicKey($publicPem);
 		$signatory->setPrivateKey($privatePem);
 
+		$key = self::jwkFromEcDetails($details, $kid);
+		return [$signatory, $key];
+	}
+
+	/**
+	 * Key material for a peer whose kid is not a URL; Nextcloud's Signatory
+	 * model cannot represent those.
+	 *
+	 * @return array{0: string, 1: \Firebase\JWT\Key} [private key PEM, verification key]
+	 */
+	private function ecdsaP256Jwk(string $kid): array {
+		$pkey = openssl_pkey_new(['private_key_type' => OPENSSL_KEYTYPE_EC, 'curve_name' => 'prime256v1']);
+		$privatePem = '';
+		openssl_pkey_export($pkey, $privatePem);
+		$details = openssl_pkey_get_details($pkey);
+
+		return [$privatePem, self::jwkFromEcDetails($details, $kid)];
+	}
+
+	private static function jwkFromEcDetails(array $details, string $kid): \Firebase\JWT\Key {
 		$x = str_pad($details['ec']['x'], 32, "\x00", STR_PAD_LEFT);
 		$y = str_pad($details['ec']['y'], 32, "\x00", STR_PAD_LEFT);
-		$key = JWK::parseKey([
+		return JWK::parseKey([
 			'kty' => 'EC',
 			'crv' => 'P-256',
 			'kid' => $kid,
@@ -333,7 +479,6 @@ class Rfc9421RoundTripTest extends TestCase {
 			'x' => self::b64url($x),
 			'y' => self::b64url($y),
 		], 'ES256');
-		return [$signatory, $key];
 	}
 
 	/**

@@ -100,7 +100,8 @@ class SignatureManagerDispatchTest extends TestCase {
 
 		$resolver = $this->makeKeyResolver($signatoryManager, $jwk, 'https://sender.example.org/ocm#ecdsa-p256-sha256');
 
-		$signed = $this->signatureManager->getIncomingSignedRequest($resolver, $body);
+		// RFC 9421 verification needs the sender origin from the caller.
+		$signed = $this->signatureManager->getIncomingSignedRequest($resolver, $body, 'sender.example.org');
 		$this->assertInstanceOf(Rfc9421IncomingSignedRequest::class, $signed);
 	}
 
@@ -121,6 +122,29 @@ class SignatureManagerDispatchTest extends TestCase {
 		// $signatoryManager does NOT implement IJwkResolvingSignatoryManager.
 		$this->expectException(IncomingRequestException::class);
 		$this->signatureManager->getIncomingSignedRequest($signatoryManager, $body);
+	}
+
+	public function testInboundRejectsRfc9421WhenNoKeyResolvedForKeyid(): void {
+		[$signatoryManager, $jwk] = $this->ecdsaP256SignatoryManager(rfc9421Format: true);
+
+		$body = '{"hello":"world"}';
+		$out = new Rfc9421OutgoingSignedRequest(
+			$body,
+			$signatoryManager,
+			'receiver.example.org',
+			'POST',
+			'https://receiver.example.org/ocm/shares',
+		);
+		$out->sign();
+		$this->primeRequest($out->getHeaders(), 'POST', '/ocm/shares', 'receiver.example.org');
+
+		// resolver knows a different kid only: a present signature whose key
+		// cannot be resolved is a verification failure, not an unsigned
+		// request
+		$resolver = $this->makeKeyResolver($signatoryManager, $jwk, 'https://other.example.org/ocm#nomatch');
+
+		$this->expectException(IncomingRequestException::class);
+		$this->signatureManager->getIncomingSignedRequest($resolver, $body, 'sender.example.org');
 	}
 
 	private function rsaSignatoryManager(): ISignatoryManager {
