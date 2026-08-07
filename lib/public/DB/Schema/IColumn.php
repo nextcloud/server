@@ -9,11 +9,14 @@ declare(strict_types=1);
 
 namespace OCP\DB\Schema;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Object representation of a column.
  *
  * @since 35.0.0
  */
+#[Consumable(since: '35.0.0')]
 interface IColumn {
 	/**
 	 * @param mixed[] $options

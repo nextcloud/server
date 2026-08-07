@@ -9,6 +9,7 @@ namespace OCP\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\DB\Schema\ITable;
 
 /**
@@ -21,6 +22,7 @@ use OCP\DB\Schema\ITable;
  *
  * @since 13.0.0
  */
+#[Consumable(since: '13.0.0')]
 interface ISchemaWrapper {
 	/**
 	 * @throws Schema\SchemaException

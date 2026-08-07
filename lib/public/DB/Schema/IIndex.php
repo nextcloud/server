@@ -9,11 +9,14 @@ declare(strict_types=1);
 
 namespace OCP\DB\Schema;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Object representation of an index.
  *
  * @since 35.0.0
  */
+#[Consumable(since: '35.0.0')]
 interface IIndex {
 	/**
 	 * Returns the name of this index.
