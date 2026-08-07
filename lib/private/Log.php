@@ -35,6 +35,26 @@ use function strtr;
  * for the full interface specification.
  *
  * MonoLog is an example implementing this interface.
+ *
+ * @psalm-type LogConditionMatch = array{
+ *   shared_secret?: string,
+ *   users?: string[],
+ *   apps?: string[],
+ *   message?: string,
+ *   loglevel?: 0|1|2|3|4,
+ * }
+ *
+ * @psalm-type LogCondition = array{
+ *   shared_secret?: string,
+ *   users?: string[],
+ *   apps?: string[],
+ *   matches?: array<array-key, LogConditionMatch>,
+ * }
+ *
+ * @psalm-type RequestLogCondition = array{
+ *   satisfied: bool,
+ *   userId: string|false,
+ * }
  */
 class Log implements ILogger, IDataLogger {
 	private ?bool $logConditionSatisfied = null;
@@ -193,52 +213,78 @@ class Log implements ILogger, IDataLogger {
 		}
 	}
 
+	/**
+	 * Determine the minimum log level required for a message.
+	 *
+	 * Evaluates request-wide and message-specific `log.condition` rules before
+	 * falling back to the configured global log level.
+	 *
+	 * @param array $context Log context, optionally including the app identifier
+	 * @param string $message The un-interpolated log message
+	 * @return int One of the ILogger log-level constants
+	 */
 	public function getLogLevel(array $context, string $message): int {
 		if ($this->nestingLevel > 1) {
 			return ILogger::WARN;
 		}
 
 		$this->nestingLevel++;
-		/**
-		 * @psalm-var array{
-		 *   shared_secret?: string,
-		 *   users?: string[],
-		 *   apps?: string[],
-		 *   matches?: array<array-key, array{
-		 *     shared_secret?: string,
-		 *     users?: string[],
-		 *     apps?: string[],
-		 *     message?: string,
-		 *     loglevel: 0|1|2|3|4,
-		 *   }>
-		 * } $logCondition
-		 */
-		$logCondition = $this->config->getValue('log.condition', []);
+		try {
+			/** @psalm-var LogCondition $logCondition */
+			$logCondition = $this->config->getValue('log.condition', []);
+			$requestCondition = $this->evaluateRequestLogCondition($logCondition);
 
+			if ($requestCondition['satisfied']) {
+				return ILogger::DEBUG;
+			}
+
+			if ($this->matchesConfiguredApp($context, $logCondition)) {
+				return ILogger::DEBUG;
+			}
+
+			$matchingCondition = $this->findMatchingLogCondition(
+				$context,
+				$message,
+				$logCondition,
+				$requestCondition['userId'],
+			);
+			if ($matchingCondition !== null) {
+				return $matchingCondition['loglevel'] ?? ILogger::DEBUG;
+			}
+
+			return $this->getConfiguredLogLevel();
+		} finally {
+			$this->nestingLevel--;
+		}
+	}
+
+	/**
+	 * Evaluate log conditions which apply to the whole request.
+	 *
+	 * @param LogCondition $logCondition
+	 * @return RequestLogCondition
+	 */
+	private function evaluateRequestLogCondition(array $logCondition): array {
 		$userId = false;
 
-		/**
-		 * check for a special log condition - this enables an increased log on
-		 * a per request/user base
-		 */
 		if ($this->logConditionSatisfied === null) {
-			// default to false to just process this once per request
+			// Default to false so this condition is evaluated only once per request.
 			$this->logConditionSatisfied = false;
+
 			if (!empty($logCondition)) {
-				// check for secret token in the request
-				if (isset($logCondition['shared_secret']) && $this->checkLogSecret($logCondition['shared_secret'])) {
+				if (isset($logCondition['shared_secret'])
+					&& $this->checkLogSecret($logCondition['shared_secret'])
+				   ) {
 					$this->logConditionSatisfied = true;
 				}
 
-				// check for user
 				if (isset($logCondition['users'])) {
 					$user = Server::get(IUserSession::class)->getUser();
 
 					if ($user === null) {
-						// User is not known for this request yet
+						// The user is not known for this request yet.
 						$this->logConditionSatisfied = null;
 					} elseif (in_array($user->getUID(), $logCondition['users'], true)) {
-						// if the user matches set the log condition to satisfied
 						$this->logConditionSatisfied = true;
 					} else {
 						$userId = $user->getUID();
@@ -247,57 +293,95 @@ class Log implements ILogger, IDataLogger {
 			}
 		}
 
-		// if log condition is satisfied change the required log level to DEBUG
-		if ($this->logConditionSatisfied) {
-			$this->nestingLevel--;
-			return ILogger::DEBUG;
-		}
+		return [
+			'satisfied' => $this->logConditionSatisfied === true,
+			'userId' => $userId,
+		];
+	}
 
-		if ($userId === false && isset($logCondition['matches'])) {
-			$user = Server::get(IUserSession::class)->getUser();
-			$userId = $user === null ? false : $user->getUID();
-		}
+	/**
+	 * @param array{app?: string} $context
+	 * @param LogCondition $logCondition
+	 */
+	private function matchesConfiguredApp(array $context, array $logCondition): bool {
+		return isset($context['app'])
+			&& in_array($context['app'], $logCondition['apps'] ?? [], true);
+	}
 
-		if (isset($context['app'])) {
-			/**
-			 * check log condition based on the context of each log message
-			 * once this is met -> change the required log level to debug
-			 */
-			if (in_array($context['app'], $logCondition['apps'] ?? [], true)) {
-				$this->nestingLevel--;
-				return ILogger::DEBUG;
+	/**
+	 * Find the first per-message log condition matching this log record.
+	 *
+	 * @param array{app?: string} $context
+	 * @param LogCondition $logCondition
+	 * @param string|false $userId User ID resolved while evaluating a
+	 *  request-wide user condition, if available
+	 * @return ?LogConditionMatch
+	 */
+	private function findMatchingLogCondition(
+		array $context,
+		string $message,
+		array $logCondition,
+		string|false $userId,
+	): ?array {
+		$userIdResolved = $userId !== false;
+
+		foreach ($logCondition['matches'] ?? [] as $option) {
+			// These checks use only values already available to this log record.
+			// Rejecting here avoids resolving request or session services.
+			if (isset($option['apps'])
+				&& (!isset($context['app'])
+					|| !in_array($context['app'], $option['apps'], true))
+			   ) {
+				continue;
 			}
-		}
 
-		$logConditionMatches = $logCondition['matches'] ?? [];
+			if (isset($option['message'])
+				&& !str_contains($message, $option['message'])
+			   ) {
+				continue;
+			}
 
-		foreach ($logConditionMatches as $option) {
-			if (
-				(!isset($option['shared_secret']) || $this->checkLogSecret($option['shared_secret']))
-				&& (!isset($option['users']) || in_array($userId, $option['users'], true))
-				&& (!isset($option['apps']) || (isset($context['app']) && in_array($context['app'], $option['apps'], true)))
-				&& (!isset($option['message']) || str_contains($message, $option['message']))
-			) {
-				if (!isset($option['apps']) && !isset($option['loglevel']) && !isset($option['message'])) {
-					/* Only user and/or secret are listed as conditions, we can cache the result for the rest of the request */
-					$this->logConditionSatisfied = true;
-					$this->nestingLevel--;
-					return ILogger::DEBUG;
+			if (isset($option['shared_secret'])
+				&& !$this->checkLogSecret($option['shared_secret'])
+			   ) {
+				continue;
+			}
+
+			if (isset($option['users'])) {
+				if (!$userIdResolved) {
+					$user = Server::get(IUserSession::class)->getUser();
+					$userId = $user?->getUID() ?? false;
+					$userIdResolved = true;
 				}
-				$this->nestingLevel--;
-				return $option['loglevel'] ?? ILogger::DEBUG;
+
+				if (!in_array($userId, $option['users'], true)) {
+					continue;
+				}
 			}
+
+			if (!isset($option['apps'])
+				&& !isset($option['loglevel'])
+				&& !isset($option['message'])
+			   ) {
+				// Only user and/or secret conditions apply; cache this for the request.
+				$this->logConditionSatisfied = true;
+			}
+
+			return $option;
 		}
 
+		return null;
+	}
+
+	private function getConfiguredLogLevel(): int {
 		$configLogLevel = $this->config->getValue('loglevel', ILogger::WARN);
 		if (is_numeric($configLogLevel)) {
-			$this->nestingLevel--;
 			return min((int)$configLogLevel, ILogger::FATAL);
 		}
 
 		// Invalid configuration, warn the user and fall back to default level of WARN
 		error_log('Nextcloud configuration: "loglevel" is not a valid integer');
-		$this->nestingLevel--;
+
 		return ILogger::WARN;
 	}
 
