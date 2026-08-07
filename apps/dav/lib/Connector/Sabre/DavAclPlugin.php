@@ -112,7 +112,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 			// is calendars/users/bob or addressbooks/users/bob readable?
 			$this->checkPrivileges($parentName, '{DAV:}read');
 		} elseif ($request->getMethod() === 'MKCALENDAR' || $request->getMethod() === 'MKCOL') {
-			// is calendars/users/bob or addressbooks/users/bob writeable?
+			// is calendars/users/bob or addressbooks/users/bob writable?
 			$this->checkPrivileges($parentName, '{DAV:}write');
 		}
 	}

@@ -96,7 +96,7 @@ class Manager implements IManager {
 		if ($context === null) {
 			return [];
 		}
-		// initilize cached collection
+		// initialize cached collection
 		$this->providersCollection = [];
 		// iterate through all registered mail providers
 		foreach ($context->getMailProviders() as $entry) {
@@ -153,7 +153,7 @@ class Manager implements IManager {
 	#[\Override]
 	public function services(string $userId): array {
 
-		// initilize collection
+		// initialize collection
 		$services = [];
 		// retrieve and iterate through mail providers
 		foreach ($this->providers() as $entry) {
