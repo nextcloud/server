@@ -269,7 +269,7 @@ export default defineComponent({
 				return
 			}
 
-			this.defaultFileAction?.exec(this.source, this.currentView, this.currentDir)
+			this.defaultFileAction?.exec(this.source, this.fileActionView, this.currentDir)
 		},
 	},
 })

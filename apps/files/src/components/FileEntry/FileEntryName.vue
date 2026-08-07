@@ -42,16 +42,15 @@ import type { PropType } from 'vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { defineComponent, inject } from 'vue'
+import { defineComponent, inject, unref } from 'vue'
 
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import { getFilenameValidity } from '../../utils/filenameValidity.ts'
 import { useFileListWidth } from '../../composables/useFileListWidth.ts'
-import { useNavigation } from '../../composables/useNavigation.ts'
 import { useRenamingStore } from '../../store/renaming.ts'
-import { useRouteParameters } from '../../composables/useRouteParameters.ts'
 import { useUserConfigStore } from '../../store/userconfig.ts'
+import { useActiveStore } from '../../store/active.ts'
 import logger from '../../logger.ts'
 
 export default defineComponent({
@@ -91,19 +90,16 @@ export default defineComponent({
 	},
 
 	setup() {
-		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
-		const { currentView } = useNavigation(true)
-		const { directory } = useRouteParameters()
 		const filesListWidth = useFileListWidth()
 		const renamingStore = useRenamingStore()
 		const userConfigStore = useUserConfigStore()
+		const { activeView } = useActiveStore()
 
-		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
+		const defaultFileAction = inject<{ value: FileAction | undefined } | FileAction | undefined>('defaultFileAction')
 
 		return {
-			currentView,
+			activeView,
 			defaultFileAction,
-			directory,
 			filesListWidth,
 
 			renamingStore,
@@ -145,8 +141,11 @@ export default defineComponent({
 				}
 			}
 
-			if (this.defaultFileAction) {
-				const displayName = this.defaultFileAction.displayName([this.source], this.currentView)
+			const defaultFileAction = unref(this.defaultFileAction)
+			const view = this.activeView
+
+			if (defaultFileAction && view) {
+				const displayName = defaultFileAction.displayName([this.source], view)
 				return {
 					is: 'button',
 					params: {
