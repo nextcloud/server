@@ -2358,6 +2358,42 @@ class ViewTest extends \Test\TestCase {
 		$view->unlockFile($targetPath, ILockingProvider::LOCK_EXCLUSIVE);
 	}
 
+	public function testLockFileRenameUnlocksAfterStorageException(): void {
+		$view = new View('/' . self::$user . '/files/');
+
+		/** @var Temporary&MockObject $storage */
+		$storage = $this->getMockBuilder(Temporary::class)
+			->onlyMethods(['rename'])
+			->getMock();
+
+		Filesystem::mount($storage, [], self::$user . '/');
+		$storage->mkdir('files');
+
+		$sourcePath = 'source.txt';
+		$targetPath = 'target.txt';
+		$view->file_put_contents($sourcePath, 'content');
+
+		$storage->expects($this->once())
+			->method('rename')
+			->willThrowException(new \RuntimeException('Simulated rename failure'));
+
+		try {
+			$view->rename($sourcePath, $targetPath);
+			$this->fail('Expected the storage exception to be rethrown');
+		} catch (\RuntimeException $e) {
+			$this->assertSame('Simulated rename failure', $e->getMessage());
+		}
+
+		$this->assertNull(
+			$this->getFileLockType($view, $sourcePath, true),
+			'The source mount-point lock must be released after a failed rename'
+		);
+		$this->assertNull(
+			$this->getFileLockType($view, $targetPath, true),
+			'The target mount-point lock must be released after a failed rename'
+		);
+	}
+
 	/**
 	 * Test rename operation: unlock first path when second path was locked
 	 */
