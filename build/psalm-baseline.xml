@@ -686,10 +686,6 @@
     </MoreSpecificReturnType>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/BearerAuth.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($userId)]]></code>
-      <code><![CDATA[\OC_Util::setupFS()]]></code>
-    </DeprecatedClass>
     <UndefinedInterfaceMethod>
       <code><![CDATA[tryTokenLogin]]></code>
     </UndefinedInterfaceMethod>
@@ -1502,11 +1498,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files/lib/Service/OwnershipTransferService.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($destinationUser->getUID())]]></code>
-      <code><![CDATA[\OC_Util::setupFS($destinationUser->getUID())]]></code>
-      <code><![CDATA[\OC_Util::setupFS($sourceUser->getUID())]]></code>
-    </DeprecatedClass>
     <InternalClass>
       <code><![CDATA[new View()]]></code>
     </InternalClass>
@@ -2052,51 +2043,14 @@
     </DeprecatedClass>
   </file>
   <file src="apps/files_versions/lib/BackgroundJob/ExpireVersions.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($user)]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
     <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
       <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-    <InternalClass>
-      <code><![CDATA[new View('/' . $user)]]></code>
-    </InternalClass>
-    <InternalMethod>
-      <code><![CDATA[is_dir]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
-    </InternalMethod>
-  </file>
-  <file src="apps/files_versions/lib/Command/CleanUp.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($user)]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_versions/lib/Command/Expire.php">
     <DeprecatedInterface>
       <code><![CDATA[Expire]]></code>
     </DeprecatedInterface>
-  </file>
-  <file src="apps/files_versions/lib/Command/ExpireVersions.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($user)]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedMethod>
-    <InternalClass>
-      <code><![CDATA[new View('/' . $user)]]></code>
-    </InternalClass>
-    <InternalMethod>
-      <code><![CDATA[is_dir]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
-    </InternalMethod>
   </file>
   <file src="apps/files_versions/lib/Db/VersionEntity.php">
     <DeprecatedConstant>
@@ -2137,9 +2091,6 @@
     </InvalidNullableReturnType>
   </file>
   <file src="apps/files_versions/lib/Storage.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($uid)]]></code>
-    </DeprecatedClass>
     <DeprecatedInterface>
       <code><![CDATA[$bus]]></code>
     </DeprecatedInterface>
@@ -2255,16 +2206,11 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/provisioning_api/lib/Controller/AUserDataOCSController.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($user->getUID())]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_DISPLAYNAME_LEGACY]]></code>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
     <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[getUserValue]]></code>
@@ -2408,9 +2354,6 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/settings/lib/Settings/Personal/PersonalInfo.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($user->getUID())]]></code>
-    </DeprecatedClass>
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
@@ -2899,14 +2842,7 @@
     </DeprecatedMethod>
   </file>
   <file src="core/BackgroundJobs/CheckForUserCertificates.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($userId)]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
     <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
       <code><![CDATA[deleteAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
@@ -2969,24 +2905,6 @@
   <file src="core/Command/Db/Migrations/GenerateCommand.php">
     <DeprecatedMethod>
       <code><![CDATA[Util::getVersion()]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/Encryption/ChangeKeyStorageRoot.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($uid)]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/Encryption/MigrateKeyStorage.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($uid)]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Command/Log/File.php">
@@ -3159,11 +3077,6 @@
       <code><![CDATA[provideInitialState]]></code>
       <code><![CDATA[provideInitialState]]></code>
     </DeprecatedMethod>
-  </file>
-  <file src="core/Controller/TaskProcessingApiController.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($task->getUserId())]]></code>
-    </DeprecatedClass>
   </file>
   <file src="core/Controller/TextProcessingApiController.php">
     <DeprecatedClass>

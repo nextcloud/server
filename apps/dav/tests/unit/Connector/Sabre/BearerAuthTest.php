@@ -10,6 +10,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\BearerAuth;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
@@ -26,6 +27,7 @@ class BearerAuthTest extends TestCase {
 	private ISession&MockObject $session;
 	private IRequest&MockObject $request;
 	private BearerAuth $bearerAuth;
+	private ISetupManager&MockObject $setupManager;
 
 	private IConfig&MockObject $config;
 
@@ -36,12 +38,14 @@ class BearerAuthTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->setupManager = $this->createMock(ISetupManager::class);
 
 		$this->bearerAuth = new BearerAuth(
 			$this->userSession,
 			$this->session,
 			$this->request,
 			$this->config,
+			$this->setupManager,
 		);
 	}
 
@@ -88,6 +92,7 @@ class BearerAuthTest extends TestCase {
 			$this->session,
 			$this->request,
 			$this->config,
+			$this->setupManager,
 			allowOcmAccessToken: true,
 		);
 		$this->userSession
@@ -105,9 +110,7 @@ class BearerAuthTest extends TestCase {
 	}
 
 	public function testChallenge(): void {
-		/** @var RequestInterface&MockObject $request */
 		$request = $this->createMock(RequestInterface::class);
-		/** @var ResponseInterface&MockObject $response */
 		$response = $this->createMock(ResponseInterface::class);
 		$this->bearerAuth->challenge($request, $response);
 		$this->assertTrue(true);

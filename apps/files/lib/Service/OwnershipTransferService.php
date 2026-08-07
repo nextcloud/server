@@ -24,6 +24,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
@@ -47,14 +48,15 @@ use function rtrim;
 class OwnershipTransferService {
 
 	public function __construct(
-		private IEncryptionManager $encryptionManager,
-		private IShareManager $shareManager,
-		private IMountManager $mountManager,
-		private IUserMountCache $userMountCache,
-		private IUserManager $userManager,
-		private IFactory $l10nFactory,
-		private IRootFolder $rootFolder,
-		private IEventDispatcher $eventDispatcher,
+		private readonly IEncryptionManager $encryptionManager,
+		private readonly IShareManager $shareManager,
+		private readonly IMountManager $mountManager,
+		private readonly IUserMountCache $userMountCache,
+		private readonly IUserManager $userManager,
+		private readonly IFactory $l10nFactory,
+		private readonly IRootFolder $rootFolder,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly ISetupManager $setupManager,
 	) {
 	}
 
@@ -93,8 +95,8 @@ class OwnershipTransferService {
 		// Requesting the user folder will set it up if the user hasn't logged in before
 		// We need a setupFS for the full filesystem setup before as otherwise we will just return
 		// a lazy root folder which does not create the destination users folder
-		\OC_Util::setupFS($sourceUser->getUID());
-		\OC_Util::setupFS($destinationUser->getUID());
+		$this->setupManager->setupForUser($sourceUser);
+		$this->setupManager->setupForUser($destinationUser);
 		$this->rootFolder->getUserFolder($sourceUser->getUID());
 		$this->rootFolder->getUserFolder($destinationUser->getUID());
 		Filesystem::initMountPoints($sourceUid);
@@ -131,7 +133,7 @@ class OwnershipTransferService {
 
 		if ($move && !$view->is_dir($finalTarget)) {
 			// Initialize storage
-			\OC_Util::setupFS($destinationUser->getUID());
+			$this->setupManager->setupForUser($destinationUser);
 		}
 
 		if ($move && !$firstLogin && count($view->getDirectoryContent($finalTarget)) > 0) {

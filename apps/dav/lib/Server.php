@@ -83,6 +83,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
@@ -175,6 +176,7 @@ class Server {
 			\OCP\Server::get(ISession::class),
 			\OCP\Server::get(IRequest::class),
 			\OCP\Server::get(IConfig::class),
+			\OCP\Server::get(ISetupManager::class),
 		);
 		$authPlugin->addBackend($bearerAuthBackend);
 		// because we are throwing exceptions this plugin has to be the last one

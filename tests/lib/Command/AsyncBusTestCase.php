@@ -15,7 +15,7 @@ use Test\TestCase;
 
 class SimpleCommand implements ICommand {
 	#[\Override]
-	public function handle() {
+	public function handle(): void {
 		AsyncBusTestCase::$lastCommand = 'SimpleCommand';
 	}
 }
@@ -27,7 +27,7 @@ class StateFullCommand implements ICommand {
 	}
 
 	#[\Override]
-	public function handle() {
+	public function handle(): void {
 		AsyncBusTestCase::$lastCommand = $this->state;
 	}
 }
@@ -36,7 +36,7 @@ class FilesystemCommand implements ICommand {
 	use FileAccess;
 
 	#[\Override]
-	public function handle() {
+	public function handle(): void {
 		AsyncBusTestCase::$lastCommand = 'FileAccess';
 	}
 }

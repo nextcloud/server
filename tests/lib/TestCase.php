@@ -27,6 +27,7 @@ use OC\User\Session;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -261,12 +262,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * Returns a unique identifier as uniqid() is not reliable sometimes
-	 *
-	 * @param string $prefix
-	 * @param int $length
-	 * @return string
 	 */
-	protected static function getUniqueID($prefix = '', $length = 13) {
+	protected static function getUniqueID(string $prefix = '', int $length = 13): string {
 		return $prefix . Server::get(ISecureRandom::class)->generate(
 			$length,
 			// Do not use dots and slashes as we use the value for file names
@@ -334,8 +331,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		/** @psalm-suppress DeprecatedMethod */
 		unset(\OC::$server[Updater::class]);
 
-		/** @var SetupManager $setupManager */
-		$setupManager = Server::get(SetupManager::class);
+		$setupManager = Server::get(ISetupManager::class);
 		$setupManager->tearDown();
 
 		/** @var MountProviderCollection $mountProviderCollection */
@@ -349,6 +345,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$objectStoreConfig = Server::get(PrimaryObjectStoreConfig::class);
 		$mountProviderCollection->registerRootProvider(new RootMountProvider($objectStoreConfig, $config));
 
+		/** @var SetupManager $setupManager */
 		$setupManager->setupRoot();
 
 		parent::tearDownAfterClass();
@@ -449,10 +446,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function loginAsUser(string $user = ''): void {
 		self::logout();
-		Filesystem::tearDown();
+		$setupManager = Server::get(ISetupManager::class);
+		$setupManager->tearDown();
 		\OC_User::setUserId($user);
 		$userManager = Server::get(IUserManager::class);
-		$setupManager = Server::get(SetupManager::class);
 		$userObject = $userManager->get($user);
 		if (!is_null($userObject)) {
 			$userObject->updateLastLoginTimestamp();

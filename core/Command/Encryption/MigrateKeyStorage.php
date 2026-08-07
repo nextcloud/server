@@ -10,8 +10,13 @@ declare(strict_types=1);
 namespace OC\Core\Command\Encryption;
 
 use OC\Encryption\Util;
-use OC\Files\View;
+use OCP\Files\File;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use Symfony\Component\Console\Command\Command;
@@ -21,11 +26,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateKeyStorage extends Command {
 	public function __construct(
-		protected View $rootView,
-		protected IUserManager $userManager,
-		protected IConfig $config,
-		protected Util $util,
-		private ICrypto $crypto,
+		private readonly IUserManager $userManager,
+		private readonly IConfig $config,
+		private readonly Util $util,
+		private readonly ICrypto $crypto,
+		private readonly ISetupManager $setupManager,
+		private readonly IRootFolder $rootFolder,
 	) {
 		parent::__construct();
 	}
@@ -67,31 +73,34 @@ class MigrateKeyStorage extends Command {
 	 * Move system key folder
 	 */
 	protected function updateSystemKeys(string $root, OutputInterface $output): void {
-		if (!$this->rootView->is_dir($root . '/files_encryption')) {
-			return;
+		try {
+			$folder = $this->rootFolder->get($root . '/files_encryption');
+		} catch (NotFoundException $e) {
+			$folder = null;
 		}
 
-		$this->traverseKeys($root . '/files_encryption', null, $output);
+		if ($folder instanceof Folder) {
+			$this->traverseKeys($folder, null, $output);
+		}
 	}
 
-	private function traverseKeys(string $folder, ?string $uid, OutputInterface $output): void {
-		$listing = $this->rootView->getDirectoryContent($folder);
+	private function traverseKeys(Folder $folder, ?Iuser $user, OutputInterface $output): void {
+		$listing = $folder->getDirectoryListing();
 
 		foreach ($listing as $node) {
-			if ($node['mimetype'] === 'httpd/unix-directory') {
+			if (!$node instanceof File) {
 				continue;
 			}
 
-			if ($node['name'] === 'fileKey'
-				|| str_ends_with($node['name'], '.privateKey')
-				|| str_ends_with($node['name'], '.publicKey')
-				|| str_ends_with($node['name'], '.shareKey')) {
-				$path = $folder . '/' . $node['name'];
+			if ($node->getName() === 'fileKey'
+				|| str_ends_with($node->getName(), '.privateKey')
+				|| str_ends_with($node->getName(), '.publicKey')
+				|| str_ends_with($node->getName(), '.shareKey')) {
 
-				$content = $this->rootView->file_get_contents($path);
-
-				if ($content === false) {
-					$output->writeln("<error>Failed to open path $path</error>");
+				try {
+					$content = $node->getContent();
+				} catch (\Exception) {
+					$output->writeln('<error>Failed to open path ' . $node->getPath() . '</error>');
 					continue;
 				}
 
@@ -104,41 +113,31 @@ class MigrateKeyStorage extends Command {
 
 				$data = [
 					'key' => base64_encode($content),
-					'uid' => $uid,
+					'uid' => $user?->getUID() ?? null,
 				];
 
 				$enc = $this->crypto->encrypt(json_encode($data));
-				$this->rootView->file_put_contents($path, $enc);
+				$node->putContent($enc);
 			}
 		}
 	}
 
-	private function traverseFileKeys(string $folder, OutputInterface $output): void {
-		$listing = $this->rootView->getDirectoryContent($folder);
+	private function traverseFileKeys(Folder $folder, OutputInterface $output): void {
+		$listing = $folder->getDirectoryListing();
 
 		foreach ($listing as $node) {
-			if ($node['mimetype'] === 'httpd/unix-directory') {
-				$this->traverseFileKeys($folder . '/' . $node['name'], $output);
-			} else {
-				$endsWith = function (string $haystack, string $needle): bool {
-					$length = strlen($needle);
-					if ($length === 0) {
-						return true;
-					}
+			if ($node instanceof Folder) {
+				$this->traverseFileKeys($node, $output);
+			} elseif ($node instanceof File) {
+				if ($node->getName() === 'fileKey'
+					|| str_ends_with($node->getName(), '.privateKey')
+					|| str_ends_with($node->getName(), '.publicKey')
+					|| str_ends_with($node->getName(), '.shareKey')) {
 
-					return (substr($haystack, -$length) === $needle);
-				};
-
-				if ($node['name'] === 'fileKey'
-					|| $endsWith($node['name'], '.privateKey')
-					|| $endsWith($node['name'], '.publicKey')
-					|| $endsWith($node['name'], '.shareKey')) {
-					$path = $folder . '/' . $node['name'];
-
-					$content = $this->rootView->file_get_contents($path);
-
-					if ($content === false) {
-						$output->writeln("<error>Failed to open path $path</error>");
+					try {
+						$content = $node->getContent();
+					} catch (\Exception) {
+						$output->writeln('<error>Failed to open path ' . $node->getPath() . '</error>');
 						continue;
 					}
 
@@ -154,18 +153,10 @@ class MigrateKeyStorage extends Command {
 					];
 
 					$enc = $this->crypto->encrypt(json_encode($data));
-					$this->rootView->file_put_contents($path, $enc);
+					$node->putContent($enc);
 				}
 			}
 		}
-	}
-
-	/**
-	 * setup file system for the given user
-	 */
-	protected function setupUserFS(string $uid): void {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($uid);
 	}
 
 	/**
@@ -175,19 +166,12 @@ class MigrateKeyStorage extends Command {
 		$progress = new ProgressBar($output);
 		$progress->start();
 
-		foreach ($this->userManager->getBackends() as $backend) {
-			$limit = 500;
-			$offset = 0;
-			do {
-				$users = $backend->getUsers('', $limit, $offset);
-				foreach ($users as $user) {
-					$progress->advance();
-					$this->setupUserFS($user);
-					$this->updateUserKeys($root, $user, $output);
-				}
-				$offset += $limit;
-			} while (count($users) >= $limit);
-		}
+		$this->userManager->callForAllUsers(function (IUser $user) use ($progress, $root, $output): void {
+			$progress->advance();
+			$this->setupManager->tearDown();
+			$this->setupManager->setupForUser($user);
+			$this->updateUserKeys($root, $user, $output);
+		});
 		$progress->finish();
 	}
 
@@ -196,17 +180,28 @@ class MigrateKeyStorage extends Command {
 	 *
 	 * @throws \Exception
 	 */
-	protected function updateUserKeys(string $root, string $user, OutputInterface $output): void {
-		if ($this->userManager->userExists($user)) {
-			$source = $root . '/' . $user . '/files_encryption/OC_DEFAULT_MODULE';
-			if ($this->rootView->is_dir($source)) {
-				$this->traverseKeys($source, $user, $output);
-			}
+	protected function updateUserKeys(string $root, IUser $user, OutputInterface $output): void {
+		$source = $root . '/' . $user->getUID() . '/files_encryption/OC_DEFAULT_MODULE';
+		try {
+			$folder = $this->rootFolder->get($source);
+		} catch (NotFoundException) {
+			$folder = null;
+		}
 
-			$source = $root . '/' . $user . '/files_encryption/keys';
-			if ($this->rootView->is_dir($source)) {
-				$this->traverseFileKeys($source, $output);
-			}
+		if ($folder instanceof Folder) {
+			$this->traverseKeys($folder, $user, $output);
+		}
+
+		$source = $root . '/' . $user->getUID() . '/files_encryption/keys';
+
+		try {
+			$folder = $this->rootFolder->get($source);
+		} catch (NotFoundException) {
+			$folder = null;
+		}
+
+		if ($folder instanceof Folder) {
+			$this->traverseFileKeys($folder, $output);
 		}
 	}
 }

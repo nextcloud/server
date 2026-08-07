@@ -24,9 +24,11 @@ use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotPermittedException;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
@@ -54,6 +56,8 @@ class TaskProcessingApiController extends OCSController {
 		private IRootFolder $rootFolder,
 		private IAppData $appData,
 		private IMimeTypeDetector $mimeTypeDetector,
+		private IUserManager $userManager,
+		private ISetupManager $setupManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -558,7 +562,10 @@ class TaskProcessingApiController extends OCSController {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
 		}
 		if ($task->getUserId() !== null) {
-			\OC_Util::setupFS($task->getUserId());
+			$user = $this->userManager->get($task->getUserId());
+			if ($user !== null) {
+				$this->setupManager->setupForUser($user);
+			}
 		}
 		$node = $this->rootFolder->getFirstNodeById($fileId);
 		if ($node === null) {

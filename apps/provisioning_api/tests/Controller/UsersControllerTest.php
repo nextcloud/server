@@ -29,6 +29,7 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Group\ISubAdmin;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -72,6 +73,7 @@ class UsersControllerTest extends TestCase {
 	private IAppManager $appManager;
 	private IAppConfig&MockObject $appConfig;
 	private GroupDisplayNameCache&MockObject $groupDisplayNameCache;
+	private ISetupManager&MockObject $setupManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -96,6 +98,7 @@ class UsersControllerTest extends TestCase {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->groupDisplayNameCache = $this->createMock(GroupDisplayNameCache::class);
+		$this->setupManager = $this->createMock(ISetupManager::class);
 
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')->willReturnCallback(fn (string $txt, array $replacement = []) => sprintf($txt, ...$replacement));
@@ -124,6 +127,7 @@ class UsersControllerTest extends TestCase {
 				$this->appManager,
 				$this->appConfig,
 				$this->groupDisplayNameCache,
+				$this->setupManager,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -278,6 +282,7 @@ class UsersControllerTest extends TestCase {
 				$this->appManager,
 				$this->appConfig,
 				$this->groupDisplayNameCache,
+				$this->setupManager,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -592,6 +597,7 @@ class UsersControllerTest extends TestCase {
 				$this->appManager,
 				$this->appConfig,
 				$this->groupDisplayNameCache,
+				$this->setupManager,
 			])
 			->onlyMethods(['editUser'])
 			->getMock();
@@ -4245,6 +4251,7 @@ class UsersControllerTest extends TestCase {
 				$this->appManager,
 				$this->appConfig,
 				$this->groupDisplayNameCache,
+				$this->setupManager,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -4339,6 +4346,7 @@ class UsersControllerTest extends TestCase {
 				$this->appManager,
 				$this->appConfig,
 				$this->groupDisplayNameCache,
+				$this->setupManager,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();

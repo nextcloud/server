@@ -19,12 +19,13 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\FileInfo;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUser;
-use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Notification\IManager;
 use OCP\Server;
@@ -36,17 +37,18 @@ use OCP\Util;
 class PersonalInfo implements ISettings {
 
 	public function __construct(
-		private IConfig $config,
-		private IUserManager $userManager,
-		private IGroupManager $groupManager,
-		private ITeamManager $teamManager,
-		private IAccountManager $accountManager,
-		private ProfileManager $profileManager,
-		private IAppManager $appManager,
-		private IFactory $l10nFactory,
-		private IL10N $l,
-		private IInitialState $initialStateService,
-		private IManager $manager,
+		private readonly IConfig $config,
+		private readonly IGroupManager $groupManager,
+		private readonly ITeamManager $teamManager,
+		private readonly IAccountManager $accountManager,
+		private readonly ProfileManager $profileManager,
+		private readonly IAppManager $appManager,
+		private readonly IFactory $l10nFactory,
+		private readonly IL10N $l,
+		private readonly IInitialState $initialStateService,
+		private readonly IManager $manager,
+		private readonly IUserSession $userSession,
+		private readonly ISetupManager $setupManager,
 	) {
 	}
 
@@ -61,12 +63,11 @@ class PersonalInfo implements ISettings {
 			$lookupServerUploadEnabled = $shareProvider->isLookupServerUploadEnabled();
 		}
 
-		$uid = \OC_User::getUser();
-		$user = $this->userManager->get($uid);
+		$user = $this->userSession->getUser();
 		$account = $this->accountManager->getAccount($user);
 
 		// make sure FS is setup before querying storage related stuff...
-		\OC_Util::setupFS($user->getUID());
+		$this->setupManager->setupForUser($user);
 
 		$storageInfo = \OC_Helper::getStorageInfo('/');
 		if ($storageInfo['quota'] === FileInfo::SPACE_UNLIMITED) {
@@ -84,7 +85,7 @@ class PersonalInfo implements ISettings {
 		] + $messageParameters;
 
 		$personalInfoParameters = [
-			'userId' => $uid,
+			'userId' => $user->getUID(),
 			'avatar' => $this->getProperty($account, IAccountManager::PROPERTY_AVATAR),
 			'groups' => $this->getGroups($user),
 			'teams' => $this->getTeamMemberships($user),
@@ -110,8 +111,8 @@ class PersonalInfo implements ISettings {
 			'headline' => $this->getProperty($account, IAccountManager::PROPERTY_HEADLINE),
 			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
 			'birthdate' => $this->getProperty($account, IAccountManager::PROPERTY_BIRTHDATE),
-			'firstDayOfWeek' => $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK),
-			'timezone' => $this->config->getUserValue($uid, 'core', 'timezone', ''),
+			'firstDayOfWeek' => $this->config->getUserValue($user->getUID(), 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK),
+			'timezone' => $this->config->getUserValue($user->getUID(), 'core', 'timezone', ''),
 			'pronouns' => $this->getProperty($account, IAccountManager::PROPERTY_PRONOUNS),
 		];
 

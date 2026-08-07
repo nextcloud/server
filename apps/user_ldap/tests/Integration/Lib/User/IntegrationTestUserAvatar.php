@@ -16,6 +16,7 @@ use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\Files\ISetupManager;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -60,8 +61,11 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 
 		// initialize home folder and make sure that the user will update
 		// also remove an possibly existing avatar
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($username);
+		Server::get(ISetupManager::class)->tearDown();
+		$userObj = Server::get(IUserManager::class)->get($username);
+		if ($userObj !== null) {
+			Server::get(ISetupManager::class)->setupForUser($userObj);
+		}
 		\OC::$server->getUserFolder($username);
 		Server::get(IConfig::class)->deleteUserValue($username, 'user_ldap', User::USER_PREFKEY_LASTREFRESH);
 		if (Server::get(IAvatarManager::class)->getAvatar($username)->exists()) {

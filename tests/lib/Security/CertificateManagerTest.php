@@ -10,14 +10,15 @@ declare(strict_types=1);
 
 namespace Test\Security;
 
-use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\Security\Certificate;
 use OC\Security\CertificateManager;
 use OCP\Files\InvalidPathException;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -45,10 +46,10 @@ class CertificateManagerTest extends \Test\TestCase {
 		$storage = new Temporary();
 		$this->registerMount($this->username, $storage, '/' . $this->username . '/');
 
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId($this->username);
-		Filesystem::tearDown();
-		\OC_Util::setupFS($this->username);
+		Server::get(ISetupManager::class)->tearDown();
+		$user = Server::get(IUserManager::class)->get($this->username);
+		Server::get(IUserSession::class)->setUser($user);
+		Server::get(ISetupManager::class)->setupForUser($user);
 
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->any())->method('getSystemValueBool')

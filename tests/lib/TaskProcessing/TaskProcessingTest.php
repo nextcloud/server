@@ -23,6 +23,7 @@ use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
@@ -857,6 +858,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
 			Server::get(ITimeFactory::class),
+			Server::get(ISetupManager::class),
 		);
 	}
 

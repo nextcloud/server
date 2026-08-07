@@ -13,6 +13,7 @@ use OCA\Files\Service\TagService;
 use OCP\Activity\IManager;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\ITagManager;
 use OCP\ITags;
@@ -43,7 +44,10 @@ class TagServiceTest extends \Test\TestCase {
 		$this->activityManager = $this->createMock(IManager::class);
 		Server::get(IUserManager::class)->createUser($this->user, 'test');
 		\OC_User::setUserId($this->user);
-		\OC_Util::setupFS($this->user);
+		$userObj = Server::get(IUserManager::class)->get($this->user);
+		if ($userObj !== null) {
+			Server::get(ISetupManager::class)->setupForUser($userObj);
+		}
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')

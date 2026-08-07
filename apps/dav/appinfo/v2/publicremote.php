@@ -25,6 +25,7 @@ use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
 use OCP\ICacheFactory;
@@ -74,6 +75,7 @@ $bearerAuthBackend = new BearerAuth(
 	$session,
 	$request,
 	Server::get(IConfig::class),
+	Server::get(ISetupManager::class),
 	allowOcmAccessToken: true,
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);

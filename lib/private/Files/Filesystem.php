@@ -15,6 +15,7 @@ use OC\User\NoUserException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\InvalidPathException;
+use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
@@ -240,7 +241,7 @@ class Filesystem {
 	 */
 	public static function getMountPoint($path) {
 		if (!self::$mounts) {
-			\OC_Util::setupFS();
+			Server::get(ISetupManager::class)->setupRoot();
 		}
 		$mount = self::$mounts->find($path);
 		return $mount->getMountPoint();
@@ -254,7 +255,7 @@ class Filesystem {
 	 */
 	public static function getMountPoints($path) {
 		if (!self::$mounts) {
-			\OC_Util::setupFS();
+			Server::get(ISetupManager::class)->setupRoot();
 		}
 		$result = [];
 		$mounts = self::$mounts->findIn($path);
@@ -351,8 +352,7 @@ class Filesystem {
 
 		$userObject = ($user instanceof IUser) ? $user : $userManager->get($user);
 		if ($userObject) {
-			/** @var SetupManager $setupManager */
-			$setupManager = Server::get(SetupManager::class);
+			$setupManager = Server::get(ISetupManager::class);
 			$setupManager->setupForUser($userObject);
 		} else {
 			throw new NoUserException();
@@ -378,8 +378,8 @@ class Filesystem {
 	/**
 	 * tear down the filesystem, removing all storage providers
 	 */
-	public static function tearDown() {
-		\OC_Util::tearDownFS();
+	public static function tearDown(): void {
+		Server::get(ISetupManager::class)->tearDown();
 	}
 
 	/**
@@ -405,7 +405,7 @@ class Filesystem {
 	 */
 	public static function mount($class, $arguments, $mountpoint) {
 		if (!self::$mounts) {
-			\OC_Util::setupFS();
+			Server::get(ISetupManager::class)->setupRoot();
 		}
 		$mount = new MountPoint($class, $mountpoint, $arguments, self::getLoader());
 		self::$mounts->addMount($mount);

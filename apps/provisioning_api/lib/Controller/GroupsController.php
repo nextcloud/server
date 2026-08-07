@@ -25,6 +25,7 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -56,6 +57,7 @@ class GroupsController extends AUserDataOCSController {
 		IRootFolder $rootFolder,
 		private LoggerInterface $logger,
 		GroupDisplayNameCache $groupDisplayNameCache,
+		ISetupManager $setupManager,
 	) {
 		parent::__construct($appName,
 			$request,
@@ -68,6 +70,7 @@ class GroupsController extends AUserDataOCSController {
 			$l10nFactory,
 			$rootFolder,
 			$groupDisplayNameCache,
+			$setupManager,
 		);
 	}
 

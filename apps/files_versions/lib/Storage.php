@@ -30,6 +30,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -881,7 +882,7 @@ class Storage {
 				throw new NoUserException('Backends provided no user object for ' . $uid);
 			}
 
-			\OC_Util::setupFS($uid);
+			Server::get(ISetupManager::class)->setupForUser($user);
 
 			try {
 				if (!Filesystem::file_exists($filename)) {
