@@ -33,7 +33,7 @@
 
 		<!-- Tab content -->
 		<AppDescriptionTab :app="app" />
-		<AppDetailsTab :app="app" />
+		<AppDetailsTab :app="app" :key="app.id" />
 		<AppReleasesTab :app="app" />
 		<AppDeployDaemonTab :app="app" />
 	</NcAppSidebar>
