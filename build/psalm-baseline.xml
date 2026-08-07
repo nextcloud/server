@@ -3752,9 +3752,6 @@
     </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Files/Filesystem.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidNullableReturnType>
     <NullableReturnStatement>
       <code><![CDATA[$path]]></code>
     </NullableReturnStatement>

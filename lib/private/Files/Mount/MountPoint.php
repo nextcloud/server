@@ -8,9 +8,9 @@
 
 namespace OC\Files\Mount;
 
-use OC\Files\Filesystem;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\StorageFactory;
+use OC\Files\Utils\PathHelper;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
@@ -197,7 +197,7 @@ class MountPoint implements IMountPoint {
 	 */
 	#[\Override]
 	public function getInternalPath($path) {
-		$path = Filesystem::normalizePath($path, true, false, true);
+		$path = PathHelper::normalizePath($path);
 		if ($this->mountPoint === $path || $this->mountPoint . '/' === $path) {
 			$internalPath = '';
 		} else {
@@ -212,7 +212,7 @@ class MountPoint implements IMountPoint {
 	 * @return string
 	 */
 	private function formatPath($path) {
-		$path = Filesystem::normalizePath($path);
+		$path = PathHelper::normalizePath($path);
 		if (strlen($path) > 1) {
 			$path .= '/';
 		}

@@ -29,31 +29,20 @@ use OCP\Server;
 // FIXME: this class really should be abstract (+1)
 class Node implements INode {
 	/**
-	 * @var View $view
-	 */
-	protected $view;
-
-	protected IRootFolder $root;
-
-	/**
-	 * @param View $view
-	 * @param \OCP\Files\IRootFolder $root
 	 * @param string $path
 	 * @param FileInfo $fileInfo
 	 */
 	public function __construct(
-		IRootFolder $root,
-		$view,
+		protected IRootFolder $root,
+		protected View $view,
 		protected $path,
 		protected ?FileInfo $fileInfo = null,
 		protected ?INode $parent = null,
 		private bool $infoHasSubMountsIncluded = true,
 	) {
-		if (Filesystem::normalizePath($view->getRoot()) !== '/') {
+		if (PathHelper::normalizePath($this->view->getRoot()) !== '/') {
 			throw new PreConditionNotMetException('The view passed to the node should not have any fake root set');
 		}
-		$this->view = $view;
-		$this->root = $root;
 	}
 
 	/**
