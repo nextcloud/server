@@ -302,35 +302,46 @@ class Trashbin implements IEventListener {
 			return false;
 		}
 
+		$propagator = $trashStorage->getPropagator();
+		$propagator->beginBatch();
+		$abortMove = false;
 		try {
-			$moveSuccessful = true;
+			try {
+				$moveSuccessful = true;
 
-			$inCache = $sourceStorage->getCache()->inCache($sourceInternalPath);
-			$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
-			if ($inCache) {
-				$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
+				$inCache = $sourceStorage->getCache()->inCache($sourceInternalPath);
+				$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
+				if ($inCache) {
+					$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
+				}
+			} catch (CopyRecursiveException $e) {
+				$moveSuccessful = false;
+				if ($trashStorage->file_exists($trashInternalPath)) {
+					$trashStorage->unlink($trashInternalPath);
+				}
+				Server::get(LoggerInterface::class)->error('Couldn\'t move ' . $file_path . ' to the trash bin', ['app' => 'files_trashbin']);
 			}
-		} catch (CopyRecursiveException $e) {
-			$moveSuccessful = false;
-			if ($trashStorage->file_exists($trashInternalPath)) {
-				$trashStorage->unlink($trashInternalPath);
+
+			if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
+				if ($sourceStorage->is_dir($sourceInternalPath)) {
+					$sourceStorage->rmdir($sourceInternalPath);
+				} else {
+					$sourceStorage->unlink($sourceInternalPath);
+				}
+
+				if ($sourceStorage->file_exists($sourceInternalPath)) {
+					// undo the cache move
+					$sourceStorage->getUpdater()->renameFromStorage($trashStorage, $trashInternalPath, $sourceInternalPath);
+				} else {
+					$trashStorage->getUpdater()->remove($trashInternalPath);
+				}
+				$abortMove = true;
 			}
-			Server::get(LoggerInterface::class)->error('Couldn\'t move ' . $file_path . ' to the trash bin', ['app' => 'files_trashbin']);
+		} finally {
+			$propagator->commitBatch();
 		}
 
-		if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
-			if ($sourceStorage->is_dir($sourceInternalPath)) {
-				$sourceStorage->rmdir($sourceInternalPath);
-			} else {
-				$sourceStorage->unlink($sourceInternalPath);
-			}
-
-			if ($sourceStorage->file_exists($sourceInternalPath)) {
-				// undo the cache move
-				$sourceStorage->getUpdater()->renameFromStorage($trashStorage, $trashInternalPath, $sourceInternalPath);
-			} else {
-				$trashStorage->getUpdater()->remove($trashInternalPath);
-			}
+		if ($abortMove) {
 			return false;
 		}
 
