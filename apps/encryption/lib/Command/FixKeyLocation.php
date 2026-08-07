@@ -33,6 +33,10 @@ class FixKeyLocation extends Command {
 	private string $keyRootDirectory;
 	private View $rootView;
 	private Manager $encryptionManager;
+	/** @var list<string>|null */
+	private ?array $userKeyBasePaths = null;
+	/** @var array<string, list<string>> */
+	private array $keyDirectoriesCache = [];
 
 	public function __construct(
 		private IUserManager $userManager,
@@ -60,6 +64,7 @@ class FixKeyLocation extends Command {
 			->setName('encryption:fix-key-location')
 			->setDescription('Fix the location of encryption keys for external storage')
 			->addOption('dry-run', null, InputOption::VALUE_NONE, "Only list files that require key migration, don't try to perform any migration")
+			->addOption('personal', null, InputOption::VALUE_NONE, 'Also check the encrypted files in the personal space of the user and restore keys found in the key trees of other users')
 			->addArgument('user', InputArgument::REQUIRED, 'User id to fix the key locations for');
 	}
 
@@ -92,18 +97,62 @@ class FixKeyLocation extends Command {
 				continue;
 			}
 
-			$files = $this->getAllEncryptedFiles($mountRootFolder);
-			foreach ($files as $file) {
+			// collect paths first: processing must not run on a live node graph, the
+			// periodic filesystem reset below would pull storages out from under it
+			$filePaths = [];
+			foreach ($this->getAllEncryptedFiles($mountRootFolder) as $file) {
 				/** @var File $file */
+				$filePaths[] = $file->getPath();
+			}
+
+			foreach ($filePaths as $filePath) {
 				try {
+					$this->resetFilesystemIfNeeded($user);
+					$file = $this->rootFolder->get($filePath);
+					if (!$file instanceof File) {
+						continue;
+					}
 					$this->fixKeysForFile($user, $file, $dryRun, $output);
 				} catch (\Throwable $e) {
-					$failedPaths[] = $file->getPath();
-					$this->logger->error('Failed to fix the key location of ' . $file->getPath(), [
+					$failedPaths[] = $filePath;
+					$this->logger->error('Failed to fix the key location of ' . $filePath, [
 						'app' => 'encryption',
 						'exception' => $e,
 					]);
-					$output->writeln('<error>Failed to process ' . $file->getPath() . ': ' . $e->getMessage() . '</error>');
+					$output->writeln('<error>Failed to process ' . $filePath . ': ' . $e->getMessage() . '</error>');
+				}
+			}
+		}
+
+		if ($input->getOption('personal')) {
+			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+			$personalMountPoint = $userFolder->getMountPoint()->getMountPoint();
+			$filePaths = [];
+			foreach ($this->getAllEncryptedFiles($userFolder) as $file) {
+				/** @var File $file */
+				// group folders, external storages and received shares are their own
+				// mounts and follow the system wide handling
+				if ($file->getMountPoint()->getMountPoint() !== $personalMountPoint) {
+					continue;
+				}
+				$filePaths[] = $file->getPath();
+			}
+
+			foreach ($filePaths as $filePath) {
+				try {
+					$this->resetFilesystemIfNeeded($user);
+					$file = $this->rootFolder->get($filePath);
+					if (!$file instanceof File) {
+						continue;
+					}
+					$this->fixKeysForPersonalFile($user, $file, $dryRun, $output);
+				} catch (\Throwable $e) {
+					$failedPaths[] = $filePath;
+					$this->logger->error('Failed to fix the key location of ' . $filePath, [
+						'app' => 'encryption',
+						'exception' => $e,
+					]);
+					$output->writeln('<error>Failed to process ' . $filePath . ': ' . $e->getMessage() . '</error>');
 				}
 			}
 		}
@@ -118,6 +167,60 @@ class FixKeyLocation extends Command {
 		}
 
 		return self::SUCCESS;
+	}
+
+	/**
+	 * Accessing another user's key tree sets up that user's filesystem, and the mounts
+	 * accumulate for every tree the key search touches. A teardown drops them all;
+	 * only performed when memory actually grew, the string caches survive it, so no
+	 * directory walk is repeated.
+	 */
+	private function resetFilesystemIfNeeded(IUser $user): void {
+		if (memory_get_usage() < 1024 * 1024 * 1024) {
+			return;
+		}
+		\OC_Util::tearDownFS();
+		\OC_Util::setupFS($user->getUID());
+	}
+
+	/**
+	 * A personal file is healthy when its key sits in the tree of the user at the path
+	 * of the file. A missing key can only be restored there, the personal storage
+	 * carries the encryption wrapper, so the file decrypts transparently once the key
+	 * is back in place.
+	 */
+	private function fixKeysForPersonalFile(IUser $user, File $file, bool $dryRun, OutputInterface $output): void {
+		if ($this->hasUserKey($user, $file)) {
+			return;
+		}
+		if (!$this->isDataEncrypted($file)) {
+			if ($dryRun) {
+				$output->writeln('<info>' . $file->getPath() . ' needs to be marked as not encrypted</info>');
+			} else {
+				$this->markAsUnEncrypted($file);
+				$output->writeln('<info>' . $file->getPath() . ' marked as not encrypted</info>');
+			}
+			return;
+		}
+
+		$targetKeyPath = $this->getUserKeyPath($user, $file);
+		$foundKey = $this->findKeyInUserTrees($user, $file, $targetKeyPath);
+		if ($dryRun) {
+			$output->write('<info>' . $file->getPath() . '</info> needs migration');
+			if ($foundKey) {
+				$output->writeln(', valid key found at <info>' . $foundKey . '</info>');
+			} else {
+				$output->writeln(' <error>❌ No key found</error>');
+			}
+			return;
+		}
+		$output->write('<info>Migrating key for ' . $file->getPath() . '</info>');
+		if ($foundKey) {
+			$this->rootView->copy($foundKey, $targetKeyPath);
+			$output->writeln('  Migrated key from <info>' . $foundKey . '</info>');
+		} else {
+			$output->writeln(' <error>❌ No key found</error>');
+		}
 	}
 
 	private function fixKeysForFile(IUser $user, File $file, bool $dryRun, OutputInterface $output): void {
@@ -283,7 +386,9 @@ class FixKeyLocation extends Command {
 			}
 			$data = fread($fh, 8192);
 			fclose($fh);
-			return $data !== false;
+			// a broken unencrypted_size of 0 makes the stream return nothing at all
+			// instead of failing, an empty read proves nothing about the key
+			return $data !== false && $data !== '';
 		} catch (\Exception) {
 			return false;
 		}
@@ -333,62 +438,132 @@ class FixKeyLocation extends Command {
 	 * Attempt to find a key (stored for user) for a file (that needs a system key) even when it's not stored in the expected location
 	 */
 	private function findUserKeyForSystemFile(IUser $user, File $node): ?string {
-		$userKeyPath = $this->getUserBaseKeyPath($user);
-		$possibleKeys = $this->findKeysByFileName($userKeyPath, $node->getName());
-		foreach ($possibleKeys as $possibleKey) {
-			if ($this->testSystemKey($user, $possibleKey, $node)) {
-				return $possibleKey;
+		return $this->findKeyInUserTrees($user, $node, $this->getSystemKeyPath($node));
+	}
+
+	/**
+	 * Search the key trees of all users for a key that decrypts the file, the tree of
+	 * the given user first. Candidates are matched by file name and validated by a
+	 * decryption attempt with the key staged at the given path.
+	 */
+	private function findKeyInUserTrees(IUser $user, File $node, string $stageKeyPath): ?string {
+		foreach ($this->getUserBaseKeyPaths($user) as $basePath) {
+			foreach ($this->findKeysByFileName($basePath, $node->getName()) as $possibleKey) {
+				if ($this->testKeyAtPath($node, $possibleKey, $stageKeyPath)) {
+					return $possibleKey;
+				}
 			}
 		}
 		return null;
 	}
 
 	/**
-	 * Attempt to find a key for a file even when it's not stored in the expected location
+	 * Base key paths of all existing user key trees, the given user first. Enumerated
+	 * from the key storage directory instead of the user backends: the search runs for
+	 * every file, and querying the backends pulls every user object into memory.
 	 *
 	 * @return \Generator<string>
 	 */
-	private function findKeysByFileName(string $basePath, string $name) {
-		if (!$this->rootView->is_dir($basePath)) {
-			// no keys stored for the user at all
-			return;
-		}
-		if ($this->rootView->is_dir($basePath . '/' . $name . '/OC_DEFAULT_MODULE')) {
-			yield $basePath . '/' . $name;
-		} else {
-			/** @var false|resource $dh */
-			$dh = $this->rootView->opendir($basePath);
-			if (!$dh) {
-				throw new \Exception('Invalid base path ' . $basePath);
-			}
-			while ($child = readdir($dh)) {
-				if ($child != '..' && $child != '.') {
-					$childPath = $basePath . '/' . $child;
+	private function getUserBaseKeyPaths(IUser $firstUser): \Generator {
+		$firstUserBasePath = $this->getUserBaseKeyPath($firstUser);
+		yield $firstUserBasePath;
 
-					// recurse if the child is not a key folder
-					/** @psalm-suppress InternalMethod */
-					if ($this->rootView->is_dir($childPath) && !is_dir($childPath . '/OC_DEFAULT_MODULE')) {
-						yield from $this->findKeysByFileName($childPath, $name);
+		if ($this->userKeyBasePaths === null) {
+			$this->userKeyBasePaths = [];
+			$dh = $this->rootView->opendir($this->keyRootDirectory === '' ? '/' : $this->keyRootDirectory);
+			if ($dh !== false) {
+				while (($entry = readdir($dh)) !== false) {
+					if ($entry === '.' || $entry === '..') {
+						continue;
+					}
+					$basePath = $this->keyRootDirectory . '/' . $entry . '/files_encryption/keys';
+					if ($this->rootView->is_dir($basePath)) {
+						$this->userKeyBasePaths[] = $basePath;
 					}
 				}
+				closedir($dh);
+			}
+		}
+		foreach ($this->userKeyBasePaths as $basePath) {
+			if ($basePath !== $firstUserBasePath) {
+				yield $basePath;
 			}
 		}
 	}
 
 	/**
-	 * Test if the provided key is valid as a system key for the file
+	 * All key directories below the base path, the ones matching the file name first:
+	 * a matching name is the most likely key, but renames since the key was stranded
+	 * make the name unreliable, so every other key is offered as a candidate as well.
+	 * Validation is cryptographic, a wrong candidate cannot pass.
+	 *
+	 * @return \Generator<string>
 	 */
-	private function testSystemKey(IUser $user, string $key, File $node): bool {
-		$systemKeyPath = $this->getSystemKeyPath($node);
+	private function findKeysByFileName(string $basePath, string $name) {
+		$matching = [];
+		$other = [];
+		foreach ($this->findAllKeyDirectories($basePath) as $keyDirectory) {
+			if (basename($keyDirectory) === $name) {
+				$matching[] = $keyDirectory;
+			} else {
+				$other[] = $keyDirectory;
+			}
+		}
+		yield from $matching;
+		yield from $other;
+	}
 
-		if ($this->rootView->file_exists($systemKeyPath)) {
+	/**
+	 * @return list<string>
+	 */
+	private function findAllKeyDirectories(string $basePath): array {
+		if (isset($this->keyDirectoriesCache[$basePath])) {
+			return $this->keyDirectoriesCache[$basePath];
+		}
+		$keyDirectories = [];
+		if ($this->rootView->is_dir($basePath)) {
+			$this->collectKeyDirectories($basePath, $keyDirectories);
+		}
+		return $this->keyDirectoriesCache[$basePath] = $keyDirectories;
+	}
+
+	/**
+	 * @param list<string> $keyDirectories
+	 */
+	private function collectKeyDirectories(string $path, array &$keyDirectories): void {
+		$dh = $this->rootView->opendir($path);
+		if ($dh === false) {
+			return;
+		}
+		while (($child = readdir($dh)) !== false) {
+			if ($child === '.' || $child === '..') {
+				continue;
+			}
+			$childPath = $path . '/' . $child;
+			if (!$this->rootView->is_dir($childPath)) {
+				continue;
+			}
+			if ($this->rootView->is_dir($childPath . '/OC_DEFAULT_MODULE')) {
+				$keyDirectories[] = $childPath;
+			} else {
+				$this->collectKeyDirectories($childPath, $keyDirectories);
+			}
+		}
+		closedir($dh);
+	}
+
+	/**
+	 * Test whether the key decrypts the file when staged at the given key path
+	 */
+	private function testKeyAtPath(File $node, string $key, string $stageKeyPath): bool {
+		if ($this->rootView->file_exists($stageKeyPath)) {
 			// already has a key, reject new key
 			return false;
 		}
 
-		$this->rootView->copy($key, $systemKeyPath);
+		$this->rootView->copy($key, $stageKeyPath);
 		$isValid = $this->tryReadFile($node);
-		$this->rootView->rmdir($systemKeyPath);
+		$this->rootView->rmdir($stageKeyPath);
 		return $isValid;
 	}
 
@@ -425,6 +600,11 @@ class FixKeyLocation extends Command {
 			if ($this->isDataEncrypted($decryptedNode)) {
 				throw new \Exception($node->getPath() . ' still encrypted after attempting to decrypt with ' . $key);
 			}
+			// a broken unencrypted_size of 0 makes the decryption stream produce
+			// nothing at all, an empty result for a non empty source is data loss
+			if ($decryptedNode->getSize() === 0 && $node->getSize() > 0) {
+				throw new \Exception($node->getPath() . ' decrypted to an empty file, refusing the result');
+			}
 		} catch (\Throwable $e) {
 			// the target has to go first so the .bak can move back onto its name
 			if ($decryptedNode !== null) {
@@ -451,6 +631,9 @@ class FixKeyLocation extends Command {
 	}
 
 	private function markAsUnEncrypted(Node $node): void {
-		$node->getStorage()->getCache()->update($node->getId(), ['encrypted' => 0]);
+		$node->getStorage()->getCache()->update($node->getId(), [
+			'encrypted' => 0,
+			'unencrypted_size' => 0,
+		]);
 	}
 }
