@@ -40,6 +40,9 @@ use function OCP\Log\logger;
 
 require_once __DIR__ . '/public/Constants.php';
 
+// There is no autoloading for functions so we need to hardcode it
+require_once __DIR__ . '/public/Log/functions.php';
+
 /**
  * Class that is a namespace for all global OC variables
  * @internal
@@ -89,6 +92,7 @@ class OC {
 	 * @psalm-suppress ImpureStaticProperty
 	 */
 	public static \Composer\Autoload\ClassLoader $composerAutoloader;
+	public static \OC\Autoloader $autoloader;
 
 	/**
 	 * @psalm-suppress ImpureStaticProperty
@@ -670,23 +674,8 @@ class OC {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace('\\', '/', substr(__DIR__, 0, -4));
 
-		// register autoloader
-		self::$loaderStart = microtime(true);
-
-		self::$CLI = (php_sapi_name() == 'cli');
-
-		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
-		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		self::$composerAutoloader->setApcuPrefix(null);
-
-		// setup 3rdparty autoloader
-		$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
-		if (!file_exists($vendorAutoLoad)) {
-			throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
-		}
-		require_once $vendorAutoLoad;
-
-		self::$loaderEnd = microtime(true);
+		// No autoloader yet, manually load Config class
+		require_once __DIR__ . '/private/Config.php';
 
 		// load configs
 		if (defined('PHPUNIT_CONFIG_DIR')) {
@@ -699,6 +688,33 @@ class OC {
 			self::$configDir = OC::$SERVERROOT . '/config/';
 		}
 		self::$config = new \OC\Config(self::$configDir);
+
+		$cacheDirectory = self::$config->getValue('cachedirectory', OC::$SERVERROOT . '/cache');
+
+		// register autoloader
+		self::$loaderStart = microtime(true);
+
+		self::$CLI = (php_sapi_name() == 'cli');
+
+		require_once __DIR__ . '/private/PhpDumpCache.php';
+		require_once __DIR__ . '/private/Autoloader.php';
+		$phpDumpCache = new \OC\PhpDumpCache($cacheDirectory);
+		self::$autoloader = new \OC\Autoloader($phpDumpCache);
+		self::$autoloader->addPsr4('OC', OC::$SERVERROOT . '/lib/private');
+		self::$autoloader->addPsr4('OCP', OC::$SERVERROOT . '/lib/public');
+		self::$autoloader->addPsr4('NCU', OC::$SERVERROOT . '/lib/unstable');
+		self::$autoloader->addPsr4('OC\\Core', OC::$SERVERROOT . '/core');
+		self::$autoloader->addPsr4('', OC::$SERVERROOT . '/lib/private/legacy');
+		self::$autoloader->register();
+
+		// setup 3rdparty autoloader
+		$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
+		if (!file_exists($vendorAutoLoad)) {
+			throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
+		}
+		require_once $vendorAutoLoad;
+
+		self::$loaderEnd = microtime(true);
 
 		// Enable lazy loading if activated
 		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
