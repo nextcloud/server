@@ -733,7 +733,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 					continue;
 				}
 
-				$resources[] = $sourceType->getSourceInteractionResource($userToCheck->getUID(), $source->value);
+				$resources[] = $sourceType->getSourceInteractionResource($userToCheck, $source->value);
 			}
 
 			$event = new RestrictInteractionEvent($userToCheck->getUID(), $userToCheck, $resources, $action, $receivers);
