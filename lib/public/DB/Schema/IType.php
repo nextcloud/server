@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCP\DB\Schema;
 
+use OCP\DB\Types;
+
 /**
  * Object representation of a column type.
  *
@@ -17,6 +19,8 @@ namespace OCP\DB\Schema;
 interface IType {
 	/**
 	 * Returns the name of this type.
+	 *
+	 * @return Types::*
 	 *
 	 * @since 35.0.0
 	 */
