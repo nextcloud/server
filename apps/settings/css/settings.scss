@@ -581,9 +581,9 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 }
 
 .trusted-domain-warning {
-	color: #fff;
+	color: var(--color-main-text);
 	padding: 5px;
-	background: #ce3702;
+	background: var(--color-error);
 	border-radius: 5px;
 	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
