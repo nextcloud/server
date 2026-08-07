@@ -769,9 +769,7 @@ export default defineComponent({
 				// when closed (e.g. the local search bar on deck), so a hidden modal must
 				// not fire background searches.
 				if (this.open) {
-					// Mark busy synchronously so the debounce window doesn't flash the empty state.
-					this.pendingSearch = true
-					this.debouncedFind(this.searchQuery)
+					this.scheduleSearch()
 				}
 			},
 		},
@@ -954,6 +952,18 @@ export default defineComponent({
 			this.$emit('update:open', false)
 		},
 
+		/**
+		 * Blank the results, then queue the search. Every query and filter change comes through
+		 * here. The results on screen answer the previous question, so holding them until the
+		 * debounce fires only means they shift once the real ones land.
+		 */
+		scheduleSearch() {
+			this.reset()
+			// Mark busy synchronously so the debounce window doesn't flash the empty state.
+			this.pendingSearch = true
+			this.debouncedFind(this.searchQuery)
+		},
+
 		find(query: string) {
 			// The debounced search is running now; from here `searching` (or `!initialized`) drives busy.
 			this.pendingSearch = false
@@ -1053,7 +1063,7 @@ export default defineComponent({
 				this.filters[existingPersonFilter].name = person.displayName
 			}
 
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 			unifiedSearchLogger.debug('Person filter applied', { person })
 		},
 
@@ -1161,7 +1171,7 @@ export default defineComponent({
 			})
 			this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
 			unifiedSearchLogger.debug('Search filters (newly added)', { filters: this.filters })
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		removeFilter(filter) {
@@ -1183,7 +1193,7 @@ export default defineComponent({
 					}
 				}
 			}
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		syncProviderFilters(firstArray, secondArray) {
@@ -1219,7 +1229,7 @@ export default defineComponent({
 				this.filters.push(this.dateFilter)
 			}
 
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		applyQuickDateRange(range) {
@@ -1301,7 +1311,7 @@ export default defineComponent({
 					break
 				}
 			}
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		groupProvidersByApp(filters) {
