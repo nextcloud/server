@@ -256,6 +256,7 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\ShareTypeList' => $baseDir . '/../lib/Connector/Sabre/ShareTypeList.php',
     'OCA\\DAV\\Connector\\Sabre\\ShareeList' => $baseDir . '/../lib/Connector/Sabre/ShareeList.php',
     'OCA\\DAV\\Connector\\Sabre\\SharesPlugin' => $baseDir . '/../lib/Connector/Sabre/SharesPlugin.php',
+    'OCA\\DAV\\Connector\\Sabre\\StreamByteCounter' => $baseDir . '/../lib/Connector/Sabre/StreamByteCounter.php',
     'OCA\\DAV\\Connector\\Sabre\\TagList' => $baseDir . '/../lib/Connector/Sabre/TagList.php',
     'OCA\\DAV\\Connector\\Sabre\\TagsPlugin' => $baseDir . '/../lib/Connector/Sabre/TagsPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\UserIdHeaderPlugin' => $baseDir . '/../lib/Connector/Sabre/UserIdHeaderPlugin.php',
