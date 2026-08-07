@@ -52,7 +52,7 @@ use Psr\Log\LoggerInterface;
  * @since 29.0.0 - Supporting types and lazy loading
  */
 class AppConfig implements IAppConfig {
-	private const APP_MAX_LENGTH = 32;
+	private const APP_MAX_LENGTH = 64;
 	private const KEY_MAX_LENGTH = 64;
 	private const ENCRYPTION_PREFIX = '$AppConfigEncryption$';
 	private const ENCRYPTION_PREFIX_LENGTH = 21; // strlen(self::ENCRYPTION_PREFIX)
