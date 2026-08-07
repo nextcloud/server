@@ -27,6 +27,10 @@ class TemporaryNoEncrypted extends Temporary implements IDisableEncryptionStorag
 
 }
 
+class ObjectStoreNoEncrypted extends ObjectStoreStorage implements IDisableEncryptionStorage {
+
+}
+
 /**
  * @group DB
  */
