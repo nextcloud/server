@@ -41,6 +41,7 @@ class ComposerStaticInitSharing
         'OCA\\Sharing\\Controller\\ApiV1Controller' => __DIR__ . '/..' . '/../lib/Controller/ApiV1Controller.php',
         'OCA\\Sharing\\Middleware\\ShareApiEnabledMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/ShareApiEnabledMiddleware.php',
         'OCA\\Sharing\\Migration\\Version1000Date20250929161325' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20250929161325.php',
+        'OCA\\Sharing\\Migration\\Version1000Date20260731171922' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20260731171922.php',
         'OCA\\Sharing\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
     );
 

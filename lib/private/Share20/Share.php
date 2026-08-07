@@ -121,6 +121,15 @@ class Share implements IShare {
 	}
 
 	#[Override]
+	public function getProviderId(): string {
+		if ($this->providerId === null) {
+			throw new \UnexpectedValueException;
+		}
+
+		return $this->providerId;
+	}
+
+	#[Override]
 	public function setNode(Node $node): self {
 		$this->fileId = null;
 		$this->nodeType = null;

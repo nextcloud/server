@@ -171,14 +171,14 @@ final class TeamShareRecipientTypeTest extends TestCase {
 		$circlesManager = Server::get(CirclesManager::class);
 		$circlesManager->startSession($circlesManager->getLocalFederatedUser($this->user1->getUID()));
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$circlesManager->destroyCircle($this->team1->getId());
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share->lastUpdated);
-		$this->assertLessThanOrEqual($after, $share->lastUpdated);
+		$this->assertGreaterThanOrEqual($before, $share->lastUpdated->getTimestamp());
+		$this->assertLessThanOrEqual($after, $share->lastUpdated->getTimestamp());
 		$this->assertEquals([], $share->recipients);
 
 		$this->manager->deleteShare($accessContext, $id);

@@ -12,6 +12,7 @@ use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\Source\ShareSource;
 use OC\Files\Filesystem;
+use OC\Sharing\SharingManager;
 use OC\User\Database;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -103,14 +104,14 @@ final class NodeShareSourceTypeTest extends TestCase {
 		$this->manager->addShareSource($accessContext, $id, new ShareSource($this->sourceType::class, (string)$this->node->getId()));
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->node->delete();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share->lastUpdated);
-		$this->assertLessThanOrEqual($after, $share->lastUpdated);
+		$this->assertGreaterThanOrEqual($before, SharingManager::timeToMs($share->lastUpdated));
+		$this->assertLessThanOrEqual($after, SharingManager::timeToMs($share->lastUpdated));
 		$this->assertEquals([], $share->sources);
 
 		$this->manager->deleteShare($accessContext, $id);

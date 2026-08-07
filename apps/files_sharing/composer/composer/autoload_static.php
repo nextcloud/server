@@ -108,6 +108,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Migration\\Version33000Date20251030081948' => __DIR__ . '/..' . '/../lib/Migration/Version33000Date20251030081948.php',
         'OCA\\Files_Sharing\\Migration\\Version33000Date20260306120000' => __DIR__ . '/..' . '/../lib/Migration/Version33000Date20260306120000.php',
         'OCA\\Files_Sharing\\Migration\\Version33000Date20260306150000' => __DIR__ . '/..' . '/../lib/Migration/Version33000Date20260306150000.php',
+        'OCA\\Files_Sharing\\Migration\\Version35000Date20260720121254' => __DIR__ . '/..' . '/../lib/Migration/Version35000Date20260720121254.php',
         'OCA\\Files_Sharing\\MountProvider' => __DIR__ . '/..' . '/../lib/MountProvider.php',
         'OCA\\Files_Sharing\\Notification\\Listener' => __DIR__ . '/..' . '/../lib/Notification/Listener.php',
         'OCA\\Files_Sharing\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
@@ -122,6 +123,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\SharedMount' => __DIR__ . '/..' . '/../lib/SharedMount.php',
         'OCA\\Files_Sharing\\SharedStorage' => __DIR__ . '/..' . '/../lib/SharedStorage.php',
         'OCA\\Files_Sharing\\SharesReminderJob' => __DIR__ . '/..' . '/../lib/SharesReminderJob.php',
+        'OCA\\Files_Sharing\\Sharing\\LegacyBackend' => __DIR__ . '/..' . '/../lib/Sharing/LegacyBackend.php',
         'OCA\\Files_Sharing\\Updater' => __DIR__ . '/..' . '/../lib/Updater.php',
         'OCA\\Files_Sharing\\ViewOnly' => __DIR__ . '/..' . '/../lib/ViewOnly.php',
     );

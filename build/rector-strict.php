@@ -47,6 +47,8 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/tests/Core/Sharing',
 		$nextcloudDir . '/apps/files/lib/Sharing',
 		$nextcloudDir . '/apps/files/tests/Sharing',
+		$nextcloudDir . '/apps/files_sharing/lib/Sharing',
+		$nextcloudDir . '/apps/files_sharing/tests/Sharing',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces

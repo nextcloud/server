@@ -60,6 +60,7 @@ use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
 use OCP\Server;
 use OCP\Share;
+use OCP\Share\Events\AfterShareModifiedEvent;
 use OCP\Share\Events\BeforeShareCreatedEvent;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareAcceptedEvent;
@@ -643,6 +644,7 @@ class Manager implements IManager {
 				$provider = $this->factory->getProviderForType($share->getShareType());
 				if ($provider instanceof IShareProviderWithNotification) {
 					$provider->sendMailNotification($share);
+					$this->dispatcher->dispatchTyped(new AfterShareModifiedEvent($share));
 				} else {
 					$this->logger->debug('Share notification not sent because the provider does not support it.', ['app' => 'share']);
 				}
@@ -754,6 +756,7 @@ class Manager implements IManager {
 		} else {
 			$share = $provider->update($share);
 		}
+		$this->dispatcher->dispatchTyped(new AfterShareModifiedEvent($share));
 
 		if ($expirationDateUpdated === true) {
 			\OC_Hook::emit(Share::class, 'post_set_expiration_date', [
@@ -1068,7 +1071,11 @@ class Manager implements IManager {
 		[$providerId,] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
-		return $provider->restore($share, $recipientId);
+		$provider->restore($share, $recipientId);
+
+		$this->dispatcher->dispatchTyped(new AfterShareModifiedEvent($share));
+
+		return $share;
 	}
 
 	#[Override]
@@ -1450,6 +1457,8 @@ class Manager implements IManager {
 			$share->setPassword($newHash);
 			$provider = $this->factory->getProviderForType($share->getShareType());
 			$provider->update($share);
+
+			$this->dispatcher->dispatchTyped(new AfterShareModifiedEvent($share));
 		}
 
 		return true;

@@ -53,6 +53,8 @@
 		<directory name="tests/Core/Sharing"/>
 		<directory name="apps/files/lib/Sharing"/>
 		<directory name="apps/files/tests/Sharing"/>
+		<directory name="apps/files_sharing/lib/Sharing"/>
+		<directory name="apps/files_sharing/tests/Sharing"/>
 		<ignoreFiles>
 			<!-- Circles internals are used -->
 			<file name="core/Sharing/Recipient/TeamShareRecipientType.php"/>

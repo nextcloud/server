@@ -22,6 +22,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
 use OCP\AppFramework\Attribute\Consumable;
+use OCP\IUser;
 
 /**
  * @experimental 35.0.0
@@ -50,12 +51,11 @@ interface ISharingManager {
 	public function generateSecret(): string;
 
 	/**
-	 * Generate a new timestamp in milliseconds since the UNIX epoch.
+	 * Get the current time
 	 *
-	 * @return non-negative-int
 	 * @experimental 35.0.0
 	 */
-	public function generateTimestamp(): int;
+	public function getTime(): \DateTimeImmutable;
 
 	/**
 	 * Create a new share.
@@ -151,13 +151,6 @@ interface ISharingManager {
 	public function updateShareRecipientSecret(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient, string $secret): void;
 
 	/**
-	 * @param class-string<ISharePropertyType> $propertyTypeClass
-	 * @throws ShareNotFoundException
-	 * @experimental 35.0.0
-	 */
-	public function createSharePropertyDefaultValue(Share $share, string $propertyTypeClass): Share;
-
-	/**
 	 * Update a property of a share.
 	 *
 	 * @throws ShareInvalidException
@@ -166,13 +159,6 @@ interface ISharingManager {
 	 * @experimental 35.0.0
 	 */
 	public function updateShareProperty(ShareAccessContext $accessContext, string $id, ShareProperty $property): void;
-
-	/**
-	 * @param class-string<ISharePermissionType> $permissionTypeClass
-	 * @throws ShareNotFoundException
-	 * @experimental 35.0.0
-	 */
-	public function createSharePermissionDefaultValue(Share $share, string $permissionTypeClass): Share;
 
 	/**
 	 * Update a permission of a share.
@@ -221,4 +207,15 @@ interface ISharingManager {
 	 * @experimental 35.0.0
 	 */
 	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array;
+
+	/**
+	 * @return list<string>
+	 * @since 35.0.0
+	 */
+	public function importSharesFromLegacyBackend(IUser $user): array;
+
+	/**
+	 * @since 35.0.0
+	 */
+	public function exportShareToLegacyBackend(string $id): void;
 }
