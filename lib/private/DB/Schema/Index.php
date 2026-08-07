@@ -53,41 +53,6 @@ class Index implements IIndex {
 		return $this->index->isSimpleIndex();
 	}
 
-	#[\Override]
-	public function spansColumns(array $columnNames): bool {
-		return $this->index->spansColumns($columnNames);
-	}
-
-	#[\Override]
-	public function hasColumnAtPosition(string $name, int $pos = 0): bool {
-		return $this->index->hasColumnAtPosition($name, $pos);
-	}
-
-	#[\Override]
-	public function getFlags(): array {
-		return array_values($this->index->getFlags());
-	}
-
-	#[\Override]
-	public function hasFlag(string $flag): bool {
-		return $this->index->hasFlag($flag);
-	}
-
-	#[\Override]
-	public function hasOption(string $name): bool {
-		return $this->index->hasOption($name);
-	}
-
-	#[\Override]
-	public function getOption(string $name): mixed {
-		return $this->index->getOption($name);
-	}
-
-	#[\Override]
-	public function getOptions(): array {
-		return $this->index->getOptions();
-	}
-
 	/**
 	 * Forwards any method not declared on IIndex to the wrapped Doctrine
 	 * DBAL index, e.g. mutators like `addFlag()` or `removeFlag()` that are

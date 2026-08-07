@@ -120,7 +120,14 @@ interface ITable {
 	/**
 	 * @param string $name
 	 * @param string $typeName
-	 * @param array<string, mixed> $options
+	 * @param array{
+	 *     notnull?: bool,
+	 *     length?: ?int,
+	 *     default?: ?scalar,
+	 *     unsigned?: bool,
+	 *     autoincrement?: bool,
+	 *     fixed?: bool,
+	 * } $options
 	 *
 	 * @throws SchemaException
 	 * @since 35.0.0
@@ -129,7 +136,14 @@ interface ITable {
 
 	/**
 	 * @param string $name
-	 * @param array<string, mixed> $options
+	 * @param array{
+	 *     notnull?: bool,
+	 *     length?: ?int,
+	 *     default?: ?scalar,
+	 *     unsigned?: bool,
+	 *     autoincrement?: bool,
+	 *     fixed?: bool,
+	 * } $options
 	 *
 	 * @throws SchemaException
 	 * @since 35.0.0
