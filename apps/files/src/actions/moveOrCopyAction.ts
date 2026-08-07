@@ -160,7 +160,7 @@ export async function * handleCopyMoveNodesTo(nodes: INode[], destination: IFold
 	const actionFinished = createLoadingNotification(
 		method,
 		nodes.map((node) => node.displayname),
-		join(destination.dirname, destination.displayname),
+		join(destination.dirname, destination.displayname).replace(/^\//, ''),
 	)
 	const queue = getQueue()
 	try {
