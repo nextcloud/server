@@ -51,8 +51,8 @@ class FileAccessHelperTest extends TestCase {
 		$this->fileAccessHelper->assertDirectoryExists('/anabsolutelynotexistingfolder/on/the/system');
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testAssertDirectoryExists(): void {
 		$this->fileAccessHelper->assertDirectoryExists(Server::get(ITempManager::class)->getTemporaryFolder('/testfolder/'));
-		$this->addToAssertionCount(1);
 	}
 }
