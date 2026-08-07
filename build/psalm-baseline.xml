@@ -2669,11 +2669,6 @@
       <code><![CDATA[$svg]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="apps/twofactor_backupcodes/lib/Migration/Version1002Date20170919123342.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getName]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/twofactor_backupcodes/lib/Service/BackupCodeStorage.php">
     <DeprecatedMethod>
       <code><![CDATA[generate]]></code>
