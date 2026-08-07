@@ -45,7 +45,7 @@ class Database extends ABackend implements
 	IBatchMethodsBackend,
 	INamedBackend {
 	/** @var array<string, array{gid: string, displayname: string}> */
-	private $groupCache = [];
+	private array $groupCache = [];
 
 	/**
 	 * \OC\Group\Database constructor.
@@ -59,8 +59,9 @@ class Database extends ABackend implements
 
 	/**
 	 * FIXME: This function should not be required!
+	 * @psalm-assert IDBConnection $this->dbConn
 	 */
-	private function fixDI() {
+	private function fixDI(): void {
 		if ($this->dbConn === null) {
 			$this->dbConn = Server::get(IDBConnection::class);
 		}
@@ -130,16 +131,8 @@ class Database extends ABackend implements
 		return true;
 	}
 
-	/**
-	 * is user in group?
-	 * @param string $uid uid of the user
-	 * @param string $gid gid of the group
-	 * @return bool
-	 *
-	 * Checks whether the user is member of a group or not.
-	 */
 	#[\Override]
-	public function inGroup($uid, $gid) {
+	public function inGroup(string $uid, string $gid): bool {
 		$this->fixDI();
 
 		// check
@@ -153,17 +146,9 @@ class Database extends ABackend implements
 		$result = $cursor->fetchAssociative();
 		$cursor->closeCursor();
 
-		return $result ? true : false;
+		return $result !== false;
 	}
 
-	/**
-	 * Add a user to a group
-	 * @param string $uid Name of the user to add to group
-	 * @param string $gid Name of the group in which add the user
-	 * @return bool
-	 *
-	 * Adds a user to a group.
-	 */
 	#[\Override]
 	public function addToGroup(string $uid, string $gid): bool {
 		$this->fixDI();
@@ -181,14 +166,6 @@ class Database extends ABackend implements
 		}
 	}
 
-	/**
-	 * Removes a user from a group
-	 * @param string $uid Name of the user to remove from group
-	 * @param string $gid Name of the group from which remove the user
-	 * @return bool
-	 *
-	 * removes the user from a group.
-	 */
 	#[\Override]
 	public function removeFromGroup(string $uid, string $gid): bool {
 		$this->fixDI();
@@ -202,21 +179,8 @@ class Database extends ABackend implements
 		return true;
 	}
 
-	/**
-	 * Get all groups a user belongs to
-	 * @param string $uid Name of the user
-	 * @return list<string> an array of group names
-	 *
-	 * This function fetches all groups a user belongs to. It does not check
-	 * if the user exists at all.
-	 */
 	#[\Override]
-	public function getUserGroups($uid) {
-		//guests has empty or null $uid
-		if ($uid === null || $uid === '') {
-			return [];
-		}
-
+	public function getUserGroups(string $uid): array {
 		$this->fixDI();
 
 		// No magic!
@@ -240,17 +204,8 @@ class Database extends ABackend implements
 		return $groups;
 	}
 
-	/**
-	 * get a list of all groups
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array an array of group names
-	 *
-	 * Returns a list with all groups
-	 */
 	#[\Override]
-	public function getGroups(string $search = '', int $limit = -1, int $offset = 0) {
+	public function getGroups(string $search = '', int $limit = -1, int $offset = 0): array {
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
@@ -288,13 +243,8 @@ class Database extends ABackend implements
 		return $groups;
 	}
 
-	/**
-	 * check if a group exists
-	 * @param string $gid
-	 * @return bool
-	 */
 	#[\Override]
-	public function groupExists($gid) {
+	public function groupExists(string $gid): bool {
 		$this->fixDI();
 
 		// Check cache first
@@ -320,9 +270,6 @@ class Database extends ABackend implements
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	#[\Override]
 	public function groupsExists(array $gids): array {
 		$notFoundGids = [];
@@ -358,16 +305,8 @@ class Database extends ABackend implements
 		return $existingGroups;
 	}
 
-	/**
-	 * Get a list of all users in a group
-	 * @param string $gid
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array<int,string> an array of user ids
-	 */
 	#[\Override]
-	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0): array {
+	public function usersInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		return array_values(array_map(fn ($user) => $user->getUid(), $this->searchInGroup($gid, $search, $limit, $offset)));
 	}
 
@@ -432,12 +371,6 @@ class Database extends ABackend implements
 		return $users;
 	}
 
-	/**
-	 * get the number of all users matching the search string in a group
-	 * @param string $gid
-	 * @param string $search
-	 * @return int
-	 */
 	#[\Override]
 	public function countUsersInGroup(string $gid, string $search = ''): int {
 		$this->fixDI();
@@ -466,13 +399,6 @@ class Database extends ABackend implements
 		return $count;
 	}
 
-	/**
-	 * get the number of disabled users in a group
-	 *
-	 * @param string $search
-	 *
-	 * @return int
-	 */
 	#[\Override]
 	public function countDisabledInGroup(string $gid): int {
 		$this->fixDI();
@@ -533,9 +459,6 @@ class Database extends ABackend implements
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	#[\Override]
 	public function getGroupsDetails(array $gids): array {
 		$notFoundGids = [];
@@ -595,11 +518,6 @@ class Database extends ABackend implements
 		return true;
 	}
 
-	/**
-	 * Backend name to be shown in group management
-	 * @return string the name of the backend to be shown
-	 * @since 21.0.0
-	 */
 	#[\Override]
 	public function getBackendName(): string {
 		return 'Database';

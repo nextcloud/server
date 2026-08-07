@@ -1958,7 +1958,6 @@ return array(
     'OC\\FullTextSearch\\Model\\SearchRequestSimpleQuery' => $baseDir . '/lib/private/FullTextSearch/Model/SearchRequestSimpleQuery.php',
     'OC\\FullTextSearch\\Model\\SearchTemplate' => $baseDir . '/lib/private/FullTextSearch/Model/SearchTemplate.php',
     'OC\\GlobalScale\\Config' => $baseDir . '/lib/private/GlobalScale/Config.php',
-    'OC\\Group\\Backend' => $baseDir . '/lib/private/Group/Backend.php',
     'OC\\Group\\Database' => $baseDir . '/lib/private/Group/Database.php',
     'OC\\Group\\DisplayNameCache' => $baseDir . '/lib/private/Group/DisplayNameCache.php',
     'OC\\Group\\Group' => $baseDir . '/lib/private/Group/Group.php',

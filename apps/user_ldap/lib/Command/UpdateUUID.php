@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP\Command;
 
-use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
@@ -293,8 +292,7 @@ class UpdateUUID extends Command {
 
 		foreach ($list as $row) {
 			$access = $backendProxy->getLDAPAccess($row['name']);
-			if ($access instanceof Access
-				&& $dn = $mapping->getDNByName($row['name'])) {
+			if ($dn = $mapping->getDNByName($row['name'])) {
 				if ($uuid = $access->getUUID($dn, $isUser)) {
 					if ($uuid !== $row['uuid']) {
 						if ($this->dryRun || $mapping->setUUIDbyDN($uuid, $dn)) {

@@ -7,7 +7,7 @@
 
 namespace OC\User;
 
-use OCP\IConfig;
+use OCP\Config\IUserConfig;
 use OCP\IUserBackend;
 use OCP\User\Backend\IGetHomeBackend;
 
@@ -19,7 +19,7 @@ use OCP\User\Backend\IGetHomeBackend;
 class PartiallyDeletedUsersBackend extends Backend implements IGetHomeBackend, IUserBackend {
 
 	public function __construct(
-		private IConfig $config,
+		private IUserConfig $config,
 	) {
 	}
 
@@ -35,18 +35,18 @@ class PartiallyDeletedUsersBackend extends Backend implements IGetHomeBackend, I
 	}
 
 	#[\Override]
-	public function userExists($uid) {
-		return $this->config->getUserValue($uid, 'core', 'deleted') === 'true';
+	public function userExists(string $uid): bool {
+		return $this->config->getValueBool($uid, 'core', 'deleted');
 	}
 
 	#[\Override]
 	public function getHome(string $uid): string|false {
-		return $this->config->getUserValue($uid, 'core', 'deleted.home-path') ?: false;
+		return $this->config->getValueString($uid, 'core', 'deleted.home-path') ?: false;
 	}
 
 	#[\Override]
-	public function getUsers($search = '', $limit = null, $offset = null) {
-		return $this->config->getUsersForUserValue('core', 'deleted', 'true');
+	public function getUsers(string $search = '', ?int $limit = null, ?int $offset = null): array {
+		return iterator_to_array($this->config->searchUsersByValueBool('core', 'deleted', true));
 	}
 
 	/**
@@ -55,8 +55,8 @@ class PartiallyDeletedUsersBackend extends Backend implements IGetHomeBackend, I
 	 * meaning the user still exists so we unmark them as it still can be accessed (and deleted) normally.
 	 */
 	public function unmarkUser(string $userId): void {
-		$this->config->deleteUserValue($userId, 'core', 'deleted');
-		$this->config->deleteUserValue($userId, 'core', 'deleted.home-path');
+		$this->config->deleteUserConfig($userId, 'core', 'deleted');
+		$this->config->deleteUserConfig($userId, 'core', 'deleted.home-path');
 	}
 
 }
