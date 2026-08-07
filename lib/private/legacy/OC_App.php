@@ -8,14 +8,11 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\App\AppManager;
-use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
 use OC\NeedsUpdateException;
 use OC\SystemConfig;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
-use OCP\Authentication\IAlternativeLogin;
-use OCP\Authentication\IAlternativeLoginProvider;
 use OCP\BackgroundJob\IJobList;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -28,7 +25,6 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Support\Subscription\IRegistry;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -37,9 +33,6 @@ use Psr\Log\LoggerInterface;
  * upgrading and removing apps.
  */
 class OC_App {
-
-	/** @var list<array{name: string, href: string, class: string}> */
-	private static array $altLogin = [];
 	private static array $alreadyRegistered = [];
 	public const supportedApp = 300;
 	public const officialApp = 200;
@@ -48,7 +41,6 @@ class OC_App {
 	 * @internal
 	 */
 	public static function reset(): void {
-		self::$altLogin = [];
 		self::$alreadyRegistered = [];
 	}
 
@@ -268,107 +260,6 @@ class OC_App {
 		} else {
 			return $topFolder;
 		}
-	}
-
-	/**
-	 * @deprecated 20.0.0 Please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface
-	 */
-	public static function registerLogIn(array $entry): void {
-		Server::get(LoggerInterface::class)->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
-		self::$altLogin[] = $entry;
-	}
-
-	/**
-	 * @return list<array{name: string, href: string, class: string}>
-	 */
-	public static function getAlternativeLogIns(): array {
-		/** @var Coordinator $bootstrapCoordinator */
-		$bootstrapCoordinator = Server::get(Coordinator::class);
-
-		foreach ($bootstrapCoordinator->getRegistrationContext()->getAlternativeLoginProviders() as $registration) {
-			if (!in_array(IAlternativeLoginProvider::class, class_implements($registration->getService()), true)) {
-				Server::get(LoggerInterface::class)->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
-					'option' => $registration->getService(),
-					'interface' => IAlternativeLoginProvider::class,
-					'app' => $registration->getAppId(),
-				]);
-				continue;
-			}
-
-			try {
-				/** @var IAlternativeLoginProvider $provider */
-				$provider = Server::get($registration->getService());
-			} catch (ContainerExceptionInterface $e) {
-				Server::get(LoggerInterface::class)->error('Alternative login option {option} can not be initialized.',
-					[
-						'exception' => $e,
-						'option' => $registration->getService(),
-						'app' => $registration->getAppId(),
-					]);
-				continue;
-			}
-
-			foreach ($provider->getAlternativeLogins() as $alternativeLogin) {
-				try {
-					$alternativeLogin->load();
-
-					self::$altLogin[] = [
-						'name' => $alternativeLogin->getLabel(),
-						'href' => $alternativeLogin->getLink(),
-						'class' => $alternativeLogin->getClass(),
-					];
-				} catch (Throwable $e) {
-					Server::get(LoggerInterface::class)->error('Alternative login option {option} had an error while loading.',
-						[
-							'exception' => $e,
-							'option' => $registration->getService(),
-							'app' => $registration->getAppId(),
-						]);
-				}
-			}
-		}
-
-		foreach ($bootstrapCoordinator->getRegistrationContext()->getAlternativeLogins() as $registration) {
-			if (!in_array(IAlternativeLogin::class, class_implements($registration->getService()), true)) {
-				Server::get(LoggerInterface::class)->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
-					'option' => $registration->getService(),
-					'interface' => IAlternativeLogin::class,
-					'app' => $registration->getAppId(),
-				]);
-				continue;
-			}
-
-			try {
-				/** @var IAlternativeLogin $provider */
-				$provider = Server::get($registration->getService());
-			} catch (ContainerExceptionInterface $e) {
-				Server::get(LoggerInterface::class)->error('Alternative login option {option} can not be initialized.',
-					[
-						'exception' => $e,
-						'option' => $registration->getService(),
-						'app' => $registration->getAppId(),
-					]);
-			}
-
-			try {
-				$provider->load();
-
-				self::$altLogin[] = [
-					'name' => $provider->getLabel(),
-					'href' => $provider->getLink(),
-					'class' => $provider->getClass(),
-				];
-			} catch (Throwable $e) {
-				Server::get(LoggerInterface::class)->error('Alternative login option {option} had an error while loading.',
-					[
-						'exception' => $e,
-						'option' => $registration->getService(),
-						'app' => $registration->getAppId(),
-					]);
-			}
-		}
-
-		return self::$altLogin;
 	}
 
 	/**

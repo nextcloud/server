@@ -1269,6 +1269,7 @@ return array(
     'OC\\Authentication\\LoginCredentials\\Credentials' => $baseDir . '/lib/private/Authentication/LoginCredentials/Credentials.php',
     'OC\\Authentication\\LoginCredentials\\Store' => $baseDir . '/lib/private/Authentication/LoginCredentials/Store.php',
     'OC\\Authentication\\Login\\ALoginCommand' => $baseDir . '/lib/private/Authentication/Login/ALoginCommand.php',
+    'OC\\Authentication\\Login\\AlternativeLoginService' => $baseDir . '/lib/private/Authentication/Login/AlternativeLoginService.php',
     'OC\\Authentication\\Login\\Chain' => $baseDir . '/lib/private/Authentication/Login/Chain.php',
     'OC\\Authentication\\Login\\ClearLostPasswordTokensCommand' => $baseDir . '/lib/private/Authentication/Login/ClearLostPasswordTokensCommand.php',
     'OC\\Authentication\\Login\\CompleteLoginCommand' => $baseDir . '/lib/private/Authentication/Login/CompleteLoginCommand.php',
