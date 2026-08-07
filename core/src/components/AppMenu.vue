@@ -54,19 +54,19 @@
 			:aria-expanded="opened ? 'true' : 'false'"
 			@click="onTriggerClick('currentApp')">
 			<template #icon>
-				<!-- Settings sub-sections share one generic cog. An inline MDI icon
-					inherits the button's currentColor (--color-background-plain-text),
+				<!-- Sections of the settings app share one generic cog. An inline MDI
+					icon inherits the button's currentColor (--color-background-plain-text),
 					so it stays legible on both bright and dark headers without a filter. -->
 				<IconCog
-					v-if="currentApp.type === 'settings'"
+					v-if="isSettingsSection"
 					class="app-menu__current-app-cog"
 					:size="20" />
-				<img
-					v-else
-					class="app-menu__current-app-icon"
-					:src="currentApp.icon"
-					alt=""
-					aria-hidden="true">
+				<!-- Outer element carries the header fade, inner one the icon shape. -->
+				<span v-else class="app-menu__current-app-icon">
+					<span
+						class="app-menu__current-app-glyph"
+						:style="currentAppIconStyle" />
+				</span>
 			</template>
 			<span class="app-menu__current-app-name">
 				{{ displayName }}
@@ -93,6 +93,14 @@ import logger from '../logger.js'
 
 // Settings IDs that represent actions, not navigable pages.
 const SETTINGS_ACTION_IDS = new Set(['logout'])
+
+// Sections of the settings app itself. Their names ("Personal settings",
+// "Appearance and accessibility", ...) are too long and varied for the header,
+// so they all show as "Settings". Other settings entries keep their own name.
+const SETTINGS_SECTION_IDS = new Set(['settings_personal', 'settings_administration', 'accessibility_settings'])
+
+// Entry of the app management page, the target of the "More apps" tile.
+const APP_MANAGEMENT_ID = 'appstore'
 
 export default defineComponent({
 	name: 'AppMenu',
@@ -169,16 +177,29 @@ export default defineComponent({
 				?? Object.values(this.settingsList).find((entry) => entry.active && !SETTINGS_ACTION_IDS.has(entry.id))
 		},
 
-		// Trigger label. Settings sub-section names ("Personal info",
-		// "Appearance and accessibility", ...) are too long and varied to
-		// surface in the header; collapse them all to a single "Settings".
+		isSettingsSection(): boolean {
+			return this.currentApp !== undefined && SETTINGS_SECTION_IDS.has(this.currentApp.id)
+		},
+
+		// Trigger label. Sections of the settings app show as "Settings",
+		// see SETTINGS_SECTION_IDS. All other entries use their own name,
+		// so the app management page shows "Apps" like in the account menu.
 		displayName(): string {
 			if (!this.currentApp) {
 				return ''
 			}
-			return this.currentApp.type === 'settings'
+			return this.isSettingsSection
 				? t('core', 'Settings')
 				: this.currentApp.name
+		},
+
+		// The icon is painted through a mask, so entries with a dark icon
+		// (the app management page ships one for the settings list) are legible
+		// on the header as well. Escaped so a crafted path cannot break out of
+		// the url() token, same as AppIcon.vue.
+		currentAppIconStyle(): Record<string, string> {
+			const icon = this.currentApp?.icon ?? ''
+			return { '--app-icon-url': `url("${icon.replace(/["\\]/g, '\\$&')}")` }
 		},
 
 		// aria-label overrides the inner span text, so the displayed name
@@ -193,7 +214,11 @@ export default defineComponent({
 		// utility tile is "More apps" (local app management) for admins and
 		// "App store" (apps.nextcloud.com) for everyone else.
 		gridItems(): INavigationEntry[] {
-			const tail = this.isAdmin ? this.moreAppsEntry : this.appStoreEntry
+			// On the app management page the "More apps" tile is the current
+			// entry, so it is marked active like any other app tile.
+			const tail = this.isAdmin
+				? { ...this.moreAppsEntry, active: this.currentApp?.id === APP_MANAGEMENT_ID }
+				: this.appStoreEntry
 			return [...this.appList, tail]
 		},
 	},
@@ -459,11 +484,27 @@ export default defineComponent({
 	}
 
 	&__current-app-icon {
+		display: flex;
 		width: calc(var(--default-grid-baseline) * 5);
 		height: calc(var(--default-grid-baseline) * 5);
-		// Theme-aware inversion + vertical alpha fade via --header-menu-icon-mask.
-		filter: var(--background-image-invert-if-bright);
+		// Vertical alpha fade, like the cog and the other header icons.
 		mask: var(--header-menu-icon-mask);
+	}
+
+	&__current-app-glyph {
+		width: 100%;
+		height: 100%;
+		// Masked rather than shown: app icons ship a hardcoded fill, so the
+		// color has to come from the background. Matches AppIcon.vue.
+		background-color: var(--color-background-plain-text);
+		mask: var(--app-icon-url) center / contain no-repeat;
+	}
+
+	// Masked backgrounds are not force-adjusted the way <img> is.
+	@media (forced-colors: active) {
+		&__current-app-glyph {
+			background-color: CanvasText;
+		}
 	}
 
 	&__current-app-cog {
