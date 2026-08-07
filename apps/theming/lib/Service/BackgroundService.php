@@ -21,6 +21,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Image;
+use OCP\IImage;
 use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 use OCP\User\Exceptions\UserNotFoundException;
@@ -251,8 +252,8 @@ class BackgroundService {
 		$userId = $userId ?? $this->getUserId();
 
 		$image = new Image();
-		$handle = $this->getAppDataFolder($userId)->getFile('background.jpg')->read();
-		if ($handle === false || $image->loadFromFileHandle($handle) === false) {
+		$data = $this->getAppDataFolder($userId)->getFile('background.jpg')->getContent();
+		if ($image->loadFromData($data) === false) {
 			throw new InvalidArgumentException('Invalid image file');
 		}
 
@@ -321,23 +322,27 @@ class BackgroundService {
 	 */
 	public function setGlobalBackground($path): ?string {
 		$image = new Image();
-		$handle = is_resource($path) ? $path : fopen($path, 'rb');
 
-		if ($handle && $image->loadFromFileHandle($handle) !== false) {
+		$rawImageData = is_resource($path)
+			? stream_get_contents($path)
+			: file_get_contents($path);
+
+		if ($rawImageData !== false && $image->loadFromData($rawImageData) !== false) {
 			$meanColor = $this->calculateMeanColor($image);
 			if ($meanColor !== false) {
 				$this->appConfig->setValueString(Application::APP_ID, 'background_color', $meanColor);
 				return $meanColor;
 			}
 		}
+
 		return null;
 	}
 
 	/**
-	 * Calculate mean color of an given image
+	 * Calculate mean color of a given image
 	 * It only takes the upper part into account so that a matching text color can be derived for the app menu
 	 */
-	private function calculateMeanColor(Image $image): false|string {
+	private function calculateMeanColor(IImage $image): false|string {
 		/**
 		 * Small helper to ensure one channel is returned as 8byte hex
 		 */
@@ -351,15 +356,18 @@ class BackgroundService {
 			};
 		}
 
-		$tempImage = new Image();
-
 		// Crop to only analyze top bar
-		$resource = $image->cropNew(0, 0, $image->width(), min(max(50, (int)($image->height() * 0.125)), $image->height()));
-		if ($resource === false) {
+		$tempImage = $image->cropCopy(
+			0,
+			0,
+			$image->width(),
+			min(max(50, (int)($image->height() * 0.125)), $image->height()),
+		);
+
+		if (!$tempImage->valid()) {
 			return false;
 		}
 
-		$tempImage->setResource($resource);
 		if (!$tempImage->preciseResize(100, 7)) {
 			return false;
 		}

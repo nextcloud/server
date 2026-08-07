@@ -143,9 +143,11 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 			$importPath = AccountMigrator::PATH_ROOT . reset($avatarFiles);
 
 			$output->writeln('Importing avatar from ' . $importPath . '…');
-			$stream = $importSource->getFileAsStream($importPath);
+			$data = $importSource->getFileContents($importPath);
 			$image = new Image();
-			$image->loadFromFileHandle($stream);
+			if ($image->loadFromData($data) === false) {
+				throw new AccountMigratorException('Failed to load avatar');
+			}
 
 			try {
 				$avatar = $this->avatarManager->getAvatar($user->getUID());
