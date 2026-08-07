@@ -1093,11 +1093,12 @@ class AppManager implements IAppManager {
 	 */
 	#[\Override]
 	public function upgradeApp(string $appId): bool {
-		// for apps distributed with core, we refresh app path in case the downloaded version
-		// have been installed in custom apps and not in the default path
+		// For apps distributed with core, refresh the app path in case the downloaded
+		// version was installed in custom apps and not in the default path.
 		$appPath = $this->getAppPath($appId, true);
 
 		$this->clearAppsCache();
+
 		$appInfo = $this->getAppInfo($appId);
 		if ($appInfo === null) {
 			throw new AppPathNotFoundException('Could not find ' . $appId);
@@ -1105,32 +1106,25 @@ class AppManager implements IAppManager {
 
 		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
+
 		$this->checkAppDependencies($appId, $ignoreMax);
 
 		\OC_App::registerAutoloading($appId, $appPath, true);
+
 		$this->executeRepairSteps($appId, $appInfo['repair-steps']['pre-migration']);
 
 		$ms = new MigrationService($appId, Server::get(\OC\DB\Connection::class));
 		$ms->migrate();
 
 		$this->executeRepairSteps($appId, $appInfo['repair-steps']['post-migration']);
-		$queue = Server::get(IJobList::class);
-		foreach ($appInfo['repair-steps']['live-migration'] as $step) {
-			$queue->add(BackgroundRepair::class, [
-				'app' => $appId,
-				'step' => $step]);
-		}
 
-		// update appversion in app manager
+		// Refresh cached app metadata/version after the migration finished.
 		$this->clearAppsCache();
 		$this->getAppVersion($appId, false);
 
-		// Setup background jobs
-		foreach ($appInfo['background-jobs'] as $job) {
-			$queue->add($job);
-		}
+		$this->setAppTypes($appId, $appInfo);
 
-		//set remote/public handlers
+		// Set remote/public handlers.
 		foreach ($appInfo['remote'] as $name => $path) {
 			$this->config->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
 		}
@@ -1138,15 +1132,26 @@ class AppManager implements IAppManager {
 			$this->config->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
 		}
 
-		$this->setAppTypes($appId, $appInfo);
+		// Migrate eventual new config keys in the process.
+		/** @psalm-suppress InternalMethod */
+		$this->configManager->migrateConfigLexiconKeys($appId);
+		$this->configManager->updateLexiconEntries($appId);
 
 		$version = $this->getAppVersion($appId);
 		$this->config->setAppValue($appId, 'installed_version', $version);
 
-		// migrate eventual new config keys in the process
-		/** @psalm-suppress InternalMethod */
-		$this->configManager->migrateConfigLexiconKeys($appId);
-		$this->configManager->updateLexiconEntries($appId);
+		$queue = Server::get(IJobList::class);
+
+		foreach ($appInfo['repair-steps']['live-migration'] as $step) {
+			$queue->add(BackgroundRepair::class, [
+				'app' => $appId,
+				'step' => $step]);
+		}
+
+		// Set up background jobs.
+		foreach ($appInfo['background-jobs'] as $job) {
+			$queue->add($job);
+		}
 
 		$this->dispatcher->dispatchTyped(new AppUpdateEvent($appId));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
