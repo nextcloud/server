@@ -15,8 +15,10 @@ return array(
     'OCA\\CloudFederationAPI\\Controller\\TokenController' => $baseDir . '/../lib/Controller/TokenController.php',
     'OCA\\CloudFederationAPI\\Db\\OcmTokenMap' => $baseDir . '/../lib/Db/OcmTokenMap.php',
     'OCA\\CloudFederationAPI\\Db\\OcmTokenMapMapper' => $baseDir . '/../lib/Db/OcmTokenMapMapper.php',
+    'OCA\\CloudFederationAPI\\Listener\\ShareDeletedListener' => $baseDir . '/../lib/Listener/ShareDeletedListener.php',
     'OCA\\CloudFederationAPI\\Migration\\DropFederatedInvitesTable' => $baseDir . '/../lib/Migration/DropFederatedInvitesTable.php',
     'OCA\\CloudFederationAPI\\Migration\\Version1016Date202502262004' => $baseDir . '/../lib/Migration/Version1016Date202502262004.php',
     'OCA\\CloudFederationAPI\\Migration\\Version1017Date20260306120000' => $baseDir . '/../lib/Migration/Version1017Date20260306120000.php',
     'OCA\\CloudFederationAPI\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
+    'OCA\\CloudFederationAPI\\Service\\OcmTokenService' => $baseDir . '/../lib/Service/OcmTokenService.php',
 );

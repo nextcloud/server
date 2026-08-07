@@ -9,20 +9,22 @@ declare(strict_types=1);
 
 namespace OCA\CloudFederationAPI\BackgroundJob;
 
-use OCA\CloudFederationAPI\Db\OcmTokenMapMapper;
+use OCA\CloudFederationAPI\Service\OcmTokenService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
 /**
- * Periodically purge expired OCM access token mappings from ocm_token_map.
+ * Periodically purge expired OCM access tokens.
  *
- * The corresponding oc_authtoken entries (TEMPORARY_TOKEN with an expires
- * timestamp) are cleaned up by Nextcloud's own token expiry jobs.
+ * Each expired mapping has its access token deleted from oc_authtoken before
+ * its ocm_token_map row is removed. Dropping the mapping first would orphan
+ * the access token, since nothing else records which oc_authtoken id belongs
+ * to a given refresh token.
  */
 class CleanupExpiredOcmTokensJob extends TimedJob {
 	public function __construct(
 		ITimeFactory $timeFactory,
-		private readonly OcmTokenMapMapper $mapper,
+		private readonly OcmTokenService $tokenService,
 	) {
 		parent::__construct($timeFactory);
 
@@ -32,6 +34,6 @@ class CleanupExpiredOcmTokensJob extends TimedJob {
 
 	#[\Override]
 	protected function run($argument): void {
-		$this->mapper->deleteExpired($this->time->getTime());
+		$this->tokenService->revokeExpired($this->time->getTime());
 	}
 }
