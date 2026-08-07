@@ -2655,41 +2655,56 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * Searches through all of a users calendars and calendar objects to find
-	 * an object with a specific UID.
+	 * Finds the path to the calendar object matching a given UID, restricted to
+	 * calendars owned by the specified principal. Calendars owned by other
+	 * principals, even if visible in the principal's calendar home (e.g. via
+	 * sharing), are ignored.
 	 *
-	 * This method should return the path to this object, relative to the
-	 * calendar home, so this path usually only contains two parts:
+	 * When $calendarUri is provided, the lookup is further restricted to that
+	 * calendar. It must be owned by $principalUri, otherwise no match is returned.
+	 * When $calendarUri is null, all calendars owned by the principal are searched.
+	 * In that case, callers must use both path components returned by this method:
+	 * the matching object may belong to a different calendar than the one the
+	 * caller currently has selected.
 	 *
-	 * calendarpath/objectpath.ics
+	 * Subscription and federated cached objects, deleted objects, and objects in
+	 * deleted calendars are not considered.
 	 *
-	 * If the uid is not found, return null.
-	 *
-	 * This method should only consider * objects that the principal owns, so
-	 * any calendars owned by other principals that also appear in this
-	 * collection should be ignored.
+	 * The returned value is a path relative to the calendar home:
+	 * "<calendar-uri>/<object-uri>". It is null when no matching object exists.
+	 * UID uniqueness is guaranteed only within a calendar collection. Therefore,
+	 * an unrestricted lookup can be ambiguous if multiple owned calendars contain
+	 * the same UID; in that case, one database-dependent matching result is
+	 * returned and no calendar is preferred.
 	 *
 	 * @param string $principalUri
 	 * @param string $uid
+	 * @param string|null $calendarUri Calendar URI to restrict the lookup to; must be owned by $principalUri.
 	 * @return string|null
 	 */
 	#[\Override]
 	public function getCalendarObjectByUID($principalUri, $uid, $calendarUri = null) {
 		$query = $this->db->getQueryBuilder();
-		$query->selectAlias('c.uri', 'calendaruri')->selectAlias('co.uri', 'objecturi')
+		$query->selectAlias('c.uri', 'calendaruri')
+			->selectAlias('co.uri', 'objecturi')
 			->from('calendarobjects', 'co')
-			->leftJoin('co', 'calendars', 'c', $query->expr()->eq('co.calendarid', 'c.id'))
+			->join('co', 'calendars', 'c', $query->expr()->eq('co.calendarid', 'c.id'))
 			->where($query->expr()->eq('c.principaluri', $query->createNamedParameter($principalUri)))
 			->andWhere($query->expr()->eq('co.uid', $query->createNamedParameter($uid)))
-			->andWhere($query->expr()->isNull('co.deleted_at'));
+			->andWhere($query->expr()->eq('co.calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)))
+			->andWhere($query->expr()->isNull('co.deleted_at'))
+			->andWhere($query->expr()->isNull('c.deleted_at'));
 
 		if ($calendarUri !== null) {
 			$query->andWhere($query->expr()->eq('c.uri', $query->createNamedParameter($calendarUri)));
 		}
 
+		$query->setMaxResults(1);
+
 		$stmt = $query->executeQuery();
 		$row = $stmt->fetchAssociative();
 		$stmt->closeCursor();
+
 		if ($row) {
 			return $row['calendaruri'] . '/' . $row['objecturi'];
 		}
