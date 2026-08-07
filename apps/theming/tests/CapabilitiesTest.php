@@ -90,6 +90,7 @@ class CapabilitiesTest extends TestCase {
 				'inverted' => true,
 				'cacheBuster' => 'v1',
 				'enabledThemes' => ['default'],
+				'toastTimeout' => 7000,
 			]],
 			['name1', 'url2', 'slogan3', '#01e4a0', '#ffffff', 'logo5', 'background6', '#fff', '#000', 'http://localhost/', false, '', '', '#0082c9', [
 				'name' => 'name1',
@@ -117,6 +118,7 @@ class CapabilitiesTest extends TestCase {
 				'inverted' => false,
 				'cacheBuster' => 'v1',
 				'enabledThemes' => ['default'],
+				'toastTimeout' => 7000,
 			]],
 			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', '#000000', '#ffffff', 'http://localhost/', true, '', '', '#0082c9', [
 				'name' => 'name1',
@@ -144,6 +146,7 @@ class CapabilitiesTest extends TestCase {
 				'inverted' => false,
 				'cacheBuster' => 'v1',
 				'enabledThemes' => ['default'],
+				'toastTimeout' => 7000,
 			]],
 			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', '#000000', '#ffffff', 'http://localhost/', false, '', '', '#0082c9', [
 				'name' => 'name1',
@@ -171,6 +174,7 @@ class CapabilitiesTest extends TestCase {
 				'inverted' => false,
 				'cacheBuster' => 'v1',
 				'enabledThemes' => ['default'],
+				'toastTimeout' => 7000,
 			]],
 		];
 	}
@@ -339,5 +343,52 @@ class CapabilitiesTest extends TestCase {
 		// New fields are always present
 		$this->assertSame('v1', $theming['cacheBuster']);
 		$this->assertSame(['default'], $theming['enabledThemes']);
+		$this->assertSame(7000, $theming['toastTimeout']);
+	}
+
+	public static function dataGetCapabilitiesToastTimeout(): array {
+		return [
+			'default' => [7000, 7000],
+			'15 seconds' => [15000, 15000],
+			'30 seconds' => [30000, 30000],
+			'never dismiss' => [-1, -1],
+			'invalid falls back to default' => [1234, 7000],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetCapabilitiesToastTimeout')]
+	public function testGetCapabilitiesToastTimeout(int $storedTimeout, int $expectedTimeout): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user1');
+		$this->userSession->method('getUser')->willReturn($user);
+
+		$this->theming->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->theming->method('getColorPrimary')->willReturn('#0082c9');
+		$this->theming->method('getTextColorPrimary')->willReturn('#ffffff');
+		$this->theming->method('getName')->willReturn('Name');
+		$this->theming->method('getProductName')->willReturn('Name');
+		$this->theming->method('getBaseUrl')->willReturn('http://example.com/');
+		$this->theming->method('getImprintUrl')->willReturn('');
+		$this->theming->method('getPrivacyUrl')->willReturn('');
+		$this->theming->method('getSlogan')->willReturn('Slogan');
+		$this->theming->method('getColorBackground')->willReturn(BackgroundService::DEFAULT_COLOR);
+		$this->theming->method('getTextColorBackground')->willReturn('#ffffff');
+		$this->theming->method('getDefaultColorBackground')->willReturn('#0082c9');
+		$this->theming->method('getLogo')->willReturn('/logo');
+		$this->theming->method('getBackground')->willReturn('/background');
+
+		$this->appConfig->method('getValueString')->willReturn('');
+		$this->userConfig->method('getValueString')->willReturn(BackgroundService::BACKGROUND_DEFAULT);
+		$this->userConfig->method('getValueInt')->willReturn($storedTimeout);
+
+		$this->util->method('invertTextColor')->willReturn(false);
+		$this->util->method('elementColor')->willReturn('#0082c9');
+		$this->util->method('isBackgroundThemed')->willReturn(false);
+		$this->util->method('getCacheBuster')->willReturn('v1');
+		$this->themesService->method('getEnabledThemes')->willReturn(['default']);
+		$this->url->method('getAbsoluteURL')->willReturnCallback(fn (string $url) => 'http://localhost' . $url);
+
+		$result = $this->capabilities->getCapabilities();
+		$this->assertSame($expectedTimeout, $result['theming']['toastTimeout']);
 	}
 }
