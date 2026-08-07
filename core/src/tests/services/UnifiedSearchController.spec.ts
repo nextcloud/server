@@ -315,30 +315,29 @@ describe('UnifiedSearchController', () => {
 			expect(searchController.getRevealOrder()).toEqual(['talk', 'deck'])
 		})
 
-		it('keeps reveal positions across a refined query', async () => {
+		it('restarts the reveal order from priority on a new query', async () => {
 			const first = mockProviders(['files', 'talk'])
 
 			const searchController = new UnifiedSearchController()
 			searchController.search('old', ['files', 'talk'])
 
-			// talk gets on screen first, so the session order is talk before files.
+			// talk got on screen first, so this query renders talk above files.
 			first.talk.resolve(['Old talk'])
 			await vi.advanceTimersByTimeAsync(REVEAL_INTERVAL_MS)
 			first.files.resolve(['Old files'])
 			await vi.advanceTimersByTimeAsync(0)
 			expect(searchController.getRevealOrder()).toEqual(['talk', 'files'])
 
-			// Refining must not re-sort what is already on screen back to priority order.
-			// Both categories stay rendered throughout (stale-while-revalidate), so moving
-			// them would be a displacement with identical content.
+			// A new query hides everything: the results are about to be different, so there is
+			// nothing on screen to protect and the next paint starts from priority order again.
 			const second = mockProviders(['files', 'talk'])
 			searchController.search('new', ['files', 'talk'])
-			expect(searchController.getRevealOrder()).toEqual(['talk', 'files'])
+			expect(searchController.getRevealOrder()).toEqual([])
 
 			second.files.resolve(['New files'])
 			second.talk.resolve(['New talk'])
 			await vi.advanceTimersByTimeAsync(0)
-			expect(searchController.getRevealOrder()).toEqual(['talk', 'files'])
+			expect(searchController.getRevealOrder()).toEqual(['files', 'talk'])
 		})
 
 		it('releases a slot when a category loses its results, and appends it again if it returns', async () => {
@@ -360,17 +359,17 @@ describe('UnifiedSearchController', () => {
 			await vi.advanceTimersByTimeAsync(0)
 			expect(searchController.getRevealOrder()).toEqual(['talk'])
 
-			// It has results again on the next query, so it comes back as a fresh reveal:
-			// at the end, not back at its old priority slot.
+			// The next query is a clean slate, so it comes back in preferred order rather than
+			// staying demoted for the rest of the session.
 			const third = mockProviders(['files', 'talk'])
 			searchController.search('c', ['files', 'talk'])
 			third.files.resolve(['Files c'])
 			third.talk.resolve(['Talk c'])
 			await vi.advanceTimersByTimeAsync(0)
-			expect(searchController.getRevealOrder()).toEqual(['talk', 'files'])
+			expect(searchController.getRevealOrder()).toEqual(['files', 'talk'])
 		})
 
-		it('re-appends a category that left the search entirely instead of reclaiming its old slot', async () => {
+		it('recovers preferred order after a provider filter round trip', async () => {
 			const first = mockProviders(['files', 'talk'])
 
 			const searchController = new UnifiedSearchController()
@@ -380,24 +379,22 @@ describe('UnifiedSearchController', () => {
 			await vi.advanceTimersByTimeAsync(0)
 			expect(searchController.getRevealOrder()).toEqual(['files', 'talk'])
 
-			// A provider filter narrows the search: files leaves the category list altogether,
-			// which is a different exit from losing its results (that one goes through
-			// syncRevealOrder; this one goes through the prune in search()).
+			// A provider filter narrows the search: files leaves the category list altogether.
 			const second = mockProviders(['talk'])
 			searchController.search('foo', ['talk'])
 			second.talk.resolve(['Talk result'])
 			await vi.advanceTimersByTimeAsync(0)
 			expect(searchController.getRevealOrder()).toEqual(['talk'])
 
-			// The filter comes off. talk never left the screen, so files has to come back below
-			// it: reclaiming slot 0 would shove a rendered group down.
+			// The filter comes off. Each search stands on its own, so files is back on top
+			// instead of being stuck below talk until the popover closes.
 			const third = mockProviders(['files', 'talk'])
 			searchController.search('foo', ['files', 'talk'])
 			third.files.resolve(['Files result'])
 			third.talk.resolve(['Talk result'])
 			await vi.advanceTimersByTimeAsync(0)
 
-			expect(searchController.getRevealOrder()).toEqual(['talk', 'files'])
+			expect(searchController.getRevealOrder()).toEqual(['files', 'talk'])
 		})
 
 		it('never hands out a category the snapshot cannot index, part-way through a search', async () => {
@@ -443,21 +440,20 @@ describe('UnifiedSearchController', () => {
 			first.talk.resolve(['Talk result'])
 			await vi.advanceTimersByTimeAsync(0)
 
-			// A narrower search replaces the first. The dropped categories must
-			// not linger in the snapshot, nor in the display order: the view maps the
-			// order straight onto the snapshot and would hit a missing category.
+			// A narrower search replaces the first. The dropped categories must not linger in
+			// the snapshot, and nothing from the previous query stays on screen.
 			mockProviders(['files'])
 			searchController.search('second', ['files'])
 
 			expect(searchController.getSnapshot()).toEqual({
-				files: { status: 'loading', entries: ['Files result'], cursor: null, hasMore: false, loadMoreFailed: false },
+				files: loading,
 			})
-			expect(searchController.getRevealOrder()).toEqual(['files'])
+			expect(searchController.getRevealOrder()).toEqual([])
 		})
 	})
 
-	describe('stale-while-revalidate', () => {
-		it('keeps the previous results visible while a refetch is in flight', async () => {
+	describe('changing the query', () => {
+		it('drops the previous results as soon as the query changes', async () => {
 			const first = mockProviders(['files'])
 
 			const searchController = new UnifiedSearchController()
@@ -465,19 +461,18 @@ describe('UnifiedSearchController', () => {
 			first.files.resolve(['Old result'])
 			await vi.advanceTimersByTimeAsync(0)
 
-			// A refined query starts a new search. The prior entries must stay on screen
-			// (status loading, entries kept) so the panel does not flash empty mid-request.
+			// The new query is about to return different results, so keeping the old ones up
+			// would only let them shift under the user once the real ones land. Hide, then show.
 			const second = mockProviders(['files'])
 			searchController.search('new', ['files'])
 			expect(searchController.getSnapshot().files).toEqual({
 				status: 'loading',
-				entries: ['Old result'],
+				entries: [],
 				cursor: null,
 				hasMore: false,
 				loadMoreFailed: false,
 			})
 
-			// The fresh page replaces them once it lands.
 			second.files.resolve(['New result'])
 			await vi.advanceTimersByTimeAsync(0)
 			expect(searchController.getSnapshot().files).toEqual({
@@ -489,7 +484,7 @@ describe('UnifiedSearchController', () => {
 			})
 		})
 
-		it('settles a refetched category that carried results straight to loaded, never blocked', async () => {
+		it('puts every category back through the ordered reveal on a new query', async () => {
 			const first = mockProviders(['files', 'talk'])
 
 			const searchController = new UnifiedSearchController()
@@ -499,23 +494,15 @@ describe('UnifiedSearchController', () => {
 			first.talk.resolve(['Old talk'])
 			await vi.advanceTimersByTimeAsync(0)
 
-			// Refine. talk (lower priority) comes back before files this time. It already had
-			// results, so it must not drop into blocked (which excludes it from the rendered
-			// set and blinks it off screen); it stays visible by settling straight to loaded.
+			// Refine. talk comes back first this time. Nothing is on screen to protect any more,
+			// so it takes its turn in the queue again instead of skipping the reveal.
 			const second = mockProviders(['files', 'talk'])
 			searchController.search('new', ['files', 'talk'])
 			second.talk.resolve(['New talk'])
 			await vi.advanceTimersByTimeAsync(0)
 
-			expect(searchController.getSnapshot().talk.status).toBe('loaded')
-			// files is still fetching; its stale page stays up meanwhile.
-			expect(searchController.getSnapshot().files).toEqual({
-				status: 'loading',
-				entries: ['Old files'],
-				cursor: null,
-				hasMore: false,
-				loadMoreFailed: false,
-			})
+			expect(searchController.getSnapshot().talk.status).toBe('blocked')
+			expect(searchController.getRevealOrder()).toEqual([])
 		})
 	})
 
@@ -1070,10 +1057,8 @@ describe('UnifiedSearchController', () => {
 			const searchController = new UnifiedSearchController()
 			searchController.search('first', ['files', 'talk'])
 
-			// The first search spends its window on talk, then stands the timer down. talk
-			// comes back empty so it carries no stale results into the second search, which
-			// would otherwise settle it straight to loaded and never block it.
-			first.talk.resolve([])
+			// The first search spends its window on talk, then stands the timer down.
+			first.talk.resolve(['First talk'])
 			await vi.advanceTimersByTimeAsync(REVEAL_INTERVAL_MS)
 			expect(searchController.getSnapshot().talk.status).toBe('loaded')
 			expect(vi.getTimerCount()).toBe(0)
