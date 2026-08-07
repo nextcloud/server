@@ -1393,6 +1393,38 @@ $CONFIG = [
 	'activity_use_cached_mountpoints' => false,
 
 	/**
+	 * Users excluded from activity expiration.
+	 *
+	 * An array of user IDs whose activity records are never deleted by the
+	 * expiration job, regardless of the ``activity_expire_days`` setting.
+	 * For example::
+	 *
+	 *   'activity_expire_exclude_users' => [
+	 *     'admin',
+	 *     'group_admin',
+	 *   ],
+	 *
+	 * Defaults to ``[]``
+	 */
+	'activity_expire_exclude_users' => [],
+
+	/**
+	 * Per-user activity logging exclusions.
+	 *
+	 * An associative array mapping user IDs to an array of event type strings.
+	 * Activities of the listed event types will not be logged for the
+	 * corresponding user. For example::
+	 *
+	 *   'activity_log_exclude_users' => [
+	 *     'alice' => ['file_created'],
+	 *     'bob' => ['file_created', 'file_changed'],
+	 *   ],
+	 *
+	 * Defaults to ``[]``
+	 */
+	'activity_log_exclude_users' => [],
+
+	/**
 	 * Apps
 	 *
 	 * Options for the Apps folder, Apps store, and App code checker.
