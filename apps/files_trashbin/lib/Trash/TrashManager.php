@@ -42,18 +42,9 @@ class TrashManager implements ITrashManager {
 	#[\Override]
 	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem {
 		foreach ($this->getBackends() as $backend) {
-			if (method_exists($backend, 'getTrashRootItem')) {
-				$item = $backend->getTrashRootItem($user, $name);
-				if ($item !== null) {
-					return $item;
-				}
-			} else {
-				$items = $backend->listTrashRoot($user);
-				foreach ($items as $item) {
-					if ($item->getName() === $name) {
-						return $item;
-					}
-				}
+			$item = $backend->getTrashRootItem($user, $name);
+			if ($item !== null) {
+				return $item;
 			}
 		}
 		return null;
