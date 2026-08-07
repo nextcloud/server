@@ -47,8 +47,11 @@ class LoadSidebarListener implements IEventListener {
 		$showExternalSharing = $appConfig->getValueBool('files_sharing', 'outgoing_server2server_share_enabled', true)
 			|| $appConfig->getValueBool('core', 'shareapi_allow_links', true);
 
+		$sharingDialogEnabled = $appConfig->getValueBool('files_sharing', ConfigLexicon::SHARING_DIALOG_ENABLED, true);
+
 		$this->initialState->provideInitialState('showFederatedSharesAsInternal', $showFederatedAsInternal);
 		$this->initialState->provideInitialState('showFederatedSharesToTrustedServersAsInternal', $showFederatedToTrustedAsInternal);
 		$this->initialState->provideInitialState('showExternalSharing', $showExternalSharing);
+		$this->initialState->provideInitialState('sharingDialogEnabled', $sharingDialogEnabled);
 	}
 }

@@ -27,6 +27,19 @@
 				</SharingEntrySimple>
 			</ul>
 
+			<!-- Unified sharing dialog entry point (replaces the inline inputs) -->
+			<NcButton
+				v-if="config.sharingDialogEnabled"
+				class="sharingTab__share-button"
+				variant="primary"
+				wide
+				@click="openShareDialog">
+				<template #icon>
+					<ShareVariantIcon :size="20" />
+				</template>
+				{{ t('files_sharing', 'Share') }}
+			</NcButton>
+
 			<section>
 				<div class="section-header">
 					<h4>{{ t('files_sharing', 'Internal shares') }}</h4>
@@ -48,7 +61,7 @@
 				</div>
 				<!-- add new share input -->
 				<SharingInput
-					v-if="!loading"
+					v-if="!loading && !config.sharingDialogEnabled"
 					:can-reshare="canReshare"
 					:file-info="fileInfo"
 					:link-shares="linkShares"
@@ -92,7 +105,7 @@
 					</NcPopover>
 				</div>
 				<SharingInput
-					v-if="!loading"
+					v-if="!loading && !config.sharingDialogEnabled"
 					:can-reshare="canReshare"
 					:file-info="fileInfo"
 					:link-shares="linkShares"
@@ -191,6 +204,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCollectionList from '@nextcloud/vue/components/NcCollectionList'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
 import InfoIcon from 'vue-material-design-icons/InformationOutline.vue'
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import SharingEntryInternal from '../components/SharingEntryInternal.vue'
 import SharingEntrySimple from '../components/SharingEntrySimple.vue'
 import SharingInput from '../components/SharingInput.vue'
@@ -203,6 +217,7 @@ import SharingList from './SharingList.vue'
 import ShareDetails from '../mixins/ShareDetails.js'
 import Share from '../models/Share.ts'
 import Config from '../services/ConfigService.ts'
+import { openShareCreateDialog } from '../services/SharingDialog.ts'
 import logger from '../services/logger.ts'
 import { shareWithTitle } from '../utils/SharedWithMe.js'
 
@@ -217,6 +232,7 @@ export default {
 		NcButton,
 		NcCollectionList,
 		NcPopover,
+		ShareVariantIcon,
 		SharingEntryInternal,
 		SharingEntrySimple,
 		SharingInherited,
@@ -346,6 +362,17 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Open the unified sharing dialog to create a share for the current node.
+		 */
+		async openShareDialog() {
+			try {
+				await openShareCreateDialog(this.fileInfo.node)
+			} catch (error) {
+				logger.error('Failed to open the sharing dialog', { error })
+			}
+		},
+
 		/**
 		 * Get the existing shares infos
 		 */
