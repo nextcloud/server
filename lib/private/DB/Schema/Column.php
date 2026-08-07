@@ -33,17 +33,6 @@ class Column implements IColumn {
 	}
 
 	#[\Override]
-	public function setOptions(array $options): self {
-		try {
-			$this->column->setOptions($options);
-		} catch (DBALSchemaException $e) {
-			throw new SchemaException($e->getMessage(), $e->getCode(), $e);
-		}
-
-		return $this;
-	}
-
-	#[\Override]
 	public function setType(string|IType|DBALType $type): self {
 		if ($type instanceof IType) {
 			$type = $type->getName();

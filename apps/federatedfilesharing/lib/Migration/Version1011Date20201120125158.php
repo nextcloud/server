@@ -34,7 +34,7 @@ class Version1011Date20201120125158 extends SimpleMigrationStep {
 			if ($remoteIdColumn->getType()->getName() !== Types::STRING) {
 				$remoteIdColumn->setNotnull(false);
 				$remoteIdColumn->setType(Types::STRING);
-				$remoteIdColumn->setOptions(['length' => 255]);
+				$remoteIdColumn->setLength(255);
 				$remoteIdColumn->setDefault('');
 				return $schema;
 			}
