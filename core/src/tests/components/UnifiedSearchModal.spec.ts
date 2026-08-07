@@ -4,7 +4,7 @@
  */
 import { shallowMount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 // @nextcloud/vue's Window._nc_focus_trap augmentation is not in this test's program,
 // so reach the shared trap stack through a cast. onEscapeKey only compares identity,
@@ -44,11 +44,13 @@ vi.mock('../../logger.js', () => ({
 }))
 
 import UnifiedSearchModal from '../../components/UnifiedSearch/UnifiedSearchModal.vue'
+import { isCategoryVisible } from '../../services/UnifiedSearchController.ts'
 
 let searchSpy: ReturnType<typeof vi.fn>
 let loadMoreSpy: ReturnType<typeof vi.fn>
 let resetSpy: ReturnType<typeof vi.fn>
 let searchStates: ReturnType<typeof ref>
+let revealOrderOverride: ReturnType<typeof ref>
 
 // VTU v1 (the legacy Vue 2.7 project) has no flushPromises export; drain the
 // microtask + timer queue so resolved provider fetches and their .then run.
@@ -73,12 +75,22 @@ beforeEach(() => {
 	searchSpy = vi.fn()
 	loadMoreSpy = vi.fn()
 	searchStates = ref({})
+	// The controller derives the reveal order from what is visible, and when every category
+	// arrives in priority order that is simply the snapshot's key order. Mirror that here,
+	// through the controller's own predicate so the double can't drift from it, and tests
+	// that do not care about order need no extra setup. The ones that do set
+	// revealOrderOverride to make display order diverge from priority order.
+	revealOrderOverride = ref(null)
+	const revealOrder = computed(() => revealOrderOverride.value ?? Object.entries(searchStates.value)
+		.filter(([, state]) => isCategoryVisible(state))
+		.map(([category]) => category))
 	// Faithful stand-in for the composable's reset: like the real one, it empties
 	// the reactive snapshot the modal renders from.
 	resetSpy = vi.fn(() => {
 		searchStates.value = {}
+		revealOrderOverride.value = null
 	})
-	composable.api = { searchStates, search: searchSpy, loadMore: loadMoreSpy, reset: resetSpy }
+	composable.api = { searchStates, revealOrder, search: searchSpy, loadMore: loadMoreSpy, reset: resetSpy }
 })
 afterEach(() => vi.clearAllMocks())
 
@@ -1173,5 +1185,50 @@ describe('UnifiedSearchModal loading state', () => {
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.findComponent({ name: 'NcLoadingIcon' }).exists()).toBe(true)
+	})
+})
+
+describe('UnifiedSearchModal reveal order', () => {
+	const providers = [
+		{ id: 'files', name: 'Files', order: 0 },
+		{ id: 'talk', name: 'Talk', order: 1 },
+		{ id: 'deck', name: 'Deck', order: 2 },
+	]
+
+	/**
+	 * Mount with three loaded categories and an explicit display order.
+	 */
+	async function withRevealOrder(order: string[]) {
+		const wrapper = factory()
+		wrapper.vm.providers = providers
+		searchStates.value = {
+			files: loaded([{ resourceUrl: '/files' }]),
+			talk: loaded([{ resourceUrl: '/talk' }]),
+			deck: loaded([{ resourceUrl: '/deck' }]),
+		}
+		revealOrderOverride.value = order
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		return wrapper
+	}
+
+	it('renders groups and navigable rows in reveal order rather than priority order', async () => {
+		// files has top priority but was slow, so it was revealed last.
+		const wrapper = await withRevealOrder(['talk', 'deck', 'files'])
+
+		const titles = wrapper.findAll('.result-title').wrappers.map((w) => w.text())
+		expect(titles).toEqual(['Talk', 'Deck', 'Files'])
+		// navigableRows must agree with the DOM, or aria-activedescendant names a row
+		// somewhere other than where the highlight is.
+		expect(wrapper.vm.navigableRows.map((row) => row.resourceUrl)).toEqual(['/talk', '/deck', '/files'])
+	})
+
+	it('withholds a category that has results but has not been revealed', async () => {
+		// deck is loaded and non-empty but still blocked behind a slower category, so the
+		// controller keeps it out of the order and the modal must not second-guess that.
+		const wrapper = await withRevealOrder(['files', 'talk'])
+
+		const titles = wrapper.findAll('.result-title').wrappers.map((w) => w.text())
+		expect(titles).toEqual(['Files', 'Talk'])
 	})
 })
