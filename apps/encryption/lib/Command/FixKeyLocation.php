@@ -35,6 +35,8 @@ class FixKeyLocation extends Command {
 	private Manager $encryptionManager;
 	/** @var list<string>|null */
 	private ?array $userKeyBasePaths = null;
+	/** @var array<string, list<string>> */
+	private array $keyDirectoriesCache = [];
 
 	public function __construct(
 		private IUserManager $userManager,
@@ -95,18 +97,29 @@ class FixKeyLocation extends Command {
 				continue;
 			}
 
-			$files = $this->getAllEncryptedFiles($mountRootFolder);
-			foreach ($files as $file) {
+			// collect paths first: processing must not run on a live node graph, the
+			// periodic filesystem reset below would pull storages out from under it
+			$filePaths = [];
+			foreach ($this->getAllEncryptedFiles($mountRootFolder) as $file) {
 				/** @var File $file */
+				$filePaths[] = $file->getPath();
+			}
+
+			foreach ($filePaths as $filePath) {
 				try {
+					$this->resetFilesystemIfNeeded($user);
+					$file = $this->rootFolder->get($filePath);
+					if (!$file instanceof File) {
+						continue;
+					}
 					$this->fixKeysForFile($user, $file, $dryRun, $output);
 				} catch (\Throwable $e) {
-					$failedPaths[] = $file->getPath();
-					$this->logger->error('Failed to fix the key location of ' . $file->getPath(), [
+					$failedPaths[] = $filePath;
+					$this->logger->error('Failed to fix the key location of ' . $filePath, [
 						'app' => 'encryption',
 						'exception' => $e,
 					]);
-					$output->writeln('<error>Failed to process ' . $file->getPath() . ': ' . $e->getMessage() . '</error>');
+					$output->writeln('<error>Failed to process ' . $filePath . ': ' . $e->getMessage() . '</error>');
 				}
 			}
 		}
@@ -114,6 +127,7 @@ class FixKeyLocation extends Command {
 		if ($input->getOption('personal')) {
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 			$personalMountPoint = $userFolder->getMountPoint()->getMountPoint();
+			$filePaths = [];
 			foreach ($this->getAllEncryptedFiles($userFolder) as $file) {
 				/** @var File $file */
 				// group folders, external storages and received shares are their own
@@ -121,15 +135,24 @@ class FixKeyLocation extends Command {
 				if ($file->getMountPoint()->getMountPoint() !== $personalMountPoint) {
 					continue;
 				}
+				$filePaths[] = $file->getPath();
+			}
+
+			foreach ($filePaths as $filePath) {
 				try {
+					$this->resetFilesystemIfNeeded($user);
+					$file = $this->rootFolder->get($filePath);
+					if (!$file instanceof File) {
+						continue;
+					}
 					$this->fixKeysForPersonalFile($user, $file, $dryRun, $output);
 				} catch (\Throwable $e) {
-					$failedPaths[] = $file->getPath();
-					$this->logger->error('Failed to fix the key location of ' . $file->getPath(), [
+					$failedPaths[] = $filePath;
+					$this->logger->error('Failed to fix the key location of ' . $filePath, [
 						'app' => 'encryption',
 						'exception' => $e,
 					]);
-					$output->writeln('<error>Failed to process ' . $file->getPath() . ': ' . $e->getMessage() . '</error>');
+					$output->writeln('<error>Failed to process ' . $filePath . ': ' . $e->getMessage() . '</error>');
 				}
 			}
 		}
@@ -144,6 +167,20 @@ class FixKeyLocation extends Command {
 		}
 
 		return self::SUCCESS;
+	}
+
+	/**
+	 * Accessing another user's key tree sets up that user's filesystem, and the mounts
+	 * accumulate for every tree the key search touches. A teardown drops them all;
+	 * only performed when memory actually grew, the string caches survive it, so no
+	 * directory walk is repeated.
+	 */
+	private function resetFilesystemIfNeeded(IUser $user): void {
+		if (memory_get_usage() < 1024 * 1024 * 1024) {
+			return;
+		}
+		\OC_Util::tearDownFS();
+		\OC_Util::setupFS($user->getUID());
 	}
 
 	/**
@@ -455,35 +492,64 @@ class FixKeyLocation extends Command {
 	}
 
 	/**
-	 * Attempt to find a key for a file even when it's not stored in the expected location
+	 * All key directories below the base path, the ones matching the file name first:
+	 * a matching name is the most likely key, but renames since the key was stranded
+	 * make the name unreliable, so every other key is offered as a candidate as well.
+	 * Validation is cryptographic, a wrong candidate cannot pass.
 	 *
 	 * @return \Generator<string>
 	 */
 	private function findKeysByFileName(string $basePath, string $name) {
-		if (!$this->rootView->is_dir($basePath)) {
-			// no keys stored for the user at all
+		$matching = [];
+		$other = [];
+		foreach ($this->findAllKeyDirectories($basePath) as $keyDirectory) {
+			if (basename($keyDirectory) === $name) {
+				$matching[] = $keyDirectory;
+			} else {
+				$other[] = $keyDirectory;
+			}
+		}
+		yield from $matching;
+		yield from $other;
+	}
+
+	/**
+	 * @return list<string>
+	 */
+	private function findAllKeyDirectories(string $basePath): array {
+		if (isset($this->keyDirectoriesCache[$basePath])) {
+			return $this->keyDirectoriesCache[$basePath];
+		}
+		$keyDirectories = [];
+		if ($this->rootView->is_dir($basePath)) {
+			$this->collectKeyDirectories($basePath, $keyDirectories);
+		}
+		return $this->keyDirectoriesCache[$basePath] = $keyDirectories;
+	}
+
+	/**
+	 * @param list<string> $keyDirectories
+	 */
+	private function collectKeyDirectories(string $path, array &$keyDirectories): void {
+		$dh = $this->rootView->opendir($path);
+		if ($dh === false) {
 			return;
 		}
-		if ($this->rootView->is_dir($basePath . '/' . $name . '/OC_DEFAULT_MODULE')) {
-			yield $basePath . '/' . $name;
-		} else {
-			/** @var false|resource $dh */
-			$dh = $this->rootView->opendir($basePath);
-			if (!$dh) {
-				throw new \Exception('Invalid base path ' . $basePath);
+		while (($child = readdir($dh)) !== false) {
+			if ($child === '.' || $child === '..') {
+				continue;
 			}
-			while ($child = readdir($dh)) {
-				if ($child != '..' && $child != '.') {
-					$childPath = $basePath . '/' . $child;
-
-					// recurse if the child is not a key folder
-					/** @psalm-suppress InternalMethod */
-					if ($this->rootView->is_dir($childPath) && !is_dir($childPath . '/OC_DEFAULT_MODULE')) {
-						yield from $this->findKeysByFileName($childPath, $name);
-					}
-				}
+			$childPath = $path . '/' . $child;
+			if (!$this->rootView->is_dir($childPath)) {
+				continue;
+			}
+			if ($this->rootView->is_dir($childPath . '/OC_DEFAULT_MODULE')) {
+				$keyDirectories[] = $childPath;
+			} else {
+				$this->collectKeyDirectories($childPath, $keyDirectories);
 			}
 		}
+		closedir($dh);
 	}
 
 	/**
