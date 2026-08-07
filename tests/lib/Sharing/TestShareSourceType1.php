@@ -10,8 +10,9 @@ declare(strict_types=1);
 namespace Test\Sharing;
 
 use NCU\Sharing\Icon\ShareIconSVG;
-use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\Source\IShareSourceMetadata;
 use NCU\Sharing\Source\IShareSourceType;
+use NCU\Sharing\Source\ShareSourceMetadata;
 use OCP\Interaction\InteractionResource;
 use OCP\IUser;
 use OCP\L10N\IFactory;
@@ -36,13 +37,22 @@ class TestShareSourceType1 implements IShareSourceType {
 	}
 
 	#[\Override]
-	public function getSourceDisplayName(string $source): ?string {
-		return $this->validSources[$source];
+	public function getSourceMetadata(string $source): ?IShareSourceMetadata {
+		if (isset($this->validSources[$source])) {
+			return new ShareSourceMetadata(
+				$this->validSources[$source],
+				new ShareIconSVG('<svg/>'),
+			);
+		}
+
+		return null;
 	}
 
 	#[\Override]
-	public function getSourceIcon(string $source): null|ShareIconSVG|ShareIconURL {
-		return new ShareIconSVG('<svg/>');
+	public function getSourcesMetadata(array $sources): array {
+		$metas = array_map($this->getSourceMetadata(...), $sources);
+		$metas = array_combine($sources, $metas);
+		return array_filter($metas);
 	}
 
 	#[\Override]
