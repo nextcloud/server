@@ -11,6 +11,7 @@ use OC\Share20\Exception\BackendError;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Node as DavNode;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
@@ -47,8 +48,8 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	public function __construct(
 		private Tree $tree,
 		private IUserSession $userSession,
-		private Folder $userFolder,
 		private IManager $shareManager,
+		private IRootFolder $rootFolder,
 	) {
 		$this->userId = $userSession->getUser()->getUID();
 	}
@@ -79,7 +80,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param Node $node
 	 * @return IShare[]
 	 */
-	private function getShare(Node $node): array {
+	private function getShare(Node $node, bool $includeIncoming = true): array {
 		$result = [];
 		$requestedShareTypes = [
 			IShare::TYPE_USER,
@@ -102,6 +103,10 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 				-1
 			));
 
+			if (!$includeIncoming) {
+				continue;
+			}
+
 			// Also check for shares where the user is the recipient
 			try {
 				$result = array_merge($result, $this->shareManager->getSharedWith(
@@ -116,6 +121,24 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @return IShare[]
+	 */
+	private function getSharesForTarget(Node $node): array {
+		$shares = $this->getShare($node);
+		if ($shares !== []) {
+			return $shares;
+		}
+
+		// also check the owner side
+		$userRoot = $this->rootFolder->getUserFolder($this->userId);
+		while (str_starts_with($node->getPath(), $userRoot->getPath() . '/')) {
+			$shares = array_merge($shares, $this->getShare($node, false));
+			$node = $node->getParent();
+		}
+		return $shares;
 	}
 
 	/**
@@ -233,8 +256,8 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			return true;
 		}
 
-		$targetShares = $this->getShare($targetNode->getNode());
-		if (empty($targetShares)) {
+		$targetShares = $this->getSharesForTarget($targetNode->getNode());
+		if ($targetShares === []) {
 			// Target is not a share so no re-sharing inprogress
 			return true;
 		}

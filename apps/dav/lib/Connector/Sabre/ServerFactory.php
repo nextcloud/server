@@ -16,6 +16,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -152,8 +153,8 @@ class ServerFactory {
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\SharesPlugin(
 					$objectTree,
 					$this->userSession,
-					$userFolder,
-					\OC::$server->getShareManager()
+					\OCP\Server::get(\OCP\Share\IManager::class),
+					\OCP\Server::get(IRootFolder::class),
 				));
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\CommentPropertiesPlugin(\OC::$server->getCommentsManager(), $this->userSession));
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\FilesReportPlugin(
