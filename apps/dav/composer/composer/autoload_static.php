@@ -47,6 +47,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\BulkUpload\\BulkUploadPlugin' => __DIR__ . '/..' . '/../lib/BulkUpload/BulkUploadPlugin.php',
         'OCA\\DAV\\BulkUpload\\MultipartRequestParser' => __DIR__ . '/..' . '/../lib/BulkUpload/MultipartRequestParser.php',
         'OCA\\DAV\\CalDAV\\Activity\\Backend' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Backend.php',
+        'OCA\\DAV\\CalDAV\\Activity\\CalendarFocusedSelector' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/CalendarFocusedSelector.php',
         'OCA\\DAV\\CalDAV\\Activity\\Filter\\Calendar' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Filter/Calendar.php',
         'OCA\\DAV\\CalDAV\\Activity\\Filter\\Todo' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Filter/Todo.php',
         'OCA\\DAV\\CalDAV\\Activity\\Provider\\Base' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Provider/Base.php',

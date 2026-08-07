@@ -12,6 +12,7 @@ namespace OC\AppFramework\Bootstrap;
 use Closure;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\Support\CrashReport\Registry;
+use OCP\Activity\IActivityFocusedSelector;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Middleware;
@@ -166,6 +167,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<IMailProvider>[] */
 	private $mailProviders = [];
+
+	/** @var ServiceRegistration<IActivityFocusedSelector>[] */
+	private array $activityFocusedSelectors = [];
 
 	public function __construct(
 		private LoggerInterface $logger,
@@ -491,6 +495,14 @@ class RegistrationContext {
 					$configLexiconClass
 				);
 			}
+
+			#[\Override]
+			public function registerActivityFocusedSelector(string $activityFocusedSelectorClass): void {
+				$this->context->registerActivityFocusedSelector(
+					$this->appId,
+					$activityFocusedSelectorClass
+				);
+			}
 		};
 	}
 
@@ -707,6 +719,10 @@ class RegistrationContext {
 	 */
 	public function registerConfigLexicon(string $appId, string $configLexiconClass): void {
 		$this->configLexiconClasses[$appId] = $configLexiconClass;
+	}
+
+	public function registerActivityFocusedSelector(string $appId, string $activityFocusedSelectorClass): void {
+		$this->activityFocusedSelectors[] = new ServiceRegistration($appId, $activityFocusedSelectorClass);
 	}
 
 	/**
@@ -1093,5 +1109,12 @@ class RegistrationContext {
 		}
 
 		return Server::get($this->configLexiconClasses[$appId]);
+	}
+
+	/**
+	 * @return ServiceRegistration<IActivityFocusedSelector>[]
+	 */
+	public function getActivityFocusedSelectors(): array {
+		return $this->activityFocusedSelectors;
 	}
 }

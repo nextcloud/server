@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\AppInfo;
 
+use OCA\DAV\CalDAV\Activity\CalendarFocusedSelector;
 use OCA\DAV\CalDAV\AppCalendar\AppCalendarPlugin;
 use OCA\DAV\CalDAV\CachedSubscriptionProvider;
 use OCA\DAV\CalDAV\CalendarManager;
@@ -243,6 +244,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, DavAdminSettingsListener::class);
 
 		$context->registerConfigLexicon(ConfigLexicon::class);
+
+		$context->registerActivityFocusedSelector(CalendarFocusedSelector::class);
 	}
 
 	#[\Override]

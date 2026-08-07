@@ -125,6 +125,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Activity\\Exceptions\\InvalidValueException' => __DIR__ . '/../../..' . '/lib/public/Activity/Exceptions/InvalidValueException.php',
         'OCP\\Activity\\Exceptions\\SettingNotFoundException' => __DIR__ . '/../../..' . '/lib/public/Activity/Exceptions/SettingNotFoundException.php',
         'OCP\\Activity\\Exceptions\\UnknownActivityException' => __DIR__ . '/../../..' . '/lib/public/Activity/Exceptions/UnknownActivityException.php',
+        'OCP\\Activity\\IActivityFocusedSelector' => __DIR__ . '/../../..' . '/lib/public/Activity/IActivityFocusedSelector.php',
         'OCP\\Activity\\IBulkConsumer' => __DIR__ . '/../../..' . '/lib/public/Activity/IBulkConsumer.php',
         'OCP\\Activity\\IConsumer' => __DIR__ . '/../../..' . '/lib/public/Activity/IConsumer.php',
         'OCP\\Activity\\IEvent' => __DIR__ . '/../../..' . '/lib/public/Activity/IEvent.php',
