@@ -652,6 +652,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\FullTextSearch\\Service\\IProviderService' => __DIR__ . '/../../..' . '/lib/public/FullTextSearch/Service/IProviderService.php',
         'OCP\\FullTextSearch\\Service\\ISearchService' => __DIR__ . '/../../..' . '/lib/public/FullTextSearch/Service/ISearchService.php',
         'OCP\\GlobalScale\\IConfig' => __DIR__ . '/../../..' . '/lib/public/GlobalScale/IConfig.php',
+        'OCP\\GlobalScale\\IGlobalScaleService' => __DIR__ . '/../../..' . '/lib/public/GlobalScale/IGlobalScaleService.php',
         'OCP\\GroupInterface' => __DIR__ . '/../../..' . '/lib/public/GroupInterface.php',
         'OCP\\Group\\Backend\\ABackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/ABackend.php',
         'OCP\\Group\\Backend\\IAddToGroupBackend' => __DIR__ . '/../../..' . '/lib/public/Group/Backend/IAddToGroupBackend.php',

@@ -29379,7 +29379,7 @@
                         }
                     },
                     "303": {
-                        "description": "Redirect to login URL",
+                        "description": "Redirect to the login URL",
                         "headers": {
                             "Location": {
                                 "schema": {
@@ -29490,6 +29490,10 @@
                                         },
                                         "user_id": {
                                             "type": "string"
+                                        },
+                                        "x.nc-gss.secondary_url": {
+                                            "type": "string",
+                                            "nullable": true
                                         }
                                     }
                                 }
