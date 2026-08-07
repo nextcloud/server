@@ -64,9 +64,13 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	private $initialized = false;
 
 	/**
-	 * @var ICacheEntry
+	 * The cache entry for the source node, or false when it cannot be found.
+	 *
+	 * `null` means the entry has not been resolved yet.
+	 *
+	 * @var ICacheEntry|false|null
 	 */
-	private $sourceRootInfo;
+	private ICacheEntry|false|null $sourceRootInfo = null;
 
 	/** @var string */
 	private $user;
@@ -120,18 +124,25 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	}
 
 	/**
-	 * @return ICacheEntry
+	 * Resolve the source node's cache entry.
+	 *
+	 * A failed storage supplies a synthetic root entry through FailedCache. Its
+	 * permissions do not include sharing, so isValid() safely denies access.
+	 *
+	 * @return ICacheEntry|false
 	 */
-	private function getSourceRootInfo() {
-		if (is_null($this->sourceRootInfo)) {
-			if (is_null($this->superShare->getNodeCacheEntry())) {
-				$this->init();
-				$this->sourceRootInfo = $this->nonMaskedStorage->getCache()->get($this->rootPath);
-			} else {
-				$this->sourceRootInfo = $this->superShare->getNodeCacheEntry();
-			}
+	private function getSourceRootInfo(): ICacheEntry|false {
+		if ($this->sourceRootInfo !== null) {
+			return $this->sourceRootInfo;
 		}
-		return $this->sourceRootInfo;
+
+		$sourceRootInfo = $this->superShare->getNodeCacheEntry();
+		if ($sourceRootInfo === null) {
+			$this->init();
+			$sourceRootInfo = $this->nonMaskedStorage->getCache()->get($this->rootPath);
+		}
+
+		return $this->sourceRootInfo = $sourceRootInfo;
 	}
 
 	/**
@@ -236,7 +247,9 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	}
 
 	private function isValid(): bool {
-		return $this->getSourceRootInfo() && ($this->getSourceRootInfo()->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
+		$sourceRootInfo = $this->getSourceRootInfo();
+		return $sourceRootInfo !== false
+			&& ($sourceRootInfo->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
 	}
 
 	#[\Override]
@@ -419,12 +432,19 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		if ($this->cache) {
 			return $this->cache;
 		}
+
+		$this->init();
+		if ($this->cache) {
+			return $this->cache;
+		}
+
 		if (!$storage) {
 			$storage = $this;
 		}
+
 		$sourceRoot = $this->getSourceRootInfo();
-		if ($this->storage instanceof FailedStorage) {
-			return new FailedCache();
+		if ($sourceRoot === false) {
+			return $this->cache = new FailedCache();
 		}
 
 		$this->cache = new Cache(
@@ -433,6 +453,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 			$this->cacheDependencies,
 			$this->getShare()
 		);
+
 		return $this->cache;
 	}
 
