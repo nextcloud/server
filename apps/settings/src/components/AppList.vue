@@ -325,13 +325,14 @@ export default {
 					OC.Notification.show(error)
 				})
 		},
-		updateAll() {
+		async updateAll() {
 			const limit = pLimit(1)
-			this.apps
-				.filter(app => app.update)
+			const updateTasks = this.apps
+				.filter((app) => app.update)
 				.map((app) => limit(() => {
 					this.update(app.id)
 				}))
+			await Promise.all(updateTasks)
 		},
 	},
 }
