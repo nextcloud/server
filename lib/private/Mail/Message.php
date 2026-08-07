@@ -58,14 +58,14 @@ class Message implements IMessage {
 		# quoted-printable encoding. We save the current encoder, replace the current
 		# encoder with an 8bit encoder and after we've finished, we reset the encoder
 		# to the previous one. Originally intended to be added after the message body,
-		# as it is curently unknown if all mail clients handle this properly if added
+		# as it is currently unknown if all mail clients handle this properly if added
 		# before.
 		$this->symfonyEmail->embed($body, $name, $contentType);
 		return $this;
 	}
 
 	/**
-	 * Converts the [['displayName' => 'email'], ['displayName2' => 'email2']] arrays to valid Adresses
+	 * Converts the [['displayName' => 'email'], ['displayName2' => 'email2']] arrays to valid Addresses
 	 *
 	 * @param array $addresses Array of mail addresses
 	 * @return Address[]
@@ -308,7 +308,7 @@ class Message implements IMessage {
 		$headers = $this->symfonyEmail->getHeaders();
 
 		if ($headers->has(AutoSubmitted::HEADER)) {
-			// if the header already exsists, remove it.
+			// if the header already exists, remove it.
 			// the value can be modified with some implementations
 			// of the interface \Swift_Mime_Header, however the
 			// interface doesn't, and this makes the static-code
