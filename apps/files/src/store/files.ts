@@ -140,7 +140,7 @@ export const useFilesStore = defineStore('files', () => {
 	 */
 	function deleteNodes(nodes: INode[]) {
 		const entries = Object.entries(files.value)
-			.filter(([, node]) => !nodes.some((n) => n.source === node.source))
+			.filter(([, node]) => !nodes.some((n) => n.source === encodeURI(node.source)))
 		files.value = Object.fromEntries(entries)
 	}
 
