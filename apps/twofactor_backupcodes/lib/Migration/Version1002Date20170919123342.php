@@ -35,7 +35,7 @@ class Version1002Date20170919123342 extends SimpleMigrationStep {
 		$column = $table->getColumn('used');
 		if ($column->getType()->getName() !== Types::SMALLINT) {
 			$column->setType(Types::SMALLINT);
-			$column->setOptions(['length' => 6]);
+			$column->setLength(6);
 		}
 
 		return $schema;

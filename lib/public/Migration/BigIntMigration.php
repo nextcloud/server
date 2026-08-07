@@ -42,7 +42,7 @@ abstract class BigIntMigration extends SimpleMigrationStep {
 				$column = $table->getColumn($columnName);
 				if ($column->getType()->getName() !== Types::BIGINT) {
 					$column->setType(Types::BIGINT);
-					$column->setOptions(['length' => 20]);
+					$column->setLength(20);
 				}
 			}
 		}

@@ -93,7 +93,7 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 			if ($remoteIdColumn->getType()->getName() !== Types::STRING) {
 				$remoteIdColumn->setNotnull(false);
 				$remoteIdColumn->setType(Types::STRING);
-				$remoteIdColumn->setOptions(['length' => 255]);
+				$remoteIdColumn->setLength(255);
 				$remoteIdColumn->setDefault('');
 			}
 			if (!$table->hasColumn('parent')) {

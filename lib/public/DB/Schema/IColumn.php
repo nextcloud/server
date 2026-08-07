@@ -19,14 +19,6 @@ use OCP\AppFramework\Attribute\Consumable;
 #[Consumable(since: '35.0.0')]
 interface IColumn {
 	/**
-	 * @param mixed[] $options
-	 *
-	 * @throws SchemaException
-	 * @since 35.0.0
-	 */
-	public function setOptions(array $options): self;
-
-	/**
 	 * @param \OCP\DB\Types::*|IType $type
 	 * @since 35.0.0
 	 */

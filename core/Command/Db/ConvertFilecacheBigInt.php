@@ -74,7 +74,7 @@ class ConvertFilecacheBigInt extends Command {
 				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
 				if ($column->getType()->getName() !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
 					$column->setType(Types::BIGINT);
-					$column->setOptions(['length' => 20]);
+					$column->setLength(20);
 
 					$updates[] = '* ' . $tableName . '.' . $columnName;
 				}
