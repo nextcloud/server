@@ -372,8 +372,8 @@ class Setup {
 			$dbType = 'sqlite3';
 		}
 
-		$salt = $options['passwordsalt'] ?: $this->random->generate(self::MIN_PASSWORD_SALT_LENGTH);
-		$secret = $options['secret'] ?: $this->random->generate(self::MIN_SECRET_LENGTH);
+		$salt = !empty($options['passwordsalt']) ? $options['passwordsalt'] : $this->random->generate(self::MIN_PASSWORD_SALT_LENGTH);
+		$secret = !empty($options['secret']) ? $options['secret'] : $this->random->generate(self::MIN_SECRET_LENGTH);
 
 		//write the config file
 		$newConfigValues = [
