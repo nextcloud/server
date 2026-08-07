@@ -152,6 +152,7 @@ use OC\User\AvailabilityCoordinator;
 use OC\User\DisplayNameCache;
 use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
+use OC\User\Listeners\UserQuotaChangedListener;
 use OC\User\Session;
 use OC\User\User;
 use OCA\Theming\ImageManager;
@@ -1172,6 +1173,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$eventDispatcher->addServiceListener(LoginFailed::class, LoginFailedListener::class);
 		$eventDispatcher->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
 		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
+		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserQuotaChangedListener::class);
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
 
 		FilesMetadataManager::loadListeners($eventDispatcher);
