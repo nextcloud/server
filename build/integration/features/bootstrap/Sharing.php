@@ -330,8 +330,8 @@ trait Sharing {
 	public function isFieldInResponse($field, $contentExpected) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		if ((string)$field == 'expiration') {
-			if(!empty($contentExpected)) {
-				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
+			if (!empty($contentExpected)) {
+				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 23:59:59';
 			}
 		}
 		if (count($data->element) > 0) {
@@ -630,7 +630,7 @@ trait Sharing {
 		}
 
 		if ($field === 'expiration' && !empty($contentExpected)) {
-			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
+			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 23:59:59';
 		}
 
 		if ($contentExpected === 'A_NUMBER') {
