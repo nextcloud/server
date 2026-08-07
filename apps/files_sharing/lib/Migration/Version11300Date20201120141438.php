@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Migration;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
 use OCP\IDBConnection;
@@ -91,9 +90,9 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 		} else {
 			$table = $schema->getTable('share_external');
 			$remoteIdColumn = $table->getColumn('remote_id');
-			if ($remoteIdColumn && Type::lookupName($remoteIdColumn->getType()) !== Types::STRING) {
+			if ($remoteIdColumn->getType()->getName() !== Types::STRING) {
 				$remoteIdColumn->setNotnull(false);
-				$remoteIdColumn->setType(Type::getType(Types::STRING));
+				$remoteIdColumn->setType(Types::STRING);
 				$remoteIdColumn->setOptions(['length' => 255]);
 				$remoteIdColumn->setDefault('');
 			}
