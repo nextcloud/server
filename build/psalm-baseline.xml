@@ -3672,11 +3672,6 @@
       <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
-  <file src="lib/private/Encryption/Manager.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[bool]]></code>
-    </ImplementedReturnTypeMismatch>
-  </file>
   <file src="lib/private/Federation/CloudFederationProviderManager.php">
     <ParamNameMismatch>
       <code><![CDATA[$providerId]]></code>
