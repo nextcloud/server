@@ -11,9 +11,12 @@ namespace OCA\DAV\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\EventComparisonService;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IAppConfig;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
@@ -66,6 +69,8 @@ class IMipPlugin extends SabreIMipPlugin {
 		private EventComparisonService $eventComparisonService,
 		private IMailManager $mailManager,
 		private IEmailValidator $emailValidator,
+		private IUserManager $userManager,
+		private IAccountManager $accountManager,
 	) {
 		parent::__construct('');
 	}
@@ -184,20 +189,17 @@ class IMipPlugin extends SabreIMipPlugin {
 		}
 		$this->imipService->setL10nFromAttendee($attendee);
 
+		$sender = substr($iTipMessage->sender, 7);
+
 		// Build the sender name.
 		// Due to a bug in sabre, the senderName property for an iTIP message can actually also be a VObject Property
-		// If the iTIP message senderName is null or empty use the user session name as the senderName
 		if (($iTipMessage->senderName instanceof Parameter) && !empty(trim($iTipMessage->senderName->getValue()))) {
 			$senderName = trim($iTipMessage->senderName->getValue());
 		} elseif (is_string($iTipMessage->senderName) && !empty(trim($iTipMessage->senderName))) {
 			$senderName = trim($iTipMessage->senderName);
-		} elseif ($this->userSession->getUser() !== null) {
-			$senderName = trim($this->userSession->getUser()->getDisplayName());
 		} else {
-			$senderName = '';
+			$senderName = $this->getSenderNameFor($sender);
 		}
-
-		$sender = substr($iTipMessage->sender, 7);
 
 		$replyingAttendee = null;
 		switch (strtolower($iTipMessage->method)) {
@@ -336,6 +338,49 @@ class IMipPlugin extends SabreIMipPlugin {
 			$this->logger->error($ex->getMessage(), ['app' => 'dav', 'exception' => $ex]);
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 		}
+	}
+
+	/**
+	 * Resolves a display name for a sender address when the iTip message
+	 * carries no CN parameter.
+	 *
+	 * Messages are regularly brokered on behalf of somebody else, so the
+	 * session user's name is only used when the address is one of theirs.
+	 * Otherwise the address must map unambiguously to a single local user,
+	 * matching how login by email treats ambiguous addresses.
+	 */
+	private function getSenderNameFor(string $sender): ?string {
+		$user = $this->userSession->getUser();
+		if ($user !== null && $this->isAddressOfUser($sender, $user)) {
+			return trim($user->getDisplayName());
+		}
+
+		$candidates = $this->userManager->getByEmail($sender);
+		if (count($candidates) === 1) {
+			return trim($candidates[0]->getDisplayName());
+		}
+
+		return null;
+	}
+
+	/**
+	 * Whether the address is the user's system email address or one of the
+	 * profile email addresses advertised in their calendar-user-address-set.
+	 */
+	private function isAddressOfUser(string $address, IUser $user): bool {
+		if (strcasecmp((string)$user->getEMailAddress(), $address) === 0) {
+			return true;
+		}
+
+		$emailCollection = $this->accountManager->getAccount($user)
+			->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+		foreach ($emailCollection->getProperties() as $property) {
+			if (strcasecmp($property->getValue(), $address) === 0) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
