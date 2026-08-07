@@ -1522,6 +1522,29 @@ class Manager implements IManager {
 	}
 
 	#[\Override]
+	public function getTaskQueuePosition(int $id, ?string $userId): int {
+		try {
+			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
+		} catch (DoesNotExistException $e) {
+			throw new NotFoundException('Could not find the task', 0, $e);
+		} catch (MultipleObjectsReturnedException|\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', 0, $e);
+		}
+
+		if ($taskEntity->getStatus() !== Task::STATUS_SCHEDULED) {
+			throw new PreConditionNotMetException('This task is not scheduled');
+		}
+
+		try {
+			return 1 + $this->taskMapper->countPendingTasksBefore($taskEntity->getLastUpdated());
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem counting pending tasks', 0, $e);
+		}
+	}
+
+	#[\Override]
 	public function getUserTask(int $id, ?string $userId): Task {
 		try {
 			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
