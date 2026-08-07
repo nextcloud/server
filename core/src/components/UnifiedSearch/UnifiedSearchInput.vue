@@ -351,6 +351,7 @@ defineExpose({ focus })
 		.unified-search-input__field--active & {
 			transform: translateX(0);
 			color: var(--color-text-maxcontrast);
+			max-width: calc(100% - 7 * var(--search-icon-pad));
 		}
 	}
 
