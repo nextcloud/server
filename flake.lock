@@ -82,11 +82,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1776116527,
-        "narHash": "sha256-gYC2UjeiEpkhwyOCYsCKbg3sxuq8nGct6VJt0v2XwPY=",
+        "lastModified": 1779986920,
+        "narHash": "sha256-8jciU/p8sshgDQqvdsczjkdO/Z7RBCDpnDxZmTDvl+A=",
         "ref": "refs/heads/main",
-        "rev": "96b7dd671c35a24b6a187393facde27e196888a7",
-        "revCount": 387,
+        "rev": "a3f2355deae7ebd87004fcb4a82588e1b35d7850",
+        "revCount": 407,
         "type": "git",
         "url": "https://codeberg.org/icewind/haze.git"
       },
@@ -120,16 +120,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1772822230,
-        "narHash": "sha256-yf3iYLGbGVlIthlQIk5/4/EQDZNNEmuqKZkQssMljuw=",
+        "lastModified": 1780203844,
+        "narHash": "sha256-K5sT4jTpGs15ADhviMKNBH38REpPf5Q6mM1+N6cArVE=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "71caefce12ba78d84fe618cf61644dce01cf3a96",
+        "rev": "b51242d7d43689db2f3be91bd05d5b24fbb469c4",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-25.11",
+        "ref": "nixos-26.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -145,11 +145,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1772365008,
-        "narHash": "sha256-/ynkWKeZ1dyRIUkQas0AB35semWAwCbTKXu+/q+8MGg=",
+        "lastModified": 1780254980,
+        "narHash": "sha256-aIc9/UJdQ47Q/E0jWyAwwP6TwyFJVNaFyeNF6ITeorA=",
         "owner": "fossar",
         "repo": "nix-phps",
-        "rev": "f47eb877bf1c219809e4357eec2fdab8e3263b7b",
+        "rev": "c7a2eebe0496a686783ce442829d511da21eb321",
         "type": "github"
       },
       "original": {
