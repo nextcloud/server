@@ -698,7 +698,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$action = new ShareAction(null, array_values(array_map(static fn (SharePermission $permission): string => $permission->class, $share->getEnabledPermissions())));
 
 		$usersToCheck = [];
-		if ($share->owner->instance === null && ($ownerUser = $this->userManager->get($share->owner->userId)) !== null) {
+		if ($share->owner->instance === null && ($ownerUser = $this->userManager->get($share->owner->userId)) instanceof IUser) {
 			$usersToCheck[] = $ownerUser;
 		}
 
@@ -733,7 +733,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 					continue;
 				}
 
-				$resources[] = $sourceType->getSourceInteractionResource($userToCheck->getUID(), $source->value);
+				$resources[] = $sourceType->getSourceInteractionResource($userToCheck, $source->value);
 			}
 
 			$event = new RestrictInteractionEvent($userToCheck->getUID(), $userToCheck, $resources, $action, $receivers);

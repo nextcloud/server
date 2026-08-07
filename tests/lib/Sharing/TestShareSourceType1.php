@@ -13,6 +13,7 @@ use NCU\Sharing\Icon\ShareIconSVG;
 use NCU\Sharing\Icon\ShareIconURL;
 use NCU\Sharing\Source\IShareSourceType;
 use OCP\Interaction\InteractionResource;
+use OCP\IUser;
 use OCP\L10N\IFactory;
 
 class TestShareSourceType1 implements IShareSourceType {
@@ -45,7 +46,7 @@ class TestShareSourceType1 implements IShareSourceType {
 	}
 
 	#[\Override]
-	public function getSourceInteractionResource(string $userId, string $source): InteractionResource {
+	public function getSourceInteractionResource(IUser $user, string $source): InteractionResource {
 		return new TestInteractionResource($source);
 	}
 }

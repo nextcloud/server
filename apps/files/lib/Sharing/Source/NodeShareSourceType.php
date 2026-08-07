@@ -27,6 +27,7 @@ use OCP\IDBConnection;
 use OCP\Interaction\InteractionResource;
 use OCP\Interaction\Resources\NodeResource;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\L10N\IFactory;
 
 /**
@@ -72,8 +73,8 @@ final readonly class NodeShareSourceType implements IShareSourceType, IEventList
 	}
 
 	#[\Override]
-	public function getSourceInteractionResource(string $userId, string $source): InteractionResource {
-		return new NodeResource((int)$source, $userId);
+	public function getSourceInteractionResource(IUser $user, string $source): InteractionResource {
+		return new NodeResource((int)$source, $user->getUID());
 	}
 
 	#[\Override]
