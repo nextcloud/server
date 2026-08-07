@@ -660,7 +660,7 @@ class UserConfigTest extends TestCase {
 		array $result,
 	): void {
 		$userConfig = $this->generateUserConfig();
-		$this->assertEqualsCanonicalizing($result, $userConfig->getAllValues($userId, $filtered));
+		$this->assertEquals($result, $userConfig->getAllValues($userId, $filtered));
 	}
 
 	public static function providerSearchValuesByApps(): array {
