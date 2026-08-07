@@ -147,6 +147,19 @@ class IMipPlugin extends SabreIMipPlugin {
 		$oldEvents = $this->getVCalendar();
 
 		$modified = $this->eventComparisonService->findModified($newEvents, $oldEvents);
+		// A newly cancelled occurrence is announced through the separate CANCEL
+		// message; it rides along in the REQUEST only so the attendee's stored copy
+		// stays cancelled and must not produce an invitation email of its own.
+		if (strcasecmp($iTipMessage->method, self::METHOD_REQUEST) === 0 && !empty($modified['new'])) {
+			$modified['new'] = array_values(array_filter(
+				$modified['new'],
+				fn (VEvent $component): bool => !$this->isNewlyCancelledOccurrence($component, $oldEvents),
+			));
+			if (empty($modified['new'])) {
+				$iTipMessage->scheduleStatus = '1.0;We got the message, but it\'s not significant enough to warrant an email';
+				return;
+			}
+		}
 		/** @var VEvent $vEvent */
 		$vEvent = array_pop($modified['new']);
 		/** @var VEvent $oldVevent */
@@ -336,6 +349,33 @@ class IMipPlugin extends SabreIMipPlugin {
 			$this->logger->error($ex->getMessage(), ['app' => 'dav', 'exception' => $ex]);
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 		}
+	}
+
+	/**
+	 * Whether this component is an occurrence override that got cancelled in the
+	 * same write that created it - the only case the broker announces through a
+	 * per-instance CANCEL message. Cancelling a previously modified occurrence
+	 * produces no CANCEL message, so that override must keep its REQUEST email.
+	 * Mirrors the broker's instance tracking, which only registers components
+	 * carrying an ATTENDEE.
+	 */
+	private function isNewlyCancelledOccurrence(VEvent $component, ?VCalendar $oldEvents): bool {
+		if (!isset($component->STATUS) || $component->STATUS->getValue() !== 'CANCELLED'
+			|| !isset($component->{'RECURRENCE-ID'})) {
+			return false;
+		}
+		if ($oldEvents === null) {
+			return true;
+		}
+		$recurrenceId = $component->{'RECURRENCE-ID'}->getValue();
+		foreach ($oldEvents->getComponents() as $oldComponent) {
+			if ($oldComponent instanceof VEvent
+				&& isset($oldComponent->ATTENDEE, $oldComponent->{'RECURRENCE-ID'})
+				&& $oldComponent->{'RECURRENCE-ID'}->getValue() === $recurrenceId) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
