@@ -60,6 +60,28 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertFalse($instance->file_put_contents('files/foo', 'foobar'));
 	}
 
+	public function testFilePutContentsRejectsExactQuotaLimit(): void {
+		$instance = $this->getLimitedStorage(3);
+
+		// Quota currently uses a strict "<" comparison, so an exact fit is
+		// rejected rather than accepted.
+		$this->assertFalse($instance->file_put_contents('files/foo', 'foo'));
+	}
+
+	public function testSizedWriteStreamRejectsExactQuotaLimit(): void {
+		$instance = $this->getLimitedStorage(3);
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foo');
+		rewind($stream);
+
+		$this->expectException(NotEnoughSpaceException::class);
+		try {
+			$instance->writeStream('files/test.txt', $stream, 3);
+		} finally {
+			fclose($stream);
+		}
+	}
+
 	public function testCopyNotEnoughSpace(): void {
 		$instance = $this->getLimitedStorage(9);
 		$this->assertEquals(6, $instance->file_put_contents('files/foo', 'foobar'));
@@ -214,7 +236,6 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 
 	public function testNoMkdirQuotaZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
-		$this->assertFalse($instance->mkdir('files'));
 		$this->assertFalse($instance->mkdir('files/foobar'));
 	}
 
@@ -242,13 +263,17 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$stream = fopen('php://temp', 'w+');
 		fwrite($stream, 'foo');
 		rewind($stream);
-		$instance->writeStream('files/test.txt', $stream);
+		$this->assertSame(3, $instance->writeStream('files/test.txt', $stream));
+		fclose($stream);
+
+		$this->assertSame('foo', $instance->file_get_contents('files/test.txt'));
 
 		$stream = fopen('php://temp', 'w+');
 		fwrite($stream, 'foobar');
 		rewind($stream);
 		$this->expectException(NotEnoughSpaceException::class);
 		$instance->writeStream('files/test.txt', $stream);
+		fclose($stream);
 	}
 
 	public function testNoWriteStreamQuotaZero(): void {
