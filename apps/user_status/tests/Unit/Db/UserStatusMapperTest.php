@@ -13,8 +13,12 @@ use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\DB\Exception;
+use OCP\IDBConnection;
+use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
+#[Group('DB')]
 class UserStatusMapperTest extends TestCase {
 	private UserStatusMapper $mapper;
 
@@ -22,10 +26,10 @@ class UserStatusMapperTest extends TestCase {
 		parent::setUp();
 
 		// make sure that DB is empty
-		$qb = self::$realDatabase->getQueryBuilder();
+		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 		$qb->delete('user_status')->executeStatement();
 
-		$this->mapper = new UserStatusMapper(self::$realDatabase);
+		$this->mapper = new UserStatusMapper(Server::get(IDBConnection::class));
 	}
 
 	public function testGetTableName(): void {

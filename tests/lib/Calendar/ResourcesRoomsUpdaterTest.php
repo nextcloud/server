@@ -17,6 +17,9 @@ use OCP\Calendar\Resource\IBackend;
 use OCP\Calendar\Resource\IManager as IResourceManager;
 use OCP\Calendar\Resource\IResource;
 use OCP\Calendar\Room\IManager as IRoomManager;
+use OCP\IDBConnection;
+use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Test\TestCase;
@@ -24,6 +27,7 @@ use Test\TestCase;
 interface tmpI extends IResource, IMetadataProvider {
 }
 
+#[Group('DB')]
 class ResourcesRoomsUpdaterTest extends TestCase {
 	private ResourcesRoomsUpdater $updater;
 
@@ -56,14 +60,14 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 
 		$this->updater = new ResourcesRoomsUpdater(
 			$this->container,
-			self::$realDatabase,
+			Server::get(IDBConnection::class),
 			$this->calDavBackend
 		);
 	}
 
 	#[\Override]
 	protected function tearDown(): void {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->delete('calendar_resources')->executeStatement();
 		$query->delete('calendar_resources_md')->executeStatement();
 		$query->delete('calendar_rooms')->executeStatement();
@@ -209,7 +213,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 		$this->updater->updateResources();
 		$this->updater->updateRooms();
 
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->select('*')->from('calendar_resources');
 
 		$rows = [];
@@ -221,7 +225,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			$rows[] = $row;
 		}
 
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			[
 				'backend_id' => 'backend1',
 				'resource_id' => 'res1',
@@ -280,7 +284,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			],
 		], $rows);
 
-		$query2 = self::$realDatabase->getQueryBuilder();
+		$query2 = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query2->select('*')->from('calendar_resources_md');
 
 		$rows2 = [];
@@ -290,7 +294,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			$rows2[] = $row;
 		}
 
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			[
 				'resource_id' => $ids['backend2::res3'],
 				'key' => 'meta1',
@@ -335,7 +339,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 	}
 
 	protected function createTestResourcesInCache() {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendar_resources')
 			->values([
 				'backend_id' => $query->createNamedParameter('backend1'),
@@ -399,6 +403,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 			->executeStatement();
 		$id6 = $query->getLastInsertId();
 
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('calendar_resources_md')
 			->values([
 				'resource_id' => $query->createNamedParameter($id3),
