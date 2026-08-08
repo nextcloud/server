@@ -2084,6 +2084,7 @@ return array(
     'OC\\Preview\\BackgroundCleanupJob' => $baseDir . '/lib/private/Preview/BackgroundCleanupJob.php',
     'OC\\Preview\\Bitmap' => $baseDir . '/lib/private/Preview/Bitmap.php',
     'OC\\Preview\\Bundled' => $baseDir . '/lib/private/Preview/Bundled.php',
+    'OC\\Preview\\CDR' => $baseDir . '/lib/private/Preview/CDR.php',
     'OC\\Preview\\Db\\Preview' => $baseDir . '/lib/private/Preview/Db/Preview.php',
     'OC\\Preview\\Db\\PreviewMapper' => $baseDir . '/lib/private/Preview/Db/PreviewMapper.php',
     'OC\\Preview\\EMF' => $baseDir . '/lib/private/Preview/EMF.php',
