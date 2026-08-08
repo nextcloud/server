@@ -66,4 +66,29 @@ class KnownMtimeTest extends Storage {
 		$this->assertEquals($future, $this->instance->stat('foo.txt')['mtime']);
 		$this->assertEquals($future, $this->instance->getMetaData('foo.txt')['mtime']);
 	}
+
+	public function testMoveFromStoragePreservesKnownMtime(): void {
+		$source = new Temporary([]);
+		try {
+			$source->file_put_contents('source.txt', 'content');
+			$mtime = time() - 3600;
+			$source->touch('source.txt', $mtime);
+			$this->fakeTime = time() + 3600;
+
+			$this->assertTrue($this->instance->moveFromStorage($source, 'source.txt', 'target.txt'));
+			$this->assertSame($mtime, $this->instance->filemtime('target.txt'));
+		} finally {
+			$source->cleanUp();
+		}
+	}
+
+	public function testRenamePreservesKnownMtime(): void {
+		$this->instance->file_put_contents('source.txt', 'content');
+		$mtime = time() - 3600;
+		$this->instance->touch('source.txt', $mtime);
+		$this->fakeTime = time() + 3600;
+
+		$this->assertTrue($this->instance->rename('source.txt', 'target.txt'));
+		$this->assertSame($mtime, $this->instance->filemtime('target.txt'));
+	}
 }
