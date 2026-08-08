@@ -1156,6 +1156,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\NCU\Sharing\ISharingRegistry::class, SharingRegistry::class);
 		$this->registerAlias(\NCU\Sharing\ISharingManager::class, SharingManager::class);
+		$this->registerAlias(\NCU\Sharing\ISharingBackend::class, \OC\Sharing\SharingBackend::class);
 
 		$this->connectDispatcher();
 	}
