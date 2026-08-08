@@ -90,7 +90,7 @@
     "eslint": "^10.8.0",
     "eslint-plugin-no-only-tests": "^3.4.0",
     "is-svg": "^6.1.0",
-    "jsdom": "^29.1.1",
+    "jsdom": "^30.0.1",
     "jsdom-testing-mocks": "^1.16.0",
     "msw": "^2.15.0",
     "sass": "^1.102.0",
