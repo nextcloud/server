@@ -8,6 +8,7 @@ $baseDir = $vendorDir;
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Profile\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\Profile\\Controller\\ProfileApiController' => $baseDir . '/../lib/Controller/ProfileApiController.php',
     'OCA\\Profile\\Controller\\ProfilePageController' => $baseDir . '/../lib/Controller/ProfilePageController.php',
     'OCA\\Profile\\Listener\\LoadAdditionalEntriesListener' => $baseDir . '/../lib/Listener/LoadAdditionalEntriesListener.php',
     'OCA\\Profile\\Listener\\ProfilePickerReferenceListener' => $baseDir . '/../lib/Listener/ProfilePickerReferenceListener.php',

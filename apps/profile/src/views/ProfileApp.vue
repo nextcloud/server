@@ -5,6 +5,7 @@
 
 <script setup lang="ts">
 import type { IProfileSection } from '../services/ProfileSections.ts'
+import type { SharedResource } from '../services/sharedResources.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { showError } from '@nextcloud/dialogs'
@@ -27,6 +28,9 @@ import BriefcaseIcon from 'vue-material-design-icons/BriefcaseOutline.vue'
 import MapMarkerIcon from 'vue-material-design-icons/MapMarkerOutline.vue'
 import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
 import ProfileSection from '../components/ProfileSection.vue'
+import SharedResourcesSection from '../components/SharedResourcesSection.vue'
+import { logger } from '../services/logger.ts'
+import { getSharedResources } from '../services/sharedResources.ts'
 
 interface IProfileAction {
 	target: string
@@ -63,6 +67,9 @@ onBeforeMount(() => {
 
 const isCurrentUser = getCurrentUser()?.uid === profileParameters.userId
 const isMobile = useIsMobile()
+const profileDisplayName = profileParameters.displayname || profileParameters.userId || ''
+const showSharedResources = Boolean(!isCurrentUser && profileParameters.userId)
+const sharedResources = ref<SharedResource[] | null>(null)
 
 const primaryAction = profileParameters.actions[0]
 const showEditAsPrimaryAction = computed(() => isMobile.value && isCurrentUser)
@@ -73,12 +80,15 @@ const otherActions = computed(() => showEditAsPrimaryAction.value
 const settingsUrl = generateUrl('/settings/user')
 const emptyProfileMessage = isCurrentUser
 	? t('profile', 'You have not added any info yet')
-	: t('profile', '{user} has not added any info yet', { user: (profileParameters.displayname || profileParameters.userId || '') })
+	: t('profile', '{user} has not added any info yet', { user: profileDisplayName })
 
 onMounted(() => {
 	// Set the user's displayname or userId in the page title and preserve the default title of "Nextcloud" at the end
 	document.title = `${profileParameters.displayname || profileParameters.userId} - ${document.title}`
 	subscribe('user_status:status.updated', handleStatusUpdate)
+	if (showSharedResources) {
+		loadSharedResources()
+	}
 })
 
 onBeforeUnmount(() => {
@@ -93,6 +103,18 @@ onBeforeUnmount(() => {
 function handleStatusUpdate(status: IStatus) {
 	if (isCurrentUser && status.userId === profileParameters.userId) {
 		userStatus.value = status
+	}
+}
+
+/**
+ * Load resources shared between the current user and the profile owner
+ */
+async function loadSharedResources() {
+	try {
+		sharedResources.value = await getSharedResources(profileParameters.userId!)
+	} catch (error) {
+		logger.error('Failed to load shared resources for profile', { error })
+		sharedResources.value = []
 	}
 }
 
@@ -213,6 +235,12 @@ function openStatusModal() {
 								</NcActionLink>
 							</NcActions>
 						</div>
+
+						<!-- Desktop: show shared resources under the actions in the sidebar -->
+						<SharedResourcesSection
+							v-if="!isMobile && showSharedResources && sharedResources"
+							:displayName="profileDisplayName"
+							:resources="sharedResources" />
 					</div>
 
 					<div class="profile__blocks">
@@ -256,6 +284,12 @@ function openStatusModal() {
 								<AccountIcon :size="60" />
 							</template>
 						</NcEmptyContent>
+
+						<!-- Mobile: show shared resources under the description -->
+						<SharedResourcesSection
+							v-if="isMobile && showSharedResources && sharedResources"
+							:displayName="profileDisplayName"
+							:resources="sharedResources" />
 					</div>
 				</div>
 			</div>
