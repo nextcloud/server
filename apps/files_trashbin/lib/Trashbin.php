@@ -234,12 +234,18 @@ class Trashbin implements IEventListener {
 	}
 
 	/**
-	 * move file to the trash bin
+	 * Move a file or directory to the owner's trash bin.
 	 *
-	 * @param string $file_path path to the deleted file/directory relative to the files root directory
-	 * @param bool $ownerOnly delete for owner only (if file gets moved out of a shared folder)
+	 * For items owned by another user, a copy is normally added to the
+	 * deleting user's trash bin as well. Set $ownerOnly to skip that copy.
 	 *
-	 * @return bool
+	 * @param string $file_path Path to the deleted file or directory relative
+	 *                          to the files root directory.
+	 * @param bool $ownerOnly Delete for the owner only, for example when an
+	 *                        item is moved out of a shared folder.
+	 *
+	 * @return bool True if the item was moved successfully or was already
+	 *              absent; false if the trash move failed or was rejected.
 	 */
 	public static function move2trash($file_path, $ownerOnly = false) {
 		// get the user for which the filesystem is setup
@@ -248,18 +254,17 @@ class Trashbin implements IEventListener {
 		[$owner, $ownerPath] = self::getUidAndFilename($file_path);
 
 		// if no owner found (ex: ext storage + share link), will use the current user's trashbin then
-		if (is_null($owner)) {
+		if ($owner === null)) {
 			$owner = $user;
 			$ownerPath = $file_path;
 		}
 
-		$ownerView = new View('/' . $owner);
-
 		// file has been deleted in between
-		if (is_null($ownerPath) || $ownerPath === '') {
+		if ($ownerPath === null || $ownerPath === '') {
 			return true;
 		}
 
+		$ownerView = new View('/' . $owner);
 		$sourceInfo = $ownerView->getFileInfo('/files/' . $ownerPath);
 
 		if ($sourceInfo === false) {
@@ -268,7 +273,7 @@ class Trashbin implements IEventListener {
 
 		self::setUpTrash($user);
 		if ($owner !== $user) {
-			// also setup for owner
+			// The original payload is stored in the owner's trash bin.
 			self::setUpTrash($owner);
 		}
 
@@ -286,6 +291,7 @@ class Trashbin implements IEventListener {
 		$trashPath = '/files_trashbin/files/' . static::getTrashFilename($filename, $timestamp);
 		$gotLock = false;
 
+		// Keep trying until we obtain the lock for a unique trash filename.
 		do {
 			/** @var ILockingStorage & IStorage $trashStorage */
 			[$trashStorage, $trashInternalPath] = $ownerView->resolvePath($trashPath);
@@ -293,9 +299,8 @@ class Trashbin implements IEventListener {
 				$trashStorage->acquireLock($trashInternalPath, ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
 				$gotLock = true;
 			} catch (LockedException $e) {
-				// a file with the same name is being deleted concurrently
-				// nudge the timestamp a bit to resolve the conflict
-
+				// Another deletion is using this filename. Incrementing the
+				// timestamp gives this item a distinct trash filename.
 				$timestamp = $timestamp + 1;
 
 				$trashPath = '/files_trashbin/files/' . static::getTrashFilename($filename, $timestamp);
@@ -318,6 +323,8 @@ class Trashbin implements IEventListener {
 		// there is still a possibility that the file has been deleted by a remote user
 		$deletedBy = self::overwriteDeletedBy($user);
 
+		// Insert metadata before moving the payload; failed moves remove this row
+		// again so metadata and the trash payload remain consistent.
 		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->insert('files_trash')
 			->setValue('id', $query->createNamedParameter($filename))
@@ -359,8 +366,10 @@ class Trashbin implements IEventListener {
 			$inCache = $sourceStorage->getCache()->inCache($sourceInternalPath);
 			$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 			if ($inCache) {
+				// Preserve the existing cache entry when the source was cached.
 				$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 			} else {
+				// Populate the destination cache when the source had no cache entry.
 				$sizeDifference = $sourceInfo->getSize();
 				if ($sizeDifference < 0) {
 					$sizeDifference = null;
@@ -377,7 +386,10 @@ class Trashbin implements IEventListener {
 			Server::get(LoggerInterface::class)->error('Couldn\'t move ' . $file_path . ' to the trash bin', ['app' => 'files_trashbin']);
 		}
 
-		if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
+		// A successful trash move must remove the original source.
+		if ($sourceStorage->file_exists($sourceInternalPath)) {
+			// The move may have succeeded at the storage level, but the source
+			// is still present. Restore cache state and mark the operation failed.
 			if ($sourceStorage->is_dir($sourceInternalPath)) {
 				$sourceStorage->rmdir($sourceInternalPath);
 			} else {
@@ -385,7 +397,7 @@ class Trashbin implements IEventListener {
 			}
 
 			if ($sourceStorage->file_exists($sourceInternalPath)) {
-				// undo the cache move
+				// Restore the cache relationship to match the fact that the source remains.
 				$sourceStorage->getUpdater()->renameFromStorage($trashStorage, $trashInternalPath, $sourceInternalPath);
 			} else {
 				$trashStorage->getUpdater()->remove($trashInternalPath);
@@ -415,12 +427,19 @@ class Trashbin implements IEventListener {
 		}
 
 		if ($moveSuccessful) {
-			Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
-				'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))]);
+			Util::emitHook(
+				'\OCA\Files_Trashbin\Trashbin',
+				'post_moveToTrash',
+				[
+					'filePath' => Filesystem::normalizePath($file_path),
+					'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))
+				]
+			);
 
 			self::retainVersions($filename, $owner, $ownerPath, $timestamp);
 
-			// if owner !== user we need to also add a copy to the users trash
+			// Shared items are stored in the owner's trash and copied to the
+			// deleting user's trash for visibility there.
 			if ($user !== $owner && $ownerOnly === false) {
 				self::copyFilesToUser($ownerPath, $owner, $file_path, $user, $timestamp);
 			}
@@ -430,7 +449,7 @@ class Trashbin implements IEventListener {
 
 		self::scheduleExpire($user);
 
-		// if owner !== user we also need to update the owners trash size
+		// Expiration must be scheduled for both trash bins when they differ.
 		if ($owner !== $user) {
 			self::scheduleExpire($owner);
 		}
