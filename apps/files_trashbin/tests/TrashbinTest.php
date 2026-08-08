@@ -274,6 +274,34 @@ class TrashbinTest extends \Test\TestCase {
 		$this->verifyArray($filesInTrashUser1AfterDelete, ['user1-2.txt', 'user1-4.txt']);
 	}
 
+	public function testDeletingSharedFileAddsItemToBothTrashBins(): void {
+		$user1Folder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+		$file = $user1Folder->newFile('shared.txt');
+		$file->putContent('shared content');
+
+		$share = Server::get(\OCP\Share\IManager::class)->newShare();
+		$share->setShareType(IShare::TYPE_USER)
+			->setNode($file)
+			->setSharedBy(self::TEST_TRASHBIN_USER1)
+			->setSharedWith(self::TEST_TRASHBIN_USER2)
+			->setPermissions(Constants::PERMISSION_ALL);
+		$share = Server::get(\OCP\Share\IManager::class)->createShare($share);
+		Server::get(\OCP\Share\IManager::class)->acceptShare($share, self::TEST_TRASHBIN_USER2);
+
+		self::loginHelper(self::TEST_TRASHBIN_USER2);
+		$this->assertTrue(Filesystem::file_exists('shared.txt'));
+		Filesystem::unlink('shared.txt');
+
+		$this->verifyArray(
+			Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1),
+			['shared.txt']
+		);
+		$this->verifyArray(
+			Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER2),
+			['shared.txt']
+		);
+	}
+
 	/**
 	 * verify that the array contains the expected results
 	 *
@@ -685,6 +713,40 @@ class TrashbinTest extends \Test\TestCase {
 		$folder->delete();
 		$this->assertFalse($userFolder->nodeExists('bar'));
 		$this->assertEquals(3, $view->getFileInfo('')->getSize());
+	}
+
+	public function testMoveToTrashFallsBackToPermanentDeletionWhenConfiguredSizeIsReached(): void {
+		$config = Server::get(IConfig::class);
+		$config->setUserValue(
+			self::TEST_TRASHBIN_USER1,
+			'files_trashbin',
+			'trashbin_size',
+			'1'
+		);
+
+		try {
+			$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+			$file = $userFolder->newFile('too-large.txt');
+			$file->putContent('too large');
+
+			$this->assertTrue($userFolder->nodeExists('too-large.txt'));
+
+			// Node::delete() returns void. Since the trash move is rejected,
+			// Storage falls back to permanently deleting the source file.
+			$file->delete();
+
+			$this->assertFalse($userFolder->nodeExists('too-large.txt'));
+			$this->assertCount(
+				0,
+				Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1)
+			);
+		} finally {
+			$config->deleteUserValue(
+				self::TEST_TRASHBIN_USER1,
+				'files_trashbin',
+				'trashbin_size'
+			);
+		}
 	}
 
 	/**
