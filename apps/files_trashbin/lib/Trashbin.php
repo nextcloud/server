@@ -179,15 +179,22 @@ class Trashbin implements IEventListener {
 	}
 
 	/**
-	 * copy file to owners trash
+	 * Copy a deleted item to the trash bin of a user who is not its owner.
 	 *
-	 * @param string $sourcePath
-	 * @param string $owner
-	 * @param string $targetPath
-	 * @param string $user
-	 * @param int $timestamp
+	 * The owner's trash bin contains the original item. The additional copy is
+	 * needed so that the user who deleted an item from a shared location can see
+	 * it in their own trash bin.
+	 *
+	 * If the user's trash bin has insufficient available space, no copy or
+	 * metadata entry is created.
+	 *
+	 * @param string $sourcePath Path to the item in the owner's files root.
+	 * @param string $owner Owner of the deleted item.
+	 * @param string $targetPath Original path of the item in the deleting user's files root.
+	 * @param string $user User who deleted the item.
+	 * @param int $timestamp Timestamp used to identify the trash item.
 	 */
-	private static function copyFilesToUser($sourcePath, $owner, $targetPath, $user, $timestamp): void {
+	private static function copyFilesToUser(string $sourcePath, string $owner, string $targetPath, string $user, int $timestamp): void {
 		self::setUpTrash($owner);
 
 		$targetFilename = basename($targetPath);
@@ -202,22 +209,27 @@ class Trashbin implements IEventListener {
 		$free = $view->free_space($target);
 		$isUnknownOrUnlimitedFreeSpace = $free < 0;
 		$isEnoughFreeSpaceLeft = $view->filesize($source) < $free;
-		if ($isUnknownOrUnlimitedFreeSpace || $isEnoughFreeSpaceLeft) {
-			self::copy_recursive($source, $target, $view);
+
+		if (!$isUnknownOrUnlimitedFreeSpace && !$isEnoughFreeSpaceLeft) {
+			return;
 		}
 
-		if ($view->file_exists($target)) {
-			$query = Server::get(IDBConnection::class)->getQueryBuilder();
-			$query->insert('files_trash')
-				->setValue('id', $query->createNamedParameter($targetFilename))
-				->setValue('timestamp', $query->createNamedParameter($timestamp))
-				->setValue('location', $query->createNamedParameter($targetLocation))
-				->setValue('user', $query->createNamedParameter($user))
-				->setValue('deleted_by', $query->createNamedParameter($user));
-			$result = $query->executeStatement();
-			if (!$result) {
-				Server::get(LoggerInterface::class)->error('trash bin database couldn\'t be updated for the files owner', ['app' => 'files_trashbin']);
-			}
+		self::copy_recursive($source, $target, $view);
+
+		if (!$view->file_exists($target)) {
+			return;
+		}
+
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
+		$query->insert('files_trash')
+			->setValue('id', $query->createNamedParameter($targetFilename))
+			->setValue('timestamp', $query->createNamedParameter($timestamp))
+			->setValue('location', $query->createNamedParameter($targetLocation))
+			->setValue('user', $query->createNamedParameter($user))
+			->setValue('deleted_by', $query->createNamedParameter($user));
+		$result = $query->executeStatement();
+		if (!$result) {
+			Server::get(LoggerInterface::class)->error('trash bin database couldn\'t be updated for the files owner', ['app' => 'files_trashbin']);
 		}
 	}
 
