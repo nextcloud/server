@@ -1883,7 +1883,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$row = $result->fetchAssociative();
 			$result->closeCursor();
 			if ($row === false) {
-				// Welp, this should possibly not have happened, but let's ignore
+				// Whelp, this should possibly not have happened, but let's ignore
 				return;
 			}
 			$this->addChanges($row['calendarid'], [$row['uri']], 1, (int)$row['calendartype']);
@@ -3457,7 +3457,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						}
 					}
 				}
-				// RRULE can be infinate or limited by a UNTIL or COUNT
+				// RRULE can be infinite or limited by a UNTIL or COUNT
 				if ($component->RRULE) {
 					try {
 						$rule = new EventReaderRRule($component->RRULE->getValue(), $startDate);

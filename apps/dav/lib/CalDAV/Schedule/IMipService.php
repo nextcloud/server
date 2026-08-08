@@ -516,7 +516,7 @@ class IMipService {
 		// generate localized when string
 		// TRANSLATORS
 		// Indicates when a calendar event will happen, shown on invitation emails
-		// Output produced in order, output varies depending on if the event is absolute or releative:
+		// Output produced in order, output varies depending on if the event is absolute or relative:
 		// Absolute: Every Month on the 1, 8 for the entire day
 		// Relative: Every Month on the First Sunday, Saturday for the entire day
 		// Absolute: Every Month on the 1, 8 for the entire day until December 31, 2024
@@ -589,7 +589,7 @@ class IMipService {
 		// generate localized when string
 		// TRANSLATORS
 		// Indicates when a calendar event will happen, shown on invitation emails
-		// Output produced in order, output varies depending on if the event is absolute or releative:
+		// Output produced in order, output varies depending on if the event is absolute or relative:
 		// Absolute: Every Year in July on the 1st for the entire day
 		// Relative: Every Year in July on the First Sunday, Saturday for the entire day
 		// Absolute: Every Year in July on the 1st for the entire day until July 31, 2026

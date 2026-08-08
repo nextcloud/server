@@ -21,7 +21,7 @@ export interface INavigationEntry {
 	name: string
 	/** Whether this is the default app */
 	default?: boolean
-	/** App that registered this navigation entry (not necessarly the same as the id) */
+	/** App that registered this navigation entry (not necessarily the same as the id) */
 	app?: string
 	/** If this app has unread notification */
 	unread: number

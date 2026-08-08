@@ -108,7 +108,7 @@ function clearAndCloseSearch() {
 	padding-inline: var(--border-width-input-focused);
 	// hide the overflow - needed for the transition
 	overflow: hidden;
-	// Ensure the position is fixed also during "position: absolut" (transition)
+	// Ensure the position is fixed also during "position: absolute" (transition)
 	inset-inline-end: 0;
 
 	#{&} &__global-search {
