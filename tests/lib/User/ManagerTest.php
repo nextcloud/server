@@ -174,6 +174,55 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->checkPassword('foo', 'bar'));
 	}
 
+	public function testCheckPasswordWrongPasswordCallsBackendOnce(): void {
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->once())
+			->method('checkPassword')
+			->with($this->equalTo('foo'), $this->equalTo('wrongpass'))
+			->willReturn(false);
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturnCallback(function ($actions) {
+				if ($actions === BACKEND::CHECK_PASSWORD) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager->registerBackend($backend);
+
+		$this->assertFalse($manager->checkPassword('foo', 'wrongpass'));
+	}
+
+	public function testCheckPasswordUrlencodedRetriesWithDecodedValue(): void {
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->exactly(2))
+			->method('checkPassword')
+			->willReturnMap([
+				['foo', '%C3%A9', false],
+				['foo', urldecode('%C3%A9'), 'foo'],
+			]);
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturnCallback(function ($actions) {
+				if ($actions === BACKEND::CHECK_PASSWORD) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager->registerBackend($backend);
+
+		$user = $manager->checkPassword('foo', '%C3%A9');
+		$this->assertTrue($user instanceof User);
+	}
+
 	public function testGetOneBackendExists(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
