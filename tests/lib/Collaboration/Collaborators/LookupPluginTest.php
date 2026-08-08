@@ -139,7 +139,7 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->exactly(2))
+		$this->config->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['gs.enabled', false, true],
@@ -202,7 +202,7 @@ class LookupPluginTest extends TestCase {
 				->method('addResultSet')
 				->with($type, $searchParams['expectedResult'], []);
 
-			$this->config->expects($this->exactly(2))
+			$this->config->expects($this->exactly(3))
 				->method('getSystemValueBool')
 				->willReturnMap([
 					['gs.enabled', false, $GSEnabled],
