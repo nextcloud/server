@@ -172,6 +172,13 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists after clear()');
 	}
 
+	public function testGetUnknownEntryReturnsNull(): void {
+		// Requesting an entry no app has registered must return null without
+		// emitting an "Undefined array key" warning, e.g. when an app without
+		// a navigation entry renders a public page
+		$this->assertNull($this->navigationManager->get('unknown'));
+	}
+
 	public function testAddArrayClearGetAll(): void {
 		$entry = [
 			'id' => 'entry id',
