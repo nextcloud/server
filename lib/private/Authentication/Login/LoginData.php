@@ -16,6 +16,13 @@ class LoginData {
 	/** @var IUser|false|null */
 	private $user = null;
 
+	/**
+	 * True when this login was performed via WebAuthn *and* the authenticator
+	 * verified the user (PIN, biometrics, …), which makes the login itself a
+	 * multi-factor authentication.
+	 */
+	private bool $webAuthnUserVerified = false;
+
 	public function __construct(
 		private IRequest $request,
 		private string $username,
@@ -75,5 +82,13 @@ class LoginData {
 
 	public function isRememberLogin(): bool {
 		return $this->rememberLogin;
+	}
+
+	public function setWebAuthnUserVerified(bool $webAuthnUserVerified): void {
+		$this->webAuthnUserVerified = $webAuthnUserVerified;
+	}
+
+	public function isWebAuthnUserVerified(): bool {
+		return $this->webAuthnUserVerified;
 	}
 }

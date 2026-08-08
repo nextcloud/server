@@ -77,7 +77,7 @@ class WebAuthnController extends Controller {
 		// Obtain the publicKeyCredentialOptions from when we started the registration
 		$publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($this->session->get(self::WEBAUTHN_LOGIN));
 		$uid = $this->session->get(self::WEBAUTHN_LOGIN_UID);
-		$this->webAuthnManger->finishAuthentication($publicKeyCredentialRequestOptions, $data, $uid);
+		$authenticatorData = $this->webAuthnManger->finishAuthentication($publicKeyCredentialRequestOptions, $data, $uid);
 
 		//TODO: add other parameters
 		$loginData = new LoginData(
@@ -85,10 +85,11 @@ class WebAuthnController extends Controller {
 			$uid,
 			''
 		);
-		$this->webAuthnChain->process($loginData);
+		$loginData->setWebAuthnUserVerified($authenticatorData->isUserVerified());
+		$result = $this->webAuthnChain->process($loginData);
 
 		return new JSONResponse([
-			'defaultRedirectUrl' => $this->urlGenerator->linkToDefaultPageUrl(),
+			'defaultRedirectUrl' => $result->getRedirectUrl() ?? $this->urlGenerator->linkToDefaultPageUrl(),
 		]);
 	}
 }
