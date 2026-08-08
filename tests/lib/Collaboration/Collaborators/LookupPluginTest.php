@@ -145,10 +145,11 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['has_internet_connection', true, true],
+				['gss.selfsigned.allow', false, false],
 			]);
 
 		$this->globalScaleConfig->expects($this->once())
@@ -209,10 +210,11 @@ class LookupPluginTest extends TestCase {
 				->method('addResultSet')
 				->with($type, $searchParams['expectedResult'], []);
 
-			$this->config->expects($this->once())
+			$this->config->expects($this->exactly(2))
 				->method('getSystemValueBool')
 				->willReturnMap([
 					['has_internet_connection', true, true],
+					['gss.selfsigned.allow', false, false],
 				]);
 
 			$this->globalScaleConfig->expects($this->once())
