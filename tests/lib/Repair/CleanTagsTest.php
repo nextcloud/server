@@ -97,8 +97,8 @@ class CleanTagsTest extends \Test\TestCase {
 		$this->userManager->expects($this->exactly(2))
 			->method('userExists')
 			->willReturnMap([
-				['userExists', true],
-				['TestRepairCleanTags', false],
+				['userExists', [], true],
+				['TestRepairCleanTags', [], false],
 			]);
 
 		self::invokePrivate($this->repair, 'deleteOrphanTags', [$this->outputMock]);
