@@ -68,6 +68,7 @@ use OCA\DAV\Files\LazySearchBackend;
 use OCA\DAV\Paginate\PaginatePlugin;
 use OCA\DAV\Profiler\ProfilerPlugin;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
+use OCA\DAV\Service\FileGroupingService;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\ChunkingV2Plugin;
@@ -383,7 +384,9 @@ class Server {
 						\OCP\Server::get(IRootFolder::class),
 						$shareManager,
 						$view,
-						\OCP\Server::get(IFilesMetadataManager::class)
+						\OCP\Server::get(IFilesMetadataManager::class),
+						\OCP\Server::get(FileGroupingService::class),
+						\OCP\Server::get(IAppConfig::class),
 					));
 					$this->server->addPlugin(
 						new BulkUploadPlugin(
