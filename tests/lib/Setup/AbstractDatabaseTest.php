@@ -18,9 +18,16 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class AbstractDatabaseTest extends TestCase {
+	/**
+	 * Numeric literal instead of PDO::MYSQL_ATTR_SSL_CA: the constant is deprecated
+	 * since PHP 8.5 and only defined when the MySQL driver is available.
+	 */
+	private const MYSQL_ATTR_SSL_CA = 1008;
+
 	private SystemConfig&MockObject $config;
 	private ConnectionFactory&MockObject $connectionFactory;
 	private Connection&MockObject $connection;
+	private LoggerInterface&MockObject $logger;
 	private TestDatabase $database;
 
 	#[\Override]
@@ -30,11 +37,16 @@ class AbstractDatabaseTest extends TestCase {
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->connectionFactory = $this->createMock(ConnectionFactory::class);
 		$this->connection = $this->createMock(Connection::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+
+		$l10n = $this->createMock(IL10N::class);
+		$l10n->method('t')
+			->willReturnCallback(fn (string $text, array $parameters = []) => vsprintf($text, $parameters));
 
 		$this->database = new TestDatabase(
-			$this->createMock(IL10N::class),
+			$l10n,
 			$this->config,
-			$this->createMock(LoggerInterface::class),
+			$this->logger,
 			$this->createMock(ISecureRandom::class),
 		);
 		$this->database->connectionFactory = $this->connectionFactory;
@@ -73,6 +85,100 @@ class AbstractDatabaseTest extends TestCase {
 			'dbname' => 'nextcloud',
 			'dbhost' => '',
 		]);
+	}
+
+	/**
+	 * The connection encryption options are only read from the system config, so they have
+	 * to be persisted by initialize() - before any connection is opened by setupDatabase().
+	 */
+	public function testInitializePersistsDriverOptions(): void {
+		$this->config->expects($this->once())
+			->method('setValues')
+			->with([
+				'dbname' => 'nextcloud',
+				'dbhost' => 'db.example.org',
+				'dbtableprefix' => 'oc_',
+				'dbdriveroptions' => [self::MYSQL_ATTR_SSL_CA => '/ca.pem'],
+			]);
+
+		$this->database->initialize($this->options([
+			'dbdriveroptions' => [self::MYSQL_ATTR_SSL_CA => '/ca.pem'],
+		]));
+	}
+
+	/**
+	 * Only the options of the database being set up may be persisted, every database
+	 * configures an encrypted connection differently.
+	 */
+	public function testInitializeSkipsOptionsOfOtherDatabases(): void {
+		$this->config->expects($this->once())
+			->method('setValues')
+			->with([
+				'dbname' => 'nextcloud',
+				'dbhost' => 'db.example.org',
+				'dbtableprefix' => 'oc_',
+			]);
+
+		$this->database->initialize($this->options([
+			'pgsql_ssl' => ['mode' => 'verify-full'],
+		]));
+	}
+
+	public static function emptyEncryptionOptions(): array {
+		return [
+			'not provided' => [[]],
+			'empty array' => [['dbdriveroptions' => []]],
+			'null' => [['dbdriveroptions' => null]],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('emptyEncryptionOptions')]
+	public function testInitializeSkipsEmptyEncryptionOptions(array $additional): void {
+		$this->config->expects($this->once())
+			->method('setValues')
+			->with([
+				'dbname' => 'nextcloud',
+				'dbhost' => 'db.example.org',
+				'dbtableprefix' => 'oc_',
+			]);
+
+		$this->database->initialize($this->options($additional));
+	}
+
+	/**
+	 * A malformed option must never be persisted, as that would end up configuring an
+	 * unencrypted connection while the admin expects an encrypted one.
+	 */
+	public function testInitializeRejectsMalformedEncryptionOptions(): void {
+		$this->config->expects($this->once())
+			->method('setValues')
+			->with([
+				'dbname' => 'nextcloud',
+				'dbhost' => 'db.example.org',
+				'dbtableprefix' => 'oc_',
+			]);
+		$this->logger->expects($this->once())
+			->method('error');
+
+		$this->database->initialize($this->options(['dbdriveroptions' => '/ca.pem']));
+	}
+
+	public function testValidateRejectsMalformedEncryptionOptions(): void {
+		$errors = $this->database->validate($this->options(['dbdriveroptions' => '/ca.pem']));
+
+		$this->assertEquals([
+			'The database option "dbdriveroptions" for Test has to be a list of values',
+		], $errors);
+	}
+
+	public function testValidateAcceptsEncryptionOptions(): void {
+		$errors = $this->database->validate($this->options([
+			'dbdriveroptions' => [self::MYSQL_ATTR_SSL_CA => '/ca.pem'],
+			// not an option of this database, so it is not validated either
+			'pgsql_ssl' => 'verify-full',
+		]));
+
+		$this->assertEquals([], $errors);
 	}
 
 	/**
