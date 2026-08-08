@@ -9,6 +9,9 @@ namespace OCA\DAV\Tests\unit\CalDAV\Import;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarImpl;
+use OCA\DAV\CalDAV\Import\ImportCountEvent;
+use OCA\DAV\CalDAV\Import\ImportDisposition;
+use OCA\DAV\CalDAV\Import\ImportObjectEvent;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\Calendar\CalendarImportOptions;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -20,7 +23,6 @@ class ImportServiceTest extends \Test\TestCase {
 	private ImportService $service;
 	private CalendarImpl|MockObject $calendar;
 	private CalDavBackend|MockObject $backend;
-	private array $importResults = [];
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -56,6 +58,7 @@ class ImportServiceTest extends \Test\TestCase {
 		// construct import options
 		$options = new CalendarImportOptions();
 		$options->setFormat('ical');
+		$options->setCounts(true);
 
 		// Mock calendar methods
 		$this->calendar->expects($this->once())
@@ -80,13 +83,18 @@ class ImportServiceTest extends \Test\TestCase {
 			);
 
 		// Act
-		$result = $this->service->import($stream, $this->calendar, $options);
+		$result = iterator_to_array($this->service->import($stream, $this->calendar, $options), false);
 
 		// Assert
 		$this->assertIsArray($result);
-		$this->assertCount(1, $result, 'Import result should contain one item');
-		$this->assertArrayHasKey('96a0e6b1-d886-4a55-a60d-152b31401dcc', $result);
-		$this->assertEquals('created', $result['96a0e6b1-d886-4a55-a60d-152b31401dcc']['outcome']);
+		$this->assertCount(2, $result, 'Import result should contain counts and one item');
+		$this->assertInstanceOf(ImportCountEvent::class, $result[0]);
+		$this->assertSame(1, $result[0]->vevent);
+		$this->assertSame(0, $result[0]->vtodo);
+		$this->assertSame(0, $result[0]->vjournal);
+		$this->assertInstanceOf(ImportObjectEvent::class, $result[1]);
+		$this->assertSame('96a0e6b1-d886-4a55-a60d-152b31401dcc', $result[1]->identifier);
+		$this->assertSame(ImportDisposition::Created, $result[1]->disposition);
 	}
 
 	public function testImportWithMultiLineUID(): void {
@@ -140,12 +148,13 @@ class ImportServiceTest extends \Test\TestCase {
 			);
 
 		// Act
-		$result = $this->service->import($stream, $this->calendar, $options);
+		$result = iterator_to_array($this->service->import($stream, $this->calendar, $options), false);
 
 		// Assert
 		$this->assertIsArray($result);
 		$this->assertCount(1, $result, 'Import result should contain one item');
-		$this->assertArrayHasKey($longUID, $result);
-		$this->assertEquals('created', $result[$longUID]['outcome']);
+		$this->assertInstanceOf(ImportObjectEvent::class, $result[0]);
+		$this->assertSame($longUID, $result[0]->identifier);
+		$this->assertSame(ImportDisposition::Created, $result[0]->disposition);
 	}
 }
