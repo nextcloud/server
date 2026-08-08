@@ -300,6 +300,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertSame(3, $instance->file_put_contents('uploads/foo', 'foo'));
 		$this->assertSame('foo', $instance->file_get_contents('uploads/foo'));
 
+		$this->assertTrue($instance->mkdir('cache'));
 		$this->assertSame(3, $instance->file_put_contents('cache/foo', 'foo'));
 		$this->assertSame('foo', $instance->file_get_contents('cache/foo'));
 	}
@@ -332,7 +333,6 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		fwrite($stream, 'foo');
 		rewind($stream);
 		$this->assertSame(3, $instance->writeStream('files/test.txt', $stream));
-		fclose($stream);
 
 		$this->assertSame('foo', $instance->file_get_contents('files/test.txt'));
 
@@ -354,7 +354,6 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			3,
 			$instance->writeStream('files/test.txt', $stream, 3)
 		);
-		fclose($stream);
 
 		$this->assertSame('foo', $instance->file_get_contents('files/test.txt'));
 	}
