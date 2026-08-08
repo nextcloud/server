@@ -206,6 +206,22 @@ interface ISearchRequest {
 	public function setSubTags(array $tags): ISearchRequest;
 
 	/**
+	 * Add a portion of data to be retrieved from the index.
+	 *
+	 * @since 35.0.0
+	 */
+	public function addPortion(BodyPortion $portion): ISearchRequest;
+
+	/**
+	 * Get the portions of data to be retrieved from the index.
+	 *
+	 * @since 35.0.0
+	 *
+	 * @return list<string>
+	 */
+	public function getPortions(): array;
+
+	/**
 	 * Limit the search to a specific field of the mapping, using a full string.
 	 *
 	 * @since 15.0.0
