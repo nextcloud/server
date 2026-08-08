@@ -76,7 +76,7 @@ class ImportCalendar extends Command {
 		if (!$this->userManager->userExists($userId)) {
 			throw new InvalidArgumentException("User <$userId> not found.");
 		}
-		// retrieve calendar and evaluate if import is supported and writeable
+		// retrieve calendar and evaluate if import is supported and writable
 		$calendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $userId, [$calendarId]);
 		if ($calendars === []) {
 			throw new InvalidArgumentException("Calendar <$calendarId> not found");
@@ -86,7 +86,7 @@ class ImportCalendar extends Command {
 			throw new InvalidArgumentException("Calendar <$calendarId> doesn't support this function");
 		}
 		if (!$calendar->isWritable()) {
-			throw new InvalidArgumentException("Calendar <$calendarId> is not writeable");
+			throw new InvalidArgumentException("Calendar <$calendarId> is not writable");
 		}
 		if ($calendar->isDeleted()) {
 			throw new InvalidArgumentException("Calendar <$calendarId> is deleted");

@@ -690,7 +690,7 @@ class EventReader {
 		$rdateDate = null;
 		$eruleDate = null;
 		$edateDate = null;
-		// evaludate if rrule is set and advance one interation past current date
+		// evaluate if rrule is set and advance one iteration past current date
 		if ($this->rruleIterator !== null) {
 			// forward rrule to the next future date
 			while ($this->rruleIterator->valid() && $this->rruleIterator->current() <= $this->recurrenceCurrentDate) {
@@ -698,7 +698,7 @@ class EventReader {
 			}
 			$rruleDate = $this->rruleIterator->current();
 		}
-		// evaludate if rdate is set and advance one interation past current date
+		// evaluate if rdate is set and advance one iteration past current date
 		if ($this->rdateIterator !== null) {
 			// forward rdate to the next future date
 			while ($this->rdateIterator->valid() && $this->rdateIterator->current() <= $this->recurrenceCurrentDate) {
@@ -714,7 +714,7 @@ class EventReader {
 			$nextOccurrenceDate = $rdateDate;
 		}
 
-		// evaludate if exrule is set and advance one interation past current date
+		// evaluate if exrule is set and advance one iteration past current date
 		if ($this->eruleIterator !== null) {
 			// forward exrule to the next future date
 			while ($this->eruleIterator->valid() && $this->eruleIterator->current() <= $this->recurrenceCurrentDate) {
@@ -722,7 +722,7 @@ class EventReader {
 			}
 			$eruleDate = $this->eruleIterator->current();
 		}
-		// evaludate if exdate is set and advance one interation past current date
+		// evaluate if exdate is set and advance one iteration past current date
 		if ($this->edateIterator !== null) {
 			// forward exdate to the next future date
 			while ($this->edateIterator->valid() && $this->edateIterator->current() <= $this->recurrenceCurrentDate) {
@@ -730,7 +730,7 @@ class EventReader {
 			}
 			$edateDate = $this->edateIterator->current();
 		}
-		// evaludate if exrule and exdate are set and set nextExDate to the first next date
+		// evaluate if exrule and exdate are set and set nextExDate to the first next date
 		if ($eruleDate !== null && $edateDate !== null) {
 			$nextExceptionDate = ($eruleDate <= $edateDate) ? $eruleDate : $edateDate;
 		} elseif ($eruleDate !== null) {
