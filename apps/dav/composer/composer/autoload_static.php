@@ -266,6 +266,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\PublicAuth' => __DIR__ . '/..' . '/../lib/Connector/Sabre/PublicAuth.php',
         'OCA\\DAV\\Connector\\Sabre\\QuotaPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/QuotaPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\RequestIdHeaderPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/RequestIdHeaderPlugin.php',
+        'OCA\\DAV\\Connector\\Sabre\\SerializeMoveCopyPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/SerializeMoveCopyPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\Server' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Server.php',
         'OCA\\DAV\\Connector\\Sabre\\ServerFactory' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ServerFactory.php',
         'OCA\\DAV\\Connector\\Sabre\\ShareTypeList' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ShareTypeList.php',
