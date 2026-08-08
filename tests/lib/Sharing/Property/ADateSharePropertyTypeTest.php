@@ -89,7 +89,7 @@ final class ADateSharePropertyTypeTest extends TestCase {
 		$share = new Share(
 			'123',
 			new ShareUser('user', null),
-			0,
+			new DateTimeImmutable(),
 			ShareState::Active,
 			[],
 			[],

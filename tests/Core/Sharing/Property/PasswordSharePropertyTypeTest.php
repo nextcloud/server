@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Tests\Core\Sharing\Property;
 
+use DateTimeImmutable;
 use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
@@ -59,7 +60,7 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 		return new Share(
 			'123',
 			new ShareUser($this->user->getUID(), null),
-			0,
+			new DateTimeImmutable(),
 			ShareState::Active,
 			[],
 			[],
@@ -72,7 +73,7 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 		$share = new Share(
 			'123',
 			new ShareUser('user', null),
-			0,
+			new DateTimeImmutable(),
 			ShareState::Active,
 			[],
 			[],

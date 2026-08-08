@@ -18,6 +18,7 @@ use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
+use OC\Sharing\SharingManager;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -154,8 +155,7 @@ final class Share {
 		/** @var non-empty-string $id */
 		public readonly string $id,
 		public readonly ShareUser $owner,
-		/** @var non-negative-int $lastUpdated Unix time in milliseconds */
-		public readonly int $lastUpdated,
+		public readonly \DateTimeImmutable $lastUpdated,
 		public readonly ShareState $state,
 		/** @var list<ShareSource> $sources */
 		public readonly array $sources,
@@ -240,7 +240,7 @@ final class Share {
 		return [
 			'id' => $this->id,
 			'owner' => $this->owner->format($userManager),
-			'last_updated' => $this->lastUpdated,
+			'last_updated' => SharingManager::timeToMs($this->lastUpdated),
 			'state' => $this->state->value,
 			'sources' => ShareSource::formatMultiple($registry, $l10nFactory, $this->sources),
 			'recipients' => ShareRecipient::formatMultiple($registry, $l10nFactory, $urlGenerator, $userManager, $this->recipients),
