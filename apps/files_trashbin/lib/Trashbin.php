@@ -254,7 +254,7 @@ class Trashbin implements IEventListener {
 		[$owner, $ownerPath] = self::getUidAndFilename($file_path);
 
 		// if no owner found (ex: ext storage + share link), will use the current user's trashbin then
-		if ($owner === null)) {
+		if ($owner === null) {
 			$owner = $user;
 			$ownerPath = $file_path;
 		}
