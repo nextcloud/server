@@ -116,7 +116,7 @@ describe('files: Download files using default action', { testIsolation: true }, 
 
 		getRowForFile('file.txt')
 			.should('be.visible')
-			.findByRole('button', { name: 'Download' })
+			.findByRole('button', { name: /^Download/ })
 			.click()
 
 		const downloadsFolder = Cypress.config('downloadsFolder')
@@ -136,7 +136,7 @@ describe('files: Download files using default action', { testIsolation: true }, 
 
 		getRowForFile('#file.txt')
 			.should('be.visible')
-			.findByRole('button', { name: 'Download' })
+			.findByRole('button', { name: /^Download/ })
 			.click()
 
 		const downloadsFolder = Cypress.config('downloadsFolder')
@@ -159,7 +159,7 @@ describe('files: Download files using default action', { testIsolation: true }, 
 		// All are visible by default
 		getRowForFile('file.txt')
 			.should('be.visible')
-			.findByRole('button', { name: 'Download' })
+			.findByRole('button', { name: /^Download/ })
 			.click()
 
 		const downloadsFolder = Cypress.config('downloadsFolder')
