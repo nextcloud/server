@@ -393,7 +393,9 @@ class Trashbin implements IEventListener {
 					'timestamp' => $timestamp,
 				]
 			);
-			self::deleteTrashRow($user, $filename, $timestamp);
+			// The metadata row belongs to the owner, even when another user initiated
+			// the deletion.
+			self::deleteTrashRow($owner, $filename, $timestamp);
 			if ($trashStorage->file_exists($trashInternalPath)) {
 				if ($trashStorage->is_dir($trashInternalPath)) {
 					$trashStorage->rmdir($trashInternalPath);
