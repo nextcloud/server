@@ -271,16 +271,13 @@ class AmazonS3 extends Common {
 		return $this->batchDelete();
 	}
 
-	private function batchDelete(?string $path = null): bool {
+	private function batchDelete(string $path = ''): bool {
 		// TODO explore using https://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.S3.BatchDelete.html
+		// an empty path means the whole storage: the bucket prefix, or the entire bucket when none is set
 		$params = [
-			'Bucket' => $this->bucket
+			'Bucket' => $this->bucket,
+			'Prefix' => $this->addPrefix($path === '' ? '' : $path . '/'),
 		];
-		if ($path !== null) {
-			$params['Prefix'] = $this->addPrefix($path . '/');
-		} elseif ($this->prefix !== '') {
-			$params['Prefix'] = $this->prefix;
-		}
 		try {
 			$connection = $this->getConnection();
 			// Since there are no real directories on S3, we need
@@ -303,7 +300,7 @@ class AmazonS3 extends Common {
 				}
 				// we reached the end when the list is no longer truncated
 			} while ($objects['IsTruncated']);
-			if ($path !== '' && $path !== null) {
+			if ($path !== '') {
 				$this->deleteObject($this->addPrefix($path));
 			}
 		} catch (S3Exception $e) {
