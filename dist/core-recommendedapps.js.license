@@ -157,7 +157,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.106.2
+	- version: 5.109.2
 	- license: MIT
 - @nextcloud/vue
 	- version: 9.9.0
@@ -182,6 +182,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - @vue/shared
 	- version: 3.5.40
+	- license: MIT
+- axios
+	- version: 1.18.1
 	- license: MIT
 - birpc
 	- version: 2.9.0
