@@ -58,6 +58,9 @@ export function installTestApp() {
 		// folder, which 0.5.1 renamed from apps_writable to apps-writable.
 		cy.runCommand('test -d apps-writable && echo -n apps-writable || echo -n apps_writable').then(({ stdout }) => {
 			const appsFolder = stdout.trim()
+			// Fail here rather than with an appstore error further down if the
+			// package ever stops providing a writable apps folder altogether.
+			cy.runCommand(`test -d ${appsFolder}`)
 			cy.exec(`docker cp '${testAppPath}' ${containerName}:/var/www/html/${appsFolder}`, { log: true })
 			cy.exec(`docker exec --workdir /var/www/html ${containerName} chown -R www-data:www-data /var/www/html/${appsFolder}/testapp`)
 			cy.runCommand(`sed -i -e 's|-version=\\"[0-9]\\+|-version=\\"${version}|g' ${appsFolder}/testapp/appinfo/info.xml`)

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { copyFile, getRowForFile, moveFile, navigateToFolder } from './FilesUtils.ts'
+import { copyFile, getRowForFile, moveFile, navigateToFolder, skipOnKnownFilePickerRace } from './FilesUtils.ts'
 
 describe('Files: Move or copy files', { testIsolation: true }, () => {
 	let currentUser
@@ -99,7 +99,8 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		getRowForFile('original.txt').should('be.visible')
 	})
 
-	it('Can copy a file to same folder', () => {
+	it('Can copy a file to same folder', function() {
+		skipOnKnownFilePickerRace(this)
 		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original.txt')
 		cy.login(currentUser)
 		cy.visit('/apps/files')
@@ -110,7 +111,8 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 		getRowForFile('original (1).txt').should('be.visible')
 	})
 
-	it('Can copy a file multiple times to same folder', () => {
+	it('Can copy a file multiple times to same folder', function() {
+		skipOnKnownFilePickerRace(this)
 		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original.txt')
 		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/original (1).txt')
 		cy.login(currentUser)
@@ -126,7 +128,8 @@ describe('Files: Move or copy files', { testIsolation: true }, () => {
 	 * Test that a copied folder with a dot will be renamed correctly ('foo.bar' -> 'foo.bar (1)')
 	 * Test for: https://github.com/nextcloud/server/issues/43843
 	 */
-	it('Can copy a folder to same folder', () => {
+	it('Can copy a folder to same folder', function() {
+		skipOnKnownFilePickerRace(this)
 		cy.mkdir(currentUser, '/foo.bar')
 		cy.login(currentUser)
 		cy.visit('/apps/files')

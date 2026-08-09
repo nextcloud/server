@@ -105,14 +105,18 @@ describe('files_trashbin: file row', { testIsolation: true }, () => {
 		cy.login(alice)
 		cy.visit('/apps/files/trashbin')
 
-		getRowForFileId(fileId).should('be.visible')
-		// The full name includes one span for the name and one span for the
-		// extension, so text() returns a space when composing them even if it
-		// will not be visible when rendered in the browser.
-		getRowForFileId(fileId).find('[data-cy-files-list-row-name]').should((element) => expect(element.text().trim()).to.equal('test-file .txt'))
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--original-location"]').should('have.text', 'All files')
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted-by"]').should('have.text', 'You')
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted"]').should('have.text', 'few seconds ago')
+		// `fileId` is assigned in the `.then()` above, so it is still undefined
+		// while the row selectors below are queued.
+		cy.then(() => {
+			getRowForFileId(fileId).should('be.visible')
+			// The full name includes one span for the name and one span for the
+			// extension, so text() returns a space when composing them even if it
+			// will not be visible when rendered in the browser.
+			getRowForFileId(fileId).find('[data-cy-files-list-row-name]').should((element) => expect(element.text().trim()).to.equal('test-file .txt'))
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--original-location"]').should('have.text', 'All files')
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted-by"]').should('have.text', 'You')
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted"]').should('have.text', 'few seconds ago')
+		})
 	})
 
 	it('shows data for file deleted by sharee in a folder shared with a group', () => {
@@ -125,13 +129,15 @@ describe('files_trashbin: file row', { testIsolation: true }, () => {
 		cy.login(alice)
 		cy.visit('/apps/files/trashbin')
 
-		getRowForFileId(fileId).should('be.visible')
-		// The full name includes one span for the name and one span for the
-		// extension, so text() returns a space when composing them even if it
-		// will not be visible when rendered in the browser.
-		getRowForFileId(fileId).find('[data-cy-files-list-row-name]').should((element) => expect(element.text().trim()).to.equal('test-file .txt'))
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--original-location"]').should('have.text', 'Shared')
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted-by"]').should('have.text', 'Bob')
-		getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted"]').should('have.text', 'few seconds ago')
+		cy.then(() => {
+			getRowForFileId(fileId).should('be.visible')
+			// The full name includes one span for the name and one span for the
+			// extension, so text() returns a space when composing them even if it
+			// will not be visible when rendered in the browser.
+			getRowForFileId(fileId).find('[data-cy-files-list-row-name]').should((element) => expect(element.text().trim()).to.equal('test-file .txt'))
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--original-location"]').should('have.text', 'Shared')
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted-by"]').should('have.text', 'Bob')
+			getRowForFileId(fileId).find('[data-cy-files-list-row-column-custom="files_trashbin--deleted"]').should('have.text', 'few seconds ago')
+		})
 	})
 })

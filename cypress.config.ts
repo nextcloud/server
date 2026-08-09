@@ -58,6 +58,11 @@ export default defineConfig({
 		// Disable session isolation
 		testIsolation: false,
 
+		// The default 4s regularly expires on plain rendering latency on slow
+		// CI runners. Prefer explicit waits where a request or state exists to
+		// wait on; this only buys headroom for rendering, which has neither.
+		defaultCommandTimeout: 10000,
+
 		requestTimeout: 30000,
 
 		// We've imported your old cypress plugins here.

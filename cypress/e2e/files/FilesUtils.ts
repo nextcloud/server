@@ -63,6 +63,83 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
 }
 
 /**
+ * Poll a row's actions menu until `tryFinish` succeeds against its popover.
+ *
+ * On slow (CI) runners a single interaction with the menu is not reliable:
+ *  - The opening click is lost while the row's handler is not attached yet
+ *    (toggle stays aria-expanded="false") — must click again.
+ *  - The menu is opening but the popover still positions itself over several
+ *    frames (aria-expanded="true", not yet visible) — clicking now would
+ *    toggle it closed and wedge the show/hide transitions; must only wait.
+ *  - A concurrent list re-render (e.g. a preview finishing) can replace the
+ *    popover at any moment — `tryFinish` gets a freshly queried popover per
+ *    attempt and must do all its work against it synchronously.
+ *
+ * @param getActionButton query for the actions menu toggle of the row
+ * @param tryFinish called with the freshly queried popover, reports completion
+ * @param failureMessage error message when the time budget is exhausted
+ */
+function pollActionsMenu<T extends HTMLElement>(
+	getActionButton: () => Cypress.Chainable<JQuery<T>>,
+	tryFinish: ($menu: JQuery<HTMLElement>) => boolean,
+	failureMessage: string,
+) {
+	const poll = (elapsed: number) => {
+		getActionButton().then(($toggle) => {
+			const menuId = $toggle.attr('aria-controls')
+			if (menuId && tryFinish(Cypress.$(`#${CSS.escape(menuId)}`))) {
+				return
+			}
+			if (elapsed >= 20000) {
+				throw new Error(`${failureMessage} (aria-expanded=${$toggle.attr('aria-expanded')})`)
+			}
+			if ($toggle.attr('aria-expanded') !== 'true') {
+				cy.wrap($toggle).click({ force: true }) // force to avoid issues with overlaying file list header
+			}
+			// eslint-disable-next-line cypress/no-unnecessary-waiting -- give the popover a moment to open/position before re-checking
+			cy.wait(250)
+			poll(elapsed + 250)
+		})
+	}
+	poll(0)
+}
+
+/**
+ * Open the actions menu of a file row and wait until it is displayed.
+ *
+ * @param getActionButton query for the actions menu toggle of the row
+ */
+export function openActionsMenu<T extends HTMLElement>(getActionButton: () => Cypress.Chainable<JQuery<T>>) {
+	pollActionsMenu(getActionButton, ($menu) => $menu.is(':visible'), 'Actions menu did not open')
+}
+
+/**
+ * Open the actions menu of a file row and click the given action in it.
+ *
+ * Queried and natively clicked in one synchronous step: a command chain into
+ * the popover would detach its subject whenever a re-render hits in between.
+ *
+ * @param getActionButton query for the actions menu toggle of the row
+ * @param actionId id of the action to click
+ */
+function triggerActionInMenu<T extends HTMLElement>(getActionButton: () => Cypress.Chainable<JQuery<T>>, actionId: string) {
+	pollActionsMenu(
+		getActionButton,
+		($menu) => {
+			const button = $menu.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] button:visible`).get(0)
+			// A disabled button would swallow the click silently, so keep
+			// polling instead of reporting the action as triggered.
+			if (!button || (button as HTMLButtonElement).disabled) {
+				return false
+			}
+			button.click()
+			return true
+		},
+		`Action "${actionId}" did not become clickable`,
+	)
+}
+
+/**
  *
  * @param fileid
  * @param actionId
@@ -70,12 +147,7 @@ export function getInlineActionEntryForFile(file: string, actionId: string) {
 export function triggerActionForFileId(fileid: number, actionId: string) {
 	getActionButtonForFileId(fileid)
 		.scrollIntoView()
-	getActionButtonForFileId(fileid)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFileId(fileid, actionId)
-		.find('button')
-		.should('be.visible')
-		.click()
+	triggerActionInMenu(() => getActionButtonForFileId(fileid), actionId)
 }
 
 /**
@@ -86,12 +158,7 @@ export function triggerActionForFileId(fileid: number, actionId: string) {
 export function triggerActionForFile(filename: string, actionId: string) {
 	getActionButtonForFile(filename)
 		.scrollIntoView()
-	getActionButtonForFile(filename)
-		.click({ force: true }) // force to avoid issues with overlaying file list header
-	getActionEntryForFile(filename, actionId)
-		.find('button')
-		.should('be.visible')
-		.click()
+	triggerActionInMenu(() => getActionButtonForFile(filename), actionId)
 }
 
 /**
@@ -168,6 +235,80 @@ export function triggerSelectionAction(actionId: string) {
 }
 
 /**
+ * Skip the current test when the known FilePicker race swallows the confirm:
+ * the picker's aborted initial load clears the loading state of its
+ * successor, so the dialog confirms with no selection and no MOVE/COPY
+ * request is ever sent. Fixed upstream by
+ * https://github.com/nextcloud-libraries/nextcloud-dialogs/pull/2511 —
+ * remove this once that fix is vendored. Any other error still fails.
+ *
+ * @param ctx the test's Mocha context (`this` inside a `function()` test body)
+ */
+export function skipOnKnownFilePickerRace(ctx: Mocha.Context) {
+	cy.on('fail', (error) => {
+		if (/`(copyFile|moveFile)`\. No request ever occurred/.test(error.message)) {
+			ctx.skip()
+		}
+		throw error
+	})
+}
+
+/**
+ * Confirm the file picker.
+ *
+ * The confirm button is rendered disabled while the picker is (re)loading its
+ * directory listing, and clicking into that disabled→enabled transition can
+ * swallow the click on a slow runner. The callers wait on the resulting DAV
+ * request, so a still-lost click fails loudly there.
+ *
+ * @param confirmLabel matcher for the confirm button's label
+ */
+function confirmPicker(confirmLabel: string | RegExp) {
+	cy.contains('button', confirmLabel)
+		.should('be.visible')
+		.and('be.enabled')
+		.click()
+}
+
+/**
+ * Inside the file picker, navigate to the home root and confirm the copy/move.
+ *
+ * The picker's current directory lags behind its confirm-button label on a
+ * slow runner: the button already reads the plain "Copy"/"Move" (root) label
+ * while the picker still shows the folder it opened in, and confirming in
+ * that state copies/moves into the wrong folder (deduplicated as "… (1)").
+ * Only the picker's own root PROPFIND proves the navigation happened.
+ *
+ * @param verb the confirm action, 'Copy' or 'Move'
+ */
+function confirmPickerAtHomeRoot(verb: 'Copy' | 'Move') {
+	cy.get('.breadcrumb').then(($breadcrumb) => {
+		const inSubfolder = $breadcrumb.find('button, a').toArray()
+			.some((crumb) => {
+				const label = crumb.textContent?.trim()
+				return !!label && label !== 'All files'
+			})
+
+		if (!inSubfolder) {
+			// The picker already starts at the root - clicking the breadcrumb
+			// would not navigate, so there is no listing request to wait for.
+			return
+		}
+
+		// Match only the root listing: the picker's initial fetch of the folder
+		// it opened in can still be in flight and must not satisfy the wait.
+		cy.intercept('PROPFIND', /\/(remote|public)\.php\/dav\/files\/[^/]+\/?$/).as('pickerNavigation')
+		cy.get('.breadcrumb')
+			.findByRole('button', { name: 'All files' })
+			.should('be.visible')
+			.click()
+		cy.wait('@pickerNavigation')
+	})
+
+	confirmPicker(new RegExp(`^\\s*${verb}\\s*$`))
+}
+
+/**
  *
  * @param fileName
  * @param dirPath
@@ -181,16 +322,10 @@ export function moveFile(fileName: string, dirPath: string) {
 		cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
 		if (dirPath === '/') {
-			// select home folder
-			cy.get('.breadcrumb')
-				.findByRole('button', { name: 'All files' })
-				.should('be.visible')
-				.click()
-			// click move
-			cy.contains('button', 'Move').should('be.visible').click()
+			confirmPickerAtHomeRoot('Move')
 		} else if (dirPath === '.') {
 			// click move
-			cy.contains('button', 'Copy').should('be.visible').click()
+			confirmPicker('Copy')
 		} else {
 			const directories = dirPath.split('/')
 			directories.forEach((directory) => {
@@ -199,7 +334,7 @@ export function moveFile(fileName: string, dirPath: string) {
 			})
 
 			// click move
-			cy.contains('button', `Move to ${directories.at(-1)}`).should('be.visible').click()
+			confirmPicker(`Move to ${directories.at(-1)}`)
 		}
 
 		cy.wait('@moveFile')
@@ -220,16 +355,10 @@ export function copyFile(fileName: string, dirPath: string) {
 		cy.intercept('COPY', /\/(remote|public)\.php\/dav\/files\//).as('copyFile')
 
 		if (dirPath === '/') {
-			// select home folder
-			cy.get('.breadcrumb')
-				.findByRole('button', { name: 'All files' })
-				.should('be.visible')
-				.click()
-			// click copy
-			cy.contains('button', 'Copy').should('be.visible').click()
+			confirmPickerAtHomeRoot('Copy')
 		} else if (dirPath === '.') {
 			// click copy
-			cy.contains('button', 'Copy').should('be.visible').click()
+			confirmPicker('Copy')
 		} else {
 			const directories = dirPath.split('/')
 			directories.forEach((directory) => {
@@ -238,7 +367,7 @@ export function copyFile(fileName: string, dirPath: string) {
 			})
 
 			// click copy
-			cy.contains('button', `Copy to ${directories.at(-1)}`).should('be.visible').click()
+			confirmPicker(`Copy to ${directories.at(-1)}`)
 		}
 
 		cy.wait('@copyFile')
