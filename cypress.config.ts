@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { configureNextcloud, docker, getContainer, getContainerName, runExec, runOcc, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/e2e-test-server'
+import { configureNextcloud, docker, getContainer, getContainerName, runOcc, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/e2e-test-server'
 import { defineConfig } from 'cypress'
 import cypressSplit from 'cypress-split'
 import vitePreprocessor from 'cypress-vite'
@@ -165,9 +165,6 @@ export default defineConfig({
 			config.baseUrl = `http://localhost:${port}/index.php`
 			// if needed for the setup tests, connect to the actions network
 			await connectToActionsNetwork()
-			// make sure not to write into apps but use a local apps folder
-			runExec(['mkdir', 'apps-cypress'])
-			runExec(['cp', 'cypress/fixtures/app.config.php', 'config'])
 			// now wait until Nextcloud is ready and configure it
 			await waitOnNextcloud(ip)
 			await configureNextcloud()
