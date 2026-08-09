@@ -1,1 +1,1 @@
-"use strict";(globalThis.webpackChunknextcloud_ui_legacy=globalThis.webpackChunknextcloud_ui_legacy||[]).push([[5528],{95528(e,l,u){u.r(l),u.d(l,{NcAutoCompleteResult:()=>c.N,NcMentionBubble:()=>a.N,default:()=>c.a});var a=u(26797),c=u(62330)}}]);
+"use strict";(globalThis.webpackChunknextcloud_ui_legacy||=[]).push([[5528],{95528(e,u,l){l.r(u),l.d(u,{NcAutoCompleteResult:()=>a.N,NcMentionBubble:()=>t.N,default:()=>a.a});var t=l(26797),a=l(62330)}}]);
