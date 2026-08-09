@@ -124,7 +124,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param list<string> $excludeBackends A list of IUserBackend::getBackendName() that need to be excluded from the search.
 	 */
 	#[\Override]
-	public function get($uid, array $excludeBackends = []): ?\OCP\IUser {
+	public function get($uid, array $excludeBackends = []): ?IUser {
 		if (is_null($uid) || $uid === '' || $uid === false) {
 			return null;
 		}
