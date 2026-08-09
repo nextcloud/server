@@ -718,7 +718,10 @@ final readonly class SharingBackend implements ISharingBackend {
 					'ss.source_value',
 				)
 				->from('sharing_share_sources', 'ss')
-				->where($qb->expr()->in('ss.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				->where($qb->expr()->in('ss.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
+				->orderBy('ss.share_id', 'ASC')
+				->addOrderBy('ss.source_class', 'ASC')
+				->addOrderBy('ss.source_value', 'ASC');
 
 			$result = $qb->executeQuery();
 			/** @var array{source_class_id: mixed, source_value: non-empty-string, share_id: int}[] $rows */
@@ -777,7 +780,10 @@ final readonly class SharingBackend implements ISharingBackend {
 					'sr.initiator_instance',
 				)
 				->from('sharing_share_recipients', 'sr')
-				->where($qb->expr()->in('sr.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				->where($qb->expr()->in('sr.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
+				->orderBy('sr.share_id', 'ASC')
+				->addOrderBy('sr.recipient_class', 'ASC')
+				->addOrderBy('sr.recipient_value', 'ASC');
 
 			foreach ($qb->executeQuery()->fetchAll() as $row) {
 				/** @var class-string<IShareRecipientType> $typeClass */
