@@ -121,16 +121,10 @@ export const moveFile = (fileName: string, dirPath: string) => {
 		cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
 		if (dirPath === '/') {
-			// select home folder
-			cy.get('.breadcrumb')
-				.findByRole('button', { name: 'All files' })
-				.should('be.visible')
-				.click()
-			// click move
-			cy.contains('button', 'Move').should('be.visible').click()
+			confirmPickerAtHomeRoot('Move')
 		} else if (dirPath === '.') {
 			// click move
-			cy.contains('button', 'Copy').should('be.visible').click()
+			confirmPicker('Copy')
 		} else {
 			const directories = dirPath.split('/')
 			directories.forEach((directory) => {
@@ -139,7 +133,7 @@ export const moveFile = (fileName: string, dirPath: string) => {
 			})
 
 			// click move
-			cy.contains('button', `Move to ${directories.at(-1)}`).should('be.visible').click()
+			confirmPicker(`Move to ${directories.at(-1)}`)
 		}
 
 		cy.wait('@moveFile')
@@ -155,16 +149,10 @@ export const copyFile = (fileName: string, dirPath: string) => {
 		cy.intercept('COPY', /\/(remote|public)\.php\/dav\/files\//).as('copyFile')
 
 		if (dirPath === '/') {
-			// select home folder
-			cy.get('.breadcrumb')
-				.findByRole('button', { name: 'All files' })
-				.should('be.visible')
-				.click()
-			// click copy
-			cy.contains('button', 'Copy').should('be.visible').click()
+			confirmPickerAtHomeRoot('Copy')
 		} else if (dirPath === '.') {
 			// click copy
-			cy.contains('button', 'Copy').should('be.visible').click()
+			confirmPicker('Copy')
 		} else {
 			const directories = dirPath.split('/')
 			directories.forEach((directory) => {
@@ -173,7 +161,7 @@ export const copyFile = (fileName: string, dirPath: string) => {
 			})
 
 			// click copy
-			cy.contains('button', `Copy to ${directories.at(-1)}`).should('be.visible').click()
+			confirmPicker(`Copy to ${directories.at(-1)}`)
 		}
 
 		cy.wait('@copyFile')

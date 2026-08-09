@@ -7,13 +7,62 @@ import { User } from '@nextcloud/cypress'
 
 const admin = new User('admin', 'admin')
 
-const tagName = 'foo'
-const updatedTagName = 'bar'
+// Unique per run so left-overs of an earlier run cannot satisfy - or collide
+// with - the assertions below.
+const tagName = `tag-${randomString(8)}`
+const updatedTagName = `tag-${randomString(8)}`
+
+/**
+ * Remove every system tag, so the dropdown only ever contains what a test made.
+ */
+function deleteAllTags() {
+	cy.runOccCommand('tag:list --output=json').then((output) => {
+		Object.keys(JSON.parse(output.stdout)).forEach((id) => {
+			cy.runOccCommand(`tag:delete ${id}`)
+		})
+	})
+}
+
+/**
+ * Open the admin settings with the tag list already fetched.
+ *
+ * The section loads its tags asynchronously after mount, so opening the tag
+ * dropdown before that response arrives yields an empty list.
+ */
+function visitTagSettings() {
+	cy.intercept('PROPFIND', '**/dav/systemtags').as('fetchTags')
+	cy.visit('/settings/admin')
+	cy.wait('@fetchTags')
+}
+
+/**
+ * Open one of the form's dropdowns and yield its list box.
+ *
+ * The list box is only rendered while the dropdown is open, and the dropdown
+ * opens on click - focussing alone leaves it closed.
+ *
+ * @param inputId id of the dropdown's input element
+ * @return the open list box
+ */
+function openDropdown(inputId: string) {
+	cy.get(`input#${inputId}`).click()
+	return cy.get(`input#${inputId}`)
+		.invoke('attr', 'aria-controls')
+		.then((id) => cy.get(`ul#${id}`).should('be.visible'))
+}
 
 describe('Create system tags', () => {
 	before(() => {
 		cy.login(admin)
-		cy.visit('/settings/admin')
+	})
+
+	// Reset both browser and server state for every attempt: the suite runs
+	// with `testIsolation: false`, so a retry would otherwise inherit the
+	// half-filled form and the already created tag of the attempt that just
+	// failed - and fail with 409 on creating it again.
+	beforeEach(() => {
+		deleteAllTags()
+		visitTagSettings()
 	})
 
 	it('Can create a tag', () => {
@@ -36,9 +85,13 @@ describe('Create system tags', () => {
 })
 
 describe('Update system tags', { testIsolation: false }, () => {
+	// Create the tag this block operates on instead of inheriting it from the
+	// previous block, so a failure there cannot cascade into these tests.
 	before(() => {
+		deleteAllTags()
+		cy.runOccCommand(`tag:add '${tagName}' public`)
 		cy.login(admin)
-		cy.visit('/settings/admin')
+		visitTagSettings()
 	})
 
 	it('select the tag', () => {
@@ -84,9 +137,13 @@ describe('Update system tags', { testIsolation: false }, () => {
 })
 
 describe('Delete system tags', { testIsolation: false }, () => {
+	// Same here: bring the updated tag into existence directly rather than
+	// depending on the previous block having produced it.
 	before(() => {
+		deleteAllTags()
+		cy.runOccCommand(`tag:add '${updatedTagName}' invisible`)
 		cy.login(admin)
-		cy.visit('/settings/admin')
+		visitTagSettings()
 	})
 
 	it('select the tag', () => {

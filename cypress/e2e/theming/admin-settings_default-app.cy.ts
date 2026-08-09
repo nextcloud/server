@@ -72,6 +72,10 @@ describe('Admin theming set default apps', () => {
 	})
 
 	it('Toggle the "use custom default app" switch back to reset the default apps', () => {
+		// Establish the precondition instead of relying on the previous test:
+		// the uncheck below persists an empty default-app config, so a failing
+		// first attempt would poison the precondition of every retry.
+		cy.runOccCommand('config:system:set defaultapp --value \'files,dashboard\'')
 		cy.visit('/settings/admin/theming')
 		cy.get('[data-cy-switch-default-app]').scrollIntoView()
 

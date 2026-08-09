@@ -7,6 +7,8 @@ import { User } from '@nextcloud/cypress'
 import { AuthBackend, createStorageWithConfig, StorageBackend } from './StorageUtils'
 import { getRowForFile } from '../files/FilesUtils'
 
+const CRON_TIMEOUT = 240000
+
 describe('Files user credentials', { testIsolation: true }, () => {
 	let currentUser: User
 

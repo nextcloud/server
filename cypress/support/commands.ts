@@ -17,6 +17,48 @@ const url = (Cypress.config('baseUrl') || '').replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
 
 /**
+ * Login like `@nextcloud/e2e-test-server` does, but actually verify success.
+ * TODO: upstream to `@nextcloud/e2e-test-server`
+ *
+ * The packaged command never checks the POST /login response and validates
+ * cached sessions by requesting /apps/files *following redirects* — a
+ * logged-out session redirects to the login page and still yields 200, so a
+ * failed login (e.g. the csrf race on a slow server) passes silently and
+ * detonates much later in unrelated assertions.
+ *
+ * @param user the user to log in
+ */
+Cypress.Commands.overwrite('login', (_originalFn, user: User) => {
+	cy.session(user, () => {
+		cy.request('/csrftoken').then(({ body }) => {
+			cy.request({
+				method: 'POST',
+				url: '/login',
+				body: {
+					user: user.userId,
+					password: user.password,
+					requesttoken: body.token,
+				},
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+					// The login POST is rejected without a matching Origin header
+					Origin: (Cypress.config('baseUrl') ?? '').replace('index.php/', ''),
+				},
+				followRedirect: false,
+			})
+		})
+	}, {
+		validate() {
+			// Do not follow redirects: a logged-out session would redirect to
+			// the login page and still return 200.
+			cy.request({ url: '/apps/files', followRedirect: false })
+				.its('status')
+				.should('eq', 200)
+		},
+	})
+})
+
+/**
  * Enable or disable a user
  * TODO: standardize in @nextcloud/cypress
  *

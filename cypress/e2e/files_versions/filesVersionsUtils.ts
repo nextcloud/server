@@ -37,18 +37,29 @@ export function toggleVersionMenu(index: number) {
 	cy.get('#tab-version_vue [data-files-versions-version]')
 		.eq(index)
 		.find('button')
-		.click()
+}
+
+export function openVersionMenu(index: number) {
+	openActionsMenu(() => getVersionMenuToggle(index))
+}
+
+export function closeVersionMenu(index: number) {
+	getVersionMenuToggle(index).then(($toggle) => {
+		if ($toggle.attr('aria-expanded') === 'true') {
+			cy.wrap($toggle).click({ force: true })
+		}
+	})
 }
 
 export function triggerVersionAction(index: number, actionName: string) {
-	toggleVersionMenu(index)
+	openVersionMenu(index)
 	cy.get(`[data-cy-files-versions-version-action="${actionName}"]`).filter(':visible').click()
 }
 
 export function nameVersion(index: number, name: string) {
 	cy.intercept('PROPPATCH', '**/dav/versions/*/versions/**').as('labelVersion')
 	triggerVersionAction(index, 'label')
-	cy.get(':focused').type(`${name}{enter}`)
+	cy.focused().type(`${name}{enter}`)
 	cy.wait('@labelVersion')
 }
 
@@ -65,9 +76,11 @@ export function deleteVersion(index: number) {
 }
 
 export function doesNotHaveAction(index: number, actionName: string) {
-	toggleVersionMenu(index)
+	openVersionMenu(index)
 	cy.get(`[data-cy-files-versions-version-action="${actionName}"]`).should('not.exist')
-	toggleVersionMenu(index)
+	// Close the menu again so its entries do not leak into the next assertion
+	// (the action query above is global).
+	closeVersionMenu(index)
 }
 
 export function assertVersionContent(index: number, expectedContent: string) {
@@ -85,6 +98,33 @@ export function setupTestSharedFileFromUser(owner: User, randomFileName: string,
 			createShare(randomFileName, recipient.userId, shareOptions)
 			cy.login(recipient)
 			cy.visit('/apps/files')
+			// On a slow backend the freshly created share can be missing from the
+			// recipient's first directory listing: the mount cache is updated a
+			// moment after the share is committed, and the file list does not
+			// refetch on its own.
+			reloadUntilFileVisible(basename(randomFileName))
 			return cy.wrap(recipient)
 		})
+}
+
+/**
+ * Reload the current file list until the given file appears in it.
+ *
+ * @param fileName Name of the file expected in the current directory
+ * @param attemptsLeft Remaining reloads before giving up
+ */
+function reloadUntilFileVisible(fileName: string, attemptsLeft = 5) {
+	// The list has rendered once at least one row is present (a new user always
+	// has welcome.txt), so we can reliably tell "file missing" from "still loading".
+	cy.get('[data-cy-files-list-row-name]').should('have.length.at.least', 1)
+	cy.get('body').then(($body) => {
+		if ($body.find(`[data-cy-files-list-row-name="${CSS.escape(fileName)}"]`).length > 0) {
+			return
+		}
+		if (attemptsLeft === 0) {
+			throw new Error(`Shared file "${fileName}" never appeared in the recipient's file list after reloading`)
+		}
+		cy.reload()
+		reloadUntilFileVisible(fileName, attemptsLeft - 1)
+	})
 }
