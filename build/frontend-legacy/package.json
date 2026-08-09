@@ -122,6 +122,7 @@
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
     "sass": "^1.101.0",
+    "terser-webpack-plugin": "^5.6.1",
     "typescript": "^5.9.2",
     "vite": "^7.3.6",
     "vitest": "^4.1.9",
