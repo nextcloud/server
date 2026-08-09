@@ -213,7 +213,7 @@ const Dialogs = {
 	 * @param {boolean} [_modal] do not use
 	 * @param {string} [type] Type of file picker : Choose, copy, move, copy and move
 	 * @param {string} [path] path to the folder that the the file can be picket from
-	 * @param {object} [options] additonal options that need to be set
+	 * @param {object} [options] additional options that need to be set
 	 * @param {Function} [options.filter] filter function for advanced filtering
 	 * @param {boolean} [options.allowDirectoryChooser] Allow to select directories
 	 * @deprecated since 27.1.0 use the filepicker from `@nextcloud/dialogs` instead
@@ -245,7 +245,7 @@ const Dialogs = {
 		}
 
 		/**
-		 * Coverting a Node into a legacy file info to support the OC.dialogs.filepicker filter function
+		 * Converting a Node into a legacy file info to support the OC.dialogs.filepicker filter function
 		 *
 		 * @param node The node to convert
 		 */

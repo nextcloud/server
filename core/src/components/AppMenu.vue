@@ -157,7 +157,7 @@ export default defineComponent({
 			// `placement: bottom-start` swaps the anchor edge under RTL but the
 			// skidding sign isn't auto-mirrored, so we flip it here. Snapshot
 			// at init: Nextcloud's language doesn't change at runtime.
-			popoverSkidding: isRTL() ? 82 : -82, // thats the width of the product logo + main container margin
+			popoverSkidding: isRTL() ? 82 : -82, // that's the width of the product logo + main container margin
 		}
 	},
 
