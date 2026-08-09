@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\Sabre;
 
 use OC\Files\FileInfo;
-use OC\Files\View;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCP\Files\IRootFolder;
