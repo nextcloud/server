@@ -50,14 +50,16 @@ describe('Admin theming set default apps', () => {
 		cy.findByRole('region', { name: 'Global default app' })
 			.should('exist')
 			.findByRole('combobox')
-			.as('defaultAppSelect')
 			.scrollIntoView()
 
-		cy.get('@defaultAppSelect')
-			.findByText('Dashboard')
+		// Assert the selected apps via their deselect buttons: `role="combobox"`
+		// sits on the search input, which has no child nodes to search for the
+		// app names in.
+		cy.findByRole('region', { name: 'Global default app' })
+			.findByRole('button', { name: 'Deselect Dashboard' })
 			.should('be.visible')
-		cy.get('@defaultAppSelect')
-			.findByText('Files')
+		cy.findByRole('region', { name: 'Global default app' })
+			.findByRole('button', { name: 'Deselect Files' })
 			.should('be.visible')
 	})
 

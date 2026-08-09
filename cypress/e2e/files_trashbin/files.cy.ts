@@ -50,7 +50,7 @@ describe('files_trashbin: download files', { testIsolation: true }, () => {
 	it('can download a file using default action', () => {
 		getRowForFileId(fileids[0])
 			.should('be.visible')
-			.findByRole('button', { name: 'Download' })
+			.findByRole('button', { name: /^Download(:|$)/ })
 			.click({ force: true })
 
 		const downloadsFolder = Cypress.config('downloadsFolder')
