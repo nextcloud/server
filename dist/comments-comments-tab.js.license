@@ -38,7 +38,6 @@ SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Felix Boehm <me@feedic.com>
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Eduardo San Martin Morote
-SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Ben Drucker
@@ -101,9 +100,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - builtin-status-codes
 	- version: 3.0.0
-	- license: MIT
-- byte-length
-	- version: 1.0.2
 	- license: MIT
 - call-bind-apply-helpers
 	- version: 1.0.2
@@ -319,7 +315,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.10.0
 	- license: MIT
 - webpack
-	- version: 5.107.2
+	- version: 5.109.2
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
