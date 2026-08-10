@@ -4049,7 +4049,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array<string, mixed>[]
 	 */
 	public function getFederatedCalendarsForUser(string $principalUri): array {
-		$federatedCalendars = $this->federatedCalendarMapper->findByPrincipalUri($principalUri);
+		$federatedCalendars = $this->federatedCalendarMapper->findByPrincipalUri(
+			$principalUri,
+			FederatedCalendarEntity::STATE_ACCEPTED,
+		);
 		return array_map(
 			static fn (FederatedCalendarEntity $entity) => $entity->toCalendarInfo(),
 			$federatedCalendars,
@@ -4058,6 +4061,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 	public function getFederatedCalendarByUri(string $principalUri, string $uri): ?array {
 		$federatedCalendar = $this->federatedCalendarMapper->findByUri($principalUri, $uri);
-		return $federatedCalendar?->toCalendarInfo();
+		if ($federatedCalendar === null
+			|| $federatedCalendar->getState() !== FederatedCalendarEntity::STATE_ACCEPTED) {
+			return null;
+		}
+		return $federatedCalendar->toCalendarInfo();
 	}
 }
