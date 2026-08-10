@@ -324,12 +324,12 @@
     },
     "tags": [
         {
-            "name": "request_handler",
-            "description": "Open-Cloud-Mesh-API"
-        },
-        {
             "name": "token",
             "description": "Controller for the /token endpoint Exchanges long-lived refresh tokens for short-lived access tokens"
+        },
+        {
+            "name": "request_handler",
+            "description": "Open-Cloud-Mesh-API"
         }
     ]
 }

@@ -161,6 +161,27 @@ interface IOCMProvider extends JsonSerializable {
 	public function setInviteAcceptDialog(string $inviteAcceptDialog): static;
 
 	/**
+	 * get the URL of the JWK Set document (RFC 7517) containing the public
+	 * keys this OCM provider uses for HTTP Message Signatures (RFC 9421)
+	 *
+	 * @return string empty string if not advertised
+	 * @since 35.0.0
+	 */
+	public function getJwksUri(): string;
+
+	/**
+	 * set the URL of the JWK Set document (RFC 7517) containing the public
+	 * keys this OCM provider uses for HTTP Message Signatures (RFC 9421).
+	 * MUST use https when the `http-sig` capability is advertised.
+	 *
+	 * @param string $jwksUri
+	 *
+	 * @return $this
+	 * @since 35.0.0
+	 */
+	public function setJwksUri(string $jwksUri): static;
+
+	/**
 	 * get the token endpoint URL
 	 *
 	 * @return string
@@ -230,7 +251,8 @@ interface IOCMProvider extends JsonSerializable {
 	 *         shareTypes: list<string>,
 	 *         protocols: array<string, string>
 	 *     }>,
-	 *     version: string
+	 *     version: string,
+	 *     jwksUri?: string
 	 * }
 	 * @since 28.0.0
 	 */

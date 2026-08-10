@@ -66,6 +66,8 @@ interface ISignatureManager {
 	 *
 	 * @param ISignatoryManager $signatoryManager used to get details about remote instance
 	 * @param string|null $body if NULL, body will be extracted from php://input
+	 * @param string|null $origin for RFC 9421, the signer origin from the caller
+	 *                            (the keyid is opaque)
 	 *
 	 * @return IIncomingSignedRequest
 	 * @throws IncomingRequestException if anything looks wrong with the incoming request
@@ -73,7 +75,11 @@ interface ISignatureManager {
 	 * @throws SignatureException if signature could not be confirmed
 	 * @since 33.0.0
 	 */
-	public function getIncomingSignedRequest(ISignatoryManager $signatoryManager, ?string $body = null): IIncomingSignedRequest;
+	public function getIncomingSignedRequest(
+		ISignatoryManager $signatoryManager,
+		?string $body = null,
+		?string $origin = null,
+	): IIncomingSignedRequest;
 
 	/**
 	 * Preparing signature (and headers) to sign an outgoing request.

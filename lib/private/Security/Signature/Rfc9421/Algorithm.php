@@ -110,7 +110,8 @@ final class Algorithm {
 	}
 
 	/**
-	 * Map a JOSE alg (RFC 7518/8037) to the RFC 9421 native identifier.
+	 * Map a JOSE alg (RFC 7518/8037, including fully-specified RFC 9864
+	 * names such as `Ed25519`) to the RFC 9421 native identifier.
 	 * Pass-through if already native.
 	 *
 	 * @throws SignatureException
@@ -132,9 +133,9 @@ final class Algorithm {
 	}
 
 	/**
-	 * Default JOSE alg for {@see \Firebase\JWT\JWK::parseKey} when the JWK has
-	 * no `alg` (RFC 7517 leaves it optional). Null if kty/crv don't pin one
-	 * down (e.g. RSA, where the hash isn't determined).
+	 * JOSE alg implied by a JWK's kty/crv, used to cross-check the JWK's
+	 * mandatory `alg` member against its key material. Null if kty/crv
+	 * don't pin one down (e.g. RSA, where the hash isn't determined).
 	 *
 	 * @param array<string, mixed> $jwk
 	 */

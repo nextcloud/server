@@ -23,39 +23,42 @@ use OC\Security\Signature\Rfc9421\ContentDigest;
 use OC\Security\Signature\Rfc9421\SignatureBase;
 use OC\Security\Signature\SignatureManager;
 use OCP\IRequest;
-use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\Exceptions\InvalidSignatureException;
 use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
 use OCP\Security\Signature\Exceptions\SignatureException;
 use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
 use OCP\Security\Signature\IIncomingSignedRequest;
-use OCP\Security\Signature\Model\Signatory;
 
 /**
  * RFC 9421 implementation of {@see IIncomingSignedRequest}. Parses the
- * inbound Signature-Input / Signature dictionaries, picks the OCM-labeled
- * entry (RFC 9421 §3.2 lets verifiers scope by policy), and rebuilds the
- * signature base per RFC 9421 §2.5. Crypto is deferred to {@see verify()},
- * which needs a {@see Key} attached via {@see setKey()}. Body integrity
- * (RFC 9530 content-digest) is checked before verify() if covered.
+ * inbound Signature-Input / Signature dictionaries, picks the single entry
+ * carrying the `tag="ocm"` signature parameter (disregarding dictionary
+ * labels, as mandated by the OCM spec), and rebuilds the signature base per
+ * RFC 9421 §2.5. Crypto is deferred to {@see verify()}, which needs a
+ * {@see Key} attached via {@see setKey()}. Body integrity (RFC 9530
+ * content-digest) is checked before verify() if covered.
  */
 class Rfc9421IncomingSignedRequest extends SignedRequest implements
 	IIncomingSignedRequest,
 	JsonSerializable {
-	/** Baseline cover for OCM. Override via `rfc9421.requiredComponents`. */
-	private const DEFAULT_REQUIRED_COMPONENTS = [
+	/**
+	 * Baseline cover for OCM. Override via `rfc9421.requiredComponents`.
+	 * The `Date` header is deliberately not part of the required set:
+	 * freshness is anchored on the `created` signature parameter.
+	 */
+	public const REQUIRED_COMPONENTS = [
 		'@method',
 		'@target-uri',
 		'content-digest',
 		'content-length',
-		'date',
 	];
 
 	/** Max clock skew (seconds) for `created`. Override via `rfc9421.maxClockSkew`. */
 	private const DEFAULT_MAX_FUTURE_SKEW = 60;
 
 	private string $origin = '';
+	private string $label;
 	/** @var list<string> */
 	private array $components;
 	/** @var array<string, scalar> */
@@ -88,26 +91,42 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 		$inputs = self::parseSignatureInput($signatureInputHeader);
 		$signatures = self::parseSignature($signatureHeader);
 
-		// OCM policy (stricter than RFC 8941 §4.2 last-wins): a duplicate
-		// `ocm` entry is ambiguous; the entire request MUST be rejected.
-		if (self::countLabel($signatureInputHeader, 'ocm') > 1
-			|| self::countLabel($signatureHeader, 'ocm') > 1) {
+		// The OCM signature is identified by its integrity-protected
+		// `tag="ocm"` parameter, disregarding dictionary labels. A message
+		// carrying more than one such signature MUST be rejected; one
+		// without any is unsigned as far as OCM is concerned.
+		$tagged = [];
+		foreach ($inputs as $label => $entry) {
+			if (($entry['params']['tag'] ?? null) === 'ocm') {
+				$tagged[] = $label;
+			}
+		}
+		if (count($tagged) > 1) {
+			throw new IncomingRequestException('multiple signatures carrying tag="ocm" in Signature-Input');
+		}
+		if ($tagged === []) {
+			throw new SignatureNotFoundException('no signature carrying tag="ocm" in Signature-Input');
+		}
+		$this->label = $tagged[0];
+
+		// A duplicated dictionary label is collapsed to its last entry by
+		// RFC 8941 §4.2 parsing; that ambiguity on the OCM entry is
+		// rejected outright.
+		if (self::countLabel($signatureInputHeader, $this->label) > 1
+			|| self::countLabel($signatureHeader, $this->label) > 1) {
 			throw new IncomingRequestException(
-				'multiple "' . 'ocm' . '" entries in signature headers'
+				'multiple "' . $this->label . '" entries in signature headers'
 			);
 		}
 
-		if (!isset($inputs['ocm'])) {
-			throw new SignatureNotFoundException('missing "' . 'ocm' . '" entry in Signature-Input');
-		}
-		if (!isset($signatures['ocm'])) {
-			throw new SignatureNotFoundException('missing "' . 'ocm' . '" entry in Signature');
+		if (!isset($signatures[$this->label])) {
+			throw new IncomingRequestException('missing "' . $this->label . '" entry in Signature');
 		}
 
-		$entry = $inputs['ocm'];
+		$entry = $inputs[$this->label];
 		$this->components = $entry['components'];
 		$this->signatureParams = $entry['params'];
-		$this->rawSignature = $signatures['ocm'];
+		$this->rawSignature = $signatures[$this->label];
 
 		$this->verifyRequiredComponents();
 		$this->verifyTimestamps();
@@ -118,13 +137,7 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 		if (!is_string($keyId) || $keyId === '') {
 			throw new IncomingRequestException('missing keyid in Signature-Input');
 		}
-		try {
-			$this->origin = Signatory::extractIdentityFromUri($keyId);
-		} catch (IdentityNotFoundException) {
-			// keyid may follow the OCM convention `<fqdn>#<id>`; the OCM layer
-			// derives origin from the message body in that case.
-			$this->origin = '';
-		}
+		// keyid is opaque; the signer origin is set by the caller via setOrigin().
 
 		$paramsLine = SignatureBase::serializeSignatureParams($this->components, $this->signatureParams);
 		$this->signatureBaseString = SignatureBase::build(
@@ -136,7 +149,7 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 		);
 
 		$this->setSigningElements([
-			'label' => 'ocm',
+			'label' => $this->label,
 			'keyId' => $keyId,
 			'algorithm' => isset($this->signatureParams['alg']) ? (string)$this->signatureParams['alg'] : '',
 			'created' => isset($this->signatureParams['created']) ? (string)$this->signatureParams['created'] : '',
@@ -159,6 +172,15 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 			throw new IncomingRequestException('empty origin');
 		}
 		return $this->origin;
+	}
+
+	/**
+	 * Signer origin, established by the caller from the share/sender identity.
+	 *
+	 * @param string $origin
+	 */
+	public function setOrigin(string $origin): void {
+		$this->origin = $origin;
 	}
 
 	#[\Override]
@@ -222,7 +244,7 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 	/** @throws IncomingRequestException if the signature doesn't cover the OCM-required components */
 	private function verifyRequiredComponents(): void {
 		/** @var list<string> $required */
-		$required = $this->options['rfc9421.requiredComponents'] ?? self::DEFAULT_REQUIRED_COMPONENTS;
+		$required = $this->options['rfc9421.requiredComponents'] ?? self::REQUIRED_COMPONENTS;
 		$missing = array_values(array_diff($required, $this->components));
 		if ($missing !== []) {
 			throw new IncomingRequestException(
@@ -320,7 +342,7 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 			parent::jsonSerialize(),
 			[
 				'origin' => $this->origin,
-				'label' => 'ocm',
+				'label' => $this->label,
 				'components' => $this->components,
 				'signatureParams' => $this->signatureParams,
 				'signatureBase' => $this->signatureBaseString,
