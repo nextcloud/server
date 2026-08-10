@@ -2996,6 +2996,8 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		unset($share['last_updated']);
 		$this->assertIsList($share['recipients']);
 		$this->assertCount(2, $share['recipients']);
+		// Sort because database order is not guaranteed
+		usort($share['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertEquals([
 			'class' => TestShareRecipientType1::class,
 			'value' => 'recipient1',
@@ -3135,6 +3137,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		$share = $this->getShare($accessContext, $id);
+
+		// Sort because database order is not guaranteed
+		usort($share['sources'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		usort($share['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertEquals([
 			[
