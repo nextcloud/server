@@ -8,12 +8,15 @@
 namespace OC\Files\ObjectStore;
 
 use Aws\ClientResolver;
+use Aws\Command;
+use Aws\CommandInterface;
 use Aws\Credentials\CredentialProvider;
 use Aws\Credentials\Credentials;
 use Aws\Exception\CredentialsException;
 use Aws\Middleware;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
+use Aws\UserAgentMiddleware;
 use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\RejectedPromise;
 use GuzzleHttp\Psr7\Utils;
@@ -69,6 +72,7 @@ trait S3ConnectionTrait {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
 		$params['verify_bucket_exists'] = $params['verify_bucket_exists'] ?? true;
+		$params['legacyAmzUserAgent'] = $params['legacyAmzUserAgent'] ?? false;
 
 		if ($params['s3-accelerate']) {
 			$params['verify_bucket_exists'] = false;
@@ -164,6 +168,10 @@ trait S3ConnectionTrait {
 
 		$this->addDeleteObjectsContentMd5Middleware();
 
+		if ($this->params['legacyAmzUserAgent']) {
+			$this->addLegacyAmzUserAgentMiddleware();
+		}
+
 		try {
 			$logger = Server::get(LoggerInterface::class);
 			if (!$this->connection::isBucketDnsCompatible($this->bucket)) {
@@ -257,6 +265,36 @@ trait S3ConnectionTrait {
 
 				return $request;
 			})
+		);
+	}
+
+	/**
+	 * Starting with aws-sdk 3.336.0, the user agent headers sent by the sdk have changed.
+	 *
+	 * Previously, the `X-Amz-User-Agent` and `User-Agent` header would both contain the same
+	 * user agent.
+	 * Since 3.336.0, the `X-Amz-User-Agent` no longer contains the user agent but is sent empty instead.
+	 *
+	 * This seems to break some s3 implementations, so we can add a middleware to re-add the value
+	 */
+	private function addLegacyAmzUserAgentMiddleware(): void {
+		if ($this->connection === null) {
+			return;
+		}
+
+		$handlerList = $this->connection->getHandlerList();
+		$handlerList->appendBuild(
+			Middleware::mapRequest(static function (
+				RequestInterface $request,
+			): RequestInterface {
+				// Get the upstream `UserAgentMiddleware` to generate a user id in the same format as the old `X-Amz-User-Agent`
+				// This won't be exactly what the final `User-Agent` will be, but it should be close enough for our goals.
+				$upstreamUAMiddleware = new UserAgentMiddleware(function (CommandInterface $_command, RequestInterface $request) {
+					return $request->getHeader('User-Agent');
+				});
+				$generatedUA = $upstreamUAMiddleware->__invoke(new Command('dummy'), $request);
+				return $request->withHeader('X-Amz-User-Agent', $generatedUA);
+			}),
 		);
 	}
 
