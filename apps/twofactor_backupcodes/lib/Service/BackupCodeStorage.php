@@ -18,7 +18,7 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 
 class BackupCodeStorage {
-	private const CODE_LENGTH = 16;
+	private const int CODE_LENGTH = 16;
 
 	public function __construct(
 		private BackupCodeMapper $mapper,

@@ -177,7 +177,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * @see \OCP\Calendar\ICalendarQuery
 	 */
-	private const INDEXED_PROPERTIES = [
+	private const array INDEXED_PROPERTIES = [
 		'CATEGORIES',
 		'COMMENT',
 		'DESCRIPTION',
@@ -191,7 +191,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	];
 
 	/** @var array parameters to index */
-	private const INDEXED_PARAMETERS = [
+	private const array INDEXED_PARAMETERS = [
 		'ATTENDEE' => ['CN'],
 		'ORGANIZER' => ['CN'],
 	];

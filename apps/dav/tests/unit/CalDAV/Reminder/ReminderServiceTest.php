@@ -157,7 +157,7 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
-	private const CALENDAR_DATA_ONE_TIME = <<<EOD
+	private const string CALENDAR_DATA_ONE_TIME = <<<EOD
 BEGIN:VCALENDAR
 PRODID:-//IDN nextcloud.com//Calendar app 4.3.0-alpha.0//EN
 CALSCALE:GREGORIAN
@@ -197,7 +197,7 @@ END:VTIMEZONE
 END:VCALENDAR
 EOD;
 
-	private const CALENDAR_DATA_ALL_DAY = <<<EOD
+	private const string CALENDAR_DATA_ALL_DAY = <<<EOD
 BEGIN:VCALENDAR
 PRODID:-//IDN nextcloud.com//Calendar app 4.3.0-alpha.0//EN
 CALSCALE:GREGORIAN
@@ -220,7 +220,7 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
-	private const PAGO_PAGO_VTIMEZONE_ICS = <<<ICS
+	private const string PAGO_PAGO_VTIMEZONE_ICS = <<<ICS
 BEGIN:VCALENDAR
 BEGIN:VTIMEZONE
 TZID:Pacific/Pago_Pago

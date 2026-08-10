@@ -50,22 +50,22 @@ class OCMSignatoryManager implements IJwkResolvingSignatoryManager {
 	public const APPCONFIG_SIGN_IDENTITY_EXTERNAL = 'ocm_signed_request_identity_external';
 	public const APPCONFIG_SIGN_DISABLED = 'ocm_signed_request_disabled';
 	public const APPCONFIG_SIGN_ENFORCED = 'ocm_signed_request_enforced';
-	private const APPKEY_CAVAGE = 'ocm_external';
-	private const KEYID_FRAGMENT_CAVAGE = 'signature';
-	private const KEYID_FRAGMENT_JWKS = 'ecdsa-p256-sha256';
+	private const string APPKEY_CAVAGE = 'ocm_external';
+	private const string KEYID_FRAGMENT_CAVAGE = 'signature';
+	private const string KEYID_FRAGMENT_JWKS = 'ecdsa-p256-sha256';
 	/** JWKS-published keypairs live in numbered pool appkeys; slots point to them by id. */
-	private const APPKEY_JWKS_POOL_PREFIX = 'ocm_jwks_pool_';
-	private const APPCONFIG_JWKS_POOL_COUNTER = 'ocm_jwks_pool_counter';
-	private const APPCONFIG_JWKS_POOL_KID_PREFIX = 'ocm_jwks_pool_kid_';
+	private const string APPKEY_JWKS_POOL_PREFIX = 'ocm_jwks_pool_';
+	private const string APPCONFIG_JWKS_POOL_COUNTER = 'ocm_jwks_pool_counter';
+	private const string APPCONFIG_JWKS_POOL_KID_PREFIX = 'ocm_jwks_pool_kid_';
 	/** Stable kid identity portion, reused across rotations so kids stay on one hostname. */
-	private const APPCONFIG_JWKS_KID_BASE = 'ocm_jwks_kid_base';
+	private const string APPCONFIG_JWKS_KID_BASE = 'ocm_jwks_kid_base';
 	public const SLOT_ACTIVE = 'active';
 	public const SLOT_PENDING = 'pending';
 	public const SLOT_RETIRING = 'retiring';
 	/** All slots in advertise order. */
 	public const JWKS_SLOTS = [self::SLOT_ACTIVE, self::SLOT_PENDING, self::SLOT_RETIRING];
 	/** Remote JWKS cache TTL (seconds). */
-	private const JWKS_CACHE_TTL = 3600;
+	private const int JWKS_CACHE_TTL = 3600;
 
 	private readonly ICache $jwksCache;
 

@@ -28,7 +28,7 @@ use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class CustomPropertiesBackendTest extends TestCase {
-	private const BASE_URI = '/remote.php/dav/';
+	private const string BASE_URI = '/remote.php/dav/';
 
 	private Server&MockObject $server;
 	private Tree&MockObject $tree;

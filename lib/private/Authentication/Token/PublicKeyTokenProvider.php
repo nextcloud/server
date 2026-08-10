@@ -31,7 +31,7 @@ use Psr\Log\LoggerInterface;
 class PublicKeyTokenProvider implements IProvider {
 	public const TOKEN_MIN_LENGTH = 22;
 	/** Token cache TTL in seconds */
-	private const TOKEN_CACHE_TTL = 10;
+	private const int TOKEN_CACHE_TTL = 10;
 
 	use TTransactional;
 

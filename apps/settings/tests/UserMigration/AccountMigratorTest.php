@@ -33,13 +33,13 @@ class AccountMigratorTest extends TestCase {
 	private IExportDestination&MockObject $exportDestination;
 	private OutputInterface&MockObject $output;
 
-	private const ASSETS_DIR = __DIR__ . '/assets/';
+	private const string ASSETS_DIR = __DIR__ . '/assets/';
 
-	private const REGEX_ACCOUNT_FILE = '/^' . Application::APP_ID . '\/' . '[a-z]+\.json' . '$/';
+	private const string REGEX_ACCOUNT_FILE = '/^' . Application::APP_ID . '\/' . '[a-z]+\.json' . '$/';
 
-	private const REGEX_AVATAR_FILE = '/^' . Application::APP_ID . '\/' . 'avatar\.(jpg|png)' . '$/';
+	private const string REGEX_AVATAR_FILE = '/^' . Application::APP_ID . '\/' . 'avatar\.(jpg|png)' . '$/';
 
-	private const REGEX_CONFIG_FILE = '/^' . Application::APP_ID . '\/' . '[a-z]+\.json' . '$/';
+	private const string REGEX_CONFIG_FILE = '/^' . Application::APP_ID . '\/' . '[a-z]+\.json' . '$/';
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -35,7 +35,7 @@ use function array_key_exists;
 use function in_array;
 
 class Manager implements IManager {
-	private const TOKEN_CLEANUP_TIME = 12 * 60 * 60 ;
+	private const int TOKEN_CLEANUP_TIME = 12 * 60 * 60 ;
 
 	public const TABLE_TOKENS = 'direct_edit';
 

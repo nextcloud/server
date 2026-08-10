@@ -35,21 +35,21 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TMigratorBasicVersionHandling;
 
-	private const PATH_ROOT = Application::APP_ID . '/calendars/';
-	private const PATH_VERSION = self::PATH_ROOT . 'version.json';
-	private const PATH_CALENDARS = self::PATH_ROOT . 'calendars.json';
-	private const PATH_SUBSCRIPTIONS = self::PATH_ROOT . 'subscriptions.json';
-	private const USERS_URI_ROOT = 'principals/users/';
-	private const MIGRATED_URI_PREFIX = 'migrated-';
+	private const string PATH_ROOT = Application::APP_ID . '/calendars/';
+	private const string PATH_VERSION = self::PATH_ROOT . 'version.json';
+	private const string PATH_CALENDARS = self::PATH_ROOT . 'calendars.json';
+	private const string PATH_SUBSCRIPTIONS = self::PATH_ROOT . 'subscriptions.json';
+	private const string USERS_URI_ROOT = 'principals/users/';
+	private const string MIGRATED_URI_PREFIX = 'migrated-';
 
-	private const DAV_PROPERTY_URI = 'uri';
-	private const DAV_PROPERTY_DISPLAYNAME = '{DAV:}displayname';
-	private const DAV_PROPERTY_CALENDAR_COLOR = '{http://apple.com/ns/ical/}calendar-color';
-	private const DAV_PROPERTY_CALENDAR_TIMEZONE = '{urn:ietf:params:xml:ns:caldav}calendar-timezone';
-	private const DAV_PROPERTY_SUBSCRIBED_SOURCE = 'source';
-	private const DAV_PROPERTY_SUBSCRIBED_STRIP_TODOS = '{http://calendarserver.org/ns/}subscribed-strip-todos';
-	private const DAV_PROPERTY_SUBSCRIBED_STRIP_ALARMS = '{http://calendarserver.org/ns/}subscribed-strip-alarms';
-	private const DAV_PROPERTY_SUBSCRIBED_STRIP_ATTACHMENTS = '{http://calendarserver.org/ns/}subscribed-strip-attachments';
+	private const string DAV_PROPERTY_URI = 'uri';
+	private const string DAV_PROPERTY_DISPLAYNAME = '{DAV:}displayname';
+	private const string DAV_PROPERTY_CALENDAR_COLOR = '{http://apple.com/ns/ical/}calendar-color';
+	private const string DAV_PROPERTY_CALENDAR_TIMEZONE = '{urn:ietf:params:xml:ns:caldav}calendar-timezone';
+	private const string DAV_PROPERTY_SUBSCRIBED_SOURCE = 'source';
+	private const string DAV_PROPERTY_SUBSCRIBED_STRIP_TODOS = '{http://calendarserver.org/ns/}subscribed-strip-todos';
+	private const string DAV_PROPERTY_SUBSCRIBED_STRIP_ALARMS = '{http://calendarserver.org/ns/}subscribed-strip-alarms';
+	private const string DAV_PROPERTY_SUBSCRIBED_STRIP_ATTACHMENTS = '{http://calendarserver.org/ns/}subscribed-strip-attachments';
 
 	public function __construct(
 		private readonly IAppManager $appManager,

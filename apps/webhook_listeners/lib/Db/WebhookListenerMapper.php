@@ -25,7 +25,7 @@ use OCP\IDBConnection;
 class WebhookListenerMapper extends QBMapper {
 	public const TABLE_NAME = 'webhook_listeners';
 
-	private const EVENTS_CACHE_KEY_PREFIX = 'eventsUsedInWebhooks';
+	private const string EVENTS_CACHE_KEY_PREFIX = 'eventsUsedInWebhooks';
 
 	private ?ICache $cache = null;
 

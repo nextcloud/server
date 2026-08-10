@@ -48,7 +48,7 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class User implements IUser {
-	private const CONFIG_KEY_MANAGERS = 'manager';
+	private const string CONFIG_KEY_MANAGERS = 'manager';
 
 	private IConfig $config;
 	private IUserConfig $userConfig;

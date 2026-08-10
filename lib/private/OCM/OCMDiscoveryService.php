@@ -50,7 +50,7 @@ use Psr\Log\LoggerInterface;
 #[Consumable(since: '28.0.0')]
 final class OCMDiscoveryService implements IOCMDiscoveryService {
 	private ICache $cache;
-	public const API_VERSION = '1.1.2';
+	public const string API_VERSION = '1.1.2';
 	private ?IOCMProvider $localProvider = null;
 	/** @var array<string, IOCMProvider> */
 	private array $remoteProviders = [];

@@ -51,10 +51,10 @@ use Psr\Log\LoggerInterface;
  * @since 31.0.0
  */
 class UserConfig implements IUserConfig {
-	private const USER_MAX_LENGTH = 64;
-	private const APP_MAX_LENGTH = 32;
-	private const KEY_MAX_LENGTH = 64;
-	private const INDEX_MAX_LENGTH = 64;
+	private const int USER_MAX_LENGTH = 64;
+	private const int APP_MAX_LENGTH = 32;
+	private const int KEY_MAX_LENGTH = 64;
+	private const int INDEX_MAX_LENGTH = 64;
 
 	/** @var CappedMemoryCache<array<string, array<string, UserConfigEntry>>>  cache for normal config keys */
 	private CappedMemoryCache $fastCache;

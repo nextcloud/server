@@ -24,7 +24,7 @@ use OCP\IDBConnection;
 	supportsOutputFormat: true,
 )]
 class Orphans {
-	private const CHUNK_SIZE = 100;
+	private const int CHUNK_SIZE = 100;
 
 	private ?IQueryBuilder $query = null;
 

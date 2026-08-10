@@ -29,7 +29,7 @@ class AppleQuirksPlugin extends ServerPlugin {
 	private const OSX_CONTACTS_AGENT = 'AddressBookCore';
 	*/
 
-	private const OSX_AGENT_PREFIX = 'macOS';
+	private const string OSX_AGENT_PREFIX = 'macOS';
 
 	/** @var bool */
 	private $isMacOSDavAgent = false;

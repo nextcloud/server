@@ -22,7 +22,7 @@ use OCP\Files\ObjectStore\IObjectStoreMetaData;
 	supportsOutputFormat: true,
 )]
 class ListObject {
-	private const CHUNK_SIZE = 100;
+	private const int CHUNK_SIZE = 100;
 
 	public function __construct(
 		private readonly ObjectUtil $objectUtils,

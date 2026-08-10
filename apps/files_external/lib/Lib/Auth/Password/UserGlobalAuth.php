@@ -22,7 +22,7 @@ use OCP\Security\ICredentialsManager;
  * User provided Global Username and Password
  */
 class UserGlobalAuth extends AuthMechanism {
-	private const CREDENTIALS_IDENTIFIER = 'password::global';
+	private const string CREDENTIALS_IDENTIFIER = 'password::global';
 
 	public function __construct(
 		IL10N $l,

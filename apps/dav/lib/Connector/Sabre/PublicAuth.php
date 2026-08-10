@@ -35,7 +35,7 @@ use Sabre\HTTP\ResponseInterface;
  * @package OCA\DAV\Connector
  */
 class PublicAuth extends AbstractBasic {
-	private const BRUTEFORCE_ACTION = 'public_dav_auth';
+	private const string BRUTEFORCE_ACTION = 'public_dav_auth';
 	public const DAV_AUTHENTICATED = 'public_link_authenticated';
 
 	private ?IShare $share = null;

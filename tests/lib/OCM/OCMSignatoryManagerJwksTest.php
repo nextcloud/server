@@ -29,12 +29,12 @@ use Test\TestCase;
 
 class OCMSignatoryManagerJwksTest extends TestCase {
 	/** RFC 7517 §A.1 test vector for an EC P-256 public key. */
-	private const TEST_X = 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU';
-	private const TEST_Y = 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0';
+	private const string TEST_X = 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU';
+	private const string TEST_Y = 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0';
 	/** RFC 8037 §A.2 test vector for an Ed25519 public key. */
-	private const TEST_OKP_X = '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo';
+	private const string TEST_OKP_X = '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo';
 
-	private const JWKS_URI = 'https://sender.example.org/ocm/jwks';
+	private const string JWKS_URI = 'https://sender.example.org/ocm/jwks';
 
 	private IAppConfig&MockObject $appConfig;
 	private ISignatureManager&MockObject $signatureManager;

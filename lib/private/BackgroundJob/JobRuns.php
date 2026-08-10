@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 final readonly class JobRuns implements IJobRuns {
-	private const TABLE = 'job_runs';
+	private const string TABLE = 'job_runs';
 
 	public function __construct(
 		private IDBConnection $connection,
