@@ -11,6 +11,7 @@ namespace OCA\Sharing\Command;
 
 use NCU\Sharing\Property\ISharePropertyType;
 use NCU\Sharing\Property\ShareProperty;
+use NCU\Sharing\Share;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,9 +36,9 @@ final class UpdateShareProperty extends SharingBase {
 		/** @var ?string $value */
 		$value = $input->getArgument('value');
 
-		return $this->wrapExecution($output, function () use ($id, $class, $value): string {
-			$this->manager->updateShareProperty($this->accessContext, $id, new ShareProperty($class, $value));
-			return $id;
+		return $this->wrapExecution($output, function () use ($id, $class, $value): Share {
+			$share = $this->manager->getShare($this->accessContext, $id);
+			return $this->manager->updateShareProperty($this->accessContext, $share, new ShareProperty($class, $value));
 		});
 	}
 }

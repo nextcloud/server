@@ -149,12 +149,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 	}
 
 	#[Override]
-	protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?string $id = null): array {
+	protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?Share $forShare = null): array {
 		// We don't have a command for this, so we just call the real manager to make the test pass.
 		try {
 			$this->dbConnection->beginTransaction();
 			/** @psalm-suppress ArgumentTypeCoercion */
-			$shares = ShareRecipient::formatMultiple($this->registry, Server::get(IFactory::class), Server::get(IURLGenerator::class), Server::get(IUserManager::class), $this->manager->searchRecipients($accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $id));
+			$shares = ShareRecipient::formatMultiple($this->registry, Server::get(IFactory::class), Server::get(IURLGenerator::class), Server::get(IUserManager::class), $this->manager->searchRecipients($accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $forShare));
 			$this->dbConnection->commit();
 			return $shares;
 		} catch (Exception $exception) {
@@ -185,12 +185,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare
 	 */
 	#[Override]
-	protected function updateShareState(ShareAccessContext $accessContext, string $id, ShareState $state): array {
+	protected function updateShareState(ShareAccessContext $accessContext, Share $share, ShareState $state): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			UpdateShareState::class,
 			[
-				['id', $id],
+				['id', $share->id],
 				['state', $state->value],
 			],
 			[],
@@ -203,12 +203,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare
 	 */
 	#[Override]
-	protected function addShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): array {
+	protected function addShareSource(ShareAccessContext $accessContext, Share $share, ShareSource $source): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			AddShareSource::class,
 			[
-				['id', $id],
+				['id', $share->id],
 				['class', $source->class],
 				['value', $source->value],
 			],
@@ -222,12 +222,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare
 	 */
 	#[Override]
-	protected function removeShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): array {
+	protected function removeShareSource(ShareAccessContext $accessContext, Share $share, ShareSource $source): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			RemoveShareSource::class,
 			[
-				['id', $id],
+				['id', $share->id],
 				['class', $source->class],
 				['value', $source->value],
 			],
@@ -241,12 +241,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare
 	 */
 	#[Override]
-	protected function addShareRecipient(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient): array {
+	protected function addShareRecipient(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			AddShareRecipient::class,
 			[
-				['id', $id],
+				['id', $share->id],
 				['class', $recipient->class],
 				['value', $recipient->value],
 				['instance', $recipient->instance],
@@ -261,12 +261,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare
 	 */
 	#[Override]
-	protected function removeShareRecipient(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient): array {
+	protected function removeShareRecipient(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			RemoveShareRecipient::class,
 			[
-				['id', $id],
+				['id', $share->id],
 				['class', $recipient->class],
 				['value', $recipient->value],
 				['instance', $recipient->instance],
@@ -281,12 +281,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare
 	 */
 	#[Override]
-	protected function updateShareRecipientSecret(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient, string $secret): array {
+	protected function updateShareRecipientSecret(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, string $secret): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			UpdateShareRecipientSecret::class,
 			[
-				['id', $id],
+				['id', $share->id],
 				['class', $recipient->class],
 				['value', $recipient->value],
 				['instance', $recipient->instance],
@@ -302,12 +302,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare
 	 */
 	#[Override]
-	protected function updateShareProperty(ShareAccessContext $accessContext, string $id, ShareProperty $property): array {
+	protected function updateShareProperty(ShareAccessContext $accessContext, Share $share, ShareProperty $property): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			UpdateShareProperty::class,
 			[
-				['id', $id],
+				['id', $share->id],
 				['class', $property->class],
 				['value', $property->value],
 			],
@@ -321,12 +321,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare
 	 */
 	#[Override]
-	protected function updateSharePermission(ShareAccessContext $accessContext, string $id, SharePermission $permission): array {
+	protected function updateSharePermission(ShareAccessContext $accessContext, Share $share, SharePermission $permission): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			UpdateSharePermission::class,
 			[
-				['id', $id],
+				['id', $share->id],
 				['class', $permission->class],
 				['enabled', $permission->enabled ? 'true' : 'false'],
 			],
@@ -340,12 +340,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare
 	 */
 	#[Override]
-	protected function selectSharePermissionPreset(ShareAccessContext $accessContext, string $id, string $permissionPresetClass): array {
+	protected function selectSharePermissionPreset(ShareAccessContext $accessContext, Share $share, string $permissionPresetClass): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			SelectSharePermissionPreset::class,
 			[
-				['id', $id],
+				['id', $share->id],
 				['permission-preset', $permissionPresetClass],
 			],
 			[],
@@ -355,12 +355,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 	}
 
 	#[Override]
-	protected function deleteShare(ShareAccessContext $accessContext, string $id): void {
+	protected function deleteShare(ShareAccessContext $accessContext, Share $share): void {
 		$this->runCommand(
 			$accessContext,
 			DeleteShare::class,
 			[
-				['id', $id],
+				['id', $share->id],
 			],
 			[],
 		);

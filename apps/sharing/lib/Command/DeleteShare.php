@@ -35,7 +35,8 @@ final class DeleteShare extends SharingBase {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->deleteShare($this->accessContext, $id);
+				$share = $this->manager->getShare($this->accessContext, $id);
+				$this->manager->deleteShare($this->accessContext, $share);
 				$this->dbConnection->commit();
 				return Base::SUCCESS;
 			} catch (Exception $exception) {
