@@ -58,6 +58,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IFilenameValidator;
+use OCP\Files\IRootFolder;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
@@ -290,8 +291,8 @@ class Server {
 				$this->server->addPlugin(new SharesPlugin(
 					$this->server->tree,
 					$userSession,
-					$userFolder,
 					$shareManager,
+					\OCP\Server::get(IRootFolder::class),
 				));
 				$this->server->addPlugin(new CommentPropertiesPlugin(
 					\OC::$server->getCommentsManager(),
