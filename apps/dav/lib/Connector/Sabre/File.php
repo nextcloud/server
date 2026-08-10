@@ -248,7 +248,12 @@ class File extends Node implements IFile {
 				}
 				fclose($target);
 			}
-			if ($result === false && $expected !== null) {
+			if ($result === false) {
+				if ($expected === null) {
+					// nothing to report the size against, e.g. the MOVE that assembles
+					// a chunked upload - but the write still failed
+					throw new Exception($this->l10n->t('Could not write file contents'));
+				}
 				throw new Exception(
 					$this->l10n->t(
 						'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',

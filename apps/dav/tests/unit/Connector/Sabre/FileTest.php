@@ -21,14 +21,17 @@ use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\File;
 use OCP\Constants;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Files\Cache\IUpdater;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
+use OCP\Files\GenericFileException;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IRequestId;
@@ -527,6 +530,61 @@ class FileTest extends TestCase {
 
 		$this->assertTrue($thrown);
 		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
+	}
+
+	/**
+	 * A storage write that fails must not be reported as success just because the
+	 * request carried no content-length to check against - the MOVE that assembles
+	 * a chunked upload never does, so this used to answer 204 while the storage
+	 * still held the previous content.
+	 */
+	public function testPutFailsWhenStorageWriteFailsWithoutContentLength(): void {
+		$storage = $this->createMock(IWriteStreamStorage::class);
+		$storage->method('getId')->willReturn('object::user:' . $this->user);
+		// object stores write straight to the final path
+		$storage->method('needsPartFile')->willReturn(false);
+		$storage->method('instanceOfStorage')
+			->willReturnCallback(fn (string $class): bool => $class === IWriteStreamStorage::class);
+		$storage->method('writeStream')
+			->willThrowException(new GenericFileException('Error while writing stream to object store'));
+		// let the bookkeeping that follows a successful write run, so that a
+		// swallowed failure shows up as "no exception" rather than as a side effect
+		$storage->method('getUpdater')->willReturn($this->createMock(IUpdater::class));
+
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+			'permissions' => Constants::PERMISSION_ALL,
+			'type' => FileInfo::TYPE_FILE,
+		], null);
+
+		/** @var View&MockObject */
+		$view = $this->getMockBuilder(View::class)
+			->onlyMethods(['resolvePath', 'getRelativePath', 'file_exists', 'putFileInfo', 'getFileInfo'])
+			->getMock();
+		$view->expects($this->any())
+			->method('resolvePath')
+			->willReturn([$storage, 'files/test.txt']);
+		$view->expects($this->any())
+			->method('getRelativePath')
+			->willReturnArgument(0);
+		$view->expects($this->any())
+			->method('file_exists')
+			->willReturn(true);
+		$view->expects($this->any())
+			->method('putFileInfo')
+			->willReturn(true);
+		$view->expects($this->any())
+			->method('getFileInfo')
+			->willReturn($info);
+
+		// the assembly MOVE of a chunked upload sends no content-length
+		$request = new Request([
+			'method' => 'MOVE',
+		], $this->requestId, $this->config, null);
+
+		$file = new File($view, $info, null, $request);
+
+		$this->expectException(\Sabre\DAV\Exception::class);
+		$file->put($this->getStream('irrelevant'));
 	}
 
 	/**
@@ -1030,6 +1088,7 @@ class FileTest extends TestCase {
 
 		$this->assertEquals('new content', $view->file_get_contents('root/file.txt'));
 	}
+
 
 	public function testPutLockExpired(): void {
 		$view = new View('/' . $this->user . '/files/');
