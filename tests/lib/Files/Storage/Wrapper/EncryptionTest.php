@@ -9,6 +9,7 @@
 namespace Test\Files\Storage\Wrapper;
 
 use Exception;
+use Icewind\Streams\CallbackWrapper;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\File;
 use OC\Encryption\Util;
@@ -1025,5 +1026,42 @@ class EncryptionTest extends Storage {
 			[true, true, null, false, true],
 			[false, true, true, true, false],
 		];
+	}
+
+	/**
+	 * A source stream that fails part way through must still leave both streams
+	 * closed: an encryption stream that stays open is only closed during engine
+	 * shutdown, where writing back into the storage layer is no longer safe.
+	 */
+	public function testWriteStreamClosesStreamsWhenTheSourceFails(): void {
+		$target = fopen('php://temp', 'w+');
+
+		/** @var Encryption&MockObject $storage */
+		$storage = $this->getMockBuilder(Encryption::class)
+			->disableOriginalConstructor()
+			->onlyMethods(['fopen'])
+			->getMock();
+		$storage->expects($this->once())
+			->method('fopen')
+			->willReturn($target);
+
+		$source = fopen('php://temp', 'r+');
+		fwrite($source, 'some data');
+		rewind($source);
+		$failing = CallbackWrapper::wrap($source, function ($count): void {
+			throw new Exception('source stream failed');
+		});
+
+		$thrown = null;
+		try {
+			$storage->writeStream('foo.txt', $failing);
+		} catch (\Throwable $e) {
+			$thrown = $e;
+		}
+
+		$this->assertNotNull($thrown, 'Expected the source failure to propagate');
+		$this->assertEquals('source stream failed', $thrown->getMessage());
+		$this->assertFalse(is_resource($failing), 'source stream was closed');
+		$this->assertFalse(is_resource($target), 'target stream was closed');
 	}
 }
