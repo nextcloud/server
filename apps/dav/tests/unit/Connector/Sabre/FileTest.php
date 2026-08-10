@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use Icewind\Streams\CallbackWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Local;
@@ -1089,6 +1090,50 @@ class FileTest extends TestCase {
 		$this->assertEquals('new content', $view->file_get_contents('root/file.txt'));
 	}
 
+	/**
+	 * An upload that is interrupted while overwriting an existing file must not
+	 * destroy what is already there: the data goes into a part file first and is
+	 * only renamed over the target once it is complete.
+	 */
+	public function testPutOverwriteInterruptedKeepsOriginal(): void {
+		$view = new View('/' . $this->user . '/files');
+		$view->file_put_contents('interrupted.txt', 'original content');
+
+		[$targetStorage] = $view->resolvePath('interrupted.txt');
+		if (!$targetStorage->needsPartFile()) {
+			// object stores write straight to the final path, so there is no part
+			// file to protect the previous content - nothing to assert here
+			$this->markTestSkipped('Storage does not use part files');
+		}
+
+		$file = new File($view, $view->getFileInfo('interrupted.txt'));
+
+		$read = 0;
+		$data = CallbackWrapper::wrap($this->getStream('new content'), function ($count) use (&$read): void {
+			$read += $count;
+			if ($read > 3) {
+				throw new \RuntimeException('connection lost mid upload');
+			}
+		});
+
+		// beforeMethod locks
+		$view->lockFile('interrupted.txt', ILockingProvider::LOCK_SHARED);
+		try {
+			$file->put($data);
+			$this->fail('Expected the interrupted upload to fail');
+		} catch (\Sabre\DAV\Exception $e) {
+			// expected
+		} finally {
+			// afterMethod unlocks
+			$view->unlockFile('interrupted.txt', ILockingProvider::LOCK_SHARED);
+		}
+
+		// read straight from the storage: a failed write must not have touched it,
+		// whatever the view still holds a lock on
+		[$storage, $internalPath] = $view->resolvePath('interrupted.txt');
+		$this->assertEquals('original content', $storage->file_get_contents($internalPath));
+		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
+	}
 
 	public function testPutLockExpired(): void {
 		$view = new View('/' . $this->user . '/files/');
