@@ -41,7 +41,7 @@ jobs:
         uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
         with:
           args: /bin/sh -c "
-            git config --global --add safe.directory /github/workspace &&
+            git config --global --add safe.directory ${GITHUB_WORKSPACE} &&
             composer install --no-interaction"
 
       - name: Set up Nextcloud
