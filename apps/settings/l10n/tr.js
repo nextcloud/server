@@ -124,7 +124,7 @@ OC.L10N.register(
     "Verifying" : "Doğrulanıyor",
     "Verifying …" : "Doğrulanıyor …",
     "Verify" : "Doğrula",
-    "Allowed admin IP ranges" : "İzin verilen IP adresi aralıkları",
+    "Allowed admin IP ranges" : "İzin verilen yönetici IP adresi aralıkları",
     "Admin IP filtering isn't applied." : "Yönetici IP adresi süzgeci uygulanmadı.",
     "Configuration key \"%1$s\" expects an array (%2$s found). Admin IP range validation will not be applied." : "\"%1$s\" yapılandırma anahtarı bir dizi bekliyordu (%2$s bulundu). Yönetici IP adresi aralığı doğrulaması uygulanmayacak.",
     "Configuration key \"%1$s\" contains invalid IP range(s): \"%2$s\"" : "\"%1$s\" yapılandırma anahtarında geçersiz IP adresi aralıkları var: \"%2$s\"",
