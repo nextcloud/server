@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Theming\Listener;
 
 use OCA\Theming\AppInfo\Application;
+use OCA\Theming\ConfigLexicon;
 use OCP\App\IAppManager;
 use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
@@ -22,7 +23,15 @@ class BeforePreferenceListener implements IEventListener {
 	/**
 	 * @var string[]
 	 */
-	private const ALLOWED_KEYS = ['force_enable_blur_filter', 'shortcuts_disabled', 'primary_color'];
+	private const ALLOWED_KEYS = ['force_enable_blur_filter', 'shortcuts_disabled', 'primary_color', ConfigLexicon::TOAST_TIMEOUT];
+
+	/**
+	 * Allowed toast timeout values in milliseconds.
+	 * Default (7000) is represented by deleting the preference.
+	 *
+	 * @var int[]
+	 */
+	public const array TOAST_TIMEOUT_VALUES = [15000, 30000, -1];
 
 	public function __construct(
 		private IAppManager $appManager,
@@ -61,6 +70,10 @@ class BeforePreferenceListener implements IEventListener {
 					break;
 				case 'primary_color':
 					$event->setValid(preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $event->getConfigValue()) === 1);
+					break;
+				case ConfigLexicon::TOAST_TIMEOUT:
+					$value = filter_var($event->getConfigValue(), FILTER_VALIDATE_INT);
+					$event->setValid($value !== false && in_array($value, self::TOAST_TIMEOUT_VALUES, true));
 					break;
 				default:
 					$event->setValid(false);
