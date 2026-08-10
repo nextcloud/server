@@ -55,6 +55,7 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use function fopen;
 
 /**
  * for local filestore, we only have to map the paths
@@ -429,11 +430,21 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 		$oldMask = umask($this->defUMask);
-		if (($mode === 'w' || $mode === 'w+') && $this->unlinkOnTruncate) {
-			$this->unlink($path);
+		try {
+			if (($mode === 'w' || $mode === 'w+') && $this->unlinkOnTruncate) {
+				$this->unlink($path);
+			}
+			$result = @fopen($sourcePath, $mode);
+			if ($result === false) {
+				// fopen() resolves through the realpath cache, so a false can just mean
+				// this process still has the path cached as a file after another one
+				// turned it into a directory, for up to realpath_cache_ttl.
+				$this->clearRealpathCache($sourcePath);
+				$result = @fopen($sourcePath, $mode);
+			}
+		} finally {
+			umask($oldMask);
 		}
-		$result = @fopen($sourcePath, $mode);
-		umask($oldMask);
 		return $result;
 	}
 
