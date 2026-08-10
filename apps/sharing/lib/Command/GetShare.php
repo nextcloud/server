@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\Command;
 
+use NCU\Sharing\Share;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,6 +28,6 @@ final class GetShare extends SharingBase {
 		/** @var string $id */
 		$id = $input->getArgument('id');
 
-		return $this->wrapExecution($output, fn (): string => $id);
+		return $this->wrapExecution($output, fn (): Share => $this->manager->getShare($this->accessContext, $id));
 	}
 }

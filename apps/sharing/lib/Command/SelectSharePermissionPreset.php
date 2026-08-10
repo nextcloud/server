@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Sharing\Command;
 
 use NCU\Sharing\Permission\ISharePermissionPreset;
+use NCU\Sharing\Share;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,9 +32,9 @@ final class SelectSharePermissionPreset extends SharingBase {
 		/** @var class-string<ISharePermissionPreset> $permissionPresetClass */
 		$permissionPresetClass = $input->getArgument('permission-preset');
 
-		return $this->wrapExecution($output, function () use ($id, $permissionPresetClass): string {
-			$this->manager->selectSharePermissionPreset($this->accessContext, $id, $permissionPresetClass);
-			return $id;
+		return $this->wrapExecution($output, function () use ($id, $permissionPresetClass): Share {
+			$share = $this->manager->getShare($this->accessContext, $id);
+			return $this->manager->selectSharePermissionPreset($this->accessContext, $share, $permissionPresetClass);
 		});
 	}
 }

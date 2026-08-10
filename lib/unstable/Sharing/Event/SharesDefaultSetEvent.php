@@ -19,7 +19,7 @@ use OCP\EventDispatcher\Event;
  */
 final class SharesDefaultSetEvent extends Event {
 	/**
-	 * @param non-empty-list<Share> $shares
+	 * @param non-empty-array<Share> $shares
 	 * @experimental 35.0.0
 	 */
 	public function __construct(
@@ -29,7 +29,7 @@ final class SharesDefaultSetEvent extends Event {
 	}
 
 	/**
-	 * @return non-empty-list<Share>
+	 * @return non-empty-array<Share>
 	 * @experimental 35.0.0
 	 */
 	public function getShares(): array {
@@ -37,7 +37,7 @@ final class SharesDefaultSetEvent extends Event {
 	}
 
 	/**
-	 * @param non-empty-list<Share> $shares
+	 * @param non-empty-array<Share> $shares
 	 * @experimental 35.0.0
 	 */
 	public function setShares(array $shares): void {

@@ -83,4 +83,11 @@ final class ShareSource {
 
 		return array_map(static fn (ShareSource $source): array => $source->format($registry, $l10nFactory, $sourceDisplayNames[$source->getMetadata($registry)->getDisplayName()] === 1), $sources);
 	}
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public function equals(ShareSource $other): bool {
+		return $this->class === $other->class && $this->value === $other->value;
+	}
 }

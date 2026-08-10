@@ -137,8 +137,8 @@ final class GroupShareRecipientTypeTest extends TestCase {
 		$accessContext = new ShareAccessContext(currentUser: $this->user1);
 
 		$this->dbConnection->beginTransaction();
-		$id = $this->manager->createShare($accessContext);
-		$this->manager->addShareRecipient($accessContext, $id, new ShareRecipient($this->recipientType::class, $this->group1->getGID(), null));
+		$share = $this->manager->createShare($accessContext);
+		$this->manager->addShareRecipient($accessContext, $share, new ShareRecipient($this->recipientType::class, $this->group1->getGID(), null));
 		$this->dbConnection->commit();
 
 		$before = $this->manager->getTime();
@@ -146,12 +146,12 @@ final class GroupShareRecipientTypeTest extends TestCase {
 		$after = $this->manager->getTime();
 
 		$this->dbConnection->beginTransaction();
-		$share = $this->manager->getShare($accessContext, $id);
+		$share = $this->manager->getShare($accessContext, $share->id);
 		$this->assertGreaterThanOrEqual(SharingManager::timeToMs($before), SharingManager::timeToMs($share->lastUpdated));
 		$this->assertLessThanOrEqual(SharingManager::timeToMs($after), SharingManager::timeToMs($share->lastUpdated));
 		$this->assertEquals([], $share->recipients);
 
-		$this->manager->deleteShare($accessContext, $id);
+		$this->manager->deleteShare($accessContext, $share);
 		$this->dbConnection->commit();
 		$registry->clear();
 	}

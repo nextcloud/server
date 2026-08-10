@@ -114,4 +114,11 @@ final readonly class ShareRecipient {
 
 		return array_map(static fn (ShareRecipient $recipient): array => $recipient->format($registry, $l10nFactory, $urlGenerator, $userManager, $recipientDisplayNames[$recipientTypes[$recipient->class]?->getRecipientDisplayName($recipient->value) ?? $recipient->value] === 1), $recipients);
 	}
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public function equals(ShareRecipient $other): bool {
+		return $this->class === $other->class && $this->value === $other->value && $this->instance === $other->instance;
+	}
 }

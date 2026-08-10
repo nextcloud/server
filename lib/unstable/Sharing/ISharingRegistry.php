@@ -155,4 +155,19 @@ interface ISharingRegistry {
 	 * @experimental 35.0.0
 	 */
 	public function getPermissionPresetCompatiblePermissionTypeClasses(): array;
+
+	/**
+	 * @param class-string<IShareSourceType>[] $shareSourceTypeClasses
+	 * @return list<class-string<ISharePermissionType>>
+	 * @experimental 35.0.0
+	 */
+	public function getCompatiblePermissionTypeClasses(array $shareSourceTypeClasses): array;
+
+	/**
+	 * @param class-string<IShareSourceType>[] $shareSourceTypeClasses
+	 * @param class-string<IShareRecipientType>[] $shareRecipientTypeClasses
+	 * @return list<class-string<ISharePropertyType>>
+	 * @experimental 35.0.0
+	 */
+	public function getCompatiblePropertyTypeClasses(array $shareSourceTypeClasses, array $shareRecipientTypeClasses): array;
 }

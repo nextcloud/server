@@ -107,7 +107,8 @@ final class ApiV1Controller extends OCSController {
 		try {
 			try {
 				$this->dbConnection->beginTransaction();
-				$recipients = $this->manager->searchRecipients($this->accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $id);
+				$forShare = ($id === null) ? null : $this->manager->getShare($this->accessContext, $id);
+				$recipients = $this->manager->searchRecipients($this->accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $forShare);
 				$this->dbConnection->commit();
 				return new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients));
 			} catch (Exception $exception) {
@@ -146,9 +147,8 @@ final class ApiV1Controller extends OCSController {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$id = $this->manager->createShare($this->accessContext);
+				$share = $this->manager->createShare($this->accessContext);
 
-				$share = $this->manager->getShare($this->accessContext, $id);
 				$this->dbConnection->commit();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager), Http::STATUS_CREATED);
 			} catch (Exception $exception) {
@@ -185,7 +185,8 @@ final class ApiV1Controller extends OCSController {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->updateShareState($this->accessContext, $id, $shareState);
+				$share = $this->manager->getShare($this->accessContext, $id);
+				$this->manager->updateShareState($this->accessContext, $share, $shareState);
 				$share = $this->manager->getShare($this->accessContext, $id);
 				$this->dbConnection->commit();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
@@ -220,8 +221,8 @@ final class ApiV1Controller extends OCSController {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->addShareSource($this->accessContext, $id, new ShareSource($class, $value));
 				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->addShareSource($this->accessContext, $share, new ShareSource($class, $value));
 				$this->dbConnection->commit();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
 			} catch (Exception $exception) {
@@ -256,8 +257,8 @@ final class ApiV1Controller extends OCSController {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->removeShareSource($this->accessContext, $id, new ShareSource($class, $value));
 				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->removeShareSource($this->accessContext, $share, new ShareSource($class, $value));
 				$this->dbConnection->commit();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
 			} catch (Exception $exception) {
@@ -292,8 +293,8 @@ final class ApiV1Controller extends OCSController {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->addShareRecipient($this->accessContext, $id, new ShareRecipient($class, $value, $instance));
 				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->addShareRecipient($this->accessContext, $share, new ShareRecipient($class, $value, $instance));
 				$this->dbConnection->commit();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
 			} catch (Exception $exception) {
@@ -329,8 +330,8 @@ final class ApiV1Controller extends OCSController {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->removeShareRecipient($this->accessContext, $id, new ShareRecipient($class, $value, $instance));
 				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->removeShareRecipient($this->accessContext, $share, new ShareRecipient($class, $value, $instance));
 				$this->dbConnection->commit();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
 			} catch (Exception $exception) {
@@ -366,8 +367,8 @@ final class ApiV1Controller extends OCSController {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->updateShareRecipientSecret($this->accessContext, $id, new ShareRecipient($class, $value, $instance), $secret);
 				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->updateShareRecipientSecret($this->accessContext, $share, new ShareRecipient($class, $value, $instance), $secret);
 				$this->dbConnection->commit();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
 			} catch (Exception $exception) {
@@ -403,8 +404,8 @@ final class ApiV1Controller extends OCSController {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->updateShareProperty($this->accessContext, $id, new ShareProperty($class, $value));
 				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->updateShareProperty($this->accessContext, $share, new ShareProperty($class, $value));
 				$this->dbConnection->commit();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
 			} catch (Exception $exception) {
@@ -440,8 +441,8 @@ final class ApiV1Controller extends OCSController {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->updateSharePermission($this->accessContext, $id, new SharePermission($class, $enabled));
 				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->updateSharePermission($this->accessContext, $share, new SharePermission($class, $enabled));
 				$this->dbConnection->commit();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
 			} catch (Exception $exception) {
@@ -476,8 +477,8 @@ final class ApiV1Controller extends OCSController {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->selectSharePermissionPreset($this->accessContext, $id, $permissionPresetClass);
 				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->selectSharePermissionPreset($this->accessContext, $share, $permissionPresetClass);
 				$this->dbConnection->commit();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
 			} catch (Exception $exception) {
@@ -508,7 +509,8 @@ final class ApiV1Controller extends OCSController {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->deleteShare($this->accessContext, $id);
+				$share = $this->manager->getShare($this->accessContext, $id);
+				$this->manager->deleteShare($this->accessContext, $share);
 				$this->dbConnection->commit();
 				return new DataResponse([], Http::STATUS_NO_CONTENT);
 			} catch (Exception $exception) {

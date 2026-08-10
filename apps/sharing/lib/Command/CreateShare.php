@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Sharing\Command;
 
 use NCU\Sharing\Exception\ShareInvalidException;
+use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
@@ -36,6 +37,6 @@ final class CreateShare extends SharingBase {
 			throw new ShareInvalidException('The owner does not exist: ' . $ownerUid, Server::get(IFactory::class)->get('sharing')->t('The owner does not exist: %s', [$ownerUid]));
 		}
 
-		return $this->wrapExecution($output, fn (): string => $this->manager->createShare(new ShareAccessContext($owner)));
+		return $this->wrapExecution($output, fn (): Share => $this->manager->createShare(new ShareAccessContext($owner)));
 	}
 }

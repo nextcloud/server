@@ -204,4 +204,13 @@ interface ISharingBackend {
 	 * @experimental 35.0.0
 	 */
 	public function setLastUpdated(array $ids, \DateTimeImmutable $lastUpdated): void;
+
+	/**
+	 * Ensure that all relevant properties and permissions have a value set, inserting defaults when needed
+	 *
+	 * @param non-empty-array<Share> $shares
+	 * @return non-empty-array<Share>
+	 * @experimental 35.0.0
+	 */
+	public function ensureDefaults(array $shares): array;
 }
