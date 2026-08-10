@@ -87,7 +87,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	protected IUser $user2;
 
 	private function parseTime(mixed $timestampMs): \DateTimeImmutable {
-		$timestampMs = (int)$timestampMs;
 		$time = \DateTimeImmutable::createFromFormat('U.u', number_format((float)$timestampMs / 1000.0, 3, '.', ''));
 		if ($time === false) {
 			throw new \RuntimeException('invalid timestamp: ' . $timestampMs);
