@@ -25,8 +25,6 @@ use OCP\IUserSession;
 use OCP\Security\Ip\IRemoteAddress;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\IPasswordConfirmationBackend;
-use ReflectionAttribute;
-use ReflectionMethod;
 
 class PasswordConfirmationMiddleware extends Middleware {
 	private array $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
@@ -81,8 +79,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 			// No scope to test
 		}
 
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
+		if ($this->isPasswordConfirmationStrict()) {
 			$password = $this->request->getHeader('PHP_AUTH_PW');
 
 			if ($password === '') {
@@ -109,9 +106,8 @@ class PasswordConfirmationMiddleware extends Middleware {
 		return $this->reflector->hasAnnotationOrAttribute('PasswordConfirmationRequired', PasswordConfirmationRequired::class);
 	}
 
-	private function isPasswordConfirmationStrict(ReflectionMethod $reflectionMethod): bool {
-		/** @var ReflectionAttribute<PasswordConfirmationRequired>[] $attributes */
-		$attributes = $reflectionMethod->getAttributes(PasswordConfirmationRequired::class);
-		return !empty($attributes) && ($attributes[0]->newInstance()->getStrict());
+	private function isPasswordConfirmationStrict(): bool {
+		$attribute = $this->reflector->getAttribute(PasswordConfirmationRequired::class);
+		return $attribute !== null && ($attribute->newInstance()->getStrict());
 	}
 }
