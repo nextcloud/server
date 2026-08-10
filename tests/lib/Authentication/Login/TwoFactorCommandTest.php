@@ -56,6 +56,41 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 		$this->assertTrue($result->isSuccess());
 	}
 
+	public function testSkippedForVerifiedWebAuthnLogin(): void {
+		$data = $this->getLoggedInLoginData();
+		$data->setWebAuthnUserVerified(true);
+		$this->twoFactorManager->expects($this->never())
+			->method('prepareTwoFactorLogin');
+
+		$result = $this->cmd->process($data);
+
+		$this->assertTrue($result->isSuccess());
+		$this->assertNull($result->getRedirectUrl());
+	}
+
+	public function testNotSkippedForWebAuthnLoginWithoutUserVerification(): void {
+		$data = $this->getLoggedInLoginData();
+		$data->setWebAuthnUserVerified(false);
+		$this->twoFactorManager->expects($this->once())
+			->method('isTwoFactorAuthenticated')
+			->willReturn(true);
+		$this->twoFactorManager->expects($this->once())
+			->method('prepareTwoFactorLogin');
+		$this->twoFactorManager->expects($this->once())
+			->method('getProviderSet')
+			->willReturn(new ProviderSet([], false));
+		$this->twoFactorManager->expects($this->once())
+			->method('getLoginSetupProviders')
+			->willReturn([]);
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->willReturn('two/factor/url');
+
+		$result = $this->cmd->process($data);
+
+		$this->assertEquals('two/factor/url', $result->getRedirectUrl());
+	}
+
 	public function testProcessOneActiveProvider(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->twoFactorManager->expects($this->once())

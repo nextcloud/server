@@ -27,6 +27,7 @@ use Webauthn\AuthenticatorAssertionResponse;
 use Webauthn\AuthenticatorAssertionResponseValidator;
 use Webauthn\AuthenticatorAttestationResponse;
 use Webauthn\AuthenticatorAttestationResponseValidator;
+use Webauthn\AuthenticatorData;
 use Webauthn\AuthenticatorSelectionCriteria;
 use Webauthn\PublicKeyCredentialCreationOptions;
 use Webauthn\PublicKeyCredentialDescriptor;
@@ -168,7 +169,7 @@ class Manager {
 		);
 	}
 
-	public function finishAuthentication(PublicKeyCredentialRequestOptions $publicKeyCredentialRequestOptions, string $data, string $uid) {
+	public function finishAuthentication(PublicKeyCredentialRequestOptions $publicKeyCredentialRequestOptions, string $data, string $uid): AuthenticatorData {
 		$attestationStatementSupportManager = new AttestationStatementSupportManager();
 		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
 
@@ -216,7 +217,7 @@ class Manager {
 			throw $e;
 		}
 
-		return true;
+		return $response->authenticatorData;
 	}
 
 	public function deleteRegistration(IUser $user, int $id): void {
