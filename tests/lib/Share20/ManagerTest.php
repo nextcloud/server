@@ -993,10 +993,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testGeneralChecks($share, $exceptionMessage, $exception): void {
 		$thrown = null;
 
-		$this->userManager->method('userExists')->willReturnMap([
-			['user0', true],
-			['user1', true],
-		]);
+		$this->userManager->method('userExists')->willReturnCallBack(fn (?string $userId) => $userId === 'user0' || $userId === 'user1');
 
 		$this->groupManager->method('groupExists')->willReturnMap([
 			['group0', true],
@@ -1038,8 +1035,8 @@ class ManagerTest extends \Test\TestCase {
 		$thrown = null;
 
 		$this->userManager->method('userExists')->willReturnMap([
-			['user0', true],
-			['user1', true],
+			['user0', [], true],
+			['user1', [], true],
 		]);
 
 		$userFolder = $this->createMock(Folder::class);
