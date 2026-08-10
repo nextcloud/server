@@ -986,8 +986,8 @@ class ManagerTest extends \Test\TestCase {
 		$thrown = null;
 
 		$this->userManager->method('userExists')->willReturnMap([
-			['user0', true],
-			['user1', true],
+			['user0', [], true],
+			['user1', [], true],
 		]);
 
 		$this->groupManager->method('groupExists')->willReturnMap([
@@ -1030,8 +1030,8 @@ class ManagerTest extends \Test\TestCase {
 		$thrown = null;
 
 		$this->userManager->method('userExists')->willReturnMap([
-			['user0', true],
-			['user1', true],
+			['user0', [], true],
+			['user1', [], true],
 		]);
 
 		$userFolder = $this->createMock(Folder::class);

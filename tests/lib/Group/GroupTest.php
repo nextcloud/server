@@ -8,7 +8,6 @@
 
 namespace Test\Group;
 
-use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -22,12 +21,7 @@ class GroupTest extends \Test\TestCase {
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 	}
 
-	/**
-	 * @param string $uid
-	 * @param \OC\User\Backend $backend
-	 * @return User
-	 */
-	private function newUser($uid, \OC\User\Backend $backend) {
+	private function newUser(string $uid, \OC\User\Backend $backend): IUser {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn($uid);
@@ -52,11 +46,11 @@ class GroupTest extends \Test\TestCase {
 		$user3 = $this->newUser('user3', $backend);
 		$userManager->expects($this->any())
 			->method('get')
-			->willReturnMap([
-				['user1', $user1],
-				['user2', $user2],
-				['user3', $user3]
-			]);
+			->willReturnCallback(fn (string $userId, array $excludedBackend) => match ($userId) {
+				'user1' => $user1,
+				'user2' => $user2,
+				'user3' => $user3,
+			});
 		return $userManager;
 	}
 
