@@ -15,6 +15,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCP\IConfig;
@@ -2413,5 +2414,51 @@ EOD;
 
 	private function assertStringEqualsStringIgnoringLineEndingsWithTrim(string $expected, string $actual, string $message = ''): void {
 		$this->assertStringEqualsStringIgnoringLineEndings(trim($expected), trim($actual), $message);
+	}
+
+	private function buildFederatedCalendarEntity(int $state): FederatedCalendarEntity {
+		$entity = new FederatedCalendarEntity();
+		$entity->setId(10);
+		$entity->setPrincipaluri(self::UNIT_TEST_USER);
+		$entity->setUri('federated-cal');
+		$entity->setDisplayName('Federated calendar');
+		$entity->setComponents('VEVENT');
+		$entity->setSharedBy('sharer@nextcloud.remote');
+		$entity->setState($state);
+		return $entity;
+	}
+
+	public function testGetFederatedCalendarsForUserOnlyQueriesAcceptedCalendars(): void {
+		$entity = $this->buildFederatedCalendarEntity(FederatedCalendarEntity::STATE_ACCEPTED);
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('findByPrincipalUri')
+			->with(self::UNIT_TEST_USER, FederatedCalendarEntity::STATE_ACCEPTED)
+			->willReturn([$entity]);
+
+		$calendars = $this->backend->getFederatedCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertCount(1, $calendars);
+		$this->assertSame($entity->getId(), $calendars[0]['id']);
+	}
+
+	public function testGetFederatedCalendarByUriReturnsAcceptedCalendar(): void {
+		$entity = $this->buildFederatedCalendarEntity(FederatedCalendarEntity::STATE_ACCEPTED);
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('findByUri')
+			->with(self::UNIT_TEST_USER, 'federated-cal')
+			->willReturn($entity);
+
+		$calendarInfo = $this->backend->getFederatedCalendarByUri(self::UNIT_TEST_USER, 'federated-cal');
+		$this->assertNotNull($calendarInfo);
+		$this->assertSame($entity->getId(), $calendarInfo['id']);
+	}
+
+	public function testGetFederatedCalendarByUriHidesPendingCalendar(): void {
+		$entity = $this->buildFederatedCalendarEntity(FederatedCalendarEntity::STATE_PENDING);
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('findByUri')
+			->with(self::UNIT_TEST_USER, 'federated-cal')
+			->willReturn($entity);
+
+		$this->assertNull($this->backend->getFederatedCalendarByUri(self::UNIT_TEST_USER, 'federated-cal'));
 	}
 }
