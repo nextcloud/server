@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Test\Activity;
 
 use OC\Activity\Manager;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\Activity\Exceptions\IncompleteActivityException;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
@@ -34,6 +35,7 @@ class ManagerTest extends TestCase {
 	protected IValidator&MockObject $validator;
 	protected IRichTextFormatter&MockObject $richTextFormatter;
 	private ITimeFactory&MockObject $time;
+	private Coordinator&MockObject $coordinator;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -45,6 +47,7 @@ class ManagerTest extends TestCase {
 		$this->validator = $this->createMock(IValidator::class);
 		$this->richTextFormatter = $this->createMock(IRichTextFormatter::class);
 		$this->time = $this->createMock(ITimeFactory::class);
+		$this->coordinator = $this->createMock(Coordinator::class);
 
 		$this->activityManager = new Manager(
 			$this->request,
@@ -54,6 +57,7 @@ class ManagerTest extends TestCase {
 			$this->richTextFormatter,
 			$this->createMock(IL10N::class),
 			$this->time,
+			$this->coordinator,
 		);
 
 		$this->assertSame([], self::invokePrivate($this->activityManager, 'getConsumers'));

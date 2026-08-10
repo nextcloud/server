@@ -591,6 +591,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IRichTextFormatter::class),
 				$l10n,
 				$c->get(ITimeFactory::class),
+				$c->get(\OC\AppFramework\Bootstrap\Coordinator::class),
 			);
 		});
 

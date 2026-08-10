@@ -452,4 +452,13 @@ interface IRegistrationContext {
 	 * @since 31.0.0
 	 */
 	public function registerConfigLexicon(string $configLexiconClass): void;
+
+	/**
+	 * Register an implementation of \OCP\Activity\IActivityFocusedSelector that
+	 * will extend the DB query to find focused activity events
+	 *
+	 * @param class-string<\OCP\Activity\IActivityFocusedSelector> $configLexiconClass
+	 * @since 35.0.0
+	 */
+	public function registerActivityFocusedSelector(string $activityFocusedSelectorClass): void;
 }

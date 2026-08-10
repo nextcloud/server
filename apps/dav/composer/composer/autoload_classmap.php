@@ -32,6 +32,7 @@ return array(
     'OCA\\DAV\\BulkUpload\\BulkUploadPlugin' => $baseDir . '/../lib/BulkUpload/BulkUploadPlugin.php',
     'OCA\\DAV\\BulkUpload\\MultipartRequestParser' => $baseDir . '/../lib/BulkUpload/MultipartRequestParser.php',
     'OCA\\DAV\\CalDAV\\Activity\\Backend' => $baseDir . '/../lib/CalDAV/Activity/Backend.php',
+    'OCA\\DAV\\CalDAV\\Activity\\CalendarFocusedSelector' => $baseDir . '/../lib/CalDAV/Activity/CalendarFocusedSelector.php',
     'OCA\\DAV\\CalDAV\\Activity\\Filter\\Calendar' => $baseDir . '/../lib/CalDAV/Activity/Filter/Calendar.php',
     'OCA\\DAV\\CalDAV\\Activity\\Filter\\Todo' => $baseDir . '/../lib/CalDAV/Activity/Filter/Todo.php',
     'OCA\\DAV\\CalDAV\\Activity\\Provider\\Base' => $baseDir . '/../lib/CalDAV/Activity/Provider/Base.php',
