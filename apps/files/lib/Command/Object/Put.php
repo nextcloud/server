@@ -31,9 +31,12 @@ class Put {
 	public function __invoke(
 		IOutput $output,
 		IQuestionHelper $questionHelper,
-		#[Argument(description: 'Source local path, use - to read from STDIN')] string $input,
-		#[Argument(description: 'Object to write')] string $object,
-		#[Option(description: "Bucket where to store the object, only required in cases where it can't be determined from the config", shortcut: 'b')] ?string $bucket = null,
+		#[Argument(description: 'Source local path, use - to read from STDIN')]
+		string $input,
+		#[Argument(description: 'Object to write')]
+		string $object,
+		#[Option(description: "Bucket where to store the object, only required in cases where it can't be determined from the config", shortcut: 'b')]
+		?string $bucket = null,
 	): ExitCode|int {
 		$objectStore = $this->objectUtils->getObjectStore($bucket, $output);
 		if (!$objectStore) {

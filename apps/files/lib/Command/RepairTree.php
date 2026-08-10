@@ -22,7 +22,7 @@ use OCP\IDBConnection;
 	description: 'Try and repair malformed filesystem tree structures (may be necessary to run multiple times for nested malformations)',
 )]
 class RepairTree {
-	public const CHUNK_SIZE = 200;
+	public const int CHUNK_SIZE = 200;
 
 	public function __construct(
 		private readonly IDBConnection $connection,
@@ -31,9 +31,12 @@ class RepairTree {
 
 	public function __invoke(
 		IOutput $output,
-		#[Option] bool $dryRun = false,
-		#[Option(name: 'storage-id', description: 'If set, only repair files within the given storage numeric ID', shortcut: 's')] ?string $storageId = null,
-		#[Option(description: 'If set, only repair files within the given path', shortcut: 'p')] ?string $path = null,
+		#[Option]
+		bool $dryRun = false,
+		#[Option(name: 'storage-id', description: 'If set, only repair files within the given storage numeric ID', shortcut: 's')]
+		?string $storageId = null,
+		#[Option(description: 'If set, only repair files within the given path', shortcut: 'p')]
+		?string $path = null,
 	): ExitCode {
 		$rows = $this->findBrokenTreeBits($storageId, $path);
 		$fix = !$dryRun;

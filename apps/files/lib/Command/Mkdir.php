@@ -30,7 +30,8 @@ class Mkdir {
 
 	public function __invoke(
 		IOutput $output,
-		#[Argument(description: 'Target Nextcloud path for the new folder')] string $path,
+		#[Argument(description: 'Target Nextcloud path for the new folder')]
+		string $path,
 	): ExitCode {
 		$node = $this->fileUtils->getNode($path);
 

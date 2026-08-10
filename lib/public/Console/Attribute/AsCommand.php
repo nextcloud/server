@@ -64,6 +64,7 @@ final class AsCommand {
 	 * @param bool $hidden If true, the command won't be shown when listing all the available commands, but it can still be run as any other command
 	 * @param string|null $help The help content of the command, displayed with the help page
 	 * @param string[] $usages The list of usage examples, displayed with the help page
+	 * @param bool $supportsOutputFormat If true, the command can output the result in JSON
 	 * @since 35.0.0
 	 */
 	public function __construct(
@@ -72,6 +73,7 @@ final class AsCommand {
 		public ?string $help = null,
 		public array $usages = [],
 		public bool $hidden = false,
+		public bool $supportsOutputFormat = false,
 	) {
 	}
 }

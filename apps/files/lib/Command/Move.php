@@ -32,12 +32,15 @@ class Move {
 	public function __invoke(
 		IOutput $output,
 		IQuestionHelper $questionHelper,
-		#[Argument(description: 'Source file id or path')] string $source,
-		#[Argument(description: 'Target path')] string $target,
+		#[Argument(description: 'Source file id or path')]
+		string $source,
+		#[Argument(description: 'Target path')]
+		string $target,
 		#[Option(
 			description: "Don't ask for configuration and don't output any warnings",
 			shortcut: 'f',
-		)] bool $force = false,
+		)]
+		bool $force = false,
 	): ExitCode {
 		$node = $this->fileUtils->getNode($source);
 		$targetNode = $this->fileUtils->getNode($target);

@@ -26,7 +26,7 @@ use OCP\IDBConnection;
 	help: 'Deletes orphaned filecache and mount entries (those without an existing storage).',
 )]
 class DeleteOrphanedFiles {
-	public const CHUNK_SIZE = 200;
+	public const int CHUNK_SIZE = 200;
 
 	public function __construct(
 		protected readonly IDBConnection $connection,

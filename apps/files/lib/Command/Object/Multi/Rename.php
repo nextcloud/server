@@ -33,8 +33,10 @@ class Rename {
 	public function __invoke(
 		IOutput $output,
 		IQuestionHelper $questionHelper,
-		#[Argument(description: 'Object store configuration to rename')] string $source,
-		#[Argument(description: 'New name for the object store configuration')] string $target,
+		#[Argument(description: 'Object store configuration to rename')]
+		string $source,
+		#[Argument(description: 'New name for the object store configuration')]
+		string $target,
 	): ExitCode {
 		$configs = $this->objectStoreConfig->getObjectStoreConfigs();
 		if (!isset($configs[$source])) {

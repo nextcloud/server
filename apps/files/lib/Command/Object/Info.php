@@ -14,6 +14,7 @@ use OCP\Console\Attribute\Option;
 use OCP\Console\ExitCode;
 use OCP\Console\IInput;
 use OCP\Console\IOutput;
+use OCP\Console\OutputFormat;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\Util;
@@ -21,6 +22,7 @@ use OCP\Util;
 #[AsCommand(
 	name: 'files:object:info',
 	description: 'Get the metadata of an object',
+	supportsOutputFormat: true,
 )]
 class Info {
 	public function __construct(
@@ -32,8 +34,11 @@ class Info {
 	public function __invoke(
 		IInput $input,
 		IOutput $output,
-		#[Argument(description: 'Object to get')] string $object,
-		#[Option(description: "Bucket to get the object from, only required in cases where it can't be determined from the config", shortcut: 'b')] ?string $bucket = null,
+		OutputFormat $outputFormat,
+		#[Argument(description: 'Object to get')]
+		string $object,
+		#[Option(description: "Bucket to get the object from, only required in cases where it can't be determined from the config", shortcut: 'b')]
+		?string $bucket = null,
 	): ExitCode {
 		$objectStore = $this->objectUtils->getObjectStore($bucket, $output);
 		if (!$objectStore) {
@@ -58,7 +63,7 @@ class Info {
 			return ExitCode::Failure;
 		}
 
-		if ($input->getOption('output') === 'plain' && isset($meta['size'])) {
+		if ($outputFormat === OutputFormat::Plain && isset($meta['size'])) {
 			$meta['size'] = Util::humanFileSize($meta['size']);
 		}
 		if (isset($meta['mtime'])) {

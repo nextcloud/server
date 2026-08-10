@@ -72,7 +72,7 @@ interface IOutput {
 	/**
 	 * Write a list of items in the format specified with --output
 	 *
-	 * @param list<string> $items
+	 * @param array $items
 	 * @since 35.0.0
 	 */
 	public function writeArrayInOutputFormat(iterable $items, string $prefix = '  - '): void;

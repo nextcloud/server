@@ -28,8 +28,10 @@ class WindowsCompatibleFilenames {
 
 	public function __invoke(
 		IOutput $output,
-		#[Option(description: 'Enable windows naming constraints')] bool $enable = false,
-		#[Option(description: 'Disable windows naming constraints')] bool $disable = false,
+		#[Option(description: 'Enable windows naming constraints')]
+		bool $enable = false,
+		#[Option(description: 'Disable windows naming constraints')]
+		bool $disable = false,
 	): ExitCode {
 		if ($enable) {
 			if ($this->service->hasFilesWindowsSupport()) {

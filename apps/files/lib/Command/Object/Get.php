@@ -26,9 +26,12 @@ class Get {
 
 	public function __invoke(
 		IOutput $output,
-		#[Argument(description: 'Object to get')] string $object,
-		#[Argument(name: 'output', description: 'Target local file to output to, use - for STDOUT')] string $outputFile,
-		#[Option(description: "Bucket to get the object from, only required in cases where it can't be determined from the config", shortcut: 'b')] ?string $bucket = null,
+		#[Argument(description: 'Object to get')]
+		string $object,
+		#[Argument(name: 'output', description: 'Target local file to output to, use - for STDOUT')]
+		string $outputFile,
+		#[Option(description: "Bucket to get the object from, only required in cases where it can't be determined from the config", shortcut: 'b')]
+		?string $bucket = null,
 	): ExitCode {
 		$objectStore = $this->objectUtils->getObjectStore($bucket, $output);
 		if (!$objectStore) {

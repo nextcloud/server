@@ -34,12 +34,15 @@ class Delete {
 	public function __invoke(
 		IOutput $output,
 		IQuestionHelper $questionHelper,
-		#[Argument(description: 'File id or path')] string $file,
+		#[Argument(description: 'File id or path')]
+		string $file,
 		#[Option(
 			description: "Don't ask for configuration and don't output any warnings",
 			shortcut: 'f',
-		)] bool $force = false,
-		#[Option(name: 'skip-trash', description: 'Bypass the trashbin when deleting the file or folder')] bool $skipTrash = false,
+		)]
+		bool $force = false,
+		#[Option(name: 'skip-trash', description: 'Bypass the trashbin when deleting the file or folder')]
+		bool $skipTrash = false,
 	): ExitCode {
 		$inputIsId = is_numeric($file);
 		$node = $this->fileUtils->getNode($file);

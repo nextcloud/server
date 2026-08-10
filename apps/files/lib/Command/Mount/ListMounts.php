@@ -14,6 +14,7 @@ use OCP\Console\Attribute\Option;
 use OCP\Console\ExitCode;
 use OCP\Console\IInput;
 use OCP\Console\IOutput;
+use OCP\Console\OutputFormat;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
@@ -23,6 +24,7 @@ use OCP\IUserManager;
 #[AsCommand(
 	name: 'files:mount:list',
 	description: 'List of mounts for a user',
+	supportsOutputFormat: true,
 )]
 class ListMounts {
 	public function __construct(
@@ -35,8 +37,11 @@ class ListMounts {
 	public function __invoke(
 		IInput $input,
 		IOutput $output,
-		#[Argument(description: 'User to list mounts for')] string $user,
-		#[Option(name: 'cached-only', description: 'Only return cached mounts, prevents filesystem setup')] bool $cachedOnly = false,
+		OutputFormat $outputFormat,
+		#[Argument(description: 'User to list mounts for')]
+		string $user,
+		#[Option(name: 'cached-only', description: 'Only return cached mounts, prevents filesystem setup')]
+		bool $cachedOnly = false,
 	): ExitCode {
 		$userId = $user;
 		$user = $this->userManager->get($userId);
@@ -60,9 +65,7 @@ class ListMounts {
 		/** @var array<string, ICachedMountInfo> $cachedByMountpoint */
 		$cachedByMountPoint = array_combine(array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $cachedMounts), $cachedMounts);
 
-		$format = $input->getOption('output');
-
-		if ($format === 'plain') {
+		if ($outputFormat === OutputFormat::Plain) {
 			foreach ($mounts as $mount) {
 				$output->writeln('<info>' . $mount->getMountPoint() . '</info>: ' . $mount->getStorageId());
 				if (isset($cachedByMountPoint[$mount->getMountPoint()])) {

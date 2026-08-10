@@ -27,8 +27,10 @@ class Get {
 
 	public function __invoke(
 		IOutput $output,
-		#[Argument(description: 'Source file id or Nextcloud path')] string $file,
-		#[Argument(name: 'output', description: 'Target local file to output to, defaults to STDOUT')] ?string $outputFile = null,
+		#[Argument(description: 'Source file id or Nextcloud path')]
+		string $file,
+		#[Argument(name: 'output', description: 'Target local file to output to, defaults to STDOUT')]
+		?string $outputFile = null,
 	): ExitCode {
 		$node = $this->fileUtils->getNode($file);
 

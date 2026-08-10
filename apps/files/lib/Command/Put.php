@@ -30,8 +30,10 @@ class Put {
 
 	public function __invoke(
 		IOutput $output,
-		#[Argument(description: 'Source local path, use - to read from STDIN')] string $input,
-		#[Argument(description: 'Target Nextcloud file path to write to or fileid of existing file')] string $file,
+		#[Argument(description: 'Source local path, use - to read from STDIN')]
+		string $input,
+		#[Argument(description: 'Target Nextcloud file path to write to or fileid of existing file')]
+		string $file,
 	): ExitCode {
 		$node = $this->fileUtils->getNode($file);
 

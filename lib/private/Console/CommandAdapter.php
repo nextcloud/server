@@ -15,6 +15,9 @@ use OCP\Console\ExitCode;
 use OCP\Console\IInput;
 use OCP\Console\IOutput;
 use OCP\Console\IQuestionHelper;
+use OCP\Console\OutputFormat;
+use OCP\Defaults;
+use OCP\Server;
 use Override;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -97,7 +100,17 @@ class CommandAdapter extends Base {
 
 	#[Override]
 	public function configure(): void {
-		parent::configure();
+		$this->setHelp('More extensive and thorough documentation may be found at ' . Server::get(Defaults::class)->getDocBaseUrl() . PHP_EOL);
+
+		if ($this->asCommand->supportsOutputFormat) {
+			$this->addOption(
+				'output',
+				null,
+				InputOption::VALUE_OPTIONAL,
+				'Output format (plain, json or json_pretty, default is plain)',
+				$this->defaultOutputFormat
+			);
+		}
 
 		$this->setName($this->asCommand->name);
 
@@ -202,7 +215,16 @@ class CommandAdapter extends Base {
 				continue;
 			}
 
-			throw new \LogicException(\sprintf('Unable to resolve parameter "$%s" of "%s": it is neither an #[Argument], an #[Option], nor an %s, %s or %s.', $name, $this->reflectionMethod->getName(), IOutput::class, IInput::class, IQuestionHelper::class));
+			if ($type instanceof \ReflectionNamedType && $type->getName() === OutputFormat::class) {
+				$output = OutputFormat::tryFrom($input->getOption('output'));
+				if ($output === null) {
+					$output = OutputFormat::Plain;
+				}
+				$parameters[] = $output;
+				continue;
+			}
+
+			throw new \LogicException(\sprintf('Unable to resolve parameter "$%s" of "%s": it is neither an #[Argument], an #[Option], nor an %s, %s, %s or %s.', $name, $this->reflectionMethod->getName(), IOutput::class, IInput::class, IQuestionHelper::class, OutputFormat::class));
 		}
 
 		if ($this->method !== null) {

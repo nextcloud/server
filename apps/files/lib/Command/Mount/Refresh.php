@@ -30,7 +30,8 @@ class Refresh {
 
 	public function __invoke(
 		IOutput $output,
-		#[Argument(description: 'User to refresh mounts for')] string $user,
+		#[Argument(description: 'User to refresh mounts for')]
+		string $user,
 	): ExitCode {
 		$userId = $user;
 		$user = $this->userManager->get($userId);

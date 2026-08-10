@@ -9,31 +9,35 @@ declare(strict_types=1);
 namespace OCA\Files\Command\Object\Multi;
 
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
+use OCP\Config\IUserConfig;
 use OCP\Console\Attribute\AsCommand;
 use OCP\Console\Attribute\Option;
 use OCP\Console\ExitCode;
 use OCP\Console\IOutput;
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 
 #[AsCommand(
 	name: 'files:object:multi:users',
 	description: 'Get the mapping between users and object store buckets',
+	supportsOutputFormat: true,
 )]
 class Users {
 	public function __construct(
 		private readonly IUserManager $userManager,
 		private readonly PrimaryObjectStoreConfig $objectStoreConfig,
-		private readonly IConfig $config,
+		private readonly IUserConfig $userConfig,
 	) {
 	}
 
 	public function __invoke(
 		IOutput $output,
-		#[Option(description: 'Only list users using the specified bucket', shortcut: 'b')] ?string $bucket = null,
-		#[Option(name: 'object-store', description: 'Only list users using the specified object store configuration', shortcut: 'o')] ?string $objectStore = null,
-		#[Option(description: 'Only show the mapping for the specified user, ignores all other options', shortcut: 'u')] ?string $user = null,
+		#[Option(description: 'Only list users using the specified bucket', shortcut: 'b')]
+		?string $bucket = null,
+		#[Option(name: 'object-store', description: 'Only list users using the specified object store configuration', shortcut: 'o')]
+		?string $objectStore = null,
+		#[Option(description: 'Only show the mapping for the specified user, ignores all other options', shortcut: 'u')]
+		?string $user = null,
 	): ExitCode {
 		if ($user) {
 			$userObject = $this->userManager->get($user);
@@ -46,13 +50,13 @@ class Users {
 			$bucket = (string)$bucket;
 			$objectStore = (string)$objectStore;
 			if ($bucket !== '' && $objectStore === '') {
-				$users = $this->getUsers($this->config->getUsersForUserValue('homeobjectstore', 'bucket', $bucket));
+				$users = $this->getUsers($this->userConfig->searchUsersByValueString('homeobjectstore', 'bucket', $bucket));
 			} elseif ($bucket === '' && $objectStore !== '') {
-				$users = $this->getUsers($this->config->getUsersForUserValue('homeobjectstore', 'objectstore', $objectStore));
+				$users = $this->getUsers($this->userConfig->searchUsersByValueString('homeobjectstore', 'objectstore', $objectStore));
 			} elseif ($bucket) {
 				$users = $this->getUsers(array_intersect(
-					$this->config->getUsersForUserValue('homeobjectstore', 'bucket', $bucket),
-					$this->config->getUsersForUserValue('homeobjectstore', 'objectstore', $objectStore)
+					iterator_to_array($this->userConfig->searchUsersByValueString('homeobjectstore', 'bucket', $bucket)),
+					iterator_to_array($this->userConfig->searchUsersByValueString('homeobjectstore', 'objectstore', $objectStore))
 				));
 			} else {
 				$users = $this->userManager->getSeenUsers();
@@ -64,10 +68,10 @@ class Users {
 	}
 
 	/**
-	 * @param string[] $userIds
+	 * @param iterable<string> $userIds
 	 * @return \Iterator<IUser>
 	 */
-	private function getUsers(array $userIds): \Iterator {
+	private function getUsers(iterable $userIds): \Iterator {
 		foreach ($userIds as $userId) {
 			$user = $this->userManager->get($userId);
 			if ($user) {

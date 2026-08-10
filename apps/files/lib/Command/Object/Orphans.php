@@ -13,6 +13,7 @@ use OCP\Console\Attribute\Option;
 use OCP\Console\ExitCode;
 use OCP\Console\IInput;
 use OCP\Console\IOutput;
+use OCP\Console\OutputFormat;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\IDBConnection;
@@ -20,6 +21,7 @@ use OCP\IDBConnection;
 #[AsCommand(
 	name: 'files:object:orphans',
 	description: 'List all objects in the object store that don\'t have a matching entry in the database',
+	supportsOutputFormat: true,
 )]
 class Orphans {
 	private const CHUNK_SIZE = 100;
@@ -45,7 +47,9 @@ class Orphans {
 	public function __invoke(
 		IInput $input,
 		IOutput $output,
-		#[Option(description: "Bucket to list the objects from, only required in cases where it can't be determined from the config", shortcut: 'b')] ?string $bucket = null,
+		OutputFormat $outputFormat,
+		#[Option(description: "Bucket to list the objects from, only required in cases where it can't be determined from the config", shortcut: 'b')]
+		?string $bucket = null,
 	): ExitCode {
 		$objectStore = $this->objectUtils->getObjectStore($bucket, $output);
 		if (!$objectStore) {
@@ -64,7 +68,7 @@ class Orphans {
 			return !$this->fileIdInDb($fileId);
 		});
 
-		$orphans = $this->objectUtils->formatObjects($orphans, $input->getOption('output') === 'plain');
+		$orphans = $this->objectUtils->formatObjects($orphans, $outputFormat === OutputFormat::Plain);
 		$output->writeStreamingTableInOutputFormat($orphans, self::CHUNK_SIZE);
 
 		return ExitCode::Success;

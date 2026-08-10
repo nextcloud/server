@@ -13,11 +13,13 @@ use OCP\Console\Attribute\Option;
 use OCP\Console\ExitCode;
 use OCP\Console\IInput;
 use OCP\Console\IOutput;
+use OCP\Console\OutputFormat;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
 
 #[AsCommand(
 	name: 'files:object:list',
 	description: 'List all objects in the object store',
+	supportsOutputFormat: true,
 )]
 class ListObject {
 	private const CHUNK_SIZE = 100;
@@ -30,7 +32,9 @@ class ListObject {
 	public function __invoke(
 		IInput $input,
 		IOutput $output,
-		#[Option(description: "Bucket to list the objects from, only required in cases where it can't be determined from the config", shortcut: 'b')] ?string $bucket = null,
+		OutputFormat $outputFormat,
+		#[Option(description: "Bucket to list the objects from, only required in cases where it can't be determined from the config", shortcut: 'b')]
+		?string $bucket = null,
 	): ExitCode {
 		$objectStore = $this->objectUtils->getObjectStore($bucket, $output);
 		if (!$objectStore) {
@@ -42,7 +46,7 @@ class ListObject {
 			return ExitCode::Failure;
 		}
 		$objects = $objectStore->listObjects();
-		$objects = $this->objectUtils->formatObjects($objects, $input->getOption('output') === 'plain');
+		$objects = $this->objectUtils->formatObjects($objects, $outputFormat === OutputFormat::Plain);
 		$output->writeStreamingTableInOutputFormat($objects, self::CHUNK_SIZE);
 
 		return ExitCode::Success;

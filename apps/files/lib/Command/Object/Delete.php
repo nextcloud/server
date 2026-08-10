@@ -29,8 +29,10 @@ class Delete {
 	public function __invoke(
 		IOutput $output,
 		IQuestionHelper $questionHelper,
-		#[Argument(description: 'Object to delete')] string $object,
-		#[Option(description: "Bucket to delete the object from, only required in cases where it can't be determined from the config", shortcut: 'b')] ?string $bucket = null,
+		#[Argument(description: 'Object to delete')]
+		string $object,
+		#[Option(description: "Bucket to delete the object from, only required in cases where it can't be determined from the config", shortcut: 'b')]
+		?string $bucket = null,
 	): ExitCode|int {
 		$objectStore = $this->objectUtils->getObjectStore($bucket, $output);
 		if (!$objectStore) {
