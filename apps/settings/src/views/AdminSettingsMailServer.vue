@@ -152,7 +152,7 @@ async function onSubmit() {
 				<NcSelect
 					v-if="smtpMode?.id === 'smtp'"
 					v-model="smtpEncryption"
-					:input-label="t('settings', 'Transport Encryption')"
+					:input-label="t('settings', 'Transport encryption')"
 					:options="settingsAdminMail.smtpEncryptionOptions"
 					required />
 				<NcSelect
