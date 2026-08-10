@@ -18,13 +18,24 @@ use OCP\AppFramework\Attribute\ExceptionalImplementable;
  *
  * @since 6.0.0
  *
- * @psalm-type NavigationEntry = array{id: string, order: int, href: string, name: string, app?: string, icon?: string, classes?: string, type?: string}
+ * @psalm-type NavigationEntry = array{
+ *     id: string,
+ *     order: int,
+ *     href: string,
+ *     name: string,
+ *     app?: string,
+ *     icon?: string,
+ *     color?: string,
+ *     classes?: string,
+ *     type?: 'link'|'action'|'settings',
+ * }
  * @psalm-type NavigationEntryOutput = array{
  *     id: string,
  *     order?: int,
  *     href: string,
  *     icon: string,
- *     type: string,
+ *     color?: string,
+ *     type: 'link'|'action'|'settings',
  *     name: string,
  *     app?: string,
  *     default?: bool,
@@ -37,28 +48,34 @@ use OCP\AppFramework\Attribute\ExceptionalImplementable;
 #[ExceptionalImplementable(app: 'guest')]
 interface INavigationManager {
 	/**
+	 * All navigation entries
+	 * @since 33.0.0
+	 */
+	public const string TYPE_ALL = 'all';
+
+	/**
+	 * Navigation entries for actions of the app menu
+	 * @since 35.0.0
+	 */
+	public const string TYPE_ACTION = 'action';
+
+	/**
 	 * Navigation entries of the app navigation
 	 * @since 16.0.0
 	 */
-	public const TYPE_APPS = 'link';
+	public const string TYPE_APPS = 'link';
 
 	/**
 	 * Navigation entries of the settings navigation
 	 * @since 16.0.0
 	 */
-	public const TYPE_SETTINGS = 'settings';
+	public const string TYPE_SETTINGS = 'settings';
 
 	/**
 	 * Navigation entries for public page footer navigation
 	 * @since 16.0.0
 	 */
-	public const TYPE_GUEST = 'guest';
-
-	/**
-	 * All navigation entries
-	 * @since 33.0.0
-	 */
-	public const TYPE_ALL = 'all';
+	public const string TYPE_GUEST = 'guest';
 
 	/**
 	 * Creates a new navigation entry
@@ -89,7 +106,7 @@ interface INavigationManager {
 	/**
 	 * Get a list of navigation entries
 	 *
-	 * @param self::TYPE_APPS|self::TYPE_SETTINGS|self::TYPE_GUEST|self::TYPE_ALL $type type of the navigation entries
+	 * @param self::TYPE_* $type type of the navigation entries
 	 * @return array<string, NavigationEntryOutput>
 	 * @since 14.0.0
 	 */

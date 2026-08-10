@@ -15,6 +15,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -24,20 +25,20 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class NavigationManagerTest extends TestCase {
-	/** @var AppManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var AppManager&MockObject */
 	protected $appManager;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator&MockObject */
 	protected $urlGenerator;
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IFactory&MockObject */
 	protected $l10nFac;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession&MockObject */
 	protected $userSession;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager&MockObject */
 	protected $groupManager;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig&MockObject */
 	protected $config;
 
-	protected IEVentDispatcher|MockObject $dispatcher;
+	protected IEventDispatcher&MockObject $dispatcher;
 
 	/** @var NavigationManager */
 	protected $navigationManager;
@@ -199,6 +200,26 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure is only called once');
 		$this->assertCount(1, $navigationEntries, 'Expected that 1 navigation entry exists');
 		$this->assertArrayHasKey('late entry', $navigationEntries);
+	}
+
+	public function testGetAllFiltersActions(): void {
+		$this->navigationManager->add([
+			'id' => 'files',
+			'name' => 'Files',
+			'order' => 1,
+			'href' => 'url',
+		]);
+		$this->navigationManager->add([
+			'id' => 'logout',
+			'name' => 'Log out',
+			'order' => 2,
+			'href' => 'url',
+			'type' => INavigationManager::TYPE_ACTION,
+		]);
+
+		$this->assertEquals(['logout'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_ACTION)));
+		$this->assertEquals(['files'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_APPS)));
+		$this->assertEquals(['files', 'logout'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_ALL)));
 	}
 
 	public function testAddArrayClearGetAll(): void {
