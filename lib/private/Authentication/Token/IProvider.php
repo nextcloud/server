@@ -146,7 +146,7 @@ interface IProvider {
 	public function setPassword(OCPIToken $token, string $tokenId, string $password);
 
 	/**
-	 * Rotate the token. Useful for for example oauth tokens
+	 * Rotate the token. Useful for example oauth tokens
 	 *
 	 * @param OCPIToken $token
 	 * @param string $oldTokenId
