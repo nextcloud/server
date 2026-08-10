@@ -32,6 +32,7 @@ abstract class Fetcher {
 	public const INVALIDATE_AFTER_SECONDS = 3600;
 	public const INVALIDATE_AFTER_SECONDS_UNSTABLE = 900;
 	public const RETRY_AFTER_FAILURE_SECONDS = 300;
+	public const MAX_STALE_SECONDS = 604800; // 7 days
 	public const APP_STORE_URL = 'https://apps.nextcloud.com/api/v1';
 
 	/** @var IAppData */
@@ -142,6 +143,35 @@ abstract class Fetcher {
 
 		$ETag = '';
 		$content = '';
+		$sameVersionCachedData = null;
+		$sameVersionCacheTimestamp = null;
+
+		$useCachedData = function () use (&$sameVersionCachedData, &$sameVersionCacheTimestamp): array {
+			$now = $this->timeFactory->getTime();
+
+			if ($sameVersionCachedData === null || $sameVersionCacheTimestamp === null) {
+				return [];
+			}
+
+			if ($sameVersionCacheTimestamp >= ($now - self::MAX_STALE_SECONDS)) {
+				$this->logger->warning(
+					'Could not refresh appstore cache, using stale data',
+					['app' => 'appstoreFetcher']
+				);
+
+				return $sameVersionCachedData;
+			}
+
+			$this->logger->warning(
+				'Could not refresh appstore cache and cached data is too old',
+				[
+					'app' => 'appstoreFetcher',
+					'cacheAge' => $now - $sameVersionCacheTimestamp,
+				]
+			);
+
+			return [];
+		};
 
 		try {
 			// File does already exists
@@ -151,6 +181,14 @@ abstract class Fetcher {
 			if (is_array($jsonBlob)) {
 				// No caching when the version has been updated
 				if (isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->getVersion()) {
+					if (isset($jsonBlob['data']) && is_array($jsonBlob['data'])) {
+						$sameVersionCachedData = $jsonBlob['data'];
+					}
+
+					if (isset($jsonBlob['timestamp']) && is_numeric($jsonBlob['timestamp'])) {
+						$sameVersionCacheTimestamp = (int)$jsonBlob['timestamp'];
+					}
+
 					// If the timestamp is older than 3600 seconds request the files new
 					$invalidateAfterSeconds = self::INVALIDATE_AFTER_SECONDS;
 
@@ -158,8 +196,13 @@ abstract class Fetcher {
 						$invalidateAfterSeconds = self::INVALIDATE_AFTER_SECONDS_UNSTABLE;
 					}
 
-					if ((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - $invalidateAfterSeconds)) {
-						return $jsonBlob['data'];
+					if (
+						$sameVersionCachedData !== null
+						&& $sameVersionCacheTimestamp !== null
+						&& $sameVersionCacheTimestamp > ($this->timeFactory->getTime() - $invalidateAfterSeconds)
+					) {
+						$this->logger->debug('Using still fresh appstore cache file', ['app' => 'appstoreFetcher']);
+						return $sameVersionCachedData;
 					}
 
 					if (isset($jsonBlob['ETag'])) {
@@ -186,21 +229,25 @@ abstract class Fetcher {
 		try {
 			$responseJson = $this->fetch($ETag, $content, $allowUnstable);
 
-			if (empty($responseJson) || empty($responseJson['data'])) {
-				return [];
+			// On refresh failure, fallback to the stale but otherwise valid,
+			// same-version cached data, provided it is no older than
+			// MAX_STALE_SECONDS. An empty data array is valid and must be
+			// written to the cache.
+			if (!isset($responseJson['data']) || !is_array($responseJson['data'])) {
+				return $useCachedData();
 			}
 
 			$file->putContent(json_encode($responseJson));
 			return json_decode($file->getContent(), true)['data'];
 		} catch (ConnectException $e) {
 			$this->logger->warning('Could not connect to appstore: ' . $e->getMessage(), ['app' => 'appstoreFetcher']);
-			return [];
+			return $useCachedData();
 		} catch (\Exception $e) {
 			$this->logger->warning($e->getMessage(), [
 				'exception' => $e,
 				'app' => 'appstoreFetcher',
 			]);
-			return [];
+			return $useCachedData();
 		}
 	}
 
