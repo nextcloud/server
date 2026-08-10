@@ -9,6 +9,8 @@ namespace OCP\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\DB\Schema\ITable;
 
 /**
  * This interface allows to get information about the database schema.
@@ -20,67 +22,62 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  *
  * @since 13.0.0
  */
+#[Consumable(since: '13.0.0')]
 interface ISchemaWrapper {
 	/**
-	 * @param string $tableName
-	 *
-	 * @return \Doctrine\DBAL\Schema\Table
-	 * @throws \Doctrine\DBAL\Schema\SchemaException
+	 * @throws Schema\SchemaException
 	 * @since 13.0.0
 	 */
-	public function getTable($tableName);
+	public function getTable(string $tableName): ITable;
 
 	/**
 	 * Does this schema have a table with the given name?
 	 *
 	 * @param string $tableName Prefix is automatically prepended
 	 *
-	 * @return boolean
 	 * @since 13.0.0
 	 */
-	public function hasTable($tableName);
+	public function hasTable(string $tableName): bool;
 
 	/**
 	 * Creates a new table.
 	 *
 	 * @param string $tableName Prefix is automatically prepended
-	 * @return \Doctrine\DBAL\Schema\Table
 	 * @since 13.0.0
 	 */
-	public function createTable($tableName);
+	public function createTable(string $tableName): ITable;
 
 	/**
 	 * Drops a table from the schema.
 	 *
 	 * @param string $tableName Prefix is automatically prepended
-	 * @return \Doctrine\DBAL\Schema\Schema
 	 * @since 13.0.0
 	 */
-	public function dropTable($tableName);
+	public function dropTable(string $tableName): self;
 
 	/**
 	 * Gets all tables of this schema.
 	 *
-	 * @return \Doctrine\DBAL\Schema\Table[]
+	 * @return list<ITable>
 	 * @since 13.0.0
 	 */
-	public function getTables();
+	public function getTables(): array;
 
 	/**
 	 * Gets all table names, prefixed with table prefix
 	 *
-	 * @return array
+	 * @return list<string>
 	 * @since 13.0.0
 	 */
-	public function getTableNames();
+	public function getTableNames(): array;
 
 	/**
 	 * Gets all table names
 	 *
-	 * @return array
+	 * @return list<string>
 	 * @since 13.0.0
 	 */
-	public function getTableNamesWithoutPrefix();
+	public function getTableNamesWithoutPrefix(): array;
 
 	/**
 	 * Gets the DatabasePlatform for the database.
@@ -90,7 +87,7 @@ interface ISchemaWrapper {
 	 * @throws Exception
 	 * @since 23.0.0
 	 */
-	public function getDatabasePlatform();
+	public function getDatabasePlatform(): AbstractPlatform;
 
 	/**
 	 * Drop autoincrement from an existing table of the database.

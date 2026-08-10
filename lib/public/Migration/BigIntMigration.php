@@ -7,9 +7,8 @@
 
 namespace OCP\Migration;
 
-use Doctrine\DBAL\Types\Type;
-use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
 
 /**
  * @since 13.0.0
@@ -41,9 +40,9 @@ abstract class BigIntMigration extends SimpleMigrationStep {
 
 			foreach ($columns as $columnName) {
 				$column = $table->getColumn($columnName);
-				if (Type::lookupName($column->getType()) !== Types::BIGINT) {
-					$column->setType(Type::getType(Types::BIGINT));
-					$column->setOptions(['length' => 20]);
+				if ($column->getType()->getName() !== Types::BIGINT) {
+					$column->setType(Types::BIGINT);
+					$column->setLength(20);
 				}
 			}
 		}
