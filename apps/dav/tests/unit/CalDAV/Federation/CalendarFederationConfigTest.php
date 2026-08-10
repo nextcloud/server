@@ -114,4 +114,21 @@ class CalendarFederationConfigTest extends TestCase {
 
 		$this->assertEquals($expected, $this->config->isIncomingServer2serverShareEnabled());
 	}
+
+	public static function provideIsTrustedShareAutoAcceptEnabledData(): array {
+		return [
+			[true],
+			[false],
+		];
+	}
+
+	#[DataProvider(methodName: 'provideIsTrustedShareAutoAcceptEnabledData')]
+	public function testIsTrustedShareAutoAcceptEnabled(bool $configValue): void {
+		$this->appConfig->expects(self::once())
+			->method('getValueBool')
+			->with('files_sharing', 'federatedTrustedShareAutoAccept', true)
+			->willReturn($configValue);
+
+		$this->assertEquals($configValue, $this->config->isTrustedShareAutoAcceptEnabled());
+	}
 }
