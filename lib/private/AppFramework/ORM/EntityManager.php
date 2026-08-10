@@ -70,7 +70,8 @@ final class EntityManager {
 		$entityInfo = $this->getEntityInfo($entity::class);
 		$insert = $this->connection->getQueryBuilder();
 
-		$isSnowflake = false;
+		$isComposite = $entityInfo->hasCompositeIdProperty();
+		$autoIncrementProperty = null;
 		$values = [];
 
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
@@ -80,12 +81,33 @@ final class EntityManager {
 				if ($generatorClass) {
 					if ($generatorClass === ISnowflakeGenerator::class) {
 						$generator = Server::get($generatorClass);
-						$isSnowflake = true;
 						$values[$propertyAttributes->column->name] = $generator->nextId();
 						$property->setValue($entity, $insert->createNamedParameter($values[$propertyAttributes->column->name]));
 					}
+
+					continue;
 				}
 
+				if ($isComposite) {
+					// A composite primary key can't rely on a single autoincrement column: every
+					// part must already be set on the entity (e.g. a foreign key id, or a value
+					// assigned by the caller) before insert() is called.
+					/** @var mixed $value */
+					$value = $property->getValue($entity);
+					if ($value === null) {
+						throw new \LogicException($entity::class . '::' . $property->getName() . ' is part of a composite primary key and must be set before insert(); it cannot rely on DB autoincrement.');
+					}
+					if (!is_string($value) && !is_int($value)) {
+						throw new \LogicException($entity::class . '::' . $property->getName() . ' is part of a composite primary key and must be set to a int or string before insert();.');
+					}
+
+					$type = $this->getParameterType($propertyAttributes->column->type, false);
+					$values[$propertyAttributes->column->name] = $insert->createNamedParameter($value, $type);
+					continue;
+				}
+
+				// Single autoincrement primary key: let the DB generate it, then read it back below.
+				$autoIncrementProperty = $property;
 				continue;
 			}
 
@@ -106,7 +128,7 @@ final class EntityManager {
 				if ($targetEntity === null) {
 					$values[$joinColumn->name] = $insert->createNamedParameter(null);
 				} else {
-					$values[$joinColumn->name] = $insert->createNamedParameter($targetEntityInfo->getIdProperty()->getValue($targetEntity));
+					$values[$joinColumn->name] = $insert->createNamedParameter($targetEntityInfo->getSingleIdProperty()->getValue($targetEntity));
 				}
 
 				continue;
@@ -122,8 +144,8 @@ final class EntityManager {
 			->values($values)
 			->executeStatement();
 
-		if (!$isSnowflake) {
-			$entityInfo->getIdProperty()->setValue($entity, $insert->getLastInsertId());
+		if ($autoIncrementProperty !== null) {
+			$autoIncrementProperty->setValue($entity, $insert->getLastInsertId());
 		}
 
 		return $entity;
@@ -151,7 +173,7 @@ final class EntityManager {
 					throw new \LogicException('Trying to update an entity with no primary key set.');
 				}
 
-				$update->andWhere($update->expr()->eq($entityInfo->mappingPropertyToColumn[$entityInfo->getIdProperty()->getName()], $update->createNamedParameter($property->getValue($entity))));
+				$update->andWhere($update->expr()->eq($propertyAttributes->column->name, $update->createNamedParameter($value)));
 				// don't update the id
 				continue;
 			}
@@ -169,7 +191,7 @@ final class EntityManager {
 				if ($targetEntity === null) {
 					$update->set($joinColumn->name, $update->createNamedParameter(null));
 				} else {
-					$update->set($joinColumn->name, $update->createNamedParameter($targetEntityInfo->getIdProperty()->getValue($targetEntity)));
+					$update->set($joinColumn->name, $update->createNamedParameter($targetEntityInfo->getSingleIdProperty()->getValue($targetEntity)));
 				}
 
 				continue;
@@ -266,11 +288,19 @@ final class EntityManager {
 
 		$table = $schema->createTable($entityInfo->tableName);
 
+		/** @var list<string> $idColumns */
+		$idColumns = [];
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
-			$this->createProperty($propertyAttributes, $table);
+			$this->createProperty($entityInfo, $propertyAttributes, $table);
+
+			if ($propertyAttributes->id instanceof Id && $propertyAttributes->column instanceof Column) {
+				$idColumns[] = $propertyAttributes->column->name;
+			}
 
 			$this->createRelationColumn($propertyAttributes, $table, $schema);
 		}
+
+		$table->setPrimaryKey($idColumns);
 	}
 
 	/**
@@ -281,7 +311,7 @@ final class EntityManager {
 		$this->connection->dropTable($prefix . $entityInfo->tableName);
 	}
 
-	private function createProperty(PropertyAttributes $attributes, Table $table): void {
+	private function createProperty(EntityInfo $entityInfo, PropertyAttributes $attributes, Table $table): void {
 		if (!$attributes->column instanceof Column) {
 			return;
 		}
@@ -299,15 +329,12 @@ final class EntityManager {
 			$options['default'] = $columnAttribute->default;
 		}
 
-		if ($attributes->id instanceof Id && $attributes->id->generatorClass === null) {
+		// A composite primary key can't rely on a single autoincrement column; see insert().
+		if ($attributes->id instanceof Id && $attributes->id->generatorClass === null && !$entityInfo->hasCompositeIdProperty()) {
 			$options['autoincrement'] = true;
 		}
 
 		$table->addColumn($columnAttribute->name, $columnAttribute->type, $options);
-
-		if ($attributes->id instanceof Id) {
-			$table->setPrimaryKey([$columnAttribute->name]);
-		}
 	}
 
 	private function createRelationColumn(PropertyAttributes $attributes, Table $table, SchemaWrapper $schema): void {

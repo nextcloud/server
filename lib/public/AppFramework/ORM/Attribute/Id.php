@@ -12,7 +12,7 @@ use OCP\AppFramework\Attribute\Consumable;
 use OCP\Snowflake\ISnowflakeGenerator;
 
 /**
- * Attribute for marking a column as a primary id.
+ * Attribute for marking a column as (part of) the primary key.
  *
  * ```php
  * #[Entity(name: 'my_entity']
@@ -20,6 +20,23 @@ use OCP\Snowflake\ISnowflakeGenerator;
  *     #[Id(generatorClass: ISnowflakeGenerator::class)]
  *     #[Column(name: 'id', type: Types::BIGINT)]
  *     public ?string $id = null;
+ * }
+ * ```
+ *
+ * Applying #[Id] to more than one property declares a composite primary key. In that case every
+ * id property must have its value set before calling `insert()` (via `generatorClass`, or
+ * assigned by the caller), since a composite key cannot rely on a single autoincrement column:
+ *
+ * ```php
+ * #[Entity(name: 'my_join_entity']
+ * final class MyJoinEntity {
+ *     #[Id]
+ *     #[Column(name: 'left_id', type: Types::BIGINT)]
+ *     public int $leftId;
+ *
+ *     #[Id]
+ *     #[Column(name: 'right_id', type: Types::BIGINT)]
+ *     public int $rightId;
  * }
  * ```
  *

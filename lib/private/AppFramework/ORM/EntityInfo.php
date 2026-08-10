@@ -33,7 +33,13 @@ final class EntityInfo {
 	/** @var \ReflectionClass<T> */
 	public readonly \ReflectionClass $reflection;
 
-	public ?\ReflectionProperty $idProperty = null;
+	/**
+	 * All properties carrying an #[Id] attribute, in declaration order. More than one entry
+	 * means the entity has a composite primary key.
+	 *
+	 * @var list<\ReflectionProperty>
+	 */
+	public array $idProperties = [];
 
 	/**
 	 * @var list<PropertyAttributes> $propertiesAttributes
@@ -68,7 +74,7 @@ final class EntityInfo {
 					$this->mappingPropertyToColumn[$property->getName()] = $instance->name;
 				} elseif ($instance instanceof Id) {
 					$propertyAttributes->id = $instance;
-					$this->idProperty = $property;
+					$this->idProperties[] = $property;
 				} elseif ($instance instanceof OneToOne) {
 					$propertyAttributes->oneToOne = $instance;
 				} elseif ($instance instanceof ManyToOne) {
@@ -96,17 +102,37 @@ final class EntityInfo {
 			$this->propertiesAttributes[] = $propertyAttributes;
 		}
 
-		if (!$this->idProperty instanceof \ReflectionProperty) {
+		if ($this->idProperties === []) {
 			throw new \RuntimeException($this->entityClass . ' does not have a primary key. This is not supported for repositories backed tables.');
 		}
 	}
 
-	public function getIdProperty(): \ReflectionProperty {
-		if (!$this->idProperty instanceof \ReflectionProperty) {
-			throw new \LogicException('Unreachable: the constructor already guarantees idProperty is set.');
+	/**
+	 * @return non-empty-list<\ReflectionProperty>
+	 */
+	public function getIdProperties(): array {
+		if ($this->idProperties === []) {
+			throw new \LogicException('Unreachable: the constructor already guarantees idProperties is not empty.');
 		}
 
-		return $this->idProperty;
+		return $this->idProperties;
+	}
+
+	public function hasCompositeIdProperty(): bool {
+		return count($this->idProperties) > 1;
+	}
+
+	/**
+	 * Convenience accessor for code paths (e.g. relation joins) that only support entities with
+	 * a single-column primary key.
+	 */
+	public function getSingleIdProperty(): \ReflectionProperty {
+		$idProperties = $this->getIdProperties();
+		if (count($idProperties) > 1) {
+			throw new \LogicException($this->entityClass . ' has a composite primary key, which is not supported here.');
+		}
+
+		return $idProperties[0];
 	}
 
 	/**

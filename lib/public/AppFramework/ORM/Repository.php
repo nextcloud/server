@@ -12,7 +12,6 @@ use OC\AppFramework\ORM\EntityManager;
 use OC\AppFramework\ORM\PropertyAttributes;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
@@ -84,17 +83,9 @@ class Repository {
 				$type = Types::STRING;
 			}
 
-			if ($column === $entityInfo->getIdProperty()->getName()) {
-				$ids = $entityInfo->getIdProperty()->getAttributes(Id::class, \ReflectionAttribute::IS_INSTANCEOF);
-				$id = array_shift($ids);
-				if ($id === null) {
-					throw new \LogicException('Unreachable: the id property is missing its #[Id] attribute.');
-				}
-
-				if ($id->newInstance()->generatorClass !== null) {
-					$entity->$property = (string)$value;
-					continue;
-				}
+			if ($this->isGeneratedIdColumn($entityInfo, $column)) {
+				$entity->$property = (string)$value;
+				continue;
 			}
 
 			/** @psalm-suppress DeprecatedConstant Types::JSON is only discouraged in WHERE clauses; mapping it is still supported. */
@@ -151,6 +142,16 @@ class Repository {
 		}
 
 		return $entity;
+	}
+
+	private function isGeneratedIdColumn(EntityInfo $entityInfo, string $column): bool {
+		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
+			if ($propertyAttributes->id !== null && $propertyAttributes->column?->name === $column) {
+				return $propertyAttributes->id->generatorClass !== null;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -274,7 +275,7 @@ class Repository {
 		foreach ($relations as $alias => $relation) {
 			$propertyName = $relation['attributes']->property->getName();
 			$targetEntityInfo = $relation['entityInfo'];
-			$idColumn = $targetEntityInfo->mappingPropertyToColumn[$targetEntityInfo->getIdProperty()->getName()];
+			$idColumn = $targetEntityInfo->mappingPropertyToColumn[$targetEntityInfo->getSingleIdProperty()->getName()];
 			$relationRow = $relationRows[$alias] ?? [];
 
 			if (($relationRow[$idColumn] ?? null) === null) {

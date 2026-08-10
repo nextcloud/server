@@ -54,6 +54,20 @@ class PrimaryKey {
 	public \DateTime $date;
 }
 
+#[Entity(name: 'repository_composite_key')]
+final class CompositeKey {
+	#[Id]
+	#[Column(name: 'tenant_id', type: Types::BIGINT)]
+	public ?int $tenantId = null;
+
+	#[Id]
+	#[Column(name: 'item_id', type: Types::BIGINT)]
+	public ?int $itemId = null;
+
+	#[Column(name: 'label', type: Types::STRING, nullable: true)]
+	public ?string $label = null;
+}
+
 #[Entity(name: 'repository_customer')]
 final class Customer {
 	#[Id]
@@ -175,6 +189,7 @@ class RepositoryTest extends TestCase {
 	public static array $entitiesClasses = [
 		NoPrimaryKey::class,
 		PrimaryKey::class,
+		CompositeKey::class,
 		Customer::class,
 		Cart::class,
 		CascadeParent::class,
@@ -314,6 +329,83 @@ class RepositoryTest extends TestCase {
 
 		$entities = iterator_to_array($repo->yieldAll());
 		$this->assertCount(0, $entities);
+	}
+
+	public function testCompositePrimaryKey(): void {
+		$repo = $this->getRepository(CompositeKey::class);
+		$this->assertEquals('repository_composite_key', $repo->getTableName());
+
+		$entity = new CompositeKey();
+		$entity->tenantId = 1;
+		$entity->itemId = 42;
+		$entity->label = 'first';
+		$repo->insert($entity);
+
+		// A second entity sharing the tenantId but not the itemId is a distinct row.
+		$other = new CompositeKey();
+		$other->tenantId = 1;
+		$other->itemId = 43;
+		$other->label = 'second';
+		$repo->insert($other);
+
+		$savedEntity = $repo->findOneBy(['tenantId' => 1, 'itemId' => 42]);
+		$this->assertEquals('first', $savedEntity->label);
+
+		$savedOther = $repo->findOneBy(['tenantId' => 1, 'itemId' => 43]);
+		$this->assertEquals('second', $savedOther->label);
+
+		// update
+		$entity->label = 'updated';
+		$repo->update($entity);
+
+		$savedEntity = $repo->findOneBy(['tenantId' => 1, 'itemId' => 42]);
+		$this->assertEquals('updated', $savedEntity->label);
+		// The other row with the same tenantId is untouched.
+		$savedOther = $repo->findOneBy(['tenantId' => 1, 'itemId' => 43]);
+		$this->assertEquals('second', $savedOther->label);
+
+		// delete
+		$repo->delete($entity);
+		$this->assertCount(0, iterator_to_array($repo->findBy(['tenantId' => 1, 'itemId' => 42])));
+		$this->assertCount(1, iterator_to_array($repo->findBy(['tenantId' => 1, 'itemId' => 43])));
+
+		$repo->delete($savedOther);
+	}
+
+	public function testCompositePrimaryKeyMissingPartOnInsertThrows(): void {
+		$repo = $this->getRepository(CompositeKey::class);
+
+		$entity = new CompositeKey();
+		$entity->tenantId = 2;
+		// itemId intentionally left unset: composite keys can't rely on DB autoincrement.
+		$entity->label = 'incomplete';
+
+		$this->expectException(\LogicException::class);
+		$this->expectExceptionMessage('is part of a composite primary key and must be set before insert()');
+
+		$repo->insert($entity);
+	}
+
+	public function testCompositePrimaryKeyMissingPartOnUpdateThrows(): void {
+		$repo = $this->getRepository(CompositeKey::class);
+
+		$entity = new CompositeKey();
+		$entity->tenantId = 3;
+		$entity->itemId = 1;
+		$entity->label = 'x';
+		$repo->insert($entity);
+
+		$entity->itemId = null;
+
+		$this->expectException(\LogicException::class);
+		$this->expectExceptionMessage('Trying to update an entity with no primary key set.');
+
+		try {
+			$repo->update($entity);
+		} finally {
+			$entity->itemId = 1;
+			$repo->delete($entity);
+		}
 	}
 
 	public function testOneToOne(): void {
