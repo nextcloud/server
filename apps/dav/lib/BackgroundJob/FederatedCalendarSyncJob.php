@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\BackgroundJob;
 
 use OCA\DAV\CalDAV\Federation\CalendarFederationConfig;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarSyncService;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -47,6 +48,11 @@ class FederatedCalendarSyncJob extends QueuedJob {
 		try {
 			$calendar = $this->federatedCalendarMapper->find($id);
 		} catch (DoesNotExistException $e) {
+			return;
+		}
+
+		// Never fetch data for invitations the sharee did not accept (yet)
+		if ($calendar->getState() !== FederatedCalendarEntity::STATE_ACCEPTED) {
 			return;
 		}
 
