@@ -54,7 +54,9 @@ adminTest.describe('Header: App menu (waffle launcher) – admin', () => {
 		await expectWaffleMenuContainsApps(navigationHeader, [
 			{ name: 'Files', href: '/apps/files' },
 			{ name: 'Dashboard', href: '/apps/dashboard' },
-			{ name: 'Appstore', href: '/settings/apps' },
+			// The app management page is only linked by the "More apps" tile,
+			// the app itself does not add an entry to the menu
+			{ name: 'More apps', href: '/settings/apps' },
 		])
 	})
 })

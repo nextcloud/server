@@ -8,6 +8,7 @@
 		class="app-item"
 		:class="{
 			'app-item--active': app.active,
+			'app-item--outlined': outlined,
 		}"
 		:href="app.href"
 		:target="newTab ? '_blank' : undefined"
@@ -124,6 +125,11 @@ const unreadLabel = computed(() => {
 
 	&--active &__label {
 		font-weight: bold;
+	}
+
+	// Utility entries ("More apps", "App store") are subdued, they are not apps.
+	&--outlined &__label {
+		color: var(--color-text-maxcontrast);
 	}
 }
 </style>
