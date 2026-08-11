@@ -118,6 +118,11 @@ export default defineComponent({
 			type: String,
 			required: true,
 		},
+
+		loading: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	setup(props) {
