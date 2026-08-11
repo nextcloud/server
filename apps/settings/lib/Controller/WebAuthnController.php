@@ -19,12 +19,13 @@ use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UseSession;
+use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
-use Webauthn\PublicKeyCredentialCreationOptions;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class WebAuthnController extends Controller {
@@ -45,7 +46,7 @@ class WebAuthnController extends Controller {
 	#[PasswordConfirmationRequired]
 	#[UseSession]
 	#[NoCSRFRequired]
-	public function startRegistration(): JSONResponse {
+	public function startRegistration(): Response {
 		$this->logger->debug('Starting WebAuthn registration');
 
 		$credentialOptions = $this->manager->startRegistration($this->userSession->getUser(), $this->request->getServerHost());
@@ -53,7 +54,9 @@ class WebAuthnController extends Controller {
 		// Set this in the session since we need it on finish
 		$this->session->set(self::WEBAUTHN_REGISTRATION, $credentialOptions);
 
-		return new JSONResponse($credentialOptions);
+		$response = new DataDisplayResponse($credentialOptions);
+		$response->addHeader('Content-Type', 'application/json; charset=utf-8');
+		return $response;
 	}
 
 	#[NoSubAdminRequired]
@@ -69,11 +72,10 @@ class WebAuthnController extends Controller {
 		}
 
 		// Obtain the publicKeyCredentialOptions from when we started the registration
-		$publicKeyCredentialCreationOptions = PublicKeyCredentialCreationOptions::createFromArray($this->session->get(self::WEBAUTHN_REGISTRATION));
-
+		$registrationOptions = $this->session->get(self::WEBAUTHN_REGISTRATION);
 		$this->session->remove(self::WEBAUTHN_REGISTRATION);
 
-		return new JSONResponse($this->manager->finishRegister($publicKeyCredentialCreationOptions, $name, $data));
+		return new JSONResponse($this->manager->finishRegister($registrationOptions, $name, $data));
 	}
 
 	#[NoSubAdminRequired]

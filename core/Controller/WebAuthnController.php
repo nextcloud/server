@@ -18,12 +18,13 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
+use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use Webauthn\PublicKeyCredentialRequestOptions;
 
 class WebAuthnController extends Controller {
 	private const string WEBAUTHN_LOGIN = 'webauthn_login';
@@ -44,7 +45,7 @@ class WebAuthnController extends Controller {
 	#[PublicPage]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: 'login/webauthn/start')]
-	public function startAuthentication(string $loginName): JSONResponse {
+	public function startAuthentication(string $loginName): Response {
 		$this->logger->debug('Starting WebAuthn login');
 
 		$this->logger->debug('Converting login name to UID');
@@ -57,10 +58,12 @@ class WebAuthnController extends Controller {
 		$this->logger->debug('Got UID: ' . $uid);
 
 		$publicKeyCredentialRequestOptions = $this->webAuthnManger->startAuthentication($uid, $this->request->getServerHost());
-		$this->session->set(self::WEBAUTHN_LOGIN, json_encode($publicKeyCredentialRequestOptions));
+		$this->session->set(self::WEBAUTHN_LOGIN, $publicKeyCredentialRequestOptions);
 		$this->session->set(self::WEBAUTHN_LOGIN_UID, $uid);
 
-		return new JSONResponse($publicKeyCredentialRequestOptions);
+		$response = new DataDisplayResponse($publicKeyCredentialRequestOptions);
+		$response->addHeader('Content-Type', 'application/json; charset=utf-8');
+		return $response;
 	}
 
 	#[PublicPage]
@@ -75,7 +78,7 @@ class WebAuthnController extends Controller {
 		}
 
 		// Obtain the publicKeyCredentialOptions from when we started the registration
-		$publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($this->session->get(self::WEBAUTHN_LOGIN));
+		$publicKeyCredentialRequestOptions = $this->session->get(self::WEBAUTHN_LOGIN);
 		$uid = $this->session->get(self::WEBAUTHN_LOGIN_UID);
 		$authenticatorData = $this->webAuthnManger->finishAuthentication($publicKeyCredentialRequestOptions, $data, $uid);
 

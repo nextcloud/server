@@ -2337,11 +2337,6 @@
       <code><![CDATA[validateMailAddress]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/settings/lib/Controller/WebAuthnController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[PublicKeyCredentialCreationOptions::createFromArray($this->session->get(self::WEBAUTHN_REGISTRATION))]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/settings/lib/Hooks.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -3205,7 +3200,6 @@
   </file>
   <file src="core/Controller/WebAuthnController.php">
     <DeprecatedMethod>
-      <code><![CDATA[PublicKeyCredentialRequestOptions::createFromString($this->session->get(self::WEBAUTHN_LOGIN))]]></code>
       <code><![CDATA[Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
