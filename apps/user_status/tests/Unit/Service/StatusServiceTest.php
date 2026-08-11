@@ -700,6 +700,50 @@ class StatusServiceTest extends TestCase {
 		$this->assertTrue($this->service->backupCurrentStatus('john'));
 	}
 
+	public function testBackupNothingToBackUp(): void {
+		// A user without a status row has nothing to move into a backup. That
+		// is not a conflict, so the automated status may still be applied.
+		$this->mapper->expects($this->once())
+			->method('createBackupStatus')
+			->with('john')
+			->willReturn(false);
+
+		$this->assertTrue($this->service->backupCurrentStatus('john'));
+	}
+
+	public function testRevertUserStatusWithoutBackupClearsAutomatedStatus(): void {
+		$this->mapper->expects($this->once())
+			->method('findByUserId')
+			->with('john', true)
+			->willThrowException(new DoesNotExistException(''));
+
+		// There is nothing to restore, but the unreachable automated status
+		// must still be removed so the user is not stuck on it.
+		$this->mapper->expects($this->once())
+			->method('deleteCurrentStatusToRestoreBackup')
+			->with('john', 'meeting')
+			->willReturn(true);
+
+		$this->assertNull($this->service->revertUserStatus('john', 'meeting'));
+	}
+
+	public function testRevertUserStatusWithoutBackupAndNoMatchingStatus(): void {
+		$this->mapper->expects($this->once())
+			->method('findByUserId')
+			->with('john', true)
+			->willThrowException(new DoesNotExistException(''));
+
+		// Nothing matched, so nothing was removed. Must not blow up.
+		$this->mapper->expects($this->once())
+			->method('deleteCurrentStatusToRestoreBackup')
+			->with('john', 'meeting')
+			->willReturn(false);
+
+		$this->mapper->expects($this->never())->method('update');
+
+		$this->assertNull($this->service->revertUserStatus('john', 'meeting'));
+	}
+
 	public function testRevertMultipleUserStatus(): void {
 		$john = new UserStatus();
 		$john->setId(1);
