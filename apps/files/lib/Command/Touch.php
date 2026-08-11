@@ -10,46 +10,43 @@ namespace OCA\Files\Command;
 
 use DateTimeImmutable;
 use OC\Core\Command\Info\FileUtils;
+use OCP\Console\Attribute\Argument;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
 use OCP\Files\IRootFolder;
 use Psr\Clock\ClockInterface;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class Touch extends Command {
+#[AsCommand(
+	name: 'files:touch',
+	description: 'Update the last modified date of a file or folder, or create an empty file',
+)]
+class Touch {
 	public function __construct(
 		private readonly FileUtils $fileUtils,
 		private readonly IRootFolder $rootFolder,
 		private readonly ClockInterface $clock,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		$this
-			->setName('files:touch')
-			->setDescription('Update the last modified date of a file or folder, or create an empty file')
-			->addArgument('file', InputArgument::REQUIRED, 'Nextcloud path or fileid for the file or folder to change the modified date of')
-			->addOption('date', 'd', InputOption::VALUE_REQUIRED, 'Time to use as modified date instead of the current time. Acceptable formats are: ISO8601, "YYYY-MM-DD" and Unix time in seconds.')
-			->addOption('no-create', 'c', InputOption::VALUE_NONE, 'Don\'t create an empty file if the target path doesn\'t exist');
-	}
-
-	#[\Override]
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		$fileInput = $input->getArgument('file');
-		$node = $this->fileUtils->getNode($fileInput);
-		$date = $input->getOption('date');
-		$noCreate = $input->getOption('no-create');
+	public function __invoke(
+		IOutput $output,
+		#[Argument(description: 'Nextcloud path or fileid for the file or folder to change the modified date of')]
+		string $file,
+		#[Option(name: 'no-create', description: 'Don\'t create an empty file if the target path doesn\'t exist', shortcut: 'c')]
+		bool $noCreate = false,
+		#[Option(description: 'Time to use as modified date instead of the current time. Acceptable formats are: ISO8601, "YYYY-MM-DD" and Unix time in seconds.', shortcut: 'd')]
+		?string $date = null,
+	): ExitCode {
+		$node = $this->fileUtils->getNode($file);
 
 		if (!$node) {
-			if ($noCreate || is_numeric($fileInput)) {
-				$output->writeln("<error>$fileInput doesn't exist</error>");
-				return self::FAILURE;
+			if ($noCreate || is_numeric($file)) {
+				$output->writeln("<error>$file doesn't exist</error>");
+				return ExitCode::Failure;
 			}
-			$node = $this->rootFolder->newFile($fileInput);
+			$node = $this->rootFolder->newFile($file);
 		}
 
 		if ($date) {
@@ -62,15 +59,13 @@ class Touch extends Command {
 		}
 		$node->touch($mtime->getTimestamp());
 
-		return self::SUCCESS;
+		return ExitCode::Success;
 	}
 
 	/**
 	 * @return \DateTimeImmutable|false
 	 */
 	protected function parseDateOption(string $input) {
-		$date = false;
-
 		// Handle Unix timestamp
 		if (filter_var($input, FILTER_VALIDATE_INT)) {
 			return new DateTimeImmutable('@' . $input);

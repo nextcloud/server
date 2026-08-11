@@ -8,15 +8,22 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
-use OC\Core\Command\Base;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IInput;
+use OCP\Console\IOutput;
+use OCP\Console\OutputFormat;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\IDBConnection;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class Orphans extends Base {
+#[AsCommand(
+	name: 'files:object:orphans',
+	description: 'List all objects in the object store that don\'t have a matching entry in the database',
+	supportsOutputFormat: true,
+)]
+class Orphans {
 	private const CHUNK_SIZE = 100;
 
 	private ?IQueryBuilder $query = null;
@@ -25,7 +32,6 @@ class Orphans extends Base {
 		private readonly ObjectUtil $objectUtils,
 		private readonly IDBConnection $connection,
 	) {
-		parent::__construct();
 	}
 
 	private function getQuery(): IQueryBuilder {
@@ -38,25 +44,21 @@ class Orphans extends Base {
 		return $this->query;
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		parent::configure();
-		$this
-			->setName('files:object:orphans')
-			->setDescription('List all objects in the object store that don\'t have a matching entry in the database')
-			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket to list the objects from, only required in cases where it can't be determined from the config");
-	}
-
-	#[\Override]
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		$objectStore = $this->objectUtils->getObjectStore($input->getOption('bucket'), $output);
+	public function __invoke(
+		IInput $input,
+		IOutput $output,
+		OutputFormat $outputFormat,
+		#[Option(description: "Bucket to list the objects from, only required in cases where it can't be determined from the config", shortcut: 'b')]
+		?string $bucket = null,
+	): ExitCode {
+		$objectStore = $this->objectUtils->getObjectStore($bucket, $output);
 		if (!$objectStore) {
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
 
 		if (!$objectStore instanceof IObjectStoreMetaData) {
 			$output->writeln('<error>Configured object store does currently not support listing objects</error>');
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
 		$prefixLength = strlen('urn:oid:');
 
@@ -66,10 +68,10 @@ class Orphans extends Base {
 			return !$this->fileIdInDb($fileId);
 		});
 
-		$orphans = $this->objectUtils->formatObjects($orphans, $input->getOption('output') === self::OUTPUT_FORMAT_PLAIN);
-		$this->writeStreamingTableInOutputFormat($input, $output, $orphans, self::CHUNK_SIZE);
+		$orphans = $this->objectUtils->formatObjects($orphans, $outputFormat === OutputFormat::Plain);
+		$output->writeStreamingTableInOutputFormat($orphans, self::CHUNK_SIZE);
 
-		return self::SUCCESS;
+		return ExitCode::Success;
 	}
 
 	private function fileIdInDb(int $fileId): bool {

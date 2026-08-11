@@ -1437,14 +1437,6 @@
       <code><![CDATA[$this->fileIsEncrypted]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="apps/files/lib/Command/Object/Multi/Users.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUsersForUserValue]]></code>
-      <code><![CDATA[getUsersForUserValue]]></code>
-      <code><![CDATA[getUsersForUserValue]]></code>
-      <code><![CDATA[getUsersForUserValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/files/lib/Command/RepairTree.php">
     <DeprecatedMethod>
       <code><![CDATA[md5]]></code>

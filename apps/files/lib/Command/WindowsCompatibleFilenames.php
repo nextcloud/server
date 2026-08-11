@@ -9,47 +9,45 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command;
 
-use OC\Core\Command\Base;
 use OCA\Files\Service\SettingsService;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
+use OCP\Console\Verbosity;
 
-class WindowsCompatibleFilenames extends Base {
-
+#[AsCommand(
+	name: 'files:windows-compatible-filenames',
+	description: 'Enforce naming constraints for windows compatible filenames',
+)]
+class WindowsCompatibleFilenames {
 	public function __construct(
-		private SettingsService $service,
+		private readonly SettingsService $service,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		parent::configure();
-
-		$this
-			->setName('files:windows-compatible-filenames')
-			->setDescription('Enforce naming constraints for windows compatible filenames')
-			->addOption('enable', description: 'Enable windows naming constraints')
-			->addOption('disable', description: 'Disable windows naming constraints');
-	}
-
-	#[\Override]
-	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if ($input->getOption('enable')) {
+	public function __invoke(
+		IOutput $output,
+		#[Option(description: 'Enable windows naming constraints')]
+		bool $enable = false,
+		#[Option(description: 'Disable windows naming constraints')]
+		bool $disable = false,
+	): ExitCode {
+		if ($enable) {
 			if ($this->service->hasFilesWindowsSupport()) {
-				$output->writeln('<error>Windows compatible filenames already enforced.</error>', OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln('<error>Windows compatible filenames already enforced.</error>', Verbosity::Verbose);
 			}
 			$this->service->setFilesWindowsSupport(true);
 			$output->writeln('Windows compatible filenames enforced.');
-		} elseif ($input->getOption('disable')) {
+		} elseif ($disable) {
 			if (!$this->service->hasFilesWindowsSupport()) {
-				$output->writeln('<error>Windows compatible filenames already disabled.</error>', OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln('<error>Windows compatible filenames already disabled.</error>', Verbosity::Verbose);
 			}
 			$this->service->setFilesWindowsSupport(false);
 			$output->writeln('Windows compatible filename constraints removed.');
 		} else {
 			$output->writeln('Windows compatible filenames are ' . ($this->service->hasFilesWindowsSupport() ? 'enforced' : 'disabled'));
 		}
-		return self::SUCCESS;
+		return ExitCode::Success;
 	}
 }
