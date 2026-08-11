@@ -10,10 +10,14 @@ declare(strict_types=1);
 namespace OC\DB\Schema;
 
 use Doctrine\DBAL\Schema\Column as DBALColumn;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint as DBALForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index as DBALIndex;
 use Doctrine\DBAL\Schema\SchemaException as DBALSchemaException;
 use Doctrine\DBAL\Schema\Table as DBALTable;
+use Doctrine\DBAL\Types\Type as DBALType;
+use OCP\DB\Schema\ColumnType;
 use OCP\DB\Schema\IColumn;
+use OCP\DB\Schema\IForeignKeyConstraint;
 use OCP\DB\Schema\IIndex;
 use OCP\DB\Schema\ITable;
 use OCP\DB\Schema\SchemaException;
@@ -36,7 +40,9 @@ class Table implements ITable {
 
 	#[\Override]
 	public function getName(): string {
-		return $this->table->getName();
+		/** @var non-empty-lowercase-string $name */
+		$name = $this->table->getName();
+		return $name;
 	}
 
 	#[\Override]
@@ -134,8 +140,11 @@ class Table implements ITable {
 	}
 
 	#[\Override]
-	public function addColumn(string $name, string $typeName, array $options = []): IColumn {
+	public function addColumn(string $name, string|ColumnType $typeName, array $options = []): IColumn {
 		try {
+			if ($typeName instanceof ColumnType) {
+				$typeName = $typeName->value;
+			}
 			return new Column($this->table->addColumn($name, $typeName, $options));
 		} catch (DBALSchemaException $e) {
 			throw new SchemaException($e->getMessage(), $e->getCode(), $e);
@@ -145,6 +154,14 @@ class Table implements ITable {
 	#[\Override]
 	public function modifyColumn(string $name, array $options): self {
 		try {
+			if (isset($options['type'])) {
+				if ($options['type'] instanceof ColumnType) {
+					$options['type'] = $options['type']->value;
+				}
+				if (is_string($options['type'])) {
+					$options['type'] = DBALType::getType($options['type']);
+				}
+			}
 			$this->table->modifyColumn($name, $options);
 		} catch (DBALSchemaException $e) {
 			throw new SchemaException($e->getMessage(), $e->getCode(), $e);
@@ -210,8 +227,8 @@ class Table implements ITable {
 	}
 
 	#[\Override]
-	public function hasColumn(string $string): bool {
-		return $this->table->hasColumn($string);
+	public function hasColumn(string $name): bool {
+		return $this->table->hasColumn($name);
 	}
 
 	#[\Override]
@@ -236,6 +253,14 @@ class Table implements ITable {
 		return array_values(array_map(
 			static fn (DBALIndex $index): IIndex => new Index($index),
 			$this->table->getIndexes(),
+		));
+	}
+
+	#[\Override]
+	public function getForeignKeys(): array {
+		return array_values(array_map(
+			static fn (DBALForeignKeyConstraint $keyConstraint): IForeignKeyConstraint => new ForeignKeyConstraint($keyConstraint),
+			$this->table->getForeignKeys(),
 		));
 	}
 }

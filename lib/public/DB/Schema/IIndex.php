@@ -53,4 +53,12 @@ interface IIndex {
 	 * @since 35.0.0
 	 */
 	public function isSimpleIndex(): bool;
+
+	/**
+	 * Returns whether this index has a column at a specified position.
+	 *
+	 * @param non-empty-lowercase-string $name
+	 * @since 35.0.0
+	 */
+	public function hasColumnAtPosition(string $name, int $position = 0): bool;
 }
