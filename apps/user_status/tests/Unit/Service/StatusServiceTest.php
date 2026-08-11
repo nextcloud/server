@@ -744,6 +744,62 @@ class StatusServiceTest extends TestCase {
 		$this->assertNull($this->service->revertUserStatus('john', 'meeting'));
 	}
 
+	public function testRevertUserStatusRefreshesTimestamp(): void {
+		$backup = new UserStatus();
+		$backup->setId(2);
+		$backup->setUserId('_john');
+		$backup->setStatus(IUserStatus::ONLINE);
+		$backup->setStatusTimestamp(1000);
+		$backup->setIsUserDefined(false);
+		$backup->setIsBackup(true);
+
+		$this->mapper->expects($this->once())
+			->method('findByUserId')
+			->with('john', true)
+			->willReturn($backup);
+		$this->mapper->expects($this->once())
+			->method('deleteCurrentStatusToRestoreBackup')
+			->with('john', 'meeting')
+			->willReturn(true);
+		$this->timeFactory->method('getTime')->willReturn(9999);
+
+		$this->mapper->expects($this->once())
+			->method('update')
+			->willReturnArgument(0);
+
+		$reverted = $this->service->revertUserStatus('john', 'meeting');
+
+		self::assertNotNull($reverted);
+		self::assertSame('john', $reverted->getUserId());
+		self::assertFalse($reverted->getIsBackup());
+		self::assertSame(
+			9999,
+			$reverted->getStatusTimestamp(),
+			'A restored status must not keep the timestamp from before the automated status',
+		);
+	}
+
+	public function testRevertUserStatusManuallyStillPromotesOfflineToOnline(): void {
+		$backup = new UserStatus();
+		$backup->setId(2);
+		$backup->setUserId('_john');
+		$backup->setStatus(IUserStatus::OFFLINE);
+		$backup->setStatusTimestamp(1000);
+		$backup->setIsUserDefined(false);
+		$backup->setIsBackup(true);
+
+		$this->mapper->method('findByUserId')->with('john', true)->willReturn($backup);
+		$this->mapper->method('deleteCurrentStatusToRestoreBackup')->willReturn(true);
+		$this->timeFactory->method('getTime')->willReturn(9999);
+		$this->mapper->expects($this->once())->method('update')->willReturnArgument(0);
+
+		$reverted = $this->service->revertUserStatus('john', 'meeting', true);
+
+		self::assertNotNull($reverted);
+		self::assertSame(IUserStatus::ONLINE, $reverted->getStatus());
+		self::assertSame(9999, $reverted->getStatusTimestamp());
+	}
+
 	public function testRevertMultipleUserStatus(): void {
 		$john = new UserStatus();
 		$john->setId(1);

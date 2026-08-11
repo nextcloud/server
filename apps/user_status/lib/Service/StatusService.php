@@ -546,13 +546,16 @@ class StatusService {
 			return null;
 		}
 
-		if ($revertedManually) {
-			if ($backupUserStatus->getStatus() === IUserStatus::OFFLINE) {
-				// When the user reverts the status manually they are online
-				$backupUserStatus->setStatus(IUserStatus::ONLINE);
-			}
-			$backupUserStatus->setStatusTimestamp($this->timeFactory->getTime());
+		if ($revertedManually && $backupUserStatus->getStatus() === IUserStatus::OFFLINE) {
+			// When the user reverts the status manually they are online
+			$backupUserStatus->setStatus(IUserStatus::ONLINE);
 		}
+
+		// The restored status becomes the current one now. Keeping the timestamp
+		// from before the automation would make it instantly stale for anything
+		// longer than INVALIDATE_STATUS_THRESHOLD, so the next read would clean
+		// the user straight to offline.
+		$backupUserStatus->setStatusTimestamp($this->timeFactory->getTime());
 
 		$backupUserStatus->setIsBackup(false);
 		// Remove the underscore prefix added when creating the backup
