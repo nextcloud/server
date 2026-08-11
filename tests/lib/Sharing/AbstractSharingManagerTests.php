@@ -4075,6 +4075,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testGetWithDirectAccess(): void {
 		$accessContext = new ShareAccessContext($this->owner);
+		$accessContext2 = new ShareAccessContext(currentUser: $this->user2);
 
 		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
@@ -4090,12 +4091,19 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$after = $this->manager->getTime();
 
 		// user2 has no direct access, no shares
-		$formattedShares = $this->getShares(new ShareAccessContext(currentUser: $this->user2), TestShareSourceType1::class, 'source1', null, null);
+		$formattedShares = $this->getShares($accessContext2, TestShareSourceType1::class, 'source1', null, null);
 		$this->assertCount(0, $formattedShares);
+
+		try {
+			$this->getShare($accessContext2, $share->id);
+			$this->fail('user has invalid share access');
+		} catch(ShareNotFoundException) {
+
+		}
 
 		// give user2 direct access, can see shares
 		$this->shareSourceType1->userAccess[$this->user2->getUID()] = ['source1'];
-		$formattedShares = $this->getShares(new ShareAccessContext(currentUser: $this->user2), TestShareSourceType1::class, 'source1', null, null);
+		$formattedShares = $this->getShares($accessContext2, TestShareSourceType1::class, 'source1', null, null);
 
 		$this->assertCount(1, $formattedShares);
 		$formatted = $formattedShares[0];
@@ -4110,6 +4118,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 			],
 		], $formatted['owner']);
+
+		$singleFormatted = $this->getShare($accessContext2, $share->id);
+		$this->assertEquals($singleFormatted, $formatted);
 
 		// add a source that user2 doesn't have access to, can't see share anymore
 		$this->dbConnection->beginTransaction();
