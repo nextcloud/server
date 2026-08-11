@@ -530,7 +530,13 @@ class StatusService {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
 		} catch (DoesNotExistException $ex) {
-			// No user status to revert, do nothing
+			// There is no backup to restore. The automated status still has to
+			// go, otherwise the user is stuck on it forever: UserLiveStatusListener
+			// refuses to overwrite an automated status, so no heartbeat can ever
+			// bring them back online.
+			if ($this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId)) {
+				$this->logger->debug('Cleared automated status "' . $messageId . '" for user ' . $userId . ': there was no backup to restore', ['app' => 'user_status']);
+			}
 			return null;
 		}
 

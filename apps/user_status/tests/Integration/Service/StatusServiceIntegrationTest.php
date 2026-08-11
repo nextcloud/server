@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\UserStatus\Tests\Integration\Service;
 
+use OCA\UserStatus\Db\UserStatus;
+use OCA\UserStatus\Db\UserStatusMapper;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IDBConnection;
@@ -22,15 +24,30 @@ use function time;
 class StatusServiceIntegrationTest extends TestCase {
 
 	private StatusService $service;
+	private UserStatusMapper $mapper;
+	private IDBConnection $db;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->service = Server::get(StatusService::class);
+		$this->mapper = Server::get(UserStatusMapper::class);
 
-		$db = Server::get(IDBConnection::class);
-		$qb = $db->getQueryBuilder();
+		$this->db = Server::get(IDBConnection::class);
+		$qb = $this->db->getQueryBuilder();
 		$qb->delete('user_status')->executeStatement();
+	}
+
+	/**
+	 * Reads a row without going through StatusService::processStatus(), which
+	 * would rewrite a stale status before the assertion can see it.
+	 */
+	private function readRaw(string $userId): ?UserStatus {
+		try {
+			return $this->mapper->findByUserId($userId);
+		} catch (DoesNotExistException) {
+			return null;
+		}
 	}
 
 	public function testNoStatusYet(): void {
@@ -189,6 +206,95 @@ class StatusServiceIntegrationTest extends TestCase {
 		self::assertSame(
 			IUserStatus::MESSAGE_AVAILABILITY,
 			$this->service->findByUserId('test123')->getMessageId(),
+		);
+	}
+
+	/*
+	 * Orphaned automated statuses: a live row sits on an automated status but
+	 * there is no backup row to revert into, so revertUserStatus() has nothing
+	 * to restore. It must still clear the automated status, otherwise the user
+	 * is stuck on it forever and the heartbeat can never bring them back
+	 * online.
+	 */
+
+	public function testRevertWithoutBackupClearsAutomatedStatus(): void {
+		// No backup taken, so nothing can ever be restored for this user.
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			false,
+		);
+		self::assertSame(
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			$this->readRaw('test123')?->getMessageId(),
+		);
+
+		$reverted = $this->service->revertUserStatus('test123', IUserStatus::MESSAGE_CALENDAR_BUSY);
+
+		self::assertNull($reverted, 'Nothing can be restored without a backup');
+		self::assertNull(
+			$this->readRaw('test123'),
+			'The unreachable automated status must be cleared, not left behind',
+		);
+	}
+
+	public function testRevertWithoutBackupKeepsStatusTheUserChangedThemselves(): void {
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			false,
+		);
+		// The user replaces the automated message with their own.
+		$this->service->setCustomMessage('test123', '🍕', 'Lunch', null);
+
+		$reverted = $this->service->revertUserStatus('test123', IUserStatus::MESSAGE_CALENDAR_BUSY);
+
+		self::assertNull($reverted);
+		$status = $this->readRaw('test123');
+		self::assertNotNull($status, 'A status the user set themselves must not be deleted');
+		self::assertSame('Lunch', $status->getCustomMessage());
+		self::assertNull($status->getMessageId());
+	}
+
+	public function testRevertWithoutBackupKeepsOtherAutomatedStatus(): void {
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALL,
+			false,
+		);
+
+		// The meeting automation reverts, but the live status belongs to a call.
+		$reverted = $this->service->revertUserStatus('test123', IUserStatus::MESSAGE_CALENDAR_BUSY);
+
+		self::assertNull($reverted);
+		self::assertSame(
+			IUserStatus::MESSAGE_CALL,
+			$this->readRaw('test123')?->getMessageId(),
+			'An unrelated automated status must be left alone',
+		);
+	}
+
+	public function testFreshUserAutomatedStatusIsClearedOnRevert(): void {
+		// A user who has never had a status row: there is nothing to back up,
+		// so the automated status is applied without a backup.
+		$applied = $this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+
+		self::assertNotNull($applied, 'A user without a previous status should still get the meeting status');
+		self::assertNull($this->readRaw('_test123'), 'There was no status to back up');
+
+		$this->service->revertUserStatus('test123', IUserStatus::MESSAGE_CALENDAR_BUSY);
+
+		self::assertNull(
+			$this->readRaw('test123'),
+			'The meeting status must be cleared when the meeting ends',
 		);
 	}
 }
