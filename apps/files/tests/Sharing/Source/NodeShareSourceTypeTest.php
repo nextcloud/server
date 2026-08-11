@@ -108,8 +108,8 @@ final class NodeShareSourceTypeTest extends TestCase {
 		$accessContext = new ShareAccessContext(currentUser: $this->user1);
 
 		$this->dbConnection->beginTransaction();
-		$id = $this->manager->createShare($accessContext);
-		$this->manager->addShareSource($accessContext, $id, new ShareSource($this->sourceType::class, (string)$this->node->getId()));
+		$share = $this->manager->createShare($accessContext);
+		$this->manager->addShareSource($accessContext, $share, new ShareSource($this->sourceType::class, (string)$this->node->getId()));
 		$this->dbConnection->commit();
 
 		$before = $this->manager->getTime();
@@ -117,12 +117,12 @@ final class NodeShareSourceTypeTest extends TestCase {
 		$after = $this->manager->getTime();
 
 		$this->dbConnection->beginTransaction();
-		$share = $this->manager->getShare($accessContext, $id);
+		$share = $this->manager->getShare($accessContext, $share->id);
 		$this->assertGreaterThanOrEqual(SharingManager::timeToMs($before), SharingManager::timeToMs($share->lastUpdated));
 		$this->assertLessThanOrEqual(SharingManager::timeToMs($after), SharingManager::timeToMs($share->lastUpdated));
 		$this->assertEquals([], $share->sources);
 
-		$this->manager->deleteShare($accessContext, $id);
+		$this->manager->deleteShare($accessContext, $share);
 		$this->dbConnection->commit();
 		$registry->clear();
 	}
