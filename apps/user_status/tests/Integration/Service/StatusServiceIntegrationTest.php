@@ -348,4 +348,104 @@ class StatusServiceIntegrationTest extends TestCase {
 			'The user was online before the meeting and must not be flipped to offline by reading the status',
 		);
 	}
+
+	/*
+	 * Stranded backups: a backup row exists but the live row is no longer on
+	 * the automated status that would restore it, so revertUserStatus() can
+	 * never match. Nothing else removes it, and while it exists
+	 * backupCurrentStatus() keeps failing, which silently aborts every future
+	 * automated status change for that user.
+	 */
+
+	public function testStrandedBackupIsCleanedUp(): void {
+		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+		// The user clears the status message, so the meeting revert can no
+		// longer find a matching row.
+		$this->service->clearMessage('test123');
+		self::assertNotNull($this->readRaw('_test123'), 'Precondition: the backup is stranded');
+
+		$deleted = $this->mapper->deleteStrandedBackups(StatusService::AUTOMATED_MESSAGE_IDS);
+
+		self::assertSame(1, $deleted);
+		self::assertNull($this->readRaw('_test123'), 'The stranded backup must be removed');
+		self::assertNotNull($this->readRaw('test123'), 'The live status must be untouched');
+	}
+
+	public function testBackupOfAnOngoingMeetingSurvivesCleanup(): void {
+		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+
+		$deleted = $this->mapper->deleteStrandedBackups(StatusService::AUTOMATED_MESSAGE_IDS);
+
+		self::assertSame(0, $deleted);
+		self::assertNotNull(
+			$this->readRaw('_test123'),
+			'The backup for a meeting that is still running must survive',
+		);
+	}
+
+	public function testLongOutOfOfficeBackupSurvivesCleanup(): void {
+		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::DND,
+			IUserStatus::MESSAGE_OUT_OF_OFFICE,
+			true,
+		);
+		// Out of office can last for weeks; age well beyond any threshold.
+		$this->age('test123', 86400 * 30);
+
+		$deleted = $this->mapper->deleteStrandedBackups(StatusService::AUTOMATED_MESSAGE_IDS);
+
+		self::assertSame(0, $deleted);
+		self::assertNotNull(
+			$this->readRaw('_test123'),
+			'A long running out-of-office backup must not be treated as stranded',
+		);
+	}
+
+	public function testAutomatedStatusWorksAgainAfterStrandedBackupCleanup(): void {
+		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+		$this->service->clearMessage('test123');
+
+		// While the stranded backup exists, automated statuses are aborted.
+		self::assertNull(
+			$this->service->setUserStatus('test123', IUserStatus::BUSY, IUserStatus::MESSAGE_CALL, true),
+			'Precondition: the stranded backup blocks automated statuses',
+		);
+
+		$this->mapper->deleteStrandedBackups(StatusService::AUTOMATED_MESSAGE_IDS);
+
+		self::assertNotNull(
+			$this->service->setUserStatus('test123', IUserStatus::BUSY, IUserStatus::MESSAGE_CALL, true),
+			'Automated statuses must work again once the stranded backup is gone',
+		);
+	}
+
+	public function testCleanupLeavesUsersWithoutBackupsAlone(): void {
+		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
+		$this->service->setCustomMessage('test123', '🍕', 'Lunch', null);
+
+		$deleted = $this->mapper->deleteStrandedBackups(StatusService::AUTOMATED_MESSAGE_IDS);
+
+		self::assertSame(0, $deleted);
+		self::assertSame('Lunch', $this->readRaw('test123')?->getCustomMessage());
+	}
 }

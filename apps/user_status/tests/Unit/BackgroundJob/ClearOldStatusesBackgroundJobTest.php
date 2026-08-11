@@ -11,6 +11,7 @@ namespace OCA\UserStatus\Tests\BackgroundJob;
 
 use OCA\UserStatus\BackgroundJob\ClearOldStatusesBackgroundJob;
 use OCA\UserStatus\Db\UserStatusMapper;
+use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -36,6 +37,9 @@ class ClearOldStatusesBackgroundJobTest extends TestCase {
 		$this->mapper->expects($this->once())
 			->method('clearStatusesOlderThan')
 			->with(437, 1337);
+		$this->mapper->expects($this->once())
+			->method('deleteStrandedBackups')
+			->with(StatusService::AUTOMATED_MESSAGE_IDS);
 
 		$this->time->method('getTime')
 			->willReturn(1337);

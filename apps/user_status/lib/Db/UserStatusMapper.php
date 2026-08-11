@@ -163,6 +163,80 @@ class UserStatusMapper extends QBMapper {
 		return $qb->executeStatement() > 0;
 	}
 
+	/**
+	 * Deletes backup rows that can never be restored, because the matching live
+	 * status is gone or is no longer on one of the automated statuses that would
+	 * revert into it.
+	 *
+	 * Such a row is not just clutter: while it exists, createBackupStatus() keeps
+	 * hitting the unique constraint on user_id, which makes setUserStatus()
+	 * silently abort every automated status change for that user.
+	 *
+	 * @param list<string> $automatedMessageIds Message ids that own a backup
+	 * @return int Number of deleted backup rows
+	 */
+	public function deleteStrandedBackups(array $automatedMessageIds): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('id', 'user_id')
+			->from($this->tableName)
+			->where($qb->expr()->eq('is_backup', $qb->createNamedParameter(true, IQueryBuilder::PARAM_BOOL)));
+
+		$result = $qb->executeQuery();
+		/** @var array<string, int> $backups live user id => backup row id */
+		$backups = [];
+		while ($row = $result->fetch()) {
+			// Strip the underscore prefix that was added when creating the backup
+			$backups[substr((string)$row['user_id'], 1)] = (int)$row['id'];
+		}
+		$result->closeCursor();
+
+		if ($backups === []) {
+			return 0;
+		}
+
+		$reachable = [];
+		if ($automatedMessageIds !== []) {
+			foreach (array_chunk(array_keys($backups), 1000) as $chunk) {
+				$qb = $this->db->getQueryBuilder();
+				// Matching on the exact user id is enough to exclude backup rows,
+				// since those are always prefixed and user ids cannot start with
+				// an underscore. Not filtering on is_backup also means a row with
+				// a NULL is_backup errs towards keeping the backup.
+				$qb->select('user_id')
+					->from($this->tableName)
+					->where($qb->expr()->in('user_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
+					->andWhere($qb->expr()->in('message_id', $qb->createNamedParameter($automatedMessageIds, IQueryBuilder::PARAM_STR_ARRAY)));
+
+				$liveResult = $qb->executeQuery();
+				while ($row = $liveResult->fetch()) {
+					$reachable[(string)$row['user_id']] = true;
+				}
+				$liveResult->closeCursor();
+			}
+		}
+
+		$stranded = [];
+		foreach ($backups as $userId => $id) {
+			if (!isset($reachable[$userId])) {
+				$stranded[] = $id;
+			}
+		}
+
+		if ($stranded === []) {
+			return 0;
+		}
+
+		$deleted = 0;
+		foreach (array_chunk($stranded, 1000) as $chunk) {
+			$qb = $this->db->getQueryBuilder();
+			$qb->delete($this->tableName)
+				->where($qb->expr()->in('id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+			$deleted += $qb->executeStatement();
+		}
+
+		return $deleted;
+	}
+
 	public function deleteByIds(array $ids): void {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)

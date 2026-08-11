@@ -59,6 +59,20 @@ class StatusService {
 		IUserStatus::INVISIBLE,
 	];
 
+	/**
+	 * Message ids that are only ever set by an automation (calendar, call,
+	 * availability, out-of-office). A status carrying one of these owns the
+	 * backup of whatever the user had set before, and is expected to be
+	 * reverted once the automation stops applying.
+	 */
+	public const AUTOMATED_MESSAGE_IDS = [
+		IUserStatus::MESSAGE_CALENDAR_BUSY,
+		IUserStatus::MESSAGE_CALENDAR_BUSY_TENTATIVE,
+		IUserStatus::MESSAGE_CALL,
+		IUserStatus::MESSAGE_AVAILABILITY,
+		IUserStatus::MESSAGE_OUT_OF_OFFICE,
+	];
+
 	/** @var int */
 	public const INVALIDATE_STATUS_THRESHOLD = 15 /* minutes */ * 60 /* seconds */;
 
