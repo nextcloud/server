@@ -272,7 +272,14 @@ function compareVersion(version: Version) {
 	const _versions = versions.value.map((version) => ({ ...version, previewUrl: undefined }))
 
 	window.OCA.Viewer.compare(
-		{ path: props.node!.path },
+		{
+			fileid: props.node!.fileid,
+			filename: props.node!.path,
+			basename: props.node!.basename,
+			source: props.node!.source,
+			mime: props.node!.mime,
+			hasPreview: props.node!.attributes?.['has-preview'] ?? false,
+		},
 		_versions.find((v) => v.source === version.source),
 	)
 }
