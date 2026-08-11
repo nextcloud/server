@@ -92,4 +92,67 @@ interface IOutput {
 	 * @since 35.0.0
 	 */
 	public function writeStreamingTableInOutputFormat(\Iterator $items, int $tableGroupSize): void;
+
+	/**
+	 * Displays a progress bar with a number of steps equal to the argument passed to the method (don't pass any value if the length of the progress bar is unknown):
+	 *
+	 * ```
+	 * // displays a progress bar of unknown length
+	 * $output->progressStart();
+	 * ```
+	 *
+	 * ```
+	 * // displays a 100-step length progress bar
+	 * $output->progressStart(100);
+	 * ```
+	 * @since 35.0.0
+	 */
+	public function progressStart(int $max = 0): void;
+
+	/**
+	 * Make the progress bar advance the given number of steps (or 1 step if no argument is passed):
+	 *
+	 * ```
+	 * // advances the progress bar 1 step
+	 * $output->progressAdvance();
+	 * ```
+	 *
+	 * ```
+	 * // advances the progress bar 10 steps
+	 * $output->progressAdvance(10);
+	 * ```
+	 * @since 35.0.0
+	 */
+	public function progressAdvance(int $step = 1): void;
+
+	/**
+	 * Finish the progress bar (filling up all the remaining steps when its length is known):
+	 *
+	 * ```
+	 * $output->progressFinish();
+	 * ```
+	 * @since 35.0.0
+	 */
+	public function progressFinish(): void;
+
+	/**
+	 * If your progress bar loops over an iterable collection, use the progressIterate() helper:
+	 *
+	 * ```
+	 * $iterable = [1, 2];
+	 *
+	 * foreach ($output->progressIterate($iterable) as $value) {
+	 *     // ... do some work
+	 * }
+	 * ```
+	 * @template TKey
+	 * @template TValue
+	 *
+	 * @param iterable<TKey, TValue> $iterable
+	 * @param int|null $max Number of steps to complete the bar (0 if indeterminate), if null it will be inferred from $iterable
+	 *
+	 * @return iterable<TKey, TValue>
+	 * @since 35.0.0
+	 */
+	public function progressIterate(iterable $iterable, ?int $max = null): iterable;
 }

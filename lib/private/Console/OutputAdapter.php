@@ -12,11 +12,13 @@ use OCP\Console\Verbosity;
 use Override;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class OutputAdapter implements IOutput {
 	public function __construct(
 		public readonly OutputInterface $output,
 		public readonly InputInterface $input,
+		public readonly SymfonyStyle $symfonyStyle,
 		public readonly CommandAdapter $commandAdapter,
 	) {
 	}
@@ -74,5 +76,25 @@ class OutputAdapter implements IOutput {
 	#[Override]
 	public function getVerbosity(): Verbosity {
 		return Verbosity::from($this->output->getVerbosity());
+	}
+
+	#[Override]
+	public function progressStart(int $max = 0): void {
+		$this->symfonyStyle->progressStart($max);
+	}
+
+	#[Override]
+	public function progressAdvance(int $step = 1): void {
+		$this->symfonyStyle->progressAdvance($step);
+	}
+
+	#[Override]
+	public function progressFinish(): void {
+		$this->symfonyStyle->progressFinish();
+	}
+
+	#[Override]
+	public function progressIterate(iterable $iterable, ?int $max = null): iterable {
+		return $this->symfonyStyle->progressIterate($iterable, $max);
 	}
 }

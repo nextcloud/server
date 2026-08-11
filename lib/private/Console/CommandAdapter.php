@@ -26,6 +26,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @template T
@@ -211,6 +212,8 @@ class CommandAdapter extends Base {
 		/** @var T $instance */
 		$instance = $this->container->get($this->className);
 
+		$symfonyStyle = new SymfonyStyle($input, $output);
+
 		$parameters = [];
 		foreach ($this->reflectionMethod->getParameters() as $parameter) {
 			$name = $parameter->getName();
@@ -232,12 +235,12 @@ class CommandAdapter extends Base {
 
 			$type = $parameter->getType();
 			if ($type instanceof \ReflectionNamedType && $type->getName() === IOutput::class) {
-				$parameters[] = new OutputAdapter($output, $input, $this);
+				$parameters[] = new OutputAdapter($output, $input, $symfonyStyle, $this);
 				continue;
 			}
 
 			if ($type instanceof \ReflectionNamedType && $type->getName() === IInput::class) {
-				$parameters[] = new InputAdapter($input);
+				$parameters[] = new InputAdapter($input, $symfonyStyle);
 				continue;
 			}
 

@@ -60,4 +60,108 @@ interface IInput {
 	 * @since 35.0.0
 	 */
 	public function hasOption(string $name): bool;
+
+	/**
+	 * Asks the user to provide some value.
+	 *
+	 * ```
+	 * $input->ask('What is your name?');
+	 * ```
+	 *
+	 * You can pass the default value as the second argument so the user can hit the <Enter> key to select that value:
+	 *
+	 * ```
+	 * $input->ask('Where are you from?', 'United States');
+	 * ```
+	 *
+	 * In case you need to validate the given value, pass a callback validator as the third argument:
+	 *
+	 * ```
+	 * $input->ask('Number of workers to start', '1', function (string $number): int {
+	 *     if (!is_numeric($number)) {
+	 *         throw new \RuntimeException('You must type a number.');
+	 *     }
+	 *
+	 *     return (int) $number;
+	 * });
+	 * ```
+	 *
+	 * @param callable(string):mixed|null $validator
+	 * @since 35.0.0
+	 */
+	public function ask(string $question, ?string $default = null, ?callable $validator = null): mixed;
+
+	/**
+	 * Ask the user to provide some value but the user's input will be hidden, and it cannot define a default value.
+	 *
+	 * Use it when asking for sensitive information:
+	 *
+	 * ```
+	 * $input->askHidden('What is your password?');
+	 * ```
+	 *
+	 * In case you need to validate the given value, pass a callback validator as the second argument:
+	 *
+	 * ```
+	 * $input->askHidden('What is your password?', function (string $password): string {
+	 *     if (empty($password)) {
+	 *         throw new \RuntimeException('Password cannot be empty.');
+	 *     }
+	 *
+	 *     return $password;
+	 * });
+	 * ```
+	 *
+	 * @param callable(string):mixed|null $validator
+	 * @since 35.0.0
+	 */
+	public function askHidden(string $question, ?callable $validator = null): mixed;
+
+	/**
+	 * Ask a Yes/No question to the user, and it only returns true or false:
+	 *
+	 * ```
+	 * $input->confirm('Restart the web server?');
+	 * ```
+	 *
+	 * You can pass the default value as the second argument so the user can hit the <Enter> key to select that value:
+	 *
+	 * ```
+	 * $input->confirm('Restart the web server?', true);
+	 * ```
+	 *
+	 * @param string $question
+	 * @since 35.0.0
+	 */
+	public function confirm(string $question, bool $default = true): bool;
+
+	/**
+	 * Ask a question whose answer is constrained to the given list of valid answers:
+	 *
+	 * ```
+	 * $input->choice('Select the queue to analyze', ['queue1', 'queue2', 'queue3']);
+	 * ```
+	 *
+	 * You can pass the default value as the third argument so the user can hit the <Enter> key to select that value:
+	 *
+	 * ```
+	 * $input->choice('Select the queue to analyze', ['queue1', 'queue2', 'queue3'], 'queue1');
+	 * ```
+	 *
+	 * Choice questions display both the choice value and a numeric index, which starts from 0 by default. To use custom indices, pass an array with custom numeric keys as the choice values:
+	 *
+	 * ```
+	 * $input->choice('Select the queue to analyze', [5 => 'queue1', 6 => 'queue2', 7 => 'queue3']);
+	 * ```
+	 *
+	 * Finally, you can allow users to select multiple choices. To do so, users must separate each choice with a comma (e.g. typing 1, 2 will select choice 1 and 2):
+	 *
+	 * ```
+	 * $input->choice('Select the queue to analyze', ['queue1', 'queue2', 'queue3'], multiSelect: true);
+	 * ```
+	 *
+	 * @param array<string> $choices
+	 * @since 35.0.0
+	 */
+	public function choice(string $question, array $choices, mixed $default = null, bool $multiSelect = false): mixed;
 }

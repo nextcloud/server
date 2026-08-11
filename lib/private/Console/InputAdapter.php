@@ -10,10 +10,12 @@ namespace OC\Console;
 use OCP\Console\IInput;
 use Override;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class InputAdapter implements IInput {
 	public function __construct(
 		public readonly InputInterface $input,
+		public readonly SymfonyStyle $symfonyStyle,
 	) {
 	}
 
@@ -45,5 +47,25 @@ class InputAdapter implements IInput {
 	#[Override]
 	public function hasOption(string $name): bool {
 		return $this->input->hasOption($name);
+	}
+
+	#[Override]
+	public function ask(string $question, ?string $default = null, ?callable $validator = null): mixed {
+		return $this->symfonyStyle->ask($question, $default, $validator);
+	}
+
+	#[Override]
+	public function askHidden(string $question, ?callable $validator = null): mixed {
+		return $this->symfonyStyle->askHidden($question, $validator);
+	}
+
+	#[Override]
+	public function confirm(string $question, bool $default = true): bool {
+		return $this->symfonyStyle->confirm($question, $default);
+	}
+
+	#[Override]
+	public function choice(string $question, array $choices, mixed $default = null, bool $multiSelect = false): mixed {
+		return $this->symfonyStyle->choice($question, $choices, $default, $multiSelect);
 	}
 }
