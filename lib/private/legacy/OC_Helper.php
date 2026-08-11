@@ -55,11 +55,21 @@ class OC_Helper {
 	}
 
 	/**
-	 * Recursive copying of folders
-	 * @param string $src source folder
-	 * @param string $dest target folder
+	 * Recursively copy a local filesystem file or directory.
+	 *
+	 * Both paths must be paths understood by PHP's native filesystem
+	 * functions. This does not operate on Nextcloud VFS paths.
+	 *
+	 * Missing source paths are silented ignored. Forbidden files are
+	 * silently skipped.
+	 *
+	 * @param string $src Absolute or relative local source path
+	 * @param string $dest Local destination path
 	 * @return void
-	 * @deprecated 32.0.0 - use \OCP\Files\Folder::copy
+	 *
+	 * @deprecated 32.0.0 This legacy helper is unused. Use
+	 *             \OCP\Files\Folder::copy() for VFS nodes, or a
+	 *             dedicated local-filesystem operation for local paths.
 	 */
 	public static function copyr($src, $dest) {
 		if (!file_exists($src)) {
