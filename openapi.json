@@ -4653,10 +4653,8 @@
                         "$ref": "#/components/schemas/SharingUser"
                     },
                     "last_updated": {
-                        "type": "integer",
-                        "format": "int64",
-                        "description": "Unix time in milliseconds",
-                        "minimum": 0
+                        "type": "string",
+                        "description": "Unix time in milliseconds"
                     },
                     "state": {
                         "$ref": "#/components/schemas/SharingState"
