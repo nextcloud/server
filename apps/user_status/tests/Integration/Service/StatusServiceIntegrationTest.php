@@ -50,6 +50,14 @@ class StatusServiceIntegrationTest extends TestCase {
 		}
 	}
 
+	/** Simulates elapsed time by ageing the stored timestamps backwards. */
+	private function age(string $userId, int $seconds): void {
+		$this->db->executeStatement(
+			'UPDATE `*PREFIX*user_status` SET `status_timestamp` = `status_timestamp` - ? WHERE `user_id` IN (?, ?)',
+			[$seconds, $userId, '_' . $userId],
+		);
+	}
+
 	public function testNoStatusYet(): void {
 		$this->expectException(DoesNotExistException::class);
 
@@ -295,6 +303,49 @@ class StatusServiceIntegrationTest extends TestCase {
 		self::assertNull(
 			$this->readRaw('test123'),
 			'The meeting status must be cleared when the meeting ends',
+		);
+	}
+
+	public function testRevertAfterLongMeetingRefreshesTimestamp(): void {
+		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+
+		// A 90 minute meeting, well past INVALIDATE_STATUS_THRESHOLD.
+		$this->age('test123', 90 * 60);
+
+		$before = time();
+		$reverted = $this->service->revertUserStatus('test123', IUserStatus::MESSAGE_CALENDAR_BUSY);
+
+		self::assertNotNull($reverted);
+		self::assertGreaterThanOrEqual(
+			$before,
+			$this->readRaw('test123')?->getStatusTimestamp(),
+			'A restored status must not carry the stale timestamp from before the meeting',
+		);
+	}
+
+	public function testRevertAfterLongMeetingDoesNotFallBackToOffline(): void {
+		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+		$this->age('test123', 90 * 60);
+
+		$this->service->revertUserStatus('test123', IUserStatus::MESSAGE_CALENDAR_BUSY);
+
+		// findByUserId() runs processStatus(), which cleans stale statuses.
+		self::assertSame(
+			IUserStatus::ONLINE,
+			$this->service->findByUserId('test123')->getStatus(),
+			'The user was online before the meeting and must not be flipped to offline by reading the status',
 		);
 	}
 }
