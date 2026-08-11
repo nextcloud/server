@@ -15,6 +15,7 @@ use OCP\Console\ExitCode;
 use OCP\Console\IInput;
 use OCP\Console\IOutput;
 use OCP\Console\IQuestionHelper;
+use OCP\Console\ISignalHandler;
 use OCP\Console\OutputFormat;
 use OCP\Defaults;
 use OCP\Server;
@@ -215,6 +216,11 @@ class CommandAdapter extends Base {
 				continue;
 			}
 
+			if ($type instanceof \ReflectionNamedType && $type->getName() === ISignalHandler::class) {
+				$parameters[] = new SignalHandlerAdapter($this);
+				continue;
+			}
+
 			if ($type instanceof \ReflectionNamedType && $type->getName() === OutputFormat::class) {
 				$output = OutputFormat::tryFrom($input->getOption('output'));
 				if ($output === null) {
@@ -224,7 +230,7 @@ class CommandAdapter extends Base {
 				continue;
 			}
 
-			throw new \LogicException(\sprintf('Unable to resolve parameter "$%s" of "%s": it is neither an #[Argument], an #[Option], nor an %s, %s, %s or %s.', $name, $this->reflectionMethod->getName(), IOutput::class, IInput::class, IQuestionHelper::class, OutputFormat::class));
+			throw new \LogicException(\sprintf('Unable to resolve parameter "$%s" of "%s": it is neither an #[Argument], an #[Option], nor an %s, %s, %s, %s or %s.', $name, $this->reflectionMethod->getName(), IOutput::class, IInput::class, IQuestionHelper::class, ISignalHandler::class, OutputFormat::class));
 		}
 
 		if ($this->method !== null) {
@@ -234,6 +240,12 @@ class CommandAdapter extends Base {
 		}
 
 		return $result instanceof ExitCode ? $result->value : $result;
+	}
+
+	#[Override]
+	public function abortIfInterrupted(): void {
+		// To make it public
+		parent::abortIfInterrupted();
 	}
 
 	#[Override]
