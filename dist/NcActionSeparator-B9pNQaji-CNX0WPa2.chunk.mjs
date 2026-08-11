@@ -1,2 +1,0 @@
-import{_ as o}from"./createElementId-DhjFt1I9-BF6jf5_U.chunk.mjs";import{o as a,g as t}from"./Web-YxOIih-q.chunk.mjs";const r={name:"NcActionSeparator"},e={class:"action action-separator action--disabled",role:"separator"};function n(s,c,i,p,d,l){return a(),t("li",e)}const u=o(r,[["render",n],["__scopeId","data-v-3e2324b7"]]);export{u as N};
-//# sourceMappingURL=NcActionSeparator-B9pNQaji-CNX0WPa2.chunk.mjs.map
