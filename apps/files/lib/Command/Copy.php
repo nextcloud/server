@@ -13,10 +13,9 @@ use OCP\Console\Attribute\Argument;
 use OCP\Console\Attribute\AsCommand;
 use OCP\Console\Attribute\Option;
 use OCP\Console\ExitCode;
+use OCP\Console\IInput;
 use OCP\Console\IOutput;
-use OCP\Console\IQuestionHelper;
 use OCP\Files\Folder;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 #[AsCommand(
 	name: 'files:copy',
@@ -30,7 +29,7 @@ class Copy {
 
 	public function __invoke(
 		IOutput $output,
-		IQuestionHelper $questionHelper,
+		IInput $input,
 		#[Argument(description: 'Source file id or path')]
 		string $source,
 		#[Argument(description: 'Target path')]
@@ -100,8 +99,7 @@ class Copy {
 			}
 
 			if (!$force && $targetNode) {
-				$question = new ConfirmationQuestion('<info>' . $target . '</info> already exists, overwrite? [y/N] ', false);
-				if (!$questionHelper->ask($question)) {
+				if (!$input->confirm('<info>' . $target . '</info> already exists, overwrite? [y/N] ', false)) {
 					return ExitCode::Failure;
 				}
 			}

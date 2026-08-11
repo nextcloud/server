@@ -12,11 +12,10 @@ use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OCP\Console\Attribute\Argument;
 use OCP\Console\Attribute\AsCommand;
 use OCP\Console\ExitCode;
+use OCP\Console\IInput;
 use OCP\Console\IOutput;
-use OCP\Console\IQuestionHelper;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 #[AsCommand(
 	name: 'files:object:multi:rename-config',
@@ -32,7 +31,7 @@ class Rename {
 
 	public function __invoke(
 		IOutput $output,
-		IQuestionHelper $questionHelper,
+		IInput $input,
 		#[Argument(description: 'Object store configuration to rename')]
 		string $source,
 		#[Argument(description: 'New name for the object store configuration')]
@@ -63,8 +62,7 @@ class Rename {
 			$output->writeln('');
 			$output->writeln('<error>Failure to check these requirements will lead to data loss for users.</error>');
 
-			$question = new ConfirmationQuestion('Automatically create target object store configuration? [y/N] ', false);
-			if ($questionHelper->ask($question)) {
+			if ($input->confirm('Automatically create target object store configuration? [y/N] ', false)) {
 				$configs[$target] = $configs[$source];
 
 				// update all aliases

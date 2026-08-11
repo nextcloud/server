@@ -14,14 +14,12 @@ use OCP\Console\Attribute\Option;
 use OCP\Console\ExitCode;
 use OCP\Console\IInput;
 use OCP\Console\IOutput;
-use OCP\Console\IQuestionHelper;
 use OCP\Console\ISignalHandler;
 use OCP\Console\OutputFormat;
 use OCP\Defaults;
 use OCP\Server;
 use Override;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -244,13 +242,6 @@ class CommandAdapter extends Base {
 				continue;
 			}
 
-			if ($type instanceof \ReflectionNamedType && $type->getName() === IQuestionHelper::class) {
-				/** @var QuestionHelper $questionHelper */
-				$questionHelper = $this->getHelper('question');
-				$parameters[] = new QuestionHelperAdapter($input, $output, $questionHelper);
-				continue;
-			}
-
 			if ($type instanceof \ReflectionNamedType && $type->getName() === ISignalHandler::class) {
 				$parameters[] = new SignalHandlerAdapter($this);
 				continue;
@@ -265,7 +256,7 @@ class CommandAdapter extends Base {
 				continue;
 			}
 
-			throw new \LogicException(\sprintf('Unable to resolve parameter "$%s" of "%s": it is neither an #[Argument], an #[Option], nor an %s, %s, %s, %s or %s.', $name, $this->reflectionMethod->getName(), IOutput::class, IInput::class, IQuestionHelper::class, ISignalHandler::class, OutputFormat::class));
+			throw new \LogicException(\sprintf('Unable to resolve parameter "$%s" of "%s": it is neither an #[Argument], an #[Option], nor an %s, %s, %s or %s.', $name, $this->reflectionMethod->getName(), IOutput::class, IInput::class, ISignalHandler::class, OutputFormat::class));
 		}
 
 		if ($this->method !== null) {

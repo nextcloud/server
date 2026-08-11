@@ -12,10 +12,9 @@ use OCP\Console\Attribute\Argument;
 use OCP\Console\Attribute\AsCommand;
 use OCP\Console\Attribute\Option;
 use OCP\Console\ExitCode;
+use OCP\Console\IInput;
 use OCP\Console\IOutput;
-use OCP\Console\IQuestionHelper;
 use OCP\Files\IMimeTypeDetector;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 #[AsCommand(
 	name: 'files:object:put',
@@ -30,7 +29,7 @@ class Put {
 
 	public function __invoke(
 		IOutput $output,
-		IQuestionHelper $questionHelper,
+		IInput $consoleInput,
 		#[Argument(description: 'Source local path, use - to read from STDIN')]
 		string $input,
 		#[Argument(description: 'Object to write')]
@@ -48,8 +47,7 @@ class Put {
 			$output->writeln("You can use <info>occ files:put $input $fileId</info> to write to the file safely.");
 			$output->writeln('');
 
-			$question = new ConfirmationQuestion('Write to the object anyway? [y/N] ', false);
-			if (!$questionHelper->ask($question)) {
+			if (!$consoleInput->confirm('Write to the object anyway? [y/N] ', false)) {
 				return -1;
 			}
 		}

@@ -12,9 +12,8 @@ use OCP\Console\Attribute\Argument;
 use OCP\Console\Attribute\AsCommand;
 use OCP\Console\Attribute\Option;
 use OCP\Console\ExitCode;
+use OCP\Console\IInput;
 use OCP\Console\IOutput;
-use OCP\Console\IQuestionHelper;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 #[AsCommand(
 	name: 'files:object:delete',
@@ -28,7 +27,7 @@ class Delete {
 
 	public function __invoke(
 		IOutput $output,
-		IQuestionHelper $questionHelper,
+		IInput $input,
 		#[Argument(description: 'Object to delete')]
 		string $object,
 		#[Option(description: "Bucket to delete the object from, only required in cases where it can't be determined from the config", shortcut: 'b')]
@@ -50,8 +49,7 @@ class Delete {
 			return -1;
 		}
 
-		$question = new ConfirmationQuestion("Delete $object? [y/N] ", false);
-		if ($questionHelper->ask($question)) {
+		if ($input->confirm("Delete $object? [y/N] ", false)) {
 			$objectStore->deleteObject($object);
 		}
 		return ExitCode::Success;

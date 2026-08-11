@@ -15,10 +15,9 @@ use OCP\Console\Attribute\Argument;
 use OCP\Console\Attribute\AsCommand;
 use OCP\Console\Attribute\Option;
 use OCP\Console\ExitCode;
+use OCP\Console\IInput;
 use OCP\Console\IOutput;
-use OCP\Console\IQuestionHelper;
 use OCP\Files\Folder;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 #[AsCommand(
 	name: 'files:delete',
@@ -33,7 +32,7 @@ class Delete {
 
 	public function __invoke(
 		IOutput $output,
-		IQuestionHelper $questionHelper,
+		IInput $input,
 		#[Argument(description: 'File id or path')]
 		string $file,
 		#[Option(
@@ -58,8 +57,7 @@ class Delete {
 			if (!$inputIsId && $storage->instanceOfStorage(SharedStorage::class) && $node->getInternalPath() === '') {
 				/** @var SharedStorage $storage */
 				[,$user] = explode('/', $file, 3);
-				$question = new ConfirmationQuestion("<info>$file</info> in a shared file, do you want to unshare the file from <info>$user</info> instead of deleting the source file? [Y/n] ", true);
-				if ($questionHelper->ask($question)) {
+				if ($input->confirm("<info>$file</info> in a shared file, do you want to unshare the file from <info>$user</info> instead of deleting the source file? [Y/n] ", true)) {
 					$storage->unshareStorage();
 					return ExitCode::Success;
 				} else {
@@ -87,8 +85,7 @@ class Delete {
 			} else {
 				$maybeContents = '';
 			}
-			$question = new ConfirmationQuestion('Delete ' . $node->getPath() . $maybeContents . '? [y/N] ', false);
-			$deleteConfirmed = $questionHelper->ask($question);
+			$deleteConfirmed = $input->confirm('Delete ' . $node->getPath() . $maybeContents . '? [y/N] ', false);
 		}
 
 		if ($deleteConfirmed) {
