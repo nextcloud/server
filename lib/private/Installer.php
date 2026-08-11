@@ -617,10 +617,22 @@ class Installer {
 	}
 
 	/**
-	 * Recursive copying of local folders.
+	 * Recursively copy a local filesystem file or directory.
 	 *
-	 * @param string $src source folder
-	 * @param string $dest target folder
+	 * Both paths are interpreted by PHP's native filesystem functions and must
+	 * not be Nextcloud VFS paths. If the source does not exist, the method
+	 * returns without doing anything. Source files rejected by the filename
+	 * validator are skipped.
+	 *
+	 * The destination directory is created if it does not exist. Existing files
+	 * may be overwritten. Failures reported by the underlying filesystem
+	 * functions are ignored, and the method does not guarantee that the entire
+	 * source tree was copied successfully.
+	 *
+	 * @todo Consider replacing with a shared more robust utility function.
+	 *
+	 * @param string $src Local source file or directory path
+	 * @param string $dest Local destination file or directory path
 	 */
 	private function copyRecursive(string $src, string $dest): void {
 		if (!file_exists($src)) {
