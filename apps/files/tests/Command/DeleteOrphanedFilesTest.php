@@ -11,13 +11,12 @@ namespace OCA\Files\Tests\Command;
 
 use OC\Files\View;
 use OCA\Files\Command\DeleteOrphanedFiles;
+use OCP\Console\IOutput;
 use OCP\Files\IRootFolder;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Server;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 /**
@@ -78,8 +77,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 	 * Test clearing orphaned files
 	 */
 	public function testClearFiles(): void {
-		$input = $this->createMock(InputInterface::class);
-		$output = $this->createMock(OutputInterface::class);
+		$output = $this->createMock(IOutput::class);
 
 		$rootFolder = Server::get(IRootFolder::class);
 
@@ -99,7 +97,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 		$this->assertCount(1, $this->getFile($fileInfo->getId()), 'Asserts that file is available');
 		$this->assertEquals(1, $this->getMountsCount($numericStorageId), 'Asserts that mount is available');
 
-		$this->command->execute($input, $output);
+		($this->command)($output);
 
 		$this->assertCount(1, $this->getFile($fileInfo->getId()), 'Asserts that file is still available');
 		$this->assertEquals(1, $this->getMountsCount($numericStorageId), 'Asserts that mount is still available');
@@ -125,7 +123,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 				$this->assertSame($expected, $message);
 			});
 
-		$this->command->execute($input, $output);
+		($this->command)($output);
 
 		$this->assertCount(0, $this->getFile($fileInfo->getId()), 'Asserts that file gets cleaned up');
 		$this->assertEquals(0, $this->getMountsCount($numericStorageId), 'Asserts that mount gets cleaned up');
