@@ -16,7 +16,7 @@ class GetAutoExpireListTest extends TestCase {
 	/**
 	 * Frozen reference time for all tests
 	 */
-	private const NOW = 1600000000;
+	private const int NOW = 1600000000;
 
 	/**
 	 * Helper to call the private retention logic

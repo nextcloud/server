@@ -34,7 +34,7 @@ use Psr\Log\LoggerInterface;
  * Send a reminder via email to the sharee(s) if the folder is still empty a predefined time before the expiration date
  */
 class SharesReminderJob extends TimedJob {
-	private const SECONDS_BEFORE_REMINDER = 24 * 60 * 60;
+	private const int SECONDS_BEFORE_REMINDER = 24 * 60 * 60;
 	private int $folderMimeTypeId;
 
 	public function __construct(

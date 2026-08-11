@@ -23,7 +23,7 @@ class ListShares extends Base {
 	/** @var array<string, Node> */
 	private array $fileCache = [];
 
-	private const SHARE_TYPE_NAMES = [
+	private const array SHARE_TYPE_NAMES = [
 		IShare::TYPE_USER => 'user',
 		IShare::TYPE_GROUP => 'group',
 		IShare::TYPE_LINK => 'link',

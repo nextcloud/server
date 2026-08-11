@@ -25,7 +25,7 @@ use OCP\IRequest;
  * @psalm-import-type CoreReferenceProvider from ResponseDefinitions
  */
 class ReferenceApiController extends OCSController {
-	private const LIMIT_MAX = 15;
+	private const int LIMIT_MAX = 15;
 
 	public function __construct(
 		string $appName,

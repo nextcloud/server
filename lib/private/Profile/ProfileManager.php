@@ -49,12 +49,12 @@ class ProfileManager implements IProfileManager {
 	/** @var CappedMemoryCache<ProfileConfig> */
 	private CappedMemoryCache $configCache;
 
-	private const CORE_APP_ID = 'core';
+	private const string CORE_APP_ID = 'core';
 
 	/**
 	 * Array of account property actions
 	 */
-	private const ACCOUNT_PROPERTY_ACTIONS = [
+	private const array ACCOUNT_PROPERTY_ACTIONS = [
 		EmailAction::class,
 		PhoneAction::class,
 		WebsiteAction::class,
@@ -66,7 +66,7 @@ class ProfileManager implements IProfileManager {
 	/**
 	 * Array of account properties displayed on the profile
 	 */
-	private const PROFILE_PROPERTIES = [
+	private const array PROFILE_PROPERTIES = [
 		IAccountManager::PROPERTY_ADDRESS,
 		IAccountManager::PROPERTY_AVATAR,
 		IAccountManager::PROPERTY_BIOGRAPHY,

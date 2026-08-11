@@ -24,7 +24,7 @@ use function filter_var;
  * @internal
  */
 class IpAddressClassifier {
-	private const LOCAL_ADDRESS_RANGES = [
+	private const array LOCAL_ADDRESS_RANGES = [
 		'100.64.0.0/10', // See RFC 6598
 		'192.0.0.0/24', // See RFC 6890
 	];

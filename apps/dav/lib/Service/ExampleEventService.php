@@ -25,9 +25,9 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 
 class ExampleEventService {
-	private const FOLDER_NAME = 'example_event';
-	private const FILE_NAME = 'example_event.ics';
-	private const ENABLE_CONFIG_KEY = 'create_example_event';
+	private const string FOLDER_NAME = 'example_event';
+	private const string FILE_NAME = 'example_event.ics';
+	private const string ENABLE_CONFIG_KEY = 'create_example_event';
 
 	public function __construct(
 		private readonly CalDavBackend $calDavBackend,

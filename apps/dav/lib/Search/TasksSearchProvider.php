@@ -29,7 +29,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @var string[]
 	 */
-	private const SEARCH_PROPERTIES = [
+	private const array SEARCH_PROPERTIES = [
 		'SUMMARY',
 		'DESCRIPTION',
 		'CATEGORIES',
@@ -38,12 +38,12 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @var string[]
 	 */
-	private const SEARCH_PARAMETERS = [];
+	private const array SEARCH_PARAMETERS = [];
 
 	/**
 	 * @var string
 	 */
-	private const COMPONENT_TYPE = 'VTODO';
+	private const string COMPONENT_TYPE = 'VTODO';
 
 	/**
 	 * @inheritDoc

@@ -24,7 +24,7 @@ use OCP\Migration\IRepairStep;
 class RegisterBuildReminderIndexBackgroundJob implements IRepairStep {
 
 	/** @var string */
-	private const CONFIG_KEY = 'buildCalendarReminderIndex';
+	private const string CONFIG_KEY = 'buildCalendarReminderIndex';
 
 	/**
 	 * @param IDBConnection $db

@@ -26,9 +26,9 @@ use Override;
  */
 class PreviewMapper extends QBMapper {
 
-	private const TABLE_NAME = 'previews';
-	private const LOCATION_TABLE_NAME = 'preview_locations';
-	private const VERSION_TABLE_NAME = 'preview_versions';
+	private const string TABLE_NAME = 'previews';
+	private const string LOCATION_TABLE_NAME = 'preview_locations';
+	private const string VERSION_TABLE_NAME = 'preview_versions';
 	public const MAX_CHUNK_SIZE = 1000;
 
 	public function __construct(

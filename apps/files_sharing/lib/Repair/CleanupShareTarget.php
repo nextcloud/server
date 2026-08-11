@@ -32,7 +32,7 @@ class CleanupShareTarget implements IRepairStepExpensive {
 	/** we only care about shares with a user target,
 	 *  since the underling group/deck/talk share doesn't get moved
 	 */
-	private const USER_SHARE_TYPES = [
+	private const array USER_SHARE_TYPES = [
 		IShare::TYPE_USER,
 		IShare::TYPE_USERGROUP,
 		IShare::TYPE_DECK_USER,

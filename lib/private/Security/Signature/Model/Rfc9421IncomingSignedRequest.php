@@ -55,7 +55,7 @@ class Rfc9421IncomingSignedRequest extends SignedRequest implements
 	];
 
 	/** Max clock skew (seconds) for `created`. Override via `rfc9421.maxClockSkew`. */
-	private const DEFAULT_MAX_FUTURE_SKEW = 60;
+	private const int DEFAULT_MAX_FUTURE_SKEW = 60;
 
 	private string $origin = '';
 	private string $label;

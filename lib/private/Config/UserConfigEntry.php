@@ -14,8 +14,8 @@ use OCP\Config\ValueType;
 use OCP\Security\ICrypto;
 
 class UserConfigEntry {
-	private const ENCRYPTION_PREFIX = '$UserConfigEncryption$';
-	private const ENCRYPTION_PREFIX_LENGTH = 22; // strlen(self::ENCRYPTION_PREFIX)
+	private const string ENCRYPTION_PREFIX = '$UserConfigEncryption$';
+	private const int ENCRYPTION_PREFIX_LENGTH = 22; // strlen(self::ENCRYPTION_PREFIX)
 
 	/** @var string $decryptedValue Cached decrypted value, if any */
 	private ?string $decryptedValue = null;

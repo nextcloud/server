@@ -34,7 +34,7 @@ use Throwable;
  * `alg` and the Signature-Input `alg` parameter (RFC 9421 §3.2 step 6).
  */
 final class Algorithm {
-	public const NATIVE = [
+	public const array NATIVE = [
 		'rsa-v1_5-sha256',
 		'rsa-v1_5-sha384',
 		'rsa-v1_5-sha512',

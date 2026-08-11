@@ -26,8 +26,8 @@ use Psr\Log\LoggerInterface;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
 class WebAuthnController extends Controller {
-	private const WEBAUTHN_LOGIN = 'webauthn_login';
-	private const WEBAUTHN_LOGIN_UID = 'webauthn_login_uid';
+	private const string WEBAUTHN_LOGIN = 'webauthn_login';
+	private const string WEBAUTHN_LOGIN_UID = 'webauthn_login_uid';
 
 	public function __construct(
 		string $appName,

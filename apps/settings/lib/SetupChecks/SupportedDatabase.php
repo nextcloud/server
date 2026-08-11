@@ -17,14 +17,14 @@ use OCP\SetupCheck\SetupResult;
 
 class SupportedDatabase implements ISetupCheck {
 
-	private const MIN_MARIADB = '10.11';
-	private const MAX_MARIADB = '12.3';
-	private const MIN_MYSQL = '8.4';
-	private const MAX_MYSQL = '9.7';
-	private const MIN_POSTGRES = '14';
-	private const MAX_POSTGRES = '18';
-	private const MIN_ORACLE = '12.2';
-	private const MAX_ORACLE = '26';
+	private const string MIN_MARIADB = '10.11';
+	private const string MAX_MARIADB = '12.3';
+	private const string MIN_MYSQL = '8.4';
+	private const string MAX_MYSQL = '9.7';
+	private const string MIN_POSTGRES = '14';
+	private const string MAX_POSTGRES = '18';
+	private const string MIN_ORACLE = '12.2';
+	private const string MAX_ORACLE = '26';
 
 	public function __construct(
 		private IL10N $l10n,

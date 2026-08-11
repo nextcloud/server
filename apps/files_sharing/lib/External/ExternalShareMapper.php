@@ -25,7 +25,7 @@ use Override;
  * @template-extends QBMapper<ExternalShare>
  */
 class ExternalShareMapper extends QBMapper {
-	private const TABLE_NAME = 'share_external';
+	private const string TABLE_NAME = 'share_external';
 
 	public function __construct(
 		IDBConnection $db,

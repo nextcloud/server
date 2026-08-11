@@ -15,13 +15,13 @@ use Override;
 
 class FileSequence implements ISequence {
 	/** Number of files to use */
-	private const NB_FILES = 20;
+	private const int NB_FILES = 20;
 	/** Lock file directory **/
 	public const LOCK_FILE_DIRECTORY = 'sfi_file_sequence';
 	/** Lock filename format **/
-	private const LOCK_FILE_FORMAT = 'seq-%03d.lock';
+	private const string LOCK_FILE_FORMAT = 'seq-%03d.lock';
 	/** Delete sequences after SEQUENCE_TTL seconds **/
-	private const SEQUENCE_TTL = 30;
+	private const int SEQUENCE_TTL = 30;
 
 	private string $workDir;
 

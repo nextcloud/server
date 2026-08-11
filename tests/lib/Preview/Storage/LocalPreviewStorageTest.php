@@ -39,7 +39,7 @@ class LocalPreviewStorageTest extends TestCase {
 	private LocalPreviewStorage $storage;
 
 	/** File ID used across the single-file tests. */
-	private const FILE_ID = 1;
+	private const int FILE_ID = 1;
 
 	#[\Override]
 	protected function setUp(): void {

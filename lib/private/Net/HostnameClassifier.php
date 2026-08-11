@@ -21,7 +21,7 @@ use function substr_count;
  * @internal
  */
 class HostnameClassifier {
-	private const LOCAL_TOPLEVEL_DOMAINS = [
+	private const array LOCAL_TOPLEVEL_DOMAINS = [
 		'local',
 		'localhost',
 		'intranet',

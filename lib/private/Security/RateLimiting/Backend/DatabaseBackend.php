@@ -16,7 +16,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 
 class DatabaseBackend implements IBackend {
-	private const TABLE_NAME = 'ratelimit_entries';
+	private const string TABLE_NAME = 'ratelimit_entries';
 
 	public function __construct(
 		private IConfig $config,
