@@ -5,26 +5,37 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
 /**
- * This class provides access to the internal filesystem abstraction layer. Use
- * this class exclusively if you want to access files
+ * Legacy helper for direct, local/host filesystem operations (not Nextcloud's
+ * virtual filesystem). For VFS access, use
+ * \OCP\Files\IRootFolder and \OCP\Files\Folder / \OCP\Files\Node instead.
+ *
  * @since 5.0.0
- * @deprecated 14.0.0
+ * @deprecated 14.0.0 No direct replacement for rmdirr(); apps needing this
+ *			   should implement their own recursive delete, use a well-tested
+ *			   library, or open a GitHub Issue (enhancement request).
  */
 class Files {
+
 	/**
-	 * Recursive deletion of folders
+	 * Recursively delete a local filesystem file or directory.
 	 *
-	 * @param string $dir path to the folder
-	 * @param bool $deleteSelf if set to false only the content of the folder will be deleted
-	 * @return bool
+	 * This operates on paths understood by PHP's native filesystem
+	 * functions; it does not operate on Nextcloud VFS paths.
+	 *
+	 * Symbolic links are deleted as links and are not traversed.
+	 *
+	 * @param string $dir Local filesystem path to delete
+	 * @param bool $deleteSelf Whether to delete the supplied path itself.
+	 *                          If false, only its contents are deleted.
+	 * @return bool True when the requested path no longer exists, or when
+	 *              only its contents were requested to be deleted.
+	 *
 	 * @since 5.0.0
-	 * @since 32.0.0 added the $deleteSelf parameter
+	 * @since 32.0.0 Added the $deleteSelf parameter
 	 * @deprecated 14.0.0
 	 */
 	public static function rmdirr($dir, bool $deleteSelf = true) {
