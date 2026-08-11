@@ -10,6 +10,9 @@
 		:data-sources="nodes"
 		:gridMode="userConfig.grid_view"
 		:extraProps="{
+		:loading="loading"
+		:grid-mode="userConfig.grid_view"
+		:extra-props="{
 			isMimeAvailable,
 			isMtimeAvailable,
 			isSizeAvailable,
@@ -118,6 +121,11 @@ export default defineComponent({
 		summary: {
 			type: String,
 			required: true,
+		},
+
+		loading: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
