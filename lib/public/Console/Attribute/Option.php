@@ -61,6 +61,11 @@ final class Option {
 	/**
 	 * If unset, the `name` value will be inferred from the parameter definition.
 	 *
+	 * To declare an option whose value is itself optional (e.g. "--foo" alone returns
+	 * `true`, "--foo=bar" returns `'bar'`, and omitting the option returns `false`),
+	 * type the parameter as a union of `bool` with `string`, `int` or `float`
+	 * (e.g. `string|bool $foo = false`).
+	 *
 	 * @param string $description The description of the option, displayed with the help page
 	 * @param string $name The name of the option
 	 * @param array|string|null $shortcut The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts

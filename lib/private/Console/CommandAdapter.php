@@ -31,6 +31,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @template T
  */
 class CommandAdapter extends Base {
+	/** Union types allowed for an option whose value is itself optional */
+	private const OPTION_VALUE_OPTIONAL_UNION_TYPES = ['bool|float', 'bool|int', 'bool|string'];
+
 	private AsCommand $asCommand;
 
 	private \ReflectionMethod $reflectionMethod;
@@ -147,11 +150,35 @@ class CommandAdapter extends Base {
 			$reflection = new ReflectionMember($parameter);
 			$type = $reflection->getType();
 			$name = $reflection->getName();
-			if (!$type instanceof \ReflectionNamedType) {
-				throw new \LogicException(\sprintf('The %s "$%s" of "%s" must have a named type. Untyped, Union or Intersection types are not supported for command options.', $reflection->getMemberName(), $name, $reflection->getSourceName()));
-			}
-			$allowNull = $reflection->isNullable();
 			$default = $reflection->hasDefaultValue() ? $reflection->getDefaultValue() : null;
+
+			if ($type instanceof \ReflectionUnionType) {
+				// A union of bool with string/int/float declares an option whose value
+				// is itself optional, e.g. "--foo" (true), "--foo=bar" (bar) or omitted (false)
+				$typeNames = array_map(
+					static fn (\ReflectionType $t) => $t instanceof \ReflectionNamedType ? $t->getName() : null,
+					$type->getTypes(),
+				);
+				sort($typeNames);
+				$unionTypeName = implode('|', array_filter($typeNames));
+
+				if (!\in_array($unionTypeName, self::OPTION_VALUE_OPTIONAL_UNION_TYPES, true)) {
+					throw new \LogicException(\sprintf('The union type for option "$%s" of "%s" is not supported as a command option. Only "%s" types are allowed.', $name, $reflection->getSourceName(), implode('", "', self::OPTION_VALUE_OPTIONAL_UNION_TYPES)));
+				}
+
+				if ($default !== false) {
+					throw new \LogicException(\sprintf('The option "$%s" of "%s" must have a default value of false.', $name, $reflection->getSourceName()));
+				}
+
+				$this->addOption($option->name, $option->shortcut, InputOption::VALUE_OPTIONAL, $option->description, $default);
+				continue;
+			}
+
+			if (!$type instanceof \ReflectionNamedType) {
+				throw new \LogicException(\sprintf('The %s "$%s" of "%s" must have a named type. Untyped or Intersection types are not supported for command options.', $reflection->getMemberName(), $name, $reflection->getSourceName()));
+			}
+
+			$allowNull = $reflection->isNullable();
 			$typeName = $type->getName();
 
 			if ($typeName === 'bool' && $allowNull && \in_array($default, [true, false], true)) {
@@ -194,7 +221,12 @@ class CommandAdapter extends Base {
 			}
 
 			if (isset($this->options[$name])) {
-				$parameters[] = $input->getOption($this->options[$name]['option']->name);
+				$value = $input->getOption($this->options[$name]['option']->name);
+				if ($value === null && $parameter->getType() instanceof \ReflectionUnionType) {
+					// The option was passed without a value, e.g. "--foo"
+					$value = true;
+				}
+				$parameters[] = $value;
 				continue;
 			}
 
