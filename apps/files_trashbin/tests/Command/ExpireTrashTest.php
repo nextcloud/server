@@ -66,6 +66,28 @@ class ExpireTrashTest extends TestCase {
 		parent::tearDown();
 	}
 
+	public function testCommandMetadata(): void {
+		$command = new ExpireTrash(
+			Server::get(IUserManager::class),
+			$this->expiration,
+			Server::get(SetupManager::class),
+			Server::get(IRootFolder::class),
+		);
+
+		$this->assertSame(
+			'Delete eligible trashbin entries according to the configured retention and space policy',
+			$command->getDescription(),
+		);
+		$this->assertSame(
+			'Processes deleted files according to the configured trashbin retention and space policy. This does not disable the trashbin or unconditionally empty it.',
+			$command->getHelp(),
+		);
+		$this->assertSame(
+			'Limit processing to the given user ID(s); if no user ID is given, all users are processed',
+			$command->getDefinition()->getArgument('user_id')->getDescription(),
+		);
+	}
+
 	#[DataProvider(methodName: 'retentionObligationProvider')]
 	public function testRetentionObligation(string $obligation, string $quota, int $elapsed, int $fileSize, bool $shouldExpire): void {
 		$this->config->setSystemValues(['trashbin_retention_obligation' => $obligation]);
