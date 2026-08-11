@@ -48,6 +48,23 @@ class Manager {
 	}
 
 	/**
+	 * Lightweight recent contacts for the People menu header avatar stack.
+	 * Limits the store query and skips action providers.
+	 *
+	 * @return IEntry[]
+	 * @throws Exception
+	 */
+	public function getPreviewEntries(IUser $user, int $limit = 3): array {
+		$limit = max(0, $limit);
+		if ($limit === 0) {
+			return [];
+		}
+
+		$entries = $this->store->getContacts($user, '', $limit);
+		return array_slice($this->sortEntries($entries), 0, $limit);
+	}
+
+	/**
 	 * @throws Exception
 	 */
 	public function findOne(IUser $user, int $shareType, string $shareWith): ?IEntry {
