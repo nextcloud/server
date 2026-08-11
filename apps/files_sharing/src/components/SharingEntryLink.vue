@@ -890,7 +890,6 @@ export default {
 		 */
 		onMenuClose() {
 			this.onPasswordSubmit()
-			this.onNoteSubmit()
 		},
 
 		/**
