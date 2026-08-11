@@ -418,7 +418,20 @@ class TemplateManager implements ITemplateManager {
 	}
 
 	/**
-	 * Copies a local directory recursively by using streams
+	 * Recursively copy the contents of a local directory into a VFS folder.
+	 *
+	 * The source path is interpreted by PHP's native filesystem functions and
+	 * must not be a Nextcloud VFS path. The destination is populated through
+	 * the VFS folder API.
+	 *
+	 * If the source directory or a source file cannot be opened, the failure is
+	 * logged and the method returns. The method does not report whether the
+	 * entire directory was copied successfully, so the destination may contain
+	 * only a partial copy. Errors from destination VFS operations may be thrown.
+	 *
+	 * @param string $source Local source directory path
+	 * @param Folder $target VFS folder to copy the source contents into
+	 * @return void
 	 */
 	private function copyr(string $source, Folder $target): void {
 		// Verify if folder exists
