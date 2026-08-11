@@ -261,27 +261,6 @@ export default {
 		},
 
 		/**
-		 * Note changed, let's save it to a different key
-		 *
-		 * @param {string} note the share note
-		 */
-		onNoteChange(note) {
-			this.$set(this.share, 'newNote', note.trim())
-		},
-
-		/**
-		 * When the note change, we trim, save and dispatch
-		 *
-		 */
-		onNoteSubmit() {
-			if (this.share.newNote) {
-				this.share.note = this.share.newNote
-				this.$delete(this.share, 'newNote')
-				this.queueUpdate('note')
-			}
-		},
-
-		/**
 		 * Delete share button handler
 		 */
 		async onDelete() {
