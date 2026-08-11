@@ -12,21 +12,21 @@ namespace OCA\TwoFactorBackupCodes\Db;
 use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;
-use OCP\DB\Types;
+use OCP\DB\Schema\ColumnType;
 use OCP\Snowflake\ISnowflakeGenerator;
 
 #[Entity(name: 'twofactor_backupcodes')]
 final class BackupCode {
 	#[Id(generatorClass: ISnowflakeGenerator::class)]
-	#[Column(name: 'id', type: Types::STRING, length: 64, nullable: false)]
+	#[Column(name: 'id', type: ColumnType::String, length: 64, nullable: false)]
 	public ?string $id = null;
 
-	#[Column(name: 'user_id', type: Types::STRING, length: 64, nullable: false)]
+	#[Column(name: 'user_id', type: ColumnType::String, length: 64, nullable: false)]
 	public string $userId;
 
-	#[Column(name: 'code', type: Types::STRING, length: 128, nullable: false)]
+	#[Column(name: 'code', type: ColumnType::String, length: 128, nullable: false)]
 	public string $code;
 
-	#[Column(name: 'used', type: Types::SMALLINT, nullable: false, default: 0)]
+	#[Column(name: 'used', type: ColumnType::Smallint, nullable: false, default: 0)]
 	public int $used = 0;
 }

@@ -13,7 +13,7 @@ use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\AppFramework\ORM\Attribute\JoinColumn;
 use OCP\AppFramework\ORM\Attribute\ManyToOne;
 use OCP\AppFramework\ORM\Attribute\OneToOne;
-use OCP\DB\Types;
+use OCP\DB\Schema\ColumnType;
 
 /**
  * @template T as object
@@ -21,7 +21,7 @@ use OCP\DB\Types;
 final class EntityInfo {
 	public readonly string $tableName;
 
-	/** @var array<string, Types::*> */
+	/** @var array<string, ColumnType> */
 	public array $mappingColumnToTypes = [];
 
 	/** @var array<string, string> */

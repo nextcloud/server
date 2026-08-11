@@ -18,7 +18,7 @@ use OCP\Snowflake\ISnowflakeGenerator;
  * #[Entity(name: 'my_entity']
  * final class MyEntity {
  *     #[Id(generatorClass: ISnowflakeGenerator::class)]
- *     #[Column(name: 'id', type: Types::BIGINT)]
+ *     #[Column(name: 'id', type: ColumnType::Bigint)]
  *     public ?string $id = null;
  * }
  * ```
@@ -31,11 +31,11 @@ use OCP\Snowflake\ISnowflakeGenerator;
  * #[Entity(name: 'my_join_entity']
  * final class MyJoinEntity {
  *     #[Id]
- *     #[Column(name: 'left_id', type: Types::BIGINT)]
+ *     #[Column(name: 'left_id', type: ColumnType::Bigint)]
  *     public int $leftId;
  *
  *     #[Id]
- *     #[Column(name: 'right_id', type: Types::BIGINT)]
+ *     #[Column(name: 'right_id', type: ColumnType::Bigint)]
  *     public int $rightId;
  * }
  * ```

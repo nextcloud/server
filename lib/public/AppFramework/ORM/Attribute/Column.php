@@ -9,7 +9,7 @@ namespace OCP\AppFramework\ORM\Attribute;
 
 use Attribute;
 use OCP\AppFramework\Attribute\Consumable;
-use OCP\DB\Types;
+use OCP\DB\Schema\ColumnType;
 
 /**
  * Attribute for mapping a property in an entity to a database column.
@@ -17,7 +17,7 @@ use OCP\DB\Types;
  * ```php
  * #[Entity(name: 'my_entity']
  * final class MyEntity {
- *     #[Column(name: 'my_column', type: Types::String, default: '')]
+ *     #[Column(name: 'my_column', type: ColumnType::String, default: '')]
  *     public string $myColumn = '';
  * }
  * ```
@@ -29,15 +29,15 @@ use OCP\DB\Types;
 final readonly class Column {
 	/** @since 35.0.0 */
 	public function __construct(
-		/** @var non-empty-string The name of the column in the database. */
+		/** @var non-empty-lowercase-string The name of the column in the database. */
 		public string $name,
-		/** @var Types::* The type of the column in the database. */
-		public string $type,
+		/** @var ColumnType The type of the column in the database. */
+		public ColumnType $type,
 		/** @var ?int The length of the column (relevant for Types::STRING) */
 		public ?int $length = null,
 		/** @var bool Whether the column is nullable in the database */
 		public bool $nullable = false,
-		/** @var mixed The default value for the column in the database. */
+		/** @var scalar|null The default value for the column in the database. */
 		public mixed $default = null,
 	) {
 	}

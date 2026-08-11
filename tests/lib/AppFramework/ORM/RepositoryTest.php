@@ -18,74 +18,74 @@ use OCP\AppFramework\ORM\Attribute\ManyToOne;
 use OCP\AppFramework\ORM\Attribute\OneToOne;
 use OCP\AppFramework\ORM\Repository;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\DB\Types;
+use OCP\DB\Schema\ColumnType;
 use OCP\IConfig;
 use OCP\Server;
 use Test\TestCase;
 
 #[Entity(name: 'repository_test_test1')]
 class NoPrimaryKey {
-	#[Column(name: 'id', type: Types::INTEGER, nullable: true)]
+	#[Column(name: 'id', type: ColumnType::Integer, nullable: true)]
 	public ?int $id = null;
 }
 
 #[Entity(name: 'repository_test_test2')]
 class PrimaryKey {
 	#[Id]
-	#[Column(name: 'id', type: Types::INTEGER, nullable: false)]
+	#[Column(name: 'id', type: ColumnType::Integer, nullable: false)]
 	public ?int $id = null;
 
-	#[Column(name: 'name', type: Types::STRING, nullable: true)]
+	#[Column(name: 'name', type: ColumnType::String, nullable: true)]
 	public ?string $name = null;
 
-	#[Column(name: 'not_nullable', type: Types::STRING, nullable: false)]
+	#[Column(name: 'not_nullable', type: ColumnType::String, nullable: false)]
 	public string $notNullable;
 
-	#[Column(name: 'integer_val', type: Types::INTEGER, nullable: false)]
+	#[Column(name: 'integer_val', type: ColumnType::Integer, nullable: false)]
 	public int $integer;
 
-	#[Column(name: 'bigint_val', type: Types::BIGINT, nullable: false)]
+	#[Column(name: 'bigint_val', type: ColumnType::Bigint, nullable: false)]
 	public int $bigInt;
 
-	#[Column(name: 'float_val', type: Types::FLOAT, nullable: false)]
+	#[Column(name: 'float_val', type: ColumnType::Float, nullable: false)]
 	public float $float;
 
-	#[Column(name: 'date_val', type: Types::DATETIME, nullable: false)]
+	#[Column(name: 'date_val', type: ColumnType::Datetime, nullable: false)]
 	public \DateTime $date;
 }
 
 #[Entity(name: 'repository_composite_key')]
 final class CompositeKey {
 	#[Id]
-	#[Column(name: 'tenant_id', type: Types::BIGINT)]
+	#[Column(name: 'tenant_id', type: ColumnType::Bigint)]
 	public ?int $tenantId = null;
 
 	#[Id]
-	#[Column(name: 'item_id', type: Types::BIGINT)]
+	#[Column(name: 'item_id', type: ColumnType::Bigint)]
 	public ?int $itemId = null;
 
-	#[Column(name: 'label', type: Types::STRING, nullable: true)]
+	#[Column(name: 'label', type: ColumnType::String, nullable: true)]
 	public ?string $label = null;
 }
 
 #[Entity(name: 'repository_customer')]
 final class Customer {
 	#[Id]
-	#[Column(name: 'id', type: Types::BIGINT)]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
 	public ?int $id = null;
 
 	#[OneToOne(targetEntity: Cart::class, mappedBy: 'customer')]
 	#[JoinColumn(name: 'cart_id', referencedColumnName: 'id')]
 	public ?Cart $cart = null;
 
-	#[Column(name: 'name', type: Types::STRING, nullable: false)]
+	#[Column(name: 'name', type: ColumnType::String, nullable: false)]
 	public string $name;
 }
 
 #[Entity(name: 'repository_cart')]
 final class Cart {
 	#[Id]
-	#[Column(name: 'id', type: Types::BIGINT)]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
 	public ?int $id = null;
 
 	#[OneToOne(targetEntity: Customer::class, invertedBy: 'cart')]
@@ -96,7 +96,7 @@ final class Cart {
 #[Entity(name: 'repository_invalid_owner')]
 final class InvalidOwningOnDelete {
 	#[Id]
-	#[Column(name: 'id', type: Types::BIGINT)]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
 	public ?int $id = null;
 
 	#[OneToOne(targetEntity: InvalidMappedByOnDelete::class, invertedBy: 'owner')]
@@ -107,7 +107,7 @@ final class InvalidOwningOnDelete {
 #[Entity(name: 'repository_invalid_mapped')]
 final class InvalidMappedByOnDelete {
 	#[Id]
-	#[Column(name: 'id', type: Types::BIGINT)]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
 	public ?int $id = null;
 
 	#[OneToOne(targetEntity: InvalidOwningOnDelete::class, mappedBy: 'invalid')]
@@ -118,7 +118,7 @@ final class InvalidMappedByOnDelete {
 #[Entity(name: 'repository_typo_owner')]
 final class TypoOwning {
 	#[Id]
-	#[Column(name: 'id', type: Types::BIGINT)]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
 	public ?int $id = null;
 
 	#[OneToOne(targetEntity: TypoTarget::class, invertedBy: 'owner')]
@@ -129,7 +129,7 @@ final class TypoOwning {
 #[Entity(name: 'repository_typo_target')]
 final class TypoTarget {
 	#[Id]
-	#[Column(name: 'id', type: Types::BIGINT)]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
 	public ?int $id = null;
 
 	#[OneToOne(targetEntity: TypoOwning::class, mappedBy: 'ownerTypo')]
@@ -140,10 +140,10 @@ final class TypoTarget {
 #[Entity(name: 'repository_cascade_parent')]
 final class CascadeParent {
 	#[Id]
-	#[Column(name: 'id', type: Types::BIGINT)]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
 	public ?int $id = null;
 
-	#[Column(name: 'name', type: Types::STRING, nullable: true)]
+	#[Column(name: 'name', type: ColumnType::String, nullable: true)]
 	public ?string $name = null;
 
 	#[OneToOne(targetEntity: CascadeChild::class, mappedBy: 'parent')]
@@ -154,7 +154,7 @@ final class CascadeParent {
 #[Entity(name: 'repository_cascade_child')]
 final class CascadeChild {
 	#[Id]
-	#[Column(name: 'id', type: Types::BIGINT)]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
 	public ?int $id = null;
 
 	#[OneToOne(targetEntity: CascadeParent::class, invertedBy: 'child')]
@@ -165,17 +165,17 @@ final class CascadeChild {
 #[Entity(name: 'repository_merchant')]
 final class Merchant {
 	#[Id]
-	#[Column(name: 'id', type: Types::BIGINT)]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
 	public ?int $id = null;
 
-	#[Column(name: 'name', type: Types::STRING, nullable: true)]
+	#[Column(name: 'name', type: ColumnType::String, nullable: true)]
 	public ?string $name = null;
 }
 
 #[Entity(name: 'repository_order')]
 final class Order {
 	#[Id]
-	#[Column(name: 'id', type: Types::BIGINT)]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
 	public ?int $id = null;
 
 	#[ManyToOne(targetEntity: Merchant::class)]

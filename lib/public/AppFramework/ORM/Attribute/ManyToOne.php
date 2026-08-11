@@ -18,7 +18,7 @@ use OCP\AppFramework\Attribute\Consumable;
  * #[Entity(name: 'order']
  * final class Order {
  *     #[Id]
- *     #[Column(name: 'id', type: Types::BIGINT)]
+ *     #[Column(name: 'id', type: ColumnType::Bigint)]
  *     public ?int $id = null;
  *
  *     #[ManyToOne(targetEntity: Customer::class)]
@@ -29,7 +29,7 @@ use OCP\AppFramework\Attribute\Consumable;
  * #[Entity(name: 'customer']
  * final class Customer {
  *     #[Id]
- *     #[Column(name: 'id', type: Types::BIGINT)]
+ *     #[Column(name: 'id', type: ColumnType::Bigint)]
  *     public ?int $id = null;
  * }
  * ```

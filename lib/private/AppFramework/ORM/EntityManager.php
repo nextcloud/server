@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\ORM;
 
-use Doctrine\DBAL\Schema\Table;
 use OC\DB\SchemaWrapper;
 use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\Id;
@@ -16,7 +15,8 @@ use OCP\AppFramework\ORM\Attribute\OneToOne;
 use OCP\AppFramework\ORM\Repository;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\DB\Types;
+use OCP\DB\Schema\ColumnType;
+use OCP\DB\Schema\ITable;
 use OCP\IDBConnection;
 use OCP\Server;
 use OCP\Snowflake\ISnowflakeGenerator;
@@ -92,11 +92,11 @@ final class EntityManager {
 					// A composite primary key can't rely on a single autoincrement column: every
 					// part must already be set on the entity (e.g. a foreign key id, or a value
 					// assigned by the caller) before insert() is called.
-					/** @var mixed $value */
 					$value = $property->getValue($entity);
 					if ($value === null) {
 						throw new \LogicException($entity::class . '::' . $property->getName() . ' is part of a composite primary key and must be set before insert(); it cannot rely on DB autoincrement.');
 					}
+
 					if (!is_string($value) && !is_int($value)) {
 						throw new \LogicException($entity::class . '::' . $property->getName() . ' is part of a composite primary key and must be set to a int or string before insert();.');
 					}
@@ -246,34 +246,32 @@ final class EntityManager {
 	}
 
 	/**
-	 * @param Types::* $type
 	 * @return IQueryBuilder::PARAM_*
 	 */
-	public function getParameterType(string $type, bool $isArray): string|int {
+	public function getParameterType(ColumnType $type, bool $isArray): string|int {
 		if ($isArray) {
 			/** @psalm-suppress DeprecatedConstant Types::JSON is only discouraged in WHERE clauses; mapping it is still supported. */
 			return match ($type) {
-				Types::INTEGER, Types::SMALLINT => IQueryBuilder::PARAM_INT_ARRAY,
-				Types::STRING => IQueryBuilder::PARAM_STR_ARRAY,
-				Types::JSON => IQueryBuilder::PARAM_JSON,
-				default => throw new \LogicException(sprintf("Parameter type '%s' is not supported as an array.", $type)),
+				ColumnType::Integer, ColumnType::Smallint, ColumnType::Bigint => IQueryBuilder::PARAM_INT_ARRAY,
+				ColumnType::String => IQueryBuilder::PARAM_STR_ARRAY,
+				ColumnType::Json => IQueryBuilder::PARAM_JSON,
+				default => throw new \LogicException(sprintf("Parameter type '%s' is not supported as an array.", $type->name)),
 			};
 		}
 
 		/** @psalm-suppress DeprecatedConstant Types::JSON is only discouraged in WHERE clauses; mapping it is still supported. */
 		return match ($type) {
-			Types::INTEGER, Types::SMALLINT => IQueryBuilder::PARAM_INT,
-			Types::STRING => IQueryBuilder::PARAM_STR,
-			Types::BOOLEAN => IQueryBuilder::PARAM_BOOL,
-			Types::BLOB => IQueryBuilder::PARAM_LOB,
-			Types::DATE, Types::DATETIME => IQueryBuilder::PARAM_DATETIME_MUTABLE,
-			Types::DATETIME_TZ => IQueryBuilder::PARAM_DATETIME_TZ_MUTABLE,
-			Types::DATE_IMMUTABLE => IQueryBuilder::PARAM_DATE_IMMUTABLE,
-			Types::DATETIME_IMMUTABLE => IQueryBuilder::PARAM_DATETIME_IMMUTABLE,
-			Types::DATETIME_TZ_IMMUTABLE => IQueryBuilder::PARAM_DATETIME_TZ_IMMUTABLE,
-			Types::TIME => IQueryBuilder::PARAM_TIME_MUTABLE,
-			Types::TIME_IMMUTABLE => IQueryBuilder::PARAM_TIME_IMMUTABLE,
-			Types::JSON => IQueryBuilder::PARAM_JSON,
+			ColumnType::Integer, ColumnType::Smallint, ColumnType::Bigint => IQueryBuilder::PARAM_INT,
+			ColumnType::Boolean => IQueryBuilder::PARAM_BOOL,
+			ColumnType::Blob => IQueryBuilder::PARAM_LOB,
+			ColumnType::Date, ColumnType::Datetime => IQueryBuilder::PARAM_DATETIME_MUTABLE,
+			ColumnType::DatetimeTz => IQueryBuilder::PARAM_DATETIME_TZ_MUTABLE,
+			ColumnType::DateImmutable => IQueryBuilder::PARAM_DATE_IMMUTABLE,
+			ColumnType::DatetimeImmutable => IQueryBuilder::PARAM_DATETIME_IMMUTABLE,
+			ColumnType::DatetimeTzImmutable => IQueryBuilder::PARAM_DATETIME_TZ_IMMUTABLE,
+			ColumnType::Time => IQueryBuilder::PARAM_TIME_MUTABLE,
+			ColumnType::TimeImmutable => IQueryBuilder::PARAM_TIME_IMMUTABLE,
+			ColumnType::Json => IQueryBuilder::PARAM_JSON,
 			default => IQueryBuilder::PARAM_STR,
 		};
 	}
@@ -288,7 +286,7 @@ final class EntityManager {
 
 		$table = $schema->createTable($entityInfo->tableName);
 
-		/** @var list<string> $idColumns */
+		/** @var list<non-empty-lowercase-string> $idColumns */
 		$idColumns = [];
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
 			$this->createProperty($entityInfo, $propertyAttributes, $table);
@@ -311,7 +309,7 @@ final class EntityManager {
 		$this->connection->dropTable($prefix . $entityInfo->tableName);
 	}
 
-	private function createProperty(EntityInfo $entityInfo, PropertyAttributes $attributes, Table $table): void {
+	private function createProperty(EntityInfo $entityInfo, PropertyAttributes $attributes, ITable $table): void {
 		if (!$attributes->column instanceof Column) {
 			return;
 		}
@@ -325,7 +323,6 @@ final class EntityManager {
 		}
 
 		if ($columnAttribute->default !== null) {
-			/** @psalm-suppress MixedAssignment default can be anything */
 			$options['default'] = $columnAttribute->default;
 		}
 
@@ -337,13 +334,13 @@ final class EntityManager {
 		$table->addColumn($columnAttribute->name, $columnAttribute->type, $options);
 	}
 
-	private function createRelationColumn(PropertyAttributes $attributes, Table $table, SchemaWrapper $schema): void {
+	private function createRelationColumn(PropertyAttributes $attributes, ITable $table, SchemaWrapper $schema): void {
 		$targetEntityClass = $attributes->getOwningRelationTarget();
 		if (!$attributes->joinColumn instanceof JoinColumn || $targetEntityClass === null) {
 			return;
 		}
 
-		$table->addColumn($attributes->joinColumn->name, Types::BIGINT, [
+		$table->addColumn($attributes->joinColumn->name, ColumnType::Bigint, [
 			'notnull' => !$attributes->joinColumn->nullable,
 		]);
 

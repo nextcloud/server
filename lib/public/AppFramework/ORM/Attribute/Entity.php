@@ -16,7 +16,7 @@ use OCP\AppFramework\Attribute\Consumable;
  * ```php
  * #[Entity(name: 'my_entity')]
  * final class MyEntity {
- *     #[Column(name: 'my_column', type: Types::String, default: '')]
+ *     #[Column(name: 'my_column', type: ColumnType::String, default: '')]
  *     public string $myColumn = '';
  * }
  * ```

@@ -19,7 +19,7 @@ use OCP\AppFramework\Attribute\Consumable;
  * #[Entity(name: 'product']
  * final class Product {
  *     #[Id]
- *     #[Column(name: 'id', type: Types::BIGINT)]
+ *     #[Column(name: 'id', type: ColumnType::Bigint)]
  *     public ?int $id = null;
  *
  *     #[OneToOne(targetEntity: Shipment::class)]
@@ -30,7 +30,7 @@ use OCP\AppFramework\Attribute\Consumable;
  * #[Entity(name: 'shipment']
  * final class Shipment {
  *     #[Id]
- *     #[Column(name: 'id', type: Types::BIGINT)]
+ *     #[Column(name: 'id', type: ColumnType::Bigint)]
  *     public ?int $id = null;
  * }
  * ```
@@ -41,7 +41,7 @@ use OCP\AppFramework\Attribute\Consumable;
  * #[Entity(name: 'customer']
  * final class Customer {
  *     #[Id]
- *     #[Column(name: 'id', type: Types::BIGINT)]
+ *     #[Column(name: 'id', type: ColumnType::Bigint)]
  *     public ?int $id = null;
  *
  *     #[OneToOne(targetEntity: Cart::class, mappedBy: 'customer')]
@@ -52,7 +52,7 @@ use OCP\AppFramework\Attribute\Consumable;
  * #[Entity(name: 'cart']
  * final class Cart {
  *     #[Id]
- *     #[Column(name: 'id', type: Types::BIGINT)]
+ *     #[Column(name: 'id', type: ColumnType::Bigint)]
  *     public ?int $id = null;
  *
  *     #[OneToOne(targetEntity: Customer::class, invertedBy: 'cart')]

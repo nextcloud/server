@@ -14,7 +14,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\DB\Types;
+use OCP\DB\Schema\ColumnType;
 use OCP\IDBConnection;
 
 /**
@@ -74,13 +74,13 @@ class Repository {
 		foreach ($row as $column => $value) {
 			$property = $entityInfo->mappingColumnToProperty[$column];
 			$type = $entityInfo->mappingColumnToTypes[$column];
-			if ($type === Types::BLOB) {
+			if ($type === ColumnType::Blob) {
 				// (B)LOB is treated as string when we read from the DB
 				if (is_resource($value)) {
 					$value = stream_get_contents($value);
 				}
 
-				$type = Types::STRING;
+				$type = ColumnType::String;
 			}
 
 			if ($this->isGeneratedIdColumn($entityInfo, $column)) {
@@ -88,49 +88,21 @@ class Repository {
 				continue;
 			}
 
-			/** @psalm-suppress DeprecatedConstant Types::JSON is only discouraged in WHERE clauses; mapping it is still supported. */
 			/** @psalm-suppress MixedAssignment $value is a raw DB driver value; each branch below settype()s or reconstructs it. */
-			switch ($type) {
-				case Types::BIGINT:
-				case Types::SMALLINT:
-					$value = (int)$value;
-					break;
-				case Types::FLOAT:
-					$value = (float)$value;
-					break;
-				case Types::BOOLEAN:
-					$value = (bool)$value;
-					break;
-				case Types::BINARY:
-				case Types::DECIMAL:
-				case Types::TEXT:
-					$value = (string)$value;
-					break;
-				case Types::TIME:
-				case Types::DATE:
-				case Types::DATETIME:
-				case Types::DATETIME_TZ:
-					if (!$value instanceof \DateTime) {
-						$value = new \DateTime((string)$value);
-					}
-
-					break;
-				case Types::TIME_IMMUTABLE:
-				case Types::DATE_IMMUTABLE:
-				case Types::DATETIME_IMMUTABLE:
-				case Types::DATETIME_TZ_IMMUTABLE:
-					if (!$value instanceof \DateTimeImmutable) {
-						$value = new \DateTimeImmutable((string)$value);
-					}
-
-					break;
-				case Types::JSON:
-					if (!is_array($value)) {
-						$value = json_decode((string)$value, true);
-					}
-
-					break;
-			}
+			$value = match ($type) {
+				ColumnType::Bigint, ColumnType::Smallint, ColumnType::Integer => (int)$value,
+				ColumnType::Float => (float)$value,
+				ColumnType::Boolean => (bool)$value,
+				ColumnType::Binary, ColumnType::Decimal, ColumnType::Text, ColumnType::String => (string)$value,
+				ColumnType::Time, ColumnType::Date, ColumnType::Datetime, ColumnType::DatetimeTz => $value instanceof \DateTime
+					? $value
+					: new \DateTime((string)$value),
+				ColumnType::TimeImmutable, ColumnType::DateImmutable, ColumnType::DatetimeImmutable, ColumnType::DatetimeTzImmutable => $value instanceof \DateTimeImmutable
+					? $value
+					: new \DateTimeImmutable((string)$value),
+				ColumnType::Json => is_array($value) ? $value : json_decode((string)$value, true),
+				ColumnType::Blob => $value,
+			};
 
 			$entity->$property = $value;
 		}
@@ -395,11 +367,12 @@ class Repository {
 	public function insertOrUpdate(object $entity): object {
 		try {
 			return $this->insert($entity);
-		} catch (Exception $ex) {
-			if ($ex->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+		} catch (Exception $exception) {
+			if ($exception->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 				return $this->update($entity);
 			}
-			throw $ex;
+
+			throw $exception;
 		}
 	}
 
@@ -407,7 +380,7 @@ class Repository {
 	 * Finds entities by a set of criteria, keyed by property name.
 	 *
 	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
-	 * @param array<string, 'ASC'|'DESC'> $orderBy
+	 * @param array<string, \SortDirection> $orderBy
 	 * @return \Generator<T>
 	 * @since 35.0.0
 	 */
@@ -462,7 +435,7 @@ class Repository {
 	 * Finds a single entity by a set of criteria, keyed by property name.
 	 *
 	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
-	 * @param array<string, 'ASC'|'DESC'> $orderBy
+	 * @param array<string, \SortDirection> $orderBy
 	 * @return T
 	 * @throws DoesNotExistException
 	 * @since 35.0.0
@@ -477,7 +450,7 @@ class Repository {
 
 	/**
 	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
-	 * @param array<string, 'ASC'|'DESC'> $orderBy
+	 * @param array<string, \SortDirection> $orderBy
 	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}>}
 	 */
 	private function getJoinedSelectQueryBuilder(array $criteria, array $orderBy = []): array {
@@ -499,7 +472,7 @@ class Repository {
 		}
 
 		foreach ($orderBy as $field => $direction) {
-			$qb->addOrderBy($qb->createNamedParameter($field), $direction);
+			$qb->addOrderBy($qb->createNamedParameter($field), $direction === \SortDirection::Ascending ? 'ASC' : 'DESC');
 		}
 
 		return [$qb, $relations];

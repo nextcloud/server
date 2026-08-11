@@ -11,7 +11,7 @@ namespace OC\Tagging;
 use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;
-use OCP\DB\Types;
+use OCP\DB\Schema\ColumnType;
 
 /**
  * Class to represent a tag.
@@ -19,15 +19,15 @@ use OCP\DB\Types;
 #[Entity(name: 'vcategory')]
 final class Tag {
 	#[Id]
-	#[Column(name: 'id', type: Types::BIGINT, nullable: false)]
+	#[Column(name: 'id', type: ColumnType::Bigint, nullable: false)]
 	public ?int $id = null;
 
-	#[Column(name: 'uid', type: Types::STRING, length: 64, nullable: false)]
+	#[Column(name: 'uid', type: ColumnType::String, length: 64, nullable: false)]
 	public string $owner;
 
-	#[Column(name: 'type', type: Types::STRING, length: 64, nullable: false)]
+	#[Column(name: 'type', type: ColumnType::String, length: 64, nullable: false)]
 	public string $type;
 
-	#[Column(name: 'category', type: Types::STRING, length: 255, nullable: false)]
+	#[Column(name: 'category', type: ColumnType::String, length: 255, nullable: false)]
 	public string $name;
 }

@@ -14,10 +14,29 @@ use OCP\AppFramework\Attribute\Consumable;
  * Attribute for mapping a property in an entity to a database column.
  *
  * ```php
- * #[Entity(name: 'my_entity']
- * final class MyEntity {
- *     #[Column(name: 'my_column', type: Types::String, default: '')]
- *     public string $myColumn = '';
+ * #[Entity(name: 'repository_customer')]
+ * final class Customer {
+ *     #[Id]
+ *     #[Column(name: 'id', type: ColumnType::Bigint)]
+ *     public ?int $id = null;
+ *
+ *     #[OneToOne(targetEntity: Cart::class, mappedBy: 'customer')]
+ *     #[JoinColumn(name: 'cart_id', referencedColumnName: 'id')]
+ *     public ?Cart $cart = null;
+ *
+ *     #[Column(name: 'name', type: Types::STRING, nullable: false)]
+ *     public string $name;
+ * }
+ *
+ * #[Entity(name: 'repository_cart')]
+ * final class Cart {
+ *     #[Id]
+ *     #[Column(name: 'id', type: ColumnType::Bigint)]
+ *     public ?int $id = null;
+ *
+ *     #[OneToOne(targetEntity: Customer::class, invertedBy: 'cart')]
+ *     #[JoinColumn(name: 'customer_id', referencedColumnName: 'id')]
+ *     public ?Customer $customer;
  * }
  * ```
  *
@@ -28,9 +47,9 @@ use OCP\AppFramework\Attribute\Consumable;
 final readonly class JoinColumn {
 	/** @since 35.0.0 */
 	public function __construct(
-		/** @var non-empty-string The name of the column in the database. */
+		/** @var non-empty-lowercase-string The name of the column in the database. */
 		public string $name,
-		/** @var non-empty-string The name of the column in the other table */
+		/** @var non-empty-lowercase-string The name of the column in the other table */
 		public string $referencedColumnName,
 		/** @var bool Whether the column is nullable in the database */
 		public bool $nullable = false,

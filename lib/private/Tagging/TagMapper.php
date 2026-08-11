@@ -31,7 +31,7 @@ class TagMapper extends Repository {
 			'owner' => $owners,
 			'type' => $type,
 		], [
-			'name' => 'ASC',
+			'name' => \SortDirection::Ascending,
 		]));
 	}
 
