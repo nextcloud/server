@@ -5,24 +5,25 @@
 
 <template>
 	<nav class="app-menu" :aria-label="t('core', 'Applications')">
-		<!-- One wrapper: both triggers act as a single control with one highlight. -->
-		<div
-			class="app-menu__trigger"
-			:class="{ 'app-menu__trigger--open': opened }"
-			@mouseenter="onTriggerPointerEnter"
-			@mouseleave="onPointerLeave">
-			<NcPopover
-				ref="popover"
-				:shown="opened"
-				:triggers="[]"
-				v-bind="popoverAttrs"
-				placement="bottom-start"
-				:skidding="popoverSkidding"
-				:set-return-focus="returnFocusTarget"
-				popover-base-class="app-menu__popover-base"
-				popup-role="menu"
-				@update:shown="opened = $event">
-				<template #trigger>
+		<NcPopover
+			ref="popover"
+			:shown="opened"
+			:triggers="[]"
+			v-bind="popoverAttrs"
+			placement="bottom-start"
+			:skidding="popoverSkidding"
+			:set-return-focus="returnFocusTarget"
+			popover-base-class="app-menu__popover-base"
+			popup-role="menu"
+			@update:shown="opened = $event">
+			<!-- Both buttons are the trigger, so they share one highlight and either
+				one opens the menu. On narrow screens only the waffle shows. -->
+			<template #trigger>
+				<div
+					class="app-menu__trigger"
+					:class="{ 'app-menu__trigger--open': opened }"
+					@mouseenter="onTriggerPointerEnter"
+					@mouseleave="onPointerLeave">
 					<NcButton
 						class="app-menu__waffle"
 						variant="tertiary-no-background"
@@ -34,52 +35,52 @@
 							<IconDotsGrid :size="20" />
 						</template>
 					</NcButton>
-				</template>
-
-				<div
-					class="app-menu__popover"
-					role="menu"
-					:aria-label="t('core', 'Apps')"
-					@mouseenter="onPopoverPointerEnter"
-					@mouseleave="onPointerLeave">
-					<div ref="grid" class="app-menu__grid" @keydown="onGridKeydown">
-						<AppItem
-							v-for="(item, i) in gridItems"
-							:key="item.id"
-							ref="items"
-							:app="item"
-							:outlined="item.id === 'more-apps' || item.id === 'app-store'"
-							:new-tab="item.id === 'app-store'"
-							:tabindex="i === focusedIndex ? 0 : -1" />
-					</div>
+					<NcButton
+						v-if="currentApp"
+						class="app-menu__current-app"
+						variant="tertiary-no-background"
+						:aria-label="currentAppLabel"
+						aria-haspopup="menu"
+						:aria-expanded="opened ? 'true' : 'false'"
+						@click="onTriggerClick('currentApp')">
+						<template #icon>
+							<!-- Settings sections and entries without an icon show a generic cog. -->
+							<IconCog
+								v-if="isSettingsSection || !currentAppIcon"
+								class="app-menu__current-app-cog"
+								:size="20" />
+							<!-- Outer element carries the header fade, inner one the icon shape. -->
+							<span v-else class="app-menu__current-app-icon">
+								<span
+									class="app-menu__current-app-glyph"
+									:style="currentAppIconStyle" />
+							</span>
+						</template>
+						<span class="app-menu__current-app-name">
+							{{ displayName }}
+						</span>
+					</NcButton>
 				</div>
-			</NcPopover>
-			<NcButton
-				v-if="currentApp"
-				class="app-menu__current-app"
-				variant="tertiary-no-background"
-				:aria-label="currentAppLabel"
-				aria-haspopup="menu"
-				:aria-expanded="opened ? 'true' : 'false'"
-				@click="onTriggerClick('currentApp')">
-				<template #icon>
-					<!-- Settings sections and entries without an icon show a generic cog. -->
-					<IconCog
-						v-if="isSettingsSection || !currentAppIcon"
-						class="app-menu__current-app-cog"
-						:size="20" />
-					<!-- Outer element carries the header fade, inner one the icon shape. -->
-					<span v-else class="app-menu__current-app-icon">
-						<span
-							class="app-menu__current-app-glyph"
-							:style="currentAppIconStyle" />
-					</span>
-				</template>
-				<span class="app-menu__current-app-name">
-					{{ displayName }}
-				</span>
-			</NcButton>
-		</div>
+			</template>
+
+			<div
+				class="app-menu__popover"
+				role="menu"
+				:aria-label="t('core', 'Apps')"
+				@mouseenter="onPopoverPointerEnter"
+				@mouseleave="onPointerLeave">
+				<div ref="grid" class="app-menu__grid" @keydown="onGridKeydown">
+					<AppItem
+						v-for="(item, i) in gridItems"
+						:key="item.id"
+						ref="items"
+						:app="item"
+						:outlined="item.id === 'more-apps' || item.id === 'app-store'"
+						:new-tab="item.id === 'app-store'"
+						:tabindex="i === focusedIndex ? 0 : -1" />
+				</div>
+			</div>
+		</NcPopover>
 	</nav>
 </template>
 
