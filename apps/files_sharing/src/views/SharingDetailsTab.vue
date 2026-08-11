@@ -178,8 +178,7 @@
 					<NcCheckboxRadioSwitch
 						v-if="isPublicShare"
 						v-model="share.hideDownload"
-						:disabled="canChangeHideDownload"
-						@update:modelValue="queueUpdate('hideDownload')">
+						:disabled="canChangeHideDownload">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
