@@ -121,12 +121,26 @@ class OC_Util {
 	}
 
 	/**
-	 * copies a directory recursively by using streams
+	 * Recursively copy the contents of a local directory into a VFS folder.
 	 *
-	 * @param string $source
-	 * @param Folder $target
+	 * The source path is interpreted by PHP's native filesystem functions and
+	 * must not be a Nextcloud VFS path. The destination is an
+	 * {@see \OCP\Files\Folder} and is populated through the VFS node API.
+	 *
+	 * Entries named "." and ".." are ignored. If the source directory cannot
+	 * be opened, or a source file cannot be opened, the failure is logged and
+	 * the method returns. The method does not report whether the entire
+	 * directory was copied successfully, so the destination may contain only a
+	 * partial copy. Errors from the destination VFS operations may be thrown.
+	 *
+	 * @param string $source Local source directory path
+	 * @param \OCP\Files\Folder $target VFS folder to copy the source contents into
 	 * @return void
-	 * @deprecated 34.0.0 Unused, if you really need this functionality, open an issue on GitHub
+	 * @throws \OCP\Files\NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
+	 *
+	 * @deprecated 34.0.0 Unused; if this functionality is needed, open an issue
+	 *             on GitHub.
 	 */
 	public static function copyr($source, Folder $target) {
 		$logger = Server::get(LoggerInterface::class);
