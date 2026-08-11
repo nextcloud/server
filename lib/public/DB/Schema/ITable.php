@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCP\DB\Schema;
 
 use OCP\AppFramework\Attribute\Consumable;
+use OCP\DB\Types;
 
 /**
  * Object representation of a table.
@@ -22,13 +23,14 @@ interface ITable {
 	 * Returns the name of this table.
 	 *
 	 * @since 35.0.0
+	 * @return non-empty-lowercase-string
 	 */
 	public function getName(): string;
 
 	/**
 	 * Sets the Primary Key.
 	 *
-	 * @param list<string> $columnNames
+	 * @param list<non-empty-string> $columnNames
 	 * @param string|false $indexName
 	 *
 	 * @throws SchemaException
@@ -37,9 +39,9 @@ interface ITable {
 	public function setPrimaryKey(array $columnNames, string|false $indexName = false): self;
 
 	/**
-	 * @param list<string> $columnNames
-	 * @param list<string> $flags
-	 * @param array<string, mixed> $options
+	 * @param list<non-empty-lowercase-string> $columnNames
+	 * @param list<non-empty-lowercase-string> $flags
+	 * @param array<non-empty-lowercase-string, mixed> $options
 	 *
 	 * @throws SchemaException
 	 * @since 35.0.0
@@ -77,7 +79,7 @@ interface ITable {
 	/**
 	 * Drops an index from this table.
 	 *
-	 * @param string $name The index name.
+	 * @param non-empty-lowercase-string $name The index name.
 	 *
 	 * @throws SchemaException If the index does not exist.
 	 * @since 35.0.0
@@ -87,7 +89,7 @@ interface ITable {
 	/**
 	 * Returns whether this table has an index with the given name.
 	 *
-	 * @param string $name The index name.
+	 * @param non-empty-lowercase-string $name The index name.
 	 * @since 35.0.0
 	 */
 	public function hasIndex(string $name): bool;
@@ -105,9 +107,9 @@ interface ITable {
 	/**
 	 * Renames an index.
 	 *
-	 * @param string $oldName The name of the index to rename from.
-	 * @param string|null $newName The name of the index to rename to.
-	 *                             If null is given, the index name will be auto-generated.
+	 * @param non-empty-lowercase-string $oldName The name of the index to rename from.
+	 * @param non-empty-lowercase-string|null $newName The name of the index to rename to.
+	 *                                                 If null is given, the index name will be auto-generated.
 	 *
 	 * @return self This table instance.
 	 *
@@ -118,8 +120,8 @@ interface ITable {
 	public function renameIndex(string $oldName, ?string $newName = null): self;
 
 	/**
-	 * @param string $name
-	 * @param string $typeName
+	 * @param non-empty-lowercase-string $name
+	 * @param Types::*|ColumnType $typeName
 	 * @param array{
 	 *     notnull?: bool,
 	 *     length?: ?int,
@@ -127,15 +129,18 @@ interface ITable {
 	 *     unsigned?: bool,
 	 *     autoincrement?: bool,
 	 *     fixed?: bool,
+	 *     precision?: int,
+	 *     scale?: int,
+	 *     type?: Types::*|ColumnType,
 	 * } $options
 	 *
 	 * @throws SchemaException
 	 * @since 35.0.0
 	 */
-	public function addColumn(string $name, string $typeName, array $options = []): IColumn;
+	public function addColumn(string $name, string|ColumnType $typeName, array $options = []): IColumn;
 
 	/**
-	 * @param string $name
+	 * @param non-empty-lowercase-string $name
 	 * @param array{
 	 *     notnull?: bool,
 	 *     length?: ?int,
@@ -143,6 +148,9 @@ interface ITable {
 	 *     unsigned?: bool,
 	 *     autoincrement?: bool,
 	 *     fixed?: bool,
+	 *     precision?: int,
+	 *     scale?: int,
+	 *     type?: Types::*|ColumnType,
 	 * } $options
 	 *
 	 * @throws SchemaException
@@ -152,6 +160,8 @@ interface ITable {
 
 	/**
 	 * Drops a Column from the Table.
+	 *
+	 * @param non-empty-lowercase-string $name
 	 * @since 35.0.0
 	 */
 	public function dropColumn(string $name): self;
@@ -159,15 +169,15 @@ interface ITable {
 	/**
 	 * Returns whether this table has a Column with the given name.
 	 *
-	 * @param string $name The column name.
+	 * @param non-empty-lowercase-string $name The column name.
 	 * @since 35.0.0
 	 */
-	public function hasColumn(string $string): bool;
+	public function hasColumn(string $name): bool;
 
 	/**
 	 * Returns the Column with the given name.
 	 *
-	 * @param string $name The column name.
+	 * @param non-empty-lowercase-string $name The column name.
 	 *
 	 * @throws SchemaException If the column does not exist.
 	 * @since 35.0.0
@@ -195,9 +205,9 @@ interface ITable {
 	 *
 	 * Name is inferred from the local columns.
 	 *
-	 * @param ITable|string $foreignTable Table schema instance or table name
-	 * @param list<string> $localColumnNames
-	 * @param list<string> $foreignColumnNames
+	 * @param ITable|non-empty-lowercase-string $foreignTable Table schema instance or table name
+	 * @param list<non-empty-lowercase-string> $localColumnNames
+	 * @param list<non-empty-lowercase-string> $foreignColumnNames
 	 * @param array<string, mixed> $options
 	 *
 	 * @throws SchemaException
@@ -213,6 +223,8 @@ interface ITable {
 
 	/**
 	 * Returns whether this table has a foreign key constraint with the given name.
+	 *
+	 * @param non-empty-string $name The foreign key name.
 	 * @since 35.0.0
 	 */
 	public function hasForeignKey(string $name): bool;
@@ -220,10 +232,16 @@ interface ITable {
 	/**
 	 * Removes the foreign key constraint with the given name.
 	 *
-	 * @param string $name The constraint name.
+	 * @param non-empty-string $name The constraint name.
 	 *
 	 * @throws SchemaException
 	 * @since 35.0.0
 	 */
 	public function removeForeignKey(string $name): void;
+
+	/**
+	 * @since 35.0.0
+	 * @return list<IForeignKeyConstraint>
+	 */
+	public function getForeignKeys(): array;
 }

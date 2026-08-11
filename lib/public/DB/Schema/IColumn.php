@@ -19,10 +19,10 @@ use OCP\AppFramework\Attribute\Consumable;
 #[Consumable(since: '35.0.0')]
 interface IColumn {
 	/**
-	 * @param \OCP\DB\Types::*|IType $type
+	 * @param \OCP\DB\Types::*|ColumnType $type
 	 * @since 35.0.0
 	 */
-	public function setType(string|IType $type): self;
+	public function setType(string|ColumnType $type): self;
 
 	/**
 	 * @since 35.0.0
@@ -62,11 +62,11 @@ interface IColumn {
 	/**
 	 * Returns the type of this column.
 	 *
-	 * Note that {@see IType::getName()} returns a `\OCP\DB\Types::*` value.
+	 * Note that {@see ColumnType::getName()} returns a `\OCP\DB\Types::*` value.
 	 *
 	 * @since 35.0.0
 	 */
-	public function getType(): IType;
+	public function getType(): ColumnType;
 
 	/**
 	 * @return int|null
