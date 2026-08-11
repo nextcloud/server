@@ -405,4 +405,122 @@ class UserStatusMapperTest extends TestCase {
 		$this->assertEquals(true, $user3Status->getIsBackup());
 		$this->assertEquals('Vacationing', $user3Status->getCustomMessage());
 	}
+
+	/**
+	 * @param string[] $liveMessageIds keyed by user id; null means no live row
+	 */
+	private function insertBackupWithLiveStatus(string $userId, ?string $liveMessageId): void {
+		$backup = new UserStatus();
+		$backup->setUserId('_' . $userId);
+		$backup->setStatus('online');
+		$backup->setStatusTimestamp(5000);
+		$backup->setIsUserDefined(false);
+		$backup->setIsBackup(true);
+		$this->mapper->insert($backup);
+
+		if ($liveMessageId === null) {
+			return;
+		}
+
+		$live = new UserStatus();
+		$live->setUserId($userId);
+		$live->setStatus('busy');
+		$live->setStatusTimestamp(6000);
+		$live->setIsUserDefined(true);
+		$live->setIsBackup(false);
+		$live->setMessageId($liveMessageId === '' ? null : $liveMessageId);
+		$this->mapper->insert($live);
+	}
+
+	public function testDeleteStrandedBackupsWithNoBackups(): void {
+		$this->insertSampleStatuses();
+
+		$this->assertSame(0, $this->mapper->deleteStrandedBackups(['meeting', 'call']));
+		$this->assertCount(3, $this->mapper->findAll());
+	}
+
+	public function testDeleteStrandedBackupsKeepsBackupsOfAutomatedStatuses(): void {
+		$this->insertBackupWithLiveStatus('user1', 'meeting');
+		$this->insertBackupWithLiveStatus('user2', 'call');
+		$this->insertBackupWithLiveStatus('user3', 'availability');
+		$this->insertBackupWithLiveStatus('user4', 'out-of-office');
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call', 'availability', 'out-of-office']);
+
+		$this->assertSame(0, $deleted);
+		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
+			$this->assertEquals('_' . $userId, $this->mapper->findByUserId($userId, true)->getUserId());
+		}
+	}
+
+	public function testDeleteStrandedBackupsRemovesBackupWithoutLiveStatus(): void {
+		$this->insertBackupWithLiveStatus('user1', null);
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call']);
+
+		$this->assertSame(1, $deleted);
+		$this->expectException(DoesNotExistException::class);
+		$this->mapper->findByUserId('user1', true);
+	}
+
+	public function testDeleteStrandedBackupsRemovesBackupWhenLiveStatusHasNoMessageId(): void {
+		$this->insertBackupWithLiveStatus('user1', '');
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call']);
+
+		$this->assertSame(1, $deleted);
+		// The live status must survive.
+		$this->assertEquals('user1', $this->mapper->findByUserId('user1')->getUserId());
+	}
+
+	public function testDeleteStrandedBackupsRemovesBackupWhenLiveStatusIsUserDefinedMessage(): void {
+		$this->insertBackupWithLiveStatus('user1', 'vacationing');
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call']);
+
+		$this->assertSame(1, $deleted);
+		$this->assertEquals('vacationing', $this->mapper->findByUserId('user1')->getMessageId());
+	}
+
+	public function testDeleteStrandedBackupsOnlyRemovesTheStrandedOnes(): void {
+		$this->insertBackupWithLiveStatus('keepme', 'meeting');
+		$this->insertBackupWithLiveStatus('stranded1', 'vacationing');
+		$this->insertBackupWithLiveStatus('stranded2', null);
+		$this->insertBackupWithLiveStatus('keepme2', 'call');
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call']);
+
+		$this->assertSame(2, $deleted);
+		$this->assertEquals('_keepme', $this->mapper->findByUserId('keepme', true)->getUserId());
+		$this->assertEquals('_keepme2', $this->mapper->findByUserId('keepme2', true)->getUserId());
+		foreach (['stranded1', 'stranded2'] as $userId) {
+			try {
+				$this->mapper->findByUserId($userId, true);
+				$this->fail("Backup for $userId should have been deleted");
+			} catch (DoesNotExistException) {
+			}
+		}
+	}
+
+	public function testDeleteStrandedBackupsDoesNotConfuseUsersWithSimilarNames(): void {
+		// '_user1' as a backup of 'user1', plus a real user literally named
+		// 'user1x' whose backup must be judged on its own live row.
+		$this->insertBackupWithLiveStatus('user1', 'meeting');
+		$this->insertBackupWithLiveStatus('user1x', 'vacationing');
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call']);
+
+		$this->assertSame(1, $deleted);
+		$this->assertEquals('_user1', $this->mapper->findByUserId('user1', true)->getUserId());
+		$this->expectException(DoesNotExistException::class);
+		$this->mapper->findByUserId('user1x', true);
+	}
+
+	public function testDeleteStrandedBackupsWithEmptyAutomatedListRemovesAll(): void {
+		$this->insertBackupWithLiveStatus('user1', 'meeting');
+		$this->insertBackupWithLiveStatus('user2', 'call');
+
+		// Defensive: with nothing considered automated, every backup is stranded.
+		$this->assertSame(2, $this->mapper->deleteStrandedBackups([]));
+	}
 }
