@@ -516,6 +516,100 @@ class UserStatusMapperTest extends TestCase {
 		$this->mapper->findByUserId('user1x', true);
 	}
 
+	public function testFindStrandedBackupIds(): void {
+		$this->insertBackupWithLiveStatus('keepme', 'meeting');
+		$this->insertBackupWithLiveStatus('stranded', 'vacationing');
+
+		$ids = $this->mapper->findStrandedBackupIds(['meeting', 'call']);
+
+		$this->assertCount(1, $ids);
+		$this->assertSame(
+			$this->mapper->findByUserId('stranded', true)->getId(),
+			$ids[0],
+		);
+	}
+
+	public function testFindStrandedBackupIdsDoesNotDelete(): void {
+		$this->insertBackupWithLiveStatus('stranded', 'vacationing');
+
+		$this->mapper->findStrandedBackupIds(['meeting']);
+
+		$this->assertEquals('_stranded', $this->mapper->findByUserId('stranded', true)->getUserId());
+	}
+
+	public function testFindOrphanedAutomatedStatusIds(): void {
+		// Live automated status with no backup to revert into: orphaned.
+		$orphan = new UserStatus();
+		$orphan->setUserId('orphan');
+		$orphan->setStatus('busy');
+		$orphan->setStatusTimestamp(5000);
+		$orphan->setIsUserDefined(true);
+		$orphan->setIsBackup(false);
+		$orphan->setMessageId('meeting');
+		$this->mapper->insert($orphan);
+
+		// Same shape but with a backup: an ongoing meeting, must be left alone.
+		$this->insertBackupWithLiveStatus('inmeeting', 'meeting');
+
+		// A status the user set themselves: not automated, must be left alone.
+		$own = new UserStatus();
+		$own->setUserId('ownstatus');
+		$own->setStatus('dnd');
+		$own->setStatusTimestamp(5000);
+		$own->setIsUserDefined(true);
+		$own->setIsBackup(false);
+		$own->setMessageId('vacationing');
+		$this->mapper->insert($own);
+
+		$ids = $this->mapper->findOrphanedAutomatedStatusIds(['meeting', 'call']);
+
+		$this->assertCount(1, $ids);
+		$this->assertSame($this->mapper->findByUserId('orphan')->getId(), $ids[0]);
+	}
+
+	public function testFindOrphanedAutomatedStatusIdsIgnoresBackupRows(): void {
+		// A backup row that happens to carry an automated message id must never
+		// be reported as an orphaned live status.
+		$backup = new UserStatus();
+		$backup->setUserId('_someone');
+		$backup->setStatus('busy');
+		$backup->setStatusTimestamp(5000);
+		$backup->setIsUserDefined(true);
+		$backup->setIsBackup(true);
+		$backup->setMessageId('meeting');
+		$this->mapper->insert($backup);
+
+		$this->assertSame([], $this->mapper->findOrphanedAutomatedStatusIds(['meeting', 'call']));
+	}
+
+	public function testFindOrphanedAutomatedStatusIdsWithEmptyAutomatedList(): void {
+		$this->insertBackupWithLiveStatus('user1', 'meeting');
+
+		$this->assertSame([], $this->mapper->findOrphanedAutomatedStatusIds([]));
+	}
+
+	public function testNormalizeBackupFlag(): void {
+		$this->insertSampleStatuses();
+		self::$realDatabase->executeStatement(
+			'UPDATE `*PREFIX*user_status` SET `is_backup` = NULL WHERE `user_id` = ?',
+			['user1'],
+		);
+
+		$ids = $this->mapper->findStatusesWithoutBackupFlagIds();
+		$this->assertCount(1, $ids);
+		$this->assertSame(1, $this->mapper->normalizeBackupFlagByIds($ids));
+		$this->assertSame([], $this->mapper->findStatusesWithoutBackupFlagIds());
+		// The row is visible to findAll() again.
+		$this->assertCount(3, $this->mapper->findAll());
+	}
+
+	public function testNormalizeBackupFlagWithNothingToDo(): void {
+		$this->insertSampleStatuses();
+
+		$this->assertSame([], $this->mapper->findStatusesWithoutBackupFlagIds());
+		$this->assertSame(0, $this->mapper->normalizeBackupFlagByIds([]));
+	}
+
 	public function testDeleteStrandedBackupsWithEmptyAutomatedListRemovesAll(): void {
 		$this->insertBackupWithLiveStatus('user1', 'meeting');
 		$this->insertBackupWithLiveStatus('user2', 'call');
