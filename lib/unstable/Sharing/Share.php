@@ -132,7 +132,7 @@ use OCP\L10N\IFactory;
  *     id: non-empty-string,
  *     owner: SharingUser,
  *     // Unix time in milliseconds
- *     last_updated: non-negative-int,
+ *     last_updated: numeric-string,
  *     state: SharingState,
  *     sources: list<SharingSource>,
  *     recipients: list<SharingRecipient>,

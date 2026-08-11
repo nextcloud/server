@@ -95,53 +95,63 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 
 	#[Override]
 	protected function createShare(ShareAccessContext $accessContext): array {
+		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->createShare());
 	}
 
 	#[Override]
 	protected function updateShareState(ShareAccessContext $accessContext, string $id, ShareState $state): array {
+		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->updateShareState($id, $state->value));
 	}
 
 	#[Override]
 	protected function addShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): array {
+		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->addShareSource($id, $source->class, $source->value));
 	}
 
 	#[Override]
 	protected function removeShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): array {
+		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->removeShareSource($id, $source->class, $source->value));
 	}
 
 	#[Override]
 	protected function addShareRecipient(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient): array {
+		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->addShareRecipient($id, $recipient->class, $recipient->value, $recipient->instance));
 	}
 
 	#[Override]
 	protected function removeShareRecipient(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient): array {
+		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->removeShareRecipient($id, $recipient->class, $recipient->value, $recipient->instance));
 	}
 
 	#[Override]
 	protected function updateShareRecipientSecret(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient, string $secret): array {
 		/** @psalm-suppress ArgumentTypeCoercion */
+		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->updateShareRecipientSecret($id, $recipient->class, $recipient->value, $recipient->instance, $secret));
 	}
 
 	#[Override]
 	protected function updateShareProperty(ShareAccessContext $accessContext, string $id, ShareProperty $property): array {
+		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->updateShareProperty($id, $property->class, $property->value));
 	}
 
 	#[Override]
 	protected function updateSharePermission(ShareAccessContext $accessContext, string $id, SharePermission $permission): array {
+		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->updateSharePermission($id, $permission->class, $permission->enabled));
 	}
 
 	#[Override]
 	protected function selectSharePermissionPreset(ShareAccessContext $accessContext, string $id, string $permissionPresetClass): array {
 		/** @psalm-suppress ArgumentTypeCoercion */
+		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->selectSharePermissionPreset($id, $permissionPresetClass));
 	}
 
@@ -150,11 +160,9 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 		$this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->deleteShare($id));
 	}
 
-	/**
-	 * @psalm-suppress MixedReturnTypeCoercion
-	 */
 	#[Override]
 	protected function getShare(ShareAccessContext $accessContext, string $id): array {
+		/** @var SharingShare */
 		return $this->executeRequest(new ShareAccessContext($accessContext->currentUser, null, [], $accessContext->overrideChecks), fn (ApiV1Controller $controller): DataResponse => $controller->getShare($id, $accessContext->secret, $accessContext->arguments));
 	}
 

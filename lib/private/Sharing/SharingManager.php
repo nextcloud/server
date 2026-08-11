@@ -753,18 +753,17 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	/**
-	 * @return non-negative-int
+	 * @return numeric-string
 	 */
-	public static function timeToMs(\DateTimeImmutable $time): int {
+	public static function timeToMs(\DateTimeImmutable $time): string {
 		if (method_exists($time, 'getMicrosecond')) {
-			/** @var int $micros */
-			$micros = $time->getMicrosecond();
+			$micros = (float)$time->getMicrosecond();
 		} else {
-			$micros = (int)$time->format('u');
+			$micros = (float)$time->format('u');
 		}
 
-		$time = $time->getTimestamp() * 1000 + (int)floor($micros / 1000);
-		if ($time > 0) {
+		$time = (string)floor((float)$time->getTimestamp() * 1000.0 + $micros / 1000.0);
+		if ((float)$time > 0) {
 			return $time;
 		}
 

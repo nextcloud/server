@@ -543,8 +543,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 			$rowCount = $qb
 				->update('sharing_share')
-				->set('last_updated', $qb->createNamedParameter(SharingManager::timeToMs($lastUpdated), IQueryBuilder::PARAM_INT))
-				->where($qb->expr()->in('id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
+				->set('last_updated', $qb->createNamedParameter(SharingManager::timeToMs($lastUpdated)))
+				->where($qb->expr()->in('id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
 				->executeStatement();
 			if ($rowCount !== count($chunk)) {
 				throw new ShareNotFoundException();
@@ -618,7 +618,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		// The key type is array-key, because PHP will automatically cast the value. We can't type it as integer though, because we need to also support 32 bit systems and there the autocasting doesn't happen, if the value is too large.
-		/** @var array<array-key, array{id: non-empty-string, owner: ShareUser, last_updated: non-negative-int, state: ShareState, sources: list<ShareSource>, recipients: list<ShareRecipient>, properties: array<class-string<ISharePropertyType>, ShareProperty>, permissions: array<class-string<ISharePermissionType>, SharePermission>}> $shares */
+		/** @var array<array-key, array{id: non-empty-string, owner: ShareUser, last_updated: numeric-string, state: ShareState, sources: list<ShareSource>, recipients: list<ShareRecipient>, properties: array<class-string<ISharePropertyType>, ShareProperty>, permissions: array<class-string<ISharePermissionType>, SharePermission>}> $shares */
 		$shares = [];
 		foreach ($queries as $qb) {
 			$qb
@@ -672,8 +672,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 				/** @var non-empty-string $id */
 				$id = (string)$row['id'];
-				/** @var non-negative-int $lastUpdated */
-				$lastUpdated = (int)$row['last_updated'];
+				/** @var numeric-string $lastUpdated */
+				$lastUpdated = (string)$row['last_updated'];
 				/** @var string $state */
 				$state = $row['state'];
 				$shares[$id] ??= [
@@ -718,10 +718,10 @@ final readonly class SharingBackend implements ISharingBackend {
 					'ss.source_value',
 				)
 				->from('sharing_share_sources', 'ss')
-				->where($qb->expr()->in('ss.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				->where($qb->expr()->in('ss.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
 
 			$result = $qb->executeQuery();
-			/** @var array{source_class_id: mixed, source_value: non-empty-string, share_id: int}[] $rows */
+			/** @var array{source_class_id: mixed, source_value: non-empty-string, share_id: string}[] $rows */
 			$rows = $result->fetchAll();
 
 			foreach ($rows as $row) {
@@ -749,7 +749,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				}
 
 				$value = $row['source_value'];
-				$id = (string)$row['share_id'];
+				$id = $row['share_id'];
 				$shares[$id]['sources'][] = new ShareSource(
 					$typeClass,
 					$value,
@@ -777,7 +777,7 @@ final readonly class SharingBackend implements ISharingBackend {
 					'sr.initiator_instance',
 				)
 				->from('sharing_share_recipients', 'sr')
-				->where($qb->expr()->in('sr.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				->where($qb->expr()->in('sr.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
 
 			foreach ($qb->executeQuery()->fetchAll() as $row) {
 				/** @var class-string<IShareRecipientType> $typeClass */
@@ -890,7 +890,7 @@ final readonly class SharingBackend implements ISharingBackend {
 					'sp.property_value',
 				)
 				->from('sharing_share_properties', 'sp')
-				->where($qb->expr()->in('sp.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				->where($qb->expr()->in('sp.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
 
 			$result = $qb->executeQuery();
 			foreach ($result->fetchAll() as $row) {
@@ -961,7 +961,7 @@ final readonly class SharingBackend implements ISharingBackend {
 					'sp.permission_enabled',
 				)
 				->from('sharing_share_permissions', 'sp')
-				->where($qb->expr()->in('sp.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				->where($qb->expr()->in('sp.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
 
 			$result = $qb->executeQuery();
 			foreach ($result->fetchAll() as $row) {
@@ -1110,7 +1110,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		return $share;
 	}
 
-	private static function parseTimestamp(int $timestampMs): \DateTimeImmutable {
+	private static function parseTimestamp(string $timestampMs): \DateTimeImmutable {
 		if (method_exists(\DateTimeImmutable::class, 'createFromTimestamp')) {
 			// with php 8.3 the method doesn't exist and psalm doesn't know the return type
 			/** @psalm-suppress MixedReturnStatement */
