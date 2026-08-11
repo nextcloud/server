@@ -448,4 +448,49 @@ class StatusServiceIntegrationTest extends TestCase {
 		self::assertSame(0, $deleted);
 		self::assertSame('Lunch', $this->readRaw('test123')?->getCustomMessage());
 	}
+
+	/**
+	 * The lookup matches a live row against its backup by concatenating the
+	 * underscore prefix in SQL, so it has to be exercised on a real database
+	 * rather than only through the mapper unit tests.
+	 */
+	public function testFindsOrphanedAutomatedStatusOnARealDatabase(): void {
+		// A user with no status row at all gets no backup, so the meeting
+		// status it is given can never be reverted.
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+		self::assertNull($this->readRaw('_test123'), 'Precondition: there is no backup');
+
+		// A second user on the same automated status, but with a backup, must
+		// not be reported.
+		$this->service->setStatus('test456', IUserStatus::ONLINE, null, false);
+		$this->service->setUserStatus(
+			'test456',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+
+		$orphaned = $this->mapper->findOrphanedAutomatedStatusIds(StatusService::AUTOMATED_MESSAGE_IDS);
+
+		self::assertSame([$this->readRaw('test123')?->getId()], $orphaned);
+	}
+
+	public function testFindsStatusesWithoutBackupFlagOnARealDatabase(): void {
+		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
+		$this->db->executeStatement(
+			'UPDATE `*PREFIX*user_status` SET `is_backup` = NULL WHERE `user_id` = ?',
+			['test123'],
+		);
+
+		$ids = $this->mapper->findStatusesWithoutBackupFlagIds();
+
+		self::assertSame([$this->readRaw('test123')?->getId()], $ids);
+		self::assertSame(1, $this->mapper->normalizeBackupFlagByIds($ids));
+		self::assertSame([], $this->mapper->findStatusesWithoutBackupFlagIds());
+	}
 }
