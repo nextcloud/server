@@ -42,24 +42,54 @@ use Test\TestCase;
 abstract class AbstractSharingManagerTests extends TestCase {
 	abstract protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?string $id = null): array;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function createShare(ShareAccessContext $accessContext): array;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function updateShareState(ShareAccessContext $accessContext, string $id, ShareState $state): array;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function addShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): array;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function removeShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): array;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function addShareRecipient(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient): array;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function removeShareRecipient(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient): array;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function updateShareRecipientSecret(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient, string $secret): array;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function updateShareProperty(ShareAccessContext $accessContext, string $id, ShareProperty $property): array;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function updateSharePermission(ShareAccessContext $accessContext, string $id, SharePermission $permission): array;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function selectSharePermissionPreset(ShareAccessContext $accessContext, string $id, string $permissionPresetClass): array;
 
 	abstract protected function deleteShare(ShareAccessContext $accessContext, string $id): void;
@@ -86,7 +116,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	protected IUser $user2;
 
-	private function parseTime(mixed $timestampMs): \DateTimeImmutable {
+	private function parseTime(string $timestampMs): \DateTimeImmutable {
 		$time = \DateTimeImmutable::createFromFormat('U.u', number_format((float)$timestampMs / 1000.0, 3, '.', ''));
 		if ($time === false) {
 			throw new \RuntimeException('invalid timestamp: ' . $timestampMs);

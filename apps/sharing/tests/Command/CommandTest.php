@@ -164,7 +164,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare
 	 */
 	#[Override]
 	protected function createShare(ShareAccessContext $accessContext): array {
@@ -177,12 +177,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 			],
 			[],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare
 	 */
 	#[Override]
 	protected function updateShareState(ShareAccessContext $accessContext, string $id, ShareState $state): array {
@@ -195,12 +195,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 			],
 			[],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare
 	 */
 	#[Override]
 	protected function addShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): array {
@@ -214,12 +214,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 			],
 			[],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare
 	 */
 	#[Override]
 	protected function removeShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): array {
@@ -233,12 +233,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 			],
 			[],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare
 	 */
 	#[Override]
 	protected function addShareRecipient(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient): array {
@@ -253,12 +253,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 			],
 			[],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare
 	 */
 	#[Override]
 	protected function removeShareRecipient(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient): array {
@@ -273,12 +273,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 			],
 			[],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare
 	 */
 	#[Override]
 	protected function updateShareRecipientSecret(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient, string $secret): array {
@@ -294,12 +294,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 			],
 			[],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare
 	 */
 	#[Override]
 	protected function updateShareProperty(ShareAccessContext $accessContext, string $id, ShareProperty $property): array {
@@ -313,12 +313,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 			],
 			[],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare
 	 */
 	#[Override]
 	protected function updateSharePermission(ShareAccessContext $accessContext, string $id, SharePermission $permission): array {
@@ -332,12 +332,12 @@ final class CommandTest extends AbstractSharingManagerTests {
 			],
 			[],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return SharingShare
 	 */
 	#[Override]
 	protected function selectSharePermissionPreset(ShareAccessContext $accessContext, string $id, string $permissionPresetClass): array {
@@ -350,7 +350,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 			],
 			[],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 
@@ -379,7 +379,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 			],
 			[],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 
@@ -399,7 +399,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 				['limit', $limit],
 			],
 		);
-		/** @psalm-suppress MixedReturnStatement */
+		/** @var SharingShare[] */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
 	}
 }
