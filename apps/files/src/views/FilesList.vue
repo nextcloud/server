@@ -90,6 +90,7 @@
 		<FilesListVirtual
 			v-else
 			ref="filesListVirtual"
+			:loading="loading && !isRefreshing"
 			:current-folder="currentFolder"
 			:current-view="currentView"
 			:nodes="dirContentsSorted"
@@ -311,6 +312,7 @@ export default defineComponent({
 
 			loading: true,
 			loadingAction: null as string | null,
+			changingLocation: false,
 			error: null as string | null,
 			controller: new AbortController(),
 			promise: null as Promise<ContentsWithRoot> | null,
@@ -410,6 +412,7 @@ export default defineComponent({
 			return this.currentFolder !== undefined
 				&& !this.isEmptyDir
 				&& this.loading
+				&& !this.changingLocation
 		},
 
 		/**
@@ -476,12 +479,14 @@ export default defineComponent({
 			}
 
 			logger.debug('View changed', { newView, oldView })
+			this.changingLocation = true
 			this.selectionStore.reset()
 			this.fetchContent()
 		},
 
 		directory(newDir, oldDir) {
 			logger.debug('Directory changed', { newDir, oldDir })
+			this.changingLocation = true
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
 			this.sidebar.close()
@@ -608,6 +613,7 @@ export default defineComponent({
 				this.error = humanizeWebDAVError(error)
 			} finally {
 				this.loading = false
+				this.changingLocation = false
 			}
 		},
 
