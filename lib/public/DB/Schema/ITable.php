@@ -131,6 +131,7 @@ interface ITable {
 	 *     fixed?: bool,
 	 *     precision?: int,
 	 *     scale?: int,
+	 *     type?: Types::*|ColumnType,
 	 * } $options
 	 *
 	 * @throws SchemaException

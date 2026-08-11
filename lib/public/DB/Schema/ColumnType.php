@@ -163,4 +163,11 @@ enum ColumnType: string {
 	 * @since 35.0.0
 	 */
 	case Json = 'json';
+
+	/**
+	 * @since 35.0.0
+	 */
+	public function getName(): string {
+		return $this->value;
+	}
 }
