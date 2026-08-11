@@ -603,6 +603,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		} else {
 			$filterSourceType = null;
 		}
+
 		/** @var array<class-string<IShareRecipientType>, list<string>> $recipientTypeValues */
 		$recipientTypeValues = [];
 
