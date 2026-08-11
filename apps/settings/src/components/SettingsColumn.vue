@@ -9,19 +9,26 @@
 	</div>
 </template>
 
+<style>
+#content:has(#app-navigation-vue[aria-hidden="true"]) .settings-column {
+	--settings-column-inset: var(--body-container-margin);
+}
+</style>
+
 <style lang="scss" scoped>
 .settings-column {
 	// Wide enough for the per-row action icons to sit outside the field boxes.
-	--settings-column-gutter: calc(var(--default-clickable-area) + 8px);
+	--settings-column-gutter: calc(var(--default-clickable-area) + 2 * var(--default-grid-baseline));
 	--settings-column-width: calc(700px + 2 * var(--settings-column-gutter));
 	--settings-column-inset: calc(var(--body-container-margin) + var(--navigation-width));
+	--settings-column-margin: max(0px, calc((100vw - var(--settings-column-width)) / 2 - var(--settings-column-inset)));
 	box-sizing: border-box;
 	width: 100%;
 	max-width: var(--settings-column-width);
 	// Starts the fields where the header search field starts. Centring would
 	// centre on the app content, which the navigation pushes off the viewport
 	// centre the search sits on.
-	margin-inline: clamp(0px, calc(var(--unified-search-inline-start) - var(--settings-column-inset) - var(--settings-column-gutter)), calc(100% - var(--settings-column-width))) auto;
+	margin-inline: var(--settings-column-margin) auto;
 	padding-inline: var(--settings-column-gutter);
 
 	// The section's own inline margin and width cap would inset the fields from
@@ -31,10 +38,6 @@
 		margin-inline: 0;
 		padding-inline: 0;
 	}
-}
-
-#content:has(.app-navigation--closed) .settings-column {
-	--settings-column-inset: var(--body-container-margin);
 }
 
 // The navigation overlays the content here, so there is no offset to undo.

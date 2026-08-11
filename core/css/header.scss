@@ -12,8 +12,7 @@
 :root {
 	// Only valid where the header renders a search bar rather than a button: the
 	// user and settings layouts, from 512px up.
-	--unified-search-width: clamp(200px, 35vw, 600px);
-	--unified-search-inline-start: calc((100vw - var(--unified-search-width)) / 2);
+	--unified-search-width: clamp(200px, 35vw, 700px);
 }
 
 /* Skip navigation links – show only on keyboard focus */
