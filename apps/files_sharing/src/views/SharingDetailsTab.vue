@@ -165,8 +165,7 @@
 						@input="onExpirationChange" />
 					<NcCheckboxRadioSwitch v-if="isPublicShare"
 						:disabled="canChangeHideDownload"
-						:checked.sync="share.hideDownload"
-						@update:checked="queueUpdate('hideDownload')">
+						:checked.sync="share.hideDownload">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-else
