@@ -435,29 +435,6 @@ export default {
 		},
 
 		/**
-		 * Is it possible to protect the password by Talk?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtectedByTalkAvailable() {
-			return this.isPasswordProtected && this.isTalkEnabled
-		},
-
-		/**
-		 * Is the current share password protected by Talk?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtectedByTalk: {
-			get() {
-				return this.share.sendPasswordByTalk
-			},
-			async set(enabled) {
-				this.share.sendPasswordByTalk = enabled
-			},
-		},
-
-		/**
 		 * Is the current share an email share ?
 		 *
 		 * @return {boolean}
@@ -466,20 +443,6 @@ export default {
 			return this.share
 				? this.share.type === ShareType.Email
 				: false
-		},
-
-		canTogglePasswordProtectedByTalkAvailable() {
-			if (!this.isPasswordProtected) {
-				// Makes no sense
-				return false
-			} else if (this.isEmailShareType && !this.hasUnsavedPassword) {
-				// For email shares we need a new password in order to enable or
-				// disable
-				return false
-			}
-
-			// Anything else should be fine
-			return true
 		},
 
 		/**
@@ -842,22 +805,6 @@ export default {
 			if (this.share.id) {
 				this.queueUpdate('password')
 			}
-		},
-
-		/**
-		 * Update the password along with "sendPasswordByTalk".
-		 *
-		 * If the password was modified the new password is sent; otherwise
-		 * updating a mail share would fail, as in that case it is required that
-		 * a new password is set when enabling or disabling
-		 * "sendPasswordByTalk".
-		 */
-		onPasswordProtectedByTalkChange() {
-			if (this.hasUnsavedPassword) {
-				this.share.newPassword = this.share.newPassword.trim()
-			}
-
-			this.queueUpdate('sendPasswordByTalk', 'password')
 		},
 
 		/**
