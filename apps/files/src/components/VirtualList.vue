@@ -18,12 +18,13 @@
 		</div>
 
 		<div
-			v-if="dataSources.length === 0"
+			v-if="dataSources.length === 0 || loading"
 			class="files-list__empty">
 			<slot name="empty" />
 		</div>
 
 		<table
+			v-if="!loading"
 			:aria-hidden="dataSources.length === 0"
 			:inert="dataSources.length === 0"
 			class="files-list__table"
@@ -122,6 +123,11 @@ export default defineComponent({
 		caption: {
 			type: String,
 			default: '',
+		},
+
+		loading: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
