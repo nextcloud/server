@@ -24,6 +24,7 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -257,6 +258,53 @@ class DirectoryTest extends \Test\TestCase {
 		// calling a second time just returns the cached values,
 		// does not call getDirectoryContents again
 		$dir->getChildren();
+	}
+
+	public function testGetChildrenStrictUsesStrictDirectoryListing(): void {
+		$this->view->expects($this->once())
+			->method('getDirectoryContent')
+			->with('folder', null, $this->anything(), true)
+			->willReturn([]);
+		$this->view->method('getRelativePath')
+			->willReturnCallback(static fn ($path) => str_replace('/admin/files/', '', $path));
+		$this->view->method('getAbsolutePath')
+			->willReturn('/admin/files/folder');
+		$this->overwriteService(View::class, $this->view);
+
+		$dir = new Directory($this->view, $this->info);
+		$this->assertSame([], $dir->getChildrenStrict());
+
+		// The regular traversal reuses the strict result instead of listing the directory again.
+		$this->assertSame([], $dir->getChildren());
+	}
+
+	public static function strictStorageExceptionProvider(): array {
+		return [
+			'unavailable storage' => [StorageNotAvailableException::class],
+			'invalid storage' => [StorageInvalidException::class],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('strictStorageExceptionProvider')]
+	public function testGetChildrenStrictConvertsStorageException(string $exceptionClass): void {
+		$storageException = new $exceptionClass('Unavailable mount');
+		$this->view->expects($this->once())
+			->method('getDirectoryContent')
+			->with('folder', null, $this->anything(), true)
+			->willThrowException($storageException);
+		$this->view->method('getRelativePath')
+			->willReturnCallback(static fn ($path) => str_replace('/admin/files/', '', $path));
+		$this->view->method('getAbsolutePath')
+			->willReturn('/admin/files/folder');
+		$this->overwriteService(View::class, $this->view);
+
+		try {
+			(new Directory($this->view, $this->info))->getChildrenStrict();
+			$this->fail('Expected strict directory listing to fail');
+		} catch (\Sabre\DAV\Exception\ServiceUnavailable $e) {
+			$this->assertSame('Storage is temporarily not available', $e->getMessage());
+			$this->assertSame($storageException, $e->getPrevious());
+		}
 	}
 
 	public function testGetChildrenNoPermission(): void {
