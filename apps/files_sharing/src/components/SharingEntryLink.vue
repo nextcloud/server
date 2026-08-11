@@ -134,8 +134,7 @@
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
-			:open.sync="open"
-			@close="onMenuClose">
+			:open.sync="open">
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
 					<NcActionButton :disabled="saving"
@@ -846,22 +845,6 @@ export default {
 		},
 
 		/**
-		 * Menu have been closed or password has been submitted.
-		 * The only property that does not get
-		 * synced automatically is the password
-		 * So let's check if we have an unsaved
-		 * password.
-		 * expireDate is saved on datepicker pick
-		 * or close.
-		 */
-		onPasswordSubmit() {
-			if (this.hasUnsavedPassword) {
-				this.share.newPassword = this.share.newPassword.trim()
-				this.queueUpdate('password')
-			}
-		},
-
-		/**
 		 * Update the password along with "sendPasswordByTalk".
 		 *
 		 * If the password was modified the new password is sent; otherwise
@@ -875,13 +858,6 @@ export default {
 			}
 
 			this.queueUpdate('sendPasswordByTalk', 'password')
-		},
-
-		/**
-		 * Save potential changed data on menu close
-		 */
-		onMenuClose() {
-			this.onPasswordSubmit()
 		},
 
 		/**
