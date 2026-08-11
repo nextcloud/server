@@ -41,8 +41,8 @@ test.describe('files_sharing: Link share editor', () => {
 		await sharingTab.openLinkShareDetails()
 		await sharingTab.openAdvancedSettings()
 		await expect(sharingTab.checkbox('Hide download')).not.toBeChecked()
-		await sharingTab.setCheckbox('Hide download', true, { persists: true })
-		await sharingTab.closeDetails()
+		await sharingTab.setCheckbox('Hide download', true)
+		await sharingTab.save()
 
 		// Still set when the editor is opened again …
 		await sharingTab.openLinkShareDetails()
