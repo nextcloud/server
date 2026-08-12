@@ -14,15 +14,30 @@ use OCA\User_LDAP\User\OfflineUser;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Config\IUserConfig;
 use OCP\Group\Backend\ABackend;
+use OCP\Group\Backend\IAddToGroupBackend;
+use OCP\Group\Backend\ICountUsersBackend;
+use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
+use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\IIsAdminBackend;
+use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\GroupInterface;
 use OCP\IUserManager;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
-class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend, IIsAdminBackend {
+class Group_LDAP extends ABackend implements
+	GroupInterface,
+	IGroupLDAP,
+	IGetDisplayNameBackend,
+	IDeleteGroupBackend,
+	IIsAdminBackend,
+	ICountUsersBackend,
+	IGroupDetailsBackend,
+	ICreateNamedGroupBackend,
+	IAddToGroupBackend,
+	IRemoveFromGroupBackend {
 	protected bool $enabled = false;
 
 	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of user DN with gid as key */
@@ -57,16 +72,8 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		$this->ldapGroupMemberAssocAttr = strtolower((string)$gAssoc);
 	}
 
-	/**
-	 * Check if user is in group
-	 *
-	 * @param string $uid uid of the user
-	 * @param string $gid gid of the group
-	 * @throws Exception
-	 * @throws ServerNotAvailableException
-	 */
 	#[\Override]
-	public function inGroup($uid, $gid): bool {
+	public function inGroup(string $uid, string $gid): bool {
 		if (!$this->enabled) {
 			return false;
 		}
@@ -384,10 +391,10 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	}
 
 	/**
-	 * @return string|bool The entry's gidNumber
+	 * @return string|false The entry's gidNumber
 	 * @throws ServerNotAvailableException
 	 */
-	private function getEntryGidNumber(string $dn, string $attribute) {
+	private function getEntryGidNumber(string $dn, string $attribute): string|false {
 		$value = $this->access->readAttribute($dn, $attribute);
 		if (is_array($value) && !empty($value)) {
 			return $value[0];
@@ -396,18 +403,18 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	}
 
 	/**
-	 * @return string|bool The group's gidNumber
+	 * @return string|false The group's gidNumber
 	 * @throws ServerNotAvailableException
 	 */
-	public function getGroupGidNumber(string $dn) {
+	public function getGroupGidNumber(string $dn): string|false {
 		return $this->getEntryGidNumber($dn, 'gidNumber');
 	}
 
 	/**
-	 * @return string|bool The user's gidNumber
+	 * @return string|false The user's gidNumber
 	 * @throws ServerNotAvailableException
 	 */
-	public function getUserGidNumber(string $dn) {
+	public function getUserGidNumber(string $dn): string|false {
 		$gidNumber = false;
 		if ($this->access->connection->hasGidNumber) {
 			// FIXME: when $dn does not exist on LDAP anymore, this will be set wrongly to false :/
@@ -512,7 +519,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @return string|false The entry's group Id
 	 * @throws ServerNotAvailableException
 	 */
-	private function getEntryGroupID(string $dn, string $attribute) {
+	private function getEntryGroupID(string $dn, string $attribute): string|false {
 		$value = $this->access->readAttribute($dn, $attribute);
 		if (is_array($value) && !empty($value)) {
 			return $value[0];
@@ -524,15 +531,14 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 	 * @return string|false The entry's primary group Id
 	 * @throws ServerNotAvailableException
 	 */
-	public function getGroupPrimaryGroupID(string $dn) {
+	public function getGroupPrimaryGroupID(string $dn): string|false {
 		return $this->getEntryGroupID($dn, 'primaryGroupToken');
 	}
 
 	/**
-	 * @return string|false
 	 * @throws ServerNotAvailableException
 	 */
-	public function getUserPrimaryGroupIDs(string $dn) {
+	public function getUserPrimaryGroupIDs(string $dn): string|false {
 		$primaryGroupID = false;
 		if ($this->access->connection->hasPrimaryGroups) {
 			$primaryGroupID = $this->getEntryGroupID($dn, 'primaryGroupID');
@@ -604,16 +610,15 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 			return (int)$users;
 		} catch (ServerNotAvailableException $e) {
 			throw $e;
-		} catch (Exception $e) {
+		} catch (Exception) {
 			return 0;
 		}
 	}
 
 	/**
-	 * @return string|false
 	 * @throws ServerNotAvailableException
 	 */
-	public function getUserPrimaryGroup(string $dn) {
+	public function getUserPrimaryGroup(string $dn): string|false {
 		$groupID = $this->getUserPrimaryGroupIDs($dn);
 		if ($groupID !== false) {
 			$groupName = $this->primaryGroupID2Name($groupID, $dn);
@@ -649,19 +654,8 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		return $cache;
 	}
 
-	/**
-	 * This function fetches all groups a user belongs to. It does not check
-	 * if the user exists at all.
-	 *
-	 * This function includes groups based on dynamic group membership.
-	 *
-	 * @param string $uid Name of the user
-	 * @return list<string> Group names
-	 * @throws Exception
-	 * @throws ServerNotAvailableException
-	 */
 	#[\Override]
-	public function getUserGroups($uid): array {
+	public function getUserGroups(string $uid): array {
 		if (!$this->enabled) {
 			return [];
 		}
@@ -854,19 +848,8 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		return $visibleGroups;
 	}
 
-	/**
-	 * get a list of all users in a group
-	 *
-	 * @param string $gid
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array<int,string> user ids
-	 * @throws Exception
-	 * @throws ServerNotAvailableException
-	 */
 	#[\Override]
-	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+	public function usersInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0): array {
 		if (!$this->enabled) {
 			return [];
 		}
@@ -978,23 +961,11 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		return $groupUsers;
 	}
 
-	/**
-	 * returns the number of users in a group, who match the search term
-	 *
-	 * @param string $gid the internal group name
-	 * @param string $search optional, a search string
-	 * @return int|bool
-	 * @throws Exception
-	 * @throws ServerNotAvailableException
-	 */
-	public function countUsersInGroup($gid, $search = '') {
-		if ($this->groupPluginManager->implementsActions(GroupInterface::COUNT_USERS)) {
-			return $this->groupPluginManager->countUsersInGroup($gid, $search);
-		}
-
+	#[\Override]
+	public function countUsersInGroup(string $gid, string $search = ''): int {
 		$cacheKey = 'countUsersInGroup-' . $gid . '-' . $search;
 		if (!$this->enabled || !$this->groupExists($gid)) {
-			return false;
+			return 0;
 		}
 		$groupUsers = $this->access->connection->getFromCache($cacheKey);
 		if (!is_null($groupUsers)) {
@@ -1005,7 +976,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		if (!$groupDN) {
 			// group couldn't be found, return empty result set
 			$this->access->connection->writeToCache($cacheKey, false);
-			return false;
+			return 0;
 		}
 
 		$members = $this->_groupMembers($groupDN);
@@ -1013,7 +984,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		if (!$members && $primaryUserCount === 0) {
 			//in case users could not be retrieved, return empty result set
 			$this->access->connection->writeToCache($cacheKey, false);
-			return false;
+			return 0;
 		}
 
 		if ($search === '') {
@@ -1072,22 +1043,8 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		return count($groupUsers) + $primaryUsers;
 	}
 
-	/**
-	 * get a list of all groups using a paged search
-	 *
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array with group names
-	 *
-	 * Returns a list with all groups
-	 * Uses a paged search if available to override a
-	 * server side search limit.
-	 * (active directory has a limit of 1000 by default)
-	 * @throws Exception
-	 */
 	#[\Override]
-	public function getGroups($search = '', $limit = -1, $offset = 0) {
+	public function getGroups(string $search = '', int $limit = -1, int $offset = 0): array {
 		if (!$this->enabled) {
 			return [];
 		}
@@ -1119,15 +1076,8 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		return $ldap_groups;
 	}
 
-	/**
-	 * check if a group exists
-	 *
-	 * @param string $gid
-	 * @return bool
-	 * @throws ServerNotAvailableException
-	 */
 	#[\Override]
-	public function groupExists($gid) {
+	public function groupExists(string $gid): bool {
 		return $this->groupExistsOnLDAP($gid, false);
 	}
 
@@ -1211,51 +1161,38 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 				| $this->groupPluginManager->getImplementedActions()) & $actions);
 	}
 
-	/**
-	 * Return access for LDAP interaction.
-	 *
-	 * @return Access instance of Access for LDAP interaction
-	 */
 	#[\Override]
-	public function getLDAPAccess($gid) {
+	public function getLDAPAccess(string $name): Access {
 		return $this->access;
 	}
 
-	/**
-	 * create a group
-	 *
-	 * @param string $gid
-	 * @return bool
-	 * @throws Exception
-	 * @throws ServerNotAvailableException
-	 */
-	public function createGroup($gid) {
-		if ($this->groupPluginManager->implementsActions(GroupInterface::CREATE_GROUP)) {
-			if ($dn = $this->groupPluginManager->createGroup($gid)) {
-				//updates group mapping
-				$uuid = $this->access->getUUID($dn, false);
-				if (is_string($uuid)) {
-					$this->access->mapAndAnnounceIfApplicable(
-						$this->access->getGroupMapper(),
-						$dn,
-						$gid,
-						$uuid,
-						false
-					);
-					$this->access->cacheGroupExists($gid);
-				}
-			}
-			return $dn != null;
+	#[\Override]
+	public function createGroup(string $name): ?string {
+		if (!$this->groupPluginManager->implementsActions(GroupInterface::CREATE_GROUP)) {
+			throw new Exception('Could not create group in LDAP backend.');
 		}
-		throw new Exception('Could not create group in LDAP backend.');
+
+		$dn = $this->groupPluginManager->createGroup($name);
+		if ($dn === null) {
+			return null;
+		}
+
+		// updates group mapping
+		$uuid = $this->access->getUUID($dn, false);
+		if (is_string($uuid)) {
+			$this->access->mapAndAnnounceIfApplicable(
+				$this->access->getGroupMapper(),
+				$dn,
+				$name,
+				$uuid,
+				false
+			);
+			$this->access->cacheGroupExists($name);
+		}
+
+		return $name;
 	}
 
-	/**
-	 * delete a group
-	 *
-	 * @param string $gid gid of the group to delete
-	 * @throws Exception
-	 */
 	#[\Override]
 	public function deleteGroup(string $gid): bool {
 		if ($this->groupPluginManager->canDeleteGroup()) {
@@ -1283,69 +1220,44 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		throw new Exception('Could not delete existing group ' . $gid . ' in LDAP backend.');
 	}
 
-	/**
-	 * Add a user to a group
-	 *
-	 * @param string $uid Name of the user to add to group
-	 * @param string $gid Name of the group in which add the user
-	 * @return bool
-	 * @throws Exception
-	 */
-	public function addToGroup($uid, $gid) {
-		if ($this->groupPluginManager->implementsActions(GroupInterface::ADD_TO_GROUP)) {
-			if ($ret = $this->groupPluginManager->addToGroup($uid, $gid)) {
-				$this->access->connection->clearCache();
-				unset($this->cachedGroupMembers[$gid]);
-			}
-			return $ret;
-		}
-		throw new Exception('Could not add user to group in LDAP backend.');
-	}
-
-	/**
-	 * Removes a user from a group
-	 *
-	 * @param string $uid Name of the user to remove from group
-	 * @param string $gid Name of the group from which remove the user
-	 * @return bool
-	 * @throws Exception
-	 */
-	public function removeFromGroup($uid, $gid) {
-		if ($this->groupPluginManager->implementsActions(GroupInterface::REMOVE_FROM_GROUP)) {
-			if ($ret = $this->groupPluginManager->removeFromGroup($uid, $gid)) {
-				$this->access->connection->clearCache();
-				unset($this->cachedGroupMembers[$gid]);
-			}
-			return $ret;
-		}
-		throw new Exception('Could not remove user from group in LDAP backend.');
-	}
-
-	/**
-	 * Gets group details
-	 *
-	 * @param string $gid Name of the group
-	 * @return array|false
-	 * @throws Exception
-	 */
-	public function getGroupDetails($gid) {
-		if ($this->groupPluginManager->implementsActions(GroupInterface::GROUP_DETAILS)) {
-			return $this->groupPluginManager->getGroupDetails($gid);
-		}
-		throw new Exception('Could not get group details in LDAP backend.');
-	}
-
-	/**
-	 * Return LDAP connection resource from a cloned connection.
-	 * The cloned connection needs to be closed manually.
-	 * of the current access.
-	 *
-	 * @param string $gid
-	 * @return \LDAP\Connection The LDAP connection
-	 * @throws ServerNotAvailableException
-	 */
 	#[\Override]
-	public function getNewLDAPConnection($gid): \LDAP\Connection {
+	public function addToGroup(string $uid, string $gid): bool {
+		if (!$this->groupPluginManager->implementsActions(GroupInterface::ADD_TO_GROUP)) {
+			throw new Exception('Could not add user to group in LDAP backend.');
+		}
+
+		if ($ret = $this->groupPluginManager->addToGroup($uid, $gid)) {
+			$this->access->connection->clearCache();
+			unset($this->cachedGroupMembers[$gid]);
+		}
+		return $ret;
+	}
+
+	#[\Override]
+	public function removeFromGroup(string $uid, string $gid): bool {
+		if (!$this->groupPluginManager->implementsActions(GroupInterface::REMOVE_FROM_GROUP)) {
+			throw new Exception('Could not remove user from group in LDAP backend. You need to install ldap_write_support to get write support for LDAP groups.');
+		}
+
+		if ($ret = $this->groupPluginManager->removeFromGroup($uid, $gid)) {
+			$this->access->connection->clearCache();
+			unset($this->cachedGroupMembers[$gid]);
+		}
+		return $ret;
+	}
+
+	#[\Override]
+	public function getGroupDetails(string $gid): array {
+		$displayName = $this->getDisplayName($gid);
+		if ($displayName !== '') {
+			return ['displayName' => $displayName];
+		}
+
+		return [];
+	}
+
+	#[\Override]
+	public function getNewLDAPConnection(string $name): \LDAP\Connection {
 		$connection = clone $this->access->getConnection();
 		return $connection->getConnectionResource();
 	}

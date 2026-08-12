@@ -2722,16 +2722,6 @@
 						break;]]></code>
     </ParadoxicalCondition>
   </file>
-  <file src="apps/user_ldap/lib/Group_LDAP.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$groupID]]></code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="apps/user_ldap/lib/Group_Proxy.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$gid]]></code>
-    </ParamNameMismatch>
-  </file>
   <file src="apps/user_ldap/lib/Jobs/CleanUp.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>

@@ -94,11 +94,6 @@ class Group implements IGroup {
 		return false;
 	}
 
-	/**
-	 * get all users in the group
-	 *
-	 * @return array<string, IUser>
-	 */
 	#[\Override]
 	public function getUsers(): array {
 		if ($this->usersLoaded) {
@@ -121,12 +116,6 @@ class Group implements IGroup {
 		return $this->users;
 	}
 
-	/**
-	 * check if a user is in the group
-	 *
-	 * @param IUser $user
-	 * @return bool
-	 */
 	#[\Override]
 	public function inGroup(IUser $user): bool {
 		if (isset($this->users[$user->getUID()])) {
@@ -141,11 +130,6 @@ class Group implements IGroup {
 		return false;
 	}
 
-	/**
-	 * add a user to the group
-	 *
-	 * @param IUser $user
-	 */
 	#[\Override]
 	public function addUser(IUser $user): void {
 		if ($this->inGroup($user)) {
@@ -158,7 +142,7 @@ class Group implements IGroup {
 			$this->emitter->emit('\OC\Group', 'preAddUser', [$this, $user]);
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\Group\Backend::ADD_TO_GROUP)) {
+			if ($backend->implementsActions(\OCP\GroupInterface::ADD_TO_GROUP)) {
 				/** @var IAddToGroupBackend $backend */
 				$backend->addToGroup($user->getUID(), $this->gid);
 				$this->users[$user->getUID()] = $user;
@@ -173,9 +157,6 @@ class Group implements IGroup {
 		}
 	}
 
-	/**
-	 * remove a user from the group
-	 */
 	#[\Override]
 	public function removeUser(IUser $user): void {
 		$result = false;
@@ -184,7 +165,7 @@ class Group implements IGroup {
 			$this->emitter->emit('\OC\Group', 'preRemoveUser', [$this, $user]);
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\Group\Backend::REMOVE_FROM_GOUP) && $backend->inGroup($user->getUID(), $this->gid)) {
+			if ($backend->implementsActions(\OCP\GroupInterface::REMOVE_FROM_GOUP) && $backend->inGroup($user->getUID(), $this->gid)) {
 				/** @var IRemoveFromGroupBackend $backend */
 				$backend->removeFromGroup($user->getUID(), $this->gid);
 				$result = true;
@@ -206,10 +187,6 @@ class Group implements IGroup {
 		}
 	}
 
-	/**
-	 * Search for users in the group by userid or display name
-	 * @return IUser[]
-	 */
 	#[\Override]
 	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array {
 		$users = [];
@@ -232,17 +209,11 @@ class Group implements IGroup {
 		return $users;
 	}
 
-	/**
-	 * returns the number of users matching the search string
-	 *
-	 * @param string $search
-	 * @return int|bool
-	 */
 	#[\Override]
-	public function count($search = ''): int|bool {
+	public function count($search = ''): int|false {
 		$users = false;
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\Group\Backend::COUNT_USERS)) {
+			if ($backend->implementsActions(\OCP\GroupInterface::COUNT_USERS)) {
 				/** @var ICountUsersBackend $backend */
 				if ($users === false) {
 					//we could directly add to a bool variable, but this would
@@ -255,13 +226,8 @@ class Group implements IGroup {
 		return $users;
 	}
 
-	/**
-	 * returns the number of disabled users
-	 *
-	 * @return int|bool
-	 */
 	#[\Override]
-	public function countDisabled(): int|bool {
+	public function countDisabled(): int|false {
 		$users = false;
 		foreach ($this->backends as $backend) {
 			if ($backend instanceof ICountDisabledInGroup) {
@@ -276,25 +242,11 @@ class Group implements IGroup {
 		return $users;
 	}
 
-	/**
-	 * search for users in the group by displayname
-	 *
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return IUser[]
-	 * @deprecated 27.0.0 Use searchUsers instead (same implementation)
-	 */
 	#[\Override]
 	public function searchDisplayName(string $search, ?int $limit = null, ?int $offset = null): array {
 		return $this->searchUsers($search, $limit, $offset);
 	}
 
-	/**
-	 * Get the names of the backend classes the group is connected to
-	 *
-	 * @return string[]
-	 */
 	#[\Override]
 	public function getBackendNames(): array {
 		$backends = [];
@@ -309,11 +261,6 @@ class Group implements IGroup {
 		return $backends;
 	}
 
-	/**
-	 * Delete the group
-	 *
-	 * @return bool
-	 */
 	#[\Override]
 	public function delete(): bool {
 		// Prevent users from deleting group admin
@@ -327,7 +274,7 @@ class Group implements IGroup {
 			$this->emitter->emit('\OC\Group', 'preDelete', [$this]);
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC\Group\Backend::DELETE_GROUP)) {
+			if ($backend->implementsActions(\OCP\GroupInterface::DELETE_GROUP)) {
 				/** @var IDeleteGroupBackend $backend */
 				$result = $result || $backend->deleteGroup($this->gid);
 			}
@@ -357,10 +304,6 @@ class Group implements IGroup {
 		return $users;
 	}
 
-	/**
-	 * @return bool
-	 * @since 14.0.0
-	 */
 	#[\Override]
 	public function canRemoveUser(): bool {
 		foreach ($this->backends as $backend) {
@@ -371,10 +314,6 @@ class Group implements IGroup {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 * @since 14.0.0
-	 */
 	#[\Override]
 	public function canAddUser(): bool {
 		foreach ($this->backends as $backend) {
@@ -385,10 +324,6 @@ class Group implements IGroup {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 * @since 16.0.0
-	 */
 	#[\Override]
 	public function hideFromCollaboration(): bool {
 		return array_reduce($this->backends, function (bool $hide, GroupInterface $backend) {

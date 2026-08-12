@@ -50,16 +50,8 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		);
 	}
 
-	/**
-	 * Tries the backends one after the other until a positive result is returned from the specified method
-	 *
-	 * @param string $id the uid connected to the request
-	 * @param string $method the method of the user backend that shall be called
-	 * @param array $parameters an array of parameters to be passed
-	 * @return mixed the result of the method or false
-	 */
 	#[\Override]
-	protected function walkBackends($id, $method, $parameters) {
+	protected function walkBackends(string $id, string $method, array $parameters): mixed {
 		$this->setup();
 
 		$uid = $id;
@@ -80,17 +72,8 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		return false;
 	}
 
-	/**
-	 * Asks the backend connected to the server that supposely takes care of the uid from the request.
-	 *
-	 * @param string $id the uid connected to the request
-	 * @param string $method the method of the user backend that shall be called
-	 * @param array $parameters an array of parameters to be passed
-	 * @param mixed $passOnWhen the result matches this variable
-	 * @return mixed the result of the method or false
-	 */
 	#[\Override]
-	protected function callOnLastSeenOn($id, $method, $parameters, $passOnWhen) {
+	protected function callOnLastSeenOn(string $id, string $method, array $parameters, bool $passOnWhen): mixed {
 		$this->setup();
 
 		$uid = $id;
@@ -128,29 +111,15 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		return count($this->backends);
 	}
 
-	/**
-	 * Check if backend implements actions
-	 *
-	 * @param int $actions bitwise-or'ed actions
-	 * @return boolean
-	 *
-	 * Returns the supported actions as int to be
-	 * compared with \OC\User\Backend::CREATE_USER etc.
-	 */
 	#[\Override]
-	public function implementsActions($actions) {
+	public function implementsActions(int $actions): bool {
 		$this->setup();
 		//it's the same across all our user backends obviously
 		return $this->refBackend->implementsActions($actions);
 	}
 
-	/**
-	 * Backend name to be shown in user management
-	 *
-	 * @return string the name of the backend to be shown
-	 */
 	#[\Override]
-	public function getBackendName() {
+	public function getBackendName(): string {
 		$this->setup();
 		return $this->refBackend->getBackendName();
 	}
@@ -345,7 +314,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 * @return bool
 	 */
 	#[\Override]
-	public function hasUserListings() {
+	public function hasUserListings(): bool {
 		$this->setup();
 		return $this->refBackend->hasUserListings();
 	}
@@ -387,15 +356,9 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		return $users;
 	}
 
-	/**
-	 * Return access for LDAP interaction.
-	 *
-	 * @param string $uid
-	 * @return Access instance of Access for LDAP interaction
-	 */
 	#[\Override]
-	public function getLDAPAccess($uid) {
-		return $this->handleRequest($uid, 'getLDAPAccess', [$uid]);
+	public function getLDAPAccess(string $name): Access {
+		return $this->handleRequest($name, 'getLDAPAccess', [$name]);
 	}
 
 	/**
