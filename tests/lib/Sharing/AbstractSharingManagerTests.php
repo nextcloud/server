@@ -204,17 +204,22 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	#[\Override]
 	protected function tearDown(): void {
+		$openTransaction = false;
 		if ($this->dbConnection->inTransaction()) {
 			$this->dbConnection->rollBack();
-			$this->fail('Open transaction was not committed.');
+			$openTransaction = true;
 		}
 
 		$accessContext = new ShareAccessContext(overrideChecks: true);
 
 		$this->dbConnection->beginTransaction();
 
-		foreach ($this->manager->getShares($accessContext, null, null, null, null) as $share) {
-			$this->manager->deleteShare($accessContext, $share);
+		try {
+			foreach ($this->manager->getShares($accessContext, null, null, null, null) as $share) {
+				$this->manager->deleteShare($accessContext, $share);
+			}
+		} catch (\Exception $exception) {
+			$this->addWarning('Failed to delete share in cleanup: ' . $exception->getMessage());
 		}
 
 		$this->owner->delete();
@@ -222,6 +227,8 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->user2->delete();
 
 		$this->dbConnection->commit();
+
+		$this->registry->clear();
 
 		foreach ([
 			'sharing_share',
@@ -237,7 +244,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			$this->assertEquals(0, $qb->executeQuery()->fetchOne(), $table);
 		}
 
-		$this->registry->clear();
+		if ($openTransaction) {
+			$this->fail('Open transaction was not committed.');
+		}
 
 		parent::tearDown();
 	}
