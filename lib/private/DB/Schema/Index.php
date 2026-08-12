@@ -30,7 +30,9 @@ class Index implements IIndex {
 
 	#[\Override]
 	public function getName(): string {
-		return $this->index->getName();
+		/** @var non-empty-string $name */
+		$name = $this->index->getName();
+		return $name;
 	}
 
 	#[\Override]
