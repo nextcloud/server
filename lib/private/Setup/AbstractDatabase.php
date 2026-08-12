@@ -25,6 +25,8 @@ abstract class AbstractDatabase {
 	 */
 	protected const array CONNECTION_ENCRYPTION_OPTIONS = ['dbdriveroptions'];
 
+	protected string $dbprettyname = 'abstract';
+
 	protected string $dbUser;
 	protected string $dbPassword;
 	protected string $dbName;

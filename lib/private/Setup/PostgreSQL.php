@@ -14,7 +14,7 @@ use OC\DB\Connection;
 use OC\DB\QueryBuilder\Literal;
 
 class PostgreSQL extends AbstractDatabase {
-	public $dbprettyname = 'PostgreSQL';
+	public string $dbprettyname = 'PostgreSQL';
 
 	// #[\Override] TODO: Uncomment this when we only support PHP 8.5+ support
 	protected const array CONNECTION_ENCRYPTION_OPTIONS = [...parent::CONNECTION_ENCRYPTION_OPTIONS, 'pgsql_ssl'];
