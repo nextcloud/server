@@ -98,13 +98,13 @@ final class CommandTest extends AbstractSharingManagerTests {
 		}
 
 		$options[] = ['actor', null];
+		$options[] = ['output', Base::OUTPUT_FORMAT_JSON];
 		$input = $this->createMock(Input::class);
 		$input
 			->expects($this->exactly(count($arguments)))
 			->method('getArgument')
 			->willReturnMap($arguments);
 		$input
-			->expects($this->exactly(count($options)))
 			->method('getOption')
 			->willReturnMap($options);
 
