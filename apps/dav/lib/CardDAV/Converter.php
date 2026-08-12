@@ -21,14 +21,14 @@ use Sabre\VObject\Property\Text;
 use Sabre\VObject\Property\VCard\Date;
 
 class Converter {
-	private const NAME_SUFFIXES = [
+	private const array NAME_SUFFIXES = [
 		'i', 'ii', 'iii', 'iv', 'v',
 		'senior', 'junior', 'jr', 'sr',
 		'phd', 'apr', 'rph', 'pe', 'md', 'ma', 'msc', 'bsc', 'ba', 'bs',
 		'dmd', 'cme', 'bsn', 'mba',
 		'ceo', 'cto', 'cfo', 'coo',
 	];
-	private const NAME_SALUTATIONS = [
+	private const array NAME_SALUTATIONS = [
 		'mr', 'mrs', 'ms', 'miss', 'master', 'mister', 'dr', 'rev', 'fr', 'prof',
 		'herr', 'frau', 'mme', 'mlle', 'me', 'pr',
 	];
