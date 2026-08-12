@@ -202,6 +202,15 @@ interface ITable {
 	public function getIndexes(): array;
 
 	/**
+	 * Returns a specific index by name of this table.
+	 *
+	 * @param non-empty-string $name The index name.
+	 * @return IIndex
+	 * @since 35.0.0
+	 */
+	public function getIndex(string $name): IIndex;
+
+	/**
 	 * Adds a foreign key constraint.
 	 *
 	 * Name is inferred from the local columns.

@@ -257,6 +257,11 @@ class Table implements ITable {
 	}
 
 	#[\Override]
+	public function getIndex(string $name): IIndex {
+		return new Index($this->table->getIndex($name));
+	}
+
+	#[\Override]
 	public function getForeignKeys(): array {
 		return array_values(array_map(
 			static fn (DBALForeignKeyConstraint $keyConstraint): IForeignKeyConstraint => new ForeignKeyConstraint($keyConstraint),
