@@ -155,8 +155,7 @@
 					</template>
 					<NcCheckboxRadioSwitch
 						v-if="canTogglePasswordProtectedByTalkAvailable"
-						v-model="isPasswordProtectedByTalk"
-						@update:modelValue="onPasswordProtectedByTalkChange">
+						v-model="isPasswordProtectedByTalk">
 						{{ t('files_sharing', 'Video verification') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-model="hasExpirationDate" :disabled="isExpiryDateEnforced">
@@ -1240,22 +1239,6 @@ export default {
 			}
 			this.passwordError = !this.isValidShareAttribute(password)
 			this.$set(this.share, 'newPassword', password)
-		},
-
-		/**
-		 * Update the password along with "sendPasswordByTalk".
-		 *
-		 * If the password was modified the new password is sent; otherwise
-		 * updating a mail share would fail, as in that case it is required that
-		 * a new password is set when enabling or disabling
-		 * "sendPasswordByTalk".
-		 */
-		onPasswordProtectedByTalkChange() {
-			if (this.isEmailShareType || this.hasUnsavedPassword) {
-				this.queueUpdate('sendPasswordByTalk', 'password')
-			} else {
-				this.queueUpdate('sendPasswordByTalk')
-			}
 		},
 
 		isValidShareAttribute(value) {
