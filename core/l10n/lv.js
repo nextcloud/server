@@ -89,6 +89,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} paziņojumu","{count}paziņojums","{count}paziņojumi"],
     "More apps" : "Vairāk lietotņu",
     "Settings" : "Iestatījumi",
+    "Profile" : "Profils",
     "Applications" : "Lietotnes",
     "Apps" : "Lietotnes",
     "No" : "Nē",
