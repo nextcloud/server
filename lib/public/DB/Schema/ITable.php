@@ -31,7 +31,7 @@ interface ITable {
 	 * Sets the Primary Key.
 	 *
 	 * @param list<non-empty-string> $columnNames
-	 * @param string|false $indexName
+	 * @param non-empty-string|false $indexName
 	 *
 	 * @throws SchemaException
 	 * @since 35.0.0
@@ -40,6 +40,7 @@ interface ITable {
 
 	/**
 	 * @param list<non-empty-lowercase-string> $columnNames
+	 * @param ?non-empty-string $indexName
 	 * @param list<non-empty-lowercase-string> $flags
 	 * @param array<non-empty-lowercase-string, mixed> $options
 	 *
@@ -79,7 +80,7 @@ interface ITable {
 	/**
 	 * Drops an index from this table.
 	 *
-	 * @param non-empty-lowercase-string $name The index name.
+	 * @param non-empty-string $name The index name.
 	 *
 	 * @throws SchemaException If the index does not exist.
 	 * @since 35.0.0
@@ -89,14 +90,14 @@ interface ITable {
 	/**
 	 * Returns whether this table has an index with the given name.
 	 *
-	 * @param non-empty-lowercase-string $name The index name.
+	 * @param non-empty-string $name The index name.
 	 * @since 35.0.0
 	 */
 	public function hasIndex(string $name): bool;
 
 	/**
 	 * @param list<string> $columnNames
-	 * @param string|null $indexName
+	 * @param non-empty-string|null $indexName
 	 * @param array<string, mixed> $options
 	 *
 	 * @throws SchemaException
@@ -107,9 +108,9 @@ interface ITable {
 	/**
 	 * Renames an index.
 	 *
-	 * @param non-empty-lowercase-string $oldName The name of the index to rename from.
-	 * @param non-empty-lowercase-string|null $newName The name of the index to rename to.
-	 *                                                 If null is given, the index name will be auto-generated.
+	 * @param non-empty-string $oldName The name of the index to rename from.
+	 * @param non-empty-string|null $newName The name of the index to rename to.
+	 *                                       If null is given, the index name will be auto-generated.
 	 *
 	 * @return self This table instance.
 	 *
@@ -199,6 +200,15 @@ interface ITable {
 	 * @since 35.0.0
 	 */
 	public function getIndexes(): array;
+
+	/**
+	 * Returns a specific index by name of this table.
+	 *
+	 * @param non-empty-string $name The index name.
+	 * @return IIndex
+	 * @since 35.0.0
+	 */
+	public function getIndex(string $name): IIndex;
 
 	/**
 	 * Adds a foreign key constraint.

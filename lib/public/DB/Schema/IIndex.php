@@ -21,6 +21,7 @@ interface IIndex {
 	/**
 	 * Returns the name of this index.
 	 *
+	 * @return non-empty-string
 	 * @since 35.0.0
 	 */
 	public function getName(): string;
