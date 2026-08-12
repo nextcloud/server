@@ -63,6 +63,24 @@ interface ITable {
 	): self;
 
 	/**
+	 * Returns whether this table has a unique constraint with the given name.
+	 *
+	 * @param non-empty-string $name The unique constraint name.
+	 * @since 35.0.0
+	 */
+	public function hasUniqueConstraint(string $name): bool;
+
+	/**
+	 * Removes the unique constraint with the given name.
+	 *
+	 * @param non-empty-string $name The unique constraint name.
+	 *
+	 * @throws SchemaException If the unique constraint does not exist.
+	 * @since 35.0.0
+	 */
+	public function removeUniqueConstraint(string $name): void;
+
+	/**
 	 * Drops the primary key from this table.
 	 *
 	 * @throws SchemaException
@@ -76,6 +94,13 @@ interface ITable {
 	 * @since 35.0.0
 	 */
 	public function getPrimaryKey(): ?IIndex;
+
+	/**
+	 * Returns whether this table has a primary key.
+	 *
+	 * @since 35.0.0
+	 */
+	public function hasPrimaryKey(): bool;
 
 	/**
 	 * Drops an index from this table.
