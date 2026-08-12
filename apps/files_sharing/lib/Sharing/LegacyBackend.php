@@ -114,7 +114,10 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 					$legacyShare = $this->legacyManager->newShare();
 					$legacyShare->setShareType($legacyShareType);
 					$legacyShare->setNodeId((int)$source->value);
-					$legacyShare->setSharedWith($this->recipientToLegacySharedWith($recipient));
+					$legacyRecipient = $this->recipientToLegacySharedWith($recipient);
+					if ($legacyRecipient !== null) {
+						$legacyShare->setSharedWith($legacyRecipient);
+					}
 
 					$this->setCommonFields($share, $legacyShare);
 					$create = true;
@@ -608,9 +611,11 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 		};
 	}
 
-	private function recipientToLegacySharedWith(ShareRecipient $recipient): string {
-		if ($recipient->class === TokenShareRecipientType::class) {
+	private function recipientToLegacySharedWith(ShareRecipient $recipient): ?string {
+		if ($recipient->instance !== null) {
 			return $this->cloudIdManager->getCloudId($recipient->value, $recipient->instance)->getId();
+		} if ($recipient->class === TokenShareRecipientType::class) {
+			return null;
 		}
 
 		return $recipient->value;
