@@ -71,6 +71,7 @@
 </template>
 
 <script lang="ts">
+import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import FileEntryActions from './FileEntry/FileEntryActions.vue'
@@ -117,11 +118,12 @@ export default defineComponent({
 			fileId: currentRouteFileId,
 		} = useRouteParameters()
 
+		const activeStore = useActiveStore()
 		const {
 			activeFolder,
 			activeNode,
 			activeView,
-		} = useActiveStore()
+		} = storeToRefs(activeStore)
 
 		const actions = useFileActions()
 
