@@ -142,6 +142,7 @@ HELP);
 				$configs[$key] = $value;
 			}
 		}
+		ksort($configs);
 
 		return $configs;
 	}
@@ -155,10 +156,13 @@ HELP);
 	 */
 	protected function getAppConfigs(string $app, bool $noSensitiveValues) {
 		if ($noSensitiveValues) {
-			return $this->appConfig->getFilteredValues($app);
+			$config = $this->appConfig->getFilteredValues($app);
 		} else {
-			return $this->appConfig->getAllValues($app);
+			$config = $this->appConfig->getAllValues($app);
 		}
+		ksort($config);
+
+		return $config;
 	}
 
 	/**
