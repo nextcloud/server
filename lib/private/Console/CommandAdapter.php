@@ -256,6 +256,18 @@ class CommandAdapter extends Base {
 				continue;
 			}
 
+			if ($type instanceof \ReflectionNamedType && $type->getName() === InputInterface::class) {
+				// Not documented for some advanced usage
+				$parameters[] = $input;
+				continue;
+			}
+
+			if ($type instanceof \ReflectionNamedType && $type->getName() === OutputInterface::class) {
+				// Not documented for some advanced usage
+				$parameters[] = $output;
+				continue;
+			}
+
 			throw new \LogicException(\sprintf('Unable to resolve parameter "$%s" of "%s": it is neither an #[Argument], an #[Option], nor an %s, %s, %s or %s.', $name, $this->reflectionMethod->getName(), IOutput::class, IInput::class, ISignalHandler::class, OutputFormat::class));
 		}
 
