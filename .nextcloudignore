@@ -64,3 +64,4 @@ window.d.ts
 /data
 /openapi.json
 /vendor-bin
+/Caddyfile
