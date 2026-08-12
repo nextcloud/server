@@ -60,6 +60,11 @@ class Index implements IIndex {
 		return $this->index->hasColumnAtPosition($name, $position);
 	}
 
+	#[\Override]
+	public function spansColumns(array $columnNames): bool {
+		return $this->index->spansColumns($columnNames);
+	}
+
 	/**
 	 * Forwards any method not declared on IIndex to the wrapped Doctrine
 	 * DBAL index, e.g. mutators like `addFlag()` or `removeFlag()` that are
