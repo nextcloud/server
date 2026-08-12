@@ -25,6 +25,7 @@ final class UpdateSharePermission extends SharingBase {
 			->addArgument('id', InputArgument::REQUIRED, 'Share ID')
 			->addArgument('class', InputArgument::REQUIRED, 'Permission class')
 			->addArgument('enabled', InputArgument::REQUIRED, 'Permission enabled. Only takes "true" or "false".');
+		parent::configure();
 	}
 
 	#[\Override]
@@ -37,7 +38,7 @@ final class UpdateSharePermission extends SharingBase {
 		$enabled = $input->getArgument('enabled');
 		$enabled = $enabled === 'true';
 
-		return $this->wrapExecution($output, function () use ($id, $class, $enabled): Share {
+		return $this->wrapExecution($input, $output, function () use ($id, $class, $enabled): Share {
 			$share = $this->manager->getShare($this->accessContext, $id);
 			return $this->manager->updateSharePermission($this->accessContext, $share, new SharePermission($class, $enabled));
 		});

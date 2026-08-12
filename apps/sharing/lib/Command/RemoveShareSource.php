@@ -25,6 +25,7 @@ final class RemoveShareSource extends SharingBase {
 			->addArgument('id', InputArgument::REQUIRED, 'Share ID')
 			->addArgument('class', InputArgument::REQUIRED, 'Source class')
 			->addArgument('value', InputArgument::REQUIRED, 'Source value');
+		parent::configure();
 	}
 
 	#[\Override]
@@ -36,7 +37,7 @@ final class RemoveShareSource extends SharingBase {
 		/** @var non-empty-string $value */
 		$value = $input->getArgument('value');
 
-		return $this->wrapExecution($output, function () use ($id, $class, $value): Share {
+		return $this->wrapExecution($input, $output, function () use ($id, $class, $value): Share {
 			$share = $this->manager->getShare($this->accessContext, $id);
 			return $this->manager->removeShareSource($this->accessContext, $share, new ShareSource($class, $value));
 		});

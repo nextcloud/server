@@ -23,6 +23,7 @@ final class SelectSharePermissionPreset extends SharingBase {
 			->setDescription('Select a permission preset for a share.')
 			->addArgument('id', InputArgument::REQUIRED, 'Share ID')
 			->addArgument('permission-preset', InputArgument::REQUIRED, 'Permission preset');
+		parent::configure();
 	}
 
 	#[\Override]
@@ -32,7 +33,7 @@ final class SelectSharePermissionPreset extends SharingBase {
 		/** @var class-string<ISharePermissionPreset> $permissionPresetClass */
 		$permissionPresetClass = $input->getArgument('permission-preset');
 
-		return $this->wrapExecution($output, function () use ($id, $permissionPresetClass): Share {
+		return $this->wrapExecution($input, $output, function () use ($id, $permissionPresetClass): Share {
 			$share = $this->manager->getShare($this->accessContext, $id);
 			return $this->manager->selectSharePermissionPreset($this->accessContext, $share, $permissionPresetClass);
 		});

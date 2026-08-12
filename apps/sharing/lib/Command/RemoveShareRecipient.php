@@ -26,6 +26,7 @@ final class RemoveShareRecipient extends SharingBase {
 			->addArgument('class', InputArgument::REQUIRED, 'Recipient class')
 			->addArgument('value', InputArgument::REQUIRED, 'Recipient value')
 			->addArgument('instance', InputArgument::OPTIONAL, 'Recipient instance');
+		parent::configure();
 	}
 
 	#[\Override]
@@ -39,7 +40,7 @@ final class RemoveShareRecipient extends SharingBase {
 		/** @var ?non-empty-string $instance */
 		$instance = $input->getArgument('instance');
 
-		return $this->wrapExecution($output, function () use ($id, $class, $value, $instance): Share {
+		return $this->wrapExecution($input, $output, function () use ($id, $class, $value, $instance): Share {
 			$share = $this->manager->getShare($this->accessContext, $id);
 			return $this->manager->removeShareRecipient($this->accessContext, $share, new ShareRecipient($class, $value, $instance));
 		});

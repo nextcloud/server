@@ -97,6 +97,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 			throw new RuntimeException('Command class ' . $class . ' is not allowed to be used unless added to the array.');
 		}
 
+		$options[] = ['actor', null];
 		$input = $this->createMock(Input::class);
 		$input
 			->expects($this->exactly(count($arguments)))

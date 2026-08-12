@@ -27,10 +27,13 @@ final class GetShares extends SharingBase {
 			->addOption('filter-source-type-value', '', InputOption::VALUE_REQUIRED, 'Source type value to filter by')
 			->addOption('last-share-id', '', InputOption::VALUE_REQUIRED, 'Share ID to use as an offset')
 			->addOption('limit', '', InputOption::VALUE_REQUIRED, 'Maximum number of shares to return');
+		parent::configure();
 	}
 
 	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
+		$this->applyActor($input);
+
 		/** @var ?class-string<IShareSourceType> $filterSourceTypeClass */
 		$filterSourceTypeClass = $input->getOption('filter-source-type-class');
 		/** @var ?class-string<IShareSourceType> $filterSourceTypeValue */
