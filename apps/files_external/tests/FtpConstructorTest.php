@@ -13,11 +13,6 @@ use OCA\Files_External\Lib\Storage\FTP;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
-/**
- * The FTP connection is established lazily, so the constructor can be covered
- * without a reachable FTP server. The backend tests in Storage/FtpTest.php do
- * need one and are run separately.
- */
 class FtpConstructorTest extends TestCase {
 	public static function portProvider(): array {
 		$parameters = [
