@@ -159,16 +159,16 @@ class Tags implements ITags {
 				->where($qb->expr()->eq('uid', $qb->createParameter('uid')))
 				->andWhere($qb->expr()->eq('r.type', $qb->createParameter('type')))
 				->andWhere($qb->expr()->in('objid', $qb->createParameter('chunk')));
+
+			$qb->setParameter('uid', $this->user, IQueryBuilder::PARAM_STR);
+			$qb->setParameter('type', $this->type, IQueryBuilder::PARAM_STR);
+
 			foreach ($chunks as $chunk) {
-				$qb->setParameter('uid', $this->user, IQueryBuilder::PARAM_STR);
-				$qb->setParameter('type', $this->type, IQueryBuilder::PARAM_STR);
 				$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$result = $qb->executeQuery();
 				while ($row = $result->fetchAssociative()) {
 					$objId = (int)$row['objid'];
-					if (!isset($entries[$objId])) {
-						$entries[$objId] = [];
-					}
+					$entries[$objId] ??= [];
 					$entries[$objId][] = $row['category'];
 				}
 				$result->closeCursor();
@@ -393,19 +393,26 @@ class Tags implements ITags {
 		// reload tags to get the proper ids.
 		$this->tags = $this->mapper->loadTags($this->owners, $this->type);
 		$this->logger->debug(__METHOD__ . 'tags' . print_r($this->tags, true), ['app' => 'core']);
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert(self::RELATION_TABLE)
+			->values([
+				'objid' => $qb->createParameter('objid'),
+				'categoryid' => $qb->createParameter('categoryid'),
+				'type' => $qb->createParameter('type'),
+			]);
+
+		$qb->setParameter('type', $this->type, IQueryBuilder::PARAM_STR);
+
 		// Loop through temporarily cached objectid/tagname pairs
 		// and save relations.
 		foreach ($this->relations as $relation) {
 			$tagId = $this->getTagId($relation['tag']);
 			$this->logger->debug(__METHOD__ . 'catid ' . $relation['tag'] . ' ' . $tagId, ['app' => 'core']);
 			if ($tagId) {
-				$qb = $this->db->getQueryBuilder();
-				$qb->insert(self::RELATION_TABLE)
-					->values([
-						'objid' => $qb->createNamedParameter($relation['objid'], IQueryBuilder::PARAM_INT),
-						'categoryid' => $qb->createNamedParameter($tagId, IQueryBuilder::PARAM_INT),
-						'type' => $qb->createNamedParameter($this->type),
-					]);
+				$qb->setParameter('objid', $relation['objid'], IQueryBuilder::PARAM_INT);
+				$qb->setParameter('categoryid', $tagId, IQueryBuilder::PARAM_INT);
+
 				try {
 					$qb->executeStatement();
 				} catch (Exception $e) {
