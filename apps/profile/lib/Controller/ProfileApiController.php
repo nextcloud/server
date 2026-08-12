@@ -20,6 +20,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\IManager;
+use OCP\Files\File;
 use OCP\IDateTimeFormatter;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -69,15 +70,15 @@ class ProfileApiController extends OCSController {
 		$files = $this->getSharedNodes($userId);
 		$events = $this->getSharedCalendarEvents($userId);
 
-		$entries = array_values(array_merge($files, $events));
+		$entries = array_values(array_merge($events, $files));
 		return new DataResponse($entries);
 	}
 
 	/**
 	 * Get all upcoming events shared between a user and the current user.
-	 * 
+	 *
 	 * If the calendar app is disabled for the current user no events will be returned.
-	 * 
+	 *
 	 * @param string $userId - The user ID of the user to get shared events with.
 	 * @return list<ProfileSharedResource>
 	 */
@@ -156,20 +157,27 @@ class ProfileApiController extends OCSController {
 		}
 
 		$shares = array_slice(array_merge($outgoingShares, $incomingShares), 0, 5);
-		usort($shares, fn ($a, $b) => $a->getNode()->getMTime() <=> $b->getNode()->getMTime());
+		usort($shares, fn ($a, $b) => $b->getNode()->getMTime() <=> $a->getNode()->getMTime());
 		$files = [];
 		foreach ($shares as $share) {
-			$files[] = [
-				'label' => $share->getNode()->getName(),
-				'text' => $this->formatter->formatTimeSpan($share->getNode()->getMTime()),
-				'href' => $this->urlGenerator->linkToRouteAbsolute('files.view.index', [
-					'dir' => $share->getNode()->getParent()->getPath(),
-					'fileid' => $share->getNode()->getId(),
-				]),
-				'img' => $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', [
-					'fileId' => $share->getNode()->getId(),
+			$node = $share->getNode();
+			// Preview endpoint only serves files; folders need the mime icon directly.
+			if ($node instanceof File) {
+				$img = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', [
+					'fileId' => $node->getId(),
 					'mimeFallback' => true,
+				]);
+			} else {
+				$img = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'filetypes/folder.svg'));
+			}
+			$files[] = [
+				'label' => $node->getName(),
+				'text' => $this->formatter->formatTimeSpan($node->getMTime()),
+				'href' => $this->urlGenerator->linkToRouteAbsolute('files.view.index', [
+					'dir' => $node->getParent()->getPath(),
+					'fileid' => $node->getId(),
 				]),
+				'img' => $img,
 			];
 		}
 		return $files;
