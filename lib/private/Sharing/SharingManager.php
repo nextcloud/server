@@ -749,7 +749,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	 * @throws ShareOperationForbiddenException
 	 */
 	private function validatePermission(Share $share, string $permissionTypeClass): void {
-		// TODO: Only fetch permisions
 		if ((($permission = $share->permissions[$permissionTypeClass] ?? null) !== null) && $permission->enabled) {
 			return;
 		}
@@ -763,7 +762,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	private function validateReshareOperation(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient): void {
 		$this->validatePermission($share, ReshareSharePermissionType::class);
 
-		// TODO: Only fetch recipients
 		foreach ($share->recipients as $shareRecipient) {
 			if (
 				$recipient->class === $shareRecipient->class
