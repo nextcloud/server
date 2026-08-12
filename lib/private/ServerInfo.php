@@ -25,7 +25,7 @@ readonly class ServerInfo implements IServerInfo {
 		if ($serverid < 1) {
 			// Fallback: generates a server ID based on hostname
 			/** @var int<0,max> */
-			$serverid = PHP_INT_SIZE === 4
+			$serverid = PHP_INT_SIZE === 8
 				? hexdec(hash('xxh32', $this->getHostname()))
 				// Makes sure it doesn't overflow 32 bits int
 				: hexdec(substr(hash('xxh32', $this->getHostname()), -3));

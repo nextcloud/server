@@ -25,7 +25,7 @@ use Psr\Log\LoggerInterface;
  * tools to manage the Preset feature
  */
 class PresetManager {
-	private const PRESET_CONFIGKEY = 'config_preset';
+	private const string PRESET_CONFIGKEY = 'config_preset';
 
 	private ?AppManager $appManager = null;
 	private ?Installer $installer = null;

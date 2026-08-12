@@ -67,7 +67,7 @@ class Storage {
 	 */
 	private static array $sourcePathAndUser = [];
 
-	private const MAX_VERSIONS_PER_INTERVAL = [
+	private const array MAX_VERSIONS_PER_INTERVAL = [
 		//first 10sec, one version every 2sec
 		1 => ['intervalEndsAfter' => 10,      'step' => 2],
 		//next minute, one version every 10sec

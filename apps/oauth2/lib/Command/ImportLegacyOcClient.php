@@ -19,8 +19,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportLegacyOcClient extends Command {
-	private const ARGUMENT_CLIENT_ID = 'client-id';
-	private const ARGUMENT_CLIENT_SECRET = 'client-secret';
+	private const string ARGUMENT_CLIENT_ID = 'client-id';
+	private const string ARGUMENT_CLIENT_SECRET = 'client-secret';
 
 	public function __construct(
 		private readonly IConfig $config,

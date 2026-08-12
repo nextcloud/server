@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\Command;
 
+use NCU\Sharing\Share;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
 use Symfony\Component\Console\Input\InputArgument;
@@ -35,9 +36,9 @@ final class RemoveShareSource extends SharingBase {
 		/** @var non-empty-string $value */
 		$value = $input->getArgument('value');
 
-		return $this->wrapExecution($output, function () use ($id, $class, $value): string {
-			$this->manager->removeShareSource($this->accessContext, $id, new ShareSource($class, $value));
-			return $id;
+		return $this->wrapExecution($output, function () use ($id, $class, $value): Share {
+			$share = $this->manager->getShare($this->accessContext, $id);
+			return $this->manager->removeShareSource($this->accessContext, $share, new ShareSource($class, $value));
 		});
 	}
 }

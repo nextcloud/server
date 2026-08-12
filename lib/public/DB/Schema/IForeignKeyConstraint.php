@@ -9,19 +9,17 @@ declare(strict_types=1);
 
 namespace OCP\DB\Schema;
 
-use OCP\DB\Types;
-
 /**
- * Object representation of a column type.
+ * Object representation of a foreign key constraint.
  *
  * @since 35.0.0
  */
-interface IType {
+
+interface IForeignKeyConstraint {
 	/**
-	 * Returns the name of this type.
+	 * Return the name of the foreign key constraint
 	 *
-	 * @return Types::*
-	 *
+	 * @return non-empty-string
 	 * @since 35.0.0
 	 */
 	public function getName(): string;

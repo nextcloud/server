@@ -13,8 +13,8 @@ use InvalidArgumentException;
 
 /** RFC 9530 `Content-Digest` helpers; covered by RFC 9421 §7.2.5 in OCM signatures. */
 final class ContentDigest {
-	public const ALGO_SHA256 = 'sha-256';
-	public const ALGO_SHA512 = 'sha-512';
+	public const string ALGO_SHA256 = 'sha-256';
+	public const string ALGO_SHA512 = 'sha-512';
 
 	public static function compute(string $body, string $algorithm = self::ALGO_SHA256): string {
 		$hashAlgorithm = self::hashAlgorithmFor($algorithm);

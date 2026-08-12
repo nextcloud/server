@@ -14,6 +14,7 @@ use Exception;
 use NCU\Sharing\Exception\AShareException;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use OC\Core\Command\Base;
 use OCP\IDBConnection;
@@ -40,7 +41,7 @@ abstract class SharingBase extends Command {
 	}
 
 	/**
-	 * @param Closure():string $closure
+	 * @param Closure():Share $closure
 	 */
 	protected function wrapExecution(OutputInterface $output, Closure $closure): int {
 
@@ -48,8 +49,7 @@ abstract class SharingBase extends Command {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$id = $closure();
-				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $closure();
 				$this->dbConnection->commit();
 				$output->writeln(json_encode($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager), JSON_THROW_ON_ERROR));
 				return Base::SUCCESS;

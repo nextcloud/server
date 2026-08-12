@@ -13,10 +13,10 @@ use InvalidArgumentException;
 use function explode;
 
 class CompareVersion {
-	private const REGEX_MAJOR = '/^\d+$/';
-	private const REGEX_MAJOR_MINOR = '/^\d+\.\d+$/';
-	private const REGEX_MAJOR_MINOR_PATCH = '/^\d+\.\d+\.\d+(?!\.\d+)/';
-	private const REGEX_ACTUAL = '/^\d+(\.\d+){1,2}/';
+	private const string REGEX_MAJOR = '/^\d+$/';
+	private const string REGEX_MAJOR_MINOR = '/^\d+\.\d+$/';
+	private const string REGEX_MAJOR_MINOR_PATCH = '/^\d+\.\d+\.\d+(?!\.\d+)/';
+	private const string REGEX_ACTUAL = '/^\d+(\.\d+){1,2}/';
 
 	/**
 	 * Checks if the given server version fulfills the given (app) version requirements.

@@ -4,7 +4,6 @@ OC.L10N.register(
     "App store" : "Appbutik",
     "Apps" : "Appar",
     "Nextcloud Appstore" : "Nextcloud-appbutik",
-    "Appstore" : "Appbutik",
     "App name" : "Appnamn",
     "Version" : "Version",
     "Support level" : "Supportnivå",

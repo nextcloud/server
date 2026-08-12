@@ -37,7 +37,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @var string[]
 	 */
-	private const SEARCH_PROPERTIES = [
+	private const array SEARCH_PROPERTIES = [
 		'SUMMARY',
 		'LOCATION',
 		'DESCRIPTION',
@@ -49,7 +49,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @var array<string, string[]>
 	 */
-	private const SEARCH_PARAMETERS = [
+	private const array SEARCH_PARAMETERS = [
 		'ATTENDEE' => ['CN'],
 		'ORGANIZER' => ['CN'],
 	];
@@ -57,7 +57,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @var string
 	 */
-	private const COMPONENT_TYPE = 'VEVENT';
+	private const string COMPONENT_TYPE = 'VEVENT';
 
 	/**
 	 * @inheritDoc

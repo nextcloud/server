@@ -233,6 +233,7 @@ OC.L10N.register(
     "More apps" : "Tuilleadh apps",
     "App store" : "Siopa aip",
     "Settings" : "Socruithe",
+    "Profile" : "Próifíl",
     "Open apps menu, currently in {app}" : "Oscail roghchlár na n-aipeanna, atá i {app} faoi láthair",
     "Open apps menu" : "Oscail roghchlár na n-aipeanna",
     "Applications" : "Feidhmchláir",

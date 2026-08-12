@@ -39,15 +39,15 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	private SabreDavServer $sabreDavServer;
 
-	private const USERS_URI_ROOT = 'principals/users/';
+	private const string USERS_URI_ROOT = 'principals/users/';
 
-	private const FILENAME_EXT = 'vcf';
+	private const string FILENAME_EXT = 'vcf';
 
-	private const METADATA_EXT = 'json';
+	private const string METADATA_EXT = 'json';
 
-	private const MIGRATED_URI_PREFIX = 'migrated-';
+	private const string MIGRATED_URI_PREFIX = 'migrated-';
 
-	private const PATH_ROOT = Application::APP_ID . '/address_books/';
+	private const string PATH_ROOT = Application::APP_ID . '/address_books/';
 
 	public function __construct(
 		private CardDavBackend $cardDavBackend,

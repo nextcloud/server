@@ -22,7 +22,7 @@ class RemoveDeletedUsersCalendarSubscriptions implements IRepairStep {
 	/** @var int[] */
 	private $orphanSubscriptionIds = [];
 
-	private const SUBSCRIPTIONS_CHUNK_SIZE = 1000;
+	private const int SUBSCRIPTIONS_CHUNK_SIZE = 1000;
 
 	public function __construct(
 		private IDBConnection $connection,

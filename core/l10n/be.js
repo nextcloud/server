@@ -197,6 +197,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} апавяшчэнне","{count} апавяшчэнні","{count} апавяшчэнняў","{count} апавяшчэнняў"],
     "More apps" : "Болей праграм",
     "Settings" : "Налады",
+    "Profile" : "Профіль",
     "Applications" : "Праграмы",
     "Apps" : "Праграмы",
     "No" : "Не",

@@ -180,6 +180,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} ilmoitus","{count} ilmoitusta"],
     "More apps" : "Lisää sovelluksia",
     "Settings" : "Asetukset",
+    "Profile" : "Profiili",
     "Applications" : "Sovellukset",
     "Apps" : "Sovellukset",
     "No" : "Ei",

@@ -24,7 +24,7 @@ final class JobClassesRegistry {
 	 */
 	private array $registry = [];
 
-	private const TABLE = 'job_classes_registry';
+	private const string TABLE = 'job_classes_registry';
 
 	public function __construct(
 		private readonly IDBConnection $connection,

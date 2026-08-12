@@ -16,7 +16,7 @@ use Sabre\VObject\Component\VEvent;
 class EventComparisonService {
 
 	/** @var string[] */
-	private const EVENT_DIFF = [
+	private const array EVENT_DIFF = [
 		'RECURRENCE-ID',
 		'RRULE',
 		'SEQUENCE',

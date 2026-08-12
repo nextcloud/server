@@ -53,6 +53,11 @@ class Index implements IIndex {
 		return $this->index->isSimpleIndex();
 	}
 
+	#[\Override]
+	public function hasColumnAtPosition(string $name, int $position = 0): bool {
+		return $this->index->hasColumnAtPosition($name, $position);
+	}
+
 	/**
 	 * Forwards any method not declared on IIndex to the wrapped Doctrine
 	 * DBAL index, e.g. mutators like `addFlag()` or `removeFlag()` that are

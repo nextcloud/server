@@ -14,7 +14,7 @@ use Icewind\Streams\Wrapper;
  * A stream wrapper that uses http range requests to provide a seekable stream for http reading
  */
 class SeekableHttpStream implements File {
-	private const PROTOCOL = 'httpseek';
+	private const string PROTOCOL = 'httpseek';
 
 	/**
 	 * Registers the stream wrapper using the `httpseek://` url scheme

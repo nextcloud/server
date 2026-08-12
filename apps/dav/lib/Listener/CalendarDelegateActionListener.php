@@ -44,11 +44,11 @@ use Throwable;
  */
 class CalendarDelegateActionListener implements IEventListener {
 
-	private const ACTION_CREATE = 'create';
-	private const ACTION_UPDATE = 'update';
-	private const ACTION_DELETE = 'delete';
-	private const ACTION_TRASH = 'trash';
-	private const ACTION_RESTORE = 'restore';
+	private const string ACTION_CREATE = 'create';
+	private const string ACTION_UPDATE = 'update';
+	private const string ACTION_DELETE = 'delete';
+	private const string ACTION_TRASH = 'trash';
+	private const string ACTION_RESTORE = 'restore';
 
 	public function __construct(
 		private readonly IUserSession $userSession,

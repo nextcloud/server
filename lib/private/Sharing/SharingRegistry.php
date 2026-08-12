@@ -325,4 +325,48 @@ final class SharingRegistry implements ISharingRegistry {
 
 		return $out;
 	}
+
+	#[\Override]
+	public function getCompatiblePermissionTypeClasses(array $shareSourceTypeClasses): array {
+		/** @var array<class-string<ISharePermissionType>, bool> $shareCompatiblePermissionTypeClasses */
+		$shareCompatiblePermissionTypeClasses = [];
+
+		foreach ($this->genericPermissionTypes as $permissionTypeClass) {
+			$shareCompatiblePermissionTypeClasses[$permissionTypeClass] = true;
+		}
+
+		foreach ($shareSourceTypeClasses as $shareSourceTypeClass) {
+			if (isset($this->sourceTypePermissionTypes[$shareSourceTypeClass])) {
+				foreach ($this->sourceTypePermissionTypes[$shareSourceTypeClass] as $permissionTypeClass) {
+					$shareCompatiblePermissionTypeClasses[$permissionTypeClass] = true;
+				}
+			}
+		}
+
+		return array_keys($shareCompatiblePermissionTypeClasses);
+	}
+
+	/**
+	 * @return list<class-string<ISharePropertyType>>
+	 */
+	#[\Override]
+	public function getCompatiblePropertyTypeClasses(array $shareSourceTypeClasses, array $shareRecipientTypeClasses): array {
+		$registryPropertyTypes = $this->getPropertyTypes();
+		$registryPropertyTypeCompatibleSourceTypeClasses = $this->getPropertyTypeCompatibleSourceTypeClasses();
+		$registryPropertyTypeCompatibleRecipientTypeClasses = $this->getPropertyTypeCompatibleRecipientTypes();
+
+		/** @var list<class-string<ISharePropertyType>> $compatiblePropertyTypes */
+		$compatiblePropertyTypes = [];
+		foreach (array_keys($registryPropertyTypes) as $propertyTypeClass) {
+			if (
+				array_intersect($registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], $shareSourceTypeClasses) !== []
+				&& array_intersect(
+					$registryPropertyTypeCompatibleRecipientTypeClasses[$propertyTypeClass], $shareRecipientTypeClasses
+				) !== []) {
+				$compatiblePropertyTypes[] = $propertyTypeClass;
+			}
+		}
+
+		return $compatiblePropertyTypes;
+	}
 }

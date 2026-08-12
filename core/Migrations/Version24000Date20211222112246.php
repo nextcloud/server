@@ -16,7 +16,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 class Version24000Date20211222112246 extends SimpleMigrationStep {
-	private const TABLE_NAME = 'reactions';
+	private const string TABLE_NAME = 'reactions';
 
 	/**
 	 * @param IOutput $output

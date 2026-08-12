@@ -23,7 +23,7 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RemoteAvatarTest extends TestCase {
-	private const CLOUD_ID = 'user@https://remote.example.com';
+	private const string CLOUD_ID = 'user@https://remote.example.com';
 
 	private ISimpleFolder&MockObject $folder;
 	private IConfig&MockObject $config;

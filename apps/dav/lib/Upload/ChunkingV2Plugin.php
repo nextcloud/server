@@ -52,14 +52,14 @@ class ChunkingV2Plugin extends ServerPlugin {
 	private ?string $uploadId = null;
 	private ?string $uploadPath = null;
 
-	private const TEMP_TARGET = '.target';
+	private const string TEMP_TARGET = '.target';
 
 	public const CACHE_KEY = 'chunking-v2';
 	public const UPLOAD_TARGET_PATH = 'upload-target-path';
 	public const UPLOAD_TARGET_ID = 'upload-target-id';
 	public const UPLOAD_ID = 'upload-id';
 
-	private const DESTINATION_HEADER = 'Destination';
+	private const string DESTINATION_HEADER = 'Destination';
 
 	public function __construct(ICacheFactory $cacheFactory) {
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);

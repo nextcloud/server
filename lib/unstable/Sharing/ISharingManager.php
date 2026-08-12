@@ -32,12 +32,12 @@ interface ISharingManager {
 	 * @param ?list<class-string<IShareRecipientType>> $filterRecipientTypeClasses
 	 * @param positive-int $limit
 	 * @param non-negative-int $offset
-	 * @param ?string $id If provided, recipients that are already part of the share will not be returned.
+	 * @param ?Share $excludeShare If provided, recipients that are already part of the share will not be returned.
 	 * @return list<ShareRecipient>
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
-	public function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?string $id = null): array;
+	public function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?Share $forShare = null): array;
 
 	/**
 	 * Generate a new secret.
@@ -59,7 +59,7 @@ interface ISharingManager {
 	 *
 	 * @experimental 35.0.0
 	 */
-	public function createShare(ShareAccessContext $accessContext): string;
+	public function createShare(ShareAccessContext $accessContext): Share;
 
 	/**
 	 * Perform all updates when the owner was deleted.
@@ -76,7 +76,7 @@ interface ISharingManager {
 	 * @throws ShareOperationForbiddenException
 	 * @experimental 35.0.0
 	 */
-	public function updateShareState(ShareAccessContext $accessContext, string $id, ShareState $state): void;
+	public function updateShareState(ShareAccessContext $accessContext, Share $share, ShareState $state): Share;
 
 	/**
 	 * Add a new source to a share.
@@ -86,7 +86,7 @@ interface ISharingManager {
 	 * @throws ShareOperationForbiddenException
 	 * @experimental 35.0.0
 	 */
-	public function addShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): void;
+	public function addShareSource(ShareAccessContext $accessContext, Share $share, ShareSource $source): Share;
 
 	/**
 	 * Remove an existing source from a share.
@@ -95,7 +95,7 @@ interface ISharingManager {
 	 * @throws ShareOperationForbiddenException
 	 * @experimental 35.0.0
 	 */
-	public function removeShareSource(ShareAccessContext $accessContext, string $id, ShareSource $source): void;
+	public function removeShareSource(ShareAccessContext $accessContext, Share $share, ShareSource $source): Share;
 
 	/**
 	 * Perform all updates when the source was deleted.
@@ -112,7 +112,7 @@ interface ISharingManager {
 	 * @throws ShareOperationForbiddenException
 	 * @experimental 35.0.0
 	 */
-	public function addShareRecipient(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient): void;
+	public function addShareRecipient(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient): Share;
 
 	/**
 	 * Remove an existing recipient from a share.
@@ -121,7 +121,7 @@ interface ISharingManager {
 	 * @throws ShareOperationForbiddenException
 	 * @experimental 35.0.0
 	 */
-	public function removeShareRecipient(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient): void;
+	public function removeShareRecipient(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient): Share;
 
 	/**
 	 * Perform all updates when the recipient was deleted.
@@ -145,7 +145,7 @@ interface ISharingManager {
 	 * @throws ShareOperationForbiddenException
 	 * @experimental 35.0.0
 	 */
-	public function updateShareRecipientSecret(ShareAccessContext $accessContext, string $id, ShareRecipient $recipient, string $secret): void;
+	public function updateShareRecipientSecret(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, string $secret): Share;
 
 	/**
 	 * Update a property of a share.
@@ -155,7 +155,7 @@ interface ISharingManager {
 	 * @throws ShareOperationForbiddenException
 	 * @experimental 35.0.0
 	 */
-	public function updateShareProperty(ShareAccessContext $accessContext, string $id, ShareProperty $property): void;
+	public function updateShareProperty(ShareAccessContext $accessContext, Share $share, ShareProperty $property): Share;
 
 	/**
 	 * Update a permission of a share.
@@ -165,7 +165,7 @@ interface ISharingManager {
 	 * @throws ShareOperationForbiddenException
 	 * @experimental 35.0.0
 	 */
-	public function updateSharePermission(ShareAccessContext $accessContext, string $id, SharePermission $permission): void;
+	public function updateSharePermission(ShareAccessContext $accessContext, Share $share, SharePermission $permission): Share;
 
 	/**
 	 * Select a permission preset for a share.
@@ -175,7 +175,7 @@ interface ISharingManager {
 	 * @throws ShareOperationForbiddenException
 	 * @experimental 35.0.0
 	 */
-	public function selectSharePermissionPreset(ShareAccessContext $accessContext, string $id, string $permissionPresetClass): void;
+	public function selectSharePermissionPreset(ShareAccessContext $accessContext, Share $share, string $permissionPresetClass): Share;
 
 	/**
 	 * Delete a share.
@@ -184,7 +184,7 @@ interface ISharingManager {
 	 * @throws ShareOperationForbiddenException
 	 * @experimental 35.0.0
 	 */
-	public function deleteShare(ShareAccessContext $accessContext, string $id): void;
+	public function deleteShare(ShareAccessContext $accessContext, Share $share): void;
 
 	/**
 	 * Get a share.

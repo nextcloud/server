@@ -11,12 +11,18 @@ declare(strict_types=1);
 namespace OCA\Files\Tests\Command;
 
 use OC\Files\Mount\ObjectHomeMountProvider;
+use OC\Files\SetupManager;
 use OC\Files\Utils\Scanner;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\PreviewService;
 use OC\Preview\Storage\StorageFactory;
 use OCA\Files\Command\ScanAppData;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
+use OCP\Console\ISignalHandler;
+use OCP\Console\Verbosity;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
@@ -33,8 +39,7 @@ use OCP\Server;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 #[Group(name: 'DB')]
@@ -42,8 +47,8 @@ class ScanAppDataTest extends TestCase {
 	private IRootFolder $rootFolder;
 	private IConfig $config;
 	private StorageFactory $storageFactory;
-	private OutputInterface&MockObject $output;
-	private InputInterface&MockObject $input;
+	private IOutput&MockObject $output;
+	private ISignalHandler&MockObject $signalHandler;
 	private Scanner&MockObject $internalScanner;
 	private ScanAppData $scanner;
 	private string $user;
@@ -56,11 +61,19 @@ class ScanAppDataTest extends TestCase {
 		$user = Server::get(IUserManager::class)->createUser($this->user, 'test');
 		Server::get(ISetupManager::class)->setupForUser($user);
 		Server::get(IUserSession::class)->setUser($user);
-		$this->output = $this->createMock(OutputInterface::class);
-		$this->input = $this->createMock(InputInterface::class);
+		$this->output = $this->createMock(IOutput::class);
+		$this->output->method('getVerbosity')->willReturn(Verbosity::Normal);
+		$this->signalHandler = $this->createMock(ISignalHandler::class);
 		$this->scanner = $this->getMockBuilder(ScanAppData::class)
-			->onlyMethods(['displayTable', 'initTools', 'getScanner'])
-			->setConstructorArgs([$this->rootFolder, $this->config, $this->storageFactory])
+			->onlyMethods(['initTools', 'getScanner'])
+			->setConstructorArgs([
+				$this->rootFolder,
+				$this->config,
+				$this->storageFactory,
+				Server::get(IEventDispatcher::class),
+				Server::get(LoggerInterface::class),
+				Server::get(SetupManager::class),
+			])
 			->getMock();
 		$this->internalScanner = $this->getMockBuilder(Scanner::class)
 			->onlyMethods(['scan'])
@@ -103,23 +116,22 @@ class ScanAppDataTest extends TestCase {
 			$this->markTestSkipped();
 		}
 
-		$this->input->method('getArgument')->with('folder')->willReturn('');
 		$this->internalScanner->method('scan')->willReturnCallback(function (): void {
 			$this->internalScanner->emit('\OC\Files\Utils\Scanner', 'scanFile', ['path42']);
 			$this->internalScanner->emit('\OC\Files\Utils\Scanner', 'scanFolder', ['path42']);
 			$this->internalScanner->emit('\OC\Files\Utils\Scanner', 'scanFolder', ['path42']);
 		});
-		$this->scanner->expects($this->once())->method('displayTable')
-			->willReturnCallback(function (OutputInterface $output, array $headers, array $rows): void {
-				$this->assertEquals($this->output, $output);
-				$this->assertEquals(['Previews', 'Folders', 'Files', 'Elapsed time'], $headers);
-				$this->assertEquals(0, $rows[0]);
-				$this->assertEquals(2, $rows[1]);
-				$this->assertEquals(1, $rows[2]);
+		$this->output->expects($this->once())->method('writeTableInOutputFormat')
+			->willReturnCallback(function (array $items): void {
+				$this->assertCount(1, $items);
+				$row = $items[0];
+				$this->assertEquals(0, $row['Previews']);
+				$this->assertEquals(2, $row['Folders']);
+				$this->assertEquals(1, $row['Files']);
 			});
 
-		$errorCode = $this->invokePrivate($this->scanner, 'execute', [$this->input, $this->output]);
-		$this->assertEquals(ScanAppData::SUCCESS, $errorCode);
+		$exitCode = ($this->scanner)($this->output, $this->signalHandler, '');
+		$this->assertEquals(ExitCode::Success, $exitCode);
 	}
 
 	public static function scanPreviewLocalData(): \Generator {
@@ -137,7 +149,6 @@ class ScanAppDataTest extends TestCase {
 		if ($homeProvider->getHomeMountForUser($user, $this->createMock(IStorageFactory::class)) !== null) {
 			$this->markTestSkipped();
 		}
-		$this->input->method('getArgument')->with('folder')->willReturn('preview');
 
 		$file = $this->rootFolder->getUserFolder($this->user)->newFile('myfile.jpeg');
 
@@ -213,16 +224,16 @@ class ScanAppDataTest extends TestCase {
 		$mimetypeLoader = $this->createMock(IMimeTypeLoader::class);
 		$mimetypeLoader->method('getMimetypeById')->willReturn('image/jpeg');
 
-		$this->scanner->expects($this->once())->method('displayTable')
-			->willReturnCallback(function ($output, array $headers, array $rows): void {
-				$this->assertEquals($output, $this->output);
-				$this->assertEquals(['Previews', 'Folders', 'Files', 'Elapsed time'], $headers);
-				$this->assertEquals(3, $rows[0]);
-				$this->assertEquals(0, $rows[1]);
-				$this->assertEquals(0, $rows[2]);
+		$this->output->expects($this->once())->method('writeTableInOutputFormat')
+			->willReturnCallback(function (array $items): void {
+				$this->assertCount(1, $items);
+				$row = $items[0];
+				$this->assertEquals(3, $row['Previews']);
+				$this->assertEquals(0, $row['Folders']);
+				$this->assertEquals(0, $row['Files']);
 			});
-		$errorCode = $this->invokePrivate($this->scanner, 'execute', [$this->input, $this->output]);
-		$this->assertEquals(ScanAppData::SUCCESS, $errorCode);
+		$exitCode = ($this->scanner)($this->output, $this->signalHandler, 'preview');
+		$this->assertEquals(ExitCode::Success, $exitCode);
 
 		/** @var Folder $previewFolder */
 		$previewFolder = $this->rootFolder->get($this->rootFolder->getAppDataDirectoryName() . '/preview');

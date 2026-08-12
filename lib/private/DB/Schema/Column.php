@@ -12,8 +12,8 @@ namespace OC\DB\Schema;
 use Doctrine\DBAL\Schema\Column as DBALColumn;
 use Doctrine\DBAL\Schema\SchemaException as DBALSchemaException;
 use Doctrine\DBAL\Types\Type as DBALType;
+use OCP\DB\Schema\ColumnType;
 use OCP\DB\Schema\IColumn;
-use OCP\DB\Schema\IType;
 use OCP\DB\Schema\SchemaException;
 
 /**
@@ -21,7 +21,7 @@ use OCP\DB\Schema\SchemaException;
  */
 class Column implements IColumn {
 	public function __construct(
-		private DBALColumn $column,
+		private readonly DBALColumn $column,
 	) {
 	}
 
@@ -33,9 +33,9 @@ class Column implements IColumn {
 	}
 
 	#[\Override]
-	public function setType(string|IType|DBALType $type): self {
-		if ($type instanceof IType) {
-			$type = $type->getName();
+	public function setType(string|DBALType|ColumnType $type): self {
+		if ($type instanceof ColumnType) {
+			$type = $type->value;
 		}
 
 		$this->column->setType($type instanceof DBALType ? $type : DBALType::getType($type));
@@ -93,8 +93,8 @@ class Column implements IColumn {
 	}
 
 	#[\Override]
-	public function getType(): IType {
-		return new Type($this->column->getType());
+	public function getType(): ColumnType {
+		return ColumnType::from(DBALType::lookupName($this->column->getType()));
 	}
 
 	#[\Override]

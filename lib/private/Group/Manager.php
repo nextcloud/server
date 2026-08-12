@@ -53,7 +53,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	private array $cachedUserGroups = [];
 	private ?SubAdmin $subAdmin = null;
 	private DisplayNameCache $displayNameCache;
-	private const MAX_GROUP_LENGTH = 255;
+	private const int MAX_GROUP_LENGTH = 255;
 
 	public function __construct(
 		private \OC\User\Manager $userManager,

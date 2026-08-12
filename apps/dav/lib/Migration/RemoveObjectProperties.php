@@ -13,9 +13,9 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStepExpensive;
 
 class RemoveObjectProperties implements IRepairStepExpensive {
-	private const RESOURCE_TYPE_PROPERTY = '{DAV:}resourcetype';
-	private const ME_CARD_PROPERTY = '{http://calendarserver.org/ns/}me-card';
-	private const CALENDAR_TRANSP_PROPERTY = '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp';
+	private const string RESOURCE_TYPE_PROPERTY = '{DAV:}resourcetype';
+	private const string ME_CARD_PROPERTY = '{http://calendarserver.org/ns/}me-card';
+	private const string CALENDAR_TRANSP_PROPERTY = '{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp';
 
 	public function __construct(
 		private readonly IDBConnection $connection,

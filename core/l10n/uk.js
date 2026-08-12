@@ -233,6 +233,7 @@ OC.L10N.register(
     "More apps" : "Більше застосунків",
     "App store" : "Крамниця застосунків",
     "Settings" : "Налаштування",
+    "Profile" : "Профіль",
     "Open apps menu, currently in {app}" : "Відкрити меню застосунків, зараз {app}",
     "Open apps menu" : "Відкрити меню із застосунками",
     "Applications" : "Застосунки",

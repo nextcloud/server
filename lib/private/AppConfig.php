@@ -52,12 +52,12 @@ use Psr\Log\LoggerInterface;
  * @since 29.0.0 - Supporting types and lazy loading
  */
 class AppConfig implements IAppConfig {
-	private const APP_MAX_LENGTH = 32;
-	private const KEY_MAX_LENGTH = 64;
-	private const ENCRYPTION_PREFIX = '$AppConfigEncryption$';
-	private const ENCRYPTION_PREFIX_LENGTH = 21; // strlen(self::ENCRYPTION_PREFIX)
-	private const LOCAL_CACHE_KEY = 'OC\\AppConfig';
-	private const LOCAL_CACHE_TTL = 3;
+	private const int APP_MAX_LENGTH = 32;
+	private const int KEY_MAX_LENGTH = 64;
+	private const string ENCRYPTION_PREFIX = '$AppConfigEncryption$';
+	private const int ENCRYPTION_PREFIX_LENGTH = 21; // strlen(self::ENCRYPTION_PREFIX)
+	private const string LOCAL_CACHE_KEY = 'OC\\AppConfig';
+	private const int LOCAL_CACHE_TTL = 3;
 
 	/** @var array<string, array<string, string>> ['app_id' => ['config_key' => 'config_value']] */
 	private array $fastCache = [];   // cache for normal config keys

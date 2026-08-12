@@ -39,7 +39,7 @@ use Test\TestCase;
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 class PublicCalendarRootTest extends TestCase {
 	public const UNIT_TEST_USER = '';
-	private const DISABLED_USER_PRINCIPAL = 'principals/users/disabled-caldav-unit-test';
+	private const string DISABLED_USER_PRINCIPAL = 'principals/users/disabled-caldav-unit-test';
 	private CalDavBackend $backend;
 	private PublicCalendarRoot $publicCalendarRoot;
 	private IL10N&MockObject $l10n;

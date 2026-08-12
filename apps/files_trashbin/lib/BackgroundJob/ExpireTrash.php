@@ -27,8 +27,8 @@ use Psr\Log\LoggerInterface;
 class ExpireTrash extends TimedJob {
 	public const TOGGLE_CONFIG_KEY_NAME = 'background_job_expire_trash';
 	public const OFFSET_CONFIG_KEY_NAME = 'background_job_expire_trash_offset';
-	private const THIRTY_MINUTES = 30 * 60;
-	private const USER_BATCH_SIZE = 10;
+	private const int THIRTY_MINUTES = 30 * 60;
+	private const int USER_BATCH_SIZE = 10;
 
 	public function __construct(
 		private readonly IAppConfig $appConfig,

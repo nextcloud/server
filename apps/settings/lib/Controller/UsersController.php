@@ -61,7 +61,7 @@ use function in_array;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class UsersController extends Controller {
 	/** Limit for counting users for subadmins, to avoid spending too much time */
-	private const COUNT_LIMIT_FOR_SUBADMINS = 999;
+	private const int COUNT_LIMIT_FOR_SUBADMINS = 999;
 
 	public const ALLOWED_USER_PREFERENCES = [
 		ConfigLexicon::USER_LIST_SHOW_STORAGE_PATH,

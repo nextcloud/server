@@ -212,6 +212,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} обавештење","{count} обавештења","{count} обавештења"],
     "More apps" : "Још апликација",
     "Settings" : "Поставке",
+    "Profile" : "Профил",
     "Applications" : "Апликације",
     "Apps" : "Апликације",
     "No" : "Не",

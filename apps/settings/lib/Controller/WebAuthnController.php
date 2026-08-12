@@ -28,7 +28,7 @@ use Webauthn\PublicKeyCredentialCreationOptions;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class WebAuthnController extends Controller {
-	private const WEBAUTHN_REGISTRATION = 'webauthn_registration';
+	private const string WEBAUTHN_REGISTRATION = 'webauthn_registration';
 
 	public function __construct(
 		IRequest $request,

@@ -124,8 +124,8 @@ class Manager implements IManager {
 
 	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 31 * 6; // 6 months
 
-	private const TASK_TYPES_CACHE_KEY = 'available_task_types_v3';
-	private const TASK_TYPE_IDS_CACHE_KEY = 'available_task_type_ids';
+	private const string TASK_TYPES_CACHE_KEY = 'available_task_types_v3';
+	private const string TASK_TYPE_IDS_CACHE_KEY = 'available_task_type_ids';
 
 	/** @var list<IProvider>|null */
 	private ?array $providers = null;
