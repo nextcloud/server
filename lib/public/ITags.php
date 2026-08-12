@@ -53,8 +53,8 @@ interface ITags {
 	 *
 	 * ```php
 	 * [
-	 * 	['id' => 0, 'name' = 'First tag', 'owner' = 'User A', 'type' => 'tagtype'],
-	 * 	['id' => 1, 'name' = 'Second tag', 'owner' = 'User B', 'type' => 'tagtype'],
+	 * 	['id' => 0, 'name' = 'First tag', 'owner' => 'User A', 'type' => 'tagtype'],
+	 * 	['id' => 1, 'name' = 'Second tag', 'owner' => 'User B', 'type' => 'tagtype'],
 	 * ]
 	 * ```
 	 *
@@ -136,7 +136,7 @@ interface ITags {
 	 * Add a list of new tags.
 	 *
 	 * @param string|list<string> $names A string with a name or an array of strings containing
-	 *                                   the name(s) of the to add.
+	 *                                   the name(s) of the tags to add.
 	 * @param bool $sync When true, save the tags
 	 * @param int|null $id int Optional object id to add to this|these tag(s)
 	 * @return bool Returns false on error.

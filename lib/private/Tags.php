@@ -242,7 +242,7 @@ class Tags implements ITags {
 			]);
 			return false;
 		}
-		$this->logger->debug(__METHOD__ . ' Added an tag with ' . $tag->id, ['app' => 'core']);
+		$this->logger->debug(__METHOD__ . ' Added a tag with ' . $tag->id, ['app' => 'core']);
 		return $tag->id ?? false;
 	}
 

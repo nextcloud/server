@@ -41,7 +41,7 @@ final class PropertyAttributes {
 			return $this->manyToOne->targetEntity;
 		}
 
-		if ($this->oneToOne instanceof OneToOne && $this->oneToOne->invertedBy !== null) {
+		if ($this->oneToOne instanceof OneToOne && $this->oneToOne->mappedBy === null) {
 			return $this->oneToOne->targetEntity;
 		}
 

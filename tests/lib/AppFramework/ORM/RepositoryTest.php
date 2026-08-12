@@ -137,7 +137,7 @@ final class TypoTarget {
 	public ?TypoOwning $owner = null;
 }
 
-#[Entity(name: 'repository_cascade_parent')]
+#[Entity(name: 'repository_casc_parent')]
 final class CascadeParent {
 	#[Id]
 	#[Column(name: 'id', type: ColumnType::Bigint)]
@@ -151,7 +151,7 @@ final class CascadeParent {
 	public ?CascadeChild $child = null;
 }
 
-#[Entity(name: 'repository_cascade_child')]
+#[Entity(name: 'repository_casc_child')]
 final class CascadeChild {
 	#[Id]
 	#[Column(name: 'id', type: ColumnType::Bigint)]
@@ -214,7 +214,7 @@ class RepositoryTest extends TestCase {
 	public static function tearDownAfterClass(): void {
 		$entityManager = Server::get(EntityManager::class);
 		$prefix = Server::get(IConfig::class)->getSystemValueString('dbtableprefix', 'oc_');
-		foreach (static::$entitiesClasses as $entityClass) {
+		foreach (array_reverse(static::$entitiesClasses) as $entityClass) {
 			try {
 				$entityManager->dropTable($entityClass, $prefix);
 			} catch (\RuntimeException) {

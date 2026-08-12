@@ -13,13 +13,12 @@ use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\DB\Schema\ColumnType;
-use OCP\Snowflake\ISnowflakeGenerator;
 
 #[Entity(name: 'twofactor_backupcodes')]
 final class BackupCode {
-	#[Id(generatorClass: ISnowflakeGenerator::class)]
-	#[Column(name: 'id', type: ColumnType::String, length: 64, nullable: false)]
-	public ?string $id = null;
+	#[Id]
+	#[Column(name: 'id', type: ColumnType::Integer, nullable: false)]
+	public ?int $id = null;
 
 	#[Column(name: 'user_id', type: ColumnType::String, length: 64, nullable: false)]
 	public string $userId;

@@ -85,7 +85,7 @@ final class EntityInfo {
 			}
 
 			if ($propertyAttributes->id instanceof Id && !$propertyAttributes->column instanceof Column) {
-				throw new \RuntimeException($this->entityClass . ' has a Id attribute on ' . $property->getName() . ' but not the corresponding required Column attribute.');
+				throw new \RuntimeException($this->entityClass . ' has an Id attribute on ' . $property->getName() . ' but not the corresponding required Column attribute.');
 			}
 
 			if ($propertyAttributes->oneToOne instanceof OneToOne

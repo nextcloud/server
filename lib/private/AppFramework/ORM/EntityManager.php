@@ -19,7 +19,6 @@ use OCP\DB\Schema\ColumnType;
 use OCP\DB\Schema\ITable;
 use OCP\IDBConnection;
 use OCP\Server;
-use OCP\Snowflake\ISnowflakeGenerator;
 
 final class EntityManager {
 	public function __construct(
@@ -79,12 +78,11 @@ final class EntityManager {
 			if ($propertyAttributes->id !== null && $propertyAttributes->column !== null) {
 				$generatorClass = $propertyAttributes->id->generatorClass;
 				if ($generatorClass) {
-					if ($generatorClass === ISnowflakeGenerator::class) {
-						$generator = Server::get($generatorClass);
-						$values[$propertyAttributes->column->name] = $generator->nextId();
-						$property->setValue($entity, $insert->createNamedParameter($values[$propertyAttributes->column->name]));
-					}
-
+					$generator = Server::get($generatorClass);
+					$value = $generator->nextId();
+					$type = $this->getParameterType($propertyAttributes->column->type, false);
+					$values[$propertyAttributes->column->name] = $insert->createNamedParameter($value, $type);
+					$property->setValue($entity, $value);
 					continue;
 				}
 
@@ -92,13 +90,14 @@ final class EntityManager {
 					// A composite primary key can't rely on a single autoincrement column: every
 					// part must already be set on the entity (e.g. a foreign key id, or a value
 					// assigned by the caller) before insert() is called.
+					/** @psalm-suppress MixedAssignment */
 					$value = $property->getValue($entity);
 					if ($value === null) {
 						throw new \LogicException($entity::class . '::' . $property->getName() . ' is part of a composite primary key and must be set before insert(); it cannot rely on DB autoincrement.');
 					}
 
 					if (!is_string($value) && !is_int($value)) {
-						throw new \LogicException($entity::class . '::' . $property->getName() . ' is part of a composite primary key and must be set to a int or string before insert();.');
+						throw new \LogicException($entity::class . '::' . $property->getName() . ' is part of a composite primary key and must be set to an int or string before insert().');
 					}
 
 					$type = $this->getParameterType($propertyAttributes->column->type, false);
@@ -222,10 +221,14 @@ final class EntityManager {
 		foreach ($entityInfo->propertiesAttributes as $propertyAttributes) {
 			if ($propertyAttributes->id !== null && $propertyAttributes->column !== null) {
 				$property = $propertyAttributes->property;
-				/** @var int|string $value */
+				/** @var int|string|null $value */
 				$value = $property->getValue($entity);
+				if ($value === null) {
+					throw new \LogicException('Trying to delete an entity with no primary key set.');
+				}
 
-				$delete->andWhere($delete->expr()->eq($propertyAttributes->column->name, $delete->createNamedParameter($value)));
+				$type = $this->getParameterType($propertyAttributes->column->type, false);
+				$delete->andWhere($delete->expr()->eq($propertyAttributes->column->name, $delete->createNamedParameter($value, $type)));
 				$foundId = true;
 			};
 		}

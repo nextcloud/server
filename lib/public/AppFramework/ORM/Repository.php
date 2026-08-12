@@ -88,6 +88,11 @@ class Repository {
 				continue;
 			}
 
+			if ($value === null) {
+				$entity->$property = null;
+				continue;
+			}
+
 			/** @psalm-suppress MixedAssignment $value is a raw DB driver value; each branch below settype()s or reconstructs it. */
 			$value = match ($type) {
 				ColumnType::Bigint, ColumnType::Smallint, ColumnType::Integer => (int)$value,
@@ -472,7 +477,8 @@ class Repository {
 		}
 
 		foreach ($orderBy as $field => $direction) {
-			$qb->addOrderBy($qb->createNamedParameter($field), $direction === \SortDirection::Ascending ? 'ASC' : 'DESC');
+			$column = $entityInfo->mappingPropertyToColumn[$field];
+			$qb->addOrderBy('e.' . $column, $direction === \SortDirection::Ascending ? 'ASC' : 'DESC');
 		}
 
 		return [$qb, $relations];
