@@ -253,6 +253,32 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
+	public function testPreviewFolderEmptyFile(): void {
+		$share = $this->createMock(IShare::class);
+		$this->shareManager->method('getShareByToken')
+			->with($this->equalTo('token'))
+			->willReturn($share);
+
+		$share->method('getPermissions')
+			->willReturn(Constants::PERMISSION_READ);
+
+		$folder = $this->createMock(Folder::class);
+		$share->method('getNode')
+			->willReturn($folder);
+
+		$share->method('canSeeContent')
+			->willReturn(true);
+
+		$folder->expects($this->never())
+			->method('get');
+		$this->previewManager->expects($this->never())
+			->method('getPreview');
+
+		$res = $this->controller->getPreview('token', '', 10, 10, true);
+		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
+		$this->assertEquals($expected, $res);
+	}
+
 	public function testPreviewFolderValidFile(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')

@@ -126,6 +126,9 @@ class PublicPreviewController extends PublicShareController {
 		try {
 			$node = $share->getNode();
 			if ($node instanceof Folder) {
+				if ($file === '') {
+					return new DataResponse([], Http::STATUS_BAD_REQUEST);
+				}
 				$file = $node->get($file);
 			} else {
 				$file = $node;
