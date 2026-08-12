@@ -171,6 +171,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} varsel","{count} varsler"],
     "More apps" : "Flere apper",
     "Settings" : "Innstillinger",
+    "Profile" : "Profil",
     "Applications" : "Applikasjoner",
     "Apps" : "Apper",
     "No" : "Nei",

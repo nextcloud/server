@@ -53,6 +53,8 @@
     "A calendar <strong>to-do</strong> was modified" : "Kalendri <strong>ülesannet</strong> muudeti",
     "Contact birthdays" : "Kontaktide sünnipäevad",
     "Death of %s" : "%s surm",
+    "Calendar federation" : "Kalendri kasutamine liitpilves (födereerimine)",
+    "{user} has shared the calendar {calendar} with you" : "{user} on sinuga jaganud „{calendar}“ kalendrit",
     "Accept" : "Nõustu",
     "Decline" : "Keeldu",
     "Untitled calendar" : "Nimetu kalender",

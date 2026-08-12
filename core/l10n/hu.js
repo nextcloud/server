@@ -218,6 +218,7 @@ OC.L10N.register(
     "More apps" : "További alkalmazások",
     "App store" : "Alkalmazástár",
     "Settings" : "Beállítások",
+    "Profile" : "Profil",
     "Open apps menu, currently in {app}" : "Alkalmazásmenü megnyitása, jelenleg itt: {app}",
     "Open apps menu" : "Alkalmazásmenü megnyitása",
     "Applications" : "Alkalmazások",

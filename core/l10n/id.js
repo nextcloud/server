@@ -217,6 +217,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} notifikasi"],
     "More apps" : "Aplikasi lainnya",
     "Settings" : "Pengaturan",
+    "Profile" : "Profil",
     "Apps" : "Aplikasi",
     "No" : "Tidak",
     "Yes" : "Ya",
