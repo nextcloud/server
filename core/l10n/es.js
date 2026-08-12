@@ -221,6 +221,7 @@ OC.L10N.register(
     "More apps" : "Más aplicaciones",
     "App store" : "Tienda de Aplicaciones",
     "Settings" : "Ajustes",
+    "Profile" : "Perfil",
     "Open apps menu, currently in {app}" : "Abrir el menú de aplicaciones, actualmente en {app}",
     "Open apps menu" : "Abrir el menú de apps",
     "Applications" : "Aplicaciones",

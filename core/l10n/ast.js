@@ -89,6 +89,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} avisu","{count} avisos"],
     "More apps" : "Más aplicaciones",
     "Settings" : "Configuración",
+    "Profile" : "Perfil",
     "Apps" : "Aplicaciones",
     "No" : "Non",
     "Yes" : "Sí",

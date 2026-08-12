@@ -214,6 +214,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} ئۇقتۇرۇش","{count} ئۇقتۇرۇش"],
     "More apps" : "تېخىمۇ كۆپ ئەپلەر",
     "Settings" : "تەڭشەكلەر",
+    "Profile" : "ئارخىپ",
     "Applications" : "قوللىنىشچان پروگراممىلار",
     "Apps" : "ئەپلەر",
     "No" : "ياق",
