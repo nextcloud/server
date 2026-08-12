@@ -43,13 +43,12 @@ class Backend {
 			->from('calendar_reminders', 'cr')
 			->where($query->expr()->lte('cr.notification_date', $query->createNamedParameter($this->timeFactory->getTime())))
 			->join('cr', 'calendarobjects', 'co', $query->expr()->eq('cr.object_id', 'co.id'))
-			->join('cr', 'calendars', 'c', $query->expr()->eq('cr.calendar_id', 'c.id'))
-			->groupBy('cr.event_hash', 'cr.notification_date', 'cr.type', 'cr.id', 'cr.calendar_id', 'cr.object_id', 'cr.is_recurring', 'cr.uid', 'cr.recurrence_id', 'cr.is_recurrence_exception', 'cr.alarm_hash', 'cr.is_relative', 'cr.is_repeat_based', 'co.calendardata', 'c.displayname', 'c.principaluri');
+			->join('cr', 'calendars', 'c', $query->expr()->eq('cr.calendar_id', 'c.id'));
 		$stmt = $query->executeQuery();
 
 		return array_map(
 			[$this, 'fixRowTyping'],
-			$stmt->fetchAllAssociative()
+			$this->deduplicateReminderRows($stmt->fetchAllAssociative())
 		);
 	}
 
@@ -176,6 +175,26 @@ class Backend {
 		$query->delete('calendar_reminders')
 			->where($query->expr()->eq('calendar_id', $query->createNamedParameter($calendarId)))
 			->executeStatement();
+	}
+
+	/**
+	 * @param array<array<string, mixed>> $rows
+	 * @return array<array<string, mixed>>
+	 */
+	private function deduplicateReminderRows(array $rows): array {
+		$uniqueRows = [];
+		foreach ($rows as $row) {
+			$key = implode("\0", [
+				(string)$row['notification_date'],
+				(string)$row['event_hash'],
+				(string)$row['type'],
+			]);
+			if (!isset($uniqueRows[$key])) {
+				$uniqueRows[$key] = $row;
+			}
+		}
+
+		return array_values($uniqueRows);
 	}
 
 	/**

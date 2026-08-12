@@ -12,9 +12,11 @@ use OCA\DAV\CalDAV\Proxy\Proxy;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend;
 use OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend;
+use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
@@ -42,7 +44,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$query = self::$realDatabase->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 
 		$query->delete('calendar_resources')->executeStatement();
 		$query->delete('calendar_resources_md')->executeStatement();
@@ -52,8 +54,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 
 	public function testGetPrincipalsByPrefix(): void {
 		$actual = $this->principalBackend->getPrincipalsByPrefix($this->principalPrefix);
-
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			[
 				'uri' => $this->principalPrefix . '/backend1-res1',
 				'{DAV:}displayname' => 'Beamer1',
@@ -264,7 +265,7 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 			'{DAV:}displayname' => 'Beamer',
 		], $test);
 
-		$this->assertEquals(
+		$this->assertEqualsCanonicalizing(
 			str_replace('%prefix%', $this->principalPrefix, $expected),
 			$actual);
 	}
@@ -454,104 +455,44 @@ abstract class AbstractPrincipalBackendTestCase extends TestCase {
 	}
 
 	protected function createTestDatasetInDb() {
-		$query = self::$realDatabase->getQueryBuilder();
-		$query->insert($this->mainDbTable)
-			->values([
-				'backend_id' => $query->createNamedParameter('backend1'),
-				'resource_id' => $query->createNamedParameter('res1'),
-				'email' => $query->createNamedParameter('res1@foo.bar'),
-				'displayname' => $query->createNamedParameter('Beamer1'),
-				'group_restrictions' => $query->createNamedParameter('[]'),
-			])
-			->executeStatement();
+		$connection = Server::get(IDBConnection::class);
 
-		$query->insert($this->mainDbTable)
-			->values([
-				'backend_id' => $query->createNamedParameter('backend1'),
-				'resource_id' => $query->createNamedParameter('res2'),
-				'email' => $query->createNamedParameter('res2@foo.bar'),
-				'displayname' => $query->createNamedParameter('TV1'),
-				'group_restrictions' => $query->createNamedParameter('[]'),
-			])
-			->executeStatement();
+		$insertResource = function (string $backendId, string $resourceId, string $email, string $displayname, string $groupRestrictions) use ($connection): int {
+			$query = $connection->getQueryBuilder();
+			$query->insert($this->mainDbTable)
+				->values([
+					'backend_id' => $query->createNamedParameter($backendId),
+					'resource_id' => $query->createNamedParameter($resourceId),
+					'email' => $query->createNamedParameter($email),
+					'displayname' => $query->createNamedParameter($displayname),
+					'group_restrictions' => $query->createNamedParameter($groupRestrictions),
+				])
+				->executeStatement();
+			return $query->getLastInsertId();
+		};
 
-		$query->insert($this->mainDbTable)
-			->values([
-				'backend_id' => $query->createNamedParameter('backend2'),
-				'resource_id' => $query->createNamedParameter('res3'),
-				'email' => $query->createNamedParameter('res3@foo.bar'),
-				'displayname' => $query->createNamedParameter('Beamer2'),
-				'group_restrictions' => $query->createNamedParameter('[]'),
-			])
-			->executeStatement();
-		$id3 = $query->getLastInsertId();
+		$insertMetadata = function (int $foreignId, string $key, string $value) use ($connection): void {
+			$query = $connection->getQueryBuilder();
+			$query->insert($this->metadataDbTable)
+				->values([
+					$this->foreignKey => $query->createNamedParameter($foreignId),
+					'key' => $query->createNamedParameter($key),
+					'value' => $query->createNamedParameter($value),
+				])
+				->executeStatement();
+		};
 
-		$query->insert($this->mainDbTable)
-			->values([
-				'backend_id' => $query->createNamedParameter('backend2'),
-				'resource_id' => $query->createNamedParameter('res4'),
-				'email' => $query->createNamedParameter('res4@foo.bar'),
-				'displayname' => $query->createNamedParameter('TV2'),
-				'group_restrictions' => $query->createNamedParameter('[]'),
-			])
-			->executeStatement();
-		$id4 = $query->getLastInsertId();
+		$insertResource('backend1', 'res1', 'res1@foo.bar', 'Beamer1', '[]');
+		$insertResource('backend1', 'res2', 'res2@foo.bar', 'TV1', '[]');
+		$id3 = $insertResource('backend2', 'res3', 'res3@foo.bar', 'Beamer2', '[]');
+		$id4 = $insertResource('backend2', 'res4', 'res4@foo.bar', 'TV2', '[]');
+		$insertResource('backend3', 'res5', 'res5@foo.bar', 'Beamer3', '["foo", "bar"]');
+		$id6 = $insertResource('backend3', 'res6', 'res6@foo.bar', 'Pointer', '["group1", "bar"]');
 
-		$query->insert($this->mainDbTable)
-			->values([
-				'backend_id' => $query->createNamedParameter('backend3'),
-				'resource_id' => $query->createNamedParameter('res5'),
-				'email' => $query->createNamedParameter('res5@foo.bar'),
-				'displayname' => $query->createNamedParameter('Beamer3'),
-				'group_restrictions' => $query->createNamedParameter('["foo", "bar"]'),
-			])
-			->executeStatement();
-
-		$query->insert($this->mainDbTable)
-			->values([
-				'backend_id' => $query->createNamedParameter('backend3'),
-				'resource_id' => $query->createNamedParameter('res6'),
-				'email' => $query->createNamedParameter('res6@foo.bar'),
-				'displayname' => $query->createNamedParameter('Pointer'),
-				'group_restrictions' => $query->createNamedParameter('["group1", "bar"]'),
-			])
-			->executeStatement();
-		$id6 = $query->getLastInsertId();
-
-		$query->insert($this->metadataDbTable)
-			->values([
-				$this->foreignKey => $query->createNamedParameter($id3),
-				'key' => $query->createNamedParameter('{http://nextcloud.com/ns}foo'),
-				'value' => $query->createNamedParameter('value1')
-			])
-			->executeStatement();
-		$query->insert($this->metadataDbTable)
-			->values([
-				$this->foreignKey => $query->createNamedParameter($id3),
-				'key' => $query->createNamedParameter('{http://nextcloud.com/ns}meta2'),
-				'value' => $query->createNamedParameter('value2')
-			])
-			->executeStatement();
-		$query->insert($this->metadataDbTable)
-			->values([
-				$this->foreignKey => $query->createNamedParameter($id4),
-				'key' => $query->createNamedParameter('{http://nextcloud.com/ns}meta1'),
-				'value' => $query->createNamedParameter('value1')
-			])
-			->executeStatement();
-		$query->insert($this->metadataDbTable)
-			->values([
-				$this->foreignKey => $query->createNamedParameter($id4),
-				'key' => $query->createNamedParameter('{http://nextcloud.com/ns}meta3'),
-				'value' => $query->createNamedParameter('value3-old')
-			])
-			->executeStatement();
-		$query->insert($this->metadataDbTable)
-			->values([
-				$this->foreignKey => $query->createNamedParameter($id6),
-				'key' => $query->createNamedParameter('{http://nextcloud.com/ns}meta99'),
-				'value' => $query->createNamedParameter('value99')
-			])
-			->executeStatement();
+		$insertMetadata($id3, '{http://nextcloud.com/ns}foo', 'value1');
+		$insertMetadata($id3, '{http://nextcloud.com/ns}meta2', 'value2');
+		$insertMetadata($id4, '{http://nextcloud.com/ns}meta1', 'value1');
+		$insertMetadata($id4, '{http://nextcloud.com/ns}meta3', 'value3-old');
+		$insertMetadata($id6, '{http://nextcloud.com/ns}meta99', 'value99');
 	}
 }

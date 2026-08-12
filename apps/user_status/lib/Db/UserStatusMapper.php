@@ -37,7 +37,8 @@ class UserStatusMapper extends QBMapper {
 		$qb
 			->select('*')
 			->from($this->tableName)
-			->where($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
+			->where($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)))
+			->orderBy('user_id', 'ASC');
 
 		if ($limit !== null) {
 			$qb->setMaxResults($limit);

@@ -9,12 +9,16 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 
 use OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend;
+use OCP\IDBConnection;
+use OCP\Server;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('DB')]
 class ResourcePrincipalBackendTest extends AbstractPrincipalBackendTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->principalBackend = new ResourcePrincipalBackend(self::$realDatabase,
+		$this->principalBackend = new ResourcePrincipalBackend(Server::get(IDBConnection::class),
 			$this->userSession, $this->groupManager, $this->logger, $this->proxyMapper);
 
 		$this->mainDbTable = 'calendar_resources';
