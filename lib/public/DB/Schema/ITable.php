@@ -133,6 +133,7 @@ interface ITable {
 	 *     precision?: int,
 	 *     scale?: int,
 	 *     type?: Types::*|ColumnType,
+	 *     comment?: string,
 	 * } $options
 	 *
 	 * @throws SchemaException
@@ -152,6 +153,7 @@ interface ITable {
 	 *     precision?: int,
 	 *     scale?: int,
 	 *     type?: Types::*|ColumnType,
+	 *     comment?: string,
 	 * } $options
 	 *
 	 * @throws SchemaException
