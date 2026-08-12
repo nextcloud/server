@@ -62,4 +62,13 @@ interface IIndex {
 	 * @since 35.0.0
 	 */
 	public function hasColumnAtPosition(string $name, int $position = 0): bool;
+
+	/**
+	 * Returns whether the given column names exactly match the columns this index spans,
+	 * regardless of order.
+	 *
+	 * @param list<non-empty-lowercase-string> $columnNames
+	 * @since 35.0.0
+	 */
+	public function spansColumns(array $columnNames): bool;
 }
