@@ -88,6 +88,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} bildirishnomalarnotifications"],
     "More apps" : "Ko'proq ilovalar",
     "Settings" : "Sozlamalar",
+    "Profile" : "Profil",
     "Applications" : "Ilovalar",
     "Apps" : "Ilovalar",
     "No" : "Yo`q",

@@ -218,6 +218,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count}개의 알림"],
     "More apps" : "더 많은 앱",
     "Settings" : "설정",
+    "Profile" : "프로필",
     "Apps" : "앱",
     "No" : "아니요",
     "Yes" : "예",

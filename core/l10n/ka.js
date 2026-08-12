@@ -213,6 +213,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} გაფრთხილება","{count} გაფრთხილება"],
     "More apps" : "მეტი აპი",
     "Settings" : "ოფციები",
+    "Profile" : "Profile",
     "Apps" : "აპები",
     "No" : "არა",
     "Yes" : "დიახ",

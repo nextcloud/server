@@ -4,7 +4,6 @@ OC.L10N.register(
     "App store" : "Tenda de aplicacións",
     "Apps" : "Aplicacións",
     "Nextcloud Appstore" : "Tenda de aplicacións de Nextcloud",
-    "Appstore" : "Tenda de aplicacións",
     "App name" : "Nome da aplicación",
     "Version" : "Versión",
     "Support level" : "Nivel de soporte",
