@@ -38,6 +38,7 @@ eslint.config.js
 flake.lock
 flake.nix
 openapi-extractor
+playwright.config.ts
 phpunit
 playwright.config.ts
 psalm
