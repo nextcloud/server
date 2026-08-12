@@ -13,7 +13,7 @@ use OCA\Files_External\Lib\Storage\FTP;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
-class FtpConstructorTest extends TestCase {
+class FtpTest extends TestCase {
 	public static function portProvider(): array {
 		$parameters = [
 			'host' => 'somehost',
