@@ -233,6 +233,7 @@ OC.L10N.register(
     "More apps" : "更多應用程式",
     "App store" : "應用程式商店",
     "Settings" : "設定",
+    "Profile" : "個人檔案",
     "Open apps menu, currently in {app}" : "開啟應用程式選單，目前於 {app}",
     "Open apps menu" : "開啟應用程式選單",
     "Applications" : "應用程式",

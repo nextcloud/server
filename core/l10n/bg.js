@@ -88,6 +88,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} известие","{count} известия"],
     "More apps" : "Още приложения",
     "Settings" : "Настройки",
+    "Profile" : "Профил",
     "Apps" : "Приложения",
     "No" : "Не",
     "Yes" : "Да",

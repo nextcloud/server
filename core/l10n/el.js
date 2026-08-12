@@ -232,6 +232,7 @@ OC.L10N.register(
     "More apps" : "Περισσότερες εφαρμογές",
     "App store" : "Κέντρο εφαρμογών",
     "Settings" : "Ρυθμίσεις",
+    "Profile" : "Προφίλ",
     "Open apps menu, currently in {app}" : "Άνοιγμα μενού εφαρμογών, αυτή τη στιγμή στο {app}",
     "Open apps menu" : "Άνοιγμα μενού εφαρμογών",
     "Applications" : "Εφαρμογές",

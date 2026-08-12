@@ -221,6 +221,7 @@ OC.L10N.register(
     "More apps" : "Aplikazio gehiago",
     "App store" : "Aplikazioen denda",
     "Settings" : "Ezarpenak",
+    "Profile" : "Profila",
     "Open apps menu, currently in {app}" : "Ireki aplikazioaren menua, une honetan  hemen:{app}",
     "Open apps menu" : "Ireki aplikazioaren menua",
     "Applications" : "Aplikazioak",

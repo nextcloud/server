@@ -213,6 +213,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} notifications"],
     "More apps" : "ແອັບພລິເຄຊັນເພີ່ມເຕີມ",
     "Settings" : "ການຕັ້ງຄ່າ",
+    "Profile" : "Profile",
     "Applications" : "ແອັບພລິເຄຊັນ",
     "Apps" : "ແອັບພລິເຄຊັນ",
     "No" : "ບໍ່",

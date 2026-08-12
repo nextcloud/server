@@ -233,6 +233,7 @@ OC.L10N.register(
     "More apps" : "Diğer uygulamalar",
     "App store" : "Uygulama mağazası",
     "Settings" : "Ayarlar",
+    "Profile" : "Profil",
     "Open apps menu, currently in {app}" : "Uygulamalar menüsünü aç, şu anda {app} içinde",
     "Open apps menu" : "Uygulamalar menüsünü aç",
     "Applications" : "Uygulamalar",

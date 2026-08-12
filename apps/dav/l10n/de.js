@@ -55,6 +55,8 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "Eine Kalender-<strong>Aufgabe</strong> wurde geändert",
     "Contact birthdays" : "Geburtstage von Kontakten",
     "Death of %s" : "Todestag von %s",
+    "Calendar federation" : "Kalender-Federation",
+    "{user} has shared the calendar {calendar} with you" : "{user} hat den Kalender {calendar} mit dir geteilt",
     "Accept" : "Annehmen",
     "Decline" : "Ablehnen",
     "Untitled calendar" : "Unbenannter Kalender",
