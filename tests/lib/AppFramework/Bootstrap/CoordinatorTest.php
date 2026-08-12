@@ -17,11 +17,11 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -69,7 +69,7 @@ class CoordinatorTest extends TestCase {
 		$this->serverContainer->expects($this->once())
 			->method('get')
 			->with(Application::class)
-			->willThrowException(new QueryException(''));
+			->willThrowException($this->createMock(ContainerExceptionInterface::class));
 		$this->logger->expects($this->once())
 			->method('error');
 

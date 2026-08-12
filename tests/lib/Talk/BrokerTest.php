@@ -13,10 +13,10 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Talk\Broker;
-use OCP\AppFramework\QueryException;
 use OCP\Talk\IConversationOptions;
 use OCP\Talk\ITalkBackend;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -73,7 +73,7 @@ class BrokerTest extends TestCase {
 			->willReturn(new ServiceRegistration('spreed', $fakeTalkServiceClass));
 		$this->container->expects($this->once())
 			->method('get')
-			->willThrowException(new QueryException());
+			->willThrowException($this->createMock(ContainerExceptionInterface::class));
 		$this->logger->expects($this->once())
 			->method('error');
 

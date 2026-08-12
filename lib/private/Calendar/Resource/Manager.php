@@ -11,9 +11,9 @@ namespace OC\Calendar\Resource;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Calendar\ResourcesRoomsUpdater;
-use OCP\AppFramework\QueryException;
 use OCP\Calendar\Resource\IBackend;
 use OCP\Calendar\Resource\IManager;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
 class Manager implements IManager {
@@ -73,7 +73,7 @@ class Manager implements IManager {
 
 	/**
 	 * @return IBackend[]
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 * @since 14.0.0
 	 */
 	#[\Override]
@@ -93,7 +93,7 @@ class Manager implements IManager {
 
 	/**
 	 * @param string $backendId
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	#[\Override]
 	public function getBackend($backendId): ?IBackend {

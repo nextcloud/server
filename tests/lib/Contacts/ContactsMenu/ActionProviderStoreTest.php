@@ -13,10 +13,10 @@ use OC\Contacts\ContactsMenu\Providers\EMailProvider;
 use OC\Contacts\ContactsMenu\Providers\LocalTimeProvider;
 use OC\Contacts\ContactsMenu\Providers\ProfileProvider;
 use OCP\App\IAppManager;
-use OCP\AppFramework\QueryException;
 use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -113,7 +113,7 @@ class ActionProviderStoreTest extends TestCase {
 			->willReturn([]);
 		$this->serverContainer->expects($this->once())
 			->method('get')
-			->willThrowException(new QueryException());
+			->willThrowException($this->createMock(ContainerExceptionInterface::class));
 
 		$this->actionProviderStore->getProviders($user);
 	}

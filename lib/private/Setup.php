@@ -31,7 +31,6 @@ use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\User\BackgroundJobs\CleanupDeletedUsers;
 use OC\User\BackgroundJobs\CleanupLoginTokens;
 use OC\User\Session;
-use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
@@ -54,6 +53,7 @@ use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Util;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class Setup {
@@ -571,7 +571,7 @@ class Setup {
 	/**
 	 * Append the correct ErrorDocument path for Apache hosts
 	 *
-	 * @throws QueryException
+	 * @throws ContainerExceptionInterface
 	 */
 	public static function updateHtaccess(): bool {
 		$config = Server::get(SystemConfig::class);

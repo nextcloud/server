@@ -1812,23 +1812,6 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
-	 * Returns the helper of ShareAPIHelper for sciencemesh shares.
-	 *
-	 * If the sciencemesh application is not enabled or the helper is not available
-	 * a ContainerExceptionInterface is thrown instead.
-	 *
-	 * @return ShareAPIHelper
-	 * @throws ContainerExceptionInterface
-	 */
-	private function getSciencemeshShareHelper() {
-		if (!$this->appManager->isEnabledForUser('sciencemesh')) {
-			throw new QueryException();
-		}
-
-		return $this->serverContainer->get('\OCA\ScienceMesh\Sharing\ShareAPIHelper');
-	}
-
-	/**
 	 * @param string $viewer
 	 * @param Node $node
 	 * @param bool $reShares
