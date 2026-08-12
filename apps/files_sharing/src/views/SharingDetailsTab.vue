@@ -982,7 +982,7 @@ export default {
 		},
 		async saveShare() {
 			const permissionsAndAttributes = ['permissions', 'attributes', 'note', 'expireDate']
-			const publicShareAttributes = ['label', 'hideDownload']
+			const publicShareAttributes = ['label', 'hideDownload', 'sendPasswordByTalk']
 			// Only include password if it's being actively changed
 			if (this.hasUnsavedPassword) {
 				publicShareAttributes.push('password')
@@ -1014,6 +1014,13 @@ export default {
 				}
 			} else {
 				this.share.password = ''
+			}
+
+			// "Video verification" must be disabled if the password was
+			// disabled, as it does not make sense and would also prevent
+			// saving if it is still enabled.
+			if (this.isPasswordProtectedByTalk && !this.isPasswordProtected) {
+				this.isPasswordProtectedByTalk = false
 			}
 
 			if (!this.hasExpirationDate) {
