@@ -206,10 +206,8 @@ class Folder extends Node implements IFolder {
 	}
 
 	/**
-	 * search for files with the name matching $query
-	 *
 	 * @param string|ISearchQuery $query
-	 * @return \OC\Files\Node\Node[]
+	 * @return Node[]
 	 */
 	#[\Override]
 	public function search($query) {
@@ -217,35 +215,43 @@ class Folder extends Node implements IFolder {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'));
 		}
 
-		// search is handled by a single query covering all caches that this folder contains
-		// this is done by collect
-
+		$currentPath = $this->path;
 		$limitToHome = $query->limitToHome();
-		if ($limitToHome && count(explode('/', $this->path)) !== 3) {
-			throw new \InvalidArgumentException('searching by owner is only allowed in the users home folder');
+		$pathParts = explode('/', trim($currentPath, '/'));
+		$isUserHomeFolder = count($pathParts) === 2 && $pathParts[1] === 'files';
+		if ($limitToHome && !$isUserHomeFolder) {
+			throw new \InvalidArgumentException('Searching by owner is only allowed in a user home folder');
 		}
 
 		/** @var QuerySearchHelper $searchHelper */
 		$searchHelper = Server::get(QuerySearchHelper::class);
-		[$caches, $mountByMountPoint] = $searchHelper->getCachesAndMountPointsForSearch($this->root, $this->path, $limitToHome);
+
+		// Execute one logical search across all caches reachable from this folder.
+		// The helper returns results grouped by mount point; we merge them and apply ordering below.
+		[$caches, $mountByMountPoint] = $searchHelper->getCachesAndMountPointsForSearch(
+			$this->root,
+			$currentPath,
+			$limitToHome,
+		);
 		$resultsPerCache = $searchHelper->searchInCaches($query, $caches);
 
-		// loop through all results per-cache, constructing the FileInfo object from the CacheEntry and merge them all
-		$files = array_merge(...array_map(function (array $results, string $relativeMountPoint) use ($mountByMountPoint) {
+		// Flatten per-cache results into FileInfo objects using their mount context.
+		$files = [];
+		foreach ($resultsPerCache as $relativeMountPoint => $results) {
 			$mount = $mountByMountPoint[$relativeMountPoint];
-			return array_map(function (ICacheEntry $result) use ($relativeMountPoint, $mount) {
-				return $this->cacheEntryToFileInfo($mount, $relativeMountPoint, $result);
-			}, $results);
-		}, array_values($resultsPerCache), array_keys($resultsPerCache)));
+			foreach ($results as $result) {
+				$files[] = $this->cacheEntryToFileInfo($mount, $relativeMountPoint, $result);
+			}
+		}
 
-		// don't include this folder in the results
-		$files = array_values(array_filter($files, function (FileInfo $file) {
-			return $file->getPath() !== $this->getPath();
+		// Exclude the folder being searched itself from the result set.
+		$files = array_values(array_filter($files, function (FileInfo $file) use ($currentPath) {
+			return $file->getPath() !== $currentPath;
 		}));
 
-		// since results were returned per-cache, they are no longer fully sorted
+		// Apply the requested ordering to the merged result set.
 		$order = $query->getOrder();
-		if ($order) {
+		if ($order && count($files) > 1) {
 			usort($files, function (FileInfo $a, FileInfo $b) use ($order) {
 				foreach ($order as $orderField) {
 					$cmp = $orderField->sortFileInfo($a, $b);
