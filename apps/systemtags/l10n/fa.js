@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "برچسب‌های مشارکتی",
     "Collaborative tagging functionality which shares tags among people." : "قابلیت برچسب‌گذاری مشارکتی که برچسب‌ها را بین افراد به اشتراک می‌گذارد.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "قابلیت برچسب‌گذاری مشارکتی که برچسب‌ها را بین افراد به اشتراک می‌گذارد. عالی برای تیم‌ها.",
+    "Search tags" : "جستجوی برچسب‌ها",
     "Public" : "عمومی",
     "Restricted" : "محدود",
     "Invisible" : "مخفی",

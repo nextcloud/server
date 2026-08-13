@@ -43,6 +43,7 @@
     "Collaborative tags" : "ھەمكارلىق بەلگىسى",
     "Collaborative tagging functionality which shares tags among people." : "كىشىلەر ئارىسىدا بەلگە ھەمبەھىرلىنىدىغان ھەمكارلىق بەلگە ئىقتىدارى.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "كىشىلەر ئارىسىدا بەلگە ھەمبەھىرلىنىدىغان ھەمكارلىق بەلگە ئىقتىدارى. كوماندىلار ئۈچۈن ناھايىتى ياخشى.\n\t(ئەگەر سىز كۆپ ئىجارىگە بېرىلگەن قاچىلاش تەمىنلىگۈچى بولسىڭىز ، خەتكۈچ ئورتاقلاشقانلىقتىن بۇ ئەپنى توختىتىش تەۋسىيە قىلىنىدۇ.)",
+    "Search tags" : "ئىزدەش خەتكۈچلىرى",
     "Public" : "جامائەت",
     "Restricted" : "چەكلەنگەن",
     "Invisible" : "كۆرۈنمەيدۇ",

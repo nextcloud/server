@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "Ετικέτες συνεργασίας",
     "Collaborative tagging functionality which shares tags among people." : "Λειτουργία συνεργατικής επισήμανσης που μοιράζεται ετικέτες μεταξύ χρηστών.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Λειτουργία συνεργατικής επισήμανσης που μοιράζεται ετικέτες μεταξύ χρηστών. Ιδανικό για ομάδες.\n\t(Αν είστε πάροχος με εγκατάσταση πολλαπλών ενοικιαστών, συνιστάται η απενεργοποίηση αυτής της εφαρμογής καθώς οι ετικέτες μοιράζονται.)",
+    "Search tags" : "Ετικέτες αναζήτησης",
     "Public" : "Δημόσιο",
     "Restricted" : "Περιορισμένο",
     "Invisible" : "Αόρατο",

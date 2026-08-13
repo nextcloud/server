@@ -43,6 +43,7 @@ OC.L10N.register(
     "All tagged %s …" : "Всички маркирани %s ...",
     "tagged %s" : "маркиран %s",
     "Collaborative tags" : "Съвместни етикети",
+    "Search tags" : "Търсене на етикети",
     "Public" : "Публичен",
     "Restricted" : "Ограничен",
     "Invisible" : "Невидим",
