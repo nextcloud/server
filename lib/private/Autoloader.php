@@ -26,9 +26,6 @@ class Autoloader {
 	private bool $autoRebuild = false;
 	private bool $reportParseErrors = true;
 
-	/** @var string[] */
-	private array $scanPaths = [];
-
 	/** @var array<string,string> namespace => path */
 	private array $psr4Paths = [];
 
@@ -43,8 +40,6 @@ class Autoloader {
 	/** @var array<string, int>  class => counter */
 	private array $missingClasses = [];
 
-	/** @var array<string, int>  file => mtime */
-	private array $emptyFiles = [];
 	private bool $needSave = false;
 
 	private int $loadsFromCache = 0;
@@ -119,16 +114,6 @@ class Autoloader {
 	}
 
 	/**
-	 * Add path or paths to list.
-	 */
-	public function addDirectory(string ...$paths): static {
-		$this->scanPaths = array_merge($this->scanPaths, $paths);
-		$this->refreshed = false;
-		$this->cacheLoaded = false;
-		return $this;
-	}
-
-	/**
 	 * Add path for given namespace
 	 */
 	public function addPsr4(string $namespace, string $path): static {
@@ -174,7 +159,7 @@ class Autoloader {
 	 */
 	public function rebuild(): void {
 		$this->cacheLoaded = true;
-		$this->classes = $this->missingClasses = $this->emptyFiles = [];
+		$this->classes = $this->missingClasses = [];
 		$this->refreshClasses();
 		$this->saveCache();
 	}
@@ -191,52 +176,18 @@ class Autoloader {
 	}
 
 	/**
-	 * Refreshes $this->classes & $this->emptyFiles.
+	 * Refreshes $this->classes.
 	 */
 	private function refreshClasses(): void {
 		$this->refreshed = true; // prevents calling refreshClasses() or updateFile() in tryLoad()
-		$files = $this->emptyFiles;
+		$files = [];
 		$classes = [];
 		foreach ($this->classes as $class => [$file, $mtime]) {
 			$files[$file] = $mtime;
 			$classes[$file][] = $class;
 		}
 
-		$this->classes = $this->emptyFiles = [];
-
-		foreach ($this->scanPaths as $path) {
-			$iterator = is_file($path)
-				? [$path]
-				: $this->createFileIterator($path);
-
-			foreach ($iterator as $file) {
-				$mtime = filemtime($file);
-				$foundClasses = isset($files[$file]) && $files[$file] === $mtime
-					? ($classes[$file] ?? [])
-					: $this->scanPhp($file);
-
-				if (!$foundClasses) {
-					$this->emptyFiles[$file] = $mtime;
-				}
-
-				$files[$file] = $mtime;
-				$classes[$file] = []; // prevents the error when adding the same file twice
-
-				foreach ($foundClasses as $class) {
-					if (isset($this->classes[$class])) {
-						throw new \RuntimeException(sprintf(
-							'Ambiguous class %s resolution; defined in %s and in %s.',
-							$class,
-							$this->classes[$class][0],
-							$file,
-						));
-					}
-
-					$this->classes[$class] = [$file, $mtime];
-					unset($this->missingClasses[$class]);
-				}
-			}
-		}
+		$this->classes = [];
 
 		foreach ($this->psr4Paths as $namespace => $path) {
 			$iterator = $this->createFileIterator($path);
@@ -443,12 +394,12 @@ class Autoloader {
 
 		$data = $this->dumpCache->loadCache($this->generateCacheKey());
 		if (is_array($data)) {
-			[$this->classes, $this->missingClasses, $this->emptyFiles] = $data;
+			[$this->classes, $this->missingClasses] = $data;
 			$this->loadsFromCache++;
 			return;
 		}
 
-		$this->classes = $this->missingClasses = $this->emptyFiles = [];
+		$this->classes = $this->missingClasses = [];
 		$this->refreshClasses();
 		$this->saveCache();
 	}
@@ -458,11 +409,11 @@ class Autoloader {
 	 * @param resource $lock
 	 */
 	private function saveCache(): void {
-		$this->dumpCache->saveCache($this->generateCacheKey(), [$this->classes, $this->missingClasses, $this->emptyFiles]);
+		$this->dumpCache->saveCache($this->generateCacheKey(), [$this->classes, $this->missingClasses]);
 	}
 
 	protected function generateCacheKey(): array {
-		return [$this->psr4Paths,$this->ignoreDirs, $this->acceptFiles, $this->scanPaths, $this->excludeDirs];
+		return [$this->psr4Paths,$this->ignoreDirs, $this->acceptFiles, $this->excludeDirs];
 	}
 
 	public function getStats(): array {
