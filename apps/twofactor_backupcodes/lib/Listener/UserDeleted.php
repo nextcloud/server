@@ -28,6 +28,6 @@ class UserDeleted implements IEventListener {
 			return;
 		}
 
-		$this->backupCodeMapper->deleteCodes($event->getUser());
+		$this->backupCodeMapper->deleteByUser($event->getUser());
 	}
 }

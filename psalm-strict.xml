@@ -53,6 +53,8 @@
 		<directory name="tests/Core/Sharing"/>
 		<directory name="apps/files/lib/Sharing"/>
 		<directory name="apps/files/tests/Sharing"/>
+		<directory name="lib/private/AppFramework/ORM"/>
+		<directory name="lib/public/AppFramework/ORM"/>
 		<ignoreFiles>
 			<!-- Circles internals are used -->
 			<file name="core/Sharing/Recipient/TeamShareRecipientType.php"/>
@@ -88,7 +90,8 @@
 	<issueHandlers>
 		<InternalMethod>
 			<errorLevel type="suppress">
-				<directory name="."/>
+				<directory name="apps/dav/lib"/>
+				<file name="lib/private/DB/QueryBuilder/TypedQueryBuilder.php"/>
 			</errorLevel>
 		</InternalMethod>
 	</issueHandlers>

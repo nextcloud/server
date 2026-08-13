@@ -259,7 +259,7 @@ abstract class QBMapper {
 	}
 
 	/**
-	 * Returns an db result and throws exceptions when there are more or less
+	 * Returns a db result and throws exceptions when there are more or less
 	 * results
 	 *
 	 * @param IQueryBuilder $query
