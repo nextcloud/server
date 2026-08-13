@@ -11,7 +11,7 @@ namespace OC\Setup;
 use OC\DatabaseSetupException;
 
 class OCI extends AbstractDatabase {
-	public $dbprettyname = 'Oracle';
+	public string $dbprettyname = 'Oracle';
 
 	protected $dbtablespace;
 
