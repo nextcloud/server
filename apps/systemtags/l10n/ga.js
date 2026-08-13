@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "Clibeanna comhoibríocha",
     "Collaborative tagging functionality which shares tags among people." : "Feidhmiúlacht chlibeála chomhoibríoch a roinneann clibeanna i measc daoine.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Feidhmiúlacht chlibeála chomhoibríoch a roinneann clibeanna i measc daoine. Go hiontach d'fhoirne.\n\t (Más soláthraí thú le suiteáil ilthionóntachta, moltar an aip seo a dhíghníomhachtú de réir mar a roinntear clibeanna.)",
+    "Search tags" : "Cuardaigh clibeanna",
     "Public" : "Poiblí",
     "Restricted" : "Srianta",
     "Invisible" : "Dofheicthe",

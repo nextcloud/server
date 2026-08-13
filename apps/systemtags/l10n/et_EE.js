@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "Ühistegevuslikud sildid",
     "Collaborative tagging functionality which shares tags among people." : "Ühistegevuslik siltide lisamine ja haldus, mis võimaldab jagada silte eri kasutajate vahel.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Ühistegevuslik siltide lisamine ja haldus, mis võimaldab jagada silte eri kasutajate vahel. Sobib hästi tiimidele.\n\n(Kui oled teenusepakkuja, mis ühes serveris majutab mitut organisatsiooni, siis me soovitame, et lülitad selle rakenduse välja - sildid on ju jagatud kõikide kasutajate vahel.)",
+    "Search tags" : "Otsi silte",
     "Public" : "Avalik",
     "Restricted" : "Piiratud",
     "Invisible" : "Nähtamatu",
