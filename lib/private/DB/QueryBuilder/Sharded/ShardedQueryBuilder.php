@@ -304,7 +304,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		} elseif ($order === \SortDirection::Descending) {
 			$order = 'DESC';
 		} elseif ($order !== null && !in_array(strtoupper($order), ['ASC', 'DESC'], true)) {
-			$order = null;
+			throw new \InvalidArgumentException('Only ASC or DESC are supported');
 		}
 
 		$this->registerOrder((string)$sort, $order ?? 'ASC');
@@ -319,7 +319,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		} elseif ($order === \SortDirection::Descending) {
 			$order = 'DESC';
 		} elseif ($order !== null && !in_array(strtoupper($order), ['ASC', 'DESC'], true)) {
-			$order = null;
+			throw new \InvalidArgumentException('Only ASC or DESC are supported');
 		}
 
 		$this->sortList = [];

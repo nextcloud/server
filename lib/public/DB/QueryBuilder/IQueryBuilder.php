@@ -857,7 +857,7 @@ interface IQueryBuilder {
 	 * Replaces any previously specified orderings, if any.
 	 *
 	 * @param string|IQueryFunction|ILiteral|IParameter $sort The ordering expression.
-	 * @param string|\SortDirection|null $order The ordering direction.
+	 * @param 'ASC'|'DESC'|'asc'|'desc'|\SortDirection|null $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -871,7 +871,7 @@ interface IQueryBuilder {
 	 * Adds an ordering to the query results.
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $sort The ordering expression.
-	 * @param string|\SortDirection|null $order The ordering direction.
+	 * @param 'ASC'|'DESC'|'asc'|'desc'|\SortDirection|null $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0

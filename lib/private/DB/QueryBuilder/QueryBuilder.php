@@ -1122,7 +1122,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		} elseif ($order === \SortDirection::Descending) {
 			$order = 'DESC';
 		} elseif ($order !== null && !in_array(strtoupper($order), ['ASC', 'DESC'], true)) {
-			$order = null;
+			throw new \InvalidArgumentException('Only ASC or DESC are supported');
 		}
 
 		$this->queryBuilder->orderBy(
@@ -1140,7 +1140,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		} elseif ($order === \SortDirection::Descending) {
 			$order = 'DESC';
 		} elseif ($order !== null && !in_array(strtoupper($order), ['ASC', 'DESC'], true)) {
-			$order = null;
+			throw new \InvalidArgumentException('Only ASC or DESC are supported');
 		}
 
 		$this->queryBuilder->addOrderBy(
