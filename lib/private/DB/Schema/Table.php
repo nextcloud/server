@@ -40,7 +40,7 @@ class Table implements ITable {
 
 	#[\Override]
 	public function getName(): string {
-		/** @var non-empty-lowercase-string $name */
+		/** @var non-empty-string $name */
 		$name = $this->table->getName();
 		return $name;
 	}
