@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 use OC\App\AppManager;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
@@ -110,7 +111,7 @@ class OC_App {
 	 * @internal
 	 */
 	public static function registerAutoloading(string $app, string $path, bool $force = false): void {
-		Server::get(IAppManager::class)->registerAutoloading($app, $path, $force);
+		Server::get(AppManager::class)->registerAutoloading($app, $path, $force);
 	}
 
 	/**

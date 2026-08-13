@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Bootstrap;
 
+use OC\App\AppManager;
 use OC\Support\CrashReport\Registry;
-use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\QueryException;
@@ -38,7 +38,7 @@ class Coordinator {
 		private IManager $dashboardManager,
 		private IEventDispatcher $eventDispatcher,
 		private IEventLogger $eventLogger,
-		private IAppManager $appManager,
+		private AppManager $appManager,
 		private LoggerInterface $logger,
 	) {
 	}
