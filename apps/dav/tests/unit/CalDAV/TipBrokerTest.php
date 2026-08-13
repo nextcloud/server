@@ -303,7 +303,37 @@ class TipBrokerTest extends TestCase {
 		$this->assertEquals($mutatedCalendar->VEVENT[1]->ATTENDEE[0]->getValue(), $messages[0]->recipient);
 		$this->assertCount(1, $messages[0]->message->VEVENT);
 		$this->assertEquals('20240715T080000', $messages[0]->message->VEVENT->{'RECURRENCE-ID'}->getValue());
+		// the REQUEST keeps the cancelled instance, otherwise processMessageRequest (which replaces
+		// all components) would drop the CANCELLED override on the attendee's copy (issue #6655)
+		$this->assertEquals('REQUEST', $messages[1]->method);
+		$this->assertCount(2, $messages[1]->message->VEVENT);
+		$this->assertEquals('20240715T080000', $messages[1]->message->VEVENT[1]->{'RECURRENCE-ID'}->getValue());
+		$this->assertEquals('CANCELLED', $messages[1]->message->VEVENT[1]->STATUS->getValue());
 
+	}
+
+	/**
+	 * Tests attendee responding to the remaining occurrences while their copy
+	 * carries a cancelled single instance
+	 */
+	public function testParseEventForAttendeeReplyWithCancelledInstance(): void {
+		// attendee copy: recurring event plus a cancelled single instance
+		$originalCalendar = clone $this->vCalendar2a;
+		$cancelledInstance = clone $originalCalendar->VEVENT;
+		$cancelledInstance->add('RECURRENCE-ID', '20240715T080000', ['TZID' => 'America/Toronto']);
+		$cancelledInstance->STATUS->setValue('CANCELLED');
+		$originalCalendar->add($cancelledInstance);
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		// attendee accepts the series
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedCalendar->VEVENT->ATTENDEE['PARTSTAT'] = 'ACCEPTED';
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation - the cancelled instance must not mute the reply
+		$messages = $this->invokePrivate($this->broker, 'parseEventForAttendee', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo, 'mailto:attendee1@example.org']);
+		$this->assertCount(1, $messages);
+		$this->assertEquals('REPLY', $messages[0]->method);
+		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE->getValue(), $messages[0]->sender);
+		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->recipient);
 	}
 
 	/**

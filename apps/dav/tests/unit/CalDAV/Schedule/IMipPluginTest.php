@@ -1237,4 +1237,271 @@ class IMipPluginTest extends TestCase {
 		$this->plugin->schedule($message);
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
+
+	public function testRequestWithOnlyCancelledOccurrenceSendsNoEmail(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$cancelledOverride = new VEvent($newVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'RECURRENCE-ID' => new \DateTime('2016-01-08 00:00:00'),
+			'SEQUENCE' => 1,
+			'STATUS' => 'CANCELLED',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-08 00:00:00'),
+		]);
+		$cancelledOverride->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$cancelledOverride->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		$message->significantChange = true;
+		// stored old copy: the series without the override, so the cancelled
+		// override is newly created in this write
+		$oldVCalendar = new VCalendar();
+		$oldVCalendar->add(new VEvent($oldVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]));
+		$this->plugin->setVCalendar($oldVCalendar);
+
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::once())
+			->method('getValueBool')
+			->with('dav', 'caldav_external_attendees_disabled', false)
+			->willReturn(false);
+		// The REQUEST carries only the cancelled override, kept so the attendee's
+		// stored copy stays cancelled through Sabre's full component replace. The
+		// occurrence cancellation is announced by the accompanying CANCEL message,
+		// so this REQUEST must not additionally send an invitation email.
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['new' => [$cancelledOverride], 'old' => []]);
+		$this->service->expects(self::never())
+			->method('getCurrentAttendee');
+		$this->service->expects(self::never())
+			->method('buildBodyData');
+		$this->mailer->expects(self::never())
+			->method('send');
+		// deliberate suppression, not the "significant but nothing changed" anomaly
+		$this->logger->expects(self::never())
+			->method('warning');
+
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.0', $message->getScheduleStatus());
+	}
+
+	public function testRequestForCancelledExistingOccurrenceStillSendsEmail(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$cancelledOverride = new VEvent($newVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'RECURRENCE-ID' => new \DateTime('2016-01-08 00:00:00'),
+			'SEQUENCE' => 2,
+			'STATUS' => 'CANCELLED',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-08 00:00:00'),
+		]);
+		$cancelledOverride->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$cancelledOverride->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		$message->significantChange = true;
+		// stored old copy already contains a live override for this occurrence:
+		// no CANCEL message is generated for it, this REQUEST is the only notice
+		$oldVCalendar = new VCalendar();
+		$oldVCalendar->add(new VEvent($oldVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]));
+		$oldOverride = new VEvent($oldVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'RECURRENCE-ID' => new \DateTime('2016-01-08 00:00:00'),
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-08 00:00:00'),
+		]);
+		$oldOverride->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$oldOverride->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE']);
+		$oldVCalendar->add($oldOverride);
+		$this->plugin->setVCalendar($oldVCalendar);
+		$data = [
+			'invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting',
+			'attendee_name' => 'frodo@hobb.it',
+		];
+		$attendees = $cancelledOverride->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, false],
+				['core', 'mail_providers_enabled', true, false],
+			]);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['new' => [$cancelledOverride], 'old' => [$oldOverride]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($cancelledOverride, $oldOverride)
+			->willReturn($data);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', true);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $cancelledOverride, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(false);
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	public function testRequestKeepsChangeWhenCancelledOccurrenceIsAlsoPresent(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$cancelledOverride = new VEvent($newVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'RECURRENCE-ID' => new \DateTime('2016-01-08 00:00:00'),
+			'SEQUENCE' => 1,
+			'STATUS' => 'CANCELLED',
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-08 00:00:00'),
+		]);
+		$cancelledOverride->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$cancelledOverride->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		$message->significantChange = true;
+		$oldVCalendar = new VCalendar();
+		$oldVEvent = new VEvent($oldVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$oldVEvent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$oldVCalendar->add($oldVEvent);
+		$data = [
+			'invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting without (!) Boromir',
+			'attendee_name' => 'frodo@hobb.it',
+		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
+		$this->plugin->setVCalendar($oldVCalendar);
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, false],
+				['core', 'mail_providers_enabled', true, false],
+			]);
+		// The cancelled override rides along in the REQUEST but must not become the
+		// event the email describes: it is dropped, leaving the real change.
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['new' => [$newVevent, $cancelledOverride], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($newVevent, $oldVEvent)
+			->willReturn($data);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', true);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $newVevent, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		$this->service->expects(self::once())
+			->method('createInvitationToken')
+			->with($message, $newVevent, 1496912700)
+			->willReturn('token');
+		$this->service->expects(self::once())
+			->method('addResponseButtons')
+			->with($this->emailTemplate, 'token');
+		$this->service->expects(self::once())
+			->method('addMoreOptionsButton')
+			->with($this->emailTemplate, 'token');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
 }
