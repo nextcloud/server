@@ -12,7 +12,10 @@ use OC\DB\QueryBuilder\CompositeExpression;
 use OC\DB\QueryBuilder\ExtendedQueryBuilder;
 use OC\DB\QueryBuilder\Parameter;
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\ILiteral;
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 
 /**
@@ -295,24 +298,34 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	}
 
 	#[\Override]
-	public function addOrderBy($sort, $order = null) {
-		if ($order !== null && !in_array(strtoupper((string)$order), ['ASC', 'DESC'], true)) {
-			$order = null;
+	public function addOrderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self {
+		if ($order === \SortDirection::Ascending) {
+			$order = 'ASC';
+		} elseif ($order === \SortDirection::Descending) {
+			$order = 'DESC';
+		} elseif ($order !== null && !in_array(strtoupper($order), ['ASC', 'DESC'], true)) {
+			throw new \InvalidArgumentException('Only ASC or DESC are supported');
 		}
 
-		$this->registerOrder((string)$sort, (string)($order ?? 'ASC'));
-		return parent::addOrderBy($sort, $order);
+		$this->registerOrder((string)$sort, $order ?? 'ASC');
+		parent::addOrderBy($sort, $order);
+		return $this;
 	}
 
 	#[\Override]
-	public function orderBy($sort, $order = null) {
-		if ($order !== null && !in_array(strtoupper((string)$order), ['ASC', 'DESC'], true)) {
-			$order = null;
+	public function orderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self {
+		if ($order === \SortDirection::Ascending) {
+			$order = 'ASC';
+		} elseif ($order === \SortDirection::Descending) {
+			$order = 'DESC';
+		} elseif ($order !== null && !in_array(strtoupper($order), ['ASC', 'DESC'], true)) {
+			throw new \InvalidArgumentException('Only ASC or DESC are supported');
 		}
 
 		$this->sortList = [];
-		$this->registerOrder((string)$sort, (string)($order ?? 'ASC'));
-		return parent::orderBy($sort, $order);
+		$this->registerOrder((string)$sort, $order ?? 'ASC');
+		parent::orderBy($sort, $order);
+		return $this;
 	}
 
 	private function registerOrder(string $column, string $order): void {
