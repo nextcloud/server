@@ -432,7 +432,7 @@ final class LegacyBackendTest extends TestCase {
 					'password' => null,
 					'password_expiration_time' => null,
 					'send_password_by_talk' => false,
-					'token' => 'secret',
+					'token' => 'token secret',
 					'parent' => null,
 					'original_target' => null,
 					'target' => '/foo',
@@ -461,7 +461,7 @@ final class LegacyBackendTest extends TestCase {
 					'password' => null,
 					'password_expiration_time' => null,
 					'send_password_by_talk' => false,
-					'token' => 'secret',
+					'token' => 'token secret',
 					'parent' => null,
 					'original_target' => null,
 					'target' => '/foo.txt',
@@ -490,7 +490,7 @@ final class LegacyBackendTest extends TestCase {
 					'password' => null,
 					'password_expiration_time' => null,
 					'send_password_by_talk' => false,
-					'token' => 'secret',
+					'token' => 'email secret',
 					'parent' => null,
 					'original_target' => null,
 					'target' => null,
@@ -519,7 +519,7 @@ final class LegacyBackendTest extends TestCase {
 					'password' => null,
 					'password_expiration_time' => null,
 					'send_password_by_talk' => false,
-					'token' => 'secret',
+					'token' => 'email secret',
 					'parent' => null,
 					'original_target' => null,
 					'target' => null,
@@ -658,12 +658,12 @@ final class LegacyBackendTest extends TestCase {
 	private function getLegacyIds(string $id): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$result = $qb
-			->select('legacy_id')
+			->select('legacy_provider', 'legacy_id')
 			->from('share_legacy_mapping')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->executeQuery();
-		/** @var list<string> $ids */
-		$ids = $result->fetchFirstColumn();
-		return $ids;
+		/** @var list<array{legacy_provider: string, legacy_id: string}> $rows */
+		$rows = $result->fetchAll();
+		return array_map(fn (array $row): string => $row['legacy_provider'] . ':' . $row['legacy_id'], $rows);
 	}
 }
