@@ -344,4 +344,13 @@ export default class Config {
 	get showExternalSharing(): boolean {
 		return loadState('files_sharing', 'showExternalSharing', true)
 	}
+
+	/**
+	 * Whether the new unified sharing dialog replaces the legacy inline sharing UI.
+	 * Hidden killswitch (appconfig files_sharing sharing_dialog_enabled); set to
+	 * false to temporarily restore the legacy inputs and menus.
+	 */
+	get sharingDialogEnabled(): boolean {
+		return loadState('files_sharing', 'sharingDialogEnabled', true)
+	}
 }
