@@ -115,11 +115,12 @@ class Autoloader {
 
 	/**
 	 * Add path for given namespace
+	 *
+	 * @param string $namespace The namespace to register, with no \ at either end.
+	 * @param string $path The path to register, with a beginning / and no ending /.
 	 */
 	public function addPsr4(string $namespace, string $path): static {
-		$path = trim($path, '/');
-		$namespace = trim($namespace, '\\');
-		$this->psr4Paths[$namespace] = '/' . $path;
+		$this->psr4Paths[$namespace] = $path;
 		return $this;
 	}
 

@@ -612,7 +612,7 @@ class AppManager implements IAppManager {
 			require_once $path . '/composer/autoload.php';
 		} elseif (is_dir($path . '/lib')) {
 			// autoloader crashes on non-existing dir
-			\OC::$autoloader->addPsr4($appNamespace, $path . '/lib/');
+			\OC::$autoloader->addPsr4($appNamespace, $path . '/lib');
 		}
 
 		// Register Test namespace only when testing
