@@ -398,6 +398,13 @@ export default {
 			creating: false,
 			initialToken: this.share.token,
 			loadingToken: false,
+			initialPermissions: undefined,
+			initialExpireDate: undefined,
+			initialNote: undefined,
+			initialLabel: undefined,
+			initialHideDownload: undefined,
+			initialSendPasswordByTalk: undefined,
+			initialHasDownloadPermission: undefined,
 
 			externalShareActions: getSidebarActions(),
 			// legacy
@@ -865,6 +872,14 @@ export default {
 	},
 
 	beforeMount() {
+		this.initialPermissions = this.share.permissions
+		this.initialExpireDate = this.share.expireDate
+		this.initialNote = this.share.note
+		this.initialLabel = this.share.label
+		this.initialHideDownload = this.share.hideDownload
+		this.initialSendPasswordByTalk = this.share.sendPasswordByTalk
+		this.initialHasDownloadPermission = this.share.hasDownloadPermission
+
 		this.initializePermissions()
 		this.initializeAttributes()
 		logger.debug('Share object received', { share: this.share })
@@ -929,6 +944,16 @@ export default {
 
 		cancel() {
 			this.share.token = this.initialToken
+			this.share.permissions = this.initialPermissions
+			this.share.expireDate = this.initialExpireDate
+			this.share.note = this.initialNote
+			this.share.label = this.initialLabel
+			this.share.hideDownload = this.initialHideDownload
+			this.share.sendPasswordByTalk = this.initialSendPasswordByTalk
+			this.share.hasDownloadPermission = this.initialHasDownloadPermission
+
+			this.$set(this.share, 'newPassword', undefined)
+
 			this.$emit('close-sharing-details')
 		},
 

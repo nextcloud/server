@@ -272,4 +272,21 @@ export class SharingTab {
 		const body = await (await saved).json() as { ocs: { data: { id: number, permissions: number, url?: string } } }
 		return body.ocs.data
 	}
+
+	/**
+	 * The editor's cancel button.
+	 */
+	private cancelButton(): Locator {
+		return this.panel().getByRole('button', { name: 'Cancel' })
+	}
+
+	/**
+	 * Leave the open editor without saving the changes.
+	 * Returns once the button is no longer visible and therefore the share list
+	 * is back.
+	 */
+	async cancel(): Promise<void> {
+		await this.cancelButton().click()
+		await expect(this.cancelButton()).toBeHidden()
+	}
 }
