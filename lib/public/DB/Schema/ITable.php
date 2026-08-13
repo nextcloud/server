@@ -23,7 +23,7 @@ interface ITable {
 	 * Returns the name of this table.
 	 *
 	 * @since 35.0.0
-	 * @return non-empty-lowercase-string
+	 * @return non-empty-string
 	 */
 	public function getName(): string;
 
@@ -39,10 +39,10 @@ interface ITable {
 	public function setPrimaryKey(array $columnNames, string|false $indexName = false): self;
 
 	/**
-	 * @param list<non-empty-lowercase-string> $columnNames
+	 * @param list<non-empty-string> $columnNames
 	 * @param ?non-empty-string $indexName
-	 * @param list<non-empty-lowercase-string> $flags
-	 * @param array<non-empty-lowercase-string, mixed> $options
+	 * @param list<non-empty-string> $flags
+	 * @param array<non-empty-string, mixed> $options
 	 *
 	 * @throws SchemaException
 	 * @since 35.0.0
@@ -146,7 +146,7 @@ interface ITable {
 	public function renameIndex(string $oldName, ?string $newName = null): self;
 
 	/**
-	 * @param non-empty-lowercase-string $name
+	 * @param non-empty-string $name
 	 * @param Types::*|ColumnType $typeName
 	 * @param array{
 	 *     notnull?: bool,
@@ -167,7 +167,7 @@ interface ITable {
 	public function addColumn(string $name, string|ColumnType $typeName, array $options = []): IColumn;
 
 	/**
-	 * @param non-empty-lowercase-string $name
+	 * @param non-empty-string $name
 	 * @param array{
 	 *     notnull?: bool,
 	 *     length?: ?int,
@@ -189,7 +189,7 @@ interface ITable {
 	/**
 	 * Drops a Column from the Table.
 	 *
-	 * @param non-empty-lowercase-string $name
+	 * @param non-empty-string $name
 	 * @since 35.0.0
 	 */
 	public function dropColumn(string $name): self;
@@ -197,7 +197,7 @@ interface ITable {
 	/**
 	 * Returns whether this table has a Column with the given name.
 	 *
-	 * @param non-empty-lowercase-string $name The column name.
+	 * @param non-empty-string $name The column name.
 	 * @since 35.0.0
 	 */
 	public function hasColumn(string $name): bool;
@@ -205,7 +205,7 @@ interface ITable {
 	/**
 	 * Returns the Column with the given name.
 	 *
-	 * @param non-empty-lowercase-string $name The column name.
+	 * @param non-empty-string $name The column name.
 	 *
 	 * @throws SchemaException If the column does not exist.
 	 * @since 35.0.0
@@ -242,9 +242,9 @@ interface ITable {
 	 *
 	 * Name is inferred from the local columns.
 	 *
-	 * @param ITable|non-empty-lowercase-string $foreignTable Table schema instance or table name
-	 * @param list<non-empty-lowercase-string> $localColumnNames
-	 * @param list<non-empty-lowercase-string> $foreignColumnNames
+	 * @param ITable|non-empty-string $foreignTable Table schema instance or table name
+	 * @param list<non-empty-string> $localColumnNames
+	 * @param list<non-empty-string> $foreignColumnNames
 	 * @param array<string, mixed> $options
 	 *
 	 * @throws SchemaException
