@@ -139,7 +139,7 @@ class CommandAdapter extends Base {
 			}
 			$default = $reflection->hasDefaultValue() ? $reflection->getDefaultValue() : null;
 
-			$this->addArgument($arg->name, $mode, $arg->description, $default);
+			$this->addArgument($arg->name, $mode, $arg->description, $default, $arg->suggestedValues);
 		}
 
 		foreach ($this->options as $option) {
@@ -169,7 +169,7 @@ class CommandAdapter extends Base {
 					throw new \LogicException(\sprintf('The option "$%s" of "%s" must have a default value of false.', $name, $reflection->getSourceName()));
 				}
 
-				$this->addOption($option->name, $option->shortcut, InputOption::VALUE_OPTIONAL, $option->description, $default);
+				$this->addOption($option->name, $option->shortcut, InputOption::VALUE_OPTIONAL, $option->description, $default, $option->suggestedValues);
 				continue;
 			}
 
@@ -201,7 +201,7 @@ class CommandAdapter extends Base {
 				$mode = InputOption::VALUE_REQUIRED;
 			}
 
-			$this->addOption($option->name, $option->shortcut, $mode, $option->description, $default);
+			$this->addOption($option->name, $option->shortcut, $mode, $option->description, $default, $option->suggestedValues);
 		}
 	}
 
