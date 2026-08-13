@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+#
+# Commenting on closed issues usually is not spotted by contributors or maintainers.
+# Meaning regressions will be overlooked and not fixed, so instead force people to open a new issue.
+
+name: "Lock closed issues"
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # every day at 03:00 UTC
+  workflow_dispatch:
+concurrency:
+  group: lock-threads
+permissions:
+  issues: write
+  pull-requests: write
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: dessant/lock-threads@1bf7ec25051fe7c00bdd17e6a7cf3d7bfb7dc771 # v5.0.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-inactive-days: 30
+          issue-comment: >
+            This issue has been automatically locked because it has been closed for 30 days.
+            Please open a new issue if you have a similar problem.
