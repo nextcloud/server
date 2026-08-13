@@ -162,6 +162,9 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 
 				if ($create) {
 					$legacyShare = $this->legacyManager->createShare($legacyShare);
+
+					$this->addLegacyFullId($share->id, $legacyShare->getProviderId(), $legacyShare->getId());
+
 					// No need to insert the legacy full id, because the listener in the SharingManager will already trigger this process.
 					$legacyShares[$legacyShare->getFullId()] = $legacyShare;
 				} elseif ($update) {
@@ -463,11 +466,11 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 
 	#[\Override]
 	public function getUnmappedShares(IUser $user): array {
-		// TODO: Make it work with all providers
+		// TODO: Make it work with all providers (deck, talk)
 		// TODO: Filter by user
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb
-			->select('s.id')
+			->select('s.id', 's.share_type')
 			->from('share', 's')
 			->leftJoin('s', 'share_legacy_mapping', 'l', $qb->expr()->eq('s.id', 'l.legacy_id'))
 			->where($qb->expr()->isNull('l.legacy_id'))
@@ -482,16 +485,16 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			], IQueryBuilder::PARAM_INT_ARRAY)))
 			->executeQuery();
 
-		/** @var list<int> $legacyIds */
-		$legacyIds = $result->fetchFirstColumn();
-		if ($legacyIds === []) {
+		/** @var list<array{id: string|int, share_type: IShare::TYPE_*}> $rows */
+		$rows = $result->fetchAll();
+		if ($rows === []) {
 			return [];
 		}
 
 		$ids = [];
-		foreach ($legacyIds as $legacyId) {
+		foreach ($rows as $row) {
 			$id = $this->snowflakeGenerator->nextId();
-			$this->addLegacyFullId($id, 'ocinternal', (string)$legacyId);
+			$this->addLegacyFullId($id, $this->legacyShareTypeToLegacyProvider($row['share_type']), (string)$row['id']);
 			$ids[] = $id;
 		}
 
@@ -583,6 +586,22 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 
 	/**
 	 * @param IShare::TYPE_* $legacyShareType
+	 * @return non-empty-string
+	 */
+	private function legacyShareTypeToLegacyProvider(int $legacyShareType): string {
+		return match ($legacyShareType) {
+			IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK => 'ocinternal',
+			IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP => 'ocFederatedSharing',
+			IShare::TYPE_EMAIL => 'ocMailShare',
+			IShare::TYPE_CIRCLE => 'ocCircleShare',
+			IShare::TYPE_ROOM => 'ocRoomShare',
+			IShare::TYPE_DECK => 'deck',
+			default => throw new RuntimeException('Unsupported legacy share type: ' . $legacyShareType),
+		};
+	}
+
+	/**
+	 * @param IShare::TYPE_* $legacyShareType
 	 * @return class-string<IShareRecipientType>
 	 */
 	private function legacyShareTypeToRecipientTypeClass(int $legacyShareType): string {
@@ -592,6 +611,7 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			IShare::TYPE_LINK => TokenShareRecipientType::class,
 			IShare::TYPE_EMAIL => EmailShareRecipientType::class,
 			IShare::TYPE_CIRCLE => TeamShareRecipientType::class,
+			// TODO talk, deck
 			default => throw new RuntimeException('Unsupported legacy share type: ' . $legacyShareType),
 		};
 	}
@@ -607,6 +627,7 @@ final readonly class LegacyBackend implements ISharingLegacyBackend {
 			TokenShareRecipientType::class => IShare::TYPE_LINK,
 			EmailShareRecipientType::class => IShare::TYPE_EMAIL,
 			TeamShareRecipientType::class => IShare::TYPE_CIRCLE,
+			// TODO talk, deck
 			default => throw new RuntimeException('Unsupported recipient type: ' . $recipientTypeClass),
 		};
 	}
