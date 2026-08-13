@@ -359,7 +359,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getRemoteAddress')
 			->willReturn('192.168.0.1');
 		$this->throttler
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
@@ -367,6 +367,15 @@ class SessionTest extends \Test\TestCase {
 			->method('getDelay')
 			->with('192.168.0.1')
 			->willReturn(0);
+
+		$this->throttler
+			->expects($this->once())
+			->method('registerAttempt')
+			->with('login', '192.168.0.1', ['user' => 'john']);
+		$this->dispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with(new LoginFailed('john', 'doe'));
 
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 	}
@@ -471,7 +480,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getRemoteAddress')
 			->willReturn('192.168.0.1');
 		$this->throttler
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
@@ -479,6 +488,15 @@ class SessionTest extends \Test\TestCase {
 			->method('getDelay')
 			->with('192.168.0.1')
 			->willReturn(0);
+
+		$this->throttler
+			->expects($this->once())
+			->method('registerAttempt')
+			->with('login', '192.168.0.1', ['user' => 'john']);
+		$this->dispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with(new LoginFailed('john', 'doe'));
 
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 	}
