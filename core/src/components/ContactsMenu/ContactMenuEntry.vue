@@ -5,21 +5,26 @@
 
 <template>
 	<li class="contact">
-		<NcAvatar
-			class="contact__avatar"
-			:user="contact.isUser ? contact.uid : undefined"
-			:is-no-user="!contact.isUser"
-			:disable-menu="true"
-			:display-name="contact.avatarLabel"
-			:preloaded-user-status="preloadedUserStatus" />
-		<a
-			class="contact__body"
-			:href="contact.profileUrl || contact.topAction?.hyperlink">
-			<div class="contact__body__full-name">{{ contact.fullName }}</div>
-			<div v-if="contact.lastMessage" class="contact__body__last-message">{{ contact.lastMessage }}</div>
-			<div v-if="contact.statusMessage" class="contact__body__status-message">{{ contact.statusMessage }}</div>
-			<div v-else class="contact__body__email-address">{{ contact.emailAddresses[0] }}</div>
-		</a>
+		<NcProfileHoverCard
+			:user="contact.isUser ? contact.uid : null">
+			<div class="contact__main">
+				<NcAvatar
+					class="contact__avatar"
+					:user="contact.isUser ? contact.uid : undefined"
+					:is-no-user="!contact.isUser"
+					:disable-menu="true"
+					:display-name="contact.avatarLabel"
+					:preloaded-user-status="preloadedUserStatus" />
+				<a
+					class="contact__body"
+					:href="contact.profileUrl || contact.topAction?.hyperlink">
+					<div class="contact__body__full-name">{{ contact.fullName }}</div>
+					<div v-if="contact.lastMessage" class="contact__body__last-message">{{ contact.lastMessage }}</div>
+					<div v-if="contact.statusMessage" class="contact__body__status-message">{{ contact.statusMessage }}</div>
+					<div v-else class="contact__body__email-address">{{ contact.emailAddresses[0] }}</div>
+				</a>
+			</div>
+		</NcProfileHoverCard>
 		<NcActions
 			v-if="actions.length"
 			:inline="contact.topAction ? 1 : 0">
@@ -64,6 +69,7 @@ import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionText from '@nextcloud/vue/components/NcActionText'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcProfileHoverCard from '@nextcloud/vue/components/NcProfileHoverCard'
 
 export default {
 	name: 'ContactMenuEntry',
@@ -74,6 +80,7 @@ export default {
 		NcActions,
 		NcAvatar,
 		NcIconSvgWrapper,
+		NcProfileHoverCard,
 	},
 
 	props: {
@@ -124,6 +131,11 @@ export default {
 			padding: calc((var(--default-clickable-area) - 20px) / 2);
 			filter: var(--background-invert-if-dark);
 		}
+	}
+
+	&__main {
+		display: flex;
+		align-items: center;
 	}
 
 	&__avatar {
