@@ -4909,6 +4909,31 @@ class ShareAPIControllerTest extends TestCase {
 		], $result);
 	}
 
+	public function testPopulateTagsWithDuplicateFileSource(): void {
+		$tagger = $this->createMock(ITags::class);
+		$this->tagManager->method('load')
+			->with('files')
+			->willReturn($tagger);
+		$data = [
+			['file_source' => 42, 'foo' => 'bar'],
+			['file_source' => 10],
+			['file_source' => 42, 'x' => 'y'],
+		];
+		$tags = [
+			42 => ['tag1', 'tag2'],
+		];
+		$tagger->method('getTagsForObjects')
+			->with([42, 10, 42])
+			->willReturn($tags);
+
+		$result = self::invokePrivate($this->ocs, 'populateTags', [$data]);
+		$this->assertSame([
+			['file_source' => 42, 'foo' => 'bar', 'tags' => ['tag1', 'tag2']],
+			['file_source' => 10, 'tags' => []],
+			['file_source' => 42, 'x' => 'y', 'tags' => ['tag1', 'tag2']],
+		], $result);
+	}
+
 	public static function trustedServerProvider(): array {
 		return [
 			'Trusted server' => [true, true],
