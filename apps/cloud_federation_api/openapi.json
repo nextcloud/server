@@ -3,7 +3,7 @@
     "info": {
         "title": "cloud_federation_api",
         "version": "0.0.1",
-        "description": "Enable clouds to communicate with each other and exchange data",
+        "description": "Implements a common federation API for sharing across compatible servers",
         "license": {
             "name": "agpl"
         }
