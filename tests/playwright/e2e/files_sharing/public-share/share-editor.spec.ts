@@ -103,6 +103,27 @@ test.describe('files_sharing: Link share editor', () => {
 		await expect(sharingTab.checkbox('Note to recipient')).not.toBeChecked()
 		await expect(sharingTab.checkbox('Custom permissions')).not.toBeChecked()
 	})
+
+	test('the password is unchecked after clearing and saving it', async ({ filesListPage, sharingTab }) => {
+		await openSharingPanel(filesListPage, sharingTab, 'test')
+
+		await sharingTab.openLinkShareDetails()
+		await sharingTab.openAdvancedSettings()
+		await expect(sharingTab.checkbox('Set password')).not.toBeChecked()
+		await sharingTab.setCheckbox('Set password', true)
+		// A password is automatically generated and added to the input
+		await sharingTab.save()
+
+		await sharingTab.openLinkShareDetails()
+		await sharingTab.openAdvancedSettings()
+		await expect(sharingTab.checkbox('Set password')).toBeChecked()
+		await sharingTab.setCheckbox('Set password', false)
+		await sharingTab.save()
+
+		await sharingTab.openLinkShareDetails()
+		await sharingTab.openAdvancedSettings()
+		await expect(sharingTab.checkbox('Set password')).not.toBeChecked()
+	})
 })
 
 test.describe('files_sharing: Email share editor', () => {
