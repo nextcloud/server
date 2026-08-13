@@ -326,7 +326,7 @@ export default {
 						if (propertyNames.includes('password')) {
 							// reset password state after sync
 							this.share.password = this.share.newPassword || undefined
-							this.$delete(this.share, 'newPassword')
+							this.$set(this.share, 'newPassword', undefined)
 
 							// updates password expiration time after sync
 							this.share.passwordExpirationTime = updatedShare.password_expiration_time
@@ -397,7 +397,7 @@ export default {
 				if (this.share.newPassword === this.share.password) {
 					this.share.password = ''
 				}
-				this.$delete(this.share, 'newPassword')
+				this.$set(this.share, 'newPassword', undefined)
 			}
 
 			// re-open menu if closed
