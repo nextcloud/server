@@ -56,6 +56,53 @@ test.describe('files_sharing: Link share editor', () => {
 		await sharingTab.openAdvancedSettings()
 		await expect(sharingTab.checkbox('Hide download')).toBeChecked()
 	})
+
+	test('cancelling the edition resets to the previous state', async ({ page, filesListPage, sharingTab }) => {
+		await openSharingPanel(filesListPage, sharingTab, 'test')
+
+		await sharingTab.openLinkShareDetails()
+		await sharingTab.openAdvancedSettings()
+		await expect(sharingTab.labelInput()).toHaveValue('')
+		await sharingTab.labelInput().fill('The label')
+		await expect(sharingTab.checkbox('Set password')).not.toBeChecked()
+		await sharingTab.setCheckbox('Set password', true)
+		// A password is automatically generated and added to the input
+		await expect(sharingTab.checkbox('Set expiration date')).not.toBeChecked()
+		await sharingTab.setCheckbox('Set expiration date', true)
+		// A default expiration date is automatically added to the input
+		await expect(sharingTab.checkbox('Hide download')).not.toBeChecked()
+		await sharingTab.setCheckbox('Hide download', true)
+		await expect(sharingTab.checkbox('Note to recipient')).not.toBeChecked()
+		await sharingTab.setCheckbox('Note to recipient', true)
+		await sharingTab.noteInput().fill('The note')
+		await expect(sharingTab.checkbox('Custom permissions')).not.toBeChecked()
+		await sharingTab.setCheckbox('Custom permissions', true)
+		await expect(sharingTab.checkbox('Edit')).not.toBeChecked()
+		await sharingTab.setCheckbox('Edit', true)
+		await sharingTab.cancel()
+
+		// Back to the original state when the editor is opened again …
+		await sharingTab.openLinkShareDetails()
+		await sharingTab.openAdvancedSettings()
+		await expect(sharingTab.labelInput()).toHaveValue('')
+		await expect(sharingTab.checkbox('Set password')).not.toBeChecked()
+		await expect(sharingTab.checkbox('Set expiration date')).not.toBeChecked()
+		await expect(sharingTab.checkbox('Hide download')).not.toBeChecked()
+		await expect(sharingTab.checkbox('Note to recipient')).not.toBeChecked()
+		await expect(sharingTab.checkbox('Custom permissions')).not.toBeChecked()
+
+		// … and after a reload, i.e. it was not stored
+		await page.reload()
+		await openSharingPanel(filesListPage, sharingTab, 'test')
+		await sharingTab.openLinkShareDetails()
+		await sharingTab.openAdvancedSettings()
+		await expect(sharingTab.labelInput()).toHaveValue('')
+		await expect(sharingTab.checkbox('Set password')).not.toBeChecked()
+		await expect(sharingTab.checkbox('Set expiration date')).not.toBeChecked()
+		await expect(sharingTab.checkbox('Hide download')).not.toBeChecked()
+		await expect(sharingTab.checkbox('Note to recipient')).not.toBeChecked()
+		await expect(sharingTab.checkbox('Custom permissions')).not.toBeChecked()
+	})
 })
 
 test.describe('files_sharing: Email share editor', () => {
