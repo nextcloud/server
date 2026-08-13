@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "Samarbeidsmerkelapper",
     "Collaborative tagging functionality which shares tags among people." : "Samarbeidsmerkelapp-funksjonalitet som deler merkelapper mellom brukere.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samarbeidsmerkelapp-funksjonalitet som deler merkelapper mellom brukere. Flott for team.\n\t(Hvis du er en leverandør med en installasjon av flere leieforhold, anbefales det å deaktivere denne appen ettersom merkelapper deles.)",
+    "Search tags" : "Søk i merkelapper",
     "Public" : "Offentlig",
     "Restricted" : "Begrenset",
     "Invisible" : "Usynlig",

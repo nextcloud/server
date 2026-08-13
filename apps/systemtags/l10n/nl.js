@@ -41,6 +41,7 @@ OC.L10N.register(
     "Files" : "Bestanden",
     "Tags" : "Markering",
     "Collaborative tags" : "Systeemtags",
+    "Search tags" : "Zoek in tags",
     "Public" : "Standaard",
     "Restricted" : "Beschermd",
     "Invisible" : "Verborgen",
