@@ -1258,7 +1258,7 @@ export default {
 		 */
 		onPasswordChange(password) {
 			if (password === '') {
-				this.$delete(this.share, 'newPassword')
+				this.$set(this.share, 'newPassword', undefined)
 				this.passwordError = this.isNewShare && this.isPasswordEnforced
 				return
 			}
