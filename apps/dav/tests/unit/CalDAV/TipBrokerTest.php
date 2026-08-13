@@ -591,7 +591,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyDisallowsInvitationForwarding(): void {
 		$existingCalendar = clone $this->vCalendar1a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
@@ -616,7 +616,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyUpdatesExistingAttendeeWhenInvitationForwardingDisabled(): void {
 		$existingCalendar = clone $this->vCalendar1a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
@@ -645,7 +645,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyAllowsInvitationForwarding(): void {
 		$existingCalendar = clone $this->vCalendar1a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'TRUE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, true);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
@@ -668,6 +668,32 @@ class TipBrokerTest extends TestCase {
 		$this->assertEquals('mailto:attendee2@example.org', $result->VEVENT->ATTENDEE[1]->getValue());
 		$this->assertEquals('ACCEPTED', $result->VEVENT->ATTENDEE[1]['PARTSTAT']->getValue());
 		$this->assertEquals('Attendee Two', $result->VEVENT->ATTENDEE[1]['CN']->getValue());
+	}
+
+	public function testProcessMessageReplyAllowsInvitationForwardingWithParsedProperty(): void {
+		$existingCalendar = clone $this->vCalendar1a;
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, true);
+		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
+		// Parsing turns the property into a bool, unlike adding it in memory
+		$existingCalendar = VObject\Reader::read($existingCalendar->serialize());
+		$reply = new Message();
+		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
+		$reply->component = 'VEVENT';
+		$reply->sender = 'mailto:attendee2@example.org';
+		$reply->senderName = 'Attendee Two';
+		$reply->sequence = 1;
+		$reply->message = new VCalendar();
+		/** @var \Sabre\VObject\Component\VEvent $replyEvent */
+		$replyEvent = $reply->message->add('VEVENT', []);
+		$replyEvent->add('UID', $reply->uid);
+		$replyEvent->add('ATTENDEE', $reply->sender, [
+			'PARTSTAT' => 'ACCEPTED',
+		]);
+
+		$result = $this->invokePrivate($this->broker, 'processMessageReply', [$reply, $existingCalendar]);
+
+		$this->assertCount(2, $result->VEVENT->ATTENDEE);
+		$this->assertEquals('mailto:attendee2@example.org', $result->VEVENT->ATTENDEE[1]->getValue());
 	}
 
 	public function testProcessMessageReplyAllowsInvitationForwardingByDefault(): void {
@@ -741,7 +767,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyDisallowsInvitationForwardingForGeneratedRecurringInstance(): void {
 		$existingCalendar = clone $this->vCalendar2a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
@@ -768,7 +794,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyUpdatesExistingAttendeeForGeneratedRecurringInstanceWhenInvitationForwardingDisabled(): void {
 		$existingCalendar = clone $this->vCalendar2a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
@@ -800,7 +826,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyAllowsInvitationForwardingForDetachedRecurringExceptionWhenMasterDisallows(): void {
 		$existingCalendar = clone $this->vCalendar2a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		/** @var \Sabre\VObject\Component\VEvent $detachedInstance */
 		$detachedInstance = $existingCalendar->add('VEVENT', []);
@@ -811,7 +837,7 @@ class TipBrokerTest extends TestCase {
 		$detachedInstance->add('DTEND', '20240715T090000', ['TZID' => 'America/Toronto']);
 		$detachedInstance->add('SUMMARY', 'Detached Test Event');
 		$detachedInstance->add('ORGANIZER', 'mailto:organizer@example.org', ['CN' => 'Organizer']);
-		$detachedInstance->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'TRUE');
+		$detachedInstance->add(TipBroker::INVITATION_FORWARDING_PROPERTY, true);
 		$detachedInstance->add('ATTENDEE', 'mailto:attendee1@example.org', [
 			'CN' => 'Attendee One',
 			'CUTYPE' => 'INDIVIDUAL',
@@ -845,7 +871,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyDisallowsInvitationForwardingForDetachedRecurringExceptionWhenMasterAllows(): void {
 		$existingCalendar = clone $this->vCalendar2a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'TRUE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, true);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		/** @var \Sabre\VObject\Component\VEvent $detachedInstance */
 		$detachedInstance = $existingCalendar->add('VEVENT', []);
@@ -856,7 +882,7 @@ class TipBrokerTest extends TestCase {
 		$detachedInstance->add('DTEND', '20240715T090000', ['TZID' => 'America/Toronto']);
 		$detachedInstance->add('SUMMARY', 'Detached Test Event');
 		$detachedInstance->add('ORGANIZER', 'mailto:organizer@example.org', ['CN' => 'Organizer']);
-		$detachedInstance->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$detachedInstance->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$detachedInstance->add('ATTENDEE', 'mailto:attendee1@example.org', [
 			'CN' => 'Attendee One',
 			'CUTYPE' => 'INDIVIDUAL',
@@ -890,7 +916,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyAllowsInvitationForwardingForGeneratedRecurringInstance(): void {
 		$existingCalendar = clone $this->vCalendar2a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'TRUE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, true);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();

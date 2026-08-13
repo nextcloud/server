@@ -256,7 +256,7 @@ class TipBroker extends Broker {
 		$properties = $vevent->select(self::INVITATION_FORWARDING_PROPERTY);
 		foreach ($properties as $property) {
 			if ($property instanceof Boolean) {
-				return $property->getValue() === 'TRUE';
+				return $property->getValue() === true;
 			}
 		}
 		return true;
