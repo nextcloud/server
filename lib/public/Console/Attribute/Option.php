@@ -69,12 +69,14 @@ final class Option {
 	 * @param string $description The description of the option, displayed with the help page
 	 * @param string $name The name of the option
 	 * @param array|string|null $shortcut The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
+	 * @param array|\Closure $suggestedValues An array or a closure that provides suggested values for the option.
 	 * @since 35.0.0
 	 */
 	public function __construct(
 		public string $description = '',
 		public string $name = '',
 		public array|string|null $shortcut = null,
+		public array|\Closure $suggestedValues = [],
 	) {
 	}
 }
