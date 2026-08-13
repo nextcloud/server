@@ -31,6 +31,7 @@ use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeTouchedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\Files\ISetupManager;
 use OCP\Files\Node;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
@@ -100,7 +101,7 @@ class HookConnectorTest extends TestCase {
 	protected function tearDown(): void {
 		parent::tearDown();
 		\OC_Hook::clear('OC_Filesystem');
-		\OC_Util::tearDownFS();
+		Server::get(ISetupManager::class)->tearDown();
 	}
 
 	public static function viewToNodeProvider(): array {

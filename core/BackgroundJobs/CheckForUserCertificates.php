@@ -13,6 +13,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IUser;
@@ -20,9 +21,10 @@ use OCP\IUserManager;
 
 class CheckForUserCertificates extends QueuedJob {
 	public function __construct(
-		protected IConfig $config,
-		private IUserManager $userManager,
-		private IRootFolder $rootFolder,
+		private readonly IConfig $config,
+		private readonly IUserManager $userManager,
+		private readonly IRootFolder $rootFolder,
+		private readonly ISetupManager $setupManager,
 		ITimeFactory $time,
 	) {
 		parent::__construct($time);
@@ -37,10 +39,10 @@ class CheckForUserCertificates extends QueuedJob {
 		$this->userManager->callForSeenUsers(function (IUser $user) use (&$uploadList): void {
 			$userId = $user->getUID();
 			try {
-				\OC_Util::setupFS($userId);
+				$this->setupManager->setupForUser($user);
 				$filesExternalUploadsFolder = $this->rootFolder->get($userId . '/files_external/uploads');
 			} catch (NotFoundException $e) {
-				\OC_Util::tearDownFS();
+				$this->setupManager->tearDown();
 				return;
 			}
 			if ($filesExternalUploadsFolder instanceof Folder) {
@@ -50,7 +52,7 @@ class CheckForUserCertificates extends QueuedJob {
 					$uploadList[] = "$userId/files_external/uploads/$filename";
 				}
 			}
-			\OC_Util::tearDownFS();
+			$this->setupManager->tearDown();
 		});
 
 		if (empty($uploadList)) {

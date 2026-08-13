@@ -14,6 +14,7 @@ use OCA\Provisioning_API\Controller\GroupsController;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -39,6 +40,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected LoggerInterface&MockObject $logger;
 	protected GroupsController&MockObject $api;
 	private GroupDisplayNameCache&MockObject $groupDisplayNameCache;
+	private ISetupManager&MockObject $setupManager;
 
 	private IRootFolder $rootFolder;
 
@@ -56,6 +58,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->groupDisplayNameCache = $this->createMock(GroupDisplayNameCache::class);
+		$this->setupManager = $this->createMock(ISetupManager::class);
 
 		$this->groupManager
 			->method('getSubAdmin')
@@ -75,6 +78,7 @@ class GroupsControllerTest extends \Test\TestCase {
 				$this->rootFolder,
 				$this->logger,
 				$this->groupDisplayNameCache,
+				$this->setupManager,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();

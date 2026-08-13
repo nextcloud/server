@@ -14,8 +14,10 @@ use OCP\BackgroundJob\QueuedJob;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IUserManager;
 use OCP\PreConditionNotMetException;
 use OCP\SpeechToText\Events\TranscriptionFailedEvent;
 use OCP\SpeechToText\Events\TranscriptionSuccessfulEvent;
@@ -30,6 +32,8 @@ class TranscriptionJob extends QueuedJob {
 		private IEventDispatcher $eventDispatcher,
 		private IRootFolder $rootFolder,
 		private LoggerInterface $logger,
+		private IUserManager $userManager,
+		private ISetupManager $setupManager,
 	) {
 		parent::__construct($timeFactory);
 		$this->setAllowParallelRuns(false);
@@ -46,7 +50,10 @@ class TranscriptionJob extends QueuedJob {
 		$appId = $argument['appId'];
 		$file = null;
 		try {
-			\OC_Util::setupFS($owner);
+			$user = $this->userManager->get($owner);
+			if ($user !== null) {
+				$this->setupManager->setupForUser($user);
+			}
 			$userFolder = $this->rootFolder->getUserFolder($owner);
 			$file = $userFolder->getFirstNodeById($fileId);
 			if (!($file instanceof File)) {

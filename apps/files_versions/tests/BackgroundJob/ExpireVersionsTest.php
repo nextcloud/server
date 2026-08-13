@@ -12,6 +12,8 @@ use OCA\Files_Versions\BackgroundJob\ExpireVersions;
 use OCA\Files_Versions\Expiration;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -22,6 +24,8 @@ class ExpireVersionsTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private Expiration&MockObject $expiration;
 	private IJobList&MockObject $jobList;
+	private ISetupManager&MockObject $setupManager;
+	private IRootFolder&MockObject $rootFolder;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -30,6 +34,8 @@ class ExpireVersionsTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->expiration = $this->createMock(Expiration::class);
 		$this->jobList = $this->createMock(IJobList::class);
+		$this->setupManager = $this->createMock(ISetupManager::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$this->jobList->expects($this->once())
 			->method('setLastRun');
@@ -49,7 +55,7 @@ class ExpireVersionsTest extends TestCase {
 			->with()
 			->willReturn(999999999);
 
-		$job = new ExpireVersions($this->config, $this->userManager, $this->expiration, $timeFactory);
+		$job = new ExpireVersions($this->config, $this->userManager, $this->expiration, $timeFactory, $this->setupManager, $this->rootFolder);
 		$job->start($this->jobList);
 	}
 }

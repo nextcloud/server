@@ -24,9 +24,13 @@ use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IMimeTypeLoader;
+use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
+use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\Share\IShare;
 use OCP\User\Exceptions\UserNotFoundException;
@@ -628,7 +632,8 @@ class VersioningTest extends \Test\TestCase {
 	public function testExpireNonexistingFile(): void {
 		$this->logout();
 		// needed to have a FS setup (the background job does this)
-		\OC_Util::setupFS(self::TEST_VERSIONS_USER);
+		$user = Server::get(IUserManager::class)->get(self::TEST_VERSIONS_USER);
+		Server::get(ISetupManager::class)->setupForUser($user);
 
 		$this->assertFalse(Storage::expire('/void/unexist.txt', self::TEST_VERSIONS_USER));
 	}
@@ -638,7 +643,8 @@ class VersioningTest extends \Test\TestCase {
 
 		$this->logout();
 		// needed to have a FS setup (the background job does this)
-		\OC_Util::setupFS(self::TEST_VERSIONS_USER);
+		$user = Server::get(IUserManager::class)->get(self::TEST_VERSIONS_USER);
+		Server::get(ISetupManager::class)->setupForUser($user);
 		Filesystem::file_put_contents('test.txt', 'test file');
 
 		$this->assertFalse(Storage::expire('test.txt', 'unexist'));
@@ -932,7 +938,8 @@ class VersioningTest extends \Test\TestCase {
 
 		// note: public link upload does this,
 		// needed to make the hooks fire
-		\OC_Util::setupFS(self::TEST_VERSIONS_USER);
+		$user = Server::get(IUserManager::class)->get(self::TEST_VERSIONS_USER);
+		Server::get(ISetupManager::class)->setupForUser($user);
 
 		$userView = new View('/' . self::TEST_VERSIONS_USER . '/files');
 		$this->createAndCheckVersions(
@@ -963,19 +970,21 @@ class VersioningTest extends \Test\TestCase {
 		return $versions;
 	}
 
-	public static function loginHelper(string $user, bool $create = false) {
+	public static function loginHelper(string $uid, bool $create = false): void {
 		if ($create) {
 			$backend = new \Test\Util\User\Dummy();
-			$backend->createUser($user, $user);
+			$backend->createUser($uid, $uid);
 			Server::get(IUserManager::class)->registerBackend($backend);
 		}
 
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		Filesystem::tearDown();
-		\OC_User::setUserId($user);
-		\OC_Util::setupFS($user);
-		\OC::$server->getUserFolder($user);
+		$user = Server::get(IUserManager::class)->get($uid);
+
+		Server::get(ISession::class)->set('user_id', '');
+		Server::get(ISetupManager::class)->tearDown();
+
+		Server::get(IUserSession::class)->setUser($user);
+		Server::get(ISetupManager::class)->setupForUser($user);
+		Server::get(IRootFolder::class)->getUserFolder($uid);
 	}
 }
 

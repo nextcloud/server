@@ -14,6 +14,7 @@ use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Files\View;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\Files\ISetupManager;
 use OCP\IUserManager;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,6 +28,7 @@ class DecryptAll {
 		protected IManager $encryptionManager,
 		protected IUserManager $userManager,
 		protected View $rootView,
+		protected ISetupManager $setupManager,
 	) {
 	}
 
@@ -228,7 +230,10 @@ class DecryptAll {
 	 * setup user file system
 	 */
 	protected function setupUserFS(string $uid): void {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($uid);
+		$this->setupManager->tearDown();
+		$user = $this->userManager->get($uid);
+		if ($user !== null) {
+			$this->setupManager->setupForUser($user);
+		}
 	}
 }

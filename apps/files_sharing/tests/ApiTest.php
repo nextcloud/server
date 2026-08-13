@@ -24,6 +24,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
@@ -1437,7 +1438,7 @@ class ApiTest extends TestCase {
 		$ocs->acceptShare($topId);
 		$ocs->cleanup();
 
-		\OC_Util::tearDownFS();
+		Server::get(ISetupManager::class)->tearDown();
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
 		$ocs->createShare($this->folder, Constants::PERMISSION_ALL, IShare::TYPE_LINK);

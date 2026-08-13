@@ -17,6 +17,7 @@ use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCP\App\IAppManager;
 use OCP\Encryption\IManager;
+use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -42,21 +43,11 @@ trait EncryptionTrait {
 
 	private IUserManager $userManagerEncTrait;
 	private ISetupManager $setupManagerEncTrait;
-
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
+	private ?IConfig $config = null;
 	private IAppConfig $appConfig;
-
-	/**
-	 * @var Application
-	 */
-	private $encryptionApp;
+	private Application $encryptionApp;
 
 	protected function loginWithEncryption($user = '') {
-		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		// needed for fully logout
 		Server::get(IUserSession::class)->setUser(null);
@@ -65,29 +56,29 @@ trait EncryptionTrait {
 
 		\OC_User::setUserId($user);
 		$this->postLogin();
-		\OC_Util::setupFS($user);
+		$this->setupManagerEncTrait->setupForUser($this->userManagerEncTrait->get($user));
 		if ($this->userManagerEncTrait->userExists($user)) {
-			\OC::$server->getUserFolder($user);
+			Server::get(IRootFolder::class)->getUserFolder($user);
 		}
 	}
 
-	protected function setupForUser($name, $password) {
+	protected function setupForUser(string $name, string $password): void {
 		$this->setupManagerEncTrait->tearDown();
 		$this->setupManagerEncTrait->setupForUser($this->userManagerEncTrait->get($name));
 
 		$container = $this->encryptionApp->getContainer();
 		/** @var KeyManager $keyManager */
-		$keyManager = $container->query(KeyManager::class);
+		$keyManager = $container->get(KeyManager::class);
 		/** @var Setup $userSetup */
-		$userSetup = $container->query(Setup::class);
+		$userSetup = $container->get(Setup::class);
 		$userSetup->setupUser($name, $password);
-		$encryptionManager = $container->query(IManager::class);
+		$encryptionManager = $container->get(IManager::class);
 		$this->encryptionApp->setUp($encryptionManager);
 		$keyManager->init($name, $password);
 		$this->invokePrivate($keyManager, 'keyUid', [$name]);
 	}
 
-	protected function postLogin() {
+	protected function postLogin(): void {
 		$encryptionWrapper = new EncryptionWrapper(
 			new ArrayCache(),
 			Server::get(\OCP\Encryption\IManager::class),
@@ -97,7 +88,7 @@ trait EncryptionTrait {
 		$this->registerStorageWrapper('oc_encryption', [$encryptionWrapper, 'wrapStorage']);
 	}
 
-	protected function setUpEncryptionTrait() {
+	protected function setUpEncryptionTrait(): void {
 		$isReady = Server::get(\OCP\Encryption\IManager::class)->isReady();
 		if (!$isReady) {
 			$this->markTestSkipped('Encryption not ready');
@@ -108,18 +99,18 @@ trait EncryptionTrait {
 
 		Server::get(IAppManager::class)->loadApp('encryption');
 
-		$this->encryptionApp = new Application([], $isReady);
+		$this->encryptionApp = new Application([]);
 
 		$this->config = Server::get(IConfig::class);
 		$this->appConfig = Server::get(IAppConfig::class);
 		$this->encryptionWasEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled');
-		$this->originalEncryptionModule = $this->config->getAppValue('core', 'default_encryption_module');
+		$this->originalEncryptionModule = $this->appConfig->getValueString('core', 'default_encryption_module');
 		$this->config->setAppValue('core', 'default_encryption_module', Encryption::ID);
 		$this->appConfig->setValueBool('core', 'encryption_enabled', true);
 		$this->assertTrue(Server::get(\OCP\Encryption\IManager::class)->isEnabled());
 	}
 
-	protected function tearDownEncryptionTrait() {
+	protected function tearDownEncryptionTrait(): void {
 		if ($this->config) {
 			$this->appConfig->setValueBool('core', 'encryption_enabled', $this->encryptionWasEnabled);
 			$this->config->setAppValue('core', 'default_encryption_module', $this->originalEncryptionModule);

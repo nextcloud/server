@@ -21,6 +21,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\NotFoundException;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
@@ -65,6 +66,7 @@ abstract class AUserDataOCSController extends OCSController {
 		protected IFactory $l10nFactory,
 		protected IRootFolder $rootFolder,
 		private GroupDisplayNameCache $groupDisplayNameCache,
+		private readonly ISetupManager $setupManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -303,8 +305,8 @@ abstract class AUserDataOCSController extends OCSController {
 
 		try {
 			if ($includeExternal) {
-				\OC_Util::tearDownFS();
-				\OC_Util::setupFS($user->getUID());
+				$this->setupManager->tearDown();
+				$this->setupManager->setupForUser($user);
 				$storage = \OC_Helper::getStorageInfo('/', null, true, false);
 				$data = [
 					'free' => $storage['free'],

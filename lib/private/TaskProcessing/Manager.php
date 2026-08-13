@@ -31,6 +31,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -167,6 +168,7 @@ class Manager implements IManager {
 		ICacheFactory $cacheFactory,
 		private IFactory $l10nFactory,
 		private ITimeFactory $timeFactory,
+		private ISetupManager $setupManager,
 	) {
 		$this->appData = $appDataFactory->get('core');
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
@@ -1490,7 +1492,10 @@ class Manager implements IManager {
 	 */
 	public function fillInputFileData(?string $userId, array $input, ...$specs): array {
 		if ($userId !== null) {
-			\OC_Util::setupFS($userId);
+			$user = $this->userManager->get($userId);
+			if ($user !== null) {
+				$this->setupManager->setupForUser($user);
+			}
 		}
 		$newInputOutput = [];
 		$spec = array_reduce($specs, fn ($carry, $spec) => $carry + $spec, []);

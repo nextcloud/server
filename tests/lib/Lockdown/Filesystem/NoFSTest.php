@@ -11,6 +11,7 @@ use OC\Authentication\Token\PublicKeyToken;
 use OC\Files\Filesystem;
 use OC\Lockdown\Filesystem\NullStorage;
 use OCP\Authentication\Token\IToken;
+use OCP\Files\ISetupManager;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Server;
 use Test\Traits\UserTrait;
@@ -38,12 +39,12 @@ class NoFSTest extends \Test\TestCase {
 		]);
 
 		Server::get(ILockdownManager::class)->setToken($token);
-		$this->createUser('foo', 'var');
 	}
 
 	public function testSetupFS(): void {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS('foo');
+		$user = $this->createUser('foo', 'var');
+		Server::get(ISetupManager::class)->tearDown();
+		Server::get(ISetupManager::class)->setupForUser($user);
 
 		$this->assertInstanceOf(NullStorage::class, Filesystem::getStorage('/foo/files'));
 	}
