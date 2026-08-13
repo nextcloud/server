@@ -43,6 +43,7 @@
     "Collaborative tags" : "Kollaborativ tags",
     "Collaborative tagging functionality which shares tags among people." : "Samarbejds tagnings funktionalitet, som deler tags blandt mennesker.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samarbejds tagnings funktionalitet, som deler tags blandt mennesker. Godt for teams.\n\t(Hvis du er en udbyder med en multi-tenancy installation, anbefales det at deaktivere denne app da tags bliver delt.)",
+    "Search tags" : "Søg tags",
     "Public" : "Offentlig",
     "Restricted" : "Begrænset",
     "Invisible" : "Usynlig",

@@ -43,6 +43,7 @@ OC.L10N.register(
     "All tagged %s …" : "Todas las etiquetas de %s...",
     "tagged %s" : "etiquetadas %s",
     "Collaborative tags" : "Etiquetas colaborativas",
+    "Search tags" : "Buscar etiquetas",
     "Public" : "Público",
     "Restricted" : "Restringido",
     "Invisible" : "Invisible",

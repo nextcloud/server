@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "Štítky pro spolupráci",
     "Collaborative tagging functionality which shares tags among people." : "Funkce opatřování štítky pro spolupráci, sdílenými mezi lidmi.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funkce pro opatřování štítky pro spolupráci, sdílenými mezi lidmi. Skvělé pro týmy.\n\t(Pokud jste poskytovateli instalace, sloužící více subjektům, je doporučeno tuto aplikaci vypnout, protože štítky jsou sdílené.)",
+    "Search tags" : "Hledat štítky",
     "Public" : "Veřejný",
     "Restricted" : "Uživatelsky nepřiřaditelný",
     "Invisible" : "Neviditelný",

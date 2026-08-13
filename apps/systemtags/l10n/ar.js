@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "الوسوم التعاونية",
     "Collaborative tagging functionality which shares tags among people." : "وظيفة الوسوم التعاونية التي تسمح بمشاركة الوسوم بين المستخدِمين.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "وظيفة الوسوم التعاونية التي تسمح بمشاركة الوسوم بين المستخدِمين.\n\t(إذا كنت مقدم خدمة متعدد الإيجارات multi-tenancy provider، فمن المستحسن إلغاء تنشيط هذا التطبيق حيث تتم مشاركة الوسوم.)",
+    "Search tags" : "البحث عن الوسوم",
     "Public" : "عام",
     "Restricted" : "مقيد",
     "Invisible" : "غير مرئي",
