@@ -10,6 +10,7 @@ namespace OC\Files\Cache;
 use OC\DB\Exceptions\DbalException;
 use OC\Files\Storage\LocalRootStorage;
 use OC\Files\Storage\Wrapper\Encryption;
+use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Storage\IReliableEtagStorage;
@@ -91,12 +92,11 @@ class Propagator implements IPropagator {
 		}
 
 		$parentHashes = array_map('md5', $parents);
+		sort($parentHashes); // Ensure rows are always locked in the same order
 		$etag = uniqid(); // since we give all folders the same etag we don't ask the storage for the etag
 
 		$builder = $this->connection->getQueryBuilder();
-		$hashParams = array_map(function ($hash) use ($builder) {
-			return $builder->expr()->literal($hash);
-		}, $parentHashes);
+		$hashParams = array_map(static fn (string $hash): ILiteral => $builder->expr()->literal($hash), $parentHashes);
 
 		$builder->update('filecache')
 			->set('mtime', $builder->func()->greatest('mtime', $builder->createNamedParameter($time, IQueryBuilder::PARAM_INT)))
@@ -137,9 +137,27 @@ class Propagator implements IPropagator {
 
 		for ($i = 0; $i < self::MAX_RETRIES; $i++) {
 			try {
-				$builder->executeStatement();
+				if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_SQLITE) {
+					$this->connection->beginTransaction();
+					// Lock all the rows first with a SELECT FOR UPDATE ordered by path_hash
+					$forUpdate = $this->connection->getQueryBuilder();
+					$forUpdate->select('fileid')
+						->from('filecache')
+						->where($forUpdate->expr()->eq('storage', $forUpdate->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+						->andWhere($forUpdate->expr()->in('path_hash', $hashParams))
+						->orderBy('path_hash')
+						->forUpdate()
+						->executeQuery();
+					$builder->executeStatement();
+					$this->connection->commit();
+				} else {
+					$builder->executeStatement();
+				}
 				break;
 			} catch (DbalException $e) {
+				if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_SQLITE) {
+					$this->connection->rollBack();
+				}
 				if (!$e->isRetryable()) {
 					throw $e;
 				}
@@ -198,40 +216,97 @@ class Propagator implements IPropagator {
 		}
 		$this->inBatch = false;
 
-		$this->connection->beginTransaction();
+		// Ensure rows are always locked in the same order
+		uasort($this->batch, static fn (array $a, array $b) => $a['hash'] <=> $b['hash']);
 
-		$query = $this->connection->getQueryBuilder();
-		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
+		try {
+			$this->connection->beginTransaction();
 
-		$query->update('filecache')
-			->set('mtime', $query->func()->greatest('mtime', $query->createParameter('time')))
-			->set('etag', $query->expr()->literal(uniqid()))
-			->where($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
-			->andWhere($query->expr()->eq('path_hash', $query->createParameter('hash')));
+			$query = $this->connection->getQueryBuilder();
+			$storageId = (int)$this->storage->getStorageCache()->getNumericId();
 
-		$sizeQuery = $this->connection->getQueryBuilder();
-		$sizeQuery->update('filecache')
-			->set('size', $sizeQuery->func()->add('size', $sizeQuery->createParameter('size')))
-			->where($query->expr()->eq('storage', $sizeQuery->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
-			->andWhere($query->expr()->eq('path_hash', $sizeQuery->createParameter('hash')))
-			->andWhere($sizeQuery->expr()->gt('size', $sizeQuery->createNamedParameter(-1, IQueryBuilder::PARAM_INT)));
+			if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_SQLITE) {
+				// Lock the rows before updating then with a SELECT FOR UPDATE
+				// The select also allow us to fetch the fileid and then use these in the UPDATE
+				// queries as a faster lookup than the path_hash
+				$hashes = array_map(static fn (array $a): string => $a['hash'], $this->batch);
 
-		foreach ($this->batch as $item) {
-			$query->setParameter('time', $item['time'], IQueryBuilder::PARAM_INT);
-			$query->setParameter('hash', $item['hash']);
+				foreach (array_chunk($hashes, 1000) as $hashesChunk) {
+					$query = $this->connection->getQueryBuilder();
+					$result = $query->select('fileid', 'path', 'path_hash', 'size')
+						->from('filecache')
+						->where($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+						->andWhere($query->expr()->in('path_hash', $query->createNamedParameter($hashesChunk, IQueryBuilder::PARAM_STR_ARRAY)))
+						->orderBy('path_hash')
+						->forUpdate()
+						->executeQuery();
 
-			$query->executeStatement();
+					$query = $this->connection->getQueryBuilder();
+					$query->update('filecache')
+						->set('mtime', $query->func()->greatest('mtime', $query->createParameter('time')))
+						->set('etag', $query->expr()->literal(uniqid()))
+						->where($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+						->andWhere($query->expr()->eq('fileid', $query->createParameter('fileid')));
 
-			if ($item['size']) {
-				$sizeQuery->setParameter('size', $item['size'], IQueryBuilder::PARAM_INT);
-				$sizeQuery->setParameter('hash', $item['hash']);
+					$queryWithSize = $this->connection->getQueryBuilder();
+					$queryWithSize->update('filecache')
+						->set('mtime', $queryWithSize->func()->greatest('mtime', $queryWithSize->createParameter('time')))
+						->set('etag', $queryWithSize->expr()->literal(uniqid()))
+						->set('size', $queryWithSize->func()->add('size', $queryWithSize->createParameter('size')))
+						->where($queryWithSize->expr()->eq('storage', $queryWithSize->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+						->andWhere($queryWithSize->expr()->eq('fileid', $queryWithSize->createParameter('fileid')));
 
-				$sizeQuery->executeStatement();
+					while ($row = $result->fetchAssociative()) {
+						$item = $this->batch[$row['path']];
+						if ($item['size'] && $row['size'] > -1) {
+							$queryWithSize->setParameter('fileid', $row['fileid'], IQueryBuilder::PARAM_INT)
+								->setParameter('size', $item['size'], IQueryBuilder::PARAM_INT)
+								->setParameter('time', $item['time'], IQueryBuilder::PARAM_INT)
+								->executeStatement();
+						} else {
+							$query->setParameter('fileid', $row['fileid'], IQueryBuilder::PARAM_INT)
+								->setParameter('time', $item['time'], IQueryBuilder::PARAM_INT)
+								->executeStatement();
+						}
+					}
+				}
+			} else {
+				// No FOR UPDATE support in Sqlite, but instead the whole table is locked
+				$query = $this->connection->getQueryBuilder();
+				$query->update('filecache')
+					->set('mtime', $query->func()->greatest('mtime', $query->createParameter('time')))
+					->set('etag', $query->expr()->literal(uniqid()))
+					->where($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+					->andWhere($query->expr()->eq('path_hash', $query->createParameter('hash')));
+
+				$queryWithSize = $this->connection->getQueryBuilder();
+				$queryWithSize->update('filecache')
+					->set('mtime', $queryWithSize->func()->greatest('mtime', $queryWithSize->createParameter('time')))
+					->set('etag', $queryWithSize->expr()->literal(uniqid()))
+					->set('size', $queryWithSize->func()->add('size', $queryWithSize->createParameter('size')))
+					->where($queryWithSize->expr()->eq('storage', $queryWithSize->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+					->andWhere($queryWithSize->expr()->eq('path_hash', $queryWithSize->createParameter('hash')));
+
+				foreach ($this->batch as $item) {
+					if ($item['size']) {
+						$queryWithSize->setParameter('hash', $item['hash'], IQueryBuilder::PARAM_STR)
+							->setParameter('time', $item['time'], IQueryBuilder::PARAM_INT)
+							->setParameter('size', $item['size'], IQueryBuilder::PARAM_INT)
+							->executeStatement();
+					} else {
+						$query->setParameter('hash', $item['hash'], IQueryBuilder::PARAM_STR)
+							->setParameter('time', $item['time'], IQueryBuilder::PARAM_INT)
+							->executeStatement();
+					}
+				}
 			}
+
+			$this->batch = [];
+
+			$this->connection->commit();
+		} catch (\Exception $e) {
+			$this->connection->rollback();
+			throw $e;
 		}
-
-		$this->batch = [];
-
-		$this->connection->commit();
 	}
 }
