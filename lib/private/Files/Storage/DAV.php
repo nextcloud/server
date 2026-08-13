@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -78,6 +79,7 @@ class DAV extends Common {
 	protected $host;
 	/** @var bool */
 	protected $secure;
+	protected bool $verify;
 	/** @var string */
 	protected $root;
 	/** @var string */
@@ -120,9 +122,9 @@ class DAV extends Common {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
-			if (str_starts_with($host, "https://")) {
+			if (str_starts_with($host, 'https://')) {
 				$host = substr($host, 8);
-			} elseif (str_starts_with($host, "http://")) {
+			} elseif (str_starts_with($host, 'http://')) {
 				$host = substr($host, 7);
 			}
 			$this->host = $host;
@@ -132,12 +134,14 @@ class DAV extends Common {
 				$this->authType = $params['authType'];
 			}
 			if (isset($params['secure'])) {
+				$this->verify = $params['verify'] ?? true;
 				if (is_string($params['secure'])) {
 					$this->secure = ($params['secure'] === 'true');
 				} else {
 					$this->secure = (bool)$params['secure'];
 				}
 			} else {
+				$this->verify = false;
 				$this->secure = false;
 			}
 			if ($this->secure === true) {
@@ -181,6 +185,9 @@ class DAV extends Common {
 		$this->client->setThrowExceptions(true);
 
 		if ($this->secure === true) {
+			if ($this->verify === false) {
+				$this->client->addCurlSetting(CURLOPT_SSL_VERIFYPEER, false);
+			}
 			$certPath = $this->certManager->getAbsoluteBundlePath();
 			if (file_exists($certPath)) {
 				$this->certPath = $certPath;
@@ -192,13 +199,13 @@ class DAV extends Common {
 
 		$lastRequestStart = 0;
 		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart) {
-			$this->logger->debug("sending dav " . $request->getMethod() .  " request to external storage: " . $request->getAbsoluteUrl(), ['app' => 'dav']);
+			$this->logger->debug('sending dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl(), ['app' => 'dav']);
 			$lastRequestStart = microtime(true);
-			$this->eventLogger->start('fs:storage:dav:request', "Sending dav request to external storage");
+			$this->eventLogger->start('fs:storage:dav:request', 'Sending dav request to external storage');
 		});
 		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart) {
 			$elapsed = microtime(true) - $lastRequestStart;
-			$this->logger->debug("dav " . $request->getMethod() .  " request to external storage: " . $request->getAbsoluteUrl() . " took " . round($elapsed * 1000, 1) . "ms", ['app' => 'dav']);
+			$this->logger->debug('dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl() . ' took ' . round($elapsed * 1000, 1) . 'ms', ['app' => 'dav']);
 			$this->eventLogger->end('fs:storage:dav:request');
 		});
 	}
@@ -314,11 +321,11 @@ class DAV extends Common {
 				return false;
 			}
 			$responseType = [];
-			if (isset($response["{DAV:}resourcetype"])) {
+			if (isset($response['{DAV:}resourcetype'])) {
 				/** @var ResourceType[] $response */
-				$responseType = $response["{DAV:}resourcetype"]->getValue();
+				$responseType = $response['{DAV:}resourcetype']->getValue();
 			}
-			return (count($responseType) > 0 and $responseType[0] == "{DAV:}collection") ? 'dir' : 'file';
+			return (count($responseType) > 0 and $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
 		}
@@ -368,7 +375,8 @@ class DAV extends Common {
 							'auth' => [$this->user, $this->password],
 							'stream' => true,
 							// set download timeout for users with slow connections or large files
-							'timeout' => $this->timeout
+							'timeout' => $this->timeout,
+							'verify' => $this->verify,
 						]);
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
@@ -527,7 +535,8 @@ class DAV extends Common {
 				'body' => $source,
 				'auth' => [$this->user, $this->password],
 				// set upload timeout for users with slow connections or large files
-				'timeout' => $this->timeout
+				'timeout' => $this->timeout,
+				'verify' => $this->verify,
 			]);
 
 		$this->removeCachedFile($target);
@@ -616,11 +625,11 @@ class DAV extends Common {
 		}
 
 		$responseType = [];
-		if (isset($response["{DAV:}resourcetype"])) {
+		if (isset($response['{DAV:}resourcetype'])) {
 			/** @var ResourceType[] $response */
-			$responseType = $response["{DAV:}resourcetype"]->getValue();
+			$responseType = $response['{DAV:}resourcetype']->getValue();
 		}
-		$type = (count($responseType) > 0 and $responseType[0] == "{DAV:}collection") ? 'dir' : 'file';
+		$type = (count($responseType) > 0 and $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
 		if ($type === 'dir') {
 			$mimeType = 'httpd/unix-directory';
 		} elseif (isset($response['{DAV:}getcontenttype'])) {
@@ -866,9 +875,9 @@ class DAV extends Common {
 	 * @param string $path optional path from the operation
 	 *
 	 * @throws StorageInvalidException if the storage is invalid, for example
-	 * when the authentication expired or is invalid
+	 *                                 when the authentication expired or is invalid
 	 * @throws StorageNotAvailableException if the storage is not available,
-	 * which might be temporary
+	 *                                      which might be temporary
 	 * @throws ForbiddenException if the action is not allowed
 	 */
 	protected function convertException(Exception $e, $path = '') {
