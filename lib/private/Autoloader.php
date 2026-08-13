@@ -23,7 +23,6 @@ class Autoloader {
 
 	/** @var string[] */
 	public array $acceptFiles = ['*.php'];
-	private bool $autoRebuild = false;
 	private bool $reportParseErrors = true;
 
 	/** @var array<string,string> namespace => path */
@@ -80,28 +79,6 @@ class Autoloader {
 			}
 
 			[$file, $mtime] = $this->classes[$type] ?? null;
-
-			if ($this->autoRebuild) {
-				if (!$this->refreshed) {
-					if (!$file || !is_file($file)) {
-						$this->refreshClasses();
-						[$file] = $this->classes[$type] ?? null;
-						$this->needSave = true;
-
-					} elseif (filemtime($file) !== $mtime) {
-						$this->updateFile($file);
-						[$file] = $this->classes[$type] ?? null;
-						$this->needSave = true;
-					}
-				}
-
-				if (!$file || !is_file($file)) {
-					$this->missingClasses[$type] = ++$missing;
-					$this->needSave = $this->needSave || $file || ($missing <= self::RetryLimit);
-					unset($this->classes[$type]);
-					$file = null;
-				}
-			}
 
 			if ($file) {
 				(static function ($file) {
@@ -180,7 +157,7 @@ class Autoloader {
 	 * Refreshes $this->classes.
 	 */
 	private function refreshClasses(): void {
-		$this->refreshed = true; // prevents calling refreshClasses() or updateFile() in tryLoad()
+		$this->refreshed = true; // prevents calling refreshClasses() in tryLoad()
 		$files = [];
 		$classes = [];
 		foreach ($this->classes as $class => [$file, $mtime]) {
@@ -270,118 +247,7 @@ class Autoloader {
 		return false;
 	}
 
-	private function updateFile(string $file): void {
-		foreach ($this->classes as $class => [$prevFile]) {
-			if ($file === $prevFile) {
-				unset($this->classes[$class]);
-			}
-		}
-
-		$foundClasses = is_file($file) ? $this->scanPhp($file) : [];
-
-		foreach ($foundClasses as $class) {
-			[$prevFile, $prevMtime] = $this->classes[$class] ?? null;
-
-			if (isset($prevFile) && @filemtime($prevFile) !== $prevMtime) { // @ file may not exist
-				$this->updateFile($prevFile);
-				[$prevFile] = $this->classes[$class] ?? null;
-			}
-
-			if (isset($prevFile)) {
-				throw new \RuntimeException(sprintf(
-					'Ambiguous class %s resolution; defined in %s and in %s.',
-					$class,
-					$prevFile,
-					$file,
-				));
-			}
-
-			$this->classes[$class] = [$file, filemtime($file)];
-		}
-	}
-
-	/**
-	 * Searches classes, interfaces and traits in PHP file.
-	 * @return string[]
-	 */
-	private function scanPhp(string $file): array {
-		$code = file_get_contents($file);
-		$expected = false;
-		$namespace = $name = '';
-		$level = $minLevel = 0;
-		$classes = [];
-
-		try {
-			$tokens = \PhpToken::tokenize($code, TOKEN_PARSE);
-		} catch (\ParseError $e) {
-			if ($this->reportParseErrors) {
-				$rp = new \ReflectionProperty($e, 'file');
-				$rp->setAccessible(true);
-				$rp->setValue($e, $file);
-				throw $e;
-			}
-
-			$tokens = [];
-		}
-
-		foreach ($tokens as $token) {
-			switch ($token->id) {
-				case T_COMMENT:
-				case T_DOC_COMMENT:
-				case T_WHITESPACE:
-					continue 2;
-
-				case T_STRING:
-				case T_NAME_QUALIFIED:
-					if ($expected) {
-						$name .= $token->text;
-					}
-
-					continue 2;
-
-				case T_NAMESPACE:
-				case T_CLASS:
-				case T_INTERFACE:
-				case T_TRAIT:
-				case PHP_VERSION_ID < 80100
-					? T_CLASS
-				: T_ENUM:
-				$expected = $token->id;
-					$name = '';
-					continue 2;
-			}
-
-			if ($expected) {
-				if ($expected === T_NAMESPACE) {
-					$namespace = $name ? $name . '\\' : '';
-					$minLevel = $token->text === '{' ? 1 : 0;
-
-				} elseif ($name && $level === $minLevel) {
-					$classes[] = $namespace . $name;
-				}
-
-				$expected = null;
-			}
-
-			if ($token->text === '{') {
-				$level++;
-			} elseif ($token->text === '}') {
-				$level--;
-			}
-		}
-
-		return $classes;
-	}
-
-	/********************* caching ****************d*g**/
-
-	/**
-	 * Sets auto-refresh mode.
-	 */
-	public function setAutoRefresh(bool $on = true): static {
-		$this->autoRebuild = $on;
-		return $this;
-	}
+	/********************* caching *******************/
 
 	/**
 	 * Loads class list from cache.
