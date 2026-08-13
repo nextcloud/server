@@ -478,7 +478,7 @@ class Repository {
 
 		foreach ($orderBy as $field => $direction) {
 			$column = $entityInfo->mappingPropertyToColumn[$field];
-			$qb->addOrderBy('e.' . $column, $direction === \SortDirection::Ascending ? 'ASC' : 'DESC');
+			$qb->addOrderBy('e.' . $column, $direction);
 		}
 
 		return [$qb, $relations];

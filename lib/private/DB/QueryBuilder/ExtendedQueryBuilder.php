@@ -10,7 +10,10 @@ namespace OC\DB\QueryBuilder;
 
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\ConflictResolutionMode;
+use OCP\DB\QueryBuilder\ILiteral;
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 
 /**
@@ -251,13 +254,13 @@ abstract class ExtendedQueryBuilder extends TypedQueryBuilder {
 	}
 
 	#[\Override]
-	public function orderBy($sort, $order = null) {
+	public function orderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self {
 		$this->builder->orderBy($sort, $order);
 		return $this;
 	}
 
 	#[\Override]
-	public function addOrderBy($sort, $order = null) {
+	public function addOrderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self {
 		$this->builder->addOrderBy($sort, $order);
 		return $this;
 	}

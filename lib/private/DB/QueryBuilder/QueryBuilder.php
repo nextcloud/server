@@ -1115,18 +1115,13 @@ class QueryBuilder extends TypedQueryBuilder {
 		return $this;
 	}
 
-	/**
-	 * Specifies an ordering for the query results.
-	 * Replaces any previously specified orderings, if any.
-	 *
-	 * @param string|IQueryFunction|ILiteral|IParameter $sort The ordering expression.
-	 * @param string $order The ordering direction.
-	 *
-	 * @return $this This QueryBuilder instance.
-	 */
 	#[\Override]
-	public function orderBy($sort, $order = null) {
-		if ($order !== null && !in_array(strtoupper((string)$order), ['ASC', 'DESC'], true)) {
+	public function orderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self {
+		if ($order === \SortDirection::Ascending) {
+			$order = 'ASC';
+		} elseif ($order === \SortDirection::Descending) {
+			$order = 'DESC';
+		} elseif ($order !== null && !in_array(strtoupper($order), ['ASC', 'DESC'], true)) {
 			$order = null;
 		}
 
@@ -1138,17 +1133,13 @@ class QueryBuilder extends TypedQueryBuilder {
 		return $this;
 	}
 
-	/**
-	 * Adds an ordering to the query results.
-	 *
-	 * @param string|ILiteral|IParameter|IQueryFunction $sort The ordering expression.
-	 * @param string $order The ordering direction.
-	 *
-	 * @return $this This QueryBuilder instance.
-	 */
 	#[\Override]
-	public function addOrderBy($sort, $order = null) {
-		if ($order !== null && !in_array(strtoupper((string)$order), ['ASC', 'DESC'], true)) {
+	public function addOrderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self {
+		if ($order === \SortDirection::Ascending) {
+			$order = 'ASC';
+		} elseif ($order === \SortDirection::Descending) {
+			$order = 'DESC';
+		} elseif ($order !== null && !in_array(strtoupper($order), ['ASC', 'DESC'], true)) {
 			$order = null;
 		}
 
