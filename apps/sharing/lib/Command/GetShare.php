@@ -21,6 +21,7 @@ final class GetShare extends SharingBase {
 			->setName('sharing:get-share')
 			->setDescription('Get a share.')
 			->addArgument('id', InputArgument::REQUIRED, 'Share ID');
+		parent::configure();
 	}
 
 	#[\Override]
@@ -28,6 +29,6 @@ final class GetShare extends SharingBase {
 		/** @var string $id */
 		$id = $input->getArgument('id');
 
-		return $this->wrapExecution($output, fn (): Share => $this->manager->getShare($this->accessContext, $id));
+		return $this->wrapExecution($input, $output, fn (): Share => $this->manager->getShare($this->accessContext, $id));
 	}
 }

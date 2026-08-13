@@ -24,12 +24,14 @@ final class DeleteShare extends SharingBase {
 			->setName('sharing:delete-share')
 			->setDescription('Delete a share.')
 			->addArgument('id', InputArgument::REQUIRED, 'Share ID');
+		parent::configure();
 	}
 
 	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		/** @var string $id */
 		$id = $input->getArgument('id');
+		$this->applyActor($input);
 
 		try {
 			try {
