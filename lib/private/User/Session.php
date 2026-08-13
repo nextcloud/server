@@ -631,7 +631,7 @@ class Session implements IUserSession, Emitter {
 				throw new LoginException();
 			} catch (PasswordLoginForbiddenException $ex) {
 				// If credentials were provided, they need to be valid, otherwise we do boom
-				throw new LoginException(previous: $ex);
+				throw new LoginException('', 0, $ex);
 			}
 		}
 		return false;
