@@ -17,7 +17,8 @@ $noProviders = empty($_['providers']);
 	</p>
 	<?php endif; ?>
 	<?php if ($noProviders): ?>
-	<img class="two-factor-icon" src="<?php p(image_path('core', 'actions/password-white.svg')) ?>" alt="" />
+	<img class="two-factor-icon two-factor-icon-light" src="<?php p(image_path('core', 'actions/password.svg')) ?>" alt="" />
+	<img class="two-factor-icon two-factor-icon-dark" src="<?php p(image_path('core', 'actions/password-white.svg')) ?>" alt="" />
 	<p>
 		<?php if (is_null($_['backupProvider'])): ?>
 			<?php if (!$_['hasSetupProviders']) { ?>
@@ -49,12 +50,15 @@ $noProviders = empty($_['providers']);
 			   )) ?>">
 				<?php
 				if ($provider instanceof \OCP\Authentication\TwoFactorAuth\IProvidesIcons) {
-					$icon = $provider->getLightIcon();
+					$iconLight = $provider->getLightIcon();
+					$iconDark = $provider->getDarkIcon();
 				} else {
-					$icon = image_path('core', 'actions/password-white.svg');
+					$iconLight = image_path('core', 'actions/password.svg');
+                    $iconDark = image_path('core', 'actions/password-white.svg');
 				}
 		?>
-				<img src="<?php p($icon) ?>" alt="" />
+				<img class="two-factor-icon-light" src="<?php p($iconLight) ?>" alt="" />
+                <img class="two-factor-icon-dark" src="<?php p($iconDark) ?>" alt="" />
 				<div>
 					<h3><?php p($provider->getDisplayName()) ?></h3>
 					<p><?php p($provider->getDescription()) ?></p>
