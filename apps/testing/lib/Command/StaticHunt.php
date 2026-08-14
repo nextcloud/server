@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class StaticHunt extends Command {
-	private const SKIP_REGEX = [
+	private const array SKIP_REGEX = [
 		'@/templates/.+.php$@',
 		'@/ajax/.+.php$@',
 		'@/register_command.php$@',

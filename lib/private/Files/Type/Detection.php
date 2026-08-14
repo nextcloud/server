@@ -24,9 +24,9 @@ use Psr\Log\LoggerInterface;
  * @package OC\Files\Type
  */
 class Detection implements IMimeTypeDetector {
-	private const CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
-	private const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
-	private const CUSTOM_MIMETYPENAMES = 'mimetypenames.json';
+	private const string CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
+	private const string CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
+	private const string CUSTOM_MIMETYPENAMES = 'mimetypenames.json';
 
 	/** @var array<list{string, string|null}> */
 	protected array $mimeTypes = [];

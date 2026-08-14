@@ -43,7 +43,7 @@ use Psr\Log\LoggerInterface;
 class FilesMetadataManager implements IFilesMetadataManager {
 	public const CONFIG_KEY = 'files_metadata';
 	public const MIGRATION_DONE = 'files_metadata_installed';
-	private const JSON_MAXSIZE = 100000;
+	private const int JSON_MAXSIZE = 100000;
 
 	private ?IFilesMetadata $all = null;
 

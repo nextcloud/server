@@ -8,44 +8,46 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Mount;
 
-use OC\Core\Command\Base;
+use OCP\Console\Attribute\Argument;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IInput;
+use OCP\Console\IOutput;
+use OCP\Console\OutputFormat;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IUserManager;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class ListMounts extends Base {
+#[AsCommand(
+	name: 'files:mount:list',
+	description: 'List of mounts for a user',
+	supportsOutputFormat: true,
+)]
+class ListMounts {
 	public function __construct(
 		private readonly IUserManager $userManager,
 		private readonly IUserMountCache $userMountCache,
 		private readonly IMountProviderCollection $mountProviderCollection,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		parent::configure();
-		$this
-			->setName('files:mount:list')
-			->setDescription('List of mounts for a user')
-			->addArgument('user', InputArgument::REQUIRED, 'User to list mounts for')
-			->addOption('cached-only', null, InputOption::VALUE_NONE, 'Only return cached mounts, prevents filesystem setup');
-	}
-
-	#[\Override]
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		$userId = $input->getArgument('user');
-		$cachedOnly = $input->getOption('cached-only');
+	public function __invoke(
+		IInput $input,
+		IOutput $output,
+		OutputFormat $outputFormat,
+		#[Argument(description: 'User to list mounts for')]
+		string $user,
+		#[Option(name: 'cached-only', description: 'Only return cached mounts, prevents filesystem setup')]
+		bool $cachedOnly = false,
+	): ExitCode {
+		$userId = $user;
 		$user = $this->userManager->get($userId);
 		if (!$user) {
 			$output->writeln("<error>User $userId not found</error>");
-			return 1;
+			return ExitCode::Failure;
 		}
 
 		if ($cachedOnly) {
@@ -63,9 +65,7 @@ class ListMounts extends Base {
 		/** @var array<string, ICachedMountInfo> $cachedByMountpoint */
 		$cachedByMountPoint = array_combine(array_map(fn (ICachedMountInfo $mount) => $mount->getMountPoint(), $cachedMounts), $cachedMounts);
 
-		$format = $input->getOption('output');
-
-		if ($format === self::OUTPUT_FORMAT_PLAIN) {
+		if ($outputFormat === OutputFormat::Plain) {
 			foreach ($mounts as $mount) {
 				$output->writeln('<info>' . $mount->getMountPoint() . '</info>: ' . $mount->getStorageId());
 				if (isset($cachedByMountPoint[$mount->getMountPoint()])) {
@@ -101,12 +101,11 @@ class ListMounts extends Base {
 				'storage_id' => $cachedMountInfo->getStorageId(),
 				'root_id' => $cachedMountInfo->getStorageRootId(),
 			], $mounts);
-			$this->writeArrayInOutputFormat($input, $output, array_filter([
+			$output->writeArrayInOutputFormat(array_filter([
 				'cached' => $cached,
 				'provided' => $cachedOnly ? null : $provided,
 			]));
 		}
-		return 0;
+		return ExitCode::Success;
 	}
-
 }

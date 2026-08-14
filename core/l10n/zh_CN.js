@@ -75,7 +75,7 @@ OC.L10N.register(
     "Repair info:" : "修复 信息：",
     "Repair warning:" : "修复 警告：",
     "Repair error:" : "修复 错误：",
-    "Log out" : "注销",
+    "Log out" : "登出",
     "Nextcloud Server" : "Nextcloud 服务器",
     "Some of your link shares have been removed" : "您的一些链接共享已被移除",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "由于一个安全缺陷，我们必须移除您的部分链接共享。更多信息请查看此链接。",
@@ -219,7 +219,8 @@ OC.L10N.register(
     "More apps" : "更多的应用程序",
     "App store" : "应用商店",
     "Settings" : "设置",
-    "Open apps menu, currently in {app}" : "打开应用菜单，当前正处于{app}",
+    "Profile" : "个人资料",
+    "Open apps menu, currently in {app}" : "打开应用菜单，当前正处于 {app}",
     "Open apps menu" : "打开应用菜单",
     "Applications" : "应用程序",
     "Apps" : "应用",
@@ -576,6 +577,6 @@ OC.L10N.register(
     "Groups" : "群组",
     "Group list is empty" : "群组列表为空",
     "Unable to retrieve the group list" : "无法检索群组列表",
-    "Search apps, files, tags, messages …" : "搜索应用程序、文件、标签，消息"
+    "Search apps, files, tags, messages …" : "搜索应用、文件、标签、消息 …"
 },
 "nplurals=1; plural=0;");

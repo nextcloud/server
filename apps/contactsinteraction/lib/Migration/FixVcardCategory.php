@@ -20,7 +20,7 @@ use Sabre\VObject\Reader;
 
 class FixVcardCategory implements IRepairStep {
 
-	private const CARDS_PER_BATCH = 5000;
+	private const int CARDS_PER_BATCH = 5000;
 
 	public function __construct(
 		private readonly IDBConnection $connection,

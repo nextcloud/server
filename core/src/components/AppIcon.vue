@@ -93,14 +93,16 @@ $bevel:
 		}
 	}
 
+	// Utility entries ("More apps", "App store") stay subdued: a plain circle
+	// with the icon in the same muted color as the label.
 	&--outlined {
 		background: transparent;
 		background-image: none;
-		box-shadow: inset 0 0 0 2px var(--color-border-maxcontrast);
+		box-shadow: inset 0 0 0 2px var(--color-border);
 	}
 
 	&--outlined &__img {
-		background-color: var(--color-main-text);
+		background-color: var(--color-text-maxcontrast);
 		background-image: none;
 	}
 }

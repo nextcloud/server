@@ -20,7 +20,7 @@ use OCP\Util;
 
 class CalDAVSettings implements IDelegatedSettings {
 
-	private const defaults = [
+	private const array defaults = [
 		'sendInvitations' => 'yes',
 		'generateBirthdayCalendar' => 'yes',
 		'sendEventReminders' => 'yes',

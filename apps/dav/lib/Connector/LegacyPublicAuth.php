@@ -24,7 +24,7 @@ use Sabre\DAV\Auth\Backend\AbstractBasic;
  * @package OCA\DAV\Connector
  */
 class LegacyPublicAuth extends AbstractBasic {
-	private const BRUTEFORCE_ACTION = 'legacy_public_webdav_auth';
+	private const string BRUTEFORCE_ACTION = 'legacy_public_webdav_auth';
 
 	private ?IShare $share = null;
 

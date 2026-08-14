@@ -233,6 +233,7 @@ OC.L10N.register(
     "More apps" : "Veel rakendusi",
     "App store" : "Rakendustepood",
     "Settings" : "Seadistused",
+    "Profile" : "Profiil",
     "Open apps menu, currently in {app}" : "Ava rakenduste menüü, hetkel siin: {app}",
     "Open apps menu" : "Ava rakenduste menüü",
     "Applications" : "Rakendused",

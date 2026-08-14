@@ -11,6 +11,7 @@ namespace OCA\Sharing\Command;
 
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\Share;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,6 +27,7 @@ final class UpdateShareRecipientSecret extends SharingBase {
 			->addArgument('class', InputArgument::REQUIRED, 'Recipient class')
 			->addArgument('value', InputArgument::REQUIRED, 'Recipient value')
 			->addArgument('instance', InputArgument::OPTIONAL, 'Recipient instance');
+		parent::configure();
 	}
 
 	#[\Override]
@@ -41,9 +43,9 @@ final class UpdateShareRecipientSecret extends SharingBase {
 		/** @var non-empty-string $secret */
 		$secret = $input->getArgument('secret');
 
-		return $this->wrapExecution($output, function () use ($id, $class, $value, $instance, $secret): string {
-			$this->manager->updateShareRecipientSecret($this->accessContext, $id, new ShareRecipient($class, $value, $instance), $secret);
-			return $id;
+		return $this->wrapExecution($input, $output, function () use ($id, $class, $value, $instance, $secret): Share {
+			$share = $this->manager->getShare($this->accessContext, $id);
+			return $this->manager->updateShareRecipientSecret($this->accessContext, $share, new ShareRecipient($class, $value, $instance), $secret);
 		});
 	}
 }

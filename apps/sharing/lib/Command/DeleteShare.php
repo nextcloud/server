@@ -24,18 +24,21 @@ final class DeleteShare extends SharingBase {
 			->setName('sharing:delete-share')
 			->setDescription('Delete a share.')
 			->addArgument('id', InputArgument::REQUIRED, 'Share ID');
+		parent::configure();
 	}
 
 	#[\Override]
 	public function execute(InputInterface $input, OutputInterface $output): int {
 		/** @var string $id */
 		$id = $input->getArgument('id');
+		$this->applyActor($input);
 
 		try {
 			try {
 				$this->dbConnection->beginTransaction();
 
-				$this->manager->deleteShare($this->accessContext, $id);
+				$share = $this->manager->getShare($this->accessContext, $id);
+				$this->manager->deleteShare($this->accessContext, $share);
 				$this->dbConnection->commit();
 				return Base::SUCCESS;
 			} catch (Exception $exception) {

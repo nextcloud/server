@@ -12,9 +12,9 @@ use Exception;
 
 class TextImporter {
 
-	public const OBJECT_PREFIX = 'BEGIN:VCALENDAR' . PHP_EOL;
-	public const OBJECT_SUFFIX = PHP_EOL . 'END:VCALENDAR';
-	private const COMPONENT_TYPES = ['VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE'];
+	public const string OBJECT_PREFIX = 'BEGIN:VCALENDAR' . PHP_EOL;
+	public const string OBJECT_SUFFIX = PHP_EOL . 'END:VCALENDAR';
+	private const array COMPONENT_TYPES = ['VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE'];
 
 	private bool $analyzed = false;
 	private array $structure = ['VCALENDAR' => [], 'VEVENT' => [], 'VTODO' => [], 'VJOURNAL' => [], 'VTIMEZONE' => []];

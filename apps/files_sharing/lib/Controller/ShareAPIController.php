@@ -77,7 +77,7 @@ use Psr\Log\LoggerInterface;
 class ShareAPIController extends OCSController {
 
 	/** Maximum length of a custom share token, matching the oc_share.token database column. */
-	private const TOKEN_MAX_LENGTH = 32;
+	private const int TOKEN_MAX_LENGTH = 32;
 
 	private ?Node $lockedNode = null;
 	/** @var array<bool> $trustedServerCache */

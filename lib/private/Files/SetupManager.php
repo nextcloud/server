@@ -95,8 +95,8 @@ class SetupManager implements ISetupManager {
 	private bool $setupBuiltinWrappersDone = false;
 	private bool $forceFullSetup;
 	private bool $optimizeAuthoritativeProviders;
-	private const SETUP_WITH_CHILDREN = 1;
-	private const SETUP_WITHOUT_CHILDREN = 0;
+	private const int SETUP_WITH_CHILDREN = 1;
+	private const int SETUP_WITHOUT_CHILDREN = 0;
 
 	private bool $updatingProviders = false;
 

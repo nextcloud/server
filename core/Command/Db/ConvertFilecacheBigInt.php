@@ -7,7 +7,6 @@
 
 namespace OC\Core\Command\Db;
 
-use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
 use OCP\DB\Types;
@@ -73,9 +72,9 @@ class ConvertFilecacheBigInt extends Command {
 				$column = $table->getColumn($columnName);
 				$isAutoIncrement = $column->getAutoincrement();
 				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
-				if (Type::lookupName($column->getType()) !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
-					$column->setType(Type::getType(Types::BIGINT));
-					$column->setOptions(['length' => 20]);
+				if ($column->getType()->getName() !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
+					$column->setType(Types::BIGINT);
+					$column->setLength(20);
 
 					$updates[] = '* ' . $tableName . '.' . $columnName;
 				}

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,41 +10,39 @@
 
 namespace OCA\Files\Command;
 
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Delete all file entries that have no matching entries in the storage table.
  */
-class DeleteOrphanedFiles extends Command {
-	public const CHUNK_SIZE = 200;
+#[AsCommand(
+	name: 'files:cleanup',
+	description: 'Clean up orphaned filecache and mount entries',
+	help: 'Deletes orphaned filecache and mount entries (those without an existing storage).',
+)]
+class DeleteOrphanedFiles {
+	public const int CHUNK_SIZE = 200;
 
 	public function __construct(
-		protected IDBConnection $connection,
+		protected readonly IDBConnection $connection,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		$this
-			->setName('files:cleanup')
-			->setDescription('Clean up orphaned filecache and mount entries')
-			->setHelp('Deletes orphaned filecache and mount entries (those without an existing storage).')
-			->addOption('skip-filecache-extended', null, InputOption::VALUE_NONE, 'don\'t remove orphaned entries from filecache_extended');
-	}
-
-	#[\Override]
-	public function execute(InputInterface $input, OutputInterface $output): int {
+	public function __invoke(
+		IOutput $output,
+		#[Option(name: 'skip-filecache-extended', description: 'don\'t remove orphaned entries from filecache_extended')]
+		bool $skipFilecacheExtended = false,
+	): ExitCode {
 		$fileIdsByStorage = [];
 
 		$deletedStorages = array_diff($this->getReferencedStorages(), $this->getExistingStorages());
 
-		$deleteExtended = !$input->getOption('skip-filecache-extended');
+		$deleteExtended = !$skipFilecacheExtended;
 		if ($deleteExtended) {
 			$fileIdsByStorage = $this->getFileIdsForStorages($deletedStorages);
 		}
@@ -58,7 +58,7 @@ class DeleteOrphanedFiles extends Command {
 		$deletedMounts = $this->cleanupOrphanedMounts();
 		$output->writeln("$deletedMounts orphaned mount entries deleted");
 
-		return self::SUCCESS;
+		return ExitCode::Success;
 	}
 
 	private function getReferencedStorages(): array {

@@ -73,7 +73,7 @@ class TagsTest extends \Test\TestCase {
 			->willReturnCallback(fn () => 'file.txt');
 
 		$this->objectType = $this->getUniqueID('type_');
-		$this->tagMapper = new TagMapper(Server::get(IDBConnection::class));
+		$this->tagMapper = Server::get(TagMapper::class);
 		$this->tagMgr = new TagManager(
 			$this->tagMapper,
 			$this->userSession,

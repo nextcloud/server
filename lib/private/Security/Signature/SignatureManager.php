@@ -97,6 +97,7 @@ class SignatureManager implements ISignatureManager {
 	public function getIncomingSignedRequest(
 		ISignatoryManager $signatoryManager,
 		?string $body = null,
+		?string $origin = null,
 	): IIncomingSignedRequest {
 		$body = $body ?? file_get_contents('php://input');
 		$options = $signatoryManager->getOptions();
@@ -106,7 +107,7 @@ class SignatureManager implements ISignatureManager {
 
 		// `Signature-Input` is unique to RFC 9421; cavage uses `Signature` only.
 		if ($this->request->getHeader('Signature-Input') !== '') {
-			return $this->getRfc9421IncomingSignedRequest($signatoryManager, $body, $options);
+			return $this->getRfc9421IncomingSignedRequest($signatoryManager, $body, $options, $origin);
 		}
 
 		// generate IncomingSignedRequest based on body and request
@@ -132,6 +133,11 @@ class SignatureManager implements ISignatureManager {
 	/**
 	 * RFC 9421 inbound path. Requires {@see IJwkResolvingSignatoryManager}.
 	 *
+	 * @param ISignatoryManager $signatoryManager
+	 * @param string $body request body
+	 * @param array $options signatory manager options
+	 * @param string|null $origin signer origin from the caller (the keyid is opaque)
+	 *
 	 * @throws IncomingRequestException
 	 * @throws SignatureException
 	 * @throws SignatureNotFoundException
@@ -140,17 +146,25 @@ class SignatureManager implements ISignatureManager {
 		ISignatoryManager $signatoryManager,
 		string $body,
 		array $options,
+		?string $origin,
 	): IIncomingSignedRequest {
 		if (!($signatoryManager instanceof IJwkResolvingSignatoryManager)) {
 			throw new IncomingRequestException('RFC 9421 inbound is not supported by ' . get_class($signatoryManager));
 		}
+		if ($origin === null || $origin === '') {
+			// The keyid is opaque; the caller must supply the signer origin.
+			throw new IncomingRequestException('RFC 9421 verification requires the sender origin');
+		}
 
 		$signedRequest = new Rfc9421IncomingSignedRequest($body, $this->request, $options);
+		$signedRequest->setOrigin($origin);
 
 		try {
 			$key = $signatoryManager->getRemoteKey($signedRequest->getOrigin(), $signedRequest->getKeyId());
 			if ($key === null) {
-				throw new SignatoryNotFoundException('no JWK resolved for keyid ' . $signedRequest->getKeyId());
+				// a present signature MUST be verified; an unresolvable key
+				// is a verification failure, not an unsigned request
+				throw new IncomingRequestException('no JWK resolved for keyid ' . $signedRequest->getKeyId());
 			}
 			$signedRequest->setKey($key);
 			$signedRequest->verify();

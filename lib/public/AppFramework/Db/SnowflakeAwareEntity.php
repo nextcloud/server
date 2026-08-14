@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Db;
 
 use OCP\AppFramework\Attribute\Consumable;
-use OCP\DB\Types;
+use OCP\DB\Schema\ColumnType;
 use OCP\Server;
 use OCP\Snowflake\ISnowflakeDecoder;
 use OCP\Snowflake\ISnowflakeGenerator;
@@ -24,8 +24,8 @@ use OCP\Snowflake\Snowflake;
 abstract class SnowflakeAwareEntity extends Entity {
 	protected ?Snowflake $snowflake = null;
 
-	/** @psalm-param $_fieldTypes array<string, Types::*> */
-	protected array $_fieldTypes = ['id' => Types::STRING];
+	/** @psalm-param $_fieldTypes array<string, ColumnType> */
+	protected array $_fieldTypes = ['id' => ColumnType::String];
 
 	/**
 	 * @since 33.0.0

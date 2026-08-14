@@ -233,6 +233,7 @@ OC.L10N.register(
     "More apps" : "Daugiau programėlių",
     "App store" : "Programėlių parduotuvė",
     "Settings" : "Nustatymai",
+    "Profile" : "Profilis",
     "Open apps menu, currently in {app}" : "Atidaryti programėlių meniu, šiuo metu {app}",
     "Open apps menu" : "Atidarykite programėlių meniu",
     "Applications" : "Programėlės",

@@ -30,7 +30,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
 class LocalPreviewStorage implements IPreviewStorage {
-	private const SCAN_BATCH_SIZE = 1000;
+	private const int SCAN_BATCH_SIZE = 1000;
 
 	public function __construct(
 		private readonly IConfig $config,

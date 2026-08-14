@@ -10,5 +10,7 @@ declare(strict_types=1);
 
 namespace OC;
 
-class ServiceUnavailableException extends \Exception {
+use Psr\Container\ContainerExceptionInterface;
+
+class ServiceUnavailableException extends \Exception implements ContainerExceptionInterface {
 }

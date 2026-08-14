@@ -27,6 +27,8 @@ class AlgorithmTest extends TestCase {
 
 	public function testNormalizeJoseAliases(): void {
 		$this->assertSame('ed25519', Algorithm::normalize('EdDSA'));
+		// fully-specified RFC 9864 name, recommended by the OCM spec
+		$this->assertSame('ed25519', Algorithm::normalize('Ed25519'));
 		$this->assertSame('ecdsa-p256-sha256', Algorithm::normalize('ES256'));
 		$this->assertSame('ecdsa-p384-sha384', Algorithm::normalize('ES384'));
 		$this->assertSame('rsa-v1_5-sha256', Algorithm::normalize('RS256'));
@@ -117,7 +119,9 @@ class AlgorithmTest extends TestCase {
 	public function testParseKeyRejectsContradictoryAlg(): void {
 		$this->markTestSkipped(
 			'firebase/php-jwt JWK::parseKey does not validate kty/crv/alg coherence; '
-			. 'the alg mismatch is caught at verify() time instead — see testVerifyEd25519KeyAgainstES256Alg.'
+			. 'OCMSignatoryManager::findKid() rejects such keys before parsing '
+			. '(see OCMSignatoryManagerJwksTest::testGetRemoteKeyRejectsJwkAlgMismatchingKeyType) '
+			. 'and a remaining mismatch is caught at verify() time.'
 		);
 	}
 

@@ -21,13 +21,7 @@
 	</dependencies>
 
 	<navigations>
-		<navigation role="admin">
-			<name>Appstore</name>
-			<route>appstore.page.viewApps</route>
-			<icon>app.svg</icon>
-			<order>99</order>
-		</navigation>
-
+		<!-- No app menu entry: the menu already has a "More apps" tile linking here -->
 		<navigation role="admin">
 			<name>Apps</name>
 			<route>appstore.page.viewApps</route>

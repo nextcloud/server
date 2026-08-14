@@ -41,14 +41,14 @@ class FederationRateLimit extends AnonRateLimit {
 		}
 
 		try {
-			$signedRequest = $this->discoveryService->getIncomingSignedRequest();
+			$owner = $request->getParam('owner');
+			$signedRequest = $this->discoveryService->getIncomingSignedRequest(is_string($owner) ? $owner : null);
 			if (!$signedRequest) {
 				return true;
 			}
-			$signedRequest->verify();
 			return !$this->trustedServers->isTrustedServer($signedRequest->getOrigin());
 		} catch (\Exception) {
-			// no or invalid signature
+			// no or invalid signature, or unresolvable origin
 			return true;
 		}
 	}

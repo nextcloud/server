@@ -25,7 +25,7 @@ use OCP\Server;
 use RuntimeException;
 
 final class FilterFactory {
-	private const PERSON_TYPE_SEPARATOR = '/';
+	private const string PERSON_TYPE_SEPARATOR = '/';
 
 	public static function get(string $type, string|array $filter): IFilter {
 		return match ($type) {

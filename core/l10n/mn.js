@@ -218,6 +218,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} мэдэгдэл","{count} мэдэгдэл"],
     "More apps" : "Бусад аппууд",
     "Settings" : "–¢–æ—Ö–∏—Ä–≥–æ–æ",
+    "Profile" : "Профайл",
     "Apps" : "Апп-ууд",
     "No" : "Үгүй",
     "Yes" : "Тийм",

@@ -24,9 +24,9 @@ class DeleteOrphanedSharesJob extends TimedJob {
 
 	use TTransactional;
 
-	private const CHUNK_SIZE = 1000;
+	private const int CHUNK_SIZE = 1000;
 
-	private const INTERVAL = 24 * 60 * 60;
+	private const int INTERVAL = 24 * 60 * 60;
 
 	/**
 	 * sets the correct interval for this timed job

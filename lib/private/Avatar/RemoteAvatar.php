@@ -15,10 +15,11 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class RemoteAvatar extends Avatar {
-	private const IMAGE_CACHE_AGE = 60 * 60 * 24; // One day
+	private const int IMAGE_CACHE_AGE = 60 * 60 * 24; // One day
 
 	private ICloudId $cloudId;
 
@@ -30,7 +31,7 @@ class RemoteAvatar extends Avatar {
 	) {
 		parent::__construct($config, $logger);
 
-		$cloudIdManager = \OCP\Server::get(ICloudIdManager::class);
+		$cloudIdManager = Server::get(ICloudIdManager::class);
 		$this->cloudId = $cloudIdManager->resolveCloudId($userId);
 	}
 
@@ -88,7 +89,7 @@ class RemoteAvatar extends Avatar {
 			$url .= '/dark';
 		}
 
-		$clientService = \OCP\Server::get(IClientService::class);
+		$clientService = Server::get(IClientService::class);
 		$client = $clientService->newClient();
 		$response = $client->get($url, [
 			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false)

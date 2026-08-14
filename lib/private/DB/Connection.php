@@ -65,7 +65,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	protected int $queriesExecuted = 0;
 	protected ?DbDataCollector $dbDataCollector = null;
 	/** Seconds the connection may sit idle before the next use re-verifies connectivity */
-	private const CONNECTION_CHECK_INTERVAL = 30;
+	private const int CONNECTION_CHECK_INTERVAL = 30;
 	private array $lastConnectionCheck = [];
 
 	protected ?float $transactionActiveSince = null;

@@ -214,6 +214,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} notification","{count} taarifa"],
     "More apps" : "Apps zaidi",
     "Settings" : "Mipangilio",
+    "Profile" : "Wasifu",
     "Applications" : "Maombi",
     "Apps" : "Maombi",
     "No" : "Hapana",

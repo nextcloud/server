@@ -12,6 +12,7 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Accounts\AccountManager;
 use OC\Activity\EventMerger;
 use OC\App\AppManager;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
 use OC\AppFramework\Services\AppConfig;
@@ -134,6 +135,7 @@ use OC\SetupCheck\SetupCheckManager;
 use OC\Share20\ProviderFactory;
 use OC\Share20\PublicShareTemplateFactory;
 use OC\Share20\ShareHelper;
+use OC\Sharing\SharingBackend;
 use OC\Sharing\SharingManager;
 use OC\Sharing\SharingRegistry;
 use OC\Snowflake\APCuSequence;
@@ -206,6 +208,7 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\Template\ITemplateManager;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
+use OCP\GlobalScale\IGlobalScaleService;
 use OCP\Group\ISubAdmin;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
@@ -1156,7 +1159,18 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\NCU\Sharing\ISharingRegistry::class, SharingRegistry::class);
 		$this->registerAlias(\NCU\Sharing\ISharingManager::class, SharingManager::class);
-		$this->registerAlias(\NCU\Sharing\ISharingBackend::class, \OC\Sharing\SharingBackend::class);
+		$this->registerAlias(\NCU\Sharing\ISharingBackend::class, SharingBackend::class);
+
+		$this->registerService(IGlobalScaleService::class, function (ContainerInterface $c): IGlobalScaleService {
+			/** @var Coordinator $coordinator */
+			$coordinator = $c->get(Coordinator::class);
+			$registrationContext = $coordinator->getRegistrationContext();
+			$globalScaleServiceClass = $registrationContext->getGlobalScaleService();
+			if ($globalScaleServiceClass === null) {
+				throw new ServiceUnavailableException('The app providing the global scale service is not enabled');
+			}
+			return $c->get($globalScaleServiceClass);
+		});
 
 		$this->connectDispatcher();
 	}

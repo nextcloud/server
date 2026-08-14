@@ -8,49 +8,51 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object;
 
-use OC\Core\Command\Base;
+use OCP\Console\Attribute\Argument;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\ExitCode;
+use OCP\Console\IInput;
+use OCP\Console\IOutput;
+use OCP\Console\OutputFormat;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\Util;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class Info extends Base {
+#[AsCommand(
+	name: 'files:object:info',
+	description: 'Get the metadata of an object',
+	supportsOutputFormat: true,
+)]
+class Info {
 	public function __construct(
-		private ObjectUtil $objectUtils,
-		private IMimeTypeDetector $mimeTypeDetector,
+		private readonly ObjectUtil $objectUtils,
+		private readonly IMimeTypeDetector $mimeTypeDetector,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		parent::configure();
-		$this
-			->setName('files:object:info')
-			->setDescription('Get the metadata of an object')
-			->addArgument('object', InputArgument::REQUIRED, 'Object to get')
-			->addOption('bucket', 'b', InputOption::VALUE_REQUIRED, "Bucket to get the object from, only required in cases where it can't be determined from the config");
-	}
-
-	#[\Override]
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		$object = $input->getArgument('object');
-		$objectStore = $this->objectUtils->getObjectStore($input->getOption('bucket'), $output);
+	public function __invoke(
+		IInput $input,
+		IOutput $output,
+		OutputFormat $outputFormat,
+		#[Argument(description: 'Object to get')]
+		string $object,
+		#[Option(description: "Bucket to get the object from, only required in cases where it can't be determined from the config", shortcut: 'b')]
+		?string $bucket = null,
+	): ExitCode {
+		$objectStore = $this->objectUtils->getObjectStore($bucket, $output);
 		if (!$objectStore) {
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
 
 		if (!$objectStore instanceof IObjectStoreMetaData) {
 			$output->writeln('<error>Configured object store does currently not support retrieve metadata</error>');
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
 
 		if (!$objectStore->objectExists($object)) {
 			$output->writeln("<error>Object $object does not exist</error>");
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
 
 		try {
@@ -58,10 +60,10 @@ class Info extends Base {
 		} catch (\Exception $e) {
 			$msg = $e->getMessage();
 			$output->writeln("<error>Failed to read $object from object store: $msg</error>");
-			return self::FAILURE;
+			return ExitCode::Failure;
 		}
 
-		if ($input->getOption('output') === 'plain' && isset($meta['size'])) {
+		if ($outputFormat === OutputFormat::Plain && isset($meta['size'])) {
 			$meta['size'] = Util::humanFileSize($meta['size']);
 		}
 		if (isset($meta['mtime'])) {
@@ -74,9 +76,8 @@ class Info extends Base {
 			$meta['mimetype'] = $this->mimeTypeDetector->detectString($head);
 		}
 
-		$this->writeArrayInOutputFormat($input, $output, $meta);
+		$output->writeArrayInOutputFormat($meta);
 
-		return self::SUCCESS;
+		return ExitCode::Success;
 	}
-
 }

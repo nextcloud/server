@@ -220,6 +220,7 @@ OC.L10N.register(
     "More apps" : "برنامه‌های بیشتر",
     "App store" : "فروشگاه برنامه",
     "Settings" : "تنظیمات",
+    "Profile" : "پروفایل",
     "Open apps menu, currently in {app}" : "باز کردن منوی برنامه‌ها، در حال حاضر در {app}",
     "Open apps menu" : "باز کردن منوی برنامه‌ها",
     "Applications" : "برنامه‌ها",

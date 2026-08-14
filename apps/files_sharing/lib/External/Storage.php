@@ -61,8 +61,8 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	/** Unix timestamp before which the next exchange attempt must not be made (0 = no wait) */
 	private int $refreshBackoffUntil = 0;
 
-	private const REFRESH_MAX_ATTEMPTS = 3;
-	private const REFRESH_BACKOFF_SECONDS = 5;
+	private const int REFRESH_MAX_ATTEMPTS = 3;
+	private const int REFRESH_BACKOFF_SECONDS = 5;
 
 	/**
 	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, access_token: ?string, access_token_expires: ?int}|array $options

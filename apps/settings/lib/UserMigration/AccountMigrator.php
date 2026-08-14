@@ -32,13 +32,13 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 	use TMigratorBasicVersionHandling;
 	use TAccountsHelper;
 
-	private const PATH_ROOT = Application::APP_ID . '/';
+	private const string PATH_ROOT = Application::APP_ID . '/';
 
-	private const PATH_ACCOUNT_FILE = AccountMigrator::PATH_ROOT . 'account.json';
+	private const string PATH_ACCOUNT_FILE = AccountMigrator::PATH_ROOT . 'account.json';
 
-	private const AVATAR_BASENAME = 'avatar';
+	private const string AVATAR_BASENAME = 'avatar';
 
-	private const PATH_CONFIG_FILE = AccountMigrator::PATH_ROOT . 'config.json';
+	private const string PATH_CONFIG_FILE = AccountMigrator::PATH_ROOT . 'config.json';
 
 	public function __construct(
 		private IAccountManager $accountManager,

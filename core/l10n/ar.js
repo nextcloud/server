@@ -103,6 +103,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} إخطارات","{count} إخطارات","{count} إخطارات","{count} إخطارات","{count} إخطارات","{count} إخطارات"],
     "More apps" : "المزيد من التطبيقات",
     "Settings" : "الإعدادات",
+    "Profile" : "لمحة تعريفية",
     "Applications" : "التطبيقات",
     "Apps" : "التطبيقات",
     "No" : "لا",

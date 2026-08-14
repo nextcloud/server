@@ -41,8 +41,8 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	) {
 	}
 
-	private const DAV_PROPERTY_USER_ADDRESS = '{http://sabredav.org/ns}email-address';
-	private const DAV_PROPERTY_USER_ADDRESSES = '{urn:ietf:params:xml:ns:caldav}calendar-user-address-set';
+	private const string DAV_PROPERTY_USER_ADDRESS = '{http://sabredav.org/ns}email-address';
+	private const string DAV_PROPERTY_USER_ADDRESSES = '{urn:ietf:params:xml:ns:caldav}calendar-user-address-set';
 
 	/**
 	 * @return string defining the technical unique key

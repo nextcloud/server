@@ -48,7 +48,10 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 
 		$signatureManager = $this->createMock(ISignatureManager::class);
 		$signatureManager->method('generateKeyIdFromConfig')
-			->willReturnCallback(static fn (string $suffix): string => 'https://alice.example/' . ltrim($suffix, '/'));
+			->willThrowException(new IdentityNotFoundException('no configured identity'));
+		$urlGenerator = $this->createMock(IURLGenerator::class);
+		$urlGenerator->method('getAbsoluteURL')
+			->willReturnCallback(static fn (string $path): string => 'https://alice.example' . $path);
 
 		$cacheFactory = $this->createMock(ICacheFactory::class);
 		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache(''));
@@ -56,7 +59,7 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 		$this->signatoryManager = new OCMSignatoryManager(
 			$this->appConfig,
 			$signatureManager,
-			$this->createMock(IURLGenerator::class),
+			$urlGenerator,
 			$this->identityProofManager,
 			$this->stubClientService(),
 			$this->createMock(IConfig::class),
@@ -189,10 +192,11 @@ class OCMSignatoryManagerRotationTest extends TestCase {
 		// the admin gets a clear message instead of a corrupt half-state.
 		$signatureManager = $this->createMock(ISignatureManager::class);
 		$signatureManager->method('generateKeyIdFromConfig')
-			->willThrowException(new IdentityNotFoundException('no identity'));
+			->willThrowException(new IdentityNotFoundException('no configured identity'));
 		$urlGenerator = $this->createMock(IURLGenerator::class);
-		$urlGenerator->method('linkToRouteAbsolute')
-			->willThrowException(new IdentityNotFoundException('no url either'));
+		// getAbsoluteURL() yields no host, so the kid's identity cannot be
+		// resolved; provisioning must fail loudly rather than corrupt state.
+		$urlGenerator->method('getAbsoluteURL')->willReturn('');
 
 		$cacheFactory = $this->createMock(ICacheFactory::class);
 		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache(''));

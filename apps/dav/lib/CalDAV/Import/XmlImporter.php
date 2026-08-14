@@ -13,9 +13,9 @@ use XMLParser;
 
 class XmlImporter {
 
-	public const OBJECT_PREFIX = '<?xml version="1.0" encoding="UTF-8"?><icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0"><vcalendar><components>';
-	public const OBJECT_SUFFIX = '</components></vcalendar></icalendar>';
-	private const COMPONENT_TYPES = ['VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE'];
+	public const string OBJECT_PREFIX = '<?xml version="1.0" encoding="UTF-8"?><icalendar xmlns="urn:ietf:params:xml:ns:icalendar-2.0"><vcalendar><components>';
+	public const string OBJECT_SUFFIX = '</components></vcalendar></icalendar>';
+	private const array COMPONENT_TYPES = ['VEVENT', 'VTODO', 'VJOURNAL', 'VTIMEZONE'];
 
 	private bool $analyzed = false;
 	private array $structure = ['VCALENDAR' => [], 'VEVENT' => [], 'VTODO' => [], 'VJOURNAL' => [], 'VTIMEZONE' => []];

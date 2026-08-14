@@ -1437,14 +1437,6 @@
       <code><![CDATA[$this->fileIsEncrypted]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="apps/files/lib/Command/Object/Multi/Users.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUsersForUserValue]]></code>
-      <code><![CDATA[getUsersForUserValue]]></code>
-      <code><![CDATA[getUsersForUserValue]]></code>
-      <code><![CDATA[getUsersForUserValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/files/lib/Command/RepairTree.php">
     <DeprecatedMethod>
       <code><![CDATA[md5]]></code>
@@ -2668,11 +2660,6 @@
     <NullableReturnStatement>
       <code><![CDATA[$svg]]></code>
     </NullableReturnStatement>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Migration/Version1002Date20170919123342.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getName]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/twofactor_backupcodes/lib/Service/BackupCodeStorage.php">
     <DeprecatedMethod>
@@ -4114,12 +4101,6 @@
     <TypeDoesNotContainType>
       <code><![CDATA[ctype_digit($this->dbPort)]]></code>
     </TypeDoesNotContainType>
-    <UndefinedThisPropertyFetch>
-      <code><![CDATA[$this->dbprettyname]]></code>
-      <code><![CDATA[$this->dbprettyname]]></code>
-      <code><![CDATA[$this->dbprettyname]]></code>
-      <code><![CDATA[$this->dbprettyname]]></code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/Share20/DefaultShareProvider.php">
     <FalsableReturnStatement>
@@ -4150,15 +4131,6 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[getSupportedApps]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/Tags.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$from]]></code>
-      <code><![CDATA[$names]]></code>
-    </InvalidScalarArgument>
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$tag]]></code>
-    </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/Teams/TeamManager.php">
     <LessSpecificReturnStatement>

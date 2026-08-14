@@ -21,6 +21,8 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\Federation\ICloudId;
+use OCP\Federation\ICloudIdManager;
 use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
@@ -47,6 +49,7 @@ class TokenControllerTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private OcmTokenMapMapper&MockObject $ocmTokenMapMapper;
 	private IShareManager&MockObject $shareManager;
+	private ICloudIdManager&MockObject $cloudIdManager;
 
 	private TokenController $controller;
 
@@ -63,10 +66,13 @@ class TokenControllerTest extends TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->signatureManager = $this->createMock(ISignatureManager::class);
+		$this->signatureManager->method('extractIdentityFromUri')
+			->willReturnCallback(static fn (string $uri): string => (string)parse_url($uri, PHP_URL_HOST));
 		$this->signatoryManager = $this->createMock(OCMSignatoryManager::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->ocmTokenMapMapper = $this->createMock(OcmTokenMapMapper::class);
 		$this->shareManager = $this->createMock(IShareManager::class);
+		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 
 		$this->controller = new TokenController(
 			$this->request,
@@ -79,6 +85,7 @@ class TokenControllerTest extends TestCase {
 			$this->appConfig,
 			$this->ocmTokenMapMapper,
 			$this->shareManager,
+			$this->cloudIdManager,
 		);
 	}
 
@@ -129,6 +136,11 @@ class TokenControllerTest extends TestCase {
 		$this->shareManager->method('getShareByToken')
 			->with($refreshToken)
 			->willReturn($share);
+		$cloudId = $this->createMock(ICloudId::class);
+		$cloudId->method('getRemote')->willReturn('https://remote.example.com');
+		$this->cloudIdManager->method('resolveCloudId')
+			->with($sharedWith)
+			->willReturn($cloudId);
 
 		$signatory = new Signatory();
 		$signatory->setKeyId('https://local.example.com/index.php/ocm#signature');
@@ -149,10 +161,10 @@ class TokenControllerTest extends TestCase {
 		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
 		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
 		$this->signatureManager->method('getIncomingSignedRequest')
-			->with($this->signatoryManager)
+			->with($this->signatoryManager, null, 'remote.example.com')
 			->willReturn($signedRequest);
 
-		$this->configureHappyPath('valid-refresh-token', 123, 'testuser', 'owner', 'sharee@remote.example.com', 'fixedjtivalue00');
+		$this->configureHappyPath('valid-refresh-token', 123, 'testuser', 'owner', 'sharee@department@remote.example.com', 'fixedjtivalue00');
 
 		$this->ocmTokenMapMapper->expects($this->once())
 			->method('insert')
@@ -177,7 +189,7 @@ class TokenControllerTest extends TestCase {
 		$decoded = JWT::decode($data['access_token'], new Key($this->publicKeyPem, 'RS256'));
 		$this->assertSame('https://local.example.com', $decoded->iss);
 		$this->assertSame('owner', $decoded->sub);
-		$this->assertSame('sharee@remote.example.com', $decoded->aud);
+		$this->assertSame('sharee@department@remote.example.com', $decoded->aud);
 		$this->assertSame('789', $decoded->client_id);
 		$this->assertSame('fixedjtivalue00', $decoded->jti);
 		$this->assertSame(1000000, $decoded->iat);

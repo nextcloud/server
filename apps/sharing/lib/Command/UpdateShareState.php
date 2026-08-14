@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\Command;
 
+use NCU\Sharing\Share;
 use NCU\Sharing\ShareState;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,6 +23,7 @@ final class UpdateShareState extends SharingBase {
 			->setDescription('Update the state of a share.')
 			->addArgument('id', InputArgument::REQUIRED, 'Share ID')
 			->addArgument('state', InputArgument::REQUIRED, 'State');
+		parent::configure();
 	}
 
 	#[\Override]
@@ -32,9 +34,9 @@ final class UpdateShareState extends SharingBase {
 		$state = $input->getArgument('state');
 		$state = ShareState::from($state);
 
-		return $this->wrapExecution($output, function () use ($id, $state): string {
-			$this->manager->updateShareState($this->accessContext, $id, $state);
-			return $id;
+		return $this->wrapExecution($input, $output, function () use ($id, $state): Share {
+			$share = $this->manager->getShare($this->accessContext, $id);
+			return $this->manager->updateShareState($this->accessContext, $share, $state);
 		});
 	}
 }

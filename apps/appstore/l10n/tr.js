@@ -4,7 +4,6 @@ OC.L10N.register(
     "App store" : "Uygulama mağazası",
     "Apps" : "Uygulamalar",
     "Nextcloud Appstore" : "Nextcloud uygulama mağazası",
-    "Appstore" : "Uygulama Mağazası",
     "App name" : "Uygulama adı",
     "Version" : "Sürüm",
     "Support level" : "Destek düzeyi",

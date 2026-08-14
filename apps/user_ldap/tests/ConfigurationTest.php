@@ -55,6 +55,9 @@ class ConfigurationTest extends \Test\TestCase {
 
 		$password = ' such a passw0rd ';
 
+		$dnWithCrlf = "cn=admin\r\nset foo bar\r\n,dc=example,dc=org";
+		$expectedDn = 'cn=adminset foo bar,dc=example,dc=org';
+
 		return [
 			'set general base' => ['ldapBase', $inputWithDN, $expectWithDN],
 			'set user base' => ['ldapBaseUsers', $inputWithDN, $expectWithDN],
@@ -70,6 +73,7 @@ class ConfigurationTest extends \Test\TestCase {
 			'set login filter attributes' => ['ldapLoginFilterAttributes', $inputNames, $expectedNames],
 
 			'set agent password' => ['ldapAgentPassword', $password, $password],
+			'set agent name strips CRLF' => ['ldapAgentName', $dnWithCrlf, $expectedDn],
 
 			'set home folder, variant 1' => ['homeFolderNamingRule', $inputHomeFolder[0], $expectedHomeFolder[0]],
 			'set home folder, variant 2' => ['homeFolderNamingRule', $inputHomeFolder[1], $expectedHomeFolder[1]],
