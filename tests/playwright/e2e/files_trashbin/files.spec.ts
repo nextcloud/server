@@ -9,7 +9,7 @@ import type { TrashbinListPage } from '../../support/sections/TrashbinListPage.t
 import { readFile } from 'node:fs/promises'
 import { expect, test } from '../../support/fixtures/files-trashbin-page.ts'
 import { mkdir, rm, uploadContent } from '../../support/utils/dav.ts'
-import { ALL_PERMISSIONS, createShare, ShareType } from '../../support/utils/sharing.ts'
+import { createShare, ShareType } from '../../support/utils/sharing.ts'
 import { setUserDisplayName } from '../../support/utils/users.ts'
 
 test.describe('files_trashbin: download files', () => {
@@ -67,7 +67,7 @@ test.describe('files_trashbin: file row', () => {
 	test('shows data for a file deleted by a sharee in a group share', async ({ user, aliceRequest, bob, bobRequest, group, filesListPage }) => {
 		await setUserDisplayName(bobRequest, bob.userId, 'Bob')
 		await mkdir(aliceRequest, user, '/Shared')
-		await createShare(aliceRequest, '/Shared', group, ALL_PERMISSIONS, ShareType.GROUP)
+		await createShare(aliceRequest, '/Shared', group, { shareType: ShareType.GROUP })
 
 		const fileId = Number(await uploadContent(aliceRequest, user, '<content>', 'text/plain', '/Shared/test-file.txt'))
 		// Bob (the sharee) deletes the file from his view of the shared folder

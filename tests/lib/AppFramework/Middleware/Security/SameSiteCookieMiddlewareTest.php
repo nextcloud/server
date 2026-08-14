@@ -8,7 +8,6 @@
 namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\Security\Exceptions\LaxSameSiteCookieFailedException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware;
@@ -47,7 +46,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->request = $this->createMock(Request::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->reflector = $this->createMock(ControllerMethodReflector::class);
-		$this->middleware = new SameSiteCookieMiddleware($this->request, new MiddlewareUtils($this->reflector, $this->logger));
+		$this->middleware = new SameSiteCookieMiddleware($this->request, $this->reflector);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
@@ -120,7 +119,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 			->willReturn('/myrequri');
 
 		$middleware = $this->getMockBuilder(SameSiteCookieMiddleware::class)
-			->setConstructorArgs([$this->request, new MiddlewareUtils($this->reflector, $this->logger)])
+			->setConstructorArgs([$this->request, $this->reflector])
 			->onlyMethods(['setSameSiteCookie'])
 			->getMock();
 

@@ -17,6 +17,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
@@ -138,8 +139,6 @@ class GroupsController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get a list of users in the specified group
 	 *
 	 * @param string $groupId ID of the group
@@ -151,6 +150,7 @@ class GroupsController extends AUserDataOCSController {
 	 * 200: User IDs returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getGroupUsers(string $groupId): DataResponse {
 		$groupId = urldecode($groupId);
 

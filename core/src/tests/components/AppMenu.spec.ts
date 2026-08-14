@@ -65,6 +65,22 @@ function fakeApps(): INavigationEntry[] {
 	]
 }
 
+// Mimics a page where the active entry is a settings one, so it is excluded
+// from the `apps` list. The object shape matches PHP's serialization, which
+// ships getAll('settings') keyed by entry id.
+function mockActiveSettingsEntry(overrides: Partial<INavigationEntry>): void {
+	const entry = makeApp({ type: 'settings', active: true, ...overrides })
+	initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
+		if (key === 'apps') {
+			return [makeApp({ id: 'files', name: 'Files', active: false })]
+		}
+		if (key === 'settingsNavEntries') {
+			return { [entry.id]: entry }
+		}
+		return fallback
+	})
+}
+
 function eightApps(activeIndex: number = -1): INavigationEntry[] {
 	const ids = ['files', 'mail', 'calendar', 'contacts', 'notes', 'photos', 'talk', 'deck']
 	return ids.map((id, i) => makeApp({
@@ -137,6 +153,18 @@ describe('core: AppMenu', () => {
 		expect(moreApps).toBeTruthy()
 	})
 
+	it('marks the "More apps" tile active on the app management page', async () => {
+		auth.getCurrentUser.mockReturnValue({ isAdmin: true })
+		mockActiveSettingsEntry({ id: 'appstore', name: 'Apps', href: '/settings/apps' })
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		await openPopover(wrapper)
+
+		const moreApps = Array.from(document.querySelectorAll('[role="menuitem"]'))
+			.find((el) => el.textContent?.includes('More apps'))
+		expect(moreApps?.classList.contains('app-item--active')).toBe(true)
+		expect(moreApps?.getAttribute('aria-current')).toBe('page')
+	})
+
 	it('ArrowRight moves the roving stop from index 0 to index 1 and focuses it', async () => {
 		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => key === 'apps' ? eightApps() : fallback)
 		const wrapper = mount(AppMenu, { attachTo: document.body })
@@ -174,32 +202,45 @@ describe('core: AppMenu', () => {
 	})
 
 	it('falls back to the active settings entry when no app is active', () => {
-		// Mimics being on /settings/admin/* where the active entry is registered
-		// as type=settings (NavigationManager) and excluded from the `apps` list.
-		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
-			if (key === 'apps') {
-				return [makeApp({ id: 'files', name: 'Files', active: false })]
-			}
-			if (key === 'settingsNavEntries') {
-				// Object keyed by entry id — matches PHP's serialization shape
-				// (TemplateLayout ships the filtered associative array as-is).
-				return {
-					admin_settings: makeApp({
-						id: 'admin_settings',
-						name: 'Administration settings',
-						type: 'settings',
-						href: '/settings/admin/overview',
-						icon: '/settings/img/admin.svg',
-						active: true,
-					}),
-				}
-			}
-			return fallback
+		// Mimics being on /settings/admin/*
+		mockActiveSettingsEntry({
+			id: 'settings_administration',
+			name: 'Administration settings',
+			href: '/settings/admin/overview',
+			icon: '/settings/img/admin.svg',
 		})
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		expect(wrapper.find('.app-menu__current-app').exists()).toBe(true)
 		// Settings sub-section names are collapsed to a single "Settings" label.
 		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Settings')
+	})
+
+	it('keeps the own name of settings entries outside the settings app', () => {
+		// On /settings/apps the active entry is the app management one, which
+		// shows "Apps" here and in the account menu, not "Settings".
+		mockActiveSettingsEntry({ id: 'appstore', name: 'Apps', href: '/settings/apps', icon: '/apps/appstore/img/app-dark.svg' })
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Apps')
+		// Its own icon, not the generic cog of the settings sections
+		expect(wrapper.find('.app-menu__current-app-glyph').attributes('style'))
+			.toContain('/apps/appstore/img/app-dark.svg')
+	})
+
+	it('shows the profile page as "Profile" with the generic user icon', () => {
+		// The profile app names its entry "View profile" for the account menu
+		// and ships no icon, so both are replaced here.
+		mockActiveSettingsEntry({ id: 'profile', name: 'View profile', href: '/u/admin', icon: '' })
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Profile')
+		expect(wrapper.find('.app-menu__current-app-glyph').attributes('style'))
+			.toContain('/core/img/actions/user.svg')
+	})
+
+	it('falls back to the cog for entries without an icon', () => {
+		mockActiveSettingsEntry({ id: 'help', name: 'Help & privacy', href: '/settings/help', icon: '' })
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		expect(wrapper.find('.app-menu__current-app-cog').exists()).toBe(true)
+		expect(wrapper.find('.app-menu__current-app-glyph').exists()).toBe(false)
 	})
 
 	it('prefers the active app over a settings entry when both are marked active', () => {
@@ -208,7 +249,7 @@ describe('core: AppMenu', () => {
 				return [makeApp({ id: 'files', name: 'Files', active: true })]
 			}
 			if (key === 'settingsNavEntries') {
-				return { admin_settings: makeApp({ id: 'admin_settings', name: 'Administration settings', type: 'settings', active: true }) }
+				return { settings_administration: makeApp({ id: 'settings_administration', name: 'Administration settings', type: 'settings', active: true }) }
 			}
 			return fallback
 		})
@@ -232,5 +273,167 @@ describe('core: AppMenu', () => {
 		})
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		expect(wrapper.find('.app-menu__current-app').exists()).toBe(false)
+	})
+
+	// Hover-to-open behaviour. Uses fake timers to drive the open/close delays
+	// without real waits. We assert on the reactive `opened` flag rather than the
+	// teleported DOM so the tests stay independent of NcPopover's portal timing.
+	describe('hover-to-open', () => {
+		beforeEach(() => {
+			vi.useFakeTimers()
+			// jsdom reports the document as unfocused, which the hover guard checks.
+			vi.spyOn(document, 'hasFocus').mockReturnValue(true)
+		})
+		afterEach(() => {
+			vi.useRealTimers()
+			vi.restoreAllMocks()
+		})
+
+		it('opens after a short delay when hovering the trigger, not immediately', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+
+			// The intent-pause means it must not open on the same tick.
+			expect(wrapper.vm.opened).toBe(false)
+			vi.advanceTimersByTime(90)
+			expect(wrapper.vm.opened).toBe(true)
+		})
+
+		it('cancels opening when the cursor leaves before the delay elapses', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(60)
+			await wrapper.get('.app-menu__trigger').trigger('mouseleave')
+			vi.advanceTimersByTime(500)
+
+			expect(wrapper.vm.opened).toBe(false)
+		})
+
+		it('stays open when the cursor moves from the trigger into the popover', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(90)
+			expect(wrapper.vm.opened).toBe(true)
+
+			// Leaving the trigger schedules a close; entering the popover within the
+			// grace period must cancel it.
+			await wrapper.get('.app-menu__trigger').trigger('mouseleave')
+			wrapper.vm.onPopoverPointerEnter()
+			vi.advanceTimersByTime(500)
+
+			expect(wrapper.vm.opened).toBe(true)
+		})
+
+		it('closes shortly after the cursor leaves the popover', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(90)
+			wrapper.vm.onPopoverPointerEnter()
+			expect(wrapper.vm.opened).toBe(true)
+
+			wrapper.vm.onPointerLeave()
+			vi.advanceTimersByTime(180)
+
+			expect(wrapper.vm.opened).toBe(false)
+		})
+
+		it('does not open on focus, only on hover', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__waffle').trigger('focus')
+			vi.advanceTimersByTime(500)
+
+			expect(wrapper.vm.opened).toBe(false)
+		})
+
+		it('opens on hover without the focus trap, so focus is not stolen', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(90)
+
+			// Hovering must not pull focus out of e.g. the search field.
+			expect(wrapper.vm.hoverOpen).toBe(true)
+		})
+
+		it('keeps the focus trap for clicks, so keyboard use is unchanged', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__waffle').trigger('click')
+
+			expect(wrapper.vm.opened).toBe(true)
+			expect(wrapper.vm.hoverOpen).toBe(false)
+		})
+
+		it('restores the focus trap when a click follows a hover-open', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(90)
+			vi.advanceTimersByTime(500) // click grace over
+			await wrapper.get('.app-menu__waffle').trigger('click')
+
+			expect(wrapper.vm.hoverOpen).toBe(false)
+		})
+
+		it('returns focus to the button that opened the menu', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__current-app').trigger('click')
+
+			expect(wrapper.vm.returnFocusTarget()).toBe(wrapper.get('.app-menu__current-app').element)
+		})
+
+		it('ignores a trigger click right after a hover-open (habitual click-to-open)', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(90)
+			expect(wrapper.vm.opened).toBe(true)
+
+			// A click within the grace window must not toggle the menu shut.
+			await wrapper.get('.app-menu__waffle').trigger('click')
+			expect(wrapper.vm.opened).toBe(true)
+		})
+
+		it('allows closing by click once the grace window elapses', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(90)
+			vi.advanceTimersByTime(500) // grace window elapses
+
+			await wrapper.get('.app-menu__waffle').trigger('click')
+			expect(wrapper.vm.opened).toBe(false)
+		})
+
+		it('blocks the popover auto-hide during the grace window, allows it after', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(90)
+
+			// autoHideCheck() feeds floating-ui: false = don't close on outside
+			// click (e.g. a habitual click on the trigger) during the grace window.
+			expect(wrapper.vm.autoHideCheck()).toBe(false)
+
+			vi.advanceTimersByTime(500)
+			expect(wrapper.vm.autoHideCheck()).toBe(true)
+		})
+
+		it('does not open on hover without a fine, hovering pointer (touch)', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			// jsdom has no matchMedia, so define it for this test only.
+			window.matchMedia = (() => ({ matches: false })) as unknown as typeof window.matchMedia
+
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(500)
+
+			expect(wrapper.vm.opened).toBe(false)
+			// @ts-expect-error restore the jsdom default
+			delete window.matchMedia
+		})
+
+		it('does not open on hover while the window is unfocused', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			vi.spyOn(document, 'hasFocus').mockReturnValue(false)
+
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+			vi.advanceTimersByTime(500)
+
+			expect(wrapper.vm.opened).toBe(false)
+		})
 	})
 })

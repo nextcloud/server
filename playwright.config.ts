@@ -11,6 +11,7 @@ export default defineConfig({
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 1 : 0,
 	workers: process.env.CI ? 1 : undefined,
+	timeout: process.env.CI ? 45_000 : undefined, // on CI allow 1.5x the default timeout to compensate for shared server resources
 	reporter: process.env.CI ? [['blob'], ['dot'], ['github']] : 'html',
 	use: {
 		baseURL: 'http://localhost:8042/index.php/',
@@ -57,10 +58,10 @@ export default defineConfig({
 		stdout: 'pipe',
 		gracefulShutdown: {
 			signal: 'SIGTERM',
-			timeout: 10000,
+			timeout: 10_000,
 		},
 		reuseExistingServer: !process.env.CI,
-		timeout: 5 * 60 * 1000,
+		timeout: 300_000,
 		wait: {
 			stdout: /Nextcloud container ready to run Playwright tests/,
 		},

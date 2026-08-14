@@ -19,6 +19,7 @@ use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Server;
@@ -50,7 +51,7 @@ class Manager implements IManager {
 			return false;
 		}
 
-		return Server::get(\OCP\IAppConfig::class)->getValueBool('core', 'encryption_enabled');
+		return Server::get(IAppConfig::class)->getValueBool('core', 'encryption_enabled');
 	}
 
 	/**

@@ -8,54 +8,49 @@ declare(strict_types=1);
 
 namespace OCA\Files\Command\Object\Multi;
 
-use OC\Core\Command\Base;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
+use OCP\Console\Attribute\Argument;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\ExitCode;
+use OCP\Console\IInput;
+use OCP\Console\IOutput;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-class Rename extends Base {
+#[AsCommand(
+	name: 'files:object:multi:rename-config',
+	description: 'Rename an object store configuration and move all users over to the new configuration,',
+)]
+class Rename {
 	public function __construct(
 		private readonly IDBConnection $connection,
 		private readonly PrimaryObjectStoreConfig $objectStoreConfig,
 		private readonly IConfig $config,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		parent::configure();
-		$this
-			->setName('files:object:multi:rename-config')
-			->setDescription('Rename an object store configuration and move all users over to the new configuration,')
-			->addArgument('source', InputArgument::REQUIRED, 'Object store configuration to rename')
-			->addArgument('target', InputArgument::REQUIRED, 'New name for the object store configuration');
-	}
-
-	#[\Override]
-	public function execute(InputInterface $input, OutputInterface $output): int {
-		$source = $input->getArgument('source');
-		$target = $input->getArgument('target');
-
+	public function __invoke(
+		IOutput $output,
+		IInput $input,
+		#[Argument(description: 'Object store configuration to rename')]
+		string $source,
+		#[Argument(description: 'New name for the object store configuration')]
+		string $target,
+	): ExitCode {
 		$configs = $this->objectStoreConfig->getObjectStoreConfigs();
 		if (!isset($configs[$source])) {
 			$output->writeln('<error>Unknown object store configuration: ' . $source . '</error>');
-			return 1;
+			return ExitCode::Failure;
 		}
 
 		if ($source === 'root') {
 			$output->writeln('<error>Renaming the root configuration is not supported.</error>');
-			return 1;
+			return ExitCode::Failure;
 		}
 
 		if ($source === 'default') {
 			$output->writeln('<error>Renaming the default configuration is not supported.</error>');
-			return 1;
+			return ExitCode::Failure;
 		}
 
 		if (!isset($configs[$target])) {
@@ -67,10 +62,7 @@ class Rename extends Base {
 			$output->writeln('');
 			$output->writeln('<error>Failure to check these requirements will lead to data loss for users.</error>');
 
-			/** @var QuestionHelper $helper */
-			$helper = $this->getHelper('question');
-			$question = new ConfirmationQuestion('Automatically create target object store configuration? [y/N] ', false);
-			if ($helper->ask($input, $output, $question)) {
+			if ($input->confirm('Automatically create target object store configuration? [y/N] ', false)) {
 				$configs[$target] = $configs[$source];
 
 				// update all aliases
@@ -81,14 +73,14 @@ class Rename extends Base {
 				}
 				$this->config->setSystemValue('objectstore', $configs);
 			} else {
-				return 0;
+				return ExitCode::Success;
 			}
 		} elseif (($configs[$source] !== $configs[$target]) || $configs[$source] !== $target) {
 			$output->writeln('<error>Source and target configuration differ.</error>');
 			$output->writeln('');
 			$output->writeln('To ensure proper migration of users, the source and target configuration must be the same to ensure that the objects for the moved users exist on the target configuration.');
 			$output->writeln('The usual migration process consists of creating a clone of the old configuration, moving the users from the old configuration to the new one, and then adjust the old configuration that is longer used.');
-			return 1;
+			return ExitCode::Failure;
 		}
 
 		$query = $this->connection->getQueryBuilder();
@@ -105,6 +97,6 @@ class Rename extends Base {
 			$output->writeln('No users moved');
 		}
 
-		return 0;
+		return ExitCode::Success;
 	}
 }

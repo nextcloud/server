@@ -187,7 +187,8 @@ class OfflineUser {
 				$constantValue,
 				null,
 				false,
-				1
+				1,
+				onlyValid: false
 			);
 			if (!empty($shares)) {
 				$this->hasActiveShares = true;

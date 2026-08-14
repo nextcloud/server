@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\Interaction\Actions;
 
+use NCU\Sharing\Permission\ISharePermissionType;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\Constants;
 use OCP\Interaction\InteractionAction;
@@ -26,6 +27,8 @@ final readonly class ShareAction implements InteractionAction {
 	public function __construct(
 		/** @var ?int-mask-of<Constants::PERMISSION_*> */
 		public ?int $filesSharingPermissions = null,
+		/** @var ?list<class-string<ISharePermissionType>> */
+		public ?array $unifiedSharingPermissions = null,
 	) {
 	}
 }

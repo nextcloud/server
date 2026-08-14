@@ -16,7 +16,7 @@ type SeededIds = { imageId: number, folderId: number, archiveId: number }
 // The `viewer` app is enabled by default in the test server.
 const test = baseTest.extend<{ ids: SeededIds }>({
 	ids: async ({ page, user }, use) => {
-		const image = readFileSync(resolve(process.cwd(), 'cypress/fixtures/image.jpg'))
+		const image = readFileSync(resolve(process.cwd(), 'tests/data/images/image.jpg'))
 		const imageId = Number(await uploadContent(page.request, user, image, 'image/jpeg', '/image.jpg'))
 		const folderId = Number(await mkdir(page.request, user, '/folder'))
 		const archiveId = Number(await uploadContent(page.request, user, Buffer.alloc(0), 'application/zstd', '/archive.zst'))
@@ -52,20 +52,26 @@ test.describe('Check router query flags', () => {
 	})
 
 	test.describe('"openfile"', () => {
-		const viewerShowsImage = async (page: Page, imageId: number) => {
+		const viewerShowsImage = async (page: Page) => {
 			const dialog = page.getByRole('dialog', { name: 'image.jpg' })
 			await expect(dialog).toBeVisible()
-			await expect(dialog.locator(`img[src*="fileId=${imageId}"]`)).toBeVisible()
+			// The viewer shows a server-rendered preview, or falls back to the
+			// original file; either way the <img> only gains a box (and so becomes
+			// visible) once it finishes loading, and a cold preview render on CI can
+			// exceed the default 5s timeout. Assert the displayed image by its alt
+			// rather than pinning to the preview URL — the preview-specific `fileId=`
+			// selector both flakes on slow loads and misses the fallback source.
+			await expect(dialog.getByRole('img', { name: 'image.jpg' })).toBeVisible({ timeout: 15_000 })
 		}
 
 		test('opens files with default action', async ({ page, ids }) => {
 			await page.goto(`apps/files/files/${ids.imageId}?openfile`)
-			await viewerShowsImage(page, ids.imageId)
+			await viewerShowsImage(page)
 		})
 
 		test('opens files with default action using explicit query state', async ({ page, ids }) => {
 			await page.goto(`apps/files/files/${ids.imageId}?openfile=true`)
-			await viewerShowsImage(page, ids.imageId)
+			await viewerShowsImage(page)
 		})
 
 		test('does not open files with default action when using explicit `false`', async ({ page, ids, filesListPage }) => {

@@ -24,7 +24,7 @@ use ZipStreamer\ZipStreamer;
 
 class Streamer {
 	// array of regexp. Matching user agents will get tar instead of zip
-	private const UA_PREFERS_TAR = [ '/macintosh|mac os x/i' ];
+	private const array UA_PREFERS_TAR = [ '/macintosh|mac os x/i' ];
 
 	// streamer instance
 	private $streamerInstance;

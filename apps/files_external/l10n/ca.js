@@ -83,6 +83,7 @@ OC.L10N.register(
     "Enable encryption" : "Habilita el xifratge",
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilitat amb la codificació de Mac NFD (lent)",
     "External storages" : "Emmagatzematges externs",
+    "Status" : "Estat",
     "Actions" : "Accions",
     "Delete" : "Suprimir",
     "Saved" : "S'ha desat",

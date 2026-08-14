@@ -27,11 +27,11 @@ class NcuExperimentalChecker implements Psalm\Plugin\EventHandler\AfterClassLike
 		self::checkClassComment($classLike, $statementsSource);
 
 		foreach ($classLike->stmts as $stmt) {
-			if ($stmt instanceof ClassConst) {
+			if ($stmt instanceof ClassConst && !$stmt->isPrivate()) {
 				self::checkStatementComment($stmt, $statementsSource, 'constant');
 			}
 
-			if ($stmt instanceof ClassMethod) {
+			if ($stmt instanceof ClassMethod && !$stmt->isPrivate()) {
 				self::checkStatementComment($stmt, $statementsSource, 'method');
 			}
 

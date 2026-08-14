@@ -9,30 +9,66 @@
 			ref="popover"
 			:shown="opened"
 			:triggers="[]"
+			v-bind="popoverAttrs"
 			placement="bottom-start"
 			:skidding="popoverSkidding"
 			:set-return-focus="returnFocusTarget"
 			popover-base-class="app-menu__popover-base"
 			popup-role="menu"
 			@update:shown="opened = $event">
+			<!-- Both buttons are the trigger, so they share one highlight and either
+				one opens the menu. On narrow screens only the waffle shows. -->
 			<template #trigger>
-				<NcButton
-					class="app-menu__waffle"
-					variant="tertiary-no-background"
-					:aria-label="t('core', 'Open apps menu')"
-					aria-haspopup="menu"
-					:aria-expanded="opened ? 'true' : 'false'"
-					@click="onTriggerClick('waffle')">
-					<template #icon>
-						<IconDotsGrid :size="20" />
-					</template>
-				</NcButton>
+				<div
+					class="app-menu__trigger"
+					:class="{ 'app-menu__trigger--open': opened }"
+					@mouseenter="onTriggerPointerEnter"
+					@mouseleave="onPointerLeave">
+					<NcButton
+						class="app-menu__waffle"
+						variant="tertiary-no-background"
+						:aria-label="t('core', 'Open apps menu')"
+						aria-haspopup="menu"
+						:aria-expanded="opened ? 'true' : 'false'"
+						@click="onTriggerClick('waffle')">
+						<template #icon>
+							<IconDotsGrid :size="20" />
+						</template>
+					</NcButton>
+					<NcButton
+						v-if="currentApp"
+						class="app-menu__current-app"
+						variant="tertiary-no-background"
+						:aria-label="currentAppLabel"
+						aria-haspopup="menu"
+						:aria-expanded="opened ? 'true' : 'false'"
+						@click="onTriggerClick('currentApp')">
+						<template #icon>
+							<!-- Settings sections and entries without an icon show a generic cog. -->
+							<IconCog
+								v-if="isSettingsSection || !currentAppIcon"
+								class="app-menu__current-app-cog"
+								:size="20" />
+							<!-- Outer element carries the header fade, inner one the icon shape. -->
+							<span v-else class="app-menu__current-app-icon">
+								<span
+									class="app-menu__current-app-glyph"
+									:style="currentAppIconStyle" />
+							</span>
+						</template>
+						<span class="app-menu__current-app-name">
+							{{ displayName }}
+						</span>
+					</NcButton>
+				</div>
 			</template>
 
 			<div
 				class="app-menu__popover"
 				role="menu"
-				:aria-label="t('core', 'Apps')">
+				:aria-label="t('core', 'Apps')"
+				@mouseenter="onPopoverPointerEnter"
+				@mouseleave="onPointerLeave">
 				<div ref="grid" class="app-menu__grid" @keydown="onGridKeydown">
 					<AppItem
 						v-for="(item, i) in gridItems"
@@ -45,33 +81,6 @@
 				</div>
 			</div>
 		</NcPopover>
-		<NcButton
-			v-if="currentApp"
-			class="app-menu__current-app"
-			variant="tertiary-no-background"
-			:aria-label="currentAppLabel"
-			aria-haspopup="menu"
-			:aria-expanded="opened ? 'true' : 'false'"
-			@click="onTriggerClick('currentApp')">
-			<template #icon>
-				<!-- Settings sub-sections share one generic cog. An inline MDI icon
-					inherits the button's currentColor (--color-background-plain-text),
-					so it stays legible on both bright and dark headers without a filter. -->
-				<IconCog
-					v-if="currentApp.type === 'settings'"
-					class="app-menu__current-app-cog"
-					:size="20" />
-				<img
-					v-else
-					class="app-menu__current-app-icon"
-					:src="currentApp.icon"
-					alt=""
-					aria-hidden="true">
-			</template>
-			<span class="app-menu__current-app-name">
-				{{ displayName }}
-			</span>
-		</NcButton>
 	</nav>
 </template>
 
@@ -93,6 +102,21 @@ import logger from '../logger.js'
 
 // Settings IDs that represent actions, not navigable pages.
 const SETTINGS_ACTION_IDS = new Set(['logout'])
+
+const SETTINGS_SECTION_IDS = new Set(['settings_personal', 'settings_administration', 'accessibility_settings'])
+
+// The profile entry is named "View profile" for the account menu, which is an
+// action rather than a page name. The header shows where you are instead.
+const PROFILE_ID = 'profile'
+
+// Entry of the app management page, the target of the "More apps" tile.
+const APP_MANAGEMENT_ID = 'appstore'
+
+// Hover delays, same values as github.com's header navigation.
+const HOVER_OPEN_DELAY = 90
+const HOVER_CLOSE_DELAY = 180
+// Ignore a trigger click this long after a hover-open, so it does not close again.
+const HOVER_CLICK_GRACE = 500
 
 export default defineComponent({
 	name: 'AppMenu',
@@ -125,10 +149,16 @@ export default defineComponent({
 			isAdmin: getCurrentUser()?.isAdmin ?? false,
 			// Roving tabindex: only this tile has tabindex=0; arrow keys move it.
 			focusedIndex: 0,
-			// NcPopover's focus-trap only knows the slot trigger (waffle).
-			// The current-app button lives outside the slot, so we track the
-			// source and restore focus manually via setReturnFocus.
+			// Which button opened the menu, so focus returns to it.
 			openedFrom: null as 'waffle' | 'currentApp' | null,
+			// Hover intent timers (see HOVER_OPEN_DELAY / HOVER_CLOSE_DELAY).
+			openTimer: null as ReturnType<typeof setTimeout> | null,
+			closeTimer: null as ReturnType<typeof setTimeout> | null,
+			// Opened by hover: run without the focus trap, so focus is not stolen.
+			hoverOpen: false,
+			// Grace window where a trigger click does not close the menu.
+			suppressCloseClick: false,
+			suppressClickTimer: null as ReturnType<typeof setTimeout> | null,
 			// Synthetic tile appended to the grid: admins jump to the local
 			// app management page; everyone else lands on apps.nextcloud.com
 			// (external, opens in a new tab via the per-tile newTab flag).
@@ -162,6 +192,13 @@ export default defineComponent({
 	},
 
 	computed: {
+		// Only pass noFocusTrap for hover opens; clicks and keyboard keep the trap.
+		popoverAttrs(): Record<string, unknown> {
+			return this.hoverOpen
+				? { autoHide: this.autoHideCheck, noFocusTrap: true }
+				: { autoHide: this.autoHideCheck }
+		},
+
 		currentApp(): INavigationEntry | undefined {
 			// Fall back to the active settings entry on admin pages where no
 			// app is active.
@@ -169,16 +206,34 @@ export default defineComponent({
 				?? Object.values(this.settingsList).find((entry) => entry.active && !SETTINGS_ACTION_IDS.has(entry.id))
 		},
 
-		// Trigger label. Settings sub-section names ("Personal info",
-		// "Appearance and accessibility", ...) are too long and varied to
-		// surface in the header; collapse them all to a single "Settings".
+		isSettingsSection(): boolean {
+			return this.currentApp !== undefined && SETTINGS_SECTION_IDS.has(this.currentApp.id)
+		},
+
 		displayName(): string {
 			if (!this.currentApp) {
 				return ''
 			}
-			return this.currentApp.type === 'settings'
-				? t('core', 'Settings')
+			if (this.isSettingsSection) {
+				return t('core', 'Settings')
+			}
+			return this.currentApp.id === PROFILE_ID
+				? t('core', 'Profile')
 				: this.currentApp.name
+		},
+
+		// The profile entry ships no icon of its own, so use the generic one.
+		currentAppIcon(): string {
+			if (this.currentApp?.id === PROFILE_ID) {
+				return imagePath('core', 'actions/user.svg')
+			}
+			return this.currentApp?.icon ?? ''
+		},
+
+		// Masked like AppIcon.vue, so dark icons stay legible on the header.
+		// Escaped so a crafted path cannot break out of the url() token.
+		currentAppIconStyle(): Record<string, string> {
+			return { '--app-icon-url': `url("${this.currentAppIcon.replace(/["\\]/g, '\\$&')}")` }
 		},
 
 		// aria-label overrides the inner span text, so the displayed name
@@ -193,7 +248,9 @@ export default defineComponent({
 		// utility tile is "More apps" (local app management) for admins and
 		// "App store" (apps.nextcloud.com) for everyone else.
 		gridItems(): INavigationEntry[] {
-			const tail = this.isAdmin ? this.moreAppsEntry : this.appStoreEntry
+			const tail = this.isAdmin
+				? { ...this.moreAppsEntry, active: this.currentApp?.id === APP_MANAGEMENT_ID }
+				: this.appStoreEntry
 			return [...this.appList, tail]
 		},
 	},
@@ -206,6 +263,10 @@ export default defineComponent({
 			if (isOpen) {
 				this.focusedIndex = this.activeGridIndex()
 				this.tryRecomputeGridMaxHeight(5)
+			} else {
+				// Closed again: end any pending click-grace window.
+				this.clearSuppressClickTimer()
+				this.suppressCloseClick = false
 			}
 		},
 	},
@@ -221,6 +282,9 @@ export default defineComponent({
 	},
 
 	beforeUnmount() {
+		this.clearOpenTimer()
+		this.clearCloseTimer()
+		this.clearSuppressClickTimer()
 		unsubscribe('nextcloud:app-menu.refresh', this.setApps)
 		;(this.$refs.popover as { $off: (e: string, fn: () => void) => void } | undefined)?.$off('after-hide', this.onPopoverAfterHide)
 	},
@@ -236,13 +300,100 @@ export default defineComponent({
 				: this.$el.querySelector('.app-menu__waffle')
 		},
 
+		// Blocks the popover's outside-click close during the grace window.
+		autoHideCheck(): boolean {
+			return !this.suppressCloseClick
+		},
+
 		onPopoverAfterHide() {
 			this.openedFrom = null
+			this.hoverOpen = false
 		},
 
 		onTriggerClick(source: 'waffle' | 'currentApp') {
+			// Drop pending hover timers so they don't undo this toggle.
+			this.clearOpenTimer()
+			this.clearCloseTimer()
+			// Ignore the click that would close what hover just opened.
+			if (this.opened && this.suppressCloseClick) {
+				return
+			}
+			// Explicit click: keep the focus trap.
+			this.hoverOpen = false
 			this.openedFrom = source
 			this.opened = !this.opened
+		},
+
+		// Hover-to-open, mouse only so keyboard focus never triggers it.
+		onTriggerPointerEnter(source: 'waffle' | 'currentApp' = 'waffle') {
+			if (!this.canHoverOpen()) {
+				return
+			}
+			this.clearCloseTimer()
+			if (this.opened) {
+				return
+			}
+			this.clearOpenTimer()
+			this.openTimer = setTimeout(() => {
+				this.openTimer = null
+				this.openedFrom = source
+				this.hoverOpen = true
+				this.opened = true
+				// Start the grace window in which a habitual click won't close it.
+				this.suppressCloseClick = true
+				this.clearSuppressClickTimer()
+				this.suppressClickTimer = setTimeout(() => {
+					this.suppressClickTimer = null
+					this.suppressCloseClick = false
+				}, HOVER_CLICK_GRACE)
+			}, HOVER_OPEN_DELAY)
+		},
+
+		// Only real pointers open on hover: on touch a tap fires mouseenter too, and
+		// an unfocused window should not pop the menu when the cursor rests there.
+		canHoverOpen(): boolean {
+			const pointer = window.matchMedia?.('(hover: hover) and (pointer: fine)')
+			return (pointer?.matches ?? true) && document.hasFocus()
+		},
+
+		// Cursor left: cancel a pending open, schedule the close.
+		onPointerLeave() {
+			this.clearOpenTimer()
+			this.scheduleClose()
+		},
+
+		// Cursor moved into the open popover: keep it open.
+		onPopoverPointerEnter() {
+			this.clearCloseTimer()
+		},
+
+		scheduleClose() {
+			this.clearCloseTimer()
+			this.closeTimer = setTimeout(() => {
+				this.closeTimer = null
+				this.opened = false
+			}, HOVER_CLOSE_DELAY)
+		},
+
+		clearOpenTimer() {
+			if (this.openTimer !== null) {
+				clearTimeout(this.openTimer)
+				this.openTimer = null
+			}
+		},
+
+		clearCloseTimer() {
+			if (this.closeTimer !== null) {
+				clearTimeout(this.closeTimer)
+				this.closeTimer = null
+			}
+		},
+
+		clearSuppressClickTimer() {
+			if (this.suppressClickTimer !== null) {
+				clearTimeout(this.suppressClickTimer)
+				this.suppressClickTimer = null
+			}
 		},
 
 		setNavigationCounter(id: string, counter: number) {
@@ -397,56 +548,83 @@ export default defineComponent({
 	display: flex;
 	align-items: center;
 
-	&__waffle {
+	// Wrapper for both triggers: full header height for the click area, with one
+	// shared highlight spanning the waffle and the current app.
+	&__trigger {
+		position: relative;
+		display: flex;
+		align-items: center;
+		height: var(--header-height);
+		// Own stacking context so the highlight can sit behind the buttons.
+		isolation: isolate;
+
+		// The shared highlight, inset from top/bottom so it stays smaller than the
+		// header. inset-inline: 0 spans both triggers; collapses to the waffle when
+		// the current-app button is hidden.
+		&::before {
+			content: '';
+			position: absolute;
+			inset-block: calc((var(--header-height) - var(--default-clickable-area)) / 2);
+			inset-inline: 0;
+			border-radius: var(--border-radius-element);
+			// Behind the buttons (whose backgrounds stay transparent).
+			z-index: -1;
+			pointer-events: none;
+		}
+
+		// Translucent black: --color-background-hover has too little contrast on the
+		// header tint. Keep the highlight while the menu is open.
+		&:hover::before,
+		&--open::before {
+			background-color: rgba(0, 0, 0, 0.1);
+		}
+
+		&:active::before {
+			background-color: rgba(0, 0, 0, 0.15);
+		}
+	}
+
+	&__waffle,
+	&__current-app {
+		// Full header height for the click area; the highlight is on __trigger, so
+		// the buttons stay transparent. !important beats NcButton's scoped rules.
+		height: var(--header-height) !important;
+		// Anchor the per-button focus ring below to the button, not __trigger.
+		position: relative;
+
 		// NcButton's tertiary-no-background variant uses --color-main-text,
 		// which is dark on light themes. The header sits on the theme primary
 		// background, so override to use the matching plain-text color.
 		--color-main-text: var(--color-background-plain-text);
 		color: var(--color-background-plain-text);
 
-		// Class merges onto NcButton's root <button>; style directly, no :deep().
-		// !important: v8 NcButton's legacy bundle sets focus-visible
-		// outline/box-shadow with !important, same as the current-app :active rule.
-		&:hover:not(:disabled) {
-			background-color: rgba(0, 0, 0, 0.1) !important;
+		// Hide NcButton's own hover/active fill so only the __trigger highlight
+		// shows. The extra .button-vue makes this win over NcButton's rule.
+		&.button-vue:hover:not(:disabled),
+		&.button-vue:active:not(:disabled) {
+			background-color: transparent !important;
 		}
 
-		&:active:not(:disabled) {
-			background-color: rgba(0, 0, 0, 0.15) !important;
-		}
-
-		&:focus-visible {
-			background-color: rgba(0, 0, 0, 0.1) !important;
+		// Per-button keyboard focus ring, matched to the highlight pill. Hide
+		// NcButton's own ring (outline + halo); the extra .button-vue makes our
+		// override win over it.
+		&.button-vue:focus-visible {
 			outline: none !important;
-			box-shadow: inset 0 0 0 2px var(--color-background-plain-text) !important;
+			box-shadow: none !important;
+		}
+
+		&.button-vue:focus-visible::before {
+			content: '';
+			position: absolute;
+			inset-block: calc((var(--header-height) - var(--default-clickable-area)) / 2);
+			inset-inline: 0;
+			border-radius: var(--border-radius-element);
+			box-shadow: inset 0 0 0 2px var(--color-background-plain-text);
+			pointer-events: none;
 		}
 	}
 
 	&__current-app {
-		// NcButton's tertiary-no-background variant uses --color-main-text,
-		// which is dark on light themes. The header sits on the theme primary
-		// background, so override to use the matching plain-text color.
-		--color-main-text: var(--color-background-plain-text);
-		color: var(--color-background-plain-text);
-
-		// !important: v8 NcButton's legacy bundle sets focus-visible
-		// outline/box-shadow with !important. Same translucent-black hover/
-		// active overlays as the waffle: --color-background-hover collapses
-		// contrast against the theme-primary header tint.
-		&:hover:not(:disabled) {
-			background-color: rgba(0, 0, 0, 0.1) !important;
-		}
-
-		&:active:not(:disabled) {
-			background-color: rgba(0, 0, 0, 0.15) !important;
-		}
-
-		&:focus-visible {
-			background-color: rgba(0, 0, 0, 0.1) !important;
-			outline: none !important;
-			box-shadow: inset 0 0 0 2px var(--color-background-plain-text) !important;
-		}
-
 		// Lets the inner label shrink to its max-width and ellipsize instead of
 		// pushing the button wider than the inline-flex text slot.
 		:deep(.button-vue__text) {
@@ -459,11 +637,27 @@ export default defineComponent({
 	}
 
 	&__current-app-icon {
+		display: flex;
 		width: calc(var(--default-grid-baseline) * 5);
 		height: calc(var(--default-grid-baseline) * 5);
-		// Theme-aware inversion + vertical alpha fade via --header-menu-icon-mask.
-		filter: var(--background-image-invert-if-bright);
+		// Vertical alpha fade, like the cog and the other header icons.
 		mask: var(--header-menu-icon-mask);
+	}
+
+	&__current-app-glyph {
+		width: 100%;
+		height: 100%;
+		// Masked rather than shown: app icons ship a hardcoded fill, so the
+		// color has to come from the background. Matches AppIcon.vue.
+		background-color: var(--color-background-plain-text);
+		mask: var(--app-icon-url) center / contain no-repeat;
+	}
+
+	// Masked backgrounds are not force-adjusted the way <img> is.
+	@media (forced-colors: active) {
+		&__current-app-glyph {
+			background-color: CanvasText;
+		}
 	}
 
 	&__current-app-cog {
@@ -492,7 +686,7 @@ export default defineComponent({
 
 	&__grid {
 		--app-item-col-width: 69px;
-		--app-item-row-height: 64px;
+		--app-item-row-height: 72px;
 		// border-box: the JS-set max-height (see recomputeGridMaxHeight)
 		// needs to include padding for the peek math to hold.
 		box-sizing: border-box;
@@ -502,6 +696,7 @@ export default defineComponent({
 		grid-auto-rows: minmax(var(--app-item-row-height), max-content);
 		// max-height set inline by recomputeGridMaxHeight(); CSS just owns the scroll.
 		overflow-y: auto;
+		overflow-x: hidden;
 
 		// Extra top padding on first-row tiles so the hover bg reads
 		// concentric with the popover's rounded top corner. !important
@@ -526,12 +721,14 @@ export default defineComponent({
 	--border-radius-element: var(--border-radius-container-large);
 }
 
-// Gap between the trigger and the popover. Floating-ui positions
-// .v-popper__popper, so margin on its inner .v-popper__wrapper isn't
-// recomputed. Used instead of NcPopover's :distance prop, which isn't
-// exposed in the released @nextcloud/vue yet.
+// No arrow: the menu reads as a panel below the header, not a tooltip.
+.app-menu__popover-base .v-popper__arrow-container {
+	display: none;
+}
+
+// Cancel NcPopover's 10px distance so the menu starts right below the header.
 .app-menu__popover-base .v-popper__wrapper {
-	margin-block-start: -5px;
+	margin-block-start: -10px;
 }
 
 // Without this reset the override above cascades into AppItem and inflates

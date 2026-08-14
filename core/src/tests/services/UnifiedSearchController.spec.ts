@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { REVEAL_INTERVAL_MS, UnifiedSearchController } from '../../services/UnifiedSearchController.ts'
+import { PAGE_SIZE, REVEAL_INTERVAL_MS, UnifiedSearchController } from '../../services/UnifiedSearchController.ts'
 
 const service = vi.hoisted(() => ({
 	search: vi.fn(),
@@ -287,6 +287,69 @@ describe('UnifiedSearchController', () => {
 		})
 	})
 
+	describe('stale-while-revalidate', () => {
+		it('keeps the previous results visible while a refetch is in flight', async () => {
+			const first = mockProviders(['files'])
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('old', ['files'])
+			first.files.resolve(['Old result'])
+			await vi.advanceTimersByTimeAsync(0)
+
+			// A refined query starts a new search. The prior entries must stay on screen
+			// (status loading, entries kept) so the panel does not flash empty mid-request.
+			const second = mockProviders(['files'])
+			searchController.search('new', ['files'])
+			expect(searchController.getSnapshot().files).toEqual({
+				status: 'loading',
+				entries: ['Old result'],
+				cursor: null,
+				hasMore: false,
+				loadMoreFailed: false,
+			})
+
+			// The fresh page replaces them once it lands.
+			second.files.resolve(['New result'])
+			await vi.advanceTimersByTimeAsync(0)
+			expect(searchController.getSnapshot().files).toEqual({
+				status: 'loaded',
+				entries: ['New result'],
+				cursor: null,
+				hasMore: false,
+				loadMoreFailed: false,
+			})
+		})
+
+		it('settles a refetched category that carried results straight to loaded, never blocked', async () => {
+			const first = mockProviders(['files', 'talk'])
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('old', ['files', 'talk'])
+			first.files.resolve(['Old files'])
+			await vi.advanceTimersByTimeAsync(0)
+			first.talk.resolve(['Old talk'])
+			await vi.advanceTimersByTimeAsync(0)
+
+			// Refine. talk (lower priority) comes back before files this time. It already had
+			// results, so it must not drop into blocked (which excludes it from the rendered
+			// set and blinks it off screen); it stays visible by settling straight to loaded.
+			const second = mockProviders(['files', 'talk'])
+			searchController.search('new', ['files', 'talk'])
+			second.talk.resolve(['New talk'])
+			await vi.advanceTimersByTimeAsync(0)
+
+			expect(searchController.getSnapshot().talk.status).toBe('loaded')
+			// files is still fetching; its stale page stays up meanwhile.
+			expect(searchController.getSnapshot().files).toEqual({
+				status: 'loading',
+				entries: ['Old files'],
+				cursor: null,
+				hasMore: false,
+				loadMoreFailed: false,
+			})
+		})
+	})
+
 	describe('cancellation', () => {
 		it('cancels the previous search\'s in-flight requests when a new search starts', () => {
 			const first = mockProviders(['files', 'talk'])
@@ -328,6 +391,83 @@ describe('UnifiedSearchController', () => {
 			searchController.dispose()
 
 			expect(vi.getTimerCount()).toBe(0)
+		})
+	})
+
+	describe('reset', () => {
+		it('clears the current search state', async () => {
+			const providers = mockProviders(['files', 'talk'])
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('query', ['files', 'talk'])
+			providers.files.resolve(['Files result'])
+			await vi.advanceTimersByTimeAsync(0)
+
+			searchController.reset()
+
+			expect(searchController.getSnapshot()).toEqual({})
+		})
+
+		it('notifies with the empty snapshot when reset', async () => {
+			const providers = mockProviders(['files'])
+			const onChange = vi.fn()
+
+			const searchController = new UnifiedSearchController(onChange)
+			searchController.search('query', ['files'])
+			providers.files.resolve(['Files result'])
+			await vi.advanceTimersByTimeAsync(0)
+			onChange.mockClear()
+
+			searchController.reset()
+
+			// The adapter must be told the results are gone, otherwise the reactive
+			// mirror keeps the previous session's entries and they flash on reopen.
+			expect(onChange).toHaveBeenCalledWith({})
+		})
+
+		it('cancels in-flight requests when reset', () => {
+			const providers = mockProviders(['files', 'talk'])
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('query', ['files', 'talk'])
+
+			searchController.reset()
+
+			expect(providers.files.cancel).toHaveBeenCalledOnce()
+			expect(providers.talk.cancel).toHaveBeenCalledOnce()
+		})
+
+		it('stops the reveal timer when reset', () => {
+			mockProviders(['files', 'talk'])
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('query', ['files', 'talk'])
+
+			// A search arms the reveal timer.
+			expect(vi.getTimerCount()).toBe(1)
+
+			searchController.reset()
+
+			expect(vi.getTimerCount()).toBe(0)
+		})
+
+		it('drops a late response from a search that was reset', async () => {
+			const providers = mockProviders(['files'])
+			const onChange = vi.fn()
+
+			const searchController = new UnifiedSearchController(onChange)
+			searchController.search('query', ['files'])
+
+			searchController.reset()
+			onChange.mockClear()
+
+			// A request from the pre-reset search resolves late. The generation bump
+			// must drop it so it cannot repopulate the cleared state.
+			providers.files.resolve(['Stale files'])
+			await vi.advanceTimersByTimeAsync(0)
+
+			expect(searchController.getSnapshot()).toEqual({})
+			expect(onChange).not.toHaveBeenCalled()
 		})
 	})
 
@@ -429,6 +569,32 @@ describe('UnifiedSearchController', () => {
 			expect(searchController.getSnapshot().files.hasMore).toBe(false)
 		})
 
+		it('stops paging when a page yields nothing new, even if the provider echoes a cursor', async () => {
+			const files = pagedProvider()
+			service.search.mockReturnValue(files)
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('query', ['files'])
+
+			files.resolvePage(0, { entries: ['a'], cursor: 'cursor-1', isPaginated: true })
+			await vi.advanceTimersByTimeAsync(0)
+			expect(searchController.getSnapshot().files.hasMore).toBe(true)
+
+			// The next page comes back empty but still carries a paginated cursor. Without
+			// the guard this would leave hasMore true and a "Load more" button that no-ops.
+			searchController.loadMore('files')
+			files.resolvePage(1, { entries: [], cursor: 'cursor-2', isPaginated: true })
+			await vi.advanceTimersByTimeAsync(0)
+
+			expect(searchController.getSnapshot().files).toEqual({
+				status: 'loaded',
+				entries: ['a'],
+				cursor: 'cursor-2',
+				hasMore: false,
+				loadMoreFailed: false,
+			})
+		})
+
 		it('appends the next page of results when loadMore is called', async () => {
 			const files = pagedProvider()
 			service.search.mockReturnValue(files)
@@ -500,7 +666,17 @@ describe('UnifiedSearchController', () => {
 
 			searchController.loadMore('files')
 
-			expect(service.search).toHaveBeenLastCalledWith(expect.objectContaining({ type: 'files', query: 'query', cursor: 'cursor-1' }))
+			expect(service.search).toHaveBeenLastCalledWith(expect.objectContaining({ type: 'files', query: 'query', cursor: 'cursor-1', limit: PAGE_SIZE }))
+		})
+
+		it('requests the configured page size on the initial category search', async () => {
+			const files = pagedProvider()
+			service.search.mockReturnValue(files)
+
+			const searchController = new UnifiedSearchController()
+			searchController.search('query', ['files'])
+
+			expect(service.search).toHaveBeenLastCalledWith(expect.objectContaining({ type: 'files', query: 'query', limit: PAGE_SIZE }))
 		})
 
 		it('flags a page-load failure without dropping the results already loaded', async () => {

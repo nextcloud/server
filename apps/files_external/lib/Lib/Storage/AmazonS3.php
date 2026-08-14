@@ -20,6 +20,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\NotPermittedException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ITempManager;
@@ -772,7 +773,15 @@ class AmazonS3 extends Common {
 		}
 
 		$path = $this->normalizePath($path);
-		$this->writeObject($path, $stream, $this->mimeDetector->detectPath($path));
+		try {
+			$this->writeObject($path, $stream, $this->mimeDetector->detectPath($path));
+		} catch (S3Exception $exception) {
+			$this->logger->error($exception->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $exception,
+			]);
+			throw new NotPermittedException($exception->getMessage(), $exception->getCode(), $exception);
+		}
 		$this->invalidateCache($path);
 
 		return $size;

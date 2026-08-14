@@ -8,39 +8,36 @@
 		<NcSelect
 			v-model="formData.quota"
 			class="user-form__select"
-			:input-label="t('settings', 'Quota')"
+			:inputLabel="t('settings', 'Quota')"
 			:placeholder="t('settings', 'Set account quota')"
 			:options="quotaOptions"
 			:clearable="false"
 			:taggable="true"
-			:create-option="validateQuota" />
+			:createOption="validateQuota" />
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { QuotaOption } from './userFormUtils.ts'
+
+import { translate as t } from '@nextcloud/l10n'
+import { inject } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import { validateQuota } from './userFormUtils.ts'
+import { formDataKey } from './injectionKeys.ts'
+import { validateQuota as validateQuotaOption } from './userFormUtils.ts'
 
-export default {
-	name: 'UserFormQuota',
+const props = defineProps<{
+	quotaOptions: QuotaOption[]
+}>()
 
-	components: {
-		NcSelect,
-	},
+const formData = inject(formDataKey)!
 
-	inject: ['formData'],
-
-	props: {
-		quotaOptions: {
-			type: Array,
-			required: true,
-		},
-	},
-
-	methods: {
-		validateQuota(quota) {
-			return validateQuota(quota, this.quotaOptions[0])
-		},
-	},
+/**
+ * Validate a typed quota, falling back to the first preset when unparseable.
+ *
+ * @param quota The raw quota string entered in the select
+ */
+function validateQuota(quota: string) {
+	return validateQuotaOption(quota, props.quotaOptions[0])
 }
 </script>

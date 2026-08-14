@@ -8,10 +8,10 @@ OC.L10N.register(
     "You have not added any info yet" : "Þú hefur ekki bætt við neinum upplýsingum ennþá",
     "{user} has not added any info yet" : "{user} hefur ekki bætt við neinum upplýsingum ennþá",
     "Error opening the user status modal, try hard refreshing the page" : "Villa við að opna stöðuglugga notandans, prófaðu að þvinga endurlestur síðunnar",
-    "Edit Profile" : "Breyta sniði",
     "The headline and about sections will show up here" : "Fyrirsögnin og hlutar um hugbúnaðinn munu birtast hér",
     "Profile not found" : "Sniðið finnst ekki",
     "Back to %s" : "Til baka í %s",
+    "Edit Profile" : "Breyta sniði",
     "The profile does not exist." : "Sniðið er ekki til."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

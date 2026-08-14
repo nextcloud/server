@@ -226,21 +226,33 @@ class CronService {
 					['app' => 'cron']
 				);
 			}
-
-			if ($memoryIncrease > 50 * 1024 * 1024) {
-				$message = 'Memory leak detected after executing job ' . $jobDetails . '. Memory usage grew by ' . Util::humanFileSize($memoryIncrease) . '.';
+			if ($jobMemoryPeak > (300 * 1024 * 1024)) {
+				$message
+					= 'Cron job used more than 300 MiB of RAM after executing job '
+					. $jobDetails
+					. ': '
+					. Util::humanFileSize($jobMemoryPeak)
+					. ')';
 				$this->logger->warning($message, ['app' => 'cron']);
 				$this->verboseOutput($message);
 			}
-			if ($jobMemoryPeak > 300 * 1024 * 1024) {
-				$message = 'Cron job used more than 300 MiB of RAM after executing job ' . $jobDetails . ': ' . Util::humanFileSize($jobMemoryPeak) . ')';
-				$this->logger->warning($message, ['app' => 'cron']);
-				$this->verboseOutput($message);
-			}
 
-			// clean up after unclean jobs
+			// Clean-up
 			$this->setupManager->tearDown();
 			$this->tempManager->clean();
+
+			if ($memoryIncrease > (50 * 1024 * 1024)) {
+				$message
+					= 'Memory leak detected after executing job '
+					. $jobDetails
+					. '. Memory usage grew by '
+					. Util::humanFileSize($memoryIncrease)
+					. '.';
+				$this->logger->warning($message, ['app' => 'cron']);
+				$this->verboseOutput($message);
+			}
+
+			// Check forgotten transaction
 			if ($this->connection->inTransaction()) {
 				$this->connection->rollBack();
 				$message = 'Cron job left a transaction opened after executing job ' . $jobDetails . '. The transaction was rolled back.';

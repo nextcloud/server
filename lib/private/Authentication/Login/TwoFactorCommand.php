@@ -11,7 +11,6 @@ namespace OC\Authentication\Login;
 
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;
-use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IURLGenerator;
 use function array_pop;
 use function count;
@@ -26,7 +25,10 @@ class TwoFactorCommand extends ALoginCommand {
 
 	#[\Override]
 	public function process(LoginData $loginData): LoginResult {
-		if (!$this->twoFactorManager->isTwoFactorAuthenticated($loginData->getUser())) {
+		// A WebAuthn login with user verification combines possession of the
+		// authenticator with a PIN or a biometric, so it is a second factor already
+		if ($loginData->isWebAuthnUserVerified()
+			|| !$this->twoFactorManager->isTwoFactorAuthenticated($loginData->getUser())) {
 			return $this->processNextOrFinishSuccessfully($loginData);
 		}
 

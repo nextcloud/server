@@ -105,6 +105,7 @@ test.describe('Nextcloud installation wizard', { tag: '@setup' }, () => {
 
 	test.describe('SQLite', { tag: '@db_sqlite' }, () => {
 		test('installs with SQLite', async ({ page, setupPage }) => {
+			test.slow()
 			await mockAppstore(page, 'skip')
 			await setupPage.open()
 
@@ -134,6 +135,7 @@ test.describe('Nextcloud installation wizard', { tag: '@setup' }, () => {
 	})
 
 	test('installs with MySQL', { tag: '@db_mysql' }, async ({ page, setupPage }) => {
+		test.slow()
 		await mockAppstore(page, 'skip')
 		await setupPage.open()
 
@@ -143,6 +145,7 @@ test.describe('Nextcloud installation wizard', { tag: '@setup' }, () => {
 	})
 
 	test('installs with MariaDB', { tag: '@db_mariadb' }, async ({ page, setupPage }) => {
+		test.slow()
 		await mockAppstore(page, 'skip')
 		await setupPage.open()
 
@@ -152,6 +155,7 @@ test.describe('Nextcloud installation wizard', { tag: '@setup' }, () => {
 	})
 
 	test('installs with PostgreSQL', { tag: '@db_postgres' }, async ({ page, setupPage }) => {
+		test.slow()
 		await mockAppstore(page, 'skip')
 		await setupPage.open()
 
@@ -161,8 +165,8 @@ test.describe('Nextcloud installation wizard', { tag: '@setup' }, () => {
 	})
 
 	test('installs with Oracle', { tag: '@db_oracle' }, async ({ page, setupPage }) => {
-		// Installing into Oracle (and the Oracle container itself) is slow
-		test.setTimeout(200_000)
+		test.slow()
+		test.setTimeout(200_000) // Oracle is slow to start up, so give it more time
 		// Oracle is only offered when the server allows all databases
 		await runExec(['cp', 'tests/databases-all-config.php', 'config/config.php'])
 

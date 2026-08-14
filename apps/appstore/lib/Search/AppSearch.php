@@ -74,7 +74,8 @@ final readonly class AppSearch implements IProvider {
 				$entry['name'],
 				'',
 				$entry['href'],
-				'icon-confirm'
+				$entry['icon'],
+				true,
 			);
 		}
 

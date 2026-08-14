@@ -46,6 +46,7 @@
 		<directory name="apps/provisioning_api"/>
 		<directory name="apps/settings"/>
 		<directory name="apps/sharebymail"/>
+		<directory name="apps/sharing"/>
 		<directory name="apps/systemtags"/>
 		<directory name="apps/testing"/>
 		<directory name="apps/theming"/>
@@ -105,6 +106,7 @@
 	<extraFiles>
 		<directory name="3rdparty"/>
 		<directory name="vendor-bin/phpunit/vendor/phpunit"/>
+		<directory name="tests/lib/Sharing"/>
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>

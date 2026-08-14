@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,6 +15,7 @@ use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -25,18 +28,13 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class LookupPluginTest extends TestCase {
-	/** @var IConfig|MockObject */
-	protected $config;
-	/** @var IClientService|MockObject */
-	protected $clientService;
-	/** @var IUserSession|MockObject */
-	protected $userSession;
-	/** @var ICloudIdManager|MockObject */
-	protected $cloudIdManager;
-	/** @var LookupPlugin */
-	protected $plugin;
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
+	protected IConfig&MockObject $config;
+	protected GlobalScaleConfig&MockObject $globalScaleConfig;
+	protected IClientService&MockObject $clientService;
+	protected IUserSession&MockObject $userSession;
+	protected ICloudIdManager&MockObject $cloudIdManager;
+	protected LookupPlugin $plugin;
+	protected LoggerInterface&MockObject $logger;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -45,6 +43,7 @@ class LookupPluginTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->globalScaleConfig = $this->createMock(GlobalScaleConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->clientService = $this->createMock(IClientService::class);
 		$cloudId = $this->createMock(ICloudId::class);
@@ -71,7 +70,8 @@ class LookupPluginTest extends TestCase {
 			$this->userSession,
 			$this->cloudIdManager,
 			$this->logger,
-			null
+			null,
+			$this->globalScaleConfig,
 		);
 	}
 
@@ -80,12 +80,15 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->exactly(2))
+		$this->config->expects($this->once())
 			->method('getSystemValueBool')
 			->willReturnMap([
-				['gs.enabled', false, true],
 				['has_internet_connection', true, true],
 			]);
+
+		$this->globalScaleConfig->expects($this->once())
+			->method('isGlobalScaleEnabled')
+			->willReturn(true);
 
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -106,12 +109,15 @@ class LookupPluginTest extends TestCase {
 			->method('getAppValue')
 			->with('files_sharing', 'lookupServerEnabled', 'no')
 			->willReturn('yes');
-		$this->config->expects($this->exactly(2))
+		$this->config->expects($this->exactly(1))
 			->method('getSystemValueBool')
 			->willReturnMap([
-				['gs.enabled', false, false],
 				['has_internet_connection', true, false],
 			]);
+
+		$this->globalScaleConfig->expects($this->exactly(1))
+			->method('isGlobalScaleEnabled')
+			->willReturn(false);
 
 		$this->clientService->expects($this->never())
 			->method('newClient');
@@ -142,9 +148,13 @@ class LookupPluginTest extends TestCase {
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValueBool')
 			->willReturnMap([
-				['gs.enabled', false, true],
 				['has_internet_connection', true, true],
+				['gss.selfsigned.allow', false, false],
 			]);
+
+		$this->globalScaleConfig->expects($this->once())
+			->method('isGlobalScaleEnabled')
+			->willReturn(true);
 
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -203,9 +213,13 @@ class LookupPluginTest extends TestCase {
 			$this->config->expects($this->exactly(2))
 				->method('getSystemValueBool')
 				->willReturnMap([
-					['gs.enabled', false, $GSEnabled],
 					['has_internet_connection', true, true],
+					['gss.selfsigned.allow', false, false],
 				]);
+
+			$this->globalScaleConfig->expects($this->once())
+				->method('isGlobalScaleEnabled')
+				->willReturn($GSEnabled);
 			$this->config->expects($this->once())
 				->method('getSystemValueString')
 				->with('lookup_server', 'https://lookup.nextcloud.com')
@@ -230,12 +244,15 @@ class LookupPluginTest extends TestCase {
 				->willReturn($client);
 		} else {
 			$searchResult->expects($this->never())->method('addResultSet');
-			$this->config->expects($this->exactly(2))
+			$this->config->expects($this->once())
 				->method('getSystemValueBool')
 				->willReturnMap([
-					['gs.enabled', false, $GSEnabled],
 					['has_internet_connection', true, true],
 				]);
+
+			$this->globalScaleConfig->expects($this->once())
+				->method('isGlobalScaleEnabled')
+				->willReturn($GSEnabled);
 		}
 		$moreResults = $this->plugin->search(
 			$searchParams['search'],
@@ -248,12 +265,15 @@ class LookupPluginTest extends TestCase {
 	}
 
 	public function testSearchGSDisabled(): void {
-		$this->config->expects($this->atLeastOnce())
+		$this->config->expects($this->once())
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['has_internet_connection', true, true],
-				['gs.enabled', false, false],
 			]);
+
+		$this->globalScaleConfig->expects($this->once())
+			->method('isGlobalScaleEnabled')
+			->willReturn(false);
 
 		/** @var ISearchResult|MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);

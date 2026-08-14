@@ -13,7 +13,6 @@ use OC\Files\Template\TemplateManager;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\App\IAppManager;
-use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;

@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "Tag kolaboratif",
     "Collaborative tagging functionality which shares tags among people." : "Fungsi penandaan kolaboratif yang membagikan tag di antara orang-orang.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Fungsi penandaan kolaboratif yang membagikan tag di antara orang-orang. Bagus untuk tim.\n\t(Jika Anda adalah penyedia dengan instalasi multi-tenancy, disarankan untuk menonaktifkan aplikasi ini karena tag dibagikan.)",
+    "Search tags" : "Cari tag",
     "Public" : "Publik",
     "Restricted" : "Terbatas",
     "Invisible" : "Tersembunyi",

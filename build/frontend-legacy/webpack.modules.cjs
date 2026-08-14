@@ -24,9 +24,6 @@ module.exports = {
 		'twofactor-request-token': path.join(__dirname, 'core/src', 'twofactor-request-token.ts'),
 		update: path.join(__dirname, 'core/src', 'update.ts'),
 	},
-	dashboard: {
-		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
-	},
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.ts'),
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
@@ -69,9 +66,6 @@ module.exports = {
 		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
 		'update-notification-legacy': path.join(__dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
-	},
-	weather_status: {
-		'weather-status': path.join(__dirname, 'apps/weather_status/src', 'weather-status.js'),
 	},
 	workflowengine: {
 		workflowengine: path.join(__dirname, 'apps/workflowengine/src', 'workflowengine.js'),

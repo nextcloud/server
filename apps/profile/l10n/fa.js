@@ -5,7 +5,6 @@ OC.L10N.register(
     "Profile picker" : "انتخاب‌گر پروفایل",
     "Profile" : "پروفایل",
     "This application provides the profile" : "این برنامه پروفایل را ارائه می‌دهد",
-    "Provides a customisable user profile interface." : "یک رابط کاربری پروفایل قابل شخصی‌سازی ارائه می‌دهد.",
     "Searching …" : "در حال جستجو…",
     "Not found" : "پیدا نشد",
     "Search for a user profile" : "جستجوی پروفایل کاربر",
@@ -15,11 +14,12 @@ OC.L10N.register(
     "You have not added any info yet" : "شما هنوز هیچ اطلاعاتی اضافه نکرده‌اید",
     "{user} has not added any info yet" : "{user} هنوز هیچ اطلاعاتی اضافه نکرده است",
     "Error opening the user status modal, try hard refreshing the page" : "خطا در باز کردن پنجره وضعیت کاربر، لطفاً صفحه را به‌روزرسانی کامل کنید",
-    "Edit Profile" : "ویرایش پروفایل",
     "The headline and about sections will show up here" : "بخش‌های عنوان و درباره در اینجا نمایش داده می‌شوند",
     "Profile not found" : "پروفایل پیدا نشد",
     "The profile does not exist or is unavailable." : "پروفایل وجود ندارد یا در دسترس نیست.",
     "Back to %s" : "بازگشت به %s",
+    "Provides a customisable user profile interface." : "یک رابط کاربری پروفایل قابل شخصی‌سازی ارائه می‌دهد.",
+    "Edit Profile" : "ویرایش پروفایل",
     "The profile does not exist." : "پروفایل وجود ندارد."
 },
 "nplurals=2; plural=(n > 1);");

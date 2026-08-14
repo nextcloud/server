@@ -6,6 +6,7 @@
  */
 
 use Rector\DeadCode\Rector\ClassMethod\RemoveDuplicatedReturnSelfDocblockRector;
+use Rector\DeadCode\Rector\ClassMethod\RemoveReturnTagIncompatibleWithNativeTypeRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\AddSeeTestAnnotationRector;
@@ -38,6 +39,16 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/apps/files_sharing/tests/Listener/RestrictInteractionListenerTest.php',
 		$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
 		$nextcloudDir . '/tests/Core/Listener/RestrictInteractionListenerTest.php',
+		$nextcloudDir . '/lib/unstable/Sharing',
+		$nextcloudDir . '/lib/private/Sharing',
+		$nextcloudDir . '/tests/lib/Sharing',
+		$nextcloudDir . '/apps/sharing',
+		$nextcloudDir . '/core/Sharing',
+		$nextcloudDir . '/tests/Core/Sharing',
+		$nextcloudDir . '/apps/files/lib/Sharing',
+		$nextcloudDir . '/apps/files/tests/Sharing',
+		$nextcloudDir . '/lib/public/AppFramework/ORM',
+		$nextcloudDir . '/lib/private/AppFramework/ORM',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces
@@ -68,6 +79,10 @@ return (require __DIR__ . '/rector-shared.php')
 		ReadOnlyClassRector::class => [
 			$nextcloudDir . '/core/Listener/RestrictInteractionListener.php',
 			$nextcloudDir . '/apps/files_sharing/lib/Listener/RestrictInteractionListener.php',
+		],
+		RemoveReturnTagIncompatibleWithNativeTypeRector::class => [
+			$nextcloudDir . '/lib/unstable/Sharing/Property/ISharePropertyType.php',
+			$nextcloudDir . '/lib/unstable/Sharing/Property/ShareProperty.php',
 		],
 		// `@return $this` is more specific than the native `: self` on a
 		// non-final type; removing it breaks psalm's

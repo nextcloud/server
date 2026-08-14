@@ -49,8 +49,8 @@ $CONFIG = [
 	 *
 	 * Value must be an integer, comprised between 0 and 511.
 	 *
-	 * When config.php is shared between different servers, this value should be overriden with "NC_serverid=<int>" on each server.
-	 * Note that it must be overriden for CLI and for your webserver.
+	 * When config.php is shared between different servers, this value should be overridden with "NC_serverid=<int>" on each server.
+	 * Note that it must be overridden for CLI and for your webserver.
 	 *
 	 * Example for CLI: NC_serverid=42 occ config:list system
 	 */
@@ -2511,9 +2511,9 @@ $CONFIG = [
 	 * Changing this may cause older, unsupported clients to malfunction, potentially
 	 * leading to data loss or unexpected behavior.
 	 *
-	 * Defaults to ``3.2.50``
+	 * Defaults to ``3.3.50``
 	 */
-	'minimum.supported.desktop.version' => '3.2.50',
+	'minimum.supported.desktop.version' => '3.3.50',
 
 	/**
 	 * Specify the maximum Nextcloud desktop client version allowed to sync with this
@@ -2701,6 +2701,19 @@ $CONFIG = [
 	 * Defaults to ``[]`` (empty array)
 	 */
 	'allowed_admin_ranges' => ['192.0.2.42/32', '233.252.0.0/24', '2001:db8::13:37/64'],
+
+	/**
+	 * List of trusted IP ranges that can bypass password confirmation.
+	 * If non-empty, all endpoints marked with the PasswordConfirmationRequired attribute
+	 * won't need a password confirmation when originating from IPs within these ranges.
+	 *
+	 * Supported formats:
+	 * - IPv4 addresses or ranges, e.g., ``192.0.2.42/32``, ``233.252.0.0/24``
+	 * - IPv6 addresses or ranges, e.g., ``2001:db8::13:37/64``
+	 *
+	 * Defaults to ``[]`` (empty array)
+	 */
+	'allowed_no_password_confirmation_ranges' => ['192.0.2.42/32', '233.252.0.0/24', '2001:db8::13:37/64'],
 
 	/**
 	 * Maximum file size (in megabytes) for animating GIFs on public sharing pages.

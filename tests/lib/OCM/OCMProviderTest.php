@@ -69,4 +69,30 @@ class OCMProviderTest extends TestCase {
 			$this->provider->getResourceTypes()[0]->getProtocols(),
 		);
 	}
+
+	public function testJwksUriImportedFromDiscoveryData(): void {
+		$this->provider->import([
+			'enabled' => true,
+			'apiVersion' => '1.1.0',
+			'endPoint' => 'https://cloud.example.org/ocm',
+			'capabilities' => ['http-sig'],
+			'jwksUri' => 'https://cloud.example.org/ocm/jwks',
+		]);
+
+		$this->assertSame('https://cloud.example.org/ocm/jwks', $this->provider->getJwksUri());
+	}
+
+	public function testJwksUriSerializedOnlyWhenSet(): void {
+		$this->provider->setEnabled(true)
+			->setApiVersion('1.1.0')
+			->setEndPoint('https://cloud.example.org/ocm');
+
+		$this->assertArrayNotHasKey('jwksUri', $this->provider->jsonSerialize());
+
+		$this->provider->setJwksUri('https://cloud.example.org/ocm/jwks');
+		$this->assertSame(
+			'https://cloud.example.org/ocm/jwks',
+			$this->provider->jsonSerialize()['jwksUri'],
+		);
+	}
 }

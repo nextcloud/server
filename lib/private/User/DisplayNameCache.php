@@ -26,7 +26,7 @@ use OCP\User\Events\UserDeletedEvent;
  * @template-implements IEventListener<UserChangedEvent|UserDeletedEvent>
  */
 class DisplayNameCache implements IEventListener {
-	private const CACHE_TTL = 24 * 60 * 60; // 1 day
+	private const int CACHE_TTL = 24 * 60 * 60; // 1 day
 
 	private array $cache = [];
 	private ICache $memCache;

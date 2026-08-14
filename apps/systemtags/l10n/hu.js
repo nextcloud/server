@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "Együttműködési címkék",
     "Collaborative tagging functionality which shares tags among people." : "Együttműködési címkézési funkció, amely megosztja a címkéket a felhasználók között.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Együttműködési címkézési funkció, amely megosztja a címkéket a felhasználók között. Nagyszerű a csapatok számára.\n\t(Ha Ön több szervezet számára szolgáltatást nyújtó szolgáltató, akkor ajánlott deaktiválni ezt az alkalmazást, mivel a címkék meg vannak osztva.)",
+    "Search tags" : "Címkék keresése",
     "Public" : "Nyilvános",
     "Restricted" : "Korlátozott",
     "Invisible" : "Láthatatlan",

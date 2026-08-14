@@ -26,11 +26,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RestoreAllFiles extends Base {
 
-	private const SCOPE_ALL = 0;
-	private const SCOPE_USER = 1;
-	private const SCOPE_GROUPFOLDERS = 2;
+	private const int SCOPE_ALL = 0;
+	private const int SCOPE_USER = 1;
+	private const int SCOPE_GROUPFOLDERS = 2;
 
-	private const SCOPE_MAP = [
+	private const array SCOPE_MAP = [
 		'user' => self::SCOPE_USER,
 		'groupfolders' => self::SCOPE_GROUPFOLDERS,
 		'all' => self::SCOPE_ALL

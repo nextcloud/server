@@ -12,7 +12,7 @@ use OCP\IUser;
 
 class LazyPathCachedMountInfo extends CachedMountInfo {
 	// we don't allow \ in paths so it makes a great placeholder
-	private const PATH_PLACEHOLDER = '\\PLACEHOLDER\\';
+	private const string PATH_PLACEHOLDER = '\\PLACEHOLDER\\';
 
 	/** @var callable(CachedMountInfo): string */
 	protected $rootInternalPathCallback;

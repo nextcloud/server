@@ -21,6 +21,7 @@ use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -206,7 +207,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('invalidateTokenById')
 			->with($this->uid, $tokenId);
 
-		$this->assertEquals([], $this->controller->destroy($tokenId));
+		$this->assertEquals([], $this->controller->destroy($tokenId)->getData());
 	}
 
 	public function testDestroyExpired(): void {
@@ -230,7 +231,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('invalidateTokenById')
 			->with($this->uid, $tokenId);
 
-		$this->assertSame([], $this->controller->destroy($tokenId));
+		$this->assertSame([], $this->controller->destroy($tokenId)->getData());
 	}
 
 	public function testDestroyWipePendingEmitsCancelledSubject(): void {
@@ -243,7 +244,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getTokenById')
 			->with($tokenId)
-			->willThrowException(new \OCP\Authentication\Exceptions\WipeTokenException($token));
+			->willThrowException(new WipeTokenException($token));
 
 		// The token is still invalidated (the user opted into cancelling the wipe).
 		$this->tokenProvider->expects($this->once())
@@ -267,7 +268,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->activityManager->expects($this->once())
 			->method('publish');
 
-		$this->assertEquals([], $this->controller->destroy($tokenId));
+		$this->assertEquals([], $this->controller->destroy($tokenId)->getData());
 	}
 
 	public function testDestroyWrongUser(): void {
@@ -320,7 +321,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName)->getData());
 	}
 
 	public static function dataUpdateFilesystemScope(): array {
@@ -358,7 +359,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password')->getData());
 	}
 
 	public function testUpdateNoChange(): void {
@@ -389,7 +390,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
 	}
 
 	public function testUpdateExpired(): void {
@@ -409,7 +410,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
 	}
 
 	public function testUpdateTokenWrongUser(): void {

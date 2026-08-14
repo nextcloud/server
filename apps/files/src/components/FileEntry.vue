@@ -277,20 +277,20 @@ export default defineComponent({
 	},
 
 	created() {
-		useHotKey('Enter', this.triggerDefaultAction, {
-			stop: true,
-			prevent: true,
-		})
+		useHotKey('Enter', this.triggerDefaultAction)
 	},
 
 	methods: {
 		formatFileSize,
 
-		triggerDefaultAction() {
+		triggerDefaultAction(event?: KeyboardEvent) {
 			// Don't react to the event if the file row is not active
 			if (!this.isActive) {
 				return
 			}
+
+			event?.preventDefault()
+			event?.stopPropagation()
 
 			this.defaultFileAction?.exec({
 				nodes: [this.source],

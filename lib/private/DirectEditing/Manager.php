@@ -35,7 +35,7 @@ use function array_key_exists;
 use function in_array;
 
 class Manager implements IManager {
-	private const TOKEN_CLEANUP_TIME = 12 * 60 * 60 ;
+	private const int TOKEN_CLEANUP_TIME = 12 * 60 * 60 ;
 
 	public const TABLE_TOKENS = 'direct_edit';
 
@@ -215,6 +215,13 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TABLE_TOKENS)
 			->where($query->expr()->lt('timestamp', $query->createNamedParameter(time() - self::TOKEN_CLEANUP_TIME)));
+		return $query->executeStatement();
+	}
+
+	public function invalidateTokensForUser(string $uid): int {
+		$query = $this->connection->getQueryBuilder();
+		$query->delete(self::TABLE_TOKENS)
+			->where($query->expr()->eq('user_id', $query->createNamedParameter($uid)));
 		return $query->executeStatement();
 	}
 

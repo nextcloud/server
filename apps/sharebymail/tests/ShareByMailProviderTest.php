@@ -670,7 +670,7 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testCreateMailShare(): void {
-		$this->share->expects($this->any())->method('getToken')->willReturn('token');
+		$this->share->expects($this->any())->method('getToken')->willReturn('');
 		$this->share->expects($this->once())->method('setToken')->with('token');
 		$this->share->expects($this->any())->method('getSharedBy')->willReturn('validby@valid.com');
 		$this->share->expects($this->any())->method('getSharedWith')->willReturn('validwith@valid.com');

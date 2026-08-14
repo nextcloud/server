@@ -4,7 +4,6 @@ OC.L10N.register(
     "App store" : "فروشگاه اپلیکیشن",
     "Apps" : "اپلیکیشن‌ها",
     "Nextcloud Appstore" : "فروشگاه نکست‌کلود",
-    "Appstore" : "فروشگاه اپلیکیشن",
     "App name" : "نام اپلیکیشن",
     "Version" : "نسخه",
     "Support level" : "سطح پشتیبانی",

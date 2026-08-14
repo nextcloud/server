@@ -181,7 +181,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.16.1
+	- version: 1.18.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -202,13 +202,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - dompurify
-	- version: 3.4.12
+	- version: 3.4.13
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
 	- license: MIT
 - events
 	- version: 3.3.0
+	- license: MIT
+- @floating-ui/core
+	- version: 0.3.1
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -247,7 +250,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.4
 	- license: MIT
 - p-queue
-	- version: 9.3.1
+	- version: 9.3.3
 	- license: MIT
 - process
 	- version: 0.11.10

@@ -31,6 +31,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
@@ -60,7 +61,7 @@ use function in_array;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class UsersController extends Controller {
 	/** Limit for counting users for subadmins, to avoid spending too much time */
-	private const COUNT_LIMIT_FOR_SUBADMINS = 999;
+	private const int COUNT_LIMIT_FOR_SUBADMINS = 999;
 
 	public const ALLOWED_USER_PREFERENCES = [
 		ConfigLexicon::USER_LIST_SHOW_STORAGE_PATH,
@@ -329,32 +330,8 @@ class UsersController extends Controller {
 		return $canChangePassword;
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 *
-	 * @param string|null $avatarScope
-	 * @param string|null $displayname
-	 * @param string|null $displaynameScope
-	 * @param string|null $phone
-	 * @param string|null $phoneScope
-	 * @param string|null $email
-	 * @param string|null $emailScope
-	 * @param string|null $website
-	 * @param string|null $websiteScope
-	 * @param string|null $address
-	 * @param string|null $addressScope
-	 * @param string|null $twitter
-	 * @param string|null $twitterScope
-	 * @param string|null $bluesky
-	 * @param string|null $blueskyScope
-	 * @param string|null $fediverse
-	 * @param string|null $fediverseScope
-	 * @param string|null $birthdate
-	 * @param string|null $birthdateScope
-	 *
-	 * @return DataResponse
-	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	#[PasswordConfirmationRequired]
 	#[UserRateLimit(limit: 5, period: 60)]
 	public function setUserSettings(?string $avatarScope = null,
@@ -378,7 +355,7 @@ class UsersController extends Controller {
 		?string $birthdateScope = null,
 		?string $pronouns = null,
 		?string $pronounsScope = null,
-	) {
+	): DataResponse {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {
 			return new DataResponse(
@@ -523,12 +500,9 @@ class UsersController extends Controller {
 	/**
 	 * Set the mail address of a user
 	 *
-	 * @NoSubAdminRequired
-	 *
-	 * @param string $account
 	 * @param bool $onlyVerificationCode only return verification code without updating the data
-	 * @return DataResponse
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	public function getVerificationCode(string $account, bool $onlyVerificationCode): DataResponse {

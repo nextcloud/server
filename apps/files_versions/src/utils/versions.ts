@@ -98,9 +98,11 @@ export async function restoreVersion(version: Version) {
  */
 function formatVersion(version: Required<FileStat>, node: INode): Version {
 	const mtime = Date.parse(version.lastmod)
+	// server timestamps are seconds-based, we have to nullify the milliseconds
+	const nodeNormalizedMtime = Math.floor((node.mtime?.getTime() ?? 0) / 1000) * 1000
 
 	let previewUrl: string
-	if (mtime === node.mtime?.getTime()) { // Version is the current one
+	if (mtime === nodeNormalizedMtime) { // Version is the current one
 		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0&forceIcon=1&mimeFallback=1', {
 			fileId: node.id,
 			fileEtag: node.attributes.etag,

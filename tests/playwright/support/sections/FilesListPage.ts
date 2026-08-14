@@ -7,6 +7,7 @@ import type { Locator, Page } from '@playwright/test'
 
 import { expect } from '@playwright/test'
 import { escapeAttributeValue } from '../utils/css.ts'
+import { DAV_FILES_ENDPOINT } from '../utils/dav.ts'
 
 export class FilesListPage {
 	constructor(protected readonly page: Page) {}
@@ -24,9 +25,40 @@ export class FilesListPage {
 		return this.page.locator('[data-cy-files-list]')
 	}
 
-	/** Wait for the file list container to be rendered (e.g. after a direct goto). */
+	/**
+	 * Wait for the file list container to be rendered (e.g. after a direct goto).
+	 */
 	async waitForList(): Promise<void> {
-		await this.getFilesList().waitFor({ state: 'visible' })
+		await this.getFilesList().waitFor({ state: 'visible', timeout: 20_000 })
+	}
+
+	/**
+	 * The list's loading indicator.
+	 *
+	 * Every view renders the same spinner while it fetches updated conent.
+	 * In the list header ("File list is reloading") when the folder
+	 * already has contents to keep showing. In place of the list
+	 * ("Loading current folder") when it does not.
+	 * The two spinners are mutually exclusive.
+	 */
+	getLoadingIndicator(): Locator {
+		return this.page.getByRole('img', { name: /^(File list is reloading|Loading current folder)$/ })
+	}
+
+	/**
+	 * Wait for a pending list fetch to settle, i.e. for the loading indicator to
+	 * come and go.
+	 *
+	 * The indicator is only waited for briefly: a fetch that resolves before the
+	 * first poll is never observed as visible, and since the app raises the
+	 * loading state synchronously with the action that triggers the fetch, an
+	 * absent indicator means the fetch has already finished — so missing its
+	 * appearance is not an error. Waiting for it to be gone is what matters.
+	 */
+	async waitForListLoaded(): Promise<void> {
+		const indicator = this.getLoadingIndicator()
+		await indicator.waitFor({ state: 'visible', timeout: 2000 }).catch(() => {})
+		await indicator.waitFor({ state: 'hidden' })
 	}
 
 	/**
@@ -42,6 +74,16 @@ export class FilesListPage {
 	/** The breadcrumbs navigation ("All files › folder › …"). */
 	getBreadcrumbs(): Locator {
 		return this.page.getByRole('navigation', { name: 'Current directory path' })
+	}
+
+	/**
+	 * Navigate to an ancestor of the current folder through the breadcrumb
+	 *
+	 * @param name - The label of the crumb to navigate to
+	 */
+	async navigateToBreadcrumb(name: string): Promise<void> {
+		await this.getBreadcrumbs().getByRole('button', { name, exact: true }).click()
+		await this.waitForListLoaded()
 	}
 
 	getRowForFile(filename: string): Locator {
@@ -67,9 +109,11 @@ export class FilesListPage {
 	 * still (re-)mounting — notably in the search view on slower (CI) machines. Only
 	 * click while the item is hidden so an already-open menu is never toggled shut.
 	 *
-	 * This is fire-and-forget: the reload request differs by view (PROPFIND for a
-	 * folder, SEARCH for the search view, REPORT for favorites), so callers that
-	 * need to await the refetch should wait on the specific response themselves.
+	 * Returns once the refetch has settled. The request to await differs by view
+	 * (PROPFIND for a folder, SEARCH for the search view, REPORT for favorites),
+	 * so this waits on the view-independent loading indicator instead — see
+	 * {@link waitForListLoaded}. Callers therefore never act on a list that is
+	 * still being replaced.
 	 */
 	async reloadCurrentFolder(): Promise<void> {
 		const toggle = this.getBreadcrumbs().locator('button[aria-haspopup="menu"]').last()
@@ -83,6 +127,7 @@ export class FilesListPage {
 		}).toPass({ timeout: 15000 })
 
 		await reloadItem.click()
+		await this.waitForListLoaded()
 	}
 
 	getRowForFileId(fileid: number): Locator {
@@ -133,6 +178,8 @@ export class FilesListPage {
 	 * row Locator so it serves both name- and fileid-addressed rows.
 	 */
 	private async openActionsMenuForRow(row: Locator): Promise<Locator> {
+		await expect(row).toBeVisible({ timeout: 15_000 })
+
 		await row.hover()
 
 		const actionsButton = row.getByRole('button', { name: 'Actions' })
@@ -253,7 +300,8 @@ export class FilesListPage {
 	 * replaces the whole name, then Enter commits the rename.
 	 */
 	async renameFile(oldName: string, newName: string): Promise<void> {
-		const moved = this.page.waitForResponse((r) => r.request().method() === 'MOVE' && r.url().includes('/remote.php/dav/files/'))
+		// Matches public.php too, so a rename on a public share is awaited as well
+		const moved = this.page.waitForResponse((r) => r.request().method() === 'MOVE' && DAV_FILES_ENDPOINT.test(r.url()))
 
 		await this.triggerActionForFile(oldName, 'rename')
 		const input = this.getRenameInputForFile(oldName)
@@ -356,6 +404,16 @@ export class FilesListPage {
 	}
 
 	async triggerSelectionAction(actionId: string): Promise<void> {
+		// The toolbar renders the first actions inline and moves the rest into the
+		// overflow menu — with only one available action (e.g. "Download" on a
+		// public share) there is no menu toggle at all, so only open the menu when
+		// the entry is not already on screen.
+		const inlineButton = this.getSelectionActionEntry(actionId)
+		if (await inlineButton.isVisible()) {
+			await inlineButton.click()
+			return
+		}
+
 		await this.openSelectionActionsMenu()
 		// NcActionButton renders as <li data-cy-...><button role="menuitem">
 		const actionButton = this.getSelectionActionEntry(actionId).locator('button')
@@ -373,10 +431,13 @@ export class FilesListPage {
 
 	async navigateToFolder(dirPath: string): Promise<void> {
 		for (const directory of dirPath.split('/').filter(Boolean)) {
-			await this.getRowForFile(directory)
-				.getByRole('button')
-				.filter({ hasText: directory })
-				.click()
+			// Click the row's name link (the folder-open action) directly. Filtering
+			// the row's buttons by the folder name is ambiguous for shared folders,
+			// whose row also carries a "Shared by …" action button that can contain
+			// the same text.
+			const link = this.getRowNameLinkForFile(directory)
+			await expect(link).toBeVisible()
+			await link.click()
 
 			// Assert the deepest segment of the `dir` query param matches the folder
 			// we just opened. Comparing the decoded value (URLSearchParams decodes
@@ -417,7 +478,7 @@ export class FilesListPage {
 	 * MKCOL to land.
 	 */
 	async createFolder(folderName: string): Promise<void> {
-		const created = this.page.waitForResponse((r) => r.request().method() === 'MKCOL' && r.url().includes('/remote.php/dav/files/'))
+		const created = this.page.waitForResponse((r) => r.request().method() === 'MKCOL' && DAV_FILES_ENDPOINT.test(r.url()))
 
 		const dialog = await this.openNewFolderDialog()
 		await dialog.getByRole('textbox', { name: 'Folder name' }).fill(folderName)

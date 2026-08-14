@@ -21,12 +21,12 @@ use OCP\UserStatus\IUserStatus;
  * @package OCA\UserStatus\Service
  */
 class PredefinedStatusService {
-	private const BE_RIGHT_BACK = 'be-right-back';
-	private const MEETING = 'meeting';
-	private const COMMUTING = 'commuting';
-	private const SICK_LEAVE = 'sick-leave';
-	private const VACATIONING = 'vacationing';
-	private const REMOTE_WORK = 'remote-work';
+	private const string BE_RIGHT_BACK = 'be-right-back';
+	private const string MEETING = 'meeting';
+	private const string COMMUTING = 'commuting';
+	private const string SICK_LEAVE = 'sick-leave';
+	private const string VACATIONING = 'vacationing';
+	private const string REMOTE_WORK = 'remote-work';
 	/**
 	 * @deprecated See \OCP\UserStatus\IUserStatus::MESSAGE_CALL
 	 */

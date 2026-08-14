@@ -27,6 +27,14 @@ interface ITeamManager {
 	public function getProvider(string $providerId): ITeamResourceProvider;
 
 	/**
+	 * Get the registered provider of exclusive team folders.
+	 *
+	 * @return ITeamFolderProvider|null Null when no folder provider is enabled.
+	 * @since 35.0.0
+	 */
+	public function getTeamFolderProvider(): ?ITeamFolderProvider;
+
+	/**
 	 * Returns all team resources for a given team and user
 	 *
 	 * @return list<TeamResource>

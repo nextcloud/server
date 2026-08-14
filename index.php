@@ -36,7 +36,7 @@ function resetStaticProperties(): void {
 	Filesystem::reset();
 }
 
-$handler = static function () {
+$handler = static function (): void {
 	try {
 		resetStaticProperties();
 		OC::init();

@@ -33,7 +33,7 @@ class IMipService {
 	private IL10N $l10n;
 
 	/** @var string[] */
-	private const STRING_DIFF = [
+	private const array STRING_DIFF = [
 		'meeting_title' => 'SUMMARY',
 		'meeting_description' => 'DESCRIPTION',
 		'meeting_url' => 'URL',

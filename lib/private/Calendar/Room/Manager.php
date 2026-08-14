@@ -11,7 +11,6 @@ namespace OC\Calendar\Room;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Calendar\ResourcesRoomsUpdater;
-use OCP\AppFramework\QueryException;
 use OCP\Calendar\Room\IBackend;
 use OCP\Calendar\Room\IManager;
 use Psr\Container\ContainerInterface;
@@ -35,27 +34,6 @@ class Manager implements IManager {
 	) {
 	}
 
-	/**
-	 * Registers a resource backend
-	 *
-	 * @since 14.0.0
-	 */
-	#[\Override]
-	public function registerBackend(string $backendClass): void {
-		$this->backends[$backendClass] = $backendClass;
-	}
-
-	/**
-	 * Unregisters a resource backend
-	 *
-	 * @param string $backendClass
-	 * @since 14.0.0
-	 */
-	#[\Override]
-	public function unregisterBackend(string $backendClass): void {
-		unset($this->backends[$backendClass], $this->initializedBackends[$backendClass]);
-	}
-
 	private function fetchBootstrapBackends(): void {
 		if ($this->bootstrapBackendsLoaded) {
 			return;
@@ -72,12 +50,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * @return IBackend[]
-	 * @throws QueryException
-	 * @since 14.0.0
-	 */
-	#[\Override]
 	public function getBackends():array {
 		$this->fetchBootstrapBackends();
 
@@ -89,7 +61,7 @@ class Manager implements IManager {
 			/**
 			 * @todo fetch from the app container
 			 *
-			 * The backend might have services injected that can't be build from the
+			 * The backend might have services injected that can't be built from the
 			 * server container.
 			 */
 			$this->initializedBackends[$backend] = $this->container->get($backend);
@@ -98,12 +70,7 @@ class Manager implements IManager {
 		return array_values($this->initializedBackends);
 	}
 
-	/**
-	 * @param string $backendId
-	 * @throws QueryException
-	 */
-	#[\Override]
-	public function getBackend($backendId): ?IBackend {
+	public function getBackend(string $backendId): ?IBackend {
 		$backends = $this->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend->getBackendIdentifier() === $backendId) {
@@ -112,17 +79,6 @@ class Manager implements IManager {
 		}
 
 		return null;
-	}
-
-	/**
-	 * removes all registered backend instances
-	 *
-	 * @since 14.0.0
-	 */
-	#[\Override]
-	public function clear(): void {
-		$this->backends = [];
-		$this->initializedBackends = [];
 	}
 
 	#[\Override]

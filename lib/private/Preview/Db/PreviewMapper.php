@@ -11,6 +11,7 @@ namespace OC\Preview\Db;
 
 use DateInterval;
 use DateTimeImmutable;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
@@ -25,9 +26,9 @@ use Override;
  */
 class PreviewMapper extends QBMapper {
 
-	private const TABLE_NAME = 'previews';
-	private const LOCATION_TABLE_NAME = 'preview_locations';
-	private const VERSION_TABLE_NAME = 'preview_versions';
+	private const string TABLE_NAME = 'previews';
+	private const string LOCATION_TABLE_NAME = 'preview_locations';
+	private const string VERSION_TABLE_NAME = 'preview_versions';
 	public const MAX_CHUNK_SIZE = 1000;
 
 	public function __construct(
@@ -234,5 +235,20 @@ class PreviewMapper extends QBMapper {
 				}, $mimeTypes)
 			));
 		return $this->yieldEntities($qb);
+	}
+
+	public function getPreviewForSpecification(array $parameters): ?Preview {
+		$qb = $this->db->getQueryBuilder();
+		$this->joinLocation($qb);
+
+		foreach ($parameters as $key => $value) {
+			$qb->andWhere($qb->expr()->eq($key, $qb->createNamedParameter($value)));
+		}
+
+		try {
+			return $this->findEntity($qb);
+		} catch (DoesNotExistException) {
+			return null;
+		}
 	}
 }

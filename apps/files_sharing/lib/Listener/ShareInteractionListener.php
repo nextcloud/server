@@ -21,7 +21,7 @@ use function in_array;
 
 /** @template-implements IEventListener<ShareCreatedEvent> */
 class ShareInteractionListener implements IEventListener {
-	private const SUPPORTED_SHARE_TYPES = [
+	private const array SUPPORTED_SHARE_TYPES = [
 		IShare::TYPE_USER,
 		IShare::TYPE_EMAIL,
 		IShare::TYPE_REMOTE,

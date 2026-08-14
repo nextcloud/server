@@ -26,6 +26,7 @@ class OCMProvider implements IOCMProvider {
 	private array $capabilities = [];
 	private string $endPoint = '';
 	private string $tokenEndPoint = '';
+	private string $jwksUri = '';
 	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
 	private ?Signatory $signatory = null;
@@ -142,6 +143,26 @@ class OCMProvider implements IOCMProvider {
 			return $this->tokenEndPoint;
 		}
 		return '';
+	}
+
+	/**
+	 * @param string $jwksUri
+	 *
+	 * @return $this
+	 */
+	#[\Override]
+	public function setJwksUri(string $jwksUri): static {
+		$this->jwksUri = $jwksUri;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	#[\Override]
+	public function getJwksUri(): string {
+		return $this->jwksUri;
 	}
 
 	/**
@@ -311,6 +332,9 @@ class OCMProvider implements IOCMProvider {
 		if (isset($data['tokenEndPoint'])) {
 			$this->setTokenEndPoint($data['tokenEndPoint']);
 		}
+		if (is_string($data['jwksUri'] ?? null)) {
+			$this->setJwksUri($data['jwksUri']);
+		}
 
 		if (!$this->looksValid()) {
 			throw new OCMProviderException('remote provider does not look valid');
@@ -356,6 +380,10 @@ class OCMProvider implements IOCMProvider {
 		$inviteAcceptDialog = $this->getInviteAcceptDialog();
 		if ($inviteAcceptDialog !== '') {
 			$response['inviteAcceptDialog'] = $inviteAcceptDialog;
+		}
+		$jwksUri = $this->getJwksUri();
+		if ($jwksUri !== '') {
+			$response['jwksUri'] = $jwksUri;
 		}
 		return $response;
 	}

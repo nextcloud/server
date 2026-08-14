@@ -14,6 +14,7 @@ use OC\NeedsUpdateException;
 use OC\SystemConfig;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\Console\Attribute\AsCommand;
 use OCP\Console\ConsoleEvent;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -96,7 +97,7 @@ class Application {
 							try {
 								$this->loadCommandsFromInfoXml($info['commands']);
 							} catch (\Throwable $e) {
-								$output->writeln('<error>' . $e->getMessage() . '</error>');
+								$output->getErrorOutput()->writeln('<error>' . $e->getMessage() . '</error>');
 								$this->logger->error($e->getMessage(), [
 									'exception' => $e,
 								]);
@@ -118,7 +119,7 @@ class Application {
 							try {
 								$this->loadCommandsFromInfoXml($info['commands']);
 							} catch (\Throwable $e) {
-								$output->writeln('<error>' . $e->getMessage() . '</error>');
+								$output->getErrorOutput()->writeln('<error>' . $e->getMessage() . '</error>');
 								$this->logger->error($e->getMessage(), [
 									'exception' => $e,
 								]);
@@ -215,6 +216,25 @@ class Application {
 	 */
 	private function loadCommandsFromInfoXml(iterable $commands): void {
 		foreach ($commands as $command) {
+			if (class_exists($command)) {
+				$reflectionClass = new \ReflectionClass($command);
+				if ($reflectionClass->getAttributes(AsCommand::class) !== []) {
+					$this->application->addCommand(new CommandAdapter($command, null, \OC::$server));
+					continue;
+				}
+
+				$hasMethodCommands = false;
+				foreach ($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $reflectionMethod) {
+					if ($reflectionMethod->getAttributes(AsCommand::class) !== []) {
+						$this->application->addCommand(new CommandAdapter($command, $reflectionMethod->getName(), \OC::$server));
+						$hasMethodCommands = true;
+					}
+				}
+				if ($hasMethodCommands) {
+					continue;
+				}
+			}
+
 			try {
 				$c = Server::get($command);
 			} catch (ContainerExceptionInterface $e) {
@@ -229,7 +249,7 @@ class Application {
 				}
 			}
 
-			$this->application->add($c);
+			$this->application->addCommand($c);
 		}
 	}
 }

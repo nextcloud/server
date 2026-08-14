@@ -9,6 +9,11 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Tests\Listener;
 
+use OC\Core\Sharing\Permission\ReshareSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeCreateSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeDeleteSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
+use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCP\Constants;
 use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
@@ -92,6 +97,9 @@ final class RestrictInteractionListenerTest extends TestCase {
 		foreach ([$fileNode, $folderNode] as $node) {
 			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE | Constants::PERMISSION_UPDATE), []);
 			$this->assertEquals('You cannot share "/' . $node->getName() . '" with more permission than you have yourself.', $event->isInteractionRestricted());
+
+			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(null, [NodeReadSharePermissionType::class, ReshareSharePermissionType::class, NodeUpdateSharePermissionType::class]), []);
+			$this->assertFalse($event->isInteractionRestricted());
 		}
 	}
 
@@ -103,6 +111,9 @@ final class RestrictInteractionListenerTest extends TestCase {
 
 		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE | Constants::PERMISSION_DELETE), []);
 		$this->assertEquals('File cannot be shared with delete permission.', $event->isInteractionRestricted());
+
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(null, [NodeReadSharePermissionType::class, ReshareSharePermissionType::class, NodeDeleteSharePermissionType::class]), []);
+		$this->assertFalse($event->isInteractionRestricted());
 	}
 
 	public function testNodeResourceShareActionIncreasePermissionFileCreate(): void {
@@ -113,6 +124,9 @@ final class RestrictInteractionListenerTest extends TestCase {
 
 		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE | Constants::PERMISSION_CREATE), []);
 		$this->assertEquals('File cannot be shared with create permission.', $event->isInteractionRestricted());
+
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(null, [NodeReadSharePermissionType::class, ReshareSharePermissionType::class, NodeCreateSharePermissionType::class]), []);
+		$this->assertFalse($event->isInteractionRestricted());
 	}
 
 	public function testNodeResourceShareActionFileHasDeletePermission(): void {
@@ -123,6 +137,9 @@ final class RestrictInteractionListenerTest extends TestCase {
 
 		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(Constants::PERMISSION_DELETE), []);
 		$this->assertEquals('File cannot be shared with delete permission.', $event->isInteractionRestricted());
+
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(null, [NodeDeleteSharePermissionType::class]), []);
+		$this->assertFalse($event->isInteractionRestricted());
 	}
 
 	public function testNodeResourceShareActionFileHasCreatePermission(): void {
@@ -133,6 +150,9 @@ final class RestrictInteractionListenerTest extends TestCase {
 
 		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(Constants::PERMISSION_CREATE), []);
 		$this->assertEquals('File cannot be shared with create permission.', $event->isInteractionRestricted());
+
+		$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [new NodeResource($node->getId(), $this->user->getUID(), $node)], new ShareAction(null, [NodeCreateSharePermissionType::class]), []);
+		$this->assertFalse($event->isInteractionRestricted());
 	}
 
 	/** @psalm-suppress DeprecatedMethod The configs are not migrated to IAppConfig, so using deprecated IConfig is required for now. */
@@ -157,8 +177,13 @@ final class RestrictInteractionListenerTest extends TestCase {
 			new RoomReceiver(''),
 			new UserReceiver(''),
 		] as $receiver) {
-			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [$resource], new ShareAction(Constants::PERMISSION_ALL & ~Constants::PERMISSION_READ), [$receiver]);
-			$this->assertEquals('File share needs at least read permission.', $event->isInteractionRestricted());
+			foreach ([
+				new ShareAction(Constants::PERMISSION_ALL & ~Constants::PERMISSION_READ),
+				new ShareAction(null, [NodeUpdateSharePermissionType::class, NodeCreateSharePermissionType::class, NodeDeleteSharePermissionType::class, ReshareSharePermissionType::class]),
+			] as $action) {
+				$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [$resource], $action, [$receiver]);
+				$this->assertEquals('File share needs at least read permission.', $event->isInteractionRestricted());
+			}
 		}
 
 		$config->deleteAppValue('files_sharing', 'outgoing_server2server_group_share_enabled');
@@ -181,11 +206,14 @@ final class RestrictInteractionListenerTest extends TestCase {
 			new EmailReceiver('test@example.org'),
 		] as $receiver) {
 			foreach ([
-				Constants::PERMISSION_CREATE,
-				Constants::PERMISSION_UPDATE,
-				Constants::PERMISSION_DELETE,
-			] as $permissions) {
-				$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [$resource], new ShareAction($permissions), [$receiver]);
+				new ShareAction(Constants::PERMISSION_CREATE),
+				new ShareAction(null, [NodeCreateSharePermissionType::class]),
+				new ShareAction(Constants::PERMISSION_UPDATE),
+				new ShareAction(null, [NodeUpdateSharePermissionType::class]),
+				new ShareAction(Constants::PERMISSION_DELETE),
+				new ShareAction(null, [NodeDeleteSharePermissionType::class]),
+			] as $action) {
+				$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [$resource], $action, [$receiver]);
 				$this->assertEquals('Public upload is not allowed.', $event->isInteractionRestricted());
 			}
 		}

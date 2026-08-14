@@ -10,6 +10,7 @@ namespace Test\Avatar;
 
 use OC\Avatar\AvatarManager;
 use OC\Avatar\PlaceholderAvatar;
+use OC\Avatar\RemoteAvatar;
 use OC\Avatar\UserAvatar;
 use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
@@ -17,6 +18,8 @@ use OC\User\User;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\Federation\ICloudId;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
@@ -47,6 +50,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	private $avatarManager;
 	/** @var KnownUserService | \PHPUnit\Framework\MockObject\MockObject */
 	private $knownUserService;
+	private ICloudIdManager&\PHPUnit\Framework\MockObject\MockObject $cloudIdManager;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -60,6 +64,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
+		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 
 		$this->avatarManager = new AvatarManager(
 			$this->userSession,
@@ -69,21 +74,9 @@ class AvatarManagerTest extends \Test\TestCase {
 			$this->logger,
 			$this->config,
 			$this->accountManager,
-			$this->knownUserService
+			$this->knownUserService,
+			$this->cloudIdManager
 		);
-	}
-
-	public function testGetAvatarInvalidUser(): void {
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('user does not exist');
-
-		$this->userManager
-			->expects($this->once())
-			->method('get')
-			->with('invalidUser')
-			->willReturn(null);
-
-		$this->avatarManager->getAvatar('invalidUser');
 	}
 
 	public function testGetAvatarForSelf(): void {
@@ -275,5 +268,68 @@ class AvatarManagerTest extends \Test\TestCase {
 			$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
 		}
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
+	}
+
+	public function testGetAvatarInvalidUser(): void {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('user does not exist');
+
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('invalidUser')
+			->willReturn(null);
+
+		$this->avatarManager->getAvatar('invalidUser');
+	}
+
+	public function testGetAvatarForRemoteUser(): void {
+		$cloudId = 'user@https://remote.example.com';
+
+		$this->userManager
+			->expects($this->never())
+			->method('get');
+
+		$resolvedCloudId = $this->createMock(ICloudId::class);
+		$resolvedCloudId->method('getUser')->willReturn('user');
+		$resolvedCloudId->method('getRemote')->willReturn('https://remote.example.com');
+		$resolvedCloudId->method('getDisplayId')->willReturn('user@remote.example.com');
+
+		$this->cloudIdManager->expects($this->once())
+			->method('isValidCloudId')
+			->with($cloudId)
+			->willReturn(true);
+		$this->cloudIdManager->method('resolveCloudId')
+			->with($cloudId)
+			->willReturn($resolvedCloudId);
+		$this->overwriteService(ICloudIdManager::class, $this->cloudIdManager);
+
+		$this->appData->expects($this->once())->method('getFolder');
+		$this->accountManager->expects($this->never())->method('getAccount');
+
+		$avatar = $this->avatarManager->getAvatar($cloudId);
+
+		$this->assertInstanceOf(RemoteAvatar::class, $avatar);
+		$this->assertTrue($avatar->exists());
+		$this->assertTrue($avatar->isCustomAvatar());
+		$this->assertSame('user@remote.example.com', $avatar->getDisplayName());
+	}
+
+	public function testGetAvatarThrowsForUnknownUserThatIsNotACloudId(): void {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('user does not exist');
+
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('invalidUser')
+			->willReturn(null);
+
+		$this->cloudIdManager->expects($this->once())
+			->method('isValidCloudId')
+			->with('invalidUser')
+			->willReturn(false);
+
+		$this->avatarManager->getAvatar('invalidUser');
 	}
 }

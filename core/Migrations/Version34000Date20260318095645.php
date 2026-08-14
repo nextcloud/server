@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
 use OCP\Migration\Attributes\ColumnType;
@@ -30,8 +29,8 @@ class Version34000Date20260318095645 extends SimpleMigrationStep {
 			$table = $schema->getTable('jobs');
 			$argumentColumn = $table->getColumn('argument');
 
-			if ($argumentColumn->getType() !== Type::getType(Types::TEXT)) {
-				$argumentColumn->setType(Type::getType(Types::TEXT));
+			if ($argumentColumn->getType()->getName() !== Types::TEXT) {
+				$argumentColumn->setType(Types::TEXT);
 				return $schema;
 			}
 		}

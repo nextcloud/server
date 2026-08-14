@@ -10,7 +10,6 @@ namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\AppFramework\Middleware\Security\Exceptions\ExAppRequiredException;
@@ -51,7 +50,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private SecurityMiddlewareController $controller;
 	private SecurityException $secAjaxException;
 	private IRequest|MockObject $request;
-	private MiddlewareUtils $middlewareUtils;
 	private LoggerInterface&MockObject $logger;
 	private INavigationManager&MockObject $navigationManager;
 	private IURLGenerator&MockObject $urlGenerator;
@@ -79,7 +77,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->middlewareUtils = new MiddlewareUtils($this->reader, $this->logger);
 		$this->middleware = $this->getMiddleware(true, true, false);
 		$this->secAjaxException = new SecurityException('hey', true);
 	}
@@ -101,7 +98,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		return new SecurityMiddleware(
 			$this->request,
-			$this->middlewareUtils,
+			$this->reader,
 			$this->navigationManager,
 			$this->urlGenerator,
 			$this->logger,

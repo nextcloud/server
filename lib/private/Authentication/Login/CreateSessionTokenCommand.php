@@ -16,7 +16,7 @@ use OCP\IConfig;
 use OCP\IURLGenerator;
 
 class CreateSessionTokenCommand extends ALoginCommand {
-	private const EPHEMERAL_SESSION_TTL = 5 * 60; // 5 minutes
+	private const int EPHEMERAL_SESSION_TTL = 5 * 60; // 5 minutes
 
 	public function __construct(
 		private IConfig $config,

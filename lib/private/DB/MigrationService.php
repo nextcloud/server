@@ -10,15 +10,14 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use OC\App\InfoParser;
 use OC\Migration\SimpleOutput;
 use OCP\App\IAppManager;
-use OCP\AppFramework\App;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Schema\SchemaException;
 use OCP\DB\Types;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -131,7 +130,7 @@ class MigrationService {
 						$column = $table->getColumn('version');
 						$schemaMismatch = $column->getLength() !== 255;
 					}
-				} catch (SchemaException $e) {
+				} catch (SchemaException|\Doctrine\DBAL\Schema\SchemaException) {
 					// One of the columns is missing
 					$schemaMismatch = true;
 				}
@@ -148,7 +147,7 @@ class MigrationService {
 
 			// Recreate the schema wrapper after dropping the table.
 			$schema = new SchemaWrapper($this->connection);
-		} catch (SchemaException $e) {
+		} catch (SchemaException|\Doctrine\DBAL\Schema\SchemaException) {
 			// The table does not exist; it will be created below.
 		}
 
@@ -551,7 +550,7 @@ class MigrationService {
 		foreach ($targetSchema->getTables() as $table) {
 			try {
 				$sourceTable = $sourceSchema->getTable($table->getName());
-			} catch (SchemaException $e) {
+			} catch (\Doctrine\DBAL\Schema\SchemaException $e) {
 				// we only validate new tables
 				if (\strlen($table->getName()) + $prefixLength > $MAX_NAME_LENGTH) {
 					throw new \InvalidArgumentException('Table name "' . $table->getName() . '" exceeds the maximum length of ' . $MAX_NAME_LENGTH);
@@ -644,7 +643,7 @@ class MigrationService {
 		foreach ($targetSchema->getTables() as $table) {
 			try {
 				$sourceTable = $sourceSchema->getTable($table->getName());
-			} catch (SchemaException $e) {
+			} catch (\Doctrine\DBAL\Schema\SchemaException|SchemaException) {
 				$sourceTable = null;
 			}
 

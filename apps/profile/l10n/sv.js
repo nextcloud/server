@@ -5,7 +5,6 @@ OC.L10N.register(
     "Profile picker" : "Profilväljare",
     "Profile" : "Profil",
     "This application provides the profile" : "Den här appen tillhandahåller profilen",
-    "Provides a customisable user profile interface." : "Tillhandahåller ett anpassningsbart gränssnitt för användarprofiler.",
     "Searching …" : "Söker …",
     "Not found" : "Hittades inte",
     "Search for a user profile" : "Sök efter en användarprofil",
@@ -15,11 +14,12 @@ OC.L10N.register(
     "You have not added any info yet" : "Du har inte lagt till någon information än",
     "{user} has not added any info yet" : "{user} har inte lagt till någon information än",
     "Error opening the user status modal, try hard refreshing the page" : "Det gick inte att öppna dialogrutan för användarstatus. Försök att läsa in sidan på nytt utan cache.",
-    "Edit Profile" : "Redigera profil",
     "The headline and about sections will show up here" : "Rubriken och avsnittet Om visas här",
     "Profile not found" : "Profilen hittades inte",
     "The profile does not exist or is unavailable." : "Profilen finns inte eller är inte tillgänglig.",
     "Back to %s" : "Tillbaka till %s",
+    "Provides a customisable user profile interface." : "Tillhandahåller ett anpassningsbart gränssnitt för användarprofiler.",
+    "Edit Profile" : "Redigera profil",
     "The profile does not exist." : "Profilen finns inte."
 },
 "nplurals=2; plural=(n != 1);");

@@ -16,7 +16,6 @@ use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Circles\Api\v1\Circles;
 use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Federation\TrustedServers;
-use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files_Sharing\ResponseDefinitions;
@@ -78,7 +77,7 @@ use Psr\Log\LoggerInterface;
 class ShareAPIController extends OCSController {
 
 	/** Maximum length of a custom share token, matching the oc_share.token database column. */
-	private const TOKEN_MAX_LENGTH = 32;
+	private const int TOKEN_MAX_LENGTH = 32;
 
 	private ?Node $lockedNode = null;
 	/** @var array<bool> $trustedServerCache */
@@ -1526,8 +1525,29 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($share->getShareType() === IShare::TYPE_CIRCLE) {
-			// TODO: have a sanity check like above?
-			return true;
+			if (
+				Server::get(IAppManager::class)->isEnabledForUser('circles')
+				&& class_exists('\OCA\Circles\Api\v1\Circles')
+			) {
+				$hasCircleId = (str_ends_with($share->getSharedWith(), ']'));
+				$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
+				$shareWithLength = ($hasCircleId ? -1 : strpos($share->getSharedWith(), ' '));
+				if ($shareWithLength === false) {
+					$sharedWith = substr($share->getSharedWith(), $shareWithStart);
+				} else {
+					$sharedWith = substr($share->getSharedWith(), $shareWithStart, $shareWithLength);
+				}
+				try {
+					$member = Circles::getMember($sharedWith, $this->userId, 1);
+					if ($member->getLevel() >= 1) {
+						return true;
+					}
+					return false;
+				} catch (\Exception $e) {
+					return false;
+				}
+			}
+			return false;
 		}
 
 		if ($share->getShareType() === IShare::TYPE_ROOM) {

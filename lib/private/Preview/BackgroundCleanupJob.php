@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\Preview;
 
-use OC\Preview\Db\Preview;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;

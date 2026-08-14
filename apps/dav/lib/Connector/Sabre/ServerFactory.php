@@ -186,7 +186,8 @@ class ServerFactory {
 				$server->addPlugin(new SharesPlugin(
 					$tree,
 					$this->userSession,
-					\OCP\Server::get(\OCP\Share\IManager::class)
+					\OCP\Server::get(\OCP\Share\IManager::class),
+					\OCP\Server::get(IRootFolder::class),
 				));
 				$server->addPlugin(new CommentPropertiesPlugin(\OCP\Server::get(ICommentsManager::class), $this->userSession));
 				$server->addPlugin(new FilesReportPlugin(

@@ -30,7 +30,7 @@ class CleanupLoginTokens extends TimedJob {
 		$rememberMeMaxAge = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		$qb = $this->connection->getQueryBuilder();
 		$qb
-			->delete()
+			->delete('preferences')
 			->where($qb->expr()->eq('appid', $qb->expr()->literal('login_token')))
 			->andWhere($qb->expr()->lt('configvalue', $qb->createNamedParameter(time() - $rememberMeMaxAge)))
 			->executeStatement();

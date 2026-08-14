@@ -4,20 +4,19 @@
 -->
 
 <template>
-	<div id="security" class="section">
-		<h2>{{ t('settings', 'Devices & sessions', {}, undefined, { sanitize: false }) }}</h2>
-		<p class="settings-hint hidden-when-empty">
-			{{ t('settings', 'Web, desktop and mobile clients currently logged in to your account.') }}
-		</p>
+	<NcSettingsSection
+		:name="t('settings', 'Devices & sessions', {}, undefined, { sanitize: false })"
+		:description="t('settings', 'Web, desktop and mobile clients currently logged in to your account.')">
 		<AuthTokenList />
 		<AuthTokenSetup v-if="canCreateToken" />
-	</div>
+	</NcSettingsSection>
 </template>
 
 <script lang="ts">
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import AuthTokenList from './AuthTokenList.vue'
 import AuthTokenSetup from './AuthTokenSetup.vue'
 
@@ -26,6 +25,7 @@ export default defineComponent({
 	components: {
 		AuthTokenList,
 		AuthTokenSetup,
+		NcSettingsSection,
 	},
 
 	data() {

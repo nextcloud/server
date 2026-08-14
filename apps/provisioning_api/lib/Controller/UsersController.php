@@ -26,6 +26,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
@@ -349,8 +350,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Search users by their phone numbers
 	 *
 	 * @param string $location Location of the phone number (for country code)
@@ -360,6 +359,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Users returned
 	 * 400: Invalid location
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	public function searchByPhoneNumbers(string $location, array $search): DataResponse {
 		if ($this->phoneNumberUtil->getCountryCodeForRegion($location) === null) {
@@ -597,7 +597,7 @@ class UsersController extends AUserDataOCSController {
 			// Send new user mail only if a mail is set
 			if ($email !== '') {
 				$newUser->setSystemEMailAddress($email);
-				if ($this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
+				if ($this->appConfig->getValueBool('core', 'newUser.sendEmail', true)) {
 					try {
 						$emailTemplate = $this->newUserMailHelper->generateTemplate($newUser, $generatePasswordResetToken);
 						$this->newUserMailHelper->sendMail($newUser, $emailTemplate);
@@ -656,8 +656,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get the details of a user
 	 *
 	 * @param string $userId ID of the user
@@ -667,6 +665,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: User returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getUser(string $userId): DataResponse {
 		$includeScopes = false;
 		$currentUser = $this->userSession->getUser();
@@ -683,8 +682,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get the details of the current user
 	 *
 	 * @return DataResponse<Http::STATUS_OK, Provisioning_APIUserDetails, array{}>
@@ -693,6 +690,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Current user returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
@@ -705,8 +703,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get a list of fields that are editable for the current user
 	 *
 	 * @return DataResponse<Http::STATUS_OK, list<string>, array{}>
@@ -715,6 +711,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Editable fields returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getEditableFields(): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if (!$currentLoggedInUser instanceof IUser) {
@@ -738,8 +735,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get a list of fields that are editable for a user
 	 *
 	 * @param string $userId ID of the user
@@ -749,6 +744,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Editable fields for user returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getEditableFieldsForUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if (!$currentLoggedInUser instanceof IUser) {
@@ -794,8 +790,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Update multiple values of the user's details
 	 *
 	 * @param string $userId ID of the user
@@ -809,6 +803,7 @@ class UsersController extends AUserDataOCSController {
 	 */
 	#[PasswordConfirmationRequired]
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	#[UserRateLimit(limit: 5, period: 60)]
 	public function editUserMultiValue(
 		string $userId,
@@ -1173,8 +1168,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Update a value of the user's details
 	 *
 	 * @param string $userId ID of the user
@@ -1187,6 +1180,7 @@ class UsersController extends AUserDataOCSController {
 	 */
 	#[PasswordConfirmationRequired]
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	#[UserRateLimit(limit: 50, period: 600)]
 	public function editUser(string $userId, string $key, string $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -1611,8 +1605,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get a list of groups the user belongs to
 	 *
 	 * @param string $userId ID of the user
@@ -1622,6 +1614,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Users groups returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getUsersGroups(string $userId): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 
@@ -1656,8 +1649,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get a list of groups with details
 	 *
 	 * @param string $userId ID of the user
@@ -1667,6 +1658,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Users groups returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getUsersGroupsDetails(string $userId): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 
@@ -1733,8 +1725,6 @@ class UsersController extends AUserDataOCSController {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * Get a list of the groups the user is a subadmin of, with details
 	 *
 	 * @param string $userId ID of the user
@@ -1744,6 +1734,7 @@ class UsersController extends AUserDataOCSController {
 	 * 200: Users subadmin groups returned
 	 */
 	#[NoAdminRequired]
+	#[NoSubAdminRequired]
 	public function getUserSubAdminGroupsDetails(string $userId): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 

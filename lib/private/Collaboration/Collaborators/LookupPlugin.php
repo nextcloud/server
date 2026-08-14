@@ -12,6 +12,7 @@ use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Federation\ICloudIdManager;
+use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IUserSession;
@@ -19,24 +20,22 @@ use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 class LookupPlugin implements ISearchPlugin {
-	/** @var string remote part of the current user's cloud id */
-	private string $currentUserRemote;
 
 	public function __construct(
-		private IConfig $config,
-		private IClientService $clientService,
+		private readonly IConfig $config,
+		private readonly IClientService $clientService,
 		IUserSession $userSession,
-		private ICloudIdManager $cloudIdManager,
-		private LoggerInterface $logger,
-		private ?TrustedServers $trustedServers,
+		private readonly ICloudIdManager $cloudIdManager,
+		private readonly LoggerInterface $logger,
+		private readonly ?TrustedServers $trustedServers,
+		private readonly GlobalScaleConfig $globalScaleConfig,
 	) {
 		$currentUserCloudId = $userSession->getUser()->getCloudId();
-		$this->currentUserRemote = $cloudIdManager->resolveCloudId($currentUserCloudId)->getRemote();
 	}
 
 	#[\Override]
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
-		$isGlobalScaleEnabled = $this->config->getSystemValueBool('gs.enabled', false);
+		$isGlobalScaleEnabled = $this->globalScaleConfig->isGlobalScaleEnabled();
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
 		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);
 
@@ -56,11 +55,16 @@ class LookupPlugin implements ISearchPlugin {
 
 		try {
 			$client = $this->clientService->newClient();
+			/**
+			 * @psalm-suppress TypeDoesNotContainType - $isGlobalScaleEnabled always true at this point
+			 * @psalm-suppress RedundantCondition - guard rail in case we re-activate LUS out of GlobalScale
+			 */
 			$response = $client->get(
 				$lookupServerUrl . '/users?search=' . urlencode($search),
 				[
 					'timeout' => 10,
 					'connect_timeout' => 3,
+					'verify' => !($isGlobalScaleEnabled && $this->config->getSystemValueBool('gss.selfsigned.allow', false) === true)
 				]
 			);
 
@@ -73,9 +77,6 @@ class LookupPlugin implements ISearchPlugin {
 					$this->logger->error('Can not parse federated cloud ID "' . $lookup['federationId'] . '"', [
 						'exception' => $e,
 					]);
-					continue;
-				}
-				if ($this->currentUserRemote === $remote) {
 					continue;
 				}
 				$name = $lookup['name']['value'] ?? '';

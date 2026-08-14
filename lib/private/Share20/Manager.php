@@ -161,14 +161,15 @@ class Manager implements IManager {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function generalChecks(IShare $share): void {
+		$shareWith = $share->getSharedWith();
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			// We expect a valid user as sharedWith for user shares
-			if (!$this->userManager->userExists($share->getSharedWith())) {
+			if ($shareWith === null || !$this->userManager->userExists($shareWith)) {
 				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid user'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			// We expect a valid group as sharedWith for group shares
-			if (!$this->groupManager->groupExists($share->getSharedWith())) {
+			if ($shareWith === null || !$this->groupManager->groupExists($shareWith)) {
 				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid group'));
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
@@ -268,7 +269,7 @@ class Manager implements IManager {
 					throw new GenericShareException($isRestricted, code: 403);
 				}
 			} catch (\Exception $exception) {
-				throw new GenericShareException($exception->getMessage(), $exception instanceof HintException ? $exception->getHint() : '', code: 403);
+				throw new GenericShareException($exception->getMessage(), $exception instanceof HintException ? $exception->getHint() : '', code: 403, previous: $exception);
 			}
 		}
 	}
@@ -567,9 +568,11 @@ class Manager implements IManager {
 				|| $share->getShareType() === IShare::TYPE_EMAIL) {
 				$this->setLinkParent($share);
 
-				$token = $this->generateToken();
-				// Set the unique token
-				$share->setToken($token);
+				if ($share->getToken() === '') {
+					$token = $this->generateToken();
+					// Set the unique token
+					$share->setToken($token);
+				}
 
 				// Verify the expiration date
 				$share = $this->validateExpirationDateLink($share);
@@ -1146,6 +1149,17 @@ class Manager implements IManager {
 			$provider = $this->factory->getProviderForType($shareType);
 		} catch (ProviderException $e) {
 			return [];
+		}
+
+		if ($onlyValid && $this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
+			/*
+			 * If shares from disabled users are hidden, check user status first to avoid useless work.
+			 * Otherwise all shares would’ve been filtered out by checkShare anyway.
+			 */
+			$user = $this->userManager->get($userId);
+			if ($user?->isEnabled() === false) {
+				return [];
+			}
 		}
 
 		if ($path?->getMountPoint() instanceof IShareOwnerlessMount) {

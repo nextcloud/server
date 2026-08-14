@@ -37,10 +37,10 @@ class Redis extends Cache implements IMemcacheTTL {
 		],
 	];
 
-	private const MAX_TTL = 30 * 24 * 60 * 60; // 1 month
+	private const int MAX_TTL = 30 * 24 * 60 * 60; // 1 month
 
 	/** Number of keys to request per SCAN iteration in {@see self::clear()} (only a hint to Redis) */
-	private const SCAN_COUNT = 1000;
+	private const int SCAN_COUNT = 1000;
 
 	private \Redis|\RedisCluster|null $cache = null;
 
@@ -53,7 +53,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 */
 	public function getCache(): \Redis|\RedisCluster {
 		if ($this->cache === null) {
-			$this->cache = \OCP\Server::get(RedisFactory::class)->getInstance();
+			$this->cache = Server::get(RedisFactory::class)->getInstance();
 		}
 		return $this->cache;
 	}

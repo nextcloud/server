@@ -9,12 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\Federation;
 
+use OCP\GlobalScale\IConfig;
 use OCP\IAppConfig;
 
 class CalendarFederationConfig {
 	public function __construct(
 		private readonly IAppConfig $appConfig,
-		private \OCP\GlobalScale\IConfig $gsConfig,
+		private IConfig $gsConfig,
 	) {
 	}
 
@@ -40,5 +41,12 @@ class CalendarFederationConfig {
 			return false;
 		}
 		return $this->appConfig->getValueBool('files_sharing', 'incoming_server2server_share_enabled', true);
+	}
+
+	/**
+	 * Check if incoming shares from trusted servers are accepted automatically
+	 */
+	public function isTrustedShareAutoAcceptEnabled(): bool {
+		return $this->appConfig->getValueBool('files_sharing', 'federatedTrustedShareAutoAccept', true);
 	}
 }

@@ -211,6 +211,35 @@
     <NullableReturnStatement>
       <code><![CDATA[null]]></code>
     </NullableReturnStatement>
+    <UndefinedMagicPropertyFetch>
+      <code><![CDATA[$component->CLASS]]></code>
+      <code><![CDATA[$component->CLASS]]></code>
+      <code><![CDATA[$component->CLASS]]></code>
+      <code><![CDATA[$component->DTEND]]></code>
+      <code><![CDATA[$component->DTEND]]></code>
+      <code><![CDATA[$component->DTEND]]></code>
+      <code><![CDATA[$component->DTSTART]]></code>
+      <code><![CDATA[$component->DTSTART]]></code>
+      <code><![CDATA[$component->DTSTART]]></code>
+      <code><![CDATA[$component->DUE]]></code>
+      <code><![CDATA[$component->DUE]]></code>
+      <code><![CDATA[$component->DUE]]></code>
+      <code><![CDATA[$component->DURATION]]></code>
+      <code><![CDATA[$component->DURATION]]></code>
+      <code><![CDATA[$component->DURATION]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RDATE]]></code>
+      <code><![CDATA[$component->RRULE]]></code>
+      <code><![CDATA[$component->RRULE]]></code>
+      <code><![CDATA[$component->RRULE]]></code>
+      <code><![CDATA[$component->UID]]></code>
+      <code><![CDATA[$component->UID]]></code>
+      <code><![CDATA[$component->UID]]></code>
+    </UndefinedMagicPropertyFetch>
   </file>
   <file src="apps/dav/lib/CalDAV/Calendar.php">
     <DeprecatedMethod>
@@ -1408,14 +1437,6 @@
       <code><![CDATA[$this->fileIsEncrypted]]></code>
     </TypeDoesNotContainType>
   </file>
-  <file src="apps/files/lib/Command/Object/Multi/Users.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUsersForUserValue]]></code>
-      <code><![CDATA[getUsersForUserValue]]></code>
-      <code><![CDATA[getUsersForUserValue]]></code>
-      <code><![CDATA[getUsersForUserValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/files/lib/Command/RepairTree.php">
     <DeprecatedMethod>
       <code><![CDATA[md5]]></code>
@@ -1603,12 +1624,6 @@
     <DeprecatedMethod>
       <code><![CDATA[generate]]></code>
     </DeprecatedMethod>
-    <InternalMethod>
-      <code><![CDATA[decrypt]]></code>
-      <code><![CDATA[encrypt]]></code>
-      <code><![CDATA[setIV]]></code>
-      <code><![CDATA[setIV]]></code>
-    </InternalMethod>
   </file>
   <file src="apps/files_external/lib/Service/StoragesService.php">
     <DeprecatedMethod>
@@ -1670,6 +1685,7 @@
       <code><![CDATA[(int)$code]]></code>
     </RedundantCast>
     <UndefinedClass>
+      <code><![CDATA[Circles]]></code>
       <code><![CDATA[Circles]]></code>
       <code><![CDATA[Circles]]></code>
     </UndefinedClass>
@@ -1896,11 +1912,6 @@
     <MismatchingDocblockReturnType>
       <code><![CDATA[INode]]></code>
     </MismatchingDocblockReturnType>
-  </file>
-  <file src="apps/files_trashbin/lib/Sabre/TrashbinPlugin.php">
-    <InternalMethod>
-      <code><![CDATA[free_space]]></code>
-    </InternalMethod>
   </file>
   <file src="apps/files_trashbin/lib/Storage.php">
     <DeprecatedMethod>
@@ -2215,11 +2226,6 @@
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/lookup_server_connector/lib/UpdateLookupServer.php">
-    <DeprecatedMethod>
-      <code><![CDATA[deleteUserValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/oauth2/lib/Controller/LoginRedirectorController.php">
     <DeprecatedMethod>
       <code><![CDATA[generate]]></code>
@@ -2282,7 +2288,6 @@
       <code><![CDATA[generate]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[implementsActions]]></code>
@@ -2298,14 +2303,6 @@
       <code><![CDATA[$groupid === null]]></code>
       <code><![CDATA[$groupid === null]]></code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="apps/provisioning_api/lib/Middleware/ProvisioningApiMiddleware.php">
-    <DeprecatedMethod>
-      <code><![CDATA[hasAnnotation]]></code>
-    </DeprecatedMethod>
-    <InvalidReturnType>
-      <code><![CDATA[Response]]></code>
-    </InvalidReturnType>
   </file>
   <file src="apps/settings/lib/BackgroundJobs/VerifyUserData.php">
     <DeprecatedConstant>
@@ -2663,11 +2660,6 @@
     <NullableReturnStatement>
       <code><![CDATA[$svg]]></code>
     </NullableReturnStatement>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Migration/Version1002Date20170919123342.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getName]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/twofactor_backupcodes/lib/Service/BackupCodeStorage.php">
     <DeprecatedMethod>
@@ -3252,6 +3244,24 @@
       <code><![CDATA[generate]]></code>
       <code><![CDATA[generate]]></code>
     </DeprecatedMethod>
+  </file>
+  <file src="core/Sharing/Recipient/TeamShareRecipientType.php">
+    <ImplementedParamTypeMismatch>
+      <code><![CDATA[$event]]></code>
+    </ImplementedParamTypeMismatch>
+    <InvalidArgument>
+      <code><![CDATA[self::class]]></code>
+    </InvalidArgument>
+    <InvalidTemplateParam>
+      <code><![CDATA[IEventListener]]></code>
+    </InvalidTemplateParam>
+    <UndefinedClass>
+      <code><![CDATA[DestroyingCircleEvent]]></code>
+    </UndefinedClass>
+    <UndefinedDocblockClass>
+      <code><![CDATA[$event]]></code>
+      <code><![CDATA[TeamShareRecipientType]]></code>
+    </UndefinedDocblockClass>
   </file>
   <file src="core/templates/publicshareauth.php">
     <DeprecatedMethod>
@@ -3921,11 +3931,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/IntegrityCheck/Checker.php">
-    <InvalidArrayAccess>
-      <code><![CDATA[$x509->getDN(X509::DN_OPENSSL)['CN']]]></code>
-      <code><![CDATA[$x509->getDN(X509::DN_OPENSSL)['CN']]]></code>
-      <code><![CDATA[$x509->getDN(true)['CN']]]></code>
-    </InvalidArrayAccess>
     <UndefinedInterfaceMethod>
       <code><![CDATA[getOnlyDefaultAliases]]></code>
     </UndefinedInterfaceMethod>
@@ -4069,16 +4074,6 @@
       <code><![CDATA[filemtime($this->getDefaultCertificatesBundlePath())]]></code>
     </FalsableReturnStatement>
   </file>
-  <file src="lib/private/Security/Crypto.php">
-    <InternalMethod>
-      <code><![CDATA[decrypt]]></code>
-      <code><![CDATA[encrypt]]></code>
-      <code><![CDATA[setIV]]></code>
-      <code><![CDATA[setIV]]></code>
-      <code><![CDATA[setPassword]]></code>
-      <code><![CDATA[setPassword]]></code>
-    </InternalMethod>
-  </file>
   <file src="lib/private/Security/Normalizer/IpAddress.php">
     <FalsableReturnStatement>
       <code><![CDATA[inet_ntop(substr($binary, -4))]]></code>
@@ -4106,12 +4101,6 @@
     <TypeDoesNotContainType>
       <code><![CDATA[ctype_digit($this->dbPort)]]></code>
     </TypeDoesNotContainType>
-    <UndefinedThisPropertyFetch>
-      <code><![CDATA[$this->dbprettyname]]></code>
-      <code><![CDATA[$this->dbprettyname]]></code>
-      <code><![CDATA[$this->dbprettyname]]></code>
-      <code><![CDATA[$this->dbprettyname]]></code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/Share20/DefaultShareProvider.php">
     <FalsableReturnStatement>
@@ -4142,15 +4131,6 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[getSupportedApps]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/Tags.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$from]]></code>
-      <code><![CDATA[$names]]></code>
-    </InvalidScalarArgument>
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$tag]]></code>
-    </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/Teams/TeamManager.php">
     <LessSpecificReturnStatement>
@@ -4232,6 +4212,11 @@
     <MoreSpecificReturnType>
       <code><![CDATA[array{X-Request-Id: string, Cache-Control: string, Content-Security-Policy: string, Feature-Policy: string, X-Robots-Tag: string, Last-Modified?: string, ETag?: string, ...H}]]></code>
     </MoreSpecificReturnType>
+  </file>
+  <file src="lib/public/EventDispatcher/IEventListener.php">
+    <MismatchingDocblockParamType>
+      <code><![CDATA[T]]></code>
+    </MismatchingDocblockParamType>
   </file>
   <file src="lib/public/ICache.php">
     <AmbiguousConstantInheritance>

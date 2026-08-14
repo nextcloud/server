@@ -18,6 +18,7 @@ use OCP\Calendar\Events\CalendarObjectRestoredEvent;
 use OCP\Calendar\Events\CalendarObjectUpdatedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -43,11 +44,11 @@ use Throwable;
  */
 class CalendarDelegateActionListener implements IEventListener {
 
-	private const ACTION_CREATE = 'create';
-	private const ACTION_UPDATE = 'update';
-	private const ACTION_DELETE = 'delete';
-	private const ACTION_TRASH = 'trash';
-	private const ACTION_RESTORE = 'restore';
+	private const string ACTION_CREATE = 'create';
+	private const string ACTION_UPDATE = 'update';
+	private const string ACTION_DELETE = 'delete';
+	private const string ACTION_TRASH = 'trash';
+	private const string ACTION_RESTORE = 'restore';
 
 	public function __construct(
 		private readonly IUserSession $userSession,
@@ -210,7 +211,7 @@ class CalendarDelegateActionListener implements IEventListener {
 	/**
 	 * @return array{0: string, 1: string} [subject, heading]
 	 */
-	private function subjectAndHeading(\OCP\IL10N $l, string $action, string $actorName, string $summary, string $calendarName): array {
+	private function subjectAndHeading(IL10N $l, string $action, string $actorName, string $summary, string $calendarName): array {
 		return match ($action) {
 			self::ACTION_CREATE => [
 				$l->t('%1$s created "%2$s" on your behalf', [$actorName, $summary]),

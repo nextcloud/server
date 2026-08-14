@@ -19,6 +19,14 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractDatabase {
+	/**
+	 * Installer options configuring an encrypted database connection.
+	 * @var string[]
+	 */
+	protected const array CONNECTION_ENCRYPTION_OPTIONS = ['dbdriveroptions'];
+
+	protected string $dbprettyname = 'abstract';
+
 	protected string $dbUser;
 	protected string $dbPassword;
 	protected string $dbName;
@@ -47,6 +55,13 @@ abstract class AbstractDatabase {
 		if (substr_count($config['dbname'], '.') >= 1) {
 			$errors[] = $this->trans->t('You cannot use dots in the database name %s', [$this->dbprettyname]);
 		}
+		foreach (static::CONNECTION_ENCRYPTION_OPTIONS as $option) {
+			if (isset($config[$option]) && !is_array($config[$option])) {
+				// Fail instead of ignoring the option, otherwise the instance would be
+				// installed with an unencrypted connection without the admin noticing.
+				$errors[] = $this->trans->t('The database option "%1$s" for %2$s has to be a list of values', [$option, $this->dbprettyname]);
+			}
+		}
 		return $errors;
 	}
 
@@ -62,11 +77,27 @@ abstract class AbstractDatabase {
 		// accept `false` both as bool and string, since setting config values from env will result in a string
 		$this->tryCreateDbUser = $createUserConfig !== false && $createUserConfig !== 'false';
 
-		$this->config->setValues([
+		$configValues = [
 			'dbname' => $dbName,
 			'dbhost' => $dbHost,
 			'dbtableprefix' => $dbTablePrefix,
-		]);
+		];
+
+		// An encrypted connection can only be configured through the system config, so the
+		// options have to be persisted before the first connection is opened.
+		foreach (static::CONNECTION_ENCRYPTION_OPTIONS as $option) {
+			if (empty($config[$option])) {
+				continue;
+			}
+			if (!is_array($config[$option])) {
+				// Rejected by validate() already, but subclasses may not use that check
+				$this->logger->error('Ignoring database option "{option}" passed to the installer because it is not a list of values', ['option' => $option]);
+				continue;
+			}
+			$configValues[$option] = $config[$option];
+		}
+
+		$this->config->setValues($configValues);
 
 		$this->dbUser = $dbUser;
 		$this->dbPassword = $dbPass;
@@ -98,39 +129,45 @@ abstract class AbstractDatabase {
 	}
 
 	/**
-	 * @param array $configOverwrite
-	 * @return \OC\DB\Connection
+	 * Create a new connection factory for the database.
+	 */
+	protected function createConnectionFactory(): ConnectionFactory {
+		// needed mostly because the factory caches `mysql.utf8mb4` within the constructor
+		// and we need to allow re-connect with new value (see MySQL::setupDatabase)
+		return new ConnectionFactory($this->config);
+	}
+
+	/**
+	 * Connect to the database that is currently being set up.
+	 *
+	 * Host, database name and table prefix are resolved from the system config by the connection factory,
+	 * so this only needs to additionally pass the credentials entered during setup.
+	 *
+	 * @param array $configOverwrite Connection parameters taking precedence over the resolved ones
 	 */
 	protected function connect(array $configOverwrite = []): Connection {
+		// The credentials entered during setup are only written to the config once the
+		// database user has been set up, so they have to be passed explicitly.
 		$connectionParams = [
-			'host' => $this->dbHost,
 			'user' => $this->dbUser,
 			'password' => $this->dbPassword,
-			'tablePrefix' => $this->tablePrefix,
-			'dbname' => $this->dbName
 		];
 
-		// adding port support through installer
+		// There is no `dbport` config value in the config - the port is part of `dbhost` - so a port
+		// provided by the installer can only be passed here. If set it takes precedence
+		// over a port or socket carried by the host.
 		if (!empty($this->dbPort)) {
 			if (ctype_digit($this->dbPort)) {
-				$connectionParams['port'] = $this->dbPort;
+				$connectionParams['port'] = (int)$this->dbPort;
 			} else {
 				$connectionParams['unix_socket'] = $this->dbPort;
 			}
-		} elseif (strpos($this->dbHost, ':')) {
-			// Host variable may carry a port or socket.
-			[$host, $portOrSocket] = explode(':', $this->dbHost, 2);
-			if (ctype_digit($portOrSocket)) {
-				$connectionParams['port'] = $portOrSocket;
-			} else {
-				$connectionParams['unix_socket'] = $portOrSocket;
-			}
-			$connectionParams['host'] = $host;
 		}
+
 		$connectionParams = array_merge($connectionParams, $configOverwrite);
-		$connectionParams = array_merge($connectionParams, ['primary' => $connectionParams, 'replica' => [$connectionParams]]);
-		$cf = new ConnectionFactory($this->config);
-		$connection = $cf->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
+
+		$connection = $this->createConnectionFactory()
+			->getConnection($this->config->getValue('dbtype', 'sqlite'), $connectionParams);
 		$connection->ensureConnectedToPrimary();
 		return $connection;
 	}

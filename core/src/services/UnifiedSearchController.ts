@@ -26,6 +26,12 @@ export interface CategorySearchParams {
 export const REVEAL_INTERVAL_MS = 1500
 
 /**
+ * Results fetched per category per page. Sized for the detail view (which shows the
+ * whole page); the aggregate caps to RESULTS_PER_CATEGORY. Server default 5, design 10.
+ */
+export const PAGE_SIZE = 10
+
+/**
  * Runs a unified search across categories in priority order, blocking
  * lower-priority results until their predecessors arrive or a timer reveals them.
  */
@@ -49,6 +55,10 @@ export class UnifiedSearchController {
 	 */
 	async search(query: string, categories: string[], params?: Record<string, CategorySearchParams>): Promise<void> {
 		this.cancelPendingRequests()
+		// Stale-while-revalidate: keep the previous page on screen while the new search is in
+		// flight, so refining a query swaps results in place instead of flashing an empty panel.
+		// Each recurring category is reseeded with its prior entries below; dropped ones vanish.
+		const previous = this.searchStates
 		this.searchStates = {}
 		this.searchGeneration++
 		const generation = this.searchGeneration
@@ -57,7 +67,14 @@ export class UnifiedSearchController {
 
 		this.startRevealTimer()
 
-		await Promise.allSettled(categories.map((category) => this.searchCategory(category, generation, categories)))
+		await Promise.allSettled(categories.map((category) => {
+			const prev = previous[category]
+			// Only entries that were actually on screen seed the stale view. A blocked or failed
+			// category's entries were fetched but never rendered, so they must not carry over
+			// (and must not let the category skip the ordered reveal).
+			const staleEntries = prev && (prev.status === 'loaded' || prev.status === 'loading') ? prev.entries : []
+			return this.searchCategory(category, generation, categories, staleEntries)
+		}))
 	}
 
 	/**
@@ -80,6 +97,7 @@ export class UnifiedSearchController {
 			type: category,
 			query: this.query,
 			cursor: categoryState.cursor,
+			limit: PAGE_SIZE,
 			...this.params[category],
 		})
 
@@ -92,10 +110,14 @@ export class UnifiedSearchController {
 			}
 			const { entries, cursor, isPaginated } = response.data.ocs.data
 
+			// A provider can echo a non-null cursor on an empty page, keeping hasMore true and
+			// leaving a dead "Load more" button. An empty page means exhausted, cursor or not.
+			const reachedEnd = entries.length === 0
+
 			this.patchStates({[category]: {
 				entries: [...categoryState.entries, ...entries],
 				cursor,
-				hasMore: this.hasMorePages(isPaginated, cursor),
+				hasMore: !reachedEnd && this.hasMorePages(isPaginated, cursor),
 				status: 'loaded',
 			}})
 		} catch {
@@ -115,22 +137,30 @@ export class UnifiedSearchController {
 		return { ...this.searchStates }
 	}
 
-	/**
-	 * Tear down on unmount: cancels in-flight requests and stops the reveal timer.
-	 */
 	dispose(): void {
-		this.cancelPendingRequests()
-		this.stopRevealTimer()
+		this.stopBackgroundWork()
+	}
+
+	reset(): void {
+		this.stopBackgroundWork()
+		this.searchStates = {}
+		this.query = ''
+		this.params = {}
+		this.searchGeneration++
+		this.onChange?.(this.getSnapshot())
 	}
 
 	private async searchCategory(
 		category: string,
 		generation: number,
 		categories: string[],
+		staleEntries: unknown[] = [],
 	): Promise<void> {
+		// Seed with the prior page (stale-while-revalidate) so it stays visible under the
+		// spinner until the fresh page replaces it. Empty on a first search.
 		this.patchStates({ [category]: {
 			status: 'loading',
-			entries: [],
+			entries: staleEntries,
 			cursor: null,
 			hasMore: false,
 			loadMoreFailed: false,
@@ -140,6 +170,7 @@ export class UnifiedSearchController {
 			type: category,
 			query: this.query,
 			cursor: null,
+			limit: PAGE_SIZE,
 			...this.params[category],
 		})
 
@@ -154,9 +185,12 @@ export class UnifiedSearchController {
 
 			const { entries, cursor, isPaginated } = response.data.ocs.data
 			// Decide blocked vs loaded once, here at settle. Reconcile only promotes after this
-			// (never re-blocks), so this is the only place a category becomes blocked.
+			// (never re-blocks), so this is the only place a category becomes blocked. A category
+			// that carried stale results skips blocking: it is already on screen, so blocking it
+			// would blink it off until its predecessors clear. Ordered reveal is only for the
+			// first paint, when nothing is shown yet.
 			this.patchStates({ [category]: {
-				status: this.shouldBlockCategory(category, categories) ? 'blocked' : 'loaded',
+				status: (staleEntries.length === 0 && this.shouldBlockCategory(category, categories)) ? 'blocked' : 'loaded',
 				entries,
 				cursor,
 				hasMore: this.hasMorePages(isPaginated, cursor),
@@ -213,6 +247,11 @@ export class UnifiedSearchController {
 	private cancelPendingRequests(): void {
 		this.pendingCancels.forEach((cancel) => cancel())
 		this.pendingCancels = []
+	}
+
+	private stopBackgroundWork(): void {
+		this.cancelPendingRequests()
+		this.stopRevealTimer()
 	}
 
 	private unblockAllCategories(categories: string[]): void {

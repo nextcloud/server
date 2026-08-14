@@ -21,7 +21,7 @@ use OCP\Security\ICredentialsManager;
  */
 class GlobalAuth extends AuthMechanism {
 	public const CREDENTIALS_IDENTIFIER = 'password::global';
-	private const PWD_PLACEHOLDER = '************************';
+	private const string PWD_PLACEHOLDER = '************************';
 
 	public function __construct(
 		IL10N $l,

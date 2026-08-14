@@ -14,6 +14,7 @@ use OC\OCM\OCMDiscoveryService;
 use OCA\CloudFederationAPI\Controller\OCMRequestController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\OCM\Events\LocalOCMDiscoveryEvent;
 use OCP\OCM\Events\OCMEndpointRequestEvent;
 use OCP\Server;
@@ -130,10 +131,20 @@ class DiscoveryServiceTest extends TestCase {
 
 	public function testLocalCapabilitiesAdvertiseHttpSigByDefault(): void {
 		// `http-sig` is the OCM-spec flag signalling RFC 9421 support backed
-		// by /.well-known/jwks.json. Advertised whenever signing is not
-		// disabled outright.
+		// by the JWK Set published at the URL in `jwksUri`. Advertised
+		// whenever signing is not disabled outright.
 		$local = $this->discoveryService->getLocalOCMProvider();
 		$this->assertTrue($local->hasCapability('http-sig'));
+	}
+
+	public function testLocalDiscoveryAdvertisesJwksUri(): void {
+		// scheme follows the instance base URL
+		$local = $this->discoveryService->getLocalOCMProvider();
+		$jwksUri = $local->getJwksUri();
+		$baseUrl = Server::get(IURLGenerator::class)->getBaseUrl();
+		$expectedScheme = str_starts_with($baseUrl, 'http://') ? 'http://' : 'https://';
+		$this->assertStringStartsWith($expectedScheme, $jwksUri);
+		$this->assertStringContainsString('cloud_federation_api/api/v1/jwks', $jwksUri);
 	}
 
 	public function testLocalAddedCapability(): void {

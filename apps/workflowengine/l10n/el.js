@@ -27,6 +27,7 @@ OC.L10N.register(
     "%s accessed %s" : "%s πρόσβαση %s",
     "%s renamed %s" : "%s μετονομάστηκε%s",
     "%s copied %s" : "%s αντιγράφηκε%s",
+    "%1$s assigned %2$s to %3$s" : "%1$s ορίστηκε %2$s σε %3$s",
     "Operation #%s does not exist" : "Λειτουργία #%s δεν υπάρχει",
     "Entity %s is invalid" : "Η οντότητα %s δεν είναι έγκυρη",
     "Entity %s does not exist" : "Η οντότητα %s δεν υπάρχει",

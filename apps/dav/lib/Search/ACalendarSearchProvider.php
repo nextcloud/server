@@ -15,7 +15,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Search\IProvider;
 use Sabre\VObject\Component;
-use Sabre\VObject\Reader;
+use Sabre\VObject\Component\VCalendar;
 
 /**
  * Class ACalendarSearchProvider
@@ -76,34 +76,32 @@ abstract class ACalendarSearchProvider implements IProvider {
 
 	/**
 	 * Returns the primary VEvent / VJournal / VTodo component
+	 *
 	 * If it's a component with recurrence-ids, it will return
 	 * the primary component
 	 *
 	 * TODO: It would be a nice enhancement to show recurrence-exceptions
 	 * as individual search-results.
+	 *
 	 * For now we will just display the primary element of a recurrence-set.
 	 *
-	 * @param string $calendarData
+	 * Returns null when the calendar has no component of the requested type.
+	 *
+	 * @param VCalendar $vCalendar
 	 * @param string $componentName
-	 * @return Component
+	 * @return Component|null
 	 */
-	protected function getPrimaryComponent(string $calendarData, string $componentName): Component {
-		$vCalendar = Reader::read($calendarData, Reader::OPTION_FORGIVING);
-
-		$components = $vCalendar->select($componentName);
-		if (count($components) === 1) {
-			return $components[0];
-		}
-
-		// If it's a recurrence-set, take the primary element
-		foreach ($components as $component) {
+	protected function getPrimaryComponent(VCalendar $vCalendar, string $componentName): ?Component {
+		$first = null;
+		foreach ($vCalendar->select($componentName) as $component) {
 			/** @var Component $component */
+			// Prefer the recurrence-set master (no RECURRENCE-ID); otherwise the first element.
+			$first ??= $component;
 			if (!$component->{'RECURRENCE-ID'}) {
 				return $component;
 			}
 		}
 
-		// In case of error, just fallback to the first element in the set
-		return $components[0];
+		return $first;
 	}
 }

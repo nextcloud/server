@@ -21,6 +21,7 @@ use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use Override;
 
 class Share implements IShare {
@@ -31,7 +32,7 @@ class Share implements IShare {
 	private $fileId;
 	/** @var string */
 	private $nodeType;
-	/** @var int */
+	/** @var IShare::TYPE_* */
 	private $shareType;
 	/** @var string */
 	private $sharedWith;
@@ -44,11 +45,11 @@ class Share implements IShare {
 	private $sharedBy;
 	/** @var string */
 	private $shareOwner;
-	/** @var int */
+	/** @var int-mask-of<Constants::PERMISSION_*> */
 	private $permissions;
 	/** @var IAttributes */
 	private $attributes;
-	/** @var int */
+	/** @var self::STATUS_* */
 	private $status;
 	/** @var string */
 	private $note = '';
@@ -60,7 +61,7 @@ class Share implements IShare {
 	/** @var bool */
 	private $sendPasswordByTalk = false;
 	/** @var string */
-	private $token;
+	private $token = '';
 	private ?int $parent = null;
 	/** @var string */
 	private $target;
@@ -135,20 +136,24 @@ class Share implements IShare {
 				throw new NotFoundException();
 			}
 
-			// for federated shares the owner can be a remote user, in this
-			// case we use the initiator
-			if ($this->userManager->userExists($this->shareOwner)) {
-				$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
-			} else {
-				$userFolder = $this->rootFolder->getUserFolder($this->sharedBy);
-			}
+			try {
+				// for federated shares the owner can be a remote user, in this
+				// case we use the initiator
+				if ($this->userManager->userExists($this->shareOwner)) {
+					$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
+				} else {
+					$userFolder = $this->rootFolder->getUserFolder($this->sharedBy);
+				}
 
-			$node = $userFolder->getFirstNodeById($this->fileId);
-			if (!$node) {
-				throw new NotFoundException('Node for share not found, fileid: ' . $this->fileId);
-			}
+				$node = $userFolder->getFirstNodeById($this->fileId);
+				if (!$node) {
+					throw new NotFoundException('Node for share not found, fileid: ' . $this->fileId);
+				}
 
-			$this->node = $node;
+				$this->node = $node;
+			} catch (UserNotFoundException $e) {
+				throw new NotFoundException('Owner for share not found, fileid: ' . $this->fileId, previous:$e);
+			}
 		}
 
 		return $this->node;
@@ -358,7 +363,7 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	#[\Override]
-	public function getStatus(): int {
+	public function getStatus(): ?int {
 		return $this->status;
 	}
 

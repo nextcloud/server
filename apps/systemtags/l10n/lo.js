@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "tags ການຮ່ວມມື",
     "Collaborative tagging functionality which shares tags among people." : "Collaborative tagging functionality which shares tags among people.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)",
+    "Search tags" : "ຄົ້ນຫາແທັກ",
     "Public" : "Public",
     "Restricted" : "Restricted",
     "Invisible" : "ເບິ່ງບໍ່ເຫັນ",

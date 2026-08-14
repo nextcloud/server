@@ -33,7 +33,7 @@ class Plugin extends ServerPlugin {
 	public const AUTHOR = 'author';
 	public const VERSION_LABEL = '{http://nextcloud.org/ns}version-label';
 	public const VERSION_AUTHOR = '{http://nextcloud.org/ns}version-author';
-	private const LEGACY_FILENAME_HEADER_USER_AGENTS = [ // Quirky clients
+	private const array LEGACY_FILENAME_HEADER_USER_AGENTS = [ // Quirky clients
 		Request::USER_AGENT_IE,
 		Request::USER_AGENT_ANDROID_MOBILE_CHROME,
 		Request::USER_AGENT_FREEBOX,

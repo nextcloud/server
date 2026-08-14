@@ -587,6 +587,30 @@ class Generator {
 		}
 		$previewEntry->setSize($size);
 		$previewEntry->generateId();
-		return $this->previewMapper->insert($previewEntry);
+		try {
+			return $this->previewMapper->insert($previewEntry);
+		} catch (DBException $e) {
+			if ($e->getReason() !== DBException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+
+			$this->storageFactory->deletePreview($previewEntry);
+
+			$this->logger->debug('Generating a preview but one already exists.', ['exception' => $e]);
+
+			$preview = $this->previewMapper->getPreviewForSpecification([
+				'file_id' => $previewEntry->getFileId(),
+				'width' => $previewEntry->getWidth(),
+				'height' => $previewEntry->getHeight(),
+				'mimetype_id' => $previewEntry->getMimetypeId(),
+				'cropped' => $previewEntry->isCropped(),
+				'version_id' => $previewEntry->getVersion() ?? '-1',
+			]);
+
+			if ($preview === null) {
+				throw new \RuntimeException('Unable to save a preview because it already exists but fetching it again yield nothing');
+			}
+			return $preview;
+		}
 	}
 }

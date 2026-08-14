@@ -43,6 +43,7 @@ OC.L10N.register(
     "All tagged %s …" : "모두 %s(으)로 태그됨 ...",
     "tagged %s" : "%s(으)로 태그됨",
     "Collaborative tags" : "협업 태그",
+    "Search tags" : "태그 검색",
     "Public" : "공개",
     "Restricted" : "제한됨",
     "Invisible" : "숨겨짐",

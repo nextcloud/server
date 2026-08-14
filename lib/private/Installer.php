@@ -31,7 +31,7 @@ use OCP\L10N\IFactory;
 use OCP\Migration\IOutput;
 use OCP\Server;
 use OCP\Util;
-use phpseclib\File\X509;
+use phpseclib3\File\X509;
 use Psr\Log\LoggerInterface;
 
 /**

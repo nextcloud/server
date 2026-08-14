@@ -16,7 +16,6 @@ use OC\FilesMetadata\Model\FilesMetadata;
 use OC\FilesMetadata\Service\IndexRequestService;
 use OC\FilesMetadata\Service\MetadataRequestService;
 use OCP\BackgroundJob\IJobList;
-use OCP\DB\Exception;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -44,7 +43,7 @@ use Psr\Log\LoggerInterface;
 class FilesMetadataManager implements IFilesMetadataManager {
 	public const CONFIG_KEY = 'files_metadata';
 	public const MIGRATION_DONE = 'files_metadata_installed';
-	private const JSON_MAXSIZE = 100000;
+	private const int JSON_MAXSIZE = 100000;
 
 	private ?IFilesMetadata $all = null;
 

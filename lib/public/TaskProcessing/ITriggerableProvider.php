@@ -9,11 +9,15 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * This is the interface that is implemented by apps that
  * implement a task processing provider with support for being triggered
+ *
  * @since 33.0.0
  */
+#[Implementable(since: '33.0.0')]
 interface ITriggerableProvider extends IProvider {
 
 	/**

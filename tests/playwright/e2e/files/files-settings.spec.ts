@@ -21,11 +21,15 @@ test.describe('files: Set default view', () => {
 		await filesListPage.open()
 
 		const dialog = await filesNavigation.openSettings()
+		// The next page load only honors the new default once the config PUT has
+		// been persisted, so wait for it before re-navigating.
+		const saved = page.waitForResponse((r) => r.url().includes('/apps/files/api/v1/config/default_view'))
 		// The radio input is `hidden-visually` and can sit below the dialog fold, so
 		// clicking its visible label is more reliable than checking the input.
 		await dialog.getByRole('group', { name: 'Default view' })
 			.getByText('Personal files', { exact: true })
 			.click()
+		await saved
 		await expect(dialog.getByRole('group', { name: 'Default view' }).getByRole('radio', { name: 'Personal files' })).toBeChecked()
 		await filesNavigation.closeSettings()
 

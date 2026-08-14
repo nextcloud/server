@@ -23,9 +23,9 @@ use Sabre\DAV\PropPatch;
 
 class FederatedCalendar implements ICalendar, IProperties, IMultiGet {
 
-	private const CALENDAR_TYPE = CalDavBackend::CALENDAR_TYPE_FEDERATED;
-	private const DAV_PROPERTY_CALENDAR_LABEL = '{DAV:}displayname';
-	private const DAV_PROPERTY_CALENDAR_COLOR = '{http://apple.com/ns/ical/}calendar-color';
+	private const int CALENDAR_TYPE = CalDavBackend::CALENDAR_TYPE_FEDERATED;
+	private const string DAV_PROPERTY_CALENDAR_LABEL = '{DAV:}displayname';
+	private const string DAV_PROPERTY_CALENDAR_COLOR = '{http://apple.com/ns/ical/}calendar-color';
 
 	private string $principalUri;
 	private string $calendarUri;

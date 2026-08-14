@@ -208,6 +208,53 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 		expect(prevented).not.toHaveBeenCalled()
 		wrapper.destroy()
 	})
+
+	// Once search is engaged, Ctrl+F belongs to the browser again: a second press must
+	// reach the native find bar instead of being swallowed to re-focus what is already focused.
+	it('falls through to the browser once the results are open', () => {
+		const wrapper = mountWithShortcuts()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		wrapper.vm.showUnifiedSearch = true
+
+		const prevented = pressCtrl('f')
+
+		expect(prevented).not.toHaveBeenCalled()
+		expect(focusInput).not.toHaveBeenCalled()
+		wrapper.destroy()
+	})
+
+	it('falls through to the browser while the header input already holds focus', () => {
+		const wrapper = mountWithShortcuts()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		// The engaged check tests the real focused element against the input's DOM subtree,
+		// so it needs a focusable node that is actually in the document.
+		const host = document.createElement('div')
+		const field = document.createElement('input')
+		host.appendChild(field)
+		document.body.appendChild(host)
+		wrapper.vm.$refs.searchInput = { $el: host }
+		field.focus()
+
+		const prevented = pressCtrl('f')
+
+		expect(prevented).not.toHaveBeenCalled()
+		expect(focusInput).not.toHaveBeenCalled()
+		host.remove()
+		wrapper.destroy()
+	})
+
+	// Only Ctrl+F defers to the browser. Ctrl+K has no native meaning worth preserving
+	// (in Firefox it focuses the address bar), so it stays claimed even when engaged.
+	it('does not make Ctrl+K fall through as well', () => {
+		const wrapper = mountWithShortcuts()
+		vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		wrapper.vm.showUnifiedSearch = true
+
+		const prevented = pressCtrl('k')
+
+		expect(prevented).toHaveBeenCalled()
+		wrapper.destroy()
+	})
 })
 
 describe('UnifiedSearch combobox expanded state', () => {
@@ -260,5 +307,39 @@ describe('UnifiedSearch selection relay', () => {
 		wrapper.findComponent({ name: 'UnifiedSearchInput' }).vm.$emit('activate')
 
 		expect(modal.activateActive).toHaveBeenCalled()
+	})
+})
+
+describe('UnifiedSearch funnel reveal', () => {
+	it('opens the modal and reveals filters when the input emits open-filters', async () => {
+		const wrapper = factory()
+		expect(wrapper.vm.showUnifiedSearch).toBe(false)
+		wrapper.findComponent({ name: 'UnifiedSearchInput' }).vm.$emit('open-filters')
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.showUnifiedSearch).toBe(true)
+		expect(wrapper.vm.filtersRevealed).toBe(true)
+	})
+
+	it('resets the reveal state once the modal closes', async () => {
+		const wrapper = factory()
+		wrapper.vm.showUnifiedSearch = true
+		wrapper.vm.filtersRevealed = true
+		await wrapper.vm.$nextTick()
+		wrapper.vm.showUnifiedSearch = false
+		await wrapper.vm.$nextTick()
+		expect(wrapper.vm.filtersRevealed).toBe(false)
+	})
+})
+
+describe('UnifiedSearch input dismiss', () => {
+	it('closes the modal when the input emits close', async () => {
+		const wrapper = factory()
+		wrapper.vm.showUnifiedSearch = true
+		await wrapper.vm.$nextTick()
+
+		wrapper.findComponent({ name: 'UnifiedSearchInput' }).vm.$emit('close')
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.showUnifiedSearch).toBe(false)
 	})
 })

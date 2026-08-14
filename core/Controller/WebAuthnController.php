@@ -26,8 +26,8 @@ use Psr\Log\LoggerInterface;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
 class WebAuthnController extends Controller {
-	private const WEBAUTHN_LOGIN = 'webauthn_login';
-	private const WEBAUTHN_LOGIN_UID = 'webauthn_login_uid';
+	private const string WEBAUTHN_LOGIN = 'webauthn_login';
+	private const string WEBAUTHN_LOGIN_UID = 'webauthn_login_uid';
 
 	public function __construct(
 		string $appName,
@@ -77,7 +77,7 @@ class WebAuthnController extends Controller {
 		// Obtain the publicKeyCredentialOptions from when we started the registration
 		$publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($this->session->get(self::WEBAUTHN_LOGIN));
 		$uid = $this->session->get(self::WEBAUTHN_LOGIN_UID);
-		$this->webAuthnManger->finishAuthentication($publicKeyCredentialRequestOptions, $data, $uid);
+		$authenticatorData = $this->webAuthnManger->finishAuthentication($publicKeyCredentialRequestOptions, $data, $uid);
 
 		//TODO: add other parameters
 		$loginData = new LoginData(
@@ -85,6 +85,7 @@ class WebAuthnController extends Controller {
 			$uid,
 			''
 		);
+		$loginData->setWebAuthnUserVerified($authenticatorData->isUserVerified());
 		$this->webAuthnChain->process($loginData);
 
 		return new JSONResponse([

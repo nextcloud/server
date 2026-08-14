@@ -11,7 +11,6 @@ namespace OC\Calendar\Resource;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Calendar\ResourcesRoomsUpdater;
-use OCP\AppFramework\QueryException;
 use OCP\Calendar\Resource\IBackend;
 use OCP\Calendar\Resource\IManager;
 use Psr\Container\ContainerInterface;
@@ -21,11 +20,11 @@ class Manager implements IManager {
 
 	/**
 	 * @var string[] holds all registered resource backends
-	 * @psalm-var class-string<IBackend>[]
+	 * @psalm-var list<class-string<IBackend>>
 	 */
 	private array $backends = [];
 
-	/** @var IBackend[] holds all backends that have been initialized already */
+	/** @var array<class-string<IBackend>, IBackend> holds all backends that have been initialized already */
 	private array $initializedBackends = [];
 
 	public function __construct(
@@ -33,26 +32,6 @@ class Manager implements IManager {
 		private ContainerInterface $container,
 		private ResourcesRoomsUpdater $updater,
 	) {
-	}
-
-	/**
-	 * Registers a resource backend
-	 *
-	 * @since 14.0.0
-	 */
-	#[\Override]
-	public function registerBackend(string $backendClass): void {
-		$this->backends[$backendClass] = $backendClass;
-	}
-
-	/**
-	 * Unregisters a resource backend
-	 *
-	 * @since 14.0.0
-	 */
-	#[\Override]
-	public function unregisterBackend(string $backendClass): void {
-		unset($this->backends[$backendClass], $this->initializedBackends[$backendClass]);
 	}
 
 	private function fetchBootstrapBackends(): void {
@@ -71,12 +50,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * @return IBackend[]
-	 * @throws QueryException
-	 * @since 14.0.0
-	 */
-	#[\Override]
 	public function getBackends():array {
 		$this->fetchBootstrapBackends();
 
@@ -91,12 +64,7 @@ class Manager implements IManager {
 		return array_values($this->initializedBackends);
 	}
 
-	/**
-	 * @param string $backendId
-	 * @throws QueryException
-	 */
-	#[\Override]
-	public function getBackend($backendId): ?IBackend {
+	public function getBackend(string $backendId): ?IBackend {
 		$backends = $this->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend->getBackendIdentifier() === $backendId) {
@@ -105,17 +73,6 @@ class Manager implements IManager {
 		}
 
 		return null;
-	}
-
-	/**
-	 * removes all registered backend instances
-	 *
-	 * @since 14.0.0
-	 */
-	#[\Override]
-	public function clear(): void {
-		$this->backends = [];
-		$this->initializedBackends = [];
 	}
 
 	#[\Override]
