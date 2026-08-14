@@ -209,6 +209,7 @@ class PreviewMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$this->joinLocation($qb)
 			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId)))
+			->orderBy('p.id', 'ASC')
 			->setMaxResults($limit);
 		return $this->yieldEntities($qb);
 
