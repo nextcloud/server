@@ -279,7 +279,7 @@ class AmazonS3 extends Common {
 			'Bucket' => $this->bucket,
 			'Prefix' => $this->addPrefix($path === '' ? '' : $path . '/'),
 		];
-		if ($path !== null) {
+		if ($path !== '') {
 			$params['Prefix'] = $path . '/';
 		}
 		try {
@@ -304,7 +304,7 @@ class AmazonS3 extends Common {
 				}
 				// we reached the end when the list is no longer truncated
 			} while ($objects['IsTruncated']);
-			if ($path !== '' && $path !== null) {
+			if ($path !== '') {
 				$this->deleteObject($path);
 			}
 		} catch (S3Exception $e) {
