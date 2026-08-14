@@ -455,20 +455,34 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 			return $this->watcher;
 		}
 
+		$isHomeStorage = null;
 		// Get node information
 		$node = $this->getShare()->getNodeCacheEntry();
 		if ($node instanceof CacheEntry) {
 			$storageId = $node->getData()['storage_string_id'] ?? null;
-			// for shares from the home storage we can rely on the home storage to keep itself up to date
-			// for other storages we need use the proper watcher
-			if ($storageId !== null && !(str_starts_with($storageId, 'home::') || str_starts_with($storageId, 'object::user'))) {
-				$cache = $this->getCache();
-				$this->watcher = parent::getWatcher($path, $storage);
-				if ($cache instanceof Cache) {
-					$this->watcher->onUpdate($cache->markRootChanged(...));
-				}
-				return $this->watcher;
+			if ($storageId !== null) {
+				// for shares from the home storage we can rely on the home storage to keep itself up to date
+				// for other storages we need use the proper watcher
+				$isHomeStorage = str_starts_with($storageId, 'home::') || str_starts_with($storageId, 'object::user');
 			}
+		}
+
+		if ($isHomeStorage === null) {
+			// the share metadata doesn't tell us what kind of storage this is (e.g. not
+			// scanned yet, or the share was fetched through a code path that doesn't join
+			// the storages table) - fall back to checking the real underlying storage
+			$this->init();
+			$isHomeStorage = $this->storage instanceof FailedStorage
+				|| $this->nonMaskedStorage->instanceOfStorage(IHomeStorage::class);
+		}
+
+		if (!$isHomeStorage) {
+			$cache = $this->getCache();
+			$this->watcher = parent::getWatcher($path, $storage);
+			if ($cache instanceof Cache) {
+				$this->watcher->onUpdate($cache->markRootChanged(...));
+			}
+			return $this->watcher;
 		}
 
 		// cache updating is handled by the share source

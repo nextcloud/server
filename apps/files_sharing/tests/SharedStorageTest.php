@@ -8,7 +8,9 @@
 
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\FailedCache;
+use OC\Files\Cache\NullWatcher;
 use OC\Files\Filesystem;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Temporary;
@@ -18,10 +20,24 @@ use OCA\Files_Trashbin\AppInfo\Application;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\Constants;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Folder;
+use OCP\Files\IHomeStorage;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
+
+/**
+ * Storage fixture that mimics a home storage without needing a real user backend.
+ */
+class FakeHomeStorage extends Temporary implements IHomeStorage {
+	public function getUser(): IUser {
+		return Server::get(IUserManager::class)->get(SharedStorageTest::TEST_FILES_SHARING_API_USER1);
+	}
+}
 
 /**
  * Class SharedStorageTest
@@ -457,6 +473,8 @@ class SharedStorageTest extends TestCase {
 		// trigger init
 		$this->assertInstanceOf(FailedStorage::class, $storage->getSourceStorage());
 		$this->assertInstanceOf(FailedCache::class, $storage->getCache());
+		// a failed storage should never be treated as needing a live rescan
+		$this->assertInstanceOf(NullWatcher::class, $storage->getWatcher());
 	}
 
 	public function testInitWithNotFoundSource(): void {
@@ -475,6 +493,68 @@ class SharedStorageTest extends TestCase {
 		// trigger init
 		$this->assertInstanceOf(FailedStorage::class, $storage->getSourceStorage());
 		$this->assertInstanceOf(FailedCache::class, $storage->getCache());
+	}
+
+	/**
+	 * A share whose node cache entry is missing (e.g. fetched through a share
+	 * provider method that doesn't join the storages table) must still get a real
+	 * watcher when the underlying storage isn't a home storage, so re-shares of
+	 * external storage get rescanned. See: #63253
+	 */
+	public function testGetWatcherFallsBackToRealWatcherWhenCacheEntryMissing(): void {
+		$storage = $this->createShareWithMissingCacheEntry(new Temporary([]));
+
+		$this->assertNotInstanceOf(NullWatcher::class, $storage->getWatcher());
+	}
+
+	/**
+	 * Same as above, but the node cache entry is present and simply lacks the
+	 * `storage_string_id` key, matching the crash reported in #50235.
+	 */
+	public function testGetWatcherFallsBackToRealWatcherWhenStorageStringIdMissing(): void {
+		$cacheEntry = new CacheEntry(['fileid' => 1, 'storage' => 1, 'path' => '', 'name' => '', 'mimetype' => 'httpd/unix-directory']);
+		$storage = $this->createShareWithMissingCacheEntry(new Temporary([]), $cacheEntry);
+
+		$this->assertNotInstanceOf(NullWatcher::class, $storage->getWatcher());
+	}
+
+	/**
+	 * When the node cache entry is missing but the underlying storage genuinely is
+	 * a home storage, we must keep relying on NullWatcher (no behaviour change).
+	 */
+	public function testGetWatcherStaysNullWatcherForHomeStorageWhenCacheEntryMissing(): void {
+		$storage = $this->createShareWithMissingCacheEntry(new FakeHomeStorage([]));
+
+		$this->assertInstanceOf(NullWatcher::class, $storage->getWatcher());
+	}
+
+	private function createShareWithMissingCacheEntry($sourceStorage, ?CacheEntry $cacheEntry = null): SharedStorage {
+		$sourceStorage->getScanner()->scan('');
+
+		$ownerNode = $this->createMock(Node::class);
+		$ownerNode->method('getStorage')->willReturn($sourceStorage);
+		$ownerNode->method('getPath')->willReturn('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/foo');
+		$ownerNode->method('getInternalPath')->willReturn('');
+
+		$ownerFolder = $this->createMock(Folder::class);
+		$ownerFolder->method('getById')->with(1)->willReturn([$ownerNode]);
+
+		$rootFolder = $this->createMock(IRootFolder::class);
+		$rootFolder->method('getUserFolder')->with(self::TEST_FILES_SHARING_API_USER1)->willReturn($ownerFolder);
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareOwner')->willReturn(self::TEST_FILES_SHARING_API_USER1);
+		$share->method('getNodeId')->willReturn(1);
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
+		$share->method('getNodeCacheEntry')->willReturn($cacheEntry);
+
+		return new SharedStorage([
+			'ownerView' => $this->createMock(View::class),
+			'superShare' => $share,
+			'groupedShares' => [$share],
+			'user' => self::TEST_FILES_SHARING_API_USER2,
+			'rootFolder' => $rootFolder,
+		]);
 	}
 
 	public function testCopyPermissions(): void {
