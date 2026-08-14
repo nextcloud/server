@@ -153,6 +153,10 @@ class IMipPlugin extends SabreIMipPlugin {
 		$oldVevent = !empty($modified['old']) && is_array($modified['old']) ? array_pop($modified['old']) : null;
 		$isModified = isset($oldVevent);
 
+		if (empty($vEvent) && strtoupper($iTipMessage->method) === 'CANCEL') {
+			$vEvent = $newEvents->VEVENT ?? null;
+		}
+
 		// No changed events after all - this shouldn't happen if there is significant change yet here we are
 		// The scheduling status is debatable
 		if (empty($vEvent)) {
