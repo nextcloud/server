@@ -857,7 +857,7 @@ interface IQueryBuilder {
 	 * Replaces any previously specified orderings, if any.
 	 *
 	 * @param string|IQueryFunction|ILiteral|IParameter $sort The ordering expression.
-	 * @param string $order The ordering direction.
+	 * @param 'ASC'|'DESC'|'asc'|'desc'|\SortDirection|null $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -865,13 +865,13 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $sort
 	 * @psalm-taint-sink sql $order
 	 */
-	public function orderBy($sort, $order = null);
+	public function orderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self;
 
 	/**
 	 * Adds an ordering to the query results.
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $sort The ordering expression.
-	 * @param string $order The ordering direction.
+	 * @param 'ASC'|'DESC'|'asc'|'desc'|\SortDirection|null $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -879,7 +879,7 @@ interface IQueryBuilder {
 	 * @psalm-taint-sink sql $sort
 	 * @psalm-taint-sink sql $order
 	 */
-	public function addOrderBy($sort, $order = null);
+	public function addOrderBy(string|ILiteral|IParameter|IQueryFunction $sort, string|\SortDirection|null $order = null): self;
 
 	/**
 	 * Gets a query part by its name.

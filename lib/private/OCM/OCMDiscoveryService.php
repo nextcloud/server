@@ -100,19 +100,19 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		$provider = new OCMProvider();
 
 		if (!$skipCache) {
-			try {
-				$cached = $this->cache->get($remote);
-				if ($cached === false) {
-					throw new OCMProviderException('Previous discovery failed.');
-				}
+			$cached = $this->cache->get($remote);
+			if ($cached === false) {
+				throw new OCMProviderException('Previous discovery failed.');
+			}
 
-				if ($cached !== null) {
+			if ($cached !== null) {
+				try {
 					$provider->import(json_decode($cached, true, 8, JSON_THROW_ON_ERROR) ?? []);
 					$this->remoteProviders[$remote] = $provider;
 					return $provider;
+				} catch (JsonException|OCMProviderException $e) {
+					$this->logger->warning('cache issue on ocm discovery', ['exception' => $e]);
 				}
-			} catch (JsonException|OCMProviderException $e) {
-				$this->logger->warning('cache issue on ocm discovery', ['exception' => $e]);
 			}
 		}
 

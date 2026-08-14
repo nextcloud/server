@@ -55,6 +55,8 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "Bir takvim <strong>yapılacak işi</strong> düzenlendi",
     "Contact birthdays" : "Kişi doğum günleri",
     "Death of %s" : "%s ölümü",
+    "Calendar federation" : "Takvim birliği",
+    "{user} has shared the calendar {calendar} with you" : "{user}, {calendar} takvimini sizinle paylaştı",
     "Accept" : "Kabul et",
     "Decline" : "Reddet",
     "Untitled calendar" : "Adlandırılmamış takvim",

@@ -22,6 +22,8 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -40,10 +42,28 @@ abstract class SharingBase extends Command {
 		$this->accessContext = new ShareAccessContext(overrideChecks: true);
 	}
 
+	#[\Override]
+	public function configure(): void {
+		$this
+			->addOption('actor', null, InputOption::VALUE_REQUIRED, 'User ID to use as the actor for any share modification');
+		parent::configure();
+	}
+
+	protected function applyActor(InputInterface $input): void {
+		/** @var ?string $actorId */
+		$actorId = $input->getOption('actor');
+
+		if ($actorId !== null) {
+			$actor = $this->userManager->get($actorId);
+			$this->accessContext = new ShareAccessContext(currentUser: $actor, overrideChecks: true);
+		}
+	}
+
 	/**
 	 * @param Closure():Share $closure
 	 */
-	protected function wrapExecution(OutputInterface $output, Closure $closure): int {
+	protected function wrapExecution(InputInterface $input, OutputInterface $output, Closure $closure): int {
+		$this->applyActor($input);
 
 		try {
 			try {

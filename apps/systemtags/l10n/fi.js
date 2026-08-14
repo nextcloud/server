@@ -42,6 +42,7 @@ OC.L10N.register(
     "Tags" : "Tunnisteet",
     "All tagged %s …" : "Kaikki tunnisteella %s …",
     "Collaborative tags" : "Yhteistyölliset tunnisteet",
+    "Search tags" : "Etsi tunnisteita",
     "Public" : "Julkinen",
     "Restricted" : "Rajoitettu",
     "Invisible" : "Näkymätön",

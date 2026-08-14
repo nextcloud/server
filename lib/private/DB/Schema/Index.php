@@ -30,7 +30,9 @@ class Index implements IIndex {
 
 	#[\Override]
 	public function getName(): string {
-		return $this->index->getName();
+		/** @var non-empty-string $name */
+		$name = $this->index->getName();
+		return $name;
 	}
 
 	#[\Override]
@@ -56,6 +58,11 @@ class Index implements IIndex {
 	#[\Override]
 	public function hasColumnAtPosition(string $name, int $position = 0): bool {
 		return $this->index->hasColumnAtPosition($name, $position);
+	}
+
+	#[\Override]
+	public function spansColumns(array $columnNames): bool {
+		return $this->index->spansColumns($columnNames);
 	}
 
 	/**

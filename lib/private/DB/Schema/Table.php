@@ -40,7 +40,7 @@ class Table implements ITable {
 
 	#[\Override]
 	public function getName(): string {
-		/** @var non-empty-lowercase-string $name */
+		/** @var non-empty-string $name */
 		$name = $this->table->getName();
 		return $name;
 	}
@@ -84,6 +84,20 @@ class Table implements ITable {
 	}
 
 	#[\Override]
+	public function hasUniqueConstraint(string $name): bool {
+		return $this->table->hasUniqueConstraint($name);
+	}
+
+	#[\Override]
+	public function removeUniqueConstraint(string $name): void {
+		try {
+			$this->table->removeUniqueConstraint($name);
+		} catch (DBALSchemaException $e) {
+			throw new SchemaException($e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
+	#[\Override]
 	public function dropPrimaryKey(): self {
 		try {
 			$this->table->dropPrimaryKey();
@@ -99,6 +113,11 @@ class Table implements ITable {
 		$primaryKey = $this->table->getPrimaryKey();
 
 		return $primaryKey !== null ? new Index($primaryKey) : null;
+	}
+
+	#[\Override]
+	public function hasPrimaryKey(): bool {
+		return $this->table->hasPrimaryKey();
 	}
 
 	#[\Override]
@@ -254,6 +273,11 @@ class Table implements ITable {
 			static fn (DBALIndex $index): IIndex => new Index($index),
 			$this->table->getIndexes(),
 		));
+	}
+
+	#[\Override]
+	public function getIndex(string $name): IIndex {
+		return new Index($this->table->getIndex($name));
 	}
 
 	#[\Override]

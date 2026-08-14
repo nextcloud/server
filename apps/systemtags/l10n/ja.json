@@ -43,6 +43,7 @@
     "Collaborative tags" : "コラボタグ",
     "Collaborative tagging functionality which shares tags among people." : "ユーザー間でタグを共有するコラボレーションタグ機能。",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "ユーザー間でタグを共有するコラボレーションタグ機能。チームに最適です。\n\t(マルチテナンシーインストールのプロバイダーの場合は、タグが共有されるため、このアプリを非アクティブにすることをお勧めします。)",
+    "Search tags" : "タグを検索",
     "Public" : "公開",
     "Restricted" : "制限付き",
     "Invisible" : "不可視",
