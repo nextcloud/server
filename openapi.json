@@ -20859,6 +20859,209 @@
                 }
             }
         },
+        "/ocs/v2.php/contacts/import": {
+            "post": {
+                "operationId": "dav-contacts_import-import",
+                "summary": "Import contacts data",
+                "tags": [
+                    "dav/contacts_import"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "transaction",
+                                    "target",
+                                    "options",
+                                    "data"
+                                ],
+                                "properties": {
+                                    "transaction": {
+                                        "type": "string",
+                                        "description": "client generated transaction id"
+                                    },
+                                    "target": {
+                                        "type": "string",
+                                        "description": "address book id"
+                                    },
+                                    "options": {
+                                        "type": "object",
+                                        "description": "configuration options",
+                                        "properties": {
+                                            "format": {
+                                                "type": "string"
+                                            },
+                                            "validation": {
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "enum": [
+                                                    0,
+                                                    1,
+                                                    2
+                                                ]
+                                            },
+                                            "errors": {
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "enum": [
+                                                    0,
+                                                    1
+                                                ]
+                                            },
+                                            "supersede": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    },
+                                    "data": {
+                                        "type": "string",
+                                        "description": "contacts data"
+                                    },
+                                    "user": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "system user id"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "NDJSON stream of import event objects",
+                        "content": {
+                            "application/x-ndjson": {
+                                "schema": {
+                                    "anyOf": []
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "error": {
+                                                            "type": "string",
+                                                            "minLength": 1
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "user not authorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "ocs"
+                                            ],
+                                            "properties": {
+                                                "ocs": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "meta",
+                                                        "data"
+                                                    ],
+                                                    "properties": {
+                                                        "meta": {
+                                                            "$ref": "#/components/schemas/OCSMeta"
+                                                        },
+                                                        "data": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "error": {
+                                                                    "type": "string",
+                                                                    "minLength": 1
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "ocs"
+                                            ],
+                                            "properties": {
+                                                "ocs": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "meta",
+                                                        "data"
+                                                    ],
+                                                    "properties": {
+                                                        "meta": {
+                                                            "$ref": "#/components/schemas/OCSMeta"
+                                                        },
+                                                        "data": {}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/index.php/apps/federatedfilesharing/createFederatedShare": {
             "post": {
                 "operationId": "federatedfilesharing-mount_public_link-create-federated-share",
