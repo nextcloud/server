@@ -110,3 +110,33 @@ Feature: dav-v2-public
 		Then the downloaded zip file contains a folder named "testFolder/"
 		And the downloaded zip file contains a file named "testFolder/text.txt" with the contents of "/testshare/testFolder/text.txt" from "user0" data
 		And the downloaded zip file contains a file named "testFolder/image.png" with the contents of "/testshare/testFolder/image.png" from "user0" data
+
+	# After the link share was created the initiator gets a second, read-only path to the
+	# shared folder. Nodes are ordered by path descending, so "/z-child" is found before
+	# "/parent/z-child" and the shareable path has to be picked explicitly.
+	Scenario: Downloading a file from a public share of a folder the initiator can also reach without share permission
+		Given using new dav path
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user0"
+		And user "user0" created a folder "/parent"
+		And user "user0" created a folder "/parent/z-child"
+		And User "user0" uploads file with content "shared content" to "/parent/z-child/text.txt"
+		And folder "/parent" of user "user0" is shared with user "user1" with permissions 31
+		And user "user1" accepts last share
+		And as "user1" creating a share with
+		  | path | parent/z-child |
+		  | shareType | 3 |
+		  | permissions | 1 |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And save the last share data as "publicLink"
+		And folder "/parent/z-child" of user "user0" is shared with user "user1" with permissions 1
+		And user "user1" accepts last share
+		And restore the last share data from "publicLink"
+		And As an "user0"
+		Given using new public dav path
+		When Downloading public file "/text.txt"
+		Then the HTTP status code should be "200"
+		And Downloaded content should be "shared content"
