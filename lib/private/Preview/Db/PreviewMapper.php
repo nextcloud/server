@@ -80,11 +80,15 @@ class PreviewMapper extends QBMapper {
 	public function delete(Entity $entity): Entity {
 		/** @var Preview $preview */
 		$preview = $entity;
-		if ($preview->getVersion() !== null && $preview->getVersion() !== '') {
+
+		$versionId = $preview->getVersionId();
+		if ($versionId !== null && $versionId !== '' && $versionId !== '-1') {
 			$qb = $this->db->getQueryBuilder();
 			$qb->delete(self::VERSION_TABLE_NAME)
-				->where($qb->expr()->eq('file_id', $qb->createNamedParameter($preview->getFileId())))
-				->andWhere($qb->expr()->eq('version', $qb->createNamedParameter($preview->getVersion())))
+				->where($qb->expr()->eq(
+					'id',
+					$qb->createNamedParameter($versionId),
+				))
 				->executeStatement();
 		}
 
