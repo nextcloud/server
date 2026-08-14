@@ -32,6 +32,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidPathException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
@@ -562,6 +563,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 				try {
 					$this->writeStream($targetInternalPath, $source);
 					$result = true;
+				} catch (NotPermittedException $e) {
+					Server::get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
+					throw new ForbiddenException($e->getMessage(), false, $e);
 				} catch (\Exception $e) {
 					Server::get(LoggerInterface::class)->warning('Failed to copy stream to storage', ['exception' => $e]);
 				}
@@ -620,7 +624,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 
 		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);
 		if ($result) {
-			if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+			// keeping the source cache entry preserves the file id when leaving an object
+			// store, but between two object stores it would leave a dangling entry behind
+			$preserveCacheOnDelete = $sourceStorage->instanceOfStorage(ObjectStoreStorage::class)
+				&& !$this->instanceOfStorage(ObjectStoreStorage::class);
+			if ($preserveCacheOnDelete) {
 				/** @var ObjectStoreStorage $sourceStorage */
 				$sourceStorage->setPreserveCacheOnDelete(true);
 			}
@@ -631,7 +639,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 					$result = $sourceStorage->unlink($sourceInternalPath);
 				}
 			} finally {
-				if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
+				if ($preserveCacheOnDelete) {
 					/** @var ObjectStoreStorage $sourceStorage */
 					$sourceStorage->setPreserveCacheOnDelete(false);
 				}

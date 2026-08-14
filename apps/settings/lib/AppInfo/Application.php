@@ -17,6 +17,7 @@ use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
 use OCA\Settings\Listener\GroupRemovedListener;
+use OCA\Settings\Listener\LoadAdditionalEntriesListener;
 use OCA\Settings\Listener\MailProviderListener;
 use OCA\Settings\Listener\UserAddedToGroupActivityListener;
 use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
@@ -92,14 +93,11 @@ use OCP\Defaults;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
-use OCP\Group\ISubAdmin;
 use OCP\IConfig;
-use OCP\IGroupManager;
-use OCP\INavigationManager;
 use OCP\IURLGenerator;
-use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
@@ -135,6 +133,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(GroupDeletedEvent::class, GroupRemovedListener::class);
 		$context->registerEventListener(PasswordUpdatedEvent::class, Hooks::class);
 		$context->registerEventListener(UserChangedEvent::class, Hooks::class);
+		$context->registerEventListener(LoadAdditionalEntriesEvent::class, LoadAdditionalEntriesListener::class);
 
 		// Register Mail Provider listeners
 		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, MailProviderListener::class);
@@ -233,93 +232,5 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function boot(IBootContext $context): void {
-		$context->injectFn($this->registerNavigationEntries(...));
-	}
-
-	/**
-	 * Registers the navigation entries for the user settings.
-	 * Needed as some entries are dynamic and thus we cannot use the appinfo/info.xml
-	 *
-	 * Registers the following entries:
-	 * - Appearance and accessibility
-	 * - Personal settings (named "Settings" for non-admins)
-	 * - Accounts (only for subadmins)
-	 * - Help & privacy (conditionally enabled based on config)
-	 */
-	public function registerNavigationEntries(
-		INavigationManager $navigationManager,
-		IURLGenerator $urlGenerator,
-		IUserSession $userSession,
-		IConfig $config,
-	): void {
-		if ($userSession->getUser() === null) {
-			return;
-		}
-
-		$l = Server::get(IFactory::class)
-			->get('settings');
-		$groupManager = Server::get(IGroupManager::class);
-		$subAdmin = Server::get(ISubAdmin::class);
-		$isAdmin = $groupManager->isAdmin($userSession->getUser()->getUID());
-		$isSubAdmin = $subAdmin->isSubAdmin($userSession->getUser());
-
-		// Accessibility settings - the URL is dynamic (route parameters) which is currently not supported by appinfo.xml
-		$navigationManager->add([
-			'type' => 'settings',
-			'id' => 'accessibility_settings',
-			'order' => 2,
-			'href' => $urlGenerator->linkToRoute('settings.PersonalSettings.index', ['section' => 'theming']),
-			'name' => $l->t('Appearance and accessibility'),
-			'icon' => $urlGenerator->imagePath('theming', 'accessibility-dark.svg'),
-		]);
-
-		// Personal settings - this entry is dynamic so we cannot use appinfo
-		$navigationManager->add([
-			'type' => 'settings',
-			'id' => 'settings_personal',
-			'order' => 3,
-			'href' => $urlGenerator->linkToRoute('settings.PersonalSettings.index'),
-			'name' => $isAdmin
-				? $l->t('Personal settings')
-				: $l->t('Settings'),
-			'icon' => $isAdmin
-				? $urlGenerator->imagePath('settings', 'personal.svg')
-				: $urlGenerator->imagePath('settings', 'admin.svg'),
-		]);
-
-		if ($isAdmin) {
-			$navigationManager->add([
-				'type' => 'settings',
-				'id' => 'settings_administration',
-				'order' => 4,
-				'href' => $urlGenerator->linkToRoute('settings.adminSettings.index'),
-				'name' => $l->t('Administration settings'),
-				'icon' => $urlGenerator->imagePath('settings', 'admin.svg'),
-			]);
-		}
-
-		// User management is conditionally enabled for subadmins, but appinfo currently only supports full admins
-		if ($isSubAdmin) {
-			$navigationManager->add([
-				'type' => 'settings',
-				'id' => 'core_users',
-				'order' => 6,
-				'href' => $urlGenerator->linkToRoute('settings.Users.usersList'),
-				'name' => $l->t('Accounts'),
-				'icon' => $urlGenerator->imagePath('settings', 'users.svg'),
-			]);
-		}
-
-		// conditionally enabled navigation entry
-		if ($config->getSystemValueBool('knowledgebaseenabled', true)) {
-			$navigationManager->add([
-				'type' => 'settings',
-				'id' => 'help',
-				'order' => 99998,
-				'href' => $urlGenerator->linkToRoute('settings.Help.help'),
-				'name' => $l->t('Help & privacy'),
-				'icon' => $urlGenerator->imagePath('settings', 'help.svg'),
-			]);
-		}
 	}
 }

@@ -5,6 +5,7 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import NcListItem from '@nextcloud/vue/components/NcListItem'
+import AppIcon from '../../components/AppIcon.vue'
 import SearchResult from '../../components/UnifiedSearch/SearchResult.vue'
 
 function factory(propsData = {}, attrs = {}) {
@@ -35,5 +36,36 @@ describe('SearchResult combobox option', () => {
 		const wrapper = factory({ elementId: 'row-0', active: false })
 
 		expect(wrapper.findComponent(NcListItem).props('active')).toBe(false)
+	})
+})
+
+describe('SearchResult icon', () => {
+	it('renders a URL icon (e.g. a settings section) as an image', () => {
+		const wrapper = factory({ icon: '/apps/settings/img/password.svg' })
+
+		const img = wrapper.find('img')
+		expect(img.exists()).toBe(true)
+		expect(img.attributes('src')).toBe('/apps/settings/img/password.svg')
+	})
+
+	it('hands an app icon (rounded, no thumbnail) to AppIcon', () => {
+		const wrapper = factory({ icon: '/apps/files/img/app.svg', rounded: true })
+
+		expect(wrapper.findComponent(AppIcon).props('icon')).toBe('/apps/files/img/app.svg')
+	})
+
+	it('does not render a broken image for a legacy CSS-class icon', () => {
+		const wrapper = factory({ icon: 'icon-confirm' })
+
+		// A class string is not a URL, so no <img> should point at it.
+		expect(wrapper.findAll('img').length).toBe(0)
+	})
+
+	it('renders the thumbnail image when one is provided', () => {
+		const wrapper = factory({ thumbnailUrl: '/preview/1', icon: 'icon-confirm' })
+
+		const img = wrapper.find('img')
+		expect(img.exists()).toBe(true)
+		expect(img.attributes('src')).toBe('/preview/1')
 	})
 })

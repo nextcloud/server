@@ -96,7 +96,7 @@ class Application {
 							try {
 								$this->loadCommandsFromInfoXml($info['commands']);
 							} catch (\Throwable $e) {
-								$output->writeln('<error>' . $e->getMessage() . '</error>');
+								$output->getErrorOutput()->writeln('<error>' . $e->getMessage() . '</error>');
 								$this->logger->error($e->getMessage(), [
 									'exception' => $e,
 								]);
@@ -118,7 +118,7 @@ class Application {
 							try {
 								$this->loadCommandsFromInfoXml($info['commands']);
 							} catch (\Throwable $e) {
-								$output->writeln('<error>' . $e->getMessage() . '</error>');
+								$output->getErrorOutput()->writeln('<error>' . $e->getMessage() . '</error>');
 								$this->logger->error($e->getMessage(), [
 									'exception' => $e,
 								]);
@@ -229,7 +229,7 @@ class Application {
 				}
 			}
 
-			$this->application->add($c);
+			$this->application->addCommand($c);
 		}
 	}
 }

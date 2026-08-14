@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\Icon\ShareIconSVG;
+use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\Recipient\IShareRecipientType;
 use OCP\Interaction\InteractionReceiver;
 use OCP\IUser;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Icon\ShareIconSVG;
-use OCP\Sharing\Icon\ShareIconURL;
-use OCP\Sharing\Recipient\IShareRecipientType;
 
 final class TestShareRecipientTypeArguments implements IShareRecipientType {
 	#[\Override]

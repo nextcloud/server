@@ -7,27 +7,30 @@
 
 declare(strict_types=1);
 
+use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\ShareAccessContext;
+use NCU\Sharing\Source\ShareSource;
 use OC\Files\Filesystem;
-use OC\User\Database;
+use OC\Sharing\SharingManager;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
-use OCA\Sharing\SharingBackend;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\IFileAccess;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IDBConnection;
 use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\IUserManager;
 use OCP\Server;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ISharingRegistry;
-use OCP\Sharing\ShareAccessContext;
-use OCP\Sharing\Source\ShareSource;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
+use Test\Traits\UserTrait;
 
 #[Group(name: 'DB')]
 final class NodeShareSourceTypeTest extends TestCase {
+	use UserTrait;
+
 	private IDBConnection $dbConnection;
 
 	private ISharingManager $manager;
@@ -46,18 +49,20 @@ final class NodeShareSourceTypeTest extends TestCase {
 
 		$this->manager = Server::get(ISharingManager::class);
 
-		$userManager = Server::get(IUserManager::class);
-		$userManager->clearBackends();
-		$userManager->registerBackend(new Database());
-
-		$user1 = $userManager->createUser('user1', 'password');
-		$this->assertNotFalse($user1);
+		$user1 = $this->createUser('user1', 'password');
 		$this->user1 = $user1;
 
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->user1->getUID());
 		$this->node = $userFolder->newFile('foo.txt', 'bar');
 
-		$this->sourceType = new NodeShareSourceType(Server::get(IEventDispatcher::class), $this->dbConnection, Server::get(IRootFolder::class), Server::get(IURLGenerator::class), $this->manager);
+		$this->sourceType = new NodeShareSourceType(
+			Server::get(IEventDispatcher::class),
+			$this->dbConnection,
+			Server::get(IRootFolder::class),
+			Server::get(IURLGenerator::class),
+			$this->manager,
+			Server::get(IFileAccess::class),
+		);
 	}
 
 	#[\Override]
@@ -75,13 +80,16 @@ final class NodeShareSourceTypeTest extends TestCase {
 	}
 
 	public function testGetSourceDisplayName(): void {
-		$this->assertEquals('foo.txt', $this->sourceType->getSourceDisplayName((string)$this->node->getId()));
+		$this->assertEquals('foo.txt', $this->sourceType->getSourceMetadata((string)$this->node->getId())?->getDisplayName());
 	}
 
 	public function testGetSourceIcon(): void {
 		$source = (string)$this->node->getId();
 
-		$icon = $this->sourceType->getSourceIcon($source);
+		$icon = $this->sourceType->getSourceMetadata($source)?->getIcon();
+		if (!$icon instanceof ShareIconURL) {
+			$this->fail('Unexpected share icon for ' . $source);
+		}
 
 		foreach ([$icon->light, $icon->dark] as $url) {
 			$this->assertStringStartsWith('http://localhost/index.php/core/preview?', $url);
@@ -95,7 +103,6 @@ final class NodeShareSourceTypeTest extends TestCase {
 	public function testDelete(): void {
 		$registry = Server::get(ISharingRegistry::class);
 		$registry->clear();
-		$registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$registry->registerSourceType($this->sourceType);
 
 		$accessContext = new ShareAccessContext(currentUser: $this->user1);
@@ -105,14 +112,14 @@ final class NodeShareSourceTypeTest extends TestCase {
 		$this->manager->addShareSource($accessContext, $id, new ShareSource($this->sourceType::class, (string)$this->node->getId()));
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->node->delete();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share->lastUpdated);
-		$this->assertLessThanOrEqual($after, $share->lastUpdated);
+		$this->assertGreaterThanOrEqual(SharingManager::timeToMs($before), SharingManager::timeToMs($share->lastUpdated));
+		$this->assertLessThanOrEqual(SharingManager::timeToMs($after), SharingManager::timeToMs($share->lastUpdated));
 		$this->assertEquals([], $share->sources);
 
 		$this->manager->deleteShare($accessContext, $id);

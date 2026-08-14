@@ -36500,7 +36500,7 @@
         "/ocs/v2.php/apps/sharing/api/v1/recipients": {
             "get": {
                 "operationId": "sharing-api_v1-search-recipients",
-                "summary": "Search for recpients that can be added to a share.",
+                "summary": "Search for recipients that can be added to a share.",
                 "tags": [
                     "sharing/api_v1"
                 ],
@@ -36514,9 +36514,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "recipientTypeClasses[]",
+                        "name": "filterRecipientTypeClasses[]",
                         "in": "query",
-                        "description": "Type class of recipients to filter by",
+                        "description": "Type classes of recipients to filter by",
                         "schema": {
                             "type": "array",
                             "nullable": true,
@@ -36556,6 +36556,16 @@
                             "format": "int64",
                             "default": 0,
                             "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "If provided, recipients that are already part of the share will not be returned.",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -36605,6 +36615,36 @@
                     },
                     "400": {
                         "description": "Invalid recipient search parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Share used for filtering existing recipients does not exist",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -37821,7 +37861,7 @@
         "/ocs/v2.php/apps/sharing/api/v1/share/{id}/recipient/secret": {
             "put": {
                 "operationId": "sharing-api_v1-update-share-recipient-secret",
-                "summary": "Update the scecret of a recipient.",
+                "summary": "Update the secret of a recipient.",
                 "tags": [
                     "sharing/api_v1"
                 ],
@@ -38901,36 +38941,6 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Invalid arguments",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "required": [
-                                        "ocs"
-                                    ],
-                                    "properties": {
-                                        "ocs": {
-                                            "type": "object",
-                                            "required": [
-                                                "meta",
-                                                "data"
-                                            ],
-                                            "properties": {
-                                                "meta": {
-                                                    "$ref": "#/components/schemas/OCSMeta"
-                                                },
-                                                "data": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Share not found",
                         "content": {
@@ -38996,7 +39006,8 @@
                         "description": "Source type value to filter by.",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "minLength": 1
                         }
                     },
                     {

@@ -1,8 +1,8 @@
 { "translations": {
     "File reminders" : "Priminimai apie failus",
     "Reminder for {name}" : "Priminimas apie {name}",
-    "View file" : "Rodyti failą",
-    "View folder" : "Rodyti aplanką",
+    "View file" : "Peržiūrėti failą",
+    "View folder" : "Peržiūrėti aplanką",
     "Files reminder" : "Priminimai apie failus",
     "The \"files_reminders\" app can work properly." : "Programėlė „Priminimai apie failus“ gali veikti tinkamai.",
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Kad programėlė „Priminimai apie failus“ tinkamai veiktų, reikia, kad būtų įdiegta pranešimų programėlė. Turėtumėte įjungti pranešimus arba išjungti „Priminimai apie failus“.",

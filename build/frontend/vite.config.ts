@@ -15,6 +15,9 @@ const modules = {
 		'comments-tab': resolve(import.meta.dirname, 'apps/comments/src', 'files-sidebar.ts'),
 		init: resolve(import.meta.dirname, 'apps/comments/src', 'init.ts'),
 	},
+	dashboard: {
+		main: resolve(import.meta.dirname, 'apps/dashboard/src', 'main.js'),
+	},
 	dav: {
 		'settings-admin-caldav': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin.ts'),
 		'settings-admin-example-content': resolve(import.meta.dirname, 'apps/dav/src', 'settings-admin-example-content.ts'),
@@ -78,6 +81,9 @@ const modules = {
 	},
 	user_status: {
 		menu: resolve(import.meta.dirname, 'apps/user_status/src', 'menu.js'),
+	},
+	weather_status: {
+		'weather-status': resolve(import.meta.dirname, 'apps/weather_status/src', 'weather-status.js'),
 	},
 }
 

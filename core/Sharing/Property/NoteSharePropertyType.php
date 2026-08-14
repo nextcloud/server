@@ -9,9 +9,10 @@ declare(strict_types=1);
 
 namespace OC\Core\Sharing\Property;
 
+use NCU\Sharing\Property\AStringSharePropertyType;
+use NCU\Sharing\Share;
 use OC\Core\AppInfo\Application;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Property\AStringSharePropertyType;
 
 final class NoteSharePropertyType extends AStringSharePropertyType {
 	#[\Override]
@@ -20,7 +21,7 @@ final class NoteSharePropertyType extends AStringSharePropertyType {
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
 		return null;
 	}
 
@@ -35,12 +36,12 @@ final class NoteSharePropertyType extends AStringSharePropertyType {
 	}
 
 	#[\Override]
-	public function isRequired(): bool {
+	public function isRequired(Share $share): bool {
 		return false;
 	}
 
 	#[\Override]
-	public function getDefaultValue(): ?string {
+	public function getDefaultValue(Share $share): ?string {
 		return null;
 	}
 

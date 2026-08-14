@@ -27,7 +27,7 @@ use Override;
 use Psr\Log\LoggerInterface;
 
 class Wrapper implements Storage, ILockingStorage, IWriteStreamStorage {
-	protected ?IStorage $storage = null;
+	protected ?IStorage $storage;
 
 	public ?ICache $cache = null;
 

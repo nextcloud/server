@@ -9,14 +9,16 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\Share;
+
 final class TestSharePropertyTypeRequired extends TestSharePropertyType1 {
 	#[\Override]
-	public function getDefaultValue(): ?string {
+	public function getDefaultValue(Share $share): ?string {
 		return $this->getValidValues()[0];
 	}
 
 	#[\Override]
-	public function isRequired(): bool {
+	public function isRequired(Share $share): bool {
 		return true;
 	}
 }

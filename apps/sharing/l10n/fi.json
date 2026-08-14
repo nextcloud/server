@@ -1,4 +1,5 @@
 { "translations": {
+    "The owner does not exist: %s" : "Omistajaa ei ole olemassa: %s",
     "Sharing" : "Jakaminen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

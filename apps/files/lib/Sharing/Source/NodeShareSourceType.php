@@ -10,11 +10,18 @@ declare(strict_types=1);
 namespace OCA\Files\Sharing\Source;
 
 use Exception;
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ShareAccessContext;
+use NCU\Sharing\Source\IShareSourceMetadata;
+use NCU\Sharing\Source\IShareSourceType;
+use NCU\Sharing\Source\ShareSource;
 use OCA\Files\AppInfo\Application;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Cache\IFileAccess;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -22,12 +29,8 @@ use OCP\IDBConnection;
 use OCP\Interaction\InteractionResource;
 use OCP\Interaction\Resources\NodeResource;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\L10N\IFactory;
-use OCP\Sharing\Icon\ShareIconURL;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ShareAccessContext;
-use OCP\Sharing\Source\IShareSourceType;
-use OCP\Sharing\Source\ShareSource;
 
 /**
  * @template-implements IEventListener<NodeDeletedEvent|MoveToTrashEvent>
@@ -39,6 +42,7 @@ final readonly class NodeShareSourceType implements IShareSourceType, IEventList
 		private IRootFolder $rootFolder,
 		private IURLGenerator $urlGenerator,
 		private ISharingManager $manager,
+		private IFileAccess $fileAccess,
 	) {
 		$eventDispatcher->addServiceListener(NodeDeletedEvent::class, self::class);
 		$eventDispatcher->addServiceListener(MoveToTrashEvent::class, self::class);
@@ -55,25 +59,29 @@ final readonly class NodeShareSourceType implements IShareSourceType, IEventList
 	}
 
 	#[\Override]
-	public function getSourceDisplayName(string $source): ?string {
-		$displayName = $this->rootFolder->getFirstNodeById((int)$source)?->getName();
-		if ($displayName === '') {
-			return null;
+	public function getSourceMetadata(string $source): ?IShareSourceMetadata {
+		$cacheEntry = $this->fileAccess->getByFileId((int)$source);
+		if ($cacheEntry instanceof ICacheEntry) {
+			return new NodeShareSourceMetadata($this->urlGenerator, $cacheEntry);
 		}
 
-		return $displayName;
+		return null;
 	}
 
 	#[\Override]
-	public function getSourceIcon(string $source): ShareIconURL {
-		$url = $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['fileId' => $source, 'x' => 64, 'y' => 64]);
-
-		return new ShareIconURL($url, $url);
+	public function getSourcesMetadata(array $sources): array {
+		$sources = array_map(intval(...), $sources);
+		$cacheEntries = $this->fileAccess->getByFileIds($sources);
+		// we actually have an `array<int, IShareSourceMetadata>` instead of an `array<non-empty-string, IShareSourceMetadata>` here,
+		// but since numeric string array keys are automatically casted to ints anyway they are functionally equivalent
+		/** @var array<non-empty-string, IShareSourceMetadata> $metadata */
+		$metadata = array_map(fn (ICacheEntry $cacheEntry): NodeShareSourceMetadata => new NodeShareSourceMetadata($this->urlGenerator, $cacheEntry), $cacheEntries);
+		return $metadata;
 	}
 
 	#[\Override]
-	public function getSourceInteractionResource(string $userId, string $source): InteractionResource {
-		return new NodeResource((int)$source, $userId);
+	public function getSourceInteractionResource(IUser $user, string $source): InteractionResource {
+		return new NodeResource((int)$source, $user->getUID());
 	}
 
 	#[\Override]

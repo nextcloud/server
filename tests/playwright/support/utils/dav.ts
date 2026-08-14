@@ -7,6 +7,13 @@ import type { User } from '@nextcloud/e2e-test-server'
 import type { APIRequestContext } from '@playwright/test'
 
 /**
+ * The files DAV endpoint — `remote.php` for a logged-in session, `public.php`
+ * for a public share, which serves the same files app off a share token. Match
+ * request URLs against this so a wait works on both.
+ */
+export const DAV_FILES_ENDPOINT = /\/(remote|public)\.php\/dav\/files\//
+
+/**
  * Make a MKCOL request to create a directory at the given path for the given user.
  *
  * @param request - The Playwright API request context (authenticated as the
@@ -166,6 +173,26 @@ export async function getChildPermissions(
 		}
 	}
 	return ''
+}
+
+/**
+ * GET a file and return its content — e.g. to assert what an upload through the
+ * UI actually stored.
+ *
+ * @param request - The Playwright API request context
+ * @param user - The user whose root the path is relative to
+ * @param path - The file path (relative to user root)
+ */
+export async function getFileContent(request: APIRequestContext, user: User, path: string): Promise<string> {
+	const requesttoken = await getRequestToken(request)
+	const response = await request.fetch(davUrl(user, path), {
+		method: 'GET',
+		headers: { requesttoken },
+	})
+	if (!response.ok()) {
+		throw new Error(`GET ${path} failed with status ${response.status()}`)
+	}
+	return response.text()
 }
 
 /**

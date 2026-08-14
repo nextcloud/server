@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,20 +17,17 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IConfig;
 use OCP\IRequestId;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ChildMiddleware extends Middleware {
 };
 
 class MiddlewareTest extends \Test\TestCase {
-	/**
-	 * @var Middleware
-	 */
-	private $middleware;
-	private $controller;
-	private $exception;
-	private $api;
-	/** @var Response */
-	private $response;
+	private ChildMiddleware $middleware;
+	private Controller&MockObject $controller;
+	private \Exception $exception;
+	private DIContainer&MockObject $api;
+	private Response&MockObject $response;
 
 	#[\Override]
 	protected function setUp(): void {

@@ -22,9 +22,9 @@ use OCP\Authentication\Token\IToken;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Security\Ip\IRemoteAddress;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\IPasswordConfirmationBackend;
-use Psr\Log\LoggerInterface;
 use ReflectionAttribute;
 use ReflectionMethod;
 
@@ -37,9 +37,9 @@ class PasswordConfirmationMiddleware extends Middleware {
 		private IUserSession $userSession,
 		private ITimeFactory $timeFactory,
 		private IProvider $tokenProvider,
-		private readonly LoggerInterface $logger,
 		private readonly IRequest $request,
 		private readonly Manager $userManager,
+		private readonly IRemoteAddress $remoteAddress,
 	) {
 	}
 
@@ -47,7 +47,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * @throws NotConfirmedException
 	 */
 	#[\Override]
-	public function beforeController(Controller $controller, string $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		if (!$this->needsPasswordConfirmation()) {
 			return;
 		}
@@ -74,16 +74,21 @@ class PasswordConfirmationMiddleware extends Middleware {
 				return;
 			}
 		} catch (SessionNotAvailableException|InvalidTokenException|WipeTokenException|ExpiredTokenException) {
+			if ($this->remoteAddress->allowsBypassPasswordConfirmation()) {
+				return;
+			}
+
 			// No scope to test
 		}
 
 		$reflectionMethod = new ReflectionMethod($controller, $methodName);
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
-			$authHeader = $this->request->getHeader('Authorization');
-			if (!str_starts_with(strtolower($authHeader), 'basic ')) {
+			$password = $this->request->getHeader('PHP_AUTH_PW');
+
+			if ($password === '') {
 				throw new NotConfirmedException('Required authorization header missing');
 			}
-			[, $password] = explode(':', base64_decode(substr($authHeader, 6)), 2);
+
 			$loginName = $this->session->get('loginname');
 			$loginResult = $this->userManager->checkPassword($loginName, $password);
 			if ($loginResult === false) {

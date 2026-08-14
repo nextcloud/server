@@ -358,16 +358,6 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		if (!empty($addedObjectIds)) {
 			$this->dispatcher->dispatchTyped(new TagAssignedEvent($objectType, array_map(fn ($objectId) => (string)$objectId, $addedObjectIds), [(int)$tagId]));
 		}
-
-		// Dispatch unassign events for removed object ids
-		foreach ($removedObjectIds as $objectId) {
-			$this->dispatcher->dispatch(MapperEvent::EVENT_UNASSIGN, new MapperEvent(
-				MapperEvent::EVENT_UNASSIGN,
-				$objectType,
-				(string)$objectId,
-				[(int)$tagId]
-			));
-		}
 	}
 
 	/**

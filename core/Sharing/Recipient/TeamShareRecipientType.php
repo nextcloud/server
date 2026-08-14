@@ -10,6 +10,12 @@ declare(strict_types=1);
 namespace OC\Core\Sharing\Recipient;
 
 use Exception;
+use NCU\Sharing\Icon\ShareIconSVG;
+use NCU\Sharing\Icon\ShareIconURL;
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\Recipient\AShareRecipientTypeSearchCollaborator;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\ShareAccessContext;
 use OC\Core\AppInfo\Application;
 use OCA\Circles\Events\DestroyingCircleEvent;
 use OCP\EventDispatcher\Event;
@@ -20,13 +26,8 @@ use OCP\Interaction\InteractionReceiver;
 use OCP\Interaction\Receivers\CircleReceiver;
 use OCP\IUser;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use OCP\Share\IShare;
-use OCP\Sharing\Icon\ShareIconSVG;
-use OCP\Sharing\Icon\ShareIconURL;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\Recipient\AShareRecipientTypeSearchCollaborator;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\ShareAccessContext;
 use OCP\Teams\ITeamManager;
 use OCP\Teams\Team;
 
@@ -34,13 +35,19 @@ use OCP\Teams\Team;
  * @template-implements IEventListener<DestroyingCircleEvent>
  */
 final class TeamShareRecipientType extends AShareRecipientTypeSearchCollaborator implements IEventListener {
+	private ?ITeamManager $teamManager = null;
+
 	public function __construct(
 		IEventDispatcher $eventDispatcher,
 		private readonly IDBConnection $dbConnection,
-		private readonly ITeamManager $teamManager,
 		private readonly ISharingManager $manager,
 	) {
 		$eventDispatcher->addServiceListener(DestroyingCircleEvent::class, self::class);
+	}
+
+	// CirclesManager class is not registered yet when the class is instantiated.
+	private function getTeamManager(): ITeamManager {
+		return $this->teamManager ??= Server::get(ITeamManager::class);
 	}
 
 	#[\Override]
@@ -50,7 +57,7 @@ final class TeamShareRecipientType extends AShareRecipientTypeSearchCollaborator
 
 	#[\Override]
 	public function validateRecipient(string $recipient): bool {
-		return $this->teamManager->getTeam($recipient) instanceof Team;
+		return $this->getTeamManager()->getTeam($recipient) instanceof Team;
 	}
 
 	#[\Override]
@@ -59,12 +66,12 @@ final class TeamShareRecipientType extends AShareRecipientTypeSearchCollaborator
 			return [];
 		}
 
-		return array_map(static fn (Team $team): string => $team->getId(), $this->teamManager->getTeamsForUser($currentUser->getUID()));
+		return array_map(static fn (Team $team): string => $team->getId(), $this->getTeamManager()->getTeamsForUser($currentUser->getUID()));
 	}
 
 	#[\Override]
 	public function getRecipientDisplayName(string $recipient): ?string {
-		return $this->teamManager->getTeam($recipient)?->getDisplayName();
+		return $this->getTeamManager()->getTeam($recipient)?->getDisplayName();
 	}
 
 	#[\Override]

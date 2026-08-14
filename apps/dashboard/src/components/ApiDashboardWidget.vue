@@ -5,13 +5,13 @@
 <template>
 	<NcDashboardWidget
 		:items="items"
-		:show-more-label="showMoreLabel"
-		:show-more-url="showMoreUrl"
+		:showMoreLabel="showMoreLabel"
+		:showMoreUrl="showMoreUrl"
 		:loading="loading"
-		:show-items-and-empty-content="!!halfEmptyContentMessage"
-		:half-empty-content-message="halfEmptyContentMessage">
+		:showItemsAndEmptyContent="!!halfEmptyContentMessage"
+		:halfEmptyContentMessage="halfEmptyContentMessage">
 		<template #default="{ item }">
-			<ApiDashboardWidgetItem :item="item" :icon-size="iconSize" :rounded-icons="widget.item_icons_round" />
+			<ApiDashboardWidgetItem :item="item" :iconSize="iconSize" :roundedIcons="widget.item_icons_round" />
 		</template>
 		<template #empty-content>
 			<NcEmptyContent

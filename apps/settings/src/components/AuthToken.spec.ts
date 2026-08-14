@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { IToken } from '../store/authtoken.ts'
+
 import { createTestingPinia } from '@pinia/testing'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-// AuthToken.vue reads window.oc_defaults at module evaluation time. vi.hoisted
-// runs before imports, so this guarantees the property is set on the existing
-// jsdom window before the SFC is first parsed.
+// AuthToken.vue reads window.OC.theme.productName at module evaluation time.
+// vi.hoisted runs before imports, so this guarantees the property is set on
+// the existing jsdom window before the SFC is first parsed.
 vi.hoisted(() => {
-	(window as unknown as { oc_defaults: { productName: string } }).oc_defaults = { productName: 'Nextcloud' }
+	(window as unknown as { OC: { theme: { productName: string } } }).OC.theme = { productName: 'Nextcloud' }
 })
-
-import type { IToken } from '../store/authtoken.ts'
 
 // Mock @nextcloud/dialogs so the wipe action's showConfirmation call resolves
 // synchronously in tests. Hoisted so it's installed before AuthToken.vue imports.

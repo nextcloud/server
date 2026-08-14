@@ -12,7 +12,7 @@ namespace OCA\Files_External\Service;
 
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
-use phpseclib\Crypt\AES;
+use phpseclib3\Crypt\AES;
 
 class EncryptionService {
 	public function __construct(
@@ -78,8 +78,28 @@ class EncryptionService {
 	 * Returns the encryption cipher
 	 */
 	private function getCipher(): AES {
-		$cipher = new AES(AES::MODE_CBC);
-		$cipher->setKey($this->config->getSystemValue('passwordsalt', null));
+		$cipher = new AES('cbc');
+		$cipher->setKey($this->normalizeKey((string)$this->config->getSystemValue('passwordsalt', '')));
 		return $cipher;
+	}
+
+	/**
+	 * Normalize the configured `passwordsalt` into a valid AES key.
+	 *
+	 * Note: phpseclib v2 accepted keys of any length and silently normalized them:
+	 * the key length was rounded up to the next valid AES size (16, 24 or 32
+	 * bytes), the key was read in whole 4-byte words (trailing bytes that did
+	 * not form a full word were dropped) and any missing high words were
+	 * treated as zero. phpseclib v3 rejects keys that are not exactly 16, 24 or
+	 * 32 bytes, so we reproduce the v2 behaviour here to keep previously stored
+	 * passwords decryptable.
+	 */
+	private function normalizeKey(string $key): string {
+		$length = strlen($key);
+		$keyLength = $length <= 16 ? 16 : ($length <= 24 ? 24 : 32);
+		// Drop trailing bytes that do not form a full 4-byte word (phpseclib v2 used unpack('N*'))
+		$key = substr($key, 0, intdiv($length, 4) * 4);
+		// Zero-pad missing high words and truncate to the target key length
+		return substr(str_pad($key, $keyLength, "\0"), 0, $keyLength);
 	}
 }

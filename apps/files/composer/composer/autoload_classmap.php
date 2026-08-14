@@ -104,5 +104,6 @@ return array(
     'OCA\\Files\\Sharing\\Permission\\NodeReadSharePermissionType' => $baseDir . '/../lib/Sharing/Permission/NodeReadSharePermissionType.php',
     'OCA\\Files\\Sharing\\Permission\\NodeUpdateSharePermissionType' => $baseDir . '/../lib/Sharing/Permission/NodeUpdateSharePermissionType.php',
     'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => $baseDir . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
+    'OCA\\Files\\Sharing\\Source\\NodeShareSourceMetadata' => $baseDir . '/../lib/Sharing/Source/NodeShareSourceMetadata.php',
     'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => $baseDir . '/../lib/Sharing/Source/NodeShareSourceType.php',
 );

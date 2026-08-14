@@ -13,6 +13,7 @@ use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -38,6 +39,7 @@ class AvatarManager implements IAvatarManager {
 		private IConfig $config,
 		private IAccountManager $accountManager,
 		private KnownUserService $knownUserService,
+		private ICloudIdManager $cloudIdManager,
 	) {
 	}
 
@@ -53,6 +55,10 @@ class AvatarManager implements IAvatarManager {
 	 */
 	#[\Override]
 	public function getAvatar(string $userId): IAvatar {
+		if ($this->cloudIdManager->isValidCloudId($userId)) {
+			return $this->getRemoteAvatar($userId);
+		}
+
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
 			throw new \Exception('user does not exist');
@@ -133,5 +139,21 @@ class AvatarManager implements IAvatarManager {
 	#[\Override]
 	public function getGuestAvatar(string $name): IAvatar {
 		return new GuestAvatar($name, $this->config, $this->logger);
+	}
+
+	/**
+	 * Returns a RemoteAvatar
+	 *
+	 * @param string $userId The \OCP\Federation\ICloudId of the remote account, e.g. account@example.com
+	 */
+	private function getRemoteAvatar(string $userId): IAvatar {
+		try {
+			$remoteAvatarFolder = $this->appData->getFolder('__remote');
+		} catch (NotFoundException $e) {
+			$remoteAvatarFolder = $this->appData->newFolder('__remote');
+		}
+
+		$folder = $remoteAvatarFolder->getOrCreateFolder($userId);
+		return new RemoteAvatar($folder, $userId, $this->config, $this->logger);
 	}
 }

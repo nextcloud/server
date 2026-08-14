@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace OCA\Sharing\Command;
 
 use Exception;
+use NCU\Sharing\Share;
+use NCU\Sharing\Source\IShareSourceType;
 use OC\Core\Command\Base;
-use OCP\Sharing\Share;
-use OCP\Sharing\Source\IShareSourceType;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;

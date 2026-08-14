@@ -8,9 +8,9 @@
 	<id>profile</id>
 	<name>Profile</name>
 	<summary>This application provides the profile</summary>
-	<description>Provides a customisable user profile interface.</description>
+	<description>Provides a customizable user profile interface.</description>
 	<version>2.0.0-dev.0</version>
-	<licence>agpl</licence>
+	<licence>AGPL-3.0-or-later</licence>
 	<author>Nextcloud GmbH</author>
 	<namespace>Profile</namespace>
 	<category>social</category>

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Middleware;
 
 use OC\AppFramework\OCS\BaseResponse;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -18,18 +19,16 @@ use OCP\AppFramework\Middleware;
 use OCP\IRequest;
 
 class CompressionMiddleware extends Middleware {
-	/** @var bool */
-	private $useGZip;
+	private bool $useGZip = false;
 
 	public function __construct(
 		private IRequest $request,
 	) {
-		$this->useGZip = false;
 	}
 
 	#[\Override]
-	public function afterController($controller, $methodName, Response $response) {
-		// By default we do not gzip
+	public function afterController(Controller $controller, string $methodName, Response $response): Response {
+		// By default, we do not gzip
 		$allowGzip = false;
 
 		// Only return gzipped content for 200 responses
@@ -63,7 +62,7 @@ class CompressionMiddleware extends Middleware {
 	}
 
 	#[\Override]
-	public function beforeOutput($controller, $methodName, $output) {
+	public function beforeOutput(Controller $controller, string $methodName, string $output): string {
 		if (!$this->useGZip) {
 			return $output;
 		}

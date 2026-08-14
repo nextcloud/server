@@ -9,9 +9,13 @@ declare(strict_types=1);
 
 namespace Test\Sharing\Property;
 
+use DateTimeImmutable;
+use NCU\Sharing\Property\ABooleanSharePropertyType;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
 use OCP\L10N\IFactory;
 use OCP\Server;
-use OCP\Sharing\Property\ABooleanSharePropertyType;
 use Test\TestCase;
 
 final class TestBooleanSharePropertyType extends ABooleanSharePropertyType {
@@ -21,7 +25,7 @@ final class TestBooleanSharePropertyType extends ABooleanSharePropertyType {
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
 		throw new \RuntimeException();
 	}
 
@@ -36,12 +40,12 @@ final class TestBooleanSharePropertyType extends ABooleanSharePropertyType {
 	}
 
 	#[\Override]
-	public function isRequired(): bool {
+	public function isRequired(Share $share): bool {
 		throw new \RuntimeException();
 	}
 
 	#[\Override]
-	public function getDefaultValue(): ?string {
+	public function getDefaultValue(Share $share): ?string {
 		throw new \RuntimeException();
 	}
 }
@@ -58,9 +62,19 @@ final class ABooleanSharePropertyTypeTest extends TestCase {
 
 	public function testValidateValue(): void {
 		$l10nFactory = Server::get(IFactory::class);
-		$this->assertTrue($this->propertyType->validateValue($l10nFactory, 'true'));
-		$this->assertTrue($this->propertyType->validateValue($l10nFactory, 'false'));
-		$this->assertIsString($this->propertyType->validateValue($l10nFactory, ''));
-		$this->assertIsString($this->propertyType->validateValue($l10nFactory, 'invalid'));
+		$share = new Share(
+			'123',
+			new ShareUser('user', null),
+			new DateTimeImmutable(),
+			ShareState::Active,
+			[],
+			[],
+			[],
+			[],
+		);
+		$this->assertTrue($this->propertyType->validateValue($l10nFactory, $share, 'true'));
+		$this->assertTrue($this->propertyType->validateValue($l10nFactory, $share, 'false'));
+		$this->assertIsString($this->propertyType->validateValue($l10nFactory, $share, ''));
+		$this->assertIsString($this->propertyType->validateValue($l10nFactory, $share, 'invalid'));
 	}
 }

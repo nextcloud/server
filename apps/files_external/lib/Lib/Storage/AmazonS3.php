@@ -20,6 +20,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\NotPermittedException;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\ITempManager;
@@ -278,6 +279,9 @@ class AmazonS3 extends Common {
 			'Bucket' => $this->bucket,
 			'Prefix' => $this->addPrefix($path === '' ? '' : $path . '/'),
 		];
+		if ($path !== null) {
+			$params['Prefix'] = $path . '/';
+		}
 		try {
 			$connection = $this->getConnection();
 			// Since there are no real directories on S3, we need
@@ -300,8 +304,8 @@ class AmazonS3 extends Common {
 				}
 				// we reached the end when the list is no longer truncated
 			} while ($objects['IsTruncated']);
-			if ($path !== '') {
-				$this->deleteObject($this->addPrefix($path));
+			if ($path !== '' && $path !== null) {
+				$this->deleteObject($path);
 			}
 		} catch (S3Exception $e) {
 			$this->logger->error($e->getMessage(), [
@@ -788,7 +792,15 @@ class AmazonS3 extends Common {
 		}
 
 		$path = $this->normalizePath($path);
-		$this->writeObject($this->addPrefix($path), $stream, $this->mimeDetector->detectPath($path));
+		try {
+			$this->writeObject($this->addPrefix($path), $stream, $this->mimeDetector->detectPath($path));
+		} catch (S3Exception $exception) {
+			$this->logger->error($exception->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $exception,
+			]);
+			throw new NotPermittedException($exception->getMessage(), $exception->getCode(), $exception);
+		}
 		$this->invalidateCache($path);
 
 		return $size;

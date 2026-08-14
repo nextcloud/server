@@ -492,7 +492,7 @@ export default defineComponent({
 
 	&__grid {
 		--app-item-col-width: 69px;
-		--app-item-row-height: 64px;
+		--app-item-row-height: 72px;
 		// border-box: the JS-set max-height (see recomputeGridMaxHeight)
 		// needs to include padding for the peek math to hold.
 		box-sizing: border-box;
@@ -502,6 +502,7 @@ export default defineComponent({
 		grid-auto-rows: minmax(var(--app-item-row-height), max-content);
 		// max-height set inline by recomputeGridMaxHeight(); CSS just owns the scroll.
 		overflow-y: auto;
+		overflow-x: hidden;
 
 		// Extra top padding on first-row tiles so the hover bg reads
 		// concentric with the popover's rounded top corner. !important

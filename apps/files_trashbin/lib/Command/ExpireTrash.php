@@ -49,9 +49,14 @@ class ExpireTrash extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$minAge = $this->expiration->getMinAgeAsTimestamp();
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
+		// Both minAge and maxAge resolve to `false` only when
+		// Expiration::isEnabled() is false, i.e. the retention policy is "disabled".
 		if ($minAge === false && $maxAge === false) {
-			$output->writeln('Auto expiration is configured - keeps files and folders in the trash bin for 30 days and automatically deletes anytime after that if space is needed (note: files may not be deleted if space is not needed)');
-			return 1;
+			$output->writeln(
+				'Trash bin expiration is disabled (trashbin_retention_obligation is set to "disabled"). '
+				. 'No files or folders will be automatically expired by this command.'
+			);
+			return 0;
 		}
 
 		$userIds = $input->getArgument('user_id');

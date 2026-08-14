@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\TaskProcessing\Exception\ValidationException;
 
 /**
@@ -16,6 +17,7 @@ use OCP\TaskProcessing\Exception\ValidationException;
  *
  * @since 30.0.0
  */
+#[Consumable(since: '30.0.0')]
 enum EShapeType: int {
 	/**
 	 * @since 30.0.0
@@ -146,7 +148,7 @@ enum EShapeType: int {
 			throw new ValidationException('Non-file item provided for File slot');
 		}
 		if ($this === EShapeType::ListOfFiles && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
-			throw new ValidationException('Non-audio list item provided for ListOfFiles slot');
+			throw new ValidationException('Non-file list item provided for ListOfFiles slot');
 		}
 	}
 
@@ -156,29 +158,29 @@ enum EShapeType: int {
 	 */
 	public function validateOutputWithFileData(mixed $value): void {
 		$this->validateNonFileType($value);
-		if ($this === EShapeType::Image && !is_string($value)) {
+		if ($this === EShapeType::Image && !is_string($value) && !($value instanceof FileShaped && $value->getShapeType() === EShapeType::Image)) {
 			throw new ValidationException('Non-image item provided for Image slot');
 		}
-		if ($this === EShapeType::ListOfImages && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item))) > 0)) {
+		if ($this === EShapeType::ListOfImages && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item) && !($item instanceof FileShaped && $item->getShapeType() === EShapeType::Image))) > 0)) {
 			throw new ValidationException('Non-image list item provided for ListOfImages slot');
 		}
-		if ($this === EShapeType::Audio && !is_string($value)) {
+		if ($this === EShapeType::Audio && !is_string($value) && !($value instanceof FileShaped && $value->getShapeType() === EShapeType::Audio)) {
 			throw new ValidationException('Non-audio item provided for Audio slot');
 		}
-		if ($this === EShapeType::ListOfAudios && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item))) > 0)) {
+		if ($this === EShapeType::ListOfAudios && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item) && !($item instanceof FileShaped && $item->getShapeType() === EShapeType::Audio))) > 0)) {
 			throw new ValidationException('Non-audio list item provided for ListOfAudio slot');
 		}
-		if ($this === EShapeType::Video && !is_string($value)) {
+		if ($this === EShapeType::Video && !is_string($value) && !($value instanceof FileShaped && $value->getShapeType() === EShapeType::Video)) {
 			throw new ValidationException('Non-video item provided for Video slot');
 		}
-		if ($this === EShapeType::ListOfVideos && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item))) > 0)) {
-			throw new ValidationException('Non-video list item provided for ListOfTexts slot');
+		if ($this === EShapeType::ListOfVideos && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item) && !($item instanceof FileShaped && $item->getShapeType() === EShapeType::Video))) > 0)) {
+			throw new ValidationException('Non-video list item provided for ListOfVideos slot');
 		}
-		if ($this === EShapeType::File && !is_string($value)) {
+		if ($this === EShapeType::File && !is_string($value) && !($value instanceof FileShaped && $value->getShapeType() === EShapeType::File)) {
 			throw new ValidationException('Non-file item provided for File slot');
 		}
-		if ($this === EShapeType::ListOfFiles && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item))) > 0)) {
-			throw new ValidationException('Non-audio list item provided for ListOfFiles slot');
+		if ($this === EShapeType::ListOfFiles && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item) && !($item instanceof FileShaped && $item->getShapeType() === EShapeType::File))) > 0)) {
+			throw new ValidationException('Non-file list item provided for ListOfFiles slot');
 		}
 	}
 

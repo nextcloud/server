@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,24 +18,19 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\PublicShareController;
 use OCP\Files\NotFoundException;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\Security\Bruteforce\IThrottler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class PublicShareMiddlewareTest extends \Test\TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $session;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
-	private $throttler;
-
-	/** @var PublicShareMiddleware */
-	private $middleware;
+	private IRequest&MockObject $request;
+	private ISession&MockObject $session;
+	private IAppConfig&MockObject $appConfig;
+	private IThrottler&MockObject $throttler;
+	private PublicShareMiddleware $middleware;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -41,13 +38,13 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 
 		$this->request = $this->createMock(IRequest::class);
 		$this->session = $this->createMock(ISession::class);
-		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->throttler = $this->createMock(IThrottler::class);
 
 		$this->middleware = new PublicShareMiddleware(
 			$this->request,
 			$this->session,
-			$this->config,
+			$this->appConfig,
 			$this->throttler
 		);
 	}
@@ -61,20 +58,20 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 
 	public static function dataShareApi(): array {
 		return [
-			['no', 'no',],
-			['no', 'yes',],
-			['yes', 'no',],
+			[false, false],
+			[false, true],
+			[true, false],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataShareApi')]
-	public function testBeforeControllerShareApiDisabled(string $shareApi, string $shareLinks): void {
+	public function testBeforeControllerShareApiDisabled(bool $shareApi, bool $shareLinks): void {
 		$controller = $this->createMock(PublicShareController::class);
 
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', $shareApi],
-				['core', 'shareapi_allow_links', 'yes', $shareLinks],
+				['core', 'shareapi_enabled', true, $shareApi],
+				['core', 'shareapi_allow_links', true, $shareLinks],
 			]);
 
 		$this->expectException(NotFoundException::class);
@@ -84,10 +81,10 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 	public function testBeforeControllerNoTokenParam(): void {
 		$controller = $this->createMock(PublicShareController::class);
 
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
 		$this->expectException(NotFoundException::class);
@@ -97,10 +94,10 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 	public function testBeforeControllerInvalidToken(): void {
 		$controller = $this->createMock(PublicShareController::class);
 
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
 		$this->request->method('getParam')
@@ -121,10 +118,10 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 			->setConstructorArgs(['app', $this->request, $this->session])
 			->getMock();
 
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
 		$this->request->method('getParam')
@@ -146,10 +143,10 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 			->setConstructorArgs(['app', $this->request, $this->session])
 			->getMock();
 
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
 		$this->request->method('getParam')
@@ -168,10 +165,10 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 			->setConstructorArgs(['app', $this->request, $this->session])
 			->getMock();
 
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
 		$this->request->method('getParam')
@@ -190,10 +187,10 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 			->setConstructorArgs(['app', $this->request, $this->session, $this->createMock(IURLGenerator::class)])
 			->getMock();
 
-		$this->config->method('getAppValue')
+		$this->appConfig->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
+				['core', 'shareapi_enabled', true, true],
+				['core', 'shareapi_allow_links', true, true],
 			]);
 
 		$this->request->method('getParam')

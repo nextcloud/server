@@ -32,7 +32,7 @@ class FeaturePolicyMiddleware extends Middleware {
 	 * @return Response
 	 */
 	#[\Override]
-	public function afterController($controller, $methodName, Response $response): Response {
+	public function afterController(Controller $controller, string $methodName, Response $response): Response {
 		$policy = !is_null($response->getFeaturePolicy()) ? $response->getFeaturePolicy() : new FeaturePolicy();
 
 		if (get_class($policy) === EmptyFeaturePolicy::class) {

@@ -214,7 +214,7 @@ class DefaultTheme implements ITheme {
 
 			// TODO: support "(prefers-reduced-motion)"
 			'--animation-quick' => '100ms',
-			'--animation-slow' => '300ms',
+			'--animation-slow' => '200ms',
 
 			// Default variables --------------------------------------------
 			// Border width for input elements such as text fields and selects

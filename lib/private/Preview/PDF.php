@@ -12,19 +12,23 @@ namespace OC\Preview;
 
 //.pdf
 class PDF extends Bitmap {
-	/**
-	 * {@inheritDoc}
-	 */
 	#[\Override]
 	public function getMimeType(): string {
 		return '/application\/pdf/';
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	#[\Override]
 	protected function getAllowedMimeTypes(): string {
 		return '/application\/pdf/';
+	}
+
+	#[\Override]
+	protected function getMagicStrings(): array {
+		return ['%PDF-'];
+	}
+
+	#[\Override]
+	protected function getImagickFormatHint(): string {
+		return 'pdf';
 	}
 }

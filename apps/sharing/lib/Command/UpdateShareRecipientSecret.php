@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\Command;
 
-use OCP\Sharing\Recipient\IShareRecipientType;
-use OCP\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\Recipient\IShareRecipientType;
+use NCU\Sharing\Recipient\ShareRecipient;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,7 +20,7 @@ final class UpdateShareRecipientSecret extends SharingBase {
 	public function configure(): void {
 		$this
 			->setName('sharing:update-share-recipient-secret')
-			->setDescription('Update the scecret of a recipient.')
+			->setDescription('Update the secret of a recipient.')
 			->addArgument('secret', InputArgument::REQUIRED, 'Recipient secret')
 			->addArgument('id', InputArgument::REQUIRED, 'Share ID')
 			->addArgument('class', InputArgument::REQUIRED, 'Recipient class')

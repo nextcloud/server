@@ -6,7 +6,6 @@
 import { getCSPNonce } from '@nextcloud/auth'
 import Axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
-import _ from 'underscore'
 import { initCore } from './init.js'
 import OC from './OC/index.js'
 
@@ -21,9 +20,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
 	// fallback to hashchange when no history support
 	if (window.history.pushState) {
-		window.onpopstate = _.bind(OC.Util.History._onPopState, OC.Util.History)
+		window.onpopstate = OC.Util.History._onPopState.bind(OC.Util.History)
 	} else {
-		window.onhashchange = _.bind(OC.Util.History._onPopState, OC.Util.History)
+		window.onhashchange = OC.Util.History._onPopState.bind(OC.Util.History)
 	}
 })
 

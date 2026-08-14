@@ -9,16 +9,21 @@ declare(strict_types=1);
 
 namespace Tests\Core\Sharing\Property;
 
+use DateTimeImmutable;
+use NCU\Sharing\Property\ShareProperty;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareAccessContext;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
+use OC\Core\AppInfo\Application;
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Core\Sharing\Property\PasswordSharePropertyType;
+use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\Security\IHasher;
 use OCP\Server;
-use OCP\Sharing\Property\ShareProperty;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareAccessContext;
-use OCP\Sharing\ShareState;
-use OCP\Sharing\ShareUser;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
@@ -55,13 +60,41 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 		return new Share(
 			'123',
 			new ShareUser($this->user->getUID(), null),
-			0,
+			new DateTimeImmutable(),
 			ShareState::Active,
 			[],
 			[],
 			$properties,
 			[],
 		);
+	}
+
+	public function testGetDefaultValue(): void {
+		$share = new Share(
+			'123',
+			new ShareUser('user', null),
+			new DateTimeImmutable(),
+			ShareState::Active,
+			[],
+			[],
+			[],
+			[],
+		);
+
+		$appConfig = Server::get(IAppConfig::class);
+		$appConfig->deleteKey(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED);
+
+		$this->assertNull($this->propertyType->getDefaultValue($share));
+
+		$appConfig->setValueBool(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED, true);
+
+		$value = $this->propertyType->getDefaultValue($share);
+		$this->assertNotNull($value);
+		/** @psalm-suppress RedundantCastGivenDocblockType psalm:strict and rector:strict fight over the cast -_- */
+		$this->assertGreaterThan(1, strlen((string)$value));
+		$this->assertTrue($this->propertyType->validateValue(Server::get(IFactory::class), $share, $value));
+
+		$appConfig->deleteKey(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED);
 	}
 
 	public function testIsFiltered(): void {

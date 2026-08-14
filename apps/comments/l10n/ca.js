@@ -18,6 +18,7 @@ OC.L10N.register(
     "Delete comment" : "Suprimeix el comentari",
     "Cancel edit" : "Cancel·la l'edició",
     "New comment" : "Comentari nou",
+    "Write a comment …" : "Escriviu un comentari …",
     "Post comment" : "Publica el comentari",
     "@ for mentions, : for emoji, / for smart picker" : "@ per a mencions, : per a emojis, / per al selector intel·ligent",
     "Could not reload comments" : "No s'han pogut tornar a carregar els comentaris",

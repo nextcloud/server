@@ -43,6 +43,7 @@ use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\UserFacingProcessingException;
 use OCP\TaskProcessing\Exception\ValidationException;
+use OCP\TaskProcessing\FileShaped;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
@@ -1153,6 +1154,62 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertNotNull($node);
 		self::assertInstanceOf(File::class, $node);
 		self::assertEquals('World', $node->getContent());
+	}
+
+	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningFileShapedData(): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
+			new ServiceRegistration('test', AudioToImage::class)
+		]);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', AsyncProvider::class)
+		]);
+
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getUID')->willReturn('testuser');
+		$mount = $this->createMock(ICachedMountInfo::class);
+		$mount->expects($this->any())->method('getUser')->willReturn($user);
+		$this->userMountCache->expects($this->any())->method('getMountsForFileId')->willReturn([$mount]);
+
+		self::assertCount(1, $this->manager->getAvailableTaskTypes());
+		self::assertCount(1, $this->manager->getAvailableTaskTypeIds());
+
+		self::assertTrue($this->manager->hasProviders());
+		$audioId = $this->getFile('audioInput', 'Hello')->getId();
+		$task = new Task(AudioToImage::ID, ['audio' => $audioId], 'test', 'testuser');
+		self::assertNull($task->getId());
+		self::assertEquals(Task::STATUS_UNKNOWN, $task->getStatus());
+		$this->manager->scheduleTask($task);
+		self::assertNotNull($task->getId());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+
+		// Task object retrieved from db is up-to-date
+		$task2 = $this->manager->getTask($task->getId());
+		self::assertEquals($task->getId(), $task2->getId());
+		self::assertEquals(['audio' => $audioId], $task2->getInput());
+		self::assertNull($task2->getOutput());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task2->getStatus());
+
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskSuccessfulEvent::class));
+
+		$this->manager->setTaskProgress($task2->getId(), 0.1);
+		$input = $this->manager->prepareInputData($task2);
+		self::assertTrue(isset($input['audio']));
+		self::assertInstanceOf(File::class, $input['audio']);
+		self::assertEquals($audioId, $input['audio']->getId());
+
+		// Provider returns the raw file contents wrapped in a FileShaped object, including a file extension
+		$this->manager->setTaskResult($task2->getId(), null, ['spectrogram' => new FileShaped(EShapeType::Image, 'World', 'png')]);
+
+		$task = $this->manager->getTask($task->getId());
+		self::assertEquals(Task::STATUS_SUCCESSFUL, $task->getStatus());
+		self::assertEquals(1, $task->getProgress());
+		self::assertTrue(isset($task->getOutput()['spectrogram']));
+		$node = $this->rootFolder->getFirstNodeByIdInPath($task->getOutput()['spectrogram'], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+		self::assertNotNull($node);
+		self::assertInstanceOf(File::class, $node);
+		self::assertEquals('World', $node->getContent());
+		// The extension carried by the FileShaped object is applied to the stored file name
+		self::assertStringEndsWith('.png', $node->getName());
 	}
 
 	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningFileIds(): void {

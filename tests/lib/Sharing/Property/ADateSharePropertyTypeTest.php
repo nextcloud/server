@@ -12,9 +12,12 @@ namespace Test\Sharing\Property;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
+use NCU\Sharing\Property\ADateSharePropertyType;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
 use OCP\L10N\IFactory;
 use OCP\Server;
-use OCP\Sharing\Property\ADateSharePropertyType;
 use Test\TestCase;
 
 final class TestDateSharePropertyType extends ADateSharePropertyType {
@@ -25,12 +28,12 @@ final class TestDateSharePropertyType extends ADateSharePropertyType {
 	}
 
 	#[\Override]
-	public function getMinDate(): ?DateTimeImmutable {
+	public function getMinDate(Share $share): ?DateTimeImmutable {
 		return $this->minDate;
 	}
 
 	#[\Override]
-	public function getMaxDate(): ?DateTimeImmutable {
+	public function getMaxDate(Share $share): ?DateTimeImmutable {
 		return $this->maxDate;
 	}
 
@@ -40,7 +43,7 @@ final class TestDateSharePropertyType extends ADateSharePropertyType {
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
 		throw new \RuntimeException();
 	}
 
@@ -55,12 +58,12 @@ final class TestDateSharePropertyType extends ADateSharePropertyType {
 	}
 
 	#[\Override]
-	public function isRequired(): bool {
+	public function isRequired(Share $share): bool {
 		throw new \RuntimeException();
 	}
 
 	#[\Override]
-	public function getDefaultValue(): ?string {
+	public function getDefaultValue(Share $share): ?string {
 		throw new \RuntimeException();
 	}
 }
@@ -83,8 +86,18 @@ final class ADateSharePropertyTypeTest extends TestCase {
 
 	public function testValidateValue(): void {
 		$l10nFactory = Server::get(IFactory::class);
-		$this->assertTrue($this->propertyType->validateValue($l10nFactory, $this->now->format(DateTimeInterface::ATOM)));
-		$this->assertIsString($this->propertyType->validateValue($l10nFactory, $this->now->sub(new DateInterval('PT2M'))->format(DateTimeInterface::ATOM)));
-		$this->assertIsString($this->propertyType->validateValue($l10nFactory, $this->now->add(new DateInterval('PT2M'))->format(DateTimeInterface::ATOM)));
+		$share = new Share(
+			'123',
+			new ShareUser('user', null),
+			new DateTimeImmutable(),
+			ShareState::Active,
+			[],
+			[],
+			[],
+			[],
+		);
+		$this->assertTrue($this->propertyType->validateValue($l10nFactory, $share, $this->now->format(DateTimeInterface::ATOM)));
+		$this->assertIsString($this->propertyType->validateValue($l10nFactory, $share, $this->now->sub(new DateInterval('PT2M'))->format(DateTimeInterface::ATOM)));
+		$this->assertIsString($this->propertyType->validateValue($l10nFactory, $share, $this->now->add(new DateInterval('PT2M'))->format(DateTimeInterface::ATOM)));
 	}
 }

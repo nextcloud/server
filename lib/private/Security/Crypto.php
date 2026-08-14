@@ -12,8 +12,8 @@ namespace OC\Security;
 use Exception;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
-use phpseclib\Crypt\AES;
-use phpseclib\Crypt\Hash;
+use phpseclib3\Crypt\AES;
+use phpseclib3\Crypt\Hash;
 use SensitiveParameter;
 
 /**
@@ -33,7 +33,7 @@ class Crypto implements ICrypto {
 	public function __construct(
 		private IConfig $config,
 	) {
-		$this->cipher = new AES();
+		$this->cipher = new AES('cbc');
 	}
 
 	/**
@@ -77,7 +77,11 @@ class Crypto implements ICrypto {
 			$password = $this->config->getSystemValueString('secret');
 		}
 		$keyMaterial = hash_hkdf('sha512', $password);
-		$this->cipher->setPassword(substr($keyMaterial, 0, 32));
+		// Pin the PBKDF2 parameters to phpseclib v2 defaults ('sha1' hash, 'phpseclib' salt).
+		// phpseclib v3 changed the default salt to 'phpseclib/salt', which would derive a
+		// different AES key and break decryption of previously stored ciphertexts.
+		// TODO: We should put our own salt into the HKDF derivation to avoid this dependency on phpseclib's defaults!
+		$this->cipher->setPassword(substr($keyMaterial, 0, 32), 'pbkdf2', 'sha1', 'phpseclib');
 
 		$iv = \random_bytes($this->ivLength);
 		$this->cipher->setIV($iv);
@@ -172,7 +176,9 @@ class Crypto implements ICrypto {
 				$hmacKey = substr($keyMaterial, 32);
 			}
 		}
-		$this->cipher->setPassword($encryptionKey);
+		// Match the v2-compatible PBKDF2 parameters used in encrypt(), see the note there.
+		// TODO: We should put our own salt into the HKDF derivation to avoid this dependency on phpseclib's defaults!
+		$this->cipher->setPassword($encryptionKey, 'pbkdf2', 'sha1', 'phpseclib');
 		$this->cipher->setIV($iv);
 
 		if ($isOwnCloudV2Migration) {

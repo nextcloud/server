@@ -9,9 +9,13 @@ declare(strict_types=1);
 
 namespace Tests\Core\Sharing\Recipient;
 
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\GroupShareRecipientType;
 use OC\Group\Database;
-use OCA\Sharing\SharingBackend;
+use OC\Sharing\SharingManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -19,10 +23,6 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ISharingRegistry;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\ShareAccessContext;
 use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
@@ -132,7 +132,6 @@ final class GroupShareRecipientTypeTest extends TestCase {
 	public function testDelete(): void {
 		$registry = Server::get(ISharingRegistry::class);
 		$registry->clear();
-		$registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$registry->registerRecipientType($this->recipientType);
 
 		$accessContext = new ShareAccessContext(currentUser: $this->user1);
@@ -142,14 +141,14 @@ final class GroupShareRecipientTypeTest extends TestCase {
 		$this->manager->addShareRecipient($accessContext, $id, new ShareRecipient($this->recipientType::class, $this->group1->getGID(), null));
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->group1->delete();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share->lastUpdated);
-		$this->assertLessThanOrEqual($after, $share->lastUpdated);
+		$this->assertGreaterThanOrEqual(SharingManager::timeToMs($before), SharingManager::timeToMs($share->lastUpdated));
+		$this->assertLessThanOrEqual(SharingManager::timeToMs($after), SharingManager::timeToMs($share->lastUpdated));
 		$this->assertEquals([], $share->recipients);
 
 		$this->manager->deleteShare($accessContext, $id);

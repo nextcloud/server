@@ -47,7 +47,7 @@ export async function getProviders() {
  * @param {number|string|null} [options.cursor] the offset for paginated searches
  * @param {string} [options.since] start of the date-range filter
  * @param {string} [options.until] end of the date-range filter
- * @param {string} [options.limit] maximum number of results
+ * @param {number} [options.limit] maximum number of results
  * @param {string} [options.person] filter results by person
  * @param {object} [options.extraQueries] additional queries to filter search results
  * @return {object} {request: Promise, cancel: Promise}

@@ -17,7 +17,6 @@ use OC\AppFramework\Http\Output;
 use OC\AppFramework\Middleware\AdditionalScriptsMiddleware;
 use OC\AppFramework\Middleware\CompressionMiddleware;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
-use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\NotModifiedMiddleware;
 use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware;
@@ -205,7 +204,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 			$securityMiddleware = new SecurityMiddleware(
 				$c->get(IRequest::class),
-				$c->get(MiddlewareUtils::class),
+				$c->get(ControllerMethodReflector::class),
 				$c->get(INavigationManager::class),
 				$c->get(IURLGenerator::class),
 				$c->get(LoggerInterface::class),

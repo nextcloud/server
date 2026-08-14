@@ -473,22 +473,32 @@ class ViewTest extends \Test\TestCase {
 
 		$rootView = new View('');
 
-		// Note the root mtime right after the initial scan.
-		$rootMtimeBefore = $storage->getCache()->get('')['mtime'];
+		// Use an mtime that cannot accidentally equal the current timestamp. This makes
+		// the test fail reliably if propagateChange() is called during this request.
+		$rootEntry = $storage->getCache()->get('');
+		$storage->getCache()->update($rootEntry->getId(), [
+			'mtime' => 1,
+			'etag' => 'unchanged-root-etag',
+		]);
 
 		// Access a subfolder. The watcher will fire (hasUpdated always returns true),
 		// but the scanner leaves the cached metadata for 'folder' unchanged.
 		// getCacheEntry must therefore NOT call propagateChange('folder', time()),
-		// which would update the root entry's mtime to the current timestamp.
+		// which would update the root entry's mtime and etag.
 		$rootView->getFileInfo('folder');
 
-		// Read the root mtime directly from the cache to avoid triggering another watcher cycle.
-		$rootMtimeAfter = $storage->getCache()->get('')['mtime'];
+		// Read the root entry directly from the cache to avoid triggering another watcher cycle.
+		$rootEntryAfter = $storage->getCache()->get('');
 
-		$this->assertEquals(
-			$rootMtimeBefore,
-			$rootMtimeAfter,
-			'Root folder mtime must not be updated when the watcher fires but cached metadata has not changed'
+		$this->assertSame(
+			1,
+			$rootEntryAfter->getMTime(),
+			'Root folder mtime must not change when the watcher finds no metadata change',
+		);
+		$this->assertSame(
+			'unchanged-root-etag',
+			$rootEntryAfter->getEtag(),
+			'Root folder etag must not change when the watcher finds no metadata change',
 		);
 	}
 

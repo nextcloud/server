@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\Command;
 
-use OCP\Sharing\Property\ISharePropertyType;
-use OCP\Sharing\Property\ShareProperty;
+use NCU\Sharing\Property\ISharePropertyType;
+use NCU\Sharing\Property\ShareProperty;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

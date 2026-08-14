@@ -15,6 +15,7 @@ use OCA\Circles\Model\Member;
 use OCA\Circles\Model\Probes\CircleProbe;
 use OCP\IURLGenerator;
 use OCP\Server;
+use OCP\Teams\ITeamFolderProvider;
 use OCP\Teams\ITeamManager;
 use OCP\Teams\ITeamResourceProvider;
 use OCP\Teams\Team;
@@ -68,6 +69,17 @@ class TeamManager implements ITeamManager {
 		}
 
 		throw new \RuntimeException('No provider found for id ' . $providerId);
+	}
+
+	#[\Override]
+	public function getTeamFolderProvider(): ?ITeamFolderProvider {
+		foreach ($this->getProviders() as $provider) {
+			if ($provider instanceof ITeamFolderProvider) {
+				return $provider;
+			}
+		}
+
+		return null;
 	}
 
 	#[\Override]

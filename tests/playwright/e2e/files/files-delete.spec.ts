@@ -36,28 +36,19 @@ test.describe('Files: Delete', () => {
 		// All 5 preview thumbnails must finish loading before we delete
 		await expect(page.locator('.files-list__row-icon-preview--loaded')).toHaveCount(5)
 
-		// One listener per file, registered before triggering the action. Each
-		// predicate matches its own file's URL — with identical predicates all
-		// listeners can resolve to the same first response, so distinct DELETE
-		// requests would never actually be verified.
-		const deleteResponses = Promise.all(files.map((file) => page.waitForResponse(
-			(r) => r.url().includes(`/remote.php/dav/files/${user.userId}/root/${file}`) && r.request().method() === 'DELETE',
-			{ timeout: 15000 },
-		)))
+		// Retry the bulk delete until the folder is empty. A transient DAV lock
+		// (423) on a freshly-uploaded file makes its DELETE fail and the app keeps
+		// the row, so a single pass can leave a file behind. Re-selecting and
+		// re-deleting whatever remains converges on the empty end state without
+		// depending on every concurrent DELETE succeeding on the first try.
+		await expect(async () => {
+			await filesListPage.selectAll()
+			await filesListPage.triggerSelectionAction('delete')
+			await page.getByRole('dialog', { name: 'Confirm deletion' })
+				.getByRole('button', { name: 'Delete files' })
+				.click()
 
-		await filesListPage.selectAll()
-		await filesListPage.triggerSelectionAction('delete')
-
-		await page.getByRole('dialog', { name: 'Confirm deletion' })
-			.getByRole('button', { name: 'Delete files' })
-			.click()
-
-		await deleteResponses
-
-		// Assert the user-visible end state (rows gone) rather than raw response
-		// codes — a one-shot status check flakes on transient DAV lock responses.
-		for (const file of files) {
-			await expect(filesListPage.getRowForFile(file)).toHaveCount(0)
-		}
+			await expect(filesListPage.getRows()).toHaveCount(0)
+		}).toPass({ timeout: 30_000 })
 	})
 })

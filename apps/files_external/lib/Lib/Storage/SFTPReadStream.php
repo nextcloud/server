@@ -10,13 +10,15 @@ declare(strict_types=1);
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\Streams\File;
-use phpseclib\Net\SSH2;
+use phpseclib3\Net\SSH2;
 
 class SFTPReadStream implements File {
+	use SFTPReflection;
+
 	/** @var resource */
 	public $context;
 
-	/** @var \phpseclib\Net\SFTP */
+	/** @var \phpseclib3\Net\SFTP */
 	private $sftp;
 
 	/** @var string */
@@ -54,7 +56,7 @@ class SFTPReadStream implements File {
 		} else {
 			throw new \BadMethodCallException('Invalid context, "' . $name . '" options not set');
 		}
-		if (isset($context['session']) && $context['session'] instanceof \phpseclib\Net\SFTP) {
+		if (isset($context['session']) && $context['session'] instanceof \phpseclib3\Net\SFTP) {
 			$this->sftp = $context['session'];
 		} else {
 			throw new \BadMethodCallException('Invalid context, session not set');
@@ -73,27 +75,25 @@ class SFTPReadStream implements File {
 
 		$this->loadContext('sftp');
 
-		if (!($this->sftp->bitmap & SSH2::MASK_LOGIN)) {
+		if (!($this->getSftpProperty($this->sftp, 'bitmap') & SSH2::MASK_LOGIN)) {
 			return false;
 		}
 
-		$remote_file = $this->sftp->_realpath($path);
+		$remote_file = $this->sftp->realpath($path);
 		if ($remote_file === false) {
 			return false;
 		}
 
 		$packet = pack('Na*N2', strlen($remote_file), $remote_file, NET_SFTP_OPEN_READ, 0);
-		if (!$this->sftp->_send_sftp_packet(NET_SFTP_OPEN, $packet)) {
-			return false;
-		}
+		$this->invokeSftp($this->sftp, 'send_sftp_packet', [NET_SFTP_OPEN, $packet]);
 
-		$response = $this->sftp->_get_sftp_packet();
-		switch ($this->sftp->packet_type) {
+		$response = $this->invokeSftp($this->sftp, 'get_sftp_packet');
+		switch ($this->getSftpProperty($this->sftp, 'packet_type')) {
 			case NET_SFTP_HANDLE:
 				$this->handle = substr($response, 4);
 				break;
 			case NET_SFTP_STATUS: // presumably SSH_FX_NO_SUCH_FILE or SSH_FX_PERMISSION_DENIED
-				$this->sftp->_logError($response);
+				$this->invokeSftp($this->sftp, 'logError', [$response]);
 				return false;
 			default:
 				user_error('Expected SSH_FXP_HANDLE or SSH_FXP_STATUS');
@@ -152,19 +152,24 @@ class SFTPReadStream implements File {
 
 	private function request_chunk(int $size) {
 		if ($this->pendingRead) {
-			$this->sftp->_get_sftp_packet();
+			$this->invokeSftp($this->sftp, 'get_sftp_packet');
 		}
 
 		$packet = pack('Na*N3', strlen($this->handle), $this->handle, $this->internalPosition / 4294967296, $this->internalPosition, $size);
 		$this->pendingRead = true;
-		return $this->sftp->_send_sftp_packet(NET_SFTP_READ, $packet);
+		try {
+			$this->invokeSftp($this->sftp, 'send_sftp_packet', [NET_SFTP_READ, $packet]);
+			return true;
+		} catch (\Throwable) {
+			return false;
+		}
 	}
 
 	private function read_chunk() {
 		$this->pendingRead = false;
-		$response = $this->sftp->_get_sftp_packet();
+		$response = $this->invokeSftp($this->sftp, 'get_sftp_packet');
 
-		switch ($this->sftp->packet_type) {
+		switch ($this->getSftpProperty($this->sftp, 'packet_type')) {
 			case NET_SFTP_DATA:
 				$temp = substr($response, 4);
 				$len = strlen($temp);
@@ -220,9 +225,9 @@ class SFTPReadStream implements File {
 	public function stream_close() {
 		// we still have a read request incoming that needs to be handled before we can close
 		if ($this->pendingRead) {
-			$this->sftp->_get_sftp_packet();
+			$this->invokeSftp($this->sftp, 'get_sftp_packet');
 		}
-		if (!$this->sftp->_close_handle($this->handle)) {
+		if (!$this->invokeSftp($this->sftp, 'close_handle', [$this->handle])) {
 			return false;
 		}
 		return true;

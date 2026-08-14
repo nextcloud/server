@@ -9,21 +9,30 @@ declare(strict_types=1);
 
 namespace OC\Core\Sharing\Property;
 
+use NCU\Sharing\Property\APasswordSharePropertyType;
+use NCU\Sharing\Property\ISharePropertyTypeFilter;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareAccessContext;
 use OC\Core\AppInfo\Application;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\L10N\IFactory;
+use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\IHasher;
+use OCP\Security\ISecureRandom;
+use OCP\Security\PasswordContext;
 use OCP\Share\IManager;
-use OCP\Sharing\Property\APasswordSharePropertyType;
-use OCP\Sharing\Property\ISharePropertyTypeFilter;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareAccessContext;
+use Random\Randomizer;
 
 final class PasswordSharePropertyType extends APasswordSharePropertyType implements ISharePropertyTypeFilter {
+
+	private readonly Randomizer $randomizer;
 
 	public function __construct(
 		private readonly IManager $legacyManager,
 		private readonly IHasher $hasher,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
+		$this->randomizer = new Randomizer();
 	}
 
 	#[\Override]
@@ -32,7 +41,11 @@ final class PasswordSharePropertyType extends APasswordSharePropertyType impleme
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
+		if ($this->isRequired($share)) {
+			return $l10nFactory->get(Application::APP_ID)->t('Your administrator has enforced a password protection.');
+		}
+
 		return null;
 	}
 
@@ -47,14 +60,20 @@ final class PasswordSharePropertyType extends APasswordSharePropertyType impleme
 	}
 
 	#[\Override]
-	public function isRequired(): bool {
+	public function isRequired(Share $share): bool {
 		// TODO: Enable group memberships check based on the owner.
 		return $this->legacyManager->shareApiLinkEnforcePassword(false);
 	}
 
 	#[\Override]
-	public function getDefaultValue(): ?string {
-		return null;
+	public function getDefaultValue(Share $share): ?string {
+		if (!$this->isRequired($share)) {
+			return null;
+		}
+
+		$event = new GenerateSecurePasswordEvent(PasswordContext::SHARING);
+		$this->eventDispatcher->dispatchTyped($event);
+		return $event->getPassword() ?? $this->randomizer->getBytesFromString(ISecureRandom::CHAR_ALPHANUMERIC, 20);
 	}
 
 	#[\Override]

@@ -23,7 +23,7 @@ enum JobStatus: int {
 	case RUNNING = 0;
 
 	/**
-	 * Background job completed sucessfully
+	 * Background job completed successfully
 	 *
 	 * @since 34.0.0
 	 */

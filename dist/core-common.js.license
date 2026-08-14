@@ -292,7 +292,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.16.1
+	- version: 1.18.1
 	- license: MIT
 - bail
 	- version: 2.0.2
@@ -337,7 +337,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.4.12
+	- version: 3.4.13
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
 	- version: 15.0.5
@@ -496,7 +496,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.4
 	- license: MIT
 - p-queue
-	- version: 9.3.1
+	- version: 9.3.3
 	- license: MIT
 - inherits
 	- version: 2.0.3

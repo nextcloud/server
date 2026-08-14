@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace OCA\Files\Sharing\Permission;
 
+use NCU\Sharing\Permission\ISharePermissionType;
 use OCA\Files\AppInfo\Application;
 use OCP\L10N\IFactory;
 use OCP\Share\IManager;
-use OCP\Sharing\Permission\ISharePermissionType;
 
 final readonly class NodeDownloadSharePermissionType implements ISharePermissionType {
 	public function __construct(
@@ -42,6 +42,6 @@ final readonly class NodeDownloadSharePermissionType implements ISharePermission
 
 	#[\Override]
 	public function isEnabledByDefault(): bool {
-		return false;
+		return true;
 	}
 }

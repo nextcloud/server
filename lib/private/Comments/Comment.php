@@ -333,7 +333,7 @@ class Comment implements IComment {
 	#[\Override]
 	public function getCreationDateTime(): \DateTime {
 		if (!isset($this->data['creationDT'])) {
-			throw new \LogicException('Cannot get creation date before setting one or writting to database');
+			throw new \LogicException('Cannot get creation date before setting one or writing to database');
 		}
 		return $this->data['creationDT'];
 	}

@@ -217,8 +217,10 @@ test.describe('Files: Download files using selection', () => {
 	 * user via the docker helper and logs in at the API level.
 	 */
 	test('can download selected files with email uid', async ({ page, filesListPage }) => {
-		const randomString = (length: number) => Math.random().toString(36).slice(2, 2 + length)
-		const uid = `${randomString(5)}@${randomString(3)}`
+		const uid = crypto.randomUUID()
+			.split('-', 2)
+			.reverse()
+			.join('@')
 		const emailUser = new User(uid, uid, 'en')
 
 		await addUser(emailUser)

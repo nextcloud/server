@@ -60,8 +60,6 @@ $expectedFiles = [
 	'core',
 	'cron.php',
 	'custom.d.ts',
-	'cypress.config.ts',
-	'cypress',
 	'dist',
 	'eslint.config.js',
 	'flake.lock',

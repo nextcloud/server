@@ -9,8 +9,17 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ShareProperty;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareAccessContext;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\Source\ShareSource;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
-use OCA\Sharing\SharingBackend;
+use OC\Sharing\SharingManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IDBConnection;
@@ -20,24 +29,18 @@ use OCP\Interaction\RestrictInteractionEvent;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ISharingRegistry;
-use OCP\Sharing\Permission\SharePermission;
-use OCP\Sharing\Property\ShareProperty;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareAccessContext;
-use OCP\Sharing\ShareState;
-use OCP\Sharing\Source\ShareSource;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 /**
  * @psalm-import-type SharingShare from Share
  * @psalm-import-type SharingRecipient from Share
+ *
+ * @psalm-suppress RedundantConditionGivenDocblockType
+ * @psalm-suppress PossiblyUndefinedArrayOffset
  */
 abstract class AbstractSharingManagerTests extends TestCase {
-	abstract protected function searchRecipients(ShareAccessContext $accessContext, ?array $recipientTypeClasses, string $query, int $limit, int $offset): array;
+	abstract protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?string $id = null): array;
 
 	abstract protected function createShare(ShareAccessContext $accessContext): array;
 
@@ -61,8 +64,14 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	abstract protected function deleteShare(ShareAccessContext $accessContext, string $id): void;
 
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function getShare(ShareAccessContext $accessContext, string $id): array;
 
+	/**
+	 * @return SharingShare[]
+	 */
 	abstract protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array;
 
 	protected IDBConnection $dbConnection;
@@ -76,6 +85,21 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	protected IUser $user1;
 
 	protected IUser $user2;
+
+	private function parseTime(mixed $timestampMs): \DateTimeImmutable {
+		$timestampMs = (int)$timestampMs;
+		$time = \DateTimeImmutable::createFromFormat('U.u', number_format((float)$timestampMs / 1000.0, 3, '.', ''));
+		if ($time === false) {
+			throw new \RuntimeException('invalid timestamp: ' . $timestampMs);
+		}
+
+		return $time;
+	}
+
+	private function assertDateBetween(\DateTimeImmutable $before, \DateTimeImmutable $after, \DateTimeImmutable $time): void {
+		$this->assertGreaterThanOrEqual(SharingManager::timeToMs($before), SharingManager::timeToMs($time));
+		$this->assertLessThanOrEqual(SharingManager::timeToMs($after), SharingManager::timeToMs($time));
+	}
 
 	#[\Override]
 	public function setUp(): void {
@@ -104,7 +128,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->registry = Server::get(ISharingRegistry::class);
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source 1']));
 		$this->registry->registerSourceType(new TestShareSourceType2(['source2' => 'Source 2']));
 		$this->registry->registerRecipientType(new TestShareRecipientType1(
@@ -114,7 +137,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			[
 				$this->user1->getUID() => ['recipient1'],
 			],
-			[],
+			[
+				new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null),
+			],
 		));
 		$this->registry->registerRecipientType(new TestShareRecipientType2(
 			[
@@ -123,7 +148,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			[
 				$this->user2->getUID() => ['recipient2'],
 			],
-			[],
+			[
+				new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null),
+			],
 		));
 		$this->registry->registerPropertyType(new TestSharePropertyType1(['valid1']));
 		$this->registry->markPropertyTypeCompatibleWithSourceType(TestSharePropertyType1::class, TestShareSourceType1::class);
@@ -496,15 +523,71 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		], $this->searchRecipients($accessContext, null, 'icon', 10, 0));
 	}
 
+	public function testSearchRecipientsOmitExisting(): void {
+		$accessContext = new ShareAccessContext($this->owner);
+
+		$this->dbConnection->beginTransaction();
+		$id = $this->manager->createShare($accessContext);
+		$this->dbConnection->commit();
+
+		$this->assertEquals([
+			[
+				'class' => TestShareRecipientType1::class,
+				'value' => 'recipient1',
+				'instance' => null,
+				'display_name' => 'Recipient 1',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => null,
+			],
+			[
+				'class' => TestShareRecipientType2::class,
+				'value' => 'recipient2',
+				'instance' => null,
+				'display_name' => 'Recipient 2',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => null,
+			],
+		], $this->searchRecipients($accessContext, null, 'recipient', 3, 0, $id));
+
+		$this->dbConnection->beginTransaction();
+		$this->manager->addShareRecipient($accessContext, $id, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+		$this->dbConnection->commit();
+
+		$this->assertEquals([
+			[
+				'class' => TestShareRecipientType2::class,
+				'value' => 'recipient2',
+				'instance' => null,
+				'display_name' => 'Recipient 2',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => null,
+			],
+		], $this->searchRecipients($accessContext, null, 'recipient', 3, 0, $id));
+	}
+
 	public function testCreateShare(): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->createShare($accessContext);
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 		unset($share['id']);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		unset($share['last_updated']);
 		$this->assertEquals([
 			'owner' => [
@@ -622,11 +705,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				$this->assertEquals($errorMessage, $exception->getHint());
 			}
 		} else {
-			$before = $this->manager->generateTimestamp();
+			$before = $this->manager->getTime();
 			$share = $this->updateShareState($accessContext, $id, ShareState::Active);
-			$after = $this->manager->generateTimestamp();
-			$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-			$this->assertLessThanOrEqual($after, $share['last_updated']);
+			$after = $this->manager->getTime();
+			$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 			$this->assertEquals(ShareState::Active->value, $share['state']);
 		}
 	}
@@ -638,11 +720,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$id = $this->manager->createShare($accessContext);
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals([
 			[
 				'class' => TestShareSourceType1::class,
@@ -697,11 +778,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->removeShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(ShareState::Active->value, $share['state']);
 		$this->assertEquals([
 			[
@@ -714,11 +794,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['sources']);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->removeShareSource($accessContext, $id, new ShareSource(TestShareSourceType2::class, 'source2'));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(ShareState::Draft->value, $share['state']);
 		$this->assertEquals([], $share['sources']);
 	}
@@ -730,11 +809,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$id = $this->manager->createShare($accessContext);
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->addShareRecipient($accessContext, $id, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals([
 			[
 				'class' => TestShareRecipientType1::class,
@@ -822,11 +900,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->addShareRecipient(new ShareAccessContext($this->user1), $id, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals([
 			[
 				'class' => TestShareRecipientType1::class,
@@ -887,11 +964,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->removeShareRecipient($accessContext, $id, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(ShareState::Active->value, $share['state']);
 		$this->assertEquals([
 			[
@@ -917,11 +993,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['recipients']);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->removeShareRecipient($accessContext, $id, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(ShareState::Draft->value, $share['state']);
 		$this->assertEquals([], $share['recipients']);
 	}
@@ -1006,11 +1081,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->removeShareRecipient(new ShareAccessContext($this->user1), $id, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals([
 			[
 				'class' => TestShareRecipientType1::class,
@@ -1164,11 +1238,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				$this->assertEquals('You are not allowed to edit this share.', $exception->getHint());
 			}
 		} else {
-			$before = $this->manager->generateTimestamp();
+			$before = $this->manager->getTime();
 			$share = $this->updateShareRecipientSecret($accessContext, $id, $recipient, 'mysecret');
-			$after = $this->manager->generateTimestamp();
-			$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-			$this->assertLessThanOrEqual($after, $share['last_updated']);
+			$after = $this->manager->getTime();
+			$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 			unset($share['last_updated']);
 			$this->assertEquals([
 				[
@@ -1224,11 +1297,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		foreach ($values as $value) {
-			$before = $this->manager->generateTimestamp();
+			$before = $this->manager->getTime();
 			$share = $this->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyType1::class, $value));
-			$after = $this->manager->generateTimestamp();
-			$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-			$this->assertLessThanOrEqual($after, $share['last_updated']);
+			$after = $this->manager->getTime();
+			$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 			$this->assertEquals([
 				[
 					'class' => TestSharePropertyType1::class,
@@ -1261,11 +1333,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeRequired::class, 'valid1'));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(ShareState::Draft->value, $share['state']);
 		$this->assertEquals([
 			[
@@ -1296,11 +1367,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->updateShareState($accessContext, $id, ShareState::Active);
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeRequired::class, 'valid2'));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(ShareState::Active->value, $share['state']);
 		$this->assertEquals([
 			[
@@ -1327,11 +1397,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['properties']);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeRequired::class, null));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(ShareState::Draft->value, $share['state']);
 		$this->assertEquals([
 			[
@@ -1370,16 +1439,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
 		$this->manager->addShareRecipient($accessContext, $id, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
-		$this->manager->getShare($accessContext, $id);
-		$this->manager->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'old-value'));
 
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
-		$share = $this->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'modify-on-save-old-value'));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$share = $this->getShare($accessContext, $id);
 		$this->assertEquals([
 			[
 				'class' => TestSharePropertyType1::class,
@@ -1399,17 +1462,13 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				'priority' => 1,
 				'advanced' => false,
 				'required' => false,
-				'value' => 'old-value',
+				'value' => 'modify-on-save',
 				'type' => 'enum',
 				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-load'],
 			],
 		], $share['properties']);
 
-		$before = $this->manager->generateTimestamp();
-		$share = $this->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'modify-on-save'));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$share = $this->getShare($accessContext, $id);
 		$this->assertEquals([
 			[
 				'class' => TestSharePropertyType1::class,
@@ -1435,11 +1494,72 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['properties']);
 
-		$before = $this->manager->generateTimestamp();
+		$this->dbConnection->beginTransaction();
+		$this->manager->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'old-value'));
+		$this->dbConnection->commit();
+
+		$before = $this->manager->getTime();
+		$share = $this->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'modify-on-save-old-value'));
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
+		$this->assertEquals([
+			[
+				'class' => TestSharePropertyType1::class,
+				'display_name' => 'TestSharePropertyType1',
+				'hint' => 'hint TestSharePropertyType1',
+				'priority' => 1,
+				'advanced' => false,
+				'required' => false,
+				'value' => null,
+				'type' => 'enum',
+				'valid_values' => ['valid1'],
+			],
+			[
+				'class' => TestSharePropertyTypeModifyValue::class,
+				'display_name' => 'TestSharePropertyTypeModifyValue',
+				'hint' => 'hint TestSharePropertyTypeModifyValue',
+				'priority' => 1,
+				'advanced' => false,
+				'required' => false,
+				'value' => 'old-value',
+				'type' => 'enum',
+				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-load'],
+			],
+		], $share['properties']);
+
+		$before = $this->manager->getTime();
+		$share = $this->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'modify-on-save'));
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
+		$this->assertEquals([
+			[
+				'class' => TestSharePropertyType1::class,
+				'display_name' => 'TestSharePropertyType1',
+				'hint' => 'hint TestSharePropertyType1',
+				'priority' => 1,
+				'advanced' => false,
+				'required' => false,
+				'value' => null,
+				'type' => 'enum',
+				'valid_values' => ['valid1'],
+			],
+			[
+				'class' => TestSharePropertyTypeModifyValue::class,
+				'display_name' => 'TestSharePropertyTypeModifyValue',
+				'hint' => 'hint TestSharePropertyTypeModifyValue',
+				'priority' => 1,
+				'advanced' => false,
+				'required' => false,
+				'value' => 'modified-on-save',
+				'type' => 'enum',
+				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-load'],
+			],
+		], $share['properties']);
+
+		$before = $this->manager->getTime();
 		$share = $this->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'modify-on-load'));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals([
 			[
 				'class' => TestSharePropertyType1::class,
@@ -1477,12 +1597,11 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->updateSharePermission($accessContext, $id, new SharePermission(ReshareSharePermissionType::class, true));
 		$share = $this->updateSharePermission($accessContext, $id, new SharePermission(TestSharePermissionType1::class, true));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(ShareState::Draft->value, $share['state']);
 		$this->assertEquals([
 			[
@@ -1509,11 +1628,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->updateShareState($accessContext, $id, ShareState::Active);
 		$this->dbConnection->commit();
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->updateSharePermission($accessContext, $id, new SharePermission(ReshareSharePermissionType::class, false));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(ShareState::Active->value, $share['state']);
 		$this->assertEquals([
 			[
@@ -1536,11 +1654,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['permissions']);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->updateSharePermission($accessContext, $id, new SharePermission(TestSharePermissionType1::class, false));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(ShareState::Draft->value, $share['state']);
 		$this->assertEquals([
 			[
@@ -1594,7 +1711,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testSelectSharePermissionPreset(): void {
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerPermissionPreset(new TestSharePermissionPreset1());
 		$this->registry->registerPermissionPreset(new TestSharePermissionPreset2());
 		$this->registry->registerPermissionType(null, new TestSharePermissionType1());
@@ -1606,16 +1722,15 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->getShare($accessContext, $id);
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$share = $this->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertNull($share['permission_preset']);
 		$this->assertEquals([
 			[
@@ -1647,11 +1762,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['permissions']);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->selectSharePermissionPreset($accessContext, $id, TestSharePermissionPreset2::class);
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(TestSharePermissionPreset2::class, $share['permission_preset']);
 		$this->assertEquals([
 			[
@@ -1683,11 +1797,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['permissions']);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->updateSharePermission($accessContext, $id, new SharePermission(TestSharePermissionType3::class, true));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertNull($share['permission_preset']);
 		$this->assertEquals([
 			[
@@ -1719,11 +1832,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['permissions']);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->selectSharePermissionPreset($accessContext, $id, TestSharePermissionPreset1::class);
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(TestSharePermissionPreset1::class, $share['permission_preset']);
 		$this->assertEquals([
 			[
@@ -1755,11 +1867,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['permissions']);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->updateSharePermission($accessContext, $id, new SharePermission(TestSharePermissionType1::class, false));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertNull($share['permission_preset']);
 		$this->assertEquals([
 			[
@@ -1794,7 +1905,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testSelectSharePermissionPresetCompatible(): void {
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source 1']));
 		$this->registry->registerPermissionPreset(new TestSharePermissionPreset1());
 		$this->registry->registerPermissionPreset(new TestSharePermissionPreset2());
@@ -1806,16 +1916,15 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->getShare($accessContext, $id);
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$share = $this->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertNull($share['permission_preset']);
 		$this->assertEquals([
 			[
@@ -1829,11 +1938,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['permissions']);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->selectSharePermissionPreset($accessContext, $id, TestSharePermissionPreset2::class);
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(TestSharePermissionPreset2::class, $share['permission_preset']);
 		$this->assertEquals([
 			[
@@ -1847,11 +1955,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['permissions']);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertNull($share['permission_preset']);
 		$this->assertEquals([
 			[
@@ -1874,11 +1981,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 		], $share['permissions']);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$share = $this->selectSharePermissionPreset($accessContext, $id, TestSharePermissionPreset2::class);
-		$after = $this->manager->generateTimestamp();
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals(TestSharePermissionPreset2::class, $share['permission_preset']);
 		$this->assertEquals([
 			[
@@ -1923,7 +2029,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	public function testGetShare(): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
@@ -1931,11 +2037,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->getShare($accessContext, $id);
 
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$share = $this->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		unset($share['last_updated']);
 		$this->assertEquals([
 			'id' => $id,
@@ -2040,7 +2145,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	public function testGetShareAsRecipientActive(): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
@@ -2051,11 +2156,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->updateShareState($accessContext, $id, ShareState::Active);
 
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$share = $this->getShare(new ShareAccessContext(currentUser: $this->user1), $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		unset($share['last_updated']);
 		$this->assertEquals([
 			'id' => $id,
@@ -2165,7 +2269,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
@@ -2175,11 +2279,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->updateShareState($accessContext, $id, ShareState::Active);
 
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$share = $this->getShare(new ShareAccessContext(currentUser: $this->user1, arguments: [TestShareRecipientTypeArguments::class => 'secret']), $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		unset($share['last_updated']);
 		$this->assertEquals([
 			'id' => $id,
@@ -2209,7 +2312,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'value' => 'secret',
 					'instance' => null,
 					'display_name' => 'secret',
-					'icon' => null,
+					'icon' => [
+						'light' => 'http://localhost/index.php/avatar/guest/secret/64',
+						'dark' => 'http://localhost/index.php/avatar/guest/secret/64?darkTheme=1',
+					],
 					'secret' => [
 						'updatable' => false,
 					],
@@ -2286,7 +2392,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
@@ -2295,7 +2401,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->updateSharePermission($accessContext, $id, new SharePermission(TestSharePermissionType1::class, true));
 		$this->manager->updateShareState($accessContext, $id, ShareState::Active);
 
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$share = $this->manager->getShare($accessContext, $id);
 		$this->dbConnection->commit();
@@ -2303,8 +2409,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertNotNull($secret);
 
 		$share = $this->getShare(new ShareAccessContext(secret: $secret), $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		unset($share['last_updated']);
 		$this->assertEquals([
 			'id' => $id,
@@ -2334,7 +2439,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'value' => 'secret',
 					'instance' => null,
 					'display_name' => 'secret',
-					'icon' => null,
+					'icon' => [
+						'light' => 'http://localhost/index.php/avatar/guest/secret/64',
+						'dark' => 'http://localhost/index.php/avatar/guest/secret/64?darkTheme=1',
+					],
 					'secret' => [
 						'updatable' => false,
 					],
@@ -2409,7 +2517,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
@@ -2420,11 +2528,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeFilter::class, 'visible'));
 
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$share = $this->getShare(new ShareAccessContext(currentUser: $this->user1), $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		unset($share['last_updated']);
 		$this->assertEquals([
 			'id' => $id,
@@ -2518,15 +2625,14 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			'permission_preset' => TestSharePermissionPreset1::class,
 		], $share);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$this->manager->updateShareProperty($accessContext, $id, new ShareProperty(TestSharePropertyTypeFilter::class, 'filtered'));
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$share = $this->getShare(new ShareAccessContext(currentUser: $this->owner), $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		unset($share['last_updated']);
 		$this->assertEquals([
 			'id' => $id,
@@ -2635,7 +2741,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
@@ -2645,11 +2751,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->updateShareState($accessContext, $id, ShareState::Active);
 
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$share = $this->getShare(new ShareAccessContext(currentUser: $this->user1), $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		unset($share['last_updated']);
 		$this->assertEquals([
 			'id' => $id,
@@ -2744,8 +2849,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		], $share);
 
 		$share = $this->getShare(new ShareAccessContext(currentUser: $this->owner, arguments: [TestSharePropertyTypeFilter::class => 'filtered']), $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		unset($share['last_updated']);
 		$this->assertEquals([
 			'id' => $id,
@@ -2860,7 +2964,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	#[DataProvider('dataGetShareWithPublicSecret')]
 	public function testGetShareWithPublicSecret(bool $isSecretPublic): void {
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerRecipientType(new TestShareRecipientType1(
 			[
 				'recipient1' => 'Recipient 1',
@@ -2879,18 +2982,17 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->addShareRecipient($accessContext, $id, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
 		$this->manager->addShareRecipient($accessContext, $id, new ShareRecipient(TestShareRecipientTypePublicSecret::class, 'recipient2', null));
 
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$share = $this->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		unset($share['last_updated']);
 		$this->assertIsList($share['recipients']);
 		$this->assertCount(2, $share['recipients']);
@@ -2937,7 +3039,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testGetShareWithSecret(): void {
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source']));
 		$this->registry->registerRecipientType(new TestShareRecipientTypePublicSecret(
 			[
@@ -2957,7 +3058,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
@@ -2970,12 +3071,12 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->addShareRecipient(new ShareAccessContext($this->user2), $id, new ShareRecipient(TestShareRecipientTypePublicSecret::class, 'recipient4', null));
 
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$share = $this->getShare(new ShareAccessContext($this->user2), $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 
+		usort($share['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertArrayHasKey('recipients', $share);
 		$this->assertIsArray($share['recipients']);
 		$this->assertCount(4, $share['recipients']);
@@ -3015,7 +3116,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testGetShareUniqueDisplayNames(): void {
 		$this->registry->clear();
-		$this->registry->registerSharingBackend(Server::get(SharingBackend::class));
 		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source']));
 		$this->registry->registerSourceType(new TestShareSourceType2(['source2' => 'Source', 'source3' => 'Other']));
 		$this->registry->registerRecipientType(new TestShareRecipientType1(['recipient1' => 'Recipient'], [], []));
@@ -3035,6 +3135,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		$share = $this->getShare($accessContext, $id);
+		usort($share['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertEquals([
 			[
 				'class' => TestShareSourceType1::class,
@@ -3131,7 +3232,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	public function testGetShareDisabledOwner(): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
@@ -3142,7 +3243,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->updateShareState($accessContext, $id, ShareState::Active);
 
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$this->owner->setEnabled(false);
 
@@ -3154,8 +3255,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		}
 
 		$share = $this->getShare(new ShareAccessContext(overrideChecks: true), $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals([
 			'user_id' => 'owner',
 			'instance' => null,
@@ -3170,7 +3270,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	public function testGetShareDisabledInitiator(): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id, new ShareSource(TestShareSourceType1::class, 'source1'));
@@ -3180,7 +3280,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->addShareRecipient(new ShareAccessContext(currentUser: $this->user1), $id, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
 
 		$this->dbConnection->commit();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$this->user1->setEnabled(false);
 
@@ -3192,8 +3292,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		}
 
 		$share = $this->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals([
 			[
 				'class' => TestShareRecipientType1::class,
@@ -3243,7 +3342,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	public function testGetShares(): void {
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before1 = $this->manager->generateTimestamp();
+		$before1 = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id1 = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id1, new ShareSource(TestShareSourceType1::class, 'source1'));
@@ -3251,9 +3350,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->getShare($accessContext, $id1);
 
 		$this->dbConnection->commit();
-		$after1 = $this->manager->generateTimestamp();
+		$after1 = $this->manager->getTime();
 
-		$before2 = $this->manager->generateTimestamp();
+		$before2 = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$id2 = $this->manager->createShare($accessContext);
 		$this->manager->addShareSource($accessContext, $id2, new ShareSource(TestShareSourceType2::class, 'source2'));
@@ -3261,16 +3360,14 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->getShare($accessContext, $id2);
 
 		$this->dbConnection->commit();
-		$after2 = $this->manager->generateTimestamp();
+		$after2 = $this->manager->getTime();
 
 		$shares = $this->getShares($accessContext, null, null, null, null);
 		$this->assertCount(2, $shares);
 		$this->assertIsArray($shares[0]);
-		$this->assertGreaterThanOrEqual($before1, $shares[0]['last_updated']);
-		$this->assertLessThanOrEqual($after1, $shares[0]['last_updated']);
+		$this->assertDateBetween($before1, $after1, $this->parseTime($shares[0]['last_updated']));
 		$this->assertIsArray($shares[1]);
-		$this->assertGreaterThanOrEqual($before2, $shares[1]['last_updated']);
-		$this->assertLessThanOrEqual($after2, $shares[1]['last_updated']);
+		$this->assertDateBetween($before2, $after2, $this->parseTime($shares[1]['last_updated']));
 		unset($shares[0]['last_updated'], $shares[1]['last_updated']);
 		$this->assertEquals([
 			[
@@ -3438,8 +3535,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$shares = $this->getShares($accessContext, TestShareSourceType1::class, null, null, null);
 		$this->assertCount(1, $shares);
 		$this->assertIsArray($shares[0]);
-		$this->assertGreaterThanOrEqual($before1, $shares[0]['last_updated']);
-		$this->assertLessThanOrEqual($after1, $shares[0]['last_updated']);
+		$this->assertDateBetween($before1, $after1, $this->parseTime($shares[0]['last_updated']));
 		unset($shares[0]['last_updated']);
 		$this->assertEquals([
 			[
@@ -3527,8 +3623,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$shares = $this->getShares($accessContext, TestShareSourceType1::class, 'source1', null, null);
 		$this->assertCount(1, $shares);
 		$this->assertIsArray($shares[0]);
-		$this->assertGreaterThanOrEqual($before1, $shares[0]['last_updated']);
-		$this->assertLessThanOrEqual($after1, $shares[0]['last_updated']);
+		$this->assertDateBetween($before1, $after1, $this->parseTime($shares[0]['last_updated']));
 		unset($shares[0]['last_updated']);
 		$this->assertEquals([
 			[
@@ -3619,8 +3714,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$shares = $this->getShares($accessContext, null, null, $id1, null);
 		$this->assertCount(1, $shares);
 		$this->assertIsArray($shares[0]);
-		$this->assertGreaterThanOrEqual($before2, $shares[0]['last_updated']);
-		$this->assertLessThanOrEqual($after2, $shares[0]['last_updated']);
+		$this->assertDateBetween($before2, $after2, $this->parseTime($shares[0]['last_updated']));
 		unset($shares[0]['last_updated']);
 		$this->assertEquals([
 			[
@@ -3708,8 +3802,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$shares = $this->getShares($accessContext, null, null, null, 1);
 		$this->assertCount(1, $shares);
 		$this->assertIsArray($shares[0]);
-		$this->assertGreaterThanOrEqual($before1, $shares[0]['last_updated']);
-		$this->assertLessThanOrEqual($after1, $shares[0]['last_updated']);
+		$this->assertDateBetween($before1, $after1, $this->parseTime($shares[0]['last_updated']));
 		unset($shares[0]['last_updated']);
 		$this->assertEquals([
 			[
@@ -3854,14 +3947,13 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->manager->updateShareState($accessContext, $id, ShareState::Active);
 		$this->manager->addShareRecipient(new ShareAccessContext(currentUser: $this->user1), $id, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$this->user1->delete();
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 		$this->dbConnection->commit();
 
 		$share = $this->getShare(new ShareAccessContext(overrideChecks: true), $id);
-		$this->assertGreaterThanOrEqual($before, $share['last_updated']);
-		$this->assertLessThanOrEqual($after, $share['last_updated']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		$this->assertEquals([
 			[
 				'class' => TestShareRecipientType1::class,

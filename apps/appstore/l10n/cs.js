@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "App store" : "Obchod s aplikacemi",
     "Apps" : "Aplikace",
+    "Appstore" : "Katalog aplikací",
     "App name" : "Název aplikace",
     "Version" : "Verze",
     "Groups" : "Skupiny",

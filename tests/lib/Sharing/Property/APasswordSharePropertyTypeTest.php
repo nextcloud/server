@@ -9,13 +9,17 @@ declare(strict_types=1);
 
 namespace Test\Sharing\Property;
 
+use DateTimeImmutable;
+use NCU\Sharing\Property\APasswordSharePropertyType;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\L10N\IFactory;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
 use OCP\Server;
-use OCP\Sharing\Property\APasswordSharePropertyType;
 use RuntimeException;
 use Test\TestCase;
 
@@ -26,7 +30,7 @@ final class TestPasswordSharePropertyType extends APasswordSharePropertyType {
 	}
 
 	#[\Override]
-	public function getHint(IFactory $l10nFactory): ?string {
+	public function getHint(IFactory $l10nFactory, Share $share): ?string {
 		throw new RuntimeException();
 	}
 
@@ -41,12 +45,12 @@ final class TestPasswordSharePropertyType extends APasswordSharePropertyType {
 	}
 
 	#[\Override]
-	public function isRequired(): bool {
+	public function isRequired(Share $share): bool {
 		throw new RuntimeException();
 	}
 
 	#[\Override]
-	public function getDefaultValue(): ?string {
+	public function getDefaultValue(Share $share): ?string {
 		throw new RuntimeException();
 	}
 }
@@ -86,8 +90,18 @@ final class APasswordSharePropertyTypeTest extends TestCase {
 
 	public function testValidateValue(): void {
 		$l10nFactory = Server::get(IFactory::class);
-		$this->assertTrue($this->propertyType->validateValue($l10nFactory, 'secure'));
-		$this->assertIsString($this->propertyType->validateValue($l10nFactory, '123'));
+		$share = new Share(
+			'123',
+			new ShareUser('user', null),
+			new DateTimeImmutable(),
+			ShareState::Active,
+			[],
+			[],
+			[],
+			[],
+		);
+		$this->assertTrue($this->propertyType->validateValue($l10nFactory, $share, 'secure'));
+		$this->assertIsString($this->propertyType->validateValue($l10nFactory, $share, '123'));
 	}
 
 	public function testModifyValueOnFetch(): void {

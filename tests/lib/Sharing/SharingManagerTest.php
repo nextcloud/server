@@ -10,26 +10,34 @@ declare(strict_types=1);
 namespace Test\Sharing;
 
 use Exception;
+use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ShareProperty;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\Share;
+use NCU\Sharing\ShareAccessContext;
+use NCU\Sharing\ShareState;
+use NCU\Sharing\Source\ShareSource;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
-use OCP\Sharing\Permission\SharePermission;
-use OCP\Sharing\Property\ShareProperty;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\Share;
-use OCP\Sharing\ShareAccessContext;
-use OCP\Sharing\ShareState;
-use OCP\Sharing\Source\ShareSource;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group(name: 'DB')]
 final class SharingManagerTest extends AbstractSharingManagerTests {
 
 	#[\Override]
-	protected function searchRecipients(ShareAccessContext $accessContext, ?array $recipientTypeClasses, string $query, int $limit, int $offset): array {
-		/** @psalm-suppress ArgumentTypeCoercion */
-		return ShareRecipient::formatMultiple($this->registry, Server::get(IFactory::class), Server::get(IURLGenerator::class), Server::get(IUserManager::class), $this->manager->searchRecipients($accessContext, $recipientTypeClasses, $query, $limit, $offset));
+	protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?string $id = null): array {
+		try {
+			$this->dbConnection->beginTransaction();
+			/** @psalm-suppress ArgumentTypeCoercion */
+			$shares = ShareRecipient::formatMultiple($this->registry, Server::get(IFactory::class), Server::get(IURLGenerator::class), Server::get(IUserManager::class), $this->manager->searchRecipients($accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $id));
+			$this->dbConnection->commit();
+			return $shares;
+		} catch (Exception $exception) {
+			$this->dbConnection->rollBack();
+			throw  $exception;
+		}
 	}
 
 	#[\Override]
@@ -199,9 +207,6 @@ final class SharingManagerTest extends AbstractSharingManagerTests {
 		}
 	}
 
-	/**
-	 * @return mixed[][]
-	 */
 	#[\Override]
 	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array {
 		try {

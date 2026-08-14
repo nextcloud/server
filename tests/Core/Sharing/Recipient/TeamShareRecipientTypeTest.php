@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 namespace Tests\Core\Sharing\Recipient;
 
+use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ISharingRegistry;
+use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\TeamShareRecipientType;
 use OCA\Circles\CirclesManager;
 use OCA\Circles\Exceptions\CircleNotFoundException;
@@ -18,10 +22,6 @@ use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
-use OCP\Sharing\ISharingManager;
-use OCP\Sharing\ISharingRegistry;
-use OCP\Sharing\Recipient\ShareRecipient;
-use OCP\Sharing\ShareAccessContext;
 use OCP\Teams\ITeamManager;
 use OCP\Teams\Team;
 use PHPUnit\Framework\Attributes\Group;
@@ -98,7 +98,7 @@ final class TeamShareRecipientTypeTest extends TestCase {
 		$this->team2 = $this->createTeam($teamManager, 'team2');
 		$this->team3 = $this->createTeam($teamManager, 'team3');
 
-		$this->recipientType = new TeamShareRecipientType(Server::get(IEventDispatcher::class), $this->dbConnection, $teamManager, $this->manager);
+		$this->recipientType = new TeamShareRecipientType(Server::get(IEventDispatcher::class), $this->dbConnection, $this->manager);
 	}
 
 	#[\Override]
@@ -171,14 +171,14 @@ final class TeamShareRecipientTypeTest extends TestCase {
 		$circlesManager = Server::get(CirclesManager::class);
 		$circlesManager->startSession($circlesManager->getLocalFederatedUser($this->user1->getUID()));
 
-		$before = $this->manager->generateTimestamp();
+		$before = $this->manager->getTime();
 		$circlesManager->destroyCircle($this->team1->getId());
-		$after = $this->manager->generateTimestamp();
+		$after = $this->manager->getTime();
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->getShare($accessContext, $id);
-		$this->assertGreaterThanOrEqual($before, $share->lastUpdated);
-		$this->assertLessThanOrEqual($after, $share->lastUpdated);
+		$this->assertGreaterThanOrEqual($before, $share->lastUpdated->getTimestamp());
+		$this->assertLessThanOrEqual($after, $share->lastUpdated->getTimestamp());
 		$this->assertEquals([], $share->recipients);
 
 		$this->manager->deleteShare($accessContext, $id);

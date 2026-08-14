@@ -21,23 +21,15 @@ use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 class OCSMiddleware extends Middleware {
-	/** @var int */
-	private $ocsVersion;
+	private int $ocsVersion = 2;
 
-	/**
-	 * @param IRequest $request
-	 */
 	public function __construct(
-		private IRequest $request,
+		private readonly IRequest $request,
 	) {
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 */
 	#[\Override]
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		if ($controller instanceof OCSController) {
 			if (substr_compare($this->request->getScriptName(), '/ocs/v2.php', -strlen('/ocs/v2.php')) === 0) {
 				$this->ocsVersion = 2;
@@ -48,15 +40,8 @@ class OCSMiddleware extends Middleware {
 		}
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @param \Exception $exception
-	 * @throws \Exception
-	 * @return BaseResponse
-	 */
 	#[\Override]
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
 		if ($controller instanceof OCSController && $exception instanceof OCSException) {
 			$code = $exception->getCode();
 			if ($code === 0) {
@@ -69,14 +54,8 @@ class OCSMiddleware extends Middleware {
 		throw $exception;
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @param Response $response
-	 * @return Response
-	 */
 	#[\Override]
-	public function afterController($controller, $methodName, Response $response) {
+	public function afterController(Controller $controller, string $methodName, Response $response): Response {
 		/*
 		 * If a different middleware has detected that a request unauthorized or forbidden
 		 * we need to catch the response and convert it to a proper OCS response.
@@ -105,13 +84,7 @@ class OCSMiddleware extends Middleware {
 		return $response;
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param int $code
-	 * @param string $message
-	 * @return V1Response|V2Response
-	 */
-	private function buildNewResponse(Controller $controller, $code, $message) {
+	private function buildNewResponse(Controller $controller, int $code, string $message): V1Response|V2Response {
 		$format = $this->request->getFormat();
 		if ($format === null || !$controller->isResponderRegistered($format)) {
 			$format = 'xml';

@@ -1,4 +1,6 @@
 { "translations": {
-    "Sharing" : "Paylaşım"
+    "The owner does not exist: %s" : "Sahip bulunamadı: %s",
+    "Sharing" : "Paylaşım",
+    "TODO" : "Yapılacak iş"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

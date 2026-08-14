@@ -17,7 +17,7 @@ use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserSession;
-use phpseclib\Crypt\RC4;
+use phpseclib3\Crypt\RC4;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -722,7 +722,6 @@ class Crypt {
 	 */
 	private function rc4Decrypt(string $data, string $secret): string {
 		$rc4 = new RC4();
-		/** @psalm-suppress InternalMethod */
 		$rc4->setKey($secret);
 
 		return $rc4->decrypt($data);
@@ -733,7 +732,6 @@ class Crypt {
 	 */
 	private function rc4Encrypt(string $data, string $secret): string {
 		$rc4 = new RC4();
-		/** @psalm-suppress InternalMethod */
 		$rc4->setKey($secret);
 
 		return $rc4->encrypt($data);

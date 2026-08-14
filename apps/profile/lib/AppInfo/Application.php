@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Profile\AppInfo;
 
+use OCA\Profile\Listener\LoadAdditionalEntriesListener;
 use OCA\Profile\Listener\ProfilePickerReferenceListener;
 use OCA\Profile\Reference\ProfilePickerReferenceProvider;
 use OCP\AppFramework\App;
@@ -16,11 +17,7 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
-use OCP\INavigationManager;
-use OCP\IURLGenerator;
-use OCP\IUserSession;
-use OCP\L10N\IFactory;
-use OCP\Server;
+use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'profile';
@@ -33,37 +30,10 @@ class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerReferenceProvider(ProfilePickerReferenceProvider::class);
 		$context->registerEventListener(RenderReferenceEvent::class, ProfilePickerReferenceListener::class);
+		$context->registerEventListener(LoadAdditionalEntriesEvent::class, LoadAdditionalEntriesListener::class);
 	}
 
 	#[\Override]
 	public function boot(IBootContext $context): void {
-		$context->injectFn($this->registerNavigationEntry(...));
-	}
-
-	/**
-	 * Registers the navigation entry for the profile app in the user settings.
-	 * Needed as the href is dynamic and thus we cannot use the appinfo/info.xml
-	 */
-	public function registerNavigationEntry(
-		INavigationManager $navigationManager,
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
-	): void {
-		if (!$userSession->isLoggedIn()) {
-			return;
-		}
-
-		$l = Server::get(IFactory::class)->get('profile');
-		// Profile
-		$navigationManager->add([
-			'type' => 'settings',
-			'id' => 'profile',
-			'order' => 1,
-			'href' => $urlGenerator->linkToRoute(
-				'profile.ProfilePage.index',
-				['targetUserId' => $userSession->getUser()->getUID()],
-			),
-			'name' => $l->t('View profile'),
-		]);
 	}
 }

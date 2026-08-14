@@ -10,23 +10,23 @@ declare(strict_types=1);
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;
-use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\Security\Exceptions\LaxSameSiteCookieFailedException;
+use OC\AppFramework\Utility\ControllerMethodReflector;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
-use ReflectionMethod;
 
 class SameSiteCookieMiddleware extends Middleware {
 	public function __construct(
 		private readonly Request $request,
-		private readonly MiddlewareUtils $middlewareUtils,
+		private readonly ControllerMethodReflector $reflector,
 	) {
 	}
 
 	#[\Override]
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		$requestUri = $this->request->getScriptName();
 		$processingScript = explode('/', $requestUri);
 		$processingScript = $processingScript[count($processingScript) - 1];
@@ -35,8 +35,7 @@ class SameSiteCookieMiddleware extends Middleware {
 			return;
 		}
 
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-		$noSSC = $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoSameSiteCookieRequired', NoSameSiteCookieRequired::class);
+		$noSSC = $this->reflector->hasAnnotationOrAttribute('NoSameSiteCookieRequired', NoSameSiteCookieRequired::class);
 		if ($noSSC) {
 			return;
 		}
@@ -47,7 +46,7 @@ class SameSiteCookieMiddleware extends Middleware {
 	}
 
 	#[\Override]
-	public function afterException($controller, $methodName, \Exception $exception) {
+	public function afterException(Controller $controller, string $methodName, \Exception $exception) {
 		if ($exception instanceof LaxSameSiteCookieFailedException) {
 			$response = new Response();
 			$response->setStatus(Http::STATUS_FOUND);
