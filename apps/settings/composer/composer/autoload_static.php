@@ -147,6 +147,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\RandomnessSecure' => __DIR__ . '/..' . '/../lib/SetupChecks/RandomnessSecure.php',
         'OCA\\Settings\\SetupChecks\\ReadOnlyConfig' => __DIR__ . '/..' . '/../lib/SetupChecks/ReadOnlyConfig.php',
         'OCA\\Settings\\SetupChecks\\RepairSanitizeSystemTagsAvailable' => __DIR__ . '/..' . '/../lib/SetupChecks/RepairSanitizeSystemTagsAvailable.php',
+        'OCA\\Settings\\SetupChecks\\S3SseCEncryption' => __DIR__ . '/..' . '/../lib/SetupChecks/S3SseCEncryption.php',
         'OCA\\Settings\\SetupChecks\\SchedulingTableSize' => __DIR__ . '/..' . '/../lib/SetupChecks/SchedulingTableSize.php',
         'OCA\\Settings\\SetupChecks\\SecurityHeaders' => __DIR__ . '/..' . '/../lib/SetupChecks/SecurityHeaders.php',
         'OCA\\Settings\\SetupChecks\\ServerIdConfig' => __DIR__ . '/..' . '/../lib/SetupChecks/ServerIdConfig.php',
