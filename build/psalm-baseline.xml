@@ -3102,7 +3102,6 @@
   </file>
   <file src="core/Controller/LoginController.php">
     <DeprecatedMethod>
-      <code><![CDATA[deleteUserValue]]></code>
       <code><![CDATA[getDelay]]></code>
     </DeprecatedMethod>
   </file>
