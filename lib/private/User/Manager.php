@@ -868,13 +868,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			$offset += $batchSize;
 
 			foreach ($userIds as $userId) {
-				foreach ($this->backends as $backend) {
-					if ($backend->userExists($userId)) {
-						$user = new LazyUser($userId, $this, null, $backend);
-						yield $userId => $user;
-						break;
-					}
-				}
+				yield $userId => $this->getExistingUser($userId);
 			}
 		} while (count($userIds) === $batchSize && $limit !== 0);
 	}
