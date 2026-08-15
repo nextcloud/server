@@ -11,7 +11,6 @@ namespace OC\Authentication\WebAuthn\Db;
 
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
-use Webauthn\PublicKeyCredentialSource;
 
 /**
  * @since 19.0.0
@@ -24,26 +23,21 @@ use Webauthn\PublicKeyCredentialSource;
  * @method void setPublicKeyCredentialId(string $id);
  * @method string getData();
  * @method void setData(string $data);
- *
- * @since 30.0.0 Add userVerification attribute
  * @method bool|null getUserVerification();
  * @method void setUserVerification(bool $userVerification);
+ *
+ * @since 30.0.0 Add userVerification attribute
  */
 class PublicKeyCredentialEntity extends Entity implements JsonSerializable {
-	/** @var string */
-	protected $name;
+	protected ?string $name = null;
 
-	/** @var string */
-	protected $uid;
+	protected ?string $uid = null;
 
-	/** @var string */
-	protected $publicKeyCredentialId;
+	protected ?string $publicKeyCredentialId = null;
 
-	/** @var string */
-	protected $data;
+	protected ?string $data = null;
 
-	/** @var bool|null */
-	protected $userVerification;
+	protected ?bool $userVerification = null;
 
 	public function __construct() {
 		$this->addType('name', 'string');
@@ -51,24 +45,6 @@ class PublicKeyCredentialEntity extends Entity implements JsonSerializable {
 		$this->addType('publicKeyCredentialId', 'string');
 		$this->addType('data', 'string');
 		$this->addType('userVerification', 'boolean');
-	}
-
-	public static function fromPublicKeyCrendentialSource(string $name, PublicKeyCredentialSource $publicKeyCredentialSource, bool $userVerification): PublicKeyCredentialEntity {
-		$publicKeyCredentialEntity = new self();
-
-		$publicKeyCredentialEntity->setName($name);
-		$publicKeyCredentialEntity->setUid($publicKeyCredentialSource->getUserHandle());
-		$publicKeyCredentialEntity->setPublicKeyCredentialId(base64_encode($publicKeyCredentialSource->getPublicKeyCredentialId()));
-		$publicKeyCredentialEntity->setData(json_encode($publicKeyCredentialSource));
-		$publicKeyCredentialEntity->setUserVerification($userVerification);
-
-		return $publicKeyCredentialEntity;
-	}
-
-	public function toPublicKeyCredentialSource(): PublicKeyCredentialSource {
-		return PublicKeyCredentialSource::createFromArray(
-			json_decode($this->getData(), true)
-		);
 	}
 
 	/**

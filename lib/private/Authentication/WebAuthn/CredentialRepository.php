@@ -12,44 +12,47 @@ namespace OC\Authentication\WebAuthn;
 use OC\Authentication\WebAuthn\Db\PublicKeyCredentialEntity;
 use OC\Authentication\WebAuthn\Db\PublicKeyCredentialMapper;
 use OCP\AppFramework\Db\IMapperException;
-use Webauthn\PublicKeyCredentialSource;
-use Webauthn\PublicKeyCredentialSourceRepository;
+use Webauthn\AttestationStatement\AttestationStatementSupportManager;
+use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
+use Webauthn\CredentialRecord;
+use Webauthn\Denormalizer\WebauthnSerializerFactory;
 use Webauthn\PublicKeyCredentialUserEntity;
 
-class CredentialRepository implements PublicKeyCredentialSourceRepository {
+class CredentialRepository {
+	private WebauthnSerializerFactory $serializerFactory;
+
 	public function __construct(
 		private PublicKeyCredentialMapper $credentialMapper,
 	) {
+		$attestationStatementSupportManager = AttestationStatementSupportManager::create();
+		$attestationStatementSupportManager->add(NoneAttestationStatementSupport::create());
+		$this->serializerFactory = new WebauthnSerializerFactory($attestationStatementSupportManager);
 	}
 
-	#[\Override]
-	public function findOneByCredentialId(string $publicKeyCredentialId): ?PublicKeyCredentialSource {
+	public function findOneByCredentialId(string $publicKeyCredentialId): ?CredentialRecord {
 		try {
 			$entity = $this->credentialMapper->findOneByCredentialId($publicKeyCredentialId);
-			return $entity->toPublicKeyCredentialSource();
-		} catch (IMapperException $e) {
+			return $this->mapToCredentialRecord($entity);
+		} catch (IMapperException) {
 			return  null;
 		}
 	}
 
 	/**
-	 * @return PublicKeyCredentialSource[]
+	 * @return CredentialRecord[]
 	 */
-	#[\Override]
 	public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array {
-		$uid = $publicKeyCredentialUserEntity->getId();
+		$uid = $publicKeyCredentialUserEntity->id;
 		$entities = $this->credentialMapper->findAllForUid($uid);
 
-		return array_map(function (PublicKeyCredentialEntity $entity) {
-			return $entity->toPublicKeyCredentialSource();
-		}, $entities);
+		return array_map($this->mapToCredentialRecord(...), $entities);
 	}
 
-	public function saveAndReturnCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource, ?string $name = null, bool $userVerification = false): PublicKeyCredentialEntity {
+	public function saveCredentialSource(CredentialRecord $credentialRecord, ?string $name = null, bool $userVerification = false): PublicKeyCredentialEntity {
 		$oldEntity = null;
 
 		try {
-			$oldEntity = $this->credentialMapper->findOneByCredentialId($publicKeyCredentialSource->getPublicKeyCredentialId());
+			$oldEntity = $this->credentialMapper->findOneByCredentialId($credentialRecord->publicKeyCredentialId);
 		} catch (IMapperException $e) {
 		}
 
@@ -59,7 +62,13 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 			$name = 'default';
 		}
 
-		$entity = PublicKeyCredentialEntity::fromPublicKeyCrendentialSource($name, $publicKeyCredentialSource, $userVerification);
+		$credentialId = base64_encode($credentialRecord->publicKeyCredentialId);
+		$entity = new PublicKeyCredentialEntity();
+		$entity->setName($name);
+		$entity->setUid($credentialRecord->userHandle);
+		$entity->setUserVerification($userVerification);
+		$entity->setPublicKeyCredentialId($credentialId);
+		$entity->setData($this->serializeCredentialRecord($credentialRecord));
 
 		if ($oldEntity) {
 			$entity->setId($oldEntity->getId());
@@ -76,8 +85,17 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 		return $this->credentialMapper->insertOrUpdate($entity);
 	}
 
-	#[\Override]
-	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource, ?string $name = null): void {
-		$this->saveAndReturnCredentialSource($publicKeyCredentialSource, $name);
+	public function mapToCredentialRecord(PublicKeyCredentialEntity $entity): CredentialRecord {
+		$serializer = $this->serializerFactory->create();
+		return $serializer->deserialize(
+			$entity->getData(),
+			CredentialRecord::class,
+			'json',
+		);
+	}
+
+	private function serializeCredentialRecord(CredentialRecord $credentialRecord): string {
+		$serializer = $this->serializerFactory->create();
+		return $serializer->serialize($credentialRecord, 'json');
 	}
 }
