@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\OAuth2\Db;
 
-
 use OCP\AppFramework\ORM\Attribute\Column;
 use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;

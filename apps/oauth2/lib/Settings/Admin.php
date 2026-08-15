@@ -16,7 +16,7 @@ use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
 use OCP\Util;
 
-final class Admin implements ISettings {
+final readonly class Admin implements ISettings {
 
 	public function __construct(
 		private IInitialState $initialState,
@@ -39,6 +39,7 @@ final class Admin implements ISettings {
 				'clientSecret' => '',
 			];
 		}
+
 		$this->initialState->provideInitialState('clients', $result);
 		$this->initialState->provideInitialState('oauth2-doc-link', $this->urlGenerator->linkToDocs('admin-oauth2'));
 

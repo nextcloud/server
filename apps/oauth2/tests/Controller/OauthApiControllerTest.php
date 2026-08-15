@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -45,20 +47,35 @@ abstract class RequestMock implements IRequest {
 
 final class OauthApiControllerTest extends TestCase {
 	private RequestMock&MockObject $request;
+
 	private ICrypto&MockObject $crypto;
+
 	private AccessTokenMapper&MockObject $accessTokenMapper;
+
 	private ClientMapper&MockObject $clientMapper;
+
 	private TokenProvider&MockObject $tokenProvider;
+
 	private ISecureRandom&MockObject $secureRandom;
+
 	private ITimeFactory&MockObject $time;
+
 	private IThrottler&MockObject $throttler;
+
 	private LoggerInterface&MockObject $logger;
+
 	private ITimeFactory&MockObject $timeFactory;
+
 	private IDBConnection&MockObject $db;
+
 	private GlobalScaleConfig&MockObject $globalScaleConfig;
+
 	private IUserManager&MockObject $userManager;
+
 	private IURLGenerator&MockObject $urlGenerator;
+
 	private ContainerInterface&MockObject $container;
+
 	private OauthApiController $oauthApiController;
 
 	#[\Override]
@@ -268,14 +285,10 @@ final class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('calculateHMAC')
-			->with($this->callback(function (string $text) {
-				return $text === 'clientSecret' || $text === 'invalidClientSecret';
-			}))
-			->willReturnCallback(function (string $text) {
-				return $text === 'clientSecret'
+			->with($this->callback(fn (string $text): bool => $text === 'clientSecret' || $text === 'invalidClientSecret'))
+			->willReturnCallback(fn (string $text): string => $text === 'clientSecret'
 					? 'hashedClientSecret'
-					: 'hashedInvalidClientSecret';
-			});
+					: 'hashedInvalidClientSecret');
 
 		$client = new Client();
 		$client->clientIdentifier = 'clientId';
@@ -369,9 +382,7 @@ final class OauthApiControllerTest extends TestCase {
 			->with($accessToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function (int $len) {
-				return 'random' . $len;
-			});
+			->willReturnCallback(fn (int $len): string => 'random' . $len);
 
 		$this->tokenProvider->expects($this->once())
 			->method('rotate')
@@ -399,9 +410,7 @@ final class OauthApiControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
-				$this->callback(function (PublicKeyToken $token) {
-					return $token->getExpires() === 4600;
-				})
+				$this->callback(fn (PublicKeyToken $token): bool => $token->getExpires() === 4600)
 			);
 
 		$this->crypto->method('encrypt')
@@ -479,9 +488,7 @@ final class OauthApiControllerTest extends TestCase {
 			->with($accessToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function (int $len) {
-				return 'random' . $len;
-			});
+			->willReturnCallback(fn (int $len): string => 'random' . $len);
 
 		$this->tokenProvider->expects($this->once())
 			->method('rotate')
@@ -509,9 +516,7 @@ final class OauthApiControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
-				$this->callback(function (PublicKeyToken $token) {
-					return $token->getExpires() === 4600;
-				})
+				$this->callback(fn (PublicKeyToken $token): bool => $token->getExpires() === 4600)
 			);
 
 		$this->crypto->method('encrypt')
@@ -592,9 +597,7 @@ final class OauthApiControllerTest extends TestCase {
 			->with($accessToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function (int $len) {
-				return 'random' . $len;
-			});
+			->willReturnCallback(fn (int $len): string => 'random' . $len);
 
 		$this->tokenProvider->expects($this->once())
 			->method('rotate')
@@ -622,9 +625,7 @@ final class OauthApiControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
-				$this->callback(function (PublicKeyToken $token) {
-					return $token->getExpires() === 4600;
-				})
+				$this->callback(fn (PublicKeyToken $token): bool => $token->getExpires() === 4600)
 			);
 
 		$this->crypto->method('encrypt')
@@ -703,9 +704,7 @@ final class OauthApiControllerTest extends TestCase {
 			->willReturn($appToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function (int $len) {
-				return 'random' . $len;
-			});
+			->willReturnCallback(fn (int $len): string => 'random' . $len);
 
 		$this->tokenProvider->expects($this->never())
 			->method('rotate');
@@ -793,9 +792,7 @@ final class OauthApiControllerTest extends TestCase {
 			->willReturn($appToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function (int $len) {
-				return 'random' . $len;
-			});
+			->willReturnCallback(fn (int $len): string => 'random' . $len);
 		$this->time->method('getTime')->willReturn(1000);
 		$this->accessTokenMapper->method('rotateToken')->willReturn(1);
 		$this->request->method('getRemoteAddress')->willReturn('1.2.3.4');
@@ -869,7 +866,7 @@ final class OauthApiControllerTest extends TestCase {
 		$this->globalScaleConfig->method('isGlobalScaleEnabled')->willReturn(true);
 		$this->globalScaleConfig->method('isPrimary')->willReturn(true);
 
-		$user = $this->createMock(IUser::class);
+		$user = $this->createStub(IUser::class);
 		$this->userManager->method('get')->with('userId')->willReturn($user);
 
 		$this->container->method('get')
@@ -888,7 +885,7 @@ final class OauthApiControllerTest extends TestCase {
 		$this->globalScaleConfig->method('isGlobalScaleEnabled')->willReturn(true);
 		$this->globalScaleConfig->method('isPrimary')->willReturn(true);
 
-		$user = $this->createMock(IUser::class);
+		$user = $this->createStub(IUser::class);
 		$this->userManager->method('get')->with('userId')->willReturn($user);
 
 		$this->urlGenerator->method('linkToRoute')
@@ -928,7 +925,7 @@ final class OauthApiControllerTest extends TestCase {
 		$this->globalScaleConfig->method('isGlobalScaleEnabled')->willReturn(true);
 		$this->globalScaleConfig->method('isPrimary')->willReturn(true);
 
-		$user = $this->createMock(IUser::class);
+		$user = $this->createStub(IUser::class);
 		$this->userManager->method('get')->with('userId')->willReturn($user);
 
 		$globalScaleService = $this->createMock(IGlobalScaleService::class);

@@ -20,7 +20,7 @@ use OCP\Migration\SimpleMigrationStep;
 final class Version011603Date20230620111039 extends SimpleMigrationStep {
 
 	public function __construct(
-		private IDBConnection $connection,
+		private readonly IDBConnection $connection,
 	) {
 	}
 
@@ -39,6 +39,7 @@ final class Version011603Date20230620111039 extends SimpleMigrationStep {
 				]);
 				$dbChanged = true;
 			}
+
 			if (!$table->hasColumn('token_count')) {
 				$table->addColumn('token_count', Types::BIGINT, [
 					'notnull' => true,
@@ -47,10 +48,12 @@ final class Version011603Date20230620111039 extends SimpleMigrationStep {
 				]);
 				$dbChanged = true;
 			}
+
 			if (!$table->hasIndex('oauth2_tk_c_created_idx')) {
 				$table->addIndex(['token_count', 'code_created_at'], 'oauth2_tk_c_created_idx');
 				$dbChanged = true;
 			}
+
 			if ($dbChanged) {
 				return $schema;
 			}

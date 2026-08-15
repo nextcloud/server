@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -26,12 +28,19 @@ use Test\TestCase;
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 final class ClientServiceTest extends TestCase {
 	private ClientMapper&MockObject $clientMapper;
+
 	private ISecureRandom&MockObject $secureRandom;
+
 	private AccessTokenMapper&MockObject $accessTokenMapper;
+
 	private IAuthTokenProvider&MockObject $authTokenProvider;
+
 	private IUserManager&MockObject $userManager;
+
 	private ClientService $clientService;
+
 	private ICrypto&MockObject $crypto;
+
 	private LoggerInterface&MockObject $logger;
 
 	#[\Override]
@@ -79,15 +88,13 @@ final class ClientServiceTest extends TestCase {
 		$this->clientMapper
 			->expects($this->once())
 			->method('insert')
-			->with($this->callback(function (Client $c) {
-				return $c->name === 'My Client Name'
+			->with($this->callback(fn (Client $c): bool => $c->name === 'My Client Name'
 					&& $c->redirectUri === 'https://example.com/'
 					&& $c->secret === bin2hex('MyHashedSecret')
-					&& $c->clientIdentifier === 'MyClientIdentifier';
-			}))->willReturnCallback(function (Client $c) {
-				$c->id = 42;
-				return $c;
-			});
+					&& $c->clientIdentifier === 'MyClientIdentifier'))->willReturnCallback(function (Client $c): Client {
+						$c->id = 42;
+						return $c;
+					});
 
 		$result = $this->clientService->addClient('My Client Name', 'https://example.com/');
 
@@ -107,7 +114,7 @@ final class ClientServiceTest extends TestCase {
 		$count = 0;
 		$function = function (IUser $user) use (&$count): void {
 			if ($user->getLastLogin() > 0) {
-				$count++;
+				++$count;
 			}
 		};
 		$userManager->callForAllUsers($function);
@@ -157,6 +164,7 @@ final class ClientServiceTest extends TestCase {
 		);
 
 		$this->clientService->deleteClient(123);
+
 		$user1->delete();
 	}
 
@@ -190,11 +198,9 @@ final class ClientServiceTest extends TestCase {
 
 		$this->authTokenProvider
 			->method('getTokenByUser')
-			->willReturnCallback(function (string $uid) use ($wipeToken, $regularToken, $otherToken) {
-				return $uid === 'test_wipe_preserve'
+			->willReturnCallback(fn (string $uid): array => $uid === 'test_wipe_preserve'
 					? [$wipeToken, $regularToken, $otherToken]
-					: [];
-			});
+					: []);
 		// Wipe state is signalled via WipeTokenException from getTokenById.
 		$this->authTokenProvider
 			->method('getTokenById')
@@ -202,6 +208,7 @@ final class ClientServiceTest extends TestCase {
 				if ($id === 11) {
 					throw new WipeTokenException($wipeToken);
 				}
+
 				return $regularToken;
 			});
 		$this->authTokenProvider
@@ -224,10 +231,8 @@ final class ClientServiceTest extends TestCase {
 
 		$this->logger->expects($this->atLeastOnce())
 			->method('info')
-			->with($this->stringContains('Preserving token'), $this->callback(function (array $context) {
-				return ($context['tokenId'] ?? null) === 11
-					&& ($context['uid'] ?? null) === 'test_wipe_preserve';
-			}));
+			->with($this->stringContains('Preserving token'), $this->callback(fn (array $context): bool => ($context['tokenId'] ?? null) === 11
+					&& ($context['uid'] ?? null) === 'test_wipe_preserve'));
 
 		$clientService = new ClientService(
 			$this->secureRandom,

@@ -71,6 +71,7 @@ final class Version010401Date20181207190718 extends SimpleMigrationStep {
 			$table->addUniqueIndex(['hashed_code'], 'oauth2_access_hash_idx');
 			$table->addIndex(['client_id'], 'oauth2_access_client_id_idx');
 		}
+
 		return $schema;
 	}
 }

@@ -19,8 +19,8 @@ final class CleanupExpiredAuthorizationCode extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $timeFactory,
-		private AccessTokenMapper $accessTokenMapper,
-		private LoggerInterface $logger,
+		private readonly AccessTokenMapper $accessTokenMapper,
+		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct($timeFactory);
 		// 30 days
@@ -35,8 +35,8 @@ final class CleanupExpiredAuthorizationCode extends TimedJob {
 	protected function run($argument): void {
 		try {
 			$this->accessTokenMapper->cleanupExpiredAuthorizationCode($this->time);
-		} catch (Exception $e) {
-			$this->logger->warning('Failed to cleanup tokens with expired authorization code', ['exception' => $e]);
+		} catch (Exception $exception) {
+			$this->logger->warning('Failed to cleanup tokens with expired authorization code', ['exception' => $exception]);
 		}
 	}
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -17,7 +19,9 @@ use Test\TestCase;
 
 final class AdminTest extends TestCase {
 	private Admin $admin;
+
 	private IInitialState&MockObject $initialState;
+
 	private ClientMapper&MockObject $clientMapper;
 
 	#[\Override]

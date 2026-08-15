@@ -16,7 +16,7 @@ use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
-final class SetTokenExpiration implements IRepairStep {
+final readonly class SetTokenExpiration implements IRepairStep {
 
 	public function __construct(
 		private IDBConnection $connection,
@@ -44,10 +44,11 @@ final class SetTokenExpiration implements IRepairStep {
 				$appToken = $this->tokenProvider->getTokenById($tokenId);
 				$appToken->setExpires($this->time->getTime() + 3600);
 				$this->tokenProvider->updateToken($appToken);
-			} catch (InvalidTokenException $e) {
+			} catch (InvalidTokenException) {
 				//Skip this token
 			}
 		}
+
 		$cursor->closeCursor();
 	}
 }

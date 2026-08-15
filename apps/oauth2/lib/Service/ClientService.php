@@ -22,17 +22,17 @@ use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
-final class ClientService {
+final readonly class ClientService {
 	public const string validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 	public function __construct(
-		private readonly ISecureRandom $secureRandom,
-		private readonly ICrypto $crypto,
-		private readonly ClientMapper $clientMapper,
-		private readonly IUserManager $userManager,
-		private readonly IAuthTokenProvider $tokenProvider,
-		private readonly LoggerInterface $logger,
-		private readonly AccessTokenMapper $accessTokenMapper,
+		private ISecureRandom $secureRandom,
+		private ICrypto $crypto,
+		private ClientMapper $clientMapper,
+		private IUserManager $userManager,
+		private IAuthTokenProvider $tokenProvider,
+		private LoggerInterface $logger,
+		private AccessTokenMapper $accessTokenMapper,
 	) {
 	}
 
@@ -79,6 +79,7 @@ final class ClientService {
 				if ($token->getName() !== $client->name) {
 					continue;
 				}
+
 				try {
 					$this->tokenProvider->getTokenById($token->getId());
 				} catch (WipeTokenException) {
@@ -90,6 +91,7 @@ final class ClientService {
 				} catch (InvalidTokenException) {
 					// Token already invalid; let invalidateTokenById handle it.
 				}
+
 				$this->tokenProvider->invalidateTokenById($user->getUID(), $token->getId());
 			}
 		});

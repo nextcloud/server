@@ -21,7 +21,7 @@ final class SettingsController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private IL10N $l,
+		private readonly IL10N $l,
 		private readonly ClientService $clientService,
 	) {
 		parent::__construct($appName, $request);

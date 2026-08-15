@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class AddClient extends Base {
 	private const string ARGUMENT_CLIENT_NAME = 'client-name';
+
 	private const string ARGUMENT_CLIENT_REDIRECT_URI = 'client-redirect-uri';
 
 	public function __construct(

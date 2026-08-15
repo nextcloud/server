@@ -64,7 +64,7 @@ final class LoginRedirectorController extends Controller {
 	): TemplateResponse|RedirectResponse {
 		try {
 			$client = $this->clientMapper->getByIdentifier($client_id);
-		} catch (ClientNotFoundException $e) {
+		} catch (ClientNotFoundException) {
 			$params = [
 				'content' => $this->l->t('Your client is not authorized to connect. Please inform the administrator of your client.'),
 			];
@@ -111,6 +111,7 @@ final class LoginRedirectorController extends Controller {
 				]
 			);
 		}
+
 		return new RedirectResponse($targetUrl);
 	}
 }

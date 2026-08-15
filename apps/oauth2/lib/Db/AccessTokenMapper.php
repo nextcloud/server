@@ -12,20 +12,17 @@ namespace OCA\OAuth2\Db;
 use OCA\OAuth2\Controller\OauthApiController;
 use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\IMapperException;
-use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\ORM\Repository;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
 
 /**
  * @template-extends Repository<AccessToken>
  * @psalm-suppress ClassMustBeFinal For unit tests
  */
 class AccessTokenMapper extends Repository {
-	const string entityClass = AccessToken::class;
+	public const string entityClass = AccessToken::class;
 
 	/**
 	 * @throws AccessTokenNotFoundException
@@ -35,8 +32,8 @@ class AccessTokenMapper extends Repository {
 			return $this->findOneBy([
 				'hashedCode' => hash('sha512', $code),
 			]);
-		} catch (DoesNotExistException $e) {
-			throw new AccessTokenNotFoundException('Could not find access token', 0, $e);
+		} catch (DoesNotExistException $doesNotExistException) {
+			throw new AccessTokenNotFoundException('Could not find access token', 0, $doesNotExistException);
 		}
 	}
 

@@ -11,11 +11,7 @@ namespace OCA\OAuth2\Db;
 
 use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\IMapperException;
-use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\ORM\Repository;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
 
 /**
  * @template-extends Repository<Client>
@@ -25,8 +21,6 @@ class ClientMapper extends Repository {
 	public const string entityClass = Client::class;
 
 	/**
-	 * @param string $clientIdentifier
-	 * @return Client
 	 * @throws ClientNotFoundException
 	 */
 	public function getByIdentifier(string $clientIdentifier): Client {
@@ -34,14 +28,13 @@ class ClientMapper extends Repository {
 			return $this->findOneBy([
 				'clientIdentifier' => $clientIdentifier,
 			]);
-		} catch (DoesNotExistException $e) {
-			throw new ClientNotFoundException('Could not find client ' . $clientIdentifier, previous: $e);
+		} catch (DoesNotExistException $doesNotExistException) {
+			throw new ClientNotFoundException('Could not find client ' . $clientIdentifier, $doesNotExistException->getCode(), previous: $doesNotExistException);
 		}
 	}
 
 	/**
 	 * @param int $id internal id of the client
-	 * @return Client
 	 * @throws ClientNotFoundException
 	 */
 	public function getByUid(int $id): Client {
@@ -49,8 +42,8 @@ class ClientMapper extends Repository {
 			return $this->findOneBy([
 				'id' => $id,
 			]);
-		} catch (DoesNotExistException $e) {
-			throw new ClientNotFoundException('could not find client with id ' . $id, previous: $e);
+		} catch (DoesNotExistException $doesNotExistException) {
+			throw new ClientNotFoundException('could not find client with id ' . $id, $doesNotExistException->getCode(), previous: $doesNotExistException);
 		}
 	}
 

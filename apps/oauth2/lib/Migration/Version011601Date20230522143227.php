@@ -19,8 +19,8 @@ use OCP\Security\ICrypto;
 final class Version011601Date20230522143227 extends SimpleMigrationStep {
 
 	public function __construct(
-		private IDBConnection $connection,
-		private ICrypto $crypto,
+		private readonly IDBConnection $connection,
+		private readonly ICrypto $crypto,
 	) {
 	}
 
@@ -61,6 +61,7 @@ final class Version011601Date20230522143227 extends SimpleMigrationStep {
 			$qbUpdate->setParameter('updateId', $id, IQueryBuilder::PARAM_INT);
 			$qbUpdate->executeStatement();
 		}
+
 		$req->closeCursor();
 	}
 }

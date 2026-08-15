@@ -20,6 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ImportLegacyOcClient extends Command {
 	private const string ARGUMENT_CLIENT_ID = 'client-id';
+
 	private const string ARGUMENT_CLIENT_SECRET = 'client-secret';
 
 	public function __construct(
@@ -71,6 +72,7 @@ final class ImportLegacyOcClient extends Command {
 		$client->redirectUri = 'http://localhost:*';
 		$client->clientIdentifier = $clientId;
 		$client->secret = $hashedClientSecret;
+
 		$this->clientMapper->insert($client);
 
 		$output->writeln('<info>Client imported successfully</info>');

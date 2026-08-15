@@ -53,6 +53,7 @@ final class DeleteClient extends Base {
 			$output->writeln('<error>' . $exception->getMessage() . '</error>');
 			return Command::FAILURE;
 		}
+
 		return Command::SUCCESS;
 	}
 }

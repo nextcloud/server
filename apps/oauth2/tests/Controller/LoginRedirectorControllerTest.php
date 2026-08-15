@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -27,12 +29,19 @@ use Test\TestCase;
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 final class LoginRedirectorControllerTest extends TestCase {
 	private IRequest&MockObject $request;
+
 	private IURLGenerator&MockObject $urlGenerator;
+
 	private ClientMapper&MockObject $clientMapper;
+
 	private ISession&MockObject $session;
+
 	private IL10N&MockObject $l;
+
 	private ISecureRandom&MockObject $random;
+
 	private IAppConfig&MockObject $appConfig;
+
 	private IConfig&MockObject $config;
 
 	private LoginRedirectorController $loginRedirectorController;
