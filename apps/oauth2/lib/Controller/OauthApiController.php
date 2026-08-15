@@ -187,7 +187,7 @@ final class OauthApiController extends Controller {
 		}
 
 		// The client id and secret must match. Else we don't provide an access token!
-		if ($client->clientIdentifier !== $client_id || $storedClientSecretHash !== $clientSecretHash) {
+		if ($client->clientIdentifier !== $client_id || !hash_equals($storedClientSecretHash, $clientSecretHash)) {
 			$response = new JSONResponse([
 				'error' => 'invalid_client',
 			], Http::STATUS_BAD_REQUEST);
