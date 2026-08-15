@@ -24,7 +24,7 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
-class ClientServiceTest extends TestCase {
+final class ClientServiceTest extends TestCase {
 	private ClientMapper&MockObject $clientMapper;
 	private ISecureRandom&MockObject $secureRandom;
 	private AccessTokenMapper&MockObject $accessTokenMapper;
@@ -70,21 +70,21 @@ class ClientServiceTest extends TestCase {
 			->willReturn('MyHashedSecret');
 
 		$client = new Client();
-		$client->setName('My Client Name');
-		$client->setRedirectUri('https://example.com/');
-		$client->setSecret(bin2hex('MyHashedSecret'));
-		$client->setClientIdentifier('MyClientIdentifier');
+		$client->name = 'My Client Name';
+		$client->redirectUri = 'https://example.com/';
+		$client->secret = bin2hex('MyHashedSecret');
+		$client->clientIdentifier = 'MyClientIdentifier';
 
 		$this->clientMapper
 			->expects($this->once())
 			->method('insert')
 			->with($this->callback(function (Client $c) {
-				return $c->getName() === 'My Client Name'
-					&& $c->getRedirectUri() === 'https://example.com/'
-					&& $c->getSecret() === bin2hex('MyHashedSecret')
-					&& $c->getClientIdentifier() === 'MyClientIdentifier';
+				return $c->name === 'My Client Name'
+					&& $c->redirectUri === 'https://example.com/'
+					&& $c->secret === bin2hex('MyHashedSecret')
+					&& $c->clientIdentifier === 'MyClientIdentifier';
 			}))->willReturnCallback(function (Client $c) {
-				$c->setId(42);
+				$c->id = 42;
 				return $c;
 			});
 
@@ -125,11 +125,11 @@ class ClientServiceTest extends TestCase {
 			->method('invalidateTokenById');
 
 		$client = new Client();
-		$client->setId(123);
-		$client->setName('My Client Name');
-		$client->setRedirectUri('https://example.com/');
-		$client->setSecret(bin2hex('MyHashedSecret'));
-		$client->setClientIdentifier('MyClientIdentifier');
+		$client->id = 123;
+		$client->name = 'My Client Name';
+		$client->redirectUri = 'https://example.com/';
+		$client->secret = bin2hex('MyHashedSecret');
+		$client->clientIdentifier = 'MyClientIdentifier';
 
 		$this->clientMapper
 			->method('getByUid')
@@ -164,11 +164,11 @@ class ClientServiceTest extends TestCase {
 		$user->updateLastLoginTimestamp();
 
 		$client = new Client();
-		$client->setId(456);
-		$client->setName('My Client Name');
-		$client->setRedirectUri('https://example.com/');
-		$client->setSecret(bin2hex('MyHashedSecret'));
-		$client->setClientIdentifier('MyClientIdentifier');
+		$client->id = 456;
+		$client->name = 'My Client Name';
+		$client->redirectUri = 'https://example.com/';
+		$client->secret = bin2hex('MyHashedSecret');
+		$client->clientIdentifier = 'MyClientIdentifier';
 
 		// Token marked for wipe with a matching client name: must NOT be invalidated.
 		$wipeToken = $this->createMock(IToken::class);

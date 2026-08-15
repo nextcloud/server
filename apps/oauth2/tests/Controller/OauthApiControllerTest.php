@@ -43,7 +43,7 @@ abstract class RequestMock implements IRequest {
 	public array $server = [];
 }
 
-class OauthApiControllerTest extends TestCase {
+final class OauthApiControllerTest extends TestCase {
 	private IRequest&MockObject $request;
 	private ICrypto&MockObject $crypto;
 	private AccessTokenMapper&MockObject $accessTokenMapper;
@@ -132,8 +132,8 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'authorization_code_expired', 'expired_since' => $expiredSince]);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
-		$accessToken->setCodeCreatedAt($codeCreatedAt);
+		$accessToken->clientId = 42;
+		$accessToken->codeCreatedAt = $codeCreatedAt;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validcode')
@@ -158,9 +158,9 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'authorization_code_received_for_active_token']);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
-		$accessToken->setCodeCreatedAt($codeCreatedAt);
-		$accessToken->setTokenCount(1);
+		$accessToken->clientId = 42;
+		$accessToken->codeCreatedAt = $codeCreatedAt;
+		$accessToken->tokenCount = 1;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validcode')
@@ -185,8 +185,8 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'client not found', 'client_id' => 42]);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
-		$accessToken->setCodeCreatedAt($codeCreatedAt);
+		$accessToken->clientId = 42;
+		$accessToken->codeCreatedAt = $codeCreatedAt;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validcode')
@@ -225,7 +225,7 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'client not found', 'client_id' => 42]);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
+		$accessToken->clientId = 42;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
@@ -259,7 +259,7 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_client' => 'client ID or secret does not match']);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
+		$accessToken->clientId = 42;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
@@ -277,8 +277,8 @@ class OauthApiControllerTest extends TestCase {
 			});
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -293,17 +293,17 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'token is invalid']);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -331,18 +331,18 @@ class OauthApiControllerTest extends TestCase {
 
 	public function testRefreshTokenValidAppToken(): void {
 		$accessToken = new AccessToken();
-		$accessToken->setId(21);
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->id = 21;
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -441,18 +441,18 @@ class OauthApiControllerTest extends TestCase {
 
 	public function testRefreshTokenValidAppTokenBasicAuth(): void {
 		$accessToken = new AccessToken();
-		$accessToken->setId(21);
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->id = 21;
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -554,18 +554,18 @@ class OauthApiControllerTest extends TestCase {
 
 	public function testRefreshTokenExpiredAppToken(): void {
 		$accessToken = new AccessToken();
-		$accessToken->setId(21);
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->id = 21;
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -669,18 +669,18 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'refresh_token_already_redeemed']);
 
 		$accessToken = new AccessToken();
-		$accessToken->setId(21);
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->id = 21;
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -753,18 +753,18 @@ class OauthApiControllerTest extends TestCase {
 	 */
 	private function arrangeSuccessfulTokenExchange(): PublicKeyToken {
 		$accessToken = new AccessToken();
-		$accessToken->setId(21);
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->id = 21;
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);

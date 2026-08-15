@@ -11,57 +11,41 @@ namespace OCA\OAuth2\Db;
 
 use OCA\OAuth2\Controller\OauthApiController;
 use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\IMapperException;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\AppFramework\ORM\Repository;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 /**
- * @template-extends QBMapper<AccessToken>
+ * @template-extends Repository<AccessToken>
  */
-class AccessTokenMapper extends QBMapper {
-
-	public function __construct(
-		IDBConnection $db,
-		private ITimeFactory $timeFactory,
-	) {
-		parent::__construct($db, 'oauth2_access_tokens');
-	}
+class AccessTokenMapper extends Repository {
+	const string entityClass = AccessToken::class;
 
 	/**
-	 * @param string $code
-	 * @return AccessToken
 	 * @throws AccessTokenNotFoundException
 	 */
 	public function getByCode(string $code): AccessToken {
-		$qb = $this->db->getQueryBuilder();
-		$qb
-			->select('*')
-			->from($this->tableName)
-			->where($qb->expr()->eq('hashed_code', $qb->createNamedParameter(hash('sha512', $code))));
-
 		try {
-			$token = $this->findEntity($qb);
-		} catch (IMapperException $e) {
+			return $this->findOneBy([
+				'hashedCode' => hash('sha512', $code),
+			]);
+		} catch (DoesNotExistException $e) {
 			throw new AccessTokenNotFoundException('Could not find access token', 0, $e);
 		}
-
-		return $token;
 	}
 
 	/**
-	 * delete all access token from a given client
-	 *
-	 * @param int $id
+	 * Delete all access token from a given client
 	 */
-	public function deleteByClientId(int $id) {
-		$qb = $this->db->getQueryBuilder();
-		$qb
-			->delete($this->tableName)
-			->where($qb->expr()->eq('client_id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-		$qb->executeStatement();
+	public function deleteByClientId(int $id): void {
+		$this->deleteBy([
+			'clientId' => $id,
+		]);
 	}
 
 	/**
@@ -69,16 +53,15 @@ class AccessTokenMapper extends QBMapper {
 	 * -> those that are old enough
 	 * and which never delivered any oauth token (still in authorization state)
 	 *
-	 * @return void
 	 * @throws Exception
 	 */
-	public function cleanupExpiredAuthorizationCode(): void {
-		$now = $this->timeFactory->now()->getTimestamp();
+	public function cleanupExpiredAuthorizationCode(ITimeFactory $timeFactory): void {
+		$now = $timeFactory->now()->getTimestamp();
 		$maxTokenCreationTs = $now - OauthApiController::AUTHORIZATION_CODE_EXPIRES_AFTER;
 
-		$qb = $this->db->getQueryBuilder();
+		$qb = $this->getDatabaseConnection()->getQueryBuilder();
 		$qb
-			->delete($this->tableName)
+			->delete($this->getTableName())
 			->where($qb->expr()->eq('token_count', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->lt('code_created_at', $qb->createNamedParameter($maxTokenCreationTs, IQueryBuilder::PARAM_INT)));
 		$qb->executeStatement();
@@ -87,17 +70,13 @@ class AccessTokenMapper extends QBMapper {
 	/**
 	 * Rotate an access token only if it still matches the caller's previously-read state.
 	 *
-	 * @param int $id
-	 * @param string $oldCode
-	 * @param string $newCode
-	 * @param string $encryptedToken
 	 * @param bool $expectAuthorizationCodeState Require the token to still be unused
 	 * @return int Number of updated rows
 	 */
 	public function rotateToken(int $id, string $oldCode, string $newCode, string $encryptedToken, bool $expectAuthorizationCodeState): int {
-		$qb = $this->db->getQueryBuilder();
+		$qb = $this->getDatabaseConnection()->getQueryBuilder();
 		$qb
-			->update($this->tableName)
+			->update($this->getTableName())
 			->set('hashed_code', $qb->createNamedParameter(hash('sha512', $newCode)))
 			->set('encrypted_token', $qb->createNamedParameter($encryptedToken))
 			->set('token_count', $qb->createFunction('token_count + 1'))

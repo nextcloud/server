@@ -15,7 +15,6 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
 use OCP\Util;
-use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
 
@@ -23,7 +22,6 @@ class Admin implements ISettings {
 		private IInitialState $initialState,
 		private ClientMapper $clientMapper,
 		private IURLGenerator $urlGenerator,
-		private LoggerInterface $logger,
 	) {
 	}
 
@@ -33,17 +31,13 @@ class Admin implements ISettings {
 		$result = [];
 
 		foreach ($clients as $client) {
-			try {
-				$result[] = [
-					'id' => $client->getId(),
-					'name' => $client->getName(),
-					'redirectUri' => $client->getRedirectUri(),
-					'clientId' => $client->getClientIdentifier(),
-					'clientSecret' => '',
-				];
-			} catch (\Exception $e) {
-				$this->logger->error('[Settings] OAuth client secret decryption error', ['exception' => $e]);
-			}
+			$result[] = [
+				'id' => $client->id,
+				'name' => $client->name,
+				'redirectUri' => $client->redirectUri,
+				'clientId' => $client->clientIdentifier,
+				'clientSecret' => '',
+			];
 		}
 		$this->initialState->provideInitialState('clients', $result);
 		$this->initialState->provideInitialState('oauth2-doc-link', $this->urlGenerator->linkToDocs('admin-oauth2'));

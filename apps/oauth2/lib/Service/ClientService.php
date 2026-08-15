@@ -49,19 +49,19 @@ class ClientService {
 	 */
 	public function addClient(string $name, string $redirectUri): array {
 		$client = new Client();
-		$client->setName($name);
-		$client->setRedirectUri($redirectUri);
+		$client->name = $name;
+		$client->redirectUri = $redirectUri;
 		$secret = $this->secureRandom->generate(64, self::validChars);
 		$hashedSecret = bin2hex($this->crypto->calculateHMAC($secret));
-		$client->setSecret($hashedSecret);
-		$client->setClientIdentifier($this->secureRandom->generate(64, self::validChars));
+		$client->secret = $hashedSecret;
+		$client->clientIdentifier = $this->secureRandom->generate(64, self::validChars);
 		$client = $this->clientMapper->insert($client);
 
 		return [
-			'id' => $client->getId(),
-			'name' => $client->getName(),
-			'redirectUri' => $client->getRedirectUri(),
-			'clientId' => $client->getClientIdentifier(),
+			'id' => $client->id,
+			'name' => $client->name,
+			'redirectUri' => $client->redirectUri,
+			'clientId' => $client->clientIdentifier,
 			'clientSecret' => $secret,
 		];
 	}
@@ -74,7 +74,7 @@ class ClientService {
 			// OAuth2 client does not silently cancel a pending wipe.
 			$tokens = $this->tokenProvider->getTokenByUser($user->getUID());
 			foreach ($tokens as $token) {
-				if ($token->getName() !== $client->getName()) {
+				if ($token->getName() !== $client->name) {
 					continue;
 				}
 				try {

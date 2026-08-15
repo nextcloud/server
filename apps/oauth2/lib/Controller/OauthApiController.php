@@ -113,7 +113,7 @@ class OauthApiController extends Controller {
 
 		if ($grant_type === 'authorization_code') {
 			// check this token is in authorization code state
-			$deliveredTokenCount = $accessToken->getTokenCount();
+			$deliveredTokenCount = $accessToken->tokenCount;
 			if ($deliveredTokenCount > 0) {
 				$response = new JSONResponse([
 					'error' => 'invalid_request',
@@ -124,7 +124,7 @@ class OauthApiController extends Controller {
 
 			// check authorization code expiration
 			$now = $this->timeFactory->now()->getTimestamp();
-			$codeCreatedAt = $accessToken->getCodeCreatedAt();
+			$codeCreatedAt = $accessToken->codeCreatedAt;
 			if ($codeCreatedAt < $now - self::AUTHORIZATION_CODE_EXPIRES_AFTER) {
 				// we know this token is not useful anymore
 				$this->accessTokenMapper->delete($accessToken);
@@ -139,12 +139,12 @@ class OauthApiController extends Controller {
 		}
 
 		try {
-			$client = $this->clientMapper->getByUid($accessToken->getClientId());
+			$client = $this->clientMapper->getByUid($accessToken->clientId);
 		} catch (ClientNotFoundException $e) {
 			$response = new JSONResponse([
 				'error' => 'invalid_request',
 			], Http::STATUS_BAD_REQUEST);
-			$response->throttle(['invalid_request' => 'client not found', 'client_id' => $accessToken->getClientId()]);
+			$response->throttle(['invalid_request' => 'client not found', 'client_id' => $accessToken->clientId]);
 			return $response;
 		}
 
@@ -154,7 +154,7 @@ class OauthApiController extends Controller {
 		}
 
 		try {
-			$storedClientSecretHash = $client->getSecret();
+			$storedClientSecretHash = $client->secret;
 			$clientSecretHash = bin2hex($this->crypto->calculateHMAC($client_secret));
 		} catch (\Exception $e) {
 			$this->logger->error('OAuth client secret decryption error', ['exception' => $e]);
@@ -164,7 +164,7 @@ class OauthApiController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 		// The client id and secret must match. Else we don't provide an access token!
-		if ($client->getClientIdentifier() !== $client_id || $storedClientSecretHash !== $clientSecretHash) {
+		if ($client->clientIdentifier !== $client_id || $storedClientSecretHash !== $clientSecretHash) {
 			$response = new JSONResponse([
 				'error' => 'invalid_client',
 			], Http::STATUS_BAD_REQUEST);
@@ -172,11 +172,11 @@ class OauthApiController extends Controller {
 			return $response;
 		}
 
-		$decryptedToken = $this->crypto->decrypt($accessToken->getEncryptedToken(), $code);
+		$decryptedToken = $this->crypto->decrypt($accessToken->encryptedToken, $code);
 
 		// Obtain the appToken associated
 		try {
-			$appToken = $this->tokenProvider->getTokenById($accessToken->getTokenId());
+			$appToken = $this->tokenProvider->getTokenById($accessToken->tokenId);
 		} catch (ExpiredTokenException $e) {
 			$appToken = $e->getToken();
 		} catch (InvalidTokenException $e) {
@@ -200,7 +200,7 @@ class OauthApiController extends Controller {
 		$this->db->beginTransaction();
 		try {
 			$updatedRows = $this->accessTokenMapper->rotateToken(
-				$accessToken->getId(),
+				$accessToken->id,
 				$code,
 				$newCode,
 				$newEncryptedToken,

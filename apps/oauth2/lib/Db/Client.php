@@ -9,34 +9,26 @@ declare(strict_types=1);
 
 namespace OCA\OAuth2\Db;
 
-use OCP\AppFramework\Db\Entity;
-use OCP\DB\Types;
 
-/**
- * @method string getClientIdentifier()
- * @method void setClientIdentifier(string $identifier)
- * @method string getSecret()
- * @method void setSecret(string $secret)
- * @method string getRedirectUri()
- * @method void setRedirectUri(string $redirectUri)
- * @method string getName()
- * @method void setName(string $name)
- */
-class Client extends Entity {
-	/** @var string */
-	protected $name;
-	/** @var string */
-	protected $redirectUri;
-	/** @var string */
-	protected $clientIdentifier;
-	/** @var string */
-	protected $secret;
+use OCP\AppFramework\ORM\Attribute\Column;
+use OCP\AppFramework\ORM\Attribute\Entity;
+use OCP\AppFramework\ORM\Attribute\Id;
+use OCP\DB\Schema\ColumnType;
 
-	public function __construct() {
-		$this->addType('id', Types::INTEGER);
-		$this->addType('name', 'string');
-		$this->addType('redirectUri', 'string');
-		$this->addType('clientIdentifier', 'string');
-		$this->addType('secret', 'string');
-	}
+#[Entity(name: 'oauth2_clients')]
+class Client {
+	#[Id, Column(name: 'id', type: ColumnType::Integer)]
+	public int $id;
+
+	#[Column(name: 'name', type: ColumnType::String, length: 64)]
+	public string $name;
+
+	#[Column(name: 'redirect_uri', type: ColumnType::String, length: 2000)]
+	public string $redirectUri;
+
+	#[Column(name: 'client_identifier', type: ColumnType::String, length: 64)]
+	public string $clientIdentifier;
+
+	#[Column(name: 'secret', type: ColumnType::String, length: 512)]
+	public string $secret;
 }

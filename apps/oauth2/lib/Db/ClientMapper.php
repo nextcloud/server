@@ -10,22 +10,18 @@ declare(strict_types=1);
 namespace OCA\OAuth2\Db;
 
 use OCA\OAuth2\Exceptions\ClientNotFoundException;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\IMapperException;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\AppFramework\ORM\Repository;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 /**
- * @template-extends QBMapper<Client>
+ * @template-extends Repository<Client>
  */
-class ClientMapper extends QBMapper {
-
-	/**
-	 * @param IDBConnection $db
-	 */
-	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'oauth2_clients');
-	}
+class ClientMapper extends Repository {
+	public const string entityClass = Client::class;
 
 	/**
 	 * @param string $clientIdentifier
@@ -33,18 +29,13 @@ class ClientMapper extends QBMapper {
 	 * @throws ClientNotFoundException
 	 */
 	public function getByIdentifier(string $clientIdentifier): Client {
-		$qb = $this->db->getQueryBuilder();
-		$qb
-			->select('*')
-			->from($this->tableName)
-			->where($qb->expr()->eq('client_identifier', $qb->createNamedParameter($clientIdentifier)));
-
 		try {
-			$client = $this->findEntity($qb);
-		} catch (IMapperException $e) {
-			throw new ClientNotFoundException('could not find client ' . $clientIdentifier, 0, $e);
+			return $this->findOneBy([
+				'clientIdentifier' => $clientIdentifier,
+			]);
+		} catch (DoesNotExistException $e) {
+			throw new ClientNotFoundException('Could not find client ' . $clientIdentifier, previous: $e);
 		}
-		return $client;
 	}
 
 	/**
@@ -53,29 +44,19 @@ class ClientMapper extends QBMapper {
 	 * @throws ClientNotFoundException
 	 */
 	public function getByUid(int $id): Client {
-		$qb = $this->db->getQueryBuilder();
-		$qb
-			->select('*')
-			->from($this->tableName)
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-
 		try {
-			$client = $this->findEntity($qb);
-		} catch (IMapperException $e) {
-			throw new ClientNotFoundException('could not find client with id ' . $id, 0, $e);
+			return $this->findOneBy([
+				'id' => $id,
+			]);
+		} catch (DoesNotExistException $e) {
+			throw new ClientNotFoundException('could not find client with id ' . $id, previous: $e);
 		}
-		return $client;
 	}
 
 	/**
-	 * @return Client[]
+	 * @return \Generator<Client>
 	 */
-	public function getClients(): array {
-		$qb = $this->db->getQueryBuilder();
-		$qb
-			->select('*')
-			->from($this->tableName);
-
-		return $this->findEntities($qb);
+	public function getClients(): \Generator {
+		return $this->yieldAll();
 	}
 }
