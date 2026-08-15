@@ -29,6 +29,78 @@ class NoPrimaryKey {
 	public ?int $id = null;
 }
 
+enum OrderStatus: string {
+	case Draft = 'draft';
+	case Placed = 'placed';
+	case Shipped = 'shipped';
+}
+
+enum Priority: int {
+	case Low = 1;
+	case High = 2;
+}
+
+enum NotBacked {
+	case Foo;
+}
+
+#[Entity(name: 'repository_enum_order')]
+final class EnumOrder {
+	#[Id]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
+	public ?int $id = null;
+
+	#[Column(name: 'status', type: ColumnType::String, length: 32, enumType: OrderStatus::class, default: OrderStatus::Draft)]
+	public OrderStatus $status = OrderStatus::Draft;
+
+	#[Column(name: 'priority', type: ColumnType::Integer, enumType: Priority::class)]
+	public Priority $priority;
+
+	#[Column(name: 'previous_status', type: ColumnType::String, length: 32, nullable: true, enumType: OrderStatus::class)]
+	public ?OrderStatus $previousStatus = null;
+}
+
+#[Entity(name: 'repository_enum_unknown_class')]
+final class EnumUnknownClass {
+	#[Id]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
+	public ?int $id = null;
+
+	#[Column(name: 'status', type: ColumnType::String, enumType: 'OCP\AppFramework\ORM\Attribute\ThisClassDoesNotExist')]
+	public string $status;
+}
+
+#[Entity(name: 'repository_enum_not_backed')]
+final class EnumNotBacked {
+	#[Id]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
+	public ?int $id = null;
+
+	#[Column(name: 'status', type: ColumnType::String, enumType: NotBacked::class)]
+	public NotBacked $status;
+}
+
+#[Entity(name: 'repository_enum_type_mismatch')]
+final class EnumTypeMismatch {
+	#[Id]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
+	public ?int $id = null;
+
+	#[Column(name: 'status', type: ColumnType::String, enumType: OrderStatus::class)]
+	public string $status;
+}
+
+#[Entity(name: 'repository_enum_column_mismatch')]
+final class EnumColumnTypeMismatch {
+	#[Id]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
+	public ?int $id = null;
+
+	// Priority is int-backed, but the column is declared as a string.
+	#[Column(name: 'priority', type: ColumnType::String, enumType: Priority::class)]
+	public Priority $priority;
+}
+
 #[Entity(name: 'repository_test_test2')]
 class PrimaryKey {
 	#[Id]
@@ -196,6 +268,7 @@ class RepositoryTest extends TestCase {
 		CascadeChild::class,
 		Merchant::class,
 		Order::class,
+		EnumOrder::class,
 	];
 
 	public static function setUpBeforeClass(): void {
@@ -643,5 +716,120 @@ class RepositoryTest extends TestCase {
 				. 'WHERE e.id = :dcValue1',
 			$this->normalizeSql($qb->getSQL()),
 		);
+	}
+
+	public function testEnumColumnRoundTrip(): void {
+		$repo = $this->getRepository(EnumOrder::class);
+
+		$order = new EnumOrder();
+		$order->status = OrderStatus::Placed;
+		$order->priority = Priority::High;
+		$repo->insert($order);
+		$this->assertNotNull($order->id);
+
+		$saved = $repo->findOneBy(['id' => $order->id]);
+		$this->assertSame(OrderStatus::Placed, $saved->status);
+		$this->assertSame(Priority::High, $saved->priority);
+		$this->assertNull($saved->previousStatus);
+
+		$repo->delete($saved);
+	}
+
+	public function testEnumColumnDefault(): void {
+		$repo = $this->getRepository(EnumOrder::class);
+
+		$order = new EnumOrder();
+		$order->priority = Priority::Low;
+		$this->assertSame(OrderStatus::Draft, $order->status);
+
+		$repo->insert($order);
+		$saved = $repo->findOneBy(['id' => $order->id]);
+		$this->assertSame(OrderStatus::Draft, $saved->status);
+
+		$repo->delete($saved);
+	}
+
+	public function testEnumColumnUpdate(): void {
+		$repo = $this->getRepository(EnumOrder::class);
+
+		$order = new EnumOrder();
+		$order->status = OrderStatus::Draft;
+		$order->priority = Priority::Low;
+		$repo->insert($order);
+
+		$order->previousStatus = $order->status;
+		$order->status = OrderStatus::Shipped;
+		$repo->update($order);
+
+		$saved = $repo->findOneBy(['id' => $order->id]);
+		$this->assertSame(OrderStatus::Shipped, $saved->status);
+		$this->assertSame(OrderStatus::Draft, $saved->previousStatus);
+
+		$repo->delete($saved);
+	}
+
+	public function testFindByEnumCriteria(): void {
+		$repo = $this->getRepository(EnumOrder::class);
+
+		$placed = new EnumOrder();
+		$placed->status = OrderStatus::Placed;
+		$placed->priority = Priority::High;
+		$repo->insert($placed);
+
+		$shipped = new EnumOrder();
+		$shipped->status = OrderStatus::Shipped;
+		$shipped->priority = Priority::Low;
+		$repo->insert($shipped);
+
+		$found = $repo->findOneBy(['status' => OrderStatus::Placed]);
+		$this->assertSame($placed->id, $found->id);
+
+		// IN (...) form with a list of enum cases
+		$both = iterator_to_array($repo->findBy(['status' => [OrderStatus::Placed, OrderStatus::Shipped]]));
+		$this->assertCount(2, $both);
+
+		$repo->delete($placed);
+		$repo->delete($shipped);
+	}
+
+	public function testDeleteByEnumCriteria(): void {
+		$repo = $this->getRepository(EnumOrder::class);
+
+		$order = new EnumOrder();
+		$order->status = OrderStatus::Draft;
+		$order->priority = Priority::Low;
+		$repo->insert($order);
+
+		$repo->deleteBy(['status' => OrderStatus::Draft]);
+
+		$this->assertCount(0, iterator_to_array($repo->findBy(['id' => $order->id])));
+	}
+
+	public function testEnumTypeMustExist(): void {
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('that class is not an enum');
+
+		Server::get(EntityManager::class)->getEntityInfo(EnumUnknownClass::class);
+	}
+
+	public function testEnumTypeMustBeBacked(): void {
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('that enum is not backed');
+
+		Server::get(EntityManager::class)->getEntityInfo(EnumNotBacked::class);
+	}
+
+	public function testEnumTypeMustMatchPropertyType(): void {
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('the property is typed as string instead');
+
+		Server::get(EntityManager::class)->getEntityInfo(EnumTypeMismatch::class);
+	}
+
+	public function testEnumBackingTypeMustMatchColumnType(): void {
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage("cannot hold a(n) int-backed enum's value");
+
+		Server::get(EntityManager::class)->getEntityInfo(EnumColumnTypeMismatch::class);
 	}
 }
