@@ -22,8 +22,8 @@ use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
-class ClientService {
-	public const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+final class ClientService {
+	public const string validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 	public function __construct(
 		private readonly ISecureRandom $secureRandom,
@@ -51,9 +51,11 @@ class ClientService {
 		$client = new Client();
 		$client->name = $name;
 		$client->redirectUri = $redirectUri;
+		/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 		$secret = $this->secureRandom->generate(64, self::validChars);
 		$hashedSecret = bin2hex($this->crypto->calculateHMAC($secret));
 		$client->secret = $hashedSecret;
+		/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 		$client->clientIdentifier = $this->secureRandom->generate(64, self::validChars);
 		$client = $this->clientMapper->insert($client);
 

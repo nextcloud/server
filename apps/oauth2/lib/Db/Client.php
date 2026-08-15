@@ -15,8 +15,11 @@ use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\DB\Schema\ColumnType;
 
+/**
+ * @psalm-suppress MissingConstructor ORM based hydration
+ */
 #[Entity(name: 'oauth2_clients')]
-class Client {
+final class Client {
 	#[Id, Column(name: 'id', type: ColumnType::Integer)]
 	public int $id;
 

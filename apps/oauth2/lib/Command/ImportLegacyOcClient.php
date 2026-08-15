@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportLegacyOcClient extends Command {
+final class ImportLegacyOcClient extends Command {
 	private const string ARGUMENT_CLIENT_ID = 'client-id';
 	private const string ARGUMENT_CLIENT_SECRET = 'client-secret';
 

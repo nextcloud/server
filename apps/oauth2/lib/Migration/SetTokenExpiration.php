@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace OCA\OAuth2\Migration;
 
 use OC\Authentication\Token\IProvider as TokenProvider;
-use OCA\OAuth2\Db\AccessToken;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
-class SetTokenExpiration implements IRepairStep {
+final class SetTokenExpiration implements IRepairStep {
 
 	public function __construct(
 		private IDBConnection $connection,
@@ -32,17 +31,17 @@ class SetTokenExpiration implements IRepairStep {
 	}
 
 	#[\Override]
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('*')
+		$qb->select('token_id')
 			->from('oauth2_access_tokens');
 
 		$cursor = $qb->executeQuery();
 
-		while ($row = $cursor->fetchAssociative()) {
-			$token = AccessToken::fromRow($row);
+		while (($row = $cursor->fetchAssociative()) !== false) {
+			$tokenId = (int)$row['token_id'];
 			try {
-				$appToken = $this->tokenProvider->getTokenById($token->getTokenId());
+				$appToken = $this->tokenProvider->getTokenById($tokenId);
 				$appToken->setExpires($this->time->getTime() + 3600);
 				$this->tokenProvider->updateToken($appToken);
 			} catch (InvalidTokenException $e) {

@@ -16,7 +16,7 @@ use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
 use OCP\Util;
 
-class Admin implements ISettings {
+final class Admin implements ISettings {
 
 	public function __construct(
 		private IInitialState $initialState,

@@ -37,6 +37,7 @@ final class LoginRedirectorControllerTest extends TestCase {
 
 	private LoginRedirectorController $loginRedirectorController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 

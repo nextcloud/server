@@ -19,6 +19,7 @@ use OCP\IDBConnection;
 
 /**
  * @template-extends Repository<Client>
+ * @psalm-suppress ClassMustBeFinal For unit tests
  */
 class ClientMapper extends Repository {
 	public const string entityClass = Client::class;

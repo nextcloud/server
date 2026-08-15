@@ -17,6 +17,7 @@ use Test\TestCase;
 final class AccessTokenMapperTest extends TestCase {
 	private AccessTokenMapper $accessTokenMapper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->accessTokenMapper = Server::get(AccessTokenMapper::class);

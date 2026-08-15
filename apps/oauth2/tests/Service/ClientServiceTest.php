@@ -34,6 +34,7 @@ final class ClientServiceTest extends TestCase {
 	private ICrypto&MockObject $crypto;
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -111,6 +112,7 @@ final class ClientServiceTest extends TestCase {
 		};
 		$userManager->callForAllUsers($function);
 		$user1 = $userManager->createUser('test101', 'test101');
+		$this->assertInstanceOf(IUser::class, $user1);
 		$user1->updateLastLoginTimestamp();
 		$tokenProviderMock = $this->getMockBuilder(IAuthTokenProvider::class)->getMock();
 
@@ -161,6 +163,7 @@ final class ClientServiceTest extends TestCase {
 	public function testDeleteClientPreservesWipePendingToken(): void {
 		$userManager = Server::get(IUserManager::class);
 		$user = $userManager->createUser('test_wipe_preserve', 'test_wipe_preserve');
+		$this->assertInstanceOf(IUser::class, $user);
 		$user->updateLastLoginTimestamp();
 
 		$client = new Client();

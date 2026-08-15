@@ -16,14 +16,15 @@ use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
 final class ClientMapperTest extends TestCase {
-	/** @var ClientMapper */
-	private $clientMapper;
+	private ClientMapper $clientMapper;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 		$this->clientMapper = Server::get(ClientMapper::class);
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->delete('oauth2_clients')->executeStatement();

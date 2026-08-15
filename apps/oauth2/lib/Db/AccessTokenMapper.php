@@ -22,6 +22,7 @@ use OCP\IDBConnection;
 
 /**
  * @template-extends Repository<AccessToken>
+ * @psalm-suppress ClassMustBeFinal For unit tests
  */
 class AccessTokenMapper extends Repository {
 	const string entityClass = AccessToken::class;

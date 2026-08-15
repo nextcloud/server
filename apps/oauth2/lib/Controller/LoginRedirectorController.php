@@ -29,7 +29,7 @@ use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-class LoginRedirectorController extends Controller {
+final class LoginRedirectorController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -88,6 +88,7 @@ class LoginRedirectorController extends Controller {
 
 		if (in_array($client->name, $this->appConfig->getValueArray('oauth2', 'skipAuthPickerApplications', []))) {
 			/** @see ClientFlowLoginController::showAuthPickerPage **/
+			/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 			$stateToken = $this->random->generate(
 				64,
 				ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS

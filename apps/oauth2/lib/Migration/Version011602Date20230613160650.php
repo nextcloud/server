@@ -10,11 +10,10 @@ declare(strict_types=1);
 namespace OCA\OAuth2\Migration;
 
 use Closure;
-use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version011602Date20230613160650 extends SimpleMigrationStep {
+final class Version011602Date20230613160650 extends SimpleMigrationStep {
 
 	public function __construct(
 	) {
@@ -22,7 +21,6 @@ class Version011602Date20230613160650 extends SimpleMigrationStep {
 
 	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
-		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
 		if ($schema->hasTable('oauth2_clients')) {

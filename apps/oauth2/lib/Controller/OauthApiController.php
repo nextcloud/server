@@ -40,9 +40,9 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-class OauthApiController extends Controller {
+final class OauthApiController extends Controller {
 	// the authorization code expires after 10 minutes
-	public const AUTHORIZATION_CODE_EXPIRES_AFTER = 10 * 60;
+	public const int AUTHORIZATION_CODE_EXPIRES_AFTER = 10 * 60;
 
 	public function __construct(
 		string $appName,
@@ -69,6 +69,7 @@ class OauthApiController extends Controller {
 	 * Get a token
 	 *
 	 * @param 'authorization_code'|'refresh_token' $grant_type Token type that should be granted
+	 * @psalm-param string $grant_type
 	 * @param ?string $code Code of the flow
 	 * @param ?string $refresh_token Refresh token
 	 * @param ?string $client_id Client ID
@@ -99,6 +100,14 @@ class OauthApiController extends Controller {
 		// We handle the initial and refresh tokens the same way
 		if ($grant_type === 'refresh_token') {
 			$code = $refresh_token;
+		}
+
+		if ($code === null) {
+			$response = new JSONResponse([
+				'error' => 'invalid_request',
+			], Http::STATUS_BAD_REQUEST);
+			$response->throttle(['invalid_request' => 'token not found']);
+			return $response;
 		}
 
 		try {
@@ -148,9 +157,21 @@ class OauthApiController extends Controller {
 			return $response;
 		}
 
+		/**
+		 * @psalm-suppress NoInterfaceProperties, MixedArrayAccess
+		 * IRequest exposes $server via a magic @property-read for the request's $_SERVER superglobal.
+		 */
 		if (isset($this->request->server['PHP_AUTH_USER'])) {
-			$client_id = $this->request->server['PHP_AUTH_USER'];
-			$client_secret = $this->request->server['PHP_AUTH_PW'];
+			$client_id = (string)$this->request->server['PHP_AUTH_USER'];
+			$client_secret = (string)$this->request->server['PHP_AUTH_PW'];
+		}
+
+		if ($client_secret === null) {
+			$response = new JSONResponse([
+				'error' => 'invalid_client',
+			], Http::STATUS_BAD_REQUEST);
+			$response->throttle(['invalid_client' => 'client ID or secret does not match']);
+			return $response;
 		}
 
 		try {
@@ -190,7 +211,9 @@ class OauthApiController extends Controller {
 		}
 
 		// Rotate the apptoken (so the old one becomes invalid basically)
+		/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 		$newToken = $this->secureRandom->generate(72, ISecureRandom::CHAR_ALPHANUMERIC);
+		/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_ALPHANUMERIC);
 		$newEncryptedToken = $this->crypto->encrypt($newToken, $newCode);
 		$redeemedThrottleReason = $grant_type === 'authorization_code'
@@ -277,7 +300,9 @@ class OauthApiController extends Controller {
 		}
 
 		try {
-			return $globalScaleService->sendToSecondary($user, $this->urlGenerator->linkToRoute('oauth2.OauthApi.pushToken'), [
+			/** @var non-empty-string $pushRouteUrl */
+			$pushRouteUrl = $this->urlGenerator->linkToRoute('oauth2.OauthApi.pushToken');
+			return $globalScaleService->sendToSecondary($user, $pushRouteUrl, [
 				'uid' => $appToken->getUID(),
 				'loginName' => $appToken->getLoginName(),
 				'name' => $appToken->getName(),

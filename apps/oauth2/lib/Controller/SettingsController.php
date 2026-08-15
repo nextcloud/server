@@ -17,7 +17,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IL10N;
 use OCP\IRequest;
 
-class SettingsController extends Controller {
+final class SettingsController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -30,7 +30,11 @@ class SettingsController extends Controller {
 	#[PasswordConfirmationRequired(strict: true)]
 	public function addClient(string $name,
 		string $redirectUri): JSONResponse {
-		if (filter_var($redirectUri, FILTER_VALIDATE_URL) === false) {
+		if ($name === '') {
+			return new JSONResponse(['message' => $this->l->t('Client name cannot be empty.')], Http::STATUS_BAD_REQUEST);
+		}
+
+		if ($redirectUri === '' || filter_var($redirectUri, FILTER_VALIDATE_URL) === false) {
 			return new JSONResponse(['message' => $this->l->t('Your redirect URL needs to be a full URL for example: https://yourdomain.com/path')], Http::STATUS_BAD_REQUEST);
 		}
 

@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DeleteClient extends Base {
+final class DeleteClient extends Base {
 	private const string ARGUMENT_CLIENT_ID = 'client-id';
 
 	public function __construct(

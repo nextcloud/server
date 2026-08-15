@@ -7,8 +7,6 @@
 
 namespace OCA\OAuth2\Tests\Controller;
 
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OC\Authentication\Token\PublicKeyToken;
 use OCA\OAuth2\Controller\OauthApiController;
@@ -21,6 +19,8 @@ use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\GlobalScale\IGlobalScaleService;
@@ -44,7 +44,7 @@ abstract class RequestMock implements IRequest {
 }
 
 final class OauthApiControllerTest extends TestCase {
-	private IRequest&MockObject $request;
+	private RequestMock&MockObject $request;
 	private ICrypto&MockObject $crypto;
 	private AccessTokenMapper&MockObject $accessTokenMapper;
 	private ClientMapper&MockObject $clientMapper;
@@ -61,6 +61,7 @@ final class OauthApiControllerTest extends TestCase {
 	private ContainerInterface&MockObject $container;
 	private OauthApiController $oauthApiController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -238,7 +239,7 @@ final class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', null, null));
 	}
 
-	public static function invalidClientProvider() {
+	public static function invalidClientProvider(): array {
 		return [
 			['invalidClientId', 'invalidClientSecret'],
 			['clientId', 'invalidClientSecret'],
@@ -368,7 +369,7 @@ final class OauthApiControllerTest extends TestCase {
 			->with($accessToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function ($len) {
+			->willReturnCallback(function (int $len) {
 				return 'random' . $len;
 			});
 
@@ -478,7 +479,7 @@ final class OauthApiControllerTest extends TestCase {
 			->with($accessToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function ($len) {
+			->willReturnCallback(function (int $len) {
 				return 'random' . $len;
 			});
 
@@ -591,7 +592,7 @@ final class OauthApiControllerTest extends TestCase {
 			->with($accessToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function ($len) {
+			->willReturnCallback(function (int $len) {
 				return 'random' . $len;
 			});
 
@@ -702,7 +703,7 @@ final class OauthApiControllerTest extends TestCase {
 			->willReturn($appToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function ($len) {
+			->willReturnCallback(function (int $len) {
 				return 'random' . $len;
 			});
 
@@ -792,7 +793,7 @@ final class OauthApiControllerTest extends TestCase {
 			->willReturn($appToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function ($len) {
+			->willReturnCallback(function (int $len) {
 				return 'random' . $len;
 			});
 		$this->time->method('getTime')->willReturn(1000);

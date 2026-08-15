@@ -17,7 +17,7 @@ use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version011603Date20230620111039 extends SimpleMigrationStep {
+final class Version011603Date20230620111039 extends SimpleMigrationStep {
 
 	public function __construct(
 		private IDBConnection $connection,
@@ -26,7 +26,6 @@ class Version011603Date20230620111039 extends SimpleMigrationStep {
 
 	#[\Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
-		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
 		if ($schema->hasTable('oauth2_access_tokens')) {

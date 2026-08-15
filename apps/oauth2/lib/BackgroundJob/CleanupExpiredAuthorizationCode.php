@@ -15,7 +15,7 @@ use OCP\BackgroundJob\TimedJob;
 use OCP\DB\Exception;
 use Psr\Log\LoggerInterface;
 
-class CleanupExpiredAuthorizationCode extends TimedJob {
+final class CleanupExpiredAuthorizationCode extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $timeFactory,
