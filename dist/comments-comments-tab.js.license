@@ -271,7 +271,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.14.1
+	- version: 6.15.3
 	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
@@ -292,7 +292,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.2
 	- license: MIT
 - side-channel-list
-	- version: 1.0.0
+	- version: 1.0.1
 	- license: MIT
 - side-channel-map
 	- version: 1.0.1
@@ -301,7 +301,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - side-channel
-	- version: 1.1.0
+	- version: 1.1.1
 	- license: MIT
 - readable-stream
 	- version: 3.6.2
