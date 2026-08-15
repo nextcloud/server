@@ -57,7 +57,7 @@ class AccessTokenMapper extends Repository {
 		$now = $timeFactory->now()->getTimestamp();
 		$maxTokenCreationTs = $now - OauthApiController::AUTHORIZATION_CODE_EXPIRES_AFTER;
 
-		$qb = $this->getDatabaseConnection()->getQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->delete($this->getTableName())
 			->where($qb->expr()->eq('token_count', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
@@ -72,7 +72,7 @@ class AccessTokenMapper extends Repository {
 	 * @return int Number of updated rows
 	 */
 	public function rotateToken(int $id, string $oldCode, string $newCode, string $encryptedToken, bool $expectAuthorizationCodeState): int {
-		$qb = $this->getDatabaseConnection()->getQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->update($this->getTableName())
 			->set('hashed_code', $qb->createNamedParameter(hash('sha512', $newCode)))

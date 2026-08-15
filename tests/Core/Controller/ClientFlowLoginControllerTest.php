@@ -202,8 +202,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 				['OCS-APIREQUEST', 'false'],
 			]);
 		$client = new Client();
-		$client->setName('My external service');
-		$client->setRedirectUri('https://example.com/redirect.php');
+		$client->name = 'My external service';
+		$client->redirectUri = 'https://example.com/redirect.php';
 		$this->clientMapper
 			->expects($this->once())
 			->method('getByIdentifier')
@@ -491,8 +491,9 @@ class ClientFlowLoginControllerTest extends TestCase {
 			)
 			->willReturn($token);
 		$client = new Client();
-		$client->setName('My OAuth client');
-		$client->setRedirectUri($redirectUri);
+		$client->id = 42;
+		$client->name = 'My OAuth client';
+		$client->redirectUri = $redirectUri;
 		$this->clientMapper
 			->expects($this->once())
 			->method('getByIdentifier')
