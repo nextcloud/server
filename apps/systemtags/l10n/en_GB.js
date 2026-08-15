@@ -46,6 +46,7 @@ OC.L10N.register(
     "Collaborative tagging functionality which shares tags among people." : "Collaborative tagging functionality which shares tags among people.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)",
     "Search tags" : "Search tags",
+    "No tags available" : "No tags available",
     "Public" : "Public",
     "Restricted" : "Restricted",
     "Invisible" : "Invisible",
