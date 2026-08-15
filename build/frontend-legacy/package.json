@@ -59,7 +59,7 @@
     "camelcase": "^9.0.0",
     "cancelable-promise": "^4.3.1",
     "color": "^5.0.3",
-    "core-js": "^3.49.0",
+    "core-js": "^3.50.0",
     "crypto-browserify": "^3.12.1",
     "debounce": "^3.0.0",
     "dompurify": "^3.4.13",
