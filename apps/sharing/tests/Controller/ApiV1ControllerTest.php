@@ -39,23 +39,26 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 		$user = Server::get(IUserManager::class)->createUser('user', 'password');
 		$this->assertNotFalse($user);
 
-		self::loginAsUser($user->getUID());
+		try {
+			self::loginAsUser($user->getUID());
 
-		$controller = new ApiV1Controller(
-			'',
-			Server::get(IRequest::class),
-			Server::get(IUserSession::class),
-			Server::get(ISharingManager::class),
-			$this->registry,
-			Server::get(IFactory::class),
-			Server::get(IURLGenerator::class),
-			Server::get(IUserManager::class),
-			Server::get(IDBConnection::class),
-		);
+			$controller = new ApiV1Controller(
+				'',
+				Server::get(IRequest::class),
+				Server::get(IUserSession::class),
+				Server::get(ISharingManager::class),
+				$this->registry,
+				Server::get(IFactory::class),
+				Server::get(IURLGenerator::class),
+				Server::get(IUserManager::class),
+				Server::get(IDBConnection::class),
+			);
 
-		$this->assertEquals(new ShareAccessContext($user), $controller->accessContext);
-
-		self::logout();
+			$this->assertEquals(new ShareAccessContext($user), $controller->accessContext);
+		} finally {
+			self::logout();
+			$user->delete();
+		}
 	}
 
 	/**
