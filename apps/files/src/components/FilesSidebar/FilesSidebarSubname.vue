@@ -22,6 +22,10 @@ const size = computed(() => formatFileSize(props.node.size ?? 0))
 
 <template>
 	<div :class="$style.filesSidebarSubname">
+		<div class="filesSidebarSubname__path">
+			{{ node.path }}
+		</div>
+
 		<NcIconSvgWrapper
 			v-if="isFavourited"
 			inline
