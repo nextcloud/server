@@ -128,3 +128,44 @@ describe('NewUserDialog loading feedback', () => {
 		expect(wrapper.find('form').attributes('aria-busy')).toBe('false')
 	})
 })
+
+function mountDialogWithUsername(username: string) {
+	return mount(NewUserDialog, {
+		propsData: {
+			loading: { all: false },
+			newUser: makeNewUser({ username }),
+			quotaOptions: [],
+		},
+	})
+}
+
+describe('NewUserDialog non-ASCII account name warning', () => {
+	beforeEach(() => {
+		vi.clearAllMocks()
+	})
+
+	it('stays quiet for a plain ASCII account name', () => {
+		expect(mountDialogWithUsername('juergen').text())
+			.not.toContain('non-ASCII characters')
+	})
+
+	it('stays quiet for an empty account name', () => {
+		expect(mountDialogWithUsername('').text())
+			.not.toContain('non-ASCII characters')
+	})
+
+	it('warns about an account name with umlauts', () => {
+		expect(mountDialogWithUsername('jürgen').text())
+			.toContain('non-ASCII characters')
+	})
+
+	it('warns about an account name with accented characters', () => {
+		expect(mountDialogWithUsername('ótzï').text())
+			.toContain('non-ASCII characters')
+	})
+
+	it('warns about an account name in a non-latin script', () => {
+		expect(mountDialogWithUsername('北京').text())
+			.toContain('non-ASCII characters')
+	})
+})

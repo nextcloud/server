@@ -20,6 +20,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -243,6 +244,16 @@ class Manager extends PublicEmitter implements IUserManager {
 		$loginName = str_replace("\0", '', $loginName);
 		$password = str_replace("\0", '', $password);
 
+		if ($this->allowUnicodeUsernames() && class_exists(\Normalizer::class)) {
+			// Normalize the login name to NFC so that decomposed input
+			// (e.g. NFD sent by some clients) matches the NFC form the
+			// account ID was normalized to on creation
+			$normalized = \Normalizer::normalize($loginName, \Normalizer::FORM_C);
+			if ($normalized !== false) {
+				$loginName = $normalized;
+			}
+		}
+
 		$cachedBackend = $this->cache->get($loginName);
 		if ($cachedBackend !== null && isset($this->backends[$cachedBackend])) {
 			$backends = [$this->backends[$cachedBackend]];
@@ -437,6 +448,14 @@ class Manager extends PublicEmitter implements IUserManager {
 	#[\Override]
 	public function createUserFromBackend($uid, $password, UserInterface $backend): IUser|false {
 		$l = Util::getL10N('lib');
+
+		if ($this->allowUnicodeUsernames() && class_exists(\Normalizer::class)) {
+			// Store non-ASCII account IDs in canonical composed form (NFC)
+			$normalized = \Normalizer::normalize($uid, \Normalizer::FORM_C);
+			if ($normalized !== false) {
+				$uid = $normalized;
+			}
+		}
 
 		$this->validateUserId($uid, true);
 
@@ -740,7 +759,12 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		// Check the ID for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9", spaces and "_.@-'"
-		if (preg_match('/[^a-zA-Z0-9 _.@\-\']/', $uid)) {
+		// With 'allow_unicode_usernames' enabled, any printable Unicode in
+		// normalization form C is allowed instead, except characters that
+		// are unsafe for the data directory or URLs
+		if ($this->allowUnicodeUsernames()) {
+			$this->validateUnicodeUserId($uid, $l);
+		} elseif (preg_match('/[^a-zA-Z0-9 _.@\-\']/', $uid)) {
 			throw new \InvalidArgumentException($l->t('Only the following characters are allowed in an Login:'
 				. ' "a-z", "A-Z", "0-9", spaces and "_.@-\'"'));
 		}
@@ -821,6 +845,47 @@ class Manager extends PublicEmitter implements IUserManager {
 		$list = $queryBuilder->executeQuery()->fetchFirstColumn();
 
 		return $list;
+	}
+
+	/**
+	 * Whether non-ASCII (Unicode) account IDs are allowed on this instance.
+	 *
+	 * This is opt-in and has to be enabled explicitly by the admin through
+	 * the 'allow_unicode_usernames' entry in config.php.
+	 */
+	private function allowUnicodeUsernames(): bool {
+		return $this->config->getSystemValueBool('allow_unicode_usernames', false);
+	}
+
+	/**
+	 * Validate an account ID when Unicode account IDs are enabled.
+	 *
+	 * The ID has to be valid UTF-8 in normalization form C and must not
+	 * contain control, format, surrogate, private use or unassigned code
+	 * points, nor characters that are unsafe in the data directory or URLs.
+	 *
+	 * @throws \InvalidArgumentException
+	 */
+	private function validateUnicodeUserId(string $uid, IL10N $l): void {
+		if (!mb_check_encoding($uid, 'UTF-8')) {
+			throw new \InvalidArgumentException($l->t('Login must be valid UTF-8'));
+		}
+
+		if (class_exists(\Normalizer::class) && !\Normalizer::isNormalized($uid, \Normalizer::FORM_C)) {
+			throw new \InvalidArgumentException($l->t('Login must be in Unicode normalization form C (NFC)'));
+		}
+
+		// Reject control, format, surrogate, private use and unassigned code
+		// points. This includes bidi controls and zero width characters that
+		// could be used for spoofing account IDs.
+		if (preg_match('/\p{C}/u', $uid) !== 0) {
+			throw new \InvalidArgumentException($l->t('Login contains invisible or control characters'));
+		}
+
+		// Reject characters that are unsafe for the data directory or in URLs
+		if (preg_match('/[\/\\\\:*?"<>|#%]/', $uid) === 1) {
+			throw new \InvalidArgumentException($l->t('Login must not contain any of the following characters: %s', ['/ \\ : * ? " < > | # %']));
+		}
 	}
 
 	private function verifyUid(string $uid, bool $checkDataDirectory = false): bool {

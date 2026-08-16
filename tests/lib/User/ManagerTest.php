@@ -318,6 +318,124 @@ class ManagerTest extends TestCase {
 		$this->manager->createUser($uid, $password);
 	}
 
+	/**
+	 * Enable or disable the opt-in for Unicode account IDs on the config mock.
+	 */
+	private function allowUnicodeUsernames(bool $allow): void {
+		$this->config->method('getSystemValueBool')
+			->willReturnCallback(static fn (string $key, bool $default = false): bool
+				=> $key === 'allow_unicode_usernames' ? $allow : $default);
+	}
+
+	public function testValidateUserIdRejectsUnicodeWhenDisabled(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->manager->validateUserId('ótzï');
+	}
+
+	public static function dataValidateUserIdUnicodeValid(): array {
+		return [
+			'umlaut' => ['jürgen'],
+			'accents' => ['ótzï'],
+			'sharp s' => ['Straße'],
+			'capital sharp s' => ["\u{1E9E}rror"],
+			'non-latin script' => ['北京'],
+			'plain ascii still works' => ['foo.bar'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateUserIdUnicodeValid')]
+	public function testValidateUserIdUnicodeValid(string $uid): void {
+		$this->allowUnicodeUsernames(true);
+
+		$this->manager->validateUserId($uid);
+		$this->addToAssertionCount(1);
+	}
+
+	public static function dataValidateUserIdUnicodeInvalid(): array {
+		return [
+			'decomposed (NFD)' => ["a\u{0301}bc"],
+			'bidi control character' => ["b\u{200E}se"],
+			'zero width space' => ["fo\u{200B}o"],
+			'invalid UTF-8' => ["te\x80st"],
+			'path separator' => ['pfad/x'],
+			'backslash' => ['pfad\\x'],
+			'percent sign' => ['fo%o'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateUserIdUnicodeInvalid')]
+	public function testValidateUserIdUnicodeInvalid(string $uid): void {
+		$this->allowUnicodeUsernames(true);
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->manager->validateUserId($uid);
+	}
+
+	public function testCreateUserFromBackendNormalizesUidToNfc(): void {
+		$this->allowUnicodeUsernames(true);
+
+		$decomposed = \Normalizer::normalize('ótzï', \Normalizer::FORM_D);
+		$composed = \Normalizer::normalize('ótzï', \Normalizer::FORM_C);
+		$this->assertNotSame($composed, $decomposed, 'test fixture must actually differ');
+
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturn(true);
+		$backend->expects($this->once())
+			->method('createUser')
+			->with($this->equalTo($composed), $this->equalTo('MyPassword'))
+			->willReturn(true);
+		$backend->expects($this->any())
+			->method('userExists')
+			->willReturn(false);
+
+		$user = $this->manager->createUserFromBackend($decomposed, 'MyPassword', $backend);
+		$this->assertInstanceOf(IUser::class, $user);
+		$this->assertSame($composed, $user->getUID());
+	}
+
+	public function testCheckPasswordNormalizesLoginNameToNfc(): void {
+		$this->allowUnicodeUsernames(true);
+
+		$decomposed = \Normalizer::normalize('ótzï', \Normalizer::FORM_D);
+		$composed = \Normalizer::normalize('ótzï', \Normalizer::FORM_C);
+
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->expects($this->once())
+			->method('checkPassword')
+			->with($this->equalTo($composed), $this->equalTo('MyPassword'))
+			->willReturn($composed);
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturnCallback(static fn ($actions): bool => $actions === BACKEND::CHECK_PASSWORD);
+
+		$this->manager->registerBackend($backend);
+
+		$user = $this->manager->checkPassword($decomposed, 'MyPassword');
+		$this->assertInstanceOf(User::class, $user);
+		$this->assertSame($composed, $user->getUID());
+	}
+
+	public function testCheckPasswordLeavesLoginNameAloneWhenDisabled(): void {
+		$decomposed = \Normalizer::normalize('ótzï', \Normalizer::FORM_D);
+
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		// The backends are queried twice: the second pass retries with the
+		// urldecoded password, so atLeastOnce() instead of once()
+		$backend->expects($this->atLeastOnce())
+			->method('checkPassword')
+			->with($this->equalTo($decomposed), $this->equalTo('MyPassword'))
+			->willReturn(false);
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->willReturnCallback(static fn ($actions): bool => $actions === BACKEND::CHECK_PASSWORD);
+
+		$this->manager->registerBackend($backend);
+
+		$this->assertFalse($this->manager->checkPassword($decomposed, 'MyPassword'));
+	}
+
 	public function testCreateUserSingleBackendNotExists(): void {
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->any())

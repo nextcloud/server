@@ -560,6 +560,23 @@ $CONFIG = [
 	'hide_login_form' => false,
 
 	/**
+	 * Allow non-ASCII characters in account IDs (login names).
+	 *
+	 * When enabled, newly created account IDs may contain any printable
+	 * Unicode characters. Account IDs are normalized to Unicode normalization
+	 * form C (NFC) before validation and storage, and login names are
+	 * normalized to NFC before the password check, so composed and decomposed
+	 * input match each other.
+	 *
+	 * WARNING: Many integrations, apps, clients and external systems assume
+	 * ASCII-only account IDs. Enabling this option may break external
+	 * storage, LDAP integrations, federation or third party apps.
+	 *
+	 * Defaults to ``false``
+	 */
+	'allow_unicode_usernames' => false,
+
+	/**
 	 * If your user backend does not allow password resets (e.g., when it's a
 	 * read-only user backend like LDAP), you can specify a custom link, where the
 	 * user is redirected to, when clicking the "Reset password" link after a failed
