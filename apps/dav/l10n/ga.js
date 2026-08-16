@@ -55,6 +55,8 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "Athraíodh féilire<strong>to-do</strong> ",
     "Contact birthdays" : "Déan teagmháil le breithlaethanta",
     "Death of %s" : "Bás%s",
+    "Calendar federation" : "Cónaidhm féilire",
+    "{user} has shared the calendar {calendar} with you" : "Tá an féilire {calendar} roinnte ag {user} leat",
     "Accept" : "Glac",
     "Decline" : "Meath",
     "Untitled calendar" : "Féilire gan teideal",
