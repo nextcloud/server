@@ -25,12 +25,14 @@ class Action {
 	 * @param array $elements
 	 * @param bool $obfuscateParameters
 	 */
-	public function log(string $text,
+	public function log(
+		string $text,
 		array $params,
 		array $elements,
-		bool $obfuscateParameters = false): void {
+		bool $obfuscateParameters = false,
+	): void {
 		foreach ($elements as $element) {
-			if (!isset($params[$element])) {
+			if (!array_key_exists($element, $params)) {
 				if ($obfuscateParameters) {
 					$this->logger->critical(
 						'$params["' . $element . '"] was missing.',
