@@ -33,7 +33,7 @@ class Files extends Action {
 		try {
 			$node = $event->getNode();
 			$params = [
-				'id' => $node instanceof NonExistingFile ? null : $node->getId(),
+				'id' => $node instanceof NonExistingFile ? 'not-yet-assigned' : $node->getId(),
 				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
