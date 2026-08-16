@@ -125,6 +125,16 @@ jobs:
       - name: PHPUnit database tests
         run: composer run test:db -- --log-junit junit.xml
 
+      - name: Slowest tests
+        if: always()
+        continue-on-error: true
+        run: |
+          {
+            echo '```'
+            php tests/junit-analyzer.php junit.xml 30
+            echo '```'
+          } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
+
       - name: Print logs
         if: always()
         run: |
