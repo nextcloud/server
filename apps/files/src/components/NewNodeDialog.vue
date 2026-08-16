@@ -27,8 +27,6 @@
 				ref="nameInput"
 				v-model="localDefaultName"
 				data-cy-files-new-node-dialog-input
-				:error="validity !== ''"
-				:helper-text="validity"
 				:label="label" />
 
 			<!-- Hidden file warning -->
@@ -147,6 +145,7 @@ watchEffect(() => {
 	const input = nameInput.value?.$el.querySelector('input')
 	if (input) {
 		input.setCustomValidity(validity.value)
+		input.reportValidity()
 	}
 })
 
@@ -166,7 +165,7 @@ onMounted(() => {
 
 <style scoped>
 .new-node-dialog__form {
-	/* Ensure the dialog does not jump when there is a validity error */
+	/* Keep room below the input so the native validation popup is not shown over the dialog actions */
 	min-height: calc(2 * var(--default-clickable-area));
 }
 </style>

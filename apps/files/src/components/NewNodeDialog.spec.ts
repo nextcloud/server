@@ -7,30 +7,33 @@ import { cleanup, fireEvent, render } from '@testing-library/vue'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import NewNodeDialog from './NewNodeDialog.vue'
 
+vi.mock('@nextcloud/capabilities')
+
 describe('NewNodeDialog', () => {
 	afterEach(cleanup)
 
-	it('shows a single inline error for a duplicate name without reporting native validity', async () => {
+	it('reports a duplicate name using the native validation only', async () => {
+		const reportValidity = vi.spyOn(HTMLInputElement.prototype, 'reportValidity')
+		const setCustomValidity = vi.spyOn(HTMLInputElement.prototype, 'setCustomValidity')
 		const component = render(NewNodeDialog, {
 			props: {
 				otherNames: ['existing.txt'],
 			},
 		})
 		const input = component.getByRole('textbox', { name: 'Folder name' }) as HTMLInputElement
-		const reportValidity = vi.spyOn(input, 'reportValidity')
-		const setCustomValidity = vi.spyOn(input, 'setCustomValidity')
 
 		await fireEvent.update(input, 'existing.txt')
 
-		expect(component.getAllByText('This name is already in use.')).toHaveLength(1)
-		expect(component.getByRole('button', { name: 'Create' })).toBeDisabled()
 		expect(setCustomValidity).toHaveBeenLastCalledWith('This name is already in use.')
 		expect(input.validity.valid).toBe(false)
 		expect(input.validationMessage).toBe('This name is already in use.')
-		expect(reportValidity).not.toHaveBeenCalled()
+		expect(reportValidity).toHaveBeenCalled()
+		// the message is only shown by the platform, not duplicated as helper text
+		expect(component.queryByText('This name is already in use.')).not.toBeInTheDocument()
+		expect(component.getByRole('button', { name: 'Create' })).toBeDisabled()
 	})
 
-	it('clears inline and native validity when the name becomes unique', async () => {
+	it('clears the native validity when the name becomes unique', async () => {
 		const component = render(NewNodeDialog, {
 			props: {
 				otherNames: ['existing.txt'],
@@ -43,23 +46,39 @@ describe('NewNodeDialog', () => {
 
 		await fireEvent.update(input, 'unique.txt')
 
-		expect(component.queryByText('This name is already in use.')).not.toBeInTheDocument()
 		expect(input.validity.valid).toBe(true)
 		expect(input.validationMessage).toBe('')
 		expect(component.getByRole('button', { name: 'Create' })).toBeEnabled()
 	})
 
-	it('shows other filename errors inline without reporting native validity', async () => {
+	it('reports other filename errors using the native validation only', async () => {
+		const reportValidity = vi.spyOn(HTMLInputElement.prototype, 'reportValidity')
 		const component = render(NewNodeDialog)
 		const input = component.getByRole('textbox', { name: 'Folder name' }) as HTMLInputElement
-		const reportValidity = vi.spyOn(input, 'reportValidity')
 
 		await fireEvent.update(input, '')
 
-		expect(component.getAllByText('Filename must not be empty.')).toHaveLength(1)
-		expect(component.getByRole('button', { name: 'Create' })).toBeDisabled()
 		expect(input.validity.valid).toBe(false)
 		expect(input.validationMessage).toBe('Filename must not be empty.')
-		expect(reportValidity).not.toHaveBeenCalled()
+		expect(reportValidity).toHaveBeenCalled()
+		expect(component.queryByText('Filename must not be empty.')).not.toBeInTheDocument()
+		expect(component.getByRole('button', { name: 'Create' })).toBeDisabled()
+	})
+
+	it('does not submit a duplicate name', async () => {
+		const component = render(NewNodeDialog, {
+			props: {
+				otherNames: ['existing.txt'],
+			},
+		})
+		const input = component.getByRole('textbox', { name: 'Folder name' }) as HTMLInputElement
+		const form = input.closest('form') as HTMLFormElement
+
+		await fireEvent.update(input, 'existing.txt')
+		// same code path as pressing enter within the form
+		form.requestSubmit()
+
+		expect(form.checkValidity()).toBe(false)
+		expect(component.emitted().close).toBeUndefined()
 	})
 })
