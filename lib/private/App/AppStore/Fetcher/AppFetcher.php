@@ -51,13 +51,13 @@ class AppFetcher extends Fetcher {
 	}
 
 	/**
-	 * Only returns the latest compatible app release in the releases array
+	 * Fetches app data and keeps only the latest compatible release for each app.
 	 *
 	 * @inheritDoc
 	 */
 	#[\Override]
-	protected function fetch($ETag, $content, $allowUnstable = false): array {
-		$response = parent::fetch($ETag, $content);
+	protected function fetch(string $ETag, string $content, bool $allowUnstable = false): array {
+		$response = parent::fetch($ETag, $content, $allowUnstable);
 
 		if (!isset($response['data']) || $response['data'] === null) {
 			$this->logger->warning('Response from appstore is invalid, apps could not be retrieved. Try again later.', ['app' => 'appstoreFetcher']);
@@ -152,8 +152,14 @@ class AppFetcher extends Fetcher {
 		$this->ignoreMaxVersion = $ignoreMaxVersion;
 	}
 
+	/**
+	 * Returns apps compatible with the current Nextcloud and PHP versions,
+	 * optionally restricted by the configured app allowlist.
+	 *
+	 * @inheritDoc
+	 */
 	#[\Override]
-	public function get($allowUnstable = false): array {
+	public function get(bool $allowUnstable = false): array {
 		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
 
 		$apps = parent::get($allowPreReleases);
