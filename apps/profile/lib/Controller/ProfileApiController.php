@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Profile\Controller;
 
+use OCA\Profile\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -30,7 +31,7 @@ use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 
 /**
- * @psalm-import-type ProfileSharedResource from \OCA\Profile\ResponseDefinitions
+ * @psalm-import-type ProfileSharedResource from ResponseDefinitions
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 class ProfileApiController extends OCSController {
