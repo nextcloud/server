@@ -517,14 +517,17 @@ class Trashbin implements IEventListener {
 	}
 
 	/**
-	 * Restore a file or folder from trash bin
+	 * Restore a file or folder from the trash bin.
 	 *
-	 * @param string $file path to the deleted file/folder relative to "files_trashbin/files/",
-	 *                     including the timestamp suffix ".d12345678"
-	 * @param string $filename name of the file/folder
-	 * @param int $timestamp time when the file/folder was deleted
+	 * @param string $file Stored trash path relative to "files_trashbin/files/",
+	 *                     including the ".d<timestamp>" suffix for a root item.
+	 *                     The path must not start with "/".
+	 * @param string $filename Original filename or folder name, without the
+	 *                         ".d<timestamp>" suffix.
+	 * @param int|null $timestamp Deletion timestamp for a root trash item;
+	 *                            null when restoring an item below a root trash item.
 	 *
-	 * @return bool true on success, false otherwise
+	 * @return bool Whether the item was restored successfully.
 	 */
 	public static function restore($file, $filename, $timestamp) {
 		$user = OC_User::getUser();
@@ -734,13 +737,17 @@ class Trashbin implements IEventListener {
 	}
 
 	/**
-	 * delete file from trash bin permanently
+	 * Delete a file or folder permanently from the trash bin.
 	 *
-	 * @param string $filename path to the file
-	 * @param string $user
-	 * @param int $timestamp of deletion time
+	 * @param string $filename Path relative to "files_trashbin/files/".
+	 *                         The path must not start with "/".
+	 *                         If $timestamp is provided, this is the original
+	 *                         filename/path without the ".d<timestamp>" suffix.
+	 *                         If $timestamp is null, this is the stored trash path.
+	 * @param string $user User owning the trash bin.
+	 * @param int|null $timestamp Deletion timestamp for a root trash item.
 	 *
-	 * @return int|float size of deleted files
+	 * @return int|float Size of deleted files.
 	 */
 	public static function delete($filename, $user, $timestamp = null) {
 		$userRoot = \OC::$server->getUserFolder($user)->getParent();
