@@ -21,8 +21,8 @@ class Action {
 	 * Log a single action with a log level of info
 	 *
 	 * @param string $text
-	 * @param array $params
-	 * @param array $elements
+	 * @param array<string, scalar|null|\DateTimeInterface> $params
+	 * @param list<string> $elements
 	 * @param bool $obfuscateParameters
 	 */
 	public function log(
