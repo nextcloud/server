@@ -9,18 +9,16 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
-use Exception;
 use GuzzleHttp\RequestOptions;
+use OCA\DAV\Exception\InvalidSubscriptionPayload;
+use OCA\DAV\Exception\InvalidSubscriptionUrl;
 use OCP\Http\Client\IClientService;
-use OCP\Http\Client\LocalServerException;
 use OCP\IAppConfig;
-use Psr\Log\LoggerInterface;
 
 class Connection {
 	public function __construct(
 		private IClientService $clientService,
 		private IAppConfig $config,
-		private LoggerInterface $logger,
 	) {
 	}
 
@@ -33,7 +31,7 @@ class Connection {
 		$subscriptionId = $subscription['id'];
 		$url = $this->cleanURL($subscription['source']);
 		if ($url === null) {
-			return null;
+			throw new InvalidSubscriptionUrl('Wrong URL: ' . $subscription['source']);
 		}
 
 		// ICS feeds hosted on O365 can return HTTP 500 when the UA string isn't satisfactory
@@ -65,20 +63,8 @@ class Connection {
 			$params[RequestOptions::AUTH] = [$user, $pass];
 		}
 
-		try {
-			$client = $this->clientService->newClient();
-			$response = $client->get($url, $params);
-		} catch (LocalServerException $ex) {
-			$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules", [
-				'exception' => $ex,
-			]);
-			return null;
-		} catch (Exception $ex) {
-			$this->logger->warning("Subscription $subscriptionId could not be refreshed due to a network error", [
-				'exception' => $ex,
-			]);
-			return null;
-		}
+		$client = $this->clientService->newClient();
+		$response = $client->get($url, $params);
 
 		$contentType = $response->getHeader('Content-Type');
 		$contentType = explode(';', $contentType, 2)[0];
@@ -92,7 +78,7 @@ class Connection {
 		// With 'stream' => true, getBody() returns the underlying stream resource
 		$stream = $response->getBody();
 		if (!is_resource($stream)) {
-			return null;
+			throw new InvalidSubscriptionPayload('Cannot open a stream for ' . $url);
 		}
 
 		return ['data' => $stream, 'format' => $format];

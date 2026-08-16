@@ -11,6 +11,7 @@ namespace OCA\DAV\CalDAV;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Exception as NativeException;
 use Generator;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
@@ -3158,6 +3159,29 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$this->dispatcher->dispatchTyped(new SubscriptionDeletedEvent((int)$subscriptionId, $subscriptionRow, []));
 			}
 		}, $this->db);
+	}
+
+	/**
+	 * Update the error status of a subscription
+	 *
+	 * @param mixed $subscriptionId
+	 * @param null|NativeException $exception
+	 * @param null|string $error
+	 * @return void
+	 */
+	public function trackSubscriptionError($subscriptionId, $exception, $error): void {
+		$query = $this->db->getQueryBuilder();
+		$query->update('calendarsubscriptions')
+			->set('lasterror', $query->createNamedParameter($error))
+			->executeStatement();
+
+		if ($error) {
+			$this->logger->error('Subscription {subscriptionId} could not be refreshed: {error}', [
+				'exception' => $exception,
+				'subscriptionId' => $subscriptionId,
+				'error' => $error,
+			]);
+		}
 	}
 
 	/**

@@ -9,9 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
+use Exception;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Import\ImportService;
+use OCA\DAV\Exception\InvalidSubscriptionPayload;
+use OCA\DAV\Exception\InvalidSubscriptionUrl;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Http\Client\LocalServerException;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component;
@@ -54,19 +58,18 @@ class RefreshWebcalService {
 			}
 		}
 
-		$result = $this->connection->queryWebcalFeed($subscription);
-		if (!$result) {
-			return;
-		}
-
-		$data = $result['data'];
-		$format = $result['format'];
-
-		$stripTodos = ($subscription[self::STRIP_TODOS] ?? 1) === 1;
-		$stripAlarms = ($subscription[self::STRIP_ALARMS] ?? 1) === 1;
-		$stripAttachments = ($subscription[self::STRIP_ATTACHMENTS] ?? 1) === 1;
+		$data = null;
 
 		try {
+			$result = $this->connection->queryWebcalFeed($subscription);
+
+			$data = $result['data'];
+			$format = $result['format'];
+
+			$stripTodos = ($subscription[self::STRIP_TODOS] ?? 1) === 1;
+			$stripAlarms = ($subscription[self::STRIP_ALARMS] ?? 1) === 1;
+			$stripAttachments = ($subscription[self::STRIP_ATTACHMENTS] ?? 1) === 1;
+
 			$existingObjects = $this->calDavBackend->getLimitedCalendarObjects((int)$subscription['id'], CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION, ['id', 'uid', 'etag', 'uri']);
 
 			$generator = match ($format) {
@@ -158,11 +161,21 @@ class RefreshWebcalService {
 			if (isset($vObject)) {
 				$this->updateRefreshRate($subscription, $vObject);
 			}
+
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], null, null);
 		} catch (ParseException $ex) {
-			$this->logger->error('Subscription {subscriptionId} could not be refreshed due to a parsing error', ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], $ex, 'Parsing error');
+		} catch (LocalServerException $ex) {
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], $ex, 'Subscription violates local access rules');
+		} catch (InvalidSubscriptionUrl $ex) {
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], $ex, 'Invalid URL');
+		} catch (InvalidSubscriptionPayload $ex) {
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], $ex, 'Invalid contents');
+		} catch (Exception $ex) {
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], $ex, 'Network error');
 		} finally {
 			// Close the data stream to free resources
-			if (is_resource($data)) {
+			if ($data && is_resource($data)) {
 				fclose($data);
 			}
 		}
