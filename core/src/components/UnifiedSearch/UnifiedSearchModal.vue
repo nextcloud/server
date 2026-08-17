@@ -117,16 +117,6 @@
 								</NcButton>
 							</template>
 						</SearchableList>
-						<NcButton
-							v-if="localSearch"
-							variant="tertiary"
-							data-cy-unified-search-filter="current-view"
-							@click="searchLocally">
-							{{ t('core', 'Filter in current view') }}
-							<template #icon>
-								<IconFilter :size="20" />
-							</template>
-						</NcButton>
 					</div>
 					<div v-show="!detailCategory && hasAnyActiveFilter" class="unified-search-modal__filters-applied">
 						<FilterChip
@@ -280,7 +270,6 @@ import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import IconCalendarBlankOutline from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import IconClose from 'vue-material-design-icons/Close.vue'
 import IconDotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
-import IconFilter from 'vue-material-design-icons/Filter.vue'
 import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 import IconShapeOutline from 'vue-material-design-icons/ShapeOutline.vue'
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
@@ -313,7 +302,6 @@ export default defineComponent({
 		IconCalendarBlankOutline,
 		IconClose,
 		IconDotsHorizontal,
-		IconFilter,
 		IconMagnify,
 		IconShapeOutline,
 
@@ -345,14 +333,6 @@ export default defineComponent({
 		query: {
 			type: String,
 			default: '',
-		},
-
-		/**
-		 * If the current page / app supports local search
-		 */
-		localSearch: {
-			type: Boolean,
-			default: false,
 		},
 
 		/**
@@ -942,14 +922,6 @@ export default defineComponent({
 		deactivateFocusTrap(returnFocus: boolean = true) {
 			this.focusTrap?.deactivate({ returnFocus })
 			this.focusTrap = null
-		},
-
-		/**
-		 * Only close the modal but keep the query for in-app search
-		 */
-		searchLocally() {
-			this.$emit('update:query', this.searchQuery)
-			this.$emit('update:open', false)
 		},
 
 		/**

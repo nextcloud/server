@@ -184,19 +184,6 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 		wrapper.destroy()
 	})
 
-	// Deck & co. own Ctrl+F for their in-app search bar; that must survive the alignment.
-	it('on local-search pages still toggles the local bar, not the global input', () => {
-		location.value = { pathname: '/apps/deck' }
-		const wrapper = mountWithShortcuts()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
-
-		pressCtrl('f')
-
-		expect(wrapper.vm.showLocalSearch).toBe(true)
-		expect(focusInput).not.toHaveBeenCalled()
-		wrapper.destroy()
-	})
-
 	it('stays out of the way on pages that own the search shortcut', () => {
 		location.value = { pathname: '/settings/users' }
 		const wrapper = mountWithShortcuts()
@@ -206,6 +193,21 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 
 		expect(focusInput).not.toHaveBeenCalled()
 		expect(prevented).not.toHaveBeenCalled()
+		wrapper.destroy()
+	})
+
+	// Deck filters cards in place and binds Ctrl+F to its own board input, so the header
+	// must not steal the key there. This replaces the local search bar we used to render.
+	it('leaves Ctrl+F to Deck, which filters in its own board input', () => {
+		location.value = { pathname: '/apps/deck' }
+		const wrapper = mountWithShortcuts()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+
+		const prevented = pressCtrl('f')
+
+		expect(focusInput).not.toHaveBeenCalled()
+		expect(prevented).not.toHaveBeenCalled()
+		expect(wrapper.vm.showUnifiedSearch).toBe(false)
 		wrapper.destroy()
 	})
 
@@ -258,12 +260,10 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 })
 
 describe('UnifiedSearch combobox expanded state', () => {
-	// The header input is the combobox for the unified results only. On local-search
-	// pages (e.g. deck) Ctrl+F opens just the local bar, so the input must report
-	// collapsed and not point aria-controls at an unrendered popover.
-	it('reports collapsed when only the local search bar is open', async () => {
+	// The header input is the combobox for the results popover, so while that popover is
+	// shut it must report collapsed rather than point aria-controls at an unrendered panel.
+	it('reports collapsed while the results popover is closed', async () => {
 		const wrapper = factory()
-		wrapper.vm.showLocalSearch = true
 		wrapper.vm.showUnifiedSearch = false
 		await wrapper.vm.$nextTick()
 
