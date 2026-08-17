@@ -350,6 +350,42 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->api->getDisabledUsersDetails('MyCustomSearch', 3)->getData());
 	}
 
+	public function testGetDisabledUsersDetailsSetsLinkHeaderWhenMoreResultsExist(): void {
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->method('getUID')
+			->willReturn('admin');
+		$this->userSession
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->groupManager
+			->method('isAdmin')
+			->willReturn(true);
+		$this->userManager
+			->method('getDisabledUsers')
+			->with(2, 0, 'MyCustomSearch')
+			->willReturn([
+				$this->createUserMock('foo', false),
+				$this->createUserMock('bar', false),
+			]);
+
+		$this->request
+			->method('getRequestUri')
+			->willReturn('/ocs/v2.php/apps/provisioning_api/api/v1/users/disabled?search=MyCustomSearch&limit=2');
+		$this->urlGenerator
+			->method('getAbsoluteURL')
+			->with('/ocs/v2.php/apps/provisioning_api/api/v1/users/disabled')
+			->willReturn('https://cloud.example.com/ocs/v2.php/apps/provisioning_api/api/v1/users/disabled');
+
+		$response = $this->api->getDisabledUsersDetails('MyCustomSearch', 2, 0);
+		$this->assertSame(
+			'<https://cloud.example.com/ocs/v2.php/apps/provisioning_api/api/v1/users/disabled?search=MyCustomSearch&limit=2&offset=2>; rel="next"',
+			$response->getHeaders()['Link']
+		);
+	}
+
 	public function testGetDisabledUsersAsSubAdmin(): void {
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()

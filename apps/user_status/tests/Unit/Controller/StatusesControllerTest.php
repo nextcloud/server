@@ -15,20 +15,24 @@ use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class StatusesControllerTest extends TestCase {
 	private StatusService&MockObject $service;
+	private IRequest&MockObject $request;
+	private IURLGenerator&MockObject $urlGenerator;
 	private StatusesController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$request = $this->createMock(IRequest::class);
+		$this->request = $this->createMock(IRequest::class);
 		$this->service = $this->createMock(StatusService::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
-		$this->controller = new StatusesController('user_status', $request, $this->service);
+		$this->controller = new StatusesController('user_status', $this->request, $this->service, $this->urlGenerator);
 	}
 
 	public function testFindAll(): void {
@@ -47,6 +51,7 @@ class StatusesControllerTest extends TestCase {
 			'message' => 'On vacation',
 			'clearAt' => 60000,
 		]], $response->getData());
+		$this->assertArrayNotHasKey('Link', $response->getHeaders());
 	}
 
 	public function testFind(): void {

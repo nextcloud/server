@@ -1970,6 +1970,16 @@
                         }
                     },
                     {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for searching",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -1983,6 +1993,13 @@
                 "responses": {
                     "200": {
                         "description": "Autocomplete results returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {

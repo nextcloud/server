@@ -521,6 +521,13 @@
                 "responses": {
                     "200": {
                         "description": "Statuses returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
