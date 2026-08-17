@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Test\AppFramework\Http;
 
+use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\Http\StreamGeneratorResponse;
 
 class StreamGeneratorResponseTest extends \Test\TestCase {
@@ -37,7 +38,7 @@ class StreamGeneratorResponseTest extends \Test\TestCase {
 			yield 'chunk2';
 		};
 		$response = new StreamGeneratorResponse($generator(), 'text/plain');
-		$output = $this->createMock(\OCP\AppFramework\Http\IOutput::class);
+		$output = $this->createMock(IOutput::class);
 
 		$response->callback($output);
 		$this->assertEquals($count, 2);
