@@ -14,6 +14,7 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Core\Controller\ClientFlowLoginController;
+use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
@@ -423,6 +424,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 	 * @testWith
 	 * ["https://example.com/redirect.php", "https://example.com/redirect.php?state=MyOauthState&code=MyAccessCode"]
 	 * ["https://example.com/redirect.php?hello=world", "https://example.com/redirect.php?hello=world&state=MyOauthState&code=MyAccessCode"]
+	 * ["https://example.com/redirect.php#target", "https://example.com/redirect.php?state=MyOauthState&code=MyAccessCode#target"]
+	 * ["https://example.com/redirect.php?hello=world#target", "https://example.com/redirect.php?hello=world&state=MyOauthState&code=MyAccessCode#target"]
 	 *
 	 */
 	public function testGeneratePasswordWithPasswordForOauthClient($redirectUri, $redirectUrl): void {
@@ -434,6 +437,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 			]);
 		$calls = [
 			'client.flow.state.token',
+			'oauth.code_challenge',
+			'oauth.code_challenge_method',
 			'oauth.state',
 		];
 		$this->session
@@ -503,6 +508,116 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('dispatchTyped');
 
 		$expected = new RedirectResponse($redirectUrl);
+		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken', 'MyClientIdentifier'));
+	}
+
+	public function testGeneratePasswordWithPasswordForOauthClientStoresPkceChallenge(): void {
+		$codeChallenge = str_repeat('a', 43);
+		$this->session
+			->method('get')
+			->willReturnMap([
+				['client.flow.state.token', 'MyStateToken'],
+				['oauth.state', 'MyOauthState'],
+				['oauth.code_challenge', $codeChallenge],
+				['oauth.code_challenge_method', 'S256'],
+			]);
+		$calls = [
+			'client.flow.state.token',
+			'oauth.code_challenge',
+			'oauth.code_challenge_method',
+			'oauth.state',
+		];
+		$this->session
+			->method('remove')
+			->willReturnCallback(function ($key) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, $key);
+			});
+		$this->session
+			->expects($this->once())
+			->method('getId')
+			->willReturn('SessionId');
+		$myToken = $this->createMock(IToken::class);
+		$myToken
+			->expects($this->once())
+			->method('getLoginName')
+			->willReturn('MyLoginName');
+		$this->tokenProvider
+			->expects($this->once())
+			->method('getToken')
+			->with('SessionId')
+			->willReturn($myToken);
+		$this->tokenProvider
+			->expects($this->once())
+			->method('getPassword')
+			->with($myToken, 'SessionId')
+			->willReturn('MyPassword');
+		$this->random
+			->method('generate')
+			->willReturnMap([
+				[72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS, 'MyGeneratedToken'],
+				[128, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS, 'MyAccessCode'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->willReturn('MyUid');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$token = $this->createMock(IToken::class);
+		$token->method('getId')->willReturn(123);
+		$this->tokenProvider
+			->expects($this->once())
+			->method('generateToken')
+			->with(
+				'MyGeneratedToken',
+				'MyUid',
+				'MyLoginName',
+				'MyPassword',
+				'My OAuth client',
+				IToken::PERMANENT_TOKEN,
+				IToken::DO_NOT_REMEMBER
+			)
+			->willReturn($token);
+		$client = new Client();
+		$client->setId(42);
+		$client->setName('My OAuth client');
+		$client->setRedirectUri('https://example.com/redirect.php');
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->with('MyClientIdentifier')
+			->willReturn($client);
+		$this->crypto
+			->expects($this->once())
+			->method('encrypt')
+			->with('MyGeneratedToken', 'MyAccessCode')
+			->willReturn('EncryptedToken');
+		$this->timeFactory
+			->expects($this->once())
+			->method('now')
+			->willReturn((new \DateTimeImmutable())->setTimestamp(100));
+		$this->accessTokenMapper
+			->expects($this->once())
+			->method('insert')
+			->with($this->callback(function (AccessToken $accessToken) {
+				return $accessToken->getHashedCodeChallenge() === str_repeat('a', 43)
+					&& $accessToken->getCodeChallengeMethod() === 'S256'
+					&& $accessToken->getHashedCode() === hash('sha512', 'MyAccessCode');
+			}));
+		$this->config
+			->expects($this->once())
+			->method('getSystemValueBool')
+			->with('oauth2.enable_oc_clients', false)
+			->willReturn(false);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped');
+
+		$expected = new RedirectResponse('https://example.com/redirect.php?state=MyOauthState&code=MyAccessCode');
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken', 'MyClientIdentifier'));
 	}
 

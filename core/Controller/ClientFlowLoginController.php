@@ -297,7 +297,18 @@ class ClientFlowLoginController extends Controller {
 			$accessToken->setHashedCode(hash('sha512', $code));
 			$accessToken->setTokenId($generatedToken->getId());
 			$accessToken->setCodeCreatedAt($this->timeFactory->now()->getTimestamp());
+
+			$codeChallenge = $this->session->get('oauth.code_challenge');
+			$codeChallengeMethod = $this->session->get('oauth.code_challenge_method');
+			if ($codeChallenge !== null && $codeChallenge !== '') {
+				$accessToken->setHashedCodeChallenge($codeChallenge);
+				$accessToken->setCodeChallengeMethod($codeChallengeMethod);
+			}
+
 			$this->accessTokenMapper->insert($accessToken);
+
+			$this->session->remove('oauth.code_challenge');
+			$this->session->remove('oauth.code_challenge_method');
 
 			$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
 
@@ -313,6 +324,13 @@ class ClientFlowLoginController extends Controller {
 				$redirectUri = $providedRedirectUri;
 			}
 
+			$fragment = '';
+			$fragmentPosition = strpos($redirectUri, '#');
+			if ($fragmentPosition !== false) {
+				$fragment = substr($redirectUri, $fragmentPosition);
+				$redirectUri = substr($redirectUri, 0, $fragmentPosition);
+			}
+
 			if (parse_url($redirectUri, PHP_URL_QUERY)) {
 				$redirectUri .= '&';
 			} else {
@@ -324,6 +342,7 @@ class ClientFlowLoginController extends Controller {
 				urlencode($this->session->get('oauth.state')),
 				urlencode($code)
 			);
+			$redirectUri .= $fragment;
 			$this->session->remove('oauth.state');
 		} else {
 			$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($loginName) . '&password:' . urlencode($token);
