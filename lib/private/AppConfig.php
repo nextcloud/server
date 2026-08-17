@@ -1607,6 +1607,9 @@ class AppConfig implements IAppConfig {
 			'call_summary_bot' => [
 				'/^secret_(.*)$/',
 			],
+			'eurooffice' => [
+				'/^jwt_secret$/',
+			],
 			'external' => [
 				'/^sites$/',
 				'/^jwt_token_privkey_(.*)$/',
