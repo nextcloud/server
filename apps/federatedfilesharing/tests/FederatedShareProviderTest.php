@@ -32,6 +32,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
+use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -416,6 +417,66 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		} catch (\Exception $e) {
 			$this->assertEquals('Sharing myFile failed, because this item is already shared with the account user@server.com', $e->getMessage());
 		}
+	}
+
+	public static function dataTestCreateAlreadySharedWithEquivalentCloudId(): array {
+		return [
+			['user@server.com'],
+			['user@server.com/'],
+			['user@server.com/index.php'],
+		];
+	}
+
+	/**
+	 * Sharing a node with a recipient it is already shared with has to be
+	 * rejected with an AlreadySharedException, for every spelling that
+	 * normalizes to the same cloud ID.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestCreateAlreadySharedWithEquivalentCloudId')]
+	public function testCreateAlreadySharedWithEquivalentCloudId(string $shareWith): void {
+		$node = $this->createMock(File::class);
+		$node->method('getId')->willReturn(42);
+		$node->method('getName')->willReturn('myFile');
+
+		$this->addressHandler->expects($this->any())->method('splitUserRemote')
+			->willReturn(['user', 'server.com']);
+		$this->addressHandler->expects($this->any())->method('generateRemoteURL')
+			->willReturn('http://localhost/');
+		$this->tokenHandler->method('generateToken')->willReturn('token');
+		$this->contactsManager->expects($this->any())->method('search')
+			->willReturn([]);
+		$this->notifications->expects($this->once())
+			->method('sendRemoteShare')
+			->willReturn(true);
+
+		$share = $this->shareManager->newShare();
+		$share->setSharedWith('user@server.com')
+			->setSharedBy('sharedBy')
+			->setShareOwner('shareOwner')
+			->setPermissions(19)
+			->setShareType(IShare::TYPE_REMOTE)
+			->setNode($node)
+			->setTarget('');
+		$existingShare = $this->provider->create($share);
+
+		// a recipient of the node re-sharing it with the same account
+		$duplicate = $this->shareManager->newShare();
+		$duplicate->setSharedWith($shareWith)
+			->setSharedBy('otherRecipient')
+			->setShareOwner('shareOwner')
+			->setPermissions(19)
+			->setShareType(IShare::TYPE_REMOTE)
+			->setNode($node)
+			->setTarget('');
+
+		try {
+			$this->provider->create($duplicate);
+			$this->fail('Expected an AlreadySharedException');
+		} catch (AlreadySharedException $e) {
+			$this->assertEquals($existingShare->getId(), $e->getExistingShare()->getId());
+		}
+
+		$this->assertCount(1, $this->provider->getSharesByPath($node));
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestUpdate')]
