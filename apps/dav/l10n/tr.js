@@ -280,7 +280,7 @@ OC.L10N.register(
     "The system address book is disabled" : "Sistem adres defteri kapatılmış",
     "The system address book is enabled, but contains more than the configured limit of %d contacts" : "Sistem adres defteri açık, ancak yapılandırılmış %d kişi sayısı sınırından daha fazla kişi içeriyor",
     "The system address book is enabled and contains less than the configured limit of %d contacts" : "Sistem adres defteri açık ve yapılandırılmış %d kişi sayısı sınırından daha az kişi içeriyor",
-    "WebDAV endpoint" : "WebDAV bağlantı noktası",
+    "WebDAV endpoint" : "WebDAV uç noktası",
     "Could not check that your web server is properly set up to allow file synchronization over WebDAV. Please check manually." : "Site sunucunuzun WebDAV  üzerinden dosya eşitlemesi için doğru şekilde ayarlanıp ayarlanmadığı denetlenemedi. Lütfen el ile denetleyin.",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Site sunucunuz dosya eşitlemesi için doğru şekilde ayarlanmamış. WebDAV arabirimi sorunlu görünüyor.",
     "Your web server is properly set up to allow file synchronization over WebDAV." : "Site sunucunuz WebDAV  üzerinden dosya eşitlemesi için doğru şekilde ayarlanmış.",
