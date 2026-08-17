@@ -65,7 +65,11 @@ class Coordinator {
 			$this->registrationContext = new RegistrationContext($this->logger);
 		}
 		$this->eventLogger->start('bootstrap:register_app:autoloader', 'Setup autoloader for apps');
-		$this->appManager->registerAppsAutoloading($appIds);
+		if ($appIds === []) {
+			$this->appManager->registerAppsAutoloading($this->appManager->getAlwaysEnabledApps());
+		} else {
+			$this->appManager->registerAppsAutoloading($appIds);
+		}
 		$this->eventLogger->end('bootstrap:register_app:autoloader');
 		$apps = [];
 		foreach ($appIds as $appId) {
