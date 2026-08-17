@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 /**
  * SPDX-FileCopyrightText: 2004 David Grudl (https://davidgrudl.com)
- * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
 namespace OC;
 
 // TODO: cleanup? TTL?
+
 class PhpDumpCache {
 
 	public function __construct(
@@ -36,38 +37,24 @@ class PhpDumpCache {
 	public function loadCache(array $cacheKey): ?array {
 		$file = $this->generateCacheFileName($cacheKey);
 
-		// Solving atomicity to work everywhere
-		// 1) We want to do as little as possible IO calls on production and also directory and file can be not writable (#19)
-		// so on Linux we include the file directly without shared lock, therefore, the file must be created atomically by renaming.
-		// 2) On Windows file cannot be renamed-to while is open (ie by include() #11), so we have to acquire a lock.
-		$lock = defined('PHP_WINDOWS_VERSION_BUILD')
-			? $this->acquireLock("$file.lock", LOCK_SH)
-			: null;
-
-		try {
-			$data = @include $file; // @ file may not exist
-			if (is_array($data)) {
-				return $data;
-			}
-
-			return null;
-		} finally {
-			if ($lock) {
-				flock($lock, LOCK_UN); // release shared lock
-			}
+		$data = @include $file; // @ file may not exist
+		if (is_array($data)) {
+			return $data;
 		}
+
+		return null;
 	}
 
 	/**
 	 * Writes class list to cache.
 	 * @param ?resource $lock
 	 */
-	public function saveCache(array $cacheKey, array $data, $lock = null): void {
+	public function saveCache(array $cacheKey, array $data): void {
 		// we have to acquire a lock to be able safely rename file
 		// on Linux: that another thread does not rename the same named file earlier
 		// on Windows: that the file is not read by another thread
 		$file = $this->generateCacheFileName($cacheKey);
-		$lock = $lock ?: $this->acquireLock("$file.lock", LOCK_EX);
+		$lock = $this->acquireLock("$file.lock", LOCK_EX);
 		$code = "<?php\nreturn " . var_export($data, true) . ";\n";
 
 		if (file_put_contents("$file.tmp", $code) !== strlen($code) || !rename("$file.tmp", $file)) {
@@ -103,10 +90,6 @@ class PhpDumpCache {
 	}
 
 	private function generateCacheFileName(array $cacheKey): string {
-		if (!$this->tempDirectory) {
-			throw new \LogicException('Set path to temporary directory using setTempDirectory().');
-		}
-
-		return $this->tempDirectory . '/' . md5(serialize($cacheKey)) . '.php';
+		return $this->tempDirectory . '/' . hash('xxh3', serialize($cacheKey)) . '.php';
 	}
 }
