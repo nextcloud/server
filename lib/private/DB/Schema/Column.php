@@ -93,6 +93,13 @@ class Column implements IColumn {
 	}
 
 	#[\Override]
+	public function getName(): string {
+		/** @var non-empty-string $name */
+		$name = $this->column->getName();
+		return $name;
+	}
+
+	#[\Override]
 	public function getType(): ColumnType {
 		return ColumnType::from(DBALType::lookupName($this->column->getType()));
 	}
