@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Provisioning_API\Controller;
 
+use OC\AppFramework\Http\PaginationTrait;
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OCA\Provisioning_API\ResponseDefinitions;
 use OCA\Settings\Settings\Admin\Sharing;
@@ -30,6 +31,7 @@ use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -42,6 +44,7 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type Provisioning_APIUserDetailsGroupDisplayname from ResponseDefinitions
  */
 class GroupsController extends AUserDataOCSController {
+	use PaginationTrait;
 
 	public function __construct(
 		string $appName,
@@ -56,6 +59,7 @@ class GroupsController extends AUserDataOCSController {
 		IRootFolder $rootFolder,
 		private LoggerInterface $logger,
 		GroupDisplayNameCache $groupDisplayNameCache,
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName,
 			$request,
@@ -77,19 +81,28 @@ class GroupsController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @return DataResponse<Http::STATUS_OK, array{groups: list<string>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{groups: list<string>}, array{Link?: string}>
 	 *
 	 * 200: Groups returned
 	 */
 	#[NoAdminRequired]
 	public function getGroups(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
+		$hasMoreResults = $this->hasMoreResults($groups, $limit);
 		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
 			return $group->getGID();
 		}, $groups);
 
-		return new DataResponse(['groups' => $groups]);
+		$response = new DataResponse(['groups' => $groups]);
+		if ($hasMoreResults) {
+			$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+				'search' => $search,
+				'limit' => $limit,
+				'offset' => $offset + $limit,
+			])]);
+		}
+		return $response;
 	}
 
 	/**
@@ -98,7 +111,7 @@ class GroupsController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @return DataResponse<Http::STATUS_OK, array{groups: list<Provisioning_APIGroupDetails>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{groups: list<Provisioning_APIGroupDetails>}, array{Link?: string}>
 	 *
 	 * 200: Groups details returned
 	 */
@@ -107,6 +120,7 @@ class GroupsController extends AUserDataOCSController {
 	#[AuthorizedAdminSetting(settings: Users::class)]
 	public function getGroupsDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
+		$hasMoreResults = $this->hasMoreResults($groups, $limit);
 		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
 			return [
@@ -119,7 +133,15 @@ class GroupsController extends AUserDataOCSController {
 			];
 		}, $groups);
 
-		return new DataResponse(['groups' => $groups]);
+		$response = new DataResponse(['groups' => $groups]);
+		if ($hasMoreResults) {
+			$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+				'search' => $search,
+				'limit' => $limit,
+				'offset' => $offset + $limit,
+			])]);
+		}
+		return $response;
 	}
 
 	/**
@@ -191,7 +213,7 @@ class GroupsController extends AUserDataOCSController {
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>, groups: list<Provisioning_APIUserDetailsGroupDisplayname>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>, groups: list<Provisioning_APIUserDetailsGroupDisplayname>}, array{Link?: string}>
 	 * @throws OCSException
 	 *
 	 * 200: Group users details returned
@@ -214,6 +236,7 @@ class GroupsController extends AUserDataOCSController {
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentUser->getUID());
 		if ($isAdmin || $isDelegatedAdmin || $isSubadminOfGroup) {
 			$users = $group->searchUsers($search, $limit, $offset);
+			$hasMoreResults = $this->hasMoreResults($users, $limit);
 
 			// Extract required number
 			$usersDetails = [];
@@ -234,10 +257,18 @@ class GroupsController extends AUserDataOCSController {
 					// continue if a users ceased to exist.
 				}
 			}
-			return new DataResponse([
+			$response = new DataResponse([
 				'users' => $usersDetails,
 				'groups' => $this->findGroupsWithDisplayname($usersDetails),
 			]);
+			if ($hasMoreResults) {
+				$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+					'search' => $search,
+					'limit' => $limit,
+					'offset' => $offset + $limit,
+				])]);
+			}
+			return $response;
 		}
 
 		throw new OCSException('The requested group could not be found', OCSController::RESPOND_NOT_FOUND);

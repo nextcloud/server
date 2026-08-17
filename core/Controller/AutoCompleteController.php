@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Http\PaginationTrait;
 use OC\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -18,17 +19,21 @@ use OCP\AppFramework\OCSController;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\Share\IShare;
 
 /**
  * @psalm-import-type CoreAutocompleteResult from ResponseDefinitions
  */
 class AutoCompleteController extends OCSController {
+	use PaginationTrait;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		private ISearch $collaboratorSearch,
 		private IManager $autoCompleteManager,
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -42,17 +47,18 @@ class AutoCompleteController extends OCSController {
 	 * @param string|null $sorter can be piped, top priority first, e.g.: "commenters|share-recipients"
 	 * @param list<int> $shareTypes Types of shares to search for
 	 * @param int $limit Maximum number of results to return
+	 * @param int $offset Offset for searching
 	 *
-	 * @return DataResponse<Http::STATUS_OK, list<CoreAutocompleteResult>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreAutocompleteResult>, array{Link?: string}>
 	 *
 	 * 200: Autocomplete results returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/autocomplete/get', root: '/core')]
-	public function get(string $search, ?string $itemType, ?string $itemId, ?string $sorter = null, array $shareTypes = [IShare::TYPE_USER], int $limit = 10): DataResponse {
+	public function get(string $search, ?string $itemType, ?string $itemId, ?string $sorter = null, array $shareTypes = [IShare::TYPE_USER], int $limit = 10, int $offset = 0): DataResponse {
 		// if enumeration/user listings are disabled, we'll receive an empty
 		// result from search() – thus nothing else to do here.
-		[$results,] = $this->collaboratorSearch->filteredSearch($search, $shareTypes, false, $itemType, $itemId, $limit, 0);
+		[$results, $hasMoreResults] = $this->collaboratorSearch->filteredSearch($search, $shareTypes, false, $itemType, $itemId, $limit, $offset);
 
 		$exactMatches = $results['exact'];
 		unset($results['exact']);
@@ -69,7 +75,20 @@ class AutoCompleteController extends OCSController {
 		// transform to expected format
 		$results = $this->prepareResultArray($results);
 
-		return new DataResponse($results);
+		$response = new DataResponse($results);
+		if ($hasMoreResults) {
+			$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+				'search' => $search,
+				'itemType' => $itemType,
+				'itemId' => $itemId,
+				'sorter' => $sorter,
+				'shareTypes' => $shareTypes,
+				'limit' => $limit,
+				'offset' => $offset + $limit,
+			])]);
+		}
+
+		return $response;
 	}
 
 	/**

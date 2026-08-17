@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\UserStatus\Controller;
 
+use OC\AppFramework\Http\PaginationTrait;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\StatusService;
@@ -21,6 +22,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\User\Events\UserEnumerationFilterEvent;
 use OCP\UserStatus\IUserStatus;
 
@@ -29,6 +31,7 @@ use OCP\UserStatus\IUserStatus;
  * @psalm-import-type UserStatusPublic from ResponseDefinitions
  */
 class StatusesController extends OCSController {
+	use PaginationTrait;
 
 	/**
 	 * StatusesController constructor.
@@ -42,6 +45,7 @@ class StatusesController extends OCSController {
 		IRequest $request,
 		private readonly StatusService $service,
 		private readonly IEventDispatcher $eventDispatcher,
+		private readonly IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -51,7 +55,7 @@ class StatusesController extends OCSController {
 	 *
 	 * @param int|null $limit Maximum number of statuses to find
 	 * @param non-negative-int|null $offset Offset for finding statuses
-	 * @return DataResponse<Http::STATUS_OK, list<UserStatusPublic>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<UserStatusPublic>, array{Link?: string}>
 	 *
 	 * 200: Statuses returned
 	 */
@@ -59,6 +63,7 @@ class StatusesController extends OCSController {
 	#[ApiRoute(verb: 'GET', url: '/api/v1/statuses')]
 	public function findAll(?int $limit = null, ?int $offset = null): DataResponse {
 		$allStatuses = $this->service->findAll($limit, $offset);
+		$hasMoreResults = $this->hasMoreResults($allStatuses, $limit);
 
 		$users = array_map(fn (UserStatus $userStatus): string => $userStatus->getUserId(), $allStatuses);
 		$event = new UserEnumerationFilterEvent($users);
@@ -69,9 +74,16 @@ class StatusesController extends OCSController {
 			$allStatuses = array_filter($allStatuses, fn (UserStatus $userStatus): bool => !in_array($userStatus->getUserId(), $removedUsers, true));
 		}
 
-		return new DataResponse(array_values(array_map(function ($userStatus) {
+		$response = new DataResponse(array_values(array_map(function ($userStatus) {
 			return $this->formatStatus($userStatus);
 		}, $allStatuses)));
+		if ($hasMoreResults) {
+			$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+				'limit' => $limit,
+				'offset' => ($offset ?? 0) + $limit,
+			])]);
+		}
+		return $response;
 	}
 
 	/**
