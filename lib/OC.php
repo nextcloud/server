@@ -708,12 +708,25 @@ class OC {
 		require_once __DIR__ . '/private/PhpDumpCache.php';
 		require_once __DIR__ . '/private/Autoloader.php';
 		$phpDumpCache = new \OC\PhpDumpCache($cacheDirectory);
-		self::$autoloader = new \OC\Autoloader($phpDumpCache);
-		self::$autoloader->addPsr4('OC', OC::$SERVERROOT . '/lib/private');
-		self::$autoloader->addPsr4('OCP', OC::$SERVERROOT . '/lib/public');
-		self::$autoloader->addPsr4('NCU', OC::$SERVERROOT . '/lib/unstable');
-		self::$autoloader->addPsr4('OC\\Core', OC::$SERVERROOT . '/core');
-		self::$autoloader->addPsr4('', OC::$SERVERROOT . '/lib/private/legacy');
+		self::$autoloader = new \OC\Autoloader(
+			[
+				'OC' => OC::$SERVERROOT . '/lib/private',
+				'OCP' => OC::$SERVERROOT . '/lib/public',
+				'NCU' => OC::$SERVERROOT . '/lib/unstable',
+				'OC\\Core' => OC::$SERVERROOT . '/core',
+				'' => OC::$SERVERROOT . '/lib/private/legacy',
+			]
+		);
+
+		$cacheKey = [self::class];
+		$cachedInfo = $phpDumpCache->loadCache($cacheKey);
+		if ($cachedInfo !== null) {
+			self::$autoloader->loadFromArray($cachedInfo);
+		} else {
+			self::$autoloader->rebuild();
+			$phpDumpCache->saveCache($cacheKey, self::$autoloader->serializeToArray());
+		}
+
 		self::$autoloader->register();
 
 		// setup 3rdparty autoloader

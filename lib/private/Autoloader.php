@@ -25,37 +25,22 @@ class Autoloader {
 	public array $acceptFiles = ['*.php'];
 	private bool $reportParseErrors = true;
 
-	/** @var array<string,string> namespace => path */
-	private array $psr4Paths = [];
-
 	/** @var string[] */
 	private array $excludeDirs = [];
 
 	/** @var array<string, array{string, int}>  class => [file, time] */
 	private array $classes = [];
-	private bool $cacheLoaded = false;
-	private bool $refreshed = false;
 
 	/** @var array<string, int>  class => counter */
 	private array $missingClasses = [];
-
-	private bool $needSave = false;
 
 	private int $loadsFromCache = 0;
 	private int $diskScans = 0;
 
 	public function __construct(
-		private PhpDumpCache $dumpCache,
+		/** @var array<string,string> namespace => path */
+		private array $psr4Paths = [],
 	) {
-		if (!extension_loaded('tokenizer')) {
-			throw new \LogicException('PHP extension Tokenizer is not loaded.');
-		}
-	}
-
-	public function __destruct() {
-		if ($this->needSave) {
-			$this->saveCache();
-		}
 	}
 
 	/**
@@ -71,8 +56,6 @@ class Autoloader {
 	 */
 	public function tryLoad(string $type): void {
 		try {
-			$this->loadCache();
-
 			$missing = $this->missingClasses[$type] ?? 0;
 			if ($missing >= self::RetryLimit) {
 				return;
@@ -101,11 +84,6 @@ class Autoloader {
 		return $this;
 	}
 
-	public function triggerReload(): void {
-		$this->refreshed = false;
-		$this->cacheLoaded = false;
-	}
-
 	public function reportParseErrors(bool $on = true): static {
 		$this->reportParseErrors = $on;
 		return $this;
@@ -123,7 +101,6 @@ class Autoloader {
 	 * @return array<string, string> class => filename
 	 */
 	public function getIndexedClasses(): array {
-		$this->loadCache();
 		$res = [];
 		foreach ($this->classes as $class => [$file]) {
 			$res[$class] = $file;
@@ -136,28 +113,14 @@ class Autoloader {
 	 * Rebuilds class list cache.
 	 */
 	public function rebuild(): void {
-		$this->cacheLoaded = true;
 		$this->classes = $this->missingClasses = [];
 		$this->refreshClasses();
-		$this->saveCache();
-	}
-
-	/**
-	 * Refreshes class list cache.
-	 */
-	public function refresh(): void {
-		$this->loadCache();
-		if (!$this->refreshed) {
-			$this->refreshClasses();
-			$this->saveCache();
-		}
 	}
 
 	/**
 	 * Refreshes $this->classes.
 	 */
 	private function refreshClasses(): void {
-		$this->refreshed = true; // prevents calling refreshClasses() in tryLoad()
 		$files = [];
 		$classes = [];
 		foreach ($this->classes as $class => [$file, $mtime]) {
@@ -249,40 +212,6 @@ class Autoloader {
 
 	/********************* caching *******************/
 
-	/**
-	 * Loads class list from cache.
-	 */
-	private function loadCache(): void {
-		if ($this->cacheLoaded) {
-			return;
-		}
-
-		$this->cacheLoaded = true;
-
-		$data = $this->dumpCache->loadCache($this->generateCacheKey());
-		if (is_array($data)) {
-			[$this->classes, $this->missingClasses] = $data;
-			$this->loadsFromCache++;
-			return;
-		}
-
-		$this->classes = $this->missingClasses = [];
-		$this->refreshClasses();
-		$this->saveCache();
-	}
-
-	/**
-	 * Writes class list to cache.
-	 * @param resource $lock
-	 */
-	private function saveCache(): void {
-		$this->dumpCache->saveCache($this->generateCacheKey(), [$this->classes, $this->missingClasses]);
-	}
-
-	protected function generateCacheKey(): array {
-		return [$this->psr4Paths,$this->ignoreDirs, $this->acceptFiles, $this->excludeDirs];
-	}
-
 	public function getStats(): array {
 		return [
 			'Loads from cache' => $this->loadsFromCache,
@@ -305,8 +234,6 @@ class Autoloader {
 		$this->classes = $properties['classes'];
 		$this->missingClasses = $properties['missingClasses'];
 
-		/* Avoid any refresh */
-		$this->cacheLoaded = true;
-		$this->refreshed = true;
+		$this->loadsFromCache++;
 	}
 }
