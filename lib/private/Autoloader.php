@@ -28,7 +28,7 @@ class Autoloader {
 	/** @var string[] */
 	private array $excludeDirs = [];
 
-	/** @var array<string, array{string, int}>  class => [file, time] */
+	/** @var array<string, string>  class => file */
 	private array $classes = [];
 
 	/** @var array<string, int>  class => counter */
@@ -61,7 +61,7 @@ class Autoloader {
 				return;
 			}
 
-			[$file, $mtime] = $this->classes[$type] ?? null;
+			$file = $this->classes[$type] ?? null;
 
 			if ($file) {
 				(static function ($file) {
@@ -101,12 +101,7 @@ class Autoloader {
 	 * @return array<string, string> class => filename
 	 */
 	public function getIndexedClasses(): array {
-		$res = [];
-		foreach ($this->classes as $class => [$file]) {
-			$res[$class] = $file;
-		}
-
-		return $res;
+		return $this->classes;
 	}
 
 	/**
@@ -121,13 +116,6 @@ class Autoloader {
 	 * Refreshes $this->classes.
 	 */
 	private function refreshClasses(): void {
-		$files = [];
-		$classes = [];
-		foreach ($this->classes as $class => [$file, $mtime]) {
-			$files[$file] = $mtime;
-			$classes[$file][] = $class;
-		}
-
 		$this->classes = [];
 
 		foreach ($this->psr4Paths as $namespace => $path) {
@@ -145,15 +133,12 @@ class Autoloader {
 					throw new \RuntimeException(sprintf(
 						'Ambiguous class %s resolution; defined in %s and in %s.',
 						$class,
-						$this->classes[$class][0],
+						$this->classes[$class],
 						$file,
 					));
 				}
 
-				//FIXME needed?
-				$mtime = filemtime($file);
-
-				$this->classes[$class] = [$file, $mtime];
+				$this->classes[$class] = $file;
 				unset($this->missingClasses[$class]);
 			}
 		}
