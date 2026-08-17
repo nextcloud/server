@@ -151,8 +151,7 @@ class ApiTest extends TestCase {
 		);
 	}
 
-	public function testCreateShareUserFile(): void {
-		$this->setUp(); // for some reasons phpunit refuses to do this for us only for this test
+	public function testCreateShareUserFile(): void { // for some reasons phpunit refuses to do this for us only for this test
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->filename, Constants::PERMISSION_ALL, IShare::TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
 		$ocs->cleanup();
@@ -795,7 +794,6 @@ class ApiTest extends TestCase {
 	 * test multiple shared folder if the path gets constructed correctly
 	 */
 	public function testGetShareMultipleSharedFolder(): void {
-		$this->setUp();
 		$node1 = $this->userFolder->get($this->folder . $this->subfolder);
 		$share1 = $this->shareManager->newShare();
 		$share1->setNode($node1)

@@ -8,6 +8,7 @@
 
 namespace OCA\Files_Sharing\AppInfo;
 
+use NCU\Sharing\ISharingRegistry;
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\User\DisplayNameCache;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -36,6 +37,7 @@ use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
+use OCA\Files_Sharing\Sharing\LegacyBackend;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -58,6 +60,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\Interaction\RestrictInteractionEvent;
+use OCP\Server;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareMovedEvent;
@@ -136,6 +139,9 @@ class Application extends App implements IBootstrap {
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
+
+		$registry = Server::get(ISharingRegistry::class);
+		$registry->registerLegacyBackend(Server::get(LegacyBackend::class));
 	}
 
 	#[\Override]

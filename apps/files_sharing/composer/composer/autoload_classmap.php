@@ -93,6 +93,8 @@ return array(
     'OCA\\Files_Sharing\\Migration\\Version33000Date20251030081948' => $baseDir . '/../lib/Migration/Version33000Date20251030081948.php',
     'OCA\\Files_Sharing\\Migration\\Version33000Date20260306120000' => $baseDir . '/../lib/Migration/Version33000Date20260306120000.php',
     'OCA\\Files_Sharing\\Migration\\Version33000Date20260306150000' => $baseDir . '/../lib/Migration/Version33000Date20260306150000.php',
+    'OCA\\Files_Sharing\\Migration\\Version35000Date20260720121254' => $baseDir . '/../lib/Migration/Version35000Date20260720121254.php',
+    'OCA\\Files_Sharing\\Migration\\Version35000Date20260813121254' => $baseDir . '/../lib/Migration/Version35000Date20260813121254.php',
     'OCA\\Files_Sharing\\MountProvider' => $baseDir . '/../lib/MountProvider.php',
     'OCA\\Files_Sharing\\Notification\\Listener' => $baseDir . '/../lib/Notification/Listener.php',
     'OCA\\Files_Sharing\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
@@ -107,6 +109,7 @@ return array(
     'OCA\\Files_Sharing\\SharedMount' => $baseDir . '/../lib/SharedMount.php',
     'OCA\\Files_Sharing\\SharedStorage' => $baseDir . '/../lib/SharedStorage.php',
     'OCA\\Files_Sharing\\SharesReminderJob' => $baseDir . '/../lib/SharesReminderJob.php',
+    'OCA\\Files_Sharing\\Sharing\\LegacyBackend' => $baseDir . '/../lib/Sharing/LegacyBackend.php',
     'OCA\\Files_Sharing\\Updater' => $baseDir . '/../lib/Updater.php',
     'OCA\\Files_Sharing\\ViewOnly' => $baseDir . '/../lib/ViewOnly.php',
 );
