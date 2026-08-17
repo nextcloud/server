@@ -352,9 +352,10 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(Encryption\Manager::class, function (Server $c): Encryption\Manager {
 			return new Encryption\Manager(
 				$c->get(IConfig::class),
+				$c->get(IAppConfig::class),
 				$c->get(LoggerInterface::class),
 				$c->get(IFactory::class)->get('core'),
-				$c->get(View::class),
+				$c->get(IRootFolder::class),
 				$c->get(Encryption\Util::class),
 				new ArrayCache()
 			);
