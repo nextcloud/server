@@ -111,6 +111,9 @@ class SystemConfig {
 		'onlyoffice' => [
 			'jwt_secret' => true,
 		],
+		'eurooffice' => [
+			'jwt_secret' => true,
+		],
 		'PASS' => true,
 	];
 
