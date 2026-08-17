@@ -253,7 +253,9 @@ class Dispatcher {
 			throw new InvalidEnumParameterException($param, get_debug_type($value), $enumClass);
 		}
 
-		$backingType = (new \ReflectionEnum($enumClass))->getBackingType()->getName();
+		$backingType = (new \ReflectionEnum($enumClass))->getBackingType();
+		assert($backingType instanceof \ReflectionNamedType);
+		$backingType = $backingType->getName();
 		if ($backingType === 'int') {
 			if (!is_numeric($value)) {
 				throw new InvalidEnumParameterException($param, (string)$value, $enumClass);
