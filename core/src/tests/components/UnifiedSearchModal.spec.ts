@@ -1205,6 +1205,253 @@ describe('UnifiedSearchModal loading state', () => {
 	})
 })
 
+describe('UnifiedSearchModal loading skeleton', () => {
+	const loadingState = { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false }
+
+	/** jsdom does no layout, so fake the measurement. */
+	function measureResultsAt(wrapper: ReturnType<typeof factory>, height: number) {
+		const box = wrapper.vm.$refs.resultsContainer as HTMLElement
+		vi.spyOn(box, 'getBoundingClientRect').mockReturnValue({ height } as DOMRect)
+	}
+
+	/** Mount with a settled result on screen, ready for a keystroke to replace it. */
+	async function withResults() {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('query')
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]) }
+		await wrapper.vm.$nextTick()
+		return wrapper
+	}
+
+	function skeleton(wrapper: ReturnType<typeof factory>) {
+		return wrapper.findComponent({ name: 'SearchResultSkeleton' })
+	}
+
+	it('holds the results box at the height it had when the query changed', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.isBusy).toBe(true)
+		expect(wrapper.vm.heldHeight).toBe(300)
+	})
+
+	it('asks for more rows the taller the panel it is holding', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		const tall = skeleton(wrapper).props('rows')
+		expect(tall).toBeGreaterThan(0)
+
+		wrapper.vm.reservedHeight = 100
+		await wrapper.vm.$nextTick()
+		expect(skeleton(wrapper).props('rows')).toBeLessThan(tall)
+	})
+
+	// The panel clips what does not fit, so asking for too few would leave a gap.
+	it('asks for more rows than fit the space', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		// A row plus its gap is never shorter than 60px.
+		expect(wrapper.vm.skeletonRows * 60).toBeGreaterThanOrEqual(300)
+	})
+
+	it('holds the same height through repeated keystrokes rather than creeping taller', async () => {
+		const wrapper = await withResults()
+		const box = wrapper.vm.$refs.resultsContainer as HTMLElement
+		// Stand in for the browser: report the padding on top of whatever height is set.
+		const padding = 16
+		vi.spyOn(box, 'getBoundingClientRect').mockImplementation(() => ({
+			height: (parseFloat(box.style.blockSize) || 300) + (box.style.boxSizing === 'border-box' ? 0 : padding),
+		}) as DOMRect)
+
+		wrapper.vm.searchQuery = 'q1'
+		await wrapper.vm.$nextTick()
+		const first = wrapper.vm.heldHeight
+		wrapper.vm.searchQuery = 'q12'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.searchQuery = 'q123'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.heldHeight).toBe(first)
+	})
+
+	it('falls back to a default height on the first search of a session', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.heldHeight).toBeGreaterThan(0)
+		expect(skeleton(wrapper).props('rows')).toBeGreaterThan(0)
+	})
+
+	it('keeps the reservation through a run of quick keystrokes', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		wrapper.vm.searchQuery = 'queryings'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.heldHeight).toBe(300)
+	})
+
+	it('releases the height when the search settles', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('querying')
+		searchStates.value = { files: loaded([{ resourceUrl: '/c' }]) }
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.isBusy).toBe(false)
+		expect(wrapper.vm.heldHeight).toBe(null)
+		expect(skeleton(wrapper).exists()).toBe(false)
+	})
+
+	it('shows no bars on an empty or too-short query', async () => {
+		const wrapper = await withResults()
+		wrapper.vm.minSearchLength = 3
+		wrapper.vm.searchQuery = 'ab'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.heldHeight).toBe(null)
+		expect(skeleton(wrapper).exists()).toBe(false)
+	})
+
+	it('shows no bars in the detail view, which pages one category on its own', async () => {
+		const wrapper = await withResults()
+		searchStates.value = { files: { ...loaded([{ resourceUrl: '/a' }]), status: 'loading' } }
+		wrapper.vm.detailCategory = 'files'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.isBusy).toBe(true)
+		expect(skeleton(wrapper).exists()).toBe(false)
+	})
+
+	it('renders below every real result, so nothing on screen can be displaced', async () => {
+		const wrapper = await withResults()
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('querying')
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]), talk: loadingState }
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }, { id: 'talk', name: 'Talk', order: 1 }]
+		await wrapper.vm.$nextTick()
+
+		const container = wrapper.find('.unified-search-modal__results')
+		expect(container.find('.result-group').exists()).toBe(true)
+		expect(container.element.lastElementChild).toBe(skeleton(wrapper).element)
+	})
+
+	it('never enters navigableRows, so arrow keys cannot land on a placeholder', async () => {
+		const wrapper = await withResults()
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('querying')
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]), talk: loadingState }
+		await wrapper.vm.$nextTick()
+
+		expect(skeleton(wrapper).exists()).toBe(true)
+		expect(wrapper.vm.navigableRows.map((row) => row.resourceUrl)).toEqual(['/a'])
+	})
+
+	it('carries the header divider, so it does not flash in when the first category lands', async () => {
+		const wrapper = await withResults()
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.hasVisibleResults).toBe(false)
+		expect(wrapper.vm.hasContentBelowHeader).toBe(true)
+	})
+
+	it('drops the header divider once the placeholders go and nothing is left below', async () => {
+		const wrapper = await withResults()
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('querying')
+		searchStates.value = { files: loaded([]) }
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.hasContentBelowHeader).toBe(false)
+	})
+})
+
+describe('UnifiedSearchModal panel resize', () => {
+	/** Open modal whose panel reports `height` and records its animations. */
+	function factoryWithPanel(height: number) {
+		const wrapper = factory()
+		const panel = wrapper.vm.$refs.panel as HTMLElement
+		const animate = vi.fn(() => ({ cancel: vi.fn(), onfinish: null }) as unknown as Animation)
+		panel.animate = animate
+		vi.spyOn(panel, 'getBoundingClientRect').mockReturnValue({ height } as DOMRect)
+		return { wrapper, panel, animate }
+	}
+
+	it('plays the panel from its previous height to the one it has now', async () => {
+		const { wrapper, panel, animate } = factoryWithPanel(420)
+		wrapper.vm.panelFrom = 200
+
+		wrapper.vm.animatePanelResize()
+
+		expect(animate).toHaveBeenCalledWith(
+			[{ height: '200px' }, { height: '420px' }],
+			expect.objectContaining({ duration: 200 }),
+		)
+		expect(panel.classList.contains('is-animating-height')).toBe(true)
+	})
+
+	it('leaves a render that does not move the height alone', async () => {
+		const { wrapper, animate } = factoryWithPanel(420)
+		wrapper.vm.panelFrom = 420
+
+		wrapper.vm.animatePanelResize()
+
+		expect(animate).not.toHaveBeenCalled()
+	})
+
+	it('drops the resize in flight when the panel closes', async () => {
+		const { wrapper, animate } = factoryWithPanel(420)
+		wrapper.vm.panelFrom = 200
+		wrapper.vm.animatePanelResize()
+		const running = wrapper.vm.panelResize
+
+		await wrapper.setProps({ open: false })
+		wrapper.vm.panelFrom = 100
+		wrapper.vm.animatePanelResize()
+
+		expect(running.cancel).toHaveBeenCalled()
+		expect(animate).toHaveBeenCalledTimes(1)
+	})
+
+	it('changes size without motion when the user asked for reduced motion', async () => {
+		const { wrapper, animate } = factoryWithPanel(420)
+		wrapper.vm.panelFrom = 200
+		window.matchMedia = vi.fn(() => ({ matches: true }) as MediaQueryList)
+
+		try {
+			wrapper.vm.animatePanelResize()
+			expect(animate).not.toHaveBeenCalled()
+		} finally {
+			delete (window as { matchMedia?: unknown }).matchMedia
+		}
+	})
+})
+
 describe('UnifiedSearchModal reveal order', () => {
 	const providers = [
 		{ id: 'files', name: 'Files', order: 0 },

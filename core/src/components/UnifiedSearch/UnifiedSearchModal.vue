@@ -24,7 +24,7 @@
 				<div
 					v-show="showHeader"
 					class="unified-search-modal__header"
-					:class="{ 'unified-search-modal__header--has-results': hasVisibleResults && !detailCategory }">
+					:class="{ 'unified-search-modal__header--has-content-below': hasContentBelowHeader }">
 					<div v-if="isSmallMobile" class="unified-search-modal__mobile-input">
 						<NcTextField
 							type="search"
@@ -154,7 +154,12 @@
 					</div>
 				</div>
 
-				<div v-else ref="resultsContainer" class="unified-search-modal__results">
+				<div
+					v-else
+					ref="resultsContainer"
+					class="unified-search-modal__results"
+					:class="{ 'unified-search-modal__results--held': heldHeight !== null }"
+					:style="heldHeight !== null ? { blockSize: `${heldHeight}px`, boxSizing: 'border-box' } : undefined">
 					<h3 class="hidden-visually">
 						{{ t('core', 'Results') }}
 					</h3>
@@ -229,6 +234,8 @@
 							</div>
 						</div>
 					</div>
+					<!-- Trailing: real results must never be pushed down when the bars go. -->
+					<SearchResultSkeleton v-if="skeletonRows > 0" :rows="skeletonRows" />
 					<!-- Connected-services opt-in. Toggling re-runs find() (searchExternalResources watcher). Hidden in detail view. -->
 					<div v-if="showConnectedServicesButton" class="unified-search-modal__connected-services">
 						<NcButton variant="secondary" wide @click="toggleExternalResources">
@@ -276,6 +283,7 @@ import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import SearchableList from './SearchableList.vue'
 import FilterChip from './SearchFilterChip.vue'
 import SearchResult from './SearchResult.vue'
+import SearchResultSkeleton from './SearchResultSkeleton.vue'
 import { useUnifiedSearch } from '../../composables/useUnifiedSearch.ts'
 import { unifiedSearchLogger } from '../../logger.js'
 import { getContacts, getProviders } from '../../services/UnifiedSearchService.js'
@@ -286,6 +294,14 @@ import { useSearchStore } from '../../store/unified-search-external-filters.js'
  * the full set, and a category with more shows a "More from" button to the detail view.
  */
 const RESULTS_PER_CATEGORY = 3
+
+/** Fallback when there is no results box on screen to measure. */
+const DEFAULT_HELD_HEIGHT_PX = 332
+
+const RESIZING_CLASS = 'is-animating-height'
+
+/** The least vertical space one bar takes, gap included, so dividing by it overdraws. */
+const SKELETON_MIN_BAR_AND_GAP_PX = 60
 
 /** One selectable result row in the flat keyboard-navigation list. */
 interface NavigableRow {
@@ -316,6 +332,7 @@ export default defineComponent({
 		NcTextField,
 		SearchableList,
 		SearchResult,
+		SearchResultSkeleton,
 	},
 
 	props: {
@@ -404,6 +421,9 @@ export default defineComponent({
 			// aria-activedescendant highlight (combobox pattern).
 			activeIndex: -1,
 			minSearchLength: loadState('unified-search', 'min-search-length', 1),
+			reservedHeight: 0,
+			panelFrom: 0,
+			panelResize: null as Animation | null,
 			// Focus trap spanning [header input, popover panel]; markRaw'd so Vue
 			// doesn't make the trap instance reactive.
 			focusTrap: null as FocusTrap | null,
@@ -613,6 +633,22 @@ export default defineComponent({
 			]
 		},
 
+		// A border box, since getBoundingClientRect hands one back: as content-box every
+		// keystroke would add the box's own padding again.
+		heldHeight() {
+			// The detail view is not emptied and refilled; its paging has its own button.
+			if (!this.isBusy || this.detailCategory) {
+				return null
+			}
+			return this.reservedHeight || DEFAULT_HELD_HEIGHT_PX
+		},
+
+		skeletonRows() {
+			return this.heldHeight === null
+				? 0
+				: Math.ceil(this.heldHeight / SKELETON_MIN_BAR_AND_GAP_PX)
+		},
+
 		// The connected-services opt-in. Shows for any searchable query when external providers
 		// exist (including zero results, so the user can opt in when local search found nothing),
 		// never on empty/too-short queries or in detail view. Held until the search settles
@@ -682,10 +718,13 @@ export default defineComponent({
 			return n('core', '%n result', '%n results', this.navigableRows.length)
 		},
 
-		// Whether the results region has anything to render. Drives the region's padding
-		// so an empty or too-short query leaves no gap under the filters.
 		hasVisibleResults() {
 			return this.filteredResults.length > 0 || this.unfilteredResults.length > 0
+		},
+
+		// Placeholders count as content, or the divider flashes in when the first category lands.
+		hasContentBelowHeader() {
+			return !this.detailCategory && (this.hasVisibleResults || this.skeletonRows > 0)
 		},
 	},
 
@@ -722,6 +761,8 @@ export default defineComponent({
 				// Clear them on close so they can't flash on the next open. Close is the
 				// reliable hook: every close path flips this prop true -> false.
 				this.reset()
+				// Nothing left on screen to hold, and find() runs again on reopen.
+				this.reservedHeight = 0
 				// Drop in-flight search bookkeeping so a preserved query can't keep the header
 				// input spinning, and cancel the pending debounce so it can't dispatch after close.
 				this.pendingSearch = false
@@ -815,6 +856,16 @@ export default defineComponent({
 
 	mounted() {
 		subscribe('nextcloud:unified-search:add-filter', this.handlePluginFilter)
+	},
+
+	// Includes a resize in flight, so it starts from what is on screen.
+	beforeUpdate() {
+		const panel = this.$refs.panel as HTMLElement | undefined
+		this.panelFrom = panel ? panel.getBoundingClientRect().height : 0
+	},
+
+	updated() {
+		this.animatePanelResize()
 	},
 
 	methods: {
@@ -924,12 +975,58 @@ export default defineComponent({
 			this.focusTrap = null
 		},
 
+		/** Typing again while placeholders are up re-measures the held height, so it carries. */
+		captureReservedHeight() {
+			const results = this.$refs.resultsContainer as HTMLElement | undefined
+			this.reservedHeight = results ? results.getBoundingClientRect().height : 0
+		},
+
+		/** Nothing is written to the panel's style, so it follows its content again once done. */
+		animatePanelResize() {
+			const panel = this.$refs.panel as HTMLElement | undefined
+			const from = this.panelFrom
+
+			// Cancel before measuring, or `to` comes back mid-animation. Detach onfinish first, or
+			// it strips the class off the resize that replaces this one.
+			if (this.panelResize) {
+				this.panelResize.onfinish = null
+				this.panelResize.cancel()
+				this.panelResize = null
+			}
+			panel?.classList.remove(RESIZING_CLASS)
+
+			// Nothing captured yet on the first render, a closing panel keeps its size through the
+			// fade-out, and jsdom has no Web Animations.
+			if (!panel || !from || !this.open || typeof panel.animate !== 'function') {
+				return
+			}
+			if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+				return
+			}
+
+			// Under a pixel is layout noise, not a resize.
+			const to = panel.getBoundingClientRect().height
+			if (Math.abs(to - from) < 1) {
+				return
+			}
+
+			panel.classList.add(RESIZING_CLASS)
+			const resize = panel.animate(
+				[{ height: `${from}px` }, { height: `${to}px` }],
+				// The curve the panel slides in with, so a resize reads as the same motion.
+				{ duration: 200, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+			)
+			resize.onfinish = () => panel.classList.remove(RESIZING_CLASS)
+			this.panelResize = markRaw(resize)
+		},
+
 		/**
 		 * Blank the results, then queue the search. Every query and filter change comes through
 		 * here. The results on screen answer the previous question, so holding them until the
 		 * debounce fires only means they shift once the real ones land.
 		 */
 		scheduleSearch() {
+			this.captureReservedHeight()
 			this.reset()
 			// Mark busy synchronously so the debounce window doesn't flash the empty state.
 			this.pendingSearch = true
@@ -1477,14 +1574,20 @@ export default defineComponent({
 	// Leave ~10vh below the panel so it does not reach the bottom of the page
 	max-height: calc(90vh - var(--header-height));
 	border-radius: var(--border-radius-container-large, var(--border-radius-rounded));
-	// Clip the header/results to the rounded corners
-	overflow: hidden;
+	// Clip the header/results to the rounded corners. `clip` rather than `hidden` so this is
+	// not a scroll container: a squeezed panel would otherwise scroll the filter row away.
+	overflow: clip;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
 	box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
 	// The panel slides down into place; the enter/leave classes set the start offset.
 	// Same easeOutQuart curve as the header input so the whole search UI moves in step.
 	transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+// Mid-resize the panel is shorter than its content; clip so no scrollbar flashes.
+.unified-search-modal__container.is-animating-height .unified-search-modal__results {
+	overflow: clip;
 }
 
 // Fullscreen on small viewports, mirrors NcModal's responsive breakpoint
@@ -1546,14 +1649,16 @@ export default defineComponent({
 		position: relative;
 		display: flex;
 		flex-direction: column;
+		// The results box absorbs a resize; the filter row keeps its size.
+		flex-shrink: 0;
 		gap: calc(var(--default-grid-baseline) * 2);
 		padding-inline: calc(var(--default-grid-baseline) * 4);
 		// Trim the bottom when the filter row is all there is; results add it back below.
 		padding-block: calc(var(--default-grid-baseline) * 4) 0;
 
-		// With results below, restore the full bottom inset above the divider (which aligns
+		// With content below, restore the full bottom inset above the divider (which aligns
 		// to the content edge).
-		&--has-results {
+		&--has-content-below {
 			padding-block-end: calc(var(--default-grid-baseline) * 4);
 
 			&::after {
@@ -1699,9 +1804,21 @@ export default defineComponent({
 		flex: 1 1 auto;
 		min-height: 0;
 		overflow: hidden auto;
+
+		// The placeholders deliberately overfill, so the bottom fades out over the cut.
+		&--held {
+			flex-grow: 0;
+			overflow: clip;
+			mask-image: linear-gradient(to bottom, #000 calc(100% - 2lh), transparent);
+		}
 		// Adjust padding to match container but keep the scrollbar on the very end
 		padding-inline: calc(var(--default-grid-baseline) * 4);
 		padding-block: 0 calc(var(--default-grid-baseline) * 4);
+
+		// The gap a category title keeps above itself, so the heading bar lands where one would.
+		.search-result-skeleton {
+			margin-block-start: 14px;
+		}
 
 		.result {
 			&-title {
@@ -1771,7 +1888,7 @@ export default defineComponent({
 
 // Ensure modal is accessible on small devices
 @media only screen and (max-height: 400px) {
-	.unified-search-modal__results {
+	.unified-search-modal__results:not(.unified-search-modal__results--held) {
 		overflow: unset;
 	}
 }
