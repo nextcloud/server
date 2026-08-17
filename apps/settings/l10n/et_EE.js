@@ -27,7 +27,7 @@ OC.L10N.register(
     "You granted filesystem access to app password \"{token}\"" : "Sa lubasid failisüsteemi ligipääsu rakenduse salasõnale „{token}“",
     "You revoked filesystem access from app password \"{token}\"" : "Sa keelasid failisüsteemi ligipääsu rakenduse salasõnale „{token}“",
     "Security" : "Turvalisus",
-    "You successfully logged in using two-factor authentication (%1$s)" : "Kasutades kaheastmelist autentimist sisselogimine õnnestus (%1$s)",
+    "You successfully logged in using two-factor authentication (%1$s)" : "Sisselogimine õnnestus kaheastmelise autentimise alusel (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "Sisselogimiskatse kaheastmelise autentimisega ei õnnestunud (%1$s)",
     "Remote wipe was started on %1$s" : "Kaugkustutamine algas: %1$s",
     "Remote wipe has finished on %1$s" : "Kaugkustutamine lõppes: %1$s",
