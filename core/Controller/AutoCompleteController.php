@@ -48,9 +48,9 @@ class AutoCompleteController extends OCSController {
 	 * @param string|null $itemType Type of the items to search for
 	 * @param string|null $itemId ID of the items to search for
 	 * @param string|null $sorter can be piped, top priority first, e.g.: "commenters|share-recipients"
-	 * @param list<int> $shareTypes Types of shares to search for
-	 * @param int $limit Maximum number of results to return
-	 * @param int $offset Offset for searching
+	 * @param list<positive-int> $shareTypes Types of shares to search for
+	 * @param positive-int $limit Maximum number of results to return
+	 * @param non-negative-int $offset Offset for searching
 	 *
 	 * @return DataResponse<Http::STATUS_OK, list<CoreAutocompleteResult>, array{Link?: string}>
 	 *

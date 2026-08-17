@@ -1643,7 +1643,8 @@
                                 "properties": {
                                     "password": {
                                         "type": "string",
-                                        "description": "The password of the user"
+                                        "description": "The password of the user",
+                                        "minLength": 1
                                     }
                                 }
                             }
@@ -1691,7 +1692,8 @@
                                                     "properties": {
                                                         "lastLogin": {
                                                             "type": "integer",
-                                                            "format": "int64"
+                                                            "format": "int64",
+                                                            "minimum": 1
                                                         }
                                                     }
                                                 }
@@ -1823,7 +1825,8 @@
                                                     ],
                                                     "properties": {
                                                         "apppassword": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "minLength": 1
                                                         }
                                                     }
                                                 }
@@ -1955,7 +1958,8 @@
                             "default": [],
                             "items": {
                                 "type": "integer",
-                                "format": "int64"
+                                "format": "int64",
+                                "minimum": 1
                             }
                         }
                     },
@@ -1966,7 +1970,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 10
+                            "default": 10,
+                            "minimum": 1
                         }
                     },
                     {
@@ -1976,7 +1981,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 0
+                            "default": 0,
+                            "minimum": 0
                         }
                     },
                     {
@@ -9264,7 +9270,8 @@
                         "description": "ID of the user",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -9367,7 +9374,8 @@
                         "description": "ID of the user",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -9994,7 +10002,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {
@@ -10004,7 +10013,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {
@@ -10135,10 +10145,11 @@
                         "name": "fileId",
                         "in": "query",
                         "description": "ID of the file",
+                        "required": true,
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": -1
+                            "minimum": 1
                         }
                     },
                     {
@@ -10148,7 +10159,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {
@@ -10158,7 +10170,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {

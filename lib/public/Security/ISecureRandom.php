@@ -62,7 +62,7 @@ interface ISecureRandom {
 	 * @param int $length The length of the generated string
 	 * @param string $characters An optional list of characters to use if no character list is
 	 *                           specified all valid base64 characters are used.
-	 * @return string
+	 * @return non-empty-string
 	 * @since 8.0.0
 	 * @deprecated 35.0.0 Use {@see Randomizer::getBytesFromString()} available in PHP 8.3+ instead.
 	 */
