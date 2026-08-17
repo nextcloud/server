@@ -2226,26 +2226,6 @@
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/oauth2/lib/Controller/LoginRedirectorController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[generate]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/oauth2/lib/Controller/OauthApiController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[generate]]></code>
-      <code><![CDATA[generate]]></code>
-    </DeprecatedMethod>
-    <NoInterfaceProperties>
-      <code><![CDATA[$this->request->server]]></code>
-    </NoInterfaceProperties>
-  </file>
-  <file src="apps/oauth2/lib/Service/ClientService.php">
-    <DeprecatedMethod>
-      <code><![CDATA[generate]]></code>
-      <code><![CDATA[generate]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/provisioning_api/lib/Controller/AUserDataOCSController.php">
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::setupFS($user->getUID())]]></code>

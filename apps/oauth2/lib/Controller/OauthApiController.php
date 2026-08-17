@@ -70,7 +70,6 @@ final class OauthApiController extends Controller {
 	 * Get a token
 	 *
 	 * @param 'authorization_code'|'refresh_token' $grant_type Token type that should be granted
-	 * @psalm-param string $grant_type
 	 * @param ?string $code Code of the flow
 	 * @param ?string $refresh_token Refresh token
 	 * @param ?string $client_id Client ID
@@ -90,6 +89,7 @@ final class OauthApiController extends Controller {
 	): JSONResponse {
 
 		// We only handle two types
+		/** @psalm-suppress DocblockTypeContradiction We don't trust user input */
 		if ($grant_type !== 'authorization_code' && $grant_type !== 'refresh_token') {
 			$response = new JSONResponse([
 				'error' => 'invalid_grant',

@@ -124,6 +124,7 @@ final class OauthApiControllerTest extends TestCase {
 		], Http::STATUS_BAD_REQUEST);
 		$expected->throttle(['invalid_grant' => 'foo']);
 
+		/** @psalm-suppress InvalidArgument Test that we don't trust user input */
 		$this->assertEquals($expected, $this->oauthApiController->getToken('foo', null, null, null, null));
 	}
 
