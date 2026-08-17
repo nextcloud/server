@@ -966,6 +966,18 @@ class UsersController extends AUserDataOCSController {
 			throw new OCSForbiddenException('Insufficient permissions to edit this user');
 		}
 
+		// Sub-admins are limited to the groups they administer, so their group changes are
+		// checked against that list instead of the blanket admin one. Both lists are read
+		// once here and reused by the validation and the apply phase below.
+		$canChangeAllGroups = $isAdmin || $isDelegatedAdmin;
+		$currentGroupIds = $groups === null ? [] : $this->groupManager->getUserGroupIds($targetUser);
+		$subAdminGids = $groups === null || $canChangeAllGroups
+			? []
+			: array_map(
+				fn (IGroup $group): string => $group->getGID(),
+				$subAdminManager->getSubAdminsGroups($currentLoggedInUser),
+			);
+
 		// Validate all submitted fields — collect errors before applying anything
 		$errors = [];
 
@@ -1014,14 +1026,29 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		if ($groups !== null) {
-			if (!$isAdmin && !$isDelegatedAdmin) {
+			if (!$canChangeAllGroups && !$isSubAdminAccessible) {
 				$errors['groups'] = $this->l10n->t('Insufficient permissions to change groups');
 			} else {
+				// Only the added groups are checked against the caller's sub-admin groups:
+				// the request repeats the memberships it did not touch, and those may well
+				// be in groups the caller does not administer.
+				$addedGids = $canChangeAllGroups ? [] : array_diff($groups, $currentGroupIds);
+
 				foreach ($groups as $gid) {
 					if (!$this->groupManager->groupExists($gid)) {
 						$errors['groups'] = $this->l10n->t('Group %s does not exist', [$gid]);
 						break;
 					}
+					if (in_array($gid, $addedGids, true) && !in_array($gid, $subAdminGids, true)) {
+						$errors['groups'] = $this->l10n->t('Insufficient privileges for group %1$s', [$gid]);
+						break;
+					}
+				}
+
+				// The account has to stay in at least one group the caller administers,
+				// otherwise the sub-admin loses access to it (same rule as removeFromGroup).
+				if (!$canChangeAllGroups && !isset($errors['groups']) && array_intersect($groups, $subAdminGids) === []) {
+					$errors['groups'] = $this->l10n->t('Not viable to remove user from the last group you are sub-admin of');
 				}
 			}
 		}
@@ -1082,8 +1109,12 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		if ($groups !== null) {
-			$currentGroupIds = $this->groupManager->getUserGroupIds($targetUser);
 			foreach (array_diff($currentGroupIds, $groups) as $gid) {
+				// A sub-admin only gets to see part of the group list, so a group missing
+				// from their request is not an intent to remove it.
+				if (!$canChangeAllGroups && !in_array($gid, $subAdminGids, true)) {
+					continue;
+				}
 				$this->groupManager->get($gid)?->removeUser($targetUser);
 			}
 			foreach (array_diff($groups, $currentGroupIds) as $gid) {
