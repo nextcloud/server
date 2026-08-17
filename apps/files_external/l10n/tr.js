@@ -24,7 +24,7 @@ OC.L10N.register(
     "Login" : "Kullanıcı adı",
     "Password" : "Parola",
     "Tenant name" : "Kiracı adı",
-    "Identity endpoint URL" : "Kimlik arka yüzü noktası adresi",
+    "Identity endpoint URL" : "Kimlik uç noktası adresi",
     "OpenStack v3" : "OpenStack v3",
     "Domain" : "Etki alanı",
     "Rackspace" : "Rackspace",
