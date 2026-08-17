@@ -16,6 +16,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\InvalidStringParameterException;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
@@ -581,6 +582,47 @@ class DispatcherTest extends \Test\TestCase {
 		}
 
 		self::invokePrivate($this->dispatcher, 'ensureParameterValueSatisfiesRange', [$param, $input, $default]);
+		if (!$throw) {
+			// do not mark this test risky
+			$this->assertTrue(true);
+		}
+	}
+
+	public static function stringConstraintDataProvider(): array {
+		return [
+			[true, null, false],
+			[true, 'non-empty-string', false],
+			[false, 'non-empty-string', true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('stringConstraintDataProvider')]
+	public function testEnsureParameterValueSatisfiesStringConstraint(bool $satisfies, ?string $constraint, bool $throw): void {
+		$this->reflector = $this->createMock(ControllerMethodReflector::class);
+		$this->reflector->expects($this->any())
+			->method('satisfiesStringConstraint')
+			->willReturn($satisfies);
+		$this->reflector->expects($this->any())
+			->method('getStringConstraint')
+			->willReturn($constraint);
+
+		$this->dispatcher = new Dispatcher(
+			$this->http,
+			$this->middlewareDispatcher,
+			$this->reflector,
+			$this->request,
+			$this->config,
+			Server::get(IDBConnection::class),
+			$this->logger,
+			$this->eventLogger,
+			$this->container,
+		);
+
+		if ($throw) {
+			$this->expectException(InvalidStringParameterException::class);
+		}
+
+		self::invokePrivate($this->dispatcher, 'ensureParameterValueSatisfiesStringConstraint', ['myArgument', '']);
 		if (!$throw) {
 			// do not mark this test risky
 			$this->assertTrue(true);

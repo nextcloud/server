@@ -16,6 +16,7 @@ use OC\DB\ConnectionAdapter;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\InvalidStringParameterException;
 use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
@@ -160,6 +161,8 @@ class Dispatcher {
 			} elseif ($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
 				$this->ensureParameterValueSatisfiesRange($param, $value, $default);
+			} elseif ($value !== null && $type === 'string' && \is_string($value)) {
+				$this->ensureParameterValueSatisfiesStringConstraint($param, $value);
 			} elseif ($value === null && $type !== null && $this->appContainer->has($type)) {
 				$value = $this->appContainer->get($type);
 			}
@@ -223,6 +226,15 @@ class Dispatcher {
 					self::DEFAULT_MAX,
 				);
 			}
+		}
+	}
+
+	/**
+	 * @throws InvalidStringParameterException
+	 */
+	private function ensureParameterValueSatisfiesStringConstraint(string $param, string $value): void {
+		if (!$this->reflector->satisfiesStringConstraint($param, $value)) {
+			throw new InvalidStringParameterException($param, $this->reflector->getStringConstraint($param));
 		}
 	}
 }
