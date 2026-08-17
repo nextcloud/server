@@ -289,4 +289,24 @@ class Autoloader {
 			'Disk scans' => $this->diskScans,
 		];
 	}
+
+	public function serializeToArray(): array {
+		return [
+			'psr4Paths' => $this->psr4Paths,
+			'excludeDirs' => $this->excludeDirs,
+			'classes' => $this->classes,
+			'missingClasses' => $this->missingClasses,
+		];
+	}
+
+	public function loadFromArray(array $properties): void {
+		$this->psr4Paths = $properties['psr4Paths'];
+		$this->excludeDirs = $properties['excludeDirs'];
+		$this->classes = $properties['classes'];
+		$this->missingClasses = $properties['missingClasses'];
+
+		/* Avoid any refresh */
+		$this->cacheLoaded = true;
+		$this->refreshed = true;
+	}
 }
