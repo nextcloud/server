@@ -80,9 +80,10 @@ class Files extends Action {
 	 */
 	public function create(NodeCreatedEvent $event): void {
 		try {
+			$node = $event->getNode();
 			$params = [
-				'id' => $event->getNode()->getId(),
-				'path' => $event->getNode()->getPath(),
+				'id' => $node->getId(),
+				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -105,11 +106,13 @@ class Files extends Action {
 	 */
 	public function copy(NodeCopiedEvent $event): void {
 		try {
+			$source = $event->getSource();
+			$target = $event->getTarget();
 			$params = [
-				'oldid' => $event->getSource()->getId(),
-				'newid' => $event->getTarget()->getId(),
-				'oldpath' => $event->getSource()->getPath(),
-				'newpath' => $event->getTarget()->getPath(),
+				'oldid' => $source->getId(),
+				'newid' => $target->getId(),
+				'oldpath' => $source->getPath(),
+				'newpath' => $target->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -128,8 +131,8 @@ class Files extends Action {
 	 * Logs writing of files
 	 */
 	public function write(NodeWrittenEvent $event): void {
-		$node = $event->getNode();
 		try {
+			$node = $event->getNode();
 			$params = [
 				'id' => $node->getId(),
 				'path' => $node->getPath(),
@@ -156,9 +159,10 @@ class Files extends Action {
 	 */
 	public function delete(BeforeNodeDeletedEvent $event): void {
 		try {
+			$node = $event->getNode();
 			$params = [
-				'id' => $event->getNode()->getId(),
-				'path' => $event->getNode()->getPath(),
+				'id' => $node->getId(),
+				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
