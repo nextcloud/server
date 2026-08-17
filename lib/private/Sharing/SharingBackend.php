@@ -991,7 +991,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 			$result = $qb->executeQuery();
 			foreach ($result->fetchAll() as $row) {
-				$id = (int)$row['share_id'];
+				$id = (string)$row['share_id'];
 
 				/** @var class-string<ISharePermissionType> $permissionTypeClass */
 				$permissionTypeClass = $this->classMapper->getClassName((int)$row['permission_class_id']);
