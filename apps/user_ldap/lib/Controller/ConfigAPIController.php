@@ -313,7 +313,7 @@ class ConfigAPIController extends OCSController {
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
 	#[ApiRoute(verb: 'POST', url: '/api/v1/config/{configID}/copy')]
-	public function copyConfiguration(string $configID) {
+	public function copyConfiguration(string $configID): DataResponse {
 		try {
 			$this->ensureConfigIDExists($configID);
 			$configPrefix = $this->ldapHelper->getNextServerConfigurationPrefix();
@@ -336,8 +336,7 @@ class ConfigAPIController extends OCSController {
 	 * @param string $configID
 	 * @throws OCSNotFoundException
 	 */
-	#[AuthorizedAdminSetting(settings: Admin::class)]
-	private function ensureConfigIDExists($configID): void {
+	private function ensureConfigIDExists(string $configID): void {
 		$prefixes = $this->ldapHelper->getServerConfigurationPrefixes();
 		if (!in_array($configID, $prefixes, true)) {
 			throw new OCSNotFoundException('Config ID not found');
