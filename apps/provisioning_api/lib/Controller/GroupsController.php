@@ -94,15 +94,15 @@ class GroupsController extends AUserDataOCSController {
 			return $group->getGID();
 		}, $groups);
 
-		$response = new DataResponse(['groups' => $groups]);
+		$headers = [];
 		if ($hasMoreResults) {
-			$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
 				'search' => $search,
 				'limit' => $limit,
 				'offset' => $offset + $limit,
-			])]);
+			]);
 		}
-		return $response;
+		return new DataResponse(['groups' => $groups], headers: $headers);
 	}
 
 	/**
@@ -133,15 +133,15 @@ class GroupsController extends AUserDataOCSController {
 			];
 		}, $groups);
 
-		$response = new DataResponse(['groups' => $groups]);
+		$headers = [];
 		if ($hasMoreResults) {
-			$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
 				'search' => $search,
 				'limit' => $limit,
 				'offset' => $offset + $limit,
-			])]);
+			]);
 		}
-		return $response;
+		return new DataResponse(['groups' => $groups], headers: $headers);
 	}
 
 	/**
@@ -257,18 +257,18 @@ class GroupsController extends AUserDataOCSController {
 					// continue if a users ceased to exist.
 				}
 			}
-			$response = new DataResponse([
-				'users' => $usersDetails,
-				'groups' => $this->findGroupsWithDisplayname($usersDetails),
-			]);
+			$headers = [];
 			if ($hasMoreResults) {
-				$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+				$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
 					'search' => $search,
 					'limit' => $limit,
 					'offset' => $offset + $limit,
-				])]);
+				]);
 			}
-			return $response;
+			return new DataResponse([
+				'users' => $usersDetails,
+				'groups' => $this->findGroupsWithDisplayname($usersDetails),
+			], headers: $headers);
 		}
 
 		throw new OCSException('The requested group could not be found', OCSController::RESPOND_NOT_FOUND);

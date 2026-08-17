@@ -48,7 +48,7 @@ class AutoCompleteController extends OCSController {
 	 * @param string|null $itemType Type of the items to search for
 	 * @param string|null $itemId ID of the items to search for
 	 * @param string|null $sorter can be piped, top priority first, e.g.: "commenters|share-recipients"
-	 * @param list<positive-int> $shareTypes Types of shares to search for
+	 * @param list<non-negative-int> $shareTypes Types of shares to search for
 	 * @param positive-int $limit Maximum number of results to return
 	 * @param non-negative-int $offset Offset for searching
 	 *
@@ -90,9 +90,9 @@ class AutoCompleteController extends OCSController {
 		// transform to expected format
 		$results = $this->prepareResultArray($results);
 
-		$response = new DataResponse($results);
+		$headers = [];
 		if ($hasMoreResults) {
-			$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
 				'search' => $search,
 				'itemType' => $itemType,
 				'itemId' => $itemId,
@@ -100,10 +100,10 @@ class AutoCompleteController extends OCSController {
 				'shareTypes' => $shareTypes,
 				'limit' => $limit,
 				'offset' => $offset + $limit,
-			])]);
+			]);
 		}
 
-		return $response;
+		return new DataResponse($results, headers: $headers);
 	}
 
 	/**

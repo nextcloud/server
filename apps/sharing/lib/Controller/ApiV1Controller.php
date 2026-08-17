@@ -114,17 +114,18 @@ final class ApiV1Controller extends OCSController {
 				$recipients = $this->manager->searchRecipients($this->accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $forShare);
 				$this->dbConnection->commit();
 
-				$response = new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients));
+				$headers = [];
 				if ($this->hasMoreResults($recipients, $limit)) {
-					$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+					$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
 						'filterRecipientTypeClasses' => $filterRecipientTypeClasses,
 						'query' => $query,
 						'limit' => $limit,
 						'offset' => $offset + $limit,
 						'id' => $id,
-					])]);
+					]);
 				}
-				return $response;
+
+				return new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients), headers: $headers);
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
