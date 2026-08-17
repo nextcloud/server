@@ -2015,7 +2015,7 @@
                             "items": {
                                 "type": "integer",
                                 "format": "int64",
-                                "minimum": 1
+                                "minimum": 0
                             }
                         }
                     },

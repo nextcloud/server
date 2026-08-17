@@ -170,7 +170,7 @@ class Response {
 	 * function
 	 * @param string $name The name of the HTTP header
 	 * @param string $value The value, null will delete it
-	 * @return $this
+	 * @return static
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
 	public function addHeader($name, $value) {

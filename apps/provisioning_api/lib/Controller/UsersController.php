@@ -146,17 +146,17 @@ class UsersController extends AUserDataOCSController {
 		/** @var list<string> $users */
 		$users = array_keys($users);
 
-		$response = new DataResponse([
-			'users' => $users
-		]);
+		$headers = [];
 		if ($hasMoreResults) {
-			$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
 				'search' => $search,
 				'limit' => $limit,
 				'offset' => $offset + $limit,
-			])]);
+			]);
 		}
-		return $response;
+		return new DataResponse([
+			'users' => $users
+		], headers: $headers);
 	}
 
 	/**
@@ -218,18 +218,18 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		$response = new DataResponse([
-			'users' => $usersDetails,
-			'groups' => $this->findGroupsWithDisplayname($usersDetails),
-		]);
+		$headers = [];
 		if ($hasMoreResults) {
-			$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
 				'search' => $search,
 				'limit' => $limit,
 				'offset' => $offset + $limit,
-			])]);
+			]);
 		}
-		return $response;
+		return new DataResponse([
+			'users' => $usersDetails,
+			'groups' => $this->findGroupsWithDisplayname($usersDetails),
+		], headers: $headers);
 	}
 
 	/**
@@ -311,17 +311,17 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		$response = new DataResponse([
-			'users' => $usersDetails
-		]);
+		$headers = [];
 		if ($hasMoreResults) {
-			$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
 				'search' => $search,
 				'limit' => $limit,
 				'offset' => $offset + $limit,
-			])]);
+			]);
 		}
-		return $response;
+		return new DataResponse([
+			'users' => $usersDetails
+		], headers: $headers);
 	}
 
 	/**
@@ -378,17 +378,17 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		$response = new DataResponse([
-			'users' => $usersDetails
-		]);
+		$headers = [];
 		if ($hasMoreResults) {
-			$response->setHeaders(['Link' => $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
 				'search' => $search,
 				'limit' => $limit,
 				'offset' => $offset + $limit,
-			])]);
+			]);
 		}
-		return $response;
+		return new DataResponse([
+			'users' => $usersDetails
+		], headers: $headers);
 	}
 
 	/**
