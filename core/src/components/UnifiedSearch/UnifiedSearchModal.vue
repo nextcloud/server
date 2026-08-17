@@ -376,11 +376,12 @@ export default defineComponent({
 		const searchStore = useSearchStore()
 		const isSmallMobile = useIsSmallMobile()
 
-		const { searchStates, search, loadMore, reset } = useUnifiedSearch()
+		const { searchStates, revealOrder, search, loadMore, reset } = useUnifiedSearch()
 
 		return {
 			t,
 			searchStates,
+			revealOrder,
 			search,
 			loadMore,
 			reset,
@@ -548,18 +549,19 @@ export default defineComponent({
 				.filter((filter) => filter.type !== 'provider')
 				.map((filter) => filter.type)
 
-			return Object.entries(this.searchStates)
-				.filter(([, state]) => state.entries.length > 0 && (state.status === 'loaded' || state.status === 'loading'))
-				.map(([providerId, state]) => {
-					const provider = this.providers.find((p) => p.id === providerId)
-					const supportsActiveFilters = this.providerIsCompatibleWithFilters(provider, contentFilterTypes)
-					return {
-						...provider,
-						results: state.entries,
-						hasMore: state.hasMore,
-						supportsActiveFilters,
-					}
-				})
+			// Category order and category-level visibility are the controller's, see
+			// getRevealOrder(). Do not re-derive or re-sort them here.
+			return this.revealOrder.map((providerId) => {
+				const state = this.searchStates[providerId]
+				const provider = this.providers.find((p) => p.id === providerId)
+				const supportsActiveFilters = this.providerIsCompatibleWithFilters(provider, contentFilterTypes)
+				return {
+					...provider,
+					results: state.entries,
+					hasMore: state.hasMore,
+					supportsActiveFilters,
+				}
+			})
 		},
 
 		filteredResults() {
@@ -615,6 +617,10 @@ export default defineComponent({
 		// two can't drift (a11y invariant). Aggregate: filtered then partial-match groups,
 		// capped to RESULTS_PER_CATEGORY with `overflow` when there's more. Detail: the
 		// opened category alone, uncapped.
+		//
+		// This partition is a second ordering axis, so reveal order holds *within* a section,
+		// not across the two: with content filters active, a filter-compatible category that
+		// lands late still renders above an already-shown partial match.
 		renderedGroups() {
 			if (this.detailCategory) {
 				return this.detailGroup
@@ -763,9 +769,7 @@ export default defineComponent({
 				// when closed (e.g. the local search bar on deck), so a hidden modal must
 				// not fire background searches.
 				if (this.open) {
-					// Mark busy synchronously so the debounce window doesn't flash the empty state.
-					this.pendingSearch = true
-					this.debouncedFind(this.searchQuery)
+					this.scheduleSearch()
 				}
 			},
 		},
@@ -948,6 +952,18 @@ export default defineComponent({
 			this.$emit('update:open', false)
 		},
 
+		/**
+		 * Blank the results, then queue the search. Every query and filter change comes through
+		 * here. The results on screen answer the previous question, so holding them until the
+		 * debounce fires only means they shift once the real ones land.
+		 */
+		scheduleSearch() {
+			this.reset()
+			// Mark busy synchronously so the debounce window doesn't flash the empty state.
+			this.pendingSearch = true
+			this.debouncedFind(this.searchQuery)
+		},
+
 		find(query: string) {
 			// The debounced search is running now; from here `searching` (or `!initialized`) drives busy.
 			this.pendingSearch = false
@@ -1047,7 +1063,7 @@ export default defineComponent({
 				this.filters[existingPersonFilter].name = person.displayName
 			}
 
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 			unifiedSearchLogger.debug('Person filter applied', { person })
 		},
 
@@ -1155,7 +1171,7 @@ export default defineComponent({
 			})
 			this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
 			unifiedSearchLogger.debug('Search filters (newly added)', { filters: this.filters })
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		removeFilter(filter) {
@@ -1177,7 +1193,7 @@ export default defineComponent({
 					}
 				}
 			}
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		syncProviderFilters(firstArray, secondArray) {
@@ -1213,7 +1229,7 @@ export default defineComponent({
 				this.filters.push(this.dateFilter)
 			}
 
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		applyQuickDateRange(range) {
@@ -1295,7 +1311,7 @@ export default defineComponent({
 					break
 				}
 			}
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		groupProvidersByApp(filters) {

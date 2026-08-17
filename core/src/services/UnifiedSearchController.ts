@@ -23,7 +23,7 @@ export interface CategorySearchParams {
 	extraQueries?: object
 }
 
-export const REVEAL_INTERVAL_MS = 1500
+export const REVEAL_INTERVAL_MS = 1000
 
 /**
  * Results fetched per category per page. Sized for the detail view (which shows the
@@ -32,13 +32,33 @@ export const REVEAL_INTERVAL_MS = 1500
 export const PAGE_SIZE = 10
 
 /**
+ * Whether a category has anything for the user to look at. Blocked is deliberately withheld
+ * and failed carries no entries. Loading counts because paging keeps the pages already
+ * fetched on screen while the next one is in flight; a new query has no entries to show, so
+ * it reads as not visible until results actually land.
+ *
+ * Exported so the one definition also serves the Vue-side test doubles; the controller is
+ * the only place that decides category-level visibility.
+ *
+ * @param state the category state to test
+ */
+export function isCategoryVisible(state: CategorySearchState): boolean {
+	return state.entries.length > 0 && (state.status === 'loaded' || state.status === 'loading')
+}
+
+/**
  * Runs a unified search across categories in priority order, blocking
  * lower-priority results until their predecessors arrive or a timer reveals them.
+ *
+ * Priority decides who waits for whom. It has no say over what is already on screen:
+ * see `getRevealOrder()`.
  */
 export class UnifiedSearchController {
 	private query: string = ''
 	private params: Record<string, CategorySearchParams> = {}
 	private searchStates: Record<string, CategorySearchState> = {}
+	private revealOrder: string[] = []
+	private revealWindowOpen: boolean = false
 	private searchGeneration: number = 0
 	private revealTimer: ReturnType<typeof setTimeout> | null = null
 	private pendingCancels: (() => void)[] = []
@@ -55,11 +75,12 @@ export class UnifiedSearchController {
 	 */
 	async search(query: string, categories: string[], params?: Record<string, CategorySearchParams>): Promise<void> {
 		this.cancelPendingRequests()
-		// Stale-while-revalidate: keep the previous page on screen while the new search is in
-		// flight, so refining a query swaps results in place instead of flashing an empty panel.
-		// Each recurring category is reseeded with its prior entries below; dropped ones vanish.
-		const previous = this.searchStates
+		// A new query hides everything the last one produced. Carrying results over would only
+		// let them shift under the user once the real ones land, and the results are about to
+		// differ anyway. So each search is a clean slate: empty screen, then a fresh ordered
+		// reveal from priority order. Nothing is on screen, so nothing can be displaced.
 		this.searchStates = {}
+		this.revealOrder = []
 		this.searchGeneration++
 		const generation = this.searchGeneration
 		this.query = query
@@ -67,14 +88,7 @@ export class UnifiedSearchController {
 
 		this.startRevealTimer()
 
-		await Promise.allSettled(categories.map((category) => {
-			const prev = previous[category]
-			// Only entries that were actually on screen seed the stale view. A blocked or failed
-			// category's entries were fetched but never rendered, so they must not carry over
-			// (and must not let the category skip the ordered reveal).
-			const staleEntries = prev && (prev.status === 'loaded' || prev.status === 'loading') ? prev.entries : []
-			return this.searchCategory(category, generation, categories, staleEntries)
-		}))
+		await Promise.allSettled(categories.map((category) => this.searchCategory(category, generation, categories)))
 	}
 
 	/**
@@ -137,6 +151,23 @@ export class UnifiedSearchController {
 		return { ...this.searchStates }
 	}
 
+	/**
+	 * The ids of the categories currently on screen, in display order.
+	 *
+	 * Append-only within a search, so a category never moves up into a slot another one already
+	 * occupies: a result that arrives late renders below what the user is already reading,
+	 * however high its priority. A new query starts over from priority order, since it clears
+	 * the screen first and so has nothing to displace. Read this rather than the snapshot's key
+	 * order, which is the priority order and an input to blocking, not a rendering order.
+	 *
+	 * Only ever names categories the current snapshot holds, so a caller can map without guarding.
+	 *
+	 * @return visible category ids, top to bottom
+	 */
+	getRevealOrder(): string[] {
+		return [...this.revealOrder]
+	}
+
 	dispose(): void {
 		this.stopBackgroundWork()
 	}
@@ -144,6 +175,7 @@ export class UnifiedSearchController {
 	reset(): void {
 		this.stopBackgroundWork()
 		this.searchStates = {}
+		this.revealOrder = []
 		this.query = ''
 		this.params = {}
 		this.searchGeneration++
@@ -154,13 +186,10 @@ export class UnifiedSearchController {
 		category: string,
 		generation: number,
 		categories: string[],
-		staleEntries: unknown[] = [],
 	): Promise<void> {
-		// Seed with the prior page (stale-while-revalidate) so it stays visible under the
-		// spinner until the fresh page replaces it. Empty on a first search.
 		this.patchStates({ [category]: {
 			status: 'loading',
-			entries: staleEntries,
+			entries: [],
 			cursor: null,
 			hasMore: false,
 			loadMoreFailed: false,
@@ -185,12 +214,9 @@ export class UnifiedSearchController {
 
 			const { entries, cursor, isPaginated } = response.data.ocs.data
 			// Decide blocked vs loaded once, here at settle. Reconcile only promotes after this
-			// (never re-blocks), so this is the only place a category becomes blocked. A category
-			// that carried stale results skips blocking: it is already on screen, so blocking it
-			// would blink it off until its predecessors clear. Ordered reveal is only for the
-			// first paint, when nothing is shown yet.
+			// (never re-blocks), so this is the only place a category becomes blocked.
 			this.patchStates({ [category]: {
-				status: (staleEntries.length === 0 && this.shouldBlockCategory(category, categories)) ? 'blocked' : 'loaded',
+				status: this.shouldBlockCategory(category, categories) ? 'blocked' : 'loaded',
 				entries,
 				cursor,
 				hasMore: this.hasMorePages(isPaginated, cursor),
@@ -225,19 +251,23 @@ export class UnifiedSearchController {
 		})
 	}
 
+	/**
+	 * Arm the one reveal window a search gets. Ordered reveal governs the first paint only:
+	 * when the window closes everything blocked is shown and nothing may block again, so a
+	 * category that lands later is revealed straight away, at the end. Only a new search
+	 * opens another window.
+	 */
 	private startRevealTimer(): void {
 		this.stopRevealTimer()
+		this.revealWindowOpen = true
 		this.revealTimer = setTimeout(() => {
-			const categories = Object.keys(this.searchStates)
-			const hasPendingCategories = categories.some((category) => ['loading', 'blocked'].includes(this.searchStates[category].status))
-			this.unblockAllCategories(categories)
-			if (hasPendingCategories) {
-				this.startRevealTimer()
-			}
+			this.revealWindowOpen = false
+			this.unblockAllCategories(Object.keys(this.searchStates))
 		}, REVEAL_INTERVAL_MS)
 	}
 
 	private stopRevealTimer(): void {
+		this.revealWindowOpen = false
 		if (this.revealTimer) {
 			clearTimeout(this.revealTimer)
 			this.revealTimer = null
@@ -275,7 +305,8 @@ export class UnifiedSearchController {
 	}
 
 	private shouldBlockCategory(category: string, categories: string[]): boolean {
-		if (!this.searchStates[category]) {
+		// Once the window has closed, ordered reveal is over for this search.
+		if (!this.revealWindowOpen || !this.searchStates[category]) {
 			return false
 		}
 
@@ -285,10 +316,28 @@ export class UnifiedSearchController {
 		})
 	}
 
+	/**
+	 * Keep the display order in step with what is on screen. Losing its results frees a
+	 * category's slot, so the list closes the gap instead of leaving a hole.
+	 *
+	 * @param category the category id that just changed
+	 * @param state its merged state
+	 */
+	private syncRevealOrder(category: string, state: CategorySearchState): void {
+		const at = this.revealOrder.indexOf(category)
+		const visible = isCategoryVisible(state)
+		if (visible && at === -1) {
+			this.revealOrder.push(category)
+		} else if (!visible && at !== -1) {
+			this.revealOrder.splice(at, 1)
+		}
+	}
+
 	private patchStates(next: Record<string, Partial<CategorySearchState>>): void {
 		Object.keys(next).forEach((category) => {
 			const categoryState = { ...this.searchStates[category], ...next[category] }
 			this.searchStates[category] = categoryState
+			this.syncRevealOrder(category, categoryState)
 		})
 		this.onChange?.(this.getSnapshot())
 	}
