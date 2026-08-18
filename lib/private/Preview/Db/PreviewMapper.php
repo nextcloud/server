@@ -217,10 +217,17 @@ class PreviewMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$this->joinLocation($qb)
 			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId)))
+			->orderBy('p.id', 'ASC')
 			->setMaxResults($limit);
 
 		if ($maxAgeDays !== null) {
-			$qb->andWhere($qb->expr()->lt('mtime', $qb->createNamedParameter((new DateTimeImmutable())->sub(new DateInterval('P' . $maxAgeDays . 'D'))->getTimestamp(), IQueryBuilder::PARAM_INT)));
+			$qb->andWhere($qb->expr()->lt(
+				'p.mtime',
+				$qb->createNamedParameter(
+					(new DateTimeImmutable())->sub(new DateInterval('P' . $maxAgeDays . 'D'))->getTimestamp(),
+					IQueryBuilder::PARAM_INT,
+				),
+			));
 		}
 
 		return $this->yieldEntities($qb);
