@@ -65,15 +65,15 @@ if ($totalDuration <= 0) {
 	exit(0);
 }
 
-printf("Execution order, %d buckets (are later tests slower?)\n", BUCKETS);
+$chunks = array_chunk($tests, (int)ceil($testCount / BUCKETS));
+$buckets = count($chunks);
+
+printf("Execution order, %d buckets (are later tests slower?)\n", $buckets);
 echo "  bucket        tests    sum(s)   mean(ms)   median(ms)    max(s)  cum%\n";
 
 $durationSoFar = 0.0;
-for ($bucket = 0; $bucket < BUCKETS; $bucket++) {
-	$from = (int)floor($testCount * $bucket / BUCKETS);
-	$to = (int)floor($testCount * ($bucket + 1) / BUCKETS);
-
-	$durations = array_column(array_slice($tests, $from, $to - $from), 'duration');
+foreach ($chunks as $bucket => $chunk) {
+	$durations = array_column($chunk, 'duration');
 	sort($durations);
 	$inBucket = count($durations);
 	$bucketDuration = array_sum($durations);
@@ -81,13 +81,13 @@ for ($bucket = 0; $bucket < BUCKETS; $bucket++) {
 
 	printf(
 		"  %3d-%3d%%  %7d %9.1f %10.2f %12.2f %9.2f %5.1f%%\n",
-		$bucket * (100 / BUCKETS),
-		($bucket + 1) * (100 / BUCKETS),
+		$bucket * 100 / $buckets,
+		($bucket + 1) * 100 / $buckets,
 		$inBucket,
 		$bucketDuration,
-		$inBucket ? $bucketDuration / $inBucket * 1000 : 0,
-		$inBucket ? $durations[intdiv($inBucket, 2)] * 1000 : 0,
-		$inBucket ? max($durations) : 0,
+		$bucketDuration / $inBucket * 1000,
+		$durations[intdiv($inBucket, 2)] * 1000,
+		max($durations),
 		$durationSoFar / $totalDuration * 100,
 	);
 }
