@@ -144,6 +144,17 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	if (!$node) {
 		throw new NotFound();
 	}
+
+	// getFirstNodeById might return a node without share permission -> try to find a node which is shareable
+	if (!$node->isShareable()) {
+		foreach ($userFolder->getById($fileId) as $candidate) {
+			if ($candidate->isShareable()) {
+				$node = $candidate;
+				break;
+			}
+		}
+	}
+
 	$linkCheckPlugin->setFileInfo($node);
 
 	// If not readable (files_drop) enable the filesdrop plugin
