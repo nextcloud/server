@@ -135,6 +135,16 @@ jobs:
             echo '```'
           } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
 
+      - name: Outgoing HTTP requests
+        if: always()
+        continue-on-error: true
+        run: |
+          {
+            echo '```'
+            php tests/http-analyzer.php http-requests.log 20
+            echo '```'
+          } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
+
       - name: Print logs
         if: always()
         run: |
