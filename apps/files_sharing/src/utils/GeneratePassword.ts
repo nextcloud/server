@@ -22,7 +22,9 @@ export default async function(verbose = false): Promise<string> {
 	// password policy is enabled, let's request a pass
 	if (config.passwordPolicy.api && config.passwordPolicy.api.generate) {
 		try {
-			const request = await axios.get(config.passwordPolicy.api.generate)
+			const request = await axios.get(config.passwordPolicy.api.generate, {
+				params: { context: 'sharing' },
+			})
 			if (request.data.ocs.data.password) {
 				if (verbose) {
 					showSuccess(t('files_sharing', 'Password created successfully'))
