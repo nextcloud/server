@@ -161,6 +161,9 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IMailProvider>[] */
 	private $mailProviders = [];
 
+	/** @var class-string<IGlobalScaleService>|null */
+	private ?string $globalScaleService = null;
+
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
