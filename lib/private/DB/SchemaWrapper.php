@@ -75,7 +75,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	#[\Override]
 	public function getTable(string $tableName): ITable {
 		try {
-			return new Table($this->schema->getTable($this->connection->getPrefix() . $tableName));
+			return new Table($this->schema->getTable($this->connection->getPrefix() . $tableName), $this->connection);
 		} catch (DBALSchemaException $e) {
 			throw new SchemaException($e->getMessage(), $e->getCode(), $e);
 		}
@@ -93,7 +93,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	public function createTable(string $tableName): ITable {
 		unset($this->tablesToDelete[$tableName]);
 		try {
-			return new Table($this->schema->createTable($this->connection->getPrefix() . $tableName));
+			return new Table($this->schema->createTable($this->connection->getPrefix() . $tableName), $this->connection);
 		} catch (DBALSchemaException $e) {
 			throw new SchemaException($e->getMessage(), $e->getCode(), $e);
 		}
