@@ -16,6 +16,8 @@ use OC\DB\ConnectionAdapter;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\InvalidEnumParameterException;
+use OCP\AppFramework\Http\InvalidStringParameterException;
 use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
@@ -160,6 +162,10 @@ class Dispatcher {
 			} elseif ($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
 				$this->ensureParameterValueSatisfiesRange($param, $value, $default);
+			} elseif ($value !== null && $type === 'string' && \is_string($value)) {
+				$this->ensureParameterValueSatisfiesStringConstraint($param, $value);
+			} elseif ($value !== null && $type !== null && !($value instanceof $type) && enum_exists($type) && is_a($type, \BackedEnum::class, true)) {
+				$value = $this->resolveBackedEnumValue($param, $type, $value);
 			} elseif ($value === null && $type !== null && $this->appContainer->has($type)) {
 				$value = $this->appContainer->get($type);
 			}
@@ -224,5 +230,41 @@ class Dispatcher {
 				);
 			}
 		}
+	}
+
+	/**
+	 * @throws InvalidStringParameterException
+	 */
+	private function ensureParameterValueSatisfiesStringConstraint(string $param, string $value): void {
+		if (!$this->reflector->satisfiesStringConstraint($param, $value)) {
+			throw new InvalidStringParameterException($param, $this->reflector->getStringConstraint($param));
+		}
+	}
+
+	/**
+	 * @template T of \BackedEnum
+	 * @psalm-param class-string<T> $enumClass
+	 * @psalm-param mixed $value
+	 * @psalm-return T
+	 * @throws InvalidEnumParameterException
+	 */
+	private function resolveBackedEnumValue(string $param, string $enumClass, $value): \BackedEnum {
+		if (!is_scalar($value)) {
+			throw new InvalidEnumParameterException($param, get_debug_type($value), $enumClass);
+		}
+
+		$backingType = (new \ReflectionEnum($enumClass))->getBackingType();
+		assert($backingType instanceof \ReflectionNamedType);
+		$backingType = $backingType->getName();
+		if ($backingType === 'int') {
+			if (!is_numeric($value)) {
+				throw new InvalidEnumParameterException($param, (string)$value, $enumClass);
+			}
+			$value = (int)$value;
+		} else {
+			$value = (string)$value;
+		}
+
+		return $enumClass::tryFrom($value) ?? throw new InvalidEnumParameterException($param, (string)$value, $enumClass);
 	}
 }
