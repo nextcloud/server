@@ -166,6 +166,14 @@ class Dispatcher {
 				$this->ensureParameterValueSatisfiesStringConstraint($param, $value);
 			} elseif ($value !== null && $type !== null && !($value instanceof $type) && enum_exists($type) && is_a($type, \BackedEnum::class, true)) {
 				$value = $this->resolveBackedEnumValue($param, $type, $value);
+			} elseif (is_a($type, \SortDirection::class, true)) {
+				if (strtolower($value) === 'asc') {
+					$value = \SortDirection::Ascending;
+				} else if (strtolower($value) === 'desc') {
+					$value = \SortDirection::Descending;
+				} else {
+					throw new InvalidEnumParameterException($param, get_debug_type($value), \SortDirection::class);
+				}
 			} elseif ($value === null && $type !== null && $this->appContainer->has($type)) {
 				$value = $this->appContainer->get($type);
 			}
