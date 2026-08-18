@@ -19203,17 +19203,20 @@
                         "content": {
                             "text/calendar; charset=UTF-8": {
                                 "schema": {
-                                    "anyOf": []
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             },
                             "application/calendar+json; charset=UTF-8": {
                                 "schema": {
-                                    "anyOf": []
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             },
                             "application/calendar+xml; charset=UTF-8": {
                                 "schema": {
-                                    "anyOf": []
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             }
                         }
@@ -19428,7 +19431,8 @@
                         "content": {
                             "application/x-ndjson": {
                                 "schema": {
-                                    "anyOf": []
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             }
                         }
@@ -19631,7 +19635,8 @@
                         "content": {
                             "application/x-ndjson": {
                                 "schema": {
-                                    "anyOf": []
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             }
                         }
