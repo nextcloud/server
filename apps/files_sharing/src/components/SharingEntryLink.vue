@@ -79,7 +79,7 @@
 				:value.sync="share.newPassword"
 				:disabled="saving"
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
-				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
+				:minlength="minPasswordLength"
 				autocomplete="new-password"
 				@submit="onNewLinkShare(true)">
 				<template #icon>
@@ -341,6 +341,16 @@ export default {
 	},
 
 	computed: {
+		minPasswordLength() {
+			if (this.isPasswordPolicyEnabled) {
+				if (this.config.passwordPolicy.policies?.sharing?.minLength) {
+					return this.config.passwordPolicy.policies.sharing.minLength
+				}
+				return this.config.passwordPolicy.minLength
+			}
+			return 0
+		},
+
 		/**
 		 * Link share label
 		 *
