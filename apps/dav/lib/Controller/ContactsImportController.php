@@ -19,7 +19,7 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\StreamGeneratorResponse;
+use OCP\AppFramework\Http\StreamTraversableResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Contacts\ContactsImportOptions;
 use OCP\Contacts\IManager;
@@ -53,7 +53,7 @@ class ContactsImportController extends OCSController {
 	 * @param string $data contacts data
 	 * @param string|null $user system user id
 	 *
-	 * @return StreamGeneratorResponse<Http::STATUS_OK, array{Content-Type:'application/x-ndjson'}> | DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{error?: non-empty-string}, array{}>
+	 * @return StreamTraversableResponse<Http::STATUS_OK, array{Content-Type:'application/x-ndjson'}> | DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{error?: non-empty-string}, array{}>
 	 *
 	 * 200: NDJSON stream of import event objects
 	 * 400: invalid parameters
@@ -62,7 +62,7 @@ class ContactsImportController extends OCSController {
 	#[ApiRoute(verb: 'POST', url: '/import', root: '/contacts')]
 	#[UserRateLimit(limit: 10, period: 3600)]
 	#[NoAdminRequired]
-	public function import(string $transaction, string $target, array $options, string $data, ?string $user = null): DataResponse|StreamGeneratorResponse {
+	public function import(string $transaction, string $target, array $options, string $data, ?string $user = null): DataResponse|StreamTraversableResponse {
 		$addressBookId = $target;
 		$format = isset($options['format']) ? $options['format'] : null;
 		$validation = isset($options['validation']) ? (int)$options['validation'] : null;
@@ -141,6 +141,6 @@ class ContactsImportController extends OCSController {
 			}
 		})();
 
-		return new StreamGeneratorResponse($stream, 'application/x-ndjson');
+		return new StreamTraversableResponse($stream, Http::STATUS_OK, ['Content-Type' => 'application/x-ndjson']);
 	}
 }
