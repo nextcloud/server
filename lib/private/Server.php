@@ -11,6 +11,7 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Accounts\AccountManager;
 use OC\Activity\EventMerger;
 use OC\App\AppManager;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
