@@ -13,5 +13,5 @@ require_once __DIR__ . '/../lib/base.php';
  * This is a file that applications can require to be able to autoload the class Test\TestCase from Nextcloud tests
  */
 
-\OC::$autoloader->addPsr4('Test\\', OC::$SERVERROOT . '/tests/lib/');
-\OC::$autoloader->triggerReload();
+\OC::$autoloader->addPsr4('Test', OC::$SERVERROOT . '/tests/lib');
+\OC::$autoloader->rebuild();
