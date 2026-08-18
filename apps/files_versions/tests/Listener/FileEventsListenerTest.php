@@ -59,7 +59,6 @@ class FileEventsListenerTest extends TestCase {
 
 	private function getPrivateProperty(string $property): mixed {
 		$ref = new \ReflectionProperty(FileEventsListener::class, $property);
-		$ref->setAccessible(true);
 		return $ref->getValue($this->listener);
 	}
 
@@ -71,7 +70,6 @@ class FileEventsListenerTest extends TestCase {
 			->with('Failed to compute path for node', $this->anything());
 
 		$method = new \ReflectionMethod(FileEventsListener::class, 'getPathForNode');
-		$method->setAccessible(true);
 
 		$this->assertNull($method->invoke($this->listener, $node));
 	}
