@@ -20,6 +20,7 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\ITempManager;
 use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Util;
@@ -43,6 +44,7 @@ class Application {
 		private MemoryInfo $memoryInfo,
 		private IAppManager $appManager,
 		private Defaults $defaults,
+		private ITempManager $tempManager,
 	) {
 		$this->application = new SymfonyApplication($defaults->getName(), $serverVersion->getVersionString());
 	}
@@ -80,6 +82,16 @@ class Application {
 				'<comment>The current PHP memory limit '
 				. 'is below the recommended value of 512MB.</comment>'
 			);
+		}
+
+		$cacheFilePath = $this->tempManager->getTempBaseDir() . '/nextcloud_commands.json';
+		if (file_exists($cacheFilePath)) {
+			$commandsCache = json_decode(file_get_contents($cacheFilePath), associative:true);
+			$firstArg = $input->getFirstArgument();
+			if (isset($commandsCache[$firstArg])) {
+				$this->application->add(Server::get($commandsCache[$firstArg]));
+				return;
+			}
 		}
 
 		try {
@@ -162,6 +174,19 @@ class Application {
 				throw new \Exception('Environment not properly prepared.');
 			}
 		}
+		$commands = $this->application->all();
+		$cache = [];
+		foreach ($commands as $command) {
+			$name = $command->getName();
+			if ($name !== null) {
+				$cache[$name] = $command::class;
+			}
+
+			foreach ($command->getAliases() as $alias) {
+				$cache[$alias] = $command::class;
+			}
+		}
+		file_put_contents($cacheFilePath, json_encode($cache));
 	}
 
 	/**
