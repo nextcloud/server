@@ -14,9 +14,13 @@ import registerSharingViews from './shares.ts'
 
 import '../main.ts'
 
+const getCapabilities = vi.hoisted(() => vi.fn())
+vi.mock('@nextcloud/capabilities', () => ({ getCapabilities }))
+
 const navigation = getNavigation()
 beforeEach(() => {
 	vi.resetAllMocks()
+	getCapabilities.mockReturnValue({ files_sharing: { public: { enabled: true } } })
 
 	const views = [...navigation.views]
 	for (const view of views) {
@@ -90,6 +94,25 @@ describe('Sharing views definition', () => {
 
 		const sharedWithOthersView = navigation.views.find((view) => view.id === 'sharingout')
 		expect(sharedWithOthersView).toBeUndefined()
+	})
+
+	test.for([
+		['disabled', { files_sharing: { public: { enabled: false } } }],
+		['not available', {}],
+	] as const)('Shared by link view is not registered if public sharing is %s', ([, capabilities]) => {
+		vi.spyOn(navigation, 'register')
+		getCapabilities.mockReturnValue(capabilities)
+
+		expect(navigation.views.length).toBe(0)
+		registerSharingViews()
+		expect(navigation.register).toHaveBeenCalledTimes(6)
+		expect(navigation.views.length).toBe(6)
+
+		const sharesChildViews = navigation.views.filter((view) => view.parent === 'shareoverview') as View[]
+		expect(sharesChildViews.length).toBe(5)
+
+		const sharingByLinksView = navigation.views.find((view) => view.id === 'sharinglinks')
+		expect(sharingByLinksView).toBeUndefined()
 	})
 })
 
