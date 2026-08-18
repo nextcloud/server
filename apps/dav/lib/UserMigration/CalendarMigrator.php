@@ -13,6 +13,7 @@ use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\Export\ExportService;
+use OCA\DAV\CalDAV\Import\ImportCountEvent;
 use OCA\DAV\CalDAV\Import\ImportDisposition;
 use OCA\DAV\CalDAV\Import\ImportObjectEvent;
 use OCA\DAV\CalDAV\Import\ImportService;
@@ -514,7 +515,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 	}
 
 	/**
-	 * @param iterable<ImportObjectEvent> $stream
+	 * @param iterable<ImportCountEvent|ImportObjectEvent> $stream
 	 */
 	private function importSummary(string $label, iterable $stream, OutputInterface $output): void {
 		$created = 0;
