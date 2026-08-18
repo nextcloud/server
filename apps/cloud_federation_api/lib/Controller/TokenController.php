@@ -226,20 +226,10 @@ class TokenController extends ApiController {
 				$this->tokenProvider->updateToken($token);
 			}
 
-			// Revoke the previous access token for this refresh token, if any.
-			$existingMapping = $this->ocmTokenMapMapper->findByRefreshToken($refreshToken);
-			if ($existingMapping !== null) {
-				try {
-					$this->tokenProvider->invalidateTokenById(
-						$token->getUID(),
-						$existingMapping->getAccessTokenId()
-					);
-				} catch (\Exception) {
-					// Token may already be gone; ignore.
-				}
-				$this->ocmTokenMapMapper->delete($existingMapping);
-			}
-
+			// A refresh token may back several concurrent access tokens (e.g. the
+			// webdav mount and the webapp launcher exchange the same secret), so
+			// each exchange issues a fresh one and leaves the others in place;
+			// expiry and unshare cleanup revoke them.
 			$share = $this->shareManager->getShareByToken($refreshToken);
 			// access_token TTL from the refresh-token scope; default 3600, clamped 300..86400.
 			$ttl = (int)($token->getScopeAsArray()['ocm_access_token_ttl'] ?? 3600);
