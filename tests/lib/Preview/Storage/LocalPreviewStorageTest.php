@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Preview\Storage;
 
+use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\LocalPreviewStorage;
 use OCP\DB\Exception as DBException;
@@ -19,6 +20,7 @@ use OCP\DB\QueryBuilder\ITypedQueryBuilder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -286,5 +288,40 @@ class LocalPreviewStorageTest extends TestCase {
 		$count = $this->storage->scan();
 
 		$this->assertSame(3, $count);
+	}
+
+	private function makePreview(int $fileId = self::FILE_ID): Preview {
+		$preview = new Preview();
+		$preview->setFileId($fileId);
+		$preview->setWidth(1024);
+		$preview->setHeight(768);
+		$preview->setCropped(false);
+		$preview->setMax(true);
+		$preview->setMimetype('image/jpeg');
+
+		return $preview;
+	}
+
+	public function testPreviewExistsReportsAWrittenPreview(): void {
+		$preview = $this->makePreview();
+
+		$this->assertFalse($this->storage->previewExists($preview));
+
+		$this->storage->writePreview($preview, 'preview data');
+		$this->assertTrue($this->storage->previewExists($preview));
+
+		$this->storage->deletePreview($preview);
+		$this->assertFalse($this->storage->previewExists($preview));
+	}
+
+	/**
+	 * A row can outlive its file, and readPreview() is what every consumer of a
+	 * stale preview ends up hitting.
+	 */
+	public function testReadPreviewThrowsWhenTheFileIsGone(): void {
+		$preview = $this->makePreview();
+
+		$this->expectException(NotFoundException::class);
+		$this->storage->readPreview($preview);
 	}
 }

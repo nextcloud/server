@@ -46,6 +46,8 @@ class GeneratorTest extends TestCase {
 	private StorageFactory&MockObject $storageFactory;
 	private PreviewMapper&MockObject $previewMapper;
 	private PreviewMigrationService&MockObject $migrationService;
+	/** Whether the stored data of a cached preview is still there. */
+	private bool $previewFileExists = true;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -60,6 +62,10 @@ class GeneratorTest extends TestCase {
 		$this->previewMapper = $this->createMock(PreviewMapper::class);
 		$this->storageFactory = $this->createMock(StorageFactory::class);
 		$this->migrationService = $this->createMock(PreviewMigrationService::class);
+
+		$this->previewFileExists = true;
+		$this->storageFactory->method('previewExists')
+			->willReturnCallback(fn (): bool => $this->previewFileExists);
 
 		$this->generator = new Generator(
 			$this->config,
@@ -137,6 +143,128 @@ class GeneratorTest extends TestCase {
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($hasPreview ? 'abc-256-256.png' : '256-256.png', $result->getName());
 		$this->assertSame(1000, $result->getSize());
+	}
+
+	/**
+	 * A max preview whose file went missing must not dead end every later
+	 * request: the stale row is dropped so a new preview is generated.
+	 */
+	public function testMaxPreviewWithMissingFileIsRegenerated(): void {
+		$file = $this->getFile(42, 'myMimeType');
+		$this->previewFileExists = false;
+
+		$staleMaxPreview = new Preview();
+		$staleMaxPreview->generateId();
+		$staleMaxPreview->setWidth(1000);
+		$staleMaxPreview->setHeight(1000);
+		$staleMaxPreview->setMax(true);
+		$staleMaxPreview->setSize(1000);
+		$staleMaxPreview->setCropped(false);
+		$staleMaxPreview->setStorageId(1);
+		$staleMaxPreview->setMimeType('image/png');
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->with($this->equalTo([42]))
+			->willReturn([42 => [$staleMaxPreview]]);
+
+		// The row without a file has to be removed ...
+		$this->previewMapper->expects($this->once())
+			->method('delete')
+			->with($staleMaxPreview);
+
+		// ... and a fresh max preview generated in its place.
+		$this->previewManager->method('isMimeSupported')->willReturn(true);
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(fn ($key, $default) => $default);
+
+		$provider = $this->createMock(IProviderV2::class);
+		$provider->method('isAvailable')->willReturn(true);
+		$this->previewManager->method('getProviders')
+			->willReturn(['/myMimeType/' => ['validProvider']]);
+		$this->helper->method('getProvider')->willReturn($provider);
+
+		$image = $this->createMock(IImage::class);
+		$image->method('width')->willReturn(2048);
+		$image->method('height')->willReturn(2048);
+		$image->method('valid')->willReturn(true);
+		$image->method('dataMimeType')->willReturn('image/png');
+		$image->method('data')->willReturn('my data');
+		$this->helper->method('getThumbnail')->willReturn($image);
+
+		$this->storageFactory->method('writePreview')->willReturn(7);
+		$this->previewMapper->method('insert')->willReturnArgument(0);
+
+		// -1/-1 asks for the max preview itself, so no resize is involved.
+		$result = $this->generator->getPreview($file, -1, -1);
+
+		$this->assertSame('2048-2048-max.png', $result->getName());
+	}
+
+	/**
+	 * The purged row must also leave the list the caller searches for cached
+	 * previews, otherwise a request for the old max size gets handed the very
+	 * row that was just deleted.
+	 */
+	public function testRegeneratedMaxPreviewIsNotServedFromTheStaleRow(): void {
+		$file = $this->getFile(42, 'myMimeType');
+		$this->previewFileExists = false;
+
+		// Stale max preview at the size the request resolves to (1000 fills to 1024).
+		$staleMaxPreview = new Preview();
+		$staleMaxPreview->generateId();
+		$staleMaxPreview->setWidth(1024);
+		$staleMaxPreview->setHeight(1024);
+		$staleMaxPreview->setMax(true);
+		$staleMaxPreview->setSize(1000);
+		$staleMaxPreview->setCropped(false);
+		$staleMaxPreview->setStorageId(1);
+		$staleMaxPreview->setMimeType('image/png');
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->with($this->equalTo([42]))
+			->willReturn([42 => [$staleMaxPreview]]);
+		$this->previewMapper->expects($this->once())
+			->method('delete')
+			->with($staleMaxPreview);
+
+		$this->previewManager->method('isMimeSupported')->willReturn(true);
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(fn ($key, $default) => $default);
+
+		$provider = $this->createMock(IProviderV2::class);
+		$provider->method('isAvailable')->willReturn(true);
+		$this->previewManager->method('getProviders')
+			->willReturn(['/myMimeType/' => ['validProvider']]);
+		$this->helper->method('getProvider')->willReturn($provider);
+
+		// The regenerated max preview is larger than the stale row.
+		$maxImage = $this->createMock(IImage::class);
+		$maxImage->method('width')->willReturn(2048);
+		$maxImage->method('height')->willReturn(2048);
+		$maxImage->method('valid')->willReturn(true);
+		$maxImage->method('dataMimeType')->willReturn('image/png');
+		$maxImage->method('data')->willReturn('my data');
+		$this->helper->method('getThumbnail')->willReturn($maxImage);
+		$this->helper->method('getImage')->willReturn($maxImage);
+
+		$resized = $this->createMock(IImage::class);
+		$resized->method('width')->willReturn(1000);
+		$resized->method('height')->willReturn(1000);
+		$resized->method('valid')->willReturn(true);
+		$resized->method('dataMimeType')->willReturn('image/png');
+		$resized->method('data')->willReturn('my resized data');
+		$maxImage->method('resizeCopy')->willReturn($resized);
+		$maxImage->method('preciseResizeCopy')->willReturn($resized);
+
+		$this->storageFactory->method('writePreview')->willReturn(11);
+		$this->previewMapper->method('insert')->willReturnArgument(0);
+
+		$result = $this->generator->getPreview($file, 1000, 1000);
+
+		// The stale row is a max preview, so serving it would show up as
+		// '1000-1000-max.png' instead of the freshly generated preview.
+		$this->assertSame('1024-1024.png', $result->getName());
+		$this->assertSame(11, $result->getSize());
 	}
 
 	#[TestWith([true])]

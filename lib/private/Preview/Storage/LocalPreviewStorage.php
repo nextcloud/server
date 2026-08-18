@@ -69,6 +69,11 @@ class LocalPreviewStorage implements IPreviewStorage {
 		}
 	}
 
+	#[Override]
+	public function previewExists(Preview $preview): bool {
+		return is_file($this->constructPath($preview));
+	}
+
 	public function getRootFolder(): string {
 		return $this->config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data');
 	}

@@ -316,13 +316,25 @@ class Generator {
 	 * @param Preview[] $previews
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(array $previews, File $file, string $mimeType, ?string $version): Preview {
+	private function getMaxPreview(array &$previews, File $file, string $mimeType, ?string $version): Preview {
 		// We don't know the max preview size, so we can't use getCachedPreview.
 		// It might have been generated with a higher resolution than the current value.
-		foreach ($previews as $preview) {
-			if ($preview->isMax() && ($version === $preview->getVersion())) {
+		foreach ($previews as $key => $preview) {
+			if (!$preview->isMax() || $version !== $preview->getVersion()) {
+				continue;
+			}
+
+			if ($this->storageFactory->previewExists($preview)) {
 				return $preview;
 			}
+
+			// The row outlived its file. Everything below assumes the max preview
+			// can be read, so drop the row and generate a new one instead of
+			// failing on this and every later request. It has to go from the
+			// caller's list too, which is still searched for cached previews.
+			$this->logger->warning('Max preview of file {path} is missing from storage, regenerating it.', ['path' => $file->getPath()]);
+			$this->previewMapper->delete($preview);
+			unset($previews[$key]);
 		}
 
 		$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
