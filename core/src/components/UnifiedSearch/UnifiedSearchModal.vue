@@ -234,7 +234,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- Trailing: real results must never be pushed down when the bars go. -->
+					<!-- Last, so results that land are never pushed down. -->
 					<SearchResultSkeleton v-if="skeletonRows > 0" :rows="skeletonRows" />
 					<!-- Connected-services opt-in. Toggling re-runs find() (searchExternalResources watcher). Hidden in detail view. -->
 					<div v-if="showConnectedServicesButton" class="unified-search-modal__connected-services">
@@ -302,6 +302,9 @@ const RESIZING_CLASS = 'is-animating-height'
 
 /** The least vertical space one bar takes, gap included, so dividing by it overdraws. */
 const SKELETON_MIN_BAR_AND_GAP_PX = 60
+
+/** Room for the heading and one row. Any less and the fade swallows the row. */
+const SKELETON_MIN_HELD_HEIGHT_PX = 126
 
 /** One selectable result row in the flat keyboard-navigation list. */
 interface NavigableRow {
@@ -633,14 +636,13 @@ export default defineComponent({
 			]
 		},
 
-		// A border box, since getBoundingClientRect hands one back: as content-box every
-		// keystroke would add the box's own padding again.
+		// A border box, like getBoundingClientRect hands back; content-box would re-add the padding.
 		heldHeight() {
 			// The detail view is not emptied and refilled; its paging has its own button.
 			if (!this.isBusy || this.detailCategory) {
 				return null
 			}
-			return this.reservedHeight || DEFAULT_HELD_HEIGHT_PX
+			return Math.max(this.reservedHeight || DEFAULT_HELD_HEIGHT_PX, SKELETON_MIN_HELD_HEIGHT_PX)
 		},
 
 		skeletonRows() {
@@ -761,7 +763,6 @@ export default defineComponent({
 				// Clear them on close so they can't flash on the next open. Close is the
 				// reliable hook: every close path flips this prop true -> false.
 				this.reset()
-				// Nothing left on screen to hold, and find() runs again on reopen.
 				this.reservedHeight = 0
 				// Drop in-flight search bookkeeping so a preserved query can't keep the header
 				// input spinning, and cancel the pending debounce so it can't dispatch after close.
@@ -975,7 +976,7 @@ export default defineComponent({
 			this.focusTrap = null
 		},
 
-		/** Typing again while placeholders are up re-measures the held height, so it carries. */
+		/** Measuring a held box gives the held height back, so it carries between keystrokes. */
 		captureReservedHeight() {
 			const results = this.$refs.resultsContainer as HTMLElement | undefined
 			this.reservedHeight = results ? results.getBoundingClientRect().height : 0
@@ -995,16 +996,17 @@ export default defineComponent({
 			}
 			panel?.classList.remove(RESIZING_CLASS)
 
-			// Nothing captured yet on the first render, a closing panel keeps its size through the
-			// fade-out, and jsdom has no Web Animations.
+			// A closing panel keeps its size through the fade-out; jsdom has no Web Animations.
 			if (!panel || !from || !this.open || typeof panel.animate !== 'function') {
 				return
 			}
-			if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+
+			// Zeroed by the reduced-motion theme, which the OS preference switches on as well.
+			const duration = parseFloat(getComputedStyle(panel).getPropertyValue('--animation-slow'))
+			if (!duration) {
 				return
 			}
 
-			// Under a pixel is layout noise, not a resize.
 			const to = panel.getBoundingClientRect().height
 			if (Math.abs(to - from) < 1) {
 				return
@@ -1014,7 +1016,7 @@ export default defineComponent({
 			const resize = panel.animate(
 				[{ height: `${from}px` }, { height: `${to}px` }],
 				// The curve the panel slides in with, so a resize reads as the same motion.
-				{ duration: 200, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+				{ duration, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
 			)
 			resize.onfinish = () => panel.classList.remove(RESIZING_CLASS)
 			this.panelResize = markRaw(resize)
@@ -1649,7 +1651,7 @@ export default defineComponent({
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		// The results box absorbs a resize; the filter row keeps its size.
+		// The results box absorbs the resize; the filter row keeps its size.
 		flex-shrink: 0;
 		gap: calc(var(--default-grid-baseline) * 2);
 		padding-inline: calc(var(--default-grid-baseline) * 4);
@@ -1809,13 +1811,14 @@ export default defineComponent({
 		&--held {
 			flex-grow: 0;
 			overflow: clip;
-			mask-image: linear-gradient(to bottom, #000 calc(100% - 2lh), transparent);
+			// Capped, so a short box does not spend a third of itself fading.
+			mask-image: linear-gradient(to bottom, #000 calc(100% - min(2lh, 25%)), transparent);
 		}
 		// Adjust padding to match container but keep the scrollbar on the very end
 		padding-inline: calc(var(--default-grid-baseline) * 4);
 		padding-block: 0 calc(var(--default-grid-baseline) * 4);
 
-		// The gap a category title keeps above itself, so the heading bar lands where one would.
+		// Matches the gap a category title keeps above itself.
 		.search-result-skeleton {
 			margin-block-start: 14px;
 		}

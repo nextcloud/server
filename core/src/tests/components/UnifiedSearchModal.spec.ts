@@ -1298,6 +1298,17 @@ describe('UnifiedSearchModal loading skeleton', () => {
 		expect(skeleton(wrapper).props('rows')).toBeGreaterThan(0)
 	})
 
+	// Any less and the fade swallows the row, leaving the heading bar on its own.
+	it('holds room for a row even when the box it measured was shorter than one', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 60)
+
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.heldHeight).toBe(126)
+	})
+
 	it('keeps the reservation through a run of quick keystrokes', async () => {
 		const wrapper = await withResults()
 		measureResultsAt(wrapper, 300)
@@ -1399,6 +1410,8 @@ describe('UnifiedSearchModal panel resize', () => {
 		const animate = vi.fn(() => ({ cancel: vi.fn(), onfinish: null }) as unknown as Animation)
 		panel.animate = animate
 		vi.spyOn(panel, 'getBoundingClientRect').mockReturnValue({ height } as DOMRect)
+		// Stands in for the theming app, which is what hands the panel its duration.
+		panel.style.setProperty('--animation-slow', '200ms')
 		return { wrapper, panel, animate }
 	}
 
@@ -1438,17 +1451,14 @@ describe('UnifiedSearchModal panel resize', () => {
 		expect(animate).toHaveBeenCalledTimes(1)
 	})
 
-	it('changes size without motion when the user asked for reduced motion', async () => {
-		const { wrapper, animate } = factoryWithPanel(420)
+	it('changes size without motion when the reduced-motion theme zeroes the duration', async () => {
+		const { wrapper, panel, animate } = factoryWithPanel(420)
 		wrapper.vm.panelFrom = 200
-		window.matchMedia = vi.fn(() => ({ matches: true }) as MediaQueryList)
+		panel.style.setProperty('--animation-slow', '0')
 
-		try {
-			wrapper.vm.animatePanelResize()
-			expect(animate).not.toHaveBeenCalled()
-		} finally {
-			delete (window as { matchMedia?: unknown }).matchMedia
-		}
+		wrapper.vm.animatePanelResize()
+
+		expect(animate).not.toHaveBeenCalled()
 	})
 })
 

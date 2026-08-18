@@ -14,14 +14,13 @@
 
 <script setup lang="ts">
 /**
- * Placeholder bars for results that have not arrived yet. Results land a whole category at
- * a time, so the block leads with a heading bar.
+ * Results land a whole category at a time, so the block leads with a heading bar.
  *
- * Decoration only: the modal's live region already announces the search state.
+ * Decoration only: the modal's live region announces the search state.
  */
 
 defineProps<{
-	/** Rows to draw under the heading. The caller may overdraw; the panel clips and fades. */
+	/** Rows below the heading. The caller may overdraw: the panel clips and fades. */
 	rows: number
 }>()
 </script>
@@ -39,11 +38,9 @@ defineProps<{
 		overflow: hidden;
 		block-size: var(--bar-block-size);
 		border-radius: var(--border-radius-element);
-		// The same grey a result row takes on hover.
 		background-color: var(--color-background-hover);
 
-		// A title is one line of text. Full width at that height reads as a divider, and an
-		// explicit inline size drops the bar out of the column's stretch so it mirrors in RTL.
+		// Full width at one line reads as a divider; an explicit size also mirrors in RTL.
 		&--heading {
 			block-size: 1lh;
 			inline-size: 25%;
@@ -59,7 +56,6 @@ defineProps<{
 			animation: search-result-skeleton-sweep 1.6s linear infinite;
 		}
 
-		// :dir(rtl) tracks the computed direction, unlike an [dir=rtl] attribute selector.
 		&:dir(rtl)::after {
 			animation-direction: reverse;
 		}
