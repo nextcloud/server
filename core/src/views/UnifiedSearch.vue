@@ -17,16 +17,8 @@
 			@update:query="queryText = $event"
 			@navigate="onNavigate"
 			@activate="onActivate" />
-		<UnifiedSearchLocalSearchBar
-			v-if="supportsLocalSearch"
-			:open="showLocalSearch"
-			:query="queryText"
-			@globalSearch="openModal"
-			@update:open="showLocalSearch = $event"
-			@update:query="queryText = $event" />
 		<UnifiedSearchModal
 			ref="searchModal"
-			:localSearch="supportsLocalSearch"
 			:query="queryText"
 			:open="showUnifiedSearch"
 			:filtersRevealed="filtersRevealed"
@@ -45,7 +37,6 @@ import { useBrowserLocation } from '@vueuse/core'
 import debounce from 'debounce'
 import { defineComponent } from 'vue'
 import UnifiedSearchInput from '../components/UnifiedSearch/UnifiedSearchInput.vue'
-import UnifiedSearchLocalSearchBar from '../components/UnifiedSearch/UnifiedSearchLocalSearchBar.vue'
 import UnifiedSearchModal from '../components/UnifiedSearch/UnifiedSearchModal.vue'
 import logger from '../logger.js'
 
@@ -54,7 +45,6 @@ export default defineComponent({
 
 	components: {
 		UnifiedSearchModal,
-		UnifiedSearchLocalSearchBar,
 		UnifiedSearchInput,
 	},
 
@@ -76,8 +66,6 @@ export default defineComponent({
 			queryText: '',
 			/** Open state of the modal */
 			showUnifiedSearch: false,
-			/** Open state of the local search bar */
-			showLocalSearch: false,
 			/**
 			 * Id of the selected result row, lifted here from the results modal so the
 			 * sibling input can point aria-activedescendant at it. '' = nothing selected.
@@ -99,21 +87,12 @@ export default defineComponent({
 		},
 
 		/**
-		 * Current page (app) supports local in-app search
-		 */
-		supportsLocalSearch() {
-			// TODO: Make this an API
-			const providerPaths = ['/apps/deck']
-			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
-		},
-
-		/**
 		 * Current page handles the Ctrl+F shortcut itself (e.g. has a dedicated
 		 * search input). UnifiedSearch should stay out of the way on these pages.
 		 */
 		appHandlesSearchShortcut() {
 			// TODO: Make this an API
-			const providerPaths = ['/settings/users', '/settings/apps']
+			const providerPaths = ['/settings/users', '/settings/apps', '/apps/deck']
 			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
 		},
 	},
@@ -127,7 +106,7 @@ export default defineComponent({
 			this.debouncedQueryUpdate()
 			// Desktop opens/closes the popover as you type; mobile is driven by the
 			// header button + the modal close paths, so clearing must not collapse it.
-			if (!this.supportsLocalSearch && !this.isSmallMobile) {
+			if (!this.isSmallMobile) {
 				this.showUnifiedSearch = this.queryText.length > 0
 			}
 		},
@@ -150,9 +129,8 @@ export default defineComponent({
 			window.addEventListener('keydown', this.onKeyDown)
 		}
 
-		// Allow external reset of the search / close local search
+		// Allow external reset of the search
 		subscribe('nextcloud:unified-search:reset', () => {
-			this.showLocalSearch = false
 			this.queryText = ''
 		})
 
@@ -190,17 +168,7 @@ export default defineComponent({
 				if (this.appHandlesSearchShortcut) {
 					return
 				}
-				// Pages with an in-app search bar (e.g. Deck) keep Ctrl+F for that: toggle
-				// the local bar, and only claim the key while nothing is open so a second
-				// press falls through to the browser native search.
-				if (this.supportsLocalSearch) {
-					if (!this.showLocalSearch && !this.showUnifiedSearch) {
-						event.preventDefault()
-					}
-					this.toggleUnifiedSearch()
-					return
-				}
-				// Everywhere else, behave like Ctrl+K: focus the input (desktop) / open the
+				// Otherwise behave like Ctrl+K: focus the input (desktop) / open the
 				// modal (mobile). Once search is already engaged, let a second press fall
 				// through to the browser's native find instead of claiming Ctrl+F again.
 				if (this.isSearchEngaged()) {
@@ -274,23 +242,10 @@ export default defineComponent({
 		},
 
 		/**
-		 * Toggle the local search if available - otherwise open the unified search modal
-		 */
-		toggleUnifiedSearch() {
-			if (this.supportsLocalSearch) {
-				this.showLocalSearch = !this.showLocalSearch
-			} else {
-				this.showUnifiedSearch = !this.showUnifiedSearch
-				this.showLocalSearch = false
-			}
-		},
-
-		/**
 		 * Open the unified search modal
 		 */
 		openModal() {
 			this.showUnifiedSearch = true
-			this.showLocalSearch = false
 		},
 
 		/**
@@ -298,16 +253,14 @@ export default defineComponent({
 		 */
 		onOpenFilters() {
 			this.showUnifiedSearch = true
-			this.showLocalSearch = false
 			this.filtersRevealed = true
 		},
 
 		/**
-		 * Trailing X clicked on an empty field: close the popover and any local bar.
+		 * Trailing X clicked on an empty field: close the popover.
 		 */
 		onClose() {
 			this.showUnifiedSearch = false
-			this.showLocalSearch = false
 		},
 
 		/**

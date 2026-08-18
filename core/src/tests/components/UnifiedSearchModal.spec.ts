@@ -65,7 +65,7 @@ function loaded(entries: unknown[], hasMore = false) {
 
 function factory(open = true) {
 	return shallowMount(UnifiedSearchModal, {
-		propsData: { open, query: '', localSearch: false },
+		propsData: { open, query: '' },
 		global: { mocks: { t: (_: string, s: string) => s, n: (_: string, s: string) => s } },
 	})
 }
@@ -335,7 +335,7 @@ describe('UnifiedSearchModal reset on close', () => {
 		// The pending debounce must be cancelled on close so it can't dispatch for a shut modal.
 		const cancelPending = vi.spyOn(wrapper.vm.debouncedFind, 'clear')
 
-		// searchLocally-style close: keep the query, just shut the popover.
+		// Close without clearing: the query stays, only the popover shuts.
 		await wrapper.setProps({ open: false })
 
 		expect(cancelPending).toHaveBeenCalled()
@@ -489,7 +489,7 @@ describe('UnifiedSearchModal controller wiring (init)', () => {
 		// Open with a query already present: the open() handler starts the async provider
 		// fetch and calls find() before it resolves, so nothing is dispatched yet.
 		const wrapper = shallowMount(UnifiedSearchModal, {
-			propsData: { open: false, query: 'hello', localSearch: false },
+			propsData: { open: false, query: 'hello' },
 			global: { mocks: { t: (_: string, s: string) => s, n: (_: string, s: string) => s } },
 		})
 		// The focus trap needs a tabbable node the stubbed panel lacks; skip it here.
