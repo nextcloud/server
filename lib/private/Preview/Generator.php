@@ -598,7 +598,7 @@ class Generator {
 				throw $e;
 			}
 
-			$this->storageFactory->deletePreview($previewEntry);
+			$this->storageFactory->deleteUnreferencedPreview($previewEntry);
 
 			$this->logger->debug('Generating a preview but one already exists.', ['exception' => $e]);
 

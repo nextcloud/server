@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Preview\Storage;
 
+use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\LocalPreviewStorage;
 use OCP\DB\Exception as DBException;
@@ -19,6 +20,7 @@ use OCP\DB\QueryBuilder\ITypedQueryBuilder;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -286,5 +288,44 @@ class LocalPreviewStorageTest extends TestCase {
 		$count = $this->storage->scan();
 
 		$this->assertSame(3, $count);
+	}
+
+	private function makePreview(int $fileId = self::FILE_ID): Preview {
+		$preview = new Preview();
+		$preview->setFileId($fileId);
+		$preview->setWidth(1024);
+		$preview->setHeight(768);
+		$preview->setCropped(false);
+		$preview->setMax(true);
+		$preview->setMimetype('image/jpeg');
+
+		return $preview;
+	}
+
+	/**
+	 * Losing the insert race must not remove the local file: the path is derived
+	 * from the preview specification, so it is the same file the preview that
+	 * won the race now points at.
+	 */
+	public function testDeleteUnreferencedPreviewKeepsTheSharedFile(): void {
+		$preview = $this->makePreview();
+		$this->storage->writePreview($preview, 'preview data');
+
+		$this->storage->deleteUnreferencedPreview($preview);
+
+		$this->assertSame('preview data', stream_get_contents($this->storage->readPreview($preview)));
+	}
+
+	/**
+	 * Deleting a preview for real still has to remove the file.
+	 */
+	public function testDeletePreviewRemovesTheFile(): void {
+		$preview = $this->makePreview();
+		$this->storage->writePreview($preview, 'preview data');
+
+		$this->storage->deletePreview($preview);
+
+		$this->expectException(NotFoundException::class);
+		$this->storage->readPreview($preview);
 	}
 }
