@@ -33,6 +33,7 @@ use OC\Core\Command\Config\Preset;
 use OC\Core\Command\Db\AddMissingColumns;
 use OC\Core\Command\Db\AddMissingIndices;
 use OC\Core\Command\Db\AddMissingPrimaryKeys;
+use OC\Core\Command\Db\CheckSchema;
 use OC\Core\Command\Db\ConvertFilecacheBigInt;
 use OC\Core\Command\Db\ConvertMysqlToMB4;
 use OC\Core\Command\Db\ConvertType;
@@ -186,6 +187,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->addCommand(Server::get(DbLocks::class));
 	$application->addCommand(Server::get(ExpectedSchema::class));
 	$application->addCommand(Server::get(ExportSchema::class));
+	$application->addCommand(Server::get(CheckSchema::class));
 
 	$application->addCommand(Server::get(GenerateMetadataCommand::class));
 	$application->addCommand(Server::get(PreviewCommand::class));

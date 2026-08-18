@@ -10,6 +10,7 @@ namespace OC\Core\Command;
 
 use OC\Console\TimestampFormatter;
 use OC\DB\MigratorExecuteSqlEvent;
+use OC\DB\SchemaChecker;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -40,6 +41,7 @@ class Upgrade extends Command {
 	public function __construct(
 		private IConfig $config,
 		private IURLGenerator $urlGenerator,
+		private SchemaChecker $schemaChecker,
 	) {
 		parent::__construct();
 	}
@@ -234,5 +236,25 @@ class Upgrade extends Command {
 				. 'please set it manually</warning>'
 			);
 		}
+
+		$this->checkSchema($output);
+	}
+
+	/**
+	 * Warns about database schema drift after an upgrade. This is
+	 * informational only and never fails the upgrade, since drift can
+	 * originate from third-party apps outside of core's control.
+	 */
+	private function checkSchema(OutputInterface $output): void {
+		$findings = $this->schemaChecker->getFindings();
+		if ($findings === []) {
+			return;
+		}
+
+		$output->writeln('<comment>The database schema does not match what is expected for the installed version:</comment>');
+		foreach ($findings as $finding) {
+			$output->writeln('  - ' . $this->schemaChecker->formatFinding($finding));
+		}
+		$output->writeln('<comment>Run "occ db:schema:check" for details.</comment>');
 	}
 }
