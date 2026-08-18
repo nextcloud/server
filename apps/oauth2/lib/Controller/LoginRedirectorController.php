@@ -29,7 +29,7 @@ use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-class LoginRedirectorController extends Controller {
+final class LoginRedirectorController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -64,7 +64,7 @@ class LoginRedirectorController extends Controller {
 	): TemplateResponse|RedirectResponse {
 		try {
 			$client = $this->clientMapper->getByIdentifier($client_id);
-		} catch (ClientNotFoundException $e) {
+		} catch (ClientNotFoundException) {
 			$params = [
 				'content' => $this->l->t('Your client is not authorized to connect. Please inform the administrator of your client.'),
 			];
@@ -73,21 +73,22 @@ class LoginRedirectorController extends Controller {
 
 		if ($response_type !== 'code') {
 			//Fail
-			$url = $client->getRedirectUri() . '?error=unsupported_response_type&state=' . \urlencode($state);
+			$url = $client->redirectUri . '?error=unsupported_response_type&state=' . \urlencode($state);
 			return new RedirectResponse($url);
 		}
 
 		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
 
 		$providedRedirectUri = '';
-		if ($enableOcClients && $client->getRedirectUri() === 'http://localhost:*') {
+		if ($enableOcClients && $client->redirectUri === 'http://localhost:*') {
 			$providedRedirectUri = $redirect_uri;
 		}
 
 		$this->session->set('oauth.state', $state);
 
-		if (in_array($client->getName(), $this->appConfig->getValueArray('oauth2', 'skipAuthPickerApplications', []))) {
+		if (in_array($client->name, $this->appConfig->getValueArray('oauth2', 'skipAuthPickerApplications', []))) {
 			/** @see ClientFlowLoginController::showAuthPickerPage **/
+			/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 			$stateToken = $this->random->generate(
 				64,
 				ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
@@ -97,7 +98,7 @@ class LoginRedirectorController extends Controller {
 				'core.ClientFlowLogin.grantPage',
 				[
 					'stateToken' => $stateToken,
-					'clientIdentifier' => $client->getClientIdentifier(),
+					'clientIdentifier' => $client->clientIdentifier,
 					'providedRedirectUri' => $providedRedirectUri,
 				]
 			);
@@ -105,11 +106,12 @@ class LoginRedirectorController extends Controller {
 			$targetUrl = $this->urlGenerator->linkToRouteAbsolute(
 				'core.ClientFlowLogin.showAuthPickerPage',
 				[
-					'clientIdentifier' => $client->getClientIdentifier(),
+					'clientIdentifier' => $client->clientIdentifier,
 					'providedRedirectUri' => $providedRedirectUri,
 				]
 			);
 		}
+
 		return new RedirectResponse($targetUrl);
 	}
 }

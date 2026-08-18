@@ -22,17 +22,17 @@ use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
-class ClientService {
-	public const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+final readonly class ClientService {
+	public const string validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 	public function __construct(
-		private readonly ISecureRandom $secureRandom,
-		private readonly ICrypto $crypto,
-		private readonly ClientMapper $clientMapper,
-		private readonly IUserManager $userManager,
-		private readonly IAuthTokenProvider $tokenProvider,
-		private readonly LoggerInterface $logger,
-		private readonly AccessTokenMapper $accessTokenMapper,
+		private ISecureRandom $secureRandom,
+		private ICrypto $crypto,
+		private ClientMapper $clientMapper,
+		private IUserManager $userManager,
+		private IAuthTokenProvider $tokenProvider,
+		private LoggerInterface $logger,
+		private AccessTokenMapper $accessTokenMapper,
 	) {
 	}
 
@@ -49,19 +49,21 @@ class ClientService {
 	 */
 	public function addClient(string $name, string $redirectUri): array {
 		$client = new Client();
-		$client->setName($name);
-		$client->setRedirectUri($redirectUri);
+		$client->name = $name;
+		$client->redirectUri = $redirectUri;
+		/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 		$secret = $this->secureRandom->generate(64, self::validChars);
 		$hashedSecret = bin2hex($this->crypto->calculateHMAC($secret));
-		$client->setSecret($hashedSecret);
-		$client->setClientIdentifier($this->secureRandom->generate(64, self::validChars));
+		$client->secret = $hashedSecret;
+		/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
+		$client->clientIdentifier = $this->secureRandom->generate(64, self::validChars);
 		$client = $this->clientMapper->insert($client);
 
 		return [
-			'id' => $client->getId(),
-			'name' => $client->getName(),
-			'redirectUri' => $client->getRedirectUri(),
-			'clientId' => $client->getClientIdentifier(),
+			'id' => $client->id,
+			'name' => $client->name,
+			'redirectUri' => $client->redirectUri,
+			'clientId' => $client->clientIdentifier,
 			'clientSecret' => $secret,
 		];
 	}
@@ -74,9 +76,10 @@ class ClientService {
 			// OAuth2 client does not silently cancel a pending wipe.
 			$tokens = $this->tokenProvider->getTokenByUser($user->getUID());
 			foreach ($tokens as $token) {
-				if ($token->getName() !== $client->getName()) {
+				if ($token->getName() !== $client->name) {
 					continue;
 				}
+
 				try {
 					$this->tokenProvider->getTokenById($token->getId());
 				} catch (WipeTokenException) {
@@ -88,6 +91,7 @@ class ClientService {
 				} catch (InvalidTokenException) {
 					// Token already invalid; let invalidateTokenById handle it.
 				}
+
 				$this->tokenProvider->invalidateTokenById($user->getUID(), $token->getId());
 			}
 		});

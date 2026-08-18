@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -24,16 +26,24 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
-class ClientServiceTest extends TestCase {
+final class ClientServiceTest extends TestCase {
 	private ClientMapper&MockObject $clientMapper;
+
 	private ISecureRandom&MockObject $secureRandom;
+
 	private AccessTokenMapper&MockObject $accessTokenMapper;
+
 	private IAuthTokenProvider&MockObject $authTokenProvider;
+
 	private IUserManager&MockObject $userManager;
+
 	private ClientService $clientService;
+
 	private ICrypto&MockObject $crypto;
+
 	private LoggerInterface&MockObject $logger;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -70,23 +80,21 @@ class ClientServiceTest extends TestCase {
 			->willReturn('MyHashedSecret');
 
 		$client = new Client();
-		$client->setName('My Client Name');
-		$client->setRedirectUri('https://example.com/');
-		$client->setSecret(bin2hex('MyHashedSecret'));
-		$client->setClientIdentifier('MyClientIdentifier');
+		$client->name = 'My Client Name';
+		$client->redirectUri = 'https://example.com/';
+		$client->secret = bin2hex('MyHashedSecret');
+		$client->clientIdentifier = 'MyClientIdentifier';
 
 		$this->clientMapper
 			->expects($this->once())
 			->method('insert')
-			->with($this->callback(function (Client $c) {
-				return $c->getName() === 'My Client Name'
-					&& $c->getRedirectUri() === 'https://example.com/'
-					&& $c->getSecret() === bin2hex('MyHashedSecret')
-					&& $c->getClientIdentifier() === 'MyClientIdentifier';
-			}))->willReturnCallback(function (Client $c) {
-				$c->setId(42);
-				return $c;
-			});
+			->with($this->callback(fn (Client $c): bool => $c->name === 'My Client Name'
+					&& $c->redirectUri === 'https://example.com/'
+					&& $c->secret === bin2hex('MyHashedSecret')
+					&& $c->clientIdentifier === 'MyClientIdentifier'))->willReturnCallback(function (Client $c): Client {
+						$c->id = 42;
+						return $c;
+					});
 
 		$result = $this->clientService->addClient('My Client Name', 'https://example.com/');
 
@@ -106,11 +114,12 @@ class ClientServiceTest extends TestCase {
 		$count = 0;
 		$function = function (IUser $user) use (&$count): void {
 			if ($user->getLastLogin() > 0) {
-				$count++;
+				++$count;
 			}
 		};
 		$userManager->callForAllUsers($function);
 		$user1 = $userManager->createUser('test101', 'test101');
+		$this->assertInstanceOf(IUser::class, $user1);
 		$user1->updateLastLoginTimestamp();
 		$tokenProviderMock = $this->getMockBuilder(IAuthTokenProvider::class)->getMock();
 
@@ -125,11 +134,11 @@ class ClientServiceTest extends TestCase {
 			->method('invalidateTokenById');
 
 		$client = new Client();
-		$client->setId(123);
-		$client->setName('My Client Name');
-		$client->setRedirectUri('https://example.com/');
-		$client->setSecret(bin2hex('MyHashedSecret'));
-		$client->setClientIdentifier('MyClientIdentifier');
+		$client->id = 123;
+		$client->name = 'My Client Name';
+		$client->redirectUri = 'https://example.com/';
+		$client->secret = bin2hex('MyHashedSecret');
+		$client->clientIdentifier = 'MyClientIdentifier';
 
 		$this->clientMapper
 			->method('getByUid')
@@ -155,20 +164,22 @@ class ClientServiceTest extends TestCase {
 		);
 
 		$this->clientService->deleteClient(123);
+
 		$user1->delete();
 	}
 
 	public function testDeleteClientPreservesWipePendingToken(): void {
 		$userManager = Server::get(IUserManager::class);
 		$user = $userManager->createUser('test_wipe_preserve', 'test_wipe_preserve');
+		$this->assertInstanceOf(IUser::class, $user);
 		$user->updateLastLoginTimestamp();
 
 		$client = new Client();
-		$client->setId(456);
-		$client->setName('My Client Name');
-		$client->setRedirectUri('https://example.com/');
-		$client->setSecret(bin2hex('MyHashedSecret'));
-		$client->setClientIdentifier('MyClientIdentifier');
+		$client->id = 456;
+		$client->name = 'My Client Name';
+		$client->redirectUri = 'https://example.com/';
+		$client->secret = bin2hex('MyHashedSecret');
+		$client->clientIdentifier = 'MyClientIdentifier';
 
 		// Token marked for wipe with a matching client name: must NOT be invalidated.
 		$wipeToken = $this->createMock(IToken::class);
@@ -187,11 +198,9 @@ class ClientServiceTest extends TestCase {
 
 		$this->authTokenProvider
 			->method('getTokenByUser')
-			->willReturnCallback(function (string $uid) use ($wipeToken, $regularToken, $otherToken) {
-				return $uid === 'test_wipe_preserve'
+			->willReturnCallback(fn (string $uid): array => $uid === 'test_wipe_preserve'
 					? [$wipeToken, $regularToken, $otherToken]
-					: [];
-			});
+					: []);
 		// Wipe state is signalled via WipeTokenException from getTokenById.
 		$this->authTokenProvider
 			->method('getTokenById')
@@ -199,6 +208,7 @@ class ClientServiceTest extends TestCase {
 				if ($id === 11) {
 					throw new WipeTokenException($wipeToken);
 				}
+
 				return $regularToken;
 			});
 		$this->authTokenProvider
@@ -221,10 +231,8 @@ class ClientServiceTest extends TestCase {
 
 		$this->logger->expects($this->atLeastOnce())
 			->method('info')
-			->with($this->stringContains('Preserving token'), $this->callback(function (array $context) {
-				return ($context['tokenId'] ?? null) === 11
-					&& ($context['uid'] ?? null) === 'test_wipe_preserve';
-			}));
+			->with($this->stringContains('Preserving token'), $this->callback(fn (array $context): bool => ($context['tokenId'] ?? null) === 11
+					&& ($context['uid'] ?? null) === 'test_wipe_preserve'));
 
 		$clientService = new ClientService(
 			$this->secureRandom,

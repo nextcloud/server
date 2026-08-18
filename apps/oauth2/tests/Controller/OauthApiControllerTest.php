@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,8 +9,6 @@
 
 namespace OCA\OAuth2\Tests\Controller;
 
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OC\Authentication\Token\PublicKeyToken;
 use OCA\OAuth2\Controller\OauthApiController;
@@ -21,6 +21,8 @@ use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\GlobalScale\IGlobalScaleService;
@@ -43,24 +45,40 @@ abstract class RequestMock implements IRequest {
 	public array $server = [];
 }
 
-class OauthApiControllerTest extends TestCase {
-	private IRequest&MockObject $request;
+final class OauthApiControllerTest extends TestCase {
+	private RequestMock&MockObject $request;
+
 	private ICrypto&MockObject $crypto;
+
 	private AccessTokenMapper&MockObject $accessTokenMapper;
+
 	private ClientMapper&MockObject $clientMapper;
+
 	private TokenProvider&MockObject $tokenProvider;
+
 	private ISecureRandom&MockObject $secureRandom;
+
 	private ITimeFactory&MockObject $time;
+
 	private IThrottler&MockObject $throttler;
+
 	private LoggerInterface&MockObject $logger;
+
 	private ITimeFactory&MockObject $timeFactory;
+
 	private IDBConnection&MockObject $db;
+
 	private GlobalScaleConfig&MockObject $globalScaleConfig;
+
 	private IUserManager&MockObject $userManager;
+
 	private IURLGenerator&MockObject $urlGenerator;
+
 	private ContainerInterface&MockObject $container;
+
 	private OauthApiController $oauthApiController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -106,6 +124,7 @@ class OauthApiControllerTest extends TestCase {
 		], Http::STATUS_BAD_REQUEST);
 		$expected->throttle(['invalid_grant' => 'foo']);
 
+		/** @psalm-suppress InvalidArgument Test that we don't trust user input */
 		$this->assertEquals($expected, $this->oauthApiController->getToken('foo', null, null, null, null));
 	}
 
@@ -132,8 +151,8 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'authorization_code_expired', 'expired_since' => $expiredSince]);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
-		$accessToken->setCodeCreatedAt($codeCreatedAt);
+		$accessToken->clientId = 42;
+		$accessToken->codeCreatedAt = $codeCreatedAt;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validcode')
@@ -158,9 +177,9 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'authorization_code_received_for_active_token']);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
-		$accessToken->setCodeCreatedAt($codeCreatedAt);
-		$accessToken->setTokenCount(1);
+		$accessToken->clientId = 42;
+		$accessToken->codeCreatedAt = $codeCreatedAt;
+		$accessToken->tokenCount = 1;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validcode')
@@ -185,8 +204,8 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'client not found', 'client_id' => 42]);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
-		$accessToken->setCodeCreatedAt($codeCreatedAt);
+		$accessToken->clientId = 42;
+		$accessToken->codeCreatedAt = $codeCreatedAt;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validcode')
@@ -225,7 +244,7 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'client not found', 'client_id' => 42]);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
+		$accessToken->clientId = 42;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
@@ -238,7 +257,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', null, null));
 	}
 
-	public static function invalidClientProvider() {
+	public static function invalidClientProvider(): array {
 		return [
 			['invalidClientId', 'invalidClientSecret'],
 			['clientId', 'invalidClientSecret'],
@@ -259,7 +278,7 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_client' => 'client ID or secret does not match']);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
+		$accessToken->clientId = 42;
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
@@ -267,18 +286,14 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->crypto
 			->method('calculateHMAC')
-			->with($this->callback(function (string $text) {
-				return $text === 'clientSecret' || $text === 'invalidClientSecret';
-			}))
-			->willReturnCallback(function (string $text) {
-				return $text === 'clientSecret'
+			->with($this->callback(fn (string $text): bool => $text === 'clientSecret' || $text === 'invalidClientSecret'))
+			->willReturnCallback(fn (string $text): string => $text === 'clientSecret'
 					? 'hashedClientSecret'
-					: 'hashedInvalidClientSecret';
-			});
+					: 'hashedInvalidClientSecret');
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -293,17 +308,17 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'token is invalid']);
 
 		$accessToken = new AccessToken();
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -331,18 +346,18 @@ class OauthApiControllerTest extends TestCase {
 
 	public function testRefreshTokenValidAppToken(): void {
 		$accessToken = new AccessToken();
-		$accessToken->setId(21);
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->id = 21;
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -368,9 +383,7 @@ class OauthApiControllerTest extends TestCase {
 			->with($accessToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function ($len) {
-				return 'random' . $len;
-			});
+			->willReturnCallback(fn (int $len): string => 'random' . $len);
 
 		$this->tokenProvider->expects($this->once())
 			->method('rotate')
@@ -398,9 +411,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
-				$this->callback(function (PublicKeyToken $token) {
-					return $token->getExpires() === 4600;
-				})
+				$this->callback(fn (PublicKeyToken $token): bool => $token->getExpires() === 4600)
 			);
 
 		$this->crypto->method('encrypt')
@@ -441,18 +452,18 @@ class OauthApiControllerTest extends TestCase {
 
 	public function testRefreshTokenValidAppTokenBasicAuth(): void {
 		$accessToken = new AccessToken();
-		$accessToken->setId(21);
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->id = 21;
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -478,9 +489,7 @@ class OauthApiControllerTest extends TestCase {
 			->with($accessToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function ($len) {
-				return 'random' . $len;
-			});
+			->willReturnCallback(fn (int $len): string => 'random' . $len);
 
 		$this->tokenProvider->expects($this->once())
 			->method('rotate')
@@ -508,9 +517,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
-				$this->callback(function (PublicKeyToken $token) {
-					return $token->getExpires() === 4600;
-				})
+				$this->callback(fn (PublicKeyToken $token): bool => $token->getExpires() === 4600)
 			);
 
 		$this->crypto->method('encrypt')
@@ -554,18 +561,18 @@ class OauthApiControllerTest extends TestCase {
 
 	public function testRefreshTokenExpiredAppToken(): void {
 		$accessToken = new AccessToken();
-		$accessToken->setId(21);
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->id = 21;
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -591,9 +598,7 @@ class OauthApiControllerTest extends TestCase {
 			->with($accessToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function ($len) {
-				return 'random' . $len;
-			});
+			->willReturnCallback(fn (int $len): string => 'random' . $len);
 
 		$this->tokenProvider->expects($this->once())
 			->method('rotate')
@@ -621,9 +626,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with(
-				$this->callback(function (PublicKeyToken $token) {
-					return $token->getExpires() === 4600;
-				})
+				$this->callback(fn (PublicKeyToken $token): bool => $token->getExpires() === 4600)
 			);
 
 		$this->crypto->method('encrypt')
@@ -669,18 +672,18 @@ class OauthApiControllerTest extends TestCase {
 		$expected->throttle(['invalid_request' => 'refresh_token_already_redeemed']);
 
 		$accessToken = new AccessToken();
-		$accessToken->setId(21);
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->id = 21;
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -702,9 +705,7 @@ class OauthApiControllerTest extends TestCase {
 			->willReturn($appToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function ($len) {
-				return 'random' . $len;
-			});
+			->willReturnCallback(fn (int $len): string => 'random' . $len);
 
 		$this->tokenProvider->expects($this->never())
 			->method('rotate');
@@ -753,18 +754,18 @@ class OauthApiControllerTest extends TestCase {
 	 */
 	private function arrangeSuccessfulTokenExchange(): PublicKeyToken {
 		$accessToken = new AccessToken();
-		$accessToken->setId(21);
-		$accessToken->setClientId(42);
-		$accessToken->setTokenId(1337);
-		$accessToken->setEncryptedToken('encryptedToken');
+		$accessToken->id = 21;
+		$accessToken->clientId = 42;
+		$accessToken->tokenId = 1337;
+		$accessToken->encryptedToken = 'encryptedToken';
 
 		$this->accessTokenMapper->method('getByCode')
 			->with('validrefresh')
 			->willReturn($accessToken);
 
 		$client = new Client();
-		$client->setClientIdentifier('clientId');
-		$client->setSecret(bin2hex('hashedClientSecret'));
+		$client->clientIdentifier = 'clientId';
+		$client->secret = bin2hex('hashedClientSecret');
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -792,9 +793,7 @@ class OauthApiControllerTest extends TestCase {
 			->willReturn($appToken);
 
 		$this->secureRandom->method('generate')
-			->willReturnCallback(function ($len) {
-				return 'random' . $len;
-			});
+			->willReturnCallback(fn (int $len): string => 'random' . $len);
 		$this->time->method('getTime')->willReturn(1000);
 		$this->accessTokenMapper->method('rotateToken')->willReturn(1);
 		$this->request->method('getRemoteAddress')->willReturn('1.2.3.4');
@@ -868,7 +867,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->globalScaleConfig->method('isGlobalScaleEnabled')->willReturn(true);
 		$this->globalScaleConfig->method('isPrimary')->willReturn(true);
 
-		$user = $this->createMock(IUser::class);
+		$user = $this->createStub(IUser::class);
 		$this->userManager->method('get')->with('userId')->willReturn($user);
 
 		$this->container->method('get')
@@ -887,7 +886,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->globalScaleConfig->method('isGlobalScaleEnabled')->willReturn(true);
 		$this->globalScaleConfig->method('isPrimary')->willReturn(true);
 
-		$user = $this->createMock(IUser::class);
+		$user = $this->createStub(IUser::class);
 		$this->userManager->method('get')->with('userId')->willReturn($user);
 
 		$this->urlGenerator->method('linkToRoute')
@@ -927,7 +926,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->globalScaleConfig->method('isGlobalScaleEnabled')->willReturn(true);
 		$this->globalScaleConfig->method('isPrimary')->willReturn(true);
 
-		$user = $this->createMock(IUser::class);
+		$user = $this->createStub(IUser::class);
 		$this->userManager->method('get')->with('userId')->willReturn($user);
 
 		$globalScaleService = $this->createMock(IGlobalScaleService::class);
