@@ -11,6 +11,7 @@ namespace OC\AppFramework\Http;
 
 use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
+use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\DB\ConnectionAdapter;
 use OCP\App\IAppManager;
@@ -23,6 +24,8 @@ use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Server;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -49,6 +52,7 @@ class Dispatcher {
 		private readonly LoggerInterface $logger,
 		private readonly IEventLogger $eventLogger,
 		private readonly ContainerInterface $appContainer,
+		private readonly IUserSession $userSession,
 	) {
 	}
 
@@ -169,10 +173,18 @@ class Dispatcher {
 			} elseif (is_a($type, \SortDirection::class, true)) {
 				if (strtolower($value) === 'asc') {
 					$value = \SortDirection::Ascending;
-				} else if (strtolower($value) === 'desc') {
+				} elseif (strtolower($value) === 'desc') {
 					$value = \SortDirection::Descending;
 				} else {
 					throw new InvalidEnumParameterException($param, get_debug_type($value), \SortDirection::class);
+				}
+			} elseif (is_a($type, IUser::class, true)) {
+				// Inject current user
+				$user = $this->userSession->getUser();
+				if ($user instanceof IUser) {
+					$value = $user;
+				} else {
+					throw new NotLoggedInException('Could not inject ' . $param . ' in ' . $controller::class . '::' . $methodName . '. User is not logged in');
 				}
 			} elseif ($value === null && $type !== null && $this->appContainer->has($type)) {
 				$value = $this->appContainer->get($type);

@@ -26,6 +26,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IRequestId;
+use OCP\IUserSession;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
@@ -125,6 +126,8 @@ class DispatcherTest extends \Test\TestCase {
 	private $eventLogger;
 	/** @var ContainerInterface|MockObject */
 	private $container;
+	/** @var IUserSession|MockObject */
+	private $userSession;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -135,6 +138,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->eventLogger = $this->createMock(IEventLogger::class);
 		$this->container = $this->createMock(ContainerInterface::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$app = $this->createMock(DIContainer::class);
 		$request = $this->createMock(Request::class);
 		$this->http = $this->createMock(\OC\AppFramework\Http::class);
@@ -159,6 +163,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->logger,
 			$this->eventLogger,
 			$this->container,
+			$this->userSession,
 		);
 
 		$this->response = $this->createMock(Response::class);
@@ -328,7 +333,8 @@ class DispatcherTest extends \Test\TestCase {
 			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
-			$this->container
+			$this->container,
+			$this->userSession,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -357,7 +363,8 @@ class DispatcherTest extends \Test\TestCase {
 			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
-			$this->container
+			$this->container,
+			$this->userSession,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -385,7 +392,8 @@ class DispatcherTest extends \Test\TestCase {
 			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
-			$this->container
+			$this->container,
+			$this->userSession,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -411,7 +419,8 @@ class DispatcherTest extends \Test\TestCase {
 			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
-			$this->container
+			$this->container,
+			$this->userSession,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -442,7 +451,8 @@ class DispatcherTest extends \Test\TestCase {
 			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
-			$this->container
+			$this->container,
+			$this->userSession,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -476,7 +486,8 @@ class DispatcherTest extends \Test\TestCase {
 			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
-			$this->container
+			$this->container,
+			$this->userSession,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -510,7 +521,8 @@ class DispatcherTest extends \Test\TestCase {
 			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
-			$this->container
+			$this->container,
+			$this->userSession,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -545,7 +557,8 @@ class DispatcherTest extends \Test\TestCase {
 			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
-			$this->container
+			$this->container,
+			$this->userSession,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -580,7 +593,8 @@ class DispatcherTest extends \Test\TestCase {
 			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
-			$this->container
+			$this->container,
+			$this->userSession,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -617,7 +631,8 @@ class DispatcherTest extends \Test\TestCase {
 			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
-			$this->container
+			$this->container,
+			$this->userSession,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -680,6 +695,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->logger,
 			$this->eventLogger,
 			$this->container,
+			$this->userSession,
 		);
 
 		if ($throw) {
@@ -721,6 +737,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->logger,
 			$this->eventLogger,
 			$this->container,
+			$this->userSession,
 		);
 
 		if ($throw) {
@@ -757,6 +774,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->logger,
 			$this->eventLogger,
 			$this->container,
+			$this->userSession,
 		);
 
 		$result = self::invokePrivate($this->dispatcher, 'resolveBackedEnumValue', ['myArgument', $enumClass, $input]);
@@ -785,6 +803,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->logger,
 			$this->eventLogger,
 			$this->container,
+			$this->userSession,
 		);
 
 		$this->expectException(InvalidEnumParameterException::class);
