@@ -19,4 +19,16 @@ interface IManager {
 	 * @since 30.0.0
 	 */
 	public function update(): void;
+
+	/**
+	 * @return IBackend[]
+	 * @since 14.0.0
+	 * @deprecated 24.0.0 Use isEnabled instead
+	 */
+	public function getBackends():array;
+
+	/**
+	 * @since 35.0.0
+	 */
+	public function isEnabled(): bool;
 }

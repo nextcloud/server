@@ -50,6 +50,7 @@ class Manager implements IManager {
 		}
 	}
 
+	#[\Override]
 	public function getBackends():array {
 		$this->fetchBootstrapBackends();
 
@@ -84,5 +85,10 @@ class Manager implements IManager {
 	#[\Override]
 	public function update(): void {
 		$this->updater->updateRooms();
+	}
+
+	#[\Override]
+	public function isEnabled(): bool {
+		return $this->getBackends() !== [];
 	}
 }
