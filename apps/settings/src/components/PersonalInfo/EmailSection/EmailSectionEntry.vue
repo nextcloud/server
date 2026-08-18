@@ -67,10 +67,6 @@
 				</NcActionButton>
 			</NcActions>
 		</div>
-
-		<em v-if="isNotificationEmail" class="property-section__note">
-			{{ t('settings', 'Primary email for password reset and notifications') }}
-		</em>
 	</div>
 </template>
 

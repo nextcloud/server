@@ -52,7 +52,7 @@ const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', t
 				{{ t('settings', 'Contact') }}
 			</h3>
 			<p class="profile-contact-settings__hint">
-				{{ t('settings', 'Notifications will be sent to your primary email') }}
+				{{ t('settings', 'Notifications and password reset requests will be sent to your primary email') }}
 			</p>
 			<EmailSection />
 			<PhoneSection />

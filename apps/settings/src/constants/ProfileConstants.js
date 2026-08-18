@@ -1,13 +1,10 @@
-/**
+/*
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/*
- * SYNC to be kept in sync with `core/Db/ProfileConfig.php`
- */
-
 import { mdiEyeOffOutline, mdiEyeOutline, mdiLoginVariant } from '@mdi/js'
+import { t } from '@nextcloud/l10n'
 
 /** Enum of profile visibility constants */
 export const VISIBILITY_ENUM = Object.freeze({
@@ -18,6 +15,8 @@ export const VISIBILITY_ENUM = Object.freeze({
 
 /**
  * Enum of profile visibility constants to properties
+ *
+ * SYNC to be kept in sync with `core/Db/ProfileConfig.php`
  */
 export const VISIBILITY_PROPERTY_ENUM = Object.freeze({
 	[VISIBILITY_ENUM.SHOW]: {

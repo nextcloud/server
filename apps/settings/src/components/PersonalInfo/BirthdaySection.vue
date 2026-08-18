@@ -19,10 +19,6 @@
 				:scope="birthdate.scope"
 				@update:scope="onScopeChange" />
 		</div>
-
-		<p class="property__helper-text-message">
-			{{ t('settings', 'Enter your date of birth') }}
-		</p>
 	</section>
 </template>
 
@@ -31,7 +27,7 @@ import { loadState } from '@nextcloud/initial-state'
 import debounce from 'debounce'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import VisibilityScopeControl from './shared/VisibilityScopeControl.vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
+import { NAME_READABLE_ENUM, SCOPE_ENUM } from '../../constants/AccountPropertyConstants.ts'
 import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../utils/handlers.js'
 
@@ -63,6 +59,7 @@ export default {
 
 		return {
 			birthdate: {
+				scope: SCOPE_ENUM.PRIVATE,
 				...birthdate,
 				readable: NAME_READABLE_ENUM[birthdate.name],
 			},
@@ -161,7 +158,7 @@ export default {
 
 	&__scope {
 		position: absolute;
-		inset-block-start: 0;
+		inset-block-end: 0; // due to NcDateTimePickerNative's label handling, we need to use inset-block-end instead of block start
 		inset-inline-start: calc(100% + 8px);
 		display: flex;
 		align-items: center;

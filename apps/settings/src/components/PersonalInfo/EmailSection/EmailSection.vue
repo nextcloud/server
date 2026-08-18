@@ -188,9 +188,5 @@ export default {
 	flex-direction: column;
 	gap: 6px;
 	padding: 6px 0;
-
-	&__add {
-		margin-inline-end: 52px;
-	}
 }
 </style>

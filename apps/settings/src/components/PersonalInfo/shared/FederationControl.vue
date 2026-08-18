@@ -35,6 +35,7 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
@@ -47,7 +48,7 @@ import {
 	SCOPE_ENUM,
 	SCOPE_PROPERTY_ENUM,
 	UNPUBLISHED_READABLE_PROPERTIES,
-} from '../../../constants/AccountPropertyConstants.js'
+} from '../../../constants/AccountPropertyConstants.ts'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.ts'
 
