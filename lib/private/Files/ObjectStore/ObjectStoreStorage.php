@@ -15,7 +15,9 @@ use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Storage\AbortableWriteTrait;
 use OC\Files\Storage\Common;
+use OC\Files\Storage\IAbortableWriteStorage;
 use OC\Files\Storage\PolyFill\CopyDirectory;
 use OC\Files\Storage\Wrapper\Encryption;
 use OCP\Constants;
@@ -38,7 +40,8 @@ use OCP\Server;
 use Override;
 use Psr\Log\LoggerInterface;
 
-class ObjectStoreStorage extends Common implements IChunkedFileWrite {
+class ObjectStoreStorage extends Common implements IChunkedFileWrite, IAbortableWriteStorage {
+	use AbortableWriteTrait;
 	use CopyDirectory;
 
 	protected IObjectStore $objectStore;
@@ -367,7 +370,9 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 
 				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile($ext);
 				$handle = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
+				// the object is only replaced once this handle is closed, so a writer
+				// that fails half way has to abort the write first - see abortWrite()
+				return $this->wrapAbortableWrite($handle, $path, $tmpFile, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 					unlink($tmpFile);
 				});
@@ -455,6 +460,11 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	public function writeBack(string $tmpFile, string $path) {
 		$size = filesize($tmpFile);
 		$this->writeStream($path, fopen($tmpFile, 'r'), $size);
+	}
+
+	#[\Override]
+	public function abortWrite(string $path): void {
+		$this->abortOpenWrites($this->normalizePath($path));
 	}
 
 	#[\Override]

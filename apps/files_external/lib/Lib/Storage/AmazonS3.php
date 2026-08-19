@@ -15,7 +15,9 @@ use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
+use OC\Files\Storage\AbortableWriteTrait;
 use OC\Files\Storage\Common;
+use OC\Files\Storage\IAbortableWriteStorage;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
@@ -28,7 +30,8 @@ use OCP\Server;
 use Override;
 use Psr\Log\LoggerInterface;
 
-class AmazonS3 extends Common {
+class AmazonS3 extends Common implements IAbortableWriteStorage {
+	use AbortableWriteTrait;
 	use S3ConnectionTrait;
 	use S3ObjectTrait;
 
@@ -455,7 +458,9 @@ class AmazonS3 extends Common {
 				$tmpFile = Server::get(ITempManager::class)->getTemporaryFile();
 
 				$handle = fopen($tmpFile, 'w');
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
+				// the object is only replaced once this handle is closed, so a writer
+				// that fails half way has to abort the write first - see abortWrite()
+				return $this->wrapAbortableWrite($handle, $path, $tmpFile, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 				});
 			case 'a':
@@ -606,6 +611,11 @@ class AmazonS3 extends Common {
 	#[\Override]
 	public function getId(): string {
 		return $this->id;
+	}
+
+	#[\Override]
+	public function abortWrite(string $path): void {
+		$this->abortOpenWrites($this->normalizePath($path));
 	}
 
 	public function writeBack(string $tmpFile, string $path): bool {

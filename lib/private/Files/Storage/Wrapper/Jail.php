@@ -13,6 +13,7 @@ use OC\Files\Cache\Wrapper\JailPropagator;
 use OC\Files\Cache\Wrapper\JailWatcher;
 use OC\Files\Filesystem;
 use OC\Files\Storage\FailedStorage;
+use OC\Files\Storage\IAbortableWriteStorage;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IWatcher;
@@ -187,6 +188,14 @@ class Jail extends Wrapper {
 	#[\Override]
 	public function fopen(string $path, string $mode) {
 		return $this->getWrapperStorage()->fopen($this->getUnjailedPath($path), $mode);
+	}
+
+	#[\Override]
+	public function abortWrite(string $path): void {
+		$storage = $this->getWrapperStorage();
+		if ($storage instanceof IAbortableWriteStorage) {
+			$storage->abortWrite($this->getUnjailedPath($path));
+		}
 	}
 
 	#[\Override]

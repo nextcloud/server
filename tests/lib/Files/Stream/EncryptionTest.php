@@ -35,7 +35,7 @@ class EncryptionTest extends \Test\TestCase {
 	 * @param class-string<Wrapper> $wrapper
 	 * @return resource
 	 */
-	protected function getStream(string $fileName, string $mode, int $unencryptedSize, string $wrapper = self::DEFAULT_WRAPPER, int $unencryptedSizeOnClose = 0) {
+	protected function getStream(string $fileName, string $mode, int $unencryptedSize, string $wrapper = self::DEFAULT_WRAPPER, int $unencryptedSizeOnClose = 0, bool $writeAborted = false) {
 		clearstatcache();
 		$size = filesize($fileName);
 		$source = fopen($fileName, $mode);
@@ -80,7 +80,14 @@ class EncryptionTest extends \Test\TestCase {
 			'unencrypted_size' => $unencryptedSizeOnClose,
 		]);
 		$cache->expects($this->any())->method('get')->willReturn($entry);
-		$cache->expects($this->any())->method('update')->with(5, ['encrypted' => 3, 'encryptedVersion' => 3, 'unencrypted_size' => $unencryptedSizeOnClose]);
+		$encStorage->expects($this->any())->method('isWriteAborted')->willReturn($writeAborted);
+		if ($writeAborted) {
+			// nothing reached the storage, so nothing may be recorded about it
+			$cache->expects($this->never())->method('update');
+			$encStorage->expects($this->never())->method('updateUnencryptedSize');
+		} else {
+			$cache->expects($this->any())->method('update')->with(5, ['encrypted' => 3, 'encryptedVersion' => 3, 'unencrypted_size' => $unencryptedSizeOnClose]);
+		}
 
 		return $wrapper::wrap(
 			$source,
@@ -188,6 +195,21 @@ class EncryptionTest extends \Test\TestCase {
 			[true, 'r', '/foo/bar/test.txt', false, '/foo/bar', null, null, true],
 			[true, 'w', '/foo/bar/test.txt', true, '/foo/bar/test.txt', 8192, 0, false],
 		];
+	}
+
+	/**
+	 * A write the storage gave up on never reaches it, so closing the stream must
+	 * not record the size of content that is not there - the file keeps whatever it
+	 * had, and the cache has to keep saying so.
+	 */
+	public function testAbortedWriteIsNotRecordedInTheCache(): void {
+		$fileName = tempnam('/tmp', 'FOO');
+		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, 6, true);
+
+		$this->assertEquals(6, fwrite($stream, 'foobar'));
+		fclose($stream);
+
+		unlink($fileName);
 	}
 
 	public function testWriteRead(): void {

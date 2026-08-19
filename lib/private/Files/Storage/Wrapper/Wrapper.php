@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Storage\FailedStorage;
+use OC\Files\Storage\IAbortableWriteStorage;
 use OC\Files\Storage\Storage;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
@@ -26,7 +27,7 @@ use OCP\Server;
 use Override;
 use Psr\Log\LoggerInterface;
 
-class Wrapper implements Storage, ILockingStorage, IWriteStreamStorage {
+class Wrapper implements Storage, ILockingStorage, IWriteStreamStorage, IAbortableWriteStorage {
 	protected ?IStorage $storage;
 
 	public ?ICache $cache = null;
@@ -405,14 +406,32 @@ class Wrapper implements Storage, ILockingStorage, IWriteStreamStorage {
 			throw new GenericFileException('Failed to open ' . $path);
 		}
 
-		$count = stream_copy_to_stream($stream, $target);
-		fclose($stream);
-		fclose($target);
-		if ($count === false) {
-			throw new GenericFileException('Failed to copy stream.');
+		$completed = false;
+		try {
+			$count = stream_copy_to_stream($stream, $target);
+			if ($count === false) {
+				throw new GenericFileException('Failed to copy stream.');
+			}
+			$completed = true;
+		} finally {
+			if (!$completed) {
+				// tell the storage to drop the half written file instead of
+				// committing it over the existing one when we close the stream
+				$this->abortWrite($path);
+			}
+			fclose($stream);
+			fclose($target);
 		}
 
 		return $count;
+	}
+
+	#[\Override]
+	public function abortWrite(string $path): void {
+		$storage = $this->getWrapperStorage();
+		if ($storage instanceof IAbortableWriteStorage) {
+			$storage->abortWrite($path);
+		}
 	}
 
 	#[\Override]

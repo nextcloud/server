@@ -9,7 +9,6 @@
 namespace OC\Files\Storage;
 
 use Exception;
-use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
 use OC\MemCache\ArrayCache;
@@ -123,7 +122,9 @@ class BearerAuthAwareSabreClient extends Client {
  *
  * @package OC\Files\Storage
  */
-class DAV extends Common {
+class DAV extends Common implements IAbortableWriteStorage {
+	use AbortableWriteTrait;
+
 	/** @var string */
 	protected $password;
 	/** @var string */
@@ -737,7 +738,9 @@ class DAV extends Common {
 					$tmpFile = $tempManager->getTemporaryFile($ext);
 				}
 				$handle = fopen($tmpFile, $mode);
-				return CallbackWrapper::wrap($handle, null, null, function () use ($path, $tmpFile): void {
+				// the remote file is only replaced once this handle is closed, so a
+				// writer that fails half way has to abort the write - see abortWrite()
+				return $this->wrapAbortableWrite($handle, $path, $tmpFile, function () use ($path, $tmpFile): void {
 					$this->writeBack($tmpFile, $path);
 				});
 		}
@@ -748,6 +751,11 @@ class DAV extends Common {
 	public function writeBack(string $tmpFile, string $path): void {
 		$this->uploadFile($tmpFile, $path);
 		unlink($tmpFile);
+	}
+
+	#[\Override]
+	public function abortWrite(string $path): void {
+		$this->abortOpenWrites($this->cleanPath($path));
 	}
 
 	#[\Override]

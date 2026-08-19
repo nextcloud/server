@@ -1039,11 +1039,16 @@ class EncryptionTest extends Storage {
 		/** @var Encryption&MockObject $storage */
 		$storage = $this->getMockBuilder(Encryption::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['fopen'])
+			->onlyMethods(['fopen', 'getWrapperStorage'])
 			->getMock();
 		$storage->expects($this->once())
 			->method('fopen')
 			->willReturn($target);
+		// the failed write is handed back to the storage below, which here is one
+		// that commits as it goes and has nothing to abort
+		$storage->expects($this->any())
+			->method('getWrapperStorage')
+			->willReturn(new Temporary([]));
 
 		$source = fopen('php://temp', 'r+');
 		fwrite($source, 'some data');

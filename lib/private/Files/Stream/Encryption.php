@@ -403,7 +403,10 @@ class Encryption extends Wrapper {
 		$this->flush('end');
 		$position = (int)floor($this->position / $this->unencryptedBlockSize);
 		$remainingData = $this->encryptionModule->end($this->fullPath, $position . 'end');
-		if ($this->readOnly === false) {
+		// a write that was given up on never reaches the storage, so its size must
+		// not be recorded either - that would describe content that is not there
+		$aborted = $this->encryptionStorage->isWriteAborted($this->internalPath);
+		if ($this->readOnly === false && !$aborted) {
 			if (!empty($remainingData)) {
 				parent::stream_write($remainingData);
 			}
@@ -411,7 +414,7 @@ class Encryption extends Wrapper {
 		}
 		$result = parent::stream_close();
 
-		if ($this->fileUpdated) {
+		if ($this->fileUpdated && !$aborted) {
 			$cache = $this->storage->getCache();
 			$cacheEntry = $cache->get($this->internalPath);
 			if ($cacheEntry) {

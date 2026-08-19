@@ -40,6 +40,8 @@ class Encryption extends Wrapper {
 	/** @var CappedMemoryCache<bool> */
 	private CappedMemoryCache $encryptedPaths;
 	private bool $enabled = true;
+	/** paths whose currently open write was given up on, see abortWrite() */
+	private array $abortedWrites = [];
 
 	/**
 	 * @param array{storage: Storage\IStorage, ...} $parameters
@@ -936,6 +938,9 @@ class Encryption extends Wrapper {
 		if ($target === false) {
 			throw new GenericFileException("Failed to open $path for writing");
 		}
+		// a throwing source stream leaves these unset, which counts as a failed write
+		$result = false;
+		$count = 0;
 		try {
 			$count = stream_copy_to_stream($stream, $target);
 			if ($count === false) {
@@ -945,11 +950,17 @@ class Encryption extends Wrapper {
 				$result = true;
 			}
 		} finally {
+			if (!$result) {
+				// tell the storage to drop the half written file instead of
+				// committing it over the existing one when we close the stream
+				$this->abortWrite($path);
+			}
 			// close the streams like Common::writeStream() does, also when the source
 			// fails: an encryption stream left open is only closed during engine
 			// shutdown, where its write-back into the storage layer crashes
 			fclose($stream);
 			fclose($target);
+			$this->finishAbortedWrite($path);
 		}
 
 		// object store, stores the size after write and doesn't update this during scan
@@ -959,6 +970,32 @@ class Encryption extends Wrapper {
 		}
 
 		return $count;
+	}
+
+	/**
+	 * On top of telling the storage below to drop the half written file, remember
+	 * the abort so that the encryption stream closing right after does not record
+	 * the size of content that never made it onto the storage.
+	 */
+	#[\Override]
+	public function abortWrite(string $path): void {
+		$this->abortedWrites[$path] = true;
+		parent::abortWrite($path);
+	}
+
+	/**
+	 * Whether the write that is being closed for $path was given up on.
+	 */
+	public function isWriteAborted(string $path): bool {
+		return isset($this->abortedWrites[$path]);
+	}
+
+	/**
+	 * Forget an aborted write once its stream is closed, so the next write to the
+	 * same path starts clean.
+	 */
+	public function finishAbortedWrite(string $path): void {
+		unset($this->abortedWrites[$path]);
 	}
 
 	public function clearIsEncryptedCache(): void {

@@ -800,12 +800,19 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		if (!$target) {
 			throw new GenericFileException("Failed to open $path for writing");
 		}
+		$completed = false;
 		try {
 			$count = stream_copy_to_stream($stream, $target);
 			if ($count === false) {
 				throw new GenericFileException('Failed to copy stream');
 			}
+			$completed = true;
 		} finally {
+			if (!$completed && $this instanceof IAbortableWriteStorage) {
+				// tell the storage to drop the half written file instead of
+				// committing it over the existing one when we close the stream
+				$this->abortWrite($path);
+			}
 			fclose($target);
 			fclose($stream);
 		}
