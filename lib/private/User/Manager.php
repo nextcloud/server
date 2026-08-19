@@ -10,6 +10,7 @@ namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
 use OC\Memcache\WithLocalCache;
+use OC\ServerNotAvailableException;
 use OCP\Config\IUserConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -252,7 +253,12 @@ class Manager extends PublicEmitter implements IUserManager {
 		foreach ($backends as $backend) {
 			if ($backend instanceof ICheckPasswordBackend || $backend->implementsActions(Backend::CHECK_PASSWORD)) {
 				/** @var ICheckPasswordBackend $backend */
-				$uid = $backend->checkPassword($loginName, $password);
+				try {
+					$uid = $backend->checkPassword($loginName, $password);
+				} catch (ServerNotAvailableException $e) {
+					$this->logger->warning('Unable to check password against user backend: ' . ($backend instanceof IUserBackend ? $backend->getBackendName() : get_class($backend)), ['exception' => $e]);
+					continue;
+				}
 				if ($uid !== false) {
 					return $this->getUserObject($uid, $backend);
 				}
@@ -267,7 +273,12 @@ class Manager extends PublicEmitter implements IUserManager {
 		foreach ($backends as $backend) {
 			if ($backend instanceof ICheckPasswordBackend || $backend->implementsActions(Backend::CHECK_PASSWORD)) {
 				/** @var ICheckPasswordBackend|UserInterface $backend */
-				$uid = $backend->checkPassword($loginName, $password);
+				try {
+					$uid = $backend->checkPassword($loginName, $password);
+				} catch (ServerNotAvailableException $e) {
+					$this->logger->warning('Unable to check password against user backend: ' . ($backend instanceof IUserBackend ? $backend->getBackendName() : get_class($backend)), ['exception' => $e]);
+					continue;
+				}
 				if ($uid !== false) {
 					return $this->getUserObject($uid, $backend);
 				}
