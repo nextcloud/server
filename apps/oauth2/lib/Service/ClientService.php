@@ -51,11 +51,9 @@ final readonly class ClientService {
 		$client = new Client();
 		$client->name = $name;
 		$client->redirectUri = $redirectUri;
-		/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 		$secret = $this->secureRandom->generate(64, self::validChars);
 		$hashedSecret = bin2hex($this->crypto->calculateHMAC($secret));
 		$client->secret = $hashedSecret;
-		/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 		$client->clientIdentifier = $this->secureRandom->generate(64, self::validChars);
 		$client = $this->clientMapper->insert($client);
 

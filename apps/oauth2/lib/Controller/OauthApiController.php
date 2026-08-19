@@ -213,9 +213,7 @@ final class OauthApiController extends Controller {
 		}
 
 		// Rotate the apptoken (so the old one becomes invalid basically)
-		/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 		$newToken = $this->secureRandom->generate(72, ISecureRandom::CHAR_ALPHANUMERIC);
-		/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 		$newCode = $this->secureRandom->generate(128, ISecureRandom::CHAR_ALPHANUMERIC);
 		$newEncryptedToken = $this->crypto->encrypt($newToken, $newCode);
 		$redeemedThrottleReason = $grant_type === 'authorization_code'
