@@ -1029,7 +1029,7 @@ class ManagerTest extends \Test\TestCase {
 			File::class,
 			[
 				'isShareable' => true,
-				'getPermissions' => Constants::PERMISSION_READ,
+				'getPermissions' => Constants::PERMISSION_READ | Constants::PERMISSION_SHARE,
 				'getId' => 108,
 				'getPath' => 'path',
 				'getName' => 'name',
@@ -1045,7 +1045,7 @@ class ManagerTest extends \Test\TestCase {
 		$limitedPermissions[1]['getMountPoint'] = IMovableMount::class;
 
 		// increase permissions of a re-share
-		$data[] = [[null, IShare::TYPE_GROUP, $limitedPermissions, $group0, $user0, $user0, 17, null, null], 'You cannot share "path" with more permission than you have yourself.', true];
+		$data[] = [[null, IShare::TYPE_GROUP, $limitedPermissions, $group0, $user0, $user0, 19, null, null], 'You cannot share "path" with more permission than you have yourself.', true];
 		$data[] = [[null, IShare::TYPE_USER, $limitedPermissions, $user2, $user0, $user0, 3, null, null], 'You cannot share "path" with more permission than you have yourself.', true];
 
 		$nonMoveableMountPermissions = [
@@ -1075,9 +1075,9 @@ class ManagerTest extends \Test\TestCase {
 			'none',
 		];
 
-		$data[] = [[null, IShare::TYPE_USER, $rootFolder, $user2, $user0, $user0, 30, null, null], 'You are not allowed to share "".', true];
-		$data[] = [[null, IShare::TYPE_GROUP, $rootFolder, $group0, $user0, $user0, 2, null, null], 'You are not allowed to share "".', true];
-		$data[] = [[null, IShare::TYPE_LINK, $rootFolder, null, $user0, $user0, 16, null, null], 'You are not allowed to share "".', true];
+		$data[] = [[null, IShare::TYPE_USER, $rootFolder, $user2, $user0, $user0, 30, null, null], 'You cannot share your home folder.', true];
+		$data[] = [[null, IShare::TYPE_GROUP, $rootFolder, $group0, $user0, $user0, 2, null, null], 'You cannot share your home folder.', true];
+		$data[] = [[null, IShare::TYPE_LINK, $rootFolder, null, $user0, $user0, 16, null, null], 'You cannot share your home folder.', true];
 
 		$allPermissionsFiles = [
 			File::class,
@@ -1123,7 +1123,7 @@ class ManagerTest extends \Test\TestCase {
 			Folder::class,
 			[
 				'isShareable' => true,
-				'getPermissions' => Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE,
+				'getPermissions' => Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE | Constants::PERMISSION_SHARE,
 				'getId' => 108,
 				'getOwner' => $user0,
 			],

@@ -537,3 +537,21 @@ Scenario: User added/removed to group share with marking
     When User "user0" moves file "/textfile0 (2).txt" to "/target.txt"
     Then Share mounts for "user0" match
       | /user0/files/target.txt/ |
+
+  # The initiator reaches the folder through a read-only path as well, which is found first
+  # by id. The share permission of the other path still allows creating the share.
+  Scenario: Creating a link share of a folder that is also reachable without share permission
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/parent"
+    And user "user0" created a folder "/parent/z-child"
+    And folder "/parent" of user "user0" is shared with user "user1" with permissions 31
+    And user "user1" accepts last share
+    And folder "/parent/z-child" of user "user0" is shared with user "user1" with permissions 1
+    And user "user1" accepts last share
+    When as "user1" creating a share with
+      | path | parent/z-child |
+      | shareType | 3 |
+      | permissions | 1 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"

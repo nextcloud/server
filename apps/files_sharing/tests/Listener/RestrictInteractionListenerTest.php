@@ -73,6 +73,28 @@ final class RestrictInteractionListenerTest extends TestCase {
 		}
 	}
 
+	public function testNodeResourceShareActionSharePermissionOnOtherPath(): void {
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->user->getUID());
+
+		$fileNode = $userFolder->newFile('foo.txt', 'bar');
+		$fileNode->getStorage()->getCache()->update($fileNode->getId(), ['permissions' => Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE]);
+		$fileNode = $userFolder->getFirstNodeById($fileNode->getId());
+		$this->assertNotNull($fileNode);
+
+		$folderNode = $userFolder->newFolder('foo');
+		$folderNode->getStorage()->getCache()->update($folderNode->getId(), ['permissions' => Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE]);
+		$folderNode = $userFolder->getFirstNodeById($folderNode->getId());
+		$this->assertNotNull($folderNode);
+
+		// The node found first has no share permission, but another path to the same file id has,
+		// which is reflected by the merged permissions of the resource.
+		foreach ([$fileNode, $folderNode] as $node) {
+			$resource = new NodeResource($node->getId(), $this->user->getUID(), $node, Constants::PERMISSION_ALL);
+			$event = new RestrictInteractionEvent($this->user->getUID(), $this->user, [$resource], new ShareAction(), []);
+			$this->assertFalse($event->isInteractionRestricted());
+		}
+	}
+
 	public function testNodeResourceShareActionNotHomeFolder(): void {
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->user->getUID());
 
