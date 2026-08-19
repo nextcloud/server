@@ -38,6 +38,7 @@
 
 			<NcSelect
 				class="visibility-scope__select"
+				:aria-label-combobox="t('settings', 'Visibility')"
 				:aria-label-listbox="t('settings', 'Visibility')"
 				:clearable="false"
 				:options="visibilityOptions"
@@ -61,6 +62,7 @@
 
 			<NcSelect
 				class="visibility-scope__select"
+				:aria-label-combobox="t('settings', 'Scope')"
 				:aria-label-listbox="t('settings', 'Scope')"
 				:clearable="false"
 				:options="scopeOptions"

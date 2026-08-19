@@ -15,7 +15,7 @@
 				:model-value="profileEnabled"
 				:label="t('settings', 'Nextcloud profile')"
 				:disabled="loading"
-				@update:model-value="saveEnableProfile" />
+				@update:modelValue="saveEnableProfile" />
 			<NcFormBoxButton
 				v-if="profileEnabled"
 				:label="t('settings', 'View full profile')"

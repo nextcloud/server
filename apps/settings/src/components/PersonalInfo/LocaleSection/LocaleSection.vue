@@ -5,7 +5,9 @@
 
 <template>
 	<section class="locale-section">
-		<h3 class="locale-section__heading">{{ t('settings', 'Locale') }}</h3>
+		<h3 class="locale-section__heading">
+			<label :for="inputId">{{ t('settings', 'Locale') }}</label>
+		</h3>
 
 		<LocaleSectionEntry
 			v-if="isEditable"
