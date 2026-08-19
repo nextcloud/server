@@ -2116,6 +2116,34 @@ $CONFIG = [
 			// using Amazon S3 (or any other implementation that supports it) we recommend enabling it by using "when_supported".
 			'request_checksum_calculation' => 'when_required',
 			'response_checksum_validation' => 'when_required',
+			// optional: Use S3 conditional writes (the "If-None-Match" header) so that
+			// writing a newly created file can never silently overwrite an object that
+			// already exists at its target key. This protects against data loss when the
+			// file cache and the bucket get out of sync, for example after restoring the
+			// database from a backup, when two instances accidentally share one bucket,
+			// or when file ids are duplicated. In those cases the upload fails loudly
+			// instead of destroying the existing object.
+			//
+			// Disabled by default (opt-in) so upgrades keep their existing behaviour.
+			// Requires Signature v4 (the default) and a store that enforces the header
+			// (Amazon S3, current MinIO, Cloudflare R2 and others; support varies for
+			// other S3-compatible stores). Valid values:
+			//   false   (default) disabled; keep the previous behaviour.
+			//   'auto'  probe the bucket once and enable the feature only if the store
+			//           actually enforces the header (recommended way to turn it on);
+			//   true    force it on (only set this if you know your store supports it).
+			// An unrecognized value is reported and treated as false.
+			//
+			// Scope: this covers regular uploads. Chunked uploads create their target
+			// object before filling it and therefore cannot use the header, so they keep
+			// the previous behaviour. The 'auto' probe also only exercises a plain PUT: a
+			// store that enforces the header there but not on multipart completion is
+			// detected as supported, and its multipart creates stay unprotected.
+			//
+			// Note: do NOT add a bucket policy that requires "If-None-Match" for every
+			// write. Nextcloud intentionally overwrites the same object key whenever a
+			// file is updated, so such a policy would break all file modifications.
+			'conditional_writes' => false,
 		],
 	],
 
