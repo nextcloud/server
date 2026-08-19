@@ -1411,8 +1411,8 @@ class Manager implements IManager {
 
 	#[Override]
 	public function getShareByToken(string $token): IShare {
-		// tokens cannot be valid local usernames
-		if ($this->userManager->userExists($token)) {
+		// tokens cannot be valid local usernames or empty
+		if ($token === '' || $this->userManager->userExists($token)) {
 			throw new ShareNotFound();
 		}
 		$share = null;
