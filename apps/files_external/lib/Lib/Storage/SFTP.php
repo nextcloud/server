@@ -341,19 +341,14 @@ class SFTP extends Common {
 	}
 
 	public function touch(string $path, ?int $mtime = null): bool {
-		try {
-			if (!is_null($mtime)) {
-				return false;
-			}
-			if (!$this->file_exists($path)) {
-				$this->getConnection()->put($this->absPath($path), '');
-			} else {
-				return false;
-			}
-		} catch (\Exception $e) {
-			return false;
+
+		$result = $this->getConnection()->touch($this->absPath($path), $mtime, $mtime);
+
+		if ($result) {
+			$this->getConnection()->clearStatCache();
 		}
-		return true;
+
+		return $result;
 	}
 
 	/**
@@ -408,6 +403,9 @@ class SFTP extends Common {
 	public function file_put_contents(string $path, mixed $data): int|float|false {
 		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $data);
+
+		$this->touch($path, time());
+
 		if ($result) {
 			return strlen($data);
 		} else {
@@ -427,6 +425,9 @@ class SFTP extends Common {
 		/** @psalm-suppress InternalMethod */
 		$result = $this->getConnection()->put($this->absPath($path), $stream);
 		fclose($stream);
+
+		$this->touch($path, time());
+
 		if ($result) {
 			if ($size === null) {
 				throw new \Exception('Failed to get written size from sftp storage wrapper');
