@@ -205,6 +205,17 @@ interface IManager {
 	/**
 	 * @param int $id The id of the task
 	 * @param string|null $userId The user id that scheduled the task
+	 * @return int
+	 * @throws Exception If the query failed
+	 * @throws NotFoundException If the task could not be found
+	 * @throws PreConditionNotMetException If the task is not scheduled
+	 * @since 35.0.0
+	 */
+	public function getTaskQueuePosition(int $id, ?string $userId): int;
+
+	/**
+	 * @param int $id The id of the task
+	 * @param string|null $userId The user id that scheduled the task
 	 * @return Task
 	 * @throws Exception If the query failed
 	 * @throws NotFoundException If the task could not be found
