@@ -109,6 +109,12 @@ class Application extends App implements IBootstrap {
 		// File events
 		$context->registerEventListener(BeforePreviewFetchedEvent::class, FileEventListener::class);
 		$context->registerEventListener(VersionRestoredEvent::class, FileEventListener::class);
+		$context->registerEventListener(NodeRenamedEvent::class, FileEventListener::class);
+		$context->registerEventListener(NodeCreatedEvent::class, FileEventListener::class);
+		$context->registerEventListener(NodeCopiedEvent::class, FileEventListener::class);
+		$context->registerEventListener(NodeWrittenEvent::class, FileEventListener::class);
+		$context->registerEventListener(BeforeNodeReadEvent::class, FileEventListener::class);
+		$context->registerEventListener(BeforeNodeDeletedEvent::class, FileEventListener::class);
 
 		// Security events
 		$context->registerEventListener(TwoFactorProviderChallengePassed::class, SecurityEventListener::class);
@@ -136,7 +142,7 @@ class Application extends App implements IBootstrap {
 		$logger = $context->getAppContainer()->get(IAuditLogger::class);
 
 		/*
-		 * TODO: once the hooks are migrated to lazy events, this should be done
+		 * TODO: once the remaining hooks are migrated to lazy events, this should be done
 		 *       in \OCA\AdminAudit\AppInfo\Application::register
 		 */
 		$this->registerLegacyHooks($logger, $context->getServerContainer());
@@ -149,7 +155,6 @@ class Application extends App implements IBootstrap {
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $serverContainer->get(IEventDispatcher::class);
 		$this->sharingLegacyHooks($logger);
-		$this->fileHooks($logger, $eventDispatcher);
 		$this->trashbinHooks($logger);
 		$this->versionsHooks($logger);
 	}
@@ -161,52 +166,6 @@ class Application extends App implements IBootstrap {
 		Util::connectHook(Share::class, 'post_update_password', $shareActions, 'updatePassword');
 		Util::connectHook(Share::class, 'post_set_expiration_date', $shareActions, 'updateExpirationDate');
 		Util::connectHook(Share::class, 'share_link_access', $shareActions, 'shareAccessed');
-	}
-
-	private function fileHooks(IAuditLogger $logger, IEventDispatcher $eventDispatcher): void {
-		$fileActions = new Files($logger);
-
-		$eventDispatcher->addListener(
-			NodeRenamedEvent::class,
-			function (NodeRenamedEvent $event) use ($fileActions): void {
-				$fileActions->afterRename($event);
-			}
-		);
-
-		$eventDispatcher->addListener(
-			NodeCreatedEvent::class,
-			function (NodeCreatedEvent $event) use ($fileActions): void {
-				$fileActions->create($event);
-			}
-		);
-
-		$eventDispatcher->addListener(
-			NodeCopiedEvent::class,
-			function (NodeCopiedEvent $event) use ($fileActions): void {
-				$fileActions->copy($event);
-			}
-		);
-
-		$eventDispatcher->addListener(
-			NodeWrittenEvent::class,
-			function (NodeWrittenEvent $event) use ($fileActions): void {
-				$fileActions->write($event);
-			}
-		);
-
-		$eventDispatcher->addListener(
-			BeforeNodeReadEvent::class,
-			function (BeforeNodeReadEvent $event) use ($fileActions): void {
-				$fileActions->read($event);
-			}
-		);
-
-		$eventDispatcher->addListener(
-			BeforeNodeDeletedEvent::class,
-			function (BeforeNodeDeletedEvent $event) use ($fileActions): void {
-				$fileActions->delete($event);
-			}
-		);
 	}
 
 	private function versionsHooks(IAuditLogger $logger): void {
