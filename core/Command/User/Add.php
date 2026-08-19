@@ -85,6 +85,12 @@ class Add extends Command {
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
+
+		if (preg_match('/[^\x20-\x7E]/', (string)$uid) === 1) {
+			$output->writeln('<comment>Warning: The account ID contains non-ASCII characters. '
+				. 'This requires the "allow_unicode_usernames" system config flag and may break '
+				. 'external storage, LDAP, federation, clients or apps that expect ASCII-only account IDs.</comment>');
+		}
 		if ($this->userManager->userExists($uid)) {
 			$output->writeln('<error>The account "' . $uid . '" already exists.</error>');
 			return 1;
