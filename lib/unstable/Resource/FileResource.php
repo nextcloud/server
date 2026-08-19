@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace NCU\Resource;
+
+/**
+ * Represents a file as provided by the files app.
+ *
+ * @experimental 35.0.0
+ */
+final class FileResource implements IResource {
+}
