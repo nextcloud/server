@@ -21,13 +21,12 @@ use OCP\IDBConnection;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class SharingBase extends Command {
+abstract class SharingBase extends Base {
 	public ShareAccessContext $accessContext;
 
 	public function __construct(
@@ -71,7 +70,10 @@ abstract class SharingBase extends Command {
 
 				$share = $closure();
 				$this->dbConnection->commit();
-				$output->writeln(json_encode($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager), JSON_THROW_ON_ERROR));
+
+				$data = $share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager);
+				$this->writeArrayInOutputFormat($input, $output, $data);
+
 				return Base::SUCCESS;
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
