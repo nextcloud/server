@@ -144,7 +144,12 @@ class PublicAuth extends AbstractBasic {
 		// If the share is protected but user is not authenticated
 		if ($share->isPasswordProtected()) {
 			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
-			throw new NotAuthenticated();
+			if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')))) {
+				// do not challenge over ajax, it would trigger the browser password prompt
+				throw new NotAuthenticated();
+			}
+			// only a returned failure reaches Auth\Plugin::challenge()
+			return [false, 'No password supplied for password protected share'];
 		}
 
 		return [true, $this->principalPrefix . $token];
