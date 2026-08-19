@@ -317,7 +317,7 @@ class Manager implements IManager {
 			if ($fullId === null && $expirationDate === null && $defaultExpireDate) {
 				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(23, 59, 59);
-				$days = (int) $this->config->getAppValue('core', $configProp, (string) $defaultExpireDays);
+				$days = (int)$this->config->getAppValue('core', $configProp, (string)$defaultExpireDays);
 				if ($days > $defaultExpireDays) {
 					$days = $defaultExpireDays;
 				}
