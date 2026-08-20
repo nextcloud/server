@@ -75,11 +75,19 @@ p($theme->getTitle());
 			<div class="header-center">
 				<div id="unified-search"></div>
 			</div>
-			<div class="header-end">
-				<div id="notifications"></div>
-				<div id="contactsmenu"></div>
-				<div id="user-menu"></div>
-			</div>
+			<nav class="header-end" aria-label="<?php p($l->t('Header menu')); ?>">
+				<ul class="header-end__items" role="menubar">
+					<li class="header-end__item" role="none">
+						<div id="notifications"></div>
+					</li>
+					<li class="header-end__item" role="none">
+						<div id="contactsmenu"></div>
+					</li>
+					<li class="header-end__item" role="none">
+						<div id="user-menu"></div>
+					</li>
+				</ul>
+			</nav>
 		</header>
 
 		<div id="content" class="app-<?php p($_['appid']) ?>">
