@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import type { INode } from '@nextcloud/files'
+import type { IFolder, INode } from '@nextcloud/files'
 
 import { mdiStar } from '@mdi/js'
 import { formatFileSize } from '@nextcloud/files'
@@ -14,15 +14,19 @@ import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
-const props = defineProps<{ node: INode }>()
+const props = defineProps<{
+	folder: IFolder
+	node: INode
+}>()
 
 const isFavourited = computed(() => props.node.attributes.favorite === 1)
+const showLocation = computed(() => props.folder.path !== props.node.dirname)
 const size = computed(() => formatFileSize(props.node.size ?? 0))
 </script>
 
 <template>
 	<div :class="$style.filesSidebarSubname">
-		<div :class="$style.filesSidebarSubname__path">
+		<div v-if="showLocation" :class="$style.filesSidebarSubname__path">
 			<span :class="$style.filesSidebarSubname__label">{{ t('files', 'Location') }}:</span>
 			{{ node.path }}
 		</div>
