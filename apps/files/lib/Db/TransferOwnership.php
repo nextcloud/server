@@ -14,6 +14,9 @@ use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\DB\Schema\ColumnType;
 
+/**
+ * @psalm-suppress MissingConstructor ORM based hydration
+ */
 #[Entity(name: 'user_transfer_owner')]
 final class TransferOwnership {
 	#[Id]

@@ -23,21 +23,24 @@ use OCP\Notification\IManager as NotificationManager;
 use Psr\Log\LoggerInterface;
 use function ltrim;
 
-class TransferOwnership extends QueuedJob {
+final class TransferOwnership extends QueuedJob {
 	public function __construct(
 		ITimeFactory $timeFactory,
-		private IUserManager $userManager,
-		private OwnershipTransferService $transferService,
-		private LoggerInterface $logger,
-		private NotificationManager $notificationManager,
-		private TransferOwnershipMapper $mapper,
-		private IRootFolder $rootFolder,
+		private readonly IUserManager $userManager,
+		private readonly OwnershipTransferService $transferService,
+		private readonly LoggerInterface $logger,
+		private readonly NotificationManager $notificationManager,
+		private readonly TransferOwnershipMapper $mapper,
+		private readonly IRootFolder $rootFolder,
 	) {
 		parent::__construct($timeFactory);
 	}
 
+	/**
+	 * @param array{id: int} $argument
+	 */
 	#[\Override]
-	protected function run($argument) {
+	protected function run($argument): void {
 		$id = $argument['id'];
 
 		$transfer = $this->mapper->getById($id);
@@ -53,7 +56,13 @@ class TransferOwnership extends QueuedJob {
 			$this->failedNotication($transfer);
 			return;
 		}
+
 		$path = $userFolder->getRelativePath($node->getPath());
+		if ($path === null) {
+			$this->logger->alert('Could not transfer ownership: Node not found');
+			$this->failedNotication($transfer);
+			return;
+		}
 
 		$sourceUserObject = $this->userManager->get($sourceUser);
 		$destinationUserObject = $this->userManager->get($destinationUser);
@@ -77,11 +86,11 @@ class TransferOwnership extends QueuedJob {
 				ltrim($path, '/')
 			);
 			$this->successNotification($transfer);
-		} catch (TransferOwnershipException $e) {
+		} catch (TransferOwnershipException $transferOwnershipException) {
 			$this->logger->error(
-				$e->getMessage(),
+				$transferOwnershipException->getMessage(),
 				[
-					'exception' => $e,
+					'exception' => $transferOwnershipException,
 				],
 			);
 			$this->failedNotication($transfer);

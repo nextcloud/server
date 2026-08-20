@@ -16,7 +16,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 /**
  * @template-extends Repository<OpenLocalEditor>
  */
-class OpenLocalEditorMapper extends Repository {
+final class OpenLocalEditorMapper extends Repository {
 	public const string entityClass = OpenLocalEditor::class;
 
 	/**

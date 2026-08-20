@@ -17,9 +17,11 @@ use OCP\Server;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
-class OpenLocalEditorMapperTest extends TestCase {
+final class OpenLocalEditorMapperTest extends TestCase {
 	private IDBConnection $db;
+
 	private OpenLocalEditorMapper $mapper;
+
 	private string $testUID = 'test123456';
 
 	private function resetDB(): void {
@@ -29,6 +31,7 @@ class OpenLocalEditorMapperTest extends TestCase {
 		$qb->executeStatement();
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -38,6 +41,7 @@ class OpenLocalEditorMapperTest extends TestCase {
 		$this->resetDB();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 
