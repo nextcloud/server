@@ -83,14 +83,13 @@ class StatusesController extends OCSController {
 			$allStatuses = array_filter($allStatuses, fn (UserStatus $userStatus): bool => !in_array($userStatus->getUserId(), $removedUsers, true));
 		}
 
-		$headers = [];
-		if ($hasMoreResults) {
-			if ($lastId !== null) {
-				$lastStatus = end($allStatuses);
-				$headers['Link'] = $this->buildCursorNextPageLinkHeader([], $limit, $lastStatus->getId());
-			} else {
-				$headers['Link'] = $this->buildOffsetNextPageLinkHeader([], $limit, $offset ?? 0);
-			}
+		// $hasMoreResults comes from the unfiltered page, not from the (possibly enumeration-filtered)
+		// $allStatuses, so it is passed through as-is rather than re-derived.
+		if ($lastId !== null) {
+			$lastStatus = end($allStatuses);
+			$headers = $this->buildCursorNextPageLinkHeader($hasMoreResults, [], $limit, $lastStatus !== false ? $lastStatus->getId() : null);
+		} else {
+			$headers = $this->buildOffsetNextPageLinkHeader($hasMoreResults, [], $limit, $offset ?? 0);
 		}
 		return new DataResponse(array_values(array_map(function ($userStatus) {
 			return $this->formatStatus($userStatus);

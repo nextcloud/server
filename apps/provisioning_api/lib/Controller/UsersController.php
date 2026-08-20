@@ -141,17 +141,12 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		$hasMoreResults = $this->hasMoreResults($users, $limit);
-
 		/** @var list<string> $users */
 		$users = array_keys($users);
 
-		$headers = [];
-		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
-				'search' => $search,
-			], $limit, $offset);
-		}
+		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse([
 			'users' => $users
 		], headers: $headers);
@@ -193,8 +188,6 @@ class UsersController extends AUserDataOCSController {
 			$users = array_merge(...$users);
 		}
 
-		$hasMoreResults = $this->hasMoreResults($users, $limit);
-
 		$usersDetails = [];
 		foreach ($users as $userId) {
 			$userId = (string)$userId;
@@ -216,12 +209,9 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		$headers = [];
-		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
-				'search' => $search,
-			], $limit, $offset);
-		}
+		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse([
 			'users' => $usersDetails,
 			'groups' => $this->findGroupsWithDisplayname($usersDetails),
@@ -285,8 +275,6 @@ class UsersController extends AUserDataOCSController {
 			$users = array_slice($users, $offset, $limit);
 		}
 
-		$hasMoreResults = $this->hasMoreResults($users, $limit);
-
 		$usersDetails = [];
 		foreach ($users as $userId) {
 			try {
@@ -307,12 +295,9 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		$headers = [];
-		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
-				'search' => $search,
-			], $limit, $offset);
-		}
+		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse([
 			'users' => $usersDetails
 		], headers: $headers);
@@ -350,8 +335,6 @@ class UsersController extends AUserDataOCSController {
 		// For Admin alone user sorting based on lastLogin. For sub admin and groups this is not supported
 		$users = $this->userManager->getLastLoggedInUsers($limit, $offset, $search);
 
-		$hasMoreResults = $this->hasMoreResults($users, $limit);
-
 		$usersDetails = [];
 		foreach ($users as $userId) {
 			try {
@@ -372,12 +355,9 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		$headers = [];
-		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
-				'search' => $search,
-			], $limit, $offset);
-		}
+		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse([
 			'users' => $usersDetails
 		], headers: $headers);

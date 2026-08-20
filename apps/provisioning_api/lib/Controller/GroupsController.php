@@ -88,18 +88,14 @@ class GroupsController extends AUserDataOCSController {
 	#[NoAdminRequired]
 	public function getGroups(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
-		$hasMoreResults = $this->hasMoreResults($groups, $limit);
 		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
 			return $group->getGID();
 		}, $groups);
 
-		$headers = [];
-		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
-				'search' => $search,
-			], $limit, $offset);
-		}
+		$headers = $this->buildOffsetNextPageLinkHeader($groups, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse(['groups' => $groups], headers: $headers);
 	}
 
@@ -118,7 +114,6 @@ class GroupsController extends AUserDataOCSController {
 	#[AuthorizedAdminSetting(settings: Users::class)]
 	public function getGroupsDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
-		$hasMoreResults = $this->hasMoreResults($groups, $limit);
 		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
 			return [
@@ -131,12 +126,9 @@ class GroupsController extends AUserDataOCSController {
 			];
 		}, $groups);
 
-		$headers = [];
-		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
-				'search' => $search,
-			], $limit, $offset);
-		}
+		$headers = $this->buildOffsetNextPageLinkHeader($groups, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse(['groups' => $groups], headers: $headers);
 	}
 
@@ -232,7 +224,6 @@ class GroupsController extends AUserDataOCSController {
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentUser->getUID());
 		if ($isAdmin || $isDelegatedAdmin || $isSubadminOfGroup) {
 			$users = $group->searchUsers($search, $limit, $offset);
-			$hasMoreResults = $this->hasMoreResults($users, $limit);
 
 			// Extract required number
 			$usersDetails = [];
@@ -253,12 +244,9 @@ class GroupsController extends AUserDataOCSController {
 					// continue if a users ceased to exist.
 				}
 			}
-			$headers = [];
-			if ($hasMoreResults) {
-				$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
-					'search' => $search,
-				], $limit, $offset);
-			}
+			$headers = $this->buildOffsetNextPageLinkHeader($users, [
+				'search' => $search,
+			], $limit, $offset);
 			return new DataResponse([
 				'users' => $usersDetails,
 				'groups' => $this->findGroupsWithDisplayname($usersDetails),

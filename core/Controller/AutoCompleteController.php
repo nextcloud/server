@@ -58,6 +58,7 @@ class AutoCompleteController extends OCSController {
 	public function get(string $search, ?string $itemType, ?string $itemId, ?string $sorter = null, array $shareTypes = [IShare::TYPE_USER], int $limit = 10, int $offset = 0): DataResponse {
 		// if enumeration/user listings are disabled, we'll receive an empty
 		// result from search() – thus nothing else to do here.
+		/** @var list<IShare::TYPE_*> $shareTypes */
 		[$results, $hasMoreResults] = $this->collaboratorSearch->filteredSearch($search, $shareTypes, false, $itemType, $itemId, $limit, $offset);
 
 		$exactMatches = $results['exact'];
@@ -75,16 +76,15 @@ class AutoCompleteController extends OCSController {
 		// transform to expected format
 		$results = $this->prepareResultArray($results);
 
-		$headers = [];
-		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
-				'search' => $search,
-				'itemType' => $itemType,
-				'itemId' => $itemId,
-				'sorter' => $sorter,
-				'shareTypes' => $shareTypes,
-			], $limit, $offset);
-		}
+		// $hasMoreResults comes from the search backend, not from the (differently shaped,
+		// possibly filtered) $results, so it is passed through as-is rather than re-derived.
+		$headers = $this->buildOffsetNextPageLinkHeader($hasMoreResults, [
+			'search' => $search,
+			'itemType' => $itemType,
+			'itemId' => $itemId,
+			'sorter' => $sorter,
+			'shareTypes' => $shareTypes,
+		], $limit, $offset);
 
 		return new DataResponse($results, headers: $headers);
 	}

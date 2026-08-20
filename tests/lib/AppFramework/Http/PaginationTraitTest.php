@@ -27,17 +27,22 @@ class PaginationTraitTest extends TestCase {
 		$this->subject = new class($this->request, $this->urlGenerator) {
 			use PaginationTrait;
 
-			public function __construct(IRequest $request, IURLGenerator $urlGenerator) {
-				$this->request = $request;
-				$this->urlGenerator = $urlGenerator;
+			public function __construct(
+				protected IRequest $request,
+				private IURLGenerator $urlGenerator,
+			) {
 			}
 
 			public function hasMore(array $items, ?int $limit): bool {
 				return $this->hasMoreResults($items, $limit);
 			}
 
-			public function nextLink(array $params, int $limit, int $offset): string {
-				return $this->buildOffsetNextPageLinkHeader($params, $limit, $offset);
+			public function nextLinkHeaders(array|bool $items, array $params, ?int $limit, int $offset): array {
+				return $this->buildOffsetNextPageLinkHeader($items, $params, $limit, $offset);
+			}
+
+			public function cursorLinkHeaders(array|bool $items, array $params, ?int $limit, int|string|null $lastId): array {
+				return $this->buildCursorNextPageLinkHeader($items, $params, $limit, $lastId);
 			}
 		};
 	}
@@ -73,11 +78,47 @@ class PaginationTraitTest extends TestCase {
 			->with('/ocs/v2.php/apps/provisioning_api/api/v1/groups')
 			->willReturn('https://cloud.example.com/ocs/v2.php/apps/provisioning_api/api/v1/groups');
 
-		$link = $this->subject->nextLink(['search' => 'foo'], 5, 0);
+		$headers = $this->subject->nextLinkHeaders(['a', 'b', 'c', 'd', 'e'], ['search' => 'foo'], 5, 0);
 
-		$this->assertSame(
-			'<https://cloud.example.com/ocs/v2.php/apps/provisioning_api/api/v1/groups?search=foo&limit=5&offset=5>; rel="next"',
-			$link
-		);
+		$this->assertSame([
+			'Link' => '<https://cloud.example.com/ocs/v2.php/apps/provisioning_api/api/v1/groups?search=foo&limit=5&offset=5>; rel="next"',
+		], $headers);
+	}
+
+	public function testNextLinkReturnsEmptyHeadersWhenFewerItemsThanLimit(): void {
+		$this->assertSame([], $this->subject->nextLinkHeaders(['a', 'b'], ['search' => 'foo'], 5, 0));
+	}
+
+	public function testNextLinkAcceptsAPrecomputedBool(): void {
+		$this->assertSame([], $this->subject->nextLinkHeaders(false, ['search' => 'foo'], 5, 0));
+
+		$this->request->method('getRequestUri')->willReturn('/ocs/v2.php/core/autocomplete/get');
+		$this->urlGenerator->method('getAbsoluteURL')
+			->with('/ocs/v2.php/core/autocomplete/get')
+			->willReturn('https://cloud.example.com/ocs/v2.php/core/autocomplete/get');
+
+		$this->assertArrayHasKey('Link', $this->subject->nextLinkHeaders(true, ['search' => 'foo'], 5, 0));
+	}
+
+	public function testCursorLinkKeepsRequestPathAndUsesLastId(): void {
+		$this->request->method('getRequestUri')->willReturn('/ocs/v2.php/apps/user_status/api/v1/statuses?limit=1&lastId=1336');
+
+		$this->urlGenerator->method('getAbsoluteURL')
+			->with('/ocs/v2.php/apps/user_status/api/v1/statuses')
+			->willReturn('https://cloud.example.com/ocs/v2.php/apps/user_status/api/v1/statuses');
+
+		$headers = $this->subject->cursorLinkHeaders(['a'], [], 1, 1337);
+
+		$this->assertSame([
+			'Link' => '<https://cloud.example.com/ocs/v2.php/apps/user_status/api/v1/statuses?limit=1&lastId=1337>; rel="next"',
+		], $headers);
+	}
+
+	public function testCursorLinkReturnsEmptyHeadersWhenFewerItemsThanLimit(): void {
+		$this->assertSame([], $this->subject->cursorLinkHeaders(['a', 'b'], [], 5, 1337));
+	}
+
+	public function testCursorLinkReturnsEmptyHeadersWhenLastIdIsMissing(): void {
+		$this->assertSame([], $this->subject->cursorLinkHeaders(['a'], [], 1, null));
 	}
 }

@@ -12,53 +12,77 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 
 /**
- * Helper for OCS controllers that paginate a list of results via a limit/offset
- * pair and need to tell the caller whether more results might exist beyond the
- * current page, without the backing query natively reporting a total count.
+ * Helper for OCS controllers that paginate a limit/offset list and need to report
+ * whether more results exist, without the query providing a total count.
+ *
+ * Relies on the composing class providing `$this->request` (already declared by
+ * OCP\AppFramework\Controller) and its own `$this->urlGenerator`; not declared here
+ * to avoid property composition conflicts with classes that mark theirs readonly.
+ *
+ * @property IRequest $request
+ * @property IURLGenerator $urlGenerator
  */
 trait PaginationTrait {
-	private IURLGenerator $urlGenerator;
-	private IRequest $request;
-
 	/**
 	 * @param array $items The page of results as returned for $limit
 	 * @param non-negative-int|null $limit Requested page size, or null for "no limit" (never "more" in that case)
 	 */
 	protected function hasMoreResults(array $items, ?int $limit): bool {
-		return $limit !== null && $limit > 0 && count($items) === $limit;
+		return $limit !== null && $limit > 0 && count($items) >= $limit;
 	}
 
 	/**
-	 * Builds a `Link: <url>; rel="next"` response header value pointing at the
-	 * next page of the current request.
+	 * @param array|bool $items The page of results, or an already-known "has more" bool
+	 *                          when the caller has a more authoritative source than the
+	 *                          item count (e.g. a search backend)
+	 * @param non-negative-int|null $limit
+	 */
+	private function resolveHasMoreResults(array|bool $items, ?int $limit): bool {
+		return is_bool($items) ? $items : $this->hasMoreResults($items, $limit);
+	}
+
+	/**
+	 * Builds the `headers` for a DataResponse: a `Link: <url>; rel="next"` header if
+	 * there's a next page, or an empty array otherwise.
 	 *
 	 * @param array<string, mixed> $params Query parameters for the next page, e.g. the incremented offset
+	 * @param non-negative-int|null $limit
+	 * @return array{Link?: string}
 	 */
-	protected function buildOffsetNextPageLinkHeader(array $params, int $limit, int $offset): string {
+	protected function buildOffsetNextPageLinkHeader(array|bool $items, array $params, ?int $limit, int $offset): array {
+		if (!$this->resolveHasMoreResults($items, $limit)) {
+			return [];
+		}
+
 		$params = array_merge($params, [
-			'limit' => $limit,
-			'offset' => $offset + $limit,
+			'limit' => ($limit ?? 100),
+			'offset' => $offset + ($limit ?? 100),
 		]);
 		$path = (string)parse_url($this->request->getRequestUri(), PHP_URL_PATH);
 		$url = $this->urlGenerator->getAbsoluteURL($path) . '?' . http_build_query($params);
-		return '<' . $url . '>; rel="next"';
+		return ['Link' => '<' . $url . '>; rel="next"'];
 	}
 
 	/**
-	 * Builds a `Link: <url>; rel="next"` response header value pointing at the
-	 * next page of the current request, using keyset (seek) pagination instead
-	 * of an offset.
+	 * Same as buildOffsetNextPageLinkHeader(), but using keyset (seek) pagination
+	 * instead of an offset.
 	 *
 	 * @param array<string, mixed> $params Query parameters for the next page
-	 * @param int|string $lastId Id of the last entity of the current page
+	 * @param int|string|null $lastId Id of the last entity of the current page
+	 * @param non-negative-int|null $limit
+	 * @return array{Link?: string}
 	 */
-	protected function buildCursorNextPageLinkHeader(array $params, int $limit, int|string $lastId): string {
+	protected function buildCursorNextPageLinkHeader(array|bool $items, array $params, ?int $limit, int|string|null $lastId): array {
+		if ($lastId === null || !$this->resolveHasMoreResults($items, $limit)) {
+			return [];
+		}
+
 		$params = array_merge($params, [
 			'limit' => $limit,
 			'lastId' => $lastId,
 		]);
 		$path = (string)parse_url($this->request->getRequestUri(), PHP_URL_PATH);
 		$url = $this->urlGenerator->getAbsoluteURL($path) . '?' . http_build_query($params);
-		return '<' . $url . '>; rel="next"';
+		return ['Link' => '<' . $url . '>; rel="next"'];
 	}
 }
