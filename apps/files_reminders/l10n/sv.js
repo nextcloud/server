@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Påminnelsen för \"{fileName}\" har tagits bort",
     "Failed to clear reminder" : "Det gick inte att ta bort påminnelsen",
     "Reminder at custom date & time" : "Påminnelse vid anpassat datum och tid",
-    "We will remind you of this file" : "Du kommer att påminnas om den här filen",
     "Cancel" : "Avbryt",
     "Clear reminder" : "Ta bort påminnelse",
     "Set reminder" : "Ställ in påminnelse",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Ställ in en påminnelse till helgen",
     "Next week" : "Nästa vecka",
     "Set reminder for next week" : "Ställ in påminnelse för nästa vecka",
-    "Set reminder for \"{fileName}\"" : "Ställ in påminnelse för \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Ställ in påminnelse för \"{fileName}\"",
+    "We will remind you of this file" : "Du kommer att påminnas om den här filen"
 },
 "nplurals=2; plural=(n != 1);");

@@ -315,6 +315,7 @@
     "Unknown database platform" : "Unbekannte Datenbankplattform",
     "Architecture" : "Architektur",
     "64-bit" : "64-bit",
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! We will no longer block improvements to performance, security and scalability that are incompatible with 32bit support going forward and we expect that Nextcloud Hub 27 Winter (Nextcloud 36) will no longer work on 32bit systems." : "Es scheint, als würde eine 32-Bit-PHP-Version ausgeführt werden. Nextcloud benötigt 64-Bit, um gut zu laufen. Bitte das Betriebssystem und PHP auf 64-Bit aktualisieren! Wir werden künftig keine Leistungs-, Sicherheits- und Skalierbarkeitsverbesserungen mehr blockieren, die mit der 32-Bit-Unterstützung nicht kompatibel sind, und wir gehen davon aus, dass Nextcloud Hub 27 Winter (Nextcloud 36) auf 32-Bit-Systemen nicht mehr funktionieren wird.",
     "Task Processing pickup speed" : "Abholgeschwindigkeit für Aufgabenverarbeitung",
     "_No scheduled tasks in the last day._::_No scheduled tasks in the last %n days._" : ["Keine geplanten Aufgaben am vergangenen Tag.","Keine geplanten Aufgaben in den letzten %n Tagen."],
     "_The task pickup speed has been ok in the last day._::_The task pickup speed has been ok in the last %n days._" : ["Die Geschwindigkeit der Aufgabenübernahme war am vergangenen Tag in Ordnung.","Die Geschwindigkeit der Aufgabenübernahme war in den letzten %n Tagen in Ordnung."],

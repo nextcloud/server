@@ -315,6 +315,7 @@
     "Unknown database platform" : "未知資料庫平台",
     "Architecture" : "架構",
     "64-bit" : "64 位元",
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! We will no longer block improvements to performance, security and scalability that are incompatible with 32bit support going forward and we expect that Nextcloud Hub 27 Winter (Nextcloud 36) will no longer work on 32bit systems." : "看來您目前運行的是 32 位元版的 PHP。Nextcloud 需要 64 位元版本才能正常運作。請將您的作業系統與 PHP 升級至 64 位元版本！我們將不再阻礙那些與 32 位元支援不相容的效能、安全性及可擴展性改進，且預計 Nextcloud Hub 27 Winter（Nextcloud 36）將無法在 32 位元系統上運作。",
     "Task Processing pickup speed" : "任務處理擷取速度",
     "_No scheduled tasks in the last day._::_No scheduled tasks in the last %n days._" : ["最近%n 天內沒有排定的任務。"],
     "_The task pickup speed has been ok in the last day._::_The task pickup speed has been ok in the last %n days._" : ["最近%n天內的任務擷取速度正常。"],

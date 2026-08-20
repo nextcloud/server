@@ -315,6 +315,7 @@
     "Unknown database platform" : "Veri tabanı platformu bilinmiyor",
     "Architecture" : "Mimari",
     "64-bit" : "64-bit",
+    "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit! We will no longer block improvements to performance, security and scalability that are incompatible with 32bit support going forward and we expect that Nextcloud Hub 27 Winter (Nextcloud 36) will no longer work on 32bit systems." : "32 bitlik bir PHP sürümü kullanıyorsunuz gibi görünüyor. Nextcloud uygulamasının iyi çalışması için 64 bit PHP gerekir. Lütfen işletim sisteminizi ve PHP sürümünüzü 64 bit sürümlerine yükseltin! İleriye dönük olarak 32bit desteğiyle uyumlu olmayan başarım, güvenlik ve ölçeklenebilirlik iyileştirmelerini engellemeyeceğiz ve Nextcloud Hub 27 Winter sürümünün (Nextcloud 36) 32bit sistemlerde artık çalışmamasını bekliyoruz.",
     "Task Processing pickup speed" : "İşlenecek görevi alma hızı",
     "_No scheduled tasks in the last day._::_No scheduled tasks in the last %n days._" : ["Son 1 günde zamanlanmış bir görev yok.","Son %n günde zamanlanmış bir görev yok."],
     "_The task pickup speed has been ok in the last day._::_The task pickup speed has been ok in the last %n days._" : ["Son 1 günde zamanlanmış işlenecek görevi alma hızı iyi.","Son %n günde zamanlanmış işlenecek görevi alma hızı iyi."],

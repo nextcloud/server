@@ -600,6 +600,7 @@ OC.L10N.register(
     "The theme %s has been disabled." : "The theme %s has been disabled.",
     "Detailed logs" : "Detailed logs",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>.",
+    "Remove filter: {text}" : "Remove filter: {text}",
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Too many incorrect login attempts. Please try again in 30 seconds.",
     "Groups" : "Groups",
     "Group list is empty" : "Group list is empty",
