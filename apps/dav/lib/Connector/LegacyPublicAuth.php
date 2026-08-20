@@ -125,7 +125,7 @@ class LegacyPublicAuth extends AbstractBasic {
 			return false;
 		}
 
-		return in_array($share->getId(), $allowedShareIds);
+		return in_array($share->getId(), $allowedShareIds, true);
 	}
 
 	public function getShare(): IShare {
