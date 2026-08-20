@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "\"{fileName}\" anımsatıcısı kaldırıldı",
     "Failed to clear reminder" : "Anımsatıcı temizlenemedi",
     "Reminder at custom date & time" : "Özel bir tarih ve saat için anımsatıcı",
-    "We will remind you of this file" : "Size bu dosyayı anımsatacağız",
     "Cancel" : "İptal",
     "Clear reminder" : "Anımsatıcıyı temizle",
     "Set reminder" : "Anımsatıcı ayarla",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Bu hafta sonu için anımsatıcı ayarla",
     "Next week" : "Sonraki hafta",
     "Set reminder for next week" : "Gelecek hafta için anımsatıcı ayarla",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\" için anımsatıcı ayarla"
+    "Set reminder for \"{fileName}\"" : "\"{fileName}\" için anımsatıcı ayarla",
+    "We will remind you of this file" : "Size bu dosyayı anımsatacağız"
 },
 "nplurals=2; plural=(n > 1);");

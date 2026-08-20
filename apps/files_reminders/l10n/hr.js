@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Podsjetnik uklonjen za \"{fileName}\"",
     "Failed to clear reminder" : "Greška kod uklanjanja podsjetnika",
     "Reminder at custom date & time" : "Podsjetnik na prilagođeni datum i vrijeme",
-    "We will remind you of this file" : "Podsjetit ćemo vas na ovu datoteku.",
     "Cancel" : "Odustani",
     "Clear reminder" : "Ukloni podsjetnik",
     "Set reminder" : "Postavi podsjetnik",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Postavi podsjetnik za ovaj vikend",
     "Next week" : "Sljedeći tjedan",
     "Set reminder for next week" : "Postavi podsjetnik za sljedeći tjedan",
-    "Set reminder for \"{fileName}\"" : "Postavi podsjetnik za \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Postavi podsjetnik za \"{fileName}\"",
+    "We will remind you of this file" : "Podsjetit ćemo vas na ovu datoteku."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");
