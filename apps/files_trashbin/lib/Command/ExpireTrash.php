@@ -36,7 +36,7 @@ class ExpireTrash extends Base {
 		$this
 			->setName('trashbin:expire')
 			->setDescription('Delete expired files from the trashbin')
-			->setHelp('Deletes expired files from the trashbin according to the configured retention and space policy. This does not disable the trashbin or unconditionally empty it.')
+			->setHelp('Deletes expired files from the trashbin according to the configured retention and space policy.')
 			->addArgument(
 				'user_id',
 				InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
