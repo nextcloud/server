@@ -14,20 +14,30 @@ use OCP\IURLGenerator;
 use Test\TestCase;
 
 class PaginationTraitTest extends TestCase {
+	private IRequest&\PHPUnit\Framework\MockObject\MockObject $request;
+	private IURLGenerator&\PHPUnit\Framework\MockObject\MockObject $urlGenerator;
 	private object $subject;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->subject = new class {
+		$this->request = $this->createMock(IRequest::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+
+		$this->subject = new class($this->request, $this->urlGenerator) {
 			use PaginationTrait;
+
+			public function __construct(IRequest $request, IURLGenerator $urlGenerator) {
+				$this->request = $request;
+				$this->urlGenerator = $urlGenerator;
+			}
 
 			public function hasMore(array $items, ?int $limit): bool {
 				return $this->hasMoreResults($items, $limit);
 			}
 
-			public function nextLink(IRequest $request, IURLGenerator $urlGenerator, array $params): string {
-				return $this->buildNextPageLinkHeader($request, $urlGenerator, $params);
+			public function nextLink(array $params, int $limit, int $offset): string {
+				return $this->buildOffsetNextPageLinkHeader($params, $limit, $offset);
 			}
 		};
 	}
@@ -57,15 +67,13 @@ class PaginationTraitTest extends TestCase {
 	}
 
 	public function testNextLinkKeepsRequestPathAndAppliesGivenQuery(): void {
-		$request = $this->createMock(IRequest::class);
-		$request->method('getRequestUri')->willReturn('/ocs/v2.php/apps/provisioning_api/api/v1/groups?search=foo&limit=5&offset=0');
+		$this->request->method('getRequestUri')->willReturn('/ocs/v2.php/apps/provisioning_api/api/v1/groups?search=foo&limit=5&offset=0');
 
-		$urlGenerator = $this->createMock(IURLGenerator::class);
-		$urlGenerator->method('getAbsoluteURL')
+		$this->urlGenerator->method('getAbsoluteURL')
 			->with('/ocs/v2.php/apps/provisioning_api/api/v1/groups')
 			->willReturn('https://cloud.example.com/ocs/v2.php/apps/provisioning_api/api/v1/groups');
 
-		$link = $this->subject->nextLink($request, $urlGenerator, ['search' => 'foo', 'limit' => 5, 'offset' => 5]);
+		$link = $this->subject->nextLink(['search' => 'foo'], 5, 0);
 
 		$this->assertSame(
 			'<https://cloud.example.com/ocs/v2.php/apps/provisioning_api/api/v1/groups?search=foo&limit=5&offset=5>; rel="next"',

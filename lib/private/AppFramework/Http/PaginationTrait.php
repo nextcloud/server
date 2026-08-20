@@ -17,14 +17,10 @@ use OCP\IURLGenerator;
  * current page, without the backing query natively reporting a total count.
  */
 trait PaginationTrait {
+	private IURLGenerator $urlGenerator;
+	private IRequest $request;
+
 	/**
-	 * Whether a page of results might be followed by more results.
-	 *
-	 * A page that came back with fewer items than the requested limit cannot
-	 * be followed by more. A full page might be the last one too (the total
-	 * count could be an exact multiple of $limit), but there is no way to
-	 * tell without a second query, so a full page is treated as "more".
-	 *
 	 * @param array $items The page of results as returned for $limit
 	 * @param non-negative-int|null $limit Requested page size, or null for "no limit" (never "more" in that case)
 	 */
@@ -34,14 +30,35 @@ trait PaginationTrait {
 
 	/**
 	 * Builds a `Link: <url>; rel="next"` response header value pointing at the
-	 * next page of the current request, keeping its path (including any route
-	 * placeholders already resolved into it) and replacing the query string.
+	 * next page of the current request.
 	 *
 	 * @param array<string, mixed> $params Query parameters for the next page, e.g. the incremented offset
 	 */
-	protected function buildNextPageLinkHeader(IRequest $request, IURLGenerator $urlGenerator, array $params): string {
-		$path = (string)parse_url($request->getRequestUri(), PHP_URL_PATH);
-		$url = $urlGenerator->getAbsoluteURL($path) . '?' . http_build_query($params);
+	protected function buildOffsetNextPageLinkHeader(array $params, int $limit, int $offset): string {
+		$params = array_merge($params, [
+			'limit' => $limit,
+			'offset' => $offset + $limit,
+		]);
+		$path = (string)parse_url($this->request->getRequestUri(), PHP_URL_PATH);
+		$url = $this->urlGenerator->getAbsoluteURL($path) . '?' . http_build_query($params);
+		return '<' . $url . '>; rel="next"';
+	}
+
+	/**
+	 * Builds a `Link: <url>; rel="next"` response header value pointing at the
+	 * next page of the current request, using keyset (seek) pagination instead
+	 * of an offset.
+	 *
+	 * @param array<string, mixed> $params Query parameters for the next page
+	 * @param int|string $lastId Id of the last entity of the current page
+	 */
+	protected function buildCursorNextPageLinkHeader(array $params, int $limit, int|string $lastId): string {
+		$params = array_merge($params, [
+			'limit' => $limit,
+			'lastId' => $lastId,
+		]);
+		$path = (string)parse_url($this->request->getRequestUri(), PHP_URL_PATH);
+		$url = $this->urlGenerator->getAbsoluteURL($path) . '?' . http_build_query($params);
 		return '<' . $url . '>; rel="next"';
 	}
 }
