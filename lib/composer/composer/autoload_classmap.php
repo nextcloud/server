@@ -1320,7 +1320,6 @@ return array(
     'OC\\Authentication\\Login\\UpdateLastPasswordConfirmCommand' => $baseDir . '/lib/private/Authentication/Login/UpdateLastPasswordConfirmCommand.php',
     'OC\\Authentication\\Login\\UserDisabledCheckCommand' => $baseDir . '/lib/private/Authentication/Login/UserDisabledCheckCommand.php',
     'OC\\Authentication\\Login\\WebAuthnChain' => $baseDir . '/lib/private/Authentication/Login/WebAuthnChain.php',
-    'OC\\Authentication\\Login\\WebAuthnLoginCommand' => $baseDir . '/lib/private/Authentication/Login/WebAuthnLoginCommand.php',
     'OC\\Authentication\\Notifications\\Notifier' => $baseDir . '/lib/private/Authentication/Notifications/Notifier.php',
     'OC\\Authentication\\Token\\INamedToken' => $baseDir . '/lib/private/Authentication/Token/INamedToken.php',
     'OC\\Authentication\\Token\\IProvider' => $baseDir . '/lib/private/Authentication/Token/IProvider.php',
