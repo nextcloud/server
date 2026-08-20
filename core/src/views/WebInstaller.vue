@@ -326,7 +326,7 @@ function checkPasswordEntropy(password: string = ''): PasswordStrength {
 }
 
 export default defineComponent({
-	name: 'Setup',
+	name: 'WebInstaller',
 
 	components: {
 		IconArrowRight,
@@ -406,6 +406,7 @@ export default defineComponent({
 			get(): string[] {
 				return this.config?.dbsslnoverify ? ['1'] : []
 			},
+
 			set(checked: string[]) {
 				this.config.dbsslnoverify = checked.includes('1')
 			},

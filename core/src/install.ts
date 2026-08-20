@@ -4,7 +4,7 @@
  */
 
 import Vue from 'vue'
-import Setup from './views/Setup.vue'
+import WebInstaller from './views/WebInstaller.vue'
 
 type Error = {
 	error: string
@@ -55,5 +55,5 @@ export type SetupLinks = {
 	adminDBConfiguration: string
 }
 
-const SetupVue = Vue.extend(Setup)
+const SetupVue = Vue.extend(WebInstaller)
 new SetupVue().$mount('#content')

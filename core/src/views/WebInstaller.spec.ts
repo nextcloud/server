@@ -7,7 +7,7 @@ import type { SetupConfig, SetupLinks } from '../install.ts'
 
 import { cleanup, findByRole, fireEvent, getAllByRole, getByRole, render } from '@testing-library/vue'
 import { beforeEach, describe, expect, it } from 'vitest'
-import SetupView from './Setup.vue'
+import SetupView from './WebInstaller.vue'
 
 import '../../css/guest.css'
 
