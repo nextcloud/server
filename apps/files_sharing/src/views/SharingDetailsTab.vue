@@ -166,6 +166,7 @@
 					<NcDateTimePickerNative
 						v-if="hasExpirationDate"
 						id="share-date-picker"
+						ref="expireDate"
 						:model-value="new Date(share.expireDate ?? dateTomorrow)"
 						:min="dateTomorrow"
 						:max="maxExpirationDateEnforced"
@@ -173,7 +174,8 @@
 						:label="t('files_sharing', 'Expiration date')"
 						:placeholder="t('files_sharing', 'Expiration date')"
 						type="date"
-						@input="onExpirationChange" />
+						@update:model-value="onExpirationChange"
+						@change="checkExpirationDateValidity" />
 					<NcCheckboxRadioSwitch
 						v-if="isPublicShare"
 						v-model="share.hideDownload"
@@ -892,6 +894,32 @@ export default {
 
 	methods: {
 		/**
+		 * Check native `min` / `max` constraints on the expiration date field.
+		 * Prefer the change event target when available (same pattern as SharingEntryLink).
+		 *
+		 * @param {Event} [event]
+		 * @return {boolean}
+		 */
+		checkExpirationDateValidity(event) {
+			const fromEvent = event?.target
+			const fromRef = this.$refs.expireDate?.$el?.querySelector?.('input')
+			const input = fromEvent instanceof HTMLInputElement
+				? fromEvent
+				: (fromRef instanceof HTMLInputElement ? fromRef : null)
+
+			if (!input) {
+				return true
+			}
+
+			input.setCustomValidity('')
+			const isValid = input.checkValidity()
+			if (!isValid) {
+				input.reportValidity()
+			}
+			return isValid
+		},
+
+		/**
 		 * Set a share attribute on the current share
 		 *
 		 * @param {string} scope The attribute scope
@@ -1131,6 +1159,8 @@ export default {
 
 			if (!this.hasExpirationDate) {
 				this.share.expireDate = ''
+			} else if (!this.checkExpirationDateValidity()) {
+				return
 			}
 
 			if (this.isNewShare) {
@@ -1462,5 +1492,10 @@ export default {
 			}
 		}
 	}
+}
+
+:deep(input:user-invalid) {
+	--input-border-color: var(--color-border-error, var(--color-error)) !important;
+	border-color: var(--color-border-error, var(--color-error)) !important;
 }
 </style>
