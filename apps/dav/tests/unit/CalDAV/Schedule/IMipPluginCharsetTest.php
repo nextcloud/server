@@ -13,6 +13,7 @@ use OC\URLGenerator;
 use OCA\DAV\CalDAV\EventComparisonService;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipService;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IAppConfig;
@@ -55,6 +56,7 @@ class IMipPluginCharsetTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private LoggerInterface $logger;
 	private IUserManager&MockObject $userManager;
+	private IAccountManager&MockObject $accountManager;
 
 	// Services
 	private EventComparisonService $eventComparisonService;
@@ -120,6 +122,7 @@ class IMipPluginCharsetTest extends TestCase {
 		$this->userSession->method('getUser')
 			->willReturn($user);
 		$this->mailManager = $this->createMock(IManager::class);
+		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->imipPlugin = new IMipPlugin(
 			$this->appConfig,
 			$this->mailer,
@@ -130,6 +133,7 @@ class IMipPluginCharsetTest extends TestCase {
 			$this->imipService,
 			$this->eventComparisonService,
 			$this->mailManager,
+			$this->accountManager,
 		);
 
 		// ITipMessage
