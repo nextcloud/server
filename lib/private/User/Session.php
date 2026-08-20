@@ -464,7 +464,7 @@ class Session implements IUserSession, Emitter {
 	}
 
 	private function handleLoginFailed(IThrottler $throttler, int $currentDelay, string $remoteAddress, string $user, ?string $password) {
-		$this->logger->warning("Login failed: '" . $user . "' (Remote IP: '" . $remoteAddress . "')", ['app' => 'core']);
+		$this->logger->warning("Login failed: '" . $user . "' (Remote IP: '" . $remoteAddress . "')", ['app' => 'core', 'exception' => new \Exception()]);
 
 		$throttler->registerAttempt('login', $remoteAddress, ['user' => $user]);
 		$this->dispatcher->dispatchTyped(new LoginFailed($user, $password));
@@ -761,11 +761,9 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * Invalidates the token if checks fail
 	 *
-	 * @param string $token
-	 * @param string $user login name
-	 * @return boolean
+	 * @param ?string $user The login name
 	 */
-	private function validateToken($token, $user = null) {
+	private function validateToken(string $token, ?string $user = null): bool {
 		try {
 			$dbToken = $this->tokenProvider->getToken($token);
 		} catch (InvalidTokenException $ex) {
