@@ -17,6 +17,12 @@ use OCP\IDBConnection;
 class MySQL extends AbstractDatabase {
 	public string $dbprettyname = 'MySQL/MariaDB';
 
+	/**
+	 * There is no equivalent to the PostgreSQL `sslmode`, the connection is encrypted by
+	 * providing a CA certificate. A revocation list cannot be passed through PDO either.
+	 */
+	protected const array SUPPORTED_ENCRYPTION_OPTIONS = ['dbsslca', 'dbsslcert', 'dbsslkey', 'dbsslnoverify'];
+
 	#[\Override]
 	public function setupDatabase(): void {
 		//check if the database user has admin right
@@ -78,6 +84,47 @@ class MySQL extends AbstractDatabase {
 			throw new DatabaseSetupException($this->trans->t('MySQL Login and/or password not valid'),
 				$this->trans->t('You need to enter details of an existing account.'), 0, $e);
 		}
+	}
+
+	#[\Override]
+	protected function getEncryptionConfig(array $config): array {
+		$attributes = $this->getSslAttributes();
+
+		$driverOptions = [];
+		foreach (['dbsslca' => 'ca', 'dbsslcert' => 'cert', 'dbsslkey' => 'key'] as $option => $attribute) {
+			if (!empty($config[$option])) {
+				$driverOptions[$attributes[$attribute]] = (string)$config[$option];
+			}
+		}
+		if (!empty($config['dbsslnoverify'])) {
+			$driverOptions[$attributes['verify']] = false;
+		}
+
+		return $driverOptions === [] ? [] : ['dbdriveroptions' => $driverOptions];
+	}
+
+	/**
+	 * PDO attributes configuring an encrypted connection.
+	 *
+	 * @return array{ca: int, cert: int, key: int, verify: int}
+	 */
+	private function getSslAttributes(): array {
+		// TODO: simplify once we only support PHP 8.5+.
+		if (PHP_VERSION_ID >= 80500 && class_exists(\Pdo\Mysql::class)) {
+			/** @psalm-suppress UndefinedConstant Psalm resolves the non-mysqlnd variant of the symfony polyfill class, which lacks this constant */
+			return [
+				'ca' => \Pdo\Mysql::ATTR_SSL_CA,
+				'cert' => \Pdo\Mysql::ATTR_SSL_CERT,
+				'key' => \Pdo\Mysql::ATTR_SSL_KEY,
+				'verify' => \Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT,
+			];
+		}
+		return [
+			'ca' => \PDO::MYSQL_ATTR_SSL_CA,
+			'cert' => \PDO::MYSQL_ATTR_SSL_CERT,
+			'key' => \PDO::MYSQL_ATTR_SSL_KEY,
+			'verify' => \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT,
+		];
 	}
 
 	private function createDatabase(\OC\DB\Connection $connection): void {
