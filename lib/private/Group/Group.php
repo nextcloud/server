@@ -82,6 +82,7 @@ class Group implements IGroup {
 
 	public function setDisplayName(string $displayName): bool {
 		$displayName = trim($displayName);
+		$changed = false;
 		if ($displayName !== '') {
 			$this->dispatcher->dispatchTyped(new BeforeGroupChangedEvent($this, 'displayName', $displayName, $this->displayName));
 			foreach ($this->backends as $backend) {
@@ -92,6 +93,10 @@ class Group implements IGroup {
 					return true;
 				}
 			}
+		}
+		if ($changed) {
+			$this->dispatcher->dispatchTyped(new GroupChangedEvent($this, 'displayName', $displayName, $oldDisplayName));
+			return true;
 		}
 		return false;
 	}
