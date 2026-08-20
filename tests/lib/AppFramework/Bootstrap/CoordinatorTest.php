@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace lib\AppFramework\Bootstrap;
 
+use OC\App\AppManager;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Support\CrashReport\Registry;
 use OCA\Settings\AppInfo\Application;
-use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -27,7 +27,7 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CoordinatorTest extends TestCase {
-	private IAppManager&MockObject $appManager;
+	private AppManager&MockObject $appManager;
 	private ContainerInterface&MockObject $serverContainer;
 	private Registry&MockObject $crashReporterRegistry;
 	private IManager&MockObject $dashboardManager;
@@ -40,7 +40,7 @@ class CoordinatorTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appManager = $this->createMock(AppManager::class);
 		$this->serverContainer = $this->createMock(ContainerInterface::class);
 		$this->crashReporterRegistry = $this->createMock(Registry::class);
 		$this->dashboardManager = $this->createMock(IManager::class);

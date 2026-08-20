@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-declare(strict_types=1);
+namespace OCA\Sharing\Tests\Command;
 
+use Exception;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\SharePermission;
@@ -37,7 +40,9 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
+use RuntimeException;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\Output;

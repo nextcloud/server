@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-declare(strict_types=1);
+namespace OCA\Sharing\Tests\Controller;
 
+use Closure;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\Permission\SharePermission;
 use NCU\Sharing\Property\ShareProperty;
@@ -25,6 +28,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use Test\Sharing\AbstractSharingManagerTests;
 
