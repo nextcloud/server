@@ -59,7 +59,7 @@ class GroupsController extends AUserDataOCSController {
 		IRootFolder $rootFolder,
 		private LoggerInterface $logger,
 		GroupDisplayNameCache $groupDisplayNameCache,
-		private IURLGenerator $urlGenerator,
+		private readonly IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName,
 			$request,
@@ -96,11 +96,9 @@ class GroupsController extends AUserDataOCSController {
 
 		$headers = [];
 		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
 				'search' => $search,
-				'limit' => $limit,
-				'offset' => $offset + $limit,
-			]);
+			], $limit, $offset);
 		}
 		return new DataResponse(['groups' => $groups], headers: $headers);
 	}
@@ -135,11 +133,9 @@ class GroupsController extends AUserDataOCSController {
 
 		$headers = [];
 		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
 				'search' => $search,
-				'limit' => $limit,
-				'offset' => $offset + $limit,
-			]);
+			], $limit, $offset);
 		}
 		return new DataResponse(['groups' => $groups], headers: $headers);
 	}
@@ -259,11 +255,9 @@ class GroupsController extends AUserDataOCSController {
 			}
 			$headers = [];
 			if ($hasMoreResults) {
-				$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+				$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
 					'search' => $search,
-					'limit' => $limit,
-					'offset' => $offset + $limit,
-				]);
+				], $limit, $offset);
 			}
 			return new DataResponse([
 				'users' => $usersDetails,

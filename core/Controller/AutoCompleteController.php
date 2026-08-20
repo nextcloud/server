@@ -92,15 +92,13 @@ class AutoCompleteController extends OCSController {
 
 		$headers = [];
 		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
 				'search' => $search,
 				'itemType' => $itemType,
 				'itemId' => $itemId,
 				'sorter' => $sorter,
 				'shareTypes' => $shareTypes,
-				'limit' => $limit,
-				'offset' => $offset + $limit,
-			]);
+			], $limit, $offset);
 		}
 
 		return new DataResponse($results, headers: $headers);

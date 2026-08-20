@@ -148,11 +148,9 @@ class UsersController extends AUserDataOCSController {
 
 		$headers = [];
 		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
 				'search' => $search,
-				'limit' => $limit,
-				'offset' => $offset + $limit,
-			]);
+			], $limit, $offset);
 		}
 		return new DataResponse([
 			'users' => $users
@@ -220,11 +218,9 @@ class UsersController extends AUserDataOCSController {
 
 		$headers = [];
 		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
 				'search' => $search,
-				'limit' => $limit,
-				'offset' => $offset + $limit,
-			]);
+			], $limit, $offset);
 		}
 		return new DataResponse([
 			'users' => $usersDetails,
@@ -313,11 +309,9 @@ class UsersController extends AUserDataOCSController {
 
 		$headers = [];
 		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
 				'search' => $search,
-				'limit' => $limit,
-				'offset' => $offset + $limit,
-			]);
+			], $limit, $offset);
 		}
 		return new DataResponse([
 			'users' => $usersDetails
@@ -380,11 +374,9 @@ class UsersController extends AUserDataOCSController {
 
 		$headers = [];
 		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
+			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
 				'search' => $search,
-				'limit' => $limit,
-				'offset' => $offset + $limit,
-			]);
+			], $limit, $offset);
 		}
 		return new DataResponse([
 			'users' => $usersDetails
