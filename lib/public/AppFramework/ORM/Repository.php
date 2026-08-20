@@ -397,6 +397,9 @@ class Repository {
 	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
 	 * @param array<string, \SortDirection> $orderBy
 	 * @return \Generator<T>
+	 *
+	 * @note If you need to implement pagination, prefer using findByAfterId instead.
+	 *
 	 * @since 35.0.0
 	 */
 	public function findBy(array $criteria, array $orderBy = [], ?int $limit = null, ?int $offset = null): \Generator {
@@ -409,6 +412,78 @@ class Repository {
 		if ($offset !== null) {
 			$qb->setFirstResult($offset);
 		}
+
+		return $this->yieldJoinedEntities($qb, $relations);
+	}
+
+	/**
+	 * Finds entities by a set of criteria, keyed by property name, one page at a time ordered by
+	 * their primary key — using keyset (seek) pagination instead of OFFSET/LIMIT.
+	 *
+	 * Unlike findBy()'s $offset, which forces the database to scan and discard every preceding
+	 * row on every call, $lastId lets it seek straight to the right spot through the primary
+	 * key's index, so each page costs the same regardless of how deep it is. Pass null to fetch
+	 * the first page, then the id of the last entity returned to fetch the next one; stop once
+	 * fewer than $limit entities come back.
+	 *
+	 * @warning This does not support tables with composite primary keys
+	 *
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
+	 * @param int|string|null $lastId The primary key of the last entity from the previous
+	 *                                page, or null to fetch the first page.
+	 * @return \Generator<T>
+	 * @throws \LogicException if the entity has a composite primary key
+	 * @since 35.0.0
+	 */
+	public function findByAfterId(array $criteria, int|float|string|null $lastId, int $limit): \Generator {
+		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
+		$idColumn = $entityInfo->mappingPropertyToColumn[$entityInfo->getSingleIdProperty()->getName()];
+
+		[$qb, $relations] = $this->getJoinedSelectQueryBuilder($criteria);
+
+		if ($lastId !== null) {
+			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$idColumn], false);
+			$qb->andWhere($qb->expr()->gt('e.' . $idColumn, $qb->createNamedParameter($lastId, $type)));
+		}
+
+		$qb->orderBy('e.' . $idColumn, \SortDirection::Ascending);
+		$qb->setMaxResults($limit);
+
+		return $this->yieldJoinedEntities($qb, $relations);
+	}
+
+	/**
+	 * Finds entities by a set of criteria, keyed by property name, one page at a time ordered by
+	 * their primary key in descending order — using keyset (seek) pagination instead of
+	 * OFFSET/LIMIT.
+	 *
+	 * This is the mirror image of findByAfterId(), walking from the highest id downwards instead
+	 * of from the lowest id upwards. Pass null to fetch the first page (starting from the highest
+	 * id), then the id of the last entity returned to fetch the next one; stop once fewer than
+	 * $limit entities come back.
+	 *
+	 * @warning This does not support tables with composite primary keys
+	 *
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
+	 * @param int|string|null $lastId The primary key of the last entity from the previous
+	 *                                page, or null to fetch the first page.
+	 * @return \Generator<T>
+	 * @throws \LogicException if the entity has a composite primary key
+	 * @since 35.0.0
+	 */
+	public function findByBeforeId(array $criteria, int|float|string|null $lastId, int $limit): \Generator {
+		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
+		$idColumn = $entityInfo->mappingPropertyToColumn[$entityInfo->getSingleIdProperty()->getName()];
+
+		[$qb, $relations] = $this->getJoinedSelectQueryBuilder($criteria);
+
+		if ($lastId !== null) {
+			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$idColumn], false);
+			$qb->andWhere($qb->expr()->lt('e.' . $idColumn, $qb->createNamedParameter($lastId, $type)));
+		}
+
+		$qb->orderBy('e.' . $idColumn, \SortDirection::Descending);
+		$qb->setMaxResults($limit);
 
 		return $this->yieldJoinedEntities($qb, $relations);
 	}
