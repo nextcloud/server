@@ -21,6 +21,7 @@ use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -36,7 +37,6 @@ class OpenLocalEditorController extends OCSController {
 		protected OpenLocalEditorMapper $mapper,
 		protected ISecureRandom $secureRandom,
 		protected LoggerInterface $logger,
-		protected ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -52,26 +52,26 @@ class OpenLocalEditorController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[UserRateLimit(limit: 10, period: 120)]
-	public function create(string $path): DataResponse {
+	public function create(IUser $user, string $path): DataResponse {
 		$pathHash = sha1($path);
 
 		$entity = new OpenLocalEditor();
-		$entity->setUserId($this->userId);
-		$entity->setPathHash($pathHash);
-		$entity->setExpirationTime($this->timeFactory->getTime() + self::TOKEN_DURATION); // Expire in 10 minutes
+		$entity->userId = $user->getUID();
+		$entity->pathHash = $pathHash;
+		$entity->expirationTime = $this->timeFactory->getTime() + self::TOKEN_DURATION; // Expire in 10 minutes
 
 		for ($i = 1; $i <= self::TOKEN_RETRIES; $i++) {
 			$token = $this->secureRandom->generate(self::TOKEN_LENGTH, ISecureRandom::CHAR_ALPHANUMERIC);
-			$entity->setToken($token);
+			$entity->token = $token;
 
 			try {
 				$this->mapper->insert($entity);
 
 				return new DataResponse([
-					'userId' => $this->userId,
+					'userId' => $user->getUID(),
 					'pathHash' => $pathHash,
-					'expirationTime' => $entity->getExpirationTime(),
-					'token' => $entity->getToken(),
+					'expirationTime' => $entity->expirationTime,
+					'token' => $entity->token,
 				]);
 			} catch (Exception $e) {
 				if ($e->getCode() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
@@ -98,31 +98,30 @@ class OpenLocalEditorController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'openLocalEditor')]
-	public function validate(string $path, string $token): DataResponse {
+	public function validate(IUser $user, string $path, string $token): DataResponse {
 		$pathHash = sha1($path);
 
 		try {
-			$entity = $this->mapper->verifyToken($this->userId, $pathHash, $token);
+			$entity = $this->mapper->verifyToken($user->getUID(), $pathHash, $token);
 		} catch (DoesNotExistException $e) {
 			$response = new DataResponse([], Http::STATUS_NOT_FOUND);
-			$response->throttle(['userId' => $this->userId, 'pathHash' => $pathHash]);
+			$response->throttle(['userId' => $user->getUID(), 'pathHash' => $pathHash]);
 			return $response;
 		}
 
 		$this->mapper->delete($entity);
 
-		if ($entity->getExpirationTime() <= $this->timeFactory->getTime()) {
+		if ($entity->expirationTime <= $this->timeFactory->getTime()) {
 			$response = new DataResponse([], Http::STATUS_NOT_FOUND);
-			$response->throttle(['userId' => $this->userId, 'pathHash' => $pathHash]);
+			$response->throttle(['userId' => $user->getUID(), 'pathHash' => $pathHash]);
 			return $response;
 		}
 
 		return new DataResponse([
-			'userId' => $this->userId,
+			'userId' => $user->getUID(),
 			'pathHash' => $pathHash,
-			'expirationTime' => $entity->getExpirationTime(),
-			'token' => $entity->getToken(),
+			'expirationTime' => $entity->expirationTime,
+			'token' => $entity->token,
 		]);
 	}
-
 }
