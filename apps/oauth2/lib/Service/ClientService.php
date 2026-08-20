@@ -51,6 +51,7 @@ final readonly class ClientService {
 		$client = new Client();
 		$client->name = $name;
 		$client->redirectUri = $redirectUri;
+
 		$secret = $this->secureRandom->generate(64, self::validChars);
 		$hashedSecret = bin2hex($this->crypto->calculateHMAC($secret));
 		$client->secret = $hashedSecret;
