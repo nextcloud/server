@@ -304,6 +304,33 @@ class View {
 		}
 	}
 
+	private function preserveCopyMtime(Storage $sourceStorage, Storage $targetStorage, string $sourceInternalPath, string $targetInternalPath): void {
+		if ($sourceStorage->is_dir($sourceInternalPath)) {
+			$directory = $sourceStorage->opendir($sourceInternalPath);
+			if (is_resource($directory)) {
+				try {
+					while (($file = readdir($directory)) !== false) {
+						if (!Filesystem::isIgnoredDir($file)) {
+							$this->preserveCopyMtime(
+								$sourceStorage,
+								$targetStorage,
+								$sourceInternalPath . '/' . $file,
+								$targetInternalPath . '/' . $file,
+							);
+						}
+					}
+				} finally {
+					closedir($directory);
+				}
+			}
+		}
+
+		$mtime = $sourceStorage->filemtime($sourceInternalPath);
+		if (is_int($mtime)) {
+			$targetStorage->touch($targetInternalPath, $mtime);
+		}
+	}
+
 	/**
 	 * @param string $path
 	 * @return bool|mixed
@@ -938,7 +965,7 @@ class View {
 	 *
 	 * @return bool|mixed
 	 */
-	public function copy($source, $target, $preserveMtime = false) {
+	public function copy($source, $target, $preserveMtime = true) {
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($source));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($target));
 		$result = false;
@@ -993,6 +1020,10 @@ class View {
 						}
 					} else {
 						$result = $storage2->copyFromStorage($storage1, $internalPath1, $internalPath2);
+					}
+
+					if ($result && $preserveMtime) {
+						$this->preserveCopyMtime($storage1, $storage2, $internalPath1, $internalPath2);
 					}
 
 					if ($result) {
