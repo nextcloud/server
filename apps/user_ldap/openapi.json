@@ -196,7 +196,9 @@
                         "description": "ID of the config",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^.*$",
+                            "default": ""
                         }
                     },
                     {
@@ -369,7 +371,9 @@
                         "description": "ID of the config",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^.*$",
+                            "default": ""
                         }
                     },
                     {
@@ -553,7 +557,9 @@
                         "description": "ID of the config",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^.*$",
+                            "default": ""
                         }
                     },
                     {
@@ -720,7 +726,9 @@
                         "description": "ID of the LDAP config",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^.*$",
+                            "default": ""
                         }
                     },
                     {
@@ -887,7 +895,9 @@
                         "description": "ID of the LDAP config",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^.*$",
+                            "default": ""
                         }
                     },
                     {
