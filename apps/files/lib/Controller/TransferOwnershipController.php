@@ -26,17 +26,17 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as NotificationManager;
 
-class TransferOwnershipController extends OCSController {
+final class TransferOwnershipController extends OCSController {
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private NotificationManager $notificationManager,
-		private ITimeFactory $timeFactory,
-		private IJobList $jobList,
-		private TransferOwnershipMapper $mapper,
-		private IUserManager $userManager,
-		private IRootFolder $rootFolder,
+		private readonly NotificationManager $notificationManager,
+		private readonly ITimeFactory $timeFactory,
+		private readonly IJobList $jobList,
+		private readonly TransferOwnershipMapper $mapper,
+		private readonly IUserManager $userManager,
+		private readonly IRootFolder $rootFolder,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -57,7 +57,7 @@ class TransferOwnershipController extends OCSController {
 	public function transfer(IUser $user, string $recipient, string $path): DataResponse {
 		$recipientUser = $this->userManager->get($recipient);
 
-		if ($recipientUser === null) {
+		if (!$recipientUser instanceof IUser) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
@@ -65,11 +65,12 @@ class TransferOwnershipController extends OCSController {
 
 		try {
 			$node = $userRoot->get($path);
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		if ($node->getOwner()->getUID() !== $user->getUID() || !$node->getStorage()->instanceOfStorage(IHomeStorage::class)) {
+		$owner = $node->getOwner();
+		if ($owner === null || $owner->getUID() !== $user->getUID() || !$node->getStorage()->instanceOfStorage(IHomeStorage::class)) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
@@ -99,7 +100,7 @@ class TransferOwnershipController extends OCSController {
 	/**
 	 * Accept an ownership transfer
 	 *
-	 * @param int $id ID of the ownership transfer
+	 * @param positive-int $id ID of the ownership transfer
 	 *
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
@@ -111,7 +112,7 @@ class TransferOwnershipController extends OCSController {
 	public function accept(IUser $user, int $id): DataResponse {
 		try {
 			$transferOwnership = $this->mapper->getById($id);
-		} catch (DoesNotExistException $e) {
+		} catch (DoesNotExistException) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 
@@ -134,7 +135,7 @@ class TransferOwnershipController extends OCSController {
 	/**
 	 * Reject an ownership transfer
 	 *
-	 * @param int $id ID of the ownership transfer
+	 * @param positive-int $id ID of the ownership transfer
 	 *
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
@@ -146,7 +147,7 @@ class TransferOwnershipController extends OCSController {
 	public function reject(IUser $user, int $id): DataResponse {
 		try {
 			$transferOwnership = $this->mapper->getById($id);
-		} catch (DoesNotExistException $e) {
+		} catch (DoesNotExistException) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 

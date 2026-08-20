@@ -743,7 +743,8 @@
                         "description": "ID of the editor",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -752,7 +753,8 @@
                         "description": "ID of the creator",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -929,7 +931,8 @@
                                 "properties": {
                                     "path": {
                                         "type": "string",
-                                        "description": "Path of the file"
+                                        "description": "Path of the file",
+                                        "minLength": 1
                                     },
                                     "editorId": {
                                         "type": "string",
@@ -1136,15 +1139,18 @@
                                 "properties": {
                                     "path": {
                                         "type": "string",
-                                        "description": "Path of the file"
+                                        "description": "Path of the file",
+                                        "minLength": 1
                                     },
                                     "editorId": {
                                         "type": "string",
-                                        "description": "ID of the editor"
+                                        "description": "ID of the editor",
+                                        "minLength": 1
                                     },
                                     "creatorId": {
                                         "type": "string",
-                                        "description": "ID of the creator"
+                                        "description": "ID of the creator",
+                                        "minLength": 1
                                     },
                                     "templateId": {
                                         "type": "string",
@@ -2007,7 +2013,8 @@
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "format": "int64"
+                            "format": "int64",
+                            "minimum": 1
                         }
                     },
                     {
@@ -2158,7 +2165,8 @@
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "format": "int64"
+                            "format": "int64",
+                            "minimum": 1
                         }
                     },
                     {
@@ -2315,7 +2323,8 @@
                                 "properties": {
                                     "path": {
                                         "type": "string",
-                                        "description": "Path of the file"
+                                        "description": "Path of the file",
+                                        "minLength": 1
                                     }
                                 }
                             }
@@ -2473,7 +2482,8 @@
                                 "properties": {
                                     "path": {
                                         "type": "string",
-                                        "description": "Path of the file"
+                                        "description": "Path of the file",
+                                        "minLength": 1
                                     }
                                 }
                             }
@@ -2487,7 +2497,8 @@
                         "description": "Token of the local editor",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {

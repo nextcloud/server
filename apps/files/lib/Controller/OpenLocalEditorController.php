@@ -25,18 +25,21 @@ use OCP\IUser;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
-class OpenLocalEditorController extends OCSController {
+final class OpenLocalEditorController extends OCSController {
 	public const int TOKEN_LENGTH = 128;
-	public const int TOKEN_DURATION = 600; // 10 Minutes
+
+	// 10 Minutes
+	public const int TOKEN_DURATION = 600;
+
 	public const int TOKEN_RETRIES = 50;
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		protected ITimeFactory $timeFactory,
-		protected OpenLocalEditorMapper $mapper,
-		protected ISecureRandom $secureRandom,
-		protected LoggerInterface $logger,
+		private readonly ITimeFactory $timeFactory,
+		private readonly OpenLocalEditorMapper $mapper,
+		private readonly ISecureRandom $secureRandom,
+		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -60,7 +63,7 @@ class OpenLocalEditorController extends OCSController {
 		$entity->pathHash = $pathHash;
 		$entity->expirationTime = $this->timeFactory->getTime() + self::TOKEN_DURATION; // Expire in 10 minutes
 
-		for ($i = 1; $i <= self::TOKEN_RETRIES; $i++) {
+		for ($i = 1; $i <= self::TOKEN_RETRIES; ++$i) {
 			$token = $this->secureRandom->generate(self::TOKEN_LENGTH, ISecureRandom::CHAR_ALPHANUMERIC);
 			$entity->token = $token;
 
@@ -103,7 +106,7 @@ class OpenLocalEditorController extends OCSController {
 
 		try {
 			$entity = $this->mapper->verifyToken($user->getUID(), $pathHash, $token);
-		} catch (DoesNotExistException $e) {
+		} catch (DoesNotExistException) {
 			$response = new DataResponse([], Http::STATUS_NOT_FOUND);
 			$response->throttle(['userId' => $user->getUID(), 'pathHash' => $pathHash]);
 			return $response;

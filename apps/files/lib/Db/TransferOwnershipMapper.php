@@ -9,14 +9,18 @@ declare(strict_types=1);
 
 namespace OCA\Files\Db;
 
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\ORM\Repository;
 
 /**
  * @template-extends Repository<TransferOwnership>
  */
-class TransferOwnershipMapper extends Repository {
+final class TransferOwnershipMapper extends Repository {
 	public const string entityClass = TransferOwnership::class;
 
+	/**
+	 * @throws DoesNotExistException
+	 */
 	public function getById(int $id): TransferOwnership {
 		return $this->findOneBy(['id' => $id]);
 	}

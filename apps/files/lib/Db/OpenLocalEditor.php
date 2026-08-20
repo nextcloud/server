@@ -14,6 +14,9 @@ use OCP\AppFramework\ORM\Attribute\Entity;
 use OCP\AppFramework\ORM\Attribute\Id;
 use OCP\DB\Schema\ColumnType;
 
+/**
+ * @psalm-suppress MissingConstructor ORM based hydration
+ */
 #[Entity(name: 'open_local_editor')]
 final class OpenLocalEditor {
 	#[Id]

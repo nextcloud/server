@@ -17,9 +17,11 @@ use OCP\Server;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
-class TransferOwnershipMapperTest extends TestCase {
+final class TransferOwnershipMapperTest extends TestCase {
 	private IDBConnection $db;
+
 	private TransferOwnershipMapper $mapper;
+
 	private string $sourceUser = 'test123456';
 
 	private function resetDB(): void {
@@ -29,6 +31,7 @@ class TransferOwnershipMapperTest extends TestCase {
 		$qb->executeStatement();
 	}
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -38,6 +41,7 @@ class TransferOwnershipMapperTest extends TestCase {
 		$this->resetDB();
 	}
 
+	#[\Override]
 	protected function tearDown(): void {
 		parent::tearDown();
 
