@@ -70,7 +70,6 @@ class Upgrade extends Command {
 
 			$self = $this;
 			$updater = Server::get(Updater::class);
-			$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
 
 			/** @var IEventDispatcher $dispatcher */
 			$dispatcher = Server::get(IEventDispatcher::class);
@@ -161,7 +160,9 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output): void {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output, &$incompatibleOverwrites): void {
+			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output): void {
+				// Read per event, the overwrites are cleared during a major upgrade
+				$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
 				if (!in_array($app, $incompatibleOverwrites)) {
 					$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
 				}
