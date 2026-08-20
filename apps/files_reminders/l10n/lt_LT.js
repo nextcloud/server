@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Priminimas apie „{fileName}“ išvalytas",
     "Failed to clear reminder" : "Nepavyko panaikinti priminimo",
     "Reminder at custom date & time" : "Priminimas pasirinkta data ir laiku",
-    "We will remind you of this file" : "Jums bus priminta apie šį failą",
     "Cancel" : "Atsisakyti",
     "Clear reminder" : "Panaikinti priminimą",
     "Set reminder" : "Nustatyti priminimą",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Nustatyti priminimą šį savaitgalį",
     "Next week" : "Kitą savaitę",
     "Set reminder for next week" : "Nustatyti priminimą kitą savaitę",
-    "Set reminder for \"{fileName}\"" : "Nustatyti priminimą apie „{fileName}“"
+    "Set reminder for \"{fileName}\"" : "Nustatyti priminimą apie „{fileName}“",
+    "We will remind you of this file" : "Jums bus priminta apie šį failą"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

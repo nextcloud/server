@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Glanadh an meabhrúchán le haghaidh \"{fileName}\"",
     "Failed to clear reminder" : "Theip ar an meabhrúchán a ghlanadh",
     "Reminder at custom date & time" : "Meabhrúchán ag dáta agus am saincheaptha",
-    "We will remind you of this file" : "Cuirfimid an comhad seo i gcuimhne duit",
     "Cancel" : "Cealaigh",
     "Clear reminder" : "Meabhrúchán soiléir",
     "Set reminder" : "Socraigh meabhrúchán",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Socraigh meabhrúchán don deireadh seachtaine seo",
     "Next week" : "An tseachtain seo chugainn",
     "Set reminder for next week" : "Socraigh meabhrúchán don tseachtain seo chugainn",
-    "Set reminder for \"{fileName}\"" : "Socraigh meabhrúchán do \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Socraigh meabhrúchán do \"{fileName}\"",
+    "We will remind you of this file" : "Cuirfimid an comhad seo i gcuimhne duit"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

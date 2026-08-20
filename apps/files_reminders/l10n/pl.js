@@ -10,7 +10,6 @@ OC.L10N.register(
     "Reminder set for \"{fileName}\"" : "Przypomnienie ustawione dla \"{fileName}\"",
     "Failed to set reminder" : "Nie udało się ustawić przypomnienia",
     "Failed to clear reminder" : "Nie udało się wyczyścić przypomnienia",
-    "We will remind you of this file" : "Przypomnimy Tobie o tym pliku",
     "Cancel" : "Anuluj",
     "Clear reminder" : "Wyczyść przypomnienie",
     "Set reminder" : "Ustaw przypomnienie",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Ustaw przypomnienie na ten weekend",
     "Next week" : "Następny tydzień",
     "Set reminder for next week" : "Ustaw przypomnienie na przyszły tydzień",
-    "Set reminder for \"{fileName}\"" : "Ustaw przypomnienie dla \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Ustaw przypomnienie dla \"{fileName}\"",
+    "We will remind you of this file" : "Przypomnimy Tobie o tym pliku"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

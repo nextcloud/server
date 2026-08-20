@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "ລຶບການແຈ້ງເຕືອນສຳລັບ \"{fileName}\" ແລ້ວ",
     "Failed to clear reminder" : "ລຶບການແຈ້ງເຕືອນບໍ່ສຳເລັດ",
     "Reminder at custom date & time" : "ແຈ້ງເຕືອນໃນວັນທີ ແລະ ເວລາທີ່ກຳນົດເອງ",
-    "We will remind you of this file" : "ພວກເຮົາຈະແຈ້ງເຕືອນທ່ານກ່ຽວກັບໄຟລ໌ນີ້",
     "Cancel" : "ຍົກເລີກ",
     "Clear reminder" : "ລຶບການແຈ້ງເຕືອນ",
     "Set reminder" : "ຕັ້ງການແຈ້ງເຕືອນ",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "ຕັ້ງການແຈ້ງເຕືອນສຸດສັບປະດານີ້",
     "Next week" : "ອາທິດໜ້າ",
     "Set reminder for next week" : "ຕັ້ງການແຈ້ງເຕືອນອາທິດໜ້າ",
-    "Set reminder for \"{fileName}\"" : "ຕັ້ງການແຈ້ງເຕືອນສຳລັບ \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "ຕັ້ງການແຈ້ງເຕືອນສຳລັບ \"{fileName}\"",
+    "We will remind you of this file" : "ພວກເຮົາຈະແຈ້ງເຕືອນທ່ານກ່ຽວກັບໄຟລ໌ນີ້"
 },
 "nplurals=1; plural=0;");

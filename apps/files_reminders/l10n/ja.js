@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "\"{fileName}\"のリマインダーをクリアしました",
     "Failed to clear reminder" : "リマインダーのクリアに失敗しました",
     "Reminder at custom date & time" : "カスタム日時でのリマインダー",
-    "We will remind you of this file" : "このファイルをリマインドします",
     "Cancel" : "キャンセル",
     "Clear reminder" : "リマインダーをクリア",
     "Set reminder" : "リマインダーを設定",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "今週末のリマインダーを設定する",
     "Next week" : "来週",
     "Set reminder for next week" : "来週のリマインダーを設定する",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\"のリマインダーを設定"
+    "Set reminder for \"{fileName}\"" : "\"{fileName}\"のリマインダーを設定",
+    "We will remind you of this file" : "このファイルをリマインドします"
 },
 "nplurals=1; plural=0;");
