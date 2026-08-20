@@ -12,7 +12,6 @@ namespace OC\Authentication\Login;
 class WebAuthnChain {
 	public function __construct(
 		private UserDisabledCheckCommand $userDisabledCheckCommand,
-		private WebAuthnLoginCommand $webAuthnLoginCommand,
 		private LoggedInCheckCommand $loggedInCheckCommand,
 		private CompleteLoginCommand $completeLoginCommand,
 		private CreateSessionTokenCommand $createSessionTokenCommand,
@@ -27,7 +26,6 @@ class WebAuthnChain {
 	public function process(LoginData $loginData): LoginResult {
 		$chain = $this->userDisabledCheckCommand;
 		$chain
-			->setNext($this->webAuthnLoginCommand)
 			->setNext($this->loggedInCheckCommand)
 			->setNext($this->completeLoginCommand)
 			->setNext($this->createSessionTokenCommand)
