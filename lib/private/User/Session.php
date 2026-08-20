@@ -464,7 +464,7 @@ class Session implements IUserSession, Emitter {
 	}
 
 	private function handleLoginFailed(IThrottler $throttler, int $currentDelay, string $remoteAddress, string $user, ?string $password) {
-		$this->logger->warning("Login failed: '" . $user . "' (Remote IP: '" . $remoteAddress . "')", ['app' => 'core']);
+		$this->logger->warning("Login failed: '" . $user . "' (Remote IP: '" . $remoteAddress . "')", ['app' => 'core', 'exception' => new \Exception()]);
 
 		$throttler->registerAttempt('login', $remoteAddress, ['user' => $user]);
 		$this->dispatcher->dispatchTyped(new LoginFailed($user, $password));
@@ -696,7 +696,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $token
 	 * @return boolean
 	 */
-	private function checkTokenCredentials(IToken $dbToken, $token) {
+	private function checkTokenCredentials(IToken $dbToken, $token, array &$reason) {
 		// Check whether login credentials are still valid and the user was not disabled
 		// This check is performed each 5 minutes
 		$lastCheck = $dbToken->getLastCheck() ? : 0;
@@ -709,12 +709,19 @@ class Session implements IUserSession, Emitter {
 		try {
 			$pwd = $this->tokenProvider->getPassword($dbToken, $token);
 		} catch (InvalidTokenException $ex) {
+			$reason = [
+				'exception' => $ex,
+			];
+
 			// An invalid token password was used -> log user out
 			return false;
 		} catch (PasswordlessTokenException $ex) {
 			// Token has no password
-
 			if (!is_null($this->activeUser) && !$this->activeUser->isEnabled()) {
+				$reason = [
+					'exception' => $ex,
+					'message' => 'Paswordless token exception with no active or disabled user',
+				];
 				$this->tokenProvider->invalidateToken($token);
 				return false;
 			}
@@ -725,12 +732,18 @@ class Session implements IUserSession, Emitter {
 		// Invalidate token if the user is no longer active
 		if (!is_null($this->activeUser) && !$this->activeUser->isEnabled()) {
 			$this->tokenProvider->invalidateToken($token);
+			$reason = [
+				'message' => 'Invalidate token as the user is no longer active',
+			];
 			return false;
 		}
 
 		// If the token password is no longer valid mark it as such
 		if ($this->manager->checkPassword($dbToken->getLoginName(), $pwd) === false) {
 			$this->tokenProvider->markPasswordInvalid($dbToken, $token);
+			$reason = [
+				'message' => 'The token password is no longer valid',
+			];
 			// User is logged out
 			return false;
 		}
@@ -748,11 +761,9 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * Invalidates the token if checks fail
 	 *
-	 * @param string $token
-	 * @param string $user login name
-	 * @return boolean
+	 * @param ?string $user The login name
 	 */
-	private function validateToken($token, $user = null) {
+	private function validateToken(string $token, ?string $user = null): bool {
 		try {
 			$dbToken = $this->tokenProvider->getToken($token);
 		} catch (InvalidTokenException $ex) {
@@ -768,11 +779,12 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		if (!$this->checkTokenCredentials($dbToken, $token)) {
-			$this->logger->warning('Session token credentials are invalid', [
+		$reason = [];
+		if (!$this->checkTokenCredentials($dbToken, $token, $reason)) {
+			$this->logger->warning('Session token credentials are invalid', array_merge($reason, [
 				'app' => 'core',
 				'user' => $user,
-			]);
+			]));
 			return false;
 		}
 
