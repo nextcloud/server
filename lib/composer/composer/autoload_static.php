@@ -1361,7 +1361,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Authentication\\Login\\UpdateLastPasswordConfirmCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/UpdateLastPasswordConfirmCommand.php',
         'OC\\Authentication\\Login\\UserDisabledCheckCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/UserDisabledCheckCommand.php',
         'OC\\Authentication\\Login\\WebAuthnChain' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/WebAuthnChain.php',
-        'OC\\Authentication\\Login\\WebAuthnLoginCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/WebAuthnLoginCommand.php',
         'OC\\Authentication\\Notifications\\Notifier' => __DIR__ . '/../../..' . '/lib/private/Authentication/Notifications/Notifier.php',
         'OC\\Authentication\\Token\\INamedToken' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/INamedToken.php',
         'OC\\Authentication\\Token\\IProvider' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/IProvider.php',
