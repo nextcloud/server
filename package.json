@@ -22,7 +22,7 @@
     "postlint": "build/demi.sh lint",
     "lint:fix": "build/demi.sh lint:fix",
     "playwright": "playwright test --project=default --project=admin-settings",
-    "playwright:install": "playwright install chromium-headless-shell",
+    "playwright:install": "playwright install chromium",
     "playwright:setup": "playwright test --project=setup",
     "sass": "sass --style compressed --load-path core/css core/css/ $(for cssdir in $(find apps -mindepth 2 -maxdepth 2 -name \"css\"); do if ! $(git check-ignore -q $cssdir); then printf \"$cssdir \"; fi; done)",
     "sass:icons": "node build/icons.mjs",
