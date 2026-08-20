@@ -108,13 +108,6 @@ class OC_App {
 	}
 
 	/**
-	 * @internal
-	 */
-	public static function registerAutoloading(string $app, string $path, bool $force = false): void {
-		Server::get(AppManager::class)->registerAutoloading($app, $path, $force);
-	}
-
-	/**
 	 * Check if an app is of a specific type
 	 *
 	 * @deprecated 27.0.0 use IAppManager::isType
