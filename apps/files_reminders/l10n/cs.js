@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Připomínka ohledně „{fileName}“ vyčištěna",
     "Failed to clear reminder" : "Připomínku se nepodařilo vyčistit",
     "Reminder at custom date & time" : "Připomínka v uživatelsky určený datum a čas",
-    "We will remind you of this file" : "Připomeneme vám tento soubor",
     "Cancel" : "Storno",
     "Clear reminder" : "Vyčistit připomínku",
     "Set reminder" : "Nastavit připomínku",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Nastavit připomínku na tento víkend",
     "Next week" : "Příští týden",
     "Set reminder for next week" : "Nastavit připomínku pro příští týden",
-    "Set reminder for \"{fileName}\"" : "Nastavit připomínku pro „{fileName}"
+    "Set reminder for \"{fileName}\"" : "Nastavit připomínku pro „{fileName}",
+    "We will remind you of this file" : "Připomeneme vám tento soubor"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

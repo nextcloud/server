@@ -72,7 +72,7 @@
     "next month" : "Mês que vem",
     "last month" : "último mês",
     "_in %n month_::_in %n months_" : ["em %n mês","em %n meses","em %n meses"],
-    "_%n month ago_::_%n months ago_" : ["%n mês atrás","%n meses atrás","%n meses atrás"],
+    "_%n month ago_::_%n months ago_" : ["%n mês atrás","%n de meses atrás","%n meses atrás"],
     "next year" : "próximo ano",
     "last year" : "último ano",
     "_in %n year_::_in %n years_" : ["em %n ano","em %n anos","em %n anos"],

@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Meeldetuletus on eemaldatud: „{fileName}“",
     "Failed to clear reminder" : "Meeldetuletuse eemaldamine ei õnnestunud",
     "Reminder at custom date & time" : "Meeldetuletus sinu valitud kuupäeval ja ajal",
-    "We will remind you of this file" : "Me anname sulle selle faili või kausta osas märku",
     "Cancel" : "Tühista",
     "Clear reminder" : "Eemalda meeldetuletus",
     "Set reminder" : "Lisa meeldetuletus",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Lisa meeldetuletus selleks nädalavahetuseks",
     "Next week" : "Järgmine nädal",
     "Set reminder for next week" : "Lisa meeldetuletus järgmiseks nädalaks",
-    "Set reminder for \"{fileName}\"" : "Lisa meeldetuletus: „{fileName}“"
+    "Set reminder for \"{fileName}\"" : "Lisa meeldetuletus: „{fileName}“",
+    "We will remind you of this file" : "Me anname sulle selle faili või kausta osas märku"
 },
 "nplurals=2; plural=(n != 1);");

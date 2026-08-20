@@ -55,6 +55,8 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "日曆<strong>代辦事項</strong>被修改",
     "Contact birthdays" : "聯絡人生日",
     "Death of %s" : "%s之卒",
+    "Calendar federation" : "日曆聯邦",
+    "{user} has shared the calendar {calendar} with you" : "{user} 與您分享了日曆 {calendar}",
     "Accept" : "接受",
     "Decline" : "拒絕",
     "Untitled calendar" : "未命名日曆",
