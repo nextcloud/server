@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\CloudFederationAPI\AppInfo;
 
-use OCA\CloudFederationAPI\Capabilities;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -22,7 +21,6 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
-		$context->registerCapability(Capabilities::class);
 	}
 
 	public function boot(IBootContext $context): void {
