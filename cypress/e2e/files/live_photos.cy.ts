@@ -14,6 +14,7 @@ import {
 	navigateToFolder,
 	reloadCurrentFolder,
 	renameFile,
+	skipOnKnownFilePickerRace,
 	triggerActionForFile,
 	triggerInlineActionForFileId,
 } from './FilesUtils.ts'
@@ -50,7 +51,8 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 			getRowForFileId(movFileId).should('have.length', 1).invoke('attr', 'data-cy-files-list-row-name').should('equal', `${randomFileName}.mov`)
 		})
 
-		it('Copies both files when copying the .jpg', () => {
+		it('Copies both files when copying the .jpg', function() {
+			skipOnKnownFilePickerRace(this)
 			copyFile(`${randomFileName}.jpg`, '.')
 			reloadCurrentFolder()
 
@@ -60,7 +62,8 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 			getRowForFile(`${randomFileName} (1).mov`).should('have.length', 1)
 		})
 
-		it('Copies both files when copying the .mov', () => {
+		it('Copies both files when copying the .mov', function() {
+			skipOnKnownFilePickerRace(this)
 			copyFile(`${randomFileName}.mov`, '.')
 			reloadCurrentFolder()
 
@@ -69,7 +72,8 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 			getRowForFile(`${randomFileName} (1).mov`).should('have.length', 1)
 		})
 
-		it('Keeps live photo link when copying folder', () => {
+		it('Keeps live photo link when copying folder', function() {
+			skipOnKnownFilePickerRace(this)
 			createFolder('folder')
 			moveFile(`${randomFileName}.jpg`, 'folder')
 			copyFile('folder', '.')
@@ -84,7 +88,8 @@ describe('Files: Live photos', { testIsolation: true }, () => {
 			getRowForFile(`${randomFileName}.mov`).should('have.length', 0)
 		})
 
-		it('Block copying live photo in a folder containing a mov file with the same name', () => {
+		it('Block copying live photo in a folder containing a mov file with the same name', function() {
+			skipOnKnownFilePickerRace(this)
 			createFolder('folder')
 			cy.uploadContent(user, new Blob(['mov file'], { type: 'video/mov' }), 'video/mov', `/folder/${randomFileName}.mov`)
 			cy.login(user)

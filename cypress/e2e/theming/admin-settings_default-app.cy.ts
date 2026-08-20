@@ -8,6 +8,21 @@ import { NavigationHeader } from '../../pages/NavigationHeader.ts'
 
 const admin = new User('admin', 'admin')
 
+/**
+ * Seed the global default-app config and open the theming settings on it.
+ *
+ * Every test establishes the state it needs itself: the tests mutate that
+ * config, and `it` bodies are re-run alone on a retry, so inheriting the state
+ * from the preceding test would make a single failure poison all attempts.
+ *
+ * @param defaultApps value for the `defaultapp` system config
+ */
+function visitSettingsWithDefaultApps(defaultApps: string) {
+	cy.runOccCommand(`config:system:set defaultapp --value '${defaultApps}'`)
+	cy.visit('/settings/admin/theming')
+	getDefaultAppSwitch().scrollIntoView()
+}
+
 describe('Admin theming set default apps', () => {
 	const navigationHeader = new NavigationHeader()
 
@@ -18,6 +33,8 @@ describe('Admin theming set default apps', () => {
 	})
 
 	it('See the current default app is the dashboard', () => {
+		cy.runOccCommand('config:system:set defaultapp --value \'\'')
+
 		// check default route
 		cy.visit('/')
 		cy.url().should('match', /apps\/dashboard/)
@@ -28,14 +45,15 @@ describe('Admin theming set default apps', () => {
 	})
 
 	it('See the default app settings', () => {
-		cy.visit('/settings/admin/theming')
+		visitSettingsWithDefaultApps('')
 
 		cy.get('.settings-section').contains('Navigation bar settings').should('exist')
 		getDefaultAppSwitch().should('exist')
-		getDefaultAppSwitch().scrollIntoView()
 	})
 
 	it('Toggle the "use custom default app" switch', () => {
+		visitSettingsWithDefaultApps('')
+
 		getDefaultAppSwitch().should('not.be.checked')
 		cy.findByRole('region', { name: 'Global default app' })
 			.should('not.exist')
@@ -47,21 +65,27 @@ describe('Admin theming set default apps', () => {
 	})
 
 	it('See the default app combobox', () => {
+		visitSettingsWithDefaultApps('dashboard,files')
+
 		cy.findByRole('region', { name: 'Global default app' })
 			.should('exist')
 			.findByRole('combobox')
-			.as('defaultAppSelect')
 			.scrollIntoView()
 
-		cy.get('@defaultAppSelect')
-			.findByText('Dashboard')
+		// Assert the selected apps via their deselect buttons: `role="combobox"`
+		// sits on the search input, which has no child nodes to search for the
+		// app names in.
+		cy.findByRole('region', { name: 'Global default app' })
+			.findByRole('button', { name: 'Deselect Dashboard' })
 			.should('be.visible')
-		cy.get('@defaultAppSelect')
-			.findByText('Files')
+		cy.findByRole('region', { name: 'Global default app' })
+			.findByRole('button', { name: 'Deselect Files' })
 			.should('be.visible')
 	})
 
 	it('See the default app order selector', () => {
+		visitSettingsWithDefaultApps('dashboard,files')
+
 		cy.findByRole('region', { name: 'Global default app' })
 			.should('exist')
 		cy.findByRole('list', { name: 'Navigation bar app order' })
@@ -75,6 +99,8 @@ describe('Admin theming set default apps', () => {
 	})
 
 	it('Change the default app', () => {
+		visitSettingsWithDefaultApps('dashboard,files')
+
 		cy.findByRole('list', { name: 'Navigation bar app order' })
 			.should('exist')
 			.as('appOrderSelector')
@@ -92,6 +118,8 @@ describe('Admin theming set default apps', () => {
 	})
 
 	it('See the default app is changed', () => {
+		visitSettingsWithDefaultApps('files,dashboard')
+
 		cy.findByRole('list', { name: 'Navigation bar app order' })
 			.findAllByRole('listitem')
 			.then((elements) => {
@@ -108,12 +136,14 @@ describe('Admin theming set default apps', () => {
 	})
 
 	it('Toggle the "use custom default app" switch back to reset the default apps', () => {
-		cy.visit('/settings/admin/theming')
-		getDefaultAppSwitch().scrollIntoView()
+		visitSettingsWithDefaultApps('files,dashboard')
 
 		getDefaultAppSwitch().should('be.checked')
+		cy.intercept('PUT', '**/apps/theming/ajax/updateAppMenu').as('updateAppMenu')
 		getDefaultAppSwitch().uncheck({ force: true })
 		getDefaultAppSwitch().should('be.not.checked')
+		// The uncheck persists asynchronously
+		cy.wait('@updateAppMenu')
 
 		// Check the redirect to the default app works
 		cy.request({ url: '/', followRedirect: false }).then((response) => {
