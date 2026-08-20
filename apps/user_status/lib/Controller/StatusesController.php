@@ -52,22 +52,33 @@ class StatusesController extends OCSController {
 	 *
 	 * @param int|null $limit Maximum number of statuses to find
 	 * @param non-negative-int|null $offset Offset for finding statuses
+	 * @param non-negative-int|null $lastId Id of the last status returned by the previous page;
+	 *                                      when given, keyset pagination is used and $offset is ignored
 	 * @return DataResponse<Http::STATUS_OK, list<UserStatusPublic>, array{Link?: string}>
+	 *
+	 * @note Prefer $lastId over $offset: it does not require the database to scan and discard
+	 *       every preceding row on every call.
 	 *
 	 * 200: Statuses returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/statuses')]
-	public function findAll(?int $limit = null, ?int $offset = null): DataResponse {
-		$allStatuses = $this->service->findAll($limit, $offset);
+	public function findAll(?int $limit = null, ?int $offset = null, ?int $lastId = null): DataResponse {
+		if ($lastId !== null) {
+			$allStatuses = $this->service->findAllAfterId($limit, $lastId);
+		} else {
+			$allStatuses = $this->service->findAll($limit, $offset);
+		}
 		$hasMoreResults = $this->hasMoreResults($allStatuses, $limit);
 
 		$headers = [];
 		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildNextPageLinkHeader($this->request, $this->urlGenerator, [
-				'limit' => $limit,
-				'offset' => ($offset ?? 0) + $limit,
-			]);
+			if ($lastId !== null) {
+				$lastStatus = end($allStatuses);
+				$headers['Link'] = $this->buildCursorNextPageLinkHeader([], $limit, $lastStatus->getId());
+			} else {
+				$headers['Link'] = $this->buildOffsetNextPageLinkHeader([], $limit, $offset ?? 0);
+			}
 		}
 		return new DataResponse(array_values(array_map(function ($userStatus) {
 			return $this->formatStatus($userStatus);
