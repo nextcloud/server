@@ -52,9 +52,9 @@ class DirectEditingController extends OCSController {
 	/**
 	 * Create a file for direct editing
 	 *
-	 * @param string $path Path of the file
-	 * @param string $editorId ID of the editor
-	 * @param string $creatorId ID of the creator
+	 * @param non-empty-string $path Path of the file
+	 * @param non-empty-string $editorId ID of the editor
+	 * @param non-empty-string $creatorId ID of the creator
 	 * @param ?string $templateId ID of the template
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{url: string}, array{}>|DataResponse<Http::STATUS_FORBIDDEN|Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
@@ -88,7 +88,7 @@ class DirectEditingController extends OCSController {
 	/**
 	 * Open a file for direct editing
 	 *
-	 * @param string $path Path of the file
+	 * @param non-empty-string $path Path of the file
 	 * @param ?string $editorId ID of the editor
 	 * @param ?int $fileId ID of the file
 	 *
@@ -123,8 +123,8 @@ class DirectEditingController extends OCSController {
 	/**
 	 * Get the templates for direct editing
 	 *
-	 * @param string $editorId ID of the editor
-	 * @param string $creatorId ID of the creator
+	 * @param non-empty-string $editorId ID of the editor
+	 * @param non-empty-string $creatorId ID of the creator
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{templates: array<string, array{id: string, title: string, preview: ?string, extension: string, mimetype: string}>}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *

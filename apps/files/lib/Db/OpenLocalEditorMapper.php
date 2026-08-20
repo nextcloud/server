@@ -10,41 +10,31 @@ declare(strict_types=1);
 namespace OCA\Files\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use OCP\AppFramework\Db\QBMapper;
-use OCP\DB\Exception;
-use OCP\IDBConnection;
+use OCP\AppFramework\ORM\Repository;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
- * @template-extends QBMapper<OpenLocalEditor>
+ * @template-extends Repository<OpenLocalEditor>
  */
-class OpenLocalEditorMapper extends QBMapper {
-	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'open_local_editor', OpenLocalEditor::class);
-	}
+class OpenLocalEditorMapper extends Repository {
+	public const string entityClass = OpenLocalEditor::class;
 
 	/**
 	 * @throws DoesNotExistException
-	 * @throws MultipleObjectsReturnedException
-	 * @throws Exception
 	 */
 	public function verifyToken(string $userId, string $pathHash, string $token): OpenLocalEditor {
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select('*')
-			->from($this->getTableName())
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)))
-			->andWhere($qb->expr()->eq('path_hash', $qb->createNamedParameter($pathHash)))
-			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)));
-
-		return $this->findEntity($qb);
+		return $this->findOneBy([
+			'userId' => $userId,
+			'pathHash' => $pathHash,
+			'token' => $token,
+		]);
 	}
 
 	public function deleteExpiredTokens(int $time): void {
-		$qb = $this->db->getQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 
 		$qb->delete($this->getTableName())
-			->where($qb->expr()->lt('expiration_time', $qb->createNamedParameter($time)));
+			->where($qb->expr()->lt('expiration_time', $qb->createNamedParameter($time, IQueryBuilder::PARAM_INT)));
 
 		$qb->executeStatement();
 	}
