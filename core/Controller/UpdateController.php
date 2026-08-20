@@ -85,7 +85,6 @@ class UpdateController extends \OCP\AppFramework\OCSController {
 		\OC_User::setIncognitoMode(true);
 
 		$incompatibleApps = [];
-		$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
 
 		$this->dispatcher->addListener(
 			MigratorExecuteSqlEvent::class,
@@ -126,7 +125,9 @@ class UpdateController extends \OCP\AppFramework\OCSController {
 		$this->updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($eventSource): void {
 			$eventSource->send('success', $this->l->t('Updated "%1$s" to %2$s', [$app, $version]));
 		});
-		$this->updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps, &$incompatibleOverwrites): void {
+		$this->updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps): void {
+			// Read per event, the overwrites are cleared during a major upgrade
+			$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
 			if (!in_array($app, $incompatibleOverwrites)) {
 				$incompatibleApps[] = $app;
 			}
