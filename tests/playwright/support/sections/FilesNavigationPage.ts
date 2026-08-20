@@ -5,6 +5,8 @@
 
 import type { Locator, Page } from '@playwright/test'
 
+import { expect } from '@playwright/test'
+
 /**
  * The left-hand files navigation (the view list: All files, Favorites, Recent, …).
  * Distinct from {@link NavigationHeaderPage}, which models the top app bar.
@@ -50,6 +52,46 @@ export class FilesNavigationPage {
 		await this.getNavigationItem(viewId)
 			.getByRole('button', { name: 'Open menu' })
 			.click()
+	}
+
+	/**
+	 * A navigation entry addressed by its visible name, e.g. "Shared by link".
+	 *
+	 * @param name - The name of the view as shown in the navigation
+	 */
+	getNavigationEntry(name: string): Locator {
+		return this.navigation().getByRole('link', { name, exact: true })
+	}
+
+	/**
+	 * The list item wrapping a navigation entry - it also contains the entry's
+	 * collapse toggle and, once expanded, its child entries.
+	 *
+	 * @param name - The name of the view as shown in the navigation
+	 */
+	getNavigationEntryItem(name: string): Locator {
+		return this.navigation()
+			.getByRole('listitem')
+			.filter({ has: this.page.getByRole('link', { name, exact: true }) })
+			.first()
+	}
+
+	/**
+	 * Expand a collapsible navigation entry by name to reveal its child entries.
+	 *
+	 * @param name - The name of the view as shown in the navigation
+	 */
+	async expandNavigationEntry(name: string): Promise<void> {
+		const item = this.getNavigationEntryItem(name)
+		await expect(item).toBeVisible()
+
+		await expect(async () => {
+			const toggle = item.getByRole('button', { name: 'Open menu' })
+			if (await toggle.isVisible()) {
+				await toggle.click()
+			}
+			await expect(item.getByRole('button', { name: 'Collapse menu' })).toBeVisible()
+		}).toPass()
 	}
 
 	/** The "Files settings" dialog opened from the navigation footer. */
