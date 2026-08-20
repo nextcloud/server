@@ -177,6 +177,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(LoggerInterface::class),
 				$c->get(EventLogger::class),
 				$c,
+				$c->get(IUserSession::class),
 			);
 		});
 
