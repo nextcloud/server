@@ -726,7 +726,7 @@ class Session implements IUserSession, Emitter {
 			if (!is_null($this->activeUser) && !$this->activeUser->isEnabled()) {
 				$reason = [
 					'exception' => $ex,
-					'message' => 'Paswordless token exception with no active or disabled user',
+					'additional_message' => 'Passwordless token exception with no active or disabled user',
 				];
 				$this->tokenProvider->invalidateToken($token);
 				return false;
@@ -739,7 +739,7 @@ class Session implements IUserSession, Emitter {
 		if (!is_null($this->activeUser) && !$this->activeUser->isEnabled()) {
 			$this->tokenProvider->invalidateToken($token);
 			$reason = [
-				'message' => 'Invalidate token as the user is no longer active',
+				'additional_message' => 'Invalidate token as the user is no longer active',
 			];
 			return false;
 		}
@@ -748,7 +748,7 @@ class Session implements IUserSession, Emitter {
 		if ($this->manager->checkPassword($dbToken->getLoginName(), $pwd) === false) {
 			$this->tokenProvider->markPasswordInvalid($dbToken, $token);
 			$reason = [
-				'message' => 'The token password is no longer valid',
+				'additional_message' => 'The token password is no longer valid and is ' . (empty($pwd) ? 'empty' : 'not empty'),
 			];
 			// User is logged out
 			return false;
@@ -787,10 +787,12 @@ class Session implements IUserSession, Emitter {
 
 		$reason = [];
 		if (!$this->checkTokenCredentials($dbToken, $token, $reason)) {
-			$this->logger->warning('Session token credentials are invalid', array_merge($reason, [
+			$this->logger->warning('Session token credentials are invalid', [
 				'app' => 'core',
 				'user' => $user,
-			]));
+				'token name' => $dbToken->getName(),
+				...$reason,
+			]);
 			return false;
 		}
 
