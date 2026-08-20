@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Test\AppFramework\Http;
 
 use OCP\AppFramework\Http\IOutput;
-use OCP\AppFramework\Http\StreamGeneratorResponse;
+use OCP\AppFramework\Http\StreamTraversableResponse;
 
-class StreamGeneratorResponseTest extends \Test\TestCase {
+class StreamTraversableResponseTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -22,7 +22,7 @@ class StreamGeneratorResponseTest extends \Test\TestCase {
 			yield 'chunk1';
 			yield 'chunk2';
 		};
-		$response = new StreamGeneratorResponse($generator(), 'text/plain');
+		$response = new StreamTraversableResponse($generator(), 200, ['Content-Type' => 'text/plain']);
 
 		$headers = $response->getHeaders();
 		$this->assertEquals('text/plain', $headers['Content-Type']);
@@ -37,8 +37,13 @@ class StreamGeneratorResponseTest extends \Test\TestCase {
 			$count++;
 			yield 'chunk2';
 		};
-		$response = new StreamGeneratorResponse($generator(), 'text/plain');
+		$response = new StreamTraversableResponse($generator(), 200, ['Content-Type' => 'text/plain']);
 		$output = $this->createMock(IOutput::class);
+		$output->expects($this->exactly(2))
+			->method('setOutput')
+			->with($this->callback(function ($chunk) {
+				return in_array($chunk, ['chunk1', 'chunk2'], true);
+			}));
 
 		$response->callback($output);
 		$this->assertEquals($count, 2);
