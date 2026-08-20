@@ -26,9 +26,9 @@ use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
 class OpenLocalEditorController extends OCSController {
-	public const TOKEN_LENGTH = 128;
-	public const TOKEN_DURATION = 600; // 10 Minutes
-	public const TOKEN_RETRIES = 50;
+	public const int TOKEN_LENGTH = 128;
+	public const int TOKEN_DURATION = 600; // 10 Minutes
+	public const int TOKEN_RETRIES = 50;
 
 	public function __construct(
 		string $appName,
@@ -44,7 +44,7 @@ class OpenLocalEditorController extends OCSController {
 	/**
 	 * Create a local editor
 	 *
-	 * @param string $path Path of the file
+	 * @param non-empty-string $path Path of the file
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{userId: ?string, pathHash: string, expirationTime: int, token: string}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, list<empty>, array{}>
 	 *
@@ -88,8 +88,8 @@ class OpenLocalEditorController extends OCSController {
 	/**
 	 * Validate a local editor
 	 *
-	 * @param string $path Path of the file
-	 * @param string $token Token of the local editor
+	 * @param non-empty-string $path Path of the file
+	 * @param non-empty-string $token Token of the local editor
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{userId: string, pathHash: string, expirationTime: int, token: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
