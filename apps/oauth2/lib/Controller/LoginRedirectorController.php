@@ -88,7 +88,6 @@ final class LoginRedirectorController extends Controller {
 
 		if (in_array($client->name, $this->appConfig->getValueArray('oauth2', 'skipAuthPickerApplications', []))) {
 			/** @see ClientFlowLoginController::showAuthPickerPage **/
-			/** @psalm-suppress DeprecatedMethod No Randomizer-based replacement is mockable in tests yet. */
 			$stateToken = $this->random->generate(
 				64,
 				ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
