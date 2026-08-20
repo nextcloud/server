@@ -568,6 +568,7 @@ return array(
     'OCP\\FullTextSearch\\Service\\IProviderService' => $baseDir . '/lib/public/FullTextSearch/Service/IProviderService.php',
     'OCP\\FullTextSearch\\Service\\ISearchService' => $baseDir . '/lib/public/FullTextSearch/Service/ISearchService.php',
     'OCP\\GlobalScale\\IConfig' => $baseDir . '/lib/public/GlobalScale/IConfig.php',
+    'OCP\\GlobalScale\\IGlobalScaleService' => $baseDir . '/lib/public/GlobalScale/IGlobalScaleService.php',
     'OCP\\GroupInterface' => $baseDir . '/lib/public/GroupInterface.php',
     'OCP\\Group\\Backend\\ABackend' => $baseDir . '/lib/public/Group/Backend/ABackend.php',
     'OCP\\Group\\Backend\\IAddToGroupBackend' => $baseDir . '/lib/public/Group/Backend/IAddToGroupBackend.php',

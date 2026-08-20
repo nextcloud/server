@@ -23,12 +23,19 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\DB\Exception;
+use OCP\GlobalScale\IConfig as GlobalScaleConfig;
+use OCP\GlobalScale\IGlobalScaleService;
 use OCP\IDBConnection;
 use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
@@ -39,16 +46,20 @@ class OauthApiController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private ICrypto $crypto,
-		private AccessTokenMapper $accessTokenMapper,
-		private ClientMapper $clientMapper,
-		private TokenProvider $tokenProvider,
-		private ISecureRandom $secureRandom,
-		private ITimeFactory $time,
-		private LoggerInterface $logger,
-		private IThrottler $throttler,
-		private ITimeFactory $timeFactory,
-		private IDBConnection $db,
+		private readonly ICrypto $crypto,
+		private readonly AccessTokenMapper $accessTokenMapper,
+		private readonly ClientMapper $clientMapper,
+		private readonly TokenProvider $tokenProvider,
+		private readonly ISecureRandom $secureRandom,
+		private readonly ITimeFactory $time,
+		private readonly LoggerInterface $logger,
+		private readonly IThrottler $throttler,
+		private readonly ITimeFactory $timeFactory,
+		private readonly IDBConnection $db,
+		private readonly GlobalScaleConfig $globalScaleConfig,
+		private readonly IUserManager $userManager,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly ContainerInterface $container,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -62,7 +73,7 @@ class OauthApiController extends Controller {
 	 * @param ?string $client_id Client ID
 	 * @param ?string $client_secret Client secret
 	 * @throws Exception
-	 * @return JSONResponse<Http::STATUS_OK, array{access_token: string, token_type: string, expires_in: int, refresh_token: string, user_id: string}, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
+	 * @return JSONResponse<Http::STATUS_OK, array{access_token: string, token_type: string, expires_in: int, refresh_token: string, user_id: string, "x.nc-gss.secondary_url"?: ?string}, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, array{error: string}, array{}>
 	 *
 	 * 200: Token returned
 	 * 400: Getting token is not possible
@@ -211,7 +222,8 @@ class OauthApiController extends Controller {
 			);
 
 			// Expiration is in 1 hour again
-			$appToken->setExpires($this->time->getTime() + 3600);
+			$expires = $this->time->getTime() + 3600;
+			$appToken->setExpires($expires);
 			$this->tokenProvider->updateToken($appToken);
 
 			$this->db->commit();
@@ -228,14 +240,109 @@ class OauthApiController extends Controller {
 
 		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $appToken->getUID()]);
 
-		return new JSONResponse(
-			[
-				'access_token' => $newToken,
-				'token_type' => 'Bearer',
-				'expires_in' => 3600,
-				'refresh_token' => $newCode,
-				'user_id' => $appToken->getUID(),
-			]
-		);
+		$data = [
+			'access_token' => $newToken,
+			'token_type' => 'Bearer',
+			'expires_in' => 3600,
+			'refresh_token' => $newCode,
+			'user_id' => $appToken->getUID(),
+		];
+
+		if ($this->globalScaleConfig->isGlobalScaleEnabled() && $this->globalScaleConfig->isPrimary()) {
+			// Also make sure the access token is available on the secondary instance
+			$data['x.nc-gss.secondary_url'] = $this->pushTokenToSecondary($appToken, $newToken, $expires);
+		}
+
+		return new JSONResponse($data);
+	}
+
+	/**
+	 * Push the freshly issued app token to the secondary instance holding the
+	 * user's account, so the OAuth client can use it there directly.
+	 */
+	private function pushTokenToSecondary(IToken $appToken, string $newToken, ?int $expires): ?string {
+		$user = $this->userManager->get($appToken->getUID());
+		if ($user === null) {
+			$this->logger->warning('could not push oauth token to secondary: unknown user', ['uid' => $appToken->getUID()]);
+			return null;
+		}
+
+		try {
+			/** @var IGlobalScaleService $globalScaleService */
+			$globalScaleService = $this->container->get(IGlobalScaleService::class);
+		} catch (ContainerExceptionInterface $e) {
+			$this->logger->warning('could not push oauth token to secondary: globalsiteselector is not available', ['exception' => $e]);
+			return null;
+		}
+
+		try {
+			return $globalScaleService->sendToSecondary($user, $this->urlGenerator->linkToRoute('oauth2.OauthApi.pushToken'), [
+				'uid' => $appToken->getUID(),
+				'loginName' => $appToken->getLoginName(),
+				'name' => $appToken->getName(),
+				'type' => $appToken->getType(),
+				'remember' => $appToken->getRemember(),
+				'scope' => $appToken->getScopeAsArray(),
+				'expires' => $expires,
+				'token' => $newToken,
+			]);
+		} catch (\Exception $e) {
+			$this->logger->warning('could not push oauth token to secondary', ['exception' => $e]);
+		}
+		return null;
+	}
+
+	/**
+	 * Receive an app token pushed from the primary instance, so it can be used
+	 * directly against this (secondary) instance.
+	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	#[BruteForceProtection(action: 'oauth2PushToken')]
+	public function pushToken(string $jwt): JSONResponse {
+		if (!$this->globalScaleConfig->isGlobalScaleEnabled() || !$this->globalScaleConfig->isSecondary() || $jwt === '') {
+			$response = new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			$response->throttle();
+			return $response;
+		}
+
+		try {
+			/** @var IGlobalScaleService $globalScaleService */
+			$globalScaleService = $this->container->get(IGlobalScaleService::class);
+		} catch (ContainerExceptionInterface $e) {
+			$this->logger->warning('could not receive oauth token from primary: globalsiteselector is not available', ['exception' => $e]);
+			$response = new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			$response->throttle();
+			return $response;
+		}
+
+		try {
+			$decoded = $globalScaleService->decodePayload($jwt);
+
+			$uid = (string)$decoded['uid'];
+			if (!$this->userManager->userExists($uid)) {
+				throw new \InvalidArgumentException('unknown user: ' . $uid);
+			}
+
+			$this->tokenProvider->generateToken(
+				(string)$decoded['token'],
+				$uid,
+				(string)$decoded['loginName'],
+				null,
+				(string)$decoded['name'],
+				(int)$decoded['type'],
+				(int)$decoded['remember'],
+				(array)$decoded['scope'],
+				$decoded['expires'] !== null ? (int)$decoded['expires'] : null,
+			);
+		} catch (\Exception $e) {
+			$this->logger->warning('could not create pushed oauth token', ['exception' => $e]);
+			$response = new JSONResponse([], Http::STATUS_BAD_REQUEST);
+			$response->throttle();
+			return $response;
+		}
+
+		return new JSONResponse([]);
 	}
 }
