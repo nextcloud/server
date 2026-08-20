@@ -22,6 +22,24 @@ use OCP\DB\Schema\ColumnType;
  * }
  * ```
  *
+ * A property can be typed as a backed enum instead of a plain scalar by setting `enumType` to
+ * the enum's class-string. The column itself still stores the enum's scalar backing value
+ * (declare `type`/`length` accordingly), but the property is hydrated to and persisted from the
+ * enum case itself:
+ *
+ * ```php
+ * enum Status: string {
+ *     case Draft = 'draft';
+ *     case Published = 'published';
+ * }
+ *
+ * #[Entity(name: 'my_entity')]
+ * final class MyEntity {
+ *     #[Column(name: 'status', type: ColumnType::String, length: 32, enumType: Status::class)]
+ *     public Status $status = Status::Draft;
+ * }
+ * ```
+ *
  * @since 35.0.0
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
@@ -37,8 +55,14 @@ final readonly class Column {
 		public ?int $length = null,
 		/** @var bool Whether the column is nullable in the database */
 		public bool $nullable = false,
-		/** @var scalar|null The default value for the column in the database. */
+		/** @var scalar|\BackedEnum|null The default value for the column in the database. */
 		public mixed $default = null,
+		/**
+		 * @var class-string<\BackedEnum>|null The backed enum the property is typed as. The
+		 *                                     column keeps storing the enum's scalar backing
+		 *                                     value; only the PHP property is the enum case.
+		 */
+		public ?string $enumType = null,
 	) {
 	}
 }

@@ -109,6 +109,16 @@ class Repository {
 				ColumnType::Blob => $value,
 			};
 
+			$enumType = $entityInfo->mappingColumnToEnumType[$column] ?? null;
+
+			if ($enumType !== null) {
+				if (!is_string($value) && !is_int($value)) {
+					throw new \LogicException('Can only convert int and string to enum');
+				}
+
+				$value = $enumType::from($value);
+			}
+
 			$entity->$property = $value;
 		}
 
@@ -384,7 +394,7 @@ class Repository {
 	/**
 	 * Finds entities by a set of criteria, keyed by property name.
 	 *
-	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
 	 * @param array<string, \SortDirection> $orderBy
 	 * @return \Generator<T>
 	 * @since 35.0.0
@@ -404,7 +414,7 @@ class Repository {
 	}
 
 	/**
-	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
 	 * @return int The number of rows deleted
 	 * @throws Exception
 	 * @since 35.0.0
@@ -417,6 +427,8 @@ class Repository {
 
 		foreach ($criteria as $property => $value) {
 			$column = $entityInfo->mappingPropertyToColumn[$property];
+			/** @psalm-suppress MixedAssignment can be anything */
+			$value = $this->entityManager->toParameterValue($value);
 			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$column], is_array($value));
 			if ($value === null) {
 				$qb->andWhere($qb->expr()->isNull($column));
@@ -439,7 +451,7 @@ class Repository {
 	/**
 	 * Finds a single entity by a set of criteria, keyed by property name.
 	 *
-	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
 	 * @param array<string, \SortDirection> $orderBy
 	 * @return T
 	 * @throws DoesNotExistException
@@ -454,7 +466,7 @@ class Repository {
 	}
 
 	/**
-	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
 	 * @param array<string, \SortDirection> $orderBy
 	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}>}
 	 */
@@ -464,6 +476,8 @@ class Repository {
 
 		foreach ($criteria as $property => $value) {
 			$column = $entityInfo->mappingPropertyToColumn[$property];
+			/** @psalm-suppress MixedAssignment $value is caller-supplied criteria, unwrapped of any \BackedEnum case. */
+			$value = $this->entityManager->toParameterValue($value);
 			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$column], is_array($value));
 			if ($value === null) {
 				$qb->andWhere($qb->expr()->isNull('e.' . $column));
