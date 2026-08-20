@@ -201,6 +201,19 @@ class ConverterTest extends TestCase {
 			['Sauron;;;;', 'Sauron'],
 			['Baggins;Bilbo;;;', 'Bilbo Baggins'],
 			['Tolkien;John;Ronald Reuel;;', 'John Ronald Reuel Tolkien'],
+			['Doe;Jane;;;MD', 'Jane Doe, MD'],
+			['Williams;Mary;;;MD, PhD', 'Mary Williams, MD, PhD'],
+			['King;Martin;Luther;;Jr.', 'Martin Luther King, Jr.'],
+			['King;Martin;Luther;;Jr.', 'King, Martin Luther, Jr.'],
+			['Doe;Jane;;Dr.;', 'Dr. Jane Doe'],
+			['Doe;Jane;;Prof. Dr.;', 'Prof. Dr. Jane Doe'],
+			['Lastname;Firstname;;;', 'Lastname, Firstname'],
+			['Lastname;Firstname;Middlename;;', 'Lastname, Firstname Middlename'],
+			['b;a;;;c', 'a b, c'],
+			['a;b;c;;', 'a, b c'],
+			['Doe;Jane;;;', 'Jane Doe (Contracting)'],
+			['Smith;Jane;;;Ph.D.', 'Jane Smith Ph.D.'],
+			['Smith;R.;Jason;;', 'R. Jason Smith'],
 		];
 	}
 
