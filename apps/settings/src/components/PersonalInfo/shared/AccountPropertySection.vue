@@ -4,24 +4,19 @@
 -->
 
 <template>
-	<section>
-		<HeaderBar
-			:scope="scope"
-			:readable="readable"
-			:input-id="inputId"
-			:is-editable="isEditable"
-			@update:scope="(scope) => $emit('update:scope', scope)" />
-
-		<div v-if="isEditable" class="property">
+	<section class="property-section">
+		<div class="property">
 			<NcTextArea
 				v-if="multiLine"
 				:id="inputId"
 				v-model="inputValue"
+				class="property__field"
 				autocapitalize="none"
 				autocomplete="off"
+				:disabled="!isEditable"
 				:error="hasError || !!helperText"
 				:helper-text="helperText"
-				label-outside
+				:label="readable"
 				:placeholder="placeholder"
 				rows="8"
 				spellcheck="false"
@@ -31,19 +26,26 @@
 				:id="inputId"
 				ref="input"
 				v-model="inputValue"
+				class="property__field"
 				autocapitalize="none"
 				:autocomplete="autocomplete"
+				:disabled="!isEditable"
 				:error="hasError || !!helperText"
 				:helper-text="helperText"
-				label-outside
+				:label="readable"
 				:placeholder="placeholder"
 				spellcheck="false"
 				:success="isSuccess"
 				:type="type" />
+
+			<VisibilityScopeControl
+				class="property__scope"
+				:readable="readable"
+				:name="name"
+				:scope="scope"
+				:disabled="!isEditable"
+				@update:scope="(scope) => $emit('update:scope', scope)" />
 		</div>
-		<span v-else>
-			{{ value || t('settings', 'No {property} set', { property: readable.toLocaleLowerCase() }) }}
-		</span>
 	</section>
 </template>
 
@@ -51,7 +53,7 @@
 import debounce from 'debounce'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
-import HeaderBar from './HeaderBar.vue'
+import VisibilityScopeControl from './VisibilityScopeControl.vue'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.ts'
 
@@ -59,9 +61,9 @@ export default {
 	name: 'AccountPropertySection',
 
 	components: {
-		HeaderBar,
 		NcInputField,
 		NcTextArea,
+		VisibilityScopeControl,
 	},
 
 	props: {
@@ -204,54 +206,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-section {
-	padding: 10px 10px;
+.property-section {
+	padding: 6px 0;
+}
 
-	.property {
-		display: flex;
-		flex-direction: row;
-		align-items: start;
-		gap: 4px;
+.property {
+	position: relative;
 
-		.property__actions-container {
-			margin-top: 6px;
-			justify-self: flex-end;
-			align-self: flex-end;
-
-			display: flex;
-			gap: 0 2px;
-			margin-inline-end: 5px;
-			margin-bottom: 5px;
-		}
+	&__field {
+		width: 100%;
 	}
 
-	.property__helper-text-message {
-		padding: 4px 0;
+	&__scope {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-start: calc(100% + 8px);
 		display: flex;
 		align-items: center;
-
-		&__icon {
-			margin-inline-end: 8px;
-			align-self: start;
-			margin-top: 4px;
-		}
-
-		&--error {
-			color: var(--color-text-error);
-		}
-	}
-
-	.fade-enter,
-	.fade-leave-to {
-		opacity: 0;
-	}
-
-	.fade-enter-active {
-		transition: opacity 200ms ease-out;
-	}
-
-	.fade-leave-active {
-		transition: opacity 300ms ease-out;
+		justify-content: center;
+		width: var(--default-clickable-area);
+		height: var(--default-clickable-area);
 	}
 }
 </style>
