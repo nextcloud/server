@@ -59,6 +59,20 @@ class StatusService {
 		IUserStatus::INVISIBLE,
 	];
 
+	/**
+	 * Message ids that are only ever set by an automation (calendar, call,
+	 * availability, out-of-office). A status carrying one of these owns the
+	 * backup of whatever the user had set before, and is expected to be
+	 * reverted once the automation stops applying.
+	 */
+	public const AUTOMATED_MESSAGE_IDS = [
+		IUserStatus::MESSAGE_CALENDAR_BUSY,
+		IUserStatus::MESSAGE_CALENDAR_BUSY_TENTATIVE,
+		IUserStatus::MESSAGE_CALL,
+		IUserStatus::MESSAGE_AVAILABILITY,
+		IUserStatus::MESSAGE_OUT_OF_OFFICE,
+	];
+
 	/** @var int */
 	public const INVALIDATE_STATUS_THRESHOLD = 15 /* minutes */ * 60 /* seconds */;
 
@@ -530,7 +544,13 @@ class StatusService {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
 		} catch (DoesNotExistException $ex) {
-			// No user status to revert, do nothing
+			// There is no backup to restore. The automated status still has to
+			// go, otherwise the user is stuck on it forever: UserLiveStatusListener
+			// refuses to overwrite an automated status, so no heartbeat can ever
+			// bring them back online.
+			if ($this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId)) {
+				$this->logger->debug('Cleared automated status "' . $messageId . '" for user ' . $userId . ': there was no backup to restore', ['app' => 'user_status']);
+			}
 			return null;
 		}
 
@@ -540,13 +560,16 @@ class StatusService {
 			return null;
 		}
 
-		if ($revertedManually) {
-			if ($backupUserStatus->getStatus() === IUserStatus::OFFLINE) {
-				// When the user reverts the status manually they are online
-				$backupUserStatus->setStatus(IUserStatus::ONLINE);
-			}
-			$backupUserStatus->setStatusTimestamp($this->timeFactory->getTime());
+		if ($revertedManually && $backupUserStatus->getStatus() === IUserStatus::OFFLINE) {
+			// When the user reverts the status manually they are online
+			$backupUserStatus->setStatus(IUserStatus::ONLINE);
 		}
+
+		// The restored status becomes the current one now. Keeping the timestamp
+		// from before the automation would make it instantly stale for anything
+		// longer than INVALIDATE_STATUS_THRESHOLD, so the next read would clean
+		// the user straight to offline.
+		$backupUserStatus->setStatusTimestamp($this->timeFactory->getTime());
 
 		$backupUserStatus->setIsBackup(false);
 		// Remove the underscore prefix added when creating the backup

@@ -700,6 +700,106 @@ class StatusServiceTest extends TestCase {
 		$this->assertTrue($this->service->backupCurrentStatus('john'));
 	}
 
+	public function testBackupNothingToBackUp(): void {
+		// A user without a status row has nothing to move into a backup. That
+		// is not a conflict, so the automated status may still be applied.
+		$this->mapper->expects($this->once())
+			->method('createBackupStatus')
+			->with('john')
+			->willReturn(false);
+
+		$this->assertTrue($this->service->backupCurrentStatus('john'));
+	}
+
+	public function testRevertUserStatusWithoutBackupClearsAutomatedStatus(): void {
+		$this->mapper->expects($this->once())
+			->method('findByUserId')
+			->with('john', true)
+			->willThrowException(new DoesNotExistException(''));
+
+		// There is nothing to restore, but the unreachable automated status
+		// must still be removed so the user is not stuck on it.
+		$this->mapper->expects($this->once())
+			->method('deleteCurrentStatusToRestoreBackup')
+			->with('john', 'meeting')
+			->willReturn(true);
+
+		$this->assertNull($this->service->revertUserStatus('john', 'meeting'));
+	}
+
+	public function testRevertUserStatusWithoutBackupAndNoMatchingStatus(): void {
+		$this->mapper->expects($this->once())
+			->method('findByUserId')
+			->with('john', true)
+			->willThrowException(new DoesNotExistException(''));
+
+		// Nothing matched, so nothing was removed. Must not blow up.
+		$this->mapper->expects($this->once())
+			->method('deleteCurrentStatusToRestoreBackup')
+			->with('john', 'meeting')
+			->willReturn(false);
+
+		$this->mapper->expects($this->never())->method('update');
+
+		$this->assertNull($this->service->revertUserStatus('john', 'meeting'));
+	}
+
+	public function testRevertUserStatusRefreshesTimestamp(): void {
+		$backup = new UserStatus();
+		$backup->setId(2);
+		$backup->setUserId('_john');
+		$backup->setStatus(IUserStatus::ONLINE);
+		$backup->setStatusTimestamp(1000);
+		$backup->setIsUserDefined(false);
+		$backup->setIsBackup(true);
+
+		$this->mapper->expects($this->once())
+			->method('findByUserId')
+			->with('john', true)
+			->willReturn($backup);
+		$this->mapper->expects($this->once())
+			->method('deleteCurrentStatusToRestoreBackup')
+			->with('john', 'meeting')
+			->willReturn(true);
+		$this->timeFactory->method('getTime')->willReturn(9999);
+
+		$this->mapper->expects($this->once())
+			->method('update')
+			->willReturnArgument(0);
+
+		$reverted = $this->service->revertUserStatus('john', 'meeting');
+
+		self::assertNotNull($reverted);
+		self::assertSame('john', $reverted->getUserId());
+		self::assertFalse($reverted->getIsBackup());
+		self::assertSame(
+			9999,
+			$reverted->getStatusTimestamp(),
+			'A restored status must not keep the timestamp from before the automated status',
+		);
+	}
+
+	public function testRevertUserStatusManuallyStillPromotesOfflineToOnline(): void {
+		$backup = new UserStatus();
+		$backup->setId(2);
+		$backup->setUserId('_john');
+		$backup->setStatus(IUserStatus::OFFLINE);
+		$backup->setStatusTimestamp(1000);
+		$backup->setIsUserDefined(false);
+		$backup->setIsBackup(true);
+
+		$this->mapper->method('findByUserId')->with('john', true)->willReturn($backup);
+		$this->mapper->method('deleteCurrentStatusToRestoreBackup')->willReturn(true);
+		$this->timeFactory->method('getTime')->willReturn(9999);
+		$this->mapper->expects($this->once())->method('update')->willReturnArgument(0);
+
+		$reverted = $this->service->revertUserStatus('john', 'meeting', true);
+
+		self::assertNotNull($reverted);
+		self::assertSame(IUserStatus::ONLINE, $reverted->getStatus());
+		self::assertSame(9999, $reverted->getStatusTimestamp());
+	}
+
 	public function testRevertMultipleUserStatus(): void {
 		$john = new UserStatus();
 		$john->setId(1);

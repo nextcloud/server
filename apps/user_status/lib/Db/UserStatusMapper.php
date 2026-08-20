@@ -21,6 +21,12 @@ use OCP\UserStatus\IUserStatus;
 class UserStatusMapper extends QBMapper {
 
 	/**
+	 * Oracle rejects an IN list with more than 1000 expressions, so anything
+	 * built from an unbounded set of ids has to be split into chunks.
+	 */
+	private const MAX_IN_CHUNK = 1000;
+
+	/**
 	 * @param IDBConnection $db
 	 */
 	public function __construct(IDBConnection $db) {
@@ -163,11 +169,152 @@ class UserStatusMapper extends QBMapper {
 		return $qb->executeStatement() > 0;
 	}
 
-	public function deleteByIds(array $ids): void {
+	/**
+	 * Deletes backup rows that can never be restored, because the matching live
+	 * status is gone or is no longer on one of the automated statuses that would
+	 * revert into it.
+	 *
+	 * Such a row is not just clutter: while it exists, createBackupStatus() keeps
+	 * hitting the unique constraint on user_id, which makes setUserStatus()
+	 * silently abort every automated status change for that user.
+	 *
+	 * @param list<string> $automatedMessageIds Message ids that own a backup
+	 * @return int Number of deleted backup rows
+	 */
+	public function deleteStrandedBackups(array $automatedMessageIds): int {
+		return $this->deleteByIds($this->findStrandedBackupIds($automatedMessageIds));
+	}
+
+	/**
+	 * Ids of backup rows that can never be restored. See deleteStrandedBackups().
+	 *
+	 * A backup is reachable exactly when the live row it belongs to still carries
+	 * one of the automated message ids, because that is what revertUserStatus()
+	 * matches on. The live row is the one whose user id is the backup's user id
+	 * without the underscore prefix, so the two are matched with a self join.
+	 *
+	 * @param list<string> $automatedMessageIds
+	 * @return list<int>
+	 */
+	public function findStrandedBackupIds(array $automatedMessageIds): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete($this->tableName)
-			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
-		$qb->executeStatement();
+		$qb->select('b.id')
+			->from($this->tableName, 'b')
+			->where($qb->expr()->eq('b.is_backup', $qb->createNamedParameter(true, IQueryBuilder::PARAM_BOOL)));
+
+		if ($automatedMessageIds === []) {
+			// No automated status can own a backup, so none of them is reachable.
+			return $this->fetchIds($qb);
+		}
+
+		// Not filtering the live side on is_backup is deliberate: a row whose
+		// is_backup is NULL is still treated as a live row, so unexpected data
+		// errs towards keeping the backup.
+		$qb->leftJoin('b', $this->tableName, 'l', $qb->expr()->andX(
+			$qb->expr()->eq('l.user_id', $qb->func()->substring('b.user_id', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT))),
+			$qb->expr()->in('l.message_id', $qb->createNamedParameter($automatedMessageIds, IQueryBuilder::PARAM_STR_ARRAY)),
+		))
+			->andWhere($qb->expr()->isNull('l.id'));
+
+		return $this->fetchIds($qb);
+	}
+
+	/**
+	 * Ids of live rows that sit on an automated status with no backup row to
+	 * revert into. Those can never be reverted by the automation that set them,
+	 * so the user is stuck on that status until it is cleared.
+	 *
+	 * @param list<string> $automatedMessageIds
+	 * @return list<int>
+	 */
+	public function findOrphanedAutomatedStatusIds(array $automatedMessageIds): array {
+		if ($automatedMessageIds === []) {
+			return [];
+		}
+
+		$qb = $this->db->getQueryBuilder();
+		// The backup of a live row carries the same user id with an underscore
+		// prefix, so the two are matched with a self join on the concatenation.
+		$qb->select('l.id')
+			->from($this->tableName, 'l')
+			->leftJoin('l', $this->tableName, 'b', $qb->expr()->eq(
+				'b.user_id',
+				$qb->func()->concat($qb->createNamedParameter('_'), 'l.user_id'),
+			))
+			->where($qb->expr()->in('l.message_id', $qb->createNamedParameter($automatedMessageIds, IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($qb->expr()->isNull('b.id'))
+			// Skip backup rows on the live side. Testing the prefix rather than
+			// is_backup keeps this correct for rows where is_backup is NULL, and
+			// a substring comparison avoids having to escape the underscore for
+			// a LIKE pattern.
+			->andWhere($qb->expr()->neq(
+				$qb->func()->substring('l.user_id', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT), $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)),
+				$qb->createNamedParameter('_'),
+			));
+
+		return $this->fetchIds($qb);
+	}
+
+	/**
+	 * @return list<int>
+	 */
+	private function fetchIds(IQueryBuilder $qb): array {
+		$result = $qb->executeQuery();
+		$ids = [];
+		while ($row = $result->fetch()) {
+			$ids[] = (int)$row['id'];
+		}
+		$result->closeCursor();
+
+		return $ids;
+	}
+
+	/**
+	 * Ids of rows where is_backup is NULL. Those predate the column default and
+	 * are invisible to every query that compares is_backup against false.
+	 *
+	 * @return list<int>
+	 */
+	public function findStatusesWithoutBackupFlagIds(): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('id')
+			->from($this->tableName)
+			->where($qb->expr()->isNull('is_backup'));
+
+		return $this->fetchIds($qb);
+	}
+
+	/**
+	 * @param list<int> $ids
+	 * @return int Number of rows that were given an explicit is_backup value
+	 */
+	public function normalizeBackupFlagByIds(array $ids): int {
+		$updated = 0;
+		foreach (array_chunk($ids, self::MAX_IN_CHUNK) as $chunk) {
+			$qb = $this->db->getQueryBuilder();
+			$qb->update($this->tableName)
+				->set('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL))
+				->where($qb->expr()->in('id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+			$updated += $qb->executeStatement();
+		}
+
+		return $updated;
+	}
+
+	/**
+	 * @param list<int> $ids
+	 * @return int Number of deleted rows
+	 */
+	public function deleteByIds(array $ids): int {
+		$deleted = 0;
+		foreach (array_chunk($ids, self::MAX_IN_CHUNK) as $chunk) {
+			$qb = $this->db->getQueryBuilder();
+			$qb->delete($this->tableName)
+				->where($qb->expr()->in('id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+			$deleted += $qb->executeStatement();
+		}
+
+		return $deleted;
 	}
 
 	/**
