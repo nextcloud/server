@@ -265,21 +265,21 @@ class Notifier implements INotifier, IDismissableNotifier {
 		}
 
 		if ($this->jobList->has(TransferOwnership::class, [
-			'id' => $transferOwnership->getId(),
+			'id' => $transferOwnership->id,
 		])) {
 			return;
 		}
 
 		$notification = $this->notificationManager->createNotification();
-		$notification->setUser($transferOwnership->getSourceUser())
+		$notification->setUser($transferOwnership->sourceUser)
 			->setApp('files')
 			->setDateTime($this->timeFactory->getDateTime())
 			->setSubject('transferownershipRequestDenied', [
-				'sourceUser' => $transferOwnership->getSourceUser(),
-				'targetUser' => $transferOwnership->getTargetUser(),
-				'nodeName' => $transferOwnership->getNodeName()
+				'sourceUser' => $transferOwnership->sourceUser,
+				'targetUser' => $transferOwnership->targetUser,
+				'nodeName' => $transferOwnership->nodeName
 			])
-			->setObject('transfer', (string)$transferOwnership->getId());
+			->setObject('transfer', (string)$transferOwnership->id);
 		$this->notificationManager->notify($notification);
 
 		$this->mapper->delete($transferOwnership);
