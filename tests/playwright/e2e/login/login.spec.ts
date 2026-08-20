@@ -45,24 +45,26 @@ test.describe('Login', () => {
 		await expect(page).toHaveURL(/apps\/dashboard(\/|$)/)
 	})
 
-	test('wrong password shows error and marks password field invalid', async ({ page, user }) => {
+	test('wrong password shows error and marks both fields invalid', async ({ page, user }) => {
 		const loginPage = new LoginPage(page)
 		await loginPage.goto()
 		await loginPage.login(user.userId, `${user.password}--wrong`)
 
 		await expect(page).toHaveURL(/\/login/)
 		await expect(page.getByText(/Wrong login or password/i)).toBeVisible()
-		await expect(loginPage.passwordInput().and(page.locator(':invalid'))).toHaveCount(1)
+		await expect(page.locator('.input-field--error').filter({ has: loginPage.usernameInput() })).toBeVisible()
+		await expect(page.locator('.input-field--error').filter({ has: loginPage.passwordInput() })).toBeVisible()
 	})
 
-	test('wrong account name shows error and marks password field invalid', async ({ page, user }) => {
+	test('wrong account name shows error and marks both fields invalid', async ({ page, user }) => {
 		const loginPage = new LoginPage(page)
 		await loginPage.goto()
 		await loginPage.login(`${user.userId}--wrong`, user.password)
 
 		await expect(page).toHaveURL(/\/login/)
 		await expect(page.getByText(/Wrong login or password/i)).toBeVisible()
-		await expect(loginPage.passwordInput().and(page.locator(':invalid'))).toHaveCount(1)
+		await expect(page.locator('.input-field--error').filter({ has: loginPage.usernameInput() })).toBeVisible()
+		await expect(page.locator('.input-field--error').filter({ has: loginPage.passwordInput() })).toBeVisible()
 	})
 
 	test('disabled account shows disabled error', async ({ page, disabledUser }) => {
@@ -72,7 +74,8 @@ test.describe('Login', () => {
 
 		await expect(page).toHaveURL(/\/login/)
 		await expect(page.getByText(/Account.*disabled/i)).toBeVisible()
-		await expect(loginPage.passwordInput().and(page.locator(':invalid'))).toHaveCount(1)
+		await expect(page.locator('.input-field--error').filter({ has: loginPage.usernameInput() })).toBeVisible()
+		await expect(page.locator('.input-field--error').filter({ has: loginPage.passwordInput() })).toBeVisible()
 	})
 
 	test('logout redirects to the login page', async ({ page, context, user }) => {
