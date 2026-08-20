@@ -69,16 +69,11 @@ class StatusesController extends OCSController {
 		} else {
 			$allStatuses = $this->service->findAll($limit, $offset);
 		}
-		$hasMoreResults = $this->hasMoreResults($allStatuses, $limit);
-
-		$headers = [];
-		if ($hasMoreResults) {
-			if ($lastId !== null) {
-				$lastStatus = end($allStatuses);
-				$headers['Link'] = $this->buildCursorNextPageLinkHeader([], $limit, $lastStatus->getId());
-			} else {
-				$headers['Link'] = $this->buildOffsetNextPageLinkHeader([], $limit, $offset ?? 0);
-			}
+		if ($lastId !== null) {
+			$lastStatus = end($allStatuses);
+			$headers = $this->buildCursorNextPageLinkHeader($allStatuses, [], $limit, $lastStatus !== false ? $lastStatus->getId() : null);
+		} else {
+			$headers = $this->buildOffsetNextPageLinkHeader($allStatuses, [], $limit, $offset ?? 0);
 		}
 		return new DataResponse(array_values(array_map(function ($userStatus) {
 			return $this->formatStatus($userStatus);

@@ -90,16 +90,15 @@ class AutoCompleteController extends OCSController {
 		// transform to expected format
 		$results = $this->prepareResultArray($results);
 
-		$headers = [];
-		if ($hasMoreResults) {
-			$headers['Link'] = $this->buildOffsetNextPageLinkHeader([
-				'search' => $search,
-				'itemType' => $itemType,
-				'itemId' => $itemId,
-				'sorter' => $sorter,
-				'shareTypes' => $shareTypes,
-			], $limit, $offset);
-		}
+		// $hasMoreResults comes from the search backend, not from the (differently shaped,
+		// possibly filtered) $results, so it is passed through as-is rather than re-derived.
+		$headers = $this->buildOffsetNextPageLinkHeader($hasMoreResults, [
+			'search' => $search,
+			'itemType' => $itemType,
+			'itemId' => $itemId,
+			'sorter' => $sorter,
+			'shareTypes' => $shareTypes,
+		], $limit, $offset);
 
 		return new DataResponse($results, headers: $headers);
 	}
