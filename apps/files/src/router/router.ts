@@ -51,33 +51,44 @@ function ignoreDuplicateNavigation(error: unknown): void {
 	}
 }
 
-const router = new Router({
-	mode: 'history',
+/**
+ * Create a Files app vue-router instance.
+ *
+ * @param mode 'history' (default) drives the browser URL and is used by the main Files app.
+ *             'abstract' keeps navigation in-memory, for embedding the Files UI into a foreign page
+ *             (see `OCP.Files.renderFilesApp()`) without touching the host page's URL.
+ */
+export function createRouter(mode: 'history' | 'abstract' = 'history'): Router {
+	return new Router({
+		mode,
 
-	// if index.php is in the url AND we got this far, then it's working:
-	// let's keep using index.php in the url
-	base: generateUrl('/apps/files'),
-	linkActiveClass: 'active',
+		// if index.php is in the url AND we got this far, then it's working:
+		// let's keep using index.php in the url
+		base: mode === 'history' ? generateUrl('/apps/files') : undefined,
+		linkActiveClass: 'active',
 
-	routes: [
-		{
-			path: '/',
-			// Pretending we're using the default view
-			redirect: { name: 'filelist', params: { view: defaultView() } },
+		routes: [
+			{
+				path: '/',
+				// Pretending we're using the default view
+				redirect: { name: 'filelist', params: { view: defaultView() } },
+			},
+			{
+				path: '/:view/:fileid(\\d+)?',
+				name: 'filelist',
+				props: true,
+			},
+		],
+
+		// Custom stringifyQuery to prevent encoding of slashes in the url
+		stringifyQuery(query) {
+			const result = queryString.stringify(query).replace(/%2F/gmi, '/')
+			return result ? ('?' + result) : ''
 		},
-		{
-			path: '/:view/:fileid(\\d+)?',
-			name: 'filelist',
-			props: true,
-		},
-	],
+	})
+}
 
-	// Custom stringifyQuery to prevent encoding of slashes in the url
-	stringifyQuery(query) {
-		const result = queryString.stringify(query).replace(/%2F/gmi, '/')
-		return result ? ('?' + result) : ''
-	},
-})
+const router = createRouter('history')
 
 // Handle aborted navigation (NavigationGuards) gracefully
 router.onError((error) => {

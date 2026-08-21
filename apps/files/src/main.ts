@@ -11,6 +11,7 @@ import SettingsModel from './models/Setting.ts'
 import router from './router/router.ts'
 import RouterService from './services/RouterService.ts'
 import SettingsService from './services/Settings.js'
+import { renderFilesApp } from './services/renderFilesApp.ts'
 import { getPinia } from './store/index.ts'
 
 __webpack_nonce__ = getCSPNonce()
@@ -24,6 +25,9 @@ if (!window.OCP.Files.Router) {
 	const Router = new RouterService(router)
 	Object.assign(window.OCP.Files, { Router })
 }
+
+// Expose the ability to render the Files UI on a foreign page
+window.OCP.Files.renderFilesApp = window.OCP.Files.renderFilesApp ?? renderFilesApp
 
 // Init Pinia store
 Vue.use(PiniaVuePlugin)
