@@ -187,10 +187,7 @@ class OC_Helper {
 		if (!$rootInfo instanceof FileInfo) {
 			throw new NotFoundException('The root directory of the user\'s files is missing');
 		}
-		$used = $rootInfo->getSize($includeMountPoints);
-		if ($used < 0) {
-			$used = 0.0;
-		}
+
 		/** @var int|float $quota */
 		$quota = FileInfo::SPACE_UNLIMITED;
 		$mount = $rootInfo->getMountPoint();
@@ -226,7 +223,13 @@ class OC_Helper {
 		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
 			/** @var Quota $sourceStorage */
 			$quota = $sourceStorage->getQuota();
+			$used = $sourceStorage->getSize($path, $storage);
+		} else {
+			$used = $rootInfo->getSize($includeMountPoints);
 		}
+
+		$used = max($used, 0.0);
+
 		try {
 			$free = $sourceStorage->free_space($rootInfo->getInternalPath());
 			if (is_bool($free)) {
