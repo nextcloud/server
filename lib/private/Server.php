@@ -1161,6 +1161,9 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\NCU\Sharing\ISharingManager::class, SharingManager::class);
 		$this->registerAlias(\NCU\Sharing\ISharingBackend::class, SharingBackend::class);
 
+		$this->registerAlias(\NCU\Actor\IActorResolver::class, \OC\Actor\ActorResolver::class);
+		$this->registerAlias(\NCU\ResourceCapability\ICapabilityManager::class, \OC\ResourceCapability\CapabilityManager::class);
+
 		$this->registerService(IGlobalScaleService::class, function (ContainerInterface $c): IGlobalScaleService {
 			/** @var Coordinator $coordinator */
 			$coordinator = $c->get(Coordinator::class);
