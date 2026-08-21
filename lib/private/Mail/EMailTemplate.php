@@ -34,6 +34,8 @@ class EMailTemplate implements IEMailTemplate {
 	protected bool $bodyListOpened = false;
 	/** indicated if the footer is added */
 	protected bool $footerAdded = false;
+	/** @var array<array{name: string, content: string, mimeType: string}> images to embed inline, referenced via cid: */
+	protected array $inlineImages = [];
 
 	protected string $head = <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -355,8 +357,25 @@ EOF;
 			$logoSizeDimensions = ' width="' . $this->logoWidth . '" height="' . $this->logoHeight . '"';
 		}
 
-		$logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
-		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $logoUrl, $this->themingDefaults->getName(), $logoSizeDimensions]);
+		$logoImage = $this->themingDefaults->getLogoImage();
+		if ($logoImage !== null) {
+			// Embed the logo directly in the message instead of linking to it, so mail
+			// clients don't have to fetch it from the internet (some (e.g. gmail) block that).
+			$logoSrc = 'cid:logo';
+			$this->inlineImages[] = ['name' => 'logo'] + $logoImage;
+		} else {
+			$logoSrc = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
+		}
+		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $logoSrc, $this->themingDefaults->getName(), $logoSizeDimensions]);
+	}
+
+	/**
+	 * Images that must be embedded inline in the message, referenced via `cid:<name>` in the HTML body
+	 *
+	 * @return array<array{name: string, content: string, mimeType: string}>
+	 */
+	public function getInlineImages(): array {
+		return $this->inlineImages;
 	}
 
 	/**
