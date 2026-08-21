@@ -123,7 +123,7 @@
     "regextras": "^0.8.0",
     "sass": "^1.101.0",
     "terser-webpack-plugin": "^5.6.1",
-    "typescript": "^5.9.2",
+    "typescript": "^7.0.2",
     "vite": "^7.3.6",
     "vitest": "^4.1.9",
     "vue-loader": "^15.11.1",
