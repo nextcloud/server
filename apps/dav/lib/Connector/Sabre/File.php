@@ -52,6 +52,11 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 
 class File extends Node implements IFile {
+	/** Longest name common filesystems (ext/xfs) accept */
+	private const MAX_FILENAME_LENGTH = 255;
+	/** '.ocTransferId' + a rand() value + '.part' */
+	private const PART_FILE_SUFFIX_MAX_LENGTH = 28;
+
 	protected IRequest $request;
 	protected IL10N $l10n;
 
@@ -135,13 +140,40 @@ class File extends Node implements IFile {
 
 		if ($needsPartFile) {
 			$transferId = \rand();
+			$partFileBasePath = $this->getPartFileBasePath($this->path);
 			// mark file as partial while uploading (ignored by the scanner)
-			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . $transferId . '.part';
+			$partFilePath = $partFileBasePath . '.ocTransferId' . $transferId . '.part';
 
-			if (!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) {
+			// isCreatable() asks whether something can be created *inside* a path, so
+			// it has to be given the directory that will hold the part file
+			if (!$view->isCreatable(dirname($partFilePath)) && $view->isUpdatable($this->path)) {
 				$needsPartFile = false;
 			}
+
+			// a hashed part file name cannot reuse the target's encryption key, so
+			// renaming it over an existing file would leave undecryptable content
+			if ($exists && $partFileBasePath !== $this->path) {
+				$needsPartFile = false;
+			}
+
 		}
+
+		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
+		[$partStorage, $internalPartPath] = $this->fileView->resolvePath($needsPartFile ? $partFilePath : $this->path);
+		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
+		if ($partStorage === null || $storage === null) {
+			throw new ServiceUnavailable($this->l10n->t('Failed to get storage for file'));
+		}
+
+		// a single file share maps the target and nothing else, so the part file
+		// would land beside it on a different storage - the recipient's own, with
+		// their quota - instead of next to the file being written
+		if ($needsPartFile && $partStorage->getId() !== $storage->getId()) {
+			$needsPartFile = false;
+			$partStorage = $storage;
+			$internalPartPath = $internalPath;
+		}
+
 		if (!$needsPartFile) {
 			// upload file directly as the final path
 			$partFilePath = $this->path;
@@ -149,13 +181,6 @@ class File extends Node implements IFile {
 			if ($view && !$this->emitPreHooks($exists)) {
 				throw new Exception($this->l10n->t('Could not write to final file, canceled by hook'));
 			}
-		}
-
-		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
-		[$partStorage, $internalPartPath] = $this->fileView->resolvePath($partFilePath);
-		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
-		if ($partStorage === null || $storage === null) {
-			throw new ServiceUnavailable($this->l10n->t('Failed to get storage for file'));
 		}
 		try {
 			if (!$needsPartFile) {
@@ -248,7 +273,12 @@ class File extends Node implements IFile {
 				}
 				fclose($target);
 			}
-			if ($result === false && $expected !== null) {
+			if ($result === false) {
+				if ($expected === null) {
+					// nothing to report the size against, e.g. the MOVE that assembles
+					// a chunked upload - but the write still failed
+					throw new Exception($this->l10n->t('Could not write file contents'));
+				}
 				throw new Exception(
 					$this->l10n->t(
 						'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
@@ -407,6 +437,12 @@ class File extends Node implements IFile {
 		$partFileInStorage = Server::get(IConfig::class)->getSystemValue('part_file_in_storage', true);
 		if ($partFileInStorage) {
 			$filename = basename($path);
+			// only hash when the name would otherwise overflow the filesystem limit:
+			// encryption resolves the part file's key by stripping the suffix, which
+			// only leads back to the target while the real name is kept
+			if (strlen($filename) + self::PART_FILE_SUFFIX_MAX_LENGTH <= self::MAX_FILENAME_LENGTH) {
+				return $path;
+			}
 			// hash does not need to be secure but fast and semi unique
 			$hashedFilename = hash('xxh128', $filename);
 			return substr($path, 0, strlen($path) - strlen($filename)) . $hashedFilename;

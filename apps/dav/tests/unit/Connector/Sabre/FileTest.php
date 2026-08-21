@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use Icewind\Streams\CallbackWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Local;
@@ -21,14 +22,17 @@ use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\File;
 use OCP\Constants;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Files\Cache\IUpdater;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
+use OCP\Files\GenericFileException;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IStorage;
+use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IRequestId;
@@ -527,6 +531,61 @@ class FileTest extends TestCase {
 
 		$this->assertTrue($thrown);
 		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
+	}
+
+	/**
+	 * A storage write that fails must not be reported as success just because the
+	 * request carried no content-length to check against - the MOVE that assembles
+	 * a chunked upload never does, so this used to answer 204 while the storage
+	 * still held the previous content.
+	 */
+	public function testPutFailsWhenStorageWriteFailsWithoutContentLength(): void {
+		$storage = $this->createMock(IWriteStreamStorage::class);
+		$storage->method('getId')->willReturn('object::user:' . $this->user);
+		// object stores write straight to the final path
+		$storage->method('needsPartFile')->willReturn(false);
+		$storage->method('instanceOfStorage')
+			->willReturnCallback(fn (string $class): bool => $class === IWriteStreamStorage::class);
+		$storage->method('writeStream')
+			->willThrowException(new GenericFileException('Error while writing stream to object store'));
+		// let the bookkeeping that follows a successful write run, so that a
+		// swallowed failure shows up as "no exception" rather than as a side effect
+		$storage->method('getUpdater')->willReturn($this->createMock(IUpdater::class));
+
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+			'permissions' => Constants::PERMISSION_ALL,
+			'type' => FileInfo::TYPE_FILE,
+		], null);
+
+		/** @var View&MockObject */
+		$view = $this->getMockBuilder(View::class)
+			->onlyMethods(['resolvePath', 'getRelativePath', 'file_exists', 'putFileInfo', 'getFileInfo'])
+			->getMock();
+		$view->expects($this->any())
+			->method('resolvePath')
+			->willReturn([$storage, 'files/test.txt']);
+		$view->expects($this->any())
+			->method('getRelativePath')
+			->willReturnArgument(0);
+		$view->expects($this->any())
+			->method('file_exists')
+			->willReturn(true);
+		$view->expects($this->any())
+			->method('putFileInfo')
+			->willReturn(true);
+		$view->expects($this->any())
+			->method('getFileInfo')
+			->willReturn($info);
+
+		// the assembly MOVE of a chunked upload sends no content-length
+		$request = new Request([
+			'method' => 'MOVE',
+		], $this->requestId, $this->config, null);
+
+		$file = new File($view, $info, null, $request);
+
+		$this->expectException(\Sabre\DAV\Exception::class);
+		$file->put($this->getStream('irrelevant'));
 	}
 
 	/**
@@ -1029,6 +1088,51 @@ class FileTest extends TestCase {
 		$view->unlockFile('root/file.txt', ILockingProvider::LOCK_SHARED);
 
 		$this->assertEquals('new content', $view->file_get_contents('root/file.txt'));
+	}
+
+	/**
+	 * An upload that is interrupted while overwriting an existing file must not
+	 * destroy what is already there: the data goes into a part file first and is
+	 * only renamed over the target once it is complete.
+	 */
+	public function testPutOverwriteInterruptedKeepsOriginal(): void {
+		$view = new View('/' . $this->user . '/files');
+		$view->file_put_contents('interrupted.txt', 'original content');
+
+		[$targetStorage] = $view->resolvePath('interrupted.txt');
+		if (!$targetStorage->needsPartFile()) {
+			// object stores write straight to the final path, so there is no part
+			// file to protect the previous content - nothing to assert here
+			$this->markTestSkipped('Storage does not use part files');
+		}
+
+		$file = new File($view, $view->getFileInfo('interrupted.txt'));
+
+		$read = 0;
+		$data = CallbackWrapper::wrap($this->getStream('new content'), function ($count) use (&$read): void {
+			$read += $count;
+			if ($read > 3) {
+				throw new \RuntimeException('connection lost mid upload');
+			}
+		});
+
+		// beforeMethod locks
+		$view->lockFile('interrupted.txt', ILockingProvider::LOCK_SHARED);
+		try {
+			$file->put($data);
+			$this->fail('Expected the interrupted upload to fail');
+		} catch (\Sabre\DAV\Exception $e) {
+			// expected
+		} finally {
+			// afterMethod unlocks
+			$view->unlockFile('interrupted.txt', ILockingProvider::LOCK_SHARED);
+		}
+
+		// read straight from the storage: a failed write must not have touched it,
+		// whatever the view still holds a lock on
+		[$storage, $internalPath] = $view->resolvePath('interrupted.txt');
+		$this->assertEquals('original content', $storage->file_get_contents($internalPath));
+		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
 	}
 
 	public function testPutLockExpired(): void {

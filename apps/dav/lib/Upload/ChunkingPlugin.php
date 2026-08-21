@@ -13,6 +13,7 @@ use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCP\AppFramework\Http;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -57,8 +58,8 @@ class ChunkingPlugin extends ServerPlugin {
 			// If the destination does not exist yet it's not a directory either ;)
 		}
 
-		$this->verifySize();
-		return $this->performMove($sourcePath, $destination);
+		$expectedSize = $this->verifySize();
+		return $this->performMove($sourcePath, $destination, $expectedSize);
 	}
 
 	/**
@@ -70,9 +71,10 @@ class ChunkingPlugin extends ServerPlugin {
 	 *
 	 * @param string $path source path
 	 * @param string $destination destination path
+	 * @param int|float|null $expectedSize size the assembled file should have
 	 * @return bool|void false to stop handling, void to skip this handler
 	 */
-	public function performMove($path, $destination) {
+	public function performMove($path, $destination, $expectedSize = null) {
 		$fileExists = $this->server->tree->nodeExists($destination);
 		// do a move manually, skipping Sabre's default "delete" for existing nodes
 		try {
@@ -84,6 +86,8 @@ class ChunkingPlugin extends ServerPlugin {
 			}
 			throw $e;
 		}
+
+		$this->verifyAssembledSize($destination, $expectedSize);
 
 		// trigger all default events (copied from CorePlugin::move)
 		$this->server->emit('afterMove', [$path, $destination]);
@@ -98,12 +102,13 @@ class ChunkingPlugin extends ServerPlugin {
 	}
 
 	/**
+	 * @return int|float|null the expected assembled size, null if the client did not declare one
 	 * @throws BadRequest
 	 */
 	private function verifySize() {
 		$expectedSize = $this->server->httpRequest->getHeader('OC-Total-Length');
 		if ($expectedSize === null) {
-			return;
+			return null;
 		}
 		$actualSize = $this->sourceNode->getSize();
 
@@ -111,6 +116,31 @@ class ChunkingPlugin extends ServerPlugin {
 		// and integer has the problem of limited size on 32 bit systems
 		if ((string)$expectedSize !== (string)$actualSize) {
 			throw new BadRequest("Chunks on server do not sum up to $expectedSize but to $actualSize bytes");
+		}
+
+		return $actualSize;
+	}
+
+	/**
+	 * An assembly cut short leaves the destination truncated while the response
+	 * still reports success, so check what actually landed.
+	 *
+	 * @param int|float|null $expectedSize
+	 * @throws BadRequest
+	 */
+	private function verifyAssembledSize(string $destination, $expectedSize): void {
+		if ($expectedSize === null) {
+			return;
+		}
+
+		$destinationNode = $this->server->tree->getNodeForPath($destination);
+		if (!$destinationNode instanceof IFile) {
+			return;
+		}
+
+		$actualSize = $destinationNode->getSize();
+		if ((string)$expectedSize !== (string)$actualSize) {
+			throw new BadRequest("Assembled file has $actualSize bytes but $expectedSize bytes were expected");
 		}
 	}
 }
