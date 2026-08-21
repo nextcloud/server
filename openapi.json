@@ -1506,7 +1506,8 @@
                             "public_shares_chunking",
                             "search_supports_creation_time",
                             "search_supports_upload_time",
-                            "search_supports_last_activity"
+                            "search_supports_last_activity",
+                            "attendee_guests"
                         ],
                         "properties": {
                             "chunking": {
@@ -1522,6 +1523,9 @@
                                 "type": "boolean"
                             },
                             "search_supports_last_activity": {
+                                "type": "boolean"
+                            },
+                            "attendee_guests": {
                                 "type": "boolean"
                             },
                             "bulkupload": {
