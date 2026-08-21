@@ -87,7 +87,8 @@ final class Task implements \JsonSerializable {
 			$images = [];
 			for ($i = 0; $i < $this->getNumberOfImages(); $i++) {
 				$image = new Image();
-				$image->loadFromFileHandle($folder->getFile((string)$i)->read());
+				$data = $folder->getFile((string)$i)->getContent();
+				$image->loadFromData($data);
 				$images[] = $image;
 			}
 			return $images;
