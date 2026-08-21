@@ -23,7 +23,7 @@ export const action = new FileAction({
 
 		const node = nodes[0]
 
-		if (!node.isDavRessource) {
+		if (!node.isDavResource) {
 			return false
 		}
 
