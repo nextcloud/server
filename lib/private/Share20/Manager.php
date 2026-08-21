@@ -625,12 +625,23 @@ class Manager implements IManager {
 				$share->setTarget($target);
 			}
 		} catch (AlreadySharedException $e) {
+			$existingShare = $e->getExistingShare();
+
+			/*
+			 * Reusing a share which is hidden because one of the accounts involved
+			 * in it is disabled would leave the recipient without access, so report
+			 * it to the sharer instead. Such a share has to be deleted first.
+			 */
+			if ($this->isHiddenDisabledUserShare($existingShare)) {
+				throw $e;
+			}
+
 			// If a share for the same target already exists, dont create a new one,
 			// but do trigger the hooks and notifications again
 			$oldShare = $share;
 
 			// Reuse the node we already have
-			$share = $e->getExistingShare();
+			$share = $existingShare;
 			$share->setNode($oldShare->getNode());
 		}
 
@@ -1151,7 +1162,7 @@ class Manager implements IManager {
 			return [];
 		}
 
-		if ($onlyValid && $this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
+		if ($onlyValid && $this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'yes') === 'yes') {
 			/*
 			 * If shares from disabled users are hidden, check user status first to avoid useless work.
 			 * Otherwise all shares would’ve been filtered out by checkShare anyway.
@@ -1181,7 +1192,7 @@ class Manager implements IManager {
 				$added++;
 				if ($onlyValid) {
 					try {
-						$this->checkShare($share, $added);
+						$this->checkShare($share, $added, $userId);
 					} catch (ShareNotFound $e) {
 						// Ignore since this basically means the share is deleted
 						continue;
@@ -1243,7 +1254,7 @@ class Manager implements IManager {
 		// remove all shares which are already expired
 		foreach ($shares as $key => $share) {
 			try {
-				$this->checkShare($share);
+				$this->checkShare($share, viewer: $userId);
 			} catch (ShareNotFound $e) {
 				unset($shares[$key]);
 			}
@@ -1282,10 +1293,10 @@ class Manager implements IManager {
 			$shares = new \IteratorIterator($shares);
 		}
 
-		return new \CallbackFilterIterator($shares, function (IShare $share) {
+		return new \CallbackFilterIterator($shares, function (IShare $share) use ($userId) {
 			// remove all shares which are already expired
 			try {
-				$this->checkShare($share);
+				$this->checkShare($share, viewer: $userId);
 				return true;
 			} catch (ShareNotFound $e) {
 				return false;
@@ -1319,7 +1330,7 @@ class Manager implements IManager {
 		$share = $provider->getShareById($id, $recipient);
 
 		if ($onlyValid) {
-			$this->checkShare($share);
+			$this->checkShare($share, viewer: $recipient);
 		}
 
 		return $share;
@@ -1404,26 +1415,50 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Whether a share has to be hidden because one of the accounts involved in it
+	 * is disabled.
+	 *
+	 * A share initiated by an account that got disabled stays visible to the owner
+	 * of the shared item, so that they can still manage or delete it.
+	 *
+	 * @param ?string $viewer Account the share is checked for, if known
+	 */
+	private function isHiddenDisabledUserShare(IShare $share, ?string $viewer = null): bool {
+		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'yes') !== 'yes') {
+			return false;
+		}
+
+		$uids = [$share->getShareOwner()];
+		if ($viewer !== $share->getShareOwner()) {
+			$uids[] = $share->getSharedBy();
+		}
+
+		foreach (array_unique($uids) as $uid) {
+			$user = $this->userManager->get($uid);
+			if ($user?->isEnabled() === false) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check expire date and disabled owner
 	 *
 	 * @param int &$added If given, will be decremented if the share is deleted
+	 * @param ?string $viewer Account the share is checked for, defaults to the account of the current session
 	 * @throws ShareNotFound
 	 */
-	private function checkShare(IShare $share, int &$added = 1): void {
+	private function checkShare(IShare $share, int &$added = 1, ?string $viewer = null): void {
 		if ($share->isExpired()) {
 			$this->deleteShare($share);
 			// Remove 1 to added, because this share was deleted
 			$added--;
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
-		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'yes') === 'yes') {
-			$uids = array_unique([$share->getShareOwner(), $share->getSharedBy()]);
-			foreach ($uids as $uid) {
-				$user = $this->userManager->get($uid);
-				if ($user?->isEnabled() === false) {
-					throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
-				}
-			}
+		if ($this->isHiddenDisabledUserShare($share, $viewer ?? $this->userSession->getUser()?->getUID())) {
+			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
 
 		// For link and email shares, verify the share owner can still create such shares
