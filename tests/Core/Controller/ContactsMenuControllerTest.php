@@ -10,6 +10,8 @@ namespace Tests\Controller;
 use OC\Contacts\ContactsMenu\Manager;
 use OC\Core\Controller\ContactsMenuController;
 use OCP\Contacts\ContactsMenu\IEntry;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -21,6 +23,8 @@ class ContactsMenuControllerTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private Manager&MockObject $contactsManager;
 	private ITeamManager&MockObject $teamManager;
+	private ICacheFactory&MockObject $cacheFactory;
+	private ICache&MockObject $cache;
 
 	private ContactsMenuController $controller;
 
@@ -32,12 +36,19 @@ class ContactsMenuControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->contactsManager = $this->createMock(Manager::class);
 		$this->teamManager = $this->createMock(ITeamManager::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cache = $this->createMock(ICache::class);
+
+		$this->cacheFactory->method('createDistributed')
+			->with('contactsmenu-preview')
+			->willReturn($this->cache);
 
 		$this->controller = new ContactsMenuController(
 			$request,
 			$this->userSession,
 			$this->contactsManager,
 			$this->teamManager,
+			$this->cacheFactory,
 		);
 	}
 
@@ -124,5 +135,120 @@ class ContactsMenuControllerTest extends TestCase {
 
 		$this->assertEquals([], $response->getData());
 		$this->assertEquals(404, $response->getStatus());
+	}
+
+	public function testPreviewAvatarsWithoutTeam(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('current-user');
+
+		$contacts = [
+			$this->createPreviewEntry('alice', 'Alice'),
+			$this->createPreviewEntry('bob', 'Bob'),
+			$this->createPreviewEntry('carol', 'Carol'),
+			$this->createPreviewEntry('dave', 'Dave'),
+		];
+		$expected = [
+			$contacts[0]->jsonSerialize(),
+			$contacts[1]->jsonSerialize(),
+			$contacts[2]->jsonSerialize(),
+		];
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->cache->expects($this->once())
+			->method('get')
+			->with('current-user')
+			->willReturn(null);
+		$this->contactsManager->expects($this->once())
+			->method('getPreviewEntries')
+			->with($user, 3)
+			->willReturn([$contacts[0], $contacts[1], $contacts[2]]);
+		$this->cache->expects($this->once())
+			->method('set')
+			->with('current-user', $expected, 300);
+		$this->teamManager->expects($this->never())
+			->method('getMembersOfTeam');
+
+		$this->assertEquals($expected, $this->controller->previewAvatars());
+	}
+
+	public function testPreviewAvatarsUsesCache(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('current-user');
+		$cached = [
+			['uid' => 'alice', 'fullName' => 'Alice', 'isUser' => true],
+			['uid' => 'bob', 'fullName' => 'Bob', 'isUser' => true],
+		];
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->cache->expects($this->once())
+			->method('get')
+			->with('current-user')
+			->willReturn($cached);
+		$this->contactsManager->expects($this->never())
+			->method('getPreviewEntries');
+		$this->cache->expects($this->never())
+			->method('set');
+
+		$this->assertEquals($cached, $this->controller->previewAvatars());
+	}
+
+	public function testPreviewAvatarsWithTeam(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('current-user');
+
+		$cached = [
+			['uid' => 'alice', 'fullName' => 'Alice', 'isUser' => true],
+			['uid' => 'contact-1', 'fullName' => 'External', 'isUser' => false],
+			['uid' => 'bob', 'fullName' => 'Bob', 'isUser' => true],
+		];
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->cache->expects($this->once())
+			->method('get')
+			->with('current-user')
+			->willReturn($cached);
+		$this->contactsManager->expects($this->never())
+			->method('getPreviewEntries');
+		$this->teamManager->expects($this->once())
+			->method('getMembersOfTeam')
+			->with('team-id', 'current-user')
+			->willReturn([
+				'alice' => 'Alice',
+				'bob' => 'Bob',
+				'carol' => 'Carol',
+			]);
+
+		$this->assertEquals([
+			$cached[0],
+			$cached[2],
+		], $this->controller->previewAvatars('team-id'));
+	}
+
+	public function testPreviewAvatarsWithoutUser(): void {
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn(null);
+		$this->contactsManager->expects($this->never())
+			->method('getPreviewEntries');
+		$this->cache->expects($this->never())
+			->method('get');
+
+		$this->assertEquals([], $this->controller->previewAvatars());
+	}
+
+	private function createPreviewEntry(string $uid, string $fullName): IEntry&MockObject {
+		$entry = $this->createMock(IEntry::class);
+		$entry->method('jsonSerialize')->willReturn([
+			'uid' => $uid,
+			'fullName' => $fullName,
+			'isUser' => true,
+		]);
+		return $entry;
 	}
 }
