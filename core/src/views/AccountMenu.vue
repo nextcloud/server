@@ -6,7 +6,6 @@
 	<NcHeaderMenu
 		id="user-menu"
 		class="account-menu"
-		is-nav
 		:aria-label="t('core', 'Settings menu')"
 		:description="avatarDescription">
 		<template #trigger>
