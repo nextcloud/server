@@ -161,13 +161,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @var array
 	 */
 	public array $subscriptionPropertyMap = [
-		'{DAV:}displayname' => ['displayname', 'string'],
-		'{http://apple.com/ns/ical/}refreshrate' => ['refreshrate', 'string'],
-		'{http://apple.com/ns/ical/}calendar-order' => ['calendarorder', 'int'],
-		'{http://apple.com/ns/ical/}calendar-color' => ['calendarcolor', 'string'],
-		'{http://calendarserver.org/ns/}subscribed-strip-todos' => ['striptodos', 'bool'],
-		'{http://calendarserver.org/ns/}subscribed-strip-alarms' => ['stripalarms', 'string'],
-		'{http://calendarserver.org/ns/}subscribed-strip-attachments' => ['stripattachments', 'string'],
+		'{DAV:}displayname' => ['displayname', 'string', 100],
+		'{http://apple.com/ns/ical/}refreshrate' => ['refreshrate', 'string', 10],
+		'{http://apple.com/ns/ical/}calendar-order' => ['calendarorder', 'int', 0],
+		'{http://apple.com/ns/ical/}calendar-color' => ['calendarcolor', 'string', 255],
+		'{http://calendarserver.org/ns/}subscribed-strip-todos' => ['striptodos', 'bool', 0],
+		'{http://calendarserver.org/ns/}subscribed-strip-alarms' => ['stripalarms', 'bool', 0],
+		'{http://calendarserver.org/ns/}subscribed-strip-attachments' => ['stripattachments', 'bool', 0],
 	];
 
 	/**
@@ -3040,9 +3040,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$propertiesBoolean = ['striptodos', 'stripalarms', 'stripattachments'];
 
-		foreach ($this->subscriptionPropertyMap as $xmlName => [$dbName, $type]) {
+		foreach ($this->subscriptionPropertyMap as $xmlName => [$dbName, $type, $length]) {
 			if (array_key_exists($xmlName, $properties)) {
-				$values[$dbName] = $properties[$xmlName];
+				if ($type == 'string') {
+					$values[$dbName] = mb_substr($properties[$xmlName], 0, $length);
+				} else {
+					$values[$dbName] = $properties[$xmlName];
+				}
+
 				if (in_array($dbName, $propertiesBoolean)) {
 					$values[$dbName] = true;
 				}
@@ -3099,7 +3104,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$newValues['source'] = $propertyValue->getHref();
 				} else {
 					$fieldName = $this->subscriptionPropertyMap[$propertyName][0];
-					$newValues[$fieldName] = $propertyValue;
+					$fieldType = $this->subscriptionPropertyMap[$propertyName][1];
+
+					if ($fieldType === 'string') {
+						$fieldLength = $this->subscriptionPropertyMap[$propertyName][2];
+						$newValues[$fieldName] = mb_substr($propertyValue, 0, $fieldLength);
+					} else {
+						$newValues[$fieldName] = $propertyValue;
+					}
 				}
 			}
 

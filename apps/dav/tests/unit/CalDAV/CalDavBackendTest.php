@@ -729,6 +729,30 @@ EOD;
 		$this->assertCount(0, $subscriptions);
 	}
 
+	public function testSubscriptionsHugeProps(): void {
+		$first_longname = 'This is a very long name, longer than 100 characters, used on purpose with the intention to test truncation';
+		$second_longname = 'Another very long name, longer than 100 characters, used to test truncation while updating the subscription';
+
+		$id = $this->backend->createSubscription(self::UNIT_TEST_USER, 'Subscription', [
+			'{DAV:}displayname' => $first_longname,
+			'{http://calendarserver.org/ns/}source' => new Href('test-source'),
+			'{http://apple.com/ns/ical/}calendar-color' => '#1C4587',
+			'{http://calendarserver.org/ns/}subscribed-strip-todos' => ''
+		]);
+
+		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(mb_substr($first_longname, 0, 100), $subscriptions[0]['{DAV:}displayname']);
+
+		$patch = new PropPatch([
+			'{DAV:}displayname' => $second_longname,
+		]);
+		$this->backend->updateSubscription($id, $patch);
+		$patch->commit();
+
+		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(mb_substr($second_longname, 0, 100), $subscriptions[0]['{DAV:}displayname']);
+	}
+
 	public static function providesSchedulingData(): array {
 		$data = <<<EOS
 BEGIN:VCALENDAR
