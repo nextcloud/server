@@ -75,15 +75,13 @@ export const useAuthTokenStore = defineStore('auth-token', {
 		async addToken(name: string) {
 			logger.debug('Creating a new app token')
 
-			try {
-				const { data } = await axios.post<ITokenResponse>(BASE_URL, { name, oneTime: true }, { confirmPassword: PwdConfirmationMode.Strict })
+			// Let the failure reach the caller: AuthTokenSetup is the one that
+			// reports it, the same way updateToken leaves reporting to its callers.
+			const { data } = await axios.post<ITokenResponse>(BASE_URL, { name, oneTime: true }, { confirmPassword: PwdConfirmationMode.Strict })
 
-				this.tokens.push(data.deviceToken)
-				logger.debug('App token created')
-				return data
-			} catch {
-				return null
-			}
+			this.tokens.push(data.deviceToken)
+			logger.debug('App token created')
+			return data
 		},
 
 		/**
