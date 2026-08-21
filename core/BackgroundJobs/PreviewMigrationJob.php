@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\BackgroundJobs;
 
+use OC\Preview\Db\Preview;
 use OC\Preview\PreviewMigrationService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
