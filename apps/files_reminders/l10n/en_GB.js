@@ -10,6 +10,8 @@ OC.L10N.register(
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder.",
     "Set file reminders" : "Set file reminders",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly.",
+    "We reminded you of this file {relativeDueDate}" : "We reminded you of this file {relativeDueDate}",
+    "We will remind you of this file {relativeDueDate}" : "We will remind you of this file {relativeDueDate}",
     "Please choose a valid date & time" : "Please choose a valid date & time",
     "Reminder set for \"{fileName}\"" : "Reminder set for \"{fileName}\"",
     "Failed to set reminder" : "Failed to set reminder",

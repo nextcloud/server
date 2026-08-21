@@ -2,6 +2,7 @@ OC.L10N.register(
     "oauth2",
     {
     "Your client is not authorized to connect. Please inform the administrator of your client." : "Votre client n'est pas autorisé à se connecter. Veuillez en informer l'administrateur.",
+    "Client name cannot be empty." : "Le nom du client ne peut pas être vide.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Votre adresse de redirection doit être une URL complète, par exemple: https://example.com/chemin",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Autoriser l'authentification compatible OAuth2 depuis d'autres applications web.",

@@ -10,6 +10,8 @@ OC.L10N.register(
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "「files_reminder」應用程式需要通知應用程式才能正常運作。您應該啟用通知或停用 files_reminder。",
     "Set file reminders" : "設定檔案提醒",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 檔案提醒**\n\n設定檔案提醒。\n\n注意：要使用「檔案提醒」應用程式，請確定已安裝並啟用「通知」應用程式。「通知」應用程式提供必要的 API，讓「檔案提醒」應用程式能正常運作。",
+    "We reminded you of this file {relativeDueDate}" : "我們已於 {relativeDueDate} 提醒你此檔案。",
+    "We will remind you of this file {relativeDueDate}" : "我們會提醒您此檔案 {relativeDueDate}",
     "Please choose a valid date & time" : "請選擇有效的日期與時間",
     "Reminder set for \"{fileName}\"" : "「{fileName}」的提醒設定",
     "Failed to set reminder" : "設定提醒失敗",
