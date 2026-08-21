@@ -308,7 +308,7 @@
     "Weekdays" : "Hafta içi günleri",
     "Pick a start time for {dayName}" : "{dayName} için başlangıç zamanını seçin",
     "Pick a end time for {dayName}" : "{dayName} için bitiş zamanını seçin",
-    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Tüm bildirimleri sessize almak için, uygunluk durumu dışında kullanıcı durumu otomatik olarak \"Rahatsız etmeyin\" olarak ayarlanır.",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Tüm bildirimleri kapatmak için, uygunluk durumu dışında kullanıcı durumu otomatik olarak \"Rahatsız etmeyin\" olarak ayarlanır.",
     "Cancel" : "İptal",
     "Import" : "İçe aktar",
     "Error while saving settings" : "Ayarlar kaydedilirken sorun çıktı",
