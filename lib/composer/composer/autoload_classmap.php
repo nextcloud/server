@@ -1056,6 +1056,7 @@ return array(
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextSummary' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextSummary.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextTopics' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextTopics.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextTranslate' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextTranslate.php',
+    'OCP\\Teams\\ITeamFileResolver' => $baseDir . '/lib/public/Teams/ITeamFileResolver.php',
     'OCP\\Teams\\ITeamFolderProvider' => $baseDir . '/lib/public/Teams/ITeamFolderProvider.php',
     'OCP\\Teams\\ITeamManager' => $baseDir . '/lib/public/Teams/ITeamManager.php',
     'OCP\\Teams\\ITeamResourceProvider' => $baseDir . '/lib/public/Teams/ITeamResourceProvider.php',
