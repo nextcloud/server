@@ -15,20 +15,24 @@ use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class StatusesControllerTest extends TestCase {
 	private StatusService&MockObject $service;
+	private IRequest&MockObject $request;
+	private IURLGenerator&MockObject $urlGenerator;
 	private StatusesController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$request = $this->createMock(IRequest::class);
+		$this->request = $this->createMock(IRequest::class);
 		$this->service = $this->createMock(StatusService::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
-		$this->controller = new StatusesController('user_status', $request, $this->service);
+		$this->controller = new StatusesController('user_status', $this->request, $this->service, $this->urlGenerator);
 	}
 
 	public function testFindAll(): void {
@@ -47,6 +51,49 @@ class StatusesControllerTest extends TestCase {
 			'message' => 'On vacation',
 			'clearAt' => 60000,
 		]], $response->getData());
+		$this->assertArrayNotHasKey('Link', $response->getHeaders());
+	}
+
+	public function testFindAllWithLastId(): void {
+		$userStatus = $this->getUserStatus();
+
+		$this->service->expects($this->once())
+			->method('findAllAfterId')
+			->with(20, 1336)
+			->willReturn([$userStatus]);
+		$this->service->expects($this->never())
+			->method('findAll');
+
+		$response = $this->controller->findAll(20, null, 1336);
+		$this->assertEquals([[
+			'userId' => 'john.doe',
+			'status' => 'offline',
+			'icon' => '🏝',
+			'message' => 'On vacation',
+			'clearAt' => 60000,
+		]], $response->getData());
+		$this->assertArrayNotHasKey('Link', $response->getHeaders());
+	}
+
+	public function testFindAllWithLastIdHasMoreResults(): void {
+		$userStatus = $this->getUserStatus();
+
+		$this->service->expects($this->once())
+			->method('findAllAfterId')
+			->with(1, 1336)
+			->willReturn([$userStatus]);
+
+		$this->request->method('getRequestUri')
+			->willReturn('/ocs/v2.php/apps/user_status/api/v1/statuses?limit=1&lastId=1336');
+		$this->urlGenerator->method('getAbsoluteURL')
+			->with('/ocs/v2.php/apps/user_status/api/v1/statuses')
+			->willReturn('https://cloud.example.com/ocs/v2.php/apps/user_status/api/v1/statuses');
+
+		$response = $this->controller->findAll(1, null, 1336);
+		$this->assertSame(
+			'<https://cloud.example.com/ocs/v2.php/apps/user_status/api/v1/statuses?limit=1&lastId=1337>; rel="next"',
+			$response->getHeaders()['Link']
+		);
 	}
 
 	public function testFind(): void {

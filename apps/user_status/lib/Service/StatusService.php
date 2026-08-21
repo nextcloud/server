@@ -99,6 +99,24 @@ class StatusService {
 
 	/**
 	 * @param int|null $limit
+	 * @param int|null $lastId Id of the last status from the previous page, or null to fetch the first page
+	 * @return UserStatus[]
+	 */
+	public function findAllAfterId(?int $limit = null, ?int $lastId = null): array {
+		// Return empty array if user enumeration is disabled or limited to groups
+		// TODO: find a solution that scales to get only users from common groups if user enumeration is limited to
+		//       groups. See discussion at https://github.com/nextcloud/server/pull/27879#discussion_r729715936
+		if (!$this->shareeEnumeration || $this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone) {
+			return [];
+		}
+
+		return array_map(function ($status) {
+			return $this->processStatus($status);
+		}, $this->mapper->findAllAfterId($limit, $lastId));
+	}
+
+	/**
+	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return array
 	 */

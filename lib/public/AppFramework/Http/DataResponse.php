@@ -42,7 +42,7 @@ class DataResponse extends Response {
 	 * Sets values in the data json array
 	 * @psalm-suppress InvalidTemplateParam
 	 * @param T $data an array or object which will be transformed
-	 * @return DataResponse Reference to this object
+	 * @return $this Reference to this object
 	 * @since 8.0.0
 	 */
 	public function setData($data) {

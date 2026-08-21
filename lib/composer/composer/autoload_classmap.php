@@ -1207,6 +1207,7 @@ return array(
     'OC\\AppFramework\\Http\\Attributes\\TwoFactorSetUpDoneRequired' => $baseDir . '/lib/private/AppFramework/Http/Attributes/TwoFactorSetUpDoneRequired.php',
     'OC\\AppFramework\\Http\\Dispatcher' => $baseDir . '/lib/private/AppFramework/Http/Dispatcher.php',
     'OC\\AppFramework\\Http\\Output' => $baseDir . '/lib/private/AppFramework/Http/Output.php',
+    'OC\\AppFramework\\Http\\PaginationTrait' => $baseDir . '/lib/private/AppFramework/Http/PaginationTrait.php',
     'OC\\AppFramework\\Http\\Request' => $baseDir . '/lib/private/AppFramework/Http/Request.php',
     'OC\\AppFramework\\Http\\RequestId' => $baseDir . '/lib/private/AppFramework/Http/RequestId.php',
     'OC\\AppFramework\\Middleware\\AdditionalScriptsMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/AdditionalScriptsMiddleware.php',

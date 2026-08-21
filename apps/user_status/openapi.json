@@ -472,6 +472,7 @@
             "get": {
                 "operationId": "statuses-find-all",
                 "summary": "Find statuses of users",
+                "description": "Prefer $lastId over $offset: it does not require the database to scan and discard every preceding row on every call.",
                 "tags": [
                     "statuses"
                 ],
@@ -508,6 +509,18 @@
                         }
                     },
                     {
+                        "name": "lastId",
+                        "in": "query",
+                        "description": "Id of the last status returned by the previous page; when given, keyset pagination is used and $offset is ignored",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true,
+                            "default": null,
+                            "minimum": 0
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -521,6 +534,13 @@
                 "responses": {
                     "200": {
                         "description": "Statuses returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {

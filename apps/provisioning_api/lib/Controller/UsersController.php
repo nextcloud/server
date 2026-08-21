@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
+use OC\AppFramework\Http\PaginationTrait;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Group\Group;
@@ -62,6 +63,7 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type Provisioning_APIUserDetailsGroupDisplayname from ResponseDefinitions
  */
 class UsersController extends AUserDataOCSController {
+	use PaginationTrait;
 
 	private IL10N $l10n;
 
@@ -111,7 +113,7 @@ class UsersController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @return DataResponse<Http::STATUS_OK, array{users: list<string>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: list<string>}, array{Link?: string}>
 	 *
 	 * 200: Users returned
 	 */
@@ -142,9 +144,12 @@ class UsersController extends AUserDataOCSController {
 		/** @var list<string> $users */
 		$users = array_keys($users);
 
+		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse([
 			'users' => $users
-		]);
+		], headers: $headers);
 	}
 
 	/**
@@ -153,7 +158,7 @@ class UsersController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>, groups: list<Provisioning_APIUserDetailsGroupDisplayname>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>, groups: list<Provisioning_APIUserDetailsGroupDisplayname>}, array{Link?: string}>
 	 *
 	 * 200: Users details returned
 	 */
@@ -204,10 +209,13 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
+		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse([
 			'users' => $usersDetails,
 			'groups' => $this->findGroupsWithDisplayname($usersDetails),
-		]);
+		], headers: $headers);
 	}
 
 	/**
@@ -216,7 +224,7 @@ class UsersController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of users returned
 	 * @param int $offset Offset
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{Link?: string}>
 	 *
 	 * 200: Disabled users details returned
 	 */
@@ -287,9 +295,12 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
+		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse([
 			'users' => $usersDetails
-		]);
+		], headers: $headers);
 	}
 
 	/**
@@ -298,7 +309,7 @@ class UsersController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of users returned
 	 * @param int $offset Offset
-	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{Link?: string}>
 	 *
 	 * 200: Users details returned based on last logged in information
 	 */
@@ -344,9 +355,12 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
+		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+			'search' => $search,
+		], $limit, $offset);
 		return new DataResponse([
 			'users' => $usersDetails
-		]);
+		], headers: $headers);
 	}
 
 	/**
