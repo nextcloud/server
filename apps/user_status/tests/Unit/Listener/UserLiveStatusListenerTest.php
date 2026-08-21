@@ -136,6 +136,9 @@ class UserLiveStatusListenerTest extends TestCase {
 			['john.doe', 'online', 5000, false, 'away', 5000, true, false],
 			['john.doe', 'away', 5000, true, 'online', 5000, true, false],
 			['john.doe', 'online', 5000, true, 'away', 5000, true, false],
+			// a status older than REFRESH_STATUS_THRESHOLD is refreshed, a younger one is not
+			['john.doe', 'online', 4500, false, 'online', 5000, true, true],
+			['john.doe', 'online', 4700, false, 'online', 5000, true, false],
 		];
 	}
 }
