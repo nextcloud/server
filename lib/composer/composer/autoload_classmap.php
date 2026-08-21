@@ -375,6 +375,7 @@ return array(
     'OCP\\ContextChat\\Events\\ContentProviderRegisterEvent' => $baseDir . '/lib/public/ContextChat/Events/ContentProviderRegisterEvent.php',
     'OCP\\ContextChat\\IContentManager' => $baseDir . '/lib/public/ContextChat/IContentManager.php',
     'OCP\\ContextChat\\IContentProvider' => $baseDir . '/lib/public/ContextChat/IContentProvider.php',
+    'OCP\\ContextChat\\IContentProviderWithSearchTask' => $baseDir . '/lib/public/ContextChat/IContentProviderWithSearchTask.php',
     'OCP\\ContextChat\\Type\\UpdateAccessOp' => $baseDir . '/lib/public/ContextChat/Type/UpdateAccessOp.php',
     'OCP\\DB\\Events\\AddMissingColumnsEvent' => $baseDir . '/lib/public/DB/Events/AddMissingColumnsEvent.php',
     'OCP\\DB\\Events\\AddMissingIndicesEvent' => $baseDir . '/lib/public/DB/Events/AddMissingIndicesEvent.php',

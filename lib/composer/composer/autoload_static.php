@@ -416,6 +416,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\ContextChat\\Events\\ContentProviderRegisterEvent' => __DIR__ . '/../../..' . '/lib/public/ContextChat/Events/ContentProviderRegisterEvent.php',
         'OCP\\ContextChat\\IContentManager' => __DIR__ . '/../../..' . '/lib/public/ContextChat/IContentManager.php',
         'OCP\\ContextChat\\IContentProvider' => __DIR__ . '/../../..' . '/lib/public/ContextChat/IContentProvider.php',
+        'OCP\\ContextChat\\IContentProviderWithSearchTask' => __DIR__ . '/../../..' . '/lib/public/ContextChat/IContentProviderWithSearchTask.php',
         'OCP\\ContextChat\\Type\\UpdateAccessOp' => __DIR__ . '/../../..' . '/lib/public/ContextChat/Type/UpdateAccessOp.php',
         'OCP\\DB\\Events\\AddMissingColumnsEvent' => __DIR__ . '/../../..' . '/lib/public/DB/Events/AddMissingColumnsEvent.php',
         'OCP\\DB\\Events\\AddMissingIndicesEvent' => __DIR__ . '/../../..' . '/lib/public/DB/Events/AddMissingIndicesEvent.php',
