@@ -46,6 +46,7 @@ OC.L10N.register(
     "Collaborative tagging functionality which shares tags among people." : "Bendradarbiavimo žymėjimo funkcija, kuri dalijasi žymėmis su žmonėmis.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Bendradarbiavimo žymėjimo funkcija, leidžianti bendrinti žymes su kitais žmonėmis. Puikiai tinka komandoms.\n\t(Jei esate paslaugų teikėjas, turintis daugiavartotojišką sistemą, patariama išjungti šią programėlę, nes žymės yra bendrinamos.)",
     "Search tags" : "Ieškoti žymų",
+    "No tags available" : "Nėra jokių žymų",
     "Public" : "Vieša",
     "Restricted" : "Apribota",
     "Invisible" : "Nematoma",
