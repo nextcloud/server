@@ -11,6 +11,7 @@ namespace OC\Console;
 use ArgumentCountError;
 use OC\MemoryInfo;
 use OC\NeedsUpdateException;
+use OC\PhpDumpCache;
 use OC\SystemConfig;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
@@ -43,6 +44,7 @@ class Application {
 		private MemoryInfo $memoryInfo,
 		private IAppManager $appManager,
 		private Defaults $defaults,
+		private PhpDumpCache $dumpCache,
 	) {
 		$this->application = new SymfonyApplication($defaults->getName(), $serverVersion->getVersionString());
 	}
@@ -83,11 +85,11 @@ class Application {
 		}
 
 		try {
-			require_once __DIR__ . '/../../../core/register_command.php';
 			if ($this->config->getSystemValueBool('installed', false)) {
 				if (Util::needUpgrade()) {
 					throw new NeedsUpdateException();
 				} elseif ($this->config->getSystemValueBool('maintenance')) {
+					require_once __DIR__ . '/../../../core/register_command.php';
 					if ($this->appManager->isEnabledForAnyone('app_api')) {
 						// AppAPI must stay usable during maintenance mode;
 						// loading commands from register_command.php is intentionally skipped.
@@ -106,6 +108,16 @@ class Application {
 					}
 					$this->writeMaintenanceModeInfo($input, $output);
 				} else {
+					$cachedCommandList = $this->dumpCache->loadCache([self::class]);
+					if (is_array($cachedCommandList)) {
+						$firstArg = $input->getArgument('command');
+						if ($firstArg !== null && isset($cachedCommandList[$firstArg])) {
+							$this->appManager->loadApps();
+							$this->application->add(Server::get($cachedCommandList[$firstArg]));
+							return;
+						}
+					}
+					require_once __DIR__ . '/../../../core/register_command.php';
 					$this->appManager->loadApps();
 					foreach ($this->appManager->getEnabledApps() as $app) {
 						try {
@@ -126,7 +138,6 @@ class Application {
 							}
 						}
 						// load from register_command.php
-						\OC_App::registerAutoloading($app, $appPath);
 						$file = $appPath . '/appinfo/register_command.php';
 						if (file_exists($file)) {
 							try {
@@ -151,6 +162,9 @@ class Application {
 			}
 		}
 
+		/* To cover branches from above if that skipped register_command */
+		require_once __DIR__ . '/../../../core/register_command.php';
+
 		if ($input->getFirstArgument() !== 'check') {
 			$errors = \OC_Util::checkServer(Server::get(SystemConfig::class));
 			if (!empty($errors)) {
@@ -162,6 +176,19 @@ class Application {
 				throw new \Exception('Environment not properly prepared.');
 			}
 		}
+		$commands = $this->application->all();
+		$cache = [];
+		foreach ($commands as $command) {
+			$name = $command->getName();
+			if ($name !== null) {
+				$cache[$name] = $command::class;
+			}
+
+			foreach ($command->getAliases() as $alias) {
+				$cache[$alias] = $command::class;
+			}
+		}
+		$this->dumpCache->saveCache([self::class], $cache);
 	}
 
 	/**
