@@ -70,7 +70,7 @@
 				@mouseenter="onPopoverPointerEnter"
 				@mouseleave="onPointerLeave">
 				<div ref="grid" class="app-menu__grid" @keydown="onGridKeydown">
-					<AppItem
+					<AppMenuItem
 						v-for="(item, i) in gridItems"
 						:key="item.id"
 						ref="items"
@@ -79,6 +79,10 @@
 						:new-tab="item.id === 'app-store'"
 						:tabindex="i === focusedIndex ? 0 : -1" />
 				</div>
+				<AppMenuActions
+					v-if="navigationActions.length > 0"
+					:actions="navigationActions"
+					@click="opened = false" />
 			</div>
 		</NcPopover>
 	</nav>
@@ -97,7 +101,8 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
 import IconCog from 'vue-material-design-icons/Cog.vue'
 import IconDotsGrid from 'vue-material-design-icons/DotsGrid.vue'
-import AppItem from './AppItem.vue'
+import AppMenuActions from './AppMenuActions.vue'
+import AppMenuItem from './AppMenuItem.vue'
 import logger from '../logger.js'
 
 // Settings IDs that represent actions, not navigable pages.
@@ -122,7 +127,8 @@ export default defineComponent({
 	name: 'AppMenu',
 
 	components: {
-		AppItem,
+		AppMenuActions,
+		AppMenuItem,
 		IconCog,
 		IconDotsGrid,
 		NcButton,
@@ -140,11 +146,11 @@ export default defineComponent({
 
 	data() {
 		const appList = loadState<INavigationEntry[]>('core', 'apps', [])
-		// Record<id, entry>, not an array: PHP ships getAll('settings') without
-		// array_values(). Matches AccountMenu.vue's usage.
+		const navigationActions = loadState<INavigationEntry[]>('core', 'navigationActions', [])
 		const settingsList = loadState<Record<string, INavigationEntry>>('core', 'settingsNavEntries', {})
 		return {
 			appList,
+			navigationActions,
 			settingsList,
 			isAdmin: getCurrentUser()?.isAdmin ?? false,
 			// Roving tabindex: only this tile has tabindex=0; arrow keys move it.
@@ -680,13 +686,20 @@ export default defineComponent({
 	}
 
 	&__popover {
+		// Shared by the app grid and the actions row below it, so both use the
+		// same column raster.
+		--app-item-col-width: 69px;
+		--app-item-row-height: calc(15 * var(--default-grid-baseline) + 1.5 * var(--default-font-size)); // 12x for icon + 3x for padding + text
+		// Column flex so the actions row keeps its height and the grid owns
+		// the remaining space (and the scrolling).
+		display: flex;
+		flex-direction: column;
+		max-height: calc(100vh - var(--header-height) - var(--default-grid-baseline));
 		max-width: calc(100vw - var(--default-grid-baseline) * 4);
 		background-color: var(--color-main-background);
 	}
 
 	&__grid {
-		--app-item-col-width: 69px;
-		--app-item-row-height: 72px;
 		// border-box: the JS-set max-height (see recomputeGridMaxHeight)
 		// needs to include padding for the peek math to hold.
 		box-sizing: border-box;
@@ -694,6 +707,9 @@ export default defineComponent({
 		display: grid;
 		grid-template-columns: repeat(4, var(--app-item-col-width));
 		grid-auto-rows: minmax(var(--app-item-row-height), max-content);
+		// Allows the grid to shrink below its content height inside the
+		// column flex parent, so the scroll cap always applies.
+		min-height: 0;
 		// max-height set inline by recomputeGridMaxHeight(); CSS just owns the scroll.
 		overflow-y: auto;
 		overflow-x: hidden;

@@ -29,7 +29,21 @@ namespace OC\Core;
  *     order?: int,
  *     href: string,
  *     icon: string,
- *     type: string,
+ *     type: 'link',
+ *     name: string,
+ *     app?: string,
+ *     default?: bool,
+ *     active: bool,
+ *     classes: string,
+ *     unread: int,
+ * }
+ *
+ * @psalm-type CoreNavigationSettingsEntry = array{
+ *     id: string,
+ *     order?: int,
+ *     href: string,
+ *     icon: string,
+ *     type: 'settings',
  *     name: string,
  *     app?: string,
  *     default?: bool,

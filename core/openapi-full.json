@@ -263,7 +263,63 @@
                         "type": "string"
                     },
                     "type": {
+                        "type": "string",
+                        "enum": [
+                            "link"
+                        ]
+                    },
+                    "name": {
                         "type": "string"
+                    },
+                    "app": {
+                        "type": "string"
+                    },
+                    "default": {
+                        "type": "boolean"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    },
+                    "classes": {
+                        "type": "string"
+                    },
+                    "unread": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "NavigationSettingsEntry": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "href",
+                    "icon",
+                    "type",
+                    "name",
+                    "active",
+                    "classes",
+                    "unread"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "order": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "href": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "settings"
+                        ]
                     },
                     "name": {
                         "type": "string"
@@ -3506,7 +3562,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/NavigationEntry"
+                                                        "$ref": "#/components/schemas/NavigationSettingsEntry"
                                                     }
                                                 }
                                             }
