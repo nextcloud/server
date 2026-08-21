@@ -75,12 +75,13 @@ class SystemAddressBookTest extends TestCase {
 	}
 
 	public function testGetChildrenAsGuest(): void {
-		$this->config->expects(self::exactly(3))
+		$this->config->expects(self::exactly(4))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user');
@@ -115,12 +116,13 @@ VCF;
 	}
 
 	public function testGetFilteredChildForFederation(): void {
-		$this->config->expects(self::exactly(3))
+		$this->config->expects(self::exactly(4))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 		$this->trustedServers->expects(self::once())
 			->method('getServers')
@@ -164,12 +166,13 @@ VCF;
 	}
 
 	public function testGetChildNotFound(): void {
-		$this->config->expects(self::exactly(3))
+		$this->config->expects(self::exactly(4))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 		$this->trustedServers->expects(self::once())
 			->method('getServers')
@@ -184,12 +187,13 @@ VCF;
 	}
 
 	public function testGetChildWithoutEnumeration(): void {
-		$this->config->expects(self::exactly(3))
+		$this->config->expects(self::exactly(4))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 		$this->expectException(Forbidden::class);
 
@@ -197,12 +201,13 @@ VCF;
 	}
 
 	public function testGetChildAsGuest(): void {
-		$this->config->expects(self::exactly(3))
+		$this->config->expects(self::exactly(4))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 		$user = $this->createMock(IUser::class);
 		$user->method('getBackendClassName')->willReturn('Guests');
@@ -215,12 +220,13 @@ VCF;
 	}
 
 	public function testGetChildWithGroupEnumerationRestriction(): void {
-		$this->config->expects(self::exactly(3))
+		$this->config->expects(self::exactly(4))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 		$user = $this->createMock(IUser::class);
 		$user->method('getBackendClassName')->willReturn('LDAP');
@@ -257,13 +263,130 @@ VCF;
 		$this->addressBook->getChild("{$otherUser->getBackendClassName()}:{$otherUser->getUID()}.vcf");
 	}
 
+	public function testGetChildWithOwnGroupsOnlyRestriction(): void {
+		$this->config->expects(self::exactly(5))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]', '[]'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getBackendClassName')->willReturn('LDAP');
+		$this->userSession->expects(self::once())
+			->method('getUser')
+			->willReturn($user);
+		$otherUser = $this->createMock(IUser::class);
+		$otherUser->method('getUID')->willReturn('other');
+		$otherUser->method('getBackendClassName')->willReturn('LDAP');
+		$group = $this->createMock(IGroup::class);
+		$group->expects(self::once())
+			->method('getUsers')
+			->willReturn([$otherUser]);
+		$this->groupManager->expects(self::once())
+			->method('getUserGroups')
+			->with($user)
+			->willReturn([$group]);
+		$cardData = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Sabre//Sabre VObject 4.4.2//EN
+UID:admin
+FN;X-NC-SCOPE=v2-federated:other
+END:VCARD
+VCF;
+		$this->cardDavBackend->expects(self::once())
+			->method('getCard')
+			->with($this->addressBookInfo['id'], "{$otherUser->getBackendClassName()}:{$otherUser->getUID()}.vcf")
+			->willReturn([
+				'id' => 123,
+				'carddata' => $cardData,
+			]);
+
+		$this->addressBook->getChild("{$otherUser->getBackendClassName()}:{$otherUser->getUID()}.vcf");
+	}
+
+	public function testGetChildForbiddenWithOwnGroupsOnlyRestriction(): void {
+		$this->config->expects(self::exactly(5))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]', '[]'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getBackendClassName')->willReturn('LDAP');
+		$this->userSession->expects(self::once())
+			->method('getUser')
+			->willReturn($user);
+		$this->groupManager->expects(self::once())
+			->method('getUserGroups')
+			->with($user)
+			->willReturn([]);
+		$this->expectException(Forbidden::class);
+
+		$this->addressBook->getChild('LDAP:other.vcf');
+	}
+
+	/**
+	 * A user who belongs to an excluded group is entirely exempt from the
+	 * 'shareapi_only_share_with_group_members' restriction, so they can reach
+	 * any card, not just ones sharing a (non-excluded) group with them.
+	 */
+	public function testGetChildBypassesOwnGroupsOnlyForExcludedGroupMember(): void {
+		$this->config->expects(self::exactly(5))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]', '["excluded"]'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getBackendClassName')->willReturn('LDAP');
+		$this->userSession->expects(self::once())
+			->method('getUser')
+			->willReturn($user);
+		$this->groupManager->expects(self::once())
+			->method('getUserGroupIds')
+			->with($user)
+			->willReturn(['excluded']);
+		$this->groupManager->expects(self::never())
+			->method('getUserGroups');
+		// No matching shared secret -> isFederation() is false, so the plain (non-federation) path runs
+		$this->trustedServers->method('getServers')->willReturn([]);
+		$cardData = <<<VCF
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Sabre//Sabre VObject 4.4.2//EN
+UID:admin
+FN;X-NC-SCOPE=v2-federated:other
+END:VCARD
+VCF;
+		$this->cardDavBackend->expects(self::once())
+			->method('getCard')
+			->with($this->addressBookInfo['id'], 'LDAP:other.vcf')
+			->willReturn([
+				'id' => 123,
+				'carddata' => $cardData,
+			]);
+
+		$this->addressBook->getChild('LDAP:other.vcf');
+	}
+
 	public function testGetChildWithPhoneNumberEnumerationRestriction(): void {
-		$this->config->expects(self::exactly(3))
+		$this->config->expects(self::exactly(4))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 		$user = $this->createMock(IUser::class);
 		$user->method('getBackendClassName')->willReturn('LDAP');
@@ -276,12 +399,13 @@ VCF;
 	}
 
 	public function testGetOwnChildWithPhoneNumberEnumerationRestriction(): void {
-		$this->config->expects(self::exactly(3))
+		$this->config->expects(self::exactly(4))
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 		$user = $this->createMock(IUser::class);
 		$user->method('getBackendClassName')->willReturn('LDAP');
@@ -315,6 +439,7 @@ VCF;
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user');
@@ -364,6 +489,133 @@ VCF;
 		self::assertCount(2, $cards);
 	}
 
+	public function testGetMultipleChildrenWithOwnGroupsOnlyRestriction(): void {
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]', '[]'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user');
+		$user->method('getBackendClassName')->willReturn('LDAP');
+		$other1 = $this->createMock(IUser::class);
+		$other1->method('getUID')->willReturn('other1');
+		$other1->method('getBackendClassName')->willReturn('LDAP');
+		$other2 = $this->createMock(IUser::class);
+		$other2->method('getUID')->willReturn('other2');
+		$other2->method('getBackendClassName')->willReturn('LDAP');
+		$this->userSession
+			->method('getUser')
+			->willReturn($user);
+		$group1 = $this->createMock(IGroup::class);
+		$group1
+			->method('getUsers')
+			->willReturn([$user, $other1]);
+		$this->groupManager
+			->method('getUserGroups')
+			->with($user)
+			->willReturn([$group1]);
+		$this->cardDavBackend->expects(self::once())
+			->method('getMultipleCards')
+			->with($this->addressBookInfo['id'], [
+				SyncService::getCardUri($user),
+				SyncService::getCardUri($other1),
+			])
+			->willReturn([
+				[],
+				[],
+			]);
+
+		$cards = $this->addressBook->getMultipleChildren([
+			SyncService::getCardUri($user),
+			SyncService::getCardUri($other1),
+			SyncService::getCardUri($other2), // No overlapping group with this one
+		]);
+
+		self::assertCount(2, $cards);
+	}
+
+	public function testGetMultipleChildrenBypassesOwnGroupsOnlyForExcludedGroupMember(): void {
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]', '["excluded"]'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user');
+		$user->method('getBackendClassName')->willReturn('LDAP');
+		$this->userSession
+			->method('getUser')
+			->willReturn($user);
+		$this->groupManager
+			->method('getUserGroupIds')
+			->with($user)
+			->willReturn(['excluded']);
+		$this->groupManager->expects(self::never())
+			->method('getUserGroups');
+		// No matching shared secret -> isFederation() is false, so the plain (non-federation) path runs
+		$this->trustedServers->method('getServers')->willReturn([]);
+		$this->cardDavBackend->expects(self::once())
+			->method('getMultipleCards')
+			->with($this->addressBookInfo['id'], ['Database:other.vcf'])
+			->willReturn([[]]);
+
+		$cards = $this->addressBook->getMultipleChildren(['Database:other.vcf']);
+
+		self::assertCount(1, $cards);
+	}
+
+	public function testGetChildrenWithOwnGroupsOnlyRestriction(): void {
+		$this->config
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]', '[]'],
+			]);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user');
+		$user->method('getBackendClassName')->willReturn('LDAP');
+		$other1 = $this->createMock(IUser::class);
+		$other1->method('getUID')->willReturn('other1');
+		$other1->method('getBackendClassName')->willReturn('LDAP');
+		$this->userSession
+			->method('getUser')
+			->willReturn($user);
+		$group1 = $this->createMock(IGroup::class);
+		$group1
+			->method('getUsers')
+			->willReturn([$user, $other1]);
+		$this->groupManager
+			->method('getUserGroups')
+			->with($user)
+			->willReturn([$group1]);
+		$this->cardDavBackend->expects(self::once())
+			->method('getMultipleCards')
+			->with($this->addressBookInfo['id'], [
+				SyncService::getCardUri($user),
+				SyncService::getCardUri($other1),
+			])
+			->willReturn([
+				[],
+				[],
+			]);
+
+		$cards = $this->addressBook->getChildren();
+
+		self::assertCount(2, $cards);
+	}
+
 	public function testGetMultipleChildrenAsGuest(): void {
 		$this->config
 			->method('getAppValue')
@@ -371,6 +623,7 @@ VCF;
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user');
@@ -391,6 +644,7 @@ VCF;
 				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_to_phone', 'no', 'no'],
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
 			]);
 		$this->trustedServers
 			->method('getServers')
