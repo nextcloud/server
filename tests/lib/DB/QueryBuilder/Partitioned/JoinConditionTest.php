@@ -72,4 +72,18 @@ class JoinConditionTest extends TestCase {
 		$this->assertEquals('f.fileid', $parsed->toColumn);
 		$this->assertEquals([], $parsed->fromConditions);
 	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('platformProvider')]
+	public function testParseStringCastCondition(string $platform): void {
+		$query = $this->getBuilder($platform);
+
+		// Mirrors the systemtag<->filecache join: the string objectid column is compared
+		// to fileid cast to a string (so the index on objectid stays usable). The string
+		// cast must be stripped on every platform when parsing the join condition.
+		$condition = $query->expr()->eq('m.objectid', $query->expr()->castColumn('f.fileid', IQueryBuilder::PARAM_STR));
+		$parsed = JoinCondition::parse($condition, 'filecache', 'f', 'm');
+		$this->assertEquals('m.objectid', $parsed->fromColumn);
+		$this->assertEquals('f.fileid', $parsed->toColumn);
+		$this->assertEquals([], $parsed->fromConditions);
+	}
 }
