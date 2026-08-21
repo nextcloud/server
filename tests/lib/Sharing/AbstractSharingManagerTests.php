@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\Exception\ShareNotFoundException;
+use NCU\Sharing\Exception\ShareOperationForbiddenException;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\SharePermission;
@@ -41,7 +43,9 @@ use Test\TestCase;
  * @psalm-suppress PossiblyUndefinedArrayOffset
  */
 abstract class AbstractSharingManagerTests extends TestCase {
-	abstract protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?Share $forShare = null): array;
+	abstract protected function searchRecipients(
+		ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?Share $forShare = null,
+	): array;
 
 	/**
 	 * @return SharingShare
@@ -103,7 +107,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	/**
 	 * @return SharingShare[]
 	 */
-	abstract protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array;
+	abstract protected function getShares(
+		ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit,
+	): array;
 
 	protected IDBConnection $dbConnection;
 
@@ -117,9 +123,14 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	protected IUser $user2;
 
+	protected TestShareSourceType1 $shareSourceType1;
+
+	protected TestShareSourceType2 $shareSourceType2;
+
 	protected IFactory $l10nFactory;
 
-	private function parseTime(string $timestampMs): \DateTimeImmutable {
+	private function parseTime(mixed $timestampMs): \DateTimeImmutable {
+		$timestampMs = (int)$timestampMs;
 		$time = \DateTimeImmutable::createFromFormat('U.u', number_format((float)$timestampMs / 1000.0, 3, '.', ''));
 		if ($time === false) {
 			throw new \RuntimeException('invalid timestamp: ' . $timestampMs);
@@ -162,30 +173,37 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->registry = Server::get(ISharingRegistry::class);
 		$this->registry->clear();
-		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source 1']));
-		$this->registry->registerSourceType(new TestShareSourceType2(['source2' => 'Source 2']));
-		$this->registry->registerRecipientType(new TestShareRecipientType1(
-			[
-				'recipient1' => 'Recipient 1',
-			],
-			[
-				$this->user1->getUID() => ['recipient1'],
-			],
-			[
-				new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null),
-			],
-		));
-		$this->registry->registerRecipientType(new TestShareRecipientType2(
-			[
-				'recipient2' => 'Recipient 2',
-			],
-			[
-				$this->user2->getUID() => ['recipient2'],
-			],
-			[
-				new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null),
-			],
-		));
+
+		$this->shareSourceType1 = new TestShareSourceType1(['source1' => 'Source 1']);
+		$this->registry->registerSourceType($this->shareSourceType1);
+		$this->shareSourceType2 = new TestShareSourceType2(['source2' => 'Source 2']);
+		$this->registry->registerSourceType($this->shareSourceType2);
+		$this->registry->registerRecipientType(
+			new TestShareRecipientType1(
+				[
+					'recipient1' => 'Recipient 1',
+				],
+				[
+					$this->user1->getUID() => ['recipient1'],
+				],
+				[
+					new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null),
+				],
+			)
+		);
+		$this->registry->registerRecipientType(
+			new TestShareRecipientType2(
+				[
+					'recipient2' => 'Recipient 2',
+				],
+				[
+					$this->user2->getUID() => ['recipient2'],
+				],
+				[
+					new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null),
+				],
+			)
+		);
 		$this->registry->registerPropertyType(new TestSharePropertyType1(['valid1']));
 		$this->registry->markPropertyTypeCompatibleWithSourceType(TestSharePropertyType1::class, TestShareSourceType1::class);
 		$this->registry->markPropertyTypeCompatibleWithRecipientType(TestSharePropertyType1::class, TestShareRecipientType1::class);
@@ -251,32 +269,36 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testSearchRecipients(): void {
 		$this->registry->clear();
-		$this->registry->registerRecipientType(new TestShareRecipientType1(
-			[
-				'recipient1a' => 'Recipient 1A',
-				'recipient1b' => 'Recipient 1B',
-				'recipient1c' => 'Recipient 1C',
-			],
-			[],
-			[
-				new ShareRecipient(TestShareRecipientType1::class, 'recipient1a', null),
-				new ShareRecipient(TestShareRecipientType1::class, 'recipient1b', null),
-				new ShareRecipient(TestShareRecipientType1::class, 'recipient1c', null),
-			],
-		));
-		$this->registry->registerRecipientType(new TestShareRecipientType2(
-			[
-				'recipient2a' => 'Recipient 2A',
-				'recipient2b' => 'Recipient 2B',
-				'recipient2c' => 'Recipient 2C',
-			],
-			[],
-			[
-				new ShareRecipient(TestShareRecipientType2::class, 'recipient2a', null),
-				new ShareRecipient(TestShareRecipientType2::class, 'recipient2b', null),
-				new ShareRecipient(TestShareRecipientType2::class, 'recipient2c', null),
-			],
-		));
+		$this->registry->registerRecipientType(
+			new TestShareRecipientType1(
+				[
+					'recipient1a' => 'Recipient 1A',
+					'recipient1b' => 'Recipient 1B',
+					'recipient1c' => 'Recipient 1C',
+				],
+				[],
+				[
+					new ShareRecipient(TestShareRecipientType1::class, 'recipient1a', null),
+					new ShareRecipient(TestShareRecipientType1::class, 'recipient1b', null),
+					new ShareRecipient(TestShareRecipientType1::class, 'recipient1c', null),
+				],
+			)
+		);
+		$this->registry->registerRecipientType(
+			new TestShareRecipientType2(
+				[
+					'recipient2a' => 'Recipient 2A',
+					'recipient2b' => 'Recipient 2B',
+					'recipient2c' => 'Recipient 2C',
+				],
+				[],
+				[
+					new ShareRecipient(TestShareRecipientType2::class, 'recipient2a', null),
+					new ShareRecipient(TestShareRecipientType2::class, 'recipient2b', null),
+					new ShareRecipient(TestShareRecipientType2::class, 'recipient2c', null),
+				],
+			)
+		);
 
 		$accessContext = new ShareAccessContext($this->owner);
 
@@ -451,26 +473,30 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testSearchRecipientsUniqueDisplayNames(): void {
 		$this->registry->clear();
-		$this->registry->registerRecipientType(new TestShareRecipientType1(
-			[
-				'recipient1' => 'Recipient',
-			],
-			[],
-			[
-				new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null),
-			],
-		));
-		$this->registry->registerRecipientType(new TestShareRecipientType2(
-			[
-				'recipient2' => 'Recipient',
-				'recipient3' => 'Other',
-			],
-			[],
-			[
-				new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null),
-				new ShareRecipient(TestShareRecipientType2::class, 'recipient3', null),
-			],
-		));
+		$this->registry->registerRecipientType(
+			new TestShareRecipientType1(
+				[
+					'recipient1' => 'Recipient',
+				],
+				[],
+				[
+					new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null),
+				],
+			)
+		);
+		$this->registry->registerRecipientType(
+			new TestShareRecipientType2(
+				[
+					'recipient2' => 'Recipient',
+					'recipient3' => 'Other',
+				],
+				[],
+				[
+					new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null),
+					new ShareRecipient(TestShareRecipientType2::class, 'recipient3', null),
+				],
+			)
+		);
 
 		$accessContext = new ShareAccessContext($this->owner);
 
@@ -519,17 +545,19 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testSearchRecipientsIcons(): void {
 		$this->registry->clear();
-		$this->registry->registerRecipientType(new TestShareRecipientType1(
-			[
-				'svg' => 'SVG',
-				'url' => 'URL',
-			],
-			[],
-			[
-				new ShareRecipient(TestShareRecipientType1::class, 'svg', null),
-				new ShareRecipient(TestShareRecipientType1::class, 'url', null),
-			],
-		));
+		$this->registry->registerRecipientType(
+			new TestShareRecipientType1(
+				[
+					'svg' => 'SVG',
+					'url' => 'URL',
+				],
+				[],
+				[
+					new ShareRecipient(TestShareRecipientType1::class, 'svg', null),
+					new ShareRecipient(TestShareRecipientType1::class, 'url', null),
+				],
+			)
+		);
 
 		$accessContext = new ShareAccessContext($this->owner);
 
@@ -945,7 +973,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 
 		$before = $this->manager->getTime();
-		$formatted = $this->addShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$formatted = $this->addShareRecipient(
+			new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
+		);
 		$after = $this->manager->getTime();
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 		$this->assertEquals([
@@ -1103,7 +1133,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
 		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
-		$share = $this->manager->addShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$share = $this->manager->addShareRecipient(
+			new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
+		);
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, false));
 
 		$this->dbConnection->commit();
@@ -1127,12 +1159,16 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$share = $this->manager->getShare($accessContext, $share->id);
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
 		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
-		$share = $this->manager->addShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$share = $this->manager->addShareRecipient(
+			new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
+		);
 
 		$this->dbConnection->commit();
 
 		$before = $this->manager->getTime();
-		$formatted = $this->removeShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$formatted = $this->removeShareRecipient(
+			new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
+		);
 		$after = $this->manager->getTime();
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 		$this->assertEquals([
@@ -1216,7 +1252,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
 		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
-		$share = $this->manager->addShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$share = $this->manager->addShareRecipient(
+			new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
+		);
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, false));
 
 		$this->dbConnection->commit();
@@ -1239,7 +1277,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$share = $this->manager->getShare($accessContext, $share->id);
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
 		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
-		$share = $this->manager->addShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$share = $this->manager->addShareRecipient(
+			new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
+		);
 
 		$this->dbConnection->commit();
 
@@ -1263,14 +1303,16 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	#[DataProvider('dataUpdateShareRecipientSecret')]
 	public function testUpdateShareRecipientSecret(bool $isSecretUpdatable): void {
-		$this->registry->registerRecipientType(new TestShareRecipientTypePublicSecret(
-			[
-				'recipient1' => 'Recipient 1',
-			],
-			[],
-			true,
-			$isSecretUpdatable,
-		));
+		$this->registry->registerRecipientType(
+			new TestShareRecipientTypePublicSecret(
+				[
+					'recipient1' => 'Recipient 1',
+				],
+				[],
+				true,
+				$isSecretUpdatable,
+			)
+		);
 
 		$accessContext = new ShareAccessContext($this->owner);
 
@@ -1482,7 +1524,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	}
 
 	public function testUpdateSharePropertyModifyProperties(): void {
-		$this->registry->registerPropertyType(new TestSharePropertyTypeModifyValue(['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-load']));
+		$this->registry->registerPropertyType(
+			new TestSharePropertyTypeModifyValue(['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-load'])
+		);
 		$this->registry->markPropertyTypeCompatibleWithSourceType(TestSharePropertyTypeModifyValue::class, TestShareSourceType1::class);
 		$this->registry->markPropertyTypeCompatibleWithRecipientType(TestSharePropertyTypeModifyValue::class, TestShareRecipientType1::class);
 
@@ -1741,7 +1785,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testUpdateSharePermissionInteractionRestricted(): void {
 		$listener = function (RestrictInteractionEvent $event): void {
-			if ($event->action instanceof ShareAction && $event->action->unifiedSharingPermissions !== null && in_array(TestSharePermissionType1::class, $event->action->unifiedSharingPermissions, true)) {
+			if ($event->action instanceof ShareAction && $event->action->unifiedSharingPermissions !== null && in_array(
+				TestSharePermissionType1::class, $event->action->unifiedSharingPermissions, true
+			)) {
 				throw new InteractionRestrictedException('Permission not allowed.', 'You are not allowed to enable this permission.');
 			}
 		};
@@ -2344,7 +2390,8 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->dbConnection->commit();
 		$after = $this->manager->getTime();
 
-		$formatted = $this->getShare(new ShareAccessContext(currentUser: $this->user1, arguments: [TestShareRecipientTypeArguments::class => 'secret']), $share->id);
+		$formatted = $this->getShare(new ShareAccessContext(currentUser: $this->user1, arguments: [TestShareRecipientTypeArguments::class => 'secret']),
+			$share->id);
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 		unset($formatted['last_updated']);
 		$this->assertEquals([
@@ -2910,7 +2957,8 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			'permission_preset' => TestSharePermissionPreset1::class,
 		], $formatted);
 
-		$formatted = $this->getShare(new ShareAccessContext(currentUser: $this->owner, arguments: [TestSharePropertyTypeFilter::class => 'filtered']), $share->id);
+		$formatted = $this->getShare(new ShareAccessContext(currentUser: $this->owner, arguments: [TestSharePropertyTypeFilter::class => 'filtered']),
+			$share->id);
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 		unset($formatted['last_updated']);
 		$this->assertEquals([
@@ -3026,21 +3074,25 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	#[DataProvider('dataGetShareWithPublicSecret')]
 	public function testGetShareWithPublicSecret(bool $isSecretPublic): void {
 		$this->registry->clear();
-		$this->registry->registerRecipientType(new TestShareRecipientType1(
-			[
-				'recipient1' => 'Recipient 1',
-			],
-			[],
-			[],
-		));
-		$this->registry->registerRecipientType(new TestShareRecipientTypePublicSecret(
-			[
-				'recipient2' => 'Recipient 2',
-			],
-			[],
-			$isSecretPublic,
-			false,
-		));
+		$this->registry->registerRecipientType(
+			new TestShareRecipientType1(
+				[
+					'recipient1' => 'Recipient 1',
+				],
+				[],
+				[],
+			)
+		);
+		$this->registry->registerRecipientType(
+			new TestShareRecipientTypePublicSecret(
+				[
+					'recipient2' => 'Recipient 2',
+				],
+				[],
+				$isSecretPublic,
+				false,
+			)
+		);
 
 		$accessContext = new ShareAccessContext($this->owner);
 
@@ -3104,20 +3156,22 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	public function testGetShareWithSecret(): void {
 		$this->registry->clear();
 		$this->registry->registerSourceType(new TestShareSourceType1(['source1' => 'Source']));
-		$this->registry->registerRecipientType(new TestShareRecipientTypePublicSecret(
-			[
-				'recipient1' => 'Recipient 1',
-				'recipient2' => 'Recipient 2',
-				'recipient3' => 'Recipient 3',
-				'recipient4' => 'Recipient 4',
-			],
-			[
-				$this->user1->getUID() => ['recipient1'],
-				$this->user2->getUID() => ['recipient2'],
-			],
-			true,
-			false,
-		));
+		$this->registry->registerRecipientType(
+			new TestShareRecipientTypePublicSecret(
+				[
+					'recipient1' => 'Recipient 1',
+					'recipient2' => 'Recipient 2',
+					'recipient3' => 'Recipient 3',
+					'recipient4' => 'Recipient 4',
+				],
+				[
+					$this->user1->getUID() => ['recipient1'],
+					$this->user2->getUID() => ['recipient2'],
+				],
+				true,
+				false,
+			)
+		);
 		$this->registry->registerPermissionType(null, Server::get(ReshareSharePermissionType::class));
 
 		$accessContext = new ShareAccessContext($this->owner);
@@ -3130,9 +3184,15 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
 		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
-		$share = $this->manager->addShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientTypePublicSecret::class, 'recipient2', null));
-		$share = $this->manager->addShareRecipient(new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientTypePublicSecret::class, 'recipient3', null));
-		$share = $this->manager->addShareRecipient(new ShareAccessContext($this->user2), $share, new ShareRecipient(TestShareRecipientTypePublicSecret::class, 'recipient4', null));
+		$share = $this->manager->addShareRecipient(
+			new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientTypePublicSecret::class, 'recipient2', null)
+		);
+		$share = $this->manager->addShareRecipient(
+			new ShareAccessContext($this->user1), $share, new ShareRecipient(TestShareRecipientTypePublicSecret::class, 'recipient3', null)
+		);
+		$share = $this->manager->addShareRecipient(
+			new ShareAccessContext($this->user2), $share, new ShareRecipient(TestShareRecipientTypePublicSecret::class, 'recipient4', null)
+		);
 
 		$this->dbConnection->commit();
 		$after = $this->manager->getTime();
@@ -3344,7 +3404,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
 		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
-		$share = $this->manager->addShareRecipient(new ShareAccessContext(currentUser: $this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$share = $this->manager->addShareRecipient(
+			new ShareAccessContext(currentUser: $this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
+		);
 
 		$this->dbConnection->commit();
 		$after = $this->manager->getTime();
@@ -4010,7 +4072,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
 		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
 		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
-		$share = $this->manager->addShareRecipient(new ShareAccessContext(currentUser: $this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null));
+		$share = $this->manager->addShareRecipient(
+			new ShareAccessContext(currentUser: $this->user1), $share, new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null)
+		);
 
 		$before = $this->manager->getTime();
 		$this->user1->delete();
@@ -4063,5 +4127,108 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				],
 			],
 		], $formatted['recipients']);
+	}
+
+	public function testGetWithDirectAccess(): void {
+		$accessContext = new ShareAccessContext($this->owner);
+		$accessContext2 = new ShareAccessContext(currentUser: $this->user2);
+
+		$before = $this->manager->getTime();
+		$this->dbConnection->beginTransaction();
+		$share = $this->manager->createShare($accessContext);
+		$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
+		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+
+		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
+		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
+
+		$this->shareSourceType1->userAccess[$this->owner->getUID()] = ['source1'];
+
+		$this->dbConnection->commit();
+
+		$after = $this->manager->getTime();
+
+		// user2 has no direct access, no shares
+		$formattedShares = $this->getShares($accessContext2, TestShareSourceType1::class, 'source1', null, null);
+		$this->assertCount(0, $formattedShares);
+
+		try {
+			$this->getShare($accessContext2, $share->id);
+			$this->fail('user has invalid share access');
+		} catch (ShareNotFoundException) {
+
+		}
+
+		// give user2 direct access, can see shares
+		$this->shareSourceType1->userAccess[$this->user2->getUID()] = ['source1'];
+		$formattedShares = $this->getShares($accessContext2, TestShareSourceType1::class, 'source1', null, null);
+
+		$this->assertCount(1, $formattedShares);
+		$formatted = $formattedShares[0];
+
+		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
+		$this->assertEquals([
+			'user_id' => 'owner',
+			'instance' => null,
+			'display_name' => 'Owner',
+			'icon' => [
+				'light' => 'http://localhost/index.php/avatar/owner/64',
+				'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
+			],
+		], $formatted['owner']);
+
+		$singleFormatted = $this->getShare($accessContext2, $share->id);
+		$this->assertEquals($singleFormatted, $formatted);
+
+		// add a source that user2 doesn't have access to, can't see share anymore
+		$this->dbConnection->beginTransaction();
+		$this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType2::class, 'source2'));
+		$this->dbConnection->commit();
+		$formattedShares = $this->getShares(new ShareAccessContext(currentUser: $this->user2), TestShareSourceType1::class, 'source1', null, null);
+		$this->assertCount(0, $formattedShares);
+	}
+
+	public function testEditWithDirectAccess(): void {
+		$accessContext = new ShareAccessContext($this->owner);
+		$accessContext2 = new ShareAccessContext(currentUser: $this->user2);
+
+		$this->dbConnection->beginTransaction();
+		$share = $this->manager->createShare($accessContext);
+		$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
+		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+
+		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
+		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
+
+		$this->shareSourceType1->userAccess[$this->owner->getUID()] = ['source1'];
+
+		$this->dbConnection->commit();
+
+		try {
+			$this->updateShareProperty($accessContext2, $share, new ShareProperty(TestSharePropertyType1::class, 'valid1'));
+			$this->fail('update allowed');
+		} catch (ShareOperationForbiddenException) {
+
+		}
+
+		// give user2 direct access
+		$this->shareSourceType1->userAccess[$this->user2->getUID()] = ['source1'];
+		$user2Share = $this->reloadShare($accessContext2, $share);
+		$this->assertNull($user2Share->recipients[0]->secret);
+		$formatted = $this->updateShareProperty($accessContext2, $user2Share, new ShareProperty(TestSharePropertyType1::class, 'valid1'));
+
+		$this->assertEquals([
+			[
+				'display_name' => 'TestSharePropertyType1',
+				'hint' => 'hint TestSharePropertyType1',
+				'priority' => 1,
+				'required' => false,
+				'advanced' => false,
+				'value' => 'valid1',
+				'class' => \Test\Sharing\TestSharePropertyType1::class,
+				'type' => 'enum',
+				'valid_values' => ['valid1'],
+			]
+		], $formatted['properties']);
 	}
 }
