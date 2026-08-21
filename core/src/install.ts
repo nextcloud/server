@@ -4,7 +4,7 @@
  */
 
 import Vue from 'vue'
-import Setup from './views/Setup.vue'
+import WebInstaller from './views/WebInstaller.vue'
 
 type Error = {
 	error: string
@@ -24,6 +24,22 @@ export type SetupConfig = {
 	dbhost: string
 	dbtype: DbType | ''
 
+	/** Encryption mode of the connection, pgsql only */
+	dbsslmode: string
+	/** Path to the CA certificate the database server is verified against */
+	dbsslca: string
+	/** Path to the client certificate used to authenticate against the database */
+	dbsslcert: string
+	/** Path to the private key of the client certificate */
+	dbsslkey: string
+	/** Path to the certificate revocation list, pgsql only */
+	dbsslcrl: string
+	/**
+	 * Skip verifying that the server certificate matches the host, mysql only.
+	 * A string when reflected back from a submitted form, as checkboxes are submitted by value.
+	 */
+	dbsslnoverify: boolean | string
+
 	databases: Partial<Record<DbType, string>>
 
 	hasAutoconfig: boolean
@@ -39,5 +55,5 @@ export type SetupLinks = {
 	adminDBConfiguration: string
 }
 
-const SetupVue = Vue.extend(Setup)
+const SetupVue = Vue.extend(WebInstaller)
 new SetupVue().$mount('#content')

@@ -483,4 +483,21 @@ class TaskMapper extends QBMapper {
 		$result->closeCursor();
 		return $hasRunningTasks;
 	}
+
+	/**
+	 * @param int $timestamp
+	 * @return int
+	 * @throws Exception
+	 */
+	public function countPendingTasksBefore(int $timestamp): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select($qb->func()->count('id'))
+			->from($this->tableName)
+			->where($qb->expr()->lt('last_updated', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('status', $qb->createNamedParameter(\OCP\TaskProcessing\Task::STATUS_SCHEDULED, IQueryBuilder::PARAM_INT)));
+		$result = $qb->executeQuery();
+		$count = (int)$result->fetchOne();
+		$result->closeCursor();
+		return $count;
+	}
 }

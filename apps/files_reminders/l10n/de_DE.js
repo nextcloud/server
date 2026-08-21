@@ -10,13 +10,14 @@ OC.L10N.register(
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Die App \"files_reminders\" benötigt die Benachrichtigungs-App, um ordnungsgemäß zu funktionieren. Sie sollten entweder Benachrichtigungen aktivieren oder \"files_reminders\" deaktivieren.",
     "Set file reminders" : "Dateierinnerungen setzen",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Dateierinnerungen**\n\nDateierinnerungen festlegen.\n\nHinweis: Um die App ``Dateierinnerungen` zu verwenden, stellen Sie sicher, dass die App `Benachrichtigungen` installiert und aktiviert ist. Die App `Benachrichtigungen` bietet die erforderlichen APIs, damit die App `Dateierinnerungen` ordnungsgemäß funktioniert.",
+    "We reminded you of this file {relativeDueDate}" : "Sie wurden am {relativeDueDate} an diese Datei erinnert",
+    "We will remind you of this file {relativeDueDate}" : "Sie werden am {relativeDueDate} an diese Datei erinnert",
     "Please choose a valid date & time" : "Bitte gültiges Datum und Uhrzeit wählen",
     "Reminder set for \"{fileName}\"" : "Erinnerung für \"{fileName}\" gesetzt",
     "Failed to set reminder" : "Erinnerung konnte nicht festgelegt werden",
     "Reminder cleared for \"{fileName}\"" : "Erinnerung für \"{fileName}\" gelöscht",
     "Failed to clear reminder" : "Erinnerung konnte nicht gelöscht werden",
     "Reminder at custom date & time" : "Erinnerung zu benutzerdefiniertem Zeitpunkt und Tag",
-    "We will remind you of this file" : "Sie werden an diese Datei erinnert",
     "Cancel" : "Abbrechen",
     "Clear reminder" : "Erinnerung löschen",
     "Set reminder" : "Erinnerung erstellen",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Erinnerung für diese Wochenende erstellen",
     "Next week" : "Nächste Woche",
     "Set reminder for next week" : "Erinnerung für nächste Woche erstellen",
-    "Set reminder for \"{fileName}\"" : "Erinnerung für \"{fileName}\" setzen"
+    "Set reminder for \"{fileName}\"" : "Erinnerung für \"{fileName}\" setzen",
+    "We will remind you of this file" : "Sie werden an diese Datei erinnert"
 },
 "nplurals=2; plural=(n != 1);");

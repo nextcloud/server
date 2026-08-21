@@ -75,6 +75,7 @@ trait S3ConnectionTrait {
 		}
 
 		$this->params = $params;
+		$this->usePresignedUrl = $params['use_presigned_url'] ?? false;
 	}
 
 	public function getBucket() {
@@ -112,8 +113,6 @@ trait S3ConnectionTrait {
 				CredentialProvider::defaultProvider(['use_aws_shared_config_files' => false])
 			)
 		);
-
-		$this->usePresignedUrl = $this->params['use_presigned_url'] ?? false;
 
 		$options = [
 			'version' => $this->params['version'] ?? 'latest',

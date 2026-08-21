@@ -60,6 +60,12 @@ interface IColumn {
 	public function setDefault(mixed $default): self;
 
 	/**
+	 * @since 35.0.0
+	 * @return non-empty-string
+	 */
+	public function getName(): string;
+
+	/**
 	 * Returns the type of this column.
 	 *
 	 * Note that {@see ColumnType::getName()} returns a `\OCP\DB\Types::*` value.

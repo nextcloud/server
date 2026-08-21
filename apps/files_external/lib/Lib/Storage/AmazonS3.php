@@ -558,7 +558,12 @@ class AmazonS3 extends Common {
 			foreach ($this->getDirectoryContent($source) as $item) {
 				$childSource = $source . '/' . $item['name'];
 				$childTarget = $target . '/' . $item['name'];
-				$this->copy($childSource, $childTarget, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER);
+				// Propagate copy failure
+				if ($this->copy($childSource, $childTarget, $item['mimetype'] !== FileInfo::MIMETYPE_FOLDER) === false) {
+					// Cache is stale because the target was already partially written
+					$this->invalidateCache($target);
+					return false;
+				}
 			}
 		}
 

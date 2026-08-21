@@ -34,25 +34,32 @@ class OcmTokenMapMapper extends QBMapper {
 	}
 
 	/**
-	 * Find the current mapping for a given refresh token, if any.
+	 * All mappings for a refresh token. Returns every match, since a refresh
+	 * token can back several access tokens and concurrent exchanges may add
+	 * duplicate rows.
+	 *
+	 * @return OcmTokenMap[]
 	 */
-	public function findByRefreshToken(string $refreshToken): ?OcmTokenMap {
+	public function findAllByRefreshToken(string $refreshToken): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('refresh_token', $qb->createNamedParameter($refreshToken)));
 
-		try {
-			return $this->findEntity($qb);
-		} catch (DoesNotExistException) {
-			return null;
-		}
+		return $this->findEntities($qb);
 	}
 
-	public function deleteExpired(int $time): void {
+	/**
+	 * All mappings whose access token has expired before $time.
+	 *
+	 * @return OcmTokenMap[]
+	 */
+	public function findExpired(int $time): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete($this->getTableName())
+		$qb->select('*')
+			->from($this->getTableName())
 			->where($qb->expr()->lt('expires', $qb->createNamedParameter($time)));
-		$qb->executeStatement();
+
+		return $this->findEntities($qb);
 	}
 }

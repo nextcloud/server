@@ -51,7 +51,9 @@ final class RestrictInteractionListener implements IEventListener {
 	public function handle(Event $event): void {
 		foreach ($event->resources as $resource) {
 			if ($resource instanceof NodeResource && $event->action instanceof ShareAction) {
-				if (!$resource->getNode()->isShareable()) {
+				// A user can reach the same node through different paths with differing permissions,
+				// so the merged permissions decide whether they are allowed to share it.
+				if (($resource->getNodePermissions() & Constants::PERMISSION_SHARE) !== Constants::PERMISSION_SHARE) {
 					throw new InteractionRestrictedException('Node is not shareable.', $this->l10n->t('You are not allowed to share "%s".', [$resource->getNode()->getName()]));
 				}
 

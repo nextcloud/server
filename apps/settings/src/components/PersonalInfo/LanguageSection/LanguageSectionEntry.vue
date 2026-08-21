@@ -16,17 +16,21 @@
 			:model-value="language"
 			@option:selected="onLanguageChange" />
 
-		<a
+		<NcFormBoxButton
+			:label="t('settings', 'Help translate')"
 			href="https://explore.transifex.com/nextcloud/"
-			target="_blank"
-			rel="noreferrer noopener">
-			<em>{{ t('settings', 'Help translate') }}</em>
-		</a>
+			target="_blank">
+			<template #icon>
+				<OpenInNew :size="20" />
+			</template>
+		</NcFormBoxButton>
 	</div>
 </template>
 
 <script>
+import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import OpenInNew from 'vue-material-design-icons/OpenInNew.vue'
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.ts'
@@ -36,7 +40,9 @@ export default {
 	name: 'LanguageSectionEntry',
 
 	components: {
+		NcFormBoxButton,
 		NcSelect,
+		OpenInNew,
 	},
 
 	props: {
@@ -117,15 +123,8 @@ export default {
 
 <style lang="scss" scoped>
 .language {
-	display: grid;
-
-	#{&}__select {
-		margin-top: 6px; // align with other inputs
-	}
-
-	a {
-		text-decoration: none;
-		width: max-content;
-	}
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
 }
 </style>

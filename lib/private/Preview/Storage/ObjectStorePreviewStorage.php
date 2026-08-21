@@ -167,6 +167,13 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		return $this->objectStoreCache[$objectStoreName][$bucketName];
 	}
 
+	#[Override]
+	public function deleteUnreferencedPreview(Preview $preview): void {
+		// The urn embeds the preview id, so this object belongs to this entity
+		// alone and can be removed safely.
+		$this->deletePreview($preview);
+	}
+
 	public function getUrn(Preview $preview, array $config): string {
 		if ($preview->getOldFileId()) {
 			return ($config['arguments']['objectPrefix'] ?? 'urn:oid:') . $preview->getOldFileId();

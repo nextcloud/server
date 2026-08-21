@@ -121,7 +121,7 @@ jobs:
         npm run build --if-present
 
     - name: Install Playwright browsers
-      run: npx playwright install --with-deps
+      run: npm run playwright:install-ci --if-present
 
     - name: Run Playwright tests
       run: npm run playwright -- --shard='${{ matrix.shardIndex }}/${{ matrix.shardTotal }}'
@@ -228,7 +228,7 @@ jobs:
         npm run build --if-present
 
     - name: Install Playwright browsers
-      run: npx playwright install --with-deps
+      run: npm run playwright:install-ci --if-present
 
     - name: Run Playwright setup tests
       run: npm run playwright:setup

@@ -5,6 +5,10 @@
 
 <template>
 	<div class="locale">
+		<p class="locale__example">
+			{{ t('settings', 'Example: {example}', { example: `${example.date} ${example.time}` }) }}
+		</p>
+
 		<NcSelect
 			:aria-label-listbox="t('settings', 'Locales')"
 			class="locale__select"
@@ -15,26 +19,12 @@
 			:options="allLocales"
 			:model-value="locale"
 			@option:selected="updateLocale" />
-
-		<div class="example">
-			<MapClock :size="20" />
-			<div class="example__text">
-				<p>
-					<span>{{ example.date }}</span>
-					<span>{{ example.time }}</span>
-				</p>
-				<p>
-					{{ t('settings', 'Week starts on {firstDayOfWeek}', { firstDayOfWeek: example.firstDayOfWeek }) }}
-				</p>
-			</div>
-		</div>
 	</div>
 </template>
 
 <script>
 import moment from '@nextcloud/moment'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import MapClock from 'vue-material-design-icons/MapClock.vue'
 import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../../utils/handlers.ts'
@@ -43,7 +33,6 @@ export default {
 	name: 'LocaleSectionEntry',
 
 	components: {
-		MapClock,
 		NcSelect,
 	},
 
@@ -76,7 +65,6 @@ export default {
 			example: {
 				date: moment().format('L'),
 				time: moment().format('LTS'),
-				firstDayOfWeek: window.dayNames[window.firstDay],
 			},
 		}
 	},
@@ -130,7 +118,6 @@ export default {
 			this.example = {
 				date: moment().format('L'),
 				time: moment().format('LTS'),
-				firstDayOfWeek: window.dayNames[window.firstDay],
 			}
 		},
 	},
@@ -139,22 +126,13 @@ export default {
 
 <style lang="scss" scoped>
 .locale {
-	display: grid;
-
-	#{&}__select {
-		margin-top: 6px; // align with other inputs
-	}
-}
-
-.example {
-	margin: 10px 0;
 	display: flex;
-	gap: 0 10px;
-	color: var(--color-text-maxcontrast);
+	flex-direction: column;
+	gap: 6px;
 
-	&:deep(.material-design-icon) {
-		align-self: flex-start;
-		margin-top: 2px;
+	&__example {
+		margin: 0;
+		color: var(--color-text-maxcontrast);
 	}
 }
 </style>

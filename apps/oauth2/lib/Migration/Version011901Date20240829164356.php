@@ -16,11 +16,11 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\Security\ICrypto;
 
-class Version011901Date20240829164356 extends SimpleMigrationStep {
+final class Version011901Date20240829164356 extends SimpleMigrationStep {
 
 	public function __construct(
-		private IDBConnection $connection,
-		private ICrypto $crypto,
+		private readonly IDBConnection $connection,
+		private readonly ICrypto $crypto,
 	) {
 	}
 
@@ -38,14 +38,15 @@ class Version011901Date20240829164356 extends SimpleMigrationStep {
 			->from('oauth2_clients');
 		$req = $qbSelect->executeQuery();
 		while ($row = $req->fetchAssociative()) {
-			$id = $row['id'];
-			$storedEncryptedSecret = $row['secret'];
+			$id = (int)$row['id'];
+			$storedEncryptedSecret = (string)$row['secret'];
 			$secret = $this->crypto->decrypt($storedEncryptedSecret);
 			$hashedSecret = bin2hex($this->crypto->calculateHMAC($secret));
 			$qbUpdate->setParameter('updateSecret', $hashedSecret, IQueryBuilder::PARAM_STR);
 			$qbUpdate->setParameter('updateId', $id, IQueryBuilder::PARAM_INT);
 			$qbUpdate->executeStatement();
 		}
+
 		$req->closeCursor();
 	}
 }

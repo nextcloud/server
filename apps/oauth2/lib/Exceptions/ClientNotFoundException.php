@@ -9,5 +9,5 @@ declare(strict_types=1);
 
 namespace OCA\OAuth2\Exceptions;
 
-class ClientNotFoundException extends \Exception {
+final class ClientNotFoundException extends \Exception {
 }

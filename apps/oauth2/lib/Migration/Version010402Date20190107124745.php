@@ -14,12 +14,10 @@ use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version010402Date20190107124745 extends SimpleMigrationStep {
+final class Version010402Date20190107124745 extends SimpleMigrationStep {
 
 	/**
-	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
 	#[\Override]

@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' =>
+        'N' => 
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' =>
+        'OC\\Core\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' =>
+        'OC\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' =>
+        'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' =>
+        'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -197,6 +197,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\Http\\FileDisplayResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/FileDisplayResponse.php',
         'OCP\\AppFramework\\Http\\ICallbackResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/ICallbackResponse.php',
         'OCP\\AppFramework\\Http\\IOutput' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/IOutput.php',
+        'OCP\\AppFramework\\Http\\InvalidEnumParameterException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/InvalidEnumParameterException.php',
+        'OCP\\AppFramework\\Http\\InvalidStringParameterException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/InvalidStringParameterException.php',
         'OCP\\AppFramework\\Http\\JSONResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/JSONResponse.php',
         'OCP\\AppFramework\\Http\\NotFoundResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/NotFoundResponse.php',
         'OCP\\AppFramework\\Http\\ParameterOutOfRangeException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/ParameterOutOfRangeException.php',
@@ -400,6 +402,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Console\\ReservedOptions' => __DIR__ . '/../../..' . '/lib/public/Console/ReservedOptions.php',
         'OCP\\Console\\Verbosity' => __DIR__ . '/../../..' . '/lib/public/Console/Verbosity.php',
         'OCP\\Constants' => __DIR__ . '/../../..' . '/lib/public/Constants.php',
+        'OCP\\Contacts\\ContactsImportOptions' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsImportOptions.php',
         'OCP\\Contacts\\ContactsMenu\\IAction' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IAction.php',
         'OCP\\Contacts\\ContactsMenu\\IActionFactory' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IActionFactory.php',
         'OCP\\Contacts\\ContactsMenu\\IBulkProvider' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IBulkProvider.php',
@@ -723,6 +726,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Http\\WellKnown\\JrdResponse' => __DIR__ . '/../../..' . '/lib/public/Http/WellKnown/JrdResponse.php',
         'OCP\\IAddressBook' => __DIR__ . '/../../..' . '/lib/public/IAddressBook.php',
         'OCP\\IAddressBookEnabled' => __DIR__ . '/../../..' . '/lib/public/IAddressBookEnabled.php',
+        'OCP\\IAddressBookWritable' => __DIR__ . '/../../..' . '/lib/public/IAddressBookWritable.php',
         'OCP\\IAppConfig' => __DIR__ . '/../../..' . '/lib/public/IAppConfig.php',
         'OCP\\IAvatar' => __DIR__ . '/../../..' . '/lib/public/IAvatar.php',
         'OCP\\IAvatarManager' => __DIR__ . '/../../..' . '/lib/public/IAvatarManager.php',
@@ -1248,6 +1252,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppFramework\\Http\\RequestId' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/RequestId.php',
         'OC\\AppFramework\\Middleware\\AdditionalScriptsMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/AdditionalScriptsMiddleware.php',
         'OC\\AppFramework\\Middleware\\CompressionMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/CompressionMiddleware.php',
+        'OC\\AppFramework\\Middleware\\InvalidParameterMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/InvalidParameterMiddleware.php',
         'OC\\AppFramework\\Middleware\\MiddlewareDispatcher' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/MiddlewareDispatcher.php',
         'OC\\AppFramework\\Middleware\\NotModifiedMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/NotModifiedMiddleware.php',
         'OC\\AppFramework\\Middleware\\OCSMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/OCSMiddleware.php',
@@ -1499,6 +1504,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Db\\AddMissingColumns' => __DIR__ . '/../../..' . '/core/Command/Db/AddMissingColumns.php',
         'OC\\Core\\Command\\Db\\AddMissingIndices' => __DIR__ . '/../../..' . '/core/Command/Db/AddMissingIndices.php',
         'OC\\Core\\Command\\Db\\AddMissingPrimaryKeys' => __DIR__ . '/../../..' . '/core/Command/Db/AddMissingPrimaryKeys.php',
+        'OC\\Core\\Command\\Db\\CheckSchema' => __DIR__ . '/../../..' . '/core/Command/Db/CheckSchema.php',
         'OC\\Core\\Command\\Db\\ConvertFilecacheBigInt' => __DIR__ . '/../../..' . '/core/Command/Db/ConvertFilecacheBigInt.php',
         'OC\\Core\\Command\\Db\\ConvertMysqlToMB4' => __DIR__ . '/../../..' . '/core/Command/Db/ConvertMysqlToMB4.php',
         'OC\\Core\\Command\\Db\\ConvertType' => __DIR__ . '/../../..' . '/core/Command/Db/ConvertType.php',
@@ -1852,6 +1858,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\DB\\ResultAdapter' => __DIR__ . '/../../..' . '/lib/private/DB/ResultAdapter.php',
         'OC\\DB\\SQLiteMigrator' => __DIR__ . '/../../..' . '/lib/private/DB/SQLiteMigrator.php',
         'OC\\DB\\SQLiteSessionInit' => __DIR__ . '/../../..' . '/lib/private/DB/SQLiteSessionInit.php',
+        'OC\\DB\\SchemaChecker' => __DIR__ . '/../../..' . '/lib/private/DB/SchemaChecker.php',
         'OC\\DB\\SchemaWrapper' => __DIR__ . '/../../..' . '/lib/private/DB/SchemaWrapper.php',
         'OC\\DB\\Schema\\Column' => __DIR__ . '/../../..' . '/lib/private/DB/Schema/Column.php',
         'OC\\DB\\Schema\\ForeignKeyConstraint' => __DIR__ . '/../../..' . '/lib/private/DB/Schema/ForeignKeyConstraint.php',
