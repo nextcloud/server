@@ -374,7 +374,7 @@ export default defineComponent({
 <style lang="scss">
 // Allow right click to define the position of the menu
 // only if defined
-main.app-content[style*="mouse-pos-x"] .v-popper__popper {
+.app-content[style*="mouse-pos-x"] .v-popper__popper {
 	transform: translate3d(var(--mouse-pos-x), var(--mouse-pos-y), 0px) !important;
 
 	// If the menu is too close to the bottom, we move it up
