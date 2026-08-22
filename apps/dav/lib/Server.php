@@ -248,6 +248,7 @@ class Server {
 			\OCP\Server::get(IUserSession::class)
 		));
 
+		$config = \OCP\Server::get(IConfig::class);
 		// performance improvement plugins
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 		$this->server->addPlugin(new RequestIdHeaderPlugin(\OCP\Server::get(IRequest::class)));
@@ -260,6 +261,8 @@ class Server {
 			$logger,
 			$eventDispatcher,
 			\OCP\Server::get(IDateTimeZone::class),
+			$config,
+			\OCP\Server::get(IFactory::class)->get('dav'),
 		));
 		$this->server->addPlugin(\OCP\Server::get(PaginatePlugin::class));
 		$this->server->addPlugin(new PropFindPreloadNotifyPlugin());
