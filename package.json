@@ -73,7 +73,7 @@
   "devDependencies": {
     "@nextcloud/browserslist-config": "^3.1.2",
     "@nextcloud/e2e-test-server": "^0.5.1",
-    "@nextcloud/eslint-config": "^9.0.0-rc.9",
+    "@nextcloud/eslint-config": "^9.0.1",
     "@nextcloud/stylelint-config": "^3.2.2",
     "@nextcloud/typings": "^1.10.0",
     "@nextcloud/vite-config": "^2.5.2",
@@ -87,7 +87,7 @@
     "@zip.js/zip.js": "^2.8.39",
     "axe-core": "^4.13.0",
     "concurrently": "^10.0.4",
-    "eslint": "^10.8.0",
+    "eslint": "^10.8.1",
     "eslint-plugin-no-only-tests": "^3.4.0",
     "is-svg": "^6.1.0",
     "jsdom": "^30.0.1",
