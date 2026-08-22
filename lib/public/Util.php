@@ -651,13 +651,10 @@ class Util {
 
 		$port = $parts['port'] ?? null;
 		if ($port === null || $port === 0) {
-			if ($protocol === 'http') {
-				$port = 80;
-			} elseif ($protocol === 'https') {
-				$port = 443;
-			} else {
-				throw new \InvalidArgumentException('Only http based URLs supported');
-			}
+			$port = match($protocol) {
+				'http' => 80,
+				'https' => 443,
+			};
 		}
 
 		return $protocol . '://' . \strtolower($host) . ':' . $port;
