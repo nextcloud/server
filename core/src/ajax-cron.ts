@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 	try {
 		logger.debug('Running web cron')
 		await window.fetch(`${getRootUrl()}/cron.php`)
-		logger.debug('Web cron successfull')
+		logger.debug('Web cron successful')
 	} catch (e) {
 		logger.debug('Running web cron failed', { error: e })
 	}

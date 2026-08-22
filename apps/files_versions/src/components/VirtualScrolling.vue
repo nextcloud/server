@@ -177,7 +177,7 @@ export default defineComponent({
 				.forEach((item) => (item.key = unusedTokens.pop() ?? Math.random().toString(36).substr(2)))
 
 			// this._rowIdToKeyMap is created in the beforeCreate hook, so value changes are not tracked.
-			// Therefore, we wont trigger the computation of visibleSections again if we alter the value of this._rowIdToKeyMap.
+			// Therefore, we won't trigger the computation of visibleSections again if we alter the value of this._rowIdToKeyMap.
 			// eslint-disable-next-line vue/no-side-effects-in-computed-properties
 			this._rowIdToKeyMap = visibleItems.reduce((finalMapping, { id, key }) => ({ ...finalMapping, [`${id}`]: key }), {})
 
