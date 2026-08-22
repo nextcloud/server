@@ -78,7 +78,7 @@ class CorsPlugin extends ServerPlugin {
 				return;
 			}
 		} catch (\InvalidArgumentException $e) {
-			\OC::$server->getLogger()->debug('Invalid origin header was passed', ['Origin' => $originHeader, 'exception' => $e]);
+			\OC::$server->get(LoggerInterface::class)->debug('Invalid origin header was passed', ['origin' => $originHeader, 'exception' => $e]);
 			return;
 		}
 
