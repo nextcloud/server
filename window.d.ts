@@ -32,6 +32,7 @@ declare global {
 		OCP: {
 			Files: {
 				Router: RouterService
+				renderFilesApp: (el: HTMLElement, viewId: string) => void
 			}
 		} & Nextcloud.v29.OCP
 
