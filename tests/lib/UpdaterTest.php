@@ -110,6 +110,25 @@ class UpdaterTest extends TestCase {
 		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersions));
 	}
 
+	/**
+	 * @return array
+	 */
+	public static function majorUpgradeTestData(): array {
+		return [
+			// Same major version
+			['33.0.0.10', '33.1.2.3', false],
+			// Major upgrade
+			['33.0.5.1', '34.0.0.10', true],
+			// Downgrade, only reachable with debug enabled
+			['34.0.0.10', '33.0.5.1', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('majorUpgradeTestData')]
+	public function testIsMajorUpgrade(string $installedVersion, string $currentVersion, bool $result): void {
+		$this->assertSame($result, self::invokePrivate($this->updater, 'isMajorUpgrade', [$installedVersion, $currentVersion]));
+	}
+
 	public function testUpgradeAppStoreAppsRestoresMissingAutoDisabledAppBeforeEnabling(): void {
 		$this->installer->expects($this->once())
 			->method('isUpdateAvailable')
