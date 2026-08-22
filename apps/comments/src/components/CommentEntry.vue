@@ -100,10 +100,12 @@
 			<NcRichText
 				v-else
 				class="comment__message"
-				:class="{ 'comment__message--expanded': expanded }"
+				:class="{ 'comment__message--expanded': expanded, 'comment__message--has-reference': hasReference }"
 				:text="richContent.message"
 				:arguments="richContent.mentions"
 				useMarkdown
+				:referenceLimit="1"
+				referenceInteractiveOptIn
 				@click="onExpand" />
 		</div>
 	</component>
@@ -242,6 +244,16 @@ export default {
 			return { mentions, message }
 		},
 
+		/**
+		 * Whether the message contains a link, so the reference widget it may
+		 * render never gets clipped by the message's scroll clamp
+		 *
+		 * @return {boolean}
+		 */
+		hasReference() {
+			return /https?:\/\/\S+/i.test(this.richContent.message)
+		},
+
 		isEmptyMessage() {
 			return !this.localMessage || this.localMessage.trim() === ''
 		},
@@ -303,7 +315,10 @@ export default {
 			this.onEditComment(this.localMessage.trim())
 		},
 
-		onExpand() {
+		onExpand(event) {
+			if (event?.target?.closest?.('.rich-text--reference-widget')) {
+				return
+			}
 			this.expanded = true
 		},
 	},
@@ -382,13 +397,18 @@ $comment-padding: 10px;
 		scrollbar-gutter: stable;
 		scrollbar-width: thin;
 		margin-top: -6px;
-		&--expanded {
+		&--expanded,
+		&--has-reference {
 			max-height: none;
 			overflow: visible;
 		}
 		:deep(img) {
 			max-width: 100%;
 			height: auto;
+		}
+		:deep(.rich-text--reference-widget) {
+			max-width: 100%;
+			margin-top: 8px;
 		}
 	}
 }
