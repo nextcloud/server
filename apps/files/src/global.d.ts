@@ -22,7 +22,10 @@ declare global {
 		OCA: Record<string, unknown> & {
 			Files?: {
 				/** private implementation of the sidebar to be proxied by `@nextcloud/files` */
-				_sidebar?: () => Omit<ISidebar, 'available' | 'registerTab' | 'registerAction' | 'registerAction'>
+				_sidebar?: () => Omit<ISidebar, 'available' | 'mount' | 'registerTab' | 'registerAction'>
+
+				/** private implementation of rendering the sidebar, proxied by `@nextcloud/files` */
+				_mountSidebar?: (target: HTMLElement) => void
 			}
 		}
 	}
