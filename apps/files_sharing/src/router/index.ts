@@ -38,8 +38,9 @@ Router.prototype.replace = (function(this: Router, ...args: Parameters<typeof or
  * @param error The thrown error
  */
 function ignoreDuplicateNavigation(error: unknown): void {
-	if (isNavigationFailure(error, NavigationFailureType.duplicated)) {
-		logger.debug('Ignoring duplicated navigation from vue-router', { error })
+	if (isNavigationFailure(error, NavigationFailureType.duplicated)
+		|| isNavigationFailure(error, NavigationFailureType.redirected)) {
+		logger.debug('Ignoring duplicated/redirected navigation from vue-router', { error })
 	} else {
 		throw error
 	}
