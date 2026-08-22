@@ -174,6 +174,24 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		$this->deletePreview($preview);
 	}
 
+	#[Override]
+	public function previewExists(Preview $preview): bool {
+		if ($preview->getLocationId() === null) {
+			// Without a location the bucket cannot be resolved, which is the case
+			// for rows written before a move to an object store and for the dummy
+			// previews of the unit tests. Never report those as missing, or they
+			// would be dropped on every request.
+			return true;
+		}
+
+		[
+			'urn' => $urn,
+			'store' => $store,
+		] = $this->getObjectStoreInfoForExistingPreview($preview);
+
+		return $store->objectExists($urn);
+	}
+
 	public function getUrn(Preview $preview, array $config): string {
 		if ($preview->getOldFileId()) {
 			return ($config['arguments']['objectPrefix'] ?? 'urn:oid:') . $preview->getOldFileId();
