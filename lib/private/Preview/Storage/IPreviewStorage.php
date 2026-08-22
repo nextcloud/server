@@ -49,6 +49,15 @@ interface IPreviewStorage {
 	public function deleteUnreferencedPreview(Preview $preview): void;
 
 	/**
+	 * Whether the stored data of a preview is still present.
+	 *
+	 * A row can outlive its file, for instance after a partial write or when
+	 * the data directory is restored from an older backup. Every consumer of a
+	 * preview assumes it can be read.
+	 */
+	public function previewExists(Preview $preview): bool;
+
+	/**
 	 * Migration helper
 	 *
 	 * To remove at some point
