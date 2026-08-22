@@ -62,7 +62,7 @@
     "debounce": "^3.0.0",
     "marked": "^18.0.9",
     "p-queue": "^9.3.3",
-    "pinia": "^4.0.2",
+    "pinia": "^4.0.3",
     "sortablejs": "^1.15.7",
     "vue": "^3.5.41",
     "vue-router": "^5.0.6",
