@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitDAV
 {
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OCA\\DAV\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\DAV\\' =>
+        'OCA\\DAV\\' => 
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -429,6 +429,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\Version1038Date20260302000000' => __DIR__ . '/..' . '/../lib/Migration/Version1038Date20260302000000.php',
         'OCA\\DAV\\Migration\\Version1039Date20260408000000' => __DIR__ . '/..' . '/../lib/Migration/Version1039Date20260408000000.php',
         'OCA\\DAV\\Migration\\Version1040Date20260805000000' => __DIR__ . '/..' . '/../lib/Migration/Version1040Date20260805000000.php',
+        'OCA\\DAV\\Migration\\Version1041Date20260818000000' => __DIR__ . '/..' . '/../lib/Migration/Version1041Date20260818000000.php',
         'OCA\\DAV\\Model\\ExampleEvent' => __DIR__ . '/..' . '/../lib/Model/ExampleEvent.php',
         'OCA\\DAV\\Paginate\\LimitedCopyIterator' => __DIR__ . '/..' . '/../lib/Paginate/LimitedCopyIterator.php',
         'OCA\\DAV\\Paginate\\PaginateCache' => __DIR__ . '/..' . '/../lib/Paginate/PaginateCache.php',

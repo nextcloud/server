@@ -3487,9 +3487,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				}
 			}
 		}
-		// convert dates to timestamp and prevent negative values
-		$derived['firstOccurence'] = $startDate ? max(0, $startDate->getTimestamp()) : 0;
-		$derived['lastOccurence'] = $endDate ? max(0, $endDate->getTimestamp()) : 0;
+		// convert dates to timestamp
+		$derived['firstOccurence'] = $startDate ? $startDate->getTimestamp() : 0;
+		$derived['lastOccurence'] = $endDate ? $endDate->getTimestamp() : 0;
 
 		return $derived;
 	}
