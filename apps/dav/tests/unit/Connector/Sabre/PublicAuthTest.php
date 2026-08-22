@@ -144,6 +144,28 @@ class PublicAuthTest extends \Test\TestCase {
 	public function testCheckTokenPasswordNotAuthenticated(): void {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
+		$this->request->method('getHeader')->with('X-Requested-With')->willReturn('');
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getPassword')->willReturn('password');
+		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('getShareType')->willReturn(42);
+
+		$this->shareManager->expects($this->once())
+			->method('getShareByToken')
+			->with('GX9HSGQrGE')
+			->willReturn($share);
+
+		$this->session->method('exists')->with('public_link_authenticated')->willReturn(false);
+
+		$result = self::invokePrivate($this->auth, 'checkToken');
+		$this->assertSame([false, 'No password supplied for password protected share'], $result);
+	}
+
+	public function testCheckTokenPasswordNotAuthenticatedAjax(): void {
+		$this->request->method('getPathInfo')
+			->willReturn('/dav/files/GX9HSGQrGE');
+		$this->request->method('getHeader')->with('X-Requested-With')->willReturn('XMLHttpRequest');
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
@@ -164,6 +186,7 @@ class PublicAuthTest extends \Test\TestCase {
 	public function testCheckTokenPasswordAuthenticatedWrongShare(): void {
 		$this->request->method('getPathInfo')
 			->willReturn('/dav/files/GX9HSGQrGE');
+		$this->request->method('getHeader')->with('X-Requested-With')->willReturn('');
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
@@ -178,8 +201,71 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(false);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('43');
 
-		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
-		self::invokePrivate($this->auth, 'checkToken');
+		$result = self::invokePrivate($this->auth, 'checkToken');
+		$this->assertSame([false, 'No password supplied for password protected share'], $result);
+	}
+
+	public function testCheckWithoutCredentialsRunsStrictCookieCheck(): void {
+		$this->request->method('getPathInfo')
+			->willReturn('/dav/files/GX9HSGQrGE');
+		$this->request->method('passesStrictCookieCheck')->willReturn(false);
+
+		$share = $this->createMock(IShare::class);
+		$share->method('isPasswordProtected')->willReturn(true);
+
+		$this->shareManager->method('getShareByToken')
+			->with('GX9HSGQrGE')
+			->willReturn($share);
+
+		$this->urlGenerator->method('linkToRoute')->willReturn('/s/GX9HSGQrGE');
+
+		$cookies = $_COOKIE;
+		$_COOKIE = ['nc_session_id' => 'irrelevant'];
+
+		try {
+			$this->expectException(\Sabre\DAV\Exception\PreconditionFailed::class);
+			$this->auth->check(
+				new \Sabre\HTTP\Request('PROPFIND', '/public.php/dav/files/GX9HSGQrGE'),
+				new \Sabre\HTTP\Response(),
+			);
+		} finally {
+			$_COOKIE = $cookies;
+		}
+	}
+
+	public function testCheckWithCredentialsSkipsStrictCookieCheck(): void {
+		$this->request->method('getPathInfo')
+			->willReturn('/dav/files/GX9HSGQrGE');
+		$this->request->method('passesStrictCookieCheck')->willReturn(false);
+
+		$share = $this->createMock(IShare::class);
+		$share->method('isPasswordProtected')->willReturn(true);
+		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
+		$share->method('getId')->willReturn('42');
+
+		$this->shareManager->method('getShareByToken')
+			->with('GX9HSGQrGE')
+			->willReturn($share);
+		$this->shareManager->method('checkPassword')
+			->with($share, 'password')
+			->willReturn(true);
+
+		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
+		$this->session->method('get')->with('public_link_authenticated')->willReturn(['42']);
+
+		$request = new \Sabre\HTTP\Request('PROPFIND', '/public.php/dav/files/GX9HSGQrGE');
+		$request->addHeader('Authorization', 'Basic ' . base64_encode('GX9HSGQrGE:password'));
+
+		$cookies = $_COOKIE;
+		$_COOKIE = ['nc_session_id' => 'irrelevant'];
+
+		try {
+			$result = $this->auth->check($request, new \Sabre\HTTP\Response());
+		} finally {
+			$_COOKIE = $cookies;
+		}
+
+		$this->assertSame([true, 'principals/GX9HSGQrGE'], $result);
 	}
 
 	public function testNoShare(): void {
