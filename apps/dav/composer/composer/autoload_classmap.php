@@ -263,6 +263,7 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\PublicAuth' => $baseDir . '/../lib/Connector/Sabre/PublicAuth.php',
     'OCA\\DAV\\Connector\\Sabre\\QuotaPlugin' => $baseDir . '/../lib/Connector/Sabre/QuotaPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\RequestIdHeaderPlugin' => $baseDir . '/../lib/Connector/Sabre/RequestIdHeaderPlugin.php',
+    'OCA\\DAV\\Connector\\Sabre\\SerializeMoveCopyPlugin' => $baseDir . '/../lib/Connector/Sabre/SerializeMoveCopyPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\Server' => $baseDir . '/../lib/Connector/Sabre/Server.php',
     'OCA\\DAV\\Connector\\Sabre\\ServerFactory' => $baseDir . '/../lib/Connector/Sabre/ServerFactory.php',
     'OCA\\DAV\\Connector\\Sabre\\ShareTypeList' => $baseDir . '/../lib/Connector/Sabre/ShareTypeList.php',
