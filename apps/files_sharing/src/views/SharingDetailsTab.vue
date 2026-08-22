@@ -183,7 +183,7 @@
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
-						v-else
+						v-else-if="canShowDownloadPermission"
 						v-model="canDownload"
 						:disabled="!canSetDownload"
 						data-cy-files-sharing-share-permissions-checkbox="download">
@@ -694,6 +694,10 @@ export default {
 			// the share still has the permission, and the resharer is still
 			// allowed to revoke it too (but not to grant it again).
 			return (this.fileInfo.canDownload() || this.canDownload)
+		},
+
+		canShowDownloadPermission() {
+			return !this.isPublicShare && !this.isRemoteShare
 		},
 
 		canRemoveReadPermission() {
