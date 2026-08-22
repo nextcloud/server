@@ -32,7 +32,7 @@ const context = computed(() => {
 		return undefined
 	}
 	return {
-		folder: sidebar.currentContext.folder.clone(),
+		folder: sidebar.currentContext.folder?.clone(),
 		node: sidebar.currentContext.node.clone(),
 		view: sidebar.currentContext.view,
 	}

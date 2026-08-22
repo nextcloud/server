@@ -4,9 +4,11 @@
 -->
 
 <script setup lang="ts">
+import type { ISidebarContext } from '@nextcloud/files'
+
 import { emit } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
-import { ref, toRef, watch } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
@@ -20,6 +22,16 @@ const previewUrl = usePreviewImage(toRef(sidebar, 'currentNode'), {
 	crop: false,
 	fallback: false,
 	size: [512, 288],
+})
+
+// Registered actions expect a context with folder and view,
+// both are only available when the sidebar is rendered by the files app.
+const actionContext = computed(() => sidebar.currentContext as ISidebarContext | undefined)
+
+// Apps embedding the sidebar can render it as a fullscreen overlay of their page
+watch(() => sidebar.isFullScreen, (isFullScreen) => {
+	const content = document.querySelector('#content') ?? document.querySelector('#content-vue')
+	content?.classList.toggle('with-sidebar--full', isFullScreen)
 })
 
 const background = ref<string>()
@@ -44,7 +56,6 @@ function onClosed() {
 		// was opened again meanwhile
 		return
 	}
-	sidebar.currentNode = undefined
 	emit('files:sidebar:closed')
 }
 
@@ -75,6 +86,7 @@ function onToggle(open: boolean) {
 		force-menu
 		:active.sync="sidebar.activeTab"
 		:background="background"
+		:class="{ 'app-sidebar--full': sidebar.isFullScreen }"
 		:empty="!sidebar.hasContext"
 		:loading="!sidebar.hasContext"
 		:name="sidebar.currentNode?.displayname ?? t('files', 'Loading …')"
@@ -88,17 +100,17 @@ function onToggle(open: boolean) {
 		</template>
 
 		<!-- Actions menu -->
-		<template v-if="sidebar.currentContext" #secondary-actions>
+		<template v-if="actionContext" #secondary-actions>
 			<!-- we cannot use a sub component due to limitations of the NcActions component -->
 			<NcActionButton
 				v-for="action of sidebar.currentActions"
 				:key="action.id"
 				close-after-click
-				@click="action.onClick(sidebar.currentContext)">
+				@click="action.onClick(actionContext)">
 				<template #icon>
-					<NcIconSvgWrapper :svg="action.iconSvgInline(sidebar.currentContext)" />
+					<NcIconSvgWrapper :svg="action.iconSvgInline(actionContext)" />
 				</template>
-				{{ action.displayName(sidebar.currentContext) }}
+				{{ action.displayName(actionContext) }}
 			</NcActionButton>
 		</template>
 
