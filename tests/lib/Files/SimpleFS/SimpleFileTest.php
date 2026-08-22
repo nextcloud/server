@@ -10,6 +10,7 @@ namespace Test\File\SimpleFS;
 use OC\Files\SimpleFS\SimpleFile;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
 
 class SimpleFileTest extends \Test\TestCase {
@@ -92,7 +93,7 @@ class SimpleFileTest extends \Test\TestCase {
 
 	public function testGetContentInvalidAppData(): void {
 		$this->file->method('getContent')
-			->willReturn(false);
+			->willThrowException(new GenericFileException());
 		$this->file->method('stat')->willReturn(false);
 
 		$parent = $this->createMock(Folder::class);
@@ -107,6 +108,20 @@ class SimpleFileTest extends \Test\TestCase {
 		$this->expectException(NotFoundException::class);
 
 		$this->simpleFile->getContent();
+	}
+
+	public function testGetContentReturnsFalseOnFailure(): void {
+		$this->file->expects($this->once())
+			->method('getContent')
+			->willThrowException(new GenericFileException());
+
+		// We don't want to test the `checkFile()`
+		// method, so, just return an empty array.
+		$this->file->method('stat')->willReturn([]);
+
+		$result = $this->simpleFile->getContent();
+
+		$this->assertFalse($result);
 	}
 
 	public function testRead(): void {
