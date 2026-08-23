@@ -9,15 +9,18 @@ declare(strict_types=1);
 
 namespace OCA\Files_Trashbin\Tests;
 
+use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Updater;
 use OC\Files\Filesystem;
 use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Temporary;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
+use OCA\Files_Trashbin\Exceptions\CopyRecursiveException;
 use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trashbin;
@@ -45,6 +48,23 @@ class TemporaryNoCross extends Temporary {
 
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		return Common::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+	}
+}
+
+
+class TemporaryFailingRead extends Temporary {
+	private bool $failReads = false;
+
+	public function failReads(): void {
+		$this->failReads = true;
+	}
+
+	public function fopen(string $path, string $mode) {
+		if ($this->failReads && str_starts_with($mode, 'r')) {
+			throw new CopyRecursiveException();
+		}
+
+		return parent::fopen($path, $mode);
 	}
 }
 
@@ -744,6 +764,72 @@ class StorageTest extends \Test\TestCase {
 
 		$this->assertEquals('foo', $this->rootView->file_get_contents($this->user . '/files_trashbin/files/test.txt.d1000'));
 		$this->assertEquals('bar', $this->rootView->file_get_contents($this->user . '/files_trashbin/files/test.txt.d1001'));
+	}
+
+	public function testDeleteMultipleFoldersWithSameTimestamp(): void {
+		$timeFactory = $this->createMock(ITimeFactory::class);
+		$timeFactory->method('getTime')
+			->willReturn(1000);
+		$this->overwriteService(ITimeFactory::class, $timeFactory);
+
+		$folders = [
+			'alpha' => 'source-a',
+			'bravo' => 'source-b',
+			'charlie' => 'source-c',
+		];
+		foreach ($folders as $folder => $location) {
+			$this->userView->mkdir($location . '/' . $folder);
+			for ($i = 0; $i < 10; $i++) {
+				$this->userView->file_put_contents($location . '/' . $folder . '/file-' . $i . '.txt', $folder . '-' . $i);
+			}
+		}
+
+		foreach ($folders as $folder => $location) {
+			$this->assertTrue($this->userView->rmdir($location . '/' . $folder));
+		}
+
+		$trashEntries = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files');
+		$trashNames = array_map(static fn ($entry) => $entry->getName(), $trashEntries);
+		sort($trashNames);
+		$this->assertSame(['alpha.d1000', 'bravo.d1000', 'charlie.d1000'], $trashNames);
+
+		foreach ($folders as $folder => $location) {
+			$trashPath = $this->user . '/files_trashbin/files/' . $folder . '.d1000';
+			$children = $this->rootView->getDirectoryContent($trashPath);
+			$this->assertCount(10, $children);
+			for ($i = 0; $i < 10; $i++) {
+				$this->assertSame($folder . '-' . $i, $this->rootView->file_get_contents($trashPath . '/file-' . $i . '.txt'));
+			}
+			$this->assertSame($location, Trashbin::getLocation($this->user, $folder, '1000'));
+		}
+	}
+
+	public function testFailedMoveCommitsPropagationBatch(): void {
+		$timeFactory = $this->createMock(ITimeFactory::class);
+		$timeFactory->method('getTime')
+			->willReturn(1000);
+		$this->overwriteService(ITimeFactory::class, $timeFactory);
+
+		[$userStorage,] = $this->rootView->resolvePath('/' . $this->user . '/files/test.txt');
+		while ($userStorage instanceof Wrapper) {
+			$userStorage = $userStorage->getWrapperStorage();
+		}
+		$propagator = $this->createMock(Propagator::class);
+		$propagator->expects($this->once())->method('beginBatch');
+		$propagator->expects($this->once())->method('commitBatch');
+		$propagatorProperty = new \ReflectionProperty(Common::class, 'propagator');
+		$propagatorProperty->setValue($userStorage, $propagator);
+
+		$failingStorage = new TemporaryFailingRead([]);
+		Filesystem::mount($failingStorage, [], $this->user . '/files/failing');
+		$this->userView->file_put_contents('failing/broken.txt', 'broken');
+		$failingStorage->getScanner()->scan('');
+		$failingStorage->failReads();
+
+		[$storage, $internalPath] = $this->userView->resolvePath('failing/broken.txt');
+		$this->assertFalse(Server::get(ITrashManager::class)->moveToTrash($storage, $internalPath));
+		$this->assertFalse($this->rootView->file_exists($this->user . '/files_trashbin/files/broken.txt.d1000'));
+		$this->assertFalse(Trashbin::getLocation($this->user, 'broken.txt', '1000'));
 	}
 
 	public function testMoveFromStoragePreserveFileId(): void {
