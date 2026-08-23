@@ -53,6 +53,7 @@ module.exports = {
 		'vue-settings-admin-security': path.join(__dirname, 'apps/settings/src', 'main-admin-security.js'),
 		'vue-settings-admin-settings-presets': path.join(__dirname, 'apps/settings/src', 'main-admin-settings-presets.js'),
 		'vue-settings-admin-sharing': path.join(__dirname, 'apps/settings/src', 'admin-settings-sharing.ts'),
+		'vue-settings-admin-previews': path.join(__dirname, 'apps/settings/src', 'admin-settings-previews.ts'),
 		'vue-settings-nextcloud-pdf': path.join(__dirname, 'apps/settings/src', 'main-nextcloud-pdf.js'),
 		'vue-settings-profile-contact': path.join(__dirname, 'apps/settings/src', 'main-profile-contact.js'),
 		'vue-settings-language-locale': path.join(__dirname, 'apps/settings/src', 'main-language-locale.js'),
