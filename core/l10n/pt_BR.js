@@ -381,7 +381,7 @@ OC.L10N.register(
     "Currently logged in as {userDisplayName} ({userId})." : "Atualmente conectado como {userDisplayName} ({userId}).",
     "You are about to grant \"{client}\" access to your {instanceName} account." : "Você está prestes a conceder a \"{client}\" acesso à sua conta {instanceName}.",
     "User menu" : "Menu do usuário",
-    "Your guest name: {user}" : "Seu nome de convidado: {user}",
+    "Your guest name: {user}" : "Seu nome de visitante: {user}",
     "You are currently not identified." : "No momento, você não está identificado.",
     "Set public name" : "Definir nome público",
     "Change public name" : "Mudar nome público",
