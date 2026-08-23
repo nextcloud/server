@@ -215,6 +215,75 @@ class FileTest extends TestCase {
 		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
 	}
 
+	public static function expectedSizeProvider(): array {
+		return [
+			'PUT with a length passes it through' => ['PUT', ['CONTENT_LENGTH' => '9'], 9],
+			'PUT of an empty body still expects zero' => ['PUT', ['CONTENT_LENGTH' => '0'], 0],
+			'PUT without the header expects nothing' => ['PUT', [], null],
+			// The chunked upload assembly reaches put() as a MOVE or COPY, where the
+			// Content-Length describes the request rather than the assembled stream.
+			'MOVE ignores a zero length' => ['MOVE', ['CONTENT_LENGTH' => '0'], null],
+			'MOVE ignores a non-zero length' => ['MOVE', ['CONTENT_LENGTH' => '9'], null],
+			'COPY ignores a zero length' => ['COPY', ['CONTENT_LENGTH' => '0'], null],
+			'COPY ignores a non-zero length' => ['COPY', ['CONTENT_LENGTH' => '9'], null],
+		];
+	}
+
+	/**
+	 * The expected size handed to IWriteStreamStorage::writeStream() may only come from
+	 * the Content-Length of a PUT body. Passing it on for other methods makes storages
+	 * that only measure the stream when given no size - ObjectStoreStorage among them -
+	 * write a truncated or empty file.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'expectedSizeProvider')]
+	public function testPutExpectedSizeOnlyComesFromPutContentLength(string $method, array $server, ?int $expectedSize): void {
+		$storage = $this->getMockBuilder(Local::class)
+			->onlyMethods(['writeStream'])
+			->setConstructorArgs([['datadir' => Server::get(ITempManager::class)->getTemporaryFolder()]])
+			->getMock();
+		Filesystem::mount($storage, [], $this->user . '/');
+
+		/** @var View&MockObject $view */
+		$view = $this->getMockBuilder(View::class)
+			->onlyMethods(['getRelativePath', 'resolvePath'])
+			->getMock();
+		$view->expects($this->atLeastOnce())
+			->method('resolvePath')
+			->willReturnCallback(fn ($path) => [$storage, $path]);
+		$view->expects($this->any())
+			->method('getRelativePath')
+			->willReturnArgument(0);
+
+		$receivedSize = false;
+		$storage->expects($this->once())
+			->method('writeStream')
+			->willReturnCallback(function (string $path, $stream, ?int $size = null) use (&$receivedSize): int {
+				$receivedSize = $size;
+				return (int)stream_copy_to_stream($stream, fopen('php://temp', 'r+'));
+			});
+
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
+			'permissions' => Constants::PERMISSION_ALL,
+			'type' => FileInfo::TYPE_FOLDER,
+		], null);
+
+		$request = new Request([
+			'server' => $server,
+			'method' => $method,
+		], $this->requestId, $this->config, null);
+
+		$file = new File($view, $info, null, $request);
+
+		try {
+			$file->put($this->getStream('test data'));
+		} catch (\Exception $e) {
+			// Whatever happens after the write - size checks, renaming the part file - is
+			// not what this test is about.
+		}
+
+		$this->assertSame($expectedSize, $receivedSize);
+	}
+
 	/**
 	 * Simulate putting a file to the given path.
 	 *
