@@ -10,6 +10,7 @@ namespace OC\Preview;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
+use OC\Preview\Failure\PreviewFailureService;
 use OC\Preview\Storage\PreviewFile;
 use OC\Preview\Storage\StorageFactory;
 use OCP\DB\Exception as DBException;
@@ -46,6 +47,8 @@ class Generator {
 		private readonly PreviewMapper $previewMapper,
 		private readonly StorageFactory $storageFactory,
 		private readonly PreviewMigrationService $migrationService,
+		private readonly ?ProviderPriorityResolver $priorityResolver = null,
+		private readonly ?PreviewFailureService $failureService = null,
 	) {
 	}
 
@@ -349,63 +352,94 @@ class Generator {
 	 * @throws NotFoundException
 	 */
 	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): Preview {
-		$previewProviders = $this->previewManager->getProviders();
-		foreach ($previewProviders as $supportedMimeType => $providers) {
-			// Filter out providers that does not support this mime
+		$entries = [];
+		foreach ($this->previewManager->getProviders() as $supportedMimeType => $providers) {
 			if (!preg_match($supportedMimeType, $mimeType)) {
 				continue;
 			}
 
 			foreach ($providers as $providerClosure) {
-
 				$provider = $this->helper->getProvider($providerClosure);
 				if (!$provider) {
 					continue;
 				}
-
 				if (!$provider->isAvailable($file)) {
 					continue;
 				}
-
-				$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
-				$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
-				try {
-					$this->logger->debug('Calling preview provider for {mimeType} with width={width}, height={height}', [
-						'mimeType' => $mimeType,
-						'width' => $width,
-						'height' => $height,
-					]);
-					$preview = $this->helper->getThumbnail($provider, $file, $width, $height);
-				} finally {
-					self::unguardWithSemaphore($sem);
-				}
-
-				if (!($preview instanceof IImage)) {
-					continue;
-				}
-
-				try {
-					$previewEntry = new Preview();
-					$previewEntry->generateId();
-					$previewEntry->setFileId($file->getId());
-					$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
-					$previewEntry->setSourceMimeType($file->getMimeType());
-					$previewEntry->setWidth($preview->width());
-					$previewEntry->setHeight($preview->height());
-					$previewEntry->setVersion($version);
-					$previewEntry->setMax($max);
-					$previewEntry->setCropped($crop);
-					$previewEntry->setEncrypted(false);
-					$previewEntry->setMimetype($preview->dataMimeType());
-					$previewEntry->setEtag($file->getEtag());
-					$previewEntry->setMtime((new \DateTime())->getTimestamp());
-					return $this->savePreview($previewEntry, $preview);
-				} catch (NotPermittedException) {
-					throw new NotFoundException();
-				}
+				$entries[] = [
+					'class' => $provider::class,
+					'provider' => $provider,
+				];
 			}
 		}
 
+		if ($this->priorityResolver !== null && $entries !== []) {
+			$classes = array_values(array_unique(array_column($entries, 'class')));
+			$orderedClasses = $this->priorityResolver->sortMatchingProviders($mimeType, $classes);
+			$classPos = array_flip($orderedClasses);
+			usort($entries, function (array $left, array $right) use ($classPos): int {
+				return ($classPos[$left['class']] ?? PHP_INT_MAX) <=> ($classPos[$right['class']] ?? PHP_INT_MAX);
+			});
+		}
+
+		$lastProvider = null;
+		$lastError = 'No provider successfully handled the preview generation';
+
+		foreach ($entries as $entry) {
+			$provider = $entry['provider'];
+			$class = $entry['class'];
+			$lastProvider = $class;
+
+			$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
+			$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
+			try {
+				$this->logger->debug('Calling preview provider {provider} for {mimeType} with width={width}, height={height}', [
+					'provider' => $class,
+					'mimeType' => $mimeType,
+					'width' => $width,
+					'height' => $height,
+				]);
+				$preview = $this->helper->getThumbnail($provider, $file, $width, $height);
+			} catch (\Throwable $e) {
+				$lastError = $e->getMessage();
+				$this->logger->warning('Preview provider {provider} failed for {mimeType}', [
+					'provider' => $class,
+					'mimeType' => $mimeType,
+					'exception' => $e,
+				]);
+				continue;
+			} finally {
+				self::unguardWithSemaphore($sem);
+			}
+
+			if (!($preview instanceof IImage)) {
+				continue;
+			}
+
+			try {
+				$previewEntry = new Preview();
+				$previewEntry->generateId();
+				$previewEntry->setFileId($file->getId());
+				$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
+				$previewEntry->setSourceMimeType($file->getMimeType());
+				$previewEntry->setWidth($preview->width());
+				$previewEntry->setHeight($preview->height());
+				$previewEntry->setVersion($version);
+				$previewEntry->setMax($max);
+				$previewEntry->setCropped($crop);
+				$previewEntry->setEncrypted(false);
+				$previewEntry->setMimetype($preview->dataMimeType());
+				$previewEntry->setEtag($file->getEtag());
+				$previewEntry->setMtime((new \DateTime())->getTimestamp());
+				$saved = $this->savePreview($previewEntry, $preview);
+				$this->failureService?->clearForFile($file->getId());
+				return $saved;
+			} catch (NotPermittedException) {
+				throw new NotFoundException();
+			}
+		}
+
+		$this->failureService?->record($file, $mimeType, $lastProvider, $lastError);
 		throw new NotFoundException('No provider successfully handled the preview generation');
 	}
 

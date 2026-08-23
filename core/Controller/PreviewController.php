@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\Preview\PreviewCachePolicy;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -37,6 +38,7 @@ class PreviewController extends Controller {
 		private IRootFolder $root,
 		private ?string $userId,
 		private IMimeIconProvider $mimeIconProvider,
+		private ?PreviewCachePolicy $cachePolicy = null,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -168,7 +170,11 @@ class PreviewController extends Controller {
 			$response = new FileDisplayResponse($f, Http::STATUS_OK, [
 				'Content-Type' => $f->getMimeType(),
 			]);
-			$response->cacheFor(3600 * 24, false, true);
+			if ($this->cachePolicy !== null) {
+				$this->cachePolicy->apply($response, PreviewCachePolicy::AUTHENTICATED, 3600 * 24, false, true);
+			} else {
+				$response->cacheFor(3600 * 24, false, true);
+			}
 			return $response;
 		} catch (NotFoundException $e) {
 			// If we have no preview enabled, we can redirect to the mime icon if any

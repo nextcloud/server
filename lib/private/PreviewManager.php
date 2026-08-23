@@ -36,7 +36,9 @@ use OC\Preview\PDF;
 use OC\Preview\Photoshop;
 use OC\Preview\PNG;
 use OC\Preview\Postscript;
+use OC\Preview\Failure\PreviewFailureService;
 use OC\Preview\PreviewMigrationService;
+use OC\Preview\ProviderPriorityResolver;
 use OC\Preview\SGI;
 use OC\Preview\StarOffice;
 use OC\Preview\Storage\StorageFactory;
@@ -157,6 +159,8 @@ class PreviewManager implements IPreview {
 				$this->container->get(PreviewMapper::class),
 				$this->container->get(StorageFactory::class),
 				$this->container->get(PreviewMigrationService::class),
+				$this->container->get(ProviderPriorityResolver::class),
+				$this->container->get(PreviewFailureService::class),
 			);
 		}
 		return $this->generator;

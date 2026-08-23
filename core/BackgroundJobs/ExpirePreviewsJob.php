@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\BackgroundJobs;
 
+use OC\Preview\Failure\PreviewFailureService;
 use OC\Preview\PreviewService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJob;
@@ -23,6 +24,7 @@ class ExpirePreviewsJob extends TimedJob {
 		ITimeFactory $time,
 		private readonly IConfig $config,
 		private readonly PreviewService $service,
+		private readonly PreviewFailureService $failureService,
 	) {
 		parent::__construct($time);
 
@@ -33,10 +35,10 @@ class ExpirePreviewsJob extends TimedJob {
 	#[\Override]
 	protected function run(mixed $argument): void {
 		$days = $this->config->getSystemValueInt('preview_expiration_days');
-		if ($days <= 0) {
-			return;
+		if ($days > 0) {
+			$this->service->deleteExpiredPreviews($days);
 		}
 
-		$this->service->deleteExpiredPreviews($days);
+		$this->failureService->cleanup();
 	}
 }

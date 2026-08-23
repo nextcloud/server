@@ -7,6 +7,7 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use OC\Preview\PreviewCachePolicy;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
@@ -40,6 +41,7 @@ class PublicPreviewController extends PublicShareController {
 		ISession $session,
 		private IPreview $previewManager,
 		private IMimeIconProvider $mimeIconProvider,
+		private ?PreviewCachePolicy $cachePolicy = null,
 	) {
 		parent::__construct($appName, $request, $session);
 	}
@@ -150,7 +152,7 @@ class PublicPreviewController extends PublicShareController {
 				['Content-Type' => $preview->getMimeType()]
 			);
 
-			$response->cacheFor($cacheForSeconds);
+			$this->applyPublicCache($response, $cacheForSeconds);
 			return $response;
 		} catch (NotFoundException) {
 			// If a preview could not be generated for a resolved file, we can redirect to the mime icon if any
@@ -218,7 +220,7 @@ class PublicPreviewController extends PublicShareController {
 
 			$f = $this->previewManager->getPreview($node, -1, -1, false);
 			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
-			$response->cacheFor(3600 * 24);
+			$this->applyPublicCache($response, 3600 * 24);
 			return $response;
 		} catch (NotFoundException) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
@@ -227,5 +229,13 @@ class PublicPreviewController extends PublicShareController {
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
+	}
+
+	private function applyPublicCache(FileDisplayResponse $response, int $fallbackMaxAge): void {
+		if ($this->cachePolicy !== null) {
+			$this->cachePolicy->apply($response, PreviewCachePolicy::PUBLIC, $fallbackMaxAge);
+			return;
+		}
+		$response->cacheFor($fallbackMaxAge);
 	}
 }

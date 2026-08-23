@@ -1668,6 +1668,95 @@ $CONFIG = [
 	],
 
 	/**
+	 * Per-MIME provider priority overrides.
+	 *
+	 * When generating a preview for a MIME type listed here, providers are tried
+	 * in this order first (skipping any that are not in ``enabledPreviewProviders``).
+	 * Remaining enabled providers that match the MIME still run afterwards.
+	 *
+	 * Configure this from Administration → Previews, or here.
+	 *
+	 * Defaults to ``[]``
+	 */
+	'preview_provider_mime_priority' => [
+		'image/heic' => ['OC\\Preview\\Imaginary', 'OC\\Preview\\HEIC'],
+		'image/heif' => ['OC\\Preview\\Imaginary', 'OC\\Preview\\HEIC'],
+	],
+
+	/**
+	 * Per-MIME provider denylist.
+	 *
+	 * Providers listed for a MIME type are never used for that type, even if they
+	 * are enabled globally.
+	 *
+	 * Defaults to ``[]``
+	 */
+	'preview_provider_mime_deny' => [
+		'image/heic' => ['OC\\Preview\\Image'],
+	],
+
+	/**
+	 * Output format used by some preview providers (notably Imaginary).
+	 *
+	 * Valid values: ``jpeg``, ``webp``
+	 *
+	 * Defaults to ``jpeg``
+	 */
+	'preview_format' => 'jpeg',
+
+	/**
+	 * HTTP cache policy for authenticated preview responses (``/core/preview``).
+	 *
+	 * If this key is unset, Nextcloud keeps the historical default:
+	 * ``private, max-age=86400, immutable``.
+	 *
+	 * ``visibility`` is ``private`` or ``public``. Setting authenticated previews
+	 * to ``public`` allows shared caches to store them — only enable this if you
+	 * understand the privacy impact.
+	 *
+	 * An optional ``cache_control`` string, if non-empty, replaces the built header.
+	 */
+	'preview_cache_authenticated' => [
+		'visibility' => 'private',
+		'max_age' => 86400,
+		's_maxage' => null,
+		'immutable' => true,
+		'cache_control' => '',
+	],
+
+	/**
+	 * HTTP cache policy for public share preview responses.
+	 *
+	 * If this key is unset, Nextcloud keeps the historical default:
+	 * ``private, max-age=86400, must-revalidate``.
+	 *
+	 * Set ``visibility`` to ``public`` and optionally ``s_maxage`` when a CDN
+	 * should cache public-share previews.
+	 */
+	'preview_cache_public' => [
+		'visibility' => 'private',
+		'max_age' => 86400,
+		's_maxage' => null,
+		'immutable' => false,
+		'cache_control' => '',
+	],
+
+	/**
+	 * How long failed preview generations are kept in ``oc_preview_failures``.
+	 *
+	 * Defaults to ``30`` days. Set to ``0`` to disable time-based cleanup
+	 * (the max-rows cap still applies).
+	 */
+	'preview_failures_retention_days' => 30,
+
+	/**
+	 * Maximum number of rows in ``oc_preview_failures``.
+	 *
+	 * Defaults to ``5000``. Oldest rows are dropped when the cap is exceeded.
+	 */
+	'preview_failures_max_rows' => 5000,
+
+	/**
 	 * Maximum file size for file metadata generation.
 	 *
 	 * Files larger than this limit will be skipped.
