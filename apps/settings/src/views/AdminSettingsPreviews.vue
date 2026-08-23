@@ -34,34 +34,68 @@
 				data-cy="previews-enable">
 				{{ t('settings', 'Enable previews') }}
 			</NcCheckboxRadioSwitch>
+			<p class="previews-admin__hint">
+				{{ t('settings', 'When disabled, Nextcloud will not generate or serve file previews.') }}
+			</p>
 			<div class="previews-admin__fields">
 				<NcTextField
 					v-model="maxX"
 					type="number"
 					data-cy="previews-max-x"
-					:label="t('settings', 'Maximum preview width (pixels)')" />
+					:label="t('settings', 'Maximum preview width (pixels)')"
+					:helper-text="t('settings', 'Longest side of the full-size preview. Leave empty to use the default (4096).')" />
 				<NcTextField
 					v-model="maxY"
 					type="number"
 					data-cy="previews-max-y"
-					:label="t('settings', 'Maximum preview height (pixels)')" />
+					:label="t('settings', 'Maximum preview height (pixels)')"
+					:helper-text="t('settings', 'Longest side of the full-size preview. Leave empty to use the default (4096).')" />
 				<NcTextField
 					v-model="maxMemory"
 					type="number"
-					:label="t('settings', 'Maximum memory (MB)')" />
+					:label="t('settings', 'Maximum memory (MB)')"
+					:helper-text="t('settings', 'Skip imagegd previews that would allocate more than this. -1 means no memory cap. Default 256.')" />
 				<NcTextField
 					v-model="maxFilesize"
 					type="number"
-					:label="t('settings', 'Maximum source image filesize (MB, -1 = unlimited)')" />
-				<NcTextField
-					v-model="jpegQuality"
-					type="number"
-					:label="t('settings', 'JPEG quality (1–100)')" />
+					:label="t('settings', 'Maximum source image filesize (MB)')"
+					:helper-text="t('settings', 'Skip local image previews above this size. -1 means unlimited. Default 50.')" />
 				<NcSelect
 					v-model="previewFormatOption"
 					:options="formatOptions"
 					:clearable="false"
 					:input-label="t('settings', 'Preview output format')" />
+				<p class="previews-admin__hint">
+					{{ t('settings', 'Used by Imaginary and other providers that can emit JPEG or WebP.') }}
+				</p>
+				<NcTextField
+					v-model="jpegQuality"
+					type="number"
+					:label="t('settings', 'JPEG quality (1–100)')"
+					:helper-text="t('settings', 'Higher values look better and use more disk. Default 80.')" />
+				<NcTextField
+					v-if="showWebpQuality"
+					v-model="webpQuality"
+					type="number"
+					:label="t('settings', 'WebP quality (1–100)')"
+					:helper-text="t('settings', 'Used when the output format is WebP. Default 80.')" />
+			</div>
+
+			<h3>{{ t('settings', 'Performance') }}</h3>
+			<p class="previews-admin__hint">
+				{{ concurrencyHint }}
+			</p>
+			<div class="previews-admin__fields">
+				<NcTextField
+					v-model="concurrencyNew"
+					type="number"
+					:label="t('settings', 'New preview concurrency')"
+					:helper-text="t('settings', 'How many previews may be generated at once. Leave empty to use the CPU count (or 4). Do not set higher than the number of CPU cores.')" />
+				<NcTextField
+					v-model="concurrencyAll"
+					type="number"
+					:label="t('settings', 'Total preview concurrency')"
+					:helper-text="t('settings', 'All preview requests, including cache hits. Leave empty to use twice the new-preview limit (or 8). Should be greater than or equal to new preview concurrency.')" />
 			</div>
 		</NcSettingsSection>
 
@@ -72,10 +106,14 @@
 				<NcTextField
 					v-model="settings.imaginaryUrl"
 					:label="t('settings', 'Imaginary URL')"
-					placeholder="http://imaginary:9000" />
+					placeholder="http://imaginary:9000"
+					:helper-text="t('settings', 'HTTP(S) URL of the Imaginary service. Required before the Imaginary providers can generate previews.')" />
 				<NcPasswordField
 					v-model="settings.imaginaryKey"
 					:label="t('settings', 'Imaginary API key (optional)')" />
+				<p class="previews-admin__hint">
+					{{ t('settings', 'Sent as the key query parameter. Leave empty if Imaginary does not require a key.') }}
+				</p>
 			</div>
 			<div class="previews-admin__row">
 				<NcButton :disabled="testingImaginary" @click="testImaginary">
@@ -91,8 +129,47 @@
 		</NcSettingsSection>
 
 		<NcSettingsSection
+			v-if="showExternalTools"
+			:name="t('settings', 'External tools')"
+			:description="t('settings', 'Paths are shown because the matching binaries were detected or a related provider is enabled. Leave a path empty to search PATH.')">
+			<div v-if="showFfmpeg" class="previews-admin__fields">
+				<NcNoteCard :type="detection.ffmpegFound ? 'success' : 'warning'">
+					{{ detection.ffmpegFound
+						? t('settings', 'ffmpeg found: {path}', { path: detection.ffmpegDetectedPath })
+						: t('settings', 'ffmpeg was not found. Movie previews will not be generated until it is installed or a path is set.') }}
+				</NcNoteCard>
+				<NcTextField
+					v-model="settings.ffmpegPath"
+					:label="t('settings', 'ffmpeg path')"
+					:helper-text="t('settings', 'Custom path to ffmpeg for video previews. Empty uses the server PATH.')" />
+				<NcTextField
+					v-if="showFfmpeg"
+					v-model="settings.ffprobePath"
+					:label="t('settings', 'ffprobe path')"
+					:helper-text="t('settings', 'Used for HDR video metadata. Empty uses the same directory as ffmpeg.')" />
+			</div>
+			<div v-if="showOffice" class="previews-admin__fields">
+				<NcNoteCard :type="detection.officeFound ? 'success' : 'warning'">
+					{{ detection.officeFound
+						? t('settings', 'LibreOffice/OpenOffice found: {path}', { path: detection.officeDetectedPath })
+						: t('settings', 'LibreOffice/OpenOffice was not found. Office document previews will not be generated until it is installed or a path is set.') }}
+				</NcNoteCard>
+				<NcTextField
+					v-model="settings.libreofficePath"
+					:label="t('settings', 'LibreOffice path')"
+					:helper-text="t('settings', 'Custom path to LibreOffice or OpenOffice. Empty searches for libreoffice, then openoffice.')" />
+			</div>
+		</NcSettingsSection>
+
+		<NcSettingsSection
 			:name="t('settings', 'Providers')"
 			:description="t('settings', 'Enable providers and set their global priority. The order of enabled providers is the fallback order for all MIME types.')">
+			<NcNoteCard v-if="detection.imagick" type="success">
+				{{ t('settings', 'ImageMagick (Imagick) is available. HEIC, TIFF, PDF, and similar providers can run when their format is supported.') }}
+			</NcNoteCard>
+			<NcNoteCard v-else type="warning">
+				{{ t('settings', 'ImageMagick (Imagick) is not available. Providers that require it are listed as unavailable until the PHP extension is installed.') }}
+			</NcNoteCard>
 			<div class="previews-admin__row">
 				<NcButton :disabled="settings.configIsReadonly" @click="resetProviders">
 					{{ t('settings', 'Reset to defaults') }}
@@ -102,7 +179,8 @@
 				<li
 					v-for="(provider, index) in settings.providers"
 					:key="provider.class"
-					class="previews-admin__provider">
+					class="previews-admin__provider"
+					:class="{ 'previews-admin__provider--unavailable': provider.available === false }">
 					<NcCheckboxRadioSwitch
 						v-model="provider.enabled"
 						type="switch">
@@ -110,6 +188,11 @@
 					</NcCheckboxRadioSwitch>
 					<code class="previews-admin__class">{{ provider.class }}</code>
 					<span class="previews-admin__mime">{{ provider.mime }}</span>
+					<span
+						class="previews-admin__availability"
+						:data-available="provider.available === false ? 'false' : 'true'">
+						{{ providerAvailabilityLabel(provider) }}
+					</span>
 					<div class="previews-admin__order">
 						<NcButton
 							type="tertiary"
@@ -197,11 +280,13 @@
 				<NcTextField
 					v-model="authMaxAge"
 					type="number"
-					:label="t('settings', 'max-age (seconds)')" />
+					:label="t('settings', 'max-age (seconds)')"
+					:helper-text="t('settings', 'How long browsers may reuse the preview. Default 86400 (1 day).')" />
 				<NcTextField
 					v-model="authSMaxAge"
 					type="number"
-					:label="t('settings', 's-maxage (seconds, optional)')" />
+					:label="t('settings', 's-maxage (seconds, optional)')"
+					:helper-text="t('settings', 'How long shared caches (proxies/CDNs) may store the preview. Leave empty to omit.')" />
 				<NcCheckboxRadioSwitch v-model="settings.cacheAuthenticated.immutable" type="switch">
 					{{ t('settings', 'immutable') }}
 				</NcCheckboxRadioSwitch>
@@ -220,11 +305,13 @@
 				<NcTextField
 					v-model="publicMaxAge"
 					type="number"
-					:label="t('settings', 'max-age (seconds)')" />
+					:label="t('settings', 'max-age (seconds)')"
+					:helper-text="t('settings', 'How long browsers may reuse public-share previews. Default 86400 (1 day).')" />
 				<NcTextField
 					v-model="publicSMaxAge"
 					type="number"
-					:label="t('settings', 's-maxage (seconds, optional)')" />
+					:label="t('settings', 's-maxage (seconds, optional)')"
+					:helper-text="t('settings', 'How long shared caches may store public-share previews. Leave empty to omit.')" />
 				<NcCheckboxRadioSwitch v-model="settings.cachePublic.immutable" type="switch">
 					{{ t('settings', 'immutable') }}
 				</NcCheckboxRadioSwitch>
@@ -237,6 +324,24 @@
 		<NcSettingsSection
 			:name="t('settings', 'Failed generations')"
 			:description="t('settings', 'Preview generation failures recorded by the server. Retrying generates a preview for that file using the current providers.')">
+			<h3>{{ t('settings', 'Retention') }}</h3>
+			<div class="previews-admin__fields">
+				<NcTextField
+					v-model="expirationDays"
+					type="number"
+					:label="t('settings', 'Expire generated previews after (days)')"
+					:helper-text="t('settings', 'Daily job deletes stored preview files older than this. 0 disables file expiry. This does not delete user files.')" />
+				<NcTextField
+					v-model="failuresRetentionDays"
+					type="number"
+					:label="t('settings', 'Keep failure records for (days)')"
+					:helper-text="t('settings', 'Daily job deletes failure rows older than this. 0 keeps them until the max-rows cap applies.')" />
+				<NcTextField
+					v-model="failuresMaxRows"
+					type="number"
+					:label="t('settings', 'Maximum failure rows')"
+					:helper-text="t('settings', 'Oldest failure rows are dropped when this cap is exceeded. Default 5000.')" />
+			</div>
 			<div class="previews-admin__row">
 				<NcSelect
 					v-model="failureRange"
@@ -338,6 +443,10 @@ export default {
 
 	data() {
 		const settings = JSON.parse(JSON.stringify(initialSettings))
+		settings.detection = settings.detection || {}
+		settings.ffmpegPath = settings.ffmpegPath || ''
+		settings.ffprobePath = settings.ffprobePath || ''
+		settings.libreofficePath = settings.libreofficePath || ''
 		return {
 			documentationLink,
 			settings,
@@ -404,6 +513,92 @@ export default {
 			set(value) {
 				this.settings.jpegQuality = Number(value)
 			},
+		},
+		webpQuality: {
+			get() {
+				return String(this.settings.webpQuality ?? '')
+			},
+			set(value) {
+				this.settings.webpQuality = Number(value)
+			},
+		},
+		concurrencyNew: {
+			get() {
+				return this.settings.previewConcurrencyNew === null || this.settings.previewConcurrencyNew === undefined
+					? ''
+					: String(this.settings.previewConcurrencyNew)
+			},
+			set(value) {
+				this.settings.previewConcurrencyNew = value === '' ? null : Number(value)
+			},
+		},
+		concurrencyAll: {
+			get() {
+				return this.settings.previewConcurrencyAll === null || this.settings.previewConcurrencyAll === undefined
+					? ''
+					: String(this.settings.previewConcurrencyAll)
+			},
+			set(value) {
+				this.settings.previewConcurrencyAll = value === '' ? null : Number(value)
+			},
+		},
+		expirationDays: {
+			get() {
+				return String(this.settings.previewExpirationDays ?? 0)
+			},
+			set(value) {
+				this.settings.previewExpirationDays = Number(value)
+			},
+		},
+		failuresRetentionDays: {
+			get() {
+				return String(this.settings.failuresRetentionDays ?? 30)
+			},
+			set(value) {
+				this.settings.failuresRetentionDays = Number(value)
+			},
+		},
+		failuresMaxRows: {
+			get() {
+				return String(this.settings.failuresMaxRows ?? 5000)
+			},
+			set(value) {
+				this.settings.failuresMaxRows = Number(value)
+			},
+		},
+		detection() {
+			return this.settings.detection || {}
+		},
+		movieEnabled() {
+			return (this.settings.providers || []).some((provider) => provider.class === 'OC\\Preview\\Movie' && provider.enabled)
+		},
+		officeEnabled() {
+			return (this.settings.providers || []).some((provider) => provider.requirement === 'office' && provider.enabled)
+		},
+		imaginaryEnabled() {
+			return (this.settings.providers || []).some((provider) => provider.requirement === 'imaginary' && provider.enabled)
+		},
+		webpEnabled() {
+			return (this.settings.providers || []).some((provider) => provider.class === 'OC\\Preview\\WebP' && provider.enabled)
+		},
+		showWebpQuality() {
+			return this.settings.previewFormat === 'webp' || this.imaginaryEnabled || this.webpEnabled
+		},
+		showFfmpeg() {
+			return Boolean(this.detection.ffmpegFound || this.movieEnabled || this.settings.ffmpegPath)
+		},
+		showOffice() {
+			return Boolean(this.detection.officeFound || this.officeEnabled || this.settings.libreofficePath)
+		},
+		showExternalTools() {
+			return this.showFfmpeg || this.showOffice
+		},
+		concurrencyHint() {
+			const cores = Number(this.detection.cpuCount) || 0
+			if (cores > 0) {
+				return t('settings', 'This server reports {count} CPU cores. Empty concurrency fields use automatic defaults based on that.', { count: cores })
+			}
+			return t('settings', 'CPU count could not be detected. Empty concurrency fields use 4 (new) and 8 (all).')
 		},
 		previewFormatOption: {
 			get() {
@@ -620,6 +815,26 @@ export default {
 			}
 			return new Date(timestamp * 1000).toLocaleString()
 		},
+		providerAvailabilityLabel(provider) {
+			if (provider.available !== false) {
+				return t('settings', 'Available')
+			}
+			switch (provider.requirement) {
+			case 'imagick':
+				if (this.detection.imagick) {
+					return t('settings', 'ImageMagick is installed but does not support {format}', { format: provider.imagickFormat || 'this format' })
+				}
+				return t('settings', 'Requires ImageMagick (Imagick)')
+			case 'ffmpeg':
+				return t('settings', 'Requires ffmpeg')
+			case 'office':
+				return t('settings', 'Requires LibreOffice or OpenOffice')
+			case 'imaginary':
+				return t('settings', 'Requires Imaginary URL')
+			default:
+				return t('settings', 'Unavailable')
+			}
+		},
 	},
 }
 </script>
@@ -647,13 +862,30 @@ export default {
 	margin: 0;
 }
 
+.previews-admin__hint {
+	color: var(--color-text-maxcontrast);
+	margin-block: 4px 12px;
+}
+
 .previews-admin__provider {
 	display: grid;
-	grid-template-columns: minmax(160px, 1fr) minmax(160px, 1.5fr) minmax(120px, 1fr) auto;
+	grid-template-columns: minmax(140px, 1fr) minmax(140px, 1.4fr) minmax(100px, 1fr) minmax(140px, 1fr) auto;
 	gap: 8px;
 	align-items: center;
 	padding-block: 6px;
 	border-bottom: 1px solid var(--color-border);
+}
+
+.previews-admin__availability {
+	font-size: 13px;
+}
+
+.previews-admin__availability[data-available='true'] {
+	color: var(--color-success);
+}
+
+.previews-admin__availability[data-available='false'] {
+	color: var(--color-warning);
 }
 
 .previews-admin__class,

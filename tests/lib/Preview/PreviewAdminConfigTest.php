@@ -9,10 +9,17 @@ declare(strict_types=1);
 
 namespace Test\Preview;
 
+use OC\Preview\HEIC;
+use OC\Preview\IMagickSupport;
+use OC\Preview\Imaginary;
 use OC\Preview\JPEG;
+use OC\Preview\Movie;
+use OC\Preview\MSOfficeDoc;
+use OC\Preview\PDF;
 use OC\Preview\PNG;
 use OC\Preview\PreviewAdminConfig;
 use OCP\IAppConfig;
+use OCP\IBinaryFinder;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -34,7 +41,7 @@ class PreviewAdminConfigTest extends TestCase {
 		$this->config->method('getSystemValueBool')->willReturnCallback(fn (string $key, bool $default) => $default);
 		$this->config->method('getSystemValueInt')->willReturnCallback(fn (string $key, int $default) => $default);
 		$this->config->method('getSystemValueString')->willReturnCallback(fn (string $key, string $default) => $default);
-		$this->appConfig->method('getValueInt')->with('preview', 'jpeg_quality', 80)->willReturn(80);
+		$this->appConfig->method('getValueInt')->willReturnCallback(fn (string $app, string $key, int $default) => $default);
 
 		$settings = $this->adminConfig->getSettings();
 		$this->assertTrue($settings['enablePreviews']);
@@ -84,5 +91,64 @@ class PreviewAdminConfigTest extends TestCase {
 
 	public function testAcceptsEmptyImaginaryUrl(): void {
 		$this->assertSame('', $this->adminConfig->validateImaginaryUrl('  '));
+	}
+
+	public function testSetRetentionAndConcurrency(): void {
+		$calls = [];
+		$this->config->method('setSystemValue')->willReturnCallback(function (string $key, mixed $value) use (&$calls): void {
+			$calls[$key] = $value;
+		});
+		$this->adminConfig->setSettings([
+			'previewExpirationDays' => 90,
+			'failuresRetentionDays' => 14,
+			'failuresMaxRows' => 1000,
+			'previewConcurrencyNew' => 2,
+			'previewConcurrencyAll' => 6,
+		]);
+		$this->assertSame(90, $calls['preview_expiration_days']);
+		$this->assertSame(14, $calls['preview_failures_retention_days']);
+		$this->assertSame(1000, $calls['preview_failures_max_rows']);
+		$this->assertSame(2, $calls['preview_concurrency_new']);
+		$this->assertSame(6, $calls['preview_concurrency_all']);
+	}
+
+	public function testEmptyConcurrencyDeletesKey(): void {
+		$this->config->expects($this->once())->method('deleteSystemValue')->with('preview_concurrency_new');
+		$this->adminConfig->setSettings(['previewConcurrencyNew' => '']);
+	}
+
+	public function testWebpQualityIsWritten(): void {
+		$this->appConfig->expects($this->once())->method('setValueInt')->with('preview', 'webp_quality', 75);
+		$this->adminConfig->setSettings(['webpQuality' => 75]);
+	}
+
+	public function testProviderAvailabilityUsesDetectors(): void {
+		$imagick = $this->createMock(IMagickSupport::class);
+		$imagick->method('hasExtension')->willReturn(true);
+		$imagick->method('supportsFormat')->willReturnCallback(fn (string $format) => $format === 'HEIC');
+		$finder = $this->createMock(IBinaryFinder::class);
+		$finder->method('findBinaryPath')->willReturnCallback(fn (string $name) => $name === 'ffmpeg' ? '/usr/bin/ffmpeg' : false);
+
+		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => $default);
+		$this->config->method('getSystemValueBool')->willReturnCallback(fn (string $key, bool $default) => $default);
+		$this->config->method('getSystemValueInt')->willReturnCallback(fn (string $key, int $default) => $default);
+		$this->config->method('getSystemValueString')->willReturnCallback(fn (string $key, string $default) => $default);
+		$this->appConfig->method('getValueInt')->willReturnCallback(fn (string $app, string $key, int $default) => $default);
+
+		$config = new PreviewAdminConfig($this->config, $this->appConfig, $imagick, $finder);
+		$settings = $config->getSettings();
+		$byClass = [];
+		foreach ($settings['providers'] as $row) {
+			$byClass[$row['class']] = $row;
+		}
+
+		$this->assertTrue($settings['detection']['ffmpegFound']);
+		$this->assertFalse($settings['detection']['officeFound']);
+		$this->assertTrue($byClass[HEIC::class]['available']);
+		$this->assertFalse($byClass[PDF::class]['available']);
+		$this->assertTrue($byClass[Movie::class]['available']);
+		$this->assertFalse($byClass[MSOfficeDoc::class]['available']);
+		$this->assertFalse($byClass[Imaginary::class]['available']);
+		$this->assertTrue($byClass[JPEG::class]['available']);
 	}
 }

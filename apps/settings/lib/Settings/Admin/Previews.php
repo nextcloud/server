@@ -48,7 +48,7 @@ class Previews implements IDelegatedSettings {
 	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
-			'preview' => ['/jpeg_quality/'],
+			'preview' => ['/jpeg_quality/', '/webp_quality/'],
 		];
 	}
 

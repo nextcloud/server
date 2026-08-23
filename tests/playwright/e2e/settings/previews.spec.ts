@@ -13,11 +13,13 @@ adminTest.describe('Settings: Previews admin page', () => {
 		await page.goto('/index.php/settings/admin/previews')
 		await expect(page.getByRole('heading', { name: 'Previews', exact: true }).first()).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'General' })).toBeVisible()
+		await expect(page.getByRole('heading', { name: 'Performance' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Imaginary' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Providers' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'MIME priority' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'HTTP caching' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Failed generations' })).toBeVisible()
+		await expect(page.getByRole('heading', { name: 'Retention' })).toBeVisible()
 	})
 
 	adminTest('enable previews and max width persist after reload', async ({ page }) => {
