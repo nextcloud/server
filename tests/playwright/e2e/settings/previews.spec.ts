@@ -15,6 +15,7 @@ adminTest.describe('Settings: Previews admin page', () => {
 		await expect(page.getByRole('heading', { name: 'General' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Performance' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Imaginary' })).toBeVisible()
+		await expect(page.getByRole('heading', { name: 'External tools' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Providers' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'MIME priority' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'HTTP caching' })).toBeVisible()

@@ -68,17 +68,32 @@
 				<p class="previews-admin__hint">
 					{{ t('settings', 'Used by Imaginary and other providers that can emit JPEG or WebP.') }}
 				</p>
-				<NcTextField
-					v-model="jpegQuality"
-					type="number"
-					:label="t('settings', 'JPEG quality (1–100)')"
-					:helper-text="t('settings', 'Higher values look better and use more disk. Default 80.')" />
-				<NcTextField
-					v-if="showWebpQuality"
-					v-model="webpQuality"
-					type="number"
-					:label="t('settings', 'WebP quality (1–100)')"
-					:helper-text="t('settings', 'Used when the output format is WebP. Default 80.')" />
+				<div class="previews-admin__capability" :data-state="jpegQualityState">
+					<p class="previews-admin__state" :data-state="jpegQualityState">
+						{{ jpegQualityStateLabel }}
+					</p>
+					<NcTextField
+						v-model="jpegQuality"
+						type="number"
+						:label="t('settings', 'JPEG quality (1–100)')"
+						:helper-text="t('settings', 'Higher values look better and use more disk. Default 80.')" />
+				</div>
+				<div class="previews-admin__capability" :data-state="webpQualityState">
+					<p class="previews-admin__state" :data-state="webpQualityState">
+						{{ webpQualityStateLabel }}
+					</p>
+					<NcButton
+						v-if="webpQualityState === 'unused'"
+						type="tertiary"
+						@click="settings.previewFormat = 'webp'">
+						{{ t('settings', 'Switch output format to WebP') }}
+					</NcButton>
+					<NcTextField
+						v-model="webpQuality"
+						type="number"
+						:label="t('settings', 'WebP quality (1–100)')"
+						:helper-text="t('settings', 'Used when the output format is WebP, or when a WebP/Imaginary provider is enabled. Default 80.')" />
+				</div>
 			</div>
 
 			<h3>{{ t('settings', 'Performance') }}</h3>
@@ -102,6 +117,17 @@
 		<NcSettingsSection
 			:name="t('settings', 'Imaginary')"
 			:description="t('settings', 'Use Imaginary to offload image processing. HEIC/HEIF often work best with Imaginary first and the native HEIC provider as fallback — set that under MIME priority.')">
+			<div class="previews-admin__capability" :data-state="imaginaryState">
+				<p class="previews-admin__state" :data-state="imaginaryState">
+					{{ imaginaryStateLabel }}
+				</p>
+				<NcButton
+					v-if="!imaginaryEnabled"
+					type="tertiary"
+					@click="enableProvider('OC\\Preview\\Imaginary')">
+					{{ t('settings', 'Enable the Imaginary provider') }}
+				</NcButton>
+			</div>
 			<div class="previews-admin__fields">
 				<NcTextField
 					v-model="settings.imaginaryUrl"
@@ -116,48 +142,55 @@
 				</p>
 			</div>
 			<div class="previews-admin__row">
-				<NcButton :disabled="testingImaginary" @click="testImaginary">
+				<NcButton :disabled="testingImaginary || !settings.imaginaryUrl" @click="testImaginary">
 					{{ t('settings', 'Test connection') }}
 				</NcButton>
 				<span class="previews-admin__status" :data-status="imaginaryStatus">
 					{{ imaginaryStatusLabel }}
 				</span>
 			</div>
-			<p>
-				{{ t('settings', 'Enabling Imaginary still requires OC\\Preview\\Imaginary in the provider list below.') }}
-			</p>
 		</NcSettingsSection>
 
 		<NcSettingsSection
-			v-if="showExternalTools"
 			:name="t('settings', 'External tools')"
-			:description="t('settings', 'Paths are shown because the matching binaries were detected or a related provider is enabled. Leave a path empty to search PATH.')">
-			<div v-if="showFfmpeg" class="previews-admin__fields">
-				<NcNoteCard :type="detection.ffmpegFound ? 'success' : 'warning'">
-					{{ detection.ffmpegFound
-						? t('settings', 'ffmpeg found: {path}', { path: detection.ffmpegDetectedPath })
-						: t('settings', 'ffmpeg was not found. Movie previews will not be generated until it is installed or a path is set.') }}
-				</NcNoteCard>
-				<NcTextField
-					v-model="settings.ffmpegPath"
-					:label="t('settings', 'ffmpeg path')"
-					:helper-text="t('settings', 'Custom path to ffmpeg for video previews. Empty uses the server PATH.')" />
-				<NcTextField
-					v-if="showFfmpeg"
-					v-model="settings.ffprobePath"
-					:label="t('settings', 'ffprobe path')"
-					:helper-text="t('settings', 'Used for HDR video metadata. Empty uses the same directory as ffmpeg.')" />
+			:description="t('settings', 'Optional binaries for video and office previews. Paths stay editable even when a tool is missing, so you can point Nextcloud at an install it has not found yet. Leave a path empty to search PATH.')">
+			<div class="previews-admin__capability" :data-state="ffmpegState">
+				<p class="previews-admin__state" :data-state="ffmpegState">
+					{{ ffmpegStateLabel }}
+				</p>
+				<NcButton
+					v-if="!movieEnabled"
+					type="tertiary"
+					@click="enableProvider('OC\\Preview\\Movie')">
+					{{ t('settings', 'Enable the Movie provider') }}
+				</NcButton>
+				<div class="previews-admin__fields">
+					<NcTextField
+						v-model="settings.ffmpegPath"
+						:label="t('settings', 'ffmpeg path')"
+						:helper-text="t('settings', 'Custom path to ffmpeg for video previews. Empty uses the server PATH.')" />
+					<NcTextField
+						v-model="settings.ffprobePath"
+						:label="t('settings', 'ffprobe path')"
+						:helper-text="t('settings', 'Used for HDR video metadata. Empty uses the same directory as ffmpeg.')" />
+				</div>
 			</div>
-			<div v-if="showOffice" class="previews-admin__fields">
-				<NcNoteCard :type="detection.officeFound ? 'success' : 'warning'">
-					{{ detection.officeFound
-						? t('settings', 'LibreOffice/OpenOffice found: {path}', { path: detection.officeDetectedPath })
-						: t('settings', 'LibreOffice/OpenOffice was not found. Office document previews will not be generated until it is installed or a path is set.') }}
-				</NcNoteCard>
-				<NcTextField
-					v-model="settings.libreofficePath"
-					:label="t('settings', 'LibreOffice path')"
-					:helper-text="t('settings', 'Custom path to LibreOffice or OpenOffice. Empty searches for libreoffice, then openoffice.')" />
+			<div class="previews-admin__capability" :data-state="officeState">
+				<p class="previews-admin__state" :data-state="officeState">
+					{{ officeStateLabel }}
+				</p>
+				<NcButton
+					v-if="!officeEnabled"
+					type="tertiary"
+					@click="enableProvider('OC\\Preview\\MSOfficeDoc')">
+					{{ t('settings', 'Enable an office provider') }}
+				</NcButton>
+				<div class="previews-admin__fields">
+					<NcTextField
+						v-model="settings.libreofficePath"
+						:label="t('settings', 'LibreOffice path')"
+						:helper-text="t('settings', 'Custom path to LibreOffice or OpenOffice. Empty searches for libreoffice, then openoffice.')" />
+				</div>
 			</div>
 		</NcSettingsSection>
 
@@ -171,13 +204,22 @@
 				{{ t('settings', 'ImageMagick (Imagick) is not available. Providers that require it are listed as unavailable until the PHP extension is installed.') }}
 			</NcNoteCard>
 			<div class="previews-admin__row">
+				<NcButton :type="providerFilter === 'all' ? 'secondary' : 'tertiary'" @click="providerFilter = 'all'">
+					{{ t('settings', 'All') }}
+				</NcButton>
+				<NcButton :type="providerFilter === 'available' ? 'secondary' : 'tertiary'" @click="providerFilter = 'available'">
+					{{ t('settings', 'Available') }}
+				</NcButton>
+				<NcButton :type="providerFilter === 'unavailable' ? 'secondary' : 'tertiary'" @click="providerFilter = 'unavailable'">
+					{{ t('settings', 'Unavailable') }}
+				</NcButton>
 				<NcButton :disabled="settings.configIsReadonly" @click="resetProviders">
 					{{ t('settings', 'Reset to defaults') }}
 				</NcButton>
 			</div>
 			<ul class="previews-admin__providers" data-cy="previews-providers">
 				<li
-					v-for="(provider, index) in settings.providers"
+					v-for="provider in filteredProviders"
 					:key="provider.class"
 					class="previews-admin__provider"
 					:class="{ 'previews-admin__provider--unavailable': provider.available === false }">
@@ -197,8 +239,8 @@
 						<NcButton
 							type="tertiary"
 							:aria-label="t('settings', 'Move up')"
-							:disabled="index === 0"
-							@click="moveProvider(index, -1)">
+							:disabled="providerIndex(provider) === 0"
+							@click="moveProvider(providerIndex(provider), -1)">
 							<template #icon>
 								<ArrowUpIcon :size="20" />
 							</template>
@@ -206,8 +248,8 @@
 						<NcButton
 							type="tertiary"
 							:aria-label="t('settings', 'Move down')"
-							:disabled="index === settings.providers.length - 1"
-							@click="moveProvider(index, 1)">
+							:disabled="providerIndex(provider) === settings.providers.length - 1"
+							@click="moveProvider(providerIndex(provider), 1)">
 							<template #icon>
 								<ArrowDownIcon :size="20" />
 							</template>
@@ -282,11 +324,22 @@
 					type="number"
 					:label="t('settings', 'max-age (seconds)')"
 					:helper-text="t('settings', 'How long browsers may reuse the preview. Default 86400 (1 day).')" />
-				<NcTextField
-					v-model="authSMaxAge"
-					type="number"
-					:label="t('settings', 's-maxage (seconds, optional)')"
-					:helper-text="t('settings', 'How long shared caches (proxies/CDNs) may store the preview. Leave empty to omit.')" />
+				<div class="previews-admin__capability" :data-state="authSMaxAgeState">
+					<p class="previews-admin__state" :data-state="authSMaxAgeState">
+						{{ authSMaxAgeStateLabel }}
+					</p>
+					<NcButton
+						v-if="authSMaxAgeState === 'unused'"
+						type="tertiary"
+						@click="settings.cacheAuthenticated.visibility = 'public'">
+						{{ t('settings', 'Set authenticated visibility to public') }}
+					</NcButton>
+					<NcTextField
+						v-model="authSMaxAge"
+						type="number"
+						:label="t('settings', 's-maxage (seconds, optional)')"
+						:helper-text="t('settings', 'How long shared caches (proxies/CDNs) may store the preview. Leave empty to omit. Used when visibility is public.')" />
+				</div>
 				<NcCheckboxRadioSwitch v-model="settings.cacheAuthenticated.immutable" type="switch">
 					{{ t('settings', 'immutable') }}
 				</NcCheckboxRadioSwitch>
@@ -307,11 +360,22 @@
 					type="number"
 					:label="t('settings', 'max-age (seconds)')"
 					:helper-text="t('settings', 'How long browsers may reuse public-share previews. Default 86400 (1 day).')" />
-				<NcTextField
-					v-model="publicSMaxAge"
-					type="number"
-					:label="t('settings', 's-maxage (seconds, optional)')"
-					:helper-text="t('settings', 'How long shared caches may store public-share previews. Leave empty to omit.')" />
+				<div class="previews-admin__capability" :data-state="publicSMaxAgeState">
+					<p class="previews-admin__state" :data-state="publicSMaxAgeState">
+						{{ publicSMaxAgeStateLabel }}
+					</p>
+					<NcButton
+						v-if="publicSMaxAgeState === 'unused'"
+						type="tertiary"
+						@click="settings.cachePublic.visibility = 'public'">
+						{{ t('settings', 'Set public-share visibility to public') }}
+					</NcButton>
+					<NcTextField
+						v-model="publicSMaxAge"
+						type="number"
+						:label="t('settings', 's-maxage (seconds, optional)')"
+						:helper-text="t('settings', 'How long shared caches may store public-share previews. Leave empty to omit. Used when visibility is public.')" />
+				</div>
 				<NcCheckboxRadioSwitch v-model="settings.cachePublic.immutable" type="switch">
 					{{ t('settings', 'immutable') }}
 				</NcCheckboxRadioSwitch>
@@ -455,6 +519,7 @@ export default {
 			testingImaginary: false,
 			imaginaryStatus: settings.imaginaryUrl ? 'unknown' : 'unconfigured',
 			failureRange: { id: 'all', label: t('settings', 'All') },
+			providerFilter: 'all',
 			mimeRows: mimeRowsFromSettings(settings),
 			formatOptions: [
 				{ id: 'jpeg', label: 'JPEG' },
@@ -584,14 +649,92 @@ export default {
 		showWebpQuality() {
 			return this.settings.previewFormat === 'webp' || this.imaginaryEnabled || this.webpEnabled
 		},
-		showFfmpeg() {
-			return Boolean(this.detection.ffmpegFound || this.movieEnabled || this.settings.ffmpegPath)
+		jpegQualityState() {
+			return this.settings.previewFormat === 'webp' ? 'unused' : 'active'
 		},
-		showOffice() {
-			return Boolean(this.detection.officeFound || this.officeEnabled || this.settings.libreofficePath)
+		jpegQualityStateLabel() {
+			return this.jpegQualityState === 'active'
+				? t('settings', 'In use')
+				: t('settings', 'Not used while output format is WebP.')
 		},
-		showExternalTools() {
-			return this.showFfmpeg || this.showOffice
+		webpQualityState() {
+			return this.showWebpQuality ? 'active' : 'unused'
+		},
+		webpQualityStateLabel() {
+			return this.webpQualityState === 'active'
+				? t('settings', 'In use')
+				: t('settings', 'Not enabled yet. Used when output format is WebP, or when a WebP or Imaginary provider is enabled.')
+		},
+		ffmpegState() {
+			if (!this.detection.ffmpegFound) {
+				return 'blocked'
+			}
+			return this.movieEnabled ? 'active' : 'unused'
+		},
+		ffmpegStateLabel() {
+			if (this.ffmpegState === 'active') {
+				return t('settings', 'In use. ffmpeg found: {path}', { path: this.detection.ffmpegDetectedPath })
+			}
+			if (this.ffmpegState === 'unused') {
+				return t('settings', 'ffmpeg is installed but the Movie provider is not enabled, so video previews are not generated.')
+			}
+			return t('settings', 'Not detected. ffmpeg was not found. Set a path or install it, then enable the Movie provider for video previews.')
+		},
+		officeState() {
+			if (!this.detection.officeFound) {
+				return 'blocked'
+			}
+			return this.officeEnabled ? 'active' : 'unused'
+		},
+		officeStateLabel() {
+			if (this.officeState === 'active') {
+				return t('settings', 'In use. LibreOffice/OpenOffice found: {path}', { path: this.detection.officeDetectedPath })
+			}
+			if (this.officeState === 'unused') {
+				return t('settings', 'LibreOffice/OpenOffice is installed but no office provider is enabled, so office document previews are not generated.')
+			}
+			return t('settings', 'Not detected. LibreOffice/OpenOffice was not found. Set a path or install it, then enable an office provider.')
+		},
+		imaginaryState() {
+			if (!this.settings.imaginaryUrl) {
+				return 'blocked'
+			}
+			return this.imaginaryEnabled ? 'active' : 'unused'
+		},
+		imaginaryStateLabel() {
+			if (this.imaginaryState === 'active') {
+				return t('settings', 'In use. Imaginary URL is set and a provider is enabled.')
+			}
+			if (this.imaginaryState === 'unused') {
+				return t('settings', 'Not enabled yet. Imaginary URL is set, but OC\\Preview\\Imaginary is not enabled in the provider list.')
+			}
+			return t('settings', 'Not configured yet. Set a URL so Imaginary providers can generate previews.')
+		},
+		authSMaxAgeState() {
+			return this.settings.cacheAuthenticated?.visibility === 'public' ? 'active' : 'unused'
+		},
+		authSMaxAgeStateLabel() {
+			return this.authSMaxAgeState === 'active'
+				? t('settings', 'In use. Shared caches may store authenticated previews.')
+				: t('settings', 'Not enabled yet. s-maxage is sent when visibility is public.')
+		},
+		publicSMaxAgeState() {
+			return this.settings.cachePublic?.visibility === 'public' ? 'active' : 'unused'
+		},
+		publicSMaxAgeStateLabel() {
+			return this.publicSMaxAgeState === 'active'
+				? t('settings', 'In use. Shared caches may store public-share previews.')
+				: t('settings', 'Not enabled yet. s-maxage is sent when visibility is public.')
+		},
+		filteredProviders() {
+			const list = this.settings.providers || []
+			if (this.providerFilter === 'available') {
+				return list.filter((provider) => provider.available !== false)
+			}
+			if (this.providerFilter === 'unavailable') {
+				return list.filter((provider) => provider.available === false)
+			}
+			return list
 		},
 		concurrencyHint() {
 			const cores = Number(this.detection.cpuCount) || 0
@@ -677,6 +820,15 @@ export default {
 
 	methods: {
 		t,
+		providerIndex(provider) {
+			return (this.settings.providers || []).findIndex((row) => row.class === provider.class)
+		},
+		enableProvider(className) {
+			const provider = (this.settings.providers || []).find((row) => row.class === className)
+			if (provider) {
+				provider.enabled = true
+			}
+		},
 		moveProvider(index, delta) {
 			const target = index + delta
 			if (target < 0 || target >= this.settings.providers.length) {
@@ -865,6 +1017,31 @@ export default {
 .previews-admin__hint {
 	color: var(--color-text-maxcontrast);
 	margin-block: 4px 12px;
+}
+
+.previews-admin__capability {
+	margin-block: 12px;
+}
+
+.previews-admin__capability[data-state='unused'] {
+	opacity: 0.92;
+}
+
+.previews-admin__state {
+	font-size: 13px;
+	margin-block: 0 8px;
+}
+
+.previews-admin__state[data-state='active'] {
+	color: var(--color-success);
+}
+
+.previews-admin__state[data-state='unused'] {
+	color: var(--color-text-maxcontrast);
+}
+
+.previews-admin__state[data-state='blocked'] {
+	color: var(--color-warning);
 }
 
 .previews-admin__provider {
