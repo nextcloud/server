@@ -118,16 +118,18 @@ class CleanupShareTarget implements IRepairStepExpensive {
 					$oldMountPoint = "/{$recipient->getUID()}/files$oldTarget/";
 					$newMountPoint = "/{$recipient->getUID()}/files$newTarget/";
 
-					/** @var ICachedMountInfo $mount */
-					$mount = $userMounts[$oldMountPoint];
-					$userMounts[$newMountPoint] = $mount;
-					unset($userMounts[$oldMountPoint]);
+					/** @var ICachedMountInfo|null $mount */
+					$mount = $userMounts[$oldMountPoint] ?? null;
+					if ($mount !== null) {
+						$userMounts[$newMountPoint] = $mount;
+						unset($userMounts[$oldMountPoint]);
 
-					$this->userMountCache->removeMount($oldMountPoint);
-					$this->userMountCache->addMount($recipient, $newMountPoint, new CacheEntry([
-						'fileid' => $mount->getRootId(),
-						'storage' => $mount->getStorageId(),
-					]), $mount->getMountProvider(), $mount->getMountId());
+						$this->userMountCache->removeMount($oldMountPoint);
+						$this->userMountCache->addMount($recipient, $newMountPoint, new CacheEntry([
+							'fileid' => $mount->getRootId(),
+							'storage' => $mount->getStorageId(),
+						]), $mount->getMountProvider(), $mount->getMountId());
+					}
 				}
 			} catch (\Exception $e) {
 				$msg = 'error cleaning up share target: ' . $e->getMessage();
