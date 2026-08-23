@@ -10,6 +10,8 @@ OC.L10N.register(
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Failide meeldetuletusrakendus vajab korrektseks toimimiseks teavituste rakenduse olemasolu. Palun lisa vajalik abirakendus või eemalda see rakendus kasutuselt.",
     "Set file reminders" : "Meeldetuletuste lisamine failidele ja kaustadele",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Failide meeldetuletused**\n\nLisa failidele ja kaustadele meeldetuletusi.\n\nMärkus: Teavituste rakendus peab olema paigaldatud ja kasutusel, et see Failide meeldetuletuste rakendus saaks korrektselt toimida. Teavituste rakendus tagab selle rakenduse toimimiseks vajalik liideste olemasolu.",
+    "We reminded you of this file {relativeDueDate}" : "Me tuletasime sulle seda faili meelde {relativeDueDate}",
+    "We will remind you of this file {relativeDueDate}" : "Me tuletame sulle seda faili meelde {relativeDueDate}",
     "Please choose a valid date & time" : "Palun vali korrektne kuupäev ja kellaaeg",
     "Reminder set for \"{fileName}\"" : "Meeldetuletus on lisatud: „{fileName}“",
     "Failed to set reminder" : "Meeldetuletuse lisamine ei õnnestunud",
