@@ -34,6 +34,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package Test\DB
  */
+#[Group('DB')]
 class MigrationServiceTest extends \Test\TestCase {
 	private Connection&MockObject $db;
 
