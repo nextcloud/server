@@ -94,6 +94,36 @@ class MigrationServiceTest extends \Test\TestCase {
 		$migrationService->getAvailableVersions();
 	}
 
+	public function testGetAvailableVersionsRejectsDuplicateIdentifiers(): void {
+		$directory = Server::get(ITempManager::class)->getTemporaryFolder();
+		$firstDirectory = $directory . '/first';
+		$secondDirectory = $directory . '/second';
+
+		self::assertTrue(\mkdir($firstDirectory));
+		self::assertTrue(\mkdir($secondDirectory));
+
+		$fileName = 'Version10000Date20200819121721.php';
+		$firstFile = $firstDirectory . '/' . $fileName;
+		$secondFile = $secondDirectory . '/' . $fileName;
+
+		self::assertNotFalse(\touch($firstFile));
+		self::assertNotFalse(\touch($secondFile));
+
+		$migrationService = $this->createMigrationServiceForDirectory($directory);
+
+		try {
+			$migrationService->getAvailableVersions();
+			self::fail('Expected duplicate migration identifiers to be rejected');
+		} catch (\InvalidArgumentException $e) {
+			self::assertStringContainsString(
+				'10000Date20200819121721',
+				$e->getMessage(),
+			);
+			self::assertStringContainsString($firstFile, $e->getMessage());
+			self::assertStringContainsString($secondFile, $e->getMessage());
+		}
+	}
+
 	public function testExecuteUnknownStep(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Version 20170130180000 is unknown.');
