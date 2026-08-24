@@ -4080,6 +4080,11 @@
       <code><![CDATA[DEFAULT_TTL]]></code>
     </AmbiguousConstantInheritance>
   </file>
+  <file src="ocs/v1.php">
+    <InternalMethod>
+      <code><![CDATA[setup]]></code>
+    </InternalMethod>
+  </file>
   <file src="public.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>

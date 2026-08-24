@@ -79,6 +79,10 @@ require_once __DIR__ . '/../lib/OC.php';
 			$appManager->loadApps(['core']);
 		}
 
+		// All apps are now loaded to handle the request
+		Server::get(\OC\NavigationManager::class)->setup();
+		Server::get(\OCP\EventDispatcher\IEventDispatcher::class)->dispatchTyped(new \OCP\App\Events\AppsLoadedEvent());
+
 		Server::get(Router::class)->match('/ocsapp' . $request->getRawPathInfo());
 	} catch (MaxDelayReached $ex) {
 		ApiHelper::respond(Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage());
