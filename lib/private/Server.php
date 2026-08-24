@@ -128,6 +128,7 @@ use OC\Security\SecureRandom;
 use OC\Security\Signature\SignatureManager;
 use OC\Security\TrustedDomainHelper;
 use OC\Security\VerificationToken\VerificationToken;
+use OC\Serializer\Serializer;
 use OC\Session\CryptoWrapper;
 use OC\Session\Memory;
 use OC\Settings\DeclarativeManager;
@@ -269,6 +270,7 @@ use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\RateLimiting\ILimiter;
 use OCP\Security\Signature\ISignatureManager;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\Serializer\ISerializer;
 use OCP\ServerVersion;
 use OCP\Settings\IDeclarativeManager;
 use OCP\SetupCheck\ISetupCheckManager;
@@ -1003,6 +1005,7 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerAlias(IEventDispatcher::class, EventDispatcher::class);
+		$this->registerAlias(ISerializer::class, Serializer::class);
 
 		/** @deprecated 35.0.0 */
 		$this->registerDeprecatedAlias('CryptoWrapper', CryptoWrapper::class);
