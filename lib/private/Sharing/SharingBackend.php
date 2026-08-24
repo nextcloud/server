@@ -358,7 +358,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function createShareProperty(string $id, ShareProperty $property): void {
+	public function createShareProperty(string $id, ShareProperty $property): ?string {
 		$value = $property->value;
 
 		$propertyType = $this->registry->getPropertyTypes()[$property->class];
@@ -377,6 +377,8 @@ final readonly class SharingBackend implements ISharingBackend {
 					'property_value' => $qb->createNamedParameter($value),
 				])
 				->executeStatement();
+
+			return $value;
 		} catch (\OCP\DB\Exception $exception) {
 			if ($exception->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 				throw new RuntimeException('The property already exists: ' . $property->class, $exception->getCode(), $exception);
@@ -387,7 +389,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function updateShareProperty(string $id, ShareProperty $property): void {
+	public function updateShareProperty(string $id, ShareProperty $property): ?string {
 		$value = $property->value;
 
 		$propertyType = $this->registry->getPropertyTypes()[$property->class];
@@ -425,6 +427,8 @@ final readonly class SharingBackend implements ISharingBackend {
 		if ($rowCount === 0) {
 			throw new ShareNotFoundException();
 		}
+
+		return $value;
 	}
 
 	#[\Override]
@@ -1155,7 +1159,15 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$property = new ShareProperty($propertyTypeClass, $propertyType->getDefaultValue($share));
 
-		$this->createShareProperty($share->id, $property);
+		$value = $this->createShareProperty($share->id, $property);
+		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
+			$value = $propertyType->modifyValueOnLoad($value);
+		}
+
+		$property = new ShareProperty(
+			$property->class,
+			$value,
+		);
 
 		$properties = $share->properties;
 		$properties[$propertyTypeClass] = $property;

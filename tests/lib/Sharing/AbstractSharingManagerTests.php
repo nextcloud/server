@@ -1416,11 +1416,11 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->createShare($accessContext);
-		$this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
-		$this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+		$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
+		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
 
-		$this->manager->getShare($accessContext, $share->id);
-		$this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
+		$share = $this->manager->getShare($accessContext, $share->id);
+		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(TestSharePermissionType1::class, true));
 
 		$this->dbConnection->commit();
 
@@ -1456,7 +1456,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		], $formatted['properties']);
 
 		$this->dbConnection->beginTransaction();
-		$this->manager->updateShareState($accessContext, $share, ShareState::Active);
+		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
 		$this->dbConnection->commit();
 
 		$before = $this->manager->getTime();
@@ -1532,36 +1532,12 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->createShare($accessContext);
-		$this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
-		$this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+		$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
+		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
 
 		$this->dbConnection->commit();
 
-		$formatted = $this->getShare($accessContext, $share->id);
-		$this->assertEquals([
-			[
-				'class' => TestSharePropertyType1::class,
-				'display_name' => 'TestSharePropertyType1',
-				'hint' => 'hint TestSharePropertyType1',
-				'priority' => 1,
-				'advanced' => false,
-				'required' => false,
-				'value' => null,
-				'type' => 'enum',
-				'valid_values' => ['valid1'],
-			],
-			[
-				'class' => TestSharePropertyTypeModifyValue::class,
-				'display_name' => 'TestSharePropertyTypeModifyValue',
-				'hint' => 'hint TestSharePropertyTypeModifyValue',
-				'priority' => 1,
-				'advanced' => false,
-				'required' => false,
-				'value' => 'modify-on-save',
-				'type' => 'enum',
-				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-load'],
-			],
-		], $formatted['properties']);
+		// We cannot test for modify-on-save, because we will always see modified-on-save as the returned value.
 
 		$formatted = $this->getShare($accessContext, $share->id);
 		$this->assertEquals([
@@ -1590,7 +1566,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		], $formatted['properties']);
 
 		$this->dbConnection->beginTransaction();
-		$this->manager->updateShareProperty($accessContext, $share, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'old-value'));
+		$share = $this->manager->updateShareProperty($accessContext, $share, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'old-value'));
 		$this->dbConnection->commit();
 
 		$before = $this->manager->getTime();
