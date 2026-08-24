@@ -30,7 +30,7 @@ require_once __DIR__ . '/../lib/OC.php';
 
 \OC::boot();
 
-\OC::handleRequests(static function () {
+\OC::handleRequests(static function (): void {
 	\OC::initForRequest();
 	$request = Server::get(IRequest::class);
 

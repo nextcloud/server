@@ -10,6 +10,7 @@ namespace OCA\Files_External\Tests\Storage;
 
 use Aws\Command;
 use Aws\S3\Exception\S3Exception;
+use OC\Files\FileInfo;
 use OCA\Files_External\Lib\Storage\AmazonS3;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\NullLogger;
@@ -96,7 +97,7 @@ class Amazons3CopyTest extends \Test\TestCase {
 			function (string $directory): \Traversable {
 				if ($directory === 'source') {
 					return new \ArrayIterator([
-						['name' => 'nested', 'mimetype' => \OC\Files\FileInfo::MIMETYPE_FOLDER],
+						['name' => 'nested', 'mimetype' => FileInfo::MIMETYPE_FOLDER],
 					]);
 				}
 				return new \ArrayIterator([
