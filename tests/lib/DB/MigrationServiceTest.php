@@ -171,10 +171,10 @@ class MigrationServiceTest extends \Test\TestCase {
 
 	public static function dataGetMigration(): array {
 		return [
-			['current', '20170130180001'],
-			['prev', '20170130180000'],
-			['next', '20170130180002'],
-			['latest', '20170130180003'],
+			['current', '10000Date20200819121721'],
+			['prev', '8000Date20200407115318'],
+			['next', '20000Date20240717180417'],
+			['latest', '20000Date20240718031959'],
 		];
 	}
 
@@ -190,18 +190,29 @@ class MigrationServiceTest extends \Test\TestCase {
 			->getMock();
 
 		$migrationService->expects($this->any())->method('getMigratedVersions')->willReturn(
-			['20170130180000', '20170130180001']
+			[
+				'8000Date20200407115318',
+				'10000Date20200819121721',
+			]
 		);
 		$migrationService->expects($this->any())->method('findMigrations')->willReturn(
-			['20170130180000' => 'X', '20170130180001' => 'Y', '20170130180002' => 'Z', '20170130180003' => 'A']
+			[
+				'20000Date20240718031959' => 'D',
+				'10000Date20200819121721' => 'B',
+				'8000Date20200407115318' => 'A',
+				'20000Date20240717180417' => 'C',
+			]
 		);
 
-		$this->assertEquals(
-			['20170130180000', '20170130180001', '20170130180002', '20170130180003'],
-			$migrationService->getAvailableVersions());
+		$this->assertSame([
+			'8000Date20200407115318',
+			'10000Date20200819121721',
+			'20000Date20240717180417',
+			'20000Date20240718031959',
+		], $migrationService->getAvailableVersions());
 
 		$migration = $migrationService->getMigration($alias);
-		$this->assertEquals($expected, $migration);
+		$this->assertSame($expected, $migration);
 	}
 
 	public function testMigrate(): void {
@@ -211,15 +222,26 @@ class MigrationServiceTest extends \Test\TestCase {
 			->getMock();
 
 		$migrationService->expects($this->any())->method('getMigratedVersions')->willReturn(
-			['20170130180000', '20170130180001']
+			[
+				'8000Date20200407115318',
+				'10000Date20200819121721',
+			]
 		);
 		$migrationService->expects($this->any())->method('findMigrations')->willReturn(
-			['20170130180000' => 'X', '20170130180001' => 'Y', '20170130180002' => 'Z', '20170130180003' => 'A']
+			[
+				'20000Date20240718031959' => 'D',
+				'10000Date20200819121721' => 'B',
+				'8000Date20200407115318' => 'A',
+				'20000Date20240717180417' => 'C',
+			]
 		);
 
-		$this->assertEquals(
-			['20170130180000', '20170130180001', '20170130180002', '20170130180003'],
-			$migrationService->getAvailableVersions());
+		$this->assertSame([
+			'8000Date20200407115318',
+			'10000Date20200819121721',
+			'20000Date20240717180417',
+			'20000Date20240718031959',
+		], $migrationService->getAvailableVersions());
 
 		$calls = [];
 		$migrationService
@@ -230,7 +252,10 @@ class MigrationServiceTest extends \Test\TestCase {
 			});
 
 		$migrationService->migrate();
-		self::assertEquals(['20170130180002', '20170130180003'], $calls);
+		self::assertSame([
+			'20000Date20240717180417',
+			'20000Date20240718031959',
+		], $calls);
 	}
 
 	#[DataProvider('dataEnsureNamingConstraintsTableName')]
