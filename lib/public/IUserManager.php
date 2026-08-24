@@ -172,7 +172,7 @@ interface IUserManager {
 	public function countUsers(bool $onlyMappedUsers = false);
 
 	/**
-	 * Get how many users exists in total, whithin limit
+	 * Get how many users exists in total, within limit
 	 *
 	 * @param int $limit Limit the count to avoid resource waste. 0 to disable
 	 * @param bool $onlyMappedUsers Count mapped users instead of all users for compatible backends

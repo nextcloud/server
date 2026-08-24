@@ -13,7 +13,7 @@ A reference to why it was very difficult to actually find good background pictur
 - Same for a good balance of different colors.
 - The photo needs to work as a background. Photos with objects focused in the middle don’t really work as they will be overlapped by the widgets and content anyway.
 - Especially the top part cannot have too much differing contrast, as then it’s not possible to see the navigation icons.
-- Especially the top part should be either dark-ish or light-ish, but not a shade exactly inbetween because then contrast can neither be achieved with light nor dark icons.
+- Especially the top part should be either dark-ish or light-ish, but not a shade exactly in between because then contrast can neither be achieved with light nor dark icons.
 - We serve the pictures at 4k resolution and most of the selected images are also available in 6k or higher so it is future-proof.
 - For the search of course we had to limit to CC0, CC By and CC By-Sa. Only CC0 would have been practically impossible cause there’s just not so many good ones which fit.
 - Good pages to find photos are [StockSnap](https://stocksnap.io), [Wikimedia Commons](https://commons.wikimedia.org), [Openverse](https://wordpress.org/openverse/) and [Flickr (with license "commercial use & mods allowed")](https://flickr.com/search/?license=4%2C5%2C9%2C10&text=Nextcloud), sorting by interesting or downloads. Most others like Unsplash, Pexels, Pixabay, etc. meanwhile have a non-standard license.
@@ -29,8 +29,8 @@ A reference to why it was very difficult to actually find good background pictur
 
 In `img/background/`:
 
-- Default background: [Fluid (Jo Myoung Hee - Nextcloud GmbH, CC-BY-SA-4.0)](https://nextcloud.com/trademarks/) - orginal 4k
-- [Globe (Jenna Kim - Nextcloud GmbH, CC-BY-SA-4.0)](https://nextcloud.com/trademarks/) - orginal 4k
+- Default background: [Fluid (Jo Myoung Hee - Nextcloud GmbH, CC-BY-SA-4.0)](https://nextcloud.com/trademarks/) - original 4k
+- [Globe (Jenna Kim - Nextcloud GmbH, CC-BY-SA-4.0)](https://nextcloud.com/trademarks/) - original 4k
 - [Clouds (Kamil Porembiński, CC BY-SA)](https://www.flickr.com/photos/paszczak000/8715851521/) – original 4k, color modified and sky color changed to Nextcloud blue.
 - [Pedra azul milky way (Eduardo Neves, CC BY-SA)](https://commons.wikimedia.org/wiki/File:Pedra_Azul_Milky_Way.jpg) – original 5k.
 - [Soft floral (Hannah MacLean, CC0)](https://stocksnap.io/photo/soft-floral-XOYWCCW5PA) – original 5.5k.
