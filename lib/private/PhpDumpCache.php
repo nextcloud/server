@@ -14,8 +14,9 @@ namespace OC;
 class PhpDumpCache {
 
 	public function __construct(
-		private ?string $tempDirectory = null,
+		private string $tempDirectory,
 	) {
+		$this->setTempDirectory($tempDirectory);
 	}
 
 	/**

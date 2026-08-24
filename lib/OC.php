@@ -683,6 +683,23 @@ class OC {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace('\\', '/', substr(__DIR__, 0, -4));
 
+		// No autoloader yet, manually load Config class
+		require_once __DIR__ . '/private/Config.php';
+
+		// load configs
+		if (defined('PHPUNIT_CONFIG_DIR')) {
+			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
+		} elseif (defined('PHPUNIT_RUN') && PHPUNIT_RUN && is_dir(OC::$SERVERROOT . '/tests/config/')) {
+			self::$configDir = OC::$SERVERROOT . '/tests/config/';
+		} elseif ($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
+			self::$configDir = rtrim($dir, '/') . '/';
+		} else {
+			self::$configDir = OC::$SERVERROOT . '/config/';
+		}
+		self::$config = new \OC\Config(self::$configDir);
+
+		$cacheDirectory = self::$config->getValue('cachedirectory', OC::$SERVERROOT . '/cache');
+
 		// register autoloader
 		self::$loaderStart = microtime(true);
 
@@ -690,7 +707,7 @@ class OC {
 
 		require_once __DIR__ . '/private/PhpDumpCache.php';
 		require_once __DIR__ . '/private/Autoloader.php';
-		$phpDumpCache = new \OC\PhpDumpCache(OC::$SERVERROOT . '/temp');
+		$phpDumpCache = new \OC\PhpDumpCache($cacheDirectory);
 		self::$autoloader = new \OC\Autoloader($phpDumpCache);
 		self::$autoloader->addPsr4('OC', OC::$SERVERROOT . '/lib/private');
 		self::$autoloader->addPsr4('OCP', OC::$SERVERROOT . '/lib/public');
@@ -707,18 +724,6 @@ class OC {
 		require_once $vendorAutoLoad;
 
 		self::$loaderEnd = microtime(true);
-
-		// load configs
-		if (defined('PHPUNIT_CONFIG_DIR')) {
-			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
-		} elseif (defined('PHPUNIT_RUN') && PHPUNIT_RUN && is_dir(OC::$SERVERROOT . '/tests/config/')) {
-			self::$configDir = OC::$SERVERROOT . '/tests/config/';
-		} elseif ($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
-			self::$configDir = rtrim($dir, '/') . '/';
-		} else {
-			self::$configDir = OC::$SERVERROOT . '/config/';
-		}
-		self::$config = new \OC\Config(self::$configDir);
 
 		// Enable lazy loading if activated
 		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
