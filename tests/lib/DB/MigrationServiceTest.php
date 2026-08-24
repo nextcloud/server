@@ -380,6 +380,24 @@ class MigrationServiceTest extends \Test\TestCase {
 		], $calls);
 	}
 
+	public function testMigrateRejectsInvalidTargetIdentifier(): void {
+		$migrationService = $this->getMockBuilder(MigrationService::class)
+			->onlyMethods(['getMigratedVersions', 'findMigrations', 'executeStep'])
+			->setConstructorArgs(['testing', $this->db])
+			->getMock();
+
+		$migrationService->method('getMigratedVersions')->willReturn([]);
+		$migrationService->method('findMigrations')->willReturn([
+			'10000Date20200819121721' => 'A',
+		]);
+		$migrationService->expects(self::never())->method('executeStep');
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('invalid-target');
+
+		$migrationService->migrate('invalid-target');
+	}
+
 	#[DataProvider('dataEnsureNamingConstraintsTableName')]
 	public function testEnsureNamingConstraintsTableName(string $name, int $prefixLength, bool $tableExists, bool $throws): void {
 		if ($throws) {
