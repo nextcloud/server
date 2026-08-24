@@ -253,6 +253,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 
 	public function testSolveInvalidChallenge(): void {
 		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('myuser');
 		$provider = $this->createMock(IProvider::class);
 
 		$this->userSession->expects($this->once())
@@ -282,11 +283,13 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->willReturn('myprovider');
 
 		$expected = new RedirectResponse('files/index/url');
+		$expected->throttle(['user' => 'myuser', 'provider' => 'myprovider']);
 		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token', '/url'));
 	}
 
 	public function testSolveChallengeTwoFactorException(): void {
 		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('myuser');
 		$provider = $this->createMock(IProvider::class);
 		$exception = new TwoFactorException('2FA failed');
 
@@ -324,6 +327,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->willReturn('myprovider');
 
 		$expected = new RedirectResponse('files/index/url');
+		$expected->throttle(['user' => 'myuser', 'provider' => 'myprovider']);
 		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token', '/url'));
 	}
 
