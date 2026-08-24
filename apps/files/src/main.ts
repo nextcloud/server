@@ -27,7 +27,7 @@ if (!window.OCP.Files.Router) {
 }
 
 // Expose the ability to render the Files UI on a foreign page
-window.OCP.Files.renderFilesApp = window.OCP.Files.renderFilesApp ?? renderFilesApp
+window.OCP.Files.renderFilesApp ??= renderFilesApp
 
 // Init Pinia store
 Vue.use(PiniaVuePlugin)
