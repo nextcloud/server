@@ -61,6 +61,9 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 		$entity = PublicKeyCredentialEntity::fromPublicKeyCrendentialSource($name, $publicKeyCredentialSource, $userVerification);
 
 		if ($oldEntity) {
+			if ($oldEntity->getUid() !== $entity->getUid()) {
+				throw new \InvalidArgumentException('Uid mismatch');
+			}
 			$entity->setId($oldEntity->getId());
 			if ($defaultName) {
 				$entity->setName($oldEntity->getName());
