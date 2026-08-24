@@ -2679,16 +2679,26 @@ $CONFIG = [
 	'trusted_proxies' => ['203.0.113.45', '198.51.100.128', '192.168.2.0/24'],
 
 	/**
-	 * Headers trusted as containing the client IP address when used with
-	 * ``trusted_proxies``. For example, use ``HTTP_X_FORWARDED_FOR`` for the
-	 * ``X-Forwarded-For`` header.
+	 * HTTP header keys containing the original client IP address as provided by a
+	 * trusted reverse proxy.
 	 *
-	 * Incorrect configuration allows clients to spoof their IP address, bypassing
-	 * access controls and rendering logs unreliable.
+	 * This setting is used only when the request originates from an address listed in
+	 * ``trusted_proxies``. The de facto standard ``X-Forwarded-For`` header, exposed
+	 * as ``HTTP_X_FORWARDED_FOR``, is Nextcloud's default, so this setting often does
+	 * not need to be configured. See
+	 * https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For
+	 * for details.
 	 *
-	 * Defaults to ``['HTTP_X_FORWARDED_FOR']``
+	 * Only add headers that are set or sanitized by a trusted proxy. Incorrect
+	 * configuration allows clients to spoof their IP address, bypass access
+	 * controls, and make logs unreliable.
+	 *
+	 * Header values may contain a comma-separated list of IP addresses. The
+	 * rightmost non-proxy address is used.
+	 *
+	 * Defaults to ``['HTTP_X_FORWARDED_FOR']``.
 	 */
-	'forwarded_for_headers' => ['HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'],
+	'forwarded_for_headers' => ['HTTP_X_FORWARDED_FOR'],
 
 	/**
 	 * List of trusted IP ranges for admin actions. If non-empty, all admin actions
