@@ -198,17 +198,32 @@ class MigrationService {
 	}
 
 	protected function sortMigrations(string $a, string $b): int {
-		preg_match('/(\d+)Date(\d+)/', basename($a), $matchA);
-		preg_match('/(\d+)Date(\d+)/', basename($b), $matchB);
-		if (!empty($matchA) && !empty($matchB)) {
-			$versionA = (int)$matchA[1];
-			$versionB = (int)$matchB[1];
-			if ($versionA !== $versionB) {
-				return ($versionA < $versionB) ? -1 : 1;
-			}
-			return strnatcmp($matchA[2], $matchB[2]);
+		[$versionA, $dateA] = $this->parseMigrationVersion($a);
+		[$versionB, $dateB] = $this->parseMigrationVersion($b);
+
+		if ($versionA !== $versionB) {
+			return $versionA <=> $versionB;
 		}
-		return strnatcmp(basename($a), basename($b));
+
+		return strcmp($dateA, $dateB);
+	}
+
+	/**
+	 * @return array{int, string}
+	 */
+	private function parseMigrationVersion(string $value): array {
+		$name = basename($value);
+
+		if (preg_match('/^Version(\d{1,16})Date(\d{14})\.php$/', $name, $matches) !== 1
+			&& preg_match('/^(\d{1,16})Date(\d{14})$/', $name, $matches) !== 1
+		) {
+			throw new \InvalidArgumentException(
+				'Invalid migration version "' . $value . '" for app "' . $this->getApp()
+				. '". Expected "<version>Date<YYYYMMDDHHMMSS>".'
+			);
+		}
+
+		return [(int)$matches[1], $matches[2]];
 	}
 
 	/**
@@ -232,6 +247,7 @@ class MigrationService {
 		usort($files, $this->sortMigrations(...));
 
 		$migrations = [];
+		$migrationFiles = [];
 
 		foreach ($files as $file) {
 			$className = basename($file, '.php');
@@ -241,6 +257,14 @@ class MigrationService {
 					"Cannot load a migrations with the name '$version' because it is a reserved number"
 				);
 			}
+			if (isset($migrationFiles[$version])) {
+				throw new \InvalidArgumentException(
+					"Cannot load migration '$version' for app '{$this->appName}' because it is defined by both "
+					. "'{$migrationFiles[$version]}' and '$file'"
+				);
+			}
+
+			$migrationFiles[$version] = $file;
 			$migrations[$version] = sprintf('%s\\%s', $this->migrationsNamespace, $className);
 		}
 
