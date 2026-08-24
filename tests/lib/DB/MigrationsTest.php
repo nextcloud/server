@@ -178,10 +178,10 @@ class MigrationsTest extends \Test\TestCase {
 
 	public static function dataGetMigration(): array {
 		return [
-			['current', '20170130180001'],
-			['prev', '20170130180000'],
-			['next', '20170130180002'],
-			['latest', '20170130180003'],
+			['current', '10000Date20200819121721'],
+			['prev', '8000Date20200407115318'],
+			['next', '20000Date20240717180417'],
+			['latest', '20000Date20240718031959'],
 		];
 	}
 
