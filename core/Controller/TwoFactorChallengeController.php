@@ -28,6 +28,7 @@ namespace OC\Core\Controller;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC_User;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -172,6 +173,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @return RedirectResponse
 	 */
 	#[UseSession]
+	#[BruteForceProtection(action: 'solveChallenge')]
 	public function solveChallenge($challengeProviderId, $challenge, $redirect_url = null) {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
@@ -199,10 +201,12 @@ class TwoFactorChallengeController extends Controller {
 		$uid = $user->getUID();
 		$this->logger->warning("Two-factor challenge failed: $uid (Remote IP: $ip)");
 		$this->session->set('two_factor_auth_error', true);
-		return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.showChallenge', [
+		$response = new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.showChallenge', [
 			'challengeProviderId' => $provider->getId(),
 			'redirect_url' => $redirect_url,
 		]));
+		$response->throttle(['user' => $uid, 'provider' => $challengeProviderId]);
+		return $response;
 	}
 
 	/**
