@@ -8,6 +8,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use OC\NavigationManager;
 use OC\OCS\ApiHelper;
 use OC\Route\Router;
 use OC\SystemConfig;
@@ -78,6 +79,10 @@ require_once __DIR__ . '/../lib/OC.php';
 		} else {
 			$appManager->loadApps(['core']);
 		}
+
+		// All apps are now loaded to handle the request, resolve their navigation entries
+		// (index.php does this via OC::handleRequest(), which this OCS dispatch bypasses)
+		Server::get(NavigationManager::class)->setup();
 
 		Server::get(Router::class)->match('/ocsapp' . $request->getRawPathInfo());
 	} catch (MaxDelayReached $ex) {
