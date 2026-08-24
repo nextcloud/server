@@ -21,6 +21,7 @@ use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
 use OCP\App\AppPathNotFoundException;
 use OCP\IDBConnection;
+use OCP\ITempManager;
 use OCP\Migration\IMigrationStep;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -67,6 +68,30 @@ class MigrationServiceTest extends \Test\TestCase {
 		$this->assertEquals(\OC::$SERVERROOT . '/core/Migrations', $migrationService->getMigrationsDirectory());
 		$this->assertEquals('OC\Core\Migrations', $migrationService->getMigrationsNamespace());
 		$this->assertEquals('test_oc_migrations', $migrationService->getMigrationsTableName());
+	}
+
+	public static function dataInvalidMigrationFileName(): array {
+		return [
+			'missing version' => ['VersionDate20200819121721.php'],
+			'non-numeric version' => ['VersionFooDate20200819121721.php'],
+			'invalid separator' => ['Version10000Data20200819121721.php'],
+			'short timestamp' => ['Version10000Date2020081912172.php'],
+			'non-numeric timestamp' => ['Version10000Date2020081912172A.php'],
+			'unexpected suffix' => ['Version10000Date20200819121721Extra.php'],
+		];
+	}
+
+	#[DataProvider('dataInvalidMigrationFileName')]
+	public function testGetAvailableVersionsRejectsInvalidIdentifier(string $fileName): void {
+		$directory = Server::get(ITempManager::class)->getTemporaryFolder();
+		self::assertNotFalse(\touch($directory . '/' . $fileName));
+
+		$migrationService = $this->createMigrationServiceForDirectory($directory);
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage($fileName);
+
+		$migrationService->getAvailableVersions();
 	}
 
 	public function testExecuteUnknownStep(): void {
