@@ -164,4 +164,120 @@ class LocalTest extends Storage {
 		$jail3->moveFromStorage($jail2, 'file.txt', 'file.txt');
 		$this->assertTrue($this->instance->file_exists('target/file.txt'));
 	}
+
+	public function testFopenRestoresUmaskWhenTheWritePathThrows(): void {
+		$storage = new class(['datadir' => $this->tmpDir]) extends Local {
+			#[\Override]
+			public function __construct(array $parameters) {
+				parent::__construct($parameters);
+				$this->unlinkOnTruncate = true;
+			}
+
+			#[\Override]
+			public function unlink(string $path): bool {
+				throw new \RuntimeException('unlink failed');
+			}
+		};
+
+		$ambient = umask(0077);
+		$thrown = false;
+		try {
+			$storage->fopen('target.txt', 'w');
+		} catch (\RuntimeException) {
+			$thrown = true;
+		}
+		$leaked = umask($ambient);
+
+		$this->assertTrue($thrown, 'the exception has to propagate');
+		$this->assertSame(0077, $leaked, 'umask has to be restored when the write path throws');
+	}
+
+	public function testFopenRecoveryLeavesEntriesOutsideTheDataDirectoryAlone(): void {
+		if (!function_exists('exec')) {
+			$this->markTestSkipped('exec() is required to change the path type out of process');
+		}
+
+		$dataDir = rtrim($this->tmpDir, '/');
+		$stalePath = $this->tmpDir . 'folder';
+		$file = $stalePath . '/a.txt';
+
+		// opened only to get the "not a directory" entry into the realpath cache
+		$this->instance->file_put_contents('folder', 'its a file');
+		$handle = $this->instance->fopen('folder', 'r');
+		$this->assertIsResource($handle);
+		fclose($handle);
+
+		if ((realpath_cache_get()[$stalePath]['is_dir'] ?? null) !== false) {
+			$this->markTestSkipped('the realpath cache of this setup does not hold the directory flag');
+		}
+
+		realpath(__DIR__);
+		realpath($dataDir);
+		$this->assertArrayHasKey(__DIR__, realpath_cache_get());
+		$this->assertArrayHasKey($dataDir, realpath_cache_get());
+
+		exec(
+			'rm -f ' . escapeshellarg($stalePath)
+			. ' && mkdir -p ' . escapeshellarg($stalePath)
+			. ' && printf abc > ' . escapeshellarg($file),
+			$output,
+			$status
+		);
+		$this->assertSame(0, $status, 'failed to replace the file with a directory');
+
+		$handle = $this->instance->fopen('folder/a.txt', 'r');
+		$this->assertIsResource($handle);
+		fclose($handle);
+
+		$cache = realpath_cache_get();
+		$this->assertArrayHasKey(__DIR__, $cache, 'entries outside the data directory have to survive');
+		$this->assertArrayHasKey($dataDir, $cache, 'the walk has to stop at the data directory');
+	}
+
+	public static function dataStaleRealpathCache(): array {
+		return [
+			// invalidating only the direct parent passes the first and fails the second
+			'stale direct parent' => ['staleName' => 'folder', 'filePath' => 'folder/a.txt'],
+			'stale grandparent' => ['staleName' => 'nickname', 'filePath' => 'nickname/folder/a.txt'],
+		];
+	}
+
+	/**
+	 * The type change has to happen out of process: PHP drops its own realpath cache
+	 * entry when it is the one calling unlink() and mkdir(), so doing it here would
+	 * leave nothing stale and the test would pass either way.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataStaleRealpathCache')]
+	public function testFopenRecoversFromStaleRealpathCache(string $staleName, string $filePath): void {
+		if (!function_exists('exec')) {
+			$this->markTestSkipped('exec() is required to change the path type out of process');
+		}
+
+		$stalePath = $this->tmpDir . $staleName;
+		$file = $this->tmpDir . $filePath;
+
+		// opened only to get the "not a directory" entry into the realpath cache
+		$this->instance->file_put_contents($staleName, 'its a file');
+		$handle = $this->instance->fopen($staleName, 'r');
+		$this->assertIsResource($handle);
+		fclose($handle);
+
+		if ((realpath_cache_get()[$stalePath]['is_dir'] ?? null) !== false) {
+			$this->markTestSkipped('the realpath cache of this setup does not hold the directory flag');
+		}
+
+		exec(
+			'rm -f ' . escapeshellarg($stalePath)
+			. ' && mkdir -p ' . escapeshellarg(dirname($file))
+			. ' && printf abc > ' . escapeshellarg($file),
+			$output,
+			$status
+		);
+		$this->assertSame(0, $status, 'failed to replace the file with a directory');
+
+		$handle = $this->instance->fopen($filePath, 'r');
+		$this->assertIsResource($handle, 'fopen() has to recover from the stale realpath cache entry');
+		$this->assertSame('abc', stream_get_contents($handle));
+		fclose($handle);
+	}
 }
