@@ -158,7 +158,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$lastUpdated = $this->getTime();
 		$this->backend->createShare($id, new ShareUser($currentUser->getUID(), null), $lastUpdated);
 
-		[$share] = $this->processShareUpdates([$id]);
+		$share = $this->backend->getShare($accessContext, $id);
+		[$share] = $this->processShareUpdates([$share]);
 
 		return $share;
 	}
@@ -311,7 +312,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->backend->setLastUpdated($updatedIds, $timestamp);
 
-		$this->processShareUpdates($updatedIds);
+		$this->processShareUpdates(array_map(fn (string $id): Share => $this->backend->getShare($accessContext, $id), $updatedIds));
 	}
 
 	#[\Override]
@@ -451,7 +452,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->backend->setLastUpdated($updatedIds, $timestamp);
 
-		$this->processShareUpdates($updatedIds);
+		$this->processShareUpdates(array_map(fn (string $id): Share => $this->backend->getShare($accessContext, $id), $updatedIds));
 	}
 
 	#[\Override]
@@ -471,7 +472,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->backend->setLastUpdated($updatedIds, $timestamp);
 
-		$this->processShareUpdates($updatedIds);
+		$this->processShareUpdates(array_map(fn (string $id): Share => $this->backend->getShare($accessContext, $id), $updatedIds));
 	}
 
 	/**
@@ -571,7 +572,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->permissions,
 		);
 
-		[$share] = $this->processShareUpdates([$share->id]);
+		[$share] = $this->processShareUpdates([$share]);
 		return $share;
 	}
 
@@ -861,19 +862,11 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	/**
-	 * @param non-empty-list<Share|string> $sharesOrIds
+	 * @param non-empty-list<Share> $shares
 	 * @return non-empty-list<Share>
 	 */
-	private function processShareUpdates(array $sharesOrIds): array {
-		$shares = [];
-
-		foreach ($sharesOrIds as $shareOrId) {
-			if ($shareOrId instanceof Share) {
-				$share = $shareOrId;
-			} else {
-				$share = $this->backend->getShare(new ShareAccessContext(overrideChecks: true), $shareOrId);
-			}
-
+	private function processShareUpdates(array $shares): array {
+		foreach ($shares as &$share) {
 			if ($share->state === ShareState::Active) {
 				try {
 					$this->assertShareCanBeActive($share);
@@ -913,8 +906,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 				$legacyBackend->updateShare($share);
 			}
-
-			$shares[] = $share;
 		}
 
 		return $shares;
