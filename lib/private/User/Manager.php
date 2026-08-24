@@ -9,6 +9,7 @@ namespace OC\User;
 
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use OC\Hooks\PublicEmitter;
+use OC\KnownUser\KnownUserService;
 use OC\Memcache\WithLocalCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -65,6 +66,9 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	private DisplayNameCache $displayNameCache;
 
+	// These services cannot be injected through DI because user manager is used early in install process
+	private ?KnownUserService $knownUserService = null;
+
 	public function __construct(
 		private IConfig $config,
 		ICacheFactory $cacheFactory,
@@ -76,6 +80,10 @@ class Manager extends PublicEmitter implements IUserManager {
 			unset($this->cachedUsers[$user->getUID()]);
 		});
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
+	}
+
+	private function getKnownUserService(): KnownUserService {
+		return $this->knownUserService ??= Server::get(KnownUserService::class);
 	}
 
 	/**
@@ -375,7 +383,12 @@ class Manager extends PublicEmitter implements IUserManager {
 				$backendUsers = $backend->searchKnownUsersByDisplayName($searcher, $pattern, $limit, $offset);
 			} else {
 				// Better than nothing, but filtering after pagination can remove lots of results.
-				$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
+				$backendUsers = array_filter(
+					$backend->getDisplayNames($pattern, $limit, $offset),
+					fn (string $uid): bool => $this->getKnownUserService()->isKnownToUser($searcher, $uid),
+					ARRAY_FILTER_USE_KEY,
+				);
+
 			}
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid => $displayName) {
