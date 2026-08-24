@@ -173,6 +173,36 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists after clear()');
 	}
 
+	/**
+	 * Entry points that never call setup() (e.g. the OCS dispatch in ocs/v1.php)
+	 * must not silently lose closure-registered entries such as an app's nav
+	 * link: getAll() should only resolve what it can, not resolve nothing.
+	 */
+	public function testGetAllDoesNotResolveClosureBeforeSetup(): void {
+		$numberOfCalls = 0;
+		$this->navigationManager->add(function () use (&$numberOfCalls) {
+			$numberOfCalls++;
+
+			return [
+				'id' => 'entry id',
+				'name' => 'link text',
+				'order' => 1,
+				'href' => 'url',
+			];
+		});
+
+		$navigationEntries = $this->navigationManager->getAll('all');
+
+		$this->assertEquals(0, $numberOfCalls, 'Expected that the closure is not called by getAll() before setup()');
+		$this->assertEmpty($navigationEntries, 'Expected no navigation entry exists before setup()');
+
+		$this->navigationManager->setup();
+		$navigationEntries = $this->navigationManager->getAll('all');
+
+		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure is called by getAll() once setup() has run');
+		$this->assertArrayHasKey('entry id', $navigationEntries);
+	}
+
 	public function testAddClosureAfterSetup(): void {
 		$this->navigationManager->setup();
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists');
