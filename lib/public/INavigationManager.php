@@ -27,7 +27,7 @@ use OCP\AppFramework\Attribute\ExceptionalImplementable;
  *     icon?: string,
  *     color?: string,
  *     classes?: string,
- *     type?: 'link'|'action'|'settings',
+ *     type?: 'link'|'action'|'settings'|'guest'|'quota',
  * }
  * @psalm-type NavigationEntryOutput = array{
  *     id: string,
@@ -35,7 +35,7 @@ use OCP\AppFramework\Attribute\ExceptionalImplementable;
  *     href: string,
  *     icon: string,
  *     color?: string,
- *     type: 'link'|'action'|'settings',
+ *     type: 'link'|'action'|'settings'|'guest'|'quota',
  *     name: string,
  *     app?: string,
  *     default?: bool,
