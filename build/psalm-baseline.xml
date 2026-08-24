@@ -3706,7 +3706,6 @@
   <file src="lib/private/Files/Storage/Common.php">
     <InvalidOperand>
       <code><![CDATA[!$permissions]]></code>
-      <code><![CDATA[$this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file)]]></code>
     </InvalidOperand>
   </file>
   <file src="lib/private/Files/Storage/DAV.php">

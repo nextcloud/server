@@ -164,4 +164,21 @@ class LocalTest extends Storage {
 		$jail3->moveFromStorage($jail2, 'file.txt', 'file.txt');
 		$this->assertTrue($this->instance->file_exists('target/file.txt'));
 	}
+
+	public function testMoveFromNonLocalStoragePreservesMtimeRecursively(): void {
+		$sourceDir = $this->tmpDir . '/source';
+		mkdir($sourceDir);
+		$source = new \OC\Files\Storage\CommonTest(['datadir' => $sourceDir]);
+		$source->mkdir('folder');
+		$source->file_put_contents('folder/file.txt', 'content');
+
+		$fileMtime = time() - 3600;
+		$folderMtime = $fileMtime - 3600;
+		$source->touch('folder/file.txt', $fileMtime);
+		$source->touch('folder', $folderMtime);
+
+		$this->assertTrue($this->instance->moveFromStorage($source, 'folder', 'moved'));
+		$this->assertSame($fileMtime, $this->instance->filemtime('moved/file.txt'));
+		$this->assertSame($folderMtime, $this->instance->filemtime('moved'));
+	}
 }
