@@ -84,6 +84,7 @@ class ServerFactory {
 		Server::$streamMultiStatus = true;
 
 		$server = new Server($tree);
+		$server->addPlugin(new StreamedPropFindNotFoundPlugin());
 
 		// Set URL explicitly due to reverse-proxy situations
 		$server->httpRequest->setUrl($requestUri);
