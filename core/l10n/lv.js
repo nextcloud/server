@@ -18,7 +18,7 @@ OC.L10N.register(
     "Unknown filetype" : "Nezināms datnes veids",
     "An error occurred. Please contact your admin." : "Atgadījās kļūda. Lūgums sazināties ar savu pārvaldītāju.",
     "Invalid image" : "Nederīgs attēls",
-    "State token does not match" : "Neatbilst stāvokļa tekstvienība",
+    "State token does not match" : "Stāvokļa tekstvienība neatbilst",
     "Invalid app password" : "Nederīga lietotnes parole",
     "Could not complete login" : "Nevarēja pabeigt pieteikšanos",
     "State token missing" : "Trūkst stāvokļa tekstvienības",
