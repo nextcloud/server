@@ -214,6 +214,62 @@ class MigrationServiceTest extends \Test\TestCase {
 		$this->assertSame($expected, $migration);
 	}
 
+	#[Group('DB')]
+	public function testGetMigratedVersionsSortsByVersionThenDate(): void {
+		/** @var Connection $db */
+		$db = Server::get(IDBConnection::class);
+		$appId = 'migration_sort_' . bin2hex(random_bytes(8));
+
+		$migrationService = new class('testing', $db, $appId) extends MigrationService {
+			public function __construct(
+				string $appName,
+				Connection $connection,
+				private string $migrationApp,
+			) {
+				parent::__construct($appName, $connection);
+			}
+
+			#[\Override]
+			public function getApp(): string {
+				return $this->migrationApp;
+			}
+		};
+
+		// Ensure the migrations table exists before inserting the fixtures.
+		self::assertSame([], $migrationService->getMigratedVersions());
+
+		$versions = [
+			'20000Date20240718031959',
+			'10000Date20200819121721',
+			'8000Date20200407115318',
+			'20000Date20240717180417',
+		];
+
+		try {
+			foreach ($versions as $version) {
+				$db->insertIfNotExist('*PREFIX*migrations', [
+					'app' => $appId,
+					'version' => $version,
+				]);
+			}
+
+			self::assertSame([
+				'8000Date20200407115318',
+				'10000Date20200819121721',
+				'20000Date20240717180417',
+				'20000Date20240718031959',
+			], $migrationService->getMigratedVersions());
+		} finally {
+			$qb = $db->getQueryBuilder();
+			$qb->delete('migrations')
+				->where($qb->expr()->eq(
+					'app',
+					$qb->createNamedParameter($appId),
+				))
+				->executeStatement();
+		}
+	}
+
 	public function testMigrate(): void {
 		$migrationService = $this->getMockBuilder(MigrationService::class)
 			->onlyMethods(['getMigratedVersions', 'findMigrations', 'executeStep'])
