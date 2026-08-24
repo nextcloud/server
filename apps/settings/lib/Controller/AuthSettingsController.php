@@ -188,6 +188,46 @@ class AuthSettingsController extends Controller {
 		return new JSONResponse([]);
 	}
 
+	/**
+	 * Wipe-pending tokens are kept: revoking one cancels its pending wipe, so that
+	 * stays a per-token decision.
+	 */
+	#[NoSubAdminRequired]
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
+	public function destroyAll(): JSONResponse {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		if ($this->userSession->getImpersonatingUserID() !== null) {
+			return $this->getServiceNotAvailableResponse();
+		}
+
+		try {
+			$currentTokenId = $this->tokenProvider->getToken($this->session->getId())->getId();
+		} catch (SessionNotAvailableException|InvalidTokenException) {
+			return $this->getServiceNotAvailableResponse();
+		}
+
+		$revoked = [];
+		foreach ($this->tokenProvider->getTokenByUser($this->userId) as $token) {
+			if ($token->getId() === $currentTokenId || $token->getType() === IToken::WIPE_TOKEN) {
+				continue;
+			}
+
+			$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
+			$revoked[] = $token->getId();
+		}
+
+		if ($revoked !== []) {
+			// One aggregate entry rather than one per token, so a bulk revoke does not bury the feed.
+			$this->publishActivity(Provider::APP_TOKEN_DELETED_ALL, null, ['count' => count($revoked)]);
+		}
+
+		return new JSONResponse(['revoked' => $revoked]);
+	}
+
 	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
@@ -222,14 +262,20 @@ class AuthSettingsController extends Controller {
 		return new JSONResponse([]);
 	}
 
-	private function publishActivity(string $subject, int $id, array $parameters = []): void {
+	/**
+	 * @param int|null $id Token the event is about, or null for events that span several tokens
+	 */
+	private function publishActivity(string $subject, ?int $id, array $parameters = []): void {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('settings')
 			->setType('security')
 			->setAffectedUser($this->userId)
 			->setAuthor($this->userId)
-			->setSubject($subject, $parameters)
-			->setObject('app_token', $id, 'App Password');
+			->setSubject($subject, $parameters);
+
+		if ($id !== null) {
+			$event->setObject('app_token', $id, 'App Password');
+		}
 
 		try {
 			$this->activityManager->publish($event);

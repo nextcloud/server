@@ -13,6 +13,7 @@ return [
 
 		['name' => 'AuthSettings#create', 'url' => '/settings/personal/authtokens', 'verb' => 'POST' , 'root' => ''],
 		['name' => 'AuthSettings#update', 'url' => '/settings/personal/authtokens/{id}', 'verb' => 'PUT' , 'root' => ''],
+		['name' => 'AuthSettings#destroyAll', 'url' => '/settings/personal/authtokens', 'verb' => 'DELETE' , 'root' => ''],
 		['name' => 'AuthSettings#destroy', 'url' => '/settings/personal/authtokens/{id}', 'verb' => 'DELETE' , 'root' => ''],
 		['name' => 'AuthSettings#wipe', 'url' => '/settings/personal/authtokens/wipe/{id}', 'verb' => 'POST' , 'root' => ''],
 
