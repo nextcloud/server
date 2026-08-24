@@ -28,12 +28,21 @@ class MigrateCommand extends Command implements CompletionAwareInterface {
 	}
 
 	#[\Override]
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('migrations:migrate')
-			->setDescription('Execute a migration to a specified version or the latest available version.')
-			->addArgument('app', InputArgument::REQUIRED, 'Name of the app this migration command shall work on')
-			->addArgument('version', InputArgument::OPTIONAL, 'The version number (YYYYMMDDHHMMSS) or alias (first, prev, next, latest) to migrate to.', 'latest');
+			->setDescription('Run pending database migrations for an app up to a specified migration ID or the latest available migration.')
+			->addArgument(
+				'app',
+				InputArgument::REQUIRED,
+				'The app whose database migrations should be run'
+			)
+			->addArgument(
+				'version',
+				InputArgument::OPTIONAL,
+				'Target migration ID (e.g. 2404Date20220903071748) or latest.',
+				'latest'
+			);
 
 		parent::configure();
 	}
@@ -54,7 +63,7 @@ class MigrateCommand extends Command implements CompletionAwareInterface {
 	 * @return string[]
 	 */
 	#[\Override]
-	public function completeOptionValues($optionName, CompletionContext $context) {
+	public function completeOptionValues($optionName, CompletionContext $context): array {
 		return [];
 	}
 
@@ -64,7 +73,7 @@ class MigrateCommand extends Command implements CompletionAwareInterface {
 	 * @return string[]
 	 */
 	#[\Override]
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app') {
 			$allApps = $this->appManager->getAllAppsInAppsFolders();
 			return array_diff($allApps, $this->appManager->getEnabledApps());
@@ -76,7 +85,7 @@ class MigrateCommand extends Command implements CompletionAwareInterface {
 			$ms = new MigrationService($appName, $this->connection);
 			$migrations = $ms->getAvailableVersions();
 
-			array_unshift($migrations, 'next', 'latest');
+			array_unshift($migrations, 'latest');
 			return $migrations;
 		}
 
