@@ -99,6 +99,7 @@
 				<!-- Initial loading -->
 				<NcLoadingIcon
 					v-if="loading && !isRefreshing"
+					data-cy-files-loading
 					class="files-list__loading-icon"
 					:size="38"
 					:name="t('files', 'Loading current folder')" />
