@@ -358,7 +358,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function createShareProperty(string $id, ShareProperty $property): void {
+	public function createShareProperty(string $id, ShareProperty $property): ?string {
 		$value = $property->value;
 
 		$propertyType = $this->registry->getPropertyTypes()[$property->class];
@@ -377,6 +377,8 @@ final readonly class SharingBackend implements ISharingBackend {
 					'property_value' => $qb->createNamedParameter($value),
 				])
 				->executeStatement();
+
+			return $value;
 		} catch (\OCP\DB\Exception $exception) {
 			if ($exception->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 				throw new RuntimeException('The property already exists: ' . $property->class, $exception->getCode(), $exception);
@@ -387,7 +389,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function updateShareProperty(string $id, ShareProperty $property): void {
+	public function updateShareProperty(string $id, ShareProperty $property): ?string {
 		$value = $property->value;
 
 		$propertyType = $this->registry->getPropertyTypes()[$property->class];
@@ -425,6 +427,8 @@ final readonly class SharingBackend implements ISharingBackend {
 		if ($rowCount === 0) {
 			throw new ShareNotFoundException();
 		}
+
+		return $value;
 	}
 
 	#[\Override]
@@ -588,9 +592,22 @@ final readonly class SharingBackend implements ISharingBackend {
 	 * @return list<Share>
 	 */
 	private function list(
-		ShareAccessContext $accessContext, ?string $filterShareID, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID,
+		ShareAccessContext $accessContext,
+		?string $filterShareID,
+		?string $filterSourceTypeClass,
+		?string $filterSourceTypeValue,
+		?string $lastShareID,
 		?int $limit,
 	): array {
+		if ($filterSourceTypeClass) {
+			$filterSourceType = $this->registry->getSourceTypes()[$filterSourceTypeClass] ?? null;
+			if ($filterSourceType === null) {
+				throw new RuntimeException('The source type is not registered: ' . $filterSourceTypeClass);
+			}
+		} else {
+			$filterSourceType = null;
+		}
+
 		/** @var array<class-string<IShareRecipientType>, list<string>> $recipientTypeValues */
 		$recipientTypeValues = [];
 
@@ -601,7 +618,11 @@ final readonly class SharingBackend implements ISharingBackend {
 		} else {
 			if ($accessContext->currentUser instanceof IUser) {
 				$qb = $this->connection->getQueryBuilder();
-				$qb->where($qb->expr()->eq('s.owner_user_id', $qb->createNamedParameter($accessContext->currentUser->getUID())));
+				// if we're filtering by source or id, we need to also check for non-owned shares
+				if ($filterSourceTypeValue === null && $filterShareID === null) {
+					$qb->where($qb->expr()->eq('s.owner_user_id', $qb->createNamedParameter($accessContext->currentUser->getUID())));
+				}
+
 				$queries[] = $qb;
 			}
 
@@ -613,6 +634,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			}
 
 			// Do not add a query if no recipients matched, otherwise all shares will be returned.
+			// If the user has "direct" access, we already get all the shares, so no need to run an extra query for recipients
 			if ($recipientTypeValues !== []) {
 				$qb = $this->connection->getQueryBuilder();
 				$qb->innerJoin(
@@ -672,7 +694,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$qb->andWhere($qb->expr()->eq('s.id', $qb->createNamedParameter($filterShareID)));
 			}
 
-			if ($filterSourceTypeClass !== null) {
+			if ($filterSourceType !== null && $filterSourceTypeClass !== null) {
 				$sourceTypeFilters = [
 					$qb->expr()->eq('s.id', 'ss.share_id'),
 					$qb->expr()->eq(
@@ -867,8 +889,10 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		// Some recipients might have been removed if the initiator was disabled, so check again if this share can be accessed by the current user as a recipient.
 		// This logic is a bit duplicated with the SQL logic that selects shares based on the secret and the recipient type values, but neither can be removed.
+		/** @var array<string, bool> $hasRecipientAccess */
+		$hasRecipientAccess = [];
 		if (!$accessContext->overrideChecks) {
-			foreach ($shares as $id => &$share) {
+			foreach ($shares as &$share) {
 				if ($share['owner']->isCurrentUser($accessContext)) {
 					continue;
 				}
@@ -904,9 +928,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 				unset($recipient);
 
-				if (!$isAnyMatchingRecipient) {
-					unset($shares[$id]);
-				}
+				$hasRecipientAccess[$share['id']] = $isAnyMatchingRecipient && $share['state'] === ShareState::Active;
 			}
 
 			unset($share);
@@ -1016,6 +1038,41 @@ final readonly class SharingBackend implements ISharingBackend {
 			$share['permissions'],
 		), $shares);
 
+		// when listing shares for a source, we also return any non-owned share if the user has "direct" access to the source
+		// but we do need to validate that the user has "direct" access to *all* of the sources in the share, not just one
+		$hasSourceAccess = [];
+		if (!$accessContext->overrideChecks && $accessContext->currentUser instanceof IUser) {
+			foreach ($shares as $share) {
+				if ($share->owner->isCurrentUser($accessContext)) {
+					continue;
+				}
+
+				if ($hasRecipientAccess[$share->id]) {
+					continue;
+				}
+
+				if ($share->sources === []) {
+					$hasSourceAccess[$share->id] = false;
+					continue;
+				}
+
+				$hasSourceAccess[$share->id] = true;
+				foreach ($share->sources as $source) {
+					$sourceType = $this->registry->getSourceTypes()[$source->class];
+					if (!$sourceType->userHasDirectSharingAccessToSource($accessContext->currentUser, $source->value)) {
+						$hasSourceAccess[$share->id] = false;
+					}
+				}
+			}
+		}
+
+		if (!$accessContext->overrideChecks) {
+			$shares = array_filter(
+				$shares,
+				fn (Share $share): bool => $share->owner->isCurrentUser($accessContext) || $hasRecipientAccess[$share->id] || $hasSourceAccess[$share->id]
+			);
+		}
+
 		if (!$accessContext->overrideChecks) {
 			$filterPropertyTypes = array_filter(
 				$registryPropertyTypes, static fn (ISharePropertyType $propertyType): bool => $propertyType instanceof ISharePropertyTypeFilter
@@ -1102,7 +1159,15 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$property = new ShareProperty($propertyTypeClass, $propertyType->getDefaultValue($share));
 
-		$this->createShareProperty($share->id, $property);
+		$value = $this->createShareProperty($share->id, $property);
+		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
+			$value = $propertyType->modifyValueOnLoad($value);
+		}
+
+		$property = new ShareProperty(
+			$property->class,
+			$value,
+		);
 
 		$properties = $share->properties;
 		$properties[$propertyTypeClass] = $property;

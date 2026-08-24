@@ -18,6 +18,7 @@ use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ISharePropertyTypeModifyValue;
 use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\IShareRecipientTypePublicSecret;
@@ -158,7 +159,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$lastUpdated = $this->getTime();
 		$this->backend->createShare($id, new ShareUser($currentUser->getUID(), null), $lastUpdated);
 
-		[$share] = $this->processShareUpdates([$id]);
+		$share = $this->backend->getShare($accessContext, $id);
+		[$share] = $this->processShareUpdates([$share]);
 
 		return $share;
 	}
@@ -190,7 +192,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$time = $this->getTime();
 		$this->backend->setLastUpdated([$share->id], $time);
 
-		$this->validateShareOwnerOperation($accessContext, $share->owner);
+		$this->validateShareEditPermissions($accessContext, $share);
 
 		if ($state === ShareState::Active) {
 			$this->assertShareCanBeActive($share);
@@ -217,7 +219,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function addShareSource(ShareAccessContext $accessContext, Share $share, ShareSource $source): Share {
 		$this->assertInTransaction();
 
-		$this->validateShareOwnerOperation($accessContext, $share->owner);
+		// only the owner can add sources, otherwise a user could add sources others don't have access to, which would remove their access
+		$this->validateShareEditPermissions($accessContext, $share, true);
 
 		if (($sourceType = $this->registry->getSourceTypes()[$source->class] ?? null) === null) {
 			throw new RuntimeException('The source type is not registered: ' . $source->class);
@@ -260,7 +263,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function removeShareSource(ShareAccessContext $accessContext, Share $share, ShareSource $source): Share {
 		$this->assertInTransaction();
 
-		$this->validateShareOwnerOperation($accessContext, $share->owner);
+		// only the owner can remove sources, to mirror the "add source" permissions
+		$this->validateShareEditPermissions($accessContext, $share, true);
 
 		$time = $this->getTime();
 		$this->backend->setLastUpdated([$share->id], $time);
@@ -309,7 +313,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->backend->setLastUpdated($updatedIds, $timestamp);
 
-		$this->processShareUpdates($updatedIds);
+		$this->processShareUpdates(array_map(fn (string $id): Share => $this->backend->getShare($accessContext, $id), $updatedIds));
 	}
 
 	#[\Override]
@@ -321,7 +325,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->assertInTransaction();
 
 		try {
-			$this->validateShareOwnerOperation($accessContext, $share->owner);
+			$this->validateShareEditPermissions($accessContext, $share);
 		} catch (ShareOperationForbiddenException) {
 			$this->validatePermission($share, ReshareSharePermissionType::class);
 		}
@@ -398,7 +402,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->assertInTransaction();
 
 		try {
-			$this->validateShareOwnerOperation($accessContext, $share->owner);
+			$this->validateShareEditPermissions($accessContext, $share);
 		} catch (ShareOperationForbiddenException) {
 			// This does not allow removing own recipients. A user can only reject a share, but not remove it for the recipient.
 			$this->validateReshareOperation($accessContext, $share, $recipient);
@@ -449,7 +453,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->backend->setLastUpdated($updatedIds, $timestamp);
 
-		$this->processShareUpdates($updatedIds);
+		$this->processShareUpdates(array_map(fn (string $id): Share => $this->backend->getShare($accessContext, $id), $updatedIds));
 	}
 
 	#[\Override]
@@ -469,7 +473,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->backend->setLastUpdated($updatedIds, $timestamp);
 
-		$this->processShareUpdates($updatedIds);
+		$this->processShareUpdates(array_map(fn (string $id): Share => $this->backend->getShare($accessContext, $id), $updatedIds));
 	}
 
 	/**
@@ -484,7 +488,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->assertInTransaction();
 
 		try {
-			$this->validateShareOwnerOperation($accessContext, $share->owner);
+			$this->validateShareEditPermissions($accessContext, $share);
 		} catch (ShareOperationForbiddenException) {
 			$this->validateReshareOperation($accessContext, $share, $recipient);
 		}
@@ -540,7 +544,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function updateShareProperty(ShareAccessContext $accessContext, Share $share, ShareProperty $property): Share {
 		$this->assertInTransaction();
 
-		$this->validateShareOwnerOperation($accessContext, $share->owner);
+		$this->validateShareEditPermissions($accessContext, $share);
 
 		if (($propertyType = $this->registry->getPropertyTypes()[$property->class] ?? null) === null) {
 			throw new RuntimeException('The property is not registered: ' . $property->class);
@@ -553,7 +557,15 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$time = $this->getTime();
 		$this->backend->setLastUpdated([$share->id], $time);
 
-		$this->backend->updateShareProperty($share->id, $property);
+		$value = $this->backend->updateShareProperty($share->id, $property);
+		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
+			$value = $propertyType->modifyValueOnLoad($value);
+		}
+
+		$property = new ShareProperty(
+			$property->class,
+			$value,
+		);
 
 		$properties = $share->properties;
 		$properties[$property->class] = $property;
@@ -569,7 +581,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->permissions,
 		);
 
-		[$share] = $this->processShareUpdates([$share->id]);
+		[$share] = $this->processShareUpdates([$share]);
 		return $share;
 	}
 
@@ -577,7 +589,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function updateSharePermission(ShareAccessContext $accessContext, Share $share, SharePermission $permission): Share {
 		$this->assertInTransaction();
 
-		$this->validateShareOwnerOperation($accessContext, $share->owner);
+		$this->validateShareEditPermissions($accessContext, $share);
 
 		if (!isset($this->registry->getPermissionTypes()[$permission->class])) {
 			throw new RuntimeException('The permission type is not registered: ' . $permission->class);
@@ -614,7 +626,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function selectSharePermissionPreset(ShareAccessContext $accessContext, Share $share, string $permissionPresetClass): Share {
 		$this->assertInTransaction();
 
-		$this->validateShareOwnerOperation($accessContext, $share->owner);
+		$this->validateShareEditPermissions($accessContext, $share);
 
 		if (($this->registry->getPermissionPresetCompatiblePermissionTypeClasses()[$permissionPresetClass] ?? null) === null) {
 			throw new RuntimeException('The permission preset is not registered: ' . $permissionPresetClass);
@@ -654,7 +666,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		// No need to update the last updated timestamp, because the share will be deleted anyway.
 
-		$this->validateShareOwnerOperation($accessContext, $share->owner);
+		$this->validateShareEditPermissions($accessContext, $share);
 
 		$this->backend->deleteShare($share->id);
 
@@ -710,18 +722,35 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		}
 	}
 
-	// TODO: Support IShareOwnerlessMount
-
 	/**
 	 * @throws ShareOperationForbiddenException
 	 */
-	private function validateShareOwnerOperation(ShareAccessContext $accessContext, ShareUser $owner): void {
+	private function validateShareEditPermissions(ShareAccessContext $accessContext, Share $share, bool $onlyOwner = false): void {
 		if ($accessContext->overrideChecks) {
 			return;
 		}
 
-		if ($owner->instance !== null || !$accessContext->currentUser instanceof IUser || $owner->userId !== $accessContext->currentUser->getUID()) {
+		if ($share->owner->instance !== null || !$accessContext->currentUser instanceof IUser) {
 			throw new ShareOperationForbiddenException();
+		}
+
+		if ($share->owner->userId === $accessContext->currentUser->getUID()) {
+			return;
+		}
+
+		if ($onlyOwner) {
+			throw new ShareOperationForbiddenException();
+		}
+
+		foreach ($share->sources as $source) {
+			$sourceType = $this->registry->getSourceTypes()[$source->class] ?? null;
+			if (!$sourceType) {
+				throw new ShareOperationForbiddenException();
+			}
+
+			if (!$sourceType->userHasDirectSharingAccessToSource($accessContext->currentUser, $source->value)) {
+				throw new ShareOperationForbiddenException();
+			}
 		}
 	}
 
@@ -730,7 +759,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	 * @throws ShareOperationForbiddenException
 	 */
 	private function validatePermission(Share $share, string $permissionTypeClass): void {
-		// TODO: Only fetch permisions
 		if ((($permission = $share->permissions[$permissionTypeClass] ?? null) !== null) && $permission->enabled) {
 			return;
 		}
@@ -744,7 +772,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	private function validateReshareOperation(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient): void {
 		$this->validatePermission($share, ReshareSharePermissionType::class);
 
-		// TODO: Only fetch recipients
 		foreach ($share->recipients as $shareRecipient) {
 			if (
 				$recipient->class === $shareRecipient->class
@@ -844,19 +871,11 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	/**
-	 * @param non-empty-list<Share|string> $sharesOrIds
+	 * @param non-empty-list<Share> $shares
 	 * @return non-empty-list<Share>
 	 */
-	private function processShareUpdates(array $sharesOrIds): array {
-		$shares = [];
-
-		foreach ($sharesOrIds as $shareOrId) {
-			if ($shareOrId instanceof Share) {
-				$share = $shareOrId;
-			} else {
-				$share = $this->backend->getShare(new ShareAccessContext(overrideChecks: true), $shareOrId);
-			}
-
+	private function processShareUpdates(array $shares): array {
+		foreach ($shares as &$share) {
 			if ($share->state === ShareState::Active) {
 				try {
 					$this->assertShareCanBeActive($share);
@@ -896,8 +915,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 				$legacyBackend->updateShare($share);
 			}
-
-			$shares[] = $share;
 		}
 
 		return $shares;
