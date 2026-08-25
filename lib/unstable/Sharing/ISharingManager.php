@@ -194,7 +194,6 @@ interface ISharingManager {
 	 */
 	public function getShare(ShareAccessContext $accessContext, string $id): Share;
 
-	// TODO: Implement filtering by state.
 	/**
 	 * Get multiple shares.
 	 *
@@ -204,5 +203,5 @@ interface ISharingManager {
 	 * @return list<Share>
 	 * @experimental 35.0.0
 	 */
-	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array;
+	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit): array;
 }

@@ -253,11 +253,11 @@ final class SharingManagerTest extends AbstractSharingManagerTests {
 	}
 
 	#[\Override]
-	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array {
+	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit): array {
 		try {
 			$this->dbConnection->beginTransaction();
 			/** @psalm-suppress ArgumentTypeCoercion */
-			$shares = $this->manager->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit);
+			$shares = $this->manager->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $lastShareID, $limit);
 			$this->dbConnection->commit();
 			return Share::formatMultiple($this->registry, Server::get(IFactory::class), Server::get(IURLGenerator::class), Server::get(IUserManager::class), $shares);
 		} catch (Exception $exception) {

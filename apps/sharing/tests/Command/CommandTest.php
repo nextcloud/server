@@ -393,7 +393,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare[]
 	 */
 	#[Override]
-	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array {
+	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			GetShares::class,
@@ -401,6 +401,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 			[
 				['filter-source-type-class', $filterSourceTypeClass],
 				['filter-source-type-value', $filterSourceTypeValue],
+				['filter-state', $filterState?->value],
 				['last-share-id', $lastShareID],
 				['limit', $limit],
 			],

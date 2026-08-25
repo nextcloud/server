@@ -685,11 +685,11 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 	#[\Override]
 	public function getShares(
-		ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit,
+		ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit,
 	): array {
 		$this->assertInTransaction();
 
-		return $this->backend->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit);
+		return $this->backend->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $lastShareID, $limit);
 	}
 
 	#[\Override]
