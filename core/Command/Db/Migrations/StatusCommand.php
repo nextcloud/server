@@ -31,8 +31,33 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 	protected function configure() {
 		$this
 			->setName('migrations:status')
-			->setDescription('View the status of a set of migrations.')
-			->addArgument('app', InputArgument::REQUIRED, 'Name of the app this migration command shall work on');
+			->setDescription('Show the database migration status for an app')
+			->addArgument(
+				'app',
+				InputArgument::REQUIRED,
+				'App ID to inspect, or "core" for server migrations',
+			)
+			->setHelp(<<<'HELP'
+The <info>%command.name%</info> command shows the database migration status
+for core or an installed app.
+
+It reports:
+  - migration versions recorded as executed
+  - migration files available in the installed code
+  - migrations that have not yet been applied
+  - executed migrations that are missing from the installed code
+
+This command is read-only. It does not execute migrations or modify migration
+history.
+
+If executed migrations are missing from the installed code, verify that the
+installed app and server code match the intended version. Do not remove records
+from the migration history table manually.
+
+Example:
+
+  <info>php occ migrations:status core</info>
+HELP);
 	}
 
 	#[\Override]
