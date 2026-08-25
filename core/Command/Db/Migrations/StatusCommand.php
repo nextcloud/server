@@ -86,9 +86,11 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 			$output->writeln($section);
 			$output->writeln(str_repeat('-', strlen($section)));
 
+			$values = [];
 			foreach ($keys as $key) {
-				$output->writeln("$key: " . str_repeat(' ', 34 - strlen($key)) . $infos[$key]);
+				values[$key] = $infos[$key];
 			}
+			$this->writeKeyValueRows($output, $values);
 
 			$output->writeln('');
 		}
@@ -100,15 +102,43 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 		if ($unappliedMigrations === []) {
 			$output->writeln('None');
 		} else {
+			$first = true;
 			foreach ($unappliedMigrations as $version => $migration) {
+				if (!$first) {
+					$output->writeln('');
+				}
+
 				$output->writeln($version);
-				$output->writeln('  Name: ' . $migration['Name']);
-				$output->writeln('  Description: ' . $migration['Description']);
-				$output->writeln('');
+				$this->writeKeyValueRows($output, $migration, 2);
+				$first = false;
 			}
 		}
 	
 		return 0;
+	}
+
+	/**
+	 * @param array<string, scalar|null> $values
+	 */
+	private function writeKeyValueRows(
+		OutputInterface $output,
+		array $values,
+		int $indent = 0,
+	): void {
+		$labelWidth = max(array_map(
+			static fn (string $label): int => strlen($label) + 1,
+			array_keys($values),
+		));
+		$prefix = str_repeat(' ', $indent);
+
+		foreach ($values as $label => $value) {
+			$output->writeln(sprintf(
+				'%s%-' . $labelWidth . 's  %s',
+				$prefix,
+				$label . ':',
+				$value,
+			));
+		}
 	}
 
 	/**
