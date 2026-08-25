@@ -16,27 +16,40 @@
 				{{ t('settings', 'This page controls preview providers, limits, Imaginary, HTTP caching, and generation failures.') }}
 				{{ t('settings', 'The Preview Generator app (if installed) only controls which sizes are pre-generated and when background generation runs.') }}
 			</p>
-			<NcButton
-				type="primary"
-				:disabled="saving || settings.configIsReadonly"
-				data-cy="previews-save"
-				@click="save">
-				{{ t('settings', 'Save') }}
-			</NcButton>
+			<div class="previews-admin__master">
+				<NcCheckboxRadioSwitch
+					v-model="settings.enablePreviews"
+					type="switch"
+					data-cy="previews-enable"
+					aria-controls="previews-admin-dependent"
+					:disabled="settings.configIsReadonly">
+					{{ t('settings', 'Enable previews') }}
+				</NcCheckboxRadioSwitch>
+				<p class="previews-admin__hint">
+					{{ t('settings', 'Master switch for preview generation. When off, Nextcloud will not generate or serve file previews, and the settings below are ignored until you turn this back on and save.') }}
+				</p>
+				<NcButton
+					type="primary"
+					:disabled="saving || settings.configIsReadonly"
+					data-cy="previews-save"
+					@click="save">
+					{{ t('settings', 'Save') }}
+				</NcButton>
+			</div>
 		</NcSettingsSection>
 
+		<NcNoteCard v-if="settingsLocked" type="info">
+			{{ t('settings', 'Preview generation is disabled. The settings below are kept for when you re-enable previews, but they have no effect until then.') }}
+		</NcNoteCard>
+
+		<fieldset
+			id="previews-admin-dependent"
+			class="previews-admin__dependent"
+			:disabled="settingsLocked"
+			:inert="settingsLocked || undefined">
 		<NcSettingsSection
 			:name="t('settings', 'General')"
 			:description="t('settings', 'These limits apply to all preview generation, both on-demand and from the Preview Generator app.')">
-			<NcCheckboxRadioSwitch
-				v-model="settings.enablePreviews"
-				type="switch"
-				data-cy="previews-enable">
-				{{ t('settings', 'Enable previews') }}
-			</NcCheckboxRadioSwitch>
-			<p class="previews-admin__hint">
-				{{ t('settings', 'When disabled, Nextcloud will not generate or serve file previews.') }}
-			</p>
 			<div class="previews-admin__fields">
 				<NcTextField
 					v-model="maxX"
@@ -455,6 +468,7 @@
 				</tbody>
 			</table>
 		</NcSettingsSection>
+		</fieldset>
 	</div>
 </template>
 
@@ -630,6 +644,9 @@ export default {
 			set(value) {
 				this.settings.failuresMaxRows = Number(value)
 			},
+		},
+		settingsLocked() {
+			return this.settings.enablePreviews === false
 		},
 		detection() {
 			return this.settings.detection || {}
@@ -992,6 +1009,27 @@ export default {
 </script>
 
 <style scoped>
+.previews-admin__master {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+	margin-block-start: 12px;
+}
+
+.previews-admin__dependent {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	min-width: 0;
+}
+
+.previews-admin__dependent:disabled,
+.previews-admin__dependent[inert] {
+	opacity: 0.5;
+	filter: grayscale(0.2);
+}
+
 .previews-admin__fields {
 	display: flex;
 	flex-direction: column;
