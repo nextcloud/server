@@ -96,13 +96,16 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 		$output->writeln('Unapplied migrations');
 		$output->writeln('--------------------');
 
-		$pending = $infos['Unapplied Migration Descriptions'];
-		if (is_array($pending)) {
-			foreach ($pending as $name => $description) {
-				$output->writeln("$name: $description");
-			}
+		$unappliedMigrations = $infos['Unapplied Migrations'];
+		if ($unappliedMigrations === []) {
+			$output->writeln('None');
 		} else {
-			$output->writeln($pending);
+			foreach ($unappliedMigrations as $version => $migration) {
+				$output->writeln($version);
+				$output->writeln('  Name: ' . $migration['Name']);
+				$output->writeln('  Description: ' . $migration['Description']);
+				$output->writeln('');
+			}
 		}
 	
 		return 0;
@@ -139,15 +142,24 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 	public function getMigrationsInfos(MigrationService $ms) {
 		$executedMigrations = $ms->getMigratedVersions();
 		$availableMigrations = $ms->getAvailableVersions();
-		$executedUnavailableMigrations = array_diff($executedMigrations, array_keys($availableMigrations));
+		$executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
+		$unappliedMigrationVersions = array_diff($availableMigrations, $executedMigrations);
 
 		$numExecutedUnavailableMigrations = count($executedUnavailableMigrations);
-		$numNewMigrations = count(array_diff(array_keys($availableMigrations), $executedMigrations));
+		$numNewMigrations = count($unappliedMigrationVersions);
 		$currentMigration = $executedMigrations === []
 			? null
 			: end($executedMigrations);
 
 		$pending = $ms->describeMigrationStep();
+		$unappliedMigrations = [];
+		foreach ($unappliedMigrationVersions as $version) {
+			$migration = $ms->createInstance($version);
+			$unappliedMigrations[$version] = [
+				'Name' => $migration->name() ?: 'Not provided',
+				'Description' => $migration->description() ?: 'Not provided',
+			];
+		}
 
 		$infos = [
 			'App' => $ms->getApp(),
@@ -173,7 +185,7 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 			'Missing from Installed Code' => $numExecutedUnavailableMigrations,
 			'Available in Installed Code' => count($availableMigrations),
 			'Unapplied' => $numNewMigrations,
-			'Unapplied Migration Descriptions' => count($pending) ? $pending : 'None'
+			'Unapplied Migrations' => $unappliedMigrations,
 		];
 
 		return $infos;
