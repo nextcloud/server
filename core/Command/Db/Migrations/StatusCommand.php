@@ -47,9 +47,7 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 		$output->writeln('');
 
 		if ($infos['Missing from Installed Code'] > 0) {
-			$output->writeln(
-				'<error>Status: Warning — migration history references migrations missing from installed code</error>',
-			);
+			$output->writeln('<error>Status: Warning — migration history requires attention</error>');
 		} elseif ($infos['Unapplied'] > 0) {
 			$output->writeln(sprintf(
 				'<comment>Status: %d unapplied migration%s</comment>',
@@ -92,6 +90,31 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 			}
 			$this->writeKeyValueRows($output, $values);
 
+			$output->writeln('');
+		}
+
+		$missingMigrationVersions = $infos['Missing Migration Versions'];
+		if ($missingMigrationVersions !== []) {
+			$output->writeln('<error>Warnings</error>');
+			$output->writeln('--------');
+			$output->writeln(sprintf(
+				'%d migration%s recorded as executed %s not present in the installed code:',
+				count($missingMigrationVersions),
+				count($missingMigrationVersions) === 1 ? '' : 's',
+				count($missingMigrationVersions) === 1 ? 'is' : 'are',
+			));
+
+			foreach ($missingMigrationVersions as $version) {
+				$output->writeln('  - ' . $version);
+			}
+
+			$output->writeln('');
+			$output->writeln(
+				'If this is unexpected, verify that the installed app and server code match the intended version.',
+			);
+			$output->writeln(
+				'Do not remove records from the migration history table manually.',
+			);
 			$output->writeln('');
 		}
 
@@ -213,6 +236,7 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 				: end($availableMigrations),
 			'Recorded as Executed' => count($executedMigrations),
 			'Missing from Installed Code' => $numExecutedUnavailableMigrations,
+			'Missing Migration Versions' => array_values($executedUnavailableMigrations),
 			'Available in Installed Code' => count($availableMigrations),
 			'Unapplied' => $numNewMigrations,
 			'Unapplied Migrations' => $unappliedMigrations,
