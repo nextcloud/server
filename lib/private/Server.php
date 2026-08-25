@@ -157,6 +157,7 @@ use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
 use OC\User\Session;
 use OC\User\User;
+use OC\Validator\Validator as ConstraintValidator;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
@@ -297,6 +298,7 @@ use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use OCP\User\IAvailabilityCoordinator;
+use OCP\Validator\IValidator as IConstraintValidator;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -1006,6 +1008,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IEventDispatcher::class, EventDispatcher::class);
 		$this->registerAlias(ISerializer::class, Serializer::class);
+		$this->registerAlias(IConstraintValidator::class, ConstraintValidator::class);
 
 		/** @deprecated 35.0.0 */
 		$this->registerDeprecatedAlias('CryptoWrapper', CryptoWrapper::class);
