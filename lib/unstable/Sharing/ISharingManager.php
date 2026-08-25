@@ -55,6 +55,11 @@ interface ISharingManager {
 	public function getTime(): \DateTimeImmutable;
 
 	/**
+	 * @experimental 35.0.0
+	 */
+	public function isApiEnabled(): bool;
+
+	/**
 	 * Create a new share.
 	 *
 	 * @experimental 35.0.0

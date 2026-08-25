@@ -12,6 +12,7 @@ namespace OCA\Sharing\Tests;
 use NCU\Sharing\ISharingRegistry;
 use OCA\Sharing\AppInfo\Application;
 use OCA\Sharing\Capabilities;
+use OCP\IConfig;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\Group;
 use Test\Sharing\TestSharePermissionPreset1;
@@ -44,6 +45,9 @@ final class CapabilitiesTest extends TestCase {
 	}
 
 	public function testGetCapabilities(): void {
+		$config = Server::get(IConfig::class);
+		$config->setSystemValue('sharing.unified_api_enable', true);
+
 		$this->registry->registerSourceType(new TestShareSourceType1([]));
 		$this->registry->registerSourceType(new TestShareSourceType2([]));
 		$this->registry->registerPermissionPreset(new TestSharePermissionPreset1());
@@ -77,5 +81,16 @@ final class CapabilitiesTest extends TestCase {
 			],
 			$this->capabilities->getCapabilities(),
 		);
+
+		$config->deleteSystemValue('sharing.unified_api_enable');
+	}
+
+	public function testGetCapabilitiesDisableUnifiedSharingApi(): void {
+		$config = Server::get(IConfig::class);
+		$config->setSystemValue('sharing.unified_api_enable', false);
+
+		$this->assertEquals([], $this->capabilities->getCapabilities());
+
+		$config->deleteSystemValue('sharing.unified_api_enable');
 	}
 }
