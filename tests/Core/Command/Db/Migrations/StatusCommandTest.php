@@ -13,6 +13,7 @@ use OC\Core\Command\Db\Migrations\StatusCommand;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OCP\App\IAppManager;
+use OCP\Migration\IMigrationStep;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -21,6 +22,7 @@ class StatusCommandTest extends TestCase {
 	private const VERSION_1 = '10000Date20160101000000';
 	private const VERSION_2 = '20000Date20200101000000';
 	private const VERSION_3 = '30000Date20240101000000';
+	private const VERSION_4 = '40000Date20260101000000';
 	private const MISSING_VERSION = '25000Date20220101000000';
 
 	private StatusCommand $command;
@@ -137,5 +139,56 @@ class StatusCommandTest extends TestCase {
 				],
 			],
 		];
+	}
+
+	public function testListsEveryUnappliedMigrationByVersion(): void {
+		$migration1 = $this->createMock(IMigrationStep::class);
+		$migration1->method('name')->willReturn('Update database schema');
+		$migration1->method('description')->willReturn('Adds the first schema change.');
+
+		$migration2 = $this->createMock(IMigrationStep::class);
+		$migration2->method('name')->willReturn('Update database schema');
+		$migration2->method('description')->willReturn('Adds the second schema change.');
+
+		$unnamedMigration = $this->createMock(IMigrationStep::class);
+		$unnamedMigration->method('name')->willReturn('');
+		$unnamedMigration->method('description')->willReturn('');
+
+		$this->migrationService
+			->method('getMigratedVersions')
+			->willReturn([self::VERSION_1]);
+		$this->migrationService
+			->method('getAvailableVersions')
+			->willReturn([
+				self::VERSION_1,
+				self::VERSION_2,
+				self::VERSION_3,
+				self::VERSION_4,
+			]);
+		$this->migrationService
+			->method('createInstance')
+			->willReturnMap([
+				[self::VERSION_2, $migration1],
+				[self::VERSION_3, $migration2],
+				[self::VERSION_4, $unnamedMigration],
+			]);
+
+		$infos = $this->command->getMigrationsInfos($this->migrationService);
+
+		$this->assertSame(3, $infos['Unapplied']);
+		$this->assertSame([
+			self::VERSION_2 => [
+				'Name' => 'Update database schema',
+				'Description' => 'Adds the first schema change.',
+			],
+			self::VERSION_3 => [
+				'Name' => 'Update database schema',
+				'Description' => 'Adds the second schema change.',
+			],
+			self::VERSION_4 => [
+				'Name' => 'Not provided',
+				'Description' => 'Not provided',
+			],
+		], $infos['Unapplied Migrations']);
 	}
 }
