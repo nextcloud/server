@@ -13,3 +13,18 @@ window.OCA = { ...window.OCA }
 window.OCP = { ...window.OCP }
 
 window._oc_webroot = ''
+
+// jsdom does not implement `innerText` at all, while the specification defines it
+// to fall back to `textContent` for elements that are not being rendered.
+// @see https://github.com/jsdom/jsdom/issues/1245
+if (!('innerText' in HTMLElement.prototype)) {
+	Object.defineProperty(HTMLElement.prototype, 'innerText', {
+		configurable: true,
+		get() {
+			return this.textContent
+		},
+		set(value) {
+			this.textContent = value
+		},
+	})
+}

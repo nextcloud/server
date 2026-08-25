@@ -16,26 +16,26 @@ test.describe('Admin theming background settings', () => {
 	test.beforeEach(async ({ adminThemingPage, page }) => {
 		await adminThemingPage.reset()
 		await adminThemingPage.open()
-		if (await adminThemingPage.disableUserThemingCheckbox().isChecked()) {
+		if (await adminThemingPage.disableUserThemingSwitch().isChecked()) {
 			await Promise.all([
 				page.waitForResponse((response) => response.url().includes('/apps/theming/ajax/updateStylesheet') && response.request().method() === 'POST'),
-				adminThemingPage.disableUserThemingCheckbox().uncheck({ force: true }),
+				adminThemingPage.disableUserThemingSwitch().uncheck({ force: true }),
 			])
 		}
 	})
 
 	test('Remove default background and restore it', async ({ adminThemingPage, page }) => {
 		await expect(adminThemingPage.backgroundAndColorHeading()).toBeVisible()
-		if (await adminThemingPage.removeBackgroundImageCheckbox().isChecked()) {
+		if (await adminThemingPage.removeBackgroundImageSwitch().isChecked()) {
 			await Promise.all([
 				page.waitForResponse((response) => response.url().includes('/apps/theming/ajax/updateStylesheet') && response.request().method() === 'POST'),
-				adminThemingPage.removeBackgroundImageCheckbox().uncheck({ force: true }),
+				adminThemingPage.removeBackgroundImageSwitch().uncheck({ force: true }),
 			])
 		}
 
 		await Promise.all([
 			page.waitForResponse((response) => response.url().includes('/apps/theming/ajax/updateStylesheet') && response.request().method() === 'POST'),
-			adminThemingPage.removeBackgroundImageCheckbox().check({ force: true }),
+			adminThemingPage.removeBackgroundImageSwitch().check({ force: true }),
 		])
 
 		await page.goto('/index.php/logout')
@@ -48,10 +48,10 @@ test.describe('Admin theming background settings', () => {
 	})
 
 	test('Disable user theming', async ({ adminThemingPage, page, context }) => {
-		await expect(adminThemingPage.disableUserThemingCheckbox()).not.toBeChecked()
+		await expect(adminThemingPage.disableUserThemingSwitch()).not.toBeChecked()
 		await Promise.all([
 			page.waitForResponse((response) => response.url().includes('/apps/theming/ajax/updateStylesheet') && response.request().method() === 'POST'),
-			adminThemingPage.disableUserThemingCheckbox().check({ force: true }),
+			adminThemingPage.disableUserThemingSwitch().check({ force: true }),
 		])
 
 		const user = await createRandomUser()
@@ -72,7 +72,7 @@ test.describe('Admin theming background settings', () => {
 
 		await Promise.all([
 			page.waitForResponse((response) => response.url().includes('/apps/theming/ajax/updateStylesheet') && response.request().method() === 'POST'),
-			adminThemingPage.removeBackgroundImageCheckbox().check({ force: true }),
+			adminThemingPage.removeBackgroundImageSwitch().check({ force: true }),
 		])
 
 		await page.goto('/index.php/logout')
@@ -106,7 +106,7 @@ test.describe('Admin theming background settings', () => {
 	test('User default background reflects admin removed background', async ({ adminThemingPage, page, context }) => {
 		await Promise.all([
 			page.waitForResponse((response) => response.url().includes('/apps/theming/ajax/updateStylesheet') && response.request().method() === 'POST'),
-			adminThemingPage.removeBackgroundImageCheckbox().check({ force: true }),
+			adminThemingPage.removeBackgroundImageSwitch().check({ force: true }),
 		])
 
 		await page.goto('/index.php/logout')
