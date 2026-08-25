@@ -111,7 +111,11 @@ describe('Check router query flags:', function() {
 		function viewerShowsImage(): void {
 			cy.findByRole('dialog', { name: 'image.jpg' })
 				.should('be.visible')
-				.find(`img[src*="fileId=${imageId}"]`)
+			// The viewer falls back to the original file when generating the
+			// preview fails or dawdles (e.g. on a loaded server) — do not
+			// couple the assertion to the delivery mechanism.
+			cy.findByRole('dialog', { name: 'image.jpg' })
+				.find('img')
 				.should('be.visible')
 		}
 

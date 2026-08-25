@@ -8,6 +8,8 @@ import type { User } from '@nextcloud/e2e-test-server/cypress'
 import { getRowForFile } from '../files/FilesUtils.ts'
 import { AuthBackend, createStorageWithConfig, StorageBackend } from './StorageUtils.ts'
 
+const CRON_TIMEOUT = 240000
+
 describe('Files user credentials', { testIsolation: true }, () => {
 	let currentUser: User
 
@@ -16,7 +18,11 @@ describe('Files user credentials', { testIsolation: true }, () => {
 		cy.createRandomUser().then((user) => {
 			currentUser = user
 		})
-		cy.runCommand('php ./cron.php')
+		// The first cron run on a fresh instance drains the initial background
+		// job queue and takes over a minute, exceeding cypress' 60s
+		// `execTimeout` default - and failing here skips the whole suite, as
+		// `before all` hooks are not retried.
+		cy.runCommand('php ./cron.php', { timeout: CRON_TIMEOUT })
 	})
 
 	afterEach(() => {
