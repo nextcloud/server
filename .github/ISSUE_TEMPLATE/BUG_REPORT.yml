@@ -74,7 +74,8 @@ body:
         - "32"
         - "33"
         - "34"
-        - "35 (master)"
+        - "35"
+        - "36 (master)"
     validations:
       required: true
   - type: dropdown
