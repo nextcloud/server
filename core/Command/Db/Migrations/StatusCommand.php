@@ -89,7 +89,7 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 
 		$numExecutedUnavailableMigrations = count($executedUnavailableMigrations);
 		$numNewMigrations = count(array_diff($availableMigrations, $executedMigrations));
-	
+
 		$pending = $ms->describeMigrationStep();
 
 		$infos = [
