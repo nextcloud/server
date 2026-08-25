@@ -33,6 +33,7 @@ use OC\Core\Sharing\Permission\ReshareSharePermissionType;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Interaction\Actions\ShareAction;
@@ -41,6 +42,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Share\IManager;
 use OCP\Snowflake\ISnowflakeGenerator;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use Psr\Clock\ClockInterface;
@@ -71,6 +73,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		private ISharingRegistry $registry,
 		private ISharingBackend $backend,
 		private ClockInterface $clock,
+		private IManager $legacySharingManager,
+		private IConfig $config,
 	) {
 		$this->randomizer = new Randomizer();
 		$this->l10n = $l10nFactory->get('sharing');
@@ -145,6 +149,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	#[\Override]
 	public function getTime(): \DateTimeImmutable {
 		return $this->clock->now();
+	}
+
+	#[\Override]
+	public function isApiEnabled(): bool {
+		// TODO: Enable Unified Sharing API by default
+		return $this->legacySharingManager->shareApiEnabled() && $this->config->getSystemValueBool('sharing.unified_api_enable');
 	}
 
 	#[\Override]
