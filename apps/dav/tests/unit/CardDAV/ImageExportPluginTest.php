@@ -10,6 +10,7 @@ namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\ImageExportPlugin;
+use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCP\AppFramework\Http;
 use OCP\Files\NotFoundException;
@@ -167,6 +168,39 @@ class ImageExportPluginTest extends TestCase {
 				->method('setStatus')
 				->with(Http::STATUS_NO_CONTENT);
 		}
+
+		$result = $this->plugin->httpGet($this->request, $this->response);
+		$this->assertFalse($result);
+	}
+
+	public function testAppGeneratedAddressBook(): void {
+		$this->request->method('getQueryParameters')
+			->willReturn(['photo' => null]);
+		$this->request->method('getPath')
+			->willReturn('user/book/card');
+
+		$card = $this->createMock(Card::class);
+		$card->method('getETag')
+			->willReturn('"myEtag"');
+		$book = $this->createMock(ExternalAddressBook::class);
+
+		$this->tree->method('getNodeForPath')
+			->willReturnCallback(function ($path) use ($card, $book) {
+				if ($path === 'user/book/card') {
+					return $card;
+				} elseif ($path === 'user/book') {
+					return $book;
+				}
+				$this->fail();
+			});
+
+		$this->cache->expects($this->never())
+			->method('get');
+		$this->response->expects($this->once())
+			->method('setStatus')
+			->with(Http::STATUS_NO_CONTENT);
+		$this->response->expects($this->never())
+			->method('setBody');
 
 		$result = $this->plugin->httpGet($this->request, $this->response);
 		$this->assertFalse($result);

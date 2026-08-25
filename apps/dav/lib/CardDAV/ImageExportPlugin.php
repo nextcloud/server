@@ -79,11 +79,15 @@ class ImageExportPlugin extends ServerPlugin {
 		$addressbookpath = explode('/', $path);
 		array_pop($addressbookpath);
 		$addressbookpath = implode('/', $addressbookpath);
-		/** @var AddressBook $addressbook */
 		$addressbook = $this->server->tree->getNodeForPath($addressbookpath);
 
 		$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
 		$response->setHeader('Etag', $node->getETag());
+
+		if (!$addressbook instanceof AddressBook) {
+			$response->setStatus(Http::STATUS_NO_CONTENT);
+			return false;
+		}
 
 		try {
 			$file = $this->cache->get($addressbook->getResourceId(), $node->getName(), $size, $node);
