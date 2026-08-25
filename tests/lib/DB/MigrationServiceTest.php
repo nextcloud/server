@@ -221,7 +221,7 @@ class MigrationServiceTest extends \Test\TestCase {
 	#[Group('DB')]
 	public function testGetMigratedVersionsSortsByVersionThenDate(): void {
 		/** @var Connection $db */
-		$db = Server::get(IDBConnection::class);
+		$db = Server::get(Connection::class);
 		$appId = 'migration_sort_' . bin2hex(random_bytes(8));
 
 		$migrationService = new class('testing', $db, $appId) extends MigrationService {
