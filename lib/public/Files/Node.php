@@ -48,6 +48,9 @@ interface Node extends FileInfo {
 	 *
 	 * @param string $targetPath the absolute target path
 	 * @return Node
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException if copy not allowed or failed
 	 * @since 6.0.0
 	 */
 	public function copy($targetPath);
