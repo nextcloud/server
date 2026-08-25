@@ -49,18 +49,18 @@ class AvatarManager implements IAvatarManager {
 	 * If the user is disabled a guest avatar will be returned
 	 *
 	 * @see \OCP\IAvatar
-	 * @param string $userId the ownCloud user id
+	 * @param string $userId the user id
 	 * @throws \Exception In case the username is potentially dangerous
 	 * @throws NotFoundException In case there is no user folder yet
 	 */
 	#[\Override]
 	public function getAvatar(string $userId): IAvatar {
-		if ($this->cloudIdManager->isValidCloudId($userId)) {
-			return $this->getRemoteAvatar($userId);
-		}
-
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
+			if ($this->cloudIdManager->isValidCloudId($userId)) {
+				return $this->getRemoteAvatar($userId);
+			}
+
 			throw new \Exception('user does not exist');
 		}
 
