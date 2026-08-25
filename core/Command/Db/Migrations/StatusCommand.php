@@ -88,7 +88,7 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 
 			$values = [];
 			foreach ($keys as $key) {
-				values[$key] = $infos[$key];
+				$values[$key] = $infos[$key];
 			}
 			$this->writeKeyValueRows($output, $values);
 
