@@ -8,6 +8,7 @@ import type { Locator, Page } from '@playwright/test'
 import { expect } from '@playwright/test'
 import { escapeAttributeValue } from '../utils/css.ts'
 import { DAV_FILES_ENDPOINT } from '../utils/dav.ts'
+import { getToast } from '../utils/toast.ts'
 
 /**
  * The file-picker dialog opened by the files "Move or copy" action
@@ -142,7 +143,7 @@ export class CopyMoveDialogPage {
 	 * that {@link confirm} has already awaited.
 	 */
 	private async actionSettled(): Promise<void> {
-		await expect(this.page.locator('.toastify.toast-loading')).toHaveCount(0, { timeout: 15000 })
+		await expect(getToast(this.page, /(Moving|Copying) .* …/)).toHaveCount(0, { timeout: 15000 })
 	}
 
 	/** Copy into the folder currently shown in the picker. */
