@@ -41,16 +41,51 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
 
 		$infos = $this->getMigrationsInfos($ms);
-		foreach ($infos as $key => $value) {
-			if (is_array($value)) {
-				$output->writeln("    <comment>>></comment> $key:");
-				foreach ($value as $subKey => $subValue) {
-					$output->writeln("        <comment>>></comment> $subKey: " . str_repeat(' ', 46 - strlen($subKey)) . $subValue);
-				}
-			} else {
-				$output->writeln("    <comment>>></comment> $key: " . str_repeat(' ', 50 - strlen($key)) . $value);
+
+		$sections = [
+			'Migration configuration' => [
+				'App',
+				'History Table',
+				'Migration Namespace',
+				'Migration Directory',
+			],
+			'Version status' => [
+				'Previous Available',
+				'Last Recorded as Executed',
+				'Next Available',
+				'Latest Available',
+			],
+			'Migration counts' => [
+				'Recorded as Executed',
+				'Missing from Installed Code',
+				'Available in Installed Code',
+				'Unapplied',
+			],
+		];
+
+		foreach ($sections as $section => $keys) {
+			$output->writeln($section);
+			$output->writeln(str_repeat('-', strlen($section)));
+
+			foreach ($keys as $key) {
+				$output->writeln("$key: " . str_repeat(' ', 34 - strlen($key)) . $infos[$key]);
 			}
+
+			$output->writeln('');
 		}
+
+		$output->writeln('Unapplied migrations');
+		$output->writeln('--------------------');
+
+		$pending = $infos['Unapplied Migration Descriptions'];
+		if (is_array($pending)) {
+			foreach ($pending as $name => $description) {
+				$output->writeln("$name: $description");
+			}
+		} else {
+			$output->writeln($pending);
+		}
+	
 		return 0;
 	}
 
