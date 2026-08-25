@@ -560,6 +560,7 @@ final class ApiV1Controller extends OCSController {
 	 *
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass Source type class to filter by.
 	 * @param ?non-empty-string $filterSourceTypeValue Source type value to filter by.
+	 * @param ?SharingState $filterState State to filter by.
 	 * @param ?string $lastShareID The ID of the previous share. This is used as an offset and only shares with higher IDs are returned.
 	 * @param int<1, 100> $limit The number of shares to return.
 	 * @return DataResponse<Http::STATUS_OK, list<SharingShare>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, string, array{}>
@@ -569,7 +570,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/shares')]
-	public function getShares(?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, int $limit = 100): DataResponse {
+	public function getShares(?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $filterState, ?string $lastShareID, int $limit = 100): DataResponse {
 		/** @psalm-suppress DocblockTypeContradiction */
 		if ($limit < 1) {
 			return new DataResponse('The limit is too low.', Http::STATUS_BAD_REQUEST);
@@ -589,10 +590,18 @@ final class ApiV1Controller extends OCSController {
 			return new DataResponse('The filter source type is not registered: ' . $filterSourceTypeClass, Http::STATUS_BAD_REQUEST);
 		}
 
+		if ($filterState !== null) {
+			try {
+				$filterState = ShareState::from($filterState);
+			} catch (ValueError $valueError) {
+				return new DataResponse($valueError->getMessage(), Http::STATUS_BAD_REQUEST);
+			}
+		}
+
 		try {
 			$this->dbConnection->beginTransaction();
 
-			$shares = $this->manager->getShares($this->accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit);
+			$shares = $this->manager->getShares($this->accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $lastShareID, $limit);
 			$this->dbConnection->commit();
 			return new DataResponse(Share::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $shares));
 		} catch (Exception $exception) {

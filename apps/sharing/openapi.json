@@ -3113,6 +3113,15 @@
                         }
                     },
                     {
+                        "name": "filterState",
+                        "in": "query",
+                        "description": "State to filter by.",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
                         "name": "lastShareID",
                         "in": "query",
                         "description": "The ID of the previous share. This is used as an offset and only shares with higher IDs are returned.",

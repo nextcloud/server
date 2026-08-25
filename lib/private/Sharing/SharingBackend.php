@@ -509,7 +509,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function getShare(ShareAccessContext $accessContext, string $id): Share {
-		$shares = $this->list($accessContext, $id, null, null, null, null);
+		$shares = $this->list($accessContext, $id, null, null, null, null, null);
 		if (count($shares) !== 1) {
 			throw new ShareNotFoundException();
 		}
@@ -519,9 +519,9 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function getShares(
-		ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit,
+		ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit,
 	): array {
-		return $this->list($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit);
+		return $this->list($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $lastShareID, $limit);
 	}
 
 	#[\Override]
@@ -596,6 +596,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		?string $filterShareID,
 		?string $filterSourceTypeClass,
 		?string $filterSourceTypeValue,
+		?ShareState $filterState,
 		?string $lastShareID,
 		?int $limit,
 	): array {
@@ -707,6 +708,10 @@ final readonly class SharingBackend implements ISharingBackend {
 				}
 
 				$qb->innerJoin('s', 'sharing_share_sources', 'ss', $qb->expr()->andX(...$sourceTypeFilters));
+			}
+
+			if ($filterState instanceof \NCU\Sharing\ShareState) {
+				$qb->andWhere($qb->expr()->eq('s.state', $qb->createNamedParameter($filterState->value)));
 			}
 
 			if ($lastShareID !== null) {

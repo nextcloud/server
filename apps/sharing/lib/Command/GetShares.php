@@ -11,11 +11,14 @@ namespace OCA\Sharing\Command;
 
 use Exception;
 use NCU\Sharing\Share;
+use NCU\Sharing\ShareState;
 use NCU\Sharing\Source\IShareSourceType;
 use OC\Core\Command\Base;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use UnitEnum;
+use ValueError;
 
 final class GetShares extends SharingBase {
 	#[\Override]
@@ -25,6 +28,7 @@ final class GetShares extends SharingBase {
 			->setDescription('Get multiple shares.')
 			->addOption('filter-source-type-class', '', InputOption::VALUE_REQUIRED, 'Source type class to filter by')
 			->addOption('filter-source-type-value', '', InputOption::VALUE_REQUIRED, 'Source type value to filter by')
+			->addOption('filter-state', '', InputOption::VALUE_REQUIRED, 'State to filter by. Possible values: ' . implode(', ', array_map(static fn (UnitEnum $case) => $case->value, ShareState::cases())))
 			->addOption('last-share-id', '', InputOption::VALUE_REQUIRED, 'Share ID to use as an offset')
 			->addOption('limit', '', InputOption::VALUE_REQUIRED, 'Maximum number of shares to return');
 		parent::configure();
@@ -38,6 +42,17 @@ final class GetShares extends SharingBase {
 		$filterSourceTypeClass = $input->getOption('filter-source-type-class');
 		/** @var ?class-string<IShareSourceType> $filterSourceTypeValue */
 		$filterSourceTypeValue = $input->getOption('filter-source-type-value');
+		/** @var ?string $filterState */
+		$filterState = $input->getOption('filter-state');
+		if ($filterState !== null) {
+			try {
+				$filterState = ShareState::from($filterState);
+			} catch (ValueError $valueError) {
+				$output->writeln($valueError->getMessage());
+				return Base::FAILURE;
+			}
+		}
+
 		/** @var ?string $lastShareID */
 		$lastShareID = $input->getOption('last-share-id');
 		/** @var ?string $limit */
@@ -53,7 +68,7 @@ final class GetShares extends SharingBase {
 		try {
 			$this->dbConnection->beginTransaction();
 
-			$shares = $this->manager->getShares($this->accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit);
+			$shares = $this->manager->getShares($this->accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $lastShareID, $limit);
 			$this->dbConnection->commit();
 
 			$data = Share::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $shares);

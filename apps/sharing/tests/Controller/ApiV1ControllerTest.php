@@ -177,15 +177,15 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 	 * @psalm-suppress MixedReturnTypeCoercion
 	 */
 	#[Override]
-	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array {
-		return $this->executeRequest($accessContext, function (ApiV1Controller $controller) use ($filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit): DataResponse {
+	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit): array {
+		return $this->executeRequest($accessContext, function (ApiV1Controller $controller) use ($filterSourceTypeClass, $filterSourceTypeValue, $filterState, $lastShareID, $limit): DataResponse {
 			if ($limit !== null) {
 				/** @psalm-suppress ArgumentTypeCoercion */
-				return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit);
+				return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $filterState?->value, $lastShareID, $limit);
 			}
 
 			/** @psalm-suppress ArgumentTypeCoercion */
-			return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $lastShareID);
+			return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $filterState?->value, $lastShareID);
 		});
 	}
 }
