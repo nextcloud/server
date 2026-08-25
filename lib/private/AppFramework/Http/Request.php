@@ -91,6 +91,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	private ?\JsonException $decodingException = null;
 
 	/**
+	 * The raw request body, when the Content-Type was JSON-compatible.
+	 */
+	private ?string $rawContent = null;
+
+	/**
 	 * @param array $vars Associative request data with the following optional keys:
 	 *                    - array 'urlParams' route parameters extracted from the URL
 	 *                    - array 'get' the $_GET array
@@ -388,6 +393,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		if (preg_match(self::JSON_CONTENT_TYPE_REGEX, $this->getHeader('Content-Type')) === 1) {
 			$content = file_get_contents($this->inputStream);
 			if ($content !== '') {
+				$this->rawContent = $content;
 				try {
 					$params = json_decode($content, true, flags:JSON_THROW_ON_ERROR);
 				} catch (\JsonException $e) {
@@ -421,6 +427,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		if ($this->decodingException !== null) {
 			throw $this->decodingException;
 		}
+	}
+
+	#[\Override]
+	public function getRawContent(): ?string {
+		$this->decodeContent();
+		return $this->rawContent;
 	}
 
 	#[\Override]

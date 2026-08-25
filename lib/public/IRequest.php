@@ -346,6 +346,15 @@ interface IRequest {
 	public function throwDecodingExceptionIfAny(): void;
 
 	/**
+	 * Returns the raw, undecoded request body, when the Content-Type was JSON-compatible.
+	 *
+	 * Returns null for any other Content-Type, or if the body was empty.
+	 *
+	 * @since 36.0.0
+	 */
+	public function getRawContent(): ?string;
+
+	/**
 	 * Returns the requested response format, if it can be determined.
 	 *
 	 * The `format` request parameter takes precedence. Otherwise the format may

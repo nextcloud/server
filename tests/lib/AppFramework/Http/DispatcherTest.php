@@ -11,10 +11,12 @@ namespace Test\AppFramework\Http;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Http\RequestPayloadResolver;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\RequestPayload;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\InvalidEnumParameterException;
 use OCP\AppFramework\Http\InvalidStringParameterException;
@@ -40,6 +42,13 @@ enum TestStringBackedEnum: string {
 enum TestIntBackedEnum: int {
 	case One = 1;
 	case Two = 2;
+}
+
+class TestRequestPayloadDto {
+	public function __construct(
+		public string $name,
+	) {
+	}
 }
 
 class TestController extends Controller {
@@ -94,6 +103,10 @@ class TestController extends Controller {
 	public function execNullableBackedEnum(?TestStringBackedEnum $enum = null) {
 		return [$enum];
 	}
+
+	public function execRequestPayload(#[RequestPayload] TestRequestPayloadDto $payload) {
+		return [$payload];
+	}
 }
 
 /**
@@ -128,6 +141,8 @@ class DispatcherTest extends \Test\TestCase {
 	private $container;
 	/** @var IUserSession|MockObject */
 	private $userSession;
+	/** @var RequestPayloadResolver|MockObject */
+	private $requestPayloadResolver;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -139,6 +154,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->eventLogger = $this->createMock(IEventLogger::class);
 		$this->container = $this->createMock(ContainerInterface::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$this->requestPayloadResolver = $this->createMock(RequestPayloadResolver::class);
 		$app = $this->createMock(DIContainer::class);
 		$request = $this->createMock(Request::class);
 		$this->http = $this->createMock(\OC\AppFramework\Http::class);
@@ -164,6 +180,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 
 		$this->response = $this->createMock(Response::class);
@@ -335,6 +352,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -343,6 +361,21 @@ class DispatcherTest extends \Test\TestCase {
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
 		$this->assertEquals('[3,false,4,1]', $response[3]);
+	}
+
+	public function testRequestPayloadParameterIsResolvedViaRequestPayloadResolver(): void {
+		$payload = new TestRequestPayloadDto('Jane Doe');
+		$this->requestPayloadResolver->expects($this->once())
+			->method('resolve')
+			->with('payload', TestRequestPayloadDto::class, null, null)
+			->willReturn($payload);
+
+		$controller = new TestController('app', $this->request);
+
+		$this->dispatcherPassthrough();
+		$response = $this->dispatcher->dispatch($controller, 'execRequestPayload');
+
+		$this->assertJsonStringEqualsJsonString(json_encode([$payload]), $response[3]);
 	}
 
 	public function testControllerParametersInjectedStringBackedEnum(): void {
@@ -365,6 +398,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -394,6 +428,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -421,6 +456,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -453,6 +489,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -488,6 +525,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -523,6 +561,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -559,6 +598,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -595,6 +635,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -633,6 +674,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 		$controller = new TestController('app', $this->request);
 
@@ -696,6 +738,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 
 		if ($throw) {
@@ -738,6 +781,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 
 		if ($throw) {
@@ -775,6 +819,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 
 		$result = self::invokePrivate($this->dispatcher, 'resolveBackedEnumValue', ['myArgument', $enumClass, $input]);
@@ -804,6 +849,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->eventLogger,
 			$this->container,
 			$this->userSession,
+			$this->requestPayloadResolver,
 		);
 
 		$this->expectException(InvalidEnumParameterException::class);
