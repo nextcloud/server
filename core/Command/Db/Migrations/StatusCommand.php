@@ -41,6 +41,25 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
 
 		$infos = $this->getMigrationsInfos($ms);
+		$title = sprintf('Database migration status for "%s"', $infos['App']);
+		$output->writeln($title);
+		$output->writeln(str_repeat('=', strlen($title)));
+		$output->writeln('');
+
+		if ($infos['Missing from Installed Code'] > 0) {
+			$output->writeln(
+				'<error>Status: Warning — migration history references migrations missing from installed code</error>',
+			);
+		} elseif ($infos['Unapplied'] > 0) {
+			$output->writeln(sprintf(
+				'<comment>Status: %d unapplied migration%s</comment>',
+				$infos['Unapplied'],
+				$infos['Unapplied'] === 1 ? '' : 's',
+			));
+		} else {
+			$output->writeln('<info>Status: Up to date</info>');
+		}
+		$output->writeln('');
 
 		$sections = [
 			'Migration configuration' => [
