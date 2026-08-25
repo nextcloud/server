@@ -124,6 +124,10 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 
 		$numExecutedUnavailableMigrations = count($executedUnavailableMigrations);
 		$numNewMigrations = count(array_diff(array_keys($availableMigrations), $executedMigrations));
+		$currentMigration = $executedMigrations === []
+			? null
+			: end($executedMigrations);
+
 		$pending = $ms->describeMigrationStep();
 
 		$infos = [
@@ -131,10 +135,21 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 			'History Table' => $ms->getMigrationsTableName(),
 			'Migration Namespace' => $ms->getMigrationsNamespace(),
 			'Migration Directory' => $ms->getMigrationsDirectory(),
-			'Previous Available' => $this->getFormattedVersionAlias($ms, 'prev'),
-			'Last Recorded as Executed' => $this->getFormattedVersionAlias($ms, 'current'),
-			'Next Available' => $this->getFormattedVersionAlias($ms, 'next'),
-			'Latest Available' => $this->getFormattedVersionAlias($ms, 'latest'),
+			'Previous Available' => $this->getFormattedRelativeVersion(
+				$availableMigrations,
+				$currentMigration,
+				-1,
+			),
+			'Last Recorded as Executed' => $currentMigration
+				?? 'None (no migrations recorded as executed)',
+			'Next Available' => $this->getFormattedRelativeVersion(
+				$availableMigrations,
+				$currentMigration,
+				1,
+			),
+			'Latest Available' => $availableMigrations === []
+				? 'None (no migration files found)'
+				: end($availableMigrations),
 			'Recorded as Executed' => count($executedMigrations),
 			'Missing from Installed Code' => $numExecutedUnavailableMigrations,
 			'Available in Installed Code' => count($availableMigrations),
@@ -146,23 +161,40 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 	}
 
 	/**
-	 * @param MigrationService $migrationService
-	 * @param string $alias
-	 * @return mixed|null|string
+	 * @param list<string> $availableMigrations
 	 */
-	private function getFormattedVersionAlias(MigrationService $migrationService, $alias) {
-		$migration = $migrationService->getMigration($alias);
-		//No version found
-		if ($migration === null) {
-			if ($alias === 'next') {
-				return 'Already at latest migration step';
+	private function getFormattedRelativeVersion(
+		array $availableMigrations,
+		?string $currentMigration,
+		int $offset,
+	): string {
+		if ($currentMigration === null) {
+			if ($offset < 0) {
+				return 'None (no migrations recorded as executed)';
 			}
 
-			if ($alias === 'prev') {
-				return 'Already at first migration step';
-			}
+			return $availableMigrations === []
+				? 'None (no migration files found)'
+				: $availableMigrations[0];
 		}
 
-		return $migration;
+		$currentIndex = array_search(
+			$currentMigration,
+			$availableMigrations,
+			true,
+		);
+
+		if ($currentIndex === false) {
+			return 'Unknown (last executed migration is missing from code)';
+		}
+
+		$relativeIndex = $currentIndex + $offset;
+		if (!isset($availableMigrations[$relativeIndex])) {
+			return $offset < 0
+				? 'None (at first available migration)'
+				: 'None (at latest available migration)';
+		}
+
+		return $availableMigrations[$relativeIndex];
 	}
 }
