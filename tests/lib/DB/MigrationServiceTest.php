@@ -21,6 +21,7 @@ use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
 use OCP\App\AppPathNotFoundException;
 use OCP\IDBConnection;
+use OCP\ITempManager;
 use OCP\Migration\IMigrationStep;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -67,6 +68,60 @@ class MigrationServiceTest extends \Test\TestCase {
 		$this->assertEquals(\OC::$SERVERROOT . '/core/Migrations', $migrationService->getMigrationsDirectory());
 		$this->assertEquals('OC\Core\Migrations', $migrationService->getMigrationsNamespace());
 		$this->assertEquals('test_oc_migrations', $migrationService->getMigrationsTableName());
+	}
+
+	public static function dataInvalidMigrationFileName(): array {
+		return [
+			'missing version' => ['VersionDate20200819121721.php'],
+			'non-numeric version' => ['VersionFooDate20200819121721.php'],
+			'invalid separator' => ['Version10000Data20200819121721.php'],
+			'short timestamp' => ['Version10000Date2020081912172.php'],
+			'non-numeric timestamp' => ['Version10000Date2020081912172A.php'],
+			'unexpected suffix' => ['Version10000Date20200819121721Extra.php'],
+		];
+	}
+
+	#[DataProvider('dataInvalidMigrationFileName')]
+	public function testGetAvailableVersionsRejectsInvalidIdentifier(string $fileName): void {
+		$directory = Server::get(ITempManager::class)->getTemporaryFolder();
+		self::assertNotFalse(\touch($directory . '/' . $fileName));
+
+		$migrationService = $this->createMigrationServiceForDirectory($directory);
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage($fileName);
+
+		$migrationService->getAvailableVersions();
+	}
+
+	public function testGetAvailableVersionsRejectsDuplicateIdentifiers(): void {
+		$directory = Server::get(ITempManager::class)->getTemporaryFolder();
+		$firstDirectory = $directory . '/first';
+		$secondDirectory = $directory . '/second';
+
+		self::assertTrue(\mkdir($firstDirectory));
+		self::assertTrue(\mkdir($secondDirectory));
+
+		$fileName = 'Version10000Date20200819121721.php';
+		$firstFile = $firstDirectory . '/' . $fileName;
+		$secondFile = $secondDirectory . '/' . $fileName;
+
+		self::assertNotFalse(\touch($firstFile));
+		self::assertNotFalse(\touch($secondFile));
+
+		$migrationService = $this->createMigrationServiceForDirectory($directory);
+
+		try {
+			$migrationService->getAvailableVersions();
+			self::fail('Expected duplicate migration identifiers to be rejected');
+		} catch (\InvalidArgumentException $e) {
+			self::assertStringContainsString(
+				'10000Date20200819121721',
+				$e->getMessage(),
+			);
+			self::assertStringContainsString($firstFile, $e->getMessage());
+			self::assertStringContainsString($secondFile, $e->getMessage());
+		}
 	}
 
 	public function testExecuteUnknownStep(): void {
@@ -222,22 +277,8 @@ class MigrationServiceTest extends \Test\TestCase {
 	public function testGetMigratedVersionsSortsByVersionThenDate(): void {
 		/** @var Connection $db */
 		$db = Server::get(IDBConnection::class);
-		$appId = 'migration_sort_' . bin2hex(random_bytes(8));
-
-		$migrationService = new class('testing', $db, $appId) extends MigrationService {
-			public function __construct(
-				string $appName,
-				Connection $connection,
-				private string $migrationApp,
-			) {
-				parent::__construct($appName, $connection);
-			}
-
-			#[\Override]
-			public function getApp(): string {
-				return $this->migrationApp;
-			}
-		};
+		$appId = 'migration_sort_' . \bin2hex(\random_bytes(8));
+		$migrationService = $this->createMigrationServiceForApp($db, $appId);
 
 		// Ensure the migrations table exists before inserting the fixtures.
 		self::assertSame([], $migrationService->getMigratedVersions());
@@ -264,13 +305,35 @@ class MigrationServiceTest extends \Test\TestCase {
 				'20000Date20240718031959',
 			], $migrationService->getMigratedVersions());
 		} finally {
-			$qb = $db->getQueryBuilder();
-			$qb->delete('migrations')
-				->where($qb->expr()->eq(
-					'app',
-					$qb->createNamedParameter($appId),
-				))
-				->executeStatement();
+			$this->deleteMigrationVersions($db, $appId);
+		}
+	}
+
+	#[Group('DB')]
+	public function testGetMigratedVersionsRejectsInvalidIdentifier(): void {
+		/** @var Connection $db */
+		$db = Server::get(IDBConnection::class);
+		$appId = 'migration_invalid_' . \bin2hex(\random_bytes(8));
+		$migrationService = $this->createMigrationServiceForApp($db, $appId);
+
+		// Ensure the migrations table exists before inserting the fixture.
+		self::assertSame([], $migrationService->getMigratedVersions());
+
+		$invalidVersion = '10000Data20200819121721';
+
+		try {
+			$db->insertIfNotExist('*PREFIX*migrations', [
+				'app' => $appId,
+				'version' => $invalidVersion,
+			]);
+
+			$migrationService->getMigratedVersions();
+			self::fail('Expected an invalid stored migration identifier to be rejected');
+		} catch (\InvalidArgumentException $e) {
+			self::assertStringContainsString($invalidVersion, $e->getMessage());
+			self::assertStringContainsString($appId, $e->getMessage());
+		} finally {
+			$this->deleteMigrationVersions($db, $appId);
 		}
 	}
 
@@ -315,6 +378,24 @@ class MigrationServiceTest extends \Test\TestCase {
 			'20000Date20240717180417',
 			'20000Date20240718031959',
 		], $calls);
+	}
+
+	public function testMigrateRejectsInvalidTargetIdentifier(): void {
+		$migrationService = $this->getMockBuilder(MigrationService::class)
+			->onlyMethods(['getMigratedVersions', 'findMigrations', 'executeStep'])
+			->setConstructorArgs(['testing', $this->db])
+			->getMock();
+
+		$migrationService->method('getMigratedVersions')->willReturn([]);
+		$migrationService->method('findMigrations')->willReturn([
+			'10000Date20200819121721' => 'A',
+		]);
+		$migrationService->expects(self::never())->method('executeStep');
+
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('invalid-target');
+
+		$migrationService->migrate('invalid-target');
 	}
 
 	#[DataProvider('dataEnsureNamingConstraintsTableName')]
@@ -1018,5 +1099,47 @@ class MigrationServiceTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$this->migrationService->ensureOracleConstraints($sourceSchema, $schema);
+	}
+
+	private function createMigrationServiceForDirectory(string $directory): MigrationService {
+		$migrationService = new MigrationService('testing', $this->db);
+
+		$property = new \ReflectionProperty(
+			MigrationService::class,
+			'migrationsPath',
+		);
+		$property->setValue($migrationService, $directory);
+
+		return $migrationService;
+	}
+
+	private function createMigrationServiceForApp(
+		Connection $db,
+		string $appId,
+	): MigrationService {
+		return new class('testing', $db, $appId) extends MigrationService {
+			public function __construct(
+				string $appName,
+				Connection $connection,
+				private string $migrationApp,
+			) {
+				parent::__construct($appName, $connection);
+			}
+
+			#[\Override]
+			public function getApp(): string {
+				return $this->migrationApp;
+			}
+		};
+	}
+
+	private function deleteMigrationVersions(Connection $db, string $appId): void {
+		$qb = $db->getQueryBuilder();
+		$qb->delete('migrations')
+			->where($qb->expr()->eq(
+				'app',
+				$qb->createNamedParameter($appId),
+			))
+			->executeStatement();
 	}
 }
