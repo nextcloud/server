@@ -16,6 +16,7 @@ use OCP\App\IAppManager;
 use OCP\Migration\IMigrationStep;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Test\TestCase;
 
 class StatusCommandTest extends TestCase {
@@ -190,5 +191,24 @@ class StatusCommandTest extends TestCase {
 				'Description' => 'Not provided',
 			],
 		], $infos['Unapplied Migrations']);
+	}
+
+	public function testWriteKeyValueRowsAlignsLabelsDynamically(): void {
+		$output = new BufferedOutput();
+
+		self::invokePrivate($this->command, 'writeKeyValueRows', [
+			$output,
+			[
+				'Short' => 'first',
+				'Longer Label' => 'second',
+			],
+			2,
+		]);
+
+		$this->assertSame(
+			"  Short:         first\n"
+			. "  Longer Label:  second\n",
+			$output->fetch(),
+		);
 	}
 }
