@@ -203,6 +203,41 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Joey', $request['nickname']);
 	}
 
+	public function testGetRawContentReturnsTheUndecodedJsonBody(): void {
+		global $data;
+		$data = '{"name": "John Q. Public", "nickname": "Joey"}';
+		$vars = [
+			'method' => 'POST',
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame($data, $request->getRawContent());
+	}
+
+	public function testGetRawContentReturnsNullForNonJsonRequests(): void {
+		$vars = [
+			'method' => 'GET',
+		];
+
+		$request = new Request(
+			$vars,
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertNull($request->getRawContent());
+	}
+
 	public function testScimJsonPost(): void {
 		global $data;
 		$data = '{"userName":"testusername", "displayName":"Example User"}';

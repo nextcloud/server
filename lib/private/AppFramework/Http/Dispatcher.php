@@ -16,6 +16,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\DB\ConnectionAdapter;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\RequestPayload;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\InvalidEnumParameterException;
 use OCP\AppFramework\Http\InvalidStringParameterException;
@@ -53,6 +54,7 @@ class Dispatcher {
 		private readonly IEventLogger $eventLogger,
 		private readonly ContainerInterface $appContainer,
 		private readonly IUserSession $userSession,
+		private readonly RequestPayloadResolver $requestPayloadResolver,
 	) {
 	}
 
@@ -155,10 +157,19 @@ class Dispatcher {
 		$types = ['int', 'integer', 'bool', 'boolean', 'float', 'double'];
 
 		foreach ($this->reflector->getParameters() as $param => $default) {
+			$type = $this->reflector->getType($param);
+
+			$payloadAttribute = $type !== null ? $this->reflector->getParameterAttribute($param, RequestPayload::class) : null;
+			if ($payloadAttribute !== null) {
+				/** @var RequestPayload $requestPayload */
+				$requestPayload = $payloadAttribute->newInstance();
+				$arguments[] = $this->requestPayloadResolver->resolve($param, $type, $this->request->getRawContent(), $requestPayload->validationGroups);
+				continue;
+			}
+
 			// try to get the parameter from the request object and cast
 			// it to the type annotated in the @param annotation
 			$value = $this->request->getParam($param, $default);
-			$type = $this->reflector->getType($param);
 
 			// Converted the string `'false'` to false when the controller wants a boolean
 			if ($value === 'false' && ($type === 'bool' || $type === 'boolean')) {
