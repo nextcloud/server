@@ -9,7 +9,7 @@
 	<name>Nextcloud Appstore</name>
 	<summary>Nextcloud Appstore</summary>
 	<description>Nextcloud Appstore</description>
-	<version>2.0.0-dev.0</version>
+	<version>3.0.0-dev.0</version>
 	<licence>agpl</licence>
 	<author>Nextcloud</author>
 	<namespace>Appstore</namespace>
@@ -17,7 +17,7 @@
 	<category>customization</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="35" max-version="35"/>
+		<nextcloud min-version="36" max-version="36"/>
 	</dependencies>
 
 	<navigations>
