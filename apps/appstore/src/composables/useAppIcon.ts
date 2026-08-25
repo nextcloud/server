@@ -13,7 +13,7 @@ import logger from '../utils/logger.ts'
 
 /**
  * Get the app icon raw SVG for use with `NcIconSvgWrapper` (do never use without sanitizing)
- * It has a fallback to the categroy icon.
+ * It has a fallback to the category icon.
  *
  * @param app The app to get the icon for
  */

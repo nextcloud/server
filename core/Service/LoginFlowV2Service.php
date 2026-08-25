@@ -111,7 +111,7 @@ class LoginFlowV2Service {
 
 	/**
 	 * @param string $loginToken
-	 * @return bool returns true if the start was successfull. False if not.
+	 * @return bool returns true if the start was successful. False if not.
 	 */
 	public function startLoginFlow(string $loginToken): bool {
 		try {
