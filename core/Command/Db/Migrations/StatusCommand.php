@@ -93,18 +93,18 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 
 		$infos = [
 			'App' => $ms->getApp(),
-			'Version Table Name' => $ms->getMigrationsTableName(),
-			'Migrations Namespace' => $ms->getMigrationsNamespace(),
-			'Migrations Directory' => $ms->getMigrationsDirectory(),
-			'Previous Version' => $this->getFormattedVersionAlias($ms, 'prev'),
-			'Current Version' => $this->getFormattedVersionAlias($ms, 'current'),
-			'Next Version' => $this->getFormattedVersionAlias($ms, 'next'),
-			'Latest Version' => $this->getFormattedVersionAlias($ms, 'latest'),
-			'Executed Migrations' => count($executedMigrations),
-			'Executed Unavailable Migrations' => $numExecutedUnavailableMigrations,
-			'Available Migrations' => count($availableMigrations),
-			'New Migrations' => $numNewMigrations,
-			'Pending Migrations' => count($pending) ? $pending : 'None'
+			'History Table' => $ms->getMigrationsTableName(),
+			'Migration Namespace' => $ms->getMigrationsNamespace(),
+			'Migration Directory' => $ms->getMigrationsDirectory(),
+			'Previous Available' => $this->getFormattedVersionAlias($ms, 'prev'),
+			'Last Recorded as Executed' => $this->getFormattedVersionAlias($ms, 'current'),
+			'Next Available' => $this->getFormattedVersionAlias($ms, 'next'),
+			'Latest Available' => $this->getFormattedVersionAlias($ms, 'latest'),
+			'Recorded as Executed' => count($executedMigrations),
+			'Missing from Installed Code' => $numExecutedUnavailableMigrations,
+			'Available in Installed Code' => count($availableMigrations),
+			'Unapplied' => $numNewMigrations,
+			'Unapplied Migration Descriptions' => count($pending) ? $pending : 'None'
 		];
 
 		return $infos;
