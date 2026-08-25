@@ -62,7 +62,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 	},
 	getters: {
 		/**
-		 * Must stay in step with `destroyAll()` server side, or the confirmation
+		 * Must stay in step with `destroyOthers()` server side, or the confirmation
 		 * count disagrees with what actually gets revoked.
 		 *
 		 * @param state Current store state

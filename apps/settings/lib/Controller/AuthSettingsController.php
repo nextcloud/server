@@ -189,13 +189,15 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * Wipe-pending tokens are kept: revoking one cancels its pending wipe, so that
-	 * stays a per-token decision.
+	 * Revoke the tokens of the current user other than the session's own.
+	 *
+	 * Wipe-pending tokens are kept too: revoking one cancels its pending wipe, so
+	 * that stays a per-token decision.
 	 */
 	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
-	public function destroyAll(): JSONResponse {
+	public function destroyOthers(): JSONResponse {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}

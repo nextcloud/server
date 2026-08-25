@@ -272,7 +272,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertEquals([], $this->controller->destroy($tokenId)->getData());
 	}
 
-	public function testDestroyAllRevokesEveryTokenButTheCurrent(): void {
+	public function testDestroyOthersRevokesEveryTokenButTheCurrent(): void {
 		$currentToken = $this->mockAuthToken(10);
 		$otherToken = $this->mockAuthToken(11);
 		$appPassword = $this->mockAuthToken(12);
@@ -297,13 +297,13 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->mockActivityManager();
 
-		$response = $this->controller->destroyAll();
+		$response = $this->controller->destroyOthers();
 
 		$this->assertSame([11, 12], $revokedIds, 'the current session token must not be revoked');
 		$this->assertSame(['revoked' => [11, 12]], $response->getData());
 	}
 
-	public function testDestroyAllKeepsWipePendingTokens(): void {
+	public function testDestroyOthersKeepsWipePendingTokens(): void {
 		$currentToken = $this->mockAuthToken(10);
 		$otherToken = $this->mockAuthToken(11);
 		$wipingToken = $this->mockAuthToken(12, IToken::WIPE_TOKEN);
@@ -318,10 +318,10 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->mockActivityManager();
 
-		$this->assertSame(['revoked' => [11]], $this->controller->destroyAll()->getData());
+		$this->assertSame(['revoked' => [11]], $this->controller->destroyOthers()->getData());
 	}
 
-	public function testDestroyAllPublishesOneAggregateActivity(): void {
+	public function testDestroyOthersPublishesOneAggregateActivity(): void {
 		$currentToken = $this->mockAuthToken(10);
 
 		$this->session->method('getId')->willReturn('sessionid');
@@ -348,10 +348,10 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->activityManager->expects($this->once())
 			->method('publish');
 
-		$this->controller->destroyAll();
+		$this->controller->destroyOthers();
 	}
 
-	public function testDestroyAllWithNothingToRevokePublishesNoActivity(): void {
+	public function testDestroyOthersWithNothingToRevokePublishesNoActivity(): void {
 		$currentToken = $this->mockAuthToken(10);
 
 		$this->session->method('getId')->willReturn('sessionid');
@@ -361,10 +361,10 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
 		$this->activityManager->expects($this->never())->method('publish');
 
-		$this->assertSame(['revoked' => []], $this->controller->destroyAll()->getData());
+		$this->assertSame(['revoked' => []], $this->controller->destroyOthers()->getData());
 	}
 
-	public function testDestroyAllWithAppPassword(): void {
+	public function testDestroyOthersWithAppPassword(): void {
 		$this->session->expects($this->once())
 			->method('exists')
 			->with('app_password')
@@ -372,37 +372,37 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
 
-		$response = $this->controller->destroyAll();
+		$response = $this->controller->destroyOthers();
 		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 
-	public function testDestroyAllWhileImpersonating(): void {
+	public function testDestroyOthersWhileImpersonating(): void {
 		$this->userSession->method('getImpersonatingUserID')->willReturn('admin');
 
 		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
 
-		$response = $this->controller->destroyAll();
+		$response = $this->controller->destroyOthers();
 		$this->assertSame(Http::STATUS_SERVICE_UNAVAILABLE, $response->getStatus());
 	}
 
-	public function testDestroyAllSessionNotAvailable(): void {
+	public function testDestroyOthersSessionNotAvailable(): void {
 		$this->session->method('getId')
 			->willThrowException(new SessionNotAvailableException());
 
 		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
 
-		$response = $this->controller->destroyAll();
+		$response = $this->controller->destroyOthers();
 		$this->assertSame(Http::STATUS_SERVICE_UNAVAILABLE, $response->getStatus());
 	}
 
-	public function testDestroyAllInvalidSessionToken(): void {
+	public function testDestroyOthersInvalidSessionToken(): void {
 		$this->session->method('getId')->willReturn('sessionid');
 		$this->tokenProvider->method('getToken')
 			->willThrowException(new InvalidTokenException('Token does not exist'));
 
 		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
 
-		$response = $this->controller->destroyAll();
+		$response = $this->controller->destroyOthers();
 		$this->assertSame(Http::STATUS_SERVICE_UNAVAILABLE, $response->getStatus());
 	}
 
