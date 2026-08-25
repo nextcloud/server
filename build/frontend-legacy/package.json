@@ -133,7 +133,7 @@
     "terser-webpack-plugin": "^5.6.1",
     "typescript": "^5.9.2",
     "vite": "^7.3.6",
-    "vitest": "^4.1.10",
+    "vitest": "^4.1.11",
     "vue-loader": "^15.11.1",
     "vue-template-compiler": "^2.7.16",
     "webpack": "^5.109.2",
