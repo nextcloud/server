@@ -28,13 +28,18 @@
 				<p class="previews-admin__hint">
 					{{ t('settings', 'Master switch for preview generation. When off, Nextcloud will not generate or serve file previews, and the settings below are ignored until you turn this back on and save.') }}
 				</p>
-				<NcButton
-					type="primary"
-					:disabled="saving || settings.configIsReadonly"
-					data-cy="previews-save"
-					@click="save">
-					{{ t('settings', 'Save') }}
-				</NcButton>
+				<div class="previews-admin__save">
+					<p v-if="dirty" class="previews-admin__unsaved">
+						{{ t('settings', 'You have unsaved changes.') }}
+					</p>
+					<NcButton
+						type="primary"
+						:disabled="saveDisabled"
+						data-cy="previews-save"
+						@click="save">
+						{{ saveLabel }}
+					</NcButton>
+				</div>
 			</div>
 		</NcSettingsSection>
 
@@ -469,6 +474,19 @@
 			</table>
 		</NcSettingsSection>
 		</fieldset>
+
+		<div class="previews-admin__save previews-admin__save--bottom">
+			<p v-if="dirty" class="previews-admin__unsaved">
+				{{ t('settings', 'You have unsaved changes.') }}
+			</p>
+			<NcButton
+				type="primary"
+				:disabled="saveDisabled"
+				data-cy="previews-save-bottom"
+				@click="save">
+				{{ saveLabel }}
+			</NcButton>
+		</div>
 	</div>
 </template>
 
@@ -505,6 +523,48 @@ function mimeRowsFromSettings(settings) {
 	}))
 }
 
+function normalizeCache(cache) {
+	const value = cache || {}
+	return {
+		visibility: value.visibility || 'private',
+		max_age: value.max_age ?? null,
+		s_maxage: value.s_maxage ?? null,
+		immutable: !!value.immutable,
+		cache_control: value.cache_control || '',
+	}
+}
+
+function formSnapshot(settings, mimeRows) {
+	return JSON.stringify({
+		enablePreviews: !!settings.enablePreviews,
+		previewMaxX: settings.previewMaxX ?? null,
+		previewMaxY: settings.previewMaxY ?? null,
+		previewMaxMemory: settings.previewMaxMemory ?? null,
+		previewMaxFilesizeImage: settings.previewMaxFilesizeImage ?? null,
+		jpegQuality: settings.jpegQuality ?? null,
+		webpQuality: settings.webpQuality ?? null,
+		previewFormat: settings.previewFormat || 'jpeg',
+		previewConcurrencyNew: settings.previewConcurrencyNew ?? null,
+		previewConcurrencyAll: settings.previewConcurrencyAll ?? null,
+		previewExpirationDays: settings.previewExpirationDays ?? 0,
+		imaginaryUrl: settings.imaginaryUrl || '',
+		imaginaryKey: settings.imaginaryKey || '',
+		ffmpegPath: settings.ffmpegPath || '',
+		ffprobePath: settings.ffprobePath || '',
+		libreofficePath: settings.libreofficePath || '',
+		providers: (settings.providers || []).map((provider) => `${provider.class}:${provider.enabled ? 1 : 0}`),
+		mimeRows: (mimeRows || []).map((row) => ({
+			mime: (row.mime || '').trim().toLowerCase(),
+			providers: [...(row.providers || [])],
+			deny: [...(row.deny || [])],
+		})),
+		cacheAuthenticated: normalizeCache(settings.cacheAuthenticated),
+		cachePublic: normalizeCache(settings.cachePublic),
+		failuresRetentionDays: settings.failuresRetentionDays ?? 30,
+		failuresMaxRows: settings.failuresMaxRows ?? 5000,
+	})
+}
+
 export default {
 	name: 'AdminSettingsPreviews',
 	components: {
@@ -525,6 +585,7 @@ export default {
 		settings.ffmpegPath = settings.ffmpegPath || ''
 		settings.ffprobePath = settings.ffprobePath || ''
 		settings.libreofficePath = settings.libreofficePath || ''
+		const mimeRows = mimeRowsFromSettings(settings)
 		return {
 			documentationLink,
 			settings,
@@ -534,7 +595,8 @@ export default {
 			imaginaryStatus: settings.imaginaryUrl ? 'unknown' : 'unconfigured',
 			failureRange: { id: 'all', label: t('settings', 'All') },
 			providerFilter: 'all',
-			mimeRows: mimeRowsFromSettings(settings),
+			mimeRows,
+			savedSnapshot: formSnapshot(settings, mimeRows),
 			formatOptions: [
 				{ id: 'jpeg', label: 'JPEG' },
 				{ id: 'webp', label: 'WebP' },
@@ -647,6 +709,15 @@ export default {
 		},
 		settingsLocked() {
 			return this.settings.enablePreviews === false
+		},
+		dirty() {
+			return formSnapshot(this.settings, this.mimeRows) !== this.savedSnapshot
+		},
+		saveDisabled() {
+			return this.saving || this.settings.configIsReadonly || !this.dirty
+		},
+		saveLabel() {
+			return this.dirty ? t('settings', 'Save changes') : t('settings', 'Save')
 		},
 		detection() {
 			return this.settings.detection || {}
@@ -835,8 +906,23 @@ export default {
 		},
 	},
 
+	mounted() {
+		window.addEventListener('beforeunload', this.onBeforeUnload)
+	},
+
+	beforeDestroy() {
+		window.removeEventListener('beforeunload', this.onBeforeUnload)
+	},
+
 	methods: {
 		t,
+		onBeforeUnload(event) {
+			if (!this.dirty) {
+				return
+			}
+			event.preventDefault()
+			event.returnValue = true
+		},
 		providerIndex(provider) {
 			return (this.settings.providers || []).findIndex((row) => row.class === provider.class)
 		},
@@ -908,7 +994,12 @@ export default {
 				await confirmPassword()
 				const { data } = await axios.put(generateUrl('/settings/api/admin/previews'), { settings: this.payload() })
 				this.settings = data
+				this.settings.detection = data.detection || this.settings.detection || {}
+				this.settings.ffmpegPath = this.settings.ffmpegPath || ''
+				this.settings.ffprobePath = this.settings.ffprobePath || ''
+				this.settings.libreofficePath = this.settings.libreofficePath || ''
 				this.mimeRows = mimeRowsFromSettings(data)
+				this.savedSnapshot = formSnapshot(this.settings, this.mimeRows)
 				showSuccess(t('settings', 'Preview settings saved'))
 			} catch (error) {
 				logger.error('Could not save preview settings', { error })
@@ -1015,6 +1106,22 @@ export default {
 	align-items: flex-start;
 	gap: 8px;
 	margin-block-start: 12px;
+}
+
+.previews-admin__save {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+}
+
+.previews-admin__save--bottom {
+	margin-block: 24px 12px;
+}
+
+.previews-admin__unsaved {
+	color: var(--color-text-maxcontrast);
+	margin: 0;
 }
 
 .previews-admin__dependent {
