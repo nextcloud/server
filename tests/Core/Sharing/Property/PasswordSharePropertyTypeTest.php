@@ -9,8 +9,10 @@ declare(strict_types=1);
 
 namespace Tests\Core\Sharing\Property;
 
+use DateInterval;
 use DateTimeImmutable;
 use NCU\Sharing\Property\ShareProperty;
+use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
@@ -18,7 +20,9 @@ use NCU\Sharing\ShareUser;
 use OC\Core\AppInfo\Application;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Core\Sharing\Property\PasswordSharePropertyType;
+use OC\Core\Sharing\Recipient\EmailShareRecipientType;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
@@ -104,5 +108,43 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 		$this->assertTrue($this->propertyType->isFiltered(new ShareAccessContext(arguments: [$this->propertyType::class => '456']), $this->createDummyShare(new ShareProperty($this->propertyType::class, Server::get(IHasher::class)->hash('123')))));
 		$this->assertTrue($this->propertyType->isFiltered(new ShareAccessContext(arguments: [$this->propertyType::class => null]), $this->createDummyShare(new ShareProperty($this->propertyType::class, Server::get(IHasher::class)->hash('123')))));
 		$this->assertTrue($this->propertyType->isFiltered(new ShareAccessContext(), $this->createDummyShare(new ShareProperty($this->propertyType::class, Server::get(IHasher::class)->hash('123')))));
+	}
+
+	public function testIsExpiredEmailPasswordFiltered(): void {
+		/** @var DateTimeImmutable $now */
+		$now = self::invokePrivate($this->propertyType, 'now');
+
+		$password = '123';
+		$hashedPassword = Server::get(IHasher::class)->hash($password);
+
+		$secret = 'abc';
+
+		$createShare = fn (DateTimeImmutable $lastUpdated): Share => new Share(
+			'456',
+			new ShareUser('user', null),
+			$lastUpdated,
+			ShareState::Active,
+			[],
+			[
+				new ShareRecipient(EmailShareRecipientType::class, 'test@example.com', null, $secret),
+			],
+			[
+				$this->propertyType::class => new ShareProperty($this->propertyType::class, $hashedPassword),
+			],
+			[],
+		);
+
+		$expirationIntervalSeconds = 10;
+		$config = Server::get(IConfig::class);
+		$config->setSystemValue('sharing.enable_mail_link_password_expiration', true);
+		$config->setSystemValue('sharing.mail_link_password_expiration_interval', $expirationIntervalSeconds);
+
+		$this->assertFalse($this->propertyType->isFiltered(new ShareAccessContext(secret: $secret, arguments: [$this->propertyType::class => $password]), $createShare($now)));
+		$this->assertFalse($this->propertyType->isFiltered(new ShareAccessContext(secret: $secret, arguments: [$this->propertyType::class => $password]), $createShare($now->sub(new DateInterval('PT' . ($expirationIntervalSeconds - 1) . 'S')))));
+		$this->assertFalse($this->propertyType->isFiltered(new ShareAccessContext(secret: $secret, arguments: [$this->propertyType::class => $password]), $createShare($now->sub(new DateInterval('PT' . ($expirationIntervalSeconds) . 'S')))));
+		$this->assertTrue($this->propertyType->isFiltered(new ShareAccessContext(secret: $secret, arguments: [$this->propertyType::class => $password]), $createShare($now->sub(new DateInterval('PT' . ($expirationIntervalSeconds + 1) . 'S')))));
+
+		$config->deleteSystemValue('sharing.enable_mail_link_password_expiration');
+		$config->deleteSystemValue('sharing.mail_link_password_expiration_interval');
 	}
 }
