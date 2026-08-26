@@ -372,7 +372,7 @@ class Generator {
 					continue;
 				}
 				$entries[] = [
-					'class' => $provider::class,
+					'class' => ltrim($provider::class, '\\'),
 					'provider' => $provider,
 				];
 			}

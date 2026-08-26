@@ -75,6 +75,14 @@ class PreviewManager implements IPreview {
 	/** @var array<string, list<ProviderClosure>> $providers */
 	protected array $providers = [];
 
+	/**
+	 * Registrations in insertion order, rebuilt into {@see $providers} using
+	 * ``enabledPreviewProviders`` as key order (PHP maps keep insertion order).
+	 *
+	 * @var list<array{regex: string, class: ?string, callable: Closure}>
+	 */
+	private array $providerRegistrations = [];
+
 	/** @var array mime type => support status */
 	protected array $mimeTypeSupportMap = [];
 
@@ -109,15 +117,16 @@ class PreviewManager implements IPreview {
 	 * @param string $mimeTypeRegex Regex with the mime types that are supported by this provider
 	 * @param ProviderClosure $callable
 	 */
-	private function registerProviderClosure(string $mimeTypeRegex, Closure $callable): void {
+	private function registerProviderClosure(string $mimeTypeRegex, Closure $callable, ?string $class = null): void {
 		if (!$this->enablePreviews) {
 			return;
 		}
 
-		if (!isset($this->providers[$mimeTypeRegex])) {
-			$this->providers[$mimeTypeRegex] = [];
-		}
-		$this->providers[$mimeTypeRegex][] = $callable;
+		$this->providerRegistrations[] = [
+			'regex' => $mimeTypeRegex,
+			'class' => $class !== null && $class !== '' ? ltrim($class, '\\') : null,
+			'callable' => $callable,
+		];
 		$this->providerListDirty = true;
 	}
 
@@ -130,12 +139,48 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProviders();
 		$this->registerBootstrapProviders();
 		if ($this->providerListDirty) {
-			$keys = array_map('strlen', array_keys($this->providers));
-			array_multisort($keys, SORT_DESC, $this->providers);
+			$this->rebuildProvidersMap();
 			$this->providerListDirty = false;
 		}
 
 		return $this->providers;
+	}
+
+	/**
+	 * Rebuild {@see $providers} so foreach order follows ``enabledPreviewProviders``.
+	 *
+	 * PHP arrays preserve insertion order. Each provider has its own MIME regex
+	 * in core, so visiting map keys in whitelist order is try-order for Generator.
+	 */
+	private function rebuildProvidersMap(): void {
+		$priority = [];
+		foreach ($this->getEnabledDefaultProvider() as $index => $class) {
+			if (!is_string($class) || $class === '') {
+				continue;
+			}
+			$priority[ltrim($class, '\\')] = $index;
+		}
+
+		$registrations = [];
+		foreach ($this->providerRegistrations as $index => $registration) {
+			$registration['index'] = $index;
+			$registrations[] = $registration;
+		}
+		usort($registrations, function (array $left, array $right) use ($priority): int {
+			$leftClass = $left['class'];
+			$rightClass = $right['class'];
+			$leftPriority = is_string($leftClass) && isset($priority[$leftClass]) ? $priority[$leftClass] : PHP_INT_MAX;
+			$rightPriority = is_string($rightClass) && isset($priority[$rightClass]) ? $priority[$rightClass] : PHP_INT_MAX;
+			if ($leftPriority !== $rightPriority) {
+				return $leftPriority <=> $rightPriority;
+			}
+			return $left['index'] <=> $right['index'];
+		});
+
+		$this->providers = [];
+		foreach ($registrations as $registration) {
+			$this->providers[$registration['regex']][] = $registration['callable'];
+		}
 	}
 
 	/**
@@ -144,7 +189,7 @@ class PreviewManager implements IPreview {
 	#[\Override]
 	public function hasProviders(): bool {
 		$this->registerCoreProviders();
-		return !empty($this->providers);
+		return $this->providerRegistrations !== [];
 	}
 
 	private function getGenerator(): Generator {
@@ -303,7 +348,7 @@ class PreviewManager implements IPreview {
 			$this->registerProviderClosure($mimeType, function () use ($class, $options): IProviderV2 {
 				/** @var IProviderV2 $class */
 				return new $class($options);
-			});
+			}, $class);
 		}
 	}
 
@@ -426,13 +471,17 @@ class PreviewManager implements IPreview {
 			}
 			$this->loadedBootstrapProviders[$key] = null;
 
-			$this->registerProviderClosure($provider->getMimeTypeRegex(), function () use ($provider): IProviderV2|false {
-				try {
-					return $this->container->get($provider->getService());
-				} catch (NotFoundExceptionInterface) {
-					return false;
-				}
-			});
+			$this->registerProviderClosure(
+				$provider->getMimeTypeRegex(),
+				function () use ($provider): IProviderV2|false {
+					try {
+						return $this->container->get($provider->getService());
+					} catch (NotFoundExceptionInterface) {
+						return false;
+					}
+				},
+				$provider->getService(),
+			);
 		}
 	}
 

@@ -512,6 +512,77 @@ class GeneratorTest extends TestCase {
 		$this->assertSame('256-256.png', $result->getName());
 	}
 
+	public function testTriesProvidersInEnabledPreviewProvidersOrder(): void {
+		$file = $this->getFile(42, 'image/heic');
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->with($this->equalTo([42]))
+			->willReturn([42 => []]);
+		$this->config->method('getSystemValueString')->willReturnCallback(fn ($key, $default) => $default);
+		$this->config->method('getSystemValueInt')->willReturnCallback(fn ($key, $default) => $default);
+
+		$imaginary = new class implements IProviderV2 {
+			public function getMimeType(): string {
+				return '/image\/heic/';
+			}
+			public function isAvailable(\OCP\Files\FileInfo $file): bool {
+				return true;
+			}
+			public function getThumbnail(\OCP\Files\File $file, int $maxX, int $maxY): ?IImage {
+				return null;
+			}
+		};
+		$heic = new class implements IProviderV2 {
+			public function getMimeType(): string {
+				return '/image\/heic/';
+			}
+			public function isAvailable(\OCP\Files\FileInfo $file): bool {
+				return true;
+			}
+			public function getThumbnail(\OCP\Files\File $file, int $maxX, int $maxY): ?IImage {
+				return null;
+			}
+		};
+
+		$this->previewManager->method('isMimeSupported')->willReturn(true);
+		// PreviewManager emits this map in enabledPreviewProviders key order
+		// (PHP insertion order), not regex-length order.
+		$this->previewManager->method('getProviders')->willReturn([
+			'/image\/heic/' => ['heic'],
+			'/(image\/(bmp|png|jpeg|heic|heif))/' => ['imaginary'],
+		]);
+		$this->helper->method('getProvider')->willReturnCallback(function ($id) use ($imaginary, $heic) {
+			return match ($id) {
+				'imaginary' => $imaginary,
+				'heic' => $heic,
+				default => false,
+			};
+		});
+
+		$image = $this->createMock(IImage::class);
+		$image->method('width')->willReturn(2048);
+		$image->method('height')->willReturn(2048);
+		$image->method('valid')->willReturn(true);
+		$image->method('dataMimeType')->willReturn('image/jpeg');
+		$image->method('data')->willReturn('heic data');
+		$tried = [];
+		$this->helper->method('getThumbnail')->willReturnCallback(function ($provider) use ($heic, $imaginary, $image, &$tried) {
+			$tried[] = $provider;
+			if ($provider === $heic) {
+				return $image;
+			}
+			$this->fail('Imaginary must not run first when HEIC is earlier in enabledPreviewProviders');
+		});
+		$this->helper->method('getImage')->willReturn($this->getMockImage(2048, 2048, 'resized'));
+		$this->previewMapper->method('insert')->willReturnCallback(fn (Preview $preview): Preview => $preview);
+		$this->previewMapper->method('update')->willReturnCallback(fn (Preview $preview): Preview => $preview);
+		$this->storageFactory->method('writePreview')->willReturn(1000);
+
+		$result = $this->generator->getPreview($file, 100, 100);
+		$this->assertSame([$heic], $tried);
+		$this->assertSame('256-256.png', $result->getName());
+	}
+
 	public function testRecordsFailureWhenNoProviders(): void {
 		$file = $this->getFile(42, 'myMimeType');
 		$failureService = $this->createMock(PreviewFailureService::class);
