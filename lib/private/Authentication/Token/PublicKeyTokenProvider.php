@@ -471,7 +471,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 		if ($storeCryptedPassword && $passwordLength > IUserManager::MAX_PASSWORD_LENGTH) {
 			throw new \RuntimeException(sprintf(
-				'Storing an encrypted password longer than %d bytes in an authentication token is not supported.',				
+				'Storing an encrypted password longer than %d bytes in an authentication token is not supported.',
 				IUserManager::MAX_PASSWORD_LENGTH,
 			));
 		}
