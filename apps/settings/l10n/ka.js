@@ -412,7 +412,6 @@ OC.L10N.register(
     "Your browser does not support WebAuthn." : "Your browser does not support WebAuthn.",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "It is important to set up this server to be able to send emails, like for password reset and notifications.",
     "Send mode" : "Send mode",
-    "Encryption" : "Encryption",
     "Sendmail mode" : "Sendmail mode",
     "Disable certificate verification (insecure)" : "Disable certificate verification (insecure)",
     "From address" : "From address",
@@ -568,6 +567,7 @@ OC.L10N.register(
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.",
     "None/STARTTLS" : "None/STARTTLS",
     "SSL" : "SSL",
+    "Encryption" : "Encryption",
     "Credentials" : "Credentials",
     "SMTP Password" : "SMTP Password",
     "Test and verify email settings" : "Test and verify email settings"

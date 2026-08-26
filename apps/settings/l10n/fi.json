@@ -375,7 +375,6 @@
     "Your browser does not support WebAuthn." : "Selaimesi ei tue WebAuthn-standardia.",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "On tärkeää määrittää sähköpostipalvelinasetukset, jotta voidaan lähettää muun muassa salasanan palautus- ja ilmoitussähköpostiviestejä.",
     "Send mode" : "Lähetystila",
-    "Encryption" : "Salaus",
     "Sendmail mode" : "Sendmail-tila",
     "Disable certificate verification (insecure)" : "Poista käytöstä varmenteen varmistus (turvaton)",
     "From address" : "Lähettäjän osoite",
@@ -564,6 +563,7 @@
     "Error: This app cannot be enabled because it makes the server unstable" : "Virhe: Sovellusta ei voida ottaa käyttöön, koska se aiheuttaa palvelimen epävakauden",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Sovellus on käytössä, mutta se tulee päivittää. Sinut ohjataan sovelluksen päivityssivulle viiden sekunnin kuluttua.",
     "SSL" : "SSL",
+    "Encryption" : "Salaus",
     "Credentials" : "Tilitiedot",
     "SMTP Password" : "SMTP-salasana",
     "Test and verify email settings" : "Testaa ja vahvista sähköpostiasetukset"

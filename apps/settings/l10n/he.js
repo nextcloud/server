@@ -233,7 +233,6 @@ OC.L10N.register(
     "Your browser does not support WebAuthn." : "הדפדפן שלך אינו תומך ב־WebAuthn.",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "חשוב להגדיר את השרת הזה כדי שיתאפשר לשלוח דרכו הודעות דוא״ל, למשל כדי לאפס ססמה ולשלוח התרעות.",
     "Send mode" : "מצב שליחה",
-    "Encryption" : "הצפנה",
     "Sendmail mode" : "מצב Sendmail (שליחת דוא״ל)",
     "Disable certificate verification (insecure)" : "השבתת אימות אישור אבטחה (פרוץ)",
     "From address" : "מכתובת",
@@ -346,6 +345,7 @@ OC.L10N.register(
     "Disable" : "ניטרול",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "היישומון הופעל אך יש לעדכן אותו. ההפניה לעמוד העדכון תחל בעוד 5 שניות.",
     "SSL" : "SSL",
+    "Encryption" : "הצפנה",
     "Credentials" : "פרטי גישה",
     "SMTP Password" : "סיסמת SMTP"
 },
