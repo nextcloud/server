@@ -158,6 +158,29 @@ class PublicKeyTokenProviderTest extends TestCase {
 		);
 	}
 
+	public function testGenerateTokenDoesNotStoreLongPasswordWhenStorageIsDisabled(): void {
+		$password = str_repeat('a', IUserManager::MAX_PASSWORD_LENGTH + 1);
+
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, false],
+			]);
+
+		$actual = $this->tokenProvider->generateToken(
+			'tokentokentokentokentoken',
+			'user',
+			'User',
+			$password,
+			'Test token',
+			IToken::PERMANENT_TOKEN,
+			IToken::DO_NOT_REMEMBER,
+		);
+
+		$this->assertSame(2048, $this->getPublicKeyBits($actual));
+		$this->assertNull($actual->getPassword());
+		$this->assertNull($actual->getPasswordHash());
+	}
+
 	private function getPublicKeyBits(PublicKeyToken $token): int {
 		$publicKey = openssl_pkey_get_public($token->getPublicKey());
 		$this->assertNotFalse($publicKey);
