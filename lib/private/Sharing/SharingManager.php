@@ -28,6 +28,7 @@ use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
 use NCU\Sharing\ShareUser;
+use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
 use OCP\EventDispatcher\Event;
@@ -205,6 +206,37 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->owner,
 			$time,
 			$state,
+			$share->userStatus,
+			$share->sources,
+			$share->recipients,
+			$share->properties,
+			$share->permissions,
+		);
+
+		[$share] = $this->processShareUpdates([$share]);
+		return $share;
+	}
+
+	#[\Override]
+	public function updateShareUserStatus(ShareAccessContext $accessContext, Share $share, ShareUserStatus $userStatus): Share {
+		if (!($currentUser = $accessContext->currentUser) instanceof IUser) {
+			throw new RuntimeException('No user present to update share status for.');
+		}
+
+		$this->assertInTransaction();
+
+		if ($share->owner->isCurrentUser($accessContext)) {
+			throw new ShareInvalidException('Cannot set user status for the owner of the share.', $this->l10n->t('Cannot set user status for the owner of the share.'));
+		}
+
+		$this->backend->updateShareUserStatus($share->id, $currentUser->getUID(), $userStatus);
+
+		$share = new Share(
+			$share->id,
+			$share->owner,
+			$share->lastUpdated,
+			$share->state,
+			$userStatus,
 			$share->sources,
 			$share->recipients,
 			$share->properties,
@@ -239,6 +271,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->owner,
 			$time,
 			$share->state,
+			$share->userStatus,
 			$sources,
 			$share->recipients,
 			$share->properties,
@@ -286,6 +319,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->owner,
 			$time,
 			$share->state,
+			$share->userStatus,
 			$sources,
 			$share->recipients,
 			$properties,
@@ -348,6 +382,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->owner,
 			$share->lastUpdated,
 			$share->state,
+			$share->userStatus,
 			$share->sources,
 			$recipients,
 			$share->properties,
@@ -383,6 +418,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->owner,
 			$time,
 			$share->state,
+			$share->userStatus,
 			$share->sources,
 			$recipients,
 			$share->properties,
@@ -426,6 +462,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->owner,
 			$time,
 			$share->state,
+			$share->userStatus,
 			$share->sources,
 			$recipients,
 			$properties,
@@ -530,6 +567,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->owner,
 			$time,
 			$share->state,
+			$share->userStatus,
 			$share->sources,
 			$recipients,
 			$share->properties,
@@ -575,6 +613,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->owner,
 			$time,
 			$share->state,
+			$share->userStatus,
 			$share->sources,
 			$share->recipients,
 			$properties,
@@ -604,6 +643,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->owner,
 			$time,
 			$share->state,
+			$share->userStatus,
 			$share->sources,
 			$share->recipients,
 			$share->properties,
@@ -650,6 +690,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$share->owner,
 			$time,
 			$share->state,
+			$share->userStatus,
 			$share->sources,
 			$share->recipients,
 			$share->properties,
@@ -685,11 +726,17 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 	#[\Override]
 	public function getShares(
-		ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit,
+		ShareAccessContext $accessContext,
+		?string $filterSourceTypeClass,
+		?string $filterSourceTypeValue,
+		?ShareState $filterState,
+		?ShareUserStatus $filterUserStatus,
+		?string $lastShareID,
+		?int $limit,
 	): array {
 		$this->assertInTransaction();
 
-		return $this->backend->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $lastShareID, $limit);
+		return $this->backend->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 	}
 
 	#[\Override]
@@ -887,6 +934,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 						$share->owner,
 						$share->lastUpdated,
 						ShareState::Draft,
+						$share->userStatus,
 						$share->sources,
 						$share->recipients,
 						$share->properties,
