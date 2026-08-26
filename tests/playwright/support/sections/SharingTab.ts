@@ -216,24 +216,14 @@ export class SharingTab {
 	 * whose real input is visually hidden, hence the forced check plus an explicit
 	 * state assertion.
 	 *
-	 * Some public-share options ("Hide download") are queued for saving the moment
-	 * they change rather than when the editor is saved — pass `persists` for those
-	 * so the update is awaited here, and close the editor with
-	 * {@link closeDetails} instead of {@link save} afterwards.
-	 *
 	 * @param name - The checkbox label
 	 * @param checked - The state to set
-	 * @param options - `persists` awaits the share update the toggle triggers
 	 */
-	async setCheckbox(name: string | RegExp, checked: boolean, { persists = false }: { persists?: boolean } = {}): Promise<void> {
-		const updated = persists
-			? this.page.waitForResponse((r) => r.request().method() === 'PUT' && r.url().includes(SHARES_API))
-			: undefined
+	async setCheckbox(name: string | RegExp, checked: boolean): Promise<void> {
 		const box = this.checkbox(name)
 		await box.scrollIntoViewIfNeeded()
 		await box.setChecked(checked, { force: true })
 		await expect(box).toBeChecked({ checked })
-		await updated
 	}
 
 	/** The note-to-recipient text area (only rendered once its checkbox is on). */
@@ -271,16 +261,6 @@ export class SharingTab {
 	}
 
 	/**
-	 * Leave the open editor through its save button without expecting a request —
-	 * for edits that were already persisted when they were made (see
-	 * {@link setCheckbox}). Returns once the share list is back.
-	 */
-	async closeDetails(): Promise<void> {
-		await this.saveButton().click()
-		await expect(this.saveButton()).toBeHidden()
-	}
-
-	/**
 	 * Save the open editor and wait for the share request to land, returning its
 	 * parsed OCS payload so callers can assert on the stored share (e.g. its
 	 * effective permissions).
@@ -291,5 +271,22 @@ export class SharingTab {
 		await this.saveButton().click()
 		const body = await (await saved).json() as { ocs: { data: { id: number, permissions: number, url?: string } } }
 		return body.ocs.data
+	}
+
+	/**
+	 * The editor's cancel button.
+	 */
+	private cancelButton(): Locator {
+		return this.panel().getByRole('button', { name: 'Cancel' })
+	}
+
+	/**
+	 * Leave the open editor without saving the changes.
+	 * Returns once the button is no longer visible and therefore the share list
+	 * is back.
+	 */
+	async cancel(): Promise<void> {
+		await this.cancelButton().click()
+		await expect(this.cancelButton()).toBeHidden()
 	}
 }
