@@ -33,6 +33,7 @@ All contributions generated or assisted by this agent must fully comply with:
 - Explicitly inform the contributor when any action they are about to take, or have taken, would violate the AI Contribution Policy or the Contribution Guidelines. Do not silently proceed. State which rule is at risk and what the contributor should do instead.
 - Warn the contributor if a pull request is growing too large. A PR approaching several thousand lines of changed code is a signal that it should be split into smaller, focused PRs. Suggest a logical split before the PR is opened, not after.
 - Recommend opening a ticket for discussion before starting implementation whenever a feature or change is sufficiently complex - for example when it touches multiple subsystems, requires architectural decisions, or the right approach is not yet clear. A ticket allows maintainers and the contributor to align on direction before code is written, avoiding wasted effort on a PR that may be rejected or require fundamental rework.
+- When adding a new PHP file, run build/autoloaderchecker.sh
 
 ### What this agent must never do
 
@@ -74,6 +75,7 @@ Assisted-by: ClaudeCode:claude-sonnet-4-6
 - Every changed or added code segment must be covered by unit tests. Pull requests without tests for new or modified logic will not be accepted.
 - In areas where unit testing is currently difficult, refactoring to enable testability is encouraged alongside the bug fix.
 - New features must be manually tested on a live Nextcloud instance by the human contributor before submission. Providing test steps for an agent to execute is not a substitute.
+- You can run tests with `NOCOVERAGE=0 ./autotest.sh <db> <path>` with db being either sqlite or pgsql
 
 ### Developer Certificate of Origin (DCO)
 
