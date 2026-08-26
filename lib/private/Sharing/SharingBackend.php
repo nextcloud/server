@@ -39,6 +39,7 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Psr\Clock\ClockInterface;
 use RuntimeException;
 
@@ -57,6 +58,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		private IEventDispatcher $eventDispatcher,
 		private ClassMapper $classMapper,
 		private ClockInterface $clock,
+		private ISnowflakeGenerator $snowflakeGenerator,
 	) {
 		$this->l10n = $factory->get('sharing');
 	}
@@ -225,6 +227,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$qb = $this->connection->getQueryBuilder();
 
 			$values = [
+				'id' => $qb->createNamedParameter($this->snowflakeGenerator->nextId()),
 				'share_id' => $qb->createNamedParameter($id),
 				'recipient_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT),
 				'recipient_value' => $qb->createNamedParameter($recipient->value),
@@ -671,7 +674,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		// The key type is array-key, because PHP will automatically cast the value. We can't type it as integer though, because we need to also support 32 bit systems and there the autocasting doesn't happen, if the value is too large.
-		/** @var array<array-key, array{id: non-empty-string, owner: ShareUser, last_updated: numeric-string, state: ShareState, user_status: ShareUserStatus, sources: list<ShareSource>, recipients: list<ShareRecipient>, properties: array<class-string<ISharePropertyType>, ShareProperty>, permissions: array<class-string<ISharePermissionType>, SharePermission>}> $shares */
+		/** @var array<array-key, array{id: non-empty-string, owner: ShareUser, last_updated: numeric-string, state: ShareState, user_status: ShareUserStatus, sources: list<ShareSource>, recipients: array<array-key, ShareRecipient>, properties: array<class-string<ISharePropertyType>, ShareProperty>, permissions: array<class-string<ISharePermissionType>, SharePermission>}> $shares */
 		$shares = [];
 		foreach ($queries as $qb) {
 			$qb
@@ -731,14 +734,14 @@ final readonly class SharingBackend implements ISharingBackend {
 					continue;
 				}
 
-				/** @var non-empty-string $id */
-				$id = (string)$row['id'];
+				/** @var non-empty-string $shareId */
+				$shareId = (string)$row['id'];
 				/** @var numeric-string $lastUpdated */
 				$lastUpdated = (string)$row['last_updated'];
 				/** @var string $state */
 				$state = $row['state'];
-				$shares[$id] ??= [
-					'id' => $id,
+				$shares[$shareId] ??= [
+					'id' => $shareId,
 					'owner' => new ShareUser($ownerUserId, $ownerInstance),
 					'last_updated' => $lastUpdated,
 					'state' => ShareState::from($state),
@@ -850,15 +853,15 @@ final readonly class SharingBackend implements ISharingBackend {
 				}
 
 				$value = $row['source_value'];
-				$id = $row['share_id'];
-				$shares[$id]['sources'][] = new ShareSource(
+				$shareId = $row['share_id'];
+				$shares[$shareId]['sources'][] = new ShareSource(
 					$typeClass,
 					$value,
 					$shareSourceMetas[$typeClass][$value] ?? null,
 				);
 
-				$shareSourceTypeClasses[$id] ??= [];
-				$shareSourceTypeClasses[$id][$typeClass] = true;
+				$shareSourceTypeClasses[$shareId] ??= [];
+				$shareSourceTypeClasses[$shareId][$typeClass] = true;
 			}
 		}
 
@@ -869,6 +872,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$qb = $this->connection->getQueryBuilder();
 			$qb
 				->select(
+					'sr.id',
 					'sr.share_id',
 					'sr.recipient_class_id',
 					'sr.recipient_value',
@@ -888,15 +892,17 @@ final readonly class SharingBackend implements ISharingBackend {
 					continue;
 				}
 
-				/** @var non-empty-string $id */
-				$id = (string)$row['share_id'];
+				/** @var non-empty-string $recipientId */
+				$recipientId = (string)$row['id'];
+				/** @var non-empty-string $shareId */
+				$shareId = (string)$row['share_id'];
 				/** @var non-empty-string $initiatorUserId */
 				$initiatorUserId = $row['initiator_user_id'];
 				/** @var ?non-empty-string $initiatorInstance */
 				$initiatorInstance = $row['initiator_instance'];
 
 				/** @psalm-suppress PossiblyNullReference The initiator is automatically promoted to the owner, when the initiator is deleted. */
-				if ($initiatorInstance === null && !$accessContext->overrideChecks && !$shares[$id]['owner']->isCurrentUser(
+				if ($initiatorInstance === null && !$accessContext->overrideChecks && !$shares[$shareId]['owner']->isCurrentUser(
 					$accessContext
 				) && $this->hideDisabledUserShares() && !$this->userManager->get($initiatorUserId)->isEnabled()) {
 					continue;
@@ -910,7 +916,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				/** @var non-empty-string $secret */
 				$secret = $row['recipient_secret'];
 
-				$shares[$id]['recipients'][] = new ShareRecipient(
+				$shares[$shareId]['recipients'][$recipientId] = new ShareRecipient(
 					$typeClass,
 					$value,
 					$instance,
@@ -921,8 +927,8 @@ final readonly class SharingBackend implements ISharingBackend {
 					),
 				);
 
-				$shareRecipientTypeClasses[$id] ??= [];
-				$shareRecipientTypeClasses[$id][$typeClass] = true;
+				$shareRecipientTypeClasses[$shareId] ??= [];
+				$shareRecipientTypeClasses[$shareId][$typeClass] = true;
 			}
 		}
 
@@ -997,9 +1003,9 @@ final readonly class SharingBackend implements ISharingBackend {
 
 			$result = $qb->executeQuery();
 			foreach ($result->fetchAll() as $row) {
-				/** @var non-empty-string $id */
-				$id = (string)$row['share_id'];
-				if (!isset($shareSourceTypeClasses[$id], $shareRecipientTypeClasses[$id])) {
+				/** @var non-empty-string $shareId */
+				$shareId = (string)$row['share_id'];
+				if (!isset($shareSourceTypeClasses[$shareId], $shareRecipientTypeClasses[$shareId])) {
 					continue;
 				}
 
@@ -1010,13 +1016,13 @@ final readonly class SharingBackend implements ISharingBackend {
 					continue;
 				}
 
-				if (array_intersect($registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], array_keys($shareSourceTypeClasses[$id])) === []) {
+				if (array_intersect($registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], array_keys($shareSourceTypeClasses[$shareId])) === []) {
 					// Skip properties that are currently not compatible, but don't remove them.
 					continue;
 				}
 
 				if (array_intersect(
-					$registryPropertyTypeCompatibleRecipientTypeClasses[$propertyTypeClass], array_keys($shareRecipientTypeClasses[$id])
+					$registryPropertyTypeCompatibleRecipientTypeClasses[$propertyTypeClass], array_keys($shareRecipientTypeClasses[$shareId])
 				) === []) {
 					// Skip properties that are currently not compatible, but don't remove them.
 					continue;
@@ -1030,7 +1036,7 @@ final readonly class SharingBackend implements ISharingBackend {
 					$value = $propertyType->modifyValueOnLoad($value);
 				}
 
-				$shares[$id]['properties'][$propertyTypeClass] = new ShareProperty($propertyTypeClass, $value);
+				$shares[$shareId]['properties'][$propertyTypeClass] = new ShareProperty($propertyTypeClass, $value);
 			}
 		}
 
@@ -1052,17 +1058,17 @@ final readonly class SharingBackend implements ISharingBackend {
 
 			$result = $qb->executeQuery();
 			foreach ($result->fetchAll() as $row) {
-				$id = (string)$row['share_id'];
+				$shareId = (string)$row['share_id'];
 
 				/** @var class-string<ISharePermissionType> $permissionTypeClass */
 				$permissionTypeClass = $this->classMapper->getClassName((int)$row['permission_class_id']);
-				if (!isset($shareCompatiblePermissionTypeClasses[$id][$permissionTypeClass])) {
+				if (!isset($shareCompatiblePermissionTypeClasses[$shareId][$permissionTypeClass])) {
 					// Skip permissions that are currently not compatible, but don't remove them.
 					continue;
 				}
 
 				$enabled = (bool)$row['permission_enabled'];
-				$shares[$id]['permissions'][$permissionTypeClass] = new SharePermission($permissionTypeClass, $enabled);
+				$shares[$shareId]['permissions'][$permissionTypeClass] = new SharePermission($permissionTypeClass, $enabled);
 			}
 		}
 
@@ -1073,7 +1079,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$share['state'],
 			$share['user_status'],
 			$share['sources'],
-			$share['recipients'],
+			array_values($share['recipients']),
 			$share['properties'],
 			$share['permissions'],
 		), $shares);
