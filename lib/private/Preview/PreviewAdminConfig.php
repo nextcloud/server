@@ -109,64 +109,63 @@ class PreviewAdminConfig {
 	/**
 	 * Known core providers shown in the admin UI (enabled and disabled).
 	 *
-	 * @return list<array{class: string, name: string, mime: string, requirement: string, imagickFormat: ?string, sourceMimes: list<string>}>
+	 * @return list<array{class: class-string, name: string, mime: string, requirement: string, imagickFormat: ?string, sourceMimes: list<string>}>
 	 */
 	public static function getProviderCatalog(): array {
-		$imagick = static fn (string $class, string $name, string $mime, string $format, array $sourceMimes): array => [
-			'class' => $class,
-			'name' => $name,
-			'mime' => $mime,
-			'requirement' => 'imagick',
-			'imagickFormat' => $format,
-			'sourceMimes' => $sourceMimes,
-		];
-		$none = static fn (string $class, string $name, string $mime, array $sourceMimes): array => [
-			'class' => $class,
-			'name' => $name,
-			'mime' => $mime,
-			'requirement' => 'none',
-			'imagickFormat' => null,
-			'sourceMimes' => $sourceMimes,
-		];
-		$office = static fn (string $class, string $name, string $mime, array $sourceMimes): array => [
-			'class' => $class,
-			'name' => $name,
-			'mime' => $mime,
-			'requirement' => 'office',
-			'imagickFormat' => null,
-			'sourceMimes' => $sourceMimes,
-		];
 		return [
-			$none(PNG::class, 'PNG', 'image/png', ['image/png']),
-			$none(JPEG::class, 'JPEG', 'image/jpeg', ['image/jpeg']),
-			$none(GIF::class, 'GIF', 'image/gif', ['image/gif']),
-			$none(BMP::class, 'BMP', 'image/bmp', ['image/bmp']),
-			$none(XBitmap::class, 'XBitmap', 'image/x-xbitmap', ['image/x-xbitmap']),
-			$none(WebP::class, 'WebP', 'image/webp', ['image/webp']),
-			$none(Krita::class, 'Krita', 'application/x-krita', ['application/x-krita']),
-			$imagick(HEIC::class, 'HEIC', 'image/heic, image/heif', 'HEIC', ['image/heic', 'image/heif']),
-			$imagick(TIFF::class, 'TIFF', 'image/tiff', 'TIFF', ['image/tiff']),
-			$imagick(SVG::class, 'SVG', 'image/svg+xml', 'SVG', ['image/svg+xml']),
-			$imagick(TGA::class, 'TGA', 'image/tga', 'TGA', ['image/tga']),
-			$imagick(SGI::class, 'SGI', 'image/sgi', 'SGI', ['image/sgi']),
-			['class' => Imaginary::class, 'name' => 'Imaginary', 'mime' => 'images (bmp, png, jpeg, gif, heic, heif, svg, tiff, webp), illustrator', 'requirement' => 'imaginary', 'imagickFormat' => null, 'sourceMimes' => ['image/bmp', 'image/x-bitmap', 'image/png', 'image/jpeg', 'image/gif', 'image/heic', 'image/heif', 'image/svg+xml', 'image/tiff', 'image/webp', 'application/illustrator']],
-			['class' => ImaginaryPDF::class, 'name' => 'Imaginary PDF', 'mime' => 'application/pdf', 'requirement' => 'imaginary', 'imagickFormat' => null, 'sourceMimes' => ['application/pdf']],
-			$imagick(PDF::class, 'PDF', 'application/pdf', 'PDF', ['application/pdf']),
-			$imagick(Postscript::class, 'Postscript', 'application/postscript', 'EPS', ['application/postscript']),
-			$imagick(Illustrator::class, 'Illustrator', 'application/illustrator', 'AI', ['application/illustrator']),
-			$imagick(Photoshop::class, 'Photoshop', 'application/x-photoshop', 'PSD', ['application/x-photoshop']),
-			$imagick(Font::class, 'Font', 'application/font-sfnt', 'TTF', ['application/font-sfnt']),
-			$none(MarkDown::class, 'Markdown', 'text/markdown', ['text/markdown']),
-			$none(TXT::class, 'Plain text', 'text/plain', ['text/plain']),
-			$none(OpenDocument::class, 'OpenDocument', 'application/vnd.oasis.opendocument.*', ['application/vnd.oasis.opendocument.*']),
-			$office(MSOfficeDoc::class, 'MS Office Doc', 'application/msword', ['application/msword']),
-			$office(MSOffice2003::class, 'MS Office 2003', 'application/vnd.ms-*', ['application/vnd.ms-*']),
-			$office(MSOffice2007::class, 'MS Office 2007', 'application/vnd.openxmlformats-officedocument.*', ['application/vnd.openxmlformats-officedocument.*']),
-			$office(StarOffice::class, 'StarOffice', 'application/vnd.sun.xml.*', ['application/vnd.sun.xml.*']),
-			$office(EMF::class, 'EMF', 'image/emf', ['image/emf']),
-			$none(MP3::class, 'MP3', 'audio/mpeg', ['audio/mpeg']),
-			['class' => Movie::class, 'name' => 'Movie', 'mime' => 'video/*', 'requirement' => 'ffmpeg', 'imagickFormat' => null, 'sourceMimes' => ['video/*']],
-			$none(Image::class, 'Image (legacy)', 'enables PNG, JPEG, GIF, BMP, XBitmap, Krita, WebP', ['image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/x-xbitmap', 'application/x-krita', 'image/webp']),
+			self::catalogEntry(PNG::class, 'PNG', 'image/png', 'none', null, ['image/png']),
+			self::catalogEntry(JPEG::class, 'JPEG', 'image/jpeg', 'none', null, ['image/jpeg']),
+			self::catalogEntry(GIF::class, 'GIF', 'image/gif', 'none', null, ['image/gif']),
+			self::catalogEntry(BMP::class, 'BMP', 'image/bmp', 'none', null, ['image/bmp']),
+			self::catalogEntry(XBitmap::class, 'XBitmap', 'image/x-xbitmap', 'none', null, ['image/x-xbitmap']),
+			self::catalogEntry(WebP::class, 'WebP', 'image/webp', 'none', null, ['image/webp']),
+			self::catalogEntry(Krita::class, 'Krita', 'application/x-krita', 'none', null, ['application/x-krita']),
+			self::catalogEntry(HEIC::class, 'HEIC', 'image/heic, image/heif', 'imagick', 'HEIC', ['image/heic', 'image/heif']),
+			self::catalogEntry(TIFF::class, 'TIFF', 'image/tiff', 'imagick', 'TIFF', ['image/tiff']),
+			self::catalogEntry(SVG::class, 'SVG', 'image/svg+xml', 'imagick', 'SVG', ['image/svg+xml']),
+			self::catalogEntry(TGA::class, 'TGA', 'image/tga', 'imagick', 'TGA', ['image/tga']),
+			self::catalogEntry(SGI::class, 'SGI', 'image/sgi', 'imagick', 'SGI', ['image/sgi']),
+			self::catalogEntry(Imaginary::class, 'Imaginary', 'images (bmp, png, jpeg, gif, heic, heif, svg, tiff, webp), illustrator', 'imaginary', null, ['image/bmp', 'image/x-bitmap', 'image/png', 'image/jpeg', 'image/gif', 'image/heic', 'image/heif', 'image/svg+xml', 'image/tiff', 'image/webp', 'application/illustrator']),
+			self::catalogEntry(ImaginaryPDF::class, 'Imaginary PDF', 'application/pdf', 'imaginary', null, ['application/pdf']),
+			self::catalogEntry(PDF::class, 'PDF', 'application/pdf', 'imagick', 'PDF', ['application/pdf']),
+			self::catalogEntry(Postscript::class, 'Postscript', 'application/postscript', 'imagick', 'EPS', ['application/postscript']),
+			self::catalogEntry(Illustrator::class, 'Illustrator', 'application/illustrator', 'imagick', 'AI', ['application/illustrator']),
+			self::catalogEntry(Photoshop::class, 'Photoshop', 'application/x-photoshop', 'imagick', 'PSD', ['application/x-photoshop']),
+			self::catalogEntry(Font::class, 'Font', 'application/font-sfnt', 'imagick', 'TTF', ['application/font-sfnt']),
+			self::catalogEntry(MarkDown::class, 'Markdown', 'text/markdown', 'none', null, ['text/markdown']),
+			self::catalogEntry(TXT::class, 'Plain text', 'text/plain', 'none', null, ['text/plain']),
+			self::catalogEntry(OpenDocument::class, 'OpenDocument', 'application/vnd.oasis.opendocument.*', 'none', null, ['application/vnd.oasis.opendocument.*']),
+			self::catalogEntry(MSOfficeDoc::class, 'MS Office Doc', 'application/msword', 'office', null, ['application/msword']),
+			self::catalogEntry(MSOffice2003::class, 'MS Office 2003', 'application/vnd.ms-*', 'office', null, ['application/vnd.ms-*']),
+			self::catalogEntry(MSOffice2007::class, 'MS Office 2007', 'application/vnd.openxmlformats-officedocument.*', 'office', null, ['application/vnd.openxmlformats-officedocument.*']),
+			self::catalogEntry(StarOffice::class, 'StarOffice', 'application/vnd.sun.xml.*', 'office', null, ['application/vnd.sun.xml.*']),
+			self::catalogEntry(EMF::class, 'EMF', 'image/emf', 'office', null, ['image/emf']),
+			self::catalogEntry(MP3::class, 'MP3', 'audio/mpeg', 'none', null, ['audio/mpeg']),
+			self::catalogEntry(Movie::class, 'Movie', 'video/*', 'ffmpeg', null, ['video/*']),
+			self::catalogEntry(Image::class, 'Image (legacy)', 'enables PNG, JPEG, GIF, BMP, XBitmap, Krita, WebP', 'none', null, ['image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/x-xbitmap', 'application/x-krita', 'image/webp']),
+		];
+	}
+
+	/**
+	 * @param class-string $class
+	 * @param list<string> $sourceMimes
+	 * @return array{class: class-string, name: string, mime: string, requirement: string, imagickFormat: ?string, sourceMimes: list<string>}
+	 */
+	private static function catalogEntry(
+		string $class,
+		string $name,
+		string $mime,
+		string $requirement,
+		?string $imagickFormat,
+		array $sourceMimes,
+	): array {
+		return [
+			'class' => $class,
+			'name' => $name,
+			'mime' => $mime,
+			'requirement' => $requirement,
+			'imagickFormat' => $imagickFormat,
+			'sourceMimes' => $sourceMimes,
 		];
 	}
 
@@ -209,6 +208,7 @@ class PreviewAdminConfig {
 				'mime' => '',
 				'requirement' => 'none',
 				'imagickFormat' => null,
+				'sourceMimes' => [],
 			];
 			$providers[] = $this->providerRow($meta, true, $detection);
 			$seen[$class] = true;
@@ -419,7 +419,7 @@ class PreviewAdminConfig {
 	}
 
 	/**
-	 * @return array{class: string, name: string, mime: string, requirement: string, imagickFormat: ?string}|null
+	 * @return array{class: class-string, name: string, mime: string, requirement: string, imagickFormat: ?string, sourceMimes: list<string>}|null
 	 */
 	private function findCatalogEntry(string $class): ?array {
 		foreach (self::getProviderCatalog() as $entry) {
@@ -436,7 +436,7 @@ class PreviewAdminConfig {
 	}
 
 	/**
-	 * @param array{class: string, name: string, mime: string, requirement?: string, imagickFormat?: ?string} $entry
+	 * @param array{class: string, name: string, mime: string, requirement?: string, imagickFormat?: ?string, sourceMimes?: list<string>} $entry
 	 * @param array<string, mixed> $detection
 	 * @return array<string, mixed>
 	 */
@@ -447,10 +447,7 @@ class PreviewAdminConfig {
 			'class' => $entry['class'],
 			'name' => $entry['name'],
 			'mime' => $entry['mime'],
-			'sourceMimes' => array_values(array_filter(
-				$entry['sourceMimes'] ?? [],
-				static fn (mixed $mime): bool => is_string($mime) && $mime !== '',
-			)),
+			'sourceMimes' => $entry['sourceMimes'] ?? [],
 			'enabled' => $enabled,
 			'requirement' => $requirement,
 			'imagickFormat' => $format,
@@ -477,10 +474,11 @@ class PreviewAdminConfig {
 	 * @return array<string, mixed>
 	 */
 	public function getDetection(): array {
-		$imagick = $this->imagickSupport !== null && $this->imagickSupport->hasExtension();
+		$imagickSupport = $this->imagickSupport;
+		$imagick = $imagickSupport !== null && $imagickSupport->hasExtension();
 		$formats = [];
 		foreach (self::IMAGICK_FORMATS as $format) {
-			$formats[$format] = $imagick && $this->imagickSupport !== null && $this->imagickSupport->supportsFormat($format);
+			$formats[$format] = $imagick && $imagickSupport->supportsFormat($format);
 		}
 
 		$ffmpegDetected = $this->resolveBinary('preview_ffmpeg_path', ['ffmpeg']);
@@ -519,6 +517,7 @@ class PreviewAdminConfig {
 	 * @return list<class-string>
 	 */
 	private function getDefaultProviderOrder(): array {
+		/** @var list<class-string> $order */
 		$order = $this->getRecommendedEnabledProvidersForInstance();
 		foreach (self::getProviderCatalog() as $entry) {
 			if (!in_array($entry['class'], $order, true)) {
