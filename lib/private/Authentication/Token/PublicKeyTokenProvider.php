@@ -30,8 +30,15 @@ use Psr\Log\LoggerInterface;
 
 class PublicKeyTokenProvider implements IProvider {
 	public const TOKEN_MIN_LENGTH = 22;
+
 	/** Token cache TTL in seconds */
 	private const int TOKEN_CACHE_TTL = 10;
+
+	/**
+	 * Maximum plaintext size for a 2048-bit RSA key using OAEP with SHA-1:
+	 * 256 - (2 * 20) - 2 = 214 bytes.
+	 */
+	private const int RSA_2048_OAEP_MAX_PLAINTEXT_LENGTH = 214;
 
 	use TTransactional;
 
@@ -439,12 +446,13 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	/**
-	 * @throws \RuntimeException when OpenSSL reports a problem
+	 * @throws \RuntimeException when the password cannot be stored or OpenSSL reports a problem
 	 */
-	private function newToken(string $token,
+	private function newToken(
+		string $token,
 		string $uid,
 		string $loginName,
-		$password,
+		?string $password,
 		string $name,
 		int $type,
 		int $remember,
@@ -454,9 +462,25 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setUid($uid);
 		$dbToken->setLoginName($loginName);
 
+		$storeCryptedPassword = $password !== null
+			&& $this->config->getSystemValueBool('auth.storeCryptedPassword', true);
+		$passwordLength = $storeCryptedPassword ? strlen($password) : 0;
+
+		if ($storeCryptedPassword && $passwordLength > IUserManager::MAX_PASSWORD_LENGTH) {
+			throw new \RuntimeException(sprintf(
+				'Storing an encrypted password longer than %d bytes in an authentication token is not supported.',				
+				IUserManager::MAX_PASSWORD_LENGTH,
+			));
+		}
+
+		$requiredKeySize = $storeCryptedPassword
+			&& $passwordLength > self::RSA_2048_OAEP_MAX_PLAINTEXT_LENGTH
+			? 4096
+			: 2048;
+
 		$config = array_merge([
 			'digest_alg' => 'sha512',
-			'private_key_bits' => $password !== null && strlen($password) > 250 ? 4096 : 2048,
+			'private_key_bits' => $requiredKeySize,
 		], $this->config->getSystemValue('openssl', []));
 
 		// Generate new key
@@ -478,10 +502,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setPublicKey($publicKey);
 		$dbToken->setPrivateKey($this->encrypt($privateKey, $token));
 
-		if (!is_null($password) && $this->config->getSystemValueBool('auth.storeCryptedPassword', true)) {
-			if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
-				throw new \RuntimeException('Trying to save a password with more than 469 characters is not supported. If you want to use big passwords, disable the auth.storeCryptedPassword option in config.php');
-			}
+		if ($storeCryptedPassword) {
 			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
 			$dbToken->setPasswordHash($this->hashPassword($password));
 		}
