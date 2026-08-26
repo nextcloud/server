@@ -143,7 +143,6 @@
     "No devices configured." : "Cap de periferic pas configurat.",
     "Your browser does not support WebAuthn." : "Vòstre navigador es pas compatible amb WebAuthn.",
     "Send mode" : "Mòde de mandadís",
-    "Encryption" : "Chiframent",
     "Server address" : "Adreça del servidor",
     "Host" : "Òste",
     "Port" : "Pòrt",
@@ -224,6 +223,7 @@
     "Sending…" : "Mandadís…",
     "Email sent" : "Corrièl mandat",
     "Disable" : "Desactivar",
+    "Encryption" : "Chiframent",
     "Credentials" : "Informacions d'identificacion",
     "SMTP Password" : "Senhal SMTP"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

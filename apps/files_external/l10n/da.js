@@ -85,6 +85,7 @@ OC.L10N.register(
     "External storages" : "Eksternt lager",
     "Status" : "Status",
     "Actions" : "Handlinger",
+    "Checking …" : "Tjekker...",
     "Delete" : "Slet",
     "Saved" : "Gemt",
     "Error while saving" : "Kunne ikke gemme de nye værdier",

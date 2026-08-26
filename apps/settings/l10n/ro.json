@@ -193,7 +193,6 @@
     "Unnamed device" : "Dispozitiv fără nume",
     "Your browser does not support WebAuthn." : "Browserul dvs. nu acceptă WebAuthn.",
     "Send mode" : "Modul de expediere",
-    "Encryption" : "Încriptare",
     "From address" : "De la adresa",
     "Domain" : "Domeniu",
     "Server address" : "Adresa server-ului",
@@ -281,6 +280,7 @@
     "Email sent" : "Mesajul a fost expediat",
     "Disable" : "Dezactivați",
     "SSL" : "SSL",
+    "Encryption" : "Încriptare",
     "Credentials" : "Detalii de autentificare",
     "SMTP Password" : "Parolă SMTP"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
