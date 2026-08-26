@@ -27,6 +27,7 @@ use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
 use NCU\Sharing\ShareUser;
+use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\IShareSourceMetadata;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
@@ -119,6 +120,28 @@ final readonly class SharingBackend implements ISharingBackend {
 			->executeStatement();
 		if ($rowCount === 0) {
 			throw new ShareNotFoundException();
+		}
+	}
+
+	#[\Override]
+	public function updateShareUserStatus(string $id, string $userId, ShareUserStatus $userStatus): void {
+		$qb = $this->connection->getQueryBuilder();
+		$rowCount = $qb
+			->update('sharing_share_user_status')
+			->set('status', $qb->createNamedParameter($userStatus->value))
+			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
+			->andWhere($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)))
+			->executeStatement();
+		if ($rowCount === 0) {
+			$qb = $this->connection->getQueryBuilder();
+			$qb
+				->insert('sharing_share_user_status')
+				->values([
+					'share_id' => $qb->createNamedParameter($id),
+					'user_id' => $qb->createNamedParameter($userId),
+					'status' => $qb->createNamedParameter($userStatus->value),
+				])
+				->executeStatement();
 		}
 	}
 
@@ -509,7 +532,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function getShare(ShareAccessContext $accessContext, string $id): Share {
-		$shares = $this->list($accessContext, $id, null, null, null, null, null);
+		$shares = $this->list($accessContext, $id, null, null, null, null, null, null);
 		if (count($shares) !== 1) {
 			throw new ShareNotFoundException();
 		}
@@ -519,9 +542,15 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function getShares(
-		ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit,
+		ShareAccessContext $accessContext,
+		?string $filterSourceTypeClass,
+		?string $filterSourceTypeValue,
+		?ShareState $filterState,
+		?ShareUserStatus $filterUserStatus,
+		?string $lastShareID,
+		?int $limit,
 	): array {
-		return $this->list($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $lastShareID, $limit);
+		return $this->list($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 	}
 
 	#[\Override]
@@ -597,6 +626,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		?string $filterSourceTypeClass,
 		?string $filterSourceTypeValue,
 		?ShareState $filterState,
+		?ShareUserStatus $filterUserStatus,
 		?string $lastShareID,
 		?int $limit,
 	): array {
@@ -677,7 +707,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		// The key type is array-key, because PHP will automatically cast the value. We can't type it as integer though, because we need to also support 32 bit systems and there the autocasting doesn't happen, if the value is too large.
-		/** @var array<array-key, array{id: non-empty-string, owner: ShareUser, last_updated: numeric-string, state: ShareState, sources: list<ShareSource>, recipients: list<ShareRecipient>, properties: array<class-string<ISharePropertyType>, ShareProperty>, permissions: array<class-string<ISharePermissionType>, SharePermission>}> $shares */
+		/** @var array<array-key, array{id: non-empty-string, owner: ShareUser, last_updated: numeric-string, state: ShareState, user_status: ShareUserStatus, sources: list<ShareSource>, recipients: list<ShareRecipient>, properties: array<class-string<ISharePropertyType>, ShareProperty>, permissions: array<class-string<ISharePermissionType>, SharePermission>}> $shares */
 		$shares = [];
 		foreach ($queries as $qb) {
 			$qb
@@ -748,6 +778,7 @@ final readonly class SharingBackend implements ISharingBackend {
 					'owner' => new ShareUser($ownerUserId, $ownerInstance),
 					'last_updated' => $lastUpdated,
 					'state' => ShareState::from($state),
+					'user_status' => null,
 					'sources' => [],
 					'recipients' => [],
 					'properties' => [],
@@ -767,6 +798,45 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		/** @var list<list<array-key>> $chunks */
 		$chunks = array_chunk(array_keys($shares), 1000);
+
+		if ($accessContext->currentUser instanceof IUser) {
+			foreach ($chunks as $chunk) {
+				// Only set a user status for shares where current user is not the owner and thus a recipient.
+				$chunk = array_values(array_filter($chunk, static fn (string|int $id): bool => !$shares[$id]['owner']->isCurrentUser($accessContext)));
+
+				$qb = $this->connection->getQueryBuilder();
+				$qb
+					->select('share_id', 'status')
+					->from('sharing_share_user_status')
+					->where($qb->expr()->eq('user_id', $qb->createNamedParameter($accessContext->currentUser->getUID())))
+					->andWhere($qb->expr()->in('share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
+
+				$result = $qb->executeQuery();
+				/** @var list<array{share_id: int|string, status: string}> $rows */
+				$rows = $result->fetchAll();
+				foreach ($rows as $row) {
+					$id = $row['share_id'];
+					$userStatus = $row['status'];
+					$shares[$id]['user_status'] = ShareUserStatus::from($userStatus);
+				}
+
+				foreach ($chunk as $id) {
+					$shares[$id]['user_status'] ??= ShareUserStatus::Pending;
+				}
+			}
+
+			// Filter cannot be applied in the query, because the default pending value might be missing for a user (see above).
+			if ($filterUserStatus instanceof \NCU\Sharing\ShareUserStatus) {
+				$shares = array_filter($shares, static fn (array $share): bool => $share['user_status'] === $filterUserStatus);
+
+				if ($shares === []) {
+					return [];
+				}
+
+				/** @var list<list<array-key>> $chunks */
+				$chunks = array_chunk(array_keys($shares), 1000);
+			}
+		}
 
 		$registrySourceTypes = $this->registry->getSourceTypes();
 		/** @var array<non-empty-string, array<class-string<IShareSourceType>, bool>> $shareSourceTypeClasses */
@@ -788,7 +858,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				->where($qb->expr()->in('ss.share_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)));
 
 			$result = $qb->executeQuery();
-			/** @var array{source_class_id: mixed, source_value: non-empty-string, share_id: string}[] $rows */
+			/** @var array{source_class_id: mixed, source_value: non-empty-string, share_id: int|string}[] $rows */
 			$rows = $result->fetchAll();
 
 			foreach ($rows as $row) {
@@ -1037,6 +1107,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$share['owner'],
 			self::parseTimestamp($share['last_updated']),
 			$share['state'],
+			$share['user_status'],
 			$share['sources'],
 			$share['recipients'],
 			$share['properties'],
@@ -1182,6 +1253,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$share->owner,
 			$timestamp,
 			$share->state,
+			$share->userStatus,
 			$share->sources,
 			$share->recipients,
 			$properties,
@@ -1212,6 +1284,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$share->owner,
 			$timestamp,
 			$share->state,
+			$share->userStatus,
 			$share->sources,
 			$share->recipients,
 			$share->properties,

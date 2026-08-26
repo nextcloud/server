@@ -66,6 +66,7 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 			new ShareUser($this->user->getUID(), null),
 			new DateTimeImmutable(),
 			ShareState::Active,
+			null,
 			[],
 			[],
 			$properties,
@@ -79,6 +80,7 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 			new ShareUser('user', null),
 			new DateTimeImmutable(),
 			ShareState::Active,
+			null,
 			[],
 			[],
 			[],
@@ -124,6 +126,7 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 			new ShareUser('user', null),
 			$lastUpdated,
 			ShareState::Active,
+			null,
 			[],
 			[
 				new ShareRecipient(EmailShareRecipientType::class, 'test@example.com', null, $secret),

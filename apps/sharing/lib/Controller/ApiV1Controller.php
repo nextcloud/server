@@ -26,6 +26,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
 use OCA\Sharing\ResponseDefinitions;
@@ -51,6 +52,7 @@ use ValueError;
  * @psalm-import-type SharingShare from ResponseDefinitions
  * @psalm-import-type SharingRecipient from ResponseDefinitions
  * @psalm-import-type SharingState from ResponseDefinitions
+ * @psalm-import-type SharingUserStatus from ResponseDefinitions
  * @psalm-import-type SharingPermissionPreset from ResponseDefinitions
  */
 final class ApiV1Controller extends OCSController {
@@ -195,6 +197,43 @@ final class ApiV1Controller extends OCSController {
 			}
 		} catch (ShareOperationForbiddenException $shareOperationForbiddenException) {
 			return new DataResponse($shareOperationForbiddenException->getHint(), Http::STATUS_FORBIDDEN);
+		} catch (ShareNotFoundException $shareNotFoundException) {
+			return new DataResponse($shareNotFoundException->getHint(), Http::STATUS_NOT_FOUND);
+		}
+	}
+
+	/**
+	 * Update the user status for a share.
+	 *
+	 * @param string $id ID of the share
+	 * @param SharingUserStatus $userStatus New user status for the share
+	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
+	 *
+	 * 200: User status for share updated successfully
+	 * 400: Invalid share user status
+	 * 404: Share not found
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/user-status')]
+	public function updateShareUserStatus(string $id, string $userStatus): DataResponse {
+		try {
+			$shareUserStatus = ShareUserStatus::from($userStatus);
+		} catch (ValueError $valueError) {
+			return new DataResponse($valueError->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+
+		try {
+			try {
+				$this->dbConnection->beginTransaction();
+
+				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->updateShareUserStatus($this->accessContext, $share, $shareUserStatus);
+				$this->dbConnection->commit();
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
+			} catch (Exception $exception) {
+				$this->dbConnection->rollBack();
+				throw $exception;
+			}
 		} catch (ShareNotFoundException $shareNotFoundException) {
 			return new DataResponse($shareNotFoundException->getHint(), Http::STATUS_NOT_FOUND);
 		}
@@ -560,6 +599,7 @@ final class ApiV1Controller extends OCSController {
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass Source type class to filter by.
 	 * @param ?non-empty-string $filterSourceTypeValue Source type value to filter by.
 	 * @param ?SharingState $filterState State to filter by.
+	 * @param ?SharingUserStatus $filterUserStatus User status to filter by.
 	 * @param ?string $lastShareID The ID of the previous share. This is used as an offset and only shares with higher IDs are returned.
 	 * @param int<1, 100> $limit The number of shares to return.
 	 * @return DataResponse<Http::STATUS_OK, list<SharingShare>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, string, array{}>
@@ -569,7 +609,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/shares')]
-	public function getShares(?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $filterState, ?string $lastShareID, int $limit = 100): DataResponse {
+	public function getShares(?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $filterState, ?string $filterUserStatus, ?string $lastShareID, int $limit = 100): DataResponse {
 		/** @psalm-suppress DocblockTypeContradiction */
 		if ($limit < 1) {
 			return new DataResponse('The limit is too low.', Http::STATUS_BAD_REQUEST);
@@ -597,10 +637,18 @@ final class ApiV1Controller extends OCSController {
 			}
 		}
 
+		if ($filterUserStatus !== null) {
+			try {
+				$filterUserStatus = ShareUserStatus::from($filterUserStatus);
+			} catch (ValueError $valueError) {
+				return new DataResponse($valueError->getMessage(), Http::STATUS_BAD_REQUEST);
+			}
+		}
+
 		try {
 			$this->dbConnection->beginTransaction();
 
-			$shares = $this->manager->getShares($this->accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $lastShareID, $limit);
+			$shares = $this->manager->getShares($this->accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 			$this->dbConnection->commit();
 			return new DataResponse(Share::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $shares));
 		} catch (Exception $exception) {

@@ -109,6 +109,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\Sharing\\ShareAccessContext' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/ShareAccessContext.php',
         'NCU\\Sharing\\ShareState' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/ShareState.php',
         'NCU\\Sharing\\ShareUser' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/ShareUser.php',
+        'NCU\\Sharing\\ShareUserStatus' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/ShareUserStatus.php',
         'NCU\\Sharing\\Source\\IShareSourceMetadata' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Source/IShareSourceMetadata.php',
         'NCU\\Sharing\\Source\\IShareSourceType' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Source/IShareSourceType.php',
         'NCU\\Sharing\\Source\\ShareSource' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Source/ShareSource.php',

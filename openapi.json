@@ -4717,6 +4717,7 @@
                     "owner",
                     "last_updated",
                     "state",
+                    "user_status",
                     "sources",
                     "recipients",
                     "properties",
@@ -4737,6 +4738,14 @@
                     },
                     "state": {
                         "$ref": "#/components/schemas/SharingState"
+                    },
+                    "user_status": {
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/SharingUserStatus"
+                            }
+                        ]
                     },
                     "sources": {
                         "type": "array",
@@ -4862,6 +4871,14 @@
                         "$ref": "#/components/schemas/SharingIcon"
                     }
                 }
+            },
+            "SharingUserStatus": {
+                "type": "string",
+                "enum": [
+                    "pending",
+                    "accepted",
+                    "rejected"
+                ]
             },
             "SystemtagsCapabilities": {
                 "type": "object",
@@ -38529,6 +38546,183 @@
                 }
             }
         },
+        "/ocs/v2.php/apps/sharing/api/v1/share/{id}/user-status": {
+            "put": {
+                "operationId": "sharing-api_v1-update-share-user-status",
+                "summary": "Update the user status for a share.",
+                "tags": [
+                    "sharing/api_v1"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "userStatus"
+                                ],
+                                "properties": {
+                                    "userStatus": {
+                                        "$ref": "#/components/schemas/SharingUserStatus",
+                                        "description": "New user status for the share"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the share",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User status for share updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/SharingShare"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid share user status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Share not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/apps/sharing/api/v1/share/{id}/source": {
             "post": {
                 "operationId": "sharing-api_v1-add-share-source",
@@ -40481,6 +40675,15 @@
                         "name": "filterState",
                         "in": "query",
                         "description": "State to filter by.",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "filterUserStatus",
+                        "in": "query",
+                        "description": "User status to filter by.",
                         "schema": {
                             "type": "string",
                             "nullable": true
