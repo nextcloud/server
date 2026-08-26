@@ -110,6 +110,32 @@ adminTest.describe('Settings: Previews admin page', () => {
 		expect(reset.indexOf('OC\\Preview\\PNG')).toBeLessThan(reset.indexOf('OC\\Preview\\JPEG'))
 	})
 
+	adminTest('unavailable providers cannot be enabled until their requirement is met', async ({ page }) => {
+		await page.goto('/index.php/settings/admin/previews')
+		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()
+		const imaginaryRow = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ has: page.locator('code', { hasText: /^OC\\Preview\\Imaginary$/ }) })
+		const imaginarySwitch = imaginaryRow.getByRole('checkbox')
+		const requiresUrl = imaginaryRow.locator('[data-cy="previews-provider-availability"]').filter({ hasText: 'Requires Imaginary URL' })
+		if (await requiresUrl.count()) {
+			await expect(imaginarySwitch).toBeDisabled()
+			await page.getByRole('textbox', { name: 'Imaginary URL' }).fill('http://127.0.0.1:9000')
+			await expect(requiresUrl).toHaveCount(0)
+			await expect(imaginaryRow.locator('[data-cy="previews-provider-availability"]')).toContainText('Available')
+			await expect(imaginarySwitch).toBeEnabled()
+		}
+
+		const movieRow = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ has: page.locator('code', { hasText: /^OC\\Preview\\Movie$/ }) })
+		const movieSwitch = movieRow.getByRole('checkbox')
+		const requiresFfmpeg = movieRow.locator('[data-cy="previews-provider-availability"]').filter({ hasText: 'Requires ffmpeg' })
+		if (await requiresFfmpeg.count()) {
+			await expect(movieSwitch).toBeDisabled()
+			await page.getByRole('textbox', { name: 'ffmpeg path' }).fill('/usr/bin/ffmpeg')
+			await expect(requiresFfmpeg).toHaveCount(0)
+			await expect(movieRow.locator('[data-cy="previews-provider-availability"]')).toContainText(/Available|Unsupported/)
+			await expect(movieSwitch).toBeEnabled()
+		}
+	})
+
 	adminTest('requires availability chips link to the matching section', async ({ page }) => {
 		await page.goto('/index.php/settings/admin/previews')
 		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()

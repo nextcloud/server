@@ -376,6 +376,7 @@ class PreviewAdminConfig {
 	 * @param list<mixed> $rows
 	 */
 	private function setEnabledProvidersFromRows(array $rows, bool $confirmEmpty): void {
+		$detection = $this->getDetection();
 		$enabled = [];
 		foreach ($rows as $row) {
 			if (!is_array($row) || !isset($row['class']) || !is_string($row['class'])) {
@@ -384,7 +385,16 @@ class PreviewAdminConfig {
 			if (!($row['enabled'] ?? false)) {
 				continue;
 			}
-			$enabled[] = $row['class'];
+			$class = self::normalizeClassName($row['class']);
+			$entry = $this->findCatalogEntry($class);
+			if ($entry !== null) {
+				$requirement = $entry['requirement'] ?? 'none';
+				$format = $entry['imagickFormat'] ?? null;
+				if (!$this->isProviderAvailable($requirement, is_string($format) ? $format : null, $detection)) {
+					continue;
+				}
+			}
+			$enabled[] = $class;
 		}
 		$this->setEnabledProviders($enabled, $confirmEmpty);
 	}

@@ -94,10 +94,12 @@
 							v-for="provider in orderedProviders"
 							:key="provider.class"
 							class="previews-admin__provider"
-							:class="{ 'previews-admin__provider--unavailable': provider.available === false }">
+							:class="{ 'previews-admin__provider--unavailable': !providerIsAvailable(provider) }">
 							<NcCheckboxRadioSwitch
 								v-model="provider.enabled"
-								type="switch">
+								type="switch"
+								:disabled="providerEnableLocked(provider)"
+								:title="providerEnableLockTitle(provider)">
 								{{ provider.name }}<sup
 									v-if="providerUnsupportedMark(provider)"
 									class="previews-admin__footnote-mark">{{ providerUnsupportedMark(provider) }}</sup>
@@ -839,6 +841,18 @@ export default {
 		},
 	},
 
+	watch: {
+		'settings.ffmpegPath'() {
+			this.uncheckUnavailableProviders()
+		},
+		'settings.libreofficePath'() {
+			this.uncheckUnavailableProviders()
+		},
+		'settings.imaginaryUrl'() {
+			this.uncheckUnavailableProviders()
+		},
+	},
+
 	mounted() {
 		window.addEventListener('beforeunload', this.onBeforeUnload)
 	},
@@ -861,12 +875,36 @@ export default {
 			return (this.settings.providers || []).findIndex((row) => row.class === provider.class)
 		},
 
+		providerIsAvailable(provider) {
+			switch (provider.requirement) {
+				case 'ffmpeg':
+					return !!this.detection.ffmpegFound || !!(this.settings.ffmpegPath || '').trim()
+				case 'office':
+					return !!this.detection.officeFound || !!(this.settings.libreofficePath || '').trim()
+				case 'imaginary':
+					return !!(this.settings.imaginaryUrl || '').trim()
+				default:
+					return provider.available !== false
+			}
+		},
+
+		providerEnableLocked(provider) {
+			return this.settings.configIsReadonly || (!this.providerIsAvailable(provider) && !provider.enabled)
+		},
+
+		providerEnableLockTitle(provider) {
+			if (!this.providerEnableLocked(provider) || this.settings.configIsReadonly) {
+				return ''
+			}
+			return this.providerAvailabilityLabel(provider)
+		},
+
 		providerMatchesStatus(provider) {
 			switch (this.providerFilter) {
 				case 'available':
-					return provider.available !== false
+					return this.providerIsAvailable(provider)
 				case 'unavailable':
-					return provider.available === false
+					return !this.providerIsAvailable(provider)
 				case 'supported':
 					return !provider.unsupported
 				case 'unsupported':
@@ -907,6 +945,14 @@ export default {
 			this.settings.providers = copy
 		},
 
+		uncheckUnavailableProviders() {
+			for (const provider of this.settings.providers || []) {
+				if (provider.enabled && !this.providerIsAvailable(provider)) {
+					provider.enabled = false
+				}
+			}
+		},
+
 		resetProviders() {
 			const enabledDefaults = this.settings.defaultEnabledProviders || []
 			const enabledSet = new Set(enabledDefaults)
@@ -924,7 +970,10 @@ export default {
 				if (!existing) {
 					continue
 				}
-				next.push({ ...existing, enabled: enabledSet.has(className) })
+				next.push({
+					...existing,
+					enabled: enabledSet.has(className) && this.providerIsAvailable(existing),
+				})
 				seen.add(className)
 			}
 			for (const provider of this.settings.providers || []) {
@@ -1114,14 +1163,14 @@ export default {
 		},
 
 		providerAvailabilityVariant(provider) {
-			if (provider.available === false || provider.unsupported) {
+			if (!this.providerIsAvailable(provider) || provider.unsupported) {
 				return 'warning'
 			}
 			return 'success'
 		},
 
 		providerAvailabilityHref(provider) {
-			if (provider.available !== false) {
+			if (this.providerIsAvailable(provider)) {
 				return ''
 			}
 			switch (provider.requirement) {
@@ -1150,7 +1199,7 @@ export default {
 		},
 
 		providerAvailabilityLabel(provider) {
-			if (provider.available === false) {
+			if (!this.providerIsAvailable(provider)) {
 				switch (provider.requirement) {
 					case 'imagick':
 						if (this.detection.imagick) {

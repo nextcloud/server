@@ -227,6 +227,61 @@ class PreviewAdminConfigTest extends TestCase {
 		$this->assertTrue($byClass[HEIC::class]['unsupported']);
 	}
 
+	public function testSetSettingsDropsProvidersThatDoNotMeetRequirements(): void {
+		$stored = [];
+		$this->config->method('getSystemValue')->willReturnCallback(function (string $key, mixed $default) use (&$stored) {
+			return $stored[$key] ?? $default;
+		});
+		$this->config->method('getSystemValueString')->willReturnCallback(function (string $key, string $default) use (&$stored) {
+			$value = $stored[$key] ?? $default;
+			return is_string($value) ? $value : $default;
+		});
+		$this->config->method('setSystemValue')->willReturnCallback(function (string $key, mixed $value) use (&$stored): void {
+			$stored[$key] = $value;
+		});
+		$this->config->method('deleteSystemValue')->willReturnCallback(function (string $key) use (&$stored): void {
+			unset($stored[$key]);
+		});
+
+		$this->adminConfig->setSettings([
+			'ffmpegPath' => '',
+			'imaginaryUrl' => '',
+			'providers' => [
+				['class' => JPEG::class, 'enabled' => true],
+				['class' => Movie::class, 'enabled' => true],
+				['class' => Imaginary::class, 'enabled' => true],
+				['class' => MSOfficeDoc::class, 'enabled' => true],
+			],
+		]);
+
+		$this->assertSame([JPEG::class], $stored['enabledPreviewProviders']);
+	}
+
+	public function testSetSettingsKeepsMovieWhenFfmpegPathIsSet(): void {
+		$stored = [];
+		$this->config->method('getSystemValue')->willReturnCallback(function (string $key, mixed $default) use (&$stored) {
+			return $stored[$key] ?? $default;
+		});
+		$this->config->method('getSystemValueString')->willReturnCallback(function (string $key, string $default) use (&$stored) {
+			$value = $stored[$key] ?? $default;
+			return is_string($value) ? $value : $default;
+		});
+		$this->config->method('setSystemValue')->willReturnCallback(function (string $key, mixed $value) use (&$stored): void {
+			$stored[$key] = $value;
+		});
+
+		$this->adminConfig->setSettings([
+			'ffmpegPath' => '/usr/bin/ffmpeg',
+			'providers' => [
+				['class' => JPEG::class, 'enabled' => true],
+				['class' => Movie::class, 'enabled' => true],
+			],
+		]);
+
+		$this->assertSame([JPEG::class, Movie::class], $stored['enabledPreviewProviders']);
+		$this->assertSame('/usr/bin/ffmpeg', $stored['preview_ffmpeg_path']);
+	}
+
 	public function testUnsupportedProviderListMatchesDisabledByDefaultCatalog(): void {
 		$this->assertFalse(PreviewAdminConfig::isUnsupportedProvider(JPEG::class));
 		$this->assertFalse(PreviewAdminConfig::isUnsupportedProvider(PNG::class));
