@@ -158,6 +158,68 @@ class PublicKeyTokenProviderTest extends TestCase {
 		);
 	}
 
+	private function getPublicKeyBits(PublicKeyToken $token): int {
+		$publicKey = openssl_pkey_get_public($token->getPublicKey());
+		$this->assertNotFalse($publicKey);
+
+		$details = openssl_pkey_get_details($publicKey);
+		$this->assertIsArray($details);
+
+		return $details['bits'];
+	}
+
+	public function testGenerateTokenUses2048BitKeyAtOaepLimit(): void {
+		// 214 = PublicKeyTokenProvider::RSA_2048_OAEP_MAX_PLAINTEXT_LENGTH
+		$password = str_repeat('a', 214);
+
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+
+		$actual = $this->tokenProvider->generateToken(
+			'tokentokentokentokentoken',
+			'user',
+			'User',
+			$password,
+			'Test token',
+			IToken::PERMANENT_TOKEN,
+			IToken::DO_NOT_REMEMBER,
+		);
+
+		$this->assertSame(2048, $this->getPublicKeyBits($actual));
+		$this->assertSame(
+			$password,
+			$this->tokenProvider->getPassword($actual, 'tokentokentokentokentoken'),
+		);
+	}
+
+	public function testGenerateTokenUses4096BitKeyAboveOaepLimit(): void {
+		// 215 = PublicKeyTokenProvider::RSA_2048_OAEP_MAX_PLAINTEXT_LENGTH + 1
+		$password = str_repeat('a', 215);
+
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+
+		$actual = $this->tokenProvider->generateToken(
+			'tokentokentokentokentoken',
+			'user',
+			'User',
+			$password,
+			'Test token',
+			IToken::PERMANENT_TOKEN,
+			IToken::DO_NOT_REMEMBER,
+		);
+
+		$this->assertSame(4096, $this->getPublicKeyBits($actual));
+		$this->assertSame(
+			$password,
+			$this->tokenProvider->getPassword($actual, 'tokentokentokentokentoken'),
+		);
+	}
+	
 	public function testGenerateTokenInvalidName(): void {
 		$token = 'tokentokentokentokentoken';
 		$uid = 'user';
