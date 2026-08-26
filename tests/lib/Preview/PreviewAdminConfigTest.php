@@ -73,17 +73,6 @@ class PreviewAdminConfigTest extends TestCase {
 		$this->adminConfig->setEnabledProviders([], true);
 	}
 
-	public function testMimeMapRoundTrip(): void {
-		$map = [
-			'image/heic' => ['OC\\Preview\\Imaginary', 'OC\\Preview\\HEIC'],
-		];
-		$this->config->expects($this->once())
-			->method('setSystemValue')
-			->with('preview_provider_mime_priority', $map);
-
-		$this->adminConfig->setSettings(['mimePriority' => $map]);
-	}
-
 	public function testRejectsInvalidImaginaryUrl(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->adminConfig->validateImaginaryUrl('javascript:alert(1)');
@@ -122,6 +111,37 @@ class PreviewAdminConfigTest extends TestCase {
 		$this->adminConfig->setSettings(['webpQuality' => 75]);
 	}
 
+	public function testPublicCacheRequiresSMaxAge(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Cache s-maxage is required when visibility is public');
+		$this->adminConfig->setSettings([
+			'cacheAuthenticated' => [
+				'visibility' => 'public',
+				'max_age' => 86400,
+				's_maxage' => null,
+				'immutable' => true,
+				'cache_control' => '',
+			],
+		]);
+	}
+
+	public function testPrivateCacheDropsSMaxAge(): void {
+		$this->config->expects($this->once())
+			->method('setSystemValue')
+			->with('preview_cache_authenticated', $this->callback(function (array $policy): bool {
+				return $policy['visibility'] === 'private' && $policy['s_maxage'] === null;
+			}));
+		$this->adminConfig->setSettings([
+			'cacheAuthenticated' => [
+				'visibility' => 'private',
+				'max_age' => 86400,
+				's_maxage' => 60,
+				'immutable' => true,
+				'cache_control' => '',
+			],
+		]);
+	}
+
 	public function testProviderAvailabilityUsesDetectors(): void {
 		$imagick = $this->createMock(IMagickSupport::class);
 		$imagick->method('hasExtension')->willReturn(true);
@@ -143,12 +163,40 @@ class PreviewAdminConfigTest extends TestCase {
 		}
 
 		$this->assertTrue($settings['detection']['ffmpegFound']);
+		$this->assertSame('/usr/bin/ffmpeg', $settings['detection']['ffmpegDetectedPath']);
 		$this->assertFalse($settings['detection']['officeFound']);
 		$this->assertTrue($byClass[HEIC::class]['available']);
 		$this->assertFalse($byClass[PDF::class]['available']);
 		$this->assertTrue($byClass[Movie::class]['available']);
+		$this->assertTrue($byClass[Movie::class]['enabled']);
 		$this->assertFalse($byClass[MSOfficeDoc::class]['available']);
 		$this->assertFalse($byClass[Imaginary::class]['available']);
 		$this->assertTrue($byClass[JPEG::class]['available']);
+	}
+
+	public function testMovieStaysDisabledWhenProviderListIsExplicit(): void {
+		$finder = $this->createMock(IBinaryFinder::class);
+		$finder->method('findBinaryPath')->willReturnCallback(fn (string $name) => $name === 'ffmpeg' ? '/usr/bin/ffmpeg' : false);
+
+		$this->config->method('getSystemValue')->willReturnCallback(function (string $key, mixed $default) {
+			if ($key === 'enabledPreviewProviders') {
+				return [JPEG::class, PNG::class];
+			}
+			return $default;
+		});
+		$this->config->method('getSystemValueBool')->willReturnCallback(fn (string $key, bool $default) => $default);
+		$this->config->method('getSystemValueInt')->willReturnCallback(fn (string $key, int $default) => $default);
+		$this->config->method('getSystemValueString')->willReturnCallback(fn (string $key, string $default) => $default);
+		$this->appConfig->method('getValueInt')->willReturnCallback(fn (string $app, string $key, int $default) => $default);
+
+		$config = new PreviewAdminConfig($this->config, $this->appConfig, null, $finder);
+		$settings = $config->getSettings();
+		$byClass = [];
+		foreach ($settings['providers'] as $row) {
+			$byClass[$row['class']] = $row;
+		}
+
+		$this->assertTrue($byClass[Movie::class]['available']);
+		$this->assertFalse($byClass[Movie::class]['enabled']);
 	}
 }

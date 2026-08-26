@@ -47,7 +47,6 @@ class Generator {
 		private readonly PreviewMapper $previewMapper,
 		private readonly StorageFactory $storageFactory,
 		private readonly PreviewMigrationService $migrationService,
-		private readonly ?ProviderPriorityResolver $priorityResolver = null,
 		private readonly ?PreviewFailureService $failureService = null,
 	) {
 	}
@@ -371,15 +370,6 @@ class Generator {
 					'provider' => $provider,
 				];
 			}
-		}
-
-		if ($this->priorityResolver !== null && $entries !== []) {
-			$classes = array_values(array_unique(array_column($entries, 'class')));
-			$orderedClasses = $this->priorityResolver->sortMatchingProviders($mimeType, $classes);
-			$classPos = array_flip($orderedClasses);
-			usort($entries, function (array $left, array $right) use ($classPos): int {
-				return ($classPos[$left['class']] ?? PHP_INT_MAX) <=> ($classPos[$right['class']] ?? PHP_INT_MAX);
-			});
 		}
 
 		$lastProvider = null;

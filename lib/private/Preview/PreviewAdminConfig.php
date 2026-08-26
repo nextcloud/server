@@ -13,19 +13,13 @@ use OC\Preview\Failure\PreviewFailureService;
 use OCP\IAppConfig;
 use OCP\IBinaryFinder;
 use OCP\IConfig;
+use OCP\Server;
 
 /**
  * Typed read/write helper for preview system and app config used by the admin UI
  * and by preview generation/HTTP layers.
  */
 class PreviewAdminConfig {
-	public const MIME_PRESETS = [
-		'image/heic',
-		'image/heif',
-		'image/jpeg',
-		'application/pdf',
-	];
-
 	/** @var list<string> */
 	private const IMAGICK_FORMATS = ['SVG', 'TIFF', 'PDF', 'AI', 'PSD', 'EPS', 'TTF', 'HEIC', 'TGA', 'SGI'];
 
@@ -158,7 +152,11 @@ class PreviewAdminConfig {
 			if (isset($seen[$entry['class']])) {
 				continue;
 			}
-			$providers[] = $this->providerRow($entry, isset($enabledSet[$entry['class']]), $detection);
+			$providers[] = $this->providerRow(
+				$entry,
+				$this->isProviderEnabledInUi($entry['class'], $enabledSet, $detection),
+				$detection,
+			);
 			$seen[$entry['class']] = true;
 		}
 
@@ -185,9 +183,6 @@ class PreviewAdminConfig {
 			'libreofficePath' => $officeConfigured,
 			'providers' => $providers,
 			'defaultEnabledProviders' => self::getDefaultEnabledProviders(),
-			'mimePriority' => $this->getMimePriority(),
-			'mimeDeny' => $this->getMimeDeny(),
-			'mimePresets' => self::MIME_PRESETS,
 			'cacheAuthenticated' => $this->getCachePolicyArray('preview_cache_authenticated', PreviewCachePolicy::defaultAuthenticated()),
 			'cachePublic' => $this->getCachePolicyArray('preview_cache_public', PreviewCachePolicy::defaultPublic()),
 			'failuresRetentionDays' => $this->config->getSystemValueInt('preview_failures_retention_days', PreviewFailureService::DEFAULT_RETENTION_DAYS),
@@ -268,32 +263,12 @@ class PreviewAdminConfig {
 		} elseif (array_key_exists('enabledPreviewProviders', $settings)) {
 			$this->setEnabledProviders($settings['enabledPreviewProviders'], (bool)($settings['confirmEmptyProviders'] ?? false));
 		}
-		if (array_key_exists('mimePriority', $settings)) {
-			$this->config->setSystemValue('preview_provider_mime_priority', $this->normalizeMimeMap($settings['mimePriority']));
-		}
-		if (array_key_exists('mimeDeny', $settings)) {
-			$this->config->setSystemValue('preview_provider_mime_deny', $this->normalizeMimeMap($settings['mimeDeny']));
-		}
 		if (array_key_exists('cacheAuthenticated', $settings)) {
 			$this->config->setSystemValue('preview_cache_authenticated', $this->normalizeCachePolicy($settings['cacheAuthenticated'], 'private'));
 		}
 		if (array_key_exists('cachePublic', $settings)) {
 			$this->config->setSystemValue('preview_cache_public', $this->normalizeCachePolicy($settings['cachePublic'], 'private'));
 		}
-	}
-
-	/**
-	 * @return array<string, list<string>>
-	 */
-	public function getMimePriority(): array {
-		return $this->readMimeMap('preview_provider_mime_priority');
-	}
-
-	/**
-	 * @return array<string, list<string>>
-	 */
-	public function getMimeDeny(): array {
-		return $this->readMimeMap('preview_provider_mime_deny');
 	}
 
 	public function validateImaginaryUrl(string $url): string {
@@ -386,58 +361,10 @@ class PreviewAdminConfig {
 	}
 
 	/**
-	 * @return array<string, list<string>>
-	 */
-	private function readMimeMap(string $key): array {
-		$value = $this->config->getSystemValue($key, []);
-		if (!is_array($value)) {
-			return [];
-		}
-		try {
-			return $this->normalizeMimeMap($value);
-		} catch (\InvalidArgumentException) {
-			return [];
-		}
-	}
-
-	/**
-	 * @param mixed $value
-	 * @return array<string, list<string>>
-	 */
-	private function normalizeMimeMap(mixed $value): array {
-		if (!is_array($value)) {
-			throw new \InvalidArgumentException('MIME map must be an object of mime => providers[]');
-		}
-		$out = [];
-		foreach ($value as $mime => $classes) {
-			if (!is_string($mime) || $mime === '' || !is_array($classes)) {
-				continue;
-			}
-			$mime = strtolower(trim($mime));
-			if (!preg_match('/^[a-z0-9._+-]+\/[a-z0-9._+-]+$/', $mime) && $mime !== '*/*') {
-				throw new \InvalidArgumentException('Invalid MIME type: ' . $mime);
-			}
-			$normalized = [];
-			foreach ($classes as $class) {
-				if (!is_string($class) || $class === '') {
-					continue;
-				}
-				$class = self::normalizeClassName($class);
-				if (!preg_match('/^[A-Za-z0-9_\\\\]+$/', $class)) {
-					throw new \InvalidArgumentException('Invalid preview provider class');
-				}
-				$normalized[] = $class;
-			}
-			$out[$mime] = array_values(array_unique($normalized));
-		}
-		return $out;
-	}
-
-	/**
 	 * @param mixed $value
 	 * @return array{visibility: string, max_age: int, s_maxage: ?int, immutable: bool, cache_control: string}
 	 */
-	private function normalizeCachePolicy(mixed $value, string $defaultVisibility): array {
+	private function normalizeCachePolicy(mixed $value, string $defaultVisibility, bool $requirePublicSMaxAge = true): array {
 		if (!is_array($value)) {
 			throw new \InvalidArgumentException('Cache policy must be an object');
 		}
@@ -451,7 +378,11 @@ class PreviewAdminConfig {
 		}
 		$sMaxAgeRaw = $value['s_maxage'] ?? $value['sMaxAge'] ?? null;
 		$sMaxAge = ($sMaxAgeRaw === null || $sMaxAgeRaw === '') ? null : $this->toInt($sMaxAgeRaw);
-		if ($sMaxAge !== null && $sMaxAge < 0) {
+		if ($visibility === 'private') {
+			$sMaxAge = null;
+		} elseif ($sMaxAge === null && $requirePublicSMaxAge) {
+			throw new \InvalidArgumentException('Cache s-maxage is required when visibility is public');
+		} elseif ($sMaxAge !== null && $sMaxAge < 0) {
 			throw new \InvalidArgumentException('Cache s-maxage must be >= 0');
 		}
 		$raw = $value['cache_control'] ?? $value['cacheControl'] ?? '';
@@ -477,7 +408,7 @@ class PreviewAdminConfig {
 			$value = $default;
 		}
 		try {
-			return $this->normalizeCachePolicy($value, $default['visibility']);
+			return $this->normalizeCachePolicy($value, $default['visibility'], false);
 		} catch (\InvalidArgumentException) {
 			return $default + ['cache_control' => ''];
 		}
@@ -562,6 +493,26 @@ class PreviewAdminConfig {
 	}
 
 	/**
+	 * Movie is off by default. When ffmpeg is on PATH and the admin has never
+	 * saved a custom provider list, show it enabled so detection matches the table.
+	 *
+	 * @param array<string, true> $enabledSet
+	 * @param array<string, mixed> $detection
+	 */
+	private function isProviderEnabledInUi(string $class, array $enabledSet, array $detection): bool {
+		if (isset($enabledSet[$class])) {
+			return true;
+		}
+		if ($class !== Movie::class) {
+			return false;
+		}
+		if (!($detection['ffmpegFound'] ?? false)) {
+			return false;
+		}
+		return $this->config->getSystemValue('enabledPreviewProviders', null) === null;
+	}
+
+	/**
 	 * @param list<string> $searchNames
 	 */
 	private function resolveBinary(string $configKey, array $searchNames): ?string {
@@ -569,16 +520,28 @@ class PreviewAdminConfig {
 		if ($configured !== '') {
 			return $configured;
 		}
-		if ($this->binaryFinder === null) {
+		$finder = $this->getBinaryFinder();
+		if ($finder === null) {
 			return null;
 		}
 		foreach ($searchNames as $name) {
-			$found = $this->binaryFinder->findBinaryPath($name);
+			$found = $finder->findBinaryPath($name);
 			if (is_string($found) && $found !== '') {
 				return $found;
 			}
 		}
 		return null;
+	}
+
+	private function getBinaryFinder(): ?IBinaryFinder {
+		if ($this->binaryFinder instanceof IBinaryFinder) {
+			return $this->binaryFinder;
+		}
+		try {
+			return Server::get(IBinaryFinder::class);
+		} catch (\Throwable) {
+			return null;
+		}
 	}
 
 	private function configuredBinary(string $key): string {

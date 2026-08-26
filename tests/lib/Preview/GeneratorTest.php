@@ -14,7 +14,6 @@ use OC\Preview\Failure\PreviewFailureService;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\PreviewMigrationService;
-use OC\Preview\ProviderPriorityResolver;
 use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -404,7 +403,7 @@ class GeneratorTest extends TestCase {
 	public function testRecordsFailureWhenAllProvidersFail(): void {
 		$file = $this->getFile(42, 'myMimeType');
 		$failureService = $this->createMock(PreviewFailureService::class);
-		$generator = $this->makeGenerator(null, $failureService);
+		$generator = $this->makeGenerator($failureService);
 
 		$this->previewMapper->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
@@ -430,7 +429,7 @@ class GeneratorTest extends TestCase {
 	public function testClearsFailureAfterSuccessfulGeneration(): void {
 		$file = $this->getFile(42, 'myMimeType');
 		$failureService = $this->createMock(PreviewFailureService::class);
-		$generator = $this->makeGenerator(null, $failureService);
+		$generator = $this->makeGenerator($failureService);
 
 		$this->previewMapper->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
@@ -466,77 +465,7 @@ class GeneratorTest extends TestCase {
 		$this->assertSame('256-256.png', $result->getName());
 	}
 
-	public function testPriorityResolverOrderIsHonored(): void {
-		$file = $this->getFile(42, 'myMimeType');
-		$resolver = $this->createMock(ProviderPriorityResolver::class);
-		$generator = $this->makeGenerator($resolver, null);
-
-		$this->previewMapper->method('getAvailablePreviews')
-			->with($this->equalTo([42]))
-			->willReturn([42 => []]);
-		$this->config->method('getSystemValueString')->willReturnCallback(fn ($key, $default) => $default);
-		$this->config->method('getSystemValueInt')->willReturnCallback(fn ($key, $default) => $default);
-
-		$first = new class implements IProviderV2 {
-			public function getMimeType(): string {
-				return '/myMimeType/';
-			}
-			public function isAvailable(\OCP\Files\FileInfo $file): bool {
-				return true;
-			}
-			public function getThumbnail(\OCP\Files\File $file, int $maxX, int $maxY): ?\OCP\IImage {
-				return null;
-			}
-		};
-		$second = new class implements IProviderV2 {
-			public function getMimeType(): string {
-				return '/myMimeType/';
-			}
-			public function isAvailable(\OCP\Files\FileInfo $file): bool {
-				return true;
-			}
-			public function getThumbnail(\OCP\Files\File $file, int $maxX, int $maxY): ?\OCP\IImage {
-				return null;
-			}
-		};
-
-		$this->previewManager->method('isMimeSupported')->willReturn(true);
-		$this->previewManager->method('getProviders')->willReturn([
-			'/myMimeType/' => ['first', 'second'],
-		]);
-		$this->helper->method('getProvider')->willReturnCallback(function ($name) use ($first, $second) {
-			return $name === 'first' ? $first : $second;
-		});
-
-		$resolver->method('sortMatchingProviders')->willReturnCallback(function (string $mime, array $classes) {
-			$this->assertSame('myMimeType', $mime);
-			return array_reverse($classes);
-		});
-
-		$calls = [];
-		$image = $this->createMock(IImage::class);
-		$image->method('width')->willReturn(2048);
-		$image->method('height')->willReturn(2048);
-		$image->method('valid')->willReturn(true);
-		$image->method('dataMimeType')->willReturn('image/png');
-		$image->method('data')->willReturn('my data');
-		$this->helper->method('getThumbnail')->willReturnCallback(function ($provider) use ($first, $second, $image, &$calls) {
-			$calls[] = $provider === $second ? 'second' : 'first';
-			if ($provider === $second) {
-				return $image;
-			}
-			return false;
-		});
-		$this->helper->method('getImage')->willReturn($this->getMockImage(2048, 2048, 'my resized data'));
-		$this->previewMapper->method('insert')->willReturnCallback(fn (Preview $preview): Preview => $preview);
-		$this->previewMapper->method('update')->willReturnCallback(fn (Preview $preview): Preview => $preview);
-		$this->storageFactory->method('writePreview')->willReturn(1000);
-
-		$generator->getPreview($file, 100, 100);
-		$this->assertSame(['second'], $calls);
-	}
-
-	private function makeGenerator(?ProviderPriorityResolver $resolver, ?PreviewFailureService $failureService): Generator {
+	private function makeGenerator(?PreviewFailureService $failureService): Generator {
 		return new Generator(
 			$this->config,
 			$this->appConfig,
@@ -547,7 +476,6 @@ class GeneratorTest extends TestCase {
 			$this->previewMapper,
 			$this->storageFactory,
 			$this->migrationService,
-			$resolver,
 			$failureService,
 		);
 	}

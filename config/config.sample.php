@@ -1668,37 +1668,14 @@ $CONFIG = [
 	],
 
 	/**
-	 * Per-MIME provider priority overrides.
-	 *
-	 * When generating a preview for a MIME type listed here, providers are tried
-	 * in this order first (skipping any that are not in ``enabledPreviewProviders``).
-	 * Remaining enabled providers that match the MIME still run afterwards.
-	 *
-	 * Configure this from Administration → Previews, or here.
-	 *
-	 * Defaults to ``[]``
-	 */
-	'preview_provider_mime_priority' => [
-		'image/heic' => ['OC\\Preview\\Imaginary', 'OC\\Preview\\HEIC'],
-		'image/heif' => ['OC\\Preview\\Imaginary', 'OC\\Preview\\HEIC'],
-	],
-
-	/**
-	 * Per-MIME provider denylist.
-	 *
-	 * Providers listed for a MIME type are never used for that type, even if they
-	 * are enabled globally.
-	 *
-	 * Defaults to ``[]``
-	 */
-	'preview_provider_mime_deny' => [
-		'image/heic' => ['OC\\Preview\\Image'],
-	],
-
-	/**
-	 * Output format used by some preview providers (notably Imaginary).
+	 * Output format used only by the Imaginary preview providers
+	 * (``OC\Preview\Imaginary`` and ``OC\Preview\ImaginaryPDF``).
+	 * Other providers ignore this key and keep the source image type.
 	 *
 	 * Valid values: ``jpeg``, ``webp``
+	 *
+	 * ``webp`` forces WebP for every Imaginary source. ``jpeg`` writes JPEG
+	 * for most images and PNG for GIF, PDF, PNG, SVG, and Illustrator files.
 	 *
 	 * Defaults to ``jpeg``
 	 */
@@ -1712,7 +1689,8 @@ $CONFIG = [
 	 *
 	 * ``visibility`` is ``private`` or ``public``. Setting authenticated previews
 	 * to ``public`` allows shared caches to store them — only enable this if you
-	 * understand the privacy impact.
+	 * understand the privacy impact. When ``visibility`` is ``public``, ``s_maxage``
+	 * is required. When ``visibility`` is ``private``, ``s_maxage`` is omitted.
 	 *
 	 * An optional ``cache_control`` string, if non-empty, replaces the built header.
 	 */
@@ -1730,8 +1708,9 @@ $CONFIG = [
 	 * If this key is unset, Nextcloud keeps the historical default:
 	 * ``private, max-age=86400, must-revalidate``.
 	 *
-	 * Set ``visibility`` to ``public`` and optionally ``s_maxage`` when a CDN
-	 * should cache public-share previews.
+	 * Set ``visibility`` to ``public`` and ``s_maxage`` when a CDN should cache
+	 * public-share previews. ``s_maxage`` is required when ``visibility`` is
+	 * ``public``.
 	 */
 	'preview_cache_public' => [
 		'visibility' => 'private',
