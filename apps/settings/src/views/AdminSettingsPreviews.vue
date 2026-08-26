@@ -842,13 +842,15 @@ export default {
 	},
 
 	watch: {
-		'settings.ffmpegPath'() {
+		'settings.ffmpegPath': function() {
 			this.uncheckUnavailableProviders()
 		},
-		'settings.libreofficePath'() {
+
+		'settings.libreofficePath': function() {
 			this.uncheckUnavailableProviders()
 		},
-		'settings.imaginaryUrl'() {
+
+		'settings.imaginaryUrl': function() {
 			this.uncheckUnavailableProviders()
 		},
 	},
