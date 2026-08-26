@@ -420,10 +420,13 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	private function encryptPassword(string $password, string $publicKey): string {
-		openssl_public_encrypt($password, $encryptedPassword, $publicKey, OPENSSL_PKCS1_OAEP_PADDING);
-		$encryptedPassword = base64_encode($encryptedPassword);
+		if (!openssl_public_encrypt($password, $encryptedPassword, $publicKey, OPENSSL_PKCS1_OAEP_PADDING)) {
+			// Never store missing or invalid ciphertext when password encryption fails.
+			$this->logOpensslError();
+			throw new \RuntimeException('OpenSSL reported a problem');
+		}
 
-		return $encryptedPassword;
+		return base64_encode($encryptedPassword);
 	}
 
 	private function decryptPassword(string $encryptedPassword, string $privateKey): string {
