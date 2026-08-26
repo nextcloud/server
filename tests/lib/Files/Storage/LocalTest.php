@@ -102,6 +102,50 @@ class LocalTest extends Storage {
 		$this->addToAssertionCount(1);
 	}
 
+	public static function directorySymlinkRemovalProvider(): array {
+		return [
+			'rmdir' => ['rmdir'],
+			'unlink' => ['unlink'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('directorySymlinkRemovalProvider')]
+	public function testRemovingDirectorySymlinkPreservesTarget(string $operation): void {
+		$targetPath = $this->tmpDir . 'target';
+		$linkPath = $this->tmpDir . 'link';
+
+		$this->assertTrue($this->instance->mkdir('target'));
+		$this->assertSame(
+			strlen('target contents'),
+			$this->instance->file_put_contents('target/file.txt', 'target contents'),
+		);
+
+		if (!@symlink($targetPath, $linkPath)) {
+			$this->markTestSkipped('Failed to create directory symlink');
+		}
+
+		$this->assertTrue(is_link($linkPath));
+		$this->assertTrue($this->instance->$operation('link'));
+
+		$this->assertFalse(
+			is_link($linkPath),
+			'The symbolic link should be removed',
+		);
+		$this->assertDirectoryExists(
+			$targetPath,
+			'The target directory should be preserved',
+		);
+		$this->assertFileExists(
+			$targetPath . '/file.txt',
+			'Files inside the target directory should be preserved',
+		);
+		$this->assertSame(
+			'target contents',
+			file_get_contents($targetPath . '/file.txt'),
+			'The target file contents should remain unchanged',
+		);
+	}
+
 	public function testWriteUmaskFilePutContents(): void {
 		$oldMask = umask(0333);
 		$this->instance->file_put_contents('test.txt', 'sad');
