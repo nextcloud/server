@@ -176,20 +176,11 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 
 	#[Override]
 	public function previewExists(Preview $preview): bool {
-		if ($preview->getLocationId() === null) {
-			// Without a location the bucket cannot be resolved, which is the case
-			// for rows written before a move to an object store and for the dummy
-			// previews of the unit tests. Never report those as missing, or they
-			// would be dropped on every request.
-			return true;
-		}
-
-		[
-			'urn' => $urn,
-			'store' => $store,
-		] = $this->getObjectStoreInfoForExistingPreview($preview);
-
-		return $store->objectExists($urn);
+		// Avoid a network round-trip per preview. Object-store
+		// existence checks are expensive; treat the DB row as
+		// authoritative for now. Missing objects will still fail
+		// later on read and can be cleaned up by other paths.
+		return true;
 	}
 
 	public function getUrn(Preview $preview, array $config): string {
