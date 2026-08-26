@@ -32,6 +32,7 @@
 <script lang="ts">
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { useIsSmallMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { useBrowserLocation } from '@vueuse/core'
 import debounce from 'debounce'
@@ -124,10 +125,24 @@ export default defineComponent({
 	},
 
 	mounted() {
-		// register keyboard listener for search shortcut
-		if (window.OCP.Accessibility.disableKeyboardShortcuts() === false) {
-			window.addEventListener('keydown', this.onKeyDown)
-		}
+		// useHotKey owns the accessibility opt-out and the guards that keep shortcuts out
+		// of editors, inputs and open modals. The key filter runs before it calls
+		// preventDefault, so returning false there leaves the key to the browser.
+		this.stopHotKeys = [
+			useHotKey(
+				(event) => event.key.toLowerCase() === 'f'
+					&& !this.appHandlesSearchShortcut
+					// A second press belongs to the browser's native find.
+					&& !this.isSearchEngaged(),
+				() => this.focusSearch(),
+				{ ctrl: true, prevent: true },
+			),
+			useHotKey(
+				(event) => event.key.toLowerCase() === 'k',
+				() => this.focusSearch(),
+				{ ctrl: true, prevent: true },
+			),
+		]
 
 		// Allow external reset of the search
 		subscribe('nextcloud:unified-search:reset', () => {
@@ -147,47 +162,12 @@ export default defineComponent({
 	},
 
 	// Vue 2.7 only recognises beforeDestroy/destroyed as Options lifecycle hooks;
-	// a beforeUnmount() option is silently ignored, so the listener must be removed here.
+	// a beforeUnmount() option is silently ignored, so the listeners must be removed here.
 	beforeDestroy() {
-		// keep in mind to remove the event listener
-		window.removeEventListener('keydown', this.onKeyDown)
+		this.stopHotKeys.forEach((stop) => stop())
 	},
 
 	methods: {
-		/**
-		 * Handle the key down event to open search on `ctrl + F`
-		 *
-		 * @param event The keyboard event
-		 */
-		onKeyDown(event: KeyboardEvent) {
-			// Match on the lowercased key so Caps Lock / Shift (event.key === 'F'/'K')
-			// still triggers the shortcut instead of silently falling through.
-			const key = event.key.toLowerCase()
-			if (event.ctrlKey && key === 'f') {
-				// Skip on pages that handle Ctrl+F themselves (e.g. a dedicated search input).
-				if (this.appHandlesSearchShortcut) {
-					return
-				}
-				// Otherwise behave like Ctrl+K: focus the input (desktop) / open the
-				// modal (mobile). Once search is already engaged, let a second press fall
-				// through to the browser's native find instead of claiming Ctrl+F again.
-				if (this.isSearchEngaged()) {
-					return
-				}
-				event.preventDefault()
-				this.focusSearch()
-			} else if ((event.metaKey || event.ctrlKey) && key === 'k') {
-				// Global focus shortcut. Same opt-out as Ctrl+F: leave pages that own the
-				// shortcut alone. preventDefault only when we act (Ctrl+K also focuses the
-				// browser address bar in Firefox, so we must claim it here).
-				if (this.appHandlesSearchShortcut) {
-					return
-				}
-				event.preventDefault()
-				this.focusSearch()
-			}
-		},
-
 		/**
 		 * Bring the user into search: focus the header input on desktop, or open the
 		 * results modal on mobile. Shared by the Ctrl+F and Ctrl+K shortcuts.
