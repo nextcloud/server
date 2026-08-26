@@ -29,7 +29,7 @@ class PreviewFailureService {
 	) {
 	}
 
-	public function record(File $file, string $mime, ?string $provider, string $error): void {
+	public function record(File $file, string $mime, ?string $provider, string $error, bool $onlyIfMissing = false): void {
 		try {
 			$fileId = $file->getId();
 			if ($fileId === null || $fileId <= 0) {
@@ -53,6 +53,9 @@ class PreviewFailureService {
 
 			try {
 				$existing = $this->mapper->findByFileId($fileId);
+				if ($onlyIfMissing) {
+					return;
+				}
 				$existing->setMime($mime);
 				$existing->setProvider($provider);
 				$existing->setError($error);
@@ -80,6 +83,20 @@ class PreviewFailureService {
 			}
 		} catch (\Throwable $e) {
 			$this->logger->warning('Could not record preview generation failure', [
+				'exception' => $e,
+			]);
+		}
+	}
+
+	/**
+	 * Record a failed HTTP preview request when Generator did not already store a row.
+	 */
+	public function recordFromFailedRequest(File $file, string $error): void {
+		$message = $error !== '' ? $error : 'Preview request failed';
+		try {
+			$this->record($file, $file->getMimeType(), null, $message, true);
+		} catch (\Throwable $e) {
+			$this->logger->warning('Could not record failed preview request', [
 				'exception' => $e,
 			]);
 		}

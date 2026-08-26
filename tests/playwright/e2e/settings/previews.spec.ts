@@ -19,7 +19,6 @@ adminTest.describe('Settings: Previews admin page', () => {
 		await expect(page.getByRole('heading', { name: 'Imaginary' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Movie' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Office' })).toBeVisible()
-		await expect(page.getByRole('heading', { name: 'HTTP caching' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Failed generations' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Retention' })).toBeVisible()
 	})
@@ -64,8 +63,11 @@ adminTest.describe('Settings: Previews admin page', () => {
 		await expect(webpRow.locator('[data-cy="previews-provider-format"]')).toHaveText('WebP')
 		await expect(pngRow.locator('[data-cy="previews-provider-format"]')).toHaveText('PNG')
 		const imaginaryRow = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ has: page.locator('code', { hasText: /^OC\\Preview\\Imaginary$/ }) })
-		await expect(imaginaryRow.locator('[data-cy="previews-provider-format"]')).toHaveText('JPEG1')
-		await expect(imaginaryRow.locator('[data-cy="previews-provider-format"] sup')).toHaveText('1')
+		await expect(imaginaryRow.locator('[data-cy="previews-provider-format"]')).toHaveText('JPEG2')
+		await expect(imaginaryRow.locator('[data-cy="previews-provider-format"] sup')).toHaveText('2')
+		const mp3Row = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ hasText: 'OC\\Preview\\MP3' })
+		await expect(mp3Row.locator('[data-cy="previews-provider-availability"]')).toContainText('Unsupported')
+		await expect(page.getByText(/Disabled by default due to security and performance concerns/)).toBeVisible()
 		await expect(page.getByText(/When Preview output format is JPEG, Imaginary still writes PNG/)).toBeVisible()
 		await expect(page.getByText(/MP3 previews use the artwork embedded in the file/)).toBeVisible()
 
@@ -74,6 +76,43 @@ adminTest.describe('Settings: Previews admin page', () => {
 		await page.getByRole('option', { name: 'WebP' }).click()
 		await expect(imaginaryRow.locator('[data-cy="previews-provider-format"]')).toHaveText('WebP')
 		await expect(page.getByText(/When Preview output format is JPEG, Imaginary still writes PNG/)).toHaveCount(0)
+	})
+
+	adminTest('source MIME filter shows providers that handle HEIC', async ({ page }) => {
+		await page.goto('/index.php/settings/admin/previews')
+		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()
+		const mimeFilter = page.getByRole('combobox', { name: 'Source MIME type' })
+		await mimeFilter.click()
+		await page.getByRole('option', { name: 'image/heic' }).click()
+		const list = page.locator('[data-cy="previews-providers"]')
+		await expect(list.locator('code', { hasText: /^OC\\Preview\\HEIC$/ })).toBeVisible()
+		await expect(list.locator('code', { hasText: /^OC\\Preview\\Imaginary$/ })).toBeVisible()
+		await expect(list.locator('code', { hasText: /^OC\\Preview\\JPEG$/ })).toHaveCount(0)
+	})
+
+	adminTest('status filter can show unsupported providers', async ({ page }) => {
+		await page.goto('/index.php/settings/admin/previews')
+		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()
+		const statusFilter = page.getByRole('combobox', { name: 'Status' })
+		await statusFilter.click()
+		await page.getByRole('option', { name: 'Unsupported', exact: true }).click()
+		const list = page.locator('[data-cy="previews-providers"]')
+		await expect(list.locator('code', { hasText: /^OC\\Preview\\MP3$/ })).toBeVisible()
+		await expect(list.locator('code', { hasText: /^OC\\Preview\\Movie$/ })).toBeVisible()
+		await expect(list.locator('code', { hasText: /^OC\\Preview\\JPEG$/ })).toHaveCount(0)
+	})
+
+	adminTest('reset to defaults restores provider order', async ({ page }) => {
+		await page.goto('/index.php/settings/admin/previews')
+		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()
+		const rows = page.locator('[data-cy="previews-providers"] .previews-admin__provider:not(.previews-admin__provider--header)')
+		const pngRow = rows.filter({ has: page.locator('code', { hasText: /^OC\\Preview\\PNG$/ }) })
+		await pngRow.getByRole('button', { name: 'Move down' }).click()
+		const moved = await rows.locator('code').allTextContents()
+		expect(moved.indexOf('OC\\Preview\\PNG')).toBeGreaterThan(moved.indexOf('OC\\Preview\\JPEG'))
+		await page.locator('[data-cy="previews-reset-providers"]').click()
+		const reset = await rows.locator('code').allTextContents()
+		expect(reset.indexOf('OC\\Preview\\PNG')).toBeLessThan(reset.indexOf('OC\\Preview\\JPEG'))
 	})
 
 	adminTest('requires availability chips link to the matching section', async ({ page }) => {
@@ -106,17 +145,6 @@ adminTest.describe('Settings: Previews admin page', () => {
 			await expect(page.locator('[data-cy="previews-concurrency-new-warning"]')).toHaveCount(0)
 			await expect(page.locator('[data-cy="previews-concurrency-all-warning"]')).toHaveCount(0)
 		}
-	})
-
-	adminTest('authenticated public cache visibility shows a warning', async ({ page }) => {
-		await page.goto('/index.php/settings/admin/previews')
-		await page.getByRole('heading', { name: 'HTTP caching' }).scrollIntoViewIfNeeded()
-		await expect(page.getByLabel('s-maxage (seconds)')).toHaveCount(0)
-		const visibility = page.getByRole('combobox', { name: 'Visibility' }).first()
-		await visibility.click()
-		await page.getByRole('option', { name: 'public' }).click()
-		await expect(page.getByText(/Setting authenticated previews to public/)).toBeVisible()
-		await expect(page.getByLabel('s-maxage (seconds)')).toBeVisible()
 	})
 
 	adminTest('failed generations empty state renders', async ({ page }) => {

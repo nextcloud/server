@@ -13,7 +13,7 @@
 			:description="t('settings', 'Configure how Nextcloud generates and serves file previews used by Files, Photos, Memories, and other apps.')"
 			:doc-url="documentationLink">
 			<p>
-				{{ t('settings', 'This page controls preview providers, limits, Imaginary, HTTP caching, and generation failures.') }}
+				{{ t('settings', 'This page controls preview providers, limits, Imaginary, and generation failures.') }}
 				{{ t('settings', 'The Preview Generator app (if installed) only controls which sizes are pre-generated and when background generation runs.') }}
 			</p>
 			<div class="previews-admin__master">
@@ -52,17 +52,27 @@
 		<NcSettingsSection
 			:name="t('settings', 'Providers')"
 			:description="t('settings', 'Enable providers and set their global priority. The order of enabled providers is the fallback order for all MIME types. Preview format is the type stored for that provider.')">
-			<div class="previews-admin__row">
-				<NcButton :type="providerFilter === 'all' ? 'secondary' : 'tertiary'" @click="providerFilter = 'all'">
-					{{ t('settings', 'All') }}
-				</NcButton>
-				<NcButton :type="providerFilter === 'available' ? 'secondary' : 'tertiary'" @click="providerFilter = 'available'">
-					{{ t('settings', 'Available') }}
-				</NcButton>
-				<NcButton :type="providerFilter === 'unavailable' ? 'secondary' : 'tertiary'" @click="providerFilter = 'unavailable'">
-					{{ t('settings', 'Unavailable') }}
-				</NcButton>
-				<NcButton :disabled="settings.configIsReadonly" @click="resetProviders">
+			<div class="previews-admin__toolbar">
+				<div class="previews-admin__filters">
+					<NcSelect
+						v-model="statusFilterOption"
+						class="previews-admin__status-filter"
+						:options="statusFilterOptions"
+						:clearable="false"
+						:input-label="t('settings', 'Status')"
+						data-cy="previews-status-filter" />
+					<NcSelect
+						v-model="mimeFilterOption"
+						class="previews-admin__mime-filter"
+						:options="mimeFilterOptions"
+						:clearable="false"
+						:input-label="t('settings', 'Source MIME type')"
+						data-cy="previews-mime-filter" />
+				</div>
+				<NcButton
+					:disabled="settings.configIsReadonly"
+					data-cy="previews-reset-providers"
+					@click="resetProviders">
 					{{ t('settings', 'Reset to defaults') }}
 				</NcButton>
 			</div>
@@ -75,62 +85,76 @@
 					<span>{{ t('settings', 'Availability') }}</span>
 					<span>{{ t('settings', 'Order') }}</span>
 				</div>
-				<div
-					v-for="provider in filteredProviders"
-					:key="provider.class"
-					class="previews-admin__provider"
-					:class="{ 'previews-admin__provider--unavailable': provider.available === false }">
-					<NcCheckboxRadioSwitch
-						v-model="provider.enabled"
-						type="switch">
-						{{ provider.name }}
-					</NcCheckboxRadioSwitch>
-					<code class="previews-admin__class">{{ provider.class }}</code>
-					<span class="previews-admin__mime">{{ provider.mime }}</span>
-					<span class="previews-admin__output" data-cy="previews-provider-format">{{ providerOutputInfo(provider).label }}<sup
-						v-if="providerFormatMark(provider)"
-						class="previews-admin__footnote-mark">{{ providerFormatMark(provider) }}</sup>
-					</span>
-					<span
-						class="previews-admin__availability"
-						data-cy="previews-provider-availability">
-						<a
-							v-if="providerAvailabilityHref(provider)"
-							class="previews-admin__availability-link"
-							:href="providerAvailabilityHref(provider)"
-							:aria-label="providerAvailabilityLinkLabel(provider)">
+				<VueDraggable
+					:key="providersListKey"
+					v-model="orderedProviders"
+					handle=".previews-admin__drag-handle"
+					:disabled="settings.configIsReadonly || settingsLocked || !canReorderProviders">
+					<div
+						v-for="provider in orderedProviders"
+						:key="provider.class"
+						class="previews-admin__provider"
+						:class="{ 'previews-admin__provider--unavailable': provider.available === false }">
+						<NcCheckboxRadioSwitch
+							v-model="provider.enabled"
+							type="switch">
+							{{ provider.name }}<sup
+								v-if="providerUnsupportedMark(provider)"
+								class="previews-admin__footnote-mark">{{ providerUnsupportedMark(provider) }}</sup>
+						</NcCheckboxRadioSwitch>
+						<code class="previews-admin__class">{{ provider.class }}</code>
+						<span class="previews-admin__mime">{{ provider.mime }}</span>
+						<span class="previews-admin__output" data-cy="previews-provider-format">{{ providerOutputInfo(provider).label }}<sup
+							v-if="providerFormatMark(provider)"
+							class="previews-admin__footnote-mark">{{ providerFormatMark(provider) }}</sup>
+						</span>
+						<span
+							class="previews-admin__availability"
+							data-cy="previews-provider-availability">
+							<a
+								v-if="providerAvailabilityHref(provider)"
+								class="previews-admin__availability-link"
+								:href="providerAvailabilityHref(provider)"
+								:aria-label="providerAvailabilityLinkLabel(provider)">
+								<NcChip
+									:text="providerAvailabilityLabel(provider)"
+									:variant="providerAvailabilityVariant(provider)"
+									no-close />
+							</a>
 							<NcChip
+								v-else
 								:text="providerAvailabilityLabel(provider)"
 								:variant="providerAvailabilityVariant(provider)"
 								no-close />
-						</a>
-						<NcChip
-							v-else
-							:text="providerAvailabilityLabel(provider)"
-							:variant="providerAvailabilityVariant(provider)"
-							no-close />
-					</span>
-					<div class="previews-admin__order">
-						<NcButton
-							type="tertiary"
-							:aria-label="t('settings', 'Move up')"
-							:disabled="providerIndex(provider) === 0"
-							@click="moveProvider(providerIndex(provider), -1)">
-							<template #icon>
-								<ArrowUpIcon :size="20" />
-							</template>
-						</NcButton>
-						<NcButton
-							type="tertiary"
-							:aria-label="t('settings', 'Move down')"
-							:disabled="providerIndex(provider) === settings.providers.length - 1"
-							@click="moveProvider(providerIndex(provider), 1)">
-							<template #icon>
-								<ArrowDownIcon :size="20" />
-							</template>
-						</NcButton>
+						</span>
+						<div class="previews-admin__order">
+							<NcButton
+								type="tertiary"
+								:aria-label="t('settings', 'Move up')"
+								:disabled="providerIndex(provider) === 0"
+								@click="moveProvider(providerIndex(provider), -1)">
+								<template #icon>
+									<ArrowUpIcon :size="20" />
+								</template>
+							</NcButton>
+							<NcButton
+								type="tertiary"
+								:aria-label="t('settings', 'Move down')"
+								:disabled="providerIndex(provider) === settings.providers.length - 1"
+								@click="moveProvider(providerIndex(provider), 1)">
+								<template #icon>
+									<ArrowDownIcon :size="20" />
+								</template>
+							</NcButton>
+							<span
+								class="previews-admin__drag-handle"
+								:aria-label="t('settings', 'Drag to reorder')"
+								role="button">
+								<DragVerticalIcon :size="20" />
+							</span>
+						</div>
 					</div>
-				</div>
+				</VueDraggable>
 				<ul v-if="visibleProviderFootnotes.length" class="previews-admin__providers-footnotes">
 					<li v-for="note in visibleProviderFootnotes" :key="note.key">
 						<sup class="previews-admin__footnote-mark">{{ note.mark }}</sup> {{ note.text }}
@@ -309,81 +333,8 @@
 		</NcSettingsSection>
 
 		<NcSettingsSection
-			:name="t('settings', 'HTTP caching')"
-			:description="t('settings', 'Control Cache-Control headers for preview responses. Provides control over where preview images can be cached and how long. By default preview images are only cached on the client’s device. It is possible to cache image previews on proxy servers or CDNs as well, but this comes with a privacy impact.')">
-			<h3>{{ t('settings', 'Authenticated previews') }}</h3>
-			<p class="previews-admin__hint">
-				{{ t('settings', 'Applies to previews shown to people who are logged in, such as in Files.') }}
-			</p>
-			<NcNoteCard v-if="settings.cacheAuthenticated.visibility === 'public'" type="warning">
-				{{ t('settings', 'Setting authenticated previews to public allows shared caches (proxies/CDNs) to store them. Only enable this if you understand the privacy impact.') }}
-			</NcNoteCard>
-			<div class="previews-admin__fields">
-				<NcSelect
-					v-model="authVisibility"
-					:options="visibilityOptions"
-					:clearable="false"
-					:input-label="t('settings', 'Visibility')" />
-				<NcTextField
-					v-model="authMaxAge"
-					type="number"
-					:label="t('settings', 'max-age (seconds)')"
-					:helper-text="t('settings', 'How long the browser on the client’s device may reuse the preview. Default 86400 (1 day).')" />
-				<NcTextField
-					v-if="settings.cacheAuthenticated.visibility === 'public'"
-					v-model="authSMaxAge"
-					type="number"
-					:label="t('settings', 's-maxage (seconds)')"
-					:helper-text="t('settings', 'How long proxy servers and CDNs may store the preview. Required when visibility is public.')" />
-				<NcCheckboxRadioSwitch v-model="settings.cacheAuthenticated.immutable" type="switch">
-					{{ t('settings', 'immutable') }}
-				</NcCheckboxRadioSwitch>
-				<p class="previews-admin__hint">
-					{{ t('settings', 'When on, browsers treat the preview as unchanging during max-age and skip revalidation. When off, they revalidate after it expires.') }}
-				</p>
-				<NcTextField
-					v-model="settings.cacheAuthenticated.cache_control"
-					:label="t('settings', 'Cache-Control override')"
-					:helper-text="t('settings', 'Leave empty to build Cache-Control from the fields above. A non-empty value replaces that header entirely.')" />
-			</div>
-
-			<h3>{{ t('settings', 'Public share previews') }}</h3>
-			<p class="previews-admin__hint">
-				{{ t('settings', 'Applies to previews on public share links, which can be opened without a Nextcloud account.') }}
-			</p>
-			<div class="previews-admin__fields">
-				<NcSelect
-					v-model="publicVisibility"
-					:options="visibilityOptions"
-					:clearable="false"
-					:input-label="t('settings', 'Visibility')" />
-				<NcTextField
-					v-model="publicMaxAge"
-					type="number"
-					:label="t('settings', 'max-age (seconds)')"
-					:helper-text="t('settings', 'How long the browser on the client’s device may reuse public-share previews. Default 86400 (1 day).')" />
-				<NcTextField
-					v-if="settings.cachePublic.visibility === 'public'"
-					v-model="publicSMaxAge"
-					type="number"
-					:label="t('settings', 's-maxage (seconds)')"
-					:helper-text="t('settings', 'How long proxy servers and CDNs may store public-share previews. Required when visibility is public.')" />
-				<NcCheckboxRadioSwitch v-model="settings.cachePublic.immutable" type="switch">
-					{{ t('settings', 'immutable') }}
-				</NcCheckboxRadioSwitch>
-				<p class="previews-admin__hint">
-					{{ t('settings', 'When on, browsers treat the preview as unchanging during max-age and skip revalidation. When off, they revalidate after it expires.') }}
-				</p>
-				<NcTextField
-					v-model="settings.cachePublic.cache_control"
-					:label="t('settings', 'Cache-Control override')"
-					:helper-text="t('settings', 'Leave empty to build Cache-Control from the fields above. A non-empty value replaces that header entirely.')" />
-			</div>
-		</NcSettingsSection>
-
-		<NcSettingsSection
 			:name="t('settings', 'Failed generations')"
-			:description="t('settings', 'Preview generation failures recorded by the server. Retrying generates a preview for that file using the current providers.')">
+			:description="t('settings', 'Provider errors while generating a preview. A later provider may still produce an image. Retry generates the preview again with the current providers.')">
 			<h3>{{ t('settings', 'Retention') }}</h3>
 			<div class="previews-admin__fields">
 				<NcTextField
@@ -480,25 +431,16 @@ import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+import VueDraggable from 'vuedraggable'
 import ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'
 import ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
+import DragVerticalIcon from 'vue-material-design-icons/DragVertical.vue'
 import logger from '../logger.ts'
 
 const documentationLink = loadState('settings', 'previewsDocumentation', '')
 const initialSettings = loadState('settings', 'previewsSettings', {})
 const initialFailures = loadState('settings', 'previewsFailures', [])
-
-function normalizeCache(cache) {
-	const value = cache || {}
-	return {
-		visibility: value.visibility || 'private',
-		max_age: value.max_age ?? null,
-		s_maxage: value.s_maxage ?? null,
-		immutable: !!value.immutable,
-		cache_control: value.cache_control || '',
-	}
-}
 
 /** Providers that always store JPEG previews and therefore use JPEG quality. */
 const JPEG_QUALITY_PROVIDERS = new Set([
@@ -566,8 +508,6 @@ function formSnapshot(settings) {
 		ffprobePath: settings.ffprobePath || '',
 		libreofficePath: settings.libreofficePath || '',
 		providers: (settings.providers || []).map((provider) => `${provider.class}:${provider.enabled ? 1 : 0}`),
-		cacheAuthenticated: normalizeCache(settings.cacheAuthenticated),
-		cachePublic: normalizeCache(settings.cachePublic),
 		failuresRetentionDays: settings.failuresRetentionDays ?? 30,
 		failuresMaxRows: settings.failuresMaxRows ?? 5000,
 	})
@@ -584,9 +524,11 @@ export default {
 		NcSelect,
 		NcSettingsSection,
 		NcTextField,
+		VueDraggable,
 		ArrowDownIcon,
 		ArrowUpIcon,
 		CloseIcon,
+		DragVerticalIcon,
 	},
 
 	data() {
@@ -605,14 +547,19 @@ export default {
 			imaginaryTestError: '',
 			failureRange: { id: 'all', label: t('settings', 'All') },
 			providerFilter: 'all',
+			mimeFilter: '',
+			providersListKey: 0,
 			savedSnapshot: formSnapshot(settings),
 			formatOptions: [
 				{ id: 'jpeg', label: 'JPEG' },
 				{ id: 'webp', label: 'WebP' },
 			],
-			visibilityOptions: [
-				{ id: 'private', label: t('settings', 'private') },
-				{ id: 'public', label: t('settings', 'public') },
+			statusFilterOptions: [
+				{ id: 'all', label: t('settings', 'All') },
+				{ id: 'available', label: t('settings', 'Available') },
+				{ id: 'unavailable', label: t('settings', 'Unavailable') },
+				{ id: 'supported', label: t('settings', 'Supported') },
+				{ id: 'unsupported', label: t('settings', 'Unsupported') },
 			],
 			rangeOptions: [
 				{ id: '24h', label: t('settings', 'Last 24 hours') },
@@ -722,12 +669,8 @@ export default {
 		dirty() {
 			return formSnapshot(this.settings) !== this.savedSnapshot
 		},
-		cachePoliciesValid() {
-			return this.cachePolicyHasRequiredSMaxAge(this.settings.cacheAuthenticated)
-				&& this.cachePolicyHasRequiredSMaxAge(this.settings.cachePublic)
-		},
 		saveDisabled() {
-			return this.saving || this.settings.configIsReadonly || !this.dirty || !this.cachePoliciesValid
+			return this.saving || this.settings.configIsReadonly || !this.dirty
 		},
 		detection() {
 			return this.settings.detection || {}
@@ -735,13 +678,16 @@ export default {
 		visibleProviderFootnotes() {
 			const present = new Set()
 			for (const provider of this.filteredProviders) {
+				if (provider.unsupported) {
+					present.add('unsupported')
+				}
 				const footnote = this.providerOutputInfo(provider).footnote
 				if (footnote) {
 					present.add(footnote)
 				}
 			}
-			const order = ['imaginary-jpeg', 'mp3', 'legacy-image']
-			const marks = ['1', '2', '3']
+			const order = ['unsupported', 'imaginary-jpeg', 'mp3', 'legacy-image']
+			const marks = ['1', '2', '3', '4']
 			const notes = []
 			for (const key of order) {
 				if (!present.has(key)) {
@@ -757,13 +703,52 @@ export default {
 		},
 		filteredProviders() {
 			const list = this.settings.providers || []
-			if (this.providerFilter === 'available') {
-				return list.filter((provider) => provider.available !== false)
+			return list.filter((provider) => this.providerMatchesStatus(provider) && this.providerMatchesMime(provider))
+		},
+		canReorderProviders() {
+			return this.providerFilter === 'all' && this.mimeFilter === ''
+		},
+		mimeFilterOptions() {
+			const mimes = new Set()
+			for (const provider of this.settings.providers || []) {
+				for (const mime of provider.sourceMimes || []) {
+					if (mime) {
+						mimes.add(mime)
+					}
+				}
 			}
-			if (this.providerFilter === 'unavailable') {
-				return list.filter((provider) => provider.available === false)
-			}
-			return list
+			const options = [...mimes].sort().map((mime) => ({ id: mime, label: mime }))
+			return [
+				{ id: '', label: t('settings', 'All source MIME types') },
+				...options,
+			]
+		},
+		mimeFilterOption: {
+			get() {
+				return this.mimeFilterOptions.find((option) => option.id === this.mimeFilter) || this.mimeFilterOptions[0]
+			},
+			set(option) {
+				this.mimeFilter = option?.id || ''
+			},
+		},
+		statusFilterOption: {
+			get() {
+				return this.statusFilterOptions.find((option) => option.id === this.providerFilter) || this.statusFilterOptions[0]
+			},
+			set(option) {
+				this.providerFilter = option?.id || 'all'
+			},
+		},
+		orderedProviders: {
+			get() {
+				return this.filteredProviders
+			},
+			set(value) {
+				if (!this.canReorderProviders) {
+					return
+				}
+				this.settings.providers = value
+			},
 		},
 		detectedCpuCount() {
 			return Number(this.detection.cpuCount) || 0
@@ -802,56 +787,6 @@ export default {
 				this.settings.previewFormat = option.id
 			},
 		},
-		authVisibility: {
-			get() {
-				return this.visibilityOptions.find((option) => option.id === this.settings.cacheAuthenticated.visibility) || this.visibilityOptions[0]
-			},
-			set(option) {
-				this.setCacheVisibility(this.settings.cacheAuthenticated, option.id)
-			},
-		},
-		publicVisibility: {
-			get() {
-				return this.visibilityOptions.find((option) => option.id === this.settings.cachePublic.visibility) || this.visibilityOptions[0]
-			},
-			set(option) {
-				this.setCacheVisibility(this.settings.cachePublic, option.id)
-			},
-		},
-		authMaxAge: {
-			get() {
-				return String(this.settings.cacheAuthenticated.max_age ?? '')
-			},
-			set(value) {
-				this.settings.cacheAuthenticated.max_age = Number(value)
-			},
-		},
-		authSMaxAge: {
-			get() {
-				const value = this.settings.cacheAuthenticated.s_maxage
-				return value === null || value === undefined ? '' : String(value)
-			},
-			set(value) {
-				this.settings.cacheAuthenticated.s_maxage = value === '' ? null : Number(value)
-			},
-		},
-		publicMaxAge: {
-			get() {
-				return String(this.settings.cachePublic.max_age ?? '')
-			},
-			set(value) {
-				this.settings.cachePublic.max_age = Number(value)
-			},
-		},
-		publicSMaxAge: {
-			get() {
-				const value = this.settings.cachePublic.s_maxage
-				return value === null || value === undefined ? '' : String(value)
-			},
-			set(value) {
-				this.settings.cachePublic.s_maxage = value === '' ? null : Number(value)
-			},
-		},
 	},
 
 	mounted() {
@@ -874,6 +809,38 @@ export default {
 		providerIndex(provider) {
 			return (this.settings.providers || []).findIndex((row) => row.class === provider.class)
 		},
+		providerMatchesStatus(provider) {
+			switch (this.providerFilter) {
+			case 'available':
+				return provider.available !== false
+			case 'unavailable':
+				return provider.available === false
+			case 'supported':
+				return !provider.unsupported
+			case 'unsupported':
+				return !!provider.unsupported
+			default:
+				return true
+			}
+		},
+		providerMatchesMime(provider) {
+			if (!this.mimeFilter) {
+				return true
+			}
+			return (provider.sourceMimes || []).some((token) => this.mimeTokenMatches(token, this.mimeFilter))
+		},
+		mimeTokenMatches(token, selected) {
+			if (token === selected) {
+				return true
+			}
+			if (token.endsWith('/*')) {
+				return selected.startsWith(token.slice(0, -1))
+			}
+			if (token.endsWith('.*') || token.endsWith('-*')) {
+				return selected.startsWith(token.slice(0, -1))
+			}
+			return false
+		},
 		moveProvider(index, delta) {
 			const target = index + delta
 			if (target < 0 || target >= this.settings.providers.length) {
@@ -884,39 +851,34 @@ export default {
 			copy.splice(target, 0, item)
 			this.settings.providers = copy
 		},
-		cachePolicyHasRequiredSMaxAge(policy) {
-			if (!policy || policy.visibility !== 'public') {
-				return true
-			}
-			const value = policy.s_maxage
-			return value !== null && value !== undefined && value !== '' && !Number.isNaN(Number(value))
-		},
-		setCacheVisibility(policy, visibility) {
-			const previous = policy.visibility
-			policy.visibility = visibility
-			if (visibility === 'private') {
-				policy.s_maxage = null
-				return
-			}
-			if (previous !== 'public' && (policy.s_maxage === null || policy.s_maxage === undefined || policy.s_maxage === '')) {
-				policy.s_maxage = policy.max_age ?? 86400
-			}
-		},
 		resetProviders() {
-			const defaults = this.settings.defaultEnabledProviders || []
-			const enabledSet = new Set(defaults)
+			const enabledDefaults = this.settings.defaultEnabledProviders || []
+			const enabledSet = new Set(enabledDefaults)
 			const byClass = Object.fromEntries((this.settings.providers || []).map((provider) => [provider.class, provider]))
+			const order = (this.settings.defaultProviderOrder && this.settings.defaultProviderOrder.length)
+				? this.settings.defaultProviderOrder
+				: [...enabledDefaults, ...(this.settings.providers || []).map((provider) => provider.class)]
 			const next = []
-			for (const className of defaults) {
-				const existing = byClass[className] || { class: className, name: className, mime: '', enabled: true }
-				next.push({ ...existing, enabled: true })
+			const seen = new Set()
+			for (const className of order) {
+				if (seen.has(className)) {
+					continue
+				}
+				const existing = byClass[className]
+				if (!existing) {
+					continue
+				}
+				next.push({ ...existing, enabled: enabledSet.has(className) })
+				seen.add(className)
 			}
 			for (const provider of this.settings.providers || []) {
-				if (!enabledSet.has(provider.class)) {
-					next.push({ ...provider, enabled: false })
+				if (seen.has(provider.class)) {
+					continue
 				}
+				next.push({ ...provider, enabled: false })
 			}
 			this.settings.providers = next
+			this.providersListKey += 1
 		},
 		payload() {
 			const enabledCount = (this.settings.providers || []).filter((provider) => provider.enabled).length
@@ -1061,8 +1023,10 @@ export default {
 		},
 		providerFootnoteText(key) {
 			switch (key) {
+			case 'unsupported':
+				return t('settings', 'Disabled by default due to security and performance concerns. These providers are still available, but enabling them is discouraged and they are considered unsupported.')
 			case 'imaginary-jpeg':
-				return t('settings', 'When Preview output format is JPEG, Imaginary still writes PNG for GIF, PDF, PNG, SVG, and Illustrator files.')
+				return t('settings', 'When the preview output format is JPEG, Imaginary still writes PNG for GIF, PDF, PNG, SVG, and Illustrator files.')
 			case 'mp3':
 				return t('settings', 'MP3 previews use the artwork embedded in the file’s ID3 tag. The generated preview format matches that artwork (typically JPEG or PNG).')
 			case 'legacy-image':
@@ -1071,12 +1035,18 @@ export default {
 				return ''
 			}
 		},
+		providerUnsupportedMark(provider) {
+			return provider.unsupported ? this.providerFootnoteMark('unsupported') : ''
+		},
 		providerFormatMark(provider) {
 			const footnote = this.providerOutputInfo(provider).footnote
 			return footnote ? this.providerFootnoteMark(footnote) : ''
 		},
 		providerAvailabilityVariant(provider) {
-			return provider.available === false ? 'warning' : 'success'
+			if (provider.available === false || provider.unsupported) {
+				return 'warning'
+			}
+			return 'success'
 		},
 		providerAvailabilityHref(provider) {
 			if (provider.available !== false) {
@@ -1106,24 +1076,27 @@ export default {
 			}
 		},
 		providerAvailabilityLabel(provider) {
-			if (provider.available !== false) {
-				return t('settings', 'Available')
-			}
-			switch (provider.requirement) {
-			case 'imagick':
-				if (this.detection.imagick) {
-					return t('settings', 'ImageMagick is installed but does not support {format}', { format: provider.imagickFormat || 'this format' })
+			if (provider.available === false) {
+				switch (provider.requirement) {
+				case 'imagick':
+					if (this.detection.imagick) {
+						return t('settings', 'ImageMagick is installed but does not support {format}', { format: provider.imagickFormat || 'this format' })
+					}
+					return t('settings', 'Requires ImageMagick (Imagick)')
+				case 'ffmpeg':
+					return t('settings', 'Requires ffmpeg')
+				case 'office':
+					return t('settings', 'Requires LibreOffice or OpenOffice')
+				case 'imaginary':
+					return t('settings', 'Requires Imaginary URL')
+				default:
+					return t('settings', 'Unavailable')
 				}
-				return t('settings', 'Requires ImageMagick (Imagick)')
-			case 'ffmpeg':
-				return t('settings', 'Requires ffmpeg')
-			case 'office':
-				return t('settings', 'Requires LibreOffice or OpenOffice')
-			case 'imaginary':
-				return t('settings', 'Requires Imaginary URL')
-			default:
-				return t('settings', 'Unavailable')
 			}
+			if (provider.unsupported) {
+				return t('settings', 'Unsupported')
+			}
+			return t('settings', 'Available')
 		},
 	},
 }
@@ -1190,6 +1163,27 @@ export default {
 	align-items: center;
 	gap: 12px;
 	margin-block: 12px;
+}
+
+.previews-admin__toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 12px;
+	margin-block: 12px;
+}
+
+.previews-admin__filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 12px;
+}
+
+.previews-admin__status-filter,
+.previews-admin__mime-filter {
+	min-width: 220px;
 }
 
 .previews-admin__providers {
@@ -1272,6 +1266,22 @@ export default {
 
 .previews-admin__order {
 	display: flex;
+	align-items: center;
+	justify-self: end;
+}
+
+.previews-admin__drag-handle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--default-clickable-area);
+	min-height: var(--default-clickable-area);
+	color: var(--color-text-maxcontrast);
+	cursor: grab;
+}
+
+.previews-admin__drag-handle:active {
+	cursor: grabbing;
 }
 
 .previews-admin__providers-footnotes {

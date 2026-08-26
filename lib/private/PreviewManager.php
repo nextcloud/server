@@ -36,6 +36,7 @@ use OC\Preview\PDF;
 use OC\Preview\Photoshop;
 use OC\Preview\PNG;
 use OC\Preview\Postscript;
+use OC\Preview\PreviewAdminConfig;
 use OC\Preview\Failure\PreviewFailureService;
 use OC\Preview\PreviewMigrationService;
 use OC\Preview\SGI;
@@ -275,11 +276,15 @@ class PreviewManager implements IPreview {
 			WebP::class,
 		];
 
-		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', array_merge([
-			MarkDown::class,
-			TXT::class,
-			OpenDocument::class,
-		], $imageProviders));
+		$configured = $this->config->getSystemValue('enabledPreviewProviders', null);
+		if (!is_array($configured)) {
+			$this->defaultProviders = PreviewAdminConfig::getRecommendedEnabledProviders(
+				$this->config->getSystemValueString('preview_imaginary_url', '') !== '',
+				$this->imagickSupport->hasExtension() && $this->imagickSupport->supportsFormat('HEIC'),
+			);
+		} else {
+			$this->defaultProviders = $configured;
+		}
 
 		if (in_array(Image::class, $this->defaultProviders)) {
 			$this->defaultProviders = array_merge($this->defaultProviders, $imageProviders);

@@ -1640,6 +1640,12 @@ $CONFIG = [
 	 *   - ``OC\Preview\Imaginary``
 	 *   - ``OC\Preview\ImaginaryPDF``
 	 *
+	 * When ``preview_imaginary_url`` is set and this key is still unset, Nextcloud
+	 * tries ``OC\Preview\Imaginary`` first (as in AIO and the server-tuning
+	 * guide), then the built-in image providers. ``OC\Preview\HEIC`` is also
+	 * enabled as a fallback when ImageMagick can decode HEIC, because Imaginary
+	 * does not handle every HEIC/HEIF file.
+	 *
 	 * Defaults to the following providers:
 	 *
 	 *  - ``OC\Preview\PNG``
@@ -1680,45 +1686,6 @@ $CONFIG = [
 	 * Defaults to ``jpeg``
 	 */
 	'preview_format' => 'jpeg',
-
-	/**
-	 * HTTP cache policy for authenticated preview responses (``/core/preview``).
-	 *
-	 * If this key is unset, Nextcloud keeps the historical default:
-	 * ``private, max-age=86400, immutable``.
-	 *
-	 * ``visibility`` is ``private`` or ``public``. Setting authenticated previews
-	 * to ``public`` allows shared caches to store them — only enable this if you
-	 * understand the privacy impact. When ``visibility`` is ``public``, ``s_maxage``
-	 * is required. When ``visibility`` is ``private``, ``s_maxage`` is omitted.
-	 *
-	 * An optional ``cache_control`` string, if non-empty, replaces the built header.
-	 */
-	'preview_cache_authenticated' => [
-		'visibility' => 'private',
-		'max_age' => 86400,
-		's_maxage' => null,
-		'immutable' => true,
-		'cache_control' => '',
-	],
-
-	/**
-	 * HTTP cache policy for public share preview responses.
-	 *
-	 * If this key is unset, Nextcloud keeps the historical default:
-	 * ``private, max-age=86400, must-revalidate``.
-	 *
-	 * Set ``visibility`` to ``public`` and ``s_maxage`` when a CDN should cache
-	 * public-share previews. ``s_maxage`` is required when ``visibility`` is
-	 * ``public``.
-	 */
-	'preview_cache_public' => [
-		'visibility' => 'private',
-		'max_age' => 86400,
-		's_maxage' => null,
-		'immutable' => false,
-		'cache_control' => '',
-	],
 
 	/**
 	 * How long failed preview generations are kept in ``oc_preview_failures``.

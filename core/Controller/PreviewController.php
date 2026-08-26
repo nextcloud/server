@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use OC\Preview\PreviewCachePolicy;
+use OC\Preview\Failure\PreviewFailureService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -38,7 +38,7 @@ class PreviewController extends Controller {
 		private IRootFolder $root,
 		private ?string $userId,
 		private IMimeIconProvider $mimeIconProvider,
-		private ?PreviewCachePolicy $cachePolicy = null,
+		private ?PreviewFailureService $failureService = null,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -170,11 +170,7 @@ class PreviewController extends Controller {
 			$response = new FileDisplayResponse($f, Http::STATUS_OK, [
 				'Content-Type' => $f->getMimeType(),
 			]);
-			if ($this->cachePolicy !== null) {
-				$this->cachePolicy->apply($response, PreviewCachePolicy::AUTHENTICATED, 3600 * 24, false, true);
-			} else {
-				$response->cacheFor(3600 * 24, false, true);
-			}
+			$response->cacheFor(3600 * 24, false, true);
 			return $response;
 		} catch (NotFoundException $e) {
 			// If we have no preview enabled, we can redirect to the mime icon if any
@@ -184,6 +180,10 @@ class PreviewController extends Controller {
 				}
 			}
 
+			$this->failureService?->recordFromFailedRequest(
+				$node,
+				$e->getMessage() !== '' ? $e->getMessage() : 'Preview not found',
+			);
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

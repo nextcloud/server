@@ -16,8 +16,7 @@ use OCP\IConfig;
 use OCP\Server;
 
 /**
- * Typed read/write helper for preview system and app config used by the admin UI
- * and by preview generation/HTTP layers.
+ * Typed read/write helper for preview system and app config used by the admin UI.
  */
 class PreviewAdminConfig {
 	/** @var list<string> */
@@ -32,11 +31,11 @@ class PreviewAdminConfig {
 	}
 
 	/**
-	 * Default enabledPreviewProviders list used when the key is unset.
+	 * Built-in defaults when ``enabledPreviewProviders`` is unset.
 	 *
 	 * @return list<class-string>
 	 */
-	public static function getDefaultEnabledProviders(): array {
+	public static function getBuiltinDefaultProviders(): array {
 		return [
 			MarkDown::class,
 			TXT::class,
@@ -52,56 +51,122 @@ class PreviewAdminConfig {
 	}
 
 	/**
+	 * Default enabledPreviewProviders list used when the key is unset.
+	 *
+	 * @return list<class-string>
+	 */
+	public static function getDefaultEnabledProviders(): array {
+		return self::getBuiltinDefaultProviders();
+	}
+
+	/**
+	 * Nextcloud-encouraged provider list.
+	 *
+	 * Matches core defaults, plus Imaginary first when it is configured (server
+	 * tuning / AIO). Native HEIC is appended as a fallback because Imaginary
+	 * does not handle every HEIC/HEIF file.
+	 *
+	 * @return list<class-string>
+	 */
+	public static function getRecommendedEnabledProviders(bool $imaginaryConfigured, bool $heicFallback = false): array {
+		$providers = self::getBuiltinDefaultProviders();
+		if (!$imaginaryConfigured) {
+			return $providers;
+		}
+		$providers = array_merge([Imaginary::class], $providers);
+		if ($heicFallback) {
+			$providers[] = HEIC::class;
+		}
+		return array_values(array_unique($providers));
+	}
+
+	/**
+	 * Providers disabled by default due to security, performance, or privacy
+	 * concerns. They remain selectable, but Nextcloud discourages enabling
+	 * them and considers them unsupported.
+	 *
+	 * Imaginary and the legacy Image helper are opt-in alternatives, not
+	 * members of this list.
+	 *
+	 * @see https://docs.nextcloud.com/server/latest/admin_manual/configuration_files/previews_configuration.html
+	 */
+	public static function isUnsupportedProvider(string $class): bool {
+		$class = self::normalizeClassName($class);
+		if (in_array($class, self::getBuiltinDefaultProviders(), true)) {
+			return false;
+		}
+		if (in_array($class, [Imaginary::class, ImaginaryPDF::class, Image::class], true)) {
+			return false;
+		}
+		foreach (self::getProviderCatalog() as $entry) {
+			if ($entry['class'] === $class) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Known core providers shown in the admin UI (enabled and disabled).
 	 *
-	 * @return list<array{class: string, name: string, mime: string, requirement: string, imagickFormat: ?string}>
+	 * @return list<array{class: string, name: string, mime: string, requirement: string, imagickFormat: ?string, sourceMimes: list<string>}>
 	 */
 	public static function getProviderCatalog(): array {
-		$imagick = static fn (string $class, string $name, string $mime, string $format): array => [
+		$imagick = static fn (string $class, string $name, string $mime, string $format, array $sourceMimes): array => [
 			'class' => $class,
 			'name' => $name,
 			'mime' => $mime,
 			'requirement' => 'imagick',
 			'imagickFormat' => $format,
+			'sourceMimes' => $sourceMimes,
 		];
-		$none = static fn (string $class, string $name, string $mime): array => [
+		$none = static fn (string $class, string $name, string $mime, array $sourceMimes): array => [
 			'class' => $class,
 			'name' => $name,
 			'mime' => $mime,
 			'requirement' => 'none',
 			'imagickFormat' => null,
+			'sourceMimes' => $sourceMimes,
+		];
+		$office = static fn (string $class, string $name, string $mime, array $sourceMimes): array => [
+			'class' => $class,
+			'name' => $name,
+			'mime' => $mime,
+			'requirement' => 'office',
+			'imagickFormat' => null,
+			'sourceMimes' => $sourceMimes,
 		];
 		return [
-			$none(PNG::class, 'PNG', 'image/png'),
-			$none(JPEG::class, 'JPEG', 'image/jpeg'),
-			$none(GIF::class, 'GIF', 'image/gif'),
-			$none(BMP::class, 'BMP', 'image/bmp'),
-			$none(XBitmap::class, 'XBitmap', 'image/x-xbitmap'),
-			$none(WebP::class, 'WebP', 'image/webp'),
-			$none(Krita::class, 'Krita', 'application/x-krita'),
-			$imagick(HEIC::class, 'HEIC', 'image/heic, image/heif', 'HEIC'),
-			$imagick(TIFF::class, 'TIFF', 'image/tiff', 'TIFF'),
-			$imagick(SVG::class, 'SVG', 'image/svg+xml', 'SVG'),
-			$imagick(TGA::class, 'TGA', 'image/tga', 'TGA'),
-			$imagick(SGI::class, 'SGI', 'image/sgi', 'SGI'),
-			['class' => Imaginary::class, 'name' => 'Imaginary', 'mime' => 'images (bmp, png, jpeg, gif, heic, heif, svg, tiff, webp), illustrator', 'requirement' => 'imaginary', 'imagickFormat' => null],
-			['class' => ImaginaryPDF::class, 'name' => 'Imaginary PDF', 'mime' => 'application/pdf', 'requirement' => 'imaginary', 'imagickFormat' => null],
-			$imagick(PDF::class, 'PDF', 'application/pdf', 'PDF'),
-			$imagick(Postscript::class, 'Postscript', 'application/postscript', 'EPS'),
-			$imagick(Illustrator::class, 'Illustrator', 'application/illustrator', 'AI'),
-			$imagick(Photoshop::class, 'Photoshop', 'application/x-photoshop', 'PSD'),
-			$imagick(Font::class, 'Font', 'application/font-sfnt', 'TTF'),
-			$none(MarkDown::class, 'Markdown', 'text/markdown'),
-			$none(TXT::class, 'Plain text', 'text/plain'),
-			$none(OpenDocument::class, 'OpenDocument', 'application/vnd.oasis.opendocument.*'),
-			['class' => MSOfficeDoc::class, 'name' => 'MS Office Doc', 'mime' => 'application/msword', 'requirement' => 'office', 'imagickFormat' => null],
-			['class' => MSOffice2003::class, 'name' => 'MS Office 2003', 'mime' => 'application/vnd.ms-*', 'requirement' => 'office', 'imagickFormat' => null],
-			['class' => MSOffice2007::class, 'name' => 'MS Office 2007', 'mime' => 'application/vnd.openxmlformats-officedocument.*', 'requirement' => 'office', 'imagickFormat' => null],
-			['class' => StarOffice::class, 'name' => 'StarOffice', 'mime' => 'application/vnd.sun.xml.*', 'requirement' => 'office', 'imagickFormat' => null],
-			['class' => EMF::class, 'name' => 'EMF', 'mime' => 'image/emf', 'requirement' => 'office', 'imagickFormat' => null],
-			$none(MP3::class, 'MP3', 'audio/mpeg'),
-			['class' => Movie::class, 'name' => 'Movie', 'mime' => 'video/*', 'requirement' => 'ffmpeg', 'imagickFormat' => null],
-			$none(Image::class, 'Image (legacy)', 'enables PNG, JPEG, GIF, BMP, XBitmap, Krita, WebP'),
+			$none(PNG::class, 'PNG', 'image/png', ['image/png']),
+			$none(JPEG::class, 'JPEG', 'image/jpeg', ['image/jpeg']),
+			$none(GIF::class, 'GIF', 'image/gif', ['image/gif']),
+			$none(BMP::class, 'BMP', 'image/bmp', ['image/bmp']),
+			$none(XBitmap::class, 'XBitmap', 'image/x-xbitmap', ['image/x-xbitmap']),
+			$none(WebP::class, 'WebP', 'image/webp', ['image/webp']),
+			$none(Krita::class, 'Krita', 'application/x-krita', ['application/x-krita']),
+			$imagick(HEIC::class, 'HEIC', 'image/heic, image/heif', 'HEIC', ['image/heic', 'image/heif']),
+			$imagick(TIFF::class, 'TIFF', 'image/tiff', 'TIFF', ['image/tiff']),
+			$imagick(SVG::class, 'SVG', 'image/svg+xml', 'SVG', ['image/svg+xml']),
+			$imagick(TGA::class, 'TGA', 'image/tga', 'TGA', ['image/tga']),
+			$imagick(SGI::class, 'SGI', 'image/sgi', 'SGI', ['image/sgi']),
+			['class' => Imaginary::class, 'name' => 'Imaginary', 'mime' => 'images (bmp, png, jpeg, gif, heic, heif, svg, tiff, webp), illustrator', 'requirement' => 'imaginary', 'imagickFormat' => null, 'sourceMimes' => ['image/bmp', 'image/x-bitmap', 'image/png', 'image/jpeg', 'image/gif', 'image/heic', 'image/heif', 'image/svg+xml', 'image/tiff', 'image/webp', 'application/illustrator']],
+			['class' => ImaginaryPDF::class, 'name' => 'Imaginary PDF', 'mime' => 'application/pdf', 'requirement' => 'imaginary', 'imagickFormat' => null, 'sourceMimes' => ['application/pdf']],
+			$imagick(PDF::class, 'PDF', 'application/pdf', 'PDF', ['application/pdf']),
+			$imagick(Postscript::class, 'Postscript', 'application/postscript', 'EPS', ['application/postscript']),
+			$imagick(Illustrator::class, 'Illustrator', 'application/illustrator', 'AI', ['application/illustrator']),
+			$imagick(Photoshop::class, 'Photoshop', 'application/x-photoshop', 'PSD', ['application/x-photoshop']),
+			$imagick(Font::class, 'Font', 'application/font-sfnt', 'TTF', ['application/font-sfnt']),
+			$none(MarkDown::class, 'Markdown', 'text/markdown', ['text/markdown']),
+			$none(TXT::class, 'Plain text', 'text/plain', ['text/plain']),
+			$none(OpenDocument::class, 'OpenDocument', 'application/vnd.oasis.opendocument.*', ['application/vnd.oasis.opendocument.*']),
+			$office(MSOfficeDoc::class, 'MS Office Doc', 'application/msword', ['application/msword']),
+			$office(MSOffice2003::class, 'MS Office 2003', 'application/vnd.ms-*', ['application/vnd.ms-*']),
+			$office(MSOffice2007::class, 'MS Office 2007', 'application/vnd.openxmlformats-officedocument.*', ['application/vnd.openxmlformats-officedocument.*']),
+			$office(StarOffice::class, 'StarOffice', 'application/vnd.sun.xml.*', ['application/vnd.sun.xml.*']),
+			$office(EMF::class, 'EMF', 'image/emf', ['image/emf']),
+			$none(MP3::class, 'MP3', 'audio/mpeg', ['audio/mpeg']),
+			['class' => Movie::class, 'name' => 'Movie', 'mime' => 'video/*', 'requirement' => 'ffmpeg', 'imagickFormat' => null, 'sourceMimes' => ['video/*']],
+			$none(Image::class, 'Image (legacy)', 'enables PNG, JPEG, GIF, BMP, XBitmap, Krita, WebP', ['image/png', 'image/jpeg', 'image/gif', 'image/bmp', 'image/x-xbitmap', 'application/x-krita', 'image/webp']),
 		];
 	}
 
@@ -109,9 +174,9 @@ class PreviewAdminConfig {
 	 * @return list<string>
 	 */
 	public function getEnabledPreviewProviders(): array {
-		$value = $this->config->getSystemValue('enabledPreviewProviders', self::getDefaultEnabledProviders());
+		$value = $this->config->getSystemValue('enabledPreviewProviders', null);
 		if (!is_array($value)) {
-			return self::getDefaultEnabledProviders();
+			return $this->getRecommendedEnabledProvidersForInstance();
 		}
 		$providers = [];
 		foreach ($value as $class) {
@@ -154,7 +219,7 @@ class PreviewAdminConfig {
 			}
 			$providers[] = $this->providerRow(
 				$entry,
-				$this->isProviderEnabledInUi($entry['class'], $enabledSet, $detection),
+				isset($enabledSet[$entry['class']]),
 				$detection,
 			);
 			$seen[$entry['class']] = true;
@@ -182,9 +247,8 @@ class PreviewAdminConfig {
 			'ffprobePath' => $ffprobeConfigured,
 			'libreofficePath' => $officeConfigured,
 			'providers' => $providers,
-			'defaultEnabledProviders' => self::getDefaultEnabledProviders(),
-			'cacheAuthenticated' => $this->getCachePolicyArray('preview_cache_authenticated', PreviewCachePolicy::defaultAuthenticated()),
-			'cachePublic' => $this->getCachePolicyArray('preview_cache_public', PreviewCachePolicy::defaultPublic()),
+			'defaultEnabledProviders' => $this->getRecommendedEnabledProvidersForInstance(),
+			'defaultProviderOrder' => $this->getDefaultProviderOrder(),
 			'failuresRetentionDays' => $this->config->getSystemValueInt('preview_failures_retention_days', PreviewFailureService::DEFAULT_RETENTION_DAYS),
 			'failuresMaxRows' => $this->config->getSystemValueInt('preview_failures_max_rows', PreviewFailureService::DEFAULT_MAX_ROWS),
 			'detection' => $detection,
@@ -262,12 +326,6 @@ class PreviewAdminConfig {
 			$this->setEnabledProvidersFromRows($settings['providers'], (bool)($settings['confirmEmptyProviders'] ?? false));
 		} elseif (array_key_exists('enabledPreviewProviders', $settings)) {
 			$this->setEnabledProviders($settings['enabledPreviewProviders'], (bool)($settings['confirmEmptyProviders'] ?? false));
-		}
-		if (array_key_exists('cacheAuthenticated', $settings)) {
-			$this->config->setSystemValue('preview_cache_authenticated', $this->normalizeCachePolicy($settings['cacheAuthenticated'], 'private'));
-		}
-		if (array_key_exists('cachePublic', $settings)) {
-			$this->config->setSystemValue('preview_cache_public', $this->normalizeCachePolicy($settings['cachePublic'], 'private'));
 		}
 	}
 
@@ -361,60 +419,6 @@ class PreviewAdminConfig {
 	}
 
 	/**
-	 * @param mixed $value
-	 * @return array{visibility: string, max_age: int, s_maxage: ?int, immutable: bool, cache_control: string}
-	 */
-	private function normalizeCachePolicy(mixed $value, string $defaultVisibility, bool $requirePublicSMaxAge = true): array {
-		if (!is_array($value)) {
-			throw new \InvalidArgumentException('Cache policy must be an object');
-		}
-		$visibility = is_string($value['visibility'] ?? null) ? strtolower($value['visibility']) : $defaultVisibility;
-		if (!in_array($visibility, ['private', 'public'], true)) {
-			throw new \InvalidArgumentException('Cache visibility must be private or public');
-		}
-		$maxAge = $this->toInt($value['max_age'] ?? $value['maxAge'] ?? 86400);
-		if ($maxAge === null || $maxAge < 0) {
-			throw new \InvalidArgumentException('Cache max-age must be >= 0');
-		}
-		$sMaxAgeRaw = $value['s_maxage'] ?? $value['sMaxAge'] ?? null;
-		$sMaxAge = ($sMaxAgeRaw === null || $sMaxAgeRaw === '') ? null : $this->toInt($sMaxAgeRaw);
-		if ($visibility === 'private') {
-			$sMaxAge = null;
-		} elseif ($sMaxAge === null && $requirePublicSMaxAge) {
-			throw new \InvalidArgumentException('Cache s-maxage is required when visibility is public');
-		} elseif ($sMaxAge !== null && $sMaxAge < 0) {
-			throw new \InvalidArgumentException('Cache s-maxage must be >= 0');
-		}
-		$raw = $value['cache_control'] ?? $value['cacheControl'] ?? '';
-		if (!is_string($raw)) {
-			$raw = '';
-		}
-		return [
-			'visibility' => $visibility,
-			'max_age' => $maxAge,
-			's_maxage' => $sMaxAge,
-			'immutable' => (bool)($value['immutable'] ?? false),
-			'cache_control' => trim($raw),
-		];
-	}
-
-	/**
-	 * @param array{visibility: string, max_age: int, s_maxage: ?int, immutable: bool, cache_control?: string} $default
-	 * @return array{visibility: string, max_age: int, s_maxage: ?int, immutable: bool, cache_control: string}
-	 */
-	private function getCachePolicyArray(string $key, array $default): array {
-		$value = $this->config->getSystemValue($key, $default);
-		if (!is_array($value)) {
-			$value = $default;
-		}
-		try {
-			return $this->normalizeCachePolicy($value, $default['visibility'], false);
-		} catch (\InvalidArgumentException) {
-			return $default + ['cache_control' => ''];
-		}
-	}
-
-	/**
 	 * @return array{class: string, name: string, mime: string, requirement: string, imagickFormat: ?string}|null
 	 */
 	private function findCatalogEntry(string $class): ?array {
@@ -443,10 +447,15 @@ class PreviewAdminConfig {
 			'class' => $entry['class'],
 			'name' => $entry['name'],
 			'mime' => $entry['mime'],
+			'sourceMimes' => array_values(array_filter(
+				$entry['sourceMimes'] ?? [],
+				static fn (mixed $mime): bool => is_string($mime) && $mime !== '',
+			)),
 			'enabled' => $enabled,
 			'requirement' => $requirement,
 			'imagickFormat' => $format,
 			'available' => $this->isProviderAvailable($requirement, is_string($format) ? $format : null, $detection),
+			'unsupported' => self::isUnsupportedProvider($entry['class']),
 		];
 	}
 
@@ -493,23 +502,30 @@ class PreviewAdminConfig {
 	}
 
 	/**
-	 * Movie is off by default. When ffmpeg is on PATH and the admin has never
-	 * saved a custom provider list, show it enabled so detection matches the table.
-	 *
-	 * @param array<string, true> $enabledSet
-	 * @param array<string, mixed> $detection
+	 * @return list<class-string>
 	 */
-	private function isProviderEnabledInUi(string $class, array $enabledSet, array $detection): bool {
-		if (isset($enabledSet[$class])) {
-			return true;
+	private function getRecommendedEnabledProvidersForInstance(): array {
+		$detection = $this->getDetection();
+		return self::getRecommendedEnabledProviders(
+			(bool)$detection['imaginaryConfigured'],
+			(bool)($detection['imagickFormats']['HEIC'] ?? false),
+		);
+	}
+
+	/**
+	 * Canonical provider list order for “Reset to defaults”: recommended
+	 * enabled providers first, then the rest of the catalog.
+	 *
+	 * @return list<class-string>
+	 */
+	private function getDefaultProviderOrder(): array {
+		$order = $this->getRecommendedEnabledProvidersForInstance();
+		foreach (self::getProviderCatalog() as $entry) {
+			if (!in_array($entry['class'], $order, true)) {
+				$order[] = $entry['class'];
+			}
 		}
-		if ($class !== Movie::class) {
-			return false;
-		}
-		if (!($detection['ffmpegFound'] ?? false)) {
-			return false;
-		}
-		return $this->config->getSystemValue('enabledPreviewProviders', null) === null;
+		return $order;
 	}
 
 	/**

@@ -7,7 +7,7 @@
 
 namespace OCA\Files_Versions\Controller;
 
-use OC\Preview\PreviewCachePolicy;
+use OC\Preview\Failure\PreviewFailureService;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -35,7 +35,7 @@ class PreviewController extends Controller {
 		private IVersionManager $versionManager,
 		private IPreview $previewManager,
 		private IMimeIconProvider $mimeIconProvider,
-		private ?PreviewCachePolicy $cachePolicy = null,
+		private ?PreviewFailureService $failureService = null,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -76,11 +76,7 @@ class PreviewController extends Controller {
 			$versionFile = $this->versionManager->getVersionFile($user, $file, $version);
 			$preview = $this->previewManager->getPreview($versionFile, $x, $y, true, IPreview::MODE_FILL, $versionFile->getMimetype());
 			$response = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => $preview->getMimeType()]);
-			if ($this->cachePolicy !== null) {
-				$this->cachePolicy->apply($response, PreviewCachePolicy::AUTHENTICATED, 3600 * 24, false, true);
-			} else {
-				$response->cacheFor(3600 * 24, false, true);
-			}
+			$response->cacheFor(3600 * 24, false, true);
 			return $response;
 		} catch (NotFoundException $e) {
 			// If we have no preview enabled, we can redirect to the mime icon if any
@@ -91,6 +87,12 @@ class PreviewController extends Controller {
 				}
 			}
 
+			if ($versionFile instanceof \OCP\Files\File) {
+				$this->failureService?->recordFromFailedRequest(
+					$versionFile,
+					$e->getMessage() !== '' ? $e->getMessage() : 'Preview not found',
+				);
+			}
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

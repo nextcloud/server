@@ -70,6 +70,24 @@ class PreviewFailureServiceTest extends TestCase {
 		$this->service->record($file, 'image/jpeg', 'OC\\Preview\\JPEG', 'broken');
 	}
 
+	public function testRecordFromFailedRequestSkipsExisting(): void {
+		$file = $this->file();
+		$existing = new PreviewFailure();
+		$existing->setFileId(42);
+		$existing->setAttempts(1);
+		$this->mapper->method('findByFileId')->willReturn($existing);
+		$this->mapper->expects($this->never())->method('update');
+		$this->mapper->expects($this->never())->method('insert');
+		$this->service->recordFromFailedRequest($file, 'Preview not found');
+	}
+
+	public function testRecordFromFailedRequestInsertsWhenMissing(): void {
+		$file = $this->file();
+		$this->mapper->method('findByFileId')->willThrowException(new DoesNotExistException('missing'));
+		$this->mapper->expects($this->once())->method('insert');
+		$this->service->recordFromFailedRequest($file, 'Preview not found');
+	}
+
 	public function testClearForFileDeletesRow(): void {
 		$this->mapper->expects($this->once())->method('deleteByFileId')->with(42);
 		$this->service->clearForFile(42);
