@@ -159,7 +159,7 @@
 					ref="resultsContainer"
 					class="unified-search-modal__results"
 					:class="{ 'unified-search-modal__results--held': heldHeight !== null }"
-					:style="heldHeight !== null ? { blockSize: `${heldHeight}px`, boxSizing: 'border-box' } : undefined">
+					:style="heldHeight !== null ? { minBlockSize: `${heldHeight}px`, boxSizing: 'border-box' } : undefined">
 					<h3 class="hidden-visually">
 						{{ t('core', 'Results') }}
 					</h3>
@@ -1807,20 +1807,30 @@ export default defineComponent({
 		min-height: 0;
 		overflow: hidden auto;
 
-		// The placeholders deliberately overfill, so the bottom fades out over the cut.
+		// The reserved height is a floor, not a size. Column layout so the placeholders can
+		// take what the results leave.
 		&--held {
+			display: flex;
+			flex-direction: column;
 			flex-grow: 0;
-			overflow: clip;
-			// Capped, so a short box does not spend a third of itself fading.
-			mask-image: linear-gradient(to bottom, #000 calc(100% - min(2lh, 25%)), transparent);
+
+			> *:not(.search-result-skeleton) {
+				flex: none;
+			}
 		}
 		// Adjust padding to match container but keep the scrollbar on the very end
 		padding-inline: calc(var(--default-grid-baseline) * 4);
 		padding-block: 0 calc(var(--default-grid-baseline) * 4);
 
-		// Matches the gap a category title keeps above itself.
 		.search-result-skeleton {
+			// Matches the gap a category title keeps above itself.
 			margin-block-start: 14px;
+			// The placeholders deliberately overfill, so the bottom fades out over the cut.
+			flex: 1 1 0;
+			min-block-size: 0;
+			overflow: clip;
+			// Capped, so a short box does not spend a third of itself fading.
+			mask-image: linear-gradient(to bottom, #000 calc(100% - min(2lh, 25%)), transparent);
 		}
 
 		.result {
@@ -1891,7 +1901,7 @@ export default defineComponent({
 
 // Ensure modal is accessible on small devices
 @media only screen and (max-height: 400px) {
-	.unified-search-modal__results:not(.unified-search-modal__results--held) {
+	.unified-search-modal__results {
 		overflow: unset;
 	}
 }
