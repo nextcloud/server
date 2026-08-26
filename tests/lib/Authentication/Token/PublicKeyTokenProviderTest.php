@@ -22,6 +22,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
 use OCP\Server;
@@ -128,23 +129,33 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->getPassword($actual, $token);
 	}
 
-	public function testGenerateTokenLongPassword(): void {
-		$token = 'tokentokentokentokentoken';
-		$uid = 'user';
-		$user = 'User';
-		$password = '';
-		for ($i = 0; $i < 500; $i++) {
-			$password .= 'e';
-		}
+	public function testGenerateTokenRejectsPasswordAboveStorageLimit(): void {
+		$password = str_repeat('e', IUserManager::MAX_PASSWORD_LENGTH + 1);
 		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
-		$type = IToken::PERMANENT_TOKEN;
+
 		$this->config->method('getSystemValueBool')
 			->willReturnMap([
 				['auth.storeCryptedPassword', true, true],
 			]);
-		$this->expectException(\RuntimeException::class);
 
-		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
+		$this->mapper->expects($this->never())
+			->method('insert');
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage(sprintf(
+			'Storing an encrypted password longer than %d bytes in an authentication token is not supported.',
+			IUserManager::MAX_PASSWORD_LENGTH,
+		));
+
+		$this->tokenProvider->generateToken(
+			'tokentokentokentokentoken',
+			'user',
+			'User',
+			$password,
+			$name,
+			IToken::PERMANENT_TOKEN,
+			IToken::DO_NOT_REMEMBER,
+		);
 	}
 
 	public function testGenerateTokenInvalidName(): void {
