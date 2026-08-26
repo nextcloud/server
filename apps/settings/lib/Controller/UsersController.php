@@ -141,14 +141,6 @@ class UsersController extends Controller {
 		$canChangePassword = $this->canAdminChangeUserPasswords();
 
 		/* GROUPS */
-		$groupsInfo = new MetaData(
-			$uid,
-			$isAdmin,
-			$isDelegatedAdmin,
-			$this->groupManager,
-			$this->userSession
-		);
-
 		$adminGroup = $this->groupManager->get('admin');
 		$adminGroupData = [
 			'id' => $adminGroup->getGID(),
@@ -167,6 +159,7 @@ class UsersController extends Controller {
 
 		$disabledUsers = -1;
 		$userCount = 0;
+		$ownSubAdminGroups = ($isAdmin || $isDelegatedAdmin) ? [] : $subAdmin->getSubAdminsGroups($user);
 
 		if (!$isLDAPUsed) {
 			if ($isAdmin || $isDelegatedAdmin) {
@@ -176,7 +169,7 @@ class UsersController extends Controller {
 				}, 0);
 			} else {
 				// User is subadmin !
-				[$userCount,$disabledUsers] = $this->userManager->countUsersAndDisabledUsersOfGroups($groupsInfo->getGroups(), self::COUNT_LIMIT_FOR_SUBADMINS);
+				[$userCount,$disabledUsers] = $this->userManager->countUsersAndDisabledUsersOfGroups($ownSubAdminGroups, self::COUNT_LIMIT_FOR_SUBADMINS);
 			}
 
 			if ($disabledUsers > 0) {
@@ -199,7 +192,7 @@ class UsersController extends Controller {
 		if (!$isAdmin && !$isDelegatedAdmin) {
 			$subAdminGroups = array_map(
 				fn (IGroup $group) => ['id' => $group->getGID(), 'name' => $group->getDisplayName()],
-				$subAdmin->getSubAdminsGroups($user),
+				$ownSubAdminGroups,
 			);
 			$subAdminGroups = array_values($subAdminGroups);
 		}

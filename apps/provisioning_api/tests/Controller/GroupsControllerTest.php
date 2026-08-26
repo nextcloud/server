@@ -157,16 +157,19 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	public static function dataGetGroups(): array {
 		return [
-			[null, 0, 0],
-			['foo', 0, 0],
-			[null, 1, 0],
-			[null, 0, 2],
-			['foo', 1, 2],
+			// search, requested limit, offset, expected forwarded limit
+			[null, null, 0, GroupsController::MAX_SEARCH_RESULTS],
+			['foo', null, 0, GroupsController::MAX_SEARCH_RESULTS],
+			[null, 0, 0, GroupsController::MAX_SEARCH_RESULTS],
+			[null, 1, 0, 1],
+			[null, 10, 2, 10],
+			['foo', 1, 2, 1],
+			[null, GroupsController::MAX_SEARCH_RESULTS + 1, 0, GroupsController::MAX_SEARCH_RESULTS],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetGroups')]
-	public function testGetGroups(?string $search, int $limit, int $offset): void {
+	public function testGetGroups(?string $search, ?int $limit, int $offset, int $expectedLimit): void {
 		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
 
 		$search = $search === null ? '' : $search;
@@ -174,21 +177,15 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->groupManager
 			->expects($this->once())
 			->method('search')
-			->with($search, $limit, $offset)
+			->with($search, $expectedLimit, $offset)
 			->willReturn($groups);
 
 		$result = $this->api->getGroups($search, $limit, $offset);
 		$this->assertEquals(['groups' => ['group1', 'group2']], $result->getData());
 	}
 
-	/**
-	 *
-	 * @param string|null $search
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetGroups')]
-	public function testGetGroupsDetails($search, $limit, $offset): void {
+	public function testGetGroupsDetails(?string $search, ?int $limit, int $offset, int $expectedLimit): void {
 		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
 
 		$search = $search === null ? '' : $search;
@@ -196,7 +193,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->groupManager
 			->expects($this->once())
 			->method('search')
-			->with($search, $limit, $offset)
+			->with($search, $expectedLimit, $offset)
 			->willReturn($groups);
 
 		$result = $this->api->getGroupsDetails($search, $limit, $offset);
@@ -218,6 +215,29 @@ class GroupsControllerTest extends \Test\TestCase {
 				'canRemove' => true
 			]
 		]], $result->getData());
+	}
+
+	public static function dataCapsBackendOverflow(): array {
+		return [['getGroups'], ['getGroupsDetails']];
+	}
+
+	/**
+	 * Each backend is searched with the full limit, so the merge can exceed it.
+	 * Truncating here would drop the last backend's groups entirely, so the
+	 * overflow is returned as-is.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataCapsBackendOverflow')]
+	public function testBackendOverflowIsNotTruncated(string $method): void {
+		$groups = array_fill(0, GroupsController::MAX_SEARCH_RESULTS + 5, $this->createGroup('group'));
+
+		$this->groupManager
+			->expects($this->once())
+			->method('search')
+			->with('', GroupsController::MAX_SEARCH_RESULTS, 0)
+			->willReturn($groups);
+
+		$result = $this->api->$method('', null, 0);
+		$this->assertCount(GroupsController::MAX_SEARCH_RESULTS + 5, $result->getData()['groups']);
 	}
 
 	public function testGetGroupAsSubadmin(): void {

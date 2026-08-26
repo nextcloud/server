@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -42,6 +43,8 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type Provisioning_APIUserDetailsGroupDisplayname from ResponseDefinitions
  */
 class GroupsController extends AUserDataOCSController {
+	public const int MAX_SEARCH_RESULTS = 500;
+
 
 	public function __construct(
 		string $appName,
@@ -75,7 +78,7 @@ class GroupsController extends AUserDataOCSController {
 	 * Get a list of groups
 	 *
 	 * @param string $search Text to search for
-	 * @param ?int $limit Limit the amount of groups returned
+	 * @param ?int<1, 500> $limit Limit the amount of groups returned, defaults to 500
 	 * @param int $offset Offset for searching for groups
 	 * @return DataResponse<Http::STATUS_OK, array{groups: list<string>}, array{}>
 	 *
@@ -83,7 +86,7 @@ class GroupsController extends AUserDataOCSController {
 	 */
 	#[NoAdminRequired]
 	public function getGroups(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
-		$groups = $this->groupManager->search($search, $limit, $offset);
+		$groups = $this->searchGroups($search, $limit, $offset);
 		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
 			return $group->getGID();
@@ -96,7 +99,7 @@ class GroupsController extends AUserDataOCSController {
 	 * Get a list of groups details
 	 *
 	 * @param string $search Text to search for
-	 * @param ?int $limit Limit the amount of groups returned
+	 * @param ?int<1, 500> $limit Limit the amount of groups returned, defaults to 500
 	 * @param int $offset Offset for searching for groups
 	 * @return DataResponse<Http::STATUS_OK, array{groups: list<Provisioning_APIGroupDetails>}, array{}>
 	 *
@@ -106,7 +109,7 @@ class GroupsController extends AUserDataOCSController {
 	#[AuthorizedAdminSetting(settings: Sharing::class)]
 	#[AuthorizedAdminSetting(settings: Users::class)]
 	public function getGroupsDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
-		$groups = $this->groupManager->search($search, $limit, $offset);
+		$groups = $this->searchGroups($search, $limit, $offset);
 		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
 			return [
@@ -120,6 +123,17 @@ class GroupsController extends AUserDataOCSController {
 		}, $groups);
 
 		return new DataResponse(['groups' => $groups]);
+	}
+
+	/**
+	 * @return list<IGroup>
+	 */
+	private function searchGroups(string $search, ?int $limit, int $offset): array {
+		if ($limit === null || $limit <= 0 || $limit > self::MAX_SEARCH_RESULTS) {
+			$limit = self::MAX_SEARCH_RESULTS;
+		}
+
+		return $this->groupManager->search($search, $limit, $offset);
 	}
 
 	/**
@@ -254,6 +268,7 @@ class GroupsController extends AUserDataOCSController {
 	 * 200: Group created successfully
 	 */
 	#[AuthorizedAdminSetting(settings:Users::class)]
+	#[UserRateLimit(limit: 50, period: 600)]
 	#[PasswordConfirmationRequired]
 	public function addGroup(string $groupid, string $displayname = ''): DataResponse {
 		// Validate name

@@ -18,6 +18,8 @@ class MetaData {
 	public const SORT_USERCOUNT = 1; // May have performance issues on LDAP backends
 	public const SORT_GROUPNAME = 2;
 
+	public const DEFAULT_GROUP_LIMIT = 500;
+
 	/** @var array */
 	protected $metaData = [];
 	/** @var int */
@@ -148,12 +150,13 @@ class MetaData {
 	}
 
 	/**
-	 * returns the available groups
+	 * returns the available groups, capped at {@see self::DEFAULT_GROUP_LIMIT}
+	 *
 	 * @return IGroup[]
 	 */
 	public function getGroups(string $search = ''): array {
 		if ($this->isAdmin || $this->isDelegatedAdmin) {
-			return $this->groupManager->search($search);
+			return $this->groupManager->search($search, self::DEFAULT_GROUP_LIMIT);
 		} else {
 			$userObject = $this->userSession->getUser();
 			if ($userObject !== null && $this->groupManager instanceof GroupManager) {

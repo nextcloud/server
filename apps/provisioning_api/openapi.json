@@ -456,12 +456,14 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Limit the amount of groups returned",
+                        "description": "Limit the amount of groups returned, defaults to 500",
                         "schema": {
                             "type": "integer",
                             "format": "int64",
                             "nullable": true,
-                            "default": null
+                            "default": null,
+                            "minimum": 1,
+                            "maximum": 500
                         }
                     },
                     {
@@ -586,12 +588,14 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Limit the amount of groups returned",
+                        "description": "Limit the amount of groups returned, defaults to 500",
                         "schema": {
                             "type": "integer",
                             "format": "int64",
                             "nullable": true,
-                            "default": null
+                            "default": null,
+                            "minimum": 1,
+                            "maximum": 500
                         }
                     },
                     {

@@ -112,10 +112,12 @@ class MetaDataTest extends \Test\TestCase {
 		$this->groupManager
 			->expects($this->once())
 			->method('search')
-			->with('Foo')
+			->with('Foo', MetaData::DEFAULT_GROUP_LIMIT)
 			->willReturn(['DummyValue']);
 
 		$expected = ['DummyValue'];
 		$this->assertSame($expected, $this->invokePrivate($this->groupMetadata, 'getGroups', ['Foo']));
 	}
+
+
 }
