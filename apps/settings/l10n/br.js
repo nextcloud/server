@@ -214,7 +214,6 @@ OC.L10N.register(
     "Your browser does not support WebAuthn." : "Ne vez ket douget WebAuthn gant o furcher.",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Pouezus eo stummañ ar servijour avit ma c'helfe kas posteloù, evit kemenadennoù pe posteloù evit cheñch ar ger-tremen.",
     "Send mode" : "Mod kas",
-    "Encryption" : "Sifradur",
     "Sendmail mode" : "Mod kas-postel",
     "From address" : "Eus chom-lec'h",
     "Domain" : "Domani",
@@ -310,6 +309,7 @@ OC.L10N.register(
     "Download and enable" : "Pellgargañ ha aotreañ",
     "Disable" : "Disaotreañ",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aotreet eo bet ar meziant mes ezomm e deus bezhan adnevesaet. Kaset a voc'h d'ar bajenn adneveziñ a benn 5 eilenn.",
+    "Encryption" : "Sifradur",
     "Credentials" : "Kretaatoù",
     "SMTP Password" : "Ger-tremen SMTP"
 },

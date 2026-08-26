@@ -202,7 +202,6 @@ OC.L10N.register(
     "Help" : "Helpo",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Gravas agordi tiun ĉi servilon por povi sendi retpoŝtmesaĝojn, ekz. por restarigo de pasvorto aŭ sciigoj.",
     "Send mode" : "Kiel sendi",
-    "Encryption" : "Ĉifrado",
     "Sendmail mode" : "Sendmail-reĝimo",
     "Disable certificate verification (insecure)" : "Ne kontroli atestilon (nesekura)",
     "From address" : "El adreso",
@@ -304,6 +303,7 @@ OC.L10N.register(
     "Disable" : "Malŝalti",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "La aplikaĵo estis ŝaltita, sed ĝi bezonas ĝisdatiĝi. Vi estos direktita al ĝisdatiga paĝon post 5 sekundoj.",
     "SSL" : "SSL",
+    "Encryption" : "Ĉifrado",
     "Credentials" : "Aŭtentigiloj",
     "SMTP Password" : "SMTP-pasvorto"
 },

@@ -250,7 +250,6 @@
     "Your browser does not support WebAuthn." : "Su serbidore tuo non suportat WebAuthn.",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Est importante a cunfigurare custu serbidore pro imbiare messàgios de posta eletrònica, pro torrare a cunfigurare sa crae e pro is notìficas. ",
     "Send mode" : "Modalidade de imbiu",
-    "Encryption" : "Tzifradura",
     "Sendmail mode" : "Modalidade de imbiu de posta",
     "Disable certificate verification (insecure)" : "Disativa sa verìfica de tzertificados (non seguru)",
     "From address" : "Indiritzu de chie imbiat",
@@ -377,6 +376,7 @@
     "The app will be downloaded from the App Store" : "S'aplicatzione s'at a iscarrigare dae sa butega de is aplicatziones",
     "Error: This app cannot be enabled because it makes the server unstable" : "Errore: Custa aplicatzione non si podet ativare ca faghet su serbidore no istàbile",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "S'aplicatzione est istada ativada ma tenet bisòngiu de un'agiornamentu. T'amus a deretare a sa pàgina de agiornamentu tra 5 segundos.",
+    "Encryption" : "Tzifradura",
     "Credentials" : "Credentziales",
     "SMTP Password" : "Crae SMTP"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

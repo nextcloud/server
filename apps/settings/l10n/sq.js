@@ -150,7 +150,6 @@ OC.L10N.register(
     "Unnamed device" : "Paisje pa emër",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Është e rëndësishme të ngrini këtë server për të qenë në gjendje të dërgoni email, si për rivendosjen e fjalëkalimeve dhe për njoftimet.",
     "Send mode" : "Mënyrë dërgimi",
-    "Encryption" : "Fshehtëzim",
     "From address" : "Nga adresa",
     "Domain" : "Përkatësi",
     "Server address" : "Adresë shërbyesi",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "Disable" : "Çaktivizoje",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikacioni është aktivizuar, por lyp të përditësohet. Do të ridrejtoheni te faqja e përditësimeve brenda 5 sekondash.",
     "SSL" : "SSL",
+    "Encryption" : "Fshehtëzim",
     "Credentials" : "Kredenciale",
     "SMTP Password" : "Fjalëkalim SMTP"
 },
