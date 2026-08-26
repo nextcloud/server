@@ -385,6 +385,48 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertSame($newpass, $this->tokenProvider->getPassword($actual, 'tokentokentokentokentoken'));
 	}
 
+	public function testSetPasswordFailsWhenExistingKeyIsTooSmall(): void {
+		$tokenId = 'tokentokentokentokentoken';
+
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+
+		$token = $this->tokenProvider->generateToken(
+			$tokenId,
+			'user',
+			'User',
+			'short-password',
+			'Test token',
+			IToken::PERMANENT_TOKEN,
+			IToken::DO_NOT_REMEMBER,
+		);
+
+		$this->assertSame(2048, $this->getPublicKeyBits($token));
+
+		$this->mapper->method('getTokenByUser')
+			->with('user')
+			->willReturn([$token]);
+
+		$this->logger->expects($this->once())
+			->method('critical')
+			->with($this->stringStartsWith('Something is wrong with your openssl setup:'));
+
+		$this->mapper->expects($this->never())
+			->method('update');
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('OpenSSL reported a problem');
+
+		$this->tokenProvider->setPassword(
+			$token,
+			$tokenId,
+			// 215 = PublicKeyTokenProvider::RSA_2048_OAEP_MAX_PLAINTEXT_LENGTH + 1
+			str_repeat('a', 215),
+		);
+	}
+
 	public function testSetPasswordInvalidToken(): void {
 		$this->expectException(InvalidTokenException::class);
 
