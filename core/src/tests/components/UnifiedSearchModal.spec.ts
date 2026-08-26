@@ -1267,13 +1267,35 @@ describe('UnifiedSearchModal loading skeleton', () => {
 		expect(wrapper.vm.skeletonRows * 60).toBeGreaterThanOrEqual(300)
 	})
 
+	// isBusy stays true until the last provider answers, so the box carries real results meanwhile.
+	it('reserves the height as a floor, so landed results are never cut off', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('querying')
+
+		searchStates.value = {
+			files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }, { resourceUrl: '/c' }]),
+			talk: { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false },
+		}
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.isBusy).toBe(true)
+		expect(wrapper.vm.hasVisibleResults).toBe(true)
+
+		const style = wrapper.find('.unified-search-modal__results').attributes('style')
+		expect(style).toContain('min-block-size: 300px')
+		expect(style).not.toMatch(/(^|[^-])block-size: 300px/)
+	})
+
 	it('holds the same height through repeated keystrokes rather than creeping taller', async () => {
 		const wrapper = await withResults()
 		const box = wrapper.vm.$refs.resultsContainer as HTMLElement
 		// Stand in for the browser: report the padding on top of whatever height is set.
 		const padding = 16
 		vi.spyOn(box, 'getBoundingClientRect').mockImplementation(() => ({
-			height: (parseFloat(box.style.blockSize) || 300) + (box.style.boxSizing === 'border-box' ? 0 : padding),
+			height: (parseFloat(box.style.minBlockSize) || 300) + (box.style.boxSizing === 'border-box' ? 0 : padding),
 		}) as DOMRect)
 
 		wrapper.vm.searchQuery = 'q1'
