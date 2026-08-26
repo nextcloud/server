@@ -99,41 +99,51 @@ class Local extends Common {
 		if (!$this->isDeletable($path)) {
 			return false;
 		}
+
+		$sourcePath = $this->getSourcePath($path);
+		clearstatcache(true, $sourcePath);
+
+		if (is_link($sourcePath)) {
+			return unlink($sourcePath);
+		}
+
 		try {
-			if (is_link($this->getSourcePath($path))) {
-				clearstatcache(true, $this->getSourcePath($path));
-				return unlink($this->getSourcePath($path));
-			} else {
-				$it = new \RecursiveIteratorIterator(
-					new \RecursiveDirectoryIterator($this->getSourcePath($path)),
-					\RecursiveIteratorIterator::CHILD_FIRST
-				);
-				/**
-				 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach
-				 * This bug is fixed in PHP 5.5.9 or before
-				 * See #8376
-				 */
-				$it->rewind();
-				while ($it->valid()) {
-					/**
-					 * @var \SplFileInfo $file
-					 */
-					$file = $it->current();
-					clearstatcache(true, $file->getRealPath());
-					if (in_array($file->getBasename(), ['.', '..'])) {
-						$it->next();
-						continue;
-					} elseif ($file->isFile() || $file->isLink()) {
-						unlink($file->getPathname());
-					} elseif ($file->isDir()) {
-						rmdir($file->getPathname());
-					}
+			$it = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($sourcePath),
+				\RecursiveIteratorIterator::CHILD_FIRST
+			);
+
+			/**
+			 * RecursiveDirectoryIterator on an NFS path isn't iterable with foreach.
+			 * This bug is fixed in PHP 5.5.9 or before.
+			 * See #8376.
+			 */
+			$it->rewind();
+			while ($it->valid()) {
+				/** @var \SplFileInfo $file */
+				$file = $it->current();
+				clearstatcache(true, $file->getRealPath());
+
+				if (in_array($file->getBasename(), ['.', '..'], true)) {
 					$it->next();
+					continue;
 				}
-				unset($it);  // Release iterator and thereby its potential directory lock (e.g. in case of VirtualBox shared folders)
-				clearstatcache(true, $this->getSourcePath($path));
-				return rmdir($this->getSourcePath($path));
+
+				if ($file->isFile() || $file->isLink()) {
+					unlink($file->getPathname());
+				} elseif ($file->isDir()) {
+					rmdir($file->getPathname());
+				}
+
+				$it->next();
 			}
+
+			// Release the iterator and its potential directory lock,
+			// for example on VirtualBox shared folders.
+			unset($it);
+
+			clearstatcache(true, $sourcePath);
+			return rmdir($sourcePath);
 		} catch (\UnexpectedValueException $e) {
 			return false;
 		}
