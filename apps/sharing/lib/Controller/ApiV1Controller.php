@@ -186,8 +186,7 @@ final class ApiV1Controller extends OCSController {
 				$this->dbConnection->beginTransaction();
 
 				$share = $this->manager->getShare($this->accessContext, $id);
-				$this->manager->updateShareState($this->accessContext, $share, $shareState);
-				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->updateShareState($this->accessContext, $share, $shareState);
 				$this->dbConnection->commit();
 				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
 			} catch (Exception $exception) {
