@@ -27,8 +27,10 @@
 		<command>\OCA\Sharing\Command\GetShares</command>
 		<command>\OCA\Sharing\Command\RemoveShareRecipient</command>
 		<command>\OCA\Sharing\Command\RemoveShareSource</command>
+		<command>\OCA\Sharing\Command\SelectSharePermissionPreset</command>
 		<command>\OCA\Sharing\Command\UpdateSharePermission</command>
 		<command>\OCA\Sharing\Command\UpdateShareProperty</command>
+		<command>\OCA\Sharing\Command\UpdateShareRecipientSecret</command>
 		<command>\OCA\Sharing\Command\UpdateShareState</command>
 	</commands>
 </info>
