@@ -145,7 +145,6 @@ OC.L10N.register(
     "No devices configured." : "Cap de periferic pas configurat.",
     "Your browser does not support WebAuthn." : "Vòstre navigador es pas compatible amb WebAuthn.",
     "Send mode" : "Mòde de mandadís",
-    "Encryption" : "Chiframent",
     "Server address" : "Adreça del servidor",
     "Host" : "Òste",
     "Port" : "Pòrt",
@@ -226,6 +225,7 @@ OC.L10N.register(
     "Sending…" : "Mandadís…",
     "Email sent" : "Corrièl mandat",
     "Disable" : "Desactivar",
+    "Encryption" : "Chiframent",
     "Credentials" : "Informacions d'identificacion",
     "SMTP Password" : "Senhal SMTP"
 },

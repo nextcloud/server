@@ -44,6 +44,7 @@ OC.L10N.register(
     "Images" : "Billeder",
     "Video" : "Video",
     "Files WebDAV" : "Fil WebDAV",
+    "Custom URL" : "Brugerdefineret URL",
     "Android client" : "Android klient",
     "iOS client" : "iOS klient",
     "Desktop client" : "Dekstop klient",
