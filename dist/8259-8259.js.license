@@ -63,7 +63,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.2.0
 	- license: MIT
 - vue
-	- version: 3.5.40
+	- version: 3.5.41
 	- license: MIT
 - semver
 	- version: 7.7.2
@@ -81,16 +81,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @vue/reactivity
-	- version: 3.5.40
+	- version: 3.5.41
 	- license: MIT
 - @vue/shared
-	- version: 3.5.40
+	- version: 3.5.41
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.40
+	- version: 3.5.41
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.40
+	- version: 3.5.41
 	- license: MIT
 - base64-js
 	- version: 1.5.1

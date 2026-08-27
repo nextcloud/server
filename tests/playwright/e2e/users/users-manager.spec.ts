@@ -10,6 +10,7 @@ import { expect } from '@playwright/test'
 import { test as adminUserTest } from '../../support/fixtures/admin-with-user.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
+import { getToast } from '../../support/utils/toast.ts'
 
 const test = adminUserTest.extend<{ manager: User }>({
 	manager: async ({}, use) => {
@@ -34,7 +35,7 @@ test.describe('Settings: User Manager Management', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(getToast(page, /Account updated/i)).toBeVisible()
 
 		// Verify via OCS API (page shares admin auth cookies)
 		const response = await page.request.get(
@@ -67,7 +68,7 @@ test.describe('Settings: User Manager Management', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(getToast(page, /Account updated/i)).toBeVisible()
 
 		// Verify backend: manager must be empty
 		const response = await page.request.get(
