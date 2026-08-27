@@ -156,7 +156,7 @@ class DirectControllerTest extends TestCase {
 		$this->shareManager->method('shareApiAllowLinks')
 			->willReturn(false);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with('awesomeUser')
 			->willReturn($userFolder);
