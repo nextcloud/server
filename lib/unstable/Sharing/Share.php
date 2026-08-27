@@ -185,10 +185,6 @@ final class Share {
 	 * @experimental 35.0.0
 	 */
 	public function format(ISharingRegistry $registry, IFactory $l10nFactory, IURLGenerator $urlGenerator, IUserManager $userManager): array {
-		$properties = array_map(fn (ShareProperty $property): array => $property->format($registry, $l10nFactory, $this), array_values($this->properties));
-		// First sort by priority and then sort by class name to get a stable order regardless of the DB order
-		usort($properties, static fn (array $a, array $b): int => 2 * ($b['priority'] <=> $a['priority']) + ($a['class'] <=> $b['class']));
-
 		$registrySourceTypePermissionTypeClasses = $registry->getSourceTypePermissionTypeClasses();
 		$registryGenericPermissionTypeClasses = $registry->getGenericPermissionTypeClasses();
 		$registryPermissionTypeCompatiblePermissionPresetClasses = $registry->getPermissionTypeCompatiblePermissionPresetClasses();
@@ -237,10 +233,6 @@ final class Share {
 			}
 		}
 
-		$permissions = array_map(static fn (SharePermission $permission): array => $permission->format($registry, $l10nFactory), array_values($this->permissions));
-		// First sort by priority and then sort by class name to get a stable order regardless of the DB order
-		usort($permissions, static fn (array $a, array $b): int => 2 * ($b['priority'] <=> $a['priority']) + ($a['class'] <=> $b['class']));
-
 		return [
 			'id' => $this->id,
 			'owner' => $this->owner->format($userManager),
@@ -249,8 +241,8 @@ final class Share {
 			'user_status' => $this->userStatus?->value,
 			'sources' => ShareSource::formatMultiple($registry, $l10nFactory, $this->sources),
 			'recipients' => ShareRecipient::formatMultiple($registry, $l10nFactory, $urlGenerator, $userManager, $this->recipients),
-			'properties' => $properties,
-			'permissions' => $permissions,
+			'properties' => ShareProperty::formatMultiple($registry, $l10nFactory, $this, array_values($this->properties)),
+			'permissions' => SharePermission::formatMultiple($registry, $l10nFactory, array_values($this->permissions)),
 			'permission_preset' => $selectedPermissionPresetClass,
 		];
 	}
