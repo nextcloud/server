@@ -103,10 +103,6 @@ class Server implements IDelegatedSettings {
 	}
 
 	public function getAuthorizedAppConfig(): array {
-		return [
-			'core' => [
-				'/mail_general_settings/',
-			],
-		];
+		return [];
 	}
 }
