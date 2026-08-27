@@ -765,6 +765,7 @@ OC.L10N.register(
     "The server configuration is read-only so the mail settings cannot be changed using the web interface." : "Sunucu yapılandırması salt okunur olduğundan e-posta ayarları internet arayüzünden değiştirilemez.",
     "Mail delivery is disabled by instance config \"{config}\"." : "E-posta gönderimi kopyanın yapılandırmasında kapatılmış \"{config}\".",
     "Send mode" : "Gönderim kipi",
+    "Transport encryption" : "Aktarım şifrelemesi",
     "Sendmail mode" : "Sendmail kipi",
     "Disable certificate verification (insecure)" : "Sertifika doğrulanmasın (güvenli değil)",
     "From address" : "Kimden adresi",
