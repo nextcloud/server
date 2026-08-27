@@ -109,10 +109,6 @@ class Server implements IDelegatedSettings {
 
 	#[\Override]
 	public function getAuthorizedAppConfig(): array {
-		return [
-			'core' => [
-				'/mail_general_settings/',
-			],
-		];
+		return [];
 	}
 }
