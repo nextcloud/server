@@ -191,7 +191,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 
 	public function getAuthorizedAppConfig(): array {
 		return [
-			'core' => ['/ai..*/'],
+			'core' => ['/^ai\..*$/'],
 		];
 	}
 }
