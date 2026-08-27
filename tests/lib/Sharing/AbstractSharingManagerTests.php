@@ -257,6 +257,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			'sharing_share_properties',
 			'sharing_share_recipients',
 			'sharing_share_sources',
+			'sharing_share_user_status',
 		] as $table) {
 			$qb = $this->dbConnection->getQueryBuilder();
 			$qb
