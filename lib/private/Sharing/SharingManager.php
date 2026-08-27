@@ -239,6 +239,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			throw new ShareInvalidException('Cannot set user status for the owner of the share.', $this->l10n->t('Cannot set user status for the owner of the share.'));
 		}
 
+		// We don't update the share last updated value, because the user status is not part of the share itself.
+
 		$this->backend->updateShareUserStatus($share->id, $currentUser->getUID(), $userStatus);
 
 		$share = new Share(
@@ -937,12 +939,15 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 				try {
 					$this->assertShareCanBeActive($share);
 				} catch (ShareInvalidException) {
+					$time = $this->getTime();
+					$this->backend->setLastUpdated([$share->id], $time);
+
 					$this->backend->updateShareState($share->id, ShareState::Draft);
 
 					$share = new Share(
 						$share->id,
 						$share->owner,
-						$share->lastUpdated,
+						$time,
 						ShareState::Draft,
 						$share->userStatus,
 						$share->sources,
