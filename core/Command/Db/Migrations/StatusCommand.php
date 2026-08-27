@@ -31,8 +31,33 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 	protected function configure() {
 		$this
 			->setName('migrations:status')
-			->setDescription('View the status of a set of migrations.')
-			->addArgument('app', InputArgument::REQUIRED, 'Name of the app this migration command shall work on');
+			->setDescription('Show the database migration status for an app')
+			->addArgument(
+				'app',
+				InputArgument::REQUIRED,
+				'App ID to inspect, or "core" for server migrations',
+			)
+			->setHelp(<<<'HELP'
+The <info>%command.name%</info> command shows the database migration status
+for core or an installed app.
+
+It reports:
+  - migration versions recorded as executed
+  - migration files available in the installed code
+  - migrations that have not yet been applied
+  - executed migrations that are missing from the installed code
+
+This command is read-only. It does not execute migrations or modify migration
+history.
+
+If executed migrations are missing from the installed code, verify that the
+installed app and server code match the intended version. Do not remove records
+from the migration history table manually.
+
+Example:
+
+  <info>php occ migrations:status core</info>
+HELP);
 	}
 
 	#[\Override]
@@ -41,17 +66,127 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
 
 		$infos = $this->getMigrationsInfos($ms);
-		foreach ($infos as $key => $value) {
-			if (is_array($value)) {
-				$output->writeln("    <comment>>></comment> $key:");
-				foreach ($value as $subKey => $subValue) {
-					$output->writeln("        <comment>>></comment> $subKey: " . str_repeat(' ', 46 - strlen($subKey)) . $subValue);
+		$title = sprintf('Database migration status for "%s"', $infos['App']);
+		$output->writeln($title);
+		$output->writeln(str_repeat('=', strlen($title)));
+		$output->writeln('');
+
+		if ($infos['Missing from Installed Code'] > 0) {
+			$output->writeln('<error>Status: Warning — migration history requires attention</error>');
+		} elseif ($infos['Unapplied'] > 0) {
+			$output->writeln(sprintf(
+				'<comment>Status: %d unapplied migration%s</comment>',
+				$infos['Unapplied'],
+				$infos['Unapplied'] === 1 ? '' : 's',
+			));
+		} else {
+			$output->writeln('<info>Status: Up to date</info>');
+		}
+		$output->writeln('');
+
+		$sections = [
+			'Migration configuration' => [
+				'App',
+				'History Table',
+				'Migration Namespace',
+				'Migration Directory',
+			],
+			'Version status' => [
+				'Previous Available',
+				'Last Recorded as Executed',
+				'Next Available',
+				'Latest Available',
+			],
+			'Migration counts' => [
+				'Recorded as Executed',
+				'Missing from Installed Code',
+				'Available in Installed Code',
+				'Unapplied',
+			],
+		];
+
+		foreach ($sections as $section => $keys) {
+			$output->writeln($section);
+			$output->writeln(str_repeat('-', strlen($section)));
+
+			$values = [];
+			foreach ($keys as $key) {
+				$values[$key] = $infos[$key];
+			}
+			$this->writeKeyValueRows($output, $values);
+
+			$output->writeln('');
+		}
+
+		$missingMigrationVersions = $infos['Missing Migration Versions'];
+		if ($missingMigrationVersions !== []) {
+			$output->writeln('<error>Warnings</error>');
+			$output->writeln('--------');
+			$output->writeln(sprintf(
+				'%d migration%s recorded as executed %s not present in the installed code:',
+				count($missingMigrationVersions),
+				count($missingMigrationVersions) === 1 ? '' : 's',
+				count($missingMigrationVersions) === 1 ? 'is' : 'are',
+			));
+
+			foreach ($missingMigrationVersions as $version) {
+				$output->writeln('  - ' . $version);
+			}
+
+			$output->writeln('');
+			$output->writeln(
+				'If this is unexpected, verify that the installed app and server code match the intended version.',
+			);
+			$output->writeln(
+				'Do not remove records from the migration history table manually.',
+			);
+			$output->writeln('');
+		}
+
+		$output->writeln('Unapplied migrations');
+		$output->writeln('--------------------');
+
+		$unappliedMigrations = $infos['Unapplied Migrations'];
+		if ($unappliedMigrations === []) {
+			$output->writeln('None');
+		} else {
+			$first = true;
+			foreach ($unappliedMigrations as $version => $migration) {
+				if (!$first) {
+					$output->writeln('');
 				}
-			} else {
-				$output->writeln("    <comment>>></comment> $key: " . str_repeat(' ', 50 - strlen($key)) . $value);
+
+				$output->writeln($version);
+				$this->writeKeyValueRows($output, $migration, 2);
+				$first = false;
 			}
 		}
+	
 		return 0;
+	}
+
+	/**
+	 * @param array<string, scalar|null> $values
+	 */
+	private function writeKeyValueRows(
+		OutputInterface $output,
+		array $values,
+		int $indent = 0,
+	): void {
+		$labelWidth = max(array_map(
+			static fn (string $label): int => strlen($label) + 1,
+			array_keys($values),
+		));
+		$prefix = str_repeat(' ', $indent);
+
+		foreach ($values as $label => $value) {
+			$output->writeln(sprintf(
+				'%s%-' . $labelWidth . 's  %s',
+				$prefix,
+				$label . ':',
+				$value,
+			));
+		}
 	}
 
 	/**
@@ -85,49 +220,91 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 	public function getMigrationsInfos(MigrationService $ms) {
 		$executedMigrations = $ms->getMigratedVersions();
 		$availableMigrations = $ms->getAvailableVersions();
-		$executedUnavailableMigrations = array_diff($executedMigrations, array_keys($availableMigrations));
+		$executedUnavailableMigrations = array_diff($executedMigrations, $availableMigrations);
+		$unappliedMigrationVersions = array_diff($availableMigrations, $executedMigrations);
 
 		$numExecutedUnavailableMigrations = count($executedUnavailableMigrations);
-		$numNewMigrations = count(array_diff(array_keys($availableMigrations), $executedMigrations));
+		$numNewMigrations = count($unappliedMigrationVersions);
+		$currentMigration = $executedMigrations === []
+			? null
+			: end($executedMigrations);
+
 		$pending = $ms->describeMigrationStep();
+		$unappliedMigrations = [];
+		foreach ($unappliedMigrationVersions as $version) {
+			$migration = $ms->createInstance($version);
+			$unappliedMigrations[$version] = [
+				'Name' => $migration->name() ?: 'Not provided',
+				'Description' => $migration->description() ?: 'Not provided',
+			];
+		}
 
 		$infos = [
 			'App' => $ms->getApp(),
-			'Version Table Name' => $ms->getMigrationsTableName(),
-			'Migrations Namespace' => $ms->getMigrationsNamespace(),
-			'Migrations Directory' => $ms->getMigrationsDirectory(),
-			'Previous Version' => $this->getFormattedVersionAlias($ms, 'prev'),
-			'Current Version' => $this->getFormattedVersionAlias($ms, 'current'),
-			'Next Version' => $this->getFormattedVersionAlias($ms, 'next'),
-			'Latest Version' => $this->getFormattedVersionAlias($ms, 'latest'),
-			'Executed Migrations' => count($executedMigrations),
-			'Executed Unavailable Migrations' => $numExecutedUnavailableMigrations,
-			'Available Migrations' => count($availableMigrations),
-			'New Migrations' => $numNewMigrations,
-			'Pending Migrations' => count($pending) ? $pending : 'None'
+			'History Table' => $ms->getMigrationsTableName(),
+			'Migration Namespace' => $ms->getMigrationsNamespace(),
+			'Migration Directory' => $ms->getMigrationsDirectory(),
+			'Previous Available' => $this->getFormattedRelativeVersion(
+				$availableMigrations,
+				$currentMigration,
+				-1,
+			),
+			'Last Recorded as Executed' => $currentMigration
+				?? 'None (no migrations recorded as executed)',
+			'Next Available' => $this->getFormattedRelativeVersion(
+				$availableMigrations,
+				$currentMigration,
+				1,
+			),
+			'Latest Available' => $availableMigrations === []
+				? 'None (no migration files found)'
+				: end($availableMigrations),
+			'Recorded as Executed' => count($executedMigrations),
+			'Missing from Installed Code' => $numExecutedUnavailableMigrations,
+			'Missing Migration Versions' => array_values($executedUnavailableMigrations),
+			'Available in Installed Code' => count($availableMigrations),
+			'Unapplied' => $numNewMigrations,
+			'Unapplied Migrations' => $unappliedMigrations,
 		];
 
 		return $infos;
 	}
 
 	/**
-	 * @param MigrationService $migrationService
-	 * @param string $alias
-	 * @return mixed|null|string
+	 * @param list<string> $availableMigrations
 	 */
-	private function getFormattedVersionAlias(MigrationService $migrationService, $alias) {
-		$migration = $migrationService->getMigration($alias);
-		//No version found
-		if ($migration === null) {
-			if ($alias === 'next') {
-				return 'Already at latest migration step';
+	private function getFormattedRelativeVersion(
+		array $availableMigrations,
+		?string $currentMigration,
+		int $offset,
+	): string {
+		if ($currentMigration === null) {
+			if ($offset < 0) {
+				return 'None (no migrations recorded as executed)';
 			}
 
-			if ($alias === 'prev') {
-				return 'Already at first migration step';
-			}
+			return $availableMigrations === []
+				? 'None (no migration files found)'
+				: $availableMigrations[0];
 		}
 
-		return $migration;
+		$currentIndex = array_search(
+			$currentMigration,
+			$availableMigrations,
+			true,
+		);
+
+		if ($currentIndex === false) {
+			return 'Unknown (last executed migration is missing from code)';
+		}
+
+		$relativeIndex = $currentIndex + $offset;
+		if (!isset($availableMigrations[$relativeIndex])) {
+			return $offset < 0
+				? 'None (at first available migration)'
+				: 'None (at latest available migration)';
+		}
+
+		return $availableMigrations[$relativeIndex];
 	}
 }
