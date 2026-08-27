@@ -5,9 +5,51 @@
 
 import { shallowMount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import ContactMenuEntry from '../../../components/ContactsMenu/ContactMenuEntry.vue'
 
 describe('Contact', function() {
+	it('passes the avatar url to non-user contacts', () => {
+		const view = shallowMount(ContactMenuEntry, {
+			propsData: {
+				contact: {
+					id: '11111111-2222-3333-4444-555555555555',
+					uid: '11111111-2222-3333-4444-555555555555',
+					fullName: 'Jane Doe',
+					avatar: 'https://localhost/remote.php/dav/addressbooks/users/admin/contacts/jane.vcf?photo',
+					isUser: false,
+					emailAddresses: [],
+					actions: [],
+				},
+			},
+		})
+
+		const avatar = view.findComponent(NcAvatar)
+		expect(avatar.props('user')).toBeUndefined()
+		expect(avatar.props('url')).toBe('https://localhost/remote.php/dav/addressbooks/users/admin/contacts/jane.vcf?photo')
+		expect(avatar.props('displayName')).toBe('Jane Doe')
+	})
+
+	it('lets user contacts resolve the avatar via their user id', () => {
+		const view = shallowMount(ContactMenuEntry, {
+			propsData: {
+				contact: {
+					id: 'jane',
+					uid: 'jane',
+					fullName: 'Jane Doe',
+					avatar: 'https://localhost/remote.php/dav/addressbooks/system/system/system/jane.vcf?photo',
+					isUser: true,
+					emailAddresses: [],
+					actions: [],
+				},
+			},
+		})
+
+		const avatar = view.findComponent(NcAvatar)
+		expect(avatar.props('user')).toBe('jane')
+		expect(avatar.props('url')).toBeUndefined()
+	})
+
 	it('links to the top action', () => {
 		const view = shallowMount(ContactMenuEntry, {
 			propsData: {
