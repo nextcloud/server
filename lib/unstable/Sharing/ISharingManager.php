@@ -84,6 +84,13 @@ interface ISharingManager {
 	public function updateShareState(ShareAccessContext $accessContext, Share $share, ShareState $state): Share;
 
 	/**
+	 * Update the user status for a share.
+	 *
+	 * @experimental 35.0.0
+	 */
+	public function updateShareUserStatus(ShareAccessContext $accessContext, Share $share, ShareUserStatus $userStatus): Share;
+
+	/**
 	 * Add a new source to a share.
 	 *
 	 * @throws ShareInvalidException
@@ -208,5 +215,5 @@ interface ISharingManager {
 	 * @return list<Share>
 	 * @experimental 35.0.0
 	 */
-	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit): array;
+	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array;
 }

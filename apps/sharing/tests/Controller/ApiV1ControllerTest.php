@@ -17,6 +17,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
 use OCA\Sharing\Controller\ApiV1Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -113,6 +114,12 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 	}
 
 	#[Override]
+	protected function updateShareUserStatus(ShareAccessContext $accessContext, Share $share, ShareUserStatus $userStatus): array {
+		/** @var SharingShare */
+		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->updateShareUserStatus($share->id, $userStatus->value));
+	}
+
+	#[Override]
 	protected function addShareSource(ShareAccessContext $accessContext, Share $share, ShareSource $source): array {
 		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->addShareSource($share->id, $source->class, $source->value));
@@ -177,15 +184,15 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 	 * @psalm-suppress MixedReturnTypeCoercion
 	 */
 	#[Override]
-	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit): array {
-		return $this->executeRequest($accessContext, function (ApiV1Controller $controller) use ($filterSourceTypeClass, $filterSourceTypeValue, $filterState, $lastShareID, $limit): DataResponse {
+	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array {
+		return $this->executeRequest($accessContext, function (ApiV1Controller $controller) use ($filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit): DataResponse {
 			if ($limit !== null) {
 				/** @psalm-suppress ArgumentTypeCoercion */
-				return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $filterState?->value, $lastShareID, $limit);
+				return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $filterState?->value, $filterUserStatus?->value, $lastShareID, $limit);
 			}
 
 			/** @psalm-suppress ArgumentTypeCoercion */
-			return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $filterState?->value, $lastShareID);
+			return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $filterState?->value, $filterUserStatus?->value, $lastShareID);
 		});
 	}
 }

@@ -62,6 +62,8 @@ use NCU\Sharing\Source\IShareSourceType;
  *
  * @psalm-type SharingState = 'active'|'draft'|'deleted'
  *
+ * @psalm-type SharingUserStatus = 'pending'|'accepted'|'rejected'
+ *
  * @psalm-type SharingProperty = array{
  *     class: class-string<ISharePropertyType>,
  *     display_name: non-empty-string,
@@ -125,6 +127,7 @@ use NCU\Sharing\Source\IShareSourceType;
  *     // Unix time in milliseconds
  *     last_updated: numeric-string,
  *     state: SharingState,
+ *     user_status: ?SharingUserStatus,
  *     sources: list<SharingSource>,
  *     recipients: list<SharingRecipient>,
  *     properties: list<SharingPropertyDate|SharingPropertyEnum|SharingPropertyBoolean|SharingPropertyPassword|SharingPropertyString>,

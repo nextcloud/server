@@ -68,6 +68,7 @@ return array(
     'NCU\\Sharing\\ShareAccessContext' => $baseDir . '/lib/unstable/Sharing/ShareAccessContext.php',
     'NCU\\Sharing\\ShareState' => $baseDir . '/lib/unstable/Sharing/ShareState.php',
     'NCU\\Sharing\\ShareUser' => $baseDir . '/lib/unstable/Sharing/ShareUser.php',
+    'NCU\\Sharing\\ShareUserStatus' => $baseDir . '/lib/unstable/Sharing/ShareUserStatus.php',
     'NCU\\Sharing\\Source\\IShareSourceMetadata' => $baseDir . '/lib/unstable/Sharing/Source/IShareSourceMetadata.php',
     'NCU\\Sharing\\Source\\IShareSourceType' => $baseDir . '/lib/unstable/Sharing/Source/IShareSourceType.php',
     'NCU\\Sharing\\Source\\ShareSource' => $baseDir . '/lib/unstable/Sharing/Source/ShareSource.php',

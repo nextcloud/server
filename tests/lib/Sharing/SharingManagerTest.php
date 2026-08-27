@@ -16,6 +16,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
 use OC\Sharing\SharingManager;
 use OCP\IURLGenerator;
@@ -37,6 +38,7 @@ final class SharingManagerTest extends AbstractSharingManagerTests {
 			$retrieved->owner,
 			$share->lastUpdated,
 			$retrieved->state,
+			$retrieved->userStatus,
 			$retrieved->sources,
 			$retrieved->recipients,
 			$retrieved->properties,
@@ -88,12 +90,26 @@ final class SharingManagerTest extends AbstractSharingManagerTests {
 		}
 	}
 
-	#[
-		\Override]
+	#[\Override]
 	protected function updateShareState(ShareAccessContext $accessContext, Share $share, ShareState $state): array {
 		try {
 			$this->dbConnection->beginTransaction();
 			$share = $this->manager->updateShareState($accessContext, $share, $state);
+			$this->assertShareSyncedWithDb($accessContext, $share);
+			$share = $share->format($this->registry, Server::get(IFactory::class), Server::get(IURLGenerator::class), Server::get(IUserManager::class));
+			$this->dbConnection->commit();
+			return $share;
+		} catch (Exception $exception) {
+			$this->dbConnection->rollBack();
+			throw  $exception;
+		}
+	}
+
+	#[\Override]
+	protected function updateShareUserStatus(ShareAccessContext $accessContext, Share $share, ShareUserStatus $userStatus): array {
+		try {
+			$this->dbConnection->beginTransaction();
+			$share = $this->manager->updateShareUserStatus($accessContext, $share, $userStatus);
 			$this->assertShareSyncedWithDb($accessContext, $share);
 			$share = $share->format($this->registry, Server::get(IFactory::class), Server::get(IURLGenerator::class), Server::get(IUserManager::class));
 			$this->dbConnection->commit();
@@ -253,11 +269,11 @@ final class SharingManagerTest extends AbstractSharingManagerTests {
 	}
 
 	#[\Override]
-	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit): array {
+	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array {
 		try {
 			$this->dbConnection->beginTransaction();
 			/** @psalm-suppress ArgumentTypeCoercion */
-			$shares = $this->manager->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $lastShareID, $limit);
+			$shares = $this->manager->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 			$this->dbConnection->commit();
 			return Share::formatMultiple($this->registry, Server::get(IFactory::class), Server::get(IURLGenerator::class), Server::get(IUserManager::class), $shares);
 		} catch (Exception $exception) {
