@@ -48,6 +48,13 @@ interface ISharingBackend {
 	public function updateShareState(string $id, ShareState $state): void;
 
 	/**
+	 * Update the user status for a share.
+	 *
+	 * @experimental 35.0.0
+	 */
+	public function updateShareUserStatus(string $id, string $userId, ShareUserStatus $userStatus): void;
+
+	/**
 	 * Add a new source to a share.
 	 *
 	 * @throws ShareInvalidException
@@ -179,7 +186,7 @@ interface ISharingBackend {
 	 * @return list<Share>
 	 * @experimental 35.0.0
 	 */
-	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit): array;
+	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array;
 
 	/**
 	 * Check if a share ID belongs to this backend.

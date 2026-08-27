@@ -71,6 +71,8 @@ use OCP\L10N\IFactory;
  *
  * @psalm-type SharingState = 'active'|'draft'|'deleted'
  *
+ * @psalm-type SharingUserStatus = 'pending'|'accepted'|'rejected'
+ *
  * @psalm-type SharingProperty = array{
  *     class: class-string<ISharePropertyType>,
  *     display_name: non-empty-string,
@@ -134,6 +136,7 @@ use OCP\L10N\IFactory;
  *     // Unix time in milliseconds
  *     last_updated: numeric-string,
  *     state: SharingState,
+ *     user_status: ?SharingUserStatus,
  *     sources: list<SharingSource>,
  *     recipients: list<SharingRecipient>,
  *     properties: list<SharingPropertyDate|SharingPropertyEnum|SharingPropertyBoolean|SharingPropertyPassword|SharingPropertyString>,
@@ -157,6 +160,7 @@ final class Share {
 		public readonly ShareUser $owner,
 		public readonly \DateTimeImmutable $lastUpdated,
 		public readonly ShareState $state,
+		public readonly ?ShareUserStatus $userStatus,
 		/** @var list<ShareSource> $sources */
 		public readonly array $sources,
 		/** @var list<ShareRecipient> $recipients */
@@ -242,6 +246,7 @@ final class Share {
 			'owner' => $this->owner->format($userManager),
 			'last_updated' => SharingManager::timeToMs($this->lastUpdated),
 			'state' => $this->state->value,
+			'user_status' => $this->userStatus?->value,
 			'sources' => ShareSource::formatMultiple($registry, $l10nFactory, $this->sources),
 			'recipients' => ShareRecipient::formatMultiple($registry, $l10nFactory, $urlGenerator, $userManager, $this->recipients),
 			'properties' => $properties,

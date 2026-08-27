@@ -18,6 +18,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
 use OC\Core\Command\Base;
 use OCA\Sharing\Command\AddShareRecipient;
@@ -34,6 +35,7 @@ use OCA\Sharing\Command\UpdateSharePermission;
 use OCA\Sharing\Command\UpdateShareProperty;
 use OCA\Sharing\Command\UpdateShareRecipientSecret;
 use OCA\Sharing\Command\UpdateShareState;
+use OCA\Sharing\Command\UpdateShareUserStatus;
 use OCP\HintException;
 use OCP\IDBConnection;
 use OCP\IURLGenerator;
@@ -74,6 +76,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 			UpdateShareProperty::class,
 			UpdateShareRecipientSecret::class,
 			UpdateShareState::class,
+			UpdateShareUserStatus::class,
 		];
 	}
 
@@ -198,6 +201,24 @@ final class CommandTest extends AbstractSharingManagerTests {
 			[
 				['id', $share->id],
 				['state', $state->value],
+			],
+			[],
+		);
+		/** @var SharingShare */
+		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
+	}
+
+	/**
+	 * @return SharingShare
+	 */
+	#[Override]
+	protected function updateShareUserStatus(ShareAccessContext $accessContext, Share $share, ShareUserStatus $userStatus): array {
+		$stdout = $this->runCommand(
+			$accessContext,
+			UpdateShareUserStatus::class,
+			[
+				['id', $share->id],
+				['user-status', $userStatus->value],
 			],
 			[],
 		);
@@ -393,7 +414,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare[]
 	 */
 	#[Override]
-	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?string $lastShareID, ?int $limit): array {
+	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			GetShares::class,
@@ -402,6 +423,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 				['filter-source-type-class', $filterSourceTypeClass],
 				['filter-source-type-value', $filterSourceTypeValue],
 				['filter-state', $filterState?->value],
+				['filter-user-status', $filterUserStatus?->value],
 				['last-share-id', $lastShareID],
 				['limit', $limit],
 			],
