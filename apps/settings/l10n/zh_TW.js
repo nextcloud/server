@@ -765,6 +765,7 @@ OC.L10N.register(
     "The server configuration is read-only so the mail settings cannot be changed using the web interface." : "伺服器組態唯讀，所以郵件設定無法使用網頁介面變更。",
     "Mail delivery is disabled by instance config \"{config}\"." : "郵件遞送已透過站台設定「{config}」停用。",
     "Send mode" : "傳送模式",
+    "Transport encryption" : "傳輸加密",
     "Sendmail mode" : "Sendmail 模式",
     "Disable certificate verification (insecure)" : "停用證書驗證（不安全）",
     "From address" : "寄件位址",

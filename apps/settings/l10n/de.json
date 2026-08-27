@@ -763,6 +763,7 @@
     "The server configuration is read-only so the mail settings cannot be changed using the web interface." : "Die Serverkonfiguration ist schreibgeschützt, sodass die E-Mail-Einstellungen nicht über die Web-Oberfläche geändert werden können.",
     "Mail delivery is disabled by instance config \"{config}\"." : "Die E-Mail-Zustellung ist aufgrund der Instanzkonfiguration \"{config}\" deaktiviert.",
     "Send mode" : "Sendemodus",
+    "Transport encryption" : "Transportverschlüsselung",
     "Sendmail mode" : "Sendmail-Modus",
     "Disable certificate verification (insecure)" : "Zertifikatsüberprüfung deaktivieren (unsicher)",
     "From address" : "Absenderadresse",
