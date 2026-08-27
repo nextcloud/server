@@ -110,6 +110,9 @@ final readonly class ShareRecipient {
 			++$recipientDisplayNames[$displayName];
 		}
 
+		// First sort by instance, then by class and finally by value to get a stable order regardless of the DB order
+		usort($recipients, static fn (ShareRecipient $a, ShareRecipient $b): int => 4 * ($a->instance === null ? -1 : ($a->instance <=> $b->instance)) + 2 * ($a->class <=> $b->class) + ($a->value <=> $b->value));
+
 		return array_map(static fn (ShareRecipient $recipient): array => $recipient->format($registry, $l10nFactory, $urlGenerator, $userManager, $recipientDisplayNames[$recipientTypes[$recipient->class]?->getRecipientDisplayName($recipient->value) ?? $recipient->value] === 1), $recipients);
 	}
 
