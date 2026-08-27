@@ -3,15 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/personal-settings-page.ts'
-
-// Without --password-from-env the token carries no login password. Fine here: the
-// test only revokes it, it never authenticates with it.
-async function addAppPassword(userId: string, name: string): Promise<void> {
-	await runOcc(['user:auth-tokens:add', userId, '--name', name])
-}
+import { addAppPassword } from '../../support/utils/auth-tokens.ts'
 
 test.describe('Settings: Devices & sessions', () => {
 	test('revokes every other session but keeps the current one', async ({ page, devicesSessionsPage, user }) => {

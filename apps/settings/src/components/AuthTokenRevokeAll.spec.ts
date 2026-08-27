@@ -19,9 +19,11 @@ vi.mock('@nextcloud/initial-state', () => ({
 	loadState: vi.fn((_app: string, key: string) => (key === 'app_tokens' ? [] : true)),
 }))
 
+import { emit } from '@nextcloud/event-bus'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import AuthTokenRevokeAllDialog from './AuthTokenRevokeAllDialog.vue'
 import AuthTokenSection from './AuthTokenSection.vue'
+import { AUTH_TOKENS_REVOKED_EVENT } from '../constants/AuthTokenConstants.ts'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 
 function makeToken(overrides: Partial<IToken> = {}): IToken {
@@ -167,6 +169,41 @@ describe('AuthTokenSection revoke-all button', () => {
 
 		expect(wrapper.findComponent(AuthTokenRevokeAllDialog).exists()).toBe(false)
 		expect(store.deleteAllOtherTokens).not.toHaveBeenCalled()
+	})
+})
+
+describe('AuthTokenSection reacting to a password change', () => {
+	// Separate Vue app, separate store: the event bus is the only link.
+	it('drops the tokens a password change revoked, without a reload', async () => {
+		const wrapper = mountSection([
+			makeToken({ id: 1, current: true }),
+			makeToken({ id: 2 }),
+			makeToken({ id: 3 }),
+		])
+		const store = useAuthTokenStore()
+		store.removeTokens = ((ids: number[]) => {
+			store.tokens = store.tokens.filter(({ id }) => !ids.includes(id))
+		}) as typeof store.removeTokens
+
+		emit(AUTH_TOKENS_REVOKED_EVENT, [2, 3])
+		await wrapper.vm.$nextTick()
+
+		expect(store.tokens.map(({ id }) => id)).toEqual([1])
+		expect(wrapper.find('button').exists()).toBe(false)
+	})
+
+	it('stops listening once unmounted', async () => {
+		const wrapper = mountSection([
+			makeToken({ id: 1, current: true }),
+			makeToken({ id: 2 }),
+		])
+		const store = useAuthTokenStore()
+
+		wrapper.destroy()
+		emit(AUTH_TOKENS_REVOKED_EVENT, [2])
+		await Promise.resolve()
+
+		expect(store.removeTokens).not.toHaveBeenCalled()
 	})
 })
 

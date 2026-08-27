@@ -10,6 +10,7 @@
 
 namespace OCA\Settings\Controller;
 
+use OC\Authentication\Token\IProvider;
 use OC\Group\Manager as GroupManager;
 use OC\User\Session;
 use OCA\Encryption\KeyManager;
@@ -21,12 +22,16 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\HintException;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use OCP\Session\Exceptions\SessionNotAvailableException;
+use Psr\Log\LoggerInterface;
 
 class ChangePasswordController extends Controller {
 	public function __construct(
@@ -38,6 +43,9 @@ class ChangePasswordController extends Controller {
 		private GroupManager $groupManager,
 		private IAppManager $appManager,
 		private IL10N $l,
+		private IProvider $tokenProvider,
+		private ISession $session,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -45,7 +53,7 @@ class ChangePasswordController extends Controller {
 	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'changePersonalPassword')]
-	public function changePersonalPassword(string $oldpassword = '', ?string $newpassword = null): JSONResponse {
+	public function changePersonalPassword(string $oldpassword = '', ?string $newpassword = null, bool $revokeOtherSessions = false): JSONResponse {
 		$loginName = $this->userSession->getLoginName();
 		/** @var IUser $user */
 		$user = $this->userManager->checkPassword($loginName, $oldpassword);
@@ -85,8 +93,28 @@ class ChangePasswordController extends Controller {
 			'status' => 'success',
 			'data' => [
 				'message' => $this->l->t('Saved'),
+				// Consumed by a separate Vue app, see AUTH_TOKENS_REVOKED_EVENT.
+				'revokedTokenIds' => $revokeOtherSessions ? $this->revokeOtherSessions() : [],
 			],
 		]);
+	}
+
+	/**
+	 * The password is already changed, so a failure here must not fail the request.
+	 * Without a usable session token nothing is revoked, since the alternative is
+	 * signing the user out of the request they are in.
+	 *
+	 * @return list<int> Ids of the revoked tokens
+	 */
+	private function revokeOtherSessions(): array {
+		try {
+			$currentTokenId = $this->tokenProvider->getToken($this->session->getId())->getId();
+		} catch (SessionNotAvailableException|InvalidTokenException $e) {
+			$this->logger->warning('Could not revoke the other sessions after a password change', ['exception' => $e]);
+			return [];
+		}
+
+		return $this->tokenProvider->invalidateTokensOfUserExcept($this->userId, $currentTokenId);
 	}
 
 	#[NoAdminRequired]

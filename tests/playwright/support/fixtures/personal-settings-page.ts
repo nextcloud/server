@@ -6,6 +6,7 @@
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { DevicesSessionsSettingsPage } from '../sections/DevicesSessionsSettingsPage.ts'
 import { LanguageLocaleSettingsPage } from '../sections/LanguageLocaleSettingsPage.ts'
+import { PasswordSettingsPage } from '../sections/PasswordSettingsPage.ts'
 import { ProfileContactSettingsPage } from '../sections/ProfileContactSettingsPage.ts'
 import { test as userSessionTest } from './random-user-session.ts'
 
@@ -18,6 +19,7 @@ export const test = userSessionTest.extend<{
 	profileContactPage: ProfileContactSettingsPage
 	languageLocalePage: LanguageLocaleSettingsPage
 	devicesSessionsPage: DevicesSessionsSettingsPage
+	passwordPage: PasswordSettingsPage
 }>({
 	user: async ({ user: baseUser }, use) => {
 		await runOcc(['user:setting', baseUser.userId, 'core', 'lang', 'en'])
@@ -35,5 +37,9 @@ export const test = userSessionTest.extend<{
 
 	devicesSessionsPage: async ({ page, user }, use) => {
 		await use(new DevicesSessionsSettingsPage(page, user))
+	},
+
+	passwordPage: async ({ page, user }, use) => {
+		await use(new PasswordSettingsPage(page, user))
 	},
 })

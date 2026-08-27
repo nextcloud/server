@@ -362,6 +362,50 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->invalidateLastUsedBefore('user', 946684800);
 	}
 
+	private function tokenFixture(int $id, int $type = IToken::PERMANENT_TOKEN): PublicKeyToken {
+		$token = new PublicKeyToken();
+		$token->setId($id);
+		$token->setUid('user');
+		$token->setType($type);
+		$token->setToken('hash' . $id);
+		return $token;
+	}
+
+	/**
+	 * @param PublicKeyToken[] $tokens
+	 */
+	private function mockTokensOfUser(array $tokens): void {
+		$this->mapper->method('getTokenByUser')->with('user')->willReturn($tokens);
+	}
+
+	public function testInvalidateTokensOfUserExcept(): void {
+		$this->mockTokensOfUser([$this->tokenFixture(1), $this->tokenFixture(2), $this->tokenFixture(3)]);
+
+		// dropToken also clears the cache entry and dispatches TokenInvalidatedEvent.
+		$this->mapper->expects($this->exactly(2))->method('invalidate');
+
+		$this->assertSame([1, 3], $this->tokenProvider->invalidateTokensOfUserExcept('user', 2));
+	}
+
+	public function testInvalidateTokensOfUserExceptKeepsWipePending(): void {
+		$this->mockTokensOfUser([
+			$this->tokenFixture(1),
+			$this->tokenFixture(2, IToken::WIPE_TOKEN),
+		]);
+
+		$this->mapper->expects($this->once())->method('invalidate');
+
+		$this->assertSame([1], $this->tokenProvider->invalidateTokensOfUserExcept('user', null));
+	}
+
+	public function testInvalidateTokensOfUserExceptWithNothingToDo(): void {
+		$this->mockTokensOfUser([$this->tokenFixture(7)]);
+
+		$this->mapper->expects($this->never())->method('invalidate');
+
+		$this->assertSame([], $this->tokenProvider->invalidateTokensOfUserExcept('user', 7));
+	}
+
 	public function testRenewSessionTokenWithoutPassword(): void {
 		$token = 'oldIdtokentokentokentoken';
 		$uid = 'user';

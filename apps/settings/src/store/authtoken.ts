@@ -142,8 +142,7 @@ export const useAuthTokenStore = defineStore('auth-token', {
 
 			try {
 				const { data } = await axios.delete<IRevokeAllResponse>(BASE_URL, { confirmPassword: PwdConfirmationMode.Strict })
-				const revoked = new Set(data.revoked)
-				this.tokens = this.tokens.filter(({ id }) => !revoked.has(id))
+				this.removeTokens(data.revoked)
 				logger.debug('Other app tokens revoked', { count: data.revoked.length })
 				showSuccess(n('settings', 'Revoked %n other session', 'Revoked %n other sessions', data.revoked.length))
 				return data
@@ -152,6 +151,17 @@ export const useAuthTokenStore = defineStore('auth-token', {
 				showError(t('settings', 'Could not revoke the other sessions'))
 			}
 			return null
+		},
+
+		/**
+		 * Drop tokens that something else already revoked, e.g. a password change in
+		 * the separately mounted password form.
+		 *
+		 * @param ids Ids of the tokens the server revoked
+		 */
+		removeTokens(ids: number[]) {
+			const revoked = new Set(ids)
+			this.tokens = this.tokens.filter(({ id }) => !revoked.has(id))
 		},
 
 		/**

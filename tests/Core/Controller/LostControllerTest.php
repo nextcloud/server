@@ -7,6 +7,7 @@
 
 namespace Tests\Core\Controller;
 
+use OC\Authentication\Token\IProvider;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LostController;
 use OC\Core\Events\BeforePasswordResetEvent;
@@ -72,6 +73,7 @@ class LostControllerTest extends TestCase {
 	private $eventDispatcher;
 	/** @var Limiter|MockObject */
 	private $limiter;
+	private IProvider&MockObject $tokenProvider;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -123,6 +125,7 @@ class LostControllerTest extends TestCase {
 		$this->verificationToken = $this->createMock(IVerificationToken::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->limiter = $this->createMock(Limiter::class);
+		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->lostController = new LostController(
 			'Core',
 			$this->request,
@@ -139,7 +142,8 @@ class LostControllerTest extends TestCase {
 			$this->initialState,
 			$this->verificationToken,
 			$this->eventDispatcher,
-			$this->limiter
+			$this->limiter,
+			$this->tokenProvider,
 		);
 	}
 
@@ -501,6 +505,59 @@ class LostControllerTest extends TestCase {
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
 		$expectedResponse = ['user' => 'ValidTokenUser', 'status' => 'success'];
 		$this->assertSame($expectedResponse, $response->getData());
+	}
+
+	public function testSetPasswordRevokesEveryExistingSession(): void {
+		$this->config->method('getUserValue')
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
+			->willReturn('encryptedData');
+		$this->existingUser->method('getLastLogin')->willReturn(12344);
+		$this->existingUser->method('setPassword')->willReturn(true);
+		$this->userManager->method('get')
+			->with('ValidTokenUser')
+			->willReturn($this->existingUser);
+
+		$this->tokenProvider->expects($this->once())
+			->method('invalidateTokensOfUserExcept')
+			->with('ValidTokenUser', null);
+
+		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
+		$this->assertSame(['user' => 'ValidTokenUser', 'status' => 'success'], $response->getData());
+	}
+
+	public function testSetPasswordStillSucceedsWhenRevokingFails(): void {
+		$this->config->method('getUserValue')
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
+			->willReturn('encryptedData');
+		$this->existingUser->method('getLastLogin')->willReturn(12344);
+		$this->existingUser->method('setPassword')->willReturn(true);
+		$this->userManager->method('get')
+			->with('ValidTokenUser')
+			->willReturn($this->existingUser);
+
+		$this->tokenProvider->method('invalidateTokensOfUserExcept')
+			->willThrowException(new \Exception('database gone'));
+		$this->logger->expects($this->once())->method('warning');
+
+		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
+		$this->assertSame(['user' => 'ValidTokenUser', 'status' => 'success'], $response->getData());
+	}
+
+	public function testSetPasswordDoesNotRevokeWhenTheResetFails(): void {
+		$this->config->method('getUserValue')
+			->with('ValidTokenUser', 'core', 'lostpassword', null)
+			->willReturn('encryptedData');
+		$this->existingUser->method('getLastLogin')->willReturn(12344);
+		$this->existingUser->method('setPassword')->willReturn(false);
+		$this->userManager->method('get')
+			->with('ValidTokenUser')
+			->willReturn($this->existingUser);
+
+		$this->tokenProvider->expects($this->never())
+			->method('invalidateTokensOfUserExcept');
+
+		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
+		$this->assertSame('error', $response->getData()['status']);
 	}
 
 	public function testSetPasswordExpiredToken(): void {

@@ -9,6 +9,7 @@
 namespace OC\Core\Controller;
 
 use Exception;
+use OC\Authentication\Token\IProvider;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Events\BeforePasswordResetEvent;
 use OC\Core\Events\PasswordResetEvent;
@@ -74,6 +75,7 @@ class LostController extends Controller {
 		private IVerificationToken $verificationToken,
 		private IEventDispatcher $eventDispatcher,
 		private Limiter $limiter,
+		private IProvider $tokenProvider,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -217,6 +219,14 @@ class LostController extends Controller {
 			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', ['uid' => $userId, 'password' => $password]);
 
 			$this->twoFactorManager->clearTwoFactorPending($userId);
+
+			// No session to keep on this path, hence the null.
+			try {
+				$this->tokenProvider->invalidateTokensOfUserExcept($userId, null);
+			} catch (Exception $e) {
+				// The password is already reset, so this must not fail the request.
+				$this->logger->warning('Could not revoke the sessions of ' . $userId . ' after a password reset', ['exception' => $e]);
+			}
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@Server::get(Session::class)->unsetMagicInCookie();

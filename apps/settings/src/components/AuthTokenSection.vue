@@ -27,6 +27,7 @@
 </template>
 
 <script lang="ts">
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
@@ -35,6 +36,7 @@ import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import AuthTokenList from './AuthTokenList.vue'
 import AuthTokenRevokeAllDialog from './AuthTokenRevokeAllDialog.vue'
 import AuthTokenSetup from './AuthTokenSetup.vue'
+import { AUTH_TOKENS_REVOKED_EVENT } from '../constants/AuthTokenConstants.ts'
 import { useAuthTokenStore } from '../store/authtoken.ts'
 
 export default defineComponent({
@@ -59,8 +61,20 @@ export default defineComponent({
 		}
 	},
 
+	mounted() {
+		subscribe(AUTH_TOKENS_REVOKED_EVENT, this.handleTokensRevoked)
+	},
+
+	beforeDestroy() {
+		unsubscribe(AUTH_TOKENS_REVOKED_EVENT, this.handleTokensRevoked)
+	},
+
 	methods: {
 		t,
+
+		handleTokensRevoked(ids: number[]) {
+			this.authTokenStore.removeTokens(ids)
+		},
 
 		revokeAllOthers() {
 			this.authTokenStore.deleteAllOtherTokens()
