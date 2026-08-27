@@ -3158,8 +3158,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		unset($formatted['last_updated']);
 		$this->assertIsList($formatted['recipients']);
 		$this->assertCount(2, $formatted['recipients']);
-		// Sort because database order is not guaranteed
-		usort($formatted['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertEquals([
 			'class' => TestShareRecipientType1::class,
 			'value' => 'recipient1',
@@ -3248,7 +3246,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$formatted = $this->getShare(new ShareAccessContext($this->user2), $share->id);
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 
-		usort($formatted['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertArrayHasKey('recipients', $formatted);
 		$this->assertIsArray($formatted['recipients']);
 		$this->assertCount(4, $formatted['recipients']);
@@ -3308,9 +3305,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$formatted = $this->getShare($accessContext, $share->id);
 
-		// Sort because database order is not guaranteed
-		usort($formatted['sources'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
-		usort($formatted['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertEquals([
 			[
 				'class' => TestShareSourceType1::class,
