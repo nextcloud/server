@@ -79,7 +79,7 @@ class CalDAVSettings implements IDelegatedSettings {
 	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
-			'dav' => ['/(' . implode('|', array_keys(self::defaults)) . ')/']
+			'dav' => array_keys(self::defaults),
 		];
 	}
 }
