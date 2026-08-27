@@ -765,6 +765,7 @@ OC.L10N.register(
     "The server configuration is read-only so the mail settings cannot be changed using the web interface." : "A configuração do servidor é somente leitura, portanto as configurações de e-mail não podem ser alteradas usando a interface web.",
     "Mail delivery is disabled by instance config \"{config}\"." : "A entrega de e-mails está desativada pela configuração da instância \"{config}\".",
     "Send mode" : "Modo de envio",
+    "Transport encryption" : "Criptografia de transporte",
     "Sendmail mode" : "Modo do sendmail",
     "Disable certificate verification (insecure)" : "Desativar a verificação do certificado (inseguro)",
     "From address" : "Endereço \"From\"",
