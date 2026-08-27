@@ -360,6 +360,10 @@ class Updater extends BasicEmitter {
 	 * @throws \Exception
 	 */
 	private function checkAppsRequirements(): void {
+		if ($this->serverVersion->getChannel() === 'git') {
+			return;
+		}
+
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = $this->appManager->getEnabledApps();
 		$version = implode('.', Util::getVersion());
