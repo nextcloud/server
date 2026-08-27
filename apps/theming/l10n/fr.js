@@ -111,6 +111,7 @@ OC.L10N.register(
     "Could not set primary color" : "Impossible de définir la couleur principale",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Définissez une couleur principale pour mettre en évidence les éléments importants. La couleur utilisée pour les éléments tels que les boutons primaires peut varier légèrement en fonction des exigences d'accessibilité.",
     "Reset primary color" : "Réinitialiser la couleur principale",
+    "{time} seconds" : "{time} secondes",
     "Reset to default" : "Restaurer les valeurs par défaut",
     "Non image file selected" : "Fichier non image sélectionné",
     "Failed to upload image" : "Échec du téléversement de l'image",
