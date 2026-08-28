@@ -62,7 +62,7 @@
     "core-js": "^3.50.0",
     "crypto-browserify": "^3.12.1",
     "debounce": "^3.0.0",
-    "dompurify": "^3.4.13",
+    "dompurify": "^3.4.14",
     "escape-html": "^1.0.3",
     "focus-trap": "^8.2.2",
     "is-svg": "^6.1.0",
