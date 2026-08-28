@@ -83,7 +83,7 @@
     "@vitest/coverage-v8": "^4.1.10",
     "@vue/test-utils": "^2.4.10",
     "@vue/tsconfig": "^0.9.1",
-    "@zip.js/zip.js": "^2.8.51",
+    "@zip.js/zip.js": "^2.8.59",
     "axe-core": "^4.13.0",
     "concurrently": "^9.2.4",
     "eslint": "^10.8.1",
