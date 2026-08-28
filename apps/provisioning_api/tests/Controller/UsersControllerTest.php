@@ -2591,16 +2591,32 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'ru')->getData());
 	}
 
+	/**
+	 * Debian and Ubuntu ship the tz database's backward links in a separate
+	 * tzdata-legacy package, so pick an alias this platform actually knows
+	 * instead of hardcoding one.
+	 */
+	private static function findBackwardCompatibleTimezone(): ?string {
+		$aliases = array_diff(
+			\DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC),
+			\DateTimeZone::listIdentifiers(),
+		);
+		return $aliases === [] ? null : reset($aliases);
+	}
+
 	public static function dataEditUserSelfEditChangeTimezone(): array {
 		return [
-			'primary identifier' => ['Europe/Kyiv'],
-			'backward compatible alias' => ['Europe/Kiev'],
-			'legacy region alias' => ['US/Eastern'],
+			'primary identifier' => ['Europe/Vienna'],
+			'backward compatible alias' => [self::findBackwardCompatibleTimezone()],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataEditUserSelfEditChangeTimezone')]
-	public function testEditUserSelfEditChangeTimezone(string $timezone): void {
+	public function testEditUserSelfEditChangeTimezone(?string $timezone): void {
+		if ($timezone === null) {
+			$this->markTestSkipped('No backward compatible timezone aliases in this platform\'s tz database');
+		}
+
 		$loggedInUser = $this->createMock(IUser::class);
 		$loggedInUser
 			->expects($this->any())
