@@ -83,7 +83,7 @@
     "@types/dockerode": "^4.0.1",
     "@vitest/coverage-v8": "^4.1.10",
     "@vue/test-utils": "^2.4.6",
-    "@vue/tsconfig": "^0.9.0",
+    "@vue/tsconfig": "^0.9.1",
     "@zip.js/zip.js": "^2.8.51",
     "axe-core": "^4.13.0",
     "concurrently": "^10.0.5",
