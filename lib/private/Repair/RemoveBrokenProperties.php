@@ -17,6 +17,8 @@ use OCP\Migration\IRepairStep;
 use Override;
 
 class RemoveBrokenProperties implements IRepairStep {
+	public const GUARD_CONFIG_KEY = 'dav_repair_removed_broken_properties';
+
 	public function __construct(
 		private readonly IDBConnection $db,
 		private readonly IAppConfig $appConfig,
@@ -30,7 +32,7 @@ class RemoveBrokenProperties implements IRepairStep {
 
 	#[Override]
 	public function run(IOutput $output): void {
-		if ($this->appConfig->getValueBool('core', 'repair_removed_broken_properties', lazy: true)) {
+		if ($this->appConfig->getValueBool('core', self::GUARD_CONFIG_KEY, lazy: true)) {
 			return;
 		}
 
@@ -63,7 +65,7 @@ class RemoveBrokenProperties implements IRepairStep {
 		}
 		$total = count($brokenIds);
 
-		$this->appConfig->setValueBool('core', 'repair_removed_broken_properties', true, lazy: true);
+		$this->appConfig->setValueBool('core', self::GUARD_CONFIG_KEY, true, lazy: true);
 		$output->info("$total broken object properties removed");
 	}
 }
