@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "tags ການຮ່ວມມື",
     "Collaborative tagging functionality which shares tags among people." : "Collaborative tagging functionality which shares tags among people.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)",
+    "Search tags" : "ຄົ້ນຫາແທັກ",
     "Public" : "Public",
     "Restricted" : "Restricted",
     "Invisible" : "ເບິ່ງບໍ່ເຫັນ",
@@ -65,9 +66,7 @@ OC.L10N.register(
     "Delete" : "ລຶບ",
     "Reset" : "ຕັ້ງຄ່າໃໝ່",
     "Loading …" : "Loading …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} will be set and {tag2} will be removed from {count} files."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} will be set to {count} files."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} will be removed from {count} files."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} and {lastTag} will be set to {count} files."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} and {lastTag} will be removed from {count} files."],
     "{displayName} (hidden)" : "{displayName} (hidden)",
@@ -112,6 +111,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Failed to delete tag for file",
     "Collaborative tags …" : "Collaborative tags …",
     "Loading …" : "ກຳລັງໂຫຼດ…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} will be set and {tag2} will be removed from {count} files."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} will be removed from {count} files."],
     "Loading collaborative tags …" : "Loading collaborative tags …"
 },
 "nplurals=1; plural=0;");

@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OC\Preview\Storage;
 
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
-use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OCP\Server;
 use Override;
@@ -38,6 +37,11 @@ class StorageFactory implements IPreviewStorage {
 		$this->getBackend()->deletePreview($preview);
 	}
 
+	#[Override]
+	public function deleteUnreferencedPreview(Preview $preview): void {
+		$this->getBackend()->deleteUnreferencedPreview($preview);
+	}
+
 	private function getBackend(): IPreviewStorage {
 		if ($this->backend) {
 			return $this->backend;
@@ -53,8 +57,8 @@ class StorageFactory implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function migratePreview(Preview $preview, SimpleFile $file): void {
-		$this->getBackend()->migratePreview($preview, $file);
+	public function migratePreview(Preview $preview): void {
+		$this->getBackend()->migratePreview($preview);
 	}
 
 	#[Override]

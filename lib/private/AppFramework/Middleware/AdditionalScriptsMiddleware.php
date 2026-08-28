@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Middleware;
 
 use OC\Core\Controller\LoginController;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\Response;
@@ -27,7 +28,7 @@ class AdditionalScriptsMiddleware extends Middleware {
 	}
 
 	#[\Override]
-	public function afterController($controller, $methodName, Response $response): Response {
+	public function afterController(Controller $controller, string $methodName, Response $response): Response {
 		if ($response instanceof TemplateResponse) {
 			if ($controller instanceof LoginController) {
 				$this->dispatcher->dispatchTyped(new BeforeLoginTemplateRenderedEvent($response));

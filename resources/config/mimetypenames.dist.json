@@ -156,6 +156,7 @@
   "text/plain": "Plain text document",
   "text/reveal": "",
   "text/rtf": "Rich Text document",
+  "text/tab-separated-values": "TSV document",
   "text/vcard": "Electronic business card",
   "text/x-c": "",
   "text/x-c++src": "C++ source code",

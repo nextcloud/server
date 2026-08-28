@@ -18,6 +18,7 @@ use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
+use OCA\Theming\Themes\ReducedMotion;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -75,6 +76,7 @@ class ThemesServiceTest extends TestCase {
 			'light-highcontrast',
 			'dark-highcontrast',
 			'opendyslexic',
+			'reduced-motion',
 		];
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
 	}
@@ -111,6 +113,7 @@ class ThemesServiceTest extends TestCase {
 			'light-highcontrast',
 			'dark-highcontrast',
 			'opendyslexic',
+			'reduced-motion',
 		];
 
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
@@ -358,6 +361,7 @@ class ThemesServiceTest extends TestCase {
 				$appManager,
 				null,
 			),
+			'reduced-motion' => new ReducedMotion($l10n),
 		];
 	}
 }

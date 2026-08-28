@@ -1,0 +1,6 @@
+{ "translations": {
+    "The owner does not exist: %s" : "Seda omanikku pole olemas: %s",
+    "Sharing" : "Jagamine",
+    "TODO" : "ÜLESANDED"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

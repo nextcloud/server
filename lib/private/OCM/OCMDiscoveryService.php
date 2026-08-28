@@ -50,7 +50,7 @@ use Psr\Log\LoggerInterface;
 #[Consumable(since: '28.0.0')]
 final class OCMDiscoveryService implements IOCMDiscoveryService {
 	private ICache $cache;
-	public const API_VERSION = '1.1.0';
+	public const string API_VERSION = '1.1.2';
 	private ?IOCMProvider $localProvider = null;
 	/** @var array<string, IOCMProvider> */
 	private array $remoteProviders = [];
@@ -93,25 +93,26 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		}
 
 		if (array_key_exists($remote, $this->remoteProviders)) {
+
 			return $this->remoteProviders[$remote];
 		}
 
 		$provider = new OCMProvider();
 
 		if (!$skipCache) {
-			try {
-				$cached = $this->cache->get($remote);
-				if ($cached === false) {
-					throw new OCMProviderException('Previous discovery failed.');
-				}
+			$cached = $this->cache->get($remote);
+			if ($cached === false) {
+				throw new OCMProviderException('Previous discovery failed.');
+			}
 
-				if ($cached !== null) {
+			if ($cached !== null) {
+				try {
 					$provider->import(json_decode($cached, true, 8, JSON_THROW_ON_ERROR) ?? []);
 					$this->remoteProviders[$remote] = $provider;
 					return $provider;
+				} catch (JsonException|OCMProviderException $e) {
+					$this->logger->warning('cache issue on ocm discovery', ['exception' => $e]);
 				}
-			} catch (JsonException|OCMProviderException $e) {
-				$this->logger->warning('cache issue on ocm discovery', ['exception' => $e]);
 			}
 		}
 
@@ -193,6 +194,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		}
 
 		$url = $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.requesthandlercontroller.addShare');
+		$tokenUrl = $this->urlGenerator->linkToRouteAbsolute('cloud_federation_api.Token.accessToken');
 		$pos = strrpos($url, '/');
 		if ($pos === false) {
 			$this->logger->debug('generated route should contain a slash character');
@@ -204,15 +206,16 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		$provider->setEnabled(true);
 		$provider->setApiVersion(self::API_VERSION);
 		$provider->setEndPoint(substr($url, 0, $pos));
-		$provider->setCapabilities(['invite-accepted', 'notifications', 'shares']);
+		$provider->setCapabilities(['notifications', 'shares', 'exchange-token']);
+		$provider->setTokenEndPoint($tokenUrl);
 		if ($signingEnabled) {
-			$provider->setCapabilities(['http-sig']);
-		}
-
-		// The inviteAcceptDialog is available from the contacts app, if this config value is set
-		$inviteAcceptDialog = $this->appConfig->getValueString('core', ConfigLexicon::OCM_INVITE_ACCEPT_DIALOG);
-		if ($inviteAcceptDialog !== '') {
-			$provider->setInviteAcceptDialog($this->urlGenerator->linkToRouteAbsolute($inviteAcceptDialog));
+			try {
+				// http-sig advertisement requires a jwksUri
+				$provider->setJwksUri($this->signatoryManager->getLocalJwksUri());
+				$provider->setCapabilities(['http-sig']);
+			} catch (IdentityNotFoundException $e) {
+				$this->logger->warning('cannot build local jwksUri, http-sig capability not advertised', ['exception' => $e]);
+			}
 		}
 
 		$resource = $provider->createNewResourceType();
@@ -256,9 +259,10 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 * @since 33.0.0
 	 */
 	#[\Override]
-	public function getIncomingSignedRequest(): ?IIncomingSignedRequest {
+	public function getIncomingSignedRequest(?string $ocmAddress = null): ?IIncomingSignedRequest {
+		$origin = $ocmAddress !== null ? $this->getHostFromOcmAddress($ocmAddress) : null;
 		try {
-			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager);
+			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager, null, $origin);
 			$this->logger->debug('signed request available', ['signedRequest' => $signedRequest]);
 			return $signedRequest;
 		} catch (SignatureNotFoundException|SignatoryNotFoundException $e) {
@@ -280,7 +284,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	/**
 	 * @inheritDoc
 	 *
-	 * @since 34.0.0
+	 * @since 35.0.0
 	 */
 	#[\Override]
 	public function confirmRequestOrigin(?string $signedOrigin, string $ocmAddress): void {
@@ -307,6 +311,10 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	}
 
 	/**
+	 * Extract the signer origin (host) from an OCM address (`user@host`).
+	 *
+	 * @param string $entry OCM address in `user@host` or `user@https://host` form
+	 * @return string the host (with port) of the OCM address
 	 * @throws IncomingRequestException on malformed address or unresolvable host
 	 */
 	private function getHostFromOcmAddress(string $entry): string {

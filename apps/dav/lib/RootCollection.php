@@ -37,6 +37,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -53,7 +54,7 @@ use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
 	public function __construct() {
-		$l10n = \OC::$server->getL10N('dav');
+		$l10n = Server::get(IFactory::class)->get('dav');
 		$random = Server::get(ISecureRandom::class);
 		$logger = Server::get(LoggerInterface::class);
 		$userManager = Server::get(IUserManager::class);
@@ -63,6 +64,7 @@ class RootCollection extends SimpleCollection {
 		$db = Server::get(IDBConnection::class);
 		$dispatcher = Server::get(IEventDispatcher::class);
 		$config = Server::get(IConfig::class);
+		$appConfig = Server::get(IAppConfig::class);
 		$proxyMapper = Server::get(ProxyMapper::class);
 		$rootFolder = Server::get(IRootFolder::class);
 		$federatedCalendarFactory = Server::get(FederatedCalendarFactory::class);
@@ -125,7 +127,7 @@ class RootCollection extends SimpleCollection {
 		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $caldavBackend, 'principals/calendar-rooms', $logger, $l10n, $config, $federatedCalendarFactory);
 		$roomCalendarRoot->disableListing = $disableListing;
 
-		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config, $logger);
+		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config, $appConfig, $logger, $userManager);
 
 		$systemTagCollection = Server::get(SystemTagsByIdCollection::class);
 		$systemTagRelationsCollection = new SystemTagsRelationsCollection(

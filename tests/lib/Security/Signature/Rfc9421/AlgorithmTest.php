@@ -27,6 +27,8 @@ class AlgorithmTest extends TestCase {
 
 	public function testNormalizeJoseAliases(): void {
 		$this->assertSame('ed25519', Algorithm::normalize('EdDSA'));
+		// fully-specified RFC 9864 name, recommended by the OCM spec
+		$this->assertSame('ed25519', Algorithm::normalize('Ed25519'));
 		$this->assertSame('ecdsa-p256-sha256', Algorithm::normalize('ES256'));
 		$this->assertSame('ecdsa-p384-sha384', Algorithm::normalize('ES384'));
 		$this->assertSame('rsa-v1_5-sha256', Algorithm::normalize('RS256'));
@@ -117,7 +119,9 @@ class AlgorithmTest extends TestCase {
 	public function testParseKeyRejectsContradictoryAlg(): void {
 		$this->markTestSkipped(
 			'firebase/php-jwt JWK::parseKey does not validate kty/crv/alg coherence; '
-			. 'the alg mismatch is caught at verify() time instead — see testVerifyEd25519KeyAgainstES256Alg.'
+			. 'OCMSignatoryManager::findKid() rejects such keys before parsing '
+			. '(see OCMSignatoryManagerJwksTest::testGetRemoteKeyRejectsJwkAlgMismatchingKeyType) '
+			. 'and a remaining mismatch is caught at verify() time.'
 		);
 	}
 
@@ -182,15 +186,30 @@ class AlgorithmTest extends TestCase {
 		$priv = '';
 		openssl_pkey_export($pkey, $priv);
 		$details = openssl_pkey_get_details($pkey);
+		$coordinateSize = $opensslCurve === 'prime256v1' ? 32 : 48;
+		[$x, $y] = self::zeroPadCoordinates($details['ec']['x'], $details['ec']['y'], $coordinateSize);
 		$key = JWK::parseKey([
 			'kty' => 'EC',
 			'crv' => $jwkCurve,
 			'kid' => 'k',
 			'alg' => $joseAlg,
-			'x' => self::b64url($details['ec']['x']),
-			'y' => self::b64url($details['ec']['y']),
+			'x' => self::b64url($x),
+			'y' => self::b64url($y),
 		], $joseAlg);
 		return [$priv, $key];
+	}
+
+	/**
+	 * openssl strips leading zero bytes from EC coordinates; JWK requires them
+	 * zero-padded to the full field size (RFC 7518 §6.2.1.2).
+	 *
+	 * @return array{0: string, 1: string}
+	 */
+	private static function zeroPadCoordinates(string $x, string $y, int $coordinateSize): array {
+		return [
+			str_pad($x, $coordinateSize, "\x00", STR_PAD_LEFT),
+			str_pad($y, $coordinateSize, "\x00", STR_PAD_LEFT),
+		];
 	}
 
 	private static function b64url(string $bin): string {

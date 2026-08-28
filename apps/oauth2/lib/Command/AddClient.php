@@ -17,9 +17,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AddClient extends Base {
-	private const ARGUMENT_CLIENT_NAME = 'client-name';
-	private const ARGUMENT_CLIENT_REDIRECT_URI = 'client-redirect-uri';
+final class AddClient extends Base {
+	private const string ARGUMENT_CLIENT_NAME = 'client-name';
+
+	private const string ARGUMENT_CLIENT_REDIRECT_URI = 'client-redirect-uri';
 
 	public function __construct(
 		private readonly ClientService $clientService,

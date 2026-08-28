@@ -35,4 +35,8 @@ class PasswordConfirmationMiddlewareController extends Controller {
 	#[PasswordConfirmationRequired]
 	public function testSSO() {
 	}
+
+	#[PasswordConfirmationRequired(strict: true)]
+	public function testAuthHeader() {
+	}
 }

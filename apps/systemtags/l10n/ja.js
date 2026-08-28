@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "コラボタグ",
     "Collaborative tagging functionality which shares tags among people." : "ユーザー間でタグを共有するコラボレーションタグ機能。",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "ユーザー間でタグを共有するコラボレーションタグ機能。チームに最適です。\n\t(マルチテナンシーインストールのプロバイダーの場合は、タグが共有されるため、このアプリを非アクティブにすることをお勧めします。)",
+    "Search tags" : "タグを検索",
     "Public" : "公開",
     "Restricted" : "制限付き",
     "Invisible" : "不可視",
@@ -65,9 +66,9 @@ OC.L10N.register(
     "Delete" : "削除",
     "Reset" : "リセット",
     "Loading …" : "読み込み中…",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1}が設定され、{count}ファイルから{tag2}が削除されます。"],
+    "_{tag1} will be set and {tag2} will be removed from {count} file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1}が設定され、{count}ファイルから{tag2}が削除されます。"],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag}が{count}ファイルに設定されます。"],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag}は{count}ファイルから削除されます。"],
+    "_{tag} will be removed from {count} file._::_{tag} will be removed from {count} files._" : ["{tag}は{count}ファイルから削除されます。"],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags}と{lastTag}は{count}ファイルに設定されます。"],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags}と{lastTag}は{count}ファイルから削除されます。"],
     "{displayName} (hidden)" : "{displayName} (非公開)",
@@ -112,6 +113,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "ファイルのタグを削除できませんでした",
     "Collaborative tags …" : "コラボレーションタグ ...",
     "Loading …" : "読み込み中…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1}が設定され、{count}ファイルから{tag2}が削除されます。"],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag}は{count}ファイルから削除されます。"],
     "Loading collaborative tags …" : "コラボレーションタグを読み込み中 ..."
 },
 "nplurals=1; plural=0;");

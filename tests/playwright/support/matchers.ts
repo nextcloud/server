@@ -3,7 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { expect as baseExpect, type Locator } from '@playwright/test'
+import type { Locator } from '@playwright/test'
+
+import { expect as baseExpect } from '@playwright/test'
 
 export const expect = baseExpect.extend({
 	/**
@@ -23,8 +25,8 @@ export const expect = baseExpect.extend({
 		}
 		return {
 			message: () => pass
-				? `Expected row not to have class 'files-list__row--active'`
-				: failMessage ?? `Expected row to have class 'files-list__row--active'`,
+				? 'Expected row not to have class \'files-list__row--active\''
+				: failMessage ?? 'Expected row to have class \'files-list__row--active\'',
 			pass,
 		}
 	},

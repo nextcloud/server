@@ -12,14 +12,17 @@ namespace OC\User;
 use OCP\IImage;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 
 class LazyUser implements IUser {
 	private ?IUser $user = null;
 
 	public function __construct(
+		/** @var non-empty-string $uid */
 		private string $uid,
 		private IUserManager $userManager,
+		/** @var ?non-empty-string $displayName */
 		private ?string $displayName = null,
 		private ?UserInterface $backend = null,
 	) {
@@ -37,7 +40,7 @@ class LazyUser implements IUser {
 		}
 
 		if ($this->user === null) {
-			throw new NoUserException('User not found in backend');
+			throw UserNotFoundException::createForUser($this->uid);
 		}
 
 		return $this->user;

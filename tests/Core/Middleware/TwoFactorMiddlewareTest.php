@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-namespace Test\Core\Middleware;
+namespace Tests\Core\Middleware;
 
 use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
 use OC\AppFramework\Http\Request;

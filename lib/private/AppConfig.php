@@ -52,12 +52,12 @@ use Psr\Log\LoggerInterface;
  * @since 29.0.0 - Supporting types and lazy loading
  */
 class AppConfig implements IAppConfig {
-	private const APP_MAX_LENGTH = 32;
-	private const KEY_MAX_LENGTH = 64;
-	private const ENCRYPTION_PREFIX = '$AppConfigEncryption$';
-	private const ENCRYPTION_PREFIX_LENGTH = 21; // strlen(self::ENCRYPTION_PREFIX)
-	private const LOCAL_CACHE_KEY = 'OC\\AppConfig';
-	private const LOCAL_CACHE_TTL = 3;
+	private const int APP_MAX_LENGTH = 32;
+	private const int KEY_MAX_LENGTH = 64;
+	private const string ENCRYPTION_PREFIX = '$AppConfigEncryption$';
+	private const int ENCRYPTION_PREFIX_LENGTH = 21; // strlen(self::ENCRYPTION_PREFIX)
+	private const string LOCAL_CACHE_KEY = 'OC\\AppConfig';
+	private const int LOCAL_CACHE_TTL = 3;
 
 	/** @var array<string, array<string, string>> ['app_id' => ['config_key' => 'config_value']] */
 	private array $fastCache = [];   // cache for normal config keys
@@ -265,6 +265,13 @@ class AppConfig implements IAppConfig {
 		);
 
 		if (!$filtered) {
+			foreach ($values as $key => $value) {
+				$sensitive = $this->isSensitive($app, $key, null);
+				if ($sensitive && is_string($value) && str_starts_with($value, self::ENCRYPTION_PREFIX)) {
+					$values[$key] = $this->crypto->decrypt(substr($value, self::ENCRYPTION_PREFIX_LENGTH));
+				}
+			}
+
 			return $values;
 		}
 
@@ -531,8 +538,15 @@ class AppConfig implements IAppConfig {
 			&& $knownType > 0
 			&& !$this->isTyped(self::VALUE_MIXED, $knownType)
 			&& !$this->isTyped($type, $knownType)) {
-			$this->logger->warning('conflict with value type from database', ['app' => $app, 'key' => $key, 'type' => $type, 'knownType' => $knownType]);
-			throw new AppConfigTypeConflictException('conflict with value type from database');
+			$requestedType = $storedType = null;
+			try {
+				$requestedType = $this->convertTypeToString($type);
+				$storedType = $this->convertTypeToString($knownType);
+			} catch (AppConfigIncorrectTypeException) {
+				// can be ignored, this was just needed for a better exception message.
+			}
+			$this->logger->warning('Config value {app}/{key} is stored as {storedType} but was requested as {requestedType}', ['app' => $app, 'key' => $key, 'storedType' => $storedType ?? $knownType, 'requestedType' => $requestedType ?? $type]);
+			throw new AppConfigTypeConflictException('Config value ' . $app . '/' . $key . ' is stored as ' . ($storedType ?? (string)$knownType) . ' but was requested as ' . ($requestedType ?? (string)$type));
 		}
 
 		/**
@@ -1420,7 +1434,7 @@ class AppConfig implements IAppConfig {
 			return;
 		}
 
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		foreach ($rows as $row) {
 			// most of the time, 'lazy' is not in the select because its value is already known
 			if ($this->migrationCompleted && $lazy && ((int)$row['lazy']) === 1) {
@@ -1599,6 +1613,9 @@ class AppConfig implements IAppConfig {
 			],
 			'call_summary_bot' => [
 				'/^secret_(.*)$/',
+			],
+			'eurooffice' => [
+				'/^jwt_secret$/',
 			],
 			'external' => [
 				'/^sites$/',

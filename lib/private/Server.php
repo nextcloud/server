@@ -12,6 +12,7 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Accounts\AccountManager;
 use OC\Activity\EventMerger;
 use OC\App\AppManager;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
 use OC\AppFramework\Services\AppConfig;
@@ -134,6 +135,9 @@ use OC\SetupCheck\SetupCheckManager;
 use OC\Share20\ProviderFactory;
 use OC\Share20\PublicShareTemplateFactory;
 use OC\Share20\ShareHelper;
+use OC\Sharing\SharingBackend;
+use OC\Sharing\SharingManager;
+use OC\Sharing\SharingRegistry;
 use OC\Snowflake\APCuSequence;
 use OC\Snowflake\FileSequence;
 use OC\Snowflake\ISequence;
@@ -204,6 +208,7 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\Template\ITemplateManager;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
+use OCP\GlobalScale\IGlobalScaleService;
 use OCP\Group\ISubAdmin;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
@@ -603,7 +608,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(LoggerInterface::class),
 				$c->get(IConfig::class),
 				$c->get(IAccountManager::class),
-				$c->get(KnownUserService::class)
+				$c->get(KnownUserService::class),
+				$c->get(ICloudIdManager::class)
 			);
 		});
 
@@ -616,7 +622,7 @@ class Server extends ServerContainer implements IServerContainer {
 		/** Only used by the PsrLoggerAdapter should not be used by apps */
 		$this->registerService(Log::class, function (Server $c) {
 			$logType = $c->get(AllConfig::class)->getSystemValue('log_type', 'file');
-			$factory = new LogFactory($c, $this->get(SystemConfig::class));
+			$factory = new LogFactory($c, $this->get(SystemConfig::class), $c->get('serverRoot'));
 			$logger = $factory->get($logType);
 			$registry = $c->get(\OCP\Support\CrashReport\IRegistry::class);
 
@@ -696,7 +702,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return new DateTimeFormatter(
 				$c->get(IDateTimeZone::class)->getTimeZone(),
-				$c->getL10N('lib', $language)
+				$c->get(IFactory::class)->get('lib', $language)
 			);
 		});
 
@@ -831,7 +837,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(LoggerInterface::class),
 				$c->get(Defaults::class),
 				$c->get(IURLGenerator::class),
-				$c->getL10N('lib'),
+				$c->get(IFactory::class)->get('lib'),
 				$c->get(IEventDispatcher::class),
 				$c->get(IFactory::class),
 				$c->get(IEmailValidator::class),
@@ -1150,6 +1156,21 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(ISnowflakeDecoder::class, SnowflakeDecoder::class);
 		$this->registerAlias(IJobRuns::class, JobRuns::class);
 		$this->registerAlias(IServerInfo::class, ServerInfo::class);
+
+		$this->registerAlias(\NCU\Sharing\ISharingRegistry::class, SharingRegistry::class);
+		$this->registerAlias(\NCU\Sharing\ISharingManager::class, SharingManager::class);
+		$this->registerAlias(\NCU\Sharing\ISharingBackend::class, SharingBackend::class);
+
+		$this->registerService(IGlobalScaleService::class, function (ContainerInterface $c): IGlobalScaleService {
+			/** @var Coordinator $coordinator */
+			$coordinator = $c->get(Coordinator::class);
+			$registrationContext = $coordinator->getRegistrationContext();
+			$globalScaleServiceClass = $registrationContext->getGlobalScaleService();
+			if ($globalScaleServiceClass === null) {
+				throw new ServiceUnavailableException('The app providing the global scale service is not enabled');
+			}
+			return $c->get($globalScaleServiceClass);
+		});
 
 		$this->connectDispatcher();
 	}

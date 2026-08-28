@@ -4,7 +4,6 @@ OC.L10N.register(
     "App store" : "Siopa aip",
     "Apps" : "Feidhmchláir",
     "Nextcloud Appstore" : "Siopa Aipeanna Nextcloud",
-    "Appstore" : "Siopa Aipeanna",
     "App name" : "Ainm aip",
     "Version" : "Leagan",
     "Support level" : "Leibhéal tacaíochta",

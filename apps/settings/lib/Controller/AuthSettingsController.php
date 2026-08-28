@@ -20,6 +20,7 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
@@ -56,10 +57,9 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
 	 * @param bool $qrcodeLogin If set to true, the returned token could be (depending on server settings) a onetime password, that can only be used to get the actual app password a single time
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
 	public function create(string $name = '', bool $qrcodeLogin = false): JSONResponse {
@@ -139,10 +139,7 @@ class AuthSettingsController extends Controller {
 		]);
 	}
 
-	/**
-	 * @return JSONResponse
-	 */
-	private function getServiceNotAvailableResponse() {
+	private function getServiceNotAvailableResponse(): JSONResponse {
 		$resp = new JSONResponse();
 		$resp->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
 		return $resp;
@@ -152,10 +149,8 @@ class AuthSettingsController extends Controller {
 	 * Return a 25 digit device password
 	 *
 	 * Example: AbCdE-fGhJk-MnPqR-sTwXy-23456
-	 *
-	 * @return string
 	 */
-	private function generateRandomDeviceToken() {
+	private function generateRandomDeviceToken(): string {
 		$groups = [];
 		for ($i = 0; $i < 5; $i++) {
 			$groups[] = $this->random->generate(5, ISecureRandom::CHAR_HUMAN_READABLE);
@@ -167,15 +162,10 @@ class AuthSettingsController extends Controller {
 		return $this->session->exists('app_password');
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 *
-	 * @param int $id
-	 * @return array|JSONResponse
-	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
-	public function destroy($id) {
+	public function destroy(int $id): JSONResponse {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -195,20 +185,55 @@ class AuthSettingsController extends Controller {
 
 		$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
 		$this->publishActivity($subject, $token->getId(), ['name' => $token->getName()]);
-		return [];
+		return new JSONResponse([]);
 	}
 
 	/**
-	 * @NoSubAdminRequired
+	 * Revoke the tokens of the current user other than the session's own.
 	 *
-	 * @param int $id
-	 * @param array $scope
-	 * @param string $name
-	 * @return array|JSONResponse
+	 * Wipe-pending tokens are kept too: revoking one cancels its pending wipe, so
+	 * that stays a per-token decision.
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired(strict: true)]
-	public function update($id, array $scope, string $name) {
+	public function destroyOthers(): JSONResponse {
+		if ($this->checkAppToken()) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		if ($this->userSession->getImpersonatingUserID() !== null) {
+			return $this->getServiceNotAvailableResponse();
+		}
+
+		try {
+			$currentTokenId = $this->tokenProvider->getToken($this->session->getId())->getId();
+		} catch (SessionNotAvailableException|InvalidTokenException) {
+			return $this->getServiceNotAvailableResponse();
+		}
+
+		$revoked = [];
+		foreach ($this->tokenProvider->getTokenByUser($this->userId) as $token) {
+			if ($token->getId() === $currentTokenId || $token->getType() === IToken::WIPE_TOKEN) {
+				continue;
+			}
+
+			$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
+			$revoked[] = $token->getId();
+		}
+
+		if ($revoked !== []) {
+			// One aggregate entry rather than one per token, so a bulk revoke does not bury the feed.
+			$this->publishActivity(Provider::APP_TOKEN_DELETED_ALL, null, ['count' => count($revoked)]);
+		}
+
+		return new JSONResponse(['revoked' => $revoked]);
+	}
+
+	#[NoSubAdminRequired]
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
+	public function update(int $id, array $scope, string $name): JSONResponse {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -236,22 +261,23 @@ class AuthSettingsController extends Controller {
 		}
 
 		$this->tokenProvider->updateToken($token);
-		return [];
+		return new JSONResponse([]);
 	}
 
 	/**
-	 * @param string $subject
-	 * @param int $id
-	 * @param array $parameters
+	 * @param int|null $id Token the event is about, or null for events that span several tokens
 	 */
-	private function publishActivity(string $subject, int $id, array $parameters = []): void {
+	private function publishActivity(string $subject, ?int $id, array $parameters = []): void {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('settings')
 			->setType('security')
 			->setAffectedUser($this->userId)
 			->setAuthor($this->userId)
-			->setSubject($subject, $parameters)
-			->setObject('app_token', $id, 'App Password');
+			->setSubject($subject, $parameters);
+
+		if ($id !== null) {
+			$event->setObject('app_token', $id, 'App Password');
+		}
 
 		try {
 			$this->activityManager->publish($event);
@@ -263,8 +289,6 @@ class AuthSettingsController extends Controller {
 	/**
 	 * Find a token by given id and check if uid for current session belongs to this token
 	 *
-	 * @param int $id
-	 * @return IToken
 	 * @throws InvalidTokenException
 	 */
 	private function findTokenByIdAndUser(int $id): IToken {
@@ -281,13 +305,10 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoSubAdminRequired
-	 *
-	 * @param int $id
-	 * @return JSONResponse
 	 * @throws InvalidTokenException
 	 * @throws ExpiredTokenException
 	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	public function wipe(int $id): JSONResponse {

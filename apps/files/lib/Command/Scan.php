@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,8 +10,6 @@
 
 namespace OCA\Files\Command;
 
-use OC\Core\Command\Base;
-use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\Files\SetupManager;
@@ -17,6 +17,14 @@ use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Utils\Scanner;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\ForbiddenException;
+use OCP\Console\Attribute\Argument;
+use OCP\Console\Attribute\AsCommand;
+use OCP\Console\Attribute\Option;
+use OCP\Console\Exception\InterruptedException;
+use OCP\Console\ExitCode;
+use OCP\Console\IOutput;
+use OCP\Console\ISignalHandler;
+use OCP\Console\Verbosity;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\FileCacheUpdated;
 use OCP\Files\Events\NodeAddedToCache;
@@ -30,13 +38,13 @@ use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class Scan extends Base {
+#[AsCommand(
+	name: 'files:scan',
+	description: 'rescan filesystem',
+	supportsOutputFormat: true,
+)]
+class Scan {
 	protected float $execTime = 0;
 	protected int $foldersCounter = 0;
 	protected int $filesCounter = 0;
@@ -53,62 +61,117 @@ class Scan extends Base {
 		private LoggerInterface $logger,
 		private SetupManager $setupManager,
 	) {
-		parent::__construct();
 	}
 
-	#[\Override]
-	protected function configure(): void {
-		parent::configure();
+	public function __invoke(
+		IOutput $output,
+		ISignalHandler $signalHandler,
+		#[Argument(name: 'user_id', description: 'will rescan all files of the given user(s)')]
+		array $userIds = [],
+		#[Option(description: 'limit rescan to this path, eg. --path="/alice/files/Music", the user_id is determined by the path and the user_id parameter and --all are ignored', shortcut: 'p')]
+		?string $path = null,
+		#[Option(name: 'generate-metadata', description: 'Generate metadata for all scanned files; if specified only generate for named value')]
+		string|bool $generateMetadata = false,
+		#[Option(description: 'will rescan all files of all known users')]
+		bool $all = false,
+		#[Option(description: 'only scan files which are marked as not fully scanned')]
+		bool $unscanned = false,
+		#[Option(description: 'do not scan folders recursively')]
+		bool $shallow = false,
+		#[Option(name: 'home-only', description: 'only scan the home storage, ignoring any mounted external storage or share')]
+		bool $homeOnly = false,
+	): ExitCode {
+		$inputPath = $path;
+		if ($inputPath) {
+			$inputPath = '/' . trim($inputPath, '/');
+			[, $user,] = explode('/', $inputPath, 3);
+			$users = [$user];
+		} elseif ($all) {
+			$users = $this->userManager->search('');
+		} else {
+			$users = $userIds;
+		}
 
-		$this
-			->setName('files:scan')
-			->setDescription('rescan filesystem')
-			->addArgument(
-				'user_id',
-				InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-				'will rescan all files of the given user(s)'
-			)
-			->addOption(
-				'path',
-				'p',
-				InputOption::VALUE_REQUIRED,
-				'limit rescan to this path, eg. --path="/alice/files/Music", the user_id is determined by the path and the user_id parameter and --all are ignored'
-			)
-			->addOption(
-				'generate-metadata',
-				null,
-				InputOption::VALUE_OPTIONAL,
-				'Generate metadata for all scanned files; if specified only generate for named value',
-				''
-			)
-			->addOption(
-				'all',
-				null,
-				InputOption::VALUE_NONE,
-				'will rescan all files of all known users'
-			)->addOption(
-				'unscanned',
-				null,
-				InputOption::VALUE_NONE,
-				'only scan files which are marked as not fully scanned'
-			)->addOption(
-				'shallow',
-				null,
-				InputOption::VALUE_NONE,
-				'do not scan folders recursively'
-			)->addOption(
-				'home-only',
-				null,
-				InputOption::VALUE_NONE,
-				'only scan the home storage, ignoring any mounted external storage or share'
-			);
+		# check quantity of users to be process and show it on the command line
+		$users_total = count($users);
+		if ($users_total === 0) {
+			$output->writeln('<error>Please specify the user id to scan, --all to scan for all users or --path=...</error>');
+			return ExitCode::Failure;
+		}
+
+		$this->initTools($output);
+
+		// null if --generate-metadata is not set, empty if option has no value, value if set
+		$metadata = match (true) {
+			$generateMetadata === false => null,
+			$generateMetadata === true => '',
+			default => $generateMetadata,
+		};
+
+		$scannedStorages = [];
+		$mountFilter = function (IMountPoint $mount) use ($homeOnly, &$scannedStorages) {
+			if ($homeOnly && !$this->isHomeMount($mount)) {
+				return false;
+			}
+
+			// when scanning multiple users, the scanner might encounter the same storage multiple times (e.g. external storages, or group folders)
+			// we can filter out any storage we've already scanned to avoid double work
+			$storage = $mount->getStorage();
+			$storageKey = $storage->getId();
+			while ($storage->instanceOfStorage(Jail::class)) {
+				$storageKey .= '/' . $storage->getUnjailedPath('');
+				$storage = $storage->getUnjailedStorage();
+			}
+			if (array_key_exists($storageKey, $scannedStorages)) {
+				return false;
+			}
+
+			$scannedStorages[$storageKey] = true;
+			return true;
+		};
+
+		$user_count = 0;
+		foreach ($users as $user) {
+			if (is_object($user)) {
+				$user = $user->getUID();
+			}
+			$scanPath = $inputPath ?: '/' . $user;
+			++$user_count;
+			if ($this->userManager->userExists($user)) {
+				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
+				$this->scanFiles(
+					$user,
+					$scanPath,
+					$metadata,
+					$output,
+					$signalHandler,
+					$mountFilter,
+					$unscanned,
+					!$shallow,
+				);
+				$output->writeln('', Verbosity::Verbose);
+			} else {
+				$output->writeln("<error>Unknown user $user_count $user</error>");
+				$output->writeln('', Verbosity::Verbose);
+			}
+
+			try {
+				$signalHandler->abortIfInterrupted();
+			} catch (InterruptedException) {
+				break;
+			}
+		}
+
+		$this->presentStats($output);
+		return ExitCode::Success;
 	}
 
 	protected function scanFiles(
 		string $user,
 		string $path,
 		?string $scanMetadata,
-		OutputInterface $output,
+		IOutput $output,
+		ISignalHandler $signalHandler,
 		callable $mountFilter,
 		bool $backgroundScan = false,
 		bool $recursive = true,
@@ -123,10 +186,10 @@ class Scan extends Base {
 		);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function (string $path) use ($output, $scanMetadata): void {
-			$output->writeln("\tFile\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function (string $path) use ($output, $signalHandler, $scanMetadata): void {
+			$output->writeln("\tFile\t<info>$path</info>", Verbosity::Verbose);
 			++$this->filesCounter;
-			$this->abortIfInterrupted();
+			$signalHandler->abortIfInterrupted();
 			if ($scanMetadata !== null) {
 				$node = $this->rootFolder->get($path);
 				$this->filesMetadataManager->refreshMetadata(
@@ -137,14 +200,14 @@ class Scan extends Base {
 			}
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output): void {
-			$output->writeln("\tFolder\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output, $signalHandler): void {
+			$output->writeln("\tFolder\t<info>$path</info>", Verbosity::Verbose);
 			++$this->foldersCounter;
-			$this->abortIfInterrupted();
+			$signalHandler->abortIfInterrupted();
 		});
 
 		$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output): void {
-			$output->writeln('Error while scanning, storage not available (' . $e->getMessage() . ')', OutputInterface::VERBOSITY_VERBOSE);
+			$output->writeln('Error while scanning, storage not available (' . $e->getMessage() . ')', Verbosity::Verbose);
 			++$this->errorsCounter;
 		});
 
@@ -174,7 +237,7 @@ class Scan extends Base {
 			$output->writeln('  ' . $e->getMessage());
 			$output->writeln('Make sure you\'re running the scan command only as the user the web server runs as');
 			++$this->errorsCounter;
-		} catch (InterruptedException $e) {
+		} catch (InterruptedException) {
 			# exit the function if ctrl-c has been pressed
 			$output->writeln('Interrupted by user');
 		} catch (NotFoundException $e) {
@@ -198,96 +261,10 @@ class Scan extends Base {
 		return substr_count($mountPoint->getMountPoint(), '/') <= 3;
 	}
 
-	#[\Override]
-	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$inputPath = $input->getOption('path');
-		if ($inputPath) {
-			$inputPath = '/' . trim($inputPath, '/');
-			[, $user,] = explode('/', $inputPath, 3);
-			$users = [$user];
-		} elseif ($input->getOption('all')) {
-			$users = $this->userManager->search('');
-		} else {
-			$users = $input->getArgument('user_id');
-		}
-
-		# check quantity of users to be process and show it on the command line
-		$users_total = count($users);
-		if ($users_total === 0) {
-			$output->writeln('<error>Please specify the user id to scan, --all to scan for all users or --path=...</error>');
-			return self::FAILURE;
-		}
-
-		$this->initTools($output);
-
-		// getOption() logic on VALUE_OPTIONAL
-		$metadata = null; // null if --generate-metadata is not set, empty if option have no value, value if set
-		if ($input->getOption('generate-metadata') !== '') {
-			$metadata = $input->getOption('generate-metadata') ?? '';
-		}
-
-		$homeOnly = $input->getOption('home-only');
-		$scannedStorages = [];
-		$mountFilter = function (IMountPoint $mount) use ($homeOnly, &$scannedStorages) {
-			if ($homeOnly && !$this->isHomeMount($mount)) {
-				return false;
-			}
-
-			// when scanning multiple users, the scanner might encounter the same storage multiple times (e.g. external storages, or group folders)
-			// we can filter out any storage we've already scanned to avoid double work
-			$storage = $mount->getStorage();
-			$storageKey = $storage->getId();
-			while ($storage->instanceOfStorage(Jail::class)) {
-				$storageKey .= '/' . $storage->getUnjailedPath('');
-				$storage = $storage->getUnjailedStorage();
-			}
-			if (array_key_exists($storageKey, $scannedStorages)) {
-				return false;
-			}
-
-			$scannedStorages[$storageKey] = true;
-			return true;
-		};
-
-		$user_count = 0;
-		foreach ($users as $user) {
-			if (is_object($user)) {
-				$user = $user->getUID();
-			}
-			$path = $inputPath ?: '/' . $user;
-			++$user_count;
-			if ($this->userManager->userExists($user)) {
-				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
-				$this->scanFiles(
-					$user,
-					$path,
-					$metadata,
-					$output,
-					$mountFilter,
-					$input->getOption('unscanned'),
-					!$input->getOption('shallow'),
-				);
-				$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
-			} else {
-				$output->writeln("<error>Unknown user $user_count $user</error>");
-				$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
-			}
-
-			try {
-				$this->abortIfInterrupted();
-			} catch (InterruptedException $e) {
-				break;
-			}
-		}
-
-		$this->presentStats($output);
-		return self::SUCCESS;
-	}
-
 	/**
 	 * Initialises some useful tools for the Command
 	 */
-	protected function initTools(OutputInterface $output): void {
+	protected function initTools(IOutput $output): void {
 		// Start the timer
 		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
@@ -308,48 +285,35 @@ class Scan extends Base {
 	 * @param string $file the filename that the error was raised in
 	 * @param int $line the line number the error was raised
 	 */
-	public function exceptionErrorHandler(OutputInterface $output, int $severity, string $message, string $file, int $line): bool {
+	public function exceptionErrorHandler(IOutput $output, int $severity, string $message, string $file, int $line): bool {
 		if (($severity === E_DEPRECATED) || ($severity === E_USER_DEPRECATED)) {
 			// Do not show deprecation warnings
 			return false;
 		}
 		$e = new \ErrorException($message, 0, $severity, $file, $line);
 		$output->writeln('<error>Error during scan: ' . $e->getMessage() . '</error>');
-		$output->writeln('<error>' . $e->getTraceAsString() . '</error>', OutputInterface::VERBOSITY_VERY_VERBOSE);
+		$output->writeln('<error>' . $e->getTraceAsString() . '</error>', Verbosity::VeryVerbose);
 		++$this->errorsCounter;
 		return true;
 	}
 
-	protected function presentStats(OutputInterface $output): void {
+	protected function presentStats(IOutput $output): void {
 		// Stop the timer
 		$this->execTime += microtime(true);
 
 		$this->logger->info("Completed scan of {$this->filesCounter} files in {$this->foldersCounter} folder. Found {$this->newCounter} new, {$this->updatedCounter} updated and {$this->removedCounter} removed items");
 
-		$headers = [
-			'Folders',
-			'Files',
-			'New',
-			'Updated',
-			'Removed',
-			'Errors',
-			'Elapsed time',
+		$row = [
+			'Folders' => $this->foldersCounter,
+			'Files' => $this->filesCounter,
+			'New' => $this->newCounter,
+			'Updated' => $this->updatedCounter,
+			'Removed' => $this->removedCounter,
+			'Errors' => $this->errorsCounter,
+			'Elapsed time' => $this->formatExecTime(),
 		];
-		$niceDate = $this->formatExecTime();
-		$rows = [
-			$this->foldersCounter,
-			$this->filesCounter,
-			$this->newCounter,
-			$this->updatedCounter,
-			$this->removedCounter,
-			$this->errorsCounter,
-			$niceDate,
-		];
-		$table = new Table($output);
-		$table
-			->setHeaders($headers)
-			->setRows([$rows]);
-		$table->render();
+
+		$output->writeTableInOutputFormat([$row]);
 	}
 
 	/**
@@ -361,7 +325,7 @@ class Scan extends Base {
 		return sprintf('%02d:%02d:%02d', (int)($secs / 3600), ((int)($secs / 60) % 60), $secs % 60);
 	}
 
-	protected function reconnectToDatabase(OutputInterface $output): Connection {
+	protected function reconnectToDatabase(IOutput $output): Connection {
 		/** @var Connection $connection */
 		$connection = Server::get(Connection::class);
 		try {

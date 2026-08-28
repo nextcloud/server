@@ -65,8 +65,6 @@
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "გთხოვთ ამოშალოთ open_basedir პარამეტრი php.ini-დან ან გადახვიდეთ 64-ბიტიან PHP-ზე.",
     "Set an admin password." : "დააყენეთ ადმინისტრატორის პაროლი.",
     "Unknown share type" : "ამოუცნობი გაზიარების სახეობა",
-    "You are not allowed to share %s" : "თქვენ არ გაქვთ უფლება გააზიაროთ %s",
-    "Cannot increase permissions of %s" : "%s-ის უფლებების გაზრდა ვერ ხერხდება",
     "Expiration date is in the past" : "ვადის ამოწურვის თარიღი წარსულშია",
     "The requested share does not exist anymore" : "მოთხოვნილი გაზიარება მეტი აღარ არსებობს",
     "Could not find category \"%s\"" : "\"%s\" კატეგორიის მოძებნა ვერ მოხერხდა",
@@ -145,6 +143,8 @@
     "Sharing backend %s must implement the interface OCP\\Share_Backend" : "გაზიარების ბექენდმა %s-მ მოქმედებაში უნდა მოიყვანოს ინტეფეისი OCP\\Share_Backend",
     "Sharing backend %s not found" : "გაზიარების ბექენდი %s ვერ იქნა ნაპოვნი",
     "Sharing backend for %s not found" : "გაზიარების ბექენდი %s-თვის ვერ იქნა ნაპოვნი",
+    "You are not allowed to share %s" : "თქვენ არ გაქვთ უფლება გააზიაროთ %s",
+    "Cannot increase permissions of %s" : "%s-ის უფლებების გაზრდა ვერ ხერხდება",
     "Application is not enabled" : "აპლიკაცია არ არის აქტიური",
     "Authentication error" : "აუტენტიფიკაციის შეცდომა",
     "Token expired. Please reload page." : "ტოკენს ვადა გაუვიდა. გთხოვთ განაახლოთ გვერდი."

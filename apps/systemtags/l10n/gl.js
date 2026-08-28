@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "Etiquetas colaborativas",
     "Collaborative tagging functionality which shares tags among people." : "Funcionalidade de etiquetado colaborativo que comparte as etiquetas entre a xente.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidade de etiquetado colaborativo que comparte as etiquetas entre a xente. Moi axeitado para equipos.\n\t(Se Vde. é un provedor cunha instalación de multicesións, recoméndase desactivar esta aplicación xa que as etiquetas compártense).",
+    "Search tags" : "Etiquetas de busca",
     "Public" : "Pública",
     "Restricted" : "Restrinxida",
     "Invisible" : "Invisíbel",
@@ -65,9 +66,7 @@ OC.L10N.register(
     "Delete" : "Eliminar",
     "Reset" : "Restabelecer",
     "Loading …" : "Cargando…",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} vai ser definida e {tag2} vai ser retirada dun filcheiro.","{tag1} vai ser definida e {tag2} vai ser retirada de {count} filcheiros."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} vai ser definida nun ficheiro.","{tag} vai ser definida en {count} ficheiros."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} vai ser eliminada dun ficheiro.","{tag} vai ser eliminada de {count} ficheiros."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} e {lastTag} van ser definidas nun ficheiro.","{tags} e {lastTag} van ser definidas en {count} ficheiros."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} e {lastTag} van ser eliminadas dun ficheiro.","{tags} e {lastTag} van ser eliminadas de {count} ficheiros."],
     "{displayName} (hidden)" : "{displayName} (agochado)",
@@ -112,6 +111,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Produciuse un fallo ao eliminar a etiqueta do ficheiro",
     "Collaborative tags …" : "Etiquetas colaborativas…",
     "Loading …" : "Cargando…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} vai ser definida e {tag2} vai ser retirada dun filcheiro.","{tag1} vai ser definida e {tag2} vai ser retirada de {count} filcheiros."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} vai ser eliminada dun ficheiro.","{tag} vai ser eliminada de {count} ficheiros."],
     "Loading collaborative tags …" : "Cargando etiquetas colaborativas…"
 },
 "nplurals=2; plural=(n != 1);");

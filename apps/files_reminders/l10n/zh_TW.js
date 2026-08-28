@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "已清除「{fileName}」的提醒",
     "Failed to clear reminder" : "清除提醒失敗",
     "Reminder at custom date & time" : "自訂日期與時間的提醒",
-    "We will remind you of this file" : "我們會提醒您該檔案",
     "Cancel" : "取消",
     "Clear reminder" : "清除提醒",
     "Set reminder" : "設定提醒",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "設定本週末的提醒",
     "Next week" : "下週",
     "Set reminder for next week" : "設定下週的提醒",
-    "Set reminder for \"{fileName}\"" : "設定「{fileName}」的提醒"
+    "Set reminder for \"{fileName}\"" : "設定「{fileName}」的提醒",
+    "We will remind you of this file" : "我們會提醒您該檔案"
 },
 "nplurals=1; plural=0;");

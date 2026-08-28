@@ -67,7 +67,7 @@ class TagManager implements ITagManager, IEventListener {
 	}
 
 	/**
-	 * Get all users who favorited an object
+	 * Get all users who marked an object as favorite.
 	 *
 	 * @param string $objectType
 	 * @param int $objectId
@@ -83,7 +83,7 @@ class TagManager implements ITagManager, IEventListener {
 			->andWhere($query->expr()->eq('c.category', $query->createNamedParameter(ITags::TAG_FAVORITE)));
 
 		$result = $query->executeQuery();
-		$users = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$users = $result->fetchFirstColumn();
 		$result->closeCursor();
 
 		return $users;
@@ -111,7 +111,7 @@ class TagManager implements ITagManager, IEventListener {
 			return;
 		}
 
-		$tagsIds = array_map(fn (array $row) => (int)$row['id'], $result->fetchAll());
+		$tagsIds = array_map(fn (array $row) => (int)$row['id'], $result->fetchAllAssociative());
 		$result->closeCursor();
 
 		if (count($tagsIds) === 0) {

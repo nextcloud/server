@@ -4,7 +4,6 @@
  */
 
 import { expect } from '@playwright/test'
-import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { test } from '../../support/fixtures/admin-session.ts'
 import { createTag, deleteTag, listTags } from '../../support/utils/systemtags.ts'
 
@@ -29,9 +28,7 @@ test.describe('System tags admin settings', () => {
 		await expect(tagNameInput).toHaveValue('')
 
 		// Create the tag and intercept the DAV POST
-		const createResponse = page.waitForResponse(
-			(r) => r.url().includes('/remote.php/dav/systemtags') && r.request().method() === 'POST',
-		)
+		const createResponse = page.waitForResponse((r) => r.url().includes('/remote.php/dav/systemtags') && r.request().method() === 'POST')
 		await tagNameInput.fill(tagName)
 		await page.getByRole('button', { name: 'Create' }).click()
 		expect((await createResponse).status()).toBe(201)
@@ -42,7 +39,7 @@ test.describe('System tags admin settings', () => {
 	})
 
 	test('Can update a tag', async ({ page }) => {
-		const tag = await createTag(tagName)
+		await createTag(tagName)
 
 		await page.goto('settings/admin/server')
 		await page.getByRole('heading', { name: 'Collaborative tags' }).scrollIntoViewIfNeeded()
@@ -63,9 +60,7 @@ test.describe('System tags admin settings', () => {
 		await page.locator('#system-tag-level').click()
 		await page.getByRole('option', { name: 'Invisible' }).click()
 
-		const updateResponse = page.waitForResponse(
-			(r) => r.url().includes('/remote.php/dav/systemtags/') && r.request().method() === 'PROPPATCH',
-		)
+		const updateResponse = page.waitForResponse((r) => r.url().includes('/remote.php/dav/systemtags/') && r.request().method() === 'PROPPATCH')
 		await page.getByRole('button', { name: 'Update' }).click()
 		expect((await updateResponse).status()).toBe(207)
 
@@ -89,9 +84,7 @@ test.describe('System tags admin settings', () => {
 		// Verify the form reflects the selected tag
 		await expect(page.getByLabel('Tag name')).toHaveValue(tagName)
 
-		const deleteResponse = page.waitForResponse(
-			(r) => r.url().includes('/remote.php/dav/systemtags/') && r.request().method() === 'DELETE',
-		)
+		const deleteResponse = page.waitForResponse((r) => r.url().includes('/remote.php/dav/systemtags/') && r.request().method() === 'DELETE')
 		await page.locator('.system-tag-form__row').getByRole('button', { name: 'Delete' }).click()
 		expect((await deleteResponse).status()).toBe(204)
 

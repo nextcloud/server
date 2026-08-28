@@ -57,7 +57,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		foreach ($chunks as $chunk) {
 			$query->setParameter('objectids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$result = $query->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$objectId = $row['objectid'];
 				$mapping[$objectId][] = (string)$row['systemtagid'];
 			}
@@ -101,7 +101,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$objectIds = [];
 
 		$result = $query->executeQuery();
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$objectIds[] = $row['objectid'];
 		}
 		$result->closeCursor();
@@ -125,7 +125,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->andWhere($query->expr()->eq('objecttype', $query->createNamedParameter($objectType)))
 			->andWhere($query->expr()->eq('objectid', $query->createNamedParameter($objId)));
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$rows = $result->fetchAllAssociative();
 		$existingTags = [];
 		foreach ($rows as $row) {
 			$existingTags[] = $row['systemtagid'];
@@ -262,7 +262,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->setParameter('objecttype', $objectType);
 
 		$result = $query->executeQuery();
-		$row = $result->fetch(\PDO::FETCH_NUM);
+		$row = $result->fetchNumeric();
 		$result->closeCursor();
 
 		if ($all) {
@@ -302,8 +302,8 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	#[\Override]
 	public function setObjectIdsForTag(string $tagId, string $objectType, array $objectIds): void {
 		$currentObjectIds = $this->getObjectIdsForTags($tagId, $objectType);
-		$removedObjectIds = array_diff($currentObjectIds, $objectIds);
-		$addedObjectIds = array_diff($objectIds, $currentObjectIds);
+		$removedObjectIds = array_values(array_diff($currentObjectIds, $objectIds));
+		$addedObjectIds = array_values(array_diff($objectIds, $currentObjectIds));
 
 		$this->connection->beginTransaction();
 		$query = $this->connection->getQueryBuilder();
@@ -358,16 +358,6 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		if (!empty($addedObjectIds)) {
 			$this->dispatcher->dispatchTyped(new TagAssignedEvent($objectType, array_map(fn ($objectId) => (string)$objectId, $addedObjectIds), [(int)$tagId]));
 		}
-
-		// Dispatch unassign events for removed object ids
-		foreach ($removedObjectIds as $objectId) {
-			$this->dispatcher->dispatch(MapperEvent::EVENT_UNASSIGN, new MapperEvent(
-				MapperEvent::EVENT_UNASSIGN,
-				$objectType,
-				(string)$objectId,
-				[(int)$tagId]
-			));
-		}
 	}
 
 	/**
@@ -381,7 +371,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 
 		$result = $query->executeQuery();
 		$objectTypes = [];
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$objectTypes[] = $row['objecttype'];
 		}
 		$result->closeCursor();

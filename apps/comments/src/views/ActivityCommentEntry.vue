@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<Comment
+	<CommentEntry
 		ref="comment"
 		tag="li"
 		v-bind="comment.props"
@@ -21,14 +21,14 @@
 import type { PropType } from 'vue'
 
 import { t } from '@nextcloud/l10n'
-import Comment from '../components/Comment.vue'
+import CommentEntry from '../components/CommentEntry.vue'
 import CommentView from '../mixins/CommentView.ts'
 
 export default {
 	name: 'ActivityCommentEntry',
 
 	components: {
-		Comment,
+		CommentEntry,
 	},
 
 	mixins: [CommentView],

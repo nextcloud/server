@@ -35,6 +35,7 @@ class Token implements IToken {
 		return $this->manager->getFileForToken($this->data['user_id'], $this->data['file_id'], $this->data['file_path']);
 	}
 
+	#[\Override]
 	public function getToken(): string {
 		return $this->data['token'];
 	}

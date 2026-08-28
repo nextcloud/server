@@ -37,7 +37,7 @@ final readonly class AppSearch implements IProvider {
 
 	#[\Override]
 	public function getOrder(string $route, array $routeParameters): int {
-		return $route === 'appstore.Page.viewApps' ? -50 : 100;
+		return -50;
 	}
 
 	#[\Override]
@@ -74,7 +74,8 @@ final readonly class AppSearch implements IProvider {
 				$entry['name'],
 				'',
 				$entry['href'],
-				'icon-confirm'
+				$entry['icon'],
+				true,
 			);
 		}
 

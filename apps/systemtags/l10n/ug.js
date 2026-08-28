@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "ھەمكارلىق بەلگىسى",
     "Collaborative tagging functionality which shares tags among people." : "كىشىلەر ئارىسىدا بەلگە ھەمبەھىرلىنىدىغان ھەمكارلىق بەلگە ئىقتىدارى.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "كىشىلەر ئارىسىدا بەلگە ھەمبەھىرلىنىدىغان ھەمكارلىق بەلگە ئىقتىدارى. كوماندىلار ئۈچۈن ناھايىتى ياخشى.\n\t(ئەگەر سىز كۆپ ئىجارىگە بېرىلگەن قاچىلاش تەمىنلىگۈچى بولسىڭىز ، خەتكۈچ ئورتاقلاشقانلىقتىن بۇ ئەپنى توختىتىش تەۋسىيە قىلىنىدۇ.)",
+    "Search tags" : "ئىزدەش خەتكۈچلىرى",
     "Public" : "جامائەت",
     "Restricted" : "چەكلەنگەن",
     "Invisible" : "كۆرۈنمەيدۇ",
@@ -65,9 +66,7 @@ OC.L10N.register(
     "Delete" : "ئۆچۈر",
     "Reset" : "ئەسلىگە قايتۇرۇش",
     "Loading …" : "يۈكلەۋاتىدۇ ...",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["1 ھۆججەتكە{tag1} ئورنىتىلدۇ ھەمدە {tag2} چىقىرۋېتىلدۇ.","{count} ھۆججەتكە {tag1} ئورنىتىلدۇ ھەمدە {tag2} ئۆچۈرۈلدۇ"],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} بولسا 1 ھۆججەتكە تەڭشىلدۇ","{tag} بولسا {count} ھۆججەتلەرگە تەڭشىلدۇ."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} بولسا 1 ھۆججەتتىن چىقىرۋېتىلدۇ.","{tag} بولسا {count} ھۆججەتلەردىن چىقىرۋېتىلدۇ."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} بىلەن {lastTag} بولسا 1 ھۆججەتتكە ئورنىتىلىدۇ.","{tags} بىلەن {lastTag} بولسا {count} ھۆججەتلەرگە ئورنىتىلىدۇ."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} بىلەن {lastTag} بولسا 1 ھۆججەتتىن چىقىرۋېتىلدۇ.","{tags} بىلەن {lastTag} بولسا {count} ھۆججەتلەردىن چىقىرۋېتىلدۇ."],
     "{displayName} (hidden)" : "{displayName} (يوشۇرۇن)",
@@ -112,6 +111,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "ھۆججەتنىڭ بەلگىسىنى ئۆچۈرەلمىدى",
     "Collaborative tags …" : "ھەمكارلىق خەتكۈچلىرى…",
     "Loading …" : "يۈكلەۋاتىدۇ…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["1 ھۆججەتكە{tag1} ئورنىتىلدۇ ھەمدە {tag2} چىقىرۋېتىلدۇ.","{count} ھۆججەتكە {tag1} ئورنىتىلدۇ ھەمدە {tag2} ئۆچۈرۈلدۇ"],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} بولسا 1 ھۆججەتتىن چىقىرۋېتىلدۇ.","{tag} بولسا {count} ھۆججەتلەردىن چىقىرۋېتىلدۇ."],
     "Loading collaborative tags …" : "ھەمكارلىق خەتكۈچلىرىنى يۈكلەۋاتىدۇ…"
 },
 "nplurals=2; plural=(n != 1);");

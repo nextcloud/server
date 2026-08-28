@@ -23,13 +23,13 @@ export class AdminThemingPage {
 			failOnStatusCode: true,
 		})
 		const requestToken = (await tokenResponse.json()).token
-	
+
 		const response = await this.page.request.post('./apps/theming/ajax/undoAllChanges', {
 			headers: {
 				requesttoken: requestToken,
 			},
 		})
-	
+
 		if (!response.ok) {
 			throw new Error(`Failed to reset theming settings (${response.status})`)
 		}

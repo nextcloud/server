@@ -18,7 +18,7 @@ use OCP\IDBConnection;
  * @template-extends QBMapper<LoginFlowV2>
  */
 class LoginFlowV2Mapper extends QBMapper {
-	private const lifetime = 1200;
+	private const int lifetime = 1200;
 
 	public function __construct(
 		IDBConnection $db,

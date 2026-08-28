@@ -20,6 +20,7 @@ use OCP\IURLGenerator;
 
 /**
  * @psalm-import-type CoreNavigationEntry from ResponseDefinitions
+ * @psalm-import-type CoreNavigationSettingsEntry from ResponseDefinitions
  */
 class NavigationController extends OCSController {
 	public function __construct(
@@ -48,6 +49,7 @@ class NavigationController extends OCSController {
 		if ($absolute) {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
+		/** @var list<CoreNavigationEntry> $navigation */
 		$navigation = array_values($navigation);
 		$response = new DataResponse($navigation);
 		$response->setETag($this->generateETag($navigation));
@@ -58,7 +60,7 @@ class NavigationController extends OCSController {
 	 * Get the settings navigation
 	 *
 	 * @param bool $absolute Rewrite URLs to absolute ones
-	 * @return DataResponse<Http::STATUS_OK, list<CoreNavigationEntry>, array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, list<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreNavigationSettingsEntry>, array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, list<empty>, array{}>
 	 *
 	 * 200: Apps navigation returned
 	 * 304: No apps navigation changed
@@ -71,6 +73,7 @@ class NavigationController extends OCSController {
 		if ($absolute) {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
+		/** @var list<CoreNavigationSettingsEntry> $navigation */
 		$navigation = array_values($navigation);
 		$response = new DataResponse($navigation);
 		$response->setETag($this->generateETag($navigation));

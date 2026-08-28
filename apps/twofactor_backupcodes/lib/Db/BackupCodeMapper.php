@@ -9,51 +9,40 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\Db;
 
-use OCP\AppFramework\Db\QBMapper;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\ORM\Repository;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
 use OCP\IUser;
 
 /**
- * @template-extends QBMapper<BackupCode>
+ * @template-extends Repository<BackupCode>
  */
-class BackupCodeMapper extends QBMapper {
-	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'twofactor_backupcodes');
-	}
+class BackupCodeMapper extends Repository {
+	public const string entityClass = BackupCode::class;
 
 	/**
-	 * @param IUser $user
-	 * @return BackupCode[]
+	 * @return \Generator<BackupCode>
 	 */
-	public function getBackupCodes(IUser $user): array {
-		/* @var IQueryBuilder $qb */
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select('id', 'user_id', 'code', 'used')
-			->from('twofactor_backupcodes')
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($user->getUID())));
-
-		return self::findEntities($qb);
+	public function findByUser(IUser $user): \Generator {
+		return $this->findBy([
+			'userId' => $user->getUID(),
+		]);
 	}
 
-	/**
-	 * @param IUser $user
-	 */
-	public function deleteCodes(IUser $user): void {
-		$this->deleteCodesByUserId($user->getUID());
+	public function deleteByUser(IUser $user): void {
+		$this->deleteBy([
+			'userId' => $user->getUID(),
+		]);
 	}
 
-	/**
-	 * @param string $uid
-	 */
-	public function deleteCodesByUserId(string $uid): void {
-		/* @var IQueryBuilder $qb */
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->delete('twofactor_backupcodes')
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($uid)));
-		$qb->executeStatement();
+	public function findOneByUser(IUser $user): ?BackupCode {
+		try {
+			return $this->findOneBy([
+				'userId' => $user->getUID(),
+			]);
+		} catch (DoesNotExistException) {
+			return null;
+		}
 	}
 
 	/**
@@ -61,10 +50,10 @@ class BackupCodeMapper extends QBMapper {
 	 * @return int number of affected rows
 	 */
 	public function markUsedIfUnused(BackupCode $code): int {
-		$qb = $this->db->getQueryBuilder();
+		$qb = $this->connection->getQueryBuilder();
 		$qb->update($this->getTableName())
 			->set('used', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT))
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($code->getId(), IQueryBuilder::PARAM_INT)))
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($code->id, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('used', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 		return $qb->executeStatement();
 	}

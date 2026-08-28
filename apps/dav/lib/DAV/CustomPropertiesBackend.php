@@ -40,7 +40,7 @@ use function array_intersect;
 class CustomPropertiesBackend implements BackendInterface {
 
 	/** @var string */
-	private const TABLE_NAME = 'properties';
+	private const string TABLE_NAME = 'properties';
 
 	/**
 	 * Value is stored as string.
@@ -67,12 +67,16 @@ class CustomPropertiesBackend implements BackendInterface {
 	 *
 	 * @var string[]
 	 */
-	private const IGNORED_PROPERTIES = [
+	private const array IGNORED_PROPERTIES = [
 		'{DAV:}getcontentlength',
 		'{DAV:}getcontenttype',
 		'{DAV:}getetag',
 		'{DAV:}quota-used-bytes',
 		'{DAV:}quota-available-bytes',
+		'{DAV:}getlastmodified',
+		'{DAV:}creationdate',
+		'{DAV:}displayname',
+		'{http://open-collaboration-services.org/ns}share-permissions',
 	];
 
 	/**
@@ -80,7 +84,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 *
 	 * @var string[]
 	 */
-	private const ALLOWED_NC_PROPERTIES = [
+	private const array ALLOWED_NC_PROPERTIES = [
 		'{http://owncloud.org/ns}calendar-enabled',
 		'{http://owncloud.org/ns}enabled',
 	];
@@ -90,7 +94,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 *
 	 * @var string[]
 	 */
-	private const PUBLISHED_READ_ONLY_PROPERTIES = [
+	private const array PUBLISHED_READ_ONLY_PROPERTIES = [
 		'{urn:ietf:params:xml:ns:caldav}calendar-availability',
 		'{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL',
 	];
@@ -100,7 +104,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * \Sabre\DAV\Xml\Property\Complex to find a more specialized PROPERTY_TYPE_*
 	 * @var array<string, class-string>
 	 */
-	private const COMPLEX_XML_ELEMENT_MAP = [
+	private const array COMPLEX_XML_ELEMENT_MAP = [
 		'{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL' => Href::class,
 	];
 
@@ -108,7 +112,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * Map of well-known property names to default values
 	 * @var array<string, string>
 	 */
-	private const PROPERTY_DEFAULT_VALUES = [
+	private const array PROPERTY_DEFAULT_VALUES = [
 		'{http://owncloud.org/ns}calendar-enabled' => '1',
 	];
 
@@ -117,7 +121,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	 *
 	 * @var class-string[]
 	 */
-	private const ALLOWED_SERIALIZED_CLASSES = [
+	private const array ALLOWED_SERIALIZED_CLASSES = [
 		\Sabre\CalDAV\Xml\Property\AllowedSharingModes::class,
 		\Sabre\CalDAV\Xml\Property\EmailAddressSet::class,
 		\Sabre\CalDAV\Xml\Property\Invite::class,

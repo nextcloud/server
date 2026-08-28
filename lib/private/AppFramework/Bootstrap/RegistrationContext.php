@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -28,6 +29,7 @@ use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Conversion\IConversionProvider;
 use OCP\Files\Template\ICustomTemplateProvider;
+use OCP\GlobalScale\IGlobalScaleService;
 use OCP\Http\WellKnown\IHandler;
 use OCP\Mail\Provider\IProvider as IMailProvider;
 use OCP\Notification\INotifier;
@@ -165,6 +167,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<IMailProvider>[] */
 	private $mailProviders = [];
+
+	/** @var class-string<IGlobalScaleService>|null */
+	private ?string $globalScaleService = null;
 
 	public function __construct(
 		private LoggerInterface $logger,
@@ -490,6 +495,13 @@ class RegistrationContext {
 					$configLexiconClass
 				);
 			}
+
+			#[\Override]
+			public function registerGlobalScaleService(string $globalScaleServiceClass): void {
+				$this->context->registerGlobalScaleService(
+					$globalScaleServiceClass
+				);
+			}
 		};
 	}
 
@@ -709,6 +721,13 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @param class-string<IGlobalScaleService> $class
+	 */
+	public function registerGlobalScaleService(string $class): void {
+		$this->globalScaleService = $class;
+	}
+
+	/**
 	 * @param App[] $apps
 	 */
 	public function delegateCapabilityRegistrations(array $apps): void {
@@ -723,9 +742,10 @@ class RegistrationContext {
 			}
 
 			try {
-				$apps[$appId]
-					->getContainer()
-					->registerCapability($registration->getService());
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerCapability($registration->getService());
 			} catch (Throwable $e) {
 				$this->logger->error("Error during capability registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
@@ -798,13 +818,14 @@ class RegistrationContext {
 				/**
 				 * Register the service and convert the callable into a \Closure if necessary
 				 */
-				$apps[$appId]
-					->getContainer()
-					->registerService(
-						$registration->getName(),
-						Closure::fromCallable($registration->getFactory()),
-						$registration->isShared()
-					);
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerService(
+					$registration->getName(),
+					Closure::fromCallable($registration->getFactory()),
+					$registration->isShared()
+				);
 			} catch (Throwable $e) {
 				$this->logger->error("Error during service registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
@@ -823,12 +844,13 @@ class RegistrationContext {
 			}
 
 			try {
-				$apps[$appId]
-					->getContainer()
-					->registerAlias(
-						$registration->getAlias(),
-						$registration->getTarget()
-					);
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerAlias(
+					$registration->getAlias(),
+					$registration->getTarget()
+				);
 			} catch (Throwable $e) {
 				$this->logger->error("Error during service alias registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
@@ -847,12 +869,13 @@ class RegistrationContext {
 			}
 
 			try {
-				$apps[$appId]
-					->getContainer()
-					->registerParameter(
-						$registration->getName(),
-						$registration->getValue()
-					);
+				/** @var DIContainer $appContainer */
+				$appContainer = $apps[$appId]
+					->getContainer();
+				$appContainer->registerParameter(
+					$registration->getName(),
+					$registration->getValue()
+				);
 			} catch (Throwable $e) {
 				$this->logger->error("Error during service parameter registration of $appId: " . $e->getMessage(), [
 					'exception' => $e,
@@ -1088,5 +1111,12 @@ class RegistrationContext {
 		}
 
 		return Server::get($this->configLexiconClasses[$appId]);
+	}
+
+	/**
+	 * @return ?class-string<IGlobalScaleService>
+	 */
+	public function getGlobalScaleService(): ?string {
+		return $this->globalScaleService;
 	}
 }

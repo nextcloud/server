@@ -24,7 +24,7 @@ export const action: IFileAction = {
 		try {
 			const node = nodes[0]
 			const url = generateOcsUrl('apps/files_sharing/api/v1/deletedshares/{id}', {
-				id: node.id,
+				id: node.attributes['share-id'],
 			})
 			await axios.post(url)
 

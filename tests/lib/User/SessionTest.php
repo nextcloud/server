@@ -331,11 +331,17 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 
-		$session->expects($this->never())
-			->method('set');
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
+
 		$session->expects($this->once())
 			->method('regenerateId');
 		$token = new PublicKeyToken();
+		$token->setId(1);
 		$token->setLoginName('foo');
 		$token->setLastCheck(0); // Never
 		$token->setUid('foo');
@@ -369,11 +375,17 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
 
-		$session->expects($this->never())
-			->method('set');
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
+
 		$session->expects($this->once())
 			->method('regenerateId');
 		$token = new PublicKeyToken();
+		$token->setId(1);
 		$token->setLoginName('foo');
 		$token->setLastCheck(0); // Never
 		$token->setUid('foo');
@@ -439,7 +451,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getRemoteAddress')
 			->willReturn('192.168.0.1');
 		$this->throttler
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
@@ -447,6 +459,15 @@ class SessionTest extends \Test\TestCase {
 			->method('getDelay')
 			->with('192.168.0.1')
 			->willReturn(0);
+
+		$this->throttler
+			->expects($this->once())
+			->method('registerAttempt')
+			->with('login', '192.168.0.1', ['user' => 'john']);
+		$this->dispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with(new LoginFailed('john', 'doe'));
 
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 	}
@@ -549,7 +570,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getRemoteAddress')
 			->willReturn('192.168.0.1');
 		$this->throttler
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('sleepDelayOrThrowOnMax')
 			->with('192.168.0.1');
 		$this->throttler
@@ -557,6 +578,15 @@ class SessionTest extends \Test\TestCase {
 			->method('getDelay')
 			->with('192.168.0.1')
 			->willReturn(0);
+
+		$this->throttler
+			->expects($this->once())
+			->method('registerAttempt')
+			->with('login', '192.168.0.1', ['user' => 'john']);
+		$this->dispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with(new LoginFailed('john', 'doe'));
 
 		$userSession->logClientIn('john', 'doe', $request, $this->throttler);
 	}
@@ -650,6 +680,59 @@ class SessionTest extends \Test\TestCase {
 		self::assertTrue($loginResult);
 	}
 
+	public function testTryTokenLoginOcmAccessTokenRejectedFromBearerByDefault(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer ocm-access-token');
+		$dbToken = new PublicKeyToken();
+		$dbToken->setId(42);
+		$dbToken->setUid('alice');
+		$dbToken->setLoginName('alice');
+		$dbToken->setLastCheck(0);
+		$dbToken->setType(IToken::TEMPORARY_TOKEN);
+		$dbToken->setName(IToken::OCM_ACCESS_TOKEN_NAME);
+		$this->tokenProvider->expects(self::once())
+			->method('getToken')
+			->with('ocm-access-token')
+			->willReturn($dbToken);
+		// The guard must reject before any login is attempted.
+		$this->manager->expects(self::never())
+			->method('get');
+
+		$loginResult = $this->userSession->tryTokenLogin($request);
+
+		self::assertFalse($loginResult);
+	}
+
+	public function testTryTokenLoginOcmAccessTokenAllowedFromBearerWhenPermitted(): void {
+		$request = $this->createMock(IRequest::class);
+		$request->method('getHeader')->with('Authorization')->willReturn('Bearer ocm-access-token');
+		$dbToken = new PublicKeyToken();
+		$dbToken->setId(42);
+		$dbToken->setUid('alice');
+		$dbToken->setLoginName('alice');
+		$dbToken->setLastCheck(0);
+		$dbToken->setType(IToken::TEMPORARY_TOKEN);
+		$dbToken->setName(IToken::OCM_ACCESS_TOKEN_NAME);
+		$this->tokenProvider->method('getToken')
+			->with('ocm-access-token')
+			->willReturn($dbToken);
+		$this->session->method('set')
+			->willReturnCallback(function ($key, $value): void {
+				if ($key === 'app_password') {
+					throw new ExpectationFailedException('app_password should not be set in session');
+				}
+			});
+		$user = $this->createMock(IUser::class);
+		$user->method('isEnabled')->willReturn(true);
+		$this->manager->method('get')
+			->with('alice')
+			->willReturn($user);
+
+		$loginResult = $this->userSession->tryTokenLogin($request, true);
+
+		self::assertTrue($loginResult);
+	}
+
 	public function testRememberLoginValidToken(): void {
 		$session = $this->createMock(Memory::class);
 		$managerMethods = get_class_methods(Manager::class);
@@ -711,8 +794,14 @@ class SessionTest extends \Test\TestCase {
 			->with($oldSessionId, $sessionId)
 			->willReturn($tokenObject);
 
-		$this->tokenProvider->expects($this->never())
-			->method('getToken');
+		$oldTokenObject = $this->createMock(IToken::class);
+		$oldTokenObject->expects($this->once())
+			->method('getUID')
+			->willReturn('foo');
+
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($oldTokenObject);
 
 		$user->expects($this->any())
 			->method('getUID')
@@ -789,7 +878,16 @@ class SessionTest extends \Test\TestCase {
 			->with($oldSessionId, $sessionId)
 			->willThrowException(new InvalidTokenException());
 
-		$user->expects($this->never())
+		$oldTokenObject = $this->createMock(IToken::class);
+		$oldTokenObject->expects($this->once())
+			->method('getUID')
+			->willReturn('foo');
+
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($oldTokenObject);
+
+		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('foo');
 		$userSession->expects($this->never())
@@ -1318,4 +1416,5 @@ class SessionTest extends \Test\TestCase {
 
 		$this->assertFalse($userSession->logClientIn('john@foo.bar', 'I-AM-A-PASSWORD', $request, $this->throttler));
 	}
+
 }

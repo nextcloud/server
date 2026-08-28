@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Middleware\Security;
 
-use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\Security\Exceptions\AdminIpNotAllowedException;
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
@@ -19,6 +18,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
+use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\User\Session;
@@ -64,7 +64,7 @@ class SecurityMiddleware extends Middleware {
 
 	public function __construct(
 		private readonly IRequest $request,
-		private readonly MiddlewareUtils $middlewareUtils,
+		private readonly ControllerMethodReflector $reflector,
 		private readonly INavigationManager $navigationManager,
 		private readonly IURLGenerator $urlGenerator,
 		private readonly LoggerInterface $logger,
@@ -108,7 +108,7 @@ class SecurityMiddleware extends Middleware {
 	 * @suppress PhanUndeclaredClassConstant
 	 */
 	#[\Override]
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		// this will set the current navigation entry of the app, use this only
 		// for normal HTML requests and not for AJAX requests
 		$this->navigationManager->setActiveEntry($this->appName);
@@ -118,18 +118,16 @@ class SecurityMiddleware extends Middleware {
 			$this->navigationManager->setActiveEntry('spreed');
 		}
 
-		$reflectionMethod = new ReflectionMethod($controller, $methodName);
-
 		// security checks
-		$isPublicPage = $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class);
+		$isPublicPage = $this->reflector->hasAnnotationOrAttribute('PublicPage', PublicPage::class);
 
-		if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'ExAppRequired', ExAppRequired::class)) {
+		if ($this->reflector->hasAnnotationOrAttribute('ExAppRequired', ExAppRequired::class)) {
 			if (!$this->userSession instanceof Session || $this->userSession->getSession()->get('app_api') !== true) {
 				throw new ExAppRequiredException();
 			}
 		} elseif (!$isPublicPage) {
 			$authorized = false;
-			if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, null, AppApiAdminAccessWithoutUser::class)) {
+			if ($this->reflector->hasAnnotationOrAttribute(null, AppApiAdminAccessWithoutUser::class)) {
 				// this attribute allows ExApp to access admin endpoints only if "userId" is "null"
 				if ($this->userSession instanceof Session && $this->userSession->getSession()->get('app_api') === true && $this->userSession->getUser() === null) {
 					$authorized = true;
@@ -140,15 +138,15 @@ class SecurityMiddleware extends Middleware {
 				throw new NotLoggedInException();
 			}
 
-			if (!$authorized && $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
+			if (!$authorized && $this->reflector->hasAnnotationOrAttribute('AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
 				$authorized = $this->isAdminUser();
 
-				if (!$authorized && $this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)) {
+				if (!$authorized && $this->reflector->hasAnnotationOrAttribute('SubAdminRequired', SubAdminRequired::class)) {
 					$authorized = $this->isSubAdmin();
 				}
 
 				if (!$authorized) {
-					$settingClasses = $this->middlewareUtils->getAuthorizedAdminSettingClasses($reflectionMethod);
+					$settingClasses = $this->getAuthorizedAdminSettingClasses();
 					$authorizedClasses = $this->groupAuthorizationMapper->findAllClassesForUser($this->userSession->getUser());
 					foreach ($settingClasses as $settingClass) {
 						$authorized = in_array($settingClass, $authorizedClasses, true);
@@ -165,24 +163,24 @@ class SecurityMiddleware extends Middleware {
 					throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn\'t allow you to perform admin actions'));
 				}
 			}
-			if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
+			if ($this->reflector->hasAnnotationOrAttribute('SubAdminRequired', SubAdminRequired::class)
 				&& !$this->isSubAdmin()
 				&& !$this->isAdminUser()
 				&& !$authorized) {
 				throw new NotAdminException($this->l10n->t('Logged in account must be an admin or sub admin'));
 			}
-			if (!$this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
-				&& !$this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class)
+			if (!$this->reflector->hasAnnotationOrAttribute('SubAdminRequired', SubAdminRequired::class)
+				&& !$this->reflector->hasAnnotationOrAttribute('NoAdminRequired', NoAdminRequired::class)
 				&& !$this->isAdminUser()
 				&& !$authorized) {
 				throw new NotAdminException($this->l10n->t('Logged in account must be an admin'));
 			}
-			if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
+			if ($this->reflector->hasAnnotationOrAttribute('SubAdminRequired', SubAdminRequired::class)
 				&& !$this->remoteAddress->allowsAdminActions()) {
 				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn\'t allow you to perform admin actions'));
 			}
-			if (!$this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
-				&& !$this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class)
+			if (!$this->reflector->hasAnnotationOrAttribute('SubAdminRequired', SubAdminRequired::class)
+				&& !$this->reflector->hasAnnotationOrAttribute('NoAdminRequired', NoAdminRequired::class)
 				&& !$this->remoteAddress->allowsAdminActions()) {
 				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn\'t allow you to perform admin actions'));
 			}
@@ -190,15 +188,15 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		// Check for strict cookie requirement
-		if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'StrictCookieRequired', StrictCookiesRequired::class)
-			|| !$this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
+		if ($this->reflector->hasAnnotationOrAttribute('StrictCookieRequired', StrictCookiesRequired::class)
+			|| !$this->reflector->hasAnnotationOrAttribute('NoCSRFRequired', NoCSRFRequired::class)) {
 			if (!$this->request->passesStrictCookieCheck()) {
 				throw new StrictCookieMissingException();
 			}
 		}
 		// CSRF check - also registers the CSRF token since the session may be closed later
 		Server::get(CsrfTokenManager::class)->generateSessionToken();
-		if ($this->isInvalidCSRFRequired($reflectionMethod)) {
+		if ($this->isInvalidCSRFRequired()) {
 			/*
 			 * Only allow the CSRF check to fail on OCS Requests. This kind of
 			 * hacks around that we have no full token auth in place yet and we
@@ -229,8 +227,8 @@ class SecurityMiddleware extends Middleware {
 		}
 	}
 
-	private function isInvalidCSRFRequired(ReflectionMethod $reflectionMethod): bool {
-		if ($this->middlewareUtils->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
+	private function isInvalidCSRFRequired(): bool {
+		if ($this->reflector->hasAnnotationOrAttribute('NoCSRFRequired', NoCSRFRequired::class)) {
 			return false;
 		}
 
@@ -254,7 +252,7 @@ class SecurityMiddleware extends Middleware {
 	 * @throws \Exception the passed in exception if it can't handle it
 	 */
 	#[\Override]
-	public function afterException($controller, $methodName, \Exception $exception): Response {
+	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
 		if ($exception instanceof SecurityException) {
 			if ($exception instanceof StrictCookieMissingException) {
 				return new RedirectResponse(\OC::$WEBROOT . '/');
@@ -295,5 +293,25 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		throw $exception;
+	}
+
+	/**
+	 * @param ReflectionMethod $reflectionMethod
+	 * @return list<string>
+	 */
+	public function getAuthorizedAdminSettingClasses(): array {
+		$classes = [];
+		if ($this->reflector->hasAnnotation('AuthorizedAdminSetting')) {
+			$classes = explode(';', $this->reflector->getAnnotationParameter('AuthorizedAdminSetting', 'settings'));
+		}
+
+		$attribute = $this->reflector->getAttribute(AuthorizedAdminSetting::class);
+		if ($attribute !== null) {
+			/** @var AuthorizedAdminSetting $setting */
+			$setting = $attribute->newInstance();
+			$classes[] = $setting->getSettings();
+		}
+
+		return $classes;
 	}
 }

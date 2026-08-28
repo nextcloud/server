@@ -19,7 +19,7 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config->setAppValue('encryption', 'useMasterKey', '0');
+		$this->appConfig->setValueBool('encryption', 'useMasterKey', false);
 	}
 
 	protected function setupUser($name, $password = '') {

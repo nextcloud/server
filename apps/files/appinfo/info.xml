@@ -10,7 +10,7 @@
 	<name>Files</name>
 	<summary>File Management</summary>
 	<description>File Management</description>
-	<version>3.0.0-dev.0</version>
+	<version>4.0.0-dev.0</version>
 	<licence>agpl</licence>
 	<author>John Molakvoæ</author>
 	<author>Robin Appelman</author>
@@ -24,7 +24,7 @@
 	<category>files</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="35" max-version="35"/>
+		<nextcloud min-version="36" max-version="36"/>
 	</dependencies>
 
 	<background-jobs>
@@ -46,6 +46,8 @@
 		<command>OCA\Files\Command\Delete</command>
 		<command>OCA\Files\Command\Copy</command>
 		<command>OCA\Files\Command\Move</command>
+		<command>OCA\Files\Command\Mkdir</command>
+		<command>OCA\Files\Command\Touch</command>
 		<command>OCA\Files\Command\SanitizeFilenames</command>
 		<command>OCA\Files\Command\Mount\Refresh</command>
 		<command>OCA\Files\Command\Mount\ListMounts</command>

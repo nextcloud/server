@@ -16,7 +16,7 @@ namespace OCP;
  */
 interface IGroup {
 	/**
-	 * @return string
+	 * @return non-empty-string
 	 * @since 8.0.0
 	 */
 	public function getGID(): string;
@@ -24,7 +24,7 @@ interface IGroup {
 	/**
 	 * Returns the group display name
 	 *
-	 * @return string
+	 * @return non-empty-string
 	 * @since 12.0.0
 	 */
 	public function getDisplayName(): string;

@@ -16,11 +16,8 @@ use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Files\Utils\PathHelper;
 use OC\Lock\NoopLockingProvider;
-use OC\Share\Share;
 use OC\User\LazyUser;
 use OC\User\Manager as UserManager;
-use OC\User\NoUserException;
-use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files;
@@ -52,6 +49,7 @@ use OCP\Lock\LockedException;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -1410,9 +1408,17 @@ class View {
 				$data = $cache->get($internalPath);
 			} elseif (!Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
+				$cacheDataBefore = $data instanceof CacheEntry ? $data->getData() : false;
 				$watcher->update($internalPath, $data);
-				$storage->getPropagator()->propagateChange($internalPath, time());
 				$data = $cache->get($internalPath);
+				$cacheDataAfter = $data instanceof CacheEntry ? $data->getData() : false;
+
+				// Only propagate mtime change to parent folders if the scanner actually changed the cached metadata,
+				// to avoid updating folder mtimes on every read for backends that conservatively report directories as updated (e.g. S3)
+				if ($cacheDataAfter !== $cacheDataBefore) {
+					$storage->getPropagator()->propagateChange($internalPath, time());
+					$data = $cache->get($internalPath);
+				}
 				$this->unlockFile($relativePath, ILockingProvider::LOCK_SHARED);
 			}
 		} catch (LockedException $e) {
@@ -1569,10 +1575,6 @@ class View {
 
 		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 		$mounts = Filesystem::getMountManager()->findIn($path);
-
-		// make sure nested mounts are sorted after their parent mounts
-		// otherwise doesn't propagate the etag across storage boundaries correctly
-		usort($mounts, static fn (IMountPoint $a, IMountPoint $b): int => $a->getMountPoint() <=> $b->getMountPoint());
 
 		$dirLength = strlen($path);
 		foreach ($mounts as $mount) {
@@ -2274,7 +2276,7 @@ class View {
 	/**
 	 * @param string $filename
 	 * @return array
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 * @throws NotFoundException
 	 */
 	public function getUidAndFilename($filename) {

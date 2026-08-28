@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '../../support/fixtures/files-page.ts'
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { uploadContent } from '../../support/utils/dav.ts'
 
 /**
@@ -20,9 +20,7 @@ test.describe('Files: XML entities in file names', () => {
 		const input = filesListPage.getRenameInputForFile('and.txt')
 		await expect(input).toBeVisible()
 
-		const renamed = page.waitForResponse(
-			(r) => r.request().method() === 'MOVE' && r.url().includes('/remote.php/dav/files/'),
-		)
+		const renamed = page.waitForResponse((r) => r.request().method() === 'MOVE' && r.url().includes('/remote.php/dav/files/'))
 		await input.fill('&amp;.txt')
 		await input.press('Enter')
 		await renamed
@@ -42,9 +40,7 @@ test.describe('Files: XML entities in file names', () => {
 
 		await expect(filesListPage.getRowForFile('&amp;.txt')).toBeVisible()
 
-		const deleted = page.waitForResponse(
-			(r) => r.request().method() === 'DELETE' && r.url().includes('/remote.php/dav/files/'),
-		)
+		const deleted = page.waitForResponse((r) => r.request().method() === 'DELETE' && r.url().includes('/remote.php/dav/files/'))
 		await filesListPage.triggerActionForFile('&amp;.txt', 'delete')
 		await deleted
 

@@ -10,7 +10,6 @@ namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
 use OC\Files\Filesystem;
-use OC\User\NoUserException;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\DefinitionParameter;
@@ -20,8 +19,10 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
+use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\User\Exceptions\UserNotFoundException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,6 +36,7 @@ class Create extends Base {
 		private IUserManager $userManager,
 		private IUserSession $userSession,
 		private BackendService $backendService,
+		private IGroupManager $groupManager,
 	) {
 		parent::__construct();
 	}
@@ -76,6 +78,18 @@ class Create extends Base {
 				'',
 				InputOption::VALUE_NONE,
 				'Don\'t save the created mount, only list the new mount'
+			)
+			->addOption(
+				'applicable-user',
+				'',
+				InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+				'Add a user as applicable to the newly created mount'
+			)
+			->addOption(
+				'applicable-group',
+				'',
+				InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+				'Add a group as applicable to the newly created mount'
 			);
 		parent::configure();
 	}
@@ -87,6 +101,8 @@ class Create extends Base {
 		$storageIdentifier = $input->getArgument('storage_backend');
 		$authIdentifier = $input->getArgument('authentication_backend');
 		$configInput = $input->getOption('config');
+		$applicableUsers = $input->getOption('applicable-user');
+		$applicableGroups = $input->getOption('applicable-group');
 
 		$storageBackend = $this->backendService->getBackend($storageIdentifier);
 		$authBackend = $this->backendService->getAuthMechanism($authIdentifier);
@@ -128,6 +144,19 @@ class Create extends Base {
 		$mount->setBackend($storageBackend);
 		$mount->setAuthMechanism($authBackend);
 		$mount->setBackendOptions($config);
+
+		foreach ($applicableUsers as $applicableUser) {
+			if (!$this->userManager->userExists($applicableUser)) {
+				$output->writeln('<error>Unknown user "' . $applicableUser . '"</error>');
+			}
+		}
+		foreach ($applicableGroups as $applicableGroup) {
+			if (!$this->groupManager->groupExists($applicableGroup)) {
+				$output->writeln('<error>Unknown group "' . $applicableGroup . '"</error>');
+			}
+		}
+		$mount->setApplicableUsers($applicableUsers);
+		$mount->setApplicableGroups($applicableGroups);
 
 		if ($user) {
 			if (!$this->userManager->userExists($user)) {
@@ -179,7 +208,7 @@ class Create extends Base {
 
 		$user = $this->userManager->get($userId);
 		if (is_null($user)) {
-			throw new NoUserException("user $userId not found");
+			throw UserNotFoundException::createForUser($userId);
 		}
 		$this->userSession->setUser($user);
 		return $this->userService;

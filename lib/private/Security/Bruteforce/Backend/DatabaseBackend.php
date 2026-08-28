@@ -12,7 +12,7 @@ namespace OC\Security\Bruteforce\Backend;
 use OCP\IDBConnection;
 
 class DatabaseBackend implements IBackend {
-	private const TABLE_NAME = 'bruteforce_attempts';
+	private const string TABLE_NAME = 'bruteforce_attempts';
 
 	public function __construct(
 		private IDBConnection $db,
@@ -45,7 +45,7 @@ class DatabaseBackend implements IBackend {
 		}
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		return (int)$row['attempts'];

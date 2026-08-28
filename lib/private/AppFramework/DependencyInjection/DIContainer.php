@@ -10,15 +10,14 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\DependencyInjection;
 
-use OC\AppFramework\App;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
 use OC\AppFramework\Middleware\AdditionalScriptsMiddleware;
 use OC\AppFramework\Middleware\CompressionMiddleware;
+use OC\AppFramework\Middleware\InvalidParameterMiddleware;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
-use OC\AppFramework\Middleware\MiddlewareUtils;
 use OC\AppFramework\Middleware\NotModifiedMiddleware;
 use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware;
@@ -178,6 +177,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(LoggerInterface::class),
 				$c->get(EventLogger::class),
 				$c,
+				$c->get(IUserSession::class),
 			);
 		});
 
@@ -203,10 +203,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware($c->get(SameSiteCookieMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(CORSMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(OCSMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(InvalidParameterMiddleware::class));
 
 			$securityMiddleware = new SecurityMiddleware(
 				$c->get(IRequest::class),
-				$c->get(MiddlewareUtils::class),
+				$c->get(ControllerMethodReflector::class),
 				$c->get(INavigationManager::class),
 				$c->get(IURLGenerator::class),
 				$c->get(LoggerInterface::class),

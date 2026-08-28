@@ -9,7 +9,7 @@ OC.L10N.register(
     "{app} updated to version {version}" : "{app} atnaujinta į versiją {version}",
     "Update notifications" : "Atnaujinimų pranešimai",
     "The update server could not be reached since %d days to check for new updates." : " Atnaujinimo serveris nepasiekiamas  %d dienas.",
-    "Please check the Nextcloud and server log files for errors." : "Prašome patikrinti Nextcloud ir serverio žurnalų įrašus apie galimas klaidas.",
+    "Please check the Nextcloud and server log files for errors." : "Prašome patikrinti „Nextcloud“ ir serverio žurnalų įrašus apie galimas klaidas.",
     "Update to {serverAndVersion} is available." : "Yra prieinamas atnaujinimas į {serverAndVersion}.",
     "Update for {app} to version %s is available." : "Yra prieinamas {app} atnaujinimas į versiją %s.",
     "Update notification" : "Atnaujinimų pranešimas",

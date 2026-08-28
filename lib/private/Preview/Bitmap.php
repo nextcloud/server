@@ -34,8 +34,12 @@ abstract class Bitmap extends ProviderV2 {
 	abstract protected function getAllowedMimeTypes(): string;
 
 	/**
-	 * {@inheritDoc}
+	 * @return list<string>
 	 */
+	abstract protected function getMagicStrings(): array;
+
+	abstract protected function getImagickFormatHint(): string;
+
 	#[\Override]
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$tmpPath = $this->getLocalFile($file);
@@ -66,7 +70,7 @@ abstract class Bitmap extends ProviderV2 {
 		//new bitmap image object
 		$image = new Image();
 		$image->loadFromData((string)$bp);
-		//check if image object is valid
+		// Check if image object is valid
 		return $image->valid() ? $image : null;
 	}
 
@@ -89,21 +93,41 @@ abstract class Bitmap extends ProviderV2 {
 	private function getResizedPreview($tmpPath, $maxX, $maxY) {
 		$bp = new Imagick();
 
+		if (!$this->isMagicStringSupported($tmpPath)) {
+			throw new \Exception('Invalid image type: magic string not recognized');
+		}
+
 		// Validate mime type
-		$bp->pingImage($tmpPath . '[0]');
+		$bp->pingImage($this->getImagickFormatHint() . ':' . $tmpPath . '[0]');
 		$mimeType = $bp->getImageMimeType();
 		if (!preg_match($this->getAllowedMimeTypes(), $mimeType)) {
 			throw new \Exception('File mime type does not match the preview provider: ' . $mimeType);
 		}
 
 		// Layer 0 contains either the bitmap or a flat representation of all vector layers
-		$bp->readImage($tmpPath . '[0]');
+		$bp->readImage($this->getImagickFormatHint() . ':' . $tmpPath . '[0]');
 
 		$bp = $this->resize($bp, $maxX, $maxY);
 
 		$bp->setImageFormat('png');
 
 		return $bp;
+	}
+
+	private function isMagicStringSupported(string $filepath): bool {
+		$signatures = $this->getMagicStrings();
+		if (empty($signatures)) {
+			return true;
+		}
+		$length = array_reduce($signatures, static fn (int $carry, string $signature) => max($carry, strlen($signature)), 0);
+		$firstBytes = file_get_contents($filepath, false, null, 0, $length);
+		foreach ($signatures as $signature) {
+			if (str_starts_with($firstBytes, $signature)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

@@ -73,7 +73,7 @@ const loading = ref(false)
 const showVersionLabelForm = ref(false)
 const editedVersion = ref<Version | null>(null)
 
-const currentVersionMtime = computed(() => props.node?.mtime?.getTime() ?? 0)
+const currentVersionMtime = computed(() => Math.floor(new Date(props.node?.mtime?.getTime() ?? 0).getTime() / 1000) * 1000)
 
 /**
  * Order versions by mtime.
@@ -272,7 +272,14 @@ function compareVersion(version: Version) {
 	const _versions = versions.value.map((version) => ({ ...version, previewUrl: undefined }))
 
 	window.OCA.Viewer.compare(
-		{ path: props.node!.path },
+		{
+			fileid: props.node!.fileid,
+			filename: props.node!.path,
+			basename: props.node!.basename,
+			source: props.node!.source,
+			mime: props.node!.mime,
+			hasPreview: props.node!.attributes?.['has-preview'] ?? false,
+		},
 		_versions.find((v) => v.source === version.source),
 	)
 }

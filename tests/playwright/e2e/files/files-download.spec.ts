@@ -4,11 +4,12 @@
  */
 
 import type { Download, Page } from '@playwright/test'
-import { readFile } from 'node:fs/promises'
+
+import { User } from '@nextcloud/e2e-test-server'
 import { addUser, runOcc } from '@nextcloud/e2e-test-server/docker'
 import { login } from '@nextcloud/e2e-test-server/playwright'
-import { User } from '@nextcloud/e2e-test-server'
-import { test, expect } from '../../support/fixtures/files-page.ts'
+import { readFile } from 'node:fs/promises'
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { mkdir, uploadContent } from '../../support/utils/dav.ts'
 import { getZipEntries } from '../../support/utils/zip.ts'
 
@@ -215,13 +216,15 @@ test.describe('Files: Download files using selection', () => {
 	 * uid, which `createRandomUser()` cannot produce, so it provisions its own
 	 * user via the docker helper and logs in at the API level.
 	 */
-	test('can download selected files with email uid', async ({ page, context, filesListPage }) => {
-		const randomString = (length: number) => Math.random().toString(36).slice(2, 2 + length)
-		const uid = `${randomString(5)}@${randomString(3)}`
+	test('can download selected files with email uid', async ({ page, filesListPage }) => {
+		const uid = crypto.randomUUID()
+			.split('-', 2)
+			.reverse()
+			.join('@')
 		const emailUser = new User(uid, uid, 'en')
 
 		await addUser(emailUser)
-		await login(context.request, emailUser)
+		await login(page.request, emailUser)
 
 		try {
 			await uploadContent(page.request, emailUser, '<content>', 'text/plain', '/file.txt')

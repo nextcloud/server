@@ -31,7 +31,7 @@ use function substr;
 
 /** @template-implements IEventListener<CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarShareUpdatedEvent> */
 class CalendarContactInteractionListener implements IEventListener {
-	private const URI_USERS = 'principals/users/';
+	private const string URI_USERS = 'principals/users/';
 
 	public function __construct(
 		private IEventDispatcher $dispatcher,

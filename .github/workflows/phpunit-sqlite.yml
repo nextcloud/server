@@ -31,7 +31,7 @@ jobs:
       src: ${{ steps.changes.outputs.src }}
 
     steps:
-      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+      - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
         id: changes
         continue-on-error: true
         with:
@@ -72,13 +72,13 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2.37.1
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2.37.2
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
@@ -91,9 +91,23 @@ jobs:
           fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Enable HEIC support in ImageMagick
+        run: |
+          # The HEIC preview tests need ImageMagick to actually decode HEIC files.
+          # GitHub-hosted runners register the HEIC coder (so the tests are not
+          # skipped) but decoding fails because the libheif delegate is missing
+          # and/or the coder is blocked by ImageMagick's security policy. Install
+          # the delegate and allow the HEIC/HEIF/AVIF coders so decoding succeeds.
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libheif1 libheif-dev
+          for policy in /etc/ImageMagick-{6,7}/policy.xml; do
+            if [ -f "$policy" ]; then
+              sudo sed -i -E 's/rights="none" pattern="(HEIC|HEIF|AVIF)"/rights="read|write" pattern="\1"/g' "$policy"
+            fi
+          done
+
       - name: Set up dependencies
         run: |
-          sudo apt-get update
           sudo apt-get install -y ghostscript
           composer i
 
@@ -110,6 +124,26 @@ jobs:
 
       - name: PHPUnit database tests
         run: composer run test:db -- --log-junit junit.xml
+
+      - name: Slowest tests
+        if: always()
+        continue-on-error: true
+        run: |
+          {
+            echo '```'
+            php tests/junit-analyzer.php junit.xml 30
+            echo '```'
+          } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
+
+      - name: Outgoing HTTP requests
+        if: always()
+        continue-on-error: true
+        run: |
+          {
+            echo '```'
+            php tests/http-analyzer.php http-requests.log 20
+            echo '```'
+          } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
 
       - name: Print logs
         if: always()

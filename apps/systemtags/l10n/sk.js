@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "Štítky pre spoluprácu",
     "Collaborative tagging functionality which shares tags among people." : "Funkcie spoločného označovania, ktoré zdieľajú štítky medzi ľuďmi.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funkcie spoločného označovania, ktoré zdieľajú štítky medzi ľuďmi. Skvelé pre tímy.\n\t (Ak ste poskytovateľom inštalácie pre viacero subjektov, odporúča sa túto aplikáciu deaktivovať, pretože štítky sú zdieľané.)",
+    "Search tags" : "Vyhľadať štítky",
     "Public" : "Verejné",
     "Restricted" : "Obmedzené",
     "Invisible" : "Neviditeľné",
@@ -65,9 +66,7 @@ OC.L10N.register(
     "Delete" : "Zmazať",
     "Reset" : "Vynulovať",
     "Loading …" : "Načítava sa …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} bude nastavené a {tag2} bude odstránené z 1 súboru.","{tag1} bude nastavené a {tag2} bude odstránené z {count} súborov.","{tag1} bude nastavené a {tag2} bude odstránené z {count} súborov.","{tag1} bude nastavené a {tag2} bude odstránené z {count} súborov."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} bude nastavené na 1 súbor.","{tag} bude nastavené na {count} súborov.","{tag} bude nastavené na {count} súborov.","{tag} bude nastavené na {count} súbory."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bude odstránené z 1 súboru.","{tag} bude odstránené z {count} súborov.","{tag} bude odstránené z {count}súborov.","{tag} bude odstránené z {count} súborov."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} a {lastTag} bude nastavené na 1 súbor.","{tags} a {lastTag} bude nastavené na {count} súbory.","{tags} a {lastTag} bude nastavené na {count} súborov.","{tags} a {lastTag} bude nastavené na {count} súbory."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} a {lastTag} bude odstránené z 1 súboru.","{tags} a {lastTag} bude odstránené z {count} súborov.","{tags} a {lastTag} bude odstránené z {count} súborov.","{tags} a {lastTag} bude odstránené z {count} súborov."],
     "{displayName} (hidden)" : "{displayName}(skrytý)",
@@ -112,6 +111,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Nepodarilo sa odstrániť štítok pre súbor",
     "Collaborative tags …" : "Štítky pre spoluprácu ...",
     "Loading …" : "Načítavam …",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} bude nastavené a {tag2} bude odstránené z 1 súboru.","{tag1} bude nastavené a {tag2} bude odstránené z {count} súborov.","{tag1} bude nastavené a {tag2} bude odstránené z {count} súborov.","{tag1} bude nastavené a {tag2} bude odstránené z {count} súborov."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bude odstránené z 1 súboru.","{tag} bude odstránené z {count} súborov.","{tag} bude odstránené z {count}súborov.","{tag} bude odstránené z {count} súborov."],
     "Loading collaborative tags …" : "Načítavanie štítkov pre spoluprácu ..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

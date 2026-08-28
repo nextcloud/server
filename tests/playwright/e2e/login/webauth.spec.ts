@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { expect, test, type BrowserContext } from '@playwright/test'
-import { User } from '@nextcloud/e2e-test-server'
-import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
+import type { User } from '@nextcloud/e2e-test-server'
+import type { BrowserContext } from '@playwright/test'
+
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
+import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
+import { expect, test } from '@playwright/test'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
 test.describe('Login: WebAuthn', () => {
@@ -41,15 +43,11 @@ test.describe('Login: WebAuthn', () => {
 	})
 
 	test('add and delete a WebAuthn device', async ({ page }) => {
-		const registrationChallenge = page.waitForResponse(
-			(r) => r.url().includes('/settings/api/personal/webauthn/registration'),
-		)
+		const registrationChallenge = page.waitForResponse((r) => r.url().includes('/settings/api/personal/webauthn/registration'))
 		await page.goto('/settings/user/security')
 
 		const securitySection = page.locator('#security-webauthn')
-		await expect(
-			securitySection.getByRole('note').filter({ hasText: /No devices configured/i }),
-		).toBeVisible()
+		await expect(securitySection.getByRole('note').filter({ hasText: /No devices configured/i })).toBeVisible()
 
 		await page.getByRole('button', { name: /Add WebAuthn device/i }).click()
 		await handlePasswordConfirmation(page, user.password)
@@ -58,9 +56,7 @@ test.describe('Login: WebAuthn', () => {
 		const deviceNameInput = page.getByLabel('Device name')
 		await expect(deviceNameInput).toBeVisible()
 
-		const registrationComplete = page.waitForResponse(
-			(r) => r.url().includes('/settings/api/personal/webauthn/registration'),
-		)
+		const registrationComplete = page.waitForResponse((r) => r.url().includes('/settings/api/personal/webauthn/registration'))
 		await deviceNameInput.fill('test device')
 		await deviceNameInput.press('Enter')
 		await registrationComplete
@@ -75,30 +71,22 @@ test.describe('Login: WebAuthn', () => {
 		await page.getByRole('menuitem', { name: 'Delete' }).click()
 		await handlePasswordConfirmation(page, user.password)
 
-		await expect(
-			securitySection.getByRole('note').filter({ hasText: /No devices configured/i }),
-		).toBeVisible()
+		await expect(securitySection.getByRole('note').filter({ hasText: /No devices configured/i })).toBeVisible()
 		await expect(deviceList).toHaveCount(0)
 
 		await page.reload()
-		await expect(
-			securitySection.getByRole('note').filter({ hasText: /No devices configured/i }),
-		).toBeVisible()
+		await expect(securitySection.getByRole('note').filter({ hasText: /No devices configured/i })).toBeVisible()
 	})
 
 	test('add a WebAuthn device and use it to log in', async ({ page, context }) => {
-		const registrationChallenge = page.waitForResponse(
-			(r) => r.url().includes('/settings/api/personal/webauthn/registration') && r.request().method() === 'GET',
-		)
+		const registrationChallenge = page.waitForResponse((r) => r.url().includes('/settings/api/personal/webauthn/registration') && r.request().method() === 'GET')
 		await page.goto('/settings/user/security')
 
 		await page.getByRole('button', { name: /Add WebAuthn device/i }).click()
 		await handlePasswordConfirmation(page, user.password)
 		await registrationChallenge
 
-		const registrationComplete = page.waitForResponse(
-			(r) => r.url().includes('/settings/api/personal/webauthn/registration') && r.request().method() === 'POST',
-		)
+		const registrationComplete = page.waitForResponse((r) => r.url().includes('/settings/api/personal/webauthn/registration') && r.request().method() === 'POST')
 		const deviceNameInput = page.getByLabel('Device name')
 		await deviceNameInput.fill('test device')
 		await deviceNameInput.press('Enter')
@@ -119,9 +107,7 @@ test.describe('Login: WebAuthn', () => {
 
 		await passwordlessForm.getByLabel('Login or email').fill(user.userId)
 
-		const webauthnLogin = page.waitForResponse(
-			(r) => r.url().includes('/login/webauthn/start') && r.request().method() === 'POST',
-		)
+		const webauthnLogin = page.waitForResponse((r) => r.url().includes('/login/webauthn/start') && r.request().method() === 'POST')
 		await page.getByRole('button', { name: 'Log in' }).click()
 		await webauthnLogin
 

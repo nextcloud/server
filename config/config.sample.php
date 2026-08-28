@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -49,8 +49,8 @@ $CONFIG = [
 	 *
 	 * Value must be an integer, comprised between 0 and 511.
 	 *
-	 * When config.php is shared between different servers, this value should be overriden with "NC_serverid=<int>" on each server.
-	 * Note that it must be overriden for CLI and for your webserver.
+	 * When config.php is shared between different servers, this value should be overridden with "NC_serverid=<int>" on each server.
+	 * Note that it must be overridden for CLI and for your webserver.
 	 *
 	 * Example for CLI: NC_serverid=42 occ config:list system
 	 */
@@ -300,28 +300,71 @@ $CONFIG = [
 	'allow_user_to_change_display_name' => true,
 
 	/**
-	 * The directory where the skeleton files are located. These files will be
-	 * copied to the data directory of new users. Set empty string to not copy any
-	 * skeleton files. If unset and templatedirectory is an empty string, shipped
-	 * templates will be used to create a template directory for the user.
-	 * ``{lang}`` can be used as a placeholder for the language of the user.
-	 * If the directory does not exist, it falls back to non-dialect (from ``de_DE``
-	 * to ``de``). If that does not exist either, it falls back to ``default``
+	 * The directory containing initial content copied to a user's personal files
+	 * during their first login. This content can include ordinary files and
+	 * folders, such as welcome documents, example files, or organization-wide
+	 * reusable documents and folder structures.
 	 *
-	 * Defaults to ``core/skeleton`` in the Nextcloud directory.
+	 * The path may include the optional ``{lang}`` placeholder to select
+	 * language-specific content. The placeholder is replaced with the user's
+	 * language code. For example, when this is set to
+	 * ``/path/to/skeleton/{lang}`` and a user's language is ``de_DE``, Nextcloud
+	 * first looks for ``/path/to/skeleton/de_DE``. If that directory does not
+	 * exist, Nextcloud falls back to the base language code (``de`` in this
+	 * example), looking for ``/path/to/skeleton/de``. If that directory also does
+	 * not exist, Nextcloud looks for ``/path/to/skeleton/default``.
+	 *
+	 * If the path does not include ``{lang}``, Nextcloud uses the configured
+	 * directory directly. Only one matching directory is used; content from
+	 * fallback directories is not merged. If no matching directory exists, no
+	 * content is copied.
+	 *
+	 * Set to an empty string (``''``) to disable copying skeleton content.
+	 *
+	 * NOTE: Copying skeleton content also triggers automatic initialization of the
+	 * user's template directory (see ``templatedirectory``). Setting this
+	 * parameter to an empty string therefore prevents template initialization on
+	 * first login. Users can still initialize a template directory later through
+	 * the Files UI, which uses the OCS API, but doing so does not copy skeleton
+	 * content. The template source directory itself is configured separately and is
+	 * not derived from this directory.
+	 *
+	 * Defaults to ``core/skeleton`` relative to the Nextcloud installation root.
 	 */
 	'skeletondirectory' => '/path/to/nextcloud/core/skeleton',
 
 	/**
-	 * The directory where the template files are located. These files will be
-	 * copied to the template directory of new users. Set empty string to not copy any
-	 * template files.
-	 * ``{lang}`` can be used as a placeholder for the language of the user.
-	 * If the directory does not exist, it falls back to non-dialect (from ``de_DE``
-	 * to ``de``). If that does not exist either, it falls back to ``default``
+	 * The directory containing template content that can be copied to a user's
+	 * template directory. Template files are ordinary files that users can select
+	 * as reusable templates when creating supported file types in the Files app.
 	 *
-	 * To disable creating a template directory, set both skeletondirectory and
-	 * templatedirectory to empty strings.
+	 * Like ``skeletondirectory``, this path may contain the optional ``{lang}``
+	 * placeholder. Nextcloud resolves it using the same language, base-language,
+	 * and ``default`` fallback order described for ``skeletondirectory``. The
+	 * placeholder is resolved independently for this setting.
+	 *
+	 * If the path does not include ``{lang}``, Nextcloud uses the configured
+	 * directory directly. Only one matching directory is used; content from
+	 * fallback directories is not merged. If no matching directory exists, no
+	 * template content is copied.
+	 *
+	 * This setting is independent of ``skeletondirectory``. Its default value is
+	 * ``core/skeleton/Templates`` relative to the Nextcloud installation root.
+	 * Changing ``skeletondirectory`` does not change that value. If a custom
+	 * skeleton directory contains a ``Templates`` subdirectory, Nextcloud copies
+	 * it as ordinary skeleton content; it does not automatically use it as the
+	 * user's template directory.
+	 *
+	 * Template content is copied only when the target template folder is empty.
+	 *
+	 * Set to an empty string (``''``) to disable copying template content from
+	 * this source. During automatic first-login initialization, Nextcloud may
+	 * still create or reuse the default template folder, but it will not copy
+	 * content from this source or configure that folder as the user's template
+	 * directory.
+	 *
+	 * Defaults to ``core/skeleton/Templates`` relative to the Nextcloud
+	 * installation root, regardless of the ``skeletondirectory`` value.
 	 */
 	'templatedirectory' => '/path/to/nextcloud/templates',
 
@@ -330,20 +373,43 @@ $CONFIG = [
 	 */
 
 	/**
-	 * Lifetime of the remember login cookie. This should be larger than the
-	 * session_lifetime. If it is set to 0, remember me is disabled.
+	 * Lifetime of logins where the user selected "Remember me", in seconds.
 	 *
-	 * Defaults to ``60*60*24*15`` seconds (15 days)
+	 * A value > ``0`` means "Remember me" is available.
+	 * To make "Remember me" unavailable to users, set to ``0``.
+	 *
+	 * To avoid unexpected expiry, set this higher than ``session_lifetime``.
+	 *
+	 * Despite the key name, this also affects server-side expiration of remembered
+	 * login tokens. Clearing browser cookies removes remembered login on that
+	 * browser, but does not itself revoke server-side remember tokens.
+	 *
+	 * Defaults to ``60*60*24*15`` seconds (15 days).
 	 */
 	'remember_login_cookie_lifetime' => 60 * 60 * 24 * 15,
 
 	/**
-	 * The lifetime of a session after inactivity.
+	 * Lifetime of authenticated sessions after inactivity, in seconds.
 	 *
-	 * The maximum possible time is limited by the ``session.gc_maxlifetime`` php.ini setting
-	 * which would overwrite this option if it is less than the value in the ``config.php``
+	 * When "Remember me" is enabled, users may be transparently
+	 * re-authenticated after session expiry/logout while the remember-login
+	 * cookie remains valid.
 	 *
-	 * Defaults to ``60*60*24`` seconds (24 hours)
+	 * To avoid earlier-than-expected remembered-login expiry, set
+	 * ``remember_login_cookie_lifetime`` higher than this value.
+	 *
+	 * Effective behavior also depends on related settings:
+	 * - ``session_keepalive`` can extend active Web UI sessions via heartbeat requests.
+	 * - ``session_relaxed_expiry`` may allow sessions to persist longer than this value.
+	 * - ``auto_logout`` can enforce logout behavior in the Web UI.
+	 *
+	 * The effective maximum retention also depends on PHP settings and external
+	 * session-backend cleanup policies, including (but not limited to) PHP's
+	 * ``session.gc_maxlifetime`` and environment-specific cleanup behavior (e.g., distro
+	 * cron/tmpfiles policies and handler-specific GC behavior). These may override this
+	 * value.
+	 *
+	 * Defaults to ``60*60*24`` seconds (24 hours).
 	 */
 	'session_lifetime' => 60 * 60 * 24,
 
@@ -1602,20 +1668,27 @@ $CONFIG = [
 	],
 
 	/**
-	 * Maximum file size for metadata generation.
-	 * If a file exceeds this size, metadata generation will be skipped.
+	 * Maximum file size for file metadata generation.
 	 *
-	 * NOTE: memory equivalent to this size will be used for metadata generation.
+	 * Files larger than this limit will be skipped.
 	 *
-	 * Default: 256 megabytes.
+	 * This limit helps bound resource usage during metadata generation. Actual
+	 * resource usage depends on the active metadata providers and how they
+	 * process files. As a rough guide, memory usage may scale with file size.
+	 *
+	 * Default: 256 MiB.
 	 */
 	'metadata_max_filesize' => 256,
 
 	/**
 	 * Maximum file size for file conversion.
-	 * If a file exceeds this size, the file will not be converted.
 	 *
-	 * Default: 100 MiB
+	 * Files larger than this limit will be skipped.
+	 *
+	 * Raising this limit may increase conversion time, resource usage, and the
+	 * risk of timeouts or conversion failures depending on the provider.
+	 *
+	 * Default: 100 MiB.
 	 */
 	'max_file_conversion_filesize' => 100,
 
@@ -1760,6 +1833,94 @@ $CONFIG = [
 	 * Defaults to ``''`` (empty string)
 	 */
 	'memcache_customprefix' => 'mycustomprefix',
+
+	/**
+	 * Connection details for the Key-Value store used for in-memory caching,
+	 * for example when using Valkey or Redis.
+	 *
+	 * This is the brand-independent version of the ``redis`` and
+	 * ``redis.cluster`` options below without depending on ``php-redis``
+	 * meaning no additional PHP extension needs to be installed.
+	 * Redis and Valkey 4.0 up to 8.0 are supported, for SSL support Redis v6 or higher is required,
+	 * Valkey 9 is supported but without support for numbered databased when using cluster mode.
+	 *
+	 * Warning: If the cache server is not hosted on the same machine as Nextcloud,
+	 * this can have a network overhead compared to the ``php-redis`` based backend below.
+	 *
+	 * Three topologies are supported:
+	 * a single server, a Sentinel managed replication set, and a
+	 * server cluster. Configure exactly one of ``server``, ``sentinel`` or
+	 * ``seeds``.
+	 *
+	 * For enhanced security, it is recommended to configure ACLs in
+	 * the cache server and configure the ``user`` and ``password`` (or a TLS
+	 * client certificate). Alternatively, you can also configure the cache
+	 * server to just use a ``password``.
+	 * See https://valkey.io/topics/security/ for more information when using Valkey.
+	 */
+	'memcache.kvstore' => [
+		/**
+		 * Single server setup.
+		 *
+		 * Also used as the connection template for the ``sentinel`` managed
+		 * primary / replica connections.
+		 */
+		'server' => [
+			'host' => 'localhost', // can also be a Unix domain socket: '/tmp/cache.sock'
+			'port' => 6379, // ignored for Unix domain sockets
+			// Protocol used to connect. One of 'tcp', 'tls' or 'unix'.
+			// When omitted it is derived from the host (a leading '/' means 'unix').
+			'protocol' => 'tcp',
+		],
+
+		/**
+		 * Sentinel managed replication setup.
+		 *
+		 * Provide the name of the monitored service and one entry per Sentinel
+		 * node. Each seed uses the same format as the ``server`` entry above.
+		 * Uncomment to enable and remove the ``server`` / ``seeds`` entries.
+		 */
+		//'sentinel' => [
+		//	'service' => 'mymaster',
+		//	'seeds' => [
+		//		['host' => 'localhost', 'port' => 26379],
+		//		['host' => 'localhost', 'port' => 26380],
+		//	],
+		//],
+
+		/**
+		 * Cluster setup.
+		 *
+		 * Provide some or all of the cluster nodes to bootstrap discovery.
+		 * Each seed uses the same format as the ``server`` entry above.
+		 * Uncomment to enable and remove the ``server`` / ``sentinel`` entries.
+		 */
+		//'seeds' => [
+		//	['host' => 'localhost', 'port' => 7000],
+		//	['host' => 'localhost', 'port' => 7001],
+		//],
+
+		// Optional: username, only sent when the cache server uses ACLs.
+		'user' => '',
+		// Optional: if not defined, no password will be used.
+		'password' => '',
+		// Optional: select a numbered database. Only supported for single
+		// servers and Sentinel setups, clusters always use database 0.
+		'dbindex' => 0,
+		// Optional: connection timeout in seconds (float). 0 means no timeout.
+		'timeout' => 0.0,
+		// Optional: read/write timeout in seconds (float). 0 means no timeout.
+		'read_timeout' => 0.0,
+		// Optional: keep the connection open across requests. Defaults to false.
+		'persistent' => false,
+		// Optional: when the 'tls' protocol is used, provide the SSL context.
+		// SSL context options, see https://www.php.net/manual/en/context.ssl.php
+		//'ssl_context' => [
+		//	'local_cert' => '/certs/cache.crt',
+		//	'local_pk' => '/certs/cache.key',
+		//	'cafile' => '/certs/ca.crt',
+		//],
+	],
 
 	/**
 	 * Connection details for Redis to use for memory caching in a single server configuration.
@@ -2393,9 +2554,9 @@ $CONFIG = [
 	 * Changing this may cause older, unsupported clients to malfunction, potentially
 	 * leading to data loss or unexpected behavior.
 	 *
-	 * Defaults to ``3.2.50``
+	 * Defaults to ``3.3.50``
 	 */
-	'minimum.supported.desktop.version' => '3.2.50',
+	'minimum.supported.desktop.version' => '3.3.50',
 
 	/**
 	 * Specify the maximum Nextcloud desktop client version allowed to sync with this
@@ -2583,6 +2744,19 @@ $CONFIG = [
 	 * Defaults to ``[]`` (empty array)
 	 */
 	'allowed_admin_ranges' => ['192.0.2.42/32', '233.252.0.0/24', '2001:db8::13:37/64'],
+
+	/**
+	 * List of trusted IP ranges that can bypass password confirmation.
+	 * If non-empty, all endpoints marked with the PasswordConfirmationRequired attribute
+	 * won't need a password confirmation when originating from IPs within these ranges.
+	 *
+	 * Supported formats:
+	 * - IPv4 addresses or ranges, e.g., ``192.0.2.42/32``, ``233.252.0.0/24``
+	 * - IPv6 addresses or ranges, e.g., ``2001:db8::13:37/64``
+	 *
+	 * Defaults to ``[]`` (empty array)
+	 */
+	'allowed_no_password_confirmation_ranges' => ['192.0.2.42/32', '233.252.0.0/24', '2001:db8::13:37/64'],
 
 	/**
 	 * Maximum file size (in megabytes) for animating GIFs on public sharing pages.

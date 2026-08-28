@@ -32,7 +32,7 @@ class AddMissingSecretJob implements IRepairStep {
 		$passwordSalt = $this->config->getSystemValueString('passwordsalt', '');
 		if ($passwordSalt === '') {
 			try {
-				$this->config->setSystemValue('passwordsalt', $this->random->generate(30));
+				$this->config->setSystemValue('passwordsalt', $this->random->generate(32));
 			} catch (HintException $e) {
 				$output->warning('passwordsalt is missing from your config.php and your config.php is read only. Please fix it manually.');
 			}

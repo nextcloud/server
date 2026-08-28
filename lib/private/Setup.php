@@ -29,6 +29,7 @@ use OC\Setup\PostgreSQL;
 use OC\Setup\Sqlite;
 use OC\TextProcessing\RemoveOldTasksBackgroundJob;
 use OC\User\BackgroundJobs\CleanupDeletedUsers;
+use OC\User\BackgroundJobs\CleanupLoginTokens;
 use OC\User\Session;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -56,7 +57,7 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Setup {
-	public const MIN_PASSWORD_SALT_LENGTH = 30;
+	public const MIN_PASSWORD_SALT_LENGTH = 32;
 	public const MIN_SECRET_LENGTH = 48;
 
 	protected IL10N $l10n;
@@ -74,7 +75,7 @@ class Setup {
 		$this->l10n = $l10nFactory->get('lib');
 	}
 
-	private const DB_SETUP_CLASSES = [
+	private const array DB_SETUP_CLASSES = [
 		'mysql' => MySQL::class,
 		'pgsql' => PostgreSQL::class,
 		'oci' => OCI::class,
@@ -530,6 +531,7 @@ class Setup {
 		$jobList->add(BackgroundCleanupJob::class);
 		$jobList->add(RemoveOldTasksBackgroundJob::class);
 		$jobList->add(CleanupDeletedUsers::class);
+		$jobList->add(CleanupLoginTokens::class);
 		$jobList->add(GenerateMetadataJob::class);
 		$jobList->add(PreviewMigrationJob::class);
 		$jobList->add(ExpirePreviewsJob::class);

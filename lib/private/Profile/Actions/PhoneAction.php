@@ -58,7 +58,7 @@ class PhoneAction implements ILinkAction {
 
 	#[\Override]
 	public function getIcon(): string {
-		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/phone.svg'));
+		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/phone-outline.svg'));
 	}
 
 	#[\Override]

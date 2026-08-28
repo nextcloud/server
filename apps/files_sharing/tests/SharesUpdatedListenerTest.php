@@ -19,6 +19,7 @@ use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\User\Exceptions\UserNotFoundException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Clock\ClockInterface;
@@ -39,6 +40,8 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 	private LoggerInterface&MockObject $logger;
 	private $clockFn;
 
+	private int $time = 0;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -50,7 +53,7 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 		$this->userConfig = new MockUserConfig();
 		$this->clock = $this->createMock(ClockInterface::class);
 		$this->clockFn = function () {
-			return new \DateTimeImmutable('@0');
+			return new \DateTimeImmutable("@{$this->time}");
 		};
 		$this->clock->method('now')
 			->willReturnCallback(function () {
@@ -115,6 +118,33 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 		$this->sharesUpdatedListener->handle($event);
 	}
 
+	public function testShareAddedSkipsUnresolvableUser(): void {
+		$share = $this->createMock(IShare::class);
+		$user1 = $this->createUser('user1', '');
+		$user2 = $this->createUser('user2', '');
+
+		$this->manager->method('getUsersForShare')
+			->willReturn([$user1, $user2]);
+
+		$event = new ShareCreatedEvent($share);
+
+		// user1 is an orphaned recipient that no backend can resolve
+		$this->shareRecipientUpdater
+			->expects($this->exactly(2))
+			->method('updateForAddedShare')
+			->willReturnCallback(function (IUser $user) use ($user1): void {
+				if ($user === $user1) {
+					throw new UserNotFoundException('Backends provided no user object');
+				}
+			});
+
+		// the failure is logged, not thrown
+		$this->logger->expects($this->once())->method('debug');
+
+		// must not throw: user2 is still processed
+		$this->sharesUpdatedListener->handle($event);
+	}
+
 	public function testShareAccessUpdated() {
 		$user1 = $this->createUser('user1', '');
 		$user2 = $this->createUser('user2', '');
@@ -159,6 +189,36 @@ class SharesUpdatedListenerTest extends \Test\TestCase {
 			[1.1, 2],
 			[-1, 2],
 		];
+	}
+
+	public function testCutoffSpansMultipleHandleInvocations(): void {
+		$share = $this->createMock(IShare::class);
+		$user1 = $this->createUser('user1', '');
+
+		$this->manager->method('getUsersForShare')
+			->willReturn([$user1]);
+
+		$event = new ShareCreatedEvent($share);
+		$this->sharesUpdatedListener->setCutOffMarkTime(4);
+
+		// First handle at t=0: firstRun=0, elapsed=0 < 0.5 → callback runs
+		$this->shareRecipientUpdater
+			->expects($this->exactly(2))
+			->method('updateForAddedShare');
+
+		$this->assertFalse(
+			$this->userConfig->getValueBool($user1->getUID(), 'files_sharing', ConfigLexicon::USER_NEEDS_SHARE_REFRESH)
+		);
+
+		$this->sharesUpdatedListener->handle($event);
+		$this->time = 1;
+		$this->sharesUpdatedListener->handle($event);
+		$this->time = 4;
+		$this->sharesUpdatedListener->handle($event);
+
+		$this->assertTrue(
+			$this->userConfig->getValueBool($user1->getUID(), 'files_sharing', ConfigLexicon::USER_NEEDS_SHARE_REFRESH)
+		);
 	}
 
 	#[DataProvider('shareMarkAfterTimeProvider')]

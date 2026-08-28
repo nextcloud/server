@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { User } from '@nextcloud/e2e-test-server'
+import type { APIRequestContext } from '@playwright/test'
+
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
-import type { APIRequestContext } from '@playwright/test'
-import type { User } from '@nextcloud/e2e-test-server'
 import { test as filesTest } from './files-page.ts'
 
 type SharingFixtures = {

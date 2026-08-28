@@ -10,13 +10,14 @@ OC.L10N.register(
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder.",
     "Set file reminders" : "Set file reminders",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly.",
+    "We reminded you of this file {relativeDueDate}" : "We reminded you of this file {relativeDueDate}",
+    "We will remind you of this file {relativeDueDate}" : "We will remind you of this file {relativeDueDate}",
     "Please choose a valid date & time" : "Please choose a valid date & time",
     "Reminder set for \"{fileName}\"" : "Reminder set for \"{fileName}\"",
     "Failed to set reminder" : "Failed to set reminder",
     "Reminder cleared for \"{fileName}\"" : "Reminder cleared for \"{fileName}\"",
     "Failed to clear reminder" : "Failed to clear reminder",
     "Reminder at custom date & time" : "Reminder at custom date & time",
-    "We will remind you of this file" : "We will remind you of this file",
     "Cancel" : "Cancel",
     "Clear reminder" : "Clear reminder",
     "Set reminder" : "Set reminder",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Set reminder for this weekend",
     "Next week" : "Next week",
     "Set reminder for next week" : "Set reminder for next week",
-    "Set reminder for \"{fileName}\"" : "Set reminder for \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Set reminder for \"{fileName}\"",
+    "We will remind you of this file" : "We will remind you of this file"
 },
 "nplurals=2; plural=(n != 1);");

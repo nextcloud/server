@@ -42,12 +42,14 @@ class Group implements IGroup {
 	private bool $usersLoaded = false;
 
 	public function __construct(
+		/** @var non-empty-string $gid */
 		private string $gid,
 		/** @var list<GroupInterface> */
 		private array $backends,
 		private IEventDispatcher $dispatcher,
 		private IUserManager $userManager,
 		private ?PublicEmitter $emitter = null,
+		/** @var ?non-empty-string $displayName */
 		protected ?string $displayName = null,
 	) {
 	}
@@ -63,7 +65,7 @@ class Group implements IGroup {
 			foreach ($this->backends as $backend) {
 				if ($backend instanceof IGetDisplayNameBackend) {
 					$displayName = $backend->getDisplayName($this->gid);
-					if (trim($displayName) !== '') {
+					if ($displayName !== '') {
 						$this->displayName = $displayName;
 						return $this->displayName;
 					}
@@ -77,6 +79,7 @@ class Group implements IGroup {
 	#[\Override]
 	public function setDisplayName(string $displayName): bool {
 		$displayName = trim($displayName);
+		$changed = false;
 		if ($displayName !== '') {
 			$this->dispatcher->dispatchTyped(new BeforeGroupChangedEvent($this, 'displayName', $displayName, $this->displayName));
 			$oldDisplayName = $this->displayName;
@@ -84,10 +87,13 @@ class Group implements IGroup {
 				if (($backend instanceof ISetDisplayNameBackend)
 					&& $backend->setDisplayName($this->gid, $displayName)) {
 					$this->displayName = $displayName;
-					$this->dispatcher->dispatchTyped(new GroupChangedEvent($this, 'displayName', $displayName, $oldDisplayName));
-					return true;
+					$changed = true;
 				}
 			}
+		}
+		if ($changed) {
+			$this->dispatcher->dispatchTyped(new GroupChangedEvent($this, 'displayName', $displayName, $oldDisplayName));
+			return true;
 		}
 		return false;
 	}

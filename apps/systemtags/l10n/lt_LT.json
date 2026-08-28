@@ -43,6 +43,8 @@
     "Collaborative tags" : "Bendradarbiavimo žymos",
     "Collaborative tagging functionality which shares tags among people." : "Bendradarbiavimo žymėjimo funkcija, kuri dalijasi žymėmis su žmonėmis.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Bendradarbiavimo žymėjimo funkcija, leidžianti bendrinti žymes su kitais žmonėmis. Puikiai tinka komandoms.\n\t(Jei esate paslaugų teikėjas, turintis daugiavartotojišką sistemą, patariama išjungti šią programėlę, nes žymės yra bendrinamos.)",
+    "Search tags" : "Ieškoti žymų",
+    "No tags available" : "Nėra jokių žymų",
     "Public" : "Vieša",
     "Restricted" : "Apribota",
     "Invisible" : "Nematoma",
@@ -63,9 +65,9 @@
     "Delete" : "Ištrinti",
     "Reset" : "Atstatyti",
     "Loading …" : "Įkeliama …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} bus priskirta, o {tag2} bus pašalinta iš 1 failo.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų."],
+    "_{tag1} will be set and {tag2} will be removed from {count} file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} bus nustatyta, o {tag2} – pašalinta iš {count} failo.","{tag1} bus nustatyta, o {tag2} – pašalinta iš {count} failų.","{tag1} bus nustatyta, o {tag2} – pašalinta iš {count} failų.","{tag1} bus nustatyta, o {tag2} – pašalinta iš {count} failų."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} bus priskirta 1 failui.","{tag} bus priskirta {count} failams.","{tag} bus priskirta {count} failams.","{tag}  bus priskirta {count} failams."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bus pašalinta iš 1 failo.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų."],
+    "_{tag} will be removed from {count} file._::_{tag} will be removed from {count} files._" : ["{tag} bus pašalintas iš {count} failo.","{tag} bus pašalintas iš {count} failų.","{tag} bus pašalintas iš {count} failų.","{tag} bus pašalintas iš {count} failų."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} ir {lastTag} bus priskirta 1 failui.","{tags} ir {lastTag} bus priskirta {count} failams.","{tags} ir {lastTag} bus priskirta {count} failų.","{tags} ir {lastTag} bus priskirta {count} failų."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} ir {lastTag} bus pašalintos iš 1 failo.","{tags} ir {lastTag} bus pašalintos iš {count} failų","{tags} ir {lastTag} bus pašalintos iš {count} failų","{tags} ir {lastTag} bus pašalintos iš {count} failų"],
     "{displayName} (hidden)" : "{displayName} (paslėptas)",
@@ -97,7 +99,7 @@
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Bendradarbiavimo žymos yra prieinamos visiems vartotojams. Apribotos žymos yra matomos vartotojams, tačiau vartotojai negali jų priskirinėti. Nematomos žymos yra vidiniam naudojimui, nes vartotojai negali jų nei matyti, nei priskirinėti.",
     "Add tags" : "Pridėti žymas",
     "Assigned collaborative tags" : "Priskirtos bendradarbiavimo žymos",
-    "Open in Files" : "Atidaryti programėlėje Files",
+    "Open in Files" : "Atidaryti programėlėje „Failai“",
     "List of tags and their associated files and folders." : "Žymų ir su jomis susijusių failų bei aplankų sąrašas.",
     "No tags found" : "Nerasta jokių žymų",
     "Tags you have created will show up here." : "Čia bus rodomos jūsų sukurtos žymos.",
@@ -110,6 +112,8 @@
     "Failed to delete tag for file" : "Nepavyko ištrinti failo žymės",
     "Collaborative tags …" : "Bendradarbiavimo žymos…",
     "Loading …" : "Įkeliama…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} bus priskirta, o {tag2} bus pašalinta iš 1 failo.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų.","{tag1} bus priskirta, o {tag2} bus pašalinta iš {count} failų."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} bus pašalinta iš 1 failo.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų.","{tag} bus pašalinta iš {count} failų."],
     "Loading collaborative tags …" : "Įkeliamos bendradarbiavimo žymos…"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

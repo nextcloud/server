@@ -316,6 +316,24 @@ interface IExpressionBuilder {
 	public function iLike($x, $y, $type = null): string;
 
 	/**
+	 * Creates a NOT ILIKE() comparison expression with the given arguments.
+	 *
+	 * @param ILiteral|IParameter|IQueryFunction|string $x Field in string format to be inspected by NOT LIKE() comparison.
+	 * @param ILiteral|IParameter|IQueryFunction|string $y Argument to be used in NOT ILIKE() comparison.
+	 * @param IQueryBuilder::PARAM_*|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                                          required when comparing text fields for oci compatibility
+	 *
+	 *
+	 * @return string
+	 * @since 35.0.0
+	 *
+	 * @psalm-taint-sink sql $x
+	 * @psalm-taint-sink sql $y
+	 * @psalm-taint-sink sql $type
+	 */
+	public function notILike(string|IParameter|ILiteral|IQueryFunction $x, string|IParameter|ILiteral|IQueryFunction $y, int|string|null $type = null): string;
+
+	/**
 	 * Creates a IN () comparison expression with the given arguments.
 	 *
 	 * @param ILiteral|IParameter|IQueryFunction|string $x The field in string format to be inspected by IN() comparison.

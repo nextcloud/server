@@ -20,15 +20,18 @@ class Team implements \JsonSerializable {
 	 * @since 29.0.0
 	 */
 	public function __construct(
+		/** @var non-empty-string */
 		private string $teamId,
+		/** @var non-empty-string */
 		private string $displayName,
+		/** @var ?non-empty-string */
 		private ?string $link,
 	) {
 	}
 
 	/**
 	 * Unique identifier of the team (singleId of the circle)
-	 *
+	 * @return non-empty-string
 	 * @since 29.0.0
 	 */
 	public function getId(): string {
@@ -36,6 +39,7 @@ class Team implements \JsonSerializable {
 	}
 
 	/**
+	 * @return non-empty-string
 	 * @since 29.0.0
 	 */
 	public function getDisplayName(): string {
@@ -43,6 +47,7 @@ class Team implements \JsonSerializable {
 	}
 
 	/**
+	 * @return ?non-empty-string
 	 * @since 29.0.0
 	 */
 	public function getLink(): ?string {

@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Command\User;
+namespace Tests\Core\Command\User;
 
 use OC\Core\Command\User\Add;
 use OCA\Settings\Mailer\NewUserMailHelper;
@@ -100,14 +100,19 @@ class AddTest extends TestCase {
 		$this->userManager->method('createUser')
 			->willReturn($this->user);
 
-		$this->appConfig->method('getValueString')
-			->willReturn($shouldSendEmail ? 'yes' : 'no');
+		$this->appConfig->method('getValueBool')
+			->willReturn($shouldSendEmail);
 
 		$this->mailHelper->method('generateTemplate')
 			->willReturn(static::createMock(IEMailTemplate::class));
 
 		$this->mailHelper->expects($isEmailValid && $shouldSendEmail ? static::once() : static::never())
 			->method('sendMail');
+
+		$this->consoleInput->method('getArgument')
+			->willReturnMap([
+				['uid', 'JohnDoe'],
+			]);
 
 		$this->consoleInput->method('getOption')
 			->willReturnMap([

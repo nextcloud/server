@@ -96,6 +96,7 @@ return array(
     'OCA\\Files_External\\Lib\\Storage\\OwnCloud' => $baseDir . '/../lib/Lib/Storage/OwnCloud.php',
     'OCA\\Files_External\\Lib\\Storage\\SFTP' => $baseDir . '/../lib/Lib/Storage/SFTP.php',
     'OCA\\Files_External\\Lib\\Storage\\SFTPReadStream' => $baseDir . '/../lib/Lib/Storage/SFTPReadStream.php',
+    'OCA\\Files_External\\Lib\\Storage\\SFTPReflection' => $baseDir . '/../lib/Lib/Storage/SFTPReflection.php',
     'OCA\\Files_External\\Lib\\Storage\\SFTPWriteStream' => $baseDir . '/../lib/Lib/Storage/SFTPWriteStream.php',
     'OCA\\Files_External\\Lib\\Storage\\SMB' => $baseDir . '/../lib/Lib/Storage/SMB.php',
     'OCA\\Files_External\\Lib\\Storage\\StreamWrapper' => $baseDir . '/../lib/Lib/Storage/StreamWrapper.php',

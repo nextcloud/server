@@ -189,6 +189,16 @@ class Updater extends BasicEmitter {
 	}
 
 	/**
+	 * Whether the upgrade crosses a major version boundary
+	 */
+	private function isMajorUpgrade(string $installedVersion, string $currentVersion): bool {
+		$installedMajor = (int)explode('.', $installedVersion)[0];
+		$currentMajor = (int)explode('.', $currentVersion)[0];
+
+		return $currentMajor > $installedMajor;
+	}
+
+	/**
 	 * runs the update actions in maintenance mode, does not upgrade the source files
 	 * except the main .htaccess file
 	 *
@@ -202,6 +212,11 @@ class Updater extends BasicEmitter {
 		$allowedPreviousVersions = $this->getAllowedPreviousVersions();
 		if (!$this->isUpgradePossible($installedVersion, $currentVersion, $allowedPreviousVersions)) {
 			throw new \Exception('Updates between multiple major versions and downgrades are unsupported.');
+		}
+
+		// A force-enable applies to the major version it was granted on
+		if ($this->isMajorUpgrade($installedVersion, $currentVersion)) {
+			$this->config->deleteSystemValue('app_install_overwrite');
 		}
 
 		// Update .htaccess files
@@ -345,6 +360,10 @@ class Updater extends BasicEmitter {
 	 * @throws \Exception
 	 */
 	private function checkAppsRequirements(): void {
+		if ($this->serverVersion->getChannel() === 'git') {
+			return;
+		}
+
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = $this->appManager->getEnabledApps();
 		$version = implode('.', Util::getVersion());

@@ -4,8 +4,8 @@
  */
 
 import { expect } from '@playwright/test'
-import { test as userTest } from '../../support/fixtures/random-user-session.ts'
 import { test as adminTest } from '../../support/fixtures/admin-session.ts'
+import { test as userTest } from '../../support/fixtures/random-user-session.ts'
 import { NavigationHeaderPage } from '../../support/sections/NavigationHeaderPage.ts'
 
 // Regular-user tests — logged in as a fresh random user.
@@ -54,7 +54,9 @@ adminTest.describe('Header: App menu (waffle launcher) – admin', () => {
 		await expectWaffleMenuContainsApps(navigationHeader, [
 			{ name: 'Files', href: '/apps/files' },
 			{ name: 'Dashboard', href: '/apps/dashboard' },
-			{ name: 'Appstore', href: '/settings/apps' },
+			// The app management page is only linked by the "More apps" tile,
+			// the app itself does not add an entry to the menu
+			{ name: 'More apps', href: '/settings/apps' },
 		])
 	})
 })
@@ -65,7 +67,7 @@ adminTest.describe('Header: App menu (waffle launcher) – admin', () => {
  */
 async function expectWaffleMenuContainsApps(
 	navigationHeader: NavigationHeaderPage,
-	apps: Array<{ name: string; href: string }>,
+	apps: Array<{ name: string, href: string }>,
 ): Promise<void> {
 	await navigationHeader.openMenu()
 	await expect(navigationHeader.popover()).toBeVisible()

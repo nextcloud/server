@@ -16,7 +16,6 @@ use OCA\FilesReminders\Db\Reminder;
 use OCA\FilesReminders\Db\ReminderMapper;
 use OCA\FilesReminders\Exception\NodeNotFoundException;
 use OCA\FilesReminders\Exception\ReminderNotFoundException;
-use OCA\FilesReminders\Exception\UserNotFoundException;
 use OCA\FilesReminders\Model\RichReminder;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Files\Folder;
@@ -28,6 +27,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -74,11 +74,20 @@ class ReminderService {
 			return null;
 		}
 		if ($cachedReminder instanceof Reminder) {
+			if ($cachedReminder->getDueDate() < new DateTime()) {
+				$this->cache->remove("{$user->getUID()}-$fileId");
+				return null;
+			}
 			return new RichReminder($cachedReminder, $this->root);
 		}
 
 		try {
 			$reminder = $this->reminderMapper->findDueForUser($user, $fileId);
+			// If reminder is in the past, do not return it and do not cache it.
+			if ($reminder->getDueDate() < new DateTime()) {
+				return null;
+			}
+
 			$this->cache->set("{$user->getUID()}-$fileId", $reminder);
 			return new RichReminder($reminder, $this->root);
 		} catch (DoesNotExistException $e) {
@@ -165,7 +174,7 @@ class ReminderService {
 
 		$user = $this->userManager->get($reminder->getUserId());
 		if ($user === null) {
-			throw new UserNotFoundException();
+			throw UserNotFoundException::createForUser($reminder->getUserId());
 		}
 
 		$notification = $this->notificationManager->createNotification();

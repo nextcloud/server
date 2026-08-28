@@ -149,7 +149,7 @@ class AppConfigTest extends TestCase {
 			]);
 
 		$result = $this->createMock(IResult::class);
-		$result->method('fetchAll')->willReturn([
+		$result->method('fetchAllAssociative')->willReturn([
 			['lazy' => 1, 'appid' => 'appid', 'configkey' => 'lazy-key', 'configvalue' => 'lazy value'],
 		]);
 		$expression = $this->createMock(IExpressionBuilder::class);
@@ -199,5 +199,36 @@ class AppConfigTest extends TestCase {
 		$this->assertSame('first value', $config->getValueString('appid', 'first-key'));
 		$config->setValueString('appid', 'first-key', 'new value');
 		$this->assertSame('new value', $config->getValueString('appid', 'first-key'));
+	}
+
+	public function testFilteredValuesMaskTheEuroOfficeSecret(): void {
+		$this->localCache->expects(self::atLeastOnce())
+			->method('get')
+			->with('OC\\AppConfig')
+			->willReturn([
+				'fastCache' => [
+					'eurooffice' => [
+						'jwt_secret' => 'a-document-server-signing-key',
+						'jwt_header' => 'AuthorizationJwt',
+					],
+				],
+				'lazyCache' => [
+					'eurooffice' => [],
+				],
+				'valueTypes' => [
+					'eurooffice' => [
+						'jwt_secret' => AppConfig::VALUE_STRING,
+						'jwt_header' => AppConfig::VALUE_STRING,
+					],
+				],
+			]);
+
+		$this->connection->expects(self::never())->method('getQueryBuilder');
+		$config = $this->getAppConfig(true);
+
+		$this->assertSame([
+			'jwt_secret' => IConfig::SENSITIVE_VALUE,
+			'jwt_header' => 'AuthorizationJwt',
+		], $config->getFilteredValues('eurooffice'));
 	}
 }

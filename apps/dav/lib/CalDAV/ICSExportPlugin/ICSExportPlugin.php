@@ -21,7 +21,7 @@ use Sabre\VObject\Property\ICalendar\Duration;
  */
 class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
 	/** @var string */
-	private const DEFAULT_REFRESH_INTERVAL = 'PT4H';
+	private const string DEFAULT_REFRESH_INTERVAL = 'PT4H';
 
 	/**
 	 * ICSExportPlugin constructor.

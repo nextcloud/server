@@ -740,6 +740,46 @@ trait WebDav {
 	}
 
 	/**
+	 * @When /^user "([^"]*)" uploads file with content "([^"]*)" and mtime "([^"]*)" to "([^"]*)"$/
+	 * @param string $user
+	 * @param string $content
+	 * @param string $mtime
+	 * @param string $destination
+	 */
+	public function userUploadsAFileWithContentAndMtimeTo($user, $content, $mtime, $destination) {
+		$file = \GuzzleHttp\Psr7\Utils::streamFor($content);
+		try {
+			$this->response = $this->makeDavRequest($user, 'PUT', $destination, ['X-OC-Mtime' => $mtime], $file);
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * Downloads a specific version (identified by its revision/timestamp) of a
+	 * file through the versions DAV endpoint:
+	 *   GET remote.php/dav/versions/<user>/versions/<fileid>/<revision>
+	 *
+	 * @When /^user "([^"]*)" downloads version "([^"]*)" of file "([^"]*)"$/
+	 * @param string $user
+	 * @param string $revision
+	 * @param string $path
+	 */
+	public function userDownloadsVersionOfFile($user, $revision, $path) {
+		$fileId = $this->getFileIdForPath($user, $path);
+		$versionPath = '/' . $user . '/versions/' . $fileId . '/' . $revision;
+		try {
+			$this->response = $this->makeDavRequest($user, 'GET', $versionPath, [], null, 'versions');
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
 	 * @When /^User "([^"]*)" deletes (file|folder) "([^"]*)"$/
 	 * @param string $user
 	 * @param string $type
@@ -872,6 +912,69 @@ trait WebDav {
 			], null, 'uploads');
 		} catch (\GuzzleHttp\Exception\BadResponseException $ex) {
 			$this->response = $ex->getResponse();
+		}
+	}
+
+	/**
+	 * @Given creating a new public chunking upload with id :id
+	 */
+	public function creatingANewPublicChunkingUploadWithId(string $id): void {
+		$this->makePublicUploadsDavRequest('MKCOL', '/' . $id);
+	}
+
+	/**
+	 * @Given uploading new public chunk file :num with :data to id :id
+	 */
+	public function uploadingNewPublicChunkFileWithToId(string $num, string $data, string $id): void {
+		$this->makePublicUploadsDavRequest('PUT', '/' . $id . '/' . $num, [], \GuzzleHttp\Psr7\Utils::streamFor($data));
+	}
+
+	/**
+	 * @When moving new public chunk file with id :id to :dest
+	 */
+	public function movingNewPublicChunkFileWithIdTo(string $id, string $dest): void {
+		$this->makePublicUploadsDavRequest('MOVE', '/' . $id . '/.file', [
+			'Destination' => $this->getPublicDavFilesUrl() . $dest,
+		]);
+	}
+
+	/**
+	 * @When copying new public chunk file with id :id to :dest
+	 */
+	public function copyingNewPublicChunkFileWithIdTo(string $id, string $dest): void {
+		$this->makePublicUploadsDavRequest('COPY', '/' . $id . '/.file', [
+			'Destination' => $this->getPublicDavFilesUrl() . $dest,
+		]);
+	}
+
+	private function getLastShareToken(): string {
+		if (count($this->lastShareData->data->element) > 0) {
+			return (string)$this->lastShareData->data[0]->token;
+		}
+		return (string)$this->lastShareData->data->token;
+	}
+
+	private function getPublicDavFilesUrl(): string {
+		return substr($this->baseUrl, 0, -4) . 'public.php/dav/files/' . $this->getLastShareToken();
+	}
+
+	/**
+	 * Performs a request on the public chunked upload endpoint of the last created share
+	 */
+	private function makePublicUploadsDavRequest(string $method, string $path, array $headers = [], $body = null): void {
+		$fullUrl = substr($this->baseUrl, 0, -4) . 'public.php/dav/uploads/' . $this->getLastShareToken() . $path;
+		// Non GET requests on the public DAV endpoint require the AJAX header
+		$headers['X-Requested-With'] = 'XMLHttpRequest';
+
+		$client = new GClient();
+		try {
+			$this->response = $client->request($method, $fullUrl, [
+				'headers' => $headers,
+				'body' => $body,
+			]);
+		} catch (\GuzzleHttp\Exception\BadResponseException $e) {
+			// 4xx and 5xx responses cause an exception
+			$this->response = $e->getResponse();
 		}
 	}
 

@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Pripomienka pre \"{fileName}\" bola odstránená",
     "Failed to clear reminder" : "Nepodarilo sa odstrániť pripomienku",
     "Reminder at custom date & time" : "Pripomienka vo vlastný dátum a čas",
-    "We will remind you of this file" : "Pripomenieme vám tento súbor",
     "Cancel" : "Zrušiť",
     "Clear reminder" : "Vymazať pripomienku",
     "Set reminder" : "Nastaviť pripomienku",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Nastaviť pripomienku na tento víkend",
     "Next week" : "Nasledujúci týždeň",
     "Set reminder for next week" : "Nastaviť pripomienku na budúci týždeň",
-    "Set reminder for \"{fileName}\"" : "Nastaviť pripomienku pre \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Nastaviť pripomienku pre \"{fileName}\"",
+    "We will remind you of this file" : "Pripomenieme vám tento súbor"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

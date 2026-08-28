@@ -11,15 +11,22 @@ namespace OC\AppFramework\Http;
 
 use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
+use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\DB\ConnectionAdapter;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\InvalidEnumParameterException;
+use OCP\AppFramework\Http\InvalidStringParameterException;
 use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Server;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -45,6 +52,7 @@ class Dispatcher {
 		private readonly LoggerInterface $logger,
 		private readonly IEventLogger $eventLogger,
 		private readonly ContainerInterface $appContainer,
+		private readonly IUserSession $userSession,
 	) {
 	}
 
@@ -76,6 +84,12 @@ class Dispatcher {
 			}
 
 			$response = $this->executeController($controller, $methodName);
+
+			if ($this->connection->inTransaction()) {
+				$this->connection->rollBack();
+				$message = 'Controller method left a transaction open after executing controller method ' . $controller::class . '::' . $methodName . '. The transaction was rolled back.';
+				$this->logger->warning($message, ['app' => Server::get(IAppManager::class)->getAppFromNamespace($controller::class)]);
+			}
 
 			if (!empty($databaseStatsBefore)) {
 				$databaseStatsAfter = $this->connection->getInner()->getStats();
@@ -152,6 +166,26 @@ class Dispatcher {
 			} elseif ($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
 				$this->ensureParameterValueSatisfiesRange($param, $value, $default);
+			} elseif ($value !== null && $type === 'string' && \is_string($value)) {
+				$this->ensureParameterValueSatisfiesStringConstraint($param, $value);
+			} elseif ($value !== null && $type !== null && !($value instanceof $type) && enum_exists($type) && is_a($type, \BackedEnum::class, true)) {
+				$value = $this->resolveBackedEnumValue($param, $type, $value);
+			} elseif (is_a($type, \SortDirection::class, true)) {
+				if (strtolower($value) === 'asc') {
+					$value = \SortDirection::Ascending;
+				} elseif (strtolower($value) === 'desc') {
+					$value = \SortDirection::Descending;
+				} else {
+					throw new InvalidEnumParameterException($param, get_debug_type($value), \SortDirection::class);
+				}
+			} elseif (is_a($type, IUser::class, true)) {
+				// Inject current user
+				$user = $this->userSession->getUser();
+				if ($user instanceof IUser) {
+					$value = $user;
+				} else {
+					throw new NotLoggedInException('Could not inject ' . $param . ' in ' . $controller::class . '::' . $methodName . '. User is not logged in');
+				}
 			} elseif ($value === null && $type !== null && $this->appContainer->has($type)) {
 				$value = $this->appContainer->get($type);
 			}
@@ -216,5 +250,41 @@ class Dispatcher {
 				);
 			}
 		}
+	}
+
+	/**
+	 * @throws InvalidStringParameterException
+	 */
+	private function ensureParameterValueSatisfiesStringConstraint(string $param, string $value): void {
+		if (!$this->reflector->satisfiesStringConstraint($param, $value)) {
+			throw new InvalidStringParameterException($param, $this->reflector->getStringConstraint($param));
+		}
+	}
+
+	/**
+	 * @template T of \BackedEnum
+	 * @psalm-param class-string<T> $enumClass
+	 * @psalm-param mixed $value
+	 * @psalm-return T
+	 * @throws InvalidEnumParameterException
+	 */
+	private function resolveBackedEnumValue(string $param, string $enumClass, $value): \BackedEnum {
+		if (!is_scalar($value)) {
+			throw new InvalidEnumParameterException($param, get_debug_type($value), $enumClass);
+		}
+
+		$backingType = (new \ReflectionEnum($enumClass))->getBackingType();
+		assert($backingType instanceof \ReflectionNamedType);
+		$backingType = $backingType->getName();
+		if ($backingType === 'int') {
+			if (!is_numeric($value)) {
+				throw new InvalidEnumParameterException($param, (string)$value, $enumClass);
+			}
+			$value = (int)$value;
+		} else {
+			$value = (string)$value;
+		}
+
+		return $enumClass::tryFrom($value) ?? throw new InvalidEnumParameterException($param, (string)$value, $enumClass);
 	}
 }

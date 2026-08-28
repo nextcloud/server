@@ -4,8 +4,9 @@
  */
 
 import type { Download } from '@playwright/test'
-import { readFile } from 'node:fs/promises'
+
 import { Uint8ArrayReader, ZipReader } from '@zip.js/zip.js'
+import { readFile } from 'node:fs/promises'
 
 /**
  * Read a downloaded zip and return its entry names, sorted.

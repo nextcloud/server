@@ -18,7 +18,6 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Collaboration\Reference\IDiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReferenceManager;
-use OCP\Collaboration\Reference\Reference;
 use OCP\IRequest;
 
 /**
@@ -26,7 +25,7 @@ use OCP\IRequest;
  * @psalm-import-type CoreReferenceProvider from ResponseDefinitions
  */
 class ReferenceApiController extends OCSController {
-	private const LIMIT_MAX = 15;
+	private const int LIMIT_MAX = 15;
 
 	public function __construct(
 		string $appName,

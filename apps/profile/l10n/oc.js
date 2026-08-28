@@ -10,9 +10,9 @@ OC.L10N.register(
     "Search for a user profile. Start typing" : "Cercar un perfil utilizaire. Començatz de picar",
     "Insert selected user profile link" : "Inserir lo ligam del perfil utilizaire seleccionat",
     "Insert" : "Inserir",
-    "Edit Profile" : "Modificar perfil",
     "Profile not found" : "Perfil pas trobat",
     "Back to %s" : "Tornar a %s",
+    "Edit Profile" : "Modificar perfil",
     "The profile does not exist." : "Lo perfil existís pas."
 },
 "nplurals=2; plural=(n > 1);");

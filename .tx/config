@@ -146,6 +146,12 @@ source_file = translationfiles/templates/sharebymail.pot
 source_lang = en
 type        = PO
 
+[o:nextcloud:p:nextcloud:r:sharing]
+file_filter = translationfiles/<lang>/sharing.po
+source_file = translationfiles/templates/sharing.pot
+source_lang = en
+type        = PO
+
 [o:nextcloud:p:nextcloud:r:systemtags]
 file_filter = translationfiles/<lang>/systemtags.po
 source_file = translationfiles/templates/systemtags.pot

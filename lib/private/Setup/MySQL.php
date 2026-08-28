@@ -8,7 +8,6 @@
 
 namespace OC\Setup;
 
-use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Platforms\MySQL84Platform;
 use OC\DatabaseSetupException;
 use OC\DB\ConnectionAdapter;
@@ -17,6 +16,12 @@ use OCP\IDBConnection;
 
 class MySQL extends AbstractDatabase {
 	public string $dbprettyname = 'MySQL/MariaDB';
+
+	/**
+	 * There is no equivalent to the PostgreSQL `sslmode`, the connection is encrypted by
+	 * providing a CA certificate. A revocation list cannot be passed through PDO either.
+	 */
+	protected const array SUPPORTED_ENCRYPTION_OPTIONS = ['dbsslca', 'dbsslcert', 'dbsslkey', 'dbsslnoverify'];
 
 	#[\Override]
 	public function setupDatabase(): void {
@@ -39,6 +44,28 @@ class MySQL extends AbstractDatabase {
 			'dbpassword' => $this->dbPassword,
 		]);
 
+		// for MD5 support
+		// In MySQL 9+ MD5 has been deprecated and is only available as a component.
+		// Until we dropped the support for it on the function builder, we need to load the component.
+		if ($connection->getDatabasePlatform() instanceof MySQL84Platform) {
+			$statement = $connection->prepare("SHOW VARIABLES LIKE 'version';");
+			$result = $statement->executeQuery();
+			$row = $result->fetchAssociative();
+			$version = $row['Value'];
+			[$major, ] = explode('.', strtolower($version));
+			if ((int)$major >= 9) {
+				// check if the component is already loaded, if not load it
+				$statement = $connection->prepare("SELECT COUNT(*) FROM mysql.component WHERE component_urn = 'file://component_classic_hashing';");
+				$result = $statement->executeQuery();
+				$count = $result->fetchOne();
+				if ($count !== false && (int)$count === 0) {
+					// not yet loaded
+					$statement = $connection->prepare("INSTALL COMPONENT 'file://component_classic_hashing';");
+					$statement->executeStatement();
+				}
+			}
+		}
+
 		//create the database
 		$this->createDatabase($connection);
 
@@ -59,6 +86,47 @@ class MySQL extends AbstractDatabase {
 		}
 	}
 
+	#[\Override]
+	protected function getEncryptionConfig(array $config): array {
+		$attributes = $this->getSslAttributes();
+
+		$driverOptions = [];
+		foreach (['dbsslca' => 'ca', 'dbsslcert' => 'cert', 'dbsslkey' => 'key'] as $option => $attribute) {
+			if (!empty($config[$option])) {
+				$driverOptions[$attributes[$attribute]] = (string)$config[$option];
+			}
+		}
+		if (!empty($config['dbsslnoverify'])) {
+			$driverOptions[$attributes['verify']] = false;
+		}
+
+		return $driverOptions === [] ? [] : ['dbdriveroptions' => $driverOptions];
+	}
+
+	/**
+	 * PDO attributes configuring an encrypted connection.
+	 *
+	 * @return array{ca: int, cert: int, key: int, verify: int}
+	 */
+	private function getSslAttributes(): array {
+		// TODO: simplify once we only support PHP 8.5+.
+		if (PHP_VERSION_ID >= 80500 && class_exists(\Pdo\Mysql::class)) {
+			/** @psalm-suppress UndefinedConstant Psalm resolves the non-mysqlnd variant of the symfony polyfill class, which lacks this constant */
+			return [
+				'ca' => \Pdo\Mysql::ATTR_SSL_CA,
+				'cert' => \Pdo\Mysql::ATTR_SSL_CERT,
+				'key' => \Pdo\Mysql::ATTR_SSL_KEY,
+				'verify' => \Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT,
+			];
+		}
+		return [
+			'ca' => \PDO::MYSQL_ATTR_SSL_CA,
+			'cert' => \PDO::MYSQL_ATTR_SSL_CERT,
+			'key' => \PDO::MYSQL_ATTR_SSL_KEY,
+			'verify' => \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT,
+		];
+	}
+
 	private function createDatabase(\OC\DB\Connection $connection): void {
 		try {
 			$name = $this->dbName;
@@ -66,7 +134,7 @@ class MySQL extends AbstractDatabase {
 			//we can't use OC_DB functions here because we need to connect as the administrative user.
 			$characterSet = $this->config->getValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET $characterSet COLLATE {$characterSet}_bin;";
-			$connection->executeUpdate($query);
+			$connection->executeStatement($query);
 		} catch (\Exception $ex) {
 			$this->logger->error('Database creation failed.', [
 				'exception' => $ex,
@@ -78,7 +146,7 @@ class MySQL extends AbstractDatabase {
 		try {
 			//this query will fail if there aren't the right permissions, ignore the error
 			$query = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `$name` . * TO '$user'";
-			$connection->executeUpdate($query);
+			$connection->executeStatement($query);
 		} catch (\Exception $ex) {
 			$this->logger->debug('Could not automatically grant privileges, this can be ignored if database user already had privileges.', [
 				'exception' => $ex,
@@ -102,12 +170,6 @@ class MySQL extends AbstractDatabase {
 				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH caching_sha2_password BY ?";
 				$connection->executeStatement($query, [$name,$password]);
 				$query = "CREATE USER ?@'%' IDENTIFIED WITH caching_sha2_password BY ?";
-				$connection->executeStatement($query, [$name,$password]);
-			} elseif ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
-				// TODO: Remove this elseif section as soon as MySQL 8.0 is out-of-support (after April 2026)
-				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH mysql_native_password BY ?";
-				$connection->executeStatement($query, [$name,$password]);
-				$query = "CREATE USER ?@'%' IDENTIFIED WITH mysql_native_password BY ?";
 				$connection->executeStatement($query, [$name,$password]);
 			} else {
 				$query = "CREATE USER ?@'localhost' IDENTIFIED BY ?";
@@ -147,7 +209,7 @@ class MySQL extends AbstractDatabase {
 					$result = $connection->executeQuery($query, [$adminUser]);
 
 					//current dbuser has admin rights
-					$data = $result->fetchAll();
+					$data = $result->fetchAllAssociative();
 					$result->closeCursor();
 					//new dbuser does not exist
 					if (count($data) === 0) {

@@ -10,6 +10,7 @@ namespace OCA\Provisioning_API\Tests\Controller;
 
 use Exception;
 use OC\Authentication\Token\RemoteWipe;
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
 use OC\Group\Manager;
 use OC\KnownUser\KnownUserService;
 use OC\PhoneNumberUtil;
@@ -70,6 +71,7 @@ class UsersControllerTest extends TestCase {
 	private IPhoneNumberUtil $phoneNumberUtil;
 	private IAppManager $appManager;
 	private IAppConfig&MockObject $appConfig;
+	private GroupDisplayNameCache&MockObject $groupDisplayNameCache;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -93,6 +95,7 @@ class UsersControllerTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->groupDisplayNameCache = $this->createMock(GroupDisplayNameCache::class);
 
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')->willReturnCallback(fn (string $txt, array $replacement = []) => sprintf($txt, ...$replacement));
@@ -120,6 +123,7 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -214,6 +218,87 @@ class UsersControllerTest extends TestCase {
 			],
 		];
 		$this->assertEquals($expected, $this->api->getUsers('MyCustomSearch')->getData());
+	}
+
+	public function testGetUsersDetailsReturnsEmptyGroupsList(): void {
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->once())
+			->method('getUID')
+			->willReturn('admin');
+
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+
+		$this->groupManager
+			->expects($this->once())
+			->method('getSubAdmin')
+			->willReturn($this->subAdminManager);
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('admin')
+			->willReturn(true);
+		$this->groupManager
+			->expects($this->once())
+			->method('isDelegatedAdmin')
+			->with('admin')
+			->willReturn(false);
+
+		$this->userManager
+			->expects($this->once())
+			->method('search')
+			->with('MyCustomSearch', 3, 0)
+			->willReturn(['UID' => []]);
+
+		$api = $this->getMockBuilder(UsersController::class)
+			->setConstructorArgs([
+				'provisioning_api',
+				$this->request,
+				$this->userManager,
+				$this->config,
+				$this->groupManager,
+				$this->userSession,
+				$this->accountManager,
+				$this->subAdminManager,
+				$this->l10nFactory,
+				$this->rootFolder,
+				$this->urlGenerator,
+				$this->logger,
+				$this->newUserMailHelper,
+				$this->secureRandom,
+				$this->remoteWipe,
+				$this->knownUserService,
+				$this->eventDispatcher,
+				$this->phoneNumberUtil,
+				$this->appManager,
+				$this->appConfig,
+				$this->groupDisplayNameCache,
+			])
+			->onlyMethods(['getUserData'])
+			->getMock();
+
+		$api->expects($this->once())
+			->method('getUserData')
+			->with('UID')
+			->willReturn([
+				'id' => 'UID',
+				'groups' => [],
+			]);
+
+		$this->assertEquals([
+			'users' => [
+				'UID' => [
+					'id' => 'UID',
+					'groups' => [],
+				],
+			],
+			'groups' => [],
+		], $api->getUsersDetails('MyCustomSearch', 3)->getData());
 	}
 
 	private function createUserMock(string $uid, bool $enabled): MockObject&IUser {
@@ -506,6 +591,7 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['editUser'])
 			->getMock();
@@ -646,6 +732,67 @@ class UsersControllerTest extends TestCase {
 			'id',
 			$this->api->addUser('NewUser', '', '', 'foo@bar')->getData()
 		));
+	}
+
+	/**
+	 * `newUser.sendEmail` has to be read as a boolean. It is stored as an untyped
+	 * 'yes'/'no' string on instances created before Nextcloud 33 and as a typed
+	 * boolean once the account settings toggle has been used, so comparing it to
+	 * the string 'yes' silently skipped the mail on upgraded instances.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAddUserWelcomeMail')]
+	public function testAddUserSendsWelcomeMailWhenEnabled(bool $enabled): void {
+		$this->appConfig
+			->expects($this->atLeastOnce())
+			->method('getValueBool')
+			->with('core', 'newUser.sendEmail', true)
+			->willReturn($enabled);
+
+		$newUser = $this->createMock(IUser::class);
+		$newUser->expects($this->once())
+			->method('setSystemEMailAddress')
+			->with('foo@bar.com');
+		$this->userManager
+			->expects($this->once())
+			->method('userExists')
+			->with('NewUser')
+			->willReturn(false);
+		$this->userManager
+			->expects($this->once())
+			->method('createUser')
+			->willReturn($newUser);
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->method('getUID')
+			->willReturn('adminUser');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
+
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->newUserMailHelper
+			->expects($enabled ? $this->once() : $this->never())
+			->method('generateTemplate')
+			->willReturn($emailTemplate);
+		$this->newUserMailHelper
+			->expects($enabled ? $this->once() : $this->never())
+			->method('sendMail')
+			->with($newUser, $emailTemplate);
+
+		$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', 'foo@bar.com');
+	}
+
+	public static function dataAddUserWelcomeMail(): array {
+		return [
+			'enabled' => [true],
+			'disabled' => [false],
+		];
 	}
 
 	public function testAddUserSuccessfulLowercaseEmail(): void {
@@ -1110,8 +1257,8 @@ class UsersControllerTest extends TestCase {
 			->willReturn(true);
 		$this->groupManager
 			->expects($this->any())
-			->method('getUserGroups')
-			->willReturn([$group0, $group1, $group2]);
+			->method('getUserGroupIds')
+			->willReturn(['group0', 'group1', 'group2']);
 		$this->groupManager
 			->expects($this->once())
 			->method('getSubAdmin')
@@ -1120,18 +1267,14 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSubAdminsGroups')
 			->willReturn([$group3]);
-		$group0->expects($this->once())
-			->method('getGID')
-			->willReturn('group0');
-		$group1->expects($this->once())
-			->method('getGID')
-			->willReturn('group1');
-		$group2->expects($this->once())
-			->method('getGID')
-			->willReturn('group2');
 		$group3->expects($this->once())
 			->method('getGID')
 			->willReturn('group3');
+		$this->groupDisplayNameCache
+			->method('getDisplayName')
+			->willReturnCallback(function (string $gid): string {
+				return ucfirst($gid);
+			});
 
 		$this->mockAccount($targetUser, [
 			IAccountManager::PROPERTY_ADDRESS => ['value' => 'address'],
@@ -2668,7 +2811,7 @@ class UsersControllerTest extends TestCase {
 		$newGroup = $this->createMock(IGroup::class);
 		$newGroup->method('getGID')->willReturn('newgroup');
 
-		$this->groupManager->method('getUserGroups')->willReturn([$oldGroup]);
+		$this->groupManager->method('getUserGroupIds')->willReturn(['oldgroup']);
 		$this->groupManager->method('groupExists')->willReturn(true);
 		$this->groupManager->method('get')->willReturnMap([
 			['newgroup', $newGroup],
@@ -2763,6 +2906,135 @@ class UsersControllerTest extends TestCase {
 
 		$result = $this->api->editUserMultiField('targetuser', groups: ['admin', 'staff']);
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	/**
+	 * Wire up a sub-admin ('subadmin') editing an accessible account ('targetuser').
+	 *
+	 * @param list<string> $gids Every group of the scenario, mocked and returned by ID
+	 * @param list<string> $subAdminGids Groups the caller is sub-admin of
+	 * @param list<string> $memberGids Groups the account is currently a member of
+	 * @return array{0: IUser&MockObject, 1: ISubAdmin&MockObject, 2: array<string, IGroup&MockObject>}
+	 */
+	private function mockSubAdminEditing(array $gids, array $subAdminGids, array $memberGids): array {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('subadmin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->willReturn(false);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$this->groupManager->method('groupExists')->willReturn(true);
+		$this->groupManager->method('getUserGroupIds')->willReturn($memberGids);
+
+		$groups = [];
+		foreach ($gids as $gid) {
+			$group = $this->createMock(IGroup::class);
+			$group->method('getGID')->willReturn($gid);
+			$groups[$gid] = $group;
+		}
+		$this->groupManager->method('get')
+			->willReturnMap(array_map(fn (string $gid): array => [$gid, $groups[$gid]], $gids));
+
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$subAdmin->method('isUserAccessible')->with($currentUser, $targetUser)->willReturn(true);
+		$subAdmin->method('getSubAdminsGroups')
+			->willReturn(array_map(fn (string $gid): IGroup => $groups[$gid], $subAdminGids));
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		return [$targetUser, $subAdmin, $groups];
+	}
+
+	public function testUpdateUserSubAdminCanAddToOwnGroup(): void {
+		[$targetUser, , $groups] = $this->mockSubAdminEditing(
+			gids: ['staff', 'marketing'],
+			subAdminGids: ['staff'],
+			memberGids: ['marketing'],
+		);
+
+		$groups['staff']->expects($this->once())->method('addUser')->with($targetUser);
+		// The membership the sub-admin cannot administer is repeated, not changed
+		$groups['marketing']->expects($this->never())->method('addUser');
+		$groups['marketing']->expects($this->never())->method('removeUser');
+
+		$result = $this->api->editUserMultiField('targetuser', groups: ['marketing', 'staff']);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testUpdateUserSubAdminCannotAddToForeignGroup(): void {
+		[, , $groups] = $this->mockSubAdminEditing(
+			gids: ['staff', 'secret'],
+			subAdminGids: ['staff'],
+			memberGids: ['staff'],
+		);
+
+		$groups['secret']->expects($this->never())->method('addUser');
+
+		$result = $this->api->editUserMultiField('targetuser', groups: ['staff', 'secret']);
+		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+		$this->assertSame('Insufficient privileges for group secret', $result->getData()['errors']['groups']);
+	}
+
+	public function testUpdateUserSubAdminCanRemoveFromOwnGroup(): void {
+		[$targetUser, , $groups] = $this->mockSubAdminEditing(
+			gids: ['staff', 'sales'],
+			subAdminGids: ['staff', 'sales'],
+			memberGids: ['staff', 'sales'],
+		);
+
+		$groups['staff']->expects($this->once())->method('removeUser')->with($targetUser);
+		$groups['sales']->expects($this->never())->method('removeUser');
+
+		$result = $this->api->editUserMultiField('targetuser', groups: ['sales']);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testUpdateUserSubAdminCannotRemoveLastGroupTheyAdminister(): void {
+		[, , $groups] = $this->mockSubAdminEditing(
+			gids: ['staff'],
+			subAdminGids: ['staff'],
+			memberGids: ['staff'],
+		);
+
+		$groups['staff']->expects($this->never())->method('removeUser');
+
+		$result = $this->api->editUserMultiField('targetuser', groups: []);
+		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+		$this->assertArrayHasKey('groups', $result->getData()['errors']);
+	}
+
+	public function testUpdateUserSubAdminKeepsGroupsOutsideTheirScope(): void {
+		[, , $groups] = $this->mockSubAdminEditing(
+			gids: ['staff', 'marketing'],
+			subAdminGids: ['staff'],
+			memberGids: ['staff', 'marketing'],
+		);
+
+		// The sub-admin UI only offers the groups they administer, so 'marketing' is
+		// absent from the request without the sub-admin ever asking to remove it
+		$groups['marketing']->expects($this->never())->method('removeUser');
+		$groups['staff']->expects($this->never())->method('removeUser');
+
+		$result = $this->api->editUserMultiField('targetuser', groups: ['staff']);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testUpdateUserSubAdminCannotChangeSubAdminGroups(): void {
+		[, $subAdmin, ] = $this->mockSubAdminEditing(
+			gids: ['staff'],
+			subAdminGids: ['staff'],
+			memberGids: ['staff'],
+		);
+
+		$subAdmin->expects($this->never())->method('createSubAdmin');
+
+		$result = $this->api->editUserMultiField('targetuser', subadminGroups: ['staff']);
+		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+		$this->assertArrayHasKey('subadminGroups', $result->getData()['errors']);
 	}
 
 	public function testUpdateUserCannotCreateSubAdminOfAdminGroup(): void {
@@ -4101,6 +4373,7 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -4194,6 +4467,7 @@ class UsersControllerTest extends TestCase {
 				$this->phoneNumberUtil,
 				$this->appManager,
 				$this->appConfig,
+				$this->groupDisplayNameCache,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();

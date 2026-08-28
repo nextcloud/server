@@ -15,7 +15,6 @@ use OC\Files\Node\Root;
 use OC\Files\Storage\Storage;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
-use OC\User\NoUserException;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
@@ -25,6 +24,7 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\User\Exceptions\UserNotFoundException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -220,7 +220,7 @@ class RootTest extends \Test\TestCase {
 	}
 
 	public function testGetUserFolderWithNoUserObj(): void {
-		$this->expectException(NoUserException::class);
+		$this->expectException(UserNotFoundException::class);
 		$this->expectExceptionMessage('Backends provided no user object');
 
 		$root = new Root(

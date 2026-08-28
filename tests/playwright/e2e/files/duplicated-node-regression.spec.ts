@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '../../support/fixtures/files-page.ts'
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { mkdir } from '../../support/utils/dav.ts'
 
 test.describe('Files: Duplicated node regression', () => {
@@ -19,9 +19,7 @@ test.describe('Files: Duplicated node regression', () => {
 	test('does not duplicate a node after delete and recreate', async ({ page, filesListPage }) => {
 		await expect(filesListPage.getRowForFile('only once')).toBeVisible()
 
-		const deleted = page.waitForResponse(
-			(r) => r.request().method() === 'DELETE' && r.url().includes('/remote.php/dav/files/'),
-		)
+		const deleted = page.waitForResponse((r) => r.request().method() === 'DELETE' && r.url().includes('/remote.php/dav/files/'))
 		await filesListPage.triggerActionForFile('only once', 'delete')
 		await deleted
 		await expect(filesListPage.getRowForFile('only once')).toHaveCount(0)

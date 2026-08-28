@@ -15,15 +15,17 @@ use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\FileInfo;
 use OCP\IUser;
+use RuntimeException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
+use Sabre\DAV\INode;
 
 class TrashRoot implements ICollection {
 
 	public function __construct(
-		private IUser $user,
-		private ITrashManager $trashManager,
+		private readonly IUser $user,
+		private readonly ITrashManager $trashManager,
 	) {
 	}
 
@@ -63,41 +65,35 @@ class TrashRoot implements ICollection {
 	public function getChildren(): array {
 		$entries = $this->trashManager->listTrashRoot($this->user);
 
-		$children = array_map(function (ITrashItem $entry) {
-			if ($entry->getType() === FileInfo::TYPE_FOLDER) {
-				return new TrashFolder($this->trashManager, $entry);
-			}
-			return new TrashFile($this->trashManager, $entry);
-		}, $entries);
-
-		return $children;
+		return array_map($this->trashItemToTrashNode(...), $entries);
 	}
 
 	#[\Override]
 	public function getChild($name): ITrash {
-		$entries = $this->getChildren();
+		$entry = $this->trashManager->getTrashRootItem($this->user, $name);
 
-		foreach ($entries as $entry) {
-			if ($entry->getName() === $name) {
-				return $entry;
-			}
+		if ($entry === null) {
+			throw new NotFound();
 		}
 
-		throw new NotFound();
+		return $this->trashItemToTrashNode($entry);
 	}
 
 	#[\Override]
 	public function childExists($name): bool {
-		try {
-			$this->getChild($name);
-			return true;
-		} catch (NotFound $e) {
-			return false;
-		}
+		return $this->trashManager->getTrashRootItem($this->user, $name) !== null;
 	}
 
 	#[\Override]
 	public function getLastModified(): int {
 		return 0;
+	}
+
+	private function trashItemToTrashNode(ITrashItem $entry): ITrash&INode {
+		return match ($entry->getType()) {
+			FileInfo::TYPE_FOLDER => new TrashFolder($this->trashManager, $entry),
+			FileInfo::TYPE_FILE => new TrashFile($this->trashManager, $entry),
+			default => throw new RuntimeException('Invalid FileInfo object'),
+		};
 	}
 }

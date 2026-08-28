@@ -24,7 +24,7 @@ use OCP\FilesMetadata\IMetadataQuery;
  */
 class SearchBuilder {
 	/** @var array<string, string> */
-	private const SEARCH_OPERATOR_MAP = [
+	private const array SEARCH_OPERATOR_MAP = [
 		ISearchComparison::COMPARE_LIKE => 'iLike',
 		ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE => 'like',
 		ISearchComparison::COMPARE_EQUAL => 'eq',
@@ -37,7 +37,7 @@ class SearchBuilder {
 	];
 
 	/** @var array<string, string> */
-	private const SEARCH_OPERATOR_NEGATIVE_MAP = [
+	private const array SEARCH_OPERATOR_NEGATIVE_MAP = [
 		ISearchComparison::COMPARE_LIKE => 'notLike',
 		ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE => 'notLike',
 		ISearchComparison::COMPARE_EQUAL => 'neq',
@@ -50,7 +50,7 @@ class SearchBuilder {
 	];
 
 	/** @var array<string, string> */
-	private const FIELD_TYPES = [
+	private const array FIELD_TYPES = [
 		'mimetype' => 'string',
 		'mtime' => 'integer',
 		'name' => 'string',
@@ -69,14 +69,14 @@ class SearchBuilder {
 	];
 
 	/** @var array<string, int|string> */
-	private const PARAM_TYPE_MAP = [
+	private const array PARAM_TYPE_MAP = [
 		'string' => IQueryBuilder::PARAM_STR,
 		'integer' => IQueryBuilder::PARAM_INT,
 		'boolean' => IQueryBuilder::PARAM_BOOL,
 	];
 
 	/** @var array<string, int> */
-	private const PARAM_ARRAY_TYPE_MAP = [
+	private const array PARAM_ARRAY_TYPE_MAP = [
 		'string' => IQueryBuilder::PARAM_STR_ARRAY,
 		'integer' => IQueryBuilder::PARAM_INT_ARRAY,
 		'boolean' => IQueryBuilder::PARAM_INT_ARRAY,

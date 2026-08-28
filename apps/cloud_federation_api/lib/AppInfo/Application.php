@@ -9,11 +9,12 @@ declare(strict_types=1);
 
 namespace OCA\CloudFederationAPI\AppInfo;
 
-use OCA\CloudFederationAPI\Capabilities;
+use OCA\CloudFederationAPI\Listener\ShareDeletedListener;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Share\Events\ShareDeletedEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'cloud_federation_api';
@@ -24,7 +25,7 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function register(IRegistrationContext $context): void {
-		$context->registerCapability(Capabilities::class);
+		$context->registerEventListener(ShareDeletedEvent::class, ShareDeletedListener::class);
 	}
 
 	#[\Override]

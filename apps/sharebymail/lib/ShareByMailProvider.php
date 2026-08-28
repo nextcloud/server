@@ -10,7 +10,6 @@ namespace OCA\ShareByMail;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
-use OC\User\NoUserException;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\Activity\IManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -38,6 +37,7 @@ use OCP\Share\IAttributes;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Share\IShareProviderWithNotification;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -224,7 +224,9 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * @throws \Exception
 	 */
 	protected function createMailShare(IShare $share): string {
-		$share->setToken($this->generateToken());
+		if ($share->getToken() === '') {
+			$share->setToken($this->generateToken());
+		}
 		return $this->addShareToDB(
 			$share->getNodeId(),
 			$share->getNodeType(),
@@ -709,6 +711,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$qb->setValue('attributes', $qb->createNamedParameter($shareAttributes));
 		if ($expirationTime !== null) {
+			$expirationTime = \DateTime::createFromInterface($expirationTime);
+			$expirationTime->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 			$qb->setValue('expiration', $qb->createNamedParameter($expirationTime, IQueryBuilder::PARAM_DATETIME_MUTABLE));
 		}
 
@@ -741,6 +745,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		 * We allow updating mail shares
 		 */
 		$qb = $this->dbConnection->getQueryBuilder();
+		$expiration = $share->getExpirationDate();
+		if ($expiration !== null) {
+			$expiration = \DateTime::createFromInterface($expiration);
+			$expiration->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+		}
 		$qb->update('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
 			->set('item_source', $qb->createNamedParameter($share->getNodeId()))
@@ -753,7 +762,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			->set('password_expiration_time', $qb->createNamedParameter($share->getPasswordExpirationTime(), IQueryBuilder::PARAM_DATETIME_MUTABLE))
 			->set('label', $qb->createNamedParameter($share->getLabel()))
 			->set('password_by_talk', $qb->createNamedParameter($share->getSendPasswordByTalk(), IQueryBuilder::PARAM_BOOL))
-			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATETIME_MUTABLE))
+			->set('expiration', $qb->createNamedParameter($expiration, IQueryBuilder::PARAM_DATETIME_MUTABLE))
 			->set('note', $qb->createNamedParameter($share->getNote()))
 			->set('hide_download', $qb->createNamedParameter((int)$share->getHideDownload(), IQueryBuilder::PARAM_INT))
 			->set('attributes', $qb->createNamedParameter($shareAttributes))
@@ -1071,7 +1080,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	private function getNode(string $userId, int $id): Node {
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($userId);
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException) {
 			throw new InvalidShare();
 		}
 

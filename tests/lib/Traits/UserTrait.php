@@ -34,17 +34,17 @@ class DummyUser extends User {
 trait UserTrait {
 	protected Dummy $userBackend;
 
-	protected function createUser($name, $password): IUser {
+	protected function createUser(string $name, string $password): IUser {
 		$this->userBackend->createUser($name, $password);
 		return new DummyUser($name);
 	}
 
-	protected function setUpUserTrait() {
+	protected function setUpUserTrait(): void {
 		$this->userBackend = new Dummy();
 		Server::get(IUserManager::class)->registerBackend($this->userBackend);
 	}
 
-	protected function tearDownUserTrait() {
+	protected function tearDownUserTrait(): void {
 		Server::get(IUserManager::class)->removeBackend($this->userBackend);
 	}
 }

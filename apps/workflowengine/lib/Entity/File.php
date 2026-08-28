@@ -33,7 +33,7 @@ use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IRuleMatcher;
 
 class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
-	private const EVENT_NAMESPACE = '\OCP\Files::';
+	private const string EVENT_NAMESPACE = '\OCP\Files::';
 	protected ?string $eventName = null;
 	protected ?Event $event = null;
 	private ?Node $node = null;

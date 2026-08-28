@@ -13,7 +13,7 @@
 	findUnusedCode="false"
 	findUnusedPsalmSuppress="true"
 	findUnusedVariablesAndParams="true"
-	phpVersion="8.2"
+	phpVersion="8.3"
 >
 	<plugins>
 		<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
@@ -35,8 +35,30 @@
 		<file name="lib/public/DB/QueryBuilder/ITypedQueryBuilder.php"/>
 		<file name="lib/private/Share20/ShareHelper.php"/>
 		<file name="lib/public/Share/IShareHelper.php"/>
+		<file name="lib/public/SystemTag/Events/*.php"/>
 		<directory name="apps/appstore/lib" />
+		<directory name="lib/public/Interaction"/>
+		<directory name="tests/lib/Interaction"/>
+		<file name="apps/files/lib/Listener/RestrictInteractionListener.php"/>
+		<file name="apps/files/tests/Listener/RestrictInteractionListenerTest.php"/>
+		<file name="apps/files_sharing/lib/Listener/RestrictInteractionListener.php"/>
+		<file name="apps/files_sharing/tests/Listener/RestrictInteractionListenerTest.php"/>
+		<file name="core/Listener/RestrictInteractionListener.php"/>
+		<file name="tests/Core/Listener/RestrictInteractionListenerTest.php"/>
+		<directory name="lib/unstable/Sharing"/>
+		<directory name="lib/private/Sharing"/>
+		<directory name="tests/lib/Sharing"/>
+		<directory name="apps/sharing"/>
+		<directory name="core/Sharing"/>
+		<directory name="tests/Core/Sharing"/>
+		<directory name="apps/files/lib/Sharing"/>
+		<directory name="apps/files/tests/Sharing"/>
+		<directory name="lib/private/AppFramework/ORM"/>
+		<directory name="lib/public/AppFramework/ORM"/>
+		<directory name="apps/oauth2"/>
 		<ignoreFiles>
+			<!-- Circles internals are used -->
+			<file name="core/Sharing/Recipient/TeamShareRecipientType.php"/>
 			<!-- Missing types of the AppFetcher and the OC_Apps class for return types -->
 			<file name="apps/appstore/lib/Controller/ApiController.php" />
 			<!-- ... -->
@@ -44,18 +66,23 @@
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
-			<directory name="lib/public"/>
-			<directory name="lib/private"/>
+			<file name="lib/public/AppFramework/Controller.php"/>
+			<file name="lib/public/AppFramework/OCSController.php"/>
 			<directory name="build"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
 		<directory name="apps/dav/lib"/>
+		<directory name="apps/files/lib"/>
+		<directory name="apps/files_sharing/lib"/>
+		<directory name="apps/files_trashbin/lib"/>
 		<directory name="apps/settings/lib"/>
 		<!-- As long as the files are not in the projectFiles list, we need to include them here to make psalm aware of our interfaces -->
 		<directory name="lib/private"/>
 		<directory name="lib/public"/>
 		<directory name="3rdparty"/>
+		<directory name="tests/lib"/>
+		<directory name="vendor-bin/phpunit/vendor/phpunit/phpunit"/>
 	</extraFiles>
 	<stubs>
 		<!-- Psalm does not find methods in here through <extraFiles/> 🤷‍♀️ -->
@@ -64,7 +91,8 @@
 	<issueHandlers>
 		<InternalMethod>
 			<errorLevel type="suppress">
-				<directory name="."/>
+				<directory name="apps/dav/lib"/>
+				<file name="lib/private/DB/QueryBuilder/TypedQueryBuilder.php"/>
 			</errorLevel>
 		</InternalMethod>
 	</issueHandlers>

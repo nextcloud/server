@@ -89,4 +89,11 @@ class SimpleFolder implements ISimpleFolder {
 		$folder = $this->folder->newFolder($path);
 		return new SimpleFolder($folder);
 	}
+
+	#[\Override]
+	public function getOrCreateFolder(string $path, int $maxRetries = 5): ISimpleFolder {
+		$folder = $this->folder->getOrCreateFolder($path, $maxRetries);
+		return new SimpleFolder($folder);
+	}
+
 }

@@ -3,20 +3,21 @@ OC.L10N.register(
     {
     "File reminders" : "Priminimai apie failus",
     "Reminder for {name}" : "Priminimas apie {name}",
-    "View file" : "Rodyti failą",
-    "View folder" : "Rodyti aplanką",
+    "View file" : "Peržiūrėti failą",
+    "View folder" : "Peržiūrėti aplanką",
     "Files reminder" : "Priminimai apie failus",
     "The \"files_reminders\" app can work properly." : "Programėlė „Priminimai apie failus“ gali veikti tinkamai.",
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Kad programėlė „Priminimai apie failus“ tinkamai veiktų, reikia, kad būtų įdiegta pranešimų programėlė. Turėtumėte įjungti pranešimus arba išjungti „Priminimai apie failus“.",
     "Set file reminders" : "Nustatyti priminimus apie failus",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Priminimai apie failus**\n\nNustatykite failų priminimus.\n\nPastaba: norėdami naudoti programėlę „Priminimai apie failus“, įsitikinkite, kad įdiegta ir įjungta programėlė „Pranešimai“. Programėlė „Pranešimai“ teikia reikiamas API sąsajas, kad programėlė „Priminimai apie failus“ veiktų tinkamai.",
+    "We reminded you of this file {relativeDueDate}" : "Priminėme jums apie šį failą {relativeDueDate}",
+    "We will remind you of this file {relativeDueDate}" : "Mes priminsime jums apie šį failą {relativeDueDate}",
     "Please choose a valid date & time" : "Pasirinkite tinkamą datą ir laiką",
     "Reminder set for \"{fileName}\"" : "Nustatytas priminimas apie „{fileName}“",
     "Failed to set reminder" : "Nepavyko nustatyti priminimo",
     "Reminder cleared for \"{fileName}\"" : "Priminimas apie „{fileName}“ išvalytas",
     "Failed to clear reminder" : "Nepavyko panaikinti priminimo",
     "Reminder at custom date & time" : "Priminimas pasirinkta data ir laiku",
-    "We will remind you of this file" : "Jums bus priminta apie šį failą",
     "Cancel" : "Atsisakyti",
     "Clear reminder" : "Panaikinti priminimą",
     "Set reminder" : "Nustatyti priminimą",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Nustatyti priminimą šį savaitgalį",
     "Next week" : "Kitą savaitę",
     "Set reminder for next week" : "Nustatyti priminimą kitą savaitę",
-    "Set reminder for \"{fileName}\"" : "Nustatyti priminimą apie „{fileName}“"
+    "Set reminder for \"{fileName}\"" : "Nustatyti priminimą apie „{fileName}“",
+    "We will remind you of this file" : "Jums bus priminta apie šį failą"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -41,6 +41,7 @@ OC.L10N.register(
     "Files" : "Datoteke",
     "Tags" : "Oznake",
     "Collaborative tags" : "Sodelovalne oznake",
+    "Search tags" : "Poišči oznake",
     "Public" : "Javno",
     "Restricted" : "Omejeno",
     "Invisible" : "Nevidno",

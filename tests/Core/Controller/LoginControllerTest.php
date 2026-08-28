@@ -596,7 +596,6 @@ class LoginControllerTest extends TestCase {
 		$response = $this->loginController->tryLogin($loginChain, $trustedDomainHelper, 'Jane', $password, $rememberme, $originalUrl);
 
 		$expected = new RedirectResponse('');
-		$expected->throttle(['user' => 'Jane']);
 		$this->assertEquals($expected, $response);
 	}
 

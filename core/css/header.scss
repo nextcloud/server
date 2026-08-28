@@ -9,6 +9,12 @@
 	max-height: calc(100vh - var(--header-height) - (2 * var(--default-grid-baseline)));
 }
 
+:root {
+	// Only valid where the header renders a search bar rather than a button: the
+	// user and settings layouts, from 512px up.
+	--unified-search-width: clamp(200px, 35vw, 700px);
+}
+
 /* Skip navigation links – show only on keyboard focus */
 #skip-actions {
 	position: absolute;
@@ -60,7 +66,8 @@
 		overflow: hidden;
 		margin: 2px;
 
-		&:hover, &:active {
+		&:hover,
+		&:active {
 			opacity: 1;
 		}
 
@@ -112,15 +119,44 @@
 		min-width: 0;
 	}
 
+	// This is the center part of the header
+	// for the user template it contains unified search
+	.header-center {
+		display: inline-flex;
+		align-items: center;
+		justify-content: flex-end;
+		flex: 0 1 auto;
+		white-space: nowrap;
+		min-width: 0;
+	}
+
 	// This is the last part of the header
-	// It contains the short cuts like unified search, contacts-, or account menu
+	// It contains the short cuts like contacts-, or account menu
 	.header-end {
 		display: inline-flex;
 		align-items: center;
 		justify-content: flex-end;
 		flex-shrink: 1;
-		// Add some spacing so the last entry looks ok
-		margin-inline-end: calc(3 * var(--default-grid-baseline));
+
+		// On the entry, not this container: an outer margin here would widen this
+		// side against .header-start and pull the centred search off centre.
+		> :last-child {
+			margin-inline-end: calc(3 * var(--default-grid-baseline));
+		}
+
+		// Grow to match header-start (which always grows) so the centered search
+		// stays centered. Only on desktop and only in the layouts that render
+		// header-center: the user layout and the settings layout (#body-settings).
+		// Below the mobile breakpoint the search collapses to an icon, and
+		// header-end must stay content-sized so header-start pushes that icon flush
+		// to the right edge. The public layout has no centered search, so it keeps
+		// the content-sized header-end.
+		@media (min-width: 512px) {
+			#body-user &,
+			#body-settings & {
+				flex: 1 0;
+			}
+		}
 	}
 
 	// Public layout related headers
@@ -148,7 +184,7 @@
 				text-overflow: ellipsis;
 			}
 
-			.header-shared-by  {
+			.header-shared-by {
 				color: var(--color-background-plain-text);
 				position: relative;
 				font-weight: 300;

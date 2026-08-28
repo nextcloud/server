@@ -13,6 +13,7 @@ use OCA\Settings\SetupChecks\TaskProcessingWorkerIsRunning;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IAppConfig;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\SetupCheck\SetupResult;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\Task;
@@ -24,6 +25,7 @@ class TaskProcessingWorkerIsRunningTest extends TestCase {
 	private ITimeFactory&MockObject $timeFactory;
 	private IManager&MockObject $taskProcessingManager;
 	private IAppConfig&MockObject $appConfig;
+	private IURLGenerator&MockObject $urlGenerator;
 
 	private TaskProcessingWorkerIsRunning $check;
 
@@ -34,12 +36,14 @@ class TaskProcessingWorkerIsRunningTest extends TestCase {
 		$this->timeFactory = $this->getMockBuilder(ITimeFactory::class)->getMock();
 		$this->taskProcessingManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->appConfig = $this->getMockBuilder(IAppConfig::class)->getMock();
+		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
 
 		$this->check = new TaskProcessingWorkerIsRunning(
 			$this->l10n,
 			$this->taskProcessingManager,
 			$this->timeFactory,
-			$this->appConfig
+			$this->appConfig,
+			$this->urlGenerator,
 		);
 	}
 

@@ -15,6 +15,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -24,20 +25,20 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class NavigationManagerTest extends TestCase {
-	/** @var AppManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var AppManager&MockObject */
 	protected $appManager;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator&MockObject */
 	protected $urlGenerator;
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IFactory&MockObject */
 	protected $l10nFac;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession&MockObject */
 	protected $userSession;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager&MockObject */
 	protected $groupManager;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig&MockObject */
 	protected $config;
 
-	protected IEVentDispatcher|MockObject $dispatcher;
+	protected IEventDispatcher&MockObject $dispatcher;
 
 	/** @var NavigationManager */
 	protected $navigationManager;
@@ -157,6 +158,7 @@ class NavigationManagerTest extends TestCase {
 
 		$this->assertEquals(0, $testAddClosureNumberOfCalls, 'Expected that the closure is not called by add()');
 
+		$this->navigationManager->setup();
 		$navigationEntries = $this->navigationManager->getAll('all');
 		$this->assertEquals(1, $testAddClosureNumberOfCalls, 'Expected that the closure is called by getAll()');
 		$this->assertCount(1, $navigationEntries, 'Expected that 1 navigation entry exists');
@@ -169,6 +171,85 @@ class NavigationManagerTest extends TestCase {
 
 		$this->navigationManager->clear(false);
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists after clear()');
+	}
+
+	/**
+	 * Entry points that never call setup() (e.g. the OCS dispatch in ocs/v1.php)
+	 * must not silently lose closure-registered entries such as an app's nav
+	 * link: getAll() should only resolve what it can, not resolve nothing.
+	 */
+	public function testGetAllDoesNotResolveClosureBeforeSetup(): void {
+		$numberOfCalls = 0;
+		$this->navigationManager->add(function () use (&$numberOfCalls) {
+			$numberOfCalls++;
+
+			return [
+				'id' => 'entry id',
+				'name' => 'link text',
+				'order' => 1,
+				'href' => 'url',
+			];
+		});
+
+		$navigationEntries = $this->navigationManager->getAll('all');
+
+		$this->assertEquals(0, $numberOfCalls, 'Expected that the closure is not called by getAll() before setup()');
+		$this->assertEmpty($navigationEntries, 'Expected no navigation entry exists before setup()');
+
+		$this->navigationManager->setup();
+		$navigationEntries = $this->navigationManager->getAll('all');
+
+		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure is called by getAll() once setup() has run');
+		$this->assertArrayHasKey('entry id', $navigationEntries);
+	}
+
+	public function testAddClosureAfterSetup(): void {
+		$this->navigationManager->setup();
+		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists');
+
+		$numberOfCalls = 0;
+		$this->navigationManager->add(function () use (&$numberOfCalls) {
+			$numberOfCalls++;
+
+			return [
+				'id' => 'late entry',
+				'name' => 'link text',
+				'order' => 1,
+				'href' => 'url',
+			];
+		});
+
+		$this->assertEquals(0, $numberOfCalls, 'Expected that the closure is not called by add()');
+
+		$navigationEntries = $this->navigationManager->getAll('all');
+		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure added after setup() is called by getAll()');
+		$this->assertCount(1, $navigationEntries, 'Expected that 1 navigation entry exists');
+		$this->assertArrayHasKey('late entry', $navigationEntries);
+
+		$navigationEntries = $this->navigationManager->getAll('all');
+		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure is only called once');
+		$this->assertCount(1, $navigationEntries, 'Expected that 1 navigation entry exists');
+		$this->assertArrayHasKey('late entry', $navigationEntries);
+	}
+
+	public function testGetAllFiltersActions(): void {
+		$this->navigationManager->add([
+			'id' => 'files',
+			'name' => 'Files',
+			'order' => 1,
+			'href' => 'url',
+		]);
+		$this->navigationManager->add([
+			'id' => 'logout',
+			'name' => 'Log out',
+			'order' => 2,
+			'href' => 'url',
+			'type' => INavigationManager::TYPE_ACTION,
+		]);
+
+		$this->assertEquals(['logout'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_ACTION)));
+		$this->assertEquals(['files'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_APPS)));
+		$this->assertEquals(['files', 'logout'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_ALL)));
 	}
 
 	public function testAddArrayClearGetAll(): void {
@@ -233,6 +314,12 @@ class NavigationManagerTest extends TestCase {
 			->method('getAppInfo')
 			->with('test')
 			->willReturn($navigation);
+		$this->appManager->expects($this->any())
+			->method('isAppLoaded')
+			->willReturnMap([
+				['test', true],
+				['files', true],
+			]);
 		$this->urlGenerator->expects($this->any())
 			->method('imagePath')
 			->willReturnCallback(function ($appName, $file) {
@@ -259,11 +346,12 @@ class NavigationManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
 
 		$this->navigationManager->clear();
-		$this->dispatcher->expects($this->once())
+		$this->dispatcher->expects($this->atLeastOnce())
 			->method('dispatchTyped')
 			->willReturnCallback(function ($event): void {
 				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
 			});
+		$this->navigationManager->setup();
 		$entries = $this->navigationManager->getAll('all');
 		$this->assertEquals($expected, $entries);
 	}
@@ -427,8 +515,20 @@ class NavigationManagerTest extends TestCase {
 			->method('isEnabledForUser')
 			->with('theming')
 			->willReturn(true);
-		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
-		$this->appManager->expects($this->once())->method('getAppIcon')->with('test')->willReturn('/apps/test/img/app.svg');
+		$this->appManager->expects($this->once())
+			->method('getAppIcon')
+			->with('test')
+			->willReturn('/apps/test/img/app.svg');
+		$this->appManager->expects($this->once())
+			->method('getAppInfo')
+			->with('test')
+			->willReturn($navigation);
+		$this->appManager->expects($this->atLeastOnce())
+			->method('isAppLoaded')
+			->willReturnMap([
+				['test', true],
+				['files', true],
+			]);
 		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
 		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
 			return "/apps/$appName/img/$file";
@@ -455,8 +555,151 @@ class NavigationManagerTest extends TestCase {
 			->willReturnCallback(function ($event): void {
 				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
 			});
+		$this->navigationManager->setup();
 		$entries = $this->navigationManager->getAll();
 		$this->assertEquals($expected, $entries);
+	}
+
+	/**
+	 * Known apps get a default order, all other apps keep the order from their info.xml.
+	 */
+	public function testDefaultAppOrder(): void {
+		$this->userSession->method('isLoggedIn')->willReturn(false);
+		$this->appManager->method('getEnabledApps')->willReturn([]);
+		$this->appManager->method('isEnabledForUser')->willReturn(true);
+
+		// order as shipped by the apps themselves
+		$apps = ['circles' => 80, 'activity' => 1, 'other' => 2, 'spreed' => -5, 'files' => 0, 'dashboard' => -10];
+		foreach ($apps as $id => $order) {
+			$this->navigationManager->add(['id' => $id, 'name' => $id, 'href' => '/', 'order' => $order]);
+		}
+
+		$this->assertSame(
+			['dashboard', 'files', 'spreed', 'circles', 'activity', 'other'],
+			array_keys($this->navigationManager->getAll()),
+		);
+	}
+
+	/**
+	 * Users that sorted the apps themselves keep their order, also for apps they never sorted.
+	 */
+	public function testDefaultAppOrderIsSkippedForCustomOrder(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->userSession->method('isLoggedIn')->willReturn(true);
+		$this->appManager->method('getEnabledAppsForUser')->willReturn([]);
+		$this->appManager->method('isEnabledForUser')->willReturn(true);
+		$this->config->method('getUserValue')
+			->willReturnCallback(static function (string $userId, string $appName, string $key, mixed $default = '') {
+				return $key === 'apporder' ? json_encode(['other' => ['app' => 'other', 'order' => 0]]) : $default;
+			});
+
+		// `circles` is not part of the user order, so it keeps the order from its info.xml
+		// instead of moving to the front of the user order
+		foreach (['other' => 2, 'circles' => 80] as $id => $order) {
+			$this->navigationManager->add(['id' => $id, 'name' => $id, 'href' => '/', 'order' => $order]);
+		}
+
+		$this->assertSame(
+			['other', 'circles'],
+			array_keys($this->navigationManager->getAll()),
+		);
+	}
+
+	/**
+	 * Navigation entries of enabled apps that are not booted yet must not be resolved.
+	 */
+	public function testResolveOnlyLoadedApps(): void {
+		/* Return default value */
+		$this->config->method('getUserValue')->willReturnArgument(3);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->userSession->method('isLoggedIn')->willReturn(true);
+		$this->appManager->method('getEnabledAppsForUser')->with($user)->willReturn(['test']);
+
+		// The app is enabled but not booted yet ...
+		$this->appManager->expects($this->atLeastOnce())
+			->method('isAppLoaded')
+			->with('test')
+			->willReturn(false);
+		// ... so its info.xml navigation entries must never be read
+		$this->appManager->expects($this->never())->method('getAppInfo');
+
+		$this->navigationManager->clear();
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+	}
+
+	/**
+	 * The LoadAdditionalEntriesEvent is only dispatched by setup(), not by getAll().
+	 */
+	public function testGetAllDoesNotDispatchAdditionalEntries(): void {
+		$this->userSession->method('isLoggedIn')->willReturn(false);
+		$this->appManager->method('getEnabledApps')->willReturn([]);
+
+		$this->dispatcher->expects($this->never())->method('dispatchTyped');
+
+		$this->navigationManager->clear();
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+	}
+
+	/**
+	 * An app's info.xml must only be resolved once, even across multiple getAll() calls
+	 * and even when the app does not provide any navigation entries.
+	 */
+	public function testAppInfoResolvedOnlyOnce(): void {
+		$this->config->method('getUserValue')->willReturnArgument(3);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->userSession->method('isLoggedIn')->willReturn(true);
+		$this->appManager->method('getEnabledAppsForUser')->with($user)->willReturn(['test']);
+		$this->appManager->method('isAppLoaded')->with('test')->willReturn(true);
+
+		// App has no navigation entries; info.xml must only be read once
+		$this->appManager->expects($this->once())
+			->method('getAppInfo')
+			->with('test')
+			->willReturn(['navigations' => []]);
+
+		$this->navigationManager->clear();
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+	}
+
+	/**
+	 * clear(false) keeps the resolved state, so already loaded apps are not resolved again;
+	 * clear(true) resets it, forcing a fresh resolve.
+	 */
+	public function testClearResetsResolvedStateOnlyWhenRequested(): void {
+		$this->config->method('getUserValue')->willReturnArgument(3);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->userSession->method('isLoggedIn')->willReturn(true);
+		$this->appManager->method('getEnabledAppsForUser')->with($user)->willReturn(['test']);
+		$this->appManager->method('isAppLoaded')->with('test')->willReturn(true);
+
+		// Resolved once for the initial getAll(), then again after clear(true) resets the state
+		$this->appManager->expects($this->exactly(2))
+			->method('getAppInfo')
+			->with('test')
+			->willReturn(['navigations' => []]);
+
+		$this->navigationManager->clear();
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+
+		// Soft clear keeps the resolved state, so getAppInfo is not called again
+		$this->navigationManager->clear(false);
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
+
+		// Full clear resets the resolved state, so the app is resolved again
+		$this->navigationManager->clear(true);
+		$this->assertEquals([], $this->navigationManager->getAll('all'));
 	}
 
 	public static function provideDefaultEntries(): array {
@@ -630,7 +873,13 @@ class NavigationManagerTest extends TestCase {
 			];
 		});
 
-		$this->appManager->method('getEnabledApps')->willReturn([]);
+		$this->appManager->method('getEnabledApps')->willReturn(['files']);
+		$this->appManager->expects($this->atLeastOnce())
+			->method('isAppLoaded')
+			->willReturnMap([
+				['test', true],
+				['files', true],
+			]);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');
@@ -651,6 +900,7 @@ class NavigationManagerTest extends TestCase {
 				['user1', 'core', 'apporder', '[]', $userApporder],
 			]);
 
+		$this->navigationManager->setup();
 		$this->assertEquals($expectedApp, $this->navigationManager->getDefaultEntryIdForUser(null, $withFallbacks));
 	}
 

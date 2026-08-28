@@ -24,9 +24,6 @@ module.exports = {
 		'twofactor-request-token': path.join(__dirname, 'core/src', 'twofactor-request-token.ts'),
 		update: path.join(__dirname, 'core/src', 'update.ts'),
 	},
-	dashboard: {
-		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
-	},
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.ts'),
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
@@ -57,7 +54,8 @@ module.exports = {
 		'vue-settings-admin-settings-presets': path.join(__dirname, 'apps/settings/src', 'main-admin-settings-presets.js'),
 		'vue-settings-admin-sharing': path.join(__dirname, 'apps/settings/src', 'admin-settings-sharing.ts'),
 		'vue-settings-nextcloud-pdf': path.join(__dirname, 'apps/settings/src', 'main-nextcloud-pdf.js'),
-		'vue-settings-personal-info': path.join(__dirname, 'apps/settings/src', 'main-personal-info.js'),
+		'vue-settings-profile-contact': path.join(__dirname, 'apps/settings/src', 'main-profile-contact.js'),
+		'vue-settings-language-locale': path.join(__dirname, 'apps/settings/src', 'main-language-locale.js'),
 		'vue-settings-personal-password': path.join(__dirname, 'apps/settings/src', 'main-personal-password.js'),
 		'vue-settings-personal-security': path.join(__dirname, 'apps/settings/src', 'main-personal-security.js'),
 		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
@@ -69,9 +67,6 @@ module.exports = {
 		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
 		'update-notification-legacy': path.join(__dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
-	},
-	weather_status: {
-		'weather-status': path.join(__dirname, 'apps/weather_status/src', 'weather-status.js'),
 	},
 	workflowengine: {
 		workflowengine: path.join(__dirname, 'apps/workflowengine/src', 'workflowengine.js'),

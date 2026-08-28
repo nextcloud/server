@@ -556,6 +556,55 @@ class CacheTest extends TestCase {
 		$this->assertCount(1, $results);
 	}
 
+	public function testSingleFileShareKeepsUnmaskedPermissionsAsScanPermissions(): void {
+		$sourceEntry = $this->ownerCache->get('files/container/shared single file.txt');
+
+		/** @var SharedStorage $sharedStorage */
+		[$sharedStorage] = $this->user2View->resolvePath('shared single file.txt');
+		$entry = $sharedStorage->getCache()->get('');
+
+		$mask = Constants::PERMISSION_ALL & ~(Constants::PERMISSION_CREATE | Constants::PERMISSION_DELETE);
+		$this->assertEquals($sourceEntry->getPermissions() & $mask, $entry->getPermissions());
+		$this->assertEquals($sourceEntry->getPermissions(), $entry['scan_permissions']);
+	}
+
+	public function testFolderShareKeepsUnmaskedPermissionsAsScanPermissions(): void {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$node = $rootFolder->get('container');
+		$share = $this->shareManager->newShare();
+		$share->setNode($node)
+			->setShareType(IShare::TYPE_USER)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setPermissions(Constants::PERMISSION_READ | Constants::PERMISSION_SHARE);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
+		Server::get(ISetupManager::class)->tearDown();
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		/** @var SharedStorage $sharedStorage */
+		[$sharedStorage] = $this->user2View->resolvePath('container');
+		$sharedCache = $sharedStorage->getCache();
+		$mask = Constants::PERMISSION_READ | Constants::PERMISSION_SHARE;
+
+		$entry = $sharedCache->get('shareddir/bar.txt');
+		$sourceEntry = $this->ownerCache->get('files/container/shareddir/bar.txt');
+		$this->assertEquals($sourceEntry->getPermissions() & $mask, $entry->getPermissions());
+		$this->assertEquals($sourceEntry->getPermissions(), $entry['scan_permissions']);
+
+		$children = $sharedCache->getFolderContents('shareddir');
+		$this->assertNotEmpty($children);
+		foreach ($children as $child) {
+			$sourceChild = $this->ownerCache->get('files/container/shareddir/' . $child->getName());
+			$this->assertEquals($sourceChild->getPermissions() & $mask, $child->getPermissions());
+			$this->assertEquals($sourceChild->getPermissions(), $child['scan_permissions']);
+		}
+	}
+
 	public function testWatcherRootChange(): void {
 		$sourceStorage = new Temporary();
 		$sourceStorage->mkdir('shared');

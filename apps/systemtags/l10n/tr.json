@@ -43,6 +43,8 @@
     "Collaborative tags" : "İş birlikli etiketler",
     "Collaborative tagging functionality which shares tags among people." : "Etiketlerin kişiler arasında paylaşılabilmesini sağlayan iş birlikli etiketleme özelliği.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "İş birlikli etiketler özelliği etiketlerin kişiler arasında paylaşılabilmesini sağlar. Takımlar için harikadır.\n\t(Birden çok kuruluşun olduğu bir kurulumda etiketler zaten paylaşıldığı için bu uygulamanın kullanımdan kaldırılması önerilir).",
+    "Search tags" : "Etiket ara",
+    "No tags available" : "Kullanılabilecek bir etiket yok",
     "Public" : "Herkese açık",
     "Restricted" : "Kısıtlanmış",
     "Invisible" : "Gizli",
@@ -63,9 +65,9 @@
     "Delete" : "Sil",
     "Reset" : "Sıfırla",
     "Loading …" : "Yükleniyor…",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["Bir dosyada {tag1} eklenecek ve {tag2} kaldırılacak.","{count} dosyada {tag1} eklenecek ve {tag2} kaldırılacak."],
+    "_{tag1} will be set and {tag2} will be removed from {count} file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{count} dosyada {tag1} eklenecek ve {tag2} kaldırılacak.","{count} dosyada {tag1} eklenecek ve {tag2} kaldırılacak."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["Bir dosyaya {tag} eklenecek.","{count} dosyaya {tag} eklenecek."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Bir dosyadan {tag} kaldırılacak.","{count} dosyadan {tag} kaldırılacak."],
+    "_{tag} will be removed from {count} file._::_{tag} will be removed from {count} files._" : ["{count} dosyadan {tag} kaldırılacak.","{count} dosyadan {tag} kaldırılacak."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["Bir dosyaya {tags} ve {lastTag} eklenecek.","{count} dosyaya {tags} ve {lastTag} eklenecek."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["Bir dosyadan {tags} ve {lastTag} kaldırılacak.","{count} dosyadan {tags} ve {lastTag} kaldırılacak."],
     "{displayName} (hidden)" : "{displayName} (gizli)",
@@ -75,7 +77,7 @@
     "Manage tags" : "Etiket yönetimi",
     "Applying tags changes…" : "Etiket değişikllikleri uygulanıyor…",
     "Search or create tag" : "Etiket arayın ya da oluşturun",
-    "Search tag" : "Etiket arama",
+    "Search tag" : "Etiket ara",
     "Change tag color" : "Etiket rengini değiştir",
     "Create new tag" : "Yeni etiket oluştur",
     "Choose tags for the selected files" : "Seçilmiş dosyalar için etiketleri seçin",
@@ -110,6 +112,8 @@
     "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
     "Collaborative tags …" : "İş birlikli etiketler…",
     "Loading …" : "Yükleniyor…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["Bir dosyada {tag1} eklenecek ve {tag2} kaldırılacak.","{count} dosyada {tag1} eklenecek ve {tag2} kaldırılacak."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["Bir dosyadan {tag} kaldırılacak.","{count} dosyadan {tag} kaldırılacak."],
     "Loading collaborative tags …" : "İş birlikli etiketler yükleniyor…"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -52,14 +52,14 @@ class ChunkingV2Plugin extends ServerPlugin {
 	private ?string $uploadId = null;
 	private ?string $uploadPath = null;
 
-	private const TEMP_TARGET = '.target';
+	private const string TEMP_TARGET = '.target';
 
 	public const CACHE_KEY = 'chunking-v2';
 	public const UPLOAD_TARGET_PATH = 'upload-target-path';
 	public const UPLOAD_TARGET_ID = 'upload-target-id';
 	public const UPLOAD_ID = 'upload-id';
 
-	private const DESTINATION_HEADER = 'Destination';
+	private const string DESTINATION_HEADER = 'Destination';
 
 	public function __construct(ICacheFactory $cacheFactory) {
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
@@ -70,7 +70,8 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 */
 	#[\Override]
 	public function initialize(Server $server) {
-		$server->on('beforeMethod:GET', $this->beforeGet(...));
+		$server->on('beforeMethod:GET', $this->forbiddenMethod(...));
+		$server->on('beforeMethod:COPY', $this->forbiddenMethod(...));
 		$server->on('beforeMethod:PUT', [$this, 'beforePut']);
 		$server->on('beforeMethod:DELETE', [$this, 'beforeDelete']);
 		$server->on('beforeMove', [$this, 'beforeMove'], 90);
@@ -79,10 +80,25 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$this->server = $server;
 	}
 
-	protected function beforeGet(RequestInterface $request) {
-		$sourceNode = $this->server->tree->getNodeForPath($request->getPath());
-		if (($sourceNode instanceof FutureFile) || ($sourceNode instanceof UploadFile)) {
-			throw new MethodNotAllowed('Reading intermediate uploads is not allowed');
+	/**
+	 * @throws MethodNotAllowed
+	 */
+	public function forbiddenMethod(RequestInterface $request) {
+		try {
+			$sourceNode = $this->server->tree->getNodeForPath($request->getPath());
+
+			if ($sourceNode instanceof FutureFile || $sourceNode instanceof UploadFile) {
+				if ($request->getMethod() === 'GET') {
+					throw new MethodNotAllowed('Reading intermediate uploads is not allowed');
+				} else {
+					throw new MethodNotAllowed('Intermediate uploads must be finalized using MOVE');
+				}
+			}
+		} catch (NotFound) {
+			// The node could not be resolved (yet), e.g. because the targeted
+			// collection is provided by another app and not registered on the
+			// tree at this point. This is no intermediate upload, so let the
+			// regular request handling deal with it (and report any 404).
 		}
 
 		return true;

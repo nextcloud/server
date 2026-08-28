@@ -96,6 +96,7 @@ use OCP\ISession;
 use OCP\ITagManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Profiler\IProfiler;
@@ -133,7 +134,7 @@ class Server {
 		$this->server->setLogger($logger);
 
 		// Add maintenance plugin
-		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OC::$server->getL10N('dav')));
+		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OCP\Server::get(IFactory::class)->get('dav')));
 
 		$this->server->addPlugin(new AppleQuirksPlugin());
 
@@ -150,7 +151,9 @@ class Server {
 		$this->server->httpRequest->setUrl($this->request->getRequestUri());
 		$this->server->setBaseUri($this->baseUri);
 
-		$this->server->addPlugin(new ProfilerPlugin($this->request));
+		if ($this->profiler->isEnabled()) {
+			$this->server->addPlugin(new ProfilerPlugin($this->request));
+		}
 		$this->server->addPlugin(new BlockLegacyClientPlugin(
 			\OCP\Server::get(IConfig::class),
 			\OCP\Server::get(ThemingDefaults::class),
@@ -340,6 +343,7 @@ class Server {
 					$this->server->tree,
 					$userSession,
 					$shareManager,
+					\OCP\Server::get(IRootFolder::class),
 				));
 				$this->server->addPlugin(new CommentPropertiesPlugin(
 					\OCP\Server::get(ICommentsManager::class),
@@ -357,6 +361,7 @@ class Server {
 						\OCP\Server::get(EventComparisonService::class),
 						\OCP\Server::get(\OCP\Mail\Provider\IManager::class),
 						\OCP\Server::get(IEmailValidator::class),
+						\OCP\Server::get(IAccountManager::class),
 					));
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
@@ -399,7 +404,7 @@ class Server {
 					\OCP\Server::get(IURLGenerator::class),
 					\OCP\Server::get(ThemingDefaults::class),
 					\OCP\Server::get(IRequest::class),
-					\OC::$server->getL10N('dav'),
+					\OCP\Server::get(IFactory::class)->get('dav'),
 					function () {
 						return UUIDUtil::getUUID();
 					}

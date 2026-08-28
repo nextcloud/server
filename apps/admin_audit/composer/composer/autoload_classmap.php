@@ -10,7 +10,6 @@ return array(
     'OCA\\AdminAudit\\Actions\\Action' => $baseDir . '/../lib/Actions/Action.php',
     'OCA\\AdminAudit\\Actions\\Files' => $baseDir . '/../lib/Actions/Files.php',
     'OCA\\AdminAudit\\Actions\\Sharing' => $baseDir . '/../lib/Actions/Sharing.php',
-    'OCA\\AdminAudit\\Actions\\TagManagement' => $baseDir . '/../lib/Actions/TagManagement.php',
     'OCA\\AdminAudit\\Actions\\Trashbin' => $baseDir . '/../lib/Actions/Trashbin.php',
     'OCA\\AdminAudit\\Actions\\Versions' => $baseDir . '/../lib/Actions/Versions.php',
     'OCA\\AdminAudit\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
@@ -26,5 +25,6 @@ return array(
     'OCA\\AdminAudit\\Listener\\GroupManagementEventListener' => $baseDir . '/../lib/Listener/GroupManagementEventListener.php',
     'OCA\\AdminAudit\\Listener\\SecurityEventListener' => $baseDir . '/../lib/Listener/SecurityEventListener.php',
     'OCA\\AdminAudit\\Listener\\SharingEventListener' => $baseDir . '/../lib/Listener/SharingEventListener.php',
+    'OCA\\AdminAudit\\Listener\\TagEventListener' => $baseDir . '/../lib/Listener/TagEventListener.php',
     'OCA\\AdminAudit\\Listener\\UserManagementEventListener' => $baseDir . '/../lib/Listener/UserManagementEventListener.php',
 );

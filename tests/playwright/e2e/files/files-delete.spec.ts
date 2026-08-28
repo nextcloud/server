@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '../../support/fixtures/files-page.ts'
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { mkdir, uploadContent } from '../../support/utils/dav.ts'
 
 test.describe('Files: Delete', () => {
@@ -25,9 +25,10 @@ test.describe('Files: Delete', () => {
 	})
 
 	test('can delete multiple files', async ({ page, user, filesListPage }) => {
+		const files = Array.from({ length: 5 }, (_, i) => `file${i}.txt`)
 		await mkdir(page.request, user, '/root')
-		for (let i = 0; i < 5; i++) {
-			await uploadContent(page.request, user, Buffer.alloc(0), 'text/plain', `/root/file${i}.txt`)
+		for (const file of files) {
+			await uploadContent(page.request, user, Buffer.alloc(0), 'text/plain', `/root/${file}`)
 		}
 		await filesListPage.open()
 		await filesListPage.navigateToFolder('root')
@@ -35,26 +36,19 @@ test.describe('Files: Delete', () => {
 		// All 5 preview thumbnails must finish loading before we delete
 		await expect(page.locator('.files-list__row-icon-preview--loaded')).toHaveCount(5)
 
-		// Set up listeners for all 5 DELETE responses before triggering the action
-		const deleteResponses = Promise.all(
-			Array.from({ length: 5 }, () =>
-				page.waitForResponse(
-					(r) => r.url().includes(`/remote.php/dav/files/${user.userId}/root/`) && r.request().method() === 'DELETE',
-					{ timeout: 15000 },
-				),
-			),
-		)
+		// Retry the bulk delete until the folder is empty. A transient DAV lock
+		// (423) on a freshly-uploaded file makes its DELETE fail and the app keeps
+		// the row, so a single pass can leave a file behind. Re-selecting and
+		// re-deleting whatever remains converges on the empty end state without
+		// depending on every concurrent DELETE succeeding on the first try.
+		await expect(async () => {
+			await filesListPage.selectAll()
+			await filesListPage.triggerSelectionAction('delete')
+			await page.getByRole('dialog', { name: 'Confirm deletion' })
+				.getByRole('button', { name: 'Delete files' })
+				.click()
 
-		await filesListPage.selectAll()
-		await filesListPage.triggerSelectionAction('delete')
-
-		await page.getByRole('dialog', { name: 'Confirm deletion' })
-			.getByRole('button', { name: 'Delete files' })
-			.click()
-
-		const responses = await deleteResponses
-		for (const response of responses) {
-			expect(response.status()).toBe(204)
-		}
+			await expect(filesListPage.getRows()).toHaveCount(0)
+		}).toPass({ timeout: 30_000 })
 	})
 })

@@ -13,6 +13,7 @@ use OC\Memcache\WithLocalCache;
 use OCP\Config\IUserConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudId;
 use OCP\HintException;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -36,10 +37,10 @@ use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 
 /**
  * Class Manager
@@ -119,25 +120,29 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
-	 * get a user by user id
-	 *
-	 * @param string $uid
-	 * @return User|null Either the user or null if the specified user does not exist
+	 * {@inheritDoc}
+	 * @param list<string> $excludeBackends A list of IUserBackend::getBackendName() that need to be excluded from the search.
 	 */
 	#[\Override]
-	public function get($uid) {
+	public function get($uid, array $excludeBackends = []): ?IUser {
 		if (is_null($uid) || $uid === '' || $uid === false) {
 			return null;
-		}
-		if (isset($this->cachedUsers[$uid])) { //check the cache first to prevent having to loop over the backends
-			return $this->cachedUsers[$uid];
 		}
 
 		if (strlen($uid) > IUser::MAX_USERID_LENGTH) {
 			return null;
 		}
 
+		// check the cache first to prevent having to loop over the backends
+		if ($excludeBackends === [] && isset($this->cachedUsers[$uid])) {
+			return $this->cachedUsers[$uid];
+		}
+
 		$cachedBackend = $this->cache->get(sha1($uid));
+		if (in_array($cachedBackend, $excludeBackends)) {
+			$cachedBackend = null;
+		}
+
 		if ($cachedBackend !== null && isset($this->backends[$cachedBackend])) {
 			// Cache has the info of the user backend already, so ask that one directly
 			$backend = $this->backends[$cachedBackend];
@@ -152,6 +157,10 @@ class Manager extends PublicEmitter implements IUserManager {
 				continue;
 			}
 
+			if (in_array($i, $excludeBackends)) {
+				continue;
+			}
+
 			if ($backend->userExists($uid)) {
 				// Hash $uid to ensure that only valid characters are used for the cache key
 				$this->cache->set(sha1($uid), $i, 300);
@@ -163,6 +172,10 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	#[\Override]
 	public function getDisplayName(string $uid): ?string {
+		if (isset($this->cachedUsers[$uid])) {
+			return $this->cachedUsers[$uid]->getDisplayName();
+		}
+
 		return $this->displayNameCache->getDisplayName($uid);
 	}
 
@@ -190,19 +203,13 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $user;
 	}
 
-	/**
-	 * check if a user exists
-	 *
-	 * @param string $uid
-	 * @return bool
-	 */
 	#[\Override]
-	public function userExists($uid) {
+	public function userExists(string $uid, array $excludeBackends = []): bool {
 		if (strlen($uid) > IUser::MAX_USERID_LENGTH) {
 			return false;
 		}
 
-		$user = $this->get($uid);
+		$user = $this->get($uid, $excludeBackends);
 		return ($user !== null);
 	}
 
@@ -327,7 +334,7 @@ class Manager extends PublicEmitter implements IUserManager {
 						return mb_stripos($user->getUID(), $search) !== false
 						|| mb_stripos($user->getDisplayName(), $search) !== false
 						|| mb_stripos($user->getEMailAddress() ?? '', $search) !== false;
-					} catch (NoUserException $ex) {
+					} catch (UserNotFoundException $ex) {
 						$this->logger->error('Error while filtering disabled users', ['exception' => $ex, 'userUID' => $user->getUID()]);
 						return false;
 					}
@@ -450,7 +457,16 @@ class Manager extends PublicEmitter implements IUserManager {
 		if ($state === false) {
 			throw new \InvalidArgumentException($l->t('Could not create account'));
 		}
-		$user = $this->getUserObject($uid, $backend);
+		try {
+			$user = $this->getUserObject($uid, $backend);
+		} catch (\RuntimeException $e) {
+			$this->logger->error('Failed to get user after creation', [
+				'exception' => $e,
+				'uid' => $uid,
+				'exists_backend' => $backend->userExists($uid),
+			]);
+			throw new \RuntimeException('Failed to get user after creation', previous: $e);
+		}
 		if ($user instanceof IUser) {
 			/** @deprecated 21.0.0 use UserCreatedEvent event with the IEventDispatcher instead */
 			$this->emit('\OC\User', 'postCreateUser', [$user, $password]);
@@ -676,7 +692,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$query = $queryBuilder->executeQuery();
 		$result = [];
 
-		while ($row = $query->fetch()) {
+		while ($row = $query->fetchAssociative()) {
 			$result[] = $row['userid'];
 		}
 
@@ -802,7 +818,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		}
 
 		/** @var list<string> */
-		$list = $queryBuilder->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		$list = $queryBuilder->executeQuery()->fetchFirstColumn();
 
 		return $list;
 	}
@@ -870,21 +886,16 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	#[\Override]
 	public function getAvatarUrlLight(string $userId, int $size): string {
-		$url = ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $userId, 'size' => $size]);
-		if ($url === '') {
-			throw new RuntimeException('The URL is empty.');
-		}
-
-		return $url;
+		return ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $userId, 'size' => $size]);
 	}
 
 	#[\Override]
 	public function getAvatarUrlDark(string $userId, int $size): string {
-		$url = ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatarDark', ['userId' => $userId, 'size' => $size]);
-		if ($url === '') {
-			throw new RuntimeException('The URL is empty.');
-		}
+		return ($this->urlGenerator ??= Server::get(IURLGenerator::class))->linkToRouteAbsolute('core.avatar.getAvatarDark', ['userId' => $userId, 'size' => $size]);
+	}
 
-		return $url;
+	#[\Override]
+	public function getFederatedUser(ICloudId $cloudId): IUser {
+		return new LazyUser($cloudId->getDisplayId(), $this, $cloudId->getDisplayId());
 	}
 }

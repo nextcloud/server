@@ -28,15 +28,46 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type NavigationEntryOutput from INavigationManager
  */
 class NavigationManager implements INavigationManager {
+	/**
+	 * Default app menu order, grouped by topic with four apps per row.
+	 * Apps ship very different orders in their info.xml, so the values are
+	 * negative to keep this group in front of everything else.
+	 * Apps that are not listed keep their own order.
+	 */
+	private const array DEFAULT_APP_ORDER = [
+		// Basics
+		'dashboard' => -100,
+		'files' => -99,
+		'office' => -98,
+		'photos' => -97,
+		// Collaboration
+		'spreed' => -96,
+		'mail' => -95,
+		'calendar' => -94,
+		'contacts' => -93,
+		// Productivity
+		'deck' => -92,
+		'collectives' => -91,
+		'tables' => -90,
+		'circles' => -89,
+		// All other apps follow, starting with Activity
+		'activity' => -88,
+	];
+
+	protected ?string $activeEntry = null;
 	/** @var array<string, NavigationEntryOutput> */
 	protected array $entries = [];
-	/** @var list<callable(): NavigationEntry> */
+	/** @var list<callable(): ?NavigationEntry> */
 	protected array $closureEntries = [];
-	protected ?string $activeEntry = null;
-	protected array $unreadCounters = [];
-	protected bool $init = false;
 	/** User defined app order (cached for the `add` function) */
-	private ?array $customAppOrder = null;
+	protected ?array $customAppOrder = null;
+	/** @var array<string, int> */
+	protected array $unreadCounters = [];
+
+	/** true if the internal state has been initialized */
+	protected bool $initAppOrderDone = false;
+	/** true if all apps have been loaded by the App Manager */
+	protected bool $initSetupDone = false;
 	/** List of loaded app info */
 	private array $loadedAppInfo = [];
 
@@ -54,11 +85,12 @@ class NavigationManager implements INavigationManager {
 
 	#[Override]
 	public function add(array|callable $entry): void {
-		if ($entry instanceof \Closure) {
+		if (is_callable($entry)) {
 			$this->closureEntries[] = $entry;
 			return;
 		}
-		$this->init();
+		// if needed initialize the internal state to allow setting app order and default app
+		$this->initCustomAppOrder();
 
 		$id = $entry['id'];
 
@@ -80,8 +112,11 @@ class NavigationManager implements INavigationManager {
 				$entry['app'] = $id;
 			}
 
-			// Set order from user defined app order
-			$entry['order'] = (int)($this->customAppOrder[$id]['order'] ?? $entry['order'] ?? 100);
+			// Set order from user defined app order, then the default app order.
+			// The default order is skipped for users that sorted the apps themselves,
+			// so a newly installed app does not jump to the front of their order.
+			$defaultOrder = $this->customAppOrder === [] ? (self::DEFAULT_APP_ORDER[$id] ?? null) : null;
+			$entry['order'] = (int)($this->customAppOrder[$id]['order'] ?? $defaultOrder ?? $entry['order'] ?? 100);
 		}
 
 		$this->entries[$id] = $entry;
@@ -166,10 +201,14 @@ class NavigationManager implements INavigationManager {
 	/**
 	 * removes all the entries
 	 */
-	public function clear(bool $loadDefaultLinks = true): void {
+	public function clear(bool $resetInit = true): void {
 		$this->entries = [];
 		$this->closureEntries = [];
-		$this->init = !$loadDefaultLinks;
+
+		if ($resetInit) {
+			$this->loadedAppInfo = [];
+			$this->initAppOrderDone = false;
+		}
 	}
 
 	#[Override]
@@ -186,11 +225,11 @@ class NavigationManager implements INavigationManager {
 	 * Initialize the internal state.
 	 * This loads the default app mapping and user mapping for app ordering.
 	 */
-	private function init(): void {
-		if ($this->init) {
+	private function initCustomAppOrder(): void {
+		if ($this->initAppOrderDone) {
 			return;
 		}
-		$this->init = true;
+		$this->initAppOrderDone = true;
 
 		if ($this->customAppOrder === null) {
 			if ($this->userSession->isLoggedIn()) {
@@ -203,20 +242,27 @@ class NavigationManager implements INavigationManager {
 	}
 
 	/**
-	 * Resolve the app navigation entries from closures and info.xml files.
+	 * Setup the navigation manager.
+	 *
+	 * @internal - This is only used by Nextcloud core to setup the navigation manager. It is not intended for use by apps.
+	 */
+	public function setup(): void {
+		// Resolve dynamically added navigation entries via event listeners
+		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
+
+		// mark setup as done to allow performance optimizations
+		$this->initSetupDone = true;
+	}
+
+	/**
+	 * Resolve app navigation entries.
+	 *
+	 * This is called every time by any getter as some code for legacy reasons relies
+	 * on the navigation entries being available before the app loading is finished.
+	 * Some code relies on this to be available earlier then the app loading finished.
+	 * So we need to resolve the navigation entries here, even if not all apps are loaded yet.
 	 */
 	private function resolveAppNavigationEntries(): void {
-		// Resolve app navigation closures
-		while ($c = array_pop($this->closureEntries)) {
-			$this->add($c());
-		}
-
-		// Resolve dynamically added navigation entries via event listeners
-		if ($this->loadedAppInfo === []) {
-			$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
-		}
-
-		// Resolve classic info.xml based navigation entries
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 			$apps = $this->appManager->getEnabledAppsForUser($user);
@@ -225,16 +271,23 @@ class NavigationManager implements INavigationManager {
 		}
 
 		foreach ($apps as $app) {
-			// skip already loaded apps
-			if (in_array($app, $this->loadedAppInfo)) {
+			if (in_array($app, $this->loadedAppInfo, true)) {
+				// already loaded
+				continue;
+			}
+			if (!$this->appManager->isAppLoaded($app)) {
+				// app is not loaded yet, skip it
 				continue;
 			}
 
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (!isset($info['navigations']['navigation'])) {
+				// this app does not have any navigation entries, skip it
+				$this->loadedAppInfo[] = $app;
 				continue;
 			}
+
 			foreach ($info['navigations']['navigation'] as $key => $nav) {
 				$nav['type'] = $nav['type'] ?? 'link';
 				if (!isset($nav['name'])) {
@@ -250,8 +303,11 @@ class NavigationManager implements INavigationManager {
 				}
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
 				$order = $nav['order'] ?? 100;
-				$type = $nav['type'];
-				$route = !empty($nav['route']) ? $this->urlGenerator->linkToRoute($nav['route']) : '';
+				$type = $nav['type'] ?? 'link';
+				$route = $nav['route'] ?? '';
+				if ($route !== '') {
+					$route = $this->urlGenerator->linkToRoute($route);
+				}
 				$icon = $nav['icon'] ?? null;
 				if ($icon !== null) {
 					try {
@@ -292,6 +348,24 @@ class NavigationManager implements INavigationManager {
 					'app' => $app,
 				] : []
 				));
+			}
+		}
+
+		// once all apps are loaded we can resolve the app navigation closures
+		if ($this->initSetupDone) {
+			// This has to be done on every call,
+			// as apps might add new navigation entries via closures at any time
+			while ($c = array_pop($this->closureEntries)) {
+				try {
+					$entry = $c();
+					if ($entry === null) {
+						$this->logger->debug('Closure of navigation entry returned null, skipping');
+						continue;
+					}
+					$this->add($entry);
+				} catch (\Throwable $e) {
+					$this->logger->error('Failed to add navigation entry from closure', ['exception' => $e]);
+				}
 			}
 		}
 	}

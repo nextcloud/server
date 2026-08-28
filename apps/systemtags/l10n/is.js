@@ -43,6 +43,7 @@ OC.L10N.register(
     "All tagged %s …" : "Allt merkt %s …",
     "tagged %s" : "merkt %s",
     "Collaborative tags" : "Samstarfsmerkingar",
+    "Search tags" : "Leita að merkjum",
     "Public" : "Opinbert",
     "Restricted" : "Takmarkað",
     "Invisible" : "Ósýnilegt",

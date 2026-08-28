@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Test\lib\Config;
+namespace Test\Config;
 
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use OC\Config\ConfigManager;
@@ -95,7 +95,7 @@ class UserConfigMigrationFallbackTest extends TestCase {
 		$exception = $this->createInvalidFieldNameException();
 
 		$successResult = $this->createMock(IResult::class);
-		$successResult->method('fetchAll')->willReturn([
+		$successResult->method('fetchAllAssociative')->willReturn([
 			['appid' => 'settings', 'configkey' => 'email', 'configvalue' => 'user@example.com'],
 		]);
 
@@ -140,7 +140,7 @@ class UserConfigMigrationFallbackTest extends TestCase {
 		$exception = $this->createInvalidFieldNameException();
 
 		$loadResult = $this->createMock(IResult::class);
-		$loadResult->method('fetchAll')->willReturn([]);
+		$loadResult->method('fetchAllAssociative')->willReturn([]);
 
 		$qb = $this->createMockQueryBuilder();
 

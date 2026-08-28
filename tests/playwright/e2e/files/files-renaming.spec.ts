@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '../../support/fixtures/files-page.ts'
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { mkdir, rm, uploadContent } from '../../support/utils/dav.ts'
 
 test.describe('Files: Rename nodes', () => {
@@ -40,9 +40,7 @@ test.describe('Files: Rename nodes', () => {
 		const input = filesListPage.getRenameInputForFile('file.txt')
 		await expect(input).toBeVisible()
 
-		const { selectionStart, selectionEnd } = await input.evaluate(
-			(el) => ({ selectionStart: (el as HTMLInputElement).selectionStart, selectionEnd: (el as HTMLInputElement).selectionEnd }),
-		)
+		const { selectionStart, selectionEnd } = await input.evaluate((el) => ({ selectionStart: (el as HTMLInputElement).selectionStart, selectionEnd: (el as HTMLInputElement).selectionEnd }))
 		expect(selectionStart).toBe(0)
 		expect(selectionEnd).toBe('file'.length)
 	})
@@ -64,7 +62,9 @@ test.describe('Files: Rename nodes', () => {
 
 		// Hold MOVE requests until we explicitly release them
 		let resolveMove!: () => void
-		const moveAllowed = new Promise<void>(resolve => { resolveMove = resolve })
+		const moveAllowed = new Promise<void>((resolve) => {
+			resolveMove = resolve
+		})
 		await page.route(/remote\.php\/dav\/files\//, async (route) => {
 			if (route.request().method() === 'MOVE') {
 				await moveAllowed
@@ -83,9 +83,7 @@ test.describe('Files: Rename nodes', () => {
 		await expect(loadingRow.getByRole('checkbox', { name: /Toggle selection/ })).not.toBeVisible()
 
 		// Release the MOVE and wait for it to complete
-		const moveResponse = page.waitForResponse(
-			r => r.url().includes('/remote.php/dav/files/') && r.request().method() === 'MOVE',
-		)
+		const moveResponse = page.waitForResponse((r) => r.url().includes('/remote.php/dav/files/') && r.request().method() === 'MOVE')
 		resolveMove()
 		await moveResponse
 		await page.unroute(/remote\.php\/dav\/files\//)
@@ -159,9 +157,7 @@ test.describe('Files: Rename nodes', () => {
 		// Rename to 'zzz.txt' — sorts last, scrolls out of the visible area
 		await filesListPage.triggerActionForFile('file.txt', 'rename')
 		const input = filesListPage.getRenameInputForFile('file.txt')
-		const moveResponse = page.waitForResponse(
-			r => r.url().includes('/remote.php/dav/files/') && r.request().method() === 'MOVE',
-		)
+		const moveResponse = page.waitForResponse((r) => r.url().includes('/remote.php/dav/files/') && r.request().method() === 'MOVE')
 		await input.fill('zzz.txt')
 		await input.press('Enter')
 		await moveResponse
@@ -170,7 +166,7 @@ test.describe('Files: Rename nodes', () => {
 		await expect(filesListPage.getRowForFile('zzz.txt')).toHaveCount(0)
 
 		// Scroll to the bottom to bring zzz.txt into view
-		await page.locator('[data-cy-files-list]').evaluate(el => el.scrollTo(0, el.scrollHeight))
+		await page.locator('[data-cy-files-list]').evaluate((el) => el.scrollTo(0, el.scrollHeight))
 
 		// Row must be visible and NOT in rename state
 		await expect(filesListPage.getRowForFile('zzz.txt')).toBeVisible()

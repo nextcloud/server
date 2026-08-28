@@ -116,7 +116,7 @@ class JobList implements IJobList {
 	public function removeById(string $id): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs')
-			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 		$query->executeStatement();
 	}
 
@@ -133,7 +133,7 @@ class JobList implements IJobList {
 			->setMaxResults(1);
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		return (bool)$row;
@@ -162,7 +162,7 @@ class JobList implements IJobList {
 
 		$result = $query->executeQuery();
 
-		while ($row = $result->fetch()) {
+		while ($row = $result->fetchAssociative()) {
 			$job = $this->buildJob($row);
 			if ($job) {
 				yield $job;
@@ -194,7 +194,7 @@ class JobList implements IJobList {
 		}
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($row) {
@@ -266,7 +266,7 @@ class JobList implements IJobList {
 				$reset->update('jobs')
 					->set('reserved_at', $reset->expr()->literal(0, IQueryBuilder::PARAM_INT))
 					->set('last_checked', $reset->createNamedParameter($this->timeFactory->getTime() + 12 * 3600, IQueryBuilder::PARAM_INT))
-					->where($reset->expr()->eq('id', $reset->createNamedParameter($row['id'], IQueryBuilder::PARAM_INT)));
+					->where($reset->expr()->eq('id', $reset->createNamedParameter($row['id'])));
 				$reset->executeStatement();
 
 				// Background job from disabled app, try again.
@@ -297,7 +297,7 @@ class JobList implements IJobList {
 			->from('jobs')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($row) {
@@ -359,7 +359,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
 			->set('reserved_at', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
-			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId())));
 		$query->executeStatement();
 	}
 
@@ -384,7 +384,7 @@ class JobList implements IJobList {
 		$query->update('jobs')
 			->set('execution_duration', $query->createNamedParameter($timeTaken, IQueryBuilder::PARAM_INT))
 			->set('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId())));
 		$query->executeStatement();
 	}
 
@@ -394,7 +394,7 @@ class JobList implements IJobList {
 		$query->update('jobs')
 			->set('last_run', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			->set('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId()), IQueryBuilder::PARAM_INT));
+			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId())));
 		$query->executeStatement();
 	}
 
@@ -412,7 +412,7 @@ class JobList implements IJobList {
 
 		try {
 			$result = $query->executeQuery();
-			$hasReservedJobs = $result->fetch() !== false;
+			$hasReservedJobs = $result->fetchAssociative() !== false;
 			$result->closeCursor();
 			return $hasReservedJobs;
 		} catch (Exception $e) {
@@ -434,7 +434,7 @@ class JobList implements IJobList {
 
 		$jobs = [];
 
-		while (($row = $result->fetch()) !== false) {
+		while (($row = $result->fetchAssociative()) !== false) {
 			/**
 			 * @var array{count:int, class:class-string<IJob>} $row
 			 */

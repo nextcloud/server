@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '../../support/fixtures/files-page.ts'
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { uploadContent } from '../../support/utils/dav.ts'
 
 test.describe('Files: Recent view', () => {
@@ -25,9 +25,7 @@ test.describe('Files: Recent view', () => {
 		await filesListPage.open('recent')
 		await expect(filesListPage.getRowForFile('file.txt')).toBeVisible()
 
-		const deleted = page.waitForResponse(
-			(r) => r.request().method() === 'DELETE' && r.url().includes('/remote.php/dav/files/'),
-		)
+		const deleted = page.waitForResponse((r) => r.request().method() === 'DELETE' && r.url().includes('/remote.php/dav/files/'))
 		await filesListPage.triggerActionForFile('file.txt', 'delete')
 		await deleted
 

@@ -11,9 +11,9 @@ namespace OC\Avatar;
 
 use OC\KnownUser\KnownUserService;
 use OC\User\Manager;
-use OC\User\NoUserException;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -23,6 +23,7 @@ use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserSession;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -38,6 +39,7 @@ class AvatarManager implements IAvatarManager {
 		private IConfig $config,
 		private IAccountManager $accountManager,
 		private KnownUserService $knownUserService,
+		private ICloudIdManager $cloudIdManager,
 	) {
 	}
 
@@ -47,7 +49,7 @@ class AvatarManager implements IAvatarManager {
 	 * If the user is disabled a guest avatar will be returned
 	 *
 	 * @see \OCP\IAvatar
-	 * @param string $userId the ownCloud user id
+	 * @param string $userId the user id
 	 * @throws \Exception In case the username is potentially dangerous
 	 * @throws NotFoundException In case there is no user folder yet
 	 */
@@ -55,6 +57,10 @@ class AvatarManager implements IAvatarManager {
 	public function getAvatar(string $userId): IAvatar {
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
+			if ($this->cloudIdManager->isValidCloudId($userId)) {
+				return $this->getRemoteAvatar($userId);
+			}
+
 			throw new \Exception('user does not exist');
 		}
 
@@ -119,7 +125,7 @@ class AvatarManager implements IAvatarManager {
 			$this->logger->debug("No cache for the user $userId. Ignoring avatar deletion");
 		} catch (NotPermittedException|StorageNotAvailableException $e) {
 			$this->logger->error("Unable to delete user avatars for $userId. gnoring avatar deletion");
-		} catch (NoUserException $e) {
+		} catch (UserNotFoundException $e) {
 			$this->logger->debug("Account $userId not found. Ignoring avatar deletion");
 		}
 		$this->config->deleteUserValue($userId, 'avatar', 'generated');
@@ -133,5 +139,21 @@ class AvatarManager implements IAvatarManager {
 	#[\Override]
 	public function getGuestAvatar(string $name): IAvatar {
 		return new GuestAvatar($name, $this->config, $this->logger);
+	}
+
+	/**
+	 * Returns a RemoteAvatar
+	 *
+	 * @param string $userId The \OCP\Federation\ICloudId of the remote account, e.g. account@example.com
+	 */
+	private function getRemoteAvatar(string $userId): IAvatar {
+		try {
+			$remoteAvatarFolder = $this->appData->getFolder('__remote');
+		} catch (NotFoundException $e) {
+			$remoteAvatarFolder = $this->appData->newFolder('__remote');
+		}
+
+		$folder = $remoteAvatarFolder->getOrCreateFolder($userId);
+		return new RemoteAvatar($folder, $userId, $this->config, $this->logger);
 	}
 }

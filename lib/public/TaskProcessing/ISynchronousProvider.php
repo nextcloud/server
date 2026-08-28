@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\TaskProcessing;
 
+use OCP\AppFramework\Attribute\Implementable;
 use OCP\Files\File;
 use OCP\TaskProcessing\Exception\ProcessingException;
 
@@ -17,6 +18,7 @@ use OCP\TaskProcessing\Exception\ProcessingException;
  * implement a task processing provider
  * @since 30.0.0
  */
+#[Implementable(since: '30.0.0')]
 interface ISynchronousProvider extends IProvider {
 
 	/**
@@ -25,9 +27,10 @@ interface ISynchronousProvider extends IProvider {
 	 * @param null|string $userId The user that created the current task
 	 * @param array<string, list<numeric|string|File>|numeric|string|File> $input The task input
 	 * @param callable(float):bool $reportProgress Report the task progress. If this returns false, that means the task was cancelled and processing should be stopped.
-	 * @psalm-return array<string, list<numeric|string>|numeric|string>
+	 * @psalm-return array<string, list<numeric|string|FileShaped>|numeric|string|FileShaped>
 	 * @throws ProcessingException
 	 * @since 30.0.0
+	 * @since 35.0.0 You can now also return a FileShaped object or a list of FileShaped objects
 	 */
 	public function process(?string $userId, array $input, callable $reportProgress): array;
 }

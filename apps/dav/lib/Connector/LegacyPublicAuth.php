@@ -24,7 +24,7 @@ use Sabre\DAV\Auth\Backend\AbstractBasic;
  * @package OCA\DAV\Connector
  */
 class LegacyPublicAuth extends AbstractBasic {
-	private const BRUTEFORCE_ACTION = 'legacy_public_webdav_auth';
+	private const string BRUTEFORCE_ACTION = 'legacy_public_webdav_auth';
 
 	private ?IShare $share = null;
 
@@ -67,7 +67,7 @@ class LegacyPublicAuth extends AbstractBasic {
 		\OC_User::setIncognitoMode(true);
 
 		// check if the share is password protected
-		if ($share->getPassword() !== null) {
+		if ($share->isPasswordProtected()) {
 			if ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL
 				|| $share->getShareType() === IShare::TYPE_CIRCLE) {

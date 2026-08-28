@@ -24,6 +24,7 @@ use OCP\IConfig;
 use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use function fopen;
 
 /**
  * for local filestore, we only have to map the paths
@@ -355,18 +356,20 @@ class Local extends Common {
 		$srcParent = dirname($source);
 		$dstParent = dirname($target);
 
+		$logger = Server::get(LoggerInterface::class);
+
 		if (!$this->isUpdatable($srcParent)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, source directory is not writable : ' . $srcParent, ['app' => 'core']);
+			$logger->error('unable to rename, source directory is not writable : ' . $srcParent, ['app' => 'core']);
 			return false;
 		}
 
 		if (!$this->isUpdatable($dstParent)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, destination directory is not writable : ' . $dstParent, ['app' => 'core']);
+			$logger->error('unable to rename, destination directory is not writable : ' . $dstParent, ['app' => 'core']);
 			return false;
 		}
 
 		if (!$this->file_exists($source)) {
-			Server::get(LoggerInterface::class)->error('unable to rename, file does not exists : ' . $source, ['app' => 'core']);
+			$logger->error('unable to rename, file does not exists : ' . $source, ['app' => 'core']);
 			return false;
 		}
 
@@ -378,20 +381,43 @@ class Local extends Common {
 			}
 		}
 
+		$absoluteSource = $this->getSourcePath($source);
+		$absoluteTarget = $this->getSourcePath($target);
+
 		if ($this->is_dir($source)) {
-			$this->checkTreeForForbiddenItems($this->getSourcePath($source));
+			$this->checkTreeForForbiddenItems($absoluteSource);
 		}
 
-		if (@rename($this->getSourcePath($source), $this->getSourcePath($target))) {
+		if (@rename($absoluteSource, $absoluteTarget)) {
 			if ($this->caseInsensitive) {
 				if (mb_strtolower($target) === mb_strtolower($source) && !$this->file_exists($target)) {
 					return false;
 				}
 			}
 			return true;
+		} else {
+			$logger->error('failed to rename ' . $absoluteSource . ' to ' . $absoluteTarget . ', trying copy+delete fallback instead', [
+				'app' => 'core',
+				'last_error' => error_get_last(),
+			]);
 		}
 
-		return $this->copy($source, $target) && $this->unlink($source);
+		if (!$this->copy($source, $target)) {
+			$logger->error('failed to copy ' . $absoluteSource . ' to ' . $absoluteTarget . ' as part of rename fallback', [
+				'app' => 'core',
+				'last_error' => error_get_last(),
+			]);
+			return false;
+		}
+
+		if (!$this->unlink($source)) {
+			$logger->error('failed to delete ' . $absoluteSource . ' as part of rename fallback', [
+				'app' => 'core',
+				'last_error' => error_get_last(),
+			]);
+			return false;
+		}
+		return true;
 	}
 
 	#[\Override]
@@ -414,6 +440,20 @@ class Local extends Common {
 		}
 	}
 
+	/** The scope this has to keep is pinned by the stale realpath cache tests in LocalTest. */
+	private function clearRealpathCache(string $sourcePath): void {
+		$root = rtrim($this->datadir, '/');
+		$path = $sourcePath;
+		while (str_starts_with($path, $root . '/')) {
+			clearstatcache(true, $path);
+			$parent = dirname($path);
+			if ($parent === $path) {
+				return;
+			}
+			$path = $parent;
+		}
+	}
+
 	#[\Override]
 	public function fopen(string $path, string $mode) {
 		$sourcePath = $this->getSourcePath($path);
@@ -421,11 +461,21 @@ class Local extends Common {
 			return false;
 		}
 		$oldMask = umask($this->defUMask);
-		if (($mode === 'w' || $mode === 'w+') && $this->unlinkOnTruncate) {
-			$this->unlink($path);
+		try {
+			if (($mode === 'w' || $mode === 'w+') && $this->unlinkOnTruncate) {
+				$this->unlink($path);
+			}
+			$result = @fopen($sourcePath, $mode);
+			if ($result === false) {
+				// fopen() resolves through the realpath cache, so a false can just mean
+				// this process still has the path cached as a file after another one
+				// turned it into a directory, for up to realpath_cache_ttl.
+				$this->clearRealpathCache($sourcePath);
+				$result = @fopen($sourcePath, $mode);
+			}
+		} finally {
+			umask($oldMask);
 		}
-		$result = @fopen($sourcePath, $mode);
-		umask($oldMask);
 		return $result;
 	}
 

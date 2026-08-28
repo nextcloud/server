@@ -45,6 +45,7 @@ OC.L10N.register(
     "Collaborative tags" : "Oznake za suradnju",
     "Collaborative tagging functionality which shares tags among people." : "Funkcionalnost zajedničkog označavanja koja dijeli oznake među korisnicima.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funkcionalnost zajedničkog označavanja koja dijeli oznake među korisnicima. Izvrsno za timove.\n\t(Ako ste pružatelj usluga s višetenantskom instalacijom, preporučuje se deaktivirati ovu aplikaciju jer se oznake dijele.)",
+    "Search tags" : "Oznake pretraživanja",
     "Public" : "Javna",
     "Restricted" : "Ograničena",
     "Invisible" : "Nevidljiva",
@@ -65,9 +66,7 @@ OC.L10N.register(
     "Delete" : "Izbriši",
     "Reset" : "Resetiraj",
     "Loading …" : "Učitavanje …",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} će se postaviti, a {tag2} će se ukloniti s 1 datoteke.","{tag1} će se postaviti, a {tag2} će se ukloniti s {count} datoteke.","{tag1} će se postaviti, a {tag2} će se ukloniti s {count} datoteka"],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} će se postaviti na 1 datoteku.","{tag} će se postaviti na {count} datoteke.","{tag} će se postaviti na {count} datoteka."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} će se ukloniti s 1 datoteke.","{tag} će se ukloniti s {count} datoteke.","{tag} će se ukloniti s {count} datoteka."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} i {lastTag} će se postaviti na 1 datoteku.","{tags} i {lastTag} će se postaviti na {count} datoteke.","{tags} i {lastTag} će se postaviti na {count} datoteka."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} i {lastTag} će se ukloniti s 1 datoteke.","{tags} i {lastTag} će se ukloniti s {count} datoteke.","{tags} i {lastTag} će se ukloniti s {count} datoteka."],
     "{displayName} (hidden)" : "{displayName} (skriveno)",
@@ -112,6 +111,8 @@ OC.L10N.register(
     "Failed to delete tag for file" : "Brisanje oznake za datoteku nije uspjelo",
     "Collaborative tags …" : "Zajedničke oznake …",
     "Loading …" : "Učitavanje…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["{tag1} će se postaviti, a {tag2} će se ukloniti s 1 datoteke.","{tag1} će se postaviti, a {tag2} će se ukloniti s {count} datoteke.","{tag1} će se postaviti, a {tag2} će se ukloniti s {count} datoteka"],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["{tag} će se ukloniti s 1 datoteke.","{tag} će se ukloniti s {count} datoteke.","{tag} će se ukloniti s {count} datoteka."],
     "Loading collaborative tags …" : "Učitavanje zajedničkih oznaka …"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

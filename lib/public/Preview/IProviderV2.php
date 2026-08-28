@@ -13,31 +13,35 @@ use OCP\Files\FileInfo;
 use OCP\IImage;
 
 /**
+ * Public interface for preview providers.
+ *
+ * A preview provider generates a thumbnail image for supported files. That image
+ * may be stored and reused by the preview system.
+ *
  * @since 17.0.0
  */
 interface IProviderV2 {
 	/**
-	 * @return string Regex with the mimetypes that are supported by this provider
+	 * Returns a regex matching the MIME types supported by this provider.
+	 *
 	 * @since 17.0.0
 	 */
 	public function getMimeType(): string;
 
 	/**
-	 * Check if a preview can be generated for $path
+	 * Returns whether this provider can currently generate a thumbnail for the given file.
 	 *
-	 * @param FileInfo $file
-	 * @return bool
 	 * @since 17.0.0
 	 */
 	public function isAvailable(FileInfo $file): bool;
 
 	/**
-	 * get thumbnail for file at path $path
+	 * Generates a thumbnail image for the given file.
 	 *
 	 * @param File $file
-	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @return null|\OCP\IImage null if no preview was generated
+	 * @param int $maxX Maximum thumbnail width; the returned image may be smaller depending on its aspect ratio
+	 * @param int $maxY Maximum thumbnail height; the returned image may be smaller depending on its aspect ratio
+	 * @return IImage|null Null if no thumbnail could be generated
 	 * @since 17.0.0
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage;

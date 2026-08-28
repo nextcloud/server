@@ -32,7 +32,9 @@ jobs:
       - name: Collect PR commit messages
         id: collect
         env:
-          GH_TOKEN: ${{ github.token }}
+          # Fall back to the default token when the PAT is unavailable
+          # (e.g. Dependabot- or fork-triggered runs don't receive Actions secrets)
+          GH_TOKEN: ${{ secrets.COMMAND_BOT_PAT || github.token }}
           COMMITS_URL: ${{ github.event.pull_request.commits_url }}
         run: |
           set -euo pipefail
@@ -125,7 +127,9 @@ jobs:
       - name: Create 'AI assisted' label if absent
         if: steps.ai_trailers.outputs.ai_assisted == 'true' || steps.agent_signoff.outputs.agent_signoff == 'true' || steps.co_authored.outputs.co_authored == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
+          # Fall back to the default token when the PAT is unavailable
+          # (e.g. Dependabot- or fork-triggered runs don't receive Actions secrets)
+          GH_TOKEN: ${{ secrets.COMMAND_BOT_PAT || github.token }}
         run: |
           gh api "repos/${{ github.repository }}/labels" \
             --method POST \
@@ -137,11 +141,13 @@ jobs:
       - name: Label PR as AI assisted
         if: steps.ai_trailers.outputs.ai_assisted == 'true' || steps.agent_signoff.outputs.agent_signoff == 'true' || steps.co_authored.outputs.co_authored == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
+          # Fall back to the default token when the PAT is unavailable
+          # (e.g. Dependabot- or fork-triggered runs don't receive Actions secrets)
+          GH_TOKEN: ${{ secrets.COMMAND_BOT_PAT || github.token }}
         run: |
-          gh pr edit "${{ github.event.pull_request.number }}" \
-            --repo "${{ github.repository }}" \
-            --add-label "AI assisted"
+          gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels" \
+            --method POST \
+            -f "labels[]=AI assisted"
           echo "Added 'AI assisted' label to PR #${{ github.event.pull_request.number }}"
 
       - name: Fail on coding-agent Signed-off-by

@@ -13,7 +13,6 @@ use OC\Files\Template\TemplateManager;
 use OC\Setup;
 use OC\SystemConfig;
 use OCP\App\IAppManager;
-use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -261,7 +260,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(SystemConfig $config) {
-		$l = \OCP\Server::get(IFactory::class)->get('lib');
+		$l = Server::get(IFactory::class)->get('lib');
 		$errors = [];
 		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
 
@@ -471,7 +470,7 @@ class OC_Util {
 			clearstatcache();
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 			if ($perms[2] !== '0') {
-				$l = \OC::$server->getL10N('lib');
+				$l = Server::get(IFactory::class)->get('lib');
 				return [[
 					'error' => $l->t('Your data directory is readable by other people.'),
 					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other people.'),
@@ -490,7 +489,7 @@ class OC_Util {
 	 * @internal
 	 */
 	public static function checkDataDirectoryValidity($dataDirectory) {
-		$l = \OC::$server->getL10N('lib');
+		$l = Server::get(IFactory::class)->get('lib');
 		$errors = [];
 		if ($dataDirectory[0] !== '/') {
 			$errors[] = [

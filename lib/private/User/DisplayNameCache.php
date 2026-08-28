@@ -26,7 +26,7 @@ use OCP\User\Events\UserDeletedEvent;
  * @template-implements IEventListener<UserChangedEvent|UserDeletedEvent>
  */
 class DisplayNameCache implements IEventListener {
-	private const CACHE_TTL = 24 * 60 * 60; // 1 day
+	private const int CACHE_TTL = 24 * 60 * 60; // 1 day
 
 	private array $cache = [];
 	private ICache $memCache;
@@ -38,6 +38,9 @@ class DisplayNameCache implements IEventListener {
 		$this->memCache = $cacheFactory->createDistributed('displayNameMappingCache');
 	}
 
+	/**
+	 * @return ?non-empty-string
+	 */
 	public function getDisplayName(string $userId): ?string {
 		if (isset($this->cache[$userId])) {
 			return $this->cache[$userId];

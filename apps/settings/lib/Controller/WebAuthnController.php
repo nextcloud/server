@@ -15,6 +15,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UseSession;
@@ -27,7 +28,7 @@ use Webauthn\PublicKeyCredentialCreationOptions;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class WebAuthnController extends Controller {
-	private const WEBAUTHN_REGISTRATION = 'webauthn_registration';
+	private const string WEBAUTHN_REGISTRATION = 'webauthn_registration';
 
 	public function __construct(
 		IRequest $request,
@@ -39,9 +40,7 @@ class WebAuthnController extends Controller {
 		parent::__construct(Application::APP_ID, $request);
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	#[UseSession]
@@ -57,9 +56,7 @@ class WebAuthnController extends Controller {
 		return new JSONResponse($credentialOptions);
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	#[UseSession]
@@ -79,9 +76,7 @@ class WebAuthnController extends Controller {
 		return new JSONResponse($this->manager->finishRegister($publicKeyCredentialCreationOptions, $name, $data));
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	public function deleteRegistration(int $id): JSONResponse {

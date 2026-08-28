@@ -7,8 +7,10 @@
  */
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\DirPermissionsMask;
+use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
 use OCA\DAV\Connector\LegacyPublicAuth;
+use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
 use OCA\DAV\Files\Sharing\PublicLinkCheckPlugin;
@@ -18,8 +20,10 @@ use OCP\App\IAppManager;
 use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IPreview;
@@ -49,7 +53,15 @@ $authBackend = new LegacyPublicAuth(
 	Server::get(ISession::class),
 	Server::get(IThrottler::class)
 );
+$bearerAuthBackend = new BearerAuth(
+	Server::get(IUserSession::class),
+	Server::get(ISession::class),
+	Server::get(IRequest::class),
+	Server::get(IConfig::class),
+	allowOcmAccessToken: true,
+);
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
+$authPlugin->addBackend($bearerAuthBackend);
 
 /** @var IEventDispatcher $eventDispatcher */
 $eventDispatcher = Server::get(IEventDispatcher::class);
@@ -80,6 +92,7 @@ $server = $serverFactory->createServer(
 	$authPlugin,
 	function (\Sabre\DAV\Server $server) use (
 		$authBackend,
+		$bearerAuthBackend,
 		$linkCheckPlugin,
 		$filesDropPlugin
 	) {
@@ -90,21 +103,30 @@ $server = $serverFactory->createServer(
 			// this is what is thrown when trying to access a non-existing share
 			throw new \Sabre\DAV\Exception\NotAuthenticated();
 		}
-
-		$share = $authBackend->getShare();
+		try {
+			$share = $authBackend->getShare();
+		} catch (AssertionError $e) {
+			$share = $bearerAuthBackend->getShare();
+		}
 		$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 		$fileId = $share->getNodeId();
 
 		// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
 		$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
-		Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
-			return new DirPermissionsMask([
-				'storage' => $storage,
-				'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE,
-				'path' => 'files'
-			]);
+		Filesystem::addStorageWrapper('sharePermissions', function (string $mountPoint, IStorage $storage) use ($share) {
+			$mask = $share->getPermissions() | Constants::PERMISSION_SHARE;
+
+			if ($storage instanceof IHomeStorage) {
+				return new DirPermissionsMask([
+					'storage' => $storage,
+					'mask' => $mask,
+					'path' => 'files',
+				]);
+			} else {
+				return new PermissionsMask(['storage' => $storage, 'mask' => $mask]);
+			}
 		});
-		Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
+		Filesystem::addStorageWrapper('shareOwner', function (string $mountPoint, IStorage $storage) use ($share) {
 			return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
 		});
 		Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
@@ -115,6 +137,17 @@ $server = $serverFactory->createServer(
 		if (!$node) {
 			throw new \Sabre\DAV\Exception\NotFound();
 		}
+
+		// getFirstNodeById might return a node without share permission -> try to find a node which is shareable
+		if (!$node->isShareable()) {
+			foreach ($userFolder->getById($fileId) as $candidate) {
+				if ($candidate->isShareable()) {
+					$node = $candidate;
+					break;
+				}
+			}
+		}
+
 		$linkCheckPlugin->setFileInfo($node);
 
 		// If not readable (files_drop) enable the filesdrop plugin

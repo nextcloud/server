@@ -22,7 +22,7 @@ class AppConfigTest extends TestCase {
 	private IAppConfigCore|MockObject $appConfigCore;
 	private AppConfig $appConfig;
 
-	private const TEST_APPID = 'appconfig-test';
+	private const string TEST_APPID = 'appconfig-test';
 
 	#[\Override]
 	protected function setUp(): void {

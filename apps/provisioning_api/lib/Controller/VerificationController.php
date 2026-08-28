@@ -15,6 +15,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\HintException;
@@ -41,9 +42,7 @@ class VerificationController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function showVerifyMail(string $token, string $userId, string $key): TemplateResponse {
@@ -71,9 +70,7 @@ class VerificationController extends Controller {
 			], TemplateResponse::RENDER_AS_GUEST);
 	}
 
-	/**
-	 * @NoSubAdminRequired
-	 */
+	#[NoSubAdminRequired]
 	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'emailVerification')]
 	public function verifyMail(string $token, string $userId, string $key): TemplateResponse {

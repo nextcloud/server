@@ -23,7 +23,6 @@ use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IFile;
 use OCP\Encryption\IManager;
 use OCP\Encryption\Keys\IStorage;
-use OCP\Files;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\GenericFileException;
 use OCP\Files\Mount\IMountPoint;
@@ -400,6 +399,7 @@ class Encryption extends Wrapper {
 		if ($unencryptedSize < 0
 			|| ($size > 0 && $unencryptedSize === $size)
 			|| $unencryptedSize > $size
+			|| ($unencryptedSize === 0 && $size > $this->util->getHeaderSize())
 		) {
 			// check if we already calculate the unencrypted size for the
 			// given path to avoid recursions

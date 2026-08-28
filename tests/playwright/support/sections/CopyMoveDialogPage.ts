@@ -4,7 +4,10 @@
  */
 
 import type { Locator, Page } from '@playwright/test'
+
+import { expect } from '@playwright/test'
 import { escapeAttributeValue } from '../utils/css.ts'
+import { DAV_FILES_ENDPOINT } from '../utils/dav.ts'
 
 /**
  * The file-picker dialog opened by the files "Move or copy" action
@@ -49,27 +52,97 @@ export class CopyMoveDialogPage {
 		return this.dialog().getByRole('button', { name: label, exact: true })
 	}
 
+	/**
+	 * The skeleton rows the picker renders while it loads a folder listing
+	 * (library-owned markup, the rows are `aria-hidden` so they have no role to
+	 * address them by).
+	 */
+	private loadingRows(): Locator {
+		return this.dialog().locator('.loading-row')
+	}
+
+	/**
+	 * Whether `url` is the picker's listing request for `folder` — or for the
+	 * user's root if `folder` is undefined.
+	 *
+	 * @param url - The request URL to check.
+	 * @param folder - The folder name to check for, or undefined to check for the root listing.
+	 */
+	private isListingUrl(url: string, folder?: string): boolean {
+		const path = decodeURIComponent(new URL(url).pathname).replace(/\/+$/, '')
+		// Capture what follows the DAV root ("/remote.php/dav/files/<user>"), so
+		// the root listing is the match with nothing left over.
+		const match = path.match(/\/(?:remote|public)\.php\/dav\/files\/[^/]+(?<path>\/.*)?$/)
+		if (!match) {
+			return false
+		}
+		const relative = match.groups?.path ?? ''
+		return folder === undefined ? relative === '' : relative.endsWith(`/${folder}`)
+	}
+
+	/**
+	 * Register the wait for the listing the picker loads when its destination folder changes
+	 *
+	 * @param folder - The folder name to wait for, or undefined to wait for the root listing.
+	 */
+	private async listingLoaded(folder?: string): Promise<void> {
+		await this.page.waitForResponse((r) => r.request().method() === 'PROPFIND'
+			&& this.isListingUrl(r.url(), folder))
+		await expect(this.loadingRows()).toHaveCount(0)
+	}
+
 	/** Navigate into a (possibly nested) folder inside the picker; returns the leaf folder name. */
 	async navigateTo(dirPath: string): Promise<string | undefined> {
 		const segments = dirPath.split('/').filter(Boolean)
 		for (const dir of segments) {
+			const loaded = this.listingLoaded(dir)
 			await this.getDestination(dir).click()
+			await loaded
 		}
 		return segments.at(-1)
 	}
 
 	/** Navigate the destination back to the user's root via the breadcrumb. */
 	async goToAllFiles(): Promise<void> {
+		const loaded = this.listingLoaded()
 		await this.breadcrumbs().getByRole('button', { name: 'All files' }).click()
+		await loaded
 	}
 
 	private async confirm(label: string, method: 'COPY' | 'MOVE'): Promise<void> {
-		const done = this.page.waitForResponse(
-			(r) => r.request().method() === method
-				&& /\/(remote|public)\.php\/dav\/files\//.test(r.url()),
-		)
-		await this.confirmButton(label).click()
+		const button = this.confirmButton(label)
+		// The picker disables its buttons while a listing loads. Get past that
+		// before arming the response wait: its timeout starts when it is
+		// registered, so an unsettled picker would eat the operation's budget and
+		// surface as a bogus "waiting for response" timeout. The timeout is raised
+		// over the 5s default because this also covers the picker's initial
+		// listing when the caller confirms without navigating first.
+		await expect(button).toBeEnabled({ timeout: 15000 })
+
+		const done = this.page.waitForResponse((r) => r.request().method() === method
+			&& DAV_FILES_ENDPOINT.test(r.url()))
+		await button.click()
+
+		// The picker resolves and closes, then the action checks the destination
+		// for conflicts and finally issues the COPY/MOVE.
+		await this.dialog().waitFor({ state: 'hidden' })
 		await done
+		await this.actionSettled()
+	}
+
+	/**
+	 * Wait for the move/copy action to be fully done. The action shows a
+	 * permanent loading toast up front and only hides it once every node has been
+	 * transferred and the file list has caught up — a copy into the current
+	 * folder stats the new node after the COPY to insert its row. So the toast
+	 * going away, not the DAV response, is what says "settled"; it also keeps the
+	 * toast from covering the list for whatever the test does next.
+	 *
+	 * This cannot pass too early: the toast is shown before the COPY/MOVE request
+	 * that {@link confirm} has already awaited.
+	 */
+	private async actionSettled(): Promise<void> {
+		await expect(this.page.locator('.toastify.toast-loading')).toHaveCount(0, { timeout: 15000 })
 	}
 
 	/** Copy into the folder currently shown in the picker. */

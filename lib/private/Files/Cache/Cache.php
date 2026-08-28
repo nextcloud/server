@@ -141,7 +141,7 @@ class Cache implements ICache {
 		$query->whereStorageId($this->getNumericStorageId());
 
 		$result = $query->executeQuery();
-		$data = $result->fetch();
+		$data = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($data !== false) {
@@ -235,7 +235,7 @@ class Cache implements ICache {
 			$metadataQuery = $query->selectMetadata();
 
 			$result = $query->executeQuery();
-			$files = $result->fetchAll();
+			$files = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			return array_map(function (array $data) use ($metadataQuery): ICacheEntry {
@@ -868,7 +868,7 @@ class Cache implements ICache {
 			->from('filecache')
 			->where($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter($path) . '/%')));
-		return $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+		return $query->executeQuery()->fetchFirstColumn();
 	}
 
 	/**
@@ -1042,7 +1042,7 @@ class Cache implements ICache {
 			$id = $entry['fileid'];
 
 			$query = $this->getQueryBuilder();
-			$query->select('size', 'unencrypted_size')
+			$query->select('size', 'unencrypted_size', 'encrypted')
 				->from('filecache')
 				->whereStorageId($this->getNumericStorageId())
 				->whereParent($id);
@@ -1051,7 +1051,7 @@ class Cache implements ICache {
 			}
 
 			$result = $query->executeQuery();
-			$rows = $result->fetchAll();
+			$rows = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			if ($rows) {
@@ -1062,7 +1062,7 @@ class Cache implements ICache {
 					return Util::numericToNumber($row['unencrypted_size']);
 				}, $rows);
 				$unencryptedSizes = array_map(function (array $row) {
-					return Util::numericToNumber(($row['unencrypted_size'] > 0) ? $row['unencrypted_size'] : $row['size']);
+					return Util::numericToNumber($row['encrypted'] ? $row['unencrypted_size'] : $row['size']);
 				}, $rows);
 
 				$sum = array_sum($sizes);
@@ -1125,7 +1125,7 @@ class Cache implements ICache {
 			->whereStorageId($this->getNumericStorageId());
 
 		$result = $query->executeQuery();
-		$files = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$files = $result->fetchFirstColumn();
 		$result->closeCursor();
 
 		return array_map(function ($id) {
@@ -1200,7 +1200,7 @@ class Cache implements ICache {
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
 		$result = $query->executeQuery();
-		$row = $result->fetch();
+		$row = $result->fetchAssociative();
 		$result->closeCursor();
 
 		if ($row) {
@@ -1254,6 +1254,9 @@ class Cache implements ICache {
 			&& $sourceCache->hasEncryptionWrapper()
 			&& !$this->shouldEncrypt($targetPath)) {
 			$data['encrypted'] = 0;
+			// normalizeData() prefers 'encryptedVersion' over 'encrypted' when both are
+			// set, so it has to be cleared too or the mark above gets ignored
+			unset($data['encryptedVersion']);
 		}
 
 		$fileId = $this->put($targetPath, $data);
@@ -1287,6 +1290,11 @@ class Cache implements ICache {
 		if ($entry instanceof CacheEntry && isset($entry['scan_permissions'])) {
 			$data['permissions'] = $entry['scan_permissions'];
 		}
+
+		if ($entry->isEncrypted() && isset($entry['encryptedVersion'])) {
+			$data['encryptedVersion'] = $entry['encryptedVersion'];
+		}
+
 		return $data;
 	}
 

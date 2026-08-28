@@ -8,9 +8,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-require_once __DIR__ . '/../lib/versioncheck.php';
-require_once __DIR__ . '/../lib/base.php';
-
 use OC\OCS\ApiHelper;
 use OC\Route\Router;
 use OC\SystemConfig;
@@ -28,60 +25,87 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-$request = Server::get(IRequest::class);
+require_once __DIR__ . '/../lib/versioncheck.php';
+require_once __DIR__ . '/../lib/OC.php';
 
-if ((Util::needUpgrade() || Server::get(IConfig::class)->getSystemValueBool('maintenance')) && $request->getPathInfo() !== '/core/update') {
-	// since the behavior of apps or remotes are unpredictable during
-	// an upgrade, return a 503 directly
-	ApiHelper::respond(503, 'Service unavailable', ['X-Nextcloud-Maintenance-Mode' => '1'], 503);
-	exit;
-}
+\OC::boot();
 
-/*
- * Try the appframework routes
- */
-try {
-	$appManager = Server::get(IAppManager::class);
-	$appManager->loadApps(['session']);
-	$appManager->loadApps(['authentication']);
-	$appManager->loadApps(['extended_authentication']);
+\OC::handleRequests(static function (): void {
+	\OC::initForRequest();
+	$request = Server::get(IRequest::class);
 
-	$request->throwDecodingExceptionIfAny();
-
-	if ($request->getPathInfo() !== '/core/update') {
-		// load all apps to get all api routes properly setup
-		// FIXME: this should ideally appear after handleLogin but will cause
-		// side effects in existing apps
-		$appManager->loadApps();
-		if (!Server::get(IUserSession::class)->isLoggedIn()) {
-			OC::handleLogin($request);
-		}
-	} else {
-		$appManager->loadApps(['core']);
+	$serveAppApiDuringMaintenance = false;
+	if (!Util::needUpgrade() && Server::get(IConfig::class)->getSystemValueBool('maintenance')) {
+		$pathInfo = $request->getPathInfo();
+		// AppAPI must keep serving HaRP traffic (signed OCS calls and ExApp callbacks)
+		$serveAppApiDuringMaintenance
+			= ($pathInfo === '/apps/app_api' || str_starts_with($pathInfo, '/apps/app_api/'))
+			&& Server::get(IAppManager::class)->isEnabledForAnyone('app_api');
 	}
 
-	Server::get(Router::class)->match('/ocsapp' . $request->getRawPathInfo());
-} catch (MaxDelayReached $ex) {
-	ApiHelper::respond(Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage());
-} catch (ResourceNotFoundException $e) {
-	$txt = 'Invalid query, please check the syntax. API specifications are here:'
-		. ' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.' . "\n";
-	ApiHelper::respond(OCSController::RESPOND_NOT_FOUND, $txt);
-} catch (MethodNotAllowedException $e) {
-	ApiHelper::setContentType();
-	http_response_code(405);
-} catch (LoginException $e) {
-	ApiHelper::respond(OCSController::RESPOND_UNAUTHORISED, 'Unauthorised');
-} catch (\Exception $e) {
-	Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+	if ((Util::needUpgrade()
+		|| (Server::get(IConfig::class)->getSystemValueBool('maintenance') && !$serveAppApiDuringMaintenance))
+		&& $request->getPathInfo() !== '/core/update') {
+		// since the behavior of apps or remotes are unpredictable during
+		// an upgrade, return a 503 directly
+		ApiHelper::respond(503, 'Service unavailable', ['X-Nextcloud-Maintenance-Mode' => '1'], 503);
+		exit;
+	}
 
-	$txt = 'Internal Server Error' . "\n";
+	/*
+	* Try the appframework routes
+	*/
 	try {
-		if (Server::get(SystemConfig::class)->getValue('debug', false)) {
-			$txt .= $e->getMessage();
+		$appManager = Server::get(IAppManager::class);
+		$appManager->loadApps(['session']);
+		$appManager->loadApps(['authentication']);
+		$appManager->loadApps(['extended_authentication']);
+
+		$request->throwDecodingExceptionIfAny();
+
+		if ($request->getPathInfo() !== '/core/update') {
+			if ($serveAppApiDuringMaintenance) {
+				// loadApps() below is a no-op during maintenance, load app_api explicitly
+				$appManager->loadApp('app_api');
+			}
+			// load all apps to get all api routes properly setup
+			// FIXME: this should ideally appear after handleLogin but will cause
+			// side effects in existing apps
+			$appManager->loadApps();
+			if (!Server::get(IUserSession::class)->isLoggedIn()) {
+				OC::handleLogin($request);
+			}
+		} else {
+			$appManager->loadApps(['core']);
 		}
-	} catch (\Throwable $e) {
-		// Just to be save
+
+		// All apps are now loaded to handle the request
+		Server::get(\OC\NavigationManager::class)->setup();
+		Server::get(\OCP\EventDispatcher\IEventDispatcher::class)->dispatchTyped(new \OCP\App\Events\AppsLoadedEvent());
+
+		Server::get(Router::class)->match('/ocsapp' . $request->getRawPathInfo());
+	} catch (MaxDelayReached $ex) {
+		ApiHelper::respond(Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage());
+	} catch (ResourceNotFoundException $e) {
+		$txt = 'Invalid query, please check the syntax. API specifications are here:'
+			. ' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.' . "\n";
+		ApiHelper::respond(OCSController::RESPOND_NOT_FOUND, $txt);
+	} catch (MethodNotAllowedException $e) {
+		ApiHelper::setContentType();
+		http_response_code(405);
+	} catch (LoginException $e) {
+		ApiHelper::respond(OCSController::RESPOND_UNAUTHORISED, 'Unauthorised');
+	} catch (\Exception $e) {
+		Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+
+		$txt = 'Internal Server Error' . "\n";
+		try {
+			if (Server::get(SystemConfig::class)->getValue('debug', false)) {
+				$txt .= $e->getMessage();
+			}
+		} catch (\Throwable $e) {
+			// Just to be save
+		}
+		ApiHelper::respond(OCSController::RESPOND_SERVER_ERROR, $txt);
 	}
-	ApiHelper::respond(OCSController::RESPOND_SERVER_ERROR, $txt);
-}
+});

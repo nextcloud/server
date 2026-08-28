@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '../../support/fixtures/files-page.ts'
+import { expect, test } from '../../support/fixtures/files-page.ts'
 import { rm, uploadContent } from '../../support/utils/dav.ts'
 
 // A representative subset of the default actions, not the full feature set.

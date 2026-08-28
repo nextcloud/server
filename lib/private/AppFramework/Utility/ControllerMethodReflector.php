@@ -20,6 +20,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	private array $types = [];
 	private array $parameters = [];
 	private array $ranges = [];
+	private array $stringConstraints = [];
 	private int $startLine = 0;
 	private string $file = '';
 	private ?\ReflectionMethod $reflectionMethod = null;
@@ -38,6 +39,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 		$this->types = [];
 		$this->parameters = [];
 		$this->ranges = [];
+		$this->stringConstraints = [];
 		$this->reflectionMethod = new \ReflectionMethod($object, $method);
 		$this->startLine = $this->reflectionMethod->getStartLine();
 		$this->file = $this->reflectionMethod->getFileName();
@@ -78,6 +80,23 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 					'min' => $matches['rangeMin'][$index] === 'min' ? PHP_INT_MIN : (int)$matches['rangeMin'][$index],
 					'max' => $matches['rangeMax'][$index] === 'max' ? PHP_INT_MAX : (int)$matches['rangeMax'][$index],
 				];
+			}
+
+			// extract psalm int aliases that imply a fixed range
+			preg_match_all('/@(?:psalm-)?param\h+(\?)?(?P<type>positive-int|non-negative-int|negative-int|non-positive-int)(\|null)?\h+\$(?P<var>\w+)/', $docs, $matches);
+			foreach ($matches['var'] as $index => $varName) {
+				$this->ranges[$varName] = match ($matches['type'][$index]) {
+					'positive-int' => ['min' => 1, 'max' => PHP_INT_MAX],
+					'non-negative-int' => ['min' => 0, 'max' => PHP_INT_MAX],
+					'negative-int' => ['min' => PHP_INT_MIN, 'max' => -1],
+					'non-positive-int' => ['min' => PHP_INT_MIN, 'max' => 0],
+				};
+			}
+
+			// extract psalm scalar string types
+			preg_match_all('/@(?:psalm-)?param\h+(\?)?(?P<type>non-empty-lowercase-string|non-falsy-string|non-empty-string|lowercase-string|numeric-string)(\|null)?\h+\$(?P<var>\w+)/', $docs, $matches);
+			foreach ($matches['var'] as $index => $varName) {
+				$this->stringConstraints[$varName] = $matches['type'][$index];
 			}
 		}
 
@@ -120,6 +139,25 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 		return null;
 	}
 
+	public function getStringConstraint(string $parameter): ?string {
+		return $this->stringConstraints[$parameter] ?? null;
+	}
+
+	/**
+	 * Whether $value satisfies the psalm string type annotated for $parameter,
+	 * or true if none was annotated
+	 */
+	public function satisfiesStringConstraint(string $parameter, string $value): bool {
+		return match ($this->getStringConstraint($parameter)) {
+			'non-empty-string' => $value !== '',
+			'non-empty-lowercase-string' => $value !== '' && $value === strtolower($value),
+			'lowercase-string' => $value === strtolower($value),
+			'non-falsy-string' => $value !== '' && $value !== '0',
+			'numeric-string' => is_numeric($value),
+			default => true,
+		};
+	}
+
 	/**
 	 * @return array the arguments of the method with key => default value
 	 */
@@ -145,6 +183,19 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @template T
+	 * @param class-string<T> $attributeClass
+	 * @return ?\ReflectionAttribute<T>
+	 */
+	public function getAttribute(string $attributeClass): ?\ReflectionAttribute {
+		$attributes = $this->reflectionMethod->getAttributes($attributeClass);
+		if (!empty($attributes)) {
+			return $attributes[0];
+		}
+		return null;
 	}
 
 	/**

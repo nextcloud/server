@@ -316,6 +316,117 @@ Scenario: Can copy file between shares if share permissions
     When User "user1" copies file "/share/test.txt" to "/re-share/movetest.txt"
     Then the HTTP status code should be "201"
 
+Scenario: Cannot copy files from share without share permission into subfolder of other share
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |     7 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/re-share"
+    And user "user1" created a folder "/re-share/subfolder"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" copies file "/share/test.txt" to "/re-share/subfolder/copytest.txt"
+    Then the HTTP status code should be "403"
+
+Scenario: Cannot move files from share without share permission into subfolder of other share
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |     7 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/re-share"
+    And user "user1" created a folder "/re-share/subfolder"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" moves file "/share/test.txt" to "/re-share/subfolder/movetest.txt"
+    Then the HTTP status code should be "403"
+
+Scenario: Cannot move folder containing share without share permission into subfolder of other share
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |     7 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/contains-share"
+    When User "user1" moves file "/share" to "/contains-share/share"
+    Then the HTTP status code should be "201"
+    And user "user1" created a folder "/re-share"
+    And user "user1" created a folder "/re-share/subfolder"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" moves file "/contains-share" to "/re-share/subfolder/movetest"
+    Then the HTTP status code should be "403"
+
+Scenario: Can copy file between shares into subfolder if share permissions
+    Given user "user0" exists
+    Given user "user1" exists
+    Given user "user2" exists
+    And As an "user0"
+    And user "user0" created a folder "/share"
+    When creating a share with
+      | path        | share |
+      | shareType   |     0 |
+      | shareWith   | user1 |
+      | permissions |    31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    And User "user0" uploads file with content "test" to "/share/test.txt"
+    And As an "user1"
+    And user "user1" created a folder "/re-share"
+    And user "user1" created a folder "/re-share/subfolder"
+    When creating a share with
+      | path        | re-share |
+      | shareType   |        0 |
+      | shareWith   |    user2 |
+      | permissions |       31 |
+    Then the HTTP status code should be "200"
+    And the OCS status code should be "100"
+    When User "user1" copies file "/share/test.txt" to "/re-share/subfolder/copytest.txt"
+    Then the HTTP status code should be "201"
+
 Scenario: Group deletes removes mount without marking
 	Given As an "admin"
 	And user "user0" exists
@@ -426,3 +537,21 @@ Scenario: User added/removed to group share with marking
     When User "user0" moves file "/textfile0 (2).txt" to "/target.txt"
     Then Share mounts for "user0" match
       | /user0/files/target.txt/ |
+
+  # The initiator reaches the folder through a read-only path as well, which is found first
+  # by id. The share permission of the other path still allows creating the share.
+  Scenario: Creating a link share of a folder that is also reachable without share permission
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/parent"
+    And user "user0" created a folder "/parent/z-child"
+    And folder "/parent" of user "user0" is shared with user "user1" with permissions 31
+    And user "user1" accepts last share
+    And folder "/parent/z-child" of user "user0" is shared with user "user1" with permissions 1
+    And user "user1" accepts last share
+    When as "user1" creating a share with
+      | path | parent/z-child |
+      | shareType | 3 |
+      | permissions | 1 |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"

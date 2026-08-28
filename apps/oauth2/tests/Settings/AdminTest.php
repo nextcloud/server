@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,20 +15,16 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-class AdminTest extends TestCase {
+final class AdminTest extends TestCase {
+	private Admin $admin;
 
-	/** @var Admin|MockObject */
-	private $admin;
+	private IInitialState&MockObject $initialState;
 
-	/** @var IInitialState|MockObject */
-	private $initialState;
+	private ClientMapper&MockObject $clientMapper;
 
-	/** @var ClientMapper|MockObject */
-	private $clientMapper;
-
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -37,7 +35,6 @@ class AdminTest extends TestCase {
 			$this->initialState,
 			$this->clientMapper,
 			$this->createMock(IURLGenerator::class),
-			$this->createMock(LoggerInterface::class)
 		);
 	}
 

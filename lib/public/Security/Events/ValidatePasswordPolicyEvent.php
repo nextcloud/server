@@ -11,6 +11,7 @@ namespace OCP\Security\Events;
 
 use OCP\EventDispatcher\Event;
 use OCP\Security\PasswordContext;
+use SensitiveParameter;
 
 /**
  * This event can be emitted to request a validation of a password.
@@ -26,6 +27,7 @@ class ValidatePasswordPolicyEvent extends Event {
 	 * @since 31.0.0 - $context parameter added
 	 */
 	public function __construct(
+		#[SensitiveParameter]
 		private string $password,
 		private PasswordContext $context = PasswordContext::ACCOUNT,
 	) {

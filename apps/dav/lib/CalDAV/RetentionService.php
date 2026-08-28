@@ -16,7 +16,7 @@ use function max;
 
 class RetentionService {
 	public const RETENTION_CONFIG_KEY = 'calendarRetentionObligation';
-	private const DEFAULT_RETENTION_SECONDS = 30 * 24 * 60 * 60;
+	private const int DEFAULT_RETENTION_SECONDS = 30 * 24 * 60 * 60;
 
 	public function __construct(
 		private IConfig $config,

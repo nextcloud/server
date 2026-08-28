@@ -11,7 +11,7 @@ namespace OC\Setup;
 use OC\DatabaseSetupException;
 
 class OCI extends AbstractDatabase {
-	public $dbprettyname = 'Oracle';
+	public string $dbprettyname = 'Oracle';
 
 	protected $dbtablespace;
 
@@ -42,7 +42,8 @@ class OCI extends AbstractDatabase {
 		} elseif (empty($config['dbname'])) {
 			$errors[] = $this->trans->t('Enter the database name for %s', [$this->dbprettyname]);
 		}
-		return $errors;
+		// Oracle is configured through the connect string and `sqlnet.ora`, not by the installer
+		return array_merge($errors, $this->validateEncryptionOptions($config));
 	}
 
 	#[\Override]

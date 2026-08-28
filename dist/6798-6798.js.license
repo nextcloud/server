@@ -5,6 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: xiaokai <kexiaokai@gmail.com>
 SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
@@ -43,7 +44,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.8.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.39.0
+	- version: 8.40.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.3.0
@@ -55,10 +56,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.1.2
 	- license: MIT
 - dompurify
-	- version: 3.4.2
+	- version: 3.4.13
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
+	- license: MIT
+- @floating-ui/core
+	- version: 0.3.1
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -70,7 +74,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - tabbable
-	- version: 6.4.0
+	- version: 6.5.0
 	- license: MIT
 - vue-color
 	- version: 2.8.2

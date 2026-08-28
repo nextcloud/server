@@ -111,7 +111,7 @@ class MigrateOauthTables implements IRepairStep {
 				->from('oauth2_clients');
 
 			$result = $qbSelect->executeQuery();
-			while ($row = $result->fetch()) {
+			while ($row = $result->fetchAssociative()) {
 				$id = $row['id'];
 				$shortenedName = mb_substr($row['name'], 0, 64);
 				$qb->setParameter('theId', $id, IQueryBuilder::PARAM_INT);
@@ -149,7 +149,7 @@ class MigrateOauthTables implements IRepairStep {
 			$selectQuery = $this->db->getQueryBuilder();
 			$selectQuery->select('id', 'identifier')->from('oauth2_clients');
 			$result = $selectQuery->executeQuery();
-			$identifiers = $result->fetchAll();
+			$identifiers = $result->fetchAllAssociative();
 			$result->closeCursor();
 
 			// 2. Insert them into the client_identifier column.
@@ -220,9 +220,9 @@ class MigrateOauthTables implements IRepairStep {
 			$result = $qbSelect->executeQuery();
 			$now = $this->timeFactory->now()->getTimestamp();
 			$index = 0;
-			while ($row = $result->fetch()) {
-				$clientId = $row['client_id'];
-				$refreshToken = $row['token'];
+			while ($row = $result->fetchAssociative()) {
+				$clientId = (int)$row['client_id'];
+				$refreshToken = (string)$row['token'];
 
 				// Insert expired token so that it can be rotated on the next refresh
 				$accessToken = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
@@ -239,12 +239,12 @@ class MigrateOauthTables implements IRepairStep {
 				$this->tokenProvider->updateToken($authToken);
 
 				$accessTokenEntity = new AccessToken();
-				$accessTokenEntity->setTokenId($authToken->getId());
-				$accessTokenEntity->setClientId($clientId);
-				$accessTokenEntity->setHashedCode(hash('sha512', $refreshToken));
-				$accessTokenEntity->setEncryptedToken($this->crypto->encrypt($accessToken, $refreshToken));
-				$accessTokenEntity->setCodeCreatedAt($now);
-				$accessTokenEntity->setTokenCount(1);
+				$accessTokenEntity->tokenId = $authToken->getId();
+				$accessTokenEntity->clientId = $clientId;
+				$accessTokenEntity->hashedCode = hash('sha512', $refreshToken);
+				$accessTokenEntity->encryptedToken = $this->crypto->encrypt($accessToken, $refreshToken);
+				$accessTokenEntity->codeCreatedAt = $now;
+				$accessTokenEntity->tokenCount = 1;
 				$this->accessTokenMapper->insert($accessTokenEntity);
 
 				$index++;

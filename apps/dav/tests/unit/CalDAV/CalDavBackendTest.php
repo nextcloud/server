@@ -15,8 +15,10 @@ use DateTimeImmutable;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\DAV\Sharing\Plugin as SharingPlugin;
 use OCA\DAV\Events\CalendarDeletedEvent;
+use OCA\DAV\Exception\UidConflict;
 use OCP\IConfig;
 use OCP\IL10N;
 use Psr\Log\NullLogger;
@@ -264,7 +266,7 @@ EOD;
 	}
 
 	public function testMultipleCalendarObjectsWithSameUID(): void {
-		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectException(UidConflict::class);
 		$this->expectExceptionMessage('Calendar object with uid already exists in this calendar collection.');
 
 		$calendarId = $this->createTestCalendar();
@@ -290,6 +292,122 @@ EOD;
 		$uri1 = static::getUniqueID('event');
 		$this->backend->createCalendarObject($calendarId, $uri0, $calData);
 		$this->backend->createCalendarObject($calendarId, $uri1, $calData);
+	}
+
+	public function testCreateCalendarObjectWithSameUidAsObjectInTrashbin(): void {
+		$calendarId = $this->createTestCalendar();
+
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$uri = static::getUniqueID('event') . '.ics';
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
+
+		// Soft-delete the object so it is moved to the trashbin but keeps its UID
+		$this->backend->deleteCalendarObject($calendarId, $uri);
+		$trashbinUri = str_replace('.ics', '-deleted.ics', $uri);
+		$trashedObject = $this->backend->getCalendarObject($calendarId, $trashbinUri);
+		$this->assertNotNull($trashedObject);
+
+		// Recreating an object with the same UID must purge the trashbin entry
+		// instead of violating the unique index on (calendarid, calendartype, uid)
+		$newUri = static::getUniqueID('event') . '.ics';
+		$this->backend->createCalendarObject($calendarId, $newUri, $calData);
+
+		$this->assertNull($this->backend->getCalendarObject($calendarId, $trashbinUri));
+		$newObject = $this->backend->getCalendarObject($calendarId, $newUri);
+		$this->assertNotNull($newObject);
+		$this->assertEquals($calData, $newObject['calendardata']);
+	}
+
+	public function testMoveCalendarObjectToCollectionWithSameUID(): void {
+		$this->dispatcher->expects(self::any())->method('dispatchTyped');
+
+		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Source', []);
+		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Target', []);
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$sourceCalendarId = (int)$calendars[0]['id'];
+		$targetCalendarId = (int)$calendars[1]['id'];
+
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:move-conflict-1
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		// Same UID in two different collections is allowed; moving the source
+		// into the target must then be rejected with the no-uid-conflict error.
+		$this->backend->createCalendarObject($sourceCalendarId, 'source.ics', $calData);
+		$this->backend->createCalendarObject($targetCalendarId, 'target.ics', $calData);
+		$sourceObject = $this->backend->getCalendarObject($sourceCalendarId, 'source.ics');
+
+		$this->expectException(UidConflict::class);
+		$this->backend->moveCalendarObject(
+			self::UNIT_TEST_USER,
+			(int)$sourceObject['id'],
+			self::UNIT_TEST_USER,
+			$targetCalendarId,
+			'moved.ics',
+		);
+	}
+
+	public function testRecreateCalendarObjectReclaimsTrashedUid(): void {
+		$this->dispatcher->expects(self::any())->method('dispatchTyped');
+		$calendarId = $this->createTestCalendar();
+
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:reclaim-1
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$this->backend->createCalendarObject($calendarId, 'first.ics', $calData);
+		// Soft-delete moves the object to the trashbin (deleted_at is set).
+		$this->backend->deleteCalendarObject($calendarId, 'first.ics');
+		self::assertCount(0, $this->backend->getCalendarObjects($calendarId));
+
+		// Re-creating the same UID must reclaim the trashed entry instead of
+		// raising a no-uid-conflict.
+		$this->backend->createCalendarObject($calendarId, 'second.ics', $calData);
+		$objects = $this->backend->getCalendarObjects($calendarId);
+		self::assertCount(1, $objects);
+		self::assertSame('second.ics', $objects[0]['uri']);
 	}
 
 	public function testMultiCalendarObjects(): void {
@@ -735,6 +853,25 @@ EOS;
 			'no class set -> public' => [CalDavBackend::CLASSIFICATION_PUBLIC, 'classification', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//dmfs.org//mimedir.icalendar//EN\r\nBEGIN:VTIMEZONE\r\nTZID:Europe/Berlin\r\nX-LIC-LOCATION:Europe/Berlin\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTART;TZID=Europe/Berlin:20160419T130000\r\nSUMMARY:Test\r\nTRANSP:OPAQUE\r\nDTEND;TZID=Europe/Berlin:20160419T140000\r\nLAST-MODIFIED:20160419T074202Z\r\nDTSTAMP:20160419T074202Z\r\nCREATED:20160419T074202Z\r\nUID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310\r\nEND:VEVENT\r\nEND:VCALENDAR"],
 
 			'unknown class -> private' => [CalDavBackend::CLASSIFICATION_PRIVATE, 'classification', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//dmfs.org//mimedir.icalendar//EN\r\nBEGIN:VTIMEZONE\r\nTZID:Europe/Berlin\r\nX-LIC-LOCATION:Europe/Berlin\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTART;TZID=Europe/Berlin:20160419T130000\r\nSUMMARY:Test\r\nCLASS:VERTRAULICH\r\nTRANSP:OPAQUE\r\nSTATUS:CONFIRMED\r\nDTEND;TZID=Europe/Berlin:20160419T140000\r\nLAST-MODIFIED:20160419T074202Z\r\nDTSTAMP:20160419T074202Z\r\nCREATED:20160419T074202Z\r\nUID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310\r\nEND:VEVENT\r\nEND:VCALENDAR"],
+
+			// VTODO component type
+			'VTODO uid' => ['20070313T123432Z-456553@example.com', 'uid', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VTODO\r\nUID:20070313T123432Z-456553@example.com\r\nDTSTAMP:20070313T123432Z\r\nDUE;VALUE=DATE:20070501\r\nSUMMARY:Submit Quebec Income Tax Return for 2006\r\nCLASS:CONFIDENTIAL\r\nSTATUS:NEEDS-ACTION\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"],
+			'VTODO componentType' => ['VTODO', 'componentType', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VTODO\r\nUID:20070313T123432Z-456553@example.com\r\nDTSTAMP:20070313T123432Z\r\nDUE;VALUE=DATE:20070501\r\nSUMMARY:Submit Quebec Income Tax Return for 2006\r\nCLASS:CONFIDENTIAL\r\nSTATUS:NEEDS-ACTION\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"],
+			'VTODO classification' => [CalDavBackend::CLASSIFICATION_CONFIDENTIAL, 'classification', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VTODO\r\nUID:20070313T123432Z-456553@example.com\r\nDTSTAMP:20070313T123432Z\r\nDUE;VALUE=DATE:20070501\r\nSUMMARY:Submit Quebec Income Tax Return for 2006\r\nCLASS:CONFIDENTIAL\r\nSTATUS:NEEDS-ACTION\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"],
+			'VTODO with DTSTART and DUE takes DUE as last occurrence' => [(new DateTime('2024-03-01T17:00:00Z'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VTODO\r\nUID:vtodo-with-due@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDUE:20240301T170000Z\r\nSUMMARY:Task with start and due\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"],
+			'VTODO with only DUE and no DTSTART has no occurrences' => [0, 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VTODO\r\nUID:vtodo-due-only@example.com\r\nDTSTAMP:20240301T080000Z\r\nDUE:20240301T170000Z\r\nSUMMARY:Task with due only\r\nEND:VTODO\r\nEND:VCALENDAR\r\n"],
+
+			// VJOURNAL component type
+			'VJOURNAL uid' => ['19970901T130000Z-123405@example.com', 'uid', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VJOURNAL\r\nUID:19970901T130000Z-123405@example.com\r\nDTSTAMP:19970901T130000Z\r\nDTSTART;VALUE=DATE:19970317\r\nSUMMARY:Staff meeting minutes\r\nEND:VJOURNAL\r\nEND:VCALENDAR\r\n"],
+			'VJOURNAL componentType' => ['VJOURNAL', 'componentType', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VJOURNAL\r\nUID:19970901T130000Z-123405@example.com\r\nDTSTAMP:19970901T130000Z\r\nDTSTART;VALUE=DATE:19970317\r\nSUMMARY:Staff meeting minutes\r\nEND:VJOURNAL\r\nEND:VCALENDAR\r\n"],
+			'VJOURNAL without CLASS -> public' => [CalDavBackend::CLASSIFICATION_PUBLIC, 'classification', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VJOURNAL\r\nUID:19970901T130000Z-123405@example.com\r\nDTSTAMP:19970901T130000Z\r\nDTSTART;VALUE=DATE:19970317\r\nSUMMARY:Staff meeting minutes\r\nEND:VJOURNAL\r\nEND:VCALENDAR\r\n"],
+			'VJOURNAL last occurrence equals first occurrence (not a VEVENT)' => [(new DateTime('1997-03-17'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VJOURNAL\r\nUID:19970901T130000Z-123405@example.com\r\nDTSTAMP:19970901T130000Z\r\nDTSTART;VALUE=DATE:19970317\r\nSUMMARY:Staff meeting minutes\r\nEND:VJOURNAL\r\nEND:VCALENDAR\r\n"],
+
+			// Additional VEVENT branches
+			'VEVENT with DURATION instead of DTEND' => [(new DateTime('2024-03-01T11:00:00Z'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:vevent-duration@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDURATION:PT2H\r\nSUMMARY:Event with duration\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			'all-day VEVENT without DTEND defaults to one day' => [(new DateTime('2024-03-02'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:vevent-allday@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART;VALUE=DATE:20240301\r\nSUMMARY:All day event\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			'VEVENT with RDATE only (no RRULE) uses latest RDATE as last occurrence' => [(new DateTime('2024-03-10T09:00:00Z'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:vevent-rdate-only@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nRDATE:20240305T090000Z,20240310T090000Z\r\nSUMMARY:Event with RDATE only\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			'component without UID' => [null, 'uid', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nSUMMARY:Event without UID\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
 		];
 	}
 
@@ -1336,14 +1473,14 @@ EOD;
 		$this->assertCount(4, $mySearchResults);
 		$this->assertCount(3, $sharerSearchResults);
 
-		$this->assertEquals($myPublic, $mySearchResults[0]['calendardata']);
-		$this->assertEquals($myPrivate, $mySearchResults[1]['calendardata']);
-		$this->assertEquals($myConfidential, $mySearchResults[2]['calendardata']);
-		$this->assertEquals($sharerPublic, $mySearchResults[3]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($myPublic, $mySearchResults[0]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($myPrivate, $mySearchResults[1]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($myConfidential, $mySearchResults[2]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerPublic, $mySearchResults[3]['calendardata']);
 
-		$this->assertEquals($sharerPublic, $sharerSearchResults[0]['calendardata']);
-		$this->assertEquals($sharerPrivate, $sharerSearchResults[1]['calendardata']);
-		$this->assertEquals($sharerConfidential, $sharerSearchResults[2]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerPublic, $sharerSearchResults[0]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerPrivate, $sharerSearchResults[1]['calendardata']);
+		$this->assertStringEqualsStringIgnoringLineEndingsWithTrim($sharerConfidential, $sharerSearchResults[2]['calendardata']);
 	}
 
 	/**
@@ -1987,5 +2124,357 @@ EOD;
 
 		// Clean up
 		$this->backend->deleteCalendar($calendars[0]['id'], true);
+	}
+
+	public function testSearchPrincipalWithTimeRange(): void {
+		$myPublic = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:My Test (public)
+CLASS:PUBLIC
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-1
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$myPrivate = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:My Test (private)
+CLASS:PRIVATE
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-2
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$myConfidential = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:My Test (confidential)
+CLASS:CONFIDENTIAL
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-3
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$sharerPublic = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:Sharer Test (public)
+CLASS:PUBLIC
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-4
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$sharerPrivate = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:Sharer Test (private)
+CLASS:PRIVATE
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-5
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$sharerConfidential = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//dmfs.org//mimedir.icalendar//EN
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Berlin:20131027T130000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+SUMMARY:Sharer Test (confidential)
+CLASS:CONFIDENTIAL
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+DTEND;TZID=Europe/Berlin:20131027T140000
+LAST-MODIFIED:20160419T074202Z
+DTSTAMP:20160419T074202Z
+CREATED:20160419T074202Z
+UID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310-6
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$l10n = $this->createMock(IL10N::class);
+		$l10n
+			->expects($this->any())
+			->method('t')
+			->willReturnCallback(function ($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			});
+		$config = $this->createMock(IConfig::class);
+		$this->userManager->expects($this->any())
+			->method('userExists')
+			->willReturn(true);
+		$this->groupManager->expects($this->any())
+			->method('groupExists')
+			->willReturn(true);
+		$this->principal->expects(self::atLeastOnce())
+			->method('findByUri')
+			->willReturn(self::UNIT_TEST_USER);
+
+		$me = self::UNIT_TEST_USER;
+		$sharer = self::UNIT_TEST_USER1;
+		$this->backend->createCalendar($me, 'calendar-uri-me', []);
+		$this->backend->createCalendar($sharer, 'calendar-uri-sharer', []);
+		$myCalendars = $this->backend->getCalendarsForUser($me);
+		$this->assertCount(1, $myCalendars);
+		$sharerCalendars = $this->backend->getCalendarsForUser($sharer);
+		$this->assertCount(1, $sharerCalendars);
+		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
+		$sharerCalendar = new Calendar($this->backend, $sharerCalendars[0], $l10n, $config, $logger);
+		$this->backend->updateShares($sharerCalendar, [
+			[
+				'href' => 'principal:' . $me,
+				'readOnly' => false,
+			],
+		], []);
+		$this->assertCount(2, $this->backend->getCalendarsForUser($me));
+		$this->backend->createCalendarObject($myCalendars[0]['id'], 'event0.ics', $myPublic);
+		$this->backend->createCalendarObject($myCalendars[0]['id'], 'event1.ics', $myPrivate);
+		$this->backend->createCalendarObject($myCalendars[0]['id'], 'event2.ics', $myConfidential);
+		$this->backend->createCalendarObject($sharerCalendars[0]['id'], 'event3.ics', $sharerPublic);
+		$this->backend->createCalendarObject($sharerCalendars[0]['id'], 'event4.ics', $sharerPrivate);
+		$this->backend->createCalendarObject($sharerCalendars[0]['id'], 'event5.ics', $sharerConfidential);
+
+		$mySearchResults = $this->backend->searchPrincipalUri(
+			$me,
+			'Test',
+			['VEVENT'],
+			['SUMMARY'],
+			[],
+			[
+				'timerange' => [
+					'start' => new DateTimeImmutable('2013-10-27 11:00:00', new DateTimeZone('UTC')),
+					'end' => new DateTimeImmutable('2013-10-27 14:00:00', new DateTimeZone('UTC')),
+				],
+			]
+		);
+		$sharerSearchResults = $this->backend->searchPrincipalUri($sharer, 'Test', ['VEVENT'], ['SUMMARY'], []);
+
+		// Results with a time range are filtered but not expanded: the original
+		// DTSTART and RRULE are preserved (callers expand the occurrence themselves).
+		// Results without a time range are likewise not expanded.
+		$this->assertCount(4, $mySearchResults);
+		$this->assertCount(3, $sharerSearchResults);
+		$this->assertStringContainsString('SUMMARY:My Test (public)', $mySearchResults[0]['calendardata']);
+		$this->assertStringContainsString('DTSTART;TZID=Europe/Berlin:20131027T130000', $mySearchResults[0]['calendardata']);
+		$this->assertStringContainsString('RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU', $mySearchResults[0]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:My Test (private)', $mySearchResults[1]['calendardata']);
+		$this->assertStringContainsString('DTSTART;TZID=Europe/Berlin:20131027T130000', $mySearchResults[1]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:My Test (confidential)', $mySearchResults[2]['calendardata']);
+		$this->assertStringContainsString('DTSTART;TZID=Europe/Berlin:20131027T130000', $mySearchResults[2]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:Sharer Test (public)', $mySearchResults[3]['calendardata']);
+		$this->assertStringContainsString('DTSTART;TZID=Europe/Berlin:20131027T130000', $mySearchResults[3]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:Sharer Test (public)', $sharerSearchResults[0]['calendardata']);
+		$this->assertStringContainsString('RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU', $sharerSearchResults[0]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:Sharer Test (private)', $sharerSearchResults[1]['calendardata']);
+		$this->assertStringContainsString('SUMMARY:Sharer Test (confidential)', $sharerSearchResults[2]['calendardata']);
+	}
+
+	private function assertStringEqualsStringIgnoringLineEndingsWithTrim(string $expected, string $actual, string $message = ''): void {
+		$this->assertStringEqualsStringIgnoringLineEndings(trim($expected), trim($actual), $message);
+	}
+
+	private function buildFederatedCalendarEntity(int $state): FederatedCalendarEntity {
+		$entity = new FederatedCalendarEntity();
+		$entity->setId(10);
+		$entity->setPrincipaluri(self::UNIT_TEST_USER);
+		$entity->setUri('federated-cal');
+		$entity->setDisplayName('Federated calendar');
+		$entity->setComponents('VEVENT');
+		$entity->setSharedBy('sharer@nextcloud.remote');
+		$entity->setState($state);
+		return $entity;
+	}
+
+	public function testGetFederatedCalendarsForUserOnlyQueriesAcceptedCalendars(): void {
+		$entity = $this->buildFederatedCalendarEntity(FederatedCalendarEntity::STATE_ACCEPTED);
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('findByPrincipalUri')
+			->with(self::UNIT_TEST_USER, FederatedCalendarEntity::STATE_ACCEPTED)
+			->willReturn([$entity]);
+
+		$calendars = $this->backend->getFederatedCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertCount(1, $calendars);
+		$this->assertSame($entity->getId(), $calendars[0]['id']);
+	}
+
+	public function testGetFederatedCalendarByUriReturnsAcceptedCalendar(): void {
+		$entity = $this->buildFederatedCalendarEntity(FederatedCalendarEntity::STATE_ACCEPTED);
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('findByUri')
+			->with(self::UNIT_TEST_USER, 'federated-cal')
+			->willReturn($entity);
+
+		$calendarInfo = $this->backend->getFederatedCalendarByUri(self::UNIT_TEST_USER, 'federated-cal');
+		$this->assertNotNull($calendarInfo);
+		$this->assertSame($entity->getId(), $calendarInfo['id']);
+	}
+
+	public function testGetFederatedCalendarByUriHidesPendingCalendar(): void {
+		$entity = $this->buildFederatedCalendarEntity(FederatedCalendarEntity::STATE_PENDING);
+		$this->federatedCalendarMapper->expects(self::once())
+			->method('findByUri')
+			->with(self::UNIT_TEST_USER, 'federated-cal')
+			->willReturn($entity);
+
+		$this->assertNull($this->backend->getFederatedCalendarByUri(self::UNIT_TEST_USER, 'federated-cal'));
 	}
 }

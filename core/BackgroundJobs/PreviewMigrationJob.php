@@ -9,16 +9,15 @@ declare(strict_types=1);
 
 namespace OC\Core\BackgroundJobs;
 
-use OC\Preview\Db\Preview;
 use OC\Preview\PreviewMigrationService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
-use OCP\DB\IResult;
+use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use Override;
+use Psr\Log\LoggerInterface;
 
 class PreviewMigrationJob extends TimedJob {
 	private string $previewRootPath;
@@ -27,9 +26,9 @@ class PreviewMigrationJob extends TimedJob {
 		ITimeFactory $time,
 		private readonly IAppConfig $appConfig,
 		private readonly IConfig $config,
-		private readonly IDBConnection $connection,
 		private readonly IRootFolder $rootFolder,
 		private readonly PreviewMigrationService $migrationService,
+		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct($time);
 
@@ -44,23 +43,54 @@ class PreviewMigrationJob extends TimedJob {
 			return;
 		}
 
+		$storage = $this->rootFolder->getMountPoint()->getStorage();
+		if ($storage === null) {
+			$this->appConfig->setValueBool('core', 'previewMovedDone', true);
+			return;
+		}
+
+		$cache = $storage->getCache();
+		$previewRootId = $cache->getId(rtrim($this->previewRootPath, '/'));
+		if ($previewRootId === -1) {
+			// No previews have ever been generated on this instance.
+			$this->appConfig->setValueBool('core', 'previewMovedDone', true);
+			return;
+		}
+
 		$startTime = time();
-		while (true) {
-			$qb = $this->connection->getQueryBuilder();
-			$qb->select('path')
-				->from('filecache')
-				// Hierarchical preview folder structure
-				->where($qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%/%/%/%/%/%/%/%')))
-				// Legacy flat preview folder structure
-				->orWhere($qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%.%')))
-				->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
-				->setMaxResults(100);
 
-			$result = $qb->executeQuery();
-			$foundPreviews = $this->processQueryResult($result);
+		// Walk the preview folder tree via the `parent` column, which is indexed on
+		// every supported database platform.
+		//
+		// Depth from the preview root tells us which structure a leaf folder holds:
+		// - depth 1: legacy flat structure, e.g. preview/<fileid>/<size>.png
+		// - depth 8: hierarchical structure, e.g. preview/a/b/c/d/e/f/g/<fileid>/<size>.png
+		$foldersToVisit = [[$previewRootId, '', 0]];
 
-			if (!$foundPreviews) {
-				break;
+		while ($foldersToVisit !== []) {
+			[$folderId, $folderName, $depth] = array_pop($foldersToVisit);
+
+			// Collect the actual preview files here so migrateFileId() doesn't need to
+			// list this folder's contents a second time.
+			$previewEntries = [];
+			foreach ($cache->getFolderContentsById($folderId) as $entry) {
+				if ($entry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
+					$foldersToVisit[] = [$entry->getId(), $entry->getName(), $depth + 1];
+				} else {
+					$previewEntries[] = $entry;
+				}
+			}
+
+			if ($previewEntries === [] || !ctype_digit($folderName)) {
+				continue;
+			}
+
+			try {
+				$this->migrationService->migrateFileId((int)$folderName, flatPath: $depth === 1, entries: $previewEntries);
+			} catch (\Exception $e) {
+				$this->logger->error('Failed to migrate preview with fileId: ' . $folderName, [
+					'exception' => $e,
+				]);
 			}
 
 			// Stop if execution time is more than one hour.
@@ -70,37 +100,5 @@ class PreviewMigrationJob extends TimedJob {
 		}
 
 		$this->appConfig->setValueBool('core', 'previewMovedDone', true);
-	}
-
-	private function processQueryResult(IResult $result): bool {
-		$foundPreview = false;
-		$fileIds = [];
-		$flatFileIds = [];
-		while ($row = $result->fetch()) {
-			$pathSplit = explode('/', $row['path']);
-			assert(count($pathSplit) >= 2);
-			$fileId = (int)$pathSplit[count($pathSplit) - 2];
-			if (count($pathSplit) === 11) {
-				// Hierarchical structure
-				if (!in_array($fileId, $fileIds)) {
-					$fileIds[] = $fileId;
-				}
-			} else {
-				// Flat structure
-				if (!in_array($fileId, $flatFileIds)) {
-					$flatFileIds[] = $fileId;
-				}
-			}
-			$foundPreview = true;
-		}
-
-		foreach ($fileIds as $fileId) {
-			$this->migrationService->migrateFileId($fileId, flatPath: false);
-		}
-
-		foreach ($flatFileIds as $fileId) {
-			$this->migrationService->migrateFileId($fileId, flatPath: true);
-		}
-		return $foundPreview;
 	}
 }

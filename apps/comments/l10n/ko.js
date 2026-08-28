@@ -18,6 +18,7 @@ OC.L10N.register(
     "Delete comment" : "댓글 삭제",
     "Cancel edit" : "편집 취소",
     "New comment" : "새로운 댓글",
+    "Write a comment …" : "댓글 쓰기 …",
     "Post comment" : "댓글 게시",
     "@ for mentions, : for emoji, / for smart picker" : "@을 입력해 언급, :을 입력해 이모지 추가, /을 입력해 스마트 피커를 사용하십시오.",
     "Could not reload comments" : "댓글을 다시 불러올 수 없음",

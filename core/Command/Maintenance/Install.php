@@ -27,6 +27,19 @@ use Throwable;
 use function get_class;
 
 class Install extends Command {
+	/**
+	 * SSL/TLS command line options and the installer options they provide. The database
+	 * setup translates those, see \OC\Setup\AbstractDatabase::ENCRYPTION_OPTIONS.
+	 * `--database-ssl-no-verify` is handled separately as it takes no value.
+	 */
+	private const array SSL_OPTIONS = [
+		'database-ssl-mode' => 'dbsslmode',
+		'database-ssl-ca' => 'dbsslca',
+		'database-ssl-cert' => 'dbsslcert',
+		'database-ssl-key' => 'dbsslkey',
+		'database-ssl-crl' => 'dbsslcrl',
+	];
+
 	public function __construct(
 		private SystemConfig $config,
 		private IniGetWrapper $iniGetWrapper,
@@ -46,6 +59,12 @@ class Install extends Command {
 			->addOption('database-user', null, InputOption::VALUE_REQUIRED, 'Login to connect to the database')
 			->addOption('database-pass', null, InputOption::VALUE_OPTIONAL, 'Password of the database user', null)
 			->addOption('database-table-space', null, InputOption::VALUE_OPTIONAL, 'Table space of the database (oci only)', null)
+			->addOption('database-ssl-mode', null, InputOption::VALUE_REQUIRED, 'Encryption mode for the database connection, e.g. "require" or "verify-full" (pgsql only)')
+			->addOption('database-ssl-ca', null, InputOption::VALUE_REQUIRED, 'Path to the CA certificate the database server is verified against (mysql and pgsql only)')
+			->addOption('database-ssl-cert', null, InputOption::VALUE_REQUIRED, 'Path to the client certificate used to authenticate against the database (mysql and pgsql only)')
+			->addOption('database-ssl-key', null, InputOption::VALUE_REQUIRED, 'Path to the private key of the client certificate (mysql and pgsql only)')
+			->addOption('database-ssl-crl', null, InputOption::VALUE_REQUIRED, 'Path to the certificate revocation list (pgsql only)')
+			->addOption('database-ssl-no-verify', null, InputOption::VALUE_NONE, 'Do not verify that the database server certificate matches the hostname used to connect (mysql only)')
 			->addOption('disable-admin-user', null, InputOption::VALUE_NONE, 'Disable the creation of an admin user')
 			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'Login of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
@@ -184,6 +203,19 @@ class Install extends Command {
 		if ($db === 'oci') {
 			$options['dbtablespace'] = $input->getParameterOption('--database-table-space', '');
 		}
+		// The database setup translates these into the system config values that configure
+		// an encrypted connection, and rejects the ones it does not support,
+		// see \OC\Setup\AbstractDatabase::getEncryptionConfig()
+		foreach (self::SSL_OPTIONS as $option => $installerOption) {
+			$value = $input->getOption($option);
+			if ($value !== null) {
+				$options[$installerOption] = (string)$value;
+			}
+		}
+		if ($input->getOption('database-ssl-no-verify')) {
+			$options['dbsslnoverify'] = true;
+		}
+
 		return $options;
 	}
 

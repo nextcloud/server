@@ -81,6 +81,16 @@ class TemporaryNoLocal extends Temporary {
 	}
 }
 
+/**
+ * Storage that always reports hasUpdated() = true for any path, simulating the
+ * behavior of Amazon S3 external storage (which has no real directory objects).
+ */
+class TemporaryAlwaysUpdated extends Temporary {
+	public function hasUpdated(string $path, int $time): bool {
+		return true;
+	}
+}
+
 class TestEventHandler {
 	public function umount() {
 	}
@@ -441,6 +451,55 @@ class ViewTest extends \Test\TestCase {
 
 		$cachedData = $rootView->getFileInfo('foo.txt');
 		$this->assertEquals(3, $cachedData['size']);
+	}
+
+	/**
+	 * Regression test for View::getCacheEntry unconditionally calling propagateChange
+	 * when the watcher reports needsUpdate = true, regardless of whether the scanner
+	 * found any actual storage change.
+	 *
+	 * Backends like Amazon S3 always return hasUpdated() = true for directory paths
+	 * because S3 has no real directory objects. Before the fix, every getFileInfo()
+	 * call on a folder fired propagateChange(path, time()), stamping all ancestor
+	 * folders in the filecache with the current request timestamp.
+	 *
+	 * After the fix, propagateChange is only called when watcher->update() actually
+	 * changes the cached metadata for the path.
+	 */
+	public function testWatcherDoesNotPropagateWhenStorageMtimeUnchanged(): void {
+		$storage = $this->getTestStorage(true, TemporaryAlwaysUpdated::class);
+		Filesystem::mount($storage, [], '/');
+		$storage->getWatcher()->setPolicy(Watcher::CHECK_ALWAYS);
+
+		$rootView = new View('');
+
+		// Use an mtime that cannot accidentally equal the current timestamp. This makes
+		// the test fail reliably if propagateChange() is called during this request.
+		$rootEntry = $storage->getCache()->get('');
+		$storage->getCache()->update($rootEntry->getId(), [
+			'mtime' => 1,
+			'etag' => 'unchanged-root-etag',
+		]);
+
+		// Access a subfolder. The watcher will fire (hasUpdated always returns true),
+		// but the scanner leaves the cached metadata for 'folder' unchanged.
+		// getCacheEntry must therefore NOT call propagateChange('folder', time()),
+		// which would update the root entry's mtime and etag.
+		$rootView->getFileInfo('folder');
+
+		// Read the root entry directly from the cache to avoid triggering another watcher cycle.
+		$rootEntryAfter = $storage->getCache()->get('');
+
+		$this->assertSame(
+			1,
+			$rootEntryAfter->getMTime(),
+			'Root folder mtime must not change when the watcher finds no metadata change',
+		);
+		$this->assertSame(
+			'unchanged-root-etag',
+			$rootEntryAfter->getEtag(),
+			'Root folder etag must not change when the watcher finds no metadata change',
+		);
 	}
 
 	public function testCopyBetweenStorageNoCross(): void {

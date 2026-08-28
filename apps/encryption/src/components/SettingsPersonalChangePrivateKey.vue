@@ -67,8 +67,16 @@ async function onSubmit() {
 				{{ t('encryption', 'If you do not remember your old password you can ask your administrator to recover your files.') }}
 			</NcNoteCard>
 
-			<NcPasswordField :label="t('encryption', 'Old log-in password')" />
-			<NcPasswordField :label="t('encryption', 'Current log-in password')" />
+			<NcPasswordField
+				v-model="oldPrivateKeyPassword"
+				required
+				name="oldPassword"
+				:label="t('encryption', 'Old log-in password')" />
+			<NcPasswordField
+				v-model="newPrivateKeyPassword"
+				required
+				name="newPassword"
+				:label="t('encryption', 'Current log-in password')" />
 
 			<NcButton
 				type="submit"

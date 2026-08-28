@@ -31,7 +31,7 @@ use OCP\L10N\IFactory;
 use OCP\Migration\IOutput;
 use OCP\Server;
 use OCP\Util;
-use phpseclib\File\X509;
+use phpseclib3\File\X509;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -534,7 +534,7 @@ class Installer {
 	}
 
 	private function installAppLastSteps(string $appPath, array $info, ?IOutput $output = null, string $enabled = 'no'): string {
-		\OC_App::registerAutoloading($info['id'], $appPath);
+		$this->appManager->registerAutoloading($info['id'], $appPath, true);
 
 		$previousVersion = $this->config->getAppValue($info['id'], 'installed_version', '');
 		$ms = new MigrationService($info['id'], Server::get(Connection::class));

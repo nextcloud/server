@@ -16,6 +16,7 @@ use OC\Files\SimpleFS\SimpleFile;
 use OC\TaskProcessing\Db\TaskMapper;
 use OCA\AppAPI\PublicFunctions;
 use OCA\Guests\UserBackend;
+use OCA\NotifyPush\Queue\IQueue;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
@@ -57,6 +58,7 @@ use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\UserFacingProcessingException;
 use OCP\TaskProcessing\Exception\ValidationException;
+use OCP\TaskProcessing\FileShaped;
 use OCP\TaskProcessing\IInternalTaskType;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\IProvider;
@@ -71,12 +73,16 @@ use OCP\TaskProcessing\SynchronousProviderOptions;
 use OCP\TaskProcessing\Task;
 use OCP\TaskProcessing\TaskTypes\AnalyzeImages;
 use OCP\TaskProcessing\TaskTypes\AudioToAudioChat;
+use OCP\TaskProcessing\TaskTypes\AudioToAudioTranslate;
 use OCP\TaskProcessing\TaskTypes\AudioToText;
+use OCP\TaskProcessing\TaskTypes\AudioToTextSubtitles;
 use OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextAgentInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextWrite;
 use OCP\TaskProcessing\TaskTypes\GenerateEmoji;
 use OCP\TaskProcessing\TaskTypes\ImageToTextOpticalCharacterRecognition;
+use OCP\TaskProcessing\TaskTypes\MultimodalChatWithTools;
+use OCP\TaskProcessing\TaskTypes\MultimodalContextAgentInteraction;
 use OCP\TaskProcessing\TaskTypes\TextToImage;
 use OCP\TaskProcessing\TaskTypes\TextToSpeech;
 use OCP\TaskProcessing\TaskTypes\TextToText;
@@ -85,6 +91,7 @@ use OCP\TaskProcessing\TaskTypes\TextToTextChat;
 use OCP\TaskProcessing\TaskTypes\TextToTextChatWithTools;
 use OCP\TaskProcessing\TaskTypes\TextToTextFormalization;
 use OCP\TaskProcessing\TaskTypes\TextToTextHeadline;
+use OCP\TaskProcessing\TaskTypes\TextToTextImprove;
 use OCP\TaskProcessing\TaskTypes\TextToTextProofread;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformatParagraphs;
 use OCP\TaskProcessing\TaskTypes\TextToTextReformulation;
@@ -117,8 +124,8 @@ class Manager implements IManager {
 
 	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 31 * 6; // 6 months
 
-	private const TASK_TYPES_CACHE_KEY = 'available_task_types_v3';
-	private const TASK_TYPE_IDS_CACHE_KEY = 'available_task_type_ids';
+	private const string TASK_TYPES_CACHE_KEY = 'available_task_types_v3';
+	private const string TASK_TYPE_IDS_CACHE_KEY = 'available_task_type_ids';
 
 	/** @var list<IProvider>|null */
 	private ?array $providers = null;
@@ -685,18 +692,23 @@ class Manager implements IManager {
 			TextToTextChat::ID => Server::get(TextToTextChat::class),
 			TextToTextTranslate::ID => Server::get(TextToTextTranslate::class),
 			TextToTextReformulation::ID => Server::get(TextToTextReformulation::class),
+			TextToTextImprove::ID => Server::get(TextToTextImprove::class),
 			TextToImage::ID => Server::get(TextToImage::class),
 			AudioToText::ID => Server::get(AudioToText::class),
+			AudioToTextSubtitles::ID => Server::get(AudioToTextSubtitles::class),
 			ContextWrite::ID => Server::get(ContextWrite::class),
 			GenerateEmoji::ID => Server::get(GenerateEmoji::class),
 			TextToTextChangeTone::ID => Server::get(TextToTextChangeTone::class),
 			TextToTextChatWithTools::ID => Server::get(TextToTextChatWithTools::class),
+			MultimodalChatWithTools::ID => Server::get(MultimodalChatWithTools::class),
 			ContextAgentInteraction::ID => Server::get(ContextAgentInteraction::class),
 			TextToTextProofread::ID => Server::get(TextToTextProofread::class),
 			TextToTextReformatParagraphs::ID => Server::get(TextToTextReformatParagraphs::class),
 			TextToSpeech::ID => Server::get(TextToSpeech::class),
 			AudioToAudioChat::ID => Server::get(AudioToAudioChat::class),
+			AudioToAudioTranslate::ID => Server::get(AudioToAudioTranslate::class),
 			ContextAgentAudioInteraction::ID => Server::get(ContextAgentAudioInteraction::class),
+			MultimodalContextAgentInteraction::ID => Server::get(MultimodalContextAgentInteraction::class),
 			AnalyzeImages::ID => Server::get(AnalyzeImages::class),
 			ImageToTextOpticalCharacterRecognition::ID => Server::get(ImageToTextOpticalCharacterRecognition::class),
 		];
@@ -1193,7 +1205,7 @@ class Manager implements IManager {
 		) {
 			try {
 				/** @psalm-suppress UndefinedClass */
-				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				$queue = Server::get(IQueue::class);
 				/** @psalm-suppress UndefinedClass */
 				$queue->push('notify_custom', [
 					'user' => $userId,
@@ -1300,7 +1312,7 @@ class Manager implements IManager {
 		) {
 			try {
 				/** @psalm-suppress UndefinedClass */
-				$queue = Server::get(\OCA\NotifyPush\Queue\IQueue::class);
+				$queue = Server::get(IQueue::class);
 				/** @psalm-suppress UndefinedClass */
 				$queue->push('notify_custom', [
 					'user' => $userId,
@@ -1510,6 +1522,29 @@ class Manager implements IManager {
 	}
 
 	#[\Override]
+	public function getTaskQueuePosition(int $id, ?string $userId): int {
+		try {
+			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
+		} catch (DoesNotExistException $e) {
+			throw new NotFoundException('Could not find the task', 0, $e);
+		} catch (MultipleObjectsReturnedException|\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the task', 0, $e);
+		}
+
+		if ($taskEntity->getStatus() !== Task::STATUS_SCHEDULED) {
+			throw new PreConditionNotMetException('This task is not scheduled');
+		}
+
+		try {
+			return 1 + $this->taskMapper->countPendingTasksBefore($taskEntity->getLastUpdated());
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem counting pending tasks', 0, $e);
+		}
+	}
+
+	#[\Override]
 	public function getUserTask(int $id, ?string $userId): Task {
 		try {
 			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
@@ -1597,14 +1632,28 @@ class Manager implements IManager {
 				continue;
 			}
 			if (EShapeType::getScalarType($type) === $type) {
+				if ($output[$key] instanceof FileShaped) {
+					$data = $output[$key]->getData();
+					$ext = FileShaped::sanitizeExtension($output[$key]->getExtension());
+				} else {
+					$data = $output[$key];
+					$ext = '';
+				}
 				/** @var SimpleFile $file */
-				$file = $folder->newFile(time() . '-' . rand(1, 100000), $output[$key]);
+				$file = $folder->newFile(time() . '-' . rand(1, 100000) . ($ext ? '.' . $ext : ''), $data);
 				$newOutput[$key] = $file->getId(); // polymorphic call to SimpleFile
 			} else {
-				$newOutput = [];
+				$newOutput[$key] = [];
 				foreach ($output[$key] as $item) {
+					if ($item instanceof FileShaped) {
+						$data = $item->getData();
+						$ext = FileShaped::sanitizeExtension($item->getExtension());
+					} else {
+						$data = $item;
+						$ext = '';
+					}
 					/** @var SimpleFile $file */
-					$file = $folder->newFile(time() . '-' . rand(1, 100000), $item);
+					$file = $folder->newFile(time() . '-' . rand(1, 100000) . ($ext ? '.' . $ext : ''), $data);
 					$newOutput[$key][] = $file->getId();
 				}
 			}
@@ -1751,7 +1800,7 @@ class Manager implements IManager {
 				$newOutput[$key] = $this->validateFileId($output[$key]);
 			} else {
 				// Is list of file IDs
-				$newOutput = [];
+				$newOutput[$key] = [];
 				foreach ($output[$key] as $item) {
 					$newOutput[$key][] = $this->validateFileId($item);
 				}

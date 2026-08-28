@@ -36,9 +36,7 @@ export class ContactsMenuPage {
 	async open(): Promise<void> {
 		// Register waitForResponse BEFORE clicking to avoid the race condition
 		// described in the migration context.
-		const loaded = this.page.waitForResponse(
-			(r) => r.url().includes('/contactsmenu/contacts') && r.request().method() === 'POST',
-		)
+		const loaded = this.page.waitForResponse((r) => r.url().includes('/contactsmenu/contacts') && r.request().method() === 'POST')
 		await this.trigger().click()
 		await loaded
 	}
@@ -46,7 +44,9 @@ export class ContactsMenuPage {
 	/** Close the menu. */
 	async close(): Promise<void> {
 		const isOpen = await this.trigger().getAttribute('aria-expanded') === 'true'
-		if (isOpen) await this.trigger().click()
+		if (isOpen) {
+			await this.trigger().click()
+		}
 		await this.panel().waitFor({ state: 'hidden' })
 	}
 

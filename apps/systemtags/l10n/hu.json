@@ -43,6 +43,7 @@
     "Collaborative tags" : "Együttműködési címkék",
     "Collaborative tagging functionality which shares tags among people." : "Együttműködési címkézési funkció, amely megosztja a címkéket a felhasználók között.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Együttműködési címkézési funkció, amely megosztja a címkéket a felhasználók között. Nagyszerű a csapatok számára.\n\t(Ha Ön több szervezet számára szolgáltatást nyújtó szolgáltató, akkor ajánlott deaktiválni ezt az alkalmazást, mivel a címkék meg vannak osztva.)",
+    "Search tags" : "Címkék keresése",
     "Public" : "Nyilvános",
     "Restricted" : "Korlátozott",
     "Invisible" : "Láthatatlan",
@@ -63,9 +64,7 @@
     "Delete" : "Törlés",
     "Reset" : "Visszaállítás",
     "Loading …" : "Betöltés…",
-    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva 1 fájlról.","A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva {count} fájlról."],
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["A(z) {tag} be lesz állítva 1 fájlon.","A(z) {tag} be lesz állítva {count} fájlon."],
-    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["A(z) {tag} el lesz távolítva 1 fájlról.","A(z) {tag} el lesz távolítva {count} fájlról."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["A(z) {tags} és a(z) {lastTag} be lesz állítva 1 fájlon.","A(z) {tags} és a(z) {lastTag} be lesz állítva {count} fájlon."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["A(z) {tags} és a(z) {lastTag} el lesz távolítva 1 fájlról.","A(z) {tags} és a(z) {lastTag} el lesz távolítva {count} fájlról."],
     "{displayName} (hidden)" : "{displayName} (rejtett)",
@@ -110,6 +109,8 @@
     "Failed to delete tag for file" : "Nem sikerült a fájl címkéjének törlése",
     "Collaborative tags …" : "Együttműködési címkék…",
     "Loading …" : "Betöltés…",
+    "_{tag1} will be set and {tag2} will be removed from 1 file._::_{tag1} will be set and {tag2} will be removed from {count} files._" : ["A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva 1 fájlról.","A(z) {tag1} be lesz állítva, a(z) {tag2} pedig el lesz távolítva {count} fájlról."],
+    "_{tag} will be removed from 1 file._::_{tag} will be removed from {count} files._" : ["A(z) {tag} el lesz távolítva 1 fájlról.","A(z) {tag} el lesz távolítva {count} fájlról."],
     "Loading collaborative tags …" : "Együttműködési címkék betöltése…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

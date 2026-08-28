@@ -28,13 +28,7 @@ abstract class LogDetails {
 		} catch (\Exception $e) {
 			$timezone = new \DateTimeZone('UTC');
 		}
-		$time = \DateTime::createFromFormat('U.u', number_format(microtime(true), 4, '.', ''));
-		if ($time === false) {
-			$time = new \DateTime('now', $timezone);
-		} else {
-			// apply timezone if $time is created from UNIX timestamp
-			$time->setTimezone($timezone);
-		}
+		$time = new \DateTime('now', $timezone);
 		$request = Server::get(IRequest::class);
 		$reqId = $request->getId();
 		$remoteAddr = $request->getRemoteAddress();

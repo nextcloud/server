@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace OC\Preview\Db;
 
-use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\SnowflakeAwareEntity;
 use OCP\DB\Types;
 use OCP\Files\IMimeTypeDetector;
@@ -47,7 +46,8 @@ use OCP\Files\IMimeTypeDetector;
  * @method string getEtag() Get the etag of the preview.
  * @method void setEtag(string $etag)
  * @method string|null getVersion() Get the version for files_versions_s3
- * @method void setVersionId(string $versionId)
+ * @method string|null getVersionId() Get the ID of the version metadata row.
+ * @method void setVersionId(string $versionId) Set the ID of the version metadata row.
  * @method bool|null getIs() Get the version for files_versions_s3
  * @method bool isEncrypted() Get whether the preview is encrypted. At the moment every preview is unencrypted.
  * @method void setEncrypted(bool $encrypted)

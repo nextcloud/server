@@ -12,7 +12,6 @@ use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Exceptions\ConfigurationIssueException;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
-use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Settings\Admin;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -73,7 +72,7 @@ class ConfigAPIController extends OCSController {
 	 * 200: Config deleted successfully
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	#[ApiRoute(verb: 'DELETE', url: '/api/v1/config/{configID}')]
+	#[ApiRoute(verb: 'DELETE', url: '/api/v1/config/{configID}', requirements: ['configID' => '.*'], defaults: ['configID' => ''])]
 	public function delete($configID) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -103,7 +102,7 @@ class ConfigAPIController extends OCSController {
 	 * 200: Config returned
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	#[ApiRoute(verb: 'PUT', url: '/api/v1/config/{configID}')]
+	#[ApiRoute(verb: 'PUT', url: '/api/v1/config/{configID}', requirements: ['configID' => '.*'], defaults: ['configID' => ''])]
 	public function modify($configID, $configData) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -208,7 +207,7 @@ class ConfigAPIController extends OCSController {
 	 * 200: Config returned
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	#[ApiRoute(verb: 'GET', url: '/api/v1/config/{configID}')]
+	#[ApiRoute(verb: 'GET', url: '/api/v1/config/{configID}', requirements: ['configID' => '.*'], defaults: ['configID' => ''])]
 	public function show($configID, $showPassword = false) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -245,7 +244,7 @@ class ConfigAPIController extends OCSController {
 	 * 200: Test was run and results are returned
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	#[ApiRoute(verb: 'POST', url: '/api/v1/config/{configID}/test')]
+	#[ApiRoute(verb: 'POST', url: '/api/v1/config/{configID}/test', requirements: ['configID' => '.*'], defaults: ['configID' => ''])]
 	public function testConfiguration(string $configID) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -313,7 +312,7 @@ class ConfigAPIController extends OCSController {
 	 * 200: Config was copied, new configID was returned
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	#[ApiRoute(verb: 'POST', url: '/api/v1/config/{configID}/copy')]
+	#[ApiRoute(verb: 'POST', url: '/api/v1/config/{configID}/copy', requirements: ['configID' => '.*'], defaults: ['configID' => ''])]
 	public function copyConfiguration(string $configID) {
 		try {
 			$this->ensureConfigIDExists($configID);

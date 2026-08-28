@@ -7,7 +7,6 @@
 
 namespace OC\DirectEditing;
 
-use Doctrine\DBAL\FetchMode;
 use OCA\Encryption\Util;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
@@ -36,7 +35,7 @@ use function array_key_exists;
 use function in_array;
 
 class Manager implements IManager {
-	private const TOKEN_CLEANUP_TIME = 12 * 60 * 60 ;
+	private const int TOKEN_CLEANUP_TIME = 12 * 60 * 60 ;
 
 	public const TABLE_TOKENS = 'direct_edit';
 
@@ -125,6 +124,7 @@ class Manager implements IManager {
 		throw new \RuntimeException('No creator found');
 	}
 
+	#[\Override]
 	public function open(string $filePath, ?string $editorId = null, ?int $fileId = null): string {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		$file = $userFolder->get($filePath);
@@ -204,7 +204,7 @@ class Manager implements IManager {
 		$query->select('*')->from(self::TABLE_TOKENS)
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
 		$result = $query->executeQuery();
-		if ($tokenRow = $result->fetch(FetchMode::ASSOCIATIVE)) {
+		if ($tokenRow = $result->fetchAssociative()) {
 			return new Token($this, $tokenRow);
 		}
 		throw new \RuntimeException('Failed to validate the token');
@@ -215,6 +215,13 @@ class Manager implements IManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TABLE_TOKENS)
 			->where($query->expr()->lt('timestamp', $query->createNamedParameter(time() - self::TOKEN_CLEANUP_TIME)));
+		return $query->executeStatement();
+	}
+
+	public function invalidateTokensForUser(string $uid): int {
+		$query = $this->connection->getQueryBuilder();
+		$query->delete(self::TABLE_TOKENS)
+			->where($query->expr()->eq('user_id', $query->createNamedParameter($uid)));
 		return $query->executeStatement();
 	}
 

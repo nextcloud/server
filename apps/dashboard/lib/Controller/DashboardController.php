@@ -51,6 +51,7 @@ class DashboardController extends Controller {
 	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/')]
 	public function index(): TemplateResponse {
+		Util::addStyle('dashboard', 'main');
 		Util::addStyle('dashboard', 'dashboard');
 		Util::addScript('dashboard', 'main', 'theming');
 

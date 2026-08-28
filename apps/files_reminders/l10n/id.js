@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Pengingat dihapus untuk \"{fileName}\"",
     "Failed to clear reminder" : "Gagal menghapus pengingat",
     "Reminder at custom date & time" : "Pengingat pada tanggal & waktu kustom",
-    "We will remind you of this file" : "Kami akan mengingatkan Anda tentang file ini",
     "Cancel" : "Batal",
     "Clear reminder" : "Hapus pengingat",
     "Set reminder" : "Tetapkan pengingat",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Tetapkan pengingat untuk akhir pekan ini",
     "Next week" : "Minggu depan",
     "Set reminder for next week" : "Tetapkan pengingat untuk minggu depan",
-    "Set reminder for \"{fileName}\"" : "Tetapkan pengingat untuk \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Tetapkan pengingat untuk \"{fileName}\"",
+    "We will remind you of this file" : "Kami akan mengingatkan Anda tentang file ini"
 },
 "nplurals=1; plural=0;");

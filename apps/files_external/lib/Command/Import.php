@@ -9,7 +9,6 @@
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
-use OC\User\NoUserException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
@@ -18,6 +17,7 @@ use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\User\Exceptions\UserNotFoundException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -174,7 +174,7 @@ class Import extends Base {
 
 		$user = $this->userManager->get($userId);
 		if (is_null($user)) {
-			throw new NoUserException("user $userId not found");
+			throw UserNotFoundException::createForUser($userId);
 		}
 		$this->userSession->setUser($user);
 		return $this->userService;

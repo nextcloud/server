@@ -19,7 +19,7 @@ use Psr\Log\LoggerInterface;
 
 class SanitizeAccountPropertiesJob extends QueuedJob {
 
-	private const PROPERTIES_TO_CHECK = [
+	private const array PROPERTIES_TO_CHECK = [
 		IAccountManager::PROPERTY_PHONE,
 		IAccountManager::PROPERTY_WEBSITE,
 		IAccountManager::PROPERTY_TWITTER,

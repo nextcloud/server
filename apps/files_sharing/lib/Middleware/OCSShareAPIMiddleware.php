@@ -19,19 +19,16 @@ use OCP\Share\IManager;
 
 class OCSShareAPIMiddleware extends Middleware {
 	public function __construct(
-		private IManager $shareManager,
-		private IL10N $l,
+		private readonly IManager $shareManager,
+		private readonly IL10N $l,
 	) {
 	}
 
 	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 *
 	 * @throws OCSNotFoundException
 	 */
 	#[\Override]
-	public function beforeController($controller, $methodName) {
+	public function beforeController(Controller $controller, string $methodName): void {
 		if ($controller instanceof ShareAPIController) {
 			if (!$this->shareManager->shareApiEnabled()) {
 				throw new OCSNotFoundException($this->l->t('Share API is disabled'));
@@ -39,14 +36,8 @@ class OCSShareAPIMiddleware extends Middleware {
 		}
 	}
 
-	/**
-	 * @param Controller $controller
-	 * @param string $methodName
-	 * @param Response $response
-	 * @return Response
-	 */
 	#[\Override]
-	public function afterController($controller, $methodName, Response $response) {
+	public function afterController(Controller $controller, string $methodName, Response $response): Response {
 		if ($controller instanceof ShareAPIController) {
 			/** @var ShareAPIController $controller */
 			$controller->cleanup();
