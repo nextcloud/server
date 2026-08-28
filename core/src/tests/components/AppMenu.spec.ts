@@ -592,7 +592,7 @@ describe('core: AppMenu navigation actions', () => {
 		expect(document.activeElement).toBe(rowItems()[0])
 	})
 
-	it('moves the actions that do not fit into a "More actions" submenu', async () => {
+	it('moves the actions that do not fit into a "More" submenu', async () => {
 		initialState.loadState.mockImplementation(stateWith(fakeApps(), fakeActions(6)))
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		await openPopover(wrapper)
@@ -600,7 +600,7 @@ describe('core: AppMenu navigation actions', () => {
 		const items = rowItems()
 		// Three actions plus the trailing overflow item make up the single row.
 		expect(items).toHaveLength(4)
-		expect(items[3].textContent).toContain('More actions')
+		expect(items[3].textContent).toContain('More')
 		expect(items[3].getAttribute('aria-haspopup')).toBe('menu')
 		expect(items[3].getAttribute('aria-expanded')).toBe('false')
 		expect(document.querySelector('.app-menu-actions__submenu')).toBeNull()
