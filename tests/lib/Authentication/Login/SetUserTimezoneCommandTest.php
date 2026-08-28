@@ -44,8 +44,33 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcess(): void {
-		$data = $this->getLoggedInLoginDataWithTimezone();
+	/**
+	 * Debian and Ubuntu ship the tz database's backward links in a separate
+	 * tzdata-legacy package, so pick an alias this platform actually knows
+	 * instead of hardcoding one.
+	 */
+	private static function findBackwardCompatibleTimezone(): ?string {
+		$aliases = array_diff(
+			\DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC),
+			\DateTimeZone::listIdentifiers(),
+		);
+		return $aliases === [] ? null : reset($aliases);
+	}
+
+	public static function dataAcceptedTimezone(): array {
+		return [
+			'primary identifier' => ['Europe/Vienna'],
+			'backward compatible alias' => [self::findBackwardCompatibleTimezone()],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAcceptedTimezone')]
+	public function testProcess(?string $timezone): void {
+		if ($timezone === null) {
+			$this->markTestSkipped('No backward compatible timezone aliases in this platform\'s tz database');
+		}
+
+		$data = $this->getLoggedInLoginDataWithTimezone($timezone);
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($this->username);
@@ -64,7 +89,7 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 				$this->username,
 				'core',
 				'timezone',
-				$this->timezone
+				$timezone
 			);
 		$this->session->expects($this->once())
 			->method('set')
@@ -72,6 +97,18 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 				'timezone',
 				$this->timeZoneOffset
 			);
+
+		$result = $this->cmd->process($data);
+
+		$this->assertTrue($result->isSuccess());
+	}
+
+	public function testProcessUnknownTimezone(): void {
+		$data = $this->getLoggedInLoginDataWithTimezone('Mars/Olympus_Mons');
+		$this->config->expects($this->never())
+			->method('setUserValue');
+		$this->session->expects($this->never())
+			->method('set');
 
 		$result = $this->cmd->process($data);
 

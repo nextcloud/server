@@ -42,6 +42,7 @@ class SetUserTimezoneCommand extends ALoginCommand {
 	}
 
 	private function isValidTimezone(?string $value): bool {
-		return $value && in_array($value, \DateTimeZone::listIdentifiers());
+		// Older browsers still report deprecated aliases like Europe/Kiev.
+		return $value && in_array($value, \DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC));
 	}
 }
