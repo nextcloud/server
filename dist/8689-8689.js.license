@@ -14,7 +14,6 @@ SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: atomiks
-SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
@@ -69,11 +68,11 @@ This file is generated from multiple sources. Included packages:
 - @vue/devtools-shared
 	- version: 8.1.5
 	- license: MIT
-- @vueuse/core
-	- version: 14.3.0
-	- license: MIT
 - @vueuse/shared
-	- version: 14.3.0
+	- version: 14.4.0
+	- license: MIT
+- @vueuse/core
+	- version: 14.4.0
 	- license: MIT
 - perfect-debounce
 	- version: 2.1.0
@@ -82,10 +81,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.2.0
 	- license: MIT
 - vue
-	- version: 3.5.40
+	- version: 3.5.41
 	- license: MIT
 - @nextcloud/dialogs
-	- version: 7.4.1
+	- version: 7.5.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.7.2
@@ -112,16 +111,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @vue/reactivity
-	- version: 3.5.40
+	- version: 3.5.41
 	- license: MIT
 - @vue/shared
-	- version: 3.5.40
+	- version: 3.5.41
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.40
+	- version: 3.5.41
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.40
+	- version: 3.5.41
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -191,9 +190,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - tabbable
 	- version: 6.5.0
-	- license: MIT
-- toastify-js
-	- version: 1.12.0
 	- license: MIT
 - typescript-event-target
 	- version: 1.1.2
