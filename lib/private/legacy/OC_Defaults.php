@@ -320,6 +320,24 @@ class OC_Defaults {
 		return $logo . '?v=' . hash('sha1', implode('.', Util::getVersion()));
 	}
 
+	/**
+	 * Raw logo image data (raster, not SVG) for embedding directly into emails,
+	 * so mail clients don't have to fetch it from the internet.
+	 *
+	 * @return array{content: string, mimeType: string}|null null when unavailable
+	 */
+	public function getLogoImage(): ?array {
+		if ($this->themeExist('getLogoImage')) {
+			return $this->theme->getLogoImage();
+		}
+
+		$content = @file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
+		if ($content === false) {
+			return null;
+		}
+		return ['content' => $content, 'mimeType' => 'image/png'];
+	}
+
 	public function getTextColorPrimary() {
 		if ($this->themeExist('getTextColorPrimary')) {
 			return $this->theme->getTextColorPrimary();

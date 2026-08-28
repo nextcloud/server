@@ -219,4 +219,20 @@ class EMailTemplateTest extends TestCase {
 		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom-text-alternative.txt');
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
+
+	public function testEMailTemplateEmbedsLogo(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->method('getLogoImage')
+			->willReturn(['content' => 'PNGDATA', 'mimeType' => 'image/png']);
+		$this->urlGenerator->expects($this->never())->method('getAbsoluteURL');
+
+		$this->emailTemplate->addHeader();
+
+		$this->assertStringContainsString('src="cid:logo"', $this->emailTemplate->renderHtml());
+		$this->assertSame(
+			[['name' => 'logo', 'content' => 'PNGDATA', 'mimeType' => 'image/png']],
+			$this->emailTemplate->getInlineImages()
+		);
+	}
 }
