@@ -2608,6 +2608,108 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'ru')->getData());
 	}
 
+	/**
+	 * Debian and Ubuntu ship the tz database's backward links in a separate
+	 * tzdata-legacy package, so pick an alias this platform actually knows
+	 * instead of hardcoding one.
+	 */
+	private static function findBackwardCompatibleTimezone(): ?string {
+		$aliases = array_diff(
+			\DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC),
+			\DateTimeZone::listIdentifiers(),
+		);
+		return $aliases === [] ? null : reset($aliases);
+	}
+
+	public static function dataEditUserSelfEditChangeTimezone(): array {
+		return [
+			'primary identifier' => ['Europe/Vienna'],
+			'backward compatible alias' => [self::findBackwardCompatibleTimezone()],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEditUserSelfEditChangeTimezone')]
+	public function testEditUserSelfEditChangeTimezone(?string $timezone): void {
+		if ($timezone === null) {
+			$this->markTestSkipped('No backward compatible timezone aliases in this platform\'s tz database');
+		}
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UserToEdit');
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('UserToEdit', 'core', 'timezone', $timezone);
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->willReturn($targetUser);
+		$this->groupManager
+			->expects($this->atLeastOnce())
+			->method('isAdmin')
+			->with('UserToEdit')
+			->willReturn(false);
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UserToEdit');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'timezone', $timezone)->getData());
+	}
+
+	public function testEditUserSelfEditChangeTimezoneInvalid(): void {
+		$this->expectException(OCSException::class);
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UserToEdit');
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->never())
+			->method('setUserValue');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->willReturn($targetUser);
+		$this->groupManager
+			->expects($this->atLeastOnce())
+			->method('isAdmin')
+			->with('UserToEdit')
+			->willReturn(false);
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UserToEdit');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
+		$this->api->editUser('UserToEdit', 'timezone', 'Mars/Olympus_Mons');
+	}
+
 	public function testEditUserSubadminUserAccessible(): void {
 		$this->appConfig
 			->expects($this->once())
