@@ -45,7 +45,7 @@ OC.L10N.register(
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your {instanceName} server." : "Önerilmez, yalnızca deneme amacıyla kullanın! Bağlantı yalnızca bu seçenek ile çalışıyorsa LDAP sunucusunun SSL sertifikasını {instanceName} sunucuzun içine aktarın.",
     "Turn off SSL certificate validation." : "SSL sertifika doğrulaması kullanılmasın.",
     "Cache Time-To-Live" : "Ön Bellek Time-To-Live Değeri",
-    "in seconds. A change empties the cache." : "saniye cinsinden. Değişiklik ön belleği temizler.",
+    "in seconds. A change empties the cache." : "saniye olarak. Değişiklik ön belleği temizler.",
     "Directory Settings" : "Dizin Ayarları",
     "User Display Name Field" : "Görüntülenecek Kullanıcı Adı Alanı",
     "The LDAP attribute to use to generate the user's display name." : "Görüntülenecek kullanıcı adını üretmek için kullanılacak LDAP özniteliği.",
