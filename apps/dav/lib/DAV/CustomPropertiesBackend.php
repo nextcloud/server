@@ -195,6 +195,7 @@ class CustomPropertiesBackend implements BackendInterface {
 				'{http://apple.com/ns/ical/}calendar-order',
 				'{http://apple.com/ns/ical/}calendar-color',
 				'{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp',
+				'{http://nextcloud.com/ns}disable-alarm-notifications',
 			];
 
 			foreach ($customPropertiesForShares as $customPropertyForShares) {

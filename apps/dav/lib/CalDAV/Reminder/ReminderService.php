@@ -123,15 +123,30 @@ class ReminderService {
 				continue;
 			}
 
-			if ($this->config->getAppValue('dav', 'sendEventRemindersToSharedUsers', 'yes') === 'no') {
+			if ($this->config->getAppValue('dav', 'sendEventRemindersToSharedUsers', 'yes') === 'yes') {
 				$users = $this->getAllUsersWithWriteAccessToCalendar($reminder['calendar_id']);
 			} else {
 				$users = [];
 			}
 
-			$user = $this->getUserFromPrincipalURI($reminder['principaluri']);
-			if ($user) {
-				$users[] = $user;
+			$ownerUser = $this->getUserFromPrincipalURI($reminder['principaluri']);
+			if ($ownerUser !== null) {
+				$users[] = $ownerUser;
+			}
+
+			// Filter out any users who have muted reminders for this calendar
+			$users = array_values(array_filter($users, function (IUser $u) use ($reminder): bool {
+				$principalUri = 'principals/users/' . $u->getUID();
+				return !$this->backend->isReminderMutedForPrincipal($reminder, $principalUri);
+			}));
+
+			if (count($users) === 0) {
+				$this->logger->debug('Reminder {id} is ignored by all recipient users for calendar {calendarId}', [
+					'id' => $reminder['id'],
+					'calendarId' => $reminder['calendar_id'],
+				]);
+				$this->deleteOrProcessNext($reminder, $vevent);
+				continue;
 			}
 
 			$userPrincipalEmailAddresses = [];
