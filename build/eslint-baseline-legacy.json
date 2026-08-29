@@ -1,7 +1,7 @@
 {
-  "apps/files/src/components/FilesNavigationListItem.vue": {
-    "@nextcloud/no-deprecated-library-props": {
-      "count": 1
+  "apps/files_sharing/src/components/NewFileRequestDialog/NewFileRequestDialogDatePassword.vue": {
+    "vue/custom-event-name-casing": {
+      "count": 3
     }
   },
   "apps/files_sharing/src/components/SharingEntryQuickShareSelect.vue": {
@@ -24,19 +24,9 @@
       "count": 1
     }
   },
-  "apps/settings/src/components/GroupListItem.vue": {
-    "@nextcloud/no-deprecated-library-props": {
-      "count": 1
-    }
-  },
   "apps/settings/src/components/Users/NewUserDialog.vue": {
     "vue/no-mutating-props": {
       "count": 2
-    }
-  },
-  "apps/settings/src/views/UserManagementNavigation.vue": {
-    "@nextcloud/no-deprecated-library-props": {
-      "count": 4
     }
   },
   "apps/workflowengine/src/components/Check.vue": {
@@ -52,12 +42,12 @@
       "count": 1
     }
   },
-  "core/src/views/Login.vue": {
-    "vue/multi-word-component-names": {
+  "core/src/components/UnifiedSearch/UnifiedSearchModal.vue": {
+    "vue/custom-event-name-casing": {
       "count": 1
     }
   },
-  "core/src/views/Setup.vue": {
+  "core/src/views/Login.vue": {
     "vue/multi-word-component-names": {
       "count": 1
     }
