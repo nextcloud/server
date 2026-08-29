@@ -112,9 +112,9 @@ class UpdateAvailableNotifications extends TimedJob {
 
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp(Application::APP_NAME)
+			$notification->setApp(Application::APP_ID)
 				->setDateTime(new \DateTime())
-				->setObject(Application::APP_NAME, 'error')
+				->setObject(Application::APP_ID, 'error')
 				->setSubject('connection_error', ['days' => $numDays]);
 
 			foreach ($this->getUsersToNotify() as $uid) {
@@ -132,9 +132,9 @@ class UpdateAvailableNotifications extends TimedJob {
 	protected function clearErrorNotifications(): void {
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp(Application::APP_NAME)
+			$notification->setApp(Application::APP_ID)
 				->setSubject('connection_error')
-				->setObject(Application::APP_NAME, 'error');
+				->setObject(Application::APP_ID, 'error');
 		} catch (\InvalidArgumentException $e) {
 			return;
 		}
@@ -175,7 +175,7 @@ class UpdateAvailableNotifications extends TimedJob {
 
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp(Application::APP_NAME)
+			$notification->setApp(Application::APP_ID)
 				->setDateTime(new \DateTime())
 				->setObject($app, $version);
 
@@ -228,7 +228,7 @@ class UpdateAvailableNotifications extends TimedJob {
 	protected function deleteOutdatedNotifications($app, $version): void {
 		$notification = $this->notificationManager->createNotification();
 		try {
-			$notification->setApp(Application::APP_NAME)
+			$notification->setApp(Application::APP_ID)
 				->setObject($app, $version);
 		} catch (\InvalidArgumentException) {
 			return;

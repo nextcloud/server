@@ -52,7 +52,7 @@ class Notifier implements INotifier {
 	 */
 	#[\Override]
 	public function getID(): string {
-		return Application::APP_NAME;
+		return Application::APP_ID;
 	}
 
 	/**
@@ -63,7 +63,7 @@ class Notifier implements INotifier {
 	 */
 	#[\Override]
 	public function getName(): string {
-		return $this->l10NFactory->get(Application::APP_NAME)->t('Update notifications');
+		return $this->l10NFactory->get(Application::APP_ID)->t('Update notifications');
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Notifier implements INotifier {
 	 */
 	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if ($notification->getApp() !== Application::APP_NAME) {
+		if ($notification->getApp() !== Application::APP_ID) {
 			throw new UnknownNotificationException('Unknown app id');
 		}
 
@@ -84,7 +84,7 @@ class Notifier implements INotifier {
 			throw new UnknownNotificationException('Unknown subject');
 		}
 
-		$l = $this->l10NFactory->get(Application::APP_NAME, $languageCode);
+		$l = $this->l10NFactory->get(Application::APP_ID, $languageCode);
 		if ($notification->getSubject() === 'connection_error') {
 			$errors = $this->appConfig->getAppValueInt('update_check_errors', 0);
 			if ($errors === 0) {
@@ -131,7 +131,7 @@ class Notifier implements INotifier {
 			}
 		}
 
-		$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_NAME, 'notification.svg')));
+		$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'notification.svg')));
 
 		return $notification;
 	}

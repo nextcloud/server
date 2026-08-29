@@ -47,7 +47,6 @@ class ChangelogController extends Controller {
 
 		$changes = $this->manager->getChangelog($app, $version) ?? '';
 		// Remove version headline
-		/** @var string[] */
 		$changes = explode("\n", $changes, 2);
 		$changes = trim(end($changes));
 

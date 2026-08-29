@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcSettingsSection id="updatenotification" :name="t('updatenotification', 'Update')">
+	<NcSettingsSection :name="t('updatenotification', 'Update')">
 		<div class="update">
 			<template v-if="isNewVersionAvailable">
 				<NcNoteCard v-if="versionIsEol" type="warning">
@@ -66,8 +66,8 @@
 					</span>
 					<NcActions
 						v-if="whatsNewData || changelogURL"
-						:force-menu="true"
-						:menu-name="t('updatenotification', 'What\'s new?')"
+						forceMenu
+						:menuName="t('updatenotification', 'What\'s new?')"
 						variant="tertiary">
 						<template #icon>
 							<IconNewBox :size="20" />
@@ -77,7 +77,7 @@
 							<NcActionLink
 								v-if="changelogURL"
 								:href="changelogURL"
-								close-after-click
+								closeAfterClick
 								target="_blank">
 								{{ t('updatenotification', 'View changelog') }}
 								<template #icon>
@@ -115,8 +115,8 @@
 		<div class="update-channel-selector">
 			<span>{{ t('updatenotification', 'Current update channel:') }}</span>
 			<NcActions
-				:force-menu="true"
-				:menu-name="localizedChannelName"
+				forceMenu
+				:menuName="localizedChannelName"
 				variant="tertiary">
 				<template #icon>
 					<IconChevronDown :size="20" />
@@ -128,9 +128,9 @@
 						:disabled="channel.disabled"
 						:name="channel.text"
 						:value="channel.value"
-						:model-value="currentChannel"
+						:modelValue="currentChannel"
 						type="radio"
-						close-after-click
+						closeAfterClick
 						@update:modelValue="changeReleaseChannel">
 						<template #icon>
 							<component :is="channel.icon" :size="20" />
@@ -149,12 +149,12 @@
 		<NcSelect
 			id="notify-members-settings-select-wrapper"
 			v-model="notifyGroups"
-			:input-label="t('updatenotification', 'Notify members of the following groups about available updates:')"
+			:inputLabel="t('updatenotification', 'Notify members of the following groups about available updates:')"
 			:options="groups"
-			:multiple="true"
+			multiple
 			label="displayname"
 			:loading="loadingGroups"
-			keep-open
+			keepOpen
 			@search="searchGroup">
 			<template #no-options>
 				{{ t('updatenotification', 'No groups') }}
@@ -168,13 +168,16 @@
 	</NcSettingsSection>
 </template>
 
-<script>
+<script lang="ts">
+import type { Component } from 'vue'
+
 import axios from '@nextcloud/axios'
 import { showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import { getLoggerBuilder } from '@nextcloud/logger'
+import { n, t } from '@nextcloud/l10n'
 import { generateOcsUrl, generateUrl, getRootUrl } from '@nextcloud/router'
 import debounce from 'debounce'
+import { defineComponent } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCaption from '@nextcloud/vue/components/NcActionCaption'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
@@ -191,15 +194,11 @@ import IconSourceBranch from 'vue-material-design-icons/SourceBranch.vue'
 import IconStar from 'vue-material-design-icons/Star.vue'
 import IconWeatherNight from 'vue-material-design-icons/WeatherNight.vue'
 import IconWrench from 'vue-material-design-icons/Wrench.vue'
-
-const logger = getLoggerBuilder()
-	.setApp('updatenotification')
-	.detectUser()
-	.build()
+import { logger } from '../logger.ts'
 
 const productName = window.OC.theme.productName
 
-export default {
+export default defineComponent({
 	name: 'UpdateNotification',
 	components: {
 		IconChevronDown,
@@ -212,6 +211,13 @@ export default {
 		NcNoteCard,
 		NcSelect,
 		NcSettingsSection,
+	},
+
+	setup() {
+		return {
+			t,
+			n,
+		}
 	},
 
 	data() {
@@ -292,7 +298,7 @@ export default {
 		},
 
 		channelList() {
-			const channelList = []
+			const channelList: { text: string, longtext?: string, icon: Component, active?: boolean, disabled?: boolean, value: string }[] = []
 
 			channelList.push({
 				text: t('updatenotification', 'Enterprise'),
@@ -434,8 +440,8 @@ export default {
 				this.groups = response.data.ocs.data.groups.sort(function(a, b) {
 					return a.displayname.localeCompare(b.displayname)
 				})
-			} catch (err) {
-				logger.error('Could not fetch groups', err)
+			} catch (error) {
+				logger.error('Could not fetch groups', { error })
 			} finally {
 				this.loadingGroups = false
 			}
@@ -492,7 +498,7 @@ export default {
 			this.hideAvailableUpdates = !this.hideAvailableUpdates
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>

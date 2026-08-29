@@ -45,7 +45,7 @@ class APIControllerTest extends TestCase {
 		$this->manager = $this->createMock(Manager::class);
 
 		$this->apiController = new APIController(
-			Application::APP_NAME,
+			Application::APP_ID,
 			$this->request,
 			$this->config,
 			$this->appManager,
