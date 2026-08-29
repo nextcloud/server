@@ -18,6 +18,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: playwright-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   gate:
     runs-on: ubuntu-latest-low

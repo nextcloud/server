@@ -6,6 +6,9 @@ name: Check node dist files
 on:
   pull_request:
 
+concurrency:
+  group: node-dist-unchanged-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   changed_files:
