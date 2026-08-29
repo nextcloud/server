@@ -52,7 +52,7 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Pano kullanılamıyor. Lütfen bulut kimliğini el ile kopyalayın.",
     "Copied!" : "Kopyalandı!",
     "Federated Cloud" : "Birleşik bulut",
-    "You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "{productName} ya da Open Cloud Mesh (OCM) ile uyumlu sunucu ve hizmetler ile paylaşım yapılabilir. Paylaşım penceresine person@cloud.example.com gibi birleşik bulut kimliğini yazmanız yeterlidir.",
+    "You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "{productName} ya da Open Cloud Mesh (OCM) ile uyumlu sunucu ve hizmetler ile paylaşım yapılabilir. Paylaşım iletişim kutusuna kisi@cloud.ornek.com gibi birleşik bulut kimliğini yazmanız yeterlidir.",
     "Your Federated Cloud ID" : "Birleşik bulut kimliğiniz",
     "Share it so your friends can share files with you:" : "Paylaşın, böylece arkadaşlarınız da sizinle dosya paylaşabilir:",
     "Bluesky" : "Bluesky",
