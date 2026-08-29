@@ -9,6 +9,7 @@ namespace OC\Contacts\ContactsMenu;
 
 use OC\KnownUser\KnownUserService;
 use OC\Profile\ProfileManager;
+use OC\Share20\ShareDisableChecker;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Service\StatusService;
 use OCP\Contacts\ContactsMenu\IContactsStore;
@@ -38,6 +39,7 @@ class ContactsStore implements IContactsStore {
 		private IGroupManager $groupManager,
 		private KnownUserService $knownUserService,
 		private IL10NFactory $l10nFactory,
+		private ShareDisableChecker $shareDisableChecker,
 	) {
 	}
 
@@ -169,10 +171,9 @@ class ContactsStore implements IContactsStore {
 		$restrictEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$restrictEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$allowEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
-		$excludeGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no');
 
 		// whether to filter out local users
-		$skipLocal = false;
+		$skipLocal = $this->shareDisableChecker->sharingDisabledForUser($self->getUID());
 		// whether to filter out all users which don't have a common group as the current user
 		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 
