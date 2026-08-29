@@ -41,7 +41,7 @@ adminTest.describe('Settings: Previews admin page', () => {
 		await maxX.fill('2048')
 		await page.locator('[data-cy="previews-save"]').click()
 		await handlePasswordConfirmation(page)
-		await expect(page.getByText('Preview settings saved')).toBeVisible()
+		await expect(page.getByText('Preview settings saved', { exact: true })).toBeVisible()
 		await page.reload()
 		await expect(page.locator('[data-cy="previews-enable"] input')).toBeChecked()
 		await expect(page.getByRole('spinbutton', { name: 'Maximum preview width (pixels)' })).toHaveValue('2048')
@@ -119,7 +119,7 @@ adminTest.describe('Settings: Previews admin page', () => {
 		await page.goto('/index.php/settings/admin/previews')
 		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()
 		const imaginaryRow = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ has: page.locator('code', { hasText: /^OC\\Preview\\Imaginary$/ }) })
-		const imaginarySwitch = imaginaryRow.getByRole('checkbox')
+		const imaginarySwitch = imaginaryRow.getByRole('switch')
 		const requiresUrl = imaginaryRow.locator('[data-cy="previews-provider-availability"]').filter({ hasText: 'Requires Imaginary URL' })
 		if (await requiresUrl.count()) {
 			await expect(imaginarySwitch).toBeDisabled()
@@ -130,7 +130,7 @@ adminTest.describe('Settings: Previews admin page', () => {
 		}
 
 		const movieRow = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ has: page.locator('code', { hasText: /^OC\\Preview\\Movie$/ }) })
-		const movieSwitch = movieRow.getByRole('checkbox')
+		const movieSwitch = movieRow.getByRole('switch')
 		const requiresFfmpeg = movieRow.locator('[data-cy="previews-provider-availability"]').filter({ hasText: 'Requires ffmpeg' })
 		if (await requiresFfmpeg.count()) {
 			await expect(movieSwitch).toBeDisabled()
