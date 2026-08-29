@@ -43,7 +43,7 @@ class AppUpdateNotifier implements INotifier {
 	 */
 	#[\Override]
 	public function getName(): string {
-		return $this->l10nFactory->get(Application::APP_NAME)->t('App updated');
+		return $this->l10nFactory->get(Application::APP_ID)->t('App updated');
 	}
 
 	/**
@@ -55,7 +55,7 @@ class AppUpdateNotifier implements INotifier {
 	 */
 	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if ($notification->getApp() !== Application::APP_NAME) {
+		if ($notification->getApp() !== Application::APP_ID) {
 			throw new UnknownNotificationException('Unknown app');
 		}
 
@@ -70,7 +70,7 @@ class AppUpdateNotifier implements INotifier {
 		}
 
 		// Prepare translation factory for requested language
-		$l = $this->l10nFactory->get(Application::APP_NAME, $languageCode);
+		$l = $this->l10nFactory->get(Application::APP_ID, $languageCode);
 
 		$icon = $this->appManager->getAppIcon($appId, true);
 		if ($icon === null) {
