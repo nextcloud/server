@@ -79,12 +79,10 @@ final readonly class ShareRecipient {
 		}
 
 		$icon = $recipientType->getRecipientIcon($this->value);
-		if ($icon === null) {
-			$icon = new ShareIconURL(
-				$urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $displayName, 'size' => 64]),
-				$urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $displayName, 'size' => 64, 'darkTheme' => true]),
-			);
-		}
+		$icon ??= new ShareIconURL(
+			$urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $displayName, 'size' => 64]),
+			$urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $displayName, 'size' => 64, 'darkTheme' => true]),
+		);
 
 		return [
 			'class' => $this->class,

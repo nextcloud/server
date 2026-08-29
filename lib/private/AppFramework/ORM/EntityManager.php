@@ -35,9 +35,7 @@ final class EntityManager {
 	 * @return EntityInfo<T>
 	 */
 	public function getEntityInfo(string $entityClass): EntityInfo {
-		if (!isset($this->entitiesInfo[$entityClass])) {
-			$this->entitiesInfo[$entityClass] = new EntityInfo($entityClass);
-		}
+		$this->entitiesInfo[$entityClass] ??= new EntityInfo($entityClass);
 
 		/** @var EntityInfo<T> $entityInfo */
 		$entityInfo = $this->entitiesInfo[$entityClass];
