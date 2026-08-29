@@ -84,7 +84,7 @@
     "concurrently": "^9.2.4",
     "cypress": "^15.20.1",
     "cypress-axe": "^1.7.0",
-    "cypress-if": "^1.16.1",
+    "cypress-if": "^1.17.1",
     "cypress-split": "^1.25.0",
     "cypress-vite": "^1.10.2",
     "cypress-wait-until": "^3.0.2",
