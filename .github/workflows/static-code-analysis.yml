@@ -28,7 +28,7 @@ jobs:
       src: ${{ steps.changes.outputs.src }}
 
     steps:
-      - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
         id: changes
         continue-on-error: true
         with:
@@ -116,7 +116,7 @@ jobs:
 
       - name: Upload Security Analysis results to GitHub
         if: always()
-        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v3
+        uses: github/codeql-action/upload-sarif@db488ddef3bf6cb639b32c2e9a7c0a7ea8271d28 # v3
         with:
           sarif_file: results.sarif
 

@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45.0.7
+        uses: tj-actions/changed-files@934b2d2c7e653bb8c968afed5a0428617f09aa24 # v45.0.7
         with:
           files: dist/**
 
