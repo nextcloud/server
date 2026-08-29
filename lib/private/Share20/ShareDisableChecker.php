@@ -49,29 +49,17 @@ class ShareDisableChecker {
 				return false;
 			}
 			$usersGroups = $this->groupManager->getUserGroupIds($user);
-			if ($excludeGroups !== 'allow') {
-				if (!empty($usersGroups)) {
-					$remainingGroups = array_diff($usersGroups, $excludedGroups);
-					// if the user is only in groups which are disabled for sharing then
-					// sharing is also disabled for the user
-					if (empty($remainingGroups)) {
-						$this->sharingDisabledForUsersCache[$userId] = true;
-						return true;
-					}
-				}
-			} else {
-				if (!empty($usersGroups)) {
-					$remainingGroups = array_intersect($usersGroups, $excludedGroups);
-					// if the user is in any group which is allowed for sharing then
-					// sharing is also allowed for the user
-					if (!empty($remainingGroups)) {
-						$this->sharingDisabledForUsersCache[$userId] = false;
-						return false;
-					}
-				}
-				$this->sharingDisabledForUsersCache[$userId] = true;
-				return true;
-			}
+			$intersectingGroups = array_intersect($usersGroups, $excludedGroups);
+
+			// 1. If the user is in a group which is disabled for sharing then
+			//    sharing is also disabled for the user.
+			// 2. If the user is in a group which is allowed for sharing then
+			//    sharing is also allowed for the user.
+			$isInList = $intersectingGroups !== [];
+			$isBlockList = $excludeGroups !== 'allow';
+			$sharingDisabled = $isBlockList ? $isInList : !$isInList;
+			$this->sharingDisabledForUsersCache[$userId] = $sharingDisabled;
+			return $sharingDisabled;
 		}
 
 		$this->sharingDisabledForUsersCache[$userId] = false;
