@@ -9,6 +9,7 @@ namespace OC\Contacts\ContactsMenu;
 
 use OC\KnownUser\KnownUserService;
 use OC\Profile\ProfileManager;
+use OC\Share20\ShareDisableChecker;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Service\StatusService;
 use OCP\Contacts\ContactsMenu\IContactsStore;
@@ -38,6 +39,7 @@ class ContactsStore implements IContactsStore {
 		private IGroupManager $groupManager,
 		private KnownUserService $knownUserService,
 		private IL10NFactory $l10nFactory,
+		private ShareDisableChecker $shareDisableChecker,
 	) {
 	}
 
@@ -149,8 +151,8 @@ class ContactsStore implements IContactsStore {
 	 * Filters the contacts. Applied filters:
 	 *  1. if the `shareapi_allow_share_dialog_user_enumeration` config option is
 	 * enabled it will filter all local users
-	 *  2. if the `shareapi_exclude_groups` config option is enabled and the
-	 * current user is only in excluded groups it will filter all local users.
+	 *  2. if sharing is disabled for the current user by the `shareapi_exclude_groups`
+	 * config option it will filter all local users.
 	 *  3. if the `shareapi_only_share_with_group_members` config option is
 	 * enabled it will filter all users which doesn't have a common group
 	 * with the current user.
@@ -170,34 +172,13 @@ class ContactsStore implements IContactsStore {
 		$restrictEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$restrictEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$allowEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
-		$excludeGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no');
 
 		// whether to filter out local users
-		$skipLocal = false;
+		$skipLocal = $this->shareDisableChecker->sharingDisabledForUser($self->getUID());
 		// whether to filter out all users which don't have a common group as the current user
 		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
-
-		if ($excludeGroups && $excludeGroups !== 'no') {
-			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-			$decodedExcludeGroups = json_decode($excludedGroups, true);
-			$excludeGroupsList = $decodedExcludeGroups ?? [];
-
-			if ($excludeGroups !== 'allow') {
-				if (count($selfGroups) > 0 && count(array_diff($selfGroups, $excludeGroupsList)) === 0) {
-					// all the groups of the current user are excluded -> filter all local users
-					$skipLocal = true;
-				}
-			} else {
-				$skipLocal = true;
-				if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
-					// a group of the current user is allowed -> do not filter all local users
-					$skipLocal = false;
-				}
-			}
-		}
-
 		// ownGroupsOnly : some groups may be excluded
 		if ($ownGroupsOnly) {
 			$excludeGroupsFromOwnGroups = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
