@@ -526,8 +526,15 @@ class AppConfig implements IAppConfig {
 			&& $knownType > 0
 			&& !$this->isTyped(self::VALUE_MIXED, $knownType)
 			&& !$this->isTyped($type, $knownType)) {
-			$this->logger->warning('conflict with value type from database', ['app' => $app, 'key' => $key, 'type' => $type, 'knownType' => $knownType]);
-			throw new AppConfigTypeConflictException('conflict with value type from database');
+			$requestedType = $storedType = null;
+			try {
+				$requestedType = $this->convertTypeToString($type);
+				$storedType = $this->convertTypeToString($knownType);
+			} catch (AppConfigIncorrectTypeException) {
+				// can be ignored, this was just needed for a better exception message.
+			}
+			$this->logger->warning('Config value {app}/{key} is stored as {storedType} but was requested as {requestedType}', ['app' => $app, 'key' => $key, 'storedType' => $storedType ?? $knownType, 'requestedType' => $requestedType ?? $type]);
+			throw new AppConfigTypeConflictException('Config value ' . $app . '/' . $key . ' is stored as ' . ($storedType ?? (string)$knownType) . ' but was requested as ' . ($requestedType ?? (string)$type));
 		}
 
 		/**
