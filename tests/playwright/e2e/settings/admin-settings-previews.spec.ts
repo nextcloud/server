@@ -13,6 +13,11 @@ import { pickSelectOption } from '../../support/utils/select.ts'
 adminTest.describe('Settings: Previews admin page', () => {
 	adminTest('admin can open Administration → Previews and see all sections', async ({ page }) => {
 		await page.goto('/index.php/settings/admin/previews')
+		const previewsNav = page.getByRole('navigation').getByRole('link', { name: 'Previews' })
+		await expect(previewsNav).toBeVisible()
+		const previewsNavIcon = previewsNav.locator('img')
+		await expect(previewsNavIcon).toBeVisible()
+		await expect(previewsNavIcon).toHaveAttribute('src', /\/apps\/settings\/img\/previews\.svg/)
 		await expect(page.getByRole('heading', { name: /^Previews/ }).first()).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Providers' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'General' })).toBeVisible()

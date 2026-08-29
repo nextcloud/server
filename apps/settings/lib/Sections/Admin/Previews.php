@@ -22,7 +22,7 @@ class Previews implements IIconSection {
 
 	#[\Override]
 	public function getIcon(): string {
-		return $this->urlGenerator->imagePath('core', 'filetypes/image.svg');
+		return $this->urlGenerator->imagePath('settings', 'previews.svg');
 	}
 
 	#[\Override]
