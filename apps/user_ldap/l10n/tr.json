@@ -256,7 +256,7 @@
     "The filter specifies which LDAP users shall have access to the %s instance." : "Süzgeç, %s kopyasına erişmesi gereken LDAP kullanıcılarını belirtir.",
     "Saving" : "Kaydediliyor",
     "Back" : "Geri",
-    "Continue" : "Sürdür",
+    "Continue" : "İlerle",
     "Please renew your password." : "Lütfen parolanızı yenileyin.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Uyarı:</b> PHP LDAP modülü kurulmamış, arka yüz çalışmayacak. Lütfen kurması için BT yöneticiniz ile görüşün.",
     "Configuration Active" : "Yapılandırma etkin",
