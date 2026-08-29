@@ -200,6 +200,7 @@
     "The requested share does not exist anymore" : "請求的分享已不存在",
     "The share already contains the source." : "分享已包含來源。",
     "The share already contains the recipient." : "分享已包含收件者。",
+    "Cannot set user status for the owner of the share." : "無法設定分享擁有者的使用者狀態。",
     "The source does not exist." : "來源不存在。",
     "The recipient does not exist." : "收件者不存在。",
     "The value must be alphanumeric, 1 to 32 characters long and may contain dashes." : "該值必須為 1 到 32 個字元的英數字，並可包含連字號。",

@@ -422,7 +422,7 @@ OC.L10N.register(
     "Enforce expiration date for link or mail shares" : "Bağlantı ya da e-posta paylaşımları için geçerlilik sonu tarihi zorunlu kılınsın",
     "Default expiration time of shares in days" : "Paylaşımların gün olarak varsayılan geçerlilik süresi",
     "Privacy settings for sharing" : "Paylaşım için gizlilik ayarı",
-    "Allow account name autocompletion in share dialog and allow access to the system address book" : "Paylaşım penceresinde hesap adının otomatik tamamlanmasına ve sistem adres defterine erişilmesine izin verilsin",
+    "Allow account name autocompletion in share dialog and allow access to the system address book" : "Paylaşım iletişim kutusunda hesap adının otomatik tamamlanmasına ve sistem adres defterine erişilmesine izin verilsin",
     "Sharing autocompletion restrictions" : "Paylaşım otomatik tamamlama kısıtlamaları",
     "If autocompletion restrictions for both \"same group\" and \"phonebook integration\" are enabled, a match in either is enough to show the user." : "Otomatik tamamlama kısıtlamaları için \"Aynı grup\" ve \"Telefon defteri bütünleştirmesi\" seçeneklerinin ikisi de açıksa, kullanıcının görüntülenmesi için ikisinden birinde eşleşme olması yeterlidir.",
     "Restrict account name autocompletion and system address book access to users within the same groups" : "Hesap adının otomatik tamamlanması ve sistem adres defterine erişim aynı gruplardaki kullanıcılarla kısıtlansın",
