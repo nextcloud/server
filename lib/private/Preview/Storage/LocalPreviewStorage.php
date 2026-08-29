@@ -69,6 +69,13 @@ class LocalPreviewStorage implements IPreviewStorage {
 		}
 	}
 
+	#[Override]
+	public function deleteUnreferencedPreview(Preview $preview): void {
+		// constructPath() keys on the file id and the preview specification, not
+		// on the preview id, so this file is shared with the preview that won the
+		// race. Deleting it would leave that one with a row but no file.
+	}
+
 	public function getRootFolder(): string {
 		return $this->config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data');
 	}

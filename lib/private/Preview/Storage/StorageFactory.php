@@ -37,6 +37,11 @@ class StorageFactory implements IPreviewStorage {
 		$this->getBackend()->deletePreview($preview);
 	}
 
+	#[Override]
+	public function deleteUnreferencedPreview(Preview $preview): void {
+		$this->getBackend()->deleteUnreferencedPreview($preview);
+	}
+
 	private function getBackend(): IPreviewStorage {
 		if ($this->backend) {
 			return $this->backend;
