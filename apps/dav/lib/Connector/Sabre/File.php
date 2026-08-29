@@ -205,8 +205,15 @@ class File extends Node implements IFile {
 				}
 			}
 
-			$lengthHeader = $this->request->getHeader('content-length');
-			$expected = $lengthHeader !== '' ? (int)$lengthHeader : null;
+			// Methods other than PUT carry no Content-Length describing the data written
+			// here: the chunked upload assembly is a MOVE or COPY with no body of its own.
+			$expected = null;
+			if ($this->request->getMethod() === 'PUT') {
+				$lengthHeader = $this->request->getHeader('content-length');
+				if ($lengthHeader !== '') {
+					$expected = (int)$lengthHeader;
+				}
+			}
 
 			if ($partStorage->instanceOfStorage(IWriteStreamStorage::class)) {
 				$isEOF = false;
@@ -256,7 +263,6 @@ class File extends Node implements IFile {
 			// compare expected and actual size
 			if ($expected !== null
 				&& $expected !== $count
-				&& $this->request->getMethod() === 'PUT'
 			) {
 				throw new BadRequest(
 					$this->l10n->t(
