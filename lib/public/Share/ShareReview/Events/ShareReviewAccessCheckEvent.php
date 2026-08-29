@@ -13,7 +13,9 @@ use OCP\AppFramework\Attribute\Consumable;
 use OCP\EventDispatcher\Event;
 
 /**
- * Authorization gate for deleting an app-managed share through a share-review app.
+ * Authorization gate for acting on an app-managed share through a share-review
+ * app: deleting it, remediating it (password, expiration) or restoring it from
+ * a snapshot.
  *
  * Background: Apps such as Deck or Tables manage their own shares outside of
  * the regular sharing backend ({@see \OCP\Share\IManager}). They can expose
@@ -65,10 +67,67 @@ use OCP\EventDispatcher\Event;
  *    ignored and propagation is stopped immediately.
  *  - Multiple grants are harmless; the last listener to deny is authoritative.
  *
+ * Actions and scopes (since 36.0.0): the same gate covers every operation a
+ * share-review app can request, so the owning app dispatches one event type
+ * and the share-review app answers it from one listener:
+ *  - ACTION_DELETE — dispatched by {@see \OCP\Share\ShareReview\IShareReviewSource::deleteShare()}.
+ *    This is the default and the only action of the 34.0.2 event.
+ *  - ACTION_REMEDIATE — dispatched by the mutators of
+ *    {@see \OCP\Share\ShareReview\IShareReviewSourceRemediation} before a
+ *    password or expiration date is changed.
+ *  - ACTION_RESTORE — dispatched by
+ *    {@see \OCP\Share\ShareReview\IShareReviewSourceSnapshot::restoreShare()}
+ *    before a share is re-created from a snapshot.
+ *  - SCOPE_OPERATOR (default) — the acting user is a share-review operator
+ *    reviewing the whole instance; the listener grants based on operator
+ *    membership, exactly as for the 34.0.2 event.
+ *  - SCOPE_SELF — the acting user reviews their own shares (a personal
+ *    self-audit). The listener must additionally verify, e.g. through
+ *    {@see \OCP\Share\ShareReview\IPaginatedShareReviewSource::getShare()},
+ *    that the acting user is the initiator of the share before granting.
+ *    For ACTION_RESTORE the share no longer exists, so initiatorship must
+ *    be verified against the initiator recorded with the snapshot instead.
+ *  - The acting user defaults to the session user (null); a background job
+ *    acting for a user passes the user id explicitly. The listener must use
+ *    getActingUserId() when set instead of the session.
+ * Listeners that predate 36.0.0 see every action as a plain access check and
+ * grant or deny by operator membership: non-operators stay denied (fail
+ * closed), but for operators the new actions extend the granted capability
+ * set — ACTION_REMEDIATE includes removing a link share's password, which
+ * can expose content deletion never could. A listener that distinguishes
+ * reviewers with delete-only rights must check getAction() and deny actions
+ * it does not recognize.
+ *
  * @since 34.0.2
  */
 #[Consumable(since: '34.0.2')]
 class ShareReviewAccessCheckEvent extends Event {
+	/**
+	 * The share is about to be deleted
+	 * @since 36.0.0
+	 */
+	public const ACTION_DELETE = 'delete';
+	/**
+	 * The share's password or expiration date is about to be changed
+	 * @since 36.0.0
+	 */
+	public const ACTION_REMEDIATE = 'remediate';
+	/**
+	 * The share is about to be re-created from a snapshot
+	 * @since 36.0.0
+	 */
+	public const ACTION_RESTORE = 'restore';
+
+	/**
+	 * The acting user reviews the whole instance as a share-review operator
+	 * @since 36.0.0
+	 */
+	public const SCOPE_OPERATOR = 'operator';
+	/**
+	 * The acting user reviews their own shares only
+	 * @since 36.0.0
+	 */
+	public const SCOPE_SELF = 'self';
 
 	private bool $handled = false;
 	private bool $granted = false;
@@ -77,15 +136,33 @@ class ShareReviewAccessCheckEvent extends Event {
 	/**
 	 * @param string $sourceName Stable, non-translated identifier for the app
 	 *                           registering the share source (e.g. 'Deck', 'Tables').
-	 * @param string $shareId App-internal identifier of the share being deleted.
+	 * @param string $shareId App-internal identifier of the share being acted on.
+	 * @param self::ACTION_* $action The operation being authorized (since 36.0.0).
+	 * @param string|null $actingUserId The user the operation is performed
+	 *                                  for; null means the session user
+	 *                                  (since 36.0.0).
+	 * @param self::SCOPE_* $scope Whether the acting user acts as an operator
+	 *                             over all shares or on their own shares only
+	 *                             (since 36.0.0).
+	 *
+	 * @throws \InvalidArgumentException on an unknown $action or $scope
 	 *
 	 * @since 34.0.2
 	 */
 	public function __construct(
 		private readonly string $sourceName,
 		private readonly string $shareId,
+		private readonly string $action = self::ACTION_DELETE,
+		private readonly ?string $actingUserId = null,
+		private readonly string $scope = self::SCOPE_OPERATOR,
 	) {
 		parent::__construct();
+		if (!in_array($action, [self::ACTION_DELETE, self::ACTION_REMEDIATE, self::ACTION_RESTORE], true)) {
+			throw new \InvalidArgumentException('Unknown share review action');
+		}
+		if (!in_array($scope, [self::SCOPE_OPERATOR, self::SCOPE_SELF], true)) {
+			throw new \InvalidArgumentException('Unknown share review scope');
+		}
 	}
 
 	/**
@@ -98,7 +175,7 @@ class ShareReviewAccessCheckEvent extends Event {
 	}
 
 	/**
-	 * App-internal identifier of the share being deleted.
+	 * App-internal identifier of the share being acted on.
 	 *
 	 * @since 34.0.2
 	 */
@@ -107,7 +184,37 @@ class ShareReviewAccessCheckEvent extends Event {
 	}
 
 	/**
-	 * Grant access to delete the share.
+	 * The operation being authorized, one of the ACTION_* constants.
+	 *
+	 * @return self::ACTION_*
+	 * @since 36.0.0
+	 */
+	public function getAction(): string {
+		return $this->action;
+	}
+
+	/**
+	 * The user the operation is performed for, or null for the session user.
+	 *
+	 * @since 36.0.0
+	 */
+	public function getActingUserId(): ?string {
+		return $this->actingUserId;
+	}
+
+	/**
+	 * Whether the acting user acts as an operator over all shares or on their
+	 * own shares only, one of the SCOPE_* constants.
+	 *
+	 * @return self::SCOPE_*
+	 * @since 36.0.0
+	 */
+	public function getScope(): string {
+		return $this->scope;
+	}
+
+	/**
+	 * Grant access to perform the action on the share.
 	 *
 	 * Has no effect if denyAccess() was already called on this event — deny wins.
 	 *
