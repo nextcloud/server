@@ -55,6 +55,8 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "カレンダーの<strong>ToDo</strong>が変更されました",
     "Contact birthdays" : "誕生日",
     "Death of %s" : "%sの命日",
+    "Calendar federation" : "カレンダーの連携",
+    "{user} has shared the calendar {calendar} with you" : "{user}さんが、カレンダー{calendar}をあなたと共有しました",
     "Accept" : "承諾",
     "Decline" : "拒否",
     "Untitled calendar" : "無題のカレンダー",
