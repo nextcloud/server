@@ -4,7 +4,7 @@
  */
 
 import { t } from '@nextcloud/l10n'
-import logger from '../logger.js'
+import { logger } from './logger.ts'
 
 /**
  *

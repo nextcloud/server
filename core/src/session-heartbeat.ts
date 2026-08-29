@@ -7,11 +7,11 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { emit } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
-import logger from './logger.js'
 import {
 	fetchRequestToken,
 	getRequestToken,
 } from './OC/requesttoken.ts'
+import { logger } from './utils/logger.ts'
 
 interface OcJsConfig {
 	auto_logout: boolean

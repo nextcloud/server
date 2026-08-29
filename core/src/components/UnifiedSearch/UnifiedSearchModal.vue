@@ -285,9 +285,9 @@ import FilterChip from './SearchFilterChip.vue'
 import SearchResult from './SearchResult.vue'
 import SearchResultSkeleton from './SearchResultSkeleton.vue'
 import { useUnifiedSearch } from '../../composables/useUnifiedSearch.ts'
-import { unifiedSearchLogger } from '../../logger.js'
 import { getContacts, getProviders } from '../../services/UnifiedSearchService.js'
 import { useSearchStore } from '../../store/unified-search-external-filters.js'
+import { unifiedSearchLogger } from '../../utils/logger.ts'
 
 /**
  * Rows shown per category in the aggregate list. A view-only cap: the controller keeps

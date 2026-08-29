@@ -6,7 +6,7 @@
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 
 export const defaultLimit = loadState('unified-search', 'limit-default')
 export const minSearchLength = loadState('unified-search', 'min-search-length', 1)

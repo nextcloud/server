@@ -38,7 +38,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import logger from '../../logger.js'
+import { logger } from '../../utils/logger.ts'
 
 defineProps<{
 	label: string

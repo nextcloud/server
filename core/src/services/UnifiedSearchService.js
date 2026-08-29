@@ -6,7 +6,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 
 /**
  * Create a cancel token

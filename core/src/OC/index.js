@@ -25,7 +25,7 @@ import {
 	imagePath,
 	linkTo,
 } from '@nextcloud/router'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 import { isUserAdmin } from './admin.js'
 import { appConfig } from './appconfig.js'
 import appswebroots from './appswebroots.js'

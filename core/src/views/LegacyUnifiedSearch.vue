@@ -124,8 +124,8 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 import SearchResult from '../components/UnifiedSearch/LegacySearchResult.vue'
 import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders.vue'
-import logger from '../logger.js'
 import { defaultLimit, enableLiveSearch, getTypes, minSearchLength, regexFilterIn, regexFilterNot, search } from '../services/LegacyUnifiedSearchService.js'
+import { logger } from '../utils/logger.ts'
 
 const REQUEST_FAILED = 0
 const REQUEST_OK = 1

@@ -11,7 +11,7 @@ import { t } from '@nextcloud/l10n'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import { basename } from 'path'
 import { defineAsyncComponent } from 'vue'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 
 /**
  * this class to ease the usage of dialogs

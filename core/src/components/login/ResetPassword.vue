@@ -51,8 +51,8 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import LoginButton from './LoginButton.vue'
-import logger from '../../logger.js'
 import AuthMixin from '../../mixins/auth.js'
+import { logger } from '../../utils/logger.ts'
 
 export default defineComponent({
 	name: 'ResetPassword',
