@@ -575,21 +575,40 @@ $CONFIG = [
 	'auth.webauthn.enabled' => true,
 
 	/**
-	 * Whether encrypted passwords should be stored in the database
+	 * Whether recoverable login passwords should be stored in authentication-token
+	 * records.
 	 *
-	 * The passwords are only decrypted using the login token stored uniquely in the
-	 * clients and allow connecting to external storages, autoconfiguring mail accounts in
-	 * the mail app, and periodically checking if the password is still valid.
+	 * When enabled and the login password is available to Nextcloud, a separate,
+	 * reversibly encrypted copy of the password is stored in the server-side records
+	 * associated with the user's authentication tokens. This is separate from the
+	 * one-way password hash used for account authentication.
+	 * 
+	 * The recoverable password copy is used for features that require the original
+	 * login credentials, such as connecting to external storage, autoconfiguring
+	 * accounts in the Mail app, and periodically checking whether a password remains
+	 * valid.
 	 *
-	 * This might be desirable to disable this functionality when using one-time
-	 * passwords or when having a password policy enforcing long passwords (> 300
-	 * characters).
+	 * A recoverable password is encrypted using an RSA key pair associated with its
+	 * authentication-token record. Passwords longer than 214 bytes require a larger
+	 * RSA key, which increases token-generation overhead.
 	 *
-	 * By default, the passwords are stored encrypted in the database.
+	 * Administrators may wish to disable this option when users routinely use very
+	 * long passwords (215 to 469 bytes), when one-time login credentials should not
+	 * be stored, or when deployed authentication flows do not require password
+	 * recovery. Disabling it prevents the recoverable password copy from being stored
+	 * and avoids password-length-related RSA key-size increases. However, operations
+	 * that require Nextcloud to have access to the original login password will no
+	 * longer work.
 	 *
-	 * WARNING: If disabled, password changes on the user backend (e.g., on LDAP) no
-	 * longer log connected clients out automatically. Users can still disconnect
-	 * the clients by deleting the app token from the security settings.
+	 * NOTE: Nextcloud enforces a maximum account password length of 469 bytes whether
+	 * this option is enabled or disabled.
+	 *
+	 * WARNING: If disabled, password changes made directly in an external user
+	 * backend, such as LDAP, no longer automatically invalidate connected clients.
+	 * Users can still disconnect clients by deleting their app tokens from the
+	 * security settings.
+	 *
+	 * Defaults to ``true``.
 	 */
 	'auth.storeCryptedPassword' => true,
 
