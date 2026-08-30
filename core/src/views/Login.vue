@@ -107,6 +107,7 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import queryString from 'query-string'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -132,6 +133,12 @@ export default {
 		UpdatePassword,
 		NcButton,
 		NcNoteCard,
+	},
+
+	setup() {
+		return {
+			t,
+		}
 	},
 
 	data() {
