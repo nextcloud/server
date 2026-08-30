@@ -2,55 +2,16 @@
 # SPDX-License-Identifier: MIT
 name: PHPUnit files_external
 on:
-  pull_request:
-  schedule:
-    - cron: "5 2 * * *"
+  workflow_call:
 
 permissions:
   contents: read
 
-concurrency:
-  group: files-external-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
 jobs:
-  changes:
-    runs-on: ubuntu-latest-low
-
-    outputs:
-      src: ${{ steps.changes.outputs.src}}
-
-    steps:
-      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
-        id: changes
-        continue-on-error: true
-        with:
-          filters: |
-            src:
-              - '.github/workflows/files-external.yml'
-              - '3rdparty/**'
-              - 'vendor/**'
-              - 'vendor-bin/**'
-              - 'composer.json'
-              - 'composer.lock'
-              - 'apps/files/lib/**'
-              - 'apps/files/tests/**'
-              - 'apps/files_external/**'
-              - 'apps/files_sharing/lib/**'
-              - 'apps/files_sharing/tests/**'
-              - 'apps/files_trashbin/lib/**'
-              - 'apps/files_trashbin/tests/**'
-              - 'apps/files_versions/lib/**'
-              - 'apps/files_versions/tests/**'
-              - 'lib/private/Files/**'
-              - 'lib/public/Files/**'
-              - 'tests/lib/Files/**'
-
   files-external:
     runs-on: ubuntu-latest
-    needs: changes
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     strategy:
       fail-fast: false
@@ -218,9 +179,8 @@ jobs:
 
   files-external-smb-kerberos:
     runs-on: ubuntu-latest
-    needs: changes
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     name: smb-kerberos-sso
 
@@ -286,17 +246,3 @@ jobs:
           FILEPATH=$(docker exec --user 33 apache ./occ log:file | grep "Log file:" | cut -d' ' -f3)
           echo "$FILEPATH:"
           docker exec --user 33 apache cat $FILEPATH
-
-  summary:
-    permissions:
-      contents: none
-    runs-on: ubuntu-latest-low
-    needs: [changes, files-external, files-external-smb-kerberos]
-
-    if: always()
-
-    name: files-external-summary
-
-    steps:
-      - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && (needs.files-external.result != 'success' || needs.files-external-smb-kerberos.result != 'success') }}; then exit 1; fi
