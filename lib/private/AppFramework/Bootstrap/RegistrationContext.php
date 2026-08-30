@@ -28,6 +28,7 @@ use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Conversion\IConversionProvider;
 use OCP\Files\Template\ICustomTemplateProvider;
+use OCP\GlobalScale\IGlobalScaleService;
 use OCP\Http\WellKnown\IHandler;
 use OCP\Mail\Provider\IProvider as IMailProvider;
 use OCP\Notification\INotifier;
@@ -165,6 +166,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<IMailProvider>[] */
 	private $mailProviders = [];
+
+	/** @var class-string<IGlobalScaleService>|null */
+	private ?string $globalScaleService = null;
 
 	public function __construct(
 		private LoggerInterface $logger,
@@ -490,6 +494,13 @@ class RegistrationContext {
 					$configLexiconClass
 				);
 			}
+
+			#[\Override]
+			public function registerGlobalScaleService(string $globalScaleServiceClass): void {
+				$this->context->registerGlobalScaleService(
+					$globalScaleServiceClass
+				);
+			}
 		};
 	}
 
@@ -706,6 +717,13 @@ class RegistrationContext {
 	 */
 	public function registerConfigLexicon(string $appId, string $configLexiconClass): void {
 		$this->configLexiconClasses[$appId] = $configLexiconClass;
+	}
+
+	/**
+	 * @param class-string<IGlobalScaleService> $class
+	 */
+	public function registerGlobalScaleService(string $class): void {
+		$this->globalScaleService = $class;
 	}
 
 	/**
@@ -1088,5 +1106,12 @@ class RegistrationContext {
 		}
 
 		return Server::get($this->configLexiconClasses[$appId]);
+	}
+
+	/**
+	 * @return ?class-string<IGlobalScaleService>
+	 */
+	public function getGlobalScaleService(): ?string {
+		return $this->globalScaleService;
 	}
 }

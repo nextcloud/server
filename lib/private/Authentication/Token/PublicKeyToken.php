@@ -234,4 +234,9 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	public function wipe(): void {
 		parent::setType(IToken::WIPE_TOKEN);
 	}
+
+	#[\Override]
+	public function getType(): int {
+		return $this->getter('type');
+	}
 }
