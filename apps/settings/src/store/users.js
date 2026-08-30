@@ -350,6 +350,12 @@ const getters = {
 const CancelToken = axios.CancelToken
 let searchRequestCancelSource = null
 
+/**
+ * Commit groups from a users response to the store.
+ *
+ * @param context - The store context
+ * @param response - The response from the users API call
+ */
 function commitGroupsFromUsersResponse(context, response) {
 	const groups = response.data.ocs.data.groups ?? []
 	if (groups.length === 0) {

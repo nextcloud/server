@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcContent :class="$style.settingsApp" appName="settings">
+	<NcContent :class="$style.settingsApp" app-name="settings">
 		<SettingsNavigation />
 		<SettingsContentWrapper />
 	</NcContent>
