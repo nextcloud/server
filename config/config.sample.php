@@ -582,7 +582,7 @@ $CONFIG = [
 	 * reversibly encrypted copy of the password is stored in the server-side records
 	 * associated with the user's authentication tokens. This is separate from the
 	 * one-way password hash used for account authentication.
-	 * 
+	 *
 	 * The recoverable password copy is used for features that require the original
 	 * login credentials, such as connecting to external storage, autoconfiguring
 	 * accounts in the Mail app, and periodically checking whether a password remains
