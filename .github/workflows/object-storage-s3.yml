@@ -2,16 +2,10 @@
 # SPDX-License-Identifier: MIT
 name: Object storage S3
 on:
-  pull_request:
-  schedule:
-    - cron: "15 2 * * *"
+  workflow_call:
 
 permissions:
   contents: read
-
-concurrency:
-  group: object-storage-s3-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
 
 jobs:
   changes:
@@ -48,9 +42,8 @@ jobs:
 
   s3-primary-tests-minio:
     runs-on: ubuntu-latest
-    needs: changes
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     strategy:
       fail-fast: false
@@ -129,13 +122,3 @@ jobs:
         run: |
           docker ps -a
           docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
-
-  s3-primary-summary:
-    runs-on: ubuntu-latest-low
-    needs: [changes,s3-primary-tests-minio]
-
-    if: always()
-
-    steps:
-      - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.s3-primary-tests-minio.result != 'success' }}; then exit 1; fi
