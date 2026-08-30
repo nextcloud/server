@@ -69,7 +69,7 @@ $config = RectorConfig::configure()
 	])
 	->withSets([
 		NextcloudSets::NEXTCLOUD_27,
-		PHPUnitSetList::PHPUNIT_100,
+		PHPUnitSetList::COMPOSER_BASED,
 	]);
 
 $config->registerService(NextcloudNamespaceSkipVoter::class, tag:ClassNameImportSkipVoterInterface::class);
