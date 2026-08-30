@@ -1,0 +1,102 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Storage
+
+on:
+  pull_request:
+  schedule:
+    - cron: "5 2 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: storage-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+# GitHub allows a maximum of 20 reusable workflows per caller
+jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+    permissions:
+      contents: read
+      pull-requests: read
+
+    outputs:
+      src: ${{ steps.changes.outputs.src }}
+      files-external: ${{ steps.changes.outputs.files-external }}
+      integration: ${{ steps.changes.outputs.integration }}
+
+    steps:
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            shared: &shared
+              - '3rdparty/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - 'composer.json'
+              - 'composer.lock'
+              - 'apps/files/lib/**'
+              - 'apps/files/tests/**'
+              - 'apps/files_external/**'
+              - 'apps/files_sharing/lib/**'
+              - 'apps/files_sharing/tests/**'
+              - 'apps/files_trashbin/lib/**'
+              - 'apps/files_trashbin/tests/**'
+              - 'apps/files_versions/lib/**'
+              - 'apps/files_versions/tests/**'
+              - 'lib/private/Files/**'
+              - 'lib/public/Files/**'
+              - 'tests/lib/Files/**'
+            src:
+              - *shared
+              - '.github/workflows/**'
+            files-external:
+              - *shared
+              - '.github/workflows/files-external.yml'
+            integration:
+              - 'build/integration/**'
+
+  files-external:
+    needs: changes
+    if: needs.changes.outputs.files-external != 'false'
+    uses: ./.github/workflows/files-external.yml
+
+  object-storage-azure:
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+    uses: ./.github/workflows/object-storage-azure.yml
+
+  object-storage-s3:
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+    uses: ./.github/workflows/object-storage-s3.yml
+
+  object-storage-swift:
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+    uses: ./.github/workflows/object-storage-swift.yml
+
+  integration-s3-primary:
+    needs: changes
+    if: needs.changes.outputs.src != 'false' || needs.changes.outputs.integration != 'false'
+    uses: ./.github/workflows/integration-s3-primary.yml
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [changes, files-external, object-storage-azure, object-storage-s3, object-storage-swift, integration-s3-primary]
+
+    if: always()
+
+    name: storage-summary
+
+    steps:
+      # Skipped jobs are fine, they mean no relevant changes were detected
+      - name: Summary status
+        run: if ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}; then exit 1; fi
