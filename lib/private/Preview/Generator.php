@@ -10,7 +10,6 @@ namespace OC\Preview;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
-use OC\Preview\Failure\PreviewFailureService;
 use OC\Preview\Storage\PreviewFile;
 use OC\Preview\Storage\StorageFactory;
 use OCP\DB\Exception as DBException;
@@ -47,7 +46,6 @@ class Generator {
 		private readonly PreviewMapper $previewMapper,
 		private readonly StorageFactory $storageFactory,
 		private readonly PreviewMigrationService $migrationService,
-		private readonly ?PreviewFailureService $failureService = null,
 	) {
 	}
 
@@ -109,7 +107,6 @@ class Generator {
 		//Make sure that we can read the file
 		if (!$file->isReadable()) {
 			$this->logger->warning('Cannot read file: {path}, skipping preview generation.', ['path' => $file->getPath()]);
-			$this->recordPreviewFailure($file, $mimeType ?? $file->getMimeType(), null, 'Cannot read file');
 			throw new NotFoundException('Cannot read file');
 		}
 
@@ -135,7 +132,6 @@ class Generator {
 			$this->storageFactory->deletePreview($maxPreview);
 			$this->previewMapper->delete($maxPreview);
 			$this->logger->error('Max preview generated for file {path} has size 0, deleting and throwing exception.', ['path' => $file->getPath()]);
-			$this->recordPreviewFailure($file, $mimeType, null, 'Max preview size 0, invalid');
 			throw new NotFoundException('Max preview size 0, invalid!');
 		}
 
@@ -143,7 +139,6 @@ class Generator {
 		$maxHeight = $maxPreview->getHeight();
 
 		if ($maxWidth <= 0 || $maxHeight <= 0) {
-			$this->recordPreviewFailure($file, $mimeType, null, 'The maximum preview sizes are zero or less pixels');
 			throw new NotFoundException('The maximum preview sizes are zero or less pixels');
 		}
 
@@ -180,7 +175,6 @@ class Generator {
 					$previewFile = new PreviewFile($preview, $this->storageFactory, $this->previewMapper);
 				} else {
 					if (!$this->previewManager->isMimeSupported($mimeType)) {
-						$this->recordPreviewFailure($file, $mimeType, null, 'MIME type is not supported for preview generation');
 						throw new NotFoundException();
 					}
 
@@ -192,13 +186,11 @@ class Generator {
 					$previewFile = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
 				}
 			} catch (\InvalidArgumentException $e) {
-				$this->recordPreviewFailure($file, $mimeType, null, $e->getMessage() !== '' ? $e->getMessage() : 'Failed to generate preview');
 				throw new NotFoundException('', 0, $e);
 			}
 
 			if ($previewFile->getSize() === 0) {
 				$previewFile->delete();
-				$this->recordPreviewFailure($file, $mimeType, null, 'Cached preview size 0, invalid');
 				throw new NotFoundException('Cached preview size 0, invalid!');
 			}
 		}
@@ -378,8 +370,6 @@ class Generator {
 			}
 		}
 
-		$hadProviderFailure = false;
-
 		foreach ($entries as $entry) {
 			$provider = $entry['provider'];
 			$class = $entry['class'];
@@ -395,21 +385,17 @@ class Generator {
 				]);
 				$preview = $this->helper->getThumbnail($provider, $file, $width, $height);
 			} catch (\Throwable $e) {
-				$hadProviderFailure = true;
 				$this->logger->warning('Preview provider {provider} failed for {mimeType}', [
 					'provider' => $class,
 					'mimeType' => $mimeType,
 					'exception' => $e,
 				]);
-				$this->recordPreviewFailure($file, $mimeType, $class, $e->getMessage() !== '' ? $e->getMessage() : 'Preview provider failed');
 				continue;
 			} finally {
 				self::unguardWithSemaphore($sem);
 			}
 
 			if (!($preview instanceof IImage)) {
-				$hadProviderFailure = true;
-				$this->recordPreviewFailure($file, $mimeType, $class, 'Provider returned no image');
 				continue;
 			}
 
@@ -428,25 +414,13 @@ class Generator {
 				$previewEntry->setMimetype($preview->dataMimeType());
 				$previewEntry->setEtag($file->getEtag());
 				$previewEntry->setMtime((new \DateTime())->getTimestamp());
-				$saved = $this->savePreview($previewEntry, $preview);
-				if (!$hadProviderFailure) {
-					$this->failureService?->clearForFile($file->getId());
-				}
-				return $saved;
+				return $this->savePreview($previewEntry, $preview);
 			} catch (NotPermittedException) {
-				$this->recordPreviewFailure($file, $mimeType, $class, 'Not permitted to save preview');
 				throw new NotFoundException();
 			}
 		}
 
-		if ($entries === []) {
-			$this->recordPreviewFailure($file, $mimeType, null, 'No preview provider is available for this type');
-		}
 		throw new NotFoundException('No provider successfully handled the preview generation');
-	}
-
-	private function recordPreviewFailure(File $file, string $mimeType, ?string $provider, string $error): void {
-		$this->failureService?->record($file, $mimeType, $provider, $error);
 	}
 
 	/**

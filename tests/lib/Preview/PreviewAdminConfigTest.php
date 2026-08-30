@@ -15,6 +15,7 @@ use OC\Preview\IMagickSupport;
 use OC\Preview\Imaginary;
 use OC\Preview\ImaginaryPDF;
 use OC\Preview\JPEG;
+use OC\Preview\MarkDown;
 use OC\Preview\Movie;
 use OC\Preview\MSOfficeDoc;
 use OC\Preview\OpenDocument;
@@ -96,14 +97,10 @@ class PreviewAdminConfigTest extends TestCase {
 		});
 		$this->adminConfig->setSettings([
 			'previewExpirationDays' => 90,
-			'failuresRetentionDays' => 14,
-			'failuresMaxRows' => 1000,
 			'previewConcurrencyNew' => 2,
 			'previewConcurrencyAll' => 6,
 		]);
 		$this->assertSame(90, $calls['preview_expiration_days']);
-		$this->assertSame(14, $calls['preview_failures_retention_days']);
-		$this->assertSame(1000, $calls['preview_failures_max_rows']);
 		$this->assertSame(2, $calls['preview_concurrency_new']);
 		$this->assertSame(6, $calls['preview_concurrency_all']);
 	}
@@ -182,6 +179,60 @@ class PreviewAdminConfigTest extends TestCase {
 
 		$this->assertTrue($byClass[Movie::class]['available']);
 		$this->assertFalse($byClass[Movie::class]['enabled']);
+	}
+
+	public function testProviderTableOrderDoesNotChangeWhenDisabled(): void {
+		$enabled = [JPEG::class, PNG::class, MarkDown::class];
+		$this->config->method('getSystemValue')->willReturnCallback(function (string $key, mixed $default) use (&$enabled) {
+			if ($key === 'enabledPreviewProviders') {
+				return $enabled;
+			}
+			return $default;
+		});
+		$this->config->method('getSystemValueBool')->willReturnCallback(fn (string $key, bool $default) => $default);
+		$this->config->method('getSystemValueInt')->willReturnCallback(fn (string $key, int $default) => $default);
+		$this->config->method('getSystemValueString')->willReturnCallback(fn (string $key, string $default) => $default);
+		$this->appConfig->method('getValueInt')->willReturnCallback(fn (string $app, string $key, int $default) => $default);
+
+		$withMarkdown = $this->adminConfig->getSettings();
+		$enabledIndex = array_search(MarkDown::class, array_column($withMarkdown['providers'], 'class'), true);
+
+		$enabled = [JPEG::class, PNG::class];
+		$withoutMarkdown = $this->adminConfig->getSettings();
+		$disabledIndex = array_search(MarkDown::class, array_column($withoutMarkdown['providers'], 'class'), true);
+
+		$this->assertNotFalse($enabledIndex);
+		$this->assertSame($enabledIndex, $disabledIndex);
+		$this->assertTrue($withMarkdown['providers'][$enabledIndex]['enabled']);
+		$this->assertFalse($withoutMarkdown['providers'][$disabledIndex]['enabled']);
+	}
+
+	public function testSavedProviderTableOrderKeepsDisabledRowsInPlace(): void {
+		$stored = [];
+		$this->config->method('getSystemValue')->willReturnCallback(function (string $key, mixed $default) use (&$stored) {
+			return $stored[$key] ?? $default;
+		});
+		$this->config->method('getSystemValueBool')->willReturnCallback(fn (string $key, bool $default) => $default);
+		$this->config->method('getSystemValueInt')->willReturnCallback(fn (string $key, int $default) => $default);
+		$this->config->method('getSystemValueString')->willReturnCallback(function (string $key, string $default) use (&$stored) {
+			$value = $stored[$key] ?? $default;
+			return is_string($value) ? $value : $default;
+		});
+		$this->config->method('setSystemValue')->willReturnCallback(function (string $key, mixed $value) use (&$stored): void {
+			$stored[$key] = $value;
+		});
+
+		$this->adminConfig->setSettings([
+			'providers' => [
+				['class' => JPEG::class, 'enabled' => true],
+				['class' => MarkDown::class, 'enabled' => false],
+				['class' => PNG::class, 'enabled' => true],
+			],
+		]);
+
+		$classes = array_column($this->adminConfig->getSettings()['providers'], 'class');
+		$this->assertSame([JPEG::class, MarkDown::class, PNG::class], array_slice($classes, 0, 3));
+		$this->assertSame([JPEG::class, PNG::class], $stored['enabledPreviewProviders']);
 	}
 
 	public function testRecommendedDefaultsPutImaginaryFirstWhenUrlIsSet(): void {

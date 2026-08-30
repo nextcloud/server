@@ -1688,21 +1688,6 @@ $CONFIG = [
 	'preview_format' => 'jpeg',
 
 	/**
-	 * How long failed preview generations are kept in ``oc_preview_failures``.
-	 *
-	 * Defaults to ``30`` days. Set to ``0`` to disable time-based cleanup
-	 * (the max-rows cap still applies).
-	 */
-	'preview_failures_retention_days' => 30,
-
-	/**
-	 * Maximum number of rows in ``oc_preview_failures``.
-	 *
-	 * Defaults to ``5000``. Oldest rows are dropped when the cap is exceeded.
-	 */
-	'preview_failures_max_rows' => 5000,
-
-	/**
 	 * Maximum file size for file metadata generation.
 	 *
 	 * Files larger than this limit will be skipped.

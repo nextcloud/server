@@ -9,61 +9,71 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Controller;
 
-use OC\Preview\Failure\PreviewFailureService;
 use OC\Preview\PreviewAdminConfig;
 use OCA\Settings\Settings\Admin\Previews;
-use OCP\AppFramework\Controller;
-use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\Files\File;
-use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
+use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\AppFramework\OCSController;
 use OCP\Http\Client\IClientService;
-use OCP\IPreview;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 
-class PreviewAdminController extends Controller {
+#[OpenAPI(scope: OpenAPI::SCOPE_ADMINISTRATION)]
+class PreviewAdminController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
 		private PreviewAdminConfig $previewAdminConfig,
-		private PreviewFailureService $failureService,
 		private IClientService $clientService,
-		private IPreview $preview,
-		private IRootFolder $rootFolder,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 	}
 
 	/**
-	 * @param array $settings
+	 * Update preview administration settings
+	 *
+	 * @param array<string, mixed> $settings Preview settings to persist
+	 * @return DataResponse<Http::STATUS_OK, array<string, mixed>, array{}>
+	 * @throws OCSBadRequestException Invalid settings payload
+	 *
+	 * 200: Settings saved
 	 */
 	#[AuthorizedAdminSetting(settings: Previews::class)]
 	#[PasswordConfirmationRequired]
+	#[ApiRoute(verb: 'PUT', url: '/api/admin/previews')]
 	public function update(array $settings): DataResponse {
 		try {
 			$this->previewAdminConfig->setSettings($settings);
 		} catch (\InvalidArgumentException $e) {
-			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+			throw new OCSBadRequestException($e->getMessage());
 		}
 
 		return new DataResponse($this->previewAdminConfig->getSettings());
 	}
 
+	/**
+	 * Test connectivity to an Imaginary preview service
+	 *
+	 * @param string|null $url Imaginary base URL
+	 * @param string|null $key Optional Imaginary API key
+	 * @return DataResponse<Http::STATUS_OK, array{status: string, httpCode?: int, error?: string}, array{}>
+	 * @throws OCSBadRequestException Invalid URL
+	 *
+	 * 200: Connection test completed
+	 */
 	#[AuthorizedAdminSetting(settings: Previews::class)]
+	#[ApiRoute(verb: 'POST', url: '/api/admin/previews/imaginary/test')]
 	public function testImaginary(?string $url = null, ?string $key = null): DataResponse {
 		try {
 			$target = $this->previewAdminConfig->validateImaginaryUrl($url ?? '');
 		} catch (\InvalidArgumentException $e) {
-			return new DataResponse([
-				'status' => 'unreachable',
-				'error' => $e->getMessage(),
-			], Http::STATUS_BAD_REQUEST);
+			throw new OCSBadRequestException($e->getMessage());
 		}
 
 		if ($target === '') {
@@ -98,70 +108,5 @@ class PreviewAdminController extends Controller {
 				'error' => $e->getMessage(),
 			]);
 		}
-	}
-
-	#[AuthorizedAdminSetting(settings: Previews::class)]
-	public function listFailures(?string $mime = null, ?string $provider = null, ?string $range = null): DataResponse {
-		$since = $this->rangeToSince($range);
-		return new DataResponse([
-			'failures' => $this->failureService->listFailures($mime, $provider, $since),
-		]);
-	}
-
-	#[AuthorizedAdminSetting(settings: Previews::class)]
-	public function retryFailure(int $id): DataResponse {
-		try {
-			$failure = $this->failureService->get($id);
-		} catch (DoesNotExistException) {
-			return new DataResponse(['error' => 'Unknown failure'], Http::STATUS_NOT_FOUND);
-		}
-
-		$nodes = $this->rootFolder->getById($failure->getFileId());
-		$file = null;
-		foreach ($nodes as $node) {
-			if ($node instanceof File) {
-				$file = $node;
-				break;
-			}
-		}
-		if ($file === null) {
-			return new DataResponse(['error' => 'File not found'], Http::STATUS_NOT_FOUND);
-		}
-
-		try {
-			$this->preview->getPreview($file);
-			$this->failureService->clearForFile($failure->getFileId());
-			return new DataResponse(['status' => 'ok']);
-		} catch (NotFoundException|\InvalidArgumentException $e) {
-			return new DataResponse([
-				'status' => 'failed',
-				'error' => $e->getMessage(),
-			], Http::STATUS_BAD_REQUEST);
-		}
-	}
-
-	#[AuthorizedAdminSetting(settings: Previews::class)]
-	public function deleteFailure(int $id): DataResponse {
-		try {
-			$this->failureService->delete($id);
-		} catch (DoesNotExistException) {
-			return new DataResponse(['error' => 'Unknown failure'], Http::STATUS_NOT_FOUND);
-		}
-		return new DataResponse(['status' => 'ok']);
-	}
-
-	#[AuthorizedAdminSetting(settings: Previews::class)]
-	public function clearFailures(): DataResponse {
-		$this->failureService->clearAll();
-		return new DataResponse(['status' => 'ok']);
-	}
-
-	private function rangeToSince(?string $range): ?int {
-		return match ($range) {
-			'24h' => time() - 86400,
-			'7d' => time() - 7 * 86400,
-			'30d' => time() - 30 * 86400,
-			default => null,
-		};
 	}
 }

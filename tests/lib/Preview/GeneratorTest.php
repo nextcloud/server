@@ -10,7 +10,6 @@ namespace Test\Preview;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
-use OC\Preview\Failure\PreviewFailureService;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\PreviewMigrationService;
@@ -400,75 +399,8 @@ class GeneratorTest extends TestCase {
 		$this->generator->getPreview($file, 100, 100);
 	}
 
-	public function testRecordsFailureWhenAllProvidersFail(): void {
+	public function testTriesNextProviderWhenEarlierFails(): void {
 		$file = $this->getFile(42, 'myMimeType');
-		$failureService = $this->createMock(PreviewFailureService::class);
-		$generator = $this->makeGenerator($failureService);
-
-		$this->previewMapper->method('getAvailablePreviews')
-			->with($this->equalTo([42]))
-			->willReturn([42 => []]);
-		$this->config->method('getSystemValueInt')->willReturnCallback(fn ($key, $default) => $default);
-
-		$provider = $this->createMock(IProviderV2::class);
-		$provider->method('isAvailable')->willReturn(true);
-		$this->previewManager->method('getProviders')->willReturn([
-			'/myMimeType/' => ['failing'],
-		]);
-		$this->helper->method('getProvider')->willReturn($provider);
-		$this->helper->method('getThumbnail')->willReturn(false);
-
-		$failureService->expects($this->once())
-			->method('record')
-			->with($file, 'myMimeType', $this->isType('string'), $this->isType('string'));
-
-		$this->expectException(NotFoundException::class);
-		$generator->getPreview($file, 100, 100);
-	}
-
-	public function testClearsFailureAfterSuccessfulGeneration(): void {
-		$file = $this->getFile(42, 'myMimeType');
-		$failureService = $this->createMock(PreviewFailureService::class);
-		$generator = $this->makeGenerator($failureService);
-
-		$this->previewMapper->method('getAvailablePreviews')
-			->with($this->equalTo([42]))
-			->willReturn([42 => []]);
-		$this->config->method('getSystemValueString')->willReturnCallback(fn ($key, $default) => $default);
-		$this->config->method('getSystemValueInt')->willReturnCallback(fn ($key, $default) => $default);
-
-		$provider = $this->createMock(IProviderV2::class);
-		$provider->method('isAvailable')->willReturn(true);
-		$this->previewManager->method('isMimeSupported')->willReturn(true);
-		$this->previewManager->method('getProviders')->willReturn([
-			'/myMimeType/' => ['ok'],
-		]);
-		$this->helper->method('getProvider')->willReturn($provider);
-
-		$image = $this->createMock(IImage::class);
-		$image->method('width')->willReturn(2048);
-		$image->method('height')->willReturn(2048);
-		$image->method('valid')->willReturn(true);
-		$image->method('dataMimeType')->willReturn('image/png');
-		$image->method('data')->willReturn('my data');
-		$this->helper->method('getThumbnail')->willReturn($image);
-		$this->helper->method('getImage')->willReturn($this->getMockImage(2048, 2048, 'my resized data'));
-
-		$this->previewMapper->method('insert')->willReturnCallback(fn (Preview $preview): Preview => $preview);
-		$this->previewMapper->method('update')->willReturnCallback(fn (Preview $preview): Preview => $preview);
-		$this->storageFactory->method('writePreview')->willReturn(1000);
-
-		$failureService->expects($this->once())->method('clearForFile')->with(42);
-		$failureService->expects($this->never())->method('record');
-
-		$result = $generator->getPreview($file, 100, 100);
-		$this->assertSame('256-256.png', $result->getName());
-	}
-
-	public function testRecordsFailureWhenLaterProviderSucceeds(): void {
-		$file = $this->getFile(42, 'myMimeType');
-		$failureService = $this->createMock(PreviewFailureService::class);
-		$generator = $this->makeGenerator($failureService);
 
 		$this->previewMapper->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
@@ -503,12 +435,7 @@ class GeneratorTest extends TestCase {
 		$this->previewMapper->method('update')->willReturnCallback(fn (Preview $preview): Preview => $preview);
 		$this->storageFactory->method('writePreview')->willReturn(1000);
 
-		$failureService->expects($this->once())
-			->method('record')
-			->with($file, 'myMimeType', $failing::class, 'imaginary down');
-		$failureService->expects($this->never())->method('clearForFile');
-
-		$result = $generator->getPreview($file, 100, 100);
+		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame('256-256.png', $result->getName());
 	}
 
@@ -581,40 +508,6 @@ class GeneratorTest extends TestCase {
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame([$heic], $tried);
 		$this->assertSame('256-256.png', $result->getName());
-	}
-
-	public function testRecordsFailureWhenNoProviders(): void {
-		$file = $this->getFile(42, 'myMimeType');
-		$failureService = $this->createMock(PreviewFailureService::class);
-		$generator = $this->makeGenerator($failureService);
-
-		$this->previewMapper->method('getAvailablePreviews')
-			->with($this->equalTo([42]))
-			->willReturn([42 => []]);
-		$this->config->method('getSystemValueInt')->willReturnCallback(fn ($key, $default) => $default);
-		$this->previewManager->method('getProviders')->willReturn([]);
-
-		$failureService->expects($this->once())
-			->method('record')
-			->with($file, 'myMimeType', null, 'No preview provider is available for this type');
-
-		$this->expectException(NotFoundException::class);
-		$generator->getPreview($file, 100, 100);
-	}
-
-	private function makeGenerator(?PreviewFailureService $failureService): Generator {
-		return new Generator(
-			$this->config,
-			$this->appConfig,
-			$this->previewManager,
-			$this->helper,
-			$this->eventDispatcher,
-			$this->logger,
-			$this->previewMapper,
-			$this->storageFactory,
-			$this->migrationService,
-			$failureService,
-		);
 	}
 
 	private function getMockImage(int $width, int $height, string $data = '') {

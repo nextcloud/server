@@ -9,13 +9,11 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Tests\Controller;
 
-use OC\Preview\Failure\PreviewFailureService;
 use OC\Preview\PreviewAdminConfig;
 use OCA\Settings\Controller\PreviewAdminController;
 use OCP\AppFramework\Http;
-use OCP\Files\IRootFolder;
+use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\Http\Client\IClientService;
-use OCP\IPreview;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -32,10 +30,7 @@ class PreviewAdminControllerTest extends TestCase {
 			'settings',
 			$this->createMock(IRequest::class),
 			$this->adminConfig,
-			$this->createMock(PreviewFailureService::class),
 			$this->createMock(IClientService::class),
-			$this->createMock(IPreview::class),
-			$this->createMock(IRootFolder::class),
 			$this->createMock(LoggerInterface::class),
 		);
 	}
@@ -52,15 +47,15 @@ class PreviewAdminControllerTest extends TestCase {
 
 	public function testUpdateRejectsInvalidPayload(): void {
 		$this->adminConfig->method('setSettings')->willThrowException(new \InvalidArgumentException('Refusing to write an empty preview provider list'));
-		$response = $this->controller->update(['enabledPreviewProviders' => []]);
-		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
-		$this->assertSame('Refusing to write an empty preview provider list', $response->getData()['error']);
+		$this->expectException(OCSBadRequestException::class);
+		$this->expectExceptionMessage('Refusing to write an empty preview provider list');
+		$this->controller->update(['enabledPreviewProviders' => []]);
 	}
 
 	public function testTestImaginaryRejectsGarbageUrl(): void {
 		$this->adminConfig->method('validateImaginaryUrl')->willThrowException(new \InvalidArgumentException('Imaginary URL must use http or https'));
-		$response = $this->controller->testImaginary('not-a-url');
-		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
-		$this->assertSame('unreachable', $response->getData()['status']);
+		$this->expectException(OCSBadRequestException::class);
+		$this->expectExceptionMessage('Imaginary URL must use http or https');
+		$this->controller->testImaginary('not-a-url');
 	}
 }

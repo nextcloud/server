@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_Trashbin\Controller;
 
-use OC\Preview\Failure\PreviewFailureService;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -38,7 +37,6 @@ class PreviewController extends Controller {
 		private IMimeTypeDetector $mimeTypeDetector,
 		private IPreview $previewManager,
 		private ITimeFactory $time,
-		private ?PreviewFailureService $failureService = null,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -69,7 +67,6 @@ class PreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		$file = null;
 		try {
 			$file = $this->trashManager->getTrashNodeById($this->userSession->getUser(), $fileId);
 			if ($file === null) {
@@ -99,12 +96,6 @@ class PreviewController extends Controller {
 			$response->cacheFor(3600 * 24);
 			return $response;
 		} catch (NotFoundException $e) {
-			if ($file instanceof \OCP\Files\File) {
-				$this->failureService?->recordFromFailedRequest(
-					$file,
-					$e->getMessage() !== '' ? $e->getMessage() : 'Preview not found',
-				);
-			}
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

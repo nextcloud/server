@@ -13,7 +13,6 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Preview\BMP;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\EMF;
-use OC\Preview\Failure\PreviewFailureService;
 use OC\Preview\Font;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
@@ -204,7 +203,6 @@ class PreviewManager implements IPreview {
 				$this->container->get(PreviewMapper::class),
 				$this->container->get(StorageFactory::class),
 				$this->container->get(PreviewMigrationService::class),
-				$this->container->get(PreviewFailureService::class),
 			);
 		}
 		return $this->generator;

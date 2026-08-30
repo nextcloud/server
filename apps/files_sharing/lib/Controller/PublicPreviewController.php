@@ -7,7 +7,6 @@
 
 namespace OCA\Files_Sharing\Controller;
 
-use OC\Preview\Failure\PreviewFailureService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
@@ -41,7 +40,6 @@ class PublicPreviewController extends PublicShareController {
 		ISession $session,
 		private IPreview $previewManager,
 		private IMimeIconProvider $mimeIconProvider,
-		private ?PreviewFailureService $failureService = null,
 	) {
 		parent::__construct($appName, $request, $session);
 	}
@@ -154,18 +152,12 @@ class PublicPreviewController extends PublicShareController {
 
 			$response->cacheFor($cacheForSeconds);
 			return $response;
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException) {
 			// If a preview could not be generated for a resolved file, we can redirect to the mime icon if any
 			if ($mimeFallback && $previewFile instanceof File) {
 				if ($url = $this->mimeIconProvider->getMimeIconUrl($previewFile->getMimeType())) {
 					return new RedirectResponse($url);
 				}
-			}
-			if ($previewFile instanceof File) {
-				$this->failureService?->recordFromFailedRequest(
-					$previewFile,
-					$e->getMessage() !== '' ? $e->getMessage() : 'Preview not found',
-				);
 			}
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (NotPermittedException) {
@@ -217,7 +209,6 @@ class PublicPreviewController extends PublicShareController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$node = null;
 		try {
 			$node = $share->getNode();
 			if ($node instanceof Folder) {
@@ -229,13 +220,7 @@ class PublicPreviewController extends PublicShareController {
 			$response = new FileDisplayResponse($f, Http::STATUS_OK, ['Content-Type' => $f->getMimeType()]);
 			$response->cacheFor(3600 * 24);
 			return $response;
-		} catch (NotFoundException $e) {
-			if ($node instanceof File) {
-				$this->failureService?->recordFromFailedRequest(
-					$node,
-					$e->getMessage() !== '' ? $e->getMessage() : 'Preview not found',
-				);
-			}
+		} catch (NotFoundException) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (NotPermittedException) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
@@ -243,5 +228,4 @@ class PublicPreviewController extends PublicShareController {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}
-
 }

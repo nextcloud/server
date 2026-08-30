@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\Preview;
 
-use OC\Preview\Failure\PreviewFailureService;
 use OCP\IAppConfig;
 use OCP\IBinaryFinder;
 use OCP\IConfig;
@@ -21,6 +20,13 @@ use OCP\Server;
 class PreviewAdminConfig {
 	/** @var list<string> */
 	private const IMAGICK_FORMATS = ['SVG', 'TIFF', 'PDF', 'AI', 'PSD', 'EPS', 'TTF', 'HEIC', 'TGA', 'SGI'];
+
+	/**
+	 * Full admin-table order from the last providers save in this request.
+	 *
+	 * @var list<string>|null
+	 */
+	private ?array $providerTableOrder = null;
 
 	public function __construct(
 		private readonly IConfig $config,
@@ -199,9 +205,33 @@ class PreviewAdminConfig {
 		$enabledSet = array_fill_keys($enabled, true);
 		$detection = $this->getDetection();
 
-		$providers = [];
+		$order = [];
 		$seen = [];
+		foreach ($this->providerTableOrder ?? $this->getDefaultProviderOrder() as $class) {
+			$class = self::normalizeClassName((string)$class);
+			if ($class === '' || isset($seen[$class])) {
+				continue;
+			}
+			$order[] = $class;
+			$seen[$class] = true;
+		}
 		foreach ($enabled as $class) {
+			if (isset($seen[$class])) {
+				continue;
+			}
+			$order[] = $class;
+			$seen[$class] = true;
+		}
+		foreach (self::getProviderCatalog() as $entry) {
+			if (isset($seen[$entry['class']])) {
+				continue;
+			}
+			$order[] = $entry['class'];
+			$seen[$entry['class']] = true;
+		}
+
+		$providers = [];
+		foreach ($order as $class) {
 			$meta = $this->findCatalogEntry($class) ?? [
 				'class' => $class,
 				'name' => $this->classBasename($class),
@@ -210,19 +240,7 @@ class PreviewAdminConfig {
 				'imagickFormat' => null,
 				'sourceMimes' => [],
 			];
-			$providers[] = $this->providerRow($meta, true, $detection);
-			$seen[$class] = true;
-		}
-		foreach (self::getProviderCatalog() as $entry) {
-			if (isset($seen[$entry['class']])) {
-				continue;
-			}
-			$providers[] = $this->providerRow(
-				$entry,
-				isset($enabledSet[$entry['class']]),
-				$detection,
-			);
-			$seen[$entry['class']] = true;
+			$providers[] = $this->providerRow($meta, isset($enabledSet[$class]), $detection);
 		}
 
 		$ffmpegConfigured = $this->configuredBinary('preview_ffmpeg_path');
@@ -249,8 +267,6 @@ class PreviewAdminConfig {
 			'providers' => $providers,
 			'defaultEnabledProviders' => $this->getRecommendedEnabledProvidersForInstance(),
 			'defaultProviderOrder' => $this->getDefaultProviderOrder(),
-			'failuresRetentionDays' => $this->config->getSystemValueInt('preview_failures_retention_days', PreviewFailureService::DEFAULT_RETENTION_DAYS),
-			'failuresMaxRows' => $this->config->getSystemValueInt('preview_failures_max_rows', PreviewFailureService::DEFAULT_MAX_ROWS),
 			'detection' => $detection,
 			'configIsReadonly' => $this->config->getSystemValueBool('config_is_read_only', false),
 		];
@@ -292,12 +308,6 @@ class PreviewAdminConfig {
 		}
 		if (array_key_exists('previewExpirationDays', $settings)) {
 			$this->setIntKey('preview_expiration_days', $settings['previewExpirationDays'], 0);
-		}
-		if (array_key_exists('failuresRetentionDays', $settings)) {
-			$this->setIntKey('preview_failures_retention_days', $settings['failuresRetentionDays'], 0);
-		}
-		if (array_key_exists('failuresMaxRows', $settings)) {
-			$this->setIntKey('preview_failures_max_rows', $settings['failuresMaxRows'], 0);
 		}
 		if (array_key_exists('ffmpegPath', $settings)) {
 			$this->setBinaryPath('preview_ffmpeg_path', $settings['ffmpegPath']);
@@ -378,14 +388,18 @@ class PreviewAdminConfig {
 	private function setEnabledProvidersFromRows(array $rows, bool $confirmEmpty): void {
 		$detection = $this->getDetection();
 		$enabled = [];
+		$tableOrder = [];
 		foreach ($rows as $row) {
 			if (!is_array($row) || !isset($row['class']) || !is_string($row['class'])) {
 				continue;
 			}
+			$class = self::normalizeClassName($row['class']);
+			if ($class !== '') {
+				$tableOrder[] = $class;
+			}
 			if (!($row['enabled'] ?? false)) {
 				continue;
 			}
-			$class = self::normalizeClassName($row['class']);
 			$entry = $this->findCatalogEntry($class);
 			if ($entry !== null) {
 				$requirement = $entry['requirement'] ?? 'none';
@@ -396,6 +410,7 @@ class PreviewAdminConfig {
 			}
 			$enabled[] = $class;
 		}
+		$this->providerTableOrder = array_values(array_unique($tableOrder));
 		$this->setEnabledProviders($enabled, $confirmEmpty);
 	}
 

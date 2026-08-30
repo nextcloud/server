@@ -41,12 +41,6 @@ return [
 		['name' => 'TwoFactorSettings#index', 'url' => '/settings/api/admin/twofactorauth', 'verb' => 'GET' , 'root' => ''],
 		['name' => 'TwoFactorSettings#update', 'url' => '/settings/api/admin/twofactorauth', 'verb' => 'PUT' , 'root' => ''],
 		['name' => 'AISettings#update', 'url' => '/settings/api/admin/ai', 'verb' => 'PUT' , 'root' => ''],
-		['name' => 'PreviewAdmin#update', 'url' => '/settings/api/admin/previews', 'verb' => 'PUT' , 'root' => ''],
-		['name' => 'PreviewAdmin#testImaginary', 'url' => '/settings/api/admin/previews/imaginary/test', 'verb' => 'POST' , 'root' => ''],
-		['name' => 'PreviewAdmin#listFailures', 'url' => '/settings/api/admin/previews/failures', 'verb' => 'GET' , 'root' => ''],
-		['name' => 'PreviewAdmin#retryFailure', 'url' => '/settings/api/admin/previews/failures/{id}/retry', 'verb' => 'POST' , 'root' => ''],
-		['name' => 'PreviewAdmin#deleteFailure', 'url' => '/settings/api/admin/previews/failures/{id}', 'verb' => 'DELETE' , 'root' => ''],
-		['name' => 'PreviewAdmin#clearFailures', 'url' => '/settings/api/admin/previews/failures', 'verb' => 'DELETE' , 'root' => ''],
 
 		['name' => 'Preset#getPreset', 'url' => '/settings/preset', 'verb' => 'GET' , 'root' => ''],
 		['name' => 'Preset#getCurrentPreset', 'url' => '/settings/preset/current', 'verb' => 'GET' , 'root' => ''],

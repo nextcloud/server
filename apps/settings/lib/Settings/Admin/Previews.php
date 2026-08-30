@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\Settings\Settings\Admin;
 
-use OC\Preview\Failure\PreviewFailureService;
 use OC\Preview\PreviewAdminConfig;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -19,7 +18,6 @@ use OCP\Util;
 class Previews implements IDelegatedSettings {
 	public function __construct(
 		private PreviewAdminConfig $previewAdminConfig,
-		private PreviewFailureService $failureService,
 		private IInitialState $initialState,
 		private string $appName,
 	) {
@@ -28,7 +26,6 @@ class Previews implements IDelegatedSettings {
 	#[\Override]
 	public function getForm(): TemplateResponse {
 		$this->initialState->provideInitialState('previewsSettings', $this->previewAdminConfig->getSettings());
-		$this->initialState->provideInitialState('previewsFailures', $this->failureService->listFailures());
 		$this->initialState->provideInitialState('previewsDocumentation', 'https://docs.nextcloud.com/server/latest/admin_manual/configuration_files/previews_configuration.html');
 
 		Util::addScript($this->appName, 'vue-settings-admin-previews');

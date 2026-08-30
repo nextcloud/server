@@ -7,7 +7,6 @@
 
 namespace OCA\Files_Versions\Controller;
 
-use OC\Preview\Failure\PreviewFailureService;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -35,7 +34,6 @@ class PreviewController extends Controller {
 		private IVersionManager $versionManager,
 		private IPreview $previewManager,
 		private IMimeIconProvider $mimeIconProvider,
-		private ?PreviewFailureService $failureService = null,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -87,12 +85,6 @@ class PreviewController extends Controller {
 				}
 			}
 
-			if ($versionFile instanceof \OCP\Files\File) {
-				$this->failureService?->recordFromFailedRequest(
-					$versionFile,
-					$e->getMessage() !== '' ? $e->getMessage() : 'Preview not found',
-				);
-			}
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

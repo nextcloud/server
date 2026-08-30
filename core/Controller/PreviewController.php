@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use OC\Preview\Failure\PreviewFailureService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -38,7 +37,6 @@ class PreviewController extends Controller {
 		private IRootFolder $root,
 		private ?string $userId,
 		private IMimeIconProvider $mimeIconProvider,
-		private ?PreviewFailureService $failureService = null,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -180,10 +178,6 @@ class PreviewController extends Controller {
 				}
 			}
 
-			$this->failureService?->recordFromFailedRequest(
-				$node,
-				$e->getMessage() !== '' ? $e->getMessage() : 'Preview not found',
-			);
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

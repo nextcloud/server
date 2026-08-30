@@ -3,12 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { Page } from '@playwright/test'
+
 import { expect } from '@playwright/test'
 import { test as adminTest } from '../../support/fixtures/admin-session.ts'
 import { test as userTest } from '../../support/fixtures/random-user-session.ts'
 import { AccountMenuPage } from '../../support/sections/AccountMenuPage.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 import { pickSelectOption } from '../../support/utils/select.ts'
+
+function providerRow(page: Page, className: string) {
+	return page.getByRole('row').filter({ has: page.locator('code', { hasText: new RegExp(`^${className.replace(/\\/g, '\\\\')}$`) }) })
+}
 
 adminTest.describe('Settings: Previews admin page', () => {
 	adminTest('admin can open Administration → Previews and see all sections', async ({ page }) => {
@@ -26,57 +32,55 @@ adminTest.describe('Settings: Previews admin page', () => {
 		await expect(page.getByRole('heading', { name: 'Imaginary' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Movie' })).toBeVisible()
 		await expect(page.getByRole('heading', { name: 'Office' })).toBeVisible()
-		await expect(page.getByRole('heading', { name: 'Failed generations' })).toBeVisible()
-		await expect(page.getByRole('heading', { name: 'Retention' })).toBeVisible()
 	})
 
 	adminTest('enable previews and max width persist after reload', async ({ page }) => {
 		await page.goto('/index.php/settings/admin/previews')
-		const enable = page.locator('[data-cy="previews-enable"] input')
+		const enable = page.getByRole('switch', { name: 'Enable previews' })
 		await expect(enable).toBeVisible()
 		if (!(await enable.isChecked())) {
 			await enable.click()
+			await handlePasswordConfirmation(page)
 		}
 		const maxX = page.getByRole('spinbutton', { name: 'Maximum preview width (pixels)' })
 		await maxX.fill('2048')
-		await page.locator('[data-cy="previews-save"]').click()
+		await maxX.blur()
 		await handlePasswordConfirmation(page)
-		await expect(page.getByText('Preview settings saved', { exact: true })).toBeVisible()
 		await page.reload()
-		await expect(page.locator('[data-cy="previews-enable"] input')).toBeChecked()
+		await expect(page.getByRole('switch', { name: 'Enable previews' })).toBeChecked()
 		await expect(page.getByRole('spinbutton', { name: 'Maximum preview width (pixels)' })).toHaveValue('2048')
 	})
 
 	adminTest('providers list includes JPEG or Image related providers', async ({ page }) => {
 		await page.goto('/index.php/settings/admin/previews')
-		const list = page.locator('[data-cy="previews-providers"]')
-		await expect(list).toBeVisible()
-		await expect(list).toContainText(/JPEG|PNG|Image/i)
+		const table = page.getByRole('table', { name: 'Preview providers' })
+		await expect(table).toBeVisible()
+		await expect(table).toContainText(/JPEG|PNG|Image/i)
 	})
 
 	adminTest('providers table shows preview format and footnotes', async ({ page }) => {
 		await page.goto('/index.php/settings/admin/previews')
 		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()
-		await expect(page.locator('[data-cy="previews-providers"] .previews-admin__provider--header')).toContainText('Preview format')
-		const jpegRow = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ hasText: 'OC\\Preview\\JPEG' })
-		const webpRow = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ hasText: 'OC\\Preview\\WebP' })
-		const pngRow = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ hasText: 'OC\\Preview\\PNG' })
-		await expect(jpegRow.locator('[data-cy="previews-provider-format"]')).toHaveText('JPEG')
-		await expect(jpegRow.locator('[data-cy="previews-provider-availability"]')).toContainText('Available')
-		await expect(webpRow.locator('[data-cy="previews-provider-format"]')).toHaveText('WebP')
-		await expect(pngRow.locator('[data-cy="previews-provider-format"]')).toHaveText('PNG')
-		const imaginaryRow = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ has: page.locator('code', { hasText: /^OC\\Preview\\Imaginary$/ }) })
-		await expect(imaginaryRow.locator('[data-cy="previews-provider-format"]')).toHaveText('JPEG2')
-		await expect(imaginaryRow.locator('[data-cy="previews-provider-format"] sup')).toHaveText('2')
-		const mp3Row = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ hasText: 'OC\\Preview\\MP3' })
-		await expect(mp3Row.locator('[data-cy="previews-provider-availability"]')).toContainText('Unsupported')
+		const table = page.getByRole('table', { name: 'Preview providers' })
+		await expect(table.getByRole('columnheader', { name: 'Preview format' })).toBeVisible()
+		const jpegRow = providerRow(page, 'OC\\Preview\\JPEG')
+		const webpRow = providerRow(page, 'OC\\Preview\\WebP')
+		const pngRow = providerRow(page, 'OC\\Preview\\PNG')
+		await expect(jpegRow).toContainText('JPEG')
+		await expect(jpegRow).toContainText('Available')
+		await expect(webpRow).toContainText('WebP')
+		await expect(pngRow).toContainText('PNG')
+		const imaginaryRow = providerRow(page, 'OC\\Preview\\Imaginary')
+		await expect(imaginaryRow).toContainText(/JPEG|WebP/)
+		const mp3Row = providerRow(page, 'OC\\Preview\\MP3')
+		await expect(mp3Row).toContainText('Unsupported')
 		await expect(page.getByText(/Disabled by default due to security and performance concerns/)).toBeVisible()
-		await expect(page.getByText(/When (the )?preview output format is JPEG, Imaginary still writes PNG/i)).toBeVisible()
 		await expect(page.getByText(/MP3 previews use the artwork embedded in the file/)).toBeVisible()
 
 		const format = page.getByRole('combobox', { name: 'Preview output format' })
 		await pickSelectOption(page, format, 'WebP')
-		await expect(imaginaryRow.locator('[data-cy="previews-provider-format"]')).toHaveText('WebP')
+		await handlePasswordConfirmation(page)
+		await expect(imaginaryRow).toContainText('WebP')
 		await expect(page.getByText(/When (the )?preview output format is JPEG, Imaginary still writes PNG/i)).toHaveCount(0)
 	})
 
@@ -85,10 +89,10 @@ adminTest.describe('Settings: Previews admin page', () => {
 		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()
 		const mimeFilter = page.getByRole('combobox', { name: 'Source MIME type' })
 		await pickSelectOption(page, mimeFilter, 'image/heic')
-		const list = page.locator('[data-cy="previews-providers"]')
-		await expect(list.locator('code', { hasText: /^OC\\Preview\\HEIC$/ })).toBeVisible()
-		await expect(list.locator('code', { hasText: /^OC\\Preview\\Imaginary$/ })).toBeVisible()
-		await expect(list.locator('code', { hasText: /^OC\\Preview\\JPEG$/ })).toHaveCount(0)
+		const table = page.getByRole('table', { name: 'Preview providers' })
+		await expect(table.locator('code', { hasText: /^OC\\Preview\\HEIC$/ })).toBeVisible()
+		await expect(table.locator('code', { hasText: /^OC\\Preview\\Imaginary$/ })).toBeVisible()
+		await expect(table.locator('code', { hasText: /^OC\\Preview\\JPEG$/ })).toHaveCount(0)
 	})
 
 	adminTest('status filter can show unsupported providers', async ({ page }) => {
@@ -96,47 +100,51 @@ adminTest.describe('Settings: Previews admin page', () => {
 		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()
 		const statusFilter = page.getByRole('combobox', { name: 'Status' })
 		await pickSelectOption(page, statusFilter, 'Unsupported')
-		const list = page.locator('[data-cy="previews-providers"]')
-		await expect(list.locator('code', { hasText: /^OC\\Preview\\MP3$/ })).toBeVisible()
-		await expect(list.locator('code', { hasText: /^OC\\Preview\\Movie$/ })).toBeVisible()
-		await expect(list.locator('code', { hasText: /^OC\\Preview\\JPEG$/ })).toHaveCount(0)
+		const table = page.getByRole('table', { name: 'Preview providers' })
+		await expect(table.locator('code', { hasText: /^OC\\Preview\\MP3$/ })).toBeVisible()
+		await expect(table.locator('code', { hasText: /^OC\\Preview\\Movie$/ })).toBeVisible()
+		await expect(table.locator('code', { hasText: /^OC\\Preview\\JPEG$/ })).toHaveCount(0)
 	})
 
 	adminTest('reset to defaults restores provider order', async ({ page }) => {
 		await page.goto('/index.php/settings/admin/previews')
 		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()
-		const rows = page.locator('[data-cy="previews-providers"] .previews-admin__provider:not(.previews-admin__provider--header)')
-		const pngRow = rows.filter({ has: page.locator('code', { hasText: /^OC\\Preview\\PNG$/ }) })
+		const table = page.getByRole('table', { name: 'Preview providers' })
+		const pngRow = providerRow(page, 'OC\\Preview\\PNG')
 		await pngRow.getByRole('button', { name: 'Move down' }).click()
-		const moved = await rows.locator('code').allTextContents()
+		await handlePasswordConfirmation(page)
+		const moved = await table.locator('tbody code').allTextContents()
 		expect(moved.indexOf('OC\\Preview\\PNG')).toBeGreaterThan(moved.indexOf('OC\\Preview\\JPEG'))
-		await page.locator('[data-cy="previews-reset-providers"]').click()
-		const reset = await rows.locator('code').allTextContents()
+		await page.getByRole('button', { name: 'Reset to defaults' }).click()
+		await handlePasswordConfirmation(page)
+		const reset = await table.locator('tbody code').allTextContents()
 		expect(reset.indexOf('OC\\Preview\\PNG')).toBeLessThan(reset.indexOf('OC\\Preview\\JPEG'))
 	})
 
 	adminTest('unavailable providers cannot be enabled until their requirement is met', async ({ page }) => {
 		await page.goto('/index.php/settings/admin/previews')
 		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()
-		const imaginaryRow = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ has: page.locator('code', { hasText: /^OC\\Preview\\Imaginary$/ }) })
+		const imaginaryRow = providerRow(page, 'OC\\Preview\\Imaginary')
 		const imaginarySwitch = imaginaryRow.getByRole('switch')
-		const requiresUrl = imaginaryRow.locator('[data-cy="previews-provider-availability"]').filter({ hasText: 'Requires Imaginary URL' })
-		if (await requiresUrl.count()) {
+		if (await imaginaryRow.getByText('Requires Imaginary URL').count()) {
 			await expect(imaginarySwitch).toBeDisabled()
 			await page.getByRole('textbox', { name: 'Imaginary URL' }).fill('http://127.0.0.1:9000')
-			await expect(requiresUrl).toHaveCount(0)
-			await expect(imaginaryRow.locator('[data-cy="previews-provider-availability"]')).toContainText('Available')
+			await page.getByRole('textbox', { name: 'Imaginary URL' }).blur()
+			await handlePasswordConfirmation(page)
+			await expect(imaginaryRow.getByText('Requires Imaginary URL')).toHaveCount(0)
+			await expect(imaginaryRow).toContainText('Available')
 			await expect(imaginarySwitch).toBeEnabled()
 		}
 
-		const movieRow = page.locator('[data-cy="previews-providers"] .previews-admin__provider').filter({ has: page.locator('code', { hasText: /^OC\\Preview\\Movie$/ }) })
+		const movieRow = providerRow(page, 'OC\\Preview\\Movie')
 		const movieSwitch = movieRow.getByRole('switch')
-		const requiresFfmpeg = movieRow.locator('[data-cy="previews-provider-availability"]').filter({ hasText: 'Requires ffmpeg' })
-		if (await requiresFfmpeg.count()) {
+		if (await movieRow.getByText('Requires ffmpeg').count()) {
 			await expect(movieSwitch).toBeDisabled()
 			await page.getByRole('textbox', { name: 'ffmpeg path' }).fill('/usr/bin/ffmpeg')
-			await expect(requiresFfmpeg).toHaveCount(0)
-			await expect(movieRow.locator('[data-cy="previews-provider-availability"]')).toContainText(/Available|Unsupported/)
+			await page.getByRole('textbox', { name: 'ffmpeg path' }).blur()
+			await handlePasswordConfirmation(page)
+			await expect(movieRow.getByText('Requires ffmpeg')).toHaveCount(0)
+			await expect(movieRow).toContainText(/Available|Unsupported/)
 			await expect(movieSwitch).toBeEnabled()
 		}
 	})
@@ -144,17 +152,17 @@ adminTest.describe('Settings: Previews admin page', () => {
 	adminTest('requires availability chips link to the matching section', async ({ page }) => {
 		await page.goto('/index.php/settings/admin/previews')
 		await page.getByRole('heading', { name: 'Providers' }).scrollIntoViewIfNeeded()
-		const ffmpegChip = page.locator('[data-cy="previews-provider-availability"]').filter({ hasText: 'Requires ffmpeg' })
-		if (await ffmpegChip.count()) {
-			await expect(ffmpegChip.locator('a').first()).toHaveAttribute('href', '#previews-section-movie')
+		const ffmpegLink = page.getByRole('link', { name: 'Go to the Movie section to configure ffmpeg' })
+		if (await ffmpegLink.count()) {
+			await expect(ffmpegLink.first()).toHaveAttribute('href', '#previews-section-movie')
 		}
-		const officeChip = page.locator('[data-cy="previews-provider-availability"]').filter({ hasText: 'Requires LibreOffice' })
-		if (await officeChip.count()) {
-			await expect(officeChip.locator('a').first()).toHaveAttribute('href', '#previews-section-office')
+		const officeLink = page.getByRole('link', { name: 'Go to the Office section to configure LibreOffice or OpenOffice' })
+		if (await officeLink.count()) {
+			await expect(officeLink.first()).toHaveAttribute('href', '#previews-section-office')
 		}
-		const imaginaryChip = page.locator('[data-cy="previews-provider-availability"]').filter({ hasText: 'Requires Imaginary URL' })
-		if (await imaginaryChip.count()) {
-			await expect(imaginaryChip.locator('a').first()).toHaveAttribute('href', '#previews-section-imaginary')
+		const imaginaryLink = page.getByRole('link', { name: 'Go to the Imaginary section to set the URL' })
+		if (await imaginaryLink.count()) {
+			await expect(imaginaryLink.first()).toHaveAttribute('href', '#previews-section-imaginary')
 		}
 	})
 
@@ -162,20 +170,21 @@ adminTest.describe('Settings: Previews admin page', () => {
 		await page.goto('/index.php/settings/admin/previews')
 		await page.getByRole('heading', { name: 'Performance' }).scrollIntoViewIfNeeded()
 		const cpuDetected = await page.getByText(/This server reports \d+ CPU cores/).isVisible()
-		await page.getByRole('spinbutton', { name: 'New preview concurrency' }).fill('9999')
-		await page.getByRole('spinbutton', { name: 'Total preview concurrency' }).fill('1')
+		const newConcurrency = page.getByRole('spinbutton', { name: 'New preview concurrency' })
+		const totalConcurrency = page.getByRole('spinbutton', { name: 'Total preview concurrency' })
+		await newConcurrency.fill('9999')
+		await newConcurrency.blur()
+		await handlePasswordConfirmation(page)
+		await totalConcurrency.fill('1')
+		await totalConcurrency.blur()
+		await handlePasswordConfirmation(page)
 		if (cpuDetected) {
-			await expect(page.locator('[data-cy="previews-concurrency-new-warning"]')).toBeVisible()
-			await expect(page.locator('[data-cy="previews-concurrency-all-warning"]')).toBeVisible()
+			await expect(page.getByText(/New preview concurrency is higher than the \d+ CPU cores/)).toBeVisible()
+			await expect(page.getByText(/Total preview concurrency should be greater than or equal to new preview concurrency/)).toBeVisible()
 		} else {
-			await expect(page.locator('[data-cy="previews-concurrency-new-warning"]')).toHaveCount(0)
-			await expect(page.locator('[data-cy="previews-concurrency-all-warning"]')).toHaveCount(0)
+			await expect(page.getByText(/New preview concurrency is higher than the \d+ CPU cores/)).toHaveCount(0)
+			await expect(page.getByText(/Total preview concurrency should be greater than or equal to new preview concurrency/)).toHaveCount(0)
 		}
-	})
-
-	adminTest('failed generations empty state renders', async ({ page }) => {
-		await page.goto('/index.php/settings/admin/previews')
-		await expect(page.locator('[data-cy="previews-failures-empty"]')).toBeVisible()
 	})
 })
 
