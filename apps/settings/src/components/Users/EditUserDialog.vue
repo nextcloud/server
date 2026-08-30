@@ -8,7 +8,7 @@
 		class="edit-dialog"
 		size="small"
 		:name="t('settings', 'Edit account')"
-		outTransition
+		out-transition
 		@closing="$emit('closing')">
 		<form
 			id="edit-user-form"
@@ -17,9 +17,9 @@
 			:disabled="saving"
 			@submit.prevent="save">
 			<UserFormFields
-				:fieldConfig="fieldConfig"
+				:field-config="fieldConfig"
 				:errors="fieldErrors"
-				:quotaOptions="quotaOptions" />
+				:quota-options="quotaOptions" />
 		</form>
 
 		<template #actions>

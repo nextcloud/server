@@ -6,7 +6,7 @@
 <template>
 	<div class="user-form__item user-form__managers">
 		<NcSelectUsers
-			:modelValue="managerModel"
+			:model-value="managerModel"
 			class="user-form__select"
 			:input-label="t('settings', 'Manager')"
 			:placeholder="t('settings', 'Search for a manager…')"
@@ -75,14 +75,22 @@ export default {
 	},
 
 	methods: {
-		/** Map NcSelectUsersModel back to internal formData shape */
+		/**
+		 * Map NcSelectUsersModel back to internal formData shape
+		 *
+		 * @param {import('@nextcloud/vue/components/NcSelectUsers').NcSelectUsersModel} value - The selected user from NcSelectUsers
+		 */
 		onManagerChange(value) {
 			this.formData.manager = value
 				? { id: value.id, displayname: value.displayName }
 				: ''
 		},
 
-		/** Debounce keystrokes so a 10-char query produces 1-2 requests, not 10. */
+		/**
+		 * Debounce keystrokes so a 10-char query produces 1-2 requests, not 10.
+		 *
+		 * @param {string} query - The search query
+		 */
 		searchUserManager(query) {
 			clearTimeout(this.searchTimeout)
 			this.searchTimeout = setTimeout(() => this.fetchManagers(query), 200)

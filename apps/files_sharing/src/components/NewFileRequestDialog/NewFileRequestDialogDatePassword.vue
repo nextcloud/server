@@ -2,6 +2,7 @@
   - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<!-- eslint-disable vue/custom-event-name-casing -->
 
 <template>
 	<div>
@@ -87,12 +88,11 @@
 </template>
 
 <script lang="ts">
-import { t } from '@nextcloud/l10n'
-import {
-	type PropType,
+/* eslint-disable vue/custom-event-name-casing */
+import type { PropType } from 'vue'
 
-	defineComponent,
-} from 'vue'
+import { t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
