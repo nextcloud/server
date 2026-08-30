@@ -200,6 +200,7 @@
     "The requested share does not exist anymore" : "Níl an sciar iarrtha ann a thuilleadh",
     "The share already contains the source." : "Tá an fhoinse sa chomhroinn cheana féin.",
     "The share already contains the recipient." : "Tá an faighteoir sa chomhroinnt cheana féin.",
+    "Cannot set user status for the owner of the share." : "Ní féidir stádas úsáideora a shocrú d'úinéir an chomhroinnte.",
     "The source does not exist." : "Níl an fhoinse ann.",
     "The recipient does not exist." : "Níl an faighteoir ann.",
     "The value must be alphanumeric, 1 to 32 characters long and may contain dashes." : "Ní mór don luach a bheith alfa-uimhriúil, idir 1 agus 32 carachtar ar fhad agus féadfaidh fleascáin a bheith ann.",
