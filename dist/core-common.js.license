@@ -279,7 +279,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.40.0
+	- version: 8.41.0
 	- license: AGPL-3.0-or-later
 - @nodable/entities
 	- version: 2.1.0
@@ -319,6 +319,9 @@ This file is generated from multiple sources. Included packages:
 	- license: Apache-2.0
 - axios
 	- version: 1.18.1
+	- license: MIT
+- bail
+	- version: 2.0.2
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -511,6 +514,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - is-generator-function
 	- version: 1.1.0
+	- license: MIT
+- is-plain-obj
+	- version: 4.1.0
 	- license: MIT
 - is-regex
 	- version: 1.2.1

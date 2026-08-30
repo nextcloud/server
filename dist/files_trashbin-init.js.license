@@ -10,6 +10,7 @@ SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: perfect-debounce developers
 SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
@@ -134,7 +135,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.40.0
+	- version: 8.41.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.3.0
@@ -168,6 +169,9 @@ This file is generated from multiple sources. Included packages:
 	- license: BSD-3-Clause
 - css-loader
 	- version: 7.1.2
+	- license: MIT
+- debounce
+	- version: 2.2.0
 	- license: MIT
 - dompurify
 	- version: 3.4.14
