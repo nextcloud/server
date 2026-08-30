@@ -2,7 +2,7 @@
   - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
-
+<!-- eslint-disable vue/custom-event-name-casing -->
 <template>
 	<div>
 		<!-- Password and expiration summary -->
@@ -87,10 +87,12 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable vue/custom-event-name-casing */
+
+import type { PropType } from 'vue'
+
 import { t } from '@nextcloud/l10n'
 import {
-	type PropType,
-
 	defineComponent,
 } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'

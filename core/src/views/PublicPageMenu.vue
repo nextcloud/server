@@ -41,13 +41,13 @@
 </template>
 
 <script setup lang="ts">
+import type { Ref } from 'vue'
+
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { useIsSmallMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
 import {
-	type Ref,
-
 	computed,
 	ref,
 } from 'vue'
