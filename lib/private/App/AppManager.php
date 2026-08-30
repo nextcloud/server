@@ -107,6 +107,7 @@ class AppManager implements IAppManager {
 		private ServerVersion $serverVersion,
 		private ConfigManager $configManager,
 		private DependencyAnalyzer $dependencyAnalyzer,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -639,7 +640,7 @@ class AppManager implements IAppManager {
 		// Check if app exists
 		$this->getAppPath($appId);
 
-		if ($this->config->getAppValue($appId, 'installed_version', '') === '') {
+		if ($this->appConfig->getValue($appId, 'installed_version', '') === '') {
 			throw new \InvalidArgumentException("$appId is not installed, cannot be enabled.");
 		}
 
@@ -688,7 +689,7 @@ class AppManager implements IAppManager {
 			throw new \InvalidArgumentException("$appId can't be enabled for groups.");
 		}
 
-		if ($this->config->getAppValue($appId, 'installed_version', '') === '') {
+		if ($this->appConfig->getValue($appId, 'installed_version', '') === '') {
 			throw new \InvalidArgumentException("$appId is not installed, cannot be enabled.");
 		}
 
@@ -1114,12 +1115,12 @@ class AppManager implements IAppManager {
 			$appData['types'] = [];
 		}
 
-		$this->config->setAppValue($app, 'types', $appTypes);
+		$this->appConfig->setValue($app, 'types', $appTypes);
 
 		if ($this->hasProtectedAppType($appData['types'])) {
-			$enabled = $this->config->getAppValue($app, 'enabled', 'yes');
+			$enabled = $this->appConfig->getValue($app, 'enabled', 'yes');
 			if ($enabled !== 'yes' && $enabled !== 'no') {
-				$this->config->setAppValue($app, 'enabled', 'yes');
+				$this->appConfig->setValue($app, 'enabled', 'yes');
 			}
 		}
 	}
@@ -1170,16 +1171,16 @@ class AppManager implements IAppManager {
 
 		//set remote/public handlers
 		foreach ($appInfo['remote'] as $name => $path) {
-			$this->config->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
+			$this->appConfig->setValue('core', 'remote_' . $name, $appId . '/' . $path);
 		}
 		foreach ($appInfo['public'] as $name => $path) {
-			$this->config->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
+			$this->appConfig->setValue('core', 'public_' . $name, $appId . '/' . $path);
 		}
 
 		$this->setAppTypes($appId, $appInfo);
 
 		$version = $this->getAppVersion($appId);
-		$this->config->setAppValue($appId, 'installed_version', $version);
+		$this->appConfig->setValue($appId, 'installed_version', $version);
 
 		// migrate eventual new config keys in the process
 		/** @psalm-suppress InternalMethod */

@@ -13,6 +13,7 @@ use JsonException;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\TimezoneService;
 use OCA\DAV\Service\AbsenceService;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -30,13 +31,14 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 		private AbsenceService $absenceService,
 		private LoggerInterface $logger,
 		private TimezoneService $timezoneService,
+		private IAppConfig $appConfig,
 	) {
 		$this->cache = $cacheFactory->createLocal('OutOfOfficeData');
 	}
 
 	#[\Override]
 	public function isEnabled(): bool {
-		return $this->config->getAppValue(Application::APP_ID, 'hide_absence_settings', 'no') === 'no';
+		return $this->appConfig->getValue(Application::APP_ID, 'hide_absence_settings', 'no') === 'no';
 	}
 
 	private function getCachedOutOfOfficeData(IUser $user): ?OutOfOfficeData {

@@ -8,6 +8,7 @@
 namespace OC\Share20;
 
 use OCP\Cache\CappedMemoryCache;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -22,6 +23,7 @@ class ShareDisableChecker {
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
+		private IAppConfig $appConfig,
 	) {
 		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
 	}
@@ -35,15 +37,15 @@ class ShareDisableChecker {
 			return $this->sharingDisabledForUsersCache[$userId];
 		}
 
-		$excludeGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no');
+		$excludeGroups = $this->appConfig->getValue('core', 'shareapi_exclude_groups', 'no');
 
 		if ($excludeGroups && $excludeGroups !== 'no') {
-			$groupsList = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
+			$groupsList = $this->appConfig->getValue('core', 'shareapi_exclude_groups_list', '');
 			$excludedGroups = json_decode($groupsList, true);
 			if (is_null($excludedGroups)) {
 				$excludedGroups = explode(',', $groupsList);
 				$newValue = json_encode($excludedGroups);
-				$this->config->setAppValue('core', 'shareapi_exclude_groups_list', $newValue);
+				$this->appConfig->setValue('core', 'shareapi_exclude_groups_list', $newValue);
 			}
 			$user = $this->userManager->get($userId);
 			if (!$user) {

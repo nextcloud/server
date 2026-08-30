@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OC\Repair;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -17,6 +18,7 @@ class CleanUpAbandonedApps implements IRepairStep {
 
 	public function __construct(
 		private readonly IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -31,7 +33,7 @@ class CleanUpAbandonedApps implements IRepairStep {
 			// only remove global app values
 			// user prefs of accessibility are dealt with in Theming migration
 			// videoplayer did not have user prefs
-			$this->config->deleteAppValues($app);
+			$this->appConfig->deleteApp($app);
 		}
 	}
 }

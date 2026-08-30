@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Repair\Owncloud;
 
 use OCP\BackgroundJob\IJobList;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -18,6 +19,7 @@ class MoveAvatars implements IRepairStep {
 	public function __construct(
 		private readonly IJobList $jobList,
 		private readonly IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -29,7 +31,7 @@ class MoveAvatars implements IRepairStep {
 	#[\Override]
 	public function run(IOutput $output): void {
 		// only run once
-		if ($this->config->getAppValue('core', 'moveavatarsdone') === 'yes') {
+		if ($this->appConfig->getValue('core', 'moveavatarsdone') === 'yes') {
 			$output->info('Repair step already executed');
 			return;
 		}
@@ -39,7 +41,7 @@ class MoveAvatars implements IRepairStep {
 			$output->info('Add background job');
 			$this->jobList->add(MoveAvatarsBackgroundJob::class);
 			// if all were done, no need to redo the repair during next upgrade
-			$this->config->setAppValue('core', 'moveavatarsdone', 'yes');
+			$this->appConfig->setValue('core', 'moveavatarsdone', 'yes');
 		}
 	}
 }

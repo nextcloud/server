@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Files\NotFoundException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Share\IManager;
@@ -37,6 +38,7 @@ class SharingCheckMiddleware extends Middleware {
 		protected IControllerMethodReflector $reflector,
 		protected IManager $shareManager,
 		protected IRequest $request,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -88,12 +90,12 @@ class SharingCheckMiddleware extends Middleware {
 	 */
 	private function externalSharesChecks(): bool {
 		if (!$this->reflector->hasAnnotation('NoIncomingFederatedSharingRequired')
-			&& $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') !== 'yes') {
+			&& $this->appConfig->getValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') !== 'yes') {
 			return false;
 		}
 
 		if (!$this->reflector->hasAnnotation('NoOutgoingFederatedSharingRequired')
-			&& $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') !== 'yes') {
+			&& $this->appConfig->getValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') !== 'yes') {
 			return false;
 		}
 

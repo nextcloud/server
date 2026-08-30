@@ -38,10 +38,10 @@ class Sharing implements IDelegatedSettings {
 	 */
 	#[\Override]
 	public function getForm() {
-		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-		$linksExcludedGroups = $this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '');
-		$excludedPasswordGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
-		$onlyShareWithGroupMembersExcludeGroupList = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
+		$excludedGroups = $this->appConfig->getValue('core', 'shareapi_exclude_groups_list', '');
+		$linksExcludedGroups = $this->appConfig->getValue('core', 'shareapi_allow_links_exclude_groups', '');
+		$excludedPasswordGroups = $this->appConfig->getValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
+		$onlyShareWithGroupMembersExcludeGroupList = $this->appConfig->getValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
 
 		$parameters = [
 			// Built-In Sharing
@@ -66,18 +66,18 @@ class Sharing implements IDelegatedSettings {
 			'onlyShareWithGroupMembers' => $this->shareManager->shareWithGroupMembersOnly(),
 			'onlyShareWithGroupMembersExcludeGroupList' => json_decode($onlyShareWithGroupMembersExcludeGroupList) ?? [],
 			'defaultExpireDate' => $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT),
-			'expireAfterNDays' => $this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7'),
+			'expireAfterNDays' => $this->appConfig->getValue('core', 'shareapi_expire_after_n_days', '7'),
 			'enforceExpireDate' => $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED),
-			'excludeGroups' => $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no'),
+			'excludeGroups' => $this->appConfig->getValue('core', 'shareapi_exclude_groups', 'no'),
 			'excludeGroupsList' => json_decode($excludedGroups, true) ?? [],
-			'publicShareDisclaimerText' => $this->config->getAppValue('core', 'shareapi_public_link_disclaimertext'),
+			'publicShareDisclaimerText' => $this->appConfig->getValue('core', 'shareapi_public_link_disclaimertext'),
 			'enableLinkPasswordByDefault' => $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT),
-			'defaultPermissions' => (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL),
+			'defaultPermissions' => (int)$this->appConfig->getValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL),
 			'defaultInternalExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_default_internal_expire_date'),
-			'internalExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7'),
+			'internalExpireAfterNDays' => $this->appConfig->getValue('core', 'shareapi_internal_expire_after_n_days', '7'),
 			'enforceInternalExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_enforce_internal_expire_date'),
 			'defaultRemoteExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_default_remote_expire_date'),
-			'remoteExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7'),
+			'remoteExpireAfterNDays' => $this->appConfig->getValue('core', 'shareapi_remote_expire_after_n_days', '7'),
 			'enforceRemoteExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_enforce_remote_expire_date'),
 			'allowCustomTokens' => $this->shareManager->allowCustomTokens(),
 			'allowViewWithoutDownload' => $this->shareManager->allowViewWithoutDownload(),
@@ -95,7 +95,7 @@ class Sharing implements IDelegatedSettings {
 	 * Helper function to retrive boolean values from human readable strings ('yes' / 'no')
 	 */
 	private function getHumanBooleanConfig(string $app, string $key, bool $default = false): bool {
-		return $this->config->getAppValue($app, $key, $default ? 'yes' : 'no') === 'yes';
+		return $this->appConfig->getValue($app, $key, $default ? 'yes' : 'no') === 'yes';
 	}
 
 	/**

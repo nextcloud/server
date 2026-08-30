@@ -8,6 +8,7 @@
 
 namespace OC\Core\Command\Config;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
@@ -23,6 +24,7 @@ class Import extends Command implements CompletionAwareInterface {
 
 	public function __construct(
 		protected IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct();
 	}
@@ -64,9 +66,9 @@ class Import extends Command implements CompletionAwareInterface {
 			foreach ($configs['apps'] as $app => $appConfigs) {
 				foreach ($appConfigs as $key => $value) {
 					if ($value === null) {
-						$this->config->deleteAppValue($app, $key);
+						$this->appConfig->deleteKey($app, $key);
 					} else {
-						$this->config->setAppValue($app, $key, $value);
+						$this->appConfig->setValue($app, $key, $value);
 					}
 				}
 			}

@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\Reminder\NotificationTypeDoesNotExistException;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\IAppConfig;
 use OCP\IConfig;
 
 class EventReminderJob extends TimedJob {
@@ -22,6 +23,7 @@ class EventReminderJob extends TimedJob {
 		ITimeFactory $time,
 		private ReminderService $reminderService,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($time);
 
@@ -36,11 +38,11 @@ class EventReminderJob extends TimedJob {
 	 */
 	#[\Override]
 	public function run($argument):void {
-		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
+		if ($this->appConfig->getValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
 			return;
 		}
 
-		if ($this->config->getAppValue('dav', 'sendEventRemindersMode', 'backgroundjob') !== 'backgroundjob') {
+		if ($this->appConfig->getValue('dav', 'sendEventRemindersMode', 'backgroundjob') !== 'backgroundjob') {
 			return;
 		}
 

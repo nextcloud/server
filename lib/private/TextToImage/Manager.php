@@ -20,6 +20,7 @@ use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\PreConditionNotMetException;
 use OCP\TextToImage\Exception\TaskFailureException;
@@ -46,6 +47,7 @@ class Manager implements IManager {
 		private TaskMapper $taskMapper,
 		private IConfig $config,
 		IAppDataFactory $appDataFactory,
+		private IAppConfig $appConfig,
 	) {
 		$this->appData = $appDataFactory->get('core');
 	}
@@ -316,7 +318,7 @@ class Manager implements IManager {
 	 */
 	private function getPreferredProviders() {
 		$providers = $this->getProviders();
-		$json = $this->config->getAppValue('core', 'ai.text2image_provider', '');
+		$json = $this->appConfig->getValue('core', 'ai.text2image_provider', '');
 		if ($json !== '') {
 			try {
 				$id = json_decode($json, true, 512, JSON_THROW_ON_ERROR);

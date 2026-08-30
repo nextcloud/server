@@ -44,19 +44,19 @@ class VersionCheck {
 
 		// Look up the cache - it is invalidated all 30 minutes
 		if (($this->appConfig->getValueInt('core', 'lastupdatedat') + 1800) > $this->timeFactory->getTime()) {
-			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
+			return json_decode($this->appConfig->getValue('core', 'lastupdateResult'), true);
 		}
 
 		$updaterUrl = $this->config->getSystemValueString('updater.server.url', 'https://updates.nextcloud.com/updater_server/');
 
 		$this->appConfig->setValueInt('core', 'lastupdatedat', $this->timeFactory->getTime());
 
-		if ($this->config->getAppValue('core', 'installedat', '') === '') {
-			$this->config->setAppValue('core', 'installedat', (string)microtime(true));
+		if ($this->appConfig->getValue('core', 'installedat', '') === '') {
+			$this->appConfig->setValue('core', 'installedat', (string)microtime(true));
 		}
 
 		$version = Util::getVersion();
-		$version['installed'] = $this->config->getAppValue('core', 'installedat');
+		$version['installed'] = $this->appConfig->getValue('core', 'installedat');
 		$version['updated'] = $this->appConfig->getValueInt('core', 'lastupdatedat');
 		$version['updatechannel'] = $this->serverVersion->getChannel();
 		$version['edition'] = '';
@@ -102,7 +102,7 @@ class VersionCheck {
 		}
 
 		// Cache the result
-		$this->config->setAppValue('core', 'lastupdateResult', json_encode($tmp));
+		$this->appConfig->setValue('core', 'lastupdateResult', json_encode($tmp));
 		return $tmp;
 	}
 

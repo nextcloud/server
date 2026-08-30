@@ -33,6 +33,7 @@ class ImageManager {
 		private ITempManager $tempManager,
 		private BackgroundService $backgroundService,
 		private IAppConfig $appConfig,
+		private \OCP\IAppConfig $appConfig2,
 	) {
 	}
 
@@ -59,7 +60,7 @@ class ImageManager {
 			case 'backgroundDark':
 			case 'background':
 				// Removing the background defines its mime as 'backgroundColor'
-				$mimeSetting = $this->config->getAppValue('theming', 'backgroundMime', '');
+				$mimeSetting = $this->appConfig2->getValue('theming', 'backgroundMime', '');
 				if ($mimeSetting !== 'backgroundColor') {
 					$image = BackgroundService::DEFAULT_BACKGROUND_IMAGE;
 					if ($key === 'backgroundDark') {
@@ -86,7 +87,7 @@ class ImageManager {
 	 * @throws NotPermittedException
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
-		$mime = $this->config->getAppValue('theming', $key . 'Mime', '');
+		$mime = $this->appConfig2->getValue('theming', $key . 'Mime', '');
 		$folder = $this->getRootFolder()->getFolder('images');
 
 		if ($mime === '' || !$folder->fileExists($key)) {
@@ -116,7 +117,7 @@ class ImageManager {
 	}
 
 	public function hasImage(string $key): bool {
-		$mimeSetting = $this->config->getAppValue('theming', $key . 'Mime', '');
+		$mimeSetting = $this->appConfig2->getValue('theming', $key . 'Mime', '');
 		// Removing the background defines its mime as 'backgroundColor'
 		return $mimeSetting !== '' && $mimeSetting !== 'backgroundColor';
 	}
@@ -128,7 +129,7 @@ class ImageManager {
 		$images = [];
 		foreach (self::SUPPORTED_IMAGE_KEYS as $key) {
 			$images[$key] = [
-				'mime' => $this->config->getAppValue('theming', $key . 'Mime', ''),
+				'mime' => $this->appConfig2->getValue('theming', $key . 'Mime', ''),
 				'url' => $this->getImageUrl($key),
 			];
 		}
@@ -207,7 +208,7 @@ class ImageManager {
 		}
 
 		if ($key === 'logo') {
-			$this->config->deleteAppValue('theming', 'logoDimensions');
+			$this->appConfig2->deleteKey('theming', 'logoDimensions');
 		}
 	}
 
@@ -280,18 +281,18 @@ class ImageManager {
 			$content = file_get_contents($tmpFile);
 			$newImage = @imagecreatefromstring($content);
 			if ($newImage !== false) {
-				$this->config->setAppValue('theming', 'logoDimensions', imagesx($newImage) . 'x' . imagesy($newImage));
+				$this->appConfig2->setValue('theming', 'logoDimensions', imagesx($newImage) . 'x' . imagesy($newImage));
 			} elseif (str_starts_with($detectedMimeType, 'image/svg')) {
 				$matched = preg_match('/viewbox=["\']\d* \d* (\d*\.?\d*) (\d*\.?\d*)["\']/i', $content, $matches);
 				if ($matched) {
-					$this->config->setAppValue('theming', 'logoDimensions', $matches[1] . 'x' . $matches[2]);
+					$this->appConfig2->setValue('theming', 'logoDimensions', $matches[1] . 'x' . $matches[2]);
 				} else {
 					$this->logger->warning('Could not read logo image dimensions to optimize for mail header');
-					$this->config->deleteAppValue('theming', 'logoDimensions');
+					$this->appConfig2->deleteKey('theming', 'logoDimensions');
 				}
 			} else {
 				$this->logger->warning('Could not read logo image dimensions to optimize for mail header');
-				$this->config->deleteAppValue('theming', 'logoDimensions');
+				$this->appConfig2->deleteKey('theming', 'logoDimensions');
 			}
 		}
 

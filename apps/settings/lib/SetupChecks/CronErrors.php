@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\SetupChecks;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\SetupCheck\ISetupCheck;
@@ -18,6 +19,7 @@ class CronErrors implements ISetupCheck {
 	public function __construct(
 		private IL10N $l10n,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -33,7 +35,7 @@ class CronErrors implements ISetupCheck {
 
 	#[\Override]
 	public function run(): SetupResult {
-		$errors = json_decode($this->config->getAppValue('core', 'cronErrors', ''), true);
+		$errors = json_decode($this->appConfig->getValue('core', 'cronErrors', ''), true);
 		if (is_array($errors) && count($errors) > 0) {
 			return SetupResult::error(
 				$this->l10n->t(

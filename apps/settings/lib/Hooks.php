@@ -14,6 +14,7 @@ use OCP\Activity\IManager as IActivityManager;
 use OCP\Defaults;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -40,6 +41,7 @@ class Hooks implements IEventListener {
 		protected IConfig $config,
 		protected IFactory $languageFactory,
 		protected Defaults $defaults,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -149,7 +151,7 @@ class Hooks implements IEventListener {
 			$subject = Provider::EMAIL_CHANGED_SELF;
 			if ($actor->getUID() !== $user->getUID()) {
 				// set via the OCS API
-				if ($this->config->getAppValue('settings', 'disable_activity.email_address_changed_by_admin', 'no') === 'yes') {
+				if ($this->appConfig->getValue('settings', 'disable_activity.email_address_changed_by_admin', 'no') === 'yes') {
 					return;
 				}
 				$subject = Provider::EMAIL_CHANGED;
@@ -159,7 +161,7 @@ class Hooks implements IEventListener {
 				->setSubject($subject);
 		} else {
 			// set with occ
-			if ($this->config->getAppValue('settings', 'disable_activity.email_address_changed_by_admin', 'no') === 'yes') {
+			if ($this->appConfig->getValue('settings', 'disable_activity.email_address_changed_by_admin', 'no') === 'yes') {
 				return;
 			}
 			$text = $l->t('Your email address on %s was changed by an administrator.', [$instanceUrl]);

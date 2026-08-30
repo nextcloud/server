@@ -306,7 +306,7 @@ class DeclarativeManager implements IDeclarativeManager {
 
 		switch ($sectionType) {
 			case DeclarativeSettingsTypes::SECTION_TYPE_ADMIN:
-				$value = $this->config->getAppValue($app, $fieldId, $defaultValue);
+				$value = $this->appConfig->getValue($app, $fieldId, $defaultValue);
 				break;
 			case DeclarativeSettingsTypes::SECTION_TYPE_PERSONAL:
 				$value = $this->config->getUserValue($user->getUID(), $app, $fieldId, $defaultValue);

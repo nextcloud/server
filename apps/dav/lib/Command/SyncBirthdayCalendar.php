@@ -9,6 +9,7 @@
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\BirthdayService;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -23,6 +24,7 @@ class SyncBirthdayCalendar extends Command {
 		private IUserManager $userManager,
 		private IConfig $config,
 		private BirthdayService $birthdayService,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct();
 	}
@@ -80,7 +82,7 @@ class SyncBirthdayCalendar extends Command {
 	}
 
 	protected function verifyEnabled(): void {
-		$isEnabled = $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes');
+		$isEnabled = $this->appConfig->getValue('dav', 'generateBirthdayCalendar', 'yes');
 
 		if ($isEnabled !== 'yes') {
 			throw new \InvalidArgumentException('Birthday calendars are disabled');

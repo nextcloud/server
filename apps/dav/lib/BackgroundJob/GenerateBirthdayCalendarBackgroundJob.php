@@ -12,6 +12,7 @@ namespace OCA\DAV\BackgroundJob;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
+use OCP\IAppConfig;
 use OCP\IConfig;
 
 class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
@@ -20,6 +21,7 @@ class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
 		ITimeFactory $time,
 		private BirthdayService $birthdayService,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($time);
 	}
@@ -30,7 +32,7 @@ class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
 		$purgeBeforeGenerating = $argument['purgeBeforeGenerating'] ?? false;
 
 		// make sure admin didn't change their mind
-		$isGloballyEnabled = $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes');
+		$isGloballyEnabled = $this->appConfig->getValue('dav', 'generateBirthdayCalendar', 'yes');
 		if ($isGloballyEnabled !== 'yes') {
 			return;
 		}

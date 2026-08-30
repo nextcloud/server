@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Migration;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -21,6 +22,7 @@ class SetAcceptedStatus implements IRepairStep {
 	public function __construct(
 		private IDBConnection $connection,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -54,7 +56,7 @@ class SetAcceptedStatus implements IRepairStep {
 	}
 
 	protected function shouldRun() {
-		$appVersion = $this->config->getAppValue('files_sharing', 'installed_version', '0.0.0');
+		$appVersion = $this->appConfig->getValue('files_sharing', 'installed_version', '0.0.0');
 		return version_compare($appVersion, '1.10.1', '<');
 	}
 }

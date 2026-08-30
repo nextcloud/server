@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Repair\NC20;
 
 use OCP\Encryption\IManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -18,6 +19,7 @@ class EncryptionMigration implements IRepairStep {
 	public function __construct(
 		private IConfig $config,
 		private IManager $manager,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -37,7 +39,7 @@ class EncryptionMigration implements IRepairStep {
 			return;
 		}
 
-		$masterKeyId = $this->config->getAppValue('encryption', 'masterKeyId');
+		$masterKeyId = $this->appConfig->getValue('encryption', 'masterKeyId');
 		if ($this->manager->isEnabled() || !empty($masterKeyId)) {
 			if ($this->config->getSystemValue('encryption.key_storage_migrated', '') === '') {
 				$this->config->setSystemValue('encryption.key_storage_migrated', false);

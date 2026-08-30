@@ -14,6 +14,7 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Federation\ICloudIdManager;
 use OCP\GlobalScale\IConfig as GlobalScaleConfig;
 use OCP\Http\Client\IClientService;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Share\IShare;
@@ -29,6 +30,7 @@ class LookupPlugin implements ISearchPlugin {
 		private readonly LoggerInterface $logger,
 		private readonly ?TrustedServers $trustedServers,
 		private readonly GlobalScaleConfig $globalScaleConfig,
+		private IAppConfig $appConfig,
 	) {
 		$currentUserCloudId = $userSession->getUser()->getCloudId();
 	}
@@ -36,7 +38,7 @@ class LookupPlugin implements ISearchPlugin {
 	#[\Override]
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$isGlobalScaleEnabled = $this->globalScaleConfig->isGlobalScaleEnabled();
-		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
+		$isLookupServerEnabled = $this->appConfig->getValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
 		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);
 
 		// If case of Global Scale we always search the lookup server

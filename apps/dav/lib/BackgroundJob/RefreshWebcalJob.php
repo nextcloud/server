@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\DateTimeParser;
@@ -25,6 +26,7 @@ class RefreshWebcalJob extends Job {
 		private IConfig $config,
 		private LoggerInterface $logger,
 		ITimeFactory $timeFactory,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($timeFactory);
 	}
@@ -44,7 +46,7 @@ class RefreshWebcalJob extends Job {
 		$this->fixSubscriptionRowTyping($subscription);
 
 		// if no refresh rate was configured, just refresh once a day
-		$defaultRefreshRate = $this->config->getAppValue('dav', 'calendarSubscriptionRefreshRate', 'P1D');
+		$defaultRefreshRate = $this->appConfig->getValue('dav', 'calendarSubscriptionRefreshRate', 'P1D');
 		$refreshRate = $subscription[RefreshWebcalService::REFRESH_RATE] ?? $defaultRefreshRate;
 
 		$subscriptionId = $subscription['id'];

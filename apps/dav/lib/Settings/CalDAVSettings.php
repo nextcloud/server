@@ -13,6 +13,7 @@ use OCA\DAV\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
@@ -39,6 +40,7 @@ class CalDAVSettings implements IDelegatedSettings {
 		private IInitialState $initialState,
 		private IURLGenerator $urlGenerator,
 		private IAppManager $appManager,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -46,7 +48,7 @@ class CalDAVSettings implements IDelegatedSettings {
 	public function getForm(): TemplateResponse {
 		$this->initialState->provideInitialState('userSyncCalendarsDocUrl', $this->urlGenerator->linkToDocs('user-sync-calendars'));
 		foreach (self::defaults as $key => $default) {
-			$value = $this->config->getAppValue(Application::APP_ID, $key, $default);
+			$value = $this->appConfig->getValue(Application::APP_ID, $key, $default);
 			$this->initialState->provideInitialState($key, $value === 'yes');
 		}
 
