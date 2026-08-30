@@ -242,7 +242,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 			$this->tokenProvider->getPassword($actual, 'tokentokentokentokentoken'),
 		);
 	}
-	
+
 	public function testGenerateTokenInvalidName(): void {
 		$token = 'tokentokentokentokentoken';
 		$uid = 'user';
