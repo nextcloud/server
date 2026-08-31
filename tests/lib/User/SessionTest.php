@@ -734,8 +734,14 @@ class SessionTest extends \Test\TestCase {
 			->with($oldSessionId, $sessionId)
 			->willReturn($tokenObject);
 
-		$this->tokenProvider->expects($this->never())
-			->method('getToken');
+		$oldTokenObject = $this->createMock(IToken::class);
+		$oldTokenObject->expects($this->once())
+			->method('getUID')
+			->willReturn('foo');
+
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($oldTokenObject);
 
 		$user->expects($this->any())
 			->method('getUID')
@@ -812,7 +818,16 @@ class SessionTest extends \Test\TestCase {
 			->with($oldSessionId, $sessionId)
 			->will($this->throwException(new InvalidTokenException()));
 
-		$user->expects($this->never())
+		$oldTokenObject = $this->createMock(IToken::class);
+		$oldTokenObject->expects($this->once())
+			->method('getUID')
+			->willReturn('foo');
+
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($oldTokenObject);
+
+		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('foo');
 		$userSession->expects($this->never())
