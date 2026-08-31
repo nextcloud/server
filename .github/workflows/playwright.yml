@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   gate:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     steps:
       - name: Evaluate e2e tests execution conditions
         id: gate-e2e
@@ -50,7 +50,7 @@ jobs:
   playwright-setup:
     timeout-minutes: 15
     name: Playwright setup
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: gate
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -80,7 +80,7 @@ jobs:
     needs: [gate, playwright-setup]
     timeout-minutes: 60
     name: Playwright tests ${{ matrix.shardIndex }} / ${{ matrix.shardTotal }}
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     strategy:
       fail-fast: false
       matrix:
@@ -150,7 +150,7 @@ jobs:
     needs: [gate, playwright-setup]
     timeout-minutes: 30
     name: Playwright tests for installer
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     # The installation-wizard tests exercise every supported database backend, so
     # they need reachable database service containers. The Nextcloud container is
@@ -260,7 +260,7 @@ jobs:
     if: ${{ !cancelled() }}
     needs: [gate, playwright-tests, playwright-installer-tests]
 
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     steps:
     - name: Restore context
       id: cache
@@ -313,7 +313,7 @@ jobs:
   summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [gate, playwright-tests, playwright-installer-tests]
 
     if: always()

@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -47,7 +47,7 @@ jobs:
               - 'tests/lib/Files/**'
 
   files-external-smb-kerberos:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: changes
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
@@ -118,7 +118,7 @@ jobs:
           docker exec --user 33 apache cat $FILEPATH
 
   smb-kerberos-sso-summary:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [changes, files-external-smb-kerberos]
 
     if: always()

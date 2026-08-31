@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   update-node-dist:
-    runs-on: ubuntu-latest-assets
+    runs-on: ['ubuntu-latest', 'self-hosted']
     environment: update-node-dist
 
     steps:

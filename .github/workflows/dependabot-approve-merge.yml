@@ -25,7 +25,7 @@ concurrency:
 jobs:
   auto-approve-merge:
     if: github.event.pull_request.user.login == 'dependabot[bot]'
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     env:
       # env variable for maintainers: 'true' allows to auto-merge 1.0.2 -> 2.0.0
       ALLOW_MAJOR: false

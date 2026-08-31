@@ -25,7 +25,7 @@ jobs:
 
     if: github.event.pull_request.draft == false
 
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     steps:
       - name: Register server reference to fallback to master branch

@@ -18,7 +18,7 @@ env:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -36,7 +36,7 @@ jobs:
               - '**.php'
 
   phpunit-kvstore:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     needs: changes
     if: needs.changes.outputs.src != 'false'
@@ -129,7 +129,7 @@ jobs:
   summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     needs: [changes, phpunit-kvstore]
 
     if: always()

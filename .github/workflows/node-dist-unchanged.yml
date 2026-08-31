@@ -9,7 +9,7 @@ on:
 
 jobs:
   changed_files:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     name: Check node dist files
     permissions:
       pull-requests: read

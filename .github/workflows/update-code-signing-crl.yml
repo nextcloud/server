@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   update-code-signing-crl:
-    runs-on: ubuntu-latest
+    runs-on: ['ubuntu-latest', 'self-hosted']
 
     strategy:
       fail-fast: false

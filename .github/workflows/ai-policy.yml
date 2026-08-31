@@ -27,7 +27,7 @@ concurrency:
 
 jobs:
   check-ai-trailers:
-    runs-on: ubuntu-latest-low
+    runs-on: ['ubuntu-latest', 'self-hosted']
     steps:
       - name: Collect PR commit messages
         id: collect
