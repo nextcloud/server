@@ -43,6 +43,7 @@ vi.mock('../../logger.js', () => ({
 	unifiedSearchLogger: { debug: vi.fn(), error: vi.fn() },
 }))
 
+import ConnectedServicesBar from '../../components/UnifiedSearch/ConnectedServicesBar.vue'
 import UnifiedSearchModal from '../../components/UnifiedSearch/UnifiedSearchModal.vue'
 import { isCategoryVisible } from '../../services/UnifiedSearchController.ts'
 
@@ -1047,7 +1048,7 @@ describe('UnifiedSearchModal result presentation', () => {
 		expect(wrapper.vm.detailCategory).toBeNull()
 	})
 
-	it('labels the connected-services button by the toggle state and re-runs find on toggle', async () => {
+	it('offers the connected-services opt-in and re-runs find when it is flipped', async () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [
 			{ id: 'files', name: 'Files', order: 0 },
@@ -1061,13 +1062,14 @@ describe('UnifiedSearchModal result presentation', () => {
 		wrapper.vm.find('query')
 		await wrapper.vm.$nextTick()
 
-		expect(buttonWithText(wrapper, 'More from connected services')).toBeTruthy()
+		const bar = wrapper.findComponent(ConnectedServicesBar)
+		expect(bar.props('active')).toBe(false)
 
-		wrapper.vm.toggleExternalResources()
+		bar.vm.$emit('toggle')
 		await wrapper.vm.$nextTick()
 
 		expect(searchSpy).toHaveBeenCalled()
-		expect(buttonWithText(wrapper, 'Less from connected services')).toBeTruthy()
+		expect(bar.props('active')).toBe(true)
 	})
 
 	it('returns focus to the search input after toggling connected services', async () => {
@@ -1105,7 +1107,7 @@ describe('UnifiedSearchModal result presentation', () => {
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.showEmptyContentInfo).toBe(true)
-		expect(buttonWithText(wrapper, 'connected services')).toBeTruthy()
+		expect(wrapper.findComponent(ConnectedServicesBar).exists()).toBe(true)
 	})
 
 	it('no longer renders the connected-services switch in the filter row', async () => {

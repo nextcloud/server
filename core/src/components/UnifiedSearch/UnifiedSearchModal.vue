@@ -147,11 +147,10 @@
 						</template>
 					</NcEmptyContent>
 					<!-- Offered even with zero results, so the user can reach external providers. -->
-					<div v-if="showConnectedServicesButton" class="unified-search-modal__connected-services">
-						<NcButton variant="secondary" wide @click="toggleExternalResources">
-							{{ connectedServicesLabel }}
-						</NcButton>
-					</div>
+					<ConnectedServicesBar
+						v-if="showConnectedServicesButton"
+						:active="searchExternalResources"
+						@toggle="toggleExternalResources" />
 				</div>
 
 				<div
@@ -237,11 +236,10 @@
 					<!-- Last, so results that land are never pushed down. -->
 					<SearchResultSkeleton v-if="skeletonRows > 0" :rows="skeletonRows" />
 					<!-- Connected-services opt-in. Toggling re-runs find() (searchExternalResources watcher). Hidden in detail view. -->
-					<div v-if="showConnectedServicesButton" class="unified-search-modal__connected-services">
-						<NcButton variant="secondary" wide @click="toggleExternalResources">
-							{{ connectedServicesLabel }}
-						</NcButton>
-					</div>
+					<ConnectedServicesBar
+						v-if="showConnectedServicesButton"
+						:active="searchExternalResources"
+						@toggle="toggleExternalResources" />
 				</div>
 			</div>
 			<!-- `modal-mask` is how @nextcloud/vue's useHotKey guard recognises an open modal and
@@ -279,6 +277,7 @@ import IconClose from 'vue-material-design-icons/Close.vue'
 import IconDotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
 import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 import IconShapeOutline from 'vue-material-design-icons/ShapeOutline.vue'
+import ConnectedServicesBar from './ConnectedServicesBar.vue'
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import SearchableList from './SearchableList.vue'
 import FilterChip from './SearchFilterChip.vue'
@@ -324,6 +323,7 @@ export default defineComponent({
 		IconMagnify,
 		IconShapeOutline,
 
+		ConnectedServicesBar,
 		CustomDateRangeModal,
 		FilterChip,
 		NcActions,
@@ -661,12 +661,6 @@ export default defineComponent({
 				&& !this.isEmptySearch
 				&& !this.isSearchQueryTooShort
 				&& !this.isBusy
-		},
-
-		connectedServicesLabel() {
-			return this.searchExternalResources
-				? t('core', 'Less from connected services')
-				: t('core', 'More from connected services')
 		},
 
 		// The rendered rows flattened into a single list in visual order (filtered
@@ -1783,16 +1777,6 @@ export default defineComponent({
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
-
-	// End-of-list (and empty-state) connected-services opt-in.
-	&__connected-services {
-		display: flex;
-		flex-wrap: wrap;
-		// Stretch to panel width so the wide button fills it (the empty-state's centred column
-		// would otherwise shrink it to content width).
-		width: 100%;
-		margin-block-start: calc(var(--default-grid-baseline) * 3);
 	}
 
 	// Directional glyphs (back arrow, more-from chevron) point the other way in RTL.
