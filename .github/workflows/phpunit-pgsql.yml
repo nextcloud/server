@@ -9,52 +9,14 @@
 name: PHPUnit PostgreSQL
 
 on:
-  pull_request:
-  schedule:
-    - cron: "5 2 * * *"
+  workflow_call:
 
 permissions:
   contents: read
 
-concurrency:
-  group: phpunit-pgsql-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
 jobs:
-  changes:
-    runs-on: ubuntu-latest-low
-    permissions:
-      contents: read
-      pull-requests: read
-
-    outputs:
-      src: ${{ steps.changes.outputs.src }}
-
-    steps:
-      - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
-        id: changes
-        continue-on-error: true
-        with:
-          filters: |
-            src:
-              - '.github/workflows/**'
-              - '3rdparty/**'
-              - '**/appinfo/**'
-              - '**/lib/**'
-              - '**/templates/**'
-              - '**/tests/**'
-              - 'vendor/**'
-              - 'vendor-bin/**'
-              - '.php-cs-fixer.dist.php'
-              - 'composer.json'
-              - 'composer.lock'
-              - '**.php'
-
   phpunit-pgsql:
     runs-on: ubuntu-latest
-
-    needs: changes
-    if: needs.changes.outputs.src != 'false'
 
     strategy:
       fail-fast: false
@@ -129,17 +91,3 @@ jobs:
         if: always()
         run: |
           cat data/nextcloud.log
-
-  summary:
-    permissions:
-      contents: none
-    runs-on: ubuntu-latest-low
-    needs: [changes, phpunit-pgsql]
-
-    if: always()
-
-    name: phpunit-pgsql-summary
-
-    steps:
-      - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.phpunit-pgsql.result != 'success' }}; then exit 1; fi
