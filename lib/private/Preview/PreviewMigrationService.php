@@ -94,8 +94,9 @@ class PreviewMigrationService {
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($fileId)))
 			->setMaxResults(1);
 
-		$result = $qb->executeQuery();
-		$result = $result->fetchAssociative();
+		$cursor = $qb->executeQuery();
+		$result = $cursor->fetchAssociative();
+		$cursor->closeCursor();
 
 		if ($result !== false) {
 			$oldFileIdsToDelete = [];
