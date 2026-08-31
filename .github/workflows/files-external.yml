@@ -1,109 +1,254 @@
 # SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: MIT
-name: PHPUnit files_external generic
+name: PHPUnit files_external
 on:
-  pull_request:
-  schedule:
-    - cron: "5 2 * * *"
+  workflow_call:
 
 permissions:
   contents: read
 
-concurrency:
-  group: files-external-generic-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
 jobs:
-  changes:
-    runs-on: ubuntu-latest-low
-
-    outputs:
-      src: ${{ steps.changes.outputs.src}}
-
-    steps:
-      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
-        id: changes
-        continue-on-error: true
-        with:
-          filters: |
-            src:
-              - '.github/workflows/**'
-              - '3rdparty/**'
-              - 'vendor/**'
-              - 'vendor-bin/**'
-              - 'composer.json'
-              - 'composer.lock'
-              - 'apps/files/lib/**'
-              - 'apps/files/tests/**'
-              - 'apps/files_external/**'
-              - 'apps/files_sharing/lib/**'
-              - 'apps/files_sharing/tests/**'
-              - 'apps/files_trashbin/lib/**'
-              - 'apps/files_trashbin/tests/**'
-              - 'apps/files_versions/lib/**'
-              - 'apps/files_versions/tests/**'
-              - 'lib/private/Files/**'
-              - 'lib/public/Files/**'
-              - 'tests/lib/Files/**'
-
-  files-external-generic:
+  files-external:
     runs-on: ubuntu-latest
-    needs: changes
 
-    if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     strategy:
       fail-fast: false
       matrix:
         php-versions: ['8.2', '8.4']
+        backend: ['generic', 'proftpd', 'vsftpd', 'pure-ftpd', 's3-minio', 's3-localstack', 'openssh', 'smb', 'webdav']
 
-    name: php${{ matrix.php-versions }}-generic
+    name: php${{ matrix.php-versions }}-${{ matrix.backend }}
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           submodules: true
 
+      # Storage backends run as plain containers instead of job services so that a
+      # single matrix job can pick the one it needs.
+      - name: Start storage backend
+        env:
+          BACKEND: ${{ matrix.backend }}
+        run: |
+          case "$BACKEND" in
+            proftpd|vsftpd|pure-ftpd)
+              sudo mkdir /tmp/ftp
+              sudo chmod -R 0777 /tmp/ftp
+              ;;
+          esac
+
+          case "$BACKEND" in
+            proftpd)
+              echo '$6$Q7V2n3q2GRVv5YeQ$/AhLu07H76Asojy7bxGXMY1caKLAbp5Vt82LOZYMkD/8uDzyMAEXwk0c1Bdz1DkBsk2Vh/9SF130mOPavRGMo.' > /tmp/secret.txt
+              echo 'FTP_ROOT=/home/test' >> $GITHUB_ENV
+              docker run --name ftp -d --net host -e PASV_ADDRESS=127.0.0.1 -e FTPUSER_NAME=test -v /tmp/secret.txt:/run/secrets/ftp-user-password-secret -v /tmp/ftp:/home/test instantlinux/proftpd
+              ;;
+            vsftpd)
+              docker run --name ftp -d --net host -e FTP_USER=test -e FTP_PASS=test -e PASV_ADDRESS=127.0.0.1 -v /tmp/ftp:/home/vsftpd/test fauria/vsftpd
+              ;;
+            pure-ftpd)
+              docker run --name ftp -d --net host -e PUBLICHOST=localhost -e FTP_USER_NAME=test -e FTP_USER_PASS=test -e FTP_USER_HOME=/home/test -v /tmp/ftp:/home/test -v /tmp/ftp:/etc/pure-ftpd/passwd stilliard/pure-ftpd
+              ;;
+            openssh)
+              sudo mkdir /tmp/sftp
+              sudo chmod -R 0777 /tmp/sftp
+              docker run --name sftp -d -p 2222:22 -v /tmp/sftp:/home/test atmoz/sftp 'test:test:::data'
+              ;;
+            s3-minio)
+              docker run --name minio -d -p 9000:9000 -e MINIO_ROOT_USER=nextcloud -e MINIO_ROOT_PASSWORD=bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ= -e MINIO_DEFAULT_BUCKETS=nextcloud bitnami/minio@sha256:50cec18ac4184af4671a78aedd5554942c8ae105d51a465fa82037949046da01 # v2025.4.22
+              ;;
+            s3-localstack)
+              docker run --name localstack -d -p 4566:4566 -e SERVICES=s3 -e DEBUG=1 localstack/localstack@sha256:9d4253786e0effe974d77fe3c390358391a56090a4fff83b4600d8a64404d95d # v4.5.0
+              ;;
+            smb)
+              docker run --name samba -d -p 445:445 -e ACCOUNT_test=test -e UID_test=1000 -e 'SAMBA_VOLUME_CONFIG_test=[public]; path=/tmp; valid users = test; guest ok = no; read only = no; browseable = yes' ghcr.io/servercontainers/samba:smbd-only-a3.18.0-s4.18.2-r0
+              ;;
+            webdav)
+              docker run --name apache -d -p 8081:80 ghcr.io/nextcloud/continuous-integration-webdav-apache:latest
+              ;;
+          esac
+
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f #v2.37.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #v2.37.2
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite${{ matrix.backend == 'smb' && ', smbclient' || '' }}
           coverage: none
           ini-file: development
           ini-values: disable_functions=""
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set up smbclient
+        # This is needed as icewind/smb php library for notify
+        if: ${{ matrix.backend == 'smb' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y smbclient
+
       - name: Set up Nextcloud
         env:
+          BACKEND: ${{ matrix.backend }}
           OBJECT_STORE_KEY: nextcloud
           OBJECT_STORE_SECRET: bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=
         run: |
           composer install
+          mkdir -p data
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           ./occ app:enable --force files_external
 
+          case "$BACKEND" in
+            smb|webdav)
+              ./occ config:system:set --value true --type boolean allow_local_remote_servers
+              ;;
+          esac
+
+          case "$BACKEND" in
+            generic)
+              echo 'TEST_ARGS=' >> $GITHUB_ENV
+              ;;
+            proftpd|vsftpd|pure-ftpd)
+              echo "<?php return ['run' => true,'host' => 'localhost','user' => 'test','password' => 'test', 'root' => '$FTP_ROOT'];" > apps/files_external/tests/config.ftp.php
+              echo 'TEST_ARGS=apps/files_external/tests/Storage/FtpTest.php' >> $GITHUB_ENV
+              ;;
+            openssh)
+              echo "<?php return ['run' => true, 'host' => 'localhost:2222','user' => 'test','password' => 'test', 'root' => 'data'];" > apps/files_external/tests/config.sftp.php
+              echo 'TEST_ARGS=apps/files_external/tests/Storage/SftpTest.php' >> $GITHUB_ENV
+              ;;
+            s3-minio)
+              echo "<?php return ['run' => true, 'minio' => true, 'secret' => 'actually-not-secret', 'passwordsalt' => 'actually-not-secret', 'hostname' => 'localhost','key' => '$OBJECT_STORE_KEY','secret' => '$OBJECT_STORE_SECRET', 'bucket' => 'bucket', 'port' => 9000, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
+              echo 'TEST_ARGS=--group S3 apps/files_external/tests/Storage' >> $GITHUB_ENV
+              ;;
+            s3-localstack)
+              echo "<?php return ['run' => true, 'localstack' => true, 'hostname' => 'localhost','key' => 'ignored','secret' => 'ignored', 'bucket' => 'bucket', 'port' => 4566, 'use_ssl' => false, 'autocreate' => true, 'use_path_style' => true];" > apps/files_external/tests/config.amazons3.php
+              echo 'TEST_ARGS=--group S3 apps/files_external/tests/Storage' >> $GITHUB_ENV
+              ;;
+            smb)
+              echo "<?php return ['run'=>true, 'host'=>'localhost', 'user'=>'test', 'password'=>'test', 'root'=>'', 'share'=>'public'];" > apps/files_external/tests/config.smb.php
+              echo 'TEST_ARGS=apps/files_external/tests/Storage/SmbTest.php' >> $GITHUB_ENV
+              ;;
+            webdav)
+              echo "<?php return ['run' => true, 'host' => 'localhost:8081/webdav/', 'user' => 'test', 'password'=>'pass', 'root' => '', 'wait' => 0];" > apps/files_external/tests/config.webdav.php
+              echo 'TEST_ARGS=apps/files_external/tests/Storage/WebdavTest.php' >> $GITHUB_ENV
+              ;;
+          esac
+
+      - name: Wait for storage backend
+        env:
+          BACKEND: ${{ matrix.backend }}
+        run: |
+          case "$BACKEND" in
+            proftpd|vsftpd|pure-ftpd)
+              php -r "var_dump(file_put_contents('ftp://test:test@localhost$FTP_ROOT/ftp.txt', 'asd'));"
+              php -r "var_dump(file_get_contents('ftp://test:test@localhost$FTP_ROOT/ftp.txt'));"
+              php -r "var_dump(mkdir('ftp://test:test@localhost$FTP_ROOT/asdads'));"
+              ls -l /tmp/ftp
+              [ -f /tmp/ftp/ftp.txt ]
+              ;;
+            s3-minio)
+              curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
+              ;;
+            smb)
+              apps/files_external/tests/env/wait-for-connection 127.0.0.1 445 60
+              ;;
+            webdav)
+              sleep 5
+              curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://test:pass@localhost:8081/webdav/
+              ;;
+          esac
+
       - name: PHPUnit
-        run: composer run test:files_external -- \
-          --log-junit junit.xml
+        run: composer run test:files_external -- --log-junit junit.xml $TEST_ARGS
 
       - name: Upload test results
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
         with:
-          flags: phpunit-files-external-generic
+          flags: phpunit-files-external-${{ matrix.backend }}
 
-  files-external-summary:
-    runs-on: ubuntu-latest-low
-    needs: [changes, files-external-generic ]
+      - name: Nextcloud logs
+        if: always()
+        run: |
+          if [ -f data/nextcloud.log ]; then cat data/nextcloud.log; fi
 
-    if: always()
+      - name: Storage backend logs
+        if: always()
+        run: |
+          docker ps -a
+          docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
+
+  files-external-smb-kerberos:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
+    name: smb-kerberos-sso
 
     steps:
-      - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.files-external-generic.result != 'success' }}; then exit 1; fi
+      - name: Checkout server
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Checkout user_saml
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          repository: nextcloud/user_saml
+          path: apps/user_saml
+
+      - name: Install user_saml
+        run: |
+          cd apps/user_saml
+          composer i
+          cd ../..
+
+      - name: Pull images
+        run: |
+          docker pull ghcr.io/icewind1991/samba-krb-test-dc
+          docker pull ghcr.io/icewind1991/samba-krb-test-apache-gssapi:8.4
+          docker pull ghcr.io/icewind1991/samba-krb-test-client
+          docker tag ghcr.io/icewind1991/samba-krb-test-dc icewind1991/samba-krb-test-dc
+          docker tag ghcr.io/icewind1991/samba-krb-test-apache-gssapi:8.4 icewind1991/samba-krb-test-apache-gssapi
+          docker tag ghcr.io/icewind1991/samba-krb-test-client icewind1991/samba-krb-test-client
+
+      - name: Setup AD-DC
+        run: |
+          DC_IP=$(apps/files_external/tests/sso-setup/start-dc.sh)
+          sleep 1
+          apps/files_external/tests/sso-setup/start-apache.sh $DC_IP $PWD
+          echo "DC_IP=$DC_IP" >> $GITHUB_ENV
+
+      - name: Set up Nextcloud
+        run: |
+          apps/files_external/tests/sso-setup/setup-sso-nc.sh
+
+      - name: Test SSO
+        run: |
+          apps/files_external/tests/sso-setup/test-sso-smb.sh ${{ env.DC_IP }}
+
+      - name: Show logs DC
+        if: always()
+        run: |
+          docker logs dc
+          echo "------------"
+          docker exec dc cat /var/log/samba/log.samba
+
+      - name: Show logs Apache
+        if: always()
+        run: |
+          docker logs apache
+
+      - name: Show logs
+        if: always()
+        run: |
+          FILEPATH=$(docker exec --user 33 apache ./occ log:file | grep "Log file:" | cut -d' ' -f3)
+          echo "$FILEPATH:"
+          docker exec --user 33 apache cat $FILEPATH
