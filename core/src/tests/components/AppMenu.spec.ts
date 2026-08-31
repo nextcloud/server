@@ -70,15 +70,10 @@ function fakeApps(): INavigationEntry[] {
 // ships getAll('settings') keyed by entry id.
 function mockActiveSettingsEntry(overrides: Partial<INavigationEntry>): void {
 	const entry = makeApp({ type: 'settings', active: true, ...overrides })
-	initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
-		if (key === 'apps') {
-			return [makeApp({ id: 'files', name: 'Files', active: false })]
-		}
-		if (key === 'settingsNavEntries') {
-			return { [entry.id]: entry }
-		}
-		return fallback
-	})
+	initialState.loadState.mockImplementation(stateFor({
+		apps: [makeApp({ id: 'files', name: 'Files', active: false })],
+		settingsNavEntries: { [entry.id]: entry },
+	}))
 }
 
 // Navigation actions (INavigationManager::TYPE_ACTION). Without an `href` the
@@ -98,17 +93,16 @@ function fakeActions(count: number): INavigationEntry[] {
 	return ids.slice(0, count).map((id) => makeAction(id))
 }
 
+// AppMenu hides the app store tile when the state is absent, so a default
+// instance has to supply it.
+function stateFor(states: Record<string, unknown>) {
+	const all: Record<string, unknown> = { appStoreLinkShown: true, ...states }
+	return (_app: string, key: string, fallback: unknown) => key in all ? all[key] : fallback
+}
+
 // loadState implementation serving both apps and navigation actions.
 function stateWith(apps: INavigationEntry[], actions: INavigationEntry[]) {
-	return (_app: string, key: string, fallback: unknown) => {
-		if (key === 'apps') {
-			return apps
-		}
-		if (key === 'navigationActions') {
-			return actions
-		}
-		return fallback
-	}
+	return stateFor({ apps, navigationActions: actions })
 }
 
 function eightApps(activeIndex: number = -1): INavigationEntry[] {
@@ -132,7 +126,7 @@ beforeEach(async () => {
 	for (const k of Object.keys(eventBus.__handlers)) {
 		delete eventBus.__handlers[k]
 	}
-	initialState.loadState.mockImplementation((_app: string, key: string, fallback: unknown) => key === 'apps' ? fakeApps() : fallback)
+	initialState.loadState.mockImplementation(stateFor({ apps: fakeApps() }))
 	auth.getCurrentUser.mockReturnValue({ isAdmin: false })
 	AppMenu = (await import('../../components/AppMenu.vue')).default
 })
@@ -143,6 +137,11 @@ afterEach(() => {
 		document.body.removeChild(document.body.firstChild)
 	}
 })
+
+function gridLabels(): string[] {
+	return Array.from(document.querySelectorAll('.app-menu__grid [role="menuitem"]'))
+		.map((el) => el.querySelector('.app-item__label')?.textContent?.trim() ?? '')
+}
 
 // Click the waffle trigger and poll until the teleported menuitems are in the
 // DOM. NcPopover teleports to <body> so wrapper.find() can't see them; vi.waitFor
@@ -166,10 +165,24 @@ describe('core: AppMenu', () => {
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		await openPopover(wrapper)
 
-		const items = document.querySelectorAll('.app-menu__grid [role="menuitem"]')
-		expect(items).toHaveLength(4)
-		const labels = Array.from(items).map((el) => el.querySelector('.app-item__label')?.textContent?.trim() ?? '')
-		expect(labels).toEqual(['Files', 'Mail', 'Calendar', 'App store'])
+		expect(gridLabels()).toEqual(['Files', 'Mail', 'Calendar', 'App store'])
+	})
+
+	it('omits the "App store" tile when the instance does not offer it', async () => {
+		initialState.loadState.mockImplementation(stateFor({ apps: fakeApps(), appStoreLinkShown: false }))
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		await openPopover(wrapper)
+
+		expect(gridLabels()).toEqual(['Files', 'Mail', 'Calendar'])
+	})
+
+	it('keeps the "More apps" tile for admins when the app store link is hidden', async () => {
+		initialState.loadState.mockImplementation(stateFor({ apps: fakeApps(), appStoreLinkShown: false }))
+		auth.getCurrentUser.mockReturnValue({ isAdmin: true })
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		await openPopover(wrapper)
+
+		expect(gridLabels()).toEqual(['Files', 'Mail', 'Calendar', 'More apps'])
 	})
 
 	it('renders the "More apps" tile when the current user is an admin', async () => {
@@ -196,7 +209,7 @@ describe('core: AppMenu', () => {
 	})
 
 	it('ArrowRight moves the roving stop from index 0 to index 1 and focuses it', async () => {
-		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => key === 'apps' ? eightApps() : fallback)
+		initialState.loadState.mockImplementation(stateFor({ apps: eightApps() }))
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		await openPopover(wrapper)
 
@@ -274,15 +287,10 @@ describe('core: AppMenu', () => {
 	})
 
 	it('prefers the active app over a settings entry when both are marked active', () => {
-		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
-			if (key === 'apps') {
-				return [makeApp({ id: 'files', name: 'Files', active: true })]
-			}
-			if (key === 'settingsNavEntries') {
-				return { settings_administration: makeApp({ id: 'settings_administration', name: 'Administration settings', type: 'settings', active: true }) }
-			}
-			return fallback
-		})
+		initialState.loadState.mockImplementation(stateFor({
+			apps: [makeApp({ id: 'files', name: 'Files', active: true })],
+			settingsNavEntries: { settings_administration: makeApp({ id: 'settings_administration', name: 'Administration settings', type: 'settings', active: true }) },
+		}))
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		expect(wrapper.find('.app-menu__current-app-name').text()).toBe('Files')
 	})
@@ -292,15 +300,10 @@ describe('core: AppMenu', () => {
 		// "current section" even though it carries type=settings. NavigationManager
 		// today never marks it active, but a future regression shouldn't leak a
 		// "Log out" label into the header.
-		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
-			if (key === 'apps') {
-				return [makeApp({ id: 'files', name: 'Files', active: false })]
-			}
-			if (key === 'settingsNavEntries') {
-				return { logout: makeApp({ id: 'logout', name: 'Log out', type: 'settings', href: '/logout', active: true }) }
-			}
-			return fallback
-		})
+		initialState.loadState.mockImplementation(stateFor({
+			apps: [makeApp({ id: 'files', name: 'Files', active: false })],
+			settingsNavEntries: { logout: makeApp({ id: 'logout', name: 'Log out', type: 'settings', href: '/logout', active: true }) },
+		}))
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		expect(wrapper.find('.app-menu__current-app').exists()).toBe(false)
 	})
