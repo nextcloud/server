@@ -137,6 +137,14 @@ interface ISharingBackend {
 	public function updateSharePermission(string $id, SharePermission $permission): void;
 
 	/**
+	 * Update a permission for a recipient of a share.
+	 *
+	 * @throws ShareNotFoundException
+	 * @experimental 35.0.0
+	 */
+	public function updateShareRecipientPermission(string $id, ShareRecipient $recipient, SharePermission $permission): void;
+
+	/**
 	 * Select a permission preset for a share.
 	 *
 	 * @param class-string<ISharePermissionPreset> $permissionPresetClass

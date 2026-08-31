@@ -53,7 +53,6 @@ final class Version1000Date20250929161325 extends SimpleMigrationStep {
 		$sourcesTable->addForeignKeyConstraint($shareTable->getName(), ['share_id'], ['id'], ['onDelete' => 'CASCADE']);
 		$sourcesTable->addForeignKeyConstraint($mappingTable->getName(), ['source_class_id'], ['class_id']);
 
-		// TODO: Add possibility to mask permissions for recipients. For reshares the user may only mask permissions for their child recipients, not their self recipients
 		$recipientsTable = $schema->createTable('sharing_share_recipients');
 		$recipientsTable->addColumn('id', Types::BIGINT);
 		$recipientsTable->addColumn('share_id', Types::BIGINT);

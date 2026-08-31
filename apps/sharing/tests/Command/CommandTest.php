@@ -33,6 +33,7 @@ use OCA\Sharing\Command\SelectSharePermissionPreset;
 use OCA\Sharing\Command\SharingBase;
 use OCA\Sharing\Command\UpdateSharePermission;
 use OCA\Sharing\Command\UpdateShareProperty;
+use OCA\Sharing\Command\UpdateShareRecipientPermission;
 use OCA\Sharing\Command\UpdateShareRecipientSecret;
 use OCA\Sharing\Command\UpdateShareState;
 use OCA\Sharing\Command\UpdateShareUserStatus;
@@ -73,6 +74,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 			RemoveShareSource::class,
 			SelectSharePermissionPreset::class,
 			UpdateSharePermission::class,
+			UpdateShareRecipientPermission::class,
 			UpdateShareProperty::class,
 			UpdateShareRecipientSecret::class,
 			UpdateShareState::class,
@@ -356,6 +358,28 @@ final class CommandTest extends AbstractSharingManagerTests {
 				['id', $share->id],
 				['class', $permission->class],
 				['enabled', $permission->enabled ? 'true' : 'false'],
+			],
+			[],
+		);
+		/** @var SharingShare */
+		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
+	}
+
+	/**
+	 * @return SharingShare
+	 */
+	#[Override]
+	protected function updateShareRecipientPermission(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, SharePermission $permission): array {
+		$stdout = $this->runCommand(
+			$accessContext,
+			UpdateShareRecipientPermission::class,
+			[
+				['id', $share->id],
+				['permission-class', $permission->class],
+				['permission-enabled', $permission->enabled ? 'true' : 'false'],
+				['recipient-class', $recipient->class],
+				['recipient-value', $recipient->value],
+				['recipient-instance', $recipient->instance],
 			],
 			[],
 		);

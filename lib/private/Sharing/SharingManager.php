@@ -373,7 +373,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		try {
 			$this->validateShareEditPermissions($accessContext, $share);
 		} catch (ShareOperationForbiddenException) {
-			$this->validatePermission($share, ReshareSharePermissionType::class);
+			// Only check that we have reshare permission, because we can't check if we're the initiator for a non-existent recipient that we're about to add.
+			$this->validatePermission($accessContext, $share, ReshareSharePermissionType::class);
 		}
 
 		if (($recipientType = $this->registry->getRecipientTypes()[$recipient->class] ?? null) === null) {
@@ -675,6 +676,63 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	#[\Override]
+	public function updateShareRecipientPermission(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, SharePermission $permission): Share {
+		$this->assertInTransaction();
+
+		$time = $this->getTime();
+		$this->backend->setLastUpdated([$share->id], $time);
+
+		try {
+			$this->validateShareEditPermissions($accessContext, $share);
+		} catch (ShareOperationForbiddenException) {
+			$this->validateReshareOperation($accessContext, $share, $recipient);
+		}
+
+		if ($permission->enabled) {
+			$enabledPermissions = $share->getEffectiveEnabledPermissions($accessContext);
+			if (!isset($enabledPermissions[$permission->class])) {
+				throw new ShareOperationForbiddenException();
+			}
+		}
+
+		$this->backend->updateShareRecipientPermission($share->id, $recipient, $permission);
+
+		$recipients = $share->recipients;
+		foreach ($recipients as &$shareRecipient) {
+			if ($shareRecipient->class === $recipient->class && $shareRecipient->value === $recipient->value && $shareRecipient->instance === $recipient->instance) {
+				$permissions = $shareRecipient->permissions;
+				$permissions[$permission->class] = $permission;
+
+				$shareRecipient = new ShareRecipient(
+					$shareRecipient->class,
+					$shareRecipient->value,
+					$shareRecipient->instance,
+					$shareRecipient->secret,
+					$shareRecipient->initiator,
+					$permissions,
+				);
+
+				break;
+			}
+		}
+
+		$share = new Share(
+			$share->id,
+			$share->owner,
+			$time,
+			$share->state,
+			$share->userStatus,
+			$share->sources,
+			$recipients,
+			$share->properties,
+			$share->permissions,
+		);
+
+		[$share] = $this->processShareUpdates([$share]);
+		return $share;
+	}
+
+	#[\Override]
 	public function selectSharePermissionPreset(ShareAccessContext $accessContext, Share $share, string $permissionPresetClass): Share {
 		$this->assertInTransaction();
 
@@ -817,19 +875,17 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	 * @param class-string<ISharePermissionType> $permissionTypeClass
 	 * @throws ShareOperationForbiddenException
 	 */
-	private function validatePermission(Share $share, string $permissionTypeClass): void {
-		if ((($permission = $share->permissions[$permissionTypeClass] ?? null) !== null) && $permission->enabled) {
-			return;
+	private function validatePermission(ShareAccessContext $accessContext, Share $share, string $permissionTypeClass): void {
+		if (!isset($share->getEffectiveEnabledPermissions($accessContext)[$permissionTypeClass])) {
+			throw new ShareOperationForbiddenException();
 		}
-
-		throw new ShareOperationForbiddenException();
 	}
 
 	/**
 	 * @throws ShareOperationForbiddenException
 	 */
 	private function validateReshareOperation(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient): void {
-		$this->validatePermission($share, ReshareSharePermissionType::class);
+		$this->validatePermission($accessContext, $share, ReshareSharePermissionType::class);
 
 		foreach ($share->recipients as $shareRecipient) {
 			if (
@@ -851,7 +907,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	 */
 	private function validateInteraction(ShareAccessContext $accessContext, Share $share): void {
 		$action = new ShareAction(
-			null, array_values(array_map(static fn (SharePermission $permission): string => $permission->class, $share->getEnabledPermissions()))
+			null, array_values(array_map(static fn (SharePermission $permission): string => $permission->class, $share->getEffectiveEnabledPermissions($accessContext)))
 		);
 
 		$usersToCheck = [];
@@ -913,7 +969,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			throw new ShareInvalidException('No recipient set.', $this->l10n->t('You need to add at least one recipient to make the share available.'));
 		}
 
-		if ($share->getEnabledPermissions() === []) {
+		if ($share->getEffectiveEnabledPermissions(new ShareAccessContext(overrideChecks: true)) === []) {
 			throw new ShareInvalidException('No permission given.', $this->l10n->t('You need to allow at least one permission to make the share available.'));
 		}
 

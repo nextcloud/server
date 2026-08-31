@@ -36,6 +36,7 @@ class ComposerStaticInitSharing
         'OCA\\Sharing\\Command\\SharingBase' => __DIR__ . '/..' . '/../lib/Command/SharingBase.php',
         'OCA\\Sharing\\Command\\UpdateSharePermission' => __DIR__ . '/..' . '/../lib/Command/UpdateSharePermission.php',
         'OCA\\Sharing\\Command\\UpdateShareProperty' => __DIR__ . '/..' . '/../lib/Command/UpdateShareProperty.php',
+        'OCA\\Sharing\\Command\\UpdateShareRecipientPermission' => __DIR__ . '/..' . '/../lib/Command/UpdateShareRecipientPermission.php',
         'OCA\\Sharing\\Command\\UpdateShareRecipientSecret' => __DIR__ . '/..' . '/../lib/Command/UpdateShareRecipientSecret.php',
         'OCA\\Sharing\\Command\\UpdateShareState' => __DIR__ . '/..' . '/../lib/Command/UpdateShareState.php',
         'OCA\\Sharing\\Command\\UpdateShareUserStatus' => __DIR__ . '/..' . '/../lib/Command/UpdateShareUserStatus.php',
@@ -45,6 +46,7 @@ class ComposerStaticInitSharing
         'OCA\\Sharing\\Migration\\Version1000Date20260731171922' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20260731171922.php',
         'OCA\\Sharing\\Migration\\Version1000Date20260826073021' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20260826073021.php',
         'OCA\\Sharing\\Migration\\Version1000Date20260826115938' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20260826115938.php',
+        'OCA\\Sharing\\Migration\\Version1000Date20260826122228' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20260826122228.php',
         'OCA\\Sharing\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
     );
 
