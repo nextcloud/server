@@ -67,7 +67,7 @@ interface IManager {
 	/**
 	 * @param Task $task The task to run
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs
+	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs, or the specified webhook didn't pass validation
 	 * @throws Exception storing the task in the database failed
 	 * @throws UnauthorizedException the user scheduling the task does not have access to the files used in the input
 	 * @since 30.0.0
@@ -80,7 +80,7 @@ interface IManager {
 	 * @param Task $task The task to run
 	 * @return Task The result task
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs
+	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs, or the specified webhook didn't pass validation
 	 * @throws Exception storing the task in the database failed
 	 * @throws UnauthorizedException the user scheduling the task does not have access to the files used in the input
 	 * @since 30.0.0
