@@ -40,7 +40,7 @@ jobs:
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: minio123
-        image: bitnami/minio:2021.12.29
+        image: bitnami/minio@sha256:50cec18ac4184af4671a78aedd5554942c8ae105d51a465fa82037949046da01 # v2025.4.22
         ports:
           - "9000:9000"
 
