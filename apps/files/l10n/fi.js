@@ -107,6 +107,7 @@ OC.L10N.register(
     "Last 30 days" : "Edelliset 30 päivää",
     "This year ({year})" : "Tämä vuosi ({year})",
     "Last year ({year})" : "Viime vuosi ({year})",
+    "Custom range" : "mukautettu vaihteluväli",
     "Custom date range" : "Mukautettu päivämääräväli",
     "Search everywhere" : "Etsi kaikkialta",
     "Documents" : "Asiakirjat",
