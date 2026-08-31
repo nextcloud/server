@@ -381,37 +381,6 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function createShareProperty(string $id, ShareProperty $property): ?string {
-		$value = $property->value;
-
-		$propertyType = $this->registry->getPropertyTypes()[$property->class];
-
-		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-			$value = $propertyType->modifyValueOnSave(null, $property->value);
-		}
-
-		try {
-			$qb = $this->connection->getQueryBuilder();
-			$qb
-				->insert('sharing_share_properties')
-				->values([
-					'share_id' => $qb->createNamedParameter($id),
-					'property_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT),
-					'property_value' => $qb->createNamedParameter($value),
-				])
-				->executeStatement();
-
-			return $value;
-		} catch (\OCP\DB\Exception $exception) {
-			if ($exception->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-				throw new RuntimeException('The property already exists: ' . $property->class, $exception->getCode(), $exception);
-			}
-
-			throw $exception;
-		}
-	}
-
-	#[\Override]
 	public function updateShareProperty(string $id, ShareProperty $property): ?string {
 		$value = $property->value;
 
@@ -448,31 +417,18 @@ final readonly class SharingBackend implements ISharingBackend {
 			)
 			->executeStatement();
 		if ($rowCount === 0) {
-			throw new ShareNotFoundException();
+			$qb = $this->connection->getQueryBuilder();
+			$qb
+				->insert('sharing_share_properties')
+				->values([
+					'share_id' => $qb->createNamedParameter($id),
+					'property_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT),
+					'property_value' => $qb->createNamedParameter($value),
+				])
+				->executeStatement();
 		}
 
 		return $value;
-	}
-
-	#[\Override]
-	public function createSharePermission(string $id, SharePermission $permission): void {
-		try {
-			$qb = $this->connection->getQueryBuilder();
-			$qb
-				->insert('sharing_share_permissions')
-				->values([
-					'share_id' => $qb->createNamedParameter($id),
-					'permission_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT),
-					'permission_enabled' => $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL),
-				])
-				->executeStatement();
-		} catch (\OCP\DB\Exception $exception) {
-			if ($exception->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-				throw new RuntimeException('The permission already exists: ' . $permission->class, $exception->getCode(), $exception);
-			}
-
-			throw $exception;
-		}
 	}
 
 	#[\Override]
@@ -487,7 +443,15 @@ final readonly class SharingBackend implements ISharingBackend {
 			)
 			->executeStatement();
 		if ($rowCount === 0) {
-			throw new ShareNotFoundException();
+			$qb = $this->connection->getQueryBuilder();
+			$qb
+				->insert('sharing_share_permissions')
+				->values([
+					'share_id' => $qb->createNamedParameter($id),
+					'permission_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT),
+					'permission_enabled' => $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL),
+				])
+				->executeStatement();
 		}
 	}
 
@@ -1235,7 +1199,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$property = new ShareProperty($propertyTypeClass, $propertyType->getDefaultValue($share));
 
-		$value = $this->createShareProperty($share->id, $property);
+		$value = $this->updateShareProperty($share->id, $property);
 		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
 			$value = $propertyType->modifyValueOnLoad($value);
 		}
@@ -1274,7 +1238,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$permission = new SharePermission($permissionTypeClass, $permissionType->isEnabledByDefault());
 
-		$this->createSharePermission($share->id, $permission);
+		$this->updateSharePermission($share->id, $permission);
 
 		$permissions = $share->permissions;
 		$permissions[$permissionTypeClass] = $permission;
