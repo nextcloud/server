@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ["8.3", "8.5"]
+        php-versions: ["8.2", "8.5"]
 
     name: Memcached (PHP ${{ matrix.php-versions }})
 
@@ -49,7 +49,6 @@ jobs:
           ini-file: development
           ini-values: disable_functions=""
         env:
-          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
@@ -65,6 +64,12 @@ jobs:
 
       - name: PHPUnit memcached tests
         run: composer run test -- --group Memcached --log-junit junit.xml
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+        with:
+          flags: phpunit-memcached
 
       - name: Print logs
         if: always()

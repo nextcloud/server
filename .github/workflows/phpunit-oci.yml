@@ -25,7 +25,7 @@ jobs:
       matrix:
         include:
           - oracle-versions: '18'
-            php-versions: '8.3'
+            php-versions: '8.2'
           - oracle-versions: '23'
             php-versions: '8.5'
 
@@ -70,11 +70,10 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, oci8
-          coverage: none
+          coverage: 'none'
           ini-file: development
           ini-values: disable_functions=""
         env:
-          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
@@ -90,6 +89,12 @@ jobs:
 
       - name: PHPUnit
         run: composer run test:db -- --log-junit junit.xml
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+        with:
+          flags: phpunit-oci
 
       - name: Run repair steps
         run: |

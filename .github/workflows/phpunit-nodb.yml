@@ -23,7 +23,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.5']
+        php-versions: ['8.3', '8.4', '8.5']
+        include:
+          - php-versions: '8.2'
 
     name: No DB unit tests (PHP ${{ matrix.php-versions }})
 
@@ -47,13 +49,12 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
-          extensions: apcu, bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, pdo_sqlite, posix, redis, session, simplexml, sqlite, xmlreader, xmlwriter, zip, zlib
-          coverage: none
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, imagick, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: 'none'
           ini-file: development
           # Required for tests that use pcntl
           ini-values: disable_functions=""
         env:
-          fail-fast: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up dependencies
@@ -68,7 +69,13 @@ jobs:
           php -f tests/enable_all.php
 
       - name: PHPUnit nodb testsuite
-        run: composer run test -- --exclude-group DB --exclude-group SLOWDB --exclude-group Memcached --exclude-group PRIMARY-swift --exclude-group PRIMARY-s3 --exclude-group PRIMARY-azure --log-junit junit.xml
+        run: composer run test -- --exclude-group DB --exclude-group SLOWDB --log-junit junit.xml
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+        with:
+          flags: phpunit-nodb
 
       - name: Print logs
         if: always()

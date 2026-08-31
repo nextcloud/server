@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.5']
+        php-versions: ['8.2', '8.4']
 
     name: php${{ matrix.php-versions }}-s3
 
@@ -78,6 +78,12 @@ jobs:
           OBJECT_STORE_KEY: nextcloud
           OBJECT_STORE_SECRET: bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=
         run: composer run test -- --group PRIMARY-s3 --log-junit junit.xml
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+        with:
+          flags: phpunit-s3
 
       - name: S3 logs
         if: always()

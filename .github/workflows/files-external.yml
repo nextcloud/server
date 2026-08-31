@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.5']
+        php-versions: ['8.2', '8.4']
         backend: ['generic', 'proftpd', 'vsftpd', 'pure-ftpd', 's3-minio', 's3-localstack', 'openssh', 'smb', 'webdav']
 
     name: php${{ matrix.php-versions }}-${{ matrix.backend }}
@@ -165,6 +165,12 @@ jobs:
 
       - name: PHPUnit
         run: composer run test:files_external -- --log-junit junit.xml $TEST_ARGS
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+        with:
+          flags: phpunit-files-external-${{ matrix.backend }}
 
       - name: Nextcloud logs
         if: always()
