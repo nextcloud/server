@@ -86,7 +86,7 @@ beforeEach(async () => {
 	for (const k of Object.keys(eventBus.__handlers)) {
 		delete eventBus.__handlers[k]
 	}
-	initialState.loadState.mockImplementation((_app: string, key: string, fallback: unknown) => key === 'apps' ? fakeApps() : fallback)
+	initialState.loadState.mockImplementation(stateFor({ apps: fakeApps() }))
 	auth.getCurrentUser.mockReturnValue({ isAdmin: false })
 	AppMenu = (await import('../../components/AppMenu.vue')).default
 })
@@ -97,6 +97,11 @@ afterEach(() => {
 		document.body.removeChild(document.body.firstChild)
 	}
 })
+
+function gridLabels(): string[] {
+	return Array.from(document.querySelectorAll('.app-menu__grid [role="menuitem"]'))
+		.map((el) => el.querySelector('.app-item__label')?.textContent?.trim() ?? '')
+}
 
 // Click the waffle trigger and poll until the teleported menuitems are in the
 // DOM. NcPopover teleports to <body> so wrapper.find() can't see them; vi.waitFor
@@ -138,7 +143,7 @@ describe('core: AppMenu', () => {
 	})
 
 	it('ArrowRight moves the roving stop from index 0 to index 1 and focuses it', async () => {
-		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => key === 'apps' ? eightApps() : fallback)
+		initialState.loadState.mockImplementation(stateFor({ apps: eightApps() }))
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		await openPopover(wrapper)
 
@@ -221,15 +226,10 @@ describe('core: AppMenu', () => {
 		// "current section" even though it carries type=settings. NavigationManager
 		// today never marks it active, but a future regression shouldn't leak a
 		// "Log out" label into the header.
-		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
-			if (key === 'apps') {
-				return [makeApp({ id: 'files', name: 'Files', active: false })]
-			}
-			if (key === 'settingsNavEntries') {
-				return { logout: makeApp({ id: 'logout', name: 'Log out', type: 'settings', href: '/logout', active: true }) }
-			}
-			return fallback
-		})
+		initialState.loadState.mockImplementation(stateFor({
+			apps: [makeApp({ id: 'files', name: 'Files', active: false })],
+			settingsNavEntries: { logout: makeApp({ id: 'logout', name: 'Log out', type: 'settings', href: '/logout', active: true }) },
+		}))
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		expect(wrapper.find('.app-menu__current-app').exists()).toBe(false)
 	})

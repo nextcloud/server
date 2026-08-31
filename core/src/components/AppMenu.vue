@@ -122,6 +122,8 @@ export default defineComponent({
 		return {
 			appList,
 			settingsList,
+			// Fail closed: a missing state must not leak the link.
+			appStoreLinkShown: loadState<boolean>('core', 'appStoreLinkShown', false),
 			isAdmin: getCurrentUser()?.isAdmin ?? false,
 			// Roving tabindex: only this tile has tabindex=0; arrow keys move it.
 			focusedIndex: 0,
@@ -191,7 +193,8 @@ export default defineComponent({
 
 		// Stable-ordered list that focusedIndex indexes into. The trailing
 		// utility tile is "More apps" (local app management) for admins and
-		// "App store" (apps.nextcloud.com) for everyone else.
+		// "App store" (apps.nextcloud.com) for everyone else when
+		// appstore_link_shown allows it.
 		gridItems(): INavigationEntry[] {
 			const tail = this.isAdmin ? this.moreAppsEntry : this.appStoreEntry
 			return [...this.appList, tail]

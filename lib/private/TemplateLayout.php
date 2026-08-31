@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\App\AppStore\AppStoreLinkVisibility;
 use OC\AppFramework\Http\Request;
 use OC\Authentication\Token\IProvider;
 use OC\Core\AppInfo\Application;

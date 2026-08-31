@@ -39,6 +39,8 @@ class ConfigLexicon implements ILexicon {
 
 	public const ON_DEMAND_PREVIEW_MIGRATION = 'on_demand_preview_migration';
 
+	public const APPSTORE_LINK_SHOWN = 'appstore_link_shown';
+
 	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
