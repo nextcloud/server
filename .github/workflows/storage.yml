@@ -24,9 +24,9 @@ jobs:
       pull-requests: read
 
     outputs:
-      src: ${{ steps.changes.outputs.src }}
       files-external: ${{ steps.changes.outputs.files-external }}
       integration: ${{ steps.changes.outputs.integration }}
+      object-storage: ${{ steps.changes.outputs.object-storage }}
 
     steps:
       - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
@@ -37,7 +37,6 @@ jobs:
             shared: &shared
               - '3rdparty/**'
               - 'vendor/**'
-              - 'vendor-bin/**'
               - 'composer.json'
               - 'composer.lock'
               - 'apps/files/lib/**'
@@ -52,45 +51,41 @@ jobs:
               - 'lib/private/Files/**'
               - 'lib/public/Files/**'
               - 'tests/lib/Files/**'
-            src:
+            phpunit: &phpunit
+              - 'vendor-bin/phpunit/**'
+            object-storage:
               - *shared
-              - '.github/workflows/**'
+              - *phpunit
+              - '.github/workflows/object-storage.yml'
             files-external:
               - *shared
+              - *phpunit
               - '.github/workflows/files-external.yml'
             integration:
+              - 'vendor-bin/behat/**'
               - 'build/integration/**'
+              - '.github/workflows/integration-s3-primary.yml'
 
   files-external:
     needs: changes
     if: needs.changes.outputs.files-external != 'false'
     uses: ./.github/workflows/files-external.yml
 
-  object-storage-azure:
+  object-storage:
     needs: changes
-    if: needs.changes.outputs.src != 'false'
-    uses: ./.github/workflows/object-storage-azure.yml
-
-  object-storage-s3:
-    needs: changes
-    if: needs.changes.outputs.src != 'false'
-    uses: ./.github/workflows/object-storage-s3.yml
-
-  object-storage-swift:
-    needs: changes
-    if: needs.changes.outputs.src != 'false'
-    uses: ./.github/workflows/object-storage-swift.yml
+    if: needs.changes.outputs.object-storage != 'false'
+    uses: ./.github/workflows/object-storage.yml
 
   integration-s3-primary:
     needs: changes
-    if: needs.changes.outputs.src != 'false' || needs.changes.outputs.integration != 'false'
+    if: needs.changes.outputs.integration != 'false'
     uses: ./.github/workflows/integration-s3-primary.yml
 
   summary:
     permissions:
       contents: none
     runs-on: ubuntu-latest-low
-    needs: [changes, files-external, object-storage-azure, object-storage-s3, object-storage-swift, integration-s3-primary]
+    needs: [changes, files-external, object-storage, integration-s3-primary]
 
     if: always()
 
