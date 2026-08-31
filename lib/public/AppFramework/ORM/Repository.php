@@ -98,7 +98,7 @@ class Repository {
 				ColumnType::Bigint, ColumnType::Smallint, ColumnType::Integer => (int)$value,
 				ColumnType::Float => (float)$value,
 				ColumnType::Boolean => (bool)$value,
-				ColumnType::Binary, ColumnType::Decimal, ColumnType::Text, ColumnType::String => (string)$value,
+				ColumnType::Binary, ColumnType::Decimal, ColumnType::Guid, ColumnType::Text, ColumnType::String => (string)$value,
 				ColumnType::Time, ColumnType::Date, ColumnType::Datetime, ColumnType::DatetimeTz => $value instanceof \DateTime
 					? $value
 					: new \DateTime((string)$value),
