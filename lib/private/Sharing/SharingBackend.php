@@ -459,6 +459,52 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
+	public function updateShareRecipientPermission(string $id, ShareRecipient $recipient, SharePermission $permission): void {
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb
+			->select('id')
+			->from('sharing_share_recipients')
+			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
+			->andWhere(
+				$qb->expr()->eq('recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT))
+			)
+			->andWhere($qb->expr()->eq('recipient_value', $qb->createNamedParameter($recipient->value)))
+			->andWhere(
+				$recipient->instance === null
+					? $qb->expr()->isNull('recipient_instance')
+					: $qb->expr()->eq('recipient_instance', $qb->createNamedParameter($recipient->instance))
+			)
+			->executeQuery();
+
+		/** @var int|false $recipientId */
+		$recipientId = $result->fetchOne();
+		if ($recipientId === false) {
+			throw new ShareNotFoundException();
+		}
+
+		$qb = $this->connection->getQueryBuilder();
+		$rowCount = $qb
+			->update('sharing_share_recipient_permissions')
+			->set('permission_enabled', $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL))
+			->where($qb->expr()->eq('recipient_id', $qb->createNamedParameter($recipientId)))
+			->andWhere(
+				$qb->expr()->eq('permission_class_id', $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT))
+			)
+			->executeStatement();
+		if ($rowCount === 0) {
+			$qb = $this->connection->getQueryBuilder();
+			$qb
+				->insert('sharing_share_recipient_permissions')
+				->values([
+					'recipient_id' => $qb->createNamedParameter($recipientId),
+					'permission_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT),
+					'permission_enabled' => $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL),
+				])
+				->executeStatement();
+		}
+	}
+
+	#[\Override]
 	public function selectSharePermissionPreset(string $id, string $permissionPresetClass): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb
@@ -865,9 +911,15 @@ final readonly class SharingBackend implements ISharingBackend {
 			}
 		}
 
+		$shareCompatiblePermissionTypeClasses = array_map(
+			fn (array $shareData): array => array_flip($this->getShareCompatiblePermissionTypeClasses($shareData['sources'])),
+			$shares
+		);
+
 		$registryRecipientTypes = $this->registry->getRecipientTypes();
 		/** @var array<int, array<class-string<IShareRecipientType>, bool>> $shareRecipientTypeClasses */
 		$shareRecipientTypeClasses = [];
+		$recipientIds = [];
 		foreach ($chunks as $chunk) {
 			$qb = $this->connection->getQueryBuilder();
 			$qb
@@ -925,10 +977,63 @@ final readonly class SharingBackend implements ISharingBackend {
 						$initiatorUserId,
 						$initiatorInstance,
 					),
+					[],
 				);
 
 				$shareRecipientTypeClasses[$shareId] ??= [];
 				$shareRecipientTypeClasses[$shareId][$typeClass] = true;
+
+				$recipientIds[] = $recipientId;
+			}
+		}
+
+		/** @var array<array-key, array<array-key, array<class-string<ISharePermissionType>, SharePermission>>> $shareRecipientPermissions */
+		$shareRecipientPermissions = [];
+		foreach (array_chunk($recipientIds, 1000) as $chunk) {
+			$qb = $this->connection->getQueryBuilder();
+			$result = $qb
+				->select(
+					'sr.share_id',
+					'srp.recipient_id',
+					'srp.permission_class_id',
+					'srp.permission_enabled',
+				)
+				->from('sharing_share_recipient_permissions', 'srp')
+				->innerJoin('srp', 'sharing_share_recipients', 'sr', $qb->expr()->eq('sr.id', 'srp.recipient_id'))
+				->where($qb->expr()->in('srp.recipient_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
+				->executeQuery();
+
+			foreach ($result->fetchAll() as $row) {
+				/** @var int $shareId */
+				$shareId = $row['share_id'];
+
+				/** @var class-string<ISharePermissionType> $permissionTypeClass */
+				$permissionTypeClass = $this->classMapper->getClassName((int)$row['permission_class_id']);
+				if (!isset($shareCompatiblePermissionTypeClasses[$shareId][$permissionTypeClass])) {
+					// Skip permissions that are currently not compatible, but don't remove them.
+					continue;
+				}
+
+				/** @var int $recipientId */
+				$recipientId = $row['recipient_id'];
+
+				$shareRecipientPermissions[$shareId] ??= [];
+				$shareRecipientPermissions[$shareId][$recipientId] ??= [];
+				$shareRecipientPermissions[$shareId][$recipientId][$permissionTypeClass] = new SharePermission($permissionTypeClass, (bool)$row['permission_enabled']);
+			}
+		}
+
+		foreach ($shareRecipientPermissions as $shareId => $recipientPermissions) {
+			foreach ($recipientPermissions as $recipientId => $permissions) {
+				$recipient = $shares[$shareId]['recipients'][$recipientId];
+				$shares[$shareId]['recipients'][$recipientId] = new ShareRecipient(
+					$recipient->class,
+					$recipient->value,
+					$recipient->instance,
+					$recipient->secret,
+					$recipient->initiator,
+					$permissions,
+				);
 			}
 		}
 
@@ -1039,11 +1144,6 @@ final readonly class SharingBackend implements ISharingBackend {
 				$shares[$shareId]['properties'][$propertyTypeClass] = new ShareProperty($propertyTypeClass, $value);
 			}
 		}
-
-		$shareCompatiblePermissionTypeClasses = array_map(
-			fn (array $shareData): array => array_flip($this->getShareCompatiblePermissionTypeClasses($shareData['sources'])),
-			$shares
-		);
 
 		foreach ($chunks as $chunk) {
 			$qb = $this->connection->getQueryBuilder();

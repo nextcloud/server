@@ -71,7 +71,7 @@ abstract class SharingBase extends Base {
 				$share = $closure();
 				$this->dbConnection->commit();
 
-				$data = $share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager);
+				$data = $share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext);
 				$this->writeArrayInOutputFormat($input, $output, $data);
 
 				return Base::SUCCESS;
