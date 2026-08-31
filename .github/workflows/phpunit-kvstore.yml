@@ -4,42 +4,17 @@
 name: PHPUnit key-value store
 
 on:
-  pull_request:
+  workflow_call:
 
 permissions:
   contents: read
-
-concurrency:
-  group: phpunit-kvstore-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
 
 env:
   VALKEY_IMAGE: valkey/valkey:8
 
 jobs:
-  changes:
-    runs-on: ubuntu-latest-low
-
-    outputs:
-      src: ${{ steps.changes.outputs.src}}
-
-    steps:
-      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
-        id: changes
-        continue-on-error: true
-        with:
-          filters: |
-            src:
-              - '.github/workflows/phpunit-kvstore.yml'
-              - '3rdparty/**'
-              - '**/appinfo/**'
-              - '**.php'
-
   phpunit-kvstore:
     runs-on: ubuntu-latest
-
-    needs: changes
-    if: needs.changes.outputs.src != 'false'
 
     strategy:
       fail-fast: false
@@ -125,17 +100,3 @@ jobs:
         if: always()
         run: |
           cat data/nextcloud.log
-
-  summary:
-    permissions:
-      contents: none
-    runs-on: ubuntu-latest-low
-    needs: [changes, phpunit-kvstore]
-
-    if: always()
-
-    name: phpunit-kvstore-summary
-
-    steps:
-      - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.phpunit-kvstore.result != 'success' }}; then exit 1; fi
