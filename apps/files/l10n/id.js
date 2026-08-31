@@ -111,6 +111,7 @@ OC.L10N.register(
     "Last 30 days" : "30 hari terakhir",
     "This year ({year})" : "Tahun ini ({year})",
     "Last year ({year})" : "Tahun lalu ({year})",
+    "Custom range" : "Rentang kustom",
     "Custom date range" : "Rentang tanggal kustom",
     "Search everywhere" : "Cari di mana saja",
     "Documents" : "Dokumen",

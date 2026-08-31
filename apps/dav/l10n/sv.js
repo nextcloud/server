@@ -55,6 +55,8 @@ OC.L10N.register(
     "A calendar <strong>to-do</strong> was modified" : "En <strong>kalenderuppgift</strong> ändrades",
     "Contact birthdays" : "Födelsedagar",
     "Death of %s" : "Dödsdag för %s",
+    "Calendar federation" : "Kalenderfederation",
+    "{user} has shared the calendar {calendar} with you" : "{user} har delat kalendern {calendar} med dig",
     "Accept" : "Acceptera",
     "Decline" : "Avböj",
     "Untitled calendar" : "Namnlös kalender",
