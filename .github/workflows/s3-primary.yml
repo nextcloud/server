@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   s3-primary-tests-minio:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
