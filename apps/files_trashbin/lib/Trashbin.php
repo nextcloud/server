@@ -1246,12 +1246,13 @@ class Trashbin implements IEventListener {
 		// oc_filecache `name` column has a limit of 250 chars
 		$maxLength = 250;
 		if ($length > $maxLength) {
-			$trashFilename = substr_replace(
-				$trashFilename,
-				'',
-				$maxLength / 2,
-				$length - $maxLength
-			);
+			// truncate at the middle, since the last characters are fairly likely to have meaningful information such as version numbering
+
+			$charsToRemove = $length - $maxLength + 1;
+			$charLength = mb_strlen($trashFilename);
+			$start = mb_substr($trashFilename, 0, intdiv($charLength, 2) - $charsToRemove);
+			$end = mb_substr($trashFilename, intdiv($charLength, 2));
+			return $start . '_' . $end;
 		}
 		return $trashFilename;
 	}
