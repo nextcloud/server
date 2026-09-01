@@ -258,8 +258,8 @@ class UserAvatar extends Avatar {
 				$file = $this->folder->newFile($path);
 				$file->putContent($data);
 			} catch (NotPermittedException $e) {
-				$this->logger->error('Failed to save avatar for ' . $this->user->getUID());
-				throw new NotFoundException();
+				$this->logger->error('Failed to save avatar for ' . $this->user->getUID(), ['exception' => $e]);
+				throw new NotFoundException(previous: $e);
 			}
 		}
 
