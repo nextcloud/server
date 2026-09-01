@@ -31,9 +31,12 @@ use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
 use OCA\Sharing\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IDBConnection;
@@ -46,7 +49,6 @@ use RuntimeException;
 use ValueError;
 
 // TODO: Add "recipient suggestions" endpoint
-// TODO: Add rate limiting
 
 /**
  * @psalm-import-type SharingShare from ResponseDefinitions
@@ -90,6 +92,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/recipients')]
+	#[UserRateLimit(limit: 5, period: 1)]
 	public function searchRecipients(?array $filterRecipientTypeClasses, string $query, int $limit = 10, int $offset = 0, ?string $id = null): DataResponse {
 		/** @psalm-suppress DocblockTypeContradiction */
 		if ($limit < 1) {
@@ -144,6 +147,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v1/share')]
+	#[UserRateLimit(limit: 1, period: 5)]
 	public function createShare(): DataResponse {
 		try {
 			try {
@@ -176,6 +180,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/state')]
+	#[UserRateLimit(limit: 1, period: 5)]
 	public function updateShareState(string $id, string $state): DataResponse {
 		try {
 			$shareState = ShareState::from($state);
@@ -215,6 +220,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/user-status')]
+	#[UserRateLimit(limit: 1, period: 5)]
 	public function updateShareUserStatus(string $id, string $userStatus): DataResponse {
 		try {
 			$shareUserStatus = ShareUserStatus::from($userStatus);
@@ -254,6 +260,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v1/share/{id}/source')]
+	#[UserRateLimit(limit: 1, period: 1)]
 	public function addShareSource(string $id, string $class, string $value): DataResponse {
 		try {
 			try {
@@ -290,6 +297,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/api/v1/share/{id}/source')]
+	#[UserRateLimit(limit: 1, period: 1)]
 	public function removeShareSource(string $id, string $class, string $value): DataResponse {
 		try {
 			try {
@@ -326,6 +334,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v1/share/{id}/recipient')]
+	#[UserRateLimit(limit: 1, period: 1)]
 	public function addShareRecipient(string $id, string $class, string $value, ?string $instance): DataResponse {
 		try {
 			try {
@@ -363,6 +372,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/api/v1/share/{id}/recipient')]
+	#[UserRateLimit(limit: 1, period: 1)]
 	public function removeShareRecipient(string $id, string $class, string $value, ?string $instance): DataResponse {
 		try {
 			try {
@@ -400,6 +410,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/recipient/secret')]
+	#[UserRateLimit(limit: 1, period: 5)]
 	public function updateShareRecipientSecret(string $id, string $class, string $value, ?string $instance, string $secret): DataResponse {
 		try {
 			try {
@@ -437,6 +448,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/property')]
+	#[UserRateLimit(limit: 1, period: 1)]
 	public function updateShareProperty(string $id, string $class, ?string $value): DataResponse {
 		try {
 			try {
@@ -474,6 +486,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/permission')]
+	#[UserRateLimit(limit: 1, period: 1)]
 	public function updateSharePermission(string $id, string $class, bool $enabled): DataResponse {
 		try {
 			try {
@@ -510,6 +523,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/permission/preset')]
+	#[UserRateLimit(limit: 1, period: 1)]
 	public function selectSharePermissionPreset(string $id, string $permissionPresetClass): DataResponse {
 		try {
 			try {
@@ -542,6 +556,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/api/v1/share/{id}')]
+	#[UserRateLimit(limit: 1, period: 5)]
 	public function deleteShare(string $id): DataResponse {
 		try {
 			try {
@@ -576,6 +591,9 @@ final class ApiV1Controller extends OCSController {
 	#[PublicPage]
 	// This should be a GET, but GET doesn't allow a request body which is required for the $arguments.
 	#[ApiRoute(verb: 'POST', url: '/api/v1/share/{id}')]
+	#[UserRateLimit(limit: 1, period: 1)]
+	#[AnonRateLimit(limit: 1, period: 5)]
+	#[BruteForceProtection(action: 'getShare')]
 	public function getShare(string $id, ?string $secret = null, array $arguments = []): DataResponse {
 		try {
 			try {
@@ -589,7 +607,10 @@ final class ApiV1Controller extends OCSController {
 				throw $exception;
 			}
 		} catch (ShareNotFoundException $shareNotFoundException) {
-			return new DataResponse($shareNotFoundException->getHint(), Http::STATUS_NOT_FOUND);
+			$response = new DataResponse($shareNotFoundException->getHint(), Http::STATUS_NOT_FOUND);
+			// Share might not be found due to the secret being wrong or filtering removing the share due to wrong arguments.
+			$response->throttle();
+			return $response;
 		}
 	}
 
@@ -609,6 +630,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/shares')]
+	#[UserRateLimit(limit: 1, period: 1)]
 	public function getShares(?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $filterState, ?string $filterUserStatus, ?string $lastShareID, int $limit = 100): DataResponse {
 		/** @psalm-suppress DocblockTypeContradiction */
 		if ($limit < 1) {
