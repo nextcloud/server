@@ -82,6 +82,21 @@ class StatusServiceTest extends TestCase {
 		], $this->service->findAll(20, 50));
 	}
 
+	public function testFindAllAfterId(): void {
+		$status1 = $this->createMock(UserStatus::class);
+		$status2 = $this->createMock(UserStatus::class);
+
+		$this->mapper->expects($this->once())
+			->method('findAllAfterId')
+			->with(20, 1336)
+			->willReturn([$status1, $status2]);
+
+		$this->assertEquals([
+			$status1,
+			$status2,
+		], $this->service->findAllAfterId(20, 1336));
+	}
+
 	public function testFindAllRecentStatusChanges(): void {
 		$status1 = $this->createMock(UserStatus::class);
 		$status2 = $this->createMock(UserStatus::class);

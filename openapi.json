@@ -6014,7 +6014,8 @@
                                 "properties": {
                                     "password": {
                                         "type": "string",
-                                        "description": "The password of the user"
+                                        "description": "The password of the user",
+                                        "minLength": 1
                                     }
                                 }
                             }
@@ -6062,7 +6063,8 @@
                                                     "properties": {
                                                         "lastLogin": {
                                                             "type": "integer",
-                                                            "format": "int64"
+                                                            "format": "int64",
+                                                            "minimum": 1
                                                         }
                                                     }
                                                 }
@@ -6194,7 +6196,8 @@
                                                     ],
                                                     "properties": {
                                                         "apppassword": {
-                                                            "type": "string"
+                                                            "type": "string",
+                                                            "minLength": 1
                                                         }
                                                     }
                                                 }
@@ -6326,7 +6329,8 @@
                             "default": [],
                             "items": {
                                 "type": "integer",
-                                "format": "int64"
+                                "format": "int64",
+                                "minimum": 0
                             }
                         }
                     },
@@ -6337,7 +6341,19 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 10
+                            "default": 10,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for searching",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0,
+                            "minimum": 0
                         }
                     },
                     {
@@ -6354,6 +6370,13 @@
                 "responses": {
                     "200": {
                         "description": "Autocomplete results returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -13665,7 +13688,8 @@
                         "description": "ID of the user",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -13768,7 +13792,8 @@
                         "description": "ID of the user",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                         }
                     },
                     {
@@ -14395,7 +14420,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {
@@ -14405,7 +14431,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {
@@ -14536,10 +14563,11 @@
                         "name": "fileId",
                         "in": "query",
                         "description": "ID of the file",
+                        "required": true,
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": -1
+                            "minimum": 1
                         }
                     },
                     {
@@ -14549,7 +14577,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {
@@ -14559,7 +14588,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "default": 32
+                            "default": 32,
+                            "minimum": -1
                         }
                     },
                     {
@@ -31855,6 +31885,13 @@
                 "responses": {
                     "200": {
                         "description": "Groups returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -32369,6 +32406,13 @@
                 "responses": {
                     "200": {
                         "description": "Users details returned based on last logged in information",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -33796,6 +33840,13 @@
                 "responses": {
                     "200": {
                         "description": "Groups details returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -34102,6 +34153,13 @@
                 "responses": {
                     "200": {
                         "description": "Group users details returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -34254,6 +34312,13 @@
                 "responses": {
                     "200": {
                         "description": "Users returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -34574,6 +34639,13 @@
                 "responses": {
                     "200": {
                         "description": "Users details returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -34726,6 +34798,13 @@
                 "responses": {
                     "200": {
                         "description": "Disabled users details returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -38071,6 +38150,13 @@
                 "responses": {
                     "200": {
                         "description": "Recipients returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -43849,6 +43935,7 @@
             "get": {
                 "operationId": "user_status-statuses-find-all",
                 "summary": "Find statuses of users",
+                "description": "Prefer $lastId over $offset: it does not require the database to scan and discard every preceding row on every call.",
                 "tags": [
                     "user_status/statuses"
                 ],
@@ -43885,6 +43972,18 @@
                         }
                     },
                     {
+                        "name": "lastId",
+                        "in": "query",
+                        "description": "Id of the last status returned by the previous page; when given, keyset pagination is used and $offset is ignored",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true,
+                            "default": null,
+                            "minimum": 0
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -43898,6 +43997,13 @@
                 "responses": {
                     "200": {
                         "description": "Statuses returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {

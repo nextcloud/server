@@ -29,6 +29,7 @@ use NCU\Sharing\ShareState;
 use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
+use OC\AppFramework\Http\PaginationTrait;
 use OCA\Sharing\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -56,6 +57,8 @@ use ValueError;
  * @psalm-import-type SharingPermissionPreset from ResponseDefinitions
  */
 final class ApiV1Controller extends OCSController {
+	use PaginationTrait;
+
 	public ShareAccessContext $accessContext;
 
 	public function __construct(
@@ -82,7 +85,7 @@ final class ApiV1Controller extends OCSController {
 	 * @param int<1, 100> $limit The maximum number of participants
 	 * @param non-negative-int $offset The offset of the participants
 	 * @param ?string $id If provided, recipients that are already part of the share will not be returned.
-	 * @return DataResponse<Http::STATUS_OK, list<SharingRecipient>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<SharingRecipient>, array{Link?: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
 	 *
 	 * 200: Recipients returned
 	 * 400: Invalid recipient search parameters
@@ -112,7 +115,14 @@ final class ApiV1Controller extends OCSController {
 				$forShare = ($id === null) ? null : $this->manager->getShare($this->accessContext, $id);
 				$recipients = $this->manager->searchRecipients($this->accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $forShare);
 				$this->dbConnection->commit();
-				return new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients));
+
+				$headers = $this->buildOffsetNextPageLinkHeader($recipients, [
+					'filterRecipientTypeClasses' => $filterRecipientTypeClasses,
+					'query' => $query,
+					'id' => $id,
+				], $limit, $offset);
+
+				return new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients), headers: $headers);
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;

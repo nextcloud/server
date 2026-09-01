@@ -1277,6 +1277,13 @@
                 "responses": {
                     "200": {
                         "description": "Groups returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1791,6 +1798,13 @@
                 "responses": {
                     "200": {
                         "description": "Users details returned based on last logged in information",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3218,6 +3232,13 @@
                 "responses": {
                     "200": {
                         "description": "Groups details returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3524,6 +3545,13 @@
                 "responses": {
                     "200": {
                         "description": "Group users details returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3676,6 +3704,13 @@
                 "responses": {
                     "200": {
                         "description": "Users returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3996,6 +4031,13 @@
                 "responses": {
                     "200": {
                         "description": "Users details returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4148,6 +4190,13 @@
                 "responses": {
                     "200": {
                         "description": "Disabled users details returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {

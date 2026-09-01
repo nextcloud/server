@@ -1249,6 +1249,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppFramework\\Http\\Attributes\\TwoFactorSetUpDoneRequired' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Attributes/TwoFactorSetUpDoneRequired.php',
         'OC\\AppFramework\\Http\\Dispatcher' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Dispatcher.php',
         'OC\\AppFramework\\Http\\Output' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Output.php',
+        'OC\\AppFramework\\Http\\PaginationTrait' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/PaginationTrait.php',
         'OC\\AppFramework\\Http\\Request' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Request.php',
         'OC\\AppFramework\\Http\\RequestId' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/RequestId.php',
         'OC\\AppFramework\\Middleware\\AdditionalScriptsMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/AdditionalScriptsMiddleware.php',
