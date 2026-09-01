@@ -1407,10 +1407,11 @@ class Manager implements IManager {
 	 * @throws ShareNotFound
 	 */
 	public function getShareByToken($token) {
-		// tokens cannot be valid local user names
-		if ($this->userManager->userExists($token)) {
+		// tokens cannot be valid local usernames or empty
+		if ($token === '' || $this->userManager->userExists($token)) {
 			throw new ShareNotFound();
 		}
+
 		$share = null;
 		try {
 			if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
