@@ -880,6 +880,18 @@ trait WebDav {
 	}
 
 	/**
+	 * @When user :user creates a new chunking upload with id :id in the uploads folder for :uidOrToken
+	 */
+	public function userCreatesANewChunkingUploadWithIdInFolderOf($user, $id, $uidOrToken): void {
+		$destination = '/uploads/' . $uidOrToken . '/' . $id;
+		try {
+			$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, [], null, 'uploads');
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
 	 * @Given user :user uploads new chunk file :num with :data to id :id
 	 */
 	public function userUploadsNewChunkFileOfWithToId($user, $num, $data, $id) {
