@@ -213,6 +213,7 @@ OC.L10N.register(
     "Can edit" : "Kan endre",
     "Custom permissions" : "Egendefinerte tillatelser",
     "Resharing is not allowed" : "Videre deling er ikke tillatt",
+    "Searching …" : "Søker ...",
     "No elements found." : "Ingen elementer funnet.",
     "Search everywhere" : "Søk overalt",
     "Guest" : "Gjest",
