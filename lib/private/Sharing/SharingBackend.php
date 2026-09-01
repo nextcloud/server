@@ -88,12 +88,8 @@ final readonly class SharingBackend implements ISharingBackend {
 		$qb
 			->selectDistinct('id')
 			->from('sharing_share')
-			->where($qb->expr()->eq('owner_user_id', $qb->createNamedParameter($owner->userId)));
-		if ($owner->instance === null) {
-			$qb->andWhere($qb->expr()->isNull('owner_instance'));
-		} else {
-			$qb->andWhere($qb->expr()->eq('owner_instance', $qb->createNamedParameter($owner->instance)));
-		}
+			->where($qb->expr()->eq('owner_user_id', $qb->createNamedParameter($owner->userId)))
+			->andWhere($this->isNullOrEqual($qb, 'owner_instance', $owner->instance));
 
 		$result = $qb->executeQuery();
 
@@ -281,11 +277,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$qb->expr()->eq('recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT))
 			)
 			->andWhere($qb->expr()->eq('recipient_value', $qb->createNamedParameter($recipient->value)))
-			->andWhere(
-				$recipient->instance === null
-					? $qb->expr()->isNull('recipient_instance')
-					: $qb->expr()->eq('recipient_instance', $qb->createNamedParameter($recipient->instance))
-			)
+			->andWhere($this->isNullOrEqual($qb, 'recipient_instance', $recipient->instance))
 			->executeStatement();
 		if ($rowCount === 0) {
 			throw new ShareNotFoundException();
@@ -304,11 +296,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$qb->expr()->eq('recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT))
 			)
 			->andWhere($qb->expr()->eq('recipient_value', $qb->createNamedParameter($recipient->value)))
-			->andWhere(
-				$recipient->instance === null
-					? $qb->expr()->isNull('recipient_instance')
-					: $qb->expr()->eq('recipient_instance', $qb->createNamedParameter($recipient->instance))
-			)
+			->andWhere($this->isNullOrEqual($qb, 'recipient_instance', $recipient->instance))
 			->executeQuery();
 
 		/** @var list<string|int> $ids */
@@ -326,11 +314,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$qb->expr()->eq('recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT))
 			)
 			->andWhere($qb->expr()->eq('recipient_value', $qb->createNamedParameter($recipient->value)))
-			->andWhere(
-				$recipient->instance === null
-					? $qb->expr()->isNull('recipient_instance')
-					: $qb->expr()->eq('recipient_instance', $qb->createNamedParameter($recipient->instance))
-			)
+			->andWhere($this->isNullOrEqual($qb, 'recipient_instance', $recipient->instance))
 			->executeStatement();
 
 		return $ids;
@@ -344,12 +328,8 @@ final readonly class SharingBackend implements ISharingBackend {
 		$qb
 			->selectDistinct('share_id')
 			->from('sharing_share_recipients')
-			->where($qb->expr()->eq('initiator_user_id', $qb->createNamedParameter($initiator->userId)));
-		if ($initiator->instance === null) {
-			$qb->andWhere($qb->expr()->isNull('initiator_instance'));
-		} else {
-			$qb->andWhere($qb->expr()->eq('initiator_instance', $qb->createNamedParameter($initiator->instance)));
-		}
+			->where($qb->expr()->eq('initiator_user_id', $qb->createNamedParameter($initiator->userId)))
+			->andWhere($this->isNullOrEqual($qb, 'initiator_instance', $initiator->instance));
 
 		$result = $qb->executeQuery();
 
@@ -370,12 +350,8 @@ final readonly class SharingBackend implements ISharingBackend {
 				->set('initiator_user_id', $qb->createNamedParameter($owner->userId))
 				->set('initiator_instance', $qb->createNamedParameter($owner->instance))
 				->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
-				->andWhere($qb->expr()->eq('initiator_user_id', $qb->createNamedParameter($initiator->userId)));
-			if ($initiator->instance === null) {
-				$qb->andWhere($qb->expr()->isNull('initiator_instance'));
-			} else {
-				$qb->andWhere($qb->expr()->eq('initiator_instance', $qb->createNamedParameter($initiator->instance)));
-			}
+				->andWhere($qb->expr()->eq('initiator_user_id', $qb->createNamedParameter($initiator->userId)))
+				->andWhere($this->isNullOrEqual($qb, 'initiator_instance', $initiator->instance));
 
 			$qb->executeStatement();
 		}
@@ -396,11 +372,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$qb->expr()->eq('recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT))
 			)
 			->andWhere($qb->expr()->eq('recipient_value', $qb->createNamedParameter($recipient->value)))
-			->andWhere(
-				$recipient->instance === null
-					? $qb->expr()->isNull('recipient_instance')
-					: $qb->expr()->eq('recipient_instance', $qb->createNamedParameter($recipient->instance))
-			)
+			->andWhere($this->isNullOrEqual($qb, 'recipient_instance', $recipient->instance))
 			->executeStatement();
 		if ($rowCount === 0) {
 			throw new ShareNotFoundException();
@@ -499,11 +471,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$qb->expr()->eq('recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT))
 			)
 			->andWhere($qb->expr()->eq('recipient_value', $qb->createNamedParameter($recipient->value)))
-			->andWhere(
-				$recipient->instance === null
-					? $qb->expr()->isNull('recipient_instance')
-					: $qb->expr()->eq('recipient_instance', $qb->createNamedParameter($recipient->instance))
-			)
+			->andWhere($this->isNullOrEqual($qb, 'recipient_instance', $recipient->instance))
 			->executeQuery();
 
 		/** @var int|false $recipientId */
@@ -1063,7 +1031,9 @@ final readonly class SharingBackend implements ISharingBackend {
 
 				$shareRecipientPermissions[$shareId] ??= [];
 				$shareRecipientPermissions[$shareId][$recipientId] ??= [];
-				$shareRecipientPermissions[$shareId][$recipientId][$permissionTypeClass] = new SharePermission($permissionTypeClass, (bool)$row['permission_enabled']);
+				$shareRecipientPermissions[$shareId][$recipientId][$permissionTypeClass] = new SharePermission(
+					$permissionTypeClass, (bool)$row['permission_enabled']
+				);
 			}
 		}
 
@@ -1156,7 +1126,9 @@ final readonly class SharingBackend implements ISharingBackend {
 					continue;
 				}
 
-				if (array_intersect($registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], array_keys($shareSourceTypeClasses[$shareId])) === []) {
+				if (array_intersect(
+					$registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], array_keys($shareSourceTypeClasses[$shareId])
+				) === []) {
 					// Skip properties that are currently not compatible, but don't remove them.
 					continue;
 				}
@@ -1399,6 +1371,101 @@ final readonly class SharingBackend implements ISharingBackend {
 		);
 	}
 
+	#[\Override]
+	public function getRecommendedRecipients(
+		ShareUser $user,
+		?array $filterRecipientTypeClasses = null,
+		?string $notInShare = null,
+		int $count = 5,
+		int $offset = 0,
+	): array {
+		$query = $this->connection->getTypedQueryBuilder();
+
+		$query->selectColumns('recipient_class_id', 'recipient_value', 'recipient_instance')
+			->selectAlias($query->func()->count('*'), 'count')
+			// pgsql requires all fields that aren't in the `group by` clause to have an aggregator function,
+			// we don't really care what initiator we pick here, so we just get the "max"
+			->selectAlias($query->func()->max('initiator_user_id'), 'initiator_user_id')
+			->selectAlias($query->func()->max('initiator_instance'), 'initiator_instance')
+			->from('sharing_share_recipients', 'r')
+			->innerJoin('r', 'sharing_share', 's', $query->expr()->eq('r.share_id', 's.id'))
+			->where(
+				$query->expr()->orX(
+					$query->expr()->andX(
+						$query->expr()->eq('s.owner_user_id', $query->createNamedParameter($user->userId)),
+						$this->isNullOrEqual($query, 's.owner_instance', $user->instance),
+					),
+					$query->expr()->andX(
+						$query->expr()->eq('r.initiator_user_id', $query->createNamedParameter($user->userId)),
+						$this->isNullOrEqual($query, 'r.initiator_instance', $user->instance),
+					),
+				)
+			)
+			->groupBy('r.recipient_class_id', 'r.recipient_value', 'r.recipient_instance')
+			->orderBy('count', \SortDirection::Descending)
+			// sort by recipient to get a stable output, and allow "after" to be deterministic
+			->addOrderBy('recipient_class_id', \SortDirection::Ascending)
+			->addOrderBy(
+				'recipient_instance', \SortDirection::Ascending
+			)
+			->addOrderBy(
+				'recipient_value', \SortDirection::Ascending
+			);
+
+		if ($filterRecipientTypeClasses !== null) {
+			$filterRecipientTypeClassIds = array_map($this->classMapper->getClassId(...), $filterRecipientTypeClasses);
+			$query = $query->andWhere(
+				$query->expr()->in('recipient_class_id', $query->createNamedParameter($filterRecipientTypeClassIds, IQueryBuilder::PARAM_INT_ARRAY))
+			);
+		}
+
+		if ($notInShare !== null) {
+			$subQuery = $this->connection->getTypedQueryBuilder();
+			$subQuery->selectColumns('id')
+				->from('sharing_share_recipients', 'r2')
+				->where($query->expr()->eq('share_id', $query->createNamedParameter($notInShare)))
+				->andWhere($query->expr()->eq('r2.recipient_class_id', 'r.recipient_class_id'))
+				->andWhere($query->expr()->orX(
+					$query->expr()->eq('r2.recipient_instance', 'r.recipient_instance'),
+					$query->expr()->andX(
+						$query->expr()->isNull('r2.recipient_instance'),
+						$query->expr()->isNull('r.recipient_instance'),
+					)
+				))
+				->andWhere($query->expr()->eq('r2.recipient_value', 'r.recipient_value'));
+
+			$query = $query->having($query->expr()->notExists($subQuery));
+		}
+
+		$query->setMaxResults($count);
+
+		if ($offset) {
+			$query = $query->setFirstResult($offset);
+		}
+
+		$rows = $query->executeQuery()->fetchAll();
+
+		return array_values(array_filter(array_map(function (array $row): ?ShareRecipient {
+			/** @var array{recipient_class_id: int|non-empty-string, recipient_value: non-empty-string, recipient_instance: ?non-empty-string, initiator_user_id: non-empty-string, initiator_instance: ?non-empty-string} $row */
+			$class = $this->classMapper->getClassName((int)$row['recipient_class_id']);
+			if (!isset($this->registry->getRecipientTypes()[$class])) {
+				return null;
+			}
+
+			/** @var class-string<IShareRecipientType> $class */
+			return new ShareRecipient(
+				$class,
+				$row['recipient_value'],
+				$row['recipient_instance'],
+				null,
+				new ShareUser(
+					$row['initiator_user_id'],
+					$row['initiator_instance'],
+				)
+			);
+		}, $rows)));
+	}
+
 	private static function parseTimestamp(string $timestampMs): \DateTimeImmutable {
 		if (method_exists(\DateTimeImmutable::class, 'createFromTimestamp')) {
 			// with php 8.3 the method doesn't exist and psalm doesn't know the return type
@@ -1418,5 +1485,11 @@ final readonly class SharingBackend implements ISharingBackend {
 		if (!$this->connection->inTransaction()) {
 			throw new RuntimeException('The SharingBackend can only be used inside a transaction.');
 		}
+	}
+
+	private function isNullOrEqual(IQueryBuilder $query, string $field, ?string $value): string {
+		return ($value === null)
+			? $query->expr()->isNull($field)
+			: $query->expr()->eq($field, $query->createNamedParameter($value));
 	}
 }
