@@ -103,6 +103,16 @@ class ConfigLexicon implements ILexicon {
 				defaultRaw: true,
 				definition: 'Whether on demand preview migration is enabled.'
 			),
+			new Entry(
+				key: self::APPSTORE_LINK_SHOWN,
+				type: ValueType::BOOL,
+				defaultRaw: fn (Preset $p): bool => match ($p) {
+					Preset::NONE, Preset::PRIVATE, Preset::FAMILY, Preset::CLUB => true,
+					default => false,
+				},
+				definition: 'Show the app store link in the app menu to accounts without admin rights',
+				note: 'When this key is not set, the link is also hidden while a valid subscription is available or while "appstoreenabled" is disabled. Setting this key explicitly takes precedence over both.',
+			),
 		];
 	}
 
