@@ -42,6 +42,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Lock\LockedException;
+use OCP\Security\IRemoteHostValidator;
 use OCP\Server;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\SpeechToText\ISpeechToTextProviderWithId;
@@ -156,6 +157,7 @@ class Manager implements IManager {
 		private IUserSession $userSession,
 		ICacheFactory $cacheFactory,
 		private IFactory $l10nFactory,
+		private IRemoteHostValidator $remoteHostValidator,
 	) {
 		$this->appData = $appDataFactory->get('core');
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
@@ -1553,7 +1555,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Validate input, fill input default values, set completionExpectedAt, set scheduledAt
+	 * Validate input and webhook, fill input default values, set completionExpectedAt, set scheduledAt
 	 *
 	 * @param Task $task
 	 * @return void
@@ -1590,6 +1592,8 @@ class Manager implements IManager {
 			$this->validateFileId($fileId);
 			$this->validateUserAccessToFile($fileId, $task->getUserId());
 		}
+		// validate the webhook configuration
+		$this->validateWebhook($task);
 		// remove superfluous keys and set input
 		$input = $this->removeSuperfluousArrayKeys($task->getInput(), $inputShape, $optionalInputShape);
 		$inputWithDefaults = $this->fillInputDefaults($input, $inputShapeDefaults, $optionalInputShapeDefaults);
@@ -1600,6 +1604,79 @@ class Manager implements IManager {
 		$completionExpectedAt = new \DateTime('now');
 		$completionExpectedAt->add(new \DateInterval('PT' . $provider->getExpectedRuntime() . 'S'));
 		$task->setCompletionExpectedAt($completionExpectedAt);
+	}
+
+	/**
+	 * Validate the webhook URI and webhook method of a task
+	 *
+	 * Both values are optional, but if one is set, the other one has to be set as well.
+	 * Supported methods are `HTTP:<GET|POST|PUT|DELETE>`, which require an absolute
+	 * http(s) URI pointing at a non-local host, and `AppAPI:<exAppId>:<GET|POST|PUT|DELETE>`,
+	 * which requires an absolute path as URI.
+	 *
+	 * @param Task $task
+	 * @return void
+	 * @throws ValidationException
+	 */
+	private function validateWebhook(Task $task): void {
+		$uri = $task->getWebhookUri();
+		$method = $task->getWebhookMethod();
+
+		if (($uri === null || $uri === '') && ($method === null || $method === '')) {
+			return;
+		}
+		if ($uri === null || $uri === '') {
+			throw new ValidationException('Webhook URI is required when a webhook method is set');
+		}
+		if ($method === null || $method === '') {
+			throw new ValidationException('Webhook method is required when a webhook URI is set');
+		}
+		if (mb_strlen($uri) > 4000) {
+			throw new ValidationException('Webhook URI is too long, maximum length is 4000 characters');
+		}
+		if (mb_strlen($method) > 64) {
+			throw new ValidationException('Webhook method is too long, maximum length is 64 characters');
+		}
+
+		if (str_starts_with($method, 'HTTP:')) {
+			if (!in_array($method, ['HTTP:GET', 'HTTP:POST', 'HTTP:PUT', 'HTTP:DELETE'], true)) {
+				throw new ValidationException('Invalid webhook method: ' . $method);
+			}
+			if (filter_var($uri, FILTER_VALIDATE_URL) === false) {
+				throw new ValidationException('Invalid webhook URI: ' . $uri);
+			}
+			$parsedUri = parse_url($uri);
+			if ($parsedUri === false || !isset($parsedUri['scheme']) || !isset($parsedUri['host']) || $parsedUri['host'] === '') {
+				throw new ValidationException('Invalid webhook URI: ' . $uri);
+			}
+			if (!in_array(strtolower($parsedUri['scheme']), ['http', 'https'], true)) {
+				throw new ValidationException('Invalid webhook URI scheme, only http and https are supported: ' . $uri);
+			}
+			if (!$this->remoteHostValidator->isValid($parsedUri['host'])) {
+				throw new ValidationException('Invalid webhook URI, the host is not allowed to be connected to: ' . $uri);
+			}
+			return;
+		}
+
+		if (str_starts_with($method, 'AppAPI:')) {
+			$parsedMethod = explode(':', $method);
+			if (count($parsedMethod) !== 3) {
+				throw new ValidationException('Invalid webhook method: ' . $method);
+			}
+			[, $exAppId, $httpMethod] = $parsedMethod;
+			if (preg_match('/^[a-z][a-z0-9_-]*$/', $exAppId) !== 1) {
+				throw new ValidationException('Invalid ExApp ID in webhook method: ' . $method);
+			}
+			if (!in_array($httpMethod, ['GET', 'POST', 'PUT', 'DELETE'], true)) {
+				throw new ValidationException('Invalid webhook method: ' . $method);
+			}
+			if (!str_starts_with($uri, '/')) {
+				throw new ValidationException('Invalid webhook URI, an absolute path is required for AppAPI webhooks: ' . $uri);
+			}
+			return;
+		}
+
+		throw new ValidationException('Invalid webhook method: ' . $method);
 	}
 
 	/**
