@@ -50,4 +50,18 @@ final readonly class SharePermission {
 			'enabled' => $this->enabled,
 		];
 	}
+
+	/**
+	 * @param list<self> $permissions
+	 * @return list<SharingPermission>
+	 * @experimental 35.0.0
+	 */
+	public static function formatMultiple(ISharingRegistry $registry, IFactory $l10nFactory, array $permissions): array {
+		$permissions = array_map(static fn (SharePermission $permission): array => $permission->format($registry, $l10nFactory), $permissions);
+
+		// First sort by priority and then sort by class name to get a stable order regardless of the DB order
+		usort($permissions, static fn (array $a, array $b): int => 2 * ($b['priority'] <=> $a['priority']) + ($a['class'] <=> $b['class']));
+
+		return $permissions;
+	}
 }

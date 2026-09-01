@@ -21,6 +21,7 @@ return array(
     'OCA\\Sharing\\Command\\SharingBase' => $baseDir . '/../lib/Command/SharingBase.php',
     'OCA\\Sharing\\Command\\UpdateSharePermission' => $baseDir . '/../lib/Command/UpdateSharePermission.php',
     'OCA\\Sharing\\Command\\UpdateShareProperty' => $baseDir . '/../lib/Command/UpdateShareProperty.php',
+    'OCA\\Sharing\\Command\\UpdateShareRecipientPermission' => $baseDir . '/../lib/Command/UpdateShareRecipientPermission.php',
     'OCA\\Sharing\\Command\\UpdateShareRecipientSecret' => $baseDir . '/../lib/Command/UpdateShareRecipientSecret.php',
     'OCA\\Sharing\\Command\\UpdateShareState' => $baseDir . '/../lib/Command/UpdateShareState.php',
     'OCA\\Sharing\\Command\\UpdateShareUserStatus' => $baseDir . '/../lib/Command/UpdateShareUserStatus.php',
@@ -29,5 +30,7 @@ return array(
     'OCA\\Sharing\\Migration\\Version1000Date20250929161325' => $baseDir . '/../lib/Migration/Version1000Date20250929161325.php',
     'OCA\\Sharing\\Migration\\Version1000Date20260731171922' => $baseDir . '/../lib/Migration/Version1000Date20260731171922.php',
     'OCA\\Sharing\\Migration\\Version1000Date20260826073021' => $baseDir . '/../lib/Migration/Version1000Date20260826073021.php',
+    'OCA\\Sharing\\Migration\\Version1000Date20260826115938' => $baseDir . '/../lib/Migration/Version1000Date20260826115938.php',
+    'OCA\\Sharing\\Migration\\Version1000Date20260826122228' => $baseDir . '/../lib/Migration/Version1000Date20260826122228.php',
     'OCA\\Sharing\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
 );

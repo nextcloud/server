@@ -9,7 +9,7 @@
 	<name>Sharing</name>
 	<summary>TODO</summary>
 	<description>TODO</description>
-	<version>1.0.2</version>
+	<version>1.0.4</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author>Kate Döen</author>
 	<namespace>Sharing</namespace>
@@ -30,6 +30,7 @@
 		<command>\OCA\Sharing\Command\SelectSharePermissionPreset</command>
 		<command>\OCA\Sharing\Command\UpdateSharePermission</command>
 		<command>\OCA\Sharing\Command\UpdateShareProperty</command>
+		<command>\OCA\Sharing\Command\UpdateShareRecipientPermission</command>
 		<command>\OCA\Sharing\Command\UpdateShareRecipientSecret</command>
 		<command>\OCA\Sharing\Command\UpdateShareState</command>
 		<command>\OCA\Sharing\Command\UpdateShareUserStatus</command>
