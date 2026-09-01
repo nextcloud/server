@@ -12,6 +12,7 @@ namespace OC\Sharing;
 use Exception;
 use NCU\Sharing\Event\SharesDefaultSetEvent;
 use NCU\Sharing\Exception\ShareInvalidException;
+use NCU\Sharing\Exception\ShareNotFoundException;
 use NCU\Sharing\Exception\ShareOperationForbiddenException;
 use NCU\Sharing\ISharingBackend;
 use NCU\Sharing\ISharingManager;
@@ -43,7 +44,14 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Share\Events\AfterShareModifiedEvent;
+use OCP\Share\Events\ShareAcceptedEvent;
+use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
+use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 use OCP\Snowflake\ISnowflakeGenerator;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use Psr\Clock\ClockInterface;
@@ -58,29 +66,40 @@ use RuntimeException;
 
 /**
  * @psalm-import-type SharingShare from Share
- * @template-implements IEventListener<BeforeUserDeletedEvent|SharesDefaultSetEvent>
+ * @template-implements IEventListener<BeforeUserDeletedEvent|AfterShareModifiedEvent|ShareAcceptedEvent|ShareCreatedEvent|ShareDeletedEvent|ShareDeletedFromSelfEvent|ShareMovedEvent|SharesDefaultSetEvent>
  */
-final readonly class SharingManager implements ISharingManager, IEventListener {
-	private Randomizer $randomizer;
+final class SharingManager implements ISharingManager, IEventListener {
+	/** @var array<string, bool> $currentlyUpdatingLegacyShares */
+	public array $currentlyUpdatingLegacyShares = [];
 
-	private IL10N $l10n;
+	private readonly Randomizer $randomizer;
+
+	private readonly IL10N $l10n;
+
+	public bool $validateLegacySharesOnUpdate = false;
 
 	public function __construct(
 		IEventDispatcher $eventDispatcher,
-		private IUserManager $userManager,
-		private IFactory $l10nFactory,
-		private ISnowflakeGenerator $snowflakeGenerator,
-		private IDBConnection $dbConnection,
-		private ISharingRegistry $registry,
-		private ISharingBackend $backend,
-		private ClockInterface $clock,
-		private IManager $legacySharingManager,
-		private IConfig $config,
+		private readonly IUserManager $userManager,
+		private readonly IFactory $l10nFactory,
+		private readonly ISnowflakeGenerator $snowflakeGenerator,
+		private readonly IDBConnection $dbConnection,
+		private readonly ISharingRegistry $registry,
+		private readonly ISharingBackend $backend,
+		private readonly ClockInterface $clock,
+		private readonly IManager $legacySharingManager,
+		private readonly IConfig $config,
 	) {
 		$this->randomizer = new Randomizer();
 		$this->l10n = $l10nFactory->get('sharing');
 
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, self::class);
+		$eventDispatcher->addServiceListener(AfterShareModifiedEvent::class, self::class);
+		$eventDispatcher->addServiceListener(ShareAcceptedEvent::class, self::class);
+		$eventDispatcher->addServiceListener(ShareCreatedEvent::class, self::class);
+		$eventDispatcher->addServiceListener(ShareDeletedEvent::class, self::class);
+		$eventDispatcher->addServiceListener(ShareDeletedFromSelfEvent::class, self::class);
+		$eventDispatcher->addServiceListener(ShareMovedEvent::class, self::class);
 	}
 
 	#[\Override]
@@ -191,7 +210,11 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$legacyBackend = $this->registry->getLegacyBackend();
 		if ($legacyBackend instanceof ISharingLegacyBackend) {
 			foreach ($ids as $id) {
-				$legacyBackend->deleteShare($id);
+				try {
+					$legacyBackend->deleteShare($id);
+				} catch (ShareNotFoundException) {
+					// ignore
+				}
 			}
 		}
 	}
@@ -746,7 +769,38 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	): array {
 		$this->assertInTransaction();
 
+		if (($currentUser = $accessContext->currentUser) instanceof IUser) {
+			$this->importSharesFromLegacyBackend($currentUser);
+		}
+
 		return $this->backend->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
+	}
+
+	/**
+	 * @return list<Share>
+	 */
+	#[\Override]
+	public function importSharesFromLegacyBackend(IUser $user): array {
+		$this->assertInTransaction();
+
+		$share = [];
+
+		$legacyBackend = $this->registry->getLegacyBackend();
+		if ($legacyBackend instanceof ISharingLegacyBackend) {
+			foreach ($legacyBackend->getUnmappedShares($user) as $unmappedShare) {
+				$this->updateShare($unmappedShare);
+				$share[] = $unmappedShare;
+			}
+		}
+
+		return $share;
+	}
+
+	#[\Override]
+	public function exportShareToLegacyBackend(Share $share): void {
+		$this->assertInTransaction();
+
+		$this->updateShareInLegacyBackend($share);
 	}
 
 	#[\Override]
@@ -769,6 +823,91 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
+			}
+
+			return;
+		}
+
+		if (
+			$event instanceof AfterShareModifiedEvent
+			|| $event instanceof ShareAcceptedEvent
+			|| $event instanceof ShareCreatedEvent
+			|| $event instanceof ShareDeletedEvent
+			|| $event instanceof ShareDeletedFromSelfEvent
+			|| $event instanceof ShareMovedEvent
+		) {
+
+			$legacyShare = $event->getShare();
+			$legacyBackend = $this->registry->getLegacyBackend();
+			if (!$legacyBackend instanceof ISharingLegacyBackend) {
+				return;
+			}
+
+			$shares = [];
+			try {
+				$this->dbConnection->beginTransaction();
+				try {
+					$share = $legacyBackend->getShareByLegacyProviderAndId($legacyShare->getProviderId(), $legacyShare->getId());
+					if (!isset($this->currentlyUpdatingLegacyShares[$share->id])) {
+						$this->updateShare($share);
+						$shares[] = $share;
+					}
+				} catch (ShareNotFoundException) {
+					// TODO: Support federation
+					$owner = $this->userManager->get($legacyShare->getShareOwner());
+					if ($owner instanceof IUser) {
+						$shares = array_merge($shares, $this->importSharesFromLegacyBackend($owner));
+					}
+				}
+
+				$this->dbConnection->commit();
+			} catch (Exception $exception) {
+				$this->dbConnection->rollBack();
+				throw $exception;
+			}
+
+			// TODO: Only enable in behat tests
+			if ($this->validateLegacySharesOnUpdate) {
+				foreach ($shares as $share) {
+					try {
+						$this->dbConnection->beginTransaction();
+
+						$legacyIds = $legacyBackend->getLegacyFullIds($share->id);
+						$legacySharesBefore = array_map(fn (string $legacyId): IShare => $this->legacySharingManager->getShareById($legacyId), $legacyIds);
+
+						$this->exportShareToLegacyBackend($share);
+
+						$legacySharesAfter = array_map(fn (string $legacyId): IShare => $this->legacySharingManager->getShareById($legacyId), $legacyIds);
+
+						for ($i = 0, $iMax = count($legacyIds); $i < $iMax; ++$i) {
+							$legacyShareBefore = $legacySharesBefore[$i];
+							$legacyShareAfter = $legacySharesAfter[$i];
+
+							$comparisons = [
+								'id' => static fn (IShare $share): string => $share->getId(),
+								'full_id' => static fn (IShare $share): string => $share->getFullId(),
+								// TODO
+							];
+
+							foreach ($comparisons as $field => $getter) {
+								$valueBefore = $getter($legacyShareBefore);
+								$valueAfter = $getter($legacyShareAfter);
+								if ($valueBefore !== $valueAfter) {
+									throw new RuntimeException(
+										'Values for ' . $field . ' do not match:\\nBefore: ' . var_export($valueBefore, true) . '\\nAfter: ' . var_export(
+											$valueAfter, true
+										)
+									);
+								}
+							}
+						}
+
+						$this->dbConnection->rollBack();
+					} catch (Exception $exception) {
+						$this->dbConnection->rollBack();
+						throw $exception;
+					}
+				}
 			}
 		}
 	}
@@ -953,29 +1092,63 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 				}
 			}
 
-			$legacyBackend = $this->registry->getLegacyBackend();
-			if ($legacyBackend instanceof ISharingLegacyBackend) {
-				$compatibleSourceTypes = array_fill_keys($legacyBackend->getCompatibleSourceTypes(), true);
-				foreach ($share->sources as $source) {
-					if (!isset($compatibleSourceTypes[$source->class])) {
-						throw new RuntimeException('The legacy backend ' . $legacyBackend::class . ' does not support this source type: ' . $source->class);
-					}
-				}
+			$this->currentlyUpdatingLegacyShares[$share->id] = true;
+			$this->updateShareInLegacyBackend($share);
+			unset($this->currentlyUpdatingLegacyShares[$share->id]);
 
-				$compatibleRecipientTypes = array_fill_keys($legacyBackend->getCompatibleRecipientTypes(), true);
-				foreach ($share->recipients as $recipient) {
-					if (!isset($compatibleRecipientTypes[$recipient->class])) {
-						throw new RuntimeException(
-							'The legacy backend ' . $legacyBackend::class . ' does not support this recipient type: ' . $recipient->class
-						);
-					}
-				}
-
-				$legacyBackend->updateShare($share);
-			}
+			$shares[] = $share;
 		}
 
 		return $shares;
+	}
+
+	private function updateShareInLegacyBackend(Share $share): void {
+		$legacyBackend = $this->registry->getLegacyBackend();
+		if ($legacyBackend instanceof ISharingLegacyBackend) {
+			$compatibleSourceTypes = array_fill_keys($legacyBackend->getCompatibleSourceTypes(), true);
+			foreach ($share->sources as $source) {
+				if (!isset($compatibleSourceTypes[$source->class])) {
+					throw new RuntimeException('The legacy backend ' . $legacyBackend::class . ' does not support this source type: ' . $source->class);
+				}
+			}
+
+			$compatibleRecipientTypes = array_fill_keys($legacyBackend->getCompatibleRecipientTypes(), true);
+			foreach ($share->recipients as $recipient) {
+				if (!isset($compatibleRecipientTypes[$recipient->class])) {
+					throw new RuntimeException(
+						'The legacy backend ' . $legacyBackend::class . ' does not support this recipient type: ' . $recipient->class
+					);
+				}
+			}
+
+			$legacyBackend->updateShare($share);
+		}
+	}
+
+	private function updateShare(Share $share): void {
+		// To avoid diffing the shares, we just delete and create it.
+		try {
+			$this->backend->deleteShare($share->id);
+		} catch (ShareNotFoundException) {
+		}
+
+		$this->backend->createShare($share->id, $share->owner, $share->lastUpdated);
+		$this->backend->updateShareState($share->id, $share->state);
+		foreach ($share->sources as $source) {
+			$this->backend->addShareSource($share->id, $source);
+		}
+
+		foreach ($share->recipients as $recipient) {
+			$this->backend->addShareRecipient($share->id, $recipient);
+		}
+
+		foreach ($share->properties as $property) {
+			$this->backend->createShareProperty($share->id, $property);
+		}
+
+		foreach ($share->permissions as $permission) {
+			$this->backend->createSharePermission($share->id, $permission);
+		}
 	}
 
 	/**

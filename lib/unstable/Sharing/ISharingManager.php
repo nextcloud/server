@@ -20,6 +20,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
 use OCP\AppFramework\Attribute\Consumable;
+use OCP\IUser;
 
 /**
  * @experimental 35.0.0
@@ -216,4 +217,15 @@ interface ISharingManager {
 	 * @experimental 35.0.0
 	 */
 	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array;
+
+	/**
+	 * @return list<Share>
+	 * @experimental 35.0.0
+	 */
+	public function importSharesFromLegacyBackend(IUser $user): array;
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public function exportShareToLegacyBackend(Share $share): void;
 }
