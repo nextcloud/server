@@ -8,6 +8,7 @@
 namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
+use OC\KnownUser\KnownUserService;
 use OC\Memcache\WithLocalCache;
 use OCP\Config\IUserConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -73,8 +74,9 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	private DisplayNameCache $displayNameCache;
 
-	// IURLGenerator can't be injected through DI
-	private ?IURLGenerator $urlGenerator;
+	// These services cannot be injected through DI because user manager is used early in install process
+	private ?IURLGenerator $urlGenerator = null;
+	private ?KnownUserService $knownUserService = null;
 
 	// This constructor can't autoload any class requiring a DB connection.
 	public function __construct(
@@ -88,6 +90,10 @@ class Manager extends PublicEmitter implements IUserManager {
 			unset($this->cachedUsers[$user->getUID()]);
 		});
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
+	}
+
+	private function getKnownUserService(): KnownUserService {
+		return $this->knownUserService ??= Server::get(KnownUserService::class);
 	}
 
 	/**
@@ -373,12 +379,15 @@ class Manager extends PublicEmitter implements IUserManager {
 				$backendUsers = $backend->searchKnownUsersByDisplayName($searcher, $pattern, $limit, $offset);
 			} else {
 				// Better than nothing, but filtering after pagination can remove lots of results.
-				$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
+				$backendUsers = array_filter(
+					$backend->getDisplayNames($pattern, $limit, $offset),
+					fn (string $uid): bool => $this->getKnownUserService()->isKnownToUser($searcher, $uid),
+					ARRAY_FILTER_USE_KEY,
+				);
+
 			}
-			if (is_array($backendUsers)) {
-				foreach ($backendUsers as $uid => $displayName) {
-					$users[] = $this->getUserObject($uid, $backend);
-				}
+			foreach ($backendUsers as $uid => $displayName) {
+				$users[] = $this->getUserObject($uid, $backend);
 			}
 		}
 
