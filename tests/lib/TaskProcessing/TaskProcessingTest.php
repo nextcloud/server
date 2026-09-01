@@ -739,6 +739,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
+			Server::get(IRemoteHostValidator::class),
 		);
 	}
 
