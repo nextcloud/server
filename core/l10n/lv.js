@@ -91,6 +91,7 @@ OC.L10N.register(
     "Profile" : "Profils",
     "Applications" : "Lietotnes",
     "Apps" : "Lietotnes",
+    "More" : "Vairāk",
     "Actions" : "Darbības",
     "_{count} notification_::_{count} notifications_" : ["{count} paziņojumu","{count}paziņojums","{count}paziņojumi"],
     "No" : "Nē",
