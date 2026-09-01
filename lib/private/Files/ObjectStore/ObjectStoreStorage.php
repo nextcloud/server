@@ -82,7 +82,13 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	public function mkdir(string $path, bool $force = false, array $metadata = []): bool {
 		$path = $this->normalizePath($path);
 		if (!$force && $this->file_exists($path)) {
-			$this->logger->warning("Tried to create an object store folder that already exists: $path");
+			// The storage root is created on the fly by getMetaData() whenever the
+			// cache has no entry for it, so a caller that only wants to make sure the
+			// root exists would be warned about a folder this storage just created
+			// itself. An existing root is never an error, so say nothing about it.
+			if ($path !== '') {
+				$this->logger->warning("Tried to create an object store folder that already exists: '$path'");
+			}
 			return false;
 		}
 
