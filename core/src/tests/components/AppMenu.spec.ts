@@ -75,6 +75,13 @@ function eightApps(activeIndex: number = -1): INavigationEntry[] {
 	}))
 }
 
+// AppMenu hides the app store tile when the state is absent, so a default
+// instance has to supply it.
+function stateFor(states: Record<string, unknown>) {
+	const all: Record<string, unknown> = { appStoreLinkShown: true, ...states }
+	return (_app: string, key: string, fallback: unknown) => key in all ? all[key] : fallback
+}
+
 // Import AFTER mocks are registered. Static `import` would hoist above
 // vi.mock() and break the wiring; dynamic import in beforeAll/await is the
 // idiomatic Vitest workaround when you need to control mock state per test.
@@ -140,6 +147,23 @@ describe('core: AppMenu', () => {
 		expect(items).toHaveLength(4)
 		const moreApps = Array.from(items).find((el) => el.textContent?.includes('More apps'))
 		expect(moreApps).toBeTruthy()
+	})
+
+	it('omits the "App store" tile when the instance does not offer it', async () => {
+		initialState.loadState.mockImplementation(stateFor({ apps: fakeApps(), appStoreLinkShown: false }))
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		await openPopover(wrapper)
+
+		expect(gridLabels()).toEqual(['Files', 'Mail', 'Calendar'])
+	})
+
+	it('keeps the "More apps" tile for admins when the app store link is hidden', async () => {
+		initialState.loadState.mockImplementation(stateFor({ apps: fakeApps(), appStoreLinkShown: false }))
+		auth.getCurrentUser.mockReturnValue({ isAdmin: true })
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		await openPopover(wrapper)
+
+		expect(gridLabels()).toEqual(['Files', 'Mail', 'Calendar', 'More apps'])
 	})
 
 	it('ArrowRight moves the roving stop from index 0 to index 1 and focuses it', async () => {

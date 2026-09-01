@@ -196,8 +196,13 @@ export default defineComponent({
 		// "App store" (apps.nextcloud.com) for everyone else when
 		// appstore_link_shown allows it.
 		gridItems(): INavigationEntry[] {
-			const tail = this.isAdmin ? this.moreAppsEntry : this.appStoreEntry
-			return [...this.appList, tail]
+			const tail: INavigationEntry[] = []
+			if (this.isAdmin) {
+				tail.push(this.moreAppsEntry)
+			} else if (this.appStoreLinkShown) {
+				tail.push(this.appStoreEntry)
+			}
+			return [...this.appList, ...tail]
 		},
 	},
 
