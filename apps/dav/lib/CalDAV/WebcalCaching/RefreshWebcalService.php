@@ -9,9 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
+use Exception;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Import\ImportService;
+use OCA\DAV\Exception\InvalidSubscriptionPayload;
+use OCA\DAV\Exception\InvalidSubscriptionUrl;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Http\Client\LocalServerException;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component;
@@ -27,6 +31,12 @@ class RefreshWebcalService {
 	public const STRIP_ALARMS = '{http://calendarserver.org/ns/}subscribed-strip-alarms';
 	public const STRIP_ATTACHMENTS = '{http://calendarserver.org/ns/}subscribed-strip-attachments';
 	public const STRIP_TODOS = '{http://calendarserver.org/ns/}subscribed-strip-todos';
+
+	public const ERROR_PARSING = 'parsing';
+	public const ERROR_ACCESS = 'access';
+	public const ERROR_URL = 'url';
+	public const ERROR_CONTENTS = 'contents';
+	public const ERROR_NETWORK = 'network';
 
 	public function __construct(
 		private CalDavBackend $calDavBackend,
@@ -54,19 +64,18 @@ class RefreshWebcalService {
 			}
 		}
 
-		$result = $this->connection->queryWebcalFeed($subscription);
-		if (!$result) {
-			return;
-		}
-
-		$data = $result['data'];
-		$format = $result['format'];
-
-		$stripTodos = ($subscription[self::STRIP_TODOS] ?? 1) === 1;
-		$stripAlarms = ($subscription[self::STRIP_ALARMS] ?? 1) === 1;
-		$stripAttachments = ($subscription[self::STRIP_ATTACHMENTS] ?? 1) === 1;
+		$data = null;
 
 		try {
+			$result = $this->connection->queryWebcalFeed($subscription);
+
+			$data = $result['data'];
+			$format = $result['format'];
+
+			$stripTodos = ($subscription[self::STRIP_TODOS] ?? 1) === 1;
+			$stripAlarms = ($subscription[self::STRIP_ALARMS] ?? 1) === 1;
+			$stripAttachments = ($subscription[self::STRIP_ATTACHMENTS] ?? 1) === 1;
+
 			$existingObjects = $this->calDavBackend->getLimitedCalendarObjects((int)$subscription['id'], CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION, ['id', 'uid', 'etag', 'uri']);
 
 			$generator = match ($format) {
@@ -158,11 +167,21 @@ class RefreshWebcalService {
 			if (isset($vObject)) {
 				$this->updateRefreshRate($subscription, $vObject);
 			}
+
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], null, null);
 		} catch (ParseException $ex) {
-			$this->logger->error('Subscription {subscriptionId} could not be refreshed due to a parsing error', ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], $ex, self::ERROR_PARSING);
+		} catch (LocalServerException $ex) {
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], $ex, self::ERROR_ACCESS);
+		} catch (InvalidSubscriptionUrl $ex) {
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], $ex, self::ERROR_URL);
+		} catch (InvalidSubscriptionPayload $ex) {
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], $ex, self::ERROR_CONTENTS);
+		} catch (Exception $ex) {
+			$this->calDavBackend->trackSubscriptionError($subscription['id'], $ex, self::ERROR_NETWORK);
 		} finally {
 			// Close the data stream to free resources
-			if (is_resource($data)) {
+			if ($data && is_resource($data)) {
 				fclose($data);
 			}
 		}

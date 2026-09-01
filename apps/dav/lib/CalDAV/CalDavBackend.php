@@ -11,11 +11,13 @@ namespace OCA\DAV\CalDAV;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Exception as NativeException;
 use Generator;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Sharing\Backend;
+use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\Events\CachedCalendarObjectCreatedEvent;
@@ -49,6 +51,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -218,6 +221,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		private IConfig $config,
 		private Sharing\Backend $calendarSharingBackend,
 		private FederatedCalendarMapper $federatedCalendarMapper,
+		private IL10N $l10n,
 		ICacheFactory $cacheFactory,
 		private bool $legacyEndpoint = false,
 	) {
@@ -735,6 +739,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$fields[] = 'synctoken';
 		$fields[] = 'principaluri';
 		$fields[] = 'lastmodified';
+		$fields[] = 'lasterror';
 
 		$query = $this->db->getQueryBuilder();
 		$query->select($fields)
@@ -749,18 +754,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return null;
 		}
 
-		$row['principaluri'] = (string)$row['principaluri'];
-		$subscription = [
-			'id' => $row['id'],
-			'uri' => $row['uri'],
-			'principaluri' => $row['principaluri'],
-			'source' => $row['source'],
-			'lastmodified' => $row['lastmodified'],
-			'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet(['VTODO', 'VEVENT']),
-			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
-		];
-
-		return $this->rowToSubscription($row, $subscription);
+		return $this->rowToSubscription($row);
 	}
 
 	public function getSubscriptionByUri(string $principal, string $uri): ?array {
@@ -771,6 +765,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$fields[] = 'synctoken';
 		$fields[] = 'principaluri';
 		$fields[] = 'lastmodified';
+		$fields[] = 'lasterror';
 
 		$query = $this->db->getQueryBuilder();
 		$query->select($fields)
@@ -786,18 +781,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return null;
 		}
 
-		$row['principaluri'] = (string)$row['principaluri'];
-		$subscription = [
-			'id' => $row['id'],
-			'uri' => $row['uri'],
-			'principaluri' => $row['principaluri'],
-			'source' => $row['source'],
-			'lastmodified' => $row['lastmodified'],
-			'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet(['VTODO', 'VEVENT']),
-			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
-		];
-
-		return $this->rowToSubscription($row, $subscription);
+		return $this->rowToSubscription($row);
 	}
 
 	/**
@@ -2987,6 +2971,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$fields[] = 'principaluri';
 		$fields[] = 'lastmodified';
 		$fields[] = 'synctoken';
+		$fields[] = 'lasterror';
 
 		$query = $this->db->getQueryBuilder();
 		$query->select($fields)
@@ -2997,18 +2982,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$subscriptions = [];
 		while ($row = $stmt->fetchAssociative()) {
-			$subscription = [
-				'id' => $row['id'],
-				'uri' => $row['uri'],
-				'principaluri' => $row['principaluri'],
-				'source' => $row['source'],
-				'lastmodified' => $row['lastmodified'],
-
-				'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet(['VTODO', 'VEVENT']),
-				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
-			];
-
-			$subscriptions[] = $this->rowToSubscription($row, $subscription);
+			$subscriptions[] = $this->rowToSubscription($row);
 		}
 
 		return $subscriptions;
@@ -3158,6 +3132,29 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$this->dispatcher->dispatchTyped(new SubscriptionDeletedEvent((int)$subscriptionId, $subscriptionRow, []));
 			}
 		}, $this->db);
+	}
+
+	/**
+	 * Update the error status of a subscription
+	 *
+	 * @param mixed $subscriptionId
+	 * @param null|NativeException $exception
+	 * @param null|string $error
+	 * @return void
+	 */
+	public function trackSubscriptionError($subscriptionId, $exception, $error): void {
+		$query = $this->db->getQueryBuilder();
+		$query->update('calendarsubscriptions')
+			->set('lasterror', $query->createNamedParameter($error))
+			->executeStatement();
+
+		if ($error) {
+			$this->logger->error('Subscription {subscriptionId} could not be refreshed: {error}', [
+				'exception' => $exception,
+				'subscriptionId' => $subscriptionId,
+				'error' => $error,
+			]);
+		}
 	}
 
 	/**
@@ -4000,11 +3997,47 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * Amend the subscription info with database row data
 	 *
 	 * @param array $row
-	 * @param array $subscription
 	 *
 	 * @return array
 	 */
-	private function rowToSubscription($row, array $subscription): array {
+	private function rowToSubscription($row): array {
+		$row['principaluri'] = (string)$row['principaluri'];
+
+		$subscription = [
+			'id' => $row['id'],
+			'uri' => $row['uri'],
+			'principaluri' => $row['principaluri'],
+			'source' => $row['source'],
+			'lastmodified' => $row['lastmodified'],
+			'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet(['VTODO', 'VEVENT']),
+			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
+		];
+
+		if ($row['lasterror'] !== null) {
+			switch($row['lasterror']) {
+				case RefreshWebcalService::ERROR_PARSING:
+					$lasterror = $this->l10n->t('Parsing error');
+					break;
+				case RefreshWebcalService::ERROR_ACCESS:
+					$lasterror = $this->l10n->t('Subscription violates local access rules');
+					break;
+				case RefreshWebcalService::ERROR_URL:
+					$lasterror = $this->l10n->t('Invalid URL');
+					break;
+				case RefreshWebcalService::ERROR_CONTENTS:
+					$lasterror = $this->l10n->t('Invalid contents');
+					break;
+				case RefreshWebcalService::ERROR_NETWORK:
+					$lasterror = $this->l10n->t('Network error');
+					break;
+				default:
+					$lasterror = $this->l10n->t('Unknown error');
+					break;
+			}
+
+			$subscription['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}subscription-error'] = $lasterror;
+		}
+
 		foreach ($this->subscriptionPropertyMap as $xmlName => [$dbName, $type]) {
 			$value = $row[$dbName];
 			if ($value !== null) {
