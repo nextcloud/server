@@ -5,7 +5,10 @@
 <template>
 	<div
 		class="files-list"
-		:class="{ 'files-list--grid': gridMode }"
+		:class="{
+			'files-list--grid': gridMode,
+			'files-list--loading': loading,
+		}"
 		data-cy-files-list
 		@scroll.passive="onScroll">
 		<!-- Header -->
@@ -18,13 +21,12 @@
 		</div>
 
 		<div
-			v-if="dataSources.length === 0 || loading"
+			v-if="dataSources.length === 0"
 			class="files-list__empty">
 			<slot name="empty" />
 		</div>
 
 		<table
-			v-if="!loading"
 			:aria-hidden="dataSources.length === 0"
 			:inert="dataSources.length === 0"
 			class="files-list__table"
@@ -447,3 +449,10 @@ export default defineComponent({
 	},
 })
 </script>
+
+<style scoped>
+.files-list--loading {
+	opacity: 0.3;
+}
+</style>
+
