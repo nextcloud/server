@@ -68,16 +68,7 @@ abstract class AShareRecipientTypeSearchCollaborator implements IShareRecipientT
 
 		// TODO: Maybe enable lookup?
 		// TODO: Maybe merge search requests from different recipient types backed by the collaborators API.
-		$searchResults = $this->getSearch()->search($query, [$this->getCollaboratorType()], false, $limit, $offset);
-		if ($searchResults === []) {
-			return [];
-		}
-
-		/** @var mixed $searchResults */
-		$searchResults = $searchResults[0];
-		if (!is_array($searchResults)) {
-			return [];
-		}
+		[$searchResults] = $this->getSearch()->filteredSearch($query, [$this->getCollaboratorType()], false, 'unified-sharing', null, $limit, $offset);
 
 		$results = [];
 		if (($exactResults = $searchResults['exact']) !== null) {

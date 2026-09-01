@@ -19,7 +19,9 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
+use OCP\User\Events\UserEnumerationFilterEvent;
 use OCP\UserStatus\IUserStatus;
 
 /**
@@ -38,7 +40,8 @@ class StatusesController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private StatusService $service,
+		private readonly StatusService $service,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -56,6 +59,15 @@ class StatusesController extends OCSController {
 	#[ApiRoute(verb: 'GET', url: '/api/v1/statuses')]
 	public function findAll(?int $limit = null, ?int $offset = null): DataResponse {
 		$allStatuses = $this->service->findAll($limit, $offset);
+
+		$users = array_map(fn (UserStatus $userStatus): string => $userStatus->getUserId(), $allStatuses);
+		$event = new UserEnumerationFilterEvent($users);
+		$this->eventDispatcher->dispatchTyped($event);
+
+		if ($users !== $event->getUsers()) {
+			$removedUsers = $event->getFilteredOutUsers();
+			$allStatuses = array_filter($allStatuses, fn (UserStatus $userStatus): bool => !in_array($userStatus->getUserId(), $removedUsers, true));
+		}
 
 		return new DataResponse(array_values(array_map(function ($userStatus) {
 			return $this->formatStatus($userStatus);
