@@ -21,12 +21,6 @@ use OCP\UserStatus\IUserStatus;
 class UserStatusMapper extends QBMapper {
 
 	/**
-	 * Oracle rejects an IN list with more than 1000 expressions, so anything
-	 * built from an unbounded set of ids has to be split into chunks.
-	 */
-	private const MAX_IN_CHUNK = 1000;
-
-	/**
 	 * @param IDBConnection $db
 	 */
 	public function __construct(IDBConnection $db) {
@@ -290,7 +284,7 @@ class UserStatusMapper extends QBMapper {
 	 */
 	public function normalizeBackupFlagByIds(array $ids): int {
 		$updated = 0;
-		foreach (array_chunk($ids, self::MAX_IN_CHUNK) as $chunk) {
+		foreach (array_chunk($ids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$qb = $this->db->getQueryBuilder();
 			$qb->update($this->tableName)
 				->set('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL))
@@ -307,7 +301,7 @@ class UserStatusMapper extends QBMapper {
 	 */
 	public function deleteByIds(array $ids): int {
 		$deleted = 0;
-		foreach (array_chunk($ids, self::MAX_IN_CHUNK) as $chunk) {
+		foreach (array_chunk($ids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
 			$qb = $this->db->getQueryBuilder();
 			$qb->delete($this->tableName)
 				->where($qb->expr()->in('id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
