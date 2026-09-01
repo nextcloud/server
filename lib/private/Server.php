@@ -78,6 +78,7 @@ use OC\Files\Type\Loader;
 use OC\Files\View;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\FullTextSearch\FullTextSearchManager;
+use OC\GlobalScale\DefaultLookupClient;
 use OC\Http\Client\ClientService;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
@@ -209,6 +210,7 @@ use OCP\Files\Template\ITemplateManager;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IGlobalScaleService;
+use OCP\GlobalScale\ILookupClient;
 use OCP\Group\ISubAdmin;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
@@ -1170,6 +1172,19 @@ class Server extends ServerContainer implements IServerContainer {
 				throw new ServiceUnavailableException('The app providing the global scale service is not enabled');
 			}
 			return $c->get($globalScaleServiceClass);
+		});
+
+		$this->registerService(ILookupClient::class, function (ContainerInterface $c): ILookupClient {
+			/** @var Coordinator $coordinator */
+			$coordinator = $c->get(Coordinator::class);
+			$registrationContext = $coordinator->getRegistrationContext();
+			$lookupClientClass = $registrationContext->getLookupClient();
+			if ($lookupClientClass === null) {
+				// fall back to default lookup client
+				$registrationContext->registerLookupClient(DefaultLookupClient::class);
+				$lookupClientClass = $registrationContext->getLookupClient();
+			}
+			return $c->get($lookupClientClass);
 		});
 
 		$this->connectDispatcher();
