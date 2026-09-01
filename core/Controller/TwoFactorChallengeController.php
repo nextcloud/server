@@ -165,6 +165,7 @@ class TwoFactorChallengeController extends Controller {
 	 * @TwoFactorSetUpDoneRequired
 	 *
 	 * @UserRateThrottle(limit=5, period=100)
+	 * @BruteForceProtection(action=solveChallenge)
 	 *
 	 * @param string $challengeProviderId
 	 * @param string $challenge
@@ -198,10 +199,12 @@ class TwoFactorChallengeController extends Controller {
 		$uid = $user->getUID();
 		$this->logger->warning("Two-factor challenge failed: $uid (Remote IP: $ip)");
 		$this->session->set('two_factor_auth_error', true);
-		return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.showChallenge', [
+		$response = new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.showChallenge', [
 			'challengeProviderId' => $provider->getId(),
 			'redirect_url' => $redirect_url,
 		]));
+		$response->throttle(['user' => $uid, 'provider' => $challengeProviderId]);
+		return $response;
 	}
 
 	/**
