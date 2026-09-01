@@ -99,6 +99,11 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	/**
 	 * @return SharingShare
 	 */
+	abstract protected function updateShareRecipientPermission(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, SharePermission $permission): array;
+
+	/**
+	 * @return SharingShare
+	 */
 	abstract protected function selectSharePermissionPreset(ShareAccessContext $accessContext, Share $share, string $permissionPresetClass): array;
 
 	abstract protected function deleteShare(ShareAccessContext $accessContext, Share $share): void;
@@ -205,6 +210,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			new TestShareRecipientType2(
 				[
 					'recipient2' => 'Recipient 2',
+					'recipient3' => 'Recipient 3',
 				],
 				[
 					$this->user2->getUID() => ['recipient2'],
@@ -256,7 +262,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			'sharing_share_permissions',
 			'sharing_share_properties',
 			'sharing_share_recipients',
+			'sharing_share_recipient_permissions',
 			'sharing_share_sources',
+			'sharing_share_user_status',
 		] as $table) {
 			$qb = $this->dbConnection->getQueryBuilder();
 			$qb
@@ -325,6 +333,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType1::class,
@@ -338,6 +347,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType1::class,
@@ -351,6 +361,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType2::class,
@@ -364,6 +375,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType2::class,
@@ -377,6 +389,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType2::class,
@@ -390,6 +403,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 		], $this->searchRecipients($accessContext, null, 'recipient', 10, 0));
 
@@ -406,6 +420,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType1::class,
@@ -419,6 +434,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType1::class,
@@ -432,6 +448,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 		], $this->searchRecipients($accessContext, [TestShareRecipientType1::class], 'recipient', 10, 0));
 
@@ -448,6 +465,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 		], $this->searchRecipients($accessContext, [TestShareRecipientType1::class], 'recipient', 1, 0));
 
@@ -464,6 +482,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType1::class,
@@ -477,6 +496,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 		], $this->searchRecipients($accessContext, [TestShareRecipientType1::class], 'recipient', 10, 1));
 	}
@@ -523,6 +543,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType2::class,
@@ -536,6 +557,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType2::class,
@@ -549,6 +571,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 		], $this->searchRecipients($accessContext, null, 'recipient', 10, 0));
 	}
@@ -584,6 +607,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType1::class,
@@ -598,6 +622,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 		], $this->searchRecipients($accessContext, null, 'icon', 10, 0));
 	}
@@ -622,6 +647,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType2::class,
@@ -635,6 +661,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 		], $this->searchRecipients($accessContext, null, 'recipient', 3, 0, $share));
 
@@ -655,6 +682,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'updatable' => false,
 				],
 				'initiator' => null,
+				'permissions' => [],
 			],
 		], $this->searchRecipients($accessContext, null, 'recipient', 3, 0, $share));
 	}
@@ -954,6 +982,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 		], $formatted['recipients']);
 	}
@@ -1056,6 +1085,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType2::class,
@@ -1077,6 +1107,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/user1/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 		], $formatted['recipients']);
 	}
@@ -1123,6 +1154,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 		], $formatted['recipients']);
 
@@ -1255,6 +1287,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 		], $formatted['recipients']);
 	}
@@ -1421,6 +1454,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 						],
 					],
+					'permissions' => [],
 				],
 			], $formatted['recipients']);
 		}
@@ -1852,6 +1886,159 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$eventDispatcher->removeListener(RestrictInteractionEvent::class, $listener);
 	}
 
+	public function testUpdateShareRecipientPermission(): void {
+		$accessContext = new ShareAccessContext($this->owner);
+
+		$this->dbConnection->beginTransaction();
+		$share = $this->manager->createShare($accessContext);
+		$share = $this->manager->addShareSource($accessContext, $share, new ShareSource(TestShareSourceType1::class, 'source1'));
+		$share = $this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
+		$share = $this->manager->updateSharePermission($accessContext, $share, new SharePermission(ReshareSharePermissionType::class, true));
+		$share = $this->manager->updateShareState($accessContext, $share, ShareState::Active);
+
+		$this->dbConnection->commit();
+
+		$accessContext1 = new ShareAccessContext($this->user1);
+		$recipient2 = new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null);
+		$this->dbConnection->beginTransaction();
+		$share1 = $this->manager->getShare($accessContext1, $share->id);
+		$share1 = $this->manager->addShareRecipient($accessContext1, $share1, $recipient2);
+
+		$this->dbConnection->commit();
+		$formatted = $this->updateShareRecipientPermission($accessContext1, $share1, $recipient2, new SharePermission(ReshareSharePermissionType::class, false));
+		$this->assertEquals([
+			[
+				'class' => TestShareRecipientType1::class,
+				'value' => 'recipient1',
+				'instance' => null,
+				'display_name' => 'Recipient 1',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => [
+					'user_id' => 'owner',
+					'instance' => null,
+					'display_name' => 'Owner',
+					'icon' => [
+						'light' => 'http://localhost/index.php/avatar/owner/64',
+						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
+					],
+				],
+				'permissions' => [],
+			],
+			[
+				'class' => TestShareRecipientType2::class,
+				'value' => 'recipient2',
+				'instance' => null,
+				'display_name' => 'Recipient 2',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => [
+					'user_id' => 'user1',
+					'instance' => null,
+					'display_name' => 'User 1',
+					'icon' => [
+						'light' => 'http://localhost/index.php/avatar/user1/64',
+						'dark' => 'http://localhost/index.php/avatar/user1/64/dark',
+					],
+				],
+				'permissions' => [
+					[
+						'class' => ReshareSharePermissionType::class,
+						'source_class' => null,
+						'display_name' => 'Share with others',
+						'hint' => null,
+						'presets' => [],
+						'enabled' => false,
+						'priority' => 90,
+					],
+				],
+			],
+		], $formatted['recipients']);
+
+		$accessContext2 = new ShareAccessContext($this->user2);
+		$this->dbConnection->beginTransaction();
+		$share2 = $this->manager->getShare($accessContext2, $share->id);
+		try {
+			$this->manager->addShareRecipient($accessContext2, $share2, new ShareRecipient(TestShareRecipientType2::class, 'recipient3', null));
+			$this->fail('Adding share recipient without reshare permission should fail.');
+		} catch (HintException $hintException) {
+			$this->assertEquals('You are not allowed to edit this share.', $hintException->getHint());
+		} finally {
+			$this->dbConnection->commit();
+		}
+
+		$formatted = $this->updateShareRecipientPermission($accessContext1, $share1, $recipient2, new SharePermission(ReshareSharePermissionType::class, true));
+		$this->assertEquals([
+			[
+				'class' => TestShareRecipientType1::class,
+				'value' => 'recipient1',
+				'instance' => null,
+				'display_name' => 'Recipient 1',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => [
+					'user_id' => 'owner',
+					'instance' => null,
+					'display_name' => 'Owner',
+					'icon' => [
+						'light' => 'http://localhost/index.php/avatar/owner/64',
+						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
+					],
+				],
+				'permissions' => [],
+			],
+			[
+				'class' => TestShareRecipientType2::class,
+				'value' => 'recipient2',
+				'instance' => null,
+				'display_name' => 'Recipient 2',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => [
+					'user_id' => 'user1',
+					'instance' => null,
+					'display_name' => 'User 1',
+					'icon' => [
+						'light' => 'http://localhost/index.php/avatar/user1/64',
+						'dark' => 'http://localhost/index.php/avatar/user1/64/dark',
+					],
+				],
+				'permissions' => [
+					[
+						'class' => ReshareSharePermissionType::class,
+						'source_class' => null,
+						'display_name' => 'Share with others',
+						'hint' => null,
+						'presets' => [],
+						'enabled' => true,
+						'priority' => 90,
+					],
+				],
+			],
+		], $formatted['recipients']);
+
+		$this->dbConnection->beginTransaction();
+		$share2 = $this->manager->getShare($accessContext2, $share->id);
+		$this->manager->addShareRecipient($accessContext2, $share2, new ShareRecipient(TestShareRecipientType2::class, 'recipient3', null));
+		$this->dbConnection->commit();
+	}
+
 	public function testSelectSharePermissionPreset(): void {
 		$this->registry->clear();
 		$this->registry->registerPermissionPreset(new TestSharePermissionPreset1());
@@ -2234,6 +2421,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 						],
 					],
+					'permissions' => [],
 				],
 			],
 			'properties' => [
@@ -2354,6 +2542,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 						],
 					],
+					'permissions' => [],
 				],
 				[
 					'class' => TestShareRecipientType2::class,
@@ -2375,6 +2564,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 						],
 					],
+					'permissions' => [],
 				],
 			],
 			'properties' => [
@@ -2480,6 +2670,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 						],
 					],
+					'permissions' => [],
 				],
 			],
 			'properties' => [],
@@ -2606,6 +2797,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 						],
 					],
+					'permissions' => [],
 				],
 			],
 			'properties' => [],
@@ -2728,6 +2920,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 						],
 					],
+					'permissions' => [],
 				],
 			],
 			'properties' => [
@@ -2831,6 +3024,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 						],
 					],
+					'permissions' => [],
 				],
 			],
 			'properties' => [
@@ -2954,6 +3148,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 						],
 					],
+					'permissions' => [],
 				],
 			],
 			'properties' => [
@@ -3051,6 +3246,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 						],
 					],
+					'permissions' => [],
 				],
 			],
 			'properties' => [
@@ -3157,8 +3353,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		unset($formatted['last_updated']);
 		$this->assertIsList($formatted['recipients']);
 		$this->assertCount(2, $formatted['recipients']);
-		// Sort because database order is not guaranteed
-		usort($formatted['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertEquals([
 			'class' => TestShareRecipientType1::class,
 			'value' => 'recipient1',
@@ -3179,6 +3373,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 				],
 			],
+			'permissions' => [],
 		], $formatted['recipients'][0]);
 		$this->assertIsArray($formatted['recipients'][1]);
 		if ($isSecretPublic) {
@@ -3247,7 +3442,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$formatted = $this->getShare(new ShareAccessContext($this->user2), $share->id);
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 
-		usort($formatted['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertArrayHasKey('recipients', $formatted);
 		$this->assertIsArray($formatted['recipients']);
 		$this->assertCount(4, $formatted['recipients']);
@@ -3307,9 +3501,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$formatted = $this->getShare($accessContext, $share->id);
 
-		// Sort because database order is not guaranteed
-		usort($formatted['sources'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
-		usort($formatted['recipients'], fn (array $a, array $b): int => $a['value'] <=> $b['value']);
 		$this->assertEquals([
 			[
 				'class' => TestShareSourceType1::class,
@@ -3357,6 +3548,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType2::class,
@@ -3378,6 +3570,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType2::class,
@@ -3399,6 +3592,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 		], $formatted['recipients']);
 	}
@@ -3490,6 +3684,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType2::class,
@@ -3511,6 +3706,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/user1/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 		], $formatted['recipients']);
 	}
@@ -3596,6 +3792,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 								'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 							],
 						],
+						'permissions' => [],
 					],
 				],
 				'properties' => [
@@ -3677,6 +3874,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 								'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 							],
 						],
+						'permissions' => [],
 					],
 				],
 				'properties' => [
@@ -3766,6 +3964,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 								'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 							],
 						],
+						'permissions' => [],
 					],
 				],
 				'properties' => [
@@ -3855,6 +4054,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 								'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 							],
 						],
+						'permissions' => [],
 					],
 				],
 				'properties' => [
@@ -3947,6 +4147,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 								'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 							],
 						],
+						'permissions' => [],
 					],
 				],
 				'properties' => [
@@ -4036,6 +4237,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 								'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 							],
 						],
+						'permissions' => [],
 					],
 				],
 				'properties' => [
@@ -4128,6 +4330,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 								'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 							],
 						],
+						'permissions' => [],
 					],
 				],
 				'properties' => [
@@ -4220,6 +4423,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 								'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 							],
 						],
+						'permissions' => [],
 					],
 				],
 				'properties' => [
@@ -4309,6 +4513,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 								'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 							],
 						],
+						'permissions' => [],
 					],
 				],
 				'properties' => [
@@ -4438,6 +4643,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 			[
 				'class' => TestShareRecipientType2::class,
@@ -4459,6 +4665,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 						'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
 					],
 				],
+				'permissions' => [],
 			],
 		], $formatted['recipients']);
 	}

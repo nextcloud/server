@@ -163,6 +163,12 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 	}
 
 	#[Override]
+	protected function updateShareRecipientPermission(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, SharePermission $permission): array {
+		/** @var SharingShare */
+		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->updateShareRecipientPermission($share->id, $recipient->class, $recipient->value, $recipient->instance, $permission->class, $permission->enabled));
+	}
+
+	#[Override]
 	protected function selectSharePermissionPreset(ShareAccessContext $accessContext, Share $share, string $permissionPresetClass): array {
 		/** @psalm-suppress ArgumentTypeCoercion */
 		/** @var SharingShare */

@@ -4653,7 +4653,8 @@
                     "display_name",
                     "icon",
                     "secret",
-                    "initiator"
+                    "initiator",
+                    "permissions"
                 ],
                 "properties": {
                     "class": {
@@ -4707,6 +4708,12 @@
                                 "$ref": "#/components/schemas/SharingUser"
                             }
                         ]
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SharingPermission"
+                        }
                     }
                 }
             },
@@ -40087,6 +40094,207 @@
                     },
                     "403": {
                         "description": "Updating the share permission is not allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Share not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/sharing/api/v1/share/{id}/recipient/permission": {
+            "put": {
+                "operationId": "sharing-api_v1-update-share-recipient-permission",
+                "summary": "Update a permission for a recipient of a share.",
+                "tags": [
+                    "sharing/api_v1"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "recipientClass",
+                                    "recipientValue",
+                                    "permissionClass",
+                                    "enabled"
+                                ],
+                                "properties": {
+                                    "recipientClass": {
+                                        "type": "string",
+                                        "description": "Type class of the recipient",
+                                        "minLength": 1
+                                    },
+                                    "recipientValue": {
+                                        "type": "string",
+                                        "description": "Value of the recipient",
+                                        "minLength": 1
+                                    },
+                                    "recipientInstance": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Instance of the recipient",
+                                        "minLength": 1
+                                    },
+                                    "permissionClass": {
+                                        "type": "string",
+                                        "description": "Type class of the permission",
+                                        "minLength": 1
+                                    },
+                                    "enabled": {
+                                        "type": "boolean",
+                                        "description": "Enabled state of the permission"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the share",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Share recipient permission updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/SharingShare"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Updating the share recipient permission is not allowed",
                         "content": {
                             "application/json": {
                                 "schema": {

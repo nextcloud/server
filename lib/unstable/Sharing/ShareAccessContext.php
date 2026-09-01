@@ -33,4 +33,11 @@ final readonly class ShareAccessContext {
 		public bool $overrideChecks = false,
 	) {
 	}
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public function getHash(): string {
+		return hash('xxh128', serialize([$this->currentUser?->getUID(), $this->secret, $this->arguments, $this->overrideChecks]));
+	}
 }
