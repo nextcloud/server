@@ -940,17 +940,16 @@ function providerAvailabilityLabel(provider: PreviewProviderRow): string {
 						<NcPasswordField
 							v-model="settings.imaginaryKey"
 							:label="t('settings', 'Imaginary API key (optional)')"
+							:helper-text="t('settings', 'Sent as the key query parameter. Leave empty if Imaginary does not require a key.')"
 							:disabled="controlsDisabled"
 							@change="savePartial({ imaginaryKey: settings.imaginaryKey })" />
-						<p class="previews-admin__hint">
-							{{ t('settings', 'Sent as the key query parameter. Leave empty if Imaginary does not require a key.') }}
-						</p>
 						<NcSelect
 							v-model="previewFormatOption"
 							:options="formatOptions"
 							:input-label="t('settings', 'Preview output format')"
+							aria-describedby="previews-format-hint"
 							:disabled="controlsDisabled" />
-						<p class="previews-admin__hint">
+						<p id="previews-format-hint" class="previews-admin__hint">
 							{{ t('settings', 'Only Imaginary uses this setting. Other providers usually keep the source image type (JPEG stays JPEG, PNG stays PNG). One file is stored per preview size.') }}
 						</p>
 					</NcFormBox>
