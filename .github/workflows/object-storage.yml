@@ -1,0 +1,114 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+name: Object storage
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: object-storage-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  object-storage:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.3', '8.5']
+        backend: ['s3', 'azure', 'swift']
+
+    name: php${{ matrix.php-versions }}-${{ matrix.backend }}
+
+    services:
+      cache:
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
+        ports:
+          - 6379:6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: true
+
+      # Object stores run as plain containers instead of job services so that a
+      # single matrix job can pick the one it needs.
+      - name: Start object store
+        env:
+          BACKEND: ${{ matrix.backend }}
+        run: |
+          case "$BACKEND" in
+            s3)
+              docker run --name minio -d -p 9000:9000 -e MINIO_ROOT_USER=nextcloud -e MINIO_ROOT_PASSWORD=bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ= -e MINIO_DEFAULT_BUCKETS=nextcloud bitnami/minio@sha256:50cec18ac4184af4671a78aedd5554942c8ae105d51a465fa82037949046da01 # v2025.4.22
+              echo 'OBJECT_STORE=s3' >> $GITHUB_ENV
+              echo 'OBJECT_STORE_KEY=nextcloud' >> $GITHUB_ENV
+              echo 'OBJECT_STORE_SECRET=bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=' >> $GITHUB_ENV
+              ;;
+            azure)
+              docker run --name azurite -d -p 10000:10000 -e AZURITE_ACCOUNTS=nextcloud:bmV4dGNsb3Vk mcr.microsoft.com/azure-storage/azurite@sha256:0a47e12e3693483cef5c71f35468b91d751611f172d2f97414e9c69113b106d9 # v3.34.0
+              echo 'OBJECT_STORE=azure' >> $GITHUB_ENV
+              echo 'OBJECT_STORE_KEY=nextcloud' >> $GITHUB_ENV
+              echo 'OBJECT_STORE_SECRET=bmV4dGNsb3Vk' >> $GITHUB_ENV
+              ;;
+            swift)
+              docker run --name swift -d -p 5000:5000 -p 8080:8080 ghcr.io/cscfi/docker-keystone-swift@sha256:e8b1ec21120ab9adc6ac6a2b98785fd273676439a8633fe898e37f2aea7e0712
+              echo 'OBJECT_STORE=swift' >> $GITHUB_ENV
+              echo 'OBJECT_STORE_SECRET=veryfast' >> $GITHUB_ENV
+              ;;
+          esac
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #v2.37.2
+        timeout-minutes: 5
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: none
+          ini-file: development
+          ini-values: disable_functions=""
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Nextcloud
+        run: |
+          composer install
+          cp tests/redis.config.php config/
+          cp tests/preseed-config.php config/config.php
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          php -f tests/enable_all.php
+
+      - name: Wait for object store
+        env:
+          BACKEND: ${{ matrix.backend }}
+        run: |
+          case "$BACKEND" in
+            s3)
+              curl -f -m 1 --retry-connrefused --retry 10 --retry-delay 10 http://localhost:9000/minio/health/ready
+              ;;
+            azure)
+              ready=
+              for _ in $(seq 1 60); do
+                if timeout 1 bash -c '< /dev/tcp/127.0.0.1/10000' 2>/dev/null; then ready=1; break; fi
+                sleep 1
+              done
+              [ -n "$ready" ] || { echo 'azurite did not become ready'; exit 1; }
+              ;;
+          esac
+
+      - name: PHPUnit
+        run: composer run test -- --group PRIMARY-${{ matrix.backend }} --log-junit junit.xml
+
+      - name: Object store logs
+        if: always()
+        run: |
+          docker ps -a
+          docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
