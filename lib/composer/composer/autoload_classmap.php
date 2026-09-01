@@ -1182,6 +1182,7 @@ return array(
     'OC\\AppScriptSort' => $baseDir . '/lib/private/AppScriptSort.php',
     'OC\\App\\AppManager' => $baseDir . '/lib/private/App/AppManager.php',
     'OC\\App\\AppStore\\AppNotFoundException' => $baseDir . '/lib/private/App/AppStore/AppNotFoundException.php',
+    'OC\\App\\AppStore\\AppStoreLinkVisibility' => $baseDir . '/lib/private/App/AppStore/AppStoreLinkVisibility.php',
     'OC\\App\\AppStore\\Bundles\\Bundle' => $baseDir . '/lib/private/App/AppStore/Bundles/Bundle.php',
     'OC\\App\\AppStore\\Bundles\\BundleFetcher' => $baseDir . '/lib/private/App/AppStore/Bundles/BundleFetcher.php',
     'OC\\App\\AppStore\\Bundles\\EducationBundle' => $baseDir . '/lib/private/App/AppStore/Bundles/EducationBundle.php',

@@ -75,6 +75,13 @@ function eightApps(activeIndex: number = -1): INavigationEntry[] {
 	}))
 }
 
+// AppMenu hides the app store tile when the state is absent, so a default
+// instance has to supply it.
+function stateFor(states: Record<string, unknown>) {
+	const all: Record<string, unknown> = { appStoreLinkShown: true, ...states }
+	return (_app: string, key: string, fallback: unknown) => key in all ? all[key] : fallback
+}
+
 // Import AFTER mocks are registered. Static `import` would hoist above
 // vi.mock() and break the wiring; dynamic import in beforeAll/await is the
 // idiomatic Vitest workaround when you need to control mock state per test.
@@ -86,7 +93,7 @@ beforeEach(async () => {
 	for (const k of Object.keys(eventBus.__handlers)) {
 		delete eventBus.__handlers[k]
 	}
-	initialState.loadState.mockImplementation((_app: string, key: string, fallback: unknown) => key === 'apps' ? fakeApps() : fallback)
+	initialState.loadState.mockImplementation(stateFor({ apps: fakeApps() }))
 	auth.getCurrentUser.mockReturnValue({ isAdmin: false })
 	AppMenu = (await import('../../components/AppMenu.vue')).default
 })
@@ -97,6 +104,11 @@ afterEach(() => {
 		document.body.removeChild(document.body.firstChild)
 	}
 })
+
+function gridLabels(): string[] {
+	return Array.from(document.querySelectorAll('.app-menu__grid [role="menuitem"]'))
+		.map((el) => el.querySelector('.app-item__label')?.textContent?.trim() ?? '')
+}
 
 // Click the waffle trigger and poll until the teleported menuitems are in the
 // DOM. NcPopover teleports to <body> so wrapper.find() can't see them; vi.waitFor
@@ -137,8 +149,25 @@ describe('core: AppMenu', () => {
 		expect(moreApps).toBeTruthy()
 	})
 
+	it('omits the "App store" tile when the instance does not offer it', async () => {
+		initialState.loadState.mockImplementation(stateFor({ apps: fakeApps(), appStoreLinkShown: false }))
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		await openPopover(wrapper)
+
+		expect(gridLabels()).toEqual(['Files', 'Mail', 'Calendar'])
+	})
+
+	it('keeps the "More apps" tile for admins when the app store link is hidden', async () => {
+		initialState.loadState.mockImplementation(stateFor({ apps: fakeApps(), appStoreLinkShown: false }))
+		auth.getCurrentUser.mockReturnValue({ isAdmin: true })
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		await openPopover(wrapper)
+
+		expect(gridLabels()).toEqual(['Files', 'Mail', 'Calendar', 'More apps'])
+	})
+
 	it('ArrowRight moves the roving stop from index 0 to index 1 and focuses it', async () => {
-		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => key === 'apps' ? eightApps() : fallback)
+		initialState.loadState.mockImplementation(stateFor({ apps: eightApps() }))
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		await openPopover(wrapper)
 
@@ -221,15 +250,10 @@ describe('core: AppMenu', () => {
 		// "current section" even though it carries type=settings. NavigationManager
 		// today never marks it active, but a future regression shouldn't leak a
 		// "Log out" label into the header.
-		initialState.loadState.mockImplementation((_a: string, key: string, fallback: unknown) => {
-			if (key === 'apps') {
-				return [makeApp({ id: 'files', name: 'Files', active: false })]
-			}
-			if (key === 'settingsNavEntries') {
-				return { logout: makeApp({ id: 'logout', name: 'Log out', type: 'settings', href: '/logout', active: true }) }
-			}
-			return fallback
-		})
+		initialState.loadState.mockImplementation(stateFor({
+			apps: [makeApp({ id: 'files', name: 'Files', active: false })],
+			settingsNavEntries: { logout: makeApp({ id: 'logout', name: 'Log out', type: 'settings', href: '/logout', active: true }) },
+		}))
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		expect(wrapper.find('.app-menu__current-app').exists()).toBe(false)
 	})
