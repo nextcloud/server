@@ -424,6 +424,14 @@ Feature: webdav-related
 		And Downloading file "/myChunkedFile.txt"
 		Then Downloaded content should be "AAAAABBBBBCCCCC"
 
+	Scenario: Cannot create a chunked upload in another user's uploads folder
+		Given using new dav path
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		When user "user1" creates a new chunking upload with id "chunking-42" in the uploads folder for "user0"
+		Then the HTTP status code should be "403"
+
 	Scenario: A disabled user cannot use webdav
 		Given user "userToBeDisabled" exists
 		And As an "admin"
