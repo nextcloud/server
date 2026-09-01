@@ -65,6 +65,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function createShare(string $id, ShareUser $owner, \DateTimeImmutable $lastUpdated): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->insert('sharing_share')
@@ -80,6 +82,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function onOwnerDeleted(ShareUser $owner): array {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->selectDistinct('id')
@@ -114,6 +118,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function updateShareState(string $id, ShareState $state): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share')
@@ -127,6 +133,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function updateShareUserStatus(string $id, string $userId, ShareUserStatus $userStatus): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share_user_status')
@@ -149,6 +157,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function addShareSource(string $id, ShareSource $source): void {
+		$this->assertInTransaction();
+
 		try {
 			$qb = $this->connection->getQueryBuilder();
 			$qb
@@ -173,6 +183,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function removeShareSource(string $id, ShareSource $source): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->delete('sharing_share_sources')
@@ -187,6 +199,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function onSourceDeleted(ShareSource $source): array {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb
 			->selectDistinct('share_id')
@@ -215,6 +229,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function addShareRecipient(string $id, ShareRecipient $recipient): void {
+		$this->assertInTransaction();
+
 		if ($recipient->secret === null) {
 			throw new RuntimeException('The secret must not be null.');
 		}
@@ -255,6 +271,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function removeShareRecipient(string $id, ShareRecipient $recipient): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->delete('sharing_share_recipients')
@@ -276,6 +294,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function onRecipientDeleted(ShareRecipient $recipient): array {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb
 			->selectDistinct('share_id')
@@ -318,6 +338,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function onInitiatorDeleted(ShareUser $initiator): array {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->selectDistinct('share_id')
@@ -363,6 +385,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function updateShareRecipientSecret(string $id, ShareRecipient $recipient, string $secret): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share_recipients')
@@ -385,6 +409,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function updateShareProperty(string $id, ShareProperty $property): ?string {
+		$this->assertInTransaction();
+
 		$value = $property->value;
 
 		$propertyType = $this->registry->getPropertyTypes()[$property->class];
@@ -436,6 +462,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function updateSharePermission(string $id, SharePermission $permission): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share_permissions')
@@ -460,6 +488,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function updateShareRecipientPermission(string $id, ShareRecipient $recipient, SharePermission $permission): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb
 			->select('id')
@@ -506,6 +536,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function selectSharePermissionPreset(string $id, string $permissionPresetClass): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->update('sharing_share_permissions')
@@ -531,6 +563,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function deleteShare(string $id): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->delete('sharing_share')
@@ -545,6 +579,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function getShare(ShareAccessContext $accessContext, string $id): Share {
+		$this->assertInTransaction();
+
 		$shares = $this->list($accessContext, $id, null, null, null, null, null, null);
 		if (count($shares) !== 1) {
 			throw new ShareNotFoundException();
@@ -563,11 +599,15 @@ final readonly class SharingBackend implements ISharingBackend {
 		?string $lastShareID,
 		?int $limit,
 	): array {
+		$this->assertInTransaction();
+
 		return $this->list($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 	}
 
 	#[\Override]
 	public function hasShare(string $id): bool {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 
 		$result = $qb
@@ -581,6 +621,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function getShareOwner(string $id): ShareUser {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->select('owner_user_id', 'owner_instance')
@@ -608,6 +650,8 @@ final readonly class SharingBackend implements ISharingBackend {
 	 */
 	#[\Override]
 	public function setLastUpdated(array $ids, \DateTimeImmutable $lastUpdated): void {
+		$this->assertInTransaction();
+
 		foreach (array_chunk($ids, 1000) as $chunk) {
 			$qb = $this->connection->getQueryBuilder();
 
@@ -1258,6 +1302,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function ensureDefaults(array $shares): array {
+		$this->assertInTransaction();
+
 		$defaultSet = false;
 		foreach ($shares as &$share) {
 			$shareSourceTypeClasses = array_map(fn (ShareSource $source): string => $source->class, $share->sources);
@@ -1375,5 +1421,11 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		return $time;
+	}
+
+	private function assertInTransaction(): void {
+		if (!$this->connection->inTransaction()) {
+			throw new RuntimeException('The SharingBackend can only be used inside a transaction.');
+		}
 	}
 }
