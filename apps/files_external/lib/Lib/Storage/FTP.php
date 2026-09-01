@@ -48,7 +48,8 @@ class FTP extends Common {
 				$this->secure = false;
 			}
 			$this->root = isset($parameters['root']) ? '/' . ltrim($parameters['root']) : '/';
-			$this->port = $parameters['port'] ?? 21;
+			$parsedPort = $parameters['port'] ?? null;
+			$this->port = is_numeric($parsedPort) ? (int)$parsedPort : 21;
 			$this->utf8Mode = isset($parameters['utf8']) && $parameters['utf8'];
 		} else {
 			throw new \Exception('Creating ' . self::class . ' storage failed, required parameters not set');
