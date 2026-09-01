@@ -33,6 +33,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Security\IRemoteHostValidator;
 use OCP\Server;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\GetTaskProcessingProvidersEvent;
@@ -602,6 +603,11 @@ class TaskProcessingTest extends \Test\TestCase {
 		);
 
 		$this->userMountCache = $this->createMock(IUserMountCache::class);
+		$this->invalidRemoteHosts = [];
+		$this->rejectAllRemoteHosts = false;
+		$this->remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
+		$this->remoteHostValidator->expects($this->any())->method('isValid')
+			->willReturnCallback(fn (string $host): bool => !$this->rejectAllRemoteHosts && !in_array($host, $this->invalidRemoteHosts, true));
 		$this->config = Server::get(IConfig::class);
 		$this->appConfig = Server::get(IAppConfig::class);
 		$this->manager = new Manager(
@@ -622,6 +628,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
+			Server::get(IRemoteHostValidator::class),
 		);
 	}
 
@@ -670,6 +677,106 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertNull($task->getId());
 		self::expectException(ValidationException::class);
 		$this->manager->scheduleTask($task);
+	}
+
+	public static function invalidWebhookDataProvider(): array {
+		return [
+			'uri without method' => ['https://example.com/hook', null],
+			'method without uri' => [null, 'HTTP:POST'],
+			'empty uri with method' => ['', 'HTTP:POST'],
+			'uri with empty method' => ['https://example.com/hook', ''],
+			'unknown method prefix' => ['https://example.com/hook', 'FTP:GET'],
+			'unknown http verb' => ['https://example.com/hook', 'HTTP:PATCH'],
+			'lowercase http verb' => ['https://example.com/hook', 'HTTP:post'],
+			'unsupported uri scheme' => ['file:///etc/passwd', 'HTTP:GET'],
+			'relative uri for http method' => ['/some/path', 'HTTP:POST'],
+			'malformed uri' => ['https://', 'HTTP:POST'],
+			'appapi method without exapp id' => ['/some/path', 'AppAPI:POST'],
+			'appapi method with too many parts' => ['/some/path', 'AppAPI:my_app:POST:extra'],
+			'appapi method with invalid exapp id' => ['/some/path', 'AppAPI:My App:POST'],
+			'appapi method with unknown http verb' => ['/some/path', 'AppAPI:my_app:PATCH'],
+			'absolute uri for appapi method' => ['https://example.com/hook', 'AppAPI:my_app:POST'],
+			'uri too long' => ['https://example.com/' . str_repeat('a', 4000), 'HTTP:POST'],
+			'method too long' => ['/some/path', 'AppAPI:' . str_repeat('a', 64) . ':POST'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidWebhookDataProvider')]
+	public function testProviderShouldBeRegisteredAndWebhookFailValidation(?string $webhookUri, ?string $webhookMethod): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri($webhookUri);
+		$task->setWebhookMethod($webhookMethod);
+		self::expectException(ValidationException::class);
+		$this->manager->scheduleTask($task);
+	}
+
+	public static function validWebhookDataProvider(): array {
+		return [
+			'no webhook' => [null, null],
+			'empty webhook' => ['', ''],
+			'http get' => ['http://example.com/hook', 'HTTP:GET'],
+			'https post' => ['https://example.com/hook?foo=bar', 'HTTP:POST'],
+			'https put' => ['https://example.com/hook', 'HTTP:PUT'],
+			'https delete' => ['https://example.com/hook', 'HTTP:DELETE'],
+			'appapi post' => ['/some/path', 'AppAPI:my_app:POST'],
+			'appapi get' => ['/', 'AppAPI:my-app2:GET'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('validWebhookDataProvider')]
+	public function testProviderShouldBeRegisteredAndWebhookPassValidation(?string $webhookUri, ?string $webhookMethod): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri($webhookUri);
+		$task->setWebhookMethod($webhookMethod);
+		$this->manager->scheduleTask($task);
+		self::assertNotNull($task->getId());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+		// clean up so the scheduled task does not interfere with other tests
+		$this->manager->deleteTask($task);
+	}
+
+	public static function localWebhookHostDataProvider(): array {
+		return [
+			'localhost' => ['http://localhost/hook', 'localhost'],
+			'ipv4 loopback' => ['http://127.0.0.1:8080/hook', '127.0.0.1'],
+			'ipv6 loopback' => ['http://[::1]/hook', '[::1]'],
+			'private network' => ['https://192.168.1.1/hook', '192.168.1.1'],
+			'local hostname' => ['https://server.local/hook', 'server.local'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('localWebhookHostDataProvider')]
+	public function testProviderShouldBeRegisteredAndLocalWebhookHostFailValidation(string $webhookUri, string $host): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$this->invalidRemoteHosts = [$host];
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri($webhookUri);
+		$task->setWebhookMethod('HTTP:POST');
+		self::expectException(ValidationException::class);
+		$this->manager->scheduleTask($task);
+	}
+
+	public function testProviderShouldBeRegisteredAndAppApiWebhookSkipsHostValidation(): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		// AppAPI webhooks use an absolute path, so no remote host is involved
+		$this->rejectAllRemoteHosts = true;
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri('/some/path');
+		$task->setWebhookMethod('AppAPI:my_app:POST');
+		$this->manager->scheduleTask($task);
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+		// clean up so the scheduled task does not interfere with other tests
+		$this->manager->deleteTask($task);
 	}
 
 	public function testProviderShouldBeRegisteredAndTaskWithFilesFailValidation(): void {
@@ -1296,6 +1403,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
+			Server::get(IRemoteHostValidator::class),
 		);
 	}
 
