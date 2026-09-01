@@ -140,10 +140,10 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	protected IFactory $l10nFactory;
 
 	private function parseTime(mixed $timestampMs): \DateTimeImmutable {
-		$timestampMs = (int)$timestampMs;
-		$time = \DateTimeImmutable::createFromFormat('U.u', number_format((float)$timestampMs / 1000.0, 3, '.', ''));
+		$timestampMs = (float)$timestampMs;
+		$time = \DateTimeImmutable::createFromFormat('U.u', number_format($timestampMs / 1000.0, 3, '.', ''));
 		if ($time === false) {
-			throw new \RuntimeException('invalid timestamp: ' . $timestampMs);
+			throw new \RuntimeException("invalid timestamp: $timestampMs");
 		}
 
 		return $time;
