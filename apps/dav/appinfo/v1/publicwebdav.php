@@ -132,7 +132,10 @@ $server = $serverFactory->createServer(
 		Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 		$rootFolder = Server::get(IRootFolder::class);
-		$userFolder = $rootFolder->getUserFolder($share->getSharedBy());
+		$userId = $share->getShareType() === \OCP\Share\IShare::TYPE_REMOTE
+			? $share->getShareOwner()
+			: $share->getSharedBy();
+		$userFolder = $rootFolder->getUserFolder($userId);
 		$node = $userFolder->getFirstNodeById($fileId);
 		if (!$node) {
 			throw new \Sabre\DAV\Exception\NotFound();
