@@ -29,6 +29,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\Lock\ILockingProvider;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
@@ -108,18 +109,26 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 * @param string $path
 	 * @param bool $createIfNotExists
 	 * @return FutureFile|UploadFile|ICollection|INode
+	 * @throws Forbidden if the file already exists, but is not updateable
 	 */
 	private function getUploadFile(string $path, bool $createIfNotExists = false) {
 		try {
 			$actualFile = $this->server->tree->getNodeForPath($path);
-			// Only directly upload to the target file if it is on the same storage
-			// There may be further potential to optimize here by also uploading
-			// to other storages directly. This would require to also carefully pick
-			// the storage/path used in getStorage()
-			if ($actualFile instanceof File && $this->uploadFolder->getStorage()->getId() === $actualFile->getNode()->getStorage()->getId()) {
-				return $actualFile;
+			if ($actualFile instanceof File) {
+				$node = $actualFile->getNode();
+				// check that the node has update permissions
+				if (!$node->isUpdateable()) {
+					throw new Forbidden();
+				}
+				// Only directly upload to the target file if it is on the same storage
+				// There may be further potential to optimize here by also uploading
+				// to other storages directly. This would require to also carefully pick
+				// the storage/path used in getStorage()
+				if ($this->uploadFolder->getStorage()->getId() === $node->getStorage()->getId()) {
+					return $actualFile;
+				}
 			}
-		} catch (NotFound $e) {
+		} catch (NotFound) {
 			// If there is no target file we upload to the upload folder first
 		}
 

@@ -51,7 +51,7 @@ jobs:
           - 'capabilities_features'
           - 'collaboration_features'
           - 'comments_features'
-          - 'dav_features'
+          - '--tags ~@requires-s3 dav_features'
           - 'features'
           - 'federation_features'
           - '--tags ~@large files_features'
