@@ -155,6 +155,27 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $data);
 	}
 
+	public function testGetPreviewEntries(): void {
+		$user = $this->createMock(IUser::class);
+		$entries = $this->generateTestEntries();
+
+		$this->contactsStore->expects($this->once())
+			->method('getContacts')
+			->with($user, '', 3)
+			->willReturn($entries);
+		$this->actionProviderStore->expects($this->never())
+			->method('getProviders');
+		$this->config->expects($this->never())
+			->method('getSystemValueInt');
+
+		$data = $this->manager->getPreviewEntries($user, 3);
+
+		$this->assertCount(3, $data);
+		$this->assertSame('Contact A', $data[0]->getFullName());
+		$this->assertSame('Contact B', $data[1]->getFullName());
+		$this->assertSame('Contact C', $data[2]->getFullName());
+	}
+
 	public function testFindOne(): void {
 		$shareTypeFilter = 42;
 		$shareWithFilter = 'foobar';
