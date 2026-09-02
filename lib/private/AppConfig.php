@@ -300,7 +300,13 @@ class AppConfig implements IAppConfig {
 	 * @param bool $lazy search within lazy loaded config
 	 * @param int|null $typedAs enforce type for the returned values ({@see self::VALUE_STRING} and others)
 	 *
-	 * @return array<string, string|int|float|bool|array> [appId => configValue]
+	 * @return (
+	 *      $typedAs is IAppConfig::VALUE_INT ? array<string, int> : (
+	 *      $typedAs is IAppConfig::VALUE_FLOAT ? array<string, float> : (
+	 *      $typedAs is IAppConfig::VALUE_BOOL ? array<string, bool> : (
+	 *      $typedAs is IAppConfig::VALUE_ARRAY ? array<string, array> : (
+	 *      $typedAs is int ? array<string, string> :
+	 *      array<string, string|int|float|bool|array>))))) [appId => configValue]
 	 * @since 29.0.0
 	 */
 	#[\Override]
@@ -1590,11 +1596,11 @@ class AppConfig implements IAppConfig {
 				return in_array(strtolower($value), ['1', 'true', 'yes', 'on']);
 			case self::VALUE_ARRAY:
 				try {
-					return json_decode($value, true, flags: JSON_THROW_ON_ERROR);
-				} catch (JsonException $e) {
-					// ignoreable
+					$decoded = json_decode($value, true, flags: JSON_THROW_ON_ERROR);
+				} catch (JsonException) {
+					$decoded = null;
 				}
-				break;
+				return is_array($decoded) ? $decoded : [];
 		}
 		return $value;
 	}
