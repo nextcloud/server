@@ -79,6 +79,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\Security\\Signature\\ISignedRequest' => __DIR__ . '/../../..' . '/lib/unstable/Security/Signature/ISignedRequest.php',
         'NCU\\Security\\Signature\\Model\\Signatory' => __DIR__ . '/../../..' . '/lib/unstable/Security/Signature/Model/Signatory.php',
         'NCU\\Sharing\\Event\\SharesDefaultSetEvent' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Event/SharesDefaultSetEvent.php',
+        'NCU\\Sharing\\Event\\SharesDeletedEvent' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Event/SharesDeletedEvent.php',
+        'NCU\\Sharing\\Event\\SharesUpdatedEvent' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Event/SharesUpdatedEvent.php',
         'NCU\\Sharing\\Exception\\AShareException' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Exception/AShareException.php',
         'NCU\\Sharing\\Exception\\ShareInvalidException' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Exception/ShareInvalidException.php',
         'NCU\\Sharing\\Exception\\ShareNotFoundException' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Exception/ShareNotFoundException.php',
