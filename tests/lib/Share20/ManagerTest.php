@@ -2302,38 +2302,37 @@ class ManagerTest extends \Test\TestCase {
 	public function dataIsSharingDisabledForUser() {
 		$data = [];
 
-		// No exclude groups
-		$data[] = ['no', null, null, [], false];
+		return [
+			// No group restrictions configured
+			'no restrictions, user without groups' => ['no', null, null, [], false],
+			'no restrictions, user with groups' => ['no', null, null, ['group1'], false],
 
-		// empty exclude / allow list, user no groups
-		$data[] = ['yes', '', json_encode(['']), [], false];
-		$data[] = ['allow', '', json_encode(['']), [], true];
+			// Empty legacy list, converted to json
+			'block list, empty list, user without groups' => ['yes', '', json_encode(['']), [], false],
+			'allow list, empty list, user without groups' => ['allow', '', json_encode(['']), [], true],
+			'block list, empty list, user with groups' => ['yes', '', json_encode(['']), ['group1', 'group2'], false],
+			'allow list, empty list, user with groups' => ['allow', '', json_encode(['']), ['group1', 'group2'], true],
 
-		// empty exclude / allow list, user groups
-		$data[] = ['yes', '', json_encode(['']), ['group1', 'group2'], false];
-		$data[] = ['allow', '', json_encode(['']), ['group1', 'group2'], true];
+			// Legacy comma separated list, converted to json
+			'block list, legacy list, user without groups' => ['yes', $legacyList, $jsonList, [], false],
+			'allow list, legacy list, user without groups' => ['allow', $legacyList, $jsonList, [], true],
+			'block list, legacy list, user not in list' => ['yes', $legacyList, $jsonList, ['group3'], false],
+			'allow list, legacy list, user not in list' => ['allow', $legacyList, $jsonList, ['group3'], true],
+			'block list, legacy list, user partly in list' => ['yes', $legacyList, $jsonList, ['group1', 'group3'], true],
+			'allow list, legacy list, user partly in list' => ['allow', $legacyList, $jsonList, ['group1', 'group3'], false],
+			'block list, legacy list, user only in list' => ['yes', $legacyList, $jsonList, ['group1'], true],
+			'allow list, legacy list, user only in list' => ['allow', $legacyList, $jsonList, ['group1'], false],
 
-		// Convert old list to json
-		$data[] = ['yes', 'group1,group2', json_encode(['group1', 'group2']), [], false];
-		$data[] = ['allow', 'group1,group2', json_encode(['group1', 'group2']), [], true];
-
-		// Old list partly groups in common
-		$data[] = ['yes', 'group1,group2', json_encode(['group1', 'group2']), ['group1', 'group3'], false];
-		$data[] = ['allow', 'group1,group2', json_encode(['group1', 'group2']), ['group1', 'group3'], false];
-
-		// Old list only groups in common
-		$data[] = ['yes', 'group1,group2', json_encode(['group1', 'group2']), ['group1'], true];
-		$data[] = ['allow', 'group1,group2', json_encode(['group1', 'group2']), ['group1'], false];
-
-		// New list partly in common
-		$data[] = ['yes', json_encode(['group1', 'group2']), null, ['group1', 'group3'], false];
-		$data[] = ['allow', json_encode(['group1', 'group2']), null, ['group1', 'group3'], false];
-
-		// New list only groups in common
-		$data[] = ['yes', json_encode(['group1', 'group2']), null, ['group2'], true];
-		$data[] = ['allow', json_encode(['group1', 'group2']), null, ['group2'], false];
-
-		return $data;
+			// Json encoded list
+			'block list, user without groups' => ['yes', $jsonList, null, [], false],
+			'allow list, user without groups' => ['allow', $jsonList, null, [], true],
+			'block list, user not in list' => ['yes', $jsonList, null, ['group3'], false],
+			'allow list, user not in list' => ['allow', $jsonList, null, ['group3'], true],
+			'block list, user partly in list' => ['yes', $jsonList, null, ['group1', 'group3'], true],
+			'allow list, user partly in list' => ['allow', $jsonList, null, ['group1', 'group3'], false],
+			'block list, user only in list' => ['yes', $jsonList, null, ['group2'], true],
+			'allow list, user only in list' => ['allow', $jsonList, null, ['group2'], false],
+		];
 	}
 
 	/**
