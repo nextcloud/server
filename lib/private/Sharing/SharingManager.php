@@ -11,6 +11,8 @@ namespace OC\Sharing;
 
 use Exception;
 use NCU\Sharing\Event\SharesDefaultSetEvent;
+use NCU\Sharing\Event\SharesDeletedEvent;
+use NCU\Sharing\Event\SharesUpdatedEvent;
 use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareOperationForbiddenException;
 use NCU\Sharing\ISharingBackend;
@@ -64,7 +66,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	private IL10N $l10n;
 
 	public function __construct(
-		IEventDispatcher $eventDispatcher,
+		private IEventDispatcher $eventDispatcher,
 		private IUserManager $userManager,
 		private IFactory $l10nFactory,
 		private ISnowflakeGenerator $snowflakeGenerator,
@@ -78,7 +80,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->randomizer = new Randomizer();
 		$this->l10n = $l10nFactory->get('sharing');
 
-		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, self::class);
+		$this->eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, self::class);
 	}
 
 	#[\Override]
@@ -187,6 +189,10 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			foreach ($ids as $id) {
 				$legacyBackend->deleteShare($id);
 			}
+		}
+
+		if ($ids !== []) {
+			$this->eventDispatcher->dispatchTyped(new SharesDeletedEvent($ids));
 		}
 	}
 
@@ -747,6 +753,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		if ($legacyBackend instanceof ISharingLegacyBackend) {
 			$legacyBackend->deleteShare($share->id);
 		}
+
+		$this->eventDispatcher->dispatchTyped(new SharesDeletedEvent([$share->id]));
 	}
 
 	#[\Override]
@@ -987,6 +995,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 				$legacyBackend->updateShare($share);
 			}
 		}
+
+		$this->eventDispatcher->dispatchTyped(new SharesUpdatedEvent(array_map(static fn (Share $share): string => $share->id, $shares)));
 
 		return $shares;
 	}

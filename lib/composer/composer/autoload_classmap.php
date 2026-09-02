@@ -38,6 +38,8 @@ return array(
     'NCU\\Security\\Signature\\ISignedRequest' => $baseDir . '/lib/unstable/Security/Signature/ISignedRequest.php',
     'NCU\\Security\\Signature\\Model\\Signatory' => $baseDir . '/lib/unstable/Security/Signature/Model/Signatory.php',
     'NCU\\Sharing\\Event\\SharesDefaultSetEvent' => $baseDir . '/lib/unstable/Sharing/Event/SharesDefaultSetEvent.php',
+    'NCU\\Sharing\\Event\\SharesDeletedEvent' => $baseDir . '/lib/unstable/Sharing/Event/SharesDeletedEvent.php',
+    'NCU\\Sharing\\Event\\SharesUpdatedEvent' => $baseDir . '/lib/unstable/Sharing/Event/SharesUpdatedEvent.php',
     'NCU\\Sharing\\Exception\\AShareException' => $baseDir . '/lib/unstable/Sharing/Exception/AShareException.php',
     'NCU\\Sharing\\Exception\\ShareInvalidException' => $baseDir . '/lib/unstable/Sharing/Exception/ShareInvalidException.php',
     'NCU\\Sharing\\Exception\\ShareNotFoundException' => $baseDir . '/lib/unstable/Sharing/Exception/ShareNotFoundException.php',
