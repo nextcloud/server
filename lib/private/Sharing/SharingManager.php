@@ -11,6 +11,8 @@ namespace OC\Sharing;
 
 use Exception;
 use NCU\Sharing\Event\SharesDefaultSetEvent;
+use NCU\Sharing\Event\SharesDeletedEvent;
+use NCU\Sharing\Event\SharesUpdatedEvent;
 use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareOperationForbiddenException;
 use NCU\Sharing\ISharingBackend;
@@ -192,7 +194,10 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		// No need to update the last updated timestamp, because the share will be deleted anyway.
 
-		$this->backend->onOwnerDeleted($owner);
+		$ids = $this->backend->onOwnerDeleted($owner);
+		if ($ids !== []) {
+			$this->eventDispatcher->dispatchTyped(new SharesDeletedEvent($ids));
+		}
 	}
 
 	#[\Override]
@@ -839,6 +844,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			'shareId' => $share->id,
 			'owner' => $share->owner->userId,
 		], 'unified_sharing.share.deleted');
+
+		$this->eventDispatcher->dispatchTyped(new SharesDeletedEvent([$share->id]));
 	}
 
 	/**
@@ -1071,6 +1078,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 				}
 			}
 		}
+
+		$this->eventDispatcher->dispatchTyped(new SharesUpdatedEvent(array_map(static fn (Share $share): string => $share->id, $shares)));
 
 		return $shares;
 	}
