@@ -189,6 +189,7 @@ interface ISharingBackend {
 	/**
 	 * Get multiple shares.
 	 *
+	 * @param ?non-empty-list<non-empty-string> $filterShareIDs
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass
 	 * @param ?non-empty-string $filterSourceTypeValue
 	 * @param ?non-empty-string $lastShareID
@@ -196,7 +197,7 @@ interface ISharingBackend {
 	 * @return list<Share>
 	 * @experimental 35.0.0
 	 */
-	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array;
+	public function getShares(ShareAccessContext $accessContext, ?array $filterShareIDs, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array;
 
 	/**
 	 * Get the owner of a share.
