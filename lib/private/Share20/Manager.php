@@ -67,6 +67,8 @@ use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\Events\ShareMovedEvent;
+use OCP\Share\Events\ShareRestoredEvent;
+use OCP\Share\Events\ShareUpdatedEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -755,6 +757,8 @@ class Manager implements IManager {
 			$share = $provider->update($share);
 		}
 
+		$this->dispatcher->dispatchTyped(new ShareUpdatedEvent($share));
+
 		if ($expirationDateUpdated === true) {
 			\OC_Hook::emit(Share::class, 'post_set_expiration_date', [
 				'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',
@@ -804,7 +808,7 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException($this->l->t('Share provider does not support accepting'));
 		}
 		/** @var IShareProvider&IShareProviderSupportsAccept $provider */
-		$provider->acceptShare($share, $recipientId);
+		$share = $provider->acceptShare($share, $recipientId);
 
 		$event = new ShareAcceptedEvent($share);
 		$this->dispatchEvent($event, 'share accepted');
@@ -1059,6 +1063,7 @@ class Manager implements IManager {
 		$provider = $this->factory->getProvider($providerId);
 
 		$provider->deleteFromSelf($share, $recipientId);
+
 		$event = new ShareDeletedFromSelfEvent($share);
 		$this->dispatchEvent($event, 'leave share');
 	}
@@ -1068,7 +1073,11 @@ class Manager implements IManager {
 		[$providerId,] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
-		return $provider->restore($share, $recipientId);
+		$share = $provider->restore($share, $recipientId);
+
+		$this->dispatcher->dispatchTyped(new ShareRestoredEvent($share));
+
+		return $share;
 	}
 
 	#[Override]
@@ -1099,11 +1108,11 @@ class Manager implements IManager {
 		[$providerId,] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
-		$result = $provider->move($share, $recipientId);
+		$share = $provider->move($share, $recipientId);
 
 		$this->dispatchEvent(new ShareMovedEvent($share, $recipient), 'share moved');
 
-		return $result;
+		return $share;
 	}
 
 	#[Override]
@@ -1461,6 +1470,8 @@ class Manager implements IManager {
 			$share->setPassword($newHash);
 			$provider = $this->factory->getProviderForType($share->getShareType());
 			$provider->update($share);
+
+			$this->dispatcher->dispatchTyped(new ShareUpdatedEvent($share));
 		}
 
 		return true;
