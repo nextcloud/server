@@ -727,7 +727,7 @@ Feature: webdav-related
 		And Downloading file "/üäöé/äöü.txt"
 		Then Downloaded content should be the created file
 
-	@s3-multipart
+	@requires-s3
 	Scenario: Cannot overwrite a file the user may not update with new chunking v2
 		Given using new dav path
 		And user "user0" exists
