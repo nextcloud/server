@@ -16,7 +16,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-// TODO: Initiator missing.
 final class AddShareRecipient extends SharingBase {
 	#[\Override]
 	public function configure(): void {
