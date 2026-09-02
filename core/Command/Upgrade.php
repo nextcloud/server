@@ -252,10 +252,15 @@ class Upgrade extends Command {
 			return;
 		}
 
+		['blocking' => $blocking] = $this->schemaChecker->partitionFindings($findings);
+		if ($blocking === []) {
+			return;
+		}
+
 		$output->writeln('<comment>The database schema does not match what is expected for the installed version:</comment>');
-		foreach ($findings as $finding) {
+		foreach ($blocking as $finding) {
 			$output->writeln('  - ' . $this->schemaChecker->formatFinding($finding));
 		}
-		$output->writeln('<comment>Run "occ db:schema:check" for details.</comment>');
+		$output->writeln('<comment>Run "occ db:schema:check -v" for details.</comment>');
 	}
 }
