@@ -254,6 +254,7 @@ OC.L10N.register(
     "Please copy the link manually:" : "Palun kopeeri link käsitsi:",
     "Less from connected services" : "Vähem vastuseid ühendatud teenustest",
     "More from connected services" : "Rohkem vastuseid ühendatud teenustest",
+    "Connected services settings" : "Ühendatud teenuste seadistused",
     "Custom date range" : "Sinu valitud kuupäevavahemik",
     "Pick start date" : "Vali algkuupäev",
     "Pick end date" : "Vali lõppkuupäev",
