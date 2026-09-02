@@ -550,7 +550,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	public function getShare(ShareAccessContext $accessContext, string $id): Share {
 		$this->assertInTransaction();
 
-		$shares = $this->list($accessContext, $id, null, null, null, null, null, null);
+		$shares = $this->list($accessContext, [$id], null, null, null, null, null, null);
 		if (count($shares) !== 1) {
 			throw new ShareNotFoundException();
 		}
@@ -561,6 +561,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	#[\Override]
 	public function getShares(
 		ShareAccessContext $accessContext,
+		?array $filterShareIDs,
 		?string $filterSourceTypeClass,
 		?string $filterSourceTypeValue,
 		?ShareState $filterState,
@@ -570,7 +571,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	): array {
 		$this->assertInTransaction();
 
-		return $this->list($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
+		return $this->list($accessContext, $filterShareIDs, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 	}
 
 	#[\Override]
@@ -623,13 +624,14 @@ final readonly class SharingBackend implements ISharingBackend {
 	// TODO: Split up the method
 
 	/**
+	 * @param ?non-empty-list<non-empty-string> $filterShareIDs
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass
 	 * @param ?non-empty-string $filterSourceTypeValue
 	 * @return list<Share>
 	 */
 	private function list(
 		ShareAccessContext $accessContext,
-		?string $filterShareID,
+		?array $filterShareIDs,
 		?string $filterSourceTypeClass,
 		?string $filterSourceTypeValue,
 		?ShareState $filterState,
@@ -657,7 +659,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			if ($accessContext->currentUser instanceof IUser) {
 				$qb = $this->connection->getQueryBuilder();
 				// if we're filtering by source or id, we need to also check for non-owned shares
-				if ($filterSourceTypeValue === null && $filterShareID === null) {
+				if ($filterSourceTypeValue === null && $filterShareIDs === null) {
 					$qb->where($qb->expr()->eq('s.owner_user_id', $qb->createNamedParameter($accessContext->currentUser->getUID())));
 				}
 
@@ -699,7 +701,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$queries[] = $qb;
 			}
 
-			if ($filterShareID !== null && $accessContext->secret !== null) {
+			if ($filterShareIDs !== null && $accessContext->secret !== null) {
 				$qb = $this->connection->getQueryBuilder();
 				$qb->innerJoin(
 					's', 'sharing_share_recipients', 'sr', $qb->expr()->andX(
@@ -728,8 +730,8 @@ final readonly class SharingBackend implements ISharingBackend {
 				->from('sharing_share', 's')
 				->orderBy('s.id', 'ASC');
 
-			if ($filterShareID !== null) {
-				$qb->andWhere($qb->expr()->eq('s.id', $qb->createNamedParameter($filterShareID)));
+			if ($filterShareIDs !== null) {
+				$qb->andWhere($qb->expr()->in('s.id', $qb->createNamedParameter($filterShareIDs, IQueryBuilder::PARAM_STR_ARRAY)));
 			}
 
 			if ($filterSourceType !== null && $filterSourceTypeClass !== null) {
