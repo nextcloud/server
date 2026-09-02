@@ -128,8 +128,7 @@ export function mountViewer(handlers: IHandler[] = []): MountViewerResult {
 
 	const renderedTags = () => {
 		const html = wrapper.html()
-		const matches = html.match(/<(oca-viewer-[a-z0-9-]+)/g) ?? []
-		return matches.map((m) => m.replace('<', ''))
+		return [...html.matchAll(/<(oca-viewer-[a-z0-9-]+)/g)].map(([, tag]) => tag)
 	}
 
 	return {
