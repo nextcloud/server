@@ -63,6 +63,8 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/lib/public/SystemReport',
 		$nextcloudDir . '/lib/private/SystemReport',
 		$nextcloudDir . '/tests/lib/SystemReport',
+		$nextcloudDir . '/lib/public/Share/Events/ShareUpdatedEvent.php',
+		$nextcloudDir . '/lib/public/Share/Events/ShareRestoredEvent.php',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces
