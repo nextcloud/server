@@ -386,7 +386,7 @@ class NavigationManager implements INavigationManager {
 	#[Override]
 	public function get(string $id): ?array {
 		$this->resolveAppNavigationEntries();
-		return $this->entries[$id];
+		return $this->entries[$id] ?? null;
 	}
 
 	#[Override]
