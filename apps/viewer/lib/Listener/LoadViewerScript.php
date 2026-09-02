@@ -40,8 +40,8 @@ class LoadViewerScript implements IEventListener {
 			return;
 		}
 
-		Util::addStyle(Application::APP_ID, 'viewer-init');
-		Util::addInitScript(Application::APP_ID, 'viewer-init');
+		Util::addStyle(Application::APP_ID, 'init');
+		Util::addInitScript(Application::APP_ID, 'init');
 		$this->initialStateService->provideInitialState('enabled_preview_providers', array_keys($this->previewManager->getProviders()));
 	}
 }
