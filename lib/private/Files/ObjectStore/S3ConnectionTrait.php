@@ -64,6 +64,7 @@ trait S3ConnectionTrait {
 		$this->retriesMaxAttempts = $params['retriesMaxAttempts'] ?? 5;
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
+		$params['key'] = $params['key'] ?? '';
 		$params['s3-accelerate'] = $params['hostname'] === 's3-accelerate.amazonaws.com' || $params['hostname'] === 's3-accelerate.dualstack.amazonaws.com';
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
@@ -75,6 +76,7 @@ trait S3ConnectionTrait {
 		}
 
 		$this->params = $params;
+		$this->usePresignedUrl = $params['use_presigned_url'] ?? false;
 	}
 
 	public function getBucket() {
@@ -112,8 +114,6 @@ trait S3ConnectionTrait {
 				CredentialProvider::defaultProvider(['use_aws_shared_config_files' => false])
 			)
 		);
-
-		$this->usePresignedUrl = $this->params['use_presigned_url'] ?? false;
 
 		$options = [
 			'version' => $this->params['version'] ?? 'latest',

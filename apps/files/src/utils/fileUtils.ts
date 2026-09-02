@@ -2,11 +2,10 @@
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import {
-	type Node,
 
-	FileType,
-} from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
+
+import { FileType } from '@nextcloud/files'
 import { n } from '@nextcloud/l10n'
 
 /**

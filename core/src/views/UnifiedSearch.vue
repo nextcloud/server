@@ -17,16 +17,8 @@
 			@update:query="queryText = $event"
 			@navigate="onNavigate"
 			@activate="onActivate" />
-		<UnifiedSearchLocalSearchBar
-			v-if="supportsLocalSearch"
-			:open="showLocalSearch"
-			:query="queryText"
-			@globalSearch="openModal"
-			@update:open="showLocalSearch = $event"
-			@update:query="queryText = $event" />
 		<UnifiedSearchModal
 			ref="searchModal"
-			:localSearch="supportsLocalSearch"
 			:query="queryText"
 			:open="showUnifiedSearch"
 			:filtersRevealed="filtersRevealed"
@@ -40,12 +32,12 @@
 <script lang="ts">
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { useIsSmallMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { useBrowserLocation } from '@vueuse/core'
 import debounce from 'debounce'
 import { defineComponent } from 'vue'
 import UnifiedSearchInput from '../components/UnifiedSearch/UnifiedSearchInput.vue'
-import UnifiedSearchLocalSearchBar from '../components/UnifiedSearch/UnifiedSearchLocalSearchBar.vue'
 import UnifiedSearchModal from '../components/UnifiedSearch/UnifiedSearchModal.vue'
 import logger from '../logger.js'
 
@@ -54,7 +46,6 @@ export default defineComponent({
 
 	components: {
 		UnifiedSearchModal,
-		UnifiedSearchLocalSearchBar,
 		UnifiedSearchInput,
 	},
 
@@ -76,8 +67,6 @@ export default defineComponent({
 			queryText: '',
 			/** Open state of the modal */
 			showUnifiedSearch: false,
-			/** Open state of the local search bar */
-			showLocalSearch: false,
 			/**
 			 * Id of the selected result row, lifted here from the results modal so the
 			 * sibling input can point aria-activedescendant at it. '' = nothing selected.
@@ -99,21 +88,12 @@ export default defineComponent({
 		},
 
 		/**
-		 * Current page (app) supports local in-app search
-		 */
-		supportsLocalSearch() {
-			// TODO: Make this an API
-			const providerPaths = ['/apps/deck']
-			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
-		},
-
-		/**
 		 * Current page handles the Ctrl+F shortcut itself (e.g. has a dedicated
 		 * search input). UnifiedSearch should stay out of the way on these pages.
 		 */
 		appHandlesSearchShortcut() {
 			// TODO: Make this an API
-			const providerPaths = ['/settings/users', '/settings/apps']
+			const providerPaths = ['/settings/users', '/settings/apps', '/apps/deck']
 			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
 		},
 	},
@@ -127,7 +107,7 @@ export default defineComponent({
 			this.debouncedQueryUpdate()
 			// Desktop opens/closes the popover as you type; mobile is driven by the
 			// header button + the modal close paths, so clearing must not collapse it.
-			if (!this.supportsLocalSearch && !this.isSmallMobile) {
+			if (!this.isSmallMobile) {
 				this.showUnifiedSearch = this.queryText.length > 0
 			}
 		},
@@ -145,14 +125,27 @@ export default defineComponent({
 	},
 
 	mounted() {
-		// register keyboard listener for search shortcut
-		if (window.OCP.Accessibility.disableKeyboardShortcuts() === false) {
-			window.addEventListener('keydown', this.onKeyDown)
-		}
+		// useHotKey owns the accessibility opt-out and the guards that keep shortcuts out
+		// of editors, inputs and open modals. The key filter runs before it calls
+		// preventDefault, so returning false there leaves the key to the browser.
+		this.stopHotKeys = [
+			useHotKey(
+				(event) => event.key.toLowerCase() === 'f'
+					&& !this.appHandlesSearchShortcut
+					// A second press belongs to the browser's native find.
+					&& !this.isSearchEngaged(),
+				() => this.focusSearch(),
+				{ ctrl: true, prevent: true },
+			),
+			useHotKey(
+				(event) => event.key.toLowerCase() === 'k',
+				() => this.focusSearch(),
+				{ ctrl: true, prevent: true },
+			),
+		]
 
-		// Allow external reset of the search / close local search
+		// Allow external reset of the search
 		subscribe('nextcloud:unified-search:reset', () => {
-			this.showLocalSearch = false
 			this.queryText = ''
 		})
 
@@ -169,57 +162,12 @@ export default defineComponent({
 	},
 
 	// Vue 2.7 only recognises beforeDestroy/destroyed as Options lifecycle hooks;
-	// a beforeUnmount() option is silently ignored, so the listener must be removed here.
+	// a beforeUnmount() option is silently ignored, so the listeners must be removed here.
 	beforeDestroy() {
-		// keep in mind to remove the event listener
-		window.removeEventListener('keydown', this.onKeyDown)
+		this.stopHotKeys.forEach((stop) => stop())
 	},
 
 	methods: {
-		/**
-		 * Handle the key down event to open search on `ctrl + F`
-		 *
-		 * @param event The keyboard event
-		 */
-		onKeyDown(event: KeyboardEvent) {
-			// Match on the lowercased key so Caps Lock / Shift (event.key === 'F'/'K')
-			// still triggers the shortcut instead of silently falling through.
-			const key = event.key.toLowerCase()
-			if (event.ctrlKey && key === 'f') {
-				// Skip on pages that handle Ctrl+F themselves (e.g. a dedicated search input).
-				if (this.appHandlesSearchShortcut) {
-					return
-				}
-				// Pages with an in-app search bar (e.g. Deck) keep Ctrl+F for that: toggle
-				// the local bar, and only claim the key while nothing is open so a second
-				// press falls through to the browser native search.
-				if (this.supportsLocalSearch) {
-					if (!this.showLocalSearch && !this.showUnifiedSearch) {
-						event.preventDefault()
-					}
-					this.toggleUnifiedSearch()
-					return
-				}
-				// Everywhere else, behave like Ctrl+K: focus the input (desktop) / open the
-				// modal (mobile). Once search is already engaged, let a second press fall
-				// through to the browser's native find instead of claiming Ctrl+F again.
-				if (this.isSearchEngaged()) {
-					return
-				}
-				event.preventDefault()
-				this.focusSearch()
-			} else if ((event.metaKey || event.ctrlKey) && key === 'k') {
-				// Global focus shortcut. Same opt-out as Ctrl+F: leave pages that own the
-				// shortcut alone. preventDefault only when we act (Ctrl+K also focuses the
-				// browser address bar in Firefox, so we must claim it here).
-				if (this.appHandlesSearchShortcut) {
-					return
-				}
-				event.preventDefault()
-				this.focusSearch()
-			}
-		},
-
 		/**
 		 * Bring the user into search: focus the header input on desktop, or open the
 		 * results modal on mobile. Shared by the Ctrl+F and Ctrl+K shortcuts.
@@ -274,23 +222,10 @@ export default defineComponent({
 		},
 
 		/**
-		 * Toggle the local search if available - otherwise open the unified search modal
-		 */
-		toggleUnifiedSearch() {
-			if (this.supportsLocalSearch) {
-				this.showLocalSearch = !this.showLocalSearch
-			} else {
-				this.showUnifiedSearch = !this.showUnifiedSearch
-				this.showLocalSearch = false
-			}
-		},
-
-		/**
 		 * Open the unified search modal
 		 */
 		openModal() {
 			this.showUnifiedSearch = true
-			this.showLocalSearch = false
 		},
 
 		/**
@@ -298,16 +233,14 @@ export default defineComponent({
 		 */
 		onOpenFilters() {
 			this.showUnifiedSearch = true
-			this.showLocalSearch = false
 			this.filtersRevealed = true
 		},
 
 		/**
-		 * Trailing X clicked on an empty field: close the popover and any local bar.
+		 * Trailing X clicked on an empty field: close the popover.
 		 */
 		onClose() {
 			this.showUnifiedSearch = false
-			this.showLocalSearch = false
 		},
 
 		/**

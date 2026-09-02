@@ -47,10 +47,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/** @psalm-suppress ImpureStaticProperty */
 	private static bool $wasDatabaseAllowed = false;
 	protected array $services = [];
+	/** Original values keyed by config key; null means the key was unset. */
+	private array $systemConfigValues = [];
 
 	#[\Override]
 	protected function onNotSuccessfulTest(\Throwable $t): never {
 		$this->restoreAllServices();
+		$this->restoreAllSystemConfig();
 
 		// restore database connection
 		if (!$this->IsDatabaseAccessAllowed()) {
@@ -114,6 +117,39 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
+	/**
+	 * Sets a system config value for the duration of the test, restoring the
+	 * previous one in tearDown. System config is persisted to config.php, so a
+	 * leaked value would outlive the whole run.
+	 */
+	protected function overwriteSystemConfig(string $key, mixed $value): void {
+		$config = Server::get(IConfig::class);
+
+		if (!array_key_exists($key, $this->systemConfigValues)) {
+			$this->systemConfigValues[$key] = $config->getSystemValue($key, null);
+		}
+
+		$config->setSystemValue($key, $value);
+	}
+
+	public function restoreAllSystemConfig(): void {
+		if ($this->systemConfigValues === []) {
+			return;
+		}
+
+		$config = Server::get(IConfig::class);
+		foreach ($this->systemConfigValues as $key => $value) {
+			// null reads back as the default, so remove the key instead.
+			if ($value === null) {
+				$config->deleteSystemValue($key);
+			} else {
+				$config->setSystemValue($key, $value);
+			}
+		}
+
+		$this->systemConfigValues = [];
+	}
+
 	protected function getTestTraits(): array {
 		$traits = [];
 		$class = $this;
@@ -161,6 +197,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	#[\Override]
 	protected function tearDown(): void {
 		$this->restoreAllServices();
+		$this->restoreAllSystemConfig();
 
 		// restore database connection
 		if (!$this->IsDatabaseAccessAllowed()) {

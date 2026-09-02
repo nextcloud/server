@@ -23,6 +23,7 @@ use OCP\AppFramework\Attribute\Consumable;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Server;
 
 /**
  * Keep the following types in sync with apps/sharing/lib/ResponseDefinitions.php:
@@ -55,6 +56,16 @@ use OCP\L10N\IFactory;
  *     icon: SharingIcon,
  * }
  *
+ * @psalm-type SharingPermission = array{
+ *     class: class-string<ISharePermissionType>,
+ *     source_class: ?class-string<IShareSourceType>,
+ *     display_name: non-empty-string,
+ *     hint: ?non-empty-string,
+ *     priority: int<1, 100>,
+ *     presets: list<class-string<ISharePermissionPreset>>,
+ *     enabled: bool,
+ * }
+ *
  * @psalm-type SharingRecipient = array{
  *     class: class-string<IShareRecipientType>,
  *     value: non-empty-string,
@@ -67,9 +78,12 @@ use OCP\L10N\IFactory;
  *         url?: non-empty-string,
  *     },
  *     initiator: ?SharingUser,
+ *     permissions: list<SharingPermission>
  * }
  *
  * @psalm-type SharingState = 'active'|'draft'|'deleted'
+ *
+ * @psalm-type SharingUserStatus = 'pending'|'accepted'|'rejected'
  *
  * @psalm-type SharingProperty = array{
  *     class: class-string<ISharePropertyType>,
@@ -114,16 +128,6 @@ use OCP\L10N\IFactory;
  *     hint: ?non-empty-string,
  * }
  *
- * @psalm-type SharingPermission = array{
- *     class: class-string<ISharePermissionType>,
- *     source_class: ?class-string<IShareSourceType>,
- *     display_name: non-empty-string,
- *     hint: ?non-empty-string,
- *     priority: int<1, 100>,
- *     presets: list<class-string<ISharePermissionPreset>>,
- *     enabled: bool,
- * }
- *
  * @psalm-type SharingSourceType = array{
  *     class: class-string<IShareSourceType>,
  * }
@@ -134,6 +138,7 @@ use OCP\L10N\IFactory;
  *     // Unix time in milliseconds
  *     last_updated: numeric-string,
  *     state: SharingState,
+ *     user_status: ?SharingUserStatus,
  *     sources: list<SharingSource>,
  *     recipients: list<SharingRecipient>,
  *     properties: list<SharingPropertyDate|SharingPropertyEnum|SharingPropertyBoolean|SharingPropertyPassword|SharingPropertyString>,
@@ -145,8 +150,11 @@ use OCP\L10N\IFactory;
  */
 #[Consumable(since: '35.0.0')]
 final class Share {
-	/** @var array<class-string<ISharePermissionType>, SharePermission> $enabledPermissions */
-	private ?array $enabledPermissions = null;
+	/** @var array<string, list<ShareRecipient>> $recipientsCache */
+	private array $recipientsCache = [];
+
+	/** @var array<string, array<class-string<ISharePermissionType>, SharePermission>> $enabledPermissionsCache */
+	private array $enabledPermissionsCache = [];
 
 	/**
 	 * @experimental 35.0.0
@@ -157,6 +165,7 @@ final class Share {
 		public readonly ShareUser $owner,
 		public readonly \DateTimeImmutable $lastUpdated,
 		public readonly ShareState $state,
+		public readonly ?ShareUserStatus $userStatus,
 		/** @var list<ShareSource> $sources */
 		public readonly array $sources,
 		/** @var list<ShareRecipient> $recipients */
@@ -169,22 +178,81 @@ final class Share {
 	}
 
 	/**
+	 * @return list<ShareRecipient>
+	 * @experimental 35.0.0
+	 */
+	public function getEffectiveRecipients(ShareAccessContext $accessContext): array {
+		$hash = $accessContext->getHash();
+		if (($recipients = $this->recipientsCache[$hash] ?? null) !== null) {
+			return $recipients;
+		}
+
+		$registry = Server::get(ISharingRegistry::class);
+
+		/** @var array<class-string<IShareRecipientType>, list<string>> $recipientTypeValues */
+		$recipientTypeValues = [];
+		foreach ($registry->getRecipientTypes() as $recipientType) {
+			$recipientValues = $recipientType->getRecipients($accessContext->currentUser, $accessContext->arguments[$recipientType::class] ?? null);
+			if ($recipientValues !== []) {
+				$recipientTypeValues[$recipientType::class] = $recipientValues;
+			}
+		}
+
+		/** @var list<ShareRecipient> $recipients */
+		$recipients = [];
+		foreach ($this->recipients as $recipient) {
+			if (
+				// Remote recipient can only be accessed through their secret
+				($accessContext->secret !== null && $accessContext->secret === $recipient->secret)
+				// Recipient values are only valid for local recipients
+				|| ($recipient->instance === null && in_array($recipient->value, $recipientTypeValues[$recipient->class] ?? [], true))) {
+				$recipients[] = $recipient;
+			}
+		}
+
+		return $this->recipientsCache[$hash] = $recipients;
+	}
+
+	/**
 	 * @return array<class-string<ISharePermissionType>, SharePermission>
 	 * @experimental 35.0.0
 	 */
-	public function getEnabledPermissions(): array {
-		return $this->enabledPermissions ??= array_filter($this->permissions, static fn (SharePermission $permission): bool => $permission->enabled);
+	public function getEffectiveEnabledPermissions(ShareAccessContext $accessContext): array {
+		$hash = $accessContext->getHash();
+		if (($enabledPermissions = $this->enabledPermissionsCache[$hash] ?? null) !== null) {
+			return $enabledPermissions;
+		}
+
+		$enabledPermissions = array_filter($this->permissions, static fn (SharePermission $permission): bool => $permission->enabled);
+
+		if (!$accessContext->overrideChecks && !$this->owner->isCurrentUser($accessContext)) {
+			/** @var array<class-string<ISharePermissionType>, SharePermission> $recipientsEnabledPermissions */
+			$recipientsEnabledPermissions = [];
+			foreach ($this->getEffectiveRecipients($accessContext) as $recipient) {
+				foreach ($recipient->permissions as $permission) {
+					// If any recipient has the permission enabled, we grant it.
+					if (!isset($recipientsEnabledPermissions[$permission->class]) || ($permission->enabled && !$recipientsEnabledPermissions[$permission->class]->enabled)) {
+						$recipientsEnabledPermissions[$permission->class] = $permission;
+					}
+				}
+			}
+
+			foreach ($recipientsEnabledPermissions as $permission) {
+				// If the permission was disabled by any recipient and not enabled by another, we deny it.
+				if (!$permission->enabled) {
+					unset($enabledPermissions[$permission->class]);
+				}
+			}
+		}
+
+		return $this->enabledPermissionsCache[$hash] = $enabledPermissions;
 	}
 
 	/**
 	 * @return SharingShare
 	 * @experimental 35.0.0
 	 */
-	public function format(ISharingRegistry $registry, IFactory $l10nFactory, IURLGenerator $urlGenerator, IUserManager $userManager): array {
-		$properties = array_map(fn (ShareProperty $property): array => $property->format($registry, $l10nFactory, $this), array_values($this->properties));
-		// First sort by priority and then sort by class name to get a stable order regardless of the DB order
-		usort($properties, static fn (array $a, array $b): int => 2 * ($b['priority'] <=> $a['priority']) + ($a['class'] <=> $b['class']));
-
+	public function format(ISharingRegistry $registry, IFactory $l10nFactory, IURLGenerator $urlGenerator, IUserManager $userManager, ShareAccessContext $accessContext): array {
 		$registrySourceTypePermissionTypeClasses = $registry->getSourceTypePermissionTypeClasses();
 		$registryGenericPermissionTypeClasses = $registry->getGenericPermissionTypeClasses();
 		$registryPermissionTypeCompatiblePermissionPresetClasses = $registry->getPermissionTypeCompatiblePermissionPresetClasses();
@@ -205,7 +273,7 @@ final class Share {
 
 		$selectedPermissionPresetClass = null;
 
-		$enabledPermissionTypeClasses = array_values(array_map(static fn (SharePermission $permission): string => $permission->class, $this->getEnabledPermissions()));
+		$enabledPermissionTypeClasses = array_values(array_map(static fn (SharePermission $permission): string => $permission->class, $this->getEffectiveEnabledPermissions($accessContext)));
 		sort($enabledPermissionTypeClasses);
 
 		$requiredPermissionTypeClasses = [];
@@ -233,19 +301,16 @@ final class Share {
 			}
 		}
 
-		$permissions = array_map(static fn (SharePermission $permission): array => $permission->format($registry, $l10nFactory), array_values($this->permissions));
-		// First sort by priority and then sort by class name to get a stable order regardless of the DB order
-		usort($permissions, static fn (array $a, array $b): int => 2 * ($b['priority'] <=> $a['priority']) + ($a['class'] <=> $b['class']));
-
 		return [
 			'id' => $this->id,
 			'owner' => $this->owner->format($userManager),
 			'last_updated' => SharingManager::timeToMs($this->lastUpdated),
 			'state' => $this->state->value,
+			'user_status' => $this->userStatus?->value,
 			'sources' => ShareSource::formatMultiple($registry, $l10nFactory, $this->sources),
 			'recipients' => ShareRecipient::formatMultiple($registry, $l10nFactory, $urlGenerator, $userManager, $this->recipients),
-			'properties' => $properties,
-			'permissions' => $permissions,
+			'properties' => ShareProperty::formatMultiple($registry, $l10nFactory, $this, array_values($this->properties)),
+			'permissions' => SharePermission::formatMultiple($registry, $l10nFactory, array_values($this->permissions)),
 			'permission_preset' => $selectedPermissionPresetClass,
 		];
 	}
@@ -255,9 +320,9 @@ final class Share {
 	 * @return list<SharingShare>
 	 * @experimental 35.0.0
 	 */
-	public static function formatMultiple(ISharingRegistry $registry, IFactory $l10nFactory, IURLGenerator $urlGenerator, IUserManager $userManager, array $shares): array {
-		// First sort by priority and then sort by share id to get a stable order regardless of the DB order
-		usort($shares, static fn (Share $a, Share $b): int => 2 * (count($b->getEnabledPermissions()) <=> count($a->getEnabledPermissions())) + ($a->id <=> $b->id));
-		return array_map(static fn (Share $share): array => $share->format($registry, $l10nFactory, $urlGenerator, $userManager), $shares);
+	public static function formatMultiple(ISharingRegistry $registry, IFactory $l10nFactory, IURLGenerator $urlGenerator, IUserManager $userManager, ShareAccessContext $accessContext, array $shares): array {
+		// First sort by number of enabled permissions and then sort by share id to get a stable order regardless of the DB order
+		usort($shares, static fn (Share $a, Share $b): int => 2 * (count($b->getEffectiveEnabledPermissions($accessContext)) <=> count($a->getEffectiveEnabledPermissions($accessContext))) + ($a->id <=> $b->id));
+		return array_map(static fn (Share $share): array => $share->format($registry, $l10nFactory, $urlGenerator, $userManager, $accessContext), $shares);
 	}
 }

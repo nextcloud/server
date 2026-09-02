@@ -210,7 +210,7 @@ class ConnectionFactory {
 		//additional driver options, eg. for mysql ssl
 		$driverOptions = $this->config->getValue($configPrefix . 'dbdriveroptions', $this->config->getValue('dbdriveroptions', null));
 		if ($driverOptions) {
-			$connectionParams['driverOptions'] = $driverOptions;
+			$connectionParams['driverOptions'] = array_merge($connectionParams['driverOptions'], $driverOptions);
 		}
 
 		// set default table creation options

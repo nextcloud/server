@@ -24,7 +24,7 @@
 				<div
 					v-show="showHeader"
 					class="unified-search-modal__header"
-					:class="{ 'unified-search-modal__header--has-results': hasVisibleResults && !detailCategory }">
+					:class="{ 'unified-search-modal__header--has-content-below': hasContentBelowHeader }">
 					<div v-if="isSmallMobile" class="unified-search-modal__mobile-input">
 						<NcTextField
 							type="search"
@@ -117,16 +117,6 @@
 								</NcButton>
 							</template>
 						</SearchableList>
-						<NcButton
-							v-if="localSearch"
-							variant="tertiary"
-							data-cy-unified-search-filter="current-view"
-							@click="searchLocally">
-							{{ t('core', 'Filter in current view') }}
-							<template #icon>
-								<IconFilter :size="20" />
-							</template>
-						</NcButton>
 					</div>
 					<div v-show="!detailCategory && hasAnyActiveFilter" class="unified-search-modal__filters-applied">
 						<FilterChip
@@ -157,14 +147,18 @@
 						</template>
 					</NcEmptyContent>
 					<!-- Offered even with zero results, so the user can reach external providers. -->
-					<div v-if="showConnectedServicesButton" class="unified-search-modal__connected-services">
-						<NcButton variant="secondary" wide @click="toggleExternalResources">
-							{{ connectedServicesLabel }}
-						</NcButton>
-					</div>
+					<ConnectedServicesBar
+						v-if="showConnectedServicesButton"
+						:active="searchExternalResources"
+						@toggle="toggleExternalResources" />
 				</div>
 
-				<div v-else ref="resultsContainer" class="unified-search-modal__results">
+				<div
+					v-else
+					ref="resultsContainer"
+					class="unified-search-modal__results"
+					:class="{ 'unified-search-modal__results--held': heldHeight !== null }"
+					:style="heldHeight !== null ? { minBlockSize: `${heldHeight}px`, boxSizing: 'border-box' } : undefined">
 					<h3 class="hidden-visually">
 						{{ t('core', 'Results') }}
 					</h3>
@@ -239,12 +233,13 @@
 							</div>
 						</div>
 					</div>
+					<!-- Last, so results that land are never pushed down. -->
+					<SearchResultSkeleton v-if="skeletonRows > 0" :rows="skeletonRows" />
 					<!-- Connected-services opt-in. Toggling re-runs find() (searchExternalResources watcher). Hidden in detail view. -->
-					<div v-if="showConnectedServicesButton" class="unified-search-modal__connected-services">
-						<NcButton variant="secondary" wide @click="toggleExternalResources">
-							{{ connectedServicesLabel }}
-						</NcButton>
-					</div>
+					<ConnectedServicesBar
+						v-if="showConnectedServicesButton"
+						:active="searchExternalResources"
+						@toggle="toggleExternalResources" />
 				</div>
 			</div>
 			<!-- `modal-mask` is how @nextcloud/vue's useHotKey guard recognises an open modal and
@@ -280,13 +275,14 @@ import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 import IconCalendarBlankOutline from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import IconClose from 'vue-material-design-icons/Close.vue'
 import IconDotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
-import IconFilter from 'vue-material-design-icons/Filter.vue'
 import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 import IconShapeOutline from 'vue-material-design-icons/ShapeOutline.vue'
+import ConnectedServicesBar from './ConnectedServicesBar.vue'
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import SearchableList from './SearchableList.vue'
 import FilterChip from './SearchFilterChip.vue'
 import SearchResult from './SearchResult.vue'
+import SearchResultSkeleton from './SearchResultSkeleton.vue'
 import { useUnifiedSearch } from '../../composables/useUnifiedSearch.ts'
 import { unifiedSearchLogger } from '../../logger.js'
 import { getContacts, getProviders } from '../../services/UnifiedSearchService.js'
@@ -297,6 +293,17 @@ import { useSearchStore } from '../../store/unified-search-external-filters.js'
  * the full set, and a category with more shows a "More from" button to the detail view.
  */
 const RESULTS_PER_CATEGORY = 3
+
+/** Fallback when there is no results box on screen to measure. */
+const DEFAULT_HELD_HEIGHT_PX = 332
+
+const RESIZING_CLASS = 'is-animating-height'
+
+/** The least vertical space one bar takes, gap included, so dividing by it overdraws. */
+const SKELETON_MIN_BAR_AND_GAP_PX = 60
+
+/** Room for the heading and one row. Any less and the fade swallows the row. */
+const SKELETON_MIN_HELD_HEIGHT_PX = 126
 
 /** One selectable result row in the flat keyboard-navigation list. */
 interface NavigableRow {
@@ -313,10 +320,10 @@ export default defineComponent({
 		IconCalendarBlankOutline,
 		IconClose,
 		IconDotsHorizontal,
-		IconFilter,
 		IconMagnify,
 		IconShapeOutline,
 
+		ConnectedServicesBar,
 		CustomDateRangeModal,
 		FilterChip,
 		NcActions,
@@ -328,6 +335,7 @@ export default defineComponent({
 		NcTextField,
 		SearchableList,
 		SearchResult,
+		SearchResultSkeleton,
 	},
 
 	props: {
@@ -345,14 +353,6 @@ export default defineComponent({
 		query: {
 			type: String,
 			default: '',
-		},
-
-		/**
-		 * If the current page / app supports local search
-		 */
-		localSearch: {
-			type: Boolean,
-			default: false,
 		},
 
 		/**
@@ -376,11 +376,12 @@ export default defineComponent({
 		const searchStore = useSearchStore()
 		const isSmallMobile = useIsSmallMobile()
 
-		const { searchStates, search, loadMore, reset } = useUnifiedSearch()
+		const { searchStates, revealOrder, search, loadMore, reset } = useUnifiedSearch()
 
 		return {
 			t,
 			searchStates,
+			revealOrder,
 			search,
 			loadMore,
 			reset,
@@ -423,6 +424,9 @@ export default defineComponent({
 			// aria-activedescendant highlight (combobox pattern).
 			activeIndex: -1,
 			minSearchLength: loadState('unified-search', 'min-search-length', 1),
+			reservedHeight: 0,
+			panelFrom: 0,
+			panelResize: null as Animation | null,
 			// Focus trap spanning [header input, popover panel]; markRaw'd so Vue
 			// doesn't make the trap instance reactive.
 			focusTrap: null as FocusTrap | null,
@@ -548,18 +552,19 @@ export default defineComponent({
 				.filter((filter) => filter.type !== 'provider')
 				.map((filter) => filter.type)
 
-			return Object.entries(this.searchStates)
-				.filter(([, state]) => state.entries.length > 0 && (state.status === 'loaded' || state.status === 'loading'))
-				.map(([providerId, state]) => {
-					const provider = this.providers.find((p) => p.id === providerId)
-					const supportsActiveFilters = this.providerIsCompatibleWithFilters(provider, contentFilterTypes)
-					return {
-						...provider,
-						results: state.entries,
-						hasMore: state.hasMore,
-						supportsActiveFilters,
-					}
-				})
+			// Category order and category-level visibility are the controller's, see
+			// getRevealOrder(). Do not re-derive or re-sort them here.
+			return this.revealOrder.map((providerId) => {
+				const state = this.searchStates[providerId]
+				const provider = this.providers.find((p) => p.id === providerId)
+				const supportsActiveFilters = this.providerIsCompatibleWithFilters(provider, contentFilterTypes)
+				return {
+					...provider,
+					results: state.entries,
+					hasMore: state.hasMore,
+					supportsActiveFilters,
+				}
+			})
 		},
 
 		filteredResults() {
@@ -615,6 +620,10 @@ export default defineComponent({
 		// two can't drift (a11y invariant). Aggregate: filtered then partial-match groups,
 		// capped to RESULTS_PER_CATEGORY with `overflow` when there's more. Detail: the
 		// opened category alone, uncapped.
+		//
+		// This partition is a second ordering axis, so reveal order holds *within* a section,
+		// not across the two: with content filters active, a filter-compatible category that
+		// lands late still renders above an already-shown partial match.
 		renderedGroups() {
 			if (this.detailCategory) {
 				return this.detailGroup
@@ -627,6 +636,21 @@ export default defineComponent({
 			]
 		},
 
+		// A border box, like getBoundingClientRect hands back; content-box would re-add the padding.
+		heldHeight() {
+			// The detail view is not emptied and refilled; its paging has its own button.
+			if (!this.isBusy || this.detailCategory) {
+				return null
+			}
+			return Math.max(this.reservedHeight || DEFAULT_HELD_HEIGHT_PX, SKELETON_MIN_HELD_HEIGHT_PX)
+		},
+
+		skeletonRows() {
+			return this.heldHeight === null
+				? 0
+				: Math.ceil(this.heldHeight / SKELETON_MIN_BAR_AND_GAP_PX)
+		},
+
 		// The connected-services opt-in. Shows for any searchable query when external providers
 		// exist (including zero results, so the user can opt in when local search found nothing),
 		// never on empty/too-short queries or in detail view. Held until the search settles
@@ -637,12 +661,6 @@ export default defineComponent({
 				&& !this.isEmptySearch
 				&& !this.isSearchQueryTooShort
 				&& !this.isBusy
-		},
-
-		connectedServicesLabel() {
-			return this.searchExternalResources
-				? t('core', 'Less from connected services')
-				: t('core', 'More from connected services')
 		},
 
 		// The rendered rows flattened into a single list in visual order (filtered
@@ -696,10 +714,13 @@ export default defineComponent({
 			return n('core', '%n result', '%n results', this.navigableRows.length)
 		},
 
-		// Whether the results region has anything to render. Drives the region's padding
-		// so an empty or too-short query leaves no gap under the filters.
 		hasVisibleResults() {
 			return this.filteredResults.length > 0 || this.unfilteredResults.length > 0
+		},
+
+		// Placeholders count as content, or the divider flashes in when the first category lands.
+		hasContentBelowHeader() {
+			return !this.detailCategory && (this.hasVisibleResults || this.skeletonRows > 0)
 		},
 	},
 
@@ -736,6 +757,7 @@ export default defineComponent({
 				// Clear them on close so they can't flash on the next open. Close is the
 				// reliable hook: every close path flips this prop true -> false.
 				this.reset()
+				this.reservedHeight = 0
 				// Drop in-flight search bookkeeping so a preserved query can't keep the header
 				// input spinning, and cancel the pending debounce so it can't dispatch after close.
 				this.pendingSearch = false
@@ -763,9 +785,7 @@ export default defineComponent({
 				// when closed (e.g. the local search bar on deck), so a hidden modal must
 				// not fire background searches.
 				if (this.open) {
-					// Mark busy synchronously so the debounce window doesn't flash the empty state.
-					this.pendingSearch = true
-					this.debouncedFind(this.searchQuery)
+					this.scheduleSearch()
 				}
 			},
 		},
@@ -831,6 +851,16 @@ export default defineComponent({
 
 	mounted() {
 		subscribe('nextcloud:unified-search:add-filter', this.handlePluginFilter)
+	},
+
+	// Includes a resize in flight, so it starts from what is on screen.
+	beforeUpdate() {
+		const panel = this.$refs.panel as HTMLElement | undefined
+		this.panelFrom = panel ? panel.getBoundingClientRect().height : 0
+	},
+
+	updated() {
+		this.animatePanelResize()
 	},
 
 	methods: {
@@ -940,12 +970,63 @@ export default defineComponent({
 			this.focusTrap = null
 		},
 
+		/** Measuring a held box gives the held height back, so it carries between keystrokes. */
+		captureReservedHeight() {
+			const results = this.$refs.resultsContainer as HTMLElement | undefined
+			this.reservedHeight = results ? results.getBoundingClientRect().height : 0
+		},
+
+		/** Nothing is written to the panel's style, so it follows its content again once done. */
+		animatePanelResize() {
+			const panel = this.$refs.panel as HTMLElement | undefined
+			const from = this.panelFrom
+
+			// Cancel before measuring, or `to` comes back mid-animation. Detach onfinish first, or
+			// it strips the class off the resize that replaces this one.
+			if (this.panelResize) {
+				this.panelResize.onfinish = null
+				this.panelResize.cancel()
+				this.panelResize = null
+			}
+			panel?.classList.remove(RESIZING_CLASS)
+
+			// A closing panel keeps its size through the fade-out; jsdom has no Web Animations.
+			if (!panel || !from || !this.open || typeof panel.animate !== 'function') {
+				return
+			}
+
+			// Zeroed by the reduced-motion theme, which the OS preference switches on as well.
+			const duration = parseFloat(getComputedStyle(panel).getPropertyValue('--animation-slow'))
+			if (!duration) {
+				return
+			}
+
+			const to = panel.getBoundingClientRect().height
+			if (Math.abs(to - from) < 1) {
+				return
+			}
+
+			panel.classList.add(RESIZING_CLASS)
+			const resize = panel.animate(
+				[{ height: `${from}px` }, { height: `${to}px` }],
+				// The curve the panel slides in with, so a resize reads as the same motion.
+				{ duration, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+			)
+			resize.onfinish = () => panel.classList.remove(RESIZING_CLASS)
+			this.panelResize = markRaw(resize)
+		},
+
 		/**
-		 * Only close the modal but keep the query for in-app search
+		 * Blank the results, then queue the search. Every query and filter change comes through
+		 * here. The results on screen answer the previous question, so holding them until the
+		 * debounce fires only means they shift once the real ones land.
 		 */
-		searchLocally() {
-			this.$emit('update:query', this.searchQuery)
-			this.$emit('update:open', false)
+		scheduleSearch() {
+			this.captureReservedHeight()
+			this.reset()
+			// Mark busy synchronously so the debounce window doesn't flash the empty state.
+			this.pendingSearch = true
+			this.debouncedFind(this.searchQuery)
 		},
 
 		find(query: string) {
@@ -1047,7 +1128,7 @@ export default defineComponent({
 				this.filters[existingPersonFilter].name = person.displayName
 			}
 
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 			unifiedSearchLogger.debug('Person filter applied', { person })
 		},
 
@@ -1155,7 +1236,7 @@ export default defineComponent({
 			})
 			this.filters = this.syncProviderFilters(this.filters, this.filteredProviders)
 			unifiedSearchLogger.debug('Search filters (newly added)', { filters: this.filters })
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		removeFilter(filter) {
@@ -1177,7 +1258,7 @@ export default defineComponent({
 					}
 				}
 			}
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		syncProviderFilters(firstArray, secondArray) {
@@ -1213,7 +1294,7 @@ export default defineComponent({
 				this.filters.push(this.dateFilter)
 			}
 
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		applyQuickDateRange(range) {
@@ -1295,7 +1376,7 @@ export default defineComponent({
 					break
 				}
 			}
-			this.debouncedFind(this.searchQuery)
+			this.scheduleSearch()
 		},
 
 		groupProvidersByApp(filters) {
@@ -1489,14 +1570,20 @@ export default defineComponent({
 	// Leave ~10vh below the panel so it does not reach the bottom of the page
 	max-height: calc(90vh - var(--header-height));
 	border-radius: var(--border-radius-container-large, var(--border-radius-rounded));
-	// Clip the header/results to the rounded corners
-	overflow: hidden;
+	// Clip the header/results to the rounded corners. `clip` rather than `hidden` so this is
+	// not a scroll container: a squeezed panel would otherwise scroll the filter row away.
+	overflow: clip;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
 	box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
 	// The panel slides down into place; the enter/leave classes set the start offset.
 	// Same easeOutQuart curve as the header input so the whole search UI moves in step.
 	transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+// Mid-resize the panel is shorter than its content; clip so no scrollbar flashes.
+.unified-search-modal__container.is-animating-height .unified-search-modal__results {
+	overflow: clip;
 }
 
 // Fullscreen on small viewports, mirrors NcModal's responsive breakpoint
@@ -1558,14 +1645,16 @@ export default defineComponent({
 		position: relative;
 		display: flex;
 		flex-direction: column;
+		// The results box absorbs the resize; the filter row keeps its size.
+		flex-shrink: 0;
 		gap: calc(var(--default-grid-baseline) * 2);
 		padding-inline: calc(var(--default-grid-baseline) * 4);
 		// Trim the bottom when the filter row is all there is; results add it back below.
 		padding-block: calc(var(--default-grid-baseline) * 4) 0;
 
-		// With results below, restore the full bottom inset above the divider (which aligns
+		// With content below, restore the full bottom inset above the divider (which aligns
 		// to the content edge).
-		&--has-results {
+		&--has-content-below {
 			padding-block-end: calc(var(--default-grid-baseline) * 4);
 
 			&::after {
@@ -1690,16 +1779,6 @@ export default defineComponent({
 		justify-content: center;
 	}
 
-	// End-of-list (and empty-state) connected-services opt-in.
-	&__connected-services {
-		display: flex;
-		flex-wrap: wrap;
-		// Stretch to panel width so the wide button fills it (the empty-state's centred column
-		// would otherwise shrink it to content width).
-		width: 100%;
-		margin-block-start: calc(var(--default-grid-baseline) * 3);
-	}
-
 	// Directional glyphs (back arrow, more-from chevron) point the other way in RTL.
 	// :dir(rtl) tracks the computed direction, unlike an [dir=rtl] attribute selector.
 	&__rtl-icon:dir(rtl) {
@@ -1711,9 +1790,32 @@ export default defineComponent({
 		flex: 1 1 auto;
 		min-height: 0;
 		overflow: hidden auto;
+
+		// The reserved height is a floor, not a size. Column layout so the placeholders can
+		// take what the results leave.
+		&--held {
+			display: flex;
+			flex-direction: column;
+			flex-grow: 0;
+
+			> *:not(.search-result-skeleton) {
+				flex: none;
+			}
+		}
 		// Adjust padding to match container but keep the scrollbar on the very end
 		padding-inline: calc(var(--default-grid-baseline) * 4);
 		padding-block: 0 calc(var(--default-grid-baseline) * 4);
+
+		.search-result-skeleton {
+			// Matches the gap a category title keeps above itself.
+			margin-block-start: 14px;
+			// The placeholders deliberately overfill, so the bottom fades out over the cut.
+			flex: 1 1 0;
+			min-block-size: 0;
+			overflow: clip;
+			// Capped, so a short box does not spend a third of itself fading.
+			mask-image: linear-gradient(to bottom, #000 calc(100% - min(2lh, 25%)), transparent);
+		}
 
 		.result {
 			&-title {

@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-declare(strict_types=1);
+namespace OCA\Sharing\Tests\Controller;
 
+use Closure;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\Permission\SharePermission;
 use NCU\Sharing\Property\ShareProperty;
@@ -14,6 +17,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
 use OCA\Sharing\Controller\ApiV1Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -25,6 +29,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use Test\Sharing\AbstractSharingManagerTests;
 
@@ -39,23 +44,26 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 		$user = Server::get(IUserManager::class)->createUser('user', 'password');
 		$this->assertNotFalse($user);
 
-		self::loginAsUser($user->getUID());
+		try {
+			self::loginAsUser($user->getUID());
 
-		$controller = new ApiV1Controller(
-			'',
-			Server::get(IRequest::class),
-			Server::get(IUserSession::class),
-			Server::get(ISharingManager::class),
-			$this->registry,
-			Server::get(IFactory::class),
-			Server::get(IURLGenerator::class),
-			Server::get(IUserManager::class),
-			Server::get(IDBConnection::class),
-		);
+			$controller = new ApiV1Controller(
+				'',
+				Server::get(IRequest::class),
+				Server::get(IUserSession::class),
+				Server::get(ISharingManager::class),
+				$this->registry,
+				Server::get(IFactory::class),
+				Server::get(IURLGenerator::class),
+				Server::get(IUserManager::class),
+				Server::get(IDBConnection::class),
+			);
 
-		$this->assertEquals(new ShareAccessContext($user), $controller->accessContext);
-
-		self::logout();
+			$this->assertEquals(new ShareAccessContext($user), $controller->accessContext);
+		} finally {
+			self::logout();
+			$user->delete();
+		}
 	}
 
 	/**
@@ -106,6 +114,12 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 	}
 
 	#[Override]
+	protected function updateShareUserStatus(ShareAccessContext $accessContext, Share $share, ShareUserStatus $userStatus): array {
+		/** @var SharingShare */
+		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->updateShareUserStatus($share->id, $userStatus->value));
+	}
+
+	#[Override]
 	protected function addShareSource(ShareAccessContext $accessContext, Share $share, ShareSource $source): array {
 		/** @var SharingShare */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->addShareSource($share->id, $source->class, $source->value));
@@ -149,6 +163,12 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 	}
 
 	#[Override]
+	protected function updateShareRecipientPermission(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, SharePermission $permission): array {
+		/** @var SharingShare */
+		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->updateShareRecipientPermission($share->id, $recipient->class, $recipient->value, $recipient->instance, $permission->class, $permission->enabled));
+	}
+
+	#[Override]
 	protected function selectSharePermissionPreset(ShareAccessContext $accessContext, Share $share, string $permissionPresetClass): array {
 		/** @psalm-suppress ArgumentTypeCoercion */
 		/** @var SharingShare */
@@ -170,15 +190,15 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 	 * @psalm-suppress MixedReturnTypeCoercion
 	 */
 	#[Override]
-	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array {
-		return $this->executeRequest($accessContext, function (ApiV1Controller $controller) use ($filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit): DataResponse {
+	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array {
+		return $this->executeRequest($accessContext, function (ApiV1Controller $controller) use ($filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit): DataResponse {
 			if ($limit !== null) {
 				/** @psalm-suppress ArgumentTypeCoercion */
-				return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit);
+				return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $filterState?->value, $filterUserStatus?->value, $lastShareID, $limit);
 			}
 
 			/** @psalm-suppress ArgumentTypeCoercion */
-			return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $lastShareID);
+			return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $filterState?->value, $filterUserStatus?->value, $lastShareID);
 		});
 	}
 }

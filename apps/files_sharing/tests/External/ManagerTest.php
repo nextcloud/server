@@ -39,6 +39,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCS\IDiscoveryService;
 use OCP\Server;
 use OCP\Share\IShare;
@@ -72,16 +73,23 @@ class ManagerTest extends TestCase {
 	protected IUserManager&MockObject $userManager;
 	protected ISetupManager&MockObject $setupManagerEncTrait;
 	protected ICertificateManager&MockObject $certificateManager;
+	private IDiscoveryService&MockObject $discoveryService;
+	private IOCMDiscoveryService&MockObject $ocmDiscoveryService;
 	private ExternalShareMapper $externalShareMapper;
 	private IConfig $config;
 
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->discoveryService = $this->createMock(IDiscoveryService::class);
+		$this->ocmDiscoveryService = $this->createMock(IOCMDiscoveryService::class);
+		$this->clientService = $this->createMock(IClientService::class);
+		$this->overwriteService(IDiscoveryService::class, $this->discoveryService);
+		$this->overwriteService(IOCMDiscoveryService::class, $this->ocmDiscoveryService);
+		$this->overwriteService(IClientService::class, $this->clientService);
+
 		$this->user = $this->createUser($this->getUniqueID('user'), '');
 		$this->mountManager = new \OC\Files\Mount\Manager($this->createMock(SetupManagerFactory::class));
-		$this->clientService = $this->getMockBuilder(IClientService::class)
-			->disableOriginalConstructor()->getMock();
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -162,7 +170,7 @@ class ManagerTest extends TestCase {
 					new StorageFactory(),
 					$this->clientService,
 					Server::get(\OCP\Notification\IManager::class),
-					Server::get(IDiscoveryService::class),
+					$this->discoveryService,
 					$this->cloudFederationProviderManager,
 					$this->cloudFederationFactory,
 					$this->groupManager,
@@ -224,12 +232,21 @@ class ManagerTest extends TestCase {
 		if ($isGroup) {
 			$this->manager->expects($this->never())->method('tryOCMEndPoint')->willReturn(false);
 		} else {
-			$this->manager->expects(self::atLeast(2))
+			$counter = self::atLeast(2);
+			$this->manager->expects($counter)
 				->method('tryOCMEndPoint')
-				->willReturnMap([
-					['http://localhost', 'token1', '2342', 'accept', false],
-					['http://localhost', 'token3', '2342', 'decline', false],
-				]);
+				->willReturnCallback(function (ExternalShare $share, string $feedback) use ($counter): bool {
+					$this->assertEquals($share->getRemote(), 'http://localhost');
+					$this->assertEquals($share->getRemoteId(), '2342');
+					if ($counter->numberOfInvocations() === 1) {
+						$this->assertEquals('accept', $feedback);
+						$this->assertEquals('token1', $share->getRefreshToken());
+					} elseif ($counter->numberOfInvocations() === 2) {
+						$this->assertEquals('decline', $feedback);
+						$this->assertEquals('token3', $share->getRefreshToken());
+					}
+					return false;
+				});
 		}
 
 		// Add a share for "user"

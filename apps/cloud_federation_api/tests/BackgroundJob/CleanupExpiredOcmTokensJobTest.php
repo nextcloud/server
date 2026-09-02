@@ -10,14 +10,14 @@ declare(strict_types=1);
 namespace OCA\CloudFederationAPI\Tests\BackgroundJob;
 
 use OCA\CloudFederationAPI\BackgroundJob\CleanupExpiredOcmTokensJob;
-use OCA\CloudFederationAPI\Db\OcmTokenMapMapper;
+use OCA\CloudFederationAPI\Service\OcmTokenService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CleanupExpiredOcmTokensJobTest extends TestCase {
 	private ITimeFactory&MockObject $timeFactory;
-	private OcmTokenMapMapper&MockObject $mapper;
+	private OcmTokenService&MockObject $tokenService;
 	private CleanupExpiredOcmTokensJob $job;
 
 	#[\Override]
@@ -25,20 +25,16 @@ class CleanupExpiredOcmTokensJobTest extends TestCase {
 		parent::setUp();
 
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->mapper = $this->createMock(OcmTokenMapMapper::class);
+		$this->tokenService = $this->createMock(OcmTokenService::class);
 
-		$this->job = new CleanupExpiredOcmTokensJob($this->timeFactory, $this->mapper);
+		$this->job = new CleanupExpiredOcmTokensJob($this->timeFactory, $this->tokenService);
 	}
 
-	public function testRunDeletesExpiredTokens(): void {
+	public function testRunRevokesExpiredAtCurrentTime(): void {
 		$now = 1700000000;
-		$this->timeFactory->expects($this->once())
-			->method('getTime')
-			->willReturn($now);
-
-		$this->mapper->expects($this->once())
-			->method('deleteExpired')
-			->with($now);
+		$this->timeFactory->method('getTime')->willReturn($now);
+		$this->tokenService->expects($this->once())
+			->method('revokeExpired')->with($now);
 
 		$method = new \ReflectionMethod(CleanupExpiredOcmTokensJob::class, 'run');
 		$method->invoke($this->job, []);

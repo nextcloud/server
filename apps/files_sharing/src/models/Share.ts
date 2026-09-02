@@ -422,7 +422,7 @@ export default class Share {
 		const hasDisabledDownload = (attribute) => {
 			return attribute.scope === 'permissions' && attribute.key === 'download' && attribute.value === false
 		}
-		return this.attributes.some(hasDisabledDownload)
+		return !this.attributes.some(hasDisabledDownload)
 	}
 
 	/**

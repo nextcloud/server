@@ -221,8 +221,8 @@ class MigrateOauthTables implements IRepairStep {
 			$now = $this->timeFactory->now()->getTimestamp();
 			$index = 0;
 			while ($row = $result->fetchAssociative()) {
-				$clientId = $row['client_id'];
-				$refreshToken = $row['token'];
+				$clientId = (int)$row['client_id'];
+				$refreshToken = (string)$row['token'];
 
 				// Insert expired token so that it can be rotated on the next refresh
 				$accessToken = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
@@ -239,12 +239,12 @@ class MigrateOauthTables implements IRepairStep {
 				$this->tokenProvider->updateToken($authToken);
 
 				$accessTokenEntity = new AccessToken();
-				$accessTokenEntity->setTokenId($authToken->getId());
-				$accessTokenEntity->setClientId($clientId);
-				$accessTokenEntity->setHashedCode(hash('sha512', $refreshToken));
-				$accessTokenEntity->setEncryptedToken($this->crypto->encrypt($accessToken, $refreshToken));
-				$accessTokenEntity->setCodeCreatedAt($now);
-				$accessTokenEntity->setTokenCount(1);
+				$accessTokenEntity->tokenId = $authToken->getId();
+				$accessTokenEntity->clientId = $clientId;
+				$accessTokenEntity->hashedCode = hash('sha512', $refreshToken);
+				$accessTokenEntity->encryptedToken = $this->crypto->encrypt($accessToken, $refreshToken);
+				$accessTokenEntity->codeCreatedAt = $now;
+				$accessTokenEntity->tokenCount = 1;
 				$this->accessTokenMapper->insert($accessTokenEntity);
 
 				$index++;

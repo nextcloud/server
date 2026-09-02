@@ -4,7 +4,7 @@
  */
 import { shallowMount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 // @nextcloud/vue's Window._nc_focus_trap augmentation is not in this test's program,
 // so reach the shared trap stack through a cast. onEscapeKey only compares identity,
@@ -43,12 +43,15 @@ vi.mock('../../logger.js', () => ({
 	unifiedSearchLogger: { debug: vi.fn(), error: vi.fn() },
 }))
 
+import ConnectedServicesBar from '../../components/UnifiedSearch/ConnectedServicesBar.vue'
 import UnifiedSearchModal from '../../components/UnifiedSearch/UnifiedSearchModal.vue'
+import { isCategoryVisible } from '../../services/UnifiedSearchController.ts'
 
 let searchSpy: ReturnType<typeof vi.fn>
 let loadMoreSpy: ReturnType<typeof vi.fn>
 let resetSpy: ReturnType<typeof vi.fn>
 let searchStates: ReturnType<typeof ref>
+let revealOrderOverride: ReturnType<typeof ref>
 
 // VTU v1 (the legacy Vue 2.7 project) has no flushPromises export; drain the
 // microtask + timer queue so resolved provider fetches and their .then run.
@@ -63,7 +66,7 @@ function loaded(entries: unknown[], hasMore = false) {
 
 function factory(open = true) {
 	return shallowMount(UnifiedSearchModal, {
-		propsData: { open, query: '', localSearch: false },
+		propsData: { open, query: '' },
 		global: { mocks: { t: (_: string, s: string) => s, n: (_: string, s: string) => s } },
 	})
 }
@@ -73,12 +76,22 @@ beforeEach(() => {
 	searchSpy = vi.fn()
 	loadMoreSpy = vi.fn()
 	searchStates = ref({})
+	// The controller derives the reveal order from what is visible, and when every category
+	// arrives in priority order that is simply the snapshot's key order. Mirror that here,
+	// through the controller's own predicate so the double can't drift from it, and tests
+	// that do not care about order need no extra setup. The ones that do set
+	// revealOrderOverride to make display order diverge from priority order.
+	revealOrderOverride = ref(null)
+	const revealOrder = computed(() => revealOrderOverride.value ?? Object.entries(searchStates.value)
+		.filter(([, state]) => isCategoryVisible(state))
+		.map(([category]) => category))
 	// Faithful stand-in for the composable's reset: like the real one, it empties
 	// the reactive snapshot the modal renders from.
 	resetSpy = vi.fn(() => {
 		searchStates.value = {}
+		revealOrderOverride.value = null
 	})
-	composable.api = { searchStates, search: searchSpy, loadMore: loadMoreSpy, reset: resetSpy }
+	composable.api = { searchStates, revealOrder, search: searchSpy, loadMore: loadMoreSpy, reset: resetSpy }
 })
 afterEach(() => vi.clearAllMocks())
 
@@ -128,12 +141,13 @@ describe('UnifiedSearchModal controller wiring', () => {
 			{ id: 'talk', name: 'Talk', order: 1 },
 			{ id: 'deck', name: 'Deck', order: 2 },
 		]
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
 		searchStates.value = {
 			files: loaded([{ resourceUrl: '/a' }]),
 			talk: { status: 'blocked', entries: [{ resourceUrl: '/b' }], cursor: null, hasMore: false, loadMoreFailed: false },
 			deck: loaded([]),
 		}
-		wrapper.vm.searchQuery = 'query'
 		await wrapper.vm.$nextTick()
 
 		// files: loaded + non-empty -> shown. talk: blocked -> withheld. deck: empty -> dropped.
@@ -144,12 +158,13 @@ describe('UnifiedSearchModal controller wiring', () => {
 	it('keeps a paging category on screen while its next page loads', async () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
 		// loadMore keeps page 1 visible but flips the category to 'loading' for the
 		// paging spinner. The group (and its rows) must not disappear during the refetch.
 		searchStates.value = {
 			files: { status: 'loading', entries: [{ resourceUrl: '/a' }], cursor: 'cursor-1', hasMore: true, loadMoreFailed: false },
 		}
-		wrapper.vm.searchQuery = 'query'
 		await wrapper.vm.$nextTick()
 
 		// The already-loaded row stays on screen while the next page loads.
@@ -256,9 +271,10 @@ describe('UnifiedSearchModal controller wiring', () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
 		wrapper.vm.minSearchLength = 3
+		wrapper.vm.searchQuery = 'ab'
+		await wrapper.vm.$nextTick()
 		// A search started for a longer query is still loading when the query shrinks.
 		searchStates.value = { files: { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false } }
-		wrapper.vm.searchQuery = 'ab'
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.searching).toBe(true)
@@ -291,14 +307,17 @@ describe('UnifiedSearchModal reset on close', () => {
 	it('clears the controller results when the modal closes, so nothing stale renders on the next open', async () => {
 		const wrapper = factory() // starts open
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
 		// A previous search left results in the still-mounted controller.
 		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
-		wrapper.vm.searchQuery = 'query'
 		await wrapper.vm.$nextTick()
 		expect(wrapper.vm.results).toHaveLength(1)
 
 		// Closing must reset the controller (the modal never unmounts, so dispose never
 		// runs). The next open then starts empty instead of flashing the old results.
+		// Cleared first: query changes reset too, so only the close counts here.
+		resetSpy.mockClear()
 		await wrapper.setProps({ open: false })
 
 		expect(resetSpy).toHaveBeenCalledOnce()
@@ -317,7 +336,7 @@ describe('UnifiedSearchModal reset on close', () => {
 		// The pending debounce must be cancelled on close so it can't dispatch for a shut modal.
 		const cancelPending = vi.spyOn(wrapper.vm.debouncedFind, 'clear')
 
-		// searchLocally-style close: keep the query, just shut the popover.
+		// Close without clearing: the query stays, only the popover shuts.
 		await wrapper.setProps({ open: false })
 
 		expect(cancelPending).toHaveBeenCalled()
@@ -471,7 +490,7 @@ describe('UnifiedSearchModal controller wiring (init)', () => {
 		// Open with a query already present: the open() handler starts the async provider
 		// fetch and calls find() before it resolves, so nothing is dispatched yet.
 		const wrapper = shallowMount(UnifiedSearchModal, {
-			propsData: { open: false, query: 'hello', localSearch: false },
+			propsData: { open: false, query: 'hello' },
 			global: { mocks: { t: (_: string, s: string) => s, n: (_: string, s: string) => s } },
 		})
 		// The focus trap needs a tabbable node the stubbed panel lacks; skip it here.
@@ -491,10 +510,13 @@ describe('UnifiedSearchModal keyboard selection', () => {
 	/**
 	 * Seed the modal with one provider and the given rows, then let it settle.
 	 */
+	// Query first, then results: a query change blanks the panel, so seeding before it would
+	// just be wiped. This is the real order of events too.
 	async function withRows(wrapper: ReturnType<typeof factory>, rows: unknown[]) {
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
-		searchStates.value = { files: loaded(rows) }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: loaded(rows) }
 		await wrapper.vm.$nextTick()
 	}
 
@@ -545,11 +567,12 @@ describe('UnifiedSearchModal keyboard selection', () => {
 			{ id: 'files', name: 'Files', order: 0 },
 			{ id: 'talk', name: 'Talk', order: 1 },
 		]
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
 		searchStates.value = {
 			files: loaded([{ resourceUrl: '/a' }]),
 			talk: loaded([{ resourceUrl: '/b' }]),
 		}
-		wrapper.vm.searchQuery = 'query'
 		await wrapper.vm.$nextTick()
 
 		// From the auto-selected first row (files-0), the next move crosses into the next group.
@@ -603,8 +626,9 @@ describe('UnifiedSearchModal keyboard selection', () => {
 			{ id: 'files', name: 'Files', order: 0 },
 			{ id: 'talk', name: 'Talk', order: 1 },
 		]
-		searchStates.value = { files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]) }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]) }
 		await wrapper.vm.$nextTick()
 		wrapper.vm.moveActive('next') // 0 → 1
 		expect(wrapper.vm.activeDescendantId).toBe('unified-search-result-files-1')
@@ -667,15 +691,16 @@ describe('UnifiedSearchModal keyboard selection', () => {
 			{ id: 'files', name: 'Files', order: 0, filters: { since: true, until: true } },
 			{ id: 'talk', name: 'Talk', order: 1 },
 		]
-		searchStates.value = {
-			files: loaded([{ resourceUrl: '/f1' }]),
-			talk: loaded([{ resourceUrl: '/t1' }]),
-		}
 		// An active date filter splits the incompatible provider (talk) into the
 		// partial-matches section, exercising the filtered-then-unfiltered concat.
 		wrapper.vm.dateFilter = { id: 'date', type: 'date', text: '', startFrom: new Date('2026-01-01'), endAt: new Date('2026-02-01') }
 		wrapper.vm.filters = [wrapper.vm.dateFilter]
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = {
+			files: loaded([{ resourceUrl: '/f1' }]),
+			talk: loaded([{ resourceUrl: '/t1' }]),
+		}
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.navigableRows.map((row: { id: string }) => row.id)).toEqual([
@@ -744,8 +769,9 @@ describe('UnifiedSearchModal live region', () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
 		wrapper.vm.initialized = true
-		searchStates.value = { files: { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false } }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false } }
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.liveMessage).toContain('Searching')
@@ -852,8 +878,9 @@ describe('UnifiedSearchModal result presentation', () => {
 	async function withGroup(wrapper: ReturnType<typeof factory>, id: string, entries: unknown[], hasMore = false) {
 		wrapper.vm.providers = [{ id, name: 'Files', order: 0 }]
 		wrapper.vm.initialized = true
-		searchStates.value = { [id]: loaded(entries, hasMore) }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { [id]: loaded(entries, hasMore) }
 		await wrapper.vm.$nextTick()
 	}
 
@@ -1021,7 +1048,7 @@ describe('UnifiedSearchModal result presentation', () => {
 		expect(wrapper.vm.detailCategory).toBeNull()
 	})
 
-	it('labels the connected-services button by the toggle state and re-runs find on toggle', async () => {
+	it('offers the connected-services opt-in and re-runs find when it is flipped', async () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [
 			{ id: 'files', name: 'Files', order: 0 },
@@ -1035,13 +1062,14 @@ describe('UnifiedSearchModal result presentation', () => {
 		wrapper.vm.find('query')
 		await wrapper.vm.$nextTick()
 
-		expect(buttonWithText(wrapper, 'More from connected services')).toBeTruthy()
+		const bar = wrapper.findComponent(ConnectedServicesBar)
+		expect(bar.props('active')).toBe(false)
 
-		wrapper.vm.toggleExternalResources()
+		bar.vm.$emit('toggle')
 		await wrapper.vm.$nextTick()
 
 		expect(searchSpy).toHaveBeenCalled()
-		expect(buttonWithText(wrapper, 'Less from connected services')).toBeTruthy()
+		expect(bar.props('active')).toBe(true)
 	})
 
 	it('returns focus to the search input after toggling connected services', async () => {
@@ -1079,7 +1107,7 @@ describe('UnifiedSearchModal result presentation', () => {
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.showEmptyContentInfo).toBe(true)
-		expect(buttonWithText(wrapper, 'connected services')).toBeTruthy()
+		expect(wrapper.findComponent(ConnectedServicesBar).exists()).toBe(true)
 	})
 
 	it('no longer renders the connected-services switch in the filter row', async () => {
@@ -1099,8 +1127,9 @@ describe('UnifiedSearchModal loading state', () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
 		wrapper.vm.initialized = true
-		searchStates.value = { files: loadingState }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: loadingState }
 		await wrapper.vm.$nextTick()
 		// The debounce fires and dispatches the real search, clearing the pending flag; from
 		// here the controller's loading state alone drives busy.
@@ -1149,8 +1178,9 @@ describe('UnifiedSearchModal loading state', () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
 		wrapper.vm.initialized = true
-		searchStates.value = { files: loadingState }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: loadingState }
 		await wrapper.vm.$nextTick()
 		// The debounce fires and dispatches; the pending flag clears and the loading category
 		// alone keeps it busy.
@@ -1168,10 +1198,387 @@ describe('UnifiedSearchModal loading state', () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
 		wrapper.vm.initialized = true
-		searchStates.value = { files: loadingState }
 		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = { files: loadingState }
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.findComponent({ name: 'NcLoadingIcon' }).exists()).toBe(true)
+	})
+})
+
+describe('UnifiedSearchModal loading skeleton', () => {
+	const loadingState = { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false }
+
+	/** jsdom does no layout, so fake the measurement. */
+	function measureResultsAt(wrapper: ReturnType<typeof factory>, height: number) {
+		const box = wrapper.vm.$refs.resultsContainer as HTMLElement
+		vi.spyOn(box, 'getBoundingClientRect').mockReturnValue({ height } as DOMRect)
+	}
+
+	/** Mount with a settled result on screen, ready for a keystroke to replace it. */
+	async function withResults() {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('query')
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }]) }
+		await wrapper.vm.$nextTick()
+		return wrapper
+	}
+
+	function skeleton(wrapper: ReturnType<typeof factory>) {
+		return wrapper.findComponent({ name: 'SearchResultSkeleton' })
+	}
+
+	it('holds the results box at the height it had when the query changed', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.isBusy).toBe(true)
+		expect(wrapper.vm.heldHeight).toBe(300)
+	})
+
+	it('asks for more rows the taller the panel it is holding', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		const tall = skeleton(wrapper).props('rows')
+		expect(tall).toBeGreaterThan(0)
+
+		wrapper.vm.reservedHeight = 100
+		await wrapper.vm.$nextTick()
+		expect(skeleton(wrapper).props('rows')).toBeLessThan(tall)
+	})
+
+	// The panel clips what does not fit, so asking for too few would leave a gap.
+	it('asks for more rows than fit the space', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		// A row plus its gap is never shorter than 60px.
+		expect(wrapper.vm.skeletonRows * 60).toBeGreaterThanOrEqual(300)
+	})
+
+	// isBusy stays true until the last provider answers, so the box carries real results meanwhile.
+	it('reserves the height as a floor, so landed results are never cut off', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('querying')
+
+		searchStates.value = {
+			files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }, { resourceUrl: '/c' }]),
+			talk: { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false },
+		}
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.isBusy).toBe(true)
+		expect(wrapper.vm.hasVisibleResults).toBe(true)
+
+		const style = wrapper.find('.unified-search-modal__results').attributes('style')
+		expect(style).toContain('min-block-size: 300px')
+		expect(style).not.toMatch(/(^|[^-])block-size: 300px/)
+	})
+
+	it('holds the same height through repeated keystrokes rather than creeping taller', async () => {
+		const wrapper = await withResults()
+		const box = wrapper.vm.$refs.resultsContainer as HTMLElement
+		// Stand in for the browser: report the padding on top of whatever height is set.
+		const padding = 16
+		vi.spyOn(box, 'getBoundingClientRect').mockImplementation(() => ({
+			height: (parseFloat(box.style.minBlockSize) || 300) + (box.style.boxSizing === 'border-box' ? 0 : padding),
+		}) as DOMRect)
+
+		wrapper.vm.searchQuery = 'q1'
+		await wrapper.vm.$nextTick()
+		const first = wrapper.vm.heldHeight
+		wrapper.vm.searchQuery = 'q12'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.searchQuery = 'q123'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.heldHeight).toBe(first)
+	})
+
+	it('falls back to a default height on the first search of a session', async () => {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.heldHeight).toBeGreaterThan(0)
+		expect(skeleton(wrapper).props('rows')).toBeGreaterThan(0)
+	})
+
+	// Any less and the fade swallows the row, leaving the heading bar on its own.
+	it('holds room for a row even when the box it measured was shorter than one', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 60)
+
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.heldHeight).toBe(126)
+	})
+
+	it('keeps the reservation through a run of quick keystrokes', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		wrapper.vm.searchQuery = 'queryings'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.heldHeight).toBe(300)
+	})
+
+	it('releases the height when the search settles', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('querying')
+		searchStates.value = { files: loaded([{ resourceUrl: '/c' }]) }
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.isBusy).toBe(false)
+		expect(wrapper.vm.heldHeight).toBe(null)
+		expect(skeleton(wrapper).exists()).toBe(false)
+	})
+
+	it('shows no bars on an empty or too-short query', async () => {
+		const wrapper = await withResults()
+		wrapper.vm.minSearchLength = 3
+		wrapper.vm.searchQuery = 'ab'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.heldHeight).toBe(null)
+		expect(skeleton(wrapper).exists()).toBe(false)
+	})
+
+	it('shows no bars in the detail view, which pages one category on its own', async () => {
+		const wrapper = await withResults()
+		searchStates.value = { files: { ...loaded([{ resourceUrl: '/a' }]), status: 'loading' } }
+		wrapper.vm.detailCategory = 'files'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.isBusy).toBe(true)
+		expect(skeleton(wrapper).exists()).toBe(false)
+	})
+
+	it('renders below every real result, so nothing on screen can be displaced', async () => {
+		const wrapper = await withResults()
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('querying')
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]), talk: loadingState }
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }, { id: 'talk', name: 'Talk', order: 1 }]
+		await wrapper.vm.$nextTick()
+
+		const container = wrapper.find('.unified-search-modal__results')
+		expect(container.find('.result-group').exists()).toBe(true)
+		expect(container.element.lastElementChild).toBe(skeleton(wrapper).element)
+	})
+
+	it('never enters navigableRows, so arrow keys cannot land on a placeholder', async () => {
+		const wrapper = await withResults()
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('querying')
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]), talk: loadingState }
+		await wrapper.vm.$nextTick()
+
+		expect(skeleton(wrapper).exists()).toBe(true)
+		expect(wrapper.vm.navigableRows.map((row) => row.resourceUrl)).toEqual(['/a'])
+	})
+
+	it('carries the header divider, so it does not flash in when the first category lands', async () => {
+		const wrapper = await withResults()
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.hasVisibleResults).toBe(false)
+		expect(wrapper.vm.hasContentBelowHeader).toBe(true)
+	})
+
+	it('drops the header divider once the placeholders go and nothing is left below', async () => {
+		const wrapper = await withResults()
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('querying')
+		searchStates.value = { files: loaded([]) }
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.hasContentBelowHeader).toBe(false)
+	})
+})
+
+describe('UnifiedSearchModal panel resize', () => {
+	/** Open modal whose panel reports `height` and records its animations. */
+	function factoryWithPanel(height: number) {
+		const wrapper = factory()
+		const panel = wrapper.vm.$refs.panel as HTMLElement
+		const animate = vi.fn(() => ({ cancel: vi.fn(), onfinish: null }) as unknown as Animation)
+		panel.animate = animate
+		vi.spyOn(panel, 'getBoundingClientRect').mockReturnValue({ height } as DOMRect)
+		// Stands in for the theming app, which is what hands the panel its duration.
+		panel.style.setProperty('--animation-slow', '200ms')
+		return { wrapper, panel, animate }
+	}
+
+	it('plays the panel from its previous height to the one it has now', async () => {
+		const { wrapper, panel, animate } = factoryWithPanel(420)
+		wrapper.vm.panelFrom = 200
+
+		wrapper.vm.animatePanelResize()
+
+		expect(animate).toHaveBeenCalledWith(
+			[{ height: '200px' }, { height: '420px' }],
+			expect.objectContaining({ duration: 200 }),
+		)
+		expect(panel.classList.contains('is-animating-height')).toBe(true)
+	})
+
+	it('leaves a render that does not move the height alone', async () => {
+		const { wrapper, animate } = factoryWithPanel(420)
+		wrapper.vm.panelFrom = 420
+
+		wrapper.vm.animatePanelResize()
+
+		expect(animate).not.toHaveBeenCalled()
+	})
+
+	it('drops the resize in flight when the panel closes', async () => {
+		const { wrapper, animate } = factoryWithPanel(420)
+		wrapper.vm.panelFrom = 200
+		wrapper.vm.animatePanelResize()
+		const running = wrapper.vm.panelResize
+
+		await wrapper.setProps({ open: false })
+		wrapper.vm.panelFrom = 100
+		wrapper.vm.animatePanelResize()
+
+		expect(running.cancel).toHaveBeenCalled()
+		expect(animate).toHaveBeenCalledTimes(1)
+	})
+
+	it('changes size without motion when the reduced-motion theme zeroes the duration', async () => {
+		const { wrapper, panel, animate } = factoryWithPanel(420)
+		wrapper.vm.panelFrom = 200
+		panel.style.setProperty('--animation-slow', '0')
+
+		wrapper.vm.animatePanelResize()
+
+		expect(animate).not.toHaveBeenCalled()
+	})
+})
+
+describe('UnifiedSearchModal reveal order', () => {
+	const providers = [
+		{ id: 'files', name: 'Files', order: 0 },
+		{ id: 'talk', name: 'Talk', order: 1 },
+		{ id: 'deck', name: 'Deck', order: 2 },
+	]
+
+	/**
+	 * Mount with three loaded categories and an explicit display order.
+	 */
+	async function withRevealOrder(order: string[]) {
+		const wrapper = factory()
+		wrapper.vm.providers = providers
+		wrapper.vm.searchQuery = 'query'
+		await wrapper.vm.$nextTick()
+		searchStates.value = {
+			files: loaded([{ resourceUrl: '/files' }]),
+			talk: loaded([{ resourceUrl: '/talk' }]),
+			deck: loaded([{ resourceUrl: '/deck' }]),
+		}
+		revealOrderOverride.value = order
+		await wrapper.vm.$nextTick()
+		return wrapper
+	}
+
+	it('renders groups and navigable rows in reveal order rather than priority order', async () => {
+		// files has top priority but was slow, so it was revealed last.
+		const wrapper = await withRevealOrder(['talk', 'deck', 'files'])
+
+		const titles = wrapper.findAll('.result-title').wrappers.map((w) => w.text())
+		expect(titles).toEqual(['Talk', 'Deck', 'Files'])
+		// navigableRows must agree with the DOM, or aria-activedescendant names a row
+		// somewhere other than where the highlight is.
+		expect(wrapper.vm.navigableRows.map((row) => row.resourceUrl)).toEqual(['/talk', '/deck', '/files'])
+	})
+
+	it('withholds a category that has results but has not been revealed', async () => {
+		// deck is loaded and non-empty but still blocked behind a slower category, so the
+		// controller keeps it out of the order and the modal must not second-guess that.
+		const wrapper = await withRevealOrder(['files', 'talk'])
+
+		const titles = wrapper.findAll('.result-title').wrappers.map((w) => w.text())
+		expect(titles).toEqual(['Files', 'Talk'])
+	})
+})
+
+describe('UnifiedSearchModal clearing on change', () => {
+	/**
+	 * Mount with one settled result on screen, ready for a change to blank it.
+	 */
+	async function withResultsOnScreen() {
+		const wrapper = factory()
+		wrapper.vm.providers = [{ id: 'files', name: 'Files', order: 0 }]
+		wrapper.vm.initialized = true
+		wrapper.vm.searchQuery = 'query'
+		await flushPromises()
+		searchStates.value = { files: loaded([{ resourceUrl: '/a' }]) }
+		await flushPromises()
+		expect(wrapper.findAllComponents({ name: 'SearchResult' })).toHaveLength(1)
+		resetSpy.mockClear()
+		return wrapper
+	}
+
+	it('hides the previous results on the keystroke, not when the debounce fires', async () => {
+		const wrapper = await withResultsOnScreen()
+
+		// Waiting for the debounce would leave the old query's results up for another 300ms,
+		// and they would then shift as the new ones land.
+		wrapper.vm.searchQuery = 'querying'
+		await flushPromises()
+
+		expect(resetSpy).toHaveBeenCalled()
+		expect(wrapper.findAllComponents({ name: 'SearchResult' })).toHaveLength(0)
+	})
+
+	it('hides the previous results when a filter changes', async () => {
+		const wrapper = await withResultsOnScreen()
+
+		wrapper.vm.updateDateFilter()
+		await flushPromises()
+
+		expect(resetSpy).toHaveBeenCalled()
+		expect(wrapper.findAllComponents({ name: 'SearchResult' })).toHaveLength(0)
+	})
+
+	it('does not flash the empty state while the debounce is pending', async () => {
+		const wrapper = await withResultsOnScreen()
+
+		wrapper.vm.searchQuery = 'querying'
+		await flushPromises()
+
+		// Blank because a search is coming, not because the search found nothing.
+		expect(wrapper.vm.showEmptyContentInfo).toBe(false)
+		expect(wrapper.vm.isBusy).toBe(true)
 	})
 })

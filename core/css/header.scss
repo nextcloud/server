@@ -9,6 +9,12 @@
 	max-height: calc(100vh - var(--header-height) - (2 * var(--default-grid-baseline)));
 }
 
+:root {
+	// Only valid where the header renders a search bar rather than a button: the
+	// user and settings layouts, from 512px up.
+	--unified-search-width: clamp(200px, 35vw, 700px);
+}
+
 /* Skip navigation links – show only on keyboard focus */
 #skip-actions {
 	position: absolute;
@@ -131,8 +137,12 @@
 		align-items: center;
 		justify-content: flex-end;
 		flex-shrink: 1;
-		// Add some spacing so the last entry looks ok
-		margin-inline-end: calc(3 * var(--default-grid-baseline));
+
+		// On the entry, not this container: an outer margin here would widen this
+		// side against .header-start and pull the centred search off centre.
+		> :last-child {
+			margin-inline-end: calc(3 * var(--default-grid-baseline));
+		}
 
 		// Grow to match header-start (which always grows) so the centered search
 		// stays centered. Only on desktop and only in the layouts that render

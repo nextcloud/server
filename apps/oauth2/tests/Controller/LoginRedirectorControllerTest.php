@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -25,18 +27,26 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
-class LoginRedirectorControllerTest extends TestCase {
+final class LoginRedirectorControllerTest extends TestCase {
 	private IRequest&MockObject $request;
+
 	private IURLGenerator&MockObject $urlGenerator;
+
 	private ClientMapper&MockObject $clientMapper;
+
 	private ISession&MockObject $session;
+
 	private IL10N&MockObject $l;
+
 	private ISecureRandom&MockObject $random;
+
 	private IAppConfig&MockObject $appConfig;
+
 	private IConfig&MockObject $config;
 
 	private LoginRedirectorController $loginRedirectorController;
 
+	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -64,7 +74,8 @@ class LoginRedirectorControllerTest extends TestCase {
 
 	public function testAuthorize(): void {
 		$client = new Client();
-		$client->setClientIdentifier('MyClientIdentifier');
+		$client->name = 'MyClientName';
+		$client->clientIdentifier = 'MyClientIdentifier';
 		$this->clientMapper
 			->expects($this->once())
 			->method('getByIdentifier')
@@ -97,8 +108,8 @@ class LoginRedirectorControllerTest extends TestCase {
 
 	public function testAuthorizeSkipPicker(): void {
 		$client = new Client();
-		$client->setName('MyClientName');
-		$client->setClientIdentifier('MyClientIdentifier');
+		$client->name = 'MyClientName';
+		$client->clientIdentifier = 'MyClientIdentifier';
 		$this->clientMapper
 			->expects($this->once())
 			->method('getByIdentifier')
@@ -114,7 +125,7 @@ class LoginRedirectorControllerTest extends TestCase {
 						/* Expected */
 						break;
 					default:
-						throw new LogicException();
+						throw new \LogicException();
 				}
 			});
 		$this->appConfig
@@ -150,8 +161,8 @@ class LoginRedirectorControllerTest extends TestCase {
 
 	public function testAuthorizeWrongResponseType(): void {
 		$client = new Client();
-		$client->setClientIdentifier('MyClientIdentifier');
-		$client->setRedirectUri('http://foo.bar');
+		$client->clientIdentifier = 'MyClientIdentifier';
+		$client->redirectUri = 'http://foo.bar';
 		$this->clientMapper
 			->expects($this->once())
 			->method('getByIdentifier')
@@ -167,8 +178,9 @@ class LoginRedirectorControllerTest extends TestCase {
 
 	public function testAuthorizeWithLegacyOcClient(): void {
 		$client = new Client();
-		$client->setClientIdentifier('MyClientIdentifier');
-		$client->setRedirectUri('http://localhost:*');
+		$client->name = 'MyClientName';
+		$client->clientIdentifier = 'MyClientIdentifier';
+		$client->redirectUri = 'http://localhost:*';
 		$this->clientMapper
 			->expects($this->once())
 			->method('getByIdentifier')
@@ -201,7 +213,8 @@ class LoginRedirectorControllerTest extends TestCase {
 
 	public function testAuthorizeNotForwardingUntrustedURIs(): void {
 		$client = new Client();
-		$client->setClientIdentifier('MyClientIdentifier');
+		$client->name = 'MyClientName';
+		$client->clientIdentifier = 'MyClientIdentifier';
 		$this->clientMapper
 			->expects($this->once())
 			->method('getByIdentifier')

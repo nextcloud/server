@@ -88,6 +88,7 @@ describe('useUnifiedSearch', () => {
 		const { api } = mountComposable()
 
 		expect(api.searchStates.value).toEqual({})
+		expect(api.revealOrder.value).toEqual([])
 	})
 
 	it('reflects controller state reactively as a search resolves', async () => {
@@ -102,6 +103,8 @@ describe('useUnifiedSearch', () => {
 			status: 'loaded',
 			entries: ['a result'],
 		})
+		// The order mirrors alongside the states; the view reads one against the other.
+		expect(api.revealOrder.value).toEqual(['files'])
 	})
 
 	it('appends a page through loadMore and reflects it', async () => {
@@ -138,6 +141,7 @@ describe('useUnifiedSearch', () => {
 		// Reset drops the previous session's results from the reactive mirror, so
 		// the modal renders nothing stale on its next open.
 		expect(api.searchStates.value).toEqual({})
+		expect(api.revealOrder.value).toEqual([])
 	})
 
 	it('cancels in-flight requests when the component unmounts', () => {

@@ -10,6 +10,7 @@
     "Search for a user profile. Start typing" : "Search for a user profile. Start typing",
     "Insert selected user profile link" : "Insert selected user profile link",
     "Insert" : "Insert",
+    "You & {user}" : "You & {user}",
     "You have not added any info yet" : "You have not added any info yet",
     "{user} has not added any info yet" : "{user} has not added any info yet",
     "Error opening the user status modal, try hard refreshing the page" : "Error opening the user status modal, try hard refreshing the page",

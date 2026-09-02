@@ -44,6 +44,7 @@
     "Collaborative tagging functionality which shares tags among people." : "Функціональність спільних міток дозволяє надавати у спільний доступ мітки.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Функція спільних міток, яка дозволяє ділитися мітками між користувачами. Чудово підходить для команд.\n\t(Якщо ви є постачальником послуг з багатокористувацькою інсталяцією, рекомендуємо деактивувати цей застосунок, оскільки мітки є спільними.)",
     "Search tags" : "Шукати мітки",
+    "No tags available" : "Відсутні мітки",
     "Public" : "Публічна",
     "Restricted" : "Обмежена",
     "Invisible" : "Невидима",

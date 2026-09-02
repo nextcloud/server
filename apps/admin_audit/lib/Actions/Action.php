@@ -21,47 +21,43 @@ class Action {
 	 * Log a single action with a log level of info
 	 *
 	 * @param string $text
-	 * @param array $params
-	 * @param array $elements
+	 * @param array<string, scalar|null|\DateTimeInterface> $params
+	 * @param list<string> $elements
 	 * @param bool $obfuscateParameters
 	 */
-	public function log(string $text,
+	public function log(
+		string $text,
 		array $params,
 		array $elements,
-		bool $obfuscateParameters = false): void {
+		bool $obfuscateParameters = false,
+	): void {
 		foreach ($elements as $element) {
-			if (!isset($params[$element])) {
-				if ($obfuscateParameters) {
-					$this->logger->critical(
-						'$params["' . $element . '"] was missing.',
-						['app' => 'admin_audit']
-					);
-				} else {
-					$this->logger->critical(
-						'$params["' . $element . '"] was missing. Transferred value: {params}',
-						['app' => 'admin_audit', 'params' => $params]
-					);
+			if (!array_key_exists($element, $params)) {
+				$message = '$params["' . $element . '"] was missing.';
+				$context = ['app' => 'admin_audit'];
+
+				if (!$obfuscateParameters) {
+					$message .= ' Transferred value: {params}';
+					$context['params'] = $params;
 				}
+
+				$this->logger->critical($message, $context);
 				return;
 			}
 		}
 
 		$replaceArray = [];
 		foreach ($elements as $element) {
-			if ($params[$element] instanceof \DateTime) {
-				$params[$element] = $params[$element]->format('Y-m-d H:i:s');
+			$value = $params[$element];
+			if ($value instanceof \DateTimeInterface) {
+				$value = $value->format('Y-m-d H:i:s');
 			}
-			$replaceArray[] = $params[$element];
+			$replaceArray[] = $value;
 		}
 
 		$this->logger->info(
-			vsprintf(
-				$text,
-				$replaceArray
-			),
-			[
-				'app' => 'admin_audit'
-			]
+			vsprintf($text, $replaceArray),
+			['app' => 'admin_audit'],
 		);
 	}
 }

@@ -7,6 +7,7 @@
  */
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\DirPermissionsMask;
+use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
 use OCA\DAV\Connector\LegacyPublicAuth;
 use OCA\DAV\Connector\Sabre\BearerAuth;
@@ -19,6 +20,7 @@ use OCP\App\IAppManager;
 use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorage;
@@ -112,11 +114,17 @@ $server = $serverFactory->createServer(
 		// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
 		$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
 		Filesystem::addStorageWrapper('sharePermissions', function (string $mountPoint, IStorage $storage) use ($share) {
-			return new DirPermissionsMask([
-				'storage' => $storage,
-				'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE,
-				'path' => 'files'
-			]);
+			$mask = $share->getPermissions() | Constants::PERMISSION_SHARE;
+
+			if ($storage instanceof IHomeStorage) {
+				return new DirPermissionsMask([
+					'storage' => $storage,
+					'mask' => $mask,
+					'path' => 'files',
+				]);
+			} else {
+				return new PermissionsMask(['storage' => $storage, 'mask' => $mask]);
+			}
 		});
 		Filesystem::addStorageWrapper('shareOwner', function (string $mountPoint, IStorage $storage) use ($share) {
 			return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
@@ -124,11 +132,25 @@ $server = $serverFactory->createServer(
 		Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 		$rootFolder = Server::get(IRootFolder::class);
-		$userFolder = $rootFolder->getUserFolder($share->getSharedBy());
+		$userId = $share->getShareType() === \OCP\Share\IShare::TYPE_REMOTE
+			? $share->getShareOwner()
+			: $share->getSharedBy();
+		$userFolder = $rootFolder->getUserFolder($userId);
 		$node = $userFolder->getFirstNodeById($fileId);
 		if (!$node) {
 			throw new \Sabre\DAV\Exception\NotFound();
 		}
+
+		// getFirstNodeById might return a node without share permission -> try to find a node which is shareable
+		if (!$node->isShareable()) {
+			foreach ($userFolder->getById($fileId) as $candidate) {
+				if ($candidate->isShareable()) {
+					$node = $candidate;
+					break;
+				}
+			}
+		}
+
 		$linkCheckPlugin->setFileInfo($node);
 
 		// If not readable (files_drop) enable the filesdrop plugin

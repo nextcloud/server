@@ -274,6 +274,7 @@ use OCP\Settings\IDeclarativeManager;
 use OCP\SetupCheck\ISetupCheckManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IPublicShareTemplateFactory;
+use OCP\Share\IShare;
 use OCP\Share\IShareHelper;
 use OCP\Snowflake\ISnowflakeDecoder;
 use OCP\Snowflake\ISnowflakeGenerator;
@@ -1042,15 +1043,15 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Share\IManager::class, \OC\Share20\Manager::class);
 
 		$this->registerService(ISearch::class, function (Server $c): ISearch {
-			$instance = new Search($c);
+			$instance = new Search($c, $c->get(IEventDispatcher::class));
 
 			// register default plugins
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_USER', 'class' => UserPlugin::class]);
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_USER', 'class' => UserByMailPlugin::class]);
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_GROUP', 'class' => GroupPlugin::class]);
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_EMAIL', 'class' => MailByMailPlugin::class]);
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE', 'class' => RemotePlugin::class]);
-			$instance->registerPlugin(['shareType' => 'SHARE_TYPE_REMOTE_GROUP', 'class' => RemoteGroupPlugin::class]);
+			$instance->registerPlugin(['shareType' => IShare::TYPE_USER, 'class' => UserPlugin::class]);
+			$instance->registerPlugin(['shareType' => IShare::TYPE_USER, 'class' => UserByMailPlugin::class]);
+			$instance->registerPlugin(['shareType' => IShare::TYPE_GROUP, 'class' => GroupPlugin::class]);
+			$instance->registerPlugin(['shareType' => ISHARE::TYPE_EMAIL, 'class' => MailByMailPlugin::class]);
+			$instance->registerPlugin(['shareType' => ISHARE::TYPE_REMOTE, 'class' => RemotePlugin::class]);
+			$instance->registerPlugin(['shareType' => ISHARE::TYPE_REMOTE_GROUP, 'class' => RemoteGroupPlugin::class]);
 
 			return $instance;
 		});

@@ -148,6 +148,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->emitEvent('Test', 'test', ['foo' => 'foo', 'bar' => 'bar']);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testRemoveAllSpecified(): void {
 		$listener = function (): void {
 			throw new EmittedException;
@@ -155,10 +156,9 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->removeListener('Test', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
-
-		$this->addToAssertionCount(1);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testRemoveWildcardListener(): void {
 		$listener1 = function (): void {
 			throw new EmittedException;
@@ -170,10 +170,9 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->listen('Test', 'test', $listener2);
 		$this->emitter->removeListener('Test', 'test');
 		$this->emitter->emitEvent('Test', 'test');
-
-		$this->addToAssertionCount(1);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testRemoveWildcardMethod(): void {
 		$listener = function (): void {
 			throw new EmittedException;
@@ -183,10 +182,9 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->removeListener('Test', null, $listener);
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Test', 'foo');
-
-		$this->addToAssertionCount(1);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testRemoveWildcardScope(): void {
 		$listener = function (): void {
 			throw new EmittedException;
@@ -196,10 +194,9 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->removeListener(null, 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Bar', 'test');
-
-		$this->addToAssertionCount(1);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testRemoveWildcardScopeAndMethod(): void {
 		$listener = function (): void {
 			throw new EmittedException;
@@ -211,8 +208,6 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Test', 'foo');
 		$this->emitter->emitEvent('Bar', 'foo');
-
-		$this->addToAssertionCount(1);
 	}
 
 	public function testRemoveKeepOtherCallback(): void {
@@ -228,8 +223,6 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->listen('Test', 'test', $listener2);
 		$this->emitter->removeListener('Test', 'test', $listener1);
 		$this->emitter->emitEvent('Test', 'test');
-
-		$this->addToAssertionCount(1);
 	}
 
 	public function testRemoveKeepOtherMethod(): void {
@@ -242,8 +235,6 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->listen('Test', 'foo', $listener);
 		$this->emitter->removeListener('Test', 'foo', $listener);
 		$this->emitter->emitEvent('Test', 'test');
-
-		$this->addToAssertionCount(1);
 	}
 
 	public function testRemoveKeepOtherScope(): void {
@@ -256,8 +247,6 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->listen('Bar', 'test', $listener);
 		$this->emitter->removeListener('Bar', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
-
-		$this->addToAssertionCount(1);
 	}
 
 	public function testRemoveNonExistingName(): void {
@@ -269,7 +258,5 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->removeListener('Bar', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
-
-		$this->addToAssertionCount(1);
 	}
 }

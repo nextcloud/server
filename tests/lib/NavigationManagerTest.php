@@ -15,6 +15,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -24,20 +25,20 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class NavigationManagerTest extends TestCase {
-	/** @var AppManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var AppManager&MockObject */
 	protected $appManager;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator&MockObject */
 	protected $urlGenerator;
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IFactory&MockObject */
 	protected $l10nFac;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession&MockObject */
 	protected $userSession;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager&MockObject */
 	protected $groupManager;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig&MockObject */
 	protected $config;
 
-	protected IEVentDispatcher|MockObject $dispatcher;
+	protected IEventDispatcher&MockObject $dispatcher;
 
 	/** @var NavigationManager */
 	protected $navigationManager;
@@ -172,6 +173,36 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists after clear()');
 	}
 
+	/**
+	 * Entry points that never call setup() (e.g. the OCS dispatch in ocs/v1.php)
+	 * must not silently lose closure-registered entries such as an app's nav
+	 * link: getAll() should only resolve what it can, not resolve nothing.
+	 */
+	public function testGetAllDoesNotResolveClosureBeforeSetup(): void {
+		$numberOfCalls = 0;
+		$this->navigationManager->add(function () use (&$numberOfCalls) {
+			$numberOfCalls++;
+
+			return [
+				'id' => 'entry id',
+				'name' => 'link text',
+				'order' => 1,
+				'href' => 'url',
+			];
+		});
+
+		$navigationEntries = $this->navigationManager->getAll('all');
+
+		$this->assertEquals(0, $numberOfCalls, 'Expected that the closure is not called by getAll() before setup()');
+		$this->assertEmpty($navigationEntries, 'Expected no navigation entry exists before setup()');
+
+		$this->navigationManager->setup();
+		$navigationEntries = $this->navigationManager->getAll('all');
+
+		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure is called by getAll() once setup() has run');
+		$this->assertArrayHasKey('entry id', $navigationEntries);
+	}
+
 	public function testAddClosureAfterSetup(): void {
 		$this->navigationManager->setup();
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists');
@@ -199,6 +230,26 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEquals(1, $numberOfCalls, 'Expected that the closure is only called once');
 		$this->assertCount(1, $navigationEntries, 'Expected that 1 navigation entry exists');
 		$this->assertArrayHasKey('late entry', $navigationEntries);
+	}
+
+	public function testGetAllFiltersActions(): void {
+		$this->navigationManager->add([
+			'id' => 'files',
+			'name' => 'Files',
+			'order' => 1,
+			'href' => 'url',
+		]);
+		$this->navigationManager->add([
+			'id' => 'logout',
+			'name' => 'Log out',
+			'order' => 2,
+			'href' => 'url',
+			'type' => INavigationManager::TYPE_ACTION,
+		]);
+
+		$this->assertEquals(['logout'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_ACTION)));
+		$this->assertEquals(['files'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_APPS)));
+		$this->assertEquals(['files', 'logout'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_ALL)));
 	}
 
 	public function testAddArrayClearGetAll(): void {

@@ -24,7 +24,9 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IFileAccess;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\IDBConnection;
 use OCP\Interaction\InteractionResource;
 use OCP\Interaction\Resources\NodeResource;
@@ -94,5 +96,19 @@ final readonly class NodeShareSourceType implements IShareSourceType, IEventList
 			$this->dbConnection->rollBack();
 			throw $exception;
 		}
+	}
+
+	#[\Override]
+	public function userHasDirectSharingAccessToSource(IUser $user, string $source): bool {
+		// TODO: cache nodes by id?
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$nodes = $userFolder->getById((int)$source);
+		foreach ($nodes as $node) {
+			if (!$node->getStorage() instanceof ISharedStorage && $node->isShareable() && $node->getMountPoint() instanceof IShareOwnerlessMount) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

@@ -55,6 +55,7 @@
 		<directory name="apps/files/tests/Sharing"/>
 		<directory name="lib/private/AppFramework/ORM"/>
 		<directory name="lib/public/AppFramework/ORM"/>
+		<directory name="apps/oauth2"/>
 		<ignoreFiles>
 			<!-- Circles internals are used -->
 			<file name="core/Sharing/Recipient/TeamShareRecipientType.php"/>

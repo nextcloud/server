@@ -31,21 +31,55 @@ function factory() {
 }
 
 /**
- * Dispatch Ctrl+<key> on the window and report whether the handler claimed it.
+ * Dispatch Ctrl+<key> from an element and report whether the handler claimed it.
+ * The guard inspects `event.target`, so this cannot dispatch on the window.
+ *
+ * @param key The key to press
+ * @param target The element the keystroke originates from
  */
-function pressCtrl(key = 'k') {
+function pressCtrl(key = 'k', target: EventTarget = document.body) {
 	const event = new KeyboardEvent('keydown', { key, ctrlKey: true, bubbles: true, cancelable: true })
 	const prevented = vi.spyOn(event, 'preventDefault')
-	window.dispatchEvent(event)
+	target.dispatchEvent(event)
 	return prevented
+}
+
+/**
+ * jsdom has no layout, so the mask's visibility has to be faked.
+ *
+ * @param parent Element to append the mask to
+ */
+function addVisibleModalMask(parent: Element = document.body) {
+	const mask = document.createElement('div')
+	mask.classList.add('modal-mask')
+	parent.appendChild(mask)
+	Element.prototype.checkVisibility = () => true
+	return mask
+}
+
+/**
+ * jsdom does not derive isContentEditable from the attribute.
+ */
+function addContentEditable() {
+	const editor = document.createElement('div')
+	Object.defineProperty(editor, 'isContentEditable', { value: true })
+	document.body.appendChild(editor)
+	return editor
 }
 
 beforeEach(() => {
 	mobile.value = false
 	location.value = { pathname: '/' }
-	window.OCP = { Accessibility: { disableKeyboardShortcuts: () => true } }
+	// useHotKey reads the accessibility opt-out once, when its module is first imported,
+	// so it cannot be toggled per test. Opting out is the library's behaviour, not ours.
+	window.OCP = { Accessibility: { disableKeyboardShortcuts: () => false } }
 })
-afterEach(() => vi.clearAllMocks())
+afterEach(() => {
+	vi.clearAllMocks()
+	document.body.replaceChildren()
+	// @ts-expect-error Restore the jsdom default (absent).
+	delete Element.prototype.checkVisibility
+})
 
 describe('UnifiedSearch open-state model', () => {
 	it('desktop: typing opens, clearing closes', async () => {
@@ -85,13 +119,8 @@ describe('UnifiedSearch open-state model', () => {
 })
 
 describe('UnifiedSearch focus shortcut (Ctrl/Cmd+K)', () => {
-	function mountWithShortcuts() {
-		window.OCP = { Accessibility: { disableKeyboardShortcuts: () => false } }
-		return factory()
-	}
-
 	it('desktop: focuses the header input and claims the key', () => {
-		const wrapper = mountWithShortcuts()
+		const wrapper = factory()
 		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
 
 		const prevented = pressCtrl()
@@ -103,7 +132,7 @@ describe('UnifiedSearch focus shortcut (Ctrl/Cmd+K)', () => {
 
 	it('mobile: opens the modal instead (no header input to focus)', () => {
 		mobile.value = true
-		const wrapper = mountWithShortcuts()
+		const wrapper = factory()
 
 		pressCtrl()
 
@@ -111,30 +140,22 @@ describe('UnifiedSearch focus shortcut (Ctrl/Cmd+K)', () => {
 		wrapper.destroy()
 	})
 
-	it('is not bound when the user disabled keyboard shortcuts', () => {
-		const wrapper = factory() // beforeEach leaves shortcuts disabled
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
-
-		pressCtrl()
-
-		expect(focusInput).not.toHaveBeenCalled()
-		wrapper.destroy()
-	})
-
-	it('stays out of the way on pages that own the search shortcut', () => {
+	// The allowlist means the page owns Ctrl+F, not Ctrl+K. Nothing on those pages binds
+	// Ctrl+K, so bailing out would hand it to the browser (Firefox opens its search bar).
+	it('still claims the key on pages that own Ctrl+F', () => {
 		location.value = { pathname: '/settings/users' }
-		const wrapper = mountWithShortcuts()
+		const wrapper = factory()
 		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
 
 		const prevented = pressCtrl()
 
-		expect(focusInput).not.toHaveBeenCalled()
-		expect(prevented).not.toHaveBeenCalled()
+		expect(focusInput).toHaveBeenCalled()
+		expect(prevented).toHaveBeenCalled()
 		wrapper.destroy()
 	})
 
 	it('unbinds the shortcut when the component is torn down', () => {
-		const wrapper = mountWithShortcuts()
+		const wrapper = factory()
 		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
 
 		wrapper.destroy()
@@ -145,7 +166,7 @@ describe('UnifiedSearch focus shortcut (Ctrl/Cmd+K)', () => {
 
 	// Under Caps Lock / Shift, event.key is 'K'. The shortcut must still fire.
 	it('fires regardless of key case', () => {
-		const wrapper = mountWithShortcuts()
+		const wrapper = factory()
 		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
 
 		pressCtrl('K')
@@ -153,17 +174,51 @@ describe('UnifiedSearch focus shortcut (Ctrl/Cmd+K)', () => {
 		expect(focusInput).toHaveBeenCalled()
 		wrapper.destroy()
 	})
+
+	it('leaves the key to the editor the user is typing in', () => {
+		const wrapper = factory()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+
+		const prevented = pressCtrl('k', addContentEditable())
+
+		expect(focusInput).not.toHaveBeenCalled()
+		expect(prevented).not.toHaveBeenCalled()
+		wrapper.destroy()
+	})
+
+	it('stays quiet behind an open modal from another app', () => {
+		const wrapper = factory()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		addVisibleModalMask()
+
+		const prevented = pressCtrl('k')
+
+		expect(focusInput).not.toHaveBeenCalled()
+		expect(prevented).not.toHaveBeenCalled()
+		wrapper.destroy()
+	})
+
+	// useHotKey has no way to exempt a component's own scrim, so the open results panel
+	// silences Ctrl+K. Re-focusing an already-focused input is a no-op, so this is only
+	// a papercut: the browser gets the key instead.
+	it('gives up the key behind its own results scrim', () => {
+		const wrapper = factory()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		document.body.appendChild(wrapper.vm.$el)
+		addVisibleModalMask(wrapper.vm.$el)
+
+		const prevented = pressCtrl('k')
+
+		expect(focusInput).not.toHaveBeenCalled()
+		expect(prevented).not.toHaveBeenCalled()
+		wrapper.destroy()
+	})
 })
 
 describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
-	function mountWithShortcuts() {
-		window.OCP = { Accessibility: { disableKeyboardShortcuts: () => false } }
-		return factory()
-	}
-
 	// Ctrl+F used to open the modal on an empty query; it now mirrors Ctrl+K.
 	it('desktop: focuses the input instead of opening an empty modal', () => {
-		const wrapper = mountWithShortcuts()
+		const wrapper = factory()
 		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
 
 		const prevented = pressCtrl('f')
@@ -176,7 +231,7 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 
 	it('mobile: opens the modal (no header input to focus)', () => {
 		mobile.value = true
-		const wrapper = mountWithShortcuts()
+		const wrapper = factory()
 
 		pressCtrl('f')
 
@@ -184,22 +239,9 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 		wrapper.destroy()
 	})
 
-	// Deck & co. own Ctrl+F for their in-app search bar; that must survive the alignment.
-	it('on local-search pages still toggles the local bar, not the global input', () => {
-		location.value = { pathname: '/apps/deck' }
-		const wrapper = mountWithShortcuts()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
-
-		pressCtrl('f')
-
-		expect(wrapper.vm.showLocalSearch).toBe(true)
-		expect(focusInput).not.toHaveBeenCalled()
-		wrapper.destroy()
-	})
-
 	it('stays out of the way on pages that own the search shortcut', () => {
 		location.value = { pathname: '/settings/users' }
-		const wrapper = mountWithShortcuts()
+		const wrapper = factory()
 		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
 
 		const prevented = pressCtrl('f')
@@ -209,10 +251,25 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 		wrapper.destroy()
 	})
 
+	// Deck filters cards in place and binds Ctrl+F to its own board input, so the header
+	// must not steal the key there. This replaces the local search bar we used to render.
+	it('leaves Ctrl+F to Deck, which filters in its own board input', () => {
+		location.value = { pathname: '/apps/deck' }
+		const wrapper = factory()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+
+		const prevented = pressCtrl('f')
+
+		expect(focusInput).not.toHaveBeenCalled()
+		expect(prevented).not.toHaveBeenCalled()
+		expect(wrapper.vm.showUnifiedSearch).toBe(false)
+		wrapper.destroy()
+	})
+
 	// Once search is engaged, Ctrl+F belongs to the browser again: a second press must
 	// reach the native find bar instead of being swallowed to re-focus what is already focused.
 	it('falls through to the browser once the results are open', () => {
-		const wrapper = mountWithShortcuts()
+		const wrapper = factory()
 		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
 		wrapper.vm.showUnifiedSearch = true
 
@@ -224,7 +281,7 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 	})
 
 	it('falls through to the browser while the header input already holds focus', () => {
-		const wrapper = mountWithShortcuts()
+		const wrapper = factory()
 		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
 		// The engaged check tests the real focused element against the input's DOM subtree,
 		// so it needs a focusable node that is actually in the document.
@@ -243,10 +300,46 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 		wrapper.destroy()
 	})
 
+	it('leaves the key to the editor the user is typing in', () => {
+		const wrapper = factory()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+
+		const prevented = pressCtrl('f', addContentEditable())
+
+		expect(focusInput).not.toHaveBeenCalled()
+		expect(prevented).not.toHaveBeenCalled()
+		wrapper.destroy()
+	})
+
+	it('leaves the key to an input the user is typing in', () => {
+		const wrapper = factory()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const field = document.createElement('input')
+		document.body.appendChild(field)
+
+		const prevented = pressCtrl('f', field)
+
+		expect(focusInput).not.toHaveBeenCalled()
+		expect(prevented).not.toHaveBeenCalled()
+		wrapper.destroy()
+	})
+
+	it('stays quiet behind an open modal from another app', () => {
+		const wrapper = factory()
+		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		addVisibleModalMask()
+
+		const prevented = pressCtrl('f')
+
+		expect(focusInput).not.toHaveBeenCalled()
+		expect(prevented).not.toHaveBeenCalled()
+		wrapper.destroy()
+	})
+
 	// Only Ctrl+F defers to the browser. Ctrl+K has no native meaning worth preserving
 	// (in Firefox it focuses the address bar), so it stays claimed even when engaged.
 	it('does not make Ctrl+K fall through as well', () => {
-		const wrapper = mountWithShortcuts()
+		const wrapper = factory()
 		vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
 		wrapper.vm.showUnifiedSearch = true
 
@@ -258,12 +351,10 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 })
 
 describe('UnifiedSearch combobox expanded state', () => {
-	// The header input is the combobox for the unified results only. On local-search
-	// pages (e.g. deck) Ctrl+F opens just the local bar, so the input must report
-	// collapsed and not point aria-controls at an unrendered popover.
-	it('reports collapsed when only the local search bar is open', async () => {
+	// The header input is the combobox for the results popover, so while that popover is
+	// shut it must report collapsed rather than point aria-controls at an unrendered panel.
+	it('reports collapsed while the results popover is closed', async () => {
 		const wrapper = factory()
-		wrapper.vm.showLocalSearch = true
 		wrapper.vm.showUnifiedSearch = false
 		await wrapper.vm.$nextTick()
 
