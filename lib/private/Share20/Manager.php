@@ -69,6 +69,8 @@ use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\Events\ShareMovedEvent;
+use OCP\Share\Events\ShareRestoredEvent;
+use OCP\Share\Events\ShareUpdatedEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -769,6 +771,8 @@ class Manager implements IManager {
 			$share = $provider->update($share);
 		}
 
+		$this->dispatcher->dispatchTyped(new ShareUpdatedEvent($share));
+
 		if (in_array($share->getShareType(), [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_CIRCLE, IShare::TYPE_ROOM, IShare::TYPE_DECK], true)
 			&& $originalShare->getAttributes()?->getAttribute('permissions', 'download') !== false
 			&& $share->getAttributes()?->getAttribute('permissions', 'download') === false) {
@@ -898,6 +902,7 @@ class Manager implements IManager {
 			$attributes->setAttribute('permissions', 'download', false);
 			$reshare->setAttributes($attributes);
 			$this->factory->getProviderForType($reshare->getShareType())->update($reshare);
+			$this->dispatcher->dispatchTyped(new ShareUpdatedEvent($reshare));
 		}
 	}
 
@@ -1243,7 +1248,11 @@ class Manager implements IManager {
 		[$providerId,] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
-		return $provider->restore($share, $recipientId);
+		$result = $provider->restore($share, $recipientId);
+
+		$this->dispatcher->dispatchTyped(new ShareRestoredEvent($share));
+
+		return $result;
 	}
 
 	#[Override]
@@ -1664,6 +1673,8 @@ class Manager implements IManager {
 			$share->setPasswordHash($newHash);
 			$provider = $this->factory->getProviderForType($share->getShareType());
 			$provider->update($share);
+
+			$this->dispatcher->dispatchTyped(new ShareUpdatedEvent($share));
 		}
 
 		return true;
