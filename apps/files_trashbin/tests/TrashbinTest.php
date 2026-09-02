@@ -20,6 +20,7 @@ use OCA\Files_Trashbin\AppInfo\Application as TrashbinApplication;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Storage;
+use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -48,6 +49,8 @@ class TrashbinTest extends \Test\TestCase {
 	private static $rememberRetentionObligation;
 	private static bool $trashBinStatus;
 	private View $rootView;
+	private array $trashDeleteHookParams = [];
+	private array $trashRestoreHookParams = [];
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
@@ -348,6 +351,183 @@ class TrashbinTest extends \Test\TestCase {
 		$this->assertSame(1, count($newTrashContent));
 		$element = reset($newTrashContent);
 		$this->assertSame('file1.txt', $element['name']);
+	}
+
+	private function getTrashRow(string $filename, int $timestamp): array|false {
+		$connection = Server::get(IDBConnection::class);
+		$query = $connection->getQueryBuilder();
+
+		return $query
+			->select('id', 'timestamp')
+			->from('files_trash')
+			->where(
+				$query->expr()->eq(
+					'user',
+					$query->createNamedParameter(self::TEST_TRASHBIN_USER1),
+				)
+			)
+			->andWhere(
+				$query->expr()->eq(
+					'id',
+					$query->createNamedParameter($filename),
+				)
+			)
+			->andWhere(
+				$query->expr()->eq(
+					'timestamp',
+					$query->createNamedParameter($timestamp),
+				)
+			)
+			->executeQuery()
+			->fetchAssociative();
+	}
+
+	public function captureTrashDeleteHook(array $params): void {
+		$this->trashDeleteHookParams[] = $params;
+	}
+
+	public function captureTrashRestoreHook(array $params): void {
+		$this->trashRestoreHookParams[] = $params;
+	}
+
+	/**
+	 * Permanent deletion through the trash manager removes the physical trash
+	 * item and its files_trash metadata row.
+	 */
+	public function testRemoveItemRemovesMetadataAndEmitsCanonicalPath(): void {
+		$userManager = Server::get(IUserManager::class);
+		$user = $userManager->get(self::TEST_TRASHBIN_USER1);
+		$this->assertNotNull($user);
+
+		$userFolder = Server::get(IRootFolder::class)
+			->getUserFolder(self::TEST_TRASHBIN_USER1);
+
+		$file = $userFolder->newFile('file1.txt');
+		$file->putContent('foo');
+		$file->delete();
+
+		$filesInTrash = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1);
+		$this->assertCount(1, $filesInTrash);
+
+		/** @var FileInfo $trashedFile */
+		$trashedFile = $filesInTrash[0];
+		$timestamp = $trashedFile->getMtime();
+
+		$this->assertNotFalse(
+			$this->getTrashRow('file1.txt', $timestamp),
+		);
+
+		$trashManager = Server::get(ITrashManager::class);
+		$trashItem = $trashManager->getTrashRootItem($user, 'file1.txt');
+
+		$this->assertNotNull($trashItem);
+		$this->assertSame(
+			'/file1.txt.d' . $timestamp,
+			$trashItem->getTrashPath(),
+		);
+
+		$this->trashDeleteHookParams = [];
+		\OC_Hook::connect(
+			'\OCP\Trashbin',
+			'delete',
+			$this,
+			'captureTrashDeleteHook',
+		);
+
+		$trashManager->removeItem($trashItem);
+
+		$this->assertFalse(
+			$this->rootView->file_exists(
+				$this->trashRoot1 . '/files/file1.txt.d' . $timestamp,
+			),
+		);
+
+		$this->assertFalse(
+			$this->getTrashRow('file1.txt', $timestamp),
+		);
+
+		$this->assertCount(1, $this->trashDeleteHookParams);
+		$this->assertSame(
+			'/files_trashbin/files/file1.txt.d' . $timestamp,
+			$this->trashDeleteHookParams[0]['path'],
+		);
+		$this->assertStringNotContainsString(
+			'//',
+			$this->trashDeleteHookParams[0]['path'],
+		);
+	}
+
+	/**
+	 * Restore through the trash manager accepts the ITrashItem path representation
+	 * and emits a canonical trash path.
+	 */
+	public function testRestoreItemEmitsCanonicalPathAndRemovesMetadata(): void {
+		$userManager = Server::get(IUserManager::class);
+		$user = $userManager->get(self::TEST_TRASHBIN_USER1);
+		$this->assertNotNull($user);
+
+		$userFolder = Server::get(IRootFolder::class)
+			->getUserFolder(self::TEST_TRASHBIN_USER1);
+
+		$file = $userFolder->newFile('file1.txt');
+		$file->putContent('foo');
+		$file->delete();
+
+		$filesInTrash = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1);
+		$this->assertCount(1, $filesInTrash);
+
+		/** @var FileInfo $trashedFile */
+		$trashedFile = $filesInTrash[0];
+		$timestamp = $trashedFile->getMtime();
+
+		$this->assertNotFalse(
+			$this->getTrashRow('file1.txt', $timestamp),
+		);
+
+		$trashManager = Server::get(ITrashManager::class);
+		$trashItem = $trashManager->getTrashRootItem($user, 'file1.txt');
+
+		$this->assertNotNull($trashItem);
+		$this->assertSame(
+			'/file1.txt.d' . $timestamp,
+			$trashItem->getTrashPath(),
+		);
+
+		$this->trashRestoreHookParams = [];
+		\OC_Hook::connect(
+			'\OCA\Files_Trashbin\Trashbin',
+			'post_restore',
+			$this,
+			'captureTrashRestoreHook',
+		);
+
+		$trashManager->restoreItem($trashItem);
+
+		$this->assertTrue($userFolder->nodeExists('file1.txt'));
+		$this->assertSame(
+			'foo',
+			$userFolder->get('file1.txt')->getContent(),
+		);
+
+		$this->assertFalse(
+			$this->rootView->file_exists(
+				$this->trashRoot1 . '/files/file1.txt.d' . $timestamp,
+			),
+		);
+
+		$this->assertFalse(
+			$this->getTrashRow('file1.txt', $timestamp),
+		);
+
+		$this->assertCount(1, $this->trashRestoreHookParams);
+		$this->assertSame(
+			'/file1.txt.d' . $timestamp,
+			$this->trashRestoreHookParams[0]['trashPath'],
+		);
+		$this->assertStringNotContainsString(
+			'//',
+			$this->trashRestoreHookParams[0]['trashPath'],
+		);
 	}
 
 	/**
