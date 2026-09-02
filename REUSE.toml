@@ -370,13 +370,7 @@ SPDX-FileCopyrightText = "Sam Potts <sam@potts.es>"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
-path = ["apps/viewer/composer.json", "apps/viewer/composer.lock"]
-precedence = "aggregate"
-SPDX-FileCopyrightText = "2016-2024 Nextcloud GmbH and Nextcloud contributors"
-SPDX-License-Identifier = "CC0-1.0"
-
-[[annotations]]
-path = ["apps/viewer/src/assets/menu-sidebar-white.svg", "apps/viewer/tests/psalm-baseline.xml"]
+path = ["apps/viewer/src/assets/menu-sidebar-white.svg"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2019 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

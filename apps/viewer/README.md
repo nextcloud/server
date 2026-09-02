@@ -4,8 +4,6 @@
 -->
 # Files viewer for nextcloud
 
-[![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/viewer)](https://api.reuse.software/info/github.com/nextcloud/viewer)
-
 Show your latest holiday photos and videos like in the movies. Show a glimpse of your latest novel directly from your nextcloud. Choose the best GIF of your collection thanks to the direct view of your favorites files!
 
 ![viewer](https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Viewer/viewer.png?v=2)
@@ -15,17 +13,17 @@ Show your latest holiday photos and videos like in the movies. Show a glimpse of
 - Videos
 
 ## 🏗 Development setup
-1. ☁ Clone this app into the `apps` folder of your Nextcloud: `git clone https://github.com/nextcloud/viewer.git`
-2. 👩‍💻 In the folder of the app, install dependencies with `npm ci` and build the Javascript with `npm run build`.
-3. 🎉 Partytime!
+The app ships with the server and is built by the server frontend build, so all
+commands are run from the repository root:
 
-### 🧙 Advanced development stuff
-To build the Javascript whenever you make changes, you can also run `npm run dev` for development builds.
+- `npm run build` builds every app, `npm run dev` rebuilds on change.
+- The bundle is emitted as `dist/viewer-init.mjs`.
 
 ### 🧪 Running tests
-Unit and component tests run with [Vitest](https://vitest.dev): execute `npm run test`.
+Unit and component tests run with [Vitest](https://vitest.dev): `npm run test apps/viewer`.
 
-End-to-end tests run with [Playwright](https://playwright.dev) and require Docker to spin up a Nextcloud instance. Start the test server with `npm run playwright:start-nextcloud`, then run the tests with `npm run playwright`.
+End-to-end tests run with [Playwright](https://playwright.dev) and live in
+`tests/playwright/e2e/viewer`: `npm run playwright -- viewer`.
 
 ## API
 

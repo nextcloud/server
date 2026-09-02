@@ -14,7 +14,7 @@
     <author mail="skjnldsv@protonmail.com">John Molakvoæ</author>
     <namespace>Viewer</namespace>
     <category>tools</category>
-    <bugs>https://github.com/nextcloud/viewer</bugs>
+    <bugs>https://github.com/nextcloud/server/issues</bugs>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Viewer/viewer.png</screenshot>
     <dependencies>
         <nextcloud min-version="36" max-version="36" />

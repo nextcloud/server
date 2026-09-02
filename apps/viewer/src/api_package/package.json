@@ -30,6 +30,6 @@
 		"build": "tsc"
 	},
 	"peerDependencies": {
-		"vue": "^2.7.16"
+		"vue": "^3.5.0"
 	}
 }
