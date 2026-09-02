@@ -92,7 +92,10 @@ class UserAvatar extends Avatar {
 		) {
 			$img->setResource($data);
 		} elseif (is_resource($data)) {
-			$img->loadFromFileHandle($data);
+			$contents = stream_get_contents($data);
+			if ($contents !== false) {
+				$img->loadFromData($contents);
+			}
 		} else {
 			try {
 				// detect if it is a path or maybe the images as string

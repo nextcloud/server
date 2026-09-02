@@ -17,25 +17,19 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Imaginary extends ProviderV2 {
-	/** @var IConfig */
-	private $config;
+	private IConfig $config;
+	private IClientService $service;
+	private LoggerInterface $logger;
 
-	/** @var IClientService */
-	private $service;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(array $config) {
-		parent::__construct($config);
+	public function __construct(
+		array $options,
+	) {
+		parent::__construct($options);
 		$this->config = Server::get(IConfig::class);
 		$this->service = Server::get(IClientService::class);
 		$this->logger = Server::get(LoggerInterface::class);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	#[\Override]
 	public function getMimeType(): string {
 		return self::supportedMimeTypes();
@@ -177,7 +171,10 @@ class Imaginary extends ProviderV2 {
 			);
 		} else {
 			$image = new Image();
-			$image->loadFromFileHandle($response->getBody());
+			$data = stream_get_contents($response->getBody());
+			if ($data === false || $image->loadFromData($data) === false) {
+				return null;
+			}
 		}
 
 		return $image->valid() ? $image : null;
