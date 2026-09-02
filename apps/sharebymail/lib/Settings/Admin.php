@@ -56,7 +56,10 @@ class Admin implements IDelegatedSettings {
 
 	public function getAuthorizedAppConfig(): array {
 		return [
-			'sharebymail' => ['s/(sendpasswordmail|replyToInitiator)/'],
+			'sharebymail' => [
+				'sendpasswordmail',
+				'replyToInitiator',
+			],
 		];
 	}
 }

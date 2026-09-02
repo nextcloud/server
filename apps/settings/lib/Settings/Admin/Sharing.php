@@ -116,7 +116,7 @@ class Sharing implements IDelegatedSettings {
 
 	public function getAuthorizedAppConfig(): array {
 		return [
-			'core' => ['/shareapi_.*/'],
+			'core' => ['/^shareapi_.*$/'],
 		];
 	}
 

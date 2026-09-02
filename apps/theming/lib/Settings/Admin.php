@@ -107,7 +107,7 @@ class Admin implements IDelegatedSettings {
 
 	public function getAuthorizedAppConfig(): array {
 		return [
-			Application::APP_ID => '/.*/',
+			Application::APP_ID => '/^.*$/',
 		];
 	}
 }
