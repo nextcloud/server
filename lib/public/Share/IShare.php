@@ -156,6 +156,13 @@ interface IShare {
 	public function setProviderId(string $id): self;
 
 	/**
+	 * Get the provider id.
+	 *
+	 * @since 35.0.0
+	 */
+	public function getProviderId(): string;
+
+	/**
 	 * Set the node of the file/folder that is shared
 	 *
 	 * @param Node $node
