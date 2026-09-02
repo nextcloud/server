@@ -533,6 +533,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result = $query->executeQuery();
 		$row = $result->fetchAssociative();
 		if (!$row) {
+			$result->closeCursor();
 			return false;
 		}
 		$row['etag'] = '"' . $row['etag'] . '"';
@@ -542,6 +543,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		if ($modified) {
 			$row['size'] = strlen($row['carddata']);
 		}
+		$result->closeCursor();
 
 		return $row;
 	}
@@ -1089,7 +1091,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	private function readBlob($cardData, &$modified = false) {
 		if (is_resource($cardData)) {
-			$cardData = stream_get_contents($cardData);
+			$stringCardData = stream_get_contents($cardData);
+			if ($stringCardData === false) {
+				return '';
+			}
+			fclose($cardData);
+			$cardData = $stringCardData;
 		}
 
 		// Micro optimisation
