@@ -67,6 +67,7 @@ export default defineConfig({
 		setupFiles: [
 			resolve(import.meta.dirname, '__tests__/mock-window.js'),
 			resolve(import.meta.dirname, '__tests__/setup-testing-library.js'),
+			resolve(import.meta.dirname, '../../apps/viewer/test/setup.ts'),
 		],
 		exclude: [
 			...defaultExclude,

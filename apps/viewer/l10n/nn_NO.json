@@ -1,0 +1,27 @@
+{ "translations": {
+    "Viewer" : "Framsynar",
+    "Cancel" : "Avbryt",
+    "Edit" : "Rediger",
+    "Open sidebar" : "Opne sidestolpe",
+    "Download" : "Last ned",
+    "Delete" : "Ta bort",
+    "View" : "Vis",
+    "Name" : "Namn",
+    "Save" : "Lagre",
+    "Back" : "Tilbake",
+    "Apply" : "Anvend",
+    "Warning" : "Åtvaring",
+    "Filters" : "Filter",
+    "Custom" : "Sjølvvald",
+    "Value" : "Verdi",
+    "Image" : "Bilete",
+    "Upload image" : "Last opp bilete",
+    "Text" : "Tekst",
+    "Size" : "Storleik",
+    "Play" : "Spel",
+    "Pause" : "Pause",
+    "Settings" : "Innstillingar",
+    "All" : "Alle",
+    "Disabled" : "Deaktivert"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

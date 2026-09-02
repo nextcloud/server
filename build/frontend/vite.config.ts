@@ -85,6 +85,9 @@ const modules = {
 	weather_status: {
 		'weather-status': resolve(import.meta.dirname, 'apps/weather_status/src', 'weather-status.js'),
 	},
+	viewer: {
+		init: resolve(import.meta.dirname, 'apps/viewer/src', 'init.ts'),
+	},
 }
 
 // convert modules to modules entries prefied with the app id
