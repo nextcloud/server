@@ -39,6 +39,7 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Psr\Clock\ClockInterface;
 use RuntimeException;
 
@@ -57,12 +58,15 @@ final readonly class SharingBackend implements ISharingBackend {
 		private IEventDispatcher $eventDispatcher,
 		private ClassMapper $classMapper,
 		private ClockInterface $clock,
+		private ISnowflakeGenerator $snowflakeGenerator,
 	) {
 		$this->l10n = $factory->get('sharing');
 	}
 
 	#[\Override]
 	public function createShare(string $id, ShareUser $owner, \DateTimeImmutable $lastUpdated): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->insert('sharing_share')
@@ -78,6 +82,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function onOwnerDeleted(ShareUser $owner): array {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->selectDistinct('id')
@@ -112,6 +118,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function updateShareState(string $id, ShareState $state): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share')
@@ -125,6 +133,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function updateShareUserStatus(string $id, string $userId, ShareUserStatus $userStatus): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share_user_status')
@@ -147,6 +157,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function addShareSource(string $id, ShareSource $source): void {
+		$this->assertInTransaction();
+
 		try {
 			$qb = $this->connection->getQueryBuilder();
 			$qb
@@ -171,6 +183,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function removeShareSource(string $id, ShareSource $source): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->delete('sharing_share_sources')
@@ -185,6 +199,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function onSourceDeleted(ShareSource $source): array {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb
 			->selectDistinct('share_id')
@@ -213,6 +229,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function addShareRecipient(string $id, ShareRecipient $recipient): void {
+		$this->assertInTransaction();
+
 		if ($recipient->secret === null) {
 			throw new RuntimeException('The secret must not be null.');
 		}
@@ -225,6 +243,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$qb = $this->connection->getQueryBuilder();
 
 			$values = [
+				'id' => $qb->createNamedParameter($this->snowflakeGenerator->nextId()),
 				'share_id' => $qb->createNamedParameter($id),
 				'recipient_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT),
 				'recipient_value' => $qb->createNamedParameter($recipient->value),
@@ -252,6 +271,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function removeShareRecipient(string $id, ShareRecipient $recipient): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->delete('sharing_share_recipients')
@@ -273,6 +294,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function onRecipientDeleted(ShareRecipient $recipient): array {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb
 			->selectDistinct('share_id')
@@ -315,6 +338,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function onInitiatorDeleted(ShareUser $initiator): array {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->selectDistinct('share_id')
@@ -360,6 +385,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function updateShareRecipientSecret(string $id, ShareRecipient $recipient, string $secret): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share_recipients')
@@ -381,38 +408,9 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function createShareProperty(string $id, ShareProperty $property): ?string {
-		$value = $property->value;
-
-		$propertyType = $this->registry->getPropertyTypes()[$property->class];
-
-		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-			$value = $propertyType->modifyValueOnSave(null, $property->value);
-		}
-
-		try {
-			$qb = $this->connection->getQueryBuilder();
-			$qb
-				->insert('sharing_share_properties')
-				->values([
-					'share_id' => $qb->createNamedParameter($id),
-					'property_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT),
-					'property_value' => $qb->createNamedParameter($value),
-				])
-				->executeStatement();
-
-			return $value;
-		} catch (\OCP\DB\Exception $exception) {
-			if ($exception->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-				throw new RuntimeException('The property already exists: ' . $property->class, $exception->getCode(), $exception);
-			}
-
-			throw $exception;
-		}
-	}
-
-	#[\Override]
 	public function updateShareProperty(string $id, ShareProperty $property): ?string {
+		$this->assertInTransaction();
+
 		$value = $property->value;
 
 		$propertyType = $this->registry->getPropertyTypes()[$property->class];
@@ -448,35 +446,24 @@ final readonly class SharingBackend implements ISharingBackend {
 			)
 			->executeStatement();
 		if ($rowCount === 0) {
-			throw new ShareNotFoundException();
+			$qb = $this->connection->getQueryBuilder();
+			$qb
+				->insert('sharing_share_properties')
+				->values([
+					'share_id' => $qb->createNamedParameter($id),
+					'property_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($property->class), IQueryBuilder::PARAM_INT),
+					'property_value' => $qb->createNamedParameter($value),
+				])
+				->executeStatement();
 		}
 
 		return $value;
 	}
 
 	#[\Override]
-	public function createSharePermission(string $id, SharePermission $permission): void {
-		try {
-			$qb = $this->connection->getQueryBuilder();
-			$qb
-				->insert('sharing_share_permissions')
-				->values([
-					'share_id' => $qb->createNamedParameter($id),
-					'permission_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT),
-					'permission_enabled' => $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL),
-				])
-				->executeStatement();
-		} catch (\OCP\DB\Exception $exception) {
-			if ($exception->getReason() === \OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-				throw new RuntimeException('The permission already exists: ' . $permission->class, $exception->getCode(), $exception);
-			}
-
-			throw $exception;
-		}
-	}
-
-	#[\Override]
 	public function updateSharePermission(string $id, SharePermission $permission): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->update('sharing_share_permissions')
@@ -487,12 +474,70 @@ final readonly class SharingBackend implements ISharingBackend {
 			)
 			->executeStatement();
 		if ($rowCount === 0) {
+			$qb = $this->connection->getQueryBuilder();
+			$qb
+				->insert('sharing_share_permissions')
+				->values([
+					'share_id' => $qb->createNamedParameter($id),
+					'permission_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT),
+					'permission_enabled' => $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL),
+				])
+				->executeStatement();
+		}
+	}
+
+	#[\Override]
+	public function updateShareRecipientPermission(string $id, ShareRecipient $recipient, SharePermission $permission): void {
+		$this->assertInTransaction();
+
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb
+			->select('id')
+			->from('sharing_share_recipients')
+			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
+			->andWhere(
+				$qb->expr()->eq('recipient_class_id', $qb->createNamedParameter($this->classMapper->getClassId($recipient->class), IQueryBuilder::PARAM_INT))
+			)
+			->andWhere($qb->expr()->eq('recipient_value', $qb->createNamedParameter($recipient->value)))
+			->andWhere(
+				$recipient->instance === null
+					? $qb->expr()->isNull('recipient_instance')
+					: $qb->expr()->eq('recipient_instance', $qb->createNamedParameter($recipient->instance))
+			)
+			->executeQuery();
+
+		/** @var int|false $recipientId */
+		$recipientId = $result->fetchOne();
+		if ($recipientId === false) {
 			throw new ShareNotFoundException();
+		}
+
+		$qb = $this->connection->getQueryBuilder();
+		$rowCount = $qb
+			->update('sharing_share_recipient_permissions')
+			->set('permission_enabled', $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL))
+			->where($qb->expr()->eq('recipient_id', $qb->createNamedParameter($recipientId)))
+			->andWhere(
+				$qb->expr()->eq('permission_class_id', $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT))
+			)
+			->executeStatement();
+		if ($rowCount === 0) {
+			$qb = $this->connection->getQueryBuilder();
+			$qb
+				->insert('sharing_share_recipient_permissions')
+				->values([
+					'recipient_id' => $qb->createNamedParameter($recipientId),
+					'permission_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT),
+					'permission_enabled' => $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL),
+				])
+				->executeStatement();
 		}
 	}
 
 	#[\Override]
 	public function selectSharePermissionPreset(string $id, string $permissionPresetClass): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->update('sharing_share_permissions')
@@ -518,6 +563,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function deleteShare(string $id): void {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$rowCount = $qb
 			->delete('sharing_share')
@@ -532,6 +579,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function getShare(ShareAccessContext $accessContext, string $id): Share {
+		$this->assertInTransaction();
+
 		$shares = $this->list($accessContext, $id, null, null, null, null, null, null);
 		if (count($shares) !== 1) {
 			throw new ShareNotFoundException();
@@ -550,11 +599,15 @@ final readonly class SharingBackend implements ISharingBackend {
 		?string $lastShareID,
 		?int $limit,
 	): array {
+		$this->assertInTransaction();
+
 		return $this->list($accessContext, null, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 	}
 
 	#[\Override]
 	public function hasShare(string $id): bool {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 
 		$result = $qb
@@ -568,6 +621,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function getShareOwner(string $id): ShareUser {
+		$this->assertInTransaction();
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->select('owner_user_id', 'owner_instance')
@@ -595,6 +650,8 @@ final readonly class SharingBackend implements ISharingBackend {
 	 */
 	#[\Override]
 	public function setLastUpdated(array $ids, \DateTimeImmutable $lastUpdated): void {
+		$this->assertInTransaction();
+
 		foreach (array_chunk($ids, 1000) as $chunk) {
 			$qb = $this->connection->getQueryBuilder();
 
@@ -707,7 +764,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		// The key type is array-key, because PHP will automatically cast the value. We can't type it as integer though, because we need to also support 32 bit systems and there the autocasting doesn't happen, if the value is too large.
-		/** @var array<array-key, array{id: non-empty-string, owner: ShareUser, last_updated: numeric-string, state: ShareState, user_status: ShareUserStatus, sources: list<ShareSource>, recipients: list<ShareRecipient>, properties: array<class-string<ISharePropertyType>, ShareProperty>, permissions: array<class-string<ISharePermissionType>, SharePermission>}> $shares */
+		/** @var array<array-key, array{id: non-empty-string, owner: ShareUser, last_updated: numeric-string, state: ShareState, user_status: ShareUserStatus, sources: list<ShareSource>, recipients: array<array-key, ShareRecipient>, properties: array<class-string<ISharePropertyType>, ShareProperty>, permissions: array<class-string<ISharePermissionType>, SharePermission>}> $shares */
 		$shares = [];
 		foreach ($queries as $qb) {
 			$qb
@@ -767,14 +824,14 @@ final readonly class SharingBackend implements ISharingBackend {
 					continue;
 				}
 
-				/** @var non-empty-string $id */
-				$id = (string)$row['id'];
+				/** @var non-empty-string $shareId */
+				$shareId = (string)$row['id'];
 				/** @var numeric-string $lastUpdated */
 				$lastUpdated = (string)$row['last_updated'];
 				/** @var string $state */
 				$state = $row['state'];
-				$shares[$id] ??= [
-					'id' => $id,
+				$shares[$shareId] ??= [
+					'id' => $shareId,
 					'owner' => new ShareUser($ownerUserId, $ownerInstance),
 					'last_updated' => $lastUpdated,
 					'state' => ShareState::from($state),
@@ -886,25 +943,32 @@ final readonly class SharingBackend implements ISharingBackend {
 				}
 
 				$value = $row['source_value'];
-				$id = $row['share_id'];
-				$shares[$id]['sources'][] = new ShareSource(
+				$shareId = $row['share_id'];
+				$shares[$shareId]['sources'][] = new ShareSource(
 					$typeClass,
 					$value,
 					$shareSourceMetas[$typeClass][$value] ?? null,
 				);
 
-				$shareSourceTypeClasses[$id] ??= [];
-				$shareSourceTypeClasses[$id][$typeClass] = true;
+				$shareSourceTypeClasses[$shareId] ??= [];
+				$shareSourceTypeClasses[$shareId][$typeClass] = true;
 			}
 		}
+
+		$shareCompatiblePermissionTypeClasses = array_map(
+			fn (array $shareData): array => array_flip($this->getShareCompatiblePermissionTypeClasses($shareData['sources'])),
+			$shares
+		);
 
 		$registryRecipientTypes = $this->registry->getRecipientTypes();
 		/** @var array<int, array<class-string<IShareRecipientType>, bool>> $shareRecipientTypeClasses */
 		$shareRecipientTypeClasses = [];
+		$recipientIds = [];
 		foreach ($chunks as $chunk) {
 			$qb = $this->connection->getQueryBuilder();
 			$qb
 				->select(
+					'sr.id',
 					'sr.share_id',
 					'sr.recipient_class_id',
 					'sr.recipient_value',
@@ -924,15 +988,17 @@ final readonly class SharingBackend implements ISharingBackend {
 					continue;
 				}
 
-				/** @var non-empty-string $id */
-				$id = (string)$row['share_id'];
+				/** @var non-empty-string $recipientId */
+				$recipientId = (string)$row['id'];
+				/** @var non-empty-string $shareId */
+				$shareId = (string)$row['share_id'];
 				/** @var non-empty-string $initiatorUserId */
 				$initiatorUserId = $row['initiator_user_id'];
 				/** @var ?non-empty-string $initiatorInstance */
 				$initiatorInstance = $row['initiator_instance'];
 
 				/** @psalm-suppress PossiblyNullReference The initiator is automatically promoted to the owner, when the initiator is deleted. */
-				if ($initiatorInstance === null && !$accessContext->overrideChecks && !$shares[$id]['owner']->isCurrentUser(
+				if ($initiatorInstance === null && !$accessContext->overrideChecks && !$shares[$shareId]['owner']->isCurrentUser(
 					$accessContext
 				) && $this->hideDisabledUserShares() && !$this->userManager->get($initiatorUserId)->isEnabled()) {
 					continue;
@@ -946,7 +1012,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				/** @var non-empty-string $secret */
 				$secret = $row['recipient_secret'];
 
-				$shares[$id]['recipients'][] = new ShareRecipient(
+				$shares[$shareId]['recipients'][$recipientId] = new ShareRecipient(
 					$typeClass,
 					$value,
 					$instance,
@@ -955,10 +1021,63 @@ final readonly class SharingBackend implements ISharingBackend {
 						$initiatorUserId,
 						$initiatorInstance,
 					),
+					[],
 				);
 
-				$shareRecipientTypeClasses[$id] ??= [];
-				$shareRecipientTypeClasses[$id][$typeClass] = true;
+				$shareRecipientTypeClasses[$shareId] ??= [];
+				$shareRecipientTypeClasses[$shareId][$typeClass] = true;
+
+				$recipientIds[] = $recipientId;
+			}
+		}
+
+		/** @var array<array-key, array<array-key, array<class-string<ISharePermissionType>, SharePermission>>> $shareRecipientPermissions */
+		$shareRecipientPermissions = [];
+		foreach (array_chunk($recipientIds, 1000) as $chunk) {
+			$qb = $this->connection->getQueryBuilder();
+			$result = $qb
+				->select(
+					'sr.share_id',
+					'srp.recipient_id',
+					'srp.permission_class_id',
+					'srp.permission_enabled',
+				)
+				->from('sharing_share_recipient_permissions', 'srp')
+				->innerJoin('srp', 'sharing_share_recipients', 'sr', $qb->expr()->eq('sr.id', 'srp.recipient_id'))
+				->where($qb->expr()->in('srp.recipient_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
+				->executeQuery();
+
+			foreach ($result->fetchAll() as $row) {
+				/** @var int $shareId */
+				$shareId = $row['share_id'];
+
+				/** @var class-string<ISharePermissionType> $permissionTypeClass */
+				$permissionTypeClass = $this->classMapper->getClassName((int)$row['permission_class_id']);
+				if (!isset($shareCompatiblePermissionTypeClasses[$shareId][$permissionTypeClass])) {
+					// Skip permissions that are currently not compatible, but don't remove them.
+					continue;
+				}
+
+				/** @var int $recipientId */
+				$recipientId = $row['recipient_id'];
+
+				$shareRecipientPermissions[$shareId] ??= [];
+				$shareRecipientPermissions[$shareId][$recipientId] ??= [];
+				$shareRecipientPermissions[$shareId][$recipientId][$permissionTypeClass] = new SharePermission($permissionTypeClass, (bool)$row['permission_enabled']);
+			}
+		}
+
+		foreach ($shareRecipientPermissions as $shareId => $recipientPermissions) {
+			foreach ($recipientPermissions as $recipientId => $permissions) {
+				$recipient = $shares[$shareId]['recipients'][$recipientId];
+				$shares[$shareId]['recipients'][$recipientId] = new ShareRecipient(
+					$recipient->class,
+					$recipient->value,
+					$recipient->instance,
+					$recipient->secret,
+					$recipient->initiator,
+					$permissions,
+				);
 			}
 		}
 
@@ -1033,9 +1152,9 @@ final readonly class SharingBackend implements ISharingBackend {
 
 			$result = $qb->executeQuery();
 			foreach ($result->fetchAll() as $row) {
-				/** @var non-empty-string $id */
-				$id = (string)$row['share_id'];
-				if (!isset($shareSourceTypeClasses[$id], $shareRecipientTypeClasses[$id])) {
+				/** @var non-empty-string $shareId */
+				$shareId = (string)$row['share_id'];
+				if (!isset($shareSourceTypeClasses[$shareId], $shareRecipientTypeClasses[$shareId])) {
 					continue;
 				}
 
@@ -1046,13 +1165,13 @@ final readonly class SharingBackend implements ISharingBackend {
 					continue;
 				}
 
-				if (array_intersect($registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], array_keys($shareSourceTypeClasses[$id])) === []) {
+				if (array_intersect($registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], array_keys($shareSourceTypeClasses[$shareId])) === []) {
 					// Skip properties that are currently not compatible, but don't remove them.
 					continue;
 				}
 
 				if (array_intersect(
-					$registryPropertyTypeCompatibleRecipientTypeClasses[$propertyTypeClass], array_keys($shareRecipientTypeClasses[$id])
+					$registryPropertyTypeCompatibleRecipientTypeClasses[$propertyTypeClass], array_keys($shareRecipientTypeClasses[$shareId])
 				) === []) {
 					// Skip properties that are currently not compatible, but don't remove them.
 					continue;
@@ -1066,14 +1185,9 @@ final readonly class SharingBackend implements ISharingBackend {
 					$value = $propertyType->modifyValueOnLoad($value);
 				}
 
-				$shares[$id]['properties'][$propertyTypeClass] = new ShareProperty($propertyTypeClass, $value);
+				$shares[$shareId]['properties'][$propertyTypeClass] = new ShareProperty($propertyTypeClass, $value);
 			}
 		}
-
-		$shareCompatiblePermissionTypeClasses = array_map(
-			fn (array $shareData): array => array_flip($this->getShareCompatiblePermissionTypeClasses($shareData['sources'])),
-			$shares
-		);
 
 		foreach ($chunks as $chunk) {
 			$qb = $this->connection->getQueryBuilder();
@@ -1088,17 +1202,17 @@ final readonly class SharingBackend implements ISharingBackend {
 
 			$result = $qb->executeQuery();
 			foreach ($result->fetchAll() as $row) {
-				$id = (string)$row['share_id'];
+				$shareId = (string)$row['share_id'];
 
 				/** @var class-string<ISharePermissionType> $permissionTypeClass */
 				$permissionTypeClass = $this->classMapper->getClassName((int)$row['permission_class_id']);
-				if (!isset($shareCompatiblePermissionTypeClasses[$id][$permissionTypeClass])) {
+				if (!isset($shareCompatiblePermissionTypeClasses[$shareId][$permissionTypeClass])) {
 					// Skip permissions that are currently not compatible, but don't remove them.
 					continue;
 				}
 
 				$enabled = (bool)$row['permission_enabled'];
-				$shares[$id]['permissions'][$permissionTypeClass] = new SharePermission($permissionTypeClass, $enabled);
+				$shares[$shareId]['permissions'][$permissionTypeClass] = new SharePermission($permissionTypeClass, $enabled);
 			}
 		}
 
@@ -1109,7 +1223,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$share['state'],
 			$share['user_status'],
 			$share['sources'],
-			$share['recipients'],
+			array_values($share['recipients']),
 			$share['properties'],
 			$share['permissions'],
 		), $shares);
@@ -1188,6 +1302,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 	#[\Override]
 	public function ensureDefaults(array $shares): array {
+		$this->assertInTransaction();
+
 		$defaultSet = false;
 		foreach ($shares as &$share) {
 			$shareSourceTypeClasses = array_map(fn (ShareSource $source): string => $source->class, $share->sources);
@@ -1235,7 +1351,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$property = new ShareProperty($propertyTypeClass, $propertyType->getDefaultValue($share));
 
-		$value = $this->createShareProperty($share->id, $property);
+		$value = $this->updateShareProperty($share->id, $property);
 		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
 			$value = $propertyType->modifyValueOnLoad($value);
 		}
@@ -1274,7 +1390,7 @@ final readonly class SharingBackend implements ISharingBackend {
 
 		$permission = new SharePermission($permissionTypeClass, $permissionType->isEnabledByDefault());
 
-		$this->createSharePermission($share->id, $permission);
+		$this->updateSharePermission($share->id, $permission);
 
 		$permissions = $share->permissions;
 		$permissions[$permissionTypeClass] = $permission;
@@ -1305,5 +1421,11 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		return $time;
+	}
+
+	private function assertInTransaction(): void {
+		if (!$this->connection->inTransaction()) {
+			throw new RuntimeException('The SharingBackend can only be used inside a transaction.');
+		}
 	}
 }

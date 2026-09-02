@@ -28,7 +28,7 @@ const emit = defineEmits<{
 
 /**
  * Number of cells in the actions row, matching the column count of the app
- * grid. Actions that do not fit move into the trailing "More actions" cell.
+ * grid. Actions that do not fit move into the trailing "More" cell.
  */
 const ACTIONS_PER_ROW = 4
 
@@ -42,7 +42,7 @@ const overflowEntry: INavigationEntry = {
 	href: '',
 	icon: '',
 	type: 'action',
-	name: t('core', 'More actions'),
+	name: t('core', 'More'),
 	unread: 0,
 }
 

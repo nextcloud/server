@@ -84,7 +84,7 @@ final class GetShares extends SharingBase {
 			$shares = $this->manager->getShares($this->accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 			$this->dbConnection->commit();
 
-			$data = Share::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $shares);
+			$data = Share::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext, $shares);
 			$this->writeArrayInOutputFormat($input, $output, $data);
 			return Base::SUCCESS;
 		} catch (Exception $exception) {
