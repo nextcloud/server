@@ -56,6 +56,7 @@ use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
+use OCP\Share\Events\ShareUpdatedEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -4795,7 +4796,7 @@ class ManagerTest extends \Test\TestCase {
 			->with($share)
 			->willReturn($share);
 
-		$this->dispatcher->expects($this->never())->method('dispatchTyped');
+		$this->dispatcher->expects($this->once())->method('dispatchTyped')->with(self::callback(static fn (Event $event): bool => $event instanceof ShareUpdatedEvent));
 
 		$manager->updateShare($share);
 	}
