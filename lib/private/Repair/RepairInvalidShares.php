@@ -87,6 +87,45 @@ class RepairInvalidShares implements IRepairStep {
 		}
 	}
 
+	/**
+	 * Strip trailing slashes that leaked into the share target when a parent folder
+	 * of a moved incoming share was renamed
+	 */
+	private function removeTrailingSlashFromFileTarget(IOutput $output): void {
+		$updatedEntries = 0;
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('id', 'file_target')
+			->from('share')
+			->where($query->expr()->like('file_target', $query->createNamedParameter('%/')))
+			->andWhere($query->expr()->neq('file_target', $query->createNamedParameter('/')))
+			->setMaxResults(self::CHUNK_SIZE);
+
+		$updateQuery = $this->connection->getQueryBuilder();
+		$updateQuery->update('share')
+			->set('file_target', $updateQuery->createParameter('file_target'))
+			->where($updateQuery->expr()->eq('id', $updateQuery->createParameter('id')));
+
+		$rowsInLastChunk = self::CHUNK_SIZE;
+		while ($rowsInLastChunk === self::CHUNK_SIZE) {
+			$result = $query->executeQuery();
+			$rows = $result->fetchAllAssociative();
+			$result->closeCursor();
+			$rowsInLastChunk = count($rows);
+
+			foreach ($rows as $row) {
+				$updatedEntries += $updateQuery
+					->setParameter('file_target', rtrim($row['file_target'], '/'))
+					->setParameter('id', (int)$row['id'])
+					->executeStatement();
+			}
+		}
+
+		if ($updatedEntries > 0) {
+			$output->info('Removed trailing slashes from the target of ' . $updatedEntries . ' shares');
+		}
+	}
+
 	#[\Override]
 	public function run(IOutput $output) {
 		$ocVersionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
@@ -95,5 +134,6 @@ class RepairInvalidShares implements IRepairStep {
 		}
 
 		$this->removeSharesNonExistingParent($output);
+		$this->removeTrailingSlashFromFileTarget($output);
 	}
 }
