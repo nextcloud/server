@@ -50,8 +50,6 @@ use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 use RuntimeException;
 
-// TODO: Add accept/reject
-// TODO: Add permission masking (reshares)
 // TODO: Test sharing to federated users, groups and circles
 // TODO: Implement share transfers
 // TODO: Cache share owner
