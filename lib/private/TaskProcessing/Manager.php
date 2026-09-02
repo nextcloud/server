@@ -2038,47 +2038,120 @@ class Manager implements IManager {
 				]),
 				'headers' => ['Content-Type' => 'application/json'],
 			];
+
 			try {
 				$client->request($httpMethod, $uri, $options);
 			} catch (ClientException|ServerException $e) {
-				$this->logger->warning('Task processing HTTP webhook failed for task ' . $task->getId() . '. Request failed', ['exception' => $e]);
+				$this->logger->warning(
+					'Task processing HTTP webhook failed for task ' . $task->getId() . '. Request failed',
+					['exception' => $e],
+				);
 			} catch (\Exception|\Throwable $e) {
-				$this->logger->warning('Task processing HTTP webhook failed for task ' . $task->getId() . '. Unknown error', ['exception' => $e]);
+				$this->logger->warning(
+					'Task processing HTTP webhook failed for task ' . $task->getId() . '. Unknown error',
+					['exception' => $e],
+				);
 			}
-		} elseif (str_starts_with($method, 'AppAPI:') && str_starts_with($uri, '/')) {
-			$parsedMethod = explode(':', $method, 4);
-			if (count($parsedMethod) < 3) {
-				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Invalid method: ' . $method);
-			}
-			[, $exAppId, $httpMethod] = $parsedMethod;
-			if (!$this->appManager->isEnabledForAnyone('app_api')) {
-				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. AppAPI is disabled or not installed.');
-				return;
-			}
-			try {
-				$appApiFunctions = Server::get(PublicFunctions::class);
-			} catch (ContainerExceptionInterface|NotFoundExceptionInterface) {
-				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Could not get AppAPI public functions.');
-				return;
-			}
-			$exApp = $appApiFunctions->getExApp($exAppId);
-			if ($exApp === null) {
-				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. ExApp ' . $exAppId . ' is missing.');
-				return;
-			} elseif (!$exApp['enabled']) {
-				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. ExApp ' . $exAppId . ' is disabled.');
-				return;
-			}
-			$requestParams = [
-				'task' => $task->jsonSerialize(),
-			];
-			$requestOptions = [
-				'timeout' => 30,
-			];
-			$response = $appApiFunctions->exAppRequest($exAppId, $uri, $task->getUserId(), $httpMethod, $requestParams, $requestOptions);
+
+			return;
+		}
+
+		if (!str_starts_with($method, 'AppAPI:') || !str_starts_with($uri, '/')) {
+			return;
+		}
+
+		$parsedMethod = explode(':', $method, 4);
+		if (
+			count($parsedMethod) !== 3
+			|| $parsedMethod[1] === ''
+			|| !in_array($parsedMethod[2], ['GET', 'POST', 'PUT', 'DELETE'], true)
+		) {
+			$this->logger->warning(
+				'Task processing AppAPI webhook failed for task '
+					. $task->getId()
+					. '. Invalid method: '
+					. $method,
+			);
+			return;
+		}
+
+		[, $exAppId, $httpMethod] = $parsedMethod;
+
+		if (!$this->appManager->isEnabledForAnyone('app_api')) {
+			$this->logger->warning(
+				'Task processing AppAPI webhook failed for task '
+					. $task->getId()
+					. '. AppAPI is disabled or not installed.',
+			);
+			return;
+		}
+
+		try {
+			$appApiFunctions = Server::get(PublicFunctions::class);
+		} catch (ContainerExceptionInterface|NotFoundExceptionInterface) {
+			$this->logger->warning(
+				'Task processing AppAPI webhook failed for task '
+					. $task->getId()
+					. '. Could not get AppAPI public functions.',
+			);
+			return;
+		}
+
+		$exApp = $appApiFunctions->getExApp($exAppId);
+		if ($exApp === null) {
+			$this->logger->warning(
+				'Task processing AppAPI webhook failed for task '
+					. $task->getId()
+					. '. ExApp '
+					. $exAppId
+					. ' is missing.',
+			);
+			return;
+		}
+
+		if (!$exApp['enabled']) {
+			$this->logger->warning(
+				'Task processing AppAPI webhook failed for task '
+					. $task->getId()
+					. '. ExApp '
+					. $exAppId
+					. ' is disabled.',
+			);
+			return;
+		}
+
+		$requestParams = [
+			'task' => $task->jsonSerialize(),
+		];
+		$requestOptions = [
+			'timeout' => 30,
+		];
+
+		try {
+			$response = $appApiFunctions->exAppRequest(
+				$exAppId,
+				$uri,
+				$task->getUserId(),
+				$httpMethod,
+				$requestParams,
+				$requestOptions,
+			);
+
 			if (is_array($response) && isset($response['error'])) {
-				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Error during request to ExApp(' . $exAppId . '): ', $response['error']);
+				$this->logger->warning(
+					'Task processing AppAPI webhook failed for task '
+						. $task->getId()
+						. '. Error during request to ExApp('
+						. $exAppId
+						. ').',
+					['error' => $response['error']],
+				);
 			}
+		} catch (\Throwable $e) {
+			$this->logger->warning(
+				'Task processing AppAPI webhook failed for task ' . $task->getId() . '. Request failed.',
+				['exception' => $e],
+			);
 		}
 	}
 }
