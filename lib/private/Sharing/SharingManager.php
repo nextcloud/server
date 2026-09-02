@@ -183,14 +183,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		// No need to update the last updated timestamp, because the share will be deleted anyway.
 
 		$ids = $this->backend->onOwnerDeleted($owner);
-
-		$legacyBackend = $this->registry->getLegacyBackend();
-		if ($legacyBackend instanceof ISharingLegacyBackend) {
-			foreach ($ids as $id) {
-				$legacyBackend->deleteShare($id);
-			}
-		}
-
 		if ($ids !== []) {
 			$this->eventDispatcher->dispatchTyped(new SharesDeletedEvent($ids));
 		}
@@ -749,11 +741,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$this->backend->deleteShare($share->id);
 
-		$legacyBackend = $this->registry->getLegacyBackend();
-		if ($legacyBackend instanceof ISharingLegacyBackend) {
-			$legacyBackend->deleteShare($share->id);
-		}
-
 		$this->eventDispatcher->dispatchTyped(new SharesDeletedEvent([$share->id]));
 	}
 
@@ -972,27 +959,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 						$share->permissions,
 					);
 				}
-			}
-
-			$legacyBackend = $this->registry->getLegacyBackend();
-			if ($legacyBackend instanceof ISharingLegacyBackend) {
-				$compatibleSourceTypes = array_fill_keys($legacyBackend->getCompatibleSourceTypes(), true);
-				foreach ($share->sources as $source) {
-					if (!isset($compatibleSourceTypes[$source->class])) {
-						throw new RuntimeException('The legacy backend ' . $legacyBackend::class . ' does not support this source type: ' . $source->class);
-					}
-				}
-
-				$compatibleRecipientTypes = array_fill_keys($legacyBackend->getCompatibleRecipientTypes(), true);
-				foreach ($share->recipients as $recipient) {
-					if (!isset($compatibleRecipientTypes[$recipient->class])) {
-						throw new RuntimeException(
-							'The legacy backend ' . $legacyBackend::class . ' does not support this recipient type: ' . $recipient->class
-						);
-					}
-				}
-
-				$legacyBackend->updateShare($share);
 			}
 		}
 
