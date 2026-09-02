@@ -127,6 +127,53 @@ class RepairInvalidSharesTest extends TestCase {
 		$result->closeCursor();
 	}
 
+	public static function trailingSlashProvider(): array {
+		return [
+			// trailing slash left behind by renaming a parent folder of a moved share
+			['/rename_folder/First_share_the_file.odt/', '/rename_folder/First_share_the_file.odt'],
+			['/shared_folder/', '/shared_folder'],
+			// unchanged
+			['/rename_folder/First_share_the_file.odt', '/rename_folder/First_share_the_file.odt'],
+			['/', '/'],
+		];
+	}
+
+	/**
+	 * Test stripping trailing slashes from the share target
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('trailingSlashProvider')]
+	public function testRemoveTrailingSlashFromFileTarget(string $fileTarget, string $expectedFileTarget): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
+				'share_with' => $qb->expr()->literal('recipientuser1'),
+				'uid_owner' => $qb->expr()->literal('user1'),
+				'item_type' => $qb->expr()->literal('folder'),
+				'item_source' => $qb->expr()->literal(123),
+				'item_target' => $qb->expr()->literal('/123'),
+				'file_source' => $qb->expr()->literal(123),
+				'file_target' => $qb->expr()->literal($fileTarget),
+				'permissions' => $qb->expr()->literal(31),
+				'stime' => $qb->expr()->literal(time()),
+			])
+			->executeStatement();
+
+		/** @var IOutput|\PHPUnit\Framework\MockObject\MockObject $outputMock */
+		$outputMock = $this->createMock(IOutput::class);
+
+		$this->repair->run($outputMock);
+
+		$results = $this->connection->getQueryBuilder()
+			->select('file_target')
+			->from('share')
+			->executeQuery()
+			->fetchAllAssociative();
+
+		$this->assertCount(1, $results);
+		$this->assertSame($expectedFileTarget, $results[0]['file_target']);
+	}
+
 	public static function fileSharePermissionsProvider(): array {
 		return [
 			// unchanged for folder
