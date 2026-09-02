@@ -9,6 +9,7 @@ import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-with-user.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
+import { getToast } from '../../support/utils/toast.ts'
 
 test.describe('Settings: Change user properties', () => {
 	test('can change the display name', async ({ page, user }) => {
@@ -24,7 +25,7 @@ test.describe('Settings: Change user properties', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(getToast(page, /Account updated/i)).toBeVisible()
 
 		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -45,7 +46,7 @@ test.describe('Settings: Change user properties', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(getToast(page, /Account updated/i)).toBeVisible()
 
 		// Verify by logging in with the new password
 		await login(context.request, { ...user, password: 'newpassword123' })
@@ -66,7 +67,7 @@ test.describe('Settings: Change user properties', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(getToast(page, /Account updated/i)).toBeVisible()
 
 		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -89,7 +90,7 @@ test.describe('Settings: Change user properties', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(getToast(page, /Account updated/i)).toBeVisible()
 
 		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -112,7 +113,7 @@ test.describe('Settings: Change user properties', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(getToast(page, /Account updated/i)).toBeVisible()
 
 		// Verify backend (stored as bytes)
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -144,7 +145,7 @@ test.describe('Settings: Change user properties', () => {
 
 			await settingsPage.saveEditDialog()
 
-			await expect(page.getByText(/Account updated/i)).toBeVisible()
+			await expect(getToast(page, /Account updated/i)).toBeVisible()
 
 			// Verify backend via OCS API (page shares admin auth state)
 			const response = await page.request.get(

@@ -147,8 +147,7 @@
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
-			:open.sync="open"
-			@close="onMenuClose">
+			:open.sync="open">
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
 					<NcActionButton
@@ -453,30 +452,6 @@ export default {
 		},
 
 		/**
-		 * Is it possible to protect the password by Talk?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtectedByTalkAvailable() {
-			return this.isPasswordProtected && this.isTalkEnabled
-		},
-
-		/**
-		 * Is the current share password protected by Talk?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtectedByTalk: {
-			get() {
-				return this.share.sendPasswordByTalk
-			},
-
-			async set(enabled) {
-				this.share.sendPasswordByTalk = enabled
-			},
-		},
-
-		/**
 		 * Is the current share an email share ?
 		 *
 		 * @return {boolean}
@@ -485,20 +460,6 @@ export default {
 			return this.share
 				? this.share.type === ShareType.Email
 				: false
-		},
-
-		canTogglePasswordProtectedByTalkAvailable() {
-			if (!this.isPasswordProtected) {
-				// Makes no sense
-				return false
-			} else if (this.isEmailShareType && !this.hasUnsavedPassword) {
-				// For email shares we need a new password in order to enable or
-				// disable
-				return false
-			}
-
-			// Anything else should be fine
-			return true
 		},
 
 		/**
@@ -861,46 +822,6 @@ export default {
 			if (this.share.id) {
 				this.queueUpdate('password')
 			}
-		},
-
-		/**
-		 * Menu have been closed or password has been submitted.
-		 * The only property that does not get
-		 * synced automatically is the password
-		 * So let's check if we have an unsaved
-		 * password.
-		 * expireDate is saved on datepicker pick
-		 * or close.
-		 */
-		onPasswordSubmit() {
-			if (this.hasUnsavedPassword) {
-				this.share.newPassword = this.share.newPassword.trim()
-				this.queueUpdate('password')
-			}
-		},
-
-		/**
-		 * Update the password along with "sendPasswordByTalk".
-		 *
-		 * If the password was modified the new password is sent; otherwise
-		 * updating a mail share would fail, as in that case it is required that
-		 * a new password is set when enabling or disabling
-		 * "sendPasswordByTalk".
-		 */
-		onPasswordProtectedByTalkChange() {
-			if (this.hasUnsavedPassword) {
-				this.share.newPassword = this.share.newPassword.trim()
-			}
-
-			this.queueUpdate('sendPasswordByTalk', 'password')
-		},
-
-		/**
-		 * Save potential changed data on menu close
-		 */
-		onMenuClose() {
-			this.onPasswordSubmit()
-			this.onNoteSubmit()
 		},
 
 		/**

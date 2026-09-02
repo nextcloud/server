@@ -34,7 +34,7 @@ class LookupPlugin implements ISearchPlugin {
 	}
 
 	#[\Override]
-	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
+	public function search(string $search, int $limit, int $offset, ISearchResult $searchResult): bool {
 		$isGlobalScaleEnabled = $this->globalScaleConfig->isGlobalScaleEnabled();
 		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
 		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);

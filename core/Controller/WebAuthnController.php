@@ -21,6 +21,7 @@ use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Webauthn\PublicKeyCredentialRequestOptions;
@@ -28,6 +29,7 @@ use Webauthn\PublicKeyCredentialRequestOptions;
 class WebAuthnController extends Controller {
 	private const string WEBAUTHN_LOGIN = 'webauthn_login';
 	private const string WEBAUTHN_LOGIN_UID = 'webauthn_login_uid';
+	private const string WEBAUTHN_LOGIN_NAME = 'webauthn_login_name';
 
 	public function __construct(
 		string $appName,
@@ -37,6 +39,7 @@ class WebAuthnController extends Controller {
 		private LoggerInterface $logger,
 		private WebAuthnChain $webAuthnChain,
 		private URLGenerator $urlGenerator,
+		private IUserManager $userManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -59,6 +62,7 @@ class WebAuthnController extends Controller {
 		$publicKeyCredentialRequestOptions = $this->webAuthnManger->startAuthentication($uid, $this->request->getServerHost());
 		$this->session->set(self::WEBAUTHN_LOGIN, json_encode($publicKeyCredentialRequestOptions));
 		$this->session->set(self::WEBAUTHN_LOGIN_UID, $uid);
+		$this->session->set(self::WEBAUTHN_LOGIN_NAME, $loginName);
 
 		return new JSONResponse($publicKeyCredentialRequestOptions);
 	}
@@ -69,7 +73,10 @@ class WebAuthnController extends Controller {
 	public function finishAuthentication(string $data): JSONResponse {
 		$this->logger->debug('Validating WebAuthn login');
 
-		if (!$this->session->exists(self::WEBAUTHN_LOGIN) || !$this->session->exists(self::WEBAUTHN_LOGIN_UID)) {
+		if (!$this->session->exists(self::WEBAUTHN_LOGIN)
+			|| !$this->session->exists(self::WEBAUTHN_LOGIN_UID)
+			|| !$this->session->exists(self::WEBAUTHN_LOGIN_NAME)
+		) {
 			$this->logger->debug('Trying to finish WebAuthn login without session data');
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -77,14 +84,16 @@ class WebAuthnController extends Controller {
 		// Obtain the publicKeyCredentialOptions from when we started the registration
 		$publicKeyCredentialRequestOptions = PublicKeyCredentialRequestOptions::createFromString($this->session->get(self::WEBAUTHN_LOGIN));
 		$uid = $this->session->get(self::WEBAUTHN_LOGIN_UID);
+		$loginName = $this->session->get(self::WEBAUTHN_LOGIN_NAME);
 		$authenticatorData = $this->webAuthnManger->finishAuthentication($publicKeyCredentialRequestOptions, $data, $uid);
 
 		//TODO: add other parameters
 		$loginData = new LoginData(
 			$this->request,
-			$uid,
+			$loginName,
 			''
 		);
+		$loginData->setUser($this->userManager->get($uid));
 		$loginData->setWebAuthnUserVerified($authenticatorData->isUserVerified());
 		$this->webAuthnChain->process($loginData);
 

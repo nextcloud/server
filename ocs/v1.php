@@ -30,7 +30,7 @@ require_once __DIR__ . '/../lib/OC.php';
 
 \OC::boot();
 
-\OC::handleRequests(static function () {
+\OC::handleRequests(static function (): void {
 	\OC::initForRequest();
 	$request = Server::get(IRequest::class);
 
@@ -78,6 +78,10 @@ require_once __DIR__ . '/../lib/OC.php';
 		} else {
 			$appManager->loadApps(['core']);
 		}
+
+		// All apps are now loaded to handle the request
+		Server::get(\OC\NavigationManager::class)->setup();
+		Server::get(\OCP\EventDispatcher\IEventDispatcher::class)->dispatchTyped(new \OCP\App\Events\AppsLoadedEvent());
 
 		Server::get(Router::class)->match('/ocsapp' . $request->getRawPathInfo());
 	} catch (MaxDelayReached $ex) {

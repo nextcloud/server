@@ -424,6 +424,14 @@ Feature: webdav-related
 		And Downloading file "/myChunkedFile.txt"
 		Then Downloaded content should be "AAAAABBBBBCCCCC"
 
+	Scenario: Cannot create a chunked upload in another user's uploads folder
+		Given using new dav path
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		When user "user1" creates a new chunking upload with id "chunking-42" in the uploads folder for "user0"
+		Then the HTTP status code should be "403"
+
 	Scenario: A disabled user cannot use webdav
 		Given user "userToBeDisabled" exists
 		And As an "admin"
@@ -737,3 +745,23 @@ Feature: webdav-related
 		When As an "user0"
 		And Downloading file "/üäöé/äöü.txt"
 		Then Downloaded content should be the created file
+
+	@requires-s3
+	Scenario: Cannot overwrite a file the user may not update with new chunking v2
+		Given using new dav path
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testshare"
+		And User "user1" copies file "/welcome.txt" to "/testshare/test.txt"
+		And as "user1" creating a share with
+			| path        | testshare |
+			| shareType   | 0         |
+			| permissions | 5         |
+			| shareWith   | user0     |
+		And user "user0" accepts last share
+		And As an "user0"
+		And user "user0" creates a file locally with "3" x 5 MB chunks
+		When user "user0" creates a new chunking v2 upload with id "chunking-update" and destination "/testshare/test.txt"
+		Then the HTTP status code should be "403"
+		And Downloaded content when downloading file "/testshare/test.txt" with range "bytes=0-6" should be "Welcome"

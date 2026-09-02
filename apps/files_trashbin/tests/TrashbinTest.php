@@ -32,6 +32,7 @@ use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class Test_Encryption
@@ -705,6 +706,32 @@ class TrashbinTest extends \Test\TestCase {
 		\OC_User::setUserId($user);
 		\OC_Util::setupFS($user);
 		Server::get(IRootFolder::class)->getUserFolder($user);
+	}
+
+	public static function trashFilenameProvider(): array {
+		return [
+			['foo.txt', 'foo.txt.d1234'],
+			[
+				'a_very_long_filename_with_a_lot_a_characters_such_that_it_reaches_the_file_length_limit_and_would_cause_issues_if_we_just_appended_the_'
+				. 'timestamp_because_then_the_combined_length_would_overflow_the_column_limit_of_the_filecache_and_truncate_in_db.txt',
+				'a_very_long_filename_with_a_lot_a_characters_such_that_it_reaches_the_file_length_limit_and_would_cause_issues_if_we_just_ded_the_'
+				. 'timestamp_because_then_the_combined_length_would_overflow_the_column_limit_of_the_filecache_and_truncate_in_db.txt.d1234'
+			],
+			[
+				'a_very_long_filename_with_a_lot_a_characters_such_that_it_reaches_the_file_length_limit_and_would_cause_issues_if_we_just_äøšá_the_'
+				. 'timestamp_because_then_the_combined_length_would_overflow_the_column_limit_of_the_filecache_and_truncate_in_db.txt',
+				'a_very_long_filename_with_a_lot_a_characters_such_that_it_reaches_the_file_length_limit_and_would_cause_issues_if_we_ju_á_the_'
+				. 'timestamp_because_then_the_combined_length_would_overflow_the_column_limit_of_the_filecache_and_truncate_in_db.txt.d1234'
+			],
+		];
+	}
+
+	#[DataProvider(methodName: 'trashFilenameProvider')]
+	public function testGetTrashFilename(string $filename, string $expected): void {
+		$result = Trashbin::getTrashFilename($filename, 1234);
+		$this->assertTrue(mb_check_encoding($result, 'UTF-8'));
+		$this->assertEquals($expected, $result);
+		$this->assertTrue(strlen($result) <= 250);
 	}
 }
 

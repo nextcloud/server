@@ -214,7 +214,8 @@ class PreviewMapper extends QBMapper {
 
 	public function deleteAll(): void {
 		$delete = $this->db->getQueryBuilder();
-		$delete->delete($this->getTableName());
+		$delete->delete($this->getTableName())
+			->executeStatement();
 	}
 
 	/**

@@ -57,7 +57,7 @@ class NavigationManager implements INavigationManager {
 	protected ?string $activeEntry = null;
 	/** @var array<string, NavigationEntryOutput> */
 	protected array $entries = [];
-	/** @var list<callable(): NavigationEntry> */
+	/** @var list<callable(): ?NavigationEntry> */
 	protected array $closureEntries = [];
 	/** User defined app order (cached for the `add` function) */
 	protected ?array $customAppOrder = null;
@@ -357,7 +357,12 @@ class NavigationManager implements INavigationManager {
 			// as apps might add new navigation entries via closures at any time
 			while ($c = array_pop($this->closureEntries)) {
 				try {
-					$this->add($c());
+					$entry = $c();
+					if ($entry === null) {
+						$this->logger->debug('Closure of navigation entry returned null, skipping');
+						continue;
+					}
+					$this->add($entry);
 				} catch (\Throwable $e) {
 					$this->logger->error('Failed to add navigation entry from closure', ['exception' => $e]);
 				}
@@ -381,7 +386,7 @@ class NavigationManager implements INavigationManager {
 	#[Override]
 	public function get(string $id): ?array {
 		$this->resolveAppNavigationEntries();
-		return $this->entries[$id];
+		return $this->entries[$id] ?? null;
 	}
 
 	#[Override]

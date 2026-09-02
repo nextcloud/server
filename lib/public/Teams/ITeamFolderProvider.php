@@ -40,6 +40,16 @@ interface ITeamFolderProvider extends ITeamResourceProvider {
 	public function createTeamFolder(Team $team, int $quota = 0): TeamFolder;
 
 	/**
+	 * Update the storage quota of the team folder.
+	 *
+	 * @param string $teamId The team single id.
+	 * @param int $quota Quota in bytes; zero means unlimited.
+	 * @return TeamFolder The updated folder.
+	 * @since 35.0.0
+	 */
+	public function updateTeamFolderQuota(string $teamId, int $quota): TeamFolder;
+
+	/**
 	 * Remove the exclusive relationship but retain the folder and its contents.
 	 *
 	 * @return TeamFolder|null The unlinked folder, if one existed.

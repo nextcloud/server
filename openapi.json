@@ -313,7 +313,63 @@
                         "type": "string"
                     },
                     "type": {
+                        "type": "string",
+                        "enum": [
+                            "link"
+                        ]
+                    },
+                    "name": {
                         "type": "string"
+                    },
+                    "app": {
+                        "type": "string"
+                    },
+                    "default": {
+                        "type": "boolean"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    },
+                    "classes": {
+                        "type": "string"
+                    },
+                    "unread": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "CoreNavigationSettingsEntry": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "href",
+                    "icon",
+                    "type",
+                    "name",
+                    "active",
+                    "classes",
+                    "unread"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "order": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "href": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "settings"
+                        ]
                     },
                     "name": {
                         "type": "string"
@@ -4597,7 +4653,8 @@
                     "display_name",
                     "icon",
                     "secret",
-                    "initiator"
+                    "initiator",
+                    "permissions"
                 ],
                 "properties": {
                     "class": {
@@ -4651,6 +4708,12 @@
                                 "$ref": "#/components/schemas/SharingUser"
                             }
                         ]
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SharingPermission"
+                        }
                     }
                 }
             },
@@ -4661,6 +4724,7 @@
                     "owner",
                     "last_updated",
                     "state",
+                    "user_status",
                     "sources",
                     "recipients",
                     "properties",
@@ -4681,6 +4745,14 @@
                     },
                     "state": {
                         "$ref": "#/components/schemas/SharingState"
+                    },
+                    "user_status": {
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/SharingUserStatus"
+                            }
+                        ]
                     },
                     "sources": {
                         "type": "array",
@@ -4807,6 +4879,14 @@
                     }
                 }
             },
+            "SharingUserStatus": {
+                "type": "string",
+                "enum": [
+                    "pending",
+                    "accepted",
+                    "rejected"
+                ]
+            },
             "SystemtagsCapabilities": {
                 "type": "object",
                 "required": [
@@ -4887,7 +4967,9 @@
                             "defaultBackgroundColor",
                             "inverted",
                             "cacheBuster",
-                            "enabledThemes"
+                            "enabledThemes",
+                            "toastTimeout",
+                            "toastTimeoutValues"
                         ],
                         "properties": {
                             "name": {
@@ -4966,6 +5048,17 @@
                                 "type": "array",
                                 "items": {
                                     "type": "string"
+                                }
+                            },
+                            "toastTimeout": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "toastTimeoutValues": {
+                                "type": "array",
+                                "items": {
+                                    "type": "integer",
+                                    "format": "int64"
                                 }
                             }
                         }
@@ -7791,7 +7884,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/CoreNavigationEntry"
+                                                        "$ref": "#/components/schemas/CoreNavigationSettingsEntry"
                                                     }
                                                 }
                                             }
@@ -21575,17 +21668,20 @@
                         "content": {
                             "text/calendar; charset=UTF-8": {
                                 "schema": {
-                                    "anyOf": []
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             },
                             "application/calendar+json; charset=UTF-8": {
                                 "schema": {
-                                    "anyOf": []
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             },
                             "application/calendar+xml; charset=UTF-8": {
                                 "schema": {
-                                    "anyOf": []
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             }
                         }
@@ -21800,7 +21896,8 @@
                         "content": {
                             "application/x-ndjson": {
                                 "schema": {
-                                    "anyOf": []
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             }
                         }
@@ -22003,7 +22100,8 @@
                         "content": {
                             "application/x-ndjson": {
                                 "schema": {
-                                    "anyOf": []
+                                    "type": "string",
+                                    "format": "binary"
                                 }
                             }
                         }
@@ -38460,6 +38558,183 @@
                 }
             }
         },
+        "/ocs/v2.php/apps/sharing/api/v1/share/{id}/user-status": {
+            "put": {
+                "operationId": "sharing-api_v1-update-share-user-status",
+                "summary": "Update the user status for a share.",
+                "tags": [
+                    "sharing/api_v1"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "userStatus"
+                                ],
+                                "properties": {
+                                    "userStatus": {
+                                        "$ref": "#/components/schemas/SharingUserStatus",
+                                        "description": "New user status for the share"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the share",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User status for share updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/SharingShare"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid share user status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Share not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/apps/sharing/api/v1/share/{id}/source": {
             "post": {
                 "operationId": "sharing-api_v1-add-share-source",
@@ -39908,6 +40183,207 @@
                 }
             }
         },
+        "/ocs/v2.php/apps/sharing/api/v1/share/{id}/recipient/permission": {
+            "put": {
+                "operationId": "sharing-api_v1-update-share-recipient-permission",
+                "summary": "Update a permission for a recipient of a share.",
+                "tags": [
+                    "sharing/api_v1"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "recipientClass",
+                                    "recipientValue",
+                                    "permissionClass",
+                                    "enabled"
+                                ],
+                                "properties": {
+                                    "recipientClass": {
+                                        "type": "string",
+                                        "description": "Type class of the recipient",
+                                        "minLength": 1
+                                    },
+                                    "recipientValue": {
+                                        "type": "string",
+                                        "description": "Value of the recipient",
+                                        "minLength": 1
+                                    },
+                                    "recipientInstance": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Instance of the recipient",
+                                        "minLength": 1
+                                    },
+                                    "permissionClass": {
+                                        "type": "string",
+                                        "description": "Type class of the permission",
+                                        "minLength": 1
+                                    },
+                                    "enabled": {
+                                        "type": "boolean",
+                                        "description": "Enabled state of the permission"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the share",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Share recipient permission updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "$ref": "#/components/schemas/SharingShare"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Updating the share recipient permission is not allowed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Share not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/apps/sharing/api/v1/share/{id}/permission/preset": {
             "put": {
                 "operationId": "sharing-api_v1-select-share-permission-preset",
@@ -40406,6 +40882,32 @@
                             "type": "string",
                             "nullable": true,
                             "minLength": 1
+                        }
+                    },
+                    {
+                        "name": "filterState",
+                        "in": "query",
+                        "description": "State to filter by.",
+                        "schema": {
+                            "nullable": true,
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/SharingState"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "filterUserStatus",
+                        "in": "query",
+                        "description": "User status to filter by.",
+                        "schema": {
+                            "nullable": true,
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/SharingUserStatus"
+                                }
+                            ]
                         }
                     },
                     {

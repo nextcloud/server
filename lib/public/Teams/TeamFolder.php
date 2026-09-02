@@ -24,6 +24,7 @@ class TeamFolder implements \JsonSerializable {
 	public function __construct(
 		private int $id,
 		private string $mountPoint,
+		private ?int $quota = null,
 	) {
 	}
 
@@ -42,13 +43,24 @@ class TeamFolder implements \JsonSerializable {
 	}
 
 	/**
-	 * @return array{id: int, mountPoint: string}
+	 * The storage quota in bytes, zero for unlimited, or null if the active
+	 * provider does not expose a quota for this folder.
+	 *
+	 * @since 35.0.0
+	 */
+	public function getQuota(): ?int {
+		return $this->quota;
+	}
+
+	/**
+	 * @return array{id: int, quota: int|null, mountPoint: string}
 	 * @since 35.0.0
 	 */
 	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
+			'quota' => $this->quota,
 			'mountPoint' => $this->mountPoint,
 		];
 	}

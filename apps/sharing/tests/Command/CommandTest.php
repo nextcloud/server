@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-declare(strict_types=1);
+namespace OCA\Sharing\Tests\Command;
 
+use Exception;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\SharePermission;
@@ -15,6 +18,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
 use OC\Core\Command\Base;
 use OCA\Sharing\Command\AddShareRecipient;
@@ -29,15 +33,19 @@ use OCA\Sharing\Command\SelectSharePermissionPreset;
 use OCA\Sharing\Command\SharingBase;
 use OCA\Sharing\Command\UpdateSharePermission;
 use OCA\Sharing\Command\UpdateShareProperty;
+use OCA\Sharing\Command\UpdateShareRecipientPermission;
 use OCA\Sharing\Command\UpdateShareRecipientSecret;
 use OCA\Sharing\Command\UpdateShareState;
+use OCA\Sharing\Command\UpdateShareUserStatus;
 use OCP\HintException;
 use OCP\IDBConnection;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
+use RuntimeException;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\Output;
@@ -66,9 +74,11 @@ final class CommandTest extends AbstractSharingManagerTests {
 			RemoveShareSource::class,
 			SelectSharePermissionPreset::class,
 			UpdateSharePermission::class,
+			UpdateShareRecipientPermission::class,
 			UpdateShareProperty::class,
 			UpdateShareRecipientSecret::class,
 			UpdateShareState::class,
+			UpdateShareUserStatus::class,
 		];
 	}
 
@@ -98,13 +108,13 @@ final class CommandTest extends AbstractSharingManagerTests {
 		}
 
 		$options[] = ['actor', null];
+		$options[] = ['output', Base::OUTPUT_FORMAT_JSON];
 		$input = $this->createMock(Input::class);
 		$input
 			->expects($this->exactly(count($arguments)))
 			->method('getArgument')
 			->willReturnMap($arguments);
 		$input
-			->expects($this->exactly(count($options)))
 			->method('getOption')
 			->willReturnMap($options);
 
@@ -193,6 +203,24 @@ final class CommandTest extends AbstractSharingManagerTests {
 			[
 				['id', $share->id],
 				['state', $state->value],
+			],
+			[],
+		);
+		/** @var SharingShare */
+		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
+	}
+
+	/**
+	 * @return SharingShare
+	 */
+	#[Override]
+	protected function updateShareUserStatus(ShareAccessContext $accessContext, Share $share, ShareUserStatus $userStatus): array {
+		$stdout = $this->runCommand(
+			$accessContext,
+			UpdateShareUserStatus::class,
+			[
+				['id', $share->id],
+				['user-status', $userStatus->value],
 			],
 			[],
 		);
@@ -341,6 +369,28 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare
 	 */
 	#[Override]
+	protected function updateShareRecipientPermission(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, SharePermission $permission): array {
+		$stdout = $this->runCommand(
+			$accessContext,
+			UpdateShareRecipientPermission::class,
+			[
+				['id', $share->id],
+				['permission-class', $permission->class],
+				['permission-enabled', $permission->enabled ? 'true' : 'false'],
+				['recipient-class', $recipient->class],
+				['recipient-value', $recipient->value],
+				['recipient-instance', $recipient->instance],
+			],
+			[],
+		);
+		/** @var SharingShare */
+		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
+	}
+
+	/**
+	 * @return SharingShare
+	 */
+	#[Override]
 	protected function selectSharePermissionPreset(ShareAccessContext $accessContext, Share $share, string $permissionPresetClass): array {
 		$stdout = $this->runCommand(
 			$accessContext,
@@ -388,7 +438,7 @@ final class CommandTest extends AbstractSharingManagerTests {
 	 * @return SharingShare[]
 	 */
 	#[Override]
-	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array {
+	protected function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array {
 		$stdout = $this->runCommand(
 			$accessContext,
 			GetShares::class,
@@ -396,6 +446,8 @@ final class CommandTest extends AbstractSharingManagerTests {
 			[
 				['filter-source-type-class', $filterSourceTypeClass],
 				['filter-source-type-value', $filterSourceTypeValue],
+				['filter-state', $filterState?->value],
+				['filter-user-status', $filterUserStatus?->value],
 				['last-share-id', $lastShareID],
 				['limit', $limit],
 			],

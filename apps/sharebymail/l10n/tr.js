@@ -35,7 +35,7 @@ OC.L10N.register(
     "You just shared %1$s with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "%1$s ögesini %2$s ile paylaştınız. Paylaşım alıcıya gönderildi. %3$s yöneticisi tarafından belirlenmiş güvenlik ilkelerine göre her bir paylaşım için bir parola belirtilmesi ve bu parolanın alıcıya doğrudan gönderilmemesi gerekiyor. Bu nedenle parolayı alıcıya el ile siz iletmelisiniz.",
     "Password to access %1$s shared by you with %2$s" : "%1$s için %2$s üzerinden paylaştığınız erişim parolası",
     "This is the password:" : "Parola:",
-    "You can choose a different password at any time in the share dialog." : "İstediğiniz zaman paylaşım bölümünden farklı bir parola belirtebilirsiniz.",
+    "You can choose a different password at any time in the share dialog." : "İstediğiniz zaman paylaşım iletişim kutusundan farklı bir parola belirtebilirsiniz.",
     "Could not find share" : "Paylaşım bulunamadı",
     "Share provider which allows you to share files by mail" : "E-posta ile dosya paylaşımı için kullanılacak paylaşım hizmeti sağlayıcısı",
     "Unable to update share by mail config" : "E-posta ile paylaşım yapılandırması güncellenemedi",

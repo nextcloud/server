@@ -1,0 +1,121 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: PHPUnit
+
+on:
+  pull_request:
+  schedule:
+    - cron: "5 2 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phpunit-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+# GitHub allows a maximum of 20 reusable workflows per caller
+jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+    permissions:
+      contents: read
+      pull-requests: read
+
+    outputs:
+      src: ${{ steps.changes.outputs.src }}
+      resources: ${{ steps.changes.outputs.resources }}
+      kvstore: ${{ steps.changes.outputs.kvstore }}
+
+    steps:
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/appinfo/**'
+              - '**/lib/**'
+              - '**/templates/**'
+              - '**/tests/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+              - '**.php'
+            resources:
+              - 'resources/**'
+            kvstore:
+              - '.github/workflows/phpunit-kvstore.yml'
+              - '3rdparty/**'
+              - '**/appinfo/**'
+              - '**.php'
+
+  mariadb:
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+    uses: ./.github/workflows/phpunit-mariadb.yml
+
+  memcached:
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+    uses: ./.github/workflows/phpunit-memcached.yml
+
+  mysql:
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+    uses: ./.github/workflows/phpunit-mysql.yml
+
+  mysql-sharding:
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+    uses: ./.github/workflows/phpunit-mysql-sharding.yml
+
+  object-store-primary:
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+    uses: ./.github/workflows/phpunit-object-store-primary.yml
+
+  oci:
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+    uses: ./.github/workflows/phpunit-oci.yml
+
+  pgsql:
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+    uses: ./.github/workflows/phpunit-pgsql.yml
+
+  sqlite:
+    needs: changes
+    if: needs.changes.outputs.src != 'false'
+    uses: ./.github/workflows/phpunit-sqlite.yml
+
+  nodb:
+    needs: changes
+    if: needs.changes.outputs.src != 'false' || needs.changes.outputs.resources != 'false'
+    uses: ./.github/workflows/phpunit-nodb.yml
+
+  kvstore:
+    needs: changes
+    if: needs.changes.outputs.kvstore != 'false'
+    uses: ./.github/workflows/phpunit-kvstore.yml
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [changes, mariadb, memcached, mysql, mysql-sharding, object-store-primary, oci, pgsql, sqlite, nodb, kvstore]
+
+    if: always()
+
+    name: phpunit-summary
+
+    steps:
+      # Skipped jobs are fine, they mean no relevant changes were detected
+      - name: Summary status
+        run: if ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}; then exit 1; fi

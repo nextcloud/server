@@ -14,7 +14,7 @@ test.describe('Files: Delete', () => {
 		const row = filesListPage.getRowForFile('file.txt')
 		await expect(row).toBeVisible()
 		// Preview must finish loading before delete — a loading preview can lock the file
-		await expect(row.locator('.files-list__row-icon-preview--loaded')).toBeVisible()
+		await filesListPage.waitForPreviewLoaded('file.txt')
 
 		const deleteResponse = page.waitForResponse(
 			(r) => r.url().includes('/remote.php/dav/files/') && r.request().method() === 'DELETE',

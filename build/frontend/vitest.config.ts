@@ -36,6 +36,13 @@ export default defineConfig({
 	resolve: {
 		preserveSymlinks: true,
 	},
+	server: {
+		fs: {
+			// The dependencies are installed in the repository root, which is outside of the vite root,
+			// so it needs to be allowed explicitly for assets like `*.svg?raw` to be loadable.
+			allow: [resolve(import.meta.dirname, '../..')],
+		},
+	},
 	test: {
 		include: ['apps/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
 		env: {

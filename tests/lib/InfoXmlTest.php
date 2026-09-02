@@ -7,7 +7,7 @@
 
 namespace Test;
 
-use OCP\App\IAppManager;
+use OC\App\AppManager;
 use OCP\AppFramework\App;
 use OCP\OpenMetrics\IMetricFamily;
 use OCP\Server;
@@ -19,12 +19,12 @@ use OCP\Server;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class InfoXmlTest extends TestCase {
-	private IAppManager $appManager;
+	private AppManager $appManager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->appManager = Server::get(IAppManager::class);
+		$this->appManager = Server::get(AppManager::class);
 	}
 
 	public static function dataApps(): array {
@@ -58,7 +58,7 @@ class InfoXmlTest extends TestCase {
 	public function testClasses($app): void {
 		$appInfo = $this->appManager->getAppInfo($app);
 		$appPath = $this->appManager->getAppPath($app);
-		\OC_App::registerAutoloading($app, $appPath);
+		$this->appManager->registerAutoloading($app, $appPath);
 
 		//Add the appcontainer
 		$applicationClassName = $this->appManager->getAppNamespace($app) . '\\AppInfo\\Application';

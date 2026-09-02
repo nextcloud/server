@@ -28,6 +28,7 @@ class ConfigLexicon implements ILexicon {
 	public const SHARE_LINK_EXPIRE_DATE_ENFORCED = 'shareapi_enforce_expire_date';
 	public const USER_LANGUAGE = 'lang';
 	public const OCM_DISCOVERY_ENABLED = 'ocm_discovery_enabled';
+	public const DAV_REPAIR_REMOVED_BROKEN_PROPERTIES = 'dav_repair_removed_broken_properties';
 
 	public const USER_LOCALE = 'locale';
 	public const USER_TIMEZONE = 'timezone';
@@ -38,6 +39,8 @@ class ConfigLexicon implements ILexicon {
 	public const LASTCRON_TIMESTAMP = 'lastcron';
 
 	public const ON_DEMAND_PREVIEW_MIGRATION = 'on_demand_preview_migration';
+
+	public const APPSTORE_LINK_SHOWN = 'appstore_link_shown';
 
 	#[\Override]
 	public function getStrictness(): Strictness {
@@ -100,6 +103,23 @@ class ConfigLexicon implements ILexicon {
 				type: ValueType::BOOL,
 				defaultRaw: true,
 				definition: 'Whether on demand preview migration is enabled.'
+			),
+			new Entry(
+				key: self::APPSTORE_LINK_SHOWN,
+				type: ValueType::BOOL,
+				defaultRaw: fn (Preset $p): bool => match ($p) {
+					Preset::NONE, Preset::PRIVATE, Preset::FAMILY, Preset::CLUB => true,
+					default => false,
+				},
+				definition: 'Show the app store link in the app menu to accounts without admin rights',
+				note: 'When this key is not set, the link is also hidden while a valid subscription is available or while "appstoreenabled" is disabled. Setting this key explicitly takes precedence over both.',
+			),
+			new Entry(
+				key: self::DAV_REPAIR_REMOVED_BROKEN_PROPERTIES,
+				type: ValueType::BOOL,
+				defaultRaw: false,
+				definition: 'Whether the RemoveBrokenProperties repair step has already been run.',
+				lazy: true,
 			),
 		];
 	}

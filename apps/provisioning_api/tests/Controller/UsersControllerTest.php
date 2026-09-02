@@ -2591,6 +2591,108 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'ru')->getData());
 	}
 
+	/**
+	 * Debian and Ubuntu ship the tz database's backward links in a separate
+	 * tzdata-legacy package, so pick an alias this platform actually knows
+	 * instead of hardcoding one.
+	 */
+	private static function findBackwardCompatibleTimezone(): ?string {
+		$aliases = array_diff(
+			\DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC),
+			\DateTimeZone::listIdentifiers(),
+		);
+		return $aliases === [] ? null : reset($aliases);
+	}
+
+	public static function dataEditUserSelfEditChangeTimezone(): array {
+		return [
+			'primary identifier' => ['Europe/Vienna'],
+			'backward compatible alias' => [self::findBackwardCompatibleTimezone()],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEditUserSelfEditChangeTimezone')]
+	public function testEditUserSelfEditChangeTimezone(?string $timezone): void {
+		if ($timezone === null) {
+			$this->markTestSkipped('No backward compatible timezone aliases in this platform\'s tz database');
+		}
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UserToEdit');
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('UserToEdit', 'core', 'timezone', $timezone);
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->willReturn($targetUser);
+		$this->groupManager
+			->expects($this->atLeastOnce())
+			->method('isAdmin')
+			->with('UserToEdit')
+			->willReturn(false);
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UserToEdit');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
+		$this->assertEquals([], $this->api->editUser('UserToEdit', 'timezone', $timezone)->getData());
+	}
+
+	public function testEditUserSelfEditChangeTimezoneInvalid(): void {
+		$this->expectException(OCSException::class);
+
+		$loggedInUser = $this->createMock(IUser::class);
+		$loggedInUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UserToEdit');
+		$targetUser = $this->createMock(IUser::class);
+		$this->config->expects($this->never())
+			->method('setUserValue');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('UserToEdit')
+			->willReturn($targetUser);
+		$this->groupManager
+			->expects($this->atLeastOnce())
+			->method('isAdmin')
+			->with('UserToEdit')
+			->willReturn(false);
+		$targetUser
+			->expects($this->any())
+			->method('getUID')
+			->willReturn('UserToEdit');
+
+		$backend = $this->createMock(UserInterface::class);
+		$targetUser
+			->expects($this->any())
+			->method('getBackend')
+			->willReturn($backend);
+
+		$this->api->editUser('UserToEdit', 'timezone', 'Mars/Olympus_Mons');
+	}
+
 	public function testEditUserSubadminUserAccessible(): void {
 		$this->appConfig
 			->expects($this->once())
@@ -2906,6 +3008,135 @@ class UsersControllerTest extends TestCase {
 
 		$result = $this->api->editUserMultiField('targetuser', groups: ['admin', 'staff']);
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	/**
+	 * Wire up a sub-admin ('subadmin') editing an accessible account ('targetuser').
+	 *
+	 * @param list<string> $gids Every group of the scenario, mocked and returned by ID
+	 * @param list<string> $subAdminGids Groups the caller is sub-admin of
+	 * @param list<string> $memberGids Groups the account is currently a member of
+	 * @return array{0: IUser&MockObject, 1: ISubAdmin&MockObject, 2: array<string, IGroup&MockObject>}
+	 */
+	private function mockSubAdminEditing(array $gids, array $subAdminGids, array $memberGids): array {
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('subadmin');
+		$this->userSession->method('getUser')->willReturn($currentUser);
+
+		$targetUser = $this->createMock(IUser::class);
+		$targetUser->method('getUID')->willReturn('targetuser');
+		$targetUser->method('getBackend')->willReturn($this->createMock(UserInterface::class));
+		$this->userManager->method('get')->with('targetuser')->willReturn($targetUser);
+
+		$this->groupManager->method('isAdmin')->willReturn(false);
+		$this->groupManager->method('isDelegatedAdmin')->willReturn(false);
+		$this->groupManager->method('groupExists')->willReturn(true);
+		$this->groupManager->method('getUserGroupIds')->willReturn($memberGids);
+
+		$groups = [];
+		foreach ($gids as $gid) {
+			$group = $this->createMock(IGroup::class);
+			$group->method('getGID')->willReturn($gid);
+			$groups[$gid] = $group;
+		}
+		$this->groupManager->method('get')
+			->willReturnMap(array_map(fn (string $gid): array => [$gid, $groups[$gid]], $gids));
+
+		$subAdmin = $this->createMock(ISubAdmin::class);
+		$subAdmin->method('isUserAccessible')->with($currentUser, $targetUser)->willReturn(true);
+		$subAdmin->method('getSubAdminsGroups')
+			->willReturn(array_map(fn (string $gid): IGroup => $groups[$gid], $subAdminGids));
+		$this->groupManager->method('getSubAdmin')->willReturn($subAdmin);
+
+		return [$targetUser, $subAdmin, $groups];
+	}
+
+	public function testUpdateUserSubAdminCanAddToOwnGroup(): void {
+		[$targetUser, , $groups] = $this->mockSubAdminEditing(
+			gids: ['staff', 'marketing'],
+			subAdminGids: ['staff'],
+			memberGids: ['marketing'],
+		);
+
+		$groups['staff']->expects($this->once())->method('addUser')->with($targetUser);
+		// The membership the sub-admin cannot administer is repeated, not changed
+		$groups['marketing']->expects($this->never())->method('addUser');
+		$groups['marketing']->expects($this->never())->method('removeUser');
+
+		$result = $this->api->editUserMultiField('targetuser', groups: ['marketing', 'staff']);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testUpdateUserSubAdminCannotAddToForeignGroup(): void {
+		[, , $groups] = $this->mockSubAdminEditing(
+			gids: ['staff', 'secret'],
+			subAdminGids: ['staff'],
+			memberGids: ['staff'],
+		);
+
+		$groups['secret']->expects($this->never())->method('addUser');
+
+		$result = $this->api->editUserMultiField('targetuser', groups: ['staff', 'secret']);
+		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+		$this->assertSame('Insufficient privileges for group secret', $result->getData()['errors']['groups']);
+	}
+
+	public function testUpdateUserSubAdminCanRemoveFromOwnGroup(): void {
+		[$targetUser, , $groups] = $this->mockSubAdminEditing(
+			gids: ['staff', 'sales'],
+			subAdminGids: ['staff', 'sales'],
+			memberGids: ['staff', 'sales'],
+		);
+
+		$groups['staff']->expects($this->once())->method('removeUser')->with($targetUser);
+		$groups['sales']->expects($this->never())->method('removeUser');
+
+		$result = $this->api->editUserMultiField('targetuser', groups: ['sales']);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testUpdateUserSubAdminCannotRemoveLastGroupTheyAdminister(): void {
+		[, , $groups] = $this->mockSubAdminEditing(
+			gids: ['staff'],
+			subAdminGids: ['staff'],
+			memberGids: ['staff'],
+		);
+
+		$groups['staff']->expects($this->never())->method('removeUser');
+
+		$result = $this->api->editUserMultiField('targetuser', groups: []);
+		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+		$this->assertArrayHasKey('groups', $result->getData()['errors']);
+	}
+
+	public function testUpdateUserSubAdminKeepsGroupsOutsideTheirScope(): void {
+		[, , $groups] = $this->mockSubAdminEditing(
+			gids: ['staff', 'marketing'],
+			subAdminGids: ['staff'],
+			memberGids: ['staff', 'marketing'],
+		);
+
+		// The sub-admin UI only offers the groups they administer, so 'marketing' is
+		// absent from the request without the sub-admin ever asking to remove it
+		$groups['marketing']->expects($this->never())->method('removeUser');
+		$groups['staff']->expects($this->never())->method('removeUser');
+
+		$result = $this->api->editUserMultiField('targetuser', groups: ['staff']);
+		$this->assertSame(Http::STATUS_OK, $result->getStatus());
+	}
+
+	public function testUpdateUserSubAdminCannotChangeSubAdminGroups(): void {
+		[, $subAdmin, ] = $this->mockSubAdminEditing(
+			gids: ['staff'],
+			subAdminGids: ['staff'],
+			memberGids: ['staff'],
+		);
+
+		$subAdmin->expects($this->never())->method('createSubAdmin');
+
+		$result = $this->api->editUserMultiField('targetuser', subadminGroups: ['staff']);
+		$this->assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $result->getStatus());
+		$this->assertArrayHasKey('subadminGroups', $result->getData()['errors']);
 	}
 
 	public function testUpdateUserCannotCreateSubAdminOfAdminGroup(): void {

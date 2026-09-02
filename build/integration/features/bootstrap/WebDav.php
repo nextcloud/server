@@ -879,6 +879,18 @@ trait WebDav {
 	}
 
 	/**
+	 * @When user :user creates a new chunking upload with id :id in the uploads folder for :uidOrToken
+	 */
+	public function userCreatesANewChunkingUploadWithIdInFolderOf($user, $id, $uidOrToken): void {
+		$destination = '/uploads/' . $uidOrToken . '/' . $id;
+		try {
+			$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, [], null, 'uploads');
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
 	 * @Given user :user uploads new chunk file :num with :data to id :id
 	 */
 	public function userUploadsNewChunkFileOfWithToId($user, $num, $data, $id) {
@@ -985,9 +997,17 @@ trait WebDav {
 		$this->s3MultipartDestination = $this->getTargetDestination($user, $targetDestination);
 		$this->newUploadId();
 		$destination = '/uploads/' . $user . '/' . $this->getUploadId($id);
-		$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, [
-			'Destination' => $this->s3MultipartDestination,
-		], null, 'uploads');
+		try {
+			$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, [
+				'Destination' => $this->s3MultipartDestination,
+			], null, 'uploads');
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
+			$this->response = $e->getResponse();
+		}
 	}
 
 	/**

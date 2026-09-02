@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' => 
+        'N' =>
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' => 
+        'NCU\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -109,6 +109,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\Sharing\\ShareAccessContext' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/ShareAccessContext.php',
         'NCU\\Sharing\\ShareState' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/ShareState.php',
         'NCU\\Sharing\\ShareUser' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/ShareUser.php',
+        'NCU\\Sharing\\ShareUserStatus' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/ShareUserStatus.php',
         'NCU\\Sharing\\Source\\IShareSourceMetadata' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Source/IShareSourceMetadata.php',
         'NCU\\Sharing\\Source\\IShareSourceType' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Source/IShareSourceType.php',
         'NCU\\Sharing\\Source\\ShareSource' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Source/ShareSource.php',
@@ -206,7 +207,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\Http\\RedirectToDefaultAppResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php',
         'OCP\\AppFramework\\Http\\Response' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Response.php',
         'OCP\\AppFramework\\Http\\StandaloneTemplateResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StandaloneTemplateResponse.php',
-        'OCP\\AppFramework\\Http\\StreamGeneratorResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StreamGeneratorResponse.php',
         'OCP\\AppFramework\\Http\\StreamResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StreamResponse.php',
         'OCP\\AppFramework\\Http\\StreamTraversableResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StreamTraversableResponse.php',
         'OCP\\AppFramework\\Http\\TemplateResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/TemplateResponse.php',
@@ -416,6 +416,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\ContextChat\\Events\\ContentProviderRegisterEvent' => __DIR__ . '/../../..' . '/lib/public/ContextChat/Events/ContentProviderRegisterEvent.php',
         'OCP\\ContextChat\\IContentManager' => __DIR__ . '/../../..' . '/lib/public/ContextChat/IContentManager.php',
         'OCP\\ContextChat\\IContentProvider' => __DIR__ . '/../../..' . '/lib/public/ContextChat/IContentProvider.php',
+        'OCP\\ContextChat\\IContentProviderWithSearchTask' => __DIR__ . '/../../..' . '/lib/public/ContextChat/IContentProviderWithSearchTask.php',
         'OCP\\ContextChat\\Type\\UpdateAccessOp' => __DIR__ . '/../../..' . '/lib/public/ContextChat/Type/UpdateAccessOp.php',
         'OCP\\DB\\Events\\AddMissingColumnsEvent' => __DIR__ . '/../../..' . '/lib/public/DB/Events/AddMissingColumnsEvent.php',
         'OCP\\DB\\Events\\AddMissingIndicesEvent' => __DIR__ . '/../../..' . '/lib/public/DB/Events/AddMissingIndicesEvent.php',
@@ -1185,6 +1186,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\User\\Events\\UserConfigChangedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserConfigChangedEvent.php',
         'OCP\\User\\Events\\UserCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserCreatedEvent.php',
         'OCP\\User\\Events\\UserDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserDeletedEvent.php',
+        'OCP\\User\\Events\\UserEnumerationFilterEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserEnumerationFilterEvent.php',
         'OCP\\User\\Events\\UserFirstTimeLoggedInEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserFirstTimeLoggedInEvent.php',
         'OCP\\User\\Events\\UserIdAssignedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserIdAssignedEvent.php',
         'OCP\\User\\Events\\UserIdUnassignedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserIdUnassignedEvent.php',
@@ -1296,6 +1298,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppScriptSort' => __DIR__ . '/../../..' . '/lib/private/AppScriptSort.php',
         'OC\\App\\AppManager' => __DIR__ . '/../../..' . '/lib/private/App/AppManager.php',
         'OC\\App\\AppStore\\AppNotFoundException' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/AppNotFoundException.php',
+        'OC\\App\\AppStore\\AppStoreLinkVisibility' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/AppStoreLinkVisibility.php',
         'OC\\App\\AppStore\\Bundles\\Bundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/Bundle.php',
         'OC\\App\\AppStore\\Bundles\\BundleFetcher' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/BundleFetcher.php',
         'OC\\App\\AppStore\\Bundles\\EducationBundle' => __DIR__ . '/../../..' . '/lib/private/App/AppStore/Bundles/EducationBundle.php',
@@ -1361,7 +1364,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Authentication\\Login\\UpdateLastPasswordConfirmCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/UpdateLastPasswordConfirmCommand.php',
         'OC\\Authentication\\Login\\UserDisabledCheckCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/UserDisabledCheckCommand.php',
         'OC\\Authentication\\Login\\WebAuthnChain' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/WebAuthnChain.php',
-        'OC\\Authentication\\Login\\WebAuthnLoginCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/WebAuthnLoginCommand.php',
         'OC\\Authentication\\Notifications\\Notifier' => __DIR__ . '/../../..' . '/lib/private/Authentication/Notifications/Notifier.php',
         'OC\\Authentication\\Token\\INamedToken' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/INamedToken.php',
         'OC\\Authentication\\Token\\IProvider' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/IProvider.php',
@@ -1427,7 +1429,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Collaboration\\Resources\\Manager' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Resources/Manager.php',
         'OC\\Collaboration\\Resources\\ProviderManager' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Resources/ProviderManager.php',
         'OC\\Collaboration\\Resources\\Resource' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Resources/Resource.php',
-        'OC\\Color' => __DIR__ . '/../../..' . '/lib/private/Color.php',
         'OC\\Command\\AsyncBus' => __DIR__ . '/../../..' . '/lib/private/Command/AsyncBus.php',
         'OC\\Command\\CommandJob' => __DIR__ . '/../../..' . '/lib/private/Command/CommandJob.php',
         'OC\\Command\\CronBus' => __DIR__ . '/../../..' . '/lib/private/Command/CronBus.php',

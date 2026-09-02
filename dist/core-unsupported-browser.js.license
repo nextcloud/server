@@ -21,7 +21,7 @@ SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: Dmitry Soshnikov
 SPDX-FileCopyrightText: Ben Briggs
-SPDX-FileCopyrightText: Andrey Sitnik <andrey@sitnik.ru>
+SPDX-FileCopyrightText: Andrey Sitnik <andrey@sitnik.es>
 
 
 This file is generated from multiple sources. Included packages:
@@ -47,28 +47,28 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.40.0
+	- version: 8.41.0
 	- license: AGPL-3.0-or-later
 - base64-js
 	- version: 1.5.1
 	- license: MIT
 - baseline-browser-mapping
-	- version: 2.9.11
+	- version: 2.11.20
 	- license: Apache-2.0
 - browserslist
-	- version: 4.28.1
+	- version: 4.28.8
 	- license: MIT
 - caniuse-lite
-	- version: 1.0.30001761
+	- version: 1.0.30001810
 	- license: CC-BY-4.0
 - css-loader
 	- version: 7.1.2
 	- license: MIT
 - dompurify
-	- version: 3.4.13
+	- version: 3.4.14
 	- license: (MPL-2.0 OR Apache-2.0)
 - electron-to-chromium
-	- version: 1.5.267
+	- version: 1.5.419
 	- license: ISC
 - escape-html
 	- version: 1.0.3
@@ -80,7 +80,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.3
 	- license: MIT
 - node-releases
-	- version: 2.0.27
+	- version: 2.0.54
 	- license: MIT
 - process
 	- version: 0.11.10
