@@ -145,7 +145,7 @@ video {
 
 	.plyr {
 		// stylelint-disable-next-line no-invalid-position-at-import-rule -- scoped scss partial
-		@import '../mixins/Plyr';
+		@import '../mixins/Plyr.scss';
 
 		// Override server font style
 		button {

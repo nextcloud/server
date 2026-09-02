@@ -20,7 +20,7 @@ import { logger } from '../services/logger.ts'
  * @param file - The file to rename
  * @param newName - The requested new basename
  * @return true if the file was renamed, false if the name was unchanged
- * @throws Error with a translated message if the name is invalid or the request fails
+ * @throws {Error} with a translated message if the name is invalid or the request fails
  */
 export async function renameFile(file: IFile, newName: string): Promise<boolean> {
 	const name = newName.trim()
@@ -50,7 +50,7 @@ export async function renameFile(file: IFile, newName: string): Promise<boolean>
 		// Roll back the optimistic rename so the caller's node stays consistent.
 		file.rename(basenameFromSource(oldSource))
 		logger.error('Failed to rename file', { error, oldSource })
-		throw new Error(t('viewer', 'Could not rename the file.'))
+		throw new Error(t('viewer', 'Could not rename the file.'), { cause: error })
 	}
 
 	emit('files:node:updated', file)

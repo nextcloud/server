@@ -5,21 +5,21 @@
 <template>
 	<NcModal
 		ref="modal"
-		:additional-trap-elements="trapElements"
-		:clear-view-delay="-1 /* disable fade-out because of accessibility reasons */"
-		:close-button-outside="true"
+		:additionalTrapElements="trapElements"
+		:clearViewDelay="-1 /* disable fade-out because of accessibility reasons */"
+		:closeButtonOutside="true"
 		:dark="true"
 		:data-handler="currentHandler?.id"
-		:disable-swipe="!canSwipe && editing"
-		:enable-slideshow="!isComparing && (hasPrevious || hasNext)"
-		:has-next="!isComparing && hasNext"
-		:has-previous="!isComparing && hasPrevious"
-		:inline-actions="canEdit ? 1 : 0"
-		:light-backdrop="lightBackdrop"
+		:disableSwipe="!canSwipe && editing"
+		:enableSlideshow="!isComparing && (hasPrevious || hasNext)"
+		:hasNext="!isComparing && hasNext"
+		:hasPrevious="!isComparing && hasPrevious"
+		:inlineActions="canEdit ? 1 : 0"
+		:lightBackdrop="lightBackdrop"
 		:name="modalName"
 		:show="!!currentFile"
-		:slideshow-paused="editing"
-		:spread-navigation="true"
+		:slideshowPaused="editing"
+		:spreadNavigation="true"
 		:style="{ width: isSidebarShown ? `${sidebarPosition}px` : null }"
 		class="viewer__modal"
 		size="full"
@@ -31,7 +31,7 @@
 			<!-- Internal edit action, handled by the handler itself -->
 			<NcActionButton
 				v-if="currentHandler?.canEdit && !editing"
-				close-after-click
+				closeAfterClick
 				@click="editing = true">
 				<template #icon>
 					<PencilIcon :size="20" />
@@ -42,7 +42,7 @@
 			<!-- Open sidebar for the current file -->
 			<NcActionButton
 				v-if="!isSidebarShown && !!currentFile"
-				close-after-click
+				closeAfterClick
 				@click="showSidebar">
 				<template #icon>
 					<DockRight :size="20" />
@@ -56,8 +56,8 @@
 				<NcActionButton
 					v-for="action in fileActions"
 					:key="action.id"
-					:is-menu="isValidMenu(action)"
-					:close-after-click="!isValidMenu(action)"
+					:isMenu="isValidMenu(action)"
+					:closeAfterClick="!isValidMenu(action)"
 					@click="onActionClick(action)">
 					<template #icon>
 						<NcIconSvgWrapper :svg="actionIcon(action)" :size="20" />
@@ -77,7 +77,7 @@
 				<NcActionButton
 					v-for="action in enabledSubmenuActions[openedSubmenu.id]"
 					:key="action.id"
-					close-after-click
+					closeAfterClick
 					@click="handleAction(action)">
 					<template #icon>
 						<NcIconSvgWrapper :svg="actionIcon(action)" :size="20" />
@@ -118,9 +118,9 @@
 				v-if="currentFile"
 				:file="currentFile"
 				:files="[]"
-				:is-sidebar-shown="isSidebarShown"
+				:isSidebarShown="isSidebarShown"
 				:max-height="height"
-				:max-width="width / 2"
+				:maxWidth="width / 2"
 				:editing="false"
 				@loaded="onLoad"
 				@errored="onError" />
@@ -129,9 +129,9 @@
 				v-if="comparisonFile"
 				:file="comparisonFile"
 				:files="[]"
-				:is-sidebar-shown="isSidebarShown"
+				:isSidebarShown="isSidebarShown"
 				:max-height="height"
-				:max-width="width / 2"
+				:maxWidth="width / 2"
 				:editing="false"
 				@loaded="onLoad"
 				@errored="onError" />
@@ -143,14 +143,14 @@
 			v-else-if="currentFile"
 			v-show="!loading && !errorString"
 			:key="`${currentFile.fileid}-${reloadKey}`"
-			v-model:can-swipe="canSwipe"
+			v-model:canSwipe="canSwipe"
 			:file="currentFile"
 			:files="currentFileList"
-			:is-sidebar-shown="isSidebarShown"
+			:isSidebarShown="isSidebarShown"
 			:max-height="height"
-			:max-width="width"
+			:maxWidth="width"
 			:editing="editing"
-			:local-source="editedSources[currentFile.fileid!]"
+			:localSource="editedSources[currentFile.fileid!]"
 			@loaded="onLoad"
 			@errored="onError" />
 	</NcModal>
@@ -175,7 +175,7 @@
 			<NcTextField
 				v-model="renameValue"
 				:label="t('viewer', 'New name')"
-				label-visible />
+				labelVisible />
 		</form>
 	</NcDialog>
 </template>

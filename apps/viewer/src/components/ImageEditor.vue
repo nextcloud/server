@@ -6,7 +6,7 @@
 	<ImageEditor
 		:src="file.source"
 		:label="file.basename"
-		:export-options="exportOptions"
+		:exportOptions="exportOptions"
 		:saving="saving"
 		class="viewer__image-editor"
 		@save="onSave"

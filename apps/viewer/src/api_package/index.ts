@@ -144,7 +144,7 @@ const openWithViewerAction: IFileAction = {
  * So this should be called from an initialization script (`OCP\Util::addInitScript`).
  *
  * @param handler - The handler to register
- * @throws Error if the handler is invalid
+ * @throws {Error} if the handler is invalid
  */
 export function registerHandler(handler: IHandler): void {
 	validateHandler(handler)

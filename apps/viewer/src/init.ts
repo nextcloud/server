@@ -1,10 +1,10 @@
+import { createApp } from 'vue'
+import Viewer from './views/Viewer.vue'
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import plyrIcons from '../img/plyr.svg?raw'
-import { createApp } from 'vue'
-import Viewer from './views/Viewer.vue'
 import { getViewer } from './api_package/viewer.ts'
 import { registerAudioCustomElement, registerAudioHandler } from './models/audios.ts'
 import { registerImageCustomElement, registerImageHandler } from './models/images.ts'

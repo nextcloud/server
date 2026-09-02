@@ -79,7 +79,7 @@ audio {
 
 	.plyr {
 		// stylelint-disable-next-line no-invalid-position-at-import-rule -- scoped scss partial
-		@import '../mixins/Plyr';
+		@import '../mixins/Plyr.scss';
 	}
 
 	// The settings menu (e.g. speed selection) is absolutely positioned and

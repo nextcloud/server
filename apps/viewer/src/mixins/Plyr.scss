@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // Shared style between video and audio component for plyr
+// stylelint-disable-next-line nesting-selector-no-missing-scoping-root -- imported into a .plyr scoping root
 & {
 	// https://github.com/sampotts/plyr#customizing-the-css
 	--plyr-color-main: var(--color-primary-element);
@@ -82,13 +83,13 @@
 		}
 
 		&.plyr__control--forward {
-			padding-right: 28px;
+			padding-inline-end: 28px;
 			padding-right: calc(var(--plyr-control-spacing, 10px) * .7 * 4);
 		}
 
 		&.plyr__control--back {
 			margin: calc(var(--plyr-control-spacing, 10px) * .7);
-			padding-left: 28px;
+			padding-inline-start: 28px;
 			padding-left: calc(var(--plyr-control-spacing, 10px) * .7 * 4);
 		}
 	}
