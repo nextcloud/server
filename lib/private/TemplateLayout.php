@@ -88,8 +88,8 @@ class TemplateLayout {
 
 				$this->initialState->provideInitialState('unified-search', 'min-search-length', $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UNIFIED_SEARCH_MIN_SEARCH_LENGTH));
 				if ($this->config->getSystemValueBool('unified_search.enabled', false) || !$this->config->getSystemValueBool('enable_non-accessible_features', true)) {
-					$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
-					$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
+					$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->appConfig->getValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
+					$this->initialState->provideInitialState('unified-search', 'live-search', $this->appConfig->getValue('core', 'unified-search.live-search', 'yes') === 'yes');
 					Util::addScript('core', 'legacy-unified-search', 'core');
 				} else {
 					Util::addScript('core', 'unified-search', 'core');
@@ -344,7 +344,7 @@ class TemplateLayout {
 		}
 
 		// The theming app is force-enabled thus the cache buster is always available
-		$themingSuffix = '-' . $this->config->getAppValue('theming', 'cachebuster', '0');
+		$themingSuffix = '-' . $this->appConfig->getValue('theming', 'cachebuster', '0');
 
 		return '?v=' . $hash . $themingSuffix;
 	}

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Settings\SetupChecks;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -20,6 +21,7 @@ class EmailTestSuccessful implements ISetupCheck {
 		private IL10N $l10n,
 		private IConfig $config,
 		private IURLGenerator $urlGenerator,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -35,12 +37,12 @@ class EmailTestSuccessful implements ISetupCheck {
 
 	protected function wasEmailTestSuccessful(): bool {
 		// Handle the case that the configuration was set before the check was introduced or it was only set via command line and not from the UI
-		if ($this->config->getAppValue('core', 'emailTestSuccessful', '') === '' && $this->config->getSystemValue('mail_domain', '') === '') {
+		if ($this->appConfig->getValue('core', 'emailTestSuccessful', '') === '' && $this->config->getSystemValue('mail_domain', '') === '') {
 			return false;
 		}
 
 		// The mail test was unsuccessful or the config was changed using the UI without verifying with a testmail, hence return false
-		if ($this->config->getAppValue('core', 'emailTestSuccessful', '') === '0') {
+		if ($this->appConfig->getValue('core', 'emailTestSuccessful', '') === '0') {
 			return false;
 		}
 

@@ -11,6 +11,7 @@ namespace OCA\DAV\Migration;
 
 use OCA\DAV\BackgroundJob\BuildReminderIndexBackgroundJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -35,6 +36,7 @@ class RegisterBuildReminderIndexBackgroundJob implements IRepairStep {
 		private IDBConnection $db,
 		private IJobList $jobList,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -52,7 +54,7 @@ class RegisterBuildReminderIndexBackgroundJob implements IRepairStep {
 	#[\Override]
 	public function run(IOutput $output) {
 		// only run once
-		if ($this->config->getAppValue('dav', self::CONFIG_KEY) === 'yes') {
+		if ($this->appConfig->getValue('dav', self::CONFIG_KEY) === 'yes') {
 			$output->info('Repair step already executed');
 			return;
 		}
@@ -71,6 +73,6 @@ class RegisterBuildReminderIndexBackgroundJob implements IRepairStep {
 		]);
 
 		// if all were done, no need to redo the repair during next upgrade
-		$this->config->setAppValue('dav', self::CONFIG_KEY, 'yes');
+		$this->appConfig->setValue('dav', self::CONFIG_KEY, 'yes');
 	}
 }

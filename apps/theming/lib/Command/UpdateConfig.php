@@ -11,6 +11,7 @@ namespace OCA\Theming\Command;
 
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,6 +28,7 @@ class UpdateConfig extends Command {
 		private ThemingDefaults $themingDefaults,
 		private ImageManager $imageManager,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct();
 	}
@@ -64,11 +66,11 @@ class UpdateConfig extends Command {
 		if ($key === null) {
 			$output->writeln('Current theming config:');
 			foreach (self::SUPPORTED_KEYS as $key) {
-				$value = $this->config->getAppValue('theming', $key, '');
+				$value = $this->appConfig->getValue('theming', $key, '');
 				$output->writeln('- ' . $key . ': ' . $value . '');
 			}
 			foreach (ImageManager::SUPPORTED_IMAGE_KEYS as $key) {
-				$value = $this->config->getAppValue('theming', $key . 'Mime', '');
+				$value = $this->appConfig->getValue('theming', $key . 'Mime', '');
 				$output->writeln('- ' . $key . ': ' . $value . '');
 			}
 			return 0;
@@ -86,7 +88,7 @@ class UpdateConfig extends Command {
 		}
 
 		if ($value === null) {
-			$value = $this->config->getAppValue('theming', $key, '');
+			$value = $this->appConfig->getValue('theming', $key, '');
 			if ($value !== '') {
 				$output->writeln('<info>' . $key . ' is currently set to ' . $value . '</info>');
 			} else {

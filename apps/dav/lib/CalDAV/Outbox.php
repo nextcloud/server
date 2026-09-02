@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use Sabre\CalDAV\Plugin as CalDAVPlugin;
 
@@ -31,6 +32,7 @@ class Outbox extends \Sabre\CalDAV\Schedule\Outbox {
 	public function __construct(
 		private IConfig $config,
 		string $principalUri,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($principalUri);
 	}
@@ -51,7 +53,7 @@ class Outbox extends \Sabre\CalDAV\Schedule\Outbox {
 	public function getACL() {
 		// getACL is called so frequently that we cache the config result
 		if ($this->disableFreeBusy === null) {
-			$this->disableFreeBusy = ($this->config->getAppValue('dav', 'disableFreeBusy', 'no') === 'yes');
+			$this->disableFreeBusy = ($this->appConfig->getValue('dav', 'disableFreeBusy', 'no') === 'yes');
 		}
 
 		$commonAcl = [

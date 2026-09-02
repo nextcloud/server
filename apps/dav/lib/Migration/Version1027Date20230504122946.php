@@ -11,6 +11,7 @@ namespace OCA\DAV\Migration;
 
 use Closure;
 use OCA\DAV\CardDAV\SyncService;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
@@ -25,22 +26,23 @@ class Version1027Date20230504122946 extends SimpleMigrationStep {
 		private LoggerInterface $logger,
 		private IUserManager $userManager,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
 	#[Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		if ($this->userManager->countSeenUsers() > 100 || $this->userManager->countUsersTotal(100) >= 100) {
-			$this->config->setAppValue('dav', 'needs_system_address_book_sync', 'yes');
+			$this->appConfig->setValue('dav', 'needs_system_address_book_sync', 'yes');
 			$output->info('Could not sync system address books during update - too many user records have been found. Please call occ dav:sync-system-addressbook manually.');
 			return;
 		}
 
 		try {
 			$this->syncService->syncInstance();
-			$this->config->setAppValue('dav', 'needs_system_address_book_sync', 'no');
+			$this->appConfig->setValue('dav', 'needs_system_address_book_sync', 'no');
 		} catch (Throwable $e) {
-			$this->config->setAppValue('dav', 'needs_system_address_book_sync', 'yes');
+			$this->appConfig->setValue('dav', 'needs_system_address_book_sync', 'yes');
 			$this->logger->error('Could not sync system address books during update', [
 				'exception' => $e,
 			]);

@@ -12,6 +12,7 @@ namespace OC\Repair;
 use OCA\Theming\ImageManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -20,6 +21,7 @@ use OCP\Server;
 class RepairLogoDimension implements IRepairStep {
 	public function __construct(
 		protected IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -30,7 +32,7 @@ class RepairLogoDimension implements IRepairStep {
 
 	#[\Override]
 	public function run(IOutput $output): void {
-		$logoDimensions = $this->config->getAppValue('theming', 'logoDimensions');
+		$logoDimensions = $this->appConfig->getValue('theming', 'logoDimensions');
 		if (preg_match('/^\d+x\d+$/', $logoDimensions)) {
 			$output->info('Logo dimensions are already known');
 			return;
@@ -74,12 +76,12 @@ class RepairLogoDimension implements IRepairStep {
 
 		if (!$dimensions) {
 			$output->warning('Failed to read dimensions from logo');
-			$this->config->deleteAppValue('theming', 'logoDimensions');
+			$this->appConfig->deleteKey('theming', 'logoDimensions');
 			return;
 		}
 
 		$dimensions = imagesx($image) . 'x' . imagesy($image);
-		$this->config->setAppValue('theming', 'logoDimensions', $dimensions);
+		$this->appConfig->setValue('theming', 'logoDimensions', $dimensions);
 		$output->info('Updated logo dimensions: ' . $dimensions);
 	}
 }

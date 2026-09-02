@@ -11,6 +11,7 @@ namespace OCA\DAV\Migration;
 
 use OCA\DAV\BackgroundJob\RegisterRegenerateBirthdayCalendars;
 use OCP\BackgroundJob\IJobList;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -24,6 +25,7 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 	public function __construct(
 		private IJobList $jobList,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -41,7 +43,7 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 	#[\Override]
 	public function run(IOutput $output) {
 		// only run once
-		if ($this->config->getAppValue('dav', 'regeneratedBirthdayCalendarsForYearFix') === 'yes') {
+		if ($this->appConfig->getValue('dav', 'regeneratedBirthdayCalendarsForYearFix') === 'yes') {
 			$output->info('Repair step already executed');
 			return;
 		}
@@ -50,6 +52,6 @@ class RegenerateBirthdayCalendars implements IRepairStep {
 		$this->jobList->add(RegisterRegenerateBirthdayCalendars::class);
 
 		// if all were done, no need to redo the repair during next upgrade
-		$this->config->setAppValue('dav', 'regeneratedBirthdayCalendarsForYearFix', 'yes');
+		$this->appConfig->setValue('dav', 'regeneratedBirthdayCalendarsForYearFix', 'yes');
 	}
 }

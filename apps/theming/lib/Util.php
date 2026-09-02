@@ -13,6 +13,7 @@ use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Server;
@@ -25,6 +26,7 @@ class Util {
 		private IAppManager $appManager,
 		private IAppData $appData,
 		private ImageManager $imageManager,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -225,7 +227,7 @@ class Util {
 		} catch (AppPathNotFoundException $e) {
 		}
 		// fallback to custom instance logo
-		if ($this->config->getAppValue('theming', 'logoMime', '') !== '') {
+		if ($this->appConfig->getValue('theming', 'logoMime', '') !== '') {
 			try {
 				$folder = $this->appData->getFolder('global/images');
 				return $folder->getFile('logo');
@@ -314,7 +316,7 @@ class Util {
 	}
 
 	public function isBackgroundThemed() {
-		$backgroundLogo = $this->config->getAppValue('theming', 'backgroundMime', '');
+		$backgroundLogo = $this->appConfig->getValue('theming', 'backgroundMime', '');
 		return $backgroundLogo !== '' && $backgroundLogo !== 'backgroundColor';
 	}
 
@@ -337,7 +339,7 @@ class Util {
 			$userCacheBusterValue = (int)$this->config->getUserValue($userId, 'theming', 'userCacheBuster', '0');
 			$userCacheBuster = $userId . '_' . $userCacheBusterValue;
 		}
-		$systemCacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
+		$systemCacheBuster = $this->appConfig->getValue('theming', 'cachebuster', '0');
 		return substr(sha1($serverVersion . $themingAppVersion . $userCacheBuster . $systemCacheBuster), 0, 8);
 	}
 }

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Settings\SetupChecks;
 
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Notification\IManager;
@@ -24,6 +25,7 @@ class PushService implements ISetupCheck {
 		private IManager $notificationsManager,
 		private IRegistry $subscriptionRegistry,
 		private ITimeFactory $timeFactory,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -41,7 +43,7 @@ class PushService implements ISetupCheck {
 	 * Check if is fair use of free push service
 	 */
 	private function isFairUseOfFreePushService(): bool {
-		$rateLimitReached = (int)$this->config->getAppValue('notifications', 'rate_limit_reached', '0');
+		$rateLimitReached = (int)$this->appConfig->getValue('notifications', 'rate_limit_reached', '0');
 		if ($rateLimitReached >= ($this->timeFactory->now()->getTimestamp() - 7 * 24 * 3600)) {
 			// Notifications app is showing a message already
 			return true;

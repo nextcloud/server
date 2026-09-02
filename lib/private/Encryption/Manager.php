@@ -35,6 +35,7 @@ class Manager implements IManager {
 		protected View $rootView,
 		protected Util $util,
 		protected ArrayCache $arrayCache,
+		private IAppConfig $appConfig,
 	) {
 		$this->encryptionModules = [];
 	}
@@ -187,7 +188,7 @@ class Manager implements IManager {
 			return false;
 		}
 
-		$this->config->setAppValue('core', 'default_encryption_module', $moduleId);
+		$this->appConfig->setValue('core', 'default_encryption_module', $moduleId);
 		return true;
 	}
 
@@ -198,7 +199,7 @@ class Manager implements IManager {
 	 */
 	#[\Override]
 	public function getDefaultEncryptionModuleId() {
-		return $this->config->getAppValue('core', 'default_encryption_module');
+		return $this->appConfig->getValue('core', 'default_encryption_module');
 	}
 
 	/**

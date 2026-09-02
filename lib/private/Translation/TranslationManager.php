@@ -11,6 +11,7 @@ namespace OC\Translation;
 
 use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
@@ -37,6 +38,7 @@ class TranslationManager implements ITranslationManager {
 		private LoggerInterface $logger,
 		private IConfig $config,
 		private IUserSession $userSession,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -56,7 +58,7 @@ class TranslationManager implements ITranslationManager {
 		}
 
 		$providers = $this->getProviders();
-		$json = $this->config->getAppValue('core', 'ai.translation_provider_preferences', '');
+		$json = $this->appConfig->getValue('core', 'ai.translation_provider_preferences', '');
 
 		if ($json !== '') {
 			$precedence = json_decode($json, true);

@@ -14,6 +14,7 @@ use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\INavigationManager;
 use OCP\Settings\ISettings;
@@ -28,6 +29,7 @@ class Personal implements ISettings {
 		private IInitialState $initialStateService,
 		private ThemingDefaults $themingDefaults,
 		private INavigationManager $navigationManager,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -65,7 +67,7 @@ class Personal implements ISettings {
 			/** URL of admin configured background image */
 			'backgroundImage' => $this->themingDefaults->getBackground(),
 			/** `backgroundColor` if disabled, mime type if defined and empty by default */
-			'backgroundMime' => $this->config->getAppValue('theming', 'backgroundMime', ''),
+			'backgroundMime' => $this->appConfig->getValue('theming', 'backgroundMime', ''),
 			/** Admin configured background color */
 			'backgroundColor' => $this->themingDefaults->getDefaultColorBackground(),
 			/** Admin configured primary color */

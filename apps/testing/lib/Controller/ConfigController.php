@@ -10,6 +10,7 @@ namespace OCA\Testing\Controller;
 
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -24,6 +25,7 @@ class ConfigController extends OCSController {
 		$appName,
 		IRequest $request,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -35,7 +37,7 @@ class ConfigController extends OCSController {
 	 * @return DataResponse
 	 */
 	public function setAppValue($appid, $configkey, $value) {
-		$this->config->setAppValue($appid, $configkey, $value);
+		$this->appConfig->setValue($appid, $configkey, $value);
 		return new DataResponse();
 	}
 
@@ -45,7 +47,7 @@ class ConfigController extends OCSController {
 	 * @return DataResponse
 	 */
 	public function deleteAppValue($appid, $configkey) {
-		$this->config->deleteAppValue($appid, $configkey);
+		$this->appConfig->deleteKey($appid, $configkey);
 		return new DataResponse();
 	}
 }

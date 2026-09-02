@@ -321,7 +321,7 @@ class Manager implements IManager {
 				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(23, 59, 59);
 
-				$days = (int)$this->config->getAppValue('core', $configProp, (string)$defaultExpireDays);
+				$days = (int)$this->appConfig->getValue('core', $configProp, (string)$defaultExpireDays);
 				if ($days > $defaultExpireDays) {
 					$days = $defaultExpireDays;
 				}
@@ -1151,7 +1151,7 @@ class Manager implements IManager {
 			return [];
 		}
 
-		if ($onlyValid && $this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
+		if ($onlyValid && $this->appConfig->getValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes') {
 			/*
 			 * If shares from disabled users are hidden, check user status first to avoid useless work.
 			 * Otherwise all shares would’ve been filtered out by checkShare anyway.
@@ -1333,7 +1333,7 @@ class Manager implements IManager {
 		}
 		$share = null;
 		try {
-			if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
+			if ($this->appConfig->getValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
 				$provider = $this->factory->getProviderForType(IShare::TYPE_LINK);
 				$share = $provider->getShareByToken($token);
 			}
@@ -1416,7 +1416,7 @@ class Manager implements IManager {
 			$added--;
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
-		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'yes') === 'yes') {
+		if ($this->appConfig->getValue('files_sharing', 'hide_disabled_user_shares', 'yes') === 'yes') {
 			$uids = array_unique([$share->getShareOwner(), $share->getSharedBy()]);
 			foreach ($uids as $uid) {
 				$user = $this->userManager->get($uid);
@@ -1491,7 +1491,7 @@ class Manager implements IManager {
 			$provider->groupDeleted($gid);
 		}
 
-		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
+		$excludedGroups = $this->appConfig->getValue('core', 'shareapi_exclude_groups_list', '');
 		if ($excludedGroups === '') {
 			return;
 		}
@@ -1502,7 +1502,7 @@ class Manager implements IManager {
 		}
 
 		$excludedGroups = array_diff($excludedGroups, [$gid]);
-		$this->config->setAppValue('core', 'shareapi_exclude_groups_list', json_encode($excludedGroups));
+		$this->appConfig->setValue('core', 'shareapi_exclude_groups_list', json_encode($excludedGroups));
 	}
 
 	#[Override]
@@ -1608,18 +1608,18 @@ class Manager implements IManager {
 
 	#[Override]
 	public function shareApiEnabled(): bool {
-		return $this->config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_enabled', 'yes') === 'yes';
 	}
 
 	#[Override]
 	public function shareApiAllowLinks(?IUser $user = null): bool {
-		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+		if ($this->appConfig->getValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			return false;
 		}
 
 		$user = $user ?? $this->userSession->getUser();
 		if ($user) {
-			$excludedGroups = json_decode($this->config->getAppValue('core', 'shareapi_allow_links_exclude_groups', '[]'));
+			$excludedGroups = json_decode($this->appConfig->getValue('core', 'shareapi_allow_links_exclude_groups', '[]'));
 			if ($excludedGroups) {
 				$userGroups = $this->groupManager->getUserGroupIds($user);
 				return !(bool)array_intersect($excludedGroups, $userGroups);
@@ -1641,7 +1641,7 @@ class Manager implements IManager {
 
 	#[Override]
 	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true): bool {
-		$excludedGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
+		$excludedGroups = $this->appConfig->getValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
 		if ($excludedGroups !== '' && $checkGroupMembership) {
 			$excludedGroups = json_decode($excludedGroups);
 			$user = $this->userSession->getUser();
@@ -1668,49 +1668,49 @@ class Manager implements IManager {
 
 	#[Override]
 	public function shareApiLinkDefaultExpireDays(): int {
-		return (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+		return (int)$this->appConfig->getValue('core', 'shareapi_expire_after_n_days', '7');
 	}
 
 	#[Override]
 	public function shareApiInternalDefaultExpireDate(): bool {
-		return $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
 	}
 
 	#[Override]
 	public function shareApiRemoteDefaultExpireDate(): bool {
-		return $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
 	}
 
 	#[Override]
 	public function shareApiInternalDefaultExpireDateEnforced(): bool {
 		return $this->shareApiInternalDefaultExpireDate()
-			&& $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
+			&& $this->appConfig->getValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
 	}
 
 	#[Override]
 	public function shareApiRemoteDefaultExpireDateEnforced(): bool {
 		return $this->shareApiRemoteDefaultExpireDate()
-			&& $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
+			&& $this->appConfig->getValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
 	}
 
 	#[Override]
 	public function shareApiInternalDefaultExpireDays(): int {
-		return (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
+		return (int)$this->appConfig->getValue('core', 'shareapi_internal_expire_after_n_days', '7');
 	}
 
 	#[Override]
 	public function shareApiRemoteDefaultExpireDays(): int {
-		return (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
+		return (int)$this->appConfig->getValue('core', 'shareapi_remote_expire_after_n_days', '7');
 	}
 
 	#[Override]
 	public function shareApiLinkAllowPublicUpload(): bool {
-		return $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes';
 	}
 
 	#[Override]
 	public function shareWithGroupMembersOnly(): bool {
-		return $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 	}
 
 	#[Override]
@@ -1718,55 +1718,55 @@ class Manager implements IManager {
 		if (!$this->shareWithGroupMembersOnly()) {
 			return [];
 		}
-		$excludeGroups = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
+		$excludeGroups = $this->appConfig->getValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
 		return json_decode($excludeGroups, true) ?? [];
 	}
 
 	#[Override]
 	public function allowGroupSharing(): bool {
-		return $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
 	}
 
 	#[Override]
 	public function allowEnumeration(): bool {
-		return $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 	}
 
 	#[Override]
 	public function limitEnumerationToGroups(): bool {
 		return $this->allowEnumeration()
-			&& $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+			&& $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 	}
 
 	#[Override]
 	public function limitEnumerationToPhone(): bool {
 		return $this->allowEnumeration()
-			&& $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+			&& $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 	}
 
 	#[Override]
 	public function allowEnumerationFullMatch(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 	}
 
 	#[Override]
 	public function matchEmail(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
 	}
 
 	#[Override]
 	public function matchUserId(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_full_match_user_id', 'yes') === 'yes';
 	}
 
 	#[\Override]
 	public function matchDisplayName(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_displayname', 'yes') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_full_match_displayname', 'yes') === 'yes';
 	}
 
 	#[Override]
 	public function ignoreSecondDisplayName(): bool {
-		return $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
+		return $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no') === 'yes';
 	}
 
 	#[Override]
@@ -1823,12 +1823,12 @@ class Manager implements IManager {
 
 	#[Override]
 	public function outgoingServer2ServerSharesAllowed(): bool {
-		return $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
+		return $this->appConfig->getValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
 	}
 
 	#[Override]
 	public function outgoingServer2ServerGroupSharesAllowed(): bool {
-		return $this->config->getAppValue('files_sharing', 'outgoing_server2server_group_share_enabled', 'no') === 'yes';
+		return $this->appConfig->getValue('files_sharing', 'outgoing_server2server_group_share_enabled', 'no') === 'yes';
 	}
 
 	#[Override]

@@ -13,6 +13,7 @@ namespace OCA\DAV\CalDAV;
 use Exception;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\DAV\GroupPrincipalBackend;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -43,6 +44,7 @@ class BirthdayService {
 		private IConfig $config,
 		private IDBConnection $dbConnection,
 		private IL10N $l10n,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -375,7 +377,7 @@ class BirthdayService {
 	 * @return bool
 	 */
 	private function isGloballyEnabled():bool {
-		return $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes') === 'yes';
+		return $this->appConfig->getValue('dav', 'generateBirthdayCalendar', 'yes') === 'yes';
 	}
 
 	/**

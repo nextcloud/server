@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP\Migration;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -26,6 +27,7 @@ class RemoveRefreshTime implements IRepairStep {
 	public function __construct(
 		private IDBConnection $dbc,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -36,7 +38,7 @@ class RemoveRefreshTime implements IRepairStep {
 
 	#[\Override]
 	public function run(IOutput $output) {
-		$this->config->deleteAppValue('user_ldap', 'updateAttributesInterval');
+		$this->appConfig->deleteKey('user_ldap', 'updateAttributesInterval');
 
 		$qb = $this->dbc->getQueryBuilder();
 		$qb->delete('preferences')

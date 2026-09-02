@@ -12,6 +12,7 @@ use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
 use OCP\AppFramework\Http;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use Sabre\CalDAV\Xml\Property\AllowedSharingModes;
@@ -48,6 +49,7 @@ class PublishPlugin extends ServerPlugin {
 		 * URL Generator for absolute URLs.
 		 */
 		protected IURLGenerator $urlGenerator,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -126,7 +128,7 @@ class PublishPlugin extends ServerPlugin {
 				$canShare = (!$node->isSubscription() && $node->canWrite());
 				$canPublish = (!$node->isSubscription() && $node->canWrite());
 
-				if ($this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes') {
+				if ($this->appConfig->getValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes') {
 					$canShare = $canShare && ($node->getOwner() === $node->getPrincipalURI());
 					$canPublish = $canPublish && ($node->getOwner() === $node->getPrincipalURI());
 				}
@@ -190,7 +192,7 @@ class PublishPlugin extends ServerPlugin {
 					/** @var \Sabre\DAVACL\Plugin $acl */
 					$acl->checkPrivileges($path, '{DAV:}write');
 
-					$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
+					$limitSharingToOwner = $this->appConfig->getValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
 					$isOwner = $acl->getCurrentUserPrincipal() === $node->getOwner();
 					if ($limitSharingToOwner && !$isOwner) {
 						return;
@@ -224,7 +226,7 @@ class PublishPlugin extends ServerPlugin {
 					/** @var \Sabre\DAVACL\Plugin $acl */
 					$acl->checkPrivileges($path, '{DAV:}write');
 
-					$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
+					$limitSharingToOwner = $this->appConfig->getValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
 					$isOwner = $acl->getCurrentUserPrincipal() === $node->getOwner();
 					if ($limitSharingToOwner && !$isOwner) {
 						return;

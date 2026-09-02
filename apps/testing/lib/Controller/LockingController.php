@@ -16,6 +16,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
@@ -42,6 +43,7 @@ class LockingController extends OCSController {
 		protected IDBConnection $connection,
 		protected IConfig $config,
 		protected IRootFolder $rootFolder,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -92,7 +94,7 @@ class LockingController extends OCSController {
 
 		try {
 			$lockingProvider->acquireLock($path, $type);
-			$this->config->setAppValue('testing', 'locking_' . $path, (string)$type);
+			$this->appConfig->setValue('testing', 'locking_' . $path, (string)$type);
 			return new DataResponse();
 		} catch (LockedException $e) {
 			throw new OCSException('', Http::STATUS_LOCKED, $e);
@@ -115,7 +117,7 @@ class LockingController extends OCSController {
 
 		try {
 			$lockingProvider->changeLock($path, $type);
-			$this->config->setAppValue('testing', 'locking_' . $path, (string)$type);
+			$this->appConfig->setValue('testing', 'locking_' . $path, (string)$type);
 			return new DataResponse();
 		} catch (LockedException $e) {
 			throw new OCSException('', Http::STATUS_LOCKED, $e);
@@ -138,7 +140,7 @@ class LockingController extends OCSController {
 
 		try {
 			$lockingProvider->releaseLock($path, $type);
-			$this->config->deleteAppValue('testing', 'locking_' . $path);
+			$this->appConfig->deleteKey('testing', 'locking_' . $path);
 			return new DataResponse();
 		} catch (LockedException $e) {
 			throw new OCSException('', Http::STATUS_LOCKED, $e);
@@ -169,16 +171,16 @@ class LockingController extends OCSController {
 	public function releaseAll(?int $type = null): DataResponse {
 		$lockingProvider = $this->getLockingProvider();
 
-		foreach ($this->config->getAppKeys('testing') as $lock) {
+		foreach ($this->appConfig->getKeys('testing') as $lock) {
 			if (strpos($lock, 'locking_') === 0) {
 				$path = substr($lock, strlen('locking_'));
 
-				if ($type === ILockingProvider::LOCK_EXCLUSIVE && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_EXCLUSIVE) {
-					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
-				} elseif ($type === ILockingProvider::LOCK_SHARED && (int)$this->config->getAppValue('testing', $lock) === ILockingProvider::LOCK_SHARED) {
-					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
+				if ($type === ILockingProvider::LOCK_EXCLUSIVE && (int)$this->appConfig->getValue('testing', $lock) === ILockingProvider::LOCK_EXCLUSIVE) {
+					$lockingProvider->releaseLock($path, (int)$this->appConfig->getValue('testing', $lock));
+				} elseif ($type === ILockingProvider::LOCK_SHARED && (int)$this->appConfig->getValue('testing', $lock) === ILockingProvider::LOCK_SHARED) {
+					$lockingProvider->releaseLock($path, (int)$this->appConfig->getValue('testing', $lock));
 				} else {
-					$lockingProvider->releaseLock($path, (int)$this->config->getAppValue('testing', $lock));
+					$lockingProvider->releaseLock($path, (int)$this->appConfig->getValue('testing', $lock));
 				}
 			}
 		}

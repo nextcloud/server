@@ -11,6 +11,7 @@ namespace OCA\DAV\CardDAV;
 
 use OCA\Federation\TrustedServers;
 use OCP\Accounts\IAccountManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -40,6 +41,7 @@ class SystemAddressbook extends AddressBook {
 		private ?IRequest $request = null,
 		private ?TrustedServers $trustedServers = null,
 		private ?IGroupManager $groupManager = null,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($carddavBackend, $addressBookInfo, $l10n);
 
@@ -56,9 +58,9 @@ class SystemAddressbook extends AddressBook {
 	 */
 	#[\Override]
 	public function getChildren() {
-		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$shareEnumeration = $this->appConfig->getValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$shareEnumerationGroup = $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$shareEnumerationPhone = $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$user = $this->userSession->getUser();
 		if (!$user) {
 			// Should never happen because we don't allow anonymous access
@@ -105,9 +107,9 @@ class SystemAddressbook extends AddressBook {
 	 */
 	#[\Override]
 	public function getMultipleChildren($paths): array {
-		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$shareEnumeration = $this->appConfig->getValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$shareEnumerationGroup = $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$shareEnumerationPhone = $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$user = $this->userSession->getUser();
 		if (($user !== null && $user->getBackendClassName() === 'Guests') || !$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
 			// No user or cards with no access
@@ -170,9 +172,9 @@ class SystemAddressbook extends AddressBook {
 	#[\Override]
 	public function getChild($name): Card {
 		$user = $this->userSession->getUser();
-		$shareEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		$shareEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		$shareEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$shareEnumeration = $this->appConfig->getValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$shareEnumerationGroup = $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$shareEnumerationPhone = $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		if (($user !== null && $user->getBackendClassName() === 'Guests') || !$shareEnumeration || (!$shareEnumerationGroup && $shareEnumerationPhone)) {
 			$ownName = $user !== null ? SyncService::getCardUri($user) : null;
 			if ($ownName === $name) {

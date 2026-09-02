@@ -15,6 +15,7 @@ use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\BackgroundJob\IJobList;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
@@ -42,6 +43,7 @@ class BirthdayCalendarController extends Controller {
 		protected IJobList $jobList,
 		protected IUserManager $userManager,
 		protected CalDavBackend $caldavBackend,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -51,7 +53,7 @@ class BirthdayCalendarController extends Controller {
 	 */
 	#[AuthorizedAdminSetting(settings: CalDAVSettings::class)]
 	public function enable() {
-		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'yes');
+		$this->appConfig->setValue($this->appName, 'generateBirthdayCalendar', 'yes');
 
 		// add background job for each user
 		$this->userManager->callForSeenUsers(function (IUser $user): void {
@@ -68,7 +70,7 @@ class BirthdayCalendarController extends Controller {
 	 */
 	#[AuthorizedAdminSetting(settings: CalDAVSettings::class)]
 	public function disable() {
-		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'no');
+		$this->appConfig->setValue($this->appName, 'generateBirthdayCalendar', 'no');
 
 		$this->jobList->remove(GenerateBirthdayCalendarBackgroundJob::class);
 		$this->caldavBackend->deleteAllBirthdayCalendars();

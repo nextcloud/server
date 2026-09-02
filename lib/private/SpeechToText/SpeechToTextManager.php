@@ -15,6 +15,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Files\File;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
@@ -44,6 +45,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		private IConfig $config,
 		private IUserSession $userSession,
 		private ITaskProcessingManager $taskProcessingManager,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -150,7 +152,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 
 		$providers = $this->getProviders();
 
-		$json = $this->config->getAppValue('core', 'ai.stt_provider', '');
+		$json = $this->appConfig->getValue('core', 'ai.stt_provider', '');
 		if ($json !== '') {
 			$classNameOrId = json_decode($json, true);
 			$provider = current(array_filter($providers, function ($provider) use ($classNameOrId) {

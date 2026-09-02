@@ -25,6 +25,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Files;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\L10N\IFactory;
@@ -50,6 +51,7 @@ class Installer {
 		private AppManager $appManager,
 		private IFactory $l10nFactory,
 		private bool $isCLI,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -480,9 +482,9 @@ class Installer {
 			$this->installApp($appId);
 			$this->appManager->enableApp($appId);
 		}
-		$bundles = json_decode($this->config->getAppValue('core', 'installed.bundles', json_encode([])), true);
+		$bundles = json_decode($this->appConfig->getValue('core', 'installed.bundles', json_encode([])), true);
 		$bundles[] = $bundle->getIdentifier();
-		$this->config->setAppValue('core', 'installed.bundles', json_encode($bundles));
+		$this->appConfig->setValue('core', 'installed.bundles', json_encode($bundles));
 	}
 
 	/**
@@ -503,10 +505,10 @@ class Installer {
 				while (false !== ($filename = readdir($dir))) {
 					if ($filename[0] !== '.' && is_dir($app_dir['path'] . "/$filename")) {
 						if (file_exists($app_dir['path'] . "/$filename/appinfo/info.xml")) {
-							if ($this->config->getAppValue($filename, 'installed_version') === '') {
+							if ($this->appConfig->getValue($filename, 'installed_version') === '') {
 								$enabled = $this->appManager->isDefaultEnabled($filename);
 								if (($enabled || in_array($filename, $this->appManager->getAlwaysEnabledApps()))
-									  && $this->config->getAppValue($filename, 'enabled') !== 'no') {
+									  && $this->appConfig->getValue($filename, 'enabled') !== 'no') {
 									if ($softErrors) {
 										try {
 											$this->installShippedApp($filename, $output);
@@ -520,7 +522,7 @@ class Installer {
 									} else {
 										$this->installShippedApp($filename, $output);
 									}
-									$this->config->setAppValue($filename, 'enabled', 'yes');
+									$this->appConfig->setValue($filename, 'enabled', 'yes');
 								}
 							}
 						}
@@ -536,7 +538,7 @@ class Installer {
 	private function installAppLastSteps(string $appPath, array $info, ?IOutput $output = null, string $enabled = 'no'): string {
 		$this->appManager->registerAutoloading($info['id'], $appPath, true);
 
-		$previousVersion = $this->config->getAppValue($info['id'], 'installed_version', '');
+		$previousVersion = $this->appConfig->getValue($info['id'], 'installed_version', '');
 		$ms = new MigrationService($info['id'], Server::get(Connection::class));
 		if ($output instanceof IOutput) {
 			$ms->setOutput($output);
@@ -573,15 +575,15 @@ class Installer {
 		$this->appManager->executeRepairSteps($info['id'], $info['repair-steps']['install']);
 
 		// Set the installed version
-		$this->config->setAppValue($info['id'], 'installed_version', $this->appManager->getAppVersion($info['id'], false));
-		$this->config->setAppValue($info['id'], 'enabled', $enabled);
+		$this->appConfig->setValue($info['id'], 'installed_version', $this->appManager->getAppVersion($info['id'], false));
+		$this->appConfig->setValue($info['id'], 'enabled', $enabled);
 
 		// Set remote/public handlers
 		foreach ($info['remote'] as $name => $path) {
-			$this->config->setAppValue('core', 'remote_' . $name, $info['id'] . '/' . $path);
+			$this->appConfig->setValue('core', 'remote_' . $name, $info['id'] . '/' . $path);
 		}
 		foreach ($info['public'] as $name => $path) {
-			$this->config->setAppValue('core', 'public_' . $name, $info['id'] . '/' . $path);
+			$this->appConfig->setValue('core', 'public_' . $name, $info['id'] . '/' . $path);
 		}
 
 		$this->appManager->setAppTypes($info['id'], $info);

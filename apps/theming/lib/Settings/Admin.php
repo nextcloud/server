@@ -16,6 +16,7 @@ use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -33,6 +34,7 @@ class Admin implements IDelegatedSettings {
 		private IURLGenerator $urlGenerator,
 		private ImageManager $imageManager,
 		private INavigationManager $navigationManager,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -70,12 +72,12 @@ class Admin implements IDelegatedSettings {
 			'slogan' => $this->themingDefaults->getSlogan(),
 			'primaryColor' => $this->themingDefaults->getDefaultColorPrimary(),
 			'backgroundColor' => $this->themingDefaults->getDefaultColorBackground(),
-			'logoMime' => $this->config->getAppValue(Application::APP_ID, 'logoMime', ''),
+			'logoMime' => $this->appConfig->getValue(Application::APP_ID, 'logoMime', ''),
 			'allowedMimeTypes' => $allowedMimeTypes,
 			'backgroundURL' => $this->imageManager->getImageUrl('background'),
-			'backgroundMime' => $this->config->getAppValue(Application::APP_ID, 'backgroundMime', ''),
-			'logoheaderMime' => $this->config->getAppValue(Application::APP_ID, 'logoheaderMime', ''),
-			'faviconMime' => $this->config->getAppValue(Application::APP_ID, 'faviconMime', ''),
+			'backgroundMime' => $this->appConfig->getValue(Application::APP_ID, 'backgroundMime', ''),
+			'logoheaderMime' => $this->appConfig->getValue(Application::APP_ID, 'logoheaderMime', ''),
+			'faviconMime' => $this->appConfig->getValue(Application::APP_ID, 'faviconMime', ''),
 			'legalNoticeUrl' => $this->themingDefaults->getImprintUrl(),
 			'privacyPolicyUrl' => $this->themingDefaults->getPrivacyUrl(),
 			'disableUserTheming' => $this->themingDefaults->isUserThemingDisabled(),
