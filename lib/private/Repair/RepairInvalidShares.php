@@ -91,5 +91,6 @@ class RepairInvalidShares implements IRepairStep {
 		}
 
 		$this->removeSharesNonExistingParent($output);
+		$this->removeTrailingSlashFromFileTarget($output);
 	}
 }
