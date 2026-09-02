@@ -17,7 +17,6 @@ use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Source\IShareSourceType;
 use RuntimeException;
 
-// TODO: Maybe add validate method to run all checks before using the manager
 final class SharingRegistry implements ISharingRegistry {
 	private ?ISharingLegacyBackend $legacyBackend = null;
 
