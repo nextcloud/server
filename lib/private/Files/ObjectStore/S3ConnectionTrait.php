@@ -38,6 +38,9 @@ trait S3ConnectionTrait {
 	private ?ICache $existingBucketsCache = null;
 	private bool $usePresignedUrl = false;
 
+	/** @var array<string, true> Deduplicates encryption warnings across instances/calls, keyed by message */
+	private static array $loggedEncryptionWarnings = [];
+
 	protected function parseParams($params) {
 		if (empty($params['bucket'])) {
 			throw new \Exception('Bucket has to be configured.');
@@ -62,6 +65,7 @@ trait S3ConnectionTrait {
 		$this->copySizeLimit = $params['copySizeLimit'] ?? 5242880000;
 		$this->useMultipartCopy = (bool)($params['useMultipartCopy'] ?? true);
 		$this->retriesMaxAttempts = $params['retriesMaxAttempts'] ?? 5;
+		$this->parseEncryptionParams($params);
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		$params['key'] = $params['key'] ?? '';
@@ -97,6 +101,8 @@ trait S3ConnectionTrait {
 		if ($this->connection !== null) {
 			return $this->connection;
 		}
+
+		$this->logEncryptionWarnings();
 
 		if ($this->existingBucketsCache === null) {
 			$this->existingBucketsCache = Server::get(ICacheFactory::class)
@@ -337,77 +343,177 @@ trait S3ConnectionTrait {
 	}
 
 	/**
-	 * Get SSE-KMS key ID from configuration
-	 * @return string|null KMS key ARN/ID or null for bucket default key
+	 * Resolve and validate the `sse*` objectstore arguments into `$this->sseMode` and friends.
+	 *
+	 * `sse_c_key` and `sse_kms_enabled` are kept as deprecated aliases for `sse` set to
+	 * `sse-c` / `sse-kms` respectively, so existing configurations keep working unchanged. An
+	 * explicit `sse` always wins over both. If neither is set and both deprecated keys are,
+	 * `sse_c_key` (SSE-C) takes precedence, matching the behaviour Nextcloud 34 shipped with.
+	 *
+	 * Configuration that can be deterministically resolved never blocks boot: it is instead
+	 * recorded in `$this->encryptionWarnings` for `logEncryptionWarnings()` to log once a
+	 * connection is actually made. Only configuration with no reasonable resolution throws.
+	 *
+	 * @throws \Exception on `sse*` configuration with no reasonable resolution
 	 */
-	protected function getSSEKMSKeyId(): ?string {
-		if (isset($this->params['sse_kms_key_id']) && !empty($this->params['sse_kms_key_id'])) {
-			return $this->params['sse_kms_key_id'];
+	private function parseEncryptionParams(array $params): void {
+		$this->encryptionWarnings = [];
+
+		$explicitMode = null;
+		if (isset($params['sse']) && $params['sse'] !== '') {
+			$explicitMode = S3EncryptionMode::tryFrom($params['sse']);
+			if ($explicitMode === null) {
+				$valid = implode(', ', array_map(
+					static fn (S3EncryptionMode $mode): string => "'{$mode->value}'",
+					array_filter(S3EncryptionMode::cases(), static fn (S3EncryptionMode $mode): bool => $mode !== S3EncryptionMode::None)
+				));
+				throw new \Exception("Invalid 'sse' objectstore argument '{$params['sse']}', expected one of: {$valid}.");
+			}
 		}
-		return null;
+
+		$hasLegacySseC = !empty($params['sse_c_key']);
+		$hasLegacySseKms = !empty($params['sse_kms_enabled']);
+
+		if ($explicitMode !== null) {
+			$mode = $explicitMode;
+			if ($hasLegacySseC && $mode !== S3EncryptionMode::SseC) {
+				$this->encryptionWarnings[] = "Ignoring the 'sse_c_key' objectstore argument: 'sse' is explicitly set to '{$mode->value}'.";
+			}
+			if ($hasLegacySseKms && !$mode->isKms()) {
+				$this->encryptionWarnings[] = "Ignoring the 'sse_kms_enabled' objectstore argument: 'sse' is explicitly set to '{$mode->value}'.";
+			}
+		} elseif ($hasLegacySseC || $hasLegacySseKms) {
+			if ($hasLegacySseC && $hasLegacySseKms) {
+				// This is the Nextcloud 34 behaviour: SSE-C silently took precedence over
+				// SSE-KMS whenever both were configured. Kept for backward compatibility,
+				// but no longer silent.
+				$this->encryptionWarnings[] = "Both 'sse_c_key' and 'sse_kms_enabled' are set; 'sse_c_key' (SSE-C) takes precedence, as it did in Nextcloud 34. Set the 'sse' objectstore argument to select a single encryption mode explicitly.";
+			}
+			$mode = $hasLegacySseC ? S3EncryptionMode::SseC : S3EncryptionMode::SseKms;
+			$deprecatedKey = $hasLegacySseC ? 'sse_c_key' : 'sse_kms_enabled';
+			$this->encryptionWarnings[] = "The '{$deprecatedKey}' objectstore argument is deprecated, use 'sse' => '{$mode->value}' instead.";
+		} else {
+			$mode = S3EncryptionMode::None;
+		}
+
+		if ($mode === S3EncryptionMode::SseC) {
+			// SSE-C itself is deprecated since Nextcloud 34, not just the legacy 'sse_c_key'
+			// argument shape, so this warning is emitted regardless of how 'sse-c' was
+			// selected. Amazon S3 disabled SSE-C by default for new buckets in April 2026
+			// (https://aws.amazon.com/blogs/storage/advanced-notice-amazon-s3-to-disable-the-use-of-sse-c-encryption-by-default-for-all-new-buckets-and-select-existing-buckets-in-april-2026/),
+			// which is why this also requires managing and distributing the key yourself.
+			$this->encryptionWarnings[] = "SSE-C ('sse' => 'sse-c') is deprecated since Nextcloud 34: Amazon S3 disabled SSE-C by default for new buckets in April 2026, and it requires you to manage the encryption key yourself. Use 'sse' => 'sse-kms' or 'sse-kms-dsse' instead, which let AWS KMS manage the key.";
+			if (empty($params['sse_c_key'])) {
+				// Unlike a merely redundant option, this cannot be resolved: silently falling
+				// back to no encryption would defeat an explicit request for SSE-C.
+				throw new \Exception("The 'sse' objectstore argument is set to 'sse-c' but no 'sse_c_key' is configured.");
+			}
+		}
+
+		$this->sseMode = $mode;
+
+		$keyId = (isset($params['sse_kms_key_id']) && $params['sse_kms_key_id'] !== '') ? (string)$params['sse_kms_key_id'] : null;
+		if ($keyId !== null && !$mode->isKms()) {
+			$this->encryptionWarnings[] = "Ignoring the 'sse_kms_key_id' objectstore argument: it only applies when 'sse' is 'sse-kms' or 'sse-kms-dsse'.";
+			$keyId = null;
+		}
+		$this->sseKmsKeyId = $keyId;
+
+		$context = $params['sse_kms_encryption_context'] ?? null;
+		if ($context !== null) {
+			// A structurally invalid context can never be resolved, regardless of mode.
+			if (!is_array($context)) {
+				throw new \Exception("The 'sse_kms_encryption_context' objectstore argument must be an array of string key-value pairs.");
+			}
+			foreach ($context as $contextKey => $contextValue) {
+				if (!is_string($contextKey) || !is_string($contextValue)) {
+					throw new \Exception("The 'sse_kms_encryption_context' objectstore argument must be an array of string key-value pairs.");
+				}
+			}
+			if (!$mode->isKms()) {
+				$this->encryptionWarnings[] = "Ignoring the 'sse_kms_encryption_context' objectstore argument: it only applies when 'sse' is 'sse-kms' or 'sse-kms-dsse'.";
+				$context = null;
+			}
+		}
+		$this->sseKmsEncryptionContext = $context !== null ? base64_encode(json_encode($context, JSON_THROW_ON_ERROR)) : null;
+
+		$bucketKey = (bool)($params['sse_kms_bucket_key'] ?? false);
+		if ($bucketKey && $mode !== S3EncryptionMode::SseKms) {
+			// Merely redundant, not impossible: verified against a real bucket that S3
+			// accepts BucketKeyEnabled alongside 'aws:kms:dsse' and simply does not apply
+			// it (HeadObject afterwards shows no BucketKeyEnabled), rather than rejecting
+			// the request outright, despite AWS's own documentation describing S3 Bucket
+			// Keys as unsupported for DSSE-KMS.
+			$reason = $mode === S3EncryptionMode::SseKmsDsse
+				? "S3 Bucket Keys are not applied for DSSE-KMS ('sse' => 'sse-kms-dsse')"
+				: "it only applies when 'sse' is 'sse-kms'";
+			$this->encryptionWarnings[] = "Ignoring the 'sse_kms_bucket_key' objectstore argument: {$reason}.";
+			$bucketKey = false;
+		}
+		$this->sseKmsBucketKey = $bucketKey;
 	}
 
 	/**
-	 * Check if SSE-KMS is enabled
-	 * @return bool
+	 * Log any warnings recorded by `parseEncryptionParams()`, once a connection is actually
+	 * made, deduplicated by message so a long-lived request/worker doesn't repeat the same
+	 * warning on every call.
 	 */
-	protected function isSSEKMSEnabled(): bool {
-		return !empty($this->params['sse_kms_enabled']) && $this->params['sse_kms_enabled'] === true;
+	private function logEncryptionWarnings(): void {
+		if ($this->encryptionWarnings === []) {
+			return;
+		}
+
+		$logger = Server::get(LoggerInterface::class);
+		foreach ($this->encryptionWarnings as $warning) {
+			if (isset(self::$loggedEncryptionWarnings[$warning])) {
+				continue;
+			}
+			self::$loggedEncryptionWarnings[$warning] = true;
+			$logger->warning($warning, ['app' => 'objectstore']);
+		}
 	}
 
 	/**
-	 * Get SSE-KMS parameters for S3 operations
+	 * Get SSE-KMS / DSSE-KMS parameters for S3 operations.
 	 *
-	 * When SSE-KMS is enabled, AWS S3 encrypts objects server-side using
-	 * AWS Key Management Service (KMS) keys. This provides:
-	 * - Centralized key management via AWS KMS
-	 * - Audit trail of key usage
-	 * - No client-side encryption overhead
-	 * - Automatic key rotation support
-	 *
-	 * @param bool $copy Whether this is for a copy operation (unused for KMS)
 	 * @return array Parameters to merge into S3 API calls
 	 */
-	protected function getSSEKMSParameters(bool $copy = false): array {
-		if (!$this->isSSEKMSEnabled()) {
-			return [];
-		}
-
+	private function getSSEKMSParameters(): array {
 		$params = [
-			'ServerSideEncryption' => 'aws:kms',
+			'ServerSideEncryption' => $this->sseMode === S3EncryptionMode::SseKmsDsse ? 'aws:kms:dsse' : 'aws:kms',
 		];
 
-		// Add specific KMS key if configured, otherwise use bucket default key
-		$keyId = $this->getSSEKMSKeyId();
-		if ($keyId !== null) {
-			$params['SSEKMSKeyId'] = $keyId;
+		// Add specific KMS key if configured, otherwise use the bucket default key
+		if ($this->sseKmsKeyId !== null) {
+			$params['SSEKMSKeyId'] = $this->sseKmsKeyId;
 		}
 
-		// Note: For copy operations, S3 re-encrypts with the destination key
-		// No special source parameters needed (unlike SSE-C)
+		if ($this->sseKmsEncryptionContext !== null) {
+			$params['SSEKMSEncryptionContext'] = $this->sseKmsEncryptionContext;
+		}
+
+		if ($this->sseKmsBucketKey) {
+			$params['BucketKeyEnabled'] = true;
+		}
 
 		return $params;
 	}
 
 	/**
-	 * Get unified server-side encryption parameters
+	 * Get server-side encryption parameters for S3 operations, for whichever `sse` mode is configured.
 	 *
-	 * Supports both SSE-C (customer-provided keys) and SSE-KMS (AWS-managed keys).
-	 * SSE-C takes precedence if both are configured (for backward compatibility
-	 * during migration from SSE-C to SSE-KMS).
-	 *
-	 * @param bool $copy Whether this is for a copy operation
+	 * @param bool $copy Whether this is for a copy operation (only relevant for SSE-C)
 	 * @return array Encryption parameters to merge into S3 API calls
 	 */
 	protected function getServerSideEncryptionParameters(bool $copy = false): array {
-		// SSE-C takes precedence for backward compatibility during migration
-		$sseC = $this->getSSECParameters($copy);
-		if (!empty($sseC)) {
-			return $sseC;
-		}
-
-		// Fall back to SSE-KMS if enabled
-		return $this->getSSEKMSParameters($copy);
+		return match ($this->sseMode) {
+			S3EncryptionMode::None => [],
+			S3EncryptionMode::SseS3 => ['ServerSideEncryption' => 'AES256'],
+			S3EncryptionMode::SseC => $this->getSSECParameters($copy),
+			// Unlike SSE-C, KMS/DSSE-KMS have no CopySource* variant: on CopyObject these
+			// headers describe the destination object only, so $copy is not needed here.
+			S3EncryptionMode::SseKms, S3EncryptionMode::SseKmsDsse => $this->getSSEKMSParameters(),
+		};
 	}
 
 	public function isUsePresignedUrl(): bool {
