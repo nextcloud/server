@@ -137,6 +137,10 @@ export const configureNextcloud = async function() {
 	await runExec(container, ['php', 'occ', 'config:system:set', 'force_locale', '--value', 'en_US'], true)
 	await runExec(container, ['php', 'occ', 'config:system:set', 'enforce_theme', '--value', 'light'], true)
 
+	// Disable the unsupported-browser redirect so Cypress (Chrome 118 / Electron 27)
+	// does not hit the "Your browser is not supported" page on every visit.
+	await runExec(container, ['php', 'occ', 'config:system:set', 'no_unsupported_browser_warning', '--value', 'true', '--type', 'boolean'], true)
+
 	// Speed up test and make them less flaky. If a cron execution is needed, it can be triggered manually.
 	await runExec(container, ['php', 'occ', 'background:cron'], true)
 
