@@ -3032,53 +3032,52 @@ class ManagerTest extends \Test\TestCase {
 		self::invokePrivate($this->manager, 'pathCreateChecks', [$path]);
 	}
 
-	public static function dataIsSharingDisabledForUser() {
-		$data = [];
+	public static function dataIsSharingDisabledForUser(): array {
+		$legacyList = 'group1,group2';
+		$jsonList = json_encode(['group1', 'group2']);
 
-		// No exclude groups
-		$data[] = ['no', null, null, [], false];
+		return [
+			// No group restrictions configured
+			'no restrictions, user without groups' => ['no', null, null, [], false],
+			'no restrictions, user with groups' => ['no', null, null, ['group1'], false],
 
-		// empty exclude / allow list, user no groups
-		$data[] = ['yes', '', json_encode(['']), [], false];
-		$data[] = ['allow', '', json_encode(['']), [], true];
+			// Empty legacy list, converted to json
+			'block list, empty list, user without groups' => ['yes', '', json_encode(['']), [], false],
+			'allow list, empty list, user without groups' => ['allow', '', json_encode(['']), [], true],
+			'block list, empty list, user with groups' => ['yes', '', json_encode(['']), ['group1', 'group2'], false],
+			'allow list, empty list, user with groups' => ['allow', '', json_encode(['']), ['group1', 'group2'], true],
 
-		// empty exclude / allow list, user groups
-		$data[] = ['yes', '', json_encode(['']), ['group1', 'group2'], false];
-		$data[] = ['allow', '', json_encode(['']), ['group1', 'group2'], true];
+			// Legacy comma separated list, converted to json
+			'block list, legacy list, user without groups' => ['yes', $legacyList, $jsonList, [], false],
+			'allow list, legacy list, user without groups' => ['allow', $legacyList, $jsonList, [], true],
+			'block list, legacy list, user not in list' => ['yes', $legacyList, $jsonList, ['group3'], false],
+			'allow list, legacy list, user not in list' => ['allow', $legacyList, $jsonList, ['group3'], true],
+			'block list, legacy list, user partly in list' => ['yes', $legacyList, $jsonList, ['group1', 'group3'], true],
+			'allow list, legacy list, user partly in list' => ['allow', $legacyList, $jsonList, ['group1', 'group3'], false],
+			'block list, legacy list, user only in list' => ['yes', $legacyList, $jsonList, ['group1'], true],
+			'allow list, legacy list, user only in list' => ['allow', $legacyList, $jsonList, ['group1'], false],
 
-		// Convert old list to json
-		$data[] = ['yes', 'group1,group2', json_encode(['group1', 'group2']), [], false];
-		$data[] = ['allow', 'group1,group2', json_encode(['group1', 'group2']), [], true];
-
-		// Old list partly groups in common
-		$data[] = ['yes', 'group1,group2', json_encode(['group1', 'group2']), ['group1', 'group3'], false];
-		$data[] = ['allow', 'group1,group2', json_encode(['group1', 'group2']), ['group1', 'group3'], false];
-
-		// Old list only groups in common
-		$data[] = ['yes', 'group1,group2', json_encode(['group1', 'group2']), ['group1'], true];
-		$data[] = ['allow', 'group1,group2', json_encode(['group1', 'group2']), ['group1'], false];
-
-		// New list partly in common
-		$data[] = ['yes', json_encode(['group1', 'group2']), null, ['group1', 'group3'], false];
-		$data[] = ['allow', json_encode(['group1', 'group2']), null, ['group1', 'group3'], false];
-
-		// New list only groups in common
-		$data[] = ['yes', json_encode(['group1', 'group2']), null, ['group2'], true];
-		$data[] = ['allow', json_encode(['group1', 'group2']), null, ['group2'], false];
-
-		return $data;
+			// Json encoded list
+			'block list, user without groups' => ['yes', $jsonList, null, [], false],
+			'allow list, user without groups' => ['allow', $jsonList, null, [], true],
+			'block list, user not in list' => ['yes', $jsonList, null, ['group3'], false],
+			'allow list, user not in list' => ['allow', $jsonList, null, ['group3'], true],
+			'block list, user partly in list' => ['yes', $jsonList, null, ['group1', 'group3'], true],
+			'allow list, user partly in list' => ['allow', $jsonList, null, ['group1', 'group3'], false],
+			'block list, user only in list' => ['yes', $jsonList, null, ['group2'], true],
+			'allow list, user only in list' => ['allow', $jsonList, null, ['group2'], false],
+		];
 	}
 
 	/**
-	 *
-	 * @param string $excludeGroups
-	 * @param string $groupList
-	 * @param string $setList
-	 * @param string[] $groupIds
-	 * @param bool $expected
+	 * @param string $excludeGroups Value of the `shareapi_exclude_groups` setting
+	 * @param ?string $groupList Value of the `shareapi_exclude_groups_list` setting
+	 * @param ?string $setList Expected value the group list is migrated to, or null if no migration is expected
+	 * @param string[] $groupIds Groups of the user
+	 * @param bool $expected Whether sharing is expected to be disabled for the user
 	 */
 	#[DataProvider('dataIsSharingDisabledForUser')]
-	public function testIsSharingDisabledForUser($excludeGroups, $groupList, $setList, $groupIds, $expected): void {
+	public function testIsSharingDisabledForUser(string $excludeGroups, ?string $groupList, ?string $setList, array $groupIds, bool $expected): void {
 		$user = $this->createMock(IUser::class);
 
 		$this->config->method('getAppValue')
