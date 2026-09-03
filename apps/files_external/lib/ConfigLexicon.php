@@ -23,6 +23,7 @@ use OCP\Config\ValueType;
 class ConfigLexicon implements ILexicon {
 	public const ALLOW_USER_MOUNTING = 'allow_user_mounting';
 	public const USER_MOUNTING_BACKENDS = 'user_mounting_backends';
+	public const AMAZONS3_SERVER_SIDE_COPY = 'amazons3_server_side_copy';
 
 	#[\Override]
 	public function getStrictness(): Strictness {
@@ -34,6 +35,7 @@ class ConfigLexicon implements ILexicon {
 		return [
 			new Entry(self::ALLOW_USER_MOUNTING, ValueType::BOOL, false, 'allow users to mount their own external filesystems', true),
 			new Entry(self::USER_MOUNTING_BACKENDS, ValueType::STRING, '', 'list of mounting backends available for users', true),
+			new Entry(self::AMAZONS3_SERVER_SIDE_COPY, ValueType::BOOL, false, 'dispatch server-side S3 copy for cross-mount MOVE/COPY between AmazonS3 mounts sharing an endpoint. The destination-mount credential MUST hold s3:GetObject on the source bucket.', true),
 		];
 	}
 
