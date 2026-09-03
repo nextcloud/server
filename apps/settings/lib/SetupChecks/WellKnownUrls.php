@@ -59,7 +59,7 @@ class WellKnownUrls implements ISetupCheck {
 			$works = null;
 			foreach ($this->runRequest($verb, $url, $requestOptions, isRootRequest: true) as $response) {
 				// Check that the response status matches
-				$works = in_array($response->getStatusCode(), $validStatuses);
+				$works = in_array($response->getStatusCode(), $validStatuses, true);
 				// and (if needed) the custom Nextcloud header is set
 				if ($checkCustomHeader) {
 					$works = $works && !empty($response->getHeader('X-NEXTCLOUD-WELL-KNOWN'));

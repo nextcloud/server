@@ -69,7 +69,7 @@ class SchemaEncoder {
 			} elseif ($platform instanceof AbstractMySqlPlatform) {
 				if ($column->getType() instanceof PhpIntegerMappingType) {
 					$data['length'] = null;
-				} elseif (in_array($data['type'], ['text', 'blob', 'datetime', 'float', 'json'])) {
+				} elseif (in_array($data['type'], ['text', 'blob', 'datetime', 'float', 'json'], true)) {
 					$data['length'] = 0;
 				}
 				unset($data['collation']);

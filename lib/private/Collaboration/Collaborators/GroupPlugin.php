@@ -80,7 +80,7 @@ class GroupPlugin implements ISearchPlugin {
 
 			// FIXME: use a more efficient approach
 			$gid = $group->getGID();
-			if (!in_array($gid, $groupIds)) {
+			if (!in_array($gid, $groupIds, true)) {
 				continue;
 			}
 			if (strtolower($gid) === $lowerSearch || strtolower($group->getDisplayName()) === $lowerSearch) {
@@ -109,7 +109,7 @@ class GroupPlugin implements ISearchPlugin {
 			// On page one we try if the search result has a direct hit on the
 			// user id and if so, we add that to the exact match list
 			$group = $this->groupManager->get($search);
-			if ($group instanceof IGroup && !$group->hideFromCollaboration() && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups))) {
+			if ($group instanceof IGroup && !$group->hideFromCollaboration() && (!$this->shareWithGroupOnly || in_array($group->getGID(), $userGroups, true))) {
 				$result['exact'][] = [
 					'label' => $group->getDisplayName(),
 					'value' => [

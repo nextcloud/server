@@ -342,7 +342,7 @@ class MountProvider implements IMountProvider, IAuthoritativeMountProvider, IPar
 				$share->getPermissions() > 0
 				&& $share->getShareOwner() !== $userId
 				&& $share->getSharedBy() !== $userId
-				&& !in_array($share->getFullId(), $excludeShareIds)
+				&& !in_array($share->getFullId(), $excludeShareIds, true)
 			) {
 				yield $share;
 			}

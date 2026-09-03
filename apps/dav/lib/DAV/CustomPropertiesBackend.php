@@ -198,7 +198,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			];
 
 			foreach ($customPropertiesForShares as $customPropertyForShares) {
-				if (in_array($customPropertyForShares, $allRequestedProps)) {
+				if (in_array($customPropertyForShares, $allRequestedProps, true)) {
 					$requestedProps[] = $customPropertyForShares;
 				}
 			}

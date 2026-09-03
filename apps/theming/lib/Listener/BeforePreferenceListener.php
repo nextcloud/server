@@ -48,7 +48,7 @@ class BeforePreferenceListener implements IEventListener {
 	}
 
 	private function handleThemingValues(BeforePreferenceSetEvent|BeforePreferenceDeletedEvent $event): void {
-		if (!in_array($event->getConfigKey(), self::ALLOWED_KEYS)) {
+		if (!in_array($event->getConfigKey(), self::ALLOWED_KEYS, true)) {
 			// Not allowed config key
 			return;
 		}

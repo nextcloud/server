@@ -50,14 +50,14 @@ trait EmitterTrait {
 		} elseif ($scope) {
 			foreach ($allNames as $name) {
 				$parts = explode('::', $name, 2);
-				if ($parts[0] == $scope) {
+				if ($parts[0] === $scope) {
 					$names[] = $name;
 				}
 			}
 		} elseif ($method) {
 			foreach ($allNames as $name) {
 				$parts = explode('::', $name, 2);
-				if ($parts[1] == $method) {
+				if ($parts[1] === $method) {
 					$names[] = $name;
 				}
 			}

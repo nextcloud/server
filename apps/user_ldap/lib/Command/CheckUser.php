@@ -171,7 +171,7 @@ class CheckUser extends Command {
 			foreach ($result[0] as $attribute => $valueSet) {
 				$output->writeln('  ' . $attribute . ': ');
 				foreach ($valueSet as $value) {
-					if (in_array($attribute, $avatarAttributes)) {
+					if (in_array($attribute, $avatarAttributes, true)) {
 						$value = '{ImageData}';
 					}
 					$output->writeln('    ' . $value);

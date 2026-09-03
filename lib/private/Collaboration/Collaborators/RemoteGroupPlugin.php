@@ -24,7 +24,7 @@ class RemoteGroupPlugin implements ISearchPlugin {
 		try {
 			$fileSharingProvider = $cloudFederationProviderManager->getCloudFederationProvider('file');
 			$supportedShareTypes = $fileSharingProvider->getSupportedShareTypes();
-			if (in_array('group', $supportedShareTypes)) {
+			if (in_array('group', $supportedShareTypes, true)) {
 				$this->enabled = true;
 			}
 		} catch (\Exception $e) {

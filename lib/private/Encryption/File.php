@@ -95,7 +95,7 @@ class File implements IFile {
 			$storageService = Server::get(GlobalStoragesService::class);
 			$storages = $storageService->getAllStorages();
 			foreach ($storages as $storage) {
-				if ($storage->getMountPoint() == substr($ownerPath, 0, strlen($storage->getMountPoint()))) {
+				if ($storage->getMountPoint() === substr($ownerPath, 0, strlen($storage->getMountPoint()))) {
 					$mountedFor = $this->util->getUserWithAccessToMountPoint($storage->getApplicableUsers(), $storage->getApplicableGroups());
 					$userIds = array_merge($userIds, $mountedFor);
 				}

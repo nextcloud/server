@@ -435,7 +435,7 @@ class Root extends Folder implements IRootFolder, Emitter {
 		$mountRoots = array_combine($mountRootIds, $mountRootPaths);
 
 		$mounts = $this->mountManager->getMountsByMountProvider($path, $mountProviders);
-		$mountsContainingFile = array_filter($mounts, fn (IMountPoint $mount) => in_array($mount->getMountPoint(), $mountPoints));
+		$mountsContainingFile = array_filter($mounts, fn (IMountPoint $mount) => in_array($mount->getMountPoint(), $mountPoints, true));
 
 		// if we haven't found a relevant mount that is setup, but we do have relevant mount infos
 		// we try to load them from the mount info.

@@ -37,7 +37,7 @@ class PartitionSplit {
 	}
 
 	public function containsTable(string $table): bool {
-		return in_array($table, $this->tables);
+		return in_array($table, $this->tables, true);
 	}
 
 	public function containsAlias(string $alias): bool {

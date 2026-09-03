@@ -1161,7 +1161,7 @@ class Wizard extends LDAPUtility {
 					$rr = $entry; //will be expected by nextEntry next round
 					$attributes = $this->ldap->getAttributes($cr, $entry);
 					$dn = $this->ldap->getDN($cr, $entry);
-					if ($attributes === false || $dn === false || in_array($dn, $dnRead)) {
+					if ($attributes === false || $dn === false || in_array($dn, $dnRead, true)) {
 						continue;
 					}
 					$newItems = [];
@@ -1256,6 +1256,8 @@ class Wizard extends LDAPUtility {
 				if ($key === 'count') {
 					continue;
 				}
+				// $val comes from the raw ldap_get_attributes() result with unknown element types
+				/** @psalm-suppress UnrecognizedExpression */
 				if (!in_array($val, $known)) {
 					$known[] = $val;
 				}

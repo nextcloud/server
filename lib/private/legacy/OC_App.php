@@ -381,7 +381,7 @@ class OC_App {
 		$supportedApps = $this->getSupportedApps();
 
 		foreach ($installedApps as $app) {
-			if (!in_array($app, $blacklist)) {
+			if (!in_array($app, $blacklist, true)) {
 				$info = $appManager->getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
 					Server::get(LoggerInterface::class)->error('Could not read app info file for app "' . $app . '"', ['app' => 'core']);
@@ -415,7 +415,7 @@ class OC_App {
 					$info['removable'] = true;
 				}
 
-				if (in_array($app, $supportedApps)) {
+				if (in_array($app, $supportedApps, true)) {
 					$info['level'] = self::supportedApp;
 				}
 

@@ -55,7 +55,7 @@ class ResetGroup extends Command {
 				throw new \Exception('Group not found');
 			}
 			$backends = $group->getBackendNames();
-			if (!in_array('LDAP', $backends)) {
+			if (!in_array('LDAP', $backends, true)) {
 				throw new \Exception('The given group is not a recognized LDAP group.');
 			}
 			if ($input->getOption('yes') === false) {

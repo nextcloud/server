@@ -356,7 +356,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	#[\Override]
 	public function isInGroup($userId, $group) {
-		return in_array($group, $this->getUserIdGroupIds($userId));
+		return in_array($group, $this->getUserIdGroupIds($userId), true);
 	}
 
 	#[\Override]

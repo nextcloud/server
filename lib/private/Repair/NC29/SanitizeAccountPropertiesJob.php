@@ -57,7 +57,7 @@ class SanitizeAccountPropertiesJob extends QueuedJob {
 					$this->accountManager->updateAccount($account);
 					return;
 				} catch (InvalidArgumentException $e) {
-					if (in_array($e->getMessage(), IAccountManager::ALLOWED_PROPERTIES)) {
+					if (in_array($e->getMessage(), IAccountManager::ALLOWED_PROPERTIES, true)) {
 						$numRemoved++;
 						$property = $account->getProperty($e->getMessage());
 						$account->setProperty($property->getName(), '', $property->getScope(), IAccountManager::NOT_VERIFIED);

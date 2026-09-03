@@ -101,7 +101,7 @@ class ShareRecipientUpdater {
 	 */
 	public function updateForMovedShare(IUser $user, IShare $share): void {
 		$originalTarget = $share->getOriginalTarget();
-		if ($originalTarget != null) {
+		if ($originalTarget !== null) {
 			$newMountPoint = $this->getMountPointFromTarget($user, $share->getTarget());
 			$oldMountPoint = $this->getMountPointFromTarget($user, $originalTarget);
 			$this->userMountCache->removeMount($oldMountPoint, $user);

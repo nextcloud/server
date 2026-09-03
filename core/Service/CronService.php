@@ -282,7 +282,7 @@ class CronService {
 		} else {
 			// Work and success :-)
 			$job = $this->jobList->getNext();
-			if ($job != null) {
+			if ($job !== null) {
 				$this->logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
 				$job->start($this->jobList);
 				$this->jobList->setLastJob($job);

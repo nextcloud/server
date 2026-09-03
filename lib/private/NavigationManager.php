@@ -186,7 +186,8 @@ class NavigationManager implements INavigationManager {
 		$activeEntry = $this->getActiveEntry();
 		if ($activeEntry !== null) {
 			foreach ($list as $index => &$navEntry) {
-				if ($navEntry['id'] == $activeEntry) {
+				// nav entry ids are app-provided and untyped, so normalize before comparing
+				if ((string)$navEntry['id'] === $activeEntry) {
 					$navEntry['active'] = true;
 				} else {
 					$navEntry['active'] = false;

@@ -53,7 +53,7 @@ class ShardDefinition {
 		if ($this->table === $table) {
 			return true;
 		}
-		return in_array($table, $this->companionTables);
+		return in_array($table, $this->companionTables, true);
 	}
 
 	public function getShardForKey(int $key): int {
@@ -75,6 +75,6 @@ class ShardDefinition {
 	}
 
 	public function isKey(string $column): bool {
-		return $column === $this->primaryKey || in_array($column, $this->companionKeys);
+		return $column === $this->primaryKey || in_array($column, $this->companionKeys, true);
 	}
 }

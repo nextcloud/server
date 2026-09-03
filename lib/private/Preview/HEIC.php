@@ -36,7 +36,7 @@ class HEIC extends ProviderV2 {
 	 */
 	#[\Override]
 	public function isAvailable(FileInfo $file): bool {
-		return in_array('HEIC', \Imagick::queryFormats('HEI*'));
+		return in_array('HEIC', \Imagick::queryFormats('HEI*'), true);
 	}
 
 	/**

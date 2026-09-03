@@ -259,7 +259,7 @@ class AddressBookImpl implements ICreateContactFromString, IAddressBookEnabled, 
 		];
 
 		foreach ($vCard->children() as $property) {
-			if ($property->name === 'PHOTO' && in_array($property->getValueType(), ['BINARY', 'URI'])) {
+			if ($property->name === 'PHOTO' && in_array($property->getValueType(), ['BINARY', 'URI'], true)) {
 				$url = $this->urlGenerator->getAbsoluteURL(
 					$this->urlGenerator->linkTo('', 'remote.php') . '/dav/');
 				$url .= implode('/', [
@@ -270,7 +270,7 @@ class AddressBookImpl implements ICreateContactFromString, IAddressBookEnabled, 
 				]) . '?photo';
 
 				$result['PHOTO'] = 'VALUE=uri:' . $url;
-			} elseif (in_array($property->name, ['URL', 'GEO', 'CLOUD', 'ADR', 'EMAIL', 'IMPP', 'TEL', 'X-SOCIALPROFILE', 'RELATED', 'LANG', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
+			} elseif (in_array($property->name, ['URL', 'GEO', 'CLOUD', 'ADR', 'EMAIL', 'IMPP', 'TEL', 'X-SOCIALPROFILE', 'RELATED', 'LANG', 'X-ADDRESSBOOKSERVER-MEMBER'], true)) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
 				}

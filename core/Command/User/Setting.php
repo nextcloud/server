@@ -154,26 +154,28 @@ class Setting extends Base {
 					return 1;
 				}
 
-				if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
+				if ($app === 'settings' && in_array($key, ['email', 'display_name'], true)) {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
 						if ($key === 'email') {
 							$email = $input->getArgument('value');
 							$user->setSystemEMailAddress(mb_strtolower(trim($email)));
-						} elseif ($key === 'display_name') {
-							if (!$user->setDisplayName($input->getArgument('value'))) {
-								if ($user->getDisplayName() === $input->getArgument('value')) {
-									$output->writeln('<error>New and old display name are the same</error>');
-								} elseif ($input->getArgument('value') === '') {
-									$output->writeln('<error>New display name can\'t be empty</error>');
-								} else {
-									$output->writeln('<error>Could not set display name</error>');
-								}
-								return 1;
-							}
+							return 0;
 						}
-						// setEmailAddress and setDisplayName both internally set the value
-						return 0;
+
+						// key === 'display_name'
+						if ($user->setDisplayName($input->getArgument('value'))) {
+							return 0;
+						}
+
+						if ($user->getDisplayName() === $input->getArgument('value')) {
+							$output->writeln('<error>New and old display name are the same</error>');
+						} elseif ($input->getArgument('value') === '') {
+							$output->writeln('<error>New display name can\'t be empty</error>');
+						} else {
+							$output->writeln('<error>Could not set display name</error>');
+						}
+						return 1;
 					}
 				}
 
@@ -185,7 +187,7 @@ class Setting extends Base {
 					return 1;
 				}
 
-				if ($app === 'settings' && in_array($key, ['email', 'display_name'])) {
+				if ($app === 'settings' && in_array($key, ['email', 'display_name'], true)) {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
 						if ($key === 'email') {

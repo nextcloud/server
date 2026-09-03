@@ -160,7 +160,7 @@ class Sync extends TimedJob {
 
 		if (
 			$cycleData['prefix'] !== 'none'
-			&& in_array($cycleData['prefix'], $prefixes)
+			&& in_array($cycleData['prefix'], $prefixes, true)
 		) {
 			return $cycleData;
 		}

@@ -402,7 +402,7 @@ class ThemingController extends Controller {
 	#[NoSameSiteCookieRequired]
 	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();
-		if (!in_array($themeId, array_keys($themes))) {
+		if (!in_array($themeId, array_keys($themes), true)) {
 			return new NotFoundResponse();
 		}
 

@@ -91,7 +91,7 @@ class ThemesService {
 		$enabledThemeIds = $this->getEnabledThemes();
 
 		// If already enabled, ignore
-		if (in_array($theme->getId(), $enabledThemeIds)) {
+		if (in_array($theme->getId(), $enabledThemeIds, true)) {
 			return $enabledThemeIds;
 		}
 
@@ -116,7 +116,7 @@ class ThemesService {
 		$themesIds = $this->getEnabledThemes();
 
 		// If enabled, removing it
-		if (in_array($theme->getId(), $themesIds)) {
+		if (in_array($theme->getId(), $themesIds, true)) {
 			$enabledThemes = array_values(array_diff($themesIds, [$theme->getId()]));
 			$this->setEnabledThemes($enabledThemes);
 			return $enabledThemes;
@@ -136,7 +136,7 @@ class ThemesService {
 		if ($user instanceof IUser) {
 			// Using keys as it's faster
 			$themes = $this->getEnabledThemes();
-			return in_array($theme->getId(), $themes);
+			return in_array($theme->getId(), $themes, true);
 		}
 		return false;
 	}

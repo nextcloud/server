@@ -85,7 +85,7 @@ class ListCommand extends Base {
 		$appId = $input->getOption('appId');
 		$customId = $input->getOption('customId');
 		$status = $input->getOption('status') !== null ? (int)$input->getOption('status') : null;
-		$scheduledAfter = $input->getOption('scheduledAfter') != null ? (int)$input->getOption('scheduledAfter') : null;
+		$scheduledAfter = $input->getOption('scheduledAfter') !== null ? (int)$input->getOption('scheduledAfter') : null;
 		$endedBefore = $input->getOption('endedBefore') !== null ? (int)$input->getOption('endedBefore') : null;
 
 		$tasks = $this->taskProcessingManager->getTasks($userIdFilter, $type, $appId, $customId, $status, $scheduledAfter, $endedBefore);

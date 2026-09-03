@@ -141,7 +141,7 @@ class OCMProvider implements IOCMProvider {
 	 */
 	#[\Override]
 	public function getTokenEndPoint(): string {
-		if (in_array('exchange-token', $this->capabilities)) {
+		if (in_array('exchange-token', $this->capabilities, true)) {
 			return $this->tokenEndPoint;
 		}
 		return '';

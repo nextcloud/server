@@ -128,7 +128,7 @@ class ConversionManager implements IConversionManager {
 			$appId = $providerRegistration->getAppId();
 
 			try {
-				if (in_array($appId, $this->preferredApps)) {
+				if (in_array($appId, $this->preferredApps, true)) {
 					$this->preferredProviders[$class] = $this->serverContainer->get($class);
 					continue;
 				}

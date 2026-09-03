@@ -131,7 +131,7 @@ class Encryption implements IEncryptionModule {
 		}
 
 		/* If useLegacyFileKey is not specified in header, auto-detect, to be safe */
-		$useLegacyFileKey = (($header['useLegacyFileKey'] ?? '') == 'false' ? false : null);
+		$useLegacyFileKey = ((string)($header['useLegacyFileKey'] ?? '') === 'false' ? false : null);
 
 		$this->fileKey = $this->keyManager->getFileKey($this->path, $useLegacyFileKey, $this->session->decryptAllModeActivated());
 
