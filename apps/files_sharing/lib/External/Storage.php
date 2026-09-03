@@ -35,8 +35,6 @@ use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUserSession;
-use OCP\OCM\Exceptions\OCMArgumentException;
-use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\Server;
 use OCP\Share\IManager as IShareManager;
@@ -78,18 +76,10 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$this->appConfig = Server::get(IAppConfig::class);
 		$this->shareManager = Server::get(IShareManager::class);
 
-		// use default path to webdav if not found on discovery
-		try {
-			$ocmProvider = $discoveryService->discover($this->cloudId->getRemote());
-			$webDavEndpoint = $ocmProvider->extractProtocolEntry('file', 'webdav');
-			$remote = $ocmProvider->getEndPoint();
-			$authType = \Sabre\DAV\Client::AUTH_BASIC;
-		} catch (OCMProviderException|OCMArgumentException $e) {
-			$this->logger->notice('exception while retrieving webdav endpoint', ['exception' => $e]);
-			$webDavEndpoint = '/public.php/webdav';
-			$remote = $this->cloudId->getRemote();
-			$authType = \Sabre\DAV\Client::AUTH_BASIC;
-		}
+		$ocmProvider = $discoveryService->discover($this->cloudId->getRemote());
+		$webDavEndpoint = $ocmProvider->extractProtocolEntry('file', 'webdav');
+		$remote = $ocmProvider->getEndPoint();
+		$authType = \Sabre\DAV\Client::AUTH_BASIC;
 
 		// Only use Bearer auth when an access token is already stored.
 		// Shares created before the exchange-token capability was introduced have no
