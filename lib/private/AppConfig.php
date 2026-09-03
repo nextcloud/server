@@ -178,7 +178,17 @@ class AppConfig implements IAppConfig {
 	public function hasKey(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig($app, $lazy ?? true);
-		$this->matchAndApplyLexiconDefinition($app, $key);
+		$lexiconEntry = null;
+		$this->matchAndApplyLexiconDefinition($app, $key, lexiconEntry: $lexiconEntry);
+
+		if (!$lazy && $lexiconEntry?->isLazy() ?? false) {
+			// using updateLazy() will load lazy cache but also fix the lazy
+			// flag in the database if needed. Still Light if no changes are needed
+			$lazy = true;
+			if ($this->updateLazy($app, $key, true)) {
+				$this->loadConfig($app, true);
+			}
+		}
 
 		$hasLazy = isset($this->lazyCache[$app][$key]);
 		$hasFast = isset($this->fastCache[$app][$key]);
@@ -227,13 +237,13 @@ class AppConfig implements IAppConfig {
 		$this->assertParams($app, $key);
 		$this->matchAndApplyLexiconDefinition($app, $key);
 
-		// there is a huge probability the non-lazy config are already loaded
-		if ($this->hasKey($app, $key, false)) {
+		$this->loadConfig($app, false);
+		if (isset($this->fastCache[$app][$key])) {
 			return false;
 		}
 
-		// key not found, we search in the lazy config
-		if ($this->hasKey($app, $key, true)) {
+		$this->loadConfig($app, true);
+		if (isset($this->lazyCache[$app][$key])) {
 			return true;
 		}
 
@@ -1782,13 +1792,14 @@ class AppConfig implements IAppConfig {
 			return $this->applyLexiconStrictness($configDetails['strictness'], $app . '/' . $key);
 		}
 
+		/** @var Entry $lexiconEntry */
+		$lexiconEntry = $configDetails['entries'][$key];
+
 		// if lazy is NULL, we ignore all check on the type/lazyness/default from Lexicon
 		if ($lazy === null) {
 			return true;
 		}
 
-		/** @var Entry $lexiconEntry */
-		$lexiconEntry = $configDetails['entries'][$key];
 		$type &= ~self::VALUE_SENSITIVE;
 
 		$appConfigValueType = $lexiconEntry->getValueType()->toAppConfigFlag();
