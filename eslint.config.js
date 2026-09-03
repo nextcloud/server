@@ -90,6 +90,10 @@ export default defineConfig([
 			'**/js/',
 			'**/l10n/', // all translations (config only ignored in root)
 			'**/vendor/', // different vendors
+			// files_sharing is symlinked into the Vue 3 frontend only for its bridge
+			// entry point; the app itself is still Vue 2 and is linted through the
+			// legacy frontend, whose config matches the code it actually is.
+			'build/frontend/apps/files_sharing/',
 		],
 	},
 ])

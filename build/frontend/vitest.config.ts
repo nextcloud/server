@@ -71,6 +71,10 @@ export default defineConfig({
 		exclude: [
 			...defaultExclude,
 			...gitIgnore,
+			// files_sharing is symlinked here only for its Vue 3 bridge entry point;
+			// the rest of the app is still Vue 2, so its tests belong to the legacy
+			// frontend project, which is where their dependencies resolve.
+			'apps/files_sharing/**',
 		],
 		globalSetup: resolve(import.meta.dirname, '__tests__/setup-global.js'),
 		server: {
