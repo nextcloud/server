@@ -9,20 +9,30 @@
 namespace Test\Files\Cache;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Cache\CacheDependencies;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Cache\QuerySearchHelper;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Temporary;
+use OC\SystemConfig;
+use OC\User\DisplayNameCache;
 use OC\User\User;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Storage\IStorage;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IDBConnection;
 use OCP\ITagManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class LongId extends Temporary {
 	#[\Override]
@@ -243,6 +253,149 @@ class CacheTest extends \Test\TestCase {
 		foreach ($files as $file) {
 			$this->assertFalse($this->cache->inCache($file));
 		}
+	}
+
+	/**
+	 * @return array{0: Cache, 1: \Closure(): list<CacheEntriesRemovedEvent>}
+	 */
+	private function cacheWithRecordedEvents(IStorage $storage): array {
+		$events = [];
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (object $event) use (&$events): void {
+				if ($event instanceof CacheEntriesRemovedEvent) {
+					$events[] = $event;
+				}
+			});
+
+		$dependencies = new CacheDependencies(
+			Server::get(IMimeTypeLoader::class),
+			Server::get(IDBConnection::class),
+			$dispatcher,
+			Server::get(QuerySearchHelper::class),
+			Server::get(SystemConfig::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IFilesMetadataManager::class),
+			Server::get(DisplayNameCache::class),
+		);
+
+		return [new Cache($storage, $dependencies), function () use (&$events): array {
+			return $events;
+		}];
+	}
+
+	/**
+	 * @param list<CacheEntriesRemovedEvent> $events
+	 * @return list<int>
+	 */
+	private function announcedFileIds(array $events): array {
+		$fileIds = [];
+		foreach ($events as $event) {
+			foreach ($event->getCacheEntryRemovedEvents() as $removed) {
+				$fileIds[] = $removed->getFileId();
+			}
+		}
+		return $fileIds;
+	}
+
+	public function testRemoveSingleFileAnnouncesBatchEvent(): void {
+		$storage = new Temporary([]);
+		[$cache, $recorded] = $this->cacheWithRecordedEvents($storage);
+		$cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+		$fileId = $cache->put('foo.txt', ['size' => 1, 'mtime' => 20, 'mimetype' => 'text/plain']);
+
+		$cache->remove('foo.txt');
+
+		$this->assertEquals([$fileId], $this->announcedFileIds($recorded()));
+	}
+
+	public function testRemoveRecursiveAnnouncesRealFileIds(): void {
+		$storage = new Temporary([]);
+		[$cache, $recorded] = $this->cacheWithRecordedEvents($storage);
+		$cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
+		$fileData = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'text/plain'];
+
+		$expected = [$cache->put('folder', $folderData)];
+		$expected[] = $cache->put('folder/sub', $folderData);
+		$expected[] = $cache->put('folder/foo.txt', $fileData);
+		$expected[] = $cache->put('folder/sub/bar.txt', $fileData);
+
+		$cache->remove('folder');
+
+		$announced = $this->announcedFileIds($recorded());
+		sort($expected);
+		sort($announced);
+		$this->assertEquals($expected, $announced);
+	}
+
+	public function testRemoveRecursiveAnnouncesEveryChildExactlyOnce(): void {
+		$storage = new Temporary([]);
+		[$cache, $recorded] = $this->cacheWithRecordedEvents($storage);
+		$cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+		$fileData = ['size' => 1, 'mtime' => 20, 'mimetype' => 'text/plain'];
+
+		$expected = [$cache->put('folder', ['size' => 0, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE])];
+		for ($i = 0; $i < IQueryBuilder::MAX_IN_PARAMETERS + 1; $i++) {
+			$expected[] = $cache->insert("folder/child$i.txt", $fileData);
+		}
+
+		$cache->remove('folder');
+
+		$announced = $this->announcedFileIds($recorded());
+		$this->assertCount(count($expected), $announced, 'every removed entry is announced exactly once');
+		sort($expected);
+		sort($announced);
+		$this->assertEquals($expected, $announced);
+	}
+
+	public function testClearEmptiesTheStorageEvenIfAListenerThrows(): void {
+		$storage = new Temporary([]);
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (object $event): void {
+				if ($event instanceof CacheEntriesRemovedEvent) {
+					throw new \RuntimeException('listener blew up');
+				}
+			});
+		$dependencies = new CacheDependencies(
+			Server::get(IMimeTypeLoader::class),
+			Server::get(IDBConnection::class),
+			$dispatcher,
+			Server::get(QuerySearchHelper::class),
+			Server::get(SystemConfig::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IFilesMetadataManager::class),
+			Server::get(DisplayNameCache::class),
+		);
+		$cache = new Cache($storage, $dependencies);
+		$cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+		$cache->put('foo.txt', ['size' => 1, 'mtime' => 20, 'mimetype' => 'text/plain']);
+
+		try {
+			$cache->clear();
+			$this->fail('the listener exception should surface');
+		} catch (\RuntimeException $e) {
+			$this->assertEquals('listener blew up', $e->getMessage());
+		}
+
+		$this->assertFalse($cache->inCache('foo.txt'));
+		$this->assertFalse($cache->inCache(''));
+	}
+
+	public function testClearAnnouncesRemovedEntries(): void {
+		$storage = new Temporary([]);
+		[$cache, $recorded] = $this->cacheWithRecordedEvents($storage);
+		$expected = [$cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE])];
+		$expected[] = $cache->put('foo.txt', ['size' => 1, 'mtime' => 20, 'mimetype' => 'text/plain']);
+		$expected[] = $cache->put('bar.txt', ['size' => 1, 'mtime' => 20, 'mimetype' => 'text/plain']);
+
+		$cache->clear();
+
+		$announced = $this->announcedFileIds($recorded());
+		sort($expected);
+		sort($announced);
+		$this->assertEquals($expected, $announced);
 	}
 
 	public static function folderDataProvider(): array {
