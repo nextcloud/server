@@ -85,7 +85,7 @@ class Add extends Command {
 			$password = $helper->ask($input, $output, $question);
 		}
 
-		$loginName = $input->getOption('login-name') ?? $user->getUID();
+		$loginName = $user->getUID();
 
 		if ($password === null) {
 			$output->writeln('<info>No password provided. The generated app password will therefore have limited capabilities. Any operation that requires the login password will fail.</info>');
