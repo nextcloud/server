@@ -76,6 +76,14 @@ OC.L10N.register(
     "Repair warning:" : "Varovanie o oprave:",
     "Repair error:" : "Chyba opravy:",
     "Log out" : "Odhlásiť sa",
+    "Sharing is not allowed." : "Zdieľanie nie je povolené.",
+    "Sharing is not allowed for you." : "Zdieľanie pre vás nie je povolené.",
+    "Sharing is only allowed with group members." : "Zdieľanie je povolené iba členom skupiny.",
+    "Sharing is only allowed within your own groups." : "Zdieľanie je povolené iba v rámci vašich vlastných skupín.",
+    "Group sharing is not allowed." : "Zdieľanie skupiny nie je povolené.",
+    "Public link sharing is not allowed." : "Zdieľanie verejných odkazov nie je povolené.",
+    "Sharing to remote users is not allowed." : "Zdieľanie vzdialeným používateľom nie je povolené.",
+    "Sharing to remote groups is not allowed." : "Zdieľanie do vzdialených skupín nie je povolené.",
     "Nextcloud Server" : "Nextcloud Server",
     "Some of your link shares have been removed" : "Niektoré odkazy so sprístupnením boli odstránené.",
     "Due to a security bug we had to remove some of your link shares. Please see the link for more information." : "Kvôli bezpečnostnej chyba sme museli odstrániť niektoré z vašich odkazov pre zdieľanie. Pre viac informácií nasledujte tento link.",
@@ -83,6 +91,8 @@ OC.L10N.register(
     "Enter your subscription key in the support app in order to increase the account limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Zadajte svoj kľúč predplatného v aplikácii podpory, aby ste zvýšili limit pre množstvo účtov. To vám tiež poskytuje všetky ďalšie výhody, ktoré Nextcloud Enterprise ponúka a je vysoko odporúčaný pre prevádzku vo firemnom prostredí.",
     "Learn more ↗" : "Viac informácií ↗",
     "Can edit" : "Môže upravovať",
+    "Share with others" : "Zdieľať s ostatnými",
+    "Can view" : "Môže zobraziť",
     "Expiration date" : "Dátum expirácie",
     "Label" : "Názov",
     "Password" : "Heslo",
@@ -575,6 +585,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Príliš veľa neúspešných pokusov o prihlásenie. Skúste to znova o 30 sekúnd.",
     "Groups" : "Skupiny",
     "Group list is empty" : "Zoznam skupín je prázdny",
-    "Unable to retrieve the group list" : "Nie je možné načítať zoznam skupín"
+    "Unable to retrieve the group list" : "Nie je možné načítať zoznam skupín",
+    "Search apps, files, tags, messages …" : "Hľadať aplikácie, súbory, značky, správy …"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
