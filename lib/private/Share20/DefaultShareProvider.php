@@ -185,9 +185,9 @@ class DefaultShareProvider implements
 			$qb->setValue('note', $qb->createNamedParameter($share->getNote()));
 		}
 
-		// Set the time this share was created
-		$shareTime = $this->timeFactory->now();
+		$shareTime = $share->getShareTime() ?? \DateTime::createFromImmutable($this->timeFactory->now());
 		$qb->setValue('stime', $qb->createNamedParameter($shareTime->getTimestamp()));
+		$share->setShareTime($shareTime);
 
 		// insert the data and fetch the id of the share
 		$qb->executeStatement();
@@ -196,8 +196,6 @@ class DefaultShareProvider implements
 		$id = $qb->getLastInsertId();
 		$share->setId((string)$id);
 		$share->setProviderId($this->identifier());
-
-		$share->setShareTime(\DateTime::createFromImmutable($shareTime));
 
 		$mailSendValue = $share->getMailSend();
 		$share->setMailSend(($mailSendValue === null) ? true : $mailSendValue);
