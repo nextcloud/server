@@ -11,6 +11,7 @@ use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
+use OC\DB\Middleware\ConnectionActivityMiddleware;
 use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\SystemConfig;
@@ -132,10 +133,16 @@ class ConnectionFactory {
 				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
 				break;
 		}
+		$configuration = new Configuration();
+		$activityMiddleware = new ConnectionActivityMiddleware();
+		$configuration->setMiddlewares([
+			$activityMiddleware,
+		]);
+		$connectionParams['activity_notifier'] = $activityMiddleware->getNotifier();
 		/** @var Connection $connection */
 		$connection = DriverManager::getConnection(
 			$connectionParams,
-			new Configuration(),
+			$configuration,
 			$eventManager
 		);
 		return $connection;
