@@ -4,6 +4,7 @@
  */
 import { getCapabilities } from '@nextcloud/capabilities'
 import { loadState } from '@nextcloud/initial-state'
+import { isSharingDialogAvailable } from './SharingDialog.ts'
 
 type PasswordPolicySettings = {
 	enforceNonCommonPassword: boolean
@@ -353,5 +354,14 @@ export default class Config {
 	 */
 	get showExternalSharing(): boolean {
 		return loadState('files_sharing', 'showExternalSharing', true)
+	}
+
+	/**
+	 * Whether the new unified sharing dialog replaces the legacy inline sharing UI.
+	 * Derived from the server capabilities: when the unified sharing API is not
+	 * advertised (capability empty), the legacy inputs and menus are used instead.
+	 */
+	get sharingDialogEnabled(): boolean {
+		return isSharingDialogAvailable()
 	}
 }

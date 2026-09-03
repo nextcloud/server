@@ -2195,6 +2195,14 @@ $CONFIG = [
 	'sharing.managerFactory' => '\OC\Share20\ProviderFactory',
 
 	/**
+	 * Enables the unified sharing API and the sharing dialog it powers. While it
+	 * is disabled, the files sidebar shows the previous share editor.
+	 *
+	 * Defaults to ``false``
+	 */
+	'sharing.unified_api_enable' => false,
+
+	/**
 	 * Enables expiration for link share passwords sent by email (sharebymail).
 	 * The passwords will expire after the configured interval; the users can
 	 * still request a new one on the public link page.

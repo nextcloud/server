@@ -21,7 +21,7 @@
 					{{ subtitle }}
 				</p>
 				<SharingEntryQuickShareSelect
-					v-if="share && share.permissions !== undefined"
+					v-if="share && share.permissions !== undefined && !config.sharingDialogEnabled"
 					:share="share"
 					:file-info="fileInfo"
 					@open-sharing-details="openShareDetailsForCustomSettings(share)" />
@@ -151,9 +151,20 @@
 			<template v-if="share">
 				<template v-if="share.canEdit && canReshare">
 					<NcActionButton
+						v-if="!config.sharingDialogEnabled"
 						:disabled="saving"
 						:close-after-click="true"
 						@click.prevent="openSharingDetails">
+						<template #icon>
+							<Tune :size="20" />
+						</template>
+						{{ t('files_sharing', 'Customize link') }}
+					</NcActionButton>
+					<NcActionButton
+						v-else
+						:disabled="saving"
+						:close-after-click="true"
+						@click.prevent="openEditDialog">
 						<template #icon>
 							<Tune :size="20" />
 						</template>
@@ -279,6 +290,7 @@ import ShareDetails from '../mixins/ShareDetails.js'
 import SharesMixin from '../mixins/SharesMixin.js'
 import Share from '../models/Share.ts'
 import logger from '../services/logger.ts'
+import { openShareEditDialog } from '../services/SharingDialog.ts'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 
 export default {
@@ -600,6 +612,17 @@ export default {
 
 	methods: {
 		/**
+		 * Open the unified sharing dialog to edit this link share.
+		 */
+		async openEditDialog() {
+			try {
+				await openShareEditDialog(this.share.id, this.fileInfo.node)
+			} catch (error) {
+				logger.error('Failed to open the sharing dialog', { error })
+			}
+		},
+
+		/**
 		 * Check if the share requires review
 		 *
 		 * @param {boolean} shareReviewComplete if the share was reviewed
@@ -866,6 +889,7 @@ export default {
 		justify-content: space-between;
 		flex: 1 0;
 		min-width: 0;
+		align-items: center;
 	}
 
 		&__desc {
