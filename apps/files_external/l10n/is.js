@@ -75,6 +75,7 @@ OC.L10N.register(
     "Enable encryption" : "Virkja dulritun",
     "Compatibility with Mac NFD encoding (slow)" : "Samhæfni við Mac NFD kóðun (hægvirkt)",
     "External storages" : "Utanáliggjandi gagnageymslur",
+    "Status" : "Staða",
     "Actions" : "Aðgerðir",
     "Delete" : "Eyða",
     "Saved" : "Vistað",

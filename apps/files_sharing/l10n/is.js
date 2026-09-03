@@ -115,6 +115,7 @@ OC.L10N.register(
     "Set a submission expiration date" : "Setja gildistíma innsendingar",
     "Expiration date" : "Gildir til",
     "Select a date" : "Veldu dagsetningu",
+    "Your administrator has enforced a {count} days expiration policy." : "Kerfisstjórinn þinn hefur krafist gildistíma að hámarki í {count} daga.",
     "What password should be used for the request?" : "Hvaða lykilorð á að nota fyrir beiðnina?",
     "Set a password" : "Setja lykilorð",
     "Password" : "Lykilorð",
