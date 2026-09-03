@@ -1219,7 +1219,7 @@ trait WebDav {
 		array_shift($elementListKeys);
 		$davPrefix = '/' . $this->getDavFilesPath($user);
 		foreach ($elementListKeys as $element) {
-			if (substr($element, 0, strlen($davPrefix)) == $davPrefix) {
+			if (substr($element, 0, strlen($davPrefix)) === $davPrefix) {
 				$element = substr($element, strlen($davPrefix));
 			}
 			$this->userDeletesFile($user, 'element', $element);

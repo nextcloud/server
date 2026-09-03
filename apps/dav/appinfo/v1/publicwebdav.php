@@ -34,6 +34,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory as IL10nFactory;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
+use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 // load needed apps
@@ -132,7 +133,7 @@ $server = $serverFactory->createServer(
 		Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 		$rootFolder = Server::get(IRootFolder::class);
-		$userId = $share->getShareType() === \OCP\Share\IShare::TYPE_REMOTE
+		$userId = $share->getShareType() === IShare::TYPE_REMOTE
 			? $share->getShareOwner()
 			: $share->getSharedBy();
 		$userFolder = $rootFolder->getUserFolder($userId);

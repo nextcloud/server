@@ -724,7 +724,7 @@ class UserConfig implements IUserConfig {
 		$value = $this->getTypedValue($userId, $app, $key, $default ? 'true' : 'false', $lazy, ValueType::BOOL) ?? ($default ? 'true' : 'false');
 		/** @psalm-suppress RedundantCast */
 		$b = strtolower((string)$value);
-		return in_array($b, ['1', 'true', 'yes', 'on']);
+		return in_array($b, ['1', 'true', 'yes', 'on'], true);
 	}
 
 	/**
@@ -1931,7 +1931,7 @@ class UserConfig implements IUserConfig {
 			case ValueType::FLOAT:
 				return (float)$value;
 			case ValueType::BOOL:
-				return in_array(strtolower($value), ['1', 'true', 'yes', 'on']);
+				return in_array(strtolower($value), ['1', 'true', 'yes', 'on'], true);
 			case ValueType::ARRAY:
 				try {
 					return json_decode($value, true, flags: JSON_THROW_ON_ERROR);

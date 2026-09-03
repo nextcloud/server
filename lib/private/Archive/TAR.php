@@ -175,7 +175,7 @@ class TAR extends Archive {
 				if ($pos = strpos($result, '/')) {
 					$result = substr($result, 0, $pos + 1);
 				}
-				if (!in_array($result, $folderContent)) {
+				if (!in_array($result, $folderContent, true)) {
 					$folderContent[] = $result;
 				}
 			}

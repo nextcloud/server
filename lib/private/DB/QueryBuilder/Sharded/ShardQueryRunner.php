@@ -59,7 +59,7 @@ class ShardQueryRunner {
 				$shards[] = ShardDefinition::MIGRATION_SHARD;
 			}
 			$encodedShard = $primaryKey & ShardDefinition::PRIMARY_KEY_SHARD_MASK;
-			if ($encodedShard < count($this->shardDefinition->shards) && !in_array($encodedShard, $shards)) {
+			if ($encodedShard < count($this->shardDefinition->shards) && !in_array($encodedShard, $shards, true)) {
 				$shards[] = $encodedShard;
 			}
 		}

@@ -447,7 +447,7 @@ class OC_Util {
 		}
 
 		// Cache the result of this function
-		Server::get(ISession::class)->set('checkServer_succeeded', count($errors) == 0);
+		Server::get(ISession::class)->set('checkServer_succeeded', count($errors) === 0);
 
 		return $errors;
 	}

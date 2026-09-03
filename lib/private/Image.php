@@ -944,7 +944,7 @@ class Image implements IImage {
 		}
 		$widthOrig = imagesx($this->resource);
 		$heightOrig = imagesy($this->resource);
-		if ($widthOrig === $heightOrig && $size == 0) {
+		if ($widthOrig === $heightOrig && $size === 0) {
 			return true;
 		}
 		$ratioOrig = $widthOrig / $heightOrig;
