@@ -28,7 +28,11 @@ Feature: sharing-accept
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And As an "user1"
-    When accepting last share via the accept endpoint
+    And Logging in using web as "user1"
+    When opening last share accept confirmation page
+    Then the HTTP status code should be "200"
+    When the CSRF token is extracted from the previous response
+    And accepting last share via the accept endpoint with requesttoken
     Then the HTTP status code should be "200"
 
   Scenario: Accepting a share as a different user
