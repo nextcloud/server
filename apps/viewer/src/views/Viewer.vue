@@ -196,7 +196,7 @@ import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { FileType } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import debounce from 'debounce'
-import { computed, defineAsyncComponent, onMounted, onUnmounted, ref, triggerRef, useTemplateRef, watch } from 'vue'
+import { computed, defineAsyncComponent, nextTick, onMounted, onUnmounted, ref, triggerRef, useTemplateRef, watch } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
@@ -221,7 +221,8 @@ defineOptions({ name: 'ViewerModal' })
 const ImageEditor = defineAsyncComponent(() => import('../components/ImageEditor.vue'))
 
 let resizeObserver = null as ResizeObserver | null
-const modal = useTemplateRef<{ $el: HTMLElement }>('modal')
+// $el is only an element while the modal is shown, a comment node otherwise.
+const modal = useTemplateRef<{ $el: Node }>('modal')
 const height = ref(0)
 const width = ref(0)
 
@@ -893,10 +894,27 @@ function onAppSidebarClose() {
  *
  * @param event The mouse event
  */
+/**
+ * The modal root, or null while the viewer shows no file.
+ *
+ * The modal renders a comment placeholder rather than an element as long as it
+ * is hidden, so every lookup below it has to be guarded.
+ */
+function modalElement(): Element | null {
+	const element = modal.value?.$el
+	if (element instanceof Element) {
+		return element
+	}
+
+	// The modal teleports its content to the body, leaving a comment behind as
+	// `$el`, so fall back to looking the modal up by its class.
+	return document.querySelector('.viewer__modal')
+}
+
 function onClickOutside(event: Event) {
 	// check if we clicked on the modal container directly and not on its children
-	const modalContent = modal.value?.$el?.querySelector('.modal-container__content')
-	if (event.target === modalContent) {
+	const content = modalElement()?.querySelector('.modal-container__content')
+	if (event.target === content) {
 		logger.debug('Clicked outside the viewer, closing viewer')
 		close()
 	}
@@ -906,18 +924,68 @@ function onClickOutside(event: Event) {
  * Update viewer dimensions on window resize
  */
 function onViewerResize() {
-	const modalContainer = modal.value?.$el?.querySelector('.modal-container')
+	const modalContainer = modalElement()?.querySelector('.modal-container')
 	height.value = modalContainer?.clientHeight || 0
 	width.value = modalContainer?.clientWidth || 0
 	logger.debug('Screen resized, updating viewer dimensions', { height: height.value, width: width.value })
 }
 
+/**
+ * Measure the viewer once the modal container has been laid out.
+ *
+ * The container is only inserted after the modal root, so the first
+ * measurement can still be zero - and the root covers the window from the
+ * start, so observing it reports no resize to correct that later.
+ *
+ * @param attempt - How many frames we already waited for a layout
+ */
+function measureModal(attempt = 0) {
+	onViewerResize()
+	if (width.value === 0 && attempt < 10) {
+		requestAnimationFrame(() => measureModal(attempt + 1))
+	}
+}
+
+/** The modal content the outside-click handler is bound to, while shown. */
+let modalContent: Element | null = null
+
+/**
+ * Observe the modal and listen for clicks outside of the media.
+ *
+ * The modal only renders an element while a file is shown, so this runs on
+ * every open instead of on mount.
+ */
+function attachModal() {
+	const element = modalElement()
+	if (element === null) {
+		return
+	}
+
+	resizeObserver?.observe(element)
+	modalContent = element.querySelector('.modal-container__content')
+	modalContent?.addEventListener('click', onClickOutside)
+	logger.debug('Resize observer initialized for viewer')
+}
+
+/**
+ * Release what attachModal() registered.
+ */
+function detachModal() {
+	resizeObserver?.disconnect()
+	modalContent?.removeEventListener('click', onClickOutside)
+	modalContent = null
+}
+
 // Listen to Viewer file changes to trigger resize
-watch(currentFile, (newFile, oldFile) => {
+watch(currentFile, async (newFile, oldFile) => {
 	// A submenu belongs to the previous file's action set; never carry it over.
 	openedSubmenu.value = null
 	if (newFile && !oldFile) {
-		onViewerResize()
+		await nextTick()
+		attachModal()
+		measureModal()
+	} else if (!newFile) {
+		detachModal()
 	}
 })
 
@@ -926,19 +994,8 @@ onMounted(() => {
 		onViewerResize()
 	}, 100))
 
-	if (!modal?.value?.$el) {
-		logger.error('Modal element not found in Viewer onMounted')
-		return
-	}
-
-	// Observe viewer size changes
-	resizeObserver.observe(modal.value.$el)
-	logger.debug('Resize observer initialized for viewer')
-
-	const modalContent = modal.value?.$el?.querySelector('.modal-container__content')
-	if (modalContent) {
-		modalContent.addEventListener('click', onClickOutside)
-	}
+	// Covers a viewer that is already showing a file on mount, e.g. a deep link.
+	attachModal()
 
 	// React to the Files app sidebar to resize the viewer accordingly
 	subscribe('files:sidebar:opened', onAppSidebarOpen)
@@ -950,17 +1007,12 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-	resizeObserver?.disconnect()
+	detachModal()
 	unsubscribe('files:sidebar:opened', onAppSidebarOpen)
 	unsubscribe('files:sidebar:closed', onAppSidebarClose)
 	unsubscribe('files:node:deleted', onNodeDeleted)
 	unsubscribe('files:node:updated', onNodeUpdated)
 	document.body.classList.remove(SIDEBAR_FULLSCREEN_CLASS)
-
-	const modalContent = modal.value?.$el?.querySelector('.modal-container__content')
-	if (modalContent) {
-		modalContent.removeEventListener('click', onClickOutside)
-	}
 })
 
 defineExpose<ViewerAPI>({
