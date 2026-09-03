@@ -607,7 +607,9 @@ class Cache implements ICache {
 				$this->removeChildren($entry);
 			}
 
-			$this->eventDispatcher->dispatchTyped(new CacheEntryRemovedEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId()));
+			$event = new CacheEntryRemovedEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId());
+			$this->eventDispatcher->dispatchTyped($event);
+			$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent([$event]));
 		}
 	}
 
@@ -678,8 +680,8 @@ class Cache implements ICache {
 			$query->executeStatement();
 		}
 
-		$cacheEntryRemovedEvents = [];
-		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
+		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), IQueryBuilder::MAX_IN_PARAMETERS, true) as $chunk) {
+			$cacheEntryRemovedEvents = [];
 			/** @var array<int, string> $chunk */
 			foreach ($chunk as $fileId => $filePath) {
 				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent(
@@ -899,15 +901,53 @@ class Cache implements ICache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$query = $this->getQueryBuilder();
-		$query->delete('filecache')
-			->whereStorageId($this->getNumericStorageId());
-		$query->executeStatement();
+		$storageId = $this->getNumericStorageId();
+		$exception = null;
+
+		// removed in batches so a storage with many entries does not have to be held in memory at once
+		while (true) {
+			$query = $this->getQueryBuilder();
+			$query->select('fileid', 'path')
+				->from('filecache')
+				->whereStorageId($storageId)
+				->setMaxResults(IQueryBuilder::MAX_IN_PARAMETERS);
+			$rows = $query->executeQuery()->fetchAll();
+			if ($rows === []) {
+				break;
+			}
+
+			$fileIds = array_map(static fn (array $row): int => (int)$row['fileid'], $rows);
+
+			$query = $this->getQueryBuilder();
+			$query->delete('filecache')
+				->whereStorageId($storageId)
+				->andWhere($query->expr()->in('fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
+			$query->executeStatement();
+
+			$cacheEntryRemovedEvents = [];
+			foreach ($rows as $row) {
+				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent($this->storage, (string)$row['path'], (int)$row['fileid'], $storageId);
+			}
+
+			// a listener must not be able to leave the storage half cleared
+			try {
+				$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent($cacheEntryRemovedEvents));
+				foreach ($cacheEntryRemovedEvents as $cacheEntryRemovedEvent) {
+					$this->eventDispatcher->dispatchTyped($cacheEntryRemovedEvent);
+				}
+			} catch (\Exception $e) {
+				$exception ??= $e;
+			}
+		}
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('storages')
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
 		$query->executeStatement();
+
+		if ($exception !== null) {
+			throw $exception;
+		}
 	}
 
 	/**
