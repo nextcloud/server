@@ -30,7 +30,9 @@ jobs:
 
     steps:
 
-      - name: Checkout server before PR
+      # Check out the PR base branch first so the initial measurements provide
+      # a baseline for comparison with the PR changes measured below.
+      - name: Check out PR base branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
@@ -70,11 +72,19 @@ jobs:
           output: before.json
           profiler-branch: master
 
-      - name: Apply PR # zizmor: ignore[template-injection]
+      - name: Check out PR changes and apply upgrade
+        # Switch from the base branch used for the baseline measurements to the
+        # fetched PR commit so the after measurements run against the PR changes.
+        #
+        # Use FETCH_HEAD explicitly so the local branch points to the fetched PR
+        # commit rather than the currently checked-out base commit.
+        env:
+          PR_HEAD_REPO_URL: ${{ github.event.pull_request.head.repo.clone_url }}
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: |
-          git remote add pr '${{ github.event.pull_request.head.repo.clone_url }}'
-          git fetch pr '${{ github.event.pull_request.head.ref }}'
-          git checkout -b 'pr/${{ github.event.pull_request.head.ref }}'
+          git remote add pr-source "$PR_HEAD_REPO_URL"
+          git fetch pr-source "$PR_HEAD_REF"
+          git checkout -B "pr/$PR_HEAD_REF" FETCH_HEAD
           git submodule update
 
           ./occ upgrade
@@ -104,6 +114,8 @@ jobs:
 
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v7
         if: failure() && steps.compare.outcome == 'failure'
+        env:
+          COMPARE_OUTPUT: ${{ steps.compare.outputs.compare }}
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -111,7 +123,7 @@ jobs:
             comment += `<details><summary>Show Output</summary>
 
             \`\`\`
-            ${{ steps.compare.outputs.compare }}
+            ${process.env.COMPARE_OUTPUT}
             \`\`\`
 
             </details>`;
