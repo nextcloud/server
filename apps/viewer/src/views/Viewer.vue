@@ -915,6 +915,11 @@ function modalElement(): Element | null {
 	return document.querySelector('.viewer__modal')
 }
 
+/**
+ * Close viewer when clicking outside of the modal content
+ *
+ * @param event The mouse event
+ */
 function onClickOutside(event: Event) {
 	// check if we clicked on the modal container directly and not on its children
 	const content = modalElement()?.querySelector('.modal-container__content')
@@ -941,7 +946,7 @@ function onViewerResize() {
  * measurement can still be zero - and the root covers the window from the
  * start, so observing it reports no resize to correct that later.
  *
- * @param attempt - How many frames we already waited for a layout
+ * @param {number} attempt - How many frames we already waited for a layout
  */
 function measureModal(attempt = 0) {
 	onViewerResize()
