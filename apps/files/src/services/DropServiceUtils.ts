@@ -12,6 +12,7 @@ import { defaultRemoteURL, defaultRootPath, getClient, getDefaultPropfind, resul
 import { t } from '@nextcloud/l10n'
 import { join } from '@nextcloud/paths'
 import { openConflictPicker } from '@nextcloud/upload'
+import { getFilenameValidity } from '../utils/filenameValidity.ts'
 import { logger } from '../utils/logger.ts'
 
 /**
@@ -82,6 +83,36 @@ export class Directory extends File {
 
 export type RootDirectory = Directory & {
 	name: 'root'
+}
+
+export type InvalidDroppedEntry = {
+	path: string
+	reason: string
+}
+
+/**
+ * Find the first invalid file or folder in a dropped file tree.
+ *
+ * @param directory Directory to validate
+ * @param path Path of the directory relative to the upload destination
+ */
+export function findInvalidDroppedEntry(directory: Directory, path = ''): InvalidDroppedEntry | undefined {
+	for (const entry of directory.contents) {
+		const entryPath = join(path, entry.name)
+		const isFolder = entry instanceof Directory
+		const reason = getFilenameValidity(entry.name, false, isFolder)
+
+		if (reason !== '') {
+			return { path: entryPath, reason }
+		}
+
+		if (isFolder) {
+			const invalidEntry = findInvalidDroppedEntry(entry, entryPath)
+			if (invalidEntry) {
+				return invalidEntry
+			}
+		}
+	}
 }
 
 /**
