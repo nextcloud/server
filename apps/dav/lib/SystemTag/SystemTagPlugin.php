@@ -327,7 +327,22 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 		if ($node instanceof SystemTagObjectType) {
 			$propFind->handle(self::OBJECTIDS_PROPERTYNAME, function () use ($node): SystemTagsObjectList {
-				return new SystemTagsObjectList(array_fill_keys($node->getObjectsIds(), $node->getName()));
+				$user = $this->userSession->getUser();
+				if ($user === null) {
+					return new SystemTagsObjectList([]);
+				}
+
+				$allIds = $node->getObjectsIds();
+				$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+				$filteredIds = [];
+				foreach ($allIds as $id) {
+					if ($userFolder->getFirstNodeById((int)$id) !== null) {
+						$filteredIds[] = $id;
+					}
+				}
+				return new SystemTagsObjectList(
+					array_fill_keys($filteredIds, $node->getName())
+				);
 			});
 		}
 	}
