@@ -14,6 +14,10 @@ const BROWSWER_CONFIG_CHROME: DeviceDescriptor & { channel: string } = {
 		: 'chromium', // locally use the default playwright chromium browser
 }
 
+// Port of the Nextcloud container under test. Override it to run several
+// checkouts in parallel, as each one needs its own server.
+const NEXTCLOUD_PORT = process.env.NEXTCLOUD_PORT ?? '8042'
+
 export default defineConfig({
 	testDir: './tests/playwright/e2e',
 	fullyParallel: true,
@@ -23,7 +27,7 @@ export default defineConfig({
 	timeout: process.env.CI ? 45_000 : undefined, // on CI allow 1.5x the default timeout to compensate for shared server resources
 	reporter: process.env.CI ? [['blob'], ['dot'], ['github']] : 'html',
 	use: {
-		baseURL: 'http://localhost:8042/index.php/',
+		baseURL: `http://localhost:${NEXTCLOUD_PORT}/index.php/`,
 		trace: 'on-first-retry',
 	},
 	projects: [
@@ -62,7 +66,7 @@ export default defineConfig({
 	webServer: {
 		command: 'node tests/playwright/start-nextcloud-server.js',
 		env: {
-			NEXTCLOUD_PORT: '8042',
+			NEXTCLOUD_PORT,
 		},
 		stderr: 'pipe',
 		stdout: 'pipe',
@@ -71,7 +75,9 @@ export default defineConfig({
 			timeout: 10_000,
 		},
 		reuseExistingServer: !process.env.CI,
-		timeout: 300_000,
+		// A cold local start also pulls the image and installs the server, which
+		// does not fit in the time a warm CI runner needs.
+		timeout: process.env.CI ? 300_000 : 900_000,
 		wait: {
 			stdout: /Nextcloud container ready to run Playwright tests/,
 		},
