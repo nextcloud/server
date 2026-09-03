@@ -248,7 +248,26 @@ class SystemTagManagerTest extends TestCase {
 
 	public function testCreateOverlongName(): void {
 		$tag = $this->tagManager->createTag('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas, Salão de Física, Torre Sineira, Paço Velho e Jardim Botânico)', true, true);
-		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas', $tag->getName()); // 63 characters but 64 bytes due to "á"
+		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das', $tag->getName());
+		$this->assertSame($tag->getName(), $this->tagManager->getTag($tag->getName(), true, true)->getName());
+	}
+
+	public function testUpdateOverlongName(): void {
+		$tag = $this->tagManager->createTag('initial', true, true);
+
+		$this->tagManager->updateTag(
+			$tag->getId(),
+			'Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas, Salão de Física, Torre Sineira, Paço Velho e Jardim Botânico)',
+			true,
+			true,
+			null,
+		);
+
+		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das', $this->tagManager->getTag(
+			'Zona circundante do Palácio Nacional da Ajuda (Jardim das',
+			true,
+			true,
+		)->getName());
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('oneTagMultipleFlagsProvider')]
