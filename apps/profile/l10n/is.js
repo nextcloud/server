@@ -2,6 +2,7 @@ OC.L10N.register(
     "profile",
     {
     "View profile" : "Skoða notandasnið",
+    "Profile" : "Snið",
     "Searching …" : "Leita …",
     "Not found" : "Fannst ekki",
     "Insert" : "Setja inn",
