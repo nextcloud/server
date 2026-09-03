@@ -562,8 +562,12 @@ const open: ViewerAPI['open'] = async (files, file, options, handlerId) => {
 	 */
 	currentFileList.value = files.filter((f) => {
 		const h = getHandlerForFile(f)
-		const group = h?.group
-		return group === handler.group || h?.id === handler.id
+		if (h === undefined) {
+			return false
+		}
+		// Only group handlers that actually declare one, otherwise every handler
+		// without a group would be considered part of the same one.
+		return h.id === handler.id || (handler.group !== undefined && h.group === handler.group)
 	})
 
 	if (currentFileList.value.length === 0) {
