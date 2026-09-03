@@ -629,6 +629,16 @@ class StatusServiceTest extends TestCase {
 		$this->assertFalse($actual);
 	}
 
+	public function testRefreshThresholdLeavesRoomForAHeartbeat(): void {
+		// HEARTBEAT_INTERVAL in apps/user_status/src/services/heartbeatScheduler.ts
+		$clientHeartbeatInterval = 5 * 60;
+
+		self::assertGreaterThan(
+			$clientHeartbeatInterval,
+			StatusService::INVALIDATE_STATUS_THRESHOLD - StatusService::REFRESH_STATUS_THRESHOLD,
+		);
+	}
+
 	public function testCleanStatusAutomaticOnline(): void {
 		$status = new UserStatus();
 		$status->setStatus(IUserStatus::ONLINE);
