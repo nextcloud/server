@@ -3,7 +3,10 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
+	<!-- Only render while a file is shown: the modal is teleported to the body
+	     and keeps exposing a `dialog` role to assistive technology otherwise. -->
 	<NcModal
+		v-if="!!currentFile || !!errorString"
 		ref="modal"
 		:additionalTrapElements="trapElements"
 		:clearViewDelay="-1 /* disable fade-out because of accessibility reasons */"

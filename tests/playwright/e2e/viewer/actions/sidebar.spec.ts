@@ -50,6 +50,10 @@ test.describe('Viewer sidebar action', () => {
 	// still loading must still show the sidebar (the header actions are available
 	// during loading).
 	test('opens the sidebar while the image is still loading', async ({ page, openFile, viewerPage }) => {
+		// The previews of the file list are held back as well, so the whole test
+		// runs against delayed responses and needs more than the default budget.
+		test.slow()
+
 		// Hold the preview response so the viewer stays in its loading state long
 		// enough to interact with the header while loading.
 		await page.route('**/core/preview*', async (route) => {
@@ -66,7 +70,10 @@ test.describe('Viewer sidebar action', () => {
 		const sidebar = page.locator('aside.app-sidebar')
 		await expect(sidebar).toBeVisible()
 
-		// The image still finishes loading afterwards.
+		// The image still finishes loading afterwards. Stop holding the previews
+		// back first: opening the sidebar resizes the viewer, which requests the
+		// preview again, and that request would be delayed as well.
+		await page.unroute('**/core/preview*')
 		await viewerPage.waitForOpen()
 	})
 })

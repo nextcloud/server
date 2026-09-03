@@ -189,11 +189,13 @@ export class ViewerPage {
 		// The header actions collapse into a menu; the "Open sidebar" entry is a
 		// menuitem there. Open the menu first if the entry is not already shown.
 		const directButton = this.modal.getByRole('button', { name: 'Open sidebar' })
+		const toggle = this.actionsToggle()
+		// Both checks below are instant, so wait for the header to render one of
+		// the two entry points first - it is still loading when opened from a
+		// slow preview.
+		await expect(directButton.or(toggle).first()).toBeVisible()
 		if (!(await directButton.isVisible())) {
-			const toggle = this.actionsToggle()
-			if (await toggle.isVisible()) {
-				await toggle.click()
-			}
+			await toggle.click()
 		}
 		await this.page.getByRole('menuitem', { name: 'Open sidebar' })
 			.or(directButton)

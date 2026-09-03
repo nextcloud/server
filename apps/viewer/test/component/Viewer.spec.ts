@@ -134,11 +134,11 @@ describe('Viewer navigation', () => {
 	})
 
 	it('close calls onClose and resets the viewer', async () => {
-		const { emitModal, modalName, modalProps, onClose } = await setup(true)
+		const { emitModal, modalExists, onClose } = await setup(true)
 		await emitModal('close')
 		expect(onClose).toHaveBeenCalledTimes(1)
-		expect(modalProps().show).toBe(false)
-		expect(modalName()).toBe('')
+		// The modal is not rendered while closed, so it exposes no dialog.
+		expect(modalExists()).toBe(false)
 	})
 
 	it('loops from last to first when canLoop is true', async () => {
@@ -251,7 +251,7 @@ describe('Viewer delete handling', () => {
 		const call = vi.mocked(subscribe).mock.calls.find((c) => c[0] === 'files:node:deleted')
 		;(call![1] as (node: unknown) => void)(f1)
 		await ctx.wrapper.vm.$nextTick()
-		expect(ctx.modalProps().show).toBe(false)
+		expect(ctx.modalExists()).toBe(false)
 	})
 
 	it('ignores deletion of a file not in the viewer list', async () => {

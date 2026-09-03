@@ -86,6 +86,8 @@ export interface MountViewerResult {
 	modalName: () => string | undefined
 	/** Props currently passed to the NcModal stub. */
 	modalProps: () => Record<string, unknown>
+	/** Whether the modal is rendered at all (it is not while closed). */
+	modalExists: () => boolean
 	/** All rendered handler custom-element tag names (e.g. `oca-viewer-test`). */
 	renderedTags: () => string[]
 	/** Whether the error empty-content is shown, and its message. */
@@ -138,6 +140,7 @@ export function mountViewer(handlers: IHandler[] = []): MountViewerResult {
 		modalHandlerId: () => findModal().attributes('data-handler'),
 		modalName: () => findModal().attributes('data-name'),
 		modalProps: () => findModal().props(),
+		modalExists: () => findModal().exists(),
 		renderedTags,
 		errorText: () => {
 			const ec = wrapper.find('.nc-empty-content-stub')
