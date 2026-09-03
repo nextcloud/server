@@ -170,7 +170,7 @@ async function reloadStatus() {
 	align-items: center;
 
 	max-height: calc(48px + 2 * var(--default-grid-baseline));
-	overflow: scroll;
+	overflow: auto;
 }
 
 .storageTableRow__status_warning {
