@@ -1897,4 +1897,207 @@ class ShareByMailProviderTest extends TestCase {
 			[$share]
 		);
 	}
+
+	public function testSendMailNotificationWithCcToInitiator(): void {
+		$provider = $this->getInstance();
+		$user = $this->createMock(IUser::class);
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(false);
+		$this->settingsManager->expects($this->any())->method('ccToInitiator')->willReturn(true);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('OwnerUser')
+			->willReturn($user);
+		$user
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('Mrs. Owner User');
+		$message = $this->createMock(Message::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createMessage')
+			->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createEMailTemplate')
+			->willReturn($template);
+		$message
+			->expects($this->once())
+			->method('setTo')
+			->with(['john@doe.com']);
+		$this->defaults
+			->expects($this->once())
+			->method('getName')
+			->willReturn('UnitTestCloud');
+		$user
+			->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('owner@example.com');
+		$message
+			->expects($this->once())
+			->method('setCc')
+			->with(['owner@example.com' => 'Mrs. Owner User']);
+		$message
+			->expects($this->never())
+			->method('setReplyTo');
+		$message
+			->expects($this->once())
+			->method('useTemplate')
+			->with($template);
+
+		$this->mailer
+			->expects($this->once())
+			->method('send')
+			->with($message);
+
+		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
+			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+			->willReturn('https://example.com/file.txt');
+
+		$node = $this->createMock(File::class);
+		$node->expects($this->any())->method('getName')->willReturn('file.txt');
+
+		$share = $this->createMock(IShare::class);
+		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
+		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
+		$share->expects($this->any())->method('getNode')->willReturn($node);
+		$share->expects($this->any())->method('getId')->willReturn('42');
+		$share->expects($this->any())->method('getNote')->willReturn('');
+		$share->expects($this->any())->method('getToken')->willReturn('token');
+
+		self::invokePrivate(
+			$provider,
+			'sendMailNotification',
+			[$share]
+		);
+	}
+
+	public function testSendMailNotificationWithCcToInitiatorAndNoUserEmail(): void {
+		$provider = $this->getInstance();
+		$user = $this->createMock(IUser::class);
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(false);
+		$this->settingsManager->expects($this->any())->method('ccToInitiator')->willReturn(true);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('OwnerUser')
+			->willReturn($user);
+		$user
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('Mrs. Owner User');
+		$message = $this->createMock(Message::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createMessage')
+			->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createEMailTemplate')
+			->willReturn($template);
+		$this->defaults
+			->expects($this->once())
+			->method('getName')
+			->willReturn('UnitTestCloud');
+		// The initiator has no mail address configured, so there is nothing to CC
+		$user
+			->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn(null);
+		$message
+			->expects($this->never())
+			->method('setCc');
+
+		$this->mailer
+			->expects($this->once())
+			->method('send')
+			->with($message);
+
+		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
+			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+			->willReturn('https://example.com/file.txt');
+
+		$node = $this->createMock(File::class);
+		$node->expects($this->any())->method('getName')->willReturn('file.txt');
+
+		$share = $this->createMock(IShare::class);
+		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
+		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
+		$share->expects($this->any())->method('getNode')->willReturn($node);
+		$share->expects($this->any())->method('getId')->willReturn('42');
+		$share->expects($this->any())->method('getNote')->willReturn('');
+		$share->expects($this->any())->method('getToken')->willReturn('token');
+
+		self::invokePrivate(
+			$provider,
+			'sendMailNotification',
+			[$share]
+		);
+	}
+
+	public function testSendMailNotificationWithCcToInitiatorDesactivate(): void {
+		$provider = $this->getInstance();
+		$user = $this->createMock(IUser::class);
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(false);
+		$this->settingsManager->expects($this->any())->method('ccToInitiator')->willReturn(false);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('OwnerUser')
+			->willReturn($user);
+		$user
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('Mrs. Owner User');
+		$message = $this->createMock(Message::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createMessage')
+			->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createEMailTemplate')
+			->willReturn($template);
+		$this->defaults
+			->expects($this->once())
+			->method('getName')
+			->willReturn('UnitTestCloud');
+		// Since both replyToInitiator and ccToInitiator are false, we never get
+		// the initiator email address
+		$user
+			->expects($this->never())
+			->method('getEMailAddress');
+		$message
+			->expects($this->never())
+			->method('setCc');
+
+		$this->mailer
+			->expects($this->once())
+			->method('send')
+			->with($message);
+
+		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
+			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+			->willReturn('https://example.com/file.txt');
+
+		$node = $this->createMock(File::class);
+		$node->expects($this->any())->method('getName')->willReturn('file.txt');
+
+		$share = $this->createMock(IShare::class);
+		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
+		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
+		$share->expects($this->any())->method('getNode')->willReturn($node);
+		$share->expects($this->any())->method('getId')->willReturn('42');
+		$share->expects($this->any())->method('getNote')->willReturn('');
+		$share->expects($this->any())->method('getToken')->willReturn('token');
+
+		self::invokePrivate(
+			$provider,
+			'sendMailNotification',
+			[$share]
+		);
+	}
 }
