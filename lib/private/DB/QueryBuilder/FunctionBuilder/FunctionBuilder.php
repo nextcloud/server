@@ -118,4 +118,9 @@ class FunctionBuilder implements IFunctionBuilder {
 	public function now(): IQueryFunction {
 		return new QueryFunction('NOW()');
 	}
+
+	#[Override]
+	public function coalesce(string|ILiteral|IParameter|IQueryFunction $value, string|ILiteral|IParameter|IQueryFunction $default): IQueryFunction {
+		return new QueryFunction('COALESCE(' . $this->helper->quoteColumnName($value) . ', ' . $this->helper->quoteColumnName($default) . ')');
+	}
 }
