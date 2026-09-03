@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit;
 
+use OCA\DAV\Connector\Sabre\PropFindMountAvailabilityPlugin;
 use OCA\DAV\Server;
 use OCP\IRequest;
 
@@ -29,6 +30,7 @@ class ServerTest extends \Test\TestCase {
 		$this->loginAsUser('admin');
 		$s = new Server($r, '/');
 		$this->assertNotNull($s->server);
+		$this->assertInstanceOf(PropFindMountAvailabilityPlugin::class, $s->server->getPlugin(PropFindMountAvailabilityPlugin::class));
 		foreach ($plugins as $plugin) {
 			$this->assertNotNull($s->server->getPlugin($plugin));
 		}
