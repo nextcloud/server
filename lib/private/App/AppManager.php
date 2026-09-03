@@ -88,6 +88,7 @@ class AppManager implements IAppManager {
 
 	/** @var string[] */
 	private $namespaceCache = [];
+	private $appinfoCache = [];
 
 	private ?AppConfig $appConfig = null;
 	private ?IURLGenerator $urlGenerator = null;
@@ -107,6 +108,8 @@ class AppManager implements IAppManager {
 		private ServerVersion $serverVersion,
 		private ConfigManager $configManager,
 		private DependencyAnalyzer $dependencyAnalyzer,
+		private \OC\PhpDumpCache $phpDumpCache,
+		private IEventLogger $eventLogger,
 	) {
 	}
 
@@ -272,9 +275,11 @@ class AppManager implements IAppManager {
 		$appsToRegister = array_filter(
 			$apps,
 			// If the app is already loaded then autoloading it makes no sense
-			fn (string $app) => (!$this->isAppLoaded($app) && ($types === [] || $this->isType($app, $types))),
+			fn (string $app) => (!isset($this->registeredApps[$app]) && ($types === [] || $this->isType($app, $types))),
 		);
-		$this->registerAppsAutoloading($appsToRegister);
+		if (count($appsToRegister) > 0) {
+			$this->registerAppsAutoloading($appsToRegister);
+		}
 
 		// prevent app loading from printing output
 		ob_start();
@@ -475,11 +480,12 @@ class AppManager implements IAppManager {
 			]);
 			return;
 		}
-		$eventLogger = Server::get(IEventLogger::class);
-		$eventLogger->start("bootstrap:load_app:$app", "Load app: $app");
+		$this->eventLogger->start("bootstrap:load_app:$app", "Load app: $app");
 
 		// in case someone calls loadApp() directly
-		$this->registerAppsAutoloading([$app]);
+		if (!isset($this->registeredApps[$app])) {
+			$this->registerAppsAutoloading([$app]);
+		}
 
 		if (is_file($appPath . '/appinfo/app.php')) {
 			$this->logger->error('/appinfo/app.php is not supported anymore, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
@@ -490,7 +496,7 @@ class AppManager implements IAppManager {
 		$coordinator = Server::get(Coordinator::class);
 		$coordinator->bootApp($app);
 
-		$eventLogger->start("bootstrap:load_app:$app:info", "Load info.xml for $app and register any services defined in it");
+		$this->eventLogger->start("bootstrap:load_app:$app:info", "Load info.xml for $app and register any services defined in it");
 		$info = $this->getAppInfo($app);
 		if (!empty($info['activity'])) {
 			$activityManager = Server::get(IActivityManager::class);
@@ -565,20 +571,60 @@ class AppManager implements IAppManager {
 				}
 			}
 		}
-		$eventLogger->end("bootstrap:load_app:$app:info");
+		$this->eventLogger->end("bootstrap:load_app:$app:info");
 
-		$eventLogger->end("bootstrap:load_app:$app");
+		$this->eventLogger->end("bootstrap:load_app:$app");
 	}
 
 	/**
 	 * @internal
 	 */
 	public function registerAppsAutoloading(array $apps): void {
+		$this->eventLogger->start('bootstrap:register_apps_autoloading', '');
+		$loadedApps = array_unique(array_merge($apps, array_keys($this->registeredApps)));
+		sort($loadedApps);
+		$cacheKey = [self::class, ...$loadedApps];
+		$this->eventLogger->start('bootstrap:register_apps_autoloading:load_cache', '');
+		$cachedInfo = $this->phpDumpCache->loadCache($cacheKey);
+		if ($cachedInfo !== null) {
+			// echo "loading cache, key is ".json_encode($cacheKey).' '.md5(serialize($cacheKey))."\n";
+			$this->eventLogger->end('bootstrap:register_apps_autoloading:load_cache');
+			[$this->namespaceCache, $this->appInfos, $autoloaderProperties] = $cachedInfo;
+			\OC::$autoloader->loadFromArray($autoloaderProperties);
+
+			$this->eventLogger->start('bootstrap:register_apps_autoloading:apply_cache', '');
+			foreach ($apps as $app) {
+				if (isset($this->registeredApps[$app])) {
+					continue;
+				}
+				$this->registeredApps[$app] = true;
+
+				$appNamespace = $this->getAppNamespace($app);
+				\OC::$server->registerNamespace($app, $appNamespace);
+				$path = $this->getAppPath($app);
+				if (file_exists($path . '/composer/autoload.php')) {
+					// FIXME needed?
+					require_once $path . '/composer/autoload.php';
+				}
+				// Register Test namespace only when testing
+				if ((defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) && is_dir($path . '/tests')) {
+					\OC::$autoloader->addPsr4($appNamespace . '\\Tests', $path . '/tests');
+				}
+			}
+			if ((defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN'))) {
+				\OC::$autoloader->rebuild();
+			}
+			$this->eventLogger->end('bootstrap:register_apps_autoloading:apply_cache');
+			$this->eventLogger->end('bootstrap:register_apps_autoloading');
+			return;
+		}
+		$reload = false;
 		foreach ($apps as $app) {
 			if (!isset($this->registeredApps[$app])) {
 				try {
 					$path = $this->getAppPath($app);
 					$this->registerAutoloading($app, $path);
+					$reload = true;
 				} catch (AppPathNotFoundException $e) {
 					$this->logger->info('Error during app loading: ' . $e->getMessage(), [
 						'exception' => $e,
@@ -587,6 +633,11 @@ class AppManager implements IAppManager {
 				}
 			}
 		}
+		if ($reload) {
+			\OC::$autoloader->rebuild();
+		}
+		$this->phpDumpCache->saveCache($cacheKey, [$this->namespaceCache, $this->appInfos, \OC::$autoloader->serializeToArray()]);
+		$this->eventLogger->end('bootstrap:register_apps_autoloading');
 	}
 
 	/**
@@ -607,12 +658,15 @@ class AppManager implements IAppManager {
 			require_once $path . '/composer/autoload.php';
 		} elseif (is_dir($path . '/lib')) {
 			// autoloader crashes on non-existing dir
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
+			\OC::$autoloader->addPsr4($appNamespace, $path . '/lib');
 		}
 
 		// Register Test namespace only when testing
-		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
+		if ((defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) && is_dir($path . '/tests')) {
+			\OC::$autoloader->addPsr4($appNamespace . '\\Tests', $path . '/tests');
+		}
+		if ($force) {
+			\OC::$autoloader->rebuild();
 		}
 	}
 

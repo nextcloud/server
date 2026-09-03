@@ -323,6 +323,9 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
 			return $c;
 		});
+		$this->registerService(\OC\PhpDumpCache::class, function (ContainerInterface $c) {
+			return new \OC\PhpDumpCache($c->get(SystemConfig::class)->getValue('cachedirectory', \OC::$SERVERROOT . '/cache'));
+		});
 		$this->registerDeprecatedAlias(IServerContainer::class, ContainerInterface::class);
 
 		$this->registerAlias(\OCP\Calendar\IManager::class, \OC\Calendar\Manager::class);
