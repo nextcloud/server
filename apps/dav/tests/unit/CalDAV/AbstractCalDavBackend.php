@@ -25,6 +25,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -58,6 +59,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 	protected IDBConnection $db;
 	protected RemoteUserPrincipalBackend&MockObject $remoteUserPrincipalBackend;
 	protected FederationSharingService&MockObject $federationSharingService;
+	protected IL10N&MockObject $l10n;
 	protected FederatedCalendarMapper&MockObject $federatedCalendarMapper;
 	protected ICacheFactory $cacheFactory;
 
@@ -102,6 +104,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->remoteUserPrincipalBackend = $this->createMock(RemoteUserPrincipalBackend::class);
 		$this->federationSharingService = $this->createMock(FederationSharingService::class);
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->federatedCalendarMapper = $this->createMock(FederatedCalendarMapper::class);
 		$this->sharingBackend = new SharingBackend(
 			$this->userManager,
@@ -123,6 +126,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 			$this->config,
 			$this->sharingBackend,
 			$this->federatedCalendarMapper,
+			$this->l10n,
 			$this->cacheFactory,
 			false,
 		);
