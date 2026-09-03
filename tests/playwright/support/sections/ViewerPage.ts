@@ -149,6 +149,10 @@ export class ViewerPage {
 	public async close(): Promise<void> {
 		await this.closeButton.click()
 		await expect(this.container).toBeHidden()
+		// Closing unwinds the history entries the viewer pushed, and the browser
+		// applies that asynchronously. Wait for it so a following assertion, or a
+		// following open, does not race the navigation still on its way.
+		await this.page.waitForURL((url) => !url.searchParams.has('openfile'))
 	}
 
 	/**
