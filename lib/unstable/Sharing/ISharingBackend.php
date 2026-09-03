@@ -29,7 +29,7 @@ interface ISharingBackend {
 	 *
 	 * @experimental 35.0.0
 	 */
-	public function createShare(string $id, ShareUser $owner, \DateTimeImmutable $lastUpdated): void;
+	public function createShare(string $id, ShareUser $owner, \DateTimeImmutable $created): void;
 
 	/**
 	 * Perform all updates when the owner was deleted.

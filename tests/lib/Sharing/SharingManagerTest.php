@@ -36,6 +36,7 @@ final class SharingManagerTest extends AbstractSharingManagerTests {
 		$retrieved = new Share(
 			$retrieved->id,
 			$retrieved->owner,
+			$retrieved->created,
 			$share->lastUpdated,
 			$retrieved->state,
 			$retrieved->userStatus,

@@ -64,7 +64,7 @@ final readonly class SharingBackend implements ISharingBackend {
 	}
 
 	#[\Override]
-	public function createShare(string $id, ShareUser $owner, \DateTimeImmutable $lastUpdated): void {
+	public function createShare(string $id, ShareUser $owner, \DateTimeImmutable $created): void {
 		$this->assertInTransaction();
 
 		$qb = $this->connection->getQueryBuilder();
@@ -74,7 +74,8 @@ final readonly class SharingBackend implements ISharingBackend {
 				'id' => $qb->createNamedParameter($id),
 				'owner_user_id' => $qb->createNamedParameter($owner->userId),
 				'owner_instance' => $qb->createNamedParameter($owner->instance),
-				'last_updated' => $qb->createNamedParameter(SharingManager::timeToMs($lastUpdated)),
+				'created' => $qb->createNamedParameter(SharingManager::timeToMs($created)),
+				'last_updated' => $qb->createNamedParameter(SharingManager::timeToMs($created)),
 				'state' => $qb->createNamedParameter(ShareState::Draft->value),
 			])
 			->executeStatement();
@@ -764,7 +765,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		}
 
 		// The key type is array-key, because PHP will automatically cast the value. We can't type it as integer though, because we need to also support 32 bit systems and there the autocasting doesn't happen, if the value is too large.
-		/** @var array<array-key, array{id: non-empty-string, owner: ShareUser, last_updated: numeric-string, state: ShareState, user_status: ShareUserStatus, sources: list<ShareSource>, recipients: array<array-key, ShareRecipient>, properties: array<class-string<ISharePropertyType>, ShareProperty>, permissions: array<class-string<ISharePermissionType>, SharePermission>}> $shares */
+		/** @var array<array-key, array{id: non-empty-string, owner: ShareUser, created: numeric-string, last_updated: numeric-string, state: ShareState, user_status: ShareUserStatus, sources: list<ShareSource>, recipients: array<array-key, ShareRecipient>, properties: array<class-string<ISharePropertyType>, ShareProperty>, permissions: array<class-string<ISharePermissionType>, SharePermission>}> $shares */
 		$shares = [];
 		foreach ($queries as $qb) {
 			$qb
@@ -772,6 +773,7 @@ final readonly class SharingBackend implements ISharingBackend {
 					's.id',
 					's.owner_user_id',
 					's.owner_instance',
+					's.created',
 					's.last_updated',
 					's.state',
 				)
@@ -826,6 +828,8 @@ final readonly class SharingBackend implements ISharingBackend {
 
 				/** @var non-empty-string $shareId */
 				$shareId = (string)$row['id'];
+				/** @var numeric-string $created */
+				$created = (string)$row['created'];
 				/** @var numeric-string $lastUpdated */
 				$lastUpdated = (string)$row['last_updated'];
 				/** @var string $state */
@@ -833,6 +837,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				$shares[$shareId] ??= [
 					'id' => $shareId,
 					'owner' => new ShareUser($ownerUserId, $ownerInstance),
+					'created' => $created,
 					'last_updated' => $lastUpdated,
 					'state' => ShareState::from($state),
 					'user_status' => null,
@@ -1219,6 +1224,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		$shares = array_map(static fn (array $share): Share => new Share(
 			$share['id'],
 			$share['owner'],
+			self::parseTimestamp($share['created']),
 			self::parseTimestamp($share['last_updated']),
 			$share['state'],
 			$share['user_status'],
@@ -1367,6 +1373,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		return new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$timestamp,
 			$share->state,
 			$share->userStatus,
@@ -1398,6 +1405,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		return new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$timestamp,
 			$share->state,
 			$share->userStatus,

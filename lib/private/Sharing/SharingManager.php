@@ -204,6 +204,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$time,
 			$state,
 			$share->userStatus,
@@ -234,6 +235,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$share->lastUpdated,
 			$share->state,
 			$userStatus,
@@ -267,6 +269,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$time,
 			$share->state,
 			$share->userStatus,
@@ -313,6 +316,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$time,
 			$share->state,
 			$share->userStatus,
@@ -373,6 +377,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$validationShare = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$share->lastUpdated,
 			$share->state,
 			$share->userStatus,
@@ -409,6 +414,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$time,
 			$share->state,
 			$share->userStatus,
@@ -449,6 +455,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$time,
 			$share->state,
 			$share->userStatus,
@@ -548,6 +555,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$time,
 			$share->state,
 			$share->userStatus,
@@ -592,6 +600,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$time,
 			$share->state,
 			$share->userStatus,
@@ -620,6 +629,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$time,
 			$share->state,
 			$share->userStatus,
@@ -683,6 +693,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$time,
 			$share->state,
 			$share->userStatus,
@@ -720,6 +731,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$share = new Share(
 			$share->id,
 			$share->owner,
+			$share->created,
 			$time,
 			$share->state,
 			$share->userStatus,
@@ -950,6 +962,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 					$share = new Share(
 						$share->id,
 						$share->owner,
+						$share->created,
 						$time,
 						ShareState::Draft,
 						$share->userStatus,

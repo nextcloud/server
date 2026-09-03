@@ -4722,6 +4722,7 @@
                 "required": [
                     "id",
                     "owner",
+                    "created",
                     "last_updated",
                     "state",
                     "user_status",
@@ -4738,6 +4739,10 @@
                     },
                     "owner": {
                         "$ref": "#/components/schemas/SharingUser"
+                    },
+                    "created": {
+                        "type": "string",
+                        "description": "Unix time in milliseconds"
                     },
                     "last_updated": {
                         "type": "string",

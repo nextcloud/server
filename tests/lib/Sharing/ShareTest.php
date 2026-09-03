@@ -78,6 +78,7 @@ final class ShareTest extends TestCase {
 			'123',
 			new ShareUser($this->owner->getUID(), null),
 			new DateTimeImmutable(),
+			new DateTimeImmutable(),
 			ShareState::Active,
 			null,
 			[],
@@ -192,6 +193,7 @@ final class ShareTest extends TestCase {
 		$share = new Share(
 			'123',
 			new ShareUser($this->owner->getUID(), null),
+			new DateTimeImmutable(),
 			new DateTimeImmutable(),
 			ShareState::Active,
 			null,

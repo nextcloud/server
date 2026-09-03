@@ -126,6 +126,8 @@ use NCU\Sharing\Source\IShareSourceType;
  *     id: non-empty-string,
  *     owner: SharingUser,
  *     // Unix time in milliseconds
+ *     created: numeric-string,
+ *     // Unix time in milliseconds
  *     last_updated: numeric-string,
  *     state: SharingState,
  *     user_status: ?SharingUserStatus,

@@ -455,6 +455,7 @@
                 "required": [
                     "id",
                     "owner",
+                    "created",
                     "last_updated",
                     "state",
                     "user_status",
@@ -471,6 +472,10 @@
                     },
                     "owner": {
                         "$ref": "#/components/schemas/User"
+                    },
+                    "created": {
+                        "type": "string",
+                        "description": "Unix time in milliseconds"
                     },
                     "last_updated": {
                         "type": "string",

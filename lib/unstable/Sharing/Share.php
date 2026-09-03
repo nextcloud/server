@@ -136,6 +136,8 @@ use OCP\Server;
  *     id: non-empty-string,
  *     owner: SharingUser,
  *     // Unix time in milliseconds
+ *     created: numeric-string,
+ *     // Unix time in milliseconds
  *     last_updated: numeric-string,
  *     state: SharingState,
  *     user_status: ?SharingUserStatus,
@@ -163,6 +165,7 @@ final class Share {
 		/** @var non-empty-string $id */
 		public readonly string $id,
 		public readonly ShareUser $owner,
+		public readonly \DateTimeImmutable $created,
 		public readonly \DateTimeImmutable $lastUpdated,
 		public readonly ShareState $state,
 		public readonly ?ShareUserStatus $userStatus,
@@ -304,6 +307,7 @@ final class Share {
 		return [
 			'id' => $this->id,
 			'owner' => $this->owner->format($userManager),
+			'created' => SharingManager::timeToMs($this->created),
 			'last_updated' => SharingManager::timeToMs($this->lastUpdated),
 			'state' => $this->state->value,
 			'user_status' => $this->userStatus?->value,

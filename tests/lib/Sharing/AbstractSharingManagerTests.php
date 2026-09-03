@@ -699,6 +699,8 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$share = $this->createShare($accessContext);
 		$after = $this->manager->getTime();
 		unset($share['id']);
+		$this->assertDateBetween($before, $after, $this->parseTime($share['created']));
+		unset($share['created']);
 		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
 		unset($share['last_updated']);
 		$this->assertEquals([
@@ -1435,7 +1437,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			$formatted = $this->updateShareRecipientSecret($accessContext, $share, $recipient, 'mysecret');
 			$after = $this->manager->getTime();
 			$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
-			unset($formatted['last_updated']);
 			$this->assertEquals([
 				[
 					'class' => TestShareRecipientTypePublicSecret::class,
@@ -2384,6 +2385,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		unset($formatted['last_updated']);
 		$this->assertEquals([
 			'id' => $share->id,
+			'created' => SharingManager::timeToMs($share->created),
 			'owner' => [
 				'user_id' => 'owner',
 				'instance' => null,
@@ -2505,6 +2507,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		unset($formatted['last_updated']);
 		$this->assertEquals([
 			'id' => $share->id,
+			'created' => SharingManager::timeToMs($share->created),
 			'owner' => [
 				'user_id' => 'owner',
 				'instance' => null,
@@ -2632,6 +2635,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		unset($formatted['last_updated']);
 		$this->assertEquals([
 			'id' => $share->id,
+			'created' => SharingManager::timeToMs($share->created),
 			'owner' => [
 				'user_id' => 'owner',
 				'instance' => null,
@@ -2759,6 +2763,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		unset($formatted['last_updated']);
 		$this->assertEquals([
 			'id' => $share->id,
+			'created' => SharingManager::timeToMs($share->created),
 			'owner' => [
 				'user_id' => 'owner',
 				'instance' => null,
@@ -2883,6 +2888,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		unset($formatted['last_updated']);
 		$this->assertEquals([
 			'id' => $share->id,
+			'created' => SharingManager::timeToMs($share->created),
 			'owner' => [
 				'user_id' => 'owner',
 				'instance' => null,
@@ -2987,6 +2993,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		unset($formatted['last_updated']);
 		$this->assertEquals([
 			'id' => $share->id,
+			'created' => SharingManager::timeToMs($share->created),
 			'owner' => [
 				'user_id' => 'owner',
 				'instance' => null,
@@ -3111,6 +3118,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		unset($formatted['last_updated']);
 		$this->assertEquals([
 			'id' => $share->id,
+			'created' => SharingManager::timeToMs($share->created),
 			'owner' => [
 				'user_id' => 'owner',
 				'instance' => null,
@@ -3209,6 +3217,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		unset($formatted['last_updated']);
 		$this->assertEquals([
 			'id' => $share->id,
+			'created' => SharingManager::timeToMs($share->created),
 			'owner' => [
 				'user_id' => 'owner',
 				'instance' => null,
@@ -3344,18 +3353,14 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$accessContext = new ShareAccessContext($this->owner);
 
-		$before = $this->manager->getTime();
 		$this->dbConnection->beginTransaction();
 		$share = $this->manager->createShare($accessContext);
 		$this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null));
 		$this->manager->addShareRecipient($accessContext, $share, new ShareRecipient(TestShareRecipientTypePublicSecret::class, 'recipient2', null));
 
 		$this->dbConnection->commit();
-		$after = $this->manager->getTime();
 
 		$formatted = $this->getShare($accessContext, $share->id);
-		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
-		unset($formatted['last_updated']);
 		$this->assertIsList($formatted['recipients']);
 		$this->assertCount(2, $formatted['recipients']);
 		$this->assertEquals([
@@ -3755,6 +3760,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertEquals([
 			[
 				'id' => $share1->id,
+				'created' => SharingManager::timeToMs($share1->created),
 				'owner' => [
 					'user_id' => 'owner',
 					'instance' => null,
@@ -3837,6 +3843,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 			],
 			[
 				'id' => $share2->id,
+				'created' => SharingManager::timeToMs($share2->created),
 				'owner' => [
 					'user_id' => 'owner',
 					'instance' => null,
@@ -3927,6 +3934,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertEquals([
 			[
 				'id' => $share1->id,
+				'created' => SharingManager::timeToMs($share1->created),
 				'owner' => [
 					'user_id' => 'owner',
 					'instance' => null,
@@ -4017,6 +4025,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertEquals([
 			[
 				'id' => $share1->id,
+				'created' => SharingManager::timeToMs($share1->created),
 				'owner' => [
 					'user_id' => 'owner',
 					'instance' => null,
@@ -4110,6 +4119,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertEquals([
 			[
 				'id' => $share1->id,
+				'created' => SharingManager::timeToMs($share1->created),
 				'owner' => [
 					'user_id' => 'owner',
 					'instance' => null,
@@ -4200,6 +4210,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertEquals([
 			[
 				'id' => $share2->id,
+				'created' => SharingManager::timeToMs($share2->created),
 				'owner' => [
 					'user_id' => 'owner',
 					'instance' => null,
@@ -4293,6 +4304,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertEquals([
 			[
 				'id' => $share2->id,
+				'created' => SharingManager::timeToMs($share2->created),
 				'owner' => [
 					'user_id' => 'owner',
 					'instance' => null,
@@ -4386,6 +4398,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertEquals([
 			[
 				'id' => $share2->id,
+				'created' => SharingManager::timeToMs($share2->created),
 				'owner' => [
 					'user_id' => 'owner',
 					'instance' => null,
@@ -4476,6 +4489,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$this->assertEquals([
 			[
 				'id' => $share1->id,
+				'created' => SharingManager::timeToMs($share1->created),
 				'owner' => [
 					'user_id' => 'owner',
 					'instance' => null,

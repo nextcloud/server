@@ -65,6 +65,7 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 			'123',
 			new ShareUser($this->user->getUID(), null),
 			new DateTimeImmutable(),
+			new DateTimeImmutable(),
 			ShareState::Active,
 			null,
 			[],
@@ -78,6 +79,7 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 		$share = new Share(
 			'123',
 			new ShareUser('user', null),
+			new DateTimeImmutable(),
 			new DateTimeImmutable(),
 			ShareState::Active,
 			null,
@@ -124,6 +126,7 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 		$createShare = fn (DateTimeImmutable $lastUpdated): Share => new Share(
 			'456',
 			new ShareUser('user', null),
+			new DateTimeImmutable(),
 			$lastUpdated,
 			ShareState::Active,
 			null,
