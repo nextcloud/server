@@ -194,10 +194,10 @@ class Setting extends Base {
 							$user->setEMailAddress('');
 							// setEmailAddress already deletes the value
 							return 0;
-						} elseif ($key === 'display_name') {
-							$output->writeln('<error>Display name can\'t be deleted.</error>');
-							return 1;
 						}
+						
+						$output->writeln('<error>Display name can\'t be deleted.</error>');
+						return 1;
 					}
 				}
 
