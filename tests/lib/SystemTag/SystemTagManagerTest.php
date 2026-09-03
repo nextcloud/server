@@ -248,7 +248,7 @@ class SystemTagManagerTest extends TestCase {
 
 	public function testCreateOverlongName(): void {
 		$tag = $this->tagManager->createTag('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas, Salão de Física, Torre Sineira, Paço Velho e Jardim Botânico)', true, true);
-		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das', $tag->getName());
+		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas', $tag->getName());
 		$this->assertSame($tag->getName(), $this->tagManager->getTag($tag->getName(), true, true)->getName());
 	}
 
@@ -263,8 +263,8 @@ class SystemTagManagerTest extends TestCase {
 			null,
 		);
 
-		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das', $this->tagManager->getTag(
-			'Zona circundante do Palácio Nacional da Ajuda (Jardim das',
+		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas', $this->tagManager->getTag(
+			'Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas',
 			true,
 			true,
 		)->getName());
