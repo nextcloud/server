@@ -2166,7 +2166,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$result = [];
 			while ($row = $stmt->fetchAssociative()) {
 				$path = $uriMapper[$row['calendarid']] . '/' . $row['uri'];
-				if (!in_array($path, $result)) {
+				if (!in_array($path, $result, true)) {
 					$result[] = $path;
 				}
 			}

@@ -182,7 +182,7 @@ class EventReader {
 		// evaluate if start date is floating
 		// set duration to 24 hours and calculate the end date
 		// according to the rfc any event without a end date or duration is a complete day
-		elseif ($this->baseEventStartDateFloating == true) {
+		elseif ($this->baseEventStartDateFloating === true) {
 			$this->baseEventDuration = 86400;
 			$this->baseEventEndDate = DateTimeImmutable::createFromInterface($this->baseEventStartDate)
 				->setTimestamp($this->baseEventStartDate->getTimestamp() + $this->baseEventDuration);

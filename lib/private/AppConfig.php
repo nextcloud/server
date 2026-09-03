@@ -461,7 +461,7 @@ class AppConfig implements IAppConfig {
 		$value = $this->getTypedValue($app, $key, $default ? 'true' : 'false', $lazy, self::VALUE_BOOL) ?? ($default ? 'true' : 'false');
 		/** @psalm-suppress RedundantCast */
 		$b = strtolower((string)$value);
-		return in_array($b, ['1', 'true', 'yes', 'on']);
+		return in_array($b, ['1', 'true', 'yes', 'on'], true);
 	}
 
 	/**
@@ -1587,7 +1587,7 @@ class AppConfig implements IAppConfig {
 			case self::VALUE_FLOAT:
 				return (float)$value;
 			case self::VALUE_BOOL:
-				return in_array(strtolower($value), ['1', 'true', 'yes', 'on']);
+				return in_array(strtolower($value), ['1', 'true', 'yes', 'on'], true);
 			case self::VALUE_ARRAY:
 				try {
 					return json_decode($value, true, flags: JSON_THROW_ON_ERROR);
@@ -1769,7 +1769,8 @@ class AppConfig implements IAppConfig {
 				'enabled',
 				'installed_version',
 				'types',
-			])) {
+			],
+			true)) {
 			return true; // we don't break stuff for this list of config keys.
 		}
 		$configDetails = $this->getConfigDetailsFromLexicon($app);

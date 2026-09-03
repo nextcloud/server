@@ -72,7 +72,7 @@ abstract class AbstractStringCheck implements ICheck {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
-		if (in_array($operator, ['matches', '!matches'])
+		if (in_array($operator, ['matches', '!matches'], true)
 			  && @preg_match($value, '') === false) {
 			throw new \UnexpectedValueException($this->l->t('The given regular expression is invalid'), 2);
 		}

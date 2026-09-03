@@ -236,7 +236,7 @@ class OC_App {
 				$topFolder = substr($path_info, 1, strpos($path_info, '/', 1) - 1);
 			}
 		}
-		if ($topFolder == 'apps') {
+		if ($topFolder === 'apps') {
 			$length = strlen($topFolder);
 			return substr($script, $length + 1, strpos($script, '/', $length + 1) - $length - 1) ?: '';
 		} else {

@@ -32,7 +32,7 @@ class SystemTagsInUseCollection extends SimpleCollection {
 		protected string $mediaType = '',
 	) {
 		$this->name = 'systemtags-assigned';
-		if ($this->mediaType != '') {
+		if ($this->mediaType !== '') {
 			$this->name .= '/' . $this->mediaType;
 		}
 	}

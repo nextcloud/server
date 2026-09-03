@@ -94,7 +94,7 @@ class CleanOrphanedKeys extends Command {
 		foreach ($orphanedKeys as $keyPath) {
 			$output->writeln('Orphaned key found: ' . $keyPath);
 		}
-		if (count($orphanedKeys) == 0) {
+		if (count($orphanedKeys) === 0) {
 			return self::SUCCESS;
 		}
 		$question = new ConfirmationQuestion('Do you want to delete all orphaned keys? (y/n) ', false);
@@ -199,7 +199,7 @@ class CleanOrphanedKeys extends Command {
 				return $k !== trim($path);
 			});
 		}
-		if (count($orphanedKeys) == 0) {
+		if (count($orphanedKeys) === 0) {
 			return;
 		}
 		$output->writeln('Remaining orphaned keys: ');
