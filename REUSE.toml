@@ -344,3 +344,81 @@ path = ["openapi.json", ".envrc", "flake.nix", "flake.lock", "build/eslint-basel
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["apps/viewer/l10n/**.js", "apps/viewer/l10n/**.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Nextcloud translators <https://www.transifex.com/nextcloud/>"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["apps/viewer/img/blank.mp4"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2023 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["apps/viewer/img/app.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018-2024 Google LLC"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["apps/viewer/img/plyr.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Sam Potts <sam@potts.es>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["apps/viewer/src/assets/menu-sidebar-white.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["tests/playwright/e2e/viewer/fixtures/image.gif", "tests/playwright/e2e/viewer/fixtures/image.ico", "tests/playwright/e2e/viewer/fixtures/image.svg", "tests/playwright/e2e/viewer/fixtures/image-small.png", "tests/playwright/e2e/viewer/fixtures/image-apng.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Nextcloud GmbH"
+SPDX-License-Identifier = "LicenseRef-NextcloudTrademarks"
+
+[[annotations]]
+path = ["tests/playwright/e2e/viewer/fixtures/image1.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Stephen Leonardi <https://unsplash.com/@leo_visions_> <https://unsplash.com/photos/rock-formation-with-lava-during-daytime-eSNjFDbw_i4>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = ["tests/playwright/e2e/viewer/fixtures/image2.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = ["tests/playwright/e2e/viewer/fixtures/image4.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Vincent Riszdorfer <https://unsplash.com/@theguywithacamera> <https://unsplash.com/photos/person-about-to-claim-mountain-Q6X1ifPIfjs>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = ["tests/playwright/e2e/viewer/fixtures/video.mkv", "tests/playwright/e2e/viewer/fixtures/video.ogv", "tests/playwright/e2e/viewer/fixtures/video.webm", "tests/playwright/e2e/viewer/fixtures/video1.mp4"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2012 AnRo0002 <https://commons.wikimedia.org/wiki/User:AnRo0002>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["tests/playwright/e2e/viewer/fixtures/audio.mp3", "tests/playwright/e2e/viewer/fixtures/audio.ogg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022 AC Krah <https://commons.wikimedia.org/wiki/User:AC_Krah>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["tests/playwright/e2e/viewer/fixtures/image3.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2013 Wilfredor <https://commons.wikimedia.org/wiki/User:Wilfredor>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["tests/playwright/e2e/viewer/fixtures/image.png", "tests/playwright/e2e/viewer/fixtures/image.webp"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Master Unknown <https://unsplash.com/@exp00>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"

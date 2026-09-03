@@ -1,0 +1,18 @@
+OC.L10N.register(
+    "viewer",
+    {
+    "Cancel" : "இரத்து செய்க",
+    "Edit" : "தொகுக்க",
+    "Download" : "பதிவிறக்குக",
+    "Delete" : "நீக்குக",
+    "Name" : "பெயர்",
+    "Save" : "சேமிக்க ",
+    "Back" : "பின்னுக்கு",
+    "Value" : "Value",
+    "Size" : "அளவு",
+    "Play" : "Play",
+    "Pause" : "இடைநிறுத்துக",
+    "Settings" : "அமைப்புகள்",
+    "All" : "எல்லாம்"
+},
+"nplurals=2; plural=(n != 1);");
