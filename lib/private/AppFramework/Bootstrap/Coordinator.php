@@ -11,6 +11,7 @@ namespace OC\AppFramework\Bootstrap;
 
 use OC\App\AppManager;
 use OC\Support\CrashReport\Registry;
+use OCP\App\AppPathNotFoundException;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\QueryException;
@@ -64,12 +65,21 @@ class Coordinator {
 		if ($this->registrationContext === null) {
 			$this->registrationContext = new RegistrationContext($this->logger);
 		}
-		$this->eventLogger->start('bootstrap:register_app:autoloader', 'Setup autoloader for apps');
-		$this->appManager->registerAppsAutoloading($appIds);
-		$this->eventLogger->end('bootstrap:register_app:autoloader');
 		$apps = [];
 		foreach ($appIds as $appId) {
 			$this->eventLogger->start("bootstrap:register_app:$appId", "Register $appId");
+			$this->eventLogger->start("bootstrap:register_app:$appId:autoloader", "Setup autoloader for app $appId");
+			try {
+				$path = $this->appManager->getAppPath($appId);
+				$this->appManager->registerAutoloading($appId, $path);
+			} catch (AppPathNotFoundException $e) {
+				$this->logger->info('Error during app loading: ' . $e->getMessage(), [
+					'exception' => $e,
+					'app' => $appId,
+				]);
+				continue;
+			}
+			$this->eventLogger->end("bootstrap:register_app:$appId:autoloader");
 
 			/*
 			 * Next we check if there is an application class, and it implements
