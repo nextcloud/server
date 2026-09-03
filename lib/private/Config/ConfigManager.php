@@ -258,9 +258,9 @@ class ConfigManager {
 	}
 
 	public function convertToBool(string $value, ?Entry $entry = null): bool {
-		if (in_array(strtolower($value), ['true', '1', 'on', 'yes'])) {
+		if (in_array(strtolower($value), ['true', '1', 'on', 'yes'], true)) {
 			$valueBool = true;
-		} elseif (in_array(strtolower($value), ['false', '0', 'off', 'no'])) {
+		} elseif (in_array(strtolower($value), ['false', '0', 'off', 'no'], true)) {
 			$valueBool = false;
 		} else {
 			throw new TypeConflictException('Value cannot be converted to boolean');
