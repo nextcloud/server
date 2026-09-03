@@ -364,7 +364,7 @@ class Access extends LDAPUtility {
 			// memberOf is an "operational" attribute, without a definition in any RFC
 			'memberof'
 		];
-		return in_array($attr, $resemblingAttributes);
+		return in_array($attr, $resemblingAttributes, true);
 	}
 
 	/**

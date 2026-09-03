@@ -988,7 +988,7 @@ class AppConfig implements IAppConfig {
 		$this->isLazy($app, $key); // confirm key exists
 
 		// type can only be one type
-		if (!in_array($type, [self::VALUE_MIXED, self::VALUE_STRING, self::VALUE_INT, self::VALUE_FLOAT, self::VALUE_BOOL, self::VALUE_ARRAY])) {
+		if (!in_array($type, [self::VALUE_MIXED, self::VALUE_STRING, self::VALUE_INT, self::VALUE_FLOAT, self::VALUE_BOOL, self::VALUE_ARRAY], true)) {
 			throw new AppConfigIncorrectTypeException('Unknown value type');
 		}
 
@@ -1365,7 +1365,7 @@ class AppConfig implements IAppConfig {
 		}
 		if ($valueType > -1) {
 			$valueType &= ~self::VALUE_SENSITIVE;
-			if (!in_array($valueType, [self::VALUE_MIXED, self::VALUE_STRING, self::VALUE_INT, self::VALUE_FLOAT, self::VALUE_BOOL, self::VALUE_ARRAY])) {
+			if (!in_array($valueType, [self::VALUE_MIXED, self::VALUE_STRING, self::VALUE_INT, self::VALUE_FLOAT, self::VALUE_BOOL, self::VALUE_ARRAY], true)) {
 				throw new InvalidArgumentException('Unknown value type');
 			}
 		}

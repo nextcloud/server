@@ -163,7 +163,7 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output): void {
 				// Read per event, the overwrites are cleared during a major upgrade
 				$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
-				if (!in_array($app, $incompatibleOverwrites)) {
+				if (!in_array($app, $incompatibleOverwrites, true)) {
 					$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
 				}
 			});

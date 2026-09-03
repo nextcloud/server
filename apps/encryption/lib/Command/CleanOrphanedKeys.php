@@ -185,7 +185,7 @@ class CleanOrphanedKeys extends Command {
 	private function deleteSpecific(InputInterface $input, OutputInterface $output, array $orphanedKeys) {
 		$question = new Question('Please enter path for key to delete: ');
 		$path = $this->questionHelper->ask($input, $output, $question);
-		if (!in_array(trim($path), $orphanedKeys)) {
+		if (!in_array(trim($path), $orphanedKeys, true)) {
 			$output->writeln('Wrong key path');
 		} else {
 			try {
