@@ -69,9 +69,14 @@ return [
 			'verb' => 'DELETE',
 		],
 		[
-			'name' => 'Accept#accept',
+			'name' => 'Accept#showAccept',
 			'url' => '/accept/{shareId}',
 			'verb' => 'GET',
+		],
+		[
+			'name' => 'Accept#accept',
+			'url' => '/accept/{shareId}',
+			'verb' => 'POST',
 		],
 	],
 	'ocs' => [

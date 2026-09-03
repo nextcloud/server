@@ -1,0 +1,22 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+.accept-share {
+	text-align: center;
+}
+
+.accept-share h2,
+.accept-share p {
+	text-align: center;
+}
+
+.accept-share .buttons {
+	display: flex;
+	justify-content: center;
+	margin-top: 1em;
+}
+
+.accept-share input[type="submit"] {
+	margin: 0;
+}
