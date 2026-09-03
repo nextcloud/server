@@ -9,7 +9,21 @@ import type { APIRequestContext } from '@playwright/test'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { SharingTab } from '../sections/SharingTab.ts'
+import { disableUnifiedSharing, enableUnifiedSharing } from '../utils/unifiedSharing.ts'
 import { test as filesTest } from './files-page.ts'
+
+type SharingWorkerFixtures = {
+	/**
+	 * Which sharing UI the sidebar renders. The unified sharing API ships disabled,
+	 * which is what these specs need to drive the share editor; the unified specs
+	 * override this to `'on'`.
+	 *
+	 * The switch is instance-wide, hence the serial `sharing` project.
+	 */
+	unifiedSharingMode: 'on' | 'off'
+	/** Applies {@link unifiedSharingMode} for the worker. */
+	unifiedSharingApi: void
+}
 
 type SharingFixtures = {
 	/**
@@ -36,7 +50,17 @@ type SharingFixtures = {
  * browser is the recipient of a share seeded by `owner`) — pick whichever side
  * the spec drives through the UI.
  */
-export const test = filesTest.extend<SharingFixtures>({
+export const test = filesTest.extend<SharingFixtures, SharingWorkerFixtures>({
+	unifiedSharingMode: ['off', { scope: 'worker' }],
+
+	unifiedSharingApi: [async ({ unifiedSharingMode }, use) => {
+		const restore = unifiedSharingMode === 'on'
+			? await enableUnifiedSharing()
+			: await disableUnifiedSharing()
+		await use()
+		await restore()
+	}, { scope: 'worker', auto: true }],
+
 	recipient: async ({}, use) => {
 		const recipient = await createRandomUser()
 		await use(recipient)
