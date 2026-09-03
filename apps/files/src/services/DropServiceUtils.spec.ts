@@ -8,7 +8,7 @@ import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { DataTransferItem as DataTransferItemMock, FileSystemDirectoryEntry, fileSystemEntryToDataTransferItem, FileSystemFileEntry } from '../../../../__tests__/FileSystemAPIUtils.ts'
 import { logger } from '../utils/logger.ts'
 import { dataTransferToFileTree } from './DropService.ts'
-import { Directory, traverseTree } from './DropServiceUtils.ts'
+import { Directory, findInvalidDroppedEntry, traverseTree } from './DropServiceUtils.ts'
 
 const dataTree = {
 	'file0.txt': ['Hello, world!', 1234567890],
@@ -82,6 +82,45 @@ describe('Filesystem API traverseTree', () => {
 		const dir2 = buildFileSystemDirectoryEntry('root', dataTree.dir2)
 		const dir2Tree = await traverseTree(dir2 as unknown as FileSystemEntry) as Directory
 		expect(dir2Tree.lastModified).toBe(1234567890)
+	})
+})
+
+describe('findInvalidDroppedEntry', () => {
+	it('returns nothing for a valid tree', () => {
+		const tree = new Directory('root', [
+			new Directory('folder', [new File([], 'file.txt')]),
+		])
+
+		expect(findInvalidDroppedEntry(tree)).toBeUndefined()
+	})
+
+	it('reports an invalid top-level folder', () => {
+		const tree = new Directory('root', [new Directory('folder\\')])
+
+		expect(findInvalidDroppedEntry(tree)).toEqual({
+			path: 'folder\\',
+			reason: '"\\" is not allowed inside a folder name.',
+		})
+	})
+
+	it('reports the path of an invalid nested file', () => {
+		const tree = new Directory('root', [
+			new Directory('folder', [new File([], 'file\\.txt')]),
+		])
+
+		expect(findInvalidDroppedEntry(tree)).toEqual({
+			path: 'folder/file\\.txt',
+			reason: '"\\" is not allowed inside a filename.',
+		})
+	})
+
+	it('uses forbidden filename extensions advertised by the server', () => {
+		const tree = new Directory('root', [new Directory('folder ')])
+
+		expect(findInvalidDroppedEntry(tree)).toEqual({
+			path: 'folder ',
+			reason: 'Folder names must not end with " ".',
+		})
 	})
 })
 
