@@ -584,9 +584,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				$group = $attribute->newInstance();
 				return $group->name();
 			}, $r->getAttributes(Group::class));
+
 			if (count($attributes) > 0) {
 				return $attributes;
 			}
+		}
+
+		if ($doc === false) {
+			return [];
 		}
 		preg_match_all('#@group\s+(.*?)\n#s', $doc, $annotations);
 		return $annotations[1] ?? [];
