@@ -17,14 +17,9 @@ export const action: IFileAction = {
 	},
 	iconSvgInline: () => FolderEyeSvg,
 
-	enabled({ nodes, view }) {
+	enabled({ nodes, folder }) {
 		// Not enabled for public shares
 		if (isPublicShare()) {
-			return false
-		}
-
-		// Only works outside of the main files view
-		if (view.id === 'files') {
 			return false
 		}
 
@@ -40,6 +35,11 @@ export const action: IFileAction = {
 
 		// Can only view files that are in the user root folder
 		if (!node.root?.startsWith('/files')) {
+			return false
+		}
+
+		// Only show if not in same folder
+		if (folder.path === node.dirname) {
 			return false
 		}
 
