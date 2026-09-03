@@ -101,7 +101,7 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 	// GET must be allowed for e.g. showing images and allowing Zip downloads
 	if ($server->httpRequest->getMethod() !== 'GET') {
 		// If this is *not* a GET request we only allow access to public DAV from AJAX or when Server2Server is allowed
-		$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
+		$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''), true);
 		$federatedShareProvider = Server::get(FederatedShareProvider::class);
 		if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && $isAjax === false) {
 			// this is what is thrown when trying to access a non-existing share

@@ -55,7 +55,7 @@ class ShardQueryRunner {
 	private function getLikelyShards(array $primaryKeys): array {
 		$shards = [];
 		foreach ($primaryKeys as $primaryKey) {
-			if ($primaryKey < $this->shardDefinition->fromFileId && !in_array(ShardDefinition::MIGRATION_SHARD, $shards)) {
+			if ($primaryKey < $this->shardDefinition->fromFileId && !in_array(ShardDefinition::MIGRATION_SHARD, $shards, true)) {
 				$shards[] = ShardDefinition::MIGRATION_SHARD;
 			}
 			$encodedShard = $primaryKey & ShardDefinition::PRIMARY_KEY_SHARD_MASK;

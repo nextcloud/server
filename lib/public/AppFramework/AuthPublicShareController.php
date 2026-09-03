@@ -137,7 +137,7 @@ abstract class AuthPublicShareController extends PublicShareController {
 		}
 
 		// Is user requesting a temporary password?
-		if ($passwordRequest == '') {
+		if ($passwordRequest === '') {
 			if ($this->validateIdentity($identityToken)) {
 				$this->generatePassword();
 				$response = $this->showIdentificationResult(true);

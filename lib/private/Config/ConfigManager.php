@@ -242,7 +242,8 @@ class ConfigManager {
 	}
 
 	public function convertToInt(string $value): int {
-		if (!is_numeric($value) || (float)$value <> (int)$value) {
+		// checks the numeric string has no fractional part
+		if (!is_numeric($value) || (float)$value !== (float)(int)$value) {
 			throw new TypeConflictException('Value is not an integer');
 		}
 

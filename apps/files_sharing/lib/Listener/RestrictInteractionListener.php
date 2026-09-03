@@ -78,7 +78,7 @@ final class RestrictInteractionListener implements IEventListener {
 					if (!$receiver instanceof LinkReceiver
 						&& !$receiver instanceof EmailReceiver
 						&& (($event->action->filesSharingPermissions !== null && ($event->action->filesSharingPermissions & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ)
-							|| ($event->action->unifiedSharingPermissions !== null && !in_array(NodeReadSharePermissionType::class, $event->action->unifiedSharingPermissions)))) {
+							|| ($event->action->unifiedSharingPermissions !== null && !in_array(NodeReadSharePermissionType::class, $event->action->unifiedSharingPermissions, true)))) {
 						throw new InteractionRestrictedException('No read permission on the share.', $this->l10n->t('File share needs at least read permission.'));
 					}
 

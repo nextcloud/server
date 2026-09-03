@@ -40,7 +40,7 @@ class OverwriteCliUrl implements ISetupCheck {
 
 		// Check correctness by checking if it is a valid URL
 		if (filter_var($currentOverwriteCliUrl, FILTER_VALIDATE_URL)) {
-			if ($currentOverwriteCliUrl == $suggestedOverwriteCliUrl) {
+			if ($currentOverwriteCliUrl === $suggestedOverwriteCliUrl) {
 				return SetupResult::success(
 					$this->l10n->t(
 						'The "overwrite.cli.url" option in your config.php is correctly set to "%s".',

@@ -133,7 +133,7 @@ class OC {
 			new \OC\AllConfig(new \OC\SystemConfig(self::$config))
 		);
 		$scriptName = $fakeRequest->getScriptName();
-		if (substr($scriptName, -1) == '/') {
+		if (substr($scriptName, -1) === '/') {
 			$scriptName .= 'index.php';
 			//make sure suburi follows the same rules as scriptName
 			if (substr(OC::$SUBURI, -9) !== 'index.php') {
@@ -363,7 +363,7 @@ class OC {
 			if ($appManager->isShipped($appInfo['id'])) {
 				$incompatibleShippedApps[] = $appInfo['name'] . ' (' . $appInfo['id'] . ')';
 			}
-			if (!in_array($appInfo['id'], $incompatibleOverwrites)) {
+			if (!in_array($appInfo['id'], $incompatibleOverwrites, true)) {
 				$incompatibleDisabledApps[] = $appInfo;
 			}
 		}
@@ -682,7 +682,7 @@ class OC {
 		// register autoloader
 		self::$loaderStart = microtime(true);
 
-		self::$CLI = (php_sapi_name() == 'cli');
+		self::$CLI = (php_sapi_name() === 'cli');
 
 		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
@@ -790,7 +790,7 @@ class OC {
 			logger('core')->error('Failed to start profiler: ' . $e->getMessage(), ['app' => 'base']);
 		}
 
-		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
+		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'], true)) {
 			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
 		}
 
@@ -1260,7 +1260,7 @@ class OC {
 		// This prevents browsers from redirecting to the default page and then
 		// attempting to parse HTML as CSS and similar.
 		$destinationHeader = $request->getHeader('Sec-Fetch-Dest');
-		if (in_array($destinationHeader, ['font', 'script', 'style'])) {
+		if (in_array($destinationHeader, ['font', 'script', 'style'], true)) {
 			http_response_code(404);
 			return;
 		}

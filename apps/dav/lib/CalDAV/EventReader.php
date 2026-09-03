@@ -739,6 +739,9 @@ class EventReader {
 			$nextExceptionDate = $edateDate;
 		}
 		// if the next date is part of exrule or exdate find another date
+		// loose comparison needed: DateTime value equality, not instance identity
+		// (type comes from an untyped Iterator::current(), so psalm can't verify it statically)
+		/** @psalm-suppress UnrecognizedExpression */
 		if ($nextOccurrenceDate !== null && $nextExceptionDate !== null && $nextOccurrenceDate == $nextExceptionDate) {
 			$this->recurrenceCurrentDate = $nextOccurrenceDate;
 			$this->recurrenceAdvance();

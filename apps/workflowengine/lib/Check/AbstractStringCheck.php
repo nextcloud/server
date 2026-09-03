@@ -68,7 +68,7 @@ abstract class AbstractStringCheck implements ICheck {
 	 */
 	#[\Override]
 	public function validateCheck($operator, $value): void {
-		if (!in_array($operator, ['is', '!is', 'matches', '!matches'])) {
+		if (!in_array($operator, ['is', '!is', 'matches', '!matches'], true)) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 

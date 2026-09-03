@@ -1434,7 +1434,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				);
 
 			foreach ($vCard->children() as $property) {
-				if (!in_array($property->name, self::INDEXED_PROPERTIES)) {
+				if (!in_array($property->name, self::INDEXED_PROPERTIES, true)) {
 					continue;
 				}
 				$preferred = 0;

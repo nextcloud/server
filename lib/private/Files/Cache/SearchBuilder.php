@@ -281,7 +281,7 @@ class SearchBuilder {
 				throw new \InvalidArgumentException('Invalid type for field ' . $operator->getField());
 			}
 		}
-		if (!in_array($operator->getType(), $comparisons[$operator->getField()])) {
+		if (!in_array($operator->getType(), $comparisons[$operator->getField()], true)) {
 			throw new \InvalidArgumentException('Unsupported comparison for field  ' . $operator->getField() . ': ' . $operator->getType());
 		}
 	}

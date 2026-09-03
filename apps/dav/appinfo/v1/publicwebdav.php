@@ -97,7 +97,7 @@ $server = $serverFactory->createServer(
 		$linkCheckPlugin,
 		$filesDropPlugin
 	) {
-		$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
+		$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''), true);
 		/** @var FederatedShareProvider $shareProvider */
 		$federatedShareProvider = Server::get(FederatedShareProvider::class);
 		if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {

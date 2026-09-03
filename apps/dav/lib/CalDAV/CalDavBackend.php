@@ -3043,7 +3043,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		foreach ($this->subscriptionPropertyMap as $xmlName => [$dbName, $type]) {
 			if (array_key_exists($xmlName, $properties)) {
 				$values[$dbName] = $properties[$xmlName];
-				if (in_array($dbName, $propertiesBoolean)) {
+				if (in_array($dbName, $propertiesBoolean, true)) {
 					$values[$dbName] = true;
 				}
 			}
@@ -3684,7 +3684,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			$indexComponents = ['VEVENT', 'VJOURNAL', 'VTODO'];
 			foreach ($vCalendar->getComponents() as $component) {
-				if (!in_array($component->name, $indexComponents)) {
+				if (!in_array($component->name, $indexComponents, true)) {
 					continue;
 				}
 
@@ -3708,7 +3708,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						$indexedParametersForProperty = self::INDEXED_PARAMETERS[$property->name];
 
 						foreach ($parameters as $key => $value) {
-							if (in_array($key, $indexedParametersForProperty)) {
+							if (in_array($key, $indexedParametersForProperty, true)) {
 								// is this a shitty db?
 								if ($this->db->supports4ByteText()) {
 									$value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);

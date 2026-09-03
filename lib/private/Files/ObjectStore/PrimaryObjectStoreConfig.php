@@ -150,7 +150,7 @@ class PrimaryObjectStoreConfig {
 		foreach ($configs as $config) {
 			if (is_array($config)) {
 				$bucket = $config['arguments']['bucket'] ?? '';
-				if (in_array($bucket, $usedBuckets)) {
+				if (in_array($bucket, $usedBuckets, true)) {
 					throw new InvalidObjectStoreConfigurationException('Each object store configuration must use distinct bucket names');
 				}
 				$usedBuckets[] = $bucket;
