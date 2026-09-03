@@ -333,7 +333,13 @@ class UserConfig implements IUserConfig {
 	 * @param bool $lazy search within lazy loaded config
 	 * @param ValueType|null $typedAs enforce type for the returned values
 	 *
-	 * @return array<string, string|int|float|bool|array> [appId => value]
+	 * @return (
+	 *      $typedAs is ValueType::INT ? array<string, int> : (
+	 *      $typedAs is ValueType::FLOAT ? array<string, float> : (
+	 *      $typedAs is ValueType::BOOL ? array<string, bool> : (
+	 *      $typedAs is ValueType::ARRAY ? array<string, array> : (
+	 *      $typedAs is ValueType ? array<string, string> :
+	 *      array<string, string|int|float|bool|array>))))) [appId => value]
 	 * @since 31.0.0
 	 */
 	#[\Override]
@@ -354,11 +360,10 @@ class UserConfig implements IUserConfig {
 				$entry = $cache[$app][$key];
 				try {
 					$value = $this->getDecryptedSensitiveValue($userId, $app, $key, $entry);
-					$value = $this->convertTypedValue($value, $typedAs ?? $entry->getType());
 				} catch (IncorrectTypeException|UnknownKeyException) {
 					$value = $entry->getRawValue();
 				}
-				$values[$app] = $value;
+				$values[$app] = $this->convertTypedValue($value, $typedAs ?? $entry->getType());
 			}
 		}
 
@@ -373,7 +378,13 @@ class UserConfig implements IUserConfig {
 	 * @param ValueType|null $typedAs enforce type for the returned values
 	 * @param array|null $userIds limit to a list of user ids
 	 *
-	 * @return array<string, string|int|float|bool|array> [userId => value]
+	 * @return (
+	 *      $typedAs is ValueType::INT ? array<string, int> : (
+	 *      $typedAs is ValueType::FLOAT ? array<string, float> : (
+	 *      $typedAs is ValueType::BOOL ? array<string, bool> : (
+	 *      $typedAs is ValueType::ARRAY ? array<string, array> : (
+	 *      $typedAs is ValueType ? array<string, string> :
+	 *      array<string, string|int|float|bool|array>))))) [userId => value]
 	 * @since 31.0.0
 	 */
 	#[\Override]
@@ -397,12 +408,7 @@ class UserConfig implements IUserConfig {
 		$executeAndStoreValue = function (IQueryBuilder $qb) use (&$values, $typedAs): IResult {
 			$result = $qb->executeQuery();
 			while ($row = $result->fetchAssociative()) {
-				$value = $row['configvalue'];
-				try {
-					$value = $this->convertTypedValue($value, $typedAs ?? ValueType::from((int)$row['type']));
-				} catch (IncorrectTypeException) {
-				}
-				$values[$row['userid']] = $value;
+				$values[$row['userid']] = $this->convertTypedValue($row['configvalue'], $typedAs ?? ValueType::from((int)$row['type']));
 			}
 			return $result;
 		};
@@ -1934,11 +1940,11 @@ class UserConfig implements IUserConfig {
 				return in_array(strtolower($value), ['1', 'true', 'yes', 'on']);
 			case ValueType::ARRAY:
 				try {
-					return json_decode($value, true, flags: JSON_THROW_ON_ERROR);
+					$decoded = json_decode($value, true, flags: JSON_THROW_ON_ERROR);
 				} catch (JsonException) {
-					// ignoreable
+					$decoded = null;
 				}
-				break;
+				return is_array($decoded) ? $decoded : [];
 		}
 		return $value;
 	}
