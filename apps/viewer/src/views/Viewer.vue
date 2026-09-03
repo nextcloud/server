@@ -113,14 +113,18 @@
 			v-if="isComparing"
 			v-show="!loading && !errorString"
 			class="viewer__comparison">
+			<!-- The handlers are custom elements: they observe hyphenated
+			     attributes, so camelCase bindings are lost whenever the element
+			     is patched before it upgrades. -->
+			<!-- eslint-disable vue/attribute-hyphenation -->
 			<component
 				:is="currentHandler?.tagname"
 				v-if="currentFile"
 				:file="currentFile"
 				:files="[]"
-				:isSidebarShown="isSidebarShown"
+				:is-sidebar-shown="isSidebarShown"
 				:max-height="height"
-				:maxWidth="width / 2"
+				:max-width="width / 2"
 				:editing="false"
 				@loaded="onLoad"
 				@errored="onError" />
@@ -129,9 +133,9 @@
 				v-if="comparisonFile"
 				:file="comparisonFile"
 				:files="[]"
-				:isSidebarShown="isSidebarShown"
+				:is-sidebar-shown="isSidebarShown"
 				:max-height="height"
-				:maxWidth="width / 2"
+				:max-width="width / 2"
 				:editing="false"
 				@loaded="onLoad"
 				@errored="onError" />
@@ -143,16 +147,17 @@
 			v-else-if="currentFile"
 			v-show="!loading && !errorString"
 			:key="`${currentFile.fileid}-${reloadKey}`"
-			v-model:canSwipe="canSwipe"
+			v-model:can-swipe="canSwipe"
 			:file="currentFile"
 			:files="currentFileList"
-			:isSidebarShown="isSidebarShown"
+			:is-sidebar-shown="isSidebarShown"
 			:max-height="height"
-			:maxWidth="width"
+			:max-width="width"
 			:editing="editing"
-			:localSource="editedSources[currentFile.fileid!]"
+			:local-source="editedSources[currentFile.fileid!]"
 			@loaded="onLoad"
 			@errored="onError" />
+		<!-- eslint-enable vue/attribute-hyphenation -->
 	</NcModal>
 
 	<!-- Editing overlay, rendered at the viewer level (not inside the handler
