@@ -1202,94 +1202,105 @@ class View {
 	private function basicOperation(string $operation, string $path, array $hooks = [], $extraParam = null) {
 		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
-		if (Filesystem::isValidPath($path)
-			&& !Filesystem::isFileBlacklisted($path)
+
+		if (!Filesystem::isValidPath($path)
+			|| Filesystem::isFileBlacklisted($path)
 		) {
-			$path = $this->getRelativePath($absolutePath);
-			if ($path === null) {
-				return false;
-			}
+			return null;
+		}
 
-			if (in_array('write', $hooks) || in_array('delete', $hooks) || in_array('read', $hooks)) {
-				// always a shared lock during pre-hooks so the hook can read the file
-				$this->lockFile($path, ILockingProvider::LOCK_SHARED);
-			}
+		$path = $this->getRelativePath($absolutePath);
+		if ($path === null) {
+			return false;
+		}
 
+		$hasLock = in_array('write', $hooks, true)
+			|| in_array('delete', $hooks, true)
+			|| in_array('read', $hooks, true);
+		$lockType = ILockingProvider::LOCK_SHARED;
+		$unlockLater = false;
+
+		if ($hasLock) {
+			// Always use a shared lock during pre-hooks so hooks can read the file.
+			$this->lockFile($path, $lockType);
+		}
+
+		try {
 			$run = $this->runHooks($hooks, $path);
 			[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
-			if ($run && $storage) {
-				/** @var Storage $storage */
-				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
-					try {
-						$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
-					} catch (LockedException $e) {
-						// release the shared lock we acquired before quitting
-						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
-						throw $e;
-					}
-				}
-				try {
-					if (!is_null($extraParam)) {
-						$result = $storage->$operation($internalPath, $extraParam);
-					} else {
-						$result = $storage->$operation($internalPath);
-					}
-				} catch (\Exception $e) {
-					if (in_array('write', $hooks) || in_array('delete', $hooks)) {
-						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-					} elseif (in_array('read', $hooks)) {
-						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
-					}
-					throw $e;
-				}
 
-				if ($result !== false && in_array('delete', $hooks)) {
-					$this->removeUpdate($storage, $internalPath);
-				}
-				if ($result !== false && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
-					$isCreateOperation = $operation === 'mkdir' || ($operation === 'file_put_contents' && in_array('create', $hooks, true));
-					$sizeDifference = $operation === 'mkdir' ? 0 : $result;
-					$this->writeUpdate($storage, $internalPath, null, $isCreateOperation ? $sizeDifference : null);
-				}
-				if ($result !== false && in_array('touch', $hooks)) {
-					$this->writeUpdate($storage, $internalPath, $extraParam, 0);
-				}
+			if (!$run || !$storage) {
+				return null;
+			}
 
-				if ((in_array('write', $hooks) || in_array('delete', $hooks)) && ($operation !== 'fopen' || $result === false)) {
-					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
-				}
+			/** @var Storage $storage */
+			if (in_array('write', $hooks, true) || in_array('delete', $hooks, true)) {
+				$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
+				$lockType = ILockingProvider::LOCK_EXCLUSIVE;
+			}
 
-				$unlockLater = false;
-				if ($this->lockingEnabled && $operation === 'fopen' && is_resource($result)) {
-					$unlockLater = true;
-					// make sure our unlocking callback will still be called if connection is aborted
-					ignore_user_abort(true);
-					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path): void {
-						if (in_array('write', $hooks)) {
-							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-						} elseif (in_array('read', $hooks)) {
-							$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
-						}
-					});
-				}
-
-				if ($this->shouldEmitHooks($path) && $result !== false) {
-					if ($operation !== 'fopen') { //no post hooks for fopen, the file stream is still open
-						$this->runHooks($hooks, $path, true);
-					}
-				}
-
-				if (!$unlockLater
-					&& (in_array('write', $hooks) || in_array('delete', $hooks) || in_array('read', $hooks))
-				) {
-					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
-				}
-				return $result;
+			if ($extraParam !== null) {
+				$result = $storage->$operation($internalPath, $extraParam);
 			} else {
-				$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
+				$result = $storage->$operation($internalPath);
+			}
+
+			if ($result !== false && in_array('delete', $hooks, true)) {
+				$this->removeUpdate($storage, $internalPath);
+			}
+
+			if (
+				$result !== false
+				&& in_array('write', $hooks, true)
+				&& $operation !== 'fopen'
+				&& $operation !== 'touch'
+			) {
+				$isCreateOperation = $operation === 'mkdir'
+					|| ($operation === 'file_put_contents'
+						&& in_array('create', $hooks, true));
+				$sizeDifference = $operation === 'mkdir' ? 0 : $result;
+				$this->writeUpdate($storage, $internalPath, null, $isCreateOperation ? $sizeDifference : null);
+			}
+
+			if ($result !== false && in_array('touch', $hooks, true)) {
+				$this->writeUpdate($storage, $internalPath, $extraParam, 0);
+			}
+
+			if (
+				(in_array('write', $hooks, true) || in_array('delete', $hooks, true))
+				&& ($operation !== 'fopen' || $result === false)
+			   ) {
+				$this->changeLock($path, ILockingProvider::LOCK_SHARED);
+				$lockType = ILockingProvider::LOCK_SHARED;
+			}
+
+			if ($this->lockingEnabled && $operation === 'fopen' && is_resource($result)) {
+				// Make sure the callback will still run if the connection is aborted.
+				ignore_user_abort(true);
+
+				$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path): void {
+					if (in_array('write', $hooks, true)) {
+						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
+					} elseif (in_array('read', $hooks, true)) {
+						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
+					}
+				});
+
+				// The wrapped stream now owns release of the lock.
+				$unlockLater = true;
+			}
+
+			if ($this->shouldEmitHooks($path) && $result !== false && $operation !== 'fopen') {
+				// No post-hooks for fopen: its file stream is still open.
+				$this->runHooks($hooks, $path, true);
+			}
+
+			return $result;
+		} finally {
+			if ($hasLock && !$unlockLater) {
+				$this->unlockFile($path, $lockType);
 			}
 		}
-		return null;
 	}
 
 	/**

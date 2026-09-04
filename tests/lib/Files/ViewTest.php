@@ -2130,6 +2130,46 @@ class ViewTest extends \Test\TestCase {
 		Server::get(ITrashManager::class)->resumeTrash();
 	}
 
+	public function testLockBasicOperationUnlocksAfterPreHookException(): void {
+		$view = new View('/' . self::$user . '/files/');
+		$path = 'failed-pre-hook.txt';
+
+		/** @var Temporary&MockObject $storage */
+		$storage = $this->getMockBuilder(Temporary::class)
+			->onlyMethods(['file_put_contents'])
+			->getMock();
+
+		Filesystem::mount($storage, [], self::$user . '/');
+		$storage->mkdir('files');
+
+		$storage->expects($this->never())
+			->method('file_put_contents');
+
+		$hookHandler = new class {
+			public function throwException(array $params): void {
+				throw new \Exception('Simulated pre-hook exception');
+			}
+		};
+		Util::connectHook(
+			Filesystem::CLASSNAME,
+			'write',
+			$hookHandler,
+			'throwException'
+		);
+
+		try {
+			$view->file_put_contents($path, 'content');
+			$this->fail('Expected the pre-hook exception to be rethrown');
+		} catch (\Exception $e) {
+			$this->assertSame('Simulated pre-hook exception', $e->getMessage());
+		}
+
+		$this->assertNull(
+			$this->getFileLockType($view, $path),
+			'The basic-operation lock must be released after a pre-hook exception'
+		);
+	}
+
 	public function testLockBasicOperationUnlocksAfterLockException(): void {
 		$view = new View('/' . self::$user . '/files/');
 
