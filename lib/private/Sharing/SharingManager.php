@@ -231,14 +231,17 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			throw new ShareInvalidException('Cannot set user status for the owner of the share.', $this->l10n->t('Cannot set user status for the owner of the share.'));
 		}
 
-		// We don't update the share last updated value, because the user status is not part of the share itself.
+		// We update the share last updated value, even though the user status is not part of the share itself,
+		// so we can use the last updated value to coordinate syncing between unified and legacy shares.
+		$time = $this->getTime();
+		$this->backend->setLastUpdated([$share->id], $time);
 
 		$this->backend->updateShareUserStatus($share->id, $currentUser->getUID(), $userStatus);
 
 		$share = new Share(
 			$share->id,
 			$share->owner,
-			$share->lastUpdated,
+			$time,
 			$share->state,
 			$userStatus,
 			$share->sources,
