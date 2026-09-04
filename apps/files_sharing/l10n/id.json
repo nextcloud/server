@@ -392,6 +392,7 @@
     "Shared with you and {circle} by {owner}" : "Terbagikan kepada Anda dan {circle} oleh {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Terbagikan kepada Anda dan percakapan {conversation} oleh {owner}",
     "Shared with you in a conversation by {owner}" : "Terbagikan kepada Anda pada percakapan oleh {owner}",
+    "%1$s shared %2$s with you" : "%1$s membagikan %2$s kepada Anda",
     "Share not found" : "Berbagi tidak ditemukan",
     "Back to %s" : "Kembali ke %s",
     "Add to your Nextcloud" : "Tambahkan ke Nextcloud Anda",

@@ -402,6 +402,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "{owner} предоставил(а) доступ Вам и участникам круга «{circle}»",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} предоставил(а) доступ Вам и участникам беседы «{conversation}»",
     "Shared with you in a conversation by {owner}" : "Пользователь {owner} предоставил(а) Вам доступ во время беседы",
+    "%1$s shared %2$s with you" : "%1$s поделился(ась) %2$s с вами",
     "Share not found" : "Ресурс с общим доступом не найден",
     "Back to %s" : "Вернуться к %s",
     "Add to your Nextcloud" : "Добавить в свой Nextcloud",
