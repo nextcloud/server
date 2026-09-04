@@ -36,6 +36,15 @@ interface ITrashBackend {
 	public function listTrashFolder(ITrashItem $folder): array;
 
 	/**
+	 * Get a specific item in the root of the trashbin
+	 *
+	 * @param IUser $user
+	 * @return ?ITrashItem
+	 * @since 35.0.0
+	 */
+	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem;
+
+	/**
 	 * Restore a trashbin item
 	 *
 	 * @param ITrashItem $item
