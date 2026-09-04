@@ -16,6 +16,7 @@ use OCP\Console\ExitCode;
 use OCP\Console\IOutput;
 use OCP\Files\Folder;
 use OCP\Files\Node;
+use OCP\IUser;
 use OCP\IUserManager;
 
 #[AsCommand(
@@ -47,23 +48,41 @@ class ListCommand {
 			return ExitCode::Failure;
 		}
 
-		$children = $node->getDirectoryListing();
-		usort($children, static fn (Node $a, Node $b) => $a->getName() <=> $b->getName());
+		$entries = [];
+		foreach ($node->getDirectoryListing() as $child) {
+			$entries[$child->getName()] = $child;
+		}
+		ksort($entries);
 
-		$rows = array_map(function (Node $child): array {
-			return [
-				'fileid' => $child->getId(),
-				'name' => $child->getName(),
-				'type' => $child instanceof Folder ? 'folder' : $child->getMimetype(),
-				'size' => $child->getSize(),
-				'mtime' => (new DateTimeImmutable('@' . $child->getMTime()))->format(DATE_ATOM),
-				'permissions' => $this->fileUtils->formatPermissions($child->getType(), $child->getPermissions()),
-			];
-		}, $children);
+		if ($node->getPath() === '/') {
+			// User homes are separate mounts set up on demand, not children of the root
+			// storage itself, so getDirectoryListing() alone would miss them. Listed after
+			// the root's own entries (e.g. appdata) rather than sorted in among them.
+			$userHomes = [];
+			$this->userManager->callForAllUsers(function (IUser $user) use (&$userHomes): void {
+				$home = $this->fileUtils->getNode($user->getUID() . '/files');
+				if ($home instanceof Folder) {
+					$userHomes[$user->getUID()] = $home;
+				}
+			});
+			ksort($userHomes);
+			$entries += $userHomes;
+		}
 
-		$output->writeTableInOutputFormat($rows);
+		$output->writeTableInOutputFormat(array_map($this->nodeToRow(...), array_keys($entries), $entries));
 
 		return ExitCode::Success;
+	}
+
+	private function nodeToRow(string $name, Node $node): array {
+		return [
+			'fileid' => $node->getId(),
+			'name' => $name,
+			'type' => $node instanceof Folder ? 'folder' : $node->getMimetype(),
+			'size' => $node->getSize(),
+			'mtime' => (new DateTimeImmutable('@' . $node->getMTime()))->format(DATE_ATOM),
+			'permissions' => $this->fileUtils->formatPermissions($node->getType(), $node->getPermissions()),
+		];
 	}
 
 	/**
@@ -75,9 +94,9 @@ class ListCommand {
 		$lastSlash = strrpos($currentWord, '/');
 		if ($lastSlash === false) {
 			$suggestions = [];
-			foreach ($this->userManager->search($currentWord) as $user) {
+			$this->userManager->callForAllUsers(function (IUser $user) use (&$suggestions): void {
 				$suggestions[] = $user->getUID() . '/';
-			}
+			}, $currentWord);
 			return $suggestions;
 		}
 
