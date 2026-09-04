@@ -879,27 +879,30 @@ class ShareAPIController extends OCSController {
 		$nodes = $folder->getDirectoryListing();
 
 		/** @var IShare[] $shares */
-		$shares = array_reduce($nodes, function ($carry, $node) {
-			$carry = array_merge($carry, $this->getAllShares($node, true));
-			return $carry;
-		}, []);
-
-		// filter out duplicate shares
-		$known = [];
+		$shares = [];
+		foreach ($nodes as $node) {
+			foreach ($this->getAllShares($node, true) as $share) {
+				$shares[] = $share;
+			}
+		}
 
 		$formatted = $miniFormatted = [];
 		$resharingRight = false;
-		$known = [];
+		$knownIds = [];
+
 		foreach ($shares as $share) {
-			if (in_array($share->getId(), $known) || $share->getSharedWith() === $this->userId) {
+			$shareId = $share->getId();
+
+			if (isset($knownIds[$shareId]) || $share->getSharedWith() === $this->userId) {
 				continue;
 			}
 
 			try {
 				$format = $this->formatShare($share);
 
-				$known[] = $share->getId();
+				$knownIds[$shareId] = true; 
 				$formatted[] = $format;
+
 				if ($share->getSharedBy() === $this->userId) {
 					$miniFormatted[] = $format;
 				}
@@ -1057,8 +1060,10 @@ class ShareAPIController extends OCSController {
 
 		$shares = $this->getSharesFromNode($viewer, $node, $reShares);
 
-		$known = $formatted = $miniFormatted = [];
+		$formatted = $miniFormatted = [];
 		$resharingRight = false;
+		$knownIds = [];
+
 		foreach ($shares as $share) {
 			try {
 				$share->getNode();
@@ -1070,15 +1075,18 @@ class ShareAPIController extends OCSController {
 				continue;
 			}
 
-			if (in_array($share->getId(), $known)
+			$shareId = $share->getId();
+
+			if (isset($knownIds[$shareId])
 				|| ($share->getSharedWith() === $this->userId && $share->getShareType() === IShare::TYPE_USER)) {
 				continue;
 			}
 
-			$known[] = $share->getId();
 			try {
 				/** @var IShare $share */
 				$format = $this->formatShare($share, $node);
+
+				$knownIds[$shareId] = true;
 				$formatted[] = $format;
 
 				// let's also build a list of shares created
@@ -1846,30 +1854,33 @@ class ShareAPIController extends OCSController {
 			IShare::TYPE_DECK,
 		];
 
-		// Should we assume that the (currentUser) viewer is the owner of the node !?
+		/** @var IShare[] $shares */
 		$shares = [];
+
 		foreach ($providers as $provider) {
 			if (!$this->shareManager->shareProviderExists($provider)) {
 				continue;
 			}
 
-			$providerShares
-				= $this->shareManager->getSharesBy($viewer, $provider, $node, $reShares, -1, 0);
-			$shares = array_merge($shares, $providerShares);
+			// Should we assume that the (currentUser) viewer is the owner of the node !?
+			$providerShares = $this->shareManager->getSharesBy($viewer, $provider, $node, $reShares, -1, 0);
+			if (!empty($providerShares)) {
+				array_push($shares, ...$providerShares);
+			}
 		}
 
 		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-			$federatedShares = $this->shareManager->getSharesBy(
-				$this->userId, IShare::TYPE_REMOTE, $node, $reShares, -1, 0
-			);
-			$shares = array_merge($shares, $federatedShares);
+			$providerShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE, $node, $reShares, -1, 0);
+			if (!empty($providerShares)) {
+				array_push($shares, ...$providerShares);
+			}
 		}
 
 		if ($this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
-			$federatedShares = $this->shareManager->getSharesBy(
-				$this->userId, IShare::TYPE_REMOTE_GROUP, $node, $reShares, -1, 0
-			);
-			$shares = array_merge($shares, $federatedShares);
+			$providerShares = $this->shareManager->getSharesBy($this->userId, IShare::TYPE_REMOTE_GROUP, $node, $reShares, -1, 0);
+			if (!empty($providerShares)) {
+				array_push($shares, ...$providerShares);
+			}
 		}
 
 		return $shares;
