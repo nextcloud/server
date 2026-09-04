@@ -109,6 +109,79 @@ class ListCommandTest extends TestCase {
 		$this->assertEquals(ExitCode::Success, $result);
 	}
 
+	public function testListsRegisteredUsersAfterTheRootsOwnEntriesWhenAtTheTrueRoot(): void {
+		$appdata = $this->createMock(Folder::class);
+		$appdata->method('getId')->willReturn(5);
+		$appdata->method('getName')->willReturn('appdata_oc498lxm75hw');
+		$appdata->method('getSize')->willReturn(0);
+		$appdata->method('getMTime')->willReturn(500);
+		$appdata->method('getType')->willReturn('dir');
+		$appdata->method('getPermissions')->willReturn(31);
+
+		$root = $this->createMock(Folder::class);
+		$root->method('getPath')->willReturn('/');
+		$root->method('getDirectoryListing')->willReturn([$appdata]);
+
+		$userB = $this->createMock(IUser::class);
+		$userB->method('getUID')->willReturn('bob');
+		$userA = $this->createMock(IUser::class);
+		$userA->method('getUID')->willReturn('alice');
+		$this->userManager->method('search')->with('')->willReturn([$userB, $userA]);
+
+		$bobHome = $this->createMock(Folder::class);
+		$bobHome->method('getId')->willReturn(20);
+		$bobHome->method('getSize')->willReturn(100);
+		$bobHome->method('getMTime')->willReturn(3000);
+		$bobHome->method('getType')->willReturn('dir');
+		$bobHome->method('getPermissions')->willReturn(31);
+
+		$aliceHome = $this->createMock(Folder::class);
+		$aliceHome->method('getId')->willReturn(21);
+		$aliceHome->method('getSize')->willReturn(200);
+		$aliceHome->method('getMTime')->willReturn(4000);
+		$aliceHome->method('getType')->willReturn('dir');
+		$aliceHome->method('getPermissions')->willReturn(31);
+
+		$this->fileUtils->method('getNode')->willReturnMap([
+			['/', $root],
+			['bob/files', $bobHome],
+			['alice/files', $aliceHome],
+		]);
+		$this->fileUtils->method('formatPermissions')->willReturn('full permissions');
+
+		$this->output->expects($this->once())
+			->method('writeTableInOutputFormat')
+			->with([
+				[
+					'fileid' => 5,
+					'name' => 'appdata_oc498lxm75hw',
+					'type' => 'folder',
+					'size' => 0,
+					'mtime' => (new \DateTimeImmutable('@500'))->format(\DATE_ATOM),
+					'permissions' => 'full permissions',
+				],
+				[
+					'fileid' => 21,
+					'name' => 'alice',
+					'type' => 'folder',
+					'size' => 200,
+					'mtime' => (new \DateTimeImmutable('@4000'))->format(\DATE_ATOM),
+					'permissions' => 'full permissions',
+				],
+				[
+					'fileid' => 20,
+					'name' => 'bob',
+					'type' => 'folder',
+					'size' => 100,
+					'mtime' => (new \DateTimeImmutable('@3000'))->format(\DATE_ATOM),
+					'permissions' => 'full permissions',
+				],
+			]);
+
+		$result = ($this->command)($this->output, '/');
+		$this->assertEquals(ExitCode::Success, $result);
+	}
+
 	public function testSuggestPathsSuggestsMatchingUsernamesForTheFirstSegment(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('alice');
