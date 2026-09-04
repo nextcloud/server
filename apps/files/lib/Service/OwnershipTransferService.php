@@ -264,7 +264,9 @@ class OwnershipTransferService {
 		}
 		$size = $sourceFileInfo->getSize(false);
 		$freeSpace = $view->free_space($destinationUid . '/files/');
-		if ($size > $freeSpace && $freeSpace !== FileInfo::SPACE_UNKNOWN) {
+		// SPACE_UNKNOWN and SPACE_UNLIMITED mean there is no finite limit to compare against.
+		// SPACE_NOT_COMPUTED means a quota is set but its headroom is unknown, so it still rejects.
+		if ($freeSpace !== FileInfo::SPACE_UNKNOWN && $freeSpace !== FileInfo::SPACE_UNLIMITED && $size > $freeSpace) {
 			throw new TransferOwnershipException('Target user does not have enough free space available.', 1);
 		}
 
