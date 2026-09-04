@@ -61,10 +61,10 @@ const props = defineProps<{
 	active: boolean
 	node: INode
 
-	// eslint-disable-next-line vue/no-unused-properties -- required by SidebarTab but we do not need it
-	folder: IFolder
-	// eslint-disable-next-line vue/no-unused-properties -- required by SidebarTab but we do not need it
-	view: IView
+	// eslint-disable-next-line vue/no-unused-properties -- part of the SidebarTab interface but we do not need it
+	folder?: IFolder
+	// eslint-disable-next-line vue/no-unused-properties -- part of the SidebarTab interface but we do not need it
+	view?: IView
 }>()
 
 const isMobile = useIsMobile()

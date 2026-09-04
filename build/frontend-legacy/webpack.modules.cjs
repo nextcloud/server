@@ -25,7 +25,7 @@ module.exports = {
 		update: path.join(__dirname, 'core/src', 'update.ts'),
 	},
 	files: {
-		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.ts'),
+		sidebar: path.join(__dirname, 'apps/files/src', 'main-sidebar.ts'),
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
 		init: path.join(__dirname, 'apps/files/src', 'init.ts'),
 		search: path.join(__dirname, 'apps/files/src/plugins/search', 'folderSearch.ts'),

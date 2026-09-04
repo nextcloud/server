@@ -36,7 +36,7 @@ declare module '@nextcloud/event-bus' {
 		'files:sidebar:opened': INode
 		'files:sidebar:closed': undefined
 
-		'viewer:sidebar:open': { source: string }
+		'viewer:sidebar:open': INode
 	}
 }
 
