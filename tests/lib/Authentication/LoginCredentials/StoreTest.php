@@ -65,11 +65,11 @@ class StoreTest extends TestCase {
 		$this->store->authenticate($params);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testSetSession(): void {
 		$session = $this->createMock(ISession::class);
 
 		$this->store->setSession($session);
-		$this->addToAssertionCount(1);
 	}
 
 	public function testGetLoginCredentialsNoTokenProvider(): void {

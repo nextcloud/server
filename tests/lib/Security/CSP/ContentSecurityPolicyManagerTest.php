@@ -32,9 +32,9 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		$this->contentSecurityPolicyManager = new ContentSecurityPolicyManager($this->dispatcher);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testAddDefaultPolicy(): void {
 		$this->contentSecurityPolicyManager->addDefaultPolicy(new ContentSecurityPolicy());
-		$this->addToAssertionCount(1);
 	}
 
 	public function testGetDefaultPolicyWithPolicies(): void {

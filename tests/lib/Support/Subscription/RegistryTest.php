@@ -49,12 +49,9 @@ class RegistryTest extends TestCase {
 		);
 	}
 
-	/**
-	 * Doesn't assert anything, just checks whether anything "explodes"
-	 */
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testDelegateToNone(): void {
 		$this->registry->delegateHasValidSubscription();
-		$this->addToAssertionCount(1);
 	}
 
 	public function testDoubleRegistration(): void {
