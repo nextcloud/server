@@ -45,7 +45,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @return boolean either the user can or cannot
 	 * @throws \Exception
 	 */
-	public function canChangeAvatar($uid) {
+	public function canChangeAvatar($uid): bool {
 		if ($this->userPluginManager->implementsActions(Backend::PROVIDE_AVATAR)) {
 			return $this->userPluginManager->canChangeAvatar($uid);
 		}
@@ -103,14 +103,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		}
 	}
 
-	/**
-	 * returns the username for the given LDAP DN, if available
-	 *
-	 * @param string $dn
-	 * @return string|false with the username
-	 */
 	#[\Override]
-	public function dn2UserName($dn) {
+	public function dn2UserName(string $dn): string|false {
 		return $this->access->dn2username($dn);
 	}
 
@@ -542,16 +536,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return $displayNames;
 	}
 
-	/**
-	 * Check if backend implements actions
-	 * @param int $actions bitwise-or'ed actions
-	 * @return boolean
-	 *
-	 * Returns the supported actions as int to be
-	 * compared with \OC\User\Backend::CREATE_USER etc.
-	 */
 	#[\Override]
-	public function implementsActions($actions) {
+	public function implementsActions(int $actions): bool {
 		return (bool)((Backend::CHECK_PASSWORD
 			| Backend::GET_HOME
 			| Backend::GET_DISPLAYNAME
@@ -562,11 +548,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			& $actions);
 	}
 
-	/**
-	 * @return bool
-	 */
 	#[\Override]
-	public function hasUserListings() {
+	public function hasUserListings(): bool {
 		return true;
 	}
 
@@ -594,34 +577,18 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return $this->access->getUserMapper()->count();
 	}
 
-	/**
-	 * Backend name to be shown in user management
-	 * @return string the name of the backend to be shown
-	 */
 	#[\Override]
-	public function getBackendName() {
+	public function getBackendName(): string {
 		return 'LDAP';
 	}
 
-	/**
-	 * Return access for LDAP interaction.
-	 * @param string $uid
-	 * @return Access instance of Access for LDAP interaction
-	 */
 	#[\Override]
-	public function getLDAPAccess($uid) {
+	public function getLDAPAccess(string $name): Access {
 		return $this->access;
 	}
 
-	/**
-	 * Return LDAP connection resource from a cloned connection.
-	 * The cloned connection needs to be closed manually.
-	 * of the current access.
-	 * @param string $uid
-	 * @return \LDAP\Connection The LDAP connection
-	 */
 	#[\Override]
-	public function getNewLDAPConnection($uid) {
+	public function getNewLDAPConnection(string $name): \LDAP\Connection {
 		$connection = clone $this->access->getConnection();
 		return $connection->getConnectionResource();
 	}

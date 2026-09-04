@@ -32,7 +32,7 @@ abstract class Backend implements UserInterface {
 	public const PROVIDE_AVATAR = 16777216;		// 1 << 24
 	public const COUNT_USERS = 268435456;	// 1 << 28
 
-	protected $possibleActions = [
+	protected array $possibleActions = [
 		self::CREATE_USER => 'createUser',
 		self::SET_PASSWORD => 'setPassword',
 		self::CHECK_PASSWORD => 'checkPassword',
@@ -50,7 +50,7 @@ abstract class Backend implements UserInterface {
 	 * Returns the supported actions as int to be
 	 * compared with self::CREATE_USER etc.
 	 */
-	public function getSupportedActions() {
+	public function getSupportedActions(): int {
 		$actions = 0;
 		foreach ($this->possibleActions as $action => $methodName) {
 			if (method_exists($this, $methodName)) {
@@ -61,83 +61,37 @@ abstract class Backend implements UserInterface {
 		return $actions;
 	}
 
-	/**
-	 * Check if backend implements actions
-	 * @param int $actions bitwise-or'ed actions
-	 * @return boolean
-	 *
-	 * Returns the supported actions as int to be
-	 * compared with self::CREATE_USER etc.
-	 */
 	#[\Override]
-	public function implementsActions($actions) {
+	public function implementsActions(int $actions): bool {
 		return (bool)($this->getSupportedActions() & $actions);
 	}
 
-	/**
-	 * delete a user
-	 * @param string $uid The username of the user to delete
-	 * @return bool
-	 *
-	 * Deletes a user
-	 */
 	#[\Override]
-	public function deleteUser($uid) {
+	public function deleteUser(string $uid): bool {
 		return false;
 	}
 
-	/**
-	 * Get a list of all users
-	 *
-	 * @param string $search
-	 * @param null|int $limit
-	 * @param null|int $offset
-	 * @return string[] an array of all uids
-	 */
 	#[\Override]
-	public function getUsers($search = '', $limit = null, $offset = null) {
+	public function getUsers(string $search = '', ?int $limit = null, ?int $offset = null): array {
 		return [];
 	}
 
-	/**
-	 * check if a user exists
-	 * @param string $uid the username
-	 * @return boolean
-	 */
 	#[\Override]
-	public function userExists($uid) {
+	public function userExists(string $uid): bool {
 		return false;
 	}
 
-	/**
-	 * get the user's home directory
-	 * @param string $uid the username
-	 * @return string|boolean
-	 */
-	public function getHome(string $uid) {
+	public function getHome(string $uid): string|false {
 		return false;
 	}
 
-	/**
-	 * get display name of the user
-	 * @param string $uid user ID of the user
-	 * @return string display name
-	 */
 	#[\Override]
-	public function getDisplayName($uid) {
+	public function getDisplayName(string $uid) {
 		return $uid;
 	}
 
-	/**
-	 * Get a list of all display names and user ids.
-	 *
-	 * @param string $search
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @return array an array of all displayNames (value) and the corresponding uids (key)
-	 */
 	#[\Override]
-	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+	public function getDisplayNames(string $search = '', ?int $limit = null, ?int $offset = null) {
 		$displayNames = [];
 		$users = $this->getUsers($search, $limit, $offset);
 		foreach ($users as $user) {
@@ -146,12 +100,8 @@ abstract class Backend implements UserInterface {
 		return $displayNames;
 	}
 
-	/**
-	 * Check if a user list is available or not
-	 * @return boolean if users can be listed or not
-	 */
 	#[\Override]
-	public function hasUserListings() {
+	public function hasUserListings(): bool {
 		return false;
 	}
 }

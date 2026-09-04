@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP;
 
+/**
+ * Implemented by the ldap_write_support to provide write operations from Nextcloud
+ * to the LDAP server.
+ */
 interface ILDAPGroupPlugin {
 
 	/**
@@ -24,14 +28,14 @@ interface ILDAPGroupPlugin {
 	 * @param string $gid
 	 * @return string|null The group DN if group creation was successful.
 	 */
-	public function createGroup($gid);
+	public function createGroup(string $gid);
 
 	/**
 	 * delete a group
 	 * @param string $gid gid of the group to delete
 	 * @return bool
 	 */
-	public function deleteGroup($gid);
+	public function deleteGroup(string $gid);
 
 	/**
 	 * Add a user to a group
@@ -41,7 +45,7 @@ interface ILDAPGroupPlugin {
 	 *
 	 * Adds a user to a group.
 	 */
-	public function addToGroup($uid, $gid);
+	public function addToGroup(string $uid, string $gid);
 
 	/**
 	 * Removes a user from a group
@@ -51,20 +55,5 @@ interface ILDAPGroupPlugin {
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup($uid, $gid);
-
-	/**
-	 * get the number of all users matching the search string in a group
-	 * @param string $gid
-	 * @param string $search
-	 * @return int|false
-	 */
-	public function countUsersInGroup($gid, $search = '');
-
-	/**
-	 * get an array with group details
-	 * @param string $gid
-	 * @return array|false
-	 */
-	public function getGroupDetails($gid);
+	public function removeFromGroup(string $uid, string $gid);
 }

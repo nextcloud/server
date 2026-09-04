@@ -1,20 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
+
+use OCP\AppFramework\Attribute\Implementable;
 
 /**
  * TODO actually this is a IGroupBackend
  *
  * @since 4.5.0
  */
+#[Implementable(since: '4.5.0')]
 interface GroupInterface {
 	/**
 	 * actions that user backends can define
@@ -35,7 +38,6 @@ interface GroupInterface {
 
 	/**
 	 * @since 12.0.0
-	 * @deprecated 29.0.0
 	 */
 	public const REMOVE_FROM_GOUP = 0x00001000; // oops
 
@@ -43,8 +45,6 @@ interface GroupInterface {
 	 * @since 12.0.0
 	 */
 	public const REMOVE_FROM_GROUP = 0x00001000;
-
-	//OBSOLETE const GET_DISPLAYNAME	= 0x00010000;
 
 	/**
 	 * @since 12.0.0
@@ -63,63 +63,63 @@ interface GroupInterface {
 
 	/**
 	 * Check if backend implements actions
+	 *
 	 * @param int $actions bitwise-or'ed actions
 	 * @return boolean
 	 * @since 4.5.0
 	 *
 	 * Returns the supported actions as int to be
 	 * compared with \OC_Group_Backend::CREATE_GROUP etc.
+	 *
+	 * TODO: the LDAP backend use a plugin mechanism to determine which actions is available. This is not compatible with instanceof checks.
 	 */
-	public function implementsActions($actions);
+	public function implementsActions(int $actions);
 
 	/**
-	 * is user in group?
-	 * @param string $uid uid of the user
-	 * @param string $gid gid of the group
+	 * Checks whether the user is member of a group.
+	 *
+	 * @param non-empty-string $uid uid of the user
+	 * @param non-empty-string $gid gid of the group
 	 * @return bool
 	 * @since 4.5.0
-	 *
-	 * Checks whether the user is member of a group or not.
 	 */
-	public function inGroup($uid, $gid);
+	public function inGroup(string $uid, string $gid);
 
 	/**
-	 * Get all groups a user belongs to
-	 * @param string $uid Name of the user
+	 * Get all groups a user belongs to.
+	 *
+	 * @note This does not check if the user exists at all.
+	 * @param non-empty-string $uid Name of the user
 	 * @return list<string> an array of group names
 	 * @since 4.5.0
 	 *
-	 * This function fetches all groups a user belongs to. It does not check
-	 * if the user exists at all.
 	 */
-	public function getUserGroups($uid);
+	public function getUserGroups(string $uid);
 
 	/**
-	 * @brief Get a list of all groups
+	 * Get a list of all groups.
 	 *
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
 	 * @return array an array of group names
 	 * @since 4.5.0
-	 *
-	 * Returns a list with all groups
 	 */
 	public function getGroups(string $search = '', int $limit = -1, int $offset = 0);
 
 	/**
-	 * @brief Check if a group exists
+	 * Check if a group exists
 	 *
-	 * @param string $gid
+	 * @param non-empty-string $gid
 	 * @return bool
 	 * @since 4.5.0
 	 */
-	public function groupExists($gid);
+	public function groupExists(string $gid);
 
 	/**
-	 * @brief Get a list of user ids in a group matching the given search parameters.
+	 * Get a list of user ids in a group matching the given search parameters.
 	 *
-	 * @param string $gid
+	 * @param non-empty-string $gid
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
@@ -127,5 +127,5 @@ interface GroupInterface {
 	 * @since 4.5.0
 	 * @deprecated 27.0.0 Use searchInGroup instead, for performance reasons
 	 */
-	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
+	public function usersInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0);
 }

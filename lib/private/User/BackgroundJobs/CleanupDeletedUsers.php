@@ -14,8 +14,8 @@ use OC\User\PartiallyDeletedUsersBackend;
 use OC\User\User;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IConfig;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
@@ -23,7 +23,7 @@ class CleanupDeletedUsers extends TimedJob {
 	public function __construct(
 		ITimeFactory $time,
 		private Manager $userManager,
-		private IConfig $config,
+		private IUserConfig $config,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
