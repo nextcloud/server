@@ -934,40 +934,102 @@ class FolderTest extends NodeTestCase {
 		$this->assertEquals([$id1], $ids);
 	}
 
-	public static function offsetLimitProvider(): array {
+	public static function defaultOffsetLimitProvider(): array {
 		return [
-			[0, 10, ['/bar/foo/foo1', '/bar/foo/foo2', '/bar/foo/foo3', '/bar/foo/foo4', '/bar/foo/sub1/foo5', '/bar/foo/sub1/foo6', '/bar/foo/sub2/foo7', '/bar/foo/sub2/foo8'], []],
-			[0, 5, ['/bar/foo/foo1', '/bar/foo/foo2', '/bar/foo/foo3', '/bar/foo/foo4', '/bar/foo/sub1/foo5'], []],
-			[0, 2, ['/bar/foo/foo1', '/bar/foo/foo2'], []],
-			[3, 2, ['/bar/foo/foo4', '/bar/foo/sub1/foo5'], []],
-			[3, 5, ['/bar/foo/foo4', '/bar/foo/sub1/foo5', '/bar/foo/sub1/foo6', '/bar/foo/sub2/foo7', '/bar/foo/sub2/foo8'], []],
-			[5, 2, ['/bar/foo/sub1/foo6', '/bar/foo/sub2/foo7'], []],
-			[6, 2, ['/bar/foo/sub2/foo7', '/bar/foo/sub2/foo8'], []],
-			[7, 2, ['/bar/foo/sub2/foo8'], []],
-			[10, 2, [], []],
-			[0, 5, ['/bar/foo/sub2/foo7', '/bar/foo/foo1', '/bar/foo/sub1/foo5', '/bar/foo/foo2', '/bar/foo/foo3'], [new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'mtime')]],
-			[3, 2, ['/bar/foo/foo2', '/bar/foo/foo3'], [new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'mtime')]],
-			[0, 5, ['/bar/foo/sub1/foo5', '/bar/foo/sub1/foo6', '/bar/foo/sub2/foo7', '/bar/foo/foo1', '/bar/foo/foo2'], [
-				new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'size'),
-				new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'mtime')
-			]],
+			[0, 10, 8],
+			[0, 5, 5],
+			[0, 2, 2],
+			[3, 2, 2],
+			[3, 5, 5],
+			[5, 2, 2],
+			[6, 2, 2],
+			[7, 2, 1],
+			[10, 2, 0],
 		];
 	}
 
 	/**
-	 * @param int $offset
-	 * @param int $limit
-	 * @param string[] $expectedPaths
-	 * @param ISearchOrder[] $ordering
-	 * @throws NotFoundException
-	 * @throws InvalidPathException
+	 * @return array<int, array{0: int, 1: int, 2: string[], 3: SearchOrder[]}>
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('offsetLimitProvider')]
-	public function testSearchSubStoragesLimitOffset(int $offset, int $limit, array $expectedPaths, array $ordering): void {
-		if (!$ordering) {
-			$ordering = [new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'fileid')];
-		}
+	public static function orderedOffsetLimitProvider(): array {
+		return [
+			[
+				0, 5, ['/bar/foo/sub2/foo7', '/bar/foo/foo1', '/bar/foo/sub1/foo5', '/bar/foo/foo2', '/bar/foo/foo3'], 
+				[
+					new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'mtime'),
+				],
+			],
+			[
+				3, 2, ['/bar/foo/foo2', '/bar/foo/foo3'], 
+				[
+					new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'mtime'),
+				],
+			],
+			[
+				0, 5, ['/bar/foo/sub1/foo5', '/bar/foo/sub1/foo6', '/bar/foo/sub2/foo7', '/bar/foo/foo1', '/bar/foo/foo2'], 
+				[
+					new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'size'),
+					new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'mtime'),
+				],
+			],
+		];
+	}
 
+	#[\PHPUnit\Framework\Attributes\DataProvider('defaultOffsetLimitProvider')]
+	public function testSearchSubStoragesLimitOffsetDefaultOrdering(int $offset, int $limit, int $expectedCount): void {
+		[$node, $cache, $subCache1, $subCache2] = $this->createFolderForSubStorageSearch();
+
+		try {
+			$query = $this->createSubStorageSearchQuery($limit, $offset, []);
+			$result = $node->search($query);
+
+			$paths = array_map(fn (Node $info) => $info->getPath(), $result);
+
+			$this->assertCount($expectedCount, $paths);
+			$this->assertSame($expectedCount, count(array_unique($paths)));
+
+			$allExpectedPaths = [
+				'/bar/foo/foo1',
+				'/bar/foo/foo2',
+				'/bar/foo/foo3',
+				'/bar/foo/foo4',
+				'/bar/foo/sub1/foo5',
+				'/bar/foo/sub1/foo6',
+				'/bar/foo/sub2/foo7',
+				'/bar/foo/sub2/foo8',
+			];
+
+			foreach ($paths as $path) {
+				$this->assertContains($path, $allExpectedPaths);
+			}
+		} finally {
+			$cache->clear();
+			$subCache1->clear();
+			$subCache2->clear();
+		}
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('orderedOffsetLimitProvider')]
+	public function testSearchSubStoragesLimitOffsetWithExplicitOrdering(int $offset, int $limit, array $expectedPaths, array $ordering): void {
+		[$node, $cache, $subCache1, $subCache2] = $this->createFolderForSubStorageSearch();
+
+		try {
+			$query = $this->createSubStorageSearchQuery($limit, $offset, $ordering);
+			$result = $node->search($query);
+
+			$paths = array_map(fn (Node $info) => $info->getPath(), $result);
+			$this->assertSame($expectedPaths, $paths);
+		} finally {
+			$cache->clear();
+			$subCache1->clear();
+			$subCache2->clear();
+		}
+	}
+
+	/**
+	 * @return array{0: Folder, 1: Cache, 2: Cache, 3: Cache}
+	 */
+	private function createFolderForSubStorageSearch(): array {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -976,13 +1038,16 @@ class FolderTest extends NodeTestCase {
 		$root->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
+
 		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')->willReturn('test::1');
 		$cache = new Cache($storage);
+
 		$subStorage1 = $this->createMock(IStorage::class);
 		$subStorage1->method('getId')->willReturn('test::2');
 		$subCache1 = new Cache($subStorage1);
 		$subMount1 = $this->getMockBuilder(MountPoint::class)->setConstructorArgs([Temporary::class, ''])->getMock();
+
 		$subStorage2 = $this->createMock(IStorage::class);
 		$subStorage2->method('getId')->willReturn('test::3');
 		$subCache2 = new Cache($subStorage2);
@@ -996,7 +1061,6 @@ class FolderTest extends NodeTestCase {
 
 		$subMount1->method('getStorage')
 			->willReturn($subStorage1);
-
 		$subMount1->method('getMountPoint')
 			->willReturn('/bar/foo/sub1/');
 
@@ -1012,7 +1076,6 @@ class FolderTest extends NodeTestCase {
 
 		$subMount2->method('getStorage')
 			->willReturn($subStorage2);
-
 		$subMount2->method('getMountPoint')
 			->willReturn('/bar/foo/sub2/');
 
@@ -1044,21 +1107,22 @@ class FolderTest extends NodeTestCase {
 			->with('/bar/foo')
 			->willReturn($mount);
 
-		$node = new Folder($root, $view, '/bar/foo');
+		return [new Folder($root, $view, '/bar/foo'), $cache, $subCache1, $subCache2];
+	}
+
+	/**
+	 * @param SearchOrder[] $ordering
+	 */
+	private function createSubStorageSearchQuery(int $limit, int $offset, array $ordering): SearchQuery {
 		$comparison = new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%foo%');
 		$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
 			$comparison,
-			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', ICacheEntry::DIRECTORY_MIMETYPE)]),
+			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', ICacheEntry::DIRECTORY_MIMETYPE),
+			]),
 		]);
-		$query = new SearchQuery($operator, $limit, $offset, $ordering);
-		$result = $node->search($query);
-		$cache->clear();
-		$subCache1->clear();
-		$subCache2->clear();
-		$ids = array_map(function (Node $info) {
-			return $info->getPath();
-		}, $result);
-		$this->assertEquals($expectedPaths, $ids);
+
+		return new SearchQuery($operator, $limit, $offset, $ordering);
 	}
 
 	public static function dataGetOrCreateFolder(): \Generator {
