@@ -555,3 +555,25 @@ Scenario: User added/removed to group share with marking
       | permissions | 1 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
+
+  # Renaming the parent folder moves the share mount through Updater::renameChildren,
+  # which passes a mount point instead of a path. Mount points carry a trailing slash,
+  # which used to end up in the share target.
+  Scenario: Renaming a folder that contains a received share keeps the share target normalized
+    Given user "user0" exists
+    And user "user1" exists
+    And User "user0" uploads file with content "content" to "/moved-share.txt"
+    And file "/moved-share.txt" of user "user0" is shared with user "user1" with permissions 19
+    And user "user1" accepts last share
+    And user "user1" created a folder "/received"
+    And User "user1" moves file "/moved-share.txt" to "/received/moved-share.txt"
+    Then the HTTP status code should be "201"
+    When User "user1" moves file "/received" to "/archive"
+    Then the HTTP status code should be "201"
+    And As an "user1"
+    And Getting info of last share
+    And the OCS status code should be "100"
+    And Share fields of last share match with
+      | file_target | /archive/moved-share.txt |
+    And user "user1" should see following elements
+      | /archive/moved-share.txt |
