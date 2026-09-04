@@ -58,7 +58,15 @@ class ChunkingPlugin extends ServerPlugin {
 		}
 
 		$this->verifySize();
-		return $this->performMove($sourcePath, $destination);
+
+		// hold the assembly lock for the whole move, so the upload session cannot
+		// be deleted while its chunks are still being streamed to the destination
+		$this->sourceNode->lockAssembly();
+		try {
+			return $this->performMove($sourcePath, $destination);
+		} finally {
+			$this->sourceNode->unlockAssembly();
+		}
 	}
 
 	/**
