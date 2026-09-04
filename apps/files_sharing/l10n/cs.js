@@ -394,6 +394,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Sdíleno s vámi a {circle} od {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} sdílí vám a konverzaci {conversation}",
     "Shared with you in a conversation by {owner}" : " {owner} vám sdílí v konverzaci",
+    "%1$s shared %2$s with you" : "%1$s vám nasdílel(a) %2$s",
     "Share not found" : "Sdílení nenalezeno",
     "Back to %s" : "Zpět na %s",
     "Add to your Nextcloud" : "Přidat do Nextcloud",

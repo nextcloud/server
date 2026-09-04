@@ -280,6 +280,7 @@
     "Shared with you and {circle} by {owner}" : "{owner} megosztotta Önnel és a(z) {circle} körrel",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} megosztotta Önnel és a(z) {conversation} beszélgetéssel",
     "Shared with you in a conversation by {owner}" : "{owner} megosztotta Önnel egy beszélgetésben",
+    "%1$s shared %2$s with you" : "%1$s megosztotta ezt Önnel: %2$s",
     "Share not found" : "A megosztás nem található",
     "Back to %s" : "Vissza ide: %s",
     "Add to your Nextcloud" : "Hozzáadás a Nextcloudjához",

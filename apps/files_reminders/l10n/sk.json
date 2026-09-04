@@ -8,6 +8,8 @@
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Aplikácia \"files_reminders\" potrebuje aplikáciu na notifikácie na správne fungovanie. Mali by ste buď povoliť notifikácie, alebo vypnúť aplikáciu files_reminder.",
     "Set file reminders" : "Nastaviť pripomienky súborov",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Pripomienky súborov**\n\nNastavte pripomienky súborov.\n\nPoznámka: Ak chcete použiť aplikáciu „Pripomienky súborov“, uistite sa, že je nainštalovaná a povolená aplikácia „Upozornenia“. Aplikácia „Upozornenia“ poskytuje potrebné rozhrania API, aby aplikácia „Pripomienky súborov“ fungovala správne.",
+    "We reminded you of this file {relativeDueDate}" : "Pripomenuli sme vám tento súbor {relativeDueDate}",
+    "We will remind you of this file {relativeDueDate}" : "Pripomenieme vám tento súbor {relativeDueDate}",
     "Please choose a valid date & time" : "Prosím, vyberte platný dátum a čas",
     "Reminder set for \"{fileName}\"" : "Pripomienka nastavená pre \"{fileName}\"",
     "Failed to set reminder" : "Nepodarilo sa nastavit pripomienku",

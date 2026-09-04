@@ -394,6 +394,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "توسط {owner} با شما و {circle} به اشتراک گذاشته شد",
     "Shared with you and the conversation {conversation} by {owner}" : "توسط {owner} با شما و گفتگو {conversation} به اشتراک گذاشته شد",
     "Shared with you in a conversation by {owner}" : "توسط {owner} در یک گفتگو با شما به اشتراک گذاشته شد",
+    "%1$s shared %2$s with you" : "%1$s فایل %2$s را با شما به اشتراک گذاشت",
     "Share not found" : "اشتراک یافت نشد",
     "Back to %s" : "بازگشت به %s",
     "Add to your Nextcloud" : "افزودن به نکست‌کلود شما",
