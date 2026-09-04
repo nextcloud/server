@@ -402,6 +402,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "„{owner}“ jagas seda sinuga ja „{circle}“ tiimiga",
     "Shared with you and the conversation {conversation} by {owner}" : "„{owner}“ jagas seda sinuga ja vestlusega „{conversation}“",
     "Shared with you in a conversation by {owner}" : "„{owner}“ jagas seda sinuga vestluses",
+    "%1$s shared %2$s with you" : "%1$s jagas sinuga: %2$s",
     "Share not found" : "Jagamist ei leidu",
     "Back to %s" : "Tagasi siia: %s",
     "Add to your Nextcloud" : "Lisa oma Nextcloudi",

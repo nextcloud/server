@@ -392,6 +392,7 @@
     "Shared with you and {circle} by {owner}" : "{owner}님이 여러분과 {circle}에게 공유함",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner}님이 여러분과 대화 {conversation}와(과) 공유함",
     "Shared with you in a conversation by {owner}" : "{owner}님이 대화에서 당신에게 공유함",
+    "%1$s shared %2$s with you" : "%1$s 님이 %2$s을 공유함",
     "Share not found" : "공유를 찾을 수 없음",
     "Back to %s" : "%s(으)로 돌아가기",
     "Add to your Nextcloud" : "내 Nextcloud에 추가",
