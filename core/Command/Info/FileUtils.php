@@ -90,7 +90,7 @@ class FileUtils {
 	}
 
 	public function formatPermissions(string $type, int $permissions): string {
-		if ($permissions == Constants::PERMISSION_ALL || ($type === 'file' && $permissions == (Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE))) {
+		if ($permissions === Constants::PERMISSION_ALL || ($type === 'file' && $permissions === (Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE))) {
 			return 'full permissions';
 		}
 

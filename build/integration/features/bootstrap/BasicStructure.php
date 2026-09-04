@@ -250,7 +250,7 @@ trait BasicStructure {
 	public function isExpectedUrl($possibleUrl, $finalPart) {
 		$baseUrlChopped = substr($this->baseUrl, 0, -4);
 		$endCharacter = strlen($baseUrlChopped) + strlen($finalPart);
-		return (substr($possibleUrl, 0, $endCharacter) == "$baseUrlChopped" . "$finalPart");
+		return (substr($possibleUrl, 0, $endCharacter) === "$baseUrlChopped" . "$finalPart");
 	}
 
 	/**

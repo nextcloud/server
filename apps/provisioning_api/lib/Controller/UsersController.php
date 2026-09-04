@@ -845,7 +845,7 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		// Check if permitted to edit this field
-		if (!in_array($collectionName, $permittedFields)) {
+		if (!in_array($collectionName, $permittedFields, true)) {
 			throw new OCSException('', 103);
 		}
 
@@ -1311,7 +1311,7 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 		// Check if permitted to edit this field
-		if (!in_array($key, $permittedFields)) {
+		if (!in_array($key, $permittedFields, true)) {
 			throw new OCSException('', 113);
 		}
 		// Process the edit
@@ -1359,7 +1359,7 @@ class UsersController extends AUserDataOCSController {
 				break;
 			case self::USER_FIELD_TIMEZONE:
 				// Older browsers still report deprecated aliases like Europe/Kiev.
-				if (!in_array($value, \DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC))) {
+				if (!in_array($value, \DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC), true)) {
 					throw new OCSException($this->l10n->t('Invalid timezone'), 101);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'timezone', $value);

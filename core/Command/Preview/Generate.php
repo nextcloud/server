@@ -57,7 +57,7 @@ class Generate extends Command {
 
 			return array_map('intval', $sizeParts);
 		}, $sizes);
-		if (in_array(null, $sizes)) {
+		if (in_array(null, $sizes, true)) {
 			return 1;
 		}
 

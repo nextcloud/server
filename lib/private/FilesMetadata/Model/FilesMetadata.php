@@ -82,7 +82,7 @@ class FilesMetadata implements IFilesMetadata {
 
 	/**
 	 * @inheritDoc
-	 * @return string[] list of keys
+	 * @return list<string> list of keys
 	 * @since 28.0.0
 	 */
 	#[\Override]
@@ -99,7 +99,7 @@ class FilesMetadata implements IFilesMetadata {
 	 */
 	#[\Override]
 	public function hasKey(string $needle): bool {
-		return (in_array($needle, $this->getKeys()));
+		return (in_array($needle, $this->getKeys(), true));
 	}
 
 	/**

@@ -94,7 +94,7 @@ class CleanOrphanedKeys extends Command {
 		foreach ($orphanedKeys as $keyPath) {
 			$output->writeln('Orphaned key found: ' . $keyPath);
 		}
-		if (count($orphanedKeys) == 0) {
+		if (count($orphanedKeys) === 0) {
 			return self::SUCCESS;
 		}
 		$question = new ConfirmationQuestion('Do you want to delete all orphaned keys? (y/n) ', false);
@@ -185,7 +185,7 @@ class CleanOrphanedKeys extends Command {
 	private function deleteSpecific(InputInterface $input, OutputInterface $output, array $orphanedKeys) {
 		$question = new Question('Please enter path for key to delete: ');
 		$path = $this->questionHelper->ask($input, $output, $question);
-		if (!in_array(trim($path), $orphanedKeys)) {
+		if (!in_array(trim($path), $orphanedKeys, true)) {
 			$output->writeln('Wrong key path');
 		} else {
 			try {
@@ -199,7 +199,7 @@ class CleanOrphanedKeys extends Command {
 				return $k !== trim($path);
 			});
 		}
-		if (count($orphanedKeys) == 0) {
+		if (count($orphanedKeys) === 0) {
 			return;
 		}
 		$output->writeln('Remaining orphaned keys: ');

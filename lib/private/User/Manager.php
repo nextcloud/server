@@ -145,7 +145,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		}
 
 		$cachedBackend = $this->cache->get(sha1($uid));
-		if (in_array($cachedBackend, $excludeBackends)) {
+		if (in_array((string)$cachedBackend, $excludeBackends, true)) {
 			$cachedBackend = null;
 		}
 
@@ -163,7 +163,7 @@ class Manager extends PublicEmitter implements IUserManager {
 				continue;
 			}
 
-			if (in_array($i, $excludeBackends)) {
+			if (in_array($i, $excludeBackends, true)) {
 				continue;
 			}
 

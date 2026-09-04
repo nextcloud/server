@@ -23,7 +23,7 @@ class CachedSubscriptionProvider implements ICalendarProvider {
 		$calendarInfos = $this->calDavBackend->getSubscriptionsForUser($principalUri);
 
 		if (count($calendarUris) > 0) {
-			$calendarInfos = array_filter($calendarInfos, fn (array $subscription) => in_array($subscription['uri'], $calendarUris));
+			$calendarInfos = array_filter($calendarInfos, fn (array $subscription) => in_array($subscription['uri'], $calendarUris, true));
 		}
 
 		$calendarInfos = array_values(array_filter($calendarInfos));

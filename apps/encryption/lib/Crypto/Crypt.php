@@ -409,17 +409,10 @@ class Crypt {
 	}
 
 	/**
-	 * @param string $keyFileContents
-	 * @param string $passPhrase
-	 * @param string $cipher
-	 * @param int $version
-	 * @param int|string $position
-	 * @param boolean $binaryEncoding
-	 * @return string
 	 * @throws DecryptionFailedException
 	 */
-	public function symmetricDecryptFileContent($keyFileContents, $passPhrase, $cipher = self::DEFAULT_CIPHER, $version = 0, $position = 0, bool $binaryEncoding = false) {
-		if ($keyFileContents == '') {
+	public function symmetricDecryptFileContent(string $keyFileContents, string $passPhrase, string $cipher = self::DEFAULT_CIPHER, int $version = 0, int|string $position = 0, bool $binaryEncoding = false): string {
+		if ($keyFileContents === '') {
 			return '';
 		}
 

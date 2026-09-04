@@ -62,7 +62,7 @@ class MailSettingsController extends Controller {
 		string $mail_sendmailmode,
 		?bool $mail_noverify = null,
 	): DataResponse {
-		$mail_smtpauth = $mail_smtpauth == '1';
+		$mail_smtpauth = $mail_smtpauth === true;
 
 		$configs = [
 			'mail_domain' => $mail_domain,

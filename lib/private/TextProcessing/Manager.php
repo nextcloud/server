@@ -131,7 +131,7 @@ class Manager implements IManager {
 	}
 
 	public function canHandleTask(OCPTask $task): bool {
-		return in_array($task->getType(), $this->getAvailableTaskTypes());
+		return in_array($task->getType(), $this->getAvailableTaskTypes(), true);
 	}
 
 	/**

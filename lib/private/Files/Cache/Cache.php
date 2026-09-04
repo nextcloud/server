@@ -130,7 +130,8 @@ class Cache implements ICache {
 		$query->selectFileCache();
 		$metadataQuery = $query->selectMetadata();
 
-		if (is_string($file) || $file == '') {
+		// a file id of 0 is treated the same as an empty path
+		if (is_string($file) || $file === 0) {
 			// normalize file
 			$file = $this->normalize($file);
 
@@ -489,7 +490,7 @@ class Cache implements ICache {
 		$params = [];
 		$extensionParams = [];
 		foreach ($data as $name => $value) {
-			if (in_array($name, $fields)) {
+			if (in_array($name, $fields, true)) {
 				if ($name === 'path') {
 					$params['path_hash'] = md5($value);
 				} elseif ($name === 'mimetype') {
@@ -509,7 +510,7 @@ class Cache implements ICache {
 				}
 				$params[$name] = $value;
 			}
-			if (in_array($name, $extensionFields)) {
+			if (in_array($name, $extensionFields, true)) {
 				$extensionParams[$name] = $value;
 			}
 		}
@@ -603,7 +604,7 @@ class Cache implements ICache {
 				->hintShardKey('storage', $this->getNumericStorageId());
 			$query->executeStatement();
 
-			if ($entry->getMimeType() == FileInfo::MIMETYPE_FOLDER) {
+			if ($entry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 				$this->removeChildren($entry);
 			}
 
@@ -655,7 +656,7 @@ class Cache implements ICache {
 			/** @var ICacheEntry[] $childFolders */
 			$childFolders = [];
 			foreach ($children as $child) {
-				if ($child->getMimeType() == FileInfo::MIMETYPE_FOLDER) {
+				if ($child->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 					$childFolders[] = $child;
 				}
 			}

@@ -1273,7 +1273,7 @@ class IMipService {
 
 	public function minimizeInterval(\DateInterval $dateInterval): array {
 		// evaluate if time interval is in the past
-		if ($dateInterval->invert == 1) {
+		if ($dateInterval->invert === 1) {
 			return ['interval' => 1, 'scale' => 'past'];
 		}
 		// evaluate interval parts and return smallest time period

@@ -219,7 +219,7 @@ class SharesReminderJob extends TimedJob {
 	private function prepareReminder(IShare $share): ?array {
 		$sharedWith = $share->getSharedWith();
 		$reminderInfo = [];
-		if ($share->getShareType() == IShare::TYPE_USER) {
+		if ((int)$share->getShareType() === IShare::TYPE_USER) {
 			$user = $this->userManager->get($sharedWith);
 			if ($user === null) {
 				return null;

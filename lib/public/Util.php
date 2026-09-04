@@ -623,7 +623,7 @@ class Util {
 		$ini = Server::get(IniGetWrapper::class);
 		$disabled = explode(',', $ini->get('disable_functions') ?: '');
 		$disabled = array_map('trim', $disabled);
-		if (in_array($functionName, $disabled)) {
+		if (in_array($functionName, $disabled, true)) {
 			return false;
 		}
 		return true;

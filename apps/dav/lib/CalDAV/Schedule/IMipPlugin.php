@@ -253,8 +253,8 @@ class IMipPlugin extends SabreIMipPlugin {
 			$invitationLinkRecipients = explode(',', preg_replace('/\s+/', '', strtolower($this->config->getValueString('dav', 'invitation_link_recipients', 'yes'))));
 
 			if (strcmp('yes', $invitationLinkRecipients[0]) === 0
-				|| in_array(strtolower($recipient), $invitationLinkRecipients)
-				|| in_array(strtolower($recipientDomain), $invitationLinkRecipients)) {
+				|| in_array(strtolower($recipient), $invitationLinkRecipients, true)
+				|| in_array(strtolower($recipientDomain), $invitationLinkRecipients, true)) {
 				$token = $this->imipService->createInvitationToken($iTipMessage, $vEvent, $lastOccurrence);
 				$this->imipService->addResponseButtons($template, $token);
 				$this->imipService->addMoreOptionsButton($template, $token);

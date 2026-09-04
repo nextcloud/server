@@ -242,7 +242,8 @@ class ConfigManager {
 	}
 
 	public function convertToInt(string $value): int {
-		if (!is_numeric($value) || (float)$value <> (int)$value) {
+		// checks the numeric string has no fractional part
+		if (!is_numeric($value) || (float)$value !== (float)(int)$value) {
 			throw new TypeConflictException('Value is not an integer');
 		}
 
@@ -258,9 +259,9 @@ class ConfigManager {
 	}
 
 	public function convertToBool(string $value, ?Entry $entry = null): bool {
-		if (in_array(strtolower($value), ['true', '1', 'on', 'yes'])) {
+		if (in_array(strtolower($value), ['true', '1', 'on', 'yes'], true)) {
 			$valueBool = true;
-		} elseif (in_array(strtolower($value), ['false', '0', 'off', 'no'])) {
+		} elseif (in_array(strtolower($value), ['false', '0', 'off', 'no'], true)) {
 			$valueBool = false;
 		} else {
 			throw new TypeConflictException('Value cannot be converted to boolean');

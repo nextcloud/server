@@ -200,7 +200,7 @@ class AppConfigController extends OCSController {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function verifyConfigKey(string $app, string $key, string $value) {
-		if (in_array($key, ['installed_version', 'enabled', 'types'])) {
+		if (in_array($key, ['installed_version', 'enabled', 'types'], true)) {
 			throw new \InvalidArgumentException('The given key can not be set');
 		}
 

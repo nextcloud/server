@@ -51,7 +51,7 @@ class FileSize implements ICheck {
 	 */
 	#[\Override]
 	public function validateCheck($operator, $value): void {
-		if (!in_array($operator, ['less', '!less', 'greater', '!greater'])) {
+		if (!in_array($operator, ['less', '!less', 'greater', '!greater'], true)) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 

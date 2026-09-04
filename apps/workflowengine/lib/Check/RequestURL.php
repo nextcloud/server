@@ -39,7 +39,7 @@ class RequestURL extends AbstractStringCheck {
 		} else {
 			$actualValue = $this->getActualValue();
 		}
-		if (in_array($operator, ['is', '!is'])) {
+		if (in_array($operator, ['is', '!is'], true)) {
 			switch ($value) {
 				case 'webdav':
 					if ($operator === 'is') {

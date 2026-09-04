@@ -175,7 +175,7 @@ class TAR extends Archive {
 				if ($pos = strpos($result, '/')) {
 					$result = substr($result, 0, $pos + 1);
 				}
-				if (!in_array($result, $folderContent)) {
+				if (!in_array($result, $folderContent, true)) {
 					$folderContent[] = $result;
 				}
 			}
@@ -258,7 +258,7 @@ class TAR extends Archive {
 	#[\Override]
 	public function fileExists(string $path): bool {
 		$files = $this->getFiles();
-		if ((in_array($path, $files)) || (in_array($path . '/', $files))) {
+		if ((in_array($path, $files, true)) || (in_array($path . '/', $files, true))) {
 			return true;
 		} else {
 			$folderPath = rtrim($path, '/') . '/';

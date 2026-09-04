@@ -60,7 +60,7 @@ class RequestRemoteAddress implements ICheck {
 	 */
 	#[\Override]
 	public function validateCheck($operator, $value) {
-		if (!in_array($operator, ['matchesIPv4', '!matchesIPv4', 'matchesIPv6', '!matchesIPv6'])) {
+		if (!in_array($operator, ['matchesIPv4', '!matchesIPv4', 'matchesIPv6', '!matchesIPv6'], true)) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
@@ -69,7 +69,7 @@ class RequestRemoteAddress implements ICheck {
 			throw new \UnexpectedValueException($this->l->t('The given IP range is invalid'), 2);
 		}
 
-		if (in_array($operator, ['matchesIPv4', '!matchesIPv4'])) {
+		if (in_array($operator, ['matchesIPv4', '!matchesIPv4'], true)) {
 			if (!filter_var($decodedValue[0], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
 				throw new \UnexpectedValueException($this->l->t('The given IP range is not valid for IPv4'), 3);
 			}

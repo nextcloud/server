@@ -247,7 +247,7 @@ class EmailProvider extends AbstractProvider {
 				}
 
 				$cuType = $this->getCUTypeOfAttendee($attendee);
-				if (\in_array($cuType, ['RESOURCE', 'ROOM', 'UNKNOWN'])) {
+				if (\in_array($cuType, ['RESOURCE', 'ROOM', 'UNKNOWN'], true)) {
 					// Don't send emails to things
 					continue;
 				}

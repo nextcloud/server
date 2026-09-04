@@ -891,7 +891,7 @@ class ShareAPIController extends OCSController {
 		$resharingRight = false;
 		$known = [];
 		foreach ($shares as $share) {
-			if (in_array($share->getId(), $known) || $share->getSharedWith() === $this->userId) {
+			if (in_array($share->getId(), $known, true) || $share->getSharedWith() === $this->userId) {
 				continue;
 			}
 
@@ -1070,7 +1070,7 @@ class ShareAPIController extends OCSController {
 				continue;
 			}
 
-			if (in_array($share->getId(), $known)
+			if (in_array($share->getId(), $known, true)
 				|| ($share->getSharedWith() === $this->userId && $share->getShareType() === IShare::TYPE_USER)) {
 				continue;
 			}

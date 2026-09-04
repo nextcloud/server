@@ -221,7 +221,7 @@ class OC_Util {
 	 */
 	private static function addExternalResource($application, $prepend, $path, $type = 'script'): void {
 		if ($type === 'style') {
-			if (!in_array($path, self::$styles)) {
+			if (!in_array($path, self::$styles, true)) {
 				if ($prepend === true) {
 					array_unshift(self::$styles, $path);
 				} else {
@@ -447,7 +447,7 @@ class OC_Util {
 		}
 
 		// Cache the result of this function
-		Server::get(ISession::class)->set('checkServer_succeeded', count($errors) == 0);
+		Server::get(ISession::class)->set('checkServer_succeeded', count($errors) === 0);
 
 		return $errors;
 	}

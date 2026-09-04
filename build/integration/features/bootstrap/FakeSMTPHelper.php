@@ -91,7 +91,7 @@ class fakeSMTP {
 				$receivingData = false;
 				$this->reply('250 2.0.0 Ok: queued as ' . $this->generateRandom(10));
 				$splitmail = explode("\n\n", $this->mail['rawEmail'], 2);
-				if (count($splitmail) == 2) {
+				if (count($splitmail) === 2) {
 					$this->mail['emailHeaders'] = $splitmail[0];
 					$this->mail['emailBody'] = $splitmail[1];
 					$headers = preg_replace("/ \s+/", ' ', preg_replace("/\n\s/", ' ', $this->mail['emailHeaders']));

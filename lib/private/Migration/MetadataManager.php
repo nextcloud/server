@@ -112,6 +112,8 @@ class MetadataManager {
 	private function parseMigrations(array $migrations, array $ignoreMigrations = []): array {
 		$parsed = [];
 		foreach (array_keys($migrations) as $entry) {
+			// $entry may be an int since json_decode() casts numeric-looking migration version keys to integers
+			/** @psalm-suppress UnrecognizedExpression */
 			if (in_array($entry, $ignoreMigrations)) {
 				continue;
 			}

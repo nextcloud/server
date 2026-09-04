@@ -51,7 +51,7 @@ class PropFindPlugin extends ServerPlugin {
 	}
 
 	public function propFind(PropFind $propFind, INode $node) {
-		if (!in_array(static::REMINDER_DUE_DATE_PROPERTY, $propFind->getRequestedProperties())) {
+		if (!in_array(static::REMINDER_DUE_DATE_PROPERTY, $propFind->getRequestedProperties(), true)) {
 			return;
 		}
 

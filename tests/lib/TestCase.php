@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -582,9 +584,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				$group = $attribute->newInstance();
 				return $group->name();
 			}, $r->getAttributes(Group::class));
+
 			if (count($attributes) > 0) {
 				return $attributes;
 			}
+		}
+
+		if ($doc === false) {
+			return [];
 		}
 		preg_match_all('#@group\s+(.*?)\n#s', $doc, $annotations);
 		return $annotations[1] ?? [];
@@ -592,6 +599,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	protected function IsDatabaseAccessAllowed(): bool {
 		$annotations = $this->getGroupAnnotations();
-		return in_array('DB', $annotations) || in_array('SLOWDB', $annotations);
+		return in_array('DB', $annotations, true) || in_array('SLOWDB', $annotations, true);
 	}
 }

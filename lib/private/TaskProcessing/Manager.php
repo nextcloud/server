@@ -1069,7 +1069,7 @@ class Manager implements IManager {
 		}
 
 		$guestsAllowed = $this->appConfig->getValueString('core', 'ai.taskprocessing_guests', 'false');
-		if ($guestsAllowed == 'true' || !class_exists(UserBackend::class) || !($user->getBackend() instanceof UserBackend)) {
+		if ($guestsAllowed === 'true' || !class_exists(UserBackend::class) || !($user->getBackend() instanceof UserBackend)) {
 			return true;
 		}
 		return false;
@@ -1918,7 +1918,7 @@ class Manager implements IManager {
 		}
 		$mounts = $this->userMountCache->getMountsForFileId($fileId);
 		$userIds = array_map(fn ($mount) => $mount->getUser()->getUID(), $mounts);
-		if (!in_array($userId, $userIds)) {
+		if (!in_array($userId, $userIds, true)) {
 			throw new UnauthorizedException('User ' . $userId . ' does not have access to file ' . $fileId);
 		}
 	}

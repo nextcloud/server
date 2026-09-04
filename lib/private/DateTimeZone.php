@@ -87,6 +87,8 @@ class DateTimeZone implements IDateTimeZone {
 				}
 
 				$dtOffset = $dtz->getOffset($dateTime);
+				// $dtOffset is int|false and $offset is untyped/mixed; loose comparison intentional
+				/** @psalm-suppress UnrecognizedExpression */
 				if ($dtOffset == 3600 * $offset) {
 					return $dtz;
 				}

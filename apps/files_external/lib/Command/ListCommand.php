@@ -114,7 +114,7 @@ class ListCommand extends Base {
 			foreach ($mounts as $mount) {
 				$config = $mount->getBackendOptions();
 				foreach ($config as $key => $value) {
-					if (in_array($key, $hideKeys)) {
+					if (in_array($key, $hideKeys, true)) {
 						$mount->setBackendOption($key, '***REMOVED SENSITIVE VALUE***');
 					}
 				}
