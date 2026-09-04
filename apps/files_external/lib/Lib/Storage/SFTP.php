@@ -14,6 +14,7 @@ use Icewind\Streams\IteratorDirectory;
 use Icewind\Streams\RetryWrapper;
 use OC\Files\Storage\Common;
 use OC\Files\View;
+use OCA\Files_External\Lib\PortHelper;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
@@ -26,10 +27,12 @@ use phpseclib3\Net\SFTP\Stream;
  * provide access to SFTP servers.
  */
 class SFTP extends Common {
+	private const DEFAULT_PORT = 22;
+
 	private $host;
 	private $user;
 	private $root;
-	private $port = 22;
+	private $port = self::DEFAULT_PORT;
 
 	private $auth = [];
 
@@ -56,11 +59,11 @@ class SFTP extends Common {
 
 		$parsed = parse_url($host);
 		if (is_array($parsed) && isset($parsed['port'])) {
-			return [$parsed['host'], $parsed['port']];
+			return [$parsed['host'], PortHelper::parsePort($parsed['port'], self::DEFAULT_PORT)];
 		} elseif (is_array($parsed)) {
-			return [$parsed['host'], 22];
+			return [$parsed['host'], self::DEFAULT_PORT];
 		} else {
-			return [$input, 22];
+			return [$input, self::DEFAULT_PORT];
 		}
 	}
 
@@ -78,10 +81,9 @@ class SFTP extends Common {
 		$parsedHost = $this->splitHost($parameters['host']);
 		$this->host = $parsedHost[0];
 
-		// Handle empty port parameter to allow host-defined ports
-		// and ensure strictly numeric ports
-		$parsedPort = $parameters['port'] ?? null;
-		$this->port = (int)(is_numeric($parsedPort) ? $parsedPort : $parsedHost[1]);
+		// Fall back to the port from the host field, and to the default port,
+		// unless a valid port is configured
+		$this->port = PortHelper::parsePort($parameters['port'] ?? null, $parsedHost[1]);
 
 		if (!isset($parameters['user'])) {
 			throw new \UnexpectedValueException('no authentication parameters specified');

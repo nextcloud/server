@@ -101,6 +101,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Lib\\MissingDependency' => __DIR__ . '/..' . '/../lib/Lib/MissingDependency.php',
         'OCA\\Files_External\\Lib\\Notify\\SMBNotifyHandler' => __DIR__ . '/..' . '/../lib/Lib/Notify/SMBNotifyHandler.php',
         'OCA\\Files_External\\Lib\\PersonalMount' => __DIR__ . '/..' . '/../lib/Lib/PersonalMount.php',
+        'OCA\\Files_External\\Lib\\PortHelper' => __DIR__ . '/..' . '/../lib/Lib/PortHelper.php',
         'OCA\\Files_External\\Lib\\PriorityTrait' => __DIR__ . '/..' . '/../lib/Lib/PriorityTrait.php',
         'OCA\\Files_External\\Lib\\SessionStorageWrapper' => __DIR__ . '/..' . '/../lib/Lib/SessionStorageWrapper.php',
         'OCA\\Files_External\\Lib\\StorageConfig' => __DIR__ . '/..' . '/../lib/Lib/StorageConfig.php',

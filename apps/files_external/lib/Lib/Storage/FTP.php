@@ -12,6 +12,7 @@ use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\PolyFill\CopyDirectory;
+use OCA\Files_External\Lib\PortHelper;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
@@ -22,6 +23,8 @@ use Psr\Log\LoggerInterface;
 
 class FTP extends Common {
 	use CopyDirectory;
+
+	private const DEFAULT_PORT = 21;
 
 	private $root;
 	private $host;
@@ -49,8 +52,7 @@ class FTP extends Common {
 				$this->secure = false;
 			}
 			$this->root = isset($parameters['root']) ? '/' . ltrim($parameters['root']) : '/';
-			$parsedPort = $parameters['port'] ?? null;
-			$this->port = is_numeric($parsedPort) ? (int)$parsedPort : 21;
+			$this->port = PortHelper::parsePort($parameters['port'] ?? null, self::DEFAULT_PORT);
 			$this->utf8Mode = isset($parameters['utf8']) && $parameters['utf8'];
 		} else {
 			throw new \Exception('Creating ' . self::class . ' storage failed, required parameters not set');
