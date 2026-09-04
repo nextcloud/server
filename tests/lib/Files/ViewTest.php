@@ -21,6 +21,8 @@ use OC\Share20\ShareDisableChecker;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
+use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Cache\IWatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
@@ -88,6 +90,49 @@ class TemporaryNoLocal extends Temporary {
 class TemporaryAlwaysUpdated extends Temporary {
 	public function hasUpdated(string $path, int $time): bool {
 		return true;
+	}
+}
+
+class TemporaryWatcherUpdateThrows extends TemporaryAlwaysUpdated {
+	public function getWatcher(string $path = '', ?IStorage $storage = null): IWatcher {
+		return new class(parent::getWatcher($path, $storage)) implements IWatcher {
+			public function __construct(
+				private readonly IWatcher $watcher,
+			) {
+			}
+
+			public function setPolicy($policy): void {
+				$this->watcher->setPolicy($policy);
+			}
+
+			public function setCheckFilter(?string $filter): void {
+				$this->watcher->setCheckFilter($filter);
+			}
+
+			public function getPolicy() {
+				return $this->watcher->getPolicy();
+			}
+
+			public function checkUpdate($path, $cachedEntry = null) {
+				return $this->watcher->checkUpdate($path, $cachedEntry);
+			}
+
+			public function update($path, $cachedData): void {
+				throw new \RuntimeException('Simulated watcher update failure');
+			}
+
+			public function needsUpdate($path, $cachedData): bool {
+				return $this->watcher->needsUpdate($path, $cachedData);
+			}
+
+			public function cleanFolder($path): void {
+				$this->watcher->cleanFolder($path);
+			}
+
+			public function onUpdate(callable $callback): void {
+				$this->watcher->onUpdate($callback);
+			}
+		};
 	}
 }
 
@@ -500,6 +545,55 @@ class ViewTest extends \Test\TestCase {
 			$rootEntryAfter->getEtag(),
 			'Root folder etag must not change when the watcher finds no metadata change',
 		);
+	}
+
+	public function testWatcherRefreshFailureReleasesFileAndParentLocks(): void {
+		$storage = $this->getTestStorage(true, TemporaryWatcherUpdateThrows::class);
+		Filesystem::mount($storage, [], '/' . self::$user . '/files');
+
+		$view = new View('/' . self::$user . '/files');
+		$storage->getWatcher()->setPolicy(Watcher::CHECK_ALWAYS);
+
+		try {
+			$view->getFileInfo('folder/bar.txt');
+			$this->fail('Expected the watcher update failure to be rethrown');
+		} catch (\RuntimeException $e) {
+			$this->assertSame('Simulated watcher update failure', $e->getMessage());
+		}
+
+		$this->assertFalse(
+			$this->isFileLocked($view, 'folder/bar.txt', ILockingProvider::LOCK_SHARED),
+			'The refreshed file lock must be released after a watcher failure',
+		);
+		$this->assertFalse(
+			$this->isFileLocked($view, 'folder', ILockingProvider::LOCK_SHARED),
+			'The parent refresh lock must be released after a watcher failure',
+		);
+		$this->assertFalse(
+			$this->isFileLocked($view, '/', ILockingProvider::LOCK_SHARED),
+			'The root refresh lock must be released after a watcher failure',
+		);
+	}
+
+	public function testWatcherRefreshUsesCachedEntryWhenRefreshLockCannotBeAcquired(): void {
+		$storage = $this->getTestStorage(true, TemporaryAlwaysUpdated::class);
+		Filesystem::mount($storage, [], '/' . self::$user . '/files');
+
+		$view = new View('/' . self::$user . '/files');
+		$storage->getWatcher()->setPolicy(Watcher::CHECK_ALWAYS);
+
+		$cachedEntry = $storage->getCache()->get('folder/bar.txt');
+		$this->assertInstanceOf(ICacheEntry::class, $cachedEntry);
+
+		$view->lockFile('folder/bar.txt', ILockingProvider::LOCK_EXCLUSIVE);
+		try {
+			$info = $view->getFileInfo('folder/bar.txt');
+
+			$this->assertNotFalse($info);
+			$this->assertSame($cachedEntry->getId(), $info->getId());
+		} finally {
+			$view->unlockFile('folder/bar.txt', ILockingProvider::LOCK_EXCLUSIVE);
+		}
 	}
 
 	public function testCopyBetweenStorageNoCross(): void {
