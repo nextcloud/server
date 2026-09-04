@@ -343,6 +343,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Deilt með þér og {circle} af {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Deilt með þér og samtalinu {conversation} af {owner}",
     "Shared with you in a conversation by {owner}" : "Deilt með þér í samtali af {owner}",
+    "%1$s shared %2$s with you" : "%1$s deildi %2$s með þér",
     "Share not found" : "Sameign fannst ekki",
     "Back to %s" : "Til baka í %s",
     "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",

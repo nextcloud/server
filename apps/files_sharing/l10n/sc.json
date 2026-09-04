@@ -198,6 +198,7 @@
     "Shared with you and {circle} by {owner}" : "Cumpartzidu cun tegus {circle} dae {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Cumpartzidu cun tegus e sa resonada {conversation} dae {owner}",
     "Shared with you in a conversation by {owner}" : "Cumpartzidu cun tegus in una resonada dae {owner}",
+    "%1$s shared %2$s with you" : "%1$s at cumpartzidu %2$s cun tegus",
     "Share not found" : "Cumpartzidura no agatada",
     "Back to %s" : "Torra a %s",
     "Add to your Nextcloud" : "Agiunghe a su Nextcloud tuo",

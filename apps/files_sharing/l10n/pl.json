@@ -400,6 +400,7 @@
     "Shared with you and {circle} by {owner}" : "Udostępnione Tobie i {circle} przez {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Udostępnione Tobie i w rozmowie {conversation} przez {owner}",
     "Shared with you in a conversation by {owner}" : "Udostępnione Tobie w rozmowie przez {owner}",
+    "%1$s shared %2$s with you" : "%1$s udostępnił Tobie %2$s",
     "Share not found" : "Nie znaleziono udostępnienia",
     "Back to %s" : "Powrót do %s",
     "Add to your Nextcloud" : "Dodaj do swojego Nextcloud",
