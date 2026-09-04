@@ -11,7 +11,6 @@ use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\External\ExternalShare;
 use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\BackgroundJob\IJobList;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -25,14 +24,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ExternalShareControllerTest extends \Test\TestCase {
 	private IRequest&MockObject $request;
 	private Manager&MockObject $externalManager;
-	private IJobList&MockObject $jobList;
 	private IUser $user;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
 		$this->externalManager = $this->createMock(Manager::class);
-		$this->jobList = $this->createMock(IJobList::class);
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')->willReturn('user');
 	}
@@ -45,7 +42,6 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			'files_sharing',
 			$this->request,
 			$this->externalManager,
-			$this->jobList,
 			$session,
 		);
 	}
@@ -70,9 +66,6 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('acceptShare')
 			->with($share, $this->user);
-		$this->jobList
-			->expects($this->once())
-			->method('add');
 
 		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->create('4'));
 	}
