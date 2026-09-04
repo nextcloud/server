@@ -25,6 +25,7 @@ class TipBrokerTest extends TestCase {
 		parent::setUp();
 
 		VCalendar::$propertyMap[TipBroker::INVITATION_FORWARDING_PROPERTY] = VObject\Property\Boolean::class;
+		VCalendar::$propertyMap[TipBroker::ALLOW_ATTENDEE_GUESTS_PROPERTY] = VObject\Property\Boolean::class;
 
 		$this->broker = new TipBroker();
 
@@ -81,7 +82,10 @@ class TipBrokerTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		unset(VCalendar::$propertyMap[TipBroker::INVITATION_FORWARDING_PROPERTY]);
+		unset(
+			VCalendar::$propertyMap[TipBroker::INVITATION_FORWARDING_PROPERTY],
+			VCalendar::$propertyMap[TipBroker::ALLOW_ATTENDEE_GUESTS_PROPERTY],
+		);
 
 		parent::tearDown();
 	}
@@ -591,7 +595,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyDisallowsInvitationForwarding(): void {
 		$existingCalendar = clone $this->vCalendar1a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
@@ -616,7 +620,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyUpdatesExistingAttendeeWhenInvitationForwardingDisabled(): void {
 		$existingCalendar = clone $this->vCalendar1a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
@@ -645,7 +649,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyAllowsInvitationForwarding(): void {
 		$existingCalendar = clone $this->vCalendar1a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'TRUE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, true);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
@@ -668,6 +672,32 @@ class TipBrokerTest extends TestCase {
 		$this->assertEquals('mailto:attendee2@example.org', $result->VEVENT->ATTENDEE[1]->getValue());
 		$this->assertEquals('ACCEPTED', $result->VEVENT->ATTENDEE[1]['PARTSTAT']->getValue());
 		$this->assertEquals('Attendee Two', $result->VEVENT->ATTENDEE[1]['CN']->getValue());
+	}
+
+	public function testProcessMessageReplyAllowsInvitationForwardingWithParsedProperty(): void {
+		$existingCalendar = clone $this->vCalendar1a;
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, true);
+		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
+		// Parsing turns the property into a bool, unlike adding it in memory
+		$existingCalendar = VObject\Reader::read($existingCalendar->serialize());
+		$reply = new Message();
+		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
+		$reply->component = 'VEVENT';
+		$reply->sender = 'mailto:attendee2@example.org';
+		$reply->senderName = 'Attendee Two';
+		$reply->sequence = 1;
+		$reply->message = new VCalendar();
+		/** @var \Sabre\VObject\Component\VEvent $replyEvent */
+		$replyEvent = $reply->message->add('VEVENT', []);
+		$replyEvent->add('UID', $reply->uid);
+		$replyEvent->add('ATTENDEE', $reply->sender, [
+			'PARTSTAT' => 'ACCEPTED',
+		]);
+
+		$result = $this->invokePrivate($this->broker, 'processMessageReply', [$reply, $existingCalendar]);
+
+		$this->assertCount(2, $result->VEVENT->ATTENDEE);
+		$this->assertEquals('mailto:attendee2@example.org', $result->VEVENT->ATTENDEE[1]->getValue());
 	}
 
 	public function testProcessMessageReplyAllowsInvitationForwardingByDefault(): void {
@@ -741,7 +771,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyDisallowsInvitationForwardingForGeneratedRecurringInstance(): void {
 		$existingCalendar = clone $this->vCalendar2a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
@@ -768,7 +798,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyUpdatesExistingAttendeeForGeneratedRecurringInstanceWhenInvitationForwardingDisabled(): void {
 		$existingCalendar = clone $this->vCalendar2a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
@@ -798,9 +828,36 @@ class TipBrokerTest extends TestCase {
 		$this->assertFalse(isset($result->VEVENT[1]->ATTENDEE[0]['RSVP']));
 	}
 
+	public function testProcessMessageReplyKeepsRsvpForGeneratedRecurringInstanceWithoutAnswer(): void {
+		$existingCalendar = clone $this->vCalendar2a;
+		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
+		$reply = new Message();
+		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
+		$reply->component = 'VEVENT';
+		$reply->sender = 'mailto:attendee1@example.org';
+		$reply->senderName = 'Attendee One';
+		$reply->sequence = 1;
+		$reply->message = new VCalendar();
+		/** @var \Sabre\VObject\Component\VEvent $replyEvent */
+		$replyEvent = $reply->message->add('VEVENT', []);
+		$replyEvent->add('UID', $reply->uid);
+		$replyEvent->add('RECURRENCE-ID', '20240715T080000', ['TZID' => 'America/Toronto']);
+		$replyEvent->add('ATTENDEE', $reply->sender, [
+			'PARTSTAT' => 'NEEDS-ACTION',
+		]);
+		$replyEvent->add('REQUEST-STATUS', '2.0;Success');
+
+		$result = $this->invokePrivate($this->broker, 'processMessageReply', [$reply, $existingCalendar]);
+
+		$this->assertCount(2, $result->VEVENT);
+		$this->assertEquals('20240715T080000', $result->VEVENT[1]->{'RECURRENCE-ID'}->getValue());
+		$this->assertEquals('NEEDS-ACTION', $result->VEVENT[1]->ATTENDEE[0]['PARTSTAT']->getValue());
+		$this->assertTrue(isset($result->VEVENT[1]->ATTENDEE[0]['RSVP']));
+	}
+
 	public function testProcessMessageReplyAllowsInvitationForwardingForDetachedRecurringExceptionWhenMasterDisallows(): void {
 		$existingCalendar = clone $this->vCalendar2a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		/** @var \Sabre\VObject\Component\VEvent $detachedInstance */
 		$detachedInstance = $existingCalendar->add('VEVENT', []);
@@ -811,7 +868,7 @@ class TipBrokerTest extends TestCase {
 		$detachedInstance->add('DTEND', '20240715T090000', ['TZID' => 'America/Toronto']);
 		$detachedInstance->add('SUMMARY', 'Detached Test Event');
 		$detachedInstance->add('ORGANIZER', 'mailto:organizer@example.org', ['CN' => 'Organizer']);
-		$detachedInstance->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'TRUE');
+		$detachedInstance->add(TipBroker::INVITATION_FORWARDING_PROPERTY, true);
 		$detachedInstance->add('ATTENDEE', 'mailto:attendee1@example.org', [
 			'CN' => 'Attendee One',
 			'CUTYPE' => 'INDIVIDUAL',
@@ -845,7 +902,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyDisallowsInvitationForwardingForDetachedRecurringExceptionWhenMasterAllows(): void {
 		$existingCalendar = clone $this->vCalendar2a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'TRUE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, true);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		/** @var \Sabre\VObject\Component\VEvent $detachedInstance */
 		$detachedInstance = $existingCalendar->add('VEVENT', []);
@@ -856,7 +913,7 @@ class TipBrokerTest extends TestCase {
 		$detachedInstance->add('DTEND', '20240715T090000', ['TZID' => 'America/Toronto']);
 		$detachedInstance->add('SUMMARY', 'Detached Test Event');
 		$detachedInstance->add('ORGANIZER', 'mailto:organizer@example.org', ['CN' => 'Organizer']);
-		$detachedInstance->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'FALSE');
+		$detachedInstance->add(TipBroker::INVITATION_FORWARDING_PROPERTY, false);
 		$detachedInstance->add('ATTENDEE', 'mailto:attendee1@example.org', [
 			'CN' => 'Attendee One',
 			'CUTYPE' => 'INDIVIDUAL',
@@ -890,7 +947,7 @@ class TipBrokerTest extends TestCase {
 
 	public function testProcessMessageReplyAllowsInvitationForwardingForGeneratedRecurringInstance(): void {
 		$existingCalendar = clone $this->vCalendar2a;
-		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, 'TRUE');
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, true);
 		$existingCalendar->VEVENT->ATTENDEE[0]->setValue('mailto:attendee1@example.org');
 		$reply = new Message();
 		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
@@ -947,6 +1004,199 @@ class TipBrokerTest extends TestCase {
 		$this->assertEquals('mailto:attendee2@example.org', $result->VEVENT[1]->ATTENDEE[1]->getValue());
 		$this->assertEquals('ACCEPTED', $result->VEVENT[1]->ATTENDEE[1]['PARTSTAT']->getValue());
 		$this->assertEquals('Attendee Two', $result->VEVENT[1]->ATTENDEE[1]['CN']->getValue());
+	}
+
+	/**
+	 * Builds a reply from an attendee that also carries a guest they added
+	 */
+	private function buildReplyWithGuest(VCalendar $existingCalendar, string $sender): Message {
+		$reply = new Message();
+		$reply->uid = $existingCalendar->VEVENT->UID->getValue();
+		$reply->component = 'VEVENT';
+		$reply->sender = $sender;
+		$reply->senderName = 'Attendee One';
+		$reply->sequence = 1;
+		$reply->message = new VCalendar();
+		/** @var \Sabre\VObject\Component\VEvent $replyEvent */
+		$replyEvent = $reply->message->add('VEVENT', []);
+		$replyEvent->add('UID', $reply->uid);
+		$replyEvent->add('ORGANIZER', 'mailto:organizer@example.org');
+		$replyEvent->add('ATTENDEE', $sender, [
+			'PARTSTAT' => 'ACCEPTED',
+		]);
+		$replyEvent->add(TipBroker::ADD_GUEST_PROPERTY, 'mailto:guest@example.org', [
+			'CN' => 'Guest',
+		]);
+
+		return $reply;
+	}
+
+	public function testParseEventForAttendeeReportsAddedGuest(): void {
+		$originalCalendar = clone $this->vCalendar1a;
+		$originalCalendar->VEVENT->add(TipBroker::ALLOW_ATTENDEE_GUESTS_PROPERTY, true);
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedCalendar->VEVENT->add('ATTENDEE', 'mailto:guest@example.org', [
+			'CN' => 'Guest',
+			'PARTSTAT' => 'NEEDS-ACTION',
+		]);
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+
+		$messages = $this->invokePrivate($this->broker, 'parseEventForAttendee', [
+			$mutatedCalendar, $mutatedEventInfo, $originalEventInfo, 'mailto:attendee1@example.org',
+		]);
+
+		$this->assertCount(1, $messages);
+		$this->assertEquals('REPLY', $messages[0]->method);
+		$this->assertEquals('mailto:attendee1@example.org', $messages[0]->sender);
+		$this->assertEquals('mailto:organizer@example.org', $messages[0]->recipient);
+		// The participation status did not change, so no email should be sent
+		$this->assertFalse($messages[0]->significantChange);
+		// RFC 5546 allows exactly one attendee in a reply, so the guest travels
+		// as an extension property
+		$this->assertCount(1, $messages[0]->message->VEVENT->ATTENDEE);
+		$this->assertEquals('mailto:attendee1@example.org', $messages[0]->message->VEVENT->ATTENDEE[0]->getValue());
+		$this->assertEquals('NEEDS-ACTION', $messages[0]->message->VEVENT->ATTENDEE[0]['PARTSTAT']->getValue());
+		$guests = $messages[0]->message->VEVENT->{TipBroker::ADD_GUEST_PROPERTY};
+		$this->assertCount(1, $guests);
+		$this->assertEquals('mailto:guest@example.org', $guests[0]->getValue());
+		$this->assertEquals('Guest', $guests[0]['CN']->getValue());
+	}
+
+	public function testParseEventForAttendeeReportsAddedGuestAlongsideParticipationStatus(): void {
+		$originalCalendar = clone $this->vCalendar1a;
+		$originalCalendar->VEVENT->add(TipBroker::ALLOW_ATTENDEE_GUESTS_PROPERTY, true);
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedCalendar->VEVENT->ATTENDEE[0]['PARTSTAT'] = 'ACCEPTED';
+		$mutatedCalendar->VEVENT->add('ATTENDEE', 'mailto:guest@example.org', [
+			'CN' => 'Guest',
+			'PARTSTAT' => 'NEEDS-ACTION',
+		]);
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+
+		$messages = $this->invokePrivate($this->broker, 'parseEventForAttendee', [
+			$mutatedCalendar, $mutatedEventInfo, $originalEventInfo, 'mailto:attendee1@example.org',
+		]);
+
+		// One reply for the participation status, one carrying the guest
+		$this->assertCount(2, $messages);
+		$this->assertTrue($messages[0]->significantChange);
+		$this->assertCount(1, $messages[0]->message->VEVENT->ATTENDEE);
+		$this->assertEquals('ACCEPTED', $messages[0]->message->VEVENT->ATTENDEE[0]['PARTSTAT']->getValue());
+		$this->assertFalse($messages[1]->significantChange);
+		$this->assertCount(1, $messages[1]->message->VEVENT->ATTENDEE);
+		$this->assertEquals('ACCEPTED', $messages[1]->message->VEVENT->ATTENDEE[0]['PARTSTAT']->getValue());
+		$this->assertEquals('mailto:guest@example.org', $messages[1]->message->VEVENT->{TipBroker::ADD_GUEST_PROPERTY}[0]->getValue());
+	}
+
+	public function testParseEventForAttendeeIgnoresAddedGuestWhenNotAllowed(): void {
+		// The organizer has to opt in, so an event without the property is enough
+		$originalCalendar = clone $this->vCalendar1a;
+		$mutatedCalendar = clone $originalCalendar;
+		$mutatedCalendar->VEVENT->add('ATTENDEE', 'mailto:guest@example.org', [
+			'CN' => 'Guest',
+			'PARTSTAT' => 'NEEDS-ACTION',
+		]);
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+
+		$messages = $this->invokePrivate($this->broker, 'parseEventForAttendee', [
+			$mutatedCalendar, $mutatedEventInfo, $originalEventInfo, 'mailto:attendee1@example.org',
+		]);
+
+		$this->assertCount(0, $messages);
+	}
+
+	public function testParseEventForAttendeeDoesNotReportTheOrganizer(): void {
+		$originalCalendar = clone $this->vCalendar1a;
+		$originalCalendar->VEVENT->add(TipBroker::ALLOW_ATTENDEE_GUESTS_PROPERTY, true);
+		$mutatedCalendar = clone $originalCalendar;
+		// The organizer joining as an attendee is not a guest of anyone
+		$mutatedCalendar->VEVENT->add('ATTENDEE', 'mailto:organizer@example.org', [
+			'CN' => 'Organizer',
+			'PARTSTAT' => 'ACCEPTED',
+		]);
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+
+		$messages = $this->invokePrivate($this->broker, 'parseEventForAttendee', [
+			$mutatedCalendar, $mutatedEventInfo, $originalEventInfo, 'mailto:attendee1@example.org',
+		]);
+
+		$this->assertCount(0, $messages);
+	}
+
+	public function testProcessMessageReplyAddsGuest(): void {
+		$existingCalendar = clone $this->vCalendar1a;
+		$existingCalendar->VEVENT->add(TipBroker::ALLOW_ATTENDEE_GUESTS_PROPERTY, true);
+		$reply = $this->buildReplyWithGuest($existingCalendar, 'mailto:attendee1@example.org');
+
+		$result = $this->invokePrivate($this->broker, 'processMessageReply', [$reply, $existingCalendar]);
+
+		$this->assertSame($existingCalendar, $result);
+		$this->assertCount(2, $result->VEVENT->ATTENDEE);
+		$this->assertEquals('mailto:attendee1@example.org', $result->VEVENT->ATTENDEE[0]->getValue());
+		$this->assertEquals('ACCEPTED', $result->VEVENT->ATTENDEE[0]['PARTSTAT']->getValue());
+		$this->assertEquals('mailto:guest@example.org', $result->VEVENT->ATTENDEE[1]->getValue());
+		$this->assertEquals('NEEDS-ACTION', $result->VEVENT->ATTENDEE[1]['PARTSTAT']->getValue());
+		$this->assertEquals('Guest', $result->VEVENT->ATTENDEE[1]['CN']->getValue());
+	}
+
+	public function testProcessMessageReplyAddsGuestWithParsedProperty(): void {
+		$existingCalendar = clone $this->vCalendar1a;
+		$existingCalendar->VEVENT->add(TipBroker::ALLOW_ATTENDEE_GUESTS_PROPERTY, true);
+		// Parsing turns the property into a bool, unlike adding it in memory
+		$existingCalendar = VObject\Reader::read($existingCalendar->serialize());
+		$reply = $this->buildReplyWithGuest($existingCalendar, 'mailto:attendee1@example.org');
+
+		$result = $this->invokePrivate($this->broker, 'processMessageReply', [$reply, $existingCalendar]);
+
+		$this->assertCount(2, $result->VEVENT->ATTENDEE);
+		$this->assertEquals('mailto:guest@example.org', $result->VEVENT->ATTENDEE[1]->getValue());
+	}
+
+	public function testProcessMessageReplyIgnoresGuestWhenNotAllowed(): void {
+		// Forwarding stays allowed, only adding guests was never turned on
+		$existingCalendar = clone $this->vCalendar1a;
+		$existingCalendar->VEVENT->add(TipBroker::INVITATION_FORWARDING_PROPERTY, true);
+		$reply = $this->buildReplyWithGuest($existingCalendar, 'mailto:attendee1@example.org');
+
+		$result = $this->invokePrivate($this->broker, 'processMessageReply', [$reply, $existingCalendar]);
+
+		$this->assertCount(1, $result->VEVENT->ATTENDEE);
+		$this->assertEquals('mailto:attendee1@example.org', $result->VEVENT->ATTENDEE[0]->getValue());
+		$this->assertEquals('ACCEPTED', $result->VEVENT->ATTENDEE[0]['PARTSTAT']->getValue());
+	}
+
+	public function testProcessMessageReplyIgnoresGuestOfUnknownSender(): void {
+		$existingCalendar = clone $this->vCalendar1a;
+		$existingCalendar->VEVENT->add(TipBroker::ALLOW_ATTENDEE_GUESTS_PROPERTY, true);
+		// A party crasher must not be able to invite further guests
+		$reply = $this->buildReplyWithGuest($existingCalendar, 'mailto:crasher@example.org');
+
+		$result = $this->invokePrivate($this->broker, 'processMessageReply', [$reply, $existingCalendar]);
+
+		$this->assertCount(2, $result->VEVENT->ATTENDEE);
+		$this->assertEquals('mailto:attendee1@example.org', $result->VEVENT->ATTENDEE[0]->getValue());
+		$this->assertEquals('mailto:crasher@example.org', $result->VEVENT->ATTENDEE[1]->getValue());
+	}
+
+	public function testProcessMessageReplyDoesNotDuplicateAKnownGuest(): void {
+		$existingCalendar = clone $this->vCalendar1a;
+		$existingCalendar->VEVENT->add(TipBroker::ALLOW_ATTENDEE_GUESTS_PROPERTY, true);
+		$existingCalendar->VEVENT->add('ATTENDEE', 'mailto:guest@example.org', [
+			'CN' => 'Guest',
+			'PARTSTAT' => 'DECLINED',
+		]);
+		$reply = $this->buildReplyWithGuest($existingCalendar, 'mailto:attendee1@example.org');
+
+		$result = $this->invokePrivate($this->broker, 'processMessageReply', [$reply, $existingCalendar]);
+
+		$this->assertCount(2, $result->VEVENT->ATTENDEE);
+		$this->assertEquals('mailto:guest@example.org', $result->VEVENT->ATTENDEE[1]->getValue());
+		// A reply must not overwrite the participation status of anyone but the sender
+		$this->assertEquals('DECLINED', $result->VEVENT->ATTENDEE[1]['PARTSTAT']->getValue());
 	}
 
 }
