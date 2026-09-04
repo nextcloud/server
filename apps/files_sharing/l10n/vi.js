@@ -228,6 +228,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Được chia sẻ với bạn và {circle} bởi {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Được chia sẻ với bạn và cuộc trò chuyện {conversation} của {owner}",
     "Shared with you in a conversation by {owner}" : "Được chia sẻ với bạn trong cuộc trò chuyện bởi {owner}",
+    "%1$s shared %2$s with you" : "%1$s đã chia sẻ %2$s với bạ",
     "Share not found" : "Không tìm thấy chia sẻ.",
     "Back to %s" : "Quay lại %s",
     "Add to your Nextcloud" : "Thêm vào Nextcloud của bạn",

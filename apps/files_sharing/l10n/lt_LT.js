@@ -402,6 +402,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "{owner} pradėjo bendrinti su jumis ir {circle}",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} pasidalino su jumis ir pokalbiu {conversation}",
     "Shared with you in a conversation by {owner}" : "{owner} pasidalino su jumis pokalbyje",
+    "%1$s shared %2$s with you" : "%1$s pradėjo bendrinti su jumis %2$s",
     "Share not found" : "Bendrinimas nerastas",
     "Back to %s" : "Atgal į %s",
     "Add to your Nextcloud" : "Pridėti į savo „Nextcloud“",

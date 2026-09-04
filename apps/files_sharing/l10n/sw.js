@@ -394,6 +394,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : " Imeshirikiwa na wewe na{circle} kwa {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Imeshirikiwa nawe na mazungumzo {conversation} kwa {owner}",
     "Shared with you in a conversation by {owner}" : " Imeshirikiwa nawe kwenye mazungumzo na{owner}",
+    "%1$s shared %2$s with you" : "%1$s ameshirikisha %2$s na wewe",
     "Share not found" : "Ushirikishaji haupo",
     "Back to %s" : "Rudi kwenye %s",
     "Add to your Nextcloud" : "Ongeza kwenye Nextcloud yako",
