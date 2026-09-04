@@ -94,7 +94,7 @@ abstract class AbstractMapping {
 		}
 
 		$qb = $this->dbc->getQueryBuilder();
-		$q = $qb->selectAlias($qb->createFunction('COUNT(owncloud_name)'), 'count')
+		$q = $qb->select($qb->func()->count('owncloud_name', 'count'))
 			->from($this->getTableName());
 		$q->setMaxResults(self::LOCAL_CACHE_OBJECT_THRESHOLD + 1);
 		$result = $q->executeQuery();
