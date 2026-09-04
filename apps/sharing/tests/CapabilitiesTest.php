@@ -85,6 +85,15 @@ final class CapabilitiesTest extends TestCase {
 		$config->deleteSystemValue('sharing.unified_api_enable');
 	}
 
+	public function testGetCapabilitiesUnifiedSharingApiDisabledByDefault(): void {
+		$config = Server::get(IConfig::class);
+		$config->deleteSystemValue('sharing.unified_api_enable');
+
+		$this->registry->registerSourceType(new TestShareSourceType1([]));
+
+		$this->assertEquals([], $this->capabilities->getCapabilities());
+	}
+
 	public function testGetCapabilitiesDisableUnifiedSharingApi(): void {
 		$config = Server::get(IConfig::class);
 		$config->setSystemValue('sharing.unified_api_enable', false);

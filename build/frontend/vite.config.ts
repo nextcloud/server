@@ -46,6 +46,9 @@ const modules = {
 	files_reminders: {
 		init: resolve(import.meta.dirname, 'apps/files_reminders/src', 'files-init.ts'),
 	},
+	files_sharing: {
+		'sharing-dialog': resolve(import.meta.dirname, 'apps/files_sharing/src', 'sharing-dialog-bridge.ts'),
+	},
 	files_trashbin: {
 		init: resolve(import.meta.dirname, 'apps/files_trashbin/src', 'files-init.ts'),
 	},

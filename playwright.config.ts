@@ -44,6 +44,22 @@ export default defineConfig({
 			fullyParallel: false,
 			workers: 1, // only one admin setting test can run at a time due to shared state
 			testMatch: '**/admin-settings*.spec.ts',
+			// The sharing ones belong to the serial `sharing` project below
+			testIgnore: '**/e2e/files_sharing/**',
+			use: {
+				...BROWSWER_CONFIG_CHROME,
+			},
+		},
+
+		{
+			// Sharing tests. Which sidebar the sharing tab renders is an
+			// instance-wide switch (`sharing.unified_api_enable`): the unified specs
+			// need it on, the share editor specs need it off, so none of them may
+			// run alongside another
+			name: 'sharing',
+			fullyParallel: false,
+			workers: 1,
+			testMatch: '**/e2e/files_sharing/**/*.spec.ts',
 			use: {
 				...BROWSWER_CONFIG_CHROME,
 			},
@@ -52,6 +68,7 @@ export default defineConfig({
 		{
 			name: 'default',
 			testMatch: /\/(?!admin-settings)[^/]*\.spec\.ts$/,
+			testIgnore: '**/e2e/files_sharing/**',
 			grepInvert: /@setup/,
 			use: {
 				...BROWSWER_CONFIG_CHROME,
