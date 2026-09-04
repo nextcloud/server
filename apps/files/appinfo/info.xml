@@ -42,6 +42,7 @@
 		<command>OCA\Files\Command\ScanAppData</command>
 		<command>OCA\Files\Command\RepairTree</command>
 		<command>OCA\Files\Command\Get</command>
+		<command>OCA\Files\Command\ListCommand</command>
 		<command>OCA\Files\Command\Put</command>
 		<command>OCA\Files\Command\Delete</command>
 		<command>OCA\Files\Command\Copy</command>
