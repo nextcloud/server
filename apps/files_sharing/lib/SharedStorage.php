@@ -493,10 +493,31 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		/** @var ILockingStorage $targetStorage */
 		[$targetStorage, $targetInternalPath] = $this->resolvePath($path);
 		$targetStorage->acquireLock($targetInternalPath, $type, $provider);
-		// lock the parent folders of the owner when locking the share as recipient
+
+		// Lock the owner parent folders when locking the share root as recipient.
 		if ($path === '') {
 			$sourcePath = $this->ownerUserFolder->getRelativePath($this->sourcePath);
-			$this->ownerView->lockFile(dirname($sourcePath), ILockingProvider::LOCK_SHARED, true);
+			$ownerParentPath = dirname($sourcePath);
+
+			try {
+				$this->ownerView->lockFile($ownerParentPath, ILockingProvider::LOCK_SHARED, true);
+			} catch (\Throwable $e) {
+				// Do not leave the source-node lock behind if locking its parent fails.
+				try {
+					$targetStorage->releaseLock($targetInternalPath, $type, $provider);
+				} catch (\Throwable $releaseException) {
+					$this->logger->error(
+						'Failed to roll back share lock after locking the owner parent failed',
+						[
+							'app' => 'files_sharing',
+							'exception' => $releaseException,
+							'shareId' => $this->getShareId(),
+						]
+					);
+				}
+
+				throw $e;
+			}
 		}
 	}
 
@@ -504,12 +525,22 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	public function releaseLock(string $path, int $type, ILockingProvider $provider): void {
 		/** @var ILockingStorage $targetStorage */
 		[$targetStorage, $targetInternalPath] = $this->resolvePath($path);
-		$targetStorage->releaseLock($targetInternalPath, $type, $provider);
-		// unlock the parent folders of the owner when unlocking the share as recipient
+
 		if ($path === '') {
 			$sourcePath = $this->ownerUserFolder->getRelativePath($this->sourcePath);
-			$this->ownerView->unlockFile(dirname($sourcePath), ILockingProvider::LOCK_SHARED, true);
+			$ownerParentPath = dirname($sourcePath);
+
+			// Release in reverse acquisition order. Always release the target lock,
+			// even if unlocking the owner parent fails.
+			try {
+				$this->ownerView->unlockFile($ownerParentPath, ILockingProvider::LOCK_SHARED, true);
+			} finally {
+				$targetStorage->releaseLock($targetInternalPath, $type, $provider);
+			}
+			return;
 		}
+
+		$targetStorage->releaseLock($targetInternalPath, $type, $provider);
 	}
 
 	#[\Override]
