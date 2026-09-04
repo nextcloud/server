@@ -42,6 +42,8 @@ class Redis extends Cache implements IMemcacheTTL {
 	/** Number of keys to request per SCAN iteration in {@see self::clear()} (only a hint to Redis) */
 	private const int SCAN_COUNT = 1000;
 
+	private const NO_SCRIPT_ERROR_MESSAGE_PREFIX = 'NOSCRIPT';
+
 	private \Redis|\RedisCluster|null $cache = null;
 
 	public function __construct($prefix = '', string $logFile = '') {
@@ -254,12 +256,29 @@ class Redis extends Cache implements IMemcacheTTL {
 		$args = array_merge($keys, $args);
 		$script = self::LUA_SCRIPTS[$scriptName];
 
-		$result = $this->getCache()->evalSha($script[1], $args, count($keys));
-		if ($result === false) {
-			$result = $this->getCache()->eval($script[0], $args, count($keys));
+		$cache = $this->getCache();
+		$cache->clearLastError();
+
+		$result = $cache->evalSha($script[1], $args, count($keys));
+		if ($result !== false) {
+			return $result;
 		}
 
-		return $result;
+		$error = $cache->getLastError();
+		if ($error !== null && str_starts_with($error, self::NO_SCRIPT_ERROR_MESSAGE_PREFIX)) {
+			$cache->clearLastError();
+			return $cache->eval($script[0], $args, count($keys));
+		}
+
+		if ($error !== null && str_starts_with($error, 'WRONGTYPE')) {
+			return false;
+		}
+
+		if ($error !== null) {
+			throw new \RuntimeException('Redis EVALSHA failed: ' . $error);
+		}
+
+		return false;
 	}
 
 	protected static function encodeValue(mixed $value): string {
