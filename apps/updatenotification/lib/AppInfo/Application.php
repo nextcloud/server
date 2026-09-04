@@ -31,10 +31,10 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
-	public const APP_NAME = 'updatenotification';
+	public const APP_ID = 'updatenotification';
 
 	public function __construct() {
-		parent::__construct(self::APP_NAME, []);
+		parent::__construct(self::APP_ID, []);
 	}
 
 	#[\Override]
@@ -76,7 +76,7 @@ class Application extends App implements IBootstrap {
 				}
 
 				if ($updateChecker->getUpdateState() !== []) {
-					Util::addScript(self::APP_NAME, 'update-notification-legacy');
+					Util::addScript(self::APP_ID, 'update-notification-legacy');
 					$updateChecker->setInitialState();
 				}
 			}
