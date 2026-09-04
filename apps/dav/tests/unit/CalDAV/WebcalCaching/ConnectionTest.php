@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
 use OCA\DAV\CalDAV\WebcalCaching\Connection;
+use OCA\DAV\Exception\InvalidSubscriptionPayload;
+use OCA\DAV\Exception\InvalidSubscriptionUrl;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -60,10 +62,8 @@ class ConnectionTest extends TestCase {
 		$client->expects(self::once())
 			->method('get')
 			->willThrowException($localServerException);
-		$this->logger->expects(self::once())
-			->method('warning')
-			->with('Subscription 42 was not refreshed because it violates local access rules', ['exception' => $localServerException]);
 
+		$this->expectException(LocalServerException::class);
 		$this->connection->queryWebcalFeed($subscription);
 	}
 
@@ -85,6 +85,7 @@ class ConnectionTest extends TestCase {
 		$client->expects(self::never())
 			->method('get');
 
+		$this->expectException(InvalidSubscriptionUrl::class);
 		$this->connection->queryWebcalFeed($subscription);
 
 	}
@@ -186,6 +187,7 @@ class ConnectionTest extends TestCase {
 			->method('getBody')
 			->willReturn('not a resource');
 
+		$this->expectException(InvalidSubscriptionPayload::class);
 		$output = $this->connection->queryWebcalFeed($subscription);
 
 		$this->assertNull($output);
