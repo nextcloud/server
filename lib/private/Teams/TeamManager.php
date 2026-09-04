@@ -15,6 +15,7 @@ use OCA\Circles\Model\Member;
 use OCA\Circles\Model\Probes\CircleProbe;
 use OCP\IURLGenerator;
 use OCP\Server;
+use OCP\Teams\ITeamFileResolver;
 use OCP\Teams\ITeamFolderProvider;
 use OCP\Teams\ITeamManager;
 use OCP\Teams\ITeamResourceProvider;
@@ -23,6 +24,11 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 class TeamManager implements ITeamManager {
+	/**
+	 * Id of the provider whose resource ids are file ids. Owned by circles, and
+	 * hardcoded by every caller of the route.
+	 */
+	private const FILE_ADDRESSED_PROVIDER_ID = 'files';
 
 	/** @var ?ITeamResourceProvider[] */
 	private ?array $providers = null;
@@ -130,8 +136,27 @@ class TeamManager implements ITeamManager {
 			return [];
 		}
 
+		return array_map($this->circleToTeam(...), $this->getTeams($this->collectTeamIds($providerId, $resourceId), $userId));
+	}
+
+	/**
+	 * @return list<string>
+	 */
+	private function collectTeamIds(string $providerId, string $resourceId): array {
 		$provider = $this->getProvider($providerId);
-		return array_map($this->circleToTeam(...), $this->getTeams($provider->getTeamsForResource($resourceId), $userId));
+		$teamIds = $provider->getTeamsForResource($resourceId);
+
+		if ($providerId === self::FILE_ADDRESSED_PROVIDER_ID) {
+			foreach ($this->getProviders() as $candidate) {
+				if ($candidate === $provider || !$candidate instanceof ITeamFileResolver) {
+					continue;
+				}
+
+				$teamIds = array_merge($teamIds, $candidate->getTeamsForFile((int)$resourceId));
+			}
+		}
+
+		return array_values(array_unique($teamIds));
 	}
 
 	private function getTeamInternal(string $teamId, string $userId, ?CircleProbe $probe = null): ?Circle {
