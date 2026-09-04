@@ -641,9 +641,8 @@ class Image implements IImage {
 					if (!$this->checkImageSize($imagePath)) {
 						return false;
 					}
-					if (@getimagesize($imagePath) !== false) {
-						$this->resource = @imagecreatefromjpeg($imagePath);
-					} else {
+					$this->resource = @imagecreatefromjpeg($imagePath);
+					if (!$this->resource) {
 						$this->logger->debug('Image->loadFromFile, JPG image not valid: ' . $imagePath, ['app' => 'core']);
 					}
 				} else {
