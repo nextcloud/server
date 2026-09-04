@@ -90,6 +90,15 @@ class CustomPropertiesBackend implements BackendInterface {
 	];
 
 	/**
+	 * Allowed properties for the dav namespace, all other properties in the namespace are ignored
+	 *
+	 * @var string[]
+	 */
+	private const ALLOWED_DAV_PROPERTIES = [
+		'{DAV:}displayname',
+	];
+
+	/**
 	 * Properties set by one user, readable by all others
 	 *
 	 * @var string[]
@@ -278,6 +287,12 @@ class CustomPropertiesBackend implements BackendInterface {
 	private function isPropertyAllowed(string $property): bool {
 		if (in_array($property, self::IGNORED_PROPERTIES)) {
 			return false;
+		}
+		if (str_starts_with($property, '{http://open-collaboration-services.org/ns}')) {
+			return false;
+		}
+		if (str_starts_with($property, '{DAV:}')) {
+			return in_array($property, self::ALLOWED_DAV_PROPERTIES);
 		}
 		if (str_starts_with($property, '{http://owncloud.org/ns}') || str_starts_with($property, '{http://nextcloud.org/ns}')) {
 			return in_array($property, self::ALLOWED_NC_PROPERTIES);
