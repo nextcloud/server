@@ -392,9 +392,22 @@ abstract class FetcherBase extends TestCase {
 
 	public function testGetWithExceptionInClient(): void {
 		$this->config->method('getSystemValueString')
-			->willReturnArgument(1);
+			->willReturnCallback(function (string $key, string $default): string {
+				if ($key === 'version') {
+					return '11.0.0.2';
+				}
+
+				return $default;
+			});
+
 		$this->config->method('getSystemValueBool')
-			->willReturnArgument(1);
+ 			->willReturnArgument(1);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
@@ -411,7 +424,21 @@ abstract class FetcherBase extends TestCase {
 		$file
 			->expects($this->once())
 			->method('getContent')
-			->willReturn('{"timestamp":1200,"data":{"MyApp":{"id":"MyApp"}}}');
+			->willReturn(json_encode([
+				'timestamp' => 1200,
+				'data' => [
+					['id' => 'MyApp'],
+				],
+				'ncversion' => '11.0.0.2',
+			]));
+
+		// First call checks whether the cache is fresh; the second call is
+		// made by the stale-cache fallback closure.
+		$this->timeFactory
+			->expects($this->exactly(2))
+			->method('getTime')
+			->willReturnOnConsecutiveCalls(4801, 4801);
+
 		$client = $this->createMock(IClient::class);
 		$this->clientService
 			->expects($this->once())
@@ -422,6 +449,305 @@ abstract class FetcherBase extends TestCase {
 			->method('get')
 			->with($this->endpoint)
 			->willThrowException(new \Exception());
+
+		$this->assertSame([['id' => 'MyApp']], $this->fetcher->get());
+	}
+
+	public function testGetUsesStaleCacheWithinMaximumStaleAge(): void {
+		$this->config->method('getSystemValueString')
+			->willReturnCallback(function (string $key, string $default): string {
+				if ($key === 'version') {
+					return '11.0.0.2';
+				}
+
+				return $default;
+			});
+
+		$this->config->method('getSystemValueBool')
+			->willReturnArgument(1);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with($this->fileName)
+			->willReturn($file);
+
+		$file
+			->expects($this->once())
+			->method('getContent')
+			->willReturn(json_encode([
+				'timestamp' => 1000,
+				'data' => [
+					['id' => 'MyApp'],
+				],
+				'ncversion' => '11.0.0.2',
+			]));
+
+		$now = 1000 + Fetcher::MAX_STALE_SECONDS - 1;
+
+		$this->timeFactory
+			->expects($this->exactly(2))
+			->method('getTime')
+			->willReturnOnConsecutiveCalls($now, $now);
+
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+
+		$client
+			->expects($this->once())
+			->method('get')
+			->with($this->endpoint, [
+				'timeout' => 120,
+			])
+			->willThrowException(new \Exception('temporary failure'));
+
+		$this->assertSame([['id' => 'MyApp']], $this->fetcher->get());
+	}
+
+	public function testGetDoesNotUseStaleCacheOlderThanMaximumStaleAge(): void {
+		$this->config->method('getSystemValueString')
+			->willReturnCallback(function (string $key, string $default): string {
+				if ($key === 'version') {
+					return '11.0.0.2';
+				}
+
+				return $default;
+			});
+
+		$this->config->method('getSystemValueBool')
+			->willReturnArgument(1);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with($this->fileName)
+			->willReturn($file);
+
+		$file
+			->expects($this->once())
+			->method('getContent')
+			->willReturn(json_encode([
+				'timestamp' => 1000,
+				'data' => [
+					['id' => 'MyApp'],
+				],
+				'ncversion' => '11.0.0.2',
+			]));
+
+		$now = 1000 + Fetcher::MAX_STALE_SECONDS + 1;
+
+		$this->timeFactory
+			->expects($this->exactly(2))
+			->method('getTime')
+			->willReturnOnConsecutiveCalls($now, $now);
+
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+
+		$client
+			->expects($this->once())
+			->method('get')
+			->with($this->endpoint, [
+				'timeout' => 120,
+			])
+			->willThrowException(new \Exception('temporary failure'));
+
+		$this->assertSame([], $this->fetcher->get());
+	}
+
+	public function testGetUsesStaleCacheDuringFailureCooldown(): void {
+		$this->config->method('getSystemValueString')
+			->willReturnCallback(function (string $key, string $default): string {
+				if ($key === 'version') {
+					return '11.0.0.2';
+				}
+
+				return $default;
+			});
+
+		$this->config->method('getSystemValueBool')
+			->willReturnArgument(1);
+
+		$this->config->method('getAppValue')
+			->willReturnCallback(function (string $app, string $key, string $default): string {
+				if ($key === 'appstore-fetcher-lastFailure') {
+					return (string)time();
+				}
+
+				return $default;
+			});
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with($this->fileName)
+			->willReturn($file);
+
+		$file
+			->expects($this->once())
+			->method('getContent')
+			->willReturn(json_encode([
+				'timestamp' => 1000,
+				'data' => [
+					['id' => 'MyApp'],
+				],
+				'ncversion' => '11.0.0.2',
+			]));
+
+		$now = 1000 + Fetcher::MAX_STALE_SECONDS - 1;
+
+		$this->timeFactory
+			->expects($this->exactly(2))
+			->method('getTime')
+			->willReturnOnConsecutiveCalls($now, $now);
+
+		$this->clientService
+			->expects($this->never())
+			->method('newClient');
+
+		$this->assertSame([['id' => 'MyApp']], $this->fetcher->get());
+	}
+
+	public function testGetAcceptsValidEmptyRefreshResponse(): void {
+		$this->config->method('getSystemValueString')
+			->willReturnCallback(function (string $key, string $default): string {
+				if ($key === 'version') {
+					return '11.0.0.2';
+				}
+
+				return $default;
+			});
+
+		$this->config->method('getSystemValueBool')
+			->willReturnArgument(1);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
+
+		$folder = $this->createMock(ISimpleFolder::class);
+		$file = $this->createMock(ISimpleFile::class);
+
+		$this->appData
+			->expects($this->once())
+			->method('getFolder')
+			->with('/')
+			->willReturn($folder);
+
+		$folder
+			->expects($this->once())
+			->method('getFile')
+			->with($this->fileName)
+			->willReturn($file);
+
+		$oldData = json_encode([
+			'timestamp' => 1000,
+			'data' => [
+				['id' => 'MyApp'],
+			],
+			'ncversion' => '11.0.0.2',
+		]);
+
+		$newData = json_encode([
+			'timestamp' => 2000,
+			'data' => [],
+			'ncversion' => '11.0.0.2',
+			'ETag' => '"newETag"',
+		]);
+
+		$file
+			->expects($this->exactly(2))
+			->method('getContent')
+			->willReturnOnConsecutiveCalls($oldData, $newData);
+
+		$file
+			->expects($this->once())
+			->method('putContent')
+			->with($newData);
+
+		$this->timeFactory
+			->expects($this->exactly(2))
+			->method('getTime')
+			->willReturnOnConsecutiveCalls(4801, 2000);
+
+		$client = $this->createMock(IClient::class);
+		$this->clientService
+			->expects($this->once())
+			->method('newClient')
+			->willReturn($client);
+
+		$response = $this->createMock(IResponse::class);
+
+		$client
+			->expects($this->once())
+			->method('get')
+			->with($this->endpoint, [
+				'timeout' => 120,
+			])
+			->willReturn($response);
+
+		$response
+			->expects($this->once())
+			->method('getStatusCode')
+			->willReturn(200);
+
+		$response
+			->expects($this->once())
+			->method('getBody')
+			->willReturn('[]');
+
+		$response
+			->expects($this->once())
+			->method('getHeader')
+			->with('ETag')
+			->willReturn('"newETag"');
 
 		$this->assertSame([], $this->fetcher->get());
 	}
