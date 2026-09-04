@@ -324,7 +324,8 @@ class Server {
 						\OC::$server->get(\OCP\Defaults::class),
 						$userSession,
 						\OC::$server->get(\OCA\DAV\CalDAV\Schedule\IMipService::class),
-						\OC::$server->get(\OCA\DAV\CalDAV\EventComparisonService::class)
+						\OC::$server->get(\OCA\DAV\CalDAV\EventComparisonService::class),
+						\OC::$server->get(\OCP\Accounts\IAccountManager::class),
 					));
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
