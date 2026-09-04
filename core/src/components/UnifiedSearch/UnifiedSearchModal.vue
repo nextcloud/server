@@ -251,6 +251,8 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable vue/custom-event-name-casing */
+
 import type { FocusTrap } from 'focus-trap'
 import type { CategorySearchParams } from '../../services/UnifiedSearchController.ts'
 

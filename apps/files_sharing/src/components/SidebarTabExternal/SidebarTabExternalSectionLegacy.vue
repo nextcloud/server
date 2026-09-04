@@ -10,10 +10,9 @@
 </template>
 
 <script lang="ts" setup>
-import {
-	type Component,
-	type PropType,
+import type { Component, PropType } from 'vue'
 
+import {
 	computed,
 } from 'vue'
 
