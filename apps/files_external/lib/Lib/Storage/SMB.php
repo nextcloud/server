@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
@@ -43,84 +43,83 @@ use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
 
 class SMB extends Common implements INotifyStorage {
-	/**
-	 * @var \Icewind\SMB\IServer
-	 */
-	protected $server;
-
-	/**
-	 * @var \Icewind\SMB\IShare
-	 */
-	protected $share;
-
-	/**
-	 * @var string
-	 */
-	protected $root;
-
+	protected \Icewind\SMB\IServer $server;
+	protected \Icewind\SMB\IShare $share;
+	protected string $root;
 	/** @var CappedMemoryCache<IFileInfo> */
 	protected CappedMemoryCache $statCache;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/** @var bool */
-	protected $showHidden;
-
+	protected LoggerInterface $logger;
+	protected bool $showHidden;
 	private bool $caseSensitive;
-
-	/** @var bool */
-	protected $checkAcl;
+	protected bool $checkAcl;
 
 	public function __construct(array $parameters) {
+		// Validate required connection target
 		if (!isset($parameters['host'])) {
 			throw new \Exception('Invalid configuration, no host provided');
 		}
+		// SMB auth
+		$auth = $this->resolveAuth($parameters);
+		// SMB client options
+		$options = $this->buildSmbOptions($parameters);
+		$this->logger = \OCP\Server::get(LoggerInterface::class);
+		// Create server + share handles used by all subsequent filesystem operations.
+		$systemBridge = \OCP\Server::get(SystemBridge::class);
+		$serverFactory = new ServerFactory($options, $systemBridge);
+		$this->server = $serverFactory->createServer($parameters['host'], $auth);
+		$this->share = $this->server->getShare(trim($parameters['share'], '/'));
+		// Normalize root to canonical internal form: leading slash, trailing slash.
+		$this->root = $parameters['root'] ?? '/';
+		$this->root = '/' . ltrim($this->root, '/');
+		$this->root = rtrim($this->root, '/') . '/';
+		// Normalize root to canonical internal form: leading slash, trailing slash.
+		$this->showHidden = isset($parameters['show_hidden']) && $parameters['show_hidden'];
+		$this->caseSensitive = (bool)($parameters['case_sensitive'] ?? true);
+		$this->checkAcl = isset($parameters['check_acl']) && $parameters['check_acl'];
+		$this->initCaches();
+		// Call parent last: SMB-specific dependencies/state must be initialized first.
+		parent::__construct($parameters);
+	}
 
-		if (isset($parameters['auth'])) {
-			$auth = $parameters['auth'];
-		} elseif (isset($parameters['user']) && isset($parameters['password']) && isset($parameters['share'])) {
-			[$workgroup, $user] = $this->splitUser($parameters['user']);
-			$auth = new BasicAuth($user, $workgroup, $parameters['password']);
-		} else {
-			throw new \Exception('Invalid configuration, no credentials provided');
-		}
-
-		if (isset($parameters['logger'])) {
-			if (!$parameters['logger'] instanceof LoggerInterface) {
-				throw new \Exception(
-					'Invalid logger. Got '
-					. get_class($parameters['logger'])
-					. ' Expected ' . LoggerInterface::class
-				);
-			}
-			$this->logger = $parameters['logger'];
-		} else {
-			$this->logger = \OCP\Server::get(LoggerInterface::class);
-		}
-
+	private function buildSmbOptions(array $parameters): Options {
 		$options = new Options();
+
 		if (isset($parameters['timeout'])) {
 			$timeout = (int)$parameters['timeout'];
 			if ($timeout > 0) {
 				$options->setTimeout($timeout);
 			}
 		}
-		$system = \OCP\Server::get(SystemBridge::class);
-		$serverFactory = new ServerFactory($options, $system);
-		$this->server = $serverFactory->createServer($parameters['host'], $auth);
-		$this->share = $this->server->getShare(trim($parameters['share'], '/'));
 
-		$this->root = $parameters['root'] ?? '/';
-		$this->root = '/' . ltrim($this->root, '/');
-		$this->root = rtrim($this->root, '/') . '/';
+		return $options;
+	}
 
-		$this->showHidden = isset($parameters['show_hidden']) && $parameters['show_hidden'];
-		$this->caseSensitive = (bool)($parameters['case_sensitive'] ?? true);
-		$this->checkAcl = isset($parameters['check_acl']) && $parameters['check_acl'];
+	/**
+	 * Resolve SMB authentication from config.
+	 *
+	 * Prefer prebuilt auth, otherwise build from user/password.
+	 *
+	 * @throws \Exception when credentials are missing/invalid
+	 */
+	private function resolveAuth(array $parameters) {
+		if (isset($parameters['auth'])) {
+			return $parameters['auth'];
+		}
 
+		if (isset($parameters['user']) && isset($parameters['password']) && isset($parameters['share'])) {
+			[$workgroup, $username] = $this->splitUser($parameters['user']);
+			return new BasicAuth($username, $workgroup, $parameters['password']);
+		}
+
+		throw new \Exception('Invalid configuration, no credentials provided');
+	}
+	
+	private function initCaches(): void {
 		$this->statCache = new CappedMemoryCache();
-		parent::__construct($parameters);
+	}
+
+	private function clearCaches(): void {
+		$this->statCache->clear();
 	}
 
 	private function splitUser(string $user): array {
@@ -511,7 +510,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 
 		try {
-			$this->statCache = new CappedMemoryCache();
+			$this->clearCaches();
 			$content = $this->share->dir($this->buildPath($path));
 			foreach ($content as $file) {
 				if ($file->isDirectory()) {
