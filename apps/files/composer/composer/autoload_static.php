@@ -47,6 +47,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Command\\Delete' => __DIR__ . '/..' . '/../lib/Command/Delete.php',
         'OCA\\Files\\Command\\DeleteOrphanedFiles' => __DIR__ . '/..' . '/../lib/Command/DeleteOrphanedFiles.php',
         'OCA\\Files\\Command\\Get' => __DIR__ . '/..' . '/../lib/Command/Get.php',
+        'OCA\\Files\\Command\\ListCommand' => __DIR__ . '/..' . '/../lib/Command/ListCommand.php',
         'OCA\\Files\\Command\\Mkdir' => __DIR__ . '/..' . '/../lib/Command/Mkdir.php',
         'OCA\\Files\\Command\\Mount\\ListMounts' => __DIR__ . '/..' . '/../lib/Command/Mount/ListMounts.php',
         'OCA\\Files\\Command\\Mount\\Refresh' => __DIR__ . '/..' . '/../lib/Command/Mount/Refresh.php',
