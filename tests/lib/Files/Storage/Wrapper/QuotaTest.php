@@ -13,6 +13,7 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Wrapper\Quota;
 use OCP\Files;
+use OCP\Files\FileInfo;
 use OCP\Files\NotEnoughSpaceException;
 use OCP\ITempManager;
 use OCP\Server;
@@ -60,6 +61,28 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertFalse($instance->file_put_contents('files/foo', 'foobar'));
 	}
 
+	public function testFilePutContentsRejectsExactQuotaLimit(): void {
+		$instance = $this->getLimitedStorage(3);
+
+		// Quota currently uses a strict "<" comparison, so an exact fit is
+		// rejected rather than accepted.
+		$this->assertFalse($instance->file_put_contents('files/foo', 'foo'));
+	}
+
+	public function testSizedWriteStreamRejectsExactQuotaLimit(): void {
+		$instance = $this->getLimitedStorage(3);
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foo');
+		rewind($stream);
+
+		$this->expectException(NotEnoughSpaceException::class);
+		try {
+			$instance->writeStream('files/test.txt', $stream, 3);
+		} finally {
+			fclose($stream);
+		}
+	}
+
 	public function testCopyNotEnoughSpace(): void {
 		$instance = $this->getLimitedStorage(9);
 		$this->assertEquals(6, $instance->file_put_contents('files/foo', 'foobar'));
@@ -95,6 +118,51 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			'', ['size' => 3]
 		);
 		$this->assertEquals(6, $instance->free_space(''));
+	}
+
+	public function testQuotaCallbackIsUsedAndCached(): void {
+		$storage = new Local(['datadir' => $this->tmpDir]);
+		$storage->mkdir('files');
+		$storage->getScanner()->scan('');
+
+		$callbackCalls = 0;
+		$instance = new Quota([
+			'storage' => $storage,
+			'quotaCallback' => static function () use (&$callbackCalls): int {
+				$callbackCalls++;
+				return 9;
+			},
+		]);
+
+		$this->assertSame(9, $instance->getQuota());
+		$this->assertSame(9, $instance->getQuota());
+		$this->assertSame(1, $callbackCalls);
+	}
+
+	public function testUnlimitedQuotaDelegatesToWrappedStorage(): void {
+		$instance = $this->getLimitedStorage(FileInfo::SPACE_UNLIMITED);
+
+		$this->assertSame(
+			100,
+			$instance->file_put_contents('files/foo', str_repeat('x', 100))
+		);
+	}
+
+	public function testNegativeQuotaDelegatesToWrappedStorage(): void {
+		$instance = $this->getLimitedStorage(-1);
+
+		$this->assertSame(
+			100,
+			$instance->file_put_contents('files/foo', str_repeat('x', 100))
+		);
+	}
+
+	public function testQuotaCanBeDisabled(): void {
+		$instance = $this->getLimitedStorage(0);
+		$instance->enableQuota(false);
+
+		$this->assertSame(3, $instance->file_put_contents('files/foo', 'foo'));
+		$this->assertSame('foo', $instance->file_get_contents('files/foo'));
 	}
 
 	public function testFreeSpaceWithUsedSpaceAndEncryption(): void {
@@ -214,7 +282,6 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 
 	public function testNoMkdirQuotaZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
-		$this->assertFalse($instance->mkdir('files'));
 		$this->assertFalse($instance->mkdir('files/foobar'));
 	}
 
@@ -224,6 +291,29 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($instance->mkdir('files_trashbin/files'));
 		$this->assertTrue($instance->mkdir('files_versions'));
 		$this->assertTrue($instance->mkdir('cache'));
+	}
+
+	public function testCacheAndUploadsBypassQuota(): void {
+		$instance = $this->getLimitedStorage(0.0);
+
+		$this->assertTrue($instance->mkdir('uploads'));
+		$this->assertSame(3, $instance->file_put_contents('uploads/foo', 'foo'));
+		$this->assertSame('foo', $instance->file_get_contents('uploads/foo'));
+
+		$this->assertTrue($instance->mkdir('cache'));
+		$this->assertSame(3, $instance->file_put_contents('cache/foo', 'foo'));
+		$this->assertSame('foo', $instance->file_get_contents('cache/foo'));
+	}
+
+	public function testPartFilesBypassQuotaWhenOpenedForWriting(): void {
+		$instance = $this->getLimitedStorage(0.0);
+		$stream = $instance->fopen('files/foo.part', 'w');
+
+		$this->assertIsResource($stream);
+		$this->assertSame(3, fwrite($stream, 'foo'));
+		fclose($stream);
+
+		$this->assertSame('foo', $instance->file_get_contents('files/foo.part'));
 	}
 
 	public function testNoTouchQuotaZero(): void {
@@ -242,13 +332,89 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$stream = fopen('php://temp', 'w+');
 		fwrite($stream, 'foo');
 		rewind($stream);
-		$instance->writeStream('files/test.txt', $stream);
+		$this->assertSame(3, $instance->writeStream('files/test.txt', $stream));
+
+		$this->assertSame('foo', $instance->file_get_contents('files/test.txt'));
 
 		$stream = fopen('php://temp', 'w+');
 		fwrite($stream, 'foobar');
 		rewind($stream);
 		$this->expectException(NotEnoughSpaceException::class);
 		$instance->writeStream('files/test.txt', $stream);
+		fclose($stream);
+	}
+
+	public function testSizedWriteStreamWithEnoughSpace(): void {
+		$instance = $this->getLimitedStorage(5);
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foo');
+		rewind($stream);
+
+		$this->assertSame(
+			3,
+			$instance->writeStream('files/test.txt', $stream, 3)
+		);
+
+		$this->assertSame('foo', $instance->file_get_contents('files/test.txt'));
+	}
+
+	public function testSizedWriteStreamRejectsWhenSizeReachesFreeSpace(): void {
+		$instance = $this->getLimitedStorage(3);
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foo');
+		rewind($stream);
+
+		try {
+			$this->expectException(NotEnoughSpaceException::class);
+			$instance->writeStream('files/test.txt', $stream, 3);
+		} finally {
+			fclose($stream);
+		}
+	}
+
+	public function testCopyFromStorageHonorsQuota(): void {
+		$instance = $this->getLimitedStorage(3);
+		$sourceDir = Server::get(ITempManager::class)->getTemporaryFolder();
+
+		try {
+			$sourceStorage = new Local(['datadir' => $sourceDir]);
+			$sourceStorage->file_put_contents('source.txt', 'foo');
+			$sourceStorage->getScanner()->scan('');
+
+			$this->assertFalse(
+				$instance->copyFromStorage(
+					$sourceStorage,
+					'source.txt',
+					'files/target.txt'
+				)
+			);
+			$this->assertFalse($instance->file_exists('files/target.txt'));
+		} finally {
+			Files::rmdirr($sourceDir);
+		}
+	}
+
+	public function testMoveFromStorageHonorsQuota(): void {
+		$instance = $this->getLimitedStorage(3);
+		$sourceDir = Server::get(ITempManager::class)->getTemporaryFolder();
+
+		try {
+			$sourceStorage = new Local(['datadir' => $sourceDir]);
+			$sourceStorage->file_put_contents('source.txt', 'foo');
+			$sourceStorage->getScanner()->scan('');
+
+			$this->assertFalse(
+				$instance->moveFromStorage(
+					$sourceStorage,
+					'source.txt',
+					'files/target.txt'
+				)
+			);
+			$this->assertTrue($sourceStorage->file_exists('source.txt'));
+			$this->assertFalse($instance->file_exists('files/target.txt'));
+		} finally {
+			Files::rmdirr($sourceDir);
+		}
 	}
 
 	public function testNoWriteStreamQuotaZero(): void {

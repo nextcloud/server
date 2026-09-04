@@ -163,6 +163,29 @@ class HelperStorageTest extends \Test\TestCase {
 	}
 
 	/**
+	 * Test that the quota wrapper includes mounted storage when configured.
+	 */
+	public function testQuotaIncludesExternalStorage(): void {
+		$homeStorage = new Temporary([]);
+		$homeStorage->file_put_contents('test.txt', '01234');
+		$homeStorage->getScanner()->scan('');
+
+		$quotaStorage = new Quota([
+			'storage' => $homeStorage,
+			'quota' => 25,
+			'include_external_storage' => true,
+		]);
+		Filesystem::mount($quotaStorage, [], '/' . $this->user . '/files');
+
+		$externalStorage = new Temporary([]);
+		$externalStorage->file_put_contents('extfile.txt', 'abcdefghijklmnopq');
+		$externalStorage->getScanner()->scan('');
+		Filesystem::mount($externalStorage, [], '/' . $this->user . '/files/ext');
+
+		$this->assertSame(3, $quotaStorage->free_space(''));
+	}
+
+	/**
 	 * Test getting the storage info excluding extra mount points
 	 * when user has no quota set, even when quota ext storage option
 	 * was set
