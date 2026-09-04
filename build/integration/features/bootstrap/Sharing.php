@@ -7,6 +7,7 @@
  */
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use OCA\Files_Sharing\MountProvider;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
@@ -97,12 +98,64 @@ trait Sharing {
 	}
 
 	/**
+	 * @When /^opening last share accept confirmation page$/
+	 */
+	public function openingLastShareAcceptConfirmationPage(): void {
+		$share_id = $this->lastShareData->data[0]->id;
+		$url = "/index.php/apps/files_sharing/accept/ocinternal:$share_id";
+		$baseUrl = substr($this->baseUrl, 0, -5);
+		$client = new Client();
+		try {
+			$this->response = $client->get(
+				$baseUrl . $url,
+				[
+					'cookies' => $this->cookieJar,
+				]
+			);
+		} catch (ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+	}
+
+	/**
+	 * @When /^accepting last share via the accept endpoint with requesttoken$/
+	 */
+	public function acceptingLastShareViaAcceptEndpointWithRequesttoken(): void {
+		$share_id = $this->lastShareData->data[0]->id;
+		$url = "/index.php/apps/files_sharing/accept/ocinternal:$share_id";
+		$baseUrl = substr($this->baseUrl, 0, -5);
+		$client = new Client();
+		try {
+			$this->response = $client->post(
+				$baseUrl . $url,
+				[
+					'cookies' => $this->cookieJar,
+					'form_params' => [
+						'requesttoken' => $this->requestToken,
+					],
+					'headers' => [
+						'Origin' => $baseUrl,
+					],
+				]
+			);
+		} catch (ClientException $ex) {
+			$this->response = $ex->getResponse();
+		}
+	}
+
+	/**
 	 * @When /^accepting last share via the accept endpoint$/
 	 */
 	public function acceptingLastShareViaAcceptEndpoint(): void {
-		$share_id = $this->lastShareData->data[0]->id;
-		$url = "/index.php/apps/files_sharing/accept/ocinternal:$share_id";
-		$this->sendingToDirectUrl('GET', $url);
+		$this->loggingInUsingWebAs($this->currentUser);
+		$this->openingLastShareAcceptConfirmationPage();
+
+		if ($this->response->getStatusCode() !== 200) {
+			return;
+		}
+
+		$this->theCsrfTokenIsExtractedFromThePreviousResponse();
+		$this->acceptingLastShareViaAcceptEndpointWithRequesttoken();
 	}
 
 	/**
