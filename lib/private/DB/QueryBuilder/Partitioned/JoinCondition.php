@@ -149,7 +149,7 @@ class JoinCondition {
 		} elseif (str_starts_with($part, 'to_number(to_char(')) {
 			// oracle cast to int
 			$part = substr($part, strlen('to_number(to_char('), -2);
-		} elseif (str_starts_with($part, 'to_number(to_char(')) {
+		} elseif (str_starts_with($part, 'to_char(')) {
 			// oracle cast to string
 			$part = substr($part, strlen('to_char('), -1);
 		}

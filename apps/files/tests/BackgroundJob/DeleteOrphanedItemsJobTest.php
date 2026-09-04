@@ -51,6 +51,35 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 		return $mapping;
 	}
 
+	protected function createFileCacheEntry(): int {
+		$path = 'apps/files/tests/deleteorphaneditemsjobtest-' . self::getUniqueID();
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('filecache')
+			->values([
+				'storage' => $query->createNamedParameter(1337, IQueryBuilder::PARAM_INT),
+				'path' => $query->createNamedParameter($path),
+				'path_hash' => $query->createNamedParameter(md5($path)),
+			])->executeStatement();
+		return $query->getLastInsertId();
+	}
+
+	protected function deleteFileCacheEntry(int $fileId): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('filecache')
+			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
+			->executeStatement();
+	}
+
+	protected function insertSystemTagMapping(int $objectId, int $tagId): void {
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('systemtag_object_mapping')
+			->values([
+				'objectid' => $query->createNamedParameter($objectId, IQueryBuilder::PARAM_INT),
+				'objecttype' => $query->createNamedParameter('files'),
+				'systemtagid' => $query->createNamedParameter($tagId, IQueryBuilder::PARAM_INT),
+			])->executeStatement();
+	}
+
 	/**
 	 * Test clearing orphaned system tag mappings
 	 */
@@ -97,6 +126,47 @@ class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 		$query->delete('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
 			->executeStatement();
+		$this->cleanMapping('systemtag_object_mapping');
+	}
+
+	/**
+	 * The chunked clean-up must delete every orphaned row - including a file
+	 * referenced by several tags - while keeping all rows whose file still
+	 * exists, no matter how many tags it has (the GROUP BY/dedup case).
+	 */
+	public function testClearSystemTagMappingsKeepsPresentRemovesOrphans(): void {
+		$this->cleanMapping('systemtag_object_mapping');
+
+		$presentA = $this->createFileCacheEntry();
+		$presentB = $this->createFileCacheEntry();
+		// A file id guaranteed to be absent from the cache: create a row, keep
+		// its id, then delete it again (auto-increment ids are never reused).
+		$orphan = $this->createFileCacheEntry();
+		$this->deleteFileCacheEntry($orphan);
+
+		// Present file with two tags -> both kept.
+		$this->insertSystemTagMapping($presentA, 1);
+		$this->insertSystemTagMapping($presentA, 2);
+		// Present file with one tag -> kept.
+		$this->insertSystemTagMapping($presentB, 1);
+		// Orphaned file with two tags -> both removed.
+		$this->insertSystemTagMapping($orphan, 1);
+		$this->insertSystemTagMapping($orphan, 2);
+
+		$this->assertCount(5, $this->getMappings('systemtag_object_mapping'));
+
+		$job = new DeleteOrphanedItems($this->timeFactory, $this->connection, $this->logger);
+		self::invokePrivate($job, 'cleanSystemTags');
+
+		$mapping = $this->getMappings('systemtag_object_mapping');
+		$remainingIds = array_map(static fn (array $row): int => (int)$row['objectid'], $mapping);
+		sort($remainingIds);
+		$expected = [$presentA, $presentA, $presentB];
+		sort($expected);
+		$this->assertSame($expected, $remainingIds);
+
+		$this->deleteFileCacheEntry($presentA);
+		$this->deleteFileCacheEntry($presentB);
 		$this->cleanMapping('systemtag_object_mapping');
 	}
 

@@ -97,8 +97,13 @@ class QuerySearchHelper {
 	}
 
 	protected function equipQueryForSystemTags(CacheQueryBuilder $query, IUser $user): void {
+		// Compare the join as strings (objectid = CAST(fileid AS CHAR)) instead of
+		// casting objectid to an integer. objectid is a string column, so casting it
+		// (or letting MySQL implicitly coerce the string column to a number when comparing
+		// to the bigint fileid) makes the systag_by_objectid index unusable and turns this
+		// into a full/BNL join. Casting fileid instead keeps the index on objectid usable.
 		$query->leftJoin('file', 'systemtag_object_mapping', 'systemtagmap', $query->expr()->andX(
-			$query->expr()->eq('file.fileid', $query->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
+			$query->expr()->eq('systemtagmap.objectid', $query->expr()->castColumn('file.fileid', IQueryBuilder::PARAM_STR)),
 			$query->expr()->eq('systemtagmap.objecttype', $query->createNamedParameter('files'))
 		));
 		$on = $query->expr()->andX($query->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'));
