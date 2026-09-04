@@ -844,9 +844,17 @@ trait WebDav {
 		$this->s3MultipartDestination = $this->getTargetDestination($user, $targetDestination);
 		$this->newUploadId();
 		$destination = '/uploads/' . $user . '/' . $this->getUploadId($id);
-		$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, [
-			'Destination' => $this->s3MultipartDestination,
-		], null, "uploads");
+		try {
+			$this->response = $this->makeDavRequest($user, 'MKCOL', $destination, [
+				'Destination' => $this->s3MultipartDestination,
+			], null, "uploads");
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
+			$this->response = $e->getResponse();
+		}
 	}
 
 	/**
