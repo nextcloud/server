@@ -4,7 +4,7 @@
  */
 
 import { getCapabilities as realGetCapabilities } from '@nextcloud/capabilities'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 
 /**
  * Returns the capabilities

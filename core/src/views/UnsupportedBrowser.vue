@@ -37,9 +37,9 @@ import { agents } from 'caniuse-lite/dist/unpacker/agents.js'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import Web from 'vue-material-design-icons/Web.vue'
-import logger from '../logger.js'
 import { supportedBrowsers } from '../services/BrowsersListService.js'
 import browserStorage from '../services/BrowserStorageService.js'
+import { logger } from '../utils/logger.ts'
 import { browserStorageKey } from '../utils/RedirectUnsupportedBrowsers.js'
 
 logger.debug('Supported browsers', { supportedBrowsers })

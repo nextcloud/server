@@ -9,7 +9,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors } from '@nextcloud/password-confirmation'
 import Vue from 'vue'
 import RecommendedApps from './components/setup/RecommendedApps.vue'
-import logger from './logger.js'
+import { logger } from './utils/logger.ts'
 
 addPasswordConfirmationInterceptors(axios)
 

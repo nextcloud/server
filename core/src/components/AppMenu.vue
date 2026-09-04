@@ -103,7 +103,7 @@ import IconCog from 'vue-material-design-icons/Cog.vue'
 import IconDotsGrid from 'vue-material-design-icons/DotsGrid.vue'
 import AppMenuActions from './AppMenuActions.vue'
 import AppMenuItem from './AppMenuItem.vue'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 
 // Settings IDs that represent actions, not navigable pages.
 const SETTINGS_ACTION_IDS = new Set(['logout'])

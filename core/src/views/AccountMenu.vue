@@ -51,7 +51,7 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
 import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
 import AccountMenuProfileEntry from '../components/AccountMenu/AccountMenuProfileEntry.vue'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 
 interface ISettingsNavigationEntry {
 	/**

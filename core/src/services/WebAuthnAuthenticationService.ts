@@ -8,7 +8,7 @@ import type { AuthenticationResponseJSON, PublicKeyCredentialRequestOptionsJSON 
 import Axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import { startAuthentication as startWebauthnAuthentication } from '@simplewebauthn/browser'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 
 export class NoValidCredentials extends Error {}
 

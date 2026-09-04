@@ -12,8 +12,8 @@ vi.mock('@nextcloud/router', () => ({
 }))
 
 // Mock the logger to suppress output
-vi.mock('../../logger.js', () => ({
-	default: { debug: vi.fn() },
+vi.mock('../../utils/logger.ts', () => ({
+	logger: { debug: vi.fn() },
 }))
 
 const browserStorage = vi.hoisted(() => ({ getItem: vi.fn(() => null) }))
