@@ -45,13 +45,9 @@ class EncryptionWrapper {
 	/**
 	 * Wraps the given storage when it is not a shared storage
 	 *
-	 * @param string $mountPoint
-	 * @param IStorage $storage
-	 * @param IMountPoint $mount
 	 * @param bool $force apply the wrapper even if the storage normally has encryption disabled, helpful for repair steps
-	 * @return Encryption|IStorage
 	 */
-	public function wrapStorage(string $mountPoint, IStorage $storage, IMountPoint $mount, bool $force = false) {
+	public function wrapStorage(string $mountPoint, IStorage $storage, IMountPoint $mount, bool $force = false): Encryption|IStorage {
 		$parameters = [
 			'storage' => $storage,
 			'mountPoint' => $mountPoint,

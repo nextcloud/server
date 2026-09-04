@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,12 +12,14 @@ namespace OCP\Encryption;
 
 use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * This class provides access to files encryption apps.
  *
  * @since 8.1.0
  */
+#[Consumable(since: '8.1.0')]
 interface IManager {
 	/**
 	 * Check if encryption is available (at least one encryption module needs to be enabled)
@@ -23,59 +27,54 @@ interface IManager {
 	 * @return bool true if enabled, false if not
 	 * @since 8.1.0
 	 */
-	public function isEnabled();
+	public function isEnabled(): bool;
 
 	/**
-	 * Registers an callback function which must return an encryption module instance
+	 * Registers a callback function which must return an encryption module instance
 	 *
 	 * @param string $id
 	 * @param string $displayName
-	 * @param callable $callback
+	 * @param callable(): IEncryptionModule $callback
 	 * @throws ModuleAlreadyExistsException
 	 * @since 8.1.0
 	 */
-	public function registerEncryptionModule($id, $displayName, callable $callback);
+	public function registerEncryptionModule(string $id, string $displayName, callable $callback): void;
 
 	/**
 	 * Unregisters an encryption module
 	 *
-	 * @param string $moduleId
 	 * @since 8.1.0
 	 */
-	public function unregisterEncryptionModule($moduleId);
+	public function unregisterEncryptionModule(string $moduleId): void;
 
 	/**
-	 * get a list of all encryption modules
+	 * Get a list of all encryption modules.
 	 *
-	 * @return array [id => ['id' => $id, 'displayName' => $displayName, 'callback' => callback]]
+	 * @return array<string, array{id: string, displayName: string, callback: (callable():IEncryptionModule)}>
 	 * @since 8.1.0
 	 */
-	public function getEncryptionModules();
+	public function getEncryptionModules(): array;
 
 	/**
-	 * get a specific encryption module
+	 * Get a specific encryption module.
 	 *
 	 * @param string $moduleId Empty to get the default module
-	 * @return IEncryptionModule
 	 * @throws ModuleDoesNotExistsException
 	 * @since 8.1.0
 	 */
-	public function getEncryptionModule($moduleId = '');
+	public function getEncryptionModule(string $moduleId = ''): IEncryptionModule;
 
 	/**
-	 * get default encryption module Id
+	 * Get default encryption module Id
 	 *
-	 * @return string
 	 * @since 8.1.0
 	 */
-	public function getDefaultEncryptionModuleId();
+	public function getDefaultEncryptionModuleId(): string;
 
 	/**
-	 * set default encryption module Id
+	 * Set default encryption module Id.
 	 *
-	 * @param string $moduleId
-	 * @return string
 	 * @since 8.1.0
 	 */
-	public function setDefaultEncryptionModule($moduleId);
+	public function setDefaultEncryptionModule(string $moduleId): bool;
 }
