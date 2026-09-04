@@ -10,9 +10,11 @@ namespace OCA\DAV\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\EventComparisonService;
+use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IAppConfig;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\Mail\Provider\IManager as IMailManager;
@@ -58,6 +60,7 @@ class IMipPlugin extends SabreIMipPlugin {
 	public const IMIP_INDENT = 15; // Enough for the length of all body bullet items, in all languages
 	private EventComparisonService $eventComparisonService;
 	private IMailManager $mailManager;
+	private IAccountManager $accountManager;
 
 	public function __construct(
 		IAppConfig $config,
@@ -68,7 +71,8 @@ class IMipPlugin extends SabreIMipPlugin {
 		IUserSession $userSession,
 		IMipService $imipService,
 		EventComparisonService $eventComparisonService,
-		IMailManager $mailManager) {
+		IMailManager $mailManager,
+		IAccountManager $accountManager) {
 		parent::__construct('');
 		$this->userSession = $userSession;
 		$this->config = $config;
@@ -79,6 +83,7 @@ class IMipPlugin extends SabreIMipPlugin {
 		$this->imipService = $imipService;
 		$this->eventComparisonService = $eventComparisonService;
 		$this->mailManager = $mailManager;
+		$this->accountManager = $accountManager;
 	}
 
 	public function initialize(DAV\Server $server): void {
@@ -138,7 +143,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 			return;
 		}
-		
+
 		// Check if external attendees are disabled
 		$externalAttendeesDisabled = $this->config->getValueBool('dav', 'caldav_external_attendees_disabled', false);
 		if ($externalAttendeesDisabled && !$this->imipService->isSystemUser($recipient)) {
@@ -193,20 +198,16 @@ class IMipPlugin extends SabreIMipPlugin {
 		}
 		$this->imipService->setL10n($attendee);
 
-		// Build the sender name.
+		$sender = substr($iTipMessage->sender, 7);
+
 		// Due to a bug in sabre, the senderName property for an iTIP message can actually also be a VObject Property
-		// If the iTIP message senderName is null or empty use the user session name as the senderName
 		if (($iTipMessage->senderName instanceof Parameter) && !empty(trim($iTipMessage->senderName->getValue()))) {
 			$senderName = trim($iTipMessage->senderName->getValue());
 		} elseif (is_string($iTipMessage->senderName) && !empty(trim($iTipMessage->senderName))) {
 			$senderName = trim($iTipMessage->senderName);
-		} elseif ($this->userSession->getUser() !== null) {
-			$senderName = trim($this->userSession->getUser()->getDisplayName());
 		} else {
-			$senderName = '';
+			$senderName = $this->getSenderNameFor($sender);
 		}
-
-		$sender = substr($iTipMessage->sender, 7);
 
 		$replyingAttendee = null;
 		switch (strtolower($iTipMessage->method)) {
@@ -345,6 +346,40 @@ class IMipPlugin extends SabreIMipPlugin {
 			$this->logger->error($ex->getMessage(), ['app' => 'dav', 'exception' => $ex]);
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 		}
+	}
+
+	/**
+	 * Messages are regularly brokered on behalf of somebody else, so the
+	 * session user's name is only used when the sender address is one of
+	 * theirs.
+	 */
+	private function getSenderNameFor(string $sender): ?string {
+		$user = $this->userSession->getUser();
+		if ($user !== null && $this->isAddressOfUser($sender, $user)) {
+			return trim($user->getDisplayName()) ?: null;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Profile email addresses are part of the user's calendar-user-address-set
+	 * and therefore valid sender addresses next to the system email address.
+	 */
+	private function isAddressOfUser(string $address, IUser $user): bool {
+		if (strcasecmp((string) $user->getEMailAddress(), $address) === 0) {
+			return true;
+		}
+
+		$emailCollection = $this->accountManager->getAccount($user)
+			->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
+		foreach ($emailCollection->getProperties() as $property) {
+			if (strcasecmp($property->getValue(), $address) === 0) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
