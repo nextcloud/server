@@ -28,8 +28,10 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\ObjectStore\IObjectStoreConditionalWrite;
 use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
+use OCP\Files\ObjectStore\ObjectAlreadyExistsException;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
@@ -539,7 +541,15 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 				$totalWritten = $writtenSize;
 			});
 
-			if ($this->objectStore instanceof IObjectStoreMetaData) {
+			if (!$exists
+				&& $this->objectStore instanceof IObjectStoreConditionalWrite
+				&& $this->objectStore->supportsConditionalWrites()) {
+				// A newly created file targets a fresh, never-used object urn, so the
+				// object must not exist yet. Refuse to overwrite anything already there:
+				// its presence means the file cache and the object store are out of sync
+				// and an unconditional write would silently destroy existing data.
+				$this->objectStore->writeObjectIfNotExists($urn, $countStream, $metadata);
+			} elseif ($this->objectStore instanceof IObjectStoreMetaData) {
 				$this->objectStore->writeObjectWithMetaData($urn, $countStream, $metadata);
 			} else {
 				$this->objectStore->writeObject($urn, $countStream, $metadata['mimetype']);
@@ -549,6 +559,26 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 			}
 
 			$stat['size'] = $totalWritten;
+		} catch (ObjectAlreadyExistsException $ex) {
+			// Only reachable for newly created files (conditional writes are not used
+			// when overwriting). The target object already exists, so the file cache
+			// and the object store are out of sync; refuse the write instead of
+			// destroying the existing object.
+			if (!$exists) {
+				$this->getCache()->remove($uploadPath);
+			}
+			$this->logger->critical(
+				'Refusing to overwrite existing object ' . $urn . ' for newly created file ' . $path . '. '
+				. 'The file cache and the object store are out of sync (possible causes: database restored from '
+				. 'backup, multiple instances sharing this bucket, duplicated file ids, or a stale ".part" entry '
+				. 'left by an interrupted upload). No data was overwritten; '
+				. 'resolve the desynchronisation before retrying. See the admin documentation on object storage.',
+				[
+					'app' => 'objectstore',
+					'exception' => $ex,
+				]
+			);
+			throw new GenericFileException('Object already exists in object store', 0, $ex);
 		} catch (\Exception $ex) {
 			if (!$exists) {
 				/*
