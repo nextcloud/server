@@ -713,6 +713,7 @@ class FilesPlugin extends ServerPlugin {
 		/** @var IFilesMetadataManager $manager */
 		$manager = \OCP\Server::get(IFilesMetadataManager::class);
 		$manager->initMetadata('files-live-photo', IMetadataValueWrapper::TYPE_STRING, false, IMetadataValueWrapper::EDIT_REQ_WRITE_PERMISSION);
+		$manager->initMetadata('files-ios-assetId', IMetadataValueWrapper::TYPE_STRING, false, IMetadataValueWrapper::EDIT_REQ_WRITE_PERMISSION);
 
 		return $manager;
 	}
