@@ -63,6 +63,27 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$this->assertEquals(substr($expected, $offset), $content);
 	}
 
+	/**
+	 * Reading a node can change the size it reports: Sabre\File::get() notices a
+	 * filecache entry that disagrees with the storage, fixes it and refreshes the
+	 * node. The short-chunk guard must keep comparing against the size the
+	 * assembly was opened with, otherwise a chunk that is short on disk is
+	 * accepted and the assembled file is silently truncated.
+	 */
+	public function testShortNodeIsDetectedWhenItsSizeIsRefreshedWhileReading(): void {
+		$nodes = [
+			$this->buildNode('0', '12345'),
+			$this->buildShrinkingNode('1', 'ab', 5),
+			$this->buildNode('2', '67890'),
+		];
+
+		$stream = AssemblyStream::wrap($nodes);
+
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Stream from assembly node shorter than expected');
+		stream_get_contents($stream);
+	}
+
 	public static function providesNodes(): array {
 		$data8k = self::makeData(8192);
 		$dataLess8k = self::makeData(8191);
@@ -161,6 +182,38 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$node->expects($this->any())
 			->method('getSize')
 			->willReturn(strlen($data));
+
+		return $node;
+	}
+
+	/**
+	 * A node that reports the size held in the filecache until it is read, and
+	 * its real - smaller - size afterwards, the way Sabre\File::get() behaves
+	 * when it repairs a stale cache entry.
+	 */
+	private function buildShrinkingNode(string $name, string $data, int $cachedSize) {
+		$node = $this->getMockBuilder(File::class)
+			->onlyMethods(['getName', 'get', 'getSize'])
+			->getMock();
+
+		$fetched = false;
+
+		$node->expects($this->any())
+			->method('getName')
+			->willReturn($name);
+
+		$node->expects($this->any())
+			->method('get')
+			->willReturnCallback(function () use ($data, &$fetched) {
+				$fetched = true;
+				return $data;
+			});
+
+		$node->expects($this->any())
+			->method('getSize')
+			->willReturnCallback(function () use ($data, $cachedSize, &$fetched) {
+				return $fetched ? strlen($data) : $cachedSize;
+			});
 
 		return $node;
 	}
