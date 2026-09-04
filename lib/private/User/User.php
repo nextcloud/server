@@ -17,6 +17,7 @@ use OCP\Comments\ICommentsManager;
 use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAvatarManager;
@@ -606,7 +607,11 @@ class User implements IUser {
 			$this->userConfig->setValueString($this->uid, 'files', 'quota', $quota);
 			$this->triggerChange('quota', $quota, $oldQuota);
 		}
-		\OC_Helper::clearStorageInfo('/' . $this->uid . '/files');
+
+		// Refresh the quota cache
+		$root = Server::get(IRootFolder::class);
+		$userFolder = $root->getUserFolder($this->uid);
+		$userFolder->getUserQuota(false);
 	}
 
 	#[\Override]

@@ -17,6 +17,7 @@ use OCP\Comments\ICommentsManager;
 use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
@@ -660,8 +661,13 @@ class UserTest extends TestCase {
 				'23 TB'
 			);
 
+		/* Overwrite IRootFolder to avoid crash about unknown user */
+		$this->overwriteService(IRootFolder::class, $this->createMock(IRootFolder::class));
+
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, null, $userConfig);
 		$user->setQuota('23 TB');
+
+		$this->restoreService(IRootFolder::class);
 	}
 
 	public function testGetDefaultUnlimitedQuota(): void {
@@ -741,8 +747,13 @@ class UserTest extends TestCase {
 		$userConfig->expects($this->never())
 			->method('setValueString');
 
+		/* Overwrite IRootFolder to avoid crash about unknown user */
+		$this->overwriteService(IRootFolder::class, $this->createMock(IRootFolder::class));
+
 		$user = new User('foo', $backend, $this->dispatcher, $emitter, null, $userConfig);
 		$user->setQuota('23 TB');
+
+		$this->restoreService(IRootFolder::class);
 	}
 
 	public function testGetLastLogin(): void {
