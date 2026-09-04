@@ -17,8 +17,12 @@ use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\DAV\Connector\Sabre\GroupableFile;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
+use OCA\DAV\Service\FileGroupingService;
+use OCA\Files\AppInfo\Application;
+use OCA\Files\ConfigLexicon;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -31,6 +35,7 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\IMetadataQuery;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
+use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\Share\IManager;
 use Sabre\DAV\Exception\NotFound;
@@ -54,6 +59,8 @@ class FileSearchBackend implements ISearchBackend {
 		private IManager $shareManager,
 		private View $view,
 		private IFilesMetadataManager $filesMetadataManager,
+		private FileGroupingService $fileGroupingService,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -93,6 +100,7 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition('{DAV:}creationdate', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
 			new SearchPropertyDefinition('{http://nextcloud.org/ns}upload_time', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
 			new SearchPropertyDefinition('{http://nextcloud.org/ns}last_activity', true, false, true, SearchPropertyDefinition::DATATYPE_DATETIME),
+			new SearchPropertyDefinition(FilesPlugin::MIME_TYPE_GROUP, true, false, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 			new SearchPropertyDefinition(FilesPlugin::SIZE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 			new SearchPropertyDefinition(TagsPlugin::FAVORITE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_BOOLEAN),
 			new SearchPropertyDefinition(FilesPlugin::INTERNAL_FILEID_PROPERTYNAME, true, true, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
@@ -175,9 +183,9 @@ class FileSearchBackend implements ISearchBackend {
 				break;
 			case 1:
 				$scope = $search->from[0];
-				$folder = $this->getFolderForPath($scope->path);
+				$searchTarget = $this->getFolderForPath($scope->path);
 				$query = $this->transformQuery($search);
-				$results = $folder->search($query);
+				$results = $searchTarget->search($query);
 				break;
 			default:
 				$scopes = [];
@@ -212,23 +220,25 @@ class FileSearchBackend implements ISearchBackend {
 
 				$scopeOperators = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $scopes);
 				$query = $this->transformQuery($search, $scopeOperators);
-				$userFolder = $this->rootFolder->getUserFolder($this->user->getUID());
-				$results = $userFolder->search($query);
+				$searchTarget = $this->rootFolder->getUserFolder($this->user->getUID());
+				$results = $searchTarget->search($query);
 		}
 
-		/** @var SearchResult[] $nodes */
-		$nodes = array_map(function (Node $node) {
-			if ($node instanceof Folder) {
-				$davNode = new Directory($this->view, $node, $this->tree, $this->shareManager);
-			} else {
-				$davNode = new File($this->view, $node, $this->shareManager);
-			}
-			$path = $this->getHrefForNode($node);
-			$this->tree->cacheNode($davNode, $path);
-			return new SearchResult($davNode, $path);
-		}, $results);
+		$groupRecentFilesEnabled = $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::GROUP_RECENT_FILES, false);
+		$mimeTypeGroupRequested = false;
+		if ($groupRecentFilesEnabled) {
+			$mimeTypeGroupRequested = $this->isPropertyRequested($search, FilesPlugin::MIME_TYPE_GROUP);
+		}
+		$shouldGroupFiles = $groupRecentFilesEnabled && $mimeTypeGroupRequested;
 
-		if (!$query->limitToHome()) {
+		/** @var SearchResult[] $nodes */
+		$nodes = $this->mapNodesToSearchResults($results, $shouldGroupFiles);
+
+		if ($shouldGroupFiles) {
+			$nodes = $this->groupNodesAndFetchMoreIfNeeded($search, $query, $results, $nodes, $searchTarget);
+		}
+
+		if (!$query->limitToHome() && !$shouldGroupFiles) {
 			// Sort again, since the result from multiple storages is appended and not sorted
 			usort($nodes, function (SearchResult $a, SearchResult $b) use ($search) {
 				return $this->sort($a, $b, $search->orderBy);
@@ -236,11 +246,30 @@ class FileSearchBackend implements ISearchBackend {
 		}
 
 		// If a limit is provided use only return that number of files
-		if ($search->limit->maxResults !== 0) {
+		if ($search->limit->maxResults !== 0 && !$shouldGroupFiles) {
 			$nodes = \array_slice($nodes, 0, $search->limit->maxResults);
 		}
 
 		return $nodes;
+	}
+
+	/**
+	 * @param Node[] $nodes
+	 * @return SearchResult[]
+	 */
+	private function mapNodesToSearchResults(array $nodes, bool $shouldGroupFiles): array {
+		return array_map(function (Node $node) use ($shouldGroupFiles) {
+			if ($node instanceof Folder) {
+				$davNode = new Directory($this->view, $node, $this->tree, $this->shareManager);
+			} elseif ($shouldGroupFiles) {
+				$davNode = new GroupableFile($this->view, $node, $this->shareManager);
+			} else {
+				$davNode = new File($this->view, $node, $this->shareManager);
+			}
+			$path = $this->getHrefForNode($node);
+			$this->tree->cacheNode($davNode, $path);
+			return new SearchResult($davNode, $path);
+		}, $nodes);
 	}
 
 	private function sort(SearchResult $a, SearchResult $b, array $orders) {
@@ -571,5 +600,84 @@ class FileSearchBackend implements ISearchBackend {
 			default:
 				return null;
 		}
+	}
+
+	private function isPropertyRequested(Query $search, string $propertyName): bool {
+		foreach ($search->select as $property) {
+			if ($property->name === $propertyName) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param Node[] $results
+	 * @param SearchResult[] $nodes
+	 * @return SearchResult[]
+	 */
+	private function groupNodesAndFetchMoreIfNeeded(Query $search, ISearchQuery $query, array $results, array $nodes, Folder $searchTarget): array {
+		$mimeTypes = $this->appConfig->getValueArray(Application::APP_ID, ConfigLexicon::RECENT_FILES_GROUP_MIME_TYPES, []);
+		$sameFolderOnly = $this->appConfig->getValueBool(Application::APP_ID, ConfigLexicon::RECENT_FILES_GROUP_SAME_FOLDER_ONLY, true);
+		$minGroupSize = $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::RECENT_FILES_GROUP_MIN_GROUP_SIZE, 2);
+		$timespanMinutes = $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::RECENT_FILES_GROUP_TIMESPAN_MINUTES, 2);
+		$collapsedItemsLimit = $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::RECENT_FILES_GROUP_COLLAPSED_ITEMS_LIMIT, 25);
+
+		[$nodes, $collapsedCount] = $this->fileGroupingService->setGroupOnNodes($nodes, $mimeTypes, $sameFolderOnly, $minGroupSize, $timespanMinutes);
+
+		$queryLimit = $query->getLimit();
+		$queryOffset = $query->getOffset();
+		$maxExtraFetches = 5;
+
+		for ($i = 0; $i < $maxExtraFetches; $i++) {
+			$lastNode = $nodes[array_key_last($nodes)] ?? null;
+			$lastGroupMightContinue = $lastNode !== null && $this->fileGroupingService->isNodeGroupable($lastNode, $mimeTypes);
+
+			$needsMore = count($results) === $queryLimit && ($collapsedCount < $collapsedItemsLimit || $lastGroupMightContinue);
+			if (!$needsMore) {
+				break;
+			}
+
+			$queryOffset += $queryLimit;
+			$search->limit->firstResult = $queryOffset;
+			$query = $this->transformQuery($search);
+			$results = $searchTarget->search($query);
+
+			if (empty($results)) {
+				break;
+			}
+
+			$extraNodes = $this->mapNodesToSearchResults($results, true);
+			$nodes = array_merge($nodes, $extraNodes);
+			[$nodes, $collapsedCount] = $this->fileGroupingService->setGroupOnNodes($nodes, $mimeTypes, $sameFolderOnly, $minGroupSize, $timespanMinutes);
+		}
+
+		return $this->sliceGroupableFilesSearchResult($nodes, $collapsedItemsLimit);
+	}
+
+	private function sliceGroupableFilesSearchResult(array $nodes, int $limit): array {
+		$result = [];
+		$count = 0;
+		$seenGroups = [];
+
+		foreach ($nodes as $searchResult) {
+			$node = $searchResult->node;
+			$group = ($node instanceof GroupableFile) ? $node->getGroup() : null;
+
+			if ($group === null) {
+				$count++;
+			} elseif (!isset($seenGroups[$group])) {
+				$seenGroups[$group] = true;
+				$count++;
+			}
+
+			if ($count > $limit) {
+				return $result;
+			}
+
+			$result[] = $searchResult;
+		}
+
+		return $result;
 	}
 }
