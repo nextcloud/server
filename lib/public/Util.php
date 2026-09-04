@@ -5,8 +5,6 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
@@ -24,22 +22,36 @@ use Psr\Container\ContainerExceptionInterface;
  * @since 4.0.0
  */
 class Util {
-	/** @psalm-suppress ImpureStaticProperty legacy stuff, keep them for now */
+	/**
+	 * List of early init script asset paths.
+	 *
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	private static array $scriptsInit = [];
-	/** @psalm-suppress ImpureStaticProperty */
+
+	/**
+	 * Script asset paths grouped by application ID.
+	 *
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	private static array $scripts = [];
-	/** @psalm-suppress ImpureStaticProperty */
+	
+	/**
+	 * App-level script dependency metadata keyed by application ID.
+	 *
+	 * @psalm-suppress ImpureStaticProperty
+	 */
 	private static array $scriptDeps = [];
+
 	/** @psalm-suppress ImpureStaticProperty */
 	private static ?bool $needUpgradeCache = null;
 
 	/**
 	 * get the current installed version of Nextcloud
-	 * @return array
 	 * @since 4.0.0
 	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getVersion
 	 */
-	public static function getVersion() {
+	public static function getVersion(): array {
 		return Server::get(ServerVersion::class)->getVersion();
 	}
 
@@ -58,27 +70,26 @@ class Util {
 
 	/**
 	 * Set current update channel
-	 * @param string $channel
 	 * @since 8.1.0
 	 * @deprecated 33.0.0 Use \OCP\ServerVersion::setChannel
 	 */
-	public static function setChannel($channel) {
+	public static function setChannel(string $channel): void {
 		Server::get(IConfig::class)->setSystemValue('updater.release.channel', $channel);
 	}
 
 	/**
 	 * Get current update channel
-	 * @return string
 	 * @since 8.1.0
 	 * @deprecated 31.0.0 Use \OCP\ServerVersion::getChannel
 	 */
-	public static function getChannel() {
+	public static function getChannel(): string {
 		return Server::get(ServerVersion::class)->getChannel();
 	}
 
 	/**
 	 * get l10n object
-	 * @since 6.0.0 - parameter $language was added in 8.0.0
+	 * @since 6.0.0
+	 * @since 8.0.0 parameter $language was added
 	 */
 	public static function getL10N(string $application, ?string $language = null): IL10N {
 		return Server::get(\OCP\L10N\IFactory::class)->get($application, $language);
@@ -97,127 +108,184 @@ class Util {
 	}
 
 	/**
-	 * Add a standalone init js file that is loaded for initialization
+	 * Add an initialization JavaScript asset that should be emitted before
+	 * regular app scripts.
 	 *
-	 * Be careful loading scripts using this method as they are loaded early
-	 * and block the initial page rendering. They should not have dependencies
-	 * on any other scripts than core-common and core-main.
+	 * These scripts are loaded very early and can block initial page rendering.
+	 * They should therefore stay small and only rely on assets that are guaranteed
+	 * to be available at that stage, namely core/js/common and core/js/main.
+	 *
+	 * For non-core apps, the matching translation asset is added first so that
+	 * translations are available when the init script executes.
 	 *
 	 * @since 28.0.0
 	 */
 	public static function addInitScript(string $application, string $file): void {
 		if (!empty($application)) {
-			$path = "$application/js/$file";
+			$scriptPath = "$application/js/$file";
 		} else {
-			$path = "js/$file";
+			$scriptPath = "js/$file";
 		}
 
-		// We need to handle the translation BEFORE the init script
-		// is loaded, as the init script might use translations
+		// Init scripts may access translations immediately on execution, so for
+		// non-core apps load the translation asset before the init script itself.
 		if ($application !== 'core' && !str_contains($file, 'l10n')) {
 			self::addTranslations($application, null, true);
 		}
 
-		self::$scriptsInit[] = $path;
+		self::$scriptsInit[] = $scriptPath;
 	}
 
 	/**
-	 * add a javascript file
+	 * Add a JavaScript asset for an app.
 	 *
-	 * @param string $application
-	 * @param string|null $file
-	 * @param string $afterAppId
-	 * @param bool $prepend
+	 * Scripts are grouped by app and app-level dependencies are tracked in
+	 * self::$scriptDeps. The dependency sorter uses that information later when
+	 * building the final script list.
+	 *
+	 * For non-core apps, the matching translation asset is added automatically
+	 * unless the requested file already represents a translation asset.
+	 *
+	 * @param string $application Application ID. Use an empty string for unscoped assets.
+	 * @param string $file JavaScript file name relative to the app's js/ directory.
+	 * @param string $afterAppId App ID that should be ordered before this app's scripts.
+	 * @param bool $prepend Whether to insert the script at the beginning of the app's script list.
 	 * @since 4.0.0
+	 * @since 35.0.0 $file make non-nullable (effectively already was but now enforced)
 	 */
-	public static function addScript(string $application, ?string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
+	public static function addScript(
+		string $application,
+		string $file,
+		string $afterAppId = 'core',
+		bool $prepend = false,
+	): void {
 		if (!empty($application)) {
-			$path = "$application/js/$file";
+			$scriptPath = "$application/js/$file";
 		} else {
-			$path = "js/$file";
+			$scriptPath = "js/$file";
 		}
 
-		// Inject js translations if we load a script for
-		// a specific app that is not core, as those js files
-		// need separate handling
-		if ($application !== 'core'
-			&& $file !== null
-			&& !str_contains($file, 'l10n')) {
+		// For non-core apps, ensure translations are registered together with the
+		// app script unless this is already a translation asset.
+		if ($application !== 'core' && !str_contains($file, 'l10n')) {
 			self::addTranslations($application);
 		}
 
-		// store app in dependency list
-		if (!array_key_exists($application, self::$scriptDeps)) {
+		// Track app-level ordering dependencies used when building the final script list.
+		if (!isset(self::$scriptDeps[$application])) {
 			self::$scriptDeps[$application] = new AppScriptDependency($application, [$afterAppId]);
 		} else {
 			self::$scriptDeps[$application]->addDep($afterAppId);
 		}
 
 		if ($prepend) {
-			array_unshift(self::$scripts[$application], $path);
+			if (!isset(self::$scripts[$application])) {
+				self::$scripts[$application] = [];
+			}
+			array_unshift(self::$scripts[$application], $scriptPath);
 		} else {
-			self::$scripts[$application][] = $path;
+			self::$scripts[$application][] = $scriptPath;
 		}
 	}
 
 	/**
-	 * Return the list of scripts injected to the page
+	 * Return the final list of JavaScript assets to inject into the page.
 	 *
-	 * @return array
+	 * The result is built in four steps:
+	 * 1. sort app script groups using app-level dependency information
+	 * 2. prepend early init assets
+	 * 3. flatten grouped assets into a single list and remove duplicates
+	 * 4. apply explicit priority rules for core bootstrap assets
+	 *
+	 * @return array<int, string>
 	 * @since 24.0.0
 	 */
 	public static function getScripts(): array {
-		// Sort scriptDeps into sortedScriptDeps
-		$scriptSort = Server::get(AppScriptSort::class);
-		$sortedScripts = $scriptSort->sort(self::$scripts, self::$scriptDeps);
+		// Sort app script groups using the registered app-level dependencies.
+		$scriptSorter = Server::get(AppScriptSort::class);
+		$groupedScripts = $scriptSorter->sort(self::$scripts, self::$scriptDeps);
 
-		// Flatten array and remove duplicates
-		$sortedScripts = array_merge([self::$scriptsInit], $sortedScripts);
-		$sortedScripts = array_merge(...array_values($sortedScripts));
-		$sortedScripts = array_unique($sortedScripts);
+		// Prepend init assets, flatten the grouped arrays into a single list,
+		// then remove duplicate asset paths.
+		$groupedScripts = array_merge([self::$scriptsInit], $groupedScripts);
+		$scriptList = array_merge(...array_values($groupedScripts));
+		$scriptList = array_unique($scriptList);
 
-		usort($sortedScripts, fn (string $a, string $b) => self::scriptOrderValue($b) <=> self::scriptOrderValue($a));
-		return $sortedScripts;
+		// Apply explicit bootstrap ordering for selected core assets.
+		usort(
+			$scriptList,
+			fn (string $leftScript, string $rightScript) =>
+				self::scriptPriority($rightScript) <=> self::scriptPriority($leftScript)
+		);
+
+		return $scriptList;
 	}
 
 	/**
-	 * Gets a numeric value based on the script name.
-	 * This is used to ensure that the global state is initialized before all other scripts.
+	 * Return a relative priority for a script asset.
 	 *
-	 * @param string $name - The script name
-	 * @since 34.0.0
+	 * Higher values are sorted earlier. This is used to force critical core
+	 * bootstrap assets to the front of the final list.
+	 *
+	 * @param string $name Script asset path
 	 */
-	private static function scriptOrderValue(string $name): int {
+	private static function scriptPriority(string $name): int {
 		return match($name) {
 			'core/js/common' => 3,
 			'core/js/main' => 2,
 			default => str_starts_with($name, 'core/l10n/')
-				? 1 // core translations have to be loaded directly after core-main
-				: 0, // other scripts should preserve their current order
+				? 1 // Core translations must be available immediately after core/js/main.
+				: 0, // No explicit priority; ordering is determined elsewhere.
 		};
 	}
 
 	/**
-	 * Add a translation JS file
-	 * @param string $application application id
-	 * @param string $languageCode language code, defaults to the current locale
-	 * @param bool $init whether the translations should be loaded early or not
+	 * Add a JavaScript translation asset.
+	 *
+	 * If no language code is provided, the current language for the given app is
+	 * resolved through the localization factory. Translation assets can either be
+	 * registered as early init assets or as regular app scripts.
+	 *
+	 * @param string $application Application ID
+	 * @param ?string $languageCode Language code; defaults to the current app language
+	 * @param bool $init Whether to register the translation asset as an early init asset
 	 * @since 8.0.0
 	 */
-	public static function addTranslations($application, $languageCode = null, $init = false) {
+	public static function addTranslations(string $application, ?string $languageCode = null, bool $init = false): void {
 		if (is_null($languageCode)) {
 			$languageCode = Server::get(IFactory::class)->findLanguage($application);
 		}
+
 		if (!empty($application)) {
-			$path = "$application/l10n/$languageCode";
+			$translationPath = "$application/l10n/$languageCode";
 		} else {
-			$path = "l10n/$languageCode";
+			$translationPath = "l10n/$languageCode";
+		}
+
+		if (!isset(self::$scripts[$application])) {
+			self::$scripts[$application] = [];
 		}
 
 		if ($init) {
-			self::$scriptsInit[] = $path;
+			self::appendInitScriptPathOnce($translationPath);
 		} else {
-			self::$scripts[$application][] = $path;
+			self::appendAppScriptPathOnce($application, $translationPath);
+		}
+	}
+
+	private static function appendInitScriptPathOnce(string $scriptPath): void {
+		if (!in_array($scriptPath, self::$scriptsInit, true)) {
+			self::$scriptsInit[] = $scriptPath;
+		}
+	}
+
+	private static function appendAppScriptPathOnce(string $application, string $scriptPath): void {
+		if (!isset(self::$scripts[$application])) {
+			self::$scripts[$application] = [];
+		}
+
+		if (!in_array($scriptPath, self::$scripts[$application], true)) {
+			self::$scripts[$application][] = $scriptPath;
 		}
 	}
 
@@ -227,10 +295,10 @@ class Util {
 	 * So use "" to get a closing tag.
 	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element
-	 * @param string $text the text content for the element
+	 * @param ?string $text the text content for the element
 	 * @since 4.0.0
 	 */
-	public static function addHeader($tag, $attributes, $text = null) {
+	public static function addHeader(string $tag, array $attributes, ?string $text = null): void {
 		\OC_Util::addHeader($tag, $attributes, $text);
 	}
 
@@ -244,7 +312,7 @@ class Util {
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 * @deprecated 34.0.0 Use IUrlGenerator::getAbsoluteUrl and IUrlGenerator::linkTo
 	 */
-	public static function linkToAbsolute($app, $file, $args = []) {
+	public static function linkToAbsolute(string $app, string $file, array $args = []): string {
 		$urlGenerator = Server::get(IURLGenerator::class);
 		return $urlGenerator->getAbsoluteURL($urlGenerator->linkTo($app, $file, $args));
 	}
@@ -263,18 +331,18 @@ class Util {
 	}
 
 	/**
-	 * Returns the server host name without an eventual port number
-	 * @return string the server hostname
+	 * Returns the server host name without the port number.
+	 *
+	 * @return string The server hostname
 	 * @since 5.0.0
+	 *
+	 * TODO: Move to IRequest
 	 */
-	public static function getServerHostName() {
-		$host_name = Server::get(IRequest::class)->getServerHost();
-		// strip away port number (if existing)
-		$colon_pos = strpos($host_name, ':');
-		if ($colon_pos !== false) {
-			$host_name = substr($host_name, 0, $colon_pos);
-		}
-		return $host_name;
+	public static function getServerHostName(): string {
+		$host = Server::get(IRequest::class)->getServerHost();
+
+		// Extract only the host part before the colon
+		return explode(':', $host, 2)[0];
 	}
 
 	/**
@@ -310,14 +378,18 @@ class Util {
 	}
 
 	/**
-	 * Converts string to int of float depending on if it fits an int
-	 * @param numeric-string|float|int $number numeric string
-	 * @return int|float int if it fits, float if it is too big
+	 * Converts a numeric value to an integer or float.
+	 * 
+	 * Returns an integer if the value fits within the system's integer limits, 
+	 * otherwise returns a float up to maximum hardware precision.
+	 * 
+	 * @param numeric-string|float|int $number The numeric value to convert.
+	 * @return int|float An integer if it fits, otherwise a float.
 	 * @since 26.0.0
 	 */
 	public static function numericToNumber(string|float|int $number): int|float {
-		/* This is a hack to cast to (int|float) */
-		return 0 + (string)$number;
+		// Triggers native engine-level type coercion to int or float
+		return +$number;
 	}
 
 	/**
@@ -404,7 +476,6 @@ class Util {
 	 *
 	 * This function makes it very easy to connect to use hooks.
 	 *
-	 * TODO: write example
 	 * @since 4.0.0
 	 * @deprecated 21.0.0 use \OCP\EventDispatcher\IEventDispatcher::addListener
 	 */
