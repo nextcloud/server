@@ -2027,6 +2027,41 @@ class ViewTest extends \Test\TestCase {
 		$this->assertNull($this->getFileLockType($view, $path));
 	}
 
+	public function testLockFilePutContentsWithStreamUnlocksAfterStorageException(): void {
+		$view = new View('/' . self::$user . '/files/');
+		$path = 'failed-stream-upload.txt';
+
+		/** @var Temporary&MockObject $storage */
+		$storage = $this->getMockBuilder(Temporary::class)
+			->onlyMethods(['fopen'])
+			->getMock();
+
+		Filesystem::mount($storage, [], self::$user . '/');
+		$storage->mkdir('files');
+
+		$storage->expects($this->once())
+			->method('fopen')
+			->willThrowException(new \Exception('Simulated stream upload failure'));
+
+		$source = fopen('php://temp', 'r+');
+
+		try {
+			$view->file_put_contents($path, $source);
+			$this->fail('Expected the storage exception to be rethrown');
+		} catch (\Exception $e) {
+			$this->assertSame('Simulated stream upload failure', $e->getMessage());
+		} finally {
+			if (is_resource($source)) {
+				fclose($source);
+			}
+		}
+
+		$this->assertNull(
+			$this->getFileLockType($view, $path),
+			'The stream-upload lock must be released after a storage exception'
+		);
+	}
+
 	/**
 	 * Test locks for fopen with fclose at the end
 	 */
