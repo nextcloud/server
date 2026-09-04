@@ -135,17 +135,25 @@ class PreviewMigrationService {
 			}
 		} else {
 			// No matching fileId, delete the orphaned preview files themselves.
+			$transactionStarted = false;
 			try {
 				$folder = $this->appData->getFolder($internalPath);
 				$this->connection->beginTransaction();
+				$transactionStarted = true;
 				foreach ($folder->getDirectoryListing() as $file) {
 					$file->delete();
 				}
 				$this->connection->commit();
 			} catch (NotFoundException) {
 				// Folder already gone, nothing to clean up.
-			} catch (Exception) {
-				$this->connection->rollback();
+			} catch (\Throwable $e) {
+				// Also catches non-DB failures from $file->delete(), e.g. an unreachable objectstore.
+				if ($transactionStarted) {
+					$this->connection->rollback();
+				}
+				$this->logger->error('Unable to delete orphaned preview at ' . $internalPath, [
+					'exception' => $e,
+				]);
 			}
 		}
 
