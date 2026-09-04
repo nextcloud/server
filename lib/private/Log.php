@@ -413,6 +413,10 @@ class Log implements ILogger, IDataLogger {
 	 * user-defined - key.
 	 */
 	private function interpolateMessage(array $context, string $message, string $messageKey = 'message'): array {
+		if (!str_contains($message, '{')) {
+			return array_merge($context, [$messageKey => $message]);
+		}
+
 		$replace = [];
 		$usedContextKeys = [];
 		foreach ($context as $key => $val) {
