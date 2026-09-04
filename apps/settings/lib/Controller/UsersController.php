@@ -223,6 +223,11 @@ class UsersController extends Controller {
 		/** Using LDAP or admins (system config) can enfore sorting by group name, in this case the frontend setting is overwritten */
 		$forceSortGroupByName = $sortGroupsBy === MetaData::SORT_GROUPNAME;
 
+		
+		// display user count with a plus appended, if limit is exceeded
+		$userCount = ($userCount < self::COUNT_LIMIT_FOR_SUBADMINS) ? $userCount : self::COUNT_LIMIT_FOR_SUBADMINS . '+';
+
+
 		/* FINAL DATA */
 		$serverData = [];
 		// groups
