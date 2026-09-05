@@ -51,6 +51,7 @@
 </template>
 
 <script type="ts">
+import { t } from '@nextcloud/l10n'
 import { getBaseUrl } from '@nextcloud/router'
 import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { defineComponent } from 'vue'
@@ -105,6 +106,7 @@ export default defineComponent({
 
 	setup() {
 		return {
+			t,
 			supportsWebauthn: browserSupportsWebAuthn(),
 		}
 	},
