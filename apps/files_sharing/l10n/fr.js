@@ -403,6 +403,7 @@ OC.L10N.register(
     "Shared with you and the conversation {conversation} by {owner}" : "Partagé avec vous et la conversation {conversation} par {owner}",
     "Shared with you in a conversation by {owner}" : "Partagé avec vous dans une conversation de {owner}",
     "%1$s shared %2$s with you" : "%1$s a partagé %2$s avec vous",
+    "Do you want to accept this share?" : "Voulez-vous accepter ce partage ?",
     "Share not found" : "Partage non trouvé",
     "Back to %s" : "Retourner à %s",
     "Add to your Nextcloud" : "Ajouter à votre Nextcloud",
