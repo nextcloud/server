@@ -9,25 +9,19 @@ declare(strict_types=1);
 
 namespace OCA\Files\Tests\Controller;
 
-use OC\Files\FilenameValidator;
 use OC\Route\Router;
 use OC\URLGenerator;
 use OCA\Files\Controller\ViewController;
-use OCA\Files\Service\UserConfig;
-use OCA\Files\Service\ViewConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\Template\ITemplateManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -50,7 +44,6 @@ use Test\TestCase;
 class ViewControllerTest extends TestCase {
 	private ContainerInterface&MockObject $container;
 	private IAppManager&MockObject $appManager;
-	private IAppConfig&MockObject $appConfig;
 	private ICacheFactory&MockObject $cacheFactory;
 	private IConfig&MockObject $config;
 	private IEventDispatcher $eventDispatcher;
@@ -59,33 +52,24 @@ class ViewControllerTest extends TestCase {
 	private IL10N&MockObject $l10n;
 	private IRequest&MockObject $request;
 	private IRootFolder&MockObject $rootFolder;
-	private ITemplateManager&MockObject $templateManager;
 	private IURLGenerator $urlGenerator;
 	private IUser&MockObject $user;
 	private IUserSession&MockObject $userSession;
 	private LoggerInterface&MockObject $logger;
-	private UserConfig&MockObject $userConfig;
-	private ViewConfig&MockObject $viewConfig;
 	private Router $router;
-	private IRegistry&MockObject $twoFactorRegistry;
 
 	private ViewController&MockObject $viewController;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->templateManager = $this->createMock(ITemplateManager::class);
-		$this->userConfig = $this->createMock(UserConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->viewConfig = $this->createMock(ViewConfig::class);
-		$this->twoFactorRegistry = $this->createMock(IRegistry::class);
 
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->user->expects($this->any())
@@ -132,25 +116,17 @@ class ViewControllerTest extends TestCase {
 			$this->router
 		);
 
-		$filenameValidator = $this->createMock(FilenameValidator::class);
 		$this->viewController = $this->getMockBuilder(ViewController::class)
 			->setConstructorArgs([
 				'files',
 				$this->request,
 				$this->urlGenerator,
 				$this->l10n,
-				$this->config,
 				$this->eventDispatcher,
 				$this->userSession,
 				$this->appManager,
 				$this->rootFolder,
 				$this->initialState,
-				$this->templateManager,
-				$this->userConfig,
-				$this->viewConfig,
-				$filenameValidator,
-				$this->twoFactorRegistry,
-				$this->appConfig,
 			])
 			->onlyMethods([
 				'getStorageInfo',
@@ -298,29 +274,5 @@ class ViewControllerTest extends TestCase {
 
 		$expected = new RedirectResponse('/index.php/apps/files/trashbin/123?dir=/test.d1462861890/sub');
 		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
-	}
-
-	public function testTwoFactorAuthEnabled(): void {
-		$this->twoFactorRegistry->method('getProviderStates')
-			->willReturn([
-				'totp' => true,
-				'backup_codes' => true,
-			]);
-
-		$initialStates = [];
-		$this->initialState->expects(self::atLeast(13))
-			->method('provideInitialState')
-			->willReturnCallback(function ($key, $data) use (&$initialStates): void {
-				$initialStates[$key] = $data;
-			});
-
-		$this->config
-			->method('getUserValue')
-			->willReturnMap([
-				[$this->user->getUID(), 'files', 'files_sorting_configs', '{}', '{}'],
-			]);
-
-		$this->viewController->index('', '', null);
-		$this->assertTrue($initialStates['isTwoFactorEnabled'] ?? false);
 	}
 }

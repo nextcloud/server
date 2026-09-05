@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
+	<component :is="embedded ? 'div' : 'NcAppContent'" v-bind="embedded ? {} : { pageHeading }" data-cy-files-content>
 		<div class="files-list__header" :class="{ 'files-list__header--public': isPublic }">
 			<!-- Uploader -->
 			<component :is="isNarrow ? 'Teleport' : 'div'" :to="isNarrow ? 'body' : undefined">
@@ -150,7 +150,7 @@
 				</NcEmptyContent>
 			</template>
 		</FilesListVirtual>
-	</NcAppContent>
+	</component>
 </template>
 
 <script lang="ts">
@@ -234,6 +234,11 @@ export default defineComponent({
 
 	props: {
 		isPublic: {
+			type: Boolean,
+			default: false,
+		},
+		// Skip the NcAppContent wrapper when rendered standalone via `renderFilesView()`.
+		embedded: {
 			type: Boolean,
 			default: false,
 		},
