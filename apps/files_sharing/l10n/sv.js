@@ -403,6 +403,7 @@ OC.L10N.register(
     "Shared with you and the conversation {conversation} by {owner}" : "Delad med dig och konversation {conversation} av {owner}",
     "Shared with you in a conversation by {owner}" : "Delad med dig i en konversation av {owner}",
     "%1$s shared %2$s with you" : "%1$s delade %2$s med dig",
+    "Do you want to accept this share?" : "Vill du acceptera den här delningen?",
     "Share not found" : "Delningen hittades inte",
     "Back to %s" : "Tillbaka till %s",
     "Add to your Nextcloud" : "Lägg till i Nextcloud",
