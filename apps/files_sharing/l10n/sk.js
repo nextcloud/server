@@ -403,6 +403,7 @@ OC.L10N.register(
     "Shared with you and the conversation {conversation} by {owner}" : "Sprístupnené vám a rozhovoru {conversation} od {owner}",
     "Shared with you in a conversation by {owner}" : "Sprístupnené vám vrámci rozhovoru s {owner}",
     "%1$s shared %2$s with you" : "%1$s s vami zdieľal %2$s ",
+    "Do you want to accept this share?" : "Chcete prijať toto zdieľanie?",
     "Share not found" : "Zdieľanie sa nenašlo",
     "Back to %s" : "Späť na %s",
     "Add to your Nextcloud" : "Pridať do svojho Nextcloud",
