@@ -401,6 +401,7 @@
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} tarafından sizinle ve {conversation} görüşmesi ile paylaştırılmış",
     "Shared with you in a conversation by {owner}" : "{owner} tarafından sizinle bir görüşmede paylaşılmış",
     "%1$s shared %2$s with you" : "%1$s, sizinle %2$s ögesini paylaştı",
+    "Do you want to accept this share?" : "Bu paylaşımı kabul etmek istiyor musunuz?",
     "Share not found" : "Paylaşım bulunamadı",
     "Back to %s" : "%s sayfasına dön",
     "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
