@@ -25,6 +25,7 @@ class ComposerStaticInitUserStatus
         'OCA\\UserStatus\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\UserStatus\\BackgroundJob\\ClearOldStatusesBackgroundJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/ClearOldStatusesBackgroundJob.php',
         'OCA\\UserStatus\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
+        'OCA\\UserStatus\\Command\\Repair' => __DIR__ . '/..' . '/../lib/Command/Repair.php',
         'OCA\\UserStatus\\Connector\\UserStatus' => __DIR__ . '/..' . '/../lib/Connector/UserStatus.php',
         'OCA\\UserStatus\\Connector\\UserStatusProvider' => __DIR__ . '/..' . '/../lib/Connector/UserStatusProvider.php',
         'OCA\\UserStatus\\ContactsMenu\\StatusProvider' => __DIR__ . '/..' . '/../lib/ContactsMenu/StatusProvider.php',

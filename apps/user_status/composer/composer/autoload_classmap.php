@@ -10,6 +10,7 @@ return array(
     'OCA\\UserStatus\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\UserStatus\\BackgroundJob\\ClearOldStatusesBackgroundJob' => $baseDir . '/../lib/BackgroundJob/ClearOldStatusesBackgroundJob.php',
     'OCA\\UserStatus\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
+    'OCA\\UserStatus\\Command\\Repair' => $baseDir . '/../lib/Command/Repair.php',
     'OCA\\UserStatus\\Connector\\UserStatus' => $baseDir . '/../lib/Connector/UserStatus.php',
     'OCA\\UserStatus\\Connector\\UserStatusProvider' => $baseDir . '/../lib/Connector/UserStatusProvider.php',
     'OCA\\UserStatus\\ContactsMenu\\StatusProvider' => $baseDir . '/../lib/ContactsMenu/StatusProvider.php',
