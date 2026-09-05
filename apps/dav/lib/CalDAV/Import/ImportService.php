@@ -33,27 +33,20 @@ class ImportService {
 	 *
 	 * @param resource $source
 	 *
-	 * @return array<string,array<string,string|array<string>>>
+	 * @return Generator<int, ImportCountEvent|ImportObjectEvent>
 	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public function import($source, CalendarImpl $calendar, CalendarImportOptions $options): array {
+	public function import($source, CalendarImpl $calendar, CalendarImportOptions $options): Generator {
 		if (!is_resource($source)) {
 			throw new InvalidArgumentException('Invalid import source must be a file resource');
 		}
-		switch ($options->getFormat()) {
-			case 'ical':
-				return $this->importProcess($source, $calendar, $options, $this->importText(...));
-				break;
-			case 'jcal':
-				return $this->importProcess($source, $calendar, $options, $this->importJson(...));
-				break;
-			case 'xcal':
-				return $this->importProcess($source, $calendar, $options, $this->importXml(...));
-				break;
-			default:
-				throw new InvalidArgumentException('Invalid import format');
-		}
+		return match ($options->getFormat()) {
+			'ical' => $this->importProcess($source, $calendar, $options, $this->importText(...)),
+			'jcal' => $this->importProcess($source, $calendar, $options, $this->importJson(...)),
+			'xcal' => $this->importProcess($source, $calendar, $options, $this->importXml(...)),
+			default => throw new InvalidArgumentException('Invalid import format'),
+		};
 	}
 
 	/**
@@ -61,9 +54,9 @@ class ImportService {
 	 *
 	 * @param resource $source
 	 *
-	 * @return Generator<\Sabre\VObject\Component\VCalendar>
+	 * @return Generator<int|string, VCalendar|array{VEVENT: int, VTODO: int, VJOURNAL: int}, mixed, void>
 	 */
-	public function importText($source): Generator {
+	public function importText($source, ?CalendarImportOptions $options = null): Generator {
 		if (!is_resource($source)) {
 			throw new InvalidArgumentException('Invalid import source must be a file resource');
 		}
@@ -84,6 +77,14 @@ class ImportService {
 			$sObjectContents = $importer->extract((int)$instance[2], (int)$instance[3]);
 			$vObject = Reader::read($sObjectPrefix . $sObjectContents . $sObjectSuffix);
 			$timezones[$tid] = clone $vObject->VTIMEZONE;
+		}
+		// object counts before streaming if requested
+		if ($options?->getCounts()) {
+			yield 'counts' => [
+				'VEVENT' => count($structure['VEVENT']),
+				'VTODO' => count($structure['VTODO']),
+				'VJOURNAL' => count($structure['VJOURNAL']),
+			];
 		}
 		// calendar components
 		// for each component type, construct a full calendar object with all components
@@ -114,9 +115,9 @@ class ImportService {
 	 *
 	 * @param resource $source
 	 *
-	 * @return Generator<\Sabre\VObject\Component\VCalendar>
+	 * @return Generator<int|string, VCalendar|array{VEVENT: int, VTODO: int, VJOURNAL: int}, mixed, void>
 	 */
-	public function importXml($source): Generator {
+	public function importXml($source, ?CalendarImportOptions $options = null): Generator {
 		if (!is_resource($source)) {
 			throw new InvalidArgumentException('Invalid import source must be a file resource');
 		}
@@ -131,6 +132,14 @@ class ImportService {
 			$sObjectContents = $importer->extract((int)$instance[2], (int)$instance[3]);
 			$vObject = Reader::readXml($sObjectPrefix . $sObjectContents . $sObjectSuffix);
 			$timezones[$tid] = clone $vObject->VTIMEZONE;
+		}
+		// object counts before streaming if requested
+		if ($options?->getCounts()) {
+			yield 'counts' => [
+				'VEVENT' => count($structure['VEVENT']),
+				'VTODO' => count($structure['VTODO']),
+				'VJOURNAL' => count($structure['VJOURNAL']),
+			];
 		}
 		// calendar components
 		// for each component type, construct a full calendar object with all components
@@ -160,10 +169,11 @@ class ImportService {
 	 * Generates object stream from a json formatted source (jcal)
 	 *
 	 * @param resource $source
+	 * @param CalendarImportOptions|null $options
 	 *
-	 * @return Generator<\Sabre\VObject\Component\VCalendar>
+	 * @return Generator<int|string, VCalendar|array{VEVENT: int, VTODO: int, VJOURNAL: int}, mixed, void>
 	 */
-	public function importJson($source): Generator {
+	public function importJson($source, ?CalendarImportOptions $options = null): Generator {
 		if (!is_resource($source)) {
 			throw new InvalidArgumentException('Invalid import source must be a file resource');
 		}
@@ -178,7 +188,27 @@ class ImportService {
 			}
 		}
 		// calendar components
-		foreach ($importer->getBaseComponents() as $base) {
+		$baseComponents = $importer->getBaseComponents();
+		// object counts before streaming if requested
+		if ($options?->getCounts()) {
+			/** @var array{VEVENT: int, VTODO: int, VJOURNAL: int} $counts */
+			$counts = ['VEVENT' => 0, 'VTODO' => 0, 'VJOURNAL' => 0];
+			foreach ($baseComponents as $component) {
+				switch ($component->name) {
+					case 'VEVENT':
+						$counts['VEVENT']++;
+						break;
+					case 'VTODO':
+						$counts['VTODO']++;
+						break;
+					case 'VJOURNAL':
+						$counts['VJOURNAL']++;
+						break;
+				}
+			}
+			yield 'counts' => $counts;
+		}
+		foreach ($baseComponents as $base) {
 			$vObject = new VCalendar;
 			$vObject->VERSION = clone $importer->VERSION;
 			$vObject->PRODID = clone $importer->PRODID;
@@ -225,14 +255,22 @@ class ImportService {
 	 * @param CalendarImportOptions $options
 	 * @param callable $generator<CalendarImportOptions>: Generator<\Sabre\VObject\Component\VCalendar>
 	 *
-	 * @return array<string,array<string,string|array<string>>>
+	 * @return Generator<int, ImportCountEvent|ImportObjectEvent>
 	 */
-	public function importProcess($source, CalendarImpl $calendar, CalendarImportOptions $options, callable $generator): array {
+	public function importProcess($source, CalendarImpl $calendar, CalendarImportOptions $options, callable $generator): Generator {
 		$calendarId = $calendar->getKey();
 		$calendarUri = $calendar->getUri();
 		$principalUri = $calendar->getPrincipalUri();
-		$outcome = [];
-		foreach ($generator($source) as $vObject) {
+		foreach ($generator($source, $options) as $key => $value) {
+			if ($key === 'counts') {
+				yield new ImportCountEvent(
+					vevent: $value['VEVENT'] ?? 0,
+					vtodo: $value['VTODO'] ?? 0,
+					vjournal: $value['VJOURNAL'] ?? 0,
+				);
+				continue;
+			}
+			$vObject = $value;
 			$components = $vObject->getBaseComponents();
 			// determine if the object has no base component types
 			if (count($components) === 0) {
@@ -240,7 +278,11 @@ class ImportService {
 				if ($options->getErrors() === $options::ERROR_FAIL) {
 					throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
 				}
-				$outcome['nbct'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+				yield new ImportObjectEvent(
+					disposition: ImportDisposition::Error,
+					identifier: null,
+					errors: [$errorMessage]
+				);
 				continue;
 			}
 			// determine if the object has more than one base component type
@@ -254,7 +296,11 @@ class ImportService {
 						if ($options->getErrors() === $options::ERROR_FAIL) {
 							throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
 						}
-						$outcome['mbct'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+						yield new ImportObjectEvent(
+							disposition: ImportDisposition::Error,
+							identifier: null,
+							errors: [$errorMessage]
+						);
 						continue 2;
 					}
 				}
@@ -265,7 +311,11 @@ class ImportService {
 				if ($options->getErrors() === $options::ERROR_FAIL) {
 					throw new InvalidArgumentException('Error importing calendar data: ' . $errorMessage);
 				}
-				$outcome['noid'] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+				yield new ImportObjectEvent(
+					disposition: ImportDisposition::Error,
+					identifier: null,
+					errors: [$errorMessage]
+				);
 				continue;
 			}
 			$uid = $components[0]->UID->getValue();
@@ -273,7 +323,11 @@ class ImportService {
 			if ($options->getValidate() !== $options::VALIDATE_NONE) {
 				$issues = $this->componentValidate($vObject, true, 3);
 				if ($options->getValidate() === $options::VALIDATE_SKIP && $issues !== []) {
-					$outcome[$uid] = ['outcome' => 'error', 'errors' => $issues];
+					yield new ImportObjectEvent(
+						disposition: ImportDisposition::Error,
+						identifier: $uid,
+						errors: $issues
+					);
 					continue;
 				} elseif ($options->getValidate() === $options::VALIDATE_FAIL && $issues !== []) {
 					throw new InvalidArgumentException('Error importing calendar data: UID <' . $uid . '> - ' . $issues[0]);
@@ -290,7 +344,10 @@ class ImportService {
 						$objectId,
 						$objectData
 					);
-					$outcome[$uid] = ['outcome' => 'created'];
+					yield new ImportObjectEvent(
+						disposition: ImportDisposition::Created,
+						identifier: $uid,
+					);
 				} else {
 					[$cid, $oid] = explode('/', $objectId);
 					if ($options->getSupersede()) {
@@ -299,9 +356,15 @@ class ImportService {
 							$oid,
 							$objectData
 						);
-						$outcome[$uid] = ['outcome' => 'updated'];
+						yield new ImportObjectEvent(
+							disposition: ImportDisposition::Updated,
+							identifier: $uid,
+						);
 					} else {
-						$outcome[$uid] = ['outcome' => 'exists'];
+						yield new ImportObjectEvent(
+							disposition: ImportDisposition::Exists,
+							identifier: $uid,
+						);
 					}
 				}
 			} catch (Exception $e) {
@@ -309,11 +372,13 @@ class ImportService {
 				if ($options->getErrors() === $options::ERROR_FAIL) {
 					throw new Exception('Error importing calendar data: UID <' . $uid . '> - ' . $errorMessage, 0, $e);
 				}
-				$outcome[$uid] = ['outcome' => 'error', 'errors' => [$errorMessage]];
+				yield new ImportObjectEvent(
+					disposition: ImportDisposition::Error,
+					identifier: $uid,
+					errors: [$errorMessage]
+				);
 			}
 		}
-
-		return $outcome;
 	}
 
 	/**

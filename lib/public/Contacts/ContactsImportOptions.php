@@ -5,36 +5,37 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCP\Calendar;
+
+namespace OCP\Contacts;
 
 use InvalidArgumentException;
 
 /**
- * Calendar Import Options
+ * Contacts Import Options
  *
- * @since 32.0.0
+ * @since 35.0.0
  */
-final class CalendarImportOptions {
+final class ContactsImportOptions {
 
 	/**
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
-	public const FORMATS = ['ical', 'jcal', 'xcal'];
+	public const FORMATS = ['vcf', 'jcf', 'xcf'];
 
 	/**
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public const VALIDATE_NONE = 0;
 	/**
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public const VALIDATE_SKIP = 1;
 	/**
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public const VALIDATE_FAIL = 2;
 	/**
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public const VALIDATE_OPTIONS = [
 		self::VALIDATE_NONE,
@@ -42,23 +43,23 @@ final class CalendarImportOptions {
 		self::VALIDATE_FAIL,
 	];
 	/**
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public const ERROR_CONTINUE = 0;
 	/**
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public const ERROR_FAIL = 1;
 	/**
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public const ERROR_OPTIONS = [
 		self::ERROR_CONTINUE,
 		self::ERROR_FAIL,
 	];
 
-	/** @var 'ical'|'jcal'|'xcal' */
-	private string $format = 'ical';
+	/** @var 'vcf'|'jcf'|'xcf' */
+	private string $format = 'vcf';
 	private bool $supersede = false;
 	private int $errors = self::ERROR_FAIL;
 	private int $validate = self::VALIDATE_SKIP;
@@ -67,8 +68,8 @@ final class CalendarImportOptions {
 	/**
 	 * Gets the import format
 	 *
-	 * @return 'ical'|'jcal'|'xcal' (defaults to ical)
-	 * @since 32.0.0
+	 * @return 'vcf'|'jcf'|'xcf' (defaults to vcf)
+	 * @since 35.0.0
 	 */
 	public function getFormat(): string {
 		return $this->format;
@@ -77,8 +78,8 @@ final class CalendarImportOptions {
 	/**
 	 * Sets the import format
 	 *
-	 * @param 'ical'|'jcal'|'xcal' $value
-	 * @since 32.0.0
+	 * @param 'vcf'|'jcf'|'xcf' $value
+	 * @since 35.0.0
 	 */
 	public function setFormat(string $value): void {
 		if (!in_array($value, self::FORMATS, true)) {
@@ -90,7 +91,7 @@ final class CalendarImportOptions {
 	/**
 	 * Gets whether to supersede existing objects
 	 *
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public function getSupersede(): bool {
 		return $this->supersede;
@@ -99,7 +100,7 @@ final class CalendarImportOptions {
 	/**
 	 * Sets whether to supersede existing objects
 	 *
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public function setSupersede(bool $supersede): void {
 		$this->supersede = $supersede;
@@ -109,7 +110,7 @@ final class CalendarImportOptions {
 	 * Gets how to handle object errors
 	 *
 	 * @return int 0 - continue, 1 - fail
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public function getErrors(): int {
 		return $this->errors;
@@ -121,10 +122,10 @@ final class CalendarImportOptions {
 	 * @param int $value 0 - continue, 1 - fail
 	 *
 	 * @template $value of self::ERROR_*
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public function setErrors(int $value): void {
-		if (!in_array($value, CalendarImportOptions::ERROR_OPTIONS, true)) {
+		if (!in_array($value, self::ERROR_OPTIONS, true)) {
 			throw new InvalidArgumentException('Invalid errors option specified');
 		}
 		$this->errors = $value;
@@ -134,7 +135,7 @@ final class CalendarImportOptions {
 	 * Gets how to handle object validation
 	 *
 	 * @return int 0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public function getValidate(): int {
 		return $this->validate;
@@ -146,10 +147,10 @@ final class CalendarImportOptions {
 	 * @param int $value 0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
 	 *
 	 * @template $value of self::VALIDATE_*
-	 * @since 32.0.0
+	 * @since 35.0.0
 	 */
 	public function setValidate(int $value): void {
-		if (!in_array($value, CalendarImportOptions::VALIDATE_OPTIONS, true)) {
+		if (!in_array($value, self::VALIDATE_OPTIONS, true)) {
 			throw new InvalidArgumentException('Invalid validation option specified');
 		}
 		$this->validate = $value;
