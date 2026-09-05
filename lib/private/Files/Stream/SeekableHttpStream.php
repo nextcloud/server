@@ -56,12 +56,13 @@ class SeekableHttpStream implements File {
 
 	/** @var ?resource|closed-resource */
 	private $current;
-	/** @var int $offset offset of the current chunk */
+
+	/** Absolute offset within the remote resource represented by this stream */
 	private int $offset = 0;
-	/** @var int $length length of the current chunk */
-	private int $length = 0;
-	/** @var int $totalSize size of the full stream */
+
+	/** Total size of the remote resource represented by this stream. */
 	private int $totalSize = 0;
+
 	private bool $needReconnect = false;
 
 	private function reconnect(int $start): bool {
@@ -104,7 +105,7 @@ class SeekableHttpStream implements File {
 		$content = trim(explode(':', $contentRange)[1]);
 		$range = trim(explode(' ', $content)[1]);
 		$begin = intval(explode('-', $range)[0]);
-		$length = intval(explode('/', $range)[1]);
+		$totalSize = intval(explode('/', $range)[1]);
 
 		if ($begin !== $start) {
 			$this->current = null;
@@ -112,9 +113,11 @@ class SeekableHttpStream implements File {
 		}
 
 		$this->offset = $begin;
-		$this->length = $length;
 		if ($start === 0) {
-			$this->totalSize = $length;
+			$this->totalSize = $totalSize;
+		} elseif ($this->totalSize !== $totalSize) {
+			$this->current = null;
+			return false;
 		}
 
 		return true;
@@ -152,11 +155,27 @@ class SeekableHttpStream implements File {
 
 	#[\Override]
 	public function stream_read($count) {
-		if (!$this->getCurrent()) {
+		$stream = $this->getCurrent();
+		if (!$stream) {
 			return false;
 		}
-		$ret = fread($this->getCurrent(), $count);
+
+		if ($count <= 0) {
+			return '';
+		}
+
+		$remaining = $this->totalSize - $this->offset;
+		if ($remaining <= 0) {
+			return '';
+		}
+
+		$ret = fread($stream, min($count, $remaining));
+		if ($ret === false) {
+			return false;
+		}
+
 		$this->offset += strlen($ret);
+
 		return $ret;
 	}
 
@@ -178,12 +197,12 @@ class SeekableHttpStream implements File {
 				}
 				break;
 			case SEEK_END:
-				if ($this->length === 0) {
+				if ($this->totalSize === 0) {
 					return false;
-				} elseif ($this->length + $offset === $this->offset) {
+				} elseif ($this->totalSize + $offset === $this->offset) {
 					return true;
 				} else {
-					$this->offset = $this->length + $offset;
+					$this->offset = $this->totalSize + $offset;
 				}
 				break;
 		}
@@ -216,11 +235,11 @@ class SeekableHttpStream implements File {
 
 	#[\Override]
 	public function stream_eof() {
-		if ($this->getCurrent()) {
-			return feof($this->getCurrent());
-		} else {
+		if (!$this->getCurrent()) {
 			return true;
-		}
+ 		}
+
+		return $this->offset >= $this->totalSize;
 	}
 
 	#[\Override]
