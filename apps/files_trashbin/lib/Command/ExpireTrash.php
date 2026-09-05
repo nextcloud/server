@@ -37,11 +37,12 @@ class ExpireTrash extends Base {
 		parent::configure();
 		$this
 			->setName('trashbin:expire')
-			->setDescription('Expires the users trashbin')
+			->setDescription('Delete expired files from the trashbin')
+			->setHelp('Deletes expired files from the trashbin according to the configured retention and space policy.')
 			->addArgument(
 				'user_id',
 				InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-				'expires the trashbin of the given user(s), if no user is given the trash for all users will be expired'
+				'Limit processing to the given user ID(s); if no user ID is given, all users are processed'
 			);
 	}
 
