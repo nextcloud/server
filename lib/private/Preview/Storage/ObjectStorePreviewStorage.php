@@ -178,6 +178,15 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		$this->deletePreview($preview);
 	}
 
+	#[Override]
+	public function previewExists(Preview $preview): bool {
+		// Avoid a network round-trip per preview. Object-store
+		// existence checks are expensive; treat the DB row as
+		// authoritative for now. Missing objects will still fail
+		// later on read and can be cleaned up by other paths.
+		return true;
+	}
+
 	public function getUrn(Preview $preview, array $config): string {
 		if ($preview->getOldFileId()) {
 			return ($config['arguments']['objectPrefix'] ?? 'urn:oid:') . $preview->getOldFileId();

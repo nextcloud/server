@@ -328,4 +328,17 @@ class LocalPreviewStorageTest extends TestCase {
 		$this->expectException(NotFoundException::class);
 		$this->storage->readPreview($preview);
 	}
+
+	public function testPreviewExistsWhenFileIsPresent(): void {
+		$preview = $this->makePreview();
+		$this->storage->writePreview($preview, 'preview data');
+
+		$this->assertTrue($this->storage->previewExists($preview));
+	}
+
+	public function testPreviewExistsWhenFileIsMissing(): void {
+		$preview = $this->makePreview();
+
+		$this->assertFalse($this->storage->previewExists($preview));
+	}
 }
