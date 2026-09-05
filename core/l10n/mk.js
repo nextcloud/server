@@ -221,6 +221,7 @@ OC.L10N.register(
     "Profile" : "Профил",
     "Applications" : "Апликации",
     "Apps" : "Аппликации",
+    "More" : "Повеќе",
     "Actions" : "Акции",
     "_{count} notification_::_{count} notifications_" : ["{count} известување","{count} известувања"],
     "No" : "Не",

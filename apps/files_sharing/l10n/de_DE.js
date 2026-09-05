@@ -402,6 +402,8 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "{owner} hat dies mit Ihnen und dem Kreis {circle} geteilt",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} hat diese mit Ihnen und der Unterhaltung {conversation} geteilt",
     "Shared with you in a conversation by {owner}" : "{owner} hat diese mit Ihnen in einer Unterhaltung geteilt",
+    "%1$s shared %2$s with you" : "%1$s hat %2$s mit Ihnen geteilt",
+    "Do you want to accept this share?" : "Möchten Sie diese Freigabe annehmen?",
     "Share not found" : "Freigabe nicht gefunden",
     "Back to %s" : "Zurück zu %s",
     "Add to your Nextcloud" : "Zu Ihrer Nextcloud hinzufügen",

@@ -36,8 +36,6 @@ jobs:
     permissions:
       # for auto-approve step to work
       pull-requests: write
-      # for alexwilson/enable-github-automerge-action to approve PRs
-      contents: write
 
     steps:
       - name: Disabled on forks
@@ -98,4 +96,4 @@ jobs:
           )
           }}
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN }}

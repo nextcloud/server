@@ -242,7 +242,6 @@
     "Enforce password protection" : "Hivatkozások jelszavas védelmének megkövetelése",
     "Groups allowed to share" : "A csoportok, melyek megoszthatnak",
     "Groups excluded from sharing" : "A csoportok, melyek nem oszthatnak meg",
-    "Not allowed groups will still be able to receive shares, but not to initiate them." : "A nem engedélyezett csoportok fogadhatnak, de nem hozhatnak létre megosztásokat.",
     "Enforce expiration date" : "Lejárati idő betartatása",
     "Set default expiration date for shares to other servers" : "A megosztás alapértelmezett lejárati idejének beállítása a többi kiszolgáló számára",
     "Privacy settings for sharing" : "Adatvédelmi beállítások a megosztáshoz",

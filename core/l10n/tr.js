@@ -254,6 +254,7 @@ OC.L10N.register(
     "Please copy the link manually:" : "Lütfen bağlantıyı el ile kopyalayın:",
     "Less from connected services" : "Bağlı aygıtlardan daha az",
     "More from connected services" : "Bağlı aygıtlardan daha fazla",
+    "Connected services settings" : "Bağlı hizmetler ayarları",
     "Custom date range" : "Özel tarih aralığı",
     "Pick start date" : "Başlangıç tarihini seçin",
     "Pick end date" : "Bitiş tarihini seçin",
