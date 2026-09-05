@@ -17,10 +17,6 @@
 			<slot name="filters" />
 		</div>
 
-		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
-			<slot name="header-overlay" />
-		</div>
-
 		<div
 			v-if="dataSources.length === 0"
 			class="files-list__empty">
@@ -32,7 +28,6 @@
 			:inert="dataSources.length === 0"
 			class="files-list__table"
 			:class="{
-				'files-list__table--with-thead-overlay': !!$scopedSlots['header-overlay'],
 				'files-list__table--hidden': dataSources.length === 0,
 			}">
 			<!-- Accessibility table caption for screen readers -->
