@@ -61,7 +61,7 @@ class Color {
 	}
 
 	/**
-	 * Returns the green blue component of this color as an int from 0 to 255
+	 * Returns the blue component of this color as an int from 0 to 255
 	 *
 	 * @since 25.0.0
 	 */
@@ -75,7 +75,7 @@ class Color {
 	 * @since 25.0.0
 	 */
 	public function blueF(): float {
-		return $this->g / 255;
+		return $this->b / 255;
 	}
 
 	/**
