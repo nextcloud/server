@@ -26,6 +26,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
 use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
@@ -42,6 +43,7 @@ use OCP\AppFramework\OCSController;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -80,7 +82,7 @@ final class ApiV1Controller extends OCSController {
 	 * Search for recipients that can be added to a share.
 	 *
 	 * @param ?list<class-string<IShareRecipientType>> $filterRecipientTypeClasses Type classes of recipients to filter by
-	 * @param string $query The query to search for
+	 * @param string $query The query to search for, if the query is empty, recommended recipients will be returned
 	 * @param int<1, 100> $limit The maximum number of participants
 	 * @param non-negative-int $offset The offset of the participants
 	 * @param ?string $id If provided, recipients that are already part of the share will not be returned.
@@ -109,11 +111,21 @@ final class ApiV1Controller extends OCSController {
 			return new DataResponse('The offset is too low.', Http::STATUS_BAD_REQUEST);
 		}
 
+		if (!$this->accessContext->currentUser instanceof IUser) {
+			throw new \RuntimeException('No user in session for endpoint that requires authentication');
+		}
+
 		try {
 			try {
 				$this->dbConnection->beginTransaction();
 				$forShare = ($id === null) ? null : $this->manager->getShare($this->accessContext, $id);
-				$recipients = $this->manager->searchRecipients($this->accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $forShare);
+				if ($query !== '') {
+					$recipients = $this->manager->searchRecipients($this->accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $forShare);
+				} else {
+					$user = new ShareUser($this->accessContext->currentUser->getUID(), null);
+					$recipients = $this->manager->getRecipientsForUser($user, $filterRecipientTypeClasses, $forShare?->id, $limit, $offset);
+				}
+
 				$this->dbConnection->commit();
 				return new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients));
 			} catch (Exception $exception) {
