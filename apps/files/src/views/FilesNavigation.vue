@@ -42,7 +42,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { getNavigation } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import { computed, ref, watchEffect } from 'vue'
+import { computed, provide, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router/composables'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -65,6 +65,32 @@ const allViews = useViews()
 
 const route = useRoute()
 const currentViewId = computed(() => route?.params?.view || 'files')
+
+const currentNavigationViewId = computed(() => {
+	const views = allViews.value.filter((view) => view.id === currentViewId.value
+		|| view.params?.view === currentViewId.value)
+	const matchingParams = views.filter((view) => view.params
+		&& Object.entries(view.params).every(([key, value]) => {
+			if (key in route.params) {
+				return route.params[key] === value
+			}
+			return route.query[key] === value
+		}))
+		.sort((a, b) => Object.keys(b.params!).length - Object.keys(a.params!).length)
+	// if we have a full match use that
+	if (matchingParams.length > 0) {
+		return matchingParams[0]
+	}
+	// otherwise check if at least view + dir matches
+	const matchingDir = views.find((view) => view.params?.dir === route.query.dir)
+	if (matchingDir) {
+		return matchingDir
+	}
+	// finally fallback to the parent view
+	return views.find((view) => view.id === currentViewId.value)!
+})
+provide('currentNavigationView', currentNavigationViewId)
+
 watchEffect(() => {
 	if (currentViewId.value !== activeStore.activeView?.id) {
 		logger.debug(`Route view id ${currentViewId.value} is different from active view id ${activeStore.activeView?.id}, updating active view...`)
