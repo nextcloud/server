@@ -57,6 +57,17 @@ export default defineConfig({
 				...BROWSWER_CONFIG_CHROME,
 			},
 		},
+
+		{
+			// API tests driving the HTTP endpoints directly. They change
+			// instance-wide system config, so they must never run alongside
+			// other tests. No browser is launched.
+			name: 'integration',
+			testDir: './tests/playwright/integration',
+			fullyParallel: false,
+			workers: 1,
+			timeout: 90_000, // rate limit periods are waited out in real time
+		},
 	],
 
 	webServer: {

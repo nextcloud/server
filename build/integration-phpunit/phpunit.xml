@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../vendor-bin/behat/vendor/phpunit/phpunit/phpunit.xsd"
+	bootstrap="bootstrap.php"
+	cacheDirectory=".phpunit.cache"
+	colors="true"
+	failOnRisky="true"
+	failOnWarning="true"
+	beStrictAboutTestsThatDoNotTestAnything="true">
+	<testsuites>
+		<testsuite name="integration">
+			<directory>tests</directory>
+		</testsuite>
+	</testsuites>
+	<php>
+		<!-- Overridden by run.sh; both are also read from the environment. -->
+		<env name="NEXTCLOUD_BASE_URL" value="http://localhost:8080" force="false"/>
+	</php>
+</phpunit>
