@@ -103,7 +103,7 @@
     "@nextcloud/webpack-vue-config": "^7.0.4",
     "@pinia/testing": "^0.1.7",
     "@testing-library/jest-dom": "^7.0.1",
-    "@testing-library/user-event": "^14.6.1",
+    "@testing-library/user-event": "^14.6.6",
     "@testing-library/vue": "^5.8.3",
     "@types/throttle-debounce": "^5.0.2",
     "@vitejs/plugin-vue2": "^2.3.4",
