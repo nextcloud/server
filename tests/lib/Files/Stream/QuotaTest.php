@@ -18,6 +18,7 @@ class ShortWriteStream extends Wrapper {
 				'source' => $source,
 			],
 		]);
+
 		return Wrapper::wrapSource($source, $context, 'shortwrite', self::class);
 	}
 
@@ -34,7 +35,22 @@ class ShortWriteStream extends Wrapper {
 
 	#[\Override]
 	public function stream_write($data) {
-		return fwrite($this->source, substr($data, 0, 1));
+		if ($data === '') {
+			return 0;
+		}
+
+		/*
+		 * This fixture intentionally handles only the two payloads used by the
+		 * regression test: "abc" and "def". PHP may call stream_write() again
+		 * with "bc" or "ef" after the deliberate one-byte short write.
+		 */
+		if ($data[0] !== 'a' && $data[0] !== 'd') {
+			// This is the remainder passed after the deliberate short write.
+			return 0;
+		}
+
+		// Deliberately write exactly one byte.
+		return fwrite($this->source, $data[0]);
 	}
 }
 
