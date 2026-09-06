@@ -401,6 +401,7 @@
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} 分享給您和 {conversation} 對話",
     "Shared with you in a conversation by {owner}" : "{owner} 在對話中分享給您",
     "%1$s shared %2$s with you" : "%1$s 與您分享了 %2$s",
+    "Do you want to accept this share?" : "你要接受此分享嗎？",
     "Share not found" : "找不到分享",
     "Back to %s" : "返回 %s",
     "Add to your Nextcloud" : "加入到您的 Nextcloud",
