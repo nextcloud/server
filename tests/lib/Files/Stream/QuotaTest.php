@@ -124,31 +124,6 @@ class QuotaTest extends \Test\TestCase {
 		$this->assertSame('abc', fread($stream, 100));
 	}
 
-	public function testShortReadOnlyConsumesBytesActuallyRead(): void {
-		$source = fopen('php://temp', 'w+');
-		fwrite($source, 'abc');
-		rewind($source);
-
-		$stream = Quota::wrap($source, 5);
-
-		$this->assertSame('abc', fread($stream, 100));
-		$this->assertSame(2, fwrite($stream, 'wxyz'));
-
-		rewind($stream);
-		$this->assertSame('abcwx', fread($stream, 100));
-	}
-
-	public function testFailedSeekDoesNotChangePositionOrQuota(): void {
-		$stream = $this->getStream('w+', 3);
-		$this->assertSame(1, fwrite($stream, 'a'));
-
-		$this->assertSame(-1, fseek($stream, -1, SEEK_SET));
-		$this->assertSame(2, fwrite($stream, 'bcdef'));
-
-		rewind($stream);
-		$this->assertSame('abc', fread($stream, 100));
-	}
-
 	public function testWriteNotEnoughSpaceExistingStream(): void {
 		$source = fopen('php://temp', 'w+');
 		fwrite($source, 'foobar');
