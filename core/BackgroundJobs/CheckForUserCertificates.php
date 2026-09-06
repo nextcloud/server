@@ -14,6 +14,7 @@ use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -24,6 +25,7 @@ class CheckForUserCertificates extends QueuedJob {
 		private IUserManager $userManager,
 		private IRootFolder $rootFolder,
 		ITimeFactory $time,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($time);
 	}
@@ -54,9 +56,9 @@ class CheckForUserCertificates extends QueuedJob {
 		});
 
 		if (empty($uploadList)) {
-			$this->config->deleteAppValue('files_external', 'user_certificate_scan');
+			$this->appConfig->deleteKey('files_external', 'user_certificate_scan');
 		} else {
-			$this->config->setAppValue('files_external', 'user_certificate_scan', json_encode($uploadList));
+			$this->appConfig->setValue('files_external', 'user_certificate_scan', json_encode($uploadList));
 		}
 	}
 }

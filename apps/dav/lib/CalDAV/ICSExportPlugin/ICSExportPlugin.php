@@ -7,6 +7,7 @@
 
 namespace OCA\DAV\CalDAV\ICSExportPlugin;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -29,6 +30,7 @@ class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
 	public function __construct(
 		private IConfig $config,
 		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -38,7 +40,7 @@ class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
 	#[\Override]
 	protected function generateResponse($path, $start, $end, $expand, $componentType, $format, $properties, ResponseInterface $response) {
 		if (!isset($properties['{http://nextcloud.com/ns}refresh-interval'])) {
-			$value = $this->config->getAppValue('dav', 'defaultRefreshIntervalExportedCalendars', self::DEFAULT_REFRESH_INTERVAL);
+			$value = $this->appConfig->getValue('dav', 'defaultRefreshIntervalExportedCalendars', self::DEFAULT_REFRESH_INTERVAL);
 			$properties['{http://nextcloud.com/ns}refresh-interval'] = $value;
 		}
 

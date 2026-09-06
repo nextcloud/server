@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\SetupChecks;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\SetupCheck\ISetupCheck;
@@ -18,6 +19,7 @@ class NeedsSystemAddressBookSync implements ISetupCheck {
 	public function __construct(
 		private IConfig $config,
 		private IL10N $l10n,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -33,7 +35,7 @@ class NeedsSystemAddressBookSync implements ISetupCheck {
 
 	#[\Override]
 	public function run(): SetupResult {
-		if ($this->config->getAppValue('dav', 'needs_system_address_book_sync', 'no') === 'no') {
+		if ($this->appConfig->getValue('dav', 'needs_system_address_book_sync', 'no') === 'no') {
 			return SetupResult::success($this->l10n->t('No outstanding DAV system address book sync.'));
 		} else {
 			return SetupResult::warning($this->l10n->t('The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling "occ dav:sync-system-addressbook".'));

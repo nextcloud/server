@@ -34,7 +34,7 @@ class RemotePlugin implements ISearchPlugin {
 		private ?TrustedServers $trustedServers,
 	) {
 		$this->userId = $userSession->getUser()?->getUID() ?? '';
-		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$this->shareeEnumeration = $this->appConfig->getValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 	}
 
 	#[\Override]

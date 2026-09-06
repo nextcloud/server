@@ -7,6 +7,7 @@
 
 namespace OCA\Files_Sharing\Migration;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -23,6 +24,7 @@ class SetPasswordColumn implements IRepairStep {
 	public function __construct(
 		private IDBConnection $connection,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -69,7 +71,7 @@ class SetPasswordColumn implements IRepairStep {
 	}
 
 	protected function shouldRun() {
-		$appVersion = $this->config->getAppValue('files_sharing', 'installed_version', '0.0.0');
+		$appVersion = $this->appConfig->getValue('files_sharing', 'installed_version', '0.0.0');
 		return version_compare($appVersion, '1.4.0', '<');
 	}
 }

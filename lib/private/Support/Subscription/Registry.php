@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Support\Subscription;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -31,6 +32,7 @@ class Registry implements IRegistry {
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -193,10 +195,10 @@ class Registry implements IRegistry {
 	}
 
 	protected function reIssue(): bool {
-		$lastNotification = (int)$this->config->getAppValue('lib', 'last_subscription_reminder', '0');
+		$lastNotification = (int)$this->appConfig->getValue('lib', 'last_subscription_reminder', '0');
 
 		if ((time() - $lastNotification) >= 86400) {
-			$this->config->setAppValue('lib', 'last_subscription_reminder', (string)time());
+			$this->appConfig->setValue('lib', 'last_subscription_reminder', (string)time());
 			return true;
 		}
 		return false;

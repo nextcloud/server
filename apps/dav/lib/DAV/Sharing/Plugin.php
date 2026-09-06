@@ -15,6 +15,7 @@ use OCA\DAV\DAV\Security\RateLimiting;
 use OCA\DAV\DAV\Sharing\Xml\Invite;
 use OCA\DAV\DAV\Sharing\Xml\ShareRequest;
 use OCP\AppFramework\Http;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use Sabre\DAV\Exception\BadRequest;
@@ -36,6 +37,7 @@ class Plugin extends ServerPlugin {
 		private IRequest $request,
 		private IConfig $config,
 		private RateLimiting $rateLimiting,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -153,7 +155,7 @@ class Plugin extends ServerPlugin {
 					/** @var \Sabre\DAVACL\Plugin $acl */
 					$acl->checkPrivileges($path, '{DAV:}write');
 
-					$limitSharingToOwner = $this->config->getAppValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
+					$limitSharingToOwner = $this->appConfig->getValue('dav', 'limitAddressBookAndCalendarSharingToOwner', 'no') === 'yes';
 					$isOwner = $acl->getCurrentUserPrincipal() === $node->getOwner();
 					if ($limitSharingToOwner && !$isOwner) {
 						return;

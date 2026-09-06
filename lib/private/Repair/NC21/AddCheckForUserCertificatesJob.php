@@ -11,6 +11,7 @@ namespace OC\Repair\NC21;
 
 use OC\Core\BackgroundJobs\CheckForUserCertificates;
 use OCP\BackgroundJob\IJobList;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -19,6 +20,7 @@ class AddCheckForUserCertificatesJob implements IRepairStep {
 	public function __construct(
 		private IConfig $config,
 		protected IJobList $jobList,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -37,7 +39,7 @@ class AddCheckForUserCertificatesJob implements IRepairStep {
 	#[\Override]
 	public function run(IOutput $output): void {
 		if ($this->shouldRun()) {
-			$this->config->setAppValue('files_external', 'user_certificate_scan', 'not-run-yet');
+			$this->appConfig->setValue('files_external', 'user_certificate_scan', 'not-run-yet');
 			$this->jobList->add(CheckForUserCertificates::class);
 		}
 	}

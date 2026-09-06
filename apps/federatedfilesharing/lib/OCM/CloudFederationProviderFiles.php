@@ -557,7 +557,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 		$share = $this->federatedShareProvider->getShareById($id);
 
 		// We have to respect the default share permissions
-		$permissions = $share->getPermissions() & (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+		$permissions = $share->getPermissions() & (int)$this->appConfig->getValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
 		$share->setPermissions($permissions);
 
 		// don't allow to share a file back to the owner

@@ -15,6 +15,7 @@ use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCP\Encryption\Keys\IStorage;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
@@ -38,28 +39,29 @@ class KeyManager {
 		private LoggerInterface $logger,
 		private Util $util,
 		private ILockingProvider $lockingProvider,
+		private IAppConfig $appConfig,
 	) {
-		$this->recoveryKeyId = $this->config->getAppValue('encryption',
+		$this->recoveryKeyId = $this->appConfig->getValue('encryption',
 			'recoveryKeyId');
 		if (empty($this->recoveryKeyId)) {
 			$this->recoveryKeyId = 'recoveryKey_' . substr(md5((string)time()), 0, 8);
-			$this->config->setAppValue('encryption',
+			$this->appConfig->setValue('encryption',
 				'recoveryKeyId',
 				$this->recoveryKeyId);
 		}
 
-		$this->publicShareKeyId = $this->config->getAppValue('encryption',
+		$this->publicShareKeyId = $this->appConfig->getValue('encryption',
 			'publicShareKeyId');
 		if (empty($this->publicShareKeyId)) {
 			$this->publicShareKeyId = 'pubShare_' . substr(md5((string)time()), 0, 8);
-			$this->config->setAppValue('encryption', 'publicShareKeyId', $this->publicShareKeyId);
+			$this->appConfig->setValue('encryption', 'publicShareKeyId', $this->publicShareKeyId);
 		}
 
-		$this->masterKeyId = $this->config->getAppValue('encryption',
+		$this->masterKeyId = $this->appConfig->getValue('encryption',
 			'masterKeyId');
 		if (empty($this->masterKeyId)) {
 			$this->masterKeyId = 'master_' . substr(md5((string)time()), 0, 8);
-			$this->config->setAppValue('encryption', 'masterKeyId', $this->masterKeyId);
+			$this->appConfig->setValue('encryption', 'masterKeyId', $this->masterKeyId);
 		}
 	}
 

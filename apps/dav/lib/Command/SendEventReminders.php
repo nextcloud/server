@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\Reminder\ReminderService;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,6 +25,7 @@ class SendEventReminders extends Command {
 	public function __construct(
 		protected ReminderService $reminderService,
 		protected IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct();
 	}
@@ -40,13 +42,13 @@ class SendEventReminders extends Command {
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
+		if ($this->appConfig->getValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
 			$output->writeln('<error>Sending event reminders disabled!</error>');
 			$output->writeln('<info>Please run "php occ config:app:set dav sendEventReminders --value yes"');
 			return self::FAILURE;
 		}
 
-		if ($this->config->getAppValue('dav', 'sendEventRemindersMode', 'backgroundjob') !== 'occ') {
+		if ($this->appConfig->getValue('dav', 'sendEventRemindersMode', 'backgroundjob') !== 'occ') {
 			$output->writeln('<error>Sending event reminders mode set to background-job!</error>');
 			$output->writeln('<info>Please run "php occ config:app:set dav sendEventRemindersMode --value occ"');
 			return self::FAILURE;

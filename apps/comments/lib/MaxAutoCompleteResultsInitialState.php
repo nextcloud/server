@@ -10,11 +10,13 @@ declare(strict_types=1);
 namespace OCA\Comments;
 
 use OCP\AppFramework\Services\InitialStateProvider;
+use OCP\IAppConfig;
 use OCP\IConfig;
 
 class MaxAutoCompleteResultsInitialState extends InitialStateProvider {
 	public function __construct(
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -25,6 +27,6 @@ class MaxAutoCompleteResultsInitialState extends InitialStateProvider {
 
 	#[\Override]
 	public function getData(): int {
-		return (int)$this->config->getAppValue('comments', 'maxAutoCompleteResults', '10');
+		return (int)$this->appConfig->getValue('comments', 'maxAutoCompleteResults', '10');
 	}
 }

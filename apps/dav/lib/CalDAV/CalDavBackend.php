@@ -45,6 +45,7 @@ use OCP\Calendar\Exceptions\CalendarException;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -220,6 +221,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		private FederatedCalendarMapper $federatedCalendarMapper,
 		ICacheFactory $cacheFactory,
 		private bool $legacyEndpoint = false,
+		private IAppConfig $appConfig,
 	) {
 		$this->publishStatusCache = $cacheFactory->createInMemory();
 	}
@@ -943,7 +945,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			// retention (0 seconds) is set, which signals a disabled trashbin.
 			$calendarData = $this->getCalendarById($calendarId);
 			$isBirthdayCalendar = isset($calendarData['uri']) && $calendarData['uri'] === BirthdayService::BIRTHDAY_CALENDAR_URI;
-			$trashbinDisabled = $this->config->getAppValue(Application::APP_ID, RetentionService::RETENTION_CONFIG_KEY) === '0';
+			$trashbinDisabled = $this->appConfig->getValue(Application::APP_ID, RetentionService::RETENTION_CONFIG_KEY) === '0';
 			if ($forceDeletePermanently || $isBirthdayCalendar || $trashbinDisabled) {
 				$calendarData = $this->getCalendarById($calendarId);
 				$shares = $this->getShares($calendarId);
@@ -1775,7 +1777,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				return;
 			}
 
-			if ($forceDeletePermanently || $this->config->getAppValue(Application::APP_ID, RetentionService::RETENTION_CONFIG_KEY) === '0') {
+			if ($forceDeletePermanently || $this->appConfig->getValue(Application::APP_ID, RetentionService::RETENTION_CONFIG_KEY) === '0') {
 				$qb = $this->db->getQueryBuilder();
 				$qb->delete('calendarobjects')
 					->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)))

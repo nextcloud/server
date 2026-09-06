@@ -24,6 +24,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -68,6 +69,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		private \OCP\GlobalScale\IConfig $gsConfig,
 		private ICloudFederationProviderManager $cloudFederationProviderManager,
 		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -941,7 +943,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
+		$result = $this->appConfig->getValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
 		return $result === 'yes';
 	}
 
@@ -952,7 +954,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
+		$result = $this->appConfig->getValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
 		return $result === 'yes';
 	}
 
@@ -963,7 +965,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_group_share_enabled', 'no');
+		$result = $this->appConfig->getValue('files_sharing', 'outgoing_server2server_group_share_enabled', 'no');
 		return $result === 'yes';
 	}
 
@@ -974,7 +976,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_group_share_enabled', 'no');
+		$result = $this->appConfig->getValue('files_sharing', 'incoming_server2server_group_share_enabled', 'no');
 		return $result === 'yes';
 	}
 
@@ -993,7 +995,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		if ($this->gsConfig->isGlobalScaleEnabled()) {
 			return true;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
+		$result = $this->appConfig->getValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
 		// TODO: Reenable if lookup server is used again
 		// return $result;
 		return false;
@@ -1007,7 +1009,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		if ($this->gsConfig->isGlobalScaleEnabled()) {
 			return false;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no') === 'yes';
+		$result = $this->appConfig->getValue('files_sharing', 'lookupServerUploadEnabled', 'no') === 'yes';
 		// TODO: Reenable if lookup server is used again
 		// return $result;
 		return false;
@@ -1017,7 +1019,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * Check if auto accepting incoming shares from trusted servers is enabled
 	 */
 	public function isFederatedTrustedShareAutoAccept(): bool {
-		$result = $this->config->getAppValue('files_sharing', 'federatedTrustedShareAutoAccept', 'yes');
+		$result = $this->appConfig->getValue('files_sharing', 'federatedTrustedShareAutoAccept', 'yes');
 		return $result === 'yes';
 	}
 

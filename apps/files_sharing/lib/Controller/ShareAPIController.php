@@ -650,7 +650,7 @@ class ShareAPIController extends OCSController {
 		} else {
 			// Use default permissions only for non-link shares to keep legacy behavior
 			if ($permissions === null) {
-				$permissions = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+				$permissions = (int)$this->appConfig->getValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
 			}
 			// Non-link shares always require read permissions (link shares could be file drop)
 			$permissions |= Constants::PERMISSION_READ;

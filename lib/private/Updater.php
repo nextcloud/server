@@ -166,7 +166,7 @@ class Updater extends BasicEmitter {
 		$version = explode('.', $oldVersion);
 		$majorMinor = $version[0] . '.' . $version[1];
 
-		$currentVendor = $this->config->getAppValue('core', 'vendor', '');
+		$currentVendor = $this->appConfig->getValue('core', 'vendor', '');
 
 		// Vendor was not set correctly on install, so we have to white-list known versions
 		if ($currentVendor === '' && (
@@ -174,7 +174,7 @@ class Updater extends BasicEmitter {
 			|| isset($allowedPreviousVersions['owncloud'][$majorMinor])
 		)) {
 			$currentVendor = 'owncloud';
-			$this->config->setAppValue('core', 'vendor', $currentVendor);
+			$this->appConfig->setValue('core', 'vendor', $currentVendor);
 		}
 
 		if ($currentVendor === 'nextcloud') {
@@ -292,7 +292,7 @@ class Updater extends BasicEmitter {
 
 		// only set the final version if everything went well
 		$this->config->setSystemValue('version', implode('.', Util::getVersion()));
-		$this->config->setAppValue('core', 'vendor', $this->getVendor());
+		$this->appConfig->setValue('core', 'vendor', $this->getVendor());
 	}
 
 	protected function doCoreUpgrade(): void {

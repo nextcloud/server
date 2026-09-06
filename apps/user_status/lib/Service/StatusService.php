@@ -19,6 +19,7 @@ use OCA\UserStatus\Exception\StatusMessageTooLongException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IEmojiHelper;
 use OCP\IUserManager;
@@ -73,10 +74,11 @@ class StatusService {
 		private IConfig $config,
 		private IUserManager $userManager,
 		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
-		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$this->shareeEnumeration = $this->appConfig->getValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 	}
 
 	/**

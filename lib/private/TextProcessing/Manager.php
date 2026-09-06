@@ -17,6 +17,7 @@ use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\BackgroundJob\IJobList;
 use OCP\Common\Exception\NotFoundException;
 use OCP\DB\Exception;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\PreConditionNotMetException;
 use OCP\TaskProcessing\IManager as TaskProcessingIManager;
@@ -62,6 +63,7 @@ class Manager implements IManager {
 		private TaskMapper $taskMapper,
 		private IConfig $config,
 		private TaskProcessingIManager $taskProcessingManager,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -358,7 +360,7 @@ class Manager implements IManager {
 	 */
 	public function getPreferredProviders(OCPTask $task): array {
 		$providers = $this->getProviders();
-		$json = $this->config->getAppValue('core', 'ai.textprocessing_provider_preferences', '');
+		$json = $this->appConfig->getValue('core', 'ai.textprocessing_provider_preferences', '');
 		if ($json !== '') {
 			$preferences = json_decode($json, true);
 			if (isset($preferences[$task->getType()])) {
