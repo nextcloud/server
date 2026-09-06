@@ -35,7 +35,7 @@ class SeekableHttpStream implements File {
 	 * The callback is called with a byte range and must return an HTTP stream
 	 * for that range.
 	 *
-	 * @param callable(string): resource|false $callback
+	 * @psalm-param impure-callable(string): resource|false $callback
 	 *
 	 * @return resource|false
 	 */
@@ -54,7 +54,7 @@ class SeekableHttpStream implements File {
 	/** @var resource */
 	public $context;
 
-	/** @var callable(string): resource|false */
+	/** @var impure-callable(string): resource|false */
 	private $openCallback;
 
 	/** @var ?resource|closed-resource */
