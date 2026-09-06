@@ -135,6 +135,7 @@ OC.L10N.register(
     "Add external storage" : "Bæta við ytri gagnageymslu",
     "Global credentials saved" : "Víðvær auðkenni vistuð",
     "Could not save global credentials" : "Tókst ekki að vista víðvær auðkenni",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Víðvær auðkenni má nota til að auðkenna við marga utanaðkomandi geymslumiðla sem hafa sömu auðkenni.",
     "Saving …" : "Vista …",
     "Save" : "Vista",
     "Unable to update this external storage config. {statusMessage}" : "Tókst ekki að uppfæra uppsetningu þessarar ytri-gagnageymslu. {statusMessage}",
