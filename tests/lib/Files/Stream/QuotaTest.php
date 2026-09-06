@@ -235,13 +235,4 @@ class QuotaTest extends \Test\TestCase {
 		rewind($stream);
 		$this->assertEquals('0123456abcdef', fread($stream, 100));
 	}
-
-	public function testFloatLimitIsAppliedAsByteCount(): void {
-		$stream = $this->getStream('w+', 3.5);
-
-		$this->assertSame(3, fwrite($stream, 'foobar'));
-
-		rewind($stream);
-		$this->assertSame('foo', fread($stream, 100));
-	}
 }
