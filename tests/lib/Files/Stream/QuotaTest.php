@@ -8,7 +8,35 @@
 
 namespace Test\Files\Stream;
 
+use Icewind\Streams\Wrapper;
 use OC\Files\Stream\Quota;
+
+class ShortWriteStream extends Wrapper {
+	public static function wrap($source) {
+		$context = stream_context_create([
+			'shortwrite' => [
+				'source' => $source,
+			],
+		]);
+		return Wrapper::wrapSource($source, $context, 'shortwrite', self::class);
+	}
+
+	#[\Override]
+	public function stream_open($path, $mode, $options, &$opened_path) {
+		$this->source = $this->loadContext('shortwrite')['source'];
+		return true;
+	}
+
+	#[\Override]
+	public function dir_opendir($path, $options) {
+		return false;
+	}
+
+	#[\Override]
+	public function stream_write($data) {
+		return fwrite($this->source, substr($data, 0, 1));
+	}
+}
 
 class QuotaTest extends \Test\TestCase {
 	/**
@@ -58,6 +86,67 @@ class QuotaTest extends \Test\TestCase {
 		rewind($stream);
 		$this->assertEquals('foobar', fread($stream, 6));
 		$this->assertEquals(0, fwrite($stream, 'qwe'));
+	}
+
+	public function testWriteAccountsForBytesActuallyWritten(): void {
+		$source = fopen('php://temp', 'w+');
+		$stream = Quota::wrap(ShortWriteStream::wrap($source), 3);
+
+		$this->assertSame(1, fwrite($stream, 'abc'));
+		$this->assertSame(1, fwrite($stream, 'def'));
+
+		rewind($stream);
+		$this->assertSame('ad', fread($stream, 100));
+	}
+
+	public function testShortReadOnlyConsumesBytesActuallyRead(): void {
+		$source = fopen('php://temp', 'w+');
+		fwrite($source, 'abc');
+		rewind($source);
+
+		$stream = Quota::wrap($source, 5);
+
+		$this->assertSame('abc', fread($stream, 100));
+		$this->assertSame(2, fwrite($stream, 'wxyz'));
+
+		rewind($stream);
+		$this->assertSame('abcwx', fread($stream, 100));
+	}
+
+	public function testFailedSeekDoesNotChangePositionOrQuota(): void {
+		$stream = $this->getStream('w+', 3);
+		$this->assertSame(1, fwrite($stream, 'a'));
+
+		$this->assertSame(-1, fseek($stream, -1, SEEK_SET));
+		$this->assertSame(2, fwrite($stream, 'bcdef'));
+
+		rewind($stream);
+		$this->assertSame('abc', fread($stream, 100));
+	}
+
+	public function testShortReadOnlyConsumesBytesActuallyRead(): void {
+		$source = fopen('php://temp', 'w+');
+		fwrite($source, 'abc');
+		rewind($source);
+
+		$stream = Quota::wrap($source, 5);
+
+		$this->assertSame('abc', fread($stream, 100));
+		$this->assertSame(2, fwrite($stream, 'wxyz'));
+
+		rewind($stream);
+		$this->assertSame('abcwx', fread($stream, 100));
+	}
+
+	public function testFailedSeekDoesNotChangePositionOrQuota(): void {
+		$stream = $this->getStream('w+', 3);
+		$this->assertSame(1, fwrite($stream, 'a'));
+
+		$this->assertSame(-1, fseek($stream, -1, SEEK_SET));
+		$this->assertSame(2, fwrite($stream, 'bcdef'));
+
+		rewind($stream);
+		$this->assertSame('abc', fread($stream, 100));
 	}
 
 	public function testWriteNotEnoughSpaceExistingStream(): void {
