@@ -11,6 +11,7 @@ namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use function max;
 
@@ -22,12 +23,13 @@ class RetentionService {
 		private IConfig $config,
 		private ITimeFactory $time,
 		private CalDavBackend $calDavBackend,
+		private IAppConfig $appConfig,
 	) {
 	}
 
 	public function getDuration(): int {
 		return max(
-			(int)$this->config->getAppValue(
+			(int)$this->appConfig->getValue(
 				Application::APP_ID,
 				self::RETENTION_CONFIG_KEY,
 				(string)self::DEFAULT_RETENTION_SECONDS

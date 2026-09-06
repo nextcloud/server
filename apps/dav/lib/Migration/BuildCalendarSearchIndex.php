@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Migration;
 
 use OCP\BackgroundJob\IJobList;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -21,6 +22,7 @@ class BuildCalendarSearchIndex implements IRepairStep {
 		private IDBConnection $db,
 		private IJobList $jobList,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -38,7 +40,7 @@ class BuildCalendarSearchIndex implements IRepairStep {
 	#[\Override]
 	public function run(IOutput $output) {
 		// only run once
-		if ($this->config->getAppValue('dav', 'buildCalendarSearchIndex') === 'yes') {
+		if ($this->appConfig->getValue('dav', 'buildCalendarSearchIndex') === 'yes') {
 			$output->info('Repair step already executed');
 			return;
 		}
@@ -57,6 +59,6 @@ class BuildCalendarSearchIndex implements IRepairStep {
 		]);
 
 		// if all were done, no need to redo the repair during next upgrade
-		$this->config->setAppValue('dav', 'buildCalendarSearchIndex', 'yes');
+		$this->appConfig->setValue('dav', 'buildCalendarSearchIndex', 'yes');
 	}
 }

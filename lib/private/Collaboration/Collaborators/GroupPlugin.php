@@ -10,6 +10,7 @@ namespace OC\Collaboration\Collaborators;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -30,14 +31,15 @@ class GroupPlugin implements ISearchPlugin {
 		private IGroupManager $groupManager,
 		private IUserSession $userSession,
 		private mixed $shareWithGroupOnlyExcludeGroupsList = [],
+		private IAppConfig $appConfig,
 	) {
-		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
-		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		$this->groupSharingDisabled = $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'no';
+		$this->shareeEnumeration = $this->appConfig->getValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$this->shareWithGroupOnly = $this->appConfig->getValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$this->groupSharingDisabled = $this->appConfig->getValue('core', 'shareapi_allow_group_sharing', 'yes') === 'no';
 
 		if ($this->shareWithGroupOnly) {
-			$this->shareWithGroupOnlyExcludeGroupsList = json_decode($this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', ''), true) ?? [];
+			$this->shareWithGroupOnlyExcludeGroupsList = json_decode($this->appConfig->getValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', ''), true) ?? [];
 		}
 	}
 

@@ -15,6 +15,7 @@ use OCA\Theming\ThemingDefaults;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Authentication\IApacheBackend;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\INavigationManager;
@@ -40,6 +41,7 @@ class URLGenerator implements IURLGenerator {
 		private readonly ICacheFactory $cacheFactory,
 		private readonly IRequest $request,
 		private readonly Router $router,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -239,7 +241,7 @@ class URLGenerator implements IURLGenerator {
 			return $this->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 		}
 
-		$defaultPage = $this->config->getAppValue('core', 'defaultpage');
+		$defaultPage = $this->appConfig->getValue('core', 'defaultpage');
 		if ($defaultPage) {
 			return $this->getAbsoluteURL($defaultPage);
 		}

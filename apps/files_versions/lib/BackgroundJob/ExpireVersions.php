@@ -13,6 +13,7 @@ use OCA\Files_Versions\Expiration;
 use OCA\Files_Versions\Storage;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -25,6 +26,7 @@ class ExpireVersions extends TimedJob {
 		private IUserManager $userManager,
 		private Expiration $expiration,
 		ITimeFactory $time,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($time);
 		// Run once per 30 minutes
@@ -33,7 +35,7 @@ class ExpireVersions extends TimedJob {
 
 	#[\Override]
 	public function run($argument) {
-		$backgroundJob = $this->config->getAppValue('files_versions', 'background_job_expire_versions', 'yes');
+		$backgroundJob = $this->appConfig->getValue('files_versions', 'background_job_expire_versions', 'yes');
 		if ($backgroundJob === 'no') {
 			return;
 		}

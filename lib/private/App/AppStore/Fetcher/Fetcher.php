@@ -17,6 +17,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Server;
 use OCP\ServerVersion;
@@ -53,6 +54,7 @@ abstract class Fetcher {
 		protected IConfig $config,
 		protected LoggerInterface $logger,
 		protected IRegistry $registry,
+		private IAppConfig $appConfig,
 	) {
 		$this->appData = $appDataFactory->get('appstore');
 	}
@@ -68,7 +70,7 @@ abstract class Fetcher {
 	 */
 	protected function fetch($ETag, $content, $allowUnstable = false): array {
 		$appstoreEnabled = $this->config->getSystemValueBool('appstoreenabled', true);
-		if ((int)$this->config->getAppValue('settings', 'appstore-fetcher-lastFailure', '0') > time() - self::RETRY_AFTER_FAILURE_SECONDS) {
+		if ((int)$this->appConfig->getValue('settings', 'appstore-fetcher-lastFailure', '0') > time() - self::RETRY_AFTER_FAILURE_SECONDS) {
 			return [];
 		}
 
@@ -77,7 +79,7 @@ abstract class Fetcher {
 		}
 
 		$options = [
-			'timeout' => (int)$this->config->getAppValue('settings', 'appstore-timeout', '120')
+			'timeout' => (int)$this->appConfig->getValue('settings', 'appstore-timeout', '120')
 		];
 
 		if ($ETag !== '') {
@@ -88,7 +90,7 @@ abstract class Fetcher {
 
 		if ($this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL) === self::APP_STORE_URL) {
 			// If we have a valid subscription key, send it to the appstore
-			$subscriptionKey = $this->config->getAppValue('support', 'subscription_key');
+			$subscriptionKey = $this->appConfig->getValue('support', 'subscription_key');
 			if ($this->registry->delegateHasValidSubscription() && $subscriptionKey) {
 				$options['headers'] ??= [];
 				$options['headers']['X-NC-Subscription-Key'] = $subscriptionKey;
@@ -99,7 +101,7 @@ abstract class Fetcher {
 		try {
 			$response = $client->get($this->getEndpoint(), $options);
 		} catch (ConnectException|ClientException|ServerException $e) {
-			$this->config->setAppValue('settings', 'appstore-fetcher-lastFailure', (string)time());
+			$this->appConfig->setValue('settings', 'appstore-fetcher-lastFailure', (string)time());
 			$this->logger->error('Failed to connect to the app store', ['exception' => $e]);
 			return [];
 		}
@@ -111,7 +113,7 @@ abstract class Fetcher {
 			$responseJson['data'] = json_decode($response->getBody(), true);
 			$ETag = $response->getHeader('ETag');
 		}
-		$this->config->deleteAppValue('settings', 'appstore-fetcher-lastFailure');
+		$this->appConfig->deleteKey('settings', 'appstore-fetcher-lastFailure');
 
 		$responseJson['timestamp'] = $this->timeFactory->getTime();
 		$responseJson['ncversion'] = $this->getVersion();

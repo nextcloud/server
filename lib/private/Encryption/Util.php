@@ -16,6 +16,7 @@ use OC\Files\View;
 use OCA\Encryption\Crypto\Encryption;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Files\Mount\ISystemMountPoint;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -48,6 +49,7 @@ class Util {
 		protected IUserManager $userManager,
 		protected IGroupManager $groupManager,
 		protected IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 		$this->ocHeaderKeys = [
 			self::HEADER_ENCRYPTION_MODULE_KEY
@@ -305,7 +307,7 @@ class Util {
 	 * @param string $root new key store root relative to the data folder
 	 */
 	public function setKeyStorageRoot(string $root): void {
-		$this->config->setAppValue('core', 'encryption_key_storage_root', $root);
+		$this->appConfig->setValue('core', 'encryption_key_storage_root', $root);
 	}
 
 	/**
@@ -314,7 +316,7 @@ class Util {
 	 * @return string key storage root
 	 */
 	public function getKeyStorageRoot(): string {
-		return $this->config->getAppValue('core', 'encryption_key_storage_root', '');
+		return $this->appConfig->getValue('core', 'encryption_key_storage_root', '');
 	}
 
 	/**

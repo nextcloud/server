@@ -14,6 +14,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -42,6 +43,7 @@ class MailSettingsController extends Controller {
 		private IURLGenerator $urlGenerator,
 		private IMailer $mailer,
 		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -95,7 +97,7 @@ class MailSettingsController extends Controller {
 
 		$this->config->setSystemValues($configs);
 
-		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
+		$this->appConfig->setValue('core', 'emailTestSuccessful', '0');
 
 		return new DataResponse();
 	}
@@ -114,7 +116,7 @@ class MailSettingsController extends Controller {
 			$this->config->setSystemValue('mail_smtppassword', $mail_smtppassword);
 		}
 		$this->config->setSystemValue('mail_smtpname', $mail_smtpname);
-		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
+		$this->appConfig->setValue('core', 'emailTestSuccessful', '0');
 
 		return new DataResponse();
 	}
@@ -145,20 +147,20 @@ class MailSettingsController extends Controller {
 				$message->useTemplate($template);
 				$errors = $this->mailer->send($message);
 				if (!empty($errors)) {
-					$this->config->setAppValue('core', 'emailTestSuccessful', '0');
+					$this->appConfig->setValue('core', 'emailTestSuccessful', '0');
 					throw new \RuntimeException($this->l10n->t('Email could not be sent. Check your mail server log'));
 				}
 				// Store the successful config in the app config
-				$this->config->setAppValue('core', 'emailTestSuccessful', '1');
+				$this->appConfig->setValue('core', 'emailTestSuccessful', '1');
 				return new DataResponse();
 			} catch (\Exception $e) {
-				$this->config->setAppValue('core', 'emailTestSuccessful', '0');
+				$this->appConfig->setValue('core', 'emailTestSuccessful', '0');
 				$this->logger->error('Failed sending test email: ' . $e->getMessage(), ['exception' => $e]);
 				return new DataResponse($this->l10n->t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e->getMessage()]), Http::STATUS_BAD_REQUEST);
 			}
 		}
 
-		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
+		$this->appConfig->setValue('core', 'emailTestSuccessful', '0');
 		$this->logger->error('Failed sending test email: User ' . $this->userSession->getUser()->getUID() . ' has no email address configured in their account settings');
 		return new DataResponse($this->l10n->t('You need to set your account email before being able to send test emails. Go to %s for that.', [$this->urlGenerator->linkToRouteAbsolute('settings.PersonalSettings.index')]), Http::STATUS_BAD_REQUEST);
 	}

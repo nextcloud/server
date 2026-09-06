@@ -14,6 +14,7 @@ use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -58,6 +59,7 @@ class ReminderService {
 		private IConfig $config,
 		private LoggerInterface $logger,
 		private Principal $principalConnector,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -123,7 +125,7 @@ class ReminderService {
 				continue;
 			}
 
-			if ($this->config->getAppValue('dav', 'sendEventRemindersToSharedUsers', 'yes') === 'no') {
+			if ($this->appConfig->getValue('dav', 'sendEventRemindersToSharedUsers', 'yes') === 'no') {
 				$users = $this->getAllUsersWithWriteAccessToCalendar($reminder['calendar_id']);
 			} else {
 				$users = [];

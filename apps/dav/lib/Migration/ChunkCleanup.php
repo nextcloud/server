@@ -14,6 +14,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -27,6 +28,7 @@ class ChunkCleanup implements IRepairStep {
 		private IUserManager $userManager,
 		private IRootFolder $rootFolder,
 		private IJobList $jobList,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -38,7 +40,7 @@ class ChunkCleanup implements IRepairStep {
 	#[\Override]
 	public function run(IOutput $output) {
 		// If we already ran this onec there is no need to run it again
-		if ($this->config->getAppValue('dav', 'chunks_migrated', '0') === '1') {
+		if ($this->appConfig->getValue('dav', 'chunks_migrated', '0') === '1') {
 			$output->info('Cleanup not required');
 			return;
 		}
@@ -65,6 +67,6 @@ class ChunkCleanup implements IRepairStep {
 		});
 		$output->finishProgress();
 
-		$this->config->setAppValue('dav', 'chunks_migrated', '1');
+		$this->appConfig->setValue('dav', 'chunks_migrated', '1');
 	}
 }

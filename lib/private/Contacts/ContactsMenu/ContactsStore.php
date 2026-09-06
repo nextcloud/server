@@ -15,6 +15,7 @@ use OCA\UserStatus\Service\StatusService;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -40,6 +41,7 @@ class ContactsStore implements IContactsStore {
 		private KnownUserService $knownUserService,
 		private IL10NFactory $l10nFactory,
 		private ShareDisableChecker $shareDisableChecker,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -49,8 +51,8 @@ class ContactsStore implements IContactsStore {
 	#[\Override]
 	public function getContacts(IUser $user, ?string $filter, ?int $limit = null, ?int $offset = null): array {
 		$options = [
-			'enumeration' => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes',
-			'fullmatch' => $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes',
+			'enumeration' => $this->appConfig->getValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes',
+			'fullmatch' => $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes',
 		];
 		if ($limit !== null) {
 			$options['limit'] = $limit;
@@ -168,20 +170,20 @@ class ContactsStore implements IContactsStore {
 		array $entries,
 		?string $filter,
 	): array {
-		$disallowEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') !== 'yes';
-		$restrictEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		$restrictEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
-		$allowEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
+		$disallowEnumeration = $this->appConfig->getValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') !== 'yes';
+		$restrictEnumerationGroup = $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$restrictEnumerationPhone = $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$allowEnumerationFullMatch = $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 
 		// whether to filter out local users
 		$skipLocal = $this->shareDisableChecker->sharingDisabledForUser($self->getUID());
 		// whether to filter out all users which don't have a common group as the current user
-		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		$ownGroupsOnly = $this->appConfig->getValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
 		// ownGroupsOnly : some groups may be excluded
 		if ($ownGroupsOnly) {
-			$excludeGroupsFromOwnGroups = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
+			$excludeGroupsFromOwnGroups = $this->appConfig->getValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
 			$excludeGroupsFromOwnGroupsList = json_decode($excludeGroupsFromOwnGroups, true) ?? [];
 			$selfGroups = array_diff($selfGroups, $excludeGroupsFromOwnGroupsList);
 		}

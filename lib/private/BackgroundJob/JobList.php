@@ -16,6 +16,7 @@ use OCP\BackgroundJob\IParallelAwareJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Server;
@@ -40,6 +41,7 @@ class JobList implements IJobList {
 		protected readonly ITimeFactory $timeFactory,
 		protected readonly LoggerInterface $logger,
 		protected readonly ISnowflakeGenerator $snowflakeGenerator,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -351,7 +353,7 @@ class JobList implements IJobList {
 	#[\Override]
 	public function setLastJob(IJob $job): void {
 		$this->unlockJob($job);
-		$this->config->setAppValue('backgroundjob', 'lastjob', $job->getId());
+		$this->appConfig->setValue('backgroundjob', 'lastjob', $job->getId());
 	}
 
 	#[Override]

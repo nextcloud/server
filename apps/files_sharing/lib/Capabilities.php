@@ -144,14 +144,14 @@ class Capabilities implements ICapability {
 					$public['expire_date_remote']['enforced'] = $this->shareManager->shareApiRemoteDefaultExpireDateEnforced();
 				}
 
-				$public['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_public_notification', 'no') === 'yes';
+				$public['send_mail'] = $this->appConfig->getValue('core', 'shareapi_allow_public_notification', 'no') === 'yes';
 				$public['upload'] = $this->shareManager->shareApiLinkAllowPublicUpload();
 				$public['upload_files_drop'] = $public['upload'];
 				$public['custom_tokens'] = $this->shareManager->allowCustomTokens();
 			}
 			$res['public'] = $public;
 
-			$res['resharing'] = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
+			$res['resharing'] = $this->appConfig->getValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
 
 			$res['user']['send_mail'] = false;
 			$res['user']['expire_date']['enabled'] = true;
@@ -163,7 +163,7 @@ class Capabilities implements ICapability {
 			$res['group'] = [];
 			$res['group']['enabled'] = $this->shareManager->allowGroupSharing();
 			$res['group']['expire_date']['enabled'] = true;
-			$res['default_permissions'] = (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
+			$res['default_permissions'] = (int)$this->appConfig->getValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL);
 			$res['exclude_reshare_from_edit'] = $this->appConfig->getValueBool('files_sharing', SharingConfigLexicon::EXCLUDE_RESHARE_FROM_EDIT);
 		}
 
@@ -171,7 +171,7 @@ class Capabilities implements ICapability {
 		if ($this->appManager->isEnabledForAnyone('federation')) {
 			$res['federation'] = [
 				'outgoing' => $this->shareManager->outgoingServer2ServerSharesAllowed(),
-				'incoming' => $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'yes',
+				'incoming' => $this->appConfig->getValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'yes',
 				// old bogus one, expire_date was not working before, keeping for compatibility
 				'expire_date' => ['enabled' => true],
 				// the real deal, signifies that expiration date can be set on federated shares
@@ -190,7 +190,7 @@ class Capabilities implements ICapability {
 		$res['sharee'] = [
 			'minSearchStringLength' => $this->config->getSystemValueInt('sharing.minSearchStringLength', 0),
 			'query_lookup_default' => $this->config->getSystemValueBool('gs.enabled', false),
-			'always_show_unique' => $this->config->getAppValue('files_sharing', 'always_show_unique', 'yes') === 'yes',
+			'always_show_unique' => $this->appConfig->getValue('files_sharing', 'always_show_unique', 'yes') === 'yes',
 		];
 
 		return [

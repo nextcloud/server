@@ -11,6 +11,7 @@ namespace OC\Mail;
 
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -71,6 +72,7 @@ class Mailer implements IMailer {
 		private IEventDispatcher $dispatcher,
 		private IFactory $l10nFactory,
 		private IEmailValidator $emailValidator,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -110,7 +112,7 @@ class Mailer implements IMailer {
 	 */
 	#[\Override]
 	public function createEMailTemplate(string $emailId, array $data = []): IEMailTemplate {
-		$logoDimensions = $this->config->getAppValue('theming', 'logoDimensions', self::DEFAULT_DIMENSIONS);
+		$logoDimensions = $this->appConfig->getValue('theming', 'logoDimensions', self::DEFAULT_DIMENSIONS);
 		if (str_contains($logoDimensions, 'x')) {
 			[$width, $height] = explode('x', $logoDimensions);
 			$width = (int)$width;

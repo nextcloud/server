@@ -7,6 +7,7 @@
 
 namespace OCA\Encryption\Migration;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -20,6 +21,7 @@ class SetMasterKeyStatus implements IRepairStep {
 
 	public function __construct(
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -45,14 +47,14 @@ class SetMasterKeyStatus implements IRepairStep {
 
 		// if no config for the master key is set we set it explicitly to '0' in
 		// order not to break old installations because the default changed to '1'.
-		$configAlreadySet = $this->config->getAppValue('encryption', 'useMasterKey', 'not-set');
+		$configAlreadySet = $this->appConfig->getValue('encryption', 'useMasterKey', 'not-set');
 		if ($configAlreadySet === 'not-set') {
-			$this->config->setAppValue('encryption', 'useMasterKey', '0');
+			$this->appConfig->setValue('encryption', 'useMasterKey', '0');
 		}
 	}
 
 	protected function shouldRun() {
-		$appVersion = $this->config->getAppValue('encryption', 'installed_version', '0.0.0');
+		$appVersion = $this->appConfig->getValue('encryption', 'installed_version', '0.0.0');
 		return version_compare($appVersion, '2.0.0', '<');
 	}
 }

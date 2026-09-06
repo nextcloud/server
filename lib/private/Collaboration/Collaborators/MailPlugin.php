@@ -14,6 +14,7 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -47,16 +48,17 @@ class MailPlugin implements ISearchPlugin {
 		private IUserManager $userManager,
 		private mixed $shareWithGroupOnlyExcludeGroupsList,
 		private int $shareType,
+		private IAppConfig $appConfig,
 	) {
-		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
-		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
-		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
-		$this->shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
-		$this->shareeEnumerationFullMatchEmail = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
+		$this->shareeEnumeration = $this->appConfig->getValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$this->shareWithGroupOnly = $this->appConfig->getValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
+		$this->shareeEnumerationFullMatch = $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
+		$this->shareeEnumerationFullMatchEmail = $this->appConfig->getValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
 
 		if ($this->shareWithGroupOnly) {
-			$this->shareWithGroupOnlyExcludeGroupsList = json_decode($this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', ''), true) ?? [];
+			$this->shareWithGroupOnlyExcludeGroupsList = json_decode($this->appConfig->getValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', ''), true) ?? [];
 		}
 	}
 

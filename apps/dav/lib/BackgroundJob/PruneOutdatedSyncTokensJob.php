@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
@@ -25,6 +26,7 @@ class PruneOutdatedSyncTokensJob extends TimedJob {
 		private CardDavBackend $cardDavBackend,
 		private IConfig $config,
 		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($timeFactory);
 		$this->setInterval(60 * 60 * 24); // One day
@@ -33,8 +35,8 @@ class PruneOutdatedSyncTokensJob extends TimedJob {
 
 	#[\Override]
 	public function run($argument) {
-		$limit = max(1, (int)$this->config->getAppValue(Application::APP_ID, 'totalNumberOfSyncTokensToKeep', '10000'));
-		$retention = max(7, (int)$this->config->getAppValue(Application::APP_ID, 'syncTokensRetentionDays', '60')) * 24 * 3600;
+		$limit = max(1, (int)$this->appConfig->getValue(Application::APP_ID, 'totalNumberOfSyncTokensToKeep', '10000'));
+		$retention = max(7, (int)$this->appConfig->getValue(Application::APP_ID, 'syncTokensRetentionDays', '60')) * 24 * 3600;
 
 		$prunedCalendarSyncTokens = $this->calDavBackend->pruneOutdatedSyncTokens($limit, $retention);
 		$prunedAddressBookSyncTokens = $this->cardDavBackend->pruneOutdatedSyncTokens($limit, $retention);

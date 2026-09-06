@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Repair\NC20;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -16,6 +17,7 @@ use OCP\Migration\IRepairStep;
 class ShippedDashboardEnable implements IRepairStep {
 	public function __construct(
 		private readonly IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -26,9 +28,9 @@ class ShippedDashboardEnable implements IRepairStep {
 
 	#[\Override]
 	public function run(IOutput $output): void {
-		$version = $this->config->getAppValue('dashboard', 'version', '7.0.0');
+		$version = $this->appConfig->getValue('dashboard', 'version', '7.0.0');
 		if (version_compare($version, '7.0.0', '<')) {
-			$this->config->deleteAppValues('dashboard');
+			$this->appConfig->deleteApp('dashboard');
 			$output->info('Removed old dashboard app config');
 		}
 	}

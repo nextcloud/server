@@ -47,7 +47,7 @@ class Server implements IDelegatedSettings {
 		$this->initialStateService->provideInitialState('backgroundJobsMode', $this->appConfig->getValueString('core', 'backgroundjobs_mode', 'ajax'));
 		$this->initialStateService->provideInitialState('lastCron', $this->appConfig->getValueInt('core', 'lastcron', 0));
 		$this->initialStateService->provideInitialState('cronMaxAge', $this->cronMaxAge());
-		$this->initialStateService->provideInitialState('cronErrors', $this->config->getAppValue('core', 'cronErrors'));
+		$this->initialStateService->provideInitialState('cronErrors', $this->appConfig->getValue('core', 'cronErrors'));
 		$this->initialStateService->provideInitialState('cliBasedCronPossible', $cliBasedCronPossible);
 		$this->initialStateService->provideInitialState('cliBasedCronUser', $cliBasedCronUser);
 		$this->initialStateService->provideInitialState('backgroundJobsDocUrl', $this->urlGenerator->linkToDocs('admin-background-jobs'));

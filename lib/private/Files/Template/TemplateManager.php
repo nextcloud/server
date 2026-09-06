@@ -29,6 +29,7 @@ use OCP\Files\Template\ITemplateManager;
 use OCP\Files\Template\RegisterTemplateCreatorEvent;
 use OCP\Files\Template\Template;
 use OCP\Files\Template\TemplateFileCreator;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -66,6 +67,7 @@ class TemplateManager implements ITemplateManager {
 		private readonly LoggerInterface $logger,
 		private readonly IFilenameValidator $filenameValidator,
 		private readonly string $serverRoot,
+		private IAppConfig $appConfig,
 	) {
 		$this->l10n = $l10nFactory->get('lib');
 		$this->userId = $userSession->getUser()?->getUID();
@@ -340,7 +342,7 @@ class TemplateManager implements ITemplateManager {
 		try {
 			$l10n = $this->l10nFactory->get('lib', $userLang);
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			$userTemplatePath = $path ?? $this->config->getAppValue('core', 'defaultTemplateDirectory', $l10n->t('Templates')) . '/';
+			$userTemplatePath = $path ?? $this->appConfig->getValue('core', 'defaultTemplateDirectory', $l10n->t('Templates')) . '/';
 
 			// Initial user setup without a provided path
 			if ($path === null) {

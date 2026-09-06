@@ -102,23 +102,23 @@ class JSConfigHelper {
 		$defaultExpireDateEnabled = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT);
 		$defaultExpireDate = $enforceDefaultExpireDate = null;
 		if ($defaultExpireDateEnabled) {
-			$defaultExpireDate = (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
+			$defaultExpireDate = (int)$this->appConfig->getValue('core', 'shareapi_expire_after_n_days', '7');
 			$enforceDefaultExpireDate = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED);
 		}
-		$outgoingServer2serverShareEnabled = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
+		$outgoingServer2serverShareEnabled = $this->appConfig->getValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
 
-		$defaultInternalExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
+		$defaultInternalExpireDateEnabled = $this->appConfig->getValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
 		$defaultInternalExpireDate = $defaultInternalExpireDateEnforced = null;
 		if ($defaultInternalExpireDateEnabled) {
-			$defaultInternalExpireDate = (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
-			$defaultInternalExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
+			$defaultInternalExpireDate = (int)$this->appConfig->getValue('core', 'shareapi_internal_expire_after_n_days', '7');
+			$defaultInternalExpireDateEnforced = $this->appConfig->getValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
 		}
 
-		$defaultRemoteExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
+		$defaultRemoteExpireDateEnabled = $this->appConfig->getValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
 		$defaultRemoteExpireDate = $defaultRemoteExpireDateEnforced = null;
 		if ($defaultRemoteExpireDateEnabled) {
-			$defaultRemoteExpireDate = (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
-			$defaultRemoteExpireDateEnforced = $this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
+			$defaultRemoteExpireDate = (int)$this->appConfig->getValue('core', 'shareapi_remote_expire_after_n_days', '7');
+			$defaultRemoteExpireDateEnforced = $this->appConfig->getValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
 		}
 
 		$countOfDataLocation = 0;

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\ShareByMail\Settings;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 
 class SettingsManager {
@@ -19,6 +20,7 @@ class SettingsManager {
 
 	public function __construct(
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -28,7 +30,7 @@ class SettingsManager {
 	 * @return bool
 	 */
 	public function sendPasswordByMail(): bool {
-		$sendPasswordByMail = $this->config->getAppValue('sharebymail', 'sendpasswordmail', $this->sendPasswordByMailDefault);
+		$sendPasswordByMail = $this->appConfig->getValue('sharebymail', 'sendpasswordmail', $this->sendPasswordByMailDefault);
 		return $sendPasswordByMail === 'yes';
 	}
 
@@ -38,7 +40,7 @@ class SettingsManager {
 	 * @return bool
 	 */
 	public function replyToInitiator(): bool {
-		$replyToInitiator = $this->config->getAppValue('sharebymail', 'replyToInitiator', $this->replyToInitiatorDefault);
+		$replyToInitiator = $this->appConfig->getValue('sharebymail', 'replyToInitiator', $this->replyToInitiatorDefault);
 		return $replyToInitiator === 'yes';
 	}
 }

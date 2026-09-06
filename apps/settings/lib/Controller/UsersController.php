@@ -54,6 +54,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Util;
 use function in_array;
@@ -92,6 +93,7 @@ class UsersController extends Controller {
 		private KnownUserService $knownUserService,
 		private IEventDispatcher $dispatcher,
 		private IInitialState $initialState,
+		private IEmailValidator $emailValidator,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -370,7 +372,7 @@ class UsersController extends Controller {
 		}
 
 		$email = !is_null($email) ? strtolower($email) : $email;
-		if (!empty($email) && !$this->mailer->validateMailAddress($email)) {
+		if (!empty($email) && !$this->emailValidator->isValid($email)) {
 			return new DataResponse(
 				[
 					'status' => 'error',
