@@ -12,6 +12,8 @@ use OC\DB\Exceptions\DbalException;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\DB\Exception as DBException;
 use OCP\Files\IMimeTypeLoader;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 
 /**
@@ -22,20 +24,32 @@ use OCP\IDBConnection;
 class Loader implements IMimeTypeLoader {
 	use TTransactional;
 
+	private const string CACHE_KEY = 'mimetypes';
+	private const int CACHE_TTL = 3600;
+
 	/** @psalm-var array<int, string> */
-	protected array $mimetypes;
+	protected array $mimetypes = [];
 
 	/** @psalm-var array<string, int> */
-	protected array $mimetypeIds;
+	protected array $mimetypeIds = [];
+
+	private ICache $cache;
+
+	/**
+	 * The cached copy of the table may lack rows added by another process,
+	 * so a miss reloads from the database once per instance.
+	 */
+	private bool $reloaded = false;
 
 	/**
 	 * @param IDBConnection $dbConnection
+	 * @param ICacheFactory $cacheFactory
 	 */
 	public function __construct(
 		private IDBConnection $dbConnection,
+		ICacheFactory $cacheFactory,
 	) {
-		$this->mimetypes = [];
-		$this->mimetypeIds = [];
+		$this->cache = $cacheFactory->createLocal('mimetypes');
 	}
 
 	/**
@@ -46,10 +60,10 @@ class Loader implements IMimeTypeLoader {
 		if (!$this->mimetypes) {
 			$this->loadMimetypes();
 		}
-		if (isset($this->mimetypes[$id])) {
-			return $this->mimetypes[$id];
+		if (!isset($this->mimetypes[$id])) {
+			$this->reloadOnMiss();
 		}
-		return null;
+		return $this->mimetypes[$id] ?? null;
 	}
 
 	/**
@@ -59,6 +73,9 @@ class Loader implements IMimeTypeLoader {
 	public function getId(string $mimetype): int {
 		if (!$this->mimetypeIds) {
 			$this->loadMimetypes();
+		}
+		if (!isset($this->mimetypeIds[$mimetype])) {
+			$this->reloadOnMiss();
 		}
 		if (isset($this->mimetypeIds[$mimetype])) {
 			return $this->mimetypeIds[$mimetype];
@@ -74,6 +91,9 @@ class Loader implements IMimeTypeLoader {
 		if (!$this->mimetypeIds) {
 			$this->loadMimetypes();
 		}
+		if (!isset($this->mimetypeIds[$mimetype])) {
+			$this->reloadOnMiss();
+		}
 		return isset($this->mimetypeIds[$mimetype]);
 	}
 
@@ -84,6 +104,8 @@ class Loader implements IMimeTypeLoader {
 	public function reset(): void {
 		$this->mimetypes = [];
 		$this->mimetypeIds = [];
+		$this->reloaded = false;
+		$this->cache->remove(self::CACHE_KEY);
 	}
 
 	/**
@@ -118,30 +140,63 @@ class Loader implements IMimeTypeLoader {
 			if ($id === false) {
 				throw new \Exception("Database threw an unique constraint on inserting a new mimetype, but couldn't return the ID for this very mimetype");
 			}
-
 			$mimetypeId = (int)$id;
 		}
 
 		$this->mimetypes[$mimetypeId] = $mimetype;
 		$this->mimetypeIds[$mimetype] = $mimetypeId;
+		$this->cache->remove(self::CACHE_KEY);
+
 		return $mimetypeId;
 	}
 
 	/**
-	 * Load all mimetypes from DB
+	 * Load all mimetypes from the cache, falling back to the DB
 	 */
 	private function loadMimetypes(): void {
+		$cached = $this->cache->get(self::CACHE_KEY);
+		if (is_array($cached) && $cached !== []) {
+			$this->setMimetypes($cached);
+			return;
+		}
+		$this->loadMimetypesFromDatabase();
+	}
+
+	private function reloadOnMiss(): void {
+		if ($this->reloaded) {
+			return;
+		}
+		$this->reloaded = true;
+		$this->loadMimetypesFromDatabase();
+	}
+
+	private function loadMimetypesFromDatabase(): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('id', 'mimetype')
 			->from('mimetypes');
-
 		$result = $qb->executeQuery();
 		$results = $result->fetchAllAssociative();
 		$result->closeCursor();
 
+		$mimetypes = [];
 		foreach ($results as $row) {
-			$this->mimetypes[(int)$row['id']] = $row['mimetype'];
-			$this->mimetypeIds[$row['mimetype']] = (int)$row['id'];
+			$mimetypes[(int)$row['id']] = (string)$row['mimetype'];
+		}
+		$this->setMimetypes($mimetypes);
+		if ($mimetypes !== []) {
+			$this->cache->set(self::CACHE_KEY, $mimetypes, self::CACHE_TTL);
+		}
+	}
+
+	/**
+	 * @param array<int, string> $mimetypes
+	 */
+	private function setMimetypes(array $mimetypes): void {
+		$this->mimetypes = [];
+		$this->mimetypeIds = [];
+		foreach ($mimetypes as $id => $mimetype) {
+			$this->mimetypes[(int)$id] = $mimetype;
+			$this->mimetypeIds[$mimetype] = (int)$id;
 		}
 	}
 
