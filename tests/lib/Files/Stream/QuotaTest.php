@@ -41,7 +41,7 @@ class ShortWriteStream extends Wrapper {
 class QuotaTest extends \Test\TestCase {
 	/**
 	 * @param string $mode
-	 * @param integer $limit
+	 * @param int|float $limit
 	 * @return resource
 	 */
 	protected function getStream($mode, $limit) {
@@ -113,11 +113,22 @@ class QuotaTest extends \Test\TestCase {
 		$this->assertSame('abcwx', fread($stream, 100));
 	}
 
-	public function testFailedSeekDoesNotChangePositionOrQuota(): void {
+	public function testFailedSeekSetDoesNotChangePositionOrQuota(): void {
 		$stream = $this->getStream('w+', 3);
 		$this->assertSame(1, fwrite($stream, 'a'));
 
 		$this->assertSame(-1, fseek($stream, -1, SEEK_SET));
+		$this->assertSame(2, fwrite($stream, 'bcdef'));
+
+		rewind($stream);
+		$this->assertSame('abc', fread($stream, 100));
+	}
+
+	public function testFailedSeekEndDoesNotChangePositionOrQuota(): void {
+		$stream = $this->getStream('w+', 3);
+		$this->assertSame(1, fwrite($stream, 'a'));
+
+		$this->assertSame(-1, fseek($stream, -100, SEEK_END));
 		$this->assertSame(2, fwrite($stream, 'bcdef'));
 
 		rewind($stream);
@@ -163,8 +174,7 @@ class QuotaTest extends \Test\TestCase {
 	public function testWriteAfterSeekEndWithNotEnoughSpace(): void {
 		$stream = $this->getStream('w+', 13);
 		fwrite($stream, '0123456789');
-		// seek forward first to potentially week out
-		// potential limit calculation errors
+		// Seek forward first to exercise the limit calculation.
 		fseek($stream, 4, SEEK_SET);
 		// seek to the end
 		fseek($stream, -3, SEEK_END);
@@ -191,6 +201,17 @@ class QuotaTest extends \Test\TestCase {
 		$this->assertEquals('0123456abcdef', fread($stream, 100));
 	}
 
+	public function testWriteAfterNegativeRemainingAllowanceIsRejected(): void {
+		$stream = $this->getStream('w+', 3);
+		$this->assertSame(3, fwrite($stream, 'abc'));
+
+		$this->assertSame(0, fseek($stream, 10, SEEK_SET));
+		$this->assertSame(0, fwrite($stream, 'def'));
+
+		rewind($stream);
+		$this->assertSame('abc', fread($stream, 100));
+	}
+
 	public function testWriteAfterSeekCurWithEnoughSpace(): void {
 		$stream = $this->getStream('w+', 100);
 		fwrite($stream, '0123456789');
@@ -213,5 +234,14 @@ class QuotaTest extends \Test\TestCase {
 		$this->assertEquals(6, fwrite($stream, 'abcdefghijk'));
 		rewind($stream);
 		$this->assertEquals('0123456abcdef', fread($stream, 100));
+	}
+
+	public function testFloatLimitIsAppliedAsByteCount(): void {
+		$stream = $this->getStream('w+', 3.5);
+
+		$this->assertSame(3, fwrite($stream, 'foobar'));
+
+		rewind($stream);
+		$this->assertSame('foo', fread($stream, 100));
 	}
 }
