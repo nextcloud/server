@@ -232,19 +232,16 @@ interface IShare {
 	/**
 	 * Set the receiver of this share.
 	 *
-	 * @param string $sharedWith
-	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setSharedWith($sharedWith);
+	public function setSharedWith(?string $sharedWith): IShare;
 
 	/**
 	 * Get the receiver of this share.
 	 *
-	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getSharedWith();
+	public function getSharedWith(): ?string;
 
 	/**
 	 * Set the display name of the receiver of this share.

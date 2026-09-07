@@ -34,8 +34,7 @@ class Share implements IShare {
 	private $nodeType;
 	/** @var IShare::TYPE_* */
 	private $shareType;
-	/** @var string */
-	private $sharedWith;
+	private ?string $sharedWith = null;
 	private ?string $sharedWithDisplayName = null;
 	/** @var ?callable */
 	private $sharedWithDisplayNameCallback = null;
@@ -246,10 +245,7 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	#[\Override]
-	public function setSharedWith($sharedWith) {
-		if (!is_string($sharedWith)) {
-			throw new \InvalidArgumentException();
-		}
+	public function setSharedWith(?string $sharedWith): IShare {
 		$this->sharedWith = $sharedWith;
 		return $this;
 	}
@@ -258,7 +254,7 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	#[\Override]
-	public function getSharedWith() {
+	public function getSharedWith(): ?string {
 		return $this->sharedWith;
 	}
 

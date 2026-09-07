@@ -1416,7 +1416,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		);
 	}
 
-	private static function parseTimestamp(string $timestampMs): \DateTimeImmutable {
+	public static function parseTimestamp(string $timestampMs): \DateTimeImmutable {
 		if (method_exists(\DateTimeImmutable::class, 'createFromTimestamp')) {
 			// with php 8.3 the method doesn't exist and psalm doesn't know the return type
 			/** @psalm-suppress MixedReturnStatement */

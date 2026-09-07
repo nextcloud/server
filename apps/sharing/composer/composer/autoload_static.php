@@ -48,6 +48,7 @@ class ComposerStaticInitSharing
         'OCA\\Sharing\\Migration\\Version1000Date20260826115938' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20260826115938.php',
         'OCA\\Sharing\\Migration\\Version1000Date20260826122228' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20260826122228.php',
         'OCA\\Sharing\\Migration\\Version1000Date20260903123528' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20260903123528.php',
+        'OCA\\Sharing\\Migration\\Version1000Date20260903133238' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20260903133238.php',
         'OCA\\Sharing\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
     );
 

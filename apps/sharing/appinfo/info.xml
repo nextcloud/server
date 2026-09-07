@@ -9,7 +9,7 @@
 	<name>Sharing</name>
 	<summary>This app provides APIs and occ commands to manage shares.</summary>
 	<description>This app provides APIs and occ commands to manage shares.</description>
-	<version>2.0.0-dev.4</version>
+	<version>2.0.0-dev.5</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author>Kate Döen</author>
 	<namespace>Sharing</namespace>

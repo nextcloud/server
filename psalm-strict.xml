@@ -72,6 +72,7 @@
 			<file name="lib/public/AppFramework/Controller.php"/>
 			<file name="lib/public/AppFramework/OCSController.php"/>
 			<directory name="build"/>
+			<file name="tests/lib/Traits/GroupTrait.php"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
