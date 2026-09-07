@@ -38,5 +38,6 @@ return array(
     'OCA\\UserStatus\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\UserStatus\\Service\\JSDataService' => $baseDir . '/../lib/Service/JSDataService.php',
     'OCA\\UserStatus\\Service\\PredefinedStatusService' => $baseDir . '/../lib/Service/PredefinedStatusService.php',
+    'OCA\\UserStatus\\Service\\StatusRepairService' => $baseDir . '/../lib/Service/StatusRepairService.php',
     'OCA\\UserStatus\\Service\\StatusService' => $baseDir . '/../lib/Service/StatusService.php',
 );

@@ -53,6 +53,7 @@ class ComposerStaticInitUserStatus
         'OCA\\UserStatus\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\UserStatus\\Service\\JSDataService' => __DIR__ . '/..' . '/../lib/Service/JSDataService.php',
         'OCA\\UserStatus\\Service\\PredefinedStatusService' => __DIR__ . '/..' . '/../lib/Service/PredefinedStatusService.php',
+        'OCA\\UserStatus\\Service\\StatusRepairService' => __DIR__ . '/..' . '/../lib/Service/StatusRepairService.php',
         'OCA\\UserStatus\\Service\\StatusService' => __DIR__ . '/..' . '/../lib/Service/StatusService.php',
     );
 

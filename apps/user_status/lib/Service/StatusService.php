@@ -60,10 +60,7 @@ class StatusService {
 	];
 
 	/**
-	 * Message ids that are only ever set by an automation (calendar, call,
-	 * availability, out-of-office). A status carrying one of these owns the
-	 * backup of whatever the user had set before, and is expected to be
-	 * reverted once the automation stops applying.
+	 * Message ids only ever set by an automation, expected to be reverted.
 	 */
 	public const AUTOMATED_MESSAGE_IDS = [
 		IUserStatus::MESSAGE_CALENDAR_BUSY,
@@ -544,10 +541,7 @@ class StatusService {
 			/** @var UserStatus $userStatus */
 			$backupUserStatus = $this->mapper->findByUserId($userId, true);
 		} catch (DoesNotExistException $ex) {
-			// There is no backup to restore. The automated status still has to
-			// go, otherwise the user is stuck on it forever: UserLiveStatusListener
-			// refuses to overwrite an automated status, so no heartbeat can ever
-			// bring them back online.
+			// No backup, but the status must go or the user stays stuck on it.
 			if ($this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId)) {
 				$this->logger->debug('Cleared automated status "' . $messageId . '" for user ' . $userId . ': there was no backup to restore', ['app' => 'user_status']);
 			}
@@ -565,10 +559,7 @@ class StatusService {
 			$backupUserStatus->setStatus(IUserStatus::ONLINE);
 		}
 
-		// The restored status becomes the current one now. Keeping the timestamp
-		// from before the automation would make it instantly stale for anything
-		// longer than INVALIDATE_STATUS_THRESHOLD, so the next read would clean
-		// the user straight to offline.
+		// Stale after a long meeting otherwise, which reads as offline.
 		$backupUserStatus->setStatusTimestamp($this->timeFactory->getTime());
 
 		$backupUserStatus->setIsBackup(false);
@@ -607,8 +598,7 @@ class StatusService {
 
 		$this->mapper->deleteByIds(array_values($statuesToDelete));
 
-		// For users that matched restore the previous status
-		$this->mapper->restoreBackupStatuses($restoreIds);
+		$this->mapper->restoreBackupStatuses($restoreIds, $this->timeFactory->getTime());
 	}
 
 	protected function insertWithoutThrowingUniqueConstrain(UserStatus $userStatus): UserStatus {

@@ -861,9 +861,12 @@ class StatusServiceTest extends TestCase {
 			->method('deleteByIds')
 			->with([1, 3, 5]);
 
+		$this->timeFactory->method('getTime')
+			->willReturn(1337);
+
 		$this->mapper->expects($this->once())
 			->method('restoreBackupStatuses')
-			->with([2]);
+			->with([2], 1337);
 
 		$this->service->revertMultipleUserStatus(['john', 'nobackup', 'backuponly', 'nobackupanddnd'], 'call');
 	}

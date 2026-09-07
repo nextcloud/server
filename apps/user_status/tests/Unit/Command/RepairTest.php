@@ -10,42 +10,39 @@ declare(strict_types=1);
 namespace OCA\UserStatus\Tests\Command;
 
 use OCA\UserStatus\Command\Repair;
-use OCA\UserStatus\Db\UserStatusMapper;
-use OCA\UserStatus\Service\StatusService;
+use OCA\UserStatus\Service\StatusRepairService;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 class RepairTest extends TestCase {
-	private UserStatusMapper&MockObject $mapper;
+	private StatusRepairService&MockObject $repairService;
 	private CommandTester $tester;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->mapper = $this->createMock(UserStatusMapper::class);
-		$this->tester = new CommandTester(new Repair($this->mapper));
+		$this->repairService = $this->createMock(StatusRepairService::class);
+		$this->tester = new CommandTester(new Repair($this->repairService));
 	}
 
 	public function testRepairsEverything(): void {
-		$this->mapper->expects($this->once())
+		$this->repairService->expects($this->once())
 			->method('findStatusesWithoutBackupFlagIds')
 			->willReturn([1, 2]);
-		$this->mapper->expects($this->once())
+		$this->repairService->expects($this->once())
 			->method('normalizeBackupFlagByIds')
 			->with([1, 2])
 			->willReturn(2);
 
-		$this->mapper->expects($this->once())
+		$this->repairService->expects($this->once())
 			->method('findOrphanedAutomatedStatusIds')
-			->with(StatusService::AUTOMATED_MESSAGE_IDS)
 			->willReturn([7, 8, 9]);
-		$this->mapper->expects($this->once())
+		$this->repairService->expects($this->once())
 			->method('findStrandedBackupIds')
-			->with(StatusService::AUTOMATED_MESSAGE_IDS)
 			->willReturn([11, 12, 13, 14]);
-		$this->mapper->expects($this->exactly(2))
+		$this->repairService->expects($this->exactly(2))
 			->method('deleteByIds')
 			->willReturnCallback(static fn (array $ids): int => count($ids));
 
@@ -58,13 +55,13 @@ class RepairTest extends TestCase {
 	}
 
 	public function testDryRunChangesNothing(): void {
-		$this->mapper->method('findStatusesWithoutBackupFlagIds')->willReturn([1, 2]);
-		$this->mapper->method('findOrphanedAutomatedStatusIds')->willReturn([7, 8, 9]);
-		$this->mapper->method('findStrandedBackupIds')->willReturn([11, 12, 13, 14]);
+		$this->repairService->method('findStatusesWithoutBackupFlagIds')->willReturn([1, 2]);
+		$this->repairService->method('findOrphanedAutomatedStatusIds')->willReturn([7, 8, 9]);
+		$this->repairService->method('findStrandedBackupIds')->willReturn([11, 12, 13, 14]);
 
-		$this->mapper->expects($this->never())->method('normalizeBackupFlagByIds');
-		$this->mapper->expects($this->never())->method('deleteByIds');
-		$this->mapper->expects($this->never())->method('deleteStrandedBackups');
+		$this->repairService->expects($this->never())->method('normalizeBackupFlagByIds');
+		$this->repairService->expects($this->never())->method('deleteByIds');
+		$this->repairService->expects($this->never())->method('deleteStrandedBackups');
 
 		self::assertSame(Command::SUCCESS, $this->tester->execute(['--dry-run' => true]));
 
@@ -72,13 +69,13 @@ class RepairTest extends TestCase {
 	}
 
 	public function testNothingToRepair(): void {
-		$this->mapper->method('findStatusesWithoutBackupFlagIds')->willReturn([]);
-		$this->mapper->method('findOrphanedAutomatedStatusIds')->willReturn([]);
-		$this->mapper->method('findStrandedBackupIds')->willReturn([]);
+		$this->repairService->method('findStatusesWithoutBackupFlagIds')->willReturn([]);
+		$this->repairService->method('findOrphanedAutomatedStatusIds')->willReturn([]);
+		$this->repairService->method('findStrandedBackupIds')->willReturn([]);
 
 		// Nothing to normalise and nothing to delete.
-		$this->mapper->expects($this->never())->method('normalizeBackupFlagByIds');
-		$this->mapper->expects($this->never())->method('deleteByIds');
+		$this->repairService->expects($this->never())->method('normalizeBackupFlagByIds');
+		$this->repairService->expects($this->never())->method('deleteByIds');
 
 		self::assertSame(Command::SUCCESS, $this->tester->execute([]));
 	}
