@@ -287,6 +287,7 @@ OC.L10N.register(
     "Shared" : "Deilt",
     "Shared by {ownerDisplayName}" : "Deilt af {ownerDisplayName}",
     "Shared multiple times with different people" : "Deilt mörgum sinnum með mismunandi fólki",
+    "Sharing options" : "Valkostir deilingar",
     "Shared with others" : "Deilt með öðrum",
     "People" : "Fólk",
     "Create file request" : "Útbúa beiðni um skrá",
