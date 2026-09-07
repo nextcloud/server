@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use OC\AppFramework\Utility\SimpleContainer;
 use OC\Files\Filesystem;
 use OC\NavigationManager;
 use OC\Profiler\BuiltInProfiler;
@@ -1382,6 +1383,8 @@ class OC {
 	 */
 	public static function handleRequests(callable $handler): void {
 		if (function_exists('frankenphp_handle_request') && isset($_SERVER['FRANKENPHP_WORKER']) && $_SERVER['FRANKENPHP_WORKER'] === '1') {
+			SimpleContainer::$keepPersistentServices = true;
+
 			$maxRequests = (int)($_SERVER['MAX_REQUESTS'] ?? 0);
 			for ($nbRequests = 0; !$maxRequests || $nbRequests < $maxRequests; ++$nbRequests) {
 				$keepRunning = \frankenphp_handle_request($handler);
