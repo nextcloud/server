@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -66,6 +67,7 @@ use OCP\Files\IRootFolder;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IUserSession;
@@ -90,7 +92,8 @@ class Application extends App implements IBootstrap {
 				function () use ($c) {
 					return $c->get(Manager::class);
 				},
-				$c->get(ICloudIdManager::class)
+				$c->get(ICloudIdManager::class),
+				$c->get(IConfig::class),
 			);
 		});
 
@@ -163,7 +166,7 @@ class Application extends App implements IBootstrap {
 	public function registerDownloadEvents(
 		IEventDispatcher $dispatcher,
 		IUserSession $userSession,
-		IRootFolder $rootFolder
+		IRootFolder $rootFolder,
 	): void {
 
 		$dispatcher->addListener(

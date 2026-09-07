@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -46,6 +47,7 @@ use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
@@ -69,7 +71,7 @@ class ManagerTest extends TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;
 
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject **/
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject * */
 	private $manager;
 
 	/** @var \OC\Files\Mount\Manager */
@@ -102,6 +104,7 @@ class ManagerTest extends TestCase {
 	private $testMountProvider;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
+	private IConfig $config;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,6 +116,7 @@ class ManagerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -136,7 +140,7 @@ class ManagerTest extends TestCase {
 			$this->userManager,
 			$this->createMock(ICacheFactory::class),
 			$this->createMock(IEventDispatcher::class)
-		));
+		), $this->config);
 
 		$group1 = $this->createMock(IGroup::class);
 		$group1->expects($this->any())->method('getGID')->willReturn('group1');
@@ -188,6 +192,7 @@ class ManagerTest extends TestCase {
 					$userSession,
 					$this->eventDispatcher,
 					$this->logger,
+					$this->config,
 				]
 			)->setMethods(['tryOCMEndPoint'])->getMock();
 	}
@@ -744,7 +749,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected['token'], $actual['share_token'], 'Asserting token of a share #' . $share);
 		$this->assertEquals($expected['name'], $actual['name'], 'Asserting name of a share #' . $share);
 		$this->assertEquals($expected['owner'], $actual['owner'], 'Asserting owner of a share #' . $share);
-		$this->assertEquals($expected['accepted'], (int) $actual['accepted'], 'Asserting accept of a share #' . $share);
+		$this->assertEquals($expected['accepted'], (int)$actual['accepted'], 'Asserting accept of a share #' . $share);
 		$this->assertEquals($targetEntity, $actual['user'], 'Asserting user of a share #' . $share);
 		$this->assertEquals($mountPoint, $actual['mountpoint'], 'Asserting mountpoint of a share #' . $share);
 	}
