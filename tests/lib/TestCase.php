@@ -57,6 +57,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 		// restore database connection
 		if (!$this->IsDatabaseAccessAllowed()) {
+			/** @psalm-suppress InternalMethod */
 			\OC::$server->registerService(IDBConnection::class, function () {
 				return self::$realDatabase;
 			});
@@ -79,6 +80,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$container = \OC::$server->getAppContainerForService($name);
 		$container = $container ?? \OC::$server;
 
+		/** @psalm-suppress InternalMethod */
 		$container->registerService($name, function () use ($newService) {
 			return $newService;
 		});
@@ -95,6 +97,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			$container = $container ?? \OC::$server;
 
 			if ($oldService !== false) {
+				/** @psalm-suppress InternalMethod */
 				$container->registerService($name, function () use ($oldService) {
 					return $oldService;
 				});
@@ -340,6 +343,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		if (!self::$wasDatabaseAllowed && self::$realDatabase !== null) {
 			// in case an error is thrown in a test, PHPUnit jumps straight to tearDownAfterClass,
 			// so we need the database again
+			/** @psalm-suppress InternalMethod */
 			\OC::$server->registerService(IDBConnection::class, function () {
 				return self::$realDatabase;
 			});
