@@ -38,17 +38,4 @@ interface IContainer extends ContainerInterface {
 	 */
 	#[\Override]
 	public function get(string $id);
-
-	/**
-	 * @template T
-	 *
-	 * If a parameter is not registered in the container try to instantiate it
-	 * by using reflection to find out how to build the class
-	 * @param class-string<T>|string $name
-	 * @return ($name is class-string<T> ? T : mixed)
-	 * @since 8.2.0
-	 * @deprecated 20.0.0 use {@see self::get()}
-	 * @throws ContainerExceptionInterface if the class could not be found or instantiated
-	 */
-	public function resolve(string $name): mixed;
 }

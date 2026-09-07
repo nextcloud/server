@@ -121,10 +121,16 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	/**
-	 * @inheritDoc
+	 * @template T
+	 *
+	 * Try to instantiate by using reflection to find out how to build the class.
+	 *
+	 * @param class-string<T>|string $name
 	 * @param list<class-string> $chain
+	 * @return ($name is class-string<T> ? T : mixed)
+	 * @internal
+	 * @throws ContainerExceptionInterface if the class could not be found or instantiated
 	 */
-	#[\Override]
 	public function resolve(string $name, array $chain = []): mixed {
 		$baseMsg = 'Could not resolve ' . $name . '!';
 		try {
