@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\WorkflowEngine\Tests\Service;
 
 use LogicException;
@@ -68,28 +69,38 @@ class RuleMatcherTest extends TestCase {
 	public function testSetOperationThrowsIfCalledTwice(): void {
 		$this->ruleMatcher->setOperation($this->operation);
 		$this->expectException(RuntimeException::class);
+		$this->expectExceptionMessage('This method must not be called more than once');
+
 		$this->ruleMatcher->setOperation($this->operation);
 	}
 
 	public function testSetEntityThrowsIfCalledTwice(): void {
 		$this->ruleMatcher->setEntity($this->entity);
 		$this->expectException(RuntimeException::class);
+		$this->expectExceptionMessage('This method must not be called more than once');
+
 		$this->ruleMatcher->setEntity($this->entity);
 	}
 
 	public function testSetEventNameThrowsIfCalledTwice(): void {
 		$this->ruleMatcher->setEventName('MyEvent');
 		$this->expectException(RuntimeException::class);
+		$this->expectExceptionMessage('This method must not be called more than once');
+
 		$this->ruleMatcher->setEventName('MyEvent');
 	}
 
 	public function testGetEntityThrowsIfNotSet(): void {
 		$this->expectException(LogicException::class);
+		$this->expectExceptionMessage('Entity was not set yet');
+
 		$this->ruleMatcher->getEntity();
 	}
 
 	public function testGetFlowsThrowsIfOperationNotSet(): void {
 		$this->expectException(RuntimeException::class);
+		$this->expectExceptionMessage('Operation is not set');
+
 		$this->ruleMatcher->getFlows();
 	}
 
@@ -268,14 +279,17 @@ class RuleMatcherTest extends TestCase {
 	public function testCheckThrowsForInvalidCheckClass(): void {
 		$this->container->method('get')->willReturn(new \stdClass());
 		$this->expectException(UnexpectedValueException::class);
+		$this->expectExceptionMessage('Check %s is invalid or does not exist');
+
 		$this->ruleMatcher->check(['class' => \stdClass::class, 'operator' => 'is', 'value' => 'x']);
 	}
 
 	public function testCheckWithFileCheckThrowsWithoutFileInfo(): void {
 		$checkInstance = $this->createMock(IFileCheck::class);
 		$this->container->method('get')->willReturn($checkInstance);
-
 		$this->expectException(RuntimeException::class);
+		$this->expectExceptionMessage('Must set file info before running the check');
+
 		$this->ruleMatcher->check(['class' => IFileCheck::class, 'operator' => 'is', 'value' => 'x']);
 	}
 
