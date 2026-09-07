@@ -17,6 +17,7 @@ use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\GlobalScale\IGlobalScaleService;
+use OCP\GlobalScale\ILookupClient;
 use OCP\IContainer;
 use OCP\Mail\Provider\IProvider as IMailProvider;
 use OCP\Notification\INotifier;
@@ -461,4 +462,13 @@ interface IRegistrationContext {
 	 * @since 34.0.3
 	 */
 	public function registerGlobalScaleService(string $globalScaleServiceClass): void;
+
+	/**
+	 * Register an implementation of {@see ILookupClient} that will handle
+	 * communication and request to a lookup server
+	 *
+	 * @param class-string<ILookupClient> $lookupClientClass
+	 * @since 36.0.0
+	 */
+	public function registerLookupClient(string $lookupClientClass): void;
 }

@@ -30,6 +30,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Conversion\IConversionProvider;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\GlobalScale\IGlobalScaleService;
+use OCP\GlobalScale\ILookupClient;
 use OCP\Http\WellKnown\IHandler;
 use OCP\Mail\Provider\IProvider as IMailProvider;
 use OCP\Notification\INotifier;
@@ -170,6 +171,7 @@ class RegistrationContext {
 
 	/** @var class-string<IGlobalScaleService>|null */
 	private ?string $globalScaleService = null;
+	private ?string $lookupClient = null;
 
 	public function __construct(
 		private LoggerInterface $logger,
@@ -502,6 +504,13 @@ class RegistrationContext {
 					$globalScaleServiceClass
 				);
 			}
+
+			#[\Override]
+			public function registerLookupClient(string $lookupClientClass): void {
+				$this->context->registerLookupClient(
+					$lookupClientClass
+				);
+			}
 		};
 	}
 
@@ -725,6 +734,13 @@ class RegistrationContext {
 	 */
 	public function registerGlobalScaleService(string $class): void {
 		$this->globalScaleService = $class;
+	}
+
+	/**
+	 * @param class-string<ILookupClient> $class
+	 */
+	public function registerLookupClient(string $class): void {
+		$this->lookupClient = $class;
 	}
 
 	/**
@@ -1118,5 +1134,12 @@ class RegistrationContext {
 	 */
 	public function getGlobalScaleService(): ?string {
 		return $this->globalScaleService;
+	}
+
+	/**
+	 * @return ?class-string<ILookupClient>
+	 */
+	public function getLookupClient(): ?string {
+		return $this->lookupClient;
 	}
 }
