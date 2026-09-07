@@ -66,14 +66,8 @@ class Router implements IRouter {
 	}
 
 	/**
-	 * Rebuild the request context (host, scheme, HTTP method) from the request
-	 * actually being served.
-	 *
-	 * The context captured at construction time only reflects whichever
-	 * request happened to build this Router instance, so this must be called
-	 * with the current request before matching or generating a URL whenever
-	 * the same Router instance may outlive that request (see
-	 * {@see \OCP\AppFramework\Attribute\PersistAcrossRequests}).
+	 * Rebuilds the request context (host, scheme, HTTP method) from the request actually being
+	 * served, since this Router instance may outlive the request that constructed it.
 	 */
 	public function refreshContext(IRequest $request): void {
 		$this->setContext($this->buildContext($request));
@@ -96,8 +90,7 @@ class Router implements IRouter {
 
 	public function setContext(RequestContext $context): void {
 		$this->context = $context;
-		// The URL generator is built from and holds onto the context it was created with, so it must be
-		// rebuilt whenever the context changes, or it would keep generating URLs for the previous one.
+		// The cached generator holds onto the old context, so it must be rebuilt too.
 		$this->generator = null;
 	}
 
@@ -579,8 +572,7 @@ class Router implements IRouter {
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 
 		if (class_exists($applicationClassName)) {
-			// Resolved through the current container, not a captured one: this Router instance may
-			// be kept alive well past the request that built it (see PersistAcrossRequests below).
+			// Always the current container: this Router instance may outlive the request that built it.
 			$application = \OCP\Server::get($applicationClassName);
 		} else {
 			$application = new App($appName);
