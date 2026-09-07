@@ -5,7 +5,7 @@
 
 import { File, Folder, Permission } from '@nextcloud/files'
 import { describe, expect, test } from 'vitest'
-import { isNodeExternalStorage } from './externalStorageUtils.ts'
+import { appliesToAllAccounts, isNodeExternalStorage } from './externalStorageUtils.ts'
 
 describe('Is node an external storage', () => {
 	test('A Folder with a backend and a valid scope is an external storage', () => {
@@ -76,5 +76,23 @@ describe('Is node an external storage', () => {
 			root: '/files/admin',
 		})
 		expect(isNodeExternalStorage(folder)).toBe(false)
+	})
+})
+
+describe('Does a storage apply to all accounts', () => {
+	test('A storage without any applicable user or group applies to all accounts', () => {
+		expect(appliesToAllAccounts([], [])).toBe(true)
+	})
+
+	test('Missing applicable lists apply to all accounts', () => {
+		expect(appliesToAllAccounts(undefined, undefined)).toBe(true)
+	})
+
+	test('A storage restricted to a user does not apply to all accounts', () => {
+		expect(appliesToAllAccounts(['alice'], [])).toBe(false)
+	})
+
+	test('A storage restricted to a group does not apply to all accounts', () => {
+		expect(appliesToAllAccounts([], ['developers'])).toBe(false)
 	})
 })
