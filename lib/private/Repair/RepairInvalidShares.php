@@ -8,7 +8,9 @@
 
 namespace OC\Repair;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OCP\Constants;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -23,6 +25,7 @@ class RepairInvalidShares implements IRepairStep {
 	public function __construct(
 		protected IConfig $config,
 		protected IDBConnection $connection,
+		protected IAppConfig $appConfig,
 	) {
 	}
 
@@ -92,6 +95,10 @@ class RepairInvalidShares implements IRepairStep {
 	 * of a moved incoming share was renamed
 	 */
 	private function removeTrailingSlashFromFileTarget(IOutput $output): void {
+		if ($this->appConfig->getValueBool('core', ConfigLexicon::SHARE_REPAIR_REMOVED_TRAILING_SLASHES, lazy: true)) {
+			return;
+		}
+
 		$updatedEntries = 0;
 
 		$query = $this->connection->getQueryBuilder();
@@ -120,6 +127,8 @@ class RepairInvalidShares implements IRepairStep {
 					->executeStatement();
 			}
 		}
+
+		$this->appConfig->setValueBool('core', ConfigLexicon::SHARE_REPAIR_REMOVED_TRAILING_SLASHES, true, lazy: true);
 
 		if ($updatedEntries > 0) {
 			$output->info('Removed trailing slashes from the target of ' . $updatedEntries . ' shares');
