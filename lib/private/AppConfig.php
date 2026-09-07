@@ -15,6 +15,8 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OC\Memcache\Factory as CacheFactory;
+use OCP\AppFramework\Utility\IPersistentServiceInvalidator;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\Config\Lexicon\Entry;
 use OCP\Config\Lexicon\Strictness;
 use OCP\Config\ValueType;
@@ -951,6 +953,7 @@ class AppConfig implements IAppConfig {
 
 		if ($refreshCache) {
 			$this->clearCache();
+			$this->invalidatePersistedServices();
 			return true;
 		}
 
@@ -962,8 +965,17 @@ class AppConfig implements IAppConfig {
 		}
 		$this->valueTypes[$app][$key] = $type;
 		$this->clearLocalCache();
+		$this->invalidatePersistedServices();
 
 		return true;
+	}
+
+	/**
+	 * Discards services kept alive across requests (see {@see \OCP\AppFramework\Attribute\PersistAcrossRequests})
+	 * that declared a dependency on {@see PersistentServiceGroup::Config}.
+	 */
+	private function invalidatePersistedServices(): void {
+		Server::get(IPersistentServiceInvalidator::class)->invalidate(PersistentServiceGroup::Config);
 	}
 
 	/**
@@ -1273,6 +1285,7 @@ class AppConfig implements IAppConfig {
 		unset($this->fastCache[$app][$key]);
 		unset($this->valueTypes[$app][$key]);
 		$this->clearLocalCache();
+		$this->invalidatePersistedServices();
 	}
 
 	/**
@@ -1291,6 +1304,7 @@ class AppConfig implements IAppConfig {
 		$qb->executeStatement();
 
 		$this->clearCache();
+		$this->invalidatePersistedServices();
 	}
 
 	/**
