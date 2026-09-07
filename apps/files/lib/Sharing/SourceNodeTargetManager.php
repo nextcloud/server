@@ -30,27 +30,35 @@ final readonly class SourceNodeTargetManager {
 	) {
 	}
 
-	private function getTargetInternal(string $userId, ShareUser $owner, int $sourceNodeId): ?string {
-		$qb = $this->dbConnection->getQueryBuilder();
-		$result = $qb
-			->select('target')
-			->from('sharing_source_node_target')
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)))
-			->andWhere(
-				$owner->instance === null
-				? $qb->expr()->isNull('source_instance')
-				: $qb->expr()->eq('source_instance', $qb->createNamedParameter($owner->instance))
-			)
-			->andWhere($qb->expr()->eq('source_node_id', $qb->createNamedParameter($sourceNodeId, IQueryBuilder::PARAM_INT)))
-			->executeQuery();
+	/**
+	 * @param list<string> $userIds
+	 * @return array<string, string>
+	 */
+	private function getTargetsInternal(array $userIds, ShareUser $owner, int $sourceNodeId): array {
+		$targets = [];
 
-		/** @var string|false $target */
-		$target = $result->fetchOne();
-		if ($target === false) {
-			return null;
+		foreach (array_chunk($userIds, 1000) as $chunk) {
+			$qb = $this->dbConnection->getQueryBuilder();
+			$result = $qb
+				->select('user_id', 'target')
+				->from('sharing_source_node_target')
+				->where($qb->expr()->in('user_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
+				->andWhere(
+					$owner->instance === null
+					? $qb->expr()->isNull('source_instance')
+					: $qb->expr()->eq('source_instance', $qb->createNamedParameter($owner->instance))
+				)
+				->andWhere($qb->expr()->eq('source_node_id', $qb->createNamedParameter($sourceNodeId, IQueryBuilder::PARAM_INT)))
+				->executeQuery();
+
+			/** @var list<array{user_id: string, target: string}> $rows */
+			$rows = $result->fetchAllAssociative();
+			foreach ($rows as $row) {
+				$targets[$row['user_id']] = $row['target'];
+			}
 		}
 
-		return $target;
+		return $targets;
 	}
 
 	/**
@@ -59,10 +67,6 @@ final readonly class SourceNodeTargetManager {
 	public function createDefaultTarget(string $userId, ShareUser $owner, int $sourceNodeId): string {
 		if ($owner->instance !== null) {
 			throw new RuntimeException('Federation is not supported yet.');
-		}
-
-		if (($target = $this->getTargetInternal($userId, $owner, $sourceNodeId)) !== null) {
-			return $target;
 		}
 
 		$ownerUserFolder = $this->rootFolder->getUserFolder($owner->userId);
@@ -92,8 +96,25 @@ final readonly class SourceNodeTargetManager {
 		return $target;
 	}
 
-	public function getTarget(string $userId, ShareUser $owner, int $sourceNodeId): string {
-		return $this->createDefaultTarget($userId, $owner, $sourceNodeId);
+	public function getTarget(string $userId, ShareUser $owner, int $sourceNodeId): ?string {
+		return $this->getTargetsInternal([$userId], $owner, $sourceNodeId)[$userId] ?? null;
+	}
+
+	/**
+	 * @param list<string> $userIds
+	 * @return array<string, string>
+	 */
+	public function getTargets(array $userIds, ShareUser $owner, int $sourceNodeId): array {
+		$targets = $this->getTargetsInternal($userIds, $owner, $sourceNodeId);
+		foreach ($userIds as $userId) {
+			if (isset($targets[$userId])) {
+				continue;
+			}
+
+			$targets[$userId] = $this->createDefaultTarget($userId, $owner, $sourceNodeId);
+		}
+
+		return $targets;
 	}
 
 	public function setTarget(string $userId, ShareUser $owner, int $sourceNodeId, string $target): void {

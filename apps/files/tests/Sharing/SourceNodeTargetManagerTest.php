@@ -92,13 +92,8 @@ final class SourceNodeTargetManagerTest extends TestCase {
 		$userConfig->deleteUserConfig($this->user->getUID(), Application::APP_ID, 'share_folder');
 	}
 
-	public function testGetTarget(): void {
-		$this->assertEquals('/foo.txt', $this->manager->getTarget($this->user->getUID(), new ShareUser($this->owner->getUID(), null), $this->node->getId()));
-		$this->assertEquals('/foo.txt', $this->manager->getTarget($this->user->getUID(), new ShareUser($this->owner->getUID(), null), $this->node->getId()));
-	}
-
-	public function testSetTarget(): void {
-		$this->assertNull($this->invokePrivate($this->manager, 'getTargetInternal', [$this->user->getUID(), new ShareUser($this->owner->getUID(), null), $this->node->getId()]));
+	public function testSetAndGetTarget(): void {
+		$this->assertNull($this->manager->getTarget($this->user->getUID(), new ShareUser($this->owner->getUID(), null), $this->node->getId()));
 
 		$this->manager->setTarget($this->user->getUID(), new ShareUser($this->owner->getUID(), null), $this->node->getId(), '/bar.txt');
 		$this->assertEquals('/bar.txt', $this->manager->getTarget($this->user->getUID(), new ShareUser($this->owner->getUID(), null), $this->node->getId()));

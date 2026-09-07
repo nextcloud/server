@@ -20,7 +20,6 @@ use OCP\Share\IShare;
 
 /** @template-implements IEventListener<ShareCreatedEvent> */
 class UserShareAcceptanceListener implements IEventListener {
-
 	public function __construct(
 		private IConfig $config,
 		private IManager $shareManager,

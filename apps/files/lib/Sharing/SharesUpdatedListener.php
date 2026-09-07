@@ -62,7 +62,9 @@ final readonly class SharesUpdatedListener implements IEventListener {
 
 				foreach (array_keys($userIds) as $userId) {
 					try {
-						$this->sourceNodeTargetManager->createDefaultTarget($userId, $share->owner, (int)$source->value);
+						if ($this->sourceNodeTargetManager->getTarget($userId, $share->owner, (int)$source->value) === null) {
+							$this->sourceNodeTargetManager->createDefaultTarget($userId, $share->owner, (int)$source->value);
+						}
 					} catch (NotFoundException) {
 						// The same exception will happen for the other users, because the source node is the same, so we can just stop here.
 						break;

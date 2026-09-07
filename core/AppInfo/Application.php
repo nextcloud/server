@@ -120,6 +120,10 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedDirectEditingTokenCleanupListener::class);
 		$context->registerEventListener(UserChangedEvent::class, UserDisabledDirectEditingTokenCleanupListener::class);
 
+		$this->registerSharing();
+	}
+
+	private function registerSharing(): void {
 		$registry = Server::get(ISharingRegistry::class);
 
 		$registry->registerRecipientType(Server::get(EmailShareRecipientType::class));

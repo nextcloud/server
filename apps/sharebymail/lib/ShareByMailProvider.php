@@ -40,6 +40,7 @@ use OCP\Share\IShareProviderWithNotification;
 use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Class ShareByMail
@@ -1250,7 +1251,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	}
 
 	#[\Override]
-	public function getAllShares(): iterable {
+	public function getAllShares(bool $withUserGroup = false): iterable {
+		if ($withUserGroup) {
+			throw new RuntimeException('Unintended usage.');
+		}
+
 		$qb = $this->dbConnection->getQueryBuilder();
 
 		$qb->select('*')

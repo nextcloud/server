@@ -236,7 +236,7 @@ interface IShare {
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setSharedWith($sharedWith);
+	public function setSharedWith(?string $sharedWith);
 
 	/**
 	 * Get the receiver of this share.
