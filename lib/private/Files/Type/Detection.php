@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Files\Type;
 
+use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\Files\IMimeTypeDetector;
 use OCP\IBinaryFinder;
 use OCP\ITempManager;
@@ -23,6 +24,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OC\Files\Type
  */
+#[PersistAcrossRequests]
 class Detection implements IMimeTypeDetector {
 	private const string CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
 	private const string CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';

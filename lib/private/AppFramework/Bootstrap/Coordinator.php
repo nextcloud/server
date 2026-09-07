@@ -10,10 +10,13 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use OC\App\AppManager;
+use OC\AppFramework\Utility\PersistentServiceInvalidator;
+use OC\AppFramework\Utility\SimpleContainer;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\Dashboard\IManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -32,6 +35,25 @@ class Coordinator {
 	/** @var array<string,true> */
 	private array $bootedApps = [];
 
+	/** @psalm-suppress ImpureStaticProperty This class has a reset method */
+	private static ?RegistrationContext $persistentRegistrationContext = null;
+
+	/**
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 * @var array<string, true>
+	 */
+	private static array $registeredApps = [];
+
+	/** @psalm-suppress ImpureStaticProperty This class has a reset method */
+	private static ?int $registeredAppsGeneration = null;
+
+	/** @internal */
+	public static function resetPersistentRegistrations(): void {
+		self::$persistentRegistrationContext = null;
+		self::$registeredApps = [];
+		self::$registeredAppsGeneration = null;
+	}
+
 	public function __construct(
 		private ContainerInterface $serverContainer,
 		private Registry $registry,
@@ -40,6 +62,7 @@ class Coordinator {
 		private IEventLogger $eventLogger,
 		private AppManager $appManager,
 		private LoggerInterface $logger,
+		private PersistentServiceInvalidator $persistentServiceInvalidator,
 	) {
 	}
 
@@ -61,14 +84,33 @@ class Coordinator {
 	 */
 	private function registerApps(array $appIds): void {
 		$this->eventLogger->start('bootstrap:register_apps', '');
-		if ($this->registrationContext === null) {
+
+		if (SimpleContainer::$keepPersistentServices) {
+			$currentGeneration = $this->persistentServiceInvalidator->getGeneration(PersistentServiceGroup::Apps);
+			if (self::$registeredAppsGeneration !== $currentGeneration) {
+				// The enabled apps changed since we last registered them: nothing we already registered still applies.
+				self::resetPersistentRegistrations();
+				self::$registeredAppsGeneration = $currentGeneration;
+			}
+			self::$persistentRegistrationContext ??= new RegistrationContext($this->logger);
+			$this->registrationContext = self::$persistentRegistrationContext;
+		} elseif ($this->registrationContext === null) {
 			$this->registrationContext = new RegistrationContext($this->logger);
 		}
+
 		$this->eventLogger->start('bootstrap:register_app:autoloader', 'Setup autoloader for apps');
 		$this->appManager->registerAppsAutoloading($appIds);
 		$this->eventLogger->end('bootstrap:register_app:autoloader');
 		$apps = [];
 		foreach ($appIds as $appId) {
+			if (SimpleContainer::$keepPersistentServices) {
+				if (isset(self::$registeredApps[$appId])) {
+					continue;
+				}
+				// Marked upfront: a failed registration is not worth retrying on every request either.
+				self::$registeredApps[$appId] = true;
+			}
+
 			$this->eventLogger->start("bootstrap:register_app:$appId", "Register $appId");
 
 			/*

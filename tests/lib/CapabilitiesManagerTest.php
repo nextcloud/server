@@ -130,6 +130,39 @@ class CapabilitiesManagerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
+	/**
+	 * Test that re-registering the same identifier is ignored, as happens when the same
+	 * worker re-registers every app's capabilities on each request
+	 */
+	public function testDuplicateIdentifierIsIgnored(): void {
+		$calls = 0;
+		$callable = function () use (&$calls) {
+			$calls++;
+			return new SimpleCapability();
+		};
+
+		$this->manager->registerCapability($callable, 'Test\\SimpleCapability');
+		$this->manager->registerCapability($callable, 'Test\\SimpleCapability');
+
+		$res = $this->manager->getCapabilities();
+
+		$this->assertEquals(['foo' => 1], $res);
+		$this->assertSame(1, $calls);
+	}
+
+	public function testDifferentIdentifiersAreBothRegistered(): void {
+		$this->manager->registerCapability(function () {
+			return new SimpleCapability();
+		}, 'Test\\SimpleCapability');
+		$this->manager->registerCapability(function () {
+			return new SimpleCapability2();
+		}, 'Test\\SimpleCapability2');
+
+		$res = $this->manager->getCapabilities();
+
+		$this->assertEquals(['foo' => 1, 'bar' => ['x' => 1]], $res);
+	}
+
 	public function testInvalidCapability(): void {
 		$this->manager->registerCapability(function (): void {
 			throw new QueryException();
