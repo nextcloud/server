@@ -73,15 +73,4 @@ interface IContainer extends ContainerInterface {
 	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerService
 	 */
 	public function registerService(string $name, Closure $closure, bool $shared = true): void;
-
-	/**
-	 * Shortcut for returning a service from a service under a different key,
-	 * e.g. to tell the container to return a class when queried for an
-	 * interface
-	 * @param string $alias the alias that should be registered
-	 * @param string $target the target that should be resolved instead
-	 * @since 8.2.0
-	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerServiceAlias
-	 */
-	public function registerAlias(string $alias, string $target): void;
 }

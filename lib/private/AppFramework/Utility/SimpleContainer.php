@@ -193,11 +193,12 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $alias the alias that should be registered
 	 * @param string $target the target that should be resolved instead
 	 */
-	#[\Override]
 	public function registerAlias(string $alias, string $target): void {
-		$this->registerService($alias, function (ContainerInterface $container) use ($target): mixed {
-			return $container->get($target);
-		}, false);
+		$this->registerService(
+			$alias,
+			static fn (ContainerInterface $container): mixed => $container->get($target),
+			false,
+		);
 	}
 
 	protected function registerDeprecatedAlias(string $alias, string $target): void {
