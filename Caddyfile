@@ -14,6 +14,9 @@
 
 franken.local {
 	php_server {
+		# Keeps /index.php out of Nextcloud's generated URLs, matching the pretty-URL rewrite below.
+		env front_controller_active true
+
 		worker {
 			file index.php
 			num 32
