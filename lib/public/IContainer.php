@@ -54,20 +54,6 @@ interface IContainer extends ContainerInterface {
 	public function resolve(string $name): mixed;
 
 	/**
-	 * Look up a service for a given name in the container.
-	 *
-	 * @template T
-	 * @param class-string<T>|string $name
-	 * @param bool $autoload Should we try to autoload the service. If we are trying to resolve built in types this makes no sense for example
-	 * @return ($name is class-string<T> ? T : mixed)
-	 * @throws ContainerExceptionInterface if the query could not be resolved
-	 * @throws NotFoundExceptionInterface if the name could not be found within the container
-	 * @since 6.0.0
-	 * @deprecated 20.0.0 use {@see self::get()}
-	 */
-	public function query(string $name, bool $autoload = true): mixed;
-
-	/**
 	 * A value is stored in the container with it's corresponding name
 	 *
 	 * @since 6.0.0

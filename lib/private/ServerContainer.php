@@ -120,19 +120,15 @@ class ServerContainer extends SimpleContainer {
 	 * @psalm-param S $name
 	 * @psalm-return (S is class-string<T> ? T : mixed)
 	 * @throws QueryException
-	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 */
 	#[\Override]
-	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
-		$name = $this->sanitizeName($name);
-
+	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		if (str_starts_with($name, 'OCA\\')) {
 			// Skip server container query for app namespace classes
-			try {
-				return parent::query($name, false, $chain);
-			} catch (QueryException $e) {
-				// Continue with general autoloading then
+			if (isset($this->container[$name])) {
+				return $this->container[$name];
 			}
+			// Continue with general autoloading
 			// In case the service starts with OCA\ we try to find the service in
 			// the apps container first.
 			if (($appContainer = $this->getAppContainerForService($name)) !== null) {

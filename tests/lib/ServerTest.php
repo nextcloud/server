@@ -51,7 +51,7 @@ class ServerTest extends \Test\TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestQuery')]
 	public function testQuery(string $serviceName, string $instanceOf): void {
-		$this->assertInstanceOf($instanceOf, $this->server->query($serviceName), 'Service "' . $serviceName . '"" did not return the right class');
+		$this->assertInstanceOf($instanceOf, $this->server->get($serviceName), 'Service "' . $serviceName . '"" did not return the right class');
 	}
 
 	public function testOverwriteDefaultCommentsManager(): void {

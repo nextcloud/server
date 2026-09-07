@@ -30,7 +30,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/** @psalm-suppress ImpureStaticProperty A static property is the only way to pass the information from config to autoload */
 	public static bool $useLazyObjects = false;
 
-	private Container $container;
+	protected Container $container;
 
 	public function __construct() {
 		$this->container = new Container();
@@ -43,7 +43,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 */
 	#[\Override]
 	public function get(string $id): mixed {
-		return $this->query($id);
+		return $this->query($this->sanitizeName($id));
 	}
 
 	#[\Override]
@@ -142,29 +142,27 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	/**
-	 * @inheritDoc
+	 * @param string $name Already sanitized name
 	 * @param list<class-string> $chain
 	 */
-	#[\Override]
-	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
-		$name = $this->sanitizeName($name);
+	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
 		}
 
-		if ($autoload) {
-			if (in_array($name, $chain, true)) {
-				throw new RuntimeException('Tried to query ' . $name . ', but it is already in the chain: ' . implode(', ', $chain));
-			}
-
-			$object = $this->resolve($name, array_merge($chain, [$name]));
-			$this->registerService($name, function () use ($object) {
-				return $object;
-			});
-			return $object;
+		if (!$autoload) {
+			throw new QueryNotFoundException('Could not resolve ' . $name . '!');
 		}
 
-		throw new QueryNotFoundException('Could not resolve ' . $name . '!');
+		if (in_array($name, $chain, true)) {
+			throw new RuntimeException('Tried to query ' . $name . ', but it is already in the chain: ' . implode(', ', $chain));
+		}
+
+		$object = $this->resolve($name, array_merge($chain, [$name]));
+		$this->registerService($name, function () use ($object) {
+			return $object;
+		});
+		return $object;
 	}
 
 	#[\Override]

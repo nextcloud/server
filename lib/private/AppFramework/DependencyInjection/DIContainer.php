@@ -40,7 +40,6 @@ use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Diagnostics\EventLogger;
 use OC\Log\PsrLoggerAdapter;
 use OC\Server;
-use OC\ServerContainer;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\User\Session;
 use OCA\WorkflowEngine\Manager;
@@ -135,7 +134,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService(Server::class, function () {
 			return $this->getServer();
 		});
-		$this->registerDeprecatedAlias(ServerContainer::class, Server::class);
 
 		$this->registerAlias(\OCP\WorkflowEngine\IManager::class, Manager::class);
 
@@ -310,25 +308,21 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param list<class-string> $chain
 	 */
 	#[\Override]
-	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
+	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
 		}
 
 		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
 		if ($isServerClass && !$this->has($name)) {
-			/** @var ServerContainer $server */
-			$server = $this->getServer();
-			return $server->query($name, $autoload, $chain);
+			return $this->server->query($name, $autoload, $chain);
 		}
 
 		try {
 			return $this->queryNoFallback($name, $chain);
 		} catch (QueryException $firstException) {
 			try {
-				/** @var ServerContainer $server */
-				$server = $this->getServer();
-				return $server->query($name, $autoload, $chain);
+				return $this->server->query($name, $autoload, $chain);
 			} catch (QueryException $secondException) {
 				if ($firstException->getCode() === 1) {
 					throw $secondException;
@@ -339,19 +333,16 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	/**
-	 * @param string $name
+	 * @param string already sanitized $name
 	 * @param list<class-string> $chain
 	 * @return mixed
 	 * @throws QueryException if the query could not be resolved
+	 * @internal
 	 */
 	public function queryNoFallback($name, array $chain) {
-		$name = $this->sanitizeName($name);
-
-		if ($this->offsetExists($name)) {
-			return parent::query($name, chain: $chain);
+		if (isset($this->container[$name])) {
+			return $this->container[$name];
 		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
-			return parent::query($name, chain: $chain);
-		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
 			return parent::query($name, chain: $chain);
 		} elseif (str_starts_with($name, $this->appManager->getAppNamespace($this->appName) . '\\')) {
 			return parent::query($name, chain: $chain);
