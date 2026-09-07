@@ -11,10 +11,15 @@ declare(strict_types=1);
 namespace Test\AppFramework\Utility;
 
 use OC\AppFramework\Utility\SimpleContainer;
+use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\AppFramework\QueryException;
 use Psr\Container\NotFoundExceptionInterface;
 
 interface TestInterface {
+}
+
+#[PersistAcrossRequests]
+class ClassPersistAcrossRequests {
 }
 
 class ClassEmptyConstructor implements IInterfaceConstructor {
@@ -68,6 +73,13 @@ class SimpleContainerTest extends \Test\TestCase {
 		$this->container = new SimpleContainer();
 	}
 
+	#[\Override]
+	protected function tearDown(): void {
+		SimpleContainer::resetPersistentInstances();
+
+		parent::tearDown();
+	}
+
 	public function testRegister(): void {
 		$this->container->registerParameter('test', 'abc');
 		$this->assertEquals('abc', $this->container->query('test'));
@@ -113,6 +125,22 @@ class SimpleContainerTest extends \Test\TestCase {
 	public function testInstancesOnlyOnce(): void {
 		$object = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
 		$object2 = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
+		$this->assertSame($object, $object2);
+	}
+
+	public function testPersistAcrossRequestsIgnoredByDefault(): void {
+		$object = $this->container->query(ClassPersistAcrossRequests::class);
+		$object2 = (new SimpleContainer())->query(ClassPersistAcrossRequests::class);
+		$this->assertNotSame($object, $object2);
+	}
+
+	public function testPersistAcrossRequestsKeepsInstanceOnceEnabled(): void {
+		SimpleContainer::$keepPersistentServices = true;
+
+		$object = $this->container->query(ClassPersistAcrossRequests::class);
+		// Simulate a new request rebuilding the whole Server container
+		$object2 = (new SimpleContainer())->query(ClassPersistAcrossRequests::class);
+
 		$this->assertSame($object, $object2);
 	}
 

@@ -147,6 +147,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\Attribute\\ExceptionalImplementable' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Attribute/ExceptionalImplementable.php',
         'OCP\\AppFramework\\Attribute\\Implementable' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Attribute/Implementable.php',
         'OCP\\AppFramework\\Attribute\\Listenable' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Attribute/Listenable.php',
+        'OCP\\AppFramework\\Attribute\\PersistAcrossRequests' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Attribute/PersistAcrossRequests.php',
         'OCP\\AppFramework\\Attribute\\Throwable' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Attribute/Throwable.php',
         'OCP\\AppFramework\\AuthPublicShareController' => __DIR__ . '/../../..' . '/lib/public/AppFramework/AuthPublicShareController.php',
         'OCP\\AppFramework\\Bootstrap\\IBootContext' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Bootstrap/IBootContext.php',

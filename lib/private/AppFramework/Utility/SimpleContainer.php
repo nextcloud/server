@@ -10,6 +10,7 @@ namespace OC\AppFramework\Utility;
 
 use ArrayAccess;
 use Closure;
+use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\AppFramework\QueryException;
 use OCP\IContainer;
 use Pimple\Container;
@@ -29,6 +30,23 @@ use function class_exists;
 class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/** @psalm-suppress ImpureStaticProperty A static property is the only way to pass the information from config to autoload */
 	public static bool $useLazyObjects = false;
+
+	/** @psalm-suppress ImpureStaticProperty Set once when a long-running worker (e.g. FrankenPHP) starts */
+	public static bool $keepPersistentServices = false;
+
+	/**
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 * @var array<class-string, object>
+	 */
+	private static array $persistentInstances = [];
+
+	/**
+	 * @internal
+	 */
+	public static function resetPersistentInstances(): void {
+		self::$persistentInstances = [];
+		self::$keepPersistentServices = false;
+	}
 
 	private Container $container;
 
@@ -129,12 +147,24 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		$baseMsg = 'Could not resolve ' . $name . '!';
 		try {
 			$class = new ReflectionClass($name);
-			if ($class->isInstantiable()) {
-				return $this->buildClass($class, $chain);
-			} else {
+			if (!$class->isInstantiable()) {
 				throw new QueryException($baseMsg
 					. ' Class can not be instantiated');
 			}
+
+			$isPersistent = self::$keepPersistentServices
+				&& !empty($class->getAttributes(PersistAcrossRequests::class));
+			if ($isPersistent && isset(self::$persistentInstances[$class->getName()])) {
+				return self::$persistentInstances[$class->getName()];
+			}
+
+			$object = $this->buildClass($class, $chain);
+
+			if ($isPersistent) {
+				self::$persistentInstances[$class->getName()] = $object;
+			}
+
+			return $object;
 		} catch (ReflectionException $e) {
 			// Class does not exist
 			throw new QueryNotFoundException($baseMsg . ' ' . $e->getMessage());
