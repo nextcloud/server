@@ -165,9 +165,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		}
 
 		$object = $this->resolve($name, array_merge($chain, [$name]));
-		$this->registerService($name, function () use ($object) {
-			return $object;
-		});
+		$this->registerService($name, static fn () => $object);
 		return $object;
 	}
 
@@ -192,9 +190,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @internal apps should use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerService
 	 */
 	public function registerService(string $name, Closure $closure, bool $shared = true): void {
-		$wrapped = function () use ($closure) {
-			return $closure($this);
-		};
+		$wrapped = fn () => $closure($this);
 		$name = $this->sanitizeName($name);
 		if (isset($this->container[$name])) {
 			unset($this->container[$name]);
