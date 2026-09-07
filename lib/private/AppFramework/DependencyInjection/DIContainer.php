@@ -39,6 +39,7 @@ use OC\CapabilitiesManager;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Diagnostics\EventLogger;
 use OC\Log\PsrLoggerAdapter;
+use OC\Server;
 use OC\ServerContainer;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\User\Session;
@@ -60,25 +61,23 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\Ip\IRemoteAddress;
-use OCP\Server;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
 	private array $middleWares = [];
-	private ServerContainer $server;
+	private Server $server;
 	private IAppManager $appManager;
 
 	public function __construct(
 		protected string $appName,
 		array $urlParams = [],
-		?ServerContainer $server = null,
+		?Server $server = null,
 	) {
 		parent::__construct();
 		$this->registerParameter('appName', $this->appName);
@@ -133,11 +132,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			);
 		});
 
-		$this->registerService(IServerContainer::class, function () {
+		$this->registerService(Server::class, function () {
 			return $this->getServer();
 		});
-		/** @deprecated 32.0.0 */
-		$this->registerDeprecatedAlias('ServerContainer', IServerContainer::class);
+		$this->registerDeprecatedAlias(ServerContainer::class, Server::class);
 
 		$this->registerAlias(\OCP\WorkflowEngine\IManager::class, Manager::class);
 
@@ -150,11 +148,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService('webRoot', function (ContainerInterface $c): string {
-			return $c->get(IServerContainer::class)->getWebRoot();
+			return $this->server->getWebRoot();
 		});
 
 		$this->registerService('OC_Defaults', function (ContainerInterface $c): object {
-			return $c->get(IServerContainer::class)->get('ThemingDefaults');
+			return $this->server->get('ThemingDefaults');
 		});
 
 		/** @deprecated 32.0.0 */
@@ -255,7 +253,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	#[\Override]
-	public function getServer(): ServerContainer {
+	public function getServer(): Server {
 		return $this->server;
 	}
 
@@ -278,23 +276,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	#[\Override]
 	public function getAppName() {
 		return $this->query('appName');
-	}
-
-	/**
-	 * @deprecated 12.0.0 use IUserSession->isLoggedIn()
-	 * @return boolean
-	 */
-	public function isLoggedIn() {
-		return Server::get(IUserSession::class)->isLoggedIn();
-	}
-
-	/**
-	 * @deprecated 12.0.0 use IGroupManager->isAdmin($userId)
-	 * @return boolean
-	 */
-	public function isAdminUser() {
-		$uid = $this->getUserId();
-		return \OC_User::isAdminUser($uid);
 	}
 
 	private function getUserId(): string {

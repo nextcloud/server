@@ -231,7 +231,6 @@ use OCP\IPhoneNumberUtil;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IRequestId;
-use OCP\IServerContainer;
 use OCP\IServerInfo;
 use OCP\ISession;
 use OCP\ITagManager;
@@ -306,7 +305,7 @@ use Psr\Log\LoggerInterface;
  *
  * TODO: hookup all manager classes
  */
-class Server extends ServerContainer implements IServerContainer {
+class Server extends ServerContainer {
 	public function __construct(
 		private string $webRoot,
 		Config $config,
@@ -320,10 +319,12 @@ class Server extends ServerContainer implements IServerContainer {
 			return $c->get(ISession::class)->get('user_id');
 		});
 
+		$this->registerService(self::class, function (ContainerInterface $c) {
+			return $this;
+		});
 		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
 			return $c;
 		});
-		$this->registerDeprecatedAlias(IServerContainer::class, ContainerInterface::class);
 
 		$this->registerAlias(\OCP\Calendar\IManager::class, \OC\Calendar\Manager::class);
 

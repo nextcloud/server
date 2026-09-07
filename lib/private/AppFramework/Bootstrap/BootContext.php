@@ -9,12 +9,13 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Bootstrap;
 
+use OC\Server;
 use OCP\AppFramework\Bootstrap\IBootContext;
-use OCP\IServerContainer;
 use Psr\Container\ContainerInterface;
 
 class BootContext implements IBootContext {
 	public function __construct(
+		private Server $serverContainer,
 		private ContainerInterface $appContainer,
 	) {
 	}
@@ -26,7 +27,7 @@ class BootContext implements IBootContext {
 
 	#[\Override]
 	public function getServerContainer(): ContainerInterface {
-		return $this->appContainer->get(IServerContainer::class);
+		return $this->serverContainer;
 	}
 
 	#[\Override]

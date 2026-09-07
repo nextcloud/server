@@ -78,7 +78,7 @@ class TrashbinTest extends \Test\TestCase {
 
 		// register trashbin hooks
 		$trashbinApp = new TrashbinApplication();
-		$trashbinApp->boot(new BootContext(new DIContainer('', [], \OC::$server)));
+		$trashbinApp->boot(new BootContext(\OC::$server, new DIContainer('', [], \OC::$server)));
 
 		// create test user
 		self::loginHelper(self::TEST_TRASHBIN_USER2, true);
