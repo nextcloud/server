@@ -168,7 +168,7 @@ class App {
 				$name,
 				$value['value'],
 				$expireDate,
-				$container->getServer()->getWebRoot(),
+				$container->get('webRoot'),
 				null,
 				$container->getServer()->get(IRequest::class)->getServerProtocol() === 'https',
 				true,

@@ -147,9 +147,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->get(ISession::class)->get('user_id');
 		});
 
-		$this->registerService('webRoot', function (ContainerInterface $c): string {
-			return $this->server->getWebRoot();
-		});
+		$this->registerParameter('webRoot', $this->server->getWebRoot());
 
 		$this->registerService('OC_Defaults', function (ContainerInterface $c): object {
 			return $this->server->get('ThemingDefaults');

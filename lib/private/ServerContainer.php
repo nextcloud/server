@@ -167,8 +167,4 @@ class ServerContainer extends SimpleContainer {
 			return null;
 		}
 	}
-
-	public function getWebRoot() {
-		return '';
-	}
 }

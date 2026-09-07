@@ -1199,13 +1199,6 @@ class Server extends ServerContainer {
 		$this->get(Store::class)->setSession($session);
 	}
 
-	/**
-	 * Get the webroot
-	 *
-	 * @return string
-	 * @deprecated 20.0.0
-	 */
-	#[\Override]
 	public function getWebRoot(): string {
 		return $this->webRoot;
 	}
