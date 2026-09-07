@@ -12,7 +12,7 @@
 	}
 }
 
-localhost {
+franken.local {
 	php_server {
 		worker {
 			file index.php
@@ -42,40 +42,54 @@ localhost {
 
 	encode gzip
 
-	redir /.well-known/carddav /remote.php/dav 301
-	redir /.well-known/caldav /remote.php/dav 301
+	# Wrapped in route{} so these all run in the order written, regardless of Caddy's
+	# default directive ordering: the specific rewrites and the forbidden-path block
+	# must be evaluated before the catch-all pretty-URL rewrite below.
+	route {
+		redir /.well-known/carddav /remote.php/dav 301
+		redir /.well-known/caldav /remote.php/dav 301
 
-	# Rule: Maps most RFC 8615 compliant well-known URIs to our main frontend controller (/index.php) by default
-	@wellKnown {
-		path "/.well-known/"
-		not {
-			path /.well-known/acme-challenge
-			path /.well-known/pki-validation
+		# Rule: Maps most RFC 8615 compliant well-known URIs to our main frontend controller (/index.php) by default
+		@wellKnown {
+			path "/.well-known/"
+			not {
+				path /.well-known/acme-challenge
+				path /.well-known/pki-validation
+			}
 		}
-	}
-	rewrite @wellKnown /index.php
+		rewrite @wellKnown /index.php
 
-	rewrite /ocm-provider/ /index.php
+		rewrite /ocm-provider/ /index.php
 
-	@forbidden {
-		path /.htaccess
-		path /data/*
-		path /config/*
-		path /db_structure
-		path /.xml
-		path /README
-		path /3rdparty/*
-		path /lib/*
-		path /templates/*
-		path /occ
-		path /build
-		path /tests
-		path /console.php
-		path /autotest
-		path /issue
-		path /indi
-		path /db_
-		path /console
+		@forbidden {
+			path /.htaccess
+			path /data/*
+			path /config/*
+			path /db_structure
+			path /.xml
+			path /README
+			path /3rdparty/*
+			path /lib/*
+			path /templates/*
+			path /occ
+			path /build
+			path /tests
+			path /console.php
+			path /autotest
+			path /issue
+			path /indi
+			path /db_
+			path /console
+		}
+		respond @forbidden 404
+
+		# Pretty URLs: rewrite anything that isn't already destined for a worker's own
+		# prefix and doesn't correspond to an existing static file (assets, etc.) to the
+		# front controller, so franken.local/ works instead of only franken.local/index.php/.
+		@prettyUrl {
+			not path /index.php/* /remote.php/* /ocs/v1.php/* /ocs/v2.php/*
+			not file
+		}
+		rewrite @prettyUrl /index.php{path}
 	}
-	respond @forbidden 404
 }
