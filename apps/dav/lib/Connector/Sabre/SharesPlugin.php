@@ -267,18 +267,19 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			return true;
 		}
 
-		$sourceStorage = $sourceNode->getStorage();
-		if ($sourceStorage->instanceOfStorage(ISharedStorage::class)) {
-			// source is also a share - check if it is the same share
-
-			/** @var ISharedStorage $sourceStorage */
-			$sourceShare = $sourceStorage->getShare();
+		// check if source and target are within the same share, e.g. moving a node between
+		// two subfolders of the same group folder or the same regular share
+		$sourceShares = $this->getSharesForTarget($sourceNode);
+		foreach ($sourceShares as $sourceShare) {
 			foreach ($targetShares as $targetShare) {
 				if ($targetShare->getId() === $sourceShare->getId()) {
 					return true;
 				}
 			}
+		}
 
+		$sourceStorage = $sourceNode->getStorage();
+		if ($sourceStorage->instanceOfStorage(ISharedStorage::class)) {
 			// if the share recipient is allow to delete from the share, they are allowed to move the file out of the share
 			// the user moving the file out of the share to their home storage would give them share permissions and allow moving into the share
 			//
