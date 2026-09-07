@@ -392,6 +392,7 @@
     "Shared with you and {circle} by {owner}" : "ແບ່ງປັນກັບທ່ານ ແລະ {circle} ໂດຍ {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "ແບ່ງປັນກັບທ່ານ ແລະ ການສົນທະນາ {conversation} ໂດຍ {owner}",
     "Shared with you in a conversation by {owner}" : "ແບ່ງປັນກັບທ່ານໃນການສົນທະນາໂດຍ {owner}",
+    "%1$s shared %2$s with you" : "%1$s ໄດ້ແບ່ງປັນ %2$s ໃຫ້ທ່ານ",
     "Share not found" : "ບໍ່ພົບການແບ່ງປັນ",
     "Back to %s" : "ກັບໄປທີ່ %s",
     "Add to your Nextcloud" : "ເພີ່ມໃສ່ Nextcloud ຂອງທ່ານ",

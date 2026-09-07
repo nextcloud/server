@@ -400,6 +400,7 @@
     "Shared with you and {circle} by {owner}" : "{owner} 共享给您及 {circle}",
     "Shared with you and the conversation {conversation} by {owner}" : "由{owner} 共享给您及对话 {conversation}",
     "Shared with you in a conversation by {owner}" : "由 {owner} 在一个会话中共享给您",
+    "%1$s shared %2$s with you" : "%1$s 与您分享了 %2$s ",
     "Share not found" : "未找到共享",
     "Back to %s" : "返回 %s",
     "Add to your Nextcloud" : "添加到您的 Nextcloud",

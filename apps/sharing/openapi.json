@@ -3519,8 +3519,12 @@
                         "in": "query",
                         "description": "State to filter by.",
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/State"
+                                }
+                            ]
                         }
                     },
                     {
@@ -3528,8 +3532,12 @@
                         "in": "query",
                         "description": "User status to filter by.",
                         "schema": {
-                            "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/UserStatus"
+                                }
+                            ]
                         }
                     },
                     {

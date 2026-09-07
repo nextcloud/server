@@ -364,6 +364,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "تمّت مشاركته معك و مع الدائرة {circle} من قِبَل {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "تمّت مشاركته معك و مع المحادثة {conversation} من قِبَل {owner}",
     "Shared with you in a conversation by {owner}" : "تمّت مشاركته معك في محادثة من قِبَل {owner}",
+    "%1$s shared %2$s with you" : "قام%1$s بمشاركة %2$s معك",
     "Share not found" : "مشاركة غير موجودة",
     "Back to %s" : "عودة إلى %s",
     "Add to your Nextcloud" : "إضافة إلى حسابك على نكست كلاود",

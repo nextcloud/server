@@ -394,6 +394,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Dijeljeno s vama i {circle} od strane {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Dijeljeno s vama i razgovorom {conversation} vlasnika {owner}",
     "Shared with you in a conversation by {owner}" : "{owner} dijeli s vama u razgovoru",
+    "%1$s shared %2$s with you" : "%1$s dijeli %2$s s vama",
     "Share not found" : "Dijeljenje nije pronađeno",
     "Back to %s" : "Natrag na %s",
     "Add to your Nextcloud" : "Dodaj u svoj Nextcloud",

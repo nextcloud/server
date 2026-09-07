@@ -216,6 +216,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Споделено с вас и {circle} от {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Споделено с вас и разговора {conversation} от {owner}",
     "Shared with you in a conversation by {owner}" : "Споделено с вас в разговор от {owner}",
+    "%1$s shared %2$s with you" : "%1$s сподели %2$s с вас",
     "Share not found" : "Споделянето не е открито",
     "Back to %s" : "Обратно към %s",
     "Add to your Nextcloud" : "Добавете към Nextcloud",

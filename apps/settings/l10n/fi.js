@@ -474,8 +474,6 @@ OC.L10N.register(
     "Machine translation" : "Konekäännös",
     "Image generation" : "Kuvien generointi",
     "Text processing" : "Tekstinkäsittely",
-    "Exclude some groups from sharing" : "Estä joitain ryhmiä jakamasta",
-    "Limit sharing to some groups" : "Rajoita jakaminen tiettyihin ryhmiin",
     "Show details for {appName} app" : "Näytä sovelluksen {appName} tiedot",
     "Update to {update}" : "Päivitä versioon {update}",
     "Remove" : "Poista",

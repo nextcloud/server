@@ -392,6 +392,7 @@
     "Shared with you and {circle} by {owner}" : "سىز بىلەن ھەمبەھىرلەنگەن {circle} {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "سىز بىلەن ھەمبەھىرلەنگەن سۆھبەت {conversation} {owner} تەرىپىدىن",
     "Shared with you in a conversation by {owner}" : "{owner} نىڭ سۆھبىتىدە سىز بىلەن ئورتاقلاشتى",
+    "%1$s shared %2$s with you" : "%1$s سىز بىلەن%2$s نى ئورتاقلاشتى",
     "Share not found" : "ھەمبەھىر تېپىلمىدى",
     "Back to %s" : "%s گە قايتىش",
     "Add to your Nextcloud" : "Nextcloud غا قوشۇڭ",

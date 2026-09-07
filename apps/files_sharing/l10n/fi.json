@@ -312,6 +312,7 @@
     "Shared with you and {circle} by {owner}" : "{owner} on jakanut tämän sinun ja piirin {circle} kanssa",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} on jakanut tämän sinun ja keskustelun {conversation} kanssa",
     "Shared with you in a conversation by {owner}" : "{owner} jakoi tämän kanssasi keskustelussa",
+    "%1$s shared %2$s with you" : "%1$s jakoi kohteen %2$s kanssasi",
     "Share not found" : "Jakoa ei löytynyt",
     "Back to %s" : "Takaisin kohtaan %s",
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",

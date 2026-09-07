@@ -322,6 +322,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Partilhado consigo e com {circle} por {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Partilhado consigo e com a conversação {conversation} por {owner}",
     "Shared with you in a conversation by {owner}" : "Partilhado consigo numa conversação por {owner}",
+    "%1$s shared %2$s with you" : "%1$s partilhou %2$s consigo",
     "Share not found" : "Partilha não encontrada",
     "Back to %s" : "Voltar a %s",
     "Add to your Nextcloud" : "Adicionar à sua Nextcloud",

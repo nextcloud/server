@@ -240,6 +240,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "{owner} omogoči souporabo vam in članom kroga {circle}.",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} omogoči souporabo vam in udeležencem pogovora {conversation}.",
     "Shared with you in a conversation by {owner}" : "{owner} vam omogoči souporabo v pogovoru.",
+    "%1$s shared %2$s with you" : "%1$s vam omogoči souporabo %2$s",
     "Share not found" : "Mesta souporabe ni mogoče najti.",
     "Back to %s" : "Nazaj na %s",
     "Add to your Nextcloud" : "Dodaj v oblak Nextcloud",

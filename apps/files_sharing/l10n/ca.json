@@ -364,6 +364,7 @@
     "Shared with you and {circle} by {owner}" : "{owner} l'ha compartit amb vós i amb el cercle {circle}",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} l'ha compartit amb vós i amb la conversa {conversation}",
     "Shared with you in a conversation by {owner}" : "{owner} l'ha compartit amb vós en una conversa",
+    "%1$s shared %2$s with you" : "%1$s ha compartit %2$s amb tu",
     "Share not found" : "No s'ha trobat la compartició",
     "Back to %s" : "Torna a %s",
     "Add to your Nextcloud" : "Afegeix al Nextcloud",

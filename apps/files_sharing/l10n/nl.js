@@ -394,6 +394,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "Gedeeld met jou en {circle} door {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Gedeeld met jou en gesprek {conversation} door {owner}",
     "Shared with you in a conversation by {owner}" : "Met jou in een gesprek gedeeld door {owner}",
+    "%1$s shared %2$s with you" : "%1$s deelde %2$s met jou",
     "Share not found" : "Gedeelde map niet gevonden",
     "Back to %s" : "Terug naar %s",
     "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",

@@ -394,6 +394,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "{owner}-р танд болон {circle}-т хуваалцсан",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner}-р танд болон {conversation} харилцан яриад хуваалцсан",
     "Shared with you in a conversation by {owner}" : "{owner}-р танд харилцан яриагаар хуваалцсан",
+    "%1$s shared %2$s with you" : "%1$s %2$s-г тантай хуваалцсан",
     "Share not found" : "Хуваалцалт олдсонгүй",
     "Back to %s" : "%s руу буцах",
     "Add to your Nextcloud" : "Өөрийн Nextcloud-д нэмэх",

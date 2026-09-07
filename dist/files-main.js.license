@@ -28,6 +28,7 @@ SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
 SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: Sam Verschueren
 SPDX-FileCopyrightText: Rubén Norte <ruben.norte@softonic.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
@@ -184,7 +185,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.3.0
 	- license: GPL-3.0-or-later
 - @nextcloud/upload
-	- version: 1.11.1
+	- version: 1.12.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.26.0
@@ -278,6 +279,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - decode-named-character-reference
 	- version: 1.2.0
+	- license: MIT
+- decode-uri-component
+	- version: 0.5.0
 	- license: MIT
 - devlop
 	- version: 1.1.0
@@ -460,7 +464,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.5.0
 	- license: MIT
 - query-string
-	- version: 9.4.1
+	- version: 9.5.1
 	- license: MIT
 - rehype-external-links
 	- version: 3.0.0

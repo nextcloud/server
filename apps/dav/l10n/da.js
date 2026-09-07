@@ -263,7 +263,7 @@ OC.L10N.register(
     "Pick a start time for {dayName}" : "Vælg et starttidspunkt for {dayName}",
     "Pick a end time for {dayName}" : "Vælg et sluttidspunkt for {dayName}",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Indstil automatisk brugerstatus til \"Forstyr ikke\" uden for tilgængelighed for at slå alle notifikationer fra.",
-    "Cancel" : "Annuller",
+    "Cancel" : "Annullér",
     "Import" : "Importér",
     "Error while saving settings" : "Der opstod en fejl under lagring af indstillinger",
     "Contact reset successfully" : "Kontakten blev nulstillet",

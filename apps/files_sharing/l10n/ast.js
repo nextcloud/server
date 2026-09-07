@@ -261,6 +261,7 @@ OC.L10N.register(
     "Shared with you and {circle} by {owner}" : "{owner} compartió l'elementu contigo y con «{circle}»",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} compartió l'elementu contigo y cola conversación «{conversation}»",
     "Shared with you in a conversation by {owner}" : "{owner} compartió l'elementu contigo nuna conversación",
+    "%1$s shared %2$s with you" : "%1$s compartió «%2$s» contigo",
     "Share not found" : "Nun s'atopó la compartición",
     "Back to %s" : "Volver a «%s»",
     "Add to your Nextcloud" : "Amestar a Nextcloud",

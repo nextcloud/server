@@ -393,6 +393,7 @@
     "Shared with you and {circle} by {owner}" : " {owner} erabiltzaileak zurekin eta {circle} zirkuluarekin partekatua",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} erabiltzaileak zu eta {conversation} elkarrizketarekin partekatua",
     "Shared with you in a conversation by {owner}" : "{owner} erabiltzaileak zurekin partekatua elkarrizketa batean",
+    "%1$s shared %2$s with you" : "%1$sk %2$s partekatu du zurekin",
     "Share not found" : "Partekatzea ez da aurkitu",
     "Back to %s" : "Itzuli %s(e)ra",
     "Add to your Nextcloud" : "Gehitu zure Nextclouden",

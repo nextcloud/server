@@ -399,6 +399,7 @@
     "Shared with you and {circle} by {owner}" : "Διαμοιράστηκε με σας και τον {circle} από τον {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Διαμοιράστηκε με σας και με τη συζήτηση {conversation} από {owner}",
     "Shared with you in a conversation by {owner}" : "Διαμοιράστηκε με σας από τον {owner}",
+    "%1$s shared %2$s with you" : "Ο/Η %1$s μοιράστηκε το %2$s μαζί σας",
     "Share not found" : "Δεν βρέθηκε το κονόχρηστο",
     "Back to %s" : "Πίσω στο %s",
     "Add to your Nextcloud" : "Προσθήκη στο Nextcloud σου",

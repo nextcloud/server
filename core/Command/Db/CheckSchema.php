@@ -36,19 +36,41 @@ class CheckSchema extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$onlyTable = $input->getArgument('table');
 		$findings = $this->schemaChecker->getFindings($onlyTable);
+		['blocking' => $blocking, 'byDisabledApp' => $byDisabledApp] = $this->schemaChecker->partitionFindings($findings);
 
 		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
 			if ($findings === []) {
 				$output->writeln('<info>The live database schema matches the expected schema.</info>');
 			} else {
-				foreach ($findings as $finding) {
+				foreach ($blocking as $finding) {
 					$output->writeln('<comment>' . $this->schemaChecker->formatFinding($finding) . '</comment>');
+				}
+				if ($output->isVerbose()) {
+					$this->printDisabledAppFindings($byDisabledApp, $output);
 				}
 			}
 		} else {
 			$this->writeArrayInOutputFormat($input, $output, $findings);
 		}
 
-		return $findings === [] ? 0 : 1;
+		return $blocking === [] ? 0 : 1;
+	}
+
+	/**
+	 * @param array<string, list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool}>> $byDisabledApp
+	 */
+	private function printDisabledAppFindings(array $byDisabledApp, OutputInterface $output): void {
+		if ($byDisabledApp === []) {
+			return;
+		}
+
+		$output->writeln('Disabled apps (not affecting exit code):');
+		$output->writeln('If the schema for a disabled app differs from what is expected, this might indicate the app was updated since it was disabled. Missing migrations will be applied once the app is enabled again.');
+		foreach ($byDisabledApp as $app => $appFindings) {
+			$output->writeln("  {$app}:");
+			foreach ($appFindings as $finding) {
+				$output->writeln('    - <comment>' . $this->schemaChecker->formatFinding($finding) . '</comment>');
+			}
+		}
 	}
 }

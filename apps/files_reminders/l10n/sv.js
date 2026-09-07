@@ -10,6 +10,8 @@ OC.L10N.register(
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Appen \"files_reminders\" behöver appen Aviseringar för att fungera korrekt. Du bör antingen aktivera Aviseringar eller inaktivera Filpåminnelser.",
     "Set file reminders" : "Ställ in filpåminnelser",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Filpåminnelser**\n\nStäll in påminnelser för filer.\n\nObs! För att använda appen `Filpåminnelser` måste appen `Aviseringar` vara installerad och aktiverad. Appen `Aviseringar` tillhandahåller de API:er som krävs för att appen `Filpåminnelser` ska fungera korrekt.",
+    "We reminded you of this file {relativeDueDate}" : "Vi påminde dig om den här filen {relativeDueDate}",
+    "We will remind you of this file {relativeDueDate}" : "Vi kommer att påminna dig om den här filen {relativeDueDate}",
     "Please choose a valid date & time" : "Välj ett giltigt datum och en giltig tid",
     "Reminder set for \"{fileName}\"" : "Påminnelse har ställts in för \"{fileName}\"",
     "Failed to set reminder" : "Det gick inte att ställa in påminnelsen",

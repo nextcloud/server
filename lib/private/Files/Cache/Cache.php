@@ -322,17 +322,7 @@ class Cache implements ICache {
 			if ($builder->executeStatement()) {
 				$fileId = $builder->getLastInsertId();
 
-				if (count($extensionValues)) {
-					$query = $this->getQueryBuilder();
-					$query->insert('filecache_extended');
-					$query->hintShardKey('storage', $storageId);
-
-					$query->setValue('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
-					foreach ($extensionValues as $column => $value) {
-						$query->setValue($column, $query->createNamedParameter($value));
-					}
-					$query->executeStatement();
-				}
+				$this->setExtensionValues($fileId, $extensionValues, true);
 
 				$event = new CacheEntryInsertedEvent($this->storage, $file, $fileId, $storageId);
 				$this->eventDispatcher->dispatch(CacheEntryInsertedEvent::class, $event);
@@ -400,40 +390,7 @@ class Cache implements ICache {
 			$query->executeStatement();
 		}
 
-		if (count($extensionValues)) {
-			try {
-				$query = $this->getQueryBuilder();
-				$query->insert('filecache_extended');
-				$query->hintShardKey('storage', $this->getNumericStorageId());
-
-				$query->setValue('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT));
-				foreach ($extensionValues as $column => $value) {
-					$query->setValue($column, $query->createNamedParameter($value));
-				}
-
-				$query->executeStatement();
-			} catch (Exception $e) {
-				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-					throw $e;
-				}
-				$query = $this->getQueryBuilder();
-				$query->update('filecache_extended')
-					->whereFileId($id)
-					->hintShardKey('storage', $this->getNumericStorageId())
-					->andWhere($query->expr()->orX(...array_map(function ($key, $value) use ($query) {
-						return $query->expr()->orX(
-							$query->expr()->neq($key, $query->createNamedParameter($value)),
-							$query->expr()->isNull($key)
-						);
-					}, array_keys($extensionValues), array_values($extensionValues))));
-
-				foreach ($extensionValues as $key => $value) {
-					$query->set($key, $query->createNamedParameter($value));
-				}
-
-				$query->executeStatement();
-			}
-		}
+		$this->setExtensionValues($id, $extensionValues, false);
 
 		$path = $this->getPathById($id);
 		// path can still be null if the file doesn't exist
@@ -441,6 +398,73 @@ class Cache implements ICache {
 			$event = new CacheEntryUpdatedEvent($this->storage, $path, $id, $this->getNumericStorageId());
 			$this->eventDispatcher->dispatchTyped($event);
 		}
+	}
+
+	private function hasExtensionValues(int $id) {
+		$query = $this->getQueryBuilder();
+		$query->select('fileid')
+			->from('filecache_extended')
+			->whereFileId($id);
+
+		return $query->executeQuery()->fetchOne() !== false;
+	}
+
+	private function setExtensionValues(int $id, array $extensionValues, bool $newFile) {
+		if (!$extensionValues) {
+			return;
+		}
+
+		// a failed insert in a transaction aborts the transactions on some platforms, so we can't rely on
+		// that behavior to to an "upsert"
+		// for new files, we can safely assume that there won't be a conflict, since the fileid is new
+		if (!$newFile && $this->connection->inTransaction()) {
+			if ($this->hasExtensionValues($id)) {
+				$this->updateExtensionValues($id, $extensionValues);
+			} else {
+				$this->insertExtensionValues($id, $extensionValues);
+			}
+		} else {
+			try {
+				$this->insertExtensionValues($id, $extensionValues);
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
+				$this->updateExtensionValues($id, $extensionValues);
+			}
+		}
+	}
+
+	private function insertExtensionValues(int $id, array $extensionValues) {
+		$query = $this->getQueryBuilder();
+		$query->insert('filecache_extended');
+		$query->hintShardKey('storage', $this->getNumericStorageId());
+
+		$query->setValue('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT));
+		foreach ($extensionValues as $column => $value) {
+			$query->setValue($column, $query->createNamedParameter($value));
+		}
+
+		$query->executeStatement();
+	}
+
+	private function updateExtensionValues(int $id, array $extensionValues) {
+		$query = $this->getQueryBuilder();
+		$query->update('filecache_extended')
+			->whereFileId($id)
+			->hintShardKey('storage', $this->getNumericStorageId())
+			->andWhere($query->expr()->orX(...array_map(function ($key, $value) use ($query) {
+				return $query->expr()->orX(
+					$query->expr()->neq($key, $query->createNamedParameter($value)),
+					$query->expr()->isNull($key)
+				);
+			}, array_keys($extensionValues), array_values($extensionValues))));
+
+		foreach ($extensionValues as $key => $value) {
+			$query->set($key, $query->createNamedParameter($value));
+		}
+
+		$query->executeStatement();
 	}
 
 	/**

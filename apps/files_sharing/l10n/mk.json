@@ -393,6 +393,7 @@
     "Shared with you and {circle} by {owner}" : "Споделено со тебе и {circle} од {owner}",
     "Shared with you and the conversation {conversation} by {owner}" : "Споделено со тебе и во разговорот {conversation} од {owner}",
     "Shared with you in a conversation by {owner}" : "Споделено со тебе и во разговорот од {owner}",
+    "%1$s shared %2$s with you" : "%1$s сподели %2$s со вас",
     "Share not found" : "Споделувањето не е пронајдено",
     "Back to %s" : "Врати се на %s",
     "Add to your Nextcloud" : "Додадете во вашиот Cloud",
