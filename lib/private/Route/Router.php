@@ -21,7 +21,6 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Route\IRouter;
 use OCP\Util;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -59,7 +58,6 @@ class Router implements IRouter {
 		IRequest $request,
 		protected IConfig $config,
 		protected IEventLogger $eventLogger,
-		private ContainerInterface $container,
 		protected IAppManager $appManager,
 	) {
 		$this->context = $this->buildContext($request);
@@ -581,7 +579,9 @@ class Router implements IRouter {
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 
 		if (class_exists($applicationClassName)) {
-			$application = $this->container->get($applicationClassName);
+			// Resolved through the current container, not a captured one: this Router instance may
+			// be kept alive well past the request that built it (see PersistAcrossRequests below).
+			$application = \OCP\Server::get($applicationClassName);
 		} else {
 			$application = new App($appName);
 		}

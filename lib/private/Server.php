@@ -908,12 +908,14 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(CapabilitiesManager::class, function (ContainerInterface $c) {
 			$manager = new CapabilitiesManager($c->get(LoggerInterface::class));
-			$manager->registerCapability(function () use ($c) {
-				return new CoreCapabilities($c->get(IConfig::class));
-			});
-			$manager->registerCapability(function () use ($c) {
-				return $c->get(Capabilities::class);
-			});
+			// Resolved through the current container at call time, not the one that built $manager:
+			// CapabilitiesManager may be kept alive (and this closure with it) well past this request.
+			$manager->registerCapability(function () {
+				return new CoreCapabilities(\OCP\Server::get(IConfig::class));
+			}, CoreCapabilities::class);
+			$manager->registerCapability(function () {
+				return \OCP\Server::get(Capabilities::class);
+			}, Capabilities::class);
 			return $manager;
 		});
 

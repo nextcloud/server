@@ -14,7 +14,6 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -48,7 +47,6 @@ class RouterTest extends TestCase {
 			$this->createMock(IRequest::class),
 			$this->createMock(IConfig::class),
 			$this->createMock(IEventLogger::class),
-			$this->createMock(ContainerInterface::class),
 			$this->appManager,
 		);
 	}
@@ -67,7 +65,6 @@ class RouterTest extends TestCase {
 			$firstRequest,
 			$this->createMock(IConfig::class),
 			$this->createMock(IEventLogger::class),
-			$this->createMock(ContainerInterface::class),
 			$this->appManager,
 		);
 
