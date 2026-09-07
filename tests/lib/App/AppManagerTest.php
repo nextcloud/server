@@ -570,6 +570,32 @@ class AppManagerTest extends TestCase {
 		$this->assertEquals($apps, $this->manager->getEnabledApps());
 	}
 
+	public function testGetEnabledAppsRespectsExplicitDisableForAlwaysEnabledApp(): void {
+		// An always-enabled (shipped) app that the admin has explicitly set to 'no'
+		// must NOT appear in the enabled-apps list. Previously the alwaysEnabled loop
+		// would overwrite the 'no' value unconditionally, making it impossible to
+		// disable apps such as twofactor_backupcodes via oc_appconfig.
+		$this->appConfig->setValue('twofactor_backupcodes', 'enabled', 'no');
+
+		$apps = $this->manager->getEnabledApps();
+
+		$this->assertNotContains('twofactor_backupcodes', $apps);
+	}
+
+	public function testGetAppsForUserRespectsExplicitDisableForAlwaysEnabledApp(): void {
+		$user = $this->newUser('user1');
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->with($user)
+			->willReturn(['foo']);
+
+		$this->appConfig->setValue('twofactor_backupcodes', 'enabled', 'no');
+
+		$apps = $this->manager->getEnabledAppsForUser($user);
+
+		$this->assertNotContains('twofactor_backupcodes', $apps);
+	}
+
 	public function testGetAppsForUser(): void {
 		$user = $this->newUser('user1');
 		$this->groupManager->expects($this->any())
