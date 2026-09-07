@@ -13,7 +13,9 @@ use OC\AppFramework\Routing\RouteParser;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\AppFramework\Http\Attribute\Route as RouteAttribute;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -31,6 +33,7 @@ use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 
+#[PersistAcrossRequests(invalidatedBy: [PersistentServiceGroup::Apps])]
 class Router implements IRouter {
 	/** @var RouteCollection[] */
 	protected $collections = [];
@@ -59,8 +62,28 @@ class Router implements IRouter {
 		private ContainerInterface $container,
 		protected IAppManager $appManager,
 	) {
+		$this->context = $this->buildContext($request);
+		// TODO cache
+		$this->root = $this->getCollection('root');
+	}
+
+	/**
+	 * Rebuild the request context (host, scheme, HTTP method) from the request
+	 * actually being served.
+	 *
+	 * The context captured at construction time only reflects whichever
+	 * request happened to build this Router instance, so this must be called
+	 * with the current request before matching or generating a URL whenever
+	 * the same Router instance may outlive that request (see
+	 * {@see \OCP\AppFramework\Attribute\PersistAcrossRequests}).
+	 */
+	public function refreshContext(IRequest $request): void {
+		$this->setContext($this->buildContext($request));
+	}
+
+	private function buildContext(IRequest $request): RequestContext {
 		$baseUrl = \OC::$WEBROOT;
-		if (!($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
+		if (!($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
 			$baseUrl .= '/index.php';
 		}
 		if (!\OC::$CLI && isset($_SERVER['REQUEST_METHOD'])) {
@@ -70,13 +93,14 @@ class Router implements IRouter {
 		}
 		$host = $request->getServerHost();
 		$schema = $request->getServerProtocol();
-		$this->context = new RequestContext($baseUrl, $method, $host, $schema);
-		// TODO cache
-		$this->root = $this->getCollection('root');
+		return new RequestContext($baseUrl, $method, $host, $schema);
 	}
 
 	public function setContext(RequestContext $context): void {
 		$this->context = $context;
+		// The URL generator is built from and holds onto the context it was created with, so it must be
+		// rebuilt whenever the context changes, or it would keep generating URLs for the previous one.
+		$this->generator = null;
 	}
 
 	public function getRouteCollection() {

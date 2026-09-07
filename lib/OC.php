@@ -781,6 +781,10 @@ class OC {
 		$config = Server::get(IConfig::class);
 		$request = Server::get(IRequest::class);
 
+		// The router may be reused from a previous request on a long-running worker; the
+		// request-derived context it builds itself with must always reflect the request being served.
+		Server::get(\OC\Route\Router::class)->refreshContext($request);
+
 		try {
 			$profiler = new BuiltInProfiler(
 				$config,

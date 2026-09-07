@@ -57,6 +57,30 @@ class RouterTest extends TestCase {
 		$this->assertEquals('/index.php/heartbeat', $this->router->generate('heartbeat'));
 	}
 
+	public function testRefreshContextUpdatesGeneratedAbsoluteUrls(): void {
+		$firstRequest = $this->createMock(IRequest::class);
+		$firstRequest->method('getServerHost')->willReturn('first.example.com');
+		$firstRequest->method('getServerProtocol')->willReturn('http');
+
+		$router = new Router(
+			$this->createMock(LoggerInterface::class),
+			$firstRequest,
+			$this->createMock(IConfig::class),
+			$this->createMock(IEventLogger::class),
+			$this->createMock(ContainerInterface::class),
+			$this->appManager,
+		);
+
+		$this->assertSame('http://first.example.com/index.php/heartbeat', $router->generate('heartbeat', [], true));
+
+		$secondRequest = $this->createMock(IRequest::class);
+		$secondRequest->method('getServerHost')->willReturn('second.example.com');
+		$secondRequest->method('getServerProtocol')->willReturn('https');
+		$router->refreshContext($secondRequest);
+
+		$this->assertSame('https://second.example.com/index.php/heartbeat', $router->generate('heartbeat', [], true));
+	}
+
 	public function testGenerateConsecutively(): void {
 		$this->appManager->expects(self::atLeastOnce())
 			->method('cleanAppId')
