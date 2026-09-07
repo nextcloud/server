@@ -9,6 +9,11 @@
 namespace OCA\DAV\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\Exception\FileLocked;
+use OCP\Files\Storage\ILockingStorage;
+use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
+use OCP\Server;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\IFile;
 
@@ -22,6 +27,13 @@ use Sabre\DAV\IFile;
  */
 class FutureFile implements \Sabre\DAV\IFile {
 	/**
+	 * Suffix of the path locked while the chunks are being assembled. Nothing is
+	 * stored under it, so no ordinary file operation contends for it - the same
+	 * trick Directory::createFile() uses for its .upload.part lock.
+	 */
+	private const ASSEMBLY_LOCK_SUFFIX = '.assembly';
+
+	/**
 	 * @param Directory $root
 	 * @param string $name
 	 */
@@ -29,6 +41,49 @@ class FutureFile implements \Sabre\DAV\IFile {
 		private Directory $root,
 		private $name,
 	) {
+	}
+
+	/**
+	 * Mark an assembly of these chunks as in progress, so that the upload session
+	 * cannot be deleted while they are still being read.
+	 *
+	 * @throws FileLocked if the chunks are already being assembled
+	 */
+	public function lockAssembly(): void {
+		try {
+			$this->assemblyLock(true);
+		} catch (LockedException $e) {
+			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
+	public function unlockAssembly(): void {
+		try {
+			$this->assemblyLock(false);
+		} catch (LockedException $e) {
+			// releasing a lock this request holds should not fail, and there is
+			// nothing left to do about it if it does
+		}
+	}
+
+	/**
+	 * @throws LockedException
+	 */
+	private function assemblyLock(bool $acquire): void {
+		$info = $this->root->getFileInfo();
+		$storage = $info->getStorage();
+		if (!$storage->instanceOfStorage(ILockingStorage::class)) {
+			return;
+		}
+
+		/** @var ILockingStorage $storage */
+		$path = $info->getInternalPath() . self::ASSEMBLY_LOCK_SUFFIX;
+		$provider = Server::get(ILockingProvider::class);
+		if ($acquire) {
+			$storage->acquireLock($path, ILockingProvider::LOCK_EXCLUSIVE, $provider);
+		} else {
+			$storage->releaseLock($path, ILockingProvider::LOCK_EXCLUSIVE, $provider);
+		}
 	}
 
 	/**
