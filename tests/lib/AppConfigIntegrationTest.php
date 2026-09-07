@@ -13,6 +13,8 @@ use OC\AppConfig;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OC\Memcache\Factory as CacheFactory;
+use OCP\AppFramework\Utility\IPersistentServiceInvalidator;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
@@ -642,6 +644,28 @@ class AppConfigIntegrationTest extends TestCase {
 		$config = $this->generateAppConfig();
 		$config->setValueString('feed', 'string', 'value-1');
 		$this->assertSame(false, $config->setValueString('feed', 'string', 'value-1'));
+	}
+
+	public function testSetValueStringInvalidatesPersistedServices(): void {
+		$invalidator = $this->createMock(IPersistentServiceInvalidator::class);
+		$invalidator->expects($this->once())
+			->method('invalidate')
+			->with(PersistentServiceGroup::Config);
+		$this->overwriteService(IPersistentServiceInvalidator::class, $invalidator);
+
+		$config = $this->generateAppConfig();
+		$config->setValueString('feed', 'string', 'value-1');
+	}
+
+	public function testSetValueStringUnchangedDoesNotInvalidatePersistedServices(): void {
+		$config = $this->generateAppConfig();
+		$config->setValueString('feed', 'string', 'value-1');
+
+		$invalidator = $this->createMock(IPersistentServiceInvalidator::class);
+		$invalidator->expects($this->never())->method('invalidate');
+		$this->overwriteService(IPersistentServiceInvalidator::class, $invalidator);
+
+		$config->setValueString('feed', 'string', 'value-1');
 	}
 
 	public function testSetValueStringIsUpdatedCache(): void {
@@ -1365,6 +1389,17 @@ class AppConfigIntegrationTest extends TestCase {
 		$this->assertSame('default', $config->getValueString('anotherapp', 'key', 'default'));
 	}
 
+	public function testDeleteKeyInvalidatesPersistedServices(): void {
+		$invalidator = $this->createMock(IPersistentServiceInvalidator::class);
+		$invalidator->expects($this->once())
+			->method('invalidate')
+			->with(PersistentServiceGroup::Config);
+		$this->overwriteService(IPersistentServiceInvalidator::class, $invalidator);
+
+		$config = $this->generateAppConfig();
+		$config->deleteKey('anotherapp', 'key');
+	}
+
 	public function testDeleteApp(): void {
 		$config = $this->generateAppConfig();
 		$config->deleteApp('anotherapp');
@@ -1387,6 +1422,17 @@ class AppConfigIntegrationTest extends TestCase {
 		$config->clearCache();
 		$this->assertSame('default', $config->getValueString('anotherapp', 'key', 'default'));
 		$this->assertSame('default', $config->getValueString('anotherapp', 'enabled', 'default'));
+	}
+
+	public function testDeleteAppInvalidatesPersistedServices(): void {
+		$invalidator = $this->createMock(IPersistentServiceInvalidator::class);
+		$invalidator->expects($this->once())
+			->method('invalidate')
+			->with(PersistentServiceGroup::Config);
+		$this->overwriteService(IPersistentServiceInvalidator::class, $invalidator);
+
+		$config = $this->generateAppConfig();
+		$config->deleteApp('anotherapp');
 	}
 
 	public function testClearCache(): void {

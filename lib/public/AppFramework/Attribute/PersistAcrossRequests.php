@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Attribute;
 
 use Attribute;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 
 /**
  * Marks a service as safe to keep alive in the server container across
@@ -24,4 +25,14 @@ use Attribute;
  */
 #[Attribute(Attribute::TARGET_CLASS)]
 class PersistAcrossRequests {
+	/**
+	 * @param list<string|PersistentServiceGroup> $invalidatedBy Groups that, once invalidated
+	 *                                                           through {@see \OCP\AppFramework\Utility\IPersistentServiceInvalidator},
+	 *                                                           cause the kept instance to be discarded and rebuilt.
+	 * @since 36.0.0
+	 */
+	public function __construct(
+		public readonly array $invalidatedBy = [],
+	) {
+	}
 }

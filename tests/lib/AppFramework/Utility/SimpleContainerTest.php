@@ -10,9 +10,13 @@ declare(strict_types=1);
 
 namespace Test\AppFramework\Utility;
 
+use OC\AppFramework\Utility\PersistentServiceInvalidator;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\Memcache\ArrayCache;
 use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
+use OCP\ICacheFactory;
 use Psr\Container\NotFoundExceptionInterface;
 
 interface TestInterface {
@@ -20,6 +24,14 @@ interface TestInterface {
 
 #[PersistAcrossRequests]
 class ClassPersistAcrossRequests {
+}
+
+#[PersistAcrossRequests(invalidatedBy: ['test-group'])]
+class ClassPersistAcrossRequestsWithGroup {
+}
+
+#[PersistAcrossRequests(invalidatedBy: [PersistentServiceGroup::Apps])]
+class ClassPersistAcrossRequestsWithEnumGroup {
 }
 
 class ClassEmptyConstructor implements IInterfaceConstructor {
@@ -129,19 +141,71 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 	public function testPersistAcrossRequestsIgnoredByDefault(): void {
-		$object = $this->container->query(ClassPersistAcrossRequests::class);
-		$object2 = (new SimpleContainer())->query(ClassPersistAcrossRequests::class);
+		$object = $this->container->get(ClassPersistAcrossRequests::class);
+		$object2 = (new SimpleContainer())->get(ClassPersistAcrossRequests::class);
 		$this->assertNotSame($object, $object2);
 	}
 
 	public function testPersistAcrossRequestsKeepsInstanceOnceEnabled(): void {
 		SimpleContainer::$keepPersistentServices = true;
 
-		$object = $this->container->query(ClassPersistAcrossRequests::class);
+		$object = $this->container->get(ClassPersistAcrossRequests::class);
 		// Simulate a new request rebuilding the whole Server container
-		$object2 = (new SimpleContainer())->query(ClassPersistAcrossRequests::class);
+		$object2 = (new SimpleContainer())->get(ClassPersistAcrossRequests::class);
 
 		$this->assertSame($object, $object2);
+	}
+
+	public function testPersistAcrossRequestsInvalidatedByGroup(): void {
+		SimpleContainer::$keepPersistentServices = true;
+
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache());
+		$invalidator = new PersistentServiceInvalidator($cacheFactory);
+
+		$registerInvalidator = function (SimpleContainer $container) use ($invalidator): void {
+			$container->registerService(PersistentServiceInvalidator::class, function () use ($invalidator) {
+				return $invalidator;
+			});
+		};
+
+		$registerInvalidator($this->container);
+		$object = $this->container->get(ClassPersistAcrossRequestsWithGroup::class);
+
+		// Simulate a new request rebuilding the whole Server container: nothing invalidated the group yet
+		$container2 = new SimpleContainer();
+		$registerInvalidator($container2);
+		$this->assertSame($object, $container2->get(ClassPersistAcrossRequestsWithGroup::class));
+
+		$invalidator->invalidate('test-group');
+
+		$container3 = new SimpleContainer();
+		$registerInvalidator($container3);
+		$this->assertNotSame($object, $container3->get(ClassPersistAcrossRequestsWithGroup::class));
+	}
+
+	public function testPersistAcrossRequestsAcceptsEnumGroup(): void {
+		SimpleContainer::$keepPersistentServices = true;
+
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache());
+		$invalidator = new PersistentServiceInvalidator($cacheFactory);
+
+		$registerInvalidator = function (SimpleContainer $container) use ($invalidator): void {
+			$container->registerService(PersistentServiceInvalidator::class, function () use ($invalidator) {
+				return $invalidator;
+			});
+		};
+
+		$registerInvalidator($this->container);
+		$object = $this->container->get(ClassPersistAcrossRequestsWithEnumGroup::class);
+
+		// Invalidating by the enum's string value must be indistinguishable from the enum case itself
+		$invalidator->invalidate('apps');
+
+		$container2 = new SimpleContainer();
+		$registerInvalidator($container2);
+		$this->assertNotSame($object, $container2->get(ClassPersistAcrossRequestsWithEnumGroup::class));
 	}
 
 	public function testConstructorSimple(): void {

@@ -17,6 +17,7 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
 use OC\AppFramework\Services\AppConfig;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\AppFramework\Utility\PersistentServiceInvalidator;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Listeners\LoginFailedListener;
@@ -164,6 +165,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\Activity\IEventMerger;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\AppFramework\Utility\IPersistentServiceInvalidator;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Authentication\Token\IProvider as OCPIProvider;
@@ -581,6 +583,7 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerAlias(ICacheFactory::class, Factory::class);
+		$this->registerAlias(IPersistentServiceInvalidator::class, PersistentServiceInvalidator::class);
 
 		$this->registerDeprecatedAlias('RedisFactory', RedisFactory::class);
 

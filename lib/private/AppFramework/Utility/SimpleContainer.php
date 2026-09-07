@@ -12,6 +12,7 @@ use ArrayAccess;
 use Closure;
 use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\IContainer;
 use Pimple\Container;
 use Psr\Container\ContainerExceptionInterface;
@@ -34,6 +35,9 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/** @psalm-suppress ImpureStaticProperty Set once when a long-running worker (e.g. FrankenPHP) starts */
 	public static bool $keepPersistentServices = false;
 
+	/** A kept instance is rebuilt after this many seconds even without an invalidation, as a safety net */
+	private const MAX_PERSISTENT_AGE_SECONDS = 3600;
+
 	/**
 	 * @psalm-suppress ImpureStaticProperty This class has a reset method
 	 * @var array<class-string, object>
@@ -41,10 +45,26 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	private static array $persistentInstances = [];
 
 	/**
+	 * The invalidation generations each kept instance was built against, keyed by group name.
+	 *
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 * @var array<class-string, array<string, int>>
+	 */
+	private static array $persistentGenerations = [];
+
+	/**
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 * @var array<class-string, int>
+	 */
+	private static array $persistentBuiltAt = [];
+
+	/**
 	 * @internal
 	 */
 	public static function resetPersistentInstances(): void {
 		self::$persistentInstances = [];
+		self::$persistentGenerations = [];
+		self::$persistentBuiltAt = [];
 		self::$keepPersistentServices = false;
 	}
 
@@ -152,16 +172,28 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 					. ' Class can not be instantiated');
 			}
 
-			$isPersistent = self::$keepPersistentServices
-				&& !empty($class->getAttributes(PersistAcrossRequests::class));
-			if ($isPersistent && isset(self::$persistentInstances[$class->getName()])) {
-				return self::$persistentInstances[$class->getName()];
+			$attributes = $class->getAttributes(PersistAcrossRequests::class);
+			$isPersistent = self::$keepPersistentServices && !empty($attributes);
+			$className = $class->getName();
+			$groups = $isPersistent
+				? array_map(
+					static fn (string|PersistentServiceGroup $group): string => $group instanceof PersistentServiceGroup ? $group->value : $group,
+					$attributes[0]->newInstance()->invalidatedBy,
+				)
+				: [];
+
+			if ($isPersistent
+				&& isset(self::$persistentInstances[$className])
+				&& $this->isPersistentInstanceStillValid($className, $groups)) {
+				return self::$persistentInstances[$className];
 			}
 
 			$object = $this->buildClass($class, $chain);
 
 			if ($isPersistent) {
-				self::$persistentInstances[$class->getName()] = $object;
+				self::$persistentInstances[$className] = $object;
+				self::$persistentGenerations[$className] = $this->currentGenerations($groups);
+				self::$persistentBuiltAt[$className] = time();
 			}
 
 			return $object;
@@ -169,6 +201,32 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			// Class does not exist
 			throw new QueryNotFoundException($baseMsg . ' ' . $e->getMessage());
 		}
+	}
+
+	/**
+	 * @param list<string> $groups
+	 */
+	private function isPersistentInstanceStillValid(string $className, array $groups): bool {
+		if ((time() - self::$persistentBuiltAt[$className]) > self::MAX_PERSISTENT_AGE_SECONDS) {
+			return false;
+		}
+		return self::$persistentGenerations[$className] === $this->currentGenerations($groups);
+	}
+
+	/**
+	 * @param list<string> $groups
+	 * @return array<string, int>
+	 */
+	private function currentGenerations(array $groups): array {
+		if (empty($groups)) {
+			return [];
+		}
+		$invalidator = $this->get(PersistentServiceInvalidator::class);
+		$generations = [];
+		foreach ($groups as $group) {
+			$generations[$group] = $invalidator->getGeneration($group);
+		}
+		return $generations;
 	}
 
 	/**
