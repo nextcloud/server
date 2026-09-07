@@ -1092,7 +1092,7 @@ steps:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
     - cd build/integration
-    - ./run.sh features/webdav-related.feature
+    - ./run.sh --tags "~@requires-s3" features/webdav-related.feature
 
 trigger:
   branch:
