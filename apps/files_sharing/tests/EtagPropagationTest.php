@@ -256,7 +256,7 @@ class EtagPropagationTest extends PropagationTestCase {
 		$folderInfo = $this->rootView->getFileInfo('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/sub1/sub2/folder');
 		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
 
-		$node = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/sub1/sub2/folder');
+		$node = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/sub1/sub2/folder');
 		$shareManager = Server::get(\OCP\Share\IManager::class);
 		$shares = $shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, IShare::TYPE_USER, $node, true);
 
@@ -279,7 +279,7 @@ class EtagPropagationTest extends PropagationTestCase {
 		$folderInfo = $this->rootView->getFileInfo('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/sub1/sub2/folder/inside');
 		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
 
-		$node = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/sub1/sub2/folder/inside');
+		$node = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/sub1/sub2/folder/inside');
 		$shareManager = Server::get(\OCP\Share\IManager::class);
 		$shares = $shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, IShare::TYPE_USER, $node, true);
 

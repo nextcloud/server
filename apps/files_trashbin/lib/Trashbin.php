@@ -668,7 +668,7 @@ class Trashbin implements IEventListener {
 	 */
 	public static function deleteAll() {
 		$user = OC_User::getUser();
-		$userRoot = \OC::$server->getUserFolder($user)->getParent();
+		$userRoot = Server::get(IRootFolder::class)->getUserFolder($user)->getParent();
 		$view = new View('/' . $user);
 		$fileInfos = $view->getDirectoryContent('files_trashbin/files');
 
@@ -743,7 +743,7 @@ class Trashbin implements IEventListener {
 	 * @return int|float size of deleted files
 	 */
 	public static function delete($filename, $user, $timestamp = null) {
-		$userRoot = \OC::$server->getUserFolder($user)->getParent();
+		$userRoot = Server::get(IRootFolder::class)->getUserFolder($user)->getParent();
 		$view = new View('/' . $user);
 		$size = 0;
 

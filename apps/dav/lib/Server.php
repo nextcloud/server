@@ -288,15 +288,17 @@ class Server {
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend, $logger): void {
-			// Allow view-only plugin for webdav requests
-			$this->server->addPlugin(new ViewOnlyPlugin(
-				\OC::$server->getUserFolder(),
-			));
-
 			// custom properties plugin must be the last one
 			$userSession = \OCP\Server::get(IUserSession::class);
 			$user = $userSession->getUser();
-			if ($user !== null) {
+			$rootFolder = \OCP\Server::get(IRootFolder::class);
+			if ($user === null) {
+				// Allow view-only plugin for webdav requests
+				$this->server->addPlugin(new ViewOnlyPlugin(null));
+			} else {
+				$userFolder = $rootFolder->getUserFolder($user->getUID());
+				// Allow view-only plugin for webdav requests
+				$this->server->addPlugin(new ViewOnlyPlugin($userFolder));
 				$view = Filesystem::getView();
 				$config = \OCP\Server::get(IConfig::class);
 				$this->server->addPlugin(
@@ -337,13 +339,12 @@ class Server {
 				);
 
 				// TODO: switch to LazyUserFolder
-				$userFolder = \OC::$server->getUserFolder();
 				$shareManager = \OCP\Server::get(\OCP\Share\IManager::class);
 				$this->server->addPlugin(new SharesPlugin(
 					$this->server->tree,
 					$userSession,
 					$shareManager,
-					\OCP\Server::get(IRootFolder::class),
+					$rootFolder,
 				));
 				$this->server->addPlugin(new CommentPropertiesPlugin(
 					\OCP\Server::get(ICommentsManager::class),
@@ -381,7 +382,7 @@ class Server {
 						$this->server,
 						$this->server->tree,
 						$user,
-						\OCP\Server::get(IRootFolder::class),
+						$rootFolder,
 						$shareManager,
 						$view,
 						\OCP\Server::get(IFilesMetadataManager::class)

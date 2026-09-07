@@ -28,6 +28,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
@@ -1719,7 +1720,7 @@ class ViewTest extends \Test\TestCase {
 		$fileId = $view->getFileInfo('shareddir')->getId();
 		$userObject = Server::get(IUserManager::class)->createUser('test2', 'IHateNonMockableStaticClasses');
 
-		$userFolder = \OC::$server->getUserFolder(self::$user);
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::$user);
 		$shareDir = $userFolder->get('shareddir');
 		$shareManager = Server::get(IShareManager::class);
 		$share = $shareManager->newShare();

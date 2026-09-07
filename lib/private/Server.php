@@ -196,7 +196,6 @@ use OCP\Files\Cache\IFileAccess;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Conversion\IConversionManager;
-use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
@@ -225,7 +224,6 @@ use OCP\IEmojiHelper;
 use OCP\IEventSourceFactory;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
-use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IPhoneNumberUtil;
 use OCP\IPreview;
@@ -1195,26 +1193,6 @@ class Server extends ServerContainer {
 		GenerateBlurhashMetadata::loadListeners($eventDispatcher);
 	}
 
-	/**
-	 * Returns a view to ownCloud's files folder
-	 *
-	 * @param string $userId user ID
-	 * @return Folder|null
-	 * @deprecated 20.0.0
-	 */
-	#[\Override]
-	public function getUserFolder($userId = null): ?Folder {
-		if ($userId === null) {
-			$user = $this->get(IUserSession::class)->getUser();
-			if (!$user) {
-				return null;
-			}
-			$userId = $user->getUID();
-		}
-		$root = $this->get(IRootFolder::class);
-		return $root->getUserFolder($userId);
-	}
-
 	public function setSession(ISession $session): void {
 		$this->get(SessionStorage::class)->setSession($session);
 		$this->get(Session::class)->setSession($session);
@@ -1230,18 +1208,5 @@ class Server extends ServerContainer {
 	#[\Override]
 	public function getWebRoot(): string {
 		return $this->webRoot;
-	}
-
-	/**
-	 * get an L10N instance
-	 *
-	 * @param string $app appid
-	 * @param string $lang
-	 * @return IL10N
-	 * @deprecated 20.0.0 use DI of {@see IL10N} or {@see IFactory} instead, or {@see \OCP\Util::getL10N()} as a last resort
-	 */
-	#[\Override]
-	public function getL10N($app, $lang = null) {
-		return $this->get(IFactory::class)->get($app, $lang);
 	}
 }
