@@ -8,8 +8,10 @@
 
 namespace Test\Repair;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Repair\RepairInvalidShares;
 use OCP\Constants;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -28,6 +30,7 @@ class RepairInvalidSharesTest extends TestCase {
 
 	private RepairInvalidShares $repair;
 	private IDBConnection $connection;
+	private IAppConfig&\PHPUnit\Framework\MockObject\MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -43,7 +46,9 @@ class RepairInvalidSharesTest extends TestCase {
 		$this->connection = Server::get(IDBConnection::class);
 		$this->deleteAllShares();
 
-		$this->repair = new RepairInvalidShares($config, $this->connection);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+
+		$this->repair = new RepairInvalidShares($config, $this->connection, $this->appConfig);
 	}
 
 	protected function tearDown(): void {
@@ -139,8 +144,7 @@ class RepairInvalidSharesTest extends TestCase {
 	/**
 	 * Test stripping trailing slashes from the share target
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('trailingSlashProvider')]
-	public function testRemoveTrailingSlashFromFileTarget(string $fileTarget, string $expectedFileTarget): void {
+	private function addShareWithTarget(string $fileTarget): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values([
@@ -156,12 +160,9 @@ class RepairInvalidSharesTest extends TestCase {
 				'stime' => $qb->expr()->literal(time()),
 			])
 			->executeStatement();
+	}
 
-		/** @var IOutput|\PHPUnit\Framework\MockObject\MockObject $outputMock */
-		$outputMock = $this->createMock(IOutput::class);
-
-		$this->repair->run($outputMock);
-
+	private function getSingleFileTarget(): string {
 		$results = $this->connection->getQueryBuilder()
 			->select('file_target')
 			->from('share')
@@ -169,7 +170,38 @@ class RepairInvalidSharesTest extends TestCase {
 			->fetchAllAssociative();
 
 		$this->assertCount(1, $results);
-		$this->assertSame($expectedFileTarget, $results[0]['file_target']);
+
+		return $results[0]['file_target'];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('trailingSlashProvider')]
+	public function testRemoveTrailingSlashFromFileTarget(string $fileTarget, string $expectedFileTarget): void {
+		$this->addShareWithTarget($fileTarget);
+
+		$this->appConfig->method('getValueBool')
+			->with('core', ConfigLexicon::SHARE_REPAIR_REMOVED_TRAILING_SLASHES, false, true)
+			->willReturn(false);
+		$this->appConfig->expects($this->once())
+			->method('setValueBool')
+			->with('core', ConfigLexicon::SHARE_REPAIR_REMOVED_TRAILING_SLASHES, true, true);
+
+		$this->repair->run($this->createMock(IOutput::class));
+
+		$this->assertSame($expectedFileTarget, $this->getSingleFileTarget());
+	}
+
+	public function testRemoveTrailingSlashFromFileTargetSkippedWhenAlreadyRun(): void {
+		$this->addShareWithTarget('/rename_folder/First_share_the_file.odt/');
+
+		$this->appConfig->method('getValueBool')
+			->with('core', ConfigLexicon::SHARE_REPAIR_REMOVED_TRAILING_SLASHES, false, true)
+			->willReturn(true);
+		$this->appConfig->expects($this->never())
+			->method('setValueBool');
+
+		$this->repair->run($this->createMock(IOutput::class));
+
+		$this->assertSame('/rename_folder/First_share_the_file.odt/', $this->getSingleFileTarget());
 	}
 
 	public static function fileSharePermissionsProvider(): array {

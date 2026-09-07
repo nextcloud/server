@@ -21,6 +21,7 @@ class RepairInvalidShares implements IRepairStep {
 	public function __construct(
 		protected IConfig $config,
 		protected IDBConnection $connection,
+		protected IAppConfig $appConfig,
 	) {
 	}
 
