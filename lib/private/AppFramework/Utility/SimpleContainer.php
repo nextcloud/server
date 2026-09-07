@@ -165,12 +165,26 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		return $object;
 	}
 
-	#[\Override]
+	/**
+	 * A value is stored in the container with its corresponding name
+	 *
+	 * @since 6.0.0
+	 * @internal apps should use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerParameter
+	 */
 	public function registerParameter(string $name, mixed $value): void {
-		$this[$name] = $value;
+		$this->container[$name] = $value;
 	}
 
-	#[\Override]
+	/**
+	 * A service is registered in the container where a closure is passed in which will actually
+	 * create the service on demand.
+	 * In case the parameter $shared is set to true (the default usage) the once created service will remain in
+	 * memory and be reused on subsequent calls.
+	 * In case the parameter is false the service will be recreated on every call.
+	 *
+	 * @param \Closure(IContainer): mixed $closure
+	 * @internal apps should use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerService
+	 */
 	public function registerService(string $name, Closure $closure, bool $shared = true): void {
 		$wrapped = function () use ($closure) {
 			return $closure($this);
