@@ -15,6 +15,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OC\Memcache\Factory as CacheFactory;
+use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\AppFramework\Utility\IPersistentServiceInvalidator;
 use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\Config\Lexicon\Entry;
@@ -53,6 +54,7 @@ use Psr\Log\LoggerInterface;
  * @since 7.0.0
  * @since 29.0.0 - Supporting types and lazy loading
  */
+#[PersistAcrossRequests(invalidatedBy: [PersistentServiceGroup::Config, PersistentServiceGroup::Apps])]
 class AppConfig implements IAppConfig {
 	private const int APP_MAX_LENGTH = 32;
 	private const int KEY_MAX_LENGTH = 64;

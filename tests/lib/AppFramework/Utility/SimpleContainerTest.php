@@ -34,6 +34,10 @@ class ClassPersistAcrossRequestsWithGroup {
 class ClassPersistAcrossRequestsWithEnumGroup {
 }
 
+#[PersistAcrossRequests(invalidatedBy: ['cyclic-group'])]
+class ClassWithCyclicInvalidationDependency {
+}
+
 class ClassEmptyConstructor implements IInterfaceConstructor {
 }
 
@@ -210,6 +214,34 @@ class SimpleContainerTest extends \Test\TestCase {
 		$container2 = new SimpleContainer();
 		$registerInvalidator($container2);
 		$this->assertNotSame($object, $container2->get(ClassPersistAcrossRequestsWithEnumGroup::class));
+	}
+
+	/**
+	 * Regression test: a persisted class's own invalidation check must not be able to recurse
+	 * forever if, while checking generations, it ends up resolving another persisted class (this
+	 * happened for real via Memcache\Factory::getGlobalPrefix() calling back into a persisted
+	 * IAppConfig).
+	 */
+	public function testCyclicInvalidationDependencyDoesNotRecurseForever(): void {
+		SimpleContainer::$keepPersistentServices = true;
+
+		$container = $this->container;
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createDistributed')->willReturnCallback(function () use ($container) {
+			// Simulates getGlobalPrefix() resolving another persisted class while this
+			// invalidator is itself being built as part of a generation check.
+			$container->get(ClassWithCyclicInvalidationDependency::class);
+			return new ArrayCache();
+		});
+		$container->registerService(PersistentServiceInvalidator::class, function () use ($cacheFactory) {
+			return new PersistentServiceInvalidator($cacheFactory);
+		});
+
+		$object = $container->get(ClassWithCyclicInvalidationDependency::class);
+
+		$this->assertInstanceOf(ClassWithCyclicInvalidationDependency::class, $object);
+		// The outer resolution still completes and gets cached normally.
+		$this->assertSame($object, $container->get(ClassWithCyclicInvalidationDependency::class));
 	}
 
 	public function testConstructorSimple(): void {

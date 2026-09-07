@@ -19,7 +19,6 @@ use OCP\Server;
 use OCP\Share\Events\VerifyMountPointEvent;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyEventDispatcher;
 
@@ -49,7 +48,6 @@ class ShareTargetValidatorTest extends TestCase {
 
 		$this->eventDispatcher = new EventDispatcher(
 			new SymfonyEventDispatcher(),
-			Server::get(ContainerInterface::class),
 			$this->createMock(LoggerInterface::class),
 		);
 		$this->targetValidator = new ShareTargetValidator(

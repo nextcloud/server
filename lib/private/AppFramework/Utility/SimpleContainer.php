@@ -59,6 +59,16 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	private static array $persistentBuiltAt = [];
 
 	/**
+	 * Guards against re-entering a generation check: PersistentServiceInvalidator's own
+	 * dependency chain (via Memcache\Factory::getGlobalPrefix()) can resolve another persisted
+	 * class, which would otherwise recurse into checking generations forever. While true, a class
+	 * with the attribute is resolved as if it didn't have it, rather than looping.
+	 *
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 */
+	private static bool $checkingGenerations = false;
+
+	/**
 	 * @internal
 	 */
 	public static function resetPersistentInstances(): void {
@@ -66,6 +76,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		self::$persistentGenerations = [];
 		self::$persistentBuiltAt = [];
 		self::$keepPersistentServices = false;
+		self::$checkingGenerations = false;
 	}
 
 	protected Container $container;
@@ -182,7 +193,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			}
 
 			$attributes = $class->getAttributes(PersistAcrossRequests::class);
-			$isPersistent = self::$keepPersistentServices && !empty($attributes);
+			$isPersistent = self::$keepPersistentServices && !empty($attributes) && !self::$checkingGenerations;
 			$className = $class->getName();
 			$groups = $isPersistent
 				? array_map(
@@ -230,12 +241,17 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		if (empty($groups)) {
 			return [];
 		}
-		$invalidator = $this->get(PersistentServiceInvalidator::class);
-		$generations = [];
-		foreach ($groups as $group) {
-			$generations[$group] = $invalidator->getGeneration($group);
+		self::$checkingGenerations = true;
+		try {
+			$invalidator = $this->get(PersistentServiceInvalidator::class);
+			$generations = [];
+			foreach ($groups as $group) {
+				$generations[$group] = $invalidator->getGeneration($group);
+			}
+			return $generations;
+		} finally {
+			self::$checkingGenerations = false;
 		}
-		return $generations;
 	}
 
 	/**

@@ -16,7 +16,6 @@ use OCP\Broadcast\Events\IBroadcastEvent;
 use OCP\EventDispatcher\ABroadcastedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
 use function get_class;
@@ -24,7 +23,6 @@ use function get_class;
 class EventDispatcher implements IEventDispatcher {
 	public function __construct(
 		private SymfonyDispatcher $dispatcher,
-		private ContainerInterface $container,
 		private LoggerInterface $logger,
 	) {
 		// inject the event dispatcher into the logger
@@ -52,7 +50,6 @@ class EventDispatcher implements IEventDispatcher {
 		string $className,
 		int $priority = 0): void {
 		$listener = new ServiceEventListener(
-			$this->container,
 			$className,
 			$this->logger
 		);
