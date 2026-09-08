@@ -2469,6 +2469,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\User\\Database' => __DIR__ . '/../../..' . '/lib/private/User/Database.php',
         'OC\\User\\DisabledUserException' => __DIR__ . '/../../..' . '/lib/private/User/DisabledUserException.php',
         'OC\\User\\DisplayNameCache' => __DIR__ . '/../../..' . '/lib/private/User/DisplayNameCache.php',
+        'OC\\User\\LastInteractiveLogin' => __DIR__ . '/../../..' . '/lib/private/User/LastInteractiveLogin.php',
         'OC\\User\\LazyUser' => __DIR__ . '/../../..' . '/lib/private/User/LazyUser.php',
         'OC\\User\\Listeners\\BeforeUserDeletedListener' => __DIR__ . '/../../..' . '/lib/private/User/Listeners/BeforeUserDeletedListener.php',
         'OC\\User\\Listeners\\UserChangedListener' => __DIR__ . '/../../..' . '/lib/private/User/Listeners/UserChangedListener.php',
