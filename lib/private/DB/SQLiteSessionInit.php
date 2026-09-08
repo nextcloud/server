@@ -30,9 +30,9 @@ class SQLiteSessionInit implements EventSubscriber {
 		$connection = $args->getConnection()->getWrappedConnection();
 		$pdo = $connection->getWrappedConnection();
 
-		$regexSubstr = function ($string, $pattern): ?string {
+		$regexSubstr = function ($string, $pattern): string {
 			if (is_null($string) || is_null($pattern)) {
-				return null;
+				return '';
 			} else {
 				$string = (string)$string;
 				$pattern = str_replace('#', '\#', (string)$pattern);
@@ -41,7 +41,7 @@ class SQLiteSessionInit implements EventSubscriber {
 			$matches = [];
 			$result = preg_match("#$pattern#", $string, $matches);
 			if ($result === 0 || $result === false) {
-				return null;
+				return '';
 			} else {
 				return $matches[0];
 			}

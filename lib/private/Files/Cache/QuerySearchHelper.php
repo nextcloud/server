@@ -118,6 +118,13 @@ class QuerySearchHelper {
 			));
 	}
 
+	protected function equipQueryForMounts(CacheQueryBuilder $query, IUser $user): void {
+		$query
+			->leftJoin('file', 'mounts', 'm', $query->expr()->andX(
+				$query->expr()->eq('m.root_id', 'file.fileid'),
+				$query->expr()->eq('m.user_id', $query->createNamedParameter($user->getUID()))
+			));
+	}
 
 	protected function equipQueryForShares(CacheQueryBuilder $query): void {
 		$query->join('file', 'share', 's', $query->expr()->eq('file.fileid', 's.file_source'));
@@ -172,6 +179,9 @@ class QuerySearchHelper {
 		}
 		if (in_array('owner', $requestedFields) || in_array('share_with', $requestedFields) || in_array('share_type', $requestedFields)) {
 			$this->equipQueryForShares($query);
+		}
+		if (in_array('mount_point_name', $requestedFields, true)) {
+			$this->equipQueryForMounts($query, $this->requireUser($searchQuery));
 		}
 
 		$metadataQuery = $query->selectMetadata();
