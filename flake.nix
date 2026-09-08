@@ -16,7 +16,7 @@
 	  };
 	};
     haze = {
-      url = "git+https://codeberg.org/icewind/haze.git";
+      url = "git+https://codeberg.org/icewind/haze";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         phps.follows = "phps";
