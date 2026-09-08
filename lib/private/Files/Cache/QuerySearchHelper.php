@@ -10,7 +10,6 @@ namespace OC\Files\Cache;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\QueryOptimizer\QueryOptimizer;
 use OC\Files\Search\SearchBinaryOperator;
-use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -24,22 +23,19 @@ use OCP\FilesMetadata\IMetadataQuery;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
-use Psr\Log\LoggerInterface;
 
 class QuerySearchHelper {
 	public function __construct(
-		private IMimeTypeLoader $mimetypeLoader,
-		private IDBConnection $connection,
-		private SystemConfig $systemConfig,
-		private LoggerInterface $logger,
-		private SearchBuilder $searchBuilder,
-		private QueryOptimizer $queryOptimizer,
-		private IGroupManager $groupManager,
-		private IFilesMetadataManager $filesMetadataManager,
+		private readonly IMimeTypeLoader $mimetypeLoader,
+		private readonly IDBConnection $connection,
+		private readonly SearchBuilder $searchBuilder,
+		private readonly QueryOptimizer $queryOptimizer,
+		private readonly IGroupManager $groupManager,
+		private readonly IFilesMetadataManager $filesMetadataManager,
 	) {
 	}
 
-	protected function getQueryBuilder() {
+	protected function getQueryBuilder(): CacheQueryBuilder {
 		return new CacheQueryBuilder(
 			$this->connection->getQueryBuilder(),
 			$this->filesMetadataManager,
@@ -210,7 +206,7 @@ class QuerySearchHelper {
 	}
 
 	/**
-	 * @return list{0?: array<array-key, ICache>, 1?: array<array-key, IMountPoint>}
+	 * @return array{0?: array<array-key, ICache>, 1?: array<array-key, IMountPoint>}
 	 */
 	public function getCachesAndMountPointsForSearch(IRootFolder $root, string $path, bool $limitToHome = false): array {
 		$rootLength = strlen($path);
@@ -224,10 +220,10 @@ class QuerySearchHelper {
 		if ($internalPath !== '') {
 			// a temporary CacheJail is used to handle filtering down the results to within this folder
 			/** @var ICache[] $caches */
-			$caches = ['' => new CacheJail($storage->getCache(''), $internalPath)];
+			$caches = ['' => new CacheJail($storage->getCache(), $internalPath)];
 		} else {
 			/** @var ICache[] $caches */
-			$caches = ['' => $storage->getCache('')];
+			$caches = ['' => $storage->getCache()];
 		}
 		/** @var IMountPoint[] $mountByMountPoint */
 		$mountByMountPoint = ['' => $mount];
@@ -238,7 +234,7 @@ class QuerySearchHelper {
 				$storage = $mount->getStorage();
 				if ($storage) {
 					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
-					$caches[$relativeMountPoint] = $storage->getCache('');
+					$caches[$relativeMountPoint] = $storage->getCache();
 					$mountByMountPoint[$relativeMountPoint] = $mount;
 				}
 			}
