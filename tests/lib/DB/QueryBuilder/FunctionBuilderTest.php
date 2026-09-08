@@ -11,6 +11,7 @@ use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 /**
@@ -486,5 +487,33 @@ class FunctionBuilderTest extends TestCase {
 		$row = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals(1, $row);
+	}
+
+	public static function regexSubstringData(): array {
+		return [
+			['foobar', 'foo', 'foo'],
+			['foobar', 'b.+$', 'bar'],
+			['foo#bar', 'ba.+r$', null],
+			['foo#bar', 'o#.', 'o#b'],
+			['a/file/path', '[^/]+$', 'path'],
+		];
+	}
+
+	#[DataProvider('regexSubstringData')]
+	public function testRegexSubstring(string $input, string $pattern, ?string $expected): void {
+		error_reporting(E_ALL);
+		$query = $this->connection->getQueryBuilder();
+
+		$query->select($query->func()->regexSubstring(
+			$query->createNamedParameter($input),
+			$query->createNamedParameter($pattern),
+		));
+		$query->from('appconfig')
+			->setMaxResults(1);
+
+		$result = $query->executeQuery();
+		$row = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals($expected, $row);
 	}
 }
