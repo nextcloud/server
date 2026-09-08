@@ -101,7 +101,7 @@ OC.L10N.register(
     "Saved allowed backends" : "Backends permitidos guardados",
     "Failed to save allowed backends" : "No se pudieron guardar los backends permitidos",
     "Advanced options for external storage mounts" : "Opciones avanzadas para almacenamiento externo",
-    "Allow people to mount external storage" : "Permite que as persoas monten almacenamento externo",
+    "Allow people to mount external storage" : "Permite que las personas monten almacenamiento externo",
     "External storage backends people are allowed to mount" : "Las personas pueden montar los backends de almacenamiento externo",
     "Error generating key pair" : "Error al generar el par de claves",
     "Key size" : "Tamaño de llave",
