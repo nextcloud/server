@@ -50,7 +50,7 @@ OC.L10N.register(
     "{temperature} {unit} partly cloudy and polar twilight" : "{temperature} {unit}, cerah berawan dan senja kutub",
     "{temperature} {unit} light rain and thunder later today" : "{temperature} {unit}, hujan ringan dan petir pada hari ini",
     "{temperature} {unit} light rain and thunder" : "{temperature} {unit}, hujan ringan dan petir",
-    "{temperature} {unit} rain and thunder later today" : "{temperature} {unit}, hujan dan petir pada hari ini\n\n||ROW_51",
+    "{temperature} {unit} rain and thunder later today" : "{temperature} {unit}, hujan dan petir pada hari ini",
     "{temperature} {unit} rain and thunder" : "{temperature} {unit} hujan dan petir",
     "{temperature} {unit} heavy rain and thunder later today" : "{temperature} {unit} hujan lebat dan petir pada hari ini",
     "{temperature} {unit} heavy rain and thunder" : "{temperature} {unit} hujan lebat dan petir",
