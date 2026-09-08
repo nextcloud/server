@@ -252,7 +252,7 @@
     "%1$s updated \"%2$s\" on your behalf" : "%1$s memperbarui \"%2$s\" atas nama Anda",
     "%1$s updated \"%2$s\" on your calendar \"%3$s\"" : "%1$s memperbarui \"%2$s\" pada kalender Anda \"%3$s\"",
     "%1$s deleted \"%2$s\" on your behalf" : "%1$s menghapus \"%2$s\" atas nama Anda",
-    "%1$s permanently deleted \"%2$s\" from your calendar \"%3$s\"" : "%1$s menghapus \"%2$s\" secara permanen dari kalender Anda \"%3$s\"\n\n||ROW_255",
+    "%1$s permanently deleted \"%2$s\" from your calendar \"%3$s\"" : "%1$s menghapus \"%2$s\" secara permanen dari kalender Anda \"%3$s\"",
     "%1$s moved \"%2$s\" to the trash on your behalf" : "%1$s memindahkan \"%2$s\" ke sampah atas nama Anda",
     "%1$s moved \"%2$s\" to the trash on your calendar \"%3$s\"" : "%1$s memindahkan \"%2$s\" ke sampah pada kalender Anda \"%3$s\"",
     "%1$s restored \"%2$s\" on your behalf" : "%1$s memulihkan \"%2$s\" atas nama Anda",
