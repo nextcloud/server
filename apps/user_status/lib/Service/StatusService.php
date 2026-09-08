@@ -17,9 +17,11 @@ use OCA\UserStatus\Exception\InvalidStatusIconException;
 use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IEmojiHelper;
 use OCP\IUserManager;
 use OCP\UserStatus\IUserStatus;
@@ -32,6 +34,8 @@ use function in_array;
  * @package OCA\UserStatus\Service
  */
 class StatusService {
+	use TTransactional;
+
 	private bool $shareeEnumeration;
 	private bool $shareeEnumerationInGroupOnly;
 	private bool $shareeEnumerationPhone;
@@ -84,6 +88,7 @@ class StatusService {
 		private IConfig $config,
 		private IUserManager $userManager,
 		private LoggerInterface $logger,
+		private IDBConnection $connection,
 	) {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
@@ -536,69 +541,83 @@ class StatusService {
 		}
 	}
 
+	/**
+	 * Looking up the backup, dropping the automated status and promoting the backup
+	 * back to the live row is one unit: in between, the user has no live row and the
+	 * backup looks stranded to the cleanup job, which would delete it.
+	 */
 	public function revertUserStatus(string $userId, string $messageId, bool $revertedManually = false): ?UserStatus {
-		try {
-			/** @var UserStatus $userStatus */
-			$backupUserStatus = $this->mapper->findByUserId($userId, true);
-		} catch (DoesNotExistException $ex) {
-			// No backup, but the status must go or the user stays stuck on it.
-			if ($this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId)) {
-				$this->logger->debug('Cleared automated status "' . $messageId . '" for user ' . $userId . ': there was no backup to restore', ['app' => 'user_status']);
+		return $this->atomic(function () use ($userId, $messageId, $revertedManually): ?UserStatus {
+			try {
+				/** @var UserStatus $userStatus */
+				$backupUserStatus = $this->mapper->findByUserId($userId, true);
+			} catch (DoesNotExistException $ex) {
+				// No backup, but the status must go or the user stays stuck on it.
+				if ($this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId)) {
+					$this->logger->debug('Cleared automated status "' . $messageId . '" for user ' . $userId . ': there was no backup to restore', ['app' => 'user_status']);
+				}
+				return null;
 			}
-			return null;
-		}
 
-		$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId);
-		if (!$deleted) {
-			$this->logger->debug('Status revert skipped for user ' . $userId . ': current status does not match messageId "' . $messageId . '" (user may have changed status manually)', ['app' => 'user_status']);
-			return null;
-		}
+			$deleted = $this->mapper->deleteCurrentStatusToRestoreBackup($userId, $messageId);
+			if (!$deleted) {
+				$this->logger->debug('Status revert skipped for user ' . $userId . ': current status does not match messageId "' . $messageId . '" (user may have changed status manually)', ['app' => 'user_status']);
+				return null;
+			}
 
-		if ($revertedManually && $backupUserStatus->getStatus() === IUserStatus::OFFLINE) {
-			// When the user reverts the status manually they are online
-			$backupUserStatus->setStatus(IUserStatus::ONLINE);
-		}
+			if ($revertedManually && $backupUserStatus->getStatus() === IUserStatus::OFFLINE) {
+				// When the user reverts the status manually they are online
+				$backupUserStatus->setStatus(IUserStatus::ONLINE);
+			}
 
-		// Stale after a long meeting otherwise, which reads as offline.
-		$backupUserStatus->setStatusTimestamp($this->timeFactory->getTime());
+			// Stale after a long meeting otherwise, which reads as offline.
+			$backupUserStatus->setStatusTimestamp($this->timeFactory->getTime());
 
-		$backupUserStatus->setIsBackup(false);
-		// Remove the underscore prefix added when creating the backup
-		$backupUserStatus->setUserId(substr($backupUserStatus->getUserId(), 1));
-		$this->mapper->update($backupUserStatus);
+			$backupUserStatus->setIsBackup(false);
+			// Remove the underscore prefix added when creating the backup
+			$backupUserStatus->setUserId(substr($backupUserStatus->getUserId(), 1));
+			$this->mapper->update($backupUserStatus);
 
-		return $backupUserStatus;
+			return $backupUserStatus;
+		}, $this->connection);
 	}
 
+	/**
+	 * Same unit as revertUserStatus(), for the bulk path: the ids are read, the
+	 * automated statuses deleted and the backups restored in one transaction, so
+	 * the cleanup job never sees a backup without its live row.
+	 */
 	public function revertMultipleUserStatus(array $userIds, string $messageId): void {
-		// Get all user statuses and the backups
-		$findById = $userIds;
-		foreach ($userIds as $userId) {
-			$findById[] = '_' . $userId;
-		}
-		$userStatuses = $this->mapper->findByUserIds($findById);
-
-		$backups = $restoreIds = $statuesToDelete = [];
-		foreach ($userStatuses as $userStatus) {
-			if (!$userStatus->getIsBackup()
-				&& $userStatus->getMessageId() === $messageId) {
-				$statuesToDelete[$userStatus->getUserId()] = $userStatus->getId();
-			} elseif ($userStatus->getIsBackup()) {
-				$backups[$userStatus->getUserId()] = $userStatus->getId();
+		$this->atomic(function () use ($userIds, $messageId): void {
+			// Get all user statuses and the backups
+			$findById = $userIds;
+			foreach ($userIds as $userId) {
+				$findById[] = '_' . $userId;
 			}
-		}
+			$userStatuses = $this->mapper->findByUserIds($findById);
 
-		// For users with both (normal and backup) delete the status when matching
-		foreach ($statuesToDelete as $userId => $statusId) {
-			$backupUserId = '_' . $userId;
-			if (isset($backups[$backupUserId])) {
-				$restoreIds[] = $backups[$backupUserId];
+			$backups = $restoreIds = $statuesToDelete = [];
+			foreach ($userStatuses as $userStatus) {
+				if (!$userStatus->getIsBackup()
+					&& $userStatus->getMessageId() === $messageId) {
+					$statuesToDelete[$userStatus->getUserId()] = $userStatus->getId();
+				} elseif ($userStatus->getIsBackup()) {
+					$backups[$userStatus->getUserId()] = $userStatus->getId();
+				}
 			}
-		}
 
-		$this->mapper->deleteByIds(array_values($statuesToDelete));
+			// For users with both (normal and backup) delete the status when matching
+			foreach ($statuesToDelete as $userId => $statusId) {
+				$backupUserId = '_' . $userId;
+				if (isset($backups[$backupUserId])) {
+					$restoreIds[] = $backups[$backupUserId];
+				}
+			}
 
-		$this->mapper->restoreBackupStatuses($restoreIds, $this->timeFactory->getTime());
+			$this->mapper->deleteByIds(array_values($statuesToDelete));
+
+			$this->mapper->restoreBackupStatuses($restoreIds, $this->timeFactory->getTime());
+		}, $this->connection);
 	}
 
 	protected function insertWithoutThrowingUniqueConstrain(UserStatus $userStatus): UserStatus {

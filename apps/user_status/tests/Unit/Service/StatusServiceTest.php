@@ -22,6 +22,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IEmojiHelper;
 use OCP\IUserManager;
 use OCP\UserStatus\IUserStatus;
@@ -37,6 +38,7 @@ class StatusServiceTest extends TestCase {
 	private IConfig&MockObject $config;
 	private IUserManager&MockObject $userManager;
 	private LoggerInterface&MockObject $logger;
+	private IDBConnection&MockObject $connection;
 
 	private StatusService $service;
 
@@ -50,6 +52,7 @@ class StatusServiceTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->connection = $this->createMock(IDBConnection::class);
 
 		$this->config->method('getAppValue')
 			->willReturnMap([
@@ -64,6 +67,7 @@ class StatusServiceTest extends TestCase {
 			$this->config,
 			$this->userManager,
 			$this->logger,
+			$this->connection,
 		);
 	}
 
@@ -121,6 +125,7 @@ class StatusServiceTest extends TestCase {
 			$this->config,
 			$this->userManager,
 			$this->logger,
+			$this->connection,
 		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -141,6 +146,7 @@ class StatusServiceTest extends TestCase {
 			$this->config,
 			$this->userManager,
 			$this->logger,
+			$this->connection,
 		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -869,6 +875,151 @@ class StatusServiceTest extends TestCase {
 			->with([2], 1337);
 
 		$this->service->revertMultipleUserStatus(['john', 'nobackup', 'backuponly', 'nobackupanddnd'], 'call');
+	}
+
+	/**
+	 * The delete and the restore must not be observable separately: in between, the
+	 * backup has no live row and the cleanup job would treat it as stranded.
+	 */
+	public function testRevertUserStatusRunsInOneTransaction(): void {
+		$backup = new UserStatus();
+		$backup->setId(2);
+		$backup->setUserId('_john');
+		$backup->setStatus(IUserStatus::ONLINE);
+		$backup->setStatusTimestamp(1000);
+		$backup->setIsBackup(true);
+
+		$calls = [];
+		$this->connection->expects($this->once())
+			->method('beginTransaction')
+			->willReturnCallback(function () use (&$calls): void {
+				$calls[] = 'begin';
+			});
+		$this->connection->expects($this->once())
+			->method('commit')
+			->willReturnCallback(function () use (&$calls): void {
+				$calls[] = 'commit';
+			});
+		$this->connection->expects($this->never())->method('rollBack');
+
+		$this->mapper->method('findByUserId')
+			->with('john', true)
+			->willReturnCallback(function () use (&$calls, $backup): UserStatus {
+				$calls[] = 'find';
+				return $backup;
+			});
+		$this->mapper->method('deleteCurrentStatusToRestoreBackup')
+			->willReturnCallback(function () use (&$calls): bool {
+				$calls[] = 'delete';
+				return true;
+			});
+		$this->mapper->method('update')
+			->willReturnCallback(function (UserStatus $status) use (&$calls): UserStatus {
+				$calls[] = 'restore';
+				return $status;
+			});
+		$this->timeFactory->method('getTime')->willReturn(9999);
+
+		$this->service->revertUserStatus('john', 'meeting');
+
+		self::assertSame(['begin', 'find', 'delete', 'restore', 'commit'], $calls);
+	}
+
+	public function testRevertUserStatusRollsBackWhenTheRestoreFails(): void {
+		$backup = new UserStatus();
+		$backup->setId(2);
+		$backup->setUserId('_john');
+		$backup->setStatus(IUserStatus::ONLINE);
+		$backup->setIsBackup(true);
+
+		$this->mapper->method('findByUserId')->with('john', true)->willReturn($backup);
+		$this->mapper->method('deleteCurrentStatusToRestoreBackup')->willReturn(true);
+		$this->timeFactory->method('getTime')->willReturn(9999);
+		$this->mapper->method('update')->willThrowException(new \RuntimeException('nope'));
+
+		$this->connection->expects($this->once())->method('beginTransaction');
+		$this->connection->expects($this->never())->method('commit');
+		// Without the rollback the automated status would stay deleted while the
+		// backup keeps its backup flag, which strands the backup for good.
+		$this->connection->expects($this->once())->method('rollBack');
+
+		$this->expectException(\RuntimeException::class);
+
+		$this->service->revertUserStatus('john', 'meeting');
+	}
+
+	public function testRevertMultipleUserStatusRunsInOneTransaction(): void {
+		$live = new UserStatus();
+		$live->setId(1);
+		$live->setUserId('john');
+		$live->setMessageId('call');
+		$live->setIsBackup(false);
+
+		$backup = new UserStatus();
+		$backup->setId(2);
+		$backup->setUserId('_john');
+		$backup->setMessageId('hello');
+		$backup->setIsBackup(true);
+
+		$calls = [];
+		$this->connection->expects($this->once())
+			->method('beginTransaction')
+			->willReturnCallback(function () use (&$calls): void {
+				$calls[] = 'begin';
+			});
+		$this->connection->expects($this->once())
+			->method('commit')
+			->willReturnCallback(function () use (&$calls): void {
+				$calls[] = 'commit';
+			});
+		$this->connection->expects($this->never())->method('rollBack');
+
+		$this->mapper->method('findByUserIds')
+			->willReturnCallback(function () use (&$calls, $live, $backup): array {
+				$calls[] = 'find';
+				return [$live, $backup];
+			});
+		$this->mapper->method('deleteByIds')
+			->willReturnCallback(function (array $ids) use (&$calls): int {
+				$calls[] = 'delete';
+				return count($ids);
+			});
+		$this->mapper->method('restoreBackupStatuses')
+			->willReturnCallback(function () use (&$calls): void {
+				$calls[] = 'restore';
+			});
+		$this->timeFactory->method('getTime')->willReturn(1337);
+
+		$this->service->revertMultipleUserStatus(['john'], 'call');
+
+		self::assertSame(['begin', 'find', 'delete', 'restore', 'commit'], $calls);
+	}
+
+	public function testRevertMultipleUserStatusRollsBackWhenTheRestoreFails(): void {
+		$live = new UserStatus();
+		$live->setId(1);
+		$live->setUserId('john');
+		$live->setMessageId('call');
+		$live->setIsBackup(false);
+
+		$backup = new UserStatus();
+		$backup->setId(2);
+		$backup->setUserId('_john');
+		$backup->setMessageId('hello');
+		$backup->setIsBackup(true);
+
+		$this->mapper->method('findByUserIds')->willReturn([$live, $backup]);
+		$this->mapper->method('deleteByIds')->willReturn(1);
+		$this->timeFactory->method('getTime')->willReturn(1337);
+		$this->mapper->method('restoreBackupStatuses')->willThrowException(new \RuntimeException('nope'));
+
+		$this->connection->expects($this->once())->method('beginTransaction');
+		$this->connection->expects($this->never())->method('commit');
+		$this->connection->expects($this->once())->method('rollBack');
+
+		$this->expectException(\RuntimeException::class);
+
+		$this->service->revertMultipleUserStatus(['john'], 'call');
 	}
 
 	public static function dataSetUserStatus(): array {
