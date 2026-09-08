@@ -172,6 +172,9 @@ class QuerySearchHelper {
 		if (in_array('owner', $requestedFields) || in_array('share_with', $requestedFields) || in_array('share_type', $requestedFields)) {
 			$this->equipQueryForShares($query);
 		}
+		if (in_array('mount_point_name', $requestedFields, true)) {
+			$this->equipQueryForMounts($query, $this->requireUser($searchQuery));
+		}
 
 		$metadataQuery = $query->selectMetadata();
 

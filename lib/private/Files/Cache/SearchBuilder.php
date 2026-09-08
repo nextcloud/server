@@ -8,6 +8,7 @@
 namespace OC\Files\Cache;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
@@ -66,6 +67,7 @@ class SearchBuilder {
 		'owner' => 'string',
 		'creation_time' => 'integer',
 		'upload_time' => 'integer',
+		'mount_point_name' => 'string',
 	];
 
 	/** @var array<string, int|string> */
@@ -162,7 +164,7 @@ class SearchBuilder {
 		if ($comparison->getExtra()) {
 			[$field, $value, $type, $paramType] = $this->getExtraOperatorField($comparison, $metadataQuery);
 		} else {
-			[$field, $value, $type, $paramType] = $this->getOperatorFieldAndValue($comparison);
+			[$field, $value, $type, $paramType] = $this->getOperatorFieldAndValue($builder, $comparison);
 		}
 
 		if (isset($operatorMap[$type])) {
@@ -177,13 +179,13 @@ class SearchBuilder {
 	 * @param ISearchComparison $operator
 	 * @return list{string, ParamValue, string, string}
 	 */
-	private function getOperatorFieldAndValue(ISearchComparison $operator): array {
+	private function getOperatorFieldAndValue(IQueryBuilder $builder, ISearchComparison $operator): array {
 		$this->validateComparison($operator);
 		$field = $operator->getField();
 		$value = $operator->getValue();
 		$type = $operator->getType();
 		$pathEqHash = $operator->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true);
-		return $this->getOperatorFieldAndValueInner($field, $value, $type, $pathEqHash);
+		return $this->getOperatorFieldAndValueInner($builder, $field, $value, $type, $pathEqHash);
 	}
 
 	/**
@@ -199,7 +201,7 @@ class SearchBuilder {
 			$values = [];
 			foreach ($value as $arrayValue) {
 				/** @var ParamSingleValue $arrayValue */
-				[$arrayField, $arrayValue] = $this->getOperatorFieldAndValueInner($field, $arrayValue, ISearchComparison::COMPARE_EQUAL, $pathEqHash);
+				[$arrayField, $arrayValue] = $this->getOperatorFieldAndValueInner($builder, $field, $arrayValue, ISearchComparison::COMPARE_EQUAL, $pathEqHash);
 				$resultField = $arrayField;
 				$values[] = $arrayValue;
 			}
@@ -240,6 +242,9 @@ class SearchBuilder {
 			$value = md5((string)$value);
 		} elseif ($field === 'owner') {
 			$field = 'uid_owner';
+		} elseif ($field === 'mount_point_name') {
+			$field = $builder->func()->regexSubstring('mount_point', $builder->createNamedParameter('[^/]+/$'));
+			$value = $value . '/';
 		}
 		return [$field, $value, $type, $paramType];
 	}
@@ -261,6 +266,7 @@ class SearchBuilder {
 			'owner' => ['eq'],
 			'creation_time' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 			'upload_time' => ['eq', 'gt', 'lt', 'gte', 'lte'],
+			'mount_point_name' => ['eq', 'like', 'clike', 'in'],
 		];
 
 		if (!isset(self::$fieldTypes[$operator->getField()])) {
