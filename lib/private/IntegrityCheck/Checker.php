@@ -347,24 +347,39 @@ class Checker {
 		$differences = array_unique(array_merge($differencesA, $differencesB));
 		$differenceArray = [];
 		foreach ($differences as $filename => $hash) {
+			$reportedFilename = $filename;
+			if ($certificateCN !== 'core') {
+				$serverRoot = $this->environmentHelper->getServerRoot();
+				$normalizedServerRoot = str_replace('\\', '/', $serverRoot);
+				$normalizedBasePath = str_replace('\\', '/', $basePath);
+				if (str_starts_with($normalizedBasePath, $normalizedServerRoot)) {
+					$relativeAppPath = substr($normalizedBasePath, strlen($normalizedServerRoot));
+					$relativeAppPath = ltrim($relativeAppPath, '/');
+					$relativeAppPath = rtrim($relativeAppPath, '/');
+					$reportedFilename = $relativeAppPath . '/' . $filename;
+				} else {
+					$reportedFilename = 'apps/' . $certificateCN . '/' . $filename;
+				}
+			}
+
 			// Check if file should not exist in the new signature table
 			if (!array_key_exists($filename, $expectedHashes)) {
-				$differenceArray['EXTRA_FILE'][$filename]['expected'] = '';
-				$differenceArray['EXTRA_FILE'][$filename]['current'] = $hash;
+				$differenceArray['EXTRA_FILE'][$reportedFilename]['expected'] = '';
+				$differenceArray['EXTRA_FILE'][$reportedFilename]['current'] = $hash;
 				continue;
 			}
 
 			// Check if file is missing
 			if (!array_key_exists($filename, $currentInstanceHashes)) {
-				$differenceArray['FILE_MISSING'][$filename]['expected'] = $expectedHashes[$filename];
-				$differenceArray['FILE_MISSING'][$filename]['current'] = '';
+				$differenceArray['FILE_MISSING'][$reportedFilename]['expected'] = $expectedHashes[$filename];
+				$differenceArray['FILE_MISSING'][$reportedFilename]['current'] = '';
 				continue;
 			}
 
 			// Check if hash does mismatch
 			if ($expectedHashes[$filename] !== $currentInstanceHashes[$filename]) {
-				$differenceArray['INVALID_HASH'][$filename]['expected'] = $expectedHashes[$filename];
-				$differenceArray['INVALID_HASH'][$filename]['current'] = $currentInstanceHashes[$filename];
+				$differenceArray['INVALID_HASH'][$reportedFilename]['expected'] = $expectedHashes[$filename];
+				$differenceArray['INVALID_HASH'][$reportedFilename]['current'] = $currentInstanceHashes[$filename];
 				continue;
 			}
 

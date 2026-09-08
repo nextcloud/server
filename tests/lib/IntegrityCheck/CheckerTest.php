@@ -277,6 +277,10 @@ class CheckerTest extends TestCase {
 			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
+		$this->environmentHelper
+			->expects($this->any())
+			->method('getServerRoot')
+			->willReturn(\OC::$SERVERROOT);
 
 		$this->appManager
 			->expects($this->once())
@@ -296,24 +300,24 @@ class CheckerTest extends TestCase {
 			->method('file_get_contents')
 			->willReturnMap([
 				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//appinfo/signature.json', $signatureDataFile],
-				['/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+				[\OC::$SERVERROOT . '/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
 			]);
 
 		$expected = [
 			'INVALID_HASH' => [
-				'AnotherFile.txt' => [
+				'tests/data/integritycheck/appWithInvalidData/AnotherFile.txt' => [
 					'expected' => '1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112',
 					'current' => '7322348ba269c6d5522efe02f424fa3a0da319a7cd9c33142a5afe32a2d9af2da3a411f086fcfc96ff4301ea566f481dba0960c2abeef3594c4d930462f6584c',
 				],
 			],
 			'FILE_MISSING' => [
-				'subfolder/file.txt' => [
+				'tests/data/integritycheck/appWithInvalidData/subfolder/file.txt' => [
 					'expected' => '410738545fb623c0a5c8a71f561e48ea69e3ada0981a455e920a5ae9bf17c6831ae654df324f9328ff8453de179276ae51931cca0fa71fe8ccde6c083ca0574b',
 					'current' => '',
 				],
 			],
 			'EXTRA_FILE' => [
-				'UnecessaryFile' => [
+				'tests/data/integritycheck/appWithInvalidData/UnecessaryFile' => [
 					'expected' => '',
 					'current' => 'cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e',
 				],
@@ -332,6 +336,10 @@ class CheckerTest extends TestCase {
 			->method('getSystemValueBool')
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
+		$this->environmentHelper
+			->expects($this->any())
+			->method('getServerRoot')
+			->willReturn(\OC::$SERVERROOT);
 
 		$this->appManager
 			->expects($this->never())
@@ -350,24 +358,24 @@ class CheckerTest extends TestCase {
 			->method('file_get_contents')
 			->willReturnMap([
 				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//appinfo/signature.json', $signatureDataFile],
-				['/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+				[\OC::$SERVERROOT . '/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
 			]);
 
 		$expected = [
 			'INVALID_HASH' => [
-				'AnotherFile.txt' => [
+				'tests/data/integritycheck/appWithInvalidData/AnotherFile.txt' => [
 					'expected' => '1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112',
 					'current' => '7322348ba269c6d5522efe02f424fa3a0da319a7cd9c33142a5afe32a2d9af2da3a411f086fcfc96ff4301ea566f481dba0960c2abeef3594c4d930462f6584c',
 				],
 			],
 			'FILE_MISSING' => [
-				'subfolder/file.txt' => [
+				'tests/data/integritycheck/appWithInvalidData/subfolder/file.txt' => [
 					'expected' => '410738545fb623c0a5c8a71f561e48ea69e3ada0981a455e920a5ae9bf17c6831ae654df324f9328ff8453de179276ae51931cca0fa71fe8ccde6c083ca0574b',
 					'current' => '',
 				],
 			],
 			'EXTRA_FILE' => [
-				'UnecessaryFile' => [
+				'tests/data/integritycheck/appWithInvalidData/UnecessaryFile' => [
 					'expected' => '',
 					'current' => 'cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e',
 				],
