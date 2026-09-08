@@ -155,6 +155,7 @@ use OC\User\AvailabilityCoordinator;
 use OC\User\DisplayNameCache;
 use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
+use OC\User\Listeners\UserLoggedInWithCookieListener;
 use OC\User\Session;
 use OC\User\User;
 use OCA\Theming\ImageManager;
@@ -1139,6 +1140,7 @@ class Server extends ServerContainer {
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, SubAdmin::class);
 		$eventDispatcher->addServiceListener(GroupDeletedEvent::class, SubAdmin::class);
 		$eventDispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, LoadViewerListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, UserLoggedInWithCookieListener::class);
 
 		FilesMetadataManager::loadListeners($eventDispatcher);
 		GenerateBlurhashMetadata::loadListeners($eventDispatcher);
