@@ -9,7 +9,6 @@ namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Contacts\IManager;
-use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 
@@ -24,7 +23,6 @@ class ContactsManager {
 		private CardDavBackend $backend,
 		private IL10N $l10n,
 		private PropertyMapper $propertyMapper,
-		private IAppConfig $appConfig,
 	) {
 	}
 
