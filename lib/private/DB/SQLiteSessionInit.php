@@ -30,10 +30,30 @@ class SQLiteSessionInit implements EventSubscriber {
 		/** @var \Doctrine\DBAL\Driver\PDO\Connection $connection */
 		$connection = $args->getConnection()->getWrappedConnection();
 		$pdo = $connection->getWrappedConnection();
+
+		$regexSubstr = function ($string, $pattern): ?string {
+			if (is_null($string) || is_null($pattern)) {
+				return null;
+			} else {
+				$string = (string)$string;
+				$pattern = str_replace('#', '\#', (string)$pattern);
+			}
+
+			$matches = [];
+			$result = preg_match("#$pattern#", $string, $matches);
+			if ($result === 0 || $result === false) {
+				return null;
+			} else {
+				return $matches[0];
+			}
+		};
+
 		if (PHP_VERSION_ID >= 80500 && method_exists($pdo, 'createFunction')) {
 			$pdo->createFunction('md5', 'md5', 1);
+			$pdo->createFunction('regexp_substr', $regexSubstr, 2);
 		} else {
 			$pdo->sqliteCreateFunction('md5', 'md5', 1);
+			$pdo->sqliteCreateFunction('regexp_substr', $regexSubstr, 2);
 		}
 	}
 
