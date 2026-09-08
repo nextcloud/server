@@ -214,7 +214,25 @@ class Folder extends Node implements IFolder {
 	#[\Override]
 	public function search($query) {
 		if (is_string($query)) {
-			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'));
+			$operator = new SearchComparison(
+				ISearchComparison::COMPARE_LIKE,
+				'name',
+				'%' . $query . '%',
+			);
+			$parts = explode('/', $this->path);
+			$uid = null;
+			if (count($parts) > 2) {
+				[, $uid] = $parts;
+				$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
+					$operator,
+					new SearchComparison(
+						ISearchComparison::COMPARE_LIKE,
+						'mount_point_name',
+						'%' . $query . '%',
+					)
+				]);
+			}
+			$query = $this->queryFromOperator($operator, $uid);
 		}
 
 		// search is handled by a single query covering all caches that this folder contains
