@@ -7,6 +7,8 @@
  */
 namespace OC\Repair;
 
+use OC\Core\AppInfo\ConfigLexicon;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -82,6 +84,51 @@ class RepairInvalidShares implements IRepairStep {
 
 		if ($deletedEntries) {
 			$output->info('Removed ' . $deletedEntries . ' shares where the parent did not exist');
+		}
+	}
+
+	/**
+	 * Strip trailing slashes that leaked into the share target when a parent folder
+	 * of a moved incoming share was renamed
+	 */
+	private function removeTrailingSlashFromFileTarget(IOutput $output): void {
+		if ($this->appConfig->getValueBool('core', ConfigLexicon::SHARE_REPAIR_REMOVED_TRAILING_SLASHES, lazy: true)) {
+			return;
+		}
+
+		$updatedEntries = 0;
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('id', 'file_target')
+			->from('share')
+			->where($query->expr()->like('file_target', $query->createNamedParameter('%/')))
+			->andWhere($query->expr()->neq('file_target', $query->createNamedParameter('/')))
+			->setMaxResults(self::CHUNK_SIZE);
+
+		$updateQuery = $this->connection->getQueryBuilder();
+		$updateQuery->update('share')
+			->set('file_target', $updateQuery->createParameter('file_target'))
+			->where($updateQuery->expr()->eq('id', $updateQuery->createParameter('id')));
+
+		$rowsInLastChunk = self::CHUNK_SIZE;
+		while ($rowsInLastChunk === self::CHUNK_SIZE) {
+			$result = $query->executeQuery();
+			$rows = $result->fetchAllAssociative();
+			$result->closeCursor();
+			$rowsInLastChunk = count($rows);
+
+			foreach ($rows as $row) {
+				$updatedEntries += $updateQuery
+					->setParameter('file_target', rtrim($row['file_target'], '/'))
+					->setParameter('id', (int)$row['id'])
+					->executeStatement();
+			}
+		}
+
+		$this->appConfig->setValueBool('core', ConfigLexicon::SHARE_REPAIR_REMOVED_TRAILING_SLASHES, true, lazy: true);
+
+		if ($updatedEntries > 0) {
+			$output->info('Removed trailing slashes from the target of ' . $updatedEntries . ' shares');
 		}
 	}
 
