@@ -8,7 +8,7 @@ import type { MediaKind } from '../../support/sections/ViewerPage.ts'
 import { expect, test } from '../../support/fixtures/viewer-page.ts'
 
 export interface MediaItem {
-	/** Fixture file name in `e2e/viewer/fixtures`. */
+	/** Fixture file name in `tests/data/media`. */
 	fixture: string
 	/** Content type used when uploading the fixture. */
 	mime: string

@@ -76,7 +76,6 @@ return array(
     'OCA\\Files\\Helper' => $baseDir . '/../lib/Helper.php',
     'OCA\\Files\\Listener\\LoadSearchPluginsListener' => $baseDir . '/../lib/Listener/LoadSearchPluginsListener.php',
     'OCA\\Files\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
-    'OCA\\Files\\Listener\\LoadViewerListener' => $baseDir . '/../lib/Listener/LoadViewerListener.php',
     'OCA\\Files\\Listener\\NodeAddedToFavoriteListener' => $baseDir . '/../lib/Listener/NodeAddedToFavoriteListener.php',
     'OCA\\Files\\Listener\\NodeRemovedFromFavoriteListener' => $baseDir . '/../lib/Listener/NodeRemovedFromFavoriteListener.php',
     'OCA\\Files\\Listener\\RenderReferenceEventListener' => $baseDir . '/../lib/Listener/RenderReferenceEventListener.php',

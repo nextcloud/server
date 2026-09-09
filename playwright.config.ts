@@ -92,9 +92,7 @@ export default defineConfig({
 			timeout: 10_000,
 		},
 		reuseExistingServer: !process.env.CI,
-		// A cold local start also pulls the image and installs the server, which
-		// does not fit in the time a warm CI runner needs.
-		timeout: process.env.CI ? 300_000 : 900_000,
+		timeout: 300_000,
 		wait: {
 			stdout: /Nextcloud container ready to run Playwright tests/,
 		},

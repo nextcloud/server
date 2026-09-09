@@ -16,12 +16,12 @@ import { test as sharingTestBase } from './files-sharing-page.ts'
 import { test as publicShareTestBase } from './public-share-page.ts'
 
 /**
- * The absolute path of a media fixture bundled under `e2e/viewer/fixtures`.
+ * The absolute path of a media fixture, from the shared `tests/data/media`.
  *
  * @param name - The fixture file name (e.g. `image1.jpg`)
  */
 export function mediaFixturePath(name: string): string {
-	return fileURLToPath(new URL(`../../e2e/viewer/fixtures/${name}`, import.meta.url))
+	return fileURLToPath(new URL(`../../../data/media/${name}`, import.meta.url))
 }
 
 /**
@@ -29,7 +29,7 @@ export function mediaFixturePath(name: string): string {
  *
  * @param request - The request context to upload with (authenticated as `user`)
  * @param user - The user owning the file
- * @param fixture - The fixture file name to read from `e2e/viewer/fixtures`
+ * @param fixture - The fixture file name to read from `tests/data/media`
  * @param remoteName - The remote name/path relative to the user root (defaults to the fixture name)
  * @param mimeType - The content type sent with the upload
  * @param mtime - Modification time in seconds, to control the sort order
