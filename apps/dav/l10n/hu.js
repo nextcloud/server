@@ -269,8 +269,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Üdvözli a Nextcloud Naptár!\n\nEz egy példaesemény – fedezze fel a tervezés rugalmasságát a Nextcloud Naptárral úgy, hogy kipróbálja az összes olyan szerkesztést, amit szeretne!\n\nA Nextcloud Naptárrál következőket teheti:\n- Erőfeszítés nélkül hozhat létre, szerkeszthet és kezelhet eseményeket.\n- Létrehozhat külön naptárakat a csapattagjai, a barátai és a családja számára.\n- Ellenőrizheti és megjelenítheti az elfoglaltsági idejét másoknak.\n- Zökkenőmentesen integrálhat alkalmazásokat és eszközöket a CalDAV segítségével.\n- Testreszabhatja az élményét: beütemezhet ismétlődő eseményeket, állíthat az értesítéseken és más beállításokon.",
     "Example event - open me!" : "Példaesemény – nyisson meg!",
     "System Address Book" : "Rendszercímjegyzék",
-    "The system address book contains contact information for all users in your instance." : "A rendszercímjegyzék a példányon lévő összes felhasználó névjegyadatait tartalmazza.",
-    "Enable System Address Book" : "Rendszercímjegyzék engedélyezése",
     "DAV system address book" : "DAV rendszercímjegyzék",
     "No outstanding DAV system address book sync." : "Nincs függőben lévő DAV rendszercímjegyzék-szinkronizálás.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "A DAV rendszercímjegyzék-szinkronizációja még nem futott le, mert több, mint 1000 felhasználó található, vagy mert hiba történt. Futtassa kézileg a következő paranccsal: „occ dav:sync-system-addressbook”.",
@@ -351,6 +349,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Elfogadja a meghívást?",
     "Tentative" : "Feltételes",
     "Your attendance was updated successfully." : "A részvétele sikeresen frissítve.",
+    "The system address book contains contact information for all users in your instance." : "A rendszercímjegyzék a példányon lévő összes felhasználó névjegyadatait tartalmazza.",
+    "Enable System Address Book" : "Rendszercímjegyzék engedélyezése",
     "No results." : "Nincs eredmény.",
     "Start typing." : "Kezdjen gépelni."
 },

@@ -269,8 +269,6 @@
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Vitajte v Nextcloud Calendar!\n\nToto je ukážková udalosť – preskúmajte flexibilitu plánovania s Nextcloud Calendar tým, že vykonáte akékoľvek úpravy, ktoré chcete!\n\nS Nextcloud Calendar môžete:\n- Jednoducho vytvárať, upravovať a spravovať udalosti.\n- Vytvárať viacero kalendárov a zdieľať ich s tímom, priateľmi alebo rodinou.\n- Skontrolovať dostupnosť a zobraziť svoje zaneprázdnené časy pre ostatných.\n- Bezproblémovo integrovať s aplikáciami a zariadeniami cez CalDAV.\n- Prispôsobiť si skúsenosti: naplánovať opakujúce sa udalosti, nastaviť notifikácie a iné nastavenia.",
     "Example event - open me!" : "Príklad udalosti - otvorte ma!",
     "System Address Book" : "Systémový Adresár",
-    "The system address book contains contact information for all users in your instance." : "Systémový adresár obsahuje kontaktné informácie o všetkých užívateľov vo vašej inštancii.",
-    "Enable System Address Book" : "Povoliť systémový Adresár",
     "DAV system address book" : "Systémový DAV adresár",
     "No outstanding DAV system address book sync." : "Žiadna zostávajúca synchronizácia adresára systému DAV.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV synchronizácia systémového adresára ešte nebola spustená, pretože vaša inštancia má viac ako 1000 užívateľov alebo sa vyskytla chyba. Prosím, spustite ju manuálne volaním \"occ dav:sync-system-addressbook\".",
@@ -351,6 +349,8 @@
     "Are you accepting the invitation?" : "Príjmate pozvánku?",
     "Tentative" : "Neistý",
     "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
+    "The system address book contains contact information for all users in your instance." : "Systémový adresár obsahuje kontaktné informácie o všetkých užívateľov vo vašej inštancii.",
+    "Enable System Address Book" : "Povoliť systémový Adresár",
     "No results." : "Žiadne výsledky.",
     "Start typing." : "Začnite písať."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"

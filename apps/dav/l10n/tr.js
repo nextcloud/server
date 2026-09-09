@@ -271,8 +271,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Nextcloud Takvim uygulamasına hoş geldiniz!\n\nBu bir örnek etkinliktir. İstediğiniz düzenlemeleri yaparak Nextcloud Takvim ile planlamanın esnekliğini keşfedin!\n\nNextcloud Takvim ile şunları yapabilirsiniz:\n- Etkinlikleri kolayca oluşturabilir, düzenleyebilir ve yönetebilirsiniz.\n- Birden fazla takvim oluşturabilir ve bunları takım arkadaşlarınız, arkadaşlarınız veya ailenizle paylaşabilirsiniz.\n- Uygunluğunuzu kontrol edebilir ve yoğun zamanlarınızı başkalarına gösterebilirsiniz.\n- CalDAV aracılığıyla uygulamaları ve aygıtları sorunsuz bir şekilde bütünleştirebilirsiniz.\n- Deneyiminizi özelleştirebilirsiniz: Yinelenen etkinlikler planlayabilir, bildirimleri ve diğer ayarları ayarlayabilirsiniz.",
     "Example event - open me!" : "Örnek etkinlik. Beni aç!",
     "System Address Book" : "Sistem adres defteri",
-    "The system address book contains contact information for all users in your instance." : "Sistem adres defterinde, kopyanızdaki tüm kullanıcıların iletişim bilgileri bulunur.",
-    "Enable System Address Book" : "Sistem adres defteri kullanılsın",
     "DAV system address book" : "DAV sistem adres defteri",
     "No outstanding DAV system address book sync." : "Bekleyen bir DAV sistemi adres defteri eşitlemesi yok.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Kopyanızda 1000 üzerinde kullanıcı olduğundan ya da bir sorun çıktığından DAV sistemi adres defteri eşitlemesi henüz yapılmamış. Lütfen \"occ dav:sync-system-addressbook\" komutunu yürüterek el ile eşitleyin.",
@@ -353,6 +351,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Daveti kabul ediyor musunuz?",
     "Tentative" : "Kesin değil",
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
+    "The system address book contains contact information for all users in your instance." : "Sistem adres defterinde, kopyanızdaki tüm kullanıcıların iletişim bilgileri bulunur.",
+    "Enable System Address Book" : "Sistem adres defteri kullanılsın",
     "No results." : "Herhangi bir sonuç bulunamadı.",
     "Start typing." : "Yazmaya başlayın."
 },

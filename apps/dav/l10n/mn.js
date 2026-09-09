@@ -255,8 +255,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Nextcloud Calendar-т тавтай морил!\n\nЭнэ бол жишээ үйл явдал юм - хүссэн зүйлээ засварлаж Nextcloud Calendar-ийн төлөвлөлтийн уян хатан байдлыг туршаарай!\n\nNextcloud Calendar-аар та дараах боломжтой:\n- Үйл явдал үүсгэх, засварлах, удирдах.\n- Олон календар үүсгэж баг, найз нөхөд болон гэр бүлтэйгээ хуваалцах.\n- Чөлөөт цагийг шалгаж, завгүй байгаа цагаа бусдад харуулах.\n- CalDAV-аар програм болон төхөөрөмжтэй саадгүй нэгтгэх.\n- Туршлагаа тохируулах: давтагдах үйл явдал товлох, мэдэгдэл болон бусад тохиргоог өөрчлөх.",
     "Example event - open me!" : "Жишээ үйл явдал - намайг нээ!",
     "System Address Book" : "Системийн хаягийн дэвтэр",
-    "The system address book contains contact information for all users in your instance." : "Системийн дэвтэр нь таны системийн бүх хэрэглэгчдийн холбоо барих мэдээллийг агуулдаг.",
-    "Enable System Address Book" : "Системийн хаягийн дэвтрийг идэвхжүүлэх",
     "DAV system address book" : "DAV системийн хаягийн дэвтэр",
     "No outstanding DAV system address book sync." : "DAV системийн хаягийн дэвтрийн синк хүлээгдэж буй зүйл байхгүй.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV системийн дэвтрийн синхрончлол ажиллаагүй байна — системд 1000-аас дэлгэрэнгүй хэрэглэгч байгаа эсвэл алдаа гарсан. \"occ dav:sync-system-addressbook\" тушаалаар гараар ажиллуулна уу.",
@@ -337,6 +335,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Та урилгыг зөвшөөрч байна уу?",
     "Tentative" : "Урьдчилсан тов",
     "Your attendance was updated successfully." : "Таны ирц амжилттай шинэчлэгдсэн.",
+    "The system address book contains contact information for all users in your instance." : "Системийн дэвтэр нь таны системийн бүх хэрэглэгчдийн холбоо барих мэдээллийг агуулдаг.",
+    "Enable System Address Book" : "Системийн хаягийн дэвтрийг идэвхжүүлэх",
     "No results." : "Үр дүн байхгүй.",
     "Start typing." : "Бичиж эхлэх."
 },

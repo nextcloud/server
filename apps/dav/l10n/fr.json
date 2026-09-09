@@ -269,8 +269,6 @@
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Bienvenue dans Nextcloud Calendar !\n\nCeci est un exemple d'événement. Découvrez la flexibilité de la planification avec Nextcloud Calendar en effectuant toutes les modifications que vous souhaitez !\n\nAvec Nextcloud Calendar, vous pouvez :\n- Créer, modifier et gérer des événements sans effort.\n- Créer plusieurs calendriers et les partager avec vos collègues, vos amis ou votre famille.\n- Vérifier vos disponibilités et afficher vos périodes d'indisponibilité à d'autres personnes.\n- Intégrer de manière transparente des applications et des appareils via CalDAV.\n- Personnaliser votre expérience : planifier des événements récurrents, ajuster les notifications et d'autres paramètres.",
     "Example event - open me!" : "Exemple d'événement - ouvrez-moi !",
     "System Address Book" : "Carnet d'adresses du système",
-    "The system address book contains contact information for all users in your instance." : "Le carnet d'adresses du système contient les informations de contact de tous les utilisateurs de votre instance.",
-    "Enable System Address Book" : "Activer le carnet d'adresses du système",
     "DAV system address book" : "Carnet d'adresses système DAV",
     "No outstanding DAV system address book sync." : "Pas de synchronisation DAV en cours du carnet d'adresses système.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "La synchronisation du carnet d'adresses système DAV n'a pas encore été effectuée car votre instance a plus de 1 000 utilisateurs ou parce qu'une erreur est survenue. Merci de l'exécuter manuellement en tapant la commande \"occ dav:sync-system-addressbook\".",
@@ -351,6 +349,8 @@
     "Are you accepting the invitation?" : "Acceptez-vous l'invitation ?",
     "Tentative" : "Provisoire",
     "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès.",
+    "The system address book contains contact information for all users in your instance." : "Le carnet d'adresses du système contient les informations de contact de tous les utilisateurs de votre instance.",
+    "Enable System Address Book" : "Activer le carnet d'adresses du système",
     "No results." : "Pas de résultat.",
     "Start typing." : "Commencez à écrire."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
