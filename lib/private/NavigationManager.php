@@ -110,7 +110,6 @@ class NavigationManager implements INavigationManager {
 		$id = $entry['id'];
 
 		$entry['active'] = false;
-		$entry['default'] = false;
 		$entry['unread'] = $this->unreadCounters[$id] ?? 0;
 		if (!isset($entry['icon'])) {
 			$entry['icon'] = '';
@@ -123,6 +122,8 @@ class NavigationManager implements INavigationManager {
 		}
 
 		if ($entry['type'] === 'link') {
+			$entry['default'] = false;
+
 			// app might not be set when using closures, in this case try to fallback to ID
 			if (!isset($entry['app']) && $this->appManager->isEnabledForUser($id)) {
 				$entry['app'] = $id;
@@ -170,9 +171,9 @@ class NavigationManager implements INavigationManager {
 		}
 
 		uasort($list, function ($a, $b) {
-			if ($a['default'] xor $b['default']) {
+			if (($a['default'] ?? false) xor ($b['default'] ?? false)) {
 				// Always sort the default app first
-				return $a['default'] ? -1 : 1;
+				return ($a['default'] ?? false) ? -1 : 1;
 			} elseif (isset($a['order']) && isset($b['order'])) {
 				// Sort by order
 				return $a['order'] <=> $b['order'];

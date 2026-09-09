@@ -38,7 +38,7 @@ use OCP\AppFramework\Attribute\ExceptionalImplementable;
  *     type: 'link'|'action'|'settings'|'guest'|'quota',
  *     name: string,
  *     app?: string,
- *     default: bool,
+ *     default?: bool,
  *     active: bool,
  *     classes: string,
  *     unread: int,
