@@ -240,7 +240,7 @@ class SearchBuilder {
 		} elseif ($field === 'owner') {
 			$field = 'uid_owner';
 		} elseif ($field === 'mount_point_name') {
-			$field = $builder->func()->regexSubstring('mount_point', $builder->createNamedParameter('[^/]+/$'));
+			$field = $builder->func()->regexSubstring('m.mount_point', $builder->createNamedParameter('[^/]+/$'));
 			$value = $value . '/';
 		}
 		return [$field, $value, $type, $paramType];
