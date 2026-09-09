@@ -12,6 +12,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCA\DAV\CalDAV\WebcalCaching\Connection;
 use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
+use OCA\DAV\Exception\InvalidSubscriptionUrl;
 use OCP\AppFramework\Utility\ITimeFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -91,6 +92,10 @@ class RefreshWebcalServiceTest extends TestCase {
 		$this->connection->expects(self::once())
 			->method('queryWebcalFeed')
 			->willReturn(['data' => $stream, 'format' => $format]);
+
+		$this->caldavBackend->expects(self::once())
+			->method('trackSubscriptionError')
+			->with('42', null, null);
 
 		$this->caldavBackend->expects(self::once())
 			->method('getLimitedCalendarObjects')
@@ -226,9 +231,15 @@ class RefreshWebcalServiceTest extends TestCase {
 				],
 			]);
 
+		$exception = new InvalidSubscriptionUrl('broken');
+
 		$this->connection->expects(self::once())
 			->method('queryWebcalFeed')
-			->willReturn(null);
+			->willThrowException($exception);
+
+		$this->caldavBackend->expects(self::once())
+			->method('trackSubscriptionError')
+			->with('42', $exception, 'Invalid URL');
 
 		$this->importService->expects(self::never())
 			->method('importText');

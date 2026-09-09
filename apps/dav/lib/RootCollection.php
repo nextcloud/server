@@ -113,6 +113,7 @@ class RootCollection extends SimpleCollection {
 			$config,
 			$calendarSharingBackend,
 			Server::get(FederatedCalendarMapper::class),
+			$l10n,
 			Server::get(ICacheFactory::class),
 			false,
 		);
