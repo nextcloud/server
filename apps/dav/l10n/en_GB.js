@@ -271,8 +271,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customise your experience: schedule recurring events, adjust notifications and other settings.",
     "Example event - open me!" : "Example event - open me!",
     "System Address Book" : "System Address Book",
-    "The system address book contains contact information for all users in your instance." : "The system address book contains contact information for all users in your instance.",
-    "Enable System Address Book" : "Enable System Address Book",
     "DAV system address book" : "DAV system address book",
     "No outstanding DAV system address book sync." : "No outstanding DAV system address book sync.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\".",
@@ -353,6 +351,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Are you accepting the invitation?",
     "Tentative" : "Tentative",
     "Your attendance was updated successfully." : "Your attendance was updated successfully.",
+    "The system address book contains contact information for all users in your instance." : "The system address book contains contact information for all users in your instance.",
+    "Enable System Address Book" : "Enable System Address Book",
     "No results." : "No results.",
     "Start typing." : "Start typing."
 },

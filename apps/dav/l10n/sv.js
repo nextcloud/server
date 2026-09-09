@@ -271,8 +271,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Välkommen till Nextcloud Kalender!\n\nDetta är en exempelhändelse. Utforska den flexibla planeringen i Nextcloud Kalender genom att ändra vad du vill.\n\nMed Nextcloud Kalender kan du:\n- Enkelt skapa, redigera och hantera händelser.\n- Skapa flera kalendrar och dela dem med teammedlemmar, vänner eller familj.\n- Kontrollera tillgänglighet och visa andra när du är upptagen.\n- Integrera smidigt med appar och enheter via CalDAV.\n- Anpassa upplevelsen med återkommande händelser, aviseringar och andra inställningar.",
     "Example event - open me!" : "Exempelhändelse – öppna mig!",
     "System Address Book" : "Systemadressbok",
-    "The system address book contains contact information for all users in your instance." : "Systemadressboken innehåller kontaktinformation för alla användare i din instans.",
-    "Enable System Address Book" : "Aktivera systemadressboken",
     "DAV system address book" : "DAV-systemets adressbok",
     "No outstanding DAV system address book sync." : "Ingen utestående synkronisering för DAV-systemets adressbok.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV-systemets adressbokssynkronisering har inte körts ännu eftersom din instans har fler än 1000 användare eller för att ett fel uppstod. Kör det manuellt genom att anropa \"occ dav:sync-system-addressbook\".",
@@ -353,6 +351,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Accepterar du inbjudan?",
     "Tentative" : "Preliminärt",
     "Your attendance was updated successfully." : "Din närvarostatus har uppdaterats.",
+    "The system address book contains contact information for all users in your instance." : "Systemadressboken innehåller kontaktinformation för alla användare i din instans.",
+    "Enable System Address Book" : "Aktivera systemadressboken",
     "No results." : "Inga resultat.",
     "Start typing." : "Börja skriva."
 },

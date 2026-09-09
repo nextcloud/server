@@ -239,8 +239,6 @@
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Velkomin í Nextcloud-dagatalið!\n\nÞetta er sýnishorn af atburði - skoðaðu sveigjanleika í skipulagningu með Nextcloud-dagatalinu með því að gera þær breytingar sem þig lystir!\n\nMeð Nextcloud-dagatalinu geturðu:\n- Útbúið, breytt og sýslað með atburði á einfaldan máta.\n- Útbúið mörg dagatöl og deilt þeim með vinnufélögum, vinum og fjölskyldu.\n- Skoðað lausa tíma og sýnt öðrum hvenær þú sért upptekin/n.\n- Samþætt upplýsingar hnökralaust við forrit og tæki í gegnum CalDAV.\n- Sérsniðið vinnuferlin þín: áætlað endurtekna atburði, aðlagað tilkynningar og fleiri stillingar.",
     "Example event - open me!" : "Dæmi um atburð - opna mig!",
     "System Address Book" : "Kerfisnafnaskrá",
-    "The system address book contains contact information for all users in your instance." : "Kerfisnafnaskráin inniheldur tengiliðaupplýsingar um alla notendur á netþjónstilvikinu þínu.",
-    "Enable System Address Book" : "Virkja kerfisnafnaskrá",
     "DAV system address book" : "DAV-kerfisnafnaskrá",
     "No outstanding DAV system address book sync." : "Engar eftirstandandi samstillingar við DAV-kerfisnafnaskrá.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Samstilling við DAV-nafnaskrá kerfisins hefur ekki enn verið keyrð, þar sem tilvikið þitt er með fleiri en 1000 notendur eða að villa hefur komið upp. Keyrðu samstillinguna handvirkt með því að kalla á occ dav:sync-system-addressbook\".",
@@ -321,6 +319,8 @@
     "Are you accepting the invitation?" : "Ætlar þú að samþykkja boðið?",
     "Tentative" : "Bráðabirgða",
     "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð.",
+    "The system address book contains contact information for all users in your instance." : "Kerfisnafnaskráin inniheldur tengiliðaupplýsingar um alla notendur á netþjónstilvikinu þínu.",
+    "Enable System Address Book" : "Virkja kerfisnafnaskrá",
     "No results." : "Engar niðurstöður.",
     "Start typing." : "Byrjaðu að skrifa."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"

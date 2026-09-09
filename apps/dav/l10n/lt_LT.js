@@ -271,8 +271,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Sveiki atvykę į „Nextcloud Kalendorių“!\n\nTai pavyzdinis įrašas – išbandykite planavimo lankstumą su „Nextcloud Kalendoriumi“, atlikdami bet kokius norimus pakeitimus!\n\nSu „Nextcloud Kalendoriumi“ galite:\n- Nesunkiai kurti, redaguoti ir valdyti įvykius.\n- Kurti kelis kalendorius ir bendrinti juos su komandos nariais, draugais ar šeima.\n- Patikrinti prieinamumą ir rodyti savo užimtumo laiką kitiems.\n- Sklandžiai integruotis su programėlėmis ir įrenginiais per „CalDAV“.\n- Tinkinti savo patirtį: planuoti pasikartojančius įvykius, koreguoti pranešimus ir kitus nustatymus.",
     "Example event - open me!" : "Pavyzdinis įvykis – atverk mane!",
     "System Address Book" : "Sistemos adresų knyga",
-    "The system address book contains contact information for all users in your instance." : "Sistemos adresų knygoje yra visų jūsų turimų vartotojų kontaktinė informacija.",
-    "Enable System Address Book" : "Įjungti sistemos adresų knygą",
     "DAV system address book" : "DAV sistemos adresų knyga",
     "No outstanding DAV system address book sync." : "Nėra jokių nepatvirtintų DAV sistemos adresų knygos sinchronizavimo.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV sistemos adresų knygos sinchronizavimas dar nebuvo paleistas, nes jūsų egzemplioriuje yra daugiau nei 1000 vartotojų arba įvyko klaida. Paleiskite jį rankiniu būdu, iškviečiant „occ dav:sync-system-addressbook“.",
@@ -353,6 +351,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Ar priimate pakvietimą?",
     "Tentative" : "Preliminarus",
     "Your attendance was updated successfully." : "Jūsų lankomumas sėkmingai atnaujintas.",
+    "The system address book contains contact information for all users in your instance." : "Sistemos adresų knygoje yra visų jūsų turimų vartotojų kontaktinė informacija.",
+    "Enable System Address Book" : "Įjungti sistemos adresų knygą",
     "No results." : "Jokių rezultatų.",
     "Start typing." : "Start typing."
 },

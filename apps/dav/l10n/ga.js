@@ -271,8 +271,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Fáilte go Féilire Nextcloud!\n\nSeo sampla imeachta - déan iniúchadh ar sholúbthacht na pleanála le Féilire Nextcloud trí aon eagarthóireacht is mian leat a dhéanamh!\n\nLe Féilire Nextcloud, is féidir leat:\n- Imeachtaí a chruthú, a chur in eagar agus a bhainistiú gan stró.\n- Ilfhéilirí a chruthú agus iad a roinnt le comhghleacaithe foirne, cairde nó teaghlach.\n- Infhaighteacht a sheiceáil agus do chuid amanna gnóthacha a thaispeáint do dhaoine eile.\n- Comhtháthú gan uaim le haipeanna agus gléasanna trí CalDAV.\n- Do thaithí a shaincheapadh: imeachtaí athfhillteacha a sceidealú, fógraí agus socruithe eile a choigeartú.",
     "Example event - open me!" : "Imeacht shamplach - oscail mé!",
     "System Address Book" : "Leabhar Seoltaí Córais",
-    "The system address book contains contact information for all users in your instance." : "Tá faisnéis teagmhála i leabhar seoltaí an chórais do gach úsáideoir i do chás.",
-    "Enable System Address Book" : "Cumasaigh Leabhar Seoltaí an Chórais",
     "DAV system address book" : "Leabhar seoltaí córas DAV",
     "No outstanding DAV system address book sync." : "Níl sioncronú leabhar seoltaí córais DAV gan íoc.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Níor rith sioncronú leabhar seoltaí an chórais DAV fós toisc go bhfuil níos mó ná 1000 úsáideoir ag do chás nó toisc gur tharla earráid. Rith de láimh é le do thoil trí ghlao a chur ar \"occ dav:sync-system-addressbook\".",
@@ -353,6 +351,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "An bhfuil tú ag glacadh leis an gcuireadh?",
     "Tentative" : "Sealadach",
     "Your attendance was updated successfully." : "D'éirigh le do thinreamh a nuashonrú.",
+    "The system address book contains contact information for all users in your instance." : "Tá faisnéis teagmhála i leabhar seoltaí an chórais do gach úsáideoir i do chás.",
+    "Enable System Address Book" : "Cumasaigh Leabhar Seoltaí an Chórais",
     "No results." : "Gan torthaí.",
     "Start typing." : "Tosaigh ag clóscríobh."
 },
