@@ -120,7 +120,7 @@ test.describe('files_sharing: editing a share with the unified dialog', () => {
 
 		await expect(menu.getByRole('menuitem', { name: 'Can view (default)' })).toBeVisible()
 		await expect(menu.getByRole('menuitem', { name: 'Custom permissions' })).toBeVisible()
-		await expect(menu.getByRole('menuitem', { name: 'Remove participant' })).toBeVisible()
+		await expect(menu.getByRole('menuitem', { name: 'Remove recipient' })).toBeVisible()
 	})
 
 	test('caps the recipient toggles at the permissions the share grants', async ({ page, recipient, filesListPage, unifiedShareList, sharingDialog }) => {

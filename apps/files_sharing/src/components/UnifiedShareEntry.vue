@@ -82,11 +82,11 @@
 						:user="isNoUserRecipient(recipient) ? undefined : recipient.value"
 						:displayName="recipient.display_name" />
 				</template>
-				<NcActionButton :aria-label="t('files_sharing', 'Remove participant')" @click="removeOne(recipient)">
+				<NcActionButton :aria-label="t('files_sharing', 'Remove recipient')" @click="removeOne(recipient)">
 					<template #icon>
 						<DeleteIcon :size="20" />
 					</template>
-					{{ t('files_sharing', 'Remove participant') }}
+					{{ t('files_sharing', 'Remove recipient') }}
 				</NcActionButton>
 			</SharingEntrySimple>
 		</template>
