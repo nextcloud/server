@@ -85,7 +85,6 @@ class NavigationManagerTest extends TestCase {
 					'type' => 'settings',
 					'classes' => '',
 					'unread' => 0,
-					'default' => false,
 				]
 			],
 			[
@@ -382,7 +381,6 @@ class NavigationManagerTest extends TestCase {
 					'type' => 'settings',
 					'classes' => '',
 					'unread' => 0,
-					'default' => false,
 				]],
 				['navigations' => [
 					'navigation' => [
