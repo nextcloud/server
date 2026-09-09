@@ -62,6 +62,13 @@ class StatusService {
 	/** @var int */
 	public const INVALIDATE_STATUS_THRESHOLD = 15 /* minutes */ * 60 /* seconds */;
 
+	/**
+	 * Has to stay at least one client heartbeat interval below INVALIDATE_STATUS_THRESHOLD.
+	 *
+	 * @var int
+	 */
+	public const REFRESH_STATUS_THRESHOLD = 7 /* minutes */ * 60 /* seconds */;
+
 	/** @var int */
 	public const MAXIMUM_MESSAGE_LENGTH = 80;
 
