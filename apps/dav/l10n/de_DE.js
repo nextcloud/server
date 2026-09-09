@@ -271,8 +271,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Willkommen bei Nextcloud Calendar!\n\nDies ist ein Beispielereignis – entdecken Sie die Flexibilität der Planung mit Nextcloud Calendar und nehmen Sie beliebige Änderungen vor!\n\nMit Nextcloud Calendar können Sie:\n– Ereignisse mühelos erstellen, bearbeiten und verwalten.\n– Mehrere Kalender erstellen und mit Teamkollegen, Freunden oder der Familie teilen.\n– Verfügbarkeit prüfen und Ihre Termine anderen anzeigen.\n– Nahtlose Integration mit Apps und Geräten über CalDAV.\n– Individuelle Gestaltung: Planen Sie wiederkehrende Ereignisse, passen Sie Benachrichtigungen und andere Einstellungen an.",
     "Example event - open me!" : "Beispielereignis – öffne mich!",
     "System Address Book" : "Systemadressbuch",
-    "The system address book contains contact information for all users in your instance." : "Das Systemadressbuch enthält Kontaktinformationen für alle Benutzer in dieser Instanz.",
-    "Enable System Address Book" : "Systemadressbuch aktivieren",
     "DAV system address book" : "DAV-Systemadressbuch",
     "No outstanding DAV system address book sync." : "Keine ausstehende Synchronisierung des DAV-Systemadressbuchs.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Die Synchronisierung des DAV-Systemadressbuchs wurde noch nicht ausgeführt, da Ihre Instanz mehr als 1000 Benutzer hat oder weil ein Fehler aufgetreten ist. Bitte führen Sie sie manuell aus, indem Sie \"occ dav:sync-system-addressbook\" aufrufen.",
@@ -353,6 +351,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Die Einladung annehmen?",
     "Tentative" : "Vorläufig",
     "Your attendance was updated successfully." : "Ihr Teilnehmerstatus wurde aktualisiert.",
+    "The system address book contains contact information for all users in your instance." : "Das Systemadressbuch enthält Kontaktinformationen für alle Benutzer in dieser Instanz.",
+    "Enable System Address Book" : "Systemadressbuch aktivieren",
     "No results." : "Keine Ergebnisse.",
     "Start typing." : "Anfangen zu tippen."
 },

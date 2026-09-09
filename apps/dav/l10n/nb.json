@@ -220,8 +220,6 @@
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Velkommen til Nextcloud-kalenderen!\n\nDette er en eksempelhendelse - utforsk fleksibiliteten i planlegging med Nextcloud-kalenderen ved å gjøre alle endringer du vil!\n\nMed Nextcloud-kalenderen kan du:\n- Opprette, redigere, og administrere hendelser enkelt.\n- Opprette flere kalendere og dele dem med kollegaer, venner, eller familie.\n- Sjekke tilgjengelighet og vise til andre når du er opptatt.\n- Integrere sømløst med apper og enheter via CalDAV.\n- Tilpasse opplevelsen din: arrangere gjentakende hendelser, justere varslinger og andre innstillinger.",
     "Example event - open me!" : "Eksempelhendelse - åpne meg!",
     "System Address Book" : "Systemadressebok",
-    "The system address book contains contact information for all users in your instance." : "Systemadresseboken inneholder kontaktinformasjon for alle brukere i din forekomst.",
-    "Enable System Address Book" : "Aktiver systemadressebok",
     "DAV system address book" : "DAV-systemadressebok",
     "No outstanding DAV system address book sync." : "Ingen utestående DAV-systemadressebok synkronisering.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV-systemadresseboksynkroniseringen har ikke kjørt enda fordi forekomsten har mer enn 1000 brukere, eller fordi det oppstod en feil. Kjør den manuelt ved å kalle \"occ dav: sync-system-addressbook\".",
@@ -296,6 +294,8 @@
     "Are you accepting the invitation?" : "Aksepterer du invitasjonen?",
     "Tentative" : "Foreløpig",
     "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert.",
+    "The system address book contains contact information for all users in your instance." : "Systemadresseboken inneholder kontaktinformasjon for alle brukere i din forekomst.",
+    "Enable System Address Book" : "Aktiver systemadressebok",
     "No results." : "Ingen resultater.",
     "Start typing." : "Begynn å skrive."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

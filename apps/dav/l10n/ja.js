@@ -271,8 +271,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Nextcloudカレンダーへようこそ！\n\nNextcloudカレンダーの柔軟なプランニングをお試しください！\n\nNextcloudカレンダーなら、こんなことができます：\n- イベントを簡単に作成、編集、管理できます。\n- 複数のカレンダーを作成し、チームメイトや友人、家族と共有できます。\n- 空き時間を確認し、忙しい時間を他の人に表示する。\n- CalDAV経由でアプリやデバイスとシームレスに統合。\n- 定期的なイベントのスケジュール、通知やその他の設定など、エクスペリエンスをカスタマイズできます。",
     "Example event - open me!" : "イベント例 - 開いてください!",
     "System Address Book" : "システム連絡先リスト",
-    "The system address book contains contact information for all users in your instance." : "システムのアドレス帳には、インスタンスのすべてのユーザーの連絡先情報が含まれています。",
-    "Enable System Address Book" : "システム連絡先リストを有効にする",
     "DAV system address book" : "DAVシステムアドレス帳",
     "No outstanding DAV system address book sync." : "DAVシステムアドレス帳の同期が完了していません。",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAVシステムのアドレス帳同期は、インスタンスに1000人以上のユーザーがいるか、エラーが発生したためまだ実行されていません。手動で実行するには、\"occ dav:sync-system-addressbook\"を呼び出してください。",
@@ -353,6 +351,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "招待を受け入れていますか？",
     "Tentative" : "暫定的",
     "Your attendance was updated successfully." : "出席は正常に更新されました。",
+    "The system address book contains contact information for all users in your instance." : "システムのアドレス帳には、インスタンスのすべてのユーザーの連絡先情報が含まれています。",
+    "Enable System Address Book" : "システム連絡先リストを有効にする",
     "No results." : "結果はありません。",
     "Start typing." : "入力を開始する。"
 },
