@@ -18,7 +18,6 @@ module.exports = {
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.ts'),
 		'legacy-unified-search': path.join(__dirname, 'core/src', 'legacy-unified-search.js'),
 		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),
-		'viewer-init': path.join(__dirname, 'core/src', 'viewer-init.ts'),
 		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
 		public: path.join(__dirname, 'core/src', 'public.ts'),
 		public_share_auth: path.join(__dirname, 'core/src', 'public-share-auth.ts'),

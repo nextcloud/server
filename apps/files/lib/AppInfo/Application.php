@@ -28,7 +28,6 @@ use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Listener\LoadSearchPluginsListener;
 use OCA\Files\Listener\LoadSidebarListener;
-use OCA\Files\Listener\LoadViewerListener;
 use OCA\Files\Listener\NodeAddedToFavoriteListener;
 use OCA\Files\Listener\NodeRemovedFromFavoriteListener;
 use OCA\Files\Listener\RenderReferenceEventListener;
@@ -48,7 +47,6 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Collaboration\Resources\IProviderManager;
 use OCP\Files\Cache\CacheEntriesRemovedEvent;
@@ -81,7 +79,6 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(AdvancedCapabilities::class);
 		$context->registerCapability(DirectEditingCapabilities::class);
 
-		$context->registerEventListener(BeforeTemplateRenderedEvent::class, LoadViewerListener::class);
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);
 		$context->registerEventListener(BeforeNodeRenamedEvent::class, SyncLivePhotosListener::class);
