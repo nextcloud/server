@@ -11,7 +11,7 @@ import { getBuilder } from '@nextcloud/browser-storage'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import debounce from 'debounce'
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -45,22 +45,10 @@ const teams = ref<ITeam[]>([])
 const selectedTeam = ref<string>('$_all_$')
 const selectedTeamName = computed(() => teams.value.find((t) => t.teamId === selectedTeam.value)?.displayName)
 
-onMounted(async () => {
-	const team = storage.getItem('core:contacts:team')
-	if (team) {
-		selectedTeam.value = JSON.parse(team)
-	}
-
-	if (userTeams.length === 0) {
-		try {
-			const { data } = await axios.get<ITeam[]>(generateUrl('/contactsmenu/teams'))
-			userTeams.push(...data)
-		} catch (error) {
-			logger.error('could not load user teams', { error })
-		}
-	}
-	teams.value = [...userTeams]
-})
+const team = storage.getItem('core:contacts:team')
+if (team) {
+	selectedTeam.value = JSON.parse(team)
+}
 
 watch(selectedTeam, () => {
 	storage.setItem('core:contacts:team', JSON.stringify(selectedTeam.value))
@@ -71,7 +59,22 @@ watch(selectedTeam, () => {
  * Load contacts when opening the menu
  */
 async function onOpened() {
-	await getContacts('')
+	await Promise.all([getContacts(''), getTeams()])
+}
+
+/**
+ * Load teams for current user from the server
+ */
+async function getTeams() {
+	if (userTeams.length === 0) {
+		try {
+			const { data } = await axios.get<ITeam[]>(generateUrl('/contactsmenu/teams'))
+			userTeams.push(...data)
+		} catch (error) {
+			logger.error('could not load user teams', { error })
+		}
+	}
+	teams.value = [...userTeams]
 }
 
 /**
