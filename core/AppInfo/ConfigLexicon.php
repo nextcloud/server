@@ -100,6 +100,13 @@ class ConfigLexicon implements ILexicon {
 				defaultRaw: true,
 				definition: 'Whether on demand preview migration is enabled.'
 			),
+			new Entry(
+				key: self::SHARE_REPAIR_REMOVED_TRAILING_SLASHES,
+				type: ValueType::BOOL,
+				defaultRaw: false,
+				definition: 'Whether the repair step stripping trailing slashes from share targets has already been run.',
+				lazy: true,
+			),
 		];
 	}
 
