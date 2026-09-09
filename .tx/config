@@ -205,3 +205,9 @@ file_filter = translationfiles/<lang>/workflowengine.po
 source_file = translationfiles/templates/workflowengine.pot
 source_lang = en
 type        = PO
+
+[o:nextcloud:p:nextcloud:r:viewer]
+file_filter = translationfiles/<lang>/viewer.po
+source_file = translationfiles/templates/viewer.pot
+source_lang = en
+type        = PO

@@ -7,10 +7,8 @@
 
 namespace OCA\Settings\Settings\Personal;
 
-use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
@@ -22,7 +20,6 @@ class ServerDevNotice implements ISettings {
 
 	public function __construct(
 		private IRegistry $registry,
-		private IEventDispatcher $eventDispatcher,
 		private IRootFolder $rootFolder,
 		private IUserSession $userSession,
 		private IInitialState $initialState,
@@ -39,12 +36,9 @@ class ServerDevNotice implements ISettings {
 
 		$hasInitialState = false;
 
-		// If the Reasons to use Nextcloud.pdf file is here, let's init Viewer, also check that Viewer is there
-		if (class_exists(LoadViewer::class) && $userFolder->nodeExists('Reasons to use Nextcloud.pdf')) {
-			/**
-			 * @psalm-suppress UndefinedClass, InvalidArgument
-			 */
-			$this->eventDispatcher->dispatch(LoadViewer::class, new LoadViewer());
+		// The viewer loads itself; this only decides whether the notice has
+		// a file to point at
+		if ($userFolder->nodeExists('Reasons to use Nextcloud.pdf')) {
 			$hasInitialState = true;
 		}
 

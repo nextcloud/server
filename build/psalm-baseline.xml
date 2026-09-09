@@ -2349,11 +2349,6 @@
       <code><![CDATA[provideInitialState]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/settings/lib/Settings/Personal/ServerDevNotice.php">
-    <DeprecatedMethod>
-      <code><![CDATA[dispatch]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/settings/lib/SetupChecks/CheckUserCertificates.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
