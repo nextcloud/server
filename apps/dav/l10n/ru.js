@@ -269,8 +269,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Добро пожаловать в Календарь Nextcloud!\n\nЭто пример события — исследуйте возможности планирования с Календарём Nextcloud, внося любые изменения по своему усмотрению!\n\nС помощью Календаря Nextcloud вы можете:\n- Легко создавать, редактировать и управлять событиями.\n- Создавать несколько календарей и делиться ими с коллегами, друзьями или семьёй.\n- Проверять доступность и показывать другим своё занятое время.\n- Беспрепятственно подключать приложения и устройства через CalDAV.\n- Настроить календарь под себя: повторяющиеся события, уведомления и многое другое.",
     "Example event - open me!" : "Пример события — отройте меня!",
     "System Address Book" : "Системная адресная книга",
-    "The system address book contains contact information for all users in your instance." : "Системная адресная книга содержит контактную информацию всех пользователей в вашем инстансе.",
-    "Enable System Address Book" : "Включить системную адресную книгу",
     "DAV system address book" : "Системная адресная книга DAV",
     "No outstanding DAV system address book sync." : "Синхронизация системной адресной книги DAV выполнена.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Синхронизация системной адресной книги DAV ещё не запущена, поскольку в этом экземпляре более 1000 пользователей или произошла ошибка. Перезапустите синхронизацию вручную используя команду «occ dav:sync-system-addressbook».",
@@ -351,6 +349,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Принять приглашение?",
     "Tentative" : "Под вопросом",
     "Your attendance was updated successfully." : "Статус участия обновлён.",
+    "The system address book contains contact information for all users in your instance." : "Системная адресная книга содержит контактную информацию всех пользователей в вашем инстансе.",
+    "Enable System Address Book" : "Включить системную адресную книгу",
     "No results." : "Неверный целевой путь.",
     "Start typing." : "Начать печатать."
 },

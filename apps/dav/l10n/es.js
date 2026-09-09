@@ -225,8 +225,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "¡Bienvenido a Nextcloud Calendar!\n\nEste es un evento de ejemplo - ¡explore la flexibilidad de planear con Nextcloud Calendar editando cuantas veces quiera!\n\nCon Nextcloud Calendar, podrá:\n- Crear, editar, y administrar eventos fácilmente.\n- Crear múltiples calendarios y compartirlos con su equipo de trabajo, amigos, o su familia.\n- Verificar la disponibilidad y mostrar sus tiempos de ocupado a otros.\n- Se integra de manera transparente con otras apps y dispositivos via CalDAV.\n- Personalice su experiencia: Programe eventos recurrentes, ajuste las notificaciones, así como otros ajustes.",
     "Example event - open me!" : "Evento de ejemplo - ¡ábralo!",
     "System Address Book" : "Libreta de Direcciones del Sistema",
-    "The system address book contains contact information for all users in your instance." : "La libreta de direcciones del sistema contiene la información de contacto de todos los usuarios de su instancia.",
-    "Enable System Address Book" : "Habilitar la Libreta de Direcciones del Sistema",
     "DAV system address book" : "Libreta de direcciónes DAV del sistema",
     "No outstanding DAV system address book sync." : "No hay una sincronización pendiente en la libreta de direcciones DAV del sistema.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "La sincronización DAV de la libreta de direcciones del sistema no se ha ejecutado ya que su instancia tiene más de 1000 usuarios o por que ha ocurrido un error. Por favor, ejecútela manualmente llamando al comando: \"occ dav:sync-system-addressbook\".",
@@ -307,6 +305,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "¿Aceptas la invitación?",
     "Tentative" : "Provisional",
     "Your attendance was updated successfully." : "Tu asistencia se ha actualizado con éxito.",
+    "The system address book contains contact information for all users in your instance." : "La libreta de direcciones del sistema contiene la información de contacto de todos los usuarios de su instancia.",
+    "Enable System Address Book" : "Habilitar la Libreta de Direcciones del Sistema",
     "No results." : "Sin resultados.",
     "Start typing." : "Empiece a escribir."
 },
