@@ -11,7 +11,7 @@ import NcDialog from '@nextcloud/vue/components/NcDialog'
 import MarkdownPreview from '../../../appstore/src/components/MarkdownPreview.vue'
 import { logger } from '../logger.ts'
 
-type DialogButtons = typeof NcDialog['$props']['buttons']
+type DialogButtons = InstanceType<typeof NcDialog>['$props']['buttons']
 
 const { appId, version = undefined } = defineProps<{
 	appId: string
@@ -25,18 +25,20 @@ const emit = defineEmits<{
 	close: [dismissed: boolean]
 }>()
 
+const dismissed = ref(false)
 const dialogButtons: DialogButtons = [
 	{
 		label: t('updatenotification', 'Give feedback'),
 		callback: () => {
 			window.open(`https://apps.nextcloud.com/apps/${appId}#comments`, '_blank', 'noreferrer noopener')
+			return false
 		},
 	},
 	{
 		label: t('updatenotification', 'Get started'),
 		variant: 'primary',
 		callback: () => {
-			emit('close', true)
+			dismissed.value = true
 		},
 	},
 ]
@@ -47,7 +49,7 @@ const markdown = ref<string>('')
 watchEffect(() => {
 	const url = version
 		? generateOcsUrl('/apps/updatenotification/api/v1/changelog/{app}?version={version}', { version, app: appId })
-		: generateOcsUrl('/apps/updatenotification/api/v1/changelog/{app}', { version, app: appId })
+		: generateOcsUrl('/apps/updatenotification/api/v1/changelog/{app}', { app: appId })
 
 	axios.get(url)
 		.then(({ data }) => {
@@ -74,7 +76,7 @@ watchEffect(() => {
 		:name="t('updatenotification', 'What\'s new in {app} {version}', { app: appName, version: appVersion })"
 		:open="markdown !== undefined"
 		size="normal"
-		@update:open="emit('close', true)">
+		@update:open="emit('close', dismissed)">
 		<MarkdownPreview :class="$style.appChangelogDialog__text" :text="markdown" :minHeadingLevel="3" />
 	</NcDialog>
 </template>

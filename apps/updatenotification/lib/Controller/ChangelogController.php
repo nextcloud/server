@@ -56,6 +56,7 @@ class ChangelogController extends Controller {
 			'text' => $changes,
 		]);
 
+		Util::addStyle($this->appName, 'view-changelog-page');
 		Util::addScript($this->appName, 'view-changelog-page');
 		return new TemplateResponse($this->appName, 'empty');
 	}

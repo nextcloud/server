@@ -11,25 +11,19 @@ namespace OCA\UpdateNotification\Notification;
 use OCA\UpdateNotification\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\IURLGenerator;
-use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IAction;
-use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
-use Psr\Log\LoggerInterface;
 
 class AppUpdateNotifier implements INotifier {
 
 	public function __construct(
 		private IFactory $l10nFactory,
-		private INotificationManager $notificationManager,
-		private IUserManager $userManager,
 		private IURLGenerator $urlGenerator,
 		private IAppManager $appManager,
-		private LoggerInterface $logger,
 	) {
 	}
 
@@ -77,11 +71,16 @@ class AppUpdateNotifier implements INotifier {
 			$icon = $this->urlGenerator->imagePath('core', 'actions/change.svg');
 		}
 
+		$link = $this->urlGenerator->linkToRouteAbsolute('updatenotification.Changelog.showChangelog', [
+			'app' => $appId,
+			'version' => $this->appManager->getAppVersion($appId)],
+		);
+
 		$action = $notification->createAction();
 		$action
-			->setLabel($l->t('See what\'s new'))
+			->setLabel('See what\'s new')
 			->setParsedLabel($l->t('See what\'s new'))
-			->setLink($this->urlGenerator->linkToRouteAbsolute('updatenotification.Changelog.showChangelog', ['app' => $appId, 'version' => $this->appManager->getAppVersion($appId)]), IAction::TYPE_WEB);
+			->setLink($link, IAction::TYPE_WEB);
 
 		$notification
 			->setIcon($this->urlGenerator->getAbsoluteURL($icon))

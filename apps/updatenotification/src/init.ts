@@ -22,7 +22,8 @@ subscribe('notifications:action:execute', async (event: INotificationActionEvent
 	if (event.notification.objectType === 'app_updated') {
 		event.cancelAction = true
 
-		const [, appId, version] = event.action.url.match(/(?<=\/)([^?]+)?version=((\d+.?)+)/) ?? []
+		const appId = event.notification.objectId
+		const version = new URL(event.action.url).searchParams.get('version') ?? undefined
 		const dismissed = await spawnDialog(AppChangelogDialog, {
 			appId,
 			version,
