@@ -906,7 +906,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(CapabilitiesManager::class, function (ContainerInterface $c) {
 			$manager = new CapabilitiesManager($c->get(LoggerInterface::class));
 			$manager->registerCapability(function () use ($c) {
-				return new CoreCapabilities($c->get(IConfig::class));
+				return new CoreCapabilities($c->get(IConfig::class), $c->get(IPreview::class));
 			});
 			$manager->registerCapability(function () use ($c) {
 				return $c->get(Capabilities::class);
