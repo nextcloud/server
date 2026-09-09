@@ -32,6 +32,7 @@ module.exports = {
 		'settings-admin': path.join(__dirname, 'apps/files/src', 'main-settings-admin.ts'),
 		'settings-personal': path.join(__dirname, 'apps/files/src', 'main-settings-personal.ts'),
 		'reference-files': path.join(__dirname, 'apps/files/src', 'reference-files.ts'),
+		'viewer-init': path.join(__dirname, 'apps/files/src', 'viewer-init.ts'),
 	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
