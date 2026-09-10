@@ -113,7 +113,7 @@ async function confirmLocalEditDialog(): Promise<'online'|'local'|false> {
 	try {
 		await dialog.show()
 	} catch (error) {
-		logger.debug('Open locally dialog closed', { error })
+		console.debug('Open locally dialog closed', error)
 	}
 
 	return result
