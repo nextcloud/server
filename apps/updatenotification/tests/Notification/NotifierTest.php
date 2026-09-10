@@ -51,34 +51,17 @@ class NotifierTest extends TestCase {
 	/**
 	 * @param array $methods
 	 */
-	protected function getNotifier(array $methods = []): Notifier|MockObject {
-		if (empty($methods)) {
-			return new Notifier(
-				$this->urlGenerator,
-				$this->appConfig,
-				$this->notificationManager,
-				$this->l10nFactory,
-				$this->userSession,
-				$this->groupManager,
-				$this->appManager,
-				$this->serverVersion,
-			);
-		}
-		{
-			return $this->getMockBuilder(Notifier::class)
-				->setConstructorArgs([
-					$this->urlGenerator,
-					$this->appConfig,
-					$this->notificationManager,
-					$this->l10nFactory,
-					$this->userSession,
-					$this->groupManager,
-					$this->appManager,
-					$this->serverVersion,
-				])
-				->onlyMethods($methods)
-				->getMock();
-		}
+	protected function getNotifier(): Notifier {
+		return new Notifier(
+			$this->urlGenerator,
+			$this->appConfig,
+			$this->notificationManager,
+			$this->l10nFactory,
+			$this->userSession,
+			$this->groupManager,
+			$this->appManager,
+			$this->serverVersion,
+		);
 	}
 
 	public static function dataUpdateAlreadyInstalledCheck(): array {
