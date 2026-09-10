@@ -56,7 +56,6 @@ const unreadLabel = computed(() => {
 		:is="app.href ? 'a' : 'button'"
 		class="app-item"
 		:class="{
-			'app-item--active': app.active,
 			'app-item--compact': compact,
 			'app-item--outlined': outlined,
 		}"
@@ -146,10 +145,6 @@ const unreadLabel = computed(() => {
 		max-width: 100%;
 		letter-spacing: -0.3px;
 		padding-inline: var(--default-grid-baseline);
-	}
-
-	&--active &__label {
-		font-weight: bold;
 	}
 
 	// Utility entries ("More apps", "App store") are subdued, they are not apps.
