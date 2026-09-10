@@ -68,7 +68,11 @@ onMounted(() => {
 			<input type="hidden" name="sharingToken" :value="sharingToken">
 			<input type="hidden" name="sharingType" :value="shareType">
 
-			<NcButton type="submit" variant="primary" wide>
+			<NcButton
+				type="submit"
+				variant="primary"
+				wide
+				:aria-label="t('core', 'Submit')">
 				{{ t('core', 'Submit') }}
 			</NcButton>
 		</form>
