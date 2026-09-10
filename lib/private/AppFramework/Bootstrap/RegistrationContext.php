@@ -37,6 +37,7 @@ use OCP\SetupCheck\ISetupCheck;
 use OCP\Share\IPublicShareTemplateProvider;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Support\CrashReport\IReporter;
+use OCP\SystemReport\ISystemReportSection;
 use OCP\Talk\ITalkBackend;
 use OCP\Teams\ITeamResourceProvider;
 use OCP\TextProcessing\IProvider as ITextProcessingProvider;
@@ -136,6 +137,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ISetupCheck>[] */
 	private array $setupChecks = [];
+
+	/** @var ServiceRegistration<ISystemReportSection>[] */
+	private array $systemReportSections = [];
 
 	/** @var PreviewProviderRegistration[] */
 	private array $previewProviders = [];
@@ -627,6 +631,13 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @psalm-param class-string<ISystemReportSection> $sectionClass
+	 */
+	public function registerSystemReportSection(string $appId, string $sectionClass): void {
+		$this->systemReportSections[] = new ServiceRegistration($appId, $sectionClass);
+	}
+
+	/**
 	 * @psalm-param class-string<IDeclarativeSettingsForm> $declarativeSettingsClass
 	 */
 	public function registerDeclarativeSettings(string $appId, string $declarativeSettingsClass): void {
@@ -990,6 +1001,13 @@ class RegistrationContext {
 	 */
 	public function getSetupChecks(): array {
 		return $this->setupChecks;
+	}
+
+	/**
+	 * @return ServiceRegistration<ISystemReportSection>[]
+	 */
+	public function getSystemReportSections(): array {
+		return $this->systemReportSections;
 	}
 
 	/**
