@@ -389,6 +389,15 @@ interface IRegistrationContext {
 	public function registerSetupCheck(string $setupCheckClass): void;
 
 	/**
+	 * Register an implementation of \OCP\SystemReport\ISystemReportSection that
+	 * will contribute a section to the system report
+	 *
+	 * @param class-string<\OCP\SystemReport\ISystemReportSection> $sectionClass
+	 * @since 36.0.0
+	 */
+	public function registerSystemReportSection(string $sectionClass): void;
+
+	/**
 	 * Register an implementation of \OCP\Settings\IDeclarativeSettings that
 	 * will handle the implementation of declarative settings
 	 *

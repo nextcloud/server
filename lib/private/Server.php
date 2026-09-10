@@ -145,6 +145,7 @@ use OC\Snowflake\SnowflakeDecoder;
 use OC\Snowflake\SnowflakeGenerator;
 use OC\SpeechToText\SpeechToTextManager;
 use OC\Support\Subscription\Assertion;
+use OC\SystemReport\SystemReportManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Talk\Broker;
 use OC\Teams\TeamManager;
@@ -280,6 +281,7 @@ use OCP\Snowflake\ISnowflakeDecoder;
 use OCP\Snowflake\ISnowflakeGenerator;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\Support\Subscription\IAssertion;
+use OCP\SystemReport\ISystemReportManager;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagManagerFactory;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -1132,6 +1134,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias(IOCMProvider::class, OCMProvider::class);
 
 		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);
+		$this->registerAlias(ISystemReportManager::class, SystemReportManager::class);
 		$this->registerAlias(IProfileManager::class, ProfileManager::class);
 		$this->registerAlias(IAvailabilityCoordinator::class, AvailabilityCoordinator::class);
 		$this->registerAlias(IDeclarativeManager::class, DeclarativeManager::class);
