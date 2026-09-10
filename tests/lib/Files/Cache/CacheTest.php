@@ -336,7 +336,7 @@ class CacheTest extends \Test\TestCase {
 		$fileData = ['size' => 1, 'mtime' => 20, 'mimetype' => 'text/plain'];
 
 		$expected = [$cache->put('folder', ['size' => 0, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE])];
-		for ($i = 0; $i < IQueryBuilder::MAX_IN_PARAMETERS + 1; $i++) {
+		for ($i = 0; $i < 1001; $i++) {
 			$expected[] = $cache->insert("folder/child$i.txt", $fileData);
 		}
 
