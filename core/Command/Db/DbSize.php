@@ -45,7 +45,7 @@ class DbSize extends Command {
 					   ROUND((data_length + index_length) / 1024 / 1024, 2) AS total_mb,
 					   ROUND(data_length / 1024 / 1024, 2) AS data_mb,
 					   ROUND(index_length / 1024 / 1024, 2) AS index_mb,
-					   table_rows AS rows,
+					   table_rows AS `rows`,
 					   IF(table_rows > 0, ROUND((data_length + index_length) / table_rows, 0), 0) AS avg_row_bytes
 				FROM information_schema.tables
 				WHERE table_schema = DATABASE()
