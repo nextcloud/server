@@ -39,10 +39,7 @@ import IconPencil from 'vue-material-design-icons/PencilOutline.vue'
 import IconFileUpload from 'vue-material-design-icons/TrayArrowUp.vue'
 import DropdownIcon from 'vue-material-design-icons/TriangleSmallDown.vue'
 import IconTune from 'vue-material-design-icons/Tune.vue'
-import {
-	ATOMIC_PERMISSIONS,
-	getBundledPermissions,
-} from '../lib/SharePermissionsToolBox.js'
+import { getBundledPermissions } from '../lib/SharePermissionsToolBox.js'
 import ShareDetails from '../mixins/ShareDetails.js'
 import SharesMixin from '../mixins/SharesMixin.js'
 
@@ -98,14 +95,13 @@ export default {
 		},
 
 		preSelectedOption() {
-			// We remove the share permission for the comparison as it is not relevant for bundled permissions.
-			const permissionsWithoutShare = this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE
-			const basePermissions = getBundledPermissions(true)
-			if (permissionsWithoutShare === basePermissions.READ_ONLY) {
+			const permissions = this.share.permissions
+			const basePermissions = this.bundledPermissions
+			if (permissions === basePermissions.READ_ONLY) {
 				return this.canViewText
-			} else if (permissionsWithoutShare === basePermissions.ALL || permissionsWithoutShare === basePermissions.ALL_FILE) {
+			} else if (permissions === basePermissions.ALL || permissions === basePermissions.ALL_FILE) {
 				return this.canEditText
-			} else if (permissionsWithoutShare === basePermissions.FILE_DROP) {
+			} else if (permissions === basePermissions.FILE_DROP) {
 				return this.fileDropText
 			}
 
