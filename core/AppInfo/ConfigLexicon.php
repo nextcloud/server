@@ -28,6 +28,7 @@ class ConfigLexicon implements ILexicon {
 	public const SHARE_LINK_EXPIRE_DATE_ENFORCED = 'shareapi_enforce_expire_date';
 	public const USER_LANGUAGE = 'lang';
 	public const OCM_DISCOVERY_ENABLED = 'ocm_discovery_enabled';
+	public const SHARE_REPAIR_REMOVED_TRAILING_SLASHES = 'share_repair_removed_trailing_slashes';
 
 	public const USER_LOCALE = 'locale';
 	public const USER_TIMEZONE = 'timezone';
@@ -98,6 +99,13 @@ class ConfigLexicon implements ILexicon {
 				type: ValueType::BOOL,
 				defaultRaw: true,
 				definition: 'Whether on demand preview migration is enabled.'
+			),
+			new Entry(
+				key: self::SHARE_REPAIR_REMOVED_TRAILING_SLASHES,
+				type: ValueType::BOOL,
+				defaultRaw: false,
+				definition: 'Whether the repair step stripping trailing slashes from share targets has already been run.',
+				lazy: true,
 			),
 		];
 	}
