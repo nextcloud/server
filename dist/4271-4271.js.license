@@ -63,9 +63,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/files
 	- version: 3.12.2
 	- license: AGPL-3.0-or-later
-- @nextcloud/sharing
-	- version: 0.3.0
-	- license: GPL-3.0-or-later
 - focus-trap
 	- version: 7.8.0
 	- license: MIT
