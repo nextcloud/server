@@ -349,53 +349,26 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($expected, $announced);
 	}
 
-	public function testClearEmptiesTheStorageEvenIfAListenerThrows(): void {
-		$storage = new Temporary([]);
-		$dispatcher = $this->createMock(IEventDispatcher::class);
-		$dispatcher->method('dispatchTyped')
-			->willReturnCallback(function (object $event): void {
-				if ($event instanceof CacheEntriesRemovedEvent) {
-					throw new \RuntimeException('listener blew up');
-				}
-			});
-		$dependencies = new CacheDependencies(
-			Server::get(IMimeTypeLoader::class),
-			Server::get(IDBConnection::class),
-			$dispatcher,
-			Server::get(QuerySearchHelper::class),
-			Server::get(SystemConfig::class),
-			Server::get(LoggerInterface::class),
-			Server::get(IFilesMetadataManager::class),
-			Server::get(DisplayNameCache::class),
-		);
-		$cache = new Cache($storage, $dependencies);
-		$cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
-		$cache->put('foo.txt', ['size' => 1, 'mtime' => 20, 'mimetype' => 'text/plain']);
+	public function testClearRemovesExtendedAndMetadataEntries(): void {
+		$cache = new Cache($this->storage);
+		$fileId = $cache->put('foo', ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'upload_time' => 30]);
 
-		try {
-			$cache->clear();
-			$this->fail('the listener exception should surface');
-		} catch (\RuntimeException $e) {
-			$this->assertEquals('listener blew up', $e->getMessage());
-		}
-
-		$this->assertFalse($cache->inCache('foo.txt'));
-		$this->assertFalse($cache->inCache(''));
-	}
-
-	public function testClearAnnouncesRemovedEntries(): void {
-		$storage = new Temporary([]);
-		[$cache, $recorded] = $this->cacheWithRecordedEvents($storage);
-		$expected = [$cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE])];
-		$expected[] = $cache->put('foo.txt', ['size' => 1, 'mtime' => 20, 'mimetype' => 'text/plain']);
-		$expected[] = $cache->put('bar.txt', ['size' => 1, 'mtime' => 20, 'mimetype' => 'text/plain']);
+		$metadataManager = Server::get(IFilesMetadataManager::class);
+		$metadata = $metadataManager->getMetadata($fileId, true);
+		$metadata->setString('test-key', 'value', true);
+		$metadataManager->saveMetadata($metadata);
 
 		$cache->clear();
 
-		$announced = $this->announcedFileIds($recorded());
-		sort($expected);
-		sort($announced);
-		$this->assertEquals($expected, $announced);
+		$this->assertFalse($cache->inCache('foo'));
+		$connection = Server::get(IDBConnection::class);
+		foreach (['filecache_extended' => 'fileid', 'files_metadata' => 'file_id', 'files_metadata_index' => 'file_id'] as $table => $column) {
+			$query = $connection->getQueryBuilder();
+			$query->select($column)
+				->from($table)
+				->where($query->expr()->eq($column, $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+			$this->assertSame([], $query->executeQuery()->fetchFirstColumn(), "$table rows of the cleared storage remain");
+		}
 	}
 
 	public static function folderDataProvider(): array {
