@@ -134,14 +134,18 @@ class TeamManager implements ITeamManager {
 		return array_map($this->circleToTeam(...), $this->getTeams($provider->getTeamsForResource($resourceId), $userId));
 	}
 
-	private function getTeamInternal(string $teamId, string $userId, ?CircleProbe $probe = null): ?Circle {
+	private function getTeamInternal(string $teamId, ?string $userId, ?CircleProbe $probe = null): ?Circle {
 		if (!$this->hasTeamSupport()) {
 			return null;
 		}
 
+		if ($userId !== null) {
+			$this->circlesManager->startSession($this->circlesManager->getLocalFederatedUser($userId));
+		} else {
+			$this->circlesManager->startSuperSession();
+		}
+
 		try {
-			$federatedUser = $this->circlesManager->getFederatedUser($userId, Member::TYPE_USER);
-			$this->circlesManager->startSession($federatedUser);
 			return $this->circlesManager->getCircle($teamId, $probe);
 		} catch (CircleNotFoundException) {
 			return null;
@@ -154,7 +158,7 @@ class TeamManager implements ITeamManager {
 	 * @return array<string, string> userId => displayName
 	 */
 	#[\Override]
-	public function getMembersOfTeam(string $teamId, string $userId): array {
+	public function getMembersOfTeam(string $teamId, ?string $userId): array {
 		$team = $this->getTeamInternal($teamId, $userId);
 		if ($team === null) {
 			return [];
