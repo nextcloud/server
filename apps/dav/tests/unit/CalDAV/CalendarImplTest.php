@@ -95,6 +95,16 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->assertEquals($result, ['SEARCHRESULTS']);
 	}
 
+	public function testSearchDeletedCalendar(): void {
+		$this->calendar->expects($this->once())
+			->method('isDeleted')
+			->willReturn(true);
+		$this->backend->expects($this->never())
+			->method('search');
+
+		$this->assertEquals([], $this->calendarImpl->search('abc'));
+	}
+
 	public function testGetPermissionRead(): void {
 		$this->calendar->expects($this->once())
 			->method('getACL')
