@@ -459,6 +459,45 @@ END:VCARD';
 		$ss->deleteUser($user);
 	}
 
+	public function testUpdateUserSkipsUnchangedCard(): void {
+		$vCard = new VCard();
+		$vCard->VERSION = '3.0';
+		$vCard->UID = 'test-user';
+		$vCard->FN = 'test-user';
+
+		/** @var CardDavBackend&MockObject $backend */
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->createMock(LoggerInterface::class);
+
+		$backend->expects($this->never())->method('createCard');
+		$backend->expects($this->never())->method('updateCard');
+		$backend->expects($this->never())->method('deleteCard');
+
+		$backend->method('getCard')->willReturn(['carddata' => $vCard->serialize()]);
+		$backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 'system')
+			->willReturn(['id' => -1]);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getBackendClassName')->willReturn('unittest');
+		$user->method('getUID')->willReturn('test-user');
+		$user->method('isEnabled')->willReturn(true);
+
+		$converter = $this->createMock(Converter::class);
+		$converter->method('createCardFromUser')->willReturn($vCard);
+
+		$ss = new SyncService(
+			$this->createMock(IClientService::class),
+			$this->createMock(IConfig::class),
+			$backend,
+			$this->createMock(IUserManager::class),
+			$this->createMock(IDBConnection::class),
+			$logger,
+			$converter,
+		);
+		$ss->updateUser($user);
+	}
+
 	public function testDeleteAddressbookWhenAccessRevoked(): void {
 		$this->expectException(ClientExceptionInterface::class);
 
