@@ -901,33 +901,7 @@ class Cache implements ICache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$storageId = $this->getNumericStorageId();
-
-		while (true) {
-			$query = $this->getQueryBuilder();
-			$query->select('fileid')
-				->from('filecache')
-				->whereStorageId($storageId)
-				->setMaxResults(IQueryBuilder::MAX_IN_PARAMETERS);
-			$fileIds = array_map(intval(...), $query->executeQuery()->fetchFirstColumn());
-			if ($fileIds === []) {
-				break;
-			}
-
-			$query = $this->getQueryBuilder();
-			$query->delete('filecache_extended')
-				->where($query->expr()->in('fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
-				->hintShardKey('storage', $storageId);
-			$query->executeStatement();
-
-			$this->metadataManager->deleteMetadataForFiles($storageId, $fileIds);
-
-			$query = $this->getQueryBuilder();
-			$query->delete('filecache')
-				->whereStorageId($storageId)
-				->andWhere($query->expr()->in('fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
-			$query->executeStatement();
-		}
+		Storage::removeFileCacheEntries($this->getNumericStorageId());
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('storages')
