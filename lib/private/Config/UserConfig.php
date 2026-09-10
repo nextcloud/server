@@ -1155,7 +1155,7 @@ class UserConfig implements IUserConfig {
 		}
 		$this->loadConfig($userId, $lazy);
 		if (!$lazy && strlen($value) > self::MAX_NON_LAZY_SIZE) {
-			$this->logger->error(
+			$this->logger->debug(
 				'[Deprecated] User {userId} config "{app}:{key}" is larger than {maxSize} bytes. It should be declared as lazy.',
 				[
 					'app' => $app,
