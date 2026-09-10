@@ -1759,7 +1759,7 @@ class Manager implements IManager {
 		}
 		$mounts = $this->userMountCache->getMountsForFileId($fileId);
 		$userIds = array_map(fn ($mount) => $mount->getUser()->getUID(), $mounts);
-		if (!in_array($userId, $userIds)) {
+		if (!in_array($userId, $userIds, true)) {
 			throw new UnauthorizedException('User ' . $userId . ' does not have access to file ' . $fileId);
 		}
 	}
