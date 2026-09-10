@@ -64,6 +64,11 @@ final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator
 	}
 
 	#[\Override]
+	public function getUsers(string $recipient): array {
+		return [$recipient];
+	}
+
+	#[\Override]
 	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string {
 		if ($instance !== null) {
 			return $this->getRecipientDisplayNameFromAddressBook($recipient . '@' . $instance, 'CLOUD');
