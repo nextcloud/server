@@ -63,6 +63,8 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 
 	private $initialized = false;
 
+	private bool $invalidSourceLogged = false;
+
 	/**
 	 * @var ICacheEntry
 	 */
@@ -237,7 +239,46 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	}
 
 	private function isValid(): bool {
-		return $this->getSourceRootInfo() && ($this->getSourceRootInfo()->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
+		$sourceRootInfo = $this->getSourceRootInfo();
+		if ($sourceRootInfo instanceof ICacheEntry
+			&& ($sourceRootInfo->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE) {
+			return true;
+		}
+
+		$this->logInvalidSource($sourceRootInfo);
+
+		return false;
+	}
+
+	/**
+	 * An invalid share is disabled entirely: every permission check returns 0 while
+	 * reading keeps working, which is easy to mistake for arbitrary breakage such as
+	 * failing uploads or renames that revert. Leave a trace naming the share and the
+	 * source that has to be repaired.
+	 *
+	 * @param ICacheEntry|false|null $sourceRootInfo
+	 */
+	private function logInvalidSource($sourceRootInfo): void {
+		if ($this->invalidSourceLogged) {
+			return;
+		}
+		$this->invalidSourceLogged = true;
+
+		if (!($sourceRootInfo instanceof ICacheEntry) || $sourceRootInfo->getId() < 0) {
+			// The source could not be resolved at all, in which case `init()` has
+			// already swapped in a `FailedStorage` and `FailedCache` and the root info
+			// is only a read-only placeholder. That is a different problem from a
+			// source whose cached permissions are wrong, so don't report it as one.
+			return;
+		}
+
+		$this->logger->warning('Share {shareId} is disabled because its source is missing the share permission. Repair the cached permissions of {shareOwner} with "occ files:scan", or check whether the source is masked by a read-only mount or access control rule.', [
+			'app' => 'files_sharing',
+			'shareId' => $this->superShare->getId(),
+			'shareOwner' => $this->superShare->getShareOwner(),
+			'sourceFileId' => $sourceRootInfo->getId(),
+			'sourcePermissions' => $sourceRootInfo->getPermissions(),
+		]);
 	}
 
 	#[\Override]
