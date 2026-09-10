@@ -127,7 +127,12 @@ class ServerContainer extends SimpleContainer {
 		if (str_starts_with($name, 'OCA\\')) {
 			// In case the service starts with OCA\ we try to find the service in the apps container.
 			if (($appContainer = $this->getAppContainerForService($name)) !== null) {
-				return $appContainer->queryNoFallback($name, $chain);
+				$result = $appContainer->queryNoFallback($name, $chain);
+				if ($result !== null) {
+					return $result;
+				}
+				throw new QueryException('Could not resolve ' . $name . '!'
+					. ' Class can not be instantiated', 1);
 			}
 		}
 
