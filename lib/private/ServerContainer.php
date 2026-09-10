@@ -125,11 +125,6 @@ class ServerContainer extends SimpleContainer {
 	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		$name = $this->resolveAlias($name);
 		if (str_starts_with($name, 'OCA\\')) {
-			// Skip server container query for app namespace classes
-			if (isset($this->container[$name])) {
-				return $this->container[$name];
-			}
-			// Continue with general autoloading
 			// In case the service starts with OCA\ we try to find the service in
 			// the apps container first.
 			if (($appContainer = $this->getAppContainerForService($name)) !== null) {
