@@ -25,6 +25,7 @@ use OCP\IDBConnection;
 use OCP\Interaction\InteractionReceiver;
 use OCP\Interaction\Receivers\CircleReceiver;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Share\IShare;
@@ -41,6 +42,7 @@ final class TeamShareRecipientType extends AShareRecipientTypeSearchCollaborator
 		IEventDispatcher $eventDispatcher,
 		private readonly IDBConnection $dbConnection,
 		private readonly ISharingManager $manager,
+		private readonly IUserManager $userManager,
 	) {
 		$eventDispatcher->addServiceListener(DestroyingCircleEvent::class, self::class);
 	}
@@ -67,6 +69,11 @@ final class TeamShareRecipientType extends AShareRecipientTypeSearchCollaborator
 		}
 
 		return array_map(static fn (Team $team): string => $team->getId(), $this->getTeamManager()->getTeamsForUser($currentUser->getUID()));
+	}
+
+	#[\Override]
+	public function getUsers(string $recipient): array {
+		return array_map($this->userManager->getExistingUser(...), array_keys($this->getTeamManager()->getMembersOfTeam($recipient, null)));
 	}
 
 	#[\Override]

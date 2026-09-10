@@ -63,6 +63,14 @@ final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator
 		return [$currentUser->getUID()];
 	}
 
+	/**
+	 * @return list<IUser>
+	 */
+	#[\Override]
+	public function getUsers(string $recipient): array {
+		return [$this->userManager->getExistingUser($recipient)];
+	}
+
 	#[\Override]
 	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string {
 		if ($instance !== null) {
