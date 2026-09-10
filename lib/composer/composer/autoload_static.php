@@ -204,7 +204,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\Http\\NotFoundResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/NotFoundResponse.php',
         'OCP\\AppFramework\\Http\\ParameterOutOfRangeException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/ParameterOutOfRangeException.php',
         'OCP\\AppFramework\\Http\\RedirectResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/RedirectResponse.php',
-        'OCP\\AppFramework\\Http\\RedirectToDefaultAppResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php',
         'OCP\\AppFramework\\Http\\Response' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Response.php',
         'OCP\\AppFramework\\Http\\StandaloneTemplateResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StandaloneTemplateResponse.php',
         'OCP\\AppFramework\\Http\\StreamResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StreamResponse.php',
