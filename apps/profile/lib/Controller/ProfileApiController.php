@@ -125,7 +125,8 @@ class ProfileApiController extends OCSController {
 				'label' => $event['objects'][0]['SUMMARY'][0],
 				'text' => $this->formatter->formatTimeSpan($start, \DateTime::createFromImmutable($now)),
 				'href' => $href,
-				'img' => $this->urlGenerator->getAbsoluteURL($this->appManager->getAppIcon('calendar')),
+				'img' => $this->urlGenerator->getAbsoluteURL($this->appManager->getAppIcon('calendar', true)),
+				'themedIcon' => true,
 			];
 		}
 		return $result;
