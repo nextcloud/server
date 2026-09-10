@@ -902,52 +902,37 @@ class Cache implements ICache {
 	 */
 	public function clear() {
 		$storageId = $this->getNumericStorageId();
-		$exception = null;
 
-		// removed in batches so a storage with many entries does not have to be held in memory at once
 		while (true) {
 			$query = $this->getQueryBuilder();
-			$query->select('fileid', 'path')
+			$query->select('fileid')
 				->from('filecache')
 				->whereStorageId($storageId)
 				->setMaxResults(IQueryBuilder::MAX_IN_PARAMETERS);
-			$rows = $query->executeQuery()->fetchAll();
-			if ($rows === []) {
+			$fileIds = array_map(intval(...), $query->executeQuery()->fetchFirstColumn());
+			if ($fileIds === []) {
 				break;
 			}
 
-			$fileIds = array_map(static fn (array $row): int => (int)$row['fileid'], $rows);
+			$query = $this->getQueryBuilder();
+			$query->delete('filecache_extended')
+				->where($query->expr()->in('fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
+				->hintShardKey('storage', $storageId);
+			$query->executeStatement();
+
+			$this->metadataManager->deleteMetadataForFiles($storageId, $fileIds);
 
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache')
 				->whereStorageId($storageId)
 				->andWhere($query->expr()->in('fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
 			$query->executeStatement();
-
-			$cacheEntryRemovedEvents = [];
-			foreach ($rows as $row) {
-				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent($this->storage, (string)$row['path'], (int)$row['fileid'], $storageId);
-			}
-
-			// a listener must not be able to leave the storage half cleared
-			try {
-				$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent($cacheEntryRemovedEvents));
-				foreach ($cacheEntryRemovedEvents as $cacheEntryRemovedEvent) {
-					$this->eventDispatcher->dispatchTyped($cacheEntryRemovedEvent);
-				}
-			} catch (\Exception $e) {
-				$exception ??= $e;
-			}
 		}
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('storages')
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
 		$query->executeStatement();
-
-		if ($exception !== null) {
-			throw $exception;
-		}
 	}
 
 	/**
