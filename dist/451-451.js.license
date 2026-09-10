@@ -1,0 +1,25 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Evan You
+
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/vue
+	- version: 9.11.0
+	- license: AGPL-3.0-or-later
+- @vue/reactivity
+	- version: 3.5.42
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.42
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.42
+	- license: MIT
+- vue
+	- version: 3.5.42
+	- license: MIT
+- @vue/shared
+	- version: 3.5.42
+	- license: MIT
