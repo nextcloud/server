@@ -9,11 +9,15 @@ declare(strict_types=1);
 
 namespace OCA\Files\Tests\Command;
 
+use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCA\Files\Command\DeleteOrphanedFiles;
 use OCP\Console\IOutput;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\IRootFolder;
 use OCP\Files\StorageNotAvailableException;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Server;
@@ -74,6 +78,31 @@ class DeleteOrphanedFilesTest extends TestCase {
 	}
 
 	/**
+	 * @param list<int> $fileIds
+	 */
+	protected function countRows(string $table, string $column, array $fileIds): int {
+		// selecting rows instead of COUNT(*), which a sharded query answers once per shard
+		$query = $this->connection->getQueryBuilder();
+		$query->select($column)
+			->from($table)
+			->where($query->expr()->in($column, $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
+		return count($query->executeQuery()->fetchFirstColumn());
+	}
+
+	/**
+	 * @param list<string> $calls
+	 */
+	protected function expectOutput(IOutput&\PHPUnit\Framework\MockObject\MockObject $output, array $calls): void {
+		$output
+			->expects($this->exactly(count($calls)))
+			->method('writeln')
+			->willReturnCallback(function (string $message) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertSame($expected, $message);
+			});
+	}
+
+	/**
 	 * Test clearing orphaned files
 	 */
 	public function testClearFiles(): void {
@@ -103,6 +132,16 @@ class DeleteOrphanedFilesTest extends TestCase {
 		$this->assertEquals(1, $this->getMountsCount($numericStorageId), 'Asserts that mount is still available');
 
 		$qb = $this->connection->getQueryBuilder();
+		$storageFileIds = array_map('intval', $qb->select('fileid')
+			->from('filecache')
+			->where($qb->expr()->eq('storage', $qb->createNamedParameter($numericStorageId, IQueryBuilder::PARAM_INT)))
+			->executeQuery()
+			->fetchFirstColumn());
+		$extendedEntries = $this->countRows('filecache_extended', 'fileid', $storageFileIds);
+		$metadataEntries = $this->countRows('files_metadata', 'file_id', $storageFileIds);
+		$metadataIndexEntries = $this->countRows('files_metadata_index', 'file_id', $storageFileIds);
+
+		$qb = $this->connection->getQueryBuilder();
 		$deletedRows = $qb->delete('storages')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($storageId)))
 			->executeStatement();
@@ -110,18 +149,13 @@ class DeleteOrphanedFilesTest extends TestCase {
 		$this->assertSame(1, $deletedRows, 'Asserts that storage got deleted');
 
 		// parent folder, `files`, ´test` and `welcome.txt` => 4 elements
-		$calls = [
+		$this->expectOutput($output, [
 			'3 orphaned file cache entries deleted',
-			'0 orphaned file cache extended entries deleted',
+			"$extendedEntries orphaned file cache extended entries deleted",
+			"$metadataEntries orphaned file metadata entries deleted",
+			"$metadataIndexEntries orphaned file metadata index entries deleted",
 			'1 orphaned mount entries deleted',
-		];
-		$output
-			->expects($this->exactly(3))
-			->method('writeln')
-			->willReturnCallback(function (string $message) use (&$calls): void {
-				$expected = array_shift($calls);
-				$this->assertSame($expected, $message);
-			});
+		]);
 
 		($this->command)($output);
 
@@ -135,5 +169,50 @@ class DeleteOrphanedFilesTest extends TestCase {
 			$view->unlink('files/test');
 		} catch (StorageNotAvailableException $e) {
 		}
+	}
+
+	public function testClearEntriesWithoutFileCacheEntry(): void {
+		// remove orphans left behind by other tests so that the counts below only cover this test
+		($this->command)($this->createMock(IOutput::class));
+
+		$storage = new Temporary([]);
+		$cache = $storage->getCache();
+		$cache->put('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
+		$data = ['size' => 1, 'mtime' => 1, 'mimetype' => 'text/plain', 'upload_time' => 25];
+		$orphanId = $cache->put('orphan.txt', $data);
+		$keptId = $cache->put('kept.txt', $data);
+
+		$metadataManager = Server::get(IFilesMetadataManager::class);
+		foreach ([$orphanId, $keptId] as $fileId) {
+			$metadata = $metadataManager->getMetadata($fileId, true);
+			$metadata->setString('test-key', 'value', true);
+			$metadataManager->saveMetadata($metadata);
+		}
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('filecache')
+			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($orphanId, IQueryBuilder::PARAM_INT)))
+			->executeStatement();
+
+		$output = $this->createMock(IOutput::class);
+		$this->expectOutput($output, [
+			'0 orphaned file cache entries deleted',
+			'1 orphaned file cache extended entries deleted',
+			'1 orphaned file metadata entries deleted',
+			'1 orphaned file metadata index entries deleted',
+			'0 orphaned mount entries deleted',
+		]);
+
+		($this->command)($output);
+
+		$this->assertSame(0, $this->countRows('filecache_extended', 'fileid', [$orphanId]));
+		$this->assertSame(0, $this->countRows('files_metadata', 'file_id', [$orphanId]));
+		$this->assertSame(0, $this->countRows('files_metadata_index', 'file_id', [$orphanId]));
+
+		$this->assertSame(1, $this->countRows('filecache_extended', 'fileid', [$keptId]));
+		$this->assertSame(1, $this->countRows('files_metadata', 'file_id', [$keptId]));
+		$this->assertSame(1, $this->countRows('files_metadata_index', 'file_id', [$keptId]));
+
+		$cache->clear();
 	}
 }
