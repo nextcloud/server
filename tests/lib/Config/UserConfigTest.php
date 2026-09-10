@@ -690,6 +690,32 @@ class UserConfigTest extends TestCase {
 					'app2' => 0,
 					'app3' => 0,
 				]
+			],
+			[
+				'user1', 'key1', false, ValueType::BOOL,
+				[
+					'app1' => false,
+					'app3' => false,
+				]
+			],
+			[
+				'user1', 'key1', false, ValueType::ARRAY,
+				[
+					'app1' => [],
+					'app3' => [],
+				]
+			],
+			[
+				'user1', 'fast_array', false, ValueType::ARRAY,
+				[
+					'app1' => ['year' => 2024],
+				]
+			],
+			[
+				'user1', 'fast_array_sensitive', false, ValueType::ARRAY,
+				[
+					'app1' => ['password' => 'pwd'],
+				]
 			]
 		];
 	}
@@ -737,6 +763,34 @@ class UserConfigTest extends TestCase {
 					'user1' => 11,
 					'user2' => 12,
 					'user5' => 12,
+				]
+			],
+			[
+				'app3', 'key10', null, null,
+				[
+					'user1' => true,
+					'user2' => false,
+					'user4' => true,
+				]
+			],
+			[
+				'app2', 'key2', ValueType::BOOL, ['user1', 'user3'],
+				[
+					'user1' => false,
+					'user3' => false,
+				]
+			],
+			[
+				'app2', 'key2', ValueType::ARRAY, ['user1', 'user3'],
+				[
+					'user1' => [],
+					'user3' => [],
+				]
+			],
+			[
+				'app1', 'fast_array', ValueType::ARRAY, null,
+				[
+					'user1' => ['year' => 2024],
 				]
 			],
 		];
