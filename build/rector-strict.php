@@ -50,6 +50,16 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/lib/public/AppFramework/ORM',
 		$nextcloudDir . '/lib/private/AppFramework/ORM',
 		$nextcloudDir . '/apps/oauth2',
+		$nextcloudDir . '/apps/files/lib/Db/OpenLocalEditor.php',
+		$nextcloudDir . '/apps/files/lib/Db/OpenLocalEditorMapper.php',
+		$nextcloudDir . '/apps/files/lib/Controller/OpenLocalEditorController.php',
+		$nextcloudDir . '/apps/files/tests/Db/OpenLocalEditorMapperTest.php',
+		$nextcloudDir . '/apps/files/lib/Db/TransferOwnership.php',
+		$nextcloudDir . '/apps/files/lib/Db/TransferOwnershipMapper.php',
+		$nextcloudDir . '/apps/files/lib/Controller/TransferOwnershipController.php',
+		$nextcloudDir . '/apps/files/lib/BackgroundJob/TransferOwnership.php',
+		$nextcloudDir . '/apps/files/lib/Notification/Notifier.php',
+		$nextcloudDir . '/apps/files/tests/Db/TransferOwnershipMapperTest.php',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces
