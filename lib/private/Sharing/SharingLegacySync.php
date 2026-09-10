@@ -16,9 +16,11 @@ use DateTimeInterface;
 use Exception;
 use NCU\Sharing\Event\SharesDeletedEvent;
 use NCU\Sharing\Event\SharesUpdatedEvent;
+use NCU\Sharing\Exception\ShareInvalidException;
 use NCU\Sharing\Exception\ShareNotFoundException;
 use NCU\Sharing\ISharingBackend;
 use NCU\Sharing\ISharingManager;
+use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
 use NCU\Sharing\Property\ShareProperty;
@@ -47,6 +49,7 @@ use OCA\Files\Sharing\Permission\NodeDownloadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
+use OCA\Files\Sharing\SourceNodeTargetManager;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
@@ -96,6 +99,8 @@ final class SharingLegacySync implements IEventListener {
 		private readonly ICloudIdManager $cloudIdManager,
 		private readonly IRootFolder $rootFolder,
 		private readonly LegacyMapper $legacyMapper,
+		private readonly SourceNodeTargetManager $sourceNodeTargetManager,
+		private readonly ISharingRegistry $registry,
 	) {
 		$this->eventDispatcher->addServiceListener(ShareAcceptedEvent::class, self::class);
 		$this->eventDispatcher->addServiceListener(ShareCreatedEvent::class, self::class);
@@ -266,13 +271,13 @@ final class SharingLegacySync implements IEventListener {
 	 * @param non-empty-list<LegacyMapping> $legacyMappings
 	 */
 	private function syncLegacySharesToShare(string $id, array $legacyMappings): void {
+		// TODO: Instead of using the first legacy share for common attributes, use the mostly recently updated one.
+
 		/** @var array<int, ShareSource> */
 		$sources = [];
 		/** @var array<class-string<IShareRecipientType>, array<string, ShareRecipient>> */
 		$recipients = [];
 		$legacyLastUpdated = null;
-
-		// TODO: Instead of using the first legacy share for common attributes, use the mostly recently updated one.
 
 		/** @var list<IShare> $legacyShares */
 		$legacyShares = [];
@@ -473,6 +478,27 @@ final class SharingLegacySync implements IEventListener {
 
 				$legacyShare->setExpirationDate($expirationDate);
 				// We don't call setNoExpirationDate, because the value isn't actually saved
+
+				if (($recipientType = $this->registry->getRecipientTypes()[$recipient->class] ?? null) === null) {
+					throw new RuntimeException('The recipient type is not registered: ' . $recipient->class);
+				}
+
+				$userIds = $recipientType->getUsers($recipient->value);
+				if ($userIds !== []) {
+					$legacyShare->setTarget($this->sourceNodeTargetManager->getTarget($userIds[0], $share->owner, (int)$source->value));
+				} else {
+					if ($share->owner->instance !== null) {
+						throw new RuntimeException('Federation is not supported yet.');
+					}
+
+					$ownerUserFolder = $this->rootFolder->getUserFolder($share->owner->userId);
+					$node = $ownerUserFolder->getFirstNodeById((int)$source->value);
+					if ($node === null) {
+						throw new ShareNotFoundException();
+					}
+
+					$legacyShare->setTarget('/' . $node->getName());
+				}
 
 				if (($legacyMapping = $legacyMappings[$recipient->class][$recipient->value][$source->value] ?? null) !== null) {
 					$oldLegacyShare = $legacyMapping->getLegacyShare($this->legacySharingManager);
