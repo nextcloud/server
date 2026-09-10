@@ -12,6 +12,7 @@ namespace Test\Teams;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Teams\TeamManager;
 use OCP\IURLGenerator;
+use OCP\Teams\ITeamFileResolver;
 use OCP\Teams\ITeamFolderProvider;
 use OCP\Teams\ITeamResourceProvider;
 use Test\TestCase;
@@ -41,6 +42,75 @@ class TeamManagerTest extends TestCase {
 		]);
 
 		$this->assertSame($folderProvider, $teamManager->getTeamFolderProvider());
+	}
+
+	public function testCollectTeamIdsDoesNotWidenForOtherProviders(): void {
+		$teamManager = $this->createTeamManager(true);
+		$addressed = $this->createMock(ITeamResourceProvider::class);
+		$addressed->expects($this->once())
+			->method('getTeamsForResource')
+			->with('42')
+			->willReturn(['team-1']);
+
+		$resolver = $this->createMock(ITeamFileResolver::class);
+		$resolver->expects($this->never())->method('getTeamsForFile');
+
+		$this->setProviders($teamManager, ['deck' => $addressed, 'groupfolders' => $resolver]);
+
+		$this->assertSame(['team-1'], $this->collectTeamIds($teamManager, 'deck', '42'));
+	}
+
+	public function testCollectTeamIdsAsksEveryResolverForTheFilesProvider(): void {
+		$teamManager = $this->createTeamManager(true);
+		$addressed = $this->createMock(ITeamResourceProvider::class);
+		$addressed->method('getTeamsForResource')->with('42')->willReturn(['team-1']);
+
+		$resolver = $this->createMock(ITeamFileResolver::class);
+		$resolver->expects($this->once())
+			->method('getTeamsForFile')
+			->with(42)
+			->willReturn(['team-2']);
+
+		$unrelated = $this->createMock(ITeamResourceProvider::class);
+		$unrelated->expects($this->never())->method('getTeamsForResource');
+
+		$this->setProviders($teamManager, [
+			'files' => $addressed,
+			'groupfolders' => $resolver,
+			'talk' => $unrelated,
+		]);
+
+		$this->assertSame(['team-1', 'team-2'], $this->collectTeamIds($teamManager, 'files', '42'));
+	}
+
+	public function testCollectTeamIdsDoesNotAskTheAddressedProviderTwice(): void {
+		$teamManager = $this->createTeamManager(true);
+		$addressed = $this->createMock(ITeamFileResolver::class);
+		$addressed->method('getTeamsForResource')->willReturn(['team-1']);
+		$addressed->expects($this->never())->method('getTeamsForFile');
+
+		$this->setProviders($teamManager, ['files' => $addressed]);
+
+		$this->assertSame(['team-1'], $this->collectTeamIds($teamManager, 'files', '42'));
+	}
+
+	public function testCollectTeamIdsReturnsEachTeamOnce(): void {
+		$teamManager = $this->createTeamManager(true);
+		$addressed = $this->createMock(ITeamResourceProvider::class);
+		$addressed->method('getTeamsForResource')->willReturn(['team-1']);
+
+		$resolver = $this->createMock(ITeamFileResolver::class);
+		$resolver->method('getTeamsForFile')->willReturn(['team-1', 'team-2']);
+
+		$this->setProviders($teamManager, ['files' => $addressed, 'groupfolders' => $resolver]);
+
+		$this->assertSame(['team-1', 'team-2'], $this->collectTeamIds($teamManager, 'files', '42'));
+	}
+
+	private function collectTeamIds(TeamManager $teamManager, string $providerId, string $resourceId): array {
+		$method = new \ReflectionMethod(TeamManager::class, 'collectTeamIds');
+
+		return $method->invoke($teamManager, $providerId, $resourceId);
 	}
 
 	private function createTeamManager(bool $hasTeamSupport = false): TeamManager {
