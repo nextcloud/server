@@ -56,7 +56,7 @@ class Quota extends Wrapper {
 		return $this->getQuota() !== FileInfo::SPACE_UNLIMITED;
 	}
 
-	protected function getSize(string $path, ?IStorage $storage = null): int|float {
+	public function getSize(string $path, ?IStorage $storage = null): int|float {
 		if ($this->quotaIncludeExternalStorage) {
 			$rootInfo = Filesystem::getFileInfo('', 'ext');
 			if ($rootInfo) {
