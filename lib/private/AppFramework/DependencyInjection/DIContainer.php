@@ -309,7 +309,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 */
 	#[\Override]
 	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
-		$name = $this->resolveAlias($name);
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
 		}

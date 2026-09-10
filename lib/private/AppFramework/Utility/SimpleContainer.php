@@ -46,7 +46,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 */
 	#[\Override]
 	public function get(string $id): mixed {
-		return $this->query($this->sanitizeName($id));
+		return $this->query($this->resolveAlias($this->sanitizeName($id)));
 	}
 
 	#[\Override]
@@ -96,7 +96,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			try {
 				$builtIn = $parameterType !== null && ($parameterType instanceof ReflectionNamedType)
 							&& $parameterType->isBuiltin();
-				return $this->query($resolveName, !$builtIn, $chain);
+				return $this->query($this->resolveAlias($resolveName), !$builtIn, $chain);
 			} catch (ContainerExceptionInterface $e) {
 				// Service not found, use the default value when available
 				if ($parameter->isDefaultValueAvailable()) {
@@ -106,7 +106,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
 					$resolveName = $parameter->getName();
 					try {
-						return $this->query($resolveName, chain: $chain);
+						return $this->query($this->resolveAlias($resolveName), chain: $chain);
 					} catch (ContainerExceptionInterface $e2) {
 						// Pass null if typed and nullable
 						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
@@ -151,11 +151,10 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	/**
-	 * @param string $name Already sanitized name
+	 * @param string $name Already sanitized name and alias resolved
 	 * @param list<class-string> $chain
 	 */
 	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
-		$name = $this->resolveAlias($name);
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
 		}
