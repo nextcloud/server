@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\AppInfo;
 
+use NCU\Sharing\Event\SharesUpdatedEvent;
 use NCU\Sharing\ISharingRegistry;
 use OC\Core\Sharing\Permission\EditSharePermissionPreset;
 use OC\Core\Sharing\Permission\ViewSharePermissionPreset;
@@ -42,6 +43,7 @@ use OCA\Files\Sharing\Permission\NodeDownloadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCA\Files\Sharing\Property\NodeGridViewSharePropertyType;
+use OCA\Files\Sharing\SharesUpdatedListener;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -132,6 +134,8 @@ class Application extends App implements IBootstrap {
 		$registry->registerPermissionType(NodeShareSourceType::class, Server::get(NodeDownloadSharePermissionType::class));
 		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeDownloadSharePermissionType::class, ViewSharePermissionPreset::class);
 		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeDownloadSharePermissionType::class, EditSharePermissionPreset::class);
+
+		$context->registerEventListener(SharesUpdatedEvent::class, SharesUpdatedListener::class);
 	}
 
 	#[\Override]
