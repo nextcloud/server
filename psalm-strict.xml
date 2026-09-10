@@ -58,6 +58,7 @@
 		<directory name="apps/oauth2"/>
 		<file name="lib/public/Share/Events/ShareUpdatedEvent.php"/>
 		<file name="lib/public/Share/Events/ShareRestoredEvent.php"/>
+		<file name="apps/files/lib/Migration/Version35000Date20260910082613.php"/>
 		<ignoreFiles>
 			<!-- Circles internals are used -->
 			<file name="core/Sharing/Recipient/TeamShareRecipientType.php"/>

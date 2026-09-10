@@ -100,6 +100,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Migration\\Version11301Date20191205150729' => __DIR__ . '/..' . '/../lib/Migration/Version11301Date20191205150729.php',
         'OCA\\Files\\Migration\\Version12101Date20221011153334' => __DIR__ . '/..' . '/../lib/Migration/Version12101Date20221011153334.php',
         'OCA\\Files\\Migration\\Version2003Date20241021095629' => __DIR__ . '/..' . '/../lib/Migration/Version2003Date20241021095629.php',
+        'OCA\\Files\\Migration\\Version35000Date20260910082613' => __DIR__ . '/..' . '/../lib/Migration/Version35000Date20260910082613.php',
         'OCA\\Files\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\Files\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\Files\\Search\\FilesSearchProvider' => __DIR__ . '/..' . '/../lib/Search/FilesSearchProvider.php',
@@ -119,6 +120,8 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Sharing\\Permission\\NodeReadSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeReadSharePermissionType.php',
         'OCA\\Files\\Sharing\\Permission\\NodeUpdateSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeUpdateSharePermissionType.php',
         'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => __DIR__ . '/..' . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
+        'OCA\\Files\\Sharing\\SharesUpdatedListener' => __DIR__ . '/..' . '/../lib/Sharing/SharesUpdatedListener.php',
+        'OCA\\Files\\Sharing\\SourceNodeTargetManager' => __DIR__ . '/..' . '/../lib/Sharing/SourceNodeTargetManager.php',
         'OCA\\Files\\Sharing\\Source\\NodeShareSourceMetadata' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceMetadata.php',
         'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceType.php',
     );

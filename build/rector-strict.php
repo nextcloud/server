@@ -52,6 +52,7 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/apps/oauth2',
 		$nextcloudDir . '/lib/public/Share/Events/ShareUpdatedEvent.php',
 		$nextcloudDir . '/lib/public/Share/Events/ShareRestoredEvent.php',
+		$nextcloudDir . '/apps/files/lib/Migration/Version35000Date20260910082613.php',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces

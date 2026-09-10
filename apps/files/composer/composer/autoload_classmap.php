@@ -85,6 +85,7 @@ return array(
     'OCA\\Files\\Migration\\Version11301Date20191205150729' => $baseDir . '/../lib/Migration/Version11301Date20191205150729.php',
     'OCA\\Files\\Migration\\Version12101Date20221011153334' => $baseDir . '/../lib/Migration/Version12101Date20221011153334.php',
     'OCA\\Files\\Migration\\Version2003Date20241021095629' => $baseDir . '/../lib/Migration/Version2003Date20241021095629.php',
+    'OCA\\Files\\Migration\\Version35000Date20260910082613' => $baseDir . '/../lib/Migration/Version35000Date20260910082613.php',
     'OCA\\Files\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\Files\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\Files\\Search\\FilesSearchProvider' => $baseDir . '/../lib/Search/FilesSearchProvider.php',
@@ -104,6 +105,8 @@ return array(
     'OCA\\Files\\Sharing\\Permission\\NodeReadSharePermissionType' => $baseDir . '/../lib/Sharing/Permission/NodeReadSharePermissionType.php',
     'OCA\\Files\\Sharing\\Permission\\NodeUpdateSharePermissionType' => $baseDir . '/../lib/Sharing/Permission/NodeUpdateSharePermissionType.php',
     'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => $baseDir . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
+    'OCA\\Files\\Sharing\\SharesUpdatedListener' => $baseDir . '/../lib/Sharing/SharesUpdatedListener.php',
+    'OCA\\Files\\Sharing\\SourceNodeTargetManager' => $baseDir . '/../lib/Sharing/SourceNodeTargetManager.php',
     'OCA\\Files\\Sharing\\Source\\NodeShareSourceMetadata' => $baseDir . '/../lib/Sharing/Source/NodeShareSourceMetadata.php',
     'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => $baseDir . '/../lib/Sharing/Source/NodeShareSourceType.php',
 );
