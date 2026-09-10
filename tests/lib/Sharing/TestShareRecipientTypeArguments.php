@@ -39,6 +39,11 @@ final class TestShareRecipientTypeArguments implements IShareRecipientType {
 	}
 
 	#[\Override]
+	public function getUsers(string $recipient): array {
+		return [];
+	}
+
+	#[\Override]
 	public function getRecipientDisplayName(string $recipient): ?string {
 		return null;
 	}

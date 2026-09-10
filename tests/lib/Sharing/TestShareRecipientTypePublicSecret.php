@@ -53,6 +53,11 @@ final readonly class TestShareRecipientTypePublicSecret implements IShareRecipie
 	}
 
 	#[\Override]
+	public function getUsers(string $recipient): array {
+		return [];
+	}
+
+	#[\Override]
 	public function getRecipientDisplayName(string $recipient): ?string {
 		return $this->validRecipients[$recipient];
 	}
