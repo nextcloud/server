@@ -10,10 +10,7 @@ import { ShareType } from '@nextcloud/sharing'
 import debounce from 'debounce'
 import PQueue from 'p-queue'
 import { fetchNode } from '../../../files/src/services/WebdavClient.ts'
-import {
-	ATOMIC_PERMISSIONS,
-	getBundledPermissions,
-} from '../lib/SharePermissionsToolBox.js'
+import { getBundledPermissions } from '../lib/SharePermissionsToolBox.js'
 import Share from '../models/Share.ts'
 import Config from '../services/ConfigService.ts'
 import logger from '../services/logger.ts'
@@ -138,15 +135,14 @@ export default {
 			return this.config.isDefaultInternalExpireDateEnforced
 		},
 		hasCustomPermissions() {
-			const basePermissions = getBundledPermissions(true)
+			const basePermissions = getBundledPermissions(this.config.excludeReshareFromEdit)
 			const bundledPermissions = [
 				basePermissions.ALL,
 				basePermissions.ALL_FILE,
 				basePermissions.READ_ONLY,
 				basePermissions.FILE_DROP,
 			]
-			const permissionsWithoutShare = this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE
-			return !bundledPermissions.includes(permissionsWithoutShare)
+			return !bundledPermissions.includes(this.share.permissions)
 		},
 		maxExpirationDateEnforced() {
 			if (this.isExpiryDateEnforced) {

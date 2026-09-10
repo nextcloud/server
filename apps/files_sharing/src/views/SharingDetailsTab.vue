@@ -1051,12 +1051,14 @@ export default {
 		handleDefaultPermissions() {
 			if (this.isNewShare) {
 				const defaultPermissions = this.config.defaultPermissions
-				const permissionsWithoutShare = defaultPermissions & ~ATOMIC_PERMISSIONS.SHARE
-				const basePermissions = getBundledPermissions(true)
-				if (permissionsWithoutShare === basePermissions.READ_ONLY
-					|| permissionsWithoutShare === basePermissions.ALL
-					|| permissionsWithoutShare === basePermissions.ALL_FILE) {
-					this.sharingPermission = permissionsWithoutShare.toString()
+				const basePermissions = this.bundledPermissions
+				if (defaultPermissions === basePermissions.READ_ONLY) {
+					this.sharingPermission = basePermissions.READ_ONLY.toString()
+				} else if (defaultPermissions === basePermissions.ALL
+					|| defaultPermissions === basePermissions.ALL_FILE) {
+					this.sharingPermission = this.allPermissions
+				} else if (defaultPermissions === basePermissions.FILE_DROP) {
+					this.sharingPermission = basePermissions.FILE_DROP.toString()
 				} else {
 					this.sharingPermission = 'custom'
 					this.share.permissions = defaultPermissions
