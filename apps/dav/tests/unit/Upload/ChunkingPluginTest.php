@@ -14,6 +14,7 @@ use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\FutureFile;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\IFile;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
@@ -83,8 +84,9 @@ class ChunkingPluginTest extends TestCase {
 		$calls = [
 			['source', $sourceNode],
 			['target', new NotFound()],
+			['target', $this->buildAssembledNode(4)],
 		];
-		$this->tree->expects($this->exactly(2))
+		$this->tree->expects($this->exactly(3))
 			->method('getNodeForPath')
 			->willReturnCallback(function (string $path) use (&$calls) {
 				$expected = array_shift($calls);
@@ -121,8 +123,9 @@ class ChunkingPluginTest extends TestCase {
 		$calls = [
 			['source', $sourceNode],
 			['target', new NotFound()],
+			['target', $this->buildAssembledNode(4)],
 		];
-		$this->tree->expects($this->exactly(2))
+		$this->tree->expects($this->exactly(3))
 			->method('getNodeForPath')
 			->willReturnCallback(function (string $path) use (&$calls) {
 				$expected = array_shift($calls);
@@ -185,5 +188,60 @@ class ChunkingPluginTest extends TestCase {
 			->willReturn('4');
 
 		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
+	}
+
+	/**
+	 * The chunks summed up to the expected size, but the assembly that streamed
+	 * them into the destination was cut short. What actually landed has to be
+	 * checked, otherwise the truncated file is reported back as a success.
+	 */
+	public function testBeforeMoveAssembledFileIsTruncated(): void {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('Assembled file has 3 bytes but 4 bytes were expected');
+
+		$sourceNode = $this->createMock(FutureFile::class);
+		$sourceNode->expects($this->once())
+			->method('getSize')
+			->willReturn(4);
+
+		$calls = [
+			['source', $sourceNode],
+			['target', new NotFound()],
+			['target', $this->buildAssembledNode(3)],
+		];
+		$this->tree->expects($this->exactly(3))
+			->method('getNodeForPath')
+			->willReturnCallback(function (string $path) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertSame($expected[0], $path);
+				if ($expected[1] instanceof \Throwable) {
+					throw $expected[1];
+				}
+				return $expected[1];
+			});
+
+		$this->tree->expects($this->any())
+			->method('nodeExists')
+			->with('target')
+			->willReturn(false);
+		$this->tree->expects($this->once())
+			->method('move')
+			->with('source', 'target');
+		$this->response->expects($this->never())
+			->method('setStatus');
+		$this->request->expects($this->once())
+			->method('getHeader')
+			->with('OC-Total-Length')
+			->willReturn('4');
+
+		$this->plugin->beforeMove('source', 'target');
+	}
+
+	private function buildAssembledNode(int $size): IFile&MockObject {
+		$node = $this->createMock(IFile::class);
+		$node->expects($this->once())
+			->method('getSize')
+			->willReturn($size);
+		return $node;
 	}
 }

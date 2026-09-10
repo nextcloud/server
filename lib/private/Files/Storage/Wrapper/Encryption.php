@@ -936,15 +936,21 @@ class Encryption extends Wrapper {
 		if ($target === false) {
 			throw new GenericFileException("Failed to open $path for writing");
 		}
-		$count = stream_copy_to_stream($stream, $target);
-		if ($count === false) {
-			$result = false;
-			$count = 0;
-		} else {
-			$result = true;
+		try {
+			$count = stream_copy_to_stream($stream, $target);
+			if ($count === false) {
+				$result = false;
+				$count = 0;
+			} else {
+				$result = true;
+			}
+		} finally {
+			// close the streams like Common::writeStream() does, also when the source
+			// fails: an encryption stream left open is only closed during engine
+			// shutdown, where its write-back into the storage layer crashes
+			fclose($stream);
+			fclose($target);
 		}
-		fclose($stream);
-		fclose($target);
 
 		// object store, stores the size after write and doesn't update this during scan
 		// manually store the unencrypted size
