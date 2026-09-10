@@ -10,7 +10,7 @@
 	<name>Files</name>
 	<summary>File Management</summary>
 	<description>File Management</description>
-	<version>4.0.0-dev.0</version>
+	<version>4.0.0-dev.1</version>
 	<licence>agpl</licence>
 	<author>John Molakvoæ</author>
 	<author>Robin Appelman</author>
