@@ -326,9 +326,13 @@ describe('core: AppMenu', () => {
 			const wrapper = mount(AppMenu, { attachTo: document.body })
 			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
 
-			// The intent-pause means it must not open on the same tick.
+			// The intent-pause means it must not open on the same tick, and it
+			// has to outlast a cursor merely passing over the corner.
 			expect(wrapper.vm.opened).toBe(false)
-			vi.advanceTimersByTime(90)
+			vi.advanceTimersByTime(200)
+			expect(wrapper.vm.opened).toBe(false)
+
+			vi.advanceTimersByTime(100)
 			expect(wrapper.vm.opened).toBe(true)
 		})
 
@@ -345,7 +349,7 @@ describe('core: AppMenu', () => {
 		it('stays open when the cursor moves from the trigger into the popover', async () => {
 			const wrapper = mount(AppMenu, { attachTo: document.body })
 			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
-			vi.advanceTimersByTime(90)
+			vi.advanceTimersByTime(300)
 			expect(wrapper.vm.opened).toBe(true)
 
 			// Leaving the trigger schedules a close; entering the popover within the
@@ -360,7 +364,7 @@ describe('core: AppMenu', () => {
 		it('closes shortly after the cursor leaves the popover', async () => {
 			const wrapper = mount(AppMenu, { attachTo: document.body })
 			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
-			vi.advanceTimersByTime(90)
+			vi.advanceTimersByTime(300)
 			wrapper.vm.onPopoverPointerEnter()
 			expect(wrapper.vm.opened).toBe(true)
 
@@ -381,7 +385,7 @@ describe('core: AppMenu', () => {
 		it('opens on hover without the focus trap, so focus is not stolen', async () => {
 			const wrapper = mount(AppMenu, { attachTo: document.body })
 			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
-			vi.advanceTimersByTime(90)
+			vi.advanceTimersByTime(300)
 
 			// Hovering must not pull focus out of e.g. the search field.
 			expect(wrapper.vm.hoverOpen).toBe(true)
@@ -398,7 +402,7 @@ describe('core: AppMenu', () => {
 		it('restores the focus trap when a click follows a hover-open', async () => {
 			const wrapper = mount(AppMenu, { attachTo: document.body })
 			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
-			vi.advanceTimersByTime(90)
+			vi.advanceTimersByTime(300)
 			vi.advanceTimersByTime(500) // click grace over
 			await wrapper.get('.app-menu__waffle').trigger('click')
 
@@ -415,7 +419,7 @@ describe('core: AppMenu', () => {
 		it('ignores a trigger click right after a hover-open (habitual click-to-open)', async () => {
 			const wrapper = mount(AppMenu, { attachTo: document.body })
 			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
-			vi.advanceTimersByTime(90)
+			vi.advanceTimersByTime(300)
 			expect(wrapper.vm.opened).toBe(true)
 
 			// A click within the grace window must not toggle the menu shut.
@@ -426,7 +430,7 @@ describe('core: AppMenu', () => {
 		it('allows closing by click once the grace window elapses', async () => {
 			const wrapper = mount(AppMenu, { attachTo: document.body })
 			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
-			vi.advanceTimersByTime(90)
+			vi.advanceTimersByTime(300)
 			vi.advanceTimersByTime(500) // grace window elapses
 
 			await wrapper.get('.app-menu__waffle').trigger('click')
@@ -436,7 +440,7 @@ describe('core: AppMenu', () => {
 		it('blocks the popover auto-hide during the grace window, allows it after', async () => {
 			const wrapper = mount(AppMenu, { attachTo: document.body })
 			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
-			vi.advanceTimersByTime(90)
+			vi.advanceTimersByTime(300)
 
 			// autoHideCheck() feeds floating-ui: false = don't close on outside
 			// click (e.g. a habitual click on the trigger) during the grace window.
