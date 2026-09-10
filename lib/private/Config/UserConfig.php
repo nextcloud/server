@@ -55,6 +55,7 @@ class UserConfig implements IUserConfig {
 	private const int APP_MAX_LENGTH = 32;
 	private const int KEY_MAX_LENGTH = 64;
 	private const int INDEX_MAX_LENGTH = 64;
+	private const int MAX_NON_LAZY_SIZE = 128; // bytes
 
 	/** @var CappedMemoryCache<array<string, array<string, UserConfigEntry>>>  cache for normal config keys */
 	private CappedMemoryCache $fastCache;
@@ -1153,6 +1154,17 @@ class UserConfig implements IUserConfig {
 			return false;
 		}
 		$this->loadConfig($userId, $lazy);
+		if (!$lazy && strlen($value) > self::MAX_NON_LAZY_SIZE) {
+			$this->logger->error(
+				'[Deprecated] User {userId} config "{app}:{key}" is larger than {maxSize} bytes. It should be declared as lazy.',
+				[
+					'app' => $app,
+					'key' => $key,
+					'userId' => $userId,
+					'maxSize' => self::MAX_NON_LAZY_SIZE,
+				]
+			);
+		}
 
 		$inserted = $refreshCache = false;
 		$origValue = $value;
