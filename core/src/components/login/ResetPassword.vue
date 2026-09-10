@@ -7,17 +7,10 @@
 	<form class="reset-password-form" @submit.prevent="submit">
 		<h2>{{ t('core', 'Reset password') }}</h2>
 
-		<NcTextField
+		<LoginNameInput
 			id="user"
-			v-model="user"
-			name="user"
-			:maxlength="255"
-			autocapitalize="off"
-			:label="t('core', 'Login or email')"
-			:error="userNameInputLengthIs255"
-			:helper-text="userInputHelperText"
-			required
-			@change="updateUsername" />
+			:user.sync="user"
+			@update:user="updateUsername" />
 
 		<LoginButton :loading="loading" :value="t('core', 'Reset password')" />
 
@@ -45,14 +38,14 @@
 
 <script lang="ts">
 import axios from '@nextcloud/axios'
+import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { defineComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
 import LoginButton from './LoginButton.vue'
+import LoginNameInput from './LoginNameInput.vue'
 import logger from '../../logger.js'
-import AuthMixin from '../../mixins/auth.js'
 
 export default defineComponent({
 	name: 'ResetPassword',
@@ -60,10 +53,8 @@ export default defineComponent({
 		LoginButton,
 		NcButton,
 		NcNoteCard,
-		NcTextField,
+		LoginNameInput,
 	},
-
-	mixins: [AuthMixin],
 
 	props: {
 		username: {
@@ -75,6 +66,12 @@ export default defineComponent({
 			type: String,
 			required: true,
 		},
+	},
+
+	setup() {
+		return {
+			t,
+		}
 	},
 
 	data() {

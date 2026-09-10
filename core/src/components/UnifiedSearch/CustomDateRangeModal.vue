@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePickerNative'
 import NcModal from '@nextcloud/vue/components/NcModal'
@@ -59,6 +60,12 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+	},
+
+	setup() {
+		return {
+			t,
+		}
 	},
 
 	data() {
