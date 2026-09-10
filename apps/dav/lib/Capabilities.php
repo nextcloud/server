@@ -21,7 +21,7 @@ class Capabilities implements ICapability {
 	}
 
 	/**
-	 * @return array{dav: array{chunking: string, public_shares_chunking: bool, search_supports_creation_time: bool, search_supports_upload_time: bool, search_supports_last_activity: bool, bulkupload?: string, absence-supported?: bool, absence-replacement?: bool}}
+	 * @return array{dav: array{chunking: string, public_shares_chunking: bool, search_supports_creation_time: bool, search_supports_upload_time: bool, search_supports_last_activity: bool, attendee_guests: bool, bulkupload?: string, absence-supported?: bool, absence-replacement?: bool}}
 	 */
 	#[\Override]
 	public function getCapabilities() {
@@ -32,6 +32,8 @@ class Capabilities implements ICapability {
 				'search_supports_creation_time' => true,
 				'search_supports_upload_time' => true,
 				'search_supports_last_activity' => true,
+				// An attendee can add guests, which the server reports to the organizer
+				'attendee_guests' => true,
 			]
 		];
 		if ($this->config->getSystemValueBool('bulkupload.enabled', true)) {
