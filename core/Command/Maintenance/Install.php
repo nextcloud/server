@@ -119,7 +119,7 @@ class Install extends Command {
 	protected function validateInput(InputInterface $input, OutputInterface $output, $supportedDatabases) {
 		$db = strtolower($input->getOption('database'));
 
-		if (!in_array($db, $supportedDatabases)) {
+		if (!in_array($db, $supportedDatabases, true)) {
 			throw new InvalidArgumentException("Database <$db> is not supported. " . implode(', ', $supportedDatabases) . ' are supported.');
 		}
 

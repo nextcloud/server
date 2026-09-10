@@ -129,7 +129,7 @@ class UpdateController extends OCSController {
 		$this->updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps): void {
 			// Read per event, the overwrites are cleared during a major upgrade
 			$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
-			if (!in_array($app, $incompatibleOverwrites)) {
+			if (!in_array($app, $incompatibleOverwrites, true)) {
 				$incompatibleApps[] = $app;
 			}
 		});

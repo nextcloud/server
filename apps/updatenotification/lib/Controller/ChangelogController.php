@@ -47,7 +47,6 @@ class ChangelogController extends Controller {
 
 		$changes = $this->manager->getChangelog($app, $version) ?? '';
 		// Remove version headline
-		/** @var string[] */
 		$changes = explode("\n", $changes, 2);
 		$changes = trim(end($changes));
 
@@ -57,6 +56,7 @@ class ChangelogController extends Controller {
 			'text' => $changes,
 		]);
 
+		Util::addStyle($this->appName, 'view-changelog-page');
 		Util::addScript($this->appName, 'view-changelog-page');
 		return new TemplateResponse($this->appName, 'empty');
 	}

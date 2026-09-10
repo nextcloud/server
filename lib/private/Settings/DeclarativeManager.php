@@ -186,7 +186,7 @@ class DeclarativeManager implements IDeclarativeManager {
 		if (array_key_exists($app, $this->appSchemas)) {
 			foreach ($this->appSchemas[$app] as $schema) {
 				foreach ($schema['fields'] as $field) {
-					if ($field['id'] == $fieldId) {
+					if ($field['id'] === $fieldId) {
 						if (array_key_exists('storage_type', $field)) {
 							return $field['storage_type'];
 						}
@@ -210,7 +210,7 @@ class DeclarativeManager implements IDeclarativeManager {
 		if (array_key_exists($app, $this->appSchemas)) {
 			foreach ($this->appSchemas[$app] as $schema) {
 				foreach ($schema['fields'] as $field) {
-					if ($field['id'] == $fieldId) {
+					if ($field['id'] === $fieldId) {
 						return $schema['section_type'];
 					}
 				}
@@ -407,7 +407,7 @@ class DeclarativeManager implements IDeclarativeManager {
 			$this->logger->warning('Declarative settings: missing section_type', ['app' => $appId, 'form_id' => $formId]);
 			return false;
 		}
-		if (!in_array($schema['section_type'], [DeclarativeSettingsTypes::SECTION_TYPE_ADMIN, DeclarativeSettingsTypes::SECTION_TYPE_PERSONAL])) {
+		if (!in_array($schema['section_type'], [DeclarativeSettingsTypes::SECTION_TYPE_ADMIN, DeclarativeSettingsTypes::SECTION_TYPE_PERSONAL], true)) {
 			$this->logger->warning('Declarative settings: invalid section_type', ['app' => $appId, 'form_id' => $formId, 'section_type' => $schema['section_type']]);
 			return false;
 		}
@@ -419,7 +419,7 @@ class DeclarativeManager implements IDeclarativeManager {
 			$this->logger->warning('Declarative settings: missing storage_type', ['app' => $appId, 'form_id' => $formId]);
 			return false;
 		}
-		if (!in_array($schema['storage_type'], [DeclarativeSettingsTypes::STORAGE_TYPE_EXTERNAL, DeclarativeSettingsTypes::STORAGE_TYPE_INTERNAL])) {
+		if (!in_array($schema['storage_type'], [DeclarativeSettingsTypes::STORAGE_TYPE_EXTERNAL, DeclarativeSettingsTypes::STORAGE_TYPE_INTERNAL], true)) {
 			$this->logger->warning('Declarative settings: invalid storage_type', ['app' => $appId, 'form_id' => $formId, 'storage_type' => $schema['storage_type']]);
 			return false;
 		}
@@ -450,13 +450,13 @@ class DeclarativeManager implements IDeclarativeManager {
 				DeclarativeSettingsTypes::SELECT, DeclarativeSettingsTypes::CHECKBOX,
 				DeclarativeSettingsTypes::URL, DeclarativeSettingsTypes::EMAIL, DeclarativeSettingsTypes::NUMBER,
 				DeclarativeSettingsTypes::TEL, DeclarativeSettingsTypes::TEXT, DeclarativeSettingsTypes::PASSWORD,
-			])) {
+			], true)) {
 				$this->logger->warning('Declarative settings: invalid field type', [
 					'app' => $appId, 'form_id' => $formId, 'field_id' => $fieldId, 'type' => $field['type'],
 				]);
 				return false;
 			}
-			if (isset($field['sensitive']) && $field['sensitive'] === true && !in_array($field['type'], [DeclarativeSettingsTypes::TEXT, DeclarativeSettingsTypes::PASSWORD])) {
+			if (isset($field['sensitive']) && $field['sensitive'] === true && !in_array($field['type'], [DeclarativeSettingsTypes::TEXT, DeclarativeSettingsTypes::PASSWORD], true)) {
 				$this->logger->warning('Declarative settings: sensitive field type is supported only for TEXT and PASSWORD types ({app}, {form_id}, {field_id})', [
 					'app' => $appId, 'form_id' => $formId, 'field_id' => $fieldId,
 				]);
@@ -475,7 +475,7 @@ class DeclarativeManager implements IDeclarativeManager {
 		if (in_array($field['type'], [
 			DeclarativeSettingsTypes::MULTI_SELECT, DeclarativeSettingsTypes::MULTI_CHECKBOX, DeclarativeSettingsTypes::RADIO,
 			DeclarativeSettingsTypes::SELECT
-		])) {
+		], true)) {
 			if (!isset($field['options'])) {
 				$this->logger->warning('Declarative settings: missing field options', ['app' => $appId, 'form_id' => $formId, 'field_id' => $fieldId]);
 				return false;

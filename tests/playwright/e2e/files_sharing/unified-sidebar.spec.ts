@@ -160,7 +160,7 @@ test.describe('files_sharing: unified share list in the sidebar', () => {
 
 		const removed = page.waitForResponse((response) => response.request().method() === 'DELETE'
 			&& response.url().includes('/recipient'))
-		await unifiedShareList.triggerAction(recipient.userId, 'Remove participant')
+		await unifiedShareList.triggerAction(recipient.userId, 'Remove recipient')
 		await removed
 
 		// One recipient left, so the group collapses into a plain row.

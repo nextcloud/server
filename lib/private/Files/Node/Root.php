@@ -28,6 +28,7 @@ use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
@@ -35,6 +36,7 @@ use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
@@ -73,7 +75,7 @@ class Root extends Folder implements IRootFolder, Emitter {
 		private LoggerInterface $logger,
 		private IUserManager $userManager,
 		IEventDispatcher $eventDispatcher,
-		ICacheFactory $cacheFactory,
+		private ICacheFactory $cacheFactory,
 		IAppConfig $appConfig,
 	) {
 		parent::__construct($this, $view, '');
@@ -316,7 +318,7 @@ class Root extends Folder implements IRootFolder, Emitter {
 	}
 
 	#[\Override]
-	public function getUserFolder($userId) {
+	public function getUserFolder(string $userId): IUserFolder {
 		$userObject = $this->userManager->get($userId);
 
 		if (is_null($userObject)) {
@@ -340,17 +342,16 @@ class Root extends Folder implements IRootFolder, Emitter {
 
 		if (!$this->userFolderCache->hasKey($userId)) {
 			if ($this->mountManager->getSetupManager()->isSetupComplete($userObject)) {
-				try {
-					$folder = $this->get('/' . $userId . '/files');
-					if (!$folder instanceof \OCP\Files\Folder) {
-						throw new \Exception("Account folder for \"$userId\" exists as a file");
-					}
-				} catch (NotFoundException $e) {
-					if (!$this->nodeExists('/' . $userId)) {
-						$this->newFolder('/' . $userId);
-					}
-					$folder = $this->newFolder('/' . $userId . '/files');
-				}
+				$realFolder = $this->getOrCreateFolder('/' . $userId . '/files', maxRetries: 1);
+				$folder = new UserFolder(
+					$this,
+					$this->view,
+					$realFolder->getPath(),
+					null,
+					Server::get(IConfig::class),
+					$userObject,
+					$this->cacheFactory,
+				);
 			} else {
 				$folder = new LazyUserFolder($this, $userObject, $this->mountManager, $this->useDefaultHomeFoldersPermissions);
 			}
@@ -435,7 +436,7 @@ class Root extends Folder implements IRootFolder, Emitter {
 		$mountRoots = array_combine($mountRootIds, $mountRootPaths);
 
 		$mounts = $this->mountManager->getMountsByMountProvider($path, $mountProviders);
-		$mountsContainingFile = array_filter($mounts, fn (IMountPoint $mount) => in_array($mount->getMountPoint(), $mountPoints));
+		$mountsContainingFile = array_filter($mounts, fn (IMountPoint $mount) => in_array($mount->getMountPoint(), $mountPoints, true));
 
 		// if we haven't found a relevant mount that is setup, but we do have relevant mount infos
 		// we try to load them from the mount info.

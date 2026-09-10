@@ -7,6 +7,9 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use Nextcloud\Rector\Rector\ReplaceInjectedMethodCallRector;
+use Rector\CodeQuality\Rector\Equal\UseIdenticalOverEqualWithSameTypeRector;
+use Rector\CodingStyle\Rector\FuncCall\StrictInArrayRector;
 use Rector\TypeDeclaration\Rector\StmtsAwareInterface\SafeDeclareStrictTypesRector;
 
 $nextcloudDir = dirname(__DIR__);
@@ -33,5 +36,10 @@ return (require 'rector-shared.php')
 	])
 	->withTypeCoverageLevel(0)
 	->withRules([
-		SafeDeclareStrictTypesRector::class
+		SafeDeclareStrictTypesRector::class,
+		StrictInArrayRector::class,
+		UseIdenticalOverEqualWithSameTypeRector::class,
+	])
+	->withSkip([
+		ReplaceInjectedMethodCallRector::class,
 	]);

@@ -718,7 +718,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$permissionPresetCompatiblePermissionTypeClasses = $this->registry->getPermissionPresetCompatiblePermissionTypeClasses()[$permissionPresetClass];
 		$presetPermissions = array_combine($allPermissionClasses, array_map(fn (string $class): SharePermission => new SharePermission(
 			$class,
-			in_array($class, $permissionPresetCompatiblePermissionTypeClasses),
+			in_array($class, $permissionPresetCompatiblePermissionTypeClasses, true),
 		), $allPermissionClasses));
 
 		$share = new Share(

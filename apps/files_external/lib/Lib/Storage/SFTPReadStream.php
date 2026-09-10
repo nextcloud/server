@@ -177,7 +177,7 @@ class SFTPReadStream implements File {
 				return $temp;
 			case NET_SFTP_STATUS:
 				[1 => $status] = unpack('N', substr($response, 0, 4));
-				if ($status == NET_SFTP_STATUS_EOF) {
+				if ($status === NET_SFTP_STATUS_EOF) {
 					$this->eof = true;
 				}
 				return '';
