@@ -52,6 +52,7 @@ class Collation implements IRepairStep {
 			} catch (DriverException $e) {
 				// Just log this
 				$this->logger->error($e->getMessage(), ['exception' => $e]);
+				$output->warning($e->getMessage());
 				if (!$this->ignoreFailures) {
 					throw $e;
 				}
@@ -64,6 +65,7 @@ class Collation implements IRepairStep {
 			} catch (DriverException $e) {
 				// Just log this
 				$this->logger->error($e->getMessage(), ['exception' => $e]);
+				$output->warning($e->getMessage());
 				if (!$this->ignoreFailures) {
 					throw $e;
 				}
