@@ -2478,4 +2478,35 @@ EOD;
 
 		$this->assertNull($this->backend->getFederatedCalendarByUri(self::UNIT_TEST_USER, 'federated-cal'));
 	}
+
+	public function testDisableAlarmNotificationsProperty(): void {
+		$calendarId = $this->backend->createCalendar(self::UNIT_TEST_USER, 'DisableAlarmNotificationsTest', []);
+
+		// Default should be false
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertFalse((bool)($calendars[0]['{http://nextcloud.com/ns}disable-alarm-notifications'] ?? false));
+
+		// Update to true ('1')
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}disable-alarm-notifications' => '1',
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertTrue((bool)($calendars[0]['{http://nextcloud.com/ns}disable-alarm-notifications'] ?? false));
+
+		// Update to false ('0')
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}disable-alarm-notifications' => '0',
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertFalse((bool)($calendars[0]['{http://nextcloud.com/ns}disable-alarm-notifications'] ?? false));
+
+		// Clean up
+		$this->backend->deleteCalendar($calendars[0]['id'], true);
+	}
 }

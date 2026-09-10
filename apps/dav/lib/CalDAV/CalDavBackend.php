@@ -153,6 +153,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}deleted-at' => ['deleted_at', 'int'],
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}default-alarm-part-day' => ['default_alarm_pday', 'int'],
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}default-alarm-full-day' => ['default_alarm_fday', 'int'],
+		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}disable-alarm-notifications' => ['disable_alarm_notifications', 'bool'],
 	];
 
 	/**
