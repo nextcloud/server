@@ -120,7 +120,7 @@ class Create extends Base {
 			return Http::STATUS_NOT_FOUND;
 		}
 		$supportedSchemes = array_keys($storageBackend->getAuthSchemes());
-		if (!in_array($authBackend->getScheme(), $supportedSchemes)) {
+		if (!in_array($authBackend->getScheme(), $supportedSchemes, true)) {
 			$output->writeln('<error>Authentication backend "' . $authIdentifier . '" not valid for storage backend "' . $storageIdentifier . '" (see `occ files_external:backends storage ' . $storageIdentifier . '` for possible values)</error>');
 			return self::FAILURE;
 		}

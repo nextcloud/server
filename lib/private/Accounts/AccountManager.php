@@ -121,7 +121,7 @@ class AccountManager implements IAccountManager {
 
 		if (
 			$property->getScope() === self::SCOPE_PRIVATE
-			&& in_array($property->getName(), [self::PROPERTY_DISPLAYNAME, self::PROPERTY_EMAIL])
+			&& in_array($property->getName(), [self::PROPERTY_DISPLAYNAME, self::PROPERTY_EMAIL], true)
 		) {
 			if ($throwOnData) {
 				// v2-private is not available for these fields

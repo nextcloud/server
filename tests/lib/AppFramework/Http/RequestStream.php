@@ -104,7 +104,7 @@ class RequestStream {
 	}
 
 	public function stream_metadata(string $path, int $option, $var): bool {
-		if ($option == STREAM_META_TOUCH) {
+		if ($option === STREAM_META_TOUCH) {
 			$url = parse_url($path);
 			$varname = $url['host'] ?? '';
 			if (!isset($GLOBALS[$varname])) {

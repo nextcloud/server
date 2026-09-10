@@ -106,7 +106,8 @@ final class OCMEndpointRequestEvent extends Event {
 			}
 			$typedArgs[] = match($param) {
 				ParamType::STRING => $args[$i],
-				ParamType::INT => (is_numeric($args[$i]) && ((int)$args[$i] == (float)$args[$i])) ? (int)$args[$i] : null,
+				// checks the numeric string has no fractional part
+				ParamType::INT => (is_numeric($args[$i]) && ((float)$args[$i] === (float)(int)$args[$i])) ? (int)$args[$i] : null,
 				ParamType::FLOAT => (is_numeric($args[$i])) ? (float)$args[$i] : null,
 				ParamType::BOOL => in_array(strtolower($args[$i]), ['1', 'true', 'yes', 'on'], true),
 			};

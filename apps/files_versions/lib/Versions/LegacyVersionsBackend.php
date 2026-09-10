@@ -255,7 +255,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 				if (!in_array($e->getReason(), [
 					\OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION,
 					\OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION,
-				])
+				], true)
 				) {
 					throw $e;
 				}

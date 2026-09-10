@@ -417,7 +417,7 @@ class AppManager implements IAppManager {
 				return false;
 			}
 
-			return in_array($group->getGID(), $groupIds);
+			return in_array($group->getGID(), $groupIds, true);
 		}
 	}
 
@@ -1007,7 +1007,7 @@ class AppManager implements IAppManager {
 	 */
 	#[\Override]
 	public function isDefaultEnabled(string $appId): bool {
-		return (in_array($appId, $this->getDefaultEnabledApps()));
+		return (in_array($appId, $this->getDefaultEnabledApps(), true));
 	}
 
 	/**

@@ -128,7 +128,8 @@ class Quota extends Wrapper {
 		}
 
 		$free = $this->free_space($path);
-		if ($this->shouldApplyQuota($path) && $free == 0) {
+		// treat a failed free_space() the same as no free space
+		if ($this->shouldApplyQuota($path) && ($free === 0 || $free === 0.0 || $free === false)) {
 			return false;
 		}
 
@@ -194,7 +195,8 @@ class Quota extends Wrapper {
 			return $this->getWrapperStorage()->mkdir($path);
 		}
 		$free = $this->free_space($path);
-		if ($this->shouldApplyQuota($path) && $free == 0) {
+		// treat a failed free_space() the same as no free space
+		if ($this->shouldApplyQuota($path) && ($free === 0 || $free === 0.0 || $free === false)) {
 			return false;
 		}
 
@@ -207,7 +209,8 @@ class Quota extends Wrapper {
 			return $this->getWrapperStorage()->touch($path, $mtime);
 		}
 		$free = $this->free_space($path);
-		if ($free == 0) {
+		// treat a failed free_space() the same as no free space
+		if ($free === 0 || $free === 0.0 || $free === false) {
 			return false;
 		}
 
@@ -225,7 +228,8 @@ class Quota extends Wrapper {
 		}
 
 		$free = $this->free_space($path);
-		if ($this->shouldApplyQuota($path) && $free == 0) {
+		// treat a failed free_space() the same as no free space
+		if ($this->shouldApplyQuota($path) && ($free === 0 || $free === 0.0 || $free === false)) {
 			throw new NotEnoughSpaceException();
 		}
 

@@ -67,7 +67,7 @@ class AppleQuirksPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function report($reportName, $report, $path) {
-		if ($reportName == '{DAV:}principal-property-search' && $this->isMacOSDavAgent) {
+		if ($reportName === '{DAV:}principal-property-search' && $this->isMacOSDavAgent) {
 			/** @var \Sabre\DAVACL\Xml\Request\PrincipalPropertySearchReport $report */
 			$report->applyToPrincipalCollectionSet = true;
 		}
