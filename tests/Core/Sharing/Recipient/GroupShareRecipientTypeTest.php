@@ -100,8 +100,12 @@ final class GroupShareRecipientTypeTest extends TestCase {
 		$this->assertFalse($this->recipientType->validateRecipient('invalid'));
 	}
 
-	public function testGetRecipientValues(): void {
-		$this->assertEquals(['group1'], $this->recipientType->getRecipients($this->user1, null));
+	public function testGetRecipients(): void {
+		$this->assertEquals([$this->group1->getGID()], $this->recipientType->getRecipients($this->user1, null));
+	}
+
+	public function testGetUsers(): void {
+		$this->assertEquals([$this->user1->getUID()], $this->recipientType->getUsers($this->group1->getGID()));
 	}
 
 	public function testGetRecipientDisplayName(): void {

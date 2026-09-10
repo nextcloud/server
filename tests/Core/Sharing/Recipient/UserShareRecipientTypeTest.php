@@ -90,8 +90,12 @@ final class UserShareRecipientTypeTest extends TestCase {
 		$this->assertFalse($this->recipientType->validateRecipient('invalid'));
 	}
 
-	public function testGetRecipientValues(): void {
-		$this->assertEquals(['user1'], $this->recipientType->getRecipients($this->user1, null));
+	public function testGetRecipients(): void {
+		$this->assertEquals([$this->user1->getUID()], $this->recipientType->getRecipients($this->user1, null));
+	}
+
+	public function testGetUsers(): void {
+		$this->assertEquals([$this->user1->getUID()], $this->recipientType->getUsers($this->user1->getUID()));
 	}
 
 	public function testGetRecipientDisplayName(): void {

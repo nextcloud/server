@@ -62,6 +62,11 @@ final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborato
 	}
 
 	#[\Override]
+	public function getUsers(string $recipient): array {
+		return array_keys($this->groupManager->get($recipient)?->getUsers() ?? []);
+	}
+
+	#[\Override]
 	public function getRecipientDisplayName(string $recipient): ?string {
 		$displayName = $this->groupManager->getDisplayName($recipient);
 		if ($displayName === '') {

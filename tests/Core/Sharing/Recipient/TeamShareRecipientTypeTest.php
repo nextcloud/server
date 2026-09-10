@@ -125,8 +125,14 @@ final class TeamShareRecipientTypeTest extends TestCase {
 		$this->assertFalse($this->recipientType->validateRecipient('invalid'));
 	}
 
-	public function testGetRecipientValues(): void {
+	public function testGetRecipients(): void {
 		$this->assertContains($this->team1->getId(), $this->recipientType->getRecipients($this->user1, null));
+	}
+
+	/** @psalm-suppress UnevaluatedCode Test is skipped */
+	public function testGetUsers(): void {
+		$this->markTestSkipped('This test is broken if run together with other test suites because circles 🤷‍♀️');
+		$this->assertEquals([$this->user1->getUID()], $this->recipientType->getUsers($this->team1->getId()));
 	}
 
 	/** @psalm-suppress UnevaluatedCode Test is skipped */

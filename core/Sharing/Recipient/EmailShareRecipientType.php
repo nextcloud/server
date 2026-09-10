@@ -44,6 +44,11 @@ final class EmailShareRecipientType extends AShareRecipientTypeSearchCollaborato
 	}
 
 	#[\Override]
+	public function getUsers(string $recipient): array {
+		return [];
+	}
+
+	#[\Override]
 	public function getRecipientDisplayName(string $recipient): string {
 		return $recipient;
 	}
