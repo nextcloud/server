@@ -65,6 +65,11 @@ final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborato
 	}
 
 	#[\Override]
+	public function getUsers(string $recipient): array {
+		return array_keys($this->groupManager->get($recipient)?->getUsers() ?? []);
+	}
+
+	#[\Override]
 	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string {
 		if ($instance !== null) {
 			return $this->getRecipientDisplayNameFromAddressBook($recipient . '@' . $instance, 'CLOUD');
