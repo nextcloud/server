@@ -32,6 +32,9 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 	protected Container $container;
 
+	/** @var array<string,string> */
+	private array $aliases = [];
+
 	public function __construct() {
 		$this->container = new Container();
 	}
@@ -152,6 +155,9 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param list<class-string> $chain
 	 */
 	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
+		if (isset($this->aliases[$name])) {
+			return $this->query($this->aliases[$name]);
+		}
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
 		}
@@ -210,11 +216,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $target the target that should be resolved instead
 	 */
 	public function registerAlias(string $alias, string $target): void {
-		$this->registerService(
-			$alias,
-			static fn (ContainerInterface $container): mixed => $container->get($target),
-			false,
-		);
+		$this->aliases[$alias] = $target;
 	}
 
 	protected function registerDeprecatedAlias(string $alias, string $target): void {
