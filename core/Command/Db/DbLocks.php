@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Db;
 
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use OC\DB\Connection;
@@ -74,7 +75,16 @@ class DbLocks extends Command {
 			return Command::SUCCESS;
 		}
 
-		$rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
+		try {
+			$rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
+		} catch (DriverException $e) {
+			if ($e->getCode() === 1227) {
+				$output->writeln('<comment>The configured database user doesn\'t have permissions to query active locks, PROCESS privilege required.</comment>');
+			} else {
+				$output->writeln('<comment>Failed to query active locks: ' . $e->getMessage() . '.</comment>');
+			}
+			return Command::FAILURE;
+		}
 
 		if (empty($rows)) {
 			$output->writeln('<info>No active locks or blocking transactions detected.</info>');
