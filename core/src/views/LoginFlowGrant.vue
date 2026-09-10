@@ -9,7 +9,9 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { confirmPassword, isPasswordConfirmationRequired, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import { ref } from 'vue'
 import LoginFlowContainer from '../components/LoginFlow/LoginFlowContainer.vue'
 
 const {
@@ -40,19 +42,31 @@ const {
 
 const requestToken = getRequestToken()
 
+const isSubmitting = ref(false)
+
 /**
  * Handle submit event to confirm password if required
  *
  * @param event - The submit event
  */
 async function onSubmit(event: SubmitEvent) {
-	if (isPasswordConfirmationRequired(PwdConfirmationMode.Lax)) {
+	if (isSubmitting.value) {
 		event.preventDefault()
-		event.stopPropagation()
+		return
+	}
 
-		await confirmPassword()
-		;(event.target as HTMLFormElement).submit()
-		return false
+	isSubmitting.value = true
+	try {
+		if (isPasswordConfirmationRequired(PwdConfirmationMode.Lax)) {
+			event.preventDefault()
+			event.stopPropagation()
+
+			await confirmPassword()
+			;(event.target as HTMLFormElement).submit()
+			return
+		}
+	} finally {
+		isSubmitting.value = false
 	}
 }
 </script>
@@ -90,7 +104,10 @@ async function onSubmit(event: SubmitEvent) {
 				name="providedRedirectUri"
 				:value="providedRedirectUri">
 
-			<NcButton :class="$style.loginFlowGrant__button" type="submit" variant="primary">
+			<NcButton :class="$style.loginFlowGrant__button" :disabled="isSubmitting" type="submit" variant="primary">
+				<template v-if="isSubmitting" #icon>
+					<NcLoadingIcon />
+				</template>
 				{{ t('core', 'Grant access') }}
 			</NcButton>
 		</form>
