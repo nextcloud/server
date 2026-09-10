@@ -28,6 +28,11 @@ class FtpTest extends TestCase {
 			'non numeric port' => [array_merge($parameters, ['port' => 'ftp']), 21],
 			'numeric string port' => [array_merge($parameters, ['port' => '2121']), 2121],
 			'integer port' => [array_merge($parameters, ['port' => 2121]), 2121],
+			'decimal port' => [array_merge($parameters, ['port' => '21.5']), 21],
+			'zero port' => [array_merge($parameters, ['port' => '0']), 21],
+			'negative port' => [array_merge($parameters, ['port' => '-2121']), 21],
+			'out of range port' => [array_merge($parameters, ['port' => '65536']), 21],
+			'highest valid port' => [array_merge($parameters, ['port' => '65535']), 65535],
 		];
 	}
 

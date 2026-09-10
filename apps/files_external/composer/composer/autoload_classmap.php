@@ -86,6 +86,7 @@ return array(
     'OCA\\Files_External\\Lib\\MissingDependency' => $baseDir . '/../lib/Lib/MissingDependency.php',
     'OCA\\Files_External\\Lib\\Notify\\SMBNotifyHandler' => $baseDir . '/../lib/Lib/Notify/SMBNotifyHandler.php',
     'OCA\\Files_External\\Lib\\PersonalMount' => $baseDir . '/../lib/Lib/PersonalMount.php',
+    'OCA\\Files_External\\Lib\\PortHelper' => $baseDir . '/../lib/Lib/PortHelper.php',
     'OCA\\Files_External\\Lib\\PriorityTrait' => $baseDir . '/../lib/Lib/PriorityTrait.php',
     'OCA\\Files_External\\Lib\\SessionStorageWrapper' => $baseDir . '/../lib/Lib/SessionStorageWrapper.php',
     'OCA\\Files_External\\Lib\\StorageConfig' => $baseDir . '/../lib/Lib/StorageConfig.php',
