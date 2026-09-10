@@ -125,17 +125,9 @@ class ServerContainer extends SimpleContainer {
 	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		$name = $this->resolveAlias($name);
 		if (str_starts_with($name, 'OCA\\')) {
-			// In case the service starts with OCA\ we try to find the service in
-			// the apps container first.
+			// In case the service starts with OCA\ we try to find the service in the apps container.
 			if (($appContainer = $this->getAppContainerForService($name)) !== null) {
-				try {
-					return $appContainer->queryNoFallback($name, $chain);
-				} catch (QueryException $e) {
-					// Didn't find the service or the respective app container
-					// In this case the service won't be part of the core container,
-					// so we can throw directly
-					throw $e;
-				}
+				return $appContainer->queryNoFallback($name, $chain);
 			}
 		}
 
