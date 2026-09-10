@@ -3,6 +3,6 @@ OC.L10N.register(
     {
     "The owner does not exist: %s" : "所有者不存在：%s",
     "Sharing" : "共享",
-    "TODO" : "TODO"
+    "TODO" : "待办"
 },
 "nplurals=1; plural=0;");
