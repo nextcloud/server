@@ -29,9 +29,12 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Files\StorageInvalidException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -88,6 +91,34 @@ class TemporaryNoLocal extends Temporary {
 class TemporaryAlwaysUpdated extends Temporary {
 	public function hasUpdated(string $path, int $time): bool {
 		return true;
+	}
+}
+
+class TemporaryUnavailableStorage extends Temporary {
+	#[\Override]
+	public function getMetaData(string $path): ?array {
+		throw new StorageNotAvailableException('Test storage is unavailable');
+	}
+}
+
+class TemporaryInvalidStorage extends Temporary {
+	#[\Override]
+	public function getMetaData(string $path): ?array {
+		throw new StorageInvalidException('Test storage is invalid');
+	}
+}
+
+class TemporaryUnexpectedFailureStorage extends Temporary {
+	#[\Override]
+	public function getMetaData(string $path): ?array {
+		throw new \RuntimeException('Unexpected test storage failure');
+	}
+}
+
+class TemporaryMissingRootStorage extends Temporary {
+	#[\Override]
+	public function getMetaData(string $path): ?array {
+		return $path === '' ? null : parent::getMetaData($path);
 	}
 }
 
@@ -258,6 +289,158 @@ class ViewTest extends \Test\TestCase {
 
 		$this->assertFalse($rootView->getFileInfo('/non/existing'));
 		$this->assertEquals([], $rootView->getDirectoryContent('/non/existing'));
+	}
+
+	public function testGetDirectoryContentSkipsUnavailableMountByDefault(): void {
+		$root = self::getUniqueID('/');
+		$storage = $this->getTestStorage();
+		$unavailableStorage = new TemporaryUnavailableStorage();
+		$this->storages[] = $unavailableStorage;
+
+		Filesystem::mount($storage, [], $root . '/');
+		Filesystem::mount($unavailableStorage, [], $root . '/unavailable');
+
+		$folderData = (new View($root))->getDirectoryContent('/');
+
+		$this->assertNotContains('unavailable', array_map(static fn (FileInfo $info): string => $info->getName(), $folderData));
+	}
+
+	public static function strictStorageExceptionProvider(): array {
+		return [
+			'unavailable storage' => [TemporaryUnavailableStorage::class, StorageNotAvailableException::class],
+			'invalid storage' => [TemporaryInvalidStorage::class, StorageInvalidException::class],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('strictStorageExceptionProvider')]
+	public function testGetDirectoryContentStrictFailsForStorageException(string $storageClass, string $exceptionClass): void {
+		$root = self::getUniqueID('/');
+		$storage = $this->getTestStorage();
+		$unavailableStorage = new $storageClass();
+		$this->storages[] = $unavailableStorage;
+
+		Filesystem::mount($storage, [], $root . '/');
+		Filesystem::mount($unavailableStorage, [], $root . '/unavailable');
+
+		$this->expectException($exceptionClass);
+
+		(new View($root))->getDirectoryContent('/', null, null, true);
+	}
+
+	public function testGetDirectoryContentStrictWrapsUnexpectedStorageException(): void {
+		$root = self::getUniqueID('/');
+		$storage = $this->getTestStorage();
+		$failedStorage = new TemporaryUnexpectedFailureStorage();
+		$this->storages[] = $failedStorage;
+
+		Filesystem::mount($storage, [], $root . '/');
+		Filesystem::mount($failedStorage, [], $root . '/failed');
+
+		try {
+			(new View($root))->getDirectoryContent('/', null, null, true);
+			$this->fail('Expected strict directory listing to fail');
+		} catch (StorageNotAvailableException $e) {
+			$this->assertInstanceOf(\RuntimeException::class, $e->getPrevious());
+		}
+	}
+
+	public function testGetDirectoryContentStrictFailsForMountWithoutStorage(): void {
+		$root = self::getUniqueID('/');
+		$storage = $this->getTestStorage();
+		Filesystem::mount($storage, [], $root . '/');
+
+		$mount = $this->createMock(IMountPoint::class);
+		$mount->method('getMountPoint')
+			->willReturn($root . '/unavailable/');
+		$mount->method('getMountProvider')
+			->willReturn(self::class);
+		$mount->method('getStorage')
+			->willReturn(false);
+		Filesystem::getMountManager()->addMount($mount);
+
+		$this->expectException(StorageNotAvailableException::class);
+
+		(new View($root))->getDirectoryContent('/', null, null, true);
+	}
+
+	public function testGetDirectoryContentStrictFailsWhenDirectoryStorageIsUnavailable(): void {
+		$root = self::getUniqueID('/');
+		$mount = $this->createMock(IMountPoint::class);
+		$mount->method('getMountPoint')
+			->willReturn($root . '/');
+		$mount->method('getMountProvider')
+			->willReturn(self::class);
+		$mount->method('getStorage')
+			->willReturn(false);
+		$mount->method('getInternalPath')
+			->willReturn('');
+		Filesystem::getMountManager()->addMount($mount);
+
+		$this->expectException(StorageNotAvailableException::class);
+
+		(new View($root))->getDirectoryContent('/', null, null, true);
+	}
+
+	public function testGetDirectoryContentStrictFailsWhenRootScanProducesNoEntry(): void {
+		$root = self::getUniqueID('/');
+		$storage = $this->getTestStorage();
+		$missingRootStorage = new TemporaryMissingRootStorage();
+		$this->storages[] = $missingRootStorage;
+
+		Filesystem::mount($storage, [], $root . '/');
+		Filesystem::mount($missingRootStorage, [], $root . '/missing-root');
+
+		$this->expectException(StorageNotAvailableException::class);
+
+		(new View($root))->getDirectoryContent('/', null, null, true);
+	}
+
+	public function testGetDirectoryContentStrictStillSkipsUnreadableMount(): void {
+		$root = self::getUniqueID('/');
+		$storage = $this->getTestStorage();
+		$unreadableStorage = $this->getTestStorage();
+		$rootEntry = $unreadableStorage->getCache()->get('');
+		$unreadableStorage->getCache()->update($rootEntry->getId(), ['permissions' => 0]);
+
+		Filesystem::mount($storage, [], $root . '/');
+		Filesystem::mount($unreadableStorage, [], $root . '/unreadable');
+
+		$folderData = (new View($root))->getDirectoryContent('/', null, null, true);
+
+		$this->assertNotContains('unreadable', array_map(static fn (FileInfo $info): string => $info->getName(), $folderData));
+	}
+
+	public function testGetDirectoryContentStrictAllowsUnavailableMountBelowExistingFolder(): void {
+		$root = self::getUniqueID('/');
+		$storage = $this->getTestStorage();
+		$unavailableStorage = new TemporaryUnavailableStorage();
+		$this->storages[] = $unavailableStorage;
+
+		Filesystem::mount($storage, [], $root . '/');
+		$view = new View($root);
+		$view->mkdir('/existing');
+		Filesystem::mount($unavailableStorage, [], $root . '/existing/unavailable');
+
+		$folderData = $view->getDirectoryContent('/', null, null, true);
+
+		$this->assertContains('existing', array_map(static fn (FileInfo $info): string => $info->getName(), $folderData));
+
+		$this->expectException(StorageNotAvailableException::class);
+		$view->getDirectoryContent('/existing', null, null, true);
+	}
+
+	public function testGetDirectoryContentStrictFailsWhenUnavailableMountIsOnlySourceOfNestedFolder(): void {
+		$root = self::getUniqueID('/');
+		$storage = $this->getTestStorage();
+		$unavailableStorage = new TemporaryUnavailableStorage();
+		$this->storages[] = $unavailableStorage;
+
+		Filesystem::mount($storage, [], $root . '/');
+		Filesystem::mount($unavailableStorage, [], $root . '/virtual/unavailable');
+
+		$this->expectException(StorageNotAvailableException::class);
+
+		(new View($root))->getDirectoryContent('/', null, null, true);
 	}
 
 	public function testGetPath(): void {

@@ -25,6 +25,7 @@ use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMovableMount;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -53,6 +54,7 @@ class Directory extends Node implements
 	 * @var FileInfo[]
 	 */
 	private ?array $dirContent = null;
+	private bool $dirContentIsStrict = false;
 
 	/** Cached quota info */
 	private ?array $quotaInfo = null;
@@ -251,7 +253,26 @@ class Directory extends Node implements
 	 */
 	#[\Override]
 	public function getChildren() {
-		if (!is_null($this->dirContent)) {
+		return $this->getChildrenInternal(false);
+	}
+
+	/**
+	 * Return all child nodes, failing if an unavailable mount would make the listing incomplete.
+	 *
+	 * @return \Sabre\DAV\INode[]
+	 * @throws \Sabre\DAV\Exception\Locked
+	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
+	 * @throws Forbidden
+	 */
+	public function getChildrenStrict(): array {
+		return $this->getChildrenInternal(true);
+	}
+
+	/**
+	 * @return \Sabre\DAV\INode[]
+	 */
+	private function getChildrenInternal(bool $failOnUnavailableMount): array {
+		if (!is_null($this->dirContent) && (!$failOnUnavailableMount || $this->dirContentIsStrict)) {
 			return $this->dirContent;
 		}
 		try {
@@ -264,9 +285,16 @@ class Directory extends Node implements
 					throw new Forbidden('No read permissions');
 				}
 			}
-			$folderContent = $this->getNode()->getDirectoryListing();
+			if ($failOnUnavailableMount) {
+				/** @psalm-suppress InternalMethod The Node API cannot request a strict mount-aware listing. */
+				$folderContent = $this->fileView->getDirectoryContent($this->path, null, $this->info, true);
+			} else {
+				$folderContent = $this->getNode()->getDirectoryListing();
+			}
 		} catch (LockedException $e) {
 			throw new Locked();
+		} catch (StorageNotAvailableException|StorageInvalidException $e) {
+			throw new ServiceUnavailable('Storage is temporarily not available', 0, $e);
 		}
 
 		$nodes = [];
@@ -278,6 +306,7 @@ class Directory extends Node implements
 			$nodes[] = $node;
 		}
 		$this->dirContent = $nodes;
+		$this->dirContentIsStrict = $failOnUnavailableMount;
 		return $this->dirContent;
 	}
 

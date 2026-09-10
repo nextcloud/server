@@ -103,6 +103,7 @@ class ServerFactory {
 			$server->addPlugin(new PropFindMonitorPlugin());
 		}
 
+		$server->addPlugin(new PropFindMountAvailabilityPlugin());
 		$server->addPlugin(new PropFindPreloadNotifyPlugin());
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 		$server->addPlugin(new DummyGetResponsePlugin());

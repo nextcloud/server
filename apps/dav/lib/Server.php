@@ -48,6 +48,7 @@ use OCA\DAV\Connector\Sabre\LockPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\PropfindCompressionPlugin;
 use OCA\DAV\Connector\Sabre\PropFindMonitorPlugin;
+use OCA\DAV\Connector\Sabre\PropFindMountAvailabilityPlugin;
 use OCA\DAV\Connector\Sabre\PropFindPreloadNotifyPlugin;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
@@ -262,6 +263,7 @@ class Server {
 			\OCP\Server::get(IDateTimeZone::class),
 		));
 		$this->server->addPlugin(\OCP\Server::get(PaginatePlugin::class));
+		$this->server->addPlugin(new PropFindMountAvailabilityPlugin());
 		$this->server->addPlugin(new PropFindPreloadNotifyPlugin());
 
 		// allow setup of additional plugins

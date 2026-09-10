@@ -1504,9 +1504,12 @@ class View {
 	 *
 	 * @param string $directory path under datadirectory
 	 * @param ?non-empty-string $mimeTypeFilter limit returned content to this mimetype or mimepart
+	 * @param bool $failOnUnavailableMount fail instead of omitting unavailable mount points
 	 * @return FileInfo[]
+	 * @throws StorageInvalidException
+	 * @throws StorageNotAvailableException
 	 */
-	public function getDirectoryContent(string $directory, ?string $mimeTypeFilter = null, ?\OCP\Files\FileInfo $directoryInfo = null) {
+	public function getDirectoryContent(string $directory, ?string $mimeTypeFilter = null, ?\OCP\Files\FileInfo $directoryInfo = null, bool $failOnUnavailableMount = false) {
 		$this->assertPathLength($directory);
 		if (!Filesystem::isValidPath($directory)) {
 			return [];
@@ -1523,6 +1526,9 @@ class View {
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($path);
 		if (!$storage) {
+			if ($failOnUnavailableMount) {
+				throw new StorageNotAvailableException('Storage for directory "' . $path . '" is not available');
+			}
 			return [];
 		}
 
@@ -1577,8 +1583,12 @@ class View {
 		$mounts = Filesystem::getMountManager()->findIn($path);
 
 		$dirLength = strlen($path);
+		$unavailableNestedMounts = [];
 		foreach ($mounts as $mount) {
 			$mountPoint = $mount->getMountPoint();
+			$relativePath = trim(substr($mountPoint, $dirLength), '/');
+			$separatorPosition = strpos($relativePath, '/');
+			$entryName = $separatorPosition === false ? $relativePath : substr($relativePath, 0, $separatorPosition);
 			$subStorage = $mount->getStorage();
 			if ($subStorage) {
 				$subCache = $subStorage->getCache('');
@@ -1588,7 +1598,13 @@ class View {
 					$subScanner = $subStorage->getScanner();
 					try {
 						$subScanner->scanFile('');
-					} catch (StorageNotAvailableException|StorageInvalidException) {
+					} catch (StorageNotAvailableException|StorageInvalidException $e) {
+						if ($failOnUnavailableMount) {
+							if ($separatorPosition === false) {
+								throw $e;
+							}
+							$unavailableNestedMounts[$entryName] ??= $e;
+						}
 						continue;
 					} catch (\Exception $e) {
 						// sometimes when the storage is not available it can be any exception
@@ -1596,12 +1612,30 @@ class View {
 							'exception' => $e,
 							'app' => 'core',
 						]);
+						if ($failOnUnavailableMount) {
+							$exception = new StorageNotAvailableException('Failed to scan mount point "' . $mountPoint . '"', StorageNotAvailableException::STATUS_ERROR, $e);
+							if ($separatorPosition === false) {
+								throw $exception;
+							}
+							$unavailableNestedMounts[$entryName] ??= $exception;
+						}
 						continue;
 					}
 					$rootEntry = $subCache->get('');
 				}
 
-				if (!$rootEntry || !($rootEntry->getPermissions() & Constants::PERMISSION_READ)) {
+				if (!$rootEntry) {
+					if ($failOnUnavailableMount) {
+						$exception = new StorageNotAvailableException('Unable to read the root of mount point "' . $mountPoint . '"');
+						if ($separatorPosition === false) {
+							throw $exception;
+						}
+						$unavailableNestedMounts[$entryName] ??= $exception;
+					}
+					continue;
+				}
+
+				if (!($rootEntry->getPermissions() & Constants::PERMISSION_READ)) {
 					continue;
 				}
 
@@ -1613,10 +1647,8 @@ class View {
 					}
 				}
 
-				$relativePath = trim(substr($mountPoint, $dirLength), '/');
-				if ($pos = strpos($relativePath, '/')) {
+				if ($separatorPosition !== false) {
 					//mountpoint inside subfolder add size to the correct folder
-					$entryName = substr($relativePath, 0, $pos);
 
 					// Create parent folders if the mountpoint is inside a subfolder that doesn't exist yet
 					if (!isset($files[$entryName])) {
@@ -1671,6 +1703,18 @@ class View {
 					}
 					$files[$rootEntry->getName()] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount, $owner);
 				}
+			} elseif ($failOnUnavailableMount) {
+				$exception = new StorageNotAvailableException('Storage for mount point "' . $mountPoint . '" is not available');
+				if ($separatorPosition === false) {
+					throw $exception;
+				}
+				$unavailableNestedMounts[$entryName] ??= $exception;
+			}
+		}
+
+		foreach ($unavailableNestedMounts as $entryName => $exception) {
+			if (!isset($files[$entryName])) {
+				throw $exception;
 			}
 		}
 
