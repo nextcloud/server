@@ -308,9 +308,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 */
 	#[\Override]
 	public function registerCapability($serviceName) {
-		$this->query(CapabilitiesManager::class)->registerCapability(function () use ($serviceName) {
-			return $this->query($serviceName);
-		});
+		$this->get(CapabilitiesManager::class)->registerCapability(function () use ($serviceName) {
+			return $this->get($serviceName);
+		}, $serviceName);
 	}
 
 	#[\Override]

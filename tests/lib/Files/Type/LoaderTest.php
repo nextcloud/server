@@ -84,4 +84,38 @@ class LoaderTest extends TestCase {
 
 		$this->assertEquals($mimetypeId, $mimetypeId2);
 	}
+
+	/**
+	 * A row inserted by another connection/process after this loader's cache was
+	 * already populated must still be found, since this loader may be kept alive
+	 * across requests (see PersistAcrossRequests).
+	 */
+	public function testExistsFallsBackToDatabaseOnCacheMiss(): void {
+		// Populate the cache before the row exists
+		$this->loader->exists('testing/unrelated');
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('mimetypes')
+			->values([
+				'mimetype' => $qb->createPositionalParameter('testing/insertedlater'),
+			]);
+		$qb->executeStatement();
+
+		$this->assertTrue($this->loader->exists('testing/insertedlater'));
+	}
+
+	public function testGetMimetypeByIdFallsBackToDatabaseOnCacheMiss(): void {
+		// Populate the cache before the row exists
+		$this->loader->exists('testing/unrelated');
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('mimetypes')
+			->values([
+				'mimetype' => $qb->createPositionalParameter('testing/insertedlater'),
+			]);
+		$qb->executeStatement();
+		$mimetypeId = (int)$qb->getLastInsertId();
+
+		$this->assertSame('testing/insertedlater', $this->loader->getMimetypeById($mimetypeId));
+	}
 }

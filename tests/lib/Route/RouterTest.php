@@ -14,7 +14,6 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -48,13 +47,35 @@ class RouterTest extends TestCase {
 			$this->createMock(IRequest::class),
 			$this->createMock(IConfig::class),
 			$this->createMock(IEventLogger::class),
-			$this->createMock(ContainerInterface::class),
 			$this->appManager,
 		);
 	}
 
 	public function testHeartbeat(): void {
 		$this->assertEquals('/index.php/heartbeat', $this->router->generate('heartbeat'));
+	}
+
+	public function testRefreshContextUpdatesGeneratedAbsoluteUrls(): void {
+		$firstRequest = $this->createMock(IRequest::class);
+		$firstRequest->method('getServerHost')->willReturn('first.example.com');
+		$firstRequest->method('getServerProtocol')->willReturn('http');
+
+		$router = new Router(
+			$this->createMock(LoggerInterface::class),
+			$firstRequest,
+			$this->createMock(IConfig::class),
+			$this->createMock(IEventLogger::class),
+			$this->appManager,
+		);
+
+		$this->assertSame('http://first.example.com/index.php/heartbeat', $router->generate('heartbeat', [], true));
+
+		$secondRequest = $this->createMock(IRequest::class);
+		$secondRequest->method('getServerHost')->willReturn('second.example.com');
+		$secondRequest->method('getServerProtocol')->willReturn('https');
+		$router->refreshContext($secondRequest);
+
+		$this->assertSame('https://second.example.com/index.php/heartbeat', $router->generate('heartbeat', [], true));
 	}
 
 	public function testGenerateConsecutively(): void {

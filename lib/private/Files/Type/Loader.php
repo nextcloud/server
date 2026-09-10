@@ -9,8 +9,10 @@
 namespace OC\Files\Type;
 
 use OC\DB\Exceptions\DbalException;
+use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\DB\Exception as DBException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
 
@@ -19,6 +21,7 @@ use OCP\IDBConnection;
  *
  * @package OC\Files\Type
  */
+#[PersistAcrossRequests]
 class Loader implements IMimeTypeLoader {
 	use TTransactional;
 
@@ -49,7 +52,23 @@ class Loader implements IMimeTypeLoader {
 		if (isset($this->mimetypes[$id])) {
 			return $this->mimetypes[$id];
 		}
-		return null;
+
+		// Might have been inserted by another process after this cache was loaded.
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('mimetype')
+			->from('mimetypes')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+		$result = $qb->executeQuery();
+		$mimetype = $result->fetchOne();
+		$result->closeCursor();
+
+		if ($mimetype === false) {
+			return null;
+		}
+
+		$this->mimetypes[$id] = $mimetype;
+		$this->mimetypeIds[$mimetype] = $id;
+		return $mimetype;
 	}
 
 	/**
@@ -74,7 +93,26 @@ class Loader implements IMimeTypeLoader {
 		if (!$this->mimetypeIds) {
 			$this->loadMimetypes();
 		}
-		return isset($this->mimetypeIds[$mimetype]);
+		if (isset($this->mimetypeIds[$mimetype])) {
+			return true;
+		}
+
+		// Might have been inserted by another process after this cache was loaded.
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('id')
+			->from('mimetypes')
+			->where($qb->expr()->eq('mimetype', $qb->createNamedParameter($mimetype)));
+		$result = $qb->executeQuery();
+		$id = $result->fetchOne();
+		$result->closeCursor();
+
+		if ($id === false) {
+			return false;
+		}
+
+		$this->mimetypes[(int)$id] = $mimetype;
+		$this->mimetypeIds[$mimetype] = (int)$id;
+		return true;
 	}
 
 	/**

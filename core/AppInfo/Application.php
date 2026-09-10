@@ -24,6 +24,7 @@ use OC\Core\Listener\AddMissingPrimaryKeyListener;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
 use OC\Core\Listener\LoadAdditionalEntriesListener;
 use OC\Core\Listener\PasswordUpdatedListener;
+use OC\Core\Listener\PersistentServiceInvalidationListener;
 use OC\Core\Listener\RestrictInteractionListener;
 use OC\Core\Notification\CoreNotifier;
 use OC\Core\Sharing\Permission\EditSharePermissionPreset;
@@ -42,6 +43,8 @@ use OC\DirectEditing\Listeners\UserDeletedTokenCleanupListener as UserDeletedDir
 use OC\DirectEditing\Listeners\UserDisabledTokenCleanupListener as UserDisabledDirectEditingTokenCleanupListener;
 use OC\OCM\OCMDiscoveryHandler;
 use OC\TagManager;
+use OCP\App\Events\AppDisableEvent;
+use OCP\App\Events\AppEnableEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -92,6 +95,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$context->registerEventListener(BeforeLoginTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
 		$context->registerEventListener(LoadAdditionalEntriesEvent::class, LoadAdditionalEntriesListener::class);
+		$context->registerEventListener(AppEnableEvent::class, PersistentServiceInvalidationListener::class);
+		$context->registerEventListener(AppDisableEvent::class, PersistentServiceInvalidationListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeActivityListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeNotificationsListener::class);
 		$context->registerEventListener(RemoteWipeStarted::class, RemoteWipeEmailListener::class);

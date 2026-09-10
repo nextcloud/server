@@ -17,6 +17,7 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
 use OC\AppFramework\Services\AppConfig;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\AppFramework\Utility\PersistentServiceInvalidator;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Listeners\LoginFailedListener;
@@ -164,6 +165,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\Activity\IEventMerger;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\AppFramework\Utility\IPersistentServiceInvalidator;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Authentication\Token\IProvider as OCPIProvider;
@@ -581,6 +583,7 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerAlias(ICacheFactory::class, Factory::class);
+		$this->registerAlias(IPersistentServiceInvalidator::class, PersistentServiceInvalidator::class);
 
 		$this->registerDeprecatedAlias('RedisFactory', RedisFactory::class);
 
@@ -905,12 +908,14 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(CapabilitiesManager::class, function (ContainerInterface $c) {
 			$manager = new CapabilitiesManager($c->get(LoggerInterface::class));
-			$manager->registerCapability(function () use ($c) {
-				return new CoreCapabilities($c->get(IConfig::class));
-			});
-			$manager->registerCapability(function () use ($c) {
-				return $c->get(Capabilities::class);
-			});
+			// Resolved through the current container at call time, not the one that built $manager:
+			// CapabilitiesManager may be kept alive (and this closure with it) well past this request.
+			$manager->registerCapability(function () {
+				return new CoreCapabilities(\OCP\Server::get(IConfig::class));
+			}, CoreCapabilities::class);
+			$manager->registerCapability(function () {
+				return \OCP\Server::get(Capabilities::class);
+			}, Capabilities::class);
 			return $manager;
 		});
 
