@@ -146,7 +146,7 @@ describe('deleting the share', () => {
 describe('removing a participant', () => {
 	it('removes the recipient of the row it was triggered on', async () => {
 		const wrapper = mountEntry(share([recipient('bob'), recipient('carol')]))
-		await triggerAction(wrapper, 'Remove participant')
+		await triggerAction(wrapper, 'Remove recipient')
 		expect(removeRecipient).toHaveBeenCalledWith('42', 'UserRecipient', 'bob', null)
 		expect(wrapper.emitted('refresh')).toHaveLength(1)
 	})
@@ -154,7 +154,7 @@ describe('removing a participant', () => {
 	it('does not refresh when the removal fails', async () => {
 		vi.mocked(removeRecipient).mockRejectedValueOnce(new Error('nope'))
 		const wrapper = mountEntry(share([recipient('bob'), recipient('carol')]))
-		await triggerAction(wrapper, 'Remove participant')
+		await triggerAction(wrapper, 'Remove recipient')
 		expect(wrapper.emitted('refresh')).toBeUndefined()
 	})
 })
