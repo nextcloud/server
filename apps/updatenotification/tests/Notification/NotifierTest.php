@@ -64,29 +64,36 @@ class NotifierTest extends TestCase {
 		);
 	}
 
-	public static function dataUpdateAlreadyInstalledCheck(): array {
-		return [
-			['1.1.0', '1.0.0', false],
-			['1.1.0', '1.1.0', true],
-			['1.1.0', '1.2.0', true],
-		];
-	}
-
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateAlreadyInstalledCheck')]
-	public function testUpdateAlreadyInstalledCheck(string $versionNotification, string $versionInstalled, bool $exception): void {
+	public function testUpdateAlreadyInstalledCheckWithOlderInstalledVersion(): void {
 		$notifier = $this->getNotifier();
 
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
 			->method('getObjectId')
-			->willReturn($versionNotification);
+			->willReturn('1.1.0');
 
-		try {
-			self::invokePrivate($notifier, 'updateAlreadyInstalledCheck', [$notification, $versionInstalled]);
-			$this->assertFalse($exception);
-		} catch (\Exception $e) {
-			$this->assertTrue($exception);
-			$this->assertInstanceOf(AlreadyProcessedException::class, $e);
-		}
+		self::invokePrivate($notifier, 'updateAlreadyInstalledCheck', [$notification, '1.0.0']);
+		$this->addToAssertionCount(1);
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataAlreadyInstalledVersions')]
+	public function testUpdateAlreadyInstalledCheckThrows(string $versionInstalled): void {
+		$notifier = $this->getNotifier();
+
+		$notification = $this->createMock(INotification::class);
+		$notification->expects($this->once())
+			->method('getObjectId')
+			->willReturn('1.1.0');
+
+		$this->expectException(AlreadyProcessedException::class);
+
+		self::invokePrivate($notifier, 'updateAlreadyInstalledCheck', [$notification, $versionInstalled]);
+	}
+
+	public static function dataAlreadyInstalledVersions(): array {
+		return [
+			['1.1.0'],
+			['1.2.0'],
+		];
 	}
 }
