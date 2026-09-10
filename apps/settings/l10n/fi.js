@@ -411,6 +411,7 @@ OC.L10N.register(
     "Headline" : "Otsikko",
     "Organisation" : "Organisaatio",
     "Phone number" : "Puhelinnumero",
+    "Pronouns" : "Pronominit",
     "Role" : "Rooli",
     "X (formerly Twitter)" : "X (aiemmin Twitter)",
     "Bluesky" : "Bluesky",

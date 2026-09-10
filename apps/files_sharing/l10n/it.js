@@ -342,7 +342,7 @@ OC.L10N.register(
     "Files and folders shared with you will show up here" : "I file e le cartelle condivisi con te verranno visualizzati qui",
     "Overview of shared files." : "Panoramica dei file condivisi.",
     "No shares" : "Nessuna condivisione",
-    "Files and folders you shared or have been shared with you will show up here" : "I file e le cartelle che hai condiviso o che sono stati condivisi con te con te saranno mostrati qui",
+    "Files and folders you shared or have been shared with you will show up here" : "I file e le cartelle che hai condiviso o che sono stati condivisi con te saranno mostrati qui",
     "Shared with you" : "Condivisi con te",
     "List of files that are shared with you." : "Lista di file che sono condivisi con te.",
     "Nothing shared with you yet" : "Non è stato condiviso ancora niente con te",
