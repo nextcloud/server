@@ -13,6 +13,8 @@ export interface SharedResource {
 	text: string
 	href: string
 	img: string
+	/** Monochrome app icon that should follow the text color via CSS filter. */
+	themedIcon?: boolean
 }
 
 interface OcsResponse<T> {
