@@ -3092,22 +3092,6 @@
       <code><![CDATA[IToken::PERMANENT_TOKEN]]></code>
     </DeprecatedClass>
   </file>
-  <file src="core/Controller/AutoCompleteController.php">
-    <DeprecatedClass>
-      <code><![CDATA[new AutoCompleteEvent([
-			'search' => $search,
-			'results' => $results,
-			'itemType' => $itemType,
-			'itemId' => $itemId,
-			'sorter' => $sorter,
-			'shareTypes' => $shareTypes,
-			'limit' => $limit,
-		])]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[dispatch]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/Controller/ClientFlowLoginV2Controller.php">
     <TypeDoesNotContainType>
       <code><![CDATA[!is_string($stateToken)]]></code>
