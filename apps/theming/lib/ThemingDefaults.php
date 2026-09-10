@@ -379,10 +379,10 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		$route = false;
-		if ($image === 'favicon.ico' && ($this->imageManager->shouldReplaceIcons() || $this->getCustomFavicon() !== null)) {
+		if ($image === 'favicon.ico' && ($this->imageManager->canConvert('ICO') || $this->getCustomFavicon() !== null)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]);
 		}
-		if (($image === 'favicon-touch.png' || $image === 'favicon-fb.png') && ($this->imageManager->shouldReplaceIcons() || $this->getCustomFavicon() !== null)) {
+		if (($image === 'favicon-touch.png' || $image === 'favicon-fb.png') && ($this->imageManager->canConvert('PNG') || $this->getCustomFavicon() !== null)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]);
 		}
 		if ($image === 'manifest.json') {
