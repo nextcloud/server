@@ -314,18 +314,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->appName;
 		}
 
-		try {
-			return $this->queryNoFallback($name, $chain);
-		} catch (QueryException $firstException) {
-			try {
-				return $this->server->query($name, $autoload, $chain);
-			} catch (QueryException $secondException) {
-				if ($firstException->getCode() === 1) {
-					throw $secondException;
-				}
-				throw $firstException;
-			}
+		$result = $this->queryNoFallback($name, $chain);
+		if ($result !== null) {
+			return $result;
 		}
+		return $this->server->query($name, $autoload, $chain);
 	}
 
 	/**
@@ -336,7 +329,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @internal
 	 */
 	public function queryNoFallback($name, array $chain) {
-		$name = $this->resolveAlias($name);
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
 		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
@@ -350,8 +342,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			/* AppFramework services are scoped to the application */
 			return parent::query($name, chain: $chain);
 		}
-
-		throw new QueryException('Could not resolve ' . $name . '!'
-			. ' Class can not be instantiated', 1);
+		return null;
 	}
 }
