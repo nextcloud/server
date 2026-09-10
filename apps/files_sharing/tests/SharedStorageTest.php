@@ -466,14 +466,20 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$user2View = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 
-		// the storage refuses every write, so the cache must not advertise more than read
+		// the storage refuses every write, so the cache must not advertise more.
+		// The mount point keeps its delete permission: `View::getFileInfo()` adds that
+		// for every movable mount, so the recipient can always remove the share from
+		// their own view.
 		$folderInfo = $user2View->getFileInfo($this->folder);
 		$this->assertNotFalse($folderInfo);
-		$this->assertSame(0, $folderInfo->getPermissions() & ~Constants::PERMISSION_READ);
+		$this->assertTrue($folderInfo->isReadable());
+		$this->assertFalse($folderInfo->isCreatable());
+		$this->assertFalse($folderInfo->isUpdateable());
+		$this->assertFalse($folderInfo->isShareable());
 
 		$fileInfo = $user2View->getFileInfo($this->folder . $this->filename);
 		$this->assertNotFalse($fileInfo);
-		$this->assertSame(0, $fileInfo->getPermissions() & ~Constants::PERMISSION_READ);
+		$this->assertSame(Constants::PERMISSION_READ, $fileInfo->getPermissions());
 
 		// and what it does advertise still holds
 		$this->assertSame('file in subfolder', $user2View->file_get_contents($this->folder . $this->filename));
