@@ -279,11 +279,11 @@ const ldapConfigProxy = computed(() => ldapConfigsStore.getConfigProxy(props.con
 const instanceName = (getCapabilities() as { theming: { name: string } }).theming.name
 
 const groupMemberAssociation = {
-	uniqueMember: 'uniqueMember',
-	memberUid: 'memberUid',
+	uniquemember: 'uniqueMember',
+	memberuid: 'memberUid',
 	member: 'member (AD)',
-	gidNumber: 'gidNumber',
-	zimbraMailForwardingAddress: 'zimbraMailForwardingAddress',
+	gidnumber: 'gidNumber',
+	zimbramailforwardingaddress: 'zimbraMailForwardingAddress',
 }
 </script>
 
