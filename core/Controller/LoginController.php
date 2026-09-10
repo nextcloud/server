@@ -11,11 +11,11 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Http\Request;
+use OC\Authentication\Login\AlternativeLoginService;
 use OC\Authentication\Login\Chain;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
 use OC\User\Session;
-use OC_App;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCP\App\IAppManager;
@@ -30,9 +30,10 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Authentication\IAlternativeLogin;
+use OCP\Config\IUserConfig;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -48,41 +49,40 @@ use OCP\Server;
 use OCP\Util;
 
 class LoginController extends Controller {
-	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
-	public const LOGIN_MSG_USERDISABLED = 'userdisabled';
-	public const LOGIN_MSG_CSRFCHECKFAILED = 'csrfCheckFailed';
-	public const LOGIN_MSG_INVALID_ORIGIN = 'invalidOrigin';
+	public const string LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
+	public const string LOGIN_MSG_USERDISABLED = 'userdisabled';
+	public const string LOGIN_MSG_CSRFCHECKFAILED = 'csrfCheckFailed';
+	public const string LOGIN_MSG_INVALID_ORIGIN = 'invalidOrigin';
 
 	public function __construct(
-		?string $appName,
+		string $appName,
 		IRequest $request,
-		private IUserManager $userManager,
-		private IConfig $config,
-		private ISession $session,
-		private Session $userSession,
-		private IURLGenerator $urlGenerator,
-		private Defaults $defaults,
-		private IThrottler $throttler,
-		private IInitialState $initialState,
-		private WebAuthnManager $webAuthnManager,
-		private IManager $manager,
-		private IL10N $l10n,
-		private IAppManager $appManager,
+		private readonly IUserManager $userManager,
+		private readonly IConfig $config,
+		private readonly IUserConfig $userConfig,
+		private readonly ISession $session,
+		private readonly Session $userSession,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly Defaults $defaults,
+		private readonly IThrottler $throttler,
+		private readonly IInitialState $initialState,
+		private readonly WebAuthnManager $webAuthnManager,
+		private readonly IManager $manager,
+		private readonly IL10N $l10n,
+		private readonly IAppManager $appManager,
+		private readonly AlternativeLoginService $alternativeLoginService,
 	) {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @return RedirectResponse
-	 */
 	#[NoAdminRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/logout')]
-	public function logout() {
+	public function logout(): RedirectResponse {
 		$loginToken = $this->request->getCookie('nc_token');
 		$uid = $this->userSession->getUser()?->getUID();
 		if ($loginToken !== null && $uid !== null) {
-			$this->config->deleteUserValue($uid, 'login_token', $loginToken);
+			$this->userConfig->deleteUserConfig($uid, 'login_token', $loginToken);
 		}
 		$this->userSession->logout();
 
@@ -107,22 +107,17 @@ class LoginController extends Controller {
 		return $response;
 	}
 
-	/**
-	 * @param string $user
-	 * @param string $redirect_url
-	 *
-	 * @return TemplateResponse|RedirectResponse
-	 */
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[UseSession]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'GET', url: '/login')]
-	public function showLoginForm(?string $user = null, ?string $redirect_url = null): Response {
+	public function showLoginForm(?string $user = null, ?string $redirect_url = null): TemplateResponse|RedirectResponse {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 		}
 
+		/** @var array|string $loginMessages */
 		$loginMessages = $this->session->get('loginMessages');
 		if (!$this->manager->isFairUseOfFreePushService()) {
 			if (!is_array($loginMessages)) {
@@ -153,7 +148,7 @@ class LoginController extends Controller {
 			$this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15) > 0
 		);
 
-		if (!empty($redirect_url)) {
+		if ($redirect_url !== null && $redirect_url !== '') {
 			[$url, ] = explode('?', $redirect_url);
 			if ($url !== $this->urlGenerator->linkToRoute('core.login.logout')) {
 				$this->initialState->provideInitialState('loginRedirectUrl', $redirect_url);
@@ -185,7 +180,11 @@ class LoginController extends Controller {
 		Util::addHeader('meta', ['name' => 'referrer', 'content' => 'same-origin']);
 
 		$parameters = [
-			'alt_login' => OC_App::getAlternativeLogIns(),
+			'alt_login' => array_map(static fn (IAlternativeLogin $alternativeLogin): array => [
+				'name' => $alternativeLogin->getLabel(),
+				'href' => $alternativeLogin->getLink(),
+				'class' => $alternativeLogin->getClass(),
+			], $this->alternativeLoginService->getAlternativeLogins()),
 			'pageTitle' => $this->l10n->t('Login'),
 		];
 
@@ -203,8 +202,6 @@ class LoginController extends Controller {
 
 	/**
 	 * Sets the password reset state
-	 *
-	 * @param string $username
 	 */
 	private function setPasswordResetInitialState(?string $username): void {
 		if ($username !== null && $username !== '') {
@@ -227,15 +224,14 @@ class LoginController extends Controller {
 	}
 
 	/**
-	 * Sets the initial state of whether or not a user is allowed to login with their email
+	 * Sets the initial state of whether a user is allowed to log in with their email
 	 * initial state is passed in the array of 1 for email allowed and 0 for not allowed
 	 */
 	private function setEmailStates(): void {
-		$emailStates = []; // true: can login with email, false otherwise - default to true
+		$emailStates = []; // true: can log in with email, false otherwise - default to true
 
 		// check if user_ldap is enabled, and the required classes exist
-		if ($this->appManager->isAppLoaded('user_ldap')
-			&& class_exists(Helper::class)) {
+		if ($this->appManager->isAppLoaded('user_ldap') && class_exists(Helper::class)) {
 			$helper = Server::get(Helper::class);
 			$allPrefixes = $helper->getServerConfigurationPrefixes();
 			// check each LDAP server the user is connected too
@@ -248,15 +244,10 @@ class LoginController extends Controller {
 	}
 
 	/**
-	 * @param string|null $passwordLink
-	 * @param IUser|null $user
-	 *
 	 * Users may not change their passwords if:
 	 * - The account is disabled
 	 * - The backend doesn't support password resets
 	 * - The password reset function is disabled
-	 *
-	 * @return bool
 	 */
 	private function canResetPassword(?string $passwordLink, ?IUser $user): bool {
 		if ($passwordLink === 'disabled') {
@@ -366,29 +357,23 @@ class LoginController extends Controller {
 			);
 		}
 
-		if ($result->getRedirectUrl() !== null) {
-			return new RedirectResponse($result->getRedirectUrl());
+		$redirectUrl = $result->getRedirectUrl();
+		if ($redirectUrl !== null) {
+			return new RedirectResponse($redirectUrl);
 		}
 		return $this->generateRedirect($redirect_url);
 	}
 
 	/**
 	 * Creates a login failed response.
-	 *
-	 * @param string $user
-	 * @param string $originalUser
-	 * @param string $redirect_url
-	 * @param string $loginMessage
-	 *
-	 * @return RedirectResponse
 	 */
 	private function createLoginFailedResponse(
-		$user,
-		$originalUser,
-		$redirect_url,
+		?string $user,
+		string $originalUser,
+		?string $redirect_url,
 		string $loginMessage,
 		bool $throttle = true,
-	) {
+	): RedirectResponse {
 		// Read current user and append if possible we need to
 		// return the unmodified user otherwise we will leak the login name
 		$args = $user !== null ? ['user' => $originalUser, 'direct' => 1] : [];
@@ -399,7 +384,7 @@ class LoginController extends Controller {
 			$this->urlGenerator->linkToRoute('core.login.showLoginForm', $args)
 		);
 		if ($throttle) {
-			$response->throttle(['user' => substr($user, 0, 64)]);
+			$response->throttle(['user' => substr($user ?? '', 0, 64)]);
 		}
 		$this->session->set('loginMessages', [
 			[$loginMessage], []
@@ -428,6 +413,9 @@ class LoginController extends Controller {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function confirmPassword(string $password): DataResponse {
 		$loginName = $this->userSession->getLoginName();
+		if ($loginName === null) {
+			throw new \RuntimeException('Login name not set');
+		}
 		$loginResult = $this->userManager->checkPassword($loginName, $password);
 		if ($loginResult === false) {
 			$response = new DataResponse([], Http::STATUS_FORBIDDEN);
