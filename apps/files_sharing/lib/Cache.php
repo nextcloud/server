@@ -15,6 +15,7 @@ use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\User\DisplayNameCache;
+use OCP\Constants;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchBinaryOperator;
@@ -152,6 +153,14 @@ class Cache extends CacheJail {
 				$entry['permissions'] &= $this->share->getPermissions();
 			} else {
 				$entry['permissions'] = $this->storage->getPermissions($entry['path']);
+			}
+
+			if (!SharedStorage::hasValidSourcePermissions($this->sourceRootInfo)) {
+				// SharedStorage disables a share whose source lost the share permission:
+				// every write is refused while reading still works. Report the same here,
+				// otherwise the file list advertises write permissions that every
+				// operation then denies with a 403.
+				$entry['permissions'] &= Constants::PERMISSION_READ;
 			}
 
 			if ($this->share->getNodeId() === $entry['fileid']) {

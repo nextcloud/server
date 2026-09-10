@@ -238,10 +238,21 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		return $this->superShare->getId();
 	}
 
+	/**
+	 * A share only works as long as its source still carries the share permission.
+	 * Both this storage and its cache have to agree on that, so keep the check in
+	 * one place.
+	 *
+	 * @param ICacheEntry|false|null $sourceRootInfo
+	 */
+	public static function hasValidSourcePermissions($sourceRootInfo): bool {
+		return $sourceRootInfo instanceof ICacheEntry
+			&& ($sourceRootInfo->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
+	}
+
 	private function isValid(): bool {
 		$sourceRootInfo = $this->getSourceRootInfo();
-		if ($sourceRootInfo instanceof ICacheEntry
-			&& ($sourceRootInfo->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE) {
+		if (self::hasValidSourcePermissions($sourceRootInfo)) {
 			return true;
 		}
 
