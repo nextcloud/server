@@ -48,6 +48,14 @@ interface IShareRecipientType {
 	public function getRecipients(?IUser $currentUser, mixed $arguments): array;
 
 	/**
+	 * Get user ids for a recipient value.
+	 *
+	 * @return list<string>
+	 * @experimental 35.0.0
+	 */
+	public function getUsers(string $recipient): array;
+
+	/**
 	 * @param non-empty-string $recipient
 	 * @return ?non-empty-string
 	 * @experimental 35.0.0

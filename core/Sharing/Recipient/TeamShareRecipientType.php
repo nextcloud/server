@@ -70,6 +70,11 @@ final class TeamShareRecipientType extends AShareRecipientTypeSearchCollaborator
 	}
 
 	#[\Override]
+	public function getUsers(string $recipient): array {
+		return array_keys($this->getTeamManager()->getMembersOfTeam($recipient, null));
+	}
+
+	#[\Override]
 	public function getRecipientDisplayName(string $recipient): ?string {
 		return $this->getTeamManager()->getTeam($recipient)?->getDisplayName();
 	}

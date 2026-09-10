@@ -62,6 +62,11 @@ final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator
 	}
 
 	#[\Override]
+	public function getUsers(string $recipient): array {
+		return [$recipient];
+	}
+
+	#[\Override]
 	public function getRecipientDisplayName(string $recipient): ?string {
 		return $this->userManager->getDisplayName($recipient);
 	}
