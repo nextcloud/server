@@ -29,7 +29,9 @@ use Override;
 use Psr\Log\LoggerInterface;
 
 class AmazonS3 extends Common {
-	use S3ConnectionTrait;
+	use S3ConnectionTrait {
+		parseParams as private parseConnectionParams;
+	}
 	use S3ObjectTrait;
 
 	private LoggerInterface $logger;
@@ -49,8 +51,6 @@ class AmazonS3 extends Common {
 	public function __construct(array $parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
-		$rawPrefix = ltrim(trim($parameters['prefix'] ?? ''), '/');
-		$this->prefix = $rawPrefix !== '' ? rtrim($rawPrefix, '/') . '/' : '';
 		// @todo: using `key` here may be problematic with different authentication methods and/or key rotation...
 		$this->id = 'amazon::external::' . md5($this->params['hostname'] . ':' . $this->params['bucket'] . ':' . $this->params['key'] . ':' . $this->prefix);
 		$this->initCaches();
@@ -59,6 +59,13 @@ class AmazonS3 extends Common {
 		$cacheFactory = Server::get(ICacheFactory::class);
 		$this->memCache = $cacheFactory->createLocal('s3-external');
 		$this->logger = Server::get(LoggerInterface::class);
+	}
+
+	#[\Override]
+	protected function parseParams($params) {
+		$this->parseConnectionParams($params);
+		$prefix = trim(trim($params['prefix'] ?? ''), '/');
+		$this->prefix = $prefix !== '' ? $prefix . '/' : '';
 	}
 
 	private function normalizePath(string $path): string {
@@ -274,7 +281,8 @@ class AmazonS3 extends Common {
 
 	private function batchDelete(string $path = ''): bool {
 		// TODO explore using https://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.S3.BatchDelete.html
-		// an empty path means the whole storage: the bucket prefix, or the entire bucket when none is set
+		// an empty path clears the whole storage; scoping Prefix to $this->prefix keeps
+		// the deletion confined to the configured prefix, or the entire bucket when none is set
 		$params = [
 			'Bucket' => $this->bucket,
 			'Prefix' => $this->addPrefix($path === '' ? '' : $path . '/'),
@@ -293,6 +301,7 @@ class AmazonS3 extends Common {
 						'Delete' => [
 							'Quiet' => true,
 							'Objects' => array_map(fn (array $object) => [
+								// already the full S3 key including the prefix, do not addPrefix() again
 								'Key' => $object['Key'],
 							], $objects['Contents'])
 						]
