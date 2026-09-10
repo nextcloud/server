@@ -31,7 +31,7 @@ interface IRootFolder extends Folder {
 	 * @throws NotPermittedException
 	 *
 	 * @since 8.2.0
-	 * @since 33.0.0 returns OCP\Files\IUserFolder instead of OCP\Files\Folder
+	 * @since 36.0.0 returns OCP\Files\IUserFolder instead of OCP\Files\Folder
 	 */
 	public function getUserFolder(string $userId): IUserFolder;
 

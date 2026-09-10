@@ -12,15 +12,15 @@ namespace OCP\Files;
 use OCP\AppFramework\Attribute\Consumable;
 
 /**
- * @since 33.0.0
+ * @since 36.0.0
  */
-#[Consumable(since: '33.0.0')]
+#[Consumable(since: '36.0.0')]
 interface IUserFolder extends Folder {
 
 	/**
 	 * @param bool $useCache - Use the cached value if available instead of recalculate.
 	 * @return array{used: int|float, free: int|float, total: int|float, quota: int|float}
-	 * @since 33.0.0
+	 * @since 36.0.0
 	 */
 	public function getUserQuota(bool $useCache = true): array;
 
