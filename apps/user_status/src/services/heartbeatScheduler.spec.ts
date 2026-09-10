@@ -3,15 +3,20 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getBuilder } from '@nextcloud/browser-storage'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
 	AWAY_TIMEOUT,
 	HEARTBEAT_INTERVAL,
+	HEARTBEAT_THROTTLE,
 	MOUSE_MOVE_DEBOUNCE,
 	startHeartbeat,
 } from './heartbeatScheduler.ts'
 
 const HOUR = 60 * 60 * 1000
+
+// The same scoped store the scheduler writes to, so seeding uses the real key
+const storage = getBuilder('user_status').clearOnLogout().persist().build()
 
 let stop: (() => void) | undefined
 
@@ -37,6 +42,7 @@ describe('heartbeat scheduler', () => {
 	beforeEach(() => {
 		vi.clearAllTimers()
 		vi.resetAllMocks()
+		localStorage.clear()
 	})
 
 	afterEach(() => {
@@ -117,5 +123,71 @@ describe('heartbeat scheduler', () => {
 
 		expect(beat).toHaveBeenCalledTimes(1)
 		expect(vi.getTimerCount()).toBe(0)
+	})
+
+	it('skips the start heartbeat when another tab reported recently', () => {
+		storage.setItem('lastHeartbeat', String(Date.now() - HEARTBEAT_THROTTLE + 1000))
+		const beat = vi.fn()
+		stop = startHeartbeat(beat)
+
+		expect(beat).not.toHaveBeenCalled()
+	})
+
+	it('sends the start heartbeat once the throttle window has passed', () => {
+		storage.setItem('lastHeartbeat', String(Date.now() - HEARTBEAT_THROTTLE - 1000))
+		const beat = vi.fn()
+		stop = startHeartbeat(beat)
+
+		expect(beat).toHaveBeenCalledTimes(1)
+	})
+
+	it.each([
+		['a timestamp from the future', () => String(Date.now() + HOUR)],
+		['an unparseable timestamp', () => 'not a number'],
+	])('sends the start heartbeat despite %s', (_label, stored) => {
+		storage.setItem('lastHeartbeat', stored())
+		const beat = vi.fn()
+		stop = startHeartbeat(beat)
+
+		expect(beat).toHaveBeenCalledTimes(1)
+	})
+
+	it('sends one heartbeat in total for two schedulers on the same page', () => {
+		const first = vi.fn()
+		const second = vi.fn()
+		stop = startHeartbeat(first)
+		const stopSecond = startHeartbeat(second)
+
+		expect(first).toHaveBeenCalledTimes(1)
+		expect(second).not.toHaveBeenCalled()
+		stopSecond()
+	})
+
+	it('never throttles the user coming back from away', async () => {
+		const beat = vi.fn()
+		stop = startHeartbeat(beat)
+
+		window.dispatchEvent(new MouseEvent('mousemove'))
+		await vi.advanceTimersByTimeAsync(AWAY_TIMEOUT + MOUSE_MOVE_DEBOUNCE)
+		beat.mockClear()
+
+		// Well inside the throttle window
+		window.dispatchEvent(new MouseEvent('mousemove'))
+
+		expect(beat).toHaveBeenCalledTimes(1)
+	})
+
+	it('waits for the first reveal before announcing a background tab', () => {
+		const visibility = vi.spyOn(document, 'visibilityState', 'get').mockReturnValue('hidden')
+		const beat = vi.fn()
+		stop = startHeartbeat(beat)
+
+		expect(beat).not.toHaveBeenCalled()
+
+		visibility.mockReturnValue('visible')
+		document.dispatchEvent(new Event('visibilitychange'))
+
+		expect(beat).toHaveBeenCalledTimes(1)
+		visibility.mockRestore()
 	})
 })
