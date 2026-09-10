@@ -11,6 +11,7 @@ namespace Test\Encryption\Keys;
 use OC\Encryption\Keys\Storage;
 use OC\Encryption\Util;
 use OC\Files\View;
+use OCP\Cache\CappedMemoryCache;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -398,6 +399,172 @@ class StorageTest extends TestCase {
 		$this->assertTrue(
 			$this->storage->deleteFileKey('user1/files/foo.txt', 'fileKey', 'encModule')
 		);
+	}
+
+	/**
+	 * Set up the mocks needed to read file keys for arbitrary paths
+	 */
+	private function mockFileKeyEnvironment(): void {
+		$this->config->method('getSystemValueString')
+			->with('version')
+			->willReturn('20.0.0.2');
+		$this->config->method('getSystemValueBool')
+			->willReturn(true);
+		$this->util->method('getUidAndFilename')
+			->willReturnCallback([$this, 'getUidAndFilenameCallback']);
+		$this->util->method('stripPartialFileExtension')
+			->willReturnArgument(0);
+		$this->util->method('isSystemWideMountPoint')
+			->willReturn(false);
+		$this->view->method('file_exists')
+			->willReturn(true);
+		$this->view->method('is_dir')
+			->willReturn(true);
+	}
+
+	/**
+	 * Make the view return a dummy key for every path and collect the read paths
+	 *
+	 * @param string[] $reads
+	 */
+	private function trackKeyReads(array &$reads, ?string $uid = null): void {
+		$this->view->method('file_get_contents')
+			->willReturnCallback(function (string $path) use (&$reads, $uid): string {
+				$reads[] = $path;
+				return json_encode(['key' => base64_encode('key'), 'uid' => $uid]);
+			});
+	}
+
+	public function testGetFileKeyIsCached(): void {
+		$this->mockFileKeyEnvironment();
+		$reads = [];
+		$this->trackKeyReads($reads);
+
+		$this->storage->getFileKey('/user1/files/foo.txt', 'fileKey', 'encModule');
+		$this->storage->getFileKey('/user1/files/foo.txt', 'fileKey', 'encModule');
+
+		$this->assertSame(['/user1/files_encryption/keys/files/foo.txt/encModule/fileKey'], $reads);
+	}
+
+	public function testKeyCacheIsCapped(): void {
+		$this->mockFileKeyEnvironment();
+		$reads = [];
+		$this->trackKeyReads($reads);
+
+		for ($i = 0; $i < 600; $i++) {
+			$this->storage->getFileKey('/user1/files/foo' . $i . '.txt', 'fileKey', 'encModule');
+		}
+
+		/** @var CappedMemoryCache<array> $keyCache */
+		$keyCache = self::invokePrivate($this->storage, 'keyCache');
+		$this->assertCount(512, $keyCache->getData());
+	}
+
+	public function testDeleteFileKeyInvalidatesCache(): void {
+		$this->mockFileKeyEnvironment();
+		$this->view->method('unlink')->willReturn(true);
+		$reads = [];
+		$this->trackKeyReads($reads);
+
+		$this->storage->getFileKey('/user1/files/foo.txt', 'fileKey', 'encModule');
+		$this->assertTrue($this->storage->deleteFileKey('/user1/files/foo.txt', 'fileKey', 'encModule'));
+		$reads = [];
+
+		$this->storage->getFileKey('/user1/files/foo.txt', 'fileKey', 'encModule');
+
+		$this->assertSame(['/user1/files_encryption/keys/files/foo.txt/encModule/fileKey'], $reads);
+	}
+
+	public function testDeleteAllFileKeysInvalidatesCache(): void {
+		$this->mockFileKeyEnvironment();
+		$this->view->method('deleteAll')->willReturn(true);
+		$reads = [];
+		$this->trackKeyReads($reads);
+
+		$this->storage->getFileKey('/user1/files/foo.txt', 'fileKey', 'encModule');
+		$this->storage->getFileKey('/user1/files/foo.txt', 'otherKey', 'encModule');
+		// a sibling sharing the name prefix must stay cached
+		$this->storage->getFileKey('/user1/files/foobar.txt', 'fileKey', 'encModule');
+		$this->assertTrue($this->storage->deleteAllFileKeys('/user1/files/foo.txt'));
+		$reads = [];
+
+		$this->storage->getFileKey('/user1/files/foo.txt', 'fileKey', 'encModule');
+		$this->storage->getFileKey('/user1/files/foo.txt', 'otherKey', 'encModule');
+		$this->storage->getFileKey('/user1/files/foobar.txt', 'fileKey', 'encModule');
+
+		$this->assertSame([
+			'/user1/files_encryption/keys/files/foo.txt/encModule/fileKey',
+			'/user1/files_encryption/keys/files/foo.txt/encModule/otherKey',
+		], $reads);
+	}
+
+	public function testRenameKeysInvalidatesCache(): void {
+		$this->mockFileKeyEnvironment();
+		$this->view->method('rename')->willReturn(true);
+		$reads = [];
+		$this->trackKeyReads($reads);
+
+		$this->storage->getFileKey('/user1/files/source.txt', 'fileKey', 'encModule');
+		$this->storage->getFileKey('/user1/files/target.txt', 'fileKey', 'encModule');
+		$this->assertTrue($this->storage->renameKeys('/user1/files/source.txt', '/user1/files/target.txt'));
+		$reads = [];
+
+		$this->storage->getFileKey('/user1/files/source.txt', 'fileKey', 'encModule');
+		$this->storage->getFileKey('/user1/files/target.txt', 'fileKey', 'encModule');
+
+		$this->assertSame([
+			'/user1/files_encryption/keys/files/source.txt/encModule/fileKey',
+			'/user1/files_encryption/keys/files/target.txt/encModule/fileKey',
+		], $reads);
+	}
+
+	public function testCopyKeysInvalidatesTargetCache(): void {
+		$this->mockFileKeyEnvironment();
+		$this->view->method('copy')->willReturn(true);
+		$reads = [];
+		$this->trackKeyReads($reads);
+
+		$this->storage->getFileKey('/user1/files/source.txt', 'fileKey', 'encModule');
+		$this->storage->getFileKey('/user1/files/target.txt', 'fileKey', 'encModule');
+		$this->assertTrue($this->storage->copyKeys('/user1/files/source.txt', '/user1/files/target.txt'));
+		$reads = [];
+
+		$this->storage->getFileKey('/user1/files/source.txt', 'fileKey', 'encModule');
+		$this->storage->getFileKey('/user1/files/target.txt', 'fileKey', 'encModule');
+
+		$this->assertSame([
+			'/user1/files_encryption/keys/files/target.txt/encModule/fileKey',
+		], $reads);
+	}
+
+	public function testDeleteUserKeyInvalidatesCache(): void {
+		$this->mockFileKeyEnvironment();
+		$this->view->method('unlink')->willReturn(true);
+		$reads = [];
+		$this->trackKeyReads($reads, 'user1');
+
+		$this->storage->getUserKey('user1', 'publicKey', 'encModule');
+		$this->assertTrue($this->storage->deleteUserKey('user1', 'publicKey', 'encModule'));
+		$reads = [];
+
+		$this->storage->getUserKey('user1', 'publicKey', 'encModule');
+
+		$this->assertSame(['/user1/files_encryption/encModule/user1.publicKey'], $reads);
+	}
+
+	public function testDeleteSystemUserKeyInvalidatesCache(): void {
+		$this->mockFileKeyEnvironment();
+		$this->view->method('unlink')->willReturn(true);
+		$reads = [];
+		$this->trackKeyReads($reads);
+
+		$this->storage->getSystemUserKey('shareKey_56884', 'encModule');
+		$this->assertTrue($this->storage->deleteSystemUserKey('shareKey_56884', 'encModule'));
+		$reads = [];
+
+		$this->storage->getSystemUserKey('shareKey_56884', 'encModule');
+
+		$this->assertSame(['/files_encryption/encModule/shareKey_56884'], $reads);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderCopyRename')]
