@@ -309,6 +309,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 */
 	#[\Override]
 	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
+		$name = $this->resolveAlias($name);
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
 		}
@@ -340,6 +341,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @internal
 	 */
 	public function queryNoFallback($name, array $chain) {
+		$name = $this->resolveAlias($name);
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
 		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {

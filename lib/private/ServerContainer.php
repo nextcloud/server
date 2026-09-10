@@ -123,6 +123,7 @@ class ServerContainer extends SimpleContainer {
 	 */
 	#[\Override]
 	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
+		$name = $this->resolveAlias($name);
 		if (str_starts_with($name, 'OCA\\')) {
 			// Skip server container query for app namespace classes
 			if (isset($this->container[$name])) {

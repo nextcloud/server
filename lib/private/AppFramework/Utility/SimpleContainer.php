@@ -52,7 +52,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	#[\Override]
 	public function has(string $id): bool {
 		// If a service is no registered but is an existing class, we can probably load it
-		return isset($this->container[$id]) || class_exists($id);
+		return isset($this->aliases[$id]) || isset($this->container[$id]) || class_exists($id);
 	}
 
 	/**
@@ -155,9 +155,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param list<class-string> $chain
 	 */
 	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
-		if (isset($this->aliases[$name])) {
-			return $this->query($this->aliases[$name]);
-		}
+		$name = $this->resolveAlias($name);
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
 		}
@@ -217,6 +215,13 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 */
 	public function registerAlias(string $alias, string $target): void {
 		$this->aliases[$alias] = $target;
+	}
+
+	protected function resolveAlias(string $name) : string {
+		if (isset($this->aliases[$name])) {
+			return $this->resolveAlias($this->aliases[$name]);
+		}
+		return $name;
 	}
 
 	protected function registerDeprecatedAlias(string $alias, string $target): void {
