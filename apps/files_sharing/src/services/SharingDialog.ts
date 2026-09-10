@@ -5,35 +5,15 @@
 
 import type { Node } from '@nextcloud/files'
 
-import { getCapabilities } from '@nextcloud/capabilities'
+import { getShare, isSharingDialogAvailable, openSharingDialog } from '@nextcloud/sharing/dialog'
 
 /**
- * The unified sharing dialog is a Vue 3 component. It is registered on the
- * global `OCA.Sharing` namespace by the Vue 3 bridge entry point
- * (`sharing-dialog-bridge.ts`), so this Vue 2 frontend can trigger it without
- * pulling Vue 3 into its bundle.
+ * The dialog is a Vue 3 component while this frontend is still Vue 2. The
+ * library depends on Vue itself, so npm installs its own copy next to it and
+ * the dialog runs on that one, the same way `@nextcloud/dialogs` does.
  */
-type SharingDialogApi = {
-	openSharingDialog(node: Node): Promise<unknown>
-	openShareEditDialog(shareId: string | number, node?: Node): Promise<unknown>
-}
 
-/**
- * Get the sharing dialog API registered by the Vue 3 bridge, if loaded.
- */
-function sharingDialogApi(): SharingDialogApi | undefined {
-	return (window.OCA?.Sharing as Partial<SharingDialogApi> | undefined) as SharingDialogApi | undefined
-}
-
-/**
- * Whether the server provides the unified sharing API this dialog talks to.
- * Mirrors the library check so the sidebar can gate on it without importing
- * the Vue 3 code.
- */
-export function isSharingDialogAvailable(): boolean {
-	const capabilities = getCapabilities() as { sharing?: { api_versions?: unknown[] } }
-	return (capabilities.sharing?.api_versions?.length ?? 0) > 0
-}
+export { isSharingDialogAvailable }
 
 /**
  * Open the unified sharing dialog to create a new share for a node.
@@ -41,11 +21,7 @@ export function isSharingDialogAvailable(): boolean {
  * @param node The file or folder to share
  */
 export function openShareCreateDialog(node: Node): Promise<unknown> {
-	const api = sharingDialogApi()
-	if (!api?.openSharingDialog) {
-		return Promise.reject(new Error('The unified sharing dialog is not available'))
-	}
-	return api.openSharingDialog(node)
+	return openSharingDialog(node)
 }
 
 /**
@@ -54,10 +30,7 @@ export function openShareCreateDialog(node: Node): Promise<unknown> {
  * @param shareId The share id (mapped to the unified API by the legacy bridge)
  * @param node The backing node, used for the dialog title
  */
-export function openShareEditDialog(shareId: string | number, node?: Node): Promise<unknown> {
-	const api = sharingDialogApi()
-	if (!api?.openShareEditDialog) {
-		return Promise.reject(new Error('The unified sharing dialog is not available'))
-	}
-	return api.openShareEditDialog(shareId, node)
+export async function openShareEditDialog(shareId: string | number, node?: Node): Promise<unknown> {
+	const share = await getShare(String(shareId))
+	return share.showDialog(node)
 }
