@@ -248,7 +248,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Cari penerima internal",
     "Delete share" : "Hapus pembagian",
     "Delete" : "Hapus",
-    "Remove participant" : "Hapus peserta",
     "Note from" : "Catatan dari",
     "Note:" : "Catatan:",
     "File drop" : "Drop file",

@@ -191,7 +191,6 @@ OC.L10N.register(
     "on {server}" : "{server} kiszolgálón",
     "Delete share" : "Megosztás törlése",
     "Delete" : "Törlés",
-    "Remove participant" : "Résztvevő eltávolítása",
     "Note:" : "Megjegyzés:",
     "File drop" : "Fájllerakat",
     "Terms of service" : "Szolgáltatási feltételek",
