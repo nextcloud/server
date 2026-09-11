@@ -56,6 +56,9 @@
 		<directory name="lib/private/AppFramework/ORM"/>
 		<directory name="lib/public/AppFramework/ORM"/>
 		<directory name="apps/oauth2"/>
+		<directory name="lib/public/SystemReport"/>
+		<directory name="lib/private/SystemReport"/>
+		<directory name="tests/lib/SystemReport"/>
 		<ignoreFiles>
 			<!-- Circles internals are used -->
 			<file name="core/Sharing/Recipient/TeamShareRecipientType.php"/>

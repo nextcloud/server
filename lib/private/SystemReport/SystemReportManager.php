@@ -10,27 +10,31 @@ declare(strict_types=1);
 namespace OC\SystemReport;
 
 use OC\AppFramework\Bootstrap\Coordinator;
-use OCP\Server;
 use OCP\SystemReport\ISystemReportManager;
 use OCP\SystemReport\ISystemReportSection;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
-class SystemReportManager implements ISystemReportManager {
+final readonly class SystemReportManager implements ISystemReportManager {
 	public function __construct(
-		private readonly Coordinator $coordinator,
-		private readonly LoggerInterface $logger,
+		private Coordinator $coordinator,
+		private ContainerInterface $container,
+		private LoggerInterface $logger,
 	) {
 	}
 
+	/**
+	 * @return ISystemReportSection[]
+	 */
 	#[\Override]
 	public function getSections(): array {
 		$sections = [];
-		$registrations = $this->coordinator->getRegistrationContext()->getSystemReportSections();
+		$registrations = $this->coordinator->getRegistrationContext()?->getSystemReportSections() ?? [];
 		foreach ($registrations as $registration) {
 			$class = $registration->getService();
 			try {
 				/** @var ISystemReportSection $section */
-				$section = Server::get($class);
+				$section = $this->container->get($class);
 				// Trigger detail collection here so a failing section is skipped
 				// instead of surfacing later when the report is rendered.
 				$section->getDetails();
@@ -38,8 +42,10 @@ class SystemReportManager implements ISystemReportManager {
 				$this->logger->error('Exception while collecting system report section ' . $class . ': ' . $t->getMessage(), ['exception' => $t]);
 				continue;
 			}
+
 			$sections[] = $section;
 		}
+
 		return $sections;
 	}
 }
