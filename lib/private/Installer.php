@@ -505,7 +505,7 @@ class Installer {
 						if (file_exists($app_dir['path'] . "/$filename/appinfo/info.xml")) {
 							if ($this->config->getAppValue($filename, 'installed_version') === '') {
 								$enabled = $this->appManager->isDefaultEnabled($filename);
-								if (($enabled || in_array($filename, $this->appManager->getAlwaysEnabledApps()))
+								if (($enabled || in_array($filename, $this->appManager->getAlwaysEnabledApps(), true))
 									  && $this->config->getAppValue($filename, 'enabled') !== 'no') {
 									if ($softErrors) {
 										try {

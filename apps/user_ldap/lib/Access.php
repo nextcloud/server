@@ -364,7 +364,7 @@ class Access extends LDAPUtility {
 			// memberOf is an "operational" attribute, without a definition in any RFC
 			'memberof'
 		];
-		return in_array($attr, $resemblingAttributes);
+		return in_array($attr, $resemblingAttributes, true);
 	}
 
 	/**
@@ -1052,7 +1052,7 @@ class Access extends LDAPUtility {
 	 * @throws ServerNotAvailableException
 	 */
 	private function invokeLDAPMethod(string $command, ...$arguments) {
-		if ($command == 'controlPagedResultResponse') {
+		if ($command === 'controlPagedResultResponse') {
 			// php no longer supports call-time pass-by-reference
 			// thus cannot support controlPagedResultResponse as the third argument
 			// is a reference

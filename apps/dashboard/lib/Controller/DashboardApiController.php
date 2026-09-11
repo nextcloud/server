@@ -64,7 +64,7 @@ class DashboardApiController extends OCSController {
 		return array_filter(
 			$this->dashboardManager->getWidgets(),
 			static function (IWidget $widget) use ($widgetIds) {
-				return in_array($widget->getId(), $widgetIds);
+				return in_array($widget->getId(), $widgetIds, true);
 			},
 		);
 	}

@@ -212,7 +212,7 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 
 	#[\Override]
 	public function instanceOfStorage(string $class): bool {
-		if ($class === '\OC\Files\Storage\Common' || $class == Common::class) {
+		if ($class === '\OC\Files\Storage\Common' || $class === Common::class) {
 			return true;
 		}
 		if (in_array($class, [
@@ -222,7 +222,8 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 			Home::class,
 			HomeObjectStoreStorage::class,
 			IHomeStorage::class
-		])) {
+		],
+			true)) {
 			return false;
 		}
 		return parent::instanceOfStorage($class);

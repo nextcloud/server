@@ -179,7 +179,7 @@ class DependencyAnalyzer {
 			return $this->getValue($db);
 		}, $supportedDatabases);
 		$currentDatabase = $this->platform->getDatabase();
-		if (!in_array($currentDatabase, $supportedDatabases)) {
+		if (!in_array($currentDatabase, $supportedDatabases, true)) {
 			$missing[] = $this->getL()->t('The following databases are supported: %s', [implode(', ', $supportedDatabases)]);
 		}
 		return $missing;
@@ -279,6 +279,8 @@ class DependencyAnalyzer {
 			$oss = [$oss];
 		}
 		$currentOS = $this->platform->getOS();
+		// $oss may contain raw, unnormalized entries (e.g. with @attributes) when a single <os> was given without going through getValue()
+		/** @psalm-suppress UnrecognizedExpression */
 		if (!in_array($currentOS, $oss)) {
 			$missing[] = $this->getL()->t('The following platforms are supported: %s', [implode(', ', $oss)]);
 		}
