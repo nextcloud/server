@@ -212,6 +212,8 @@ class Activity implements IProvider {
 				continue;
 			}
 
+			// $contact['EMAIL'] structure varies by address book backend and vCard cardinality
+			/** @psalm-suppress UnrecognizedExpression */
 			if (in_array($email, $contact['EMAIL'])) {
 				return $contact['FN'];
 			}

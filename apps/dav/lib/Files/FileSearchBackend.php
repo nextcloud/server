@@ -118,7 +118,7 @@ class FileSearchBackend implements ISearchBackend {
 		$metadata = $this->filesMetadataManager->getKnownMetadata();
 		$indexes = $metadata->getIndexes();
 		foreach ($metadata->getKeys() as $key) {
-			$isIndex = in_array($key, $indexes);
+			$isIndex = in_array($key, $indexes, true);
 			$type = match ($metadata->getType($key)) {
 				IMetadataValueWrapper::TYPE_INT => SearchPropertyDefinition::DATATYPE_INTEGER,
 				IMetadataValueWrapper::TYPE_FLOAT => SearchPropertyDefinition::DATATYPE_DECIMAL,

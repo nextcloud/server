@@ -14,8 +14,8 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Files\Conversion\IConversionManager;
 use OCP\Files\File;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\IL10N;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -33,7 +33,7 @@ class ConversionApiControllerTest extends TestCase {
 	private IConversionManager&MockObject $fileConversionManager;
 	private IRootFolder&MockObject $rootFolder;
 	private File&MockObject $file;
-	private Folder&MockObject $userFolder;
+	private IUserFolder&MockObject $userFolder;
 	private IL10N&MockObject $l10n;
 	private string $user;
 
@@ -46,7 +46,7 @@ class ConversionApiControllerTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->user = 'userid';
 
-		$this->userFolder = $this->createMock(Folder::class);
+		$this->userFolder = $this->createMock(IUserFolder::class);
 
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->rootFolder->method('getUserFolder')->with($this->user)->willReturn($this->userFolder);

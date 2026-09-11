@@ -148,6 +148,8 @@ class RequestHandlerController extends Controller {
 		}
 
 		$supportedShareTypes = $this->config->getSupportedShareTypes($resourceType);
+		// $shareType is an untyped parameter taken directly from the OCS request body
+		/** @psalm-suppress UnrecognizedExpression */
 		if (!in_array($shareType, $supportedShareTypes)) {
 			return new JSONResponse(
 				['message' => 'Share type "' . $shareType . '" not implemented'],

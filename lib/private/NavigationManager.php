@@ -54,22 +54,30 @@ class NavigationManager implements INavigationManager {
 		'activity' => -88,
 	];
 
-	protected ?string $activeEntry = null;
-	/** @var array<string, NavigationEntryOutput> */
-	protected array $entries = [];
+	/** @var list<NavigationEntry> */
+	private array $newEntries = [];
 	/** @var list<callable(): ?NavigationEntry> */
-	protected array $closureEntries = [];
+	private array $closureEntries = [];
+
+	private ?string $defaultEntryId = null;
+
+	private ?string $activeEntry = null;
+	/** @var array<string, NavigationEntryOutput> */
+	private array $entries = [];
 	/** User defined app order (cached for the `add` function) */
-	protected ?array $customAppOrder = null;
+	private ?array $customAppOrder = null;
 	/** @var array<string, int> */
-	protected array $unreadCounters = [];
+	private array $unreadCounters = [];
 
 	/** true if the internal state has been initialized */
-	protected bool $initAppOrderDone = false;
+	private bool $initAppOrderDone = false;
 	/** true if all apps have been loaded by the App Manager */
-	protected bool $initSetupDone = false;
+	private bool $initSetupDone = false;
 	/** List of loaded app info */
 	private array $loadedAppInfo = [];
+
+	private ?bool $isAdmin = null;
+	private bool $eventFired = false;
 
 	public function __construct(
 		protected IAppManager $appManager,
@@ -89,6 +97,13 @@ class NavigationManager implements INavigationManager {
 			$this->closureEntries[] = $entry;
 			return;
 		}
+		$this->newEntries[] = $entry;
+	}
+
+	/**
+	 * @param NavigationEntry $entry
+	 */
+	private function processEntry($entry): void {
 		// if needed initialize the internal state to allow setting app order and default app
 		$this->initCustomAppOrder();
 
@@ -107,6 +122,8 @@ class NavigationManager implements INavigationManager {
 		}
 
 		if ($entry['type'] === 'link') {
+			$entry['default'] = false;
+
 			// app might not be set when using closures, in this case try to fallback to ID
 			if (!isset($entry['app']) && $this->appManager->isEnabledForUser($id)) {
 				$entry['app'] = $id;
@@ -120,18 +137,10 @@ class NavigationManager implements INavigationManager {
 		}
 
 		$this->entries[$id] = $entry;
-
-		// Needs to be done after adding the new entry to account for the default entries containing this new entry.
-		$this->updateDefaultEntries();
 	}
 
 	private function updateDefaultEntries(): void {
-		$defaultEntryId = $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
-		foreach ($this->entries as $id => $entry) {
-			if ($entry['type'] === 'link') {
-				$this->entries[$id]['default'] = $id === $defaultEntryId;
-			}
-		}
+		$this->defaultEntryId = $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
 	}
 
 	#[Override]
@@ -155,23 +164,29 @@ class NavigationManager implements INavigationManager {
 	 * @return array<string, NavigationEntryOutput>
 	 */
 	private function proceedNavigation(array $list, string $type): array {
+		$noDefault = true;
+		if ($this->defaultEntryId !== null && isset($list[$this->defaultEntryId])) {
+			$list[$this->defaultEntryId]['default'] = true;
+			$noDefault = false;
+		}
+
 		uasort($list, function ($a, $b) {
 			if (($a['default'] ?? false) xor ($b['default'] ?? false)) {
 				// Always sort the default app first
 				return ($a['default'] ?? false) ? -1 : 1;
 			} elseif (isset($a['order']) && isset($b['order'])) {
 				// Sort by order
-				return ($a['order'] < $b['order']) ? -1 : 1;
+				return $a['order'] <=> $b['order'];
 			} elseif (isset($a['order']) || isset($b['order'])) {
 				// Sort the one that has an order property first
 				return isset($a['order']) ? -1 : 1;
 			} else {
 				// Sort by name otherwise
-				return ($a['name'] < $b['name']) ? -1 : 1;
+				return $a['name'] <=> $b['name'];
 			}
 		});
 
-		if ($type === 'all' || $type === 'link') {
+		if ($noDefault && ($type === 'all' || $type === 'link')) {
 			// There might be the case that no default app was set, in this case the first app is the default app.
 			// Otherwise, the default app is already the ordered first, so setting the default prop will make no difference.
 			foreach ($list as $index => &$navEntry) {
@@ -184,15 +199,8 @@ class NavigationManager implements INavigationManager {
 		}
 
 		$activeEntry = $this->getActiveEntry();
-		if ($activeEntry !== null) {
-			foreach ($list as $index => &$navEntry) {
-				if ($navEntry['id'] == $activeEntry) {
-					$navEntry['active'] = true;
-				} else {
-					$navEntry['active'] = false;
-				}
-			}
-			unset($navEntry);
+		if ($activeEntry !== null && isset($list[$activeEntry])) {
+			$list[$activeEntry]['active'] = true;
 		}
 
 		return $list;
@@ -204,6 +212,9 @@ class NavigationManager implements INavigationManager {
 	public function clear(bool $resetInit = true): void {
 		$this->entries = [];
 		$this->closureEntries = [];
+		$this->newEntries = [];
+		$this->defaultEntryId = null;
+		$this->activeEntry = null;
 
 		if ($resetInit) {
 			$this->loadedAppInfo = [];
@@ -247,9 +258,6 @@ class NavigationManager implements INavigationManager {
 	 * @internal - This is only used by Nextcloud core to setup the navigation manager. It is not intended for use by apps.
 	 */
 	public function setup(): void {
-		// Resolve dynamically added navigation entries via event listeners
-		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
-
 		// mark setup as done to allow performance optimizations
 		$this->initSetupDone = true;
 	}
@@ -263,12 +271,14 @@ class NavigationManager implements INavigationManager {
 	 * So we need to resolve the navigation entries here, even if not all apps are loaded yet.
 	 */
 	private function resolveAppNavigationEntries(): void {
-		if ($this->userSession->isLoggedIn()) {
-			$user = $this->userSession->getUser();
+		$user = $this->userSession->getUser();
+		if ($user !== null) {
 			$apps = $this->appManager->getEnabledAppsForUser($user);
 		} else {
 			$apps = $this->appManager->getEnabledApps();
 		}
+
+		$this->isAdmin ??= $this->isAdmin();
 
 		foreach ($apps as $app) {
 			if (in_array($app, $this->loadedAppInfo, true)) {
@@ -279,12 +289,12 @@ class NavigationManager implements INavigationManager {
 				// app is not loaded yet, skip it
 				continue;
 			}
+			$this->loadedAppInfo[] = $app;
 
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
 			if (!isset($info['navigations']['navigation'])) {
 				// this app does not have any navigation entries, skip it
-				$this->loadedAppInfo[] = $app;
 				continue;
 			}
 
@@ -298,7 +308,7 @@ class NavigationManager implements INavigationManager {
 					continue;
 				}
 				$role = $nav['@attributes']['role'] ?? 'all';
-				if ($role === 'admin' && !$this->isAdmin()) {
+				if ($role === 'admin' && !$this->isAdmin) {
 					continue;
 				}
 				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
@@ -329,12 +339,11 @@ class NavigationManager implements INavigationManager {
 				}
 
 				$l = $this->l10nFac->get($app);
-				$this->loadedAppInfo[] = $app;
 				$this->add(array_merge([
 					// Navigation id
 					'id' => $id,
 					// Order where this entry should be shown
-					'order' => $order,
+					'order' => (int)$order,
 					// Target of the navigation entry
 					'href' => $route,
 					// The icon used for the navigation entry
@@ -351,8 +360,16 @@ class NavigationManager implements INavigationManager {
 			}
 		}
 
+		$updateDefaultEntries = false;
+
 		// once all apps are loaded we can resolve the app navigation closures
 		if ($this->initSetupDone) {
+			if (!$this->eventFired) {
+				// Resolve dynamically added navigation entries via event listeners
+				$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
+				$this->eventFired = true;
+			}
+
 			// This has to be done on every call,
 			// as apps might add new navigation entries via closures at any time
 			while ($c = array_pop($this->closureEntries)) {
@@ -362,11 +379,25 @@ class NavigationManager implements INavigationManager {
 						$this->logger->debug('Closure of navigation entry returned null, skipping');
 						continue;
 					}
-					$this->add($entry);
+					$this->processEntry($entry);
+					$updateDefaultEntries = true;
 				} catch (\Throwable $e) {
 					$this->logger->error('Failed to add navigation entry from closure', ['exception' => $e]);
 				}
 			}
+		}
+
+		while ($entry = array_pop($this->newEntries)) {
+			try {
+				$this->processEntry($entry);
+				$updateDefaultEntries = true;
+			} catch (\Throwable $e) {
+				$this->logger->error('Failed to add navigation entry', ['exception' => $e, 'entry' => $entry]);
+			}
+		}
+
+		if ($updateDefaultEntries) {
+			$this->updateDefaultEntries();
 		}
 	}
 
@@ -386,12 +417,21 @@ class NavigationManager implements INavigationManager {
 	#[Override]
 	public function get(string $id): ?array {
 		$this->resolveAppNavigationEntries();
-		return $this->entries[$id] ?? null;
+		if (!isset($this->entries[$id])) {
+			return null;
+		}
+		$entry = $this->entries[$id];
+		if ($this->defaultEntryId === $id) {
+			$entry['default'] = true;
+		}
+		if ($this->activeEntry === $id) {
+			$entry['active'] = true;
+		}
+		return $entry;
 	}
 
 	#[Override]
 	public function getDefaultEntryIdForUser(?IUser $user = null, bool $withFallbacks = true): string {
-		$this->resolveAppNavigationEntries();
 		// Disable fallbacks here, as we need to override them with the user defaults if none are configured.
 		$defaultEntryIds = $this->getDefaultEntryIds(false);
 

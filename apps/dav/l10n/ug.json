@@ -251,8 +251,6 @@
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Nextcloud كالېندارىغا خۇش كەپسىز!\n\nبۇ بىر ئۈلگە پائالىيەت - Nextcloud كالېندارى بىلەن پىلان تۈزۈشنىڭ جانلىقلىقىنى ئۆزىڭىز خالىغانچە تەھرىرلەش ئارقىلىق ئۆگىنىۋېلىڭ!\n\nNextcloud كالېندارى بىلەن، سىز تۆۋەندىكىلەرنى قىلالايسىز:\n- پائالىيەتلەرنى ئاسانلا يارىتىڭ، تەھرىرلەڭ ۋە باشقۇرۇڭ.\n- كۆپ كالېندارلارنى قۇرۇپ، ئۇلارنى كوماندا ئەزالىرى، دوستلار ياكى ئائىلە ئەزالىرىڭىز بىلەن ئورتاقلىشىڭ.\n- بار-يوقلۇقىنى تەكشۈرۈڭ ۋە ئالدىراش ۋاقتىڭىزنى باشقىلارغا كۆرسىتىڭ.\n- CalDAV ئارقىلىق ئەپ ۋە ئۈسكۈنىلەر بىلەن راۋان بىرلەشتۈرۈڭ.\n- تەجرىبىڭىزنى خاسلاشتۇرۇڭ: تەكرارلىنىدىغان پائالىيەتلەرنى پىلانلاڭ، ئۇقتۇرۇشلار ۋە باشقا تەڭشەكلەرنى تەڭشەڭ.",
     "Example event - open me!" : "مىسالەن ھادىسە - مېنى ئاچ!",
     "System Address Book" : "سېستىما ئادىرىس دەپتىرى",
-    "The system address book contains contact information for all users in your instance." : "سىستېما ئادرېس دەپتىرىدە سىزنىڭ مىسالىڭىزدىكى بارلىق ئىشلەتكۈچىلەرنىڭ ئالاقە ئۇچۇرلىرى بار.",
-    "Enable System Address Book" : "سېستىما ئادىرىس دەپتىرىنى قوزغات",
     "DAV system address book" : "DAV سىستېما ئادرېس دەپتىرى",
     "No outstanding DAV system address book sync." : "مۇنەۋۋەر DAV سىستېمىسى ئادرېس كىتاب ماسقەدەملەش يوق.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "مىسالىڭىزدا 1000 دىن ئارتۇق ئىشلەتكۈچى بار ياكى خاتالىق يۈز بەرگەنلىكى ئۈچۈن DAV سىستېمىسى ئادرېس دەپتىرىنى ماسقەدەملەش تېخى ئىجرا بولمىدى. ئۇنى «occ dav: sync-system-addressbook» دەپ چاقىرىپ قولدا ئىجرا قىلىڭ.",
@@ -333,6 +331,8 @@
     "Are you accepting the invitation?" : "تەكلىپنى قوبۇل قىلامسىز؟",
     "Tentative" : "ئۇرۇنۇش",
     "Your attendance was updated successfully." : "سىزنىڭ قاتنىشىشىڭىز مۇۋەپپەقىيەتلىك يېڭىلاندى.",
+    "The system address book contains contact information for all users in your instance." : "سىستېما ئادرېس دەپتىرىدە سىزنىڭ مىسالىڭىزدىكى بارلىق ئىشلەتكۈچىلەرنىڭ ئالاقە ئۇچۇرلىرى بار.",
+    "Enable System Address Book" : "سېستىما ئادىرىس دەپتىرىنى قوزغات",
     "No results." : "ھېچقانداق نەتىجە يوق.",
     "Start typing." : "يېزىشنى باشلاڭ."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -269,8 +269,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Welkom bij Nextcloud Calendar!\n\nDit is een voorbeeldafspraak - ontdek de flexibiliteit van plannen met Nextcloud Calendar door elke aanpassing te maken die je maar wilt!\n\nMet Nextcloud Calendar kun je:\n- Moeiteloos afspraken maken, bewerken en beheren.\n- Meerdere kalenders maken en delen met teamgenoten, vrienden of familie.\n- Beschikbaarheid controleren en aan anderen laten zien wanneer je al bezet bent.\n- Naadloos integreren met apps en apparaten via CalDAV.\n- Je ervaring aanpassen: terugkerende afspraken plannen, meldingen en andere instellingen aanpassen.",
     "Example event - open me!" : "Voorbeeldafspraak - open me!",
     "System Address Book" : "Systeem-adresboek",
-    "The system address book contains contact information for all users in your instance." : "Het systeem-adresboek bevat contactgegevens van alle gebruikers op jouw server.",
-    "Enable System Address Book" : "Systeem-adresboek inschakelen",
     "DAV system address book" : "DAV systeem-adresboek",
     "No outstanding DAV system address book sync." : "Geen uitstaande DAV systeem-adresboek synchronisatie.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "De DAV systeem-adresboek synchronisatie is niet uitgevoerd omdat jouw instantie meer dan 1000 gebruikers heeft of omdat een fout is opgetreden. Voer het handmatig uit door \"occ dav:sync-system-addressbook\" aan te roepen.",
@@ -351,6 +349,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Neem je de uitnodiging aan?",
     "Tentative" : "Onder voorbehoud",
     "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
+    "The system address book contains contact information for all users in your instance." : "Het systeem-adresboek bevat contactgegevens van alle gebruikers op jouw server.",
+    "Enable System Address Book" : "Systeem-adresboek inschakelen",
     "No results." : "Geen resultaten.",
     "Start typing." : "Start met typen."
 },

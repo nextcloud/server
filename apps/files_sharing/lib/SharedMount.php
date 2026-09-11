@@ -73,6 +73,9 @@ class SharedMount extends MountPoint implements IMovableMount, ISharedMountPoint
 	/**
 	 * Format a path to be relative to the /user/files/ directory
 	 *
+	 * The result is normalized, so it never carries a trailing slash. Callers may
+	 * pass mount points, which always end in a slash.
+	 *
 	 * @param string $path the absolute path
 	 * @return string e.g. turns '/admin/files/test.txt' into '/test.txt'
 	 * @throws BrokenPath
@@ -91,7 +94,7 @@ class SharedMount extends MountPoint implements IMovableMount, ISharedMountPoint
 		$sliced = array_slice($split, 2);
 		$relPath = implode('/', $sliced);
 
-		return '/' . $relPath;
+		return Filesystem::normalizePath('/' . $relPath);
 	}
 
 	#[Override]

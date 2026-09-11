@@ -81,6 +81,7 @@ use OCP\TaskProcessing\TaskTypes\ContextAgentAudioInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextAgentInteraction;
 use OCP\TaskProcessing\TaskTypes\ContextWrite;
 use OCP\TaskProcessing\TaskTypes\GenerateEmoji;
+use OCP\TaskProcessing\TaskTypes\ImageToImage;
 use OCP\TaskProcessing\TaskTypes\ImageToTextOpticalCharacterRecognition;
 use OCP\TaskProcessing\TaskTypes\MultimodalChatWithTools;
 use OCP\TaskProcessing\TaskTypes\MultimodalContextAgentInteraction;
@@ -713,6 +714,7 @@ class Manager implements IManager {
 			MultimodalContextAgentInteraction::ID => Server::get(MultimodalContextAgentInteraction::class),
 			AnalyzeImages::ID => Server::get(AnalyzeImages::class),
 			ImageToTextOpticalCharacterRecognition::ID => Server::get(ImageToTextOpticalCharacterRecognition::class),
+			ImageToImage::ID => Server::get(ImageToImage::class),
 		];
 
 		foreach ($context->getTaskProcessingTaskTypes() as $providerServiceRegistration) {
@@ -1069,7 +1071,7 @@ class Manager implements IManager {
 		}
 
 		$guestsAllowed = $this->appConfig->getValueString('core', 'ai.taskprocessing_guests', 'false');
-		if ($guestsAllowed == 'true' || !class_exists(UserBackend::class) || !($user->getBackend() instanceof UserBackend)) {
+		if ($guestsAllowed === 'true' || !class_exists(UserBackend::class) || !($user->getBackend() instanceof UserBackend)) {
 			return true;
 		}
 		return false;
@@ -1918,7 +1920,7 @@ class Manager implements IManager {
 		}
 		$mounts = $this->userMountCache->getMountsForFileId($fileId);
 		$userIds = array_map(fn ($mount) => $mount->getUser()->getUID(), $mounts);
-		if (!in_array($userId, $userIds)) {
+		if (!in_array($userId, $userIds, true)) {
 			throw new UnauthorizedException('User ' . $userId . ' does not have access to file ' . $fileId);
 		}
 	}

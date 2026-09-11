@@ -16,8 +16,8 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -101,7 +101,7 @@ class NotificationsTest extends TestCase {
 			->willReturn($comment);
 
 		$file = $this->createMock(Node::class);
-		$folder = $this->createMock(Folder::class);
+		$folder = $this->createMock(IUserFolder::class);
 		$user = $this->createMock(IUser::class);
 
 		$this->rootFolder->expects($this->once())
@@ -178,7 +178,7 @@ class NotificationsTest extends TestCase {
 			->with('42')
 			->willReturn($comment);
 
-		$folder = $this->createMock(Folder::class);
+		$folder = $this->createMock(IUserFolder::class);
 
 		$this->rootFolder->expects($this->once())
 			->method('getUserFolder')

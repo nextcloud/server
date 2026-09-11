@@ -117,8 +117,9 @@ const PROFILE_ID = 'profile'
 // Entry of the app management page, the target of the "More apps" tile.
 const APP_MANAGEMENT_ID = 'appstore'
 
-// Hover delays, same values as github.com's header navigation.
-const HOVER_OPEN_DELAY = 90
+// Pause before hover opens the menu: the trigger sits in the corner, which
+// cursors cross on the way elsewhere.
+const HOVER_OPEN_DELAY = 300
 const HOVER_CLOSE_DELAY = 180
 // Ignore a trigger click this long after a hover-open, so it does not close again.
 const HOVER_CLICK_GRACE = 500

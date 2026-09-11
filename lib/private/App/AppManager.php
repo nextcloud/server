@@ -24,6 +24,7 @@ use OCP\App\Events\AppUpdateEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\BackgroundJob\IJobList;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
 use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
 use OCP\Diagnostics\IEventLogger;
@@ -61,6 +62,7 @@ class AppManager implements IAppManager {
 
 	/** @var string[] $appId => $enabled */
 	private array $enabledAppsCache = [];
+	private CappedMemoryCache $enabledAppsForUserCache;
 
 	/** @var array<string, array{path: string, url: string}> $appId => approot information */
 	private array $appsDirCache = [];
@@ -108,6 +110,7 @@ class AppManager implements IAppManager {
 		private ConfigManager $configManager,
 		private DependencyAnalyzer $dependencyAnalyzer,
 	) {
+		$this->enabledAppsForUserCache = new CappedMemoryCache();
 	}
 
 	private function getNavigationManager(): INavigationManager {
@@ -241,11 +244,15 @@ class AppManager implements IAppManager {
 	 */
 	#[\Override]
 	public function getEnabledAppsForUser(IUser $user) {
+		$uid = $user->getUID();
+		if (isset($this->enabledAppsForUserCache[$uid])) {
+			return $this->enabledAppsForUserCache[$uid];
+		}
 		$apps = $this->getEnabledAppsValues();
 		$appsForUser = array_filter($apps, function ($enabled) use ($user) {
 			return $this->checkAppForUser($enabled, $user);
 		});
-		return array_keys($appsForUser);
+		return $this->enabledAppsForUserCache[$uid] = array_keys($appsForUser);
 	}
 
 	#[\Override]
@@ -417,7 +424,7 @@ class AppManager implements IAppManager {
 				return false;
 			}
 
-			return in_array($group->getGID(), $groupIds);
+			return in_array($group->getGID(), $groupIds, true);
 		}
 	}
 
@@ -648,6 +655,7 @@ class AppManager implements IAppManager {
 		}
 
 		$this->enabledAppsCache[$appId] = 'yes';
+		$this->enabledAppsForUserCache = new CappedMemoryCache();
 		$this->getAppConfig()->setValue($appId, 'enabled', 'yes');
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
@@ -704,6 +712,7 @@ class AppManager implements IAppManager {
 		}, $groups);
 
 		$this->enabledAppsCache[$appId] = json_encode($groupIds);
+		$this->enabledAppsForUserCache = new CappedMemoryCache();
 		$this->getAppConfig()->setValue($appId, 'enabled', json_encode($groupIds));
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId, $groupIds));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
@@ -736,6 +745,7 @@ class AppManager implements IAppManager {
 		}
 
 		unset($this->enabledAppsCache[$appId]);
+		$this->enabledAppsForUserCache = new CappedMemoryCache();
 		$this->getAppConfig()->setValue($appId, 'enabled', 'no');
 
 		// run uninstall steps
@@ -1007,7 +1017,7 @@ class AppManager implements IAppManager {
 	 */
 	#[\Override]
 	public function isDefaultEnabled(string $appId): bool {
-		return (in_array($appId, $this->getDefaultEnabledApps()));
+		return (in_array($appId, $this->getDefaultEnabledApps(), true));
 	}
 
 	/**

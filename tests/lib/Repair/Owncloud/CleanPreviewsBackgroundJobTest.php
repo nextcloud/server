@@ -12,6 +12,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IUserManager;
@@ -50,7 +51,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 	}
 
 	public function testCleanupPreviewsUnfinished(): void {
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$thumbnailFolder = $this->createMock(Folder::class);
 
@@ -98,7 +99,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 	}
 
 	public function testCleanupPreviewsFinished(): void {
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$thumbnailFolder = $this->createMock(Folder::class);
 
@@ -162,7 +163,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 	}
 
 	public function testNoThumbnailFolder(): void {
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userRoot = $this->createMock(Folder::class);
 
 		$this->rootFolder->method('getUserFolder')
@@ -190,7 +191,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 	}
 
 	public function testNotPermittedToDelete(): void {
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$thumbnailFolder = $this->createMock(Folder::class);
 

@@ -76,9 +76,7 @@ class UserLiveStatusListener implements IEventListener {
 
 		$needsUpdate = false;
 
-		// If the current status is older than 5 minutes,
-		// treat it as outdated and update
-		if ($userStatus->getStatusTimestamp() < ($this->timeFactory->getTime() - StatusService::INVALIDATE_STATUS_THRESHOLD)) {
+		if ($userStatus->getStatusTimestamp() < ($this->timeFactory->getTime() - StatusService::REFRESH_STATUS_THRESHOLD)) {
 			$needsUpdate = true;
 		}
 

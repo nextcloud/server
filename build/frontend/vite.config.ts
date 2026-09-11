@@ -75,6 +75,12 @@ const modules = {
 	twofactor_backupcodes: {
 		'settings-personal': resolve(import.meta.dirname, 'apps/twofactor_backupcodes/src', 'settings-personal.ts'),
 	},
+	updatenotification: {
+		init: resolve(import.meta.dirname, 'apps/updatenotification/src', 'init.ts'),
+		'view-changelog-page': resolve(import.meta.dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
+		'settings-admin': resolve(import.meta.dirname, 'apps/updatenotification/src', 'settings-admin.ts'),
+		'update-notification-legacy': resolve(import.meta.dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
+	},
 	user_ldap: {
 		renewPassword: resolve(import.meta.dirname, 'apps/user_ldap/src', 'renewPassword.ts'),
 		'settings-admin': resolve(import.meta.dirname, 'apps/user_ldap/src', 'settings-admin.ts'),
