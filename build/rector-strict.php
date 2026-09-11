@@ -60,6 +60,9 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/apps/files/lib/BackgroundJob/TransferOwnership.php',
 		$nextcloudDir . '/apps/files/lib/Notification/Notifier.php',
 		$nextcloudDir . '/apps/files/tests/Db/TransferOwnershipMapperTest.php',
+		$nextcloudDir . '/lib/public/SystemReport',
+		$nextcloudDir . '/lib/private/SystemReport',
+		$nextcloudDir . '/tests/lib/SystemReport',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces
