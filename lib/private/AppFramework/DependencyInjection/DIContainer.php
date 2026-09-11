@@ -313,23 +313,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->appName;
 		}
 
-		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
-		if ($isServerClass && !$this->has($name)) {
-			return $this->server->query($name, $autoload, $chain);
+		$result = $this->queryNoFallback($name, $chain);
+		if ($result !== null) {
+			return $result;
 		}
-
-		try {
-			return $this->queryNoFallback($name, $chain);
-		} catch (QueryException $firstException) {
-			try {
-				return $this->server->query($name, $autoload, $chain);
-			} catch (QueryException $secondException) {
-				if ($firstException->getCode() === 1) {
-					throw $secondException;
-				}
-				throw $firstException;
-			}
-		}
+		return $this->server->query($name, $autoload, $chain);
 	}
 
 	/**
@@ -353,8 +341,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			/* AppFramework services are scoped to the application */
 			return parent::query($name, chain: $chain);
 		}
-
-		throw new QueryException('Could not resolve ' . $name . '!'
-			. ' Class can not be instantiated', 1);
+		return null;
 	}
 }

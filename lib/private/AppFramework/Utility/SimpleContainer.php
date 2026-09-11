@@ -32,6 +32,9 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
 	protected Container $container;
 
+	/** @var array<string,string> */
+	private array $aliases = [];
+
 	public function __construct() {
 		$this->container = new Container();
 	}
@@ -43,13 +46,13 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 */
 	#[\Override]
 	public function get(string $id): mixed {
-		return $this->query($this->sanitizeName($id));
+		return $this->query($this->resolveAlias($this->sanitizeName($id)));
 	}
 
 	#[\Override]
 	public function has(string $id): bool {
 		// If a service is no registered but is an existing class, we can probably load it
-		return isset($this->container[$id]) || class_exists($id);
+		return isset($this->aliases[$id]) || isset($this->container[$id]) || class_exists($id);
 	}
 
 	/**
@@ -93,7 +96,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			try {
 				$builtIn = $parameterType !== null && ($parameterType instanceof ReflectionNamedType)
 							&& $parameterType->isBuiltin();
-				return $this->query($resolveName, !$builtIn, $chain);
+				return $this->query($this->resolveAlias($resolveName), !$builtIn, $chain);
 			} catch (ContainerExceptionInterface $e) {
 				// Service not found, use the default value when available
 				if ($parameter->isDefaultValueAvailable()) {
@@ -103,7 +106,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
 					$resolveName = $parameter->getName();
 					try {
-						return $this->query($resolveName, chain: $chain);
+						return $this->query($this->resolveAlias($resolveName), chain: $chain);
 					} catch (ContainerExceptionInterface $e2) {
 						// Pass null if typed and nullable
 						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
@@ -148,7 +151,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	/**
-	 * @param string $name Already sanitized name
+	 * @param string $name Already sanitized name and alias resolved
 	 * @param list<class-string> $chain
 	 */
 	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
@@ -195,6 +198,9 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		if (isset($this->container[$name])) {
 			unset($this->container[$name]);
 		}
+		if (isset($this->aliases[$name])) {
+			unset($this->aliases[$name]);
+		}
 		if ($shared) {
 			$this->container[$name] = $wrapped;
 		} else {
@@ -210,11 +216,14 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $target the target that should be resolved instead
 	 */
 	public function registerAlias(string $alias, string $target): void {
-		$this->registerService(
-			$alias,
-			static fn (ContainerInterface $container): mixed => $container->get($target),
-			false,
-		);
+		$this->aliases[$alias] = $target;
+	}
+
+	protected function resolveAlias(string $name) : string {
+		if (isset($this->aliases[$name])) {
+			return $this->resolveAlias($this->aliases[$name]);
+		}
+		return $name;
 	}
 
 	protected function registerDeprecatedAlias(string $alias, string $target): void {

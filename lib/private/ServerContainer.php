@@ -124,22 +124,15 @@ class ServerContainer extends SimpleContainer {
 	#[\Override]
 	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
 		if (str_starts_with($name, 'OCA\\')) {
-			// Skip server container query for app namespace classes
-			if (isset($this->container[$name])) {
-				return $this->container[$name];
-			}
-			// Continue with general autoloading
-			// In case the service starts with OCA\ we try to find the service in
-			// the apps container first.
+			// In case the service starts with OCA\ we try to find the service in the apps container.
 			if (($appContainer = $this->getAppContainerForService($name)) !== null) {
-				try {
-					return $appContainer->queryNoFallback($name, $chain);
-				} catch (QueryException $e) {
-					// Didn't find the service or the respective app container
-					// In this case the service won't be part of the core container,
-					// so we can throw directly
-					throw $e;
+				return $appContainer->queryNoFallback($name, $chain);
+				$result = $appContainer->queryNoFallback($name, $chain);
+				if ($result !== null) {
+					return $result;
 				}
+				throw new QueryException('Could not resolve ' . $name . '!'
+					. ' Class can not be instantiated', 1);
 			}
 		}
 
