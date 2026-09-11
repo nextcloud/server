@@ -23,7 +23,6 @@ SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
@@ -108,9 +107,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - buffer
 	- version: 6.0.3
-	- license: MIT
-- eventemitter3
-	- version: 5.0.4
 	- license: MIT
 - p-queue
 	- version: 9.3.3
