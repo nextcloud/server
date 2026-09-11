@@ -306,7 +306,7 @@ class ApiController extends OCSController {
 			return '';
 		}
 
-		return 'https://usercontent.apps.nextcloud.com/' . base64_encode($url);
+		return 'https://usercontent.apps.nextcloud.com/' . strtr(base64_encode($url), '+/', '-_');
 	}
 
 	private function fetchApps(): void {
@@ -478,7 +478,7 @@ class ApiController extends OCSController {
 					$phpDependencies
 				),
 				'level' => ($app['isFeatured'] === true) ? 200 : 100,
-				'screenshot' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($app['screenshots'][0]['url']) : '',
+				'screenshot' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . strtr(base64_encode($app['screenshots'][0]['url']), '+/', '-_') : '',
 				'ratingOverall' => $app['ratingOverall'],
 				'ratingNumOverall' => $app['ratingNumOverall'],
 				'removable' => $existsLocally,
