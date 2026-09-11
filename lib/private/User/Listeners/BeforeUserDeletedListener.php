@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\User\Listeners;
 
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\NotFoundException;
@@ -25,6 +26,7 @@ class BeforeUserDeletedListener implements IEventListener {
 		private LoggerInterface $logger,
 		private IAvatarManager $avatarManager,
 		private ICredentialsManager $credentialsManager,
+		private RememberLoginTokenMapper $rememberLoginTokenMapper,
 	) {
 	}
 
@@ -50,5 +52,7 @@ class BeforeUserDeletedListener implements IEventListener {
 		}
 		// Delete storages credentials on user deletion
 		$this->credentialsManager->erase($user->getUID());
+		// Delete remember login tokens on user deletion
+		$this->rememberLoginTokenMapper->deleteByUid($user->getUID());
 	}
 }
