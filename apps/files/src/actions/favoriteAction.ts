@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IFileAction, INode, IView } from '@nextcloud/files'
+import type { IFileAction, IFolder, INode, IView } from '@nextcloud/files'
 
 import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
@@ -47,11 +47,11 @@ export const action: IFileAction = {
 			&& nodes.every((node) => node.permissions !== Permission.NONE)
 	},
 
-	async exec({ nodes, view }): Promise<boolean> {
+	async exec({ nodes, view, folder }): Promise<boolean> {
 		const willFavorite = shouldFavorite([nodes[0]])
-		return await favoriteNode(nodes[0], view, willFavorite)
+		return await favoriteNode(nodes[0], view, willFavorite, folder)
 	},
-	async execBatch({ nodes, view }): Promise<boolean[]> {
+	async execBatch({ nodes, view, folder }): Promise<boolean[]> {
 		const willFavorite = shouldFavorite(nodes)
 
 		// Map each node to a promise that resolves with the result of exec(node)
@@ -60,7 +60,7 @@ export const action: IFileAction = {
 			const promise = new Promise<boolean>((resolve) => {
 				queue.add(async () => {
 					try {
-						await favoriteNode(node, view, willFavorite)
+						await favoriteNode(node, view, willFavorite, folder)
 						resolve(true)
 					} catch (error) {
 						logger.error('Error while adding file to favorite', { error, source: node.source, node })
@@ -88,8 +88,9 @@ export const action: IFileAction = {
  * @param node - The node to favorite/unfavorite
  * @param view - The current view
  * @param willFavorite - Whether to favorite or unfavorite the node
+ * @param folder - The currently open folder
  */
-export async function favoriteNode(node: INode, view: IView, willFavorite: boolean): Promise<boolean> {
+export async function favoriteNode(node: INode, view: IView, willFavorite: boolean, folder?: IFolder): Promise<boolean> {
 	try {
 		// TODO: migrate to webdav tags plugin
 		const url = generateUrl('/apps/files/api/v1/files') + encodePath(node.path)
@@ -99,10 +100,8 @@ export async function favoriteNode(node: INode, view: IView, willFavorite: boole
 				: [],
 		})
 
-		// Let's delete if we are in the favourites view
-		// AND if it is removed from the user favorites
-		// AND it's in the root of the favorites view
-		if (view.id === 'favorites' && !willFavorite && node.dirname === '/') {
+		// Remove from the virtual favorites listing, not when browsing a real folder
+		if (view.id === 'favorites' && !willFavorite && isFavoritesRoot(folder)) {
 			emit('files:node:deleted', node)
 		}
 
@@ -132,4 +131,13 @@ export async function favoriteNode(node: INode, view: IView, willFavorite: boole
  */
 function shouldFavorite(nodes: INode[]): boolean {
 	return nodes.some((node) => node.attributes.favorite !== 1)
+}
+
+/**
+ * Whether the current folder is the virtual root of the favorites view.
+ *
+ * @param folder - The currently open folder
+ */
+function isFavoritesRoot(folder?: IFolder): boolean {
+	return !folder?.path || folder.path === '/'
 }
