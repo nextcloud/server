@@ -71,8 +71,8 @@ const props = defineProps<{ configId: string }>()
 const ldapConfigsStore = useLDAPConfigsStore()
 const { ldapConfigs } = storeToRefs(ldapConfigsStore)
 const ldapConfigProxy = computed(() => ldapConfigsStore.getConfigProxy(props.configId, {
-	ldapUserFilterObjectclass: reloadFilters,
-	ldapUserFilterGroups: reloadFilters,
+	ldapUserFilterObjectclass: () => reloadFilters(),
+	ldapUserFilterGroups: () => reloadFilters(),
 }))
 
 const usersCount = ref<number | undefined>(undefined)
@@ -98,29 +98,60 @@ onBeforeMount(init)
  * Initialize user filter options
  */
 async function init() {
-	const response1 = await callWizard('determineUserObjectClasses', props.configId)
-	userObjectClasses.value = response1.options?.ldap_userfilter_objectclass ?? []
-	// Not using ldapConfig to avoid triggering the save logic.
-	ldapConfigs.value[props.configId]!.ldapUserFilterObjectclass = (response1.changes?.ldap_userfilter_objectclass as string[] | undefined)?.join(';') ?? ''
+	try {
+		const response1 = await callWizard('determineUserObjectClasses', props.configId)
+		userObjectClasses.value = response1.options?.ldap_userfilter_objectclass ?? []
+		const objectClasses = normalizeSelection(response1.changes?.ldap_userfilter_objectclass)
+		if (objectClasses !== undefined) {
+			// Wizard discoveries are already persisted on the server.
+			ldapConfigs.value[props.configId]!.ldapUserFilterObjectclass = objectClasses
+		}
 
-	const response2 = await callWizard('determineGroupsForUsers', props.configId)
-	userGroups.value = response2.options?.ldap_userfilter_groups ?? []
-	// Not using ldapConfig to avoid triggering the save logic.
-	ldapConfigs.value[props.configId]!.ldapUserFilterGroups = (response2.changes?.ldap_userfilter_groups as string[] | undefined)?.join(';') ?? ''
+		await reloadFilters(true)
+
+		const response2 = await callWizard('determineGroupsForUsers', props.configId)
+		userGroups.value = response2.options?.ldap_userfilter_groups ?? []
+		const groups = normalizeSelection(response2.changes?.ldap_userfilter_groups)
+		if (groups !== undefined) {
+			ldapConfigs.value[props.configId]!.ldapUserFilterGroups = groups
+		}
+	} catch {
+		// callWizard displays the error; keep discoveries from completed steps.
+	}
+}
+
+/**
+ * Normalize wizard selections without replacing missing changes.
+ *
+ * @param value - Selection returned by the wizard
+ */
+function normalizeSelection(value: unknown): string | undefined {
+	if (typeof value === 'string') {
+		return value
+	}
+	if (Array.isArray(value) && value.every((item) => typeof item === 'string')) {
+		return value.join(';')
+	}
 }
 
 /**
  * Reload filters
+ *
+ * @param initialOnly - Preserve existing filters during initialization
  */
-async function reloadFilters() {
+async function reloadFilters(initialOnly = false) {
 	if (ldapConfigProxy.value.ldapUserFilterMode === '0') {
-		const response1 = await callWizard('getUserListFilter', props.configId)
-		// Not using ldapConfig to avoid triggering the save logic.
-		ldapConfigs.value[props.configId]!.ldapUserFilter = (response1.changes?.ldap_userlist_filter as string | undefined) ?? ''
+		if (!initialOnly || ldapConfigProxy.value.ldapUserFilter === '') {
+			const response1 = await callWizard('getUserListFilter', props.configId)
+			// Not using ldapConfig to avoid triggering the save logic.
+			ldapConfigs.value[props.configId]!.ldapUserFilter = (response1.changes?.ldap_userlist_filter as string | undefined) ?? ''
+		}
 
-		const response2 = await callWizard('getUserLoginFilter', props.configId)
-		// Not using ldapConfig to avoid triggering the save logic.
-		ldapConfigs.value[props.configId]!.ldapLoginFilter = (response2.changes?.ldap_login_filter as string | undefined) ?? ''
+		if (ldapConfigProxy.value.ldapLoginFilterMode === '0' && (!initialOnly || ldapConfigProxy.value.ldapLoginFilter === '')) {
+			const response2 = await callWizard('getUserLoginFilter', props.configId)
+			// Not using ldapConfig to avoid triggering the save logic.
+			ldapConfigs.value[props.configId]!.ldapLoginFilter = (response2.changes?.ldap_login_filter as string | undefined) ?? ''
+		}
 	}
 }
 
