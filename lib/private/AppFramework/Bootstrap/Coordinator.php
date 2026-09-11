@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use OC\App\AppManager;
+use OC\Server;
 use OC\Support\CrashReport\Registry;
 use OCP\App\AppPathNotFoundException;
 use OCP\AppFramework\App;
@@ -19,7 +20,6 @@ use OCP\Dashboard\IManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use function class_exists;
@@ -34,7 +34,7 @@ class Coordinator {
 	private array $bootedApps = [];
 
 	public function __construct(
-		private ContainerInterface $serverContainer,
+		private Server $serverContainer,
 		private Registry $registry,
 		private IManager $dashboardManager,
 		private IEventDispatcher $eventDispatcher,
@@ -162,7 +162,7 @@ class Coordinator {
 		try {
 			$application = $this->serverContainer->get($applicationClassName);
 			if ($application instanceof IBootstrap && $application instanceof App) {
-				$context = new BootContext($application->getContainer());
+				$context = new BootContext($this->serverContainer, $application->getContainer());
 				$application->boot($context);
 			}
 		} catch (QueryException $e) {

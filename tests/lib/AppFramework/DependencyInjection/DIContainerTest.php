@@ -30,7 +30,7 @@ class DIContainerTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->container = $this->getMockBuilder(DIContainer::class)
-			->onlyMethods(['isAdminUser'])
+			->onlyMethods([])
 			->setConstructorArgs(['name'])
 			->getMock();
 	}
@@ -138,6 +138,6 @@ class DIContainerTest extends \Test\TestCase {
 
 	public function testInvalidAppClass(): void {
 		$this->expectException(QueryException::class);
-		$this->container->query('\OCA\Name\Foo');
+		$this->container->get('\OCA\Name\Foo');
 	}
 }

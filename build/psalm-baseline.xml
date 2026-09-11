@@ -835,9 +835,6 @@
     </InternalMethod>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ServerFactory.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserFolder]]></code>
-    </DeprecatedMethod>
     <InternalMethod>
       <code><![CDATA[getFileInfo]]></code>
       <code><![CDATA[getRoot]]></code>
@@ -1046,8 +1043,6 @@
       <code><![CDATA[dispatch]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getUserFolder]]></code>
-      <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/Service/ExampleContactService.php">
@@ -1792,9 +1787,6 @@
     </DeprecatedConstant>
   </file>
   <file src="apps/files_sharing/lib/Updater.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserFolder]]></code>
-    </DeprecatedMethod>
     <UndefinedMethod>
       <code><![CDATA[moveMount]]></code>
     </UndefinedMethod>
@@ -1879,8 +1871,6 @@
       <code><![CDATA[Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
 				'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))])]]></code>
       <code><![CDATA[Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath])]]></code>
-      <code><![CDATA[getUserFolder]]></code>
-      <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
     <InternalClass>
       <code><![CDATA[new View('/' . $owner)]]></code>
@@ -3780,11 +3770,6 @@
     <FalsableReturnStatement>
       <code><![CDATA[ob_get_clean()]]></code>
     </FalsableReturnStatement>
-  </file>
-  <file src="lib/private/InitialStateService.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[query]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/IntegrityCheck/Checker.php">
     <UndefinedInterfaceMethod>

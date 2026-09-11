@@ -68,7 +68,7 @@ class CacheTest extends TestCase {
 		$this->ownerStorage->getScanner()->scan('');
 
 		// share "shareddir" with user2
-		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$rootFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 
 		$node = $rootFolder->get('container/shareddir');
 		$share = $this->shareManager->newShare();
@@ -286,7 +286,7 @@ class CacheTest extends TestCase {
 	public function testShareRenameOriginalFileInRecentResults(): void {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$rootFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 		$node = $rootFolder->get('simplefile.txt');
 		$share = $this->shareManager->newShare();
 		$share->setNode($node)
@@ -302,7 +302,7 @@ class CacheTest extends TestCase {
 		$node->move(self::TEST_FILES_SHARING_API_USER1 . '/files/simplefile2.txt');
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
-		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER3);
+		$rootFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER3);
 		$recents = $rootFolder->getRecent(10);
 		self::assertEquals([
 			'welcome.txt',
@@ -313,7 +313,7 @@ class CacheTest extends TestCase {
 	public function testGetFolderContentsWhenSubSubdirShared(): void {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$rootFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 		$node = $rootFolder->get('container/shareddir/subdir');
 		$share = $this->shareManager->newShare();
 		$share->setNode($node)
@@ -399,7 +399,7 @@ class CacheTest extends TestCase {
 		Filesystem::file_put_contents('test.txt', 'foo');
 		$info = Filesystem::getFileInfo('test.txt');
 
-		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$rootFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 		$node = $rootFolder->get('test.txt');
 		$share = $this->shareManager->newShare();
 		$share->setNode($node)
@@ -430,7 +430,7 @@ class CacheTest extends TestCase {
 		$folderInfo = Filesystem::getFileInfo('foo');
 		$fileInfo = Filesystem::getFileInfo('foo/bar/test.txt');
 
-		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$rootFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 		$node = $rootFolder->get('foo');
 		$share = $this->shareManager->newShare();
 		$share->setNode($node)
@@ -458,7 +458,7 @@ class CacheTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		Filesystem::mkdir('foo');
 
-		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$rootFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 		$node = $rootFolder->get('foo');
 		$share = $this->shareManager->newShare();
 		$share->setNode($node)
@@ -495,7 +495,7 @@ class CacheTest extends TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$rootFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 		$node = $rootFolder->get('foo/sub');
 		$share = $this->shareManager->newShare();
 		$share->setNode($node)
@@ -534,7 +534,7 @@ class CacheTest extends TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$rootFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 		$node = $rootFolder->get('foo/sub');
 		$share = $this->shareManager->newShare();
 		$share->setNode($node)
@@ -571,7 +571,7 @@ class CacheTest extends TestCase {
 	public function testFolderShareKeepsUnmaskedPermissionsAsScanPermissions(): void {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$rootFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 		$node = $rootFolder->get('container');
 		$share = $this->shareManager->newShare();
 		$share->setNode($node)

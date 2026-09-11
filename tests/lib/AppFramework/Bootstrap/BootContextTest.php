@@ -10,13 +10,14 @@ declare(strict_types=1);
 namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\BootContext;
+use OC\Server;
 use OCP\AppFramework\IAppContainer;
-use OCP\IServerContainer;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BootContextTest extends TestCase {
 	private IAppContainer&MockObject $appContainer;
+	private Server&MockObject $server;
 
 	private BootContext $context;
 
@@ -24,10 +25,12 @@ class BootContextTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
+		$this->server = $this->createMock(Server::class);
 		$this->appContainer = $this->createMock(IAppContainer::class);
 
 		$this->context = new BootContext(
-			$this->appContainer
+			$this->server,
+			$this->appContainer,
 		);
 	}
 
@@ -38,13 +41,8 @@ class BootContextTest extends TestCase {
 	}
 
 	public function testGetServerContainer(): void {
-		$serverContainer = $this->createMock(IServerContainer::class);
-		$this->appContainer->method('get')
-			->with(IServerContainer::class)
-			->willReturn($serverContainer);
-
 		$container = $this->context->getServerContainer();
 
-		$this->assertSame($serverContainer, $container);
+		$this->assertSame($this->server, $container);
 	}
 }

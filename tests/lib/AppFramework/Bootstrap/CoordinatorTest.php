@@ -11,6 +11,7 @@ namespace lib\AppFramework\Bootstrap;
 
 use OC\App\AppManager;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Server;
 use OC\Support\CrashReport\Registry;
 use OCA\Settings\AppInfo\Application;
 use OCP\AppFramework\App;
@@ -22,13 +23,12 @@ use OCP\Dashboard\IManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CoordinatorTest extends TestCase {
 	private AppManager&MockObject $appManager;
-	private ContainerInterface&MockObject $serverContainer;
+	private Server&MockObject $serverContainer;
 	private Registry&MockObject $crashReporterRegistry;
 	private IManager&MockObject $dashboardManager;
 	private IEventDispatcher&MockObject $eventDispatcher;
@@ -41,7 +41,7 @@ class CoordinatorTest extends TestCase {
 		parent::setUp();
 
 		$this->appManager = $this->createMock(AppManager::class);
-		$this->serverContainer = $this->createMock(ContainerInterface::class);
+		$this->serverContainer = $this->createMock(Server::class);
 		$this->crashReporterRegistry = $this->createMock(Registry::class);
 		$this->dashboardManager = $this->createMock(IManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);

@@ -80,13 +80,12 @@ interface IRegistrationContext {
 	public function registerService(string $name, callable $factory, bool $shared = true): void;
 
 	/**
-	 * @param string $alias
-	 * @psalm-param string|class-string $alias
-	 * @param string $target
-	 * @psalm-param string|class-string $target
+	 * Shortcut for returning a service from a service under a different key,
+	 * e.g. to tell the container to return a class when queried for an
+	 * interface
 	 *
-	 * @return void
-	 * @see IContainer::registerAlias()
+	 * @psalm-param string|class-string $alias
+	 * @psalm-param string|class-string $target
 	 *
 	 * @since 20.0.0
 	 */

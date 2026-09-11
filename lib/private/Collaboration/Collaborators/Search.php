@@ -39,8 +39,7 @@ class Search implements ISearch {
 		// Trim leading and trailing whitespace characters, e.g. when query is copy-pasted
 		$search = trim($search);
 
-		/** @var ISearchResult $searchResult */
-		$searchResult = $this->container->resolve(SearchResult::class);
+		$searchResult = new SearchResult();
 
 		foreach ($shareTypes as $type) {
 			if (!isset($this->pluginList[$type])) {
