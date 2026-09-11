@@ -21,7 +21,7 @@ use Test\TestCase;
 
 final class LazyDirectoryStorage extends Temporary {
 	public bool $firstChildProcessed = false;
-	public bool $resumeBeforeFirstChildProcessed = false;
+	public bool $resumedBeforeFirstChildProcessed = false;
 	public bool $throwAfterFirstEntry = false;
 
 	#[\Override]
