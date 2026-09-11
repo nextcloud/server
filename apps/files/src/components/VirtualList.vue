@@ -5,7 +5,10 @@
 <template>
 	<div
 		class="files-list"
-		:class="{ 'files-list--grid': gridMode }"
+		:class="{
+			'files-list--grid': gridMode,
+			'files-list--loading': loading,
+		}"
 		data-cy-files-list
 		@scroll.passive="onScroll">
 		<!-- Header -->
@@ -122,6 +125,11 @@ export default defineComponent({
 		caption: {
 			type: String,
 			default: '',
+		},
+
+		loading: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
@@ -441,3 +449,11 @@ export default defineComponent({
 	},
 })
 </script>
+
+<style scoped>
+.files-list--loading {
+	filter: saturate(0);
+	opacity: 0.7;
+}
+</style>
+
