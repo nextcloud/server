@@ -155,7 +155,7 @@ class MetadataRequestService {
 		foreach ($chunks as $chunk) {
 			$qb = $this->dbConnection->getQueryBuilder();
 			$qb->delete(self::TABLE_METADATA)
-				->where($qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
+				->where($qb->expr()->in('file_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
 				->hintShardKey('storage', $storage);
 			$qb->executeStatement();
 		}
