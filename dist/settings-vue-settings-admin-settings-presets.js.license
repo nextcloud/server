@@ -2,6 +2,7 @@ SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: webfansplz
@@ -9,7 +10,6 @@ SPDX-FileCopyrightText: perfect-debounce developers
 SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: atomiks
-SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
@@ -23,6 +23,7 @@ SPDX-FileCopyrightText: Eduardo San Martin Morote
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
@@ -35,6 +36,9 @@ This file is generated from multiple sources. Included packages:
 - @floating-ui/utils
 	- version: 0.2.12
 	- license: MIT
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
 - @nextcloud/auth
 	- version: 2.6.0
 	- license: GPL-3.0-or-later
@@ -44,26 +48,41 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/browser-storage
 	- version: 0.5.0
 	- license: GPL-3.0-or-later
+- @nextcloud/capabilities
+	- version: 1.2.1
+	- license: GPL-3.0-or-later
 - @nextcloud/vue
 	- version: 9.9.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 8.1.5
 	- license: MIT
-- @vueuse/core
-	- version: 14.3.0
+- @vue/reactivity
+	- version: 3.5.42
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.42
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.42
+	- license: MIT
+- @vue/shared
+	- version: 3.5.42
 	- license: MIT
 - @vueuse/shared
-	- version: 14.3.0
+	- version: 14.4.0
+	- license: MIT
+- @vueuse/core
+	- version: 14.4.0
 	- license: MIT
 - vue-router
 	- version: 5.2.0
 	- license: MIT
 - vue
-	- version: 3.5.39
+	- version: 3.5.42
 	- license: MIT
 - @nextcloud/dialogs
-	- version: 7.4.1
+	- version: 7.5.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.8.5
@@ -97,18 +116,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - @vue/devtools-shared
 	- version: 8.1.5
-	- license: MIT
-- @vue/reactivity
-	- version: 3.5.39
-	- license: MIT
-- @vue/runtime-core
-	- version: 3.5.39
-	- license: MIT
-- @vue/runtime-dom
-	- version: 3.5.39
-	- license: MIT
-- @vue/shared
-	- version: 3.5.39
 	- license: MIT
 - axios
 	- version: 1.16.1
@@ -154,9 +161,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - tabbable
 	- version: 6.5.0
-	- license: MIT
-- toastify-js
-	- version: 1.12.0
 	- license: MIT
 - vue-loader
 	- version: 15.11.1

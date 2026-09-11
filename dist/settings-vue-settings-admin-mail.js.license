@@ -18,7 +18,6 @@ SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
-SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: Thorsten Lünborg
@@ -48,6 +47,7 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Borys Serebrov
+SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
@@ -81,6 +81,9 @@ This file is generated from multiple sources. Included packages:
 - @mapbox/hast-util-table-cell-style
 	- version: 0.2.1
 	- license: BSD-2-Clause
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
 - @nextcloud/auth
 	- version: 2.6.0
 	- license: GPL-3.0-or-later
@@ -99,20 +102,32 @@ This file is generated from multiple sources. Included packages:
 - @vue/devtools-api
 	- version: 8.1.5
 	- license: MIT
-- @vueuse/core
-	- version: 14.3.0
+- @vue/reactivity
+	- version: 3.5.42
+	- license: MIT
+- @vue/runtime-core
+	- version: 3.5.42
+	- license: MIT
+- @vue/runtime-dom
+	- version: 3.5.42
+	- license: MIT
+- @vue/shared
+	- version: 3.5.42
 	- license: MIT
 - @vueuse/shared
-	- version: 14.3.0
+	- version: 14.4.0
+	- license: MIT
+- @vueuse/core
+	- version: 14.4.0
 	- license: MIT
 - vue-router
 	- version: 5.2.0
 	- license: MIT
 - vue
-	- version: 3.5.39
+	- version: 3.5.42
 	- license: MIT
 - @nextcloud/dialogs
-	- version: 7.4.1
+	- version: 7.5.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.8.5
@@ -434,9 +449,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - tabbable
 	- version: 6.5.0
-	- license: MIT
-- toastify-js
-	- version: 1.12.0
 	- license: MIT
 - trim-lines
 	- version: 3.0.1

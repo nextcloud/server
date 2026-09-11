@@ -13,3 +13,16 @@ window.OCA = { ...window.OCA }
 window.OCP = { ...window.OCP }
 
 window._oc_webroot = ''
+
+// jsdom does not implement `innerText` (jsdom/jsdom#1245).
+// Libraries that strip markup by round-tripping through it - e.g. @nextcloud/dialogs'
+// `showMessage` - would otherwise silently receive `undefined`.
+Object.defineProperty(HTMLElement.prototype, 'innerText', {
+	get() {
+		return this.textContent
+	},
+	set(value) {
+		this.textContent = value
+	},
+	configurable: true,
+})
