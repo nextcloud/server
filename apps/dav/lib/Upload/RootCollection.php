@@ -12,6 +12,8 @@ namespace OCA\DAV\Upload;
 use OCP\Files\IRootFolder;
 use OCP\IUserSession;
 use OCP\Share\IManager;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\INode;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 use Sabre\DAVACL\PrincipalBackend;
 
@@ -32,7 +34,14 @@ class RootCollection extends AbstractPrincipalCollection {
 	/**
 	 * @inheritdoc
 	 */
-	public function getChildForPrincipal(array $principalInfo): UploadHome {
+	public function getChildForPrincipal(array $principalInfo): INode|UploadHome {
+		[$prefix, $name] = \Sabre\Uri\split($principalInfo['uri']);
+		$user = $this->userSession->getUser();
+		if ($prefix !== 'principals/shares' && $user?->getUID() !== $name) {
+			// if the request is not using a share token and the URL does not match the user, error out
+			throw new Forbidden('Not allowed');
+		}
+
 		return new UploadHome(
 			$principalInfo,
 			$this->cleanupService,
