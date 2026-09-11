@@ -655,7 +655,7 @@
                     {
                         "name": "query",
                         "in": "query",
-                        "description": "The query to search for",
+                        "description": "The query to search for, if the query is empty, recommended recipients will be returned",
                         "required": true,
                         "schema": {
                             "type": "string"

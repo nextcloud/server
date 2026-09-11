@@ -178,4 +178,12 @@ interface IFunctionBuilder {
 	 * @since 34.0.0
 	 */
 	public function now(): IQueryFunction;
+
+	/**
+	 * @param string|ILiteral|IParameter|IQueryFunction $value The value that might be null
+	 * @param string|ILiteral|IParameter|IQueryFunction $default The value to use if the first one is null
+	 * @return IQueryFunction
+	 * @since 35.0.0
+	 */
+	public function coalesce($value, $default): IQueryFunction;
 }

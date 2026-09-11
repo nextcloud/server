@@ -1063,7 +1063,9 @@ final readonly class SharingBackend implements ISharingBackend {
 
 				$shareRecipientPermissions[$shareId] ??= [];
 				$shareRecipientPermissions[$shareId][$recipientId] ??= [];
-				$shareRecipientPermissions[$shareId][$recipientId][$permissionTypeClass] = new SharePermission($permissionTypeClass, (bool)$row['permission_enabled']);
+				$shareRecipientPermissions[$shareId][$recipientId][$permissionTypeClass] = new SharePermission(
+					$permissionTypeClass, (bool)$row['permission_enabled']
+				);
 			}
 		}
 
@@ -1165,7 +1167,9 @@ final readonly class SharingBackend implements ISharingBackend {
 					continue;
 				}
 
-				if (array_intersect($registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], array_keys($shareSourceTypeClasses[$shareId])) === []) {
+				if (array_intersect(
+					$registryPropertyTypeCompatibleSourceTypeClasses[$propertyTypeClass], array_keys($shareSourceTypeClasses[$shareId])
+				) === []) {
 					// Skip properties that are currently not compatible, but don't remove them.
 					continue;
 				}
@@ -1406,6 +1410,104 @@ final readonly class SharingBackend implements ISharingBackend {
 			$share->properties,
 			$permissions,
 		);
+	}
+
+	#[\Override]
+	public function getRecipientsForUser(
+		ShareUser $user,
+		?array $filterRecipientTypeClasses = null,
+		?string $notInShare = null,
+		int $count = 5,
+		int $offset = 0,
+	): array {
+		$query = $this->connection->getTypedQueryBuilder();
+
+		// Add an `eq` constraint, or an `is null` constraint, depending on if the value is null
+		$eqOrNull = fn (string $table, ?string $value): string => ($value === null)
+			? $query->expr()->isNull($table)
+			: $query->expr()->eq($table, $query->createNamedParameter($value));
+
+		$query->selectColumns('recipient_class_id', 'recipient_value', 'recipient_instance', 'initiator_user_id', 'initiator_instance')
+			->selectAlias($query->func()->count('*'), 'count')
+			->from('sharing_share_recipients', 'r')
+			->innerJoin('r', 'sharing_share', 's', $query->expr()->eq('r.share_id', 's.id'))
+			->where(
+				$query->expr()->orX(
+					$query->expr()->andX(
+						$query->expr()->eq('s.owner_user_id', $query->createNamedParameter($user->userId)),
+						$eqOrNull('s.owner_instance', $user->instance),
+					),
+					$query->expr()->andX(
+						$query->expr()->eq('r.initiator_user_id', $query->createNamedParameter($user->userId)),
+						$eqOrNull('r.initiator_instance', $user->instance),
+					),
+				)
+			)
+			->groupBy('r.recipient_class_id', 'r.recipient_value', 'r.recipient_instance', 'r.initiator_user_id', 'r.initiator_instance')
+			->orderBy('count', \SortDirection::Descending)
+			// sort by recipient to get a stable output, and allow "after" to be deterministic
+			->addOrderBy(
+				'recipient_instance', \SortDirection::Ascending
+			)
+			->addOrderBy(
+				'recipient_value', \SortDirection::Ascending
+			)
+			->addOrderBy('recipient_class_id', \SortDirection::Ascending);
+
+		if ($filterRecipientTypeClasses !== null) {
+			$filterRecipientTypeClassIds = array_map($this->classMapper->getClassId(...), $filterRecipientTypeClasses);
+			$query = $query->andWhere(
+				$query->expr()->in('recipient_class_id', $query->createNamedParameter($filterRecipientTypeClassIds, IQueryBuilder::PARAM_INT_ARRAY))
+			);
+		}
+
+		if ($notInShare !== null) {
+			$fullRecipientId = $query->func()->concat(
+				'recipient_class_id',
+				$query->func()->coalesce('recipient_instance', $query->expr()->literal('-')),
+				'recipient_value'
+			);
+
+			$subQuery = $this->connection->getTypedQueryBuilder();
+			$subQuery->selectAlias($fullRecipientId, 'recipient')
+				->from('sharing_share_recipients')
+				->where($query->expr()->eq('share_id', $query->createNamedParameter($notInShare)));
+
+			$query = $query->andWhere(
+				$query->expr()->notIn(
+					$fullRecipientId,
+					$query->createFunction('(' . $subQuery->getSQL() . ')')
+				)
+			);
+		}
+
+		$query->setMaxResults($count);
+
+		if ($offset) {
+			$query = $query->setFirstResult($offset);
+		}
+
+		$rows = $query->executeQuery()->fetchAll();
+
+		return array_map(function (array $row): \NCU\Sharing\Recipient\ShareRecipient {
+			/** @var array{recipient_class_id: int|non-empty-string, recipient_value: non-empty-string, recipient_instance: ?non-empty-string, initiator_user_id: non-empty-string, initiator_instance: ?non-empty-string} $row */
+			$class = $this->classMapper->getClassName((int)$row['recipient_class_id']);
+			if (!isset($this->registry->getRecipientTypes()[$class])) {
+				throw new RuntimeException('The recipient type is not registered: ' . $class);
+			}
+
+			/** @var class-string<IShareRecipientType> $class */
+			return new ShareRecipient(
+				$class,
+				$row['recipient_value'],
+				$row['recipient_instance'],
+				null,
+				new ShareUser(
+					$row['initiator_user_id'],
+					$row['initiator_instance'],
+				)
+			);
+		}, $rows);
 	}
 
 	private static function parseTimestamp(string $timestampMs): \DateTimeImmutable {

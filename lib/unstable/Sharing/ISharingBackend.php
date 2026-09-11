@@ -14,6 +14,7 @@ use NCU\Sharing\Exception\ShareNotFoundException;
 use NCU\Sharing\Permission\ISharePermissionPreset;
 use NCU\Sharing\Permission\SharePermission;
 use NCU\Sharing\Property\ShareProperty;
+use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
@@ -212,4 +213,23 @@ interface ISharingBackend {
 	 * @experimental 35.0.0
 	 */
 	public function ensureDefaults(array $shares): array;
+
+	/**
+	 * Get a list of recipients a user has shared with, ordered by share count
+	 *
+	 * "shared with" includes both shares owned by the user, and reshares initiated by the user
+	 *
+	 * @param ?list<class-string<IShareRecipientType>> $filterRecipientTypeClasses
+	 * @param null|non-empty-string $notInShare
+	 * @param non-negative-int $count
+	 * @return list<ShareRecipient>
+	 * @experimental 35.0.0
+	 */
+	public function getRecipientsForUser(
+		ShareUser $user,
+		?array $filterRecipientTypeClasses = null,
+		?string $notInShare = null,
+		int $count = 5,
+		int $offset = 0,
+	): array;
 }

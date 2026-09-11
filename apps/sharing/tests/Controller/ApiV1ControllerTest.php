@@ -17,6 +17,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
 use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
 use OCA\Sharing\Controller\ApiV1Controller;
@@ -25,6 +26,7 @@ use OCP\HintException;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -37,6 +39,7 @@ use Test\Sharing\AbstractSharingManagerTests;
 
 /**
  * @psalm-import-type SharingShare from Share
+ * @psalm-import-type SharingRecipient from Share
  */
 #[Group(name: 'DB')]
 final class ApiV1ControllerTest extends AbstractSharingManagerTests {
@@ -97,7 +100,10 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 
 	#[Override]
 	protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?Share $forShare = null): array {
-		/** @psalm-suppress ArgumentTypeCoercion */
+		/**
+		 * @psalm-suppress ArgumentTypeCoercion
+		 * @var SharingRecipient[]
+		 */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->searchRecipients($filterRecipientTypeClasses, $query, $limit, $offset, $forShare?->id));
 	}
 
@@ -200,5 +206,23 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 			/** @psalm-suppress ArgumentTypeCoercion */
 			return $controller->getShares($filterSourceTypeClass, $filterSourceTypeValue, $filterState?->value, $filterUserStatus?->value, $lastShareID);
 		});
+	}
+
+	#[Override]
+	protected function getRecipientsForUser(
+		ShareUser $user,
+		?array $filterRecipientTypeClasses = null,
+		?string $notInShare = null,
+		int $count = 5,
+		int $offset = 0,
+	): array {
+		$accessUser = $this->createMock(IUser::class);
+		$accessUser->method('getUID')->willReturn($user->userId);
+
+		$accessContext = new ShareAccessContext($accessUser);
+		/** @var SharingRecipient[] */
+		return $this->executeRequest($accessContext,
+			/** @psalm-suppress ArgumentTypeCoercion */
+			fn (ApiV1Controller $controller): DataResponse => $controller->searchRecipients($filterRecipientTypeClasses, '', $count, $offset, $notInShare));
 	}
 }
