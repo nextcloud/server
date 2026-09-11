@@ -20,6 +20,7 @@ use OCA\Files_External\Config\ConfigAdapter;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCP\Console\IOutput;
 use OCP\Console\Verbosity;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Encryption\IManager as IEncryptionManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IHomeMountProvider;
@@ -29,6 +30,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
@@ -55,6 +57,7 @@ class OwnershipTransferService {
 		private IFactory $l10nFactory,
 		private IRootFolder $rootFolder,
 		private IEventDispatcher $eventDispatcher,
+		private IDBConnection $connection,
 	) {
 	}
 
@@ -524,6 +527,8 @@ class OwnershipTransferService {
 					if ($shareMountPoint) {
 						$this->mountManager->removeMount($shareMountPoint->getMountPoint());
 					}
+
+					$this->promoteLinkShares($share);
 					$this->shareManager->deleteShare($share);
 				} else {
 					if ($share->getShareOwner() === $sourceUid) {
@@ -604,11 +609,13 @@ class OwnershipTransferService {
 				$shareTarget = $finalShareTarget . $shareTarget;
 				if ($share->getShareType() === IShare::TYPE_USER
 					&& $share->getSharedBy() === $destinationUid) {
+					$this->promoteLinkShares($share);
 					$this->shareManager->deleteShare($share);
 				} elseif (isset($destinationShares[$share->getNodeId()])) {
 					$destinationShare = $destinationShares[$share->getNodeId()];
 					// Keep the share which has the most permissions and discard the other one.
 					if ($destinationShare->getPermissions() < $share->getPermissions()) {
+						$this->promoteLinkShares($destinationShare);
 						$this->shareManager->deleteShare($destinationShare);
 						$share->setSharedWith($destinationUid);
 						// trigger refetching of the node so that the new owner and mountpoint are taken into account
@@ -628,8 +635,10 @@ class OwnershipTransferService {
 						$this->mountManager->moveMount($oldMountPoint, $newMountPoint);
 						continue;
 					}
+					$this->promoteLinkShares($share);
 					$this->shareManager->deleteShare($share);
 				} elseif ($share->getShareOwner() === $destinationUid) {
+					$this->promoteLinkShares($share);
 					$this->shareManager->deleteShare($share);
 				} else {
 					$share->setSharedWith($destinationUid);
@@ -659,6 +668,19 @@ class OwnershipTransferService {
 		}
 		$output->progressFinish();
 		$output->writeln('');
+	}
+
+	/**
+	 * Links or email shares need to be promoted before the original share
+	 * is dropped, as the deletion is cascaded.
+	 */
+	private function promoteLinkShares(IShare $share): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->update('share')
+			->set('parent', $qb->createNamedParameter(null, IQueryBuilder::PARAM_NULL))
+			->where($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_LINK, IShare::TYPE_EMAIL], IQueryBuilder::PARAM_INT_ARRAY)))
+			->executeStatement();
 	}
 
 	private function getShareMountPoint(string $uid, string $target): string {
