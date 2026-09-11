@@ -10,6 +10,7 @@ return array(
     'OCA\\UserStatus\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\UserStatus\\BackgroundJob\\ClearOldStatusesBackgroundJob' => $baseDir . '/../lib/BackgroundJob/ClearOldStatusesBackgroundJob.php',
     'OCA\\UserStatus\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
+    'OCA\\UserStatus\\Command\\Repair' => $baseDir . '/../lib/Command/Repair.php',
     'OCA\\UserStatus\\Connector\\UserStatus' => $baseDir . '/../lib/Connector/UserStatus.php',
     'OCA\\UserStatus\\Connector\\UserStatusProvider' => $baseDir . '/../lib/Connector/UserStatusProvider.php',
     'OCA\\UserStatus\\ContactsMenu\\StatusProvider' => $baseDir . '/../lib/ContactsMenu/StatusProvider.php',
@@ -37,5 +38,6 @@ return array(
     'OCA\\UserStatus\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\UserStatus\\Service\\JSDataService' => $baseDir . '/../lib/Service/JSDataService.php',
     'OCA\\UserStatus\\Service\\PredefinedStatusService' => $baseDir . '/../lib/Service/PredefinedStatusService.php',
+    'OCA\\UserStatus\\Service\\StatusRepairService' => $baseDir . '/../lib/Service/StatusRepairService.php',
     'OCA\\UserStatus\\Service\\StatusService' => $baseDir . '/../lib/Service/StatusService.php',
 );

@@ -163,11 +163,135 @@ class UserStatusMapper extends QBMapper {
 		return $qb->executeStatement() > 0;
 	}
 
-	public function deleteByIds(array $ids): void {
+	/**
+	 * @param list<string> $automatedMessageIds
+	 * @return int Number of deleted backup rows
+	 */
+	public function deleteStrandedBackups(array $automatedMessageIds): int {
+		return $this->deleteByIds($this->findStrandedBackupIds($automatedMessageIds));
+	}
+
+	/**
+	 * @param list<string> $automatedMessageIds
+	 * @return list<int>
+	 */
+	public function findStrandedBackupIds(array $automatedMessageIds): array {
+		if ($automatedMessageIds === []) {
+			return [];
+		}
+
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete($this->tableName)
-			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
-		$qb->executeStatement();
+		$qb->select('b.id')
+			->from($this->tableName, 'b')
+			->where($qb->expr()->eq('b.is_backup', $qb->createNamedParameter(true, IQueryBuilder::PARAM_BOOL)));
+
+		// A NULL is_backup counts as live: odd data keeps the backup.
+		$qb->leftJoin('b', $this->tableName, 'l', $qb->expr()->andX(
+			$qb->expr()->eq('l.user_id', $qb->func()->substring('b.user_id', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT))),
+			$qb->expr()->in('l.message_id', $qb->createNamedParameter($automatedMessageIds, IQueryBuilder::PARAM_STR_ARRAY)),
+		))
+			->andWhere($qb->expr()->isNull('l.id'));
+
+		return $this->fetchIds($qb);
+	}
+
+	/**
+	 * @param list<string> $automatedMessageIds
+	 * @return list<int>
+	 */
+	public function findOrphanedAutomatedStatusIds(array $automatedMessageIds): array {
+		if ($automatedMessageIds === []) {
+			return [];
+		}
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('l.id')
+			->from($this->tableName, 'l')
+			->leftJoin('l', $this->tableName, 'b', $qb->expr()->eq(
+				'b.user_id',
+				$qb->func()->concat($qb->createNamedParameter('_'), 'l.user_id'),
+			))
+			->where($qb->expr()->in('l.message_id', $qb->createNamedParameter($automatedMessageIds, IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($qb->expr()->isNull('b.id'))
+			->andWhere($qb->expr()->neq(
+				$qb->func()->substring('l.user_id', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT), $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)),
+				$qb->createNamedParameter('_'),
+			));
+
+		return $this->fetchIds($qb);
+	}
+
+	/**
+	 * @return list<int>
+	 */
+	private function fetchIds(IQueryBuilder $qb): array {
+		$result = $qb->executeQuery();
+		$ids = [];
+		while ($row = $result->fetch()) {
+			$ids[] = (int)$row['id'];
+		}
+		$result->closeCursor();
+
+		return $ids;
+	}
+
+	/**
+	 * @return list<int>
+	 */
+	public function findStatusesWithoutBackupFlagIds(): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('id')
+			->from($this->tableName)
+			->where($qb->expr()->isNull('is_backup'));
+
+		return $this->fetchIds($qb);
+	}
+
+	/**
+	 * Takes is_backup from the user id prefix: false for everything would make a
+	 * pre-default backup an unrestorable live row called "_alice".
+	 *
+	 * @param list<int> $ids
+	 * @return int Number of rows given an explicit is_backup value
+	 */
+	public function normalizeBackupFlagByIds(array $ids): int {
+		$updated = 0;
+		foreach (array_chunk($ids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
+			foreach ([true, false] as $isBackup) {
+				$qb = $this->db->getQueryBuilder();
+				$firstCharacter = $qb->func()->substring(
+					'user_id',
+					$qb->createNamedParameter(1, IQueryBuilder::PARAM_INT),
+					$qb->createNamedParameter(1, IQueryBuilder::PARAM_INT),
+				);
+				$underscore = $qb->createNamedParameter('_');
+				$qb->update($this->tableName)
+					->set('is_backup', $qb->createNamedParameter($isBackup, IQueryBuilder::PARAM_BOOL))
+					->where($qb->expr()->in('id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
+					->andWhere($isBackup
+						? $qb->expr()->eq($firstCharacter, $underscore)
+						: $qb->expr()->neq($firstCharacter, $underscore));
+				$updated += $qb->executeStatement();
+			}
+		}
+
+		return $updated;
+	}
+
+	/**
+	 * @param list<int> $ids
+	 * @return int Number of deleted rows
+	 */
+	public function deleteByIds(array $ids): int {
+		$deleted = 0;
+		foreach (array_chunk($ids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
+			$qb = $this->db->getQueryBuilder();
+			$qb->delete($this->tableName)
+				->where($qb->expr()->in('id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+			$deleted += $qb->executeStatement();
+		}
+
+		return $deleted;
 	}
 
 	/**
@@ -187,13 +311,20 @@ class UserStatusMapper extends QBMapper {
 		return $qb->executeStatement() > 0;
 	}
 
-	public function restoreBackupStatuses(array $ids): void {
-		$qb = $this->db->getQueryBuilder();
-		$qb->update($this->tableName)
-			->set('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL))
-			->set('user_id', $qb->func()->substring('user_id', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)))
-			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
+	/**
+	 * @param list<int> $ids
+	 * @param int $statusTimestamp The backed up one would already be stale.
+	 */
+	public function restoreBackupStatuses(array $ids, int $statusTimestamp): void {
+		foreach (array_chunk($ids, IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
+			$qb = $this->db->getQueryBuilder();
+			$qb->update($this->tableName)
+				->set('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL))
+				->set('status_timestamp', $qb->createNamedParameter($statusTimestamp, IQueryBuilder::PARAM_INT))
+				->set('user_id', $qb->func()->substring('user_id', $qb->createNamedParameter(2, IQueryBuilder::PARAM_INT)))
+				->where($qb->expr()->in('id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
 
-		$qb->executeStatement();
+			$qb->executeStatement();
+		}
 	}
 }

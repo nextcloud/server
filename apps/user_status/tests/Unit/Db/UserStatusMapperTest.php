@@ -388,12 +388,13 @@ class UserStatusMapperTest extends TestCase {
 		$userStatus3->setClearAt(50000);
 		$this->mapper->insert($userStatus3);
 
-		$this->mapper->restoreBackupStatuses([$userStatus1->getId(), $userStatus2->getId()]);
+		$this->mapper->restoreBackupStatuses([$userStatus1->getId(), $userStatus2->getId()], 123456);
 
 		$user1Status = $this->mapper->findByUserId('user1', false);
 		$this->assertEquals('user1', $user1Status->getUserId());
 		$this->assertEquals(false, $user1Status->getIsBackup());
 		$this->assertEquals('Releasing', $user1Status->getCustomMessage());
+		$this->assertSame(123456, $user1Status->getStatusTimestamp(), 'A restored status becomes current, so it carries the restore timestamp');
 
 		$user2Status = $this->mapper->findByUserId('user2', false);
 		$this->assertEquals('user2', $user2Status->getUserId());
@@ -404,5 +405,233 @@ class UserStatusMapperTest extends TestCase {
 		$this->assertEquals('_user3', $user3Status->getUserId());
 		$this->assertEquals(true, $user3Status->getIsBackup());
 		$this->assertEquals('Vacationing', $user3Status->getCustomMessage());
+	}
+
+	/**
+	 * @param string[] $liveMessageIds keyed by user id; null means no live row
+	 */
+	private function insertBackupWithLiveStatus(string $userId, ?string $liveMessageId): void {
+		$backup = new UserStatus();
+		$backup->setUserId('_' . $userId);
+		$backup->setStatus('online');
+		$backup->setStatusTimestamp(5000);
+		$backup->setIsUserDefined(false);
+		$backup->setIsBackup(true);
+		$this->mapper->insert($backup);
+
+		if ($liveMessageId === null) {
+			return;
+		}
+
+		$live = new UserStatus();
+		$live->setUserId($userId);
+		$live->setStatus('busy');
+		$live->setStatusTimestamp(6000);
+		$live->setIsUserDefined(true);
+		$live->setIsBackup(false);
+		$live->setMessageId($liveMessageId === '' ? null : $liveMessageId);
+		$this->mapper->insert($live);
+	}
+
+	public function testDeleteStrandedBackupsWithNoBackups(): void {
+		$this->insertSampleStatuses();
+
+		$this->assertSame(0, $this->mapper->deleteStrandedBackups(['meeting', 'call']));
+		$this->assertCount(3, $this->mapper->findAll());
+	}
+
+	public function testDeleteStrandedBackupsKeepsBackupsOfAutomatedStatuses(): void {
+		$this->insertBackupWithLiveStatus('user1', 'meeting');
+		$this->insertBackupWithLiveStatus('user2', 'call');
+		$this->insertBackupWithLiveStatus('user3', 'availability');
+		$this->insertBackupWithLiveStatus('user4', 'out-of-office');
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call', 'availability', 'out-of-office']);
+
+		$this->assertSame(0, $deleted);
+		foreach (['user1', 'user2', 'user3', 'user4'] as $userId) {
+			$this->assertEquals('_' . $userId, $this->mapper->findByUserId($userId, true)->getUserId());
+		}
+	}
+
+	public function testDeleteStrandedBackupsRemovesBackupWithoutLiveStatus(): void {
+		$this->insertBackupWithLiveStatus('user1', null);
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call']);
+
+		$this->assertSame(1, $deleted);
+		$this->expectException(DoesNotExistException::class);
+		$this->mapper->findByUserId('user1', true);
+	}
+
+	public function testDeleteStrandedBackupsRemovesBackupWhenLiveStatusHasNoMessageId(): void {
+		$this->insertBackupWithLiveStatus('user1', '');
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call']);
+
+		$this->assertSame(1, $deleted);
+		$this->assertEquals('user1', $this->mapper->findByUserId('user1')->getUserId());
+	}
+
+	public function testDeleteStrandedBackupsRemovesBackupWhenLiveStatusIsUserDefinedMessage(): void {
+		$this->insertBackupWithLiveStatus('user1', 'vacationing');
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call']);
+
+		$this->assertSame(1, $deleted);
+		$this->assertEquals('vacationing', $this->mapper->findByUserId('user1')->getMessageId());
+	}
+
+	public function testDeleteStrandedBackupsOnlyRemovesTheStrandedOnes(): void {
+		$this->insertBackupWithLiveStatus('keepme', 'meeting');
+		$this->insertBackupWithLiveStatus('stranded1', 'vacationing');
+		$this->insertBackupWithLiveStatus('stranded2', null);
+		$this->insertBackupWithLiveStatus('keepme2', 'call');
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call']);
+
+		$this->assertSame(2, $deleted);
+		$this->assertEquals('_keepme', $this->mapper->findByUserId('keepme', true)->getUserId());
+		$this->assertEquals('_keepme2', $this->mapper->findByUserId('keepme2', true)->getUserId());
+		foreach (['stranded1', 'stranded2'] as $userId) {
+			try {
+				$this->mapper->findByUserId($userId, true);
+				$this->fail("Backup for $userId should have been deleted");
+			} catch (DoesNotExistException) {
+			}
+		}
+	}
+
+	public function testDeleteStrandedBackupsDoesNotConfuseUsersWithSimilarNames(): void {
+		// 'user1x' is a real user, judged on its own live row, not user1's.
+		$this->insertBackupWithLiveStatus('user1', 'meeting');
+		$this->insertBackupWithLiveStatus('user1x', 'vacationing');
+
+		$deleted = $this->mapper->deleteStrandedBackups(['meeting', 'call']);
+
+		$this->assertSame(1, $deleted);
+		$this->assertEquals('_user1', $this->mapper->findByUserId('user1', true)->getUserId());
+		$this->expectException(DoesNotExistException::class);
+		$this->mapper->findByUserId('user1x', true);
+	}
+
+	public function testFindStrandedBackupIds(): void {
+		$this->insertBackupWithLiveStatus('keepme', 'meeting');
+		$this->insertBackupWithLiveStatus('stranded', 'vacationing');
+
+		$ids = $this->mapper->findStrandedBackupIds(['meeting', 'call']);
+
+		$this->assertCount(1, $ids);
+		$this->assertSame(
+			$this->mapper->findByUserId('stranded', true)->getId(),
+			$ids[0],
+		);
+	}
+
+	public function testFindStrandedBackupIdsDoesNotDelete(): void {
+		$this->insertBackupWithLiveStatus('stranded', 'vacationing');
+
+		$this->mapper->findStrandedBackupIds(['meeting']);
+
+		$this->assertEquals('_stranded', $this->mapper->findByUserId('stranded', true)->getUserId());
+	}
+
+	public function testFindOrphanedAutomatedStatusIds(): void {
+		$orphan = new UserStatus();
+		$orphan->setUserId('orphan');
+		$orphan->setStatus('busy');
+		$orphan->setStatusTimestamp(5000);
+		$orphan->setIsUserDefined(true);
+		$orphan->setIsBackup(false);
+		$orphan->setMessageId('meeting');
+		$this->mapper->insert($orphan);
+
+		$this->insertBackupWithLiveStatus('inmeeting', 'meeting');
+
+		$own = new UserStatus();
+		$own->setUserId('ownstatus');
+		$own->setStatus('dnd');
+		$own->setStatusTimestamp(5000);
+		$own->setIsUserDefined(true);
+		$own->setIsBackup(false);
+		$own->setMessageId('vacationing');
+		$this->mapper->insert($own);
+
+		$ids = $this->mapper->findOrphanedAutomatedStatusIds(['meeting', 'call']);
+
+		$this->assertCount(1, $ids);
+		$this->assertSame($this->mapper->findByUserId('orphan')->getId(), $ids[0]);
+	}
+
+	public function testFindOrphanedAutomatedStatusIdsIgnoresBackupRows(): void {
+		// A backup carrying an automated id is not an orphaned live status.
+		$backup = new UserStatus();
+		$backup->setUserId('_someone');
+		$backup->setStatus('busy');
+		$backup->setStatusTimestamp(5000);
+		$backup->setIsUserDefined(true);
+		$backup->setIsBackup(true);
+		$backup->setMessageId('meeting');
+		$this->mapper->insert($backup);
+
+		$this->assertSame([], $this->mapper->findOrphanedAutomatedStatusIds(['meeting', 'call']));
+	}
+
+	public function testFindOrphanedAutomatedStatusIdsWithEmptyAutomatedList(): void {
+		$this->insertBackupWithLiveStatus('user1', 'meeting');
+
+		$this->assertSame([], $this->mapper->findOrphanedAutomatedStatusIds([]));
+	}
+
+	public function testNormalizeBackupFlag(): void {
+		$this->insertSampleStatuses();
+		self::$realDatabase->executeStatement(
+			'UPDATE `*PREFIX*user_status` SET `is_backup` = NULL WHERE `user_id` = ?',
+			['user1'],
+		);
+
+		$ids = $this->mapper->findStatusesWithoutBackupFlagIds();
+		$this->assertCount(1, $ids);
+		$this->assertSame(1, $this->mapper->normalizeBackupFlagByIds($ids));
+		$this->assertSame([], $this->mapper->findStatusesWithoutBackupFlagIds());
+		$this->assertCount(3, $this->mapper->findAll());
+	}
+
+	public function testNormalizeBackupFlagWithNothingToDo(): void {
+		$this->insertSampleStatuses();
+
+		$this->assertSame([], $this->mapper->findStatusesWithoutBackupFlagIds());
+		$this->assertSame(0, $this->mapper->normalizeBackupFlagByIds([]));
+	}
+
+	public function testDeleteStrandedBackupsWithEmptyAutomatedListDoesNothing(): void {
+		$this->insertBackupWithLiveStatus('user1', 'meeting');
+		$this->insertBackupWithLiveStatus('user2', 'call');
+
+		$this->assertSame(0, $this->mapper->deleteStrandedBackups([]));
+		$this->assertNotNull($this->mapper->findByUserId('user1', true));
+		$this->assertNotNull($this->mapper->findByUserId('user2', true));
+	}
+
+	public function testNormalizeBackupFlagKeepsBackupRowsAsBackups(): void {
+		self::$realDatabase->executeStatement(
+			'INSERT INTO `*PREFIX*user_status` (`user_id`, `status`, `status_timestamp`, `is_user_defined`, `is_backup`) VALUES (?, ?, ?, ?, ?)',
+			['user1', 'online', 5000, 0, null],
+		);
+		self::$realDatabase->executeStatement(
+			'INSERT INTO `*PREFIX*user_status` (`user_id`, `status`, `status_timestamp`, `is_user_defined`, `is_backup`) VALUES (?, ?, ?, ?, ?)',
+			['_user1', 'away', 4000, 0, null],
+		);
+
+		$ids = $this->mapper->findStatusesWithoutBackupFlagIds();
+		$this->assertCount(2, $ids);
+		$this->assertSame(2, $this->mapper->normalizeBackupFlagByIds($ids));
+
+		$this->assertSame([], $this->mapper->findStatusesWithoutBackupFlagIds());
+		$this->assertFalse($this->mapper->findByUserId('user1', false)->getIsBackup());
+		$this->assertTrue(
+			$this->mapper->findByUserId('user1', true)->getIsBackup(),
+			'A backup row that predates the column default must stay a backup, or no revert can ever restore it',
+		);
 	}
 }

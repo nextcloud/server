@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\UserStatus\BackgroundJob;
 
 use OCA\UserStatus\Db\UserStatusMapper;
+use OCA\UserStatus\Service\StatusRepairService;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
@@ -26,10 +27,12 @@ class ClearOldStatusesBackgroundJob extends TimedJob {
 	 *
 	 * @param ITimeFactory $time
 	 * @param UserStatusMapper $mapper
+	 * @param StatusRepairService $repairService
 	 */
 	public function __construct(
 		ITimeFactory $time,
 		private UserStatusMapper $mapper,
+		private StatusRepairService $repairService,
 	) {
 		parent::__construct($time);
 
@@ -45,5 +48,6 @@ class ClearOldStatusesBackgroundJob extends TimedJob {
 
 		$this->mapper->clearOlderThanClearAt($now);
 		$this->mapper->clearStatusesOlderThan($now - StatusService::INVALIDATE_STATUS_THRESHOLD, $now);
+		$this->repairService->deleteStrandedBackups();
 	}
 }
