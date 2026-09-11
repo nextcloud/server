@@ -443,96 +443,146 @@ class Scanner extends BasicEmitter implements IScanner {
 	}
 
 	/**
+	 * Process the current directory before recursively scanning child directories.
+	 *
+	 * Keeping this work in a separate method releases the current directory's local
+	 * state before scanChildren() descends into the child queue.
+	 *
 	 * @param bool|IScanner::SCAN_RECURSIVE_INCOMPLETE $recursive
 	 */
-	private function handleChildren(string $path, $recursive, int $reuse, int $folderId, bool $lock, int|float &$size, bool &$etagChanged): array {
-		// we put this in its own function so it cleans up the memory before we start recursing
+	private function handleChildren(
+		string $path,
+		$recursive,
+		int $reuse,
+		int $folderId,
+		bool $lock,
+		int|float &$size,
+		bool &$etagChanged,
+	): array {
 		$existingChildren = $this->getExistingChildren($folderId);
-		$newChildren = iterator_to_array($this->storage->getDirectoryContent($path));
 
-		if (count($existingChildren) === 0 && count($newChildren) === 0) {
-			// no need to do a transaction
-			return [];
-		}
-
-		if ($this->useTransactions) {
-			$this->connection->beginTransaction();
-		}
-
+		$processingStarted = false;
 		$exceptionOccurred = false;
 		$childQueue = [];
 		$newChildNames = [];
-		foreach ($newChildren as $fileMeta) {
-			$permissions = $fileMeta['scan_permissions'] ?? $fileMeta['permissions'];
-			if ($permissions === 0) {
-				continue;
-			}
-			$originalFile = $fileMeta['name'];
-			$file = trim(Filesystem::normalizePath($originalFile), '/');
-			if (trim($originalFile, '/') !== $file) {
-				// encoding mismatch, might require compatibility wrapper
-				Server::get(LoggerInterface::class)->debug('Scanner: Skipping non-normalized file name "' . $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
-				$this->emit('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', [$path ? $path . '/' . $originalFile : $originalFile]);
-				// skip this entry
-				continue;
-			}
 
-			$newChildNames[] = $file;
-			$child = $path ? $path . '/' . $file : $file;
-			try {
-				$existingData = $existingChildren[$file] ?? false;
-				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock, $fileMeta);
-				if ($data) {
-					if ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE) {
-						$childQueue[$child] = [$data['fileid'], $data['size']];
-					} elseif ($data['mimetype'] === 'httpd/unix-directory' && $recursive === self::SCAN_RECURSIVE_INCOMPLETE && $data['size'] === -1) {
-						// only recurse into folders which aren't fully scanned
-						$childQueue[$child] = [$data['fileid'], $data['size']];
-					} elseif ($data['size'] === -1) {
-						$size = -1;
-					} elseif ($size !== -1) {
-						$size += $data['size'];
+		try {
+			foreach ($this->storage->getDirectoryContent($path) as $fileMeta) {
+				// Avoid opening a transaction for an empty directory with no cached children.
+				if (!$processingStarted) {
+					if ($this->useTransactions) {
+						$this->connection->beginTransaction();
 					}
-
-					if (isset($data['etag_changed']) && $data['etag_changed']) {
-						$etagChanged = true;
-					}
+					$processingStarted = true;
 				}
-			} catch (Exception $ex) {
-				// might happen if inserting duplicate while a scanning
-				// process is running in parallel
-				// log and ignore
+
+				$permissions = $fileMeta['scan_permissions'] ?? $fileMeta['permissions'];
+				if ($permissions === 0) {
+					continue;
+				}
+
+				$originalFile = $fileMeta['name'];
+				$file = trim(Filesystem::normalizePath($originalFile), '/');
+
+				if (trim($originalFile, '/') !== $file) {
+					// Non-normalized names cannot be addressed consistently through the cache; may require compatibility wrapper.
+					Server::get(LoggerInterface::class)->debug(
+						'Scanner: Skipping non-normalized file name "' . $originalFile . '" in path "' . $path . '".',
+						['app' => 'core']
+					);
+					$this->emit(
+						'\OC\Files\Cache\Scanner',
+						'normalizedNameMismatch',
+						[$path ? $path . '/' . $originalFile : $originalFile]
+					);
+					continue;
+				}
+
+				$newChildNames[] = $file;
+				$child = $path ? $path . '/' . $file : $file;
+
+				try {
+					$existingData = $existingChildren[$file] ?? false;
+					$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock, $fileMeta);
+
+					if ($data) {
+						if (
+							$data['mimetype'] === 'httpd/unix-directory'
+							&& $recursive === self::SCAN_RECURSIVE
+						) {
+							$childQueue[$child] = [$data['fileid'], $data['size']];
+						} elseif (
+							$data['mimetype'] === 'httpd/unix-directory'
+							&& $recursive === self::SCAN_RECURSIVE_INCOMPLETE
+							&& $data['size'] === -1
+						) {
+							// In incomplete scans, recurse only into folders that still need scanning.
+							$childQueue[$child] = [$data['fileid'], $data['size']];
+						} elseif ($data['size'] === -1) {
+							$size = -1;
+						} elseif ($size !== -1) {
+							$size += $data['size'];
+						}
+
+						if (isset($data['etag_changed']) && $data['etag_changed']) {
+							$etagChanged = true;
+						}
+					}
+				} catch (Exception $ex) {
+					// A concurrent scanner may have inserted this entry already.
+					if ($this->useTransactions) {
+						$this->connection->rollback();
+						$this->connection->beginTransaction();
+					}
+					Server::get(LoggerInterface::class)->debug(
+						'Exception while scanning file "' . $child . '"',
+						['app' => 'core', 'exception' => $ex]
+					);
+					$exceptionOccurred = true;
+				} catch (LockedException $e) {
+					if ($this->useTransactions) {
+						$this->connection->rollback();
+					}
+					throw $e;
+				}
+			}
+
+			if (!$processingStarted && $existingChildren === []) {
+				return [];
+			}
+
+			$removedChildren = \array_diff(array_keys($existingChildren), $newChildNames);
+
+			// Removed cached children still require a transaction when the listing is empty.
+			if ($removedChildren !== [] && !$processingStarted) {
 				if ($this->useTransactions) {
-					$this->connection->rollback();
 					$this->connection->beginTransaction();
 				}
-				Server::get(LoggerInterface::class)->debug('Exception while scanning file "' . $child . '"', [
-					'app' => 'core',
-					'exception' => $ex,
-				]);
-				$exceptionOccurred = true;
-			} catch (LockedException $e) {
-				if ($this->useTransactions) {
-					$this->connection->rollback();
-				}
-				throw $e;
+				$processingStarted = true;
 			}
+
+			foreach ($removedChildren as $childName) {
+				$child = $path ? $path . '/' . $childName : $childName;
+				$this->removeFromCache((string)$child);
+			}
+
+			if ($processingStarted && $this->useTransactions) {
+				$this->connection->commit();
+			}
+		} catch (\Throwable $e) {
+			// Lazy directory listings can fail after the transaction has started.
+			if ($this->useTransactions && $this->connection->inTransaction()) {
+				$this->connection->rollBack();
+			}
+
+			throw $e;
 		}
-		$removedChildren = \array_diff(array_keys($existingChildren), $newChildNames);
-		foreach ($removedChildren as $childName) {
-			$child = $path ? $path . '/' . $childName : $childName;
-			$this->removeFromCache((string)$child);
-		}
-		if ($this->useTransactions) {
-			$this->connection->commit();
-		}
+
 		if ($exceptionOccurred) {
-			// It might happen that the parallel scan process has already
-			// inserted mimetypes but those weren't available yet inside the transaction
-			// To make sure to have the updated mime types in such cases,
-			// we reload them here
+			// Reload MIME types that may have been inserted by a concurrent scan.
 			Server::get(IMimeTypeLoader::class)->reset();
 		}
+
 		return $childQueue;
 	}
 
