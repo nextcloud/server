@@ -10,7 +10,6 @@ SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: readable-stream developers
 SPDX-FileCopyrightText: qs developers
 SPDX-FileCopyrightText: perfect-debounce developers
-SPDX-FileCopyrightText: jden <jason@denizac.org>
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
@@ -26,7 +25,6 @@ SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
 SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
-SPDX-FileCopyrightText: Olivier Scherrer <pode.fr@gmail.com>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
 SPDX-FileCopyrightText: Matt Zabriskie
@@ -316,9 +314,6 @@ This file is generated from multiple sources. Included packages:
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
-- nested-property
-	- version: 4.0.0
-	- license: MIT
 - buffer
 	- version: 6.0.3
 	- license: MIT
@@ -328,9 +323,6 @@ This file is generated from multiple sources. Included packages:
 - path-expression-matcher
 	- version: 1.5.0
 	- license: MIT
-- path-posix
-	- version: 1.0.0
-	- license: ISC
 - pinia
 	- version: 2.3.1
 	- license: MIT
@@ -412,9 +404,6 @@ This file is generated from multiple sources. Included packages:
 - unist-util-visit-parents
 	- version: 6.0.2
 	- license: MIT
-- url-parse
-	- version: 1.5.10
-	- license: MIT
 - url
 	- version: 0.11.4
 	- license: MIT
@@ -443,7 +432,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.1
 	- license: BSD-2-Clause
 - webpack
-	- version: 5.109.2
+	- version: 5.110.3
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
