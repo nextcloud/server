@@ -14,6 +14,7 @@ use OC\AppFramework\Http\Request;
 use OC\Authentication\Login\AlternativeLoginService;
 use OC\Authentication\Login\Chain;
 use OC\Authentication\Login\LoginData;
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
 use OC\User\Session;
 use OCA\User_LDAP\Configuration;
@@ -71,6 +72,7 @@ class LoginController extends Controller {
 		private readonly IL10N $l10n,
 		private readonly IAppManager $appManager,
 		private readonly AlternativeLoginService $alternativeLoginService,
+		private readonly RememberLoginTokenMapper $rememberLoginTokenMapper,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -82,7 +84,11 @@ class LoginController extends Controller {
 		$loginToken = $this->request->getCookie('nc_token');
 		$uid = $this->userSession->getUser()?->getUID();
 		if ($loginToken !== null && $uid !== null) {
-			$this->userConfig->deleteUserConfig($uid, 'login_token', $loginToken);
+			$affectedRows = $this->rememberLoginTokenMapper->deleteByToken($loginToken);
+			if ($affectedRows < 1) {
+				// TODO: remove this after migration to 'remember_login_tokens' table is finished
+				$this->config->deleteUserValue($uid, 'login_token', $loginToken);
+			}
 		}
 		$this->userSession->logout();
 

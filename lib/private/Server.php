@@ -22,6 +22,7 @@ use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Listeners\LoginFailedListener;
 use OC\Authentication\Listeners\UserLoggedInListener;
 use OC\Authentication\LoginCredentials\Store;
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\TwoFactorAuth\Registry;
 use OC\Avatar\AvatarManager;
@@ -444,8 +445,10 @@ class Server extends ServerContainer {
 			// might however be called when Nextcloud is not yet setup.
 			if (\OCP\Server::get(SystemConfig::class)->getValue('installed', false)) {
 				$provider = $c->get(IProvider::class);
+				$rememberLoginTokenMapper = $c->get(RememberLoginTokenMapper::class);
 			} else {
 				$provider = null;
+				$rememberLoginTokenMapper = null;
 			}
 
 			$userSession = new Session(
@@ -458,6 +461,7 @@ class Server extends ServerContainer {
 				$c->get(ILockdownManager::class),
 				$c->get(LoggerInterface::class),
 				$c->get(IEventDispatcher::class),
+				$rememberLoginTokenMapper,
 			);
 			$dispatcher = $this->get(IEventDispatcher::class);
 			$dispatcher->addListener(UserLoggedInEvent::class, function (UserLoggedInEvent $event): void {
