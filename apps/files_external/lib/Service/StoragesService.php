@@ -424,11 +424,13 @@ abstract class StoragesService {
 		$this->dbConfig->removeMount($id);
 
 		$deletedStorage = $this->getStorageConfigFromDBMount($existingMount);
-		$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($deletedStorage));
 		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
 
 		// delete oc_storages entries and oc_filecache
 		Storage::cleanByMountId($id);
+
+		// listeners remove the oc_mounts rows that cleanByMountId() uses to find the storages
+		$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($deletedStorage));
 
 		$this->updateOverwriteHomeFolders();
 	}
