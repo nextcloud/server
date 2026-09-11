@@ -145,7 +145,6 @@ OC.L10N.register(
     "on {server}" : "in {server}",
     "Delete share" : "Cantzella sa cumpartzidura",
     "Delete" : "Cantzella",
-    "Remove participant" : " Boga·nche partetzipante",
     "Terms of service" : "Cunditziones de servìtziu",
     "Update share" : "Agiorna sa cumpartzidura",
     "Read" : "Leghe",

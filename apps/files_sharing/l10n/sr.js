@@ -248,7 +248,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Претрага спољних примаоца",
     "Delete share" : "Обриши дељење",
     "Delete" : "Избриши",
-    "Remove participant" : "Уклони учесника",
     "Note from" : "Напомена од",
     "Note:" : "Белешка:",
     "File drop" : "Место за упуштање фајлова",

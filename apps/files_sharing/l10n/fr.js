@@ -259,7 +259,6 @@ OC.L10N.register(
     "Are you sure you want to delete this share? This operation cannot be undone." : "Êtes-vous sûr de vouloir supprimer ce partage ? Cette opération est irréversible.",
     "Edit share" : "Modifier le partage",
     "Toggle recipients" : "Développer ou réduire la liste de destinataires",
-    "Remove participant" : "Retirer le participant",
     "Note from" : "Note de",
     "Note:" : "Note :",
     "File drop" : "Dépôt de fichier",

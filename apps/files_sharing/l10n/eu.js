@@ -249,7 +249,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Bilatu barruko hartzaileak",
     "Delete share" : "Ezabatu partekatzea",
     "Delete" : "Ezabatu",
-    "Remove participant" : "Partehartzailea borratu",
     "Note from" : "Oharra bidali du",
     "Note:" : "Oharra:",
     "File drop" : "Fitxategiak jaregin",

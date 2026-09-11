@@ -241,7 +241,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Cerca destinataris interns",
     "Delete share" : "Suprimeix l'element compartit",
     "Delete" : "Suprimeix",
-    "Remove participant" : "Suprimir el participant",
     "Note from" : "Nota de",
     "Note:" : "Nota:",
     "File drop" : "Pujada de fitxers",

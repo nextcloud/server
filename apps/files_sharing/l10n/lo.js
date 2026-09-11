@@ -248,7 +248,6 @@ OC.L10N.register(
     "Search for internal recipients" : "ຄົ້ນຫາຜູ້ຮັບພາຍໃນ",
     "Delete share" : "ລຶບການແບ່ງປັນ",
     "Delete" : "ລຶບ",
-    "Remove participant" : "Remove participant",
     "Note from" : "ບັນທຶກຈາກ",
     "Note:" : "ໝາຍເຫດ:",
     "File drop" : "ຈຸດສົ່ງໄຟລ໌",

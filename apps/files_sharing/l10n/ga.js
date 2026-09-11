@@ -256,7 +256,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Cuardaigh faighteoirí inmheánacha",
     "Delete share" : "Scrios an sciar",
     "Delete" : "Scrios",
-    "Remove participant" : "Bain rannpháirtí",
     "Note from" : "Nóta ó",
     "Note:" : "Nóta:",
     "File drop" : "Titim comhad",
