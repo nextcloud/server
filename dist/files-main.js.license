@@ -454,7 +454,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.5.0
 	- license: MIT
 - query-string
-	- version: 9.5.0
+	- version: 9.5.1
 	- license: MIT
 - rehype-external-links
 	- version: 3.0.0
