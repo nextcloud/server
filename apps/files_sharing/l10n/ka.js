@@ -156,7 +156,6 @@ OC.L10N.register(
     "on {server}" : "on {server}",
     "Delete share" : "Delete share",
     "Delete" : "Delete",
-    "Remove participant" : "Remove participant",
     "File drop" : "File drop",
     "Terms of service" : "Terms of service",
     "Share with group" : "Share with group",

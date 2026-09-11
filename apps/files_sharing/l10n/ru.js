@@ -256,7 +256,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Поиск внутренних получателей",
     "Delete share" : "Удалить общий ресурс",
     "Delete" : "Удалить",
-    "Remove participant" : "Исключить участника",
     "Note from" : "Примечание от",
     "Note:" : "Примечание:",
     "File drop" : "Приём файлов",

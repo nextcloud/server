@@ -259,7 +259,6 @@ OC.L10N.register(
     "Are you sure you want to delete this share? This operation cannot be undone." : "確定要刪除此分享？此操作無法還原。",
     "Edit share" : "編輯分享",
     "Toggle recipients" : "切換收件人",
-    "Remove participant" : "移除參與者",
     "Note from" : "備註來自",
     "Note:" : "備註：",
     "File drop" : "檔案拖放",

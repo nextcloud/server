@@ -248,7 +248,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Interne ontvangers zoeken",
     "Delete share" : "Verwijder share",
     "Delete" : "Verwijderen",
-    "Remove participant" : "Verwijder deelnemer",
     "Note from" : "Notirtie van",
     "Note:" : "Notitie:",
     "File drop" : "Bestandsopslag",

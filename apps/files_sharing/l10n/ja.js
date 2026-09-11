@@ -256,7 +256,6 @@ OC.L10N.register(
     "Search for internal recipients" : "内部受信者を検索",
     "Delete share" : "共有を解除",
     "Delete" : "削除",
-    "Remove participant" : "参加者を削除",
     "Note from" : "注釈",
     "Note:" : "注意：",
     "File drop" : "ファイルを転送",
