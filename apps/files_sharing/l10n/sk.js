@@ -256,7 +256,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Hľadať interných príjemcov",
     "Delete share" : "Odstrániť zdieľanie",
     "Delete" : "Zmazať",
-    "Remove participant" : "Odstrániť účastníka",
     "Note from" : "Poznámka od",
     "Note:" : "Poznámka:",
     "File drop" : "Vložiť súbor",

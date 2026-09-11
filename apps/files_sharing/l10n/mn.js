@@ -248,7 +248,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Дотоод хүлээн авагчдыг хайх",
     "Delete share" : "Хуваалцалт устгах",
     "Delete" : "Устгах",
-    "Remove participant" : "Оролцогчийг хасах",
     "Note from" : "-с тэмдэглэл",
     "Note:" : "Тэмдэглэл:",
     "File drop" : "Файл буулгах",

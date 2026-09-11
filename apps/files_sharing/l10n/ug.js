@@ -248,7 +248,6 @@ OC.L10N.register(
     "Search for internal recipients" : "ئىچكى تاپشۇرۋالغۇچىنى كىرگۈز",
     "Delete share" : "ھەمبەھىرنى ئۆچۈرۈڭ",
     "Delete" : "ئۆچۈر",
-    "Remove participant" : "قاتناشقۇچىنى ئېلىۋېتىڭ",
     "Note from" : "دىققەت قىلىڭ",
     "Note:" : "ئەسكەرتىش:",
     "File drop" : "ھۆججەت چۈشۈرۈش",

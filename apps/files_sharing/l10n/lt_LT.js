@@ -256,7 +256,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Ieškoti vidinių gavėjų",
     "Delete share" : "Ištrinti bendrinimą",
     "Delete" : "Ištrinti",
-    "Remove participant" : "Šalinti dalyvį",
     "Note from" : "Pastaba iš",
     "Note:" : "Pastaba:",
     "File drop" : "Failų įkėlimas",
