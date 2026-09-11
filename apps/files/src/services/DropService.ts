@@ -14,7 +14,7 @@ import { getUploader, hasConflict } from '@nextcloud/upload'
 import { handleCopyMoveNodesTo, HintException } from '../actions/moveOrCopyAction.ts'
 import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
 import { logger } from '../utils/logger.ts'
-import { createDirectoryIfNotExists, Directory, resolveConflict, traverseTree } from './DropServiceUtils.ts'
+import { createDirectoryIfNotExists, Directory, renameInvalidDroppedEntries, resolveConflict, traverseTree } from './DropServiceUtils.ts'
 
 /**
  * This function converts a list of DataTransferItems to a file tree.
@@ -94,6 +94,11 @@ export async function dataTransferToFileTree(items: DataTransferItem[]): Promise
  * @param contents - The contents of the destination folder
  */
 export async function onDropExternalFiles(root: RootDirectory, destination: IFolder, contents: INode[]): Promise<Upload[]> {
+	// Ask the user to fix any invalid name before uploading anything
+	if (!await renameInvalidDroppedEntries(root)) {
+		return []
+	}
+
 	const uploader = getUploader()
 
 	// Check for conflicts on root elements
@@ -112,6 +117,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 	// Let's process the files
 	logger.debug(`Uploading files to ${destination.path}`, { root, contents: root.contents })
 	const queue = [] as Promise<Upload>[]
+	let hasDirectoryErrors = false
 
 	const uploadDirectoryContents = async (directory: Directory, path: string) => {
 		for (const file of directory.contents) {
@@ -127,6 +133,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 					await createDirectoryIfNotExists(relativePath, destination)
 					await uploadDirectoryContents(file, relativePath)
 				} catch (error) {
+					hasDirectoryErrors = true
 					showError(t('files', 'Unable to create the directory {directory}', { directory: file.name }))
 					logger.error('Unable to create the directory', { error, relativePath, directory: file })
 				}
@@ -158,6 +165,8 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 	if (errors.length > 0) {
 		logger.error('Error while uploading files', { errors })
 		showError(t('files', 'Some files could not be uploaded'))
+	}
+	if (errors.length > 0 || hasDirectoryErrors) {
 		return []
 	}
 
