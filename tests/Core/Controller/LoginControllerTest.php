@@ -13,6 +13,7 @@ namespace Tests\Core\Controller;
 use OC\Authentication\Login\Chain as LoginChain;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\Login\LoginResult;
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
 use OC\User\Session;
@@ -81,6 +82,9 @@ class LoginControllerTest extends TestCase {
 	/** @var IAppManager|MockObject */
 	private $appManager;
 
+	/** @var RememberLoginTokenMapper|MockObject */
+	private $rememberLoginTokenMapper;
+
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
@@ -98,6 +102,7 @@ class LoginControllerTest extends TestCase {
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->rememberLoginTokenMapper = $this->createMock(RememberLoginTokenMapper::class);
 
 		$this->l->expects($this->any())
 			->method('t')
@@ -131,6 +136,7 @@ class LoginControllerTest extends TestCase {
 			$this->notificationManager,
 			$this->l,
 			$this->appManager,
+			$this->rememberLoginTokenMapper,
 		);
 	}
 
@@ -147,9 +153,9 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isUserAgent')
 			->willReturn(false);
-		$this->config
+		$this->rememberLoginTokenMapper
 			->expects($this->never())
-			->method('deleteUserValue');
+			->method('deleteByToken');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
@@ -206,10 +212,10 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
-		$this->config
+		$this->rememberLoginTokenMapper
 			->expects($this->once())
-			->method('deleteUserValue')
-			->with('JohnDoe', 'login_token', 'MyLoginToken');
+			->method('deleteByToken')
+			->with('MyLoginToken');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
