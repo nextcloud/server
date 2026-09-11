@@ -2400,6 +2400,7 @@ return array(
     'OC\\Template\\JSCombiner' => $baseDir . '/lib/private/Template/JSCombiner.php',
     'OC\\Template\\JSConfigHelper' => $baseDir . '/lib/private/Template/JSConfigHelper.php',
     'OC\\Template\\JSResourceLocator' => $baseDir . '/lib/private/Template/JSResourceLocator.php',
+    'OC\\Template\\LoadViewerListener' => $baseDir . '/lib/private/Template/LoadViewerListener.php',
     'OC\\Template\\ResourceLocator' => $baseDir . '/lib/private/Template/ResourceLocator.php',
     'OC\\Template\\ResourceNotFoundException' => $baseDir . '/lib/private/Template/ResourceNotFoundException.php',
     'OC\\Template\\Template' => $baseDir . '/lib/private/Template/Template.php',

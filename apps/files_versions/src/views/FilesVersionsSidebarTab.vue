@@ -41,12 +41,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { IFolder, INode, IView } from '@nextcloud/files'
+import type { IFile, IFolder, INode, IView } from '@nextcloud/files'
 import type { Version } from '../utils/versions.ts'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
+import { getViewer, canView as viewerCanView } from '@nextcloud/viewer'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { watchDebounced } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
@@ -55,7 +56,7 @@ import VersionEntry from '../components/VersionEntry.vue'
 import VersionLabelDialog from '../components/VersionLabelDialog.vue'
 import VirtualScrolling from '../components/VirtualScrolling.vue'
 import logger from '../utils/logger.ts'
-import { deleteVersion, fetchVersions, restoreVersion, setVersionLabel } from '../utils/versions.ts'
+import { deleteVersion, fetchVersions, restoreVersion, setVersionLabel, versionToNode } from '../utils/versions.ts'
 
 const props = defineProps<{
 	active: boolean
@@ -114,18 +115,10 @@ const initialVersionMtime = computed(() => {
 		.reduce((a, b) => Math.min(a, b))
 })
 
-const canView = computed(() => {
-	if (!props.node) {
-		return false
-	}
+const canView = computed(() => props.node !== null && viewerCanView(props.node))
 
-	return window.OCA.Viewer?.mimetypes?.includes(props.node?.mime)
-})
-
-const canCompare = computed(() => {
-	return !isMobile.value
-		&& window.OCA.Viewer?.mimetypesCompare?.includes(props.node?.mime)
-})
+// Comparison puts the two files side by side, which needs the width for it
+const canCompare = computed(() => !isMobile.value && canView.value)
 
 // When either the current node to show or its mtime changes we need to refetch the versions
 // When the id changed we immediately show changes
@@ -247,41 +240,23 @@ function openVersion(version: Version) {
 		return
 	}
 
-	// Open current file view instead of read only
-	if (version.mtime === props.node?.mtime?.getTime()) {
-		window.OCA.Viewer.open({ path: props.node.path })
+	// The newest version is the file itself, which opens as it normally would
+	if (version.mtime === props.node.mtime?.getTime()) {
+		getViewer().open([props.node as IFile], props.node as IFile)
 		return
 	}
 
-	window.OCA.Viewer.open({
-		fileInfo: {
-			...version,
-			// Versions previews are too small for our use case, so we override previewUrl
-			// to either point to the original file or original version.
-			filename: version.filename,
-			previewUrl: undefined,
-		},
-		enableSidebar: false,
-	})
+	// The sidebar resolves a file by its dav source and a version is not
+	// one it can find there
+	const versionNode = versionToNode(version, props.node)
+	getViewer().open([versionNode], versionNode, { enableSidebar: false })
 }
 
 /**
  * @param version - The version to compare
  */
 function compareVersion(version: Version) {
-	const _versions = versions.value.map((version) => ({ ...version, previewUrl: undefined }))
-
-	window.OCA.Viewer.compare(
-		{
-			fileid: props.node!.fileid,
-			filename: props.node!.path,
-			basename: props.node!.basename,
-			source: props.node!.source,
-			mime: props.node!.mime,
-			hasPreview: props.node!.attributes?.['has-preview'] ?? false,
-		},
-		_versions.find((v) => v.source === version.source),
-	)
+	getViewer().compare(props.node as IFile, versionToNode(version, props.node))
 }
 </script>
 

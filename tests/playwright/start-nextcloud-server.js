@@ -50,7 +50,9 @@ async function start() {
 	}
 
 	await waitOnNextcloud(ip)
-	await configureNextcloud(process.env.PLAYWRIGHT_SETUP ? [] : ['viewer'])
+	// The viewer used to be fetched from its own repository; it now ships with
+	// the server and is enabled on install, so no app has to be provisioned.
+	await configureNextcloud([])
 
 	if (process.env.PLAYWRIGHT_SETUP) {
 		// When the apps folder is mounted, configureNextcloud writes an
