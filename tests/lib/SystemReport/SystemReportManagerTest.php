@@ -15,12 +15,18 @@ use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\SystemReport\SystemReportManager;
 use OCP\SystemReport\ISystemReportSection;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
-class SystemReportManagerTest extends TestCase {
+final class SystemReportManagerTest extends TestCase {
 	private Coordinator&MockObject $coordinator;
+
+	private ContainerInterface&MockObject $container;
+
 	private LoggerInterface&MockObject $logger;
+
 	private SystemReportManager $manager;
 
 	#[\Override]
@@ -28,13 +34,18 @@ class SystemReportManagerTest extends TestCase {
 		parent::setUp();
 
 		$this->coordinator = $this->createMock(Coordinator::class);
+		$this->container = $this->createMock(ContainerInterface::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->manager = new SystemReportManager(
 			$this->coordinator,
+			$this->container,
 			$this->logger,
 		);
 	}
 
+	/**
+	 * @param \OC\AppFramework\Bootstrap\ServiceRegistration[] $registrations
+	 */
 	private function withRegisteredSections(array $registrations): void {
 		$context = $this->createMock(RegistrationContext::class);
 		$context->expects(self::atLeastOnce())
@@ -58,10 +69,13 @@ class SystemReportManagerTest extends TestCase {
 			->method('getDetails')
 			->willReturn([]);
 
-		\OC::$server->registerService('OCA\\Testing\\SystemReport\\FakeSection', fn () => $section, false);
+		$this->container->expects(self::once())
+			->method('get')
+			->with($section::class)
+			->willReturn($section);
 
 		$this->withRegisteredSections([
-			new ServiceRegistration('testing', 'OCA\\Testing\\SystemReport\\FakeSection'),
+			new ServiceRegistration('testing', $section::class),
 		]);
 
 		$this->assertSame([$section], $this->manager->getSections());
@@ -72,10 +86,12 @@ class SystemReportManagerTest extends TestCase {
 		$section->method('getDetails')
 			->willThrowException(new \RuntimeException('boom'));
 
-		\OC::$server->registerService('OCA\\Testing\\SystemReport\\ThrowingSection', fn () => $section, false);
+		$this->container->method('get')
+			->with($section::class)
+			->willReturn($section);
 
 		$this->withRegisteredSections([
-			new ServiceRegistration('testing', 'OCA\\Testing\\SystemReport\\ThrowingSection'),
+			new ServiceRegistration('testing', $section::class),
 		]);
 
 		$this->logger->expects(self::once())
@@ -85,8 +101,12 @@ class SystemReportManagerTest extends TestCase {
 	}
 
 	public function testGetSectionsSkipsUnresolvableClass(): void {
+		$this->container->method('get')
+			->with(\stdClass::class)
+			->willThrowException($this->createStub(NotFoundExceptionInterface::class));
+
 		$this->withRegisteredSections([
-			new ServiceRegistration('testing', 'OCA\\Testing\\SystemReport\\DoesNotExist'),
+			new ServiceRegistration('testing', \stdClass::class),
 		]);
 
 		$this->logger->expects(self::once())

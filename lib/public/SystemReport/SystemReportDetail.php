@@ -14,7 +14,7 @@ namespace OCP\SystemReport;
  *
  * @since 36.0.0
  */
-final class SystemReportDetail {
+final readonly class SystemReportDetail {
 	/**
 	 * @param string $title Translated label of this detail
 	 * @param string $content Value of this detail. Must not contain secrets such as
@@ -24,9 +24,9 @@ final class SystemReportDetail {
 	 * @since 36.0.0
 	 */
 	public function __construct(
-		private readonly string $title,
-		private readonly string $content,
-		private readonly SystemReportDetailFormat $format = SystemReportDetailFormat::MultiLine,
+		private string $title,
+		private string $content,
+		private SystemReportDetailFormat $format = SystemReportDetailFormat::MultiLine,
 	) {
 	}
 
