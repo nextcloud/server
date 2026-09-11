@@ -14,6 +14,7 @@ use OC\Authentication\Login\AlternativeLoginService;
 use OC\Authentication\Login\Chain as LoginChain;
 use OC\Authentication\Login\LoginData;
 use OC\Authentication\Login\LoginResult;
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
 use OC\User\Session;
@@ -56,6 +57,8 @@ class LoginControllerTest extends TestCase {
 	private IAppManager&MockObject $appManager;
 	private AlternativeLoginService&MockObject $alternativeLoginService;
 
+	private RememberLoginTokenMapper&MockObject $rememberLoginTokenMapper;
+
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
@@ -75,6 +78,7 @@ class LoginControllerTest extends TestCase {
 		$this->l = $this->createMock(IL10N::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->alternativeLoginService = $this->createMock(AlternativeLoginService::class);
+		$this->rememberLoginTokenMapper = $this->createMock(RememberLoginTokenMapper::class);
 
 		$this->l->expects($this->any())
 			->method('t')
@@ -110,6 +114,7 @@ class LoginControllerTest extends TestCase {
 			$this->l,
 			$this->appManager,
 			$this->alternativeLoginService,
+			$this->rememberLoginTokenMapper,
 		);
 	}
 
@@ -126,9 +131,9 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isUserAgent')
 			->willReturn(false);
-		$this->userConfig
+		$this->rememberLoginTokenMapper
 			->expects($this->never())
-			->method('deleteUserConfig');
+			->method('deleteByToken');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
@@ -185,10 +190,10 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
-		$this->userConfig
+		$this->rememberLoginTokenMapper
 			->expects($this->once())
-			->method('deleteUserConfig')
-			->with('JohnDoe', 'login_token', 'MyLoginToken');
+			->method('deleteByToken')
+			->with('MyLoginToken');
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
