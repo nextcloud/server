@@ -182,7 +182,6 @@ OC.L10N.register(
     "on {server}" : "na strežniku {server}",
     "Delete share" : "Izbriši mesto souporabe",
     "Delete" : "Izbriši",
-    "Remove participant" : "Odstrani udeležence",
     "Note:" : "Opomba:",
     "File drop" : "Poteg datotek v mapo",
     "Terms of service" : "Pogoji uporabe storitve",

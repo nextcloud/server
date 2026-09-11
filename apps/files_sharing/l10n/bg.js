@@ -160,7 +160,6 @@ OC.L10N.register(
     "on {server}" : "на {server}",
     "Search for internal recipients" : "Търси вътрешни получатели",
     "Delete" : "Изтрий",
-    "Remove participant" : "Премахване на участник",
     "File drop" : "Пускане/Преместване/ на файл",
     "Terms of service" : "Условия за ползване",
     "Read" : "Четене",

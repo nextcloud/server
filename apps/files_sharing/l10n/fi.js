@@ -214,7 +214,6 @@ OC.L10N.register(
     "Delete share" : "Poista jako",
     "Delete" : "Poista",
     "Edit share" : "Muokkaa jakoa",
-    "Remove participant" : "Poista osallistuja",
     "Note:" : "Huomioi:",
     "File drop" : "Tiedoston pudotus",
     "Upload files to {foldername}." : "Lähetä tiedostot kansioon {foldername}.",

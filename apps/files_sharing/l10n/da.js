@@ -248,7 +248,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Søg efter interne modtagere",
     "Delete share" : "Slet deling",
     "Delete" : "Slet",
-    "Remove participant" : "Fjern deltager",
     "Note from" : "Bemærkning fra",
     "Note:" : "Bemærkning:",
     "File drop" : "Fil drop",
