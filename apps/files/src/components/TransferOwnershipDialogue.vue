@@ -31,7 +31,7 @@ const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to trans
 	.allowDirectories()
 	.setMultiSelect(false)
 	.setButtonFactory(([node]) => {
-		const canPick = !!node?.path && node.path !== '/' && node.owner === getCurrentUser()!.uid
+		const canPick = !!node?.path && node.owner === getCurrentUser()!.uid
 		return [{
 			label: canPick
 				? t('files', 'Transfer "{path}"', { path: node.displayname })
