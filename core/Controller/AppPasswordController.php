@@ -171,9 +171,9 @@ class AppPasswordController extends OCSController {
 	/**
 	 * Confirm the user password
 	 *
-	 * @param string $password The password of the user
+	 * @param non-empty-string $password The password of the user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, list<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: positive-int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, list<empty>, array{}>
 	 *
 	 * 200: Password confirmation succeeded
 	 * 403: Password confirmation failed
@@ -200,7 +200,7 @@ class AppPasswordController extends OCSController {
 	/**
 	 * Get app password with one-time password
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{apppassword: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{apppassword: non-empty-string}, array{}>
 	 * @throws OCSForbiddenException Creating app password is not allowed
 	 *
 	 * 200: App password returned

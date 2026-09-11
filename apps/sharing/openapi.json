@@ -708,6 +708,13 @@
                 "responses": {
                     "200": {
                         "description": "Recipients returned",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {

@@ -45,8 +45,8 @@ class PreviewController extends Controller {
 	 * Get a preview by file path
 	 *
 	 * @param string $file Path of the file
-	 * @param int $x Width of the preview. A width of -1 will use the original image width.
-	 * @param int $y Height of the preview. A height of -1 will use the original image height.
+	 * @param int<-1, max> $x Width of the preview. A width of -1 will use the original image width.
+	 * @param int<-1, max> $y Height of the preview. A height of -1 will use the original image height.
 	 * @param bool $a Preserve the aspect ratio
 	 * @param bool $forceIcon Force returning an icon
 	 * @param 'fill'|'cover' $mode How to crop the image
@@ -88,9 +88,9 @@ class PreviewController extends Controller {
 	/**
 	 * Get a preview by file ID
 	 *
-	 * @param int $fileId ID of the file
-	 * @param int $x Width of the preview. A width of -1 will use the original image width.
-	 * @param int $y Height of the preview. A height of -1 will use the original image height.
+	 * @param positive-int $fileId ID of the file
+	 * @param int<-1, max> $x Width of the preview. A width of -1 will use the original image width.
+	 * @param int<-1, max> $y Height of the preview. A height of -1 will use the original image height.
 	 * @param bool $a Preserve the aspect ratio
 	 * @param bool $forceIcon Force returning an icon
 	 * @param 'fill'|'cover' $mode How to crop the image
@@ -108,14 +108,14 @@ class PreviewController extends Controller {
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getPreviewByFileId(
-		int $fileId = -1,
+		int $fileId,
 		int $x = 32,
 		int $y = 32,
 		bool $a = false,
 		bool $forceIcon = true,
 		string $mode = 'fill',
 		bool $mimeFallback = false) {
-		if ($fileId === -1 || $x === 0 || $y === 0) {
+		if ($x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
