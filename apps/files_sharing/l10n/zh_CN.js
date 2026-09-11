@@ -256,7 +256,6 @@ OC.L10N.register(
     "Search for internal recipients" : "搜索内部接收者",
     "Delete share" : "删除共享",
     "Delete" : "删除",
-    "Remove participant" : "移除参与者",
     "Note from" : "备注来自",
     "Note:" : "备注：",
     "File drop" : "文件拖放",

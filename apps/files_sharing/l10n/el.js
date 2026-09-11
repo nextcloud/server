@@ -255,7 +255,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Αναζήτηση εσωτερικών παραληπτών",
     "Delete share" : "Διαγραφή κοινόχρηστου",
     "Delete" : "Διαγραφή",
-    "Remove participant" : "Αφαίρεση συμμετέχοντα",
     "Note from" : "Σημείωση από",
     "Note:" : "Σημείωση:",
     "File drop" : "Απόθεση αρχείου",

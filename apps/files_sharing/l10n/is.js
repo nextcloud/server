@@ -223,7 +223,6 @@ OC.L10N.register(
     "on {server}" : "á {server}",
     "Delete share" : "Eyða sameign",
     "Delete" : "Eyða",
-    "Remove participant" : "Fjarlægja þátttakanda",
     "Note from" : "Minnispunktur frá",
     "Note:" : "Athugaðu:",
     "File drop" : "Slepping skráa",

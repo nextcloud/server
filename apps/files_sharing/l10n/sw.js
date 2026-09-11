@@ -248,7 +248,6 @@ OC.L10N.register(
     "Search for internal recipients" : "Tafuta wapokeaji wa ndani",
     "Delete share" : "Futa shiriki",
     "Delete" : "Futa",
-    "Remove participant" : "Ondoa washiriki",
     "Note from" : "Kumbuka kutoka",
     "Note:" : "Kumbuka:",
     "File drop" : "Kuacha faili",

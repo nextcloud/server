@@ -18,7 +18,6 @@ SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
-SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
@@ -211,9 +210,6 @@ This file is generated from multiple sources. Included packages:
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
-	- license: MIT
-- extend
-	- version: 3.0.2
 	- license: MIT
 - @floating-ui/core
 	- version: 0.3.1
@@ -435,7 +431,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - webpack
-	- version: 5.109.2
+	- version: 5.110.3
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

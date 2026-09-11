@@ -26,9 +26,7 @@ SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
-SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
 SPDX-FileCopyrightText: Sindre Sorhus
-SPDX-FileCopyrightText: Sam Verschueren
 SPDX-FileCopyrightText: Rubén Norte <ruben.norte@softonic.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
@@ -66,7 +64,6 @@ SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Chen Fengyuan
 SPDX-FileCopyrightText: Borys Serebrov
 SPDX-FileCopyrightText: Austin Andrews
-SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
@@ -250,9 +247,6 @@ This file is generated from multiple sources. Included packages:
 - debounce
 	- version: 2.2.0
 	- license: MIT
-- eventemitter3
-	- version: 5.0.1
-	- license: MIT
 - focus-trap
 	- version: 7.8.0
 	- license: MIT
@@ -334,9 +328,6 @@ This file is generated from multiple sources. Included packages:
 - decode-named-character-reference
 	- version: 1.2.0
 	- license: MIT
-- decode-uri-component
-	- version: 0.5.0
-	- license: MIT
 - devlop
 	- version: 1.1.0
 	- license: MIT
@@ -351,12 +342,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - events
 	- version: 3.3.0
-	- license: MIT
-- extend
-	- version: 3.0.2
-	- license: MIT
-- filter-obj
-	- version: 5.1.0
 	- license: MIT
 - @floating-ui/core
 	- version: 0.3.1
@@ -393,9 +378,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - is-buffer
 	- version: 1.1.6
-	- license: MIT
-- is-retry-allowed
-	- version: 2.2.0
 	- license: MIT
 - is-svg
 	- version: 6.1.0
@@ -496,9 +478,6 @@ This file is generated from multiple sources. Included packages:
 - p-cancelable
 	- version: 4.0.1
 	- license: MIT
-- eventemitter3
-	- version: 5.0.4
-	- license: MIT
 - p-queue
 	- version: 9.3.3
 	- license: MIT
@@ -519,9 +498,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - property-information
 	- version: 6.5.0
-	- license: MIT
-- query-string
-	- version: 9.5.1
 	- license: MIT
 - rehype-external-links
 	- version: 3.0.0
@@ -549,9 +525,6 @@ This file is generated from multiple sources. Included packages:
 	- license: ISC
 - space-separated-tokens
 	- version: 2.0.2
-	- license: MIT
-- split-on-first
-	- version: 3.0.0
 	- license: MIT
 - splitpanes
 	- version: 2.4.1
