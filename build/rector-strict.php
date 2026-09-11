@@ -50,6 +50,9 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/lib/public/AppFramework/ORM',
 		$nextcloudDir . '/lib/private/AppFramework/ORM',
 		$nextcloudDir . '/apps/oauth2',
+		$nextcloudDir . '/lib/public/SystemReport',
+		$nextcloudDir . '/lib/private/SystemReport',
+		$nextcloudDir . '/tests/lib/SystemReport',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces
