@@ -8,6 +8,7 @@ import type { APIRequestContext } from '@playwright/test'
 
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
+import { SharingTab } from '../sections/SharingTab.ts'
 import { test as filesTest } from './files-page.ts'
 
 type SharingFixtures = {
@@ -18,6 +19,8 @@ type SharingFixtures = {
 	 * and the seeding would run as the logged-in recipient instead.
 	 */
 	ownerRequest: APIRequestContext
+	/** The share editor in the files sidebar, driven as the share recipient. */
+	sharingTab: SharingTab
 }
 
 /**
@@ -41,6 +44,10 @@ export const test = filesTest.extend<SharingFixtures>({
 		})
 		await use(context)
 		await context.dispose()
+	},
+
+	sharingTab: async ({ page }, use) => {
+		await use(new SharingTab(page))
 	},
 })
 
