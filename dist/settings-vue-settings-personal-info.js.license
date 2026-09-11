@@ -25,7 +25,6 @@ SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
 SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
-SPDX-FileCopyrightText: Iftekhar Rifat
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
@@ -260,9 +259,6 @@ This file is generated from multiple sources. Included packages:
 - unist-util-visit-parents
 	- version: 6.0.2
 	- license: MIT
-- vue-cropperjs
-	- version: 4.2.0
-	- license: MIT
 - vue-demi
 	- version: 0.14.10
 	- license: MIT
@@ -276,7 +272,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.109.2
+	- version: 5.110.3
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
