@@ -17,7 +17,6 @@ use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCA\DAV\ConfigLexicon;
 use OCA\Federation\TrustedServers;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -35,7 +34,6 @@ use function array_map;
 
 class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	protected IL10N $l10n;
-	protected IConfig $config;
 	protected IAppConfig $appConfig;
 
 	public function __construct(
@@ -48,7 +46,6 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		parent::__construct($carddavBackend, $principalUri);
 
 		$this->l10n = Util::getL10N('dav');
-		$this->config = Server::get(IConfig::class);
 		$this->appConfig = Server::get(IAppConfig::class);
 	}
 
@@ -92,7 +89,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 						$this->carddavBackend,
 						$addressBook,
 						$this->l10n,
-						$this->config,
+						$this->appConfig,
 						Server::get(IUserSession::class),
 						$request,
 						$trustedServers,
