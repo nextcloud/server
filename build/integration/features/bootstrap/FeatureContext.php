@@ -15,6 +15,7 @@ require __DIR__ . '/../../vendor/autoload.php';
  */
 class FeatureContext implements Context, SnippetAcceptingContext {
 	use AppConfiguration;
+	use OccRunner;
 	use ContactsMenu;
 	use ExternalStorage;
 	use Search;
