@@ -165,3 +165,39 @@ describe('SharingDetailsTab.saveShare — password guard', () => {
 		})
 	})
 })
+
+describe('SharingDetailsTab.allPermissions — capped by what the resharer holds', () => {
+	/**
+	 * @param sharePermissions what the current user received on the node
+	 * @param isFolder whether the shared node is a folder
+	 */
+	function permissionsFor(sharePermissions: string | undefined, isFolder = true) {
+		const ctx = {
+			isFolder,
+			fileInfo: { sharePermissions },
+			bundledPermissions: { ALL: 31, ALL_FILE: 15 },
+		} as never
+		const grantable = SharingDetailsTab.computed.grantablePermissions.call(ctx)
+		return SharingDetailsTab.computed.allPermissions.call({ ...(ctx as object), grantablePermissions: grantable })
+	}
+
+	it('keeps every bit when the user owns the node', () => {
+		expect(permissionsFor('31')).toBe('31')
+	})
+
+	it('drops delete when the incoming share has no delete permission', () => {
+		expect(permissionsFor('23')).toBe('23')
+	})
+
+	it('drops create and delete on a read-only reshare', () => {
+		expect(permissionsFor('17')).toBe('17')
+	})
+
+	it('caps file shares against ALL_FILE', () => {
+		expect(permissionsFor('31', false)).toBe('15')
+	})
+
+	it('falls back to full permissions when the DAV property is missing', () => {
+		expect(permissionsFor(undefined)).toBe('31')
+	})
+})

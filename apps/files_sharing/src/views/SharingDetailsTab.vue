@@ -451,8 +451,21 @@ export default {
 			return getBundledPermissions(this.config.excludeReshareFromEdit)
 		},
 
+		/**
+		 * Permissions the current user is allowed to hand out.
+		 * On a reshare this is capped by what they received themselves.
+		 *
+		 * @return {number}
+		 */
+		grantablePermissions() {
+			const received = Number(this.fileInfo.sharePermissions)
+			// A missing prop means we don't know, not that they hold nothing
+			return Number.isNaN(received) ? getBundledPermissions().ALL : received
+		},
+
 		allPermissions() {
-			return this.isFolder ? this.bundledPermissions.ALL.toString() : this.bundledPermissions.ALL_FILE.toString()
+			const bundle = this.isFolder ? this.bundledPermissions.ALL : this.bundledPermissions.ALL_FILE
+			return (bundle & this.grantablePermissions).toString()
 		},
 
 		/**
@@ -1059,7 +1072,10 @@ export default {
 					this.sharingPermission = permissionsWithoutShare.toString()
 				} else {
 					this.sharingPermission = 'custom'
-					this.share.permissions = defaultPermissions
+					// The admin default can ask for more than a resharer may pass on.
+					// Only the value is capped: deciding the branch on the capped value
+					// would push every reshare into this one and expand the accordion.
+					this.share.permissions = defaultPermissions & this.grantablePermissions
 					this.advancedSectionAccordionExpanded = true
 					this.setCustomPermissions = true
 				}
@@ -1083,6 +1099,15 @@ export default {
 		initializePermissions() {
 			this.handleShareType()
 			this.handleDefaultPermissions()
+			// A new share starts from the full permission set, so the atomic
+			// checkboxes would pre-check rights a resharer cannot pass on and the
+			// share would be rejected on save. An existing share keeps what is
+			// stored, so a permission the owner revoked afterwards stays revocable.
+			if (this.isNewShare) {
+				// The editor owns the share it is building, like the rest of this file.
+				// eslint-disable-next-line vue/no-mutating-props
+				this.share.permissions &= this.grantablePermissions
+			}
 			this.handleCustomPermissions()
 		},
 
