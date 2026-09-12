@@ -275,6 +275,8 @@ class ApiTest extends TestCase {
 	public function testEnforceLinkPassword(): void {
 		$password = md5(time());
 		$config = Server::get(IConfig::class);
+		$appConfig = Server::get(IAppConfig::class);
+		$appConfig->setValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT, true);
 		$config->setAppValue('core', 'shareapi_enforce_links_password', 'yes');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
@@ -320,6 +322,7 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		$config->setAppValue('core', 'shareapi_enforce_links_password', 'no');
+		$appConfig->setValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT, false);
 		$this->addToAssertionCount(1);
 	}
 

@@ -849,16 +849,36 @@ class ManagerTest extends \Test\TestCase {
 		]);
 
 		$this->appConfig->method('getValueBool')->willReturnMap([
+			['core', 'shareapi_enable_link_password_by_default', true],
 			['core', 'shareapi_enforce_links_password', true],
 		]);
 
 		self::invokePrivate($this->manager, 'verifyPassword', [null]);
 	}
 
+	public function testVerifyPasswordEnforcedWithoutDefaultPrompt(): void {
+		$this->config->method('getAppValue')->willReturnMap([
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+		]);
+
+		$this->appConfig->method('getValueBool')->willReturnMap([
+			['core', 'shareapi_enable_link_password_by_default', false],
+			['core', 'shareapi_enforce_links_password', true],
+		]);
+
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		$this->assertNull($result);
+	}
+
 	public function testVerifyPasswordNotEnforcedGroup(): void {
 		$this->config->method('getAppValue')->willReturnMap([
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', '["admin"]'],
 			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
+		]);
+
+		$this->appConfig->method('getValueBool')->willReturnMap([
+			['core', 'shareapi_enable_link_password_by_default', true],
+			['core', 'shareapi_enforce_links_password', true],
 		]);
 
 		// Create admin user
@@ -874,6 +894,11 @@ class ManagerTest extends \Test\TestCase {
 		$this->config->method('getAppValue')->willReturnMap([
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', '["admin", "special"]'],
 			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
+		]);
+
+		$this->appConfig->method('getValueBool')->willReturnMap([
+			['core', 'shareapi_enable_link_password_by_default', true],
+			['core', 'shareapi_enforce_links_password', true],
 		]);
 
 		// Create admin user
