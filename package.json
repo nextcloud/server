@@ -140,7 +140,7 @@
     "@zip.js/zip.js": "^2.8.60",
     "babel-loader-exclude-node-modules-except": "^1.2.4",
     "babel-plugin-module-resolver": "^5.0.3",
-    "colord": "^2.9.3",
+    "colord": "^2.10.0",
     "cypress": "^13.17.0",
     "cypress-axe": "^1.7.0",
     "cypress-delete-downloads-folder": "^0.0.6",
