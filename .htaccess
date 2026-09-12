@@ -18,7 +18,7 @@
         # Avoid doubled headers by unsetting headers in "onsuccess" table,
         # then add headers to "always" table: https://github.com/nextcloud/server/pull/19002
 
-        <If "%{REQUEST_URI} =~ m#/login$#">
+        <If "%{THE_REQUEST} =~ m#\s/(index\.php/)?login/?[\s?]#">
             # Only on the login page we need any Origin or Referer header set.
             Header onsuccess unset Referrer-Policy
             Header always set Referrer-Policy "same-origin"
