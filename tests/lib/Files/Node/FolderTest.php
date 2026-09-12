@@ -39,8 +39,10 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Storage\IStorage;
+use OCP\IUser;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\Traits\UserTrait;
 
 /**
  * Class FolderTest
@@ -50,6 +52,14 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class FolderTest extends NodeTestCase {
+	use UserTrait;
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->createUser('bar', 'bar');
+	}
+
 	#[\Override]
 	protected function createTestNode(IRootFolder $root, View&MockObject $view, string $path, array $data = [], string $internalPath = '', ?IStorage $storage = null): Folder {
 		$view->expects($this->any())
