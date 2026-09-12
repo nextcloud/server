@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Db;
 
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
@@ -76,11 +77,21 @@ class DbInfo extends Command {
 	}
 
 	private function getMySQLInfo(): array {
-		$result = $this->connection->executeQuery(
-			'SELECT VERSION() AS version, @@innodb_buffer_pool_size AS buffer_pool,
+		try {
+			return $this->getMySQLInfoUsingQuery(
+				'SELECT VERSION() AS version, @@innodb_buffer_pool_size AS buffer_pool,
 					@@max_connections AS max_conn, @@character_set_database AS charset,
 					@@transaction_isolation AS tx_isolation'
-		);
+			);
+		} catch (DriverException $e) {
+			return $this->getMySQLInfoUsingQuery('SELECT VERSION() AS version, @@innodb_buffer_pool_size AS buffer_pool,
+					@@max_connections AS max_conn, @@character_set_database AS charset,
+					@@tx_isolation AS tx_isolation');
+		}
+	}
+
+	private function getMySQLInfoUsingQuery(string $query): array {
+		$result = $this->connection->executeQuery($query);
 		$info = $result->fetchAssociative();
 
 		$bufferPoolGB = round(($info['buffer_pool'] / 1024 / 1024 / 1024), 2);
