@@ -349,60 +349,74 @@ class Generator {
 	 * @throws NotFoundException
 	 */
 	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): Preview {
-		$previewProviders = $this->previewManager->getProviders();
-		foreach ($previewProviders as $supportedMimeType => $providers) {
-			// Filter out providers that does not support this mime
+		$entries = [];
+		foreach ($this->previewManager->getProviders() as $supportedMimeType => $providers) {
 			if (!preg_match($supportedMimeType, $mimeType)) {
 				continue;
 			}
 
 			foreach ($providers as $providerClosure) {
-
 				$provider = $this->helper->getProvider($providerClosure);
 				if (!$provider) {
 					continue;
 				}
-
 				if (!$provider->isAvailable($file)) {
 					continue;
 				}
+				$entries[] = [
+					'class' => ltrim($provider::class, '\\'),
+					'provider' => $provider,
+				];
+			}
+		}
 
-				$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
-				$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
-				try {
-					$this->logger->debug('Calling preview provider for {mimeType} with width={width}, height={height}', [
-						'mimeType' => $mimeType,
-						'width' => $width,
-						'height' => $height,
-					]);
-					$preview = $this->helper->getThumbnail($provider, $file, $width, $height);
-				} finally {
-					self::unguardWithSemaphore($sem);
-				}
+		foreach ($entries as $entry) {
+			$provider = $entry['provider'];
+			$class = $entry['class'];
 
-				if (!($preview instanceof IImage)) {
-					continue;
-				}
+			$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
+			$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
+			try {
+				$this->logger->debug('Calling preview provider {provider} for {mimeType} with width={width}, height={height}', [
+					'provider' => $class,
+					'mimeType' => $mimeType,
+					'width' => $width,
+					'height' => $height,
+				]);
+				$preview = $this->helper->getThumbnail($provider, $file, $width, $height);
+			} catch (\Throwable $e) {
+				$this->logger->warning('Preview provider {provider} failed for {mimeType}', [
+					'provider' => $class,
+					'mimeType' => $mimeType,
+					'exception' => $e,
+				]);
+				continue;
+			} finally {
+				self::unguardWithSemaphore($sem);
+			}
 
-				try {
-					$previewEntry = new Preview();
-					$previewEntry->generateId();
-					$previewEntry->setFileId($file->getId());
-					$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
-					$previewEntry->setSourceMimeType($file->getMimeType());
-					$previewEntry->setWidth($preview->width());
-					$previewEntry->setHeight($preview->height());
-					$previewEntry->setVersion($version);
-					$previewEntry->setMax($max);
-					$previewEntry->setCropped($crop);
-					$previewEntry->setEncrypted(false);
-					$previewEntry->setMimetype($preview->dataMimeType());
-					$previewEntry->setEtag($file->getEtag());
-					$previewEntry->setMtime((new \DateTime())->getTimestamp());
-					return $this->savePreview($previewEntry, $preview);
-				} catch (NotPermittedException) {
-					throw new NotFoundException();
-				}
+			if (!($preview instanceof IImage)) {
+				continue;
+			}
+
+			try {
+				$previewEntry = new Preview();
+				$previewEntry->generateId();
+				$previewEntry->setFileId($file->getId());
+				$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
+				$previewEntry->setSourceMimeType($file->getMimeType());
+				$previewEntry->setWidth($preview->width());
+				$previewEntry->setHeight($preview->height());
+				$previewEntry->setVersion($version);
+				$previewEntry->setMax($max);
+				$previewEntry->setCropped($crop);
+				$previewEntry->setEncrypted(false);
+				$previewEntry->setMimetype($preview->dataMimeType());
+				$previewEntry->setEtag($file->getEtag());
+				$previewEntry->setMtime((new \DateTime())->getTimestamp());
+				return $this->savePreview($previewEntry, $preview);
+			} catch (NotPermittedException) {
+				throw new NotFoundException();
 			}
 		}
 

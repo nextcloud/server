@@ -1640,6 +1640,12 @@ $CONFIG = [
 	 *   - ``OC\Preview\Imaginary``
 	 *   - ``OC\Preview\ImaginaryPDF``
 	 *
+	 * When ``preview_imaginary_url`` is set and this key is still unset, Nextcloud
+	 * tries ``OC\Preview\Imaginary`` first (as in AIO and the server-tuning
+	 * guide), then the built-in image providers. ``OC\Preview\HEIC`` is also
+	 * enabled as a fallback when ImageMagick can decode HEIC, because Imaginary
+	 * does not handle every HEIC/HEIF file.
+	 *
 	 * Defaults to the following providers:
 	 *
 	 *  - ``OC\Preview\PNG``
@@ -1666,6 +1672,20 @@ $CONFIG = [
 		'OC\Preview\TXT',
 		'OC\Preview\OpenDocument',
 	],
+
+	/**
+	 * Output format used only by the Imaginary preview providers
+	 * (``OC\Preview\Imaginary`` and ``OC\Preview\ImaginaryPDF``).
+	 * Other providers ignore this key and keep the source image type.
+	 *
+	 * Valid values: ``jpeg``, ``webp``
+	 *
+	 * ``webp`` forces WebP for every Imaginary source. ``jpeg`` writes JPEG
+	 * for most images and PNG for GIF, PDF, PNG, SVG, and Illustrator files.
+	 *
+	 * Defaults to ``jpeg``
+	 */
+	'preview_format' => 'jpeg',
 
 	/**
 	 * Maximum file size for file metadata generation.
