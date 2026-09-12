@@ -25,7 +25,10 @@ class ConfigLexicon implements ILexicon {
 	public const RECENT_LIMIT = 'recent_limit';
 	public const GROUP_RECENT_FILES = 'group_recent_files';
 	public const RECENT_FILES_GROUP_MIME_TYPES = 'recent_files_group_mime_types';
+	public const RECENT_FILES_GROUP_SAME_FOLDER_ONLY = 'recent_files_group_same_folder_only';
+	public const RECENT_FILES_GROUP_MIN_GROUP_SIZE = 'recent_files_group_min_group_size';
 	public const RECENT_FILES_GROUP_TIMESPAN_MINUTES = 'recent_files_group_timespan_minutes';
+	public const RECENT_FILES_GROUP_COLLAPSED_ITEMS_LIMIT = 'recent_files_group_collapsed_items_limit';
 	public const LOCAL_CLIENT_INTEGRATION = 'local_client_integration';
 
 	#[\Override]
@@ -66,10 +69,31 @@ class ConfigLexicon implements ILexicon {
 				lazy: false,
 			),
 			new Entry(
+				self::RECENT_FILES_GROUP_SAME_FOLDER_ONLY,
+				ValueType::BOOL,
+				defaultRaw: true,
+				definition: 'Whether to only group files from the same folder in the recent files list',
+				lazy: false,
+			),
+			new Entry(
+				self::RECENT_FILES_GROUP_MIN_GROUP_SIZE,
+				ValueType::INT,
+				defaultRaw: 2,
+				definition: 'Minimum number of files needed to form a group in the recent files list',
+				lazy: false,
+			),
+			new Entry(
 				self::RECENT_FILES_GROUP_TIMESPAN_MINUTES,
 				ValueType::INT,
 				defaultRaw: 2,
 				definition: 'Time window in minutes to group files uploaded close together in the recent files list',
+				lazy: false,
+			),
+			new Entry(
+				self::RECENT_FILES_GROUP_COLLAPSED_ITEMS_LIMIT,
+				ValueType::INT,
+				defaultRaw: 25,
+				definition: 'Maximum number of items (collapsed) to display on recent files view',
 				lazy: false,
 			),
 			new Entry(
