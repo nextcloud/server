@@ -443,6 +443,53 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
+	public function testInvalidSourcePermissionsAreReportedAsReadOnly(): void {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$share = $this->share(
+			IShare::TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			Constants::PERMISSION_ALL
+		);
+
+		// Drop the share permission of the source in the file cache, the way a scan
+		// through a permission mask used to persist masked permissions. This disables
+		// the share in `SharedStorage::isValid()`.
+		$sourceInfo = $this->view->getFileInfo($this->folder);
+		$sourceCache = $sourceInfo->getStorage()->getCache();
+		$sourceCache->update($sourceInfo->getId(), [
+			'permissions' => Constants::PERMISSION_ALL & ~Constants::PERMISSION_SHARE,
+		]);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$user2View = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+
+		// the storage refuses every write, so the cache must not advertise more.
+		// The mount point keeps its delete permission: `View::getFileInfo()` adds that
+		// for every movable mount, so the recipient can always remove the share from
+		// their own view.
+		$folderInfo = $user2View->getFileInfo($this->folder);
+		$this->assertNotFalse($folderInfo);
+		$this->assertTrue($folderInfo->isReadable());
+		$this->assertFalse($folderInfo->isCreatable());
+		$this->assertFalse($folderInfo->isUpdateable());
+		$this->assertFalse($folderInfo->isShareable());
+
+		$fileInfo = $user2View->getFileInfo($this->folder . $this->filename);
+		$this->assertNotFalse($fileInfo);
+		$this->assertSame(Constants::PERMISSION_READ, $fileInfo->getPermissions());
+
+		// and what it does advertise still holds
+		$this->assertSame('file in subfolder', $user2View->file_get_contents($this->folder . $this->filename));
+		$this->assertFalse($user2View->fopen($this->folder . '/blocked.txt', 'w'));
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$sourceCache->update($sourceInfo->getId(), ['permissions' => Constants::PERMISSION_ALL]);
+		$this->shareManager->deleteShare($share);
+	}
+
 	public function testInitWithNonExistingUser(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareOwner')->willReturn('unexist');
