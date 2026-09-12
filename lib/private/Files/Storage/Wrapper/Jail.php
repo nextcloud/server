@@ -11,8 +11,8 @@ namespace OC\Files\Storage\Wrapper;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Cache\Wrapper\JailPropagator;
 use OC\Files\Cache\Wrapper\JailWatcher;
-use OC\Files\Filesystem;
 use OC\Files\Storage\FailedStorage;
+use OC\Files\Utils\PathHelper;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IWatcher;
@@ -30,10 +30,10 @@ use Psr\Log\LoggerInterface;
  * This restricts access to a subfolder of the wrapped storage with the subfolder becoming the root folder new storage
  */
 class Jail extends Wrapper {
-	/**
-	 * @var string
-	 */
-	protected $rootPath;
+	protected string $rootPath;
+
+	/** Normalized, slash-trimmed version of $rootPath */
+	private ?string $normalizedRootPath = null;
 
 	/**
 	 * @param array $parameters ['storage' => $storage, 'root' => $root]
@@ -47,7 +47,15 @@ class Jail extends Wrapper {
 	}
 
 	public function getUnjailedPath(string $path): string {
-		return trim(Filesystem::normalizePath($this->rootPath . '/' . $path), '/');
+		if ($this->normalizedRootPath === null) {
+			$this->normalizedRootPath = trim(PathHelper::normalizePath($this->rootPath), '/');
+		}
+
+		$normalizedPath = trim(PathHelper::normalizePath($path), '/');
+		if ($this->normalizedRootPath === '') {
+			return $normalizedPath;
+		}
+		return $normalizedPath === '' ? $this->normalizedRootPath : $this->normalizedRootPath . '/' . $normalizedPath;
 	}
 
 	/**
