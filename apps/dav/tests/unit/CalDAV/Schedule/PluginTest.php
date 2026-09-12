@@ -15,6 +15,8 @@ use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Plugin as CalDAVPlugin;
 use OCA\DAV\CalDAV\Schedule\Plugin;
 use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
+use OCP\Config\IUserConfig;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -42,6 +44,9 @@ class PluginTest extends TestCase {
 	private IConfig&MockObject $config;
 	private LoggerInterface&MockObject $logger;
 	private DefaultCalendarValidator $calendarValidator;
+	private CalDavBackend&MockObject $caldavBackend;
+	private IUserConfig&MockObject $userConfig;
+	private IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -49,12 +54,15 @@ class PluginTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->calendarValidator = new DefaultCalendarValidator();
+		$this->caldavBackend = $this->createMock(CalDavBackend::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$this->server = $this->createMock(Server::class);
 		$this->server->httpResponse = $this->createMock(ResponseInterface::class);
 		$this->server->xml = new Service();
 
-		$this->plugin = new Plugin($this->config, $this->logger, $this->calendarValidator);
+		$this->plugin = new Plugin($this->config, $this->logger, $this->calendarValidator, $this->caldavBackend, $this->userConfig, $this->appConfig);
 		$this->plugin->initialize($this->server);
 	}
 
@@ -767,5 +775,287 @@ class PluginTest extends TestCase {
 			$modifiedFlag,
 			$newFlag
 		);
+	}
+
+	// ----------------------------------------------------------------------------
+	// nextcloud/calendar#6315: receive-side default reminder + preserve-on-update
+	// ----------------------------------------------------------------------------
+
+	private function makeTestablePlugin(): TestableSchedulePlugin {
+		$plugin = new TestableSchedulePlugin(
+			$this->config,
+			$this->logger,
+			$this->calendarValidator,
+			$this->caldavBackend,
+			$this->userConfig,
+			$this->appConfig,
+		);
+		$plugin->initialize($this->server);
+		return $plugin;
+	}
+
+	/**
+	 * Build an iTip\Message with one or more VEVENT components for testing
+	 * scheduleLocalDelivery.
+	 *
+	 * @param string $method REQUEST|REPLY|CANCEL|REFRESH
+	 * @param array $components Each item: ['rid' => null|string, 'isAllDay' => bool, 'valarms' => list of TRIGGER strings]
+	 */
+	private function makeITipMessage(string $method, array $components, string $organizerUri = 'mailto:organizer@example.org', string $recipientUri = 'mailto:test@example.org'): Message {
+		$vCal = new VCalendar();
+		foreach ($components as $i => $comp) {
+			$rid = $comp['rid'] ?? null;
+			$isAllDay = $comp['isAllDay'] ?? false;
+			$valarms = $comp['valarms'] ?? [];
+			$vevent = $vCal->add('VEVENT', [
+				'UID' => 'UID-6315',
+				'SUMMARY' => 'Test event',
+				'DTSTART' => $isAllDay
+					? new \DateTimeImmutable('2026-06-15')
+					: new \DateTimeImmutable('2026-06-15T09:00:00'),
+				'DTSTAMP' => new \DateTimeImmutable('2026-06-10T10:00:00'),
+				'ORGANIZER' => $organizerUri,
+				'ATTENDEE' => $recipientUri,
+			]);
+			if ($isAllDay) {
+				$vevent->DTSTART['VALUE'] = 'DATE';
+			}
+			if ($rid !== null) {
+				$vevent->add('RECURRENCE-ID', $rid);
+			}
+			foreach ($valarms as $trigger) {
+				$alarm = $vevent->add('VALARM');
+				$alarm->add('ACTION', 'DISPLAY');
+				$alarm->add('TRIGGER', $trigger);
+			}
+		}
+		$msg = new Message();
+		$msg->method = $method;
+		$msg->message = $vCal;
+		$msg->uid = 'UID-6315';
+		$msg->recipient = $recipientUri;
+		$msg->sender = $organizerUri;
+		return $msg;
+	}
+
+	/**
+	 * Stub the ACL plugin lookup and getProperties call (for the recipient-user-type check).
+	 */
+	private function stubAclAndUserType(string $principalUri = 'principals/users/test', string $userType = 'INDIVIDUAL'): void {
+		$aclPlugin = $this->createMock(\Sabre\DAVACL\Plugin::class);
+		$aclPlugin->method('getPrincipalByUri')->willReturn($principalUri);
+		$this->server->method('getPlugin')->willReturnMap([
+			['acl', $aclPlugin],
+		]);
+		$this->server->method('getProperties')->willReturn([
+			'{' . Plugin::NS_CALDAV . '}calendar-user-type' => $userType,
+		]);
+	}
+
+	private function countValarms(VCalendar $vCal): int {
+		$n = 0;
+		foreach ($vCal->VEVENT as $vevent) {
+			if (isset($vevent->VALARM)) {
+				$n += count($vevent->VALARM);
+			}
+		}
+		return $n;
+	}
+
+	public function testSkipsNonRequest(): void {
+		$plugin = $this->makeTestablePlugin();
+		// No mocks needed for REPLY because we return before touching the reminder logic.
+		$msg = $this->makeITipMessage('REPLY', [['valarms' => ['-PT15M']]]);
+		$plugin->scheduleLocalDelivery($msg);
+		// Existing strip still runs on all VEVENTs regardless of method.
+		$this->assertSame(0, $this->countValarms($msg->message));
+	}
+
+	public function testStripsOrganizerValarmsFromAllComponents(): void {
+		$plugin = $this->makeTestablePlugin();
+		$this->stubAclAndUserType();
+		$this->caldavBackend->method('getCalendarObjectByUID')->willReturn(null);
+		// Toggle on, but every reminder source resolves to 'none' so nothing is injected.
+		$this->userConfig->method('getValueString')->willReturnMap([
+			['test', 'calendar', 'applyDefaultReminderToInvitations', 'yes', 'yes'],
+			['test', 'calendar', 'defaultReminderPartDay', 'none', 'none'],
+			['test', 'calendar', 'defaultReminder', 'none', 'none'],
+		]);
+		$this->appConfig->method('getValueString')->willReturnMap([
+			['calendar', 'defaultReminder', 'none', 'none'],
+		]);
+
+		// Master + override, each with one organizer VALARM.
+		$msg = $this->makeITipMessage('REQUEST', [
+			['valarms' => ['PT0S']],
+			['rid' => '20260616T090000Z', 'valarms' => ['PT0S']],
+		]);
+		$plugin->scheduleLocalDelivery($msg);
+
+		// All organizer VALARMs stripped, no default injected.
+		$this->assertSame(0, $this->countValarms($msg->message));
+	}
+
+	public function testFirstReceiptInjectsTypedPartDayDefault(): void {
+		$plugin = $this->makeTestablePlugin();
+		$this->stubAclAndUserType();
+		$this->caldavBackend->method('getCalendarObjectByUID')->willReturn(null);
+		$this->userConfig->method('getValueString')->willReturnMap([
+			['test', 'calendar', 'applyDefaultReminderToInvitations', 'yes', 'yes'],
+			['test', 'calendar', 'defaultReminderPartDay', 'none', '-900'],
+		]);
+
+		$msg = $this->makeITipMessage('REQUEST', [['valarms' => []]]);
+		$plugin->scheduleLocalDelivery($msg);
+
+		$this->assertSame(1, $this->countValarms($msg->message));
+		$trigger = (string)$msg->message->VEVENT[0]->VALARM->TRIGGER;
+		$this->assertSame('-PT15M', $trigger);
+	}
+
+	public function testFirstReceiptInjectsTypedFullDayDefault(): void {
+		$plugin = $this->makeTestablePlugin();
+		$this->stubAclAndUserType();
+		$this->caldavBackend->method('getCalendarObjectByUID')->willReturn(null);
+		$this->userConfig->method('getValueString')->willReturnMap([
+			['test', 'calendar', 'applyDefaultReminderToInvitations', 'yes', 'yes'],
+			['test', 'calendar', 'defaultReminderFullDay', 'none', '-3600'],
+		]);
+
+		$msg = $this->makeITipMessage('REQUEST', [['isAllDay' => true]]);
+		$plugin->scheduleLocalDelivery($msg);
+
+		$this->assertSame(1, $this->countValarms($msg->message));
+		$this->assertSame('-PT1H', (string)$msg->message->VEVENT[0]->VALARM->TRIGGER);
+	}
+
+	public function testFirstReceiptFallsBackToLegacyAndAppValue(): void {
+		$plugin = $this->makeTestablePlugin();
+		$this->stubAclAndUserType();
+		$this->caldavBackend->method('getCalendarObjectByUID')->willReturn(null);
+		// Toggle 'yes', typed PartDay 'none', legacy 'none' -> falls through to app value.
+		$this->userConfig->method('getValueString')->willReturnMap([
+			['test', 'calendar', 'applyDefaultReminderToInvitations', 'yes', 'yes'],
+			['test', 'calendar', 'defaultReminderPartDay', 'none', 'none'],
+			['test', 'calendar', 'defaultReminder', 'none', 'none'],
+		]);
+		$this->appConfig->method('getValueString')->willReturnMap([
+			['calendar', 'defaultReminder', 'none', '-300'],
+		]);
+
+		$msg = $this->makeITipMessage('REQUEST', [[]]);
+		$plugin->scheduleLocalDelivery($msg);
+
+		$this->assertSame(1, $this->countValarms($msg->message));
+		$this->assertSame('-PT5M', (string)$msg->message->VEVENT[0]->VALARM->TRIGGER);
+	}
+
+	public function testFirstReceiptSkippedWhenToggleOff(): void {
+		$plugin = $this->makeTestablePlugin();
+		$this->stubAclAndUserType();
+		$this->caldavBackend->method('getCalendarObjectByUID')->willReturn(null);
+		$this->userConfig->method('getValueString')->willReturnMap([
+			['test', 'calendar', 'applyDefaultReminderToInvitations', 'yes', 'no'],
+			['test', 'calendar', 'defaultReminderPartDay', 'none', '-900'],
+		]);
+
+		$msg = $this->makeITipMessage('REQUEST', [[]]);
+		$plugin->scheduleLocalDelivery($msg);
+
+		$this->assertSame(0, $this->countValarms($msg->message));
+	}
+
+	public function testPreservesExistingValarmsOnUpdate(): void {
+		$plugin = $this->makeTestablePlugin();
+		$this->stubAclAndUserType();
+		$this->caldavBackend->method('getCalendarObjectByUID')->willReturn('personal/UID-6315.ics');
+		$this->caldavBackend->method('getCalendarByUri')->willReturn(['id' => 42]);
+		$this->caldavBackend->method('getCalendarObject')->willReturn([
+			'calendardata' => "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nUID:UID-6315\nDTSTART:20260615T090000Z\nDTSTAMP:20260610T100000Z\nBEGIN:VALARM\nACTION:DISPLAY\nTRIGGER:-PT45M\nDESCRIPTION:User reminder\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR\n",
+		]);
+		// No user-config calls should happen on update path; nothing to mock.
+
+		$msg = $this->makeITipMessage('REQUEST', [['valarms' => ['PT0S']]]);
+		$plugin->scheduleLocalDelivery($msg);
+
+		// Organizer VALARM stripped, recipient's existing -PT45M preserved.
+		$this->assertSame(1, $this->countValarms($msg->message));
+		$this->assertSame('-PT45M', (string)$msg->message->VEVENT[0]->VALARM->TRIGGER);
+	}
+
+	public function testExistingCopyWithoutAlarmsSkipsInjection(): void {
+		$plugin = $this->makeTestablePlugin();
+		$this->stubAclAndUserType();
+		$this->caldavBackend->method('getCalendarObjectByUID')->willReturn('personal/UID-6315.ics');
+		$this->caldavBackend->method('getCalendarByUri')->willReturn(['id' => 42]);
+		$this->caldavBackend->method('getCalendarObject')->willReturn([
+			'calendardata' => "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nUID:UID-6315\nDTSTART:20260615T090000Z\nDTSTAMP:20260610T100000Z\nEND:VEVENT\nEND:VCALENDAR\n",
+		]);
+		// Recipient deleted their reminder; an organizer update must not re-inject a default.
+		$this->userConfig->expects($this->never())->method('getValueString');
+
+		$msg = $this->makeITipMessage('REQUEST', [['valarms' => ['PT0S']]]);
+		$plugin->scheduleLocalDelivery($msg);
+
+		$this->assertSame(0, $this->countValarms($msg->message));
+	}
+
+	public function testPreservesPerOverrideValarms(): void {
+		$plugin = $this->makeTestablePlugin();
+		$this->stubAclAndUserType();
+		$this->caldavBackend->method('getCalendarObjectByUID')->willReturn('personal/UID-6315.ics');
+		$this->caldavBackend->method('getCalendarByUri')->willReturn(['id' => 42]);
+		$this->caldavBackend->method('getCalendarObject')->willReturn([
+			'calendardata' => "BEGIN:VCALENDAR\nVERSION:2.0\n"
+				. "BEGIN:VEVENT\nUID:UID-6315\nDTSTART:20260615T090000Z\nDTSTAMP:20260610T100000Z\n"
+				. "BEGIN:VALARM\nACTION:DISPLAY\nTRIGGER:-PT15M\nDESCRIPTION:r\nEND:VALARM\nEND:VEVENT\n"
+				. "BEGIN:VEVENT\nUID:UID-6315\nDTSTART:20260616T090000Z\nDTSTAMP:20260610T100000Z\nRECURRENCE-ID:20260616T090000Z\n"
+				. "BEGIN:VALARM\nACTION:DISPLAY\nTRIGGER:-PT5M\nDESCRIPTION:r\nEND:VALARM\nEND:VEVENT\n"
+				. "END:VCALENDAR\n",
+		]);
+
+		// Incoming master + same override, each with organizer VALARM that must be stripped.
+		$msg = $this->makeITipMessage('REQUEST', [
+			['valarms' => ['PT0S']],
+			['rid' => '20260616T090000Z', 'valarms' => ['PT0S']],
+		]);
+		$plugin->scheduleLocalDelivery($msg);
+
+		$this->assertSame(2, $this->countValarms($msg->message));
+		// Master kept its existing -PT15M, override kept its existing -PT5M.
+		$this->assertSame('-PT15M', (string)$msg->message->VEVENT[0]->VALARM->TRIGGER);
+		$this->assertSame('-PT5M', (string)$msg->message->VEVENT[1]->VALARM->TRIGGER);
+	}
+
+	public function testSecondsToIso8601Duration(): void {
+		$plugin = $this->makeTestablePlugin();
+		$ref = new \ReflectionMethod($plugin, 'secondsToIso8601Duration');
+		$ref->setAccessible(true);
+		$this->assertSame('PT0S', $ref->invoke($plugin, 0));
+		$this->assertSame('PT30S', $ref->invoke($plugin, 30));
+		$this->assertSame('PT15M', $ref->invoke($plugin, 900));
+		$this->assertSame('PT1H', $ref->invoke($plugin, 3600));
+		$this->assertSame('P1D', $ref->invoke($plugin, 86400));
+		$this->assertSame('P7D', $ref->invoke($plugin, 604800));
+	}
+
+	public function testPrincipalUriToUserId(): void {
+		$plugin = $this->makeTestablePlugin();
+		$ref = new \ReflectionMethod($plugin, 'principalUriToUserId');
+		$ref->setAccessible(true);
+		$this->assertSame('alice', $ref->invoke($plugin, 'principals/users/alice'));
+		$this->assertNull($ref->invoke($plugin, 'principals/groups/staff'));
+		$this->assertNull($ref->invoke($plugin, 'principals/users/'));
+		$this->assertNull($ref->invoke($plugin, 'other/path'));
+	}
+}
+
+/**
+ * Subclass that no-ops the delegation to Sabre's parent::scheduleLocalDelivery,
+ * so test cases can exercise the NC hook logic without setting up a full DAV tree.
+ */
+class TestableSchedulePlugin extends Plugin {
+	protected function delegateToSabre(Message $iTipMessage): void {
+		// no-op
 	}
 }
