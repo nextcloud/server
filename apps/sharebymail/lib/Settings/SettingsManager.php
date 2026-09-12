@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\ShareByMail\Settings;
 
-use OCP\IConfig;
+use OCP\IAppConfig;
 
 class SettingsManager {
 
@@ -17,8 +17,10 @@ class SettingsManager {
 
 	private $replyToInitiatorDefault = 'yes';
 
+	private $ccToInitiatorDefault = 'no';
+
 	public function __construct(
-		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -28,7 +30,7 @@ class SettingsManager {
 	 * @return bool
 	 */
 	public function sendPasswordByMail(): bool {
-		$sendPasswordByMail = $this->config->getAppValue('sharebymail', 'sendpasswordmail', $this->sendPasswordByMailDefault);
+		$sendPasswordByMail = $this->appConfig->getValueString('sharebymail', 'sendpasswordmail', $this->sendPasswordByMailDefault);
 		return $sendPasswordByMail === 'yes';
 	}
 
@@ -38,7 +40,17 @@ class SettingsManager {
 	 * @return bool
 	 */
 	public function replyToInitiator(): bool {
-		$replyToInitiator = $this->config->getAppValue('sharebymail', 'replyToInitiator', $this->replyToInitiatorDefault);
+		$replyToInitiator = $this->appConfig->getValueString('sharebymail', 'replyToInitiator', $this->replyToInitiatorDefault);
 		return $replyToInitiator === 'yes';
+	}
+
+	/**
+	 * should the initiator be added to the recipients in CC
+	 *
+	 * @return bool
+	 */
+	public function ccToInitiator(): bool {
+		$ccToInitiator = $this->appConfig->getValueString('sharebymail', 'ccToInitiator', $this->ccToInitiatorDefault);
+		return $ccToInitiator === 'yes';
 	}
 }

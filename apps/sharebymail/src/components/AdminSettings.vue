@@ -14,6 +14,10 @@
 		<NcCheckboxRadioSwitch v-model="replyToInitiator" type="switch">
 			{{ t('sharebymail', 'Reply to initiator') }}
 		</NcCheckboxRadioSwitch>
+
+		<NcCheckboxRadioSwitch v-model="ccToInitiator" type="switch">
+			{{ t('sharebymail', 'CC to initiator') }}
+		</NcCheckboxRadioSwitch>
 	</NcSettingsSection>
 </template>
 
@@ -43,6 +47,7 @@ export default {
 		return {
 			sendPasswordMail: loadState('sharebymail', 'sendPasswordMail'),
 			replyToInitiator: loadState('sharebymail', 'replyToInitiator'),
+			ccToInitiator: loadState('sharebymail', 'ccToInitiator'),
 		}
 	},
 
@@ -53,6 +58,10 @@ export default {
 
 		replyToInitiator(newValue) {
 			this.update('replyToInitiator', newValue)
+		},
+
+		ccToInitiator(newValue) {
+			this.update('ccToInitiator', newValue)
 		},
 	},
 
