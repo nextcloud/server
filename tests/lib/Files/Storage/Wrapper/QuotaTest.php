@@ -251,6 +251,26 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$instance->writeStream('files/test.txt', $stream);
 	}
 
+	public function testWriteStreamAllowsUploadPathWithUnlimitedFreeSpace(): void {
+		$storage = $this->getMockBuilder(Local::class)
+			->onlyMethods(['free_space'])
+			->setConstructorArgs([['datadir' => $this->tmpDir]])
+			->getMock();
+		$storage->expects($this->any())
+			->method('free_space')
+			->willReturn(Files\FileInfo::SPACE_UNLIMITED);
+		$storage->mkdir('uploads');
+
+		$instance = new Quota(['storage' => $storage, 'quota' => 5.0]);
+
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foobar');
+		rewind($stream);
+
+		$this->assertEquals(6, $instance->writeStream('uploads/chunk', $stream, 6));
+		$this->assertEquals('foobar', $instance->file_get_contents('uploads/chunk'));
+	}
+
 	public function testNoWriteStreamQuotaZero(): void {
 		$instance = $this->getLimitedStorage(0.0);
 		$stream = fopen('php://temp', 'w+');
