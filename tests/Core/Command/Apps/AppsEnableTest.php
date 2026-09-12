@@ -36,6 +36,10 @@ class AppsEnableTest extends TestCase {
 
 		$this->commandTester = new CommandTester($command);
 
+		// Not every setup disables the app store, and enabling an unknown app pulls
+		// the whole catalogue (~30 MB, cached for an hour) to find it is not there.
+		$this->overwriteSystemConfig('appstoreenabled', false);
+
 		Server::get(IAppManager::class)->disableApp('admin_audit');
 		Server::get(IAppManager::class)->disableApp('comments');
 	}
