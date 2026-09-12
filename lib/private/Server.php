@@ -152,6 +152,7 @@ use OC\Template\JSCombiner;
 use OC\Translation\TranslationManager;
 use OC\User\AvailabilityCoordinator;
 use OC\User\DisplayNameCache;
+use OC\User\LastInteractiveLogin;
 use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
 use OC\User\Session;
@@ -454,6 +455,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(ILockdownManager::class),
 				$c->get(LoggerInterface::class),
 				$c->get(IEventDispatcher::class),
+				$c->get(LastInteractiveLogin::class),
 			);
 			/** @deprecated 21.0.0 use BeforeUserCreatedEvent event with the IEventDispatcher instead */
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password): void {

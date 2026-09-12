@@ -82,6 +82,7 @@ class Session implements IUserSession, Emitter {
 		private ILockdownManager $lockdownManager,
 		private LoggerInterface $logger,
 		private IEventDispatcher $dispatcher,
+		private LastInteractiveLogin $lastInteractiveLogin,
 	) {
 	}
 
@@ -371,6 +372,9 @@ class Session implements IUserSession, Emitter {
 			$isToken,
 		]);
 		if ($this->isLoggedIn()) {
+			if (!$isToken) {
+				$this->lastInteractiveLogin->record($user);
+			}
 			$this->prepareUserLogin($firstTimeLogin, $regenerateSessionId);
 			return true;
 		}
@@ -963,6 +967,7 @@ class Session implements IUserSession, Emitter {
 		$this->setToken($token->getId());
 		$this->lockdownManager->setToken($token);
 		$user->updateLastLoginTimestamp();
+		$this->lastInteractiveLogin->record($user);
 		$password = null;
 		try {
 			$password = $this->tokenProvider->getPassword($token, $sessionId);
