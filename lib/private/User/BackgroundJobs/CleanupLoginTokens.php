@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\User\BackgroundJobs;
 
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
@@ -18,6 +19,7 @@ class CleanupLoginTokens extends TimedJob {
 	public function __construct(
 		ITimeFactory $time,
 		private readonly IDBConnection $connection,
+		private readonly RememberLoginTokenMapper $rememberLoginTokenMapper,
 		private readonly IConfig $config,
 	) {
 		parent::__construct($time);
@@ -28,6 +30,10 @@ class CleanupLoginTokens extends TimedJob {
 	#[\Override]
 	protected function run($argument): void {
 		$rememberMeMaxAge = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+
+		$this->rememberLoginTokenMapper->deleteOlderThan(time() - $rememberMeMaxAge);
+
+		// TODO: remove this after migration to 'remember_login_tokens' table is finished
 		$qb = $this->connection->getQueryBuilder();
 		$qb
 			->delete('preferences')
