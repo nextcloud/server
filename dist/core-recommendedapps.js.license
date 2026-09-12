@@ -204,7 +204,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.1.0
 	- license: MIT
 - vue-router
-	- version: 5.2.0
+	- version: 5.3.1
 	- license: MIT
 - vue
 	- version: 3.5.41
