@@ -83,8 +83,10 @@ function onToggle(open: boolean) {
 		@closed="onClosed"
 		@opened="onOpened"
 		@update:open="onToggle">
-		<template v-if="sidebar.currentNode" #subname>
-			<FilesSidebarSubname :node="sidebar.currentNode" />
+		<template v-if="sidebar.currentNode && sidebar.currentContext" #subname>
+			<FilesSidebarSubname
+				:folder="sidebar.currentContext.folder"
+				:node="sidebar.currentNode" />
 		</template>
 
 		<!-- Actions menu -->

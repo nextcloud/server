@@ -19,6 +19,27 @@ const viewFiles = {
 	name: 'Files',
 } as IView
 
+const viewSearch = {
+	id: 'search',
+	name: 'Search',
+} as IView
+
+const rootFolder = new Folder({
+	id: 10,
+	source: 'https://cloud.domain.com/remote.php/dav/files/admin/',
+	owner: 'admin',
+	permissions: Permission.ALL,
+	root: '/files/admin',
+})
+
+const nestedFolder = new Folder({
+	id: 11,
+	source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo/Bar/',
+	owner: 'admin',
+	permissions: Permission.ALL,
+	root: '/files/admin',
+})
+
 describe('View in folder action conditions tests', () => {
 	test('Default values', () => {
 		expect(action.id).toBe('view-in-folder')
@@ -41,10 +62,10 @@ describe('View in folder action conditions tests', () => {
 })
 
 describe('View in folder action enabled tests', () => {
-	test('Enabled for trashbin', () => {
+	test('Enabled when search result is shown outside its parent folder', () => {
 		const file = new File({
 			id: 1,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo/Bar/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
@@ -54,16 +75,16 @@ describe('View in folder action enabled tests', () => {
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!({
 			nodes: [file],
-			view,
-			folder: {} as Folder,
+			view: viewSearch,
+			folder: rootFolder,
 			contents: [],
 		})).toBe(true)
 	})
 
-	test('Disabled for files', () => {
+	test('Disabled when file is already shown in its parent folder', () => {
 		const file = new File({
 			id: 1,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo/Bar/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
@@ -74,7 +95,7 @@ describe('View in folder action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view: viewFiles,
-			folder: {} as Folder,
+			folder: nestedFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -93,7 +114,7 @@ describe('View in folder action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: nestedFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -111,7 +132,7 @@ describe('View in folder action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: nestedFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -136,7 +157,7 @@ describe('View in folder action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file1, file2],
 			view,
-			folder: {} as Folder,
+			folder: nestedFolder,
 			contents: [],
 		})).toBe(false)
 	})
@@ -154,16 +175,17 @@ describe('View in folder action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [folder],
 			view,
-			folder: {} as Folder,
+			folder: rootFolder,
 			contents: [],
 		})).toBe(false)
 	})
 
 	test('Disabled for files outside the user root folder', () => {
-		const file = new Folder({
+		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/trashbin/admin/trash/image.jpg.d1731053878',
 			owner: 'admin',
+			mime: 'image/jpeg',
 			permissions: Permission.READ,
 			root: '/trashbin/admin',
 		})
@@ -172,7 +194,7 @@ describe('View in folder action enabled tests', () => {
 		expect(action.enabled!({
 			nodes: [file],
 			view,
-			folder: {} as Folder,
+			folder: rootFolder,
 			contents: [],
 		})).toBe(false)
 	})
