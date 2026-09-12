@@ -49,7 +49,6 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Borys Serebrov
-SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
@@ -204,9 +203,6 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - debounce
 	- version: 2.2.0
-	- license: MIT
-- eventemitter3
-	- version: 5.0.1
 	- license: MIT
 - p-queue
 	- version: 8.1.1
@@ -518,7 +514,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - webpack
-	- version: 5.109.2
+	- version: 5.110.3
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

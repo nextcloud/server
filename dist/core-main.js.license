@@ -42,7 +42,6 @@ SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
-SPDX-FileCopyrightText: Joey Andres
 SPDX-FileCopyrightText: Jeremy Ashkenas <jeremy@documentcloud.org>
 SPDX-FileCopyrightText: Jeremy Ashkenas
 SPDX-FileCopyrightText: James Halliday
@@ -319,9 +318,6 @@ This file is generated from multiple sources. Included packages:
 - crypt
 	- version: 0.0.2
 	- license: BSD-3-Clause
-- crypto-browserify
-	- version: 3.12.1
-	- license: MIT
 - css-loader
 	- version: 7.1.2
 	- license: MIT
@@ -511,9 +507,6 @@ This file is generated from multiple sources. Included packages:
 - randombytes
 	- version: 2.1.0
 	- license: MIT
-- randomfill
-	- version: 1.0.4
-	- license: MIT
 - safe-buffer
 	- version: 5.1.2
 	- license: MIT
@@ -547,9 +540,6 @@ This file is generated from multiple sources. Included packages:
 - sha.js
 	- version: 2.4.12
 	- license: (MIT AND BSD-3-Clause)
-- snap.js
-	- version: 2.0.9
-	- license: ISC
 - readable-stream
 	- version: 3.6.2
 	- license: MIT
@@ -617,7 +607,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.109.2
+	- version: 5.110.3
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
