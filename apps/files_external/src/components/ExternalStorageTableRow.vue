@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import type { IBackend, IStorage } from '../types.ts'
 
-import { mdiAccountGroupOutline, mdiInformationOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js'
+import { mdiAccountGroupOutline, mdiAccountMultipleOutline, mdiInformationOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { NcChip, NcLoadingIcon, NcUserBubble, spawnDialog } from '@nextcloud/vue'
@@ -17,6 +17,7 @@ import AddExternalStorageDialog from './AddExternalStorageDialog/AddExternalStor
 import { useGroups, useUsers } from '../composables/useEntities.ts'
 import { useStorages } from '../store/storages.ts'
 import { StorageStatus, StorageStatusIcons, StorageStatusMessage } from '../types.ts'
+import { appliesToAllAccounts } from '../utils/externalStorageUtils.ts'
 
 const props = defineProps<{
 	storage: IStorage
@@ -52,6 +53,8 @@ const status = computed(() => {
 
 const users = useUsers(() => props.storage.applicableUsers || [])
 const groups = useGroups(() => props.storage.applicableGroups || [])
+
+const isUnrestricted = computed(() => appliesToAllAccounts(props.storage.applicableUsers, props.storage.applicableGroups))
 
 /**
  * Handle deletion of the external storage mount point
@@ -113,6 +116,11 @@ async function reloadStatus() {
 		<td>{{ authMechanismName }}</td>
 		<td v-if="isAdmin">
 			<div :class="$style.storageTableRow__cellApplicable">
+				<NcChip
+					v-if="isUnrestricted"
+					:iconPath="mdiAccountMultipleOutline"
+					noClose
+					:text="t('files_external', 'All accounts')" />
 				<NcChip
 					v-for="group of groups"
 					:key="group.id"

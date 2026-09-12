@@ -9,8 +9,10 @@ import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { useDebounceFn } from '@vueuse/core'
 import { computed, ref } from 'vue'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'
 import { mapGroupToUserData, useGroups, useUsers } from '../../composables/useEntities.ts'
+import { appliesToAllAccounts } from '../../utils/externalStorageUtils.ts'
 
 type IUserData = InstanceType<typeof NcSelectUsers>['$props']['options'][number]
 
@@ -30,6 +32,8 @@ const model = computed({
 		groups.value = value.filter((g) => g.isNoUser).map((g) => g.id)
 	},
 })
+
+const isUnrestricted = computed(() => appliesToAllAccounts(users.value, groups.value))
 
 const debouncedSearch = useDebounceFn(onSearch, 500)
 
@@ -57,11 +61,18 @@ async function onSearch(pattern: string) {
 </script>
 
 <template>
-	<NcSelectUsers
-		v-model="model"
-		keepOpen
-		multiple
-		:options="entities"
-		:inputLabel="t('files_external', 'Restrict to')"
-		@search="debouncedSearch" />
+	<div>
+		<NcSelectUsers
+			v-model="model"
+			keepOpen
+			multiple
+			:options="entities"
+			:inputLabel="t('files_external', 'Restrict to')"
+			@search="debouncedSearch" />
+
+		<NcNoteCard
+			v-if="isUnrestricted"
+			type="warning"
+			:text="t('files_external', 'Without a restriction this storage is available to every account on this server.')" />
+	</div>
 </template>
