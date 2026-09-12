@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use OC\App\InfoParser;
 use OC\Files\Filesystem;
 use OC\NavigationManager;
 use OC\Profiler\BuiltInProfiler;
@@ -351,6 +352,9 @@ class OC {
 
 		/** @var \OC\App\AppManager $appManager */
 		$appManager = Server::get(\OCP\App\IAppManager::class);
+		$l10nFactory = Server::get(\OCP\L10N\IFactory::class);
+		$infoParser = new InfoParser();
+		$lang = $l10nFactory->findLanguage();
 
 		// get third party apps
 		$ocVersion = $serverVersion->getVersion();
@@ -360,6 +364,7 @@ class OC {
 		$incompatibleShippedApps = [];
 		$incompatibleDisabledApps = [];
 		foreach ($incompatibleApps as $appInfo) {
+			$appInfo = $infoParser->applyL10N($appInfo, $lang);
 			if ($appManager->isShipped($appInfo['id'])) {
 				$incompatibleShippedApps[] = $appInfo['name'] . ' (' . $appInfo['id'] . ')';
 			}
@@ -369,13 +374,14 @@ class OC {
 		}
 
 		if (!empty($incompatibleShippedApps)) {
-			$l = Server::get(\OCP\L10N\IFactory::class)->get('core');
+			$l = $l10nFactory->get('core');
 			$hint = $l->t('Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory.', [implode(', ', $incompatibleShippedApps)]);
 			throw new \OCP\HintException('Application ' . implode(', ', $incompatibleShippedApps) . ' is not present or has a non-compatible version with this server. Please check the apps directory.', $hint);
 		}
 
 		$appConfig = Server::get(IAppConfig::class);
-		$appsToUpgrade = array_map(function ($app) use (&$appConfig) {
+		$appsToUpgrade = array_map(function ($app) use (&$appConfig, $infoParser, $lang) {
+			$app = $infoParser->applyL10N($app, $lang);
 			return [
 				'id' => $app['id'],
 				'name' => $app['name'],
