@@ -207,7 +207,7 @@ class Scanner extends PublicEmitter {
 			});
 			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path, $storageId, $data, $fileId) use ($storage): void {
 				$this->triggerPropagator($storage, $path);
-				if ($fileId) {
+				if ($fileId > 0) {
 					$this->eventDispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 				} else {
 					$this->eventDispatcher->dispatchTyped(new NodeAddedToCache($storage, $path));
