@@ -106,9 +106,13 @@ class PreviewMigrationService {
 					$preview->setEtag($result['etag']);
 					$preview->setSourceMimeType($this->mimeTypeLoader->getMimetypeById((int)$result['mimetype']));
 					$preview->generateId();
+
+					// Commit the insert and the storage migration together, one commit per preview.
+					$this->connection->beginTransaction();
 					try {
 						$preview = $this->previewMapper->insert($preview);
 					} catch (Exception $e) {
+						$this->connection->rollBack();
 						if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 							throw $e;
 						}
@@ -122,8 +126,10 @@ class PreviewMigrationService {
 						$this->storageFactory->migratePreview($preview);
 						// Do not delete the old file via a Node here, as that would also
 						// delete it from the file system; only its filecache row is stale.
+						$this->connection->commit();
 					} catch (\Exception $e) {
-						$this->previewMapper->delete($preview);
+						// Also rolls back the insert above.
+						$this->connection->rollBack();
 						throw $e;
 					}
 
@@ -190,25 +196,34 @@ class PreviewMigrationService {
 		$current = $path;
 
 		$rootFolderId = $this->rootFolder->getMountPoint()->getNumericStorageId();
-		while (true) {
-			$appDataPath = $this->previewRootPath . $current;
-			$qb = $this->connection->getQueryBuilder();
-			$qb->delete('filecache')
-				->where($qb->expr()->eq('path_hash', $qb->createNamedParameter(md5($appDataPath))))
-				->andWhere($qb->expr()->eq(
-					'storage',
-					$qb->createNamedParameter($rootFolderId),
-				))
-				->executeStatement();
 
-			$current = dirname($current);
-			if ($current === '/' || $current === '.' || $current === '') {
-				break;
-			}
+		// Commit the whole upward walk at once instead of once per ancestor level.
+		$this->connection->beginTransaction();
+		try {
+			while (true) {
+				$appDataPath = $this->previewRootPath . $current;
+				$qb = $this->connection->getQueryBuilder();
+				$qb->delete('filecache')
+					->where($qb->expr()->eq('path_hash', $qb->createNamedParameter(md5($appDataPath))))
+					->andWhere($qb->expr()->eq(
+						'storage',
+						$qb->createNamedParameter($rootFolderId),
+					))
+					->executeStatement();
 
-			if ($this->folderHasChildren($rootFolderId, $this->previewRootPath . $current)) {
-				break;
+				$current = dirname($current);
+				if ($current === '/' || $current === '.' || $current === '') {
+					break;
+				}
+
+				if ($this->folderHasChildren($rootFolderId, $this->previewRootPath . $current)) {
+					break;
+				}
 			}
+			$this->connection->commit();
+		} catch (\Throwable $e) {
+			$this->connection->rollBack();
+			throw $e;
 		}
 	}
 
