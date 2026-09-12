@@ -63,7 +63,7 @@
 				:spellchecking="false"
 				:autocomplete="autoCompleteAllowed ? 'username' : 'off'"
 				required
-				:error="userNameInputLengthIs255"
+				:error="userNameError"
 				:helper-text="userInputHelperText"
 				data-login-form-input-user
 				@change="updateUsername" />
@@ -239,6 +239,10 @@ export default {
 		isError() {
 			return this.invalidPassword || this.userDisabled
 				|| this.throttleDelay > 5000
+		},
+
+		userNameError() {
+			return this.isError || this.userNameInputLengthIs255
 		},
 
 		errorLabel() {

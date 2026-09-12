@@ -30,7 +30,9 @@
 			autocomplete="off"
 			spellcheck="false"
 			pattern="[a-zA-Z0-9 _\.@\-']+"
-			:required="fieldConfig.username?.required" />
+			:required="fieldConfig.username?.required"
+			@input="updateUsernameValidity"
+			@blur="updateUsernameValidity" />
 
 		<NcTextField
 			v-model="formData.displayName"
@@ -137,6 +139,24 @@ const username = ref<{ focus?: () => void } | null>(null)
 const password = ref<{ focus?: () => void } | null>(null)
 
 const minPasswordLength = computed(() => store.getters.getPasswordPolicyMinLength)
+
+/**
+ * Customize the browser-native constraint validation message.
+ *
+ * @param event Input/blur event from the underlying input element
+ */
+function updateUsernameValidity(event: Event) {
+	const input = event.target as HTMLInputElement | null
+	if (!input) {
+		return
+	}
+
+	// Clear first so native constraint flags are evaluated without a stale customError.
+	input.setCustomValidity('')
+	if (input.validity.patternMismatch) {
+		input.setCustomValidity(t('settings', 'Only letters, numbers, spaces, and _.@-\' are allowed'))
+	}
+}
 
 // Errors not bound to a dedicated input, shown in the catch-all live region.
 const unhandledErrors = computed(() => {

@@ -66,6 +66,18 @@ describe('core: LoginForm', () => {
 		expect(input.value).toBe('test-user')
 	})
 
+	it('marks username field as error when login credentials are invalid', () => {
+		const page = render(LoginForm, {
+			props: {
+				errors: ['invalidpassword'],
+				username: 'wrong-user',
+			},
+		})
+
+		const input = page.getByRole('textbox', { name: /Account name or email/ })
+		expect(input.closest('.input-field--error')).not.toBeNull()
+	})
+
 	describe('', () => {
 		beforeAll(() => {
 			vi.useFakeTimers()
