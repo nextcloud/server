@@ -452,4 +452,40 @@ class ScannerTest extends TestCase {
 		$newFolderEntry2 = $this->cache->get('folder/sub');
 		$this->assertNotEquals($newFolderEntry2->getEtag(), $oldFolderEntry2->getEtag());
 	}
+	public function testScanSkipsSelfReferencingSymlink(): void {
+		$root = rtrim($this->storage->getSourcePath(''), '/');
+		mkdir($root . '/dir');
+		file_put_contents($root . '/dir/real.txt', 'data');
+		symlink($root . '/dir', $root . '/dir/self');
+
+		$this->scanner->scan('');
+
+		$this->assertTrue($this->cache->inCache('dir'));
+		$this->assertTrue($this->cache->inCache('dir/real.txt'));
+		// the loop itself is skipped, at every level
+		$this->assertFalse($this->cache->inCache('dir/self'));
+		$this->assertFalse($this->cache->inCache('dir/self/real.txt'));
+		$this->assertFalse($this->cache->inCache('dir/self/self'));
+	}
+
+	public function testScanSkipsIndirectSymlinkCycle(): void {
+		$root = rtrim($this->storage->getSourcePath(''), '/');
+		mkdir($root . '/x');
+		mkdir($root . '/y');
+		symlink($root . '/y', $root . '/x/toy');
+		symlink($root . '/x', $root . '/y/tox');
+
+		$this->scanner->scan('');
+
+		$this->assertTrue($this->cache->inCache('x'));
+		$this->assertTrue($this->cache->inCache('y'));
+		// a link to a sibling is legitimate and stays visible...
+		$this->assertTrue($this->cache->inCache('x/toy'));
+		$this->assertTrue($this->cache->inCache('y/tox'));
+		// ...but the walk stops where the cycle closes: entering x/toy lands
+		// in y, whose link back to x would re-enter the path being walked
+		$this->assertFalse($this->cache->inCache('x/toy/tox'));
+		$this->assertFalse($this->cache->inCache('y/tox/toy'));
+	}
+
 }

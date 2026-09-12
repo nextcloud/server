@@ -280,4 +280,100 @@ class LocalTest extends Storage {
 		$this->assertSame('abc', stream_get_contents($handle));
 		fclose($handle);
 	}
+	private function collectNames(\Traversable $content): array {
+		$names = [];
+		foreach ($content as $metadata) {
+			$names[] = $metadata['name'];
+		}
+		sort($names);
+		return $names;
+	}
+
+	public function testGetDirectoryContentSkipsSelfReferencingSymlink(): void {
+		mkdir($this->tmpDir . 'dir');
+		mkdir($this->tmpDir . 'dir/real');
+		symlink($this->tmpDir . 'dir', $this->tmpDir . 'dir/self');
+
+		$storage = new Local(['datadir' => $this->tmpDir]);
+
+		$this->assertEquals(['real'], $this->collectNames($storage->getDirectoryContent('dir')));
+	}
+
+	public function testGetDirectoryContentSkipsParentSymlink(): void {
+		mkdir($this->tmpDir . 'a');
+		mkdir($this->tmpDir . 'a/b');
+		mkdir($this->tmpDir . 'a/b/real');
+		symlink($this->tmpDir . 'a', $this->tmpDir . 'a/b/up');
+
+		$storage = new Local(['datadir' => $this->tmpDir]);
+
+		$this->assertEquals(['real'], $this->collectNames($storage->getDirectoryContent('a/b')));
+	}
+
+	/**
+	 * a -> b while b -> a: neither target is an ancestor of its own parent, so a
+	 * parent-only check walks the pair forever.
+	 */
+	public function testGetDirectoryContentSkipsIndirectCycle(): void {
+		mkdir($this->tmpDir . 'x');
+		mkdir($this->tmpDir . 'y');
+		symlink($this->tmpDir . 'y', $this->tmpDir . 'x/toy');
+		symlink($this->tmpDir . 'x', $this->tmpDir . 'y/tox');
+
+		$storage = new Local(['datadir' => $this->tmpDir]);
+
+		// Entering x/toy lands in y; y's link back to x closes the cycle.
+		$this->assertEquals([], $this->collectNames($storage->getDirectoryContent('x/toy')));
+	}
+
+	/**
+	 * The loops we care about sit under ancestors that are themselves symlinks,
+	 * so the logical path and the resolved path are on different branches.
+	 * Comparing a logical path against a resolved one misses exactly this.
+	 */
+	public function testGetDirectoryContentSkipsLoopReachedThroughASymlinkedAncestor(): void {
+		mkdir($this->tmpDir . 'real');
+		mkdir($this->tmpDir . 'real/leaf');
+		symlink($this->tmpDir . 'real', $this->tmpDir . 'alias');
+		symlink($this->tmpDir . 'real', $this->tmpDir . 'real/leaf/back');
+
+		$storage = new Local(['datadir' => $this->tmpDir]);
+
+		// Reached as alias/leaf, whose resolved parent is real/leaf: 'back'
+		// resolves to 'real', an ancestor, even though the logical path says alias/.
+		$this->assertEquals([], $this->collectNames($storage->getDirectoryContent('alias/leaf')));
+	}
+
+	public function testGetDirectoryContentKeepsNonLoopingSymlinks(): void {
+		mkdir($this->tmpDir . 'a');
+		mkdir($this->tmpDir . 'other');
+		mkdir($this->tmpDir . 'other/deep');
+		file_put_contents($this->tmpDir . 'other/f.txt', 'x');
+		symlink($this->tmpDir . 'other', $this->tmpDir . 'a/sibling');
+		symlink($this->tmpDir . 'other/deep', $this->tmpDir . 'a/deeper');
+		symlink($this->tmpDir . 'other/f.txt', $this->tmpDir . 'a/afile');
+
+		$storage = new Local(['datadir' => $this->tmpDir]);
+
+		$this->assertEquals(
+			['afile', 'deeper', 'sibling'],
+			$this->collectNames($storage->getDirectoryContent('a'))
+		);
+	}
+
+	/**
+	 * Enumeration is filtered, resolution is not: a file behind a directory
+	 * symlink stays reachable. Guards the behaviour asserted by
+	 * testDisallowSymlinksInsideDatadir.
+	 */
+	public function testLoopingSymlinkStillResolvesForFileAccess(): void {
+		mkdir($this->tmpDir . 'dir');
+		symlink($this->tmpDir . 'dir', $this->tmpDir . 'dir/self');
+
+		$storage = new Local(['datadir' => $this->tmpDir]);
+		$storage->file_put_contents('dir/self/foo', 'bar');
+
+		$this->assertEquals('bar', $storage->file_get_contents('dir/foo'));
+	}
+
 }
