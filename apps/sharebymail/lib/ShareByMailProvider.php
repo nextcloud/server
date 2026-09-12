@@ -10,6 +10,9 @@ namespace OCA\ShareByMail;
 use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
+use OCA\ShareByMail\Event\BeforeShareMailSentEvent;
+use OCA\ShareByMail\Event\BeforeShareNoteMailSentEvent;
+use OCA\ShareByMail\Event\BeforeSharePasswordMailSentEvent;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\Activity\IManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -332,14 +335,16 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 		$message = $this->mailer->createMessage();
 
-		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientNotification', [
+		$templateData = [
 			'filename' => $filename,
 			'link' => $link,
 			'initiator' => $initiatorDisplayName,
+			'senderUserId' => $initiator,
 			'expiration' => $expiration,
 			'shareWith' => $shareWith,
-			'note' => $note
-		]);
+			'note' => $note,
+		];
+		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientNotification', $templateData);
 
 		$emailTemplate->setSubject($this->l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]));
 		$emailTemplate->addHeader();
@@ -405,6 +410,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		$message->useTemplate($emailTemplate);
+		$event = new BeforeShareMailSentEvent($share, $emails, $message, $templateData);
+		$this->eventDispatcher->dispatchTyped($event);
+		if ($event->isMailHandled()) {
+			return;
+		}
 		$failedRecipients = $this->mailer->send($message);
 		if (!empty($failedRecipients)) {
 			$this->logger->error('Share notification mail could not be sent to: ' . implode(', ', $failedRecipients));
@@ -442,13 +452,14 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$message = $this->mailer->createMessage();
 
-		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientPasswordNotification', [
+		$templateData = [
 			'filename' => $filename,
 			'password' => $password,
 			'initiator' => $initiatorDisplayName,
 			'initiatorEmail' => $initiatorEmailAddress,
 			'shareWith' => $shareWith,
-		]);
+		];
+		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientPasswordNotification', $templateData);
 
 		$emailTemplate->setSubject($this->l->t('Password to access %1$s shared to you by %2$s', [$filename, $initiatorDisplayName]));
 		$emailTemplate->addHeader();
@@ -501,6 +512,12 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		$message->useTemplate($emailTemplate);
+		$event = new BeforeSharePasswordMailSentEvent($share, $emails, $message, $templateData);
+		$this->eventDispatcher->dispatchTyped($event);
+		if ($event->isMailHandled()) {
+			return true;
+		}
+
 		$failedRecipients = $this->mailer->send($message);
 		if (!empty($failedRecipients)) {
 			$this->logger->error('Share password mail could not be sent to: ' . implode(', ', $failedRecipients));
@@ -527,7 +544,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$message = $this->mailer->createMessage();
 
-		$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote');
+		$templateData = [
+			'filename' => $filename,
+			'note' => $note,
+		];
+		$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote', $templateData);
 
 		$emailTemplate->setSubject($this->l->t('%s added a note to a file shared with you', [$initiatorDisplayName]));
 		$emailTemplate->addHeader();
@@ -563,6 +584,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$message->setTo([$recipient]);
 		$message->useTemplate($emailTemplate);
+		$event = new BeforeShareNoteMailSentEvent($share, [$recipient], $message, $templateData);
+		$this->eventDispatcher->dispatchTyped($event);
+		if ($event->isMailHandled()) {
+			return;
+		}
 		$this->mailer->send($message);
 	}
 
@@ -588,13 +614,14 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$bodyPart = $this->l->t('You just shared %1$s with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient.', [$filename, $shareWith, $this->defaults->getName()]);
 
 		$message = $this->mailer->createMessage();
-		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.OwnerPasswordNotification', [
+		$templateData = [
 			'filename' => $filename,
 			'password' => $password,
 			'initiator' => $initiatorDisplayName,
 			'initiatorEmail' => $initiatorEMailAddress,
 			'shareWith' => $shareWith,
-		]);
+		];
+		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.OwnerPasswordNotification', $templateData);
 
 		$emailTemplate->setSubject($this->l->t('Password to access %1$s shared by you with %2$s', [$filename, $shareWith]));
 		$emailTemplate->addHeader();
@@ -625,8 +652,13 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$message->setFrom([Util::getDefaultEmailAddress($instanceName) => $senderName]);
 		$message->setTo([$initiatorEMailAddress => $initiatorDisplayName]);
 		$message->useTemplate($emailTemplate);
-		$this->mailer->send($message);
+		$event = new BeforeSharePasswordMailSentEvent($share, [$initiatorEMailAddress], $message, $templateData);
+		$this->eventDispatcher->dispatchTyped($event);
+		if ($event->isMailHandled()) {
+			return true;
+		}
 
+		$this->mailer->send($message);
 		$this->createPasswordSendActivity($share, $shareWith, true);
 
 		return true;
