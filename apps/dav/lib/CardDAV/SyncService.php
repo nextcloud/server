@@ -46,19 +46,26 @@ class SyncService extends ASyncService {
 	 * @psalm-return list{0: ?string, 1: boolean}
 	 * @throws \Exception
 	 */
-	public function syncRemoteAddressBook(string $url, string $userName, string $addressBookUrl, string $sharedSecret, ?string $syncToken, string $targetBookHash, string $targetPrincipal, array $targetProperties): array {
+	public function syncRemoteAddressBook(string $url, string $userName, string $addressBookUrl, string $sharedSecret, ?string $syncToken, string $targetBookHash, string $targetPrincipal, array $targetProperties, bool $syncAddressBookData = true): array {
 		// 1. create addressbook
-		$book = $this->ensureSystemAddressBookExists($targetPrincipal, $targetBookHash, $targetProperties);
-		$addressBookId = $book['id'];
+		$addressBookId = null;
+		if ($syncAddressBookData) {
+			$book = $this->ensureSystemAddressBookExists($targetPrincipal, $targetBookHash, $targetProperties);
+			$addressBookId = $book['id'];
+		}
 
 		// 2. query changes
+		// This keeps validating the shared secret and advancing the sync token
+		// against the remote even when applying the changes locally is disabled.
 		try {
 			$absoluteUri = $this->prepareUri($url, $addressBookUrl);
 			$response = $this->requestSyncReport($absoluteUri, $userName, $sharedSecret, $syncToken);
 		} catch (ClientExceptionInterface $ex) {
 			if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {
 				// remote server revoked access to the address book, remove it
-				$this->backend->deleteAddressBook($addressBookId);
+				if ($addressBookId !== null) {
+					$this->backend->deleteAddressBook($addressBookId);
+				}
 				$this->logger->error('Authorization failed, remove address book: ' . $url, ['app' => 'dav']);
 				throw $ex;
 			}
@@ -68,21 +75,23 @@ class SyncService extends ASyncService {
 
 		// 3. apply changes
 		// TODO: use multi-get for download
-		foreach ($response['response'] as $resource => $status) {
-			$cardUri = basename($resource);
-			if (isset($status[200])) {
-				$absoluteUrl = $this->prepareUri($url, $resource);
-				$vCard = $this->download($absoluteUrl, $userName, $sharedSecret);
-				$this->atomic(function () use ($addressBookId, $cardUri, $vCard): void {
-					$existingCard = $this->backend->getCard($addressBookId, $cardUri);
-					if ($existingCard === false) {
-						$this->backend->createCard($addressBookId, $cardUri, $vCard);
-					} else {
-						$this->backend->updateCard($addressBookId, $cardUri, $vCard);
-					}
-				}, $this->dbConnection);
-			} else {
-				$this->backend->deleteCard($addressBookId, $cardUri);
+		if ($syncAddressBookData) {
+			foreach ($response['response'] as $resource => $status) {
+				$cardUri = basename($resource);
+				if (isset($status[200])) {
+					$absoluteUrl = $this->prepareUri($url, $resource);
+					$vCard = $this->download($absoluteUrl, $userName, $sharedSecret);
+					$this->atomic(function () use ($addressBookId, $cardUri, $vCard): void {
+						$existingCard = $this->backend->getCard($addressBookId, $cardUri);
+						if ($existingCard === false) {
+							$this->backend->createCard($addressBookId, $cardUri, $vCard);
+						} else {
+							$this->backend->updateCard($addressBookId, $cardUri, $vCard);
+						}
+					}, $this->dbConnection);
+				} else {
+					$this->backend->deleteCard($addressBookId, $cardUri);
+				}
 			}
 		}
 

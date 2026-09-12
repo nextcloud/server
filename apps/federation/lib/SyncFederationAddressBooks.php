@@ -10,6 +10,7 @@ namespace OCA\Federation;
 
 use OCA\DAV\CardDAV\SyncService;
 use OCP\AppFramework\Http;
+use OCP\IConfig;
 use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
 
@@ -19,6 +20,7 @@ class SyncFederationAddressBooks {
 		private SyncService $syncService,
 		private IDiscoveryService $ocsDiscoveryService,
 		private LoggerInterface $logger,
+		private IConfig $config,
 	) {
 	}
 
@@ -26,6 +28,10 @@ class SyncFederationAddressBooks {
 	 * @param \Closure $callback
 	 */
 	public function syncThemAll(\Closure $callback, bool $full = false) {
+		// When disabled, the sync-report request against the remote still runs
+		// each cycle (validating the shared secret and advancing the sync token),
+		// but the returned cards are not applied to the local address book.
+		$syncAddressBookData = $this->config->getSystemValueBool('federation_sync_addressbook_data', true);
 		$trustedServers = $this->dbHandler->getAllServer();
 		foreach ($trustedServers as $trustedServer) {
 			$url = $trustedServer['url'];
@@ -48,11 +54,19 @@ class SyncFederationAddressBooks {
 			];
 
 			try {
+				// A full resync marks all existing cards as pending and then deletes
+				// whichever ones are not confirmed by the remote. That only makes
+				// sense if card data is actually being applied, otherwise it would
+				// just wipe out the local address book.
+				$full = $full && $syncAddressBookData;
 				$syncToken = $full ? null : $oldSyncToken;
 
-				$book = $this->syncService->ensureSystemAddressBookExists($targetPrincipal, $targetBookId, $targetBookProperties);
-				if ($full) {
-					$this->syncService->markCardsAsPending($book['id']);
+				$book = null;
+				if ($syncAddressBookData) {
+					$book = $this->syncService->ensureSystemAddressBookExists($targetPrincipal, $targetBookId, $targetBookProperties);
+					if ($full) {
+						$this->syncService->markCardsAsPending($book['id']);
+					}
 				}
 
 				do {
@@ -64,7 +78,8 @@ class SyncFederationAddressBooks {
 						$syncToken,
 						$targetBookId,
 						$targetPrincipal,
-						$targetBookProperties
+						$targetBookProperties,
+						$syncAddressBookData
 					);
 				} while ($truncated);
 
