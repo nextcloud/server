@@ -35,7 +35,10 @@
 				<input type="hidden" name="sharingToken" value="<?php p($_['share']->getToken()) ?>" id="sharingToken">
 				<input type="hidden" name="sharingType" value="<?php p($_['share']->getShareType()) ?>" id="sharingType">
 				<input type="submit" id="password-submit"
-					class="svg icon-confirm input-button-inline" value="" disabled="disabled" />
+					class="svg icon-confirm input-button-inline" value=""
+					aria-label="<?php p($l->t('Submit')); ?>"
+					title="<?php p($l->t('Submit')); ?>"
+					disabled="disabled" />
 			</p>
 		</fieldset>
 	</form>
@@ -50,7 +53,10 @@
 			<div class="warning-info" id="email-prompt"><?php p($l->t('Please type in your email address to request a temporary password')); ?></div>
 			 <p>
 				<input type="email" id="email" name="identityToken" placeholder="<?php p($l->t('Email address')); ?>" />
-				<input type="submit" id="password-request" name="passwordRequest" class="svg icon-confirm input-button-inline" value="" disabled="disabled"/>
+				<input type="submit" id="password-request" name="passwordRequest" class="svg icon-confirm input-button-inline" value=""
+					aria-label="<?php p($l->t('Request password')); ?>"
+					title="<?php p($l->t('Request password')); ?>"
+					disabled="disabled"/>
 				<input type="hidden" id="requesttoken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 				<input type="hidden" name="sharingToken" value="<?php p($_['share']->getToken()) ?>" id="sharingToken">
 				<input type="hidden" name="sharingType" value="<?php p($_['share']->getShareType()) ?>" id="sharingType">
