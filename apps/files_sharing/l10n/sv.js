@@ -259,6 +259,7 @@ OC.L10N.register(
     "Are you sure you want to delete this share? This operation cannot be undone." : "Är du säker på att du vill ta bort den här delningen? Åtgärden kan inte ångras.",
     "Edit share" : "Redigera delning",
     "Toggle recipients" : "Visa/dölj mottagare",
+    "Remove recipient" : "Ta bort mottagare",
     "Note from" : "Anteckning från",
     "Note:" : "Anteckning:",
     "File drop" : "Filinlämning",

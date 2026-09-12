@@ -259,6 +259,7 @@ OC.L10N.register(
     "Are you sure you want to delete this share? This operation cannot be undone." : "Bu paylaşımı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
     "Edit share" : "Paylaşımı düzenle",
     "Toggle recipients" : "Alıcıları aç/kapat",
+    "Remove recipient" : "Alıcıyı kaldır",
     "Note from" : "Notu yazan",
     "Note:" : "Not:",
     "File drop" : "Dosya bırakma",
