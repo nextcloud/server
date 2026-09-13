@@ -22,6 +22,7 @@ use OCP\L10N\IFactory;
 use OCP\ServerVersion;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
@@ -90,8 +91,8 @@ class Admin implements ISettings {
 		];
 		$this->initialState->provideInitialState('data', $params);
 
-		\OCP\Util::addStyle(Application::APP_ID, 'settings-admin');
-		\OCP\Util::addScript(Application::APP_ID, 'settings-admin');
+		Util::addStyle(Application::APP_ID, 'settings-admin');
+		Util::addScript(Application::APP_ID, 'settings-admin');
 		return new TemplateResponse(Application::APP_ID, 'admin', [], '');
 	}
 
