@@ -359,18 +359,20 @@ Feature: contacts-menu
     # Disabled because it regularly fails on drone:
     # Then the list of searched contacts has "0" contacts
 
-  Scenario: users cannot list other users from the system address book
-    Given user "user0" exists
-    And user "user1" exists
-    And invoking occ with "config:app:set dav system_addressbook_exposed --value false"
-    And Logging in using web as "user1"
-    And searching for contacts matching with ""
-    Then the list of searched contacts has "1" contacts
-    And invoking occ with "config:app:delete dav system_addressbook_exposed"
-
+  # The example contact of the personal address book is listed next to "user0" of the system address book
   Scenario: users can list other users from the system address book
     Given user "user0" exists
     And user "user1" exists
+    And Logging in using web as "user1"
+    And searching for contacts matching with ""
+    Then the list of searched contacts has "2" contacts
+
+  # Exposing the system address book is only about DAV clients, user searching and
+  # auto-completion keep working when it is disabled
+  Scenario: users can list other users from the system address book when it is not exposed to DAV clients
+    Given user "user0" exists
+    And user "user1" exists
+    And invoking occ with "config:app:set dav system_addressbook_exposed --value false"
     And Logging in using web as "user1"
     And searching for contacts matching with ""
     Then the list of searched contacts has "2" contacts
