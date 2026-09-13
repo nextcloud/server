@@ -259,6 +259,7 @@ OC.L10N.register(
     "Are you sure you want to delete this share? This operation cannot be undone." : "Are you sure you want to delete this share? This operation cannot be undone.",
     "Edit share" : "Edit share",
     "Toggle recipients" : "Toggle recipients",
+    "Remove recipient" : "Remove recipient",
     "Note from" : "Note from",
     "Note:" : "Note:",
     "File drop" : "File drop",
