@@ -275,11 +275,13 @@ class DefaultShareProvider implements
 				->executeStatement();
 
 			/*
-			 * Now update the permissions for all children that have not set it to 0
+			 * Now update the permissions for all user-group children that have not set it to 0.
+			 * Link shares also use parent for display (Manager::setLinkParent) and must be excluded.
 			 */
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->update('share')
 				->where($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+				->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
 				->andWhere($qb->expr()->neq('permissions', $qb->createNamedParameter(0)))
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 				->set('attributes', $qb->createNamedParameter($shareAttributes))
