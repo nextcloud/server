@@ -252,6 +252,71 @@ Feature: transfer-ownership
 			| uid_file_owner | user3 |
 			| share_with | group1 |
 
+	Scenario: transferring ownership of folder shared with transfer recipient who created a link share
+		Given user "user0" exists
+		And user "user1" exists
+		And User "user0" created a folder "/test"
+		And User "user0" uploads file "data/textfile.txt" to "/test/somefile.txt"
+		And folder "/test" of user "user0" is shared with user "user1" with permissions 31
+		And user "user1" accepts last share
+		And as "user1" creating a share with
+			| path | test/somefile.txt |
+			| shareType | 3 |
+		And the OCS status code should be "100"
+		When transferring ownership from "user0" to "user1"
+		And the command was successful
+		Then last link share can be downloaded
+
+	Scenario: transferring ownership of folder shared with transfer recipient who created a mail share
+		Given dummy mail server is listening
+		And user "user0" exists
+		And user "user1" exists
+		And User "user0" created a folder "/test"
+		And User "user0" uploads file "data/textfile.txt" to "/test/somefile.txt"
+		And folder "/test" of user "user0" is shared with user "user1" with permissions 31
+		And user "user1" accepts last share
+		And as "user1" creating a share with
+			| path | test/somefile.txt |
+			| shareType | 4 |
+			| shareWith | dumy@test.com |
+		And the OCS status code should be "100"
+		When transferring ownership from "user0" to "user1"
+		And the command was successful
+		Then last share can be downloaded
+
+	Scenario: transferring ownership of folder owned by transfer recipient with a link share created by the source
+		Given user "user0" exists
+		And user "user1" exists
+		And user "user2" exists
+		And User "user1" created a folder "/test"
+		And User "user1" uploads file "data/textfile.txt" to "/test/somefile.txt"
+		And folder "/test" of user "user1" is shared with user "user2" with permissions 31
+		And user "user2" accepts last share
+		And folder "/test" of user "user2" is shared with user "user0" with permissions 31
+		And user "user0" accepts last share
+		And as "user0" creating a share with
+			| path | test/somefile.txt |
+			| shareType | 3 |
+		And the OCS status code should be "100"
+		When transferring ownership from "user0" to "user1"
+		And the command was successful
+		Then last link share can be downloaded
+
+	Scenario: transferring ownership of folder shared directly by transfer recipient with a link share created by the source
+		Given user "user0" exists
+		And user "user1" exists
+		And User "user1" created a folder "/test"
+		And User "user1" uploads file "data/textfile.txt" to "/test/somefile.txt"
+		And folder "/test" of user "user1" is shared with user "user0" with permissions 31
+		And user "user0" accepts last share
+		And as "user0" creating a share with
+			| path | test/somefile.txt |
+			| shareType | 3 |
+		And the OCS status code should be "100"
+		When transferring ownership from "user0" to "user1"
+		And the command was successful
+		Then last link share can be downloaded
+
 	Scenario: transferring ownership transfers received shares
 		Given user "user0" exists
 		And user "user1" exists
