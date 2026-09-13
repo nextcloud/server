@@ -136,7 +136,7 @@ OC.L10N.register(
     "App directories have the correct owner \"%s\"" : "Adresáre Aplikácie majú správneho vlastníka \"%s\"",
     "Brute-force Throttle" : "Potlačenie Brute-force útoku",
     "Your remote address could not be determined." : "Váša vzdialená adresa sa nedala určiť.",
-    "Your remote address was identified as \"%s\" and is brute-force throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly." : "Váš vzdialený adresár bol identifikovaný ako \"%s\" a momentálne súčasťou potlačovania útoku hrubou silou, čo spomaľuje výkon rôznych požiadaviek. Ak vzdialená adresa nie je vaša adresa, môže to naznačovať, že proxy nie je správne nakonfigurovaná.",
+    "Your remote address was identified as \"%s\" and is brute-force throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly." : "Vaša vzdialená adresa bola identifikovaná ako \"%s\" a momentálne je súčasťou potlačovania útoku hrubou silou, čo spomaľuje výkon rôznych požiadaviek. Ak vzdialená adresa nie je vaša adresa, môže to naznačovať, že proxy nie je správne nakonfigurovaná.",
     "Your remote address \"%s\" is not brute-force throttled." : "Váš vzdialený adresár \"%s\" nie je obmedzený pre útok hrubou silou.",
     "Old administration imported certificates" : "Importované certifikáty starej administrácie",
     "A background job is pending that checks for administration imported SSL certificates. Please check back later." : "Úloha na pozadí čaká na kontrolu administrácie importovaných SSL certifikátov. Skúste to znova neskôr.",
