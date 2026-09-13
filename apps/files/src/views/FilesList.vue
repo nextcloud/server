@@ -770,7 +770,7 @@ export default defineComponent({
 
 		&--public {
 			// There is no navigation toggle on public shares
-			margin-inline: 0 var(--app-navigation-padding, 4px);
+			margin-inline: var(--app-navigation-padding, 4px);
 		}
 
 		>* {
