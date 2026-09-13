@@ -1540,7 +1540,7 @@ class DefaultShareProvider implements
 				$this->sendUserShareMail(
 					$l,
 					$share->getNode()->getName(),
-					$this->urlGenerator->linkToRouteAbsolute('files_sharing.Accept.accept', ['shareId' => $share->getFullId()]),
+					$this->urlGenerator->linkToRouteAbsolute('files_sharing.Accept.showAccept', ['shareId' => $share->getFullId()]),
 					$share->getSharedBy(),
 					$emailAddress,
 					$share->getExpirationDate(),
