@@ -171,6 +171,11 @@ class Generator {
 					&& $preview->getHeight() === $height && $preview->getMimetype() === $maxPreview->getMimetype()
 					&& $preview->getVersion() === $previewVersion && $preview->isCropped() === $crop);
 
+				if ($preview !== null && !$this->storageFactory->previewExists($preview)) {
+					$this->dropStalePreview($previews, $preview, $file);
+					$preview = null;
+				}
+
 				if ($preview) {
 					$previewFile = new PreviewFile($preview, $this->storageFactory, $this->previewMapper);
 				} else {
@@ -316,13 +321,23 @@ class Generator {
 	 * @param Preview[] $previews
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(array $previews, File $file, string $mimeType, ?string $version): Preview {
+	private function getMaxPreview(array &$previews, File $file, string $mimeType, ?string $version): Preview {
 		// We don't know the max preview size, so we can't use getCachedPreview.
 		// It might have been generated with a higher resolution than the current value.
 		foreach ($previews as $preview) {
-			if ($preview->isMax() && ($version === $preview->getVersion())) {
+			if (!$preview->isMax() || $version !== $preview->getVersion()) {
+				continue;
+			}
+
+			if ($this->storageFactory->previewExists($preview)) {
 				return $preview;
 			}
+
+			// The row outlived its file. Everything below assumes the max preview
+			// can be read, so drop the row and generate a new one instead of
+			// failing on this and every later request. It has to go from the
+			// caller's list too, which is still searched for cached previews.
+			$this->dropStalePreview($previews, $preview, $file);
 		}
 
 		$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
@@ -335,13 +350,25 @@ class Generator {
 				// Fetch again, likely two HTTP requests for the same file were done around the same time
 				[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
 				foreach ($previews as $preview) {
-					if ($preview->isMax() && ($version === $preview->getVersion())) {
+					if ($preview->isMax() && ($version === $preview->getVersion()) && $this->storageFactory->previewExists($preview)) {
 						return $preview;
 					}
 				}
 			}
 			throw $e;
 		}
+	}
+
+	/**
+	 * @param Preview[] $previews
+	 */
+	private function dropStalePreview(array &$previews, Preview $preview, File $file): void {
+		$this->logger->warning('Preview of file {path} named {name} is missing from storage, regenerating it.', [
+			'path' => $file->getPath(),
+			'name' => $preview->getName(),
+		]);
+		$this->previewMapper->delete($preview);
+		$previews = array_filter($previews, fn (Preview $candidate): bool => $candidate !== $preview);
 	}
 
 	/**
