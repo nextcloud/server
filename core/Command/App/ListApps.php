@@ -83,7 +83,15 @@ class ListApps extends Base {
 
 			sort($enabledApps);
 			foreach ($enabledApps as $app) {
-				$apps['enabled'][$app] = $versions[$app] ?? true;
+				$groups = $this->appManager->getAppRestriction($app);
+				if (!empty($groups)) {
+					$apps['enabled'][$app] = [
+						'version' => $versions[$app] ?? true,
+						'groups' => $groups,
+					];
+				} else {
+					$apps['enabled'][$app] = $versions[$app] ?? true;
+				}
 			}
 		}
 
