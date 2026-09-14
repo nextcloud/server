@@ -29,5 +29,6 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 		$this->deleteServerConfig('bruteforcesettings', 'apply_allowlist_to_ratelimit');
 		$this->deleteServerConfig('core', 'shareapi_exclude_groups');
 		$this->deleteServerConfig('core', 'shareapi_exclude_groups_list');
+		$this->deleteServerConfig('dav', 'system_addressbook_exposed');
 	}
 }

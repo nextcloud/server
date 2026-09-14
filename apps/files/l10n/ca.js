@@ -202,6 +202,7 @@ OC.L10N.register(
     "No files in here" : "No hi ha cap fitxer aquí",
     "Upload some content or sync with your devices!" : "Pugeu contingut o sincronitzeu els vostres dispositius!",
     "Go back" : "Torna",
+    "Loading …" : "S'està carregant ...",
     "Your files" : "Els vostres fitxers",
     "Open in files" : "Obre a Fitxers",
     "File cannot be accessed" : "No es pot accedir al fitxer",

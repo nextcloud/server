@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Tests\Http\WellKnown;
+namespace Test\Http\WellKnown;
 
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Http\WellKnown\GenericResponse;

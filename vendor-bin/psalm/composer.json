@@ -1,7 +1,7 @@
 {
 	"config": {
 		"platform": {
-			"php": "8.2.27"
+			"php": "8.3.16"
 		},
 		"allow-plugins": {
 			"composer/package-versions-deprecated": true

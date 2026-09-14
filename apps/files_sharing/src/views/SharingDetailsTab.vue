@@ -155,8 +155,7 @@
 					</template>
 					<NcCheckboxRadioSwitch
 						v-if="canTogglePasswordProtectedByTalkAvailable"
-						v-model="isPasswordProtectedByTalk"
-						@update:modelValue="onPasswordProtectedByTalkChange">
+						v-model="isPasswordProtectedByTalk">
 						{{ t('files_sharing', 'Video verification') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch v-model="hasExpirationDate" :disabled="isExpiryDateEnforced">
@@ -178,8 +177,7 @@
 					<NcCheckboxRadioSwitch
 						v-if="isPublicShare"
 						v-model="share.hideDownload"
-						:disabled="canChangeHideDownload"
-						@update:modelValue="queueUpdate('hideDownload')">
+						:disabled="canChangeHideDownload">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
@@ -400,6 +398,13 @@ export default {
 			creating: false,
 			initialToken: this.share.token,
 			loadingToken: false,
+			initialPermissions: undefined,
+			initialExpireDate: undefined,
+			initialNote: undefined,
+			initialLabel: undefined,
+			initialHideDownload: undefined,
+			initialSendPasswordByTalk: undefined,
+			initialHasDownloadPermission: undefined,
 
 			externalShareActions: getSidebarActions(),
 			// legacy
@@ -867,6 +872,14 @@ export default {
 	},
 
 	beforeMount() {
+		this.initialPermissions = this.share.permissions
+		this.initialExpireDate = this.share.expireDate
+		this.initialNote = this.share.note
+		this.initialLabel = this.share.label
+		this.initialHideDownload = this.share.hideDownload
+		this.initialSendPasswordByTalk = this.share.sendPasswordByTalk
+		this.initialHasDownloadPermission = this.share.hasDownloadPermission
+
 		this.initializePermissions()
 		this.initializeAttributes()
 		logger.debug('Share object received', { share: this.share })
@@ -931,6 +944,16 @@ export default {
 
 		cancel() {
 			this.share.token = this.initialToken
+			this.share.permissions = this.initialPermissions
+			this.share.expireDate = this.initialExpireDate
+			this.share.note = this.initialNote
+			this.share.label = this.initialLabel
+			this.share.hideDownload = this.initialHideDownload
+			this.share.sendPasswordByTalk = this.initialSendPasswordByTalk
+			this.share.hasDownloadPermission = this.initialHasDownloadPermission
+
+			this.$set(this.share, 'newPassword', undefined)
+
 			this.$emit('close-sharing-details')
 		},
 
@@ -1065,7 +1088,7 @@ export default {
 
 		async saveShare() {
 			const permissionsAndAttributes = ['permissions', 'attributes', 'note', 'expireDate']
-			const publicShareAttributes = ['label', 'hideDownload']
+			const publicShareAttributes = ['label', 'hideDownload', 'sendPasswordByTalk']
 			// Only include password if it's being actively changed
 			if (this.hasUnsavedPassword) {
 				publicShareAttributes.push('password')
@@ -1097,6 +1120,13 @@ export default {
 				}
 			} else {
 				this.share.password = ''
+			}
+
+			// "Video verification" must be disabled if the password was
+			// disabled, as it does not make sense and would also prevent
+			// saving if it is still enabled.
+			if (this.isPasswordProtectedByTalk && !this.isPasswordProtected) {
+				this.isPasswordProtectedByTalk = false
 			}
 
 			if (!this.hasExpirationDate) {
@@ -1228,28 +1258,12 @@ export default {
 		 */
 		onPasswordChange(password) {
 			if (password === '') {
-				this.$delete(this.share, 'newPassword')
+				this.$set(this.share, 'newPassword', undefined)
 				this.passwordError = this.isNewShare && this.isPasswordEnforced
 				return
 			}
 			this.passwordError = !this.isValidShareAttribute(password)
 			this.$set(this.share, 'newPassword', password)
-		},
-
-		/**
-		 * Update the password along with "sendPasswordByTalk".
-		 *
-		 * If the password was modified the new password is sent; otherwise
-		 * updating a mail share would fail, as in that case it is required that
-		 * a new password is set when enabling or disabling
-		 * "sendPasswordByTalk".
-		 */
-		onPasswordProtectedByTalkChange() {
-			if (this.isEmailShareType || this.hasUnsavedPassword) {
-				this.queueUpdate('sendPasswordByTalk', 'password')
-			} else {
-				this.queueUpdate('sendPasswordByTalk')
-			}
 		},
 
 		isValidShareAttribute(value) {

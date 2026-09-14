@@ -147,11 +147,10 @@
 						</template>
 					</NcEmptyContent>
 					<!-- Offered even with zero results, so the user can reach external providers. -->
-					<div v-if="showConnectedServicesButton" class="unified-search-modal__connected-services">
-						<NcButton variant="secondary" wide @click="toggleExternalResources">
-							{{ connectedServicesLabel }}
-						</NcButton>
-					</div>
+					<ConnectedServicesBar
+						v-if="showConnectedServicesButton"
+						:active="searchExternalResources"
+						@toggle="toggleExternalResources" />
 				</div>
 
 				<div
@@ -159,7 +158,7 @@
 					ref="resultsContainer"
 					class="unified-search-modal__results"
 					:class="{ 'unified-search-modal__results--held': heldHeight !== null }"
-					:style="heldHeight !== null ? { blockSize: `${heldHeight}px`, boxSizing: 'border-box' } : undefined">
+					:style="heldHeight !== null ? { minBlockSize: `${heldHeight}px`, boxSizing: 'border-box' } : undefined">
 					<h3 class="hidden-visually">
 						{{ t('core', 'Results') }}
 					</h3>
@@ -237,11 +236,10 @@
 					<!-- Last, so results that land are never pushed down. -->
 					<SearchResultSkeleton v-if="skeletonRows > 0" :rows="skeletonRows" />
 					<!-- Connected-services opt-in. Toggling re-runs find() (searchExternalResources watcher). Hidden in detail view. -->
-					<div v-if="showConnectedServicesButton" class="unified-search-modal__connected-services">
-						<NcButton variant="secondary" wide @click="toggleExternalResources">
-							{{ connectedServicesLabel }}
-						</NcButton>
-					</div>
+					<ConnectedServicesBar
+						v-if="showConnectedServicesButton"
+						:active="searchExternalResources"
+						@toggle="toggleExternalResources" />
 				</div>
 			</div>
 			<!-- `modal-mask` is how @nextcloud/vue's useHotKey guard recognises an open modal and
@@ -279,6 +277,7 @@ import IconClose from 'vue-material-design-icons/Close.vue'
 import IconDotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
 import IconMagnify from 'vue-material-design-icons/Magnify.vue'
 import IconShapeOutline from 'vue-material-design-icons/ShapeOutline.vue'
+import ConnectedServicesBar from './ConnectedServicesBar.vue'
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import SearchableList from './SearchableList.vue'
 import FilterChip from './SearchFilterChip.vue'
@@ -324,6 +323,7 @@ export default defineComponent({
 		IconMagnify,
 		IconShapeOutline,
 
+		ConnectedServicesBar,
 		CustomDateRangeModal,
 		FilterChip,
 		NcActions,
@@ -661,12 +661,6 @@ export default defineComponent({
 				&& !this.isEmptySearch
 				&& !this.isSearchQueryTooShort
 				&& !this.isBusy
-		},
-
-		connectedServicesLabel() {
-			return this.searchExternalResources
-				? t('core', 'Less from connected services')
-				: t('core', 'More from connected services')
 		},
 
 		// The rendered rows flattened into a single list in visual order (filtered
@@ -1785,16 +1779,6 @@ export default defineComponent({
 		justify-content: center;
 	}
 
-	// End-of-list (and empty-state) connected-services opt-in.
-	&__connected-services {
-		display: flex;
-		flex-wrap: wrap;
-		// Stretch to panel width so the wide button fills it (the empty-state's centred column
-		// would otherwise shrink it to content width).
-		width: 100%;
-		margin-block-start: calc(var(--default-grid-baseline) * 3);
-	}
-
 	// Directional glyphs (back arrow, more-from chevron) point the other way in RTL.
 	// :dir(rtl) tracks the computed direction, unlike an [dir=rtl] attribute selector.
 	&__rtl-icon:dir(rtl) {
@@ -1807,20 +1791,30 @@ export default defineComponent({
 		min-height: 0;
 		overflow: hidden auto;
 
-		// The placeholders deliberately overfill, so the bottom fades out over the cut.
+		// The reserved height is a floor, not a size. Column layout so the placeholders can
+		// take what the results leave.
 		&--held {
+			display: flex;
+			flex-direction: column;
 			flex-grow: 0;
-			overflow: clip;
-			// Capped, so a short box does not spend a third of itself fading.
-			mask-image: linear-gradient(to bottom, #000 calc(100% - min(2lh, 25%)), transparent);
+
+			> *:not(.search-result-skeleton) {
+				flex: none;
+			}
 		}
 		// Adjust padding to match container but keep the scrollbar on the very end
 		padding-inline: calc(var(--default-grid-baseline) * 4);
 		padding-block: 0 calc(var(--default-grid-baseline) * 4);
 
-		// Matches the gap a category title keeps above itself.
 		.search-result-skeleton {
+			// Matches the gap a category title keeps above itself.
 			margin-block-start: 14px;
+			// The placeholders deliberately overfill, so the bottom fades out over the cut.
+			flex: 1 1 0;
+			min-block-size: 0;
+			overflow: clip;
+			// Capped, so a short box does not spend a third of itself fading.
+			mask-image: linear-gradient(to bottom, #000 calc(100% - min(2lh, 25%)), transparent);
 		}
 
 		.result {
@@ -1891,7 +1885,7 @@ export default defineComponent({
 
 // Ensure modal is accessible on small devices
 @media only screen and (max-height: 400px) {
-	.unified-search-modal__results:not(.unified-search-modal__results--held) {
+	.unified-search-modal__results {
 		overflow: unset;
 	}
 }

@@ -157,7 +157,7 @@ class Manager implements IManager {
 
 	private function findEditorForFile(File $file) {
 		foreach ($this->editors as $editor) {
-			if (in_array($file->getMimeType(), $editor->getMimetypes())) {
+			if (in_array($file->getMimeType(), $editor->getMimetypes(), true)) {
 				return $editor->getId();
 			}
 		}

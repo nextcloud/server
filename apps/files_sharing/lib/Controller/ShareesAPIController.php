@@ -74,6 +74,7 @@ class ShareesAPIController extends OCSController {
 		protected IManager $shareManager,
 		protected ISearch $collaboratorSearch,
 		protected FederatedShareProvider $federatedShareProvider,
+		protected IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -161,7 +162,7 @@ class ShareesAPIController extends OCSController {
 		}
 
 		// FIXME: DI
-		if (Server::get(IAppManager::class)->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
+		if ($this->appManager->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
 			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 
@@ -183,25 +184,26 @@ class ShareesAPIController extends OCSController {
 		$this->result['lookupEnabled'] = Server::get(GlobalScaleIConfig::class)->isGlobalScaleEnabled();
 		// TODO: Reconsider using lookup server for non-global-scale federation
 
-		[$result, $hasMoreResults] = $this->collaboratorSearch->search($search, $shareTypes, $this->result['lookupEnabled'], $this->limit, $this->offset);
+		[$result, $hasMoreResults] = $this->collaboratorSearch->filteredSearch($search, $shareTypes, $this->result['lookupEnabled'], $itemType, null, $this->limit, $this->offset);
 
 		// extra treatment for 'exact' subarray, with a single merge expected keys might be lost
 		if (isset($result['exact'])) {
 			$result['exact'] = array_merge($this->result['exact'], $result['exact']);
 		}
-		$this->result = array_merge($this->result, $result);
-		$response = new DataResponse($this->result);
+		/** @var Files_SharingShareesSearchResult $result */
+		$result = array_merge($this->result, $result);
 
+		$headers = [];
 		if ($hasMoreResults) {
-			$response->setHeaders(['Link' => $this->getPaginationLink($page, [
+			$headers['Link'] = $this->getPaginationLink($page, [
 				'search' => $search,
 				'itemType' => $itemType,
 				'shareType' => $shareTypes,
 				'perPage' => $perPage,
-			])]);
+			]);
 		}
 
-		return $response;
+		return new DataResponse($result, Http::STATUS_OK, $headers);
 	}
 
 	/**

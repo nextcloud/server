@@ -99,7 +99,7 @@ function resolveService($service) {
 
 \OC::boot();
 
-\OC::handleRequests(static function () {
+\OC::handleRequests(static function (): void {
 	try {
 		\OC::initForRequest();
 

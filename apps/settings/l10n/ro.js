@@ -195,7 +195,6 @@ OC.L10N.register(
     "Unnamed device" : "Dispozitiv fără nume",
     "Your browser does not support WebAuthn." : "Browserul dvs. nu acceptă WebAuthn.",
     "Send mode" : "Modul de expediere",
-    "Encryption" : "Încriptare",
     "From address" : "De la adresa",
     "Domain" : "Domeniu",
     "Server address" : "Adresa server-ului",
@@ -283,6 +282,7 @@ OC.L10N.register(
     "Email sent" : "Mesajul a fost expediat",
     "Disable" : "Dezactivați",
     "SSL" : "SSL",
+    "Encryption" : "Încriptare",
     "Credentials" : "Detalii de autentificare",
     "SMTP Password" : "Parolă SMTP"
 },

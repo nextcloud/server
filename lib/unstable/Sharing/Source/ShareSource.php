@@ -81,6 +81,9 @@ final class ShareSource {
 			++$sourceDisplayNames[$displayName];
 		}
 
+		// First sort by class and then sort by value to get a stable order regardless of the DB order
+		usort($sources, static fn (ShareSource $a, ShareSource $b): int => 2 * ($a->class <=> $b->class) + ($a->value <=> $b->value));
+
 		return array_map(static fn (ShareSource $source): array => $source->format($registry, $l10nFactory, $sourceDisplayNames[$source->getMetadata($registry)->getDisplayName()] === 1), $sources);
 	}
 

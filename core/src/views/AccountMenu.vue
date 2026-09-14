@@ -10,9 +10,7 @@
 		:aria-label="t('core', 'Settings menu')"
 		:description="avatarDescription">
 		<template #trigger>
-			<!-- The `key` is a hack as NcAvatar does not handle updating the preloaded status on show status change -->
 			<NcAvatar
-				:key="String(showUserStatus)"
 				class="account-menu__avatar"
 				disable-menu
 				disable-tooltip
@@ -40,18 +38,15 @@
 
 <script lang="ts">
 import { getCurrentUser } from '@nextcloud/auth'
-import axios from '@nextcloud/axios'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { generateOcsUrl } from '@nextcloud/router'
 import { defineComponent } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
 import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
 import AccountMenuProfileEntry from '../components/AccountMenu/AccountMenuProfileEntry.vue'
-import logger from '../logger.js'
 
 interface ISettingsNavigationEntry {
 	/**
@@ -114,6 +109,34 @@ const USER_DEFINABLE_STATUSES = [{
 	subline: t('user_status', 'Appear offline'),
 }]
 
+interface IPreloadedUserStatus {
+	status: string | null
+	icon: string | null
+	message: string | null
+}
+
+/**
+ * NcAvatar fetches the status itself when `preloadedUserStatus` is falsy, so
+ * always hand it a shape, even when there is nothing to show.
+ */
+function loadInitialUserStatus(): { showUserStatus: boolean, userStatus: IPreloadedUserStatus } {
+	const userStatus: IPreloadedUserStatus = { status: null, icon: null, message: null }
+
+	if (!getCapabilities()?.user_status?.enabled) {
+		return { showUserStatus: false, userStatus }
+	}
+
+	// JSDataService emits `[]`, not an object, when there is no session user
+	const state = loadState<Partial<IPreloadedUserStatus> | unknown[] | null>('user_status', 'status', null)
+	if (state === null || typeof state !== 'object' || Array.isArray(state)) {
+		return { showUserStatus: false, userStatus }
+	}
+
+	// `avatarDescription` joins everything truthy in here, so drop the payload's other fields
+	const { status = null, icon = null, message = null } = state
+	return { showUserStatus: true, userStatus: { status, icon, message } }
+}
+
 export default defineComponent({
 	name: 'AccountMenu',
 
@@ -140,14 +163,7 @@ export default defineComponent({
 	},
 
 	data() {
-		return {
-			showUserStatus: false,
-			userStatus: {
-				status: null,
-				icon: null,
-				message: null,
-			},
-		}
+		return loadInitialUserStatus()
 	},
 
 	computed: {
@@ -165,22 +181,6 @@ export default defineComponent({
 			].join(' — ')
 			return description
 		},
-	},
-
-	async created() {
-		if (!getCapabilities()?.user_status?.enabled) {
-			return
-		}
-
-		const url = generateOcsUrl('/apps/user_status/api/v1/user_status')
-		try {
-			const response = await axios.get(url)
-			const { status, icon, message } = response.data.ocs.data
-			this.userStatus = { status, icon, message }
-		} catch (error) {
-			logger.error('Failed to load user status', { error })
-		}
-		this.showUserStatus = true
 	},
 
 	mounted() {

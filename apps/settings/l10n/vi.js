@@ -320,7 +320,6 @@ OC.L10N.register(
     "Your browser does not support WebAuthn." : "Trình duyệt của bạn không hỗ trợ WebAuthn.",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Điều quan trọng là phải thiết lập máy chủ này để có thể gửi email, chẳng hạn như để đặt lại mật khẩu và thông báo.",
     "Send mode" : "Chế độ gửi",
-    "Encryption" : "Mã hóa",
     "Sendmail mode" : "Chế độ gửi thư",
     "Disable certificate verification (insecure)" : "Tắt xác minh chứng chỉ (không an toàn)",
     "From address" : "Từ địa chỉ",
@@ -463,6 +462,7 @@ OC.L10N.register(
     "The app will be downloaded from the App Store" : "Ứng dụng sẽ được tải xuống từ App Store",
     "Error: This app cannot be enabled because it makes the server unstable" : "Lỗi: Không thể kích hoạt ứng dụng này vì nó khiến máy chủ không ổn định",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Ứng dụng đã được kích hoạt nhưng cần được cập nhật. Bạn sẽ được chuyển hướng đến trang cập nhật sau 5 giây.",
+    "Encryption" : "Mã hóa",
     "Credentials" : "Giấy chứng nhận",
     "SMTP Password" : "Mật khẩu SMTP",
     "Test and verify email settings" : "Kiểm tra và xác minh cài đặt email"

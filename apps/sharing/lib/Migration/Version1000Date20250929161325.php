@@ -53,8 +53,8 @@ final class Version1000Date20250929161325 extends SimpleMigrationStep {
 		$sourcesTable->addForeignKeyConstraint($shareTable->getName(), ['share_id'], ['id'], ['onDelete' => 'CASCADE']);
 		$sourcesTable->addForeignKeyConstraint($mappingTable->getName(), ['source_class_id'], ['class_id']);
 
-		// TODO: Add possibility to mask permissions for recipients. For reshares the user may only mask permissions for their child recipients, not their self recipients
 		$recipientsTable = $schema->createTable('sharing_share_recipients');
+		$recipientsTable->addColumn('id', Types::BIGINT);
 		$recipientsTable->addColumn('share_id', Types::BIGINT);
 		$recipientsTable->addColumn('recipient_class_id', Types::INTEGER);
 		$recipientsTable->addColumn('recipient_value', Types::STRING, ['length' => 255]);
@@ -62,7 +62,8 @@ final class Version1000Date20250929161325 extends SimpleMigrationStep {
 		$recipientsTable->addColumn('recipient_secret', Types::STRING, ['length' => 32]);
 		$recipientsTable->addColumn('initiator_user_id', Types::STRING, ['length' => 64]);
 		$recipientsTable->addColumn('initiator_instance', Types::STRING, ['length' => 128, 'notnull' => false]);
-		$recipientsTable->setPrimaryKey(['share_id', 'recipient_class_id', 'recipient_value']);
+		$recipientsTable->setPrimaryKey(['id']);
+		$recipientsTable->addUniqueIndex(['share_id', 'recipient_class_id', 'recipient_value']);
 		$recipientsTable->addForeignKeyConstraint($shareTable->getName(), ['share_id'], ['id'], ['onDelete' => 'CASCADE']);
 		// TODO: Maybe needs composite index with share_id
 		$recipientsTable->addUniqueIndex(['recipient_secret']);

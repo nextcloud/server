@@ -119,7 +119,7 @@ class MountCacheService implements IEventListener {
 		$data = [
 			'path' => '',
 			'path_hash' => md5(''),
-			'size' => 0,
+			'size' => -1,
 			'unencrypted_size' => 0,
 			'mtime' => 0,
 			'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE,

@@ -29,6 +29,7 @@ class Provider implements IProvider {
 	public const APP_TOKEN_CREATED = 'app_token_created';
 	public const APP_TOKEN_DELETED = 'app_token_deleted';
 	public const APP_TOKEN_DELETED_WIPE_CANCELLED = 'app_token_deleted_wipe_cancelled';
+	public const APP_TOKEN_DELETED_ALL = 'app_token_deleted_all';
 	public const APP_TOKEN_RENAMED = 'app_token_renamed';
 	public const APP_TOKEN_FILESYSTEM_GRANTED = 'app_token_filesystem_granted';
 	public const APP_TOKEN_FILESYSTEM_REVOKED = 'app_token_filesystem_revoked';
@@ -90,6 +91,13 @@ class Provider implements IProvider {
 			$subject = $this->l->t('You deleted app password "{token}"');
 		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED_WIPE_CANCELLED) {
 			$subject = $this->l->t('You deleted app password "{token}" and cancelled its pending remote wipe');
+		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED_ALL) {
+			$count = (int)($event->getSubjectParameters()['count'] ?? 0);
+			$subject = $this->l->n(
+				'You revoked %n other session',
+				'You revoked %n other sessions',
+				$count,
+			);
 		} elseif ($event->getSubject() === self::APP_TOKEN_RENAMED) {
 			$subject = $this->l->t('You renamed app password "{token}" to "{newToken}"');
 		} elseif ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_GRANTED) {
@@ -121,6 +129,7 @@ class Provider implements IProvider {
 			case self::PASSWORD_RESET_SELF:
 			case self::EMAIL_CHANGED_SELF:
 			case self::EMAIL_CHANGED:
+			case self::APP_TOKEN_DELETED_ALL:
 				return [];
 			case self::PASSWORD_CHANGED_BY:
 			case self::EMAIL_CHANGED_BY:

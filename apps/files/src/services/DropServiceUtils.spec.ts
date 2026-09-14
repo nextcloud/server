@@ -10,6 +10,8 @@ import { logger } from '../utils/logger.ts'
 import { dataTransferToFileTree } from './DropService.ts'
 import { Directory, traverseTree } from './DropServiceUtils.ts'
 
+vi.mock('@nextcloud/dialogs')
+
 const dataTree = {
 	'file0.txt': ['Hello, world!', 1234567890],
 	dir1: {

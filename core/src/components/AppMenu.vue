@@ -117,8 +117,9 @@ const PROFILE_ID = 'profile'
 // Entry of the app management page, the target of the "More apps" tile.
 const APP_MANAGEMENT_ID = 'appstore'
 
-// Hover delays, same values as github.com's header navigation.
-const HOVER_OPEN_DELAY = 90
+// Pause before hover opens the menu: the trigger sits in the corner, which
+// cursors cross on the way elsewhere.
+const HOVER_OPEN_DELAY = 300
 const HOVER_CLOSE_DELAY = 180
 // Ignore a trigger click this long after a hover-open, so it does not close again.
 const HOVER_CLICK_GRACE = 500
@@ -152,6 +153,8 @@ export default defineComponent({
 			appList,
 			navigationActions,
 			settingsList,
+			// Fail closed: a missing state must not leak the link.
+			appStoreLinkShown: loadState<boolean>('core', 'appStoreLinkShown', false),
 			isAdmin: getCurrentUser()?.isAdmin ?? false,
 			// Roving tabindex: only this tile has tabindex=0; arrow keys move it.
 			focusedIndex: 0,
@@ -252,12 +255,16 @@ export default defineComponent({
 
 		// Stable-ordered list that focusedIndex indexes into. The trailing
 		// utility tile is "More apps" (local app management) for admins and
-		// "App store" (apps.nextcloud.com) for everyone else.
+		// "App store" (apps.nextcloud.com) for everyone else when
+		// appstore_link_shown allows it.
 		gridItems(): INavigationEntry[] {
-			const tail = this.isAdmin
-				? { ...this.moreAppsEntry, active: this.currentApp?.id === APP_MANAGEMENT_ID }
-				: this.appStoreEntry
-			return [...this.appList, tail]
+			const tail: INavigationEntry[] = []
+			if (this.isAdmin) {
+				tail.push({ ...this.moreAppsEntry, active: this.currentApp?.id === APP_MANAGEMENT_ID })
+			} else if (this.appStoreLinkShown) {
+				tail.push(this.appStoreEntry)
+			}
+			return [...this.appList, ...tail]
 		},
 	},
 

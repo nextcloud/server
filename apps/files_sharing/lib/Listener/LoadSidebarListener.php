@@ -38,6 +38,8 @@ class LoadSidebarListener implements IEventListener {
 			return;
 		}
 		Util::addScript(Application::APP_ID, 'files_sharing_tab', 'files');
+		// Vue 3 bridge exposing the unified sharing dialog on OCA.Sharing for the
+		// (Vue 2) sidebar to trigger without bundling Vue 3.
 
 		$appConfig = Server::get(IAppConfig::class);
 		$gsConfig = Server::get(IConfig::class);

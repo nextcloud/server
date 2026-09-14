@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Tests\Authentication\TwoFactorAuth;
+namespace Test\Authentication\TwoFactorAuth;
 
 use OC\Authentication\TwoFactorAuth\EnforcementState;
 use OC\Authentication\TwoFactorAuth\MandatoryTwoFactor;

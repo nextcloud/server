@@ -9,18 +9,18 @@ declare(strict_types=1);
 
 namespace OCA\Sharing\Middleware;
 
+use NCU\Sharing\ISharingManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\Server;
-use OCP\Share\IManager;
 
 final class ShareApiEnabledMiddleware extends Middleware {
 	#[\Override]
 	public function beforeController(Controller $controller, string $methodName): void {
-		if (!Server::get(IManager::class)->shareApiEnabled()) {
-			throw new OCSException('The Share API is not enabled.', Http::STATUS_NOT_IMPLEMENTED);
+		if (!Server::get(ISharingManager::class)->isApiEnabled()) {
+			throw new OCSException('The Unified Sharing API is not enabled.', Http::STATUS_NOT_IMPLEMENTED);
 		}
 	}
 }

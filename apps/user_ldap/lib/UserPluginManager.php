@@ -61,7 +61,7 @@ class UserPluginManager {
 	 * @return bool
 	 */
 	public function implementsActions($actions) {
-		return ($actions & $this->respondToActions) == $actions;
+		return ($actions & $this->respondToActions) === $actions;
 	}
 
 	/**

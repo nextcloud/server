@@ -268,7 +268,7 @@ SPDX-FileCopyrightText = "2017-2024 Michael Richins"
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = "core/img/apps/richdocumentscode.svg"
+path = ["core/img/apps/richdocumentscode.svg", "core/img/collabora-office.svg"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2016-2024 Collabora Ltd."
 SPDX-License-Identifier = "LicenseRef-CollaboraTrademarks"
@@ -344,3 +344,15 @@ path = ["openapi.json", ".envrc", "flake.nix", "flake.lock", "build/eslint-basel
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = "core/img/nextcloud-office.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Google LLC (icon: Material Symbols), 2026 Nextcloud GmbH (Name/Text)"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "core/img/libreoffice.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2011-2026 The Document Foundation"
+SPDX-License-Identifier = "LicenseRef-TheDocumentFoundationTrademarks"

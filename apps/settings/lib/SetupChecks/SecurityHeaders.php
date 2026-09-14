@@ -57,7 +57,7 @@ class SecurityHeaders implements ISetupCheck {
 			$works = null;
 			foreach ($this->runRequest($verb, $url, ['httpErrors' => false]) as $response) {
 				// Check that the response status matches
-				if (!in_array($response->getStatusCode(), $validStatuses)) {
+				if (!in_array($response->getStatusCode(), $validStatuses, true)) {
 					$works = false;
 					continue;
 				}

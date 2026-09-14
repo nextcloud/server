@@ -43,6 +43,7 @@ vi.mock('../../logger.js', () => ({
 	unifiedSearchLogger: { debug: vi.fn(), error: vi.fn() },
 }))
 
+import ConnectedServicesBar from '../../components/UnifiedSearch/ConnectedServicesBar.vue'
 import UnifiedSearchModal from '../../components/UnifiedSearch/UnifiedSearchModal.vue'
 import { isCategoryVisible } from '../../services/UnifiedSearchController.ts'
 
@@ -1047,7 +1048,7 @@ describe('UnifiedSearchModal result presentation', () => {
 		expect(wrapper.vm.detailCategory).toBeNull()
 	})
 
-	it('labels the connected-services button by the toggle state and re-runs find on toggle', async () => {
+	it('offers the connected-services opt-in and re-runs find when it is flipped', async () => {
 		const wrapper = factory()
 		wrapper.vm.providers = [
 			{ id: 'files', name: 'Files', order: 0 },
@@ -1061,13 +1062,14 @@ describe('UnifiedSearchModal result presentation', () => {
 		wrapper.vm.find('query')
 		await wrapper.vm.$nextTick()
 
-		expect(buttonWithText(wrapper, 'More from connected services')).toBeTruthy()
+		const bar = wrapper.findComponent(ConnectedServicesBar)
+		expect(bar.props('active')).toBe(false)
 
-		wrapper.vm.toggleExternalResources()
+		bar.vm.$emit('toggle')
 		await wrapper.vm.$nextTick()
 
 		expect(searchSpy).toHaveBeenCalled()
-		expect(buttonWithText(wrapper, 'Less from connected services')).toBeTruthy()
+		expect(bar.props('active')).toBe(true)
 	})
 
 	it('returns focus to the search input after toggling connected services', async () => {
@@ -1105,7 +1107,7 @@ describe('UnifiedSearchModal result presentation', () => {
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.showEmptyContentInfo).toBe(true)
-		expect(buttonWithText(wrapper, 'connected services')).toBeTruthy()
+		expect(wrapper.findComponent(ConnectedServicesBar).exists()).toBe(true)
 	})
 
 	it('no longer renders the connected-services switch in the filter row', async () => {
@@ -1267,13 +1269,35 @@ describe('UnifiedSearchModal loading skeleton', () => {
 		expect(wrapper.vm.skeletonRows * 60).toBeGreaterThanOrEqual(300)
 	})
 
+	// isBusy stays true until the last provider answers, so the box carries real results meanwhile.
+	it('reserves the height as a floor, so landed results are never cut off', async () => {
+		const wrapper = await withResults()
+		measureResultsAt(wrapper, 300)
+		wrapper.vm.searchQuery = 'querying'
+		await wrapper.vm.$nextTick()
+		wrapper.vm.find('querying')
+
+		searchStates.value = {
+			files: loaded([{ resourceUrl: '/a' }, { resourceUrl: '/b' }, { resourceUrl: '/c' }]),
+			talk: { status: 'loading', entries: [], cursor: null, hasMore: false, loadMoreFailed: false },
+		}
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.isBusy).toBe(true)
+		expect(wrapper.vm.hasVisibleResults).toBe(true)
+
+		const style = wrapper.find('.unified-search-modal__results').attributes('style')
+		expect(style).toContain('min-block-size: 300px')
+		expect(style).not.toMatch(/(^|[^-])block-size: 300px/)
+	})
+
 	it('holds the same height through repeated keystrokes rather than creeping taller', async () => {
 		const wrapper = await withResults()
 		const box = wrapper.vm.$refs.resultsContainer as HTMLElement
 		// Stand in for the browser: report the padding on top of whatever height is set.
 		const padding = 16
 		vi.spyOn(box, 'getBoundingClientRect').mockImplementation(() => ({
-			height: (parseFloat(box.style.blockSize) || 300) + (box.style.boxSizing === 'border-box' ? 0 : padding),
+			height: (parseFloat(box.style.minBlockSize) || 300) + (box.style.boxSizing === 'border-box' ? 0 : padding),
 		}) as DOMRect)
 
 		wrapper.vm.searchQuery = 'q1'

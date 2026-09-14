@@ -217,7 +217,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 	#[\Override]
 	public function getAuthorizedAppConfig(): array {
 		return [
-			'core' => ['/ai..*/'],
+			'core' => ['/^ai\..*$/'],
 		];
 	}
 }

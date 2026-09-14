@@ -55,6 +55,11 @@ interface ISharingManager {
 	public function getTime(): \DateTimeImmutable;
 
 	/**
+	 * @experimental 35.0.0
+	 */
+	public function isApiEnabled(): bool;
+
+	/**
 	 * Create a new share.
 	 *
 	 * @experimental 35.0.0
@@ -77,6 +82,13 @@ interface ISharingManager {
 	 * @experimental 35.0.0
 	 */
 	public function updateShareState(ShareAccessContext $accessContext, Share $share, ShareState $state): Share;
+
+	/**
+	 * Update the user status for a share.
+	 *
+	 * @experimental 35.0.0
+	 */
+	public function updateShareUserStatus(ShareAccessContext $accessContext, Share $share, ShareUserStatus $userStatus): Share;
 
 	/**
 	 * Add a new source to a share.
@@ -168,6 +180,15 @@ interface ISharingManager {
 	public function updateSharePermission(ShareAccessContext $accessContext, Share $share, SharePermission $permission): Share;
 
 	/**
+	 * Update a permission for a recipient of a share.
+	 *
+	 * @throws ShareNotFoundException
+	 * @throws ShareOperationForbiddenException
+	 * @experimental 35.0.0
+	 */
+	public function updateShareRecipientPermission(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, SharePermission $permission): Share;
+
+	/**
 	 * Select a permission preset for a share.
 	 *
 	 * @param class-string<ISharePermissionPreset> $permissionPresetClass
@@ -194,7 +215,6 @@ interface ISharingManager {
 	 */
 	public function getShare(ShareAccessContext $accessContext, string $id): Share;
 
-	// TODO: Implement filtering by state.
 	/**
 	 * Get multiple shares.
 	 *
@@ -204,5 +224,5 @@ interface ISharingManager {
 	 * @return list<Share>
 	 * @experimental 35.0.0
 	 */
-	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array;
+	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array;
 }

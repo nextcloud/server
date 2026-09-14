@@ -1,11 +1,12 @@
 {
 	"require-dev": {
+		"ext-intl" : "*",
 		"rector/rector": "^2.6",
 		"nextcloud/rector": "^0.5.0"
 	},
 	"config": {
 		"platform": {
-			"php": "8.2"
+			"php": "8.3"
 		}
 	}
 }

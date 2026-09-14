@@ -97,3 +97,21 @@ Feature: avatar
       | Content-Type | image/png |
     And last avatar is a square of size 512
     And last avatar is not a single color
+
+  Scenario: Get avatar for users with cloudID formatted user id
+    Given user "user@example.tld" exists
+    Given Logging in using web as "user@example.tld"
+    When logged in user posts avatar from file "data/green-square-256.png"
+    And user "user@example.tld" gets avatar for user "user@example.tld"
+    And The following headers should be set
+      | Content-Type | image/png |
+      | X-NC-IsCustomAvatar | 1 |
+    # Last avatar size is 512 by default when getting avatar without size parameter
+    And last avatar is a square of size 512
+    And last avatar is a single "#00FF00" color
+    And user "anonymous" gets avatar for user "user@example.tld"
+    And The following headers should be set
+      | Content-Type | image/png |
+      | X-NC-IsCustomAvatar | 1 |
+    And last avatar is a square of size 512
+    And last avatar is a single "#00FF00" color

@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Core\Command\Preview;
+namespace Tests\Core\Command\Preview;
 
 use OC\Core\Command\Preview\Cleanup;
 use OC\Preview\PreviewService;

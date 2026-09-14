@@ -14,6 +14,7 @@ OC.L10N.register(
     "Please use the AIO interface to switch between office suites." : "Використовуйте інтерфейс AIO для перемикання між офісними пакетами.",
     "Disable office suites" : "Вимкнути офісні пакети",
     "installed" : "встановлено",
+    "Features" : "Функціональність",
     "Learn more" : "Дізнатися більше",
     "Daemon" : "Демон",
     "Deploy Daemon" : "Розгортання демона",

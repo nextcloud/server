@@ -262,27 +262,6 @@ export default {
 		},
 
 		/**
-		 * Note changed, let's save it to a different key
-		 *
-		 * @param {string} note the share note
-		 */
-		onNoteChange(note) {
-			this.$set(this.share, 'newNote', note.trim())
-		},
-
-		/**
-		 * When the note change, we trim, save and dispatch
-		 *
-		 */
-		onNoteSubmit() {
-			if (this.share.newNote) {
-				this.share.note = this.share.newNote
-				this.$delete(this.share, 'newNote')
-				this.queueUpdate('note')
-			}
-		},
-
-		/**
 		 * Delete share button handler
 		 */
 		async onDelete() {
@@ -348,7 +327,7 @@ export default {
 						if (propertyNames.includes('password')) {
 							// reset password state after sync
 							this.share.password = this.share.newPassword || undefined
-							this.$delete(this.share, 'newPassword')
+							this.$set(this.share, 'newPassword', undefined)
 
 							// updates password expiration time after sync
 							this.share.passwordExpirationTime = updatedShare.password_expiration_time
@@ -419,7 +398,7 @@ export default {
 				if (this.share.newPassword === this.share.password) {
 					this.share.password = ''
 				}
-				this.$delete(this.share, 'newPassword')
+				this.$set(this.share, 'newPassword', undefined)
 			}
 
 			// re-open menu if closed

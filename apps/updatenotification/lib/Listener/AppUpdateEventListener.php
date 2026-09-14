@@ -36,7 +36,7 @@ class AppUpdateEventListener implements IEventListener {
 			return;
 		}
 
-		if (!$this->appConfig->getValueBool(Application::APP_NAME, 'app_updated.enabled', true)) {
+		if (!$this->appConfig->getValueBool(Application::APP_ID, 'app_updated.enabled', true)) {
 			return;
 		}
 
@@ -55,7 +55,7 @@ class AppUpdateEventListener implements IEventListener {
 		$this->logger->debug(
 			'Scheduled app update notification for "' . $event->getAppId() . '"',
 			[
-				'app' => Application::APP_NAME,
+				'app' => Application::APP_ID,
 			],
 		);
 	}

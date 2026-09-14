@@ -404,6 +404,90 @@ class RepositoryTest extends TestCase {
 		$this->assertCount(0, $entities);
 	}
 
+	public function testFindByAfterId(): void {
+		$repo = $this->getRepository(PrimaryKey::class);
+
+		$entities = [];
+		for ($i = 0; $i < 5; $i++) {
+			$entity = new PrimaryKey();
+			$entity->name = 'entry' . $i;
+			$entity->notNullable = 'testFindByAfterId';
+			$entity->integer = $i;
+			$entity->bigInt = $i;
+			$entity->float = 1.0;
+			$entity->date = new \DateTime('now');
+			$repo->insert($entity);
+			$entities[] = $entity;
+		}
+
+		// Walk through every page, seeking from the last id of the previous one, until a page
+		// comes back smaller than the requested limit.
+		$seenIds = [];
+		$lastId = null;
+		do {
+			$page = iterator_to_array($repo->findByAfterId(['notNullable' => 'testFindByAfterId'], $lastId, 2));
+			foreach ($page as $entity) {
+				$seenIds[] = $entity->id;
+				$lastId = $entity->id;
+			}
+		} while (count($page) === 2);
+
+		$this->assertEquals(array_map(static fn (PrimaryKey $entity): ?int => $entity->id, $entities), $seenIds);
+
+		foreach ($entities as $entity) {
+			$repo->delete($entity);
+		}
+	}
+
+	public function testFindByAfterIdWithCompositePrimaryKeyThrows(): void {
+		$repo = $this->getRepository(CompositeKey::class);
+
+		$this->expectException(\LogicException::class);
+		iterator_to_array($repo->findByAfterId([], null, 10));
+	}
+
+	public function testFindByBeforeId(): void {
+		$repo = $this->getRepository(PrimaryKey::class);
+
+		$entities = [];
+		for ($i = 0; $i < 5; $i++) {
+			$entity = new PrimaryKey();
+			$entity->name = 'entry' . $i;
+			$entity->notNullable = 'testFindByBeforeId';
+			$entity->integer = $i;
+			$entity->bigInt = $i;
+			$entity->float = 1.0;
+			$entity->date = new \DateTime('now');
+			$repo->insert($entity);
+			$entities[] = $entity;
+		}
+
+		// Walk through every page, seeking from the last id of the previous one, until a page
+		// comes back smaller than the requested limit.
+		$seenIds = [];
+		$lastId = null;
+		do {
+			$page = iterator_to_array($repo->findByBeforeId(['notNullable' => 'testFindByBeforeId'], $lastId, 2));
+			foreach ($page as $entity) {
+				$seenIds[] = $entity->id;
+				$lastId = $entity->id;
+			}
+		} while (count($page) === 2);
+
+		$this->assertEquals(array_reverse(array_map(static fn (PrimaryKey $entity): ?int => $entity->id, $entities)), $seenIds);
+
+		foreach ($entities as $entity) {
+			$repo->delete($entity);
+		}
+	}
+
+	public function testFindByBeforeIdWithCompositePrimaryKeyThrows(): void {
+		$repo = $this->getRepository(CompositeKey::class);
+
+		$this->expectException(\LogicException::class);
+		iterator_to_array($repo->findByBeforeId([], null, 10));
+	}
+
 	public function testCompositePrimaryKey(): void {
 		$repo = $this->getRepository(CompositeKey::class);
 		$this->assertEquals('repository_composite_key', $repo->getTableName());

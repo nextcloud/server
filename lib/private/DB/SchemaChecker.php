@@ -14,7 +14,9 @@ use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\Types;
 use OC\Migration\NullOutput;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\IAppConfig;
 
 /**
  * Compares the live database schema against the schema expected for the
@@ -24,19 +26,33 @@ use OCP\App\IAppManager;
 class SchemaChecker {
 	public function __construct(
 		private readonly Connection $connection,
+		private readonly IAppConfig $appConfig,
 		private readonly IAppManager $appManager,
 	) {
 	}
 
 	/**
-	 * @return list<array{table: string, type: string, name?: string, changes?: list<string>}>
+	 * @return list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool}>
 	 */
 	public function getFindings(?string $onlyTable = null): array {
 		$expectedSchema = new Schema();
+		$enabledApps = array_flip($this->appManager->getEnabledApps());
+
 		$this->applyMigrations('core', $expectedSchema);
-		foreach ($this->appManager->getEnabledApps() as $app) {
+
+		// Enabled apps are already autoloaded at boot, no extra class loading needed.
+		foreach (array_keys($enabledApps) as $app) {
 			$this->applyMigrations($app, $expectedSchema);
 		}
+
+		// Disabled apps keep their tables, so replay their migrations too.
+		$disabledApps = array_diff(array_keys($this->appConfig->getAppInstalledVersions()), array_keys($enabledApps));
+		// Table name => owning disabled app, so its findings can be marked non-blocking below.
+		$disabledAppTableOwners = [];
+		foreach ($disabledApps as $app) {
+			$this->applyDisabledMigrations($app, $expectedSchema, $disabledAppTableOwners);
+		}
+
 		$this->addMigrationsTable($expectedSchema);
 		$this->materializeUniqueConstraints($expectedSchema);
 
@@ -50,11 +66,17 @@ class SchemaChecker {
 		$comparator = $this->connection->createSchemaManager()->createComparator();
 		$diff = $comparator->compareSchemas($liveSchema, $expectedSchema);
 
-		return $this->buildFindings($diff);
+		return array_map(function (array $finding) use ($disabledAppTableOwners, $enabledApps): array {
+			$app = $disabledAppTableOwners[$finding['table']] ?? null;
+			$finding['app'] = $app;
+			// Only tables owned by a disabled app are non-blocking.
+			$finding['enabled'] = $app === null || $app === 'core' || isset($enabledApps[$app]);
+			return $finding;
+		}, $this->buildFindings($diff));
 	}
 
 	/**
-	 * @param array{table: string, type: string, name?: string, changes?: list<string>} $finding
+	 * @param array{table: string, type: string, name?: string, changes?: list<string>, app?: ?string, enabled?: bool} $finding
 	 */
 	public function formatFinding(array $finding): string {
 		return match ($finding['type']) {
@@ -69,6 +91,26 @@ class SchemaChecker {
 		};
 	}
 
+	/**
+	 * Splits findings into blocking ones (from core or an enabled app) and
+	 * non-blocking ones, grouped by the disabled app that owns them.
+	 *
+	 * @param list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool}> $findings
+	 * @return array{blocking: list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool}>, byDisabledApp: array<string, list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool}>>}
+	 */
+	public function partitionFindings(array $findings): array {
+		$blocking = [];
+		$byDisabledApp = [];
+		foreach ($findings as $finding) {
+			if ($finding['enabled']) {
+				$blocking[] = $finding;
+			} else {
+				$byDisabledApp[$finding['app']][] = $finding;
+			}
+		}
+		return ['blocking' => $blocking, 'byDisabledApp' => $byDisabledApp];
+	}
+
 	private function applyMigrations(string $app, Schema $schema): void {
 		$output = new NullOutput();
 		$ms = new MigrationService($app, $this->connection, $output);
@@ -78,6 +120,64 @@ class SchemaChecker {
 				return new SchemaWrapper($this->connection, $schema);
 			}, []);
 		}
+	}
+
+	/**
+	 * @param array<string, string> $disabledAppTableOwners table name => owning app id, updated in place
+	 */
+	private function applyDisabledMigrations(string $app, Schema $schema, array &$disabledAppTableOwners): void {
+		try {
+			$appPath = $this->appManager->getAppPath($app);
+		} catch (AppPathNotFoundException) {
+			// Installed, but code is gone: no migrations to replay.
+			return;
+		}
+
+		$existingTables = [];
+		foreach ($schema->getTables() as $table) {
+			$existingTables[$table->getName()] = true;
+		}
+
+		try {
+			// Disabled apps are not autoloaded on boot. Load only the migration
+			// classes themselves directly from disk, rather than registering
+			// the whole app for PSR-4 autoloading.
+			foreach ($this->findMigrationFiles($appPath . '/lib/Migration') as $file) {
+				require_once $file;
+			}
+
+			$this->applyMigrations($app, $schema);
+		} catch (\Throwable) {
+			return;
+		}
+
+		foreach ($schema->getTables() as $table) {
+			if (!isset($existingTables[$table->getName()])) {
+				$disabledAppTableOwners[$table->getName()] = $app;
+			}
+		}
+	}
+
+	/**
+	 * Copied from MigrationService::findMigrations(), minus the class-name mapping.
+	 *
+	 * @return list<string>
+	 */
+	private function findMigrationFiles(string $directory): array {
+		$directory = realpath($directory);
+		if ($directory === false || !file_exists($directory) || !is_dir($directory)) {
+			return [];
+		}
+
+		$iterator = new \RegexIterator(
+			new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS),
+				\RecursiveIteratorIterator::LEAVES_ONLY
+			),
+			'#^.+\\/Version[^\\/]{1,255}\\.php$#i',
+			\RegexIterator::GET_MATCH);
+
+		return array_keys(iterator_to_array($iterator));
 	}
 
 	/**

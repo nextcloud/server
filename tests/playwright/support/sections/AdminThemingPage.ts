@@ -36,7 +36,7 @@ export class AdminThemingPage {
 	}
 
 	defaultAppSwitch(): Locator {
-		return this.page.getByRole('checkbox', { name: 'Use custom default app' })
+		return this.page.getByRole('switch', { name: 'Use custom default app' })
 	}
 
 	defaultAppRegion(): Locator {
@@ -99,11 +99,11 @@ export class AdminThemingPage {
 		return this.page.getByRole('button', { name: /undo changes/i })
 	}
 
-	removeBackgroundImageCheckbox(): Locator {
-		return this.page.getByRole('checkbox', { name: /remove background image/i })
+	removeBackgroundImageSwitch(): Locator {
+		return this.page.getByRole('switch', { name: /remove background image/i })
 	}
 
-	disableUserThemingCheckbox(): Locator {
-		return this.page.getByRole('checkbox', { name: /disable user theming/i })
+	disableUserThemingSwitch(): Locator {
+		return this.page.getByRole('switch', { name: /disable user theming/i })
 	}
 }

@@ -18,14 +18,14 @@ test.describe('Settings: Show and hide columns', () => {
 
 		// Uncheck both optional columns
 		for (const name of ['Show language', 'Show last login']) {
-			const checkbox = dialog.getByRole('checkbox', { name })
+			const checkbox = dialog.getByRole('switch', { name })
 			if (await checkbox.isChecked()) {
 				await checkbox.uncheck({ force: true })
 			}
 		}
 
 		// Re-enable last-login so each test starts from a known baseline
-		await dialog.getByRole('checkbox', { name: 'Show last login' }).check({ force: true })
+		await dialog.getByRole('switch', { name: 'Show last login' }).check({ force: true })
 		await settingsPage.closeSettingsDialog()
 	})
 
@@ -38,7 +38,7 @@ test.describe('Settings: Show and hide columns', () => {
 
 		await settingsPage.openSettingsDialog()
 		const dialog = settingsPage.settingsDialog()
-		const checkbox = dialog.getByRole('checkbox', { name: 'Show language' })
+		const checkbox = dialog.getByRole('switch', { name: 'Show language' })
 		await expect(checkbox).not.toBeChecked()
 		await checkbox.check({ force: true })
 		await expect(checkbox).toBeChecked()
@@ -64,7 +64,7 @@ test.describe('Settings: Show and hide columns', () => {
 
 		await settingsPage.openSettingsDialog()
 		const dialog = settingsPage.settingsDialog()
-		const checkbox = dialog.getByRole('checkbox', { name: 'Show last login' })
+		const checkbox = dialog.getByRole('switch', { name: 'Show last login' })
 		await expect(checkbox).toBeChecked()
 		await checkbox.uncheck({ force: true })
 		await expect(checkbox).not.toBeChecked()

@@ -27,7 +27,7 @@ use OCP\AppFramework\Attribute\ExceptionalImplementable;
  *     icon?: string,
  *     color?: string,
  *     classes?: string,
- *     type?: 'link'|'action'|'settings',
+ *     type?: 'link'|'action'|'settings'|'guest'|'quota',
  * }
  * @psalm-type NavigationEntryOutput = array{
  *     id: string,
@@ -35,7 +35,7 @@ use OCP\AppFramework\Attribute\ExceptionalImplementable;
  *     href: string,
  *     icon: string,
  *     color?: string,
- *     type: 'link'|'action'|'settings',
+ *     type: 'link'|'action'|'settings'|'guest'|'quota',
  *     name: string,
  *     app?: string,
  *     default?: bool,
@@ -80,9 +80,9 @@ interface INavigationManager {
 	/**
 	 * Creates a new navigation entry
 	 *
-	 * @param NavigationEntry|callable():NavigationEntry $entry If a menu entry (type = 'link') is added, you shall also set app to the app that
-	 *                                                          added the entry. The use of a closure is preferred, because it will avoid loading
-	 *                                                          the routing of your app, unless required.
+	 * @param NavigationEntry|callable():?NavigationEntry $entry If a menu entry (type = 'link') is added, you shall also set app to the app that
+	 *                                                           added the entry. The use of a closure is preferred, because it will avoid loading
+	 *                                                           the routing of your app, unless required.
 	 * @return void
 	 * @since 6.0.0
 	 */

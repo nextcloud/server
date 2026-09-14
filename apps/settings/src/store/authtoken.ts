@@ -3,9 +3,9 @@ import axios from '@nextcloud/axios'
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import { translate as t } from '@nextcloud/l10n'
+import { translatePlural as n, translate as t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors, confirmPassword, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
@@ -35,6 +35,10 @@ export interface IToken {
 	scope: Record<string, boolean>
 }
 
+export interface IRevokeAllResponse {
+	revoked: number[]
+}
+
 export interface ITokenResponse {
 	/**
 	 * The device token created
@@ -55,6 +59,26 @@ export const useAuthTokenStore = defineStore('auth-token', {
 		return {
 			tokens: loadState<IToken[]>('settings', 'app_tokens', []),
 		}
+	},
+	getters: {
+		/**
+		 * Must stay in step with `destroyOthers()` server side, or the confirmation
+		 * count disagrees with what actually gets revoked.
+		 *
+		 * @param state Current store state
+		 */
+		revocableCount(state): number {
+			return state.tokens.filter((token) => !token.current && token.type !== TokenType.WIPING_TOKEN).length
+		},
+
+		/**
+		 * Left alone by a bulk revoke, because cancelling a pending wipe must stay deliberate.
+		 *
+		 * @param state Current store state
+		 */
+		wipePendingCount(state): number {
+			return state.tokens.filter((token) => !token.current && token.type === TokenType.WIPING_TOKEN).length
+		},
 	},
 	actions: {
 		/**
@@ -107,6 +131,27 @@ export const useAuthTokenStore = defineStore('auth-token', {
 				this.tokens.push(token)
 			}
 			return false
+		},
+
+		/**
+		 * Reconciles from the returned ids rather than clearing optimistically: the
+		 * server keeps wipe-pending tokens, so it revokes fewer than we asked.
+		 */
+		async deleteAllOtherTokens() {
+			logger.debug('Revoking all other app tokens')
+
+			try {
+				const { data } = await axios.delete<IRevokeAllResponse>(BASE_URL, { confirmPassword: PwdConfirmationMode.Strict })
+				const revoked = new Set(data.revoked)
+				this.tokens = this.tokens.filter(({ id }) => !revoked.has(id))
+				logger.debug('Other app tokens revoked', { count: data.revoked.length })
+				showSuccess(n('settings', 'Revoked %n other session', 'Revoked %n other sessions', data.revoked.length))
+				return data
+			} catch (error) {
+				logger.error('Could not revoke the other app tokens', { error })
+				showError(t('settings', 'Could not revoke the other sessions'))
+			}
+			return null
 		},
 
 		/**

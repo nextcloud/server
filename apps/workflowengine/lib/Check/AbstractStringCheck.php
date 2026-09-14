@@ -68,11 +68,11 @@ abstract class AbstractStringCheck implements ICheck {
 	 */
 	#[\Override]
 	public function validateCheck($operator, $value): void {
-		if (!in_array($operator, ['is', '!is', 'matches', '!matches'])) {
+		if (!in_array($operator, ['is', '!is', 'matches', '!matches'], true)) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 
-		if (in_array($operator, ['matches', '!matches'])
+		if (in_array($operator, ['matches', '!matches'], true)
 			  && @preg_match($value, '') === false) {
 			throw new \UnexpectedValueException($this->l->t('The given regular expression is invalid'), 2);
 		}

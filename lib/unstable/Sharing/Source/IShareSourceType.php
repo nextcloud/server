@@ -55,4 +55,14 @@ interface IShareSourceType {
 	 * @experimental 35.0.0
 	 */
 	public function getSourceInteractionResource(IUser $user, string $source): InteractionResource;
+
+	/**
+	 * Check if a user has access to the specified source without taking sharing into account, and has sufficient permissions to create shares.
+	 *
+	 * All users with "direct" access to the source will be able to see and manage shares made by other users for the source.
+	 *
+	 * @experimental 35.0.0
+	 * @param non-empty-string $source
+	 */
+	public function userHasDirectSharingAccessToSource(IUser $user, string $source): bool;
 }

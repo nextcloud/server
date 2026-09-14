@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 use OC\App\AppManager;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
@@ -104,33 +105,6 @@ class OC_App {
 	 */
 	public static function loadApp(string $app): void {
 		Server::get(IAppManager::class)->loadApp($app);
-	}
-
-	/**
-	 * @internal
-	 */
-	public static function registerAutoloading(string $app, string $path, bool $force = false): void {
-		$key = $app . '-' . $path;
-		if (!$force && isset(self::$alreadyRegistered[$key])) {
-			return;
-		}
-
-		self::$alreadyRegistered[$key] = true;
-
-		// Register on PSR-4 composer autoloader
-		$appNamespace = Server::get(IAppManager::class)->getAppNamespace($app);
-		\OC::$server->registerNamespace($app, $appNamespace);
-
-		if (file_exists($path . '/composer/autoload.php')) {
-			require_once $path . '/composer/autoload.php';
-		} else {
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
-		}
-
-		// Register Test namespace only when testing
-		if (defined('PHPUNIT_RUN') || defined('CLI_TEST_RUN')) {
-			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
-		}
 	}
 
 	/**
@@ -262,7 +236,7 @@ class OC_App {
 				$topFolder = substr($path_info, 1, strpos($path_info, '/', 1) - 1);
 			}
 		}
-		if ($topFolder == 'apps') {
+		if ($topFolder === 'apps') {
 			$length = strlen($topFolder);
 			return substr($script, $length + 1, strpos($script, '/', $length + 1) - $length - 1) ?: '';
 		} else {
@@ -407,7 +381,7 @@ class OC_App {
 		$supportedApps = $this->getSupportedApps();
 
 		foreach ($installedApps as $app) {
-			if (!in_array($app, $blacklist)) {
+			if (!in_array($app, $blacklist, true)) {
 				$info = $appManager->getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
 					Server::get(LoggerInterface::class)->error('Could not read app info file for app "' . $app . '"', ['app' => 'core']);
@@ -441,7 +415,7 @@ class OC_App {
 					$info['removable'] = true;
 				}
 
-				if (in_array($app, $supportedApps)) {
+				if (in_array($app, $supportedApps, true)) {
 					$info['level'] = self::supportedApp;
 				}
 

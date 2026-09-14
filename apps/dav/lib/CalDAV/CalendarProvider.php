@@ -37,11 +37,11 @@ class CalendarProvider implements ICalendarProvider {
 
 		if (!empty($calendarUris)) {
 			$calendarInfos = array_filter($calendarInfos, function ($calendar) use ($calendarUris) {
-				return in_array($calendar['uri'], $calendarUris);
+				return in_array($calendar['uri'], $calendarUris, true);
 			});
 
 			$federatedCalendarInfos = array_filter($federatedCalendarInfos, function ($federatedCalendar) use ($calendarUris) {
-				return in_array($federatedCalendar['uri'], $calendarUris);
+				return in_array($federatedCalendar['uri'], $calendarUris, true);
 			});
 		}
 

@@ -1531,11 +1531,12 @@ END:VCALENDAR
 EOD;
 		$this->backend->updateCalendarObject($calendarId, $uri, $calData);
 
-		// Keep everything
-		$deleted = $this->backend->pruneOutdatedSyncTokens(0, 0);
+		// Keep everything by using a retention duration larger than the row age
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, time());
 		self::assertSame(0, $deleted);
 
-		$deleted = $this->backend->pruneOutdatedSyncTokens(0, time());
+		// A retention duration of 0 means everything older than "now" is eligible
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, 0);
 		// At least one from the object creation and one from the object update
 		$this->assertGreaterThanOrEqual(2, $deleted);
 		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 1);
@@ -1601,7 +1602,7 @@ EOD;
 		$this->assertEmpty($changes['deleted']);
 
 		// Delete all but last change
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, 0);
 		$this->assertEquals(1, $deleted); // We had two changes before, now one
 
 		// Only update should remain
@@ -1611,7 +1612,7 @@ EOD;
 		$this->assertEmpty($changes['deleted']);
 
 		// Check that no crash occurs when prune is called without current changes
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, 0);
 		self::assertSame(0, $deleted);
 	}
 
@@ -2476,5 +2477,36 @@ EOD;
 			->willReturn($entity);
 
 		$this->assertNull($this->backend->getFederatedCalendarByUri(self::UNIT_TEST_USER, 'federated-cal'));
+	}
+
+	public function testDisableAlarmNotificationsProperty(): void {
+		$calendarId = $this->backend->createCalendar(self::UNIT_TEST_USER, 'DisableAlarmNotificationsTest', []);
+
+		// Default should be false
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertFalse((bool)($calendars[0]['{http://nextcloud.com/ns}disable-alarm-notifications'] ?? false));
+
+		// Update to true ('1')
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}disable-alarm-notifications' => '1',
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertTrue((bool)($calendars[0]['{http://nextcloud.com/ns}disable-alarm-notifications'] ?? false));
+
+		// Update to false ('0')
+		$patch = new PropPatch([
+			'{http://nextcloud.com/ns}disable-alarm-notifications' => '0',
+		]);
+		$this->backend->updateCalendar($calendarId, $patch);
+		$patch->commit();
+
+		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertFalse((bool)($calendars[0]['{http://nextcloud.com/ns}disable-alarm-notifications'] ?? false));
+
+		// Clean up
+		$this->backend->deleteCalendar($calendars[0]['id'], true);
 	}
 }

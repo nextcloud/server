@@ -58,6 +58,20 @@ interface IOCMProvider extends JsonSerializable {
 	public function getApiVersion(): string;
 
 	/**
+	 * Remove the non-standard publicKey field from OCM discovery
+	 *
+	 * @since 35.0.0
+	 */
+	public function removePublicKey(): void;
+
+	/**
+	 * Remove the non-standard version field from OCM discovery
+	 *
+	 * @since 35.0.0
+	 */
+	public function removeVersion(): void;
+
+	/**
 	 * configure endpoint
 	 *
 	 * @param string $endPoint
@@ -240,7 +254,7 @@ interface IOCMProvider extends JsonSerializable {
 	/**
 	 * @return array{
 	 *     enabled: bool,
-	 *     apiVersion: '1.0-proposal1',
+	 *     apiVersion: string,
 	 *     endPoint: string,
 	 *     publicKey?: array{
 	 *         keyId: string,
@@ -251,7 +265,7 @@ interface IOCMProvider extends JsonSerializable {
 	 *         shareTypes: list<string>,
 	 *         protocols: array<string, string>
 	 *     }>,
-	 *     version: string,
+	 *     version?: string,
 	 *     jwksUri?: string
 	 * }
 	 * @since 28.0.0

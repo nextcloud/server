@@ -383,7 +383,6 @@ OC.L10N.register(
     "Your browser does not support WebAuthn." : "El restolador nun ye compatible con WebAuthn.",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Ye importante configurar esti sirvidor pa que seya a unviar correos electrónicos de, por exemplu, avisos o solicitúes pa reafitar contraseñes",
     "Send mode" : "Mou d'unviu",
-    "Encryption" : "Cifráu",
     "From address" : "De la direición",
     "Domain" : "Dominiu",
     "Server address" : "Direición del sirvidor",
@@ -547,6 +546,7 @@ OC.L10N.register(
     "Error: This app cannot be enabled because it makes the server unstable" : "Error: nun se pue activar esta aplicación porque fai que'l sirvidor seya inestable",
     "None/STARTTLS" : "Nada/STARTTLS",
     "SSL" : "SSL",
+    "Encryption" : "Cifráu",
     "SMTP Password" : "Contraseña de SMTP"
 },
 "nplurals=2; plural=(n != 1);");

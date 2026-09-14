@@ -178,7 +178,6 @@ OC.L10N.register(
     "Your browser does not support WebAuthn." : "เบราว์เซอร์ของคุณไม่รองรับ WebAuthn",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "การตั้งค่าให้เซิร์ฟเวอร์นี้ส่งอีเมลได้ เช่น อีเมลสำหรับการตั้งรหัสผ่านใหม่และการแจ้งเตือน เป็นสิ่งสำคัญ",
     "Send mode" : "โหมดการส่ง",
-    "Encryption" : "การเข้ารหัส",
     "Sendmail mode" : "โหมดส่งอีเมล",
     "Disable certificate verification (insecure)" : "ปิดใช้งานการตรวจสอบใบรับรอง (ไม่ปลอดภัย)",
     "From address" : "จากที่อยู่",
@@ -273,6 +272,7 @@ OC.L10N.register(
     "Error: This app cannot be enabled because it makes the server unstable" : "ข้อผิดพลาด: ไม่สามารถเปิดใช้งานแอปนี้เพราะทำให้เซิร์ฟเวอร์ไม่เสถียร",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "แอปเปิดใช้งานแล้ว แต่ต้องทำการอัปเดต คุณจะถูกนำไปยังหน้าอัปเดตใน 5 วินาที",
     "SSL" : "SSL",
+    "Encryption" : "การเข้ารหัส",
     "Credentials" : "ข้อมูลส่วนตัวสำหรับเข้าระบบ",
     "SMTP Password" : "รหัสผ่าน SMTP"
 },

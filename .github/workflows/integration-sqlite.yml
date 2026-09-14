@@ -20,7 +20,7 @@ jobs:
       src: ${{ steps.changes.outputs.src}}
 
     steps:
-      - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
         id: changes
         continue-on-error: true
         with:
@@ -51,7 +51,7 @@ jobs:
           - 'capabilities_features'
           - 'collaboration_features'
           - 'comments_features'
-          - 'dav_features'
+          - '--tags ~@requires-s3 dav_features'
           - 'features'
           - 'federation_features'
           - '--tags ~@large files_features'

@@ -14,12 +14,14 @@ use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class StatusesControllerTest extends TestCase {
 	private StatusService&MockObject $service;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private StatusesController $controller;
 
 	protected function setUp(): void {
@@ -27,8 +29,9 @@ class StatusesControllerTest extends TestCase {
 
 		$request = $this->createMock(IRequest::class);
 		$this->service = $this->createMock(StatusService::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
-		$this->controller = new StatusesController('user_status', $request, $this->service);
+		$this->controller = new StatusesController('user_status', $request, $this->service, $this->eventDispatcher);
 	}
 
 	public function testFindAll(): void {

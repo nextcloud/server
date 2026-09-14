@@ -293,7 +293,6 @@ OC.L10N.register(
     "Unnamed device" : "Прылада без назвы",
     "No devices configured." : "Няма сканфігураваных прылад.",
     "Your browser does not support WebAuthn." : "Ваш браўзер не падтрымлівае WebAuthn.",
-    "Encryption" : "Encryption",
     "Domain" : "Дамен",
     "Server address" : "Адрас сервера",
     "Host" : "Хост",
@@ -443,6 +442,7 @@ OC.L10N.register(
     "Allow untested app" : "Дазволіць неправераную праграму",
     "The app has been enabled but needs to be updated." : "Праграма ўключана, але патрабуе абнаўлення.",
     "SSL" : "SSL",
+    "Encryption" : "Encryption",
     "Credentials" : "Уліковыя даныя",
     "SMTP Login" : "Лагін SMTP",
     "SMTP Password" : "Пароль SMTP"

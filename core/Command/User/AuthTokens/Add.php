@@ -12,8 +12,8 @@ namespace OC\Core\Command\User\AuthTokens;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\User\Manager as UserManager;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -25,8 +25,8 @@ use Symfony\Component\Console\Question\Question;
 
 class Add extends Command {
 	public function __construct(
-		protected IUserManager $userManager,
-		protected IProvider $tokenProvider,
+		private UserManager $userManager,
+		private IProvider $tokenProvider,
 		private ISecureRandom $random,
 		private IEventDispatcher $eventDispatcher,
 	) {
@@ -92,11 +92,20 @@ class Add extends Command {
 			$password = $helper->ask($input, $output, $question);
 		}
 
+		$loginName = $input->getOption('login-name') ?? $user->getUID();
+
 		if ($password === null) {
 			$output->writeln('<info>No password provided. The generated app password will therefore have limited capabilities. Any operation that requires the login password will fail.</info>');
+		} else {
+			$loggedInUser = $this->userManager->checkPasswordNoLogging($loginName, $password);
+			if ($loggedInUser === false) {
+				$output->writeln('<error>The given password is invalid for login ' . $loginName . '</error>');
+				return self::FAILURE;
+			} elseif ($loggedInUser->getUID() !== $user->getUID()) {
+				$output->writeln('<error>The user ' . $username . ' does not match the given login ' . $loginName . '</error>');
+				return self::FAILURE;
+			}
 		}
-
-		$loginName = $input->getOption('login-name') ?? $user->getUID();
 
 		$tokenName = $input->getOption('name') ?: 'cli';
 

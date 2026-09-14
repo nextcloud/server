@@ -248,7 +248,7 @@ OC.L10N.register(
     "Changing the file extension from \"{old}\" to \"{new}\" may render the file unreadable." : "\"{old}\" dosya uzantısının \"{new}\" olarak değiştirilmesi dosyayı okunamaz yapabilir.",
     "Removing the file extension \"{old}\" may render the file unreadable." : "\"{old}\" dosya uzantısının kaldırılması dosyayı okunamaz yapabilir.",
     "Adding the file extension \"{new}\" may render the file unreadable." : "\"{new}\" dosya uzantısının eklenmesi dosyayı okunamaz yapabilir.",
-    "Do not show this dialog again." : "Bu ileti bir daha görüntülenmesin.",
+    "Do not show this dialog again." : "Bu iletişim kutusu bir daha görüntülenmesin.",
     "Rename file to hidden" : "Gizlemek için dosyayı yeniden adlandırın",
     "Prefixing a filename with a dot may render the file hidden." : "Dosya adının başına nokta koymak onu görünümlerde gizler.",
     "Are you sure you want to rename the file to \"{filename}\"?" : "Dosyanın adını \"{filename}\" olarak değiştirmek istediğinize emin misiniz?",

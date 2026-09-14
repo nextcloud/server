@@ -153,7 +153,6 @@ OC.L10N.register(
     "Unnamed device" : "უსახელო მოწყობილობა",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "ამ სერვერის მოწყობა ელ-წერილების გასაგზვნად მნიშვნელოვანია, მაგ. პაროლის აღსადგენად და შეტყობინებების მისაღებად.",
     "Send mode" : "გაგზავნის რეჟიმი",
-    "Encryption" : "შიფრაცია",
     "From address" : "მისამართიდან",
     "Domain" : "დომენი",
     "Server address" : "სერვერის მისამართი",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "Disable" : "გამორთვა",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "აპლიკაცია ამოქმედდა, თუმცა საჭიროებს განახლებას. 5 წამში გადამისამართდებით განახლების გვერდზე.",
     "SSL" : "SSL",
+    "Encryption" : "შიფრაცია",
     "Credentials" : "უფლებამოსილებანი",
     "SMTP Password" : "SMTP მომხმარებლის პაროლი"
 },

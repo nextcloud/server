@@ -128,15 +128,6 @@ export default {
 			return (typeof this.share.status === 'object' && !Array.isArray(this.share.status))
 		},
 	},
-
-	methods: {
-		/**
-		 * Save potential changed data on menu close
-		 */
-		onMenuClose() {
-			this.onNoteSubmit()
-		},
-	},
 }
 </script>
 

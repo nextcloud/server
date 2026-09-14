@@ -229,8 +229,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Ongi etorri Nextcloud Egutegira!\n\nHau gertaera erakusgarria da - aztertu plangintzaren malgutasuna Nextcloud Egutegiarekin nahi dituzun edizioak eginez!\n\nNextcloud Egutegia aukerarekin, hau egin dezakezu:\n- Sortu, editatu eta kudeatu gertaerak esfortzurik gabe.\n- Egutegi ugari sortu eta taldekideekin, lagunekin edo familiarekin partekatu.\n- Egiaztatu libre egotea eta bistaratu zure laneko orduak beste batzuei.\n- Aplikazio eta gailuekin arazorik gabe integratzea CalDAV bidez.\n- Zure esperientzia pertsonalizatu: gertaera errepikariak programatu, jakinarazpenak doitu eta bestelako ezarpenak.",
     "Example event - open me!" : "Gertaera adibidea - ireki nazazu!",
     "System Address Book" : "Sistemaren helbide-liburua",
-    "The system address book contains contact information for all users in your instance." : "Sistemaren helbide-liburuak zure instantziako erabiltzaile guztien kontaktu-informazioa dauka.",
-    "Enable System Address Book" : "Gaitu sistemaren helbide-liburua",
     "DAV system address book" : "DAV sistemaren helbide-liburua",
     "No outstanding DAV system address book sync." : "Ez dago DAV sistema helbide-liburuaren sinkronizazio arrarorik.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV sistemaren helbide-liburuaren sinkronizazioa oraindik ez da martxan jarri zure instantziak 1000 erabiltzaile baino gehiago dituelako edo akats bat gertatu delako. Mesedez, exekutatu eskuz \"occ dav:sync-system-addressbook\" deituz.",
@@ -311,6 +309,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Gonbidapena onartzen duzu?",
     "Tentative" : "Behin behinekoa",
     "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
+    "The system address book contains contact information for all users in your instance." : "Sistemaren helbide-liburuak zure instantziako erabiltzaile guztien kontaktu-informazioa dauka.",
+    "Enable System Address Book" : "Gaitu sistemaren helbide-liburua",
     "No results." : "Ez dago emaitzarik.",
     "Start typing." : "Hasi idazten."
 },

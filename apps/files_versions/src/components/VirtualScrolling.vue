@@ -23,11 +23,9 @@
 </template>
 
 <script lang="ts">
-import {
-	type PropType,
+import type { PropType } from 'vue'
 
-	defineComponent,
-} from 'vue'
+import { defineComponent } from 'vue'
 import logger from '../utils/logger.ts'
 
 export interface RowItem {

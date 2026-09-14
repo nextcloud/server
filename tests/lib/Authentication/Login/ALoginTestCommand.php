@@ -91,14 +91,14 @@ abstract class ALoginTestCommand extends TestCase {
 		return $data;
 	}
 
-	protected function getLoggedInLoginDataWithTimezone(): LoginData {
+	protected function getLoggedInLoginDataWithTimezone(?string $timezone = null): LoginData {
 		$data = new LoginData(
 			$this->request,
 			$this->username,
 			$this->password,
 			true,
 			null,
-			$this->timezone,
+			$timezone ?? $this->timezone,
 			$this->timeZoneOffset
 		);
 		$data->setUser($this->user);

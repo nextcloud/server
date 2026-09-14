@@ -7,14 +7,16 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
+use OC\NavigationManager;
 use OC\OCS\ApiHelper;
 use OC\Route\Router;
 use OC\SystemConfig;
 use OC\User\LoginException;
+use OCP\App\Events\AppsLoadedEvent;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\OCSController;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -30,7 +32,7 @@ require_once __DIR__ . '/../lib/OC.php';
 
 \OC::boot();
 
-\OC::handleRequests(static function () {
+\OC::handleRequests(static function (): void {
 	\OC::initForRequest();
 	$request = Server::get(IRequest::class);
 
@@ -78,6 +80,10 @@ require_once __DIR__ . '/../lib/OC.php';
 		} else {
 			$appManager->loadApps(['core']);
 		}
+
+		// All apps are now loaded to handle the request
+		Server::get(NavigationManager::class)->setup();
+		Server::get(IEventDispatcher::class)->dispatchTyped(new AppsLoadedEvent());
 
 		Server::get(Router::class)->match('/ocsapp' . $request->getRawPathInfo());
 	} catch (MaxDelayReached $ex) {

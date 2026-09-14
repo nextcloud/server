@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Test\Core\Command\SystemTag;
+namespace Tests\Core\Command\SystemTag;
 
 use OC\Core\Command\SystemTag\Edit;
 use OCP\SystemTag\ISystemTag;

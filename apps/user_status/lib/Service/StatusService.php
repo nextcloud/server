@@ -62,6 +62,13 @@ class StatusService {
 	/** @var int */
 	public const INVALIDATE_STATUS_THRESHOLD = 15 /* minutes */ * 60 /* seconds */;
 
+	/**
+	 * Has to stay at least one client heartbeat interval below INVALIDATE_STATUS_THRESHOLD.
+	 *
+	 * @var int
+	 */
+	public const REFRESH_STATUS_THRESHOLD = 7 /* minutes */ * 60 /* seconds */;
+
 	/** @var int */
 	public const MAXIMUM_MESSAGE_LENGTH = 80;
 
@@ -82,7 +89,7 @@ class StatusService {
 	/**
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @return UserStatus[]
+	 * @return list<UserStatus>
 	 */
 	public function findAll(?int $limit = null, ?int $offset = null): array {
 		// Return empty array if user enumeration is disabled or limited to groups
@@ -92,9 +99,9 @@ class StatusService {
 			return [];
 		}
 
-		return array_map(function ($status) {
+		return array_values(array_map(function ($status) {
 			return $this->processStatus($status);
-		}, $this->mapper->findAll($limit, $offset));
+		}, $this->mapper->findAll($limit, $offset)));
 	}
 
 	/**

@@ -12,6 +12,7 @@ OC.L10N.register(
     "Search for a user profile. Start typing" : "Ieškokite vartotojo profilio. Pradėkite rašyti.",
     "Insert selected user profile link" : "Įterpti pasirinkto vartotojo profilio nuorodą",
     "Insert" : "Įterpti",
+    "You & {user}" : "Jūs ir {user}",
     "You have not added any info yet" : "Jūs kol kas nesate pridėję jokios informacijos",
     "{user} has not added any info yet" : "Naudotojas {user} kol kas nėra pridėjęs jokios informacijos",
     "Error opening the user status modal, try hard refreshing the page" : "Klaida atidarant naudotojo būsenos modalinį langą, pabandykite atnaujinti puslapį",

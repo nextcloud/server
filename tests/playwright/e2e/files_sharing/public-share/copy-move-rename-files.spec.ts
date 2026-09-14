@@ -14,12 +14,15 @@ const SHARE_NAME = 'shared'
  * by a guest.
  */
 test.describe('files_sharing: Public share - copy, move and rename files', () => {
-	test.beforeEach(async ({ user, ownerRequest, publicShare }) => {
+	test.beforeEach(async ({ user, ownerRequest, publicShare, filesListPage }) => {
 		await seedSharedFolder(ownerRequest, user, SHARE_NAME)
 		const share = await createLinkShare(ownerRequest, `/${SHARE_NAME}`, {
 			permissions: BUNDLED_PERMISSIONS.UPLOAD_AND_UPDATE,
 		})
 		await publicShare.open(share.url)
+		// Every test moves, copies or renames foo.txt, so its preview has to be
+		// loaded first — a preview being generated locks the file on the server.
+		await filesListPage.waitForPreviewLoaded('foo.txt')
 	})
 
 	test('can copy a file to another folder', async ({ page, filesListPage, copyMoveDialog }) => {

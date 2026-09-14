@@ -62,12 +62,6 @@ module.exports = {
 		'vue-settings-users-management': path.join(__dirname, 'apps/settings/src', 'main-users-management.ts'),
 		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src', 'main-declarative-settings-forms.ts'),
 	},
-	updatenotification: {
-		init: path.join(__dirname, 'apps/updatenotification/src', 'init.ts'),
-		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
-		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
-		'update-notification-legacy': path.join(__dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
-	},
 	workflowengine: {
 		workflowengine: path.join(__dirname, 'apps/workflowengine/src', 'workflowengine.js'),
 	},

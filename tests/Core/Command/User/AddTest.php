@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Core\Command\User;
+namespace Tests\Core\Command\User;
 
 use OC\Core\Command\User\Add;
 use OCA\Settings\Mailer\NewUserMailHelper;

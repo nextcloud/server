@@ -9,14 +9,14 @@
 	<name>Sharing</name>
 	<summary>TODO</summary>
 	<description>TODO</description>
-	<version>1.0.0</version>
+	<version>2.0.0-dev.3</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author>Kate Döen</author>
 	<namespace>Sharing</namespace>
 	<category>customization</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="35" max-version="35"/>
+		<nextcloud min-version="36" max-version="36"/>
 	</dependencies>
 	<commands>
 		<command>\OCA\Sharing\Command\AddShareRecipient</command>
@@ -27,8 +27,12 @@
 		<command>\OCA\Sharing\Command\GetShares</command>
 		<command>\OCA\Sharing\Command\RemoveShareRecipient</command>
 		<command>\OCA\Sharing\Command\RemoveShareSource</command>
+		<command>\OCA\Sharing\Command\SelectSharePermissionPreset</command>
 		<command>\OCA\Sharing\Command\UpdateSharePermission</command>
 		<command>\OCA\Sharing\Command\UpdateShareProperty</command>
+		<command>\OCA\Sharing\Command\UpdateShareRecipientPermission</command>
+		<command>\OCA\Sharing\Command\UpdateShareRecipientSecret</command>
 		<command>\OCA\Sharing\Command\UpdateShareState</command>
+		<command>\OCA\Sharing\Command\UpdateShareUserStatus</command>
 	</commands>
 </info>

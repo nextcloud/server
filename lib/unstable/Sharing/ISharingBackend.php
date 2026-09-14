@@ -48,6 +48,13 @@ interface ISharingBackend {
 	public function updateShareState(string $id, ShareState $state): void;
 
 	/**
+	 * Update the user status for a share.
+	 *
+	 * @experimental 35.0.0
+	 */
+	public function updateShareUserStatus(string $id, string $userId, ShareUserStatus $userStatus): void;
+
+	/**
 	 * Add a new source to a share.
 	 *
 	 * @throws ShareInvalidException
@@ -114,28 +121,12 @@ interface ISharingBackend {
 	public function updateShareRecipientSecret(string $id, ShareRecipient $recipient, string $secret): void;
 
 	/**
-	 * Insert a property for a share.
-	 *
-	 * @throws ShareNotFoundException
-	 * @experimental 35.0.0
-	 */
-	public function createShareProperty(string $id, ShareProperty $property): void;
-
-	/**
 	 * Update a property of a share.
 	 *
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
-	public function updateShareProperty(string $id, ShareProperty $property): void;
-
-	/**
-	 * Insert a permission for a share.
-	 *
-	 * @throws ShareNotFoundException
-	 * @experimental 35.0.0
-	 */
-	public function createSharePermission(string $id, SharePermission $permission): void;
+	public function updateShareProperty(string $id, ShareProperty $property): ?string;
 
 	/**
 	 * Update a permission of a share.
@@ -144,6 +135,14 @@ interface ISharingBackend {
 	 * @experimental 35.0.0
 	 */
 	public function updateSharePermission(string $id, SharePermission $permission): void;
+
+	/**
+	 * Update a permission for a recipient of a share.
+	 *
+	 * @throws ShareNotFoundException
+	 * @experimental 35.0.0
+	 */
+	public function updateShareRecipientPermission(string $id, ShareRecipient $recipient, SharePermission $permission): void;
 
 	/**
 	 * Select a permission preset for a share.
@@ -179,7 +178,7 @@ interface ISharingBackend {
 	 * @return list<Share>
 	 * @experimental 35.0.0
 	 */
-	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, ?int $limit): array;
+	public function getShares(ShareAccessContext $accessContext, ?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?ShareState $filterState, ?ShareUserStatus $filterUserStatus, ?string $lastShareID, ?int $limit): array;
 
 	/**
 	 * Check if a share ID belongs to this backend.

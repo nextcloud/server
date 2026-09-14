@@ -22,6 +22,8 @@
 		<plugin filename="build/psalm/LogicalOperatorChecker.php" />
 		<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
 		<plugin filename="build/psalm/StaticVarsChecker.php" />
+		<plugin filename="build/psalm/UnstrictComparisonChecker.php" />
+		<plugin filename="build/psalm/InArrayStrictChecker.php" />
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>

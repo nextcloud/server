@@ -311,6 +311,17 @@ export class FilesListPage {
 		await moved
 	}
 
+	/**
+	 * Wait for a row's preview thumbnail to be loaded.
+	 *
+	 * Generating a preview locks the file on the server, so a MOVE, COPY or
+	 * DELETE issued while the thumbnail is still being fetched fails with a
+	 * `LockedException`. Await this before any action that writes to the file.
+	 */
+	async waitForPreviewLoaded(filename: string): Promise<void> {
+		await expect(this.getRowForFile(filename).locator('.files-list__row-icon-preview--loaded')).toBeVisible()
+	}
+
 	getFavoriteIconForFile(filename: string): Locator {
 		return this.getRowForFile(filename).getByRole('img', { name: 'Favorite' })
 	}

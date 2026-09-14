@@ -287,8 +287,9 @@ class AvatarManagerTest extends \Test\TestCase {
 		$cloudId = 'user@https://remote.example.com';
 
 		$this->userManager
-			->expects($this->never())
-			->method('get');
+			->expects($this->once())
+			->method('get')
+			->willReturn(null);
 
 		$resolvedCloudId = $this->createMock(ICloudId::class);
 		$resolvedCloudId->method('getUser')->willReturn('user');

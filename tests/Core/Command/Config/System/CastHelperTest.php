@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-namespace Core\Command\Config\System;
+namespace Tests\Core\Command\Config\System;
 
 use OC\Core\Command\Config\System\CastHelper;
 use Test\TestCase;

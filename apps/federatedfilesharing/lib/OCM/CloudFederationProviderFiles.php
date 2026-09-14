@@ -127,6 +127,8 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 		// Check for must-exchange-token requirement
 		$requirements = $protocol['webdav']['requirements'] ?? $protocol['options']['requirements'] ?? [];
+		// $requirements comes from remote-supplied protocol data of unknown element types
+		/** @psalm-suppress UnrecognizedExpression */
 		$mustExchangeToken = in_array('must-exchange-token', $requirements);
 		$accessToken = '';
 

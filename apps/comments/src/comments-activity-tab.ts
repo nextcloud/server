@@ -38,6 +38,7 @@ export function registerCommentsPlugins() {
 		unmount: () => {
 			// destroy previous instance if available
 			app?.unmount()
+			app = undefined
 		},
 	})
 

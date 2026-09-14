@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace Test\Core\Controller;
+namespace Tests\Core\Controller;
 
 use OC\Core\Controller\UserController;
 use OCP\AppFramework\Http\JSONResponse;

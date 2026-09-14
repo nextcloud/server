@@ -57,7 +57,7 @@ test.describe('files_external settings', () => {
 		await expect(urlField).toBeVisible()
 		await urlField.fill('http://localhost/remote.php/dav/files/admin')
 
-		await dialog.getByRole('checkbox', { name: /Secure/ }).uncheck({ force: true })
+		await dialog.getByRole('switch', { name: /Secure/ }).uncheck({ force: true })
 
 		await externalStorageSettings.createButton().click()
 		await handlePasswordConfirmation(page, 'admin')

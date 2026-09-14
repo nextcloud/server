@@ -13,6 +13,7 @@ const axiosMock = vi.hoisted(() => ({
 	delete: vi.fn(),
 }))
 vi.mock('@nextcloud/axios', () => ({ default: axiosMock }))
+vi.mock('@nextcloud/dialogs')
 
 describe('files_trashbin: API - emptyTrash', () => {
 	beforeEach(() => {

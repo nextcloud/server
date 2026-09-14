@@ -11,6 +11,7 @@ import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-with-user.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
+import { getToast } from '../../support/utils/toast.ts'
 
 // ── Create group ──────────────────────────────────────────────────────────────
 
@@ -69,7 +70,7 @@ userGroupTest('Account Management: Assign user to a group', async ({ page, testG
 
 	await handlePasswordConfirmation(page)
 	await settingsPage.saveEditDialog()
-	await expect(page.getByText(/Account updated/i)).toBeVisible()
+	await expect(getToast(page, /Account updated/i)).toBeVisible()
 
 	// user is now group now shows 1 member
 	await expect(settingsPage.groupMemberCount(testGroup)).toHaveText('1')

@@ -56,6 +56,10 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 			$store->writeObject($urn, $countStream);
 		} catch (\Exception $exception) {
 			throw new NotPermittedException('Unable to save preview to object store', previous: $exception);
+		} finally {
+			if (is_resource($countStream)) {
+				fclose($countStream);
+			}
 		}
 		return $size;
 	}

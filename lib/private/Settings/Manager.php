@@ -330,11 +330,11 @@ class Manager implements IManager {
 			if ($this->subAdmin->isSubAdmin($user)) {
 				$authorizedGroupFilter = function (ISettings $settings) use ($authorizedSettingsClasses) {
 					return $settings instanceof ISubAdminSettings
-						|| in_array(get_class($settings), $authorizedSettingsClasses) === true;
+						|| in_array(get_class($settings), $authorizedSettingsClasses, true) === true;
 				};
 			} else {
 				$authorizedGroupFilter = function (ISettings $settings) use ($authorizedSettingsClasses) {
-					return in_array(get_class($settings), $authorizedSettingsClasses) === true;
+					return in_array(get_class($settings), $authorizedSettingsClasses, true) === true;
 				};
 			}
 			$appSettings = $this->getSettings('admin', $section, $authorizedGroupFilter);
@@ -362,7 +362,7 @@ class Manager implements IManager {
 		$authorizedSettingsClasses = $this->mapper->findAllClassesForUser($user);
 		foreach ($this->settings['admin'] as $section) {
 			foreach ($section as $setting) {
-				if (in_array(get_class($setting), $authorizedSettingsClasses) === true) {
+				if (in_array(get_class($setting), $authorizedSettingsClasses, true) === true) {
 					$settings[] = $setting;
 				}
 			}

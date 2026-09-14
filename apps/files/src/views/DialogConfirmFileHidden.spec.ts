@@ -25,7 +25,7 @@ describe('DialogConfirmFileHidden', () => {
 		})
 
 		await expect(component.findByRole('dialog', { name: 'Rename file to hidden' })).resolves.not.toThrow()
-		expect((component.getByRole('checkbox', { name: /Do not show this dialog again/i }) as HTMLInputElement).checked).toBe(false)
+		expect((component.getByRole('switch', { name: /Do not show this dialog again/i }) as HTMLInputElement).checked).toBe(false)
 		await expect(component.findByRole('button', { name: 'Cancel' })).resolves.not.toThrow()
 		await expect(component.findByRole('button', { name: 'Rename' })).resolves.not.toThrow()
 	})
@@ -86,7 +86,7 @@ describe('DialogConfirmFileHidden', () => {
 			},
 		})
 
-		await fireEvent.click(component.getByRole('checkbox', { name: /Do not show this dialog again/i }))
+		await fireEvent.click(component.getByRole('switch', { name: /Do not show this dialog again/i }))
 		const store = useUserConfigStore()
 		expect(store.update).toHaveBeenCalledOnce()
 		expect(store.update).toHaveBeenCalledWith('show_dialog_file_extension', false)

@@ -26,8 +26,8 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IUserManager;
@@ -226,7 +226,7 @@ class StorageTest extends \Test\TestCase {
 	 * Test that deleting a file with a long filename puts it into the trashbin.
 	 */
 	public function testSingleStorageDeleteLongFilename(): void {
-		$truncatedFilename = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
+		$truncatedFilename = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
 
 		$this->assertTrue($this->userView->file_exists(static::LONG_FILENAME));
 		$this->userView->unlink(static::LONG_FILENAME);
@@ -245,7 +245,7 @@ class StorageTest extends \Test\TestCase {
 	 * Test that deleting a file with the max filename length puts it into the trashbin.
 	 */
 	public function testSingleStorageDeleteMaxLengthFilename(): void {
-		$truncatedFilename = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
+		$truncatedFilename = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
 
 		$this->assertTrue($this->userView->file_exists(static::MAX_FILENAME));
 		$this->userView->unlink(static::MAX_FILENAME);
@@ -656,7 +656,7 @@ class StorageTest extends \Test\TestCase {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$rootFolder = $this->createMock(IRootFolder::class);
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$node = $this->getMockBuilder(Node::class)->disableOriginalConstructor()->getMock();
 		$trashManager = $this->createMock(ITrashManager::class);
 		$event = $this->getMockBuilder(MoveToTrashEvent::class)->disableOriginalConstructor()->getMock();

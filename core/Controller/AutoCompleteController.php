@@ -15,10 +15,8 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
-use OCP\Collaboration\AutoComplete\AutoCompleteFilterEvent;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\Share\IShare;
 
@@ -31,7 +29,6 @@ class AutoCompleteController extends OCSController {
 		IRequest $request,
 		private ISearch $collaboratorSearch,
 		private IManager $autoCompleteManager,
-		private IEventDispatcher $dispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -55,19 +52,7 @@ class AutoCompleteController extends OCSController {
 	public function get(string $search, ?string $itemType, ?string $itemId, ?string $sorter = null, array $shareTypes = [IShare::TYPE_USER], int $limit = 10): DataResponse {
 		// if enumeration/user listings are disabled, we'll receive an empty
 		// result from search() – thus nothing else to do here.
-		[$results,] = $this->collaboratorSearch->search($search, $shareTypes, false, $limit, 0);
-
-		$event = new AutoCompleteFilterEvent(
-			$results,
-			$search,
-			$itemType,
-			$itemId,
-			$sorter,
-			$shareTypes,
-			$limit,
-		);
-		$this->dispatcher->dispatchTyped($event);
-		$results = $event->getResults();
+		[$results,] = $this->collaboratorSearch->filteredSearch($search, $shareTypes, false, $itemType, $itemId, $limit, 0);
 
 		$exactMatches = $results['exact'];
 		unset($results['exact']);

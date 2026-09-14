@@ -257,8 +257,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Dobrodošli u Nextcloud Kalendar!\n\nOvo je primjer događaja – istražite fleksibilnost planiranja s Nextcloud Kalendarom tako da napravite bilo kakve izmjene koje želite!\n\nUz Nextcloud Kalendar možete:\n- Jednostavno stvarati, uređivati i upravljati događajima..\n- Stvarati više kalendara i dijeliti ih s kolegama, prijateljima ili obitelji.\n- Provjeravati dostupnost i drugima prikazivati svoja zauzeta razdoblja.\n- Neprimjetno se integrirati s aplikacijama i uređajima putem CalDAV-a.\n- Prilagoditi svoje iskustvo: zakazivati ponavljajuće događaje, prilagođavati obavijesti i druge postavke.",
     "Example event - open me!" : "Primjer događaja – otvori me!",
     "System Address Book" : "Adresar sustava",
-    "The system address book contains contact information for all users in your instance." : "Adresar sustava sadrži kontaktne podatke za sve korisnike u vašoj instanci.",
-    "Enable System Address Book" : "Omogući adresar sustava",
     "DAV system address book" : "DAV adresar sustava",
     "No outstanding DAV system address book sync." : "Nema neriješene sinkronizacije DAV adresara sustava.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Sinkronizacija DAV adresara sustava još nije pokrenuta jer vaša instanca ima više od 1000 korisnika ili je došlo do pogreške. Pokrenite je ručno pozivanjem naredbe „occ dav:sync-system-addressbook”.",
@@ -339,6 +337,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Prihvaćate li poziv?",
     "Tentative" : "Uvjetno",
     "Your attendance was updated successfully." : "Vaša je prisutnost uspješno ažurirana.",
+    "The system address book contains contact information for all users in your instance." : "Adresar sustava sadrži kontaktne podatke za sve korisnike u vašoj instanci.",
+    "Enable System Address Book" : "Omogući adresar sustava",
     "No results." : "Nema rezultata.",
     "Start typing." : "Započnite s pisanjem."
 },

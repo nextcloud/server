@@ -242,7 +242,6 @@
     "Enforce password protection" : "Hivatkozások jelszavas védelmének megkövetelése",
     "Groups allowed to share" : "A csoportok, melyek megoszthatnak",
     "Groups excluded from sharing" : "A csoportok, melyek nem oszthatnak meg",
-    "Not allowed groups will still be able to receive shares, but not to initiate them." : "A nem engedélyezett csoportok fogadhatnak, de nem hozhatnak létre megosztásokat.",
     "Enforce expiration date" : "Lejárati idő betartatása",
     "Set default expiration date for shares to other servers" : "A megosztás alapértelmezett lejárati idejének beállítása a többi kiszolgáló számára",
     "Privacy settings for sharing" : "Adatvédelmi beállítások a megosztáshoz",
@@ -481,7 +480,6 @@
     "Your browser does not support WebAuthn." : "A böngészője nem támogatja a WebAuthn szabványt.",
     "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Fontos, hogy a levelezés be legyen állítva a kiszolgálón, például a jelszó-visszaállítások és az értesítések miatt.",
     "Send mode" : "Küldési mód",
-    "Encryption" : "Titkosítás",
     "Sendmail mode" : "Sendmail mód",
     "Disable certificate verification (insecure)" : "A tanúsítvány ellenőrzésének letiltása (nem biztonságos)",
     "From address" : "Feladó címe",
@@ -669,6 +667,7 @@
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Ez az alkalmazás engedélyezett, de frissíteni kell. 5 másodpercen belül a frissítési oldalra lesz irányítva.",
     "None/STARTTLS" : "Semmi/STARTTLS",
     "SSL" : "SSL",
+    "Encryption" : "Titkosítás",
     "Credentials" : "Hitelesítő adatok",
     "SMTP Password" : "SMTP jelszó",
     "Test and verify email settings" : "E-mail beállítások tesztelése és ellenőrzése"

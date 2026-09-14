@@ -13,8 +13,8 @@ use OCA\Files_Trashbin\Sabre\ITrash;
 use OCA\Files_Trashbin\Sabre\RestoreFolder;
 use OCA\Files_Trashbin\Sabre\TrashbinPlugin;
 use OCA\Files_Trashbin\Trash\ITrashItem;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
@@ -58,7 +58,7 @@ class TrashbinPluginTest extends TestCase {
 
 		$previewManager = $this->createMock(IPreview::class);
 
-		$userFolder = $this->createMock(Folder::class);
+		$userFolder = $this->createMock(IUserFolder::class);
 		$userFolder->method('getFullPath')
 			->with('relative/original') // the parent path
 			->willReturn('/full/path/to/original');

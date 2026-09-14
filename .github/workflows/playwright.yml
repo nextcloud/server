@@ -5,7 +5,9 @@ name: Playwright Tests
 
 on:
   pull_request:
-    branches: [master]
+    branches:
+      - master
+      - stable35
     types:
       - opened
       - synchronize
