@@ -90,6 +90,9 @@ const checkFilesystem = computed({
 			<NcCheckboxRadioSwitch v-model="modelValue.enable_sharing" type="switch">
 				{{ t('files_external', 'Enable sharing') }}
 			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch v-model="modelValue.enable_sync" type="switch">
+				{{ t('files_external', 'Allow desktop/mobile clients to sync this storage') }}
+			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch v-if="hasEncryption" v-model="modelValue.encrypt" type="switch">
 				{{ t('files_external', 'Enable encryption') }}
 			</NcCheckboxRadioSwitch>
