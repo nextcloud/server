@@ -140,6 +140,16 @@ export default class Config {
 	}
 
 	/**
+	 * Get the maximum link share expiration date
+	 */
+	get maxExpirationDate(): Date | null {
+		if (this.isDefaultExpireDateEnabled && this.defaultExpireDate !== null) {
+			return new Date(new Date().setDate(new Date().getDate() + this.defaultExpireDate))
+		}
+		return null
+	}
+
+	/**
 	 * Get the default internal expiration date
 	 */
 	get defaultInternalExpirationDate(): Date|null {
