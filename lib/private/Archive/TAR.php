@@ -40,7 +40,7 @@ class TAR extends Archive {
 	 * try to detect the type of tar compression
 	 */
 	public static function getTarType(string $file): int {
-		if (strpos($file, '.')) {
+		if (strrpos($file, '.') !== false) {
 			$extension = substr($file, strrpos($file, '.'));
 			switch ($extension) {
 				case '.gz':
