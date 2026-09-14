@@ -46,6 +46,7 @@ class Capabilities implements ICapability {
 	 *             expire_date?: array{
 	 *                 enabled: bool,
 	 *                 days?: int,
+	 *                 default_days?: int,
 	 *                 enforced?: bool,
 	 *             },
 	 *             expire_date_internal?: array{
