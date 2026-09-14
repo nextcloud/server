@@ -9,19 +9,26 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Background;
 
+use DateTimeImmutable;
 use OC\BackgroundJob\JobClassesRegistry;
 use OC\BackgroundJob\JobRuns;
 use OC\Core\Command\InterruptedException;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\ISetupManager;
+use OCP\IDBConnection;
 use OCP\ITempManager;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class JobWorker extends JobBase {
+	private int $forkCount = 0;
+	private ?int $stopAfterSeconds;
+	private ?int $startTime;
+
 	public function __construct(
 		protected IJobList $jobList,
 		protected LoggerInterface $logger,
@@ -29,6 +36,7 @@ class JobWorker extends JobBase {
 		private ISetupManager $setupManager,
 		private readonly JobRuns $jobRuns,
 		private readonly JobClassesRegistry $jobClassesRegistry,
+		private readonly IDBConnection $connection,
 	) {
 		parent::__construct($jobList, $logger);
 	}
@@ -59,6 +67,13 @@ class JobWorker extends JobBase {
 				1
 			)
 			->addOption(
+				'thread',
+				'j',
+				InputOption::VALUE_REQUIRED,
+				'create multiple thread',
+				1
+			)
+			->addOption(
 				'stop_after',
 				't',
 				InputOption::VALUE_OPTIONAL,
@@ -69,13 +84,13 @@ class JobWorker extends JobBase {
 
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$startTime = time();
+		$this->startTime = time();
 		$stopAfterOptionValue = $input->getOption('stop_after');
-		$stopAfterSeconds = $stopAfterOptionValue === null
+		$this->stopAfterSeconds = $stopAfterOptionValue === null
 			? null
 			: $this->parseStopAfter($stopAfterOptionValue);
-		if ($stopAfterSeconds !== null) {
-			$output->writeln('<info>Background job worker will stop after ' . $stopAfterSeconds . ' seconds</info>');
+		if ($this->stopAfterSeconds !== null) {
+			$output->writeln('<info>Background job worker will stop after ' . $this->stopAfterSeconds . ' seconds</info>');
 		}
 
 		$jobClasses = $input->getArgument('job-classes');
@@ -91,18 +106,75 @@ class JobWorker extends JobBase {
 			}
 		}
 
+		$multiThread = $input->getOption('thread') ?? 0;
+		if ($multiThread > 1) {
+			if (!extension_loaded('posix')) {
+				throw new InvalidOptionException('posix extension is required to use --thread');
+			}
+
+			while (true) {
+				usleep(10000); // not needed but still better to slightly desync
+				$pid = pcntl_fork();
+				// work around as the parent database connection is inherited by the child.
+				// when child process is over, parent process database connection will drop.
+				// The drop can happen anytime, even in the middle of a running request.
+				// work around is to close the connection as soon as possible after forking.
+				$this->connection->close();
+
+				if ($pid === -1) {
+					// TODO: manage issue while forking
+				} elseif ($pid === 0) {
+					$color = $this->createRandomColor();
+					$this->runWorker($input, $output, $jobClasses, "<bg={$color}> </>  ");
+					exit();
+				} else {
+					// main process, counting forks
+					$this->forkCount++;
+					while (true) {
+						// Handle canceling of the process
+						try {
+							$this->abortIfInterrupted();
+						} catch (InterruptedException) {
+							return 0;
+						}
+
+						if (pcntl_waitpid(0, $status, WNOHANG) !== 0) {
+							$this->forkCount--;
+						}
+						if ($this->forkCount < $multiThread) {
+							break;
+						}
+						usleep(50000);
+					}
+				}
+			}
+		} else {
+			$this->runWorker($input, $output, $jobClasses);
+		}
+
+		$this->waitForChild();
+		return 0;
+	}
+
+
+	private function runWorker(
+		InputInterface $input,
+		OutputInterface $output,
+		?array $jobClasses,
+		string $prefix = ''): void {
+
 		while (true) {
 			// Stop if we exceeded stop_after value
-			if ($stopAfterSeconds !== null && ($startTime + $stopAfterSeconds) < time()) {
-				$output->writeln('stop_after time has been exceeded, exiting...', OutputInterface::VERBOSITY_VERBOSE);
+			if ($this->stopAfterSeconds !== null && ($this->startTime + $this->stopAfterSeconds) < time()) {
+				$output->writeln($prefix . 'stop_after time has been exceeded, exiting...', OutputInterface::VERBOSITY_VERBOSE);
 				break;
 			}
 			// Handle canceling of the process
 			try {
 				$this->abortIfInterrupted();
-			} catch (InterruptedException $e) {
-				$output->writeln('<info>Background job worker stopped</info>');
-				break;
+			} catch (InterruptedException) {
+				$output->writeln($prefix . '<info>Background job worker stopped</info>');
+				return;
 			}
 
 			$this->printSummary($input, $output);
@@ -112,15 +184,15 @@ class JobWorker extends JobBase {
 			if (!$job) {
 				if ($input->getOption('once') === true) {
 					if ($jobClasses === null) {
-						$output->writeln('No job is currently queued', OutputInterface::VERBOSITY_VERBOSE);
+						$output->writeln($prefix . 'No job is currently queued', OutputInterface::VERBOSITY_VERBOSE);
 					} else {
-						$output->writeln('No job of classes [' . implode(', ', $jobClasses) . '] is currently queued', OutputInterface::VERBOSITY_VERBOSE);
+						$output->writeln($prefix . 'No job of classes [' . implode(', ', $jobClasses) . '] is currently queued', OutputInterface::VERBOSITY_VERBOSE);
 					}
-					$output->writeln('Exiting...', OutputInterface::VERBOSITY_VERBOSE);
+					$output->writeln($prefix . 'Exiting...', OutputInterface::VERBOSITY_VERBOSE);
 					break;
 				}
 
-				$output->writeln('Waiting for new jobs to be queued', OutputInterface::VERBOSITY_VERBOSE);
+				$output->writeln($prefix . 'Waiting for new jobs to be queued', OutputInterface::VERBOSITY_VERBOSE);
 				if ((int)$input->getOption('interval') === 0) {
 					break;
 				}
@@ -130,7 +202,13 @@ class JobWorker extends JobBase {
 			}
 
 			$jobClassName = get_class($job);
-			$output->writeln('Running job ' . $jobClassName . ' with ID ' . $job->getId());
+			$now = new DateTimeImmutable();
+
+			if ($input->getOption('output') === 'row') {
+				$output->writeln($prefix . '  ' . $now->format('Y-m-d H:i:s.v') . ' | ' . str_pad($job->getId(), 20) . ' | ' . str_pad((string)$job->getLastRun(), 14) . ' | ' . $jobClassName);
+			} else {
+				$output->writeln($prefix . 'Running job ' . $jobClassName . ' with ID ' . $job->getId() . ' ' . $job->getLastRun());
+			}
 
 			if ($output->isVerbose()) {
 				$this->printJobInfo($job->getId(), $job, $output);
@@ -148,7 +226,7 @@ class JobWorker extends JobBase {
 			// It should be a temporary state until a proper job runner is implemented.
 			$this->jobRuns->finished($jobRunId, (int)($timeSpent * 1000), (int)($jobMemoryPeak / 1024));
 
-			$output->writeln('Job ' . $job->getId() . ' has finished', OutputInterface::VERBOSITY_VERBOSE);
+			$output->writeln($prefix . 'Job ' . $job->getId() . ' has finished', OutputInterface::VERBOSITY_VERBOSE);
 
 			// clean up after unclean jobs
 			$this->setupManager->tearDown();
@@ -161,8 +239,6 @@ class JobWorker extends JobBase {
 				break;
 			}
 		}
-
-		return 0;
 	}
 
 	private function printSummary(InputInterface $input, OutputInterface $output): void {
@@ -192,5 +268,18 @@ class JobWorker extends JobBase {
 			return 60 * 60 * ((int)$matches[0]);
 		}
 		return null;
+	}
+
+	public function waitForChild(): void {
+		if (!extension_loaded('posix')) {
+			return;
+		}
+
+		while (pcntl_waitpid(0, $status) !== -1) {
+		}
+	}
+
+	public function createRandomColor(): string {
+		return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
 	}
 }
