@@ -714,9 +714,7 @@ class DAV extends Common {
 
 						return $this->httpClientService
 							->newClient()
-							->get($this->createBaseUri() . $this->encodePath($path), [
-								  ...$options,
-							]);
+							->get($this->createBaseUri() . $this->encodePath($path), $options);
 					});
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
 					if ($e->getResponse() instanceof ResponseInterface
@@ -871,9 +869,7 @@ class DAV extends Common {
 
 			$this->httpClientService
 				->newClient()
-				->put($this->createBaseUri() . $this->encodePath($target), [
-					  ...$options,
-				]);
+				->put($this->createBaseUri() . $this->encodePath($target), $options);
 		});
 
 		$this->removeCachedFile($target);
