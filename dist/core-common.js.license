@@ -267,10 +267,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.4
 	- license: MIT
 - p-queue
-	- version: 9.3.0
+	- version: 9.3.3
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.11.1
+	- version: 1.12.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.26.0
@@ -318,7 +318,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.18.1
+	- version: 1.20.0
 	- license: MIT
 - bail
 	- version: 2.0.2
