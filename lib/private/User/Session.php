@@ -808,21 +808,39 @@ class Session implements IUserSession, Emitter {
 	 * Check if login names match
 	 */
 	private function validateTokenLoginName(?string $loginName, IToken $token): bool {
-		if (mb_strtolower($token->getLoginName()) !== mb_strtolower($loginName ?? '')) {
-			// TODO: this makes it impossible to use different login names on browser and client
-			// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
-			//      allow to use the client token with the login name 'user'.
-			$this->logger->error('App token login name does not match', [
-				'tokenLoginName' => $token->getLoginName(),
-				'sessionLoginName' => $loginName,
+		$tokenLoginName = mb_strtolower($token->getLoginName());
+		$givenLoginName = mb_strtolower($loginName ?? '');
+
+		if ($tokenLoginName === $givenLoginName) {
+			return true;
+		}
+
+		// Some clients percent-encode the login name before putting it into the
+		// Authorization header, so an account called "user@example.com" arrives
+		// as "user%40example.com" and no longer matches the token it was created
+		// with. Decode once and compare again before giving up.
+		// rawurldecode and not urldecode: a "+" in a login name is a literal
+		// plus sign here, not an encoded space.
+		if ($givenLoginName !== '' && mb_strtolower(rawurldecode($givenLoginName)) === $tokenLoginName) {
+			$this->logger->debug('App token login name only matched after decoding, the client percent-encodes it', [
 				'app' => 'core',
 				'user' => $token->getUID(),
 			]);
 
-			return false;
+			return true;
 		}
 
-		return true;
+		// TODO: this makes it impossible to use different login names on browser and client
+		// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
+		//      allow to use the client token with the login name 'user'.
+		$this->logger->error('App token login name does not match', [
+			'tokenLoginName' => $token->getLoginName(),
+			'sessionLoginName' => $loginName,
+			'app' => 'core',
+			'user' => $token->getUID(),
+		]);
+
+		return false;
 	}
 
 	/**
