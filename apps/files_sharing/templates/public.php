@@ -48,10 +48,12 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
 	<!-- ONLY if this is a folder, we show the grid toggle button -->
 	<?php if (empty($_['dir']) === false) { ?>
-		<input type="checkbox" class="hidden-visually" id="showgridview"
-			<?php if ($_['showgridview']) { ?>checked="checked" <?php } ?>/>
-		<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
-			title="<?php p($_['showgridview'] ? $l->t('Show list view') : $l->t('Show grid view'))?>"></label>
+		<div id="view-toggle-wrapper">
+			<input type="checkbox" class="hidden-visually" id="showgridview"
+				<?php if ($_['showgridview']) { ?>checked="checked" <?php } ?>/>
+			<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
+				title="<?php p($_['showgridview'] ? $l->t('Show list view') : $l->t('Show grid view'))?>"></label>
+		</div>
 	<?php } ?>
 
 	<!-- files listing -->
