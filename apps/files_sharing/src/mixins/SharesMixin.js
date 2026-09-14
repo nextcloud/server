@@ -151,7 +151,7 @@ export default {
 		maxExpirationDateEnforced() {
 			if (this.isExpiryDateEnforced) {
 				if (this.isPublicShare) {
-					return this.config.defaultExpirationDate
+					return this.config.maxExpirationDate
 				}
 				if (this.isRemoteShare) {
 					return this.config.defaultRemoteExpirationDateString
