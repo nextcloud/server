@@ -23,6 +23,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -88,7 +89,7 @@ class RemotePluginTest extends TestCase {
 	 * @param bool $exactIdMatch
 	 * @param bool $reachedEnd
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetRemote')]
+	#[DataProvider('dataGetRemote')]
 	public function testSearch($searchTerm, array $contacts, $shareeEnumeration, array $expected, $exactIdMatch, $reachedEnd): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
@@ -126,7 +127,7 @@ class RemotePluginTest extends TestCase {
 	 * @param string $expectedUser
 	 * @param string $expectedUrl
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitUserRemote')]
+	#[DataProvider('dataTestSplitUserRemote')]
 	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl): void {
 		$this->instantiatePlugin();
 
@@ -142,7 +143,7 @@ class RemotePluginTest extends TestCase {
 	/**
 	 * @param string $id
 	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitUserRemoteError')]
+	#[DataProvider('dataTestSplitUserRemoteError')]
 	public function testSplitUserRemoteError($id): void {
 		$this->expectException(\Exception::class);
 
@@ -241,7 +242,7 @@ class RemotePluginTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataLocalUserCloudIdVariants')]
+	#[DataProvider('dataLocalUserCloudIdVariants')]
 	public function testSearchLocalUserCloudIdVariants(string $search, bool $expectRemote, string $localCloudId = 'someUserId@cloud.example.com'): void {
 		$this->instantiatePlugin();
 
