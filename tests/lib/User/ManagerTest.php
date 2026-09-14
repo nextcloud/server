@@ -9,6 +9,7 @@
 namespace Test\User;
 
 use OC\AllConfig;
+use OC\ServerNotAvailableException;
 use OC\USER\BACKEND;
 use OC\User\Database;
 use OC\User\Manager;
@@ -158,6 +159,60 @@ class ManagerTest extends TestCase {
 
 		$user = $this->manager->checkPassword('foo', 'bar');
 		$this->assertTrue($user instanceof User);
+	}
+
+	public function testCheckPasswordNoLoggingContinuesAfterUnavailableBackend(): void {
+		$exception = new ServerNotAvailableException();
+		$unavailableBackend = $this->createMock(\Test\Util\User\Dummy::class);
+		$unavailableBackend->expects($this->once())
+			->method('checkPassword')
+			->with('foo', 'bar')
+			->willThrowException($exception);
+		$unavailableBackend->method('implementsActions')
+			->with(BACKEND::CHECK_PASSWORD)
+			->willReturn(true);
+		$unavailableBackend->method('getBackendName')
+			->willReturn('Dummy');
+
+		$databaseBackend = $this->createMock(Database::class);
+		$databaseBackend->expects($this->once())
+			->method('checkPassword')
+			->with('foo', 'bar')
+			->willReturn('foo');
+
+		$this->logger->expects($this->once())
+			->method('warning')
+			->with('Unable to check password against user backend: Dummy', ['exception' => $exception]);
+
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager->registerBackend($unavailableBackend);
+		$manager->registerBackend($databaseBackend);
+
+		$user = $manager->checkPasswordNoLogging('foo', 'bar');
+		$this->assertInstanceOf(User::class, $user);
+		$this->assertSame('foo', $user->getUID());
+	}
+
+	public function testCheckPasswordNoLoggingReturnsFalseForUnavailableBackend(): void {
+		$exception = new ServerNotAvailableException();
+		$backend = $this->createMock(\Test\Util\User\Dummy::class);
+		$backend->method('checkPassword')
+			->with('foo', 'bar')
+			->willThrowException($exception);
+		$backend->method('implementsActions')
+			->with(BACKEND::CHECK_PASSWORD)
+			->willReturn(true);
+		$backend->method('getBackendName')
+			->willReturn('Dummy');
+
+		$this->logger->expects($this->atLeastOnce())
+			->method('warning')
+			->with('Unable to check password against user backend: Dummy', ['exception' => $exception]);
+
+		$manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$manager->registerBackend($backend);
+
+		$this->assertFalse($manager->checkPasswordNoLogging('foo', 'bar'));
 	}
 
 	public function testCheckPasswordNotSupported(): void {
