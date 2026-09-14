@@ -9,6 +9,9 @@
 namespace Test\Files\Type;
 
 use OC\Files\Type\Loader;
+use OC\Memcache\ArrayCache;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\Group;
@@ -17,6 +20,7 @@ use Test\TestCase;
 #[Group('DB')]
 class LoaderTest extends TestCase {
 	protected IDBConnection $db;
+	protected ICache $cache;
 	protected Loader $loader;
 
 	#[\Override]
@@ -24,7 +28,8 @@ class LoaderTest extends TestCase {
 		parent::setUp();
 
 		$this->db = Server::get(IDBConnection::class);
-		$this->loader = new Loader($this->db);
+		$this->cache = new ArrayCache();
+		$this->loader = $this->createLoader($this->db);
 	}
 
 	#[\Override]
@@ -38,13 +43,24 @@ class LoaderTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testGetMimetype(): void {
+	private function createLoader(IDBConnection $db): Loader {
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createLocal')->willReturn($this->cache);
+		return new Loader($db, $cacheFactory);
+	}
+
+	private function insertMimetype(string $mimetype): int {
 		$qb = $this->db->getQueryBuilder();
 		$qb->insert('mimetypes')
 			->values([
-				'mimetype' => $qb->createPositionalParameter('testing/mymimetype')
+				'mimetype' => $qb->createPositionalParameter($mimetype)
 			]);
 		$qb->executeStatement();
+		return $qb->getLastInsertId();
+	}
+
+	public function testGetMimetype(): void {
+		$this->insertMimetype('testing/mymimetype');
 
 		$this->assertTrue($this->loader->exists('testing/mymimetype'));
 		$mimetypeId = $this->loader->getId('testing/mymimetype');
@@ -83,5 +99,44 @@ class LoaderTest extends TestCase {
 		$mimetypeId2 = $this->loader->getId('testing/mymimetype');
 
 		$this->assertEquals($mimetypeId, $mimetypeId2);
+	}
+
+	public function testMimetypesAreServedFromTheLocalCache(): void {
+		$mimetypeId = $this->insertMimetype('testing/cached');
+		$this->assertEquals('testing/cached', $this->loader->getMimetypeById($mimetypeId));
+
+		$db = $this->createMock(IDBConnection::class);
+		$db->expects($this->never())->method('getQueryBuilder');
+		$loader = $this->createLoader($db);
+
+		$this->assertEquals('testing/cached', $loader->getMimetypeById($mimetypeId));
+		$this->assertEquals($mimetypeId, $loader->getId('testing/cached'));
+		$this->assertTrue($loader->exists('testing/cached'));
+	}
+
+	public function testUnknownIdIsReloadedFromTheDatabase(): void {
+		$this->assertTrue($this->loader->exists('httpd/unix-directory'));
+
+		// added by another process after this instance loaded the table
+		$mimetypeId = $this->insertMimetype('testing/late');
+
+		$this->assertEquals('testing/late', $this->loader->getMimetypeById($mimetypeId));
+		$this->assertEquals($mimetypeId, $this->createLoader($this->db)->getId('testing/late'));
+		// only one reload per instance
+		$this->assertNull($this->loader->getMimetypeById(12345));
+	}
+
+	public function testStoreAndResetInvalidateTheCache(): void {
+		$this->assertTrue($this->loader->exists('httpd/unix-directory'));
+		$this->assertTrue($this->cache->hasKey('mimetypes'));
+
+		$this->loader->getId('testing/new');
+		$this->assertFalse($this->cache->hasKey('mimetypes'));
+
+		$this->assertTrue($this->createLoader($this->db)->exists('testing/new'));
+		$this->assertTrue($this->cache->hasKey('mimetypes'));
+
+		$this->loader->reset();
+		$this->assertFalse($this->cache->hasKey('mimetypes'));
 	}
 }
