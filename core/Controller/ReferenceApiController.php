@@ -19,6 +19,7 @@ use OCP\AppFramework\OCSController;
 use OCP\Collaboration\Reference\IDiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\IRequest;
+use OCP\Share\Exceptions\ShareNotFound;
 
 /**
  * @psalm-import-type CoreReference from ResponseDefinitions
@@ -48,6 +49,7 @@ class ReferenceApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/extract', root: '/references')]
+	#[AnonRateLimit(limit: 10, period: 120, exceptions: [ShareNotFound::class])]
 	public function extract(string $text, bool $resolve = false, int $limit = 1): DataResponse {
 		$references = $this->referenceManager->extractReferences($text);
 
@@ -79,7 +81,7 @@ class ReferenceApiController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'POST', url: '/extractPublic', root: '/references')]
 	#[PublicPage]
-	#[AnonRateLimit(limit: 10, period: 120)]
+	#[AnonRateLimit(limit: 10, period: 120, exceptions: [ShareNotFound::class])]
 	public function extractPublic(string $text, string $sharingToken, bool $resolve = false, int $limit = 1): DataResponse {
 		$references = $this->referenceManager->extractReferences($text);
 
@@ -108,6 +110,7 @@ class ReferenceApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/resolve', root: '/references')]
+	#[AnonRateLimit(limit: 25, period: 120, exceptions: [ShareNotFound::class])]
 	public function resolveOne(string $reference): DataResponse {
 		/** @var ?CoreReference $resolvedReference */
 		$resolvedReference = $this->referenceManager->resolveReference(trim($reference))?->jsonSerialize();
@@ -128,7 +131,7 @@ class ReferenceApiController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'GET', url: '/resolvePublic', root: '/references')]
 	#[PublicPage]
-	#[AnonRateLimit(limit: 25, period: 120)]
+	#[AnonRateLimit(limit: 25, period: 120, exceptions: [ShareNotFound::class])]
 	public function resolveOnePublic(string $reference, string $sharingToken): DataResponse {
 		/** @var ?CoreReference $resolvedReference */
 		$resolvedReference = $this->referenceManager->resolveReference(trim($reference), true, trim($sharingToken))?->jsonSerialize();
@@ -149,6 +152,7 @@ class ReferenceApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/resolve', root: '/references')]
+	#[AnonRateLimit(limit: 10, period: 120, exceptions: [ShareNotFound::class])]
 	public function resolve(array $references, int $limit = 1): DataResponse {
 		$result = [];
 		$index = 0;
@@ -177,7 +181,7 @@ class ReferenceApiController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'POST', url: '/resolvePublic', root: '/references')]
 	#[PublicPage]
-	#[AnonRateLimit(limit: 10, period: 120)]
+	#[AnonRateLimit(limit: 10, period: 120, exceptions: [ShareNotFound::class])]
 	public function resolvePublic(array $references, string $sharingToken, int $limit = 1): DataResponse {
 		$result = [];
 		$index = 0;
