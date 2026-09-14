@@ -67,6 +67,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	private array $cachedTagMappings = [];
 	/** @var array<string, ISystemTag> */
 	private array $cachedTags = [];
+	/** @var array<string,int> natural-sort rank per tag id; equal names share a rank */
+	private array $tagSortRank = [];
+	/** @var array<string,true> */
+	private array $visibleTagIds = [];
+	private SystemTagFragmentCache $tagFragments;
 
 	public function __construct(
 		protected ISystemTagManager $tagManager,
@@ -75,6 +80,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		protected IRootFolder $rootFolder,
 		protected ISystemTagObjectMapper $tagMapper,
 	) {
+		$this->tagFragments = new SystemTagFragmentCache();
 	}
 
 	/**
@@ -229,6 +235,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			$tags = $this->tagMapper->getTagIdsForObjects($fileIds, 'files');
 
 			$this->cachedTagMappings += $tags;
+			$this->preloadTags(array_merge(...array_values($tags)));
 			$emptyFileIds = array_diff($fileIds, array_keys($tags));
 
 			// also cache the ones that were not found
@@ -236,6 +243,49 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$this->cachedTagMappings[(string)$fileId] = [];
 			}
 		}
+	}
+
+	/**
+	 * @param string[] $tagIds
+	 */
+	private function preloadTags(array $tagIds): void {
+		$uncachedTagIds = array_filter(array_unique($tagIds), fn (string $tagId): bool => !isset($this->cachedTags[$tagId]));
+		foreach (array_chunk($uncachedTagIds, 1000) as $chunk) {
+			foreach ($this->tagManager->getTagsByIds($chunk) as $tag) {
+				$this->cachedTags[$tag->getId()] = $tag;
+			}
+		}
+		uasort($this->cachedTags, fn (ISystemTag $a, ISystemTag $b): int => Util::naturalSortCompare($a->getName(), $b->getName()));
+		$rank = 0;
+		$previous = null;
+		foreach ($this->cachedTags as $tagId => $tag) {
+			if ($previous !== null && Util::naturalSortCompare($previous->getName(), $tag->getName()) !== 0) {
+				$rank++;
+			}
+			$this->tagSortRank[$tagId] = $rank;
+			$previous = $tag;
+		}
+		$user = $this->userSession->getUser();
+		foreach ($this->cachedTags as $tagId => $tag) {
+			if ($this->tagManager->canUserSeeTag($tag, $user)) {
+				$this->visibleTagIds[$tagId] = true;
+			}
+		}
+	}
+
+	/**
+	 * @param string[] $tagIds
+	 * @return ISystemTag[] visible tags in natural name order; equal names keep their input order
+	 */
+	private function sortedVisibleTags(array $tagIds): array {
+		$buckets = [];
+		foreach ($tagIds as $tagId) {
+			if (isset($this->visibleTagIds[$tagId])) {
+				$buckets[$this->tagSortRank[$tagId]][] = $this->cachedTags[$tagId];
+			}
+		}
+		ksort($buckets);
+		return $buckets === [] ? [] : array_merge(...$buckets);
 	}
 
 	/**
@@ -353,12 +403,17 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$propFind->handle(self::SYSTEM_TAGS_PROPERTYNAME, function () use ($node) {
 			$user = $this->userSession->getUser();
+			$fileId = (string)$node->getId();
+
+			if (isset($this->cachedTagMappings[$fileId]) && $this->tagSortRank !== []) {
+				return new SystemTagList($this->sortedVisibleTags($this->cachedTagMappings[$fileId]), $this->tagManager, $user, $this->tagFragments);
+			}
 
 			$tags = $this->getTagsForFile($node->getId(), $user);
 			usort($tags, function (ISystemTag $tagA, ISystemTag $tagB): int {
 				return Util::naturalSortCompare($tagA->getName(), $tagB->getName());
 			});
-			return new SystemTagList($tags, $this->tagManager, $user);
+			return new SystemTagList($tags, $this->tagManager, $user, $this->tagFragments);
 		});
 	}
 
