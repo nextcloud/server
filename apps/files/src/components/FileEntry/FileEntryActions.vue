@@ -338,7 +338,7 @@ export default defineComponent({
 			this.activeStore.activeNode = this.source
 
 			// Execute the action
-			await executeAction(action)
+			await executeAction(action, 'menu')
 		},
 
 		onKeyDown(event: KeyboardEvent) {
