@@ -78,7 +78,7 @@ class TrashbinTest extends \Test\TestCase {
 
 		// register trashbin hooks
 		$trashbinApp = new TrashbinApplication();
-		$trashbinApp->boot(new BootContext(new DIContainer('', [], \OC::$server)));
+		$trashbinApp->boot(new BootContext(\OC::$server, new DIContainer('', [], \OC::$server)));
 
 		// create test user
 		self::loginHelper(self::TEST_TRASHBIN_USER2, true);
@@ -218,7 +218,7 @@ class TrashbinTest extends \Test\TestCase {
 		Filesystem::file_put_contents($folder . 'user1-4.txt', 'file4');
 
 		//share user1-4.txt with user2
-		$node = \OC::$server->getUserFolder(self::TEST_TRASHBIN_USER1)->get($folder);
+		$node = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1)->get($folder);
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setShareType(IShare::TYPE_USER)
 			->setNode($node)

@@ -17,6 +17,7 @@ use OCP\Authentication\IApacheBackend;
 use OCP\Authentication\IProvideUserSecretBackend;
 use OCP\Authentication\Token\IToken;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\ISession;
@@ -213,7 +214,7 @@ class OC_User {
 				);
 
 				//trigger creation of user home and /files folder
-				\OC::$server->getUserFolder($uid);
+				Server::get(IRootFolder::class)->getUserFolder($uid);
 			}
 			return true;
 		}
