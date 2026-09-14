@@ -9,30 +9,21 @@ declare(strict_types=1);
 
 namespace OC\Authentication\RememberLogin;
 
-use OCP\AppFramework\Db\Entity;
-use OCP\DB\Types;
+use OCP\AppFramework\ORM\Attribute\Column;
+use OCP\AppFramework\ORM\Attribute\Entity;
+use OCP\AppFramework\ORM\Attribute\Id;
+use OCP\DB\Schema\ColumnType;
+use OCP\Snowflake\ISnowflakeGenerator;
 
-/**
- * @method void setUid(string $uid)
- * @method string getUid()
- * @method void setToken(string $token)
- * @method string getToken()
- * @method void setCreated(int $created)
- * @method int getCreated()
- */
-class RememberLoginToken extends Entity {
-	/** @var string */
-	protected $uid;
+#[Entity(name: 'remember_login_tokens')]
+final class RememberLoginToken {
+	#[Id(generatorClass: ISnowflakeGenerator::class)]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
+	public ?string $id = null;
 
-	/** @var string */
-	protected $token;
+	#[Column(name: 'uid', type: ColumnType::String, length: 64)]
+	public string $uid;
 
-	/** @var int */
-	protected $created;
-
-	public function __construct() {
-		$this->addType('uid', Types::STRING);
-		$this->addType('token', Types::STRING);
-		$this->addType('created', Types::INTEGER);
-	}
+	#[Column(name: 'token', type: ColumnType::String, length: 200)]
+	public string $token;
 }
