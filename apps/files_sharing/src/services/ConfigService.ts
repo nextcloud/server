@@ -140,8 +140,11 @@ export default class Config {
 	 * Get the default link share expiration date
 	 */
 	get defaultExpirationDate(): Date | null {
-		if (this.isDefaultExpireDateEnabled && this.defaultExpireDate !== null) {
-			return new Date(new Date().setDate(new Date().getDate() + this.defaultExpireDate))
+		if (this.isDefaultExpireDateEnabled) {
+			const days = this.linkDefaultExpDays ?? this.defaultExpireDate
+			if (days !== null) {
+				return new Date(new Date().setDate(new Date().getDate() + days))
+			}
 		}
 		return null
 	}
@@ -253,10 +256,17 @@ export default class Config {
 	}
 
 	/**
-	 * Get the default days to link shares expiration
+	 * Get the maximum days to link shares expiration
 	 */
 	get defaultExpireDate(): number | null {
 		return window.OC.appConfig.core.defaultExpireDate
+	}
+
+	/**
+	 * Get the default days to link shares expiration
+	 */
+	get linkDefaultExpDays(): number | null {
+		return this._capabilities?.files_sharing?.public?.expire_date?.default_days ?? null
 	}
 
 	/**
