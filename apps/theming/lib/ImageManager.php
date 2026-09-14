@@ -78,6 +78,10 @@ class ImageManager {
 		return $this->urlGenerator->getAbsoluteURL($this->getImageUrl($key));
 	}
 
+	public function getImageMime(string $key): string {
+		return $this->appConfig->getAppValueString($key . 'Mime', '');
+	}
+
 	/**
 	 * @param string $key
 	 * @param bool $useSvg
@@ -86,7 +90,7 @@ class ImageManager {
 	 * @throws NotPermittedException
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
-		$mime = $this->config->getAppValue('theming', $key . 'Mime', '');
+		$mime = $this->getImageMime($key);
 		$folder = $this->getRootFolder()->getFolder('images');
 
 		if ($mime === '' || !$folder->fileExists($key)) {
@@ -116,7 +120,7 @@ class ImageManager {
 	}
 
 	public function hasImage(string $key): bool {
-		$mimeSetting = $this->config->getAppValue('theming', $key . 'Mime', '');
+		$mimeSetting = $this->getImageMime($key);
 		// Removing the background defines its mime as 'backgroundColor'
 		return $mimeSetting !== '' && $mimeSetting !== 'backgroundColor';
 	}
@@ -128,7 +132,7 @@ class ImageManager {
 		$images = [];
 		foreach (self::SUPPORTED_IMAGE_KEYS as $key) {
 			$images[$key] = [
-				'mime' => $this->config->getAppValue('theming', $key . 'Mime', ''),
+				'mime' => $this->getImageMime($key),
 				'url' => $this->getImageUrl($key),
 			];
 		}
