@@ -221,8 +221,8 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	protected function resolveAlias(string $name) : string {
-		if (isset($this->aliases[$name])) {
-			return $this->resolveAlias($this->aliases[$name]);
+		while (isset($this->aliases[$name])) {
+			$name = $this->aliases[$name];
 		}
 		return $name;
 	}
