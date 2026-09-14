@@ -2544,28 +2544,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					],
 					'permissions' => [],
 				],
-				[
-					'class' => TestShareRecipientType2::class,
-					'value' => 'recipient2',
-					'instance' => null,
-					'display_name' => 'Recipient 2',
-					'icon' => [
-						'svg' => '<svg/>',
-					],
-					'secret' => [
-						'updatable' => false,
-					],
-					'initiator' => [
-						'user_id' => 'owner',
-						'instance' => null,
-						'display_name' => 'Owner',
-						'icon' => [
-							'light' => 'http://localhost/index.php/avatar/owner/64',
-							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
-						],
-					],
-					'permissions' => [],
-				],
 			],
 			'properties' => [
 				[
@@ -3444,39 +3422,27 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->assertArrayHasKey('recipients', $formatted);
 		$this->assertIsArray($formatted['recipients']);
-		$this->assertCount(4, $formatted['recipients']);
+		$this->assertCount(2, $formatted['recipients']);
 
-		// Parent - secret not visible
+		// Parent is not visible
+
+		// Self
 		$this->assertIsArray($formatted['recipients'][0]);
 		$this->assertArrayHasKey('value', $formatted['recipients'][0]);
-		$this->assertEquals('recipient1', $formatted['recipients'][0]['value']);
+		$this->assertEquals('recipient2', $formatted['recipients'][0]['value']);
 		$this->assertArrayHasKey('secret', $formatted['recipients'][0]);
 		$this->assertIsArray($formatted['recipients'][0]['secret']);
-		$this->assertArrayNotHasKey('value', $formatted['recipients'][0]['secret']);
+		$this->assertNotEmpty($formatted['recipients'][0]['secret']['value']);
 
-		// Self - secret visible
+		// Sibling is not visible
+
+		// Child
 		$this->assertIsArray($formatted['recipients'][1]);
 		$this->assertArrayHasKey('value', $formatted['recipients'][1]);
-		$this->assertEquals('recipient2', $formatted['recipients'][1]['value']);
+		$this->assertEquals('recipient4', $formatted['recipients'][1]['value']);
 		$this->assertArrayHasKey('secret', $formatted['recipients'][1]);
 		$this->assertIsArray($formatted['recipients'][1]['secret']);
 		$this->assertNotEmpty($formatted['recipients'][1]['secret']['value']);
-
-		// Sibling - secret not visible
-		$this->assertIsArray($formatted['recipients'][2]);
-		$this->assertArrayHasKey('value', $formatted['recipients'][2]);
-		$this->assertEquals('recipient3', $formatted['recipients'][2]['value']);
-		$this->assertArrayHasKey('secret', $formatted['recipients'][2]);
-		$this->assertIsArray($formatted['recipients'][2]['secret']);
-		$this->assertArrayNotHasKey('value', $formatted['recipients'][2]['secret']);
-
-		// Child - secret visible
-		$this->assertIsArray($formatted['recipients'][3]);
-		$this->assertArrayHasKey('value', $formatted['recipients'][3]);
-		$this->assertEquals('recipient4', $formatted['recipients'][3]['value']);
-		$this->assertArrayHasKey('secret', $formatted['recipients'][3]);
-		$this->assertIsArray($formatted['recipients'][3]['secret']);
-		$this->assertNotEmpty($formatted['recipients'][3]['secret']['value']);
 	}
 
 	public function testGetShareUniqueDisplayNames(): void {
@@ -4751,7 +4717,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		// give user2 direct access
 		$this->shareSourceType1->userAccess[$this->user2->getUID()] = ['source1'];
 		$user2Share = $this->reloadShare($accessContext2, $share);
-		$this->assertNull($user2Share->recipients[0]->secret);
+		$this->assertEmpty($user2Share->recipients);
 		$formatted = $this->updateShareProperty($accessContext2, $user2Share, new ShareProperty(TestSharePropertyType1::class, 'valid1'));
 
 		$this->assertEquals([
