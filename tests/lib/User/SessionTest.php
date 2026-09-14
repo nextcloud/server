@@ -773,28 +773,20 @@ class SessionTest extends \Test\TestCase {
 			->willReturn($user);
 
 		$storedRememberLoginToken = new RememberLoginToken();
-		$storedRememberLoginToken->setUid('foo');
-		$storedRememberLoginToken->setToken($token);
-		$storedRememberLoginToken->setCreated(9000);
+		$storedRememberLoginToken->uid = 'foo';
+		$storedRememberLoginToken->token = $token;
 
 		$this->rememberLoginTokenMapper->expects($this->once())
 			->method('findByToken')
 			->with($token)
 			->willReturn($storedRememberLoginToken);
-		$this->rememberLoginTokenMapper->expects($this->once())
-			->method('deleteByToken')
-			->with($token);
 		$this->random->expects($this->once())
 			->method('generate')
 			->with(32)
 			->willReturn('abcdefg123456');
 		$this->rememberLoginTokenMapper->expects($this->once())
-			->method('insert')
-			->with($this->callback(function (RememberLoginToken $newRememberLoginToken): bool {
-				return $newRememberLoginToken->getUid() === 'foo'
-					&& $newRememberLoginToken->getToken() === 'abcdefg123456'
-					&& $newRememberLoginToken->getCreated() === 10000;
-			}));
+			->method('rotateToken')
+			->with($token, 'abcdefg123456');
 
 		$tokenObject = $this->createMock(IToken::class);
 		$tokenObject->expects($this->once())
@@ -879,19 +871,15 @@ class SessionTest extends \Test\TestCase {
 			->willReturn($user);
 
 		$storedRememberLoginToken = new RememberLoginToken();
-		$storedRememberLoginToken->setUid('foo');
-		$storedRememberLoginToken->setToken($token);
-		$storedRememberLoginToken->setCreated(9000);
+		$storedRememberLoginToken->uid = 'foo';
+		$storedRememberLoginToken->token = $token;
 
 		$this->rememberLoginTokenMapper->expects($this->once())
 			->method('findByToken')
 			->with($token)
 			->willReturn($storedRememberLoginToken);
 		$this->rememberLoginTokenMapper->expects($this->once())
-			->method('deleteByToken')
-			->with($token);
-		$this->rememberLoginTokenMapper->expects($this->once())
-			->method('insert');
+			->method('rotateToken');
 
 		$session->expects($this->once())
 			->method('getId')
@@ -1227,9 +1215,8 @@ class SessionTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('insert')
 			->with($this->callback(function (RememberLoginToken $rememberLoginToken): bool {
-				return $rememberLoginToken->getUid() === 'UserUid'
-					&& $rememberLoginToken->getToken() === 'LongRandomToken'
-					&& $rememberLoginToken->getCreated() === 10000;
+				return $rememberLoginToken->uid === 'UserUid'
+					&& $rememberLoginToken->token === 'LongRandomToken';
 			}));
 		$this->userSession
 			->expects($this->once())

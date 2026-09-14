@@ -9,29 +9,34 @@ declare(strict_types=1);
 
 namespace OC\Authentication\RememberLogin;
 
+use OC\AppFramework\ORM\EntityManager;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\Entity;
-use OCP\AppFramework\Db\QBMapper;
-use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\AppFramework\ORM\Repository;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Snowflake\ISnowflakeGenerator;
 use Override;
 
 /**
- * @template-extends QBMapper<RememberLoginToken>
+ * @template-extends Repository<RememberLoginToken>
  */
-class RememberLoginTokenMapper extends QBMapper {
+class RememberLoginTokenMapper extends Repository {
+	public const string entityClass = RememberLoginToken::class;
+
 	public function __construct(
-		IDBConnection $db,
-		private IConfig $config,
+		IDBConnection $connection,
+		EntityManager $entityManager,
+		private readonly ISnowflakeGenerator $snowflakeGenerator,
+		private readonly IConfig $config,
 	) {
-		parent::__construct($db, 'remember_login_tokens', RememberLoginToken::class);
+		/** @psalm-suppress InternalMethod */
+		parent::__construct($connection, $entityManager);
 	}
 
 	#[Override]
-	public function insert(Entity $entity): Entity {
+	public function insert(object $entity): object {
 		/** @var RememberLoginToken $entity */
-		$entity->setToken($this->hashToken($entity->getToken()));
+		$entity->token = $this->hashToken($entity->token);
 
 		return parent::insert($entity);
 	}
@@ -40,42 +45,45 @@ class RememberLoginTokenMapper extends QBMapper {
 	 * @throws DoesNotExistException
 	 */
 	public function findByToken(string $token): RememberLoginToken {
-		$query = $this->db->getQueryBuilder();
-		$query->select('*')
-			->from($this->getTableName())
-			->where($query->expr()->eq('token', $query->createNamedParameter($this->hashToken($token))));
-
-		return $this->findEntity($query);
+		return $this->findOneBy(['token' => $this->hashToken($token)]);
 	}
 
 	public function deleteByToken(string $token): int {
-		$query = $this->db->getQueryBuilder();
-		$query->delete($this->getTableName())
-			->where($query->expr()->eq('token', $query->createNamedParameter($this->hashToken($token))));
-
-		return $query->executeStatement();
+		return $this->deleteBy(['token' => $this->hashToken($token)]);
 	}
 
 	/**
 	 * Removes every remembered login token for given user
 	 */
 	public function deleteByUid(string $uid): int {
-		$query = $this->db->getQueryBuilder();
-		$query->delete($this->getTableName())
-			->where($query->expr()->eq('uid', $query->createNamedParameter($uid)));
+		return $this->deleteBy(['uid' => $uid]);
+	}
 
-		return $query->executeStatement();
+	/**
+	 * Updates old token with the new one and generates a new snowflake ID,
+	 * refreshing the creation timestamp encoded in it
+	 *
+	 * @return int Number of updated rows
+	 */
+	public function rotateToken(string $oldToken, string $newToken): int {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->update($this->getTableName())
+			->set('id', $qb->createNamedParameter($this->snowflakeGenerator->nextId()))
+			->set('token', $qb->createNamedParameter($this->hashToken($newToken)))
+			->where($qb->expr()->eq('token', $qb->createNamedParameter($this->hashToken($oldToken))));
+
+		return $qb->executeStatement();
 	}
 
 	/**
 	 * Removes every remembered login token older than the given timestamp
 	 */
 	public function deleteOlderThan(int $timestamp): int {
-		$query = $this->db->getQueryBuilder();
-		$query->delete($this->getTableName())
-			->where($query->expr()->lt('created', $query->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT)));
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete($this->getTableName())
+			->where($qb->expr()->lt('id', $qb->createNamedParameter($this->snowflakeGenerator->minForTimeId($timestamp))));
 
-		return $query->executeStatement();
+		return $qb->executeStatement();
 	}
 
 	private function hashToken(string $token): string {

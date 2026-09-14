@@ -911,7 +911,7 @@ class Session implements IUserSession, Emitter {
 				return false;
 			}
 		}
-		if ($rememberLoginToken->getUid() !== $uid) {
+		if ($rememberLoginToken->uid !== $uid) {
 			$this->logger->warning('Tried to login using remember-me token token from a different user', [
 				'app' => 'core',
 				'user' => $uid,
@@ -939,8 +939,8 @@ class Session implements IUserSession, Emitter {
 		}
 
 		// replace successfully used token with a new one
-		$this->rememberLoginTokenMapper->deleteByToken($currentToken);
-		$newToken = $this->createRememberLoginToken($uid);
+		$newToken = $this->random->generate(32);
+		$this->rememberLoginTokenMapper->rotateToken($currentToken, $newToken);
 		$this->logger->debug('Remember-me token replaced', [
 			'app' => 'core',
 			'user' => $uid,
@@ -1001,9 +1001,8 @@ class Session implements IUserSession, Emitter {
 	private function createRememberLoginToken(string $uid): string {
 		$token = $this->random->generate(32);
 		$rememberLoginToken = new RememberLoginToken();
-		$rememberLoginToken->setUid($uid);
-		$rememberLoginToken->setToken($token);
-		$rememberLoginToken->setCreated($this->timeFactory->getTime());
+		$rememberLoginToken->uid = $uid;
+		$rememberLoginToken->token = $token;
 		$this->rememberLoginTokenMapper->insert($rememberLoginToken);
 
 		return $token;
@@ -1018,13 +1017,11 @@ class Session implements IUserSession, Emitter {
 			return null;
 		}
 
-		$createdAt = (int)$this->config->getUserValue($uid, 'login_token', $token);
 		$this->config->deleteUserValue($uid, 'login_token', $token);
 
 		$rememberLoginToken = new RememberLoginToken();
-		$rememberLoginToken->setUid($uid);
-		$rememberLoginToken->setToken($token);
-		$rememberLoginToken->setCreated($createdAt);
+		$rememberLoginToken->uid = $uid;
+		$rememberLoginToken->token = $token;
 
 		return $this->rememberLoginTokenMapper->insert($rememberLoginToken);
 	}
