@@ -74,16 +74,21 @@ class RemotePlugin implements ISearchPlugin {
 					}
 
 					$localUser = $this->userManager->get($remoteUser);
-					if ($localUser !== null && $remoteUser !== $this->userId && $cloudId === $localUser->getCloudId()) {
-						$result['wide'][] = [
-							'label' => $contact['FN'],
-							'uuid' => $contact['UID'],
-							'value' => [
-								'shareType' => IShare::TYPE_USER,
-								'shareWith' => $remoteUser
-							],
-							'shareWithDisplayNameUnique' => $contact['EMAIL'] !== null && $contact['EMAIL'] !== '' ? $contact['EMAIL'] : $contact['UID'],
-						];
+					if ($localUser !== null && $this->isLocalUserCloudId($cloudId, $localUser)) {
+						if ($localUser->getUID() !== $this->userId) {
+							// add share as local share if not self
+							$result['wide'][] = [
+								'label' => $contact['FN'],
+								'uuid' => $contact['UID'],
+								'value' => [
+									'shareType' => IShare::TYPE_USER,
+									'shareWith' => $localUser->getUID()
+								],
+								'shareWithDisplayNameUnique' => $contact['EMAIL'] !== null && $contact['EMAIL'] !== '' ? $contact['EMAIL'] : $contact['UID'],
+							];
+						}
+						// do not offer local user as remote share
+						continue;
 					}
 
 					$emailMatch = false;
