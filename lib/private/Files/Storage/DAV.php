@@ -241,7 +241,7 @@ class DAV extends Common {
 		// For Basic auth, the share token is kept as the user name
 		$token = $this->user;
 		// If using Bearer auth, use stored access token or exchange refresh token for access token
-		if ($this->authType !== null && ($this->authType & BearerAuthAwareSabreClient::AUTH_BEARER)) {
+		if ($this->isBearerAuth()) {
 			// Check if we already have an access token stored (password field)
 			if (!empty($this->password)) {
 				$token = $this->password;
@@ -410,11 +410,56 @@ class DAV extends Common {
 	}
 
 	/**
-	 * Check if bearer authentication is being used
+	 * Check if bearer authentication is being used.
 	 */
 	protected function isBearerAuth(): bool {
 		return $this->authType !== null
-			&& ($this->authType & BearerAuthAwareSabreClient::AUTH_BEARER);
+			&& ($this->authType & BearerAuthAwareSabreClient::AUTH_BEARER) !== 0;
+	}
+
+	/**
+	 * Check if digest authentication is being used.
+	 */
+	protected function isDigestAuth(): bool {
+		return $this->authType !== null
+			&& ($this->authType & Client::AUTH_DIGEST) !== 0;
+	}
+
+	/**
+	 * Return authentication options for the generic HTTP client that are
+	 * equivalent to the authentication configured for the Sabre DAV client.
+	 *
+	 * @return array{
+	 *     auth: list<string>,
+	 *     headers?: array<string, string>,
+	 * }
+	 */
+	protected function getHttpAuthOptions(): array {
+		if ($this->isBearerAuth()) {
+			return [
+				'auth' => [],
+				'headers' => [
+					'Authorization' => 'Bearer ' . $this->bearerToken,
+				],
+			];
+		}
+
+		if ($this->isDigestAuth()) {
+			return [
+				'auth' => [
+					$this->user,
+					$this->password,
+					'digest',
+				],
+			];
+		}
+
+		return [
+			'auth' => [
+				$this->user,
+				$this->password,
+			],
+		];
 	}
 
 	/** Guard against re-entry while a Guzzle-path 401 is being recovered. */
@@ -661,22 +706,16 @@ class DAV extends Common {
 			case 'rb':
 				try {
 					$response = $this->withAuthRetry(function () use ($path) {
-						if ($this->authType === BearerAuthAwareSabreClient::AUTH_BEARER) {
-							$auth = [];
-							$headers = ['Authorization' => 'Bearer ' . $this->bearerToken];
-						} else {
-							$auth = [$this->user, $this->password];
-							$headers = [];
-						}
+						$options = $this->getHttpAuthOptions();
+						$options['stream'] = true;
+						// set download timeout for users with slow connections or large files
+						$options['timeout'] = $this->timeout;
+						$options['verify'] = $this->verify;
+
 						return $this->httpClientService
 							->newClient()
 							->get($this->createBaseUri() . $this->encodePath($path), [
-								'headers' => $headers,
-								'auth' => $auth,
-								'stream' => true,
-								// set download timeout for users with slow connections or large files
-								'timeout' => $this->timeout,
-								'verify' => $this->verify,
+								  ...$options,
 							]);
 					});
 				} catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -824,21 +863,16 @@ class DAV extends Common {
 
 		$this->withAuthRetry(function () use ($path, $target): void {
 			$source = fopen($path, 'r');
-			$auth = [$this->user, $this->password];
-			$headers = [];
-			if ($this->authType === BearerAuthAwareSabreClient::AUTH_BEARER) {
-				$auth = [];
-				$headers = ['Authorization' => 'Bearer ' . $this->bearerToken];
-			}
+			$options = $this->getHttpAuthOptions();
+			$options['body'] = $source;
+			// set upload timeout for users with slow connections or large files
+			$options['timeout'] = $this->timeout;
+			$options['verify'] = $this->verify;
+
 			$this->httpClientService
 				->newClient()
 				->put($this->createBaseUri() . $this->encodePath($target), [
-					'body' => $source,
-					'headers' => $headers,
-					'auth' => $auth,
-					// set upload timeout for users with slow connections or large files
-					'timeout' => $this->timeout,
-					'verify' => $this->verify,
+					  ...$options,
 				]);
 		});
 
