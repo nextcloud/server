@@ -609,6 +609,7 @@ class User implements IUser {
 		}
 
 		// Refresh the quota cache
+		\OC_Helper::clearStorageInfo('/' . $this->uid . '/files');
 		$root = Server::get(IRootFolder::class);
 		$userFolder = $root->getUserFolder($this->uid);
 		$userFolder->getUserQuota(false);
