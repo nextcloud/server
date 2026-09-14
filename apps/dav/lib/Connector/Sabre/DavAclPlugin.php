@@ -55,16 +55,22 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 
 			if ($this->getCurrentUserPrincipal() === $node->getOwner()) {
 				throw new Forbidden('Access denied');
-			} else {
-				throw new NotFound(
-					sprintf(
-						"%s with name '%s' could not be found",
-						$type,
-						$node->getName()
-					)
-				);
 			}
 
+			// RFC 3744 section 3 only allows masking the 403 as a 404 when the missing
+			// privilege also hides that the resource exists. If the user may read the node
+			// its existence is no secret, so surface the real 403 instead of a 404.
+			if (parent::checkPrivileges($uri, '{DAV:}read', $recursion, false)) {
+				return parent::checkPrivileges($uri, $privileges, $recursion, true);
+			}
+
+			throw new NotFound(
+				sprintf(
+					"%s with name '%s' could not be found",
+					$type,
+					$node->getName()
+				)
+			);
 		}
 
 		return $access;
