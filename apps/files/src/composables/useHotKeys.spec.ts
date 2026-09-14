@@ -145,6 +145,17 @@ describe('HotKeysService testing', () => {
 		expect(deleteAction.exec).toHaveBeenCalledOnce()
 	})
 
+	it('passes the hotkey trigger to the action', () => {
+		component.destroy()
+		registerFileAction(deleteAction)
+		component = mount(TestComponent)
+
+		dispatchEvent({ key: 'Delete', code: 'Delete' })
+
+		expect(deleteAction.exec).toHaveBeenCalledOnce()
+		expect(deleteAction.exec).toHaveBeenCalledWith(expect.objectContaining({ trigger: 'hotkey' }))
+	})
+
 	// actions implemented by the composable
 
 	it('Pressing alt+up should go to parent directory', () => {

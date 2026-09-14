@@ -33,7 +33,7 @@ export function useHotKeys(): void {
 			: action.hotkey.key
 
 		logger.debug(`Register hotkey for action "${action.id}"`)
-		useHotKey(key, () => executeAction(action), {
+		useHotKey(key, () => executeAction(action, 'hotkey'), {
 			stop: true,
 			prevent: true,
 			alt: action.hotkey.alt,
