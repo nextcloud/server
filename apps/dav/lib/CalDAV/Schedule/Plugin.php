@@ -15,6 +15,8 @@ use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Federation\FederatedCalendar;
 use OCA\DAV\CalDAV\TipBroker;
+use OCP\Config\IUserConfig;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\ICalendar;
@@ -53,13 +55,13 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	public const CALENDAR_USER_TYPE = '{' . self::NS_CALDAV . '}calendar-user-type';
 	public const SCHEDULE_DEFAULT_CALENDAR_URL = '{' . Plugin::NS_CALDAV . '}schedule-default-calendar-URL';
 
-	/**
-	 * @param IConfig $config
-	 */
 	public function __construct(
 		private IConfig $config,
 		private LoggerInterface $logger,
 		private DefaultCalendarValidator $defaultCalendarValidator,
+		private CalDavBackend $caldavBackend,
+		private IUserConfig $userConfig,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -257,12 +259,16 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		/** @var VEvent|null $vevent */
 		$vevent = $iTipMessage->message->VEVENT ?? null;
 
-		// Strip VALARMs from incoming VEVENT
-		if ($vevent && isset($vevent->VALARM)) {
-			$vevent->remove('VALARM');
+		// A remote organizer must not drive alerts on the recipient's devices.
+		foreach ($iTipMessage->message->VEVENT ?? [] as $component) {
+			$component->remove('VALARM');
 		}
 
-		parent::scheduleLocalDelivery($iTipMessage);
+		if ($vevent && strcasecmp($iTipMessage->method, 'REQUEST') === 0) {
+			$this->applyRecipientReminderPolicy($iTipMessage);
+		}
+
+		$this->delegateToSabre($iTipMessage);
 		// We only care when the message was successfully delivered locally
 		// Log all possible codes returned from the parent method that mean something went wrong
 		// 3.7, 3.8, 5.0, 5.2
@@ -776,5 +782,227 @@ EOF;
 				throw $e;
 			}
 		}
+	}
+
+	/**
+	 * Thin testable seam around the parent's `scheduleLocalDelivery`. Tests subclass and
+	 * override this to skip the Sabre delivery while still exercising our hook code.
+	 *
+	 * @param ITip\Message $iTipMessage
+	 */
+	protected function delegateToSabre(ITip\Message $iTipMessage): void {
+		parent::scheduleLocalDelivery($iTipMessage);
+	}
+
+	/**
+	 * For an incoming REQUEST, preserve the recipient's existing VALARMs or inject their default reminder.
+	 *
+	 * @param ITip\Message $iTipMessage
+	 */
+	private function applyRecipientReminderPolicy(ITip\Message $iTipMessage): void {
+		try {
+			/** @var \Sabre\DAVACL\Plugin|null $aclPlugin */
+			$aclPlugin = $this->server->getPlugin('acl');
+			if (!$aclPlugin) {
+				return;
+			}
+			$principalUri = $aclPlugin->getPrincipalByUri($iTipMessage->recipient);
+			if (!$principalUri) {
+				return;
+			}
+
+			$calendarUserType = $this->getCalendarUserTypeForPrincipal($principalUri);
+			if ($calendarUserType !== null
+				&& (strcasecmp($calendarUserType, 'ROOM') === 0 || strcasecmp($calendarUserType, 'RESOURCE') === 0)) {
+				return;
+			}
+
+			// Skip when the recipient is the organizer (self-invite).
+			/** @var VEvent|null $incomingVEvent */
+			$incomingVEvent = $iTipMessage->message->VEVENT ?? null;
+			if ($incomingVEvent && isset($incomingVEvent->ORGANIZER)) {
+				$organizerAddresses = $this->getAddressesForPrincipal($principalUri);
+				/** @var Property&Property\ICalendar\CalAddress $organizer */
+				$organizer = $incomingVEvent->ORGANIZER;
+				if (in_array($organizer->getNormalizedValue(), $organizerAddresses, true)) {
+					return;
+				}
+			}
+
+			$userId = $this->principalUriToUserId($principalUri);
+			if ($userId === null) {
+				return;
+			}
+
+			$existingVAlarms = $this->collectExistingValarmsForRecipient($principalUri, $iTipMessage->uid);
+			if ($existingVAlarms !== null) {
+				// An empty set means the recipient deleted them on purpose; never re-inject a default.
+				foreach ($iTipMessage->message->VEVENT as $vevent) {
+					$key = $this->veventRecurrenceKey($vevent);
+					foreach ($existingVAlarms[$key] ?? [] as $valarm) {
+						$vevent->add(clone $valarm);
+					}
+				}
+				return;
+			}
+
+			$toggle = $this->userConfig->getValueString($userId, 'calendar', 'applyDefaultReminderToInvitations', 'yes');
+			if ($toggle !== 'yes') {
+				return;
+			}
+			$offset = $this->resolveDefaultReminderOffset($userId, $incomingVEvent);
+			if ($offset !== 'none') {
+				$this->injectDefaultReminder($iTipMessage, $offset);
+			}
+		} catch (\Throwable $e) {
+			// Best-effort: never let reminder handling break delivery.
+			$this->logger->debug('Failed to apply recipient reminder policy on invitation', ['exception' => $e]);
+		}
+	}
+
+	/**
+	 * Collect every VALARM from the recipient's existing local copy of the given UID, keyed by
+	 * RECURRENCE-ID (empty string for the master VEVENT). Returns null when the recipient has no
+	 * local copy of this UID yet, which is the signal for the first-receipt path.
+	 *
+	 * @param string $principalUri
+	 * @param string $uid
+	 * @return array<string, list<Component>>|null
+	 */
+	private function collectExistingValarmsForRecipient(string $principalUri, string $uid): ?array {
+		$objectPath = $this->caldavBackend->getCalendarObjectByUID($principalUri, $uid);
+		if ($objectPath === null) {
+			return null;
+		}
+		[$calendarUri, $objectUri] = explode('/', $objectPath, 2);
+		$calendar = $this->caldavBackend->getCalendarByUri($principalUri, $calendarUri);
+		if (!$calendar) {
+			return [];
+		}
+		$objectData = $this->caldavBackend->getCalendarObject($calendar['id'], $objectUri);
+		if (empty($objectData['calendardata'])) {
+			return [];
+		}
+		$vCal = Reader::read($objectData['calendardata']);
+		$result = [];
+		foreach ($vCal->VEVENT ?? [] as $vevent) {
+			if (!isset($vevent->VALARM)) {
+				continue;
+			}
+			$key = $this->veventRecurrenceKey($vevent);
+			$result[$key] = [];
+			foreach ($vevent->VALARM as $valarm) {
+				$result[$key][] = $valarm;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Stable key per VEVENT component: '' for the master, otherwise the RECURRENCE-ID as an
+	 * absolute timestamp so TZID-local and UTC spellings of the same instance still match.
+	 *
+	 * @param VEvent $vevent
+	 * @return string
+	 */
+	private function veventRecurrenceKey(VEvent $vevent): string {
+		/** @var \Sabre\VObject\Property\ICalendar\DateTime|null $rid */
+		$rid = $vevent->{'RECURRENCE-ID'} ?? null;
+		if ($rid === null) {
+			return '';
+		}
+		try {
+			return (string)$rid->getDateTime()->getTimestamp();
+		} catch (\Throwable $e) {
+			return (string)$rid;
+		}
+	}
+
+	/**
+	 * Resolves the per-user default reminder offset for a first-receipt invitation,
+	 * matching the calendar app's frontend fallback chain.
+	 *
+	 * @param string $userId
+	 * @param VEvent|null $vevent
+	 * @return string 'none' to skip, otherwise a signed integer-as-string (seconds before start).
+	 */
+	private function resolveDefaultReminderOffset(string $userId, ?VEvent $vevent): string {
+		$isAllDay = $vevent !== null && isset($vevent->DTSTART) && !$vevent->DTSTART->hasTime();
+		$typedKey = $isAllDay ? 'defaultReminderFullDay' : 'defaultReminderPartDay';
+		$typed = $this->userConfig->getValueString($userId, 'calendar', $typedKey, 'none');
+		if (filter_var($typed, FILTER_VALIDATE_INT) !== false) {
+			return $typed;
+		}
+		$legacy = $this->userConfig->getValueString($userId, 'calendar', 'defaultReminder', 'none');
+		if (filter_var($legacy, FILTER_VALIDATE_INT) !== false) {
+			return $legacy;
+		}
+		$admin = $this->appConfig->getValueString('calendar', 'defaultReminder', 'none');
+		if (filter_var($admin, FILTER_VALIDATE_INT) !== false) {
+			return $admin;
+		}
+		return 'none';
+	}
+
+	/**
+	 * Adds a DISPLAY VALARM to the master VEVENT of the iTip message.
+	 *
+	 * @param ITip\Message $iTipMessage
+	 * @param string $offset Signed integer (seconds, negative = before start), as stored by the calendar app.
+	 */
+	private function injectDefaultReminder(ITip\Message $iTipMessage, string $offset): void {
+		/** @var VEvent|null $vevent */
+		$vevent = $iTipMessage->message->VEVENT ?? null;
+		if ($vevent === null) {
+			return;
+		}
+		$seconds = (int)$offset;
+		$duration = ($seconds < 0 ? '-' : '') . $this->secondsToIso8601Duration(abs($seconds));
+		$alarm = $iTipMessage->message->createComponent('VALARM');
+		$alarm->add($iTipMessage->message->createProperty('ACTION', 'DISPLAY'));
+		$alarm->add($iTipMessage->message->createProperty('DESCRIPTION', 'Reminder'));
+		$alarm->add($iTipMessage->message->createProperty('TRIGGER', $duration, ['RELATED' => 'START']));
+		$vevent->add($alarm);
+	}
+
+	/**
+	 * Converts seconds to an ISO 8601 duration string. Helper derived from
+	 * lufer22's nextcloud/server#48226.
+	 *
+	 * @param int $secs Non-negative.
+	 * @return string
+	 */
+	private function secondsToIso8601Duration(int $secs): string {
+		$day = 24 * 60 * 60;
+		$hour = 60 * 60;
+		$minute = 60;
+		if ($secs === 0) {
+			return 'PT0S';
+		}
+		if ($secs % $day === 0) {
+			return 'P' . (int)($secs / $day) . 'D';
+		}
+		if ($secs % $hour === 0) {
+			return 'PT' . (int)($secs / $hour) . 'H';
+		}
+		if ($secs % $minute === 0) {
+			return 'PT' . (int)($secs / $minute) . 'M';
+		}
+		return 'PT' . $secs . 'S';
+	}
+
+	/**
+	 * Maps a Sabre principal URI to a first-class Nextcloud user id, or null.
+	 *
+	 * @param string $principalUri e.g. 'principals/users/alice'.
+	 * @return string|null
+	 */
+	private function principalUriToUserId(string $principalUri): ?string {
+		$prefix = 'principals/users/';
+		if (!str_starts_with($principalUri, $prefix)) {
+			return null;
+		}
+		$userId = substr($principalUri, strlen($prefix));
+		return $userId === '' ? null : $userId;
 	}
 }
