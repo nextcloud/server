@@ -50,7 +50,7 @@
 		<span class="widget-file__details">
 			<p class="widget-file__title">{{ richObject.name }}</p>
 			<p class="widget-file__description">{{ fileSize }}<br>{{ fileMtime }}</p>
-			<p class="widget-file__link">{{ filePath }}</p>
+			<p v-if="filePath" class="widget-file__link">{{ filePath }}</p>
 		</span>
 	</a>
 </template>
@@ -62,7 +62,7 @@ import type { Component, PropType } from 'vue'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { generateRemoteUrl, generateUrl, getBaseUrl } from '@nextcloud/router'
 import path from 'path'
 import { defineComponent } from 'vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
@@ -70,8 +70,8 @@ import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import { generateFileUrl } from '../../../files_sharing/src/utils/generateUrl.ts'
 import { logger } from '../utils/logger.ts'
 
-// see lib/private/Collaboration/Reference/File/FileReferenceProvider.php
-type Ressource = {
+// see FileReferenceProvider::fetchReference()
+type FileResource = {
 	id: number
 	name: string
 	size: number
@@ -81,6 +81,22 @@ type Ressource = {
 	mtime: number // as unix timestamp
 	'preview-available': boolean
 }
+
+// see FileReferenceProvider::fetchReferenceForPublicFile()
+type PublicFileResource = {
+	id: string // share token, the file id is not exposed publicly
+	name: string
+	size: string
+	path: string // share token
+	link: string
+	mimetype: string
+	mtime: string // as unix timestamp
+	'preview-available': 'yes' | 'no'
+	'is-public-link': 'yes'
+}
+
+// see lib/private/Collaboration/Reference/File/FileReferenceProvider.php
+type Ressource = FileResource | PublicFileResource
 
 type ViewerHandler = {
 	id: string
@@ -100,7 +116,7 @@ type ViewerFile = {
 	size: number // the file size in bytes
 	type: string
 	mime: string
-	fileid: number
+	fileid: number | string
 	failed: boolean
 	loaded: boolean
 	davPath: string
@@ -149,13 +165,15 @@ export default defineComponent({
 		},
 
 		viewerFile(): ViewerFile {
-			const davSource = generateRemoteUrl(`dav/files/${getCurrentUser()?.uid}/${this.richObject.path}`)
-				.replace(/\/\/$/, '/')
+			const davSource = this.isPublicLink
+				? getBaseUrl() + `/public.php/dav/files/${this.richObject.path}`
+				: generateRemoteUrl(`dav/files/${getCurrentUser()?.uid}/${this.richObject.path}`)
+					.replace(/\/\/$/, '/')
 			return {
 				filename: this.richObject.path,
 				basename: this.richObject.name,
-				lastmod: new Date(this.richObject.mtime * 1000),
-				size: this.richObject.size,
+				lastmod: new Date(Number(this.richObject.mtime) * 1000),
+				size: Number(this.richObject.size),
 				type: 'file',
 				mime: this.richObject.mimetype,
 				fileid: this.richObject.id,
@@ -171,11 +189,12 @@ export default defineComponent({
 		},
 
 		fileMtime() {
-			return window.OC.Util.relativeModifiedDate(this.richObject.mtime * 1000)
+			return window.OC.Util.relativeModifiedDate(Number(this.richObject.mtime) * 1000)
 		},
 
 		filePath() {
-			return path.dirname(this.richObject.path)
+			// Public links use the share token as path, there is no meaningful directory
+			return this.isPublicLink ? '' : path.dirname(this.richObject.path)
 		},
 
 		filePreviewStyle() {
@@ -197,13 +216,26 @@ export default defineComponent({
 		isFolder() {
 			return this.richObject.mimetype === 'httpd/unix-directory'
 		},
+
+		isPublicLink() {
+			return 'is-public-link' in this.richObject
+		},
+
+		hasPreview() {
+			const previewAvailable = this.richObject['preview-available']
+			return previewAvailable === true || previewAvailable === 'yes'
+		},
 	},
 
 	mounted() {
-		if (this.richObject['preview-available']) {
-			const previewUrl = generateUrl('/core/preview?fileId={fileId}&x=250&y=250', {
-				fileId: this.richObject.id,
-			})
+		if (this.hasPreview) {
+			const previewUrl = this.isPublicLink
+				? generateUrl('/apps/files_sharing/publicpreview/{token}?x=250&y=250&a=1&mimeFallback=true', {
+					token: this.richObject.path,
+				})
+				: generateUrl('/core/preview?fileId={fileId}&x=250&y=250', {
+					fileId: this.richObject.id,
+				})
 			const img = new Image()
 			img.onload = () => {
 				this.previewUrl = previewUrl
@@ -217,6 +249,10 @@ export default defineComponent({
 
 	methods: {
 		navigate(event) {
+			if (this.isPublicLink) {
+				return
+			}
+
 			if (this.isFolder) {
 				event.stopPropagation()
 				event.preventDefault()
