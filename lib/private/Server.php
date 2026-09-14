@@ -610,7 +610,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IConfig::class),
 				$c->get(IAccountManager::class),
 				$c->get(KnownUserService::class),
-				$c->get(ICloudIdManager::class)
+				$c->get(ICloudIdManager::class),
+				$c->get(\OC\Avatar\AvatarVersion::class),
 			);
 		});
 

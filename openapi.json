@@ -13700,6 +13700,15 @@
                             "type": "boolean",
                             "default": false
                         }
+                    },
+                    {
+                        "name": "v",
+                        "in": "query",
+                        "description": "Avatar version, which lets the response be cached for longer. A stale version still returns the current avatar",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
                     }
                 ],
                 "responses": {
@@ -13802,6 +13811,15 @@
                         "schema": {
                             "type": "boolean",
                             "default": false
+                        }
+                    },
+                    {
+                        "name": "v",
+                        "in": "query",
+                        "description": "Avatar version, which lets the response be cached for longer. A stale version still returns the current avatar",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
                         }
                     }
                 ],

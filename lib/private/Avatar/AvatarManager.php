@@ -22,6 +22,7 @@ use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
@@ -40,6 +41,7 @@ class AvatarManager implements IAvatarManager {
 		private IAccountManager $accountManager,
 		private KnownUserService $knownUserService,
 		private ICloudIdManager $cloudIdManager,
+		private AvatarVersion $avatarVersion,
 	) {
 	}
 
@@ -79,31 +81,54 @@ class AvatarManager implements IAvatarManager {
 			$folder = $this->appData->newFolder($userId);
 		}
 
-		try {
-			$account = $this->accountManager->getAccount($user);
-			$avatarProperties = $account->getProperty(IAccountManager::PROPERTY_AVATAR);
-			$avatarScope = $avatarProperties->getScope();
-		} catch (PropertyDoesNotExistException $e) {
-			$avatarScope = '';
-		}
+		$avatarScope = $this->getAvatarScope($user);
 
 		switch ($avatarScope) {
 			// v2-private scope hides the avatar from public access and from unknown users
 			case IAccountManager::SCOPE_PRIVATE:
 				if ($requestingUser !== null && $this->knownUserService->isKnownToUser($requestingUser->getUID(), $userId)) {
-					return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);
+					return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config, $this->avatarVersion);
 				}
 				break;
 			case IAccountManager::SCOPE_LOCAL:
 			case IAccountManager::SCOPE_FEDERATED:
 			case IAccountManager::SCOPE_PUBLISHED:
-				return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config);
+				return new UserAvatar($folder, $this->l, $user, $this->logger, $this->config, $this->avatarVersion);
 			default:
 				// use a placeholder avatar which caches the generated images
-				return new PlaceholderAvatar($folder, $user, $this->config, $this->logger);
+				return new PlaceholderAvatar($folder, $user, $this->config, $this->logger, $this->avatarVersion);
 		}
 
-		return new PlaceholderAvatar($folder, $user, $this->config, $this->logger);
+		return new PlaceholderAvatar($folder, $user, $this->config, $this->logger, $this->avatarVersion);
+	}
+
+	private function getAvatarScope(IUser $user): string {
+		try {
+			return $this->accountManager->getAccount($user)
+				->getProperty(IAccountManager::PROPERTY_AVATAR)
+				->getScope();
+		} catch (PropertyDoesNotExistException $e) {
+			return '';
+		}
+	}
+
+	/**
+	 * `SCOPE_PRIVATE` resolves through `isKnownToUser()` in {@see getAvatar()}, so
+	 * one URL gives two viewers different bytes and no per-user version tracks that.
+	 */
+	public function canCacheAvatarLongTerm(string $userId): bool {
+		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			// Federated avatar fetched from another instance, or nothing at all.
+			return false;
+		}
+
+		if (!$user->isEnabled()) {
+			// Serves a guest avatar, and re-enabling bumps no version.
+			return false;
+		}
+
+		return $this->getAvatarScope($user) !== IAccountManager::SCOPE_PRIVATE;
 	}
 
 	/**

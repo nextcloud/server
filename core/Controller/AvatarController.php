@@ -9,6 +9,7 @@
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Avatar\AvatarManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -23,7 +24,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
-use OCP\IAvatarManager;
 use OCP\IL10N;
 use OCP\Image;
 use OCP\IRequest;
@@ -36,10 +36,19 @@ use Psr\Log\LoggerInterface;
  * @package OC\Core\Controller
  */
 class AvatarController extends Controller {
+	private const CACHE_DEFAULT = 60 * 60 * 24;
+
+	/**
+	 * Long enough to span the gap between infrequent large calls, which is where
+	 * the cost of refetching everyone's avatar lands. Not longer, because a
+	 * cached avatar outlives the account it belongs to.
+	 */
+	private const CACHE_VERSIONED = 60 * 60 * 24 * 30;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		protected IAvatarManager $avatarManager,
+		protected AvatarManager $avatarManager,
 		protected IL10N $l10n,
 		protected IUserManager $userManager,
 		protected IRootFolder $rootFolder,
@@ -57,6 +66,7 @@ class AvatarController extends Controller {
 	 * @param string $userId ID of the user
 	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
+	 * @param string $v Avatar version, which lets the response be cached for longer. A stale version still returns the current avatar
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
@@ -68,7 +78,7 @@ class AvatarController extends Controller {
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}/dark')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[NoSameSiteCookieRequired]
-	public function getAvatarDark(string $userId, int $size, bool $guestFallback = false) {
+	public function getAvatarDark(string $userId, int $size, bool $guestFallback = false, string $v = '') {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -96,8 +106,7 @@ class AvatarController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		// Cache for 1 day
-		$response->cacheFor(60 * 60 * 24, false, true);
+		$response->cacheFor($this->cacheSecondsFor($userId, $v), false, true);
 		return $response;
 	}
 
@@ -107,6 +116,7 @@ class AvatarController extends Controller {
 	 * @param string $userId ID of the user
 	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
+	 * @param string $v Avatar version, which lets the response be cached for longer. A stale version still returns the current avatar
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
@@ -118,7 +128,7 @@ class AvatarController extends Controller {
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[NoSameSiteCookieRequired]
-	public function getAvatar(string $userId, int $size, bool $guestFallback = false) {
+	public function getAvatar(string $userId, int $size, bool $guestFallback = false, string $v = '') {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -146,9 +156,20 @@ class AvatarController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		// Cache for 1 day
-		$response->cacheFor(60 * 60 * 24, false, true);
+		$response->cacheFor($this->cacheSecondsFor($userId, $v), false, true);
 		return $response;
+	}
+
+	/**
+	 * Decided here rather than by the caller: attaching a version to an avatar
+	 * whose visibility depends on the viewer must not buy a month of caching.
+	 */
+	private function cacheSecondsFor(string $userId, string $version): int {
+		if ($version !== '' && $this->avatarManager->canCacheAvatarLongTerm($userId)) {
+			return self::CACHE_VERSIONED;
+		}
+
+		return self::CACHE_DEFAULT;
 	}
 
 	#[NoAdminRequired]
