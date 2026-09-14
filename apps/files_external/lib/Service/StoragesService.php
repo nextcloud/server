@@ -36,7 +36,8 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type ExternalMountInfo from DBConfigService
  */
 abstract class StoragesService {
-	private const DEFAULT_FILESYSTEM_CHECK_CHANGES = 1;
+	// Default policy: once per request
+	private const DEFAULT_FILESYSTEM_CHECK_POLICY = 1;
 
 	public function __construct(
 		protected BackendService $backendService,
@@ -64,7 +65,7 @@ abstract class StoragesService {
 
 		$options = $mount['options'];
 		if (!array_key_exists('filesystem_check_changes', $options)) {
-			$options['filesystem_check_changes'] = self::DEFAULT_FILESYSTEM_CHECK_CHANGES;
+			$options['filesystem_check_changes'] = self::DEFAULT_FILESYSTEM_CHECK_POLICY;
 		}
 
 		try {
@@ -219,7 +220,7 @@ abstract class StoragesService {
 		}
 
 		if (!array_key_exists('filesystem_check_changes', $newStorage->getMountOptions())) {
-			$newStorage->setMountOption('filesystem_check_changes', self::DEFAULT_FILESYSTEM_CHECK_CHANGES);
+			$newStorage->setMountOption('filesystem_check_changes', self::DEFAULT_FILESYSTEM_CHECK_POLICY);
 		}
 
 		foreach ($newStorage->getMountOptions() as $key => $value) {
