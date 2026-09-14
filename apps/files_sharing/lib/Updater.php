@@ -47,10 +47,6 @@ class Updater {
 		}
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder($userInSession->getUID());
 
-		// If the user folder can't be constructed (e.g. link share) just return.
-		if ($userFolder === null) {
-			return;
-		}
 		$user = $userFolder->getOwner();
 		if (!$user) {
 			throw new \Exception('user folder has no owner');
