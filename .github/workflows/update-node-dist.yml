@@ -81,4 +81,4 @@ jobs:
         run: |
           git add --force dist/ core/css/
           git commit --signoff -m 'chore(assets): recompile assets'
-          git push origin ${{ github.head_ref }}
+          git push origin ${GITHUB_HEAD_REF}
