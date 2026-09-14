@@ -159,7 +159,7 @@ class Repair implements IOutput {
 		return [
 			new Collation(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->getDatabaseConnection(), false),
 			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
-			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
+			Server::get(RepairInvalidShares::class),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
 			new MoveAvatars(
 				\OC::$server->getJobList(),
