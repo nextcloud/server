@@ -12,6 +12,7 @@ use Exception;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
+use OC\Files\Utils\PathHelper;
 use OC\MemCache\ArrayCache;
 use OC\OCM\OCMSignatoryManager;
 use OCP\AppFramework\Http;
@@ -990,7 +991,7 @@ class DAV extends Common {
 		if ($path === '') {
 			return $path;
 		}
-		$path = Filesystem::normalizePath($path);
+		$path = PathHelper::normalizePath($path);
 		// remove leading slash
 		return substr($path, 1);
 	}

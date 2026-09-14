@@ -16,6 +16,7 @@ use OC\Files\Mount\Manager;
 use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\LocalTempFileTrait;
+use OC\Files\Utils\PathHelper;
 use OC\Memcache\ArrayCache;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Encryption\Exceptions\InvalidHeaderException;
@@ -785,7 +786,7 @@ class Encryption extends Wrapper {
 	 * @return string full path including mount point
 	 */
 	protected function getFullPath(string $path): string {
-		return Filesystem::normalizePath($this->mountPoint . '/' . $path);
+		return PathHelper::normalizePath($this->mountPoint . '/' . $path);
 	}
 
 	/**
@@ -899,7 +900,7 @@ class Encryption extends Wrapper {
 	 * check if path points to a files version
 	 */
 	protected function isVersion(string $path): bool {
-		$normalized = Filesystem::normalizePath($path);
+		$normalized = PathHelper::normalizePath($path);
 		return substr($normalized, 0, strlen('/files_versions/')) === '/files_versions/';
 	}
 
