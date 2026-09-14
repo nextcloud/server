@@ -157,6 +157,7 @@ class ListCommand extends Base {
 				'previews' => true,
 				'filesystem_check_changes' => 1,
 				'enable_sharing' => false,
+				'enable_sync' => true,
 				'encoding_compatibility' => false,
 				'readonly' => false,
 			];

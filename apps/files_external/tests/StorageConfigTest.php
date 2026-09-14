@@ -57,4 +57,17 @@ class StorageConfigTest extends \Test\TestCase {
 		$this->assertSame(['group1', 'group2'], $json['applicableGroups']);
 		$this->assertSame(['preview' => false], $json['mountOptions']);
 	}
+
+	public function testSyncEnabledByDefault(): void {
+		$storageConfig = new StorageConfig(1);
+
+		$this->assertTrue($storageConfig->getMountOption('enable_sync'));
+	}
+
+	public function testSyncCanBeDisabled(): void {
+		$storageConfig = new StorageConfig(1);
+		$storageConfig->setMountOption('enable_sync', false);
+
+		$this->assertFalse($storageConfig->getMountOption('enable_sync'));
+	}
 }

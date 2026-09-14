@@ -21,6 +21,7 @@ export const DEFAULT_MOUNT_OPTIONS: IMountOptions = Object.freeze({
 	previews: true,
 	filesystem_check_changes: MountOptionsCheckFilesystem.OncePerRequest,
 	enable_sharing: false,
+	enable_sync: true,
 	encoding_compatibility: false,
 	readonly: false,
 })
@@ -184,6 +185,7 @@ export function parseMountOptions(options: IStorage['mountOptions']) {
 	mountOptions.encrypt = convertBooleanOptions(mountOptions.encrypt, true)
 	mountOptions.previews = convertBooleanOptions(mountOptions.previews, true)
 	mountOptions.enable_sharing = convertBooleanOptions(mountOptions.enable_sharing, false)
+	mountOptions.enable_sync = convertBooleanOptions(mountOptions.enable_sync, true)
 	mountOptions.filesystem_check_changes = typeof mountOptions.filesystem_check_changes === 'string'
 		? Number.parseInt(mountOptions.filesystem_check_changes)
 		: (mountOptions.filesystem_check_changes ?? MountOptionsCheckFilesystem.Never) // see default: https://github.com/nextcloud/server/blob/573104451bca64b4f1676933ac029583b4b69992/lib/private/Files/Storage/Common.php#L367
