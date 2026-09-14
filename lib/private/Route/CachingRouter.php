@@ -14,7 +14,6 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\CompiledUrlMatcher;
@@ -32,11 +31,10 @@ class CachingRouter extends Router {
 		IRequest $request,
 		IConfig $config,
 		IEventLogger $eventLogger,
-		ContainerInterface $container,
 		IAppManager $appManager,
 	) {
 		$this->cache = $cacheFactory->createLocal('route');
-		parent::__construct($logger, $request, $config, $eventLogger, $container, $appManager);
+		parent::__construct($logger, $request, $config, $eventLogger, $appManager);
 	}
 
 	/**

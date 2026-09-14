@@ -8,7 +8,10 @@
 
 namespace OC;
 
+use OCP\AppFramework\Utility\IPersistentServiceInvalidator;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\IConfig;
+use OCP\Server;
 
 /**
  * Class which provides access to the system config values stored in config.php
@@ -139,6 +142,7 @@ class SystemConfig {
 	 */
 	public function setValue($key, $value) {
 		$this->config->setValue($key, $value);
+		$this->invalidatePersistedServices();
 	}
 
 	/**
@@ -149,6 +153,7 @@ class SystemConfig {
 	 */
 	public function setValues(array $configs) {
 		$this->config->setValues($configs);
+		$this->invalidatePersistedServices();
 	}
 
 	/**
@@ -186,6 +191,15 @@ class SystemConfig {
 	 */
 	public function deleteValue($key) {
 		$this->config->deleteKey($key);
+		$this->invalidatePersistedServices();
+	}
+
+	/**
+	 * Discards services kept alive across requests (see {@see \OCP\AppFramework\Attribute\PersistAcrossRequests})
+	 * that declared a dependency on {@see PersistentServiceGroup::Config}.
+	 */
+	private function invalidatePersistedServices(): void {
+		Server::get(IPersistentServiceInvalidator::class)->invalidate(PersistentServiceGroup::Config);
 	}
 
 	/**

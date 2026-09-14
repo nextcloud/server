@@ -9,13 +9,16 @@ declare(strict_types=1);
 
 namespace OC;
 
+use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\Capabilities\ICapability;
 use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\Capabilities\IPublicCapability;
 use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 
+#[PersistAcrossRequests(invalidatedBy: [PersistentServiceGroup::Apps])]
 class CapabilitiesManager {
 	/**
 	 * Anything above 0.1s to load the capabilities of an app qualifies for bad code
@@ -25,6 +28,9 @@ class CapabilitiesManager {
 
 	/** @var \Closure[] */
 	private array $capabilities = [];
+
+	/** @var array<string, true> identifiers already passed to {@see registerCapability()} */
+	private array $registeredIdentifiers = [];
 
 	public function __construct(
 		private LoggerInterface $logger,
@@ -117,8 +123,16 @@ class CapabilitiesManager {
 	 * $callable has to return an instance of OCP\Capabilities\ICapability
 	 *
 	 * @param \Closure $callable
+	 * @param ?string $identifier stable identifier (e.g. the capability's class name) to skip a duplicate registration
 	 */
-	public function registerCapability(\Closure $callable) {
+	public function registerCapability(\Closure $callable, ?string $identifier = null) {
+		if ($identifier !== null) {
+			if (isset($this->registeredIdentifiers[$identifier])) {
+				return;
+			}
+			$this->registeredIdentifiers[$identifier] = true;
+		}
+
 		$this->capabilities[] = $callable;
 	}
 }

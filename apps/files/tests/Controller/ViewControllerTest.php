@@ -37,7 +37,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -49,7 +48,6 @@ use Test\TestCase;
  */
 #[\PHPUnit\Framework\Attributes\Group('RoutingWeirdness')]
 class ViewControllerTest extends TestCase {
-	private ContainerInterface&MockObject $container;
 	private IAppManager&MockObject $appManager;
 	private IAppConfig&MockObject $appConfig;
 	private ICacheFactory&MockObject $cacheFactory;
@@ -114,13 +112,11 @@ class ViewControllerTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->eventLogger = $this->createMock(IEventLogger::class);
-		$this->container = $this->createMock(ContainerInterface::class);
 		$this->router = new Router(
 			$this->logger,
 			$this->request,
 			$this->config,
 			$this->eventLogger,
-			$this->container,
 			$this->appManager,
 		);
 
