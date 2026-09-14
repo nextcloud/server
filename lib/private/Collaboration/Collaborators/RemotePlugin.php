@@ -15,6 +15,7 @@ use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IShare;
@@ -139,7 +140,7 @@ class RemotePlugin implements ISearchPlugin {
 			try {
 				[$remoteUser, $serverUrl] = $this->splitUserRemote($search);
 				$localUser = $this->userManager->get($remoteUser);
-				if ($localUser === null || $search !== $localUser->getCloudId()) {
+				if ($localUser === null || !$this->isLocalUserCloudId($search, $localUser)) {
 					$result['exact'][] = [
 						'label' => $remoteUser . " ($serverUrl)",
 						'uuid' => $remoteUser,
@@ -159,6 +160,39 @@ class RemotePlugin implements ISearchPlugin {
 		$searchResult->addResultSet($resultType, $result['wide'], $result['exact']);
 
 		return true;
+	}
+
+	/**
+	 * Checks if the cloud id points to the given local user, ignoring:
+	 *  - letter casing of the user and host
+	 *  - protocol
+	 *  - trailing slash
+	 */
+	private function isLocalUserCloudId(string $cloudId, IUser $localUser): bool {
+		try {
+			$remoteCloudId = $this->cloudIdManager->resolveCloudId($cloudId);
+			$localCloudId = $this->cloudIdManager->resolveCloudId($localUser->getCloudId());
+		} catch (\InvalidArgumentException) {
+			return false;
+		}
+
+		return mb_strtolower($remoteCloudId->getUser()) === mb_strtolower($localCloudId->getUser())
+			&& $this->normalizeRemote($remoteCloudId->getRemote()) === $this->normalizeRemote($localCloudId->getRemote());
+	}
+
+	/**
+	 * Normalize a remote for comparison: the protocol and trailing slashes are
+	 * dropped, and the host is lowercased. The path is kept as-is, as it is
+	 * case-sensitive (RFC 3986, section 6.2.2.1).
+	 */
+	private function normalizeRemote(string $remote): string {
+		$remote = rtrim(preg_replace('#^https?://#i', '', $remote), '/');
+		$pathPosition = strpos($remote, '/');
+		if ($pathPosition === false) {
+			return strtolower($remote);
+		}
+
+		return strtolower(substr($remote, 0, $pathPosition)) . substr($remote, $pathPosition);
 	}
 
 	/**

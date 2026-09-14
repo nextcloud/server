@@ -221,6 +221,148 @@ class RemotePluginTest extends TestCase {
 		$this->assertTrue($result['exact']['remotes'][0]['value']['isTrustedServer']);
 	}
 
+	public static function dataLocalUserCloudIdVariants(): array {
+		return [
+			['someUserId@cloud.example.com', false],
+			['someUserId@cloud.example.com/', false],
+			['someUserId@cloud.example.com/index.php', false],
+			['someUserId@https://cloud.example.com', false],
+			['someUserId@http://cloud.example.com/', false],
+			['someUserId@Cloud.Example.com', false],
+			['SomeUserID@cloud.example.com', false],
+			['someUserId@example.com', true],
+			['someUserId@cloud.example.com/nextcloud', true],
+			['someUserId@HTTPS://CLOUD.example.com', false],
+			['someUserId@cloud.example.com:8443', true],
+			['someUserId@cloud.example.com:8443', false, 'someUserId@cloud.example.com:8443'],
+			['someUserId@cloud.example.com', true, 'someUserId@cloud.example.com:8443'],
+			['someUserId@Cloud.Example.com/nextcloud/', false, 'someUserId@cloud.example.com/nextcloud'],
+			['someUserId@cloud.example.com/Nextcloud', true, 'someUserId@cloud.example.com/nextcloud'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataLocalUserCloudIdVariants')]
+	public function testSearchLocalUserCloudIdVariants(string $search, bool $expectRemote, string $localCloudId = 'someUserId@cloud.example.com'): void {
+		$this->instantiatePlugin();
+
+		$localUser = $this->createMock(IUser::class);
+		$localUser->method('getUID')->willReturn('someUserId');
+		$localUser->method('getCloudId')->willReturn($localCloudId);
+		$this->userManager->method('get')
+			->willReturnCallback(fn (string $uid) => strtolower($uid) === 'someuserid' ? $localUser : null);
+
+		$this->contactsManager->method('search')->willReturn([]);
+
+		$this->plugin->search($search, 2, 0, $this->searchResult);
+		$result = $this->searchResult->asArray();
+
+		if ($expectRemote) {
+			$this->assertCount(1, $result['exact']['remotes']);
+			$this->assertSame($search, $result['exact']['remotes'][0]['value']['shareWith']);
+		} else {
+			$this->assertSame([], $result['exact']['remotes']);
+		}
+	}
+
+	public function testSearchContactWithLocalUserCloudIdVariant(): void {
+		$this->config->method('getAppValue')
+			->willReturnCallback(fn (string $app, string $key, $default) => $key === 'shareapi_allow_share_dialog_user_enumeration' ? 'yes' : $default);
+		$this->instantiatePlugin();
+
+		$localUser = $this->createMock(IUser::class);
+		$localUser->method('getUID')->willReturn('someUserId');
+		$localUser->method('getCloudId')->willReturn('someUserId@cloud.example.com');
+		$this->userManager->method('get')
+			->willReturnCallback(fn (string $uid) => strtolower($uid) === 'someuserid' ? $localUser : null);
+
+		$this->contactsManager->method('search')->willReturn([
+			[
+				'UID' => 'contact-id',
+				'FN' => 'Some User',
+				'EMAIL' => 'some.user@example.com',
+				'CLOUD' => ['SomeUserID@https://cloud.example.com/'],
+			],
+		]);
+
+		$this->plugin->search('Some', 2, 0, $this->searchResult);
+		$result = $this->searchResult->asArray();
+
+		$this->assertContains([
+			'label' => 'Some User',
+			'uuid' => 'contact-id',
+			'value' => [
+				'shareType' => IShare::TYPE_USER,
+				'shareWith' => 'someUserId',
+			],
+			'shareWithDisplayNameUnique' => 'some.user@example.com',
+		], $result['remotes']);
+		$this->assertSame([], $this->getRemoteShareTypeResults($result));
+	}
+
+	public function testSearchContactWithLocalUserCloudIdMatchingEmail(): void {
+		$this->config->method('getAppValue')
+			->willReturnCallback(fn (string $app, string $key, $default) => $key === 'shareapi_allow_share_dialog_user_enumeration' ? 'yes' : $default);
+		$this->instantiatePlugin();
+
+		$localUser = $this->createMock(IUser::class);
+		$localUser->method('getUID')->willReturn('someUserId');
+		$localUser->method('getCloudId')->willReturn('someUserId@cloud.example.com');
+		$this->userManager->method('get')
+			->willReturnCallback(fn (string $uid) => $uid === 'someUserId' ? $localUser : null);
+
+		$this->contactsManager->method('search')->willReturn([
+			[
+				'UID' => 'contact-id',
+				'FN' => 'Some User',
+				'EMAIL' => 'some.user@example.com',
+				'CLOUD' => ['someUserId@cloud.example.com'],
+			],
+		]);
+
+		$this->plugin->search('some.user@example.com', 2, 0, $this->searchResult);
+		$result = $this->searchResult->asArray();
+
+		$remoteShareWith = array_map(static fn (array $entry): string => $entry['value']['shareWith'], $this->getRemoteShareTypeResults($result));
+		$this->assertNotContains('someUserId@cloud.example.com', $remoteShareWith);
+		$this->assertFalse($this->searchResult->hasExactIdMatch(new SearchResultType('remotes')));
+		$this->assertCount(1, $result['remotes']);
+		$this->assertSame(IShare::TYPE_USER, $result['remotes'][0]['value']['shareType']);
+	}
+
+	public function testSearchContactWithCurrentUserCloudId(): void {
+		$this->config->method('getAppValue')
+			->willReturnCallback(fn (string $app, string $key, $default) => $key === 'shareapi_allow_share_dialog_user_enumeration' ? 'yes' : $default);
+		$this->instantiatePlugin();
+
+		$currentUser = $this->createMock(IUser::class);
+		$currentUser->method('getUID')->willReturn('admin');
+		$currentUser->method('getCloudId')->willReturn('admin@cloud.example.com');
+		$this->userManager->method('get')
+			->willReturnCallback(fn (string $uid) => $uid === 'admin' ? $currentUser : null);
+
+		$this->contactsManager->method('search')->willReturn([
+			[
+				'UID' => 'contact-id',
+				'FN' => 'Admin',
+				'EMAIL' => 'admin@example.com',
+				'CLOUD' => ['admin@cloud.example.com'],
+			],
+		]);
+
+		$this->plugin->search('Admin', 2, 0, $this->searchResult);
+		$result = $this->searchResult->asArray();
+
+		$this->assertSame([], $result['remotes']);
+		$this->assertSame([], $result['exact']['remotes']);
+	}
+
+	private function getRemoteShareTypeResults(array $result): array {
+		return array_values(array_filter(
+			array_merge($result['remotes'], $result['exact']['remotes']),
+			static fn (array $entry): bool => $entry['value']['shareType'] === IShare::TYPE_REMOTE,
+		));
+	}
+
 	public static function dataGetRemote() {
 		return [
 			['test', [], true, ['remotes' => [], 'exact' => ['remotes' => []]], false, true],
