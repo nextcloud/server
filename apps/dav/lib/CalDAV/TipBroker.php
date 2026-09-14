@@ -120,7 +120,7 @@ class TipBroker extends Broker {
 		if (count($eventInfo['instances']) === 0 && count($oldEventInfo['instances']) > 0) {
 			foreach ($oldEventInfo['attendees'] as $attendee) {
 				$messages[] = $this->generateMessage(
-					$oldEventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+					$oldEventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template, true
 				);
 			}
 			return $messages;
@@ -129,7 +129,7 @@ class TipBroker extends Broker {
 		if ($eventInfo['instances']['master']?->STATUS?->getValue() === 'CANCELLED' && $oldEventInfo['instances']['master']?->STATUS?->getValue() !== 'CANCELLED') {
 			foreach ($eventInfo['attendees'] as $attendee) {
 				$messages[] = $this->generateMessage(
-					$eventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+					$eventInfo['instances'], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template, true
 				);
 			}
 			return $messages;
@@ -143,7 +143,7 @@ class TipBroker extends Broker {
 					$cancelledNewInstances[] = $id;
 					foreach ($eventInfo['attendees'] as $attendee) {
 						$messages[] = $this->generateMessage(
-							[$id => $instance], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template
+							[$id => $instance], $organizerHref, $organizerName, $attendee, $objectId, $objectType, $objectSequence, 'CANCEL', $template, true
 						);
 					}
 				}
@@ -174,7 +174,7 @@ class TipBroker extends Broker {
 				//get all instances of the attendee was removed from.
 				$instances = array_intersect_key($oldEventInfo['instances'], array_flip(array_keys($oldEventInfo['attendees'][$attendee]['instances'])));
 				$messages[] = $this->generateMessage(
-					$instances, $organizerHref, $organizerName, $oldEventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'CANCEL', $template
+					$instances, $organizerHref, $organizerName, $oldEventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'CANCEL', $template, true
 				);
 				continue;
 			}
@@ -213,8 +213,19 @@ class TipBroker extends Broker {
 				}
 			}
 
+			// determine if this attendee needs to be notified of the change, based on whether
+			// a significant property changed on the event, or the set of instances they are part of changed
+			$oldAttendeeInstances = isset($oldEventInfo['attendees'][$attendee]) ? array_keys($oldEventInfo['attendees'][$attendee]['instances']) : [];
+			$newAttendeeInstances = array_keys($eventInfo['attendees'][$attendee]['instances']);
+
+			$significantChange
+				= $eventInfo['attendees'][$attendee]['forceSend'] === 'REQUEST'
+				|| count($oldAttendeeInstances) !== count($newAttendeeInstances)
+				|| count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0
+				|| $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
+
 			$messages[] = $this->generateMessage(
-				$instances, $organizerHref, $organizerName, $eventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'REQUEST', $template
+				$instances, $organizerHref, $organizerName, $eventInfo['attendees'][$attendee], $objectId, $objectType, $objectSequence, 'REQUEST', $template, $significantChange
 			);
 		}
 
@@ -239,6 +250,8 @@ class TipBroker extends Broker {
 	 * @param int $objectSequence The sequence number of the event
 	 * @param string $method The iTip method ('REQUEST', 'CANCEL', 'REPLY', etc.)
 	 * @param VCalendar $template The template calendar object (without event components)
+	 * @param bool $significantChange Whether a property listed in $significantChangeProperties changed,
+	 *                                or the attendee's set of instances changed
 	 * @return Message The generated iTip message ready to be sent
 	 */
 	protected function generateMessage(
@@ -251,6 +264,7 @@ class TipBroker extends Broker {
 		int $objectSequence,
 		string $method,
 		VCalendar $template,
+		bool $significantChange,
 	): Message {
 
 		$recipientAddress = $attendee['href'] ?? '';
@@ -275,7 +289,7 @@ class TipBroker extends Broker {
 		$message->senderName = $organizerName;
 		$message->recipient = $recipientAddress;
 		$message->recipientName = $recipientName;
-		$message->significantChange = true;
+		$message->significantChange = $significantChange;
 		$message->message = $vObject;
 
 		return $message;
