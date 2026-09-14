@@ -1300,17 +1300,29 @@ table.dragshadow td.size {
 }
 
 /* Grid view toggle */
-#view-toggle {
+/*
+ * The toggle is sticky and floats on top of the scrolling file list and the
+ * breadcrumbs. The button itself is pill-shaped, so its transparent corners
+ * used to let the content behind it bleed through at the edges. This wrapper
+ * sits behind the button and paints an opaque backing across the whole area,
+ * masking anything that scrolls underneath it.
+ */
+#view-toggle-wrapper {
+	position: sticky;
+	float: right;
+	top: 0;
+	right: 0;
+	z-index: 100;
 	background-color: var(--color-main-background-translucent);
+}
+
+#view-toggle {
+	display: block;
+	background-color: var(--color-main-background);
 	border: none;
-	margin: 0;
+	margin: 2px;
 	padding: 22px;
 	opacity: .5;
-	float: right;
-	right: var(--default-grid-baseline);
-	top: var(--default-grid-baseline);
-	z-index: 100;
-	position: sticky;
 
 	&:hover,
 	&:focus,
@@ -1349,7 +1361,7 @@ table.dragshadow td.size {
 	}
 
 	/* Right-align view toggle on link share page */
-	#view-toggle {
+	#view-toggle-wrapper {
 		position: absolute;
 		right: 0;
 		top: 0;
