@@ -269,7 +269,6 @@
 				<div class="sharingTabDetailsView__delete">
 					<NcButton
 						v-if="!isNewShare"
-						:aria-label="t('files_sharing', 'Delete share')"
 						:disabled="false"
 						:readonly="false"
 						variant="tertiary"
@@ -277,7 +276,8 @@
 						<template #icon>
 							<CloseIcon :size="20" />
 						</template>
-						{{ t('files_sharing', 'Delete share') }}
+						<!-- TRANSLATORS: Button to delete the share -->
+						{{ t('files_sharing', 'Delete') }}
 					</NcButton>
 				</div>
 				<NcButton
@@ -439,9 +439,9 @@ export default {
 				default: {
 					if (this.share.id) {
 					// Share already exists
-						return t('files_sharing', 'Update share')
+						return t('files_sharing', 'Update') /** TRANSLATORS: Button to update share (apply changes) **/
 					} else {
-						return t('files_sharing', 'Create share')
+						return t('files_sharing', 'Create') /** TRANSLATORS: Button to create new share **/
 					}
 				}
 			}
@@ -632,9 +632,9 @@ export default {
 
 		shareButtonText() {
 			if (this.isNewShare) {
-				return t('files_sharing', 'Save share')
+				return t('files_sharing', 'Save') /** TRANSLATORS: Button to save new share **/
 			}
-			return t('files_sharing', 'Update share')
+			return t('files_sharing', 'Update') /** TRANSLATORS: Button to update share (apply changes) **/
 		},
 
 		resharingIsPossible() {
