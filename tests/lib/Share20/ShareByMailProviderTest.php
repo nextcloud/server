@@ -22,10 +22,12 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
+use OCP\Mail\Provider\IManager as IMailManager;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\IShare;
+use OCP\IAppConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -88,6 +90,12 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var SettingsManager|MockObject */
 	private $settingsManager;
 
+	/** @var IMailManager|MockObject */
+	private $mailManager;
+
+	/** @var IAppConfig|MockObject */
+	private $appConfig;
+
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
@@ -107,6 +115,8 @@ class ShareByMailProviderTest extends TestCase {
 		$this->shareManager = $this->createMock(\OCP\Share\IManager::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->mailManager = $this->createMock(IMailManager::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		// Empty share table
 		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
@@ -128,6 +138,8 @@ class ShareByMailProviderTest extends TestCase {
 			$this->eventDispatcher,
 			$this->shareManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->mailManager,
+			$this->appConfig,
 		);
 	}
 

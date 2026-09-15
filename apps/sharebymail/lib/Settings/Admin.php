@@ -30,6 +30,7 @@ class Admin implements IDelegatedSettings {
 	public function getForm() {
 		$this->initialState->provideInitialState('sendPasswordMail', $this->settingsManager->sendPasswordByMail());
 		$this->initialState->provideInitialState('replyToInitiator', $this->settingsManager->replyToInitiator());
+		$this->initialState->provideInitialState('useUserEmail', $this->settingsManager->useUserEmail());
 
 		Util::addStyle('sharebymail', 'admin-settings');
 		Util::addScript('sharebymail', 'admin-settings');
@@ -67,6 +68,7 @@ class Admin implements IDelegatedSettings {
 			'sharebymail' => [
 				'sendpasswordmail',
 				'replyToInitiator',
+				'useUserEmail',
 			],
 		];
 	}
