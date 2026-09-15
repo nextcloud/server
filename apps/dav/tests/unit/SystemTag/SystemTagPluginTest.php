@@ -12,7 +12,6 @@ namespace OCA\DAV\Tests\unit\SystemTag;
 use OC\SystemTag\SystemTag;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Node;
-use OCA\DAV\SystemTag\SystemTagFragmentCache;
 use OCA\DAV\SystemTag\SystemTagList;
 use OCA\DAV\SystemTag\SystemTagNode;
 use OCA\DAV\SystemTag\SystemTagPlugin;
@@ -31,7 +30,6 @@ use Sabre\DAV\PropFind;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use Sabre\Xml\Writer;
 
 class SystemTagPluginTest extends \Test\TestCase {
 	public const ID_PROPERTYNAME = SystemTagPlugin::ID_PROPERTYNAME;
@@ -666,31 +664,37 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	public function testFolderPropFindLoadsTagsOnceAndOrdersThem(): void {
+	public function testFolderPropFindPreloadsSortedVisibleTags(): void {
 		$tags = [
 			'1' => new SystemTag('1', 'img2', true, true),
 			'2' => new SystemTag('2', 'img10', true, true),
 			'4' => new SystemTag('4', 'Hidden', false, false),
 			'5' => new SystemTag('5', 'img3', true, true),
 			'6' => new SystemTag('6', 'img3', true, false),
+			'7' => new SystemTag('7', 'a<b>&"c', true, true, null, 'ff0000'),
 		];
-
 		$this->tagMapper->expects($this->once())
 			->method('getTagIdsForObjects')
 			->with(['10', '11', '12', '13'], 'files')
 			->willReturn([
-				'11' => ['6', '2', '5', '4', '1'],
+				'10' => ['1'],
+				'11' => ['6', '2', '5', '4', '1', '7'],
 				'12' => ['5', '6'],
+				'13' => [],
 			]);
+		$requestedTagIds = null;
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
-			->willReturnCallback(fn (array $tagIds): array => array_intersect_key($tags, array_flip($tagIds)));
+			->willReturnCallback(function (array $tagIds) use ($tags, &$requestedTagIds): array {
+				$requestedTagIds = array_map('strval', $tagIds);
+				return ['7' => $tags['7'], '6' => $tags['6'], '5' => $tags['5'], '4' => $tags['4'], '2' => $tags['2'], '1' => $tags['1']];
+			});
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
 			->willReturnCallback(fn (ISystemTag $tag): bool => $tag->isUserVisible());
 		$this->tagManager->expects($this->any())
 			->method('canUserAssignTag')
-			->willReturn(true);
+			->willReturnCallback(fn (ISystemTag $tag): bool => $tag->isUserAssignable());
 
 		$folder = $this->createMock(Directory::class);
 		$folder->method('getId')->willReturn(10);
@@ -704,118 +708,99 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$folderPropFind = new PropFind('/files/user/folder', [SystemTagPlugin::SYSTEM_TAGS_PROPERTYNAME], 1);
 		$this->server->emit('preloadCollection', [$folderPropFind, $folder]);
+		$this->assertEqualsCanonicalizing(['1', '2', '4', '5', '6', '7'], $requestedTagIds);
 
-		$this->assertSame(['1', '6', '5', '2'], $this->tagIdsFromPropFind($file1));
-		$this->assertSame(['5', '6'], $this->tagIdsFromPropFind($file2));
-		$this->assertSame([], $this->tagIdsFromPropFind($untagged));
+		$this->assertSame(['1'], $this->tagIds($this->systemTagListFromPropFind($folder)));
+		$list1 = $this->systemTagListFromPropFind($file1);
+		$this->assertSame(['7', '1', '5', '6', '2'], $this->tagIds($list1));
+		$this->assertSame(['5', '6'], $this->tagIds($this->systemTagListFromPropFind($file2)));
+		$this->assertSame([], $this->tagIds($this->systemTagListFromPropFind($untagged)));
+
+		$this->assertSame(
+			'<nc:system-tag oc:can-assign="true" oc:id="7" oc:user-assignable="true" oc:user-visible="true" nc:color="ff0000">a&lt;b&gt;&amp;&quot;c</nc:system-tag>'
+			. '<nc:system-tag oc:can-assign="true" oc:id="1" oc:user-assignable="true" oc:user-visible="true" nc:color="">img2</nc:system-tag>'
+			. '<nc:system-tag oc:can-assign="true" oc:id="5" oc:user-assignable="true" oc:user-visible="true" nc:color="">img3</nc:system-tag>'
+			. '<nc:system-tag oc:can-assign="false" oc:id="6" oc:user-assignable="false" oc:user-visible="true" nc:color="">img3</nc:system-tag>'
+			. '<nc:system-tag oc:can-assign="true" oc:id="2" oc:user-assignable="true" oc:user-visible="true" nc:color="">img10</nc:system-tag>',
+			$this->serializedTags($list1),
+		);
+	}
+
+	public function testSingleFileAndSecondFolderReuseLoadedTags(): void {
+		$tags = [
+			'1' => new SystemTag('1', 'img2', true, true),
+			'2' => new SystemTag('2', 'img1', true, true),
+			'3' => new SystemTag('3', 'img3', true, true),
+		];
+		$this->tagMapper->expects($this->exactly(2))
+			->method('getTagIdsForObjects')
+			->willReturnCallback(fn (array $fileIds): array => match ($fileIds) {
+				['20'] => ['20' => ['1', '2']],
+				['30', '31'] => ['30' => [], '31' => ['2', '3']],
+			});
+		$requestedTagIds = [];
+		$this->tagManager->expects($this->exactly(2))
+			->method('getTagsByIds')
+			->willReturnCallback(function (array $tagIds) use ($tags, &$requestedTagIds): array {
+				$requestedTagIds[] = array_map('strval', $tagIds);
+				return array_intersect_key($tags, array_flip($tagIds));
+			});
+		$this->tagManager->expects($this->any())
+			->method('canUserSeeTag')
+			->willReturn(true);
+		$this->tagManager->expects($this->any())
+			->method('canUserAssignTag')
+			->willReturn(true);
+
+		$file = $this->createMock(Node::class);
+		$file->method('getId')->willReturn(20);
+		$this->assertSame(['2', '1'], $this->tagIds($this->systemTagListFromPropFind($file)));
+
+		$folder = $this->createMock(Directory::class);
+		$folder->method('getId')->willReturn(30);
+		$child = $this->createMock(Node::class);
+		$child->method('getId')->willReturn(31);
+		$folder->method('getChildren')->willReturn([$child]);
+		$folderPropFind = new PropFind('/files/user/folder', [SystemTagPlugin::SYSTEM_TAGS_PROPERTYNAME], 1);
+		$this->server->emit('preloadCollection', [$folderPropFind, $folder]);
+		$this->server->emit('preloadCollection', [$folderPropFind, $folder]);
+
+		$childList = $this->systemTagListFromPropFind($child);
+		$this->assertSame(['2', '3'], $this->tagIds($childList));
+		$this->assertSame([['1', '2'], ['3']], $requestedTagIds);
+		$this->assertSame(
+			'<nc:system-tag oc:can-assign="true" oc:id="2" oc:user-assignable="true" oc:user-visible="true" nc:color="">img1</nc:system-tag>'
+			. '<nc:system-tag oc:can-assign="true" oc:id="3" oc:user-assignable="true" oc:user-visible="true" nc:color="">img3</nc:system-tag>',
+			$this->serializedTags($childList),
+		);
+	}
+
+	private function systemTagListFromPropFind(Node $node): SystemTagList {
+		$propFind = new PropFind('/files/user/folder/file', [SystemTagPlugin::SYSTEM_TAGS_PROPERTYNAME], 0);
+		$this->plugin->handleGetProperties($propFind, $node);
+		$list = $propFind->get(SystemTagPlugin::SYSTEM_TAGS_PROPERTYNAME);
+		$this->assertInstanceOf(SystemTagList::class, $list);
+		return $list;
 	}
 
 	/**
 	 * @return string[]
 	 */
-	private function tagIdsFromPropFind(Node $file): array {
-		$propFind = new PropFind('/files/user/folder/file', [SystemTagPlugin::SYSTEM_TAGS_PROPERTYNAME], 0);
-		$this->plugin->handleGetProperties($propFind, $file);
-		$list = $propFind->get(SystemTagPlugin::SYSTEM_TAGS_PROPERTYNAME);
-		$this->assertInstanceOf(SystemTagList::class, $list);
+	private function tagIds(SystemTagList $list): array {
 		return array_map(fn (ISystemTag $tag): string => $tag->getId(), $list->getTags());
 	}
 
-	public function testSystemTagListSerializationMatchesElementWriter(): void {
-		$tags = [
-			new SystemTag('7', 'a<b>&"c', true, true, null, 'ff0000'),
-			new SystemTag('8', 'plain', true, false),
-		];
-		$this->tagManager->expects($this->any())
-			->method('canUserAssignTag')
-			->willReturnCallback(fn (ISystemTag $tag): bool => $tag->isUserAssignable());
-
-		$expected = $this->newWriter();
-		foreach ($tags as $tag) {
-			$expected->startElement('{http://nextcloud.org/ns}system-tag');
-			$expected->writeAttributes([
-				SystemTagPlugin::CANASSIGN_PROPERTYNAME => $tag->isUserAssignable() ? 'true' : 'false',
-				SystemTagPlugin::ID_PROPERTYNAME => $tag->getId(),
-				SystemTagPlugin::USERASSIGNABLE_PROPERTYNAME => $tag->isUserAssignable() ? 'true' : 'false',
-				SystemTagPlugin::USERVISIBLE_PROPERTYNAME => $tag->isUserVisible() ? 'true' : 'false',
-				SystemTagPlugin::COLOR_PROPERTYNAME => $tag->getColor() ?? '',
-			]);
-			$expected->write($tag->getName());
-			$expected->endElement();
-		}
-		$expected->endElement();
-		$expectedXml = $expected->outputMemory();
-		$this->assertStringContainsString('a&lt;b&gt;&amp;&quot;c', $expectedXml);
-
-		$list = new SystemTagList($tags, $this->tagManager, $this->user);
-		$actual = $this->newWriter();
-		$list->xmlSerialize($actual);
-		$actual->endElement();
-		$this->assertSame($expectedXml, $actual->outputMemory());
-
-		$secondRun = $this->newWriter();
-		$list->xmlSerialize($secondRun);
-		$secondRun->endElement();
-		$this->assertSame($expectedXml, $secondRun->outputMemory());
-	}
-
-	public function testSystemTagListSerializationDependsOnCanAssign(): void {
-		$tag = new SystemTag('9', 'shared', true, true);
-		$assignable = $this->createMock(ISystemTagManager::class);
-		$assignable->method('canUserAssignTag')->willReturn(true);
-		$notAssignable = $this->createMock(ISystemTagManager::class);
-		$notAssignable->method('canUserAssignTag')->willReturn(false);
-
-		$sharedFragments = new SystemTagFragmentCache();
-
-		$writer = $this->newWriter();
-		(new SystemTagList([$tag], $assignable, $this->user, $sharedFragments))->xmlSerialize($writer);
-		$writer->endElement();
-		$this->assertStringContainsString('oc:can-assign="true"', $writer->outputMemory());
-
-		$writer = $this->newWriter();
-		(new SystemTagList([$tag], $notAssignable, $this->user, $sharedFragments))->xmlSerialize($writer);
-		$writer->endElement();
-		$this->assertStringContainsString('oc:can-assign="false"', $writer->outputMemory());
-	}
-
-	public function testSystemTagListSerializationWithoutKnownPrefixes(): void {
-		$tag = new SystemTag('7', 'a<b>&"c', true, true, null, 'ff0000');
-		$this->tagManager->expects($this->any())
-			->method('canUserAssignTag')
-			->willReturn(true);
-
-		$expected = $this->newWriter([]);
-		$expected->startElement('{http://nextcloud.org/ns}system-tag');
-		$expected->writeAttributes([
-			SystemTagPlugin::CANASSIGN_PROPERTYNAME => 'true',
-			SystemTagPlugin::ID_PROPERTYNAME => '7',
-			SystemTagPlugin::USERASSIGNABLE_PROPERTYNAME => 'true',
-			SystemTagPlugin::USERVISIBLE_PROPERTYNAME => 'true',
-			SystemTagPlugin::COLOR_PROPERTYNAME => 'ff0000',
-		]);
-		$expected->write($tag->getName());
-		$expected->endElement();
-		$expected->endElement();
-
-		$actual = $this->newWriter([]);
-		(new SystemTagList([$tag], $this->tagManager, $this->user))->xmlSerialize($actual);
-		$actual->endElement();
-		$this->assertSame($expected->outputMemory(), $actual->outputMemory());
-	}
-
 	/**
-	 * @param array<string,string>|null $namespaceMap null uses the prefixes the DAV server registers
+	 * The system-tag elements as the response writer emits them, without the enclosing property element
 	 */
-	private function newWriter(?array $namespaceMap = null): Writer {
-		$writer = new Writer();
-		$writer->namespaceMap = $namespaceMap ?? [
-			'DAV:' => 'd',
-			'http://owncloud.org/ns' => 'oc',
-			'http://nextcloud.org/ns' => 'nc',
-		];
+	private function serializedTags(SystemTagList $list): string {
+		$writer = $this->server->xml->getWriter();
 		$writer->openMemory();
-		$writer->startElement('{http://nextcloud.org/ns}system-tags');
-		return $writer;
+		$writer->startElement(SystemTagPlugin::SYSTEM_TAGS_PROPERTYNAME);
+		$list->xmlSerialize($writer);
+		$writer->endElement();
+		$xml = $writer->outputMemory();
+		$this->assertMatchesRegularExpression('#^<nc:system-tags( xmlns:[a-z]+="[^"]*")+>.*</nc:system-tags>$#s', $xml);
+		return preg_replace('#^<nc:system-tags[^>]*>|</nc:system-tags>$#', '', $xml);
 	}
 }

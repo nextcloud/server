@@ -15,7 +15,6 @@ use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Files\IRootFolder;
 use OCP\IGroupManager;
-use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -33,6 +32,7 @@ use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\Xml\Writer;
 
 /**
  * Sabre plugin to handle system tags:
@@ -58,20 +58,22 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	public const OBJECTIDS_PROPERTYNAME = '{http://nextcloud.org/ns}object-ids';
 	public const COLOR_PROPERTYNAME = '{http://nextcloud.org/ns}color';
 
+	private const TAG_QUERY_CHUNK_SIZE = 900;
+
 	/**
 	 * @var \Sabre\DAV\Server $server
 	 */
 	private $server;
 
-	/** @var array<string, list<string>> */
-	private array $cachedTagMappings = [];
-	/** @var array<string, ISystemTag> */
+	/** @var array<int|string, ISystemTag> */
 	private array $cachedTags = [];
-	/** @var array<string,int> natural-sort rank per tag id; equal names share a rank */
-	private array $tagSortRank = [];
-	/** @var array<string,true> */
-	private array $visibleTagIds = [];
-	private SystemTagFragmentCache $tagFragments;
+	/** @var array<int|string, list<ISystemTag>> visible tags of each preloaded file, in natural name order */
+	private array $preloadedTags = [];
+	/** @var array<int|string, true> folders whose children were preloaded */
+	private array $preloadedFolders = [];
+	/** @var array<int|string, string> serialized system-tag element per tag id, for the current user */
+	private array $serializedTags = [];
+	private ?Writer $fragmentWriter = null;
 
 	public function __construct(
 		protected ISystemTagManager $tagManager,
@@ -80,7 +82,6 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		protected IRootFolder $rootFolder,
 		protected ISystemTagObjectMapper $tagMapper,
 	) {
-		$this->tagFragments = new SystemTagFragmentCache();
 	}
 
 	/**
@@ -213,79 +214,90 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		PropFind $propFind,
 		ICollection $collection,
 	): void {
-		if (!$collection instanceof Node) {
+		if (!$collection instanceof Directory
+			|| isset($this->preloadedFolders[(string)$collection->getId()])
+			|| $propFind->getStatus(self::SYSTEM_TAGS_PROPERTYNAME) === null) {
 			return;
 		}
+		$this->preloadedFolders[(string)$collection->getId()] = true;
 
-		if ($collection instanceof Directory
-			&& !isset($this->cachedTagMappings[(string)$collection->getId()])
-			&& $propFind->getStatus(
-				self::SYSTEM_TAGS_PROPERTYNAME
-			) !== null) {
-			$fileIds = [(string)$collection->getId()];
-
-			// note: pre-fetching only supported for depth <= 1
-			$folderContent = $collection->getChildren();
-			foreach ($folderContent as $info) {
-				if ($info instanceof Node) {
-					$fileIds[] = (string)$info->getId();
-				}
-			}
-
-			$tags = $this->tagMapper->getTagIdsForObjects($fileIds, 'files');
-
-			$this->cachedTagMappings += $tags;
-			$this->preloadTags(array_merge(...array_values($tags)));
-			$emptyFileIds = array_diff($fileIds, array_keys($tags));
-
-			// also cache the ones that were not found
-			foreach ($emptyFileIds as $fileId) {
-				$this->cachedTagMappings[(string)$fileId] = [];
+		$fileIds = [(string)$collection->getId()];
+		// note: pre-fetching only supported for depth <= 1
+		foreach ($collection->getChildren() as $child) {
+			if ($child instanceof Node) {
+				$fileIds[] = (string)$child->getId();
 			}
 		}
+		$this->preloadTags($fileIds, $this->tagMapper->getTagIdsForObjects($fileIds, 'files'));
 	}
 
 	/**
-	 * @param string[] $tagIds
+	 * @param list<string> $fileIds
+	 * @param array<int|string, list<string>> $tagIdsByFile
 	 */
-	private function preloadTags(array $tagIds): void {
-		$uncachedTagIds = array_filter(array_unique($tagIds), fn (string $tagId): bool => !isset($this->cachedTags[$tagId]));
-		foreach (array_chunk($uncachedTagIds, 1000) as $chunk) {
+	private function preloadTags(array $fileIds, array $tagIdsByFile): void {
+		$filesByTag = [];
+		foreach ($tagIdsByFile as $fileId => $tagIds) {
+			foreach ($tagIds as $tagId) {
+				$filesByTag[$tagId][] = $fileId;
+			}
+		}
+
+		foreach (array_chunk(array_keys(array_diff_key($filesByTag, $this->cachedTags)), self::TAG_QUERY_CHUNK_SIZE) as $chunk) {
 			foreach ($this->tagManager->getTagsByIds($chunk) as $tag) {
 				$this->cachedTags[$tag->getId()] = $tag;
 			}
 		}
-		uasort($this->cachedTags, fn (ISystemTag $a, ISystemTag $b): int => Util::naturalSortCompare($a->getName(), $b->getName()));
-		$rank = 0;
-		$previous = null;
-		foreach ($this->cachedTags as $tagId => $tag) {
-			if ($previous !== null && Util::naturalSortCompare($previous->getName(), $tag->getName()) !== 0) {
-				$rank++;
-			}
-			$this->tagSortRank[$tagId] = $rank;
-			$previous = $tag;
-		}
+
 		$user = $this->userSession->getUser();
-		foreach ($this->cachedTags as $tagId => $tag) {
-			if ($this->tagManager->canUserSeeTag($tag, $user)) {
-				$this->visibleTagIds[$tagId] = true;
+		$visibleTags = array_filter(
+			array_intersect_key($this->cachedTags, $filesByTag),
+			fn (ISystemTag $tag): bool => $this->tagManager->canUserSeeTag($tag, $user),
+		);
+		uasort($visibleTags, fn (ISystemTag $a, ISystemTag $b): int => Util::naturalSortCompare($a->getName(), $b->getName()) ?: (int)$a->getId() <=> (int)$b->getId());
+
+		foreach ($fileIds as $fileId) {
+			$this->preloadedTags[$fileId] = [];
+		}
+		foreach ($visibleTags as $tagId => $tag) {
+			foreach ($filesByTag[$tagId] as $fileId) {
+				$this->preloadedTags[$fileId][] = $tag;
+			}
+			if (!isset($this->serializedTags[$tagId])) {
+				$this->serializedTags[$tagId] = $this->serializeTag($tag, $this->tagManager->canUserAssignTag($tag, $user));
 			}
 		}
 	}
 
+	private function serializeTag(ISystemTag $tag, bool $canAssign): string {
+		$writer = $this->fragmentWriter();
+		$writer->startElement('{' . self::NS_NEXTCLOUD . '}system-tag');
+		$writer->writeAttributes([
+			self::CANASSIGN_PROPERTYNAME => $canAssign ? 'true' : 'false',
+			self::ID_PROPERTYNAME => $tag->getId(),
+			self::USERASSIGNABLE_PROPERTYNAME => $tag->isUserAssignable() ? 'true' : 'false',
+			self::USERVISIBLE_PROPERTYNAME => $tag->isUserVisible() ? 'true' : 'false',
+			self::COLOR_PROPERTYNAME => $tag->getColor() ?? '',
+		]);
+		$writer->write($tag->getName());
+		$writer->endElement();
+		return $writer->outputMemory(true);
+	}
+
 	/**
-	 * @param string[] $tagIds
-	 * @return ISystemTag[] visible tags in natural name order; equal names keep their input order
+	 * A writer of the response's XML service, positioned inside an open element so that
+	 * the namespace declarations are already written and each fragment starts at its own element.
 	 */
-	private function sortedVisibleTags(array $tagIds): array {
-		$buckets = [];
-		foreach ($tagIds as $tagId) {
-			if (isset($this->visibleTagIds[$tagId])) {
-				$buckets[$this->tagSortRank[$tagId]][] = $this->cachedTags[$tagId];
-			}
+	private function fragmentWriter(): Writer {
+		if ($this->fragmentWriter === null) {
+			$writer = $this->server->xml->getWriter();
+			$writer->openMemory();
+			$writer->startElement('{DAV:}multistatus');
+			$writer->text('');
+			$writer->outputMemory(true);
+			$this->fragmentWriter = $writer;
 		}
-		ksort($buckets);
-		return $buckets === [] ? [] : array_merge(...$buckets);
+		return $this->fragmentWriter;
 	}
 
 	/**
@@ -400,55 +412,12 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	private function propfindForFile(PropFind $propFind, Node $node): void {
-
-		$propFind->handle(self::SYSTEM_TAGS_PROPERTYNAME, function () use ($node) {
-			$user = $this->userSession->getUser();
+		$propFind->handle(self::SYSTEM_TAGS_PROPERTYNAME, function () use ($node): SystemTagList {
 			$fileId = (string)$node->getId();
-
-			if (isset($this->cachedTagMappings[$fileId]) && $this->tagSortRank !== []) {
-				return new SystemTagList($this->sortedVisibleTags($this->cachedTagMappings[$fileId]), $this->tagManager, $user, $this->tagFragments);
+			if (!isset($this->preloadedTags[$fileId])) {
+				$this->preloadTags([$fileId], $this->tagMapper->getTagIdsForObjects([$fileId], 'files'));
 			}
-
-			$tags = $this->getTagsForFile($node->getId(), $user);
-			usort($tags, function (ISystemTag $tagA, ISystemTag $tagB): int {
-				return Util::naturalSortCompare($tagA->getName(), $tagB->getName());
-			});
-			return new SystemTagList($tags, $this->tagManager, $user, $this->tagFragments);
-		});
-	}
-
-	/**
-	 * @param int $fileId
-	 * @return ISystemTag[]
-	 */
-	private function getTagsForFile(int $fileId, ?IUser $user): array {
-		if (isset($this->cachedTagMappings[(string)$fileId])) {
-			$tagIds = $this->cachedTagMappings[(string)$fileId];
-		} else {
-			$tags = $this->tagMapper->getTagIdsForObjects([(string)$fileId], 'files');
-			$fileTags = current($tags);
-			if ($fileTags) {
-				$tagIds = $fileTags;
-			} else {
-				$tagIds = [];
-			}
-		}
-
-		$tags = array_filter(array_map(
-			fn (string $tagId): ?ISystemTag => $this->cachedTags[$tagId] ?? null, $tagIds));
-
-		$uncachedTagIds = array_filter($tagIds, fn (string $tagId): bool => !isset($this->cachedTags[$tagId]));
-
-		if (count($uncachedTagIds)) {
-			$retrievedTags = $this->tagManager->getTagsByIds($uncachedTagIds);
-			foreach ($retrievedTags as $tag) {
-				$this->cachedTags[$tag->getId()] = $tag;
-			}
-			$tags += $retrievedTags;
-		}
-
-		return array_filter($tags, function (ISystemTag $tag) use ($user) {
-			return $this->tagManager->canUserSeeTag($tag, $user);
+			return new SystemTagList($this->preloadedTags[$fileId], $this->serializedTags);
 		});
 	}
 
