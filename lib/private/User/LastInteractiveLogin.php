@@ -37,6 +37,7 @@ class LastInteractiveLogin {
 			self::CONFIG_APP,
 			self::CONFIG_KEY,
 			$this->timeFactory->getTime(),
+			lazy: true,
 		);
 	}
 
@@ -45,6 +46,7 @@ class LastInteractiveLogin {
 			$user->getUID(),
 			self::CONFIG_APP,
 			self::CONFIG_KEY,
+			lazy: true,
 		);
 	}
 }
