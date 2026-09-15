@@ -12,7 +12,6 @@ use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\PolyFill\CopyDirectory;
-use OCA\Files_External\Lib\PortHelper;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
@@ -52,7 +51,14 @@ class FTP extends Common {
 				$this->secure = false;
 			}
 			$this->root = isset($parameters['root']) ? '/' . ltrim($parameters['root']) : '/';
-			$this->port = PortHelper::parsePort($parameters['port'] ?? null, self::DEFAULT_PORT);
+			// The port field holds whatever the administrator typed, so only accept a
+			// valid TCP port. Leading zeros are stripped so that "0022" keeps working.
+			$configuredPort = trim((string)($parameters['port'] ?? ''));
+			$port = filter_var(ltrim($configuredPort, '0'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 65535]]);
+			if ($port === false && $configuredPort !== '') {
+				Server::get(LoggerInterface::class)->warning('Ignoring invalid port configured for FTP storage, falling back to the default port', ['port' => $configuredPort, 'default' => self::DEFAULT_PORT]);
+			}
+			$this->port = $port ?: self::DEFAULT_PORT;
 			$this->utf8Mode = isset($parameters['utf8']) && $parameters['utf8'];
 		} else {
 			throw new \Exception('Creating ' . self::class . ' storage failed, required parameters not set');

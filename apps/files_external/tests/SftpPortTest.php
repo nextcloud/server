@@ -28,10 +28,16 @@ class SftpPortTest extends TestCase {
 			'non numeric port' => [array_merge($parameters, ['port' => 'sftp']), 22],
 			'numeric string port' => [array_merge($parameters, ['port' => '2222']), 2222],
 			'integer port' => [array_merge($parameters, ['port' => 2222]), 2222],
+			'padded numeric string port' => [array_merge($parameters, ['port' => ' 2222 ']), 2222],
+			'signed numeric string port' => [array_merge($parameters, ['port' => '+2222']), 2222],
+			'leading zero port' => [array_merge($parameters, ['port' => '02222']), 2222],
 			'decimal port' => [array_merge($parameters, ['port' => '22.5']), 22],
+			'exponential port' => [array_merge($parameters, ['port' => '1e3']), 22],
+			'hexadecimal port' => [array_merge($parameters, ['port' => '0x15']), 22],
 			'zero port' => [array_merge($parameters, ['port' => '0']), 22],
 			'negative port' => [array_merge($parameters, ['port' => '-2222']), 22],
 			'out of range port' => [array_merge($parameters, ['port' => '65536']), 22],
+			'way out of range port' => [array_merge($parameters, ['port' => '999999999999999999999999']), 22],
 			'highest valid port' => [array_merge($parameters, ['port' => '65535']), 65535],
 
 			// the port can also be part of the host field

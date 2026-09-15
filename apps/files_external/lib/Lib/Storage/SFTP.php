@@ -14,13 +14,13 @@ use Icewind\Streams\IteratorDirectory;
 use Icewind\Streams\RetryWrapper;
 use OC\Files\Storage\Common;
 use OC\Files\View;
-use OCA\Files_External\Lib\PortHelper;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Server;
 use phpseclib3\Net\SFTP\Stream;
+use Psr\Log\LoggerInterface;
 
 /**
  * Uses phpseclib's Net\SFTP class and the Net\SFTP\Stream stream wrapper to
@@ -59,7 +59,7 @@ class SFTP extends Common {
 
 		$parsed = parse_url($host);
 		if (is_array($parsed) && isset($parsed['port'])) {
-			return [$parsed['host'], PortHelper::parsePort($parsed['port'], self::DEFAULT_PORT)];
+			return [$parsed['host'], $parsed['port']];
 		} elseif (is_array($parsed)) {
 			return [$parsed['host'], self::DEFAULT_PORT];
 		} else {
@@ -81,9 +81,15 @@ class SFTP extends Common {
 		$parsedHost = $this->splitHost($parameters['host']);
 		$this->host = $parsedHost[0];
 
-		// Fall back to the port from the host field, and to the default port,
-		// unless a valid port is configured
-		$this->port = PortHelper::parsePort($parameters['port'] ?? null, $parsedHost[1]);
+		// The port field holds whatever the administrator typed, so only accept a
+		// valid TCP port and otherwise keep the port from the host field. Leading
+		// zeros are stripped so that "0022" keeps working.
+		$configuredPort = trim((string)($parameters['port'] ?? ''));
+		$port = filter_var(ltrim($configuredPort, '0'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 65535]]);
+		if ($port === false && $configuredPort !== '') {
+			Server::get(LoggerInterface::class)->warning('Ignoring invalid port configured for SFTP storage, falling back to the port from the host field', ['port' => $configuredPort, 'fallback' => $parsedHost[1]]);
+		}
+		$this->port = $port ?: $parsedHost[1];
 
 		if (!isset($parameters['user'])) {
 			throw new \UnexpectedValueException('no authentication parameters specified');
