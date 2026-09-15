@@ -54,7 +54,7 @@ class AvatarController extends Controller {
 	/**
 	 * Get the dark avatar
 	 *
-	 * @param string $userId ID of the user
+	 * @param non-empty-string $userId ID of the user
 	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
@@ -104,7 +104,7 @@ class AvatarController extends Controller {
 	/**
 	 * Get the avatar
 	 *
-	 * @param string $userId ID of the user
+	 * @param non-empty-string $userId ID of the user
 	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
@@ -151,6 +151,9 @@ class AvatarController extends Controller {
 		return $response;
 	}
 
+	/**
+	 * @param ?non-empty-string $path
+	 */
 	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/avatar/')]
 	public function postAvatar(?string $path = null): JSONResponse {
