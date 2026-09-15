@@ -1282,6 +1282,14 @@ class Cache implements ICache {
 			// normalizeData() prefers 'encryptedVersion' over 'encrypted' when both are
 			// set, so it has to be cleared too or the mark above gets ignored
 			unset($data['encryptedVersion']);
+		} elseif (isset($data['encryptedVersion'])) {
+			// The storage re-encrypts the content it writes to the target, so the target
+			// is at its own version - the one recorded for it while it was written - and
+			// not at the version of the source.
+			$targetEntry = $this->get($targetPath);
+			if ($targetEntry !== false && !empty($targetEntry['encryptedVersion'])) {
+				$data['encryptedVersion'] = $targetEntry['encryptedVersion'];
+			}
 		}
 
 		$fileId = $this->put($targetPath, $data);
