@@ -23,6 +23,7 @@ use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Util;
 use PHPUnit\Framework\Attributes\Group;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -51,7 +52,7 @@ class LegacyHooksTest extends TestCase {
 
 		$symfonyDispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 		$logger = $this->createMock(LoggerInterface::class);
-		$this->eventDispatcher = new EventDispatcher($symfonyDispatcher, $logger);
+		$this->eventDispatcher = new EventDispatcher($symfonyDispatcher, Server::get(ContainerInterface::class), $logger);
 		$this->hooks = new LegacyHooks($this->eventDispatcher);
 		$this->manager = Server::get(IShareManager::class);
 	}

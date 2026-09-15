@@ -127,6 +127,7 @@ class TextProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher = new EventDispatcher(
 			new \Symfony\Component\EventDispatcher\EventDispatcher(),
+			$this->serverContainer,
 			Server::get(LoggerInterface::class),
 		);
 

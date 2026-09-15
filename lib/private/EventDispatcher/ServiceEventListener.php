@@ -12,7 +12,7 @@ namespace OC\EventDispatcher;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\Server;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use function sprintf;
 
@@ -26,6 +26,7 @@ final class ServiceEventListener {
 	private ?IEventListener $service = null;
 
 	public function __construct(
+		private ContainerInterface $container,
 		private string $class,
 		private LoggerInterface $logger,
 	) {
@@ -34,12 +35,10 @@ final class ServiceEventListener {
 	public function __invoke(Event $event) {
 		if ($this->service === null) {
 			try {
-				// Resolved from the current container rather than one captured at construction,
-				// since this listener may be invoked long after whatever built it.
 				// TODO: fetch from the app containers, otherwise any custom services,
 				//       parameters and aliases won't be resolved.
 				//       See https://github.com/nextcloud/server/issues/27793 for details.
-				$this->service = Server::get($this->class);
+				$this->service = $this->container->get($this->class);
 			} catch (QueryException $e) {
 				$this->logger->error(
 					sprintf(

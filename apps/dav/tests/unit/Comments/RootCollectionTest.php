@@ -41,6 +41,7 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->dispatcher = new EventDispatcher(
 			new \Symfony\Component\EventDispatcher\EventDispatcher(),
+			\OC::$server,
 			$this->logger
 		);
 
