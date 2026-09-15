@@ -21,7 +21,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
-use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
@@ -34,8 +34,7 @@ class PreviewController extends Controller {
 		string $appName,
 		IRequest $request,
 		private IPreview $preview,
-		private IRootFolder $root,
-		private ?string $userId,
+		private ?IUserFolder $userFolder,
 		private IMimeIconProvider $mimeIconProvider,
 	) {
 		parent::__construct($appName, $request);
@@ -76,8 +75,7 @@ class PreviewController extends Controller {
 		}
 
 		try {
-			$userFolder = $this->root->getUserFolder($this->userId);
-			$node = $userFolder->get($file);
+			$node = $this->userFolder->get($file);
 		} catch (NotFoundException $e) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -119,8 +117,7 @@ class PreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		$userFolder = $this->root->getUserFolder($this->userId);
-		$node = $userFolder->getFirstNodeById($fileId);
+		$node = $this->userFolder->getFirstNodeById($fileId);
 
 		if (!$node) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);

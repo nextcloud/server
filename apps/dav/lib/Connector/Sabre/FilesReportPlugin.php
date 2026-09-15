@@ -13,6 +13,7 @@ use OCA\Circles\Api\v1\Circles;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\Files\Folder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node as INode;
 use OCP\IGroupManager;
 use OCP\ITagManager;
@@ -43,17 +44,6 @@ class FilesReportPlugin extends ServerPlugin {
 	 */
 	private $server;
 
-	/**
-	 * @param Tree $tree
-	 * @param View $fileView
-	 * @param ISystemTagManager $tagManager
-	 * @param ISystemTagObjectMapper $tagMapper
-	 * @param ITagManager $fileTagger manager for private tags
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
-	 * @param Folder $userFolder
-	 * @param IAppManager $appManager
-	 */
 	public function __construct(
 		private Tree $tree,
 		private View $fileView,
@@ -65,7 +55,7 @@ class FilesReportPlugin extends ServerPlugin {
 		private ITagManager $fileTagger,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
-		private Folder $userFolder,
+		private IUserFolder $userFolder,
 		private IAppManager $appManager,
 	) {
 	}
