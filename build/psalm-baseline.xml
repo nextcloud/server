@@ -1497,6 +1497,7 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
+      <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/Controller/DeletedShareAPIController.php">

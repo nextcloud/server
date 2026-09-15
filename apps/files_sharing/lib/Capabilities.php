@@ -46,6 +46,7 @@ class Capabilities implements ICapability {
 	 *             expire_date?: array{
 	 *                 enabled: bool,
 	 *                 days?: int,
+	 *                 default_days?: int,
 	 *                 enforced?: bool,
 	 *             },
 	 *             expire_date_internal?: array{
@@ -123,7 +124,13 @@ class Capabilities implements ICapability {
 				$public['multiple_links'] = true;
 				$public['expire_date']['enabled'] = $this->shareManager->shareApiLinkDefaultExpireDate();
 				if ($public['expire_date']['enabled']) {
-					$public['expire_date']['days'] = $this->shareManager->shareApiLinkDefaultExpireDays();
+					$maxDays = $this->shareManager->shareApiLinkDefaultExpireDays();
+					$defaultDays = (int)$this->config->getAppValue('core', 'link_defaultExpDays', (string)$maxDays);
+					if ($defaultDays > $maxDays) {
+						$defaultDays = $maxDays;
+					}
+					$public['expire_date']['days'] = $maxDays;
+					$public['expire_date']['default_days'] = $defaultDays;
 					$public['expire_date']['enforced'] = $this->shareManager->shareApiLinkDefaultExpireDateEnforced();
 				}
 
