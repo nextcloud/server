@@ -28,6 +28,7 @@ use OCA\Files_Sharing\Listener\RestrictInteractionListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
 use OCA\Files_Sharing\Listener\SharesUpdatedListener;
 use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
+use OCA\Files_Sharing\Listener\UserAddedToGroupNotificationListener;
 use OCA\Files_Sharing\Listener\UserHomeSetupListener;
 use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
@@ -107,6 +108,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$context->registerEventListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
 		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupListener::class);
+		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupNotificationListener::class);
 
 		// Publish activity for public download
 		$context->registerEventListener(BeforeNodeReadEvent::class, BeforeNodeReadListener::class);
