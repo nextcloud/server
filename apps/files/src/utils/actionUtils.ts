@@ -12,11 +12,25 @@ import { useActiveStore } from '../store/active.ts'
 import { logger } from '../utils/logger.ts'
 
 /**
+ * How the execution of an action was triggered.
+ * `hotkey` means the action was triggered by a keyboard shortcut,
+ * `menu` means it was triggered from the actions menu or an inline action button.
+ */
+export type ActionTrigger = 'hotkey' | 'menu'
+
+/**
+ * Action context enriched with the trigger that started the execution.
+ * The trigger is undefined if the action was executed programmatically.
+ */
+export type TriggeredActionContext = ActionContextSingle & { trigger?: ActionTrigger }
+
+/**
  * Execute an action on the current active node
  *
  * @param action The action to execute
+ * @param trigger How the execution was triggered
  */
-export async function executeAction(action: IFileAction) {
+export async function executeAction(action: IFileAction, trigger?: ActionTrigger) {
 	const activeStore = useActiveStore()
 	const currentFolder = activeStore.activeFolder
 	const currentNode = activeStore.activeNode
@@ -39,7 +53,8 @@ export async function executeAction(action: IFileAction) {
 		view: currentView,
 		folder: currentFolder,
 		contents,
-	} as ActionContextSingle
+		trigger,
+	} as TriggeredActionContext
 
 	if (!action.enabled!(context)) {
 		logger.debug('Action is not not available for the current context', { action, node: currentNode, view: currentView })
