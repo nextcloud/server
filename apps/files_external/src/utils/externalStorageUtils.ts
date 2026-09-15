@@ -28,3 +28,16 @@ export function isNodeExternalStorage(node: INode) {
 	// Specific markers that we're sure are ext storage only
 	return attributes.scope === 'personal' || attributes.scope === 'system'
 }
+
+/**
+ * Check whether a storage is available to every account.
+ *
+ * An empty applicable list means "no restriction", not "nobody".
+ * See UserGlobalStoragesService::isApplicable().
+ *
+ * @param applicableUsers - Ids of the accounts the storage is restricted to
+ * @param applicableGroups - Ids of the groups the storage is restricted to
+ */
+export function appliesToAllAccounts(applicableUsers?: string[], applicableGroups?: string[]): boolean {
+	return !applicableUsers?.length && !applicableGroups?.length
+}
