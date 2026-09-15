@@ -48,7 +48,7 @@ class TestConfig extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$availableConfigs = $this->helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
-		if (!in_array($configID, $availableConfigs)) {
+		if (!in_array($configID, $availableConfigs, true)) {
 			$output->writeln('Invalid configID');
 			return self::FAILURE;
 		}

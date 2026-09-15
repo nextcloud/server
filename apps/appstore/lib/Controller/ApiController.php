@@ -129,11 +129,11 @@ class ApiController extends OCSController {
 
 			$appData['groups'] = $groups;
 			// analyze dependencies
-			$ignoreMax = in_array($appData['id'], $ignoreMaxApps);
+			$ignoreMax = in_array($appData['id'], $ignoreMaxApps, true);
 			$missing = $this->dependencyAnalyzer->analyze($appData, $ignoreMax);
 			$appData['missingDependencies'] = $missing;
 			$appData['isCompatible'] = $this->dependencyAnalyzer->isMarkedCompatible($appData);
-			$appData['internal'] = in_array($appData['id'], $this->appManager->getAlwaysEnabledApps());
+			$appData['internal'] = in_array($appData['id'], $this->appManager->getAlwaysEnabledApps(), true);
 
 			return $appData;
 		}, $apps);
@@ -332,7 +332,7 @@ class ApiController extends OCSController {
 		$supportedApps = $this->subscriptionRegistry->delegateGetSupportedApps();
 		$shippedApps = $this->appManager->getAlwaysEnabledApps();
 		foreach ($apps as $app) {
-			if (in_array($app['id'], $shippedApps)) {
+			if (in_array($app['id'], $shippedApps, true)) {
 				// shipped apps are no longer published on the appstore
 				// so skip them to avoid confusion with outdated data
 				continue;
@@ -345,7 +345,7 @@ class ApiController extends OCSController {
 				$this->allApps[$app['id']] = array_merge($app, $this->allApps[$app['id']]);
 			}
 
-			if (in_array($app['id'], $supportedApps)) {
+			if (in_array($app['id'], $supportedApps, true)) {
 				$this->allApps[$app['id']]['level'] = \OC_App::supportedApp;
 			}
 		}
@@ -463,7 +463,7 @@ class ApiController extends OCSController {
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
 				'shipped' => $this->appManager->isShipped($app['id']),
-				'internal' => in_array($app['id'], $this->appManager->getAlwaysEnabledApps()),
+				'internal' => in_array($app['id'], $this->appManager->getAlwaysEnabledApps(), true),
 				'version' => $currentVersion,
 				'types' => [],
 				'documentation' => [

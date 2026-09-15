@@ -613,7 +613,7 @@ class Manager implements IManager {
 	protected function validateEvents(string $entity, array $events, IOperation $operation): void {
 		/** @psalm-suppress TaintedCallable newInstance is not called */
 		$reflection = new \ReflectionClass($entity);
-		if ($entity !== IEntity::class && !in_array(IEntity::class, $reflection->getInterfaceNames())) {
+		if ($entity !== IEntity::class && !in_array(IEntity::class, $reflection->getInterfaceNames(), true)) {
 			throw new \UnexpectedValueException($this->l->t('Entity %s is invalid', [$entity]));
 		}
 
@@ -655,7 +655,7 @@ class Manager implements IManager {
 
 		/** @psalm-suppress TaintedCallable newInstance is not called */
 		$reflection = new \ReflectionClass($class);
-		if ($class !== IOperation::class && !in_array(IOperation::class, $reflection->getInterfaceNames())) {
+		if ($class !== IOperation::class && !in_array(IOperation::class, $reflection->getInterfaceNames(), true)) {
 			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', [$class]) . join(', ', $reflection->getInterfaceNames()));
 		}
 
@@ -688,7 +688,7 @@ class Manager implements IManager {
 			}
 
 			$reflection = new \ReflectionClass($check['class']);
-			if ($check['class'] !== ICheck::class && !in_array(ICheck::class, $reflection->getInterfaceNames())) {
+			if ($check['class'] !== ICheck::class && !in_array(ICheck::class, $reflection->getInterfaceNames(), true)) {
 				throw new \UnexpectedValueException($this->l->t('Check %s is invalid', [$class]));
 			}
 
@@ -700,7 +700,7 @@ class Manager implements IManager {
 			}
 
 			if (!empty($instance->supportedEntities())
-				&& !in_array($entity, $instance->supportedEntities())
+				&& !in_array($entity, $instance->supportedEntities(), true)
 			) {
 				throw new \UnexpectedValueException($this->l->t('Check %s is not allowed with this entity', [$class]));
 			}

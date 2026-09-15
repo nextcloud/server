@@ -45,7 +45,7 @@ class UserGroupMembership implements ICheck {
 
 		if ($user instanceof IUser) {
 			$groupIds = $this->getUserGroups($user);
-			return ($operator === 'is') === in_array($value, $groupIds);
+			return ($operator === 'is') === in_array($value, $groupIds, true);
 		} else {
 			return $operator !== 'is';
 		}
@@ -58,7 +58,7 @@ class UserGroupMembership implements ICheck {
 	 */
 	#[\Override]
 	public function validateCheck($operator, $value) {
-		if (!in_array($operator, ['is', '!is'])) {
+		if (!in_array($operator, ['is', '!is'], true)) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 

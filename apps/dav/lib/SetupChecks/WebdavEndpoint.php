@@ -51,7 +51,7 @@ class WebdavEndpoint implements ISetupCheck {
 			$works = null;
 			foreach ($this->runRequest($verb, $url, ['httpErrors' => false]) as $response) {
 				// Check that the response status matches
-				$works = in_array($response->getStatusCode(), $validStatuses);
+				$works = in_array($response->getStatusCode(), $validStatuses, true);
 				// Skip the other requests if one works
 				if ($works === true) {
 					break;

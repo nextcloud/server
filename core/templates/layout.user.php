@@ -39,7 +39,7 @@ p($theme->getTitle());
 		<?php } ?>
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta name="apple-mobile-web-app-title" content="<?php p((!empty($_['application']) && $_['appid'] != 'files')? $_['application']:$theme->getTitle()); ?>">
+		<meta name="apple-mobile-web-app-title" content="<?php p((!empty($_['application']) && $_['appid'] !== 'files')? $_['application']:$theme->getTitle()); ?>">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="theme-color" content="<?php p($theme->getColorPrimary()); ?>">
 		<link rel="icon" href="<?php print_unescaped(image_path($_['appid'], 'favicon.ico')); /* IE11+ supports png */ ?>">
@@ -84,7 +84,7 @@ p($theme->getTitle());
 
 		<div id="content" class="app-<?php p($_['appid']) ?>">
 			<h1 class="hidden-visually" id="page-heading-level-1">
-				<?php p((!empty($_['application']) && !empty($_['pageTitle']) && $_['application'] != $_['pageTitle'])
+				<?php p((!empty($_['application']) && !empty($_['pageTitle']) && $_['application'] !== $_['pageTitle'])
 					? $_['application'] . ': ' . $_['pageTitle']
 					: (!empty($_['pageTitle']) ? $_['pageTitle'] : $theme->getName())
 				); ?>

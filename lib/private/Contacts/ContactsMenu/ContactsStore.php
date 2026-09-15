@@ -282,7 +282,7 @@ class ContactsStore implements IContactsStore {
 
 		foreach ($contacts as $contact) {
 			if ($shareType === 4 && isset($contact['EMAIL'])) {
-				if (in_array($shareWith, $contact['EMAIL'])) {
+				if (in_array($shareWith, $contact['EMAIL'], true)) {
 					$match = $contact;
 					break;
 				}

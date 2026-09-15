@@ -408,7 +408,7 @@ class Session implements IUserSession, Emitter {
 			$dbToken = $this->getTokenFromPassword($password);
 			$isTokenPassword = $dbToken !== null;
 			if (($dbToken instanceof PublicKeyToken)
-				&& !in_array($dbToken->getType(), [IToken::PERMANENT_TOKEN,IToken::ONETIME_TOKEN])
+				&& !in_array($dbToken->getType(), [IToken::PERMANENT_TOKEN,IToken::ONETIME_TOKEN], true)
 			) {
 				// Refuse session tokens here, only app tokens and onetime tokens are handled
 				return false;
