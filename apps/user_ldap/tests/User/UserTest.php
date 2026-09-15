@@ -15,6 +15,7 @@ use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\User;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Config\IUserConfig;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -23,7 +24,8 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
-use OCP\Util;
+use OCP\Server;
+use OCP\User\Events\UserLoggedInEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -45,6 +47,7 @@ class UserTest extends \Test\TestCase {
 	protected Image&MockObject $image;
 	protected IAvatarManager&MockObject $avatarManager;
 	protected LoggerInterface&MockObject $logger;
+	protected IEventDispatcher $eventDispatcher;
 	protected string $uid = 'alice';
 	protected string $dn = 'uid=alice,dc=foo,dc=bar';
 	protected User $user;
@@ -70,6 +73,7 @@ class UserTest extends \Test\TestCase {
 		$this->image = $this->createMock(Image::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->notificationManager = $this->createMock(INotificationManager::class);
+		$this->eventDispatcher = Server::get(IEventDispatcher::class);
 
 		$this->user = new User(
 			$this->uid,
@@ -82,7 +86,8 @@ class UserTest extends \Test\TestCase {
 			$this->logger,
 			$this->avatarManager,
 			$this->userManager,
-			$this->notificationManager
+			$this->notificationManager,
+			$this->eventDispatcher,
 		);
 	}
 
@@ -934,8 +939,9 @@ class UserTest extends \Test\TestCase {
 		}
 		\OC_Hook::clear();//disconnect irrelevant hooks
 		$userMock->processAttributes($record);
-		/** @noinspection PhpUnhandledExceptionInspection */
-		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
+		$iuserMock = $this->createMock(IUser::class);
+		$iuserMock->method('getUID')->willReturn($this->uid);
+		$this->eventDispatcher->dispatchTyped(new UserLoggedInEvent($iuserMock, $this->uid, null, true));
 	}
 
 	public static function emptyHomeFolderAttributeValueProvider(): array {
@@ -1117,10 +1123,9 @@ class UserTest extends \Test\TestCase {
 		$this->notificationManager->expects($this->exactly(1))
 			->method('notify');
 
-		\OC_Hook::clear();//disconnect irrelevant hooks
-		Util::connectHook('OC_User', 'post_login', $this->user, 'handlePasswordExpiry');
-		/** @noinspection PhpUnhandledExceptionInspection */
-		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
+		$iuserMock = $this->createMock(IUser::class);
+		$iuserMock->method('getUID')->willReturn($this->uid);
+		$this->eventDispatcher->dispatchTyped(new UserLoggedInEvent($iuserMock, $this->uid, null, true));
 	}
 
 	public function testHandlePasswordExpiryWarningCustomPolicy(): void {
@@ -1181,9 +1186,8 @@ class UserTest extends \Test\TestCase {
 		$this->notificationManager->expects($this->exactly(1))
 			->method('notify');
 
-		\OC_Hook::clear();//disconnect irrelevant hooks
-		Util::connectHook('OC_User', 'post_login', $this->user, 'handlePasswordExpiry');
-		/** @noinspection PhpUnhandledExceptionInspection */
-		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
+		$iuserMock = $this->createMock(IUser::class);
+		$iuserMock->method('getUID')->willReturn($this->uid);
+		$this->eventDispatcher->dispatchTyped(new UserLoggedInEvent($iuserMock, $this->uid, null, true));
 	}
 }

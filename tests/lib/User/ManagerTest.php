@@ -181,7 +181,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
@@ -219,7 +219,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('bLeNdEr'))
 			->willReturn(true);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
@@ -233,7 +233,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('fo'))
 			->willReturn(['foo', 'afoo', 'Afoo1', 'Bfoo']);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
@@ -252,7 +252,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->willReturn(['foo1', 'foo2']);
 		$backend1->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend2->expects($this->once())
@@ -260,7 +260,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->willReturn(['foo3']);
 		$backend2->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend1);
 		$this->manager->registerBackend($backend2);
@@ -334,7 +334,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(false);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
