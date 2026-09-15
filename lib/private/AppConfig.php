@@ -1023,6 +1023,7 @@ class AppConfig implements IAppConfig {
 			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
 		$this->valueTypes[$app][$key] = $type;
+		$this->invalidatePersistedServices();
 
 		return true;
 	}
@@ -1084,6 +1085,7 @@ class AppConfig implements IAppConfig {
 		$update->executeStatement();
 
 		$this->valueTypes[$app][$key] = $type;
+		$this->invalidatePersistedServices();
 
 		return true;
 	}
@@ -1121,6 +1123,7 @@ class AppConfig implements IAppConfig {
 
 		// At this point, it is a lot safer to clean cache
 		$this->clearCache();
+		$this->invalidatePersistedServices();
 
 		return true;
 	}
