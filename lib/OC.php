@@ -790,6 +790,15 @@ class OC {
 		$config = Server::get(IConfig::class);
 		$request = Server::get(IRequest::class);
 
+		// The router may be reused from a previous request on a long-running worker: it's
+		// per-request data, not a dependency, so nothing rebuilds it automatically.
+		$router = Server::get(\OC\Route\Router::class);
+		$router->refreshContext($request);
+		$router->refreshRequestScopedCollaborators(
+			Server::get(\OCP\App\IAppManager::class),
+			Server::get(\OCP\Diagnostics\IEventLogger::class),
+		);
+
 		try {
 			$profiler = new BuiltInProfiler(
 				$config,

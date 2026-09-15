@@ -635,7 +635,10 @@ class Server extends ServerContainer {
 		$this->registerService(Router::class, static function (Server $c) {
 			$cacheFactory = $c->get(ICacheFactory::class);
 			if ($cacheFactory->isLocalCacheAvailable()) {
-				$router = $c->resolve(CachingRouter::class);
+				// get(), not resolve(): CachingRouter (like Router) is kept across requests, and
+				// only get() gives it its own container entry that the persistence bookkeeping
+				// can find and keep valid on its own, independently of this pass-through key.
+				$router = $c->get(CachingRouter::class);
 			} else {
 				$router = $c->resolve(Router::class);
 			}
