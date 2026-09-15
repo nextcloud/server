@@ -10,12 +10,15 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\Node;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Upload\UploadFile;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Storage\ISharedStorage;
+use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
@@ -279,5 +282,138 @@ class SharesPluginTest extends \Test\TestCase {
 
 		$result = $propFind->getResultForMultiStatus();
 		$this->assertCount(1, $result[404]);
+	}
+
+	public function testValidateMoveOrCopyAllowsShareableSource(): void {
+		$sourceNode = $this->createMock(Folder::class);
+		$sourceNode->method('isShareable')->willReturn(true);
+
+		$source = $this->createMock(Node::class);
+		$source->method('getNode')->willReturn($sourceNode);
+		$target = $this->createMock(Node::class);
+
+		$this->tree->method('getNodeForPath')
+			->willReturnMap([
+				['/target', $target],
+				['/source', $source],
+			]);
+
+		$this->assertTrue($this->plugin->validateMoveOrCopy('/source', '/target'));
+	}
+
+	/**
+	 * Stubs getUserFolder() and the target's own path so getSharesForTarget() doesn't
+	 * walk up any parents looking for an enclosing share.
+	 */
+	private function preventTargetShareLookupFromWalkingUp(MockObject $targetNode): void {
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('getPath')->willReturn('/user1/files');
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
+		$targetNode->method('getPath')->willReturn('/user1/files');
+	}
+
+	public function testValidateMoveOrCopyAllowsWhenTargetNotShared(): void {
+		$sourceNode = $this->createMock(Folder::class);
+		$sourceNode->method('isShareable')->willReturn(false);
+		$targetNode = $this->createMock(Folder::class);
+		$this->preventTargetShareLookupFromWalkingUp($targetNode);
+
+		$source = $this->createMock(Node::class);
+		$source->method('getNode')->willReturn($sourceNode);
+		$target = $this->createMock(Node::class);
+		$target->method('getNode')->willReturn($targetNode);
+
+		$this->tree->method('getNodeForPath')
+			->willReturnMap([
+				['/target', $target],
+				['/source', $source],
+			]);
+
+		$this->shareManager->expects($this->any())
+			->method('getSharesBy')
+			->willReturn([]);
+		$this->shareManager->expects($this->any())
+			->method('getSharedWith')
+			->willReturn([]);
+
+		$this->assertTrue($this->plugin->validateMoveOrCopy('/source', '/target'));
+	}
+
+	public function testValidateMoveOrCopyAllowsMoveWithinSameShare(): void {
+		$sourceNode = $this->createMock(Folder::class);
+		$sourceNode->method('isShareable')->willReturn(false);
+		$sourceNode->method('getPath')->willReturn('/user1/files/Shared/Folder A/file.txt');
+		$targetNode = $this->createMock(Folder::class);
+
+		$source = $this->createMock(Node::class);
+		$source->method('getNode')->willReturn($sourceNode);
+		$target = $this->createMock(Node::class);
+		$target->method('getNode')->willReturn($targetNode);
+
+		$this->tree->method('getNodeForPath')
+			->willReturnMap([
+				['/target', $target],
+				['/source', $source],
+			]);
+
+		// target is directly shared, so getSharesForTarget() finds it without walking up
+		$share = $this->createMock(IShare::class);
+		$share->method('getNodeId')->willReturn(42);
+		$this->shareManager->expects($this->any())
+			->method('getSharesBy')
+			->willReturnCallback(fn ($userId, $type, $node) => ($node === $targetNode && $type === IShare::TYPE_USER) ? [$share] : []);
+		$this->shareManager->expects($this->any())
+			->method('getSharedWith')
+			->willReturn([]);
+
+		// the share's node, resolved in the current user's own tree, is an ancestor of source
+		$shareNode = $this->createMock(Folder::class);
+		$shareNode->method('getPath')->willReturn('/user1/files/Shared/Folder A');
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('getFirstNodeById')->with(42)->willReturn($shareNode);
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
+
+		$this->assertTrue($this->plugin->validateMoveOrCopy('/source', '/target'));
+	}
+
+	public function testValidateMoveOrCopyThrowsForCrossShareMove(): void {
+		$sourceNode = $this->createMock(Folder::class);
+		$sourceNode->method('isShareable')->willReturn(false);
+		$sourceNode->method('getPath')->willReturn('/user1/files/Elsewhere/file.txt');
+		$targetNode = $this->createMock(Folder::class);
+
+		$source = $this->createMock(Node::class);
+		$source->method('getNode')->willReturn($sourceNode);
+		$target = $this->createMock(Node::class);
+		$target->method('getNode')->willReturn($targetNode);
+
+		$this->tree->method('getNodeForPath')
+			->willReturnMap([
+				['/target', $target],
+				['/source', $source],
+			]);
+
+		$targetShare = $this->createMock(IShare::class);
+		$targetShare->method('getNodeId')->willReturn(555);
+		$this->shareManager->expects($this->any())
+			->method('getSharesBy')
+			->willReturnCallback(fn ($userId, $type, $node) => ($node === $targetNode && $type === IShare::TYPE_USER) ? [$targetShare] : []);
+		$this->shareManager->expects($this->any())
+			->method('getSharedWith')
+			->willReturn([]);
+
+		// source's path is not inside the target share's path
+		$shareNode = $this->createMock(Folder::class);
+		$shareNode->method('getPath')->willReturn('/user1/files/Shared/Folder A');
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('getFirstNodeById')->with(555)->willReturn($shareNode);
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
+
+		$storage = $this->createMock(IStorage::class);
+		$storage->method('instanceOfStorage')->with(ISharedStorage::class)->willReturn(false);
+		$sourceNode->method('getStorage')->willReturn($storage);
+
+		$this->expectException(Forbidden::class);
+		$this->plugin->validateMoveOrCopy('/source', '/target');
 	}
 }
