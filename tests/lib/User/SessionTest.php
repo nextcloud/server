@@ -359,6 +359,88 @@ class SessionTest extends \Test\TestCase {
 		$userSession->login('foo', 'app-password');
 	}
 
+	public function testLoginWithPercentEncodedLoginName(): void {
+		$session = $this->createMock(Memory::class);
+		$managerMethods = get_class_methods(Manager::class);
+		// Keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)
+			->onlyMethods($mockedManagerMethods)
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
+			])
+			->getMock();
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('foo');
+		$user->method('isEnabled')->willReturn(true);
+		$manager->method('get')
+			->with('foo')
+			->willReturn($user);
+
+		$session->expects($this->once())
+			->method('regenerateId');
+		$token = new PublicKeyToken();
+		$token->setId(1);
+		$token->setLoginName('foo@example.com');
+		$token->setLastCheck(0); // Never
+		$token->setUid('foo');
+		$this->tokenProvider
+			->method('getPassword')
+			->with($token)
+			->willThrowException(new PasswordlessTokenException());
+		$this->tokenProvider
+			->method('getToken')
+			->with('app-password')
+			->willReturn($token);
+
+		// The client percent-encoded the login name, e.g. iOS 18.4 does this
+		// for CalDAV/CardDAV accounts, so it no longer matches the token.
+		$userSession->login('foo%40example.com', 'app-password');
+
+		$this->assertSame($user, $userSession->getUser());
+	}
+
+	public function testLoginWithDifferentLoginNameStillFails(): void {
+		$session = $this->createMock(Memory::class);
+		$managerMethods = get_class_methods(Manager::class);
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)
+			->onlyMethods($mockedManagerMethods)
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
+			])
+			->getMock();
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+
+		$session->expects($this->once())
+			->method('regenerateId');
+		$token = new PublicKeyToken();
+		$token->setId(1);
+		$token->setLoginName('foo');
+		$token->setLastCheck(0); // Never
+		$token->setUid('foo');
+		$this->tokenProvider
+			->method('getToken')
+			->with('app-password')
+			->willReturn($token);
+		$manager->expects($this->once())
+			->method('checkPasswordNoLogging')
+			->with('bar', 'app-password')
+			->willReturn(false);
+
+		// Decoding must not turn an unrelated login name into a match.
+		$this->assertFalse($userSession->login('bar', 'app-password'));
+		$this->assertNull($userSession->getUser());
+	}
+
 	public function testLoginLastCheckUpdate(): void {
 		$session = $this->createMock(Memory::class);
 		$managerMethods = get_class_methods(Manager::class);
