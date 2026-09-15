@@ -30,6 +30,7 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
+use OCP\Share\Exceptions\AlreadySharedException;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
@@ -101,20 +102,25 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			throw new \Exception($message_t);
 		}
 
+		$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
+
 		/*
-		 * Check if file is not already shared with the remote user
+		 * Check if file is not already shared with the remote user.
+		 * Has to be looked up by the normalized cloud ID, because that is what
+		 * gets stored below. Otherwise spellings like "user@server.com/" slip
+		 * past this check and create a duplicate share.
 		 */
-		$alreadyShared = $this->getSharedWith($shareWith, IShare::TYPE_REMOTE, $share->getNode(), 1, 0);
-		$alreadySharedGroup = $this->getSharedWith($shareWith, IShare::TYPE_REMOTE_GROUP, $share->getNode(), 1, 0);
-		if (!empty($alreadyShared) || !empty($alreadySharedGroup)) {
+		// getSharedWith() ignores its $shareType argument and always
+		// queries all supported remote types, so a single lookup covers both.
+		$alreadyShared = $this->getSharedWith($cloudId->getId(), IShare::TYPE_REMOTE, $share->getNode(), 1, 0);
+		if (!empty($alreadyShared)) {
 			$message = 'Sharing %1$s failed, because this item is already shared with %2$s';
 			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with the account %2$s', [$share->getNode()->getName(), $shareWith]);
 			$this->logger->debug(sprintf($message, $share->getNode()->getName(), $shareWith), ['app' => 'Federated File Sharing']);
-			throw new \Exception($message_t);
+			throw new AlreadySharedException($message_t, $alreadyShared[0]);
 		}
 
 		// don't allow federated shares if source and target server are the same
-		$cloudId = $this->cloudIdManager->resolveCloudId($shareWith);
 		$currentServer = $this->addressHandler->generateRemoteURL();
 		$currentUser = $sharedBy;
 		if ($this->addressHandler->compareAddresses($cloudId->getUser(), $cloudId->getRemote(), $currentUser, $currentServer)) {

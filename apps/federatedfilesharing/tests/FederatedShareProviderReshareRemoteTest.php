@@ -100,7 +100,7 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 		$node->method('getName')->willReturn('Share 1');
 
 		/*
-		 * Mocks getSharedWith ($alreadyShared and $alreadySharedGroup).
+		 * Mocks getSharedWith ($alreadyShared).
 		 * The share we are going to create does not already exist.
 		 */
 		$expr1 = $this->createMock(IExpressionBuilder::class);
@@ -247,18 +247,18 @@ class FederatedShareProviderReshareRemoteTest extends \Test\TestCase {
 		$qb6->method('createNamedParameter')->willReturn('');
 		$qb6->method('executeQuery')->willReturn($result6);
 
-		$queryBuilderMatcher = $this->exactly(7);
+		$queryBuilderMatcher = $this->exactly(6);
 		$this->connection
 			->expects($queryBuilderMatcher)
 			->method('getQueryBuilder')
 			->willReturnCallback(function () use ($queryBuilderMatcher, $qb1, $qb2, $qb3, $qb4, $qb5, $qb6) {
 				return match ($queryBuilderMatcher->numberOfInvocations()) {
-					1, 2 => $qb1,
-					3 => $qb2,
-					4 => $qb3,
-					5 => $qb4,
-					6 => $qb5,
-					7 => $qb6,
+					1 => $qb1,
+					2 => $qb2,
+					3 => $qb3,
+					4 => $qb4,
+					5 => $qb5,
+					6 => $qb6,
 					default => throw new LogicException('Unexpected number of invocations for getQueryBuilder')
 				};
 			});
