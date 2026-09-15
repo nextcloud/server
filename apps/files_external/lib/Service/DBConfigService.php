@@ -384,7 +384,7 @@ class DBConfigService {
 		}
 	}
 
-	public function setOption(int $mountId, string $key, string $value): void {
+	public function setOption(int $mountId, string $key, mixed $value): void {
 		try {
 			$builder = $this->connection->getQueryBuilder();
 			$builder->insert('external_options')
