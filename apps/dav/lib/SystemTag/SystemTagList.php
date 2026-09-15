@@ -15,14 +15,12 @@ use Sabre\Xml\Writer;
 /**
  * TagList property
  *
- * This property contains multiple "tag" elements, each containing a tag name.
+ * This property writes the prebuilt "system-tag" element of each tag.
  */
 class SystemTagList implements Element {
-	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
-
 	/**
 	 * @param list<ISystemTag> $tags
-	 * @param array<int|string, string> $serializedTags system-tag element per tag id, for the writer this list is serialized with
+	 * @param list<string> $serializedTags the system-tag element of each tag in the same order, built for the writer this list is serialized with
 	 */
 	public function __construct(
 		private array $tags,
@@ -44,8 +42,8 @@ class SystemTagList implements Element {
 
 	#[\Override]
 	public function xmlSerialize(Writer $writer): void {
-		foreach ($this->tags as $tag) {
-			$writer->writeRaw($this->serializedTags[$tag->getId()]);
+		foreach ($this->serializedTags as $serializedTag) {
+			$writer->writeRaw($serializedTag);
 		}
 	}
 }

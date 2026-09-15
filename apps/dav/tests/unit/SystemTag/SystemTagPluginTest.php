@@ -726,20 +726,23 @@ class SystemTagPluginTest extends \Test\TestCase {
 		);
 	}
 
-	public function testSingleFileAndSecondFolderReuseLoadedTags(): void {
+	public function testSingleFileAndNestedFoldersReuseLoadedTags(): void {
 		$tags = [
 			'1' => new SystemTag('1', 'img2', true, true),
 			'2' => new SystemTag('2', 'img1', true, true),
 			'3' => new SystemTag('3', 'img3', true, true),
+			'4' => new SystemTag('4', 'img4', true, true),
 		];
-		$this->tagMapper->expects($this->exactly(2))
+		$this->tagMapper->expects($this->exactly(3))
 			->method('getTagIdsForObjects')
 			->willReturnCallback(fn (array $fileIds): array => match ($fileIds) {
 				['20'] => ['20' => ['1', '2']],
 				['30', '31'] => ['30' => [], '31' => ['2', '3']],
+				['31', '32'] => ['31' => ['2', '3'], '32' => ['4', '1']],
+				default => self::fail('unexpected file ids ' . json_encode($fileIds)),
 			});
 		$requestedTagIds = [];
-		$this->tagManager->expects($this->exactly(2))
+		$this->tagManager->expects($this->exactly(3))
 			->method('getTagsByIds')
 			->willReturnCallback(function (array $tagIds) use ($tags, &$requestedTagIds): array {
 				$requestedTagIds[] = array_map('strval', $tagIds);
@@ -758,20 +761,25 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$folder = $this->createMock(Directory::class);
 		$folder->method('getId')->willReturn(30);
-		$child = $this->createMock(Node::class);
-		$child->method('getId')->willReturn(31);
-		$folder->method('getChildren')->willReturn([$child]);
-		$folderPropFind = new PropFind('/files/user/folder', [SystemTagPlugin::SYSTEM_TAGS_PROPERTYNAME], 1);
+		$subfolder = $this->createMock(Directory::class);
+		$subfolder->method('getId')->willReturn(31);
+		$folder->method('getChildren')->willReturn([$subfolder]);
+		$grandchild = $this->createMock(Node::class);
+		$grandchild->method('getId')->willReturn(32);
+		$subfolder->method('getChildren')->willReturn([$grandchild]);
+		$folderPropFind = new PropFind('/files/user/folder', [SystemTagPlugin::SYSTEM_TAGS_PROPERTYNAME], 'infinity');
 		$this->server->emit('preloadCollection', [$folderPropFind, $folder]);
 		$this->server->emit('preloadCollection', [$folderPropFind, $folder]);
+		$this->server->emit('preloadCollection', [$folderPropFind, $subfolder]);
 
-		$childList = $this->systemTagListFromPropFind($child);
-		$this->assertSame(['2', '3'], $this->tagIds($childList));
-		$this->assertSame([['1', '2'], ['3']], $requestedTagIds);
+		$subfolderList = $this->systemTagListFromPropFind($subfolder);
+		$this->assertSame(['2', '3'], $this->tagIds($subfolderList));
+		$this->assertSame(['1', '4'], $this->tagIds($this->systemTagListFromPropFind($grandchild)));
+		$this->assertSame([['1', '2'], ['3'], ['4']], $requestedTagIds);
 		$this->assertSame(
 			'<nc:system-tag oc:can-assign="true" oc:id="2" oc:user-assignable="true" oc:user-visible="true" nc:color="">img1</nc:system-tag>'
 			. '<nc:system-tag oc:can-assign="true" oc:id="3" oc:user-assignable="true" oc:user-visible="true" nc:color="">img3</nc:system-tag>',
-			$this->serializedTags($childList),
+			$this->serializedTags($subfolderList),
 		);
 	}
 

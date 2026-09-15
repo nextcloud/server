@@ -73,7 +73,6 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	private array $preloadedFolders = [];
 	/** @var array<int|string, string> serialized system-tag element per tag id, for the current user */
 	private array $serializedTags = [];
-	private ?Writer $fragmentWriter = null;
 
 	public function __construct(
 		protected ISystemTagManager $tagManager,
@@ -221,29 +220,30 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 		$this->preloadedFolders[(string)$collection->getId()] = true;
 
+		// the collection and its direct children; nested collections preload on their own preloadCollection
 		$fileIds = [(string)$collection->getId()];
-		// note: pre-fetching only supported for depth <= 1
 		foreach ($collection->getChildren() as $child) {
 			if ($child instanceof Node) {
 				$fileIds[] = (string)$child->getId();
 			}
 		}
-		$this->preloadTags($fileIds, $this->tagMapper->getTagIdsForObjects($fileIds, 'files'));
+		$this->preloadTags($this->tagMapper->getTagIdsForObjects($fileIds, 'files'));
 	}
 
 	/**
-	 * @param list<string> $fileIds
-	 * @param array<int|string, list<string>> $tagIdsByFile
+	 * @param array<int|string, list<string>> $tagIdsByFile every requested file id, untagged files with an empty list
 	 */
-	private function preloadTags(array $fileIds, array $tagIdsByFile): void {
+	private function preloadTags(array $tagIdsByFile): void {
 		$filesByTag = [];
 		foreach ($tagIdsByFile as $fileId => $tagIds) {
+			$this->preloadedTags[$fileId] = [];
 			foreach ($tagIds as $tagId) {
 				$filesByTag[$tagId][] = $fileId;
 			}
 		}
 
-		foreach (array_chunk(array_keys(array_diff_key($filesByTag, $this->cachedTags)), self::TAG_QUERY_CHUNK_SIZE) as $chunk) {
+		$uncachedTagIds = array_keys(array_diff_key($filesByTag, $this->cachedTags));
+		foreach (array_chunk($uncachedTagIds, self::TAG_QUERY_CHUNK_SIZE) as $chunk) {
 			foreach ($this->tagManager->getTagsByIds($chunk) as $tag) {
 				$this->cachedTags[$tag->getId()] = $tag;
 			}
@@ -254,23 +254,23 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			array_intersect_key($this->cachedTags, $filesByTag),
 			fn (ISystemTag $tag): bool => $this->tagManager->canUserSeeTag($tag, $user),
 		);
-		uasort($visibleTags, fn (ISystemTag $a, ISystemTag $b): int => Util::naturalSortCompare($a->getName(), $b->getName()) ?: (int)$a->getId() <=> (int)$b->getId());
+		uasort($visibleTags, function (ISystemTag $a, ISystemTag $b): int {
+			return Util::naturalSortCompare($a->getName(), $b->getName())
+				?: (int)$a->getId() <=> (int)$b->getId();
+		});
 
-		foreach ($fileIds as $fileId) {
-			$this->preloadedTags[$fileId] = [];
-		}
+		$writer = $this->newFragmentWriter();
 		foreach ($visibleTags as $tagId => $tag) {
 			foreach ($filesByTag[$tagId] as $fileId) {
 				$this->preloadedTags[$fileId][] = $tag;
 			}
 			if (!isset($this->serializedTags[$tagId])) {
-				$this->serializedTags[$tagId] = $this->serializeTag($tag, $this->tagManager->canUserAssignTag($tag, $user));
+				$this->serializedTags[$tagId] = $this->serializeTag($writer, $tag, $this->tagManager->canUserAssignTag($tag, $user));
 			}
 		}
 	}
 
-	private function serializeTag(ISystemTag $tag, bool $canAssign): string {
-		$writer = $this->fragmentWriter();
+	private function serializeTag(Writer $writer, ISystemTag $tag, bool $canAssign): string {
 		$writer->startElement('{' . self::NS_NEXTCLOUD . '}system-tag');
 		$writer->writeAttributes([
 			self::CANASSIGN_PROPERTYNAME => $canAssign ? 'true' : 'false',
@@ -285,19 +285,16 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
-	 * A writer of the response's XML service, positioned inside an open element so that
-	 * the namespace declarations are already written and each fragment starts at its own element.
+	 * A writer of the response's XML service, positioned inside an open element whose start tag is
+	 * closed: the namespace declarations are already written, so each fragment starts with its own element.
 	 */
-	private function fragmentWriter(): Writer {
-		if ($this->fragmentWriter === null) {
-			$writer = $this->server->xml->getWriter();
-			$writer->openMemory();
-			$writer->startElement('{DAV:}multistatus');
-			$writer->text('');
-			$writer->outputMemory(true);
-			$this->fragmentWriter = $writer;
-		}
-		return $this->fragmentWriter;
+	private function newFragmentWriter(): Writer {
+		$writer = $this->server->xml->getWriter();
+		$writer->openMemory();
+		$writer->startElement('{DAV:}multistatus');
+		$writer->text('');
+		$writer->outputMemory(true);
+		return $writer;
 	}
 
 	/**
@@ -415,9 +412,10 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		$propFind->handle(self::SYSTEM_TAGS_PROPERTYNAME, function () use ($node): SystemTagList {
 			$fileId = (string)$node->getId();
 			if (!isset($this->preloadedTags[$fileId])) {
-				$this->preloadTags([$fileId], $this->tagMapper->getTagIdsForObjects([$fileId], 'files'));
+				$this->preloadTags($this->tagMapper->getTagIdsForObjects([$fileId], 'files'));
 			}
-			return new SystemTagList($this->preloadedTags[$fileId], $this->serializedTags);
+			$tags = $this->preloadedTags[$fileId];
+			return new SystemTagList($tags, array_map(fn (ISystemTag $tag): string => $this->serializedTags[$tag->getId()], $tags));
 		});
 	}
 
