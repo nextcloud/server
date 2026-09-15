@@ -32,6 +32,7 @@ class UserAvatar extends Avatar {
 		protected User $user,
 		LoggerInterface $logger,
 		IConfig $config,
+		private AvatarVersion $avatarVersion,
 	) {
 		parent::__construct($config, $logger);
 	}
@@ -157,8 +158,7 @@ class UserAvatar extends Avatar {
 	public function remove(bool $silent = false): void {
 		$avatars = $this->folder->getDirectoryListing();
 
-		$this->config->setUserValue($this->user->getUID(), 'avatar', 'version',
-			(string)((int)$this->config->getUserValue($this->user->getUID(), 'avatar', 'version', '0') + 1));
+		$this->avatarVersion->bump($this->user->getUID());
 
 		foreach ($avatars as $avatar) {
 			$avatar->delete();

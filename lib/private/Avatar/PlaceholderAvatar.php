@@ -32,6 +32,7 @@ class PlaceholderAvatar extends Avatar {
 		private User $user,
 		IConfig $config,
 		LoggerInterface $logger,
+		private AvatarVersion $avatarVersion,
 	) {
 		parent::__construct($config, $logger);
 	}
@@ -63,6 +64,8 @@ class PlaceholderAvatar extends Avatar {
 	#[\Override]
 	public function remove(bool $silent = false): void {
 		$avatars = $this->folder->getDirectoryListing();
+
+		$this->avatarVersion->bump($this->user->getUID());
 
 		foreach ($avatars as $avatar) {
 			$avatar->delete();
