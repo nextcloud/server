@@ -770,6 +770,17 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	}
 
 	#[\Override]
+	public function getRecipientsForUser(
+		ShareUser $user,
+		?array $filterRecipientTypeClasses = null,
+		?string $notInShare = null,
+		int $count = 5,
+		int $offset = 0,
+	): array {
+		return $this->backend->getRecipientsForUser($user, $filterRecipientTypeClasses, $notInShare, $count, $offset);
+	}
+
+	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof SharesDefaultSetEvent) {
 			$shares = $event->getShares();

@@ -18,6 +18,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
 use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
 use OC\Core\Command\Base;
@@ -454,5 +455,19 @@ final class CommandTest extends AbstractSharingManagerTests {
 		);
 		/** @var SharingShare[] */
 		return json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
+	}
+
+	#[Override]
+	protected function getRecipientsForUser(
+		ShareUser $user,
+		?array $filterRecipientTypeClasses = null,
+		?string $notInShare = null,
+		int $count = 5,
+		int $offset = 0,
+	): array {
+		// We don't have a command for this, so we just call the real manager to make the test pass.
+		/** @psalm-suppress ArgumentTypeCoercion */
+		$recipients = $this->manager->getRecipientsForUser($user, $filterRecipientTypeClasses, $notInShare, $count, $offset);
+		return ShareRecipient::formatMultiple($this->registry, Server::get(IFactory::class), Server::get(IURLGenerator::class), Server::get(IUserManager::class), $recipients);
 	}
 }
