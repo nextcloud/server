@@ -16,6 +16,7 @@ use OC\User\Manager as UserManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -92,7 +93,11 @@ class Add extends Command {
 			$password = $helper->ask($input, $output, $question);
 		}
 
-		$loginName = $input->getOption('login-name') ?? $user->getUID();
+		try {
+			$loginName = $input->getOption('login-name') ?? $user->getUID();
+		} catch (InvalidArgumentException) {
+			$loginName = $user->getUID();
+		}
 
 		if ($password === null) {
 			$output->writeln('<info>No password provided. The generated app password will therefore have limited capabilities. Any operation that requires the login password will fail.</info>');
