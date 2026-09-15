@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Uploader } from '@nextcloud/upload'
+import type { Uploader } from '@nextcloud/files/upload'
 import type { UploaderStore } from '../types.ts'
 
-import { getUploader } from '@nextcloud/upload'
+import { getUploader } from '@nextcloud/files/upload'
 import { defineStore } from 'pinia'
 
 let uploader: Uploader

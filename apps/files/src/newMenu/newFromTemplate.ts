@@ -4,19 +4,19 @@
  */
 
 import type { IFolder, INode, NewMenuEntry } from '@nextcloud/files'
-import type { ComponentInstance } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import type { TemplateFile } from '../types.ts'
 
 import { addNewFileMenuEntry, Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { isPublicShare } from '@nextcloud/sharing/public'
-import Vue, { defineAsyncComponent } from 'vue'
+import { createApp, defineAsyncComponent, h } from 'vue'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 
 // async to reduce bundle size
 const TemplatePickerVue = defineAsyncComponent(() => import('../views/TemplatePicker.vue'))
-let TemplatePicker: ComponentInstance & { open: (n: string, t: TemplateFile) => void } | null = null
+let TemplatePicker: ComponentPublicInstance & { open: (n: string, t: TemplateFile) => void } | null = null
 
 /**
  *
@@ -30,19 +30,14 @@ async function getTemplatePicker(context: IFolder) {
 		document.body.appendChild(mountingPoint)
 
 		// Init vue app
-		TemplatePicker = new Vue({
-			render: (h) => h(
-				TemplatePickerVue,
-				{
-					ref: 'picker',
-					props: {
-						parent: context,
-					},
-				},
-			),
+		const app = createApp({
 			methods: { open(...args) { this.$refs.picker.open(...args) } },
-			el: mountingPoint,
+			render: () => h(TemplatePickerVue, {
+				ref: 'picker',
+				parent: context,
+			}),
 		})
+		TemplatePicker = app.mount(mountingPoint) as ComponentPublicInstance & { open: (n: string, t: TemplateFile) => void }
 	}
 	return TemplatePicker
 }

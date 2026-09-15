@@ -71,9 +71,7 @@ describe('DialogConfirmFileExtension', () => {
 			props: {
 				oldExtension: '.old',
 				newExtension: '.new',
-			},
-			listeners: {
-				close: onclose,
+				onClose: onclose,
 			},
 			global: {
 				plugins: [createTestingPinia({
@@ -93,9 +91,7 @@ describe('DialogConfirmFileExtension', () => {
 			props: {
 				oldExtension: '.old',
 				newExtension: '.new',
-			},
-			listeners: {
-				close: onclose,
+				onClose: onclose,
 			},
 			global: {
 				plugins: [createTestingPinia({

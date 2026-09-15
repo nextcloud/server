@@ -4,61 +4,24 @@
  */
 
 import type { INode } from '@nextcloud/files'
-import type { RawLocation, Route } from 'vue-router'
 
 import { subscribe } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
 import { relative } from 'path'
-import queryString from 'query-string'
-import Vue from 'vue'
-import Router, { isNavigationFailure, NavigationFailureType } from 'vue-router'
+import { createRouter, createWebHistory, isNavigationFailure, NavigationFailureType } from 'vue-router'
 import { useFilesStore } from '../store/files.ts'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { defaultView } from '../utils/filesViews.ts'
 import { logger } from '../utils/logger.ts'
 
-Vue.use(Router)
+const FilesListComponent = () => import('../views/FilesList.vue')
 
-// Prevent router from throwing errors when we're already on the page we're trying to go to
-const originalPush = Router.prototype.push
-Router.prototype.push = (function(this: Router, ...args: Parameters<typeof originalPush>) {
-	if (args.length > 1) {
-		return originalPush.call(this, ...args)
-	}
-	return originalPush.call<Router, [RawLocation], Promise<Route>>(this, args[0]).catch(ignoreDuplicateNavigation)
-}) as typeof originalPush
-
-const originalReplace = Router.prototype.replace
-Router.prototype.replace = (function(this: Router, ...args: Parameters<typeof originalReplace>) {
-	if (args.length > 1) {
-		return originalReplace.call(this, ...args)
-	}
-	return originalReplace.call<Router, [RawLocation], Promise<Route>>(this, args[0]).catch(ignoreDuplicateNavigation)
-}) as typeof originalReplace
-
-/**
- * Ignore duplicated- and redirected-navigation errors but forward real exceptions
- *
- * @param error The thrown error
- */
-function ignoreDuplicateNavigation(error: unknown): void {
-	if (isNavigationFailure(error, NavigationFailureType.duplicated)
-		|| isNavigationFailure(error, NavigationFailureType.redirected)) {
-		logger.debug('Ignoring duplicated/redirected navigation from vue-router', { error })
-	} else {
-		throw error
-	}
-}
-
-const router = new Router({
-	mode: 'history',
-
+export const router = createRouter({
 	// if index.php is in the url AND we got this far, then it's working:
 	// let's keep using index.php in the url
-	base: generateUrl('/apps/files'),
+	history: createWebHistory(generateUrl('/apps/files')),
 	linkActiveClass: 'active',
-
 	routes: [
 		{
 			path: '/',
@@ -69,20 +32,15 @@ const router = new Router({
 			path: '/:view/:fileid(\\d+)?',
 			name: 'filelist',
 			props: true,
+			component: FilesListComponent,
 		},
 	],
-
-	// Custom stringifyQuery to prevent encoding of slashes in the url
-	stringifyQuery(query) {
-		const result = queryString.stringify(query).replace(/%2F/gmi, '/')
-		return result ? ('?' + result) : ''
-	},
 })
 
 // Handle aborted navigation (NavigationGuards) gracefully
 router.onError((error) => {
 	if (isNavigationFailure(error, NavigationFailureType.aborted)) {
-		logger.debug('Navigation was aboorted', { error })
+		logger.debug('Navigation was aborted', { error })
 	} else {
 		throw error
 	}
@@ -91,15 +49,10 @@ router.onError((error) => {
 // If navigating back from a folder to a parent folder,
 // we need to keep the current dir fileid so it's highlighted
 // and scrolled into view.
-router.beforeResolve((to, from, next) => {
-	if (to.params?.parentIntercept) {
-		delete to.params.parentIntercept
-		return next()
-	}
-
+router.beforeResolve((to, from) => {
 	if (to.params.view !== from.params.view) {
 		// skip if different views
-		return next()
+		return
 	}
 
 	const fromDir = (from.query?.dir || '/') as string
@@ -112,47 +65,47 @@ router.beforeResolve((to, from, next) => {
 
 		if (!from.params.view) {
 			logger.error('No current view id found, cannot navigate to parent directory', { fromDir, toDir })
-			return next()
+			return
 		}
 
 		// Get the previous parent's file id
-		const fromSource = getPath(from.params.view, fromDir)
+		const fromSource = getPath(from.params.view as string, fromDir)
 		if (!fromSource) {
 			logger.error('No source found for the parent directory', { fromDir, toDir })
-			return next()
+			return
 		}
 
 		const fileId = getNode(fromSource)?.fileid
+		if (to.params.fileid === String(fileId)) {
+			// prevent infinite loop of navigating to the same parent directory
+			return
+		}
+
 		if (!fileId) {
 			logger.error('No fileid found for the parent directory', { fromDir, toDir, fromSource })
-			return next()
+			return
 		}
 
 		logger.debug('Navigating back to parent directory', { fromDir, toDir, fileId })
-		return next({
+		return {
 			name: 'filelist',
 			query: to.query,
 			params: {
 				...to.params,
 				fileid: String(fileId),
-				// Prevents the beforeEach from being called again
-				parentIntercept: 'true',
 			},
 			// Replace the current history entry
 			replace: true,
-		})
+		}
 	}
-
-	// else, we just continue
-	next()
 })
 
 subscribe('files:node:deleted', (node: INode) => {
-	if (router.currentRoute.params.fileid === String(node.fileid)) {
-		const params = { ...router.currentRoute.params }
-		const { getPath } = usePathsStore(getPinia())
-		const { getNode } = useFilesStore(getPinia())
-		const source = getPath(router.currentRoute.params.view, node.dirname)
+	if (router.currentRoute.value.params.fileid === String(node.fileid)) {
+		const params = { ...router.currentRoute.value.params }
+		const { getPath } = usePathsStore(pinia)
+		const { getNode } = useFilesStore(pinia)
+		const source = getPath(router.currentRoute.value.params.view as string, node.dirname)
 		const parentFolder = getNode(source!)
 		if (source && parentFolder) {
 			params.fileid = String(parentFolder.fileid)
@@ -160,17 +113,14 @@ subscribe('files:node:deleted', (node: INode) => {
 			delete params.fileid
 		}
 
-		const query = { ...router.currentRoute.query }
+		const query = { ...router.currentRoute.value.query }
 		delete query.opendetails
 		delete query.openfile
 
 		router.replace({
-			...router.currentRoute,
-			name: router.currentRoute.name as string,
+			name: router.currentRoute.value.name as string,
 			params,
 			query,
 		})
 	}
 })
-
-export default router
