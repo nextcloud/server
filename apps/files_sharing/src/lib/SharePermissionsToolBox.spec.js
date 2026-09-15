@@ -9,6 +9,7 @@ import {
 	canTogglePermissions,
 	getBundledPermissions,
 	hasPermissions,
+	matchBundledPermissions,
 	permissionsSetIsValid,
 	subtractPermissions,
 	togglePermissions,
@@ -143,5 +144,52 @@ describe('SharePermissionsToolBox', () => {
 
 		// BUNDLED_PERMISSIONS.ALL_FILE already includes SHARE
 		expect(BUNDLED_PERMISSIONS.ALL_FILE).toBe(permissionsWithShare.ALL_FILE)
+	})
+
+	describe('Matching bundled permissions', () => {
+		const { READ, UPDATE, CREATE, DELETE, SHARE } = ATOMIC_PERMISSIONS
+
+		test('matches the bundles of an internal share', () => {
+			expect(matchBundledPermissions(READ)).toBe('READ_ONLY')
+			expect(matchBundledPermissions(CREATE)).toBe('FILE_DROP')
+			expect(matchBundledPermissions(READ | UPDATE | CREATE | DELETE | SHARE)).toBe('ALL')
+			expect(matchBundledPermissions(READ | UPDATE | SHARE)).toBe('ALL_FILE')
+		})
+
+		test('reports permissions outside of a bundle as custom', () => {
+			expect(matchBundledPermissions(READ | UPDATE)).toBe(null)
+			expect(matchBundledPermissions(READ | CREATE)).toBe(null)
+			expect(matchBundledPermissions(ATOMIC_PERMISSIONS.NONE)).toBe(null)
+		})
+
+		test('matches the editing bundle without SHARE when resharing is excluded from editing', () => {
+			const options = { excludeReshareFromEdit: true }
+			expect(matchBundledPermissions(READ | UPDATE | CREATE | DELETE, options)).toBe('ALL')
+			expect(matchBundledPermissions(READ | UPDATE, options)).toBe('ALL_FILE')
+			// With resharing excluded, a share that grants it is no longer the editing bundle
+			expect(matchBundledPermissions(READ | UPDATE | CREATE | DELETE | SHARE, options)).toBe(null)
+		})
+
+		test('ignores the SHARE permission the server adds to public shares', () => {
+			const options = { isPublicShare: true }
+			// Link and email shares carry SHARE for federation, whatever bundle was picked
+			expect(matchBundledPermissions(READ | SHARE, options)).toBe('READ_ONLY')
+			expect(matchBundledPermissions(CREATE | SHARE, options)).toBe('FILE_DROP')
+			expect(matchBundledPermissions(READ | UPDATE | CREATE | DELETE | SHARE, options)).toBe('ALL')
+			expect(matchBundledPermissions(READ | UPDATE | SHARE, options)).toBe('ALL_FILE')
+		})
+
+		test('matches public shares the same way with resharing excluded from editing', () => {
+			const options = { isPublicShare: true, excludeReshareFromEdit: true }
+			expect(matchBundledPermissions(READ | SHARE, options)).toBe('READ_ONLY')
+			expect(matchBundledPermissions(READ | UPDATE | CREATE | DELETE | SHARE, options)).toBe('ALL')
+			expect(matchBundledPermissions(READ | UPDATE | CREATE | DELETE, options)).toBe('ALL')
+		})
+
+		test('still reports custom permissions on a public share', () => {
+			const options = { isPublicShare: true }
+			expect(matchBundledPermissions(READ | CREATE | SHARE, options)).toBe(null)
+			expect(matchBundledPermissions(READ | UPDATE | DELETE | SHARE, options)).toBe(null)
+		})
 	})
 })
