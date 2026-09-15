@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "出于性能考虑，此列表未完全呈现。文件将在您浏览列表时呈现。",
     "File not found" : "文件未找到",
     "Views" : "视图",
-    "Search everywhere …" : "全局搜索 …",
-    "Search here …" : "在此搜索 …",
-    "Search scope options" : "搜索范围选项",
     "Search here" : "在此搜索",
+    "Search scope options" : "搜索范围选项",
     "Owner" : "拥有者",
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte}",
     "{used} of {quota} used" : "已使用 {used}（共 {quota}）",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "在此文件夹中找不到项目",
     "Select all" : "全部选择",
     "Upload too large" : "上传文件过大",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "您尝试上传的文件大小超过了服务器的限制。"
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "您尝试上传的文件大小超过了服务器的限制。",
+    "Search everywhere …" : "全局搜索 …",
+    "Search here …" : "在此搜索 …"
 },
 "nplurals=1; plural=0;");

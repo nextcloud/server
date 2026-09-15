@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "File not found" : "Dosya bulunamadı",
     "Views" : "Görünümler",
-    "Search everywhere …" : "Her yerde ara…",
-    "Search here …" : "Burada ara…",
-    "Search scope options" : "Arama kapsamı seçenekleri",
     "Search here" : "Burada ara",
+    "Search scope options" : "Arama kapsamı seçenekleri",
     "Owner" : "Sahibi",
     "{usedQuotaByte} used" : "{usedQuotaByte} kullanılmış",
     "{used} of {quota} used" : "{used} / {quota} kullanılmış",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
     "Select all" : "Tümünü seç",
     "Upload too large" : "Yükleme boyutu çok büyük",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Yüklemeye çalıştığınız dosyalar bu sunucuya yüklenmesine izin verilen en büyük dosya boyutunu aşıyor."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Yüklemeye çalıştığınız dosyalar bu sunucuya yüklenmesine izin verilen en büyük dosya boyutunu aşıyor.",
+    "Search everywhere …" : "Her yerde ara…",
+    "Search here …" : "Burada ara…"
 },
 "nplurals=2; plural=(n > 1);");

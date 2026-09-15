@@ -178,10 +178,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Ez a lista teljesítménybeli okokból nincs teljes egészében megjelenítve. A fájlok a listában navigálás során jelennek meg.",
     "File not found" : "A fájl nem található",
     "Views" : "Nézetek",
-    "Search everywhere …" : "Keresés mindenhol…",
-    "Search here …" : "Keresés itt…",
-    "Search scope options" : "Keresési hatókör beállításai",
     "Search here" : "Keresés itt",
+    "Search scope options" : "Keresési hatókör beállításai",
     "Owner" : "Tulajdonos",
     "{usedQuotaByte} used" : "{usedQuotaByte} felhasználva",
     "{used} of {quota} used" : "{used} / {quota} felhasználva",
@@ -422,6 +420,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
     "Select all" : "Összes kijelölése",
     "Upload too large" : "A feltöltés túl nagy",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltölteni próbált fájlok mérete meghaladja a kiszolgálón megengedett legnagyobb méretet."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltölteni próbált fájlok mérete meghaladja a kiszolgálón megengedett legnagyobb méretet.",
+    "Search everywhere …" : "Keresés mindenhol…",
+    "Search here …" : "Keresés itt…"
 },
 "nplurals=2; plural=(n != 1);");
