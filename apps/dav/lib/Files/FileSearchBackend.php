@@ -458,6 +458,23 @@ class FileSearchBackend implements ISearchBackend {
 					throw new \InvalidArgumentException('Invalid property value for ' . $property->name, previous: $e);
 				}
 
+				if ($field === 'name') {
+					return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
+						new SearchComparison(
+							$trimmedType,
+							$field,
+							$castedValue,
+							$extra ?? ''
+						),
+						new SearchComparison(
+							$trimmedType,
+							'mount_point_name',
+							$castedValue,
+							$extra ?? ''
+						)
+					]);
+				}
+
 				return new SearchComparison(
 					$trimmedType,
 					$field,

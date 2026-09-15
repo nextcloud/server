@@ -53,6 +53,10 @@ class FunctionBuilder implements IFunctionBuilder {
 		}
 	}
 
+	public function regexSubstring($input, $pattern): IQueryFunction {
+		return new QueryFunction('REGEXP_SUBSTR(' . $this->helper->quoteColumnName($input) . ', ' . $this->helper->quoteColumnName($pattern) . ')');
+	}
+
 	#[\Override]
 	public function sum($field): IQueryFunction {
 		return new QueryFunction('SUM(' . $this->helper->quoteColumnName($field) . ')');
