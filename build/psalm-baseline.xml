@@ -2675,9 +2675,6 @@
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
-    <DeprecatedMethod>
-      <code><![CDATA[Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry')]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/user_ldap/lib/User_LDAP.php">
     <DeprecatedInterface>
