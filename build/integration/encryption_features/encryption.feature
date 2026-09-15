@@ -26,6 +26,7 @@ Feature: encryption
     And User "user0" adds a file of 20000 bytes to "/big.bin"
     When User "user0" copies file "/big.bin" to "/copy.bin"
     Then the HTTP status code should be "201"
+    And File "/copy.bin" should have prop "d:getcontentlength" equal to "20000"
     When Downloading file "/copy.bin"
     Then the HTTP status code should be "200"
 
