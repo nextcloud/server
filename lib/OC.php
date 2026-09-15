@@ -771,7 +771,16 @@ class OC {
 		self::handleAuthHeaders();
 
 		// setup the basic server
-		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
+		if (isset(self::$server)) {
+			// Same worker (e.g. FrankenPHP) serving another request: keep every service
+			// *definition* alive and only forget the instances a fresh request shouldn't
+			// inherit, rather than discarding and rebuilding the whole container. Anything
+			// kept alive on purpose (see \OCP\AppFramework\Attribute\PersistAcrossRequests)
+			// is left untouched.
+			self::$server->resetForNextRequest();
+		} else {
+			self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
+		}
 		self::$server->boot();
 
 		self::oneTimeChecks();

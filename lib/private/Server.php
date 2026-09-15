@@ -1164,10 +1164,17 @@ class Server extends ServerContainer {
 			return $c->get($globalScaleServiceClass);
 		});
 
-		$this->connectDispatcher();
 	}
 
+	/**
+	 * Called before each request served, even when this Server instance is kept alive across
+	 * several of them on a long-running worker (see {@see OC::initForRequest()}):
+	 * connectDispatcher() must run against whichever IEventDispatcher instance is live for the
+	 * current request, since that service isn't kept across requests itself.
+	 */
 	public function boot() {
+		$this->connectDispatcher();
+
 		/** @var HookConnector $hookConnector */
 		$hookConnector = $this->get(HookConnector::class);
 		$hookConnector->viewToNode();

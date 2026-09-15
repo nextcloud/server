@@ -150,7 +150,8 @@ class SimpleContainerTest extends \Test\TestCase {
 
 	public function testPersistAcrossRequestsIgnoredByDefault(): void {
 		$object = $this->container->get(ClassPersistAcrossRequests::class);
-		$object2 = (new SimpleContainer())->get(ClassPersistAcrossRequests::class);
+		$this->container->resetForNextRequest();
+		$object2 = $this->container->get(ClassPersistAcrossRequests::class);
 		$this->assertNotSame($object, $object2);
 	}
 
@@ -158,8 +159,9 @@ class SimpleContainerTest extends \Test\TestCase {
 		SimpleContainer::$keepPersistentServices = true;
 
 		$object = $this->container->get(ClassPersistAcrossRequests::class);
-		// Simulate a new request rebuilding the whole Server container
-		$object2 = (new SimpleContainer())->get(ClassPersistAcrossRequests::class);
+		// Simulate the container being kept alive for the next request on a long-running worker
+		$this->container->resetForNextRequest();
+		$object2 = $this->container->get(ClassPersistAcrossRequests::class);
 
 		$this->assertSame($object, $object2);
 	}
@@ -171,25 +173,20 @@ class SimpleContainerTest extends \Test\TestCase {
 		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache());
 		$invalidator = new PersistentServiceInvalidator($cacheFactory);
 
-		$registerInvalidator = function (SimpleContainer $container) use ($invalidator): void {
-			$container->registerService(PersistentServiceInvalidator::class, function () use ($invalidator) {
-				return $invalidator;
-			});
-		};
+		$this->container->registerService(PersistentServiceInvalidator::class, function () use ($invalidator) {
+			return $invalidator;
+		});
 
-		$registerInvalidator($this->container);
 		$object = $this->container->get(ClassPersistAcrossRequestsWithGroup::class);
 
-		// Simulate a new request rebuilding the whole Server container: nothing invalidated the group yet
-		$container2 = new SimpleContainer();
-		$registerInvalidator($container2);
-		$this->assertSame($object, $container2->get(ClassPersistAcrossRequestsWithGroup::class));
+		// Simulate the next request on a long-running worker: nothing invalidated the group yet
+		$this->container->resetForNextRequest();
+		$this->assertSame($object, $this->container->get(ClassPersistAcrossRequestsWithGroup::class));
 
 		$invalidator->invalidate('test-group');
 
-		$container3 = new SimpleContainer();
-		$registerInvalidator($container3);
-		$this->assertNotSame($object, $container3->get(ClassPersistAcrossRequestsWithGroup::class));
+		$this->container->resetForNextRequest();
+		$this->assertNotSame($object, $this->container->get(ClassPersistAcrossRequestsWithGroup::class));
 	}
 
 	public function testPersistAcrossRequestsAcceptsEnumGroup(): void {
@@ -199,21 +196,49 @@ class SimpleContainerTest extends \Test\TestCase {
 		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache());
 		$invalidator = new PersistentServiceInvalidator($cacheFactory);
 
-		$registerInvalidator = function (SimpleContainer $container) use ($invalidator): void {
-			$container->registerService(PersistentServiceInvalidator::class, function () use ($invalidator) {
-				return $invalidator;
-			});
-		};
+		$this->container->registerService(PersistentServiceInvalidator::class, function () use ($invalidator) {
+			return $invalidator;
+		});
 
-		$registerInvalidator($this->container);
 		$object = $this->container->get(ClassPersistAcrossRequestsWithEnumGroup::class);
 
 		// Invalidating by the enum's string value must be indistinguishable from the enum case itself
 		$invalidator->invalidate('apps');
 
-		$container2 = new SimpleContainer();
-		$registerInvalidator($container2);
-		$this->assertNotSame($object, $container2->get(ClassPersistAcrossRequestsWithEnumGroup::class));
+		$this->container->resetForNextRequest();
+		$this->assertNotSame($object, $this->container->get(ClassPersistAcrossRequestsWithEnumGroup::class));
+	}
+
+	public function testResetForNextRequestKeepsServiceDefinition(): void {
+		$this->container->registerService('test', function () {
+			return new \StdClass();
+		});
+
+		$object = $this->container->get('test');
+		$this->container->resetForNextRequest();
+		$object2 = $this->container->get('test');
+
+		$this->assertNotSame($object, $object2);
+	}
+
+	public function testResetForNextRequestKeepsFactoryDefinition(): void {
+		$this->container->registerService('test', function () {
+			return new \StdClass();
+		}, false);
+
+		$object = $this->container->get('test');
+		$this->container->resetForNextRequest();
+		$object2 = $this->container->get('test');
+
+		$this->assertNotSame($object, $object2);
+	}
+
+	public function testResetForNextRequestForgetsAutowiredInstance(): void {
+		$object = $this->container->get(ClassEmptyConstructor::class);
+		$this->container->resetForNextRequest();
+		$object2 = $this->container->get(ClassEmptyConstructor::class);
+
+		$this->assertNotSame($object, $object2);
 	}
 
 	/**
