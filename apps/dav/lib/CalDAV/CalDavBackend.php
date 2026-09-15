@@ -3443,16 +3443,33 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$startDate = $component->DTSTART instanceof \Sabre\VObject\Property\ICalendar\DateTime ? $component->DTSTART->getDateTime() : null;
 		$endDate = $startDate ? clone $startDate : null;
 		if ($startDate) {
+			if ($component->DTEND instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+				// VEVENT component types
+				$endDate = $component->DTEND->getDateTime();
+			} elseif ($component->DURATION instanceof \Sabre\VObject\Property\ICalendar\Duration) {
+				// VEVENT / VTODO component types
+				$endDate = $startDate->add($component->DURATION->getDateInterval());
+			} elseif ($component->DUE instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+				// VTODO component types
+				$endDate = $component->DUE->getDateTime();
+			} elseif ($component->name === 'VEVENT' && !$component->DTSTART->hasTime()) {
+				// VEVENT component type without time is automatically one day
+				$endDate = (clone $startDate)->modify('+1 day');
+			}
+
 			// Recurring
 			if ($component->RRULE || $component->RDATE) {
+				$duration = $endDate->getTimestamp() - $startDate->getTimestamp();
+				$lastOccurrenceStart = clone $startDate;
+				$isInfinite = false;
 				// RDATE can have both instances and multiple values
 				// RDATE;TZID=America/Toronto:20250701T000000,20260701T000000
 				// RDATE;TZID=America/Toronto:20270701T000000
 				if ($component->RDATE) {
 					foreach ($component->RDATE as $instance) {
 						foreach ($instance->getDateTimes() as $entry) {
-							if ($entry > $endDate) {
-								$endDate = $entry;
+							if ($entry > $lastOccurrenceStart) {
+								$lastOccurrenceStart = $entry;
 							}
 						}
 					}
@@ -3461,7 +3478,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				if ($component->RRULE) {
 					try {
 						$rule = new EventReaderRRule($component->RRULE->getValue(), $startDate);
-						$endDate = $rule->isInfinite() ? new DateTime(self::MAX_DATE) : $rule->concludes();
+						$isInfinite = $rule->isInfinite();
+						if ($isInfinite) {
+							$endDate = new DateTime(self::MAX_DATE);
+						} else {
+							$rruleEnd = $rule->concludes();
+							if ($rruleEnd !== null && $rruleEnd > $lastOccurrenceStart) {
+								$lastOccurrenceStart = $rruleEnd;
+							}
+						}
 					} catch (NoInstancesException $e) {
 						$this->logger->debug('Caught no instance exception for calendar data. This usually indicates invalid calendar data.', [
 							'app' => 'dav',
@@ -3470,20 +3495,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						throw new Forbidden($e->getMessage());
 					}
 				}
-				// Singleton
-			} else {
-				if ($component->DTEND instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
-					// VEVENT component types
-					$endDate = $component->DTEND->getDateTime();
-				} elseif ($component->DURATION  instanceof \Sabre\VObject\Property\ICalendar\Duration) {
-					// VEVENT / VTODO component types
-					$endDate = $startDate->add($component->DURATION->getDateInterval());
-				} elseif ($component->DUE  instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
-					// VTODO component types
-					$endDate = $component->DUE->getDateTime();
-				} elseif ($component->name === 'VEVENT' && !$component->DTSTART->hasTime()) {
-					// VEVENT component type without time is automatically one day
-					$endDate = (clone $startDate)->modify('+1 day');
+				if (!$isInfinite) {
+					$endDate = (clone $lastOccurrenceStart)
+						->setTimestamp($lastOccurrenceStart->getTimestamp() + $duration);
 				}
 			}
 		}
