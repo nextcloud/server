@@ -77,6 +77,9 @@ final class NodeShareSourceTypeTest extends TestCase {
 	public function testValidateSource(): void {
 		$this->assertTrue($this->sourceType->validateSource((string)$this->node->getId()));
 		$this->assertFalse($this->sourceType->validateSource('-1'));
+		$this->assertFalse($this->sourceType->validateSource('000123'));
+		$this->assertFalse($this->sourceType->validateSource('123abcdef'));
+		$this->assertFalse($this->sourceType->validateSource('000123abcdef'));
 	}
 
 	public function testGetSourceDisplayName(): void {
