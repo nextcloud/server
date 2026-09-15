@@ -38,14 +38,14 @@ jobs:
           submodules: true
 
       - name: Set up dependencies
-        uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
+        uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit@sha256:f0e6b5496ad768064c1af727f607f8bcd0eca60cf46987515040b834ed6a14aa
         with:
           args: /bin/sh -c "
             git config --global --add safe.directory ${GITHUB_WORKSPACE} &&
             composer install --no-interaction"
 
       - name: Set up Nextcloud
-        uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
+        uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit@sha256:f0e6b5496ad768064c1af727f607f8bcd0eca60cf46987515040b834ed6a14aa
         with:
           args: /bin/sh -c "
             mkdir data &&
@@ -53,6 +53,6 @@ jobs:
             php -f tests/enable_all.php"
 
       - name: PHPUnit
-        uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit:latest
+        uses: docker://ghcr.io/nextcloud/continuous-integration-php8.4-32bit@sha256:f0e6b5496ad768064c1af727f607f8bcd0eca60cf46987515040b834ed6a14aa
         with:
           args: /bin/sh -c "composer run test -- --exclude-group PRIMARY-azure --exclude-group PRIMARY-s3 --exclude-group PRIMARY-swift --exclude-group Memcached --exclude-group Redis --exclude-group RoutingWeirdness"
