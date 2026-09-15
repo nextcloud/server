@@ -30,7 +30,7 @@
 
 			<NcCheckboxRadioSwitch
 				:modelValue="ldapConfigProxy.turnOffCertCheck === '1'"
-				:aria-label="t('user_ldap', 'Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your {instanceName} server.', { instanceName })"
+				:aria-label="t('user_ldap', 'Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your {instanceName} server.', { instanceName }, { escape: false })"
 				@update:modelValue="ldapConfigProxy.turnOffCertCheck = $event ? '1' : '0'">
 				{{ t('user_ldap', 'Turn off SSL certificate validation.') }}
 			</NcCheckboxRadioSwitch>
