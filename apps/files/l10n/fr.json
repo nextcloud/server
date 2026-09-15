@@ -184,10 +184,8 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Cette liste n'est pas entièrement affichée pour des raisons de performances. Les fichiers seront affichés au fur et à mesure que vous naviguerez dans la liste.",
     "File not found" : "Fichier non trouvé",
     "Views" : "Vues",
-    "Search everywhere …" : "Rechercher partout …",
-    "Search here …" : "Rechercher ici …",
-    "Search scope options" : "Options de portée de recherche",
     "Search here" : "Rechercher ici",
+    "Search scope options" : "Options de portée de recherche",
     "Owner" : "Propriétaire",
     "{usedQuotaByte} used" : "{usedQuotaByte} utilisés",
     "{used} of {quota} used" : "{used} utilisés sur {quota}",
@@ -433,6 +431,8 @@
     "No entries found in this folder" : "Aucune entrée trouvée dans ce dossier",
     "Select all" : "Tout sélectionner",
     "Upload too large" : "Téléversement trop volumineux",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Les fichiers que vous essayez de téléverser dépassent la taille maximale autorisée pour les téléversements sur ce serveur."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Les fichiers que vous essayez de téléverser dépassent la taille maximale autorisée pour les téléversements sur ce serveur.",
+    "Search everywhere …" : "Rechercher partout …",
+    "Search here …" : "Rechercher ici …"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

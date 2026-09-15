@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Av prestandaskäl visas inte hela listan på en gång. Filerna visas när du navigerar i listan.",
     "File not found" : "Filen hittades inte",
     "Views" : "Vyer",
-    "Search everywhere …" : "Sök överallt …",
-    "Search here …" : "Sök här …",
-    "Search scope options" : "Alternativ för sökomfång",
     "Search here" : "Sök här",
+    "Search scope options" : "Alternativ för sökomfång",
     "Owner" : "Ägare",
     "{usedQuotaByte} used" : "{usedQuotaByte} använt",
     "{used} of {quota} used" : "{used} av {quota} använt",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Inget innehåll hittades i den här mappen",
     "Select all" : "Välj allt",
     "Upload too large" : "Uppladdningen är för stor",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerna som du försöker ladda upp överskrider serverns högsta tillåtna uppladdningsstorlek."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerna som du försöker ladda upp överskrider serverns högsta tillåtna uppladdningsstorlek.",
+    "Search everywhere …" : "Sök överallt …",
+    "Search here …" : "Sök här …"
 },
 "nplurals=2; plural=(n != 1);");

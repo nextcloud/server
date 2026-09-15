@@ -184,10 +184,8 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Jõudluse mõttes ei ole kogu loend esimesel hetkel tervikuna nähtav. Uued failid lisanduvad sedamööda, kuidas sa loendis edasi liigud.",
     "File not found" : "Faili ei leitud",
     "Views" : "Vaated",
-    "Search everywhere …" : "Otsi kõikjalt…",
-    "Search here …" : "Otsi siin…",
-    "Search scope options" : "Otsinguulatuse valikud",
     "Search here" : "Otsi siin",
+    "Search scope options" : "Otsinguulatuse valikud",
     "Owner" : "Omanik",
     "{usedQuotaByte} used" : "{usedQuotaByte} kasutusel",
     "{used} of {quota} used" : "{used} / {quota} kasutusel",
@@ -433,6 +431,8 @@
     "No entries found in this folder" : "Selles kaustast ei leidunud kirjeid",
     "Select all" : "Vali kõik",
     "Upload too large" : "Üleslaaditu on liiga suur",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Failid, mida sa proovid üles laadida, ületavad serveri poolt üleslaaditavatele failidele määratud maksimaalse suuruse."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Failid, mida sa proovid üles laadida, ületavad serveri poolt üleslaaditavatele failidele määratud maksimaalse suuruse.",
+    "Search everywhere …" : "Otsi kõikjalt…",
+    "Search here …" : "Otsi siin…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

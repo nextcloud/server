@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "De lijst is niet volledig verwerkt om de prestatie niet te beperken. De bestanden worden verder verwerkt als je door de lijst navigeert.",
     "File not found" : "Bestand niet gevonden",
     "Views" : "Bekeken",
-    "Search everywhere …" : "Zoek in alles …",
-    "Search here …" : "Zoek hier …",
-    "Search scope options" : "Zoek bereikopties",
     "Search here" : "Zoek hier",
+    "Search scope options" : "Zoek bereikopties",
     "Owner" : "Eigenaar",
     "{usedQuotaByte} used" : "{usedQuotaByte} gebruikt",
     "{used} of {quota} used" : "{used} van {quota} gebruikt",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Niets gevonden in deze map",
     "Select all" : "Alles selecteren",
     "Upload too large" : "Upload is te groot",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die je probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die je probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
+    "Search everywhere …" : "Zoek in alles …",
+    "Search here …" : "Zoek hier …"
 },
 "nplurals=2; plural=(n != 1);");

@@ -179,8 +179,6 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Tätä luetteloa ei ole esitetty täysin suorituskykyyn liittyvistä syistä. Tiedostot esitetään sitä mukaa, kun selaat luetteloa.",
     "File not found" : "Tiedostoa ei löytynyt",
     "Views" : "Näkymät",
-    "Search everywhere …" : "Etsi kaikkialta …",
-    "Search here …" : "Etsi täältä …",
     "Search here" : "Etsi tästä",
     "Owner" : "Omistaja",
     "{usedQuotaByte} used" : "{usedQuotaByte} käytetty",
@@ -400,6 +398,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Select all" : "Valitse kaikki",
     "Upload too large" : "Lähetettävä tiedosto on liian suuri",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
+    "Search everywhere …" : "Etsi kaikkialta …",
+    "Search here …" : "Etsi täältä …"
 },
 "nplurals=2; plural=(n != 1);");

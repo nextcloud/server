@@ -176,10 +176,8 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Энэ жагсаалт гүйцэтгэлийн шалтгаанаар бүрэн дүрслэгдээгүй байна. Та жагсаалтаар шилжих тусам файлууд дүрслэгдэнэ.",
     "File not found" : "Файл олдсонгүй",
     "Views" : "Харагдацууд",
-    "Search everywhere …" : "Хаа сайгүй хайх …",
-    "Search here …" : "Энд хайх …",
-    "Search scope options" : "Хайлтын хүрээний сонголтууд",
     "Search here" : "Энд хайх",
+    "Search scope options" : "Хайлтын хүрээний сонголтууд",
     "Owner" : "Эзэмшигч",
     "{usedQuotaByte} used" : "{usedQuotaByte} ашигласан",
     "{used} of {quota} used" : "{quota} оноосноос {used} хэрэглэсэн",
@@ -409,6 +407,8 @@
     "No entries found in this folder" : "энэ хавтсан олдсон ч ямарч мэдээлэл олдохгүй байна",
     "Select all" : "бүгдийг сонгох",
     "Upload too large" : "маш том байршуулалт",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Таны байршуулах гэж оролдсон файлууд нь энэ сервер дээр файл байршуулах дээд хэмжээнээс хэтэрч."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Таны байршуулах гэж оролдсон файлууд нь энэ сервер дээр файл байршуулах дээд хэмжээнээс хэтэрч.",
+    "Search everywhere …" : "Хаа сайгүй хайх …",
+    "Search here …" : "Энд хайх …"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

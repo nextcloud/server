@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Níl an liosta seo le fáil go hiomlán ar chúiseanna feidhmíochta. Déanfar na comhaid a rindreáil agus tú ag dul tríd an liosta.",
     "File not found" : "Comhad gan aimsiú",
     "Views" : "Radhairc",
-    "Search everywhere …" : "Cuardaigh i ngach áit …",
-    "Search here …" : "Cuardaigh anseo …",
-    "Search scope options" : "Roghanna raon feidhme cuardaigh",
     "Search here" : "Cuardaigh anseo",
+    "Search scope options" : "Roghanna raon feidhme cuardaigh",
     "Owner" : "Úinéir",
     "{usedQuotaByte} used" : "{usedQuotaByte} úsáidte",
     "{used} of {quota} used" : "{used} de {quota} in úsáid",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Níor aimsíodh aon iontrálacha san fhillteán seo",
     "Select all" : "Roghnú go léir",
     "Upload too large" : "Íoslódáil ró-mhór",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Sáraíonn na comhaid atá tú ag iarraidh a uaslódáil an t-uasmhéid le haghaidh uaslódáil comhad ar an bhfreastalaí seo."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Sáraíonn na comhaid atá tú ag iarraidh a uaslódáil an t-uasmhéid le haghaidh uaslódáil comhad ar an bhfreastalaí seo.",
+    "Search everywhere …" : "Cuardaigh i ngach áit …",
+    "Search here …" : "Cuardaigh anseo …"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");
