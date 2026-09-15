@@ -1596,11 +1596,6 @@
       <code><![CDATA[unlink]]></code>
     </InternalMethod>
   </file>
-  <file src="apps/files_sharing/lib/Listener/UserAddedToGroupListener.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/files_sharing/lib/Listener/UserShareAcceptanceListener.php">
     <DeprecatedMethod>
       <code><![CDATA[getUserValue]]></code>
