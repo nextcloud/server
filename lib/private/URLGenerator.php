@@ -297,7 +297,10 @@ class URLGenerator implements IURLGenerator {
 		}
 
 		if ($apacheBackend) {
-			return $apacheBackend->getLogoutUrl();
+			$logoutUrl = $apacheBackend->getLogoutUrl();
+			if ($logoutUrl !== '') {
+				return $logoutUrl;
+			}
 		}
 
 		$user = $this->userSession->getUser();
