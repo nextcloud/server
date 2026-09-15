@@ -177,10 +177,8 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "성능 상의 이유로 목록을 전부 표시하지 않았습니다. 목록을 탐색하면 파일들이 표시됩니다.",
     "File not found" : "파일을 찾을 수 없음",
     "Views" : "보기",
-    "Search everywhere …" : "모든 곳에서 검색 ...",
-    "Search here …" : "여기서 검색 ...",
-    "Search scope options" : "검색 범위 옵션",
     "Search here" : "여기서 검색",
+    "Search scope options" : "검색 범위 옵션",
     "Owner" : "소유자",
     "{usedQuotaByte} used" : "{usedQuotaByte} 사용",
     "{used} of {quota} used" : "{quota} 중 {used} 사용함",
@@ -419,6 +417,8 @@
     "No entries found in this folder" : "이 폴더에 항목 없음",
     "Select all" : "모두 선택",
     "Upload too large" : "업로드한 파일이 너무 큼",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다.",
+    "Search everywhere …" : "모든 곳에서 검색 ...",
+    "Search here …" : "여기서 검색 ..."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

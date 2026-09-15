@@ -167,10 +167,8 @@
     "Column headers with buttons are sortable." : "Можна сартаваць па слупках, у загалоўку якіх ёсць кнопка.",
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Гэты спіс не апрацоўваецца цалкам з меркаванняў прадукцыйнасці. Файлы будуць апрацоўвацца па меры навігацыі па спісе.",
     "File not found" : "Файл не знойдзены",
-    "Search everywhere …" : "Шукаць усюды …",
-    "Search here …" : "Шукаць тут …",
-    "Search scope options" : "Параметры вобласці пошуку",
     "Search here" : "Шукаць тут",
+    "Search scope options" : "Параметры вобласці пошуку",
     "Owner" : "Уладальнік",
     "{usedQuotaByte} used" : "Выкарыстана {usedQuotaByte}",
     "{used} of {quota} used" : "Выкарыстана {used} з {quota}",
@@ -389,6 +387,8 @@
     "No entries found in this folder" : "У гэтай папцы не знойдзена запісаў",
     "Select all" : "Выбраць усе",
     "Upload too large" : "Запампоўка занадта вялікая",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Памер файлаў, якія вы спрабуеце запампаваць, перавышае максімальны дазволены памер для запампоўвання на гэтым серверы."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Памер файлаў, якія вы спрабуеце запампаваць, перавышае максімальны дазволены памер для запампоўвання на гэтым серверы.",
+    "Search everywhere …" : "Шукаць усюды …",
+    "Search here …" : "Шукаць тут …"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

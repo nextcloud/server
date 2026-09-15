@@ -181,10 +181,8 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Оваа листа не е целосно прикажана поради заштеда на перформанси. Датотеките ќе се прикажуваат додека се движите низ листата.",
     "File not found" : "Датотеката не е пронајдена",
     "Views" : "Прегледи",
-    "Search everywhere …" : "Барај насекаде …",
-    "Search here …" : "Барај овде…",
-    "Search scope options" : "Параметри за опсег на пребарување",
     "Search here" : "Барај овде",
+    "Search scope options" : "Параметри за опсег на пребарување",
     "Owner" : "Сопственик",
     "{usedQuotaByte} used" : "искористено {usedQuotaByte}",
     "{used} of {quota} used" : "Искористени {used} од {quota}",
@@ -413,6 +411,8 @@
     "No entries found in this folder" : "Нема ништо во оваа папка",
     "Select all" : "Избери се",
     "Upload too large" : "Фајлот кој се вчитува е преголем",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",
+    "Search everywhere …" : "Барај насекаде …",
+    "Search here …" : "Барај овде…"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

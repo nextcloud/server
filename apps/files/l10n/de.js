@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Diese Liste wird aus Performance-Gründen nicht vollständig angezeigt. Die Dateien werden angezeigt, wenn du durch die Liste navigierst.",
     "File not found" : "Datei nicht gefunden",
     "Views" : "Ansichten",
-    "Search everywhere …" : "Überall suchen …",
-    "Search here …" : "Hier suchen …",
-    "Search scope options" : "Suchbereichsoptionen",
     "Search here" : "Hier suchen",
+    "Search scope options" : "Suchbereichsoptionen",
     "Owner" : "Besitzer",
     "{usedQuotaByte} used" : "{usedQuotaByte} verwendet",
     "{used} of {quota} used" : "{used} von {quota} verwendet",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Select all" : "Alle auswählen",
     "Upload too large" : "Der Upload ist zu groß",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
+    "Search everywhere …" : "Überall suchen …",
+    "Search here …" : "Hier suchen …"
 },
 "nplurals=2; plural=(n != 1);");

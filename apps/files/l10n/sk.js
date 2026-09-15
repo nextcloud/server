@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Tento zoznam nie je úplne vykreslený z dôvodov výkonu. Súbory budú vykreslené, keď budete prechádzať zoznamom.",
     "File not found" : "Súbor nenájdený",
     "Views" : "Zobrazenia",
-    "Search everywhere …" : "Hľadať všade ...",
-    "Search here …" : "Hľadať tu …",
-    "Search scope options" : "Možnosti rozsahu vyhľadávania",
     "Search here" : "Hľadať tu",
+    "Search scope options" : "Možnosti rozsahu vyhľadávania",
     "Owner" : "Vlastník",
     "{usedQuotaByte} used" : "{usedQuotaByte} použitých",
     "{used} of {quota} used" : "použitých {used} z {quota}",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
     "Select all" : "Vybrať všetko",
     "Upload too large" : "Nahrávanie je príliš veľké",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server.",
+    "Search everywhere …" : "Hľadať všade ...",
+    "Search here …" : "Hľadať tu …"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
