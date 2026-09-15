@@ -1316,8 +1316,14 @@ class Cache implements ICache {
 			$data['permissions'] = $entry['scan_permissions'];
 		}
 
-		if ($entry->isEncrypted() && isset($entry['encryptedVersion'])) {
-			$data['encryptedVersion'] = $entry['encryptedVersion'];
+		if ($entry->isEncrypted()) {
+			// the size of an encrypted file is stored in its own column, which every
+			// reader prefers over `size`, so the copy is reported as empty without it
+			$data['unencrypted_size'] = $entry->getUnencryptedSize();
+
+			if (isset($entry['encryptedVersion'])) {
+				$data['encryptedVersion'] = $entry['encryptedVersion'];
+			}
 		}
 
 		return $data;
