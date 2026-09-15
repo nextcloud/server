@@ -6,7 +6,7 @@
 <template>
 	<NcModal
 		v-if="opened"
-		:clear-view-delay="-1"
+		:clearViewDelay="-1"
 		class="templates-picker"
 		size="large"
 		@close="close">
@@ -22,7 +22,7 @@
 					v-bind="emptyTemplate"
 					ref="emptyTemplatePreview"
 					:checked="checked === emptyTemplate.fileid"
-					@confirm-click="onConfirmClick"
+					@confirmClick="onConfirmClick"
 					@check="onCheck" />
 
 				<TemplatePreview
@@ -31,7 +31,7 @@
 					v-bind="template"
 					:checked="checked === template.fileid"
 					:ratio="provider.ratio"
-					@confirm-click="onConfirmClick"
+					@confirmClick="onConfirmClick"
 					@check="onCheck" />
 			</ul>
 

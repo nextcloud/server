@@ -22,8 +22,8 @@
 					{{ n('files', '{count} selected', '{count} selected', selectedNodes.length, { count: selectedNodes.length }) }}
 				</span>
 				<FilesListTableHeaderActions
-					:current-view="currentView"
-					:selected-nodes="selectedNodes" />
+					:currentView="currentView"
+					:selectedNodes="selectedNodes" />
 			</template>
 		</th>
 

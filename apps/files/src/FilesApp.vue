@@ -3,7 +3,7 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<NcContent app-name="files">
+	<NcContent appName="files">
 		<FilesNavigation v-if="!isPublic" />
 		<RouterView />
 		<FilesSidebar v-if="!isPublic" />

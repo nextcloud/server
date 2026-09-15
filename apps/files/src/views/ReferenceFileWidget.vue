@@ -24,13 +24,13 @@
 		:is="viewerHandler.component"
 		v-else-if="interactive && viewerHandler && !failedViewer"
 		:active="false /* prevent video from autoplaying */"
-		:can-swipe="false"
-		:can-zoom="false"
-		:is-embedded="true"
+		:canSwipe="false"
+		:canZoom="false"
+		:isEmbedded="true"
 		v-bind="viewerFile"
-		:file-list="[viewerFile]"
-		:is-full-screen="false"
-		:is-sidebar-shown="false"
+		:fileList="[viewerFile]"
+		:isFullScreen="false"
+		:isSidebarShown="false"
 		class="widget-file widget-file--interactive"
 		@error="failedViewer = true" />
 
@@ -43,7 +43,7 @@
 		@click="navigate">
 		<span class="widget-file__image" :class="filePreviewClass" :style="filePreviewStyle">
 			<template v-if="!previewUrl">
-				<FolderIcon v-if="isFolder" :size="88" fill-color="var(--color-primary-element)" />
+				<FolderIcon v-if="isFolder" :size="88" fillColor="var(--color-primary-element)" />
 				<FileIcon v-else :size="88" />
 			</template>
 		</span>

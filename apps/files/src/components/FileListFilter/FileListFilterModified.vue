@@ -17,7 +17,7 @@
 		<NcDateTimePicker
 			v-if="selectedOption?.id === 'custom'"
 			v-model="timeRange"
-			append-to-body
+			appendToBody
 			:aria-label="t('files', 'Custom date range')"
 			type="date-range" />
 	</div>

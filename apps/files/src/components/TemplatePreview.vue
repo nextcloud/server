@@ -87,6 +87,8 @@ export default {
 		},
 	},
 
+	emits: ['check', 'confirmClick'],
+
 	data() {
 		return {
 			failedPreview: false,
@@ -143,7 +145,7 @@ export default {
 
 		onClick() {
 			if (this.checked) {
-				this.$emit('confirm-click', this.fileid)
+				this.$emit('confirmClick', this.fileid)
 			}
 		},
 	},
