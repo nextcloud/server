@@ -48,6 +48,7 @@
 
 <script>
 import Axios from '@nextcloud/axios'
+import { t } from '@nextcloud/l10n'
 import LoginButton from './LoginButton.vue'
 
 export default {
@@ -66,6 +67,12 @@ export default {
 			type: String,
 			required: true,
 		},
+	},
+
+	setup() {
+		return {
+			t,
+		}
 	},
 
 	data() {
