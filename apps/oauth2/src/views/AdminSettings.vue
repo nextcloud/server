@@ -77,7 +77,7 @@ async function addClient() {
 <template>
 	<NcSettingsSection
 		:name="t('oauth2', 'OAuth 2.0 clients')"
-		:description="t('oauth2', 'OAuth 2.0 allows external services to request access to {instanceName}.', { instanceName })"
+		:description="t('oauth2', 'OAuth 2.0 allows external services to request access to {instanceName}.', { instanceName }, { escape: false })"
 		:docUrl="oauthDocLink">
 		<table v-if="clients.length > 0" :class="[$style.oauthApp__table, { [$style.oauthApp__table_withSecret]: showSecretWarning }]">
 			<thead>
