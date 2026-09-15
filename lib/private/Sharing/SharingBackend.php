@@ -1092,7 +1092,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				}
 
 				$isAnyMatchingRecipient = false;
-				foreach ($share['recipients'] as &$recipient) {
+				foreach ($share['recipients'] as $index => $recipient) {
 					$isMatchingRecipient = false;
 					if (($accessContext->secret !== null && $recipient->secret === $accessContext->secret)
 						|| ($recipient->initiator !== null && $recipient->initiator->isCurrentUser($accessContext))) {
@@ -1109,18 +1109,9 @@ final readonly class SharingBackend implements ISharingBackend {
 					if ($isMatchingRecipient) {
 						$isAnyMatchingRecipient = true;
 					} else {
-						// Remove the secret if the recipient didn't match
-						$recipient = new ShareRecipient(
-							$recipient->class,
-							$recipient->value,
-							$recipient->instance,
-							null,
-							$recipient->initiator,
-						);
+						unset($share['recipients'][$index]);
 					}
 				}
-
-				unset($recipient);
 
 				$hasRecipientAccess[$share['id']] = $isAnyMatchingRecipient && $share['state'] === ShareState::Active;
 			}
