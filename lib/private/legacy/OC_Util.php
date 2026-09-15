@@ -151,7 +151,7 @@ class OC_Util {
 			throw new \RuntimeException('username is reserved name: ' . $appdata);
 		}
 
-		if (!empty($skeletonDirectory)) {
+		if (!empty($skeletonDirectory) && $userDirectory->getFreeSpace() !== 0) {
 			$logger->debug('copying skeleton for ' . $userId . ' from ' . $skeletonDirectory . ' to ' . $userDirectory->getFullPath('/'), ['app' => 'files_skeleton']);
 			self::copyr($skeletonDirectory, $userDirectory);
 			// update the file cache
