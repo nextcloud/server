@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "このリストはパフォーマンスの都合上、すべてレンダリングされているわけではありません。リスト内を移動すると、ファイルが次々と表示されていきます。",
     "File not found" : "ファイルが見つかりません",
     "Views" : "表示",
-    "Search everywhere …" : "あらゆる場所を検索 …",
-    "Search here …" : "ここを検索 …",
-    "Search scope options" : "検索範囲オプション",
     "Search here" : "ここを検索",
+    "Search scope options" : "検索範囲オプション",
     "Owner" : "作成者",
     "{usedQuotaByte} used" : "{usedQuotaByte} 使用されています",
     "{used} of {quota} used" : "{used} / {quota} 使用中",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
     "Select all" : "すべて選択",
     "Upload too large" : "アップロードには大きすぎます。",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "アップロードしようとしているファイルは、このサーバーのファイルアップロード時の最大サイズを超えています。"
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "アップロードしようとしているファイルは、このサーバーのファイルアップロード時の最大サイズを超えています。",
+    "Search everywhere …" : "あらゆる場所を検索 …",
+    "Search here …" : "ここを検索 …"
 },
 "nplurals=1; plural=0;");

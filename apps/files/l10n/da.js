@@ -173,10 +173,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Hele listen er ikke hentet, af hensyn til størrelsen. Listen vil blive hentet løbende som du kører igennem listen.",
     "File not found" : "Filen blev ikke fundet",
     "Views" : "Visninger",
-    "Search everywhere …" : "Søg over alt ...",
-    "Search here …" : "Søg her ...",
-    "Search scope options" : "Indstillinger for søgeområde",
     "Search here" : "Søg her",
+    "Search scope options" : "Indstillinger for søgeområde",
     "Owner" : "Ejer",
     "{usedQuotaByte} used" : "{usedQuotaByte} brugt",
     "{used} of {quota} used" : "{used} af {quota} brugt",
@@ -401,6 +399,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
     "Select all" : "Vælg alle",
     "Upload too large" : "Upload er for stor",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
+    "Search everywhere …" : "Søg over alt ...",
+    "Search here …" : "Søg her ..."
 },
 "nplurals=2; plural=(n != 1);");

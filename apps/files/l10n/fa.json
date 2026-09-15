@@ -177,10 +177,8 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "این لیست به دلایل عملکردی به طور کامل نمایش داده نمی‌شود. فایل‌ها هنگام پیمایش در لیست نمایش داده می‌شوند.",
     "File not found" : "فایل یافت نشد",
     "Views" : "نماها",
-    "Search everywhere …" : "جستجو در همه جا …",
-    "Search here …" : "جستجو در اینجا …",
-    "Search scope options" : "گزینه‌های محدوده جستجو",
     "Search here" : "جستجو در اینجا",
+    "Search scope options" : "گزینه‌های محدوده جستجو",
     "Owner" : "مالک",
     "{usedQuotaByte} used" : "{usedQuotaByte} استفاده شده",
     "{used} of {quota} used" : "{used} از {quota} استفاده شده",
@@ -421,6 +419,8 @@
     "No entries found in this folder" : "هیچ ورودی در این پوشه یافت نشد",
     "Select all" : "انتخاب همه",
     "Upload too large" : "آپلود بیش از حد بزرگ است",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "فایل‌هایی که قصد آپلود آن‌ها را دارید، از حداکثر اندازه مجاز برای آپلود فایل در این سرور بیشتر است."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "فایل‌هایی که قصد آپلود آن‌ها را دارید، از حداکثر اندازه مجاز برای آپلود فایل در این سرور بیشتر است.",
+    "Search everywhere …" : "جستجو در همه جا …",
+    "Search here …" : "جستجو در اینجا …"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

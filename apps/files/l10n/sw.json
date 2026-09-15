@@ -174,10 +174,8 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Orodha hii haijatolewa kikamilifu kwa sababu za utendaji. Faili zitatolewa unapopitia orodha.",
     "File not found" : "Faili halipatikani",
     "Views" : "Mionekano",
-    "Search everywhere …" : "Tafuta kila mahali ...",
-    "Search here …" : "Tafuta hapa ...",
-    "Search scope options" : "Chaguo za upeo wa utafutaji",
     "Search here" : "Tafuta hapa",
+    "Search scope options" : "Chaguo za upeo wa utafutaji",
     "Owner" : "Mmiliki",
     "{usedQuotaByte} used" : "{usedQuotaByte}imetumika",
     "{used} of {quota} used" : "{used} ya {quota}imetumika",
@@ -400,6 +398,8 @@
     "No entries found in this folder" : "Hakuna maingizo yaliyopatikana katika kasha hili",
     "Select all" : "Chagua zote",
     "Upload too large" : "Upakiaji mkubwa mno",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Faili unazojaribu kupakia zinazidi ukubwa wa juu zaidi wa upakiaji wa faili kwenye seva hii."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Faili unazojaribu kupakia zinazidi ukubwa wa juu zaidi wa upakiaji wa faili kwenye seva hii.",
+    "Search everywhere …" : "Tafuta kila mahali ...",
+    "Search here …" : "Tafuta hapa ..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

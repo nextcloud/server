@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Список не подається повністю з міркувань обчислювальних потужностей. Файли показуватимуться під час прокручування списку.",
     "File not found" : "Файл не знайдено",
     "Views" : "Подання",
-    "Search everywhere …" : "Шукайте скрізь ...",
-    "Search here …" : "Швидкий фільтр ...",
-    "Search scope options" : "Визначити місце пошуку",
     "Search here" : "Швидкий пошук",
+    "Search scope options" : "Визначити місце пошуку",
     "Owner" : "Власник",
     "{usedQuotaByte} used" : "{usedQuotaByte} використано",
     "{used} of {quota} used" : "Використано {used} із {quota}",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "В цьому каталозі нічого не знайдено",
     "Select all" : "Вибрати все",
     "Upload too large" : "Файл занадто великий",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файли, які ви намагаєтеся завантажити, перевищують максимально дозволений розмір завантаження файлів на сервер."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файли, які ви намагаєтеся завантажити, перевищують максимально дозволений розмір завантаження файлів на сервер.",
+    "Search everywhere …" : "Шукайте скрізь ...",
+    "Search here …" : "Швидкий фільтр ..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

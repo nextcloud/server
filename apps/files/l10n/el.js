@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Αυτή η λίστα δεν εμφανίζεται πλήρως για λόγους απόδοσης. Τα αρχεία θα εμφανίζονται καθώς πλοηγείστε στη λίστα.",
     "File not found" : "Το αρχείο δεν βρέθηκε",
     "Views" : "Προβολές",
-    "Search everywhere …" : "Αναζήτηση παντού …",
-    "Search here …" : "Αναζήτηση εδώ …",
-    "Search scope options" : "Επιλογές εμβέλειας αναζήτησης",
     "Search here" : "Αναζήτηση εδώ",
+    "Search scope options" : "Επιλογές εμβέλειας αναζήτησης",
     "Owner" : "Κάτοχος",
     "{usedQuotaByte} used" : "{usedQuotaByte} χρησιμοποιούνται",
     "{used} of {quota} used" : "{used} από {quota} χρησιμοποιούνται",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν τον φάκελο",
     "Select all" : "Επιλογή όλων",
     "Upload too large" : "Πολύ μεγάλο αρχείο για μεταφόρτωση",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Τα αρχεία που προσπαθείτε να μεταφορτώσετε υπερβαίνουν το μέγιστο μέγεθος μεταφόρτωσης αρχείων σε αυτόν τον διακομιστή."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Τα αρχεία που προσπαθείτε να μεταφορτώσετε υπερβαίνουν το μέγιστο μέγεθος μεταφόρτωσης αρχείων σε αυτόν τον διακομιστή.",
+    "Search everywhere …" : "Αναζήτηση παντού …",
+    "Search here …" : "Αναζήτηση εδώ …"
 },
 "nplurals=2; plural=(n != 1);");
