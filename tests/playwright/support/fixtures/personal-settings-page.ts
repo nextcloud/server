@@ -33,7 +33,7 @@ export const test = userSessionTest.extend<{
 		await use(new LanguageLocaleSettingsPage(page, user))
 	},
 
-	devicesSessionsPage: async ({ page, user }, use) => {
-		await use(new DevicesSessionsSettingsPage(page, user))
+	devicesSessionsPage: async ({ page }, use) => {
+		await use(new DevicesSessionsSettingsPage(page))
 	},
 })
