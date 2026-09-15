@@ -38,7 +38,6 @@ class ComposerStaticInitFiles_Versions
         'OCA\\Files_Versions\\Expiration' => __DIR__ . '/..' . '/../lib/Expiration.php',
         'OCA\\Files_Versions\\Listener\\CreateVersionListenerForWorkflow' => __DIR__ . '/..' . '/../lib/Listener/CreateVersionListenerForWorkflow.php',
         'OCA\\Files_Versions\\Listener\\FileEventsListener' => __DIR__ . '/..' . '/../lib/Listener/FileEventsListener.php',
-        'OCA\\Files_Versions\\Listener\\LegacyRollbackListener' => __DIR__ . '/..' . '/../lib/Listener/LegacyRollbackListener.php',
         'OCA\\Files_Versions\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
         'OCA\\Files_Versions\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
         'OCA\\Files_Versions\\Listener\\RegisterWorkflowIntegrationListener' => __DIR__ . '/..' . '/../lib/Listener/RegisterWorkflowIntegrationListener.php',
