@@ -31,6 +31,7 @@
 				<NcSelect
 					v-model="enforcedGroups"
 					input-id="enforcedGroups"
+					label="displayname"
 					:options="groups"
 					:disabled="loading"
 					:multiple="true"
@@ -48,6 +49,7 @@
 				<NcSelect
 					v-model="excludedGroups"
 					input-id="excludedGroups"
+					label="displayname"
 					:options="groups"
 					:disabled="loading"
 					:multiple="true"
@@ -80,7 +82,6 @@ import { loadState } from '@nextcloud/initial-state'
 import { PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import debounce from 'lodash/debounce.js'
-import sortedUniq from 'lodash/sortedUniq.js'
 import uniq from 'lodash/uniq.js'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
@@ -119,48 +120,68 @@ export default {
 			},
 		},
 
+		// enforcedGroups/excludedGroups store plain group IDs in Vuex, but NcSelect
+		// needs {id, displayname} objects (matching :options="groups") to render
+		// anything but the raw ID.
 		enforcedGroups: {
 			get() {
-				return this.$store.state.enforcedGroups
+				return this.$store.state.enforcedGroups.map((id) => this.resolveGroup(id))
 			},
 
 			set(val) {
 				this.dirty = true
-				this.$store.commit('setEnforcedGroups', val)
+				this.$store.commit('setEnforcedGroups', val.map((group) => group.id))
 			},
 		},
 
 		excludedGroups: {
 			get() {
-				return this.$store.state.excludedGroups
+				return this.$store.state.excludedGroups.map((id) => this.resolveGroup(id))
 			},
 
 			set(val) {
 				this.dirty = true
-				this.$store.commit('setExcludedGroups', val)
+				this.$store.commit('setExcludedGroups', val.map((group) => group.id))
 			},
 		},
 	},
 
-	mounted() {
-		// Groups are loaded dynamically, but the assigned ones *should*
-		// be valid groups, so let's add them as initial state
-		this.groups = sortedUniq(uniq(this.enforcedGroups.concat(this.excludedGroups)))
-
+	async mounted() {
 		// Populate the groups with a first set so the dropdown is not empty
 		// when opening the page the first time
-		this.searchGroup('')
+		await this.fetchGroups('')
+
+		// The first set above is capped and may not include every already
+		// enforced/excluded group, so those wouldn't otherwise resolve to a
+		// display name - or be selectable at all, since NcSelect can only
+		// show options present in :options="groups".
+		const selectedIds = uniq(this.$store.state.enforcedGroups.concat(this.$store.state.excludedGroups))
+		const missingIds = selectedIds.filter((id) => !this.groups.some((group) => group.id === id))
+		await Promise.all(missingIds.map((id) => this.fetchGroups(id)))
 	},
 
 	methods: {
-		searchGroup: debounce(function(query) {
+		resolveGroup(id) {
+			return this.groups.find((group) => group.id === id) || { id, displayname: id }
+		},
+
+		async fetchGroups(query) {
 			this.loadingGroups = true
-			axios.get(generateOcsUrl('cloud/groups?offset=0&search={query}&limit=20', { query }))
-				.then((res) => res.data.ocs)
-				.then((ocs) => ocs.data.groups)
-				.then((groups) => { this.groups = sortedUniq(uniq(this.groups.concat(groups))) })
-				.catch((error) => logger.error('could not search groups', { error }))
-				.then(() => { this.loadingGroups = false })
+			try {
+				const res = await axios.get(generateOcsUrl('cloud/groups/details?offset=0&search={query}&limit=20', { query }))
+				const fetched = res.data.ocs.data.groups.map(({ id, displayname }) => ({ id, displayname }))
+				const merged = new Map(this.groups.map((group) => [group.id, group]))
+				fetched.forEach((group) => merged.set(group.id, group))
+				this.groups = [...merged.values()]
+			} catch (error) {
+				logger.error('could not search groups', { error })
+			} finally {
+				this.loadingGroups = false
+			}
+		},
+
+		searchGroup: debounce(function(query) {
+			this.fetchGroups(query)
 		}, 500),
 
 		saveChanges() {
@@ -168,8 +189,8 @@ export default {
 
 			const data = {
 				enforced: this.enforced,
-				enforcedGroups: this.enforcedGroups,
-				excludedGroups: this.excludedGroups,
+				enforcedGroups: this.$store.state.enforcedGroups,
+				excludedGroups: this.$store.state.excludedGroups,
 			}
 			axios.put(generateUrl('/settings/api/admin/twofactorauth'), data, { confirmPassword: PwdConfirmationMode.Strict })
 				.then((resp) => resp.data)
