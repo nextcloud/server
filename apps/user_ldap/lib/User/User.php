@@ -73,8 +73,6 @@ class User {
 		}
 		$this->connection = $this->access->getConnection();
 		$this->birthdateParser = new BirthdateParserService();
-
-		Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
 	}
 
 	/**

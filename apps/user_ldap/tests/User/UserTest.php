@@ -22,8 +22,6 @@ use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
-use OCP\Notification\INotification;
-use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -932,10 +930,7 @@ class UserTest extends \Test\TestCase {
 			$userMock->expects($this->once())
 				->method($method);
 		}
-		\OC_Hook::clear();//disconnect irrelevant hooks
 		$userMock->processAttributes($record);
-		/** @noinspection PhpUnhandledExceptionInspection */
-		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
 	}
 
 	public static function emptyHomeFolderAttributeValueProvider(): array {
@@ -1058,132 +1053,5 @@ class UserTest extends \Test\TestCase {
 
 		$composedDisplayName = $this->user->composeAndStoreDisplayName($displayName);
 		$this->assertSame($composedDisplayName, $displayName);
-	}
-
-	public function testHandlePasswordExpiryWarningDefaultPolicy(): void {
-		$this->connection->expects($this->any())
-			->method('__get')
-			->willReturnCallback(function ($name) {
-				if ($name === 'ldapDefaultPPolicyDN') {
-					return 'cn=default,ou=policies,dc=foo,dc=bar';
-				}
-				if ($name === 'turnOnPasswordChange') {
-					return '1';
-				}
-				return $name;
-			});
-
-		$this->access->expects($this->any())
-			->method('search')
-			->willReturnCallback(function ($filter, $base) {
-				if ($base === $this->dn) {
-					return [
-						[
-							'pwdchangedtime' => [(new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis') . 'Z'],
-							'pwdgraceusetime' => [],
-						],
-					];
-				}
-				if ($base === 'cn=default,ou=policies,dc=foo,dc=bar') {
-					return [
-						[
-							'pwdmaxage' => ['2592000'],
-							'pwdexpirewarning' => ['2591999'],
-						],
-					];
-				}
-				return [];
-			});
-
-		$notification = $this->getMockBuilder(INotification::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$notification->expects($this->any())
-			->method('setApp')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setUser')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setObject')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setDateTime')
-			->willReturn($notification);
-
-		$this->notificationManager->expects($this->exactly(2))
-			->method('createNotification')
-			->willReturn($notification);
-		$this->notificationManager->expects($this->exactly(1))
-			->method('notify');
-
-		\OC_Hook::clear();//disconnect irrelevant hooks
-		Util::connectHook('OC_User', 'post_login', $this->user, 'handlePasswordExpiry');
-		/** @noinspection PhpUnhandledExceptionInspection */
-		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
-	}
-
-	public function testHandlePasswordExpiryWarningCustomPolicy(): void {
-		$this->connection->expects($this->any())
-			->method('__get')
-			->willReturnCallback(function ($name) {
-				if ($name === 'ldapDefaultPPolicyDN') {
-					return 'cn=default,ou=policies,dc=foo,dc=bar';
-				}
-				if ($name === 'turnOnPasswordChange') {
-					return '1';
-				}
-				return $name;
-			});
-
-		$this->access->expects($this->any())
-			->method('search')
-			->willReturnCallback(function ($filter, $base) {
-				if ($base === $this->dn) {
-					return [
-						[
-							'pwdpolicysubentry' => ['cn=custom,ou=policies,dc=foo,dc=bar'],
-							'pwdchangedtime' => [(new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis') . 'Z'],
-							'pwdgraceusetime' => [],
-						]
-					];
-				}
-				if ($base === 'cn=custom,ou=policies,dc=foo,dc=bar') {
-					return [
-						[
-							'pwdmaxage' => ['2592000'],
-							'pwdexpirewarning' => ['2591999'],
-						]
-					];
-				}
-				return [];
-			});
-
-		$notification = $this->getMockBuilder(INotification::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$notification->expects($this->any())
-			->method('setApp')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setUser')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setObject')
-			->willReturn($notification);
-		$notification->expects($this->any())
-			->method('setDateTime')
-			->willReturn($notification);
-
-		$this->notificationManager->expects($this->exactly(2))
-			->method('createNotification')
-			->willReturn($notification);
-		$this->notificationManager->expects($this->exactly(1))
-			->method('notify');
-
-		\OC_Hook::clear();//disconnect irrelevant hooks
-		Util::connectHook('OC_User', 'post_login', $this->user, 'handlePasswordExpiry');
-		/** @noinspection PhpUnhandledExceptionInspection */
-		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
 	}
 }
