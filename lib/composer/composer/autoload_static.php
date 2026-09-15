@@ -1114,6 +1114,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\User\\Events\\UserConfigChangedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserConfigChangedEvent.php',
         'OCP\\User\\Events\\UserCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserCreatedEvent.php',
         'OCP\\User\\Events\\UserDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserDeletedEvent.php',
+        'OCP\\User\\Events\\UserEnumerationFilterEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserEnumerationFilterEvent.php',
         'OCP\\User\\Events\\UserFirstTimeLoggedInEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserFirstTimeLoggedInEvent.php',
         'OCP\\User\\Events\\UserIdAssignedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserIdAssignedEvent.php',
         'OCP\\User\\Events\\UserIdUnassignedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserIdUnassignedEvent.php',
