@@ -28,6 +28,7 @@ use OCA\Files_Sharing\Listener\RestrictInteractionListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
 use OCA\Files_Sharing\Listener\SharesUpdatedListener;
 use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
+use OCA\Files_Sharing\Listener\UserAddedToGroupNotificationListener;
 use OCA\Files_Sharing\Listener\UserHomeSetupListener;
 use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
@@ -56,7 +57,6 @@ use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IGroup;
 use OCP\Interaction\RestrictInteractionEvent;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -66,7 +66,6 @@ use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\GenericEvent as OldGenericEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_sharing';
@@ -109,6 +108,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$context->registerEventListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
 		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupListener::class);
+		$context->registerEventListener(UserAddedEvent::class, UserAddedToGroupNotificationListener::class);
 
 		// Publish activity for public download
 		$context->registerEventListener(BeforeNodeReadEvent::class, BeforeNodeReadListener::class);
@@ -167,14 +167,6 @@ class Application extends App implements IBootstrap {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->get(Listener::class);
 			$listener->shareNotification($event);
-		});
-		$dispatcher->addListener(IGroup::class . '::postAddUser', function ($event): void {
-			if (!$event instanceof OldGenericEvent) {
-				return;
-			}
-			/** @var Listener $listener */
-			$listener = $this->getContainer()->get(Listener::class);
-			$listener->userAddedToGroup($event);
 		});
 	}
 }

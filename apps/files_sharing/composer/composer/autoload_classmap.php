@@ -75,6 +75,7 @@ return array(
     'OCA\\Files_Sharing\\Listener\\ShareInteractionListener' => $baseDir . '/../lib/Listener/ShareInteractionListener.php',
     'OCA\\Files_Sharing\\Listener\\SharesUpdatedListener' => $baseDir . '/../lib/Listener/SharesUpdatedListener.php',
     'OCA\\Files_Sharing\\Listener\\UserAddedToGroupListener' => $baseDir . '/../lib/Listener/UserAddedToGroupListener.php',
+    'OCA\\Files_Sharing\\Listener\\UserAddedToGroupNotificationListener' => $baseDir . '/../lib/Listener/UserAddedToGroupNotificationListener.php',
     'OCA\\Files_Sharing\\Listener\\UserHomeSetupListener' => $baseDir . '/../lib/Listener/UserHomeSetupListener.php',
     'OCA\\Files_Sharing\\Listener\\UserShareAcceptanceListener' => $baseDir . '/../lib/Listener/UserShareAcceptanceListener.php',
     'OCA\\Files_Sharing\\Middleware\\OCSShareAPIMiddleware' => $baseDir . '/../lib/Middleware/OCSShareAPIMiddleware.php',
