@@ -44,23 +44,37 @@
 					</ul>
 				</template>
 
-				<template v-if="!isWebUpdaterRecommended && updaterEnabled && webUpdaterEnabled">
+				<template v-if="!isWebUpdaterRecommended && canUseWebUpdater && webUpdaterEnabled">
 					<h3 class="warning">
 						{{ t('updatenotification', 'Please note that the web updater is not recommended with more than 100 accounts! Please use the command line updater instead!') }}
 					</h3>
 				</template>
 
 				<div>
+					<!--
+						"Open updater" only renders when the web updater is both
+						enabled AND the /updater/ directory actually exists on
+						disk (canUseWebUpdater = updaterEnabled && updaterDirExists,
+						the latter sent by Admin.php via an is_dir() check).
+						This avoids a dead button in Docker/Kubernetes images
+						that intentionally strip /updater/.
+					-->
 					<a
-						v-if="updaterEnabled && webUpdaterEnabled"
+						v-if="canUseWebUpdater && webUpdaterEnabled"
 						href="#"
 						class="button primary"
 						@click="clickUpdaterButton">{{ t('updatenotification', 'Open updater') }}</a>
+					<!--
+						"Download now" takes the primary slot exactly when
+						"Open updater" isn't rendered, so it visually replaces
+						it instead of leaving a hidden/secondary button behind
+						and shifting layout.
+					-->
 					<a
 						v-if="downloadLink"
 						:href="downloadLink"
 						class="button"
-						:class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
+						:class="{ primary: !(canUseWebUpdater && webUpdaterEnabled) }">{{ t('updatenotification', 'Download now') }}</a>
 					<span v-if="updaterEnabled && !webUpdaterEnabled">
 						{{ t('updatenotification', 'Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update.') }}
 					</span>
@@ -229,6 +243,11 @@ export default defineComponent({
 			webUpdaterEnabled: true,
 			isWebUpdaterRecommended: true,
 			updaterEnabled: true,
+			// Sent by Admin.php via an is_dir() check on the server. True
+			// only when /updater/ genuinely exists on disk. Lets us hide
+			// the web updater button cleanly on Docker/Kubernetes images
+			// that intentionally strip that directory.
+			updaterDirExists: true,
 			versionIsEol: false,
 			downloadLink: '',
 			isNewVersionAvailable: false,
@@ -354,6 +373,15 @@ export default defineComponent({
 					return this.currentChannel
 			}
 		},
+
+		/**
+		 * True only when the web updater is enabled AND the /updater/
+		 * directory actually exists on disk. This is the single gate for
+		 * whether "Open updater" can be offered at all.
+		 */
+		canUseWebUpdater() {
+			return this.updaterEnabled && this.updaterDirExists
+		},
 	},
 
 	watch: {
@@ -404,6 +432,10 @@ export default defineComponent({
 		this.webUpdaterEnabled = data.webUpdaterEnabled
 		this.isWebUpdaterRecommended = data.isWebUpdaterRecommended
 		this.updaterEnabled = data.updaterEnabled
+		// Defaults to true if an older backend hasn't been updated to send
+		// this key yet, to avoid silently hiding the button on unrelated
+		// deployments that haven't rolled out the Admin.php change.
+		this.updaterDirExists = data.updaterDirExists !== undefined ? data.updaterDirExists : true
 		this.downloadLink = data.downloadLink
 		this.isNewVersionAvailable = data.isNewVersionAvailable
 		this.updateServerURL = data.updateServerURL

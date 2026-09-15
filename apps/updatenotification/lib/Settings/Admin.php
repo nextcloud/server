@@ -70,6 +70,17 @@ class Admin implements ISettings {
 
 		$hasValidSubscription = $this->subscriptionRegistry->delegateHasValidSubscription();
 
+		// The web updater ("Open updater" button) must never be offered if
+		// the /updater/ directory has been removed from this install - e.g.
+		// Docker/Kubernetes images intentionally strip it since those
+		// deployments are updated by replacing the container image, not via
+		// the in-app web updater. Without this check, updaterEnabled could
+		// be true (feature/config-wise) while the button does nothing when
+		// clicked, because /updater/ simply isn't there to redirect to.
+		$updaterDirExists = is_dir(\OC::$SERVERROOT . '/updater');
+
+		$updaterEnabledFromState = empty($updateState['updaterEnabled']) ? false : $updateState['updaterEnabled'];
+
 		$params = [
 			'isNewVersionAvailable' => !empty($updateState['updateAvailable']),
 			'isUpdateChecked' => $lastUpdateCheckTimestamp > 0,
@@ -82,7 +93,18 @@ class Admin implements ISettings {
 			'changes' => $this->filterChanges($updateState['changes'] ?? []),
 			'webUpdaterEnabled' => !$this->config->getSystemValue('upgrade.disable-web', false),
 			'isWebUpdaterRecommended' => $this->isWebUpdaterRecommended(),
-			'updaterEnabled' => empty($updateState['updaterEnabled']) ? false : $updateState['updaterEnabled'],
+			// updaterEnabled now folds in the on-disk check: the "Open
+			// updater" button will only ever render (in a rebuilt frontend
+			// that consumes this flag) or be considered enabled (for any
+			// backend logic keyed off this flag) when /updater/ genuinely
+			// exists. This keeps the fix effective even without touching
+			// the compiled frontend bundle, for backend-only consumers of
+			// this state (e.g. occ commands, API responses).
+			'updaterEnabled' => $updaterEnabledFromState && $updaterDirExists,
+			// Exposed separately too, in case the frontend is rebuilt to
+			// distinguish "feature disabled" from "directory missing" for
+			// clearer messaging.
+			'updaterDirExists' => $updaterDirExists,
 			'versionIsEol' => empty($updateState['versionIsEol']) ? false : $updateState['versionIsEol'],
 			'isDefaultUpdateServerURL' => $isDefaultUpdateServerURL,
 			'updateServerURL' => $updateServerURL,
