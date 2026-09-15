@@ -935,6 +935,75 @@ class EncryptionTest extends Storage {
 		];
 	}
 
+	public static function dataUpdateEncryptedVersion(): array {
+		return [
+			// the target is written through the encryption stream, which signs its blocks
+			// with the version that follows the version of the file they replace
+			'copy onto an existing file' => [['encryptedVersion' => 4], ['encryptedVersion' => 3], false, 3],
+			'copy onto a new file' => [['encryptedVersion' => 4], false, false, 1],
+			'copy onto a file that is not encrypted yet' => [['encryptedVersion' => 4], ['encryptedVersion' => 0], false, 1],
+			// a 1:1 copy reuses the keys and the ciphertext of the source
+			'1:1 copy' => [['encryptedVersion' => 5], false, true, 5],
+			'1:1 copy of a file that is not encrypted yet' => [['encryptedVersion' => 0], false, true, 1],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateEncryptedVersion')]
+	public function testUpdateEncryptedVersion(
+		array|false $sourceCacheEntry,
+		array|false $targetCacheEntry,
+		bool $keepEncryptionVersion,
+		int $expectedVersion,
+	): void {
+		$sourceCache = $this->createMock(ICache::class);
+		$sourceCache->method('get')
+			->with('source.txt')
+			->willReturn($sourceCacheEntry);
+		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$sourceStorage->method('getCache')
+			->willReturn($sourceCache);
+
+		$targetCache = $this->createMock(ICache::class);
+		$targetCache->method('get')
+			->with('target.txt')
+			->willReturn($targetCacheEntry);
+		$targetCache->expects($this->once())
+			->method('put')
+			->with('target.txt', ['encrypted' => true, 'encryptedVersion' => $expectedVersion]);
+
+		$instance = $this->getMockBuilder(Encryption::class)
+			->setConstructorArgs(
+				[
+					[
+						'storage' => $this->sourceStorage,
+						'root' => 'foo',
+						'mountPoint' => '/',
+						'mount' => $this->mount
+					],
+					$this->encryptionManager,
+					$this->util,
+					$this->logger,
+					$this->file,
+					null,
+					$this->keyStore,
+					$this->mountManager,
+					$this->arrayCache
+				]
+			)
+			->onlyMethods(['getCache', 'getEncryptionModule'])
+			->getMock();
+		$instance->method('getCache')->willReturn($targetCache);
+		$instance->method('getEncryptionModule')->willReturn($this->encryptionModule);
+
+		$this->encryptionManager->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+		global $mockedMountPointEncryptionEnabled;
+		$mockedMountPointEncryptionEnabled = true;
+
+		$this->invokePrivate($instance, 'updateEncryptedVersion', [$sourceStorage, 'source.txt', 'target.txt', false, $keepEncryptionVersion]);
+	}
+
 	public function testCopyBetweenStorageMinimumEncryptedVersion(): void {
 		$storage2 = $this->createMock(\OC\Files\Storage\Storage::class);
 
