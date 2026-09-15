@@ -70,7 +70,7 @@ import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import { generateFileUrl } from '../../../files_sharing/src/utils/generateUrl.ts'
 import { logger } from '../utils/logger.ts'
 
-// see FileReferenceProvider::fetchReference()
+// see lib/private/Collaboration/Reference/File/FileReferenceProvider.php
 type FileResource = {
 	id: number
 	name: string
@@ -82,7 +82,7 @@ type FileResource = {
 	'preview-available': boolean
 }
 
-// see FileReferenceProvider::fetchReferenceForPublicFile()
+// see apps/files_sharing/lib/Reference/PublicShareReferenceProvider.php
 type PublicFileResource = {
 	id: string // share token, the file id is not exposed publicly
 	name: string
@@ -95,7 +95,6 @@ type PublicFileResource = {
 	'is-public-link': 'yes'
 }
 
-// see lib/private/Collaboration/Reference/File/FileReferenceProvider.php
 type Ressource = FileResource | PublicFileResource
 
 type ViewerHandler = {
