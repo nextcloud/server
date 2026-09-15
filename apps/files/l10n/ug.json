@@ -173,10 +173,8 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "بۇ تىزىملىك ئىقتىدار سەۋەبىدىن تولۇق كۆرسىتىلمىگەن. ھۆججەتلەر تىزىملىكتىن ئۆتكەندە كۆرسىتىلىدۇ.",
     "File not found" : "ھۆججەت تېپىلمىدى",
     "Views" : "كۆرۈنۈشلەر",
-    "Search everywhere …" : "ھەممە يەردە ئىزدە  ...",
-    "Search here …" : "بۇ يەردە ئىزدە  ...",
-    "Search scope options" : "ئىزدەش دائىرە تاللانمىسى",
     "Search here" : "بۇ يەردە ئىزدە",
+    "Search scope options" : "ئىزدەش دائىرە تاللانمىسى",
     "Owner" : "ئىگىسى",
     "{usedQuotaByte} used" : "{usedQuotaByte} ئىشلىتىلگەن",
     "{used} of {quota} used" : "{used} {quota} ئىشلىتىلگەن",
@@ -401,6 +399,8 @@
     "No entries found in this folder" : "بۇ ھۆججەت قىسقۇچتا ھېچقانداق مەزمۇن تېپىلمىدى",
     "Select all" : "ھەممىنى تاللاڭ",
     "Upload too large" : "يۈكلەندىغىنى بەك چوڭ",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "سىز يۈكلىمەكچى بولغان ھۆججەتلەر بۇ مۇلازىمېتىردا ھۆججەت يوللاشنىڭ ئەڭ چوڭ چوڭلۇقىدىن ئېشىپ كەتتى."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "سىز يۈكلىمەكچى بولغان ھۆججەتلەر بۇ مۇلازىمېتىردا ھۆججەت يوللاشنىڭ ئەڭ چوڭ چوڭلۇقىدىن ئېشىپ كەتتى.",
+    "Search everywhere …" : "ھەممە يەردە ئىزدە  ...",
+    "Search here …" : "بۇ يەردە ئىزدە  ..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

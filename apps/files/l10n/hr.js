@@ -179,10 +179,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Ovaj popis nije u potpunosti prikazan zbog performansnih razloga. Datoteke će se prikazivati kako se krećete kroz popis.",
     "File not found" : "Datoteka nije pronađena",
     "Views" : "Prikazi",
-    "Search everywhere …" : "Traži svugdje …",
-    "Search here …" : "Traži ovdje …",
-    "Search scope options" : "Opcije opsega pretraživanja",
     "Search here" : "Traži ovdje",
+    "Search scope options" : "Opcije opsega pretraživanja",
     "Owner" : "Vlasnik",
     "{usedQuotaByte} used" : "{usedQuotaByte} iskorišteno",
     "{used} of {quota} used" : "Iskorišteno {used} od {quota}",
@@ -413,6 +411,8 @@ OC.L10N.register(
     "No entries found in this folder" : "U ovoj mapi nisu pronađeni nikakvi zapisi",
     "Select all" : "Odaberi sve",
     "Upload too large" : "Otprema je prevelika",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke koje pokušavate otpremiti premašuju maksimalnu veličinu za otpremu datoteka na ovom poslužitelju."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke koje pokušavate otpremiti premašuju maksimalnu veličinu za otpremu datoteka na ovom poslužitelju.",
+    "Search everywhere …" : "Traži svugdje …",
+    "Search here …" : "Traži ovdje …"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

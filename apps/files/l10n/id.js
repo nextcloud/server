@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Daftar ini tidak dirender sepenuhnya demi alasan performa. File akan dirender saat Anda menavigasi melalui daftar.",
     "File not found" : "Berkas tidak ditemukan",
     "Views" : "Tampilan",
-    "Search everywhere …" : "Cari di mana saja …",
-    "Search here …" : "Cari di sini …",
-    "Search scope options" : "Opsi cakupan pencarian",
     "Search here" : "Cari di sini",
+    "Search scope options" : "Opsi cakupan pencarian",
     "Owner" : "Pemilik",
     "{usedQuotaByte} used" : "{usedQuotaByte} digunakan",
     "{used} of {quota} used" : "{used} dari {quota} terpakai",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Tidak ada entri yang ditemukan dalam folder ini",
     "Select all" : "Pilih Semua",
     "Upload too large" : "Yang diunggah terlalu besar",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Berkas yang dicoba untuk diunggah melebihi ukuran maksimum pengunggahan berkas di server ini."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Berkas yang dicoba untuk diunggah melebihi ukuran maksimum pengunggahan berkas di server ini.",
+    "Search everywhere …" : "Cari di mana saja …",
+    "Search here …" : "Cari di sini …"
 },
 "nplurals=1; plural=0;");

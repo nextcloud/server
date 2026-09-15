@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "出於性能考慮，此清單未完全呈現。檔案將在您瀏覽清單時呈現。",
     "File not found" : "找不到檔案",
     "Views" : "視圖",
-    "Search everywhere …" : "搜尋各處 ……",
-    "Search here …" : "搜尋此處 ……",
-    "Search scope options" : "搜尋範圍選項",
     "Search here" : "搜尋此處",
+    "Search scope options" : "搜尋範圍選項",
     "Owner" : "擁有者",
     "{usedQuotaByte} used" : "已使用 {usedQuotaByte} ",
     "{used} of {quota} used" : "已使用 {quota} 當中的 {used}",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "在此資料夾中沒有任何項目",
     "Select all" : "全選",
     "Upload too large" : "上傳過大",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "您試圖上傳的檔案大小超過伺服器的限制"
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "您試圖上傳的檔案大小超過伺服器的限制",
+    "Search everywhere …" : "搜尋各處 ……",
+    "Search here …" : "搜尋此處 ……"
 },
 "nplurals=1; plural=0;");

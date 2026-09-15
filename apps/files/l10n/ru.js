@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Этот список отображается не полностью из соображений производительности. Файлы будут отображаться по мере перемещения по списку.",
     "File not found" : "Файл не найден",
     "Views" : "Представления",
-    "Search everywhere …" : "Искать везде…",
-    "Search here …" : "Искать здесь…",
-    "Search scope options" : "Настройки области поиска",
     "Search here" : "Искать здесь",
+    "Search scope options" : "Настройки области поиска",
     "Owner" : "Владелец",
     "{usedQuotaByte} used" : "Использовано {usedQuotaByte}",
     "{used} of {quota} used" : "использовано {used} из {quota}",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "В этом каталоге ничего не найдено",
     "Select all" : "Выбрать всё",
     "Upload too large" : "Файл слишком велик",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файлы, которые вы пытаетесь передать, превышают лимит максимального размера на этом сервере."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файлы, которые вы пытаетесь передать, превышают лимит максимального размера на этом сервере.",
+    "Search everywhere …" : "Искать везде…",
+    "Search here …" : "Искать здесь…"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

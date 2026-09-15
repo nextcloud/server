@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Šis sąrašas nėra pilnai sugeneruotas dėl našumo priežasčių. Failai bus sugeneruoti jums naršant sąraše.",
     "File not found" : "Failas nerastas",
     "Views" : "Rodiniai",
-    "Search everywhere …" : "Ieškoti visur…",
-    "Search here …" : "Ieškoti čia…",
-    "Search scope options" : "Paieškos apimties parinktys",
     "Search here" : "Ieškoti čia",
+    "Search scope options" : "Paieškos apimties parinktys",
     "Owner" : "Savininkas",
     "{usedQuotaByte} used" : "Naudojama {usedQuotaByte}",
     "{used} of {quota} used" : "panaudota {used} iš {quota}",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Nerasta įrašų šiame aplanke",
     "Select all" : "Pažymėti viską",
     "Upload too large" : "Įkeltis per didelė",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Bandomų įkelti failų dydis viršija maksimalų, šiame serveryje leidžiamų įkelti failų dydį."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Bandomų įkelti failų dydis viršija maksimalų, šiame serveryje leidžiamų įkelti failų dydį.",
+    "Search everywhere …" : "Ieškoti visur…",
+    "Search here …" : "Ieškoti čia…"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
