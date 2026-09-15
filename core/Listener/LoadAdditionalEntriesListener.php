@@ -42,14 +42,15 @@ class LoadAdditionalEntriesListener implements IEventListener {
 
 		// Register the logout button in the user settings
 		$logoutUrl = $this->urlGenerator->getLogoutUrl();
-		$this->navigationManager->add([
-			'type' => 'settings',
-			'id' => 'logout',
-			'order' => 99999,
-			'href' => $logoutUrl,
-			'name' => $this->l10n->t('Log out'),
-			'icon' => $this->urlGenerator->imagePath('core', 'actions/logout.svg'),
-		]);
+		if ($logoutUrl !== '') {
+			$this->navigationManager->add([
+				'type' => 'settings',
+				'id' => 'logout',
+				'order' => 99999,
+				'href' => $logoutUrl,
+				'name' => $this->l10n->t('Log out'),
+				'icon' => $this->urlGenerator->imagePath('core', 'actions/logout.svg'),
+			]);
+		}
 	}
-
 }
