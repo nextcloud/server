@@ -608,7 +608,9 @@ class Cache implements ICache {
 				$this->removeChildren($entry);
 			}
 
-			$this->eventDispatcher->dispatchTyped(new CacheEntryRemovedEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId()));
+			$event = new CacheEntryRemovedEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId());
+			$this->eventDispatcher->dispatchTyped($event);
+			$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent([$event]));
 		}
 	}
 
@@ -679,8 +681,8 @@ class Cache implements ICache {
 			$query->executeStatement();
 		}
 
-		$cacheEntryRemovedEvents = [];
-		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
+		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), IQueryBuilder::MAX_IN_PARAMETERS, true) as $chunk) {
+			$cacheEntryRemovedEvents = [];
 			/** @var array<int, string> $chunk */
 			foreach ($chunk as $fileId => $filePath) {
 				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent(
@@ -900,10 +902,33 @@ class Cache implements ICache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$query = $this->getQueryBuilder();
-		$query->delete('filecache')
-			->whereStorageId($this->getNumericStorageId());
-		$query->executeStatement();
+		$storageId = $this->getNumericStorageId();
+
+		while (true) {
+			$query = $this->getQueryBuilder();
+			$query->select('fileid')
+				->from('filecache')
+				->whereStorageId($storageId)
+				->setMaxResults(IQueryBuilder::MAX_IN_PARAMETERS);
+			$fileIds = array_map(intval(...), $query->executeQuery()->fetchFirstColumn());
+			if ($fileIds === []) {
+				break;
+			}
+
+			$query = $this->getQueryBuilder();
+			$query->delete('filecache_extended')
+				->where($query->expr()->in('fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
+				->hintShardKey('storage', $storageId);
+			$query->executeStatement();
+
+			$this->metadataManager->deleteMetadataForFiles($storageId, $fileIds);
+
+			$query = $this->getQueryBuilder();
+			$query->delete('filecache')
+				->whereStorageId($storageId)
+				->andWhere($query->expr()->in('fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
+			$query->executeStatement();
+		}
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('storages')
