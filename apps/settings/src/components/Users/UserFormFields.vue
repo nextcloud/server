@@ -30,7 +30,9 @@
 			autocomplete="off"
 			spellcheck="false"
 			pattern="[a-zA-Z0-9 _\.@\-']+"
-			:required="fieldConfig.username?.required" />
+			:required="fieldConfig.username?.required"
+			@input="updateUsernameValidity"
+			@blur="updateUsernameValidity" />
 
 		<NcTextField
 			v-model="formData.displayName"
