@@ -132,6 +132,13 @@ export interface IMountOptions {
 	previews: boolean
 	enable_sharing: boolean
 	/**
+	 * Whether desktop/mobile clients should be allowed to automatically
+	 * sync the contents of this mount. When false, clients are expected
+	 * to exclude it from sync while still allowing on-demand browsing
+	 * and download via web/mobile.
+	 */
+	enable_sync: boolean
+	/**
 	 * @see MountOptionsCheckFilesystem
 	 */
 	filesystem_check_changes: typeof MountOptionsCheckFilesystem[keyof typeof MountOptionsCheckFilesystem]

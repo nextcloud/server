@@ -20,6 +20,7 @@ use OCA\DAV\Connector\Sabre\Node;
 use OCP\Accounts\IAccountManager;
 use OCP\Files\FileInfo;
 use OCP\Files\IFilenameValidator;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\InvalidPathException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
@@ -196,6 +197,58 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals('M. Foo', $propFind->get(FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME));
 		$this->assertEquals('my_fingerprint', $propFind->get(FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME));
 		$this->assertEquals([], $propFind->get404Properties());
+	}
+
+	public function testGetSyncEnabledPropertyWhenMountAllowsSync(): void {
+		$node = $this->createTestNode(File::class);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$mountPoint->expects($this->once())
+			->method('getOption')
+			->with('enable_sync', true)
+			->willReturn(true);
+
+		$node->getFileInfo()->expects($this->once())
+			->method('getMountPoint')
+			->willReturn($mountPoint);
+
+		$propFind = new PropFind(
+			'/dummyPath',
+			[
+				FilesPlugin::SYNC_ENABLED_PROPERTYNAME,
+			],
+			0
+		);
+
+		$this->plugin->handleGetProperties($propFind, $node);
+
+		$this->assertEquals('true', $propFind->get(FilesPlugin::SYNC_ENABLED_PROPERTYNAME));
+	}
+
+	public function testGetSyncEnabledPropertyWhenMountExcludesSync(): void {
+		$node = $this->createTestNode(File::class);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$mountPoint->expects($this->once())
+			->method('getOption')
+			->with('enable_sync', true)
+			->willReturn(false);
+
+		$node->getFileInfo()->expects($this->once())
+			->method('getMountPoint')
+			->willReturn($mountPoint);
+
+		$propFind = new PropFind(
+			'/dummyPath',
+			[
+				FilesPlugin::SYNC_ENABLED_PROPERTYNAME,
+			],
+			0
+		);
+
+		$this->plugin->handleGetProperties($propFind, $node);
+
+		$this->assertEquals('false', $propFind->get(FilesPlugin::SYNC_ENABLED_PROPERTYNAME));
 	}
 
 	public function testGetDisplayNamePropertyWhenNotPublished(): void {

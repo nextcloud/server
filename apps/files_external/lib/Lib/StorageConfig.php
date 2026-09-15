@@ -116,6 +116,7 @@ class StorageConfig implements \JsonSerializable {
 	public function __construct($id = null) {
 		$this->id = $id ?? -1;
 		$this->mountOptions['enable_sharing'] = false;
+		$this->mountOptions['enable_sync'] = true;
 	}
 
 	/**
