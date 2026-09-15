@@ -58,6 +58,7 @@ class AppConfig implements IAppConfig {
 	private const int ENCRYPTION_PREFIX_LENGTH = 21; // strlen(self::ENCRYPTION_PREFIX)
 	private const string LOCAL_CACHE_KEY = 'OC\\AppConfig';
 	private const int LOCAL_CACHE_TTL = 3;
+	private const int MAX_NON_LAZY_SIZE = 128; // bytes
 
 	/** @var array<string, array<string, string>> ['app_id' => ['config_key' => 'config_value']] */
 	private array $fastCache = [];   // cache for normal config keys
@@ -854,6 +855,17 @@ class AppConfig implements IAppConfig {
 		$origValue = $value;
 		if ($sensitive || ($this->hasKey($app, $key, $lazy) && $this->isSensitive($app, $key, $lazy))) {
 			$value = self::ENCRYPTION_PREFIX . $this->crypto->encrypt($value);
+		}
+
+		if (!$lazy && strlen($value) > self::MAX_NON_LAZY_SIZE) {
+			$this->logger->error(
+				'[Deprecated] App config {app}:{key} is larger than {maxSize} bytes. It should be declared as lazy.',
+				[
+					'app' => $app,
+					'key' => $key,
+					'maxSize' => self::MAX_NON_LAZY_SIZE,
+				]
+			);
 		}
 
 		if ($this->hasKey($app, $key, $lazy)) {
