@@ -69,4 +69,35 @@ class ConnectionFactoryTest extends TestCase {
 		$this->assertEquals('client.key', $params['sslkey']);
 		$this->assertEquals('client.crl', $params['sslcrl']);
 	}
+
+	public function testSqliteBusyTimeoutDefault(): void {
+		/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject $config */
+		$config = $this->createMock(SystemConfig::class);
+		$config->method('getValue')
+			->willReturnCallback(fn ($key, $default) => match ($key) {
+				'dbtype' => 'sqlite3',
+				default => $default,
+			});
+		$factory = new ConnectionFactory($config);
+
+		$params = $factory->createConnectionParams();
+
+		$this->assertSame(30000, $params['sqlite.busy_timeout']);
+	}
+
+	public function testSqliteBusyTimeoutConfigured(): void {
+		/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject $config */
+		$config = $this->createMock(SystemConfig::class);
+		$config->method('getValue')
+			->willReturnCallback(fn ($key, $default) => match ($key) {
+				'dbtype' => 'sqlite3',
+				'sqlite.busy_timeout' => 5000,
+				default => $default,
+			});
+		$factory = new ConnectionFactory($config);
+
+		$params = $factory->createConnectionParams();
+
+		$this->assertSame(5000, $params['sqlite.busy_timeout']);
+	}
 }
