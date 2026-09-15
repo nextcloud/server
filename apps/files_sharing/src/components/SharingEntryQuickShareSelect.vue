@@ -95,17 +95,17 @@ export default {
 		},
 
 		preSelectedOption() {
-			const permissions = this.share.permissions
-			const basePermissions = this.bundledPermissions
-			if (permissions === basePermissions.READ_ONLY) {
-				return this.canViewText
-			} else if (permissions === basePermissions.ALL || permissions === basePermissions.ALL_FILE) {
-				return this.canEditText
-			} else if (permissions === basePermissions.FILE_DROP) {
-				return this.fileDropText
+			switch (this.permissionsBundle) {
+				case 'READ_ONLY':
+					return this.canViewText
+				case 'ALL':
+				case 'ALL_FILE':
+					return this.canEditText
+				case 'FILE_DROP':
+					return this.fileDropText
+				default:
+					return this.customPermissionsText
 			}
-
-			return this.customPermissionsText
 		},
 
 		options() {
