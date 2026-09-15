@@ -4,6 +4,7 @@
  */
 
 import type { IView } from '@nextcloud/files'
+import type { TriggeredActionContext } from '../utils/actionUtils.ts'
 
 import axios from '@nextcloud/axios'
 import * as capabilities from '@nextcloud/capabilities'
@@ -334,6 +335,110 @@ describe('Delete action execute tests', () => {
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
+	})
+
+	test('Delete action triggered by hotkey asks for confirmation', async () => {
+		// The confirmation dialog is disabled
+		expect(shouldAskForConfirmation()).toBe(false)
+
+		vi.spyOn(axios, 'delete')
+		vi.spyOn(eventBus, 'emit')
+
+		// Emulate the confirmation dialog to always confirm
+		const confirmMock = vi.fn().mockImplementation((a, b, c, resolve) => resolve(true))
+		window.OC = { dialogs: { confirmDestructive: confirmMock } }
+
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
+			owner: 'test',
+			mime: 'text/plain',
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
+			root: '/files/test',
+		})
+
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+			trigger: 'hotkey',
+		} as TriggeredActionContext)
+
+		expect(confirmMock).toBeCalledTimes(1)
+
+		expect(exec).toBe(true)
+		expect(axios.delete).toBeCalledTimes(1)
+		expect(axios.delete).toBeCalledWith('https://cloud.domain.com/remote.php/dav/files/test/foobar.txt')
+
+		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
+	})
+
+	test('Delete action triggered by hotkey is cancelled', async () => {
+		vi.spyOn(axios, 'delete')
+		vi.spyOn(eventBus, 'emit')
+
+		// Emulate the confirmation dialog to always cancel
+		const confirmMock = vi.fn().mockImplementation((a, b, c, resolve) => resolve(false))
+		window.OC = { dialogs: { confirmDestructive: confirmMock } }
+
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
+			owner: 'test',
+			mime: 'text/plain',
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
+			root: '/files/test',
+		})
+
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+			trigger: 'hotkey',
+		} as TriggeredActionContext)
+
+		expect(confirmMock).toBeCalledTimes(1)
+
+		expect(exec).toBe(null)
+		expect(axios.delete).toBeCalledTimes(0)
+		expect(eventBus.emit).toBeCalledTimes(0)
+	})
+
+	test('Delete action triggered from the menu does not ask for confirmation', async () => {
+		// The confirmation dialog is disabled
+		expect(shouldAskForConfirmation()).toBe(false)
+
+		vi.spyOn(axios, 'delete')
+		vi.spyOn(eventBus, 'emit')
+
+		const confirmMock = vi.fn()
+		window.OC = { dialogs: { confirmDestructive: confirmMock } }
+
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/foobar.txt',
+			owner: 'test',
+			mime: 'text/plain',
+			permissions: Permission.READ | Permission.UPDATE | Permission.WRITE | Permission.DELETE,
+			root: '/files/test',
+		})
+
+		const exec = await action.exec({
+			nodes: [file],
+			view,
+			folder: {} as Folder,
+			contents: [],
+			trigger: 'menu',
+		} as TriggeredActionContext)
+
+		expect(confirmMock).toBeCalledTimes(0)
+
+		expect(exec).toBe(true)
+		expect(axios.delete).toBeCalledTimes(1)
+		expect(axios.delete).toBeCalledWith('https://cloud.domain.com/remote.php/dav/files/test/foobar.txt')
 	})
 
 	test('Delete action batch', async () => {

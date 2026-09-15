@@ -4,6 +4,7 @@
  */
 
 import type { IFileAction } from '@nextcloud/files'
+import type { TriggeredActionContext } from '../utils/actionUtils.ts'
 
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import NetworkOffSvg from '@mdi/svg/svg/network-off.svg?raw'
@@ -51,17 +52,12 @@ export const action: IFileAction = {
 			.every((permission) => (permission & Permission.DELETE) !== 0)
 	},
 
-	async exec({ nodes, view }) {
+	async exec({ nodes, view, trigger }: TriggeredActionContext) {
 		try {
 			let confirm = true
 
-			// Trick to detect if the action was called from a keyboard event
-			// we need to make sure the method calling have its named containing 'keydown'
-			// here we use `onKeydown` method from the FileEntryActions component
-			const callStack = new Error().stack || ''
-			const isCalledFromEventListener = callStack.toLocaleLowerCase().includes('keydown')
-
-			if (shouldAskForConfirmation() || isCalledFromEventListener) {
+			// Deleting via the hotkey is easy to trigger by accident, so always confirm it
+			if (shouldAskForConfirmation() || trigger === 'hotkey') {
 				confirm = await askConfirmation([nodes[0]], view)
 			}
 
