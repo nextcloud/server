@@ -23,7 +23,7 @@
 		<!-- Checkbox -->
 		<FileEntryCheckbox
 			:fileid="fileid"
-			:is-loading="isLoading"
+			:isLoading="isLoading"
 			:nodes="nodes"
 			:source="source" />
 
@@ -33,7 +33,7 @@
 			<FileEntryPreview
 				ref="preview"
 				:dragover="dragover"
-				:grid-mode="true"
+				:gridMode="true"
 				:source="source"
 				@auxclick="execDefaultAction"
 				@click="execDefaultAction" />
@@ -56,7 +56,7 @@
 			@click="openDetailsIfAvailable">
 			<NcDateTime
 				v-if="mtime"
-				ignore-seconds
+				ignoreSeconds
 				:timestamp="mtime" />
 		</td>
 
@@ -65,7 +65,7 @@
 			ref="actions"
 			v-model:opened="openedMenu"
 			:class="`files-list__row-actions-${uniqueId}`"
-			:grid-mode="true"
+			:gridMode="true"
 			:source="source" />
 	</tr>
 </template>

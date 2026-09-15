@@ -22,7 +22,7 @@
 		<!-- Checkbox -->
 		<FileEntryCheckbox
 			:fileid="fileid"
-			:is-loading="isLoading"
+			:isLoading="isLoading"
 			:nodes="nodes"
 			:source="source" />
 
@@ -49,8 +49,8 @@
 		<FileEntryActions
 			v-show="!isRenamingSmallScreen"
 			ref="actions"
-			:class="`files-list__row-actions-${uniqueId}`"
 			v-model:opened="openedMenu"
+			:class="`files-list__row-actions-${uniqueId}`"
 			:source="source" />
 
 		<!-- Mime -->
@@ -82,7 +82,7 @@
 			@click="openDetailsIfAvailable">
 			<NcDateTime
 				v-if="mtime"
-				ignore-seconds
+				ignoreSeconds
 				:timestamp="mtime" />
 			<span v-else>{{ t('files', 'Unknown date') }}</span>
 		</td>
@@ -96,8 +96,8 @@
 			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
 			<CustomElementRender
-				:active-folder="activeFolder"
-				:active-view="activeView"
+				:activeFolder="activeFolder"
+				:activeView="activeView"
 				:render="adaptColumnRenderToCustomElementRender(column)"
 				:source="source" />
 		</td>

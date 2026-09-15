@@ -11,8 +11,8 @@
 			v-for="action in enabledRenderActions"
 			:key="action.id"
 			:class="'files-list__row-action-' + action.id"
-			:active-folder="activeStore.activeFolder"
-			:active-view="activeStore.activeView"
+			:activeFolder="activeStore.activeFolder"
+			:activeView="activeStore.activeView"
 			:render="action.renderInline"
 			:source="source"
 			class="files-list__row-action--inline" />
@@ -20,11 +20,11 @@
 		<!-- Menu actions -->
 		<NcActions
 			ref="actionsMenu"
-			:boundaries-element="getBoundariesElement"
+			:boundariesElement="getBoundariesElement"
 			:container="getBoundariesElement"
-			:force-name="true"
+			:forceName="true"
 			variant="tertiary"
-			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
+			:forceMenu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
 			:open="openedMenu"
 			@close="onMenuClose"
@@ -41,9 +41,9 @@
 					'files-list__row-action--inline': index < enabledInlineActions.length,
 					'files-list__row-action--menu': isValidMenu(action),
 				}"
-				:close-after-click="!isValidMenu(action)"
+				:closeAfterClick="!isValidMenu(action)"
 				:data-cy-files-list-row-action="action.id"
-				:is-menu="isValidMenu(action)"
+				:isMenu="isValidMenu(action)"
 				:aria-label="action.title?.(actionContext)"
 				:title="action.title?.(actionContext)"
 				@click="onActionClick(action)">
@@ -70,9 +70,9 @@
 						'files-list__row-action--inline': index < enabledInlineActions.length,
 						'files-list__row-action--menu': isValidMenu(action),
 					}"
-					:close-after-click="!isValidMenu(action)"
+					:closeAfterClick="!isValidMenu(action)"
 					:data-cy-files-list-row-action="action.id"
-					:is-menu="isValidMenu(action)"
+					:isMenu="isValidMenu(action)"
 					:aria-label="action.title?.(actionContext)"
 					:title="action.title?.(actionContext)"
 					@click="onActionClick(action)">
@@ -104,7 +104,7 @@
 					:key="action.id"
 					:class="`files-list__row-action-${action.id}`"
 					class="files-list__row-action--submenu"
-					close-after-click
+					closeAfterClick
 					:data-cy-files-list-row-action="action.id"
 					:aria-label="action.title?.(actionContext)"
 					:title="action.title?.(actionContext)"

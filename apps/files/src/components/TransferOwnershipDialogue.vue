@@ -160,7 +160,7 @@ async function submit() {
 			:label="t('files', 'Transfer ownership of a file or folder')">
 			<NcFormBox v-slot="{ itemClass }">
 				<NcFormBoxButton
-					inverted-accent
+					invertedAccent
 					:label="t('files', 'File or folder to transfer')"
 					:description="nodeForTransfer?.displayname ?? t('files', 'No file or folder selected')"
 					@click="chooseNodeForTransfer">
@@ -173,7 +173,7 @@ async function submit() {
 					<NcSelectUsers
 						v-model="selectedUser"
 						:class="$style.transferOwnership__newOwnerSelect"
-						:input-label="t('files', 'New owner')"
+						:inputLabel="t('files', 'New owner')"
 						:loading="loadingUsers"
 						:options="userSuggestions"
 						@search="searchUsersDebounced" />

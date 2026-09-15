@@ -142,7 +142,7 @@ async function refreshStatus() {
 			<NcInputField
 				v-model="renameLimit"
 				:label="t('files', 'Limit')"
-				:helper-text="t('files', 'This allows to configure how many users should be processed in one background job run.')"
+				:helperText="t('files', 'This allows to configure how many users should be processed in one background job run.')"
 				min="1"
 				type="number" />
 
