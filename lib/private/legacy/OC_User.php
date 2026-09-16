@@ -282,7 +282,7 @@ class OC_User {
 	 * Returns the current logout URL valid for the currently logged-in user
 	 *
 	 * @param \OCP\IURLGenerator $urlGenerator
-	 * @return non-empty-string
+	 * @return string
 	 */
 	public static function getLogoutUrl(\OCP\IURLGenerator $urlGenerator) {
 		$backend = self::findFirstActiveUsedBackend();
