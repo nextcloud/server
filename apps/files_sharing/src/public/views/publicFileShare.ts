@@ -9,7 +9,7 @@ import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import { Folder, getNavigation, Permission, View } from '@nextcloud/files'
 import { getDefaultPropfind, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { translate as t } from '@nextcloud/l10n'
-import logger from '../services/logger.ts'
+import logger from '../../services/logger.ts'
 import { client } from '~/apps/files/src/services/WebdavClient.ts'
 
 export default () => {

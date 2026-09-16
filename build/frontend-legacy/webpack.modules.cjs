@@ -29,7 +29,6 @@ module.exports = {
 		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),
 		files_sharing_tab: path.join(__dirname, 'apps/files_sharing/src', 'files-sidebar.ts'),
 		init: path.join(__dirname, 'apps/files_sharing/src', 'init.ts'),
-		'init-public': path.join(__dirname, 'apps/files_sharing/src', 'init-public.ts'),
 		main: path.join(__dirname, 'apps/files_sharing/src', 'main.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
 		'public-nickname-handler': path.join(__dirname, 'apps/files_sharing/src', 'public-nickname-handler.ts'),
