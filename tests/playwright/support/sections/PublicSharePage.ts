@@ -138,7 +138,7 @@ export class PublicSharePage {
 	}
 
 	/**
-	 * Pick files for an upload menu entry ("Upload files" / "Upload folders"),
+	 * Pick files for an upload menu entry ("Upload files" / "Upload folder"),
 	 * driving the file chooser the way a user would instead of writing to the
 	 * hidden input.
 	 *
