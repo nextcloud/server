@@ -14,6 +14,7 @@ use OCP\DB\Types;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group('DB')]
@@ -269,6 +270,63 @@ class ExpressionBuilderDBTest extends TestCase {
 		$entries = $result->fetchAllAssociative();
 		$result->closeCursor();
 		self::assertCount(1, $entries);
+	}
+
+	public static function dataExists(): array {
+		$connection = Server::get(IDBConnection::class);
+
+		$query1 = $connection->getQueryBuilder()
+			->select(new Literal('1'))
+			->from('users');
+
+		$query2 = $connection->getQueryBuilder();
+		$query2->select(new Literal('1'))
+			->from('users')
+			->where($query2->expr()->eq($query2->createNamedParameter('a'), $query2->createNamedParameter('b')));
+		return [
+			[$query1, true],
+			[$query2, false],
+		];
+	}
+
+	#[DataProvider('dataExists')]
+	public function testExists(IQueryBuilder $subquery, bool $match): void {
+		$query = $this->connection->getQueryBuilder();
+
+		foreach ($subquery->getParameters() as $key => $value) {
+			$query->setParameter($key, $value);
+		}
+
+		$query->select(new Literal('1'))
+			->from('users')
+			->where($query->expr()->exists($subquery));
+
+		$result = $query->executeQuery();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals($match, $column);
+	}
+
+	public static function dataNotExists(): array {
+		return array_map(fn (array $data) => [$data[0], !$data[1]], self::dataExists());
+	}
+
+	#[DataProvider('dataNotExists')]
+	public function testNotExists(IQueryBuilder $subquery, bool $match): void {
+		$query = $this->connection->getQueryBuilder();
+
+		foreach ($subquery->getParameters() as $key => $value) {
+			$query->setParameter($key, $value);
+		}
+
+		$query->select(new Literal('1'))
+			->from('users')
+			->where($query->expr()->notExists($subquery));
+
+		$result = $query->executeQuery();
+		$column = $result->fetchOne();
+		$result->closeCursor();
+		$this->assertEquals($match, $column);
 	}
 
 	protected function createConfig($appId, $key, $value) {
