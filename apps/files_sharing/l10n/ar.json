@@ -188,9 +188,8 @@
     "Shared with the conversation {user} by {owner}" : "تمّت مشاركته مع المحادثة {user} من قِبَل {owner}",
     "Shared with {user} by {owner}" : "تمّت مشاركته مع {user} من قِبَل {owner}",
     "Open Sharing Details" : "فتح تفاصيل المشاركة",
-    "Added by {initiator}" : "تمّت الإضافةمن قِبَل {initiator}",
-    "Via “{folder}”" : "عبر “{folder}”",
     "Unshare" : "إلغاء المشاركة",
+    "Added by {initiator}" : "تمّت الإضافةمن قِبَل {initiator}",
     "Cannot copy, please copy the link manually" : "يتعذّر النسخ. يُرجى نسخ الرابط يدويًا",
     "Copy internal link" : "إنسخ الرابط الداخلي",
     "Internal link" : "رابط داخلي",
@@ -373,6 +372,7 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : " المشاركة %s فشلت بسبب أن الخادم لا يدعم مشاركات ScienceMesh",
     "Public upload disabled by the administrator" : "عمليات الرفع العامة معطّلة من قِبَل مسؤول النظام",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "الأَمَارَات يجب أن تحوي حرفاً واحداً 1 على الأقل ويجب أن تحوي فقط حروفاً أو أرقاماً أو شَرْطَات.",
+    "Via “{folder}”" : "عبر “{folder}”",
     "Name or email …" : "الاسم أو الإيميل …",
     "Name, email, or Federated Cloud ID …" : "الاسم أو البريد أو المعرف السحابي الموحد",
     "Searching …" : "البحث جارٍ …"

@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "İşlemler",
     "Checking …" : "Denetleniyor…",
     "Recheck status" : "Durumu yeniden denetle",
+    "All accounts" : "Tüm hesaplar",
     "Delete" : "Sil",
     "System provided storage" : "Sistem tarafından sağlanan depolama",
     "Saved" : "Kaydedildi",

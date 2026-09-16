@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "アクション",
     "Checking …" : "チェック中…",
     "Recheck status" : "ステータスを再確認",
+    "All accounts" : "全てのアカウント",
     "Delete" : "削除",
     "System provided storage" : "システム提供ストレージ",
     "Saved" : "保存しました",
