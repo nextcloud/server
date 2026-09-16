@@ -189,9 +189,8 @@
     "Shared with the conversation {user} by {owner}" : "اشتراک‌گذاری با گفتگوی {user} توسط {owner}",
     "Shared with {user} by {owner}" : "اشتراک‌گذاری با {user} توسط {owner}",
     "Open Sharing Details" : "باز کردن جزئیات اشتراک‌گذاری",
-    "Added by {initiator}" : "افزوده شده توسط {initiator}",
-    "Via “{folder}”" : "از طریق “{folder}”",
     "Unshare" : "لغو اشتراک‌گذاری",
+    "Added by {initiator}" : "افزوده شده توسط {initiator}",
     "Cannot copy, please copy the link manually" : "امکان کپی وجود ندارد، لطفاً پیوند را به صورت دستی کپی کنید",
     "Copy internal link" : "کپی پیوند داخلی",
     "For people who already have access" : "برای افرادی که قبلاً دسترسی دارند",
@@ -403,6 +402,7 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "اشتراک‌گذاری %s به دلیل عدم پشتیبانی سرور پشتیبان از اشتراک‌های ScienceMesh انجام نشد",
     "Public upload disabled by the administrator" : "آپلود عمومی توسط مدیر غیرفعال شده است",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "توکن‌ها باید حداقل ۱ کاراکتر داشته باشند و فقط می‌توانند شامل حروف، اعداد یا خط تیره باشند",
+    "Via “{folder}”" : "از طریق “{folder}”",
     "Name or email …" : "نام یا ایمیل …",
     "Name, email, or Federated Cloud ID …" : "نام، ایمیل، یا شناسه ابر فدرال …",
     "Searching …" : "در حال جستجو …"

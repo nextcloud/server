@@ -139,9 +139,8 @@
     "Shared with the group {user} by {owner}" : "{owner} omogoči souporabo s člani skupine {user}",
     "Shared with the conversation {user} by {owner}" : "{owner} omogoči souporabo z udeležencem pogovora {user}",
     "Shared with {user} by {owner}" : "Souporabo z {user} omogoča {owner}",
-    "Added by {initiator}" : "Dodano: {initiator}",
-    "Via “{folder}”" : "Prek mape »{folder}«",
     "Unshare" : "Prekini souporabo",
+    "Added by {initiator}" : "Dodano: {initiator}",
     "Cannot copy, please copy the link manually" : "Povezave ni mogoče kopirati. Storite to ročno.",
     "Copy internal link" : "Kopiraj krajevno povezavo",
     "Internal link" : "Notranja povezava",
@@ -248,6 +247,7 @@
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Souporaba %1$s je spodletela, ker ozadnji program ne omogoča souporabe prek vrste %2$s.",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Souporaba %s je spodletela, ker sistem ne podpira souporabe ScienceMesh",
     "Public upload disabled by the administrator" : "Javno pošiljanje v oblak je skrbniško onemogočeno",
+    "Via “{folder}”" : "Prek mape »{folder}«",
     "Name or email …" : "Ime ali elektronski naslov ...",
     "Name, email, or Federated Cloud ID …" : "Ime, elektronski naslov, ali ID zveznega oblaka ...",
     "Searching …" : "Poteka iskanje ..."

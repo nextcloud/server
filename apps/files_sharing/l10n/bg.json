@@ -119,9 +119,8 @@
     "Shared with the group {user} by {owner}" : "Споделено с групата {user} от {owner}",
     "Shared with the conversation {user} by {owner}" : "Споделено с разговора {user} от {owner}",
     "Shared with {user} by {owner}" : "Споделено с {user} от {owner}",
-    "Added by {initiator}" : "Добавено от {initiator}",
-    "Via “{folder}”" : "Чрез “{folder}”",
     "Unshare" : "Прекрати споделянето",
+    "Added by {initiator}" : "Добавено от {initiator}",
     "Cannot copy, please copy the link manually" : "Не може да се копира, моля, копирайте връзката ръчно",
     "Copy internal link" : "Копиране на вътрешна връзка",
     "Internal link" : "Вътрешна връзка",
@@ -224,6 +223,7 @@
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Споделянето %1$s не бе успешно, защото вътрешния сървър не позволява споделяния от тип %2$s",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Споделянето %s не бе успешно, защото вътрешния сървър не позволява споделяния на приложението ScienceMesh",
     "Public upload disabled by the administrator" : "Публичното качване е е спряно от администратора",
+    "Via “{folder}”" : "Чрез “{folder}”",
     "Name or email …" : "Име или имейл",
     "Name, email, or Federated Cloud ID …" : "Име, имейл или Federed Cloud ID/ИД за облачно пространство/ ...",
     "Searching …" : "Търсене ..."

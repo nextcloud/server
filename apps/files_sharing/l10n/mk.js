@@ -195,9 +195,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Споделено со разговор на {user} од {owner}",
     "Shared with {user} by {owner}" : "Споделено со {user} од {owner}",
     "Open Sharing Details" : "Отвори детали за споделувањето",
-    "Added by {initiator}" : "Додадено од {initiator}",
-    "Via “{folder}”" : "Преку “{folder}”",
     "Unshare" : "Отстрани споделување",
+    "Added by {initiator}" : "Додадено од {initiator}",
     "Cannot copy, please copy the link manually" : "Неможе да се копира, копирајте го линкот рачно",
     "Copy internal link" : "Копирај внатрешен линк",
     "For people who already have access" : "За луѓе кој веќе имаат пристап",
@@ -410,6 +409,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Споделувањето на %s е неуспешно бидејќи серверот не дозволува ScienceMesh споделувања",
     "Public upload disabled by the administrator" : "Јавно прикачување е оневозможено од страна на администраторот",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токените мора да содржат најмалку 1 знак и може да содржат само букви, бројки или цртичка",
+    "Via “{folder}”" : "Преку “{folder}”",
     "Name or email …" : "Име или е-пошта ...",
     "Name, email, or Federated Cloud ID …" : "Име, е-пошта или федерален ИД ...",
     "Searching …" : "Пребарување ..."

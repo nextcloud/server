@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "Åtgärder",
     "Checking …" : "Kontrollerar …",
     "Recheck status" : "Kontrollera status igen",
+    "All accounts" : "Alla konton",
     "Delete" : "Ta bort",
     "System provided storage" : "Systemtillhandahållet lagringsutrymme",
     "Saved" : "Sparad",

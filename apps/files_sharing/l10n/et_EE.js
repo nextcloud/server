@@ -199,9 +199,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "„{owner}“ jagas seda vestluses „{user}“ grupiga või kasutajaga",
     "Shared with {user} by {owner}" : "„{owner}“ jagas seda „{user}“ kasutajaga",
     "Open Sharing Details" : "Ava jagamise üksikasjad",
-    "Added by {initiator}" : "Selle lisas {initiator}",
-    "Via “{folder}”" : "„{folder}“ kausta kaudu",
     "Unshare" : "Lõpeta jagamine",
+    "Added by {initiator}" : "Selle lisas {initiator}",
     "Cannot copy, please copy the link manually" : "Ei saa kopeerida, palun kopeeri link käsitsi",
     "Copy internal link" : "Kopeeri sisemine link",
     "For people who already have access" : "Neile, kellel juba on ligipääs",
@@ -419,6 +418,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "„%s“ jagamine ei õnnestunud, sest taustateenus ei toeta ScienceMeshi meedia jagamist",
     "Public upload disabled by the administrator" : "Avalik üleslaadimine on administraatori poolt keelatud",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tunnuslubades peab olema vähemalt 1 tähemärk ning võib olla vaid tähti, numbreid ja sisekriipse",
+    "Via “{folder}”" : "„{folder}“ kausta kaudu",
     "Name or email …" : "Nimi või e-posti aadress…",
     "Name, email, or Federated Cloud ID …" : "Nimi, e-posti aadress või liitpilve kasutajatunnus…",
     "Searching …" : "Otsin..."

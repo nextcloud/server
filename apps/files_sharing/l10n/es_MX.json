@@ -178,9 +178,8 @@
     "Shared with the conversation {user} by {owner}" : "Compartido con la conversación {user} por {owner}",
     "Shared with {user} by {owner}" : "Compartido con {user} por {owner}",
     "Open Sharing Details" : "Abrir detalles de compartir",
-    "Added by {initiator}" : "Añadido por {initiator}",
-    "Via “{folder}”" : "Vía \"{folder}\"",
     "Unshare" : "Dejar de compartir",
+    "Added by {initiator}" : "Añadido por {initiator}",
     "Cannot copy, please copy the link manually" : "No se ha podido copiar, por favor, copia el enlace manualmente",
     "Copy internal link" : "Copiar enlace interno",
     "Internal link" : "Enlace interno",
@@ -321,6 +320,7 @@
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Compartir %1$s falló porque el servidor no permite compartir recursos del tipo %2$s",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Compartir %s falló porque el servidor no soporta recursos compartidos de ScienceMesh",
     "Public upload disabled by the administrator" : "Cargas públicas deshabilitadas por el administrador",
+    "Via “{folder}”" : "Vía \"{folder}\"",
     "Name or email …" : "Nombre o correo electrónico …",
     "Name, email, or Federated Cloud ID …" : "Nombre, correo electrónico o identificador de la nube federada ...",
     "Searching …" : "Buscando  …"
