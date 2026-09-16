@@ -125,7 +125,7 @@ class TagManager implements ITagManager, IEventListener {
 		// Clean vcategory
 		$qb1 = $this->connection->getQueryBuilder();
 		$qb1 = $qb1->delete('vcategory')
-			->where($qb1->expr()->in('uid', $qb1->createParameter('chunk')));
+			->where($qb1->expr()->in('id', $qb1->createParameter('chunk')));
 
 		foreach (array_chunk($tagsIds, 1000) as $tagChunk) {
 			$qb->setParameter('chunk', $tagChunk, IQueryBuilder::PARAM_INT_ARRAY);
