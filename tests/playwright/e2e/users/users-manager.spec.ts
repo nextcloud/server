@@ -20,21 +20,28 @@ const test = adminUserTest.extend<{ manager: User }>({
 })
 
 test.describe('Settings: User Manager Management', () => {
-	test('can assign a manager through the edit dialog', async ({ page, user, manager }) => {
+	test('can assign a manager in the user row', async ({ page, user, manager }) => {
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
 
-		await settingsPage.openEditDialog(user.userId)
-		const dialog = settingsPage.editUserDialog()
+		await settingsPage.openInlineEdit(user.userId)
+		const cell = settingsPage.userRowCell(user.userId, 'manager')
+		await cell.scrollIntoViewIfNeeded()
+		await expect(cell.locator('.vs__selected')).toHaveCount(0)
 
-		const managerCombobox = dialog.getByRole('combobox', { name: /Manager/i })
+		const updateRequest = page.waitForResponse((response) =>
+			response.url().includes(`/ocs/v2.php/cloud/users/${user.userId}`) && response.request().method() === 'PUT')
+
+		// The manager select is appended to the body, so its options live outside the row
+		const managerCombobox = cell.getByRole('combobox', { name: 'Set line manager' })
+		await managerCombobox.click({ force: true })
 		await managerCombobox.fill(manager.userId)
-		await page.getByRole('option', { name: manager.userId }).click()
+		await page.getByRole('option', { name: manager.userId }).click({ force: true })
 
 		await handlePasswordConfirmation(page)
-		await settingsPage.saveEditDialog()
+		await updateRequest
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(cell.locator('.vs__selected')).toContainText(manager.userId)
 
 		// Verify via OCS API (page shares admin auth cookies)
 		const response = await page.request.get(
@@ -45,7 +52,7 @@ test.describe('Settings: User Manager Management', () => {
 		expect(data?.ocs?.data?.manager).toBe(manager.userId)
 	})
 
-	test('can remove a manager through the edit dialog', async ({ page, user, manager }) => {
+	test('can remove a manager in the user row', async ({ page, user, manager }) => {
 		// Set manager via OCC first
 		await runOcc([
 			'user:setting',
@@ -58,16 +65,21 @@ test.describe('Settings: User Manager Management', () => {
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
 
-		await settingsPage.openEditDialog(user.userId)
-		const dialog = settingsPage.editUserDialog()
+		await settingsPage.openInlineEdit(user.userId)
+		const cell = settingsPage.userRowCell(user.userId, 'manager')
+		await cell.scrollIntoViewIfNeeded()
+		await expect(cell.locator('.vs__selected')).toContainText(manager.userId)
+
+		const updateRequest = page.waitForResponse((response) =>
+			response.url().includes(`/ocs/v2.php/cloud/users/${user.userId}`) && response.request().method() === 'PUT')
 
 		// Clear the currently-set manager using the NcSelect's clear button
-		await dialog.getByRole('button', { name: /Clear Selected/i }).click()
+		await cell.getByRole('button', { name: /Clear Selected/i }).click({ force: true })
 
 		await handlePasswordConfirmation(page)
-		await settingsPage.saveEditDialog()
+		await updateRequest
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(cell.locator('.vs__selected')).toHaveCount(0)
 
 		// Verify backend: manager must be empty
 		const response = await page.request.get(

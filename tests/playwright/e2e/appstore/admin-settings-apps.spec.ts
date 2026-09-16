@@ -9,6 +9,15 @@ import { test } from '../../support/fixtures/admin-appstore-page.ts'
 import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
 test.describe('Settings: App management', () => {
+	test.afterAll(async () => {
+		// 'Limit app usage to group' deselects the admin group without unchecking
+		// the group-limit checkbox, leaving Dashboard with an empty allow-list and
+		// hiding it from non-admin accounts. Re-enabling rewrites the app's
+		// `enabled` flag back to `yes`, which restores the `/` redirect to the
+		// dashboard for subsequent specs.
+		await runOcc(['app:enable', 'dashboard'], { failOnError: false })
+	})
+
 	test.beforeEach(async ({ appstorePage }) => {
 		// Disable QA testing app if already enabled
 		await runOcc(['app:disable', 'testing'], { failOnError: false })
@@ -24,7 +33,7 @@ test.describe('Settings: App management', () => {
 
 	test('Can enable an installed app', async ({ page, appstorePage }) => {
 		// Intercept the enable app request
-		const enableRequest = page.waitForResponse((response) => response.url().includes('/ocs/v2.php/apps/appstore/api/v1/apps/enable'))
+		const enableRequest = page.waitForResponse((response) => response.url().includes('/settings/apps/enable'))
 
 		// Find and click the enable button for the QA testing app
 		await expect(appstorePage.appsTable()).toBeVisible()
@@ -53,7 +62,7 @@ test.describe('Settings: App management', () => {
 
 	test('Can disable an installed app', async ({ page, appstorePage }) => {
 		// Intercept the disable app request
-		const disableRequest = page.waitForResponse((response) => response.url().includes('/ocs/v2.php/apps/appstore/api/v1/apps/disable'))
+		const disableRequest = page.waitForResponse((response) => response.url().includes('/settings/apps/disable'))
 
 		// Find and click the disable button for the Update notification app
 		await expect(appstorePage.appsTable()).toBeVisible()
@@ -84,9 +93,6 @@ test.describe('Settings: App management', () => {
 		// Open the "Active apps" section
 		await appstorePage.openEnabledApps()
 
-		// Verify the URL is correct
-		await expect(appstorePage.navigationLink('Active apps')).toHaveAttribute('aria-current', 'page')
-
 		// Verify that there are only enabled apps (all have "Disable" button, no "Enable" button)
 		await expect(appstorePage.appsTable()).toBeVisible()
 
@@ -106,9 +112,6 @@ test.describe('Settings: App management', () => {
 	test('Browse disabled apps', async ({ appstorePage }) => {
 		// Open the "Disabled apps" section
 		await appstorePage.openDisabledApps()
-
-		// Verify the current section is "Disabled apps"
-		await expect(appstorePage.navigationLink('Disabled apps')).toHaveAttribute('aria-current', 'page')
 
 		// Verify that there are only disabled apps (all have "Enable" button, no "Disable" button)
 		await expect(appstorePage.appsTable()).toBeVisible()
@@ -130,12 +133,14 @@ test.describe('Settings: App management', () => {
 		// Open the "App bundles" section
 		await appstorePage.openBundles()
 
-		// Verify the current section is "App bundles"
-		await expect(appstorePage.navigationLink('App bundles')).toHaveAttribute('aria-current', 'page')
-
 		// Verify we see the app bundles
-		await expect(appstorePage.enterpriseBundleHeading()).toBeVisible()
-		await expect(appstorePage.educationBundleHeading()).toBeVisible()
+		await expect(appstorePage.bundleHeader('Enterprise bundle')).toBeVisible()
+		await expect(appstorePage.bundleHeader('Education bundle')).toBeVisible()
+
+		// The "Enterprise bundle" is not installed yet
+		await expect(
+			appstorePage.bundleHeader('Enterprise bundle').getByRole('button', { name: 'Download and enable all' }),
+		).toBeVisible()
 	})
 
 	test('View app details', async ({ appstorePage }) => {
@@ -160,51 +165,31 @@ test.describe('Settings: App management', () => {
 		// Open the "Active apps" section
 		await appstorePage.openEnabledApps()
 
-		// Select the updatenotification app
-		await appstorePage.appLink('Update Notification').scrollIntoViewIfNeeded()
-		await appstorePage.appLink('Update Notification').click()
+		// Select the dashboard app
+		await appstorePage.appLink('Dashboard').scrollIntoViewIfNeeded()
+		await appstorePage.appLink('Dashboard').click()
+		await expect(appstorePage.appSidebar()).toBeVisible()
 
-		// Click the "Limit to groups" button
-		await appstorePage.limitToGroupsButton().click()
+		// Enable the group limitation
+		await appstorePage.limitToGroupsLabel('dashboard').click()
+		await expect(appstorePage.limitToGroupsCheckbox('dashboard')).toBeChecked()
 
-		// The dialog should be visible
-		const dialog = appstorePage.groupDialog()
-		await expect(dialog).toBeVisible()
-
-		// Type "admin" in the search field
-		const searchInput = appstorePage.groupSearchInput()
-		await searchInput.fill('admin')
-
-		// Select the admin option from the dropdown
+		// Select the admin group
+		await appstorePage.groupSearchInput().fill('admin')
 		await appstorePage.groupOption('admin').click()
 
-		// Click the Save button
-		await appstorePage.dialogSaveButton().click()
-
 		// Handle password confirmation
 		await handlePasswordConfirmation(page, 'admin')
 
-		// Verify the group is now in the "Limited to groups" list
-		const limitedList = appstorePage.limitedToGroupsList()
-		await expect(limitedList).toBeVisible()
-		await expect(limitedList.getByRole('listitem', { name: /admin/ })).toBeVisible()
+		// Verify the group is now selected
+		await expect(appstorePage.deselectGroupButton('admin')).toBeVisible()
 
-		// Now disable the group limitation
-		await appstorePage.limitToGroupsButton().click()
-
-		// The dialog should be visible again
-		await expect(dialog).toBeVisible()
-
-		// Click the deselect button for the admin group
+		// Now remove the group limitation again
 		await appstorePage.deselectGroupButton('admin').click()
 
-		// Click Save
-		await appstorePage.dialogSaveButton().click()
-
 		// Handle password confirmation
 		await handlePasswordConfirmation(page, 'admin')
 
-		// Verify the "Limited to groups" list is no longer visible
-		await expect(appstorePage.limitedToGroupsList()).toHaveCount(0)
+		await expect(appstorePage.deselectGroupButton('admin')).toHaveCount(0)
 	})
 })

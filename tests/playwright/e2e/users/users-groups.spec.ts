@@ -57,19 +57,23 @@ userGroupTest('Account Management: Assign user to a group', async ({ page, testG
 	// user is in the list
 	await expect(settingsPage.userRow(user.userId)).toBeVisible()
 
-	// can assign the group via the edit dialog
-	await settingsPage.openEditDialog(user.userId)
-	const dialog = settingsPage.editUserDialog()
-	const groupsCombobox = dialog.getByRole('combobox', { name: /Member of the following groups/i })
+	// can assign the group in the user row
+	await settingsPage.openInlineEdit(user.userId)
+	const cell = settingsPage.userRowCell(user.userId, 'groups')
+	await cell.scrollIntoViewIfNeeded()
+
+	const updateRequest = page.waitForResponse((r) => r.url().includes(`/ocs/v2.php/cloud/users/${user.userId}/groups`) && r.request().method() === 'POST')
+	const groupsCombobox = cell.getByRole('combobox', { name: 'Add account to group' })
 	const searchRequest = page.waitForResponse((r) => r.request().url().match(new RegExp('/ocs/v2\\.php/cloud/groups/details\\?(.+&|)search=' + testGroup.slice(0, 5))) !== null)
+	await groupsCombobox.click({ force: true })
 	await groupsCombobox.fill(testGroup.slice(0, 5))
 	await searchRequest
 
-	await page.getByRole('option', { name: new RegExp(testGroup.slice(0, 8)) }).click()
+	// The groups select is not appended to the body, so its options stay inside the cell
+	await cell.getByRole('option', { name: new RegExp(testGroup.slice(0, 8)) }).click({ force: true })
 
 	await handlePasswordConfirmation(page)
-	await settingsPage.saveEditDialog()
-	await expect(page.getByText(/Account updated/i)).toBeVisible()
+	await updateRequest
 
 	// user is now group now shows 1 member
 	await expect(settingsPage.groupMemberCount(testGroup)).toHaveText('1')

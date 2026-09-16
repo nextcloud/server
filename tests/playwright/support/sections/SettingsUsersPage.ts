@@ -71,24 +71,52 @@ export class SettingsUsersPage {
 		return this.page.getByRole('dialog', { name: 'New account' })
 	}
 
-	/** Open the edit dialog for `userId` by clicking its inline Edit button. */
-	async openEditDialog(userId: string): Promise<void> {
-		await this.userRow(userId).getByRole('button', { name: 'Edit' }).click()
-		await this.editUserDialog().waitFor({ state: 'visible' })
+	// ── Inline row editing ───────────────────────────────────────────────────
+
+	/**
+	 * Switch the row of `userId` into edit mode.
+	 * The row edits every property in place; there is no edit dialog.
+	 */
+	async openInlineEdit(userId: string): Promise<void> {
+		const row = this.userRow(userId)
+		const enterEdit = row.locator('[data-cy-user-list-action-toggle-edit="false"]')
+		if (await enterEdit.count() > 0) {
+			await enterEdit.click({ force: true })
+		}
+		await row.locator('[data-cy-user-list-action-toggle-edit="true"]').waitFor({ state: 'visible' })
 	}
 
-	editUserDialog(): Locator {
-		return this.page.getByRole('dialog', { name: 'Edit account' })
+	/** Switch the row of `userId` back into read-only mode. */
+	async closeInlineEdit(userId: string): Promise<void> {
+		const row = this.userRow(userId)
+		await row.locator('[data-cy-user-list-action-toggle-edit="true"]').click({ force: true })
+		await row.locator('[data-cy-user-list-action-toggle-edit="false"]').waitFor({ state: 'visible' })
 	}
 
-	/** Save and close the currently open edit dialog. */
-	async saveEditDialog(): Promise<void> {
-		const dialog = this.editUserDialog()
-		const button = dialog.getByRole('button', { name: 'Save' })
-		await button.focus()
-		await button.click({ force: true })
+	/**
+	 * A single cell of a user row.
+	 *
+	 * @param userId - The account the row belongs to
+	 * @param cell - The cell suffix, e.g. `displayname`, `email` or `quota`
+	 */
+	userRowCell(userId: string, cell: string): Locator {
+		return this.userRow(userId).locator(`[data-cy-user-list-cell-${cell}]`)
+	}
+
+	/**
+	 * Fill one of the inline text fields and submit it through its trailing button.
+	 * The row must already be in edit mode.
+	 *
+	 * @param userId - The account the row belongs to
+	 * @param cell - The cell suffix, e.g. `displayname`, `email` or `password`
+	 * @param value - The value to submit
+	 */
+	async submitInlineTextField(userId: string, cell: string, value: string): Promise<void> {
+		const field = this.userRowCell(userId, cell)
+		await field.scrollIntoViewIfNeeded()
+		await field.locator('input').fill(value)
+		await field.getByRole('button', { name: 'Submit' }).click()
 		await handlePasswordConfirmation(this.page)
-		await dialog.waitFor({ state: 'hidden' })
 	}
 
 	/**
