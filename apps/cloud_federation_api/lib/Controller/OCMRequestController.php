@@ -58,6 +58,7 @@ class OCMRequestController extends Controller {
 
 		$ocmAddress = null;
 		$params = $this->request->getParams();
+		//
 		foreach (['owner', 'sender', 'sharedBy'] as $field) {
 			if (is_string($params[$field] ?? null) && $params[$field] !== '') {
 				$ocmAddress = $params[$field];

@@ -151,6 +151,8 @@ class SignatureManager implements ISignatureManager {
 		if (!($signatoryManager instanceof IJwkResolvingSignatoryManager)) {
 			throw new IncomingRequestException('RFC 9421 inbound is not supported by ' . get_class($signatoryManager));
 		}
+		//
+
 		if ($origin === null || $origin === '') {
 			// The keyid is opaque; the caller must supply the signer origin.
 			throw new IncomingRequestException('RFC 9421 verification requires the sender origin');

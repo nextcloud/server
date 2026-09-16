@@ -269,6 +269,7 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 	 */
 	#[\Override]
 	public function getIncomingSignedRequest(?string $ocmAddress = null): ?IIncomingSignedRequest {
+		//
 		$origin = $ocmAddress !== null ? $this->getHostFromOcmAddress($ocmAddress) : null;
 		try {
 			$signedRequest = $this->signatureManager->getIncomingSignedRequest($this->signatoryManager, null, $origin);
