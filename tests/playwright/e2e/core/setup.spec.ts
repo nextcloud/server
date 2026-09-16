@@ -26,21 +26,17 @@ const test = base.extend<{ setupPage: SetupPage }>({
 /** How to handle the recommended-apps screen at the end of the wizard. */
 type RecommendedAppsMode = 'skip' | 'install-success' | 'install-failure'
 
-// The recommended-apps view fetches the listing from the appstore OCS API, so
-// the mock must be OCS-shaped. Keep the app count in sync with the two entries.
+// The recommended-apps view fetches the listing from the app list route of the
+// settings app, so the mock has to carry that shape.
 const APPSTORE_APPS = {
-	ocs: {
-		meta: { status: 'ok', statuscode: 200, message: 'OK' },
-		data: [
-			{ id: 'calendar', name: 'Calendar', isCompatible: true, active: false, installed: false, internal: false },
-			{ id: 'contacts', name: 'Contacts', isCompatible: true, active: false, installed: false, internal: false },
-		],
-	},
+	apps: [
+		{ id: 'calendar', name: 'Calendar', isCompatible: true, canInstall: true },
+		{ id: 'contacts', name: 'Contacts', isCompatible: true, canInstall: true },
+	],
 }
-const RECOMMENDED_APP_COUNT = APPSTORE_APPS.ocs.data.length
 
-const ENABLE_SUCCESS = { ocs: { meta: { status: 'ok', statuscode: 200, message: 'OK' }, data: { update_required: false } } }
-const ENABLE_FAILURE = { ocs: { meta: { status: 'failure', statuscode: 500, message: 'Forced failure' }, data: [] } }
+const ENABLE_SUCCESS = { data: { update_required: false } }
+const ENABLE_FAILURE = { data: { message: 'Forced failure' } }
 
 const MYSQL: DatabaseConnection = { user: 'root', password: 'rootpassword', name: 'nextcloud', host: 'mysql:3306' }
 const MARIADB: DatabaseConnection = { user: 'root', password: 'rootpassword', name: 'nextcloud', host: 'mariadb:3306' }
@@ -53,16 +49,16 @@ function randomAdmin(): string {
 }
 
 /**
- * Stub the appstore listing (always) and, for the install modes, the per-app
+ * Stub the appstore listing (always) and, for the install modes, the bulk
  * enable request — so the flow is exercised without hitting the real app store.
  * Registered before the wizard submits, so the routes are live once the
  * recommended-apps view mounts after the post-install redirect.
  */
 async function mockAppstore(page: Page, mode: RecommendedAppsMode): Promise<void> {
-	await page.route(/\/apps\/appstore\/api\/v1\/apps(\?.*)?$/, (route) => route.fulfill({ json: APPSTORE_APPS }))
+	await page.route(/\/settings\/apps\/list(\?.*)?$/, (route) => route.fulfill({ json: APPSTORE_APPS }))
 
 	if (mode !== 'skip') {
-		await page.route(/\/apps\/appstore\/api\/v1\/apps\/enable/, (route) => route.fulfill(mode === 'install-success'
+		await page.route(/\/settings\/apps\/enable$/, (route) => route.fulfill(mode === 'install-success'
 			? { status: 200, json: ENABLE_SUCCESS }
 			: { status: 500, json: ENABLE_FAILURE }))
 	}
@@ -71,7 +67,7 @@ async function mockAppstore(page: Page, mode: RecommendedAppsMode): Promise<void
 /**
  * Drive the admin creation + submit, assert the recommended-apps screen, then
  * either skip to the files app or install the recommended apps and assert the
- * inline per-app result.
+ * resulting redirect or inline error.
  */
 async function completeSetup(page: Page, setupPage: SetupPage, mode: RecommendedAppsMode): Promise<void> {
 	const admin = randomAdmin()
@@ -88,12 +84,17 @@ async function completeSetup(page: Page, setupPage: SetupPage, mode: Recommended
 		return
 	}
 
-	await setupPage.installRecommendedApps(admin, RECOMMENDED_APP_COUNT)
+	await setupPage.installRecommendedApps(admin)
 
-	// The frontend stays on the recommended-apps page and reflects each app's
-	// result inline (no redirect after installing).
+	if (mode === 'install-success') {
+		// The frontend redirects to the default page once every app is enabled.
+		await expect(page).not.toHaveURL(/\/core\/apps\/recommended/)
+		return
+	}
+
+	// On failure it stays on the recommended-apps page and surfaces the per-app error.
 	await expect(page).toHaveURL(/\/core\/apps\/recommended/)
-	await expect(setupPage.recommendedApps()).toContainText(mode === 'install-success' ? 'App already installed' : 'App download or installation failed')
+	await expect(setupPage.recommendedApps()).toContainText('App download or installation failed')
 }
 
 test.describe('Nextcloud installation wizard', { tag: '@setup' }, () => {
