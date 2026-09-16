@@ -398,7 +398,7 @@ trait Sharing {
 
 	public function isFieldInResponse($field, $contentExpected) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
-		if ((string)$field == 'expiration') {
+		if ((string)$field === 'expiration') {
 			if (!empty($contentExpected)) {
 				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 23:59:59';
 			}
@@ -407,7 +407,7 @@ trait Sharing {
 			foreach ($data as $element) {
 				if ($contentExpected == 'A_TOKEN') {
 					$tokenLength = strlen((string)$element->$field);
-					return $tokenLength == 15 || $tokenLength == 32;
+					return $tokenLength === 15 || $tokenLength === 32;
 				} elseif ($contentExpected == 'A_NUMBER') {
 					return is_numeric((string)$element->$field);
 				} elseif ($contentExpected == 'AN_URL') {
@@ -423,7 +423,7 @@ trait Sharing {
 		} else {
 			if ($contentExpected == 'A_TOKEN') {
 				$tokenLength = strlen((string)$data->$field);
-				return $tokenLength == 15 || $tokenLength == 32;
+				return $tokenLength === 15 || $tokenLength === 32;
 			} elseif ($contentExpected == 'A_NUMBER') {
 				return is_numeric((string)$data->$field);
 			} elseif ($contentExpected == 'AN_URL') {

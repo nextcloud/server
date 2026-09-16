@@ -182,7 +182,7 @@ class FixEncryptedVersion extends Command {
 				}
 				$encryptedVersion = $fileInfo->getEncryptedVersion();
 				$stat = $this->view->stat($path);
-				if (($encryptedVersion == 0) && isset($stat['hasHeader']) && ($stat['hasHeader'] == true)) {
+				if (($encryptedVersion === 0) && isset($stat['hasHeader']) && ($stat['hasHeader'] === true)) {
 					// The file has encrypted to false but has an encryption header
 					if ($ignoreCorrectEncVersionCall === true) {
 						// Lets rectify the file by correcting encrypted version

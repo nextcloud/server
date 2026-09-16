@@ -85,7 +85,7 @@ class UserMountCache implements IUserMountCache {
 				if ($mountInfo->getMountProvider() === '' && isset($newMounts[$mountInfo->getKey()])) {
 					return true;
 				}
-				return in_array($mountInfo->getMountProvider(), $mountProviderClasses);
+				return in_array($mountInfo->getMountProvider(), $mountProviderClasses, true);
 			});
 		}
 

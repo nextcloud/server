@@ -77,7 +77,7 @@ class LegacyPublicAuth extends AbstractBasic {
 					&& $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId()) {
 					return true;
 				} else {
-					if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')))) {
+					if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')), true)) {
 						// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
 						http_response_code(401);
 						header('WWW-Authenticate: DummyBasic realm="' . $this->realm . '"');

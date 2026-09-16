@@ -279,7 +279,7 @@ class PreviewManager implements IPreview {
 			OpenDocument::class,
 		], $imageProviders));
 
-		if (in_array(Image::class, $this->defaultProviders)) {
+		if (in_array(Image::class, $this->defaultProviders, true)) {
 			$this->defaultProviders = array_merge($this->defaultProviders, $imageProviders);
 		}
 		$this->defaultProviders = array_values(array_unique($this->defaultProviders));
@@ -292,7 +292,7 @@ class PreviewManager implements IPreview {
 	 * Register the default providers (if enabled)
 	 */
 	protected function registerCoreProvider(string $class, string $mimeType, array $options = []): void {
-		if (in_array(trim($class, '\\'), $this->getEnabledDefaultProvider())) {
+		if (in_array(trim($class, '\\'), $this->getEnabledDefaultProvider(), true)) {
 			$this->registerProviderClosure($mimeType, function () use ($class, $options): IProviderV2 {
 				/** @var IProviderV2 $class */
 				return new $class($options);
@@ -340,7 +340,7 @@ class PreviewManager implements IPreview {
 
 			foreach ($imagickProviders as $queryFormat => $provider) {
 				$class = $provider['class'];
-				if (!in_array(trim($class, '\\'), $this->getEnabledDefaultProvider())) {
+				if (!in_array(trim($class, '\\'), $this->getEnabledDefaultProvider(), true)) {
 					continue;
 				}
 
@@ -353,7 +353,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvidersOffice();
 
 		// Video requires ffmpeg
-		if (in_array(Movie::class, $this->getEnabledDefaultProvider())) {
+		if (in_array(Movie::class, $this->getEnabledDefaultProvider(), true)) {
 			$movieBinary = $this->config->getSystemValue('preview_ffmpeg_path', null);
 			if (!is_string($movieBinary)) {
 				$movieBinary = $this->binaryFinder->findBinaryPath('ffmpeg');
@@ -380,7 +380,7 @@ class PreviewManager implements IPreview {
 
 		foreach ($officeProviders as $provider) {
 			$class = $provider['class'];
-			if (!in_array(trim($class, '\\'), $this->getEnabledDefaultProvider())) {
+			if (!in_array(trim($class, '\\'), $this->getEnabledDefaultProvider(), true)) {
 				continue;
 			}
 

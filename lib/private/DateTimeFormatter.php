@@ -141,33 +141,33 @@ class DateTimeFormatter implements IDateTimeFormatter {
 		$baseTimestamp->setTime(0, 0, 0);
 		$dateInterval = $timestamp->diff($baseTimestamp);
 
-		if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 0) {
+		if ($dateInterval->y === 0 && $dateInterval->m === 0 && $dateInterval->d === 0) {
 			return $l->t('today');
-		} elseif ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 1) {
+		} elseif ($dateInterval->y === 0 && $dateInterval->m === 0 && $dateInterval->d === 1) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->t('tomorrow');
 			} else {
 				return $l->t('yesterday');
 			}
-		} elseif ($dateInterval->y == 0 && $dateInterval->m == 0) {
+		} elseif ($dateInterval->y === 0 && $dateInterval->m === 0) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->n('in %n day', 'in %n days', $dateInterval->d);
 			} else {
 				return $l->n('%n day ago', '%n days ago', $dateInterval->d);
 			}
-		} elseif ($dateInterval->y == 0 && $dateInterval->m == 1) {
+		} elseif ($dateInterval->y === 0 && $dateInterval->m === 1) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->t('next month');
 			} else {
 				return $l->t('last month');
 			}
-		} elseif ($dateInterval->y == 0) {
+		} elseif ($dateInterval->y === 0) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->n('in %n month', 'in %n months', $dateInterval->m);
 			} else {
 				return $l->n('%n month ago', '%n months ago', $dateInterval->m);
 			}
-		} elseif ($dateInterval->y == 1) {
+		} elseif ($dateInterval->y === 1) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->t('next year');
 			} else {

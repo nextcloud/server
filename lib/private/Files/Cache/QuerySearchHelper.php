@@ -156,20 +156,20 @@ class QuerySearchHelper {
 			$searchQuery->getSelectFields(),
 		);
 
-		$joinExtendedCache = in_array('metadata_etag', $requestedFields)
-			|| in_array('creation_time', $requestedFields)
-			|| in_array('upload_time', $requestedFields)
-			|| in_array('last_activity', $requestedFields);
+		$joinExtendedCache = in_array('metadata_etag', $requestedFields, true)
+			|| in_array('creation_time', $requestedFields, true)
+			|| in_array('upload_time', $requestedFields, true)
+			|| in_array('last_activity', $requestedFields, true);
 
 		$query = $builder->selectFileCache('file', $joinExtendedCache);
 
-		if (in_array('systemtag', $requestedFields)) {
+		if (in_array('systemtag', $requestedFields, true)) {
 			$this->equipQueryForSystemTags($query, $this->requireUser($searchQuery));
 		}
-		if (in_array('tagname', $requestedFields) || in_array('favorite', $requestedFields)) {
+		if (in_array('tagname', $requestedFields, true) || in_array('favorite', $requestedFields, true)) {
 			$this->equipQueryForDavTags($query, $this->requireUser($searchQuery));
 		}
-		if (in_array('owner', $requestedFields) || in_array('share_with', $requestedFields) || in_array('share_type', $requestedFields)) {
+		if (in_array('owner', $requestedFields, true) || in_array('share_with', $requestedFields, true) || in_array('share_type', $requestedFields, true)) {
 			$this->equipQueryForShares($query);
 		}
 

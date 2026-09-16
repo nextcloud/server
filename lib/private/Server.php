@@ -794,7 +794,7 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 
 			if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
-				&& in_array('fakeinput', stream_get_wrappers())
+				&& in_array('fakeinput', stream_get_wrappers(), true)
 			) {
 				$stream = 'fakeinput://data';
 			} else {

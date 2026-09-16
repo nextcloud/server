@@ -274,7 +274,7 @@ class MigrationService {
 	 * @return bool
 	 */
 	private function shallBeExecuted($m, $knownMigrations): bool {
-		if (in_array($m, $knownMigrations)) {
+		if (in_array($m, $knownMigrations, true)) {
 			return false;
 		}
 

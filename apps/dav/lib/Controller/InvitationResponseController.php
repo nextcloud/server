@@ -116,6 +116,8 @@ class InvitationResponseController extends Controller {
 		$partstat = $this->request->getParam('partStat');
 
 		$row = $this->getTokenInformation($token);
+		// $partstat comes from IRequest::getParam(), which is untyped
+		/** @psalm-suppress UnrecognizedExpression */
 		if (!$row || !\in_array($partstat, ['ACCEPTED', 'DECLINED', 'TENTATIVE'])) {
 			return new TemplateResponse($this->appName, 'schedule-response-error', [], 'guest');
 		}
