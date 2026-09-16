@@ -256,7 +256,7 @@ SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["composer.json", "composer.lock", ".github/CODEOWNERS", "__tests__/tsconfig.json", "tsconfig.json", "tests/playwright/tsconfig.json", "apps/**/composer/composer.json", "apps/**/composer/composer.lock", "apps/**/composer/composer/installed.json"]
+path = ["composer.json", "composer.lock", ".github/CODEOWNERS", "__tests__/tsconfig.json", "tsconfig.json", "apps/**/composer/composer.json", "apps/**/composer/composer.lock", "apps/**/composer/composer/installed.json"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-only OR AGPL-3.0-or-later"
@@ -380,6 +380,12 @@ path = "core/img/f-droid.svg"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2016 Andrew Nayenko <relan@airpost.net>"
 SPDX-License-Identifier = "CC-BY-SA-3.0 OR GPL-3.0-or-later"
+
+[[annotations]]
+path = "tests/playwright/tsconfig.json"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
 path = "tests/data/images/image.jpg"
