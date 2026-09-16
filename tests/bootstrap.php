@@ -35,6 +35,12 @@ if (!$dontLoadApps) {
 	}
 }
 
+// Recorded on CI by default; set TEST_LOG_HTTP to a path for a manual run.
+$logHttp = getenv('TEST_LOG_HTTP') ?: (getenv('CI') ? OC::$SERVERROOT . '/http-requests.log' : '');
+if ($logHttp !== '') {
+	\Test\HttpRequestLogger::install($logHttp);
+}
+
 OC_Hook::clear();
 
 set_include_path(
