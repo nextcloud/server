@@ -7,11 +7,11 @@
 import { mdiMagnify, mdiSearchWeb } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
-import { onBeforeRouteUpdate } from 'vue-router'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import { onBeforeNavigation } from '../composables/useBeforeNavigation.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useSearchStore } from '../store/search.ts'
 import { VIEW_ID } from '../views/search.ts'
@@ -21,8 +21,11 @@ const searchStore = useSearchStore()
 
 /**
  * When the route is changed from search view to something different we need to clear the search box.
+ *
+ * This component is rendered by the navigation, not by a `RouterView`, so the
+ * in-component guards do not apply to it and a global guard is needed.
  */
-onBeforeRouteUpdate((to, from) => {
+onBeforeNavigation((to, from) => {
 	if (to.params.view !== VIEW_ID
 		&& (from.params.view === VIEW_ID || from.query.dir !== to.query.dir)) {
 		// we are leaving the search view or navigate to another directory -> unset the query

@@ -8,7 +8,7 @@ import type { INode } from '@nextcloud/files'
 import { subscribe } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
 import { relative } from 'path'
-import { createRouter, createWebHistory, isNavigationFailure, NavigationFailureType } from 'vue-router'
+import { createRouter, createWebHistory, isNavigationFailure, NavigationFailureType, stringifyQuery } from 'vue-router'
 import { useFilesStore } from '../store/files.ts'
 import { pinia } from '../store/index.ts'
 import { usePathsStore } from '../store/paths.ts'
@@ -17,11 +17,23 @@ import { logger } from '../utils/logger.ts'
 
 const FilesListComponent = () => import('../views/FilesList.vue')
 
+/**
+ * Stringify the query the way Nextcloud URLs have always looked: spaces as
+ * "%20" rather than "+". A literal "+" is already encoded as "%2B" by then, so
+ * this cannot corrupt a file name.
+ *
+ * @param query - The query to stringify
+ */
+function stringifyNextcloudQuery(query: Parameters<typeof stringifyQuery>[0]): string {
+	return stringifyQuery(query).replace(/\+/g, '%20')
+}
+
 export const router = createRouter({
 	// if index.php is in the url AND we got this far, then it's working:
 	// let's keep using index.php in the url
 	history: createWebHistory(generateUrl('/apps/files')),
 	linkActiveClass: 'active',
+	stringifyQuery: stringifyNextcloudQuery,
 	routes: [
 		{
 			path: '/',

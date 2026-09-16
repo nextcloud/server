@@ -174,13 +174,10 @@ export const useRenamingStore = defineStore('renaming', () => {
  * @param newExtension the new file name extension
  */
 async function showFileExtensionDialog(oldExtension: string, newExtension: string): Promise<boolean> {
-	const { promise, resolve } = Promise.withResolvers<boolean>()
-	await spawnDialog(
+	return await spawnDialog(
 		defineAsyncComponent(() => import('../views/DialogConfirmFileExtension.vue')),
 		{ oldExtension, newExtension },
-		resolve,
 	)
-	return promise
 }
 
 /**
@@ -189,11 +186,8 @@ async function showFileExtensionDialog(oldExtension: string, newExtension: strin
  * @param filename - The new filename
  */
 async function showHiddenFileDialog(filename: string): Promise<boolean> {
-	const { promise, resolve } = Promise.withResolvers<boolean>()
-	await spawnDialog(
+	return await spawnDialog(
 		defineAsyncComponent(() => import('../views/DialogConfirmFileHidden.vue')),
 		{ filename },
-		resolve,
 	)
-	return promise
 }
