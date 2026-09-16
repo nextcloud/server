@@ -52,13 +52,13 @@ SPDX-FileCopyrightText = "2013 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 [[annotations]]
-path = ".jshintrc"
+path = ".github/workflows/*.patch"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2014 ownCloud, Inc., 2017 Nextcloud GmbH and Nextcloud contributors"
-SPDX-License-Identifier = "AGPL-3.0-only"
+SPDX-FileCopyrightText = "2026 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ".mailmap"
+path = [".mailmap", ".jshintrc"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2015-2016 ownCloud, Inc., 2016-2021 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-only"
