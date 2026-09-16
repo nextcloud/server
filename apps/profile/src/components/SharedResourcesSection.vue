@@ -35,6 +35,7 @@ const title = computed(() => t('profile', 'You & {user}', { user: props.displayN
 				<template #icon>
 					<img
 						class="shared-resources__icon"
+						:class="{ 'shared-resources__icon--themed': resource.themedIcon }"
 						:src="resource.img"
 						alt=""
 						decoding="async"
@@ -74,6 +75,10 @@ const title = computed(() => t('profile', 'You & {user}', { user: props.displayN
 		height: 32px;
 		object-fit: contain;
 		border-radius: var(--border-radius);
+
+		&--themed {
+			filter: var(--background-invert-if-dark);
+		}
 	}
 }
 

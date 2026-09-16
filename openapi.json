@@ -3700,6 +3700,9 @@
                     },
                     "img": {
                         "type": "string"
+                    },
+                    "themedIcon": {
+                        "type": "boolean"
                     }
                 }
             },
