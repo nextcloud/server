@@ -148,7 +148,8 @@ test.describe('Files: Move or copy files', () => {
 			await copyMoveDialog.copyToFolder('<a href="#">foo')
 
 			await filesListPage.navigateToFolder('<a href="#">foo')
-			await expect(page).toHaveURL(/dir=\/%3Ca%20href%3D%22%23%22%3Efoo/)
+			// "=" needs no escaping inside a query value: only the first one separates key from value
+			await expect(page).toHaveURL(/dir=\/%3Ca%20href=%22%23%22%3Efoo/)
 			await expect(filesListPage.getRowForFile('original.txt')).toBeVisible()
 			await expect(filesListPage.getRowForFile('<a href="#">foo')).toHaveCount(0)
 		})

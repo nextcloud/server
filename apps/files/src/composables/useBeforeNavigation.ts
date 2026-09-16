@@ -9,7 +9,10 @@ import { onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 /**
- * Helper until we use Vue-Router v4 (Vue3).
+ * Register a global navigation guard for the lifetime of the calling component.
+ *
+ * For components that are not rendered by a `RouterView` - such as the ones in
+ * the app navigation - the in-component guards never run, so they need this.
  *
  * @param fn - The navigation guard
  */

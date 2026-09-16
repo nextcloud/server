@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IFolder, INode } from '@nextcloud/files'
+import type { Folder, IFolder, INode } from '@nextcloud/files'
 import type { IUpload } from '@nextcloud/files/upload'
 import type { RootDirectory } from './DropServiceUtils.ts'
 
@@ -94,7 +94,7 @@ export async function dataTransferToFileTree(items: DataTransferItem[]): Promise
  * @param destination - The destination folder
  * @param contents - The contents of the destination folder
  */
-export async function onDropExternalFiles(root: RootDirectory, destination: IFolder, contents: INode[]): Promise<Upload[]> {
+export async function onDropExternalFiles(root: RootDirectory, destination: IFolder, contents: INode[]): Promise<IUpload[]> {
 	const uploader = getUploader()
 
 	// Check for conflicts on root elements
@@ -137,8 +137,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 			// If we've reached a file, we can upload it
 			logger.debug('Uploading file to ' + join(destination.path, relativePath), { file })
 
-			// Overriding the root to avoid changing the current uploader context
-			queue.push(uploader.upload(relativePath, file, { root: destination.source }))
+			queue.push(uploader.upload(relativePath, file))
 		}
 	}
 
@@ -146,10 +145,19 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 	// while we compute the queue
 	uploader.pause()
 
-	// Upload the files. Using '/' as the starting point
-	// as we already adjusted the uploader destination
-	await uploadDirectoryContents(root, '/')
-	uploader.start()
+	// The uploader resolves every upload path against its own destination, so it
+	// has to be pointed at the drop target while the queue is built. Dropping on
+	// a folder row uploads into that folder, not into the folder being browsed.
+	const previousDestination = uploader.destination
+	uploader.destination = destination as Folder
+	try {
+		// Upload the files. Using '/' as the starting point
+		// as we already adjusted the uploader destination
+		await uploadDirectoryContents(root, '/')
+	} finally {
+		uploader.destination = previousDestination
+		uploader.start()
+	}
 
 	// Wait for all promises to settle
 	const results = await Promise.allSettled(queue)

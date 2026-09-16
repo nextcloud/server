@@ -77,12 +77,35 @@ export class FilesListPage {
 	}
 
 	/**
-	 * Navigate to an ancestor of the current folder through the breadcrumb
+	 * Navigate to an ancestor of the current folder through the breadcrumb.
+	 *
+	 * When the path does not fit the available width, `NcBreadcrumbs` moves the
+	 * middle crumbs into an overflow menu, so the crumb is only reachable after
+	 * opening it. Which crumbs are collapsed depends on the viewport and on
+	 * whether the sidebar is open, so both cases have to be handled.
 	 *
 	 * @param name - The label of the crumb to navigate to
 	 */
 	async navigateToBreadcrumb(name: string): Promise<void> {
-		await this.getBreadcrumbs().getByRole('button', { name, exact: true }).click()
+		// An ancestor renders as a link, only the current directory carries the
+		// actions menu and is therefore a button.
+		const crumb = this.getBreadcrumbs().getByRole('link', { name, exact: true })
+			.or(this.getBreadcrumbs().getByRole('button', { name, exact: true }))
+		const menuItem = this.page.getByRole('menuitem', { name, exact: true })
+
+		// `NcBreadcrumbs` re-measures asynchronously (e.g. while the sidebar closes)
+		// and moves the middle crumbs into an overflow menu while they do not fit,
+		// so which of the two is present settles only after a moment.
+		await expect(async () => {
+			if (await crumb.count() > 0) {
+				await crumb.click()
+				return
+			}
+			// the overflow menu is the crumb labelled "Actions"
+			await this.getBreadcrumbs().getByRole('button', { name: 'Actions', exact: true }).click()
+			await menuItem.click({ timeout: 2000 })
+		}).toPass({ timeout: 15000 })
+
 		await this.waitForListLoaded()
 	}
 
@@ -158,14 +181,17 @@ export class FilesListPage {
 		await saved
 	}
 
-	/** The per-row selection checkboxes. */
+	/**
+	 * The per-row selection checkboxes. `NcCheckboxRadioSwitch` forwards the
+	 * attribute to its `<input>`, so the hook sits on the checkbox itself.
+	 */
 	getRowCheckboxes(): Locator {
 		return this.page.locator('[data-cy-files-list-row-checkbox]')
 	}
 
 	/** The per-row selection checkboxes that are currently checked (i.e. selected rows). */
 	getSelectedRowCheckboxes(): Locator {
-		return this.getRowCheckboxes().getByRole('checkbox', { checked: true })
+		return this.getRowCheckboxes().and(this.page.getByRole('checkbox', { checked: true }))
 	}
 
 	private getActionsButtonForFile(filename: string): Locator {
@@ -350,7 +376,6 @@ export class FilesListPage {
 
 	private getSelectAllCheckbox(): Locator {
 		return this.page.locator('[data-cy-files-list-selection-checkbox]')
-			.getByRole('checkbox')
 	}
 
 	async selectAll(): Promise<void> {
