@@ -1,0 +1,163 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+import type { Locator, Page } from '@playwright/test'
+
+import { expect } from '@playwright/test'
+import { handlePasswordConfirmation } from '../utils/password-confirmation.ts'
+
+/**
+ * Page object for the Admin Users Management page (/settings/users).
+ *
+ * Selector strategy:
+ * - Prefer role / label / text selectors.
+ * - `data-cy-user-row` and `data-cy-user-list` are the only data-attribute
+ *   selectors used — the virtual-scroll list and individual rows have no
+ *   semantic ARIA alternative.
+ * - `data-cy-users-settings-navigation-groups` is used for the custom groups
+ *   list because the list has no distinct accessible name.
+ */
+export class SettingsUsersPage {
+	constructor(private readonly page: Page) {}
+
+	async open(): Promise<void> {
+		await this.page.goto('/settings/users')
+		await this.userList().waitFor({ state: 'visible' })
+	}
+
+	// ── Sidebar navigation ──────────────────────────────────────────────────
+
+	navigation(): Locator {
+		return this.page.getByRole('navigation', { name: 'Account management' })
+	}
+
+	/** Click a named link in the account management sidebar. */
+	async navigateTo(name: string | RegExp): Promise<void> {
+		await this.navigation().getByRole('link', { name }).click()
+	}
+
+	/** The custom groups section in the sidebar navigation. */
+	customGroupsList(): Locator {
+		return this.page.locator('[data-cy-users-settings-navigation-groups="custom"]')
+	}
+
+	groupListItem(groupName: string): Locator {
+		return this.customGroupsList().getByRole('listitem').filter({ hasText: groupName })
+	}
+
+	// ── User list ────────────────────────────────────────────────────────────
+
+	userList(): Locator {
+		return this.page.locator('[data-cy-user-list]')
+	}
+
+	userRow(userId: string): Locator {
+		return this.page.locator(`[data-cy-user-row="${userId}"]`)
+	}
+
+	// ── Dialogs ──────────────────────────────────────────────────────────────
+
+	/** Open the "New account" dialog and wait for it to appear. */
+	async openNewUserDialog(): Promise<void> {
+		await this.page.getByRole('navigation')
+			.getByRole('button', { name: 'New account' })
+			.click()
+		await this.newUserDialog().waitFor({ state: 'visible' })
+	}
+
+	newUserDialog(): Locator {
+		return this.page.getByRole('dialog', { name: 'New account' })
+	}
+
+	// ── Inline row editing ───────────────────────────────────────────────────
+
+	/**
+	 * Switch the row of `userId` into edit mode.
+	 * The row edits every property in place; there is no edit dialog.
+	 *
+	 * Edit mode is state of the row component, so a row that re-renders while
+	 * its details are still loading drops back to read-only. Retry the toggle
+	 * until it sticks.
+	 */
+	async openInlineEdit(userId: string): Promise<void> {
+		const row = this.userRow(userId)
+		const inEdit = row.locator('[data-cy-user-list-action-toggle-edit="true"]')
+
+		await expect(async () => {
+			if (await inEdit.count() === 0) {
+				await row.locator('[data-cy-user-list-action-toggle-edit="false"]').click()
+			}
+			await expect(inEdit).toBeVisible({ timeout: 2000 })
+		}).toPass({ timeout: 20_000 })
+	}
+
+	/**
+	 * A single cell of a user row.
+	 *
+	 * @param userId - The account the row belongs to
+	 * @param cell - The cell suffix, e.g. `displayname`, `email` or `quota`
+	 */
+	userRowCell(userId: string, cell: string): Locator {
+		return this.userRow(userId).locator(`[data-cy-user-list-cell-${cell}]`)
+	}
+
+	/**
+	 * Fill one of the inline text fields and submit it through its trailing button.
+	 * The row must already be in edit mode.
+	 *
+	 * @param userId - The account the row belongs to
+	 * @param cell - The cell suffix, e.g. `displayname`, `email` or `password`
+	 * @param value - The value to submit
+	 */
+	async submitInlineTextField(userId: string, cell: string, value: string): Promise<void> {
+		const field = this.userRowCell(userId, cell)
+		await field.scrollIntoViewIfNeeded()
+		await field.locator('input').fill(value)
+		await field.getByRole('button', { name: 'Submit' }).click()
+		await handlePasswordConfirmation(this.page)
+	}
+
+	/**
+	 * Open the NcActions flyout for a custom group nav item.
+	 * NcActions inside NcAppNavigationItem falls back to the default `t('Actions')` label.
+	 */
+	async openGroupActionsMenu(groupName: string): Promise<void> {
+		const item = this.groupListItem(groupName)
+		await item.hover()
+		await item.getByRole('button', { name: /Actions/i }).click()
+	}
+
+	/**
+	 * Locator for the member count inside a group list item.
+	 * NcCounterBubble has no accessible role — CSS class is a last resort.
+	 */
+	groupMemberCount(groupName: string): Locator {
+		return this.groupListItem(groupName).locator('.counter-bubble__counter')
+	}
+
+	/** Open the actions dropdown for `userId`. */
+	async openActionsMenu(userId: string): Promise<void> {
+		const button = this.userRow(userId).getByRole('button', { name: 'Toggle account actions menu' })
+		await button.click()
+		await expect(button).toHaveAttribute('aria-controls')
+		await expect(this.page.getByRole('menu').and(this.page.locator('#' + await button.getAttribute('aria-controls')))).toBeVisible()
+	}
+
+	/** Open the "Account management settings" dialog. */
+	async openSettingsDialog(): Promise<void> {
+		await this.page.getByRole('button', { name: 'Account management settings' }).click()
+		await this.settingsDialog().waitFor({ state: 'visible' })
+	}
+
+	settingsDialog(): Locator {
+		return this.page.getByRole('dialog', { name: 'Account management settings' })
+	}
+
+	/** Close the "Account management settings" dialog. */
+	async closeSettingsDialog(): Promise<void> {
+		await this.settingsDialog().getByRole('button', { name: 'Close' }).click()
+		await this.settingsDialog().waitFor({ state: 'hidden' })
+	}
+}
