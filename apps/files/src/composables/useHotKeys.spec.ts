@@ -87,6 +87,11 @@ describe('HotKeysService testing', () => {
 		// Make sure the router is reset before each test
 		router.push.mockClear()
 
+		// Make sure the action spies are reset before each test
+		// (mocks are not cleared automatically with the vitest version used here)
+		vi.mocked(deleteAction.exec).mockClear()
+		vi.mocked(deleteAction.enabled!).mockClear()
+
 		// Make sure the file is reset before each test
 		file = new File({
 			id: 2,
@@ -143,6 +148,17 @@ describe('HotKeysService testing', () => {
 
 		expect(deleteAction.enabled).toHaveReturnedWith(true)
 		expect(deleteAction.exec).toHaveBeenCalledOnce()
+	})
+
+	it('passes the hotkey trigger to the action', () => {
+		component.destroy()
+		registerFileAction(deleteAction)
+		component = mount(TestComponent)
+
+		dispatchEvent({ key: 'Delete', code: 'Delete' })
+
+		expect(deleteAction.exec).toHaveBeenCalledOnce()
+		expect(deleteAction.exec).toHaveBeenCalledWith(expect.objectContaining({ trigger: 'hotkey' }))
 	})
 
 	// actions implemented by the composable
