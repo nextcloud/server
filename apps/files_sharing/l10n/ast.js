@@ -139,9 +139,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} compartió l'elementu cola conversación «{user}»",
     "Shared with {user} by {owner}" : "{owner} compartió l'elementu con «{user}»",
     "Open Sharing Details" : "Abrir los detalles de la compartición",
-    "Added by {initiator}" : "{initiator} amestó l'elementu",
-    "Via “{folder}”" : "Per «{folder}»",
     "Unshare" : "Dexar de compartir",
+    "Added by {initiator}" : "{initiator} amestó l'elementu",
     "Cannot copy, please copy the link manually" : "Nun se pue copiar. Copia l'enllaz manualmente",
     "Copy internal link" : "Copiar l'enllaz internu",
     "Internal link" : "Enllaz internu",
@@ -270,6 +269,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Nun se pudo compartir «%1$s» porque'l backend nun permite los elementos compartíos del tipu «%2$s»",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Nun se pudo compartir «%s» porque nun ye compatible coles comparticiones de ScienceMesh",
     "Public upload disabled by the administrator" : "L'alministración desactivó la xuba pública",
+    "Via “{folder}”" : "Per «{folder}»",
     "Name or email …" : "Nome o direición de corréu electrónicu…",
     "Name, email, or Federated Cloud ID …" : "Nome, direición de corréu electrónicu o ID de nube federada…",
     "Searching …" : "Buscando…"

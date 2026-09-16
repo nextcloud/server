@@ -199,9 +199,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Bendrinimas su pokalbiu {user}, kurį aliko {owner}",
     "Shared with {user} by {owner}" : "Bendrinimas su {user}, kurį aliko {owner}",
     "Open Sharing Details" : "Atidaryti Bendrinimo Informaciją",
-    "Added by {initiator}" : "Pridėjo {initiator}",
-    "Via “{folder}”" : "Per „{folder}“",
     "Unshare" : "Nustoti bendrinti",
+    "Added by {initiator}" : "Pridėjo {initiator}",
     "Cannot copy, please copy the link manually" : "Nepavyksta nukopijuoti, nukopijuokite nuorodą rankiniu būdu",
     "Copy internal link" : "Kopijuoti vidinę nuorodą",
     "For people who already have access" : "Tiems, kurie jau turi prieigą",
@@ -413,6 +412,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Dalijimasis %s nepavyko, nes serveris nepalaiko „ScienceMesh“ dalijimosi",
     "Public upload disabled by the administrator" : "Įkėlimas viešam naudojimui yra išjungtas",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Žymuo turi būti sudarytas iš ne mažiau kaip 1 simbolio ir gali būti sudarytas tik iš raidžių, skaičių arba brūkšnelio",
+    "Via “{folder}”" : "Per „{folder}“",
     "Name or email …" : "Vardas ar el. paštas…",
     "Name, email, or Federated Cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…",
     "Searching …" : "Ieškoma…"

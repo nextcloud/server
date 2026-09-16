@@ -199,9 +199,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Shared with the conversation {user} by {owner}",
     "Shared with {user} by {owner}" : "Shared with {user} by {owner}",
     "Open Sharing Details" : "Open Sharing Details",
-    "Added by {initiator}" : "Added by {initiator}",
-    "Via “{folder}”" : "Via “{folder}”",
     "Unshare" : "Unshare",
+    "Added by {initiator}" : "Added by {initiator}",
     "Cannot copy, please copy the link manually" : "Cannot copy, please copy the link manually",
     "Copy internal link" : "Copy internal link",
     "For people who already have access" : "For people who already have access",
@@ -419,6 +418,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Sharing %s failed because the back end does not support ScienceMesh shares",
     "Public upload disabled by the administrator" : "Public upload disabled by the administrator",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen",
+    "Via “{folder}”" : "Via “{folder}”",
     "Name or email …" : "Name or email …",
     "Name, email, or Federated Cloud ID …" : "Name, email, or Federated Cloud ID …",
     "Searching …" : "Searching …"

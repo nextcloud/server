@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "動作",
     "Checking …" : "正在檢查……",
     "Recheck status" : "重新檢查狀態",
+    "All accounts" : "所有帳號",
     "Delete" : "刪除",
     "System provided storage" : "系統提供的儲存空間",
     "Saved" : "已儲存",

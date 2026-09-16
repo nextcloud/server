@@ -191,9 +191,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Compartido coa conversa {user} por {owner}",
     "Shared with {user} by {owner}" : "Compartido con {user} por {owner}",
     "Open Sharing Details" : "Abrir os detalles da compartición",
-    "Added by {initiator}" : "Engadido por {initiator}",
-    "Via “{folder}”" : "A través de «{folder}»",
     "Unshare" : "Deixar de compartir",
+    "Added by {initiator}" : "Engadido por {initiator}",
     "Cannot copy, please copy the link manually" : "Non foi posíbel copiala. Copie a ligazón manualmente",
     "Copy internal link" : "Copiar a ligazón interna",
     "For people who already have access" : "Para persoas que xa teñen acceso",
@@ -405,6 +404,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Produciuse un erro ao compartir %s porque a infraestrutura non admite comparticións de ScienceMesh",
     "Public upload disabled by the administrator" : "O envío público foi desactivado pola administración desta instancia.",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Os testemuños deben conter polo menos 1 carácter e só poden conter letras, números ou un guión",
+    "Via “{folder}”" : "A través de «{folder}»",
     "Name or email …" : "Nome ou correo…",
     "Name, email, or Federated Cloud ID …" : "Nome, correo ou ID de nube federada…",
     "Searching …" : "Buscando…"
