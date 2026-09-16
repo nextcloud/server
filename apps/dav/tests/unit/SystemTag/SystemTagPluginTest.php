@@ -11,10 +11,14 @@ namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
 use OCA\DAV\SystemTag\SystemTagNode;
+use OCA\DAV\SystemTag\SystemTagObjectType;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\SystemTag\SystemTagsByIdCollection;
+use OCA\DAV\SystemTag\SystemTagsObjectList;
 use OCA\DAV\SystemTag\SystemTagsObjectMappingCollection;
+use OCP\Constants;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -23,6 +27,7 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagAlreadyExistsException;
 use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -328,6 +333,74 @@ class SystemTagPluginTest extends \Test\TestCase {
 			$propPatch
 		);
 
+		$propPatch->commit();
+	}
+
+	public static function updateObjectIdsProvider(): array {
+		return [
+			'add a visible file' => [['2', '3'], ['2', '3', '1']],
+			'remove a visible file' => [['3'], ['3', '1']],
+			'remove all visible files' => [null, ['1']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'updateObjectIdsProvider')]
+	public function testUpdateObjectIdsKeepsHiddenObjects(?array $requestedIds, array $expectedIds): void {
+		$this->mockObjectIdsUpdate(Constants::PERMISSION_ALL);
+
+		$this->tagMapper->expects($this->once())
+			->method('setObjectIdsForTag')
+			->with('5', 'files', $expectedIds);
+
+		$this->updateObjectIds($requestedIds);
+	}
+
+	public static function updateObjectIdsForbiddenProvider(): array {
+		return [
+			'add a hidden file' => [['1', '2', '4'], Constants::PERMISSION_ALL],
+			'remove a read-only file' => [null, Constants::PERMISSION_READ],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'updateObjectIdsForbiddenProvider')]
+	public function testUpdateObjectIdsForbidden(?array $requestedIds, int $permissions): void {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->mockObjectIdsUpdate($permissions);
+
+		$this->tagMapper->expects($this->never())
+			->method('setObjectIdsForTag');
+
+		$this->updateObjectIds($requestedIds);
+	}
+
+	/**
+	 * Files 1 and 2 are tagged, only files 2 and 3 are visible to the user
+	 */
+	private function mockObjectIdsUpdate(int $permissions): void {
+		$this->user->method('getUID')->willReturn('user');
+
+		$node = $this->createMock(SystemTagObjectType::class);
+		$node->method('getName')->willReturn('files');
+		$node->method('getSystemTag')->willReturn(new SystemTag('5', 'Test', true, true));
+		$this->tree->method('getNodeForPath')->willReturn($node);
+
+		$this->tagMapper->method('getObjectIdsForTags')->willReturn(['1', '2']);
+
+		$fileNode = $this->createMock(\OCP\Files\Node::class);
+		$fileNode->method('getPermissions')->willReturn($permissions);
+		$userFolder = $this->createMock(IUserFolder::class);
+		$userFolder->method('getFirstNodeById')
+			->willReturnCallback(fn (int $id): ?\OCP\Files\Node => in_array($id, [2, 3], true) ? $fileNode : null);
+		$userFolder->method('getById')
+			->willReturnCallback(fn (int $id): array => in_array($id, [2, 3], true) ? [$fileNode] : []);
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
+	}
+
+	private function updateObjectIds(?array $objectIds): void {
+		$propPatch = new PropPatch([
+			SystemTagPlugin::OBJECTIDS_PROPERTYNAME => $objectIds === null ? null : new SystemTagsObjectList(array_fill_keys($objectIds, 'files')),
+		]);
+		$this->plugin->handleUpdateProperties('/systemtags/5/files', $propPatch);
 		$propPatch->commit();
 	}
 
