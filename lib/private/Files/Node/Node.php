@@ -503,7 +503,7 @@ class Node implements INode {
 
 	#[\Override]
 	public function getParentId(): int {
-		return $this->fileInfo->getParentId();
+		return $this->getFileInfo()->getParentId();
 	}
 
 	/**
@@ -512,11 +512,11 @@ class Node implements INode {
 	 */
 	#[\Override]
 	public function getMetadata(): array {
-		return $this->fileInfo->getMetadata();
+		return $this->getFileInfo()->getMetadata();
 	}
 
 	#[\Override]
 	public function getData(): ICacheEntry {
-		return $this->fileInfo->getData();
+		return $this->getFileInfo()->getData();
 	}
 }
