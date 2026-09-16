@@ -9,12 +9,12 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Storage;
-use OCP\Files;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\Cache\IUpdater;
 use OCP\Files\Cache\IWatcher;
+use OCP\Files\GenericFileException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
@@ -338,9 +338,17 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 */
 	protected function writeStreamFallback(string $path, $stream): int {
 		$target = $this->fopen($path, 'w');
-		$count = Files::streamCopy($stream, $target);
+		if ($target === false) {
+			throw new GenericFileException('Failed to open ' . $path);
+		}
+
+		$count = stream_copy_to_stream($stream, $target);
 		fclose($stream);
 		fclose($target);
+		if ($count === false) {
+			throw new GenericFileException('Failed to copy stream.');
+		}
+
 		return $count;
 	}
 
