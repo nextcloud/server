@@ -76,14 +76,21 @@ export class SettingsUsersPage {
 	/**
 	 * Switch the row of `userId` into edit mode.
 	 * The row edits every property in place; there is no edit dialog.
+	 *
+	 * Edit mode is state of the row component, so a row that re-renders while
+	 * its details are still loading drops back to read-only. Retry the toggle
+	 * until it sticks.
 	 */
 	async openInlineEdit(userId: string): Promise<void> {
 		const row = this.userRow(userId)
-		const enterEdit = row.locator('[data-cy-user-list-action-toggle-edit="false"]')
-		if (await enterEdit.count() > 0) {
-			await enterEdit.click({ force: true })
-		}
-		await row.locator('[data-cy-user-list-action-toggle-edit="true"]').waitFor({ state: 'visible' })
+		const inEdit = row.locator('[data-cy-user-list-action-toggle-edit="true"]')
+
+		await expect(async () => {
+			if (await inEdit.count() === 0) {
+				await row.locator('[data-cy-user-list-action-toggle-edit="false"]').click()
+			}
+			await expect(inEdit).toBeVisible({ timeout: 2000 })
+		}).toPass({ timeout: 20_000 })
 	}
 
 	/**
