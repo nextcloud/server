@@ -108,6 +108,7 @@ OC.L10N.register(
     "Actions" : "Aðgerðir",
     "Checking …" : "Athuga…",
     "Recheck status" : "Athuga stöðu aftur",
+    "All accounts" : "Allir aðgangar",
     "Delete" : "Eyða",
     "System provided storage" : "Geymsla á kerfinu",
     "Saved" : "Vistað",

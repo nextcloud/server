@@ -199,9 +199,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "由{owner}共享给会话{user}",
     "Shared with {user} by {owner}" : "{owner} 共享给 {user}",
     "Open Sharing Details" : "打开分享详细信息",
-    "Added by {initiator}" : "由 {initiator} 添加",
-    "Via “{folder}”" : "通过“{folder}”",
     "Unshare" : "取消共享",
+    "Added by {initiator}" : "由 {initiator} 添加",
     "Cannot copy, please copy the link manually" : "无法复制，请手动复制链接",
     "Copy internal link" : "复制内部链接",
     "For people who already have access" : "对于已经拥有访问权限的人员",
@@ -413,6 +412,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "共享 %s 失败，因为后端不支持 ScienceMesh 共享。",
     "Public upload disabled by the administrator" : "管理员已禁用公开上传",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "令牌必须至少包含 1 个字符，并且只能包含字母、数字或连字符",
+    "Via “{folder}”" : "通过“{folder}”",
     "Name or email …" : "名称或电子邮件…",
     "Name, email, or Federated Cloud ID …" : "名称、电子邮件或联合云 ID…",
     "Searching …" : "正在搜索…"

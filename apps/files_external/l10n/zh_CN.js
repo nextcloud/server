@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "操作",
     "Checking …" : "正在检查 …",
     "Recheck status" : "重新检查状态",
+    "All accounts" : "所有账号",
     "Delete" : "删除",
     "System provided storage" : "系统提供的存储",
     "Saved" : "已保存",

@@ -181,9 +181,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Delt med samtalen {user} av {owner}",
     "Shared with {user} by {owner}" : "Delt med {user} av {owner}",
     "Open Sharing Details" : "Åpne delingsdetaljer",
-    "Added by {initiator}" : "Lagt til av {initiator}",
-    "Via “{folder}”" : "Via “{folder}”",
     "Unshare" : "Opphev deling",
+    "Added by {initiator}" : "Lagt til av {initiator}",
     "Cannot copy, please copy the link manually" : "Kan ikke kopiere, kopier lenken manuelt",
     "Copy internal link" : "Kopier intern lenke",
     "Internal link" : "Intern lenke",
@@ -339,6 +338,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deling av %1$s mislyktes fordi serveren ikke tillater delinger fra typen %2$s",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Deling av %s feilet fordi backend-en ikke støtter ScienceMesh-delinger",
     "Public upload disabled by the administrator" : "Offentlig opplasting er deaktivert av administratoren",
+    "Via “{folder}”" : "Via “{folder}”",
     "Name or email …" : "Navn eller epost ...",
     "Name, email, or Federated Cloud ID …" : "Navn, epost eller sammenknyttet sky-ID ...",
     "Searching …" : "Søker ..."

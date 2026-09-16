@@ -94,6 +94,7 @@ OC.L10N.register(
     "Actions" : "Acciones",
     "Checking …" : "Comprobando ...",
     "Recheck status" : "Volver a comprobar el estado",
+    "All accounts" : "Todas las cuentas",
     "Delete" : "Eliminar",
     "System provided storage" : "Almacenamiento proporcionado por el sistema",
     "Saved" : "Guardado",
