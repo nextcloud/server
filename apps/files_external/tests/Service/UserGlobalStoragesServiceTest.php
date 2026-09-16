@@ -267,7 +267,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		}
 	}
 
-	public function testAddStoragePreservesFilesystemCheckChanges(int $value): void {
+	public function testAddStoragePreservesFilesystemCheckChanges(): void {
 		// we don't test this here
 		$this->addToAssertionCount(1);
 	}
