@@ -86,13 +86,6 @@ export class SettingsUsersPage {
 		await row.locator('[data-cy-user-list-action-toggle-edit="true"]').waitFor({ state: 'visible' })
 	}
 
-	/** Switch the row of `userId` back into read-only mode. */
-	async closeInlineEdit(userId: string): Promise<void> {
-		const row = this.userRow(userId)
-		await row.locator('[data-cy-user-list-action-toggle-edit="true"]').click({ force: true })
-		await row.locator('[data-cy-user-list-action-toggle-edit="false"]').waitFor({ state: 'visible' })
-	}
-
 	/**
 	 * A single cell of a user row.
 	 *
