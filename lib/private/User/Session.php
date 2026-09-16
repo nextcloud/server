@@ -908,26 +908,31 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
+		$isLegacyRememberLoginToken = false;
 		try {
 			// get stored token
 			$rememberLoginToken = $this->rememberLoginTokenMapper->findByToken($currentToken);
+			if ($rememberLoginToken->uid !== $uid) {
+				$this->logger->warning('Tried to login using remember-me token token from a different user', [
+					'app' => 'core',
+					'user' => $uid,
+				]);
+				return false;
+			}
 		} catch (DoesNotExistException $ex) {
 			// TODO: remove this after migration to 'remember_login_tokens' table is finished
-			$rememberLoginToken = $this->migrateLegacyRememberLoginToken($uid, $currentToken);
-			if ($rememberLoginToken === null) {
+			$legacyRememberLoginTokens = $this->config->getUserKeys($uid, 'login_token');
+			$isLegacyRememberLoginToken = in_array($currentToken, $legacyRememberLoginTokens, true);
+			if ($isLegacyRememberLoginToken) {
+				// remove token from 'preferences' table
+				$this->config->deleteUserValue($uid, 'login_token', $currentToken);
+			} else {
 				$this->logger->info('Tried to log in but could not verify token', [
 					'app' => 'core',
 					'user' => $uid,
 				]);
 				return false;
 			}
-		}
-		if ($rememberLoginToken->uid !== $uid) {
-			$this->logger->warning('Tried to login using remember-me token token from a different user', [
-				'app' => 'core',
-				'user' => $uid,
-			]);
-			return false;
 		}
 
 		try {
@@ -949,9 +954,15 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		// replace successfully used token with a new one
-		$newToken = $this->random->generate(32);
-		$this->rememberLoginTokenMapper->rotateToken($currentToken, $newToken);
+		if ($isLegacyRememberLoginToken) {
+			// legacy token was removed from 'preferences' table
+			// create new one on 'remember_login_tokens' table
+			$newToken = $this->createRememberLoginToken($uid);
+		} else {
+			// replace successfully used token with a new one
+			$newToken = $this->random->generate(32);
+			$this->rememberLoginTokenMapper->rotateToken($currentToken, $newToken);
+		}
 		$this->logger->debug('Remember-me token replaced', [
 			'app' => 'core',
 			'user' => $uid,
@@ -1018,24 +1029,6 @@ class Session implements IUserSession, Emitter {
 		$this->rememberLoginTokenMapper->insert($rememberLoginToken);
 
 		return $token;
-	}
-
-	/**
-	 * TODO: remove this after migration to 'remember_login_tokens' table is finished
-	 */
-	private function migrateLegacyRememberLoginToken(string $uid, string $token): ?RememberLoginToken {
-		$legacyTokens = $this->config->getUserKeys($uid, 'login_token');
-		if (!in_array($token, $legacyTokens, true)) {
-			return null;
-		}
-
-		$this->config->deleteUserValue($uid, 'login_token', $token);
-
-		$rememberLoginToken = new RememberLoginToken();
-		$rememberLoginToken->uid = $uid;
-		$rememberLoginToken->token = $token;
-
-		return $this->rememberLoginTokenMapper->insert($rememberLoginToken);
 	}
 
 	/**

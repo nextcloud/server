@@ -57,8 +57,7 @@ class LoginControllerTest extends TestCase {
 	private IAppManager&MockObject $appManager;
 	private AlternativeLoginService&MockObject $alternativeLoginService;
 
-	/** @var RememberLoginTokenMapper|MockObject */
-	private $rememberLoginTokenMapper;
+	private RememberLoginTokenMapper&MockObject $rememberLoginTokenMapper;
 
 	#[\Override]
 	protected function setUp(): void {

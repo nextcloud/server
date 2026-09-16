@@ -87,7 +87,7 @@ class LoginController extends Controller {
 			$affectedRows = $this->rememberLoginTokenMapper->deleteByToken($loginToken);
 			if ($affectedRows < 1) {
 				// TODO: remove this after migration to 'remember_login_tokens' table is finished
-				$this->config->deleteUserValue($uid, 'login_token', $loginToken);
+				$this->userConfig->deleteUserConfig($uid, 'login_token', $loginToken);
 			}
 		}
 		$this->userSession->logout();
