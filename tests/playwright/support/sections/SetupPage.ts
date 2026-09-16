@@ -112,31 +112,16 @@ export class SetupPage {
 	}
 
 	/**
-	 * Install the recommended apps and confirm the per-app password dialog that
-	 * `@nextcloud/password-confirmation` raises for each enable request. The
-	 * enables fire together, so one dialog is shown after another (never stacked):
-	 * confirm each, waiting for the prompt to be consumed — the input clears for
-	 * the next app, or the dialog closes after the last — before looking for the
-	 * next. Confirm up to `appCount`, stopping early if a fresh session needs none.
+	 * Install the recommended apps and confirm the password dialog that
+	 * `@nextcloud/password-confirmation` raises for the enable request. All
+	 * selected apps are enabled in one bulk request, so a single dialog is shown.
 	 */
-	async installRecommendedApps(password: string, appCount: number): Promise<void> {
+	async installRecommendedApps(password: string): Promise<void> {
 		await this.installRecommendedButton().click()
 
-		for (let i = 0; i < appCount; i++) {
-			const dialog = this.page.getByRole('dialog', { name: 'Authentication required' })
-			try {
-				await dialog.waitFor({ state: 'visible', timeout: 10_000 })
-			} catch {
-				break
-			}
-
-			const input = dialog.locator('input[type="password"]')
-			await input.fill(password)
-			await dialog.getByRole('button', { name: 'Confirm' }).click()
-
-			// Wait until this prompt is resolved before seeking the next one, so the
-			// same dialog is never confirmed twice.
-			await expect(input).not.toHaveValue(password, { timeout: 10_000 }).catch(() => {})
-		}
+		const dialog = this.page.getByRole('dialog', { name: 'Authentication required' })
+		await dialog.waitFor({ state: 'visible', timeout: 10_000 })
+		await dialog.locator('input[type="password"]').fill(password)
+		await dialog.getByRole('button', { name: 'Confirm' }).click()
 	}
 }
