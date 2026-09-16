@@ -13,6 +13,7 @@ import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 import IconWeb from '@mdi/svg/svg/web.svg?raw'
 import { isPublicShare } from '@nextcloud/sharing/public'
 import { isSyncable } from '../utils/permissions.ts'
+import logger from '../logger.ts'
 
 export const action = new FileAction({
 	id: 'edit-locally',
