@@ -55,6 +55,12 @@ const modules = {
 	files_reminders: {
 		init: resolve(import.meta.dirname, 'apps/files_reminders/src', 'files-init.ts'),
 	},
+	files_sharing: {
+		// Only the public share entry point is migrated to Vue 3 so far, the rest
+		// of the app is still built by the Vue 2 frontend. It is referenced by path
+		// rather than through `apps/` so it resolves the Vue 3 dependencies.
+		'init-public': resolve(import.meta.dirname, '../..', 'apps/files_sharing/src/public', 'init.ts'),
+	},
 	files_trashbin: {
 		init: resolve(import.meta.dirname, 'apps/files_trashbin/src', 'files-init.ts'),
 	},
@@ -122,6 +128,10 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 		root: resolve(import.meta.dirname, '../..'),
 		resolve: {
 			preserveSymlinks: true,
+			alias: [
+				// allow to import from the repository root (cross reference other apps)
+				{ find: /^~\//, replacement: `${resolve(import.meta.dirname, '../..')}/` },
+			],
 		},
 		build: {
 			outDir: 'dist',

@@ -38,17 +38,17 @@
 					{{ t('files_sharing', 'View terms of service') }}
 				</NcButton>
 				<NcDialog
-					close-on-click-outside
-					content-classes="terms-of-service-dialog"
-					:open.sync="showDialog"
+					v-model:open="showDialog"
+					closeOnClickOutside
+					contentClasses="terms-of-service-dialog"
 					:name="t('files_sharing', 'Terms of service')"
 					:message="disclaimer" />
 			</template>
-			<UploadPicker
-				allow-folders
-				:content="() => []"
-				no-menu
+			<NcUploadPicker
+				:content="getContent"
 				:destination="uploadDestination"
+				directory
+				:label="t('files_sharing', 'Upload')"
 				multiple />
 		</template>
 	</NcEmptyContent>
@@ -61,15 +61,17 @@ const uploads = new Set<string>()
 
 <script setup lang="ts">
 import svgCloudUpload from '@mdi/svg/svg/cloud-upload-outline.svg?raw'
+import { getUploader, UploadStatus } from '@nextcloud/files/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import { getUploader, UploadPicker, UploadStatus } from '@nextcloud/upload'
+import { basename } from '@nextcloud/paths'
 import { ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcUploadPicker from '@nextcloud/vue/components/NcUploadPicker'
 
 defineProps<{
 	foldername: string
@@ -85,13 +87,19 @@ const showDialog = ref(false)
 const uploadDestination = getUploader().destination
 
 getUploader()
-	.addNotifier((upload) => {
-		if (upload.status === UploadStatus.FINISHED && upload.file.name) {
-			// if a upload is finished and is not a meta upload (name is set)
-			// then we add the upload to the list of finished uploads to be shown to the user
-			uploads.add(upload.file.name)
+	.addEventListener('uploadFinished', ({ detail: upload }) => {
+		// only leaf uploads are files, a folder upload is reported with its children
+		if (upload.status === UploadStatus.FINISHED && upload.children.length === 0) {
+			uploads.add(decodeURIComponent(basename(upload.source)))
 		}
 	})
+
+/**
+ * The destination folder has no listing, so nothing can conflict with an upload
+ */
+async function getContent() {
+	return []
+}
 
 /**
  * Get the previous uploads as sorted list
