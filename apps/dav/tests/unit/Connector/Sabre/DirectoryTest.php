@@ -545,7 +545,7 @@ class DirectoryTest extends \Test\TestCase {
 			->method('free_space')
 			->willReturn(800);
 
-		$this->info->expects($this->once())
+		$storage->expects($this->once())
 			->method('getSize')
 			->willReturn(200);
 
