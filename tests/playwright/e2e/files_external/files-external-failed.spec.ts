@@ -35,8 +35,9 @@ test('Create a failed user storage with invalid url', async ({ page, user, files
 	}
 
 	await expect(row).toBeVisible()
+	// The title naming the storage ("{name} (unavailable)") only landed in 34
 	await expect(filesListPage.getRowNameLinkForFile('Storage1'))
-		.toHaveAttribute('title', / \(unavailable\)$/)
+		.toHaveAttribute('title', 'This node is unavailable')
 
 	// Clicking an unavailable storage must not open it (location stays the same)
 	const url = page.url()
@@ -68,7 +69,7 @@ test('Create a failed user storage with invalid login credentials', async ({ pag
 
 	await expect(row).toBeVisible()
 	await expect(filesListPage.getRowNameLinkForFile('Storage2'))
-		.toHaveAttribute('title', / \(unavailable\)$/)
+		.toHaveAttribute('title', 'This node is unavailable')
 
 	const url = page.url()
 	await filesListPage.getRowNameLinkForFile('Storage2').click()
