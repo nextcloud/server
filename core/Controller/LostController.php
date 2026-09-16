@@ -51,7 +51,7 @@ use function reset;
 /**
  * Class LostController
  *
- * Successfully changing a password will emit the post_passwordReset hook.
+ * Successfully changing a password will dispatch a PasswordResetEvent.
  *
  * @package OC\Core\Controller
  */
@@ -203,7 +203,6 @@ class LostController extends Controller {
 			$user = $this->userManager->get($userId);
 
 			$this->eventDispatcher->dispatchTyped(new BeforePasswordResetEvent($user, $password));
-			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'pre_passwordReset', ['uid' => $userId, 'password' => $password]);
 
 			if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
 				throw new HintException('Password too long', $this->l10n->t('Password is too long. Maximum allowed length is 469 characters.'));
@@ -214,7 +213,6 @@ class LostController extends Controller {
 			}
 
 			$this->eventDispatcher->dispatchTyped(new PasswordResetEvent($user, $password));
-			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', ['uid' => $userId, 'password' => $password]);
 
 			$this->twoFactorManager->clearTwoFactorPending($userId);
 

@@ -1977,11 +1977,6 @@
       <code><![CDATA[$timestamp]]></code>
     </InvalidArgument>
   </file>
-  <file src="apps/files_versions/lib/AppInfo/Application.php">
-    <DeprecatedClass>
-      <code><![CDATA[LegacyRollbackListener::class]]></code>
-    </DeprecatedClass>
-  </file>
   <file src="apps/files_versions/lib/BackgroundJob/ExpireVersions.php">
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::setupFS($user)]]></code>
@@ -2675,9 +2670,6 @@
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
-    <DeprecatedMethod>
-      <code><![CDATA[Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry')]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/user_ldap/lib/User_LDAP.php">
     <DeprecatedInterface>

@@ -22,7 +22,6 @@ use OCP\Config\IUserConfig;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\Image;
-use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
@@ -74,8 +73,6 @@ class User {
 		}
 		$this->connection = $this->access->getConnection();
 		$this->birthdateParser = new BirthdateParserService();
-
-		Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
 	}
 
 	/**
@@ -731,100 +728,6 @@ class User {
 		} else {
 			$this->userConfig->deleteUserConfig($this->getUsername(), 'user_ldap', 'extStorageHome');
 			return '';
-		}
-	}
-
-	/**
-	 * called by a post_login hook to handle password expiry
-	 */
-	public function handlePasswordExpiry(array $params): void {
-		$ppolicyDN = $this->connection->ldapDefaultPPolicyDN;
-		if (empty($ppolicyDN) || ((int)$this->connection->turnOnPasswordChange !== 1)) {
-			//password expiry handling disabled
-			return;
-		}
-		$uid = $params['uid'];
-		if (isset($uid) && $uid === $this->getUsername()) {
-			//retrieve relevant user attributes
-			$result = $this->access->search('objectclass=*', $this->dn, ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
-
-			if (!empty($result)) {
-				if (array_key_exists('pwdpolicysubentry', $result[0])) {
-					$pwdPolicySubentry = $result[0]['pwdpolicysubentry'];
-					if ($pwdPolicySubentry && (count($pwdPolicySubentry) > 0)) {
-						$ppolicyDN = $pwdPolicySubentry[0];//custom ppolicy DN
-					}
-				}
-
-				$pwdGraceUseTime = array_key_exists('pwdgraceusetime', $result[0]) ? $result[0]['pwdgraceusetime'] : [];
-				$pwdReset = array_key_exists('pwdreset', $result[0]) ? $result[0]['pwdreset'] : [];
-				$pwdChangedTime = array_key_exists('pwdchangedtime', $result[0]) ? $result[0]['pwdchangedtime'] : [];
-			}
-
-			//retrieve relevant password policy attributes
-			$cacheKey = 'ppolicyAttributes' . $ppolicyDN;
-			$result = $this->connection->getFromCache($cacheKey);
-			if (is_null($result)) {
-				$result = $this->access->search('objectclass=*', $ppolicyDN, ['pwdgraceauthnlimit', 'pwdmaxage', 'pwdexpirewarning']);
-				$this->connection->writeToCache($cacheKey, $result);
-			}
-
-			$pwdGraceAuthNLimit = array_key_exists('pwdgraceauthnlimit', $result[0]) ? $result[0]['pwdgraceauthnlimit'] : [];
-			$pwdMaxAge = array_key_exists('pwdmaxage', $result[0]) ? $result[0]['pwdmaxage'] : [];
-			$pwdExpireWarning = array_key_exists('pwdexpirewarning', $result[0]) ? $result[0]['pwdexpirewarning'] : [];
-
-			//handle grace login
-			if (!empty($pwdGraceUseTime)) { //was this a grace login?
-				if (!empty($pwdGraceAuthNLimit)
-					&& count($pwdGraceUseTime) < (int)$pwdGraceAuthNLimit[0]) { //at least one more grace login available?
-					$this->userConfig->setValueBool($uid, 'user_ldap', 'needsPasswordReset', true);
-					header('Location: ' . Server::get(IURLGenerator::class)->linkToRouteAbsolute(
-						'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
-				} else { //no more grace login available
-					header('Location: ' . Server::get(IURLGenerator::class)->linkToRouteAbsolute(
-						'user_ldap.renewPassword.showLoginFormInvalidPassword', ['user' => $uid]));
-				}
-				exit();
-			}
-			//handle pwdReset attribute
-			if (!empty($pwdReset) && $pwdReset[0] === 'TRUE') { //user must change their password
-				$this->userConfig->setValueBool($uid, 'user_ldap', 'needsPasswordReset', true);
-				header('Location: ' . Server::get(IURLGenerator::class)->linkToRouteAbsolute(
-					'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
-				exit();
-			}
-			//handle password expiry warning
-			if (!empty($pwdChangedTime)) {
-				if (!empty($pwdMaxAge)
-					&& !empty($pwdExpireWarning)) {
-					$pwdMaxAgeInt = (int)$pwdMaxAge[0];
-					$pwdExpireWarningInt = (int)$pwdExpireWarning[0];
-					if ($pwdMaxAgeInt > 0 && $pwdExpireWarningInt > 0) {
-						$pwdChangedTimeDt = \DateTime::createFromFormat('YmdHisZ', $pwdChangedTime[0]);
-						$pwdChangedTimeDt->add(new \DateInterval('PT' . $pwdMaxAgeInt . 'S'));
-						$currentDateTime = new \DateTime();
-						$secondsToExpiry = $pwdChangedTimeDt->getTimestamp() - $currentDateTime->getTimestamp();
-						if ($secondsToExpiry <= $pwdExpireWarningInt) {
-							//remove last password expiry warning if any
-							$notification = $this->notificationManager->createNotification();
-							$notification->setApp('user_ldap')
-								->setUser($uid)
-								->setObject('pwd_exp_warn', $uid)
-							;
-							$this->notificationManager->markProcessed($notification);
-							//create new password expiry warning
-							$notification = $this->notificationManager->createNotification();
-							$notification->setApp('user_ldap')
-								->setUser($uid)
-								->setDateTime($currentDateTime)
-								->setObject('pwd_exp_warn', $uid)
-								->setSubject('pwd_exp_warn_days', [(int)ceil($secondsToExpiry / 60 / 60 / 24)])
-							;
-							$this->notificationManager->notify($notification);
-						}
-					}
-				}
-			}
 		}
 	}
 }

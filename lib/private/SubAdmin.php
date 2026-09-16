@@ -8,7 +8,6 @@
 
 namespace OC;
 
-use OC\Hooks\PublicEmitter;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\SubAdminAddedEvent;
 use OCP\Group\Events\SubAdminRemovedEvent;
@@ -19,7 +18,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 
-class SubAdmin extends PublicEmitter implements ISubAdmin {
+class SubAdmin implements ISubAdmin {
 	public function __construct(
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
@@ -50,8 +49,6 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			])
 			->executeStatement();
 
-		/** @deprecated 21.0.0 - use type SubAdminAddedEvent instead  */
-		$this->emit('\OC\SubAdmin', 'postCreateSubAdmin', [$user, $group]);
 		$event = new SubAdminAddedEvent($group, $user);
 		$this->eventDispatcher->dispatchTyped($event);
 	}
@@ -70,8 +67,6 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->executeStatement();
 
-		/** @deprecated 21.0.0 - use type SubAdminRemovedEvent instead  */
-		$this->emit('\OC\SubAdmin', 'postDeleteSubAdmin', [$user, $group]);
 		$event = new SubAdminRemovedEvent($group, $user);
 		$this->eventDispatcher->dispatchTyped($event);
 	}
