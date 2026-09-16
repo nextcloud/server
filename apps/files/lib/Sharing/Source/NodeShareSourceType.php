@@ -57,6 +57,10 @@ final readonly class NodeShareSourceType implements IShareSourceType, IEventList
 
 	#[\Override]
 	public function validateSource(string $source): bool {
+		if ((string)(int)$source !== $source) {
+			return false;
+		}
+
 		return $this->rootFolder->getFirstNodeById((int)$source) instanceof Node;
 	}
 
