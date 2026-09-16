@@ -191,9 +191,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Dibagikan dengan percakapan {user} oleh {owner}",
     "Shared with {user} by {owner}" : "Berbagi dengan {user} oleh {owner}",
     "Open Sharing Details" : "Buka Detail Berbagi",
-    "Added by {initiator}" : "Ditambahkan oleh {initiator}",
-    "Via “{folder}”" : "Melalui “{folder}”",
     "Unshare" : "Batalkan berbagi",
+    "Added by {initiator}" : "Ditambahkan oleh {initiator}",
     "Cannot copy, please copy the link manually" : "Tidak dapat menyalin, silakan salin tautan secara manual",
     "Copy internal link" : "Salin tautan internal",
     "For people who already have access" : "Untuk orang yang sudah memiliki akses",
@@ -405,6 +404,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Berbagi %s gagal karena back end tidak mendukung berbagi ScienceMesh",
     "Public upload disabled by the administrator" : "Pengunggahan publik dinonaktifkan oleh administrator",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Token harus berisi setidaknya 1 karakter dan hanya boleh berisi huruf, angka, atau tanda hubung",
+    "Via “{folder}”" : "Melalui “{folder}”",
     "Name or email …" : "Nama atau email …",
     "Name, email, or Federated Cloud ID …" : "Nama, email, atau ID Cloud Bersama …",
     "Searching …" : "Mencari …"

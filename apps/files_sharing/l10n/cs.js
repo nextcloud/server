@@ -191,9 +191,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} sdílí konverzaci {user}",
     "Shared with {user} by {owner}" : "{owner} sdílí s {user}",
     "Open Sharing Details" : "Otevřít podrobnosti o sdílení",
-    "Added by {initiator}" : "Přidal(a) {initiator}",
-    "Via “{folder}”" : "Prostřednictvím „{folder}“",
     "Unshare" : "Zrušit sdílení",
+    "Added by {initiator}" : "Přidal(a) {initiator}",
     "Cannot copy, please copy the link manually" : "Nedaří se zkopírovat, zkopírujte odkaz ručně",
     "Copy internal link" : "Zkopírovat interní odkaz",
     "For people who already have access" : "Pro lidi, kteří už mají přístup",
@@ -405,6 +404,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Sdílení %s se nezdařilo protože podpůrná vrstva nepodporuje ScienceMesh sdílení",
     "Public upload disabled by the administrator" : "Nahrávání veřejností zakázáno správcem",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Je třeba, aby tokeny obsahovaly alespoň jeden znak a mohou se skládat pouze z písmen, číslic a ještě pomlčky",
+    "Via “{folder}”" : "Prostřednictvím „{folder}“",
     "Name or email …" : "Jméno nebo e-mail …",
     "Name, email, or Federated Cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu …",
     "Searching …" : "Hledání …"

@@ -199,9 +199,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} поділив(-ла-)ся в чаті {user}",
     "Shared with {user} by {owner}" : "{owner} поділив(-ла-)ся з {user}",
     "Open Sharing Details" : "Відкрити деталі спільного доступу",
-    "Added by {initiator}" : "Додано {initiator}",
-    "Via “{folder}”" : "Через “{folder}”",
     "Unshare" : "Закрити доступ",
+    "Added by {initiator}" : "Додано {initiator}",
     "Cannot copy, please copy the link manually" : "Неможливо скопіювати, скопіюйте посилання вручну",
     "Copy internal link" : "Копіювати посилання",
     "For people who already have access" : "Для тих, хто має доступ",
@@ -413,6 +412,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Спільне використання %s не вдалося, оскільки бекенд не підтримує спільне використання ScienceMesh",
     "Public upload disabled by the administrator" : "Публічне завантаження вимкнено адміністратором",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токени мають містити щонайменше 1 символ, можуть складатися тільки з літер, цифр або дефісу",
+    "Via “{folder}”" : "Через “{folder}”",
     "Name or email …" : "Ім'я або електронна адреса …",
     "Name, email, or Federated Cloud ID …" : "Ім’я, адреса електронної пошти або ідентифікатор хмари…",
     "Searching …" : "Пошук..."

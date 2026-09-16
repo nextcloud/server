@@ -72,6 +72,7 @@ OC.L10N.register(
     "External storages" : "Erilliset tallennustilat",
     "Status" : "Tila",
     "Actions" : "Toiminnot",
+    "All accounts" : "Kaikki tilit",
     "Delete" : "Poista",
     "Saved" : "Tallennettu",
     "Error while saving" : "Virhe tallentaessa",

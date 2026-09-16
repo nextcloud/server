@@ -89,6 +89,7 @@ OC.L10N.register(
     "Status" : "Stato",
     "Restricted to" : "Limitato a",
     "Actions" : "Azioni",
+    "All accounts" : "Tutti gli account",
     "Delete" : "Elimina",
     "Saved" : "Salvato",
     "Error while saving" : "Errore durante il salvataggio",
