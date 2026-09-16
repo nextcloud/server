@@ -15,16 +15,13 @@ test.describe('Settings: Change user properties', () => {
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
 
-		await settingsPage.openEditDialog(user.userId)
-		const dialog = settingsPage.editUserDialog()
-		const displayNameInput = dialog.getByLabel('Display name')
-		await expect(displayNameInput).toHaveValue(user.userId)
-		await displayNameInput.fill('John Doe')
+		await settingsPage.openInlineEdit(user.userId)
+		const cell = settingsPage.userRowCell(user.userId, 'displayname')
+		await expect(cell.locator('input')).toHaveValue(user.userId)
 
-		await handlePasswordConfirmation(page)
-		await settingsPage.saveEditDialog()
+		await settingsPage.submitInlineTextField(user.userId, 'displayname', 'John Doe')
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(page.getByText(/Display name was successfully changed/i)).toBeVisible()
 
 		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -36,16 +33,15 @@ test.describe('Settings: Change user properties', () => {
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
 
-		await settingsPage.openEditDialog(user.userId)
-		const dialog = settingsPage.editUserDialog()
-		const passwordInput = dialog.getByLabel(/New password/i).and(page.locator('input')) // hack because there is no accessible role for input fields with type=password
-		await expect(passwordInput).toHaveValue('')
-		await passwordInput.fill('newpassword123')
+		await settingsPage.openInlineEdit(user.userId)
+		const cell = settingsPage.userRowCell(user.userId, 'password')
+		await expect(cell.locator('input')).toHaveValue('')
 
-		await handlePasswordConfirmation(page)
-		await settingsPage.saveEditDialog()
+		await settingsPage.submitInlineTextField(user.userId, 'password', 'newpassword123')
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(page.getByText(/Password was successfully changed/i)).toBeVisible()
+		// The password input is emptied once the change went through
+		await expect(cell.locator('input')).toHaveValue('')
 
 		// Verify by logging in with the new password
 		await login(context.request, { ...user, password: 'newpassword123' })
@@ -57,16 +53,13 @@ test.describe('Settings: Change user properties', () => {
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
 
-		await settingsPage.openEditDialog(user.userId)
-		const dialog = settingsPage.editUserDialog()
-		const emailInput = dialog.getByLabel(/Email/)
-		await expect(emailInput).toHaveValue('')
-		await emailInput.fill('mymail@example.com')
+		await settingsPage.openInlineEdit(user.userId)
+		const cell = settingsPage.userRowCell(user.userId, 'email')
+		await expect(cell.locator('input')).toHaveValue('')
 
-		await handlePasswordConfirmation(page)
-		await settingsPage.saveEditDialog()
+		await settingsPage.submitInlineTextField(user.userId, 'email', 'mymail@example.com')
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(page.getByText(/Email was successfully changed/i)).toBeVisible()
 
 		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -78,18 +71,21 @@ test.describe('Settings: Change user properties', () => {
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
 
-		await settingsPage.openEditDialog(user.userId)
-		const dialog = settingsPage.editUserDialog()
+		await settingsPage.openInlineEdit(user.userId)
+		const cell = settingsPage.userRowCell(user.userId, 'quota')
+		await cell.scrollIntoViewIfNeeded()
+		await expect(cell.locator('.vs__selected')).toContainText('Unlimited')
 
-		// Open the Quota NcSelect and choose 5 GB
-		const quotaCombobox = dialog.getByRole('combobox', { name: /Quota/i })
-		await quotaCombobox.click()
-		await page.getByRole('option', { name: '5 GB' }).click()
+		// The quota select is not appended to the body, so its options stay inside the cell
+		const updateRequest = page.waitForResponse((response) =>
+			response.url().includes(`/ocs/v2.php/cloud/users/${user.userId}`) && response.request().method() === 'PUT')
+		await cell.getByRole('combobox', { name: 'Select account quota' }).click({ force: true })
+		await cell.getByRole('option', { name: '5 GB' }).click({ force: true })
 
 		await handlePasswordConfirmation(page)
-		await settingsPage.saveEditDialog()
+		await updateRequest
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(cell.locator('.vs__selected')).toContainText('5 GB')
 
 		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -101,20 +97,21 @@ test.describe('Settings: Change user properties', () => {
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
 
-		await settingsPage.openEditDialog(user.userId)
-		const dialog = settingsPage.editUserDialog()
+		await settingsPage.openInlineEdit(user.userId)
+		const cell = settingsPage.userRowCell(user.userId, 'quota')
+		await cell.scrollIntoViewIfNeeded()
+		await expect(cell.locator('.vs__selected')).toContainText('Unlimited')
 
-		// Type a custom value directly into the combobox
-		const quotaCombobox = dialog.getByRole('combobox', { name: /Quota/i })
+		const updateRequest = page.waitForResponse((response) =>
+			response.url().includes(`/ocs/v2.php/cloud/users/${user.userId}`) && response.request().method() === 'PUT')
+		const quotaCombobox = cell.getByRole('combobox', { name: 'Select account quota' })
 		await quotaCombobox.fill('4 MB')
 		await quotaCombobox.press('Enter')
 
 		await handlePasswordConfirmation(page)
-		await settingsPage.saveEditDialog()
+		await updateRequest
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
-
-		// Verify backend (stored as bytes)
+		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
 		const info = JSON.parse(jsonList)
 		expect(info?.quota).not.toBe('none')
@@ -129,22 +126,23 @@ test.describe('Settings: Change user properties', () => {
 			const settingsPage = new SettingsUsersPage(page)
 			await settingsPage.open()
 
-			await settingsPage.openEditDialog(user.userId)
-			const dialog = settingsPage.editUserDialog()
+			await settingsPage.openInlineEdit(user.userId)
+			const cell = settingsPage.userRowCell(user.userId, 'subadmins')
+			await cell.scrollIntoViewIfNeeded()
+			await expect(cell.locator('.vs__selected')).toHaveCount(0)
 
-			// Open the subadmin NcSelect and pick the group
-			const subadminCombobox = dialog.getByRole('combobox', { name: /Admin of the following groups/i })
-			await subadminCombobox.click()
+			const subadminCombobox = cell.getByRole('combobox', { name: 'Set account as admin for' })
+			await subadminCombobox.click({ force: true })
 
 			const waitForSearch = page
 				.waitForResponse((r) => r.request().url().includes(`ocs/v2.php/cloud/groups/details?search=${shortName}`))
 			await subadminCombobox.fill(shortName)
 			await waitForSearch
-			await page.getByRole('option', { name: new RegExp(groupName) }).click()
 
-			await settingsPage.saveEditDialog()
+			await cell.getByRole('option', { name: new RegExp(groupName) }).click({ force: true })
+			await handlePasswordConfirmation(page)
 
-			await expect(page.getByText(/Account updated/i)).toBeVisible()
+			await expect(cell.locator('.vs__selected')).toContainText(groupName)
 
 			// Verify backend via OCS API (page shares admin auth state)
 			const response = await page.request.get(
