@@ -197,9 +197,8 @@
     "Shared with the conversation {user} by {owner}" : "Udostępnione w rozmowie {user} przez {owner}",
     "Shared with {user} by {owner}" : "Udostępnione {user} przez {owner}",
     "Open Sharing Details" : "Otwórz szczegóły udostępniania",
-    "Added by {initiator}" : "Dodane przez {initiator}",
-    "Via “{folder}”" : "Przez “{folder}”",
     "Unshare" : "Zatrzymaj udostępnianie",
+    "Added by {initiator}" : "Dodane przez {initiator}",
     "Cannot copy, please copy the link manually" : "Nie można skopiować, spróbuj skopiować link ręcznie",
     "Copy internal link" : "Kopiuj link wewnętrzny",
     "For people who already have access" : "Dla osób, które już mają dostęp",
@@ -411,6 +410,7 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Udostępnienie %s nie powiodło się, ponieważ oprogramowanie nie obsługuje udostępniania ScienceMesh",
     "Public upload disabled by the administrator" : "Przesyłanie publiczne zostało wyłączone przez administratora",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeny muszą zawierać co najmniej 1 znak i mogą zawierać wyłącznie litery, cyfry lub myślnik",
+    "Via “{folder}”" : "Przez “{folder}”",
     "Name or email …" : "Nazwa lub adres e-mail…",
     "Name, email, or Federated Cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…",
     "Searching …" : "Wyszukiwanie…"

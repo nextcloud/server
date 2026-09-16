@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "Tegevused",
     "Checking …" : "Kontrollin…",
     "Recheck status" : "Kontrolli olekut uuesti",
+    "All accounts" : "Kõik kasutajakontod",
     "Delete" : "Kustuta",
     "System provided storage" : "Süsteemi tagatud andmeruum",
     "Saved" : "Salvestatud",

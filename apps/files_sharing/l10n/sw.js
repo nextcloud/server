@@ -191,9 +191,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Imeshirikiwa na mazungumzo {user} kwa {owner}",
     "Shared with {user} by {owner}" : "Imeshirikiwa na {user} kwa {owner}",
     "Open Sharing Details" : "Fungua maelezo ya ushiriki",
-    "Added by {initiator}" : "Imeongezwa na {initiator}",
-    "Via “{folder}”" : "Kupitia \"{folder}\"",
     "Unshare" : "Usishirikishe",
+    "Added by {initiator}" : "Imeongezwa na {initiator}",
     "Cannot copy, please copy the link manually" : "Haiwezi kunakili, tafadhali nakili kiungio kwa njia za kawaida",
     "Copy internal link" : "Nakili kiungo cha ndani",
     "For people who already have access" : "Kwa watu ambao tayari wana ufikiaji",
@@ -405,6 +404,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Ushirikishaji %s kumeshindwa kwa sababu sehemu ya nyuma haitumii hisa za ScienceMesh",
     "Public upload disabled by the administrator" : "Upakiaji wa umma umezimwa na msimamizi",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeni lazima ziwe na angalau herufi moja 1 na zinaweza kuwa na herufi, nambari, au alama ya mkato pekee.",
+    "Via “{folder}”" : "Kupitia \"{folder}\"",
     "Name or email …" : "Jina au barua pepe",
     "Name, email, or Federated Cloud ID …" : "Jina, barua pepe au kitambulisho cha Cloudi kilichoshirikishwa...",
     "Searching …" : "Inatafuta"

@@ -199,9 +199,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} tarafından görüşme {user} ile paylaştırılmış",
     "Shared with {user} by {owner}" : "{owner} tarafından {user} ile paylaşılmış",
     "Open Sharing Details" : "Paylaşım bilgilerini aç",
-    "Added by {initiator}" : "{initiator} tarafından eklendi",
-    "Via “{folder}”" : "“{folder}” ile",
     "Unshare" : "Paylaşımı kaldır",
+    "Added by {initiator}" : "{initiator} tarafından eklendi",
     "Cannot copy, please copy the link manually" : "Kopyalanamadı. Lütfen bağlantıyı el ile kopyalayın",
     "Copy internal link" : "İç bağlantıyı kopyala",
     "For people who already have access" : "Erişme izni olan kişiler için",
@@ -419,6 +418,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Arka yüz ScienceMesh paylaşımlarına izin vermediğinden %s paylaşılamadı",
     "Public upload disabled by the administrator" : "Herkese açık yükleme özelliği BT yöneticisi tarafından kapatılmış",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Kodlar en az 1 karakter uzunluğunda olmalı ve yalnızca harf, sayı veya tire karakterlerini içermelidir",
+    "Via “{folder}”" : "“{folder}” ile",
     "Name or email …" : "Ad ya da e-posta adresi …",
     "Name, email, or Federated Cloud ID …" : "Ad, e-posta ya da birleşik bulut kimliği…",
     "Searching …" : "Aranıyor …"

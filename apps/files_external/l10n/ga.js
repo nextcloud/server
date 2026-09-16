@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "Gníomhartha",
     "Checking …" : "Ag seiceáil …",
     "Recheck status" : "Athsheiceáil stádas",
+    "All accounts" : "Gach cuntas",
     "Delete" : "Scrios",
     "System provided storage" : "Stóráil arna soláthar ag an gcóras",
     "Saved" : "Shábháil",

@@ -191,9 +191,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Delt med samtalen {user} af {owner}",
     "Shared with {user} by {owner}" : "Delt med {user} af {owner}",
     "Open Sharing Details" : "Åben delingsdetaljer",
-    "Added by {initiator}" : "Tilføjet af {initiator}",
-    "Via “{folder}”" : "Via “{folder}”",
     "Unshare" : "Fjern deling",
+    "Added by {initiator}" : "Tilføjet af {initiator}",
     "Cannot copy, please copy the link manually" : "Kan ikke kopiere, kopier venligst linket manuelt",
     "Copy internal link" : "Kopiér internt link",
     "For people who already have access" : "For personer der allerede har adgang",
@@ -405,6 +404,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Kunne ikke dele %s fordi backenden ikke understøtter deling af ScienceMesh",
     "Public upload disabled by the administrator" : "Offentlige uploads er slået fra af administratoren",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokens skal indeholde minimum 1 karakter og må kun indeholde bogstaver, tal, eller en bindestreg",
+    "Via “{folder}”" : "Via “{folder}”",
     "Name or email …" : "Navne eller e-mail ...",
     "Name, email, or Federated Cloud ID …" : "Navn, e-mail, eller sammenkoblings cloud ID …",
     "Searching …" : "Søger ..."

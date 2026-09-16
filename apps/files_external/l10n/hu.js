@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "Műveletek",
     "Checking …" : "Ellenőrzés…",
     "Recheck status" : "Állapot újraellenőrzése",
+    "All accounts" : "Összes fiók",
     "Delete" : "Törlés",
     "System provided storage" : "Rendszer által biztosított tároló",
     "Saved" : "Mentve",

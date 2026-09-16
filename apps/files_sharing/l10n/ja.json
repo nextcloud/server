@@ -197,9 +197,8 @@
     "Shared with the conversation {user} by {owner}" : "{owner}が{user}との会話を共有しました",
     "Shared with {user} by {owner}" : "{owner}が{user}と共有",
     "Open Sharing Details" : "共有の詳細を開く",
-    "Added by {initiator}" : "{initiator}によって追加されました",
-    "Via “{folder}”" : "“{folder}” 経由",
     "Unshare" : "共有を解除",
+    "Added by {initiator}" : "{initiator}によって追加されました",
     "Cannot copy, please copy the link manually" : "コピーできませんでした。手動でリンクをコピーしてください。",
     "Copy internal link" : "内部リンクをコピー",
     "For people who already have access" : "すでにアクセス権を持っている人向け",
@@ -412,6 +411,7 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "バックエンドが ScienceMesh 共有をサポートしていないため %s の共有に失敗しました。",
     "Public upload disabled by the administrator" : "URL共有へのアップロードが管理者によって無効されています。",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "トークンは少なくとも1文字を含む必要があり、文字、数字、またはハイフンのみを含むことができます",
+    "Via “{folder}”" : "“{folder}” 経由",
     "Name or email …" : "名前またはメールアドレス…",
     "Name, email, or Federated Cloud ID …" : "名前、メールアドレス、またはクラウド連携ID…",
     "Searching …" : "検索しています…"
