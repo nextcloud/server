@@ -47,7 +47,6 @@ SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Chen Fengyuan
 SPDX-FileCopyrightText: Austin Andrews
-SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
@@ -287,9 +286,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - nostics
 	- version: 1.1.4
-	- license: MIT
-- eventemitter3
-	- version: 5.0.4
 	- license: MIT
 - p-queue
 	- version: 9.3.3
