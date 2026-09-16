@@ -5,7 +5,6 @@
 
 import { includeIgnoreFile } from '@eslint/compat'
 import { recommended } from '@nextcloud/eslint-config'
-import CypressEslint from 'eslint-plugin-cypress'
 import noOnlyTests from 'eslint-plugin-no-only-tests'
 import { defineConfig } from 'eslint/config'
 import * as globals from 'globals'
@@ -55,28 +54,10 @@ export default defineConfig([
 		},
 	},
 
-	// Cypress setup
-	{
-		...CypressEslint.configs.recommended,
-		files: ['cypress/**', '**/*.cy.*'],
-	},
-	{
-		name: 'server/cypress',
-		files: ['cypress/**', '**/*.cy.*'],
-		rules: {
-			'no-console': 'off',
-			'jsdoc/require-jsdoc': 'off',
-			'jsdoc/require-param-type': 'off',
-			'jsdoc/require-param-description': 'off',
-			'@typescript-eslint/no-explicit-any': 'off',
-			'@typescript-eslint/no-unused-expressions': 'off',
-		},
-	},
-
 	// Forbid commiting .only in test files (skipping tests is very unexpected)
 	{
 		name: 'server/no-only-in-tests',
-		files: ['cypress/**', 'apps/**/*.spec.*', 'core/**/*.spec.*'],
+		files: ['tests/playwright/**', 'apps/**/*.spec.*', 'core/**/*.spec.*'],
 		plugins: {
 			'no-only-tests': noOnlyTests,
 		},
