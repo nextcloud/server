@@ -88,6 +88,7 @@ OC.L10N.register(
     "Edit storage" : "Muuda andmeruumi",
     "Add storage" : "Lisa andmehoidla",
     "Folder name" : "Kausta nimi",
+    "Without a restriction this storage is available to every account on this server." : "See andmeruum on piiranguteta saadaval kõikidele selle serveri kasutajakontodele.",
     "Authentication" : "Autentimine",
     "Cancel" : "Katkesta",
     "Edit" : "Muuda",

@@ -32,6 +32,7 @@ return array(
     'OCA\\Files\\Command\\Delete' => $baseDir . '/../lib/Command/Delete.php',
     'OCA\\Files\\Command\\DeleteOrphanedFiles' => $baseDir . '/../lib/Command/DeleteOrphanedFiles.php',
     'OCA\\Files\\Command\\Get' => $baseDir . '/../lib/Command/Get.php',
+    'OCA\\Files\\Command\\ListCommand' => $baseDir . '/../lib/Command/ListCommand.php',
     'OCA\\Files\\Command\\Mkdir' => $baseDir . '/../lib/Command/Mkdir.php',
     'OCA\\Files\\Command\\Mount\\ListMounts' => $baseDir . '/../lib/Command/Mount/ListMounts.php',
     'OCA\\Files\\Command\\Mount\\Refresh' => $baseDir . '/../lib/Command/Mount/Refresh.php',

@@ -88,6 +88,7 @@ OC.L10N.register(
     "Edit storage" : "Speicher bearbeiten",
     "Add storage" : "Speicher hinzufügen",
     "Folder name" : "Ordnername",
+    "Without a restriction this storage is available to every account on this server." : "Ohne Einschränkung steht dieser Speicherplatz allen Accounts auf diesem Server zur Verfügung.",
     "Authentication" : "Authentifizierung",
     "Cancel" : "Abbrechen",
     "Edit" : "Bearbeiten",

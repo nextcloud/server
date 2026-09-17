@@ -88,6 +88,7 @@ OC.L10N.register(
     "Edit storage" : "Redigera lagring",
     "Add storage" : "Lägg till lagring",
     "Folder name" : "Mappnamn",
+    "Without a restriction this storage is available to every account on this server." : "Utan en begränsning är den här lagringen tillgänglig för alla konton på den här servern.",
     "Authentication" : "Autentisering",
     "Cancel" : "Avbryt",
     "Edit" : "Redigera",
