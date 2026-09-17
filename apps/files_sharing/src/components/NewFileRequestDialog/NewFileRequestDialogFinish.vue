@@ -46,7 +46,7 @@
 				:aria-label="t('files_sharing', 'Recipient emails')">
 				<li v-for="mail in emails" :key="mail">
 					<NcChip
-						:aria-label-close="t('files_sharing', 'Remove email')"
+						:aria-label-close="t('files_sharing', 'Remove email: {email}', { email: mail })"
 						:text="mail"
 						@close="$emit('remove-email', mail)">
 						<template #icon>
