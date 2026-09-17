@@ -70,7 +70,7 @@ export class LanguageLocaleSettingsPage {
 	 * @param day - Name of the day, as listed in the select
 	 */
 	async selectFirstDayOfWeek(day: string): Promise<void> {
-		await saveAccountProperty(this.page, this.user.password, () => pickSelectOption(this.page, this.firstDayOfWeekSelect(), day))
+		await saveAccountProperty(this.page, () => pickSelectOption(this.page, this.firstDayOfWeekSelect(), day))
 	}
 
 	/**

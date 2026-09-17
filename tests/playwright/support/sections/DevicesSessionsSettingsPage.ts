@@ -3,17 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/e2e-test-server'
 import type { Locator, Page } from '@playwright/test'
 
 import { expect } from '@playwright/test'
-import { handlePasswordConfirmation } from '../utils/password-confirmation.ts'
+import { awaitPasswordGuardedRequest } from '../utils/password-confirmation.ts'
 
 export class DevicesSessionsSettingsPage {
-	constructor(
-		private readonly page: Page,
-		private readonly user: User,
-	) {}
+	constructor(private readonly page: Page) {}
 
 	heading(): Locator {
 		return this.page.getByRole('heading', { name: 'Devices & sessions', level: 2 })
@@ -67,7 +63,6 @@ export class DevicesSessionsSettingsPage {
 			&& r.ok())
 
 		await dialog.getByRole('button', { name: 'Revoke all others' }).click()
-		await handlePasswordConfirmation(this.page, this.user.password)
-		await revoked
+		await awaitPasswordGuardedRequest(this.page, revoked)
 	}
 }

@@ -73,7 +73,7 @@ export class ProfileContactSettingsPage {
 	 * @param value - Value to save, an empty value resets the property
 	 */
 	async setProperty(label: string, value: string): Promise<void> {
-		await saveAccountProperty(this.page, this.user.password, () => this.property(label).fill(value))
+		await saveAccountProperty(this.page, () => this.property(label).fill(value))
 	}
 
 	// ── Visibility and scope ────────────────────────────────────────────────────
@@ -191,7 +191,7 @@ export class ProfileContactSettingsPage {
 			await this.closeVisibilityAndScope()
 			return
 		}
-		await saveAccountProperty(this.page, this.user.password, () => this.scopeOption(scope).click())
+		await saveAccountProperty(this.page, () => this.scopeOption(scope).click())
 		await this.closeVisibilityAndScope()
 	}
 
@@ -208,7 +208,7 @@ export class ProfileContactSettingsPage {
 			await this.closeVisibilityAndScope()
 			return
 		}
-		await saveAccountProperty(this.page, this.user.password, () => this.visibilityOption(visibility).click(), waitForVisibilitySave)
+		await saveAccountProperty(this.page, () => this.visibilityOption(visibility).click(), waitForVisibilitySave)
 		await this.closeVisibilityAndScope()
 	}
 
@@ -246,7 +246,7 @@ export class ProfileContactSettingsPage {
 	 * @param scope - Scope to set
 	 */
 	async setScopeLevel(readable: string, scope: Scope): Promise<void> {
-		await saveAccountProperty(this.page, this.user.password, async () => {
+		await saveAccountProperty(this.page, async () => {
 			await this.scopeButton(readable).click()
 			await this.page.getByRole('menuitemradio', { name: scope }).click()
 		})
@@ -264,7 +264,7 @@ export class ProfileContactSettingsPage {
 	 * @param enabled - Whether the profile should be enabled
 	 */
 	async setProfileEnabled(enabled: boolean): Promise<void> {
-		await saveAccountProperty(this.page, this.user.password, async () => {
+		await saveAccountProperty(this.page, async () => {
 			await this.profileSwitch().setChecked(enabled, { force: true })
 		})
 	}
@@ -312,7 +312,7 @@ export class ProfileContactSettingsPage {
 	 * @param email - Address to save
 	 */
 	async setEmail(input: Locator, email: string): Promise<void> {
-		await saveAccountProperty(this.page, this.user.password, () => input.fill(email))
+		await saveAccountProperty(this.page, () => input.fill(email))
 	}
 
 	/**
@@ -335,7 +335,7 @@ export class ProfileContactSettingsPage {
 	async deleteEmail(position = 0): Promise<void> {
 		await this.emailOptions(position).click()
 		const action = position === 0 ? 'Remove primary email' : 'Delete email'
-		await saveAccountProperty(this.page, this.user.password, async () => {
+		await saveAccountProperty(this.page, async () => {
 			await this.page.getByRole('menuitem', { name: action }).click()
 		})
 	}
