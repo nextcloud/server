@@ -135,8 +135,6 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Service\\DBConfigService' => __DIR__ . '/..' . '/../lib/Service/DBConfigService.php',
         'OCA\\Files_External\\Service\\EncryptionService' => __DIR__ . '/..' . '/../lib/Service/EncryptionService.php',
         'OCA\\Files_External\\Service\\GlobalStoragesService' => __DIR__ . '/..' . '/../lib/Service/GlobalStoragesService.php',
-        'OCA\\Files_External\\Service\\ImportLegacyStoragesService' => __DIR__ . '/..' . '/../lib/Service/ImportLegacyStoragesService.php',
-        'OCA\\Files_External\\Service\\LegacyStoragesService' => __DIR__ . '/..' . '/../lib/Service/LegacyStoragesService.php',
         'OCA\\Files_External\\Service\\MountCacheService' => __DIR__ . '/..' . '/../lib/Service/MountCacheService.php',
         'OCA\\Files_External\\Service\\StoragesService' => __DIR__ . '/..' . '/../lib/Service/StoragesService.php',
         'OCA\\Files_External\\Service\\UserGlobalStoragesService' => __DIR__ . '/..' . '/../lib/Service/UserGlobalStoragesService.php',
