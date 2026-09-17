@@ -1,0 +1,203 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Publish Playwright POMs nightly
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Publish even when the sources did not change since the last nightly'
+        type: boolean
+        default: false
+  schedule:
+    - cron: '15 3 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: playwright-poms-nightly
+  cancel-in-progress: false
+
+env:
+  PACKAGE_NAME: '@nextcloud/playwright-poms'
+  PACKAGE_DIR: 'tests/playwright/support'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    # Never publish from forks
+    if: github.repository == 'nextcloud/server'
+
+    permissions:
+      contents: read
+      id-token: write # required for npm provenance
+
+    strategy:
+      fail-fast: false
+      max-parallel: 1 # the registry rejects concurrent publishes of the same package
+      matrix:
+        branch:
+          - ${{ github.event.repository.default_branch }}
+          - 'stable35'
+          - 'stable34'
+
+    name: publish-${{ matrix.branch }}
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          ref: ${{ matrix.branch }}
+
+      # Stable branches older than the package itself have no manifest to publish
+      - name: Check whether the branch ships the package
+        id: guard
+        run: |
+          set -euo pipefail
+          if [ ! -f "${PACKAGE_DIR}/package.json" ]; then
+            echo "::notice::${{ matrix.branch }} does not contain ${PACKAGE_DIR}, nothing to publish"
+            echo 'skip=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'skip=false' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Read package.json
+        if: steps.guard.outputs.skip == 'false'
+        uses: nextcloud-libraries/parse-package-engines-action@122ae05d4257008180a514e1ddeb0c1b9d094bdd # v0.1.0
+        id: versions
+
+      - name: Set up node
+        if: steps.guard.outputs.skip == 'false'
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ steps.versions.outputs.node-version }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Set up npm
+        if: steps.guard.outputs.skip == 'false'
+        run: npm i -g 'npm@${{ steps.versions.outputs.package-manager-version }}'
+
+      # The published version tracks the server release the POMs describe, so a
+      # consumer can pin the branch it tests against. `version.php` is the single
+      # source of truth for that number on every branch.
+      - name: Resolve version and dist-tag
+        if: steps.guard.outputs.skip == 'false'
+        id: meta
+        run: |
+          set -euo pipefail
+
+          base=$(sed -nE 's/^\$OC_Version = \[[[:space:]]*([0-9]+),[[:space:]]*([0-9]+),[[:space:]]*([0-9]+).*/\1.\2.\3/p' version.php)
+          if [ -z "$base" ]; then
+            echo "::error::Could not read \$OC_Version from version.php"
+            exit 1
+          fi
+
+          # A prerelease identifier, not `+build` metadata: semver ignores build
+          # metadata when ordering, so two nightlies of the same base version
+          # would compare equal and the registry would reject the second one.
+          version="${base}-nightly.$(date -u +%Y%m%d)"
+
+          if [ '${{ matrix.branch }}' = '${{ github.event.repository.default_branch }}' ]; then
+            tag='nightly'
+          else
+            tag='nightly-${{ matrix.branch }}'
+          fi
+
+          # Tree hash of the package sources, available at checkout depth 1
+          tree=$(git rev-parse "HEAD:${PACKAGE_DIR}")
+
+          {
+            echo "version=${version}"
+            echo "tag=${tag}"
+            echo "tree=${tree}"
+          } >> "$GITHUB_OUTPUT"
+
+      # Avoid publishing an identical tarball every night
+      - name: Check whether the sources changed since the last nightly
+        if: steps.guard.outputs.skip == 'false'
+        id: changed
+        run: |
+          set -euo pipefail
+
+          published=$(npm view "${PACKAGE_NAME}@${{ steps.meta.outputs.tag }}" nextcloudSourceTree 2>/dev/null || true)
+
+          if [ '${{ inputs.force }}' = 'true' ]; then
+            echo '::notice::Forced publish requested'
+            echo 'skip=false' >> "$GITHUB_OUTPUT"
+          elif [ "$published" = '${{ steps.meta.outputs.tree }}' ]; then
+            echo "::notice::${PACKAGE_DIR} is unchanged since the last nightly (${published}), skipping"
+            echo 'skip=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'skip=false' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install dependencies
+        if: steps.guard.outputs.skip == 'false' && steps.changed.outputs.skip == 'false'
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: npm install --no-audit --no-fund --ignore-scripts
+
+      - name: Build
+        if: steps.guard.outputs.skip == 'false' && steps.changed.outputs.skip == 'false'
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: npm run build
+
+      - name: Stamp version and source tree
+        if: steps.guard.outputs.skip == 'false' && steps.changed.outputs.skip == 'false'
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: |
+          set -euo pipefail
+          npm pkg set version='${{ steps.meta.outputs.version }}'
+          npm pkg set nextcloudSourceTree='${{ steps.meta.outputs.tree }}'
+          npm pkg set nextcloudSourceBranch='${{ matrix.branch }}'
+
+      # Catches a broken exports map, which `tsc` alone cannot detect
+      - name: Verify the packed tarball resolves
+        if: steps.guard.outputs.skip == 'false' && steps.changed.outputs.skip == 'false'
+        working-directory: ${{ env.PACKAGE_DIR }}
+        run: |
+          set -euo pipefail
+
+          tarball="$(pwd)/$(npm pack --silent --ignore-scripts)"
+          consumer=$(mktemp -d)
+
+          cd "$consumer"
+          npm init -y > /dev/null
+          npm pkg set type=module
+          npm install "$tarball" --no-audit --no-fund --ignore-scripts
+
+          node --input-type=module -e "
+            import { FilesListPage } from '${PACKAGE_NAME}'
+            import { uploadContent } from '${PACKAGE_NAME}/utils/dav'
+            import { test } from '${PACKAGE_NAME}/fixtures/files-page'
+            if (typeof FilesListPage !== 'function') throw new Error('barrel export broken')
+            if (typeof uploadContent !== 'function') throw new Error('utils subpath broken')
+            if (!test) throw new Error('fixtures subpath broken')
+          "
+
+      - name: Publish
+        if: steps.guard.outputs.skip == 'false' && steps.changed.outputs.skip == 'false'
+        working-directory: ${{ env.PACKAGE_DIR }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance --tag '${{ steps.meta.outputs.tag }}'
+
+      - name: Summary
+        if: steps.guard.outputs.skip == 'false' && steps.changed.outputs.skip == 'false'
+        run: |
+          {
+            echo "### ${PACKAGE_NAME}"
+            echo ''
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Branch | \`${{ matrix.branch }}\` |"
+            echo "| Version | \`${{ steps.meta.outputs.version }}\` |"
+            echo "| Dist-tag | \`${{ steps.meta.outputs.tag }}\` |"
+            echo "| Source tree | \`${{ steps.meta.outputs.tree }}\` |"
+            echo ''
+            echo "\`\`\`"
+            echo "npm i -D ${PACKAGE_NAME}@${{ steps.meta.outputs.tag }}"
+            echo "\`\`\`"
+          } >> "$GITHUB_STEP_SUMMARY"

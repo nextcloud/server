@@ -136,7 +136,7 @@ SPDX-FileCopyrightText = "2022 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["tests/playwright/tsconfig.json"]
+path = ["tests/playwright/tsconfig.json", "tests/playwright/support/package.json", "tests/playwright/support/tsconfig.build.json"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

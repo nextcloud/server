@@ -87,6 +87,7 @@ export default defineConfig([
 			'**/*.php',
 			'3rdparty/',
 			'tests/!(playwright)/', // PHP tests, but not Playwright tests
+			'tests/playwright/support/dist/', // build output of @nextcloud/playwright-poms
 			'**/js/',
 			'**/l10n/', // all translations (config only ignored in root)
 			'**/vendor/', // different vendors

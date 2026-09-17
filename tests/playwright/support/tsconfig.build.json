@@ -1,0 +1,22 @@
+{
+	"include": ["./**/*.ts"],
+	"exclude": ["./dist/", "./node_modules/"],
+	"compilerOptions": {
+		"rootDir": ".",
+		"outDir": "./dist/",
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"target": "ES2023",
+		"module": "NodeNext",
+		"moduleResolution": "nodenext",
+		// Sources import each other with explicit `.ts` extensions, the emitted
+		// JavaScript has to reference the `.js` files instead.
+		"allowImportingTsExtensions": true,
+		"rewriteRelativeImportExtensions": true,
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"types": ["node"]
+	}
+}

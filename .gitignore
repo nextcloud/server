@@ -161,6 +161,10 @@ Vagrantfile
 /tests/ui-regression/out/
 /tests/ui-regression/node_modules/
 /tests/ui-regression/package-lock.json
+/tests/playwright/support/dist/
+/tests/playwright/support/node_modules/
+/tests/playwright/support/*.tgz
+/tests/playwright/support/package-lock.json
 /config/config-autotest-backup.php
 /config/autoconfig.php
 clover.xml

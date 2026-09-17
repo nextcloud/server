@@ -1,0 +1,70 @@
+{
+	"name": "@nextcloud/playwright-poms",
+	"version": "0.0.0-dev",
+	"description": "Playwright Page Object Models, fixtures and helpers for the Nextcloud server UI and its bundled apps",
+	"keywords": [
+		"nextcloud",
+		"playwright",
+		"e2e",
+		"testing",
+		"page-object-model"
+	],
+	"homepage": "https://github.com/nextcloud/server/tree/master/tests/playwright/support",
+	"bugs": {
+		"url": "https://github.com/nextcloud/server/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nextcloud/server.git",
+		"directory": "tests/playwright/support"
+	},
+	"license": "AGPL-3.0-or-later",
+	"author": "Nextcloud GmbH and Nextcloud contributors",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./matchers": {
+			"types": "./dist/matchers.d.ts",
+			"default": "./dist/matchers.js"
+		},
+		"./sections/*": {
+			"types": "./dist/sections/*.d.ts",
+			"default": "./dist/sections/*.js"
+		},
+		"./utils/*": {
+			"types": "./dist/utils/*.d.ts",
+			"default": "./dist/utils/*.js"
+		},
+		"./fixtures/*": {
+			"types": "./dist/fixtures/*.d.ts",
+			"default": "./dist/fixtures/*.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsc --project tsconfig.build.json",
+		"prepack": "npm run build"
+	},
+	"dependencies": {
+		"@nextcloud/e2e-test-server": "^0.6.0",
+		"@nextcloud/files": "^4.0.0",
+		"@zip.js/zip.js": "^2.11.4"
+	},
+	"peerDependencies": {
+		"@playwright/test": ">=1.60.0"
+	},
+	"devDependencies": {
+		"@types/node": "^24.10.1",
+		"typescript": "^5.9.3"
+	},
+	"engines": {
+		"node": ">=20"
+	}
+}
