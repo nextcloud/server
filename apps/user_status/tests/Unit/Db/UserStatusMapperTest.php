@@ -48,6 +48,19 @@ class UserStatusMapperTest extends TestCase {
 		$this->assertEquals('user2', $offsetResults[0]->getUserId());
 	}
 
+	public function testGetFindAllAfterId(): void {
+		$this->insertSampleStatuses();
+
+		$firstPage = $this->mapper->findAllAfterId(2);
+		$this->assertCount(2, $firstPage);
+		$this->assertEquals('admin', $firstPage[0]->getUserId());
+		$this->assertEquals('user1', $firstPage[1]->getUserId());
+
+		$secondPage = $this->mapper->findAllAfterId(2, $firstPage[1]->getId());
+		$this->assertCount(1, $secondPage);
+		$this->assertEquals('user2', $secondPage[0]->getUserId());
+	}
+
 	public function testFindAllExcludesBackups(): void {
 		$this->insertSampleStatuses();
 
