@@ -348,6 +348,10 @@ abstract class StoragesService {
 
 		$oldStorage = $this->getStorageConfigFromDBMount($existingMount);
 
+		if ($updatedStorage->getBackend()->getIdentifier() !== $oldStorage->getBackend()->getIdentifier()) {
+			throw new \InvalidArgumentException('Changing the storage backend is not supported');
+		}
+
 		if ($oldStorage->getBackend() instanceof InvalidBackend) {
 			throw new NotFoundException('Storage with id "' . $id . '" cannot be edited due to missing backend');
 		}
