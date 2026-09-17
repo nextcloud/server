@@ -11,6 +11,7 @@
 				{{ t('files_sharing', 'What are you requesting?') }}
 			</legend>
 			<NcTextField
+				id="file-request-dialog-label"
 				:model-value="label"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Request subject')"
@@ -26,6 +27,7 @@
 				{{ t('files_sharing', 'Where should these files go?') }}
 			</legend>
 			<NcTextField
+				id="file-request-dialog-destination"
 				:model-value="destination"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Upload destination')"
@@ -37,6 +39,7 @@
 				trailing-button-icon="undo"
 				:trailing-button-label="t('files_sharing', 'Revert to default')"
 				name="destination"
+				aria-describedby="file-request-dialog-destination-info"
 				@click="onPickDestination"
 				@keypress.prevent.stop="/* prevent typing in the input, we use the picker */"
 				@paste.prevent.stop="/* prevent pasting in the input, we use the picker */"
@@ -44,7 +47,7 @@
 				<IconFolder :size="18" />
 			</NcTextField>
 
-			<p class="file-request-dialog__info">
+			<p id="file-request-dialog-destination-info" class="file-request-dialog__info">
 				<IconLock :size="18" class="file-request-dialog__info-icon" />
 				{{ t('files_sharing', 'The uploaded files are visible only to you unless you choose to share them.') }}
 			</p>
@@ -56,15 +59,17 @@
 				{{ t('files_sharing', 'Add a note') }}
 			</legend>
 			<NcTextArea
+				id="file-request-dialog-note"
 				:model-value="note"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Note for recipient')"
 				:placeholder="t('files_sharing', 'Add a note to help people understand what you are requesting.')"
 				:required="false"
 				name="note"
+				aria-describedby="file-request-dialog-note-info"
 				@update:value="$emit('update:note', $event)" />
 
-			<p class="file-request-dialog__info">
+			<p id="file-request-dialog-note-info" class="file-request-dialog__info">
 				<IconInfo :size="18" class="file-request-dialog__info-icon" />
 				{{ t('files_sharing', 'You can add links, date or any other information that will help the recipient understand what you are requesting.') }}
 			</p>

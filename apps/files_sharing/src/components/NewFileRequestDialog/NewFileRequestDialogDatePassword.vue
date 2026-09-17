@@ -27,7 +27,6 @@
 				v-if="expirationDate !== null"
 				id="file-request-dialog-expirationDate"
 				:disabled="disabled"
-				:hide-label="true"
 				:label="t('files_sharing', 'Expiration date')"
 				:max="maxDate"
 				:min="minDate"
