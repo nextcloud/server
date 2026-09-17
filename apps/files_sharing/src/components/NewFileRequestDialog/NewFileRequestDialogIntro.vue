@@ -41,8 +41,9 @@
 				:trailing-button-label="t('files_sharing', 'Revert to default')"
 				name="destination"
 				aria-describedby="file-request-dialog-destination-info"
+				aria-haspopup="dialog"
 				@click="onPickDestination"
-				@keypress.prevent.stop
+				@keydown="onDestinationKeydown"
 				@paste.prevent.stop
 				@trailing-button-click="$emit('update:destination', '')">
 				<IconFolder :size="18" />
@@ -144,6 +145,22 @@ export default defineComponent({
 	},
 
 	methods: {
+		onDestinationKeydown(event: KeyboardEvent) {
+			if (event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault()
+				this.onPickDestination()
+				return
+			}
+
+			// Destination is chosen in the picker, not by editing this field
+			if (event.ctrlKey || event.metaKey || event.altKey) {
+				return
+			}
+			if (event.key.length === 1 || event.key === 'Backspace' || event.key === 'Delete') {
+				event.preventDefault()
+			}
+		},
+
 		onPickDestination() {
 			const filepicker = getFilePickerBuilder(t('files_sharing', 'Select a destination'))
 				.addMimeTypeFilter('httpd/unix-directory')
@@ -174,6 +191,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.file-request-dialog__destination :deep(.input-field__input) {
+	cursor: pointer;
+}
+
 .file-request-dialog__note :deep(textarea) {
 	width: 100% !important;
 	min-height: 80px;
