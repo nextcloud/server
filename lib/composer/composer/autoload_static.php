@@ -2449,6 +2449,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Template\\JSCombiner' => __DIR__ . '/../../..' . '/lib/private/Template/JSCombiner.php',
         'OC\\Template\\JSConfigHelper' => __DIR__ . '/../../..' . '/lib/private/Template/JSConfigHelper.php',
         'OC\\Template\\JSResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/JSResourceLocator.php',
+        'OC\\Template\\LoadViewerListener' => __DIR__ . '/../../..' . '/lib/private/Template/LoadViewerListener.php',
         'OC\\Template\\ResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/ResourceLocator.php',
         'OC\\Template\\ResourceNotFoundException' => __DIR__ . '/../../..' . '/lib/private/Template/ResourceNotFoundException.php',
         'OC\\Template\\Template' => __DIR__ . '/../../..' . '/lib/private/Template/Template.php',
