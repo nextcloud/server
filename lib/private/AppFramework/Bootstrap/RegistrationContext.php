@@ -51,7 +51,6 @@ use Override;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
-use function array_shift;
 
 class RegistrationContext {
 	/** @var ServiceRegistration<ICapability>[] */
@@ -731,7 +730,7 @@ class RegistrationContext {
 	 * @param App[] $apps
 	 */
 	public function delegateCapabilityRegistrations(array $apps): void {
-		while (($registration = array_shift($this->capabilities)) !== null) {
+		foreach ($this->capabilities as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -752,13 +751,14 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->capabilities = [];
 	}
 
 	/**
 	 * @param App[] $apps
 	 */
 	public function delegateCrashReporterRegistrations(array $apps, Registry $registry): void {
-		while (($registration = array_shift($this->crashReporters)) !== null) {
+		foreach ($this->crashReporters as $registration) {
 			try {
 				$registry->registerLazy($registration->getService());
 			} catch (Throwable $e) {
@@ -768,10 +768,11 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->crashReporters = [];
 	}
 
 	public function delegateDashboardPanelRegistrations(IManager $dashboardManager): void {
-		while (($panel = array_shift($this->dashboardPanels)) !== null) {
+		foreach ($this->dashboardPanels as $panel) {
 			try {
 				$dashboardManager->lazyRegisterWidget($panel->getService(), $panel->getAppId());
 			} catch (Throwable $e) {
@@ -781,10 +782,11 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->dashboardPanels = [];
 	}
 
 	public function delegateEventListenerRegistrations(IEventDispatcher $eventDispatcher): void {
-		while (($registration = array_shift($this->eventListeners)) !== null) {
+		foreach ($this->eventListeners as $registration) {
 			try {
 				$eventDispatcher->addServiceListener(
 					$registration->getEvent(),
@@ -798,13 +800,14 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->eventListeners = [];
 	}
 
 	/**
 	 * @param App[] $apps
 	 */
 	public function delegateContainerRegistrations(array $apps): void {
-		while (($registration = array_shift($this->services)) !== null) {
+		foreach ($this->services as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -832,8 +835,9 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->services = [];
 
-		while (($registration = array_shift($this->aliases)) !== null) {
+		foreach ($this->aliases as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -857,8 +861,9 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->aliases = [];
 
-		while (($registration = array_shift($this->parameters)) !== null) {
+		foreach ($this->parameters as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -882,6 +887,7 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->parameters = [];
 	}
 
 	/**
