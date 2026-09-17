@@ -690,6 +690,7 @@ OC.L10N.register(
     "New account" : "Nový účet",
     "Adding new account …" : "Pridáva sa nový účet …",
     "Add new account" : " Pridať nový účet",
+    "Only letters, numbers, spaces, and _.@-' are allowed" : "Povolené sú iba písmená, čísla, medzery a znaky _.@-'",
     "Display name" : "Zobrazované meno",
     "Either password or email is required" : "Buď je potrebné zadať heslo alebo e-mail",
     "Member of the following groups (required)" : "Člen nasledujúcich skupín (povinné)",

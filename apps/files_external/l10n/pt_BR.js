@@ -88,6 +88,7 @@ OC.L10N.register(
     "Edit storage" : "Editar armazenamento",
     "Add storage" : "Adic. armazenamento",
     "Folder name" : "Nome da pasta",
+    "Without a restriction this storage is available to every account on this server." : "Sem nenhuma restrição, esse armazenamento está disponível para todas as contas neste servidor.",
     "Authentication" : "Autenticação",
     "Cancel" : "Cancelar",
     "Edit" : "Editar",
