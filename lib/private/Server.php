@@ -639,13 +639,7 @@ class Server extends ServerContainer {
 			);
 		});
 
-		$this->registerService(IUserMountCache::class, static function (ContainerInterface $c): IUserMountCache {
-			$mountCache = $c->get(UserMountCache::class);
-			/** @var IEventDispatcher $eventDispatcher */
-			$eventDispatcher = $c->get(IEventDispatcher::class);
-			$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserMountCacheListener::class);
-			return $mountCache;
-		});
+		$this->registerAlias(IUserMountCache::class, UserMountCache::class);
 
 		$this->registerService(IMountProviderCollection::class, static function (ContainerInterface $c): IMountProviderCollection {
 			$loader = $c->get(IStorageFactory::class);
@@ -1123,6 +1117,7 @@ class Server extends ServerContainer {
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, SubAdmin::class);
 		$eventDispatcher->addServiceListener(GroupDeletedEvent::class, SubAdmin::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserMountCacheListener::class);
 
 		FilesMetadataManager::loadListeners($eventDispatcher);
 		GenerateBlurhashMetadata::loadListeners($eventDispatcher);
