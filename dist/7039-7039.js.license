@@ -173,7 +173,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.17.0
+	- version: 1.20.0
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -281,7 +281,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - hasown
-	- version: 2.0.2
+	- version: 2.0.4
 	- license: MIT
 - hookable
 	- version: 5.5.3
