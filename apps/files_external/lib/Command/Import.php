@@ -12,7 +12,6 @@ use OC\Core\Command\Base;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
-use OCA\Files_External\Service\ImportLegacyStoragesService;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
@@ -30,7 +29,6 @@ class Import extends Base {
 		private UserStoragesService $userService,
 		private IUserSession $userSession,
 		private IUserManager $userManager,
-		private ImportLegacyStoragesService $importLegacyStorageService,
 		private BackendService $backendService,
 	) {
 		parent::__construct();
@@ -86,20 +84,14 @@ class Import extends Base {
 
 		$isLegacy = isset($data['user']) || isset($data['group']);
 		if ($isLegacy) {
-			$this->importLegacyStorageService->setData($data);
-			$mounts = $this->importLegacyStorageService->getAllStorages();
-			foreach ($mounts as $mount) {
-				if ($mount->getBackendOption('password') === false) {
-					$output->writeln('<error>Failed to decrypt password</error>');
-					return self::FAILURE;
-				}
-			}
-		} else {
-			if (!isset($data[0])) { //normalize to an array of mounts
+			$output->writeln('<error>Legacy mount configuration format (mount.json-style) is no longer supported</error>');
+			return self::FAILURE;
+ 		}
+
+		if (!isset($data[0])) { // normalize to an array of mounts
 				$data = [$data];
-			}
-			$mounts = array_map([$this, 'parseData'], $data);
 		}
+		$mounts = array_map([$this, 'parseData'], $data);
 
 		if ($user) {
 			// ensure applicables are correct for personal mounts
