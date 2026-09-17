@@ -31,7 +31,9 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
- * Service class to manage external storage
+ * An abstract service for managing Nextcloud’s external storage mounts and their associated configuration,
+ * including loading, validating, creating, updating, and removing mounts while coordinating related filesystem
+ * hooks and settings.
  *
  * @psalm-import-type ExternalMountInfo from DBConfigService
  */
@@ -317,22 +319,23 @@ abstract class StoragesService {
 	abstract protected function triggerHooks(StorageConfig $storage, string $signal): void;
 
 	/**
-	 * Triggers signal_create_mount or signal_delete_mount to
-	 * accommodate for additions/deletions in applicableUsers
-	 * and applicableGroups fields.
+	 * Trigger lifecycle hooks for changes to a storage's mount point or scope.
 	 *
-	 * @param StorageConfig $oldStorage old storage data
-	 * @param StorageConfig $newStorage new storage data
+	 * @param StorageConfig $oldStorage The storage configuration before the update.
+	 * @param StorageConfig $newStorage The storage configuration after the update.
 	 */
 	abstract protected function triggerChangeHooks(StorageConfig $oldStorage, StorageConfig $newStorage): void;
 
 	/**
-	 * Update storage to the configuration
+	 * Reconcile the persisted configuration of an existing external storage mount
+	 * with the supplied configuration.
 	 *
-	 * @param StorageConfig $updatedStorage storage attributes
+	 * @param StorageConfig $updatedStorage The updated configuration. Its ID
+	 * identifies the mount to modify.
+	 * @return StorageConfig The updated configuration for the external storage mount.
 	 *
-	 * @return StorageConfig storage config
-	 * @throws NotFoundException if the given storage does not exist in the config
+	 * @throws NotFoundException If the mount does not exist or its backend is
+	 * no longer available.
 	 */
 	public function updateStorage(StorageConfig $updatedStorage): StorageConfig {
 		$id = $updatedStorage->getId();
@@ -354,13 +357,18 @@ abstract class StoragesService {
 		$addedUsers = array_diff($updatedStorage->getApplicableUsers(), $oldStorage->getApplicableUsers());
 		$addedGroups = array_diff($updatedStorage->getApplicableGroups(), $oldStorage->getApplicableGroups());
 
+		// User-scoped mounts are distuignished from global by the presence (or lack thereof)
+		// of explicit users or groups.
 		$oldUserCount = count($oldStorage->getApplicableUsers());
 		$oldGroupCount = count($oldStorage->getApplicableGroups());
 		$newUserCount = count($updatedStorage->getApplicableUsers());
 		$newGroupCount = count($updatedStorage->getApplicableGroups());
+		// No explicit users or groups means the mount applies globally.
 		$wasGlobal = ($oldUserCount + $oldGroupCount) === 0;
 		$isGlobal = ($newUserCount + $newGroupCount) === 0;
 
+		// Update explicit applicability then update global applicability. This ordering avoids
+		// broadening access during the transition.
 		foreach ($removedUsers as $user) {
 			$this->dbConfig->removeApplicable($id, DBConfigService::APPLICABLE_TYPE_USER, $user);
 		}
@@ -384,6 +392,8 @@ abstract class StoragesService {
 		$changedOptions = array_diff_assoc($updatedStorage->getMountOptions(), $oldStorage->getMountOptions());
 
 		foreach ($changedConfig as $key => $value) {
+			// The placeholder means that the caller did not provide a replacement
+			// value, so retain the existing backend configuration.
 			if ($value !== DefinitionParameter::UNMODIFIED_PLACEHOLDER) {
 				$this->dbConfig->setConfig($id, $key, $value);
 			}
