@@ -16,6 +16,7 @@ use OCA\Files\Service\OwnershipTransferService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as NotificationManager;
@@ -46,7 +47,7 @@ class TransferOwnership extends QueuedJob {
 		$userFolder = $this->rootFolder->getUserFolder($sourceUser);
 		$node = $userFolder->getFirstNodeById($fileId);
 
-		if (!$node) {
+		if (!$node instanceof Node) {
 			$this->logger->alert('Could not transfer ownership: Node not found');
 			$this->failedNotication($transfer);
 			return;
