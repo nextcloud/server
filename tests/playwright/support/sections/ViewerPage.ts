@@ -65,10 +65,16 @@ export class ViewerPage {
 	}
 
 	/**
-	 * Wait for the viewer modal to be gone.
+	 * Wait for the viewer to be gone, and to stay gone.
+	 *
+	 * Counting rather than asking whether the first match is hidden: closing
+	 * unwinds the history entries the viewer pushed, and while that is in
+	 * flight the URL still asks for a file. A second viewer opening over the
+	 * one that is closing leaves two containers in the DOM, and `toBeHidden`
+	 * on the first of them passes while the second is still up.
 	 */
 	public async waitForClosed(): Promise<void> {
-		await expect(this.container).toBeHidden()
+		await expect(this.container).toHaveCount(0)
 	}
 
 	/**
@@ -151,11 +157,11 @@ export class ViewerPage {
 	 */
 	public async close(): Promise<void> {
 		await this.closeButton.click()
-		await expect(this.container).toBeHidden()
-		// Closing unwinds the history entries the viewer pushed, and the browser
-		// applies that asynchronously. Wait for it so a following assertion, or a
-		// following open, does not race the navigation still on its way.
+		// The URL first: the flag is what the Files list reads to decide
+		// whether to open a file, so while it is still set the viewer can be
+		// opened again over the one that is closing.
 		await this.page.waitForURL((url) => !url.searchParams.has('openfile'))
+		await this.waitForClosed()
 	}
 
 	/**
@@ -172,16 +178,20 @@ export class ViewerPage {
 	 */
 	public async runAction(name: string | RegExp): Promise<void> {
 		const direct = this.modal.getByRole('button', { name })
-		if (!(await direct.isVisible())) {
-			const toggle = this.actionsToggle()
-			if (await toggle.isVisible()) {
-				await toggle.click()
+		const entry = this.page.getByRole('menuitem', { name })
+
+		// Whether the action is a button or an entry behind the menu depends on
+		// the width, and the header re-renders whenever the shown file changes:
+		// asking once, mid-render, finds neither and then waits for a menu that
+		// was never opened. The whole sequence is retried instead.
+		await expect(async () => {
+			if (await direct.isVisible()) {
+				await direct.click()
+				return
 			}
-		}
-		await this.page.getByRole('menuitem', { name })
-			.or(direct)
-			.first()
-			.click()
+			await this.actionsToggle().click({ timeout: 2_000 })
+			await entry.click({ timeout: 2_000 })
+		}).toPass({ timeout: 20_000 })
 	}
 
 	/**
