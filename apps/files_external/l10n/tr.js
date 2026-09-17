@@ -88,6 +88,7 @@ OC.L10N.register(
     "Edit storage" : "Depolamayı düzenle",
     "Add storage" : "Depolama ekle",
     "Folder name" : "Klasör adı",
+    "Without a restriction this storage is available to every account on this server." : "BU depolama alanı, herhangi bir kısıtlama olmadan bu sunucudaki her hesap tarafından kullanılabilir.",
     "Authentication" : "Kimlik doğrulama",
     "Cancel" : "İptal",
     "Edit" : "Düzenle",

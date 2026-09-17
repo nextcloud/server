@@ -98,6 +98,7 @@ OC.L10N.register(
     "Rename group" : "Renomenar lo grop",
     "Current password" : "Senhal actual",
     "New password" : "Senhal novèl",
+    "The file must be a PNG or JPG" : "Lo fichièr deu èsser un PNG o JPG",
     "Picture provided by original account" : "Imatge provesit pel compte d’origina",
     "Your full name" : "Vòstre nom complèt",
     "No email address set" : "Cap d’adreça pas definida",
