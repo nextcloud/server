@@ -76,6 +76,9 @@ class OC_Hook {
 		['OCP\Config','js'],
 		['OC\Core\LostPassword\Controller\LostController','post_passwordReset'],
 		['OC\Core\LostPassword\Controller\LostController','pre_passwordReset'],
+		/* Only used by tests */
+		['LegacyHookTest', 'error'],
+		['LegacyHookTest', 'hint'],
 	];
 
 	/**
