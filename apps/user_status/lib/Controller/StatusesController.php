@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\UserStatus\Controller;
 
+use OC\AppFramework\Http\PaginationTrait;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\StatusService;
@@ -21,6 +22,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\User\Events\UserEnumerationFilterEvent;
 use OCP\UserStatus\IUserStatus;
 
@@ -29,6 +31,7 @@ use OCP\UserStatus\IUserStatus;
  * @psalm-import-type UserStatusPublic from ResponseDefinitions
  */
 class StatusesController extends OCSController {
+	use PaginationTrait;
 
 	/**
 	 * StatusesController constructor.
@@ -42,6 +45,7 @@ class StatusesController extends OCSController {
 		IRequest $request,
 		private readonly StatusService $service,
 		private readonly IEventDispatcher $eventDispatcher,
+		private readonly IURLGenerator $urlGenerator,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -51,14 +55,24 @@ class StatusesController extends OCSController {
 	 *
 	 * @param int|null $limit Maximum number of statuses to find
 	 * @param non-negative-int|null $offset Offset for finding statuses
-	 * @return DataResponse<Http::STATUS_OK, list<UserStatusPublic>, array{}>
+	 * @param non-negative-int|null $lastId Id of the last status returned by the previous page;
+	 *                                      when given, keyset pagination is used and $offset is ignored
+	 * @return DataResponse<Http::STATUS_OK, list<UserStatusPublic>, array{Link?: string}>
+	 *
+	 * @note Prefer $lastId over $offset: it does not require the database to scan and discard
+	 *       every preceding row on every call.
 	 *
 	 * 200: Statuses returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/statuses')]
-	public function findAll(?int $limit = null, ?int $offset = null): DataResponse {
-		$allStatuses = $this->service->findAll($limit, $offset);
+	public function findAll(?int $limit = null, ?int $offset = null, ?int $lastId = null): DataResponse {
+		if ($lastId !== null) {
+			$allStatuses = $this->service->findAllAfterId($limit, $lastId);
+		} else {
+			$allStatuses = $this->service->findAll($limit, $offset);
+		}
+		$hasMoreResults = $this->hasMoreResults($allStatuses, $limit);
 
 		$users = array_map(fn (UserStatus $userStatus): string => $userStatus->getUserId(), $allStatuses);
 		$event = new UserEnumerationFilterEvent($users);
@@ -69,9 +83,17 @@ class StatusesController extends OCSController {
 			$allStatuses = array_filter($allStatuses, fn (UserStatus $userStatus): bool => !in_array($userStatus->getUserId(), $removedUsers, true));
 		}
 
+		// $hasMoreResults comes from the unfiltered page, not from the (possibly enumeration-filtered)
+		// $allStatuses, so it is passed through as-is rather than re-derived.
+		if ($lastId !== null) {
+			$lastStatus = end($allStatuses);
+			$headers = $this->buildCursorNextPageLinkHeader($hasMoreResults, [], $limit, $lastStatus !== false ? $lastStatus->getId() : null);
+		} else {
+			$headers = $this->buildOffsetNextPageLinkHeader($hasMoreResults, [], $limit, $offset ?? 0);
+		}
 		return new DataResponse(array_values(array_map(function ($userStatus) {
 			return $this->formatStatus($userStatus);
-		}, $allStatuses)));
+		}, $allStatuses)), headers: $headers);
 	}
 
 	/**
