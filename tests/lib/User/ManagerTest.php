@@ -22,6 +22,7 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use OCP\User\Events\UserDeletedEvent;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -672,7 +673,10 @@ class ManagerTest extends TestCase {
 		$this->manager->registerBackend($backend);
 		$backend->createUser('foo', 'bar');
 		$this->assertTrue($this->manager->userExists('foo'));
-		$this->manager->get('foo')->delete();
+		$fooUser = $this->manager->get('foo');
+		$fooUser->delete();
+		// Call manually as event dispatcher is a mock
+		self::invokePrivate($this->manager, 'handleUserDeletedEvent', [new UserDeletedEvent($fooUser)]);
 		$this->assertFalse($this->manager->userExists('foo'));
 	}
 

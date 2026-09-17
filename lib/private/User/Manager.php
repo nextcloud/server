@@ -83,10 +83,12 @@ class Manager extends PublicEmitter implements IUserManager {
 		private LoggerInterface $logger,
 	) {
 		$this->cache = new WithLocalCache($cacheFactory->createDistributed('user_backend_map'));
-		$this->eventDispatcher->addListener(UserDeletedEvent::class, function (UserDeletedEvent $event) {
-			unset($this->cachedUsers[$event->getUser()->getUID()]);
-		});
+		$this->eventDispatcher->addListener(UserDeletedEvent::class, $this->handleUserDeletedEvent(...));
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
+	}
+
+	private function handleUserDeletedEvent(UserDeletedEvent $event): void {
+		unset($this->cachedUsers[$event->getUser()->getUID()]);
 	}
 
 	private function getKnownUserService(): KnownUserService {
