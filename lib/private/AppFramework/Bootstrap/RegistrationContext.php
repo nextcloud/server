@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
+use NCU\Search\IAccountScopedSearchProvider;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
@@ -96,6 +97,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<IProvider>[] */
 	private $searchProviders = [];
+
+	/** @var ServiceRegistration<IAccountScopedSearchProvider>[] */
+	private array $accountScopedSearchProviders = [];
 
 	/** @var ServiceRegistration<IAlternativeLogin>[] */
 	private $alternativeLogins = [];
@@ -262,6 +266,14 @@ class RegistrationContext {
 			#[\Override]
 			public function registerSearchProvider(string $class): void {
 				$this->context->registerSearchProvider(
+					$this->appId,
+					$class
+				);
+			}
+
+			#[\Override]
+			public function registerAccountScopedSearchProvider(string $class): void {
+				$this->context->registerAccountScopedSearchProvider(
 					$this->appId,
 					$class
 				);
@@ -563,6 +575,10 @@ class RegistrationContext {
 
 	public function registerSearchProvider(string $appId, string $class) {
 		$this->searchProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerAccountScopedSearchProvider(string $appId, string $class): void {
+		$this->accountScopedSearchProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	public function registerAlternativeLogin(string $appId, string $class): void {
@@ -915,6 +931,13 @@ class RegistrationContext {
 	 */
 	public function getSearchProviders(): array {
 		return $this->searchProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<IAccountScopedSearchProvider>[]
+	 */
+	public function getAccountScopedSearchProviders(): array {
+		return $this->accountScopedSearchProviders;
 	}
 
 	/**
