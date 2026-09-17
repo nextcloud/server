@@ -16,6 +16,7 @@ jobs:
 
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
         branches:
           - ${{ github.event.repository.default_branch }}
@@ -53,7 +54,10 @@ jobs:
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          commit-message: 'fix(security): Update code signing revocation list'
+          commit-message: |
+            'fix(security): Update code signing revocation list'
+
+            [skip ci]
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
