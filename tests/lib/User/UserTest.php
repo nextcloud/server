@@ -14,11 +14,11 @@ use OC\User\Database;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
 use OCP\Config\IUserConfig;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorageFactory;
-use OCP\Group\Events\UserRemovedEvent;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -29,18 +29,20 @@ use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 #[Group(name: 'DB')]
 class UserTest extends TestCase {
-	protected IEventDispatcher $dispatcher;
+	protected IEventDispatcher&MockObject $dispatcher;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->dispatcher = Server::get(IEventDispatcher::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 	}
 
 	public function testDisplayName(): void {
@@ -367,7 +369,6 @@ class UserTest extends TestCase {
 
 	public function testSetPasswordHooks(): void {
 		$hooksCalled = 0;
-		$test = $this;
 
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->method('getBackendName')->willReturn('foo');
@@ -375,17 +376,23 @@ class UserTest extends TestCase {
 			->method('setPassword')
 			->willReturn(true);
 
-		$this->dispatcher->addListener(BeforePasswordUpdatedEvent::class, function (BeforePasswordUpdatedEvent $event) use ($test, &$hooksCalled): void {
-			$hooksCalled++;
-			$test->assertEquals('foo', $event->getUser()->getUID());
-			$test->assertEquals('bar', $event->getPassword());
-		});
-
-		$this->dispatcher->addListener(PasswordUpdatedEvent::class, function (PasswordUpdatedEvent $event) use ($test, &$hooksCalled): void {
-			$hooksCalled++;
-			$test->assertEquals('foo', $event->getUser()->getUID());
-			$test->assertEquals('bar', $event->getPassword());
-		});
+		$this->dispatcher->expects(self::atLeastOnce())
+			->method('dispatchTyped')
+			->willReturnCallback(
+				function (Event $event) use (&$hooksCalled) {
+					if ($event instanceof BeforePasswordUpdatedEvent) {
+						$hooksCalled++;
+						$this->assertEquals('foo', $event->getUser()->getUID());
+						$this->assertEquals('bar', $event->getPassword());
+					} elseif ($event instanceof PasswordUpdatedEvent) {
+						$hooksCalled++;
+						$this->assertEquals('foo', $event->getUser()->getUID());
+						$this->assertEquals('bar', $event->getPassword());
+					} else {
+						$this->fail('was not expecting any more events');
+					}
+				}
+			);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -428,15 +435,22 @@ class UserTest extends TestCase {
 
 		$user = new User('foo', $backend, $this->dispatcher, $config, $userConfig);
 
-		$this->dispatcher->addListener(BeforeUserDeletedEvent::class, function (BeforeUserDeletedEvent $event) use (&$hooksCalled) {
-			$hooksCalled++;
-			$this->assertEquals('foo', $event->getUser()->getUID());
-		});
-
-		$this->dispatcher->addListener(UserRemovedEvent::class, function (UserRemovedEvent $event) use (&$hooksCalled) {
-			$hooksCalled++;
-			$this->assertEquals('foo', $event->getUser()->getUID());
-		});
+		$this->dispatcher->expects(self::atLeastOnce())
+			->method('dispatchTyped')
+			->willReturnCallback(
+				function (Event $event) use (&$hooksCalled) {
+					if ($event instanceof BeforeUserDeletedEvent) {
+						$hooksCalled++;
+						$this->assertEquals('foo', $event->getUser()->getUID());
+					} elseif ($event instanceof UserDeletedEvent) {
+						$hooksCalled++;
+						$this->assertEquals('foo', $event->getUser()->getUID());
+					} else {
+						var_dump(get_class($event));
+						$this->fail('was not expecting any more events');
+					}
+				}
+			);
 
 		$commentsManager = $this->createMock(ICommentsManager::class);
 		$notificationManager = $this->createMock(INotificationManager::class);
@@ -528,7 +542,7 @@ class UserTest extends TestCase {
 
 		$user = $this->getMockBuilder(User::class)
 			->onlyMethods(['getHome'])
-			->setConstructorArgs(['foo', $backend, $this->dispatcher, null, $config, $userConfig])
+			->setConstructorArgs(['foo', $backend, $this->dispatcher, $config, $userConfig])
 			->getMock();
 
 		$user->expects(self::atLeastOnce())
@@ -792,7 +806,6 @@ class UserTest extends TestCase {
 				'foo',
 				$backend,
 				$this->dispatcher,
-				null,
 				$config,
 			])
 			->onlyMethods(['isEnabled', 'triggerChange'])
@@ -826,7 +839,6 @@ class UserTest extends TestCase {
 				'foo',
 				$backend,
 				$this->dispatcher,
-				null,
 				$config,
 				$userConfig,
 			])
