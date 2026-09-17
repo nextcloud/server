@@ -12,6 +12,7 @@ SPDX-FileCopyrightText: perfect-debounce developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
@@ -47,10 +48,10 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.5
+	- version: 1.8.0
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.11
+	- version: 0.2.12
 	- license: MIT
 - @mdi/svg
 	- version: 7.4.47
@@ -130,8 +131,11 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/sharing
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
+- debounce
+	- version: 2.2.0
+	- license: MIT
 - @nextcloud/vue
-	- version: 8.40.0
+	- version: 8.41.0
 	- license: AGPL-3.0-or-later
 - @vue/reactivity
 	- version: 3.5.40
