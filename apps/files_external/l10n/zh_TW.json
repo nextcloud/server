@@ -86,6 +86,7 @@
     "Edit storage" : "編輯儲存空間",
     "Add storage" : "新增儲存空間",
     "Folder name" : "資料夾名稱",
+    "Without a restriction this storage is available to every account on this server." : "若無任何限制，此儲存空間將開放給本伺服器上的每個帳號使用。",
     "Authentication" : "認證",
     "Cancel" : "取消",
     "Edit" : "編輯",
