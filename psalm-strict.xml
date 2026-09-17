@@ -56,6 +56,16 @@
 		<directory name="lib/private/AppFramework/ORM"/>
 		<directory name="lib/public/AppFramework/ORM"/>
 		<directory name="apps/oauth2"/>
+		<file name="apps/files/lib/Db/OpenLocalEditor.php"/>
+		<file name="apps/files/lib/Db/OpenLocalEditorMapper.php"/>
+		<file name="apps/files/lib/Controller/OpenLocalEditorController.php"/>
+		<file name="apps/files/tests/Db/OpenLocalEditorMapperTest.php"/>
+		<file name="apps/files/lib/Db/TransferOwnership.php"/>
+		<file name="apps/files/lib/Db/TransferOwnershipMapper.php"/>
+		<file name="apps/files/lib/Controller/TransferOwnershipController.php"/>
+		<file name="apps/files/lib/BackgroundJob/TransferOwnership.php"/>
+		<file name="apps/files/lib/Notification/Notifier.php"/>
+		<file name="apps/files/tests/Db/TransferOwnershipMapperTest.php"/>
 		<ignoreFiles>
 			<!-- Circles internals are used -->
 			<file name="core/Sharing/Recipient/TeamShareRecipientType.php"/>
