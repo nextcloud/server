@@ -52,15 +52,15 @@ async function toggleWindowsFilenameSupport(enabled: boolean) {
 
 <template>
 	<NcSettingsSection
-		:doc-url="docUrl"
+		:docUrl="docUrl"
 		:name="t('files', 'Files compatibility')"
 		:description="description">
 		<NcCheckboxRadioSwitch
-			:model-value="hasWindowsSupport"
+			:modelValue="hasWindowsSupport"
 			:disabled="isRunningSanitization"
 			:loading="loading"
 			type="switch"
-			@update:model-value="toggleWindowsFilenameSupport">
+			@update:modelValue="toggleWindowsFilenameSupport">
 			{{ t('files', 'Enforce Windows compatibility') }}
 		</NcCheckboxRadioSwitch>
 		<p class="hint">

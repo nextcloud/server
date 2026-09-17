@@ -41,7 +41,7 @@ const size = computed(() => formatFileSize(props.node.size ?? 0))
 				:class="$style.filesSidebarSubname__userBubble"
 				:title="t('files', 'Owner')"
 				:user="node.owner"
-				:display-name="node.attributes['owner-display-name']" />
+				:displayName="node.attributes['owner-display-name']" />
 		</template>
 	</div>
 </template>

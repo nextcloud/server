@@ -32,16 +32,12 @@ interface NewNodeDialogOptions {
  * @param options Options for the dialog
  * @return string if successful otherwise null if aborted
  */
-export function newNodeName(defaultName: string, folderContent: INode[], options: NewNodeDialogOptions = {}) {
+export async function newNodeName(defaultName: string, folderContent: INode[], options: NewNodeDialogOptions = {}): Promise<string | null> {
 	const contentNames = folderContent.map((node: INode) => node.basename)
 
-	return new Promise<string | null>((resolve) => {
-		spawnDialog(NewNodeDialog, {
-			...options,
-			defaultName,
-			otherNames: contentNames,
-		}, (folderName) => {
-			resolve(folderName as string | null)
-		})
+	return await spawnDialog(NewNodeDialog, {
+		...options,
+		defaultName,
+		otherNames: contentNames,
 	})
 }

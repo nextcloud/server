@@ -48,9 +48,9 @@ async function showKeyboardShortcuts() {
 	<NcAppSettingsDialog
 		:legacy="false"
 		:name="t('files', 'Files settings')"
-		no-version
+		noVersion
 		:open="open"
-		show-navigation
+		showNavigation
 		@update:open="emit('close')">
 		<FilesAppSettingsGeneral />
 		<FilesAppSettingsAppearance />

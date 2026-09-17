@@ -6,13 +6,13 @@
 	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
 		<NcActions
 			ref="actionsMenu"
-			:open.sync="openedMenu"
+			v-model:open="openedMenu"
 			container="#app-content-vue"
-			:boundaries-element="boundariesElement"
+			:boundariesElement="boundariesElement"
 			:disabled="!!loading || areSomeNodesLoading"
-			:force-name="true"
+			:forceName="true"
 			:inline="enabledInlineActions.length"
-			:menu-name="enabledInlineActions.length <= 1 ? t('files', 'Actions') : undefined"
+			:menuName="enabledInlineActions.length <= 1 ? t('files', 'Actions') : undefined"
 			@close="openedSubmenu = null">
 			<!-- Default actions list-->
 			<NcActionButton
@@ -23,9 +23,9 @@
 					[`files-list__row-actions-batch-${action.id}`]: true,
 					[`files-list__row-actions-batch--menu`]: isValidMenu(action),
 				}"
-				:close-after-click="!isValidMenu(action)"
+				:closeAfterClick="!isValidMenu(action)"
 				:data-cy-files-list-selection-action="action.id"
-				:is-menu="isValidMenu(action)"
+				:isMenu="isValidMenu(action)"
 				:aria-label="action.displayName(actionContext) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
 				:title="action.title?.(actionContext)"
 				@click="onActionClick(action)">
@@ -53,7 +53,7 @@
 					:key="action.id"
 					:class="`files-list__row-actions-batch-${action.id}`"
 					class="files-list__row-actions-batch--submenu"
-					close-after-click
+					closeAfterClick
 					:data-cy-files-list-selection-action="action.id"
 					:aria-label="action.displayName(actionContext) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
 					:title="action.title?.(actionContext)"
@@ -298,7 +298,7 @@ export default defineComponent({
 				// Set loading markers
 				this.loading = action.id
 				this.nodes.forEach((node) => {
-					this.$set(node, 'status', NodeStatus.LOADING)
+					node.status = NodeStatus.LOADING
 				})
 
 				// Dispatch action execution
@@ -338,7 +338,7 @@ export default defineComponent({
 				// Remove loading markers
 				this.loading = null
 				this.nodes.forEach((node) => {
-					this.$set(node, 'status', undefined)
+					node.status = undefined
 				})
 			}
 		},

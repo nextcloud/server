@@ -2,20 +2,19 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { VueConstructor } from 'vue'
+import type { App } from 'vue'
 
 import svgCloudUpload from '@mdi/svg/svg/cloud-upload.svg?raw'
 import { Folder, getNavigation, Permission, View } from '@nextcloud/files'
 import { defaultRemoteURL, defaultRootPath } from '@nextcloud/files/dav'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { createApp } from 'vue'
 
 export default () => {
 	const foldername = loadState<string>('files_sharing', 'filename')
 
-	let FilesViewFileDropEmptyContent: VueConstructor
-	let fileDropEmptyContentInstance: Vue
+	let fileDropEmptyContentApp: App | undefined
 
 	const view = new View({
 		id: 'public-file-drop',
@@ -25,19 +24,11 @@ export default () => {
 		order: 1,
 
 		emptyView: async (div: HTMLDivElement) => {
-			if (FilesViewFileDropEmptyContent === undefined) {
-				const { default: component } = await import('../views/FilesViewFileDropEmptyContent.vue')
-				FilesViewFileDropEmptyContent = Vue.extend(component)
-			}
-			if (fileDropEmptyContentInstance) {
-				fileDropEmptyContentInstance.$destroy()
-			}
-			fileDropEmptyContentInstance = new FilesViewFileDropEmptyContent({
-				propsData: {
-					foldername,
-				},
-			})
-			fileDropEmptyContentInstance.$mount(div)
+			const { default: FilesViewFileDropEmptyContent } = await import('./FilesViewFileDropEmptyContent.vue')
+
+			fileDropEmptyContentApp?.unmount()
+			fileDropEmptyContentApp = createApp(FilesViewFileDropEmptyContent, { foldername })
+			fileDropEmptyContentApp.mount(div)
 		},
 
 		getContents: async () => {

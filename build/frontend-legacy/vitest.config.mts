@@ -43,6 +43,7 @@ export default defineConfig({
 	resolve: {
 		preserveSymlinks: true,
 		alias: {
+			'~': resolve(import.meta.dirname, '../..'),
 			vue$: resolve(__dirname, './node_modules/vue/dist/vue.js'),
 		},
 	},

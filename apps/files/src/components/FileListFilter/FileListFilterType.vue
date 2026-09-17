@@ -56,10 +56,15 @@ onUnmounted(() => {
 })
 
 /**
- * Handler for reset event from filter
+ * Handler for reset event from filter.
+ *
+ * Assigning a new array unconditionally would re-trigger the watcher above,
+ * which calls back into `setPresets` and so dispatches `reset` again.
  */
 function resetFilter() {
-	selectedOptions.value = []
+	if (selectedOptions.value.length > 0) {
+		selectedOptions.value = []
+	}
 }
 
 /**

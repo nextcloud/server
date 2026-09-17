@@ -3,16 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IFolder, INode } from '@nextcloud/files'
-import type { Upload } from '@nextcloud/upload'
+import type { Folder, IFolder, INode } from '@nextcloud/files'
+import type { IUpload } from '@nextcloud/files/upload'
 import type { RootDirectory } from './DropServiceUtils.ts'
 
 import { showError, showInfo, showSuccess, showWarning } from '@nextcloud/dialogs'
+import { getUploader } from '@nextcloud/files/upload'
 import { t } from '@nextcloud/l10n'
 import { join } from '@nextcloud/paths'
-import { getUploader, hasConflict } from '@nextcloud/upload'
 import { handleCopyMoveNodesTo, HintException } from '../actions/moveOrCopyAction.ts'
 import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
+import { getConflicts } from '../utils/conflicts.ts'
 import { logger } from '../utils/logger.ts'
 import { createDirectoryIfNotExists, Directory, resolveConflict, traverseTree } from './DropServiceUtils.ts'
 
@@ -93,11 +94,11 @@ export async function dataTransferToFileTree(items: DataTransferItem[]): Promise
  * @param destination - The destination folder
  * @param contents - The contents of the destination folder
  */
-export async function onDropExternalFiles(root: RootDirectory, destination: IFolder, contents: INode[]): Promise<Upload[]> {
+export async function onDropExternalFiles(root: RootDirectory, destination: IFolder, contents: INode[]): Promise<IUpload[]> {
 	const uploader = getUploader()
 
 	// Check for conflicts on root elements
-	if (await hasConflict(root.contents, contents)) {
+	if (getConflicts(root.contents, contents).length !== 0) {
 		root.contents = await resolveConflict(root.contents, destination, contents)
 		if (root.contents.length === 0) {
 			// user cancelled the upload
@@ -111,7 +112,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 
 	// Let's process the files
 	logger.debug(`Uploading files to ${destination.path}`, { root, contents: root.contents })
-	const queue = [] as Promise<Upload>[]
+	const queue = [] as Promise<IUpload>[]
 
 	const uploadDirectoryContents = async (directory: Directory, path: string) => {
 		for (const file of directory.contents) {
@@ -136,8 +137,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 			// If we've reached a file, we can upload it
 			logger.debug('Uploading file to ' + join(destination.path, relativePath), { file })
 
-			// Overriding the root to avoid changing the current uploader context
-			queue.push(uploader.upload(relativePath, file, destination.source))
+			queue.push(uploader.upload(relativePath, file))
 		}
 	}
 
@@ -145,10 +145,19 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
 	// while we compute the queue
 	uploader.pause()
 
-	// Upload the files. Using '/' as the starting point
-	// as we already adjusted the uploader destination
-	await uploadDirectoryContents(root, '/')
-	uploader.start()
+	// The uploader resolves every upload path against its own destination, so it
+	// has to be pointed at the drop target while the queue is built. Dropping on
+	// a folder row uploads into that folder, not into the folder being browsed.
+	const previousDestination = uploader.destination
+	uploader.destination = destination as Folder
+	try {
+		// Upload the files. Using '/' as the starting point
+		// as we already adjusted the uploader destination
+		await uploadDirectoryContents(root, '/')
+	} finally {
+		uploader.destination = previousDestination
+		uploader.start()
+	}
 
 	// Wait for all promises to settle
 	const results = await Promise.allSettled(queue)
@@ -177,7 +186,7 @@ export async function onDropExternalFiles(root: RootDirectory, destination: IFol
  */
 export async function onDropInternalFiles(nodes: INode[], destination: IFolder, contents: INode[], isCopy = false) {
 	// Check for conflicts on root elements
-	if (await hasConflict(nodes, contents)) {
+	if (getConflicts(nodes, contents).length !== 0) {
 		nodes = await resolveConflict(nodes, destination, contents)
 	}
 

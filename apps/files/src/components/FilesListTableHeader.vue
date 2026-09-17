@@ -22,8 +22,8 @@
 					{{ n('files', '{count} selected', '{count} selected', selectedNodes.length, { count: selectedNodes.length }) }}
 				</span>
 				<FilesListTableHeaderActions
-					:current-view="currentView"
-					:selected-nodes="selectedNodes" />
+					:currentView="currentView"
+					:selectedNodes="selectedNodes" />
 			</template>
 		</th>
 
@@ -200,8 +200,8 @@ export default defineComponent({
 			const label = t('files', 'Toggle selection for all files and folders')
 			return {
 				'aria-label': label,
-				checked: this.isAllSelected,
 				indeterminate: this.isSomeSelected,
+				modelValue: this.isAllSelected,
 				title: label,
 			}
 		},

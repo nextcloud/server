@@ -36,6 +36,15 @@ const modules = {
 		'settings-admin': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-admin.ts'),
 		'settings-personal': resolve(import.meta.dirname, 'apps/federatedfilesharing/src', 'settings-personal.ts'),
 	},
+	files: {
+		sidebar: resolve(import.meta.dirname, 'apps/files/src', 'sidebar.ts'),
+		main: resolve(import.meta.dirname, 'apps/files/src', 'main.ts'),
+		init: resolve(import.meta.dirname, 'apps/files/src', 'init.ts'),
+		search: resolve(import.meta.dirname, 'apps/files/src/plugins/search', 'folderSearch.ts'),
+		'settings-admicn': resolve(import.meta.dirname, 'apps/files/src', 'main-settings-admin.ts'),
+		'settings-personal': resolve(import.meta.dirname, 'apps/files/src', 'main-settings-personal.ts'),
+		'reference-files': resolve(import.meta.dirname, 'apps/files/src', 'reference-files.ts'),
+	},
 	files_external: {
 		auth_rsa: resolve(import.meta.dirname, 'apps/files_external/src', 'auth-rsa.ts'),
 
@@ -45,6 +54,12 @@ const modules = {
 	},
 	files_reminders: {
 		init: resolve(import.meta.dirname, 'apps/files_reminders/src', 'files-init.ts'),
+	},
+	files_sharing: {
+		// Only the public share entry point is migrated to Vue 3 so far, the rest
+		// of the app is still built by the Vue 2 frontend. It is referenced by path
+		// rather than through `apps/` so it resolves the Vue 3 dependencies.
+		'init-public': resolve(import.meta.dirname, '../..', 'apps/files_sharing/src/public', 'init.ts'),
 	},
 	files_trashbin: {
 		init: resolve(import.meta.dirname, 'apps/files_trashbin/src', 'files-init.ts'),
@@ -113,6 +128,10 @@ export default createAppConfig(Object.fromEntries(viteModuleEntries), {
 		root: resolve(import.meta.dirname, '../..'),
 		resolve: {
 			preserveSymlinks: true,
+			alias: [
+				// allow to import from the repository root (cross reference other apps)
+				{ find: /^~\//, replacement: `${resolve(import.meta.dirname, '../..')}/` },
+			],
 		},
 		build: {
 			outDir: 'dist',

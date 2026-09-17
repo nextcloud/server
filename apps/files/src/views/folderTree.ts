@@ -22,7 +22,7 @@ import {
 	sourceRoot,
 } from '../services/FolderTree.ts'
 import { useFilesStore } from '../store/files.ts'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 
 interface IFolderTreeView extends IView {
 	loading?: boolean
@@ -170,7 +170,7 @@ function getLoadChildViews(node: TreeNode | IFolder) {
  */
 async function updateTreeChildren(path: string = '/') {
 	await queue.add(async () => {
-		const filesStore = useFilesStore(getPinia())
+		const filesStore = useFilesStore(pinia)
 		const cachedNodes = filesStore.getNodesByPath(Navigation.active!.id, path)
 		if (cachedNodes.length > 0) {
 			// if there are nodes loaded in the path we dont need to fetch from API

@@ -3,12 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { Node } from '@nextcloud/files'
+import type { ComponentPublicInstance } from 'vue'
 
-import Vue from 'vue'
+import { createApp } from 'vue'
 import DragAndDropPreview from '../components/DragAndDropPreview.vue'
 
-const Preview = Vue.extend(DragAndDropPreview)
-let preview: Vue
+type PreviewInstance = ComponentPublicInstance & { update: (nodes: Node[]) => void }
+
+let preview: PreviewInstance | undefined
+let onLoaded: ((el: Element) => void) | undefined
 
 /**
  *
@@ -17,14 +20,15 @@ let preview: Vue
 export async function getDragAndDropPreview(nodes: Node[]): Promise<Element> {
 	return new Promise((resolve) => {
 		if (!preview) {
-			preview = new Preview().$mount()
-			document.body.appendChild(preview.$el)
+			const mountingPoint = document.createElement('div')
+			document.body.appendChild(mountingPoint)
+			const app = createApp(DragAndDropPreview, {
+				onLoaded: (el: Element) => onLoaded?.(el),
+			})
+			preview = app.mount(mountingPoint) as PreviewInstance
 		}
 
+		onLoaded = resolve
 		preview.update(nodes)
-		preview.$on('loaded', () => {
-			resolve(preview.$el)
-			preview.$off('loaded')
-		})
 	})
 }

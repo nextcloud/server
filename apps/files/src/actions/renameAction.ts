@@ -11,7 +11,7 @@ import { Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { dirname } from 'path'
 import { useFilesStore } from '../store/files.ts'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 
 export const ACTION_RENAME = 'rename'
 
@@ -31,7 +31,7 @@ export const action: IFileAction = {
 		}
 
 		const node = nodes[0]
-		const filesStore = useFilesStore(getPinia())
+		const filesStore = useFilesStore(pinia)
 		const parentNode = node.dirname === '/'
 			? filesStore.getRoot(view.id)
 			: filesStore.getNode(dirname(node.source))

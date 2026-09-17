@@ -8,14 +8,14 @@
 		:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
 		data-key="source"
 		:data-sources="nodes"
-		:grid-mode="userConfig.grid_view"
-		:extra-props="{
+		:gridMode="userConfig.grid_view"
+		:extraProps="{
 			isMimeAvailable,
 			isMtimeAvailable,
 			isSizeAvailable,
 			nodes,
 		}"
-		:scroll-to-index="scrollToIndex"
+		:scrollToIndex="scrollToIndex"
 		:caption="caption">
 		<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -- no space allowed as otherwise `:empty` css selector does not trigger! -->
 		<template #filters><FileListFilterToSearch /><FileListFilterChips /></template>
@@ -25,8 +25,8 @@
 			<FilesListHeader
 				v-for="header in headers"
 				:key="header.id"
-				:current-folder="currentFolder"
-				:current-view="currentView"
+				:currentFolder="currentFolder"
+				:currentView="currentView"
 				:header="header" />
 		</template>
 
@@ -35,10 +35,10 @@
 			<!-- Table header and sort buttons -->
 			<FilesListTableHeader
 				ref="thead"
-				:current-view="currentView"
-				:is-mime-available="isMimeAvailable"
-				:is-mtime-available="isMtimeAvailable"
-				:is-size-available="isSizeAvailable"
+				:currentView="currentView"
+				:isMimeAvailable="isMimeAvailable"
+				:isMtimeAvailable="isMtimeAvailable"
+				:isSizeAvailable="isSizeAvailable"
 				:nodes="nodes" />
 		</template>
 
@@ -50,10 +50,10 @@
 		<!-- Tfoot-->
 		<template #footer>
 			<FilesListTableFooter
-				:current-view="currentView"
-				:is-mime-available="isMimeAvailable"
-				:is-mtime-available="isMtimeAvailable"
-				:is-size-available="isSizeAvailable"
+				:currentView="currentView"
+				:isMimeAvailable="isMimeAvailable"
+				:isMtimeAvailable="isMtimeAvailable"
+				:isSizeAvailable="isSizeAvailable"
 				:nodes="nodes"
 				:summary="summary" />
 		</template>

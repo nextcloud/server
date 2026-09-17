@@ -13,10 +13,10 @@
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import { getPinia } from '../../store/index.ts'
+import { pinia } from '../../store/index.ts'
 import { useSearchStore } from '../../store/search.ts'
 
-const searchStore = useSearchStore(getPinia())
+const searchStore = useSearchStore(pinia)
 
 const isVisible = computed(() => searchStore.query.length >= 3 && searchStore.scope === 'filter')
 

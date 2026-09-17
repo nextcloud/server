@@ -17,18 +17,20 @@
 import type { Node } from '@nextcloud/files'
 
 import { FileType, formatFileSize } from '@nextcloud/files'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import FileMultipleIcon from 'vue-material-design-icons/FileMultiple.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import { getSummaryFor } from '../utils/fileUtils.ts'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'DragAndDropPreview',
 
 	components: {
 		FileMultipleIcon,
 		FolderIcon,
 	},
+
+	emits: ['loaded'],
 
 	data() {
 		return {
