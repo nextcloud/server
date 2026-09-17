@@ -18,6 +18,7 @@ use OCA\Files_Sharing\External\ExternalShareMapper;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
+use OCP\BackgroundJob\IJobList;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
@@ -77,6 +78,7 @@ class ManagerTest extends TestCase {
 	private IOCMDiscoveryService&MockObject $ocmDiscoveryService;
 	private ExternalShareMapper $externalShareMapper;
 	private IConfig $config;
+	private IJobList&MockObject $jobList;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -93,6 +95,7 @@ class ManagerTest extends TestCase {
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->jobList = $this->createMock(IJobList::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -182,6 +185,7 @@ class ManagerTest extends TestCase {
 					$this->certificateManager,
 					$this->externalShareMapper,
 					$this->config,
+					$this->jobList,
 				]
 			)->onlyMethods(['tryOCMEndPoint'])->getMock();
 	}
