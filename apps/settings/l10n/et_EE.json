@@ -685,6 +685,7 @@
     "New account" : "Uus kasutajakonto",
     "Adding new account …" : "Lisan uut kasutajakontot…",
     "Add new account" : "Lisa uus kasutajakonto",
+    "Only letters, numbers, spaces, and _.@-' are allowed" : "Lubatud on vaid tähed, numbrid, tühikud ja _.@-'",
     "Display name" : "Kuvatav nimi",
     "Either password or email is required" : "Kas salasõna või e-posti aadress on kohustuslik",
     "Member of the following groups (required)" : "Järgmiste gruppide liige (nõutav)",

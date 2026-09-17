@@ -690,6 +690,7 @@ OC.L10N.register(
     "New account" : "Nouveau compte",
     "Adding new account …" : "Ajout d’un nouveau compte…",
     "Add new account" : "Ajouter un nouveau compte",
+    "Only letters, numbers, spaces, and _.@-' are allowed" : "Seuls les lettres, chiffres, espaces et _.@-' sont autorisés",
     "Display name" : "Nom d’affichage",
     "Either password or email is required" : "Vous devez renseigner un mot de passe ou une adresse e-mail",
     "Member of the following groups (required)" : "Membre des groupes suivants (obligatoire)",
