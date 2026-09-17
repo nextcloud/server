@@ -88,6 +88,7 @@ OC.L10N.register(
     "Edit storage" : "Upraviť úložisko",
     "Add storage" : "Pridať úložisko",
     "Folder name" : "Názov priečinka",
+    "Without a restriction this storage is available to every account on this server." : "Bez obmedzenia je toto úložisko dostupné každému účtu na tomto serveri.",
     "Authentication" : "Autentifikácia",
     "Cancel" : "Cancel",
     "Edit" : "Upraviť",
