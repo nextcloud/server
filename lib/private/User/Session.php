@@ -322,7 +322,7 @@ class Session implements IUserSession, Emitter {
 
 	/**
 	 * @param IUser $user
-	 * @param array $loginDetails
+	 * @param array{loginName:string,password:string,token?:IToken} $loginDetails
 	 * @param bool $regenerateSessionId
 	 * @return true returns true if login successful or an exception otherwise
 	 * @throws LoginException
