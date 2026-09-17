@@ -23,6 +23,7 @@ use OCA\User_LDAP\LoginListener;
 use OCA\User_LDAP\Notification\Notifier;
 use OCA\User_LDAP\SetupChecks\LdapConnection;
 use OCA\User_LDAP\SetupChecks\LdapInvalidUuids;
+use OCA\User_LDAP\Support\SystemReportSection;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\UserPluginManager;
@@ -79,6 +80,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(PostLoginEvent::class, LoginListener::class);
 		$context->registerSetupCheck(LdapInvalidUuids::class);
 		$context->registerSetupCheck(LdapConnection::class);
+		$context->registerSystemReportSection(SystemReportSection::class);
 	}
 
 	#[\Override]
