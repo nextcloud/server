@@ -8,9 +8,12 @@
 		<!-- Request label -->
 		<fieldset class="file-request-dialog__label" data-cy-file-request-dialog-fieldset="label">
 			<legend>
-				{{ t('files_sharing', 'What are you requesting?') }}
+				<label class="file-request-dialog__legend-label" for="file-request-dialog-label">
+					{{ t('files_sharing', 'What are you requesting?') }}
+				</label>
 			</legend>
 			<NcTextField
+				id="file-request-dialog-label"
 				:model-value="label"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Request subject')"
@@ -23,9 +26,12 @@
 		<!-- Request destination -->
 		<fieldset class="file-request-dialog__destination" data-cy-file-request-dialog-fieldset="destination">
 			<legend>
-				{{ t('files_sharing', 'Where should these files go?') }}
+				<label class="file-request-dialog__legend-label" for="file-request-dialog-destination">
+					{{ t('files_sharing', 'Where should these files go?') }}
+				</label>
 			</legend>
 			<NcTextField
+				id="file-request-dialog-destination"
 				:model-value="destination"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Upload destination')"
@@ -53,9 +59,12 @@
 		<!-- Request note -->
 		<fieldset class="file-request-dialog__note" data-cy-file-request-dialog-fieldset="note">
 			<legend>
-				{{ t('files_sharing', 'Add a note') }}
+				<label class="file-request-dialog__legend-label" for="file-request-dialog-note">
+					{{ t('files_sharing', 'Add a note') }}
+				</label>
 			</legend>
 			<NcTextArea
+				id="file-request-dialog-note"
 				:model-value="note"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Note for recipient')"
@@ -168,6 +177,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.file-request-dialog__legend-label {
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+}
+
 .file-request-dialog__note :deep(textarea) {
 	width: 100% !important;
 	min-height: 80px;
