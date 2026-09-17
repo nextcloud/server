@@ -3222,9 +3222,6 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
-    <MissingTemplateParam>
-      <code><![CDATA[ArrayAccess]]></code>
-    </MissingTemplateParam>
     <RedundantCast>
       <code><![CDATA[(int)$e->getCode()]]></code>
     </RedundantCast>
@@ -4063,9 +4060,6 @@
     </DeprecatedMethod>
   </file>
   <file src="tests/lib/TestCase.php">
-    <DeprecatedMethod>
-      <code><![CDATA[$container]]></code>
-    </DeprecatedMethod>
     <InternalMethod>
       <code><![CDATA[lockFile]]></code>
       <code><![CDATA[unlockFile]]></code>
