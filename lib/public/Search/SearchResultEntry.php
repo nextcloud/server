@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCP\Search;
 
 use JsonSerializable;
+use NCU\Search\MetadataField;
 
 /**
  * Represents an entry in a list of results an app returns for a unified search
@@ -70,6 +71,11 @@ class SearchResultEntry implements JsonSerializable {
 	protected $attributes = [];
 
 	/**
+	 * @var list<MetadataField> $metadata
+	 */
+	private array $metadata = [];
+
+	/**
 	 * @param string $thumbnailUrl a relative or absolute URL to the thumbnail or icon of the entry
 	 * @param string $title a main title of the entry
 	 * @param string $subline the secondary line of the entry
@@ -104,6 +110,13 @@ class SearchResultEntry implements JsonSerializable {
 	 */
 	public function addAttribute(string $key, string $value): void {
 		$this->attributes[$key] = $value;
+	}
+
+	/**
+	 * @param non-empty-string $key
+	 */
+	public function addMetaData(MetadataField $field): void {
+		$this->metadata[] = $field;
 	}
 
 	/**

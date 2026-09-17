@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace OCA\Files\Search;
 
 use InvalidArgumentException;
+use NCU\Search\MetadataField;
+use NCU\Search\MetadataFieldStatus;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
@@ -138,6 +140,49 @@ class FilesSearchProvider implements IFilteringProvider {
 				);
 				$searchResultEntry->addAttribute('fileId', (string)$result->getId());
 				$searchResultEntry->addAttribute('path', $path);
+
+				$searchResultEntry->addMetaData(MetadataField::captured('owner', $result->getOwner()?->getUID()));
+				$searchResultEntry->addMetaData(MetadataField::captured('path', $result->getPath()));
+				$searchResultEntry->addMetaData(MetadataField::captured('modified', $result->getMTime()));
+				$searchResultEntry->addMetaData(MetadataField::captured('size', $result->getSize()));
+				$searchResultEntry->addMetaData(MetadataField::captured('mimetype', $result->getMimetype()));
+
+				/*
+				// Often 0 for content that never came through a client that set it. Zero is not a
+				// creation date, so it is recorded as unread rather than asserted as a fact.
+				$this->captureField($snapshot, 'created', static function () use ($node): int {
+					$created = $node->getCreationTime();
+					if ($created === 0) {
+						throw new \RuntimeException('creation time not recorded by the storage');
+					}
+
+					return $created;
+				});
+
+				// Nextcloud stores checksums as "TYPE:VALUE" and only when a client supplied one on upload;
+				// there is no stored SHA-256. Content is never hashed here — that would read every collected
+				// file in full, in the one operation that has to stay cheap (US-18).
+				$this->captureField($snapshot, 'checksum', static function () use ($node): string {
+					$checksum = $node instanceof File ? $node->getChecksum() : '';
+					if ($checksum === '' || $checksum === null) {
+						throw new \RuntimeException('no checksum stored for this file');
+					}
+
+					return $checksum;
+				});
+
+				$shareStatus = null;
+				$this->captureField($snapshot, 'share_status', function () use ($node, &$shareStatus): array {
+					$shareStatus = $this->shareStatus($node);
+
+					return $shareStatus;
+				});
+				$this->captureField($snapshot, 'owner_context', fn (): array => $this->ownerContext($node));
+				$this->captureField($snapshot, 'attributes', fn (): array => $this->attributesOf(
+					$node,
+					$shareStatus ?? ['shared' => false, 'externally' => false, 'shares' => []],
+				));
+				*/
 				return $searchResultEntry;
 			}, $userFolder->search($fileQuery)),
 			$query->getCursor() + $query->getLimit()
