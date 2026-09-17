@@ -9,8 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\UserStatus\Command;
 
-use OCA\UserStatus\Db\UserStatusMapper;
-use OCA\UserStatus\Service\StatusService;
+use OCA\UserStatus\Service\StatusRepairService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Repair extends Command {
 
 	public function __construct(
-		private UserStatusMapper $mapper,
+		private StatusRepairService $repairService,
 	) {
 		parent::__construct();
 	}
@@ -47,13 +46,9 @@ class Repair extends Command {
 		return self::SUCCESS;
 	}
 
-	/**
-	 * Rows written before is_backup had a default are invisible to every query
-	 * comparing it against false, so other users see them as offline and the
-	 * cleanup job skips them.
-	 */
+	/** The flag comes from the user id, so a pre-default backup stays a backup. */
 	private function repairMissingBackupFlags(OutputInterface $output, bool $dryRun): void {
-		$ids = $this->mapper->findStatusesWithoutBackupFlagIds();
+		$ids = $this->repairService->findStatusesWithoutBackupFlagIds();
 		if ($ids === []) {
 			$output->writeln('No statuses with a missing backup flag.');
 			return;
@@ -61,23 +56,17 @@ class Repair extends Command {
 
 		$count = count($ids);
 		if ($dryRun) {
-			$output->writeln("Would set the backup flag on <info>$count</info> status(es).");
+			$output->writeln("Would give <info>$count</info> status(es) an explicit backup flag.");
 			$this->listIds($output, $ids);
 			return;
 		}
 
-		$fixed = $this->mapper->normalizeBackupFlagByIds($ids);
-		$output->writeln("Set the backup flag on <info>$fixed</info> status(es).");
+		$fixed = $this->repairService->normalizeBackupFlagByIds($ids);
+		$output->writeln("Gave <info>$fixed</info> status(es) an explicit backup flag.");
 	}
 
-	/**
-	 * A live status on an automated message id with no backup row can never be
-	 * reverted by the automation that set it, and the heartbeat refuses to
-	 * overwrite it, so the user is stuck. Removing the row lets the next
-	 * heartbeat recreate a normal status.
-	 */
 	private function repairOrphanedStatuses(OutputInterface $output, bool $dryRun): void {
-		$ids = $this->mapper->findOrphanedAutomatedStatusIds(StatusService::AUTOMATED_MESSAGE_IDS);
+		$ids = $this->repairService->findOrphanedAutomatedStatusIds();
 		if ($ids === []) {
 			$output->writeln('No users stuck on an automated status.');
 			return;
@@ -89,17 +78,12 @@ class Repair extends Command {
 			return;
 		}
 
-		$deleted = $this->mapper->deleteByIds($ids);
+		$deleted = $this->repairService->deleteByIds($ids);
 		$output->writeln("Cleared <info>$deleted</info> status(es) stuck on an automated status.");
 	}
 
-	/**
-	 * A backup that can no longer be matched blocks every future automated
-	 * status change for that user, because createBackupStatus() keeps hitting
-	 * the unique constraint on user_id.
-	 */
 	private function repairStrandedBackups(OutputInterface $output, bool $dryRun): void {
-		$ids = $this->mapper->findStrandedBackupIds(StatusService::AUTOMATED_MESSAGE_IDS);
+		$ids = $this->repairService->findStrandedBackupIds();
 		if ($ids === []) {
 			$output->writeln('No stranded backup statuses.');
 			return;
@@ -111,14 +95,11 @@ class Repair extends Command {
 			return;
 		}
 
-		$deleted = $this->mapper->deleteByIds($ids);
+		$deleted = $this->repairService->deleteByIds($ids);
 		$output->writeln("Removed <info>$deleted</info> stranded backup status(es).");
 	}
 
 	/**
-	 * The ids are what an administrator needs to look the rows up themselves,
-	 * but there can be a lot of them, so only spell them out when asked.
-	 *
 	 * @param list<int> $ids
 	 */
 	private function listIds(OutputInterface $output, array $ids): void {

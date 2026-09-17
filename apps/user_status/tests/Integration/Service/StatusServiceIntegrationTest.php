@@ -11,6 +11,7 @@ namespace OCA\UserStatus\Tests\Integration\Service;
 
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
+use OCA\UserStatus\Service\StatusRepairService;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IDBConnection;
@@ -24,6 +25,7 @@ use function time;
 class StatusServiceIntegrationTest extends TestCase {
 
 	private StatusService $service;
+	private StatusRepairService $repairService;
 	private UserStatusMapper $mapper;
 	private IDBConnection $db;
 
@@ -31,6 +33,7 @@ class StatusServiceIntegrationTest extends TestCase {
 		parent::setUp();
 
 		$this->service = Server::get(StatusService::class);
+		$this->repairService = Server::get(StatusRepairService::class);
 		$this->mapper = Server::get(UserStatusMapper::class);
 
 		$this->db = Server::get(IDBConnection::class);
@@ -38,10 +41,7 @@ class StatusServiceIntegrationTest extends TestCase {
 		$qb->delete('user_status')->executeStatement();
 	}
 
-	/**
-	 * Reads a row without going through StatusService::processStatus(), which
-	 * would rewrite a stale status before the assertion can see it.
-	 */
+	/** Reads a row without processStatus() rewriting a stale status first. */
 	private function readRaw(string $userId): ?UserStatus {
 		try {
 			return $this->mapper->findByUserId($userId);
@@ -217,16 +217,9 @@ class StatusServiceIntegrationTest extends TestCase {
 		);
 	}
 
-	/*
-	 * Orphaned automated statuses: a live row sits on an automated status but
-	 * there is no backup row to revert into, so revertUserStatus() has nothing
-	 * to restore. It must still clear the automated status, otherwise the user
-	 * is stuck on it forever and the heartbeat can never bring them back
-	 * online.
-	 */
+	/* An automated status with no backup must still be cleared. */
 
 	public function testRevertWithoutBackupClearsAutomatedStatus(): void {
-		// No backup taken, so nothing can ever be restored for this user.
 		$this->service->setUserStatus(
 			'test123',
 			IUserStatus::BUSY,
@@ -274,7 +267,6 @@ class StatusServiceIntegrationTest extends TestCase {
 			false,
 		);
 
-		// The meeting automation reverts, but the live status belongs to a call.
 		$reverted = $this->service->revertUserStatus('test123', IUserStatus::MESSAGE_CALENDAR_BUSY);
 
 		self::assertNull($reverted);
@@ -286,8 +278,6 @@ class StatusServiceIntegrationTest extends TestCase {
 	}
 
 	public function testFreshUserAutomatedStatusIsClearedOnRevert(): void {
-		// A user who has never had a status row: there is nothing to back up,
-		// so the automated status is applied without a backup.
 		$applied = $this->service->setUserStatus(
 			'test123',
 			IUserStatus::BUSY,
@@ -315,8 +305,7 @@ class StatusServiceIntegrationTest extends TestCase {
 			true,
 		);
 
-		// A 90 minute meeting, well past INVALIDATE_STATUS_THRESHOLD.
-		$this->age('test123', 90 * 60);
+		$this->age('test123', StatusService::INVALIDATE_STATUS_THRESHOLD * 2);
 
 		$before = time();
 		$reverted = $this->service->revertUserStatus('test123', IUserStatus::MESSAGE_CALENDAR_BUSY);
@@ -337,7 +326,7 @@ class StatusServiceIntegrationTest extends TestCase {
 			IUserStatus::MESSAGE_CALENDAR_BUSY,
 			true,
 		);
-		$this->age('test123', 90 * 60);
+		$this->age('test123', StatusService::INVALIDATE_STATUS_THRESHOLD * 2);
 
 		$this->service->revertUserStatus('test123', IUserStatus::MESSAGE_CALENDAR_BUSY);
 
@@ -349,13 +338,84 @@ class StatusServiceIntegrationTest extends TestCase {
 		);
 	}
 
-	/*
-	 * Stranded backups: a backup row exists but the live row is no longer on
-	 * the automated status that would restore it, so revertUserStatus() can
-	 * never match. Nothing else removes it, and while it exists
-	 * backupCurrentStatus() keeps failing, which silently aborts every future
-	 * automated status change for that user.
-	 */
+	public function testRevertMultipleAfterLongMeetingRefreshesTimestamp(): void {
+		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+
+		$this->age('test123', StatusService::INVALIDATE_STATUS_THRESHOLD * 2);
+
+		$before = time();
+		$this->service->revertMultipleUserStatus(['test123'], IUserStatus::MESSAGE_CALENDAR_BUSY);
+
+		self::assertGreaterThanOrEqual(
+			$before,
+			$this->readRaw('test123')?->getStatusTimestamp(),
+			'A bulk-restored status must not carry the stale timestamp from before the meeting',
+		);
+	}
+
+	public function testRevertMultipleAfterLongMeetingDoesNotFallBackToOffline(): void {
+		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+		$this->age('test123', StatusService::INVALIDATE_STATUS_THRESHOLD * 2);
+
+		$this->service->revertMultipleUserStatus(['test123'], IUserStatus::MESSAGE_CALENDAR_BUSY);
+
+		// findByUserId() runs processStatus(), which cleans stale statuses.
+		self::assertSame(
+			IUserStatus::ONLINE,
+			$this->service->findByUserId('test123')->getStatus(),
+			'The user was online before the meeting and must not be flipped to offline after bulk status update followed by reading the status',
+		);
+	}
+
+	public function testRevertMultipleWithoutBackupClearsAutomatedStatus(): void {
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+
+		$this->service->revertMultipleUserStatus(['test123'], IUserStatus::MESSAGE_CALENDAR_BUSY);
+
+		self::assertNull(
+			$this->readRaw('test123'),
+			'A bulk revert must clear an automated status that has no backup, or the user stays stuck on it',
+		);
+	}
+
+	public function testRevertMultipleKeepsStatusTheUserChangedThemselves(): void {
+		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
+		$this->service->setUserStatus(
+			'test123',
+			IUserStatus::BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			true,
+		);
+		// The user replaces the automated message with their own.
+		$this->service->setCustomMessage('test123', '🍕', 'Lunch', null);
+
+		$this->service->revertMultipleUserStatus(['test123'], IUserStatus::MESSAGE_CALENDAR_BUSY);
+
+		self::assertSame(
+			'Lunch',
+			$this->readRaw('test123')?->getCustomMessage(),
+			'A status the user set themselves must survive the bulk revert',
+		);
+	}
+
+	/* A backup whose live row moved off the automated status is stranded. */
 
 	public function testStrandedBackupIsCleanedUp(): void {
 		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
@@ -365,12 +425,10 @@ class StatusServiceIntegrationTest extends TestCase {
 			IUserStatus::MESSAGE_CALENDAR_BUSY,
 			true,
 		);
-		// The user clears the status message, so the meeting revert can no
-		// longer find a matching row.
 		$this->service->clearMessage('test123');
 		self::assertNotNull($this->readRaw('_test123'), 'Precondition: the backup is stranded');
 
-		$deleted = $this->mapper->deleteStrandedBackups(StatusService::AUTOMATED_MESSAGE_IDS);
+		$deleted = $this->repairService->deleteStrandedBackups();
 
 		self::assertSame(1, $deleted);
 		self::assertNull($this->readRaw('_test123'), 'The stranded backup must be removed');
@@ -386,7 +444,7 @@ class StatusServiceIntegrationTest extends TestCase {
 			true,
 		);
 
-		$deleted = $this->mapper->deleteStrandedBackups(StatusService::AUTOMATED_MESSAGE_IDS);
+		$deleted = $this->repairService->deleteStrandedBackups();
 
 		self::assertSame(0, $deleted);
 		self::assertNotNull(
@@ -403,10 +461,9 @@ class StatusServiceIntegrationTest extends TestCase {
 			IUserStatus::MESSAGE_OUT_OF_OFFICE,
 			true,
 		);
-		// Out of office can last for weeks; age well beyond any threshold.
-		$this->age('test123', 86400 * 30);
+		$this->age('test123', StatusService::INVALIDATE_STATUS_THRESHOLD * 100);
 
-		$deleted = $this->mapper->deleteStrandedBackups(StatusService::AUTOMATED_MESSAGE_IDS);
+		$deleted = $this->repairService->deleteStrandedBackups();
 
 		self::assertSame(0, $deleted);
 		self::assertNotNull(
@@ -425,13 +482,12 @@ class StatusServiceIntegrationTest extends TestCase {
 		);
 		$this->service->clearMessage('test123');
 
-		// While the stranded backup exists, automated statuses are aborted.
 		self::assertNull(
 			$this->service->setUserStatus('test123', IUserStatus::BUSY, IUserStatus::MESSAGE_CALL, true),
 			'Precondition: the stranded backup blocks automated statuses',
 		);
 
-		$this->mapper->deleteStrandedBackups(StatusService::AUTOMATED_MESSAGE_IDS);
+		$this->repairService->deleteStrandedBackups();
 
 		self::assertNotNull(
 			$this->service->setUserStatus('test123', IUserStatus::BUSY, IUserStatus::MESSAGE_CALL, true),
@@ -443,20 +499,14 @@ class StatusServiceIntegrationTest extends TestCase {
 		$this->service->setStatus('test123', IUserStatus::ONLINE, null, false);
 		$this->service->setCustomMessage('test123', '🍕', 'Lunch', null);
 
-		$deleted = $this->mapper->deleteStrandedBackups(StatusService::AUTOMATED_MESSAGE_IDS);
+		$deleted = $this->repairService->deleteStrandedBackups();
 
 		self::assertSame(0, $deleted);
 		self::assertSame('Lunch', $this->readRaw('test123')?->getCustomMessage());
 	}
 
-	/**
-	 * The lookup matches a live row against its backup by concatenating the
-	 * underscore prefix in SQL, so it has to be exercised on a real database
-	 * rather than only through the mapper unit tests.
-	 */
+	/** The prefix concatenation is SQL, so it needs a real database. */
 	public function testFindsOrphanedAutomatedStatusOnARealDatabase(): void {
-		// A user with no status row at all gets no backup, so the meeting
-		// status it is given can never be reverted.
 		$this->service->setUserStatus(
 			'test123',
 			IUserStatus::BUSY,
@@ -465,8 +515,6 @@ class StatusServiceIntegrationTest extends TestCase {
 		);
 		self::assertNull($this->readRaw('_test123'), 'Precondition: there is no backup');
 
-		// A second user on the same automated status, but with a backup, must
-		// not be reported.
 		$this->service->setStatus('test456', IUserStatus::ONLINE, null, false);
 		$this->service->setUserStatus(
 			'test456',
@@ -475,7 +523,7 @@ class StatusServiceIntegrationTest extends TestCase {
 			true,
 		);
 
-		$orphaned = $this->mapper->findOrphanedAutomatedStatusIds(StatusService::AUTOMATED_MESSAGE_IDS);
+		$orphaned = $this->repairService->findOrphanedAutomatedStatusIds();
 
 		self::assertSame([$this->readRaw('test123')?->getId()], $orphaned);
 	}
