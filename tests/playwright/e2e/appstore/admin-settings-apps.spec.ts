@@ -6,7 +6,7 @@
 import { runOcc } from '@nextcloud/e2e-test-server'
 import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-appstore-page.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
+import { awaitPasswordGuardedRequest } from '../../support/utils/password-confirmation.ts'
 
 test.describe('Settings: App management', () => {
 	test.beforeEach(async ({ appstorePage }) => {
@@ -33,11 +33,8 @@ test.describe('Settings: App management', () => {
 
 		await appstorePage.enableButton('QA testing').click({ force: true })
 
-		// Handle password confirmation if needed
-		await handlePasswordConfirmation(page, 'admin')
-
 		// Wait for the API request
-		await enableRequest
+		await awaitPasswordGuardedRequest(page, enableRequest)
 
 		// Wait until we see the disable button for the app
 		await expect(appstorePage.appsTable()).toBeVisible()
@@ -62,11 +59,8 @@ test.describe('Settings: App management', () => {
 
 		await appstorePage.disableButton('Update notification').click({ force: true })
 
-		// Handle password confirmation if needed
-		await handlePasswordConfirmation(page, 'admin')
-
 		// Wait for the API request
-		await disableRequest
+		await awaitPasswordGuardedRequest(page, disableRequest)
 
 		// Wait until we see the enable button for the app
 		await expect(appstorePage.appsTable()).toBeVisible()
@@ -156,7 +150,7 @@ test.describe('Settings: App management', () => {
 		await expect(appstorePage.versionText()).toBeVisible()
 	})
 
-	test('Limit app usage to group', async ({ appstorePage, page }) => {
+	test('Limit app usage to group', async ({ appstorePage }) => {
 		// Open the "Active apps" section
 		await appstorePage.openEnabledApps()
 
@@ -181,9 +175,6 @@ test.describe('Settings: App management', () => {
 		// Click the Save button
 		await appstorePage.dialogSaveButton().click()
 
-		// Handle password confirmation
-		await handlePasswordConfirmation(page, 'admin')
-
 		// Verify the group is now in the "Limited to groups" list
 		const limitedList = appstorePage.limitedToGroupsList()
 		await expect(limitedList).toBeVisible()
@@ -200,9 +191,6 @@ test.describe('Settings: App management', () => {
 
 		// Click Save
 		await appstorePage.dialogSaveButton().click()
-
-		// Handle password confirmation
-		await handlePasswordConfirmation(page, 'admin')
 
 		// Verify the "Limited to groups" list is no longer visible
 		await expect(appstorePage.limitedToGroupsList()).toHaveCount(0)
