@@ -10,7 +10,6 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Util;
-use OC\Files\Cache\CacheEntry;
 use OC\Files\Filesystem;
 use OC\Files\Mount\Manager;
 use OC\Files\ObjectStore\ObjectStoreStorage;
@@ -71,30 +70,18 @@ class Encryption extends Wrapper {
 		$fullPath = $this->getFullPath($path);
 
 		$info = $this->getCache()->get($path);
-		if ($info === false) {
-			/* Pass call to wrapped storage, it may be a special file like a part file */
-			return $this->getWrapperStorage()->filesize($path);
-		}
+
+		// The size we tracked while writing the file is authoritative, even for
+		// files that have no cache entry (yet), e.g. *.part files or files that
+		// are only scanned once the caller is done writing them.
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
 
 			// Update file cache (only if file is already cached).
 			// Certain files are not cached (e.g. *.part).
-			if (isset($info['fileid'])) {
+			if ($info !== false && isset($info['fileid'])) {
 				$isEncryptedInCache = !empty($info['encrypted']);
-
-				if ($info instanceof ICacheEntry) {
-					$info['encrypted'] = $info['encryptedVersion'];
-				} else {
-					/**
-					 * @psalm-suppress RedundantCondition
-					 */
-					if (!is_array($info)) {
-						$info = [];
-					}
-					$info['encrypted'] = true;
-					$info = new CacheEntry($info);
-				}
+				$info['encrypted'] = $info['encryptedVersion'];
 
 				if ($size !== $info->getUnencryptedSize()) {
 					$this->getCache()->update($info->getId(), [
@@ -110,6 +97,11 @@ class Encryption extends Wrapper {
 			}
 
 			return $size;
+		}
+
+		if ($info === false) {
+			/* Pass call to wrapped storage, it may be a special file like a part file */
+			return $this->getWrapperStorage()->filesize($path);
 		}
 
 		if (isset($info['fileid']) && $info['encrypted']) {
@@ -645,6 +637,9 @@ class Encryption extends Wrapper {
 			if ($sourceCacheEntry === false && $targetCacheEntry !== false) {
 				$encryptedVersion = $targetCacheEntry['encryptedVersion'];
 				$isRename = false;
+			} elseif ($sourceCacheEntry === false) {
+				// a file that is not in the file cache, e.g. a part file, is at version 1
+				$encryptedVersion = 1;
 			} else {
 				$encryptedVersion = $sourceCacheEntry['encryptedVersion'];
 			}
