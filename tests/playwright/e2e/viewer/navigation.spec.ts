@@ -53,6 +53,6 @@ test.describe('Viewer navigation', () => {
 		await viewerPage.isVisible()
 
 		await page.goBack()
-		await expect(viewerPage.container).toBeHidden()
+		await viewerPage.waitForClosed()
 	})
 })
