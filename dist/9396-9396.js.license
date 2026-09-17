@@ -18,7 +18,6 @@ SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: Thorsten Lünborg
-SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
@@ -140,13 +139,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.17.0
+	- version: 1.20.0
 	- license: MIT
 - bail
 	- version: 2.0.2
-	- license: MIT
-- base64-js
-	- version: 1.5.1
 	- license: MIT
 - blurhash
 	- version: 2.0.5
@@ -205,9 +201,6 @@ This file is generated from multiple sources. Included packages:
 - hast-util-whitespace
 	- version: 2.0.1
 	- license: MIT
-- ieee754
-	- version: 1.2.1
-	- license: BSD-3-Clause
 - inline-style-parser
 	- version: 0.1.1
 	- license: MIT
@@ -303,9 +296,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - micromark
 	- version: 4.0.2
-	- license: MIT
-- buffer
-	- version: 6.0.3
 	- license: MIT
 - process
 	- version: 0.11.10
