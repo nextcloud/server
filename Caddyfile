@@ -12,7 +12,7 @@
 	}
 }
 
-localhost {
+{$SERVER_NAME::localhost} {
 	php_server {
 		worker {
 			file index.php
