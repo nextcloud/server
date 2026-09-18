@@ -17,6 +17,7 @@ use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\ObjectTree;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Files\FileSearchBackend;
+use OCA\DAV\Service\FileGroupingService;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -24,6 +25,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchQuery;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -80,8 +82,10 @@ class FileSearchBackendTest extends TestCase {
 			->willReturn($this->searchFolder);
 
 		$filesMetadataManager = $this->createMock(IFilesMetadataManager::class);
+		$appConfig = $this->createMock(IAppConfig::class);
+		$fileGroupingService = $this->createMock(FileGroupingService::class);
 
-		$this->search = new FileSearchBackend($this->server, $this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view, $filesMetadataManager);
+		$this->search = new FileSearchBackend($this->server, $this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view, $filesMetadataManager, $fileGroupingService, $appConfig);
 	}
 
 	public function testSearchFilename(): void {
