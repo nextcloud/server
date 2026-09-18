@@ -16,7 +16,7 @@
 				variant="primary"
 				:disabled="validity !== ''"
 				@click="submit">
-				{{ t('files', 'Create') }}
+				{{ submitLabel }}
 			</NcButton>
 		</template>
 		<form
@@ -88,6 +88,14 @@ const props = defineProps({
 	label: {
 		type: String,
 		default: t('files', 'Folder name'),
+	},
+
+	/**
+	 * Label of the submit button
+	 */
+	submitLabel: {
+		type: String,
+		default: t('files', 'Create'),
 	},
 
 	/**
