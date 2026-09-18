@@ -380,7 +380,6 @@ return array(
     'OCA\\DAV\\Migration\\RegisterUpdateCalendarResourcesRoomBackgroundJob' => $baseDir . '/../lib/Migration/RegisterUpdateCalendarResourcesRoomBackgroundJob.php',
     'OCA\\DAV\\Migration\\RemoveClassifiedEventActivity' => $baseDir . '/../lib/Migration/RemoveClassifiedEventActivity.php',
     'OCA\\DAV\\Migration\\RemoveDeletedUsersCalendarSubscriptions' => $baseDir . '/../lib/Migration/RemoveDeletedUsersCalendarSubscriptions.php',
-    'OCA\\DAV\\Migration\\RemoveObjectProperties' => $baseDir . '/../lib/Migration/RemoveObjectProperties.php',
     'OCA\\DAV\\Migration\\RemoveOrphanEventsAndContacts' => $baseDir . '/../lib/Migration/RemoveOrphanEventsAndContacts.php',
     'OCA\\DAV\\Migration\\Version1004Date20170825134824' => $baseDir . '/../lib/Migration/Version1004Date20170825134824.php',
     'OCA\\DAV\\Migration\\Version1004Date20170919104507' => $baseDir . '/../lib/Migration/Version1004Date20170919104507.php',
