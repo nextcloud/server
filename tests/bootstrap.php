@@ -25,10 +25,19 @@ require_once __DIR__ . '/autoload.php';
 
 $dontLoadApps = getenv('TEST_DONT_LOAD_APPS');
 if (!$dontLoadApps) {
-	// load all apps
+	require_once __DIR__ . '/extra-apps.php';
+
+	// Only load default apps/ plus explicitly requested EXTRA_APPS_PATHS apps.
+	// Apps under apps-extra/ ship their own vendor/ with dev dependencies
+	// (e.g. an older phpunit/phpunit) that would shadow the phpunit running
+	// this suite if loaded wholesale.
 	$appManager = Server::get(IAppManager::class);
+	$extraAppIds = getExtraAppIds();
+	foreach ($extraAppIds as $appId) {
+		$appManager->loadApp($appId);
+	}
 	foreach (new \DirectoryIterator(__DIR__ . '/../apps/') as $file) {
-		if ($file->isDot()) {
+		if ($file->isDot() || in_array($file->getFilename(), $extraAppIds, true)) {
 			continue;
 		}
 		$appManager->loadApp($file->getFilename());
