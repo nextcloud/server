@@ -52,6 +52,8 @@ use ReflectionMethod;
  * @package OC\AppFramework\Middleware\Security
  */
 class RateLimitingMiddleware extends Middleware {
+	private ?AnonRateLimit $exceptionTriggeredLimit = null;
+
 	public function __construct(
 		protected IRequest $request,
 		protected IUserSession $userSession,
@@ -72,6 +74,7 @@ class RateLimitingMiddleware extends Middleware {
 	#[\Override]
 	public function beforeController(Controller $controller, string $methodName): void {
 		parent::beforeController($controller, $methodName);
+		$this->exceptionTriggeredLimit = null;
 		$rateLimitIdentifier = get_class($controller) . '::' . $methodName;
 
 		if ($this->userSession instanceof Session && $this->userSession->getSession()->get('app_api') === true && $this->userSession->getUser() === null) {
@@ -120,6 +123,21 @@ class RateLimitingMiddleware extends Middleware {
 
 		if ($rateLimit !== null) {
 			if (!$rateLimit->shouldApply($this->request)) {
+				return;
+			}
+
+			if ($rateLimit instanceof AnonRateLimit && $rateLimit->getExceptions() !== []) {
+				// The request is only counted when the controller throws one of
+				// the listed exceptions, but an already reached limit is still
+				// enforced before invoking the controller.
+				$this->exceptionTriggeredLimit = $rateLimit;
+				if ($this->limiter->isAnonRateLimitReached(
+					$rateLimitIdentifier,
+					$rateLimit->getLimit(),
+					$this->request->getRemoteAddress()
+				)) {
+					throw new RateLimitExceededException();
+				}
 				return;
 			}
 
@@ -197,6 +215,19 @@ class RateLimitingMiddleware extends Middleware {
 	 */
 	#[\Override]
 	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
+		if ($this->exceptionTriggeredLimit !== null) {
+			foreach ($this->exceptionTriggeredLimit->getExceptions() as $exceptionClass) {
+				if ($exception instanceof $exceptionClass) {
+					$this->limiter->registerAnonAttempt(
+						get_class($controller) . '::' . $methodName,
+						$this->exceptionTriggeredLimit->getPeriod(),
+						$this->request->getRemoteAddress(),
+					);
+					break;
+				}
+			}
+		}
+
 		if ($exception instanceof RateLimitExceededException) {
 			if (stripos($this->request->getHeader('Accept'), 'html') === false) {
 				$response = new DataResponse([], $exception->getCode());
