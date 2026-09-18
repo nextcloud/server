@@ -55,6 +55,10 @@ If value is omitted, the current value is printed. If value is provided, the
 configuration is updated. The special keys mountpoint and mount_point can be
 used to read or change the mount point.
 
+Use files_external:config for backend configuration values such as host,
+share, username, password, keys, and tokens. Use files_external:option for
+mount behavior such as readonly, previews, and sharing.
+
 Use --value-from-file when the value should be read from a file, for example
 for a long secret or certificate. JSON values such as true, false, numbers,
 arrays, and objects are decoded when they are supplied as valid JSON.
