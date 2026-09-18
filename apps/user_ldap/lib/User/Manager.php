@@ -117,6 +117,7 @@ class Manager {
 			$this->access->getConnection()->ldapExpertUsernameAttr,
 			$this->access->getConnection()->ldapQuotaAttribute,
 			$this->access->getConnection()->ldapEmailAttribute,
+			$this->access->getConnection()->ldapUserActiveState,
 			$this->access->getConnection()->ldapUserDisplayName,
 			$this->access->getConnection()->ldapUserDisplayName2,
 			$this->access->getConnection()->ldapExtStorageHomeAttribute,
