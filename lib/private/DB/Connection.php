@@ -14,6 +14,7 @@ use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Driver;
+use Doctrine\DBAL\Driver\Exception as DriverException;
 use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConnectionLost;
@@ -854,7 +855,14 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	#[\Override]
 	public function commit() {
-		$result = parent::commit();
+		try {
+			$result = parent::commit();
+		} catch (DriverException $e) {
+			// DBAL converts driver exceptions for queries, but not for COMMIT. Without
+			// this, a deadlock or a Galera certification failure raised at commit time
+			// escapes as a raw PDOException that no caller recognises as retryable.
+			throw $this->getDriver()->getExceptionConverter()->convert($e, null);
+		}
 		if ($this->getTransactionNestingLevel() === 0) {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
 			$this->transactionBacktrace = null;
