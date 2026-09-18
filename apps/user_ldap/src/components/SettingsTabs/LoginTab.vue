@@ -43,7 +43,7 @@
 				v-if="ldapLoginFilterMode"
 				:modelValue="ldapConfigProxy.ldapLoginFilter"
 				:placeholder="t('user_ldap', 'Edit LDAP Query')"
-				:helperText="t('user_ldap', 'Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`')"
+				:helperText="t('user_ldap', 'Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`')"
 				@change="(event) => ldapConfigProxy.ldapLoginFilter = event.target.value" />
 			<div v-else>
 				<span>{{ t('user_ldap', 'LDAP Filter:') }}</span>
