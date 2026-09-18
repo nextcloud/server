@@ -13,6 +13,7 @@ use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\Listener\BeforeDirectFileDownloadListener;
 use OCA\Files_Sharing\Listener\BeforeZipCreatedListener;
 use OCA\Files_Sharing\SharedStorage;
+use OCA\Files_Sharing\ViewOnly;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File;
@@ -92,7 +93,8 @@ class ApplicationTest extends TestCase {
 		$event = new BeforeDirectFileDownloadEvent($path);
 		$listener = new BeforeDirectFileDownloadListener(
 			$this->userSession,
-			$this->rootFolder
+			$this->rootFolder,
+			new ViewOnly(),
 		);
 		$listener->handle($event);
 
@@ -162,6 +164,13 @@ class ApplicationTest extends TestCase {
 			);
 			$folder->method('getDirectoryListing')->willReturn($directoryListing);
 		}
+		
+		// If the folder contains any secure-shared files, make it appear as a secure-shared folder
+		// so that ViewOnly::isNodeCanBeDownloaded() will return false
+		$containsSecureSharedFiles = in_array('secureSharedStorage', $directoryListing);
+		if ($containsSecureSharedFiles && $folderStorage === 'nonSharedStorage') {
+			$folder->method('getStorage')->willReturn($secureSharedStorage);
+		}
 
 		$rootFolder = $this->createMock(Folder::class);
 		$rootFolder->method('getStorage')->willReturn($nonSharedStorage);
@@ -178,10 +187,11 @@ class ApplicationTest extends TestCase {
 		$this->rootFolder->method('getUserFolder')->with('test')->willReturn($userFolder);
 
 		// Simulate zip download of folder folder
-		$event = new BeforeZipCreatedEvent($dir, $files);
+		$event = new BeforeZipCreatedEvent($folder, $files, $directoryListing);
+
 		$listener = new BeforeZipCreatedListener(
 			$this->userSession,
-			$this->rootFolder
+			new ViewOnly(),
 		);
 		$listener->handle($event);
 
@@ -193,10 +203,10 @@ class ApplicationTest extends TestCase {
 		$this->userSession->method('isLoggedIn')->willReturn(false);
 
 		// Simulate zip download of folder folder
-		$event = new BeforeZipCreatedEvent('/test', ['test.txt']);
+		$event = new BeforeZipCreatedEvent('/test', ['test.txt'], []);
 		$listener = new BeforeZipCreatedListener(
 			$this->userSession,
-			$this->rootFolder
+			new ViewOnly(),
 		);
 		$listener->handle($event);
 
