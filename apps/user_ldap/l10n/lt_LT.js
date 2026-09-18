@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid LDAP UUIDs" : "Negalimas LDAP UUIDs",
     "None found" : "Nieko nerasta",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Rasta negalimų LDAP paskyrų arba grupių UUID. Patikrinkite nustatymus „Apeiti UUID nustatymą“ LDAP konfigūracijos skyriuje „Ekspertas“ ir naudokite komandą „occ ldap:update-uuid“, kad juos atnaujintumėte.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["Rasta %s grupė","Rastos %n grupės","Rasta %n grupių","Rasta %n grupių"],
     "> 1000 groups found" : "Rasta > 1000 grupių",
     "> 1000 users found" : "Rasta > 1000 vartotojų",

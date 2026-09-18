@@ -13,6 +13,7 @@ namespace OC\Files\Cache;
 use OC\DB\Exceptions\DbalException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
+use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IDBConnection;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -170,14 +171,11 @@ class Storage {
 			$query->select('storage_id')
 				->from('mounts')
 				->where($query->expr()->eq('mount_id', $query->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
-			$storageIds = $query->executeQuery()->fetchFirstColumn();
-			$storageIds = array_unique($storageIds);
+			$storageIds = array_unique(array_map(intval(...), $query->executeQuery()->fetchFirstColumn()));
 
-			$query = $db->getQueryBuilder();
-			$query->delete('filecache')
-				->where($query->expr()->in('storage', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)))
-				->runAcrossAllShards()
-				->executeStatement();
+			foreach ($storageIds as $storageId) {
+				self::removeFileCacheEntries($storageId);
+			}
 
 			$query = $db->getQueryBuilder();
 			$query->delete('storages')
@@ -193,6 +191,40 @@ class Storage {
 		} catch (\Exception $exception) {
 			$db->rollBack();
 			throw $exception;
+		}
+	}
+
+	/**
+	 * Remove the filecache entries of a storage together with their filecache_extended and metadata rows
+	 */
+	public static function removeFileCacheEntries(int $numericStorageId): void {
+		$db = Server::get(IDBConnection::class);
+		$metadataManager = Server::get(IFilesMetadataManager::class);
+
+		while (true) {
+			$query = $db->getQueryBuilder();
+			$query->select('fileid')
+				->from('filecache')
+				->where($query->expr()->eq('storage', $query->createNamedParameter($numericStorageId, IQueryBuilder::PARAM_INT)))
+				->setMaxResults(IQueryBuilder::MAX_IN_PARAMETERS);
+			$fileIds = array_map(intval(...), $query->executeQuery()->fetchFirstColumn());
+			if ($fileIds === []) {
+				return;
+			}
+
+			$query = $db->getQueryBuilder();
+			$query->delete('filecache_extended')
+				->where($query->expr()->in('fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
+				->hintShardKey('storage', $numericStorageId)
+				->executeStatement();
+
+			$metadataManager->deleteMetadataForFiles($numericStorageId, $fileIds);
+
+			$query = $db->getQueryBuilder();
+			$query->delete('filecache')
+				->where($query->expr()->eq('storage', $query->createNamedParameter($numericStorageId, IQueryBuilder::PARAM_INT)))
+				->andWhere($query->expr()->in('fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
+				->executeStatement();
 		}
 	}
 }

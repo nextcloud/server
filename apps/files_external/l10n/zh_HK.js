@@ -88,6 +88,7 @@ OC.L10N.register(
     "Edit storage" : "編輯儲存空間",
     "Add storage" : "增加儲存區",
     "Folder name" : "資料夾名稱",
+    "Without a restriction this storage is available to every account on this server." : "如沒有設定限制，此儲存空間可供此伺服器上的所有帳戶使用。",
     "Authentication" : "驗證",
     "Cancel" : "取消",
     "Edit" : "編輯",
