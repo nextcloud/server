@@ -12,7 +12,7 @@ OC.L10N.register(
     "Please check the Nextcloud and server log files for errors." : "Chyby skontrolujte prosím v logoch Nextcloud a webového servera",
     "Update to {serverAndVersion} is available." : "Je dostupná aktualizácia na {serverAndVersion}.",
     "Update for {app} to version %s is available." : "Pre {app} je dostupná aktualizácia na verziu %s.",
-    "Update notification" : "Aktualizovať hlásenie",
+    "Update notification" : "Notifikácia o aktualizácii",
     "Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater." : "Zobrazí upozornenie na aktualizáciu pre Nextcloud, aktualizácie aplikácií a poskytuje zjednotené prihlasovanie pre aktualizátor.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Je dostupná nová verzia: <strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Upozorňujeme, že po oficiálnom vydaní novej verzie môže chvíľu trvať, než sa tu objaví. Nové verzie medzi našich užívateľov distribuujeme priebežne rozložené v čase a ak sa nájdu chyby, niekedy danú verziu preskočíme. Viac informácií o kanáloch aktualizácií a vydaní sa dozviete na {link}",

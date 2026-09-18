@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid LDAP UUIDs" : "Neplatné LDAP UUID identif.",
     "None found" : "Žádné nenalezeno",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Nalezeny neplatné UUID identifikátory účtů nebo skupin. Zkontrolujte svá nastavení „Přebít zjišťování UUID identifikátorů“ v části pro odborníky nastavení pro LDAP a identifikátory pak zaktualizujte příkazem „ldap:update-uuid“.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["nalezena %n skupina","nalezeny %n skupiny","nalezeno %n skupin","nalezeny %n skupiny"],
     "> 1000 groups found" : "nalezeno více než 1 000 skupin",
     "> 1000 users found" : "nalezeno více než 1 000 uživatelů",
