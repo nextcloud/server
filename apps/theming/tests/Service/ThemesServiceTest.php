@@ -16,6 +16,7 @@ use OCA\Theming\Themes\DarkHighContrastTheme;
 use OCA\Theming\Themes\DarkTheme;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
+use OCA\Theming\Themes\ForcedColorsTheme;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\Themes\ReducedMotion;
@@ -77,6 +78,7 @@ class ThemesServiceTest extends TestCase {
 			'dark-highcontrast',
 			'opendyslexic',
 			'reduced-motion',
+			'forced-colors',
 		];
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
 	}
@@ -92,6 +94,7 @@ class ThemesServiceTest extends TestCase {
 		$expected = [
 			'default',
 			'dark',
+			'forced-colors',
 		];
 
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
@@ -114,6 +117,7 @@ class ThemesServiceTest extends TestCase {
 			'dark-highcontrast',
 			'opendyslexic',
 			'reduced-motion',
+			'forced-colors',
 		];
 
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
@@ -362,6 +366,7 @@ class ThemesServiceTest extends TestCase {
 				null,
 			),
 			'reduced-motion' => new ReducedMotion($l10n),
+			'forced-colors' => new ForcedColorsTheme($l10n),
 		];
 	}
 }

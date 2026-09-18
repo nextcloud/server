@@ -53,6 +53,7 @@ class ComposerStaticInitTheming
         'OCA\\Theming\\Themes\\DarkTheme' => __DIR__ . '/..' . '/../lib/Themes/DarkTheme.php',
         'OCA\\Theming\\Themes\\DefaultTheme' => __DIR__ . '/..' . '/../lib/Themes/DefaultTheme.php',
         'OCA\\Theming\\Themes\\DyslexiaFont' => __DIR__ . '/..' . '/../lib/Themes/DyslexiaFont.php',
+        'OCA\\Theming\\Themes\\ForcedColorsTheme' => __DIR__ . '/..' . '/../lib/Themes/ForcedColorsTheme.php',
         'OCA\\Theming\\Themes\\HighContrastTheme' => __DIR__ . '/..' . '/../lib/Themes/HighContrastTheme.php',
         'OCA\\Theming\\Themes\\LightTheme' => __DIR__ . '/..' . '/../lib/Themes/LightTheme.php',
         'OCA\\Theming\\Themes\\ReducedMotion' => __DIR__ . '/..' . '/../lib/Themes/ReducedMotion.php',

@@ -17,6 +17,7 @@ use OCA\Theming\Themes\DarkHighContrastTheme;
 use OCA\Theming\Themes\DarkTheme;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
+use OCA\Theming\Themes\ForcedColorsTheme;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\ThemingDefaults;
@@ -219,6 +220,7 @@ class PersonalTest extends TestCase {
 				$appManager,
 				null,
 			),
+			'forced-colors' => new ForcedColorsTheme($l10n),
 		];
 	}
 
