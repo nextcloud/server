@@ -336,6 +336,26 @@ class ClientTest extends \Test\TestCase {
 		$this->assertEquals(418, $this->client->get('http://localhost/', $options)->getStatusCode());
 	}
 
+	public function testGetPreservesDigestAuthenticationOptions(): void {
+		$this->setUpDefaultRequestOptions();
+
+		$options = array_merge($this->defaultRequestOptions, [
+			'auth' => ['user', 'password', 'digest'],
+		]);
+
+		$this->guzzleClient
+			->expects($this->once())
+			->method('request')
+			->with('get', 'http://localhost/', $options)
+			->willReturn(new Response(200));
+
+		$response = $this->client->get('http://localhost/', [
+			'auth' => ['user', 'password', 'digest'],
+		]);
+
+		$this->assertSame(200, $response->getStatusCode());
+	}
+
 	public function testPost(): void {
 		$this->setUpDefaultRequestOptions();
 
@@ -386,6 +406,32 @@ class ClientTest extends \Test\TestCase {
 			->with('put', 'http://localhost/', $options)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->put('http://localhost/', $options)->getStatusCode());
+	}
+
+	public function testPutPreservesDigestAuthenticationOptions(): void {
+		$this->setUpDefaultRequestOptions();
+
+		$body = fopen('php://memory', 'r');
+		self::assertIsResource($body);
+
+		$options = array_merge($this->defaultRequestOptions, [
+			'auth' => ['user', 'password', 'digest'],
+			'body' => $body,
+		]);
+
+		$this->guzzleClient
+			->expects($this->once())
+			->method('request')
+			->with('put', 'http://localhost/', $options)
+			->willReturn(new Response(201));
+
+		$response = $this->client->put('http://localhost/', [
+			'auth' => ['user', 'password', 'digest'],
+			'body' => $body,
+		]);
+
+		$this->assertSame(201, $response->getStatusCode());
+		fclose($body);
 	}
 
 	public function testDelete(): void {
