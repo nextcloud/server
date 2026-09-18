@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
  * Delete all share entries that have no matching entries in the file cache table.
  */
 class DeleteOrphanedItems extends TimedJob {
-	public const CHUNK_SIZE = 200;
+	public const CHUNK_SIZE = 1000;
 
 	/**
 	 * sets the correct interval for this timed job
@@ -46,74 +46,83 @@ class DeleteOrphanedItems extends TimedJob {
 	}
 
 	/**
-	 * Deleting orphaned system tag mappings
+	 * Delete mapping rows of the 'files' object type whose referenced file no
+	 * longer exists in the file cache.
 	 *
-	 * @param string $table
-	 * @param string $idCol
-	 * @param string $typeCol
+	 * The candidate ids are read from the mapping table itself in keyset-paginated
+	 * chunks and each chunk is checked against the filecache primary key. This
+	 * avoids joining the (potentially huge) mapping table against filecache with a
+	 * GROUP BY, which reads the whole mapping table - and on some databases
+	 * materialises a temp table - on every run even when there are no orphans (the
+	 * common case). It also works the same way whether or not filecache is sharded,
+	 * so a single code path covers both.
+	 *
+	 * @param string $table The mapping table to clean up
+	 * @param string $idCol The column referencing the file id
+	 * @param string $typeCol The column holding the object type
+	 * @param bool $numericId Whether $idCol is an integer column. String columns
+	 *                        hold the numeric file id as text; the keyset cursor is
+	 *                        compared (and the rows ordered) using the column's own
+	 *                        type so the index on $idCol stays usable on every
+	 *                        database instead of being defeated by an implicit cast.
 	 * @return int Number of deleted entries
 	 */
-	protected function cleanUp(string $table, string $idCol, string $typeCol): int {
+	protected function cleanUp(string $table, string $idCol, string $typeCol, bool $numericId): int {
 		$deletedEntries = 0;
 
 		$deleteQuery = $this->connection->getQueryBuilder();
 		$deleteQuery->delete($table)
-			->where($deleteQuery->expr()->eq($idCol, $deleteQuery->createParameter('objectid')));
+			->where($deleteQuery->expr()->in($idCol, $deleteQuery->createParameter('objectid')));
 
-		if ($this->connection->getShardDefinition('filecache')) {
-			$sourceIdChunks = $this->getItemIds($table, $idCol, $typeCol, 1000);
-			foreach ($sourceIdChunks as $sourceIdChunk) {
-				$deletedSources = $this->findMissingSources($sourceIdChunk);
-				$deleteQuery->setParameter('objectid', $deletedSources, IQueryBuilder::PARAM_INT_ARRAY);
-				$deletedEntries += $deleteQuery->executeStatement();
+		foreach ($this->getItemIds($table, $idCol, $typeCol, $numericId, self::CHUNK_SIZE) as $idChunk) {
+			$missingSources = $this->findMissingSources($idChunk);
+			if (count($missingSources) === 0) {
+				continue;
 			}
-		} else {
-			$query = $this->connection->getQueryBuilder();
-			$query->select('t1.' . $idCol)
-				->from($table, 't1')
-				->where($query->expr()->eq($typeCol, $query->expr()->literal('files')))
-				->leftJoin('t1', 'filecache', 't2', $query->expr()->eq($query->expr()->castColumn('t1.' . $idCol, IQueryBuilder::PARAM_INT), 't2.fileid'))
-				->andWhere($query->expr()->isNull('t2.fileid'))
-				->groupBy('t1.' . $idCol)
-				->setMaxResults(self::CHUNK_SIZE);
 
-			$deleteQuery = $this->connection->getQueryBuilder();
-			$deleteQuery->delete($table)
-				->where($deleteQuery->expr()->in($idCol, $deleteQuery->createParameter('objectid')));
-
-			$deletedInLastChunk = self::CHUNK_SIZE;
-			while ($deletedInLastChunk === self::CHUNK_SIZE) {
-				$chunk = $query->executeQuery()->fetchFirstColumn();
-				$deletedInLastChunk = count($chunk);
-
-				$deleteQuery->setParameter('objectid', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
-				$deletedEntries += $deleteQuery->executeStatement();
-			}
+			// Bind the ids using the column's own type (mirroring the keyset cursor in
+			// getItemIds()) so a string column is not implicitly coerced to a number.
+			$deleteQuery->setParameter('objectid', $missingSources, $numericId ? IQueryBuilder::PARAM_INT_ARRAY : IQueryBuilder::PARAM_STR_ARRAY);
+			$deletedEntries += $deleteQuery->executeStatement();
 		}
 
 		return $deletedEntries;
 	}
 
 	/**
+	 * Yield the distinct 'files' ids of $table in keyset-paginated chunks.
+	 *
+	 * Chunks are ordered by $idCol and advanced with a `$idCol > cursor`
+	 * comparison so the scan stays on the index covering ($typeCol, $idCol). The
+	 * cursor is bound - and the rows therefore ordered and compared - using the
+	 * column's own type: an integer column numerically, a string column lexically.
+	 * Mixing the two (e.g. comparing a varchar column to an integer) would force
+	 * an implicit cast that defeats the index and makes the ordering and the
+	 * comparison disagree, which could skip chunks.
+	 *
 	 * @param string $table
 	 * @param string $idCol
 	 * @param string $typeCol
+	 * @param bool $numericId Whether $idCol is an integer column
 	 * @param int $chunkSize
 	 * @return \Iterator<int[]>
 	 * @throws \OCP\DB\Exception
 	 */
-	private function getItemIds(string $table, string $idCol, string $typeCol, int $chunkSize): \Iterator {
+	private function getItemIds(string $table, string $idCol, string $typeCol, bool $numericId, int $chunkSize): \Iterator {
+		$cursorType = $numericId ? IQueryBuilder::PARAM_INT : IQueryBuilder::PARAM_STR;
+
 		$query = $this->connection->getQueryBuilder();
 		$query->select($idCol)
 			->from($table)
 			->where($query->expr()->eq($typeCol, $query->expr()->literal('files')))
-			->groupBy($idCol)
 			->andWhere($query->expr()->gt($idCol, $query->createParameter('min_id')))
+			->groupBy($idCol)
+			->orderBy($idCol)
 			->setMaxResults($chunkSize);
 
-		$minId = 0;
+		$minId = $numericId ? 0 : '0';
 		while (true) {
-			$query->setParameter('min_id', $minId);
+			$query->setParameter('min_id', $minId, $cursorType);
 			$rows = $query->executeQuery()->fetchFirstColumn();
 			if (count($rows) > 0) {
 				$minId = $rows[count($rows) - 1];
@@ -139,7 +148,7 @@ class DeleteOrphanedItems extends TimedJob {
 	 * @return int Number of deleted entries
 	 */
 	protected function cleanSystemTags() {
-		$deletedEntries = $this->cleanUp('systemtag_object_mapping', 'objectid', 'objecttype');
+		$deletedEntries = $this->cleanUp('systemtag_object_mapping', 'objectid', 'objecttype', false);
 		$this->logger->debug("$deletedEntries orphaned system tag relations deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
@@ -150,7 +159,7 @@ class DeleteOrphanedItems extends TimedJob {
 	 * @return int Number of deleted entries
 	 */
 	protected function cleanUserTags() {
-		$deletedEntries = $this->cleanUp('vcategory_to_object', 'objid', 'type');
+		$deletedEntries = $this->cleanUp('vcategory_to_object', 'objid', 'type', true);
 		$this->logger->debug("$deletedEntries orphaned user tag relations deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
@@ -161,7 +170,7 @@ class DeleteOrphanedItems extends TimedJob {
 	 * @return int Number of deleted entries
 	 */
 	protected function cleanComments() {
-		$deletedEntries = $this->cleanUp('comments', 'object_id', 'object_type');
+		$deletedEntries = $this->cleanUp('comments', 'object_id', 'object_type', false);
 		$this->logger->debug("$deletedEntries orphaned comments deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
@@ -172,7 +181,7 @@ class DeleteOrphanedItems extends TimedJob {
 	 * @return int Number of deleted entries
 	 */
 	protected function cleanCommentMarkers() {
-		$deletedEntries = $this->cleanUp('comments_read_markers', 'object_id', 'object_type');
+		$deletedEntries = $this->cleanUp('comments_read_markers', 'object_id', 'object_type', false);
 		$this->logger->debug("$deletedEntries orphaned comment read marks deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
