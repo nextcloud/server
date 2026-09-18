@@ -89,7 +89,7 @@ class ServerContainer extends SimpleContainer {
 					/* The application constructor will register the container, see App::__construct */
 					$app = new $applicationClassName();
 					if (isset($this->appContainers[$namespace])) {
-						$this->appContainers[$namespace]->offsetSet($applicationClassName, $app);
+						$this->appContainers[$namespace]->cacheAutoResolvedInstance($applicationClassName, $app);
 						/** @psalm-suppress NoValue false-positive (see comment above) */
 						return $this->appContainers[$namespace];
 					}
@@ -154,6 +154,19 @@ class ServerContainer extends SimpleContainer {
 			return $this->getAppContainer('OCA\\' . $namespace);
 		} catch (QueryException $e) {
 			return null;
+		}
+	}
+
+	/**
+	 * Registered app containers (see {@see registerAppContainer()}) aren't request-scoped
+	 * themselves, so they survive here across requests just like everything else; cascade into
+	 * each one so the app-specific services cached inside it get the same treatment.
+	 */
+	#[\Override]
+	public function resetForNextRequest(): void {
+		parent::resetForNextRequest();
+		foreach ($this->appContainers as $appContainer) {
+			$appContainer->resetForNextRequest();
 		}
 	}
 }

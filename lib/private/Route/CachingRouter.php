@@ -9,6 +9,8 @@
 namespace OC\Route;
 
 use OCP\App\IAppManager;
+use OCP\AppFramework\Attribute\PersistAcrossRequests;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\Diagnostics\IEventLogger;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -21,6 +23,11 @@ use Symfony\Component\Routing\Matcher\CompiledUrlMatcher;
 use Symfony\Component\Routing\Matcher\Dumper\CompiledUrlMatcherDumper;
 use Symfony\Component\Routing\RouteCollection;
 
+/**
+ * PHP attributes aren't inherited: Router's own #[PersistAcrossRequests] doesn't apply here even
+ * though this class extends it, so it has to be repeated.
+ */
+#[PersistAcrossRequests(invalidatedBy: [PersistentServiceGroup::Apps])]
 class CachingRouter extends Router {
 	protected ICache $cache;
 

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Test\Route;
 
 use OC\Route\Router;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
@@ -55,6 +56,73 @@ class RouterTest extends TestCase {
 
 	public function testHeartbeat(): void {
 		$this->assertEquals('/index.php/heartbeat', $this->router->generate('heartbeat'));
+	}
+
+	public function testRefreshContextUpdatesGeneratedAbsoluteUrls(): void {
+		$firstRequest = $this->createMock(IRequest::class);
+		$firstRequest->method('getServerHost')->willReturn('first.example.com');
+		$firstRequest->method('getServerProtocol')->willReturn('http');
+
+		$router = new Router(
+			$this->createMock(LoggerInterface::class),
+			$firstRequest,
+			$this->createMock(IConfig::class),
+			$this->createMock(IEventLogger::class),
+			$this->createMock(ContainerInterface::class),
+			$this->appManager,
+		);
+
+		$this->assertSame('http://first.example.com/index.php/heartbeat', $router->generate('heartbeat', [], true));
+
+		$secondRequest = $this->createMock(IRequest::class);
+		$secondRequest->method('getServerHost')->willReturn('second.example.com');
+		$secondRequest->method('getServerProtocol')->willReturn('https');
+		$router->refreshContext($secondRequest);
+
+		$this->assertSame('https://second.example.com/index.php/heartbeat', $router->generate('heartbeat', [], true));
+	}
+
+	public function testLoadRoutesForAppChecksIsEnabledForAnyoneNotPerUser(): void {
+		// $root is shared across every request a persisted Router serves, so gating it by the
+		// current user (rather than system-wide enablement) would leak into other users' requests.
+		$this->appManager->method('cleanAppId')->willReturnArgument(0);
+		$this->appManager->method('getAppPath')->willThrowException(new AppPathNotFoundException());
+		$this->appManager->expects(self::once())
+			->method('isEnabledForAnyone')
+			->with('some_app')
+			->willReturn(false);
+		$this->appManager->expects(self::never())
+			->method('isEnabledForUser');
+
+		$this->router->loadRoutes('some_app', skipLoadingCore: true);
+	}
+
+	public function testRefreshRequestScopedCollaboratorsUpdatesAppManager(): void {
+		$firstAppManager = $this->createMock(IAppManager::class);
+		$firstAppManager->method('cleanAppId')->willReturnArgument(0);
+		$firstAppManager->method('getAppPath')->willThrowException(new AppPathNotFoundException());
+		$firstAppManager->method('isEnabledForAnyone')->willReturn(false);
+
+		$router = new Router(
+			$this->createMock(LoggerInterface::class),
+			$this->createMock(IRequest::class),
+			$this->createMock(IConfig::class),
+			$this->createMock(IEventLogger::class),
+			$this->createMock(ContainerInterface::class),
+			$firstAppManager,
+		);
+
+		$secondAppManager = $this->createMock(IAppManager::class);
+		$secondAppManager->method('cleanAppId')->willReturnArgument(0);
+		$secondAppManager->expects(self::once())
+			->method('getAppPath')
+			->willThrowException(new AppPathNotFoundException());
+		$secondAppManager->expects(self::once())
+			->method('isEnabledForAnyone')
+			->willReturn(false);
+		$router->refreshRequestScopedCollaborators($secondAppManager, $this->createMock(IEventLogger::class));
+
+		$router->loadRoutes('some_app', skipLoadingCore: true);
 	}
 
 	public function testGenerateConsecutively(): void {

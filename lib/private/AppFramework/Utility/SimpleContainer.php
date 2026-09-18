@@ -10,7 +10,9 @@ namespace OC\AppFramework\Utility;
 
 use ArrayAccess;
 use Closure;
+use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\IContainer;
 use Pimple\Container;
 use Psr\Container\ContainerExceptionInterface;
@@ -30,10 +32,62 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	/** @psalm-suppress ImpureStaticProperty A static property is the only way to pass the information from config to autoload */
 	public static bool $useLazyObjects = false;
 
+	/** @psalm-suppress ImpureStaticProperty Set once when a long-running worker (e.g. FrankenPHP) starts */
+	public static bool $keepPersistentServices = false;
+
+	/** A kept instance is rebuilt after this many seconds even without an invalidation, as a safety net */
+	private const MAX_PERSISTENT_AGE_SECONDS = 3600;
+
+	/**
+	 * Guards against re-entering a generation check: PersistentServiceInvalidator's own
+	 * dependency chain (via Memcache\Factory::getGlobalPrefix()) can resolve another persisted
+	 * class, which would otherwise recurse into checking generations forever. While true, a class
+	 * with the attribute is resolved as if it didn't have it, rather than looping.
+	 *
+	 * @psalm-suppress ImpureStaticProperty This class has a reset method
+	 */
+	private static bool $checkingGenerations = false;
+
+	/**
+	 * @internal
+	 */
+	public static function resetPersistentInstances(): void {
+		self::$keepPersistentServices = false;
+		self::$checkingGenerations = false;
+	}
+
 	protected Container $container;
 
 	/** @var array<string,string> */
 	private array $aliases = [];
+
+	/**
+	 * The invalidation generations each kept instance was built against (keyed by group name),
+	 * plus when it was built. Only ever holds entries for classes still sitting in $container.
+	 *
+	 * @var array<string, array{groups: array<string, int>, builtAt: int}>
+	 */
+	private array $persistentMeta = [];
+
+	/** @var array<string, true> ids registered as a Pimple factory: never cached, nothing to evict on reset */
+	private array $factoryIds = [];
+
+	/**
+	 * Generation lookups memoized for the current resetForNextRequest() pass, so that several
+	 * persisted classes sharing a group (e.g. PersistentServiceGroup::Apps) don't each hit the
+	 * distributed cache separately for the same "is generation N still current" question.
+	 *
+	 * @var array<string, int>
+	 */
+	private array $generationCache = [];
+
+	/**
+	 * @var array<string, true> ids whose only container entry is query()'s own memoization of an
+	 * autowired instance (as opposed to a real service definition registered through
+	 * registerService()/registerAlias()). There is nothing to rebuild such an entry from other
+	 * than dropping it outright and letting the next query() re-resolve it.
+	 */
+	private array $autoResolvedIds = [];
 
 	public function __construct() {
 		$this->container = new Container();
@@ -138,15 +192,103 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		$baseMsg = 'Could not resolve ' . $name . '!';
 		try {
 			$class = new ReflectionClass($name);
-			if ($class->isInstantiable()) {
-				return $this->buildClass($class, $chain);
-			} else {
+			if (!$class->isInstantiable()) {
 				throw new QueryException($baseMsg
 					. ' Class can not be instantiated');
 			}
+
+			$attributes = $class->getAttributes(PersistAcrossRequests::class);
+			$isPersistent = self::$keepPersistentServices && !empty($attributes) && !self::$checkingGenerations;
+			$className = $class->getName();
+			$groups = $isPersistent
+				? array_map(
+					static fn (string|PersistentServiceGroup $group): string => $group instanceof PersistentServiceGroup ? $group->value : $group,
+					$attributes[0]->newInstance()->invalidatedBy,
+				)
+				: [];
+
+			$object = $this->buildClass($class, $chain);
+
+			if ($isPersistent) {
+				$this->persistentMeta[$className] = [
+					'groups' => $this->currentGenerations($groups),
+					'builtAt' => time(),
+				];
+			}
+
+			return $object;
 		} catch (ReflectionException $e) {
 			// Class does not exist
 			throw new QueryNotFoundException($baseMsg . ' ' . $e->getMessage());
+		}
+	}
+
+	private function isPersistentInstanceStillValid(string $id): bool {
+		if (!isset($this->persistentMeta[$id])) {
+			return false;
+		}
+		['groups' => $groups, 'builtAt' => $builtAt] = $this->persistentMeta[$id];
+		if ((time() - $builtAt) > self::MAX_PERSISTENT_AGE_SECONDS) {
+			return false;
+		}
+		return $groups === $this->currentGenerations(array_keys($groups));
+	}
+
+	/**
+	 * Drops every already-resolved service that a fresh request shouldn't inherit, so the next
+	 * query()/get() call for it rebuilds a clean instance. A class kept alive by
+	 * {@see PersistAcrossRequests} (and still valid) is left completely untouched.
+	 *
+	 * Call this instead of throwing the whole container away between requests on a long-running
+	 * worker (e.g. FrankenPHP): it keeps every service *definition* (the closures registered via
+	 * registerService()/registerAlias(), and by extension anything built through them, such as app
+	 * containers), it only forgets which of them have already been resolved this "request epoch".
+	 */
+	public function resetForNextRequest(): void {
+		$this->generationCache = [];
+		foreach ($this->container->keys() as $id) {
+			if (isset($this->factoryIds[$id]) || $this->isPersistentInstanceStillValid($id)) {
+				// A factory never caches anything to begin with; a still-valid persisted
+				// instance is exactly what should survive into the next request.
+				continue;
+			}
+
+			if (isset($this->autoResolvedIds[$id])) {
+				// query() only memoized an object it built via reflection; there is no service
+				// definition to fall back to, so the entry has to go entirely. The next query()
+				// for this id will autowire a fresh instance from scratch.
+				$this->container->offsetUnset($id);
+				unset($this->autoResolvedIds[$id], $this->persistentMeta[$id]);
+				continue;
+			}
+
+			// A real service definition: keep it, only forget the cached instance it already
+			// produced so it runs again on next access.
+			$raw = $this->container->raw($id);
+			$this->container->offsetUnset($id);
+			$this->container->offsetSet($id, $raw);
+			unset($this->persistentMeta[$id]);
+		}
+	}
+
+	/**
+	 * @param list<string> $groups
+	 * @return array<string, int>
+	 */
+	private function currentGenerations(array $groups): array {
+		if (empty($groups)) {
+			return [];
+		}
+		self::$checkingGenerations = true;
+		try {
+			$invalidator = $this->get(PersistentServiceInvalidator::class);
+			$generations = [];
+			foreach ($groups as $group) {
+				$generations[$group] = $this->generationCache[$group] ??= $invalidator->getGeneration($group);
+			}
+			return $generations;
+		} finally {
+			self::$checkingGenerations = false;
 		}
 	}
 
@@ -169,8 +311,22 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		}
 
 		$object = $this->resolve($name, array_merge($chain, [$name]));
-		$this->registerService($name, static fn () => $object);
+		$this->cacheAutoResolvedInstance($name, $object);
 		return $object;
+	}
+
+	/**
+	 * Caches an already-built instance under $id as if query() had resolved it itself: on
+	 * resetForNextRequest(), it's dropped entirely (there being no service definition to rebuild
+	 * from) rather than kept forever like a raw ArrayAccess write would be.
+	 *
+	 * @internal
+	 */
+	public function cacheAutoResolvedInstance(string $id, object $instance): void {
+		$this->registerService($id, function () use ($instance) {
+			return $instance;
+		});
+		$this->autoResolvedIds[$id] = true;
 	}
 
 	/**
@@ -202,9 +358,14 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		if (isset($this->aliases[$name])) {
 			unset($this->aliases[$name]);
 		}
+		// A real definition is being (re)registered, so this id is no longer just a bare
+		// autowired instance query() happened to memoize.
+		unset($this->autoResolvedIds[$name]);
 		if ($shared) {
+			unset($this->factoryIds[$name]);
 			$this->container[$name] = $wrapped;
 		} else {
+			$this->factoryIds[$name] = true;
 			$this->container[$name] = $this->container->factory($wrapped);
 		}
 	}

@@ -10,11 +10,32 @@ declare(strict_types=1);
 
 namespace Test\AppFramework\Utility;
 
+use OC\AppFramework\Utility\PersistentServiceInvalidator;
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\Memcache\ArrayCache;
+use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
+use OCP\ICacheFactory;
 use Psr\Container\NotFoundExceptionInterface;
 
 interface TestInterface {
+}
+
+#[PersistAcrossRequests]
+class ClassPersistAcrossRequests {
+}
+
+#[PersistAcrossRequests(invalidatedBy: ['test-group'])]
+class ClassPersistAcrossRequestsWithGroup {
+}
+
+#[PersistAcrossRequests(invalidatedBy: [PersistentServiceGroup::Apps])]
+class ClassPersistAcrossRequestsWithEnumGroup {
+}
+
+#[PersistAcrossRequests(invalidatedBy: ['cyclic-group'])]
+class ClassWithCyclicInvalidationDependency {
 }
 
 class ClassEmptyConstructor implements IInterfaceConstructor {
@@ -68,6 +89,13 @@ class SimpleContainerTest extends \Test\TestCase {
 		$this->container = new SimpleContainer();
 	}
 
+	#[\Override]
+	protected function tearDown(): void {
+		SimpleContainer::resetPersistentInstances();
+
+		parent::tearDown();
+	}
+
 	public function testRegister(): void {
 		$this->container->registerParameter('test', 'abc');
 		$this->assertEquals('abc', $this->container->get('test'));
@@ -118,6 +146,127 @@ class SimpleContainerTest extends \Test\TestCase {
 		$object = $this->container->get('Test\AppFramework\Utility\ClassEmptyConstructor');
 		$object2 = $this->container->get('Test\AppFramework\Utility\ClassEmptyConstructor');
 		$this->assertSame($object, $object2);
+	}
+
+	public function testPersistAcrossRequestsIgnoredByDefault(): void {
+		$object = $this->container->get(ClassPersistAcrossRequests::class);
+		$this->container->resetForNextRequest();
+		$object2 = $this->container->get(ClassPersistAcrossRequests::class);
+		$this->assertNotSame($object, $object2);
+	}
+
+	public function testPersistAcrossRequestsKeepsInstanceOnceEnabled(): void {
+		SimpleContainer::$keepPersistentServices = true;
+
+		$object = $this->container->get(ClassPersistAcrossRequests::class);
+		// Simulate the container being kept alive for the next request on a long-running worker
+		$this->container->resetForNextRequest();
+		$object2 = $this->container->get(ClassPersistAcrossRequests::class);
+
+		$this->assertSame($object, $object2);
+	}
+
+	public function testPersistAcrossRequestsInvalidatedByGroup(): void {
+		SimpleContainer::$keepPersistentServices = true;
+
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache());
+		$invalidator = new PersistentServiceInvalidator($cacheFactory);
+
+		$this->container->registerService(PersistentServiceInvalidator::class, function () use ($invalidator) {
+			return $invalidator;
+		});
+
+		$object = $this->container->get(ClassPersistAcrossRequestsWithGroup::class);
+
+		// Simulate the next request on a long-running worker: nothing invalidated the group yet
+		$this->container->resetForNextRequest();
+		$this->assertSame($object, $this->container->get(ClassPersistAcrossRequestsWithGroup::class));
+
+		$invalidator->invalidate('test-group');
+
+		$this->container->resetForNextRequest();
+		$this->assertNotSame($object, $this->container->get(ClassPersistAcrossRequestsWithGroup::class));
+	}
+
+	public function testPersistAcrossRequestsAcceptsEnumGroup(): void {
+		SimpleContainer::$keepPersistentServices = true;
+
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createDistributed')->willReturn(new ArrayCache());
+		$invalidator = new PersistentServiceInvalidator($cacheFactory);
+
+		$this->container->registerService(PersistentServiceInvalidator::class, function () use ($invalidator) {
+			return $invalidator;
+		});
+
+		$object = $this->container->get(ClassPersistAcrossRequestsWithEnumGroup::class);
+
+		// Invalidating by the enum's string value must be indistinguishable from the enum case itself
+		$invalidator->invalidate('apps');
+
+		$this->container->resetForNextRequest();
+		$this->assertNotSame($object, $this->container->get(ClassPersistAcrossRequestsWithEnumGroup::class));
+	}
+
+	public function testResetForNextRequestKeepsServiceDefinition(): void {
+		$this->container->registerService('test', function () {
+			return new \StdClass();
+		});
+
+		$object = $this->container->get('test');
+		$this->container->resetForNextRequest();
+		$object2 = $this->container->get('test');
+
+		$this->assertNotSame($object, $object2);
+	}
+
+	public function testResetForNextRequestKeepsFactoryDefinition(): void {
+		$this->container->registerService('test', function () {
+			return new \StdClass();
+		}, false);
+
+		$object = $this->container->get('test');
+		$this->container->resetForNextRequest();
+		$object2 = $this->container->get('test');
+
+		$this->assertNotSame($object, $object2);
+	}
+
+	public function testResetForNextRequestForgetsAutowiredInstance(): void {
+		$object = $this->container->get(ClassEmptyConstructor::class);
+		$this->container->resetForNextRequest();
+		$object2 = $this->container->get(ClassEmptyConstructor::class);
+
+		$this->assertNotSame($object, $object2);
+	}
+
+	/**
+	 * Regression test: a persisted class's own invalidation check must not be able to recurse
+	 * forever if, while checking generations, it ends up resolving another persisted class (this
+	 * happened for real via Memcache\Factory::getGlobalPrefix() calling back into a persisted
+	 * IAppConfig).
+	 */
+	public function testCyclicInvalidationDependencyDoesNotRecurseForever(): void {
+		SimpleContainer::$keepPersistentServices = true;
+
+		$container = $this->container;
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$cacheFactory->method('createDistributed')->willReturnCallback(function () use ($container) {
+			// Simulates getGlobalPrefix() resolving another persisted class while this
+			// invalidator is itself being built as part of a generation check.
+			$container->get(ClassWithCyclicInvalidationDependency::class);
+			return new ArrayCache();
+		});
+		$container->registerService(PersistentServiceInvalidator::class, function () use ($cacheFactory) {
+			return new PersistentServiceInvalidator($cacheFactory);
+		});
+
+		$object = $container->get(ClassWithCyclicInvalidationDependency::class);
+
+		$this->assertInstanceOf(ClassWithCyclicInvalidationDependency::class, $object);
+		// The outer resolution still completes and gets cached normally.
+		$this->assertSame($object, $container->get(ClassWithCyclicInvalidationDependency::class));
 	}
 
 	public function testConstructorSimple(): void {

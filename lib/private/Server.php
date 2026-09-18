@@ -17,6 +17,7 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
 use OC\AppFramework\Services\AppConfig;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\AppFramework\Utility\PersistentServiceInvalidator;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Listeners\LoginFailedListener;
@@ -165,6 +166,7 @@ use OCP\Accounts\IAccountManager;
 use OCP\Activity\IEventMerger;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\AppFramework\Utility\IPersistentServiceInvalidator;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\Authentication\Token\IProvider as OCPIProvider;
@@ -576,6 +578,7 @@ class Server extends ServerContainer {
 			);
 		});
 		$this->registerAlias(ICacheFactory::class, Factory::class);
+		$this->registerAlias(IPersistentServiceInvalidator::class, PersistentServiceInvalidator::class);
 
 		$this->registerDeprecatedAlias('RedisFactory', RedisFactory::class);
 
@@ -634,7 +637,10 @@ class Server extends ServerContainer {
 		$this->registerService(Router::class, static function (Server $c) {
 			$cacheFactory = $c->get(ICacheFactory::class);
 			if ($cacheFactory->isLocalCacheAvailable()) {
-				$router = $c->resolve(CachingRouter::class);
+				// get(), not resolve(): CachingRouter (like Router) is kept across requests, and
+				// only get() gives it its own container entry that the persistence bookkeeping
+				// can find and keep valid on its own, independently of this pass-through key.
+				$router = $c->get(CachingRouter::class);
 			} else {
 				$router = $c->resolve(Router::class);
 			}
@@ -1164,10 +1170,17 @@ class Server extends ServerContainer {
 			return $c->get($globalScaleServiceClass);
 		});
 
-		$this->connectDispatcher();
 	}
 
+	/**
+	 * Called before each request served, even when this Server instance is kept alive across
+	 * several of them on a long-running worker (see {@see OC::initForRequest()}):
+	 * connectDispatcher() must run against whichever IEventDispatcher instance is live for the
+	 * current request, since that service isn't kept across requests itself.
+	 */
 	public function boot() {
+		$this->connectDispatcher();
+
 		/** @var HookConnector $hookConnector */
 		$hookConnector = $this->get(HookConnector::class);
 		$hookConnector->viewToNode();

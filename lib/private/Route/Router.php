@@ -13,7 +13,9 @@ use OC\AppFramework\Routing\RouteParser;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Attribute\PersistAcrossRequests;
 use OCP\AppFramework\Http\Attribute\Route as RouteAttribute;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -31,6 +33,7 @@ use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 
+#[PersistAcrossRequests(invalidatedBy: [PersistentServiceGroup::Apps])]
 class Router implements IRouter {
 	/** @var RouteCollection[] */
 	protected $collections = [];
@@ -59,8 +62,33 @@ class Router implements IRouter {
 		private ContainerInterface $container,
 		protected IAppManager $appManager,
 	) {
+		$this->context = $this->buildContext($request);
+		// TODO cache
+		$this->root = $this->getCollection('root');
+	}
+
+	/**
+	 * Rebuilds the request context (host, scheme, HTTP method) from the request actually being
+	 * served, since this Router instance may outlive the request that constructed it. Unlike the
+	 * container, there is no service-lifecycle mechanism for this: it's per-request data derived
+	 * from IRequest, not a dependency that could itself be kept across requests.
+	 */
+	public function refreshContext(IRequest $request): void {
+		$this->setContext($this->buildContext($request));
+	}
+
+	/**
+	 * Same as refreshContext(), but for IAppManager (carries the current user's session) and
+	 * IEventLogger, since neither is itself kept across requests.
+	 */
+	public function refreshRequestScopedCollaborators(IAppManager $appManager, IEventLogger $eventLogger): void {
+		$this->appManager = $appManager;
+		$this->eventLogger = $eventLogger;
+	}
+
+	private function buildContext(IRequest $request): RequestContext {
 		$baseUrl = \OC::$WEBROOT;
-		if (!($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
+		if (!($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
 			$baseUrl .= '/index.php';
 		}
 		if (!\OC::$CLI && isset($_SERVER['REQUEST_METHOD'])) {
@@ -70,13 +98,13 @@ class Router implements IRouter {
 		}
 		$host = $request->getServerHost();
 		$schema = $request->getServerProtocol();
-		$this->context = new RequestContext($baseUrl, $method, $host, $schema);
-		// TODO cache
-		$this->root = $this->getCollection('root');
+		return new RequestContext($baseUrl, $method, $host, $schema);
 	}
 
 	public function setContext(RequestContext $context): void {
 		$this->context = $context;
+		// The cached generator holds onto the old context, so it must be rebuilt too.
+		$this->generator = null;
 	}
 
 	public function getRouteCollection() {
@@ -146,7 +174,10 @@ class Router implements IRouter {
 				$routingFiles = [];
 			}
 
-			if ($this->appManager->isEnabledForUser($app)) {
+			// Not isEnabledForUser(): $root is shared across every request this Router serves,
+			// so a per-user decision here would stick for every other user too. Per-user access
+			// is enforced independently by SecurityMiddleware on every request.
+			if ($this->appManager->isEnabledForAnyone($app)) {
 				$this->loadAttributeRoutes($app);
 			}
 		}

@@ -21,6 +21,8 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Files\FilenameValidator;
 use OCP\App\AppPathNotFoundException;
+use OCP\AppFramework\Utility\IPersistentServiceInvalidator;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files;
 use OCP\HintException;
@@ -575,6 +577,7 @@ class Installer {
 		// Set the installed version
 		$this->config->setAppValue($info['id'], 'installed_version', $this->appManager->getAppVersion($info['id'], false));
 		$this->config->setAppValue($info['id'], 'enabled', $enabled);
+		Server::get(IPersistentServiceInvalidator::class)->invalidate(PersistentServiceGroup::Apps);
 
 		// Set remote/public handlers
 		foreach ($info['remote'] as $name => $path) {

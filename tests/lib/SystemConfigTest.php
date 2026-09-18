@@ -10,6 +10,8 @@ namespace Test;
 
 use OC\Config;
 use OC\SystemConfig;
+use OCP\AppFramework\Utility\IPersistentServiceInvalidator;
+use OCP\AppFramework\Utility\PersistentServiceGroup;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -26,6 +28,15 @@ class SystemConfigTest extends TestCase {
 		parent::setUp();
 
 		$this->config = $this->createMock(Config::class);
+	}
+
+	private function getSystemConfig(): SystemConfig {
+		$this->config->method('getValue')
+			->willReturnMap([
+				['config_extra_sensitive_values', [], []],
+			]);
+
+		return new SystemConfig($this->config);
 	}
 
 	public function testGetFilteredValueMasksTheEuroOfficeSecret(): void {
@@ -46,5 +57,35 @@ class SystemConfigTest extends TestCase {
 			'jwt_secret' => IConfig::SENSITIVE_VALUE,
 			'jwt_header' => 'AuthorizationJwt',
 		], $systemConfig->getFilteredValue('eurooffice'));
+	}
+
+	public function testSetValueInvalidatesPersistedServices(): void {
+		$invalidator = $this->createMock(IPersistentServiceInvalidator::class);
+		$invalidator->expects($this->once())
+			->method('invalidate')
+			->with(PersistentServiceGroup::Config);
+		$this->overwriteService(IPersistentServiceInvalidator::class, $invalidator);
+
+		$this->getSystemConfig()->setValue('foo', 'bar');
+	}
+
+	public function testSetValuesInvalidatesPersistedServices(): void {
+		$invalidator = $this->createMock(IPersistentServiceInvalidator::class);
+		$invalidator->expects($this->once())
+			->method('invalidate')
+			->with(PersistentServiceGroup::Config);
+		$this->overwriteService(IPersistentServiceInvalidator::class, $invalidator);
+
+		$this->getSystemConfig()->setValues(['foo' => 'bar']);
+	}
+
+	public function testDeleteValueInvalidatesPersistedServices(): void {
+		$invalidator = $this->createMock(IPersistentServiceInvalidator::class);
+		$invalidator->expects($this->once())
+			->method('invalidate')
+			->with(PersistentServiceGroup::Config);
+		$this->overwriteService(IPersistentServiceInvalidator::class, $invalidator);
+
+		$this->getSystemConfig()->deleteValue('foo');
 	}
 }

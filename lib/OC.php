@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use OC\AppFramework\Utility\SimpleContainer;
 use OC\Files\Filesystem;
 use OC\NavigationManager;
 use OC\Profiler\BuiltInProfiler;
@@ -770,7 +771,16 @@ class OC {
 		self::handleAuthHeaders();
 
 		// setup the basic server
-		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
+		if (isset(self::$server)) {
+			// Same worker (e.g. FrankenPHP) serving another request: keep every service
+			// *definition* alive and only forget the instances a fresh request shouldn't
+			// inherit, rather than discarding and rebuilding the whole container. Anything
+			// kept alive on purpose (see \OCP\AppFramework\Attribute\PersistAcrossRequests)
+			// is left untouched.
+			self::$server->resetForNextRequest();
+		} else {
+			self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
+		}
 		self::$server->boot();
 
 		self::oneTimeChecks();
@@ -779,6 +789,15 @@ class OC {
 
 		$config = Server::get(IConfig::class);
 		$request = Server::get(IRequest::class);
+
+		// The router may be reused from a previous request on a long-running worker: it's
+		// per-request data, not a dependency, so nothing rebuilds it automatically.
+		$router = Server::get(\OC\Route\Router::class);
+		$router->refreshContext($request);
+		$router->refreshRequestScopedCollaborators(
+			Server::get(\OCP\App\IAppManager::class),
+			Server::get(\OCP\Diagnostics\IEventLogger::class),
+		);
 
 		try {
 			$profiler = new BuiltInProfiler(
@@ -1382,6 +1401,8 @@ class OC {
 	 */
 	public static function handleRequests(callable $handler): void {
 		if (function_exists('frankenphp_handle_request') && isset($_SERVER['FRANKENPHP_WORKER']) && $_SERVER['FRANKENPHP_WORKER'] === '1') {
+			SimpleContainer::$keepPersistentServices = true;
+
 			$maxRequests = (int)($_SERVER['MAX_REQUESTS'] ?? 0);
 			for ($nbRequests = 0; !$maxRequests || $nbRequests < $maxRequests; ++$nbRequests) {
 				$keepRunning = \frankenphp_handle_request($handler);
