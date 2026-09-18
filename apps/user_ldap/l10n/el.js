@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid LDAP UUIDs" : "Μη έγκυρα UUID LDAP",
     "None found" : "Δεν βρέθηκαν",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Βρέθηκαν μη έγκυρα UUID λογαριασμών ή ομάδων LDAP. Παρακαλώ ελέγξτε τις ρυθμίσεις \"Παράκαμψη ανίχνευσης UUID\" στο τμήμα Ειδικού της διαμόρφωσης LDAP και χρησιμοποιήστε την εντολή \"occ ldap:update-uuid\" για να τα ενημερώσετε.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["βρέθηκε %n ομάδα","βρέθηκαν %n ομάδες"],
     "> 1000 groups found" : "Βρέθηκαν > 1000 ομάδες",
     "> 1000 users found" : "Βρέθηκαν > 1000 χρήστες",

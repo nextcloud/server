@@ -526,7 +526,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 accounts depending on the usage)." : "cron.php je zaregistrovaný v službe webcron, aby každých 5 minút volal cron.php cez HTTP. Prípad použitia: Veľmi malá inštancia (1–5 účtov v závislosti od použitia).",
     "Cron (Recommended)" : "Cron (Odporúčané)",
     "Unable to update profile default setting" : "Nie je možné aktualizovať predvolené nastavenie profilu",
-    "Unable to update profile picker setting" : "Nie je možné aktualizovať nastavenie výberu profilu",
+    "Unable to update profile picker setting" : "Nepodarilo sa aktualizovať nastavenie výberu profilu",
     "Profile" : "Profil",
     "Enable or disable profile by default for new accounts." : "Predvolene povoliť alebo zakázať profil pre nové účty.",
     "Enable the profile picker" : "Povoliť výber profilu",
