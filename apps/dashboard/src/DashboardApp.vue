@@ -593,6 +593,27 @@ export default {
 	flex-direction: row;
 	align-items: flex-start;
 	flex-wrap: wrap;
+
+	// Play a subtle entrance once the widgets appear. Triggering on `:has(.panel)`
+	// rather than on mount means the animation runs only when the widgets are
+	// actually present (the container is created empty and filled slightly later),
+	// and cannot replay when the widget list re-renders, since the container
+	// always keeps at least one panel once loaded.
+	&:has(.panel) {
+		animation: dashboard-panels-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+}
+
+@keyframes dashboard-panels-in {
+	from {
+		opacity: 0;
+		transform: translateY(22px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
 }
 
 .panel, .panels > div {
@@ -606,6 +627,32 @@ export default {
 	-webkit-backdrop-filter: var(--filter-background-blur);
 	backdrop-filter: var(--filter-background-blur);
 	border-radius: var(--border-radius-container-large);
+
+	// Lift the card off the background with a soft shadow and a hairline edge, and
+	// ease it up on hover. Colours use theme tokens, so this adapts to dark mode.
+	box-shadow:
+		0 4px 24px -6px rgba(var(--color-box-shadow-rgb), 0.28),
+		0 1px 2px rgba(var(--color-box-shadow-rgb), 0.12),
+		inset 0 0 0 1px var(--color-border);
+	transition:
+		transform 0.4s cubic-bezier(0.33, 0, 0.2, 1),
+		box-shadow 0.4s cubic-bezier(0.33, 0, 0.2, 1);
+
+	// Not while dragging — the hover transform would fight SortableJS positioning.
+	&:hover:not(.sortable-chosen):not(.sortable-ghost):not(.sortable-drag) {
+		transform: translateY(-4px);
+		box-shadow:
+			0 16px 40px -10px rgba(var(--color-box-shadow-rgb), 0.36),
+			0 3px 8px rgba(var(--color-box-shadow-rgb), 0.16),
+			inset 0 0 0 1px var(--color-border);
+	}
+
+	// Let SortableJS drive the card unimpeded while dragging/reordering.
+	&.sortable-chosen,
+	&.sortable-ghost,
+	&.sortable-drag {
+		transition: none;
+	}
 
 	#body-user.theme--highcontrast & {
 		border: 2px solid var(--color-border);
@@ -834,6 +881,21 @@ export default {
 
 	& > li {
 		margin: 8px;
+	}
+}
+
+// Respect users who prefer reduced motion: keep the elevation, drop the movement.
+@media (prefers-reduced-motion: reduce) {
+	.panels:has(.panel) {
+		animation: none;
+	}
+
+	.panel, .panels > div {
+		transition: none;
+
+		&:hover:not(.sortable-chosen):not(.sortable-ghost):not(.sortable-drag) {
+			transform: none;
+		}
 	}
 }
 </style>
