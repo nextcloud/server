@@ -414,6 +414,10 @@ abstract class StoragesService {
 			$this->dbConfig->setAuthBackend($id, $updatedStorage->getAuthMechanism()->getIdentifier());
 		}
 
+		if ($updatedStorage->getPriority() !== $oldStorage->getPriority()) {
+			$this->dbConfig->setPriority($id, $updatedStorage->getPriority());
+		}
+
 		$this->triggerChangeHooks($oldStorage, $updatedStorage);
 
 		$this->updateOverwriteHomeFolders();
