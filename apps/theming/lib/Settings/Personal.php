@@ -11,6 +11,7 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
+use OCA\Theming\Themes\ForcedColorsTheme;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -45,6 +46,9 @@ class Personal implements ISettings {
 				'enabled' => $this->themesService->isEnabled($theme),
 			];
 		}, $this->themesService->getThemes());
+
+		// Applied automatically via (forced-colors: active); not a user-facing appearance choice.
+		unset($themes[ForcedColorsTheme::ID]);
 
 		if ($enforcedTheme !== '') {
 			$themes = array_filter($themes, function ($theme) use ($enforcedTheme) {

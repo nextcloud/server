@@ -38,6 +38,7 @@ return array(
     'OCA\\Theming\\Themes\\DarkTheme' => $baseDir . '/../lib/Themes/DarkTheme.php',
     'OCA\\Theming\\Themes\\DefaultTheme' => $baseDir . '/../lib/Themes/DefaultTheme.php',
     'OCA\\Theming\\Themes\\DyslexiaFont' => $baseDir . '/../lib/Themes/DyslexiaFont.php',
+    'OCA\\Theming\\Themes\\ForcedColorsTheme' => $baseDir . '/../lib/Themes/ForcedColorsTheme.php',
     'OCA\\Theming\\Themes\\HighContrastTheme' => $baseDir . '/../lib/Themes/HighContrastTheme.php',
     'OCA\\Theming\\Themes\\LightTheme' => $baseDir . '/../lib/Themes/LightTheme.php',
     'OCA\\Theming\\Themes\\ReducedMotion' => $baseDir . '/../lib/Themes/ReducedMotion.php',

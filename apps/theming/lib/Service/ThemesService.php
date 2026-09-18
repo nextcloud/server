@@ -13,6 +13,7 @@ use OCA\Theming\Themes\DarkHighContrastTheme;
 use OCA\Theming\Themes\DarkTheme;
 use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
+use OCA\Theming\Themes\ForcedColorsTheme;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
 use OCA\Theming\Themes\ReducedMotion;
@@ -36,6 +37,7 @@ class ThemesService {
 		DarkHighContrastTheme $darkHighContrastTheme,
 		DyslexiaFont $dyslexiaFont,
 		ReducedMotion $motionSickness,
+		private ForcedColorsTheme $forcedColorsTheme,
 	) {
 
 		// Register themes
@@ -47,6 +49,7 @@ class ThemesService {
 			$darkHighContrastTheme->getId() => $darkHighContrastTheme,
 			$dyslexiaFont->getId() => $dyslexiaFont,
 			$motionSickness->getId() => $motionSickness,
+			$forcedColorsTheme->getId() => $forcedColorsTheme,
 		];
 	}
 
@@ -67,6 +70,7 @@ class ThemesService {
 			$defaultTheme = $this->themesProviders[$this->defaultTheme->getId()];
 			$darkTheme = $this->themesProviders[$this->darkTheme->getId()];
 			$theme = $this->themesProviders[$enforcedTheme];
+			$forcedColorsTheme = $this->themesProviders[$this->forcedColorsTheme->getId()];
 			return [
 				// Leave the default theme as a fallback
 				$defaultTheme->getId() => $defaultTheme,
@@ -75,6 +79,8 @@ class ThemesService {
 				$darkTheme->getId() => $darkTheme,
 				// Finally, the enforced theme
 				$theme->getId() => $theme,
+				// OS/browser contrast colors must still apply on top
+				$forcedColorsTheme->getId() => $forcedColorsTheme,
 			];
 		}
 
