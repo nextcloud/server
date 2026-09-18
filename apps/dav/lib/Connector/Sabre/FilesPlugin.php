@@ -65,6 +65,14 @@ class FilesPlugin extends ServerPlugin {
 	public const HAS_PREVIEW_PROPERTYNAME = '{http://nextcloud.org/ns}has-preview';
 	public const MOUNT_TYPE_PROPERTYNAME = '{http://nextcloud.org/ns}mount-type';
 	public const MOUNT_ROOT_PROPERTYNAME = '{http://nextcloud.org/ns}is-mount-root';
+	/**
+	 * Reflects the mount's "enable_sync" option (see StorageConfig).
+	 * Signals to desktop/mobile clients that this mount should be excluded
+	 * from automatic sync, while remaining browsable/downloadable on demand.
+	 * Value is the string 'true' or 'false'; absent/true for mounts without
+	 * the concept of sync opt-out (e.g. the user's own home storage).
+	 */
+	public const SYNC_ENABLED_PROPERTYNAME = '{http://nextcloud.org/ns}sync-enabled';
 	public const IS_FEDERATED_PROPERTYNAME = '{http://nextcloud.org/ns}is-federated';
 	public const METADATA_ETAG_PROPERTYNAME = '{http://nextcloud.org/ns}metadata_etag';
 	public const UPLOAD_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}upload_time';
@@ -132,6 +140,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::DATA_FINGERPRINT_PROPERTYNAME;
 		$server->protectedProperties[] = self::HAS_PREVIEW_PROPERTYNAME;
 		$server->protectedProperties[] = self::MOUNT_TYPE_PROPERTYNAME;
+		$server->protectedProperties[] = self::SYNC_ENABLED_PROPERTYNAME;
 		$server->protectedProperties[] = self::IS_FEDERATED_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHARE_NOTE;
 
@@ -405,6 +414,9 @@ class FilesPlugin extends ServerPlugin {
 			});
 			$propFind->handle(self::MOUNT_TYPE_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getMountPoint()->getMountType();
+			});
+			$propFind->handle(self::SYNC_ENABLED_PROPERTYNAME, function () use ($node) {
+				return $node->getFileInfo()->getMountPoint()->getOption('enable_sync', true) ? 'true' : 'false';
 			});
 
 			/**
