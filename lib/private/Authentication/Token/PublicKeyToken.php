@@ -128,7 +128,11 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 	 */
 	#[\Override]
 	public function getPassword(): ?string {
-		return parent::getPassword();
+		$password = parent::getPassword();
+		if ($password === '') {
+			return null;
+		}
+		return $password;
 	}
 
 	#[\Override]
