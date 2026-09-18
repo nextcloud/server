@@ -50,9 +50,7 @@ use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\AppData\IAppDataFactory;
-use OCP\Files\Folder;
 use OCP\Files\IAppData;
-use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -105,14 +103,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		 */
 		/* Cannot be an alias because Output is not in OCA */
 		$this->registerService(IOutput::class, fn (ContainerInterface $c): IOutput => new Output($c->get('webRoot')));
-
-		$this->registerService(Folder::class, function () {
-			$user = $this->get(IUserSession::class)->getUser();
-			if ($user === null) {
-				return null;
-			}
-			return $this->getServer()->get(IRootFolder::class)->getUserFolder($user->getUID());
-		});
 
 		$this->registerService(IAppData::class, function (ContainerInterface $c): IAppData {
 			return $c->get(IAppDataFactory::class)->get($c->get('appName'));

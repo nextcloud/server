@@ -197,11 +197,13 @@ use OCP\Files\Cache\IFileAccess;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Conversion\IConversionManager;
+use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
+use OCP\Files\IUserFolder;
 use OCP\Files\Lock\ILockManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorageFactory;
@@ -405,6 +407,15 @@ class Server extends ServerContainer {
 				return $root;
 			});
 		});
+
+		$this->registerService(IUserFolder::class, static function (ContainerInterface $c): ?IUserFolder {
+			$user = $c->get(IUserSession::class)->getUser();
+			if ($user === null) {
+				return null;
+			}
+			return $c->get(IRootFolder::class)->getUserFolder($user->getUID());
+		});
+		$this->registerDeprecatedAlias(Folder::class, IUserFolder::class);
 
 		$this->registerAlias(IUserManager::class, \OC\User\Manager::class);
 
