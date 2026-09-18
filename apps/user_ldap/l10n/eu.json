@@ -24,6 +24,7 @@
     "Invalid LDAP UUIDs" : "Baliogabeko LDAP UUIDak",
     "None found" : "Ez da batere aurkitu",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAP kontu edo taldeen UUID baliogabeak aurkitu dira. Mesedez, errebisatu zure \"Gainidatzi UUID antzematea\" ezarpena, adituentzako LDAP konfigurazioan, eta erabili \"occ ldap:update-uuid\" eguneratu daitezen.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["Talde %n aurkitu da","%n talde aurkitu dira"],
     "> 1000 groups found" : "> 1000 talde aurkitu dira",
     "> 1000 users found" : "> 1000 erabiltzaile aurkitu dira",
