@@ -2133,6 +2133,7 @@ return array(
     'OC\\PhoneNumberUtil' => $baseDir . '/lib/private/PhoneNumberUtil.php',
     'OC\\PreviewManager' => $baseDir . '/lib/private/PreviewManager.php',
     'OC\\PreviewNotAvailableException' => $baseDir . '/lib/private/PreviewNotAvailableException.php',
+    'OC\\Preview\\AVIF' => $baseDir . '/lib/private/Preview/AVIF.php',
     'OC\\Preview\\BMP' => $baseDir . '/lib/private/Preview/BMP.php',
     'OC\\Preview\\BackgroundCleanupJob' => $baseDir . '/lib/private/Preview/BackgroundCleanupJob.php',
     'OC\\Preview\\Bitmap' => $baseDir . '/lib/private/Preview/Bitmap.php',

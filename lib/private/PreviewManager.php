@@ -10,6 +10,7 @@ namespace OC;
 
 use Closure;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Preview\AVIF;
 use OC\Preview\BMP;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\EMF;
@@ -271,6 +272,7 @@ class PreviewManager implements IPreview {
 			XBitmap::class,
 			Krita::class,
 			WebP::class,
+			AVIF::class,
 		];
 
 		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', array_merge([
@@ -317,6 +319,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(BMP::class, '/image\/bmp/');
 		$this->registerCoreProvider(XBitmap::class, '/image\/x-xbitmap/');
 		$this->registerCoreProvider(WebP::class, '/image\/webp/');
+		$this->registerCoreProvider(AVIF::class, '/image\/avif/');
 		$this->registerCoreProvider(Krita::class, '/application\/x-krita/');
 		$this->registerCoreProvider(MP3::class, '/audio\/mpeg$/');
 		$this->registerCoreProvider(OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');

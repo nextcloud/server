@@ -248,6 +248,9 @@ class Image implements IImage {
 				case 'image/webp':
 					$imageType = IMAGETYPE_WEBP;
 					break;
+				case 'image/avif':
+					$imageType = IMAGETYPE_AVIF;
+					break;
 				default:
 					throw new \Exception('Image::_output(): "' . $mimeType . '" is not supported when forcing a specific output format');
 			}
@@ -280,6 +283,9 @@ class Image implements IImage {
 				break;
 			case IMAGETYPE_WEBP:
 				$retVal = imagewebp($this->resource, null, $this->getWebpQuality());
+				break;
+			case IMAGETYPE_AVIF:
+				$retVal = imageavif($this->resource, $filePath);
 				break;
 			default:
 				$retVal = imagepng($this->resource, $filePath);
@@ -745,6 +751,19 @@ class Image implements IImage {
 					}
 				} else {
 					$this->logger->debug('Image->loadFromFile, WEBP images not supported: ' . $imagePath, ['app' => 'core']);
+				}
+				break;
+			case IMAGETYPE_AVIF:
+				if (imagetypes() & IMG_AVIF) {
+					if (!$this->checkImageSize($imagePath)) {
+						return false;
+					}
+					// An animated AVIF decodes to its first frame, which is the
+					// right thing for a preview, and a sequence libgd cannot read
+					// returns false and is handled below like any other failure
+					$this->resource = @imagecreatefromavif($imagePath);
+				} else {
+					$this->logger->debug('Image->loadFromFile, AVIF images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
 				/*
