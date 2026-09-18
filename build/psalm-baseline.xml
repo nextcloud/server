@@ -1588,11 +1588,6 @@
       <code><![CDATA[public function __construct(]]></code>
     </ConstructorSignatureMismatch>
   </file>
-  <file src="apps/files_sharing/lib/AppInfo/Application.php">
-    <RedundantCondition>
-      <code><![CDATA[$event instanceof OldGenericEvent]]></code>
-    </RedundantCondition>
-  </file>
   <file src="apps/files_sharing/lib/Capabilities.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -1689,11 +1684,6 @@
       <code><![CDATA[new View('/')]]></code>
       <code><![CDATA[unlink]]></code>
     </InternalMethod>
-  </file>
-  <file src="apps/files_sharing/lib/Listener/UserAddedToGroupListener.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getUserValue]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/Listener/UserShareAcceptanceListener.php">
     <DeprecatedMethod>

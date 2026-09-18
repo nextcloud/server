@@ -9,21 +9,16 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Notification;
 
-use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 use OCP\Share\Events\ShareCreatedEvent;
-use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Listener {
 
 	public function __construct(
 		protected INotificationManager $notificationManager,
-		protected IShareManager $shareManager,
 		protected IGroupManager $groupManager,
 	) {
 	}
@@ -49,41 +44,6 @@ class Listener {
 				$notification->setUser($user->getUID());
 				$this->notificationManager->notify($notification);
 			}
-		}
-	}
-
-	/**
-	 * @param GenericEvent $event
-	 */
-	public function userAddedToGroup(GenericEvent $event): void {
-		/** @var IGroup $group */
-		$group = $event->getSubject();
-		/** @var IUser $user */
-		$user = $event->getArgument('user');
-
-		$offset = 0;
-		while (true) {
-			$shares = $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, 50, $offset);
-			if (empty($shares)) {
-				break;
-			}
-
-			foreach ($shares as $share) {
-				if ($share->getSharedWith() !== $group->getGID()) {
-					continue;
-				}
-
-				if ($user->getUID() === $share->getShareOwner()
-					|| $user->getUID() === $share->getSharedBy()) {
-					continue;
-				}
-
-				$notification = $this->instantiateNotification($share);
-				$notification->setSubject(Notifier::INCOMING_GROUP_SHARE)
-					->setUser($user->getUID());
-				$this->notificationManager->notify($notification);
-			}
-			$offset += 50;
 		}
 	}
 
