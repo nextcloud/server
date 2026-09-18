@@ -11,6 +11,7 @@ namespace OCA\Files_External\Tests\Service;
 
 use OC\Files\Filesystem;
 use OCA\Files_External\MountConfig;
+use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Service\GlobalStoragesService;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
@@ -126,6 +127,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertEquals($storage->getBackend(), $newStorage->getBackend());
 		$this->assertEquals($storage->getAuthMechanism(), $newStorage->getAuthMechanism());
 		$this->assertEquals($storage->getBackendOptions(), $newStorage->getBackendOptions());
+		$this->assertSame(1, $newStorage->getMountOption('filesystem_check_changes'));
 		$this->assertEquals($storage->getApplicableUsers(), $newStorage->getApplicableUsers());
 		$this->assertEquals($storage->getApplicableGroups(), $newStorage->getApplicableGroups());
 		$this->assertEquals($storage->getPriority(), $newStorage->getPriority());
@@ -133,6 +135,62 @@ class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 
 		$nextStorage = $this->service->addStorage($storage);
 		$this->assertEquals($baseId + 1, $nextStorage->getId());
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'filesystemCheckChangesProvider')]
+	public function testAddStoragePreservesFilesystemCheckChanges(int $value): void {
+		$storage = $this->makeStorageConfig([
+			'mountPoint' => 'mountpoint-' . $value,
+			'backendIdentifier' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
+			'authMechanismIdentifier' => 'identifier:\Auth\Mechanism',
+			'backendOptions' => [
+				'option1' => 'value1',
+			],
+			'applicableUsers' => [],
+			'applicableGroups' => [],
+			'mountOptions' => [
+				'filesystem_check_changes' => $value,
+			],
+		]);
+
+		$newStorage = $this->service->addStorage($storage);
+		$reloadedStorage = $this->service->getStorage($newStorage->getId());
+
+		$this->assertSame(
+			$value,
+			$reloadedStorage->getMountOption('filesystem_check_changes')
+		);
+	}
+
+	public static function filesystemCheckChangesProvider(): array {
+		return [
+			'never' => [0],
+			'once per request' => [1],
+			'always' => [2],
+		];
+	}
+
+	public function testLoadingMountWithoutFilesystemCheckChangesUsesCompatibilityDefault(): void {
+		$mountId = $this->dbConfig->addMount(
+			'mountpoint',
+			'identifier:\OCA\Files_External\Lib\Backend\SMB',
+			'identifier:\Auth\Mechanism',
+			100,
+			\OCA\Files_External\Service\DBConfigService::MOUNT_TYPE_ADMIN
+		);
+
+		$this->dbConfig->addApplicable(
+			$mountId,
+			DBConfigService::APPLICABLE_TYPE_GLOBAL,
+			null
+		);
+
+		$storage = $this->service->getStorage($mountId);
+
+		$this->assertSame(
+			1,
+			$storage->getMountOption('filesystem_check_changes')
+		);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'storageDataProvider')]
