@@ -16,7 +16,6 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IUserManager;
-use OCP\Util;
 
 /**
  * @template-implements IEventListener<LoginFailed>
@@ -37,11 +36,7 @@ class LoginFailedListener implements IEventListener {
 		$this->dispatcher->dispatchTyped(new AnyLoginFailedEvent($event->getLoginName(), $event->getPassword()));
 
 		$uid = $event->getLoginName();
-		Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$uid]
-		);
+		$uid = $this->userManager->getUserNameFromLoginName($uid);
 		if ($this->userManager->userExists($uid)) {
 			$this->dispatcher->dispatchTyped(new LoginFailedEvent($uid));
 		}

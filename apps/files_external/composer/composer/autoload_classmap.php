@@ -37,6 +37,7 @@ return array(
     'OCA\\Files_External\\Controller\\StoragesController' => $baseDir . '/../lib/Controller/StoragesController.php',
     'OCA\\Files_External\\Controller\\UserGlobalStoragesController' => $baseDir . '/../lib/Controller/UserGlobalStoragesController.php',
     'OCA\\Files_External\\Controller\\UserStoragesController' => $baseDir . '/../lib/Controller/UserStoragesController.php',
+    'OCA\\Files_External\\Event\\LoadAdditionalBackendEvent' => $baseDir . '/../lib/Event/LoadAdditionalBackendEvent.php',
     'OCA\\Files_External\\Event\\StorageCreatedEvent' => $baseDir . '/../lib/Event/StorageCreatedEvent.php',
     'OCA\\Files_External\\Event\\StorageDeletedEvent' => $baseDir . '/../lib/Event/StorageDeletedEvent.php',
     'OCA\\Files_External\\Event\\StorageUpdatedEvent' => $baseDir . '/../lib/Event/StorageUpdatedEvent.php',

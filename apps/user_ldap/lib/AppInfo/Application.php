@@ -9,16 +9,15 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP\AppInfo;
 
-use Closure;
-use OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Event\LoadAdditionalBackendEvent;
 use OCA\User_LDAP\Events\GroupBackendRegistered;
 use OCA\User_LDAP\Events\UserBackendRegistered;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\GroupPluginManager;
-use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\Listener\LoadAdditionalBackendListener;
 use OCA\User_LDAP\LoginListener;
 use OCA\User_LDAP\Notification\Notifier;
 use OCA\User_LDAP\SetupChecks\LdapConnection;
@@ -42,7 +41,6 @@ use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager as IShareManager;
 use OCP\User\Events\PostLoginEvent;
-use OCP\Util;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -78,6 +76,7 @@ class Application extends App implements IBootstrap {
 			false
 		);
 		$context->registerEventListener(PostLoginEvent::class, LoginListener::class);
+		$context->registerEventListener(LoadAdditionalBackendEvent::class, LoadAdditionalBackendListener::class);
 		$context->registerSetupCheck(LdapInvalidUuids::class);
 		$context->registerSetupCheck(LdapConnection::class);
 		$context->registerSystemReportSection(SystemReportSection::class);
@@ -104,32 +103,10 @@ class Application extends App implements IBootstrap {
 				$groupManager->addBackend($groupBackend);
 
 				$userBackendRegisteredEvent = new UserBackendRegistered($userBackend, $userPluginManager);
-				$dispatcher->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded', $userBackendRegisteredEvent);
 				$dispatcher->dispatchTyped($userBackendRegisteredEvent);
 				$groupBackendRegisteredEvent = new GroupBackendRegistered($groupBackend, $groupPluginManager);
 				$dispatcher->dispatchTyped($groupBackendRegisteredEvent);
 			}
 		});
-
-		$context->injectFn(Closure::fromCallable([$this, 'registerBackendDependents']));
-
-		Util::connectHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			'\OCA\User_LDAP\Helper',
-			'loginName2UserName'
-		);
-	}
-
-	private function registerBackendDependents(ContainerInterface $appContainer, IEventDispatcher $dispatcher): void {
-		$dispatcher->addListener(
-			'OCA\\Files_External::loadAdditionalBackends',
-			function () use ($appContainer): void {
-				$storagesBackendService = $appContainer->get(BackendService::class);
-				$storagesBackendService->registerConfigHandler('home', function () use ($appContainer) {
-					return $appContainer->get(ExtStorageConfigHandler::class);
-				});
-			}
-		);
 	}
 }
