@@ -53,6 +53,13 @@ class SecurityHeaders implements ISetupCheck {
 			'X-Permitted-Cross-Domain-Policies' => ['none', null],
 		];
 
+		// Normalize header values
+		$normalize = static function (string $value): string {
+			$values = array_map('trim', explode(',', strtolower($value)));
+			sort($values);
+			return implode(',', $values);
+		};
+
 		foreach ($urls as [$verb,$url,$validStatuses]) {
 			$works = null;
 			foreach ($this->runRequest($verb, $url, ['httpErrors' => false]) as $response) {
@@ -64,8 +71,9 @@ class SecurityHeaders implements ISetupCheck {
 				$msg = '';
 				$msgParameters = [];
 				foreach ($securityHeaders as $header => [$expected, $accepted]) {
-					/* Convert to lowercase and remove spaces after comas */
-					$value = preg_replace('/,\s+/', ',', strtolower($response->getHeader($header)));
+					$value = $normalize($response->getHeader($header));
+					$expected = $normalize($expected);
+					$accepted = $accepted !== null ? $normalize($accepted) : null;
 					if ($value !== $expected) {
 						if ($accepted !== null && $value === $accepted) {
 							$msg .= $this->l10n->t('- The `%1$s` HTTP header is not set to `%2$s`. Some features might not work correctly, as it is recommended to adjust this setting accordingly.', [$header, $expected]) . "\n";
