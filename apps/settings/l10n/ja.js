@@ -617,7 +617,7 @@ OC.L10N.register(
     "Locale" : "ロケール",
     "No locale set" : "ロケールは未設定",
     "Unable to update locale" : "ロケールを更新できませんでした",
-    "Example: {example}" : "例: {プレースホルダー}",
+    "Example: {example}" : "例: {example}",
     "Locales" : "ロケール",
     "Your city" : "あなたの都道府県",
     "Your organisation" : "あなたの組織",
