@@ -8,10 +8,7 @@
 namespace OCA\CloudFederationAPI\Controller;
 
 use Firebase\JWT\JWT;
-use OC\Authentication\Token\IProvider;
 use OC\OCM\OCMSignatoryManager;
-use OCA\CloudFederationAPI\Db\OcmTokenMap;
-use OCA\CloudFederationAPI\Db\OcmTokenMapMapper;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -20,9 +17,6 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Authentication\Exceptions\ExpiredTokenException;
-use OCP\Authentication\Exceptions\InvalidTokenException;
-use OCP\Authentication\Token\IToken;
 use OCP\Federation\ICloudIdManager;
 use OCP\IAppConfig;
 use OCP\IRequest;
@@ -37,6 +31,7 @@ use OCP\Security\Signature\ISignatureManager;
 use OCP\Security\Signature\Model\Signatory;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
+use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -46,14 +41,12 @@ use Psr\Log\LoggerInterface;
 class TokenController extends ApiController {
 	public function __construct(
 		IRequest $request,
-		private readonly IProvider $tokenProvider,
 		private readonly ISecureRandom $random,
 		private readonly ITimeFactory $timeFactory,
 		private readonly LoggerInterface $logger,
 		private readonly ISignatureManager $signatureManager,
 		private readonly OCMSignatoryManager $signatoryManager,
 		private readonly IAppConfig $appConfig,
-		private readonly OcmTokenMapMapper $ocmTokenMapMapper,
 		private readonly IShareManager $shareManager,
 		private readonly ICloudIdManager $cloudIdManager,
 	) {
@@ -203,37 +196,18 @@ class TokenController extends ApiController {
 		$refreshToken = $code;
 
 		try {
-			$token = $this->tokenProvider->getToken($refreshToken);
-
-			if ($token->getType() !== IToken::PERMANENT_TOKEN) {
-				$this->logger->warning('Attempted to use non-permanent token as refresh token', [
-					'tokenId' => $token->getId(),
-				]);
+			$share = $this->shareManager->getShareByToken($refreshToken);
+			if (!in_array($share->getShareType(), [IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP], true)
+				|| $share->getToken() === null
+				|| !hash_equals($share->getToken(), $refreshToken)
+			) {
 				return new DataResponse(
 					['error' => 'invalid_grant'],
 					Http::STATUS_UNAUTHORIZED
 				);
 			}
 
-			// After the first exchange the refresh token must only be usable to
-			// obtain further access tokens, never as a direct filesystem/WebDAV
-			// credential. Lock down its filesystem scope so a leaked refresh token
-			// cannot be replayed as a bearer against the WebDAV endpoints.
-			$scope = $token->getScopeAsArray();
-			if (($scope[IToken::SCOPE_FILESYSTEM] ?? true) !== false) {
-				$scope[IToken::SCOPE_FILESYSTEM] = false;
-				$token->setScope($scope);
-				$this->tokenProvider->updateToken($token);
-			}
-
-			// A refresh token may back several concurrent access tokens (e.g. the
-			// webdav mount and the webapp launcher exchange the same secret), so
-			// each exchange issues a fresh one and leaves the others in place;
-			// expiry and unshare cleanup revoke them.
-			$share = $this->shareManager->getShareByToken($refreshToken);
-			// access_token TTL from the refresh-token scope; default 3600, clamped 300..86400.
-			$ttl = (int)($token->getScopeAsArray()['ocm_access_token_ttl'] ?? 3600);
-			$expiresIn = max(300, min(86400, $ttl));
+			$expiresIn = 3600;
 			$issuedAt = $this->timeFactory->getTime();
 			$expiresAt = $issuedAt + $expiresIn;
 
@@ -258,40 +232,13 @@ class TokenController extends ApiController {
 
 			$accessTokenString = JWT::encode($payload, $jwtKey, $jwtAlgorithm, $keyId, ['typ' => 'at+jwt']);
 
-			$accessToken = $this->tokenProvider->generateToken(
-				$accessTokenString,
-				$token->getUID(),
-				$token->getLoginName(),
-				null, // No password for access tokens
-				IToken::OCM_ACCESS_TOKEN_NAME,
-				IToken::TEMPORARY_TOKEN,
-				IToken::DO_NOT_REMEMBER
-			);
-
-			$accessToken->setExpires($expiresAt);
-			$this->tokenProvider->updateToken($accessToken);
-
-			$mapping = new OcmTokenMap();
-			$mapping->setAccessTokenId($accessToken->getId());
-			$mapping->setRefreshToken($refreshToken);
-			$mapping->setExpires($expiresAt);
-			$this->ocmTokenMapMapper->insert($mapping);
-
 			return new DataResponse([
 				'access_token' => $accessTokenString,
 				'token_type' => 'Bearer',
 				'expires_in' => $expiresIn,
 			], Http::STATUS_OK);
-		} catch (InvalidTokenException $e) {
+		} catch (ShareNotFound $e) {
 			$this->logger->info('Invalid refresh token provided', [
-				'exception' => $e,
-			]);
-			return new DataResponse(
-				['error' => 'invalid_grant'],
-				Http::STATUS_UNAUTHORIZED
-			);
-		} catch (ExpiredTokenException $e) {
-			$this->logger->info('Expired refresh token provided', [
 				'exception' => $e,
 			]);
 			return new DataResponse(

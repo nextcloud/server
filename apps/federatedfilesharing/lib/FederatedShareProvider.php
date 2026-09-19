@@ -14,7 +14,6 @@ use OC\Share20\Share;
 use OCA\CloudFederationAPI\Db\OcmTokenMapMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
-use OCP\Authentication\Token\IToken;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Federation\ICloudFederationProviderManager;
@@ -28,7 +27,6 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
-use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -177,15 +175,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * @throws \Exception
 	 */
 	protected function createFederatedShare(IShare $share): string {
-
-		$provider = Server::get(PublicKeyTokenProvider::class);
-		$token = Server::get(ISecureRandom::class)->generate(32, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
-		$uid = $share->getSharedBy();
-		$user = $this->userManager->get($uid);
-		$name = $user?->getDisplayName() ?? $uid;
-		$pass = $share->getPassword();
-
-		$dbToken = $provider->generateToken($token, $uid, $uid, $pass, $name, type: IToken::PERMANENT_TOKEN);
+		$token = $this->tokenHandler->generateToken();
 		$shareId = $this->addShareToDB(
 			$share->getNodeId(),
 			$share->getNodeType(),
