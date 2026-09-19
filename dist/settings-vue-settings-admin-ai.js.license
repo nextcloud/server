@@ -7,6 +7,7 @@ SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: vuedraggable developers
 SPDX-FileCopyrightText: sortablejs developers
 SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
@@ -33,13 +34,13 @@ SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.7.5
+	- version: 1.8.0
 	- license: MIT
 - @floating-ui/dom
-	- version: 1.7.6
+	- version: 1.8.0
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.11
+	- version: 0.2.12
 	- license: MIT
 - @nextcloud/auth
 	- version: 2.6.0
@@ -77,8 +78,11 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
+- debounce
+	- version: 2.2.0
+	- license: MIT
 - @nextcloud/vue
-	- version: 8.40.0
+	- version: 8.41.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.3.0
