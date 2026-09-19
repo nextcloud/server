@@ -25,6 +25,7 @@ class ComposerStaticInitUserStatus
         'OCA\\UserStatus\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\UserStatus\\BackgroundJob\\ClearOldStatusesBackgroundJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/ClearOldStatusesBackgroundJob.php',
         'OCA\\UserStatus\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
+        'OCA\\UserStatus\\Command\\Repair' => __DIR__ . '/..' . '/../lib/Command/Repair.php',
         'OCA\\UserStatus\\Connector\\UserStatus' => __DIR__ . '/..' . '/../lib/Connector/UserStatus.php',
         'OCA\\UserStatus\\Connector\\UserStatusProvider' => __DIR__ . '/..' . '/../lib/Connector/UserStatusProvider.php',
         'OCA\\UserStatus\\ContactsMenu\\StatusProvider' => __DIR__ . '/..' . '/../lib/ContactsMenu/StatusProvider.php',
@@ -52,6 +53,7 @@ class ComposerStaticInitUserStatus
         'OCA\\UserStatus\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\UserStatus\\Service\\JSDataService' => __DIR__ . '/..' . '/../lib/Service/JSDataService.php',
         'OCA\\UserStatus\\Service\\PredefinedStatusService' => __DIR__ . '/..' . '/../lib/Service/PredefinedStatusService.php',
+        'OCA\\UserStatus\\Service\\StatusRepairService' => __DIR__ . '/..' . '/../lib/Service/StatusRepairService.php',
         'OCA\\UserStatus\\Service\\StatusService' => __DIR__ . '/..' . '/../lib/Service/StatusService.php',
     );
 
