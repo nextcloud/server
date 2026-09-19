@@ -416,12 +416,12 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				return false;
 			}
 
-			if (isset($props[self::OBJECTIDS_PROPERTYNAME])) {
-				$user = $this->userSession->getUser();
-				if (!$user) {
-					throw new Forbidden('You don’t have permissions to update tags');
-				}
+			$user = $this->userSession->getUser();
+			if (!$user) {
+				throw new Forbidden('You don’t have permissions to update tags');
+			}
 
+			if (isset($props[self::OBJECTIDS_PROPERTYNAME])) {
 				$propValue = $props[self::OBJECTIDS_PROPERTYNAME];
 				if (!$propValue instanceof SystemTagsObjectList || count($propValue->getObjects()) === 0) {
 					throw new BadRequest('Invalid object-ids property');
@@ -440,30 +440,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 					throw new BadRequest('Invalid object-ids property type. Only files are supported');
 				}
 
-				// Get all current tagged objects
-				$taggedObjects = $this->tagMapper->getObjectIdsForTags([$node->getSystemTag()->getId()], 'files');
-				$toAddObjects = array_map(fn ($value) => (string)$value, array_keys($objects));
-
-				// Compute the tags to add and remove
-				$addedObjects = array_values(array_diff($toAddObjects, $taggedObjects));
-				$removedObjects = array_values(array_diff($taggedObjects, $toAddObjects));
-
-				// Check permissions for each object to be freshly tagged or untagged
-				if (!$this->canUpdateTagForFileIds(array_merge($addedObjects, $removedObjects))) {
-					throw new Forbidden('You don’t have permissions to update tags');
-				}
-
-				$this->tagMapper->setObjectIdsForTag($node->getSystemTag()->getId(), $node->getName(), array_keys($objects));
+				$this->setVisibleObjectIdsForTag($user, $node, array_map(fn ($value) => (string)$value, array_keys($objects)));
 			}
 
 			if ($props[self::OBJECTIDS_PROPERTYNAME] === null) {
-				// Check the user have permissions to remove the tag from all currently tagged objects
-				$taggedObjects = $this->tagMapper->getObjectIdsForTags([$node->getSystemTag()->getId()], 'files');
-				if (!$this->canUpdateTagForFileIds($taggedObjects)) {
-					throw new Forbidden('You don’t have permissions to update tags');
-				}
-
-				$this->tagMapper->setObjectIdsForTag($node->getSystemTag()->getId(), $node->getName(), []);
+				$this->setVisibleObjectIdsForTag($user, $node, []);
 			}
 
 			return true;
@@ -542,6 +523,31 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 			return true;
 		});
+	}
+
+	/**
+	 * Files the user cannot see keep the tag, as they are never listed to them
+	 *
+	 * @param list<string> $objectIds
+	 * @throws Forbidden
+	 */
+	private function setVisibleObjectIdsForTag(IUser $user, SystemTagObjectType $node, array $objectIds): void {
+		$tagId = $node->getSystemTag()->getId();
+		$taggedObjects = $this->tagMapper->getObjectIdsForTags([$tagId], 'files');
+
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$hiddenObjects = array_filter(
+			array_diff($taggedObjects, $objectIds),
+			fn (string $objectId): bool => $userFolder->getFirstNodeById((int)$objectId) === null,
+		);
+
+		$addedObjects = array_diff($objectIds, $taggedObjects);
+		$removedObjects = array_diff($taggedObjects, $objectIds, $hiddenObjects);
+		if (!$this->canUpdateTagForFileIds(array_merge($addedObjects, $removedObjects))) {
+			throw new Forbidden('You don’t have permissions to update tags');
+		}
+
+		$this->tagMapper->setObjectIdsForTag($tagId, $node->getName(), array_merge($objectIds, $hiddenObjects));
 	}
 
 	/**
