@@ -57,6 +57,8 @@ class OC_Hook {
 		['OC\Files\Storage\Shared','file_put_contents'],
 		[\OCA\Files_Trashbin\Trashbin::class,'post_moveToTrash'],
 		[\OCA\Files_Trashbin\Trashbin::class,'post_restore'],
+		['OCP\Trashbin','delete'],
+		['OCP\Trashbin','preDelete'],
 		['OCP\Trashbin','preDeleteAll'],
 		['OCP\Trashbin','deleteAll'],
 		['OCP\Versions','rollback'],
