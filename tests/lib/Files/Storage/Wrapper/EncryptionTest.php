@@ -609,6 +609,89 @@ class EncryptionTest extends Storage {
 	}
 
 	/**
+	 * Legacy base64 files only reveal their encoding through the header, which
+	 * the module applies in begin(). The block size must therefore be read
+	 * after begin(); otherwise the module default (binary) is used and the
+	 * result is inflated by 4/3.
+	 */
+	public function testFixUnencryptedSizeUsesBlockSizeFromHeader(): void {
+		$fullBlocks = 3;
+		$lastBlockCiphertext = str_repeat('c', 500);
+		$lastBlockPlaintext = str_repeat('p', 100);
+		$physicalSize = $this->headerSize + $fullBlocks * 8192 + strlen($lastBlockCiphertext);
+
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, str_repeat('h', $this->headerSize));
+		fwrite($stream, str_repeat('b', $fullBlocks * 8192));
+		fwrite($stream, $lastBlockCiphertext);
+		rewind($stream);
+
+		// The module learns the encoding in begin(): before that it answers
+		// with the binary block size, afterwards with the legacy one.
+		$headerApplied = false;
+		$module = $this->createMock(IEncryptionModule::class);
+		$module->expects($this->once())->method('begin')
+			->willReturnCallback(function () use (&$headerApplied) {
+				$headerApplied = true;
+				return [];
+			});
+		$module->expects($this->any())->method('getUnencryptedBlockSize')
+			->willReturnCallback(function () use (&$headerApplied) {
+				return $headerApplied ? 6072 : 8096;
+			});
+		$module->expects($this->once())->method('decrypt')
+			->with($lastBlockCiphertext, $fullBlocks . 'end')
+			->willReturn($lastBlockPlaintext);
+		$module->expects($this->any())->method('end')->willReturn('');
+
+		$expected = $fullBlocks * 6072 + strlen($lastBlockPlaintext);
+
+		$cache = $this->createMock(ICache::class);
+		$cache->expects($this->any())->method('get')->willReturn(['fileid' => 42]);
+		$cache->expects($this->once())->method('update')
+			->with(42, ['unencrypted_size' => $expected]);
+
+		$sourceStorage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+			->disableOriginalConstructor()->getMock();
+		$sourceStorage->expects($this->once())->method('fopen')
+			->with('/legacy.txt', 'r')
+			->willReturn($stream);
+		$sourceStorage->expects($this->any())->method('getCache')->willReturn($cache);
+
+		$instance = $this->getMockBuilder(Encryption::class)
+			->setConstructorArgs(
+				[
+					[
+						'storage' => $sourceStorage,
+						'root' => 'foo',
+						'mountPoint' => '/',
+						'mount' => $this->mount
+					],
+					$this->encryptionManager,
+					$this->util,
+					$this->logger,
+					$this->file,
+					null,
+					$this->keyStore,
+					$this->mountManager,
+					$this->arrayCache,
+				]
+			)
+			->onlyMethods(['getHeader', 'getHeaderSize', 'getEncryptionModule'])
+			->getMock();
+		$instance->expects($this->any())->method('getHeaderSize')->willReturn($this->headerSize);
+		$instance->expects($this->any())->method('getHeader')
+			->willReturn(['signed' => 'true', 'oc_encryption_module' => 'OC_DEFAULT_MODULE']);
+		$instance->expects($this->any())->method('getEncryptionModule')->willReturn($module);
+
+		// int|float: the chunk arithmetic goes through ceil(), so the result is a float.
+		$this->assertEquals(
+			$expected,
+			$this->invokePrivate($instance, 'fixUnencryptedSize', ['/legacy.txt', $physicalSize, 0])
+		);
+	}
+
+	/**
 	 *
 	 * @param string $source
 	 * @param string $target
