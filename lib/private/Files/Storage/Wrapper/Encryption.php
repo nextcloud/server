@@ -477,6 +477,13 @@ class Encryption extends Wrapper {
 		}
 
 		$signed = isset($header['signed']) && $header['signed'] === 'true';
+
+		// The module only knows the file's encoding (binary or legacy base64)
+		// once begin() has parsed the header. Asking for the block size before
+		// that returns the module default, which is wrong for legacy files and
+		// inflates the result by 4/3 (8096 instead of 6072 bytes per block).
+		// begin() does not touch the stream, so it is safe to call it here.
+		$encryptionModule->begin($this->getFullPath($path), $this->uid, 'r', $header, []);
 		$unencryptedBlockSize = $encryptionModule->getUnencryptedBlockSize($signed);
 
 		// calculate last chunk nr
@@ -508,7 +515,6 @@ class Encryption extends Wrapper {
 		fclose($stream);
 
 		// we have to decrypt the last chunk to get it actual size
-		$encryptionModule->begin($this->getFullPath($path), $this->uid, 'r', $header, []);
 		$decryptedLastChunk = $encryptionModule->decrypt($lastChunkContentEncrypted, $lastChunkNr . 'end');
 		$decryptedLastChunk .= $encryptionModule->end($this->getFullPath($path), $lastChunkNr . 'end');
 
