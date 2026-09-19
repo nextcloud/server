@@ -89,7 +89,7 @@ class ServerContainer extends SimpleContainer {
 					/* The application constructor will register the container, see App::__construct */
 					$app = new $applicationClassName();
 					if (isset($this->appContainers[$namespace])) {
-						$this->appContainers[$namespace]->offsetSet($applicationClassName, $app);
+						$this->appContainers[$namespace]->setInInternalContainer($applicationClassName, $app);
 						/** @psalm-suppress NoValue false-positive (see comment above) */
 						return $this->appContainers[$namespace];
 					}

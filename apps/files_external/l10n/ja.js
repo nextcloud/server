@@ -88,6 +88,7 @@ OC.L10N.register(
     "Edit storage" : "ストレージを編集",
     "Add storage" : "ストレージを追加",
     "Folder name" : "フォルダー名",
+    "Without a restriction this storage is available to every account on this server." : "制限がない限り、このストレージは、このサーバー上のすべてのアカウントが利用できます。",
     "Authentication" : "認証",
     "Cancel" : "キャンセル",
     "Edit" : "編集",

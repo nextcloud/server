@@ -50,7 +50,6 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
-use OCP\Util;
 use Override;
 use Psr\Log\LoggerInterface;
 use SensitiveParameter;
@@ -167,11 +166,7 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 			if ($shareType === IShare::TYPE_USER) {
 				$this->logger->debug('shareWith before, ' . $shareWith, ['app' => 'files_sharing']);
-				Util::emitHook(
-					'\OCA\Files_Sharing\API\Server2Server',
-					'preLoginNameUsedAsUserName',
-					['uid' => &$shareWith]
-				);
+				$shareWith = $this->userManager->getUserNameFromLoginName($shareWith);
 				$this->logger->debug('shareWith after, ' . $shareWith, ['app' => 'files_sharing']);
 
 				$user = $this->userManager->get($shareWith);

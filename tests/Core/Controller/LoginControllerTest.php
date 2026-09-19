@@ -46,6 +46,7 @@ class LoginControllerTest extends TestCase {
 	private ISession&MockObject $session;
 	private Session&MockObject $userSession;
 	private IURLGenerator&MockObject $urlGenerator;
+	private Manager&MockObject $twoFactorManager;
 	private Defaults&MockObject $defaults;
 	private IThrottler&MockObject $throttler;
 	private IInitialState&MockObject $initialState;

@@ -80,7 +80,7 @@ class UserTest extends \Test\TestCase {
 			$this->logger,
 			$this->avatarManager,
 			$this->userManager,
-			$this->notificationManager
+			$this->notificationManager,
 		);
 	}
 
