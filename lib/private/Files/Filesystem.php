@@ -384,6 +384,7 @@ class Filesystem {
 
 	/**
 	 * tear down the filesystem, removing all storage providers
+	 * @deprecated 36.0.0 Use {@see \OCP\Files\ISetupManager::tearDown()} instead.
 	 */
 	public static function tearDown() {
 		\OC_Util::tearDownFS();

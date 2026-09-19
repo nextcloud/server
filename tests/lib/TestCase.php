@@ -493,10 +493,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function loginAsUser(string $user = ''): void {
 		self::logout();
-		Filesystem::tearDown();
+		$setupManager = Server::get(SetupManager::class);
+		$setupManager->tearDown();
 		\OC_User::setUserId($user);
 		$userManager = Server::get(IUserManager::class);
-		$setupManager = Server::get(SetupManager::class);
 		$userObject = $userManager->get($user);
 		if (!is_null($userObject)) {
 			$userObject->updateLastLoginTimestamp();
