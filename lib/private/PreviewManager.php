@@ -11,6 +11,7 @@ namespace OC;
 use Closure;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Preview\AVIF;
+use OC\Preview\AVIFImagick;
 use OC\Preview\BMP;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\EMF;
@@ -337,6 +338,7 @@ class PreviewManager implements IPreview {
 				'EPS' => ['mimetype' => '/application\/postscript/', 'class' => Postscript::class],
 				'TTF' => ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => Font::class],
 				'HEIC' => ['mimetype' => '/image\/(x-)?hei(f|c)/', 'class' => HEIC::class],
+				'AVIF' => ['mimetype' => '/image\/avif/', 'class' => AVIFImagick::class],
 				'TGA' => ['mimetype' => '/image\/(x-)?t(ar)?ga/', 'class' => TGA::class],
 				'SGI' => ['mimetype' => '/image\/(x-)?sgi/', 'class' => SGI::class],
 			];

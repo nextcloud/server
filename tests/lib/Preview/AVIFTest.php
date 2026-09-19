@@ -16,6 +16,8 @@ use OC\Preview\AVIF;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class AVIFTest extends Provider {
+	use AvifPreviewTrait;
+
 	#[\Override]
 	protected function setUp(): void {
 		// libgd is built against libavif only where the distribution chose to,
@@ -31,5 +33,9 @@ class AVIFTest extends Provider {
 		$this->width = 1680;
 		$this->height = 1050;
 		$this->provider = new AVIF();
+	}
+
+	public function testPreviewCarriesThePicture(): void {
+		$this->assertPreviewShowsThePicture();
 	}
 }
