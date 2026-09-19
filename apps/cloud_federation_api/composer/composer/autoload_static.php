@@ -31,7 +31,6 @@ class ComposerStaticInitCloudFederationAPI
         'OCA\\CloudFederationAPI\\Db\\OcmTokenMap' => __DIR__ . '/..' . '/../lib/Db/OcmTokenMap.php',
         'OCA\\CloudFederationAPI\\Db\\OcmTokenMapMapper' => __DIR__ . '/..' . '/../lib/Db/OcmTokenMapMapper.php',
         'OCA\\CloudFederationAPI\\Listener\\ShareDeletedListener' => __DIR__ . '/..' . '/../lib/Listener/ShareDeletedListener.php',
-        'OCA\\CloudFederationAPI\\Migration\\DropFederatedInvitesTable' => __DIR__ . '/..' . '/../lib/Migration/DropFederatedInvitesTable.php',
         'OCA\\CloudFederationAPI\\Migration\\Version1016Date202502262004' => __DIR__ . '/..' . '/../lib/Migration/Version1016Date202502262004.php',
         'OCA\\CloudFederationAPI\\Migration\\Version1017Date20260306120000' => __DIR__ . '/..' . '/../lib/Migration/Version1017Date20260306120000.php',
         'OCA\\CloudFederationAPI\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
