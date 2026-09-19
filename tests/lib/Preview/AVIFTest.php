@@ -20,16 +20,30 @@ class AVIFTest extends Provider {
 
 	#[\Override]
 	protected function setUp(): void {
-		// libgd is built against libavif only where the distribution chose to,
-		// so a build without it reports no AVIF and cannot decode the fixture
-		if (!(imagetypes() & IMG_AVIF)) {
-			$this->markTestSkipped('libgd has no AVIF support. Skipping tests');
+		$fileName = 'testimage.avif';
+		$sourcePath = \OC::$SERVERROOT . '/tests/data/' . $fileName;
+
+		// Reading an AVIF takes more than a libgd built against libavif.
+		// OC\Image picks its decoder from exif_imagetype(), and guards it
+		// with getimagesize(), so a build where either does not know the
+		// format never reaches imagecreatefromavif() however capable libgd
+		// is. Ask for the whole path rather than for one part of it, and
+		// say which part was missing when it is not there.
+		$probe = new \OCP\Image();
+		$probe->loadFromFile($sourcePath);
+		if (!$probe->valid()) {
+			$this->markTestSkipped(sprintf(
+				'libgd cannot read AVIF here (IMG_AVIF=%s, exif_imagetype=%s, getimagesize type=%s, imagecreatefromavif=%s). Skipping tests',
+				(imagetypes() & IMG_AVIF) ? 'yes' : 'no',
+				var_export(@exif_imagetype($sourcePath), true),
+				var_export(@getimagesize($sourcePath)[2] ?? false, true),
+				@imagecreatefromavif($sourcePath) === false ? 'failed' : 'ok',
+			));
 		}
 
 		parent::setUp();
 
-		$fileName = 'testimage.avif';
-		$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
+		$this->imgPath = $this->prepareTestFile($fileName, $sourcePath);
 		$this->width = 1680;
 		$this->height = 1050;
 		$this->provider = new AVIF();
