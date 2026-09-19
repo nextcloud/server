@@ -80,7 +80,6 @@ use OCP\Share\IShareProviderGetUsers;
 use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
-use OCP\Util;
 use Override;
 use Psr\Log\LoggerInterface;
 
@@ -348,19 +347,6 @@ class Manager implements IManager {
 					);
 				}
 			}
-		}
-
-		$accepted = true;
-		$message = '';
-		Util::emitHook('\OC\Share', 'verifyExpirationDate', [
-			'expirationDate' => &$expirationDate,
-			'accepted' => &$accepted,
-			'message' => &$message,
-			'passwordSet' => $share->getPassword() !== null,
-		]);
-
-		if (!$accepted) {
-			throw new \Exception($message);
 		}
 
 		$share->setExpirationDate($expirationDate);

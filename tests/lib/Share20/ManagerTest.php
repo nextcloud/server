@@ -1583,12 +1583,6 @@ class ManagerTest extends \Test\TestCase {
 				]);
 		}
 
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($future) {
-			return $data['expirationDate'] == $future;
-		}));
-
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
@@ -1607,12 +1601,6 @@ class ManagerTest extends \Test\TestCase {
 		$share->setShareType($shareType);
 		$share->setExpirationDate($date);
 
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
-			return $data['expirationDate'] == $expected && $data['passwordSet'] === false;
-		}));
-
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
@@ -1620,11 +1608,6 @@ class ManagerTest extends \Test\TestCase {
 
 	#[DataProvider('validateExpirationDateInternalProvider')]
 	public function testValidateExpirationDateInternalNoDateNoDefault($shareType): void {
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) {
-			return $data['expirationDate'] === null && $data['passwordSet'] === true;
-		}));
 
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
@@ -1661,12 +1644,6 @@ class ManagerTest extends \Test\TestCase {
 				]);
 		}
 
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
-			return $data['expirationDate'] == $expected;
-		}));
-
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
@@ -1701,62 +1678,9 @@ class ManagerTest extends \Test\TestCase {
 				]);
 		}
 
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
-			return $data['expirationDate'] == $expected;
-		}));
-
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
-	}
-
-	#[DataProvider('validateExpirationDateInternalProvider')]
-	public function testValidateExpirationDateInternalHookModification($shareType): void {
-		$nextWeek = new \DateTime('now', $this->timezone);
-		$nextWeek->add(new \DateInterval('P7D'));
-		$nextWeek->setTime(23, 59, 59);
-
-		$save = clone $nextWeek;
-
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->willReturnCallback(function ($data): void {
-			$data['expirationDate']->sub(new \DateInterval('P2D'));
-		});
-
-		$share = $this->manager->newShare();
-		$share->setShareType($shareType);
-		$share->setExpirationDate($nextWeek);
-
-		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
-
-		$save->sub(new \DateInterval('P2D'));
-		$this->assertEquals($save, $share->getExpirationDate());
-	}
-
-	#[DataProvider('validateExpirationDateInternalProvider')]
-	public function testValidateExpirationDateInternalHookException($shareType): void {
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Invalid date!');
-
-		$nextWeek = new \DateTime();
-		$nextWeek->add(new \DateInterval('P7D'));
-		$nextWeek->setTime(23, 59, 59);
-
-		$share = $this->manager->newShare();
-		$share->setShareType($shareType);
-		$share->setExpirationDate($nextWeek);
-
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->willReturnCallback(function ($data): void {
-			$data['accepted'] = false;
-			$data['message'] = 'Invalid date!';
-		});
-
-		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 	}
 
 	#[DataProvider('validateExpirationDateInternalProvider')]
@@ -1924,12 +1848,6 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_expire_date', true],
 			]);
 
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($future) {
-			return $data['expirationDate'] == $future;
-		}));
-
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
@@ -1947,23 +1865,12 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($date);
 
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
-			return $data['expirationDate'] == $expected && $data['passwordSet'] === false;
-		}));
-
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
 	public function testValidateExpirationDateNoDateNoDefault(): void {
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) {
-			return $data['expirationDate'] === null && $data['passwordSet'] === true;
-		}));
 
 		$share = $this->manager->newShare();
 		$share->setPassword('password');
@@ -1993,12 +1900,6 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_expire_date', false],
 			]);
 
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
-			return $data['expirationDate'] == $expected;
-		}));
-
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
@@ -2027,12 +1928,6 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_default_expire_date', true],
 				['core', 'shareapi_enforce_expire_date', false],
 			]);
-
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
-			return $data['expirationDate'] == $expected;
-		}));
 
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
 
@@ -2064,59 +1959,9 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_expire_date', false],
 			]);
 
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
-			return $data['expirationDate'] == $expected;
-		}));
-
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
 
 		$this->assertEquals($expected, $share->getExpirationDate());
-	}
-
-	public function testValidateExpirationDateHookModification(): void {
-		$nextWeek = new \DateTime('now', $this->timezone);
-		$nextWeek->add(new \DateInterval('P7D'));
-
-		$save = clone $nextWeek;
-		$save->setTime(23, 59, 59);
-		$save->sub(new \DateInterval('P2D'));
-		$save->setTimezone(new \DateTimeZone(date_default_timezone_get()));
-
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->willReturnCallback(function ($data): void {
-			$data['expirationDate']->sub(new \DateInterval('P2D'));
-		});
-
-		$share = $this->manager->newShare();
-		$share->setExpirationDate($nextWeek);
-
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
-
-		$this->assertEquals($save, $share->getExpirationDate());
-	}
-
-	public function testValidateExpirationDateHookException(): void {
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Invalid date!');
-
-		$nextWeek = new \DateTime();
-		$nextWeek->add(new \DateInterval('P7D'));
-		$nextWeek->setTime(23, 59, 59);
-
-		$share = $this->manager->newShare();
-		$share->setExpirationDate($nextWeek);
-
-		$hookListener = $this->createMock(DummyShareManagerListener::class);
-		Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
-		$hookListener->expects($this->once())->method('listener')->willReturnCallback(function ($data): void {
-			$data['accepted'] = false;
-			$data['message'] = 'Invalid date!';
-		});
-
-		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
 	}
 
 	public function testValidateExpirationDateExistingShareNoDefault(): void {
