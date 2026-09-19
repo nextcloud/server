@@ -25,7 +25,6 @@ class Application extends App implements IBootstrap {
 
 	#[\Override]
 	public function register(IRegistrationContext $context): void {
-		$context->registerEventListener(ShareDeletedEvent::class, ShareDeletedListener::class);
 	}
 
 	#[\Override]

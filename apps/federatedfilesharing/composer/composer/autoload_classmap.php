@@ -18,7 +18,6 @@ return array(
     'OCA\\FederatedFileSharing\\Migration\\Version1010Date20200630191755' => $baseDir . '/../lib/Migration/Version1010Date20200630191755.php',
     'OCA\\FederatedFileSharing\\Migration\\Version1011Date20201120125158' => $baseDir . '/../lib/Migration/Version1011Date20201120125158.php',
     'OCA\\FederatedFileSharing\\Migration\\Version1012Date20260306120000' => $baseDir . '/../lib/Migration/Version1012Date20260306120000.php',
-    'OCA\\FederatedFileSharing\\Migration\\Version1013Date20260919111500' => $baseDir . '/../lib/Migration/Version1013Date20260919111500.php',
     'OCA\\FederatedFileSharing\\Notifications' => $baseDir . '/../lib/Notifications.php',
     'OCA\\FederatedFileSharing\\Notifier' => $baseDir . '/../lib/Notifier.php',
     'OCA\\FederatedFileSharing\\OCM\\CloudFederationProviderFiles' => $baseDir . '/../lib/OCM/CloudFederationProviderFiles.php',

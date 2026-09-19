@@ -70,7 +70,6 @@ class RequestHandlerController extends Controller {
 		private ICloudFederationFactory $factory,
 		private ICloudIdManager $cloudIdManager,
 		private readonly IOCMDiscoveryService $ocmDiscoveryService,
-		private ITimeFactory $timeFactory,
 	) {
 		parent::__construct($appName, $request);
 	}
