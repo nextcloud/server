@@ -2367,6 +2367,14 @@ $CONFIG = [
 	'sqlite.journal_mode' => 'DELETE',
 
 	/**
+	 * Number of milliseconds a SQLite3 connection will wait for a lock held by
+	 * another connection to clear before giving up with a "database is locked"
+	 * error. See https://www.sqlite.org/pragma.html#pragma_busy_timeout for
+	 * more details.
+	 */
+	'sqlite.busy_timeout' => 30000,
+
+	/**
 	 * During setup, if requirements are met (see below), this setting is set to true
 	 * to enable MySQL to handle 4-byte characters instead of 3-byte characters.
 	 *
