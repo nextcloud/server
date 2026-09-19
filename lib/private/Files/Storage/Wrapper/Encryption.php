@@ -980,7 +980,7 @@ class Encryption extends Wrapper {
 		}
 		$fullPath = $this->getFullPath($path);
 		$mountPointConfig = $this->mount->getOption('encrypt', true);
-		if ($mountPointConfig === false) {
+		if ($mountPointConfig === false || $mountPointConfig === '') {
 			return false;
 		}
 
