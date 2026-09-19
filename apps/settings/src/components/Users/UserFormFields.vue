@@ -30,7 +30,9 @@
 			autocomplete="off"
 			spellcheck="false"
 			pattern="[a-zA-Z0-9 _\.@\-']+"
-			:required="fieldConfig.username?.required" />
+			:required="fieldConfig.username?.required"
+			@input="updateUsernameValidity"
+			@blur="updateUsernameValidity" />
 
 		<NcTextField
 			v-model="formData.displayName"
@@ -172,6 +174,24 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Customize the browser-native constraint validation message.
+		 *
+		 * @param {Event} event Input/blur event from the underlying input element
+		 */
+		updateUsernameValidity(event) {
+			const input = event.target
+			if (!input) {
+				return
+			}
+
+			// Clear first so native constraint flags are evaluated without a stale customError.
+			input.setCustomValidity('')
+			if (input.validity.patternMismatch) {
+				input.setCustomValidity(t('settings', 'Only letters, numbers, spaces, and _.@-\' are allowed'))
+			}
+		},
+
 		focusField(name) {
 			this.$refs[name]?.focus?.()
 		},
