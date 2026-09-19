@@ -977,6 +977,17 @@ class Session implements IUserSession, Emitter {
 	 * @param IUser $user
 	 */
 	public function createRememberMeToken(IUser $user) {
+		// The cookie outlives the session lifetime, so its token must not be
+		// cleaned up as a short-lived one.
+		try {
+			$sessionToken = $this->tokenProvider->getToken($this->session->getId());
+			if ($sessionToken instanceof PublicKeyToken && $sessionToken->getRemember() !== IToken::REMEMBER) {
+				$sessionToken->setRemember(IToken::REMEMBER);
+				$this->tokenProvider->updateToken($sessionToken);
+			}
+		} catch (InvalidTokenException|SessionNotAvailableException) {
+		}
+
 		$token = $this->random->generate(32);
 		$this->config->setUserValue($user->getUID(), 'login_token', $token, (string)$this->timeFactory->getTime());
 		$this->setMagicInCookie($user->getUID(), $token);
@@ -1059,6 +1070,18 @@ class Session implements IUserSession, Emitter {
 		} catch (SessionNotAvailableException $ex) {
 			// ignore
 		}
+	}
+
+	/**
+	 * Point the remember-me cookie at the regenerated session id, so cookie
+	 * login can still find the token that was renewed along with it.
+	 */
+	public function renewMagicSessionId(string $oldSessionId): void {
+		if (!isset($_COOKIE['nc_username'], $_COOKIE['nc_token'], $_COOKIE['nc_session_id'])
+			|| $_COOKIE['nc_session_id'] !== $oldSessionId) {
+			return;
+		}
+		$this->setMagicInCookie($_COOKIE['nc_username'], $_COOKIE['nc_token']);
 	}
 
 	/**

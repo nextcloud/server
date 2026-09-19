@@ -1211,6 +1211,67 @@ class SessionTest extends \Test\TestCase {
 		$this->userSession->createRememberMeToken($user);
 	}
 
+	public static function rememberMeSessionTokenData(): array {
+		return [
+			'session token that is not remembered is upgraded' => [IToken::DO_NOT_REMEMBER, true],
+			'remembered session token is left alone' => [IToken::REMEMBER, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('rememberMeSessionTokenData')]
+	public function testCreateRememberMeTokenRemembersSessionToken(int $remember, bool $expectUpdate): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('UserUid');
+		$this->session->method('getId')->willReturn('sessionid');
+		$token = new PublicKeyToken();
+		$token->setRemember($remember);
+		$this->tokenProvider->method('getToken')
+			->with('sessionid')
+			->willReturn($token);
+		$this->tokenProvider->expects($expectUpdate ? $this->once() : $this->never())
+			->method('updateToken')
+			->with($this->callback(fn (PublicKeyToken $t): bool => $t->getRemember() === IToken::REMEMBER));
+
+		$this->userSession->createRememberMeToken($user);
+	}
+
+	public function testCreateRememberMeTokenWithoutSessionToken(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('UserUid');
+		$this->random->method('generate')->willReturn('LongRandomToken');
+		$this->session->method('getId')->willReturn('sessionid');
+		$this->tokenProvider->method('getToken')->willThrowException(new InvalidTokenException());
+		$this->tokenProvider->expects($this->never())->method('updateToken');
+		$this->userSession->expects($this->once())
+			->method('setMagicInCookie')
+			->with('UserUid', 'LongRandomToken');
+
+		$this->userSession->createRememberMeToken($user);
+	}
+
+	public static function renewMagicSessionIdData(): array {
+		return [
+			'cookie holds the old session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'], true],
+			'cookie holds another session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'other'], false],
+			'no remember-me cookies' => [[], false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('renewMagicSessionIdData')]
+	public function testRenewMagicSessionId(array $cookies, bool $expectRenewal): void {
+		$this->userSession->expects($expectRenewal ? $this->once() : $this->never())
+			->method('setMagicInCookie')
+			->with('u', 't');
+
+		$originalCookies = $_COOKIE;
+		$_COOKIE = $cookies;
+		try {
+			$this->userSession->renewMagicSessionId('old');
+		} finally {
+			$_COOKIE = $originalCookies;
+		}
+	}
+
 	public function testTryBasicAuthLoginValid(): void {
 		$request = $this->createMock(Request::class);
 		$request->method('__get')
