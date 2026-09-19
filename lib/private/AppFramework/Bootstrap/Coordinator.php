@@ -65,22 +65,16 @@ class Coordinator {
 		if ($this->registrationContext === null) {
 			$this->registrationContext = new RegistrationContext($this->logger);
 		}
+		$this->eventLogger->start('bootstrap:register_app:autoloader', 'Setup autoloader for apps');
+		if ($appIds === []) {
+			$this->appManager->registerAppsAutoloading($this->appManager->getAlwaysEnabledApps());
+		} else {
+			$this->appManager->registerAppsAutoloading($appIds);
+		}
+		$this->eventLogger->end('bootstrap:register_app:autoloader');
 		$apps = [];
 		foreach ($appIds as $appId) {
 			$this->eventLogger->start("bootstrap:register_app:$appId", "Register $appId");
-			$this->eventLogger->start("bootstrap:register_app:$appId:autoloader", "Setup autoloader for app $appId");
-			try {
-				$path = $this->appManager->getAppPath($appId);
-				$this->appManager->registerAutoloading($appId, $path);
-			} catch (AppPathNotFoundException $e) {
-				$this->logger->info('Error during app loading: ' . $e->getMessage(), [
-					'exception' => $e,
-					'app' => $appId,
-				]);
-				continue;
-			}
-			$this->eventLogger->end("bootstrap:register_app:$appId:autoloader");
-
 			/*
 			 * Next we check if there is an application class, and it implements
 			 * the \OCP\AppFramework\Bootstrap\IBootstrap interface
