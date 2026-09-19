@@ -236,11 +236,11 @@ class Manager {
 		$this->setupManager->setupForUser($user);
 		$folder = $this->rootFolder->getUserFolder($user->getUID());
 
-		$shareFolder = Helper::getShareFolder(null, $user->getUID());
-		$shareFolder = $folder->get($shareFolder);
+		$shareFolderPath = Helper::getShareFolder(null, $user->getUID());
+		$shareFolder = $folder->get($shareFolderPath);
 		/** @var Folder $shareFolder */
 		$mountPoint = $shareFolder->getNonExistingName($externalShare->getName());
-		$mountPoint = Filesystem::normalizePath($mountPoint);
+		$mountPoint = Filesystem::normalizePath($shareFolderPath . '/' . $mountPoint);
 		$userShareAccepted = false;
 
 		if ($externalShare->getShareType() === IShare::TYPE_USER) {
