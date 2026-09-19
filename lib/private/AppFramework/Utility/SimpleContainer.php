@@ -8,7 +8,6 @@
 
 namespace OC\AppFramework\Utility;
 
-use ArrayAccess;
 use Closure;
 use OCP\AppFramework\QueryException;
 use OCP\IContainer;
@@ -26,7 +25,7 @@ use function class_exists;
 /**
  * SimpleContainer is a simple implementation of a container on basis of Pimple
  */
-class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
+class SimpleContainer implements ContainerInterface, IContainer {
 	/** @psalm-suppress ImpureStaticProperty A static property is the only way to pass the information from config to autoload */
 	public static bool $useLazyObjects = false;
 
@@ -254,36 +253,16 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	/**
-	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::has
+	 * @internal Used by tests
 	 */
-	#[\Override]
-	public function offsetExists($id): bool {
-		return $this->container->offsetExists($id);
+	public function removeFromInternalContainer(string $service): void {
+		unset($this->container[$service]);
 	}
 
 	/**
-	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
-	 * @return mixed
+	 * @internal Used by server container on app containers
 	 */
-	#[\Override]
-	#[\ReturnTypeWillChange]
-	public function offsetGet($id) {
-		return $this->container->offsetGet($id);
-	}
-
-	/**
-	 * @deprecated 20.0.0 use \OCP\IContainer::registerService
-	 */
-	#[\Override]
-	public function offsetSet($offset, $value): void {
-		$this->container->offsetSet($offset, $value);
-	}
-
-	/**
-	 * @deprecated 20.0.0
-	 */
-	#[\Override]
-	public function offsetUnset($offset): void {
-		$this->container->offsetUnset($offset);
+	public function setInInternalContainer(string $service, mixed $value): void {
+		$this->container[$service] = $value;
 	}
 }

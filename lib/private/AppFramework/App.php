@@ -79,7 +79,7 @@ class App {
 		$profiler->setEnabled($profiler->isEnabled() && !is_null($urlParams) && isset($urlParams['_route']) && !str_starts_with($urlParams['_route'], 'profiler.'));
 		if ($profiler->isEnabled()) {
 			Server::get(IEventLogger::class)->activate();
-			$profiler->add(new RoutingDataCollector($container['appName'], $controllerName, $methodName));
+			$profiler->add(new RoutingDataCollector($container->get('appName'), $controllerName, $methodName));
 		}
 
 		$eventLogger->start('app:controller:params', 'Gather controller parameters');
@@ -88,12 +88,12 @@ class App {
 			/** @var Request $request */
 			$request = $container->get(IRequest::class);
 			$request->setUrlParameters($urlParams);
-		} elseif (isset($container['urlParams']) && !is_null($container['urlParams'])) {
+		} elseif ($container->has('urlParams') && !is_null($container->get('urlParams'))) {
 			/** @var Request $request */
 			$request = $container->get(IRequest::class);
-			$request->setUrlParameters($container['urlParams']);
+			$request->setUrlParameters($container->get('urlParams'));
 		}
-		$appName = $container['appName'];
+		$appName = $container->get('appName');
 
 		$eventLogger->end('app:controller:params');
 
@@ -139,7 +139,7 @@ class App {
 
 		$eventLogger->end('app:controller:run');
 
-		$io = $container[IOutput::class];
+		$io = $container->get(IOutput::class);
 
 		if ($profiler->isEnabled()) {
 			$eventLogger->end('runtime');
@@ -169,7 +169,7 @@ class App {
 				$value['value'],
 				$expireDate,
 				$container->get('webRoot'),
-				null,
+				'',
 				$container->getServer()->get(IRequest::class)->getServerProtocol() === 'https',
 				true,
 				$sameSite

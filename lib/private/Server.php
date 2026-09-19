@@ -714,8 +714,8 @@ class Server extends ServerContainer {
 			);
 		});
 		$this->registerService(Request::class, function (ContainerInterface $c) {
-			if (isset($this['urlParams'])) {
-				$urlParams = $this['urlParams'];
+			if ($this->has('urlParams')) {
+				$urlParams = $this->get('urlParams');
 			} else {
 				$urlParams = [];
 			}

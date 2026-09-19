@@ -36,30 +36,30 @@ class DIContainerTest extends \Test\TestCase {
 	}
 
 	public function testProvidesRequest(): void {
-		$this->assertTrue(isset($this->container['Request']));
+		$this->assertTrue($this->container->has('Request'));
 	}
 
 	public function testProvidesMiddlewareDispatcher(): void {
-		$this->assertTrue(isset($this->container['MiddlewareDispatcher']));
+		$this->assertTrue($this->container->has('MiddlewareDispatcher'));
 	}
 
 	public function testProvidesAppName(): void {
-		$this->assertTrue(isset($this->container['AppName']));
-		$this->assertTrue(isset($this->container['appName']));
+		$this->assertTrue($this->container->has('AppName'));
+		$this->assertTrue($this->container->has('appName'));
 	}
 
 	public function testAppNameIsSetCorrectly(): void {
-		$this->assertEquals('name', $this->container['AppName']);
-		$this->assertEquals('name', $this->container['appName']);
+		$this->assertEquals('name', $this->container->get('AppName'));
+		$this->assertEquals('name', $this->container->get('appName'));
 	}
 
 	public function testMiddlewareDispatcherIncludesSecurityMiddleware(): void {
-		$this->container['Request'] = new Request(
+		$this->container->registerService('Request', fn () => new Request(
 			['method' => 'GET'],
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
-		);
-		$dispatcher = $this->container['MiddlewareDispatcher'];
+		));
+		$dispatcher = $this->container->get('MiddlewareDispatcher');
 		$middlewares = $dispatcher->getMiddlewares();
 
 		$found = false;
@@ -74,29 +74,29 @@ class DIContainerTest extends \Test\TestCase {
 
 	public function testMiddlewareDispatcherIncludesBootstrapMiddlewares(): void {
 		$coordinator = $this->createMock(Coordinator::class);
-		$this->container[Coordinator::class] = $coordinator;
-		$this->container['Request'] = $this->createMock(Request::class);
+		$this->container->registerService(Coordinator::class, fn () => $coordinator);
+		$this->container->registerService('Request', fn () => $this->createMock(Request::class));
 		$registrationContext = $this->createMock(RegistrationContext::class);
 		$registrationContext->method('getMiddlewareRegistrations')
 			->willReturn([
-				new MiddlewareRegistration($this->container['appName'], 'foo', false),
+				new MiddlewareRegistration($this->container->get('appName'), 'foo', false),
 				new MiddlewareRegistration('otherapp', 'bar', false),
 			]);
-		$this->container['foo'] = new class extends Middleware {
-		};
-		$this->container['bar'] = new class extends Middleware {
-		};
+		$this->container->registerService('foo', fn () => new class extends Middleware {
+		});
+		$this->container->registerService('bar', fn () => new class extends Middleware {
+		});
 		$coordinator->method('getRegistrationContext')->willReturn($registrationContext);
 
-		$dispatcher = $this->container['MiddlewareDispatcher'];
+		$dispatcher = $this->container->get('MiddlewareDispatcher');
 
 		$middlewares = $dispatcher->getMiddlewares();
 		self::assertNotEmpty($middlewares);
 		foreach ($middlewares as $middleware) {
-			if ($middleware === $this->container['bar']) {
+			if ($middleware === $this->container->get('bar')) {
 				$this->fail('Container must not register this middleware');
 			}
-			if ($middleware === $this->container['foo']) {
+			if ($middleware === $this->container->get('foo')) {
 				// It is done
 				return;
 			}
@@ -106,29 +106,29 @@ class DIContainerTest extends \Test\TestCase {
 
 	public function testMiddlewareDispatcherIncludesGlobalBootstrapMiddlewares(): void {
 		$coordinator = $this->createMock(Coordinator::class);
-		$this->container[Coordinator::class] = $coordinator;
-		$this->container['Request'] = $this->createMock(Request::class);
+		$this->container->registerService(Coordinator::class, fn () => $coordinator);
+		$this->container->registerService('Request', fn () => $this->createMock(Request::class));
 		$registrationContext = $this->createMock(RegistrationContext::class);
 		$registrationContext->method('getMiddlewareRegistrations')
 			->willReturn([
 				new MiddlewareRegistration('otherapp', 'foo', true),
 				new MiddlewareRegistration('otherapp', 'bar', false),
 			]);
-		$this->container['foo'] = new class extends Middleware {
-		};
-		$this->container['bar'] = new class extends Middleware {
-		};
+		$this->container->registerService('foo', fn () => new class extends Middleware {
+		});
+		$this->container->registerService('bar', fn () => new class extends Middleware {
+		});
 		$coordinator->method('getRegistrationContext')->willReturn($registrationContext);
 
-		$dispatcher = $this->container['MiddlewareDispatcher'];
+		$dispatcher = $this->container->get('MiddlewareDispatcher');
 
 		$middlewares = $dispatcher->getMiddlewares();
 		self::assertNotEmpty($middlewares);
 		foreach ($middlewares as $middleware) {
-			if ($middleware === $this->container['bar']) {
+			if ($middleware === $this->container->get('bar')) {
 				$this->fail('Container must not register this middleware');
 			}
-			if ($middleware === $this->container['foo']) {
+			if ($middleware === $this->container->get('foo')) {
 				// It is done
 				return;
 			}
