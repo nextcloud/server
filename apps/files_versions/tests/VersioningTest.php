@@ -25,6 +25,7 @@ use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -971,9 +972,7 @@ class VersioningTest extends \Test\TestCase {
 			Server::get(IUserManager::class)->registerBackend($backend);
 		}
 
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		Filesystem::tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 		\OC_User::setUserId($user);
 		\OC_Util::setupFS($user);
 		Server::get(IRootFolder::class)->getUserFolder($user);
