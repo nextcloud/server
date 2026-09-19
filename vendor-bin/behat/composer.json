@@ -6,7 +6,7 @@
 		"sort-packages": true
 	},
 	"require-dev": {
-		"behat/behat": "^3.27",
+		"behat/behat": "^3.33",
 		"phpunit/phpunit": "^11.5"
 	}
 }
