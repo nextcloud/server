@@ -342,66 +342,72 @@ class Trashbin implements IEventListener {
 			return false;
 		}
 
-		$moveSuccessful = true;
+		$propagator = $trashStorage->getPropagator();
+		$propagator->beginBatch();
 		try {
-			$inCache = $sourceStorage->getCache()->inCache($sourceInternalPath);
-			$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
-			if ($inCache) {
-				$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
-			} else {
-				$sizeDifference = $sourceInfo->getSize();
-				if ($sizeDifference < 0) {
-					$sizeDifference = null;
+			$moveSuccessful = true;
+			try {
+				$inCache = $sourceStorage->getCache()->inCache($sourceInternalPath);
+				$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
+				if ($inCache) {
+					$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 				} else {
-					$sizeDifference = (int)$sizeDifference;
+					$sizeDifference = $sourceInfo->getSize();
+					if ($sizeDifference < 0) {
+						$sizeDifference = null;
+					} else {
+						$sizeDifference = (int)$sizeDifference;
+					}
+					$trashStorage->getUpdater()->update($trashInternalPath, null, $sizeDifference);
 				}
-				$trashStorage->getUpdater()->update($trashInternalPath, null, $sizeDifference);
-			}
-		} catch (\Exception $e) {
-			$moveSuccessful = false;
-			if ($trashStorage->file_exists($trashInternalPath)) {
-				$trashStorage->unlink($trashInternalPath);
-			}
-			Server::get(LoggerInterface::class)->error('Couldn\'t move ' . $file_path . ' to the trash bin', ['app' => 'files_trashbin']);
-		}
-
-		if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
-			if ($sourceStorage->is_dir($sourceInternalPath)) {
-				$sourceStorage->rmdir($sourceInternalPath);
-			} else {
-				$sourceStorage->unlink($sourceInternalPath);
-			}
-
-			if ($sourceStorage->file_exists($sourceInternalPath)) {
-				// undo the cache move
-				$sourceStorage->getUpdater()->renameFromStorage($trashStorage, $trashInternalPath, $sourceInternalPath);
-			} else {
-				$trashStorage->getUpdater()->remove($trashInternalPath);
-			}
-			$moveSuccessful = false;
-		}
-
-		if (!$moveSuccessful) {
-			Server::get(LoggerInterface::class)->error(
-				'trash move failed, removing trash metadata and payload',
-				[
-					'app' => 'files_trashbin',
-					'user' => $owner,
-					'filename' => $filename,
-					'timestamp' => $timestamp,
-				]
-			);
-			// The metadata row belongs to the owner, even when another user initiated
-			// the deletion.
-			self::deleteTrashRow($owner, $filename, $timestamp);
-			if ($trashStorage->file_exists($trashInternalPath)) {
-				if ($trashStorage->is_dir($trashInternalPath)) {
-					$trashStorage->rmdir($trashInternalPath);
-				} else {
+			} catch (\Exception $e) {
+				$moveSuccessful = false;
+				if ($trashStorage->file_exists($trashInternalPath)) {
 					$trashStorage->unlink($trashInternalPath);
 				}
+				Server::get(LoggerInterface::class)->error('Couldn\'t move ' . $file_path . ' to the trash bin', ['app' => 'files_trashbin']);
 			}
-			$trashStorage->getUpdater()->remove($trashInternalPath);
+
+			if ($sourceStorage->file_exists($sourceInternalPath)) { // failed to delete the original file, abort
+				if ($sourceStorage->is_dir($sourceInternalPath)) {
+					$sourceStorage->rmdir($sourceInternalPath);
+				} else {
+					$sourceStorage->unlink($sourceInternalPath);
+				}
+
+				if ($sourceStorage->file_exists($sourceInternalPath)) {
+					// undo the cache move
+					$sourceStorage->getUpdater()->renameFromStorage($trashStorage, $trashInternalPath, $sourceInternalPath);
+				} else {
+					$trashStorage->getUpdater()->remove($trashInternalPath);
+				}
+				$moveSuccessful = false;
+			}
+
+			if (!$moveSuccessful) {
+				Server::get(LoggerInterface::class)->error(
+					'trash move failed, removing trash metadata and payload',
+					[
+						'app' => 'files_trashbin',
+						'user' => $owner,
+						'filename' => $filename,
+						'timestamp' => $timestamp,
+					]
+				);
+				// The metadata row belongs to the owner, even when another user initiated
+				// the deletion.
+				self::deleteTrashRow($owner, $filename, $timestamp);
+				if ($trashStorage->file_exists($trashInternalPath)) {
+					if ($trashStorage->is_dir($trashInternalPath)) {
+						$trashStorage->rmdir($trashInternalPath);
+					} else {
+						$trashStorage->unlink($trashInternalPath);
+					}
+				}
+				$trashStorage->getUpdater()->remove($trashInternalPath);
+			}
+		} finally {
+			$propagator->commitBatch();
 		}
 
 		if ($moveSuccessful) {
