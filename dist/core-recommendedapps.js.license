@@ -156,7 +156,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.110.3
+	- version: 5.111.0
 	- license: MIT
 - @nextcloud/vue
 	- version: 9.11.0
