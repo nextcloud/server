@@ -1218,7 +1218,7 @@ class SessionTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('rememberMeSessionTokenData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'rememberMeSessionTokenData')]
 	public function testCreateRememberMeTokenRemembersSessionToken(int $remember, bool $expectUpdate): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('UserUid');
@@ -1257,7 +1257,7 @@ class SessionTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('renewMagicSessionIdData')]
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'renewMagicSessionIdData')]
 	public function testRenewMagicSessionId(array $cookies, bool $expectRenewal): void {
 		$this->userSession->expects($expectRenewal ? $this->once() : $this->never())
 			->method('setMagicInCookie')
