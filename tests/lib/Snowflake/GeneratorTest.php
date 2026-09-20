@@ -99,6 +99,18 @@ class GeneratorTest extends TestCase {
 		$this->assertEquals($this->serverInfo->getServerId(), $data->getServerId());
 	}
 
+	#[DataProvider('provideSnowflakeData')]
+	public function testGeneratorWithTimestampParameter(string $date, int $expectedSeconds, int $expectedMilliseconds): void {
+		$dt = new \DateTimeImmutable($date);
+
+		$generator = new SnowflakeGenerator(new TimeFactory(), $this->sequence, $this->serverInfo);
+		$data = $this->decoder->decode($generator->nextId($dt));
+
+		$this->assertEquals($expectedSeconds, $data->getCreatedAt()->format('U') - ISnowflakeGenerator::TS_OFFSET);
+		$this->assertEquals($expectedMilliseconds, (int)$data->getCreatedAt()->format('v'));
+		$this->assertEquals($this->serverInfo->getServerId(), $data->getServerId());
+	}
+
 	public static function provideSnowflakeData(): array {
 		$tests = [
 			['2025-10-01 00:00:00.000000', 0, 0],
