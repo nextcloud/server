@@ -44,7 +44,7 @@ final class SystemReportManagerTest extends TestCase {
 	}
 
 	/**
-	 * @param \OC\AppFramework\Bootstrap\ServiceRegistration[] $registrations
+	 * @param ServiceRegistration[] $registrations
 	 */
 	private function withRegisteredSections(array $registrations): void {
 		$context = $this->createMock(RegistrationContext::class);

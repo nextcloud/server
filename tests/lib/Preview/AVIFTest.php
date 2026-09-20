@@ -8,6 +8,7 @@
 namespace Test\Preview;
 
 use OC\Preview\AVIF;
+use OCP\Image;
 
 /**
  * Class AVIFTest
@@ -29,7 +30,7 @@ class AVIFTest extends Provider {
 		// format never reaches imagecreatefromavif() however capable libgd
 		// is. Ask for the whole path rather than for one part of it, and
 		// say which part was missing when it is not there.
-		$probe = new \OCP\Image();
+		$probe = new Image();
 		$probe->loadFromFile($sourcePath);
 		if (!$probe->valid()) {
 			$this->markTestSkipped(sprintf(
