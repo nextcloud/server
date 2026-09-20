@@ -8,14 +8,13 @@ import Vue from 'vue'
 import FilesSidebar from '../views/FilesSidebar.vue'
 import { getPinia } from '../store/index.ts'
 import { logger } from '../utils/logger.ts'
-
-let sidebar: Vue | undefined
+import { getSidebarSharedState } from './sharedState.ts'
 
 /**
  * Whether the sidebar is currently rendered within the page.
  */
 export function isSidebarMounted(): boolean {
-	return sidebar !== undefined
+	return getSidebarSharedState().instance !== undefined
 }
 
 /**
@@ -30,15 +29,16 @@ export function mountSidebar(target: HTMLElement): boolean {
 		return false
 	}
 
-	if (sidebar !== undefined) {
-		if (sidebar.$el.parentElement === target) {
+	const state = getSidebarSharedState()
+	if (state.instance !== undefined) {
+		if (state.instance.$el.parentElement === target) {
 			logger.debug('sidebar: already rendered within the requested element')
 			return true
 		}
 
 		logger.debug('sidebar: moving the sidebar into the requested element')
-		sidebar.$destroy()
-		sidebar.$el.remove()
+		state.instance.$destroy()
+		state.instance.$el.remove()
 	}
 
 	const mountpoint = document.createElement('div')
@@ -47,7 +47,7 @@ export function mountSidebar(target: HTMLElement): boolean {
 
 	Vue.use(PiniaVuePlugin)
 	const SidebarRoot = Vue.extend(FilesSidebar)
-	sidebar = new SidebarRoot({
+	state.instance = new SidebarRoot({
 		name: 'SidebarRoot',
 		pinia: getPinia(),
 	}).$mount(mountpoint)
