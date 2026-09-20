@@ -235,6 +235,7 @@ function getTagLevel(userVisible: boolean, userAssignable: boolean): TagLevel {
 				:placeholder="t('systemtags', 'Collaborative tags …')"
 				:fetchTags="false"
 				:options="tags"
+				:limit="null"
 				:multiple="false"
 				labelOutside
 				@update:modelValue="onSelectTag">
