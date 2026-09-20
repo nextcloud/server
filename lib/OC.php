@@ -53,11 +53,6 @@ class OC {
 	 */
 	public static string $SERVERROOT = '';
 	/**
-	 * the current request path relative to the Nextcloud root (e.g. files/index.php)
-	 * @psalm-suppress ImpureStaticProperty
-	 */
-	private static string $SUBURI = '';
-	/**
 	 * the Nextcloud root path for http requests (e.g. /nextcloud)
 	 * @psalm-suppress ImpureStaticProperty
 	 */
@@ -74,6 +69,11 @@ class OC {
 	 */
 	public static string $configDir;
 
+	/**
+	 * the current request path relative to the Nextcloud root (e.g. files/index.php)
+	 * @psalm-suppress ImpureStaticProperty
+	 */
+	private static string $SUBURI = '';
 	/**
 	 * requested app
 	 * @psalm-suppress ImpureStaticProperty
@@ -107,12 +107,12 @@ class OC {
 	 * @psalm-suppress ImpureStaticProperty
 	 */
 	private static bool $oneTimeChecksDone = false;
-
 	/**
-	 * @throws \RuntimeException when the 3rdparty directory is missing or
-	 *                           the app path list is empty or contains an invalid path
+	 * @psalm-suppress ImpureStaticProperty
 	 */
-	public static function initPaths(): void {
+	private static bool $firstRequest = true;
+
+	private static function initSubUri(): string {
 		OC::$SUBURI = str_replace('\\', '/', substr(realpath($_SERVER['SCRIPT_FILENAME'] ?? ''), strlen(OC::$SERVERROOT)));
 		/**
 		 * FIXME: The following lines are required because we can't yet instantiate
@@ -143,6 +143,15 @@ class OC {
 				OC::$SUBURI = OC::$SUBURI . 'index.php';
 			}
 		}
+		return $scriptName;
+	}
+
+	/**
+	 * @throws \RuntimeException when the 3rdparty directory is missing or
+	 *                           the app path list is empty or contains an invalid path
+	 */
+	public static function initPaths(): void {
+		$scriptName = self::initSubUri();
 
 		if (OC::$CLI) {
 			OC::$WEBROOT = self::$config->getValue('overwritewebroot', '');
@@ -763,7 +772,12 @@ class OC {
 	 * Called before each request served if the same worker serves several request
 	 */
 	public static function initForRequest(): void {
-		self::resetStaticProperties();
+		if (self::$firstRequest) {
+			self::$firstRequest = false;
+		} else {
+			self::resetStaticProperties();
+			self::initSubUri();
+		}
 
 		// First handle PHP configuration and copy auth headers to the expected
 		// $_SERVER variable before doing anything Server object related
@@ -1359,6 +1373,8 @@ class OC {
 	 */
 	private static function resetStaticProperties(): void {
 		// FIXME needed because these use a static var
+		self::$SUBURI = '';
+		self::$REQUESTEDAPP = '';
 		\OC_Hook::clear();
 		\OC_Util::$styles = [];
 		\OC_Util::$headers = [];
