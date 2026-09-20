@@ -635,13 +635,26 @@ class Encryption extends Wrapper {
 
 			// Rename of the cache already happened, so we do the cleanup on the target
 			if ($sourceCacheEntry === false && $targetCacheEntry !== false) {
-				$encryptedVersion = $targetCacheEntry['encryptedVersion'];
 				$isRename = false;
-			} elseif ($sourceCacheEntry === false) {
-				// a file that is not in the file cache, e.g. a part file, is at version 1
-				$encryptedVersion = 1;
+			}
+
+			if ($keepEncryptionVersion) {
+				// a 1:1 copy reuses the keys and the ciphertext of the source, so the
+				// target stays at the version of the source
+				if ($sourceCacheEntry !== false) {
+					$encryptedVersion = (int)($sourceCacheEntry['encryptedVersion'] ?? 0);
+				} elseif ($targetCacheEntry !== false) {
+					$encryptedVersion = (int)($targetCacheEntry['encryptedVersion'] ?? 0);
+				} else {
+					// a file that is not in the file cache, e.g. a part file, is at version 1
+					$encryptedVersion = 1;
+				}
 			} else {
-				$encryptedVersion = $sourceCacheEntry['encryptedVersion'];
+				// The target was written through the encryption stream, which signs the
+				// blocks with the version that follows the version of the file they
+				// replaced and records it on the target's cache entry. A target that has
+				// no cache entry was written at version 1.
+				$encryptedVersion = $targetCacheEntry === false ? 1 : (int)($targetCacheEntry['encryptedVersion'] ?? 0);
 			}
 
 			// In case of a move operation from an unencrypted to an encrypted
@@ -649,7 +662,7 @@ class Encryption extends Wrapper {
 			// correct value would be "1". Thus we manually set the value to "1"
 			// for those cases.
 			// See also https://github.com/owncloud/core/issues/23078
-			if ($encryptedVersion === 0 || !$keepEncryptionVersion) {
+			if ($encryptedVersion === 0) {
 				$encryptedVersion = 1;
 			}
 
