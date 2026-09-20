@@ -726,10 +726,25 @@ class CacheTest extends \Test\TestCase {
 		$this->assertSame(3, $targetEntry['encryptedVersion']);
 	}
 
+	public function testCopyFromCachePreservesUnencryptedSize(): void {
+		$data = [
+			'size' => 128, 'mtime' => 50, 'mimetype' => 'foo/bar',
+			'encrypted' => true, 'encryptedVersion' => 3, 'unencrypted_size' => 100,
+		];
+		$this->cache->put('source', $data);
+		$sourceEntry = $this->cache->get('source');
+		$this->assertEquals(100, $sourceEntry->getUnencryptedSize());
+
+		$this->cache->copyFromCache($this->cache, $sourceEntry, 'target');
+
+		$targetEntry = $this->cache->get('target');
+		$this->assertEquals(100, $targetEntry->getUnencryptedSize());
+	}
+
 	public function testCopyFromCacheClearsEncryptedVersionWhenCopyingToNonEncryptedStorage(): void {
 		$data = [
-			'size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar',
-			'encrypted' => true, 'encryptedVersion' => 3,
+			'size' => 128, 'mtime' => 50, 'mimetype' => 'foo/bar',
+			'encrypted' => true, 'encryptedVersion' => 3, 'unencrypted_size' => 100,
 		];
 		$this->cache2->put('source', $data);
 		$sourceEntry = $this->cache2->get('source');
@@ -751,6 +766,9 @@ class CacheTest extends \Test\TestCase {
 		$targetEntry = $targetCache->get('target');
 		$this->assertFalse($targetEntry->isEncrypted());
 		$this->assertSame(0, $targetEntry['encryptedVersion']);
+		// the target is not marked as encrypted, so its size is read from `size`
+		$this->assertEquals(0, $targetEntry['unencrypted_size']);
+		$this->assertEquals(128, $targetEntry->getSize());
 	}
 
 	public function testGetIncomplete(): void {
