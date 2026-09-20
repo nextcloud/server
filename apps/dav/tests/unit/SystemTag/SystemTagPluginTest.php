@@ -19,6 +19,7 @@ use OCA\DAV\SystemTag\SystemTagsObjectMappingCollection;
 use OCP\Constants;
 use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
+use OCP\Files\Node;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -386,11 +387,11 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$this->tagMapper->method('getObjectIdsForTags')->willReturn(['1', '2']);
 
-		$fileNode = $this->createMock(\OCP\Files\Node::class);
+		$fileNode = $this->createMock(Node::class);
 		$fileNode->method('getPermissions')->willReturn($permissions);
 		$userFolder = $this->createMock(IUserFolder::class);
 		$userFolder->method('getFirstNodeById')
-			->willReturnCallback(fn (int $id): ?\OCP\Files\Node => in_array($id, [2, 3], true) ? $fileNode : null);
+			->willReturnCallback(fn (int $id): ?Node => in_array($id, [2, 3], true) ? $fileNode : null);
 		$userFolder->method('getById')
 			->willReturnCallback(fn (int $id): array => in_array($id, [2, 3], true) ? [$fileNode] : []);
 		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);

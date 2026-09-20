@@ -448,7 +448,7 @@ class SessionTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) {
+				function (Event $event): void {
 					if ($event instanceof LoginFailed) {
 						$this->assertEquals($event, new LoginFailed('john', 'doe'));
 					} elseif ($event instanceof BeforeUserLoggedInEvent) {
@@ -579,7 +579,7 @@ class SessionTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) {
+				function (Event $event): void {
 					if ($event instanceof LoginFailed) {
 						$this->assertEquals($event, new LoginFailed('john', 'doe'));
 					} elseif ($event instanceof BeforeUserLoggedInEvent) {
@@ -1363,7 +1363,7 @@ class SessionTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) {
+				function (Event $event): void {
 					if ($event instanceof LoginFailed) {
 						$this->assertEquals($event, new LoginFailed('john', 'I-AM-A-PASSWORD'));
 					} elseif ($event instanceof BeforeUserLoggedInEvent) {
@@ -1426,7 +1426,7 @@ class SessionTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) {
+				function (Event $event): void {
 					if ($event instanceof LoginFailed) {
 						$this->assertEquals($event, new LoginFailed('john@foo.bar', 'I-AM-A-PASSWORD'));
 					} elseif ($event instanceof BeforeUserLoggedInEvent) {

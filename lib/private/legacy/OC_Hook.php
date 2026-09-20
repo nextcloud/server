@@ -5,9 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
+use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OC\ServerNotAvailableException;
+use OCA\Files_Trashbin\Trashbin;
 use OCP\HintException;
 use OCP\Server;
 use OCP\Share;
@@ -54,8 +55,8 @@ class OC_Hook {
 		['OC\Files\Storage\Shared','fopen'],
 		['OC\Files\Storage\Shared','file_get_contents'],
 		['OC\Files\Storage\Shared','file_put_contents'],
-		[\OCA\Files_Trashbin\Trashbin::class,'post_moveToTrash'],
-		[\OCA\Files_Trashbin\Trashbin::class,'post_restore'],
+		[Trashbin::class,'post_moveToTrash'],
+		[Trashbin::class,'post_restore'],
 		['OCP\Trashbin','delete'],
 		['OCP\Trashbin','preDelete'],
 		['OCP\Trashbin','preDeleteAll'],
@@ -69,8 +70,8 @@ class OC_Hook {
 		['OC\User','assignedUserId'],
 		['OC\User','preUnassignedUserId'],
 		['OC\User','postUnassignedUserId'],
-		[\OC\Files\Cache\Scanner::class,'scan_file'],
-		[\OC\Files\Cache\Scanner::class,'post_scan_file'],
+		[Scanner::class,'scan_file'],
+		[Scanner::class,'post_scan_file'],
 		['Scanner','removeFromCache'],
 		['Scanner','addToCache'],
 		['Scanner','correctFolderSize'],
