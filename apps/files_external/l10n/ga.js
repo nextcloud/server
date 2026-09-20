@@ -88,6 +88,7 @@ OC.L10N.register(
     "Edit storage" : "Cuir stóráil in eagar",
     "Add storage" : "Cuir stóráil leis",
     "Folder name" : "Ainm fillteáin",
+    "Without a restriction this storage is available to every account on this server." : "Gan srian, tá an stóráil seo ar fáil do gach cuntas ar an bhfreastalaí seo.",
     "Authentication" : "Fíordheimhniú",
     "Cancel" : "Cealaigh",
     "Edit" : "Cuir in eagar",
