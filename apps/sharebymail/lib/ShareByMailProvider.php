@@ -758,6 +758,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 			->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
 			->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
+			->set('token', $qb->createNamedParameter($share->getToken()))
 			->set('password', $qb->createNamedParameter($share->getPassword()))
 			->set('password_expiration_time', $qb->createNamedParameter($share->getPasswordExpirationTime(), IQueryBuilder::PARAM_DATETIME_MUTABLE))
 			->set('label', $qb->createNamedParameter($share->getLabel()))

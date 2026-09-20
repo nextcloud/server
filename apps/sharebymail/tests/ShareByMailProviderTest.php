@@ -787,6 +787,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->share->expects($this->atLeastOnce())->method('getId')->willReturn($id);
 		$this->share->expects($this->atLeastOnce())->method('getNodeId')->willReturn($itemSource);
 		$this->share->expects($this->once())->method('getSharedWith')->willReturn($shareWith);
+		$this->share->expects($this->any())->method('getToken')->willReturn($token);
 
 		$this->assertSame($this->share,
 			$instance->update($this->share)
@@ -810,7 +811,141 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($uidOwner, $result[0]['uid_owner']);
 		$this->assertSame($permissions + 1, (int)$result[0]['permissions']);
 		$this->assertSame($token, $result[0]['token']);
+		$this->assertSame($this->share->getToken(), $result[0]['token']);
 		$this->assertSame($note, $result[0]['note']);
+	}
+
+	public function testUpdateFileRequestToken(): void {
+		$itemSource = 11;
+		$itemType = 'folder';
+		$shareWith = '';
+		$sharedBy = 'user1';
+		$uidOwner = 'user2';
+		$permissions = Constants::PERMISSION_CREATE;
+		$token = 'old-file-request-token';
+		$newToken = 'new-file-request-token';
+
+		$instance = $this->getInstance();
+
+		$id = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
+
+		$attributes = $this->createMock(IAttributes::class);
+		$attributes->expects($this->any())->method('toArray')->willReturn([
+			[
+				'scope' => 'fileRequest',
+				'key' => 'enabled',
+				'value' => true,
+			],
+		]);
+
+		$share = $this->createMock(IShare::class);
+		$share->expects($this->any())->method('getPermissions')->willReturn($permissions);
+		$share->expects($this->any())->method('getShareOwner')->willReturn($uidOwner);
+		$share->expects($this->any())->method('getSharedBy')->willReturn($sharedBy);
+		$share->expects($this->any())->method('getNote')->willReturn('');
+		$share->expects($this->any())->method('getId')->willReturn($id);
+		$share->expects($this->any())->method('getNodeId')->willReturn($itemSource);
+		$share->expects($this->any())->method('getSharedWith')->willReturn($shareWith);
+		$share->expects($this->any())->method('getToken')->willReturn($newToken);
+		$share->expects($this->any())->method('getAttributes')->willReturn($attributes);
+
+		$this->mailer->expects($this->never())->method('send');
+
+		$this->assertSame($share, $instance->update($share));
+		$this->assertSame($newToken, $share->getToken());
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
+
+		$qResult = $qb->executeQuery();
+		$result = $qResult->fetchAllAssociative();
+		$qResult->closeCursor();
+
+		$this->assertSame(1, count($result));
+		$this->assertSame($itemSource, (int)$result[0]['item_source']);
+		$this->assertSame($itemType, $result[0]['item_type']);
+		$this->assertSame($shareWith, $result[0]['share_with']);
+		$this->assertSame($sharedBy, $result[0]['uid_initiator']);
+		$this->assertSame($uidOwner, $result[0]['uid_owner']);
+		$this->assertSame($permissions, (int)$result[0]['permissions']);
+		$this->assertSame($newToken, $result[0]['token']);
+		$this->assertSame($share->getToken(), $result[0]['token']);
+		$this->assertSame(
+			json_encode([['fileRequest', 'enabled', true]]),
+			$result[0]['attributes']
+		);
+
+		$resolved = $instance->getShareByToken($newToken);
+		$this->assertSame($id, $resolved->getId());
+		$this->assertSame($newToken, $resolved->getToken());
+		$this->assertSame($permissions, $resolved->getPermissions());
+		$this->assertSame($shareWith, $resolved->getSharedWith());
+		$this->assertSame($itemType, $resolved->getNodeType());
+		$this->assertTrue($resolved->getAttributes()->getAttribute('fileRequest', 'enabled'));
+
+		$this->expectException(ShareNotFound::class);
+		$instance->getShareByToken($token);
+	}
+
+	public function testUpdateEmailShareToken(): void {
+		$itemSource = 11;
+		$itemType = 'file';
+		$shareWith = 'user@server.com';
+		$sharedBy = 'user1';
+		$uidOwner = 'user2';
+		$permissions = 1;
+		$token = 'old-email-token';
+		$newToken = 'new-email-token';
+		$note = 'personal note';
+
+		$instance = $this->getInstance();
+
+		$id = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $note);
+
+		$share = $this->createMock(IShare::class);
+		$share->expects($this->any())->method('getPermissions')->willReturn($permissions);
+		$share->expects($this->any())->method('getShareOwner')->willReturn($uidOwner);
+		$share->expects($this->any())->method('getSharedBy')->willReturn($sharedBy);
+		$share->expects($this->any())->method('getNote')->willReturn($note);
+		$share->expects($this->any())->method('getId')->willReturn($id);
+		$share->expects($this->any())->method('getNodeId')->willReturn($itemSource);
+		$share->expects($this->any())->method('getSharedWith')->willReturn($shareWith);
+		$share->expects($this->any())->method('getToken')->willReturn($newToken);
+
+		$this->mailer->expects($this->never())->method('send');
+
+		$this->assertSame($share, $instance->update($share));
+		$this->assertSame($newToken, $share->getToken());
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
+
+		$qResult = $qb->executeQuery();
+		$result = $qResult->fetchAllAssociative();
+		$qResult->closeCursor();
+
+		$this->assertSame(1, count($result));
+		$this->assertSame($itemSource, (int)$result[0]['item_source']);
+		$this->assertSame($itemType, $result[0]['item_type']);
+		$this->assertSame($shareWith, $result[0]['share_with']);
+		$this->assertSame($sharedBy, $result[0]['uid_initiator']);
+		$this->assertSame($uidOwner, $result[0]['uid_owner']);
+		$this->assertSame($permissions, (int)$result[0]['permissions']);
+		$this->assertSame($newToken, $result[0]['token']);
+		$this->assertSame($note, $result[0]['note']);
+		$this->assertSame($share->getToken(), $result[0]['token']);
+
+		$resolved = $instance->getShareByToken($newToken);
+		$this->assertSame($id, $resolved->getId());
+		$this->assertSame($newToken, $resolved->getToken());
+		$this->assertSame($shareWith, $resolved->getSharedWith());
+
+		$this->expectException(ShareNotFound::class);
+		$instance->getShareByToken($token);
 	}
 
 	public static function dataUpdateSendPassword(): array {
