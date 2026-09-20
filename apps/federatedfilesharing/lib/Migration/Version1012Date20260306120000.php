@@ -10,8 +10,6 @@ declare(strict_types=1);
 namespace OCA\FederatedFileSharing\Migration;
 
 use OCP\Migration\SimpleMigrationStep;
-use OCP\Server;
-use OCP\Share\IShare;
 
 /**
  * No-op, as the implementation was changed migration of the data is no longer needed
