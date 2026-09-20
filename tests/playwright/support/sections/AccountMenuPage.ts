@@ -33,13 +33,15 @@ export class AccountMenuPage {
 	}
 
 	entries(): Locator {
-		return this.panel().getByRole('listitem')
+		return this.panel()
+			.locator('ul.account-menu__list > *')
+			.and(this.page.getByRole('listitem'))
 	}
 
 	/**
 	 * A single entry matched by visible text.
 	 */
 	entry(name: string): Locator {
-		return this.panel().getByRole('listitem').filter({ hasText: name })
+		return this.entries().filter({ hasText: name })
 	}
 }
