@@ -690,6 +690,7 @@ OC.L10N.register(
     "New account" : "Cuntas nua",
     "Adding new account …" : "Cuntas nua á chur leis …",
     "Add new account" : "Cuir cuntas nua leis",
+    "Only letters, numbers, spaces, and _.@-' are allowed" : "Ní cheadaítear ach litreacha, uimhreacha, spásanna agus _.@-'",
     "Display name" : "Ainm taispeána",
     "Either password or email is required" : "Tá pasfhocal nó ríomhphost ag teastáil",
     "Member of the following groups (required)" : "Ball de na grúpaí seo a leanas (riachtanach)",
