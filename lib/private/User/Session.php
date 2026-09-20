@@ -454,10 +454,11 @@ class Session implements IUserSession, Emitter {
 			}
 		} else {
 			$this->session->set('last-password-confirm', $this->timeFactory->getTime());
-			if ($this->supportsCookies($request)) {
-				// Password login, but cookies supported -> create (browser) session token
-				$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
-			}
+		}
+
+		if ($this->supportsCookies($request)) {
+			// Password login, but cookies supported -> create (browser) session token
+			$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
 		}
 
 		return true;
