@@ -361,7 +361,7 @@
     "Search in folder: {folder}" : "Im Ordner suchen: {folder}",
     "One of the dropped files could not be processed" : "Eine der abgelegten Dateien konnte nicht verarbeitet werden",
     "Your browser does not support the Filesystem API. Directories will not be uploaded" : "Dein Browser unterstützt die Dateisystem-API nicht. Verzeichnisse werden nicht hochgeladen.",
-    "Upload cancelled, drop the files again to retry" : "Hochladen abgebrochen, die Dateien erneut hochladen, um es erneut zu versuchen.",
+    "Upload cancelled, drop the files again to retry" : "Hochladen abgebrochen, die Dateien erneut fallen lassen, um es erneut zu versuchen.",
     "No files to upload" : "Keine Dateien zum Hochladen",
     "Unable to create the directory {directory}" : "Der Ordner {directory} konnte nicht erstellt werden",
     "Some files could not be uploaded" : "Einige Dateien konnten nicht hochgeladen werden",

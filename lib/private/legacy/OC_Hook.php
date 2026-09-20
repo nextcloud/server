@@ -51,7 +51,6 @@ class OC_Hook {
 		[Share::class,'post_set_expiration_date'],
 		[Share::class,'post_update_password'],
 		[Share::class,'post_update_permissions'],
-		['OC\Share','verifyExpirationDate'],
 		['OC\Files\Storage\Shared','fopen'],
 		['OC\Files\Storage\Shared','file_get_contents'],
 		['OC\Files\Storage\Shared','file_put_contents'],
