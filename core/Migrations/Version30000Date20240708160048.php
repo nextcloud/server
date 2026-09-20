@@ -13,7 +13,9 @@ use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
 use OCP\Migration\Attributes\AddColumn;
+use OCP\Migration\Attributes\AddIndex;
 use OCP\Migration\Attributes\ColumnType;
+use OCP\Migration\Attributes\IndexType;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
@@ -23,6 +25,7 @@ use OCP\Migration\SimpleMigrationStep;
 #[AddColumn(table: 'taskprocessing_tasks', name: 'scheduled_at', type: ColumnType::INTEGER)]
 #[AddColumn(table: 'taskprocessing_tasks', name: 'started_at', type: ColumnType::INTEGER)]
 #[AddColumn(table: 'taskprocessing_tasks', name: 'ended_at', type: ColumnType::INTEGER)]
+#[AddIndex(table: 'taskprocessing_tasks', type: IndexType::INDEX)]
 class Version30000Date20240708160048 extends SimpleMigrationStep {
 
 	/**
@@ -59,6 +62,9 @@ class Version30000Date20240708160048 extends SimpleMigrationStep {
 					'default' => null,
 					'unsigned' => true,
 				]);
+			}
+			if (!$table->hasIndex('taskp_tasks_scheduled')) {
+				$table->addIndex(['scheduled_at'], 'taskp_tasks_scheduled');
 			}
 
 			return $schema;
