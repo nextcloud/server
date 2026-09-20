@@ -14,6 +14,7 @@ use OCP\IUser;
 
 /**
  * @since 18.0.0
+ * @deprecated 36.0.0 Use UserLoggedInEvent instead
  */
 class PostLoginEvent extends Event {
 	/** @var IUser */
