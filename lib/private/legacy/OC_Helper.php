@@ -17,7 +17,6 @@ use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
-use OCP\IBinaryFinder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
@@ -122,24 +121,6 @@ class OC_Helper {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Checks if a function is available
-	 *
-	 * @deprecated 25.0.0 use \OCP\Util::isFunctionEnabled instead
-	 */
-	public static function is_function_enabled(string $function_name): bool {
-		return Util::isFunctionEnabled($function_name);
-	}
-
-	/**
-	 * Try to find a program
-	 * @deprecated 25.0.0 Use \OCP\IBinaryFinder directly
-	 */
-	public static function findBinaryPath(string $program): ?string {
-		$result = Server::get(IBinaryFinder::class)->findBinaryPath($program);
-		return $result !== false ? $result : null;
 	}
 
 	/**
