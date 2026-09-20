@@ -12,12 +12,12 @@ use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\Source\ShareSource;
-use OC\Files\Filesystem;
 use OC\Sharing\SharingManager;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\IFileAccess;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Node;
 use OCP\IDBConnection;
 use OCP\IURLGenerator;
@@ -69,7 +69,7 @@ final class NodeShareSourceTypeTest extends TestCase {
 	protected function tearDown(): void {
 		$this->user1->delete();
 
-		Filesystem::tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 
 		parent::tearDown();
 	}

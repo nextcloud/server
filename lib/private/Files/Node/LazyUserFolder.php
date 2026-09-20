@@ -12,7 +12,6 @@ namespace OC\Files\Node;
 use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\FileInfo;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
 use OCP\Files\Mount\IMountManager;

@@ -46,6 +46,6 @@ OC.L10N.register(
     "Today" : "Dnes",
     "This week" : "Tento týždeň",
     "Mute all notifications" : "Stíšiť všetky upozornenia",
-    "Appear offline" : "V odpojenom režime"
+    "Appear offline" : "Zobraziť ako offline"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

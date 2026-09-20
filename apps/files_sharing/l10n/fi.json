@@ -160,9 +160,8 @@
     "Shared with the conversation {user} by {owner}" : "Jaettu keskustelun {user} kanssa käyttäjältä {owner}",
     "Shared with {user} by {owner}" : "{owner} jakoi käyttäjälle {user}",
     "Open Sharing Details" : "Avaa jakamisen yksityiskohdat",
-    "Added by {initiator}" : "Lisäyksen tehnyt {initiator}",
-    "Via “{folder}”" : "“{folder}” kautta",
     "Unshare" : "Lopeta jakaminen",
+    "Added by {initiator}" : "Lisäyksen tehnyt {initiator}",
     "Cannot copy, please copy the link manually" : "Kopioiminen ei onnistu. Kopioi linkki manuaalisesti",
     "Copy internal link" : "Kopioi sisäinen linkki",
     "For people who already have access" : "Henkilöille, joilla on jo käyttöoikeus",
@@ -335,6 +334,7 @@
     "Public link sharing is disabled by the administrator" : "Ylläpitäjä on estänyt julkisen linkin jakamisen",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Kohteen %1$s jakaminen epäonnistui, koska tietovarasto ei salli %2$s tyyppisiä jakoja",
     "Public upload disabled by the administrator" : "Ylläpitäjä on estänyt julkisen lähetyksen",
+    "Via “{folder}”" : "“{folder}” kautta",
     "Name or email …" : "Nimi tai sähköposti...",
     "Name, email, or Federated Cloud ID …" : "Nimi, sähköposti tai federoitu Cloud ID...",
     "Searching …" : "Haetaan…"

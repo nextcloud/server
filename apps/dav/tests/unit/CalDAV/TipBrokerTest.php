@@ -120,6 +120,28 @@ class TipBrokerTest extends TestCase {
 		$this->assertEquals('REQUEST', $messages[0]->method);
 		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
 		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[0]->recipient);
+		$this->assertTrue($messages[0]->significantChange);
+	}
+
+	/**
+	 * Tests user modifying a property that is not part of $significantChangeProperties (e.g. COLOR)
+	 */
+	public function testParseEventForOrganizerModifiedNonSignificantProperty(): void {
+		// construct calendar and generate event info for modified event with one attendee
+		$originalCalendar = clone $this->vCalendar1a;
+		$originalEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$originalCalendar]);
+		$mutatedCalendar = clone $this->vCalendar1a;
+		$mutatedCalendar->VEVENT->{'LAST-MODIFIED'}->setValue('20240701T020000Z');
+		$mutatedCalendar->VEVENT->SEQUENCE->setValue(2);
+		$mutatedCalendar->VEVENT->add('COLOR', 'khaki');
+		$mutatedEventInfo = $this->invokePrivate($this->broker, 'parseEventInfo', [$mutatedCalendar]);
+		// test iTip generation
+		$messages = $this->invokePrivate($this->broker, 'parseEventForOrganizer', [$mutatedCalendar, $mutatedEventInfo, $originalEventInfo]);
+		$this->assertCount(1, $messages);
+		$this->assertEquals('REQUEST', $messages[0]->method);
+		$this->assertEquals($mutatedCalendar->VEVENT->ORGANIZER->getValue(), $messages[0]->sender);
+		$this->assertEquals($mutatedCalendar->VEVENT->ATTENDEE[0]->getValue(), $messages[0]->recipient);
+		$this->assertFalse($messages[0]->significantChange);
 	}
 
 	/**

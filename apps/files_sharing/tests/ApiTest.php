@@ -870,7 +870,7 @@ class ApiTest extends TestCase {
 		$share1->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share1);
 
-		$user2Folder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
+		$user2Folder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
 		$node2 = $user2Folder->get($this->subfolder . $this->filename);
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node2)
@@ -882,7 +882,7 @@ class ApiTest extends TestCase {
 		$share2->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share2);
 
-		$user3Folder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER3);
+		$user3Folder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER3);
 		$node3 = $user3Folder->get($this->filename);
 		$share3 = $this->shareManager->newShare();
 		$share3->setNode($node3)
@@ -1133,7 +1133,7 @@ class ApiTest extends TestCase {
 		$share1->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share1);
 
-		$user2folder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
+		$user2folder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
 		$node2 = $user2folder->get($this->folder . '/' . $this->filename);
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node2)

@@ -159,7 +159,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @deprecated 32.0.0 Call tearDown directly on SetupManager
+	 * @deprecated 32.0.0 Use {@see \OCP\Files\ISetupManager::tearDown()} instead.
 	 */
 	public static function tearDownFS(): void {
 		$setupManager = Server::get(SetupManager::class);

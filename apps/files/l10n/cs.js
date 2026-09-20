@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Seznam není vykreslen celý z důvodu nároků na výkon. Soubory budou dokreslovány, jak se budete posouvat seznamem.",
     "File not found" : "Soubor nenalezen",
     "Views" : "Zobrazení",
-    "Search everywhere …" : "Hledat všude …",
-    "Search here …" : "Hledat zde …",
-    "Search scope options" : "Předvolby rozsahu prohledávaného",
     "Search here" : "Hledat zde",
+    "Search scope options" : "Předvolby rozsahu prohledávaného",
     "Owner" : "Vlastník",
     "{usedQuotaByte} used" : "{usedQuotaByte} využito",
     "{used} of {quota} used" : "Využito {used} z {quota} ",
@@ -200,8 +198,8 @@ OC.L10N.register(
     "Storage quota" : "Kvóta úložiště",
     "New folder" : "Nová složka",
     "Create new folder" : "Vytvořit novou složku",
-    "This name is already in use." : "Tento název už je využíván.",
     "Create" : "Vytvořit",
+    "This name is already in use." : "Tento název už je využíván.",
     "Files starting with a dot are hidden by default" : "Soubory, kterých názvy začínají tečkou, jsou ve výchozím stavu skryté",
     "Failed to start filename sanitization." : "Nepodařilo se spustit sanitizaci názvu souborů.",
     "Failed to refresh filename sanitization status." : "Nepodařilo se znovu načíst stav sanitizace názvů souborů.",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "V této složce nebylo nic nalezeno",
     "Select all" : "Vybrat vše",
     "Upload too large" : "Nahrávaná data jsou příliš objemná",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Soubory, které se snažíte nahrát, překračují limit velikosti nahrávání na tomto serveru."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Soubory, které se snažíte nahrát, překračují limit velikosti nahrávání na tomto serveru.",
+    "Search everywhere …" : "Hledat všude …",
+    "Search here …" : "Hledat zde …"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

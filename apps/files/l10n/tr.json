@@ -184,10 +184,8 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Başarımı olumsuz etkilememek için listenin tümü görüntülenmiyor. Listede ilerledikçe dosyalar görüntülenecek.",
     "File not found" : "Dosya bulunamadı",
     "Views" : "Görünümler",
-    "Search everywhere …" : "Her yerde ara…",
-    "Search here …" : "Burada ara…",
-    "Search scope options" : "Arama kapsamı seçenekleri",
     "Search here" : "Burada ara",
+    "Search scope options" : "Arama kapsamı seçenekleri",
     "Owner" : "Sahibi",
     "{usedQuotaByte} used" : "{usedQuotaByte} kullanılmış",
     "{used} of {quota} used" : "{used} / {quota} kullanılmış",
@@ -198,8 +196,8 @@
     "Storage quota" : "Depolama alanı kotası",
     "New folder" : "Yeni klasör",
     "Create new folder" : "Yeni klasör oluştur",
-    "This name is already in use." : "Bu ad zaten kullanılıyor.",
     "Create" : "Oluştur",
+    "This name is already in use." : "Bu ad zaten kullanılıyor.",
     "Files starting with a dot are hidden by default" : "Bir nokta ile başlayan dosyalar varsayılan olarak gizlidir",
     "Failed to start filename sanitization." : "Dosya adı sadeleştirmesi başlatılamadı.",
     "Failed to refresh filename sanitization status." : "Dosya adı sadeleştirmesi durumu yenilenemedi.",
@@ -363,6 +361,7 @@
     "Search in folder: {folder}" : "Şu klasörde ara: {folder}",
     "One of the dropped files could not be processed" : "Bırakılan dosyalardan biri işlenemedi",
     "Your browser does not support the Filesystem API. Directories will not be uploaded" : "Tarayıcınız dosya sistemi API uygulamasını desteklemiyor. Klasörler yüklenemeyecek",
+    "Upload cancelled, drop the files again to retry" : "Yükleme iptal edildi. Yeniden denemek için dosyaları yeniden sürükleyip bırakın",
     "No files to upload" : "Yüklenecek bir dosya yok",
     "Unable to create the directory {directory}" : "{directory} klasörü oluşturulamadı",
     "Some files could not be uploaded" : "Bazı dosyalar yüklenemedi",
@@ -372,6 +371,7 @@
     "Files moved successfully" : "Dosyalar taşındı",
     "Some files could not be copied" : "Bazı dosyalar kopyalanamadı",
     "Some files could not be moved" : "Bazı dosyalar taşınamadı",
+    "Invalid name for \"{path}\"" : "\"{path}\" için ad geçersiz",
     "Conflicts resolution skipped" : "Çakışma çözümleme atlandı",
     "Upload cancelled" : "Yükleme iptal edildi",
     "Could not rename \"{oldName}\", it does not exist any more" : "\"{oldName}\" adı artık olmadığından değiştirilemedi. ",
@@ -433,6 +433,8 @@
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt bulunamadı",
     "Select all" : "Tümünü seç",
     "Upload too large" : "Yükleme boyutu çok büyük",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Yüklemeye çalıştığınız dosyalar bu sunucuya yüklenmesine izin verilen en büyük dosya boyutunu aşıyor."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Yüklemeye çalıştığınız dosyalar bu sunucuya yüklenmesine izin verilen en büyük dosya boyutunu aşıyor.",
+    "Search everywhere …" : "Her yerde ara…",
+    "Search here …" : "Burada ara…"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

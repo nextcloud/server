@@ -24,6 +24,7 @@
     "Invalid LDAP UUIDs" : "Ugyldige LDAP UUID 'er",
     "None found" : "Ingen fundet",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Ugyldige UUID 'er for LDAP konti eller grupper fundet. Du bedes gennemgå dine indstillinger under  \"Override UUID Detection\" i ekspert delen af LDAP konfigurationen og bruge \"occ ldap: update- uuid\" til at opdatere dem.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : [" %n gruppe fundet"," %n grupper fundet"],
     "> 1000 groups found" : "> 1000 grupper fundet",
     "> 1000 users found" : "> 1000 brugere fundet",

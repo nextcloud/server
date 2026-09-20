@@ -178,10 +178,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Энэ жагсаалт гүйцэтгэлийн шалтгаанаар бүрэн дүрслэгдээгүй байна. Та жагсаалтаар шилжих тусам файлууд дүрслэгдэнэ.",
     "File not found" : "Файл олдсонгүй",
     "Views" : "Харагдацууд",
-    "Search everywhere …" : "Хаа сайгүй хайх …",
-    "Search here …" : "Энд хайх …",
-    "Search scope options" : "Хайлтын хүрээний сонголтууд",
     "Search here" : "Энд хайх",
+    "Search scope options" : "Хайлтын хүрээний сонголтууд",
     "Owner" : "Эзэмшигч",
     "{usedQuotaByte} used" : "{usedQuotaByte} ашигласан",
     "{used} of {quota} used" : "{quota} оноосноос {used} хэрэглэсэн",
@@ -192,8 +190,8 @@ OC.L10N.register(
     "Storage quota" : "Хадгалалтын хязгаар",
     "New folder" : "Шинэ хавтас",
     "Create new folder" : "Шинэ хавтас үүсгэх",
-    "This name is already in use." : "Энэ нэр аль хэдийн ашиглагдаж байна.",
     "Create" : "Үүсгэх",
+    "This name is already in use." : "Энэ нэр аль хэдийн ашиглагдаж байна.",
     "Files starting with a dot are hidden by default" : "Цэгээр эхэлсэн файлууд анхдагчаар нуугдсан байна",
     "Failed to start filename sanitization." : "Файлын нэр цэвэрлэлтийг эхлүүлж чадсангүй.",
     "Failed to refresh filename sanitization status." : "Файлын нэр цэвэрлэлтийн төлөвийг шинэчилж чадсангүй.",
@@ -411,6 +409,8 @@ OC.L10N.register(
     "No entries found in this folder" : "энэ хавтсан олдсон ч ямарч мэдээлэл олдохгүй байна",
     "Select all" : "бүгдийг сонгох",
     "Upload too large" : "маш том байршуулалт",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Таны байршуулах гэж оролдсон файлууд нь энэ сервер дээр файл байршуулах дээд хэмжээнээс хэтэрч."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Таны байршуулах гэж оролдсон файлууд нь энэ сервер дээр файл байршуулах дээд хэмжээнээс хэтэрч.",
+    "Search everywhere …" : "Хаа сайгүй хайх …",
+    "Search here …" : "Энд хайх …"
 },
 "nplurals=2; plural=(n != 1);");

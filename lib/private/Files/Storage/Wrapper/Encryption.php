@@ -10,7 +10,6 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Util;
-use OC\Files\Cache\CacheEntry;
 use OC\Files\Filesystem;
 use OC\Files\Mount\Manager;
 use OC\Files\ObjectStore\ObjectStoreStorage;
@@ -33,6 +32,11 @@ class Encryption extends Wrapper {
 	use LocalTempFileTrait;
 
 	private string $mountPoint;
+	/**
+	 * Unencrypted sizes of files that are not (yet) reflected in the file cache,
+	 * the entries are dropped as soon as the file cache knows the size
+	 * @var array<string, int|float>
+	 */
 	protected array $unencryptedSize = [];
 	private IMountPoint $mount;
 	/** for which path we execute the repair step to avoid recursions */
@@ -66,37 +70,38 @@ class Encryption extends Wrapper {
 		$fullPath = $this->getFullPath($path);
 
 		$info = $this->getCache()->get($path);
-		if ($info === false) {
-			/* Pass call to wrapped storage, it may be a special file like a part file */
-			return $this->getWrapperStorage()->filesize($path);
-		}
+
+		// The size we tracked while writing the file is authoritative, even for
+		// files that have no cache entry (yet), e.g. *.part files or files that
+		// are only scanned once the caller is done writing them.
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
 
 			// Update file cache (only if file is already cached).
 			// Certain files are not cached (e.g. *.part).
-			if (isset($info['fileid'])) {
-				if ($info instanceof ICacheEntry) {
-					$info['encrypted'] = $info['encryptedVersion'];
-				} else {
-					/**
-					 * @psalm-suppress RedundantCondition
-					 */
-					if (!is_array($info)) {
-						$info = [];
-					}
-					$info['encrypted'] = true;
-					$info = new CacheEntry($info);
-				}
+			if ($info !== false && isset($info['fileid'])) {
+				$isEncryptedInCache = !empty($info['encrypted']);
+				$info['encrypted'] = $info['encryptedVersion'];
 
 				if ($size !== $info->getUnencryptedSize()) {
 					$this->getCache()->update($info->getId(), [
 						'unencrypted_size' => $size
 					]);
 				}
+
+				// The file cache now holds the unencrypted size and is marked as encrypted,
+				// so following calls can read the size from there and we can forget it here.
+				if ($isEncryptedInCache) {
+					unset($this->unencryptedSize[$fullPath]);
+				}
 			}
 
 			return $size;
+		}
+
+		if ($info === false) {
+			/* Pass call to wrapped storage, it may be a special file like a part file */
+			return $this->getWrapperStorage()->filesize($path);
 		}
 
 		if (isset($info['fileid']) && $info['encrypted']) {
@@ -111,9 +116,17 @@ class Encryption extends Wrapper {
 		$info = $this->getCache()->get($path);
 
 		if (isset($this->unencryptedSize[$fullPath])) {
+			$unencryptedSize = $this->unencryptedSize[$fullPath];
 			$data['encrypted'] = true;
-			$data['size'] = $this->unencryptedSize[$fullPath];
+			$data['size'] = $unencryptedSize;
 			$data['unencrypted_size'] = $data['size'];
+
+			// Once the file cache holds the same size we do not need to remember it anymore
+			if ($info instanceof ICacheEntry
+				&& $info['encrypted']
+				&& $info->getUnencryptedSize() === $unencryptedSize) {
+				unset($this->unencryptedSize[$fullPath]);
+			}
 		} else {
 			if (isset($info['fileid']) && $info['encrypted']) {
 				$data['size'] = $this->verifyUnencryptedSize($path, $info->getUnencryptedSize());
@@ -187,39 +200,51 @@ class Encryption extends Wrapper {
 			$this->keyStorage->deleteAllFileKeys($fullPath);
 		}
 
-		return $this->getWrapperStorage()->unlink($path);
-	}
-
-	#[\Override]
-	public function rename(string $source, string $target): bool {
-		$result = $this->getWrapperStorage()->rename($source, $target);
-
-		if ($result
-			// versions always use the keys from the original file, so we can skip
-			// this step for versions
-			&& $this->isVersion($target) === false
-			&& $this->encryptionManager->isEnabled()) {
-			$sourcePath = $this->getFullPath($source);
-			if (!$this->util->isExcluded($sourcePath)) {
-				$targetPath = $this->getFullPath($target);
-				if (isset($this->unencryptedSize[$sourcePath])) {
-					$this->unencryptedSize[$targetPath] = $this->unencryptedSize[$sourcePath];
-				}
-				$this->keyStorage->renameKeys($sourcePath, $targetPath);
-				$module = $this->getEncryptionModule($target);
-				if ($module) {
-					$module->update($targetPath, $this->uid, []);
-				}
-			}
+		$result = $this->getWrapperStorage()->unlink($path);
+		if ($result) {
+			unset($this->unencryptedSize[$fullPath]);
 		}
 
 		return $result;
 	}
 
 	#[\Override]
+	public function rename(string $source, string $target): bool {
+		$result = $this->getWrapperStorage()->rename($source, $target);
+		if (!$result) {
+			return false;
+		}
+
+		$sourcePath = $this->getFullPath($source);
+		$targetPath = $this->getFullPath($target);
+
+		// the source no longer exists, so its remembered unencrypted sizes belong to the target now
+		$this->moveUnencryptedSizes($sourcePath, $targetPath);
+
+		if (
+			// versions always use the keys from the original file, so we can skip
+			// this step for versions
+			$this->isVersion($target) === false
+			&& $this->encryptionManager->isEnabled()
+			&& !$this->util->isExcluded($sourcePath)
+		) {
+			$this->keyStorage->renameKeys($sourcePath, $targetPath);
+			$module = $this->getEncryptionModule($target);
+			if ($module) {
+				$module->update($targetPath, $this->uid, []);
+			}
+		}
+
+		return true;
+	}
+
+	#[\Override]
 	public function rmdir(string $path): bool {
 		$result = $this->getWrapperStorage()->rmdir($path);
 		$fullPath = $this->getFullPath($path);
+		if ($result) {
+			$this->clearUnencryptedSizes($fullPath);
+		}
 		if ($result
 			&& $this->util->isExcluded($fullPath) === false
 			&& $this->encryptionManager->isEnabled()
@@ -610,10 +635,26 @@ class Encryption extends Wrapper {
 
 			// Rename of the cache already happened, so we do the cleanup on the target
 			if ($sourceCacheEntry === false && $targetCacheEntry !== false) {
-				$encryptedVersion = $targetCacheEntry['encryptedVersion'];
 				$isRename = false;
+			}
+
+			if ($keepEncryptionVersion) {
+				// a 1:1 copy reuses the keys and the ciphertext of the source, so the
+				// target stays at the version of the source
+				if ($sourceCacheEntry !== false) {
+					$encryptedVersion = (int)($sourceCacheEntry['encryptedVersion'] ?? 0);
+				} elseif ($targetCacheEntry !== false) {
+					$encryptedVersion = (int)($targetCacheEntry['encryptedVersion'] ?? 0);
+				} else {
+					// a file that is not in the file cache, e.g. a part file, is at version 1
+					$encryptedVersion = 1;
+				}
 			} else {
-				$encryptedVersion = $sourceCacheEntry['encryptedVersion'];
+				// The target was written through the encryption stream, which signs the
+				// blocks with the version that follows the version of the file they
+				// replaced and records it on the target's cache entry. A target that has
+				// no cache entry was written at version 1.
+				$encryptedVersion = $targetCacheEntry === false ? 1 : (int)($targetCacheEntry['encryptedVersion'] ?? 0);
 			}
 
 			// In case of a move operation from an unencrypted to an encrypted
@@ -621,7 +662,7 @@ class Encryption extends Wrapper {
 			// correct value would be "1". Thus we manually set the value to "1"
 			// for those cases.
 			// See also https://github.com/owncloud/core/issues/23078
-			if ($encryptedVersion === 0 || !$keepEncryptionVersion) {
+			if ($encryptedVersion === 0) {
 				$encryptedVersion = 1;
 			}
 
@@ -877,8 +918,48 @@ class Encryption extends Wrapper {
 		return $encryptionModule;
 	}
 
+	/**
+	 * Remember the unencrypted size of a file until it is written to the file cache
+	 *
+	 * @param string $path path relative to data/
+	 */
 	public function updateUnencryptedSize(string $path, int|float $unencryptedSize): void {
 		$this->unencryptedSize[$path] = $unencryptedSize;
+	}
+
+	/**
+	 * Forget the remembered unencrypted sizes of a path and everything below it
+	 *
+	 * @param string $fullPath path relative to data/
+	 */
+	private function clearUnencryptedSizes(string $fullPath): void {
+		$prefix = rtrim($fullPath, '/') . '/';
+		foreach (array_keys($this->unencryptedSize) as $path) {
+			if ($path === $fullPath || str_starts_with($path, $prefix)) {
+				unset($this->unencryptedSize[$path]);
+			}
+		}
+	}
+
+	/**
+	 * Re-key the remembered unencrypted sizes of a path and everything below it
+	 *
+	 * @param string $sourceFullPath path relative to data/
+	 * @param string $targetFullPath path relative to data/
+	 */
+	private function moveUnencryptedSizes(string $sourceFullPath, string $targetFullPath): void {
+		$sourcePrefix = rtrim($sourceFullPath, '/') . '/';
+		$targetPrefix = rtrim($targetFullPath, '/') . '/';
+		foreach ($this->unencryptedSize as $path => $size) {
+			if ($path === $sourceFullPath) {
+				$this->unencryptedSize[$targetFullPath] = $size;
+			} elseif (str_starts_with($path, $sourcePrefix)) {
+				$this->unencryptedSize[$targetPrefix . substr($path, strlen($sourcePrefix))] = $size;
+			} else {
+				continue;
+			}
+			unset($this->unencryptedSize[$path]);
+		}
 	}
 
 	/**

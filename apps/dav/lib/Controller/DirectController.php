@@ -22,7 +22,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\File;
-use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
@@ -33,7 +33,7 @@ class DirectController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private IRootFolder $rootFolder,
+		private IUserFolder $userFolder,
 		private string $userId,
 		private DirectMapper $mapper,
 		private ISecureRandom $random,
@@ -63,9 +63,7 @@ class DirectController extends OCSController {
 			throw new OCSForbiddenException('Creating direct links is disabled');
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($this->userId);
-
-		$file = $userFolder->getFirstNodeById($fileId);
+		$file = $this->userFolder->getFirstNodeById($fileId);
 
 		if (!$file) {
 			throw new OCSNotFoundException();
@@ -79,7 +77,7 @@ class DirectController extends OCSController {
 			throw new OCSBadRequestException('Direct download only works for files');
 		}
 
-		$event = new BeforeDirectFileDownloadEvent($userFolder->getRelativePath($file->getPath()));
+		$event = new BeforeDirectFileDownloadEvent($this->userFolder->getRelativePath($file->getPath()));
 		$this->eventDispatcher->dispatchTyped($event);
 
 		if ($event->isSuccessful() === false) {

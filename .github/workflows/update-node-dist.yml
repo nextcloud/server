@@ -9,6 +9,7 @@ on:
     branches:
       # implemented since 35, once branched off, add your stable branch here
       - master
+      - stable35
 
 permissions:
   contents: write
@@ -81,4 +82,4 @@ jobs:
         run: |
           git add --force dist/ core/css/
           git commit --signoff -m 'chore(assets): recompile assets'
-          git push origin ${{ github.head_ref }}
+          git push origin ${GITHUB_HEAD_REF}

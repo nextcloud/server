@@ -87,6 +87,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function searchRecipients(
 		ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?Share $forShare = null,
 	): array {
+		$user = $accessContext->currentUser;
+		if ($query === '' && $user instanceof IUser) {
+			$shareUser = new ShareUser($user->getUID(), null);
+			return $this->backend->getRecommendedRecipients($shareUser, $filterRecipientTypeClasses, $forShare?->id, $limit, $offset);
+		}
+
 		$recipientTypes = $this->registry->getRecipientTypes();
 
 		if ($filterRecipientTypeClasses !== null) {

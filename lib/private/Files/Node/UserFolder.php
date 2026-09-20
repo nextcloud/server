@@ -10,6 +10,7 @@ namespace OC\Files\Node;
 
 use OC\Files\Storage\Wrapper\Quota;
 use OC\Files\View;
+use OCP\Files\FileInfo;
 use OCP\Files\Folder as IFolder;
 use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
@@ -51,7 +52,7 @@ class UserFolder extends Folder implements IUserFolder {
 		/** @var int|float $used */
 		$used = max($rootInfo->getSize(), 0.0);
 		/** @var int|float $quota */
-		$quota = \OCP\Files\FileInfo::SPACE_UNLIMITED;
+		$quota = FileInfo::SPACE_UNLIMITED;
 		$mount = $rootInfo->getMountPoint();
 		$storage = $mount->getStorage();
 		if ($storage === null) {
