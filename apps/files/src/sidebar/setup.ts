@@ -4,7 +4,6 @@
  */
 
 import type { ISidebar } from '@nextcloud/files'
-import type { ISidebarDataProvider } from './types.ts'
 
 import { getPinia } from '../store/index.ts'
 import { useSidebarStore } from '../store/sidebar.ts'
@@ -12,8 +11,7 @@ import { logger } from '../utils/logger.ts'
 import { isSidebarMounted, mountSidebar } from './mount.ts'
 import { getSidebarDataProvider, hasSidebarDataProvider, setSidebarDataProvider } from './provider.ts'
 import { createStandaloneDataProvider } from './providers/standalone.ts'
-
-let standaloneProvider: ISidebarDataProvider | undefined
+import { getSidebarSharedState } from './sharedState.ts'
 
 /**
  * Set up the sidebar for the current page.
@@ -52,8 +50,9 @@ export function renderSidebar(target: HTMLElement): void {
 	}
 
 	if (!hasSidebarDataProvider()) {
-		standaloneProvider = createStandaloneDataProvider()
-		setSidebarDataProvider(standaloneProvider)
+		const state = getSidebarSharedState()
+		state.standaloneProvider = createStandaloneDataProvider()
+		setSidebarDataProvider(state.standaloneProvider)
 	}
 
 	if (mountSidebar(target)) {
@@ -83,5 +82,5 @@ export function exposeSidebarMount(): void {
  */
 function rendersOwnSidebar(): boolean {
 	const provider = getSidebarDataProvider()
-	return provider !== undefined && provider !== standaloneProvider
+	return provider !== undefined && provider !== getSidebarSharedState().standaloneProvider
 }

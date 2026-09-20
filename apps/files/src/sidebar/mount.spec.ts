@@ -11,7 +11,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 
 vi.mock('@nextcloud/auth')
 
-// the sidebar is only rendered once per page, so every test needs a fresh module state
+// the sidebar is only rendered once per page, so every test needs a fresh state
 let mountSidebar: typeof MountSidebar
 let isSidebarMounted: typeof IsSidebarMounted
 let logger: typeof Logger
@@ -34,6 +34,7 @@ describe('Sidebar rendering', () => {
 		vi.restoreAllMocks()
 		vi.resetModules()
 		setActivePinia(createPinia())
+		delete window.OCA.Files
 		document.body.innerHTML = '';
 
 		({ logger } = await import('../utils/logger.ts'));

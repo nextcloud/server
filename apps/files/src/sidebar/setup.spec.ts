@@ -73,6 +73,21 @@ describe('Sidebar setup', () => {
 		expect(getSidebarDataProvider()).toBe(provider)
 	})
 
+	test('keeps the sidebar of an app registering its provider from another entry point', async () => {
+		buildPageContent()
+		// the files app registers the provider from the `files-main` bundle, while
+		// `initializeSidebar()` runs in `files-sidebar` - a separate bundle with its
+		// own instance of the provider module
+		vi.resetModules()
+		const filesMain = await import('./provider.ts')
+		filesMain.setSidebarDataProvider(createFilesStoreDataProvider())
+
+		initializeSidebar()
+
+		expect(mountSidebar).not.toHaveBeenCalled()
+		expect(getSidebarDataProvider()).toBeDefined()
+	})
+
 	test('exposes the sidebar implementation for the library proxy', () => {
 		buildPageContent()
 

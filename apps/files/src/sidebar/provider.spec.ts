@@ -52,6 +52,21 @@ describe('Sidebar data provider registry', () => {
 		expect(getSidebarDataProvider()).toBe(provider)
 	})
 
+	test('is shared between entry points', async () => {
+		// `files-main` registers the provider while `files-sidebar` reads it back,
+		// but both Webpack bundles contain their own instance of this module
+		vi.resetModules()
+		const filesMain = await import('./provider.ts')
+		vi.resetModules()
+		const filesSidebar = await import('./provider.ts')
+
+		const provider = buildProvider()
+		filesMain.setSidebarDataProvider(provider)
+
+		expect(filesSidebar.hasSidebarDataProvider()).toBe(true)
+		expect(filesSidebar.getSidebarDataProvider()).toBe(provider)
+	})
+
 	test('registration is reactive', () => {
 		const provider = buildProvider()
 		const spy = vi.fn(() => getSidebarDataProvider())

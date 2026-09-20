@@ -63,6 +63,8 @@ describe('Files app sidebar data provider', () => {
 		// the event bus is stored on the window, so it outlives `resetModules()`
 		// and would keep the providers of previous tests subscribed
 		Reflect.deleteProperty(window, '_nc_event_bus')
+		// same for the sidebar state, which would keep the previous provider registered
+		delete window.OCA.Files
 		pinia = createPinia()
 		setActivePinia(pinia)
 
