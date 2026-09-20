@@ -20,7 +20,6 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
-use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -30,7 +29,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class DirectControllerTest extends TestCase {
-	private IRootFolder&MockObject $rootFolder;
+	private IUserFolder&MockObject $userFolder;
 	private DirectMapper&MockObject $directMapper;
 	private ISecureRandom&MockObject $random;
 	private ITimeFactory&MockObject $timeFactory;
@@ -43,7 +42,7 @@ class DirectControllerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->directMapper = $this->createMock(DirectMapper::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
@@ -54,7 +53,7 @@ class DirectControllerTest extends TestCase {
 		$this->controller = new DirectController(
 			'dav',
 			$this->createMock(IRequest::class),
-			$this->rootFolder,
+			$this->userFolder,
 			'awesomeUser',
 			$this->directMapper,
 			$this->random,
@@ -69,12 +68,7 @@ class DirectControllerTest extends TestCase {
 		$this->shareManager->method('shareApiAllowLinks')
 			->willReturn(true);
 
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with('awesomeUser')
-			->willReturn($userFolder);
-
-		$userFolder->method('getById')
+		$this->userFolder->method('getById')
 			->with(101)
 			->willReturn([]);
 
@@ -86,14 +80,9 @@ class DirectControllerTest extends TestCase {
 		$this->shareManager->method('shareApiAllowLinks')
 			->willReturn(true);
 
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with('awesomeUser')
-			->willReturn($userFolder);
-
 		$folder = $this->createMock(Folder::class);
 
-		$userFolder->method('getFirstNodeById')
+		$this->userFolder->method('getFirstNodeById')
 			->with(101)
 			->willReturn($folder);
 
@@ -105,21 +94,16 @@ class DirectControllerTest extends TestCase {
 		$this->shareManager->method('shareApiAllowLinks')
 			->willReturn(true);
 
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with('awesomeUser')
-			->willReturn($userFolder);
-
 		$file = $this->createMock(File::class);
 
 		$this->timeFactory->method('getTime')
 			->willReturn(42);
 
-		$userFolder->method('getFirstNodeById')
+		$this->userFolder->method('getFirstNodeById')
 			->with(101)
 			->willReturn($file);
 
-		$userFolder->method('getRelativePath')
+		$this->userFolder->method('getRelativePath')
 			->willReturn('/path');
 
 		$this->random->method('generate')
@@ -156,14 +140,9 @@ class DirectControllerTest extends TestCase {
 		$this->shareManager->method('shareApiAllowLinks')
 			->willReturn(false);
 
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with('awesomeUser')
-			->willReturn($userFolder);
-
 		$file = $this->createMock(File::class);
 
-		$userFolder->method('getFirstNodeById')
+		$this->userFolder->method('getFirstNodeById')
 			->with(101)
 			->willReturn($file);
 
