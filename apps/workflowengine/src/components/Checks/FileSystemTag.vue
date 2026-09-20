@@ -4,6 +4,7 @@
 -->
 <template>
 	<NcSelectTags v-model="newValue"
+		:limit="null"
 		:multiple="false"
 		@input="update" />
 </template>
