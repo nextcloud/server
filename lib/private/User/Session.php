@@ -44,6 +44,7 @@ use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
+use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use OCP\Util;
@@ -355,6 +356,12 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$this->dispatcher->dispatchTyped(new PostLoginEvent(
+			$user,
+			$loginDetails['loginName'],
+			$loginDetails['password'],
+			$isToken
+		));
+		$this->dispatcher->dispatchTyped(new UserLoggedInEvent(
 			$user,
 			$loginDetails['loginName'],
 			$loginDetails['password'],
