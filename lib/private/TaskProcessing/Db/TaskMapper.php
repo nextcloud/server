@@ -435,31 +435,52 @@ class TaskMapper extends QBMapper {
 	}
 
 	/**
-	 * @param list<string> $taskTypeIds
-	 * @param int $status
-	 * @return int
+	 * Count the tasks matching the given filters, without loading them.
+	 *
+	 * @param ?int $status Only count tasks in this status
+	 * @param list<string> $taskTypeIds Only count tasks of these types
+	 * @param ?int $scheduleAfter Only count tasks scheduled after this timestamp
+	 * @param ?int $minPickupDelay Only count tasks that took more than this many seconds to be picked up
 	 * @throws Exception
 	 */
-	public function countByStatus(array $taskTypeIds, int $status): int {
+	public function countTasks(
+		?int $status = null, array $taskTypeIds = [], ?int $scheduleAfter = null, ?int $minPickupDelay = null,
+	): int {
 		if ($taskTypeIds === []) {
-			return $this->countByStatusQuery($status);
+			return $this->countTasksQuery($status, null, $scheduleAfter, $minPickupDelay);
 		}
 
 		$count = 0;
 		foreach (array_chunk($taskTypeIds, 900) as $chunk) {
-			$count += $this->countByStatusQuery($status, $chunk);
+			$count += $this->countTasksQuery($status, $chunk, $scheduleAfter, $minPickupDelay);
 		}
 		return $count;
 	}
 
-	private function countByStatusQuery(int $status, ?array $taskTypeIds = null): int {
+	private function countTasksQuery(
+		?int $status, ?array $taskTypeIds, ?int $scheduleAfter, ?int $minPickupDelay,
+	): int {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select($qb->func()->count('id'))
-			->from($this->tableName)
-			->where($qb->expr()->eq('status', $qb->createNamedParameter($status, IQueryBuilder::PARAM_INT)));
+			->from($this->tableName);
 
+		if ($status !== null) {
+			$qb->andWhere($qb->expr()->eq('status', $qb->createNamedParameter($status, IQueryBuilder::PARAM_INT)));
+		}
 		if ($taskTypeIds !== null) {
 			$qb->andWhere($qb->expr()->in('type', $qb->createNamedParameter($taskTypeIds, IQueryBuilder::PARAM_STR_ARRAY)));
+		}
+		if ($scheduleAfter !== null) {
+			$qb->andWhere($qb->expr()->isNotNull('scheduled_at'));
+			$qb->andWhere($qb->expr()->gt('scheduled_at', $qb->createNamedParameter($scheduleAfter, IQueryBuilder::PARAM_INT)));
+		}
+		if ($minPickupDelay !== null) {
+			$qb->andWhere($qb->expr()->isNotNull('scheduled_at'));
+			$qb->andWhere($qb->expr()->isNotNull('started_at'));
+			$qb->andWhere($qb->expr()->gt(
+				$qb->createFunction($qb->getColumnName('started_at') . ' - ' . $qb->getColumnName('scheduled_at')),
+				$qb->createNamedParameter($minPickupDelay, IQueryBuilder::PARAM_INT)
+			));
 		}
 
 		$result = $qb->executeQuery();
