@@ -338,7 +338,6 @@ class Server {
 					)
 				);
 
-				// TODO: switch to LazyUserFolder
 				$shareManager = \OCP\Server::get(\OCP\Share\IManager::class);
 				$this->server->addPlugin(new SharesPlugin(
 					$this->server->tree,

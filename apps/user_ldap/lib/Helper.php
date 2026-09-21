@@ -12,7 +12,6 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
-use OCP\Server;
 
 class Helper {
 	/** @var CappedMemoryCache<string> */

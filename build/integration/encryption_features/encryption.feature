@@ -26,8 +26,31 @@ Feature: encryption
     And User "user0" adds a file of 20000 bytes to "/big.bin"
     When User "user0" copies file "/big.bin" to "/copy.bin"
     Then the HTTP status code should be "201"
+    And File "/copy.bin" should have prop "d:getcontentlength" equal to "20000"
     When Downloading file "/copy.bin"
     Then the HTTP status code should be "200"
+
+  Scenario: Copy a file over an existing file
+    Given user "user0" exists
+    And As an "user0"
+    And User "user0" uploads file with content "the source content" to "/source.txt"
+    And User "user0" uploads file with content "the target content" to "/target.txt"
+    When User "user0" copies file "/source.txt" to "/target.txt"
+    Then the HTTP status code should be "204"
+    When Downloading file "/target.txt"
+    Then the HTTP status code should be "200"
+    And Downloaded content should be "the source content"
+
+  Scenario: Copy a file that was written several times
+    Given user "user0" exists
+    And As an "user0"
+    And User "user0" uploads file with content "the first content" to "/source.txt"
+    And User "user0" uploads file with content "the second content" to "/source.txt"
+    When User "user0" copies file "/source.txt" to "/copy.txt"
+    Then the HTTP status code should be "201"
+    When Downloading file "/copy.txt"
+    Then the HTTP status code should be "200"
+    And Downloaded content should be "the second content"
 
   # With "part_file_in_storage" disabled the part file is written to the user
   # home while the target lives on another storage, so the upload has to read the

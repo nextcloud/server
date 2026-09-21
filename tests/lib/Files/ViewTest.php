@@ -2582,12 +2582,15 @@ class ViewTest extends \Test\TestCase {
 				$eventHandler,
 				'preCallback'
 			);
-			Util::connectHook(
-				Filesystem::CLASSNAME,
-				'post_' . $hookType,
-				$eventHandler,
-				'postCallback'
-			);
+			// there is no post_read signal, read is only emitted before the operation
+			if ($hookType !== 'read') {
+				Util::connectHook(
+					Filesystem::CLASSNAME,
+					'post_' . $hookType,
+					$eventHandler,
+					'postCallback'
+				);
+			}
 		}
 	}
 

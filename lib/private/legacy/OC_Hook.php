@@ -5,9 +5,10 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-
+use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OC\ServerNotAvailableException;
+use OCA\Files_Trashbin\Trashbin;
 use OCP\HintException;
 use OCP\Server;
 use OCP\Share;
@@ -41,7 +42,6 @@ class OC_Hook {
 		[Filesystem::CLASSNAME, Filesystem::signal_post_init_mountpoints],
 		[Filesystem::CLASSNAME, 'umount'],
 		[Filesystem::CLASSNAME, 'post_umount'],
-		[Filesystem::CLASSNAME, 'post_read'],
 		[Share::class,'share_link_access'],
 		[Share::class,'pre_unshare'],
 		[Share::class,'post_unshare'],
@@ -54,29 +54,23 @@ class OC_Hook {
 		['OC\Files\Storage\Shared','fopen'],
 		['OC\Files\Storage\Shared','file_get_contents'],
 		['OC\Files\Storage\Shared','file_put_contents'],
-		[\OCA\Files_Trashbin\Trashbin::class,'post_moveToTrash'],
-		[\OCA\Files_Trashbin\Trashbin::class,'post_restore'],
+		[Trashbin::class,'post_moveToTrash'],
+		[Trashbin::class,'post_restore'],
 		['OCP\Trashbin','delete'],
 		['OCP\Trashbin','preDelete'],
 		['OCP\Trashbin','preDeleteAll'],
 		['OCP\Trashbin','deleteAll'],
-		['OCP\Versions','rollback'],
 		['OCP\Versions','preDelete'],
 		['OCP\Versions','delete'],
 		[OC_User::class,'post_login'],
-		[OC_User::class,'logout'],
-		[OC_User::class,'changeUser'],
 		['OC\User','assignedUserId'],
 		['OC\User','preUnassignedUserId'],
 		['OC\User','postUnassignedUserId'],
-		[\OC\Files\Cache\Scanner::class,'scan_file'],
-		[\OC\Files\Cache\Scanner::class,'post_scan_file'],
+		[Scanner::class,'scan_file'],
+		[Scanner::class,'post_scan_file'],
 		['Scanner','removeFromCache'],
 		['Scanner','addToCache'],
 		['Scanner','correctFolderSize'],
-		['OCP\Config','js'],
-		['OC\Core\LostPassword\Controller\LostController','post_passwordReset'],
-		['OC\Core\LostPassword\Controller\LostController','pre_passwordReset'],
 		/* Only used by tests */
 		['LegacyHookTest', 'error'],
 		['LegacyHookTest', 'hint'],
