@@ -1750,7 +1750,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 	public function testUpdateSharePropertyModifyProperties(): void {
 		$this->registry->registerPropertyType(
-			new TestSharePropertyTypeModifyValue(['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-load'])
+			new TestSharePropertyTypeModifyValue(['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-format'])
 		);
 		$this->registry->markPropertyTypeCompatibleWithSourceType(TestSharePropertyTypeModifyValue::class, TestShareSourceType1::class);
 		$this->registry->markPropertyTypeCompatibleWithRecipientType(TestSharePropertyTypeModifyValue::class, TestShareRecipientType1::class);
@@ -1788,7 +1788,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				'required' => false,
 				'value' => 'modified-on-save',
 				'type' => 'enum',
-				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-load'],
+				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-format'],
 			],
 		], $formatted['properties']);
 
@@ -1822,7 +1822,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				'required' => false,
 				'value' => 'old-value',
 				'type' => 'enum',
-				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-load'],
+				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-format'],
 			],
 		], $formatted['properties']);
 
@@ -1852,12 +1852,12 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				'required' => false,
 				'value' => 'modified-on-save',
 				'type' => 'enum',
-				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-load'],
+				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-format'],
 			],
 		], $formatted['properties']);
 
 		$before = $this->manager->getTime();
-		$formatted = $this->updateShareProperty($accessContext, $share, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'modify-on-load'));
+		$formatted = $this->updateShareProperty($accessContext, $share, new ShareProperty(TestSharePropertyTypeModifyValue::class, 'modify-on-format'));
 		$after = $this->manager->getTime();
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 		$this->assertEquals([
@@ -1879,9 +1879,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				'priority' => 1,
 				'advanced' => false,
 				'required' => false,
-				'value' => 'modified-on-load',
+				'value' => 'modified-on-format',
 				'type' => 'enum',
-				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-load'],
+				'valid_values' => ['old-value', 'modify-on-save-old-value', 'modify-on-save', 'modify-on-format'],
 			],
 		], $formatted['properties']);
 	}
