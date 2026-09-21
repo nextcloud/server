@@ -10,8 +10,10 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
+use OCA\Files_Sharing\BackgroundJob\ExternalShareScanJob;
 use OCA\Files_Sharing\Helper;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\BackgroundJob\IJobList;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
@@ -58,6 +60,7 @@ class Manager {
 		private ICertificateManager $certificateManager,
 		private ExternalShareMapper $externalShareMapper,
 		private IConfig $config,
+		private readonly IJobList $jobList,
 	) {
 		$this->user = $userSession->getUser();
 	}
@@ -249,6 +252,7 @@ class Manager {
 				$externalShare->setMountpoint($mountPoint);
 				$this->externalShareMapper->update($externalShare);
 				$userShareAccepted = true;
+				$this->jobList->add(ExternalShareScanJob::class, [$externalShare->getUser(), $externalShare->getMountpoint()]);
 			}
 		} else {
 			try {
