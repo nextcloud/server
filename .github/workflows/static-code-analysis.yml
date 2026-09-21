@@ -108,7 +108,14 @@ jobs:
         run: composer i
 
       - name: Psalm taint analysis
-        run: composer run psalm:security -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
+        run: composer run psalm:security -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif --report-show-info=false
+
+      # Psalm exits 0 on taint findings when a report file is generated
+      - name: Fail on taint analysis findings
+        run: |
+          count=$(jq '[.runs[].results[]] | length' results.sarif)
+          echo "Taint analysis findings: $count"
+          test "$count" -eq 0
 
       - name: Show potential changes in Psalm baseline
         if: always()
