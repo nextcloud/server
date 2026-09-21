@@ -342,7 +342,7 @@ class Router implements IRouter {
 		unset($param['_route']);
 		$_GET = array_merge($_GET, $param);
 		unset($param);
-		require_once $parameters['file'];
+		require $parameters['file'];
 	}
 
 	/**
