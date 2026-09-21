@@ -107,25 +107,29 @@ class MetadataRequestService {
 	 * @psalm-return array<int, IFilesMetadata>
 	 */
 	public function getMetadataFromFileIds(array $fileIds): array {
-		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('file_id', 'json', 'sync_token')
-			->from(self::TABLE_METADATA)
-			->where($qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
-			->runAcrossAllShards();
+		$chunks = array_chunk($fileIds, IQueryBuilder::MAX_IN_PARAMETERS);
 
 		$list = [];
-		$result = $qb->executeQuery();
-		while ($data = $result->fetchAssociative()) {
-			$fileId = (int)$data['file_id'];
-			$metadata = new FilesMetadata($fileId);
-			try {
-				$metadata->importFromDatabase($data);
-			} catch (FilesMetadataNotFoundException) {
-				continue;
+		foreach ($chunks as $chunk) {
+			$qb = $this->dbConnection->getQueryBuilder();
+			$qb->select('file_id', 'json', 'sync_token')
+				->from(self::TABLE_METADATA)
+				->where($qb->expr()->in('file_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
+				->runAcrossAllShards();
+
+			$result = $qb->executeQuery();
+			while ($data = $result->fetchAssociative()) {
+				$fileId = (int)$data['file_id'];
+				$metadata = new FilesMetadata($fileId);
+				try {
+					$metadata->importFromDatabase($data);
+				} catch (FilesMetadataNotFoundException) {
+					continue;
+				}
+				$list[$fileId] = $metadata;
 			}
-			$list[$fileId] = $metadata;
+			$result->closeCursor();
 		}
-		$result->closeCursor();
 
 		return $list;
 	}
