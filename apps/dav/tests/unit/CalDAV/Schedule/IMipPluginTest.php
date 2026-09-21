@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
-use OCA\DAV\CalDAV\EventComparisonService;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\Accounts\IAccount;
@@ -59,7 +58,6 @@ class IMipPluginTest extends TestCase {
 	private IMipService&MockObject $service;
 	private Defaults&MockObject $defaults;
 	private LoggerInterface&MockObject $logger;
-	private EventComparisonService&MockObject $eventComparisonService;
 	private IMailManager&MockObject $mailManager;
 	private IMailServiceMock&MockObject $mailService;
 	private IMailMessageNew&MockObject $mailMessageNew;
@@ -99,8 +97,6 @@ class IMipPluginTest extends TestCase {
 
 		$this->service = $this->createMock(IMipService::class);
 
-		$this->eventComparisonService = $this->createMock(EventComparisonService::class);
-
 		$this->mailManager = $this->createMock(IMailManager::class);
 
 		$this->mailService = $this->createMock(IMailServiceMock::class);
@@ -117,7 +113,6 @@ class IMipPluginTest extends TestCase {
 			$this->defaults,
 			$this->userSession,
 			$this->service,
-			$this->eventComparisonService,
 			$this->mailManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
 			$this->accountManager,
@@ -197,9 +192,9 @@ class IMipPluginTest extends TestCase {
 				['dav', 'caldav_external_attendees_disabled', false, false],
 				['core', 'mail_providers_enabled', true, false],
 			]);
-		$this->eventComparisonService->expects(self::once())
-			->method('findModified')
-			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('findModifiedInstances')
+			->willReturn([['new' => $newVevent, 'old' => $oldVEvent]]);
 		$this->service->expects(self::once())
 			->method('getCurrentAttendee')
 			->with($message)
@@ -307,9 +302,9 @@ class IMipPluginTest extends TestCase {
 			->method('getValueBool')
 			->with('dav', 'caldav_external_attendees_disabled', false)
 			->willReturn(false);
-		$this->eventComparisonService->expects(self::once())
-			->method('findModified')
-			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('findModifiedInstances')
+			->willReturn([['new' => $newVevent, 'old' => $oldVEvent]]);
 		$this->service->expects(self::once())
 			->method('getCurrentAttendee')
 			->with($message)
@@ -385,9 +380,9 @@ class IMipPluginTest extends TestCase {
 			->method('getValueBool')
 			->with('dav', 'caldav_external_attendees_disabled', false)
 			->willReturn(false);
-		$this->eventComparisonService->expects(self::once())
-			->method('findModified')
-			->willReturn(['new' => [$newVevent], 'old' => null]);
+		$this->service->expects(self::once())
+			->method('findModifiedInstances')
+			->willReturn([['new' => $newVevent, 'old' => null]]);
 		$this->service->expects(self::once())
 			->method('getCurrentAttendee')
 			->with($message)
@@ -492,9 +487,9 @@ class IMipPluginTest extends TestCase {
 				['dav', 'caldav_external_attendees_disabled', false, false],
 				['core', 'mail_providers_enabled', true, false],
 			]);
-		$this->eventComparisonService->expects(self::once())
-			->method('findModified')
-			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+		$this->service->expects(self::once())
+			->method('findModifiedInstances')
+			->willReturn([['new' => $newVevent, 'old' => null]]);
 		$this->service->expects(self::once())
 			->method('getCurrentAttendee')
 			->with($message)
@@ -541,6 +536,129 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('createInvitationToken')
 			->with($message, $newVevent, 1496912700)
+			->willReturn('token');
+		$this->service->expects(self::once())
+			->method('addResponseButtons')
+			->with($this->emailTemplate, 'token');
+		$this->service->expects(self::once())
+			->method('addMoreOptionsButton')
+			->with($this->emailTemplate, 'token');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	/**
+	 * A message can bundle several changed instances (e.g. a recurring
+	 * event's master plus one of its overrides edited together). The master
+	 * is used to build the email regardless of its position in the list
+	 * returned by findModifiedInstances(), and the fact that other instances
+	 * were dropped from the email is logged.
+	 */
+	public function testMultipleModifiedInstancesUsesMasterAndLogsTheRest(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$masterVevent = new VEvent($newVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$masterVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$masterVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$overrideVevent = new VEvent($newVCalendar, 'two', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Elevenses',
+			'DTSTART' => new \DateTime('2016-01-02 00:00:00'),
+			'RECURRENCE-ID' => new \DateTime('2016-01-02 00:00:00'),
+		]);
+		$overrideVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$overrideVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		$attendees = $masterVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, false],
+				['core', 'mail_providers_enabled', true, false],
+			]);
+		// the override is listed before the master on purpose: the master must still win
+		$this->service->expects(self::once())
+			->method('findModifiedInstances')
+			->willReturn([
+				['new' => $overrideVevent, 'old' => null],
+				['new' => $masterVevent, 'old' => null],
+			]);
+		$this->logger->expects(self::once())
+			->method('debug')
+			->with(self::stringContains('multiple changed instances'), self::anything());
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($masterVevent, null)
+			->willReturn($data);
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', false);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $masterVevent, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		$this->service->expects(self::once())
+			->method('createInvitationToken')
+			->with($message, $masterVevent, 1496912700)
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
@@ -622,9 +740,9 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
-		$this->eventComparisonService->expects(self::once())
-			->method('findModified')
-			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+		$this->service->expects(self::once())
+			->method('findModifiedInstances')
+			->willReturn([['new' => $newVevent, 'old' => null]]);
 		$this->service->expects(self::once())
 			->method('getCurrentAttendee')
 			->with($message)
@@ -781,9 +899,9 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('addMoreOptionsButton')
 			->with($this->emailTemplate, 'token');
-		$this->eventComparisonService->expects(self::once())
-			->method('findModified')
-			->willReturn(['old' => [] ,'new' => [$event]]);
+		$this->service->expects(self::once())
+			->method('findModifiedInstances')
+			->willReturn([['new' => $event, 'old' => null]]);
 		// construct mail provider mock returns
 		$this->mailService
 			->method('initiateMessage')
@@ -843,9 +961,9 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
-		$this->eventComparisonService->expects(self::once())
-			->method('findModified')
-			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('findModifiedInstances')
+			->willReturn([['new' => $newVevent, 'old' => $oldVEvent]]);
 		$this->service->expects(self::once())
 			->method('getCurrentAttendee')
 			->with($message)
@@ -948,10 +1066,10 @@ class IMipPluginTest extends TestCase {
 				['dav', 'caldav_external_attendees_disabled', false, false],
 				['core', 'mail_providers_enabled', true, false],
 			]);
-		$this->eventComparisonService->expects(self::once())
-			->method('findModified')
+		$this->service->expects(self::once())
+			->method('findModifiedInstances')
 			->with($newVCalendar, null)
-			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+			->willReturn([['new' => $newVevent, 'old' => null]]);
 		$this->service->expects(self::once())
 			->method('getCurrentAttendee')
 			->with($message)
@@ -1050,10 +1168,10 @@ class IMipPluginTest extends TestCase {
 				['dav', 'caldav_external_attendees_disabled', false, false],
 				['core', 'mail_providers_enabled', true, false],
 			]);
-		$this->eventComparisonService->expects(self::once())
-			->method('findModified')
+		$this->service->expects(self::once())
+			->method('findModifiedInstances')
 			->with($newVCalendar, null)
-			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+			->willReturn([['new' => $newVevent, 'old' => null]]);
 		$this->service->expects(self::once())
 			->method('getCurrentAttendee')
 			->with($message)
@@ -1141,8 +1259,8 @@ class IMipPluginTest extends TestCase {
 			->method('isSystemUser')
 			->with('external@example.com')
 			->willReturn(false);
-		$this->eventComparisonService->expects(self::never())
-			->method('findModified');
+		$this->service->expects(self::never())
+			->method('findModifiedInstances');
 		$this->service->expects(self::never())
 			->method('getCurrentAttendee');
 		$this->mailer->expects(self::never())
@@ -1205,9 +1323,9 @@ class IMipPluginTest extends TestCase {
 			->method('isSystemUser')
 			->with('frodo@hobb.it')
 			->willReturn(true);
-		$this->eventComparisonService->expects(self::once())
-			->method('findModified')
-			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('findModifiedInstances')
+			->willReturn([['new' => $newVevent, 'old' => $oldVEvent]]);
 		$this->service->expects(self::once())
 			->method('getCurrentAttendee')
 			->with($message)
@@ -1346,8 +1464,8 @@ class IMipPluginTest extends TestCase {
 			['dav', 'caldav_external_attendees_disabled', false, false],
 			['core', 'mail_providers_enabled', true, $viaMailProvider],
 		]);
-		$this->eventComparisonService->method('findModified')
-			->willReturn(['old' => [], 'new' => [$vEvent]]);
+		$this->service->method('findModifiedInstances')
+			->willReturn([['new' => $vEvent, 'old' => null]]);
 
 		$plugin = new IMipPlugin(
 			$this->config,
@@ -1357,7 +1475,6 @@ class IMipPluginTest extends TestCase {
 			$this->defaults,
 			$this->userSession,
 			$this->service,
-			$this->eventComparisonService,
 			$this->mailManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
 			$this->accountManager,

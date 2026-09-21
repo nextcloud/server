@@ -40,6 +40,18 @@ class IMipService {
 		'meeting_location' => 'LOCATION'
 	];
 
+	/**
+	 * Properties that, besides RECURRENCE-ID, decide whether a matched
+	 * instance pair counts as "changed".
+	 *
+	 * @var string[]
+	 */
+	private const array INSTANCE_DIFF_PROPERTIES = [
+		'RRULE',
+		'SEQUENCE',
+		'LAST-MODIFIED',
+	];
+
 	public function __construct(
 		private URLGenerator $urlGenerator,
 		private IDBConnection $db,
@@ -147,6 +159,65 @@ class IMipService {
 		}
 
 		return sprintf('<a href="%1$s">%1$s</a>', htmlspecialchars($url));
+	}
+
+	/**
+	 * Compares $new against the previously stored $old calendar and returns
+	 * every VEVENT that changed, paired with its previous version.
+	 *
+	 * Instances are matched by UID and RECURRENCE-ID (the empty string
+	 * standing in for the master event), never by array position, so a
+	 * message carrying several instances (master plus overrides) pairs each
+	 * one with its own prior version rather than an arbitrary old entry.
+	 * A new instance with no matching old one is paired with null.
+	 *
+	 * @return list<array{new: VEvent, old: ?VEvent}>
+	 */
+	public function findModifiedInstances(VCalendar $new, ?VCalendar $old): array {
+		$newEvents = array_values(array_filter(
+			$new->getComponents(),
+			static fn ($component) => $component instanceof VEvent,
+		));
+
+		if ($old === null) {
+			return array_map(
+				static fn (VEvent $event) => ['new' => $event, 'old' => null],
+				$newEvents,
+			);
+		}
+
+		$oldEventsByInstance = [];
+		foreach ($old->getComponents() as $component) {
+			if ($component instanceof VEvent) {
+				$oldEventsByInstance[$this->instanceKey($component)] = $component;
+			}
+		}
+
+		$modified = [];
+		foreach ($newEvents as $newEvent) {
+			$oldEvent = $oldEventsByInstance[$this->instanceKey($newEvent)] ?? null;
+
+			if ($oldEvent !== null && $this->isInstanceUnchanged($newEvent, $oldEvent)) {
+				continue;
+			}
+
+			$modified[] = ['new' => $newEvent, 'old' => $oldEvent];
+		}
+
+		return $modified;
+	}
+
+	private function instanceKey(VEvent $event): string {
+		return self::readPropertyWithDefault($event, 'UID', '') . '#' . self::readPropertyWithDefault($event, 'RECURRENCE-ID', '');
+	}
+
+	private function isInstanceUnchanged(VEvent $newEvent, VEvent $oldEvent): bool {
+		foreach (self::INSTANCE_DIFF_PROPERTIES as $property) {
+			if (self::readPropertyWithDefault($newEvent, $property, '') !== self::readPropertyWithDefault($oldEvent, $property, '')) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**

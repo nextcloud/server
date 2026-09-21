@@ -10,7 +10,6 @@ namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
 use OC\L10N\L10N;
 use OC\URLGenerator;
-use OCA\DAV\CalDAV\EventComparisonService;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\Accounts\IAccountManager;
@@ -60,7 +59,6 @@ class IMipPluginCharsetTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 
 	// Services
-	private EventComparisonService $eventComparisonService;
 	private IMipPlugin $imipPlugin;
 	private IMipService $imipService;
 
@@ -103,9 +101,6 @@ class IMipPluginCharsetTest extends TestCase {
 			$this->appConfig,
 		);
 
-		// EventComparisonService
-		$this->eventComparisonService = new EventComparisonService();
-
 		// IMipPlugin
 		$message = new \OC\Mail\Message(new Email(), false);
 		$this->mailer = $this->createMock(IMailer::class);
@@ -130,7 +125,6 @@ class IMipPluginCharsetTest extends TestCase {
 			$this->defaults,
 			$this->userSession,
 			$this->imipService,
-			$this->eventComparisonService,
 			$this->mailManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
 			$this->createMock(IAccountManager::class),
