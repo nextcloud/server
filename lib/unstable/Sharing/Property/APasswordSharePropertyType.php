@@ -87,7 +87,7 @@ abstract class APasswordSharePropertyType implements ISharePropertyType, IShareP
 	 * @experimental 35.0.0
 	 */
 	#[\Override]
-	public function modifyValueOnLoad(?string $value): ?string {
+	public function modifyValueOnFormat(?string $value): ?string {
 		if ($value === null) {
 			return null;
 		}
