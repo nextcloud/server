@@ -57,7 +57,6 @@ class Manager {
 		private ISetupManager $setupManager,
 		private ICertificateManager $certificateManager,
 		private ExternalShareMapper $externalShareMapper,
-		private IConfig $config,
 	) {
 		$this->user = $userSession->getUser();
 	}
@@ -69,57 +68,29 @@ class Manager {
 	 * @throws NotPermittedException
 	 * @throws UserNotFoundException
 	 */
-	public function addShare(ExternalShare $externalShare, IUser|IGroup|null $shareWith = null): ?Mount {
-		$shareWith = $shareWith ?? $this->user;
+	public function addShare(ExternalShare $externalShare, IUser|IGroup $shareWith): void {
+		// To avoid conflicts with the mount point generation later,
+		// we only use a temporary mount point name here. The real
+		// mount point name will be generated when accepting the share,
+		// using the original share item name.
+		$tmpMountPointName = '{{TemporaryMountPointName#' . $externalShare->getName() . '}}';
+		$externalShare->setMountpoint($tmpMountPointName);
+		$externalShare->setShareWith($shareWith);
 
-		if ($externalShare->getAccepted() !== IShare::STATUS_ACCEPTED) {
-			// To avoid conflicts with the mount point generation later,
-			// we only use a temporary mount point name here. The real
-			// mount point name will be generated when accepting the share,
-			// using the original share item name.
-			$tmpMountPointName = '{{TemporaryMountPointName#' . $externalShare->getName() . '}}';
-			$externalShare->setMountpoint($tmpMountPointName);
-			$externalShare->setShareWith($shareWith);
-
-			$i = 1;
-			while (true) {
-				try {
-					$this->externalShareMapper->insert($externalShare);
-					break;
-				} catch (Exception $e) {
-					if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-						$externalShare->setMountpoint($tmpMountPointName . '-' . $i);
-						$i++;
-					} else {
-						throw $e;
-					}
+		$i = 1;
+		while (true) {
+			try {
+				$this->externalShareMapper->insert($externalShare);
+				break;
+			} catch (Exception $e) {
+				if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					$externalShare->setMountpoint($tmpMountPointName . '-' . $i);
+					$i++;
+				} else {
+					throw $e;
 				}
 			}
-
-			return null;
 		}
-
-		$user = $shareWith instanceof IUser ? $shareWith : $this->user;
-
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$mountPoint = $userFolder->getNonExistingName($externalShare->getName());
-
-		$mountPoint = Filesystem::normalizePath('/' . $mountPoint);
-		$externalShare->setMountpoint($mountPoint);
-		$externalShare->setShareWith($user);
-		$this->externalShareMapper->insert($externalShare);
-
-		$options = [
-			'remote' => $externalShare->getRemote(),
-			'token' => $externalShare->getRefreshToken(),
-			'password' => $externalShare->getPassword(),
-			'access_token' => $externalShare->getAccessToken(),
-			'access_token_expires' => $externalShare->getAccessTokenExpires(),
-			'mountpoint' => $externalShare->getMountpoint(),
-			'owner' => $externalShare->getOwner(),
-			'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates'),
-		];
-		return $this->mountShare($options, $user);
 	}
 
 	public function getShare(string $id, ?IUser $user = null): ExternalShare|false {
