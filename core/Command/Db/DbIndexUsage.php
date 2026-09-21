@@ -19,7 +19,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DbIndexUsage extends Command {
-
 	public function __construct(
 		private readonly Connection $connection,
 	) {
@@ -46,8 +45,8 @@ class DbIndexUsage extends Command {
 			$unused_filter = $showAll ? '' : "WHERE s.count_read = 0 AND s.index_name IS NOT NULL AND s.index_name != 'PRIMARY'";
 			$sql = "SELECT s.object_name AS `table`,
                            s.index_name AS `index`,
-                           s.count_read AS reads,
-                           s.count_write AS writes
+                           s.count_read AS `reads`,
+                           s.count_write AS `writes`
                 FROM performance_schema.table_io_waits_summary_by_index_usage s
                 {$unused_filter}
                 ORDER BY s.object_name, s.index_name";
@@ -105,7 +104,7 @@ class DbIndexUsage extends Command {
 		if (!$showAll) {
 			$output->writeln(sprintf(
 				'<comment>Found %d unused index(es). If those were not created by Nextcloud, consider removing them to improve write performance.</comment>',
-				count($rows)
+				count($rows),
 			));
 		}
 
