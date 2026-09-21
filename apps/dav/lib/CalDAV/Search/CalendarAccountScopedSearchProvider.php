@@ -12,6 +12,8 @@ namespace OCA\DAV\CalDAV\Search;
 use NCU\Search\AccountScopedSearchResult;
 use NCU\Search\IAccountScopedSearchProvider;
 use NCU\Search\MetadataField;
+use NCU\Search\SearchPropertyDefinition;
+use NCU\Search\SearchPropertyType;
 use OCA\DAV\Search\SearchOperatorEvaluator;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarExport;
@@ -28,13 +30,9 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 
-/**
- * @psalm-import-type DeclarativeSettingsFormField from \OCP\Settings\IDeclarativeSettingsForm
- */
-class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
+class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	private const ID = 'calendar';
 
-	/** The properties a `content` condition searches. Anything outside this list is not indexed. */
 	private const CONTENT_PROPERTIES = ['SUMMARY', 'DESCRIPTION', 'LOCATION', 'CATEGORIES', 'COMMENT'];
 
 	private const FIELD_PROPERTIES = [
@@ -46,10 +44,6 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 
 	private const COMPONENT_TYPES = ['VEVENT', 'VTODO', 'VJOURNAL'];
 
-	/**
-	 * Generated from contacts rather than entered by anyone, so collecting it would duplicate the
-	 * Contacts provider and present derived data as a calendar record.
-	 */
 	private const GENERATED_CALENDAR_URIS = ['contact_birthdays'];
 
 	public function __construct(
@@ -70,32 +64,20 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	}
 
 	#[\Override]
-	public function getSearchCriterion(): array {
+	public function getProperties(): array {
 		return [
-			['id' => 'content', 'title' => $this->l10n->t('Content'), 'type' => 'text', 'default' => ''],
-			['id' => 'name', 'title' => $this->l10n->t('Title'), 'type' => 'text', 'default' => ''],
-			['id' => 'attendee', 'title' => $this->l10n->t('Attendee'), 'type' => 'text', 'default' => ''],
-			['id' => 'organizer', 'title' => $this->l10n->t('Organizer'), 'type' => 'text', 'default' => ''],
-			// When the meeting happens, not when the record was written — CalDAV exposes no filter
-			// on the latter at all.
-			['id' => 'event_start', 'title' => $this->l10n->t('Starts on or after'), 'type' => 'number', 'default' => 0],
-			['id' => 'event_end', 'title' => $this->l10n->t('Ends on or before'), 'type' => 'number', 'default' => 0],
-		];
-	}
-
-	#[\Override]
-	public function getSearchResultMetadataKeys(): array {
-		return [
-			'owner' => $this->l10n->t('Owner'),
-			'calendarName' => $this->l10n->t('Calendar'),
-			'uid' => $this->l10n->t('UID'),
-			'shared' => $this->l10n->t('Shared'),
-			'checksum' => $this->l10n->t('Checksum'),
-			'eventStart' => $this->l10n->t('Starts'),
-			'eventEnd' => $this->l10n->t('Ends'),
-			'organizer' => $this->l10n->t('Organizer'),
-			'attendees' => $this->l10n->t('Attendees'),
-			'location' => $this->l10n->t('Location'),
+			new SearchPropertyDefinition('content', $this->l10n->t('Content'), searchable: true),
+			new SearchPropertyDefinition('name', $this->l10n->t('Title'), searchable: true),
+			new SearchPropertyDefinition('owner', $this->l10n->t('Owner'), selectable: true),
+			new SearchPropertyDefinition('calendar_name', $this->l10n->t('Calendar'), selectable: true),
+			new SearchPropertyDefinition('uid', $this->l10n->t('UID'), selectable: true),
+			new SearchPropertyDefinition('shared', $this->l10n->t('Shared'), SearchPropertyType::Boolean, selectable: true),
+			new SearchPropertyDefinition('checksum', $this->l10n->t('Checksum'), selectable: true),
+			new SearchPropertyDefinition('event_start', $this->l10n->t('Starts'), SearchPropertyType::DateTime, searchable: true, selectable: true),
+			new SearchPropertyDefinition('event_end', $this->l10n->t('Ends'), SearchPropertyType::DateTime, searchable: true, selectable: true),
+			new SearchPropertyDefinition('organizer', $this->l10n->t('Organizer'), searchable: true, selectable: true),
+			new SearchPropertyDefinition('attendee', $this->l10n->t('Attendees'), searchable: true, selectable: true, multiValued: true),
+			new SearchPropertyDefinition('location', $this->l10n->t('Location'), selectable: true),
 		];
 	}
 
@@ -146,13 +128,13 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 				);
 
 				$this->addMetaData($entry, 'owner', static fn (): string => $userId);
-				$this->addMetaData($entry, 'calendarName', static fn (): string => (string)$calendar->getDisplayName());
+				$this->addMetaData($entry, 'calendar_name', static fn (): string => (string)$calendar->getDisplayName());
 				$this->addMetaData($entry, 'uid', static fn (): string => $uid);
 				$this->addMetaData($entry, 'shared', static fn (): bool
 					=> $calendar instanceof ICalendarIsShared ? $calendar->isShared() : false);
 
 				$start = $this->firstTimestamp($object, 'DTSTART');
-				$this->addMetaData($entry, 'eventStart', static function () use ($start): int {
+				$this->addMetaData($entry, 'event_start', static function () use ($start): int {
 					if ($start === null) {
 						throw new \RuntimeException('this object carries no DTSTART');
 					}
@@ -161,7 +143,7 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 				});
 
 				$end = $this->firstTimestamp($object, 'DTEND') ?? $start;
-				$this->addMetaData($entry, 'eventEnd', static function () use ($end): int {
+				$this->addMetaData($entry, 'event_end', static function () use ($end): int {
 					if ($end === null) {
 						throw new \RuntimeException('this object carries no DTEND');
 					}
@@ -188,7 +170,7 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 
 					return $attributes['organizer'];
 				});
-				$this->addMetaData($entry, 'attendees', static function () use ($attributes): array {
+				$this->addMetaData($entry, 'attendee', static function () use ($attributes): array {
 					if (!isset($attributes['attendees'])) {
 						throw new \RuntimeException('no attendees recorded on this object');
 					}

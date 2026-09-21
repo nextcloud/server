@@ -12,6 +12,8 @@ namespace OCA\Files\Search;
 use NCU\Search\AccountScopedSearchResult;
 use NCU\Search\IAccountScopedSearchProvider;
 use NCU\Search\MetadataField;
+use NCU\Search\SearchPropertyDefinition;
+use NCU\Search\SearchPropertyType;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
@@ -33,10 +35,7 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use Psr\Log\LoggerInterface;
 
-/**
- * @psalm-import-type DeclarativeSettingsFormField from \OCP\Settings\IDeclarativeSettingsForm
- */
-class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
+class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	private const ID = 'files';
 
 	/** Page size for share enumeration. */
@@ -52,9 +51,6 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 
 	/** How many content matches to read from the index before giving up on answering exhaustively. */
 	private const CONTENT_MATCH_LIMIT = 5000;
-
-	/** Chunked for Oracle, which caps an IN list at 1000. */
-	private const ID_CHUNK = 1000;
 
 	public function __construct(
 		private readonly IL10N $l10n,
@@ -79,23 +75,28 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	}
 
 	#[\Override]
-	public function getSearchCriterion(): array {
-		$fields = [
-			['id' => 'name', 'title' => $this->l10n->t('Name'), 'type' => 'text', 'default' => ''],
-			['id' => 'path', 'title' => $this->l10n->t('Path'), 'type' => 'text', 'default' => ''],
-			['id' => 'mimetype', 'title' => $this->l10n->t('File type'), 'type' => 'text', 'default' => ''],
-			['id' => 'size', 'title' => $this->l10n->t('Size'), 'type' => 'number', 'default' => 0],
-			['id' => 'modified', 'title' => $this->l10n->t('Modified'), 'type' => 'number', 'default' => 0],
-			['id' => 'created', 'title' => $this->l10n->t('Created'), 'type' => 'number', 'default' => 0],
+	public function getProperties(): array {
+		$properties = [
+			new SearchPropertyDefinition('name', $this->l10n->t('Name'), searchable: true),
+			new SearchPropertyDefinition('owner', $this->l10n->t('Owner'), selectable: true),
+			new SearchPropertyDefinition('path', $this->l10n->t('Path'), searchable: true, selectable: true),
+			new SearchPropertyDefinition('mimetype', $this->l10n->t('File type'), searchable: true, selectable: true),
+			new SearchPropertyDefinition('size', $this->l10n->t('Size'), SearchPropertyType::Integer, searchable: true, selectable: true),
+			new SearchPropertyDefinition('modified', $this->l10n->t('Modified'), SearchPropertyType::DateTime, searchable: true, selectable: true),
+			new SearchPropertyDefinition('created', $this->l10n->t('Created'), SearchPropertyType::DateTime, searchable: true, selectable: true),
+			new SearchPropertyDefinition('checksum', $this->l10n->t('Checksum'), selectable: true),
+			new SearchPropertyDefinition('share_status', $this->l10n->t('Share status'), SearchPropertyType::Object, selectable: true),
+			new SearchPropertyDefinition('shared_with', $this->l10n->t('Shared with'), selectable: true, multiValued: true),
+			new SearchPropertyDefinition('tags', $this->l10n->t('Tags'), selectable: true, multiValued: true),
 		];
 
 		// Offered only when an index can actually answer it. Advertising `content` without one
 		// would let a caller build a search that quietly matches nothing.
 		if ($this->indexAvailable()) {
-			$fields[] = ['id' => 'content', 'title' => $this->l10n->t('Content'), 'type' => 'text', 'default' => ''];
+			$properties[] = new SearchPropertyDefinition('content', $this->l10n->t('Content'), searchable: true);
 		}
 
-		return $fields;
+		return $properties;
 	}
 
 	/**
@@ -116,22 +117,6 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 
 			return false;
 		}
-	}
-
-	#[\Override]
-	public function getSearchResultMetadataKeys(): array {
-		return [
-			'owner' => $this->l10n->t('Owner'),
-			'path' => $this->l10n->t('Path'),
-			'mimetype' => $this->l10n->t('File type'),
-			'size' => $this->l10n->t('Size'),
-			'modified' => $this->l10n->t('Modified'),
-			'created' => $this->l10n->t('Created'),
-			'checksum' => $this->l10n->t('Checksum'),
-			'share_status' => $this->l10n->t('Share status'),
-			'sharedWith' => $this->l10n->t('Shared with'),
-			'tags' => $this->l10n->t('Tags'),
-		];
 	}
 
 	#[\Override]
@@ -184,7 +169,7 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 
 				return $shareStatus;
 			});
-			$this->addMetaData($entry, 'sharedWith', static function () use (&$shareStatus): array {
+			$this->addMetaData($entry, 'shared_with', static function () use (&$shareStatus): array {
 				if ($shareStatus === null) {
 					throw new \RuntimeException('share status not captured');
 				}
@@ -302,15 +287,7 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 			return new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'fileid', -1);
 		}
 
-		$chunks = array_map(
-			static fn (array $chunk): ISearchOperator
-				=> new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', array_values($chunk)),
-			array_chunk($ids, self::ID_CHUNK),
-		);
-
-		return count($chunks) === 1
-			? $chunks[0]
-			: new SearchBinaryOperator(SearchBinaryOperator::OPERATOR_OR, $chunks);
+		return new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', $ids);
 	}
 
 	private function addMetaData(AccountScopedSearchResult $entry, string $name, callable $read): void {
@@ -333,18 +310,18 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 			throw new \RuntimeException('owner unknown, so shares cannot be enumerated');
 		}
 
+		$externally = false;
 		$entries = [];
 		foreach ([...self::EXTERNAL_SHARE_TYPES, IShare::TYPE_USER, IShare::TYPE_GROUP] as $shareType) {
+			$external = in_array($shareType, self::EXTERNAL_SHARE_TYPES, true);
 			$offset = 0;
 			do {
-				// Paged rather than one page: a file shared with more people than fit in one page
-				// would otherwise record only some of them and assert a share list that is quietly
-				// incomplete.
 				$page = $this->shareManager->getSharesBy($owner, $shareType, $node, true, self::SHARE_PAGE, $offset);
 				foreach ($page as $share) {
+					$externally = $externally || $external;
 					$entries[] = [
 						'type' => $shareType,
-						'external' => in_array($shareType, self::EXTERNAL_SHARE_TYPES, true),
+						'external' => $external,
 						'recipient' => $share->getSharedWith(),
 						// Deliberately NOT the token: a public-link token is a bearer credential, and
 						// this entry may end up somewhere longer-lived than the search response.
@@ -357,7 +334,7 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 
 		return [
 			'shared' => $entries !== [],
-			'externally' => array_filter($entries, static fn (array $e): bool => $e['external']) !== [],
+			'externally' => $externally,
 			'shares' => $entries,
 		];
 	}
