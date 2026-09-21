@@ -23,11 +23,11 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Server;
-use OCP\User\Events\PostLoginEvent;
+use OCP\User\Events\UserLoggedInEvent;
 use Psr\Log\LoggerInterface;
 
 /**
- * @template-implements IEventListener<PostLoginEvent>
+ * @template-implements IEventListener<UserLoggedInEvent>
  */
 class LoginListener implements IEventListener {
 	public function __construct(
@@ -44,7 +44,7 @@ class LoginListener implements IEventListener {
 
 	#[\Override]
 	public function handle(Event $event): void {
-		if ($event instanceof PostLoginEvent) {
+		if ($event instanceof UserLoggedInEvent) {
 			$this->onPostLogin($event->getUser());
 		}
 	}
