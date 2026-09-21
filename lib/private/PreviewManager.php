@@ -25,6 +25,7 @@ use OC\Preview\Image;
 use OC\Preview\IMagickSupport;
 use OC\Preview\Imaginary;
 use OC\Preview\ImaginaryPDF;
+use OC\Preview\JP2;
 use OC\Preview\JPEG;
 use OC\Preview\Krita;
 use OC\Preview\MarkDown;
@@ -332,6 +333,7 @@ class PreviewManager implements IPreview {
 			$imagickProviders = [
 				'SVG' => ['mimetype' => '/image\/svg\+xml/', 'class' => SVG::class],
 				'TIFF' => ['mimetype' => '/image\/tiff/', 'class' => TIFF::class],
+				'JP2' => ['mimetype' => '/image\/jp2/', 'class' => JP2::class],
 				'PDF' => ['mimetype' => '/application\/pdf/', 'class' => PDF::class],
 				'AI' => ['mimetype' => '/application\/illustrator/', 'class' => Illustrator::class],
 				'PSD' => ['mimetype' => '/application\/x-photoshop/', 'class' => Photoshop::class],

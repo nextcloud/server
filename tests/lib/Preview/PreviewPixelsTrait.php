@@ -18,7 +18,7 @@ use OCP\Server;
  * came back, which a blank canvas of the right shape would satisfy just as
  * well as a decoded photo. These read the pixels.
  */
-trait AvifPreviewTrait {
+trait PreviewPixelsTrait {
 	/** How far the average may drift, over encoding and scaling */
 	private int $tolerance = 12;
 
@@ -66,9 +66,9 @@ trait AvifPreviewTrait {
 		$this->assertLessThanOrEqual(256, $preview->width());
 		$this->assertLessThanOrEqual(256, $preview->height());
 
-		// The fixture is a re-encode of testimage.jpg, so the two hold the
-		// same picture: a strong magenta whose average survives both the
-		// encoding and the scaling. A blank or black canvas misses by ~250.
+		// Every fixture using this is a re-encode of testimage.jpg, so they
+		// hold the same picture: a strong magenta whose average survives
+		// the encoding and the scaling. A blank canvas misses by ~250.
 		$expected = $this->meanColour(file_get_contents(\OC::$SERVERROOT . '/tests/data/testimage.jpg'));
 		$actual = $this->meanColour($preview->data());
 
