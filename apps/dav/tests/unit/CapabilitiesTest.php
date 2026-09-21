@@ -19,10 +19,12 @@ use Test\TestCase;
 class CapabilitiesTest extends TestCase {
 	public function testGetCapabilities(): void {
 		$config = $this->createMock(IConfig::class);
-		$config->expects($this->once())
-			->method('getSystemValueBool')
-			->with('bulkupload.enabled', $this->isType('bool'))
-			->willReturn(false);
+		$config->expects($this->exactly(2))
+         ->method('getSystemValueBool')
+         ->willReturnMap([
+            ['bulkupload.enabled', true, false],
+            ['bulk_delete.enabled', true, false],
+         ]);
 		$coordinator = $this->createMock(IAvailabilityCoordinator::class);
 		$coordinator->expects($this->once())
 			->method('isEnabled')
@@ -42,10 +44,12 @@ class CapabilitiesTest extends TestCase {
 
 	public function testGetCapabilitiesWithBulkUpload(): void {
 		$config = $this->createMock(IConfig::class);
-		$config->expects($this->once())
-			->method('getSystemValueBool')
-			->with('bulkupload.enabled', $this->isType('bool'))
-			->willReturn(true);
+		$config->expects($this->exactly(2))
+         ->method('getSystemValueBool')
+         ->willReturnMap([
+            ['bulkupload.enabled', true, true],
+            ['bulk_delete.enabled', true, false],
+         ]);
 		$coordinator = $this->createMock(IAvailabilityCoordinator::class);
 		$coordinator->expects($this->once())
 			->method('isEnabled')
@@ -66,10 +70,12 @@ class CapabilitiesTest extends TestCase {
 
 	public function testGetCapabilitiesWithAbsence(): void {
 		$config = $this->createMock(IConfig::class);
-		$config->expects($this->once())
-			->method('getSystemValueBool')
-			->with('bulkupload.enabled', $this->isType('bool'))
-			->willReturn(false);
+		$config->expects($this->exactly(2))
+         ->method('getSystemValueBool')
+         ->willReturnMap([
+            ['bulkupload.enabled', true, false],
+            ['bulk_delete.enabled', true, false],
+         ]);
 		$coordinator = $this->createMock(IAvailabilityCoordinator::class);
 		$coordinator->expects($this->once())
 			->method('isEnabled')
@@ -88,4 +94,18 @@ class CapabilitiesTest extends TestCase {
 		];
 		$this->assertSame($expected, $capabilities->getCapabilities());
 	}
+   public function testGetCapabilitiesWithBulkDelete(): void {
+      $config = $this->createMock(IConfig::class);
+      $config->method('getSystemValueBool')->willReturnMap([
+         ['bulkupload.enabled', true, false],
+         ['bulk_delete.enabled', true, true],
+      ]);
+      $coordinator = $this->createMock(IAvailabilityCoordinator::class);
+      $coordinator->method('isEnabled')->willReturn(false);
+      $capabilities = new Capabilities($config, $coordinator);
+      $this->assertSame([
+         'version' => '1.0',
+         'max_files' => 100,
+      ], $capabilities->getCapabilities()['dav']['bulk_delete']);
+   }
 }

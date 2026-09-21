@@ -14,6 +14,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import PQueue from 'p-queue'
 import { logger } from '../utils/logger.ts'
+import { deleteNodesInBatches } from './deleteBatchUtils.ts'
 import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, shouldAskForConfirmation } from './deleteUtils.ts'
 
 // TODO: once the files app is migrated to the new frontend use the import instead:
@@ -88,6 +89,11 @@ export const action: IFileAction = {
 		if (confirm === false) {
 			return Promise.all(nodes.map(() => null))
 		}
+
+      var batchResult = deleteNodesInBatches(nodes, view, queue)
+      if (batchResult !== null) {
+         return batchResult
+      }
 
 		// Map each node to a promise that resolves with the result of exec(node)
 		const promises = nodes.map((node) => {

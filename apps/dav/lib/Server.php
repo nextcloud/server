@@ -10,6 +10,7 @@ namespace OCA\DAV;
 
 use OC\Files\Filesystem;
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\BulkDelete\BulkDeletePlugin;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
 use OCA\DAV\CalDAV\BirthdayService;
@@ -287,7 +288,7 @@ class Server {
 		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$this->server->on('beforeMethod:*', function () use ($root, $lazySearchBackend, $logger): void {
+		$this->server->once('beforeMethod:*', function () use ($root, $lazySearchBackend, $logger): void {
 			// custom properties plugin must be the last one
 			$userSession = \OCP\Server::get(IUserSession::class);
 			$user = $userSession->getUser();
@@ -386,6 +387,9 @@ class Server {
 						$view,
 						\OCP\Server::get(IFilesMetadataManager::class)
 					));
+               if ($config->getSystemValueBool('bulk_delete.enabled', true)) {
+                  $this->server->addPlugin(new BulkDeletePlugin($user->getUID(), $logger));
+               }
 					$this->server->addPlugin(
 						new BulkUploadPlugin(
 							$userFolder,

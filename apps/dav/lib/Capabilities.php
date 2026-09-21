@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV;
 
+use OCA\DAV\BulkDelete\BulkDeletePlugin;
 use OCP\Capabilities\ICapability;
 use OCP\IConfig;
 use OCP\User\IAvailabilityCoordinator;
@@ -21,7 +22,7 @@ class Capabilities implements ICapability {
 	}
 
 	/**
-	 * @return array{dav: array{chunking: string, public_shares_chunking: bool, search_supports_creation_time: bool, search_supports_upload_time: bool, search_supports_last_activity: bool, bulkupload?: string, absence-supported?: bool, absence-replacement?: bool}}
+	 * @return array{dav: array{chunking: string, public_shares_chunking: bool, search_supports_creation_time: bool, search_supports_upload_time: bool, search_supports_last_activity: bool, bulkupload?: string, bulk_delete?: array{version: string, max_files: int}, absence-supported?: bool, absence-replacement?: bool}}
 	 */
 	#[\Override]
 	public function getCapabilities() {
@@ -37,6 +38,12 @@ class Capabilities implements ICapability {
 		if ($this->config->getSystemValueBool('bulkupload.enabled', true)) {
 			$capabilities['dav']['bulkupload'] = '1.0';
 		}
+      if ($this->config->getSystemValueBool('bulk_delete.enabled', true)) {
+         $capabilities['dav']['bulk_delete'] = [
+            'version' => '1.0',
+            'max_files' => BulkDeletePlugin::MAX_FILES,
+         ];
+      }
 		if ($this->coordinator->isEnabled()) {
 			$capabilities['dav']['absence-supported'] = true;
 			$capabilities['dav']['absence-replacement'] = true;
