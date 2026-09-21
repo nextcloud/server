@@ -21,10 +21,12 @@ use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier as NotifierCalDAV;
+use OCA\DAV\CalDAV\Search\AccountScopedSearchProvider as CalendarAccountScopedSearchProvider;
 use OCA\DAV\CalDAV\TipBroker;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\Notification\Notifier as NotifierCardDAV;
+use OCA\DAV\CardDAV\Search\AccountScopedSearchProvider as ContactsAccountScopedSearchProvider;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\ConfigLexicon;
 use OCA\DAV\Events\AddressBookCreatedEvent;
@@ -144,6 +146,9 @@ class Application extends App implements IBootstrap {
 		$context->registerSearchProvider(ContactsSearchProvider::class);
 		$context->registerSearchProvider(EventsSearchProvider::class);
 		$context->registerSearchProvider(TasksSearchProvider::class);
+
+		$context->registerAccountScopedSearchProvider(ContactsAccountScopedSearchProvider::class);
+		$context->registerAccountScopedSearchProvider(CalendarAccountScopedSearchProvider::class);
 
 		/**
 		 * Register event listeners
