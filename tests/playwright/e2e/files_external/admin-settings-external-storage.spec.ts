@@ -6,7 +6,6 @@
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { expect, test } from '../../support/fixtures/external-storage-page.ts'
 import { deleteAllGlobalStorages } from '../../support/utils/files_external.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
 // Runs in the serial "admin-settings" project: it configures *global* external
 // storages, which are visible to every user, so it must not run concurrently
@@ -60,7 +59,6 @@ test.describe('files_external settings', () => {
 		await dialog.getByRole('switch', { name: /Secure/ }).uncheck({ force: true })
 
 		await externalStorageSettings.createButton().click()
-		await handlePasswordConfirmation(page, 'admin')
 
 		await expect(page.getByRole('dialog')).toHaveCount(0)
 
@@ -75,7 +73,6 @@ test.describe('files_external settings', () => {
 		const deleteButton = row.getByRole('button', { name: /Delete/ })
 		await expect(deleteButton).toBeVisible()
 		await deleteButton.click()
-		await handlePasswordConfirmation(page, 'admin')
 
 		await expect(externalStorageSettings.rows()).toHaveCount(0)
 	})

@@ -106,7 +106,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			} else {
 				// The service was not registered before the test override.
 				// Remove the test registration so the container returns to its prior state.
-				unset($container[$name]);
+				/** @psalm-suppress InternalMethod */
+				$container->removeFromInternalContainer($name);
 			}
 
 			unset($this->services[$name]);
@@ -368,14 +369,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::tearDownAfterClassCleanStrayLocks();
 
 		// Ensure we start with fresh instances of some classes to reduce side-effects between tests
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[Factory::class]);
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[AppFetcher::class]);
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[Installer::class]);
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[Updater::class]);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(Factory::class);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(AppFetcher::class);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(Installer::class);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(Updater::class);
 
 		/** @var SetupManager $setupManager */
 		$setupManager = Server::get(SetupManager::class);
@@ -492,10 +493,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function loginAsUser(string $user = ''): void {
 		self::logout();
-		Filesystem::tearDown();
+		$setupManager = Server::get(SetupManager::class);
+		$setupManager->tearDown();
 		\OC_User::setUserId($user);
 		$userManager = Server::get(IUserManager::class);
-		$setupManager = Server::get(SetupManager::class);
 		$userObject = $userManager->get($user);
 		if (!is_null($userObject)) {
 			$userObject->updateLastLoginTimestamp();

@@ -54,7 +54,7 @@ class Dummy extends Backend implements IUserBackend {
 		return false;
 	}
 
-	public function loginName2UserName($loginName): string|false {
+	public function getUserNameFromLoginName($loginName): string|false {
 		if (isset($this->users[strtolower($loginName)])) {
 			return strtolower($loginName);
 		}

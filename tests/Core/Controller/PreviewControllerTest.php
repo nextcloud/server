@@ -12,7 +12,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
-use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -29,7 +28,7 @@ class PreviewControllerTest extends \Test\TestCase {
 	private string $userId;
 	private PreviewController $controller;
 
-	private IRootFolder&MockObject $rootFolder;
+	private IUserFolder&MockObject $userFolder;
 	private IPreview&MockObject $previewManager;
 	private IRequest&MockObject $request;
 
@@ -37,8 +36,7 @@ class PreviewControllerTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userId = 'user';
-		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->request = $this->createMock(IRequest::class);
 
@@ -46,8 +44,7 @@ class PreviewControllerTest extends \Test\TestCase {
 			'core',
 			$this->request,
 			$this->previewManager,
-			$this->rootFolder,
-			$this->userId,
+			$this->userFolder,
 			$this->createMock(IMimeIconProvider::class)
 		);
 	}
@@ -74,12 +71,7 @@ class PreviewControllerTest extends \Test\TestCase {
 	}
 
 	public function testFileNotFound(): void {
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo($this->userId))
-			->willReturn($userFolder);
-
-		$userFolder->method('get')
+		$this->userFolder->method('get')
 			->with($this->equalTo('file'))
 			->willThrowException(new NotFoundException());
 
@@ -90,13 +82,8 @@ class PreviewControllerTest extends \Test\TestCase {
 	}
 
 	public function testNotAFile(): void {
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo($this->userId))
-			->willReturn($userFolder);
-
 		$folder = $this->createMock(Folder::class);
-		$userFolder->method('get')
+		$this->userFolder->method('get')
 			->with($this->equalTo('file'))
 			->willReturn($folder);
 
@@ -107,13 +94,8 @@ class PreviewControllerTest extends \Test\TestCase {
 	}
 
 	public function testNoPreviewAndNoIcon(): void {
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo($this->userId))
-			->willReturn($userFolder);
-
 		$file = $this->createMock(File::class);
-		$userFolder->method('get')
+		$this->userFolder->method('get')
 			->with($this->equalTo('file'))
 			->willReturn($file);
 
@@ -128,13 +110,8 @@ class PreviewControllerTest extends \Test\TestCase {
 	}
 
 	public function testNoPreview() {
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo($this->userId))
-			->willReturn($userFolder);
-
 		$file = $this->createMock(File::class);
-		$userFolder->method('get')
+		$this->userFolder->method('get')
 			->with($this->equalTo('file'))
 			->willReturn($file);
 
@@ -159,13 +136,8 @@ class PreviewControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $res);
 	}
 	public function testFileWithoutReadPermission() {
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo($this->userId))
-			->willReturn($userFolder);
-
 		$file = $this->createMock(File::class);
-		$userFolder->method('get')
+		$this->userFolder->method('get')
 			->with($this->equalTo('file'))
 			->willReturn($file);
 
@@ -183,14 +155,9 @@ class PreviewControllerTest extends \Test\TestCase {
 	}
 
 	public function testFileWithoutDownloadPermission() {
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo($this->userId))
-			->willReturn($userFolder);
-
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(123);
-		$userFolder->method('get')
+		$this->userFolder->method('get')
 			->with($this->equalTo('file'))
 			->willReturn($file);
 
@@ -223,14 +190,9 @@ class PreviewControllerTest extends \Test\TestCase {
 	}
 
 	public function testFileWithoutDownloadPermissionButHeader() {
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo($this->userId))
-			->willReturn($userFolder);
-
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(123);
-		$userFolder->method('get')
+		$this->userFolder->method('get')
 			->with($this->equalTo('file'))
 			->willReturn($file);
 
@@ -276,14 +238,9 @@ class PreviewControllerTest extends \Test\TestCase {
 	}
 
 	public function testValidPreview(): void {
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo($this->userId))
-			->willReturn($userFolder);
-
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(123);
-		$userFolder->method('get')
+		$this->userFolder->method('get')
 			->with($this->equalTo('file'))
 			->willReturn($file);
 
@@ -315,14 +272,9 @@ class PreviewControllerTest extends \Test\TestCase {
 	}
 
 	public function testValidPreviewOfShare() {
-		$userFolder = $this->createMock(IUserFolder::class);
-		$this->rootFolder->method('getUserFolder')
-			->with($this->equalTo($this->userId))
-			->willReturn($userFolder);
-
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(123);
-		$userFolder->method('get')
+		$this->userFolder->method('get')
 			->with($this->equalTo('file'))
 			->willReturn($file);
 

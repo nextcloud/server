@@ -274,17 +274,19 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 			// If we have a password set, we send it to the recipient
 			if ($share->getPassword() !== null) {
-				// If share-by-talk password is enabled, we do not send the notification
-				// to the recipient. They will have to request it to the owner after opening the link.
-				// Secondly, if the password expiration is disabled, we send the notification to the recipient
-				// Lastly, if the mail to recipient failed, we send the password to the owner as a fallback.
-				// If a password expires, the recipient will still be able to request a new one via talk.
-				$passwordExpire = $this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false);
-				$passwordEnforced = $this->shareManager->shareApiLinkEnforcePassword();
-				if ($passwordExpire === false || $share->getSendPasswordByTalk()) {
+				// If sending the password by mail is disabled, we send the password to the owner.
+				// If share-by-talk password is enabled, we do not send the password to the recipient.
+				// They can request it from the owner after opening the link.
+				// Otherwise, we send the password to the recipient.
+				// If sending the password to the recipient fails, we send the password to the owner as a fallback.
+				// Password expiration does not affect this flow: the password is either sent to the recipient
+				// or, if sending fails, sent to the owner as a fallback.
+				if ($this->settingsManager->sendPasswordByMail() === false || $share->getSendPasswordByTalk()) {
+					$this->trySendPasswordToOwner($share);
+				} else {
 					$send = $this->sendPassword($share, $share->getPassword(), $validEmails);
-					if ($passwordEnforced && $send === false) {
-						$this->sendPasswordToOwner($share, $share->getPassword());
+					if ($send === false) {
+						$this->trySendPasswordToOwner($share);
 					}
 				}
 			}
@@ -311,6 +313,21 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			);
 		}
 		return false;
+	}
+
+	/**
+	 * Notifying the owner of the password must not abort an otherwise
+	 * successful share creation, e.g. when the owner has no email address set.
+	 */
+	private function trySendPasswordToOwner(IShare $share): void {
+		try {
+			$this->sendPasswordToOwner($share, $share->getPassword());
+		} catch (\Exception $e) {
+			$this->logger->error('Failed to send password to the owner of the share.', [
+				'app' => 'sharebymail',
+				'exception' => $e,
+			]);
+		}
 	}
 
 	/**

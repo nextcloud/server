@@ -13,6 +13,7 @@ OC.L10N.register(
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Je wachtwoord verloopt binnen %n dag.","Je wachtwoord vervalt over %n dagen."],
     "LDAP/AD integration" : "LDAP/AD integratie",
     "Invalid LDAP UUIDs" : "Ongeldige LDAP UUIDs",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["%n groep gevonden","%n groepen gevonden"],
     "_%n user found_::_%n users found_" : ["%n gebruiker gevonden","%n gebruikers gevonden"],
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "Kon het weergavenaam attribuut van de gebruiker niet vinden. Geef het zelf op in de geavanceerde LDAP instellingen.",

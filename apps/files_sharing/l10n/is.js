@@ -175,9 +175,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Deilt með þér í samtali við {user} af {owner}",
     "Shared with {user} by {owner}" : "Deilt með {user} af {owner}",
     "Open Sharing Details" : "Opna nánari upplýsingar um deilingu",
-    "Added by {initiator}" : "Bætt við af {initiator}",
-    "Via “{folder}”" : "Í gegnum “{folder}”",
     "Unshare" : "Hætta deilingu",
+    "Added by {initiator}" : "Bætt við af {initiator}",
     "Cannot copy, please copy the link manually" : "Mistókst að afrita, afritaðu tengilinn handvirkt",
     "Copy internal link" : "Afrita innri tengil",
     "Internal link" : "Innri tengill",
@@ -354,6 +353,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Deiling %1$s mistókst, því bakvinnslukerfið leyfir ekki sameignir af gerðinni %2$s",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Deiling %s mistókst því bakvinnslukerfið leyfir ekki ScienceMesh-sameignir",
     "Public upload disabled by the administrator" : "Opinber innsending hefur verið gerð óvirk af kerfisstjóra.",
+    "Via “{folder}”" : "Í gegnum “{folder}”",
     "Name or email …" : "Nafn eða tölvupóstfang …",
     "Name, email, or Federated Cloud ID …" : "Nafn, tölvupóstfang eða skýjasambandsauðkenni (Federated Cloud ID) …",
     "Searching …" : "Leita …"

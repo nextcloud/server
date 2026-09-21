@@ -116,9 +116,8 @@ OC.L10N.register(
     "Shared with the group {user} by {owner}" : "Compartido con el grupo {user} por {owner}",
     "Shared with the conversation {user} by {owner}" : "Compartido con la conversación {user} por {owner}",
     "Shared with {user} by {owner}" : "Compartido con {user} por {owner}",
-    "Added by {initiator}" : "Agregado por {initiator}",
-    "Via “{folder}”" : "A través de \"{folder}\"",
     "Unshare" : "Dejar de compartir",
+    "Added by {initiator}" : "Agregado por {initiator}",
     "Cannot copy, please copy the link manually" : "No se puede copiar, por favor copia el enlace manualmente",
     "Copy internal link" : "Copiar enlace interno",
     "Internal link" : "Enlace interno",
@@ -227,6 +226,7 @@ OC.L10N.register(
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Error al compartir %1$s porque el servidor no permite comparticiones del tipo %2$s",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Error al compartir %s porque el servidor no admite comparticiones de ScienceMesh",
     "Public upload disabled by the administrator" : "Cargas públicas deshabilitadas por el administrador",
+    "Via “{folder}”" : "A través de \"{folder}\"",
     "Name or email …" : "Nombre o correo electrónico...",
     "Name, email, or Federated Cloud ID …" : "Nombre, correo electrónico o ID de la nube federada...",
     "Searching …" : "Buscando..."

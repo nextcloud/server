@@ -98,6 +98,7 @@ OC.L10N.register(
     "Actions" : "Akce",
     "Checking …" : "Kontrola …",
     "Recheck status" : "Znovu zkontrolovat stav",
+    "All accounts" : "Veškeré účty",
     "Delete" : "Smazat",
     "System provided storage" : "Úložiště poskytované systémem",
     "Saved" : "Uloženo",

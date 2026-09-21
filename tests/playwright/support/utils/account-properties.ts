@@ -5,14 +5,13 @@
 
 import type { Page, Response } from '@playwright/test'
 
-import { handlePasswordConfirmation } from './password-confirmation.ts'
+import { awaitPasswordGuardedRequest } from './password-confirmation.ts'
 
 /**
  * Wait for the request that persists an account property or its scope.
  *
  * Register the listener before triggering the change - account properties are
- * saved with a debounce - and await it after the change and any password
- * confirmation.
+ * saved with a debounce - and await it after the change.
  *
  * @param page - The Playwright page object
  */
@@ -33,18 +32,15 @@ export function waitForVisibilitySave(page: Page): Promise<Response> {
  * Perform an account-property change and wait for its save request.
  *
  * @param page - The Playwright page object
- * @param password - Password used when confirmation is requested
  * @param change - Action that triggers the save request
  * @param waitForSave - Request matcher for the property being changed
  */
 export async function saveAccountProperty(
 	page: Page,
-	password: string,
 	change: () => Promise<void>,
 	waitForSave: (page: Page) => Promise<Response> = waitForPropertySave,
 ): Promise<void> {
 	const saved = waitForSave(page)
 	await change()
-	await handlePasswordConfirmation(page, password)
-	await saved
+	await awaitPasswordGuardedRequest(page, saved)
 }

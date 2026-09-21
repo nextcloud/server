@@ -34,7 +34,7 @@ SPDX-FileCopyrightText = "2012 ownCloud, Inc."
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 [[annotations]]
-path = ["testavatar.png", "testimage.gif", "testimage.jpg", "testimage.png"]
+path = ["testavatar.png", "testimage.avif", "testimage.gif", "testimage.jpg", "testimage.png"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2013 ownCloud, Inc."
 SPDX-License-Identifier = "AGPL-3.0-only"

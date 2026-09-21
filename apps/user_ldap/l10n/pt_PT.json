@@ -18,6 +18,7 @@
     "_Binding and searching works on the configured LDAP connection (%s)_::_Binding and searching works on all of the %n configured LDAP connections (%s)_" : ["A ligacão e a pesquisa funcionam na conexão LDAP configurada (%s)","A ligacão e a pesquisa funcionam em todas as %n conexões LDAP configuradas (%s)","A ligacão e a pesquisa funcionam em todas as %n conexões LDAP configuradas (%s)"],
     "None found" : "Nenhum encontrado",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Foram encontrados UUIDs inválidos de contas ou grupos LDAP. Por favor, revise as configurações de \"Substituir detecção UUID\" na parte Especialista da configuração LDAP e use \"occ ldap:update-uuid\" para atualizá-los.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["%n grupo encontrado","%n grupos encontrado","%n grupos encontrados"],
     "> 1000 groups found" : "> 1000 grupos encontrados",
     "> 1000 users found" : "> 1000 usuários encontrados",

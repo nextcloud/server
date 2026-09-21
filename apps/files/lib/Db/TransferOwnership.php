@@ -9,35 +9,29 @@ declare(strict_types=1);
 
 namespace OCA\Files\Db;
 
-use OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\ORM\Attribute\Column;
+use OCP\AppFramework\ORM\Attribute\Entity;
+use OCP\AppFramework\ORM\Attribute\Id;
+use OCP\DB\Schema\ColumnType;
 
 /**
- * @method void setSourceUser(string $uid)
- * @method string getSourceUser()
- * @method void setTargetUser(string $uid)
- * @method string getTargetUser()
- * @method void setFileId(int $fileId)
- * @method int getFileId()
- * @method void setNodeName(string $name)
- * @method string getNodeName()
+ * @psalm-suppress MissingConstructor ORM based hydration
  */
-class TransferOwnership extends Entity {
-	/** @var string */
-	protected $sourceUser;
+#[Entity(name: 'user_transfer_owner')]
+final class TransferOwnership {
+	#[Id]
+	#[Column(name: 'id', type: ColumnType::Bigint)]
+	public int $id;
 
-	/** @var string */
-	protected $targetUser;
+	#[Column(name: 'source_user', type: ColumnType::String, length: 64)]
+	public string $sourceUser;
 
-	/** @var integer */
-	protected $fileId;
+	#[Column(name: 'target_user', type: ColumnType::String, length: 64)]
+	public string $targetUser;
 
-	/** @var string */
-	protected $nodeName;
+	#[Column(name: 'file_id', type: ColumnType::Bigint)]
+	public int $fileId;
 
-	public function __construct() {
-		$this->addType('sourceUser', 'string');
-		$this->addType('targetUser', 'string');
-		$this->addType('fileId', 'integer');
-		$this->addType('nodeName', 'string');
-	}
+	#[Column(name: 'node_name', type: ColumnType::String, length: 255)]
+	public string $nodeName;
 }

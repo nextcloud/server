@@ -58,9 +58,9 @@ use OC\Federation\CloudIdManager;
 use OC\Files\Cache\FileAccess;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Config\UserMountCache;
-use OC\Files\Config\UserMountCacheListener;
 use OC\Files\Conversion\ConversionManager;
 use OC\Files\FilenameValidator;
+use OC\Files\Listeners\UserMountCacheListener;
 use OC\Files\Lock\LockManager;
 use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
@@ -145,6 +145,7 @@ use OC\Snowflake\SnowflakeDecoder;
 use OC\Snowflake\SnowflakeGenerator;
 use OC\SpeechToText\SpeechToTextManager;
 use OC\Support\Subscription\Assertion;
+use OC\SystemReport\SystemReportManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Talk\Broker;
 use OC\Teams\TeamManager;
@@ -196,11 +197,13 @@ use OCP\Files\Cache\IFileAccess;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Conversion\IConversionManager;
+use OCP\Files\Folder;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
+use OCP\Files\IUserFolder;
 use OCP\Files\Lock\ILockManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IStorageFactory;
@@ -208,6 +211,7 @@ use OCP\Files\Template\ITemplateManager;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\GlobalScale\IGlobalScaleService;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\ISubAdmin;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
@@ -277,6 +281,7 @@ use OCP\Snowflake\ISnowflakeDecoder;
 use OCP\Snowflake\ISnowflakeGenerator;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\Support\Subscription\IAssertion;
+use OCP\SystemReport\ISystemReportManager;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagManagerFactory;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -284,14 +289,11 @@ use OCP\Talk\IBroker;
 use OCP\Teams\ITeamManager;
 use OCP\Translation\ITranslationManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
-use OCP\User\Events\BeforeUserLoggedInEvent;
-use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
-use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
-use OCP\User\Events\UserLoggedOutEvent;
 use OCP\User\IAvailabilityCoordinator;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -404,6 +406,15 @@ class Server extends ServerContainer {
 			});
 		});
 
+		$this->registerService(IUserFolder::class, static function (ContainerInterface $c): ?IUserFolder {
+			$user = $c->get(IUserSession::class)->getUser();
+			if ($user === null) {
+				return null;
+			}
+			return $c->get(IRootFolder::class)->getUserFolder($user->getUID());
+		});
+		$this->registerDeprecatedAlias(Folder::class, IUserFolder::class);
+
 		$this->registerAlias(IUserManager::class, \OC\User\Manager::class);
 
 		$this->registerService(DisplayNameCache::class, static function (ContainerInterface $c) {
@@ -450,77 +461,17 @@ class Server extends ServerContainer {
 				$c->get(LoggerInterface::class),
 				$c->get(IEventDispatcher::class),
 			);
-			/** @deprecated 21.0.0 use BeforeUserCreatedEvent event with the IEventDispatcher instead */
-			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password): void {
-				\OC_Hook::emit('OC_User', 'pre_createUser', ['run' => true, 'uid' => $uid, 'password' => $password]);
-			});
-			/** @deprecated 21.0.0 use UserCreatedEvent event with the IEventDispatcher instead */
-			$userSession->listen('\OC\User', 'postCreateUser', function ($user, $password): void {
+			$dispatcher = $this->get(IEventDispatcher::class);
+			$dispatcher->addListener(UserLoggedInEvent::class, function (UserLoggedInEvent $event): void {
 				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'post_createUser', ['uid' => $user->getUID(), 'password' => $password]);
+				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $event->getUser()->getUID(), 'loginName' => $event->getLoginName(), 'password' => $event->getPassword(), 'isTokenLogin' => $event->isTokenLogin()]);
 			});
-			/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
-			$userSession->listen('\OC\User', 'preDelete', function ($user): void {
-				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'pre_deleteUser', ['run' => true, 'uid' => $user->getUID()]);
-			});
-			/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
-			$userSession->listen('\OC\User', 'postDelete', function ($user): void {
-				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'post_deleteUser', ['uid' => $user->getUID()]);
-			});
-			$userSession->listen('\OC\User', 'preSetPassword', function ($user, $password, $recoveryPassword): void {
-				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'pre_setPassword', ['run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword]);
-			});
-			$userSession->listen('\OC\User', 'postSetPassword', function ($user, $password, $recoveryPassword): void {
-				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'post_setPassword', ['run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword]);
-			});
-			$userSession->listen('\OC\User', 'preLogin', function ($uid, $password): void {
-				\OC_Hook::emit('OC_User', 'pre_login', ['run' => true, 'uid' => $uid, 'password' => $password]);
 
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password));
-			});
-			$userSession->listen('\OC\User', 'postLogin', function ($user, $loginName, $password, $isTokenLogin): void {
+			$dispatcher->addListener(UserLoggedInWithCookieEvent::class, function (UserLoggedInWithCookieEvent $event): void {
 				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $user->getUID(), 'loginName' => $loginName, 'password' => $password, 'isTokenLogin' => $isTokenLogin]);
+				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $event->getUser()->getUID(), 'password' => $event->getPassword()]);
+			});
 
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new UserLoggedInEvent($user, $loginName, $password, $isTokenLogin));
-			});
-			$userSession->listen('\OC\User', 'preRememberedLogin', function ($uid): void {
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new BeforeUserLoggedInWithCookieEvent($uid));
-			});
-			$userSession->listen('\OC\User', 'postRememberedLogin', function ($user, $password): void {
-				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $user->getUID(), 'password' => $password]);
-
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new UserLoggedInWithCookieEvent($user, $password));
-			});
-			$userSession->listen('\OC\User', 'logout', function ($user): void {
-				\OC_Hook::emit('OC_User', 'logout', []);
-
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new BeforeUserLoggedOutEvent($user));
-			});
-			$userSession->listen('\OC\User', 'postLogout', function ($user): void {
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->get(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new UserLoggedOutEvent($user));
-			});
-			$userSession->listen('\OC\User', 'changeUser', function ($user, $feature, $value, $oldValue): void {
-				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'changeUser', ['run' => true, 'user' => $user, 'feature' => $feature, 'value' => $value, 'old_value' => $oldValue]);
-			});
 			return $userSession;
 		});
 		$this->registerAlias(IUserSession::class, Session::class);
@@ -699,12 +650,7 @@ class Server extends ServerContainer {
 			);
 		});
 
-		$this->registerService(IUserMountCache::class, static function (ContainerInterface $c): IUserMountCache {
-			$mountCache = $c->get(UserMountCache::class);
-			$listener = new UserMountCacheListener($mountCache);
-			$listener->listen($c->get(IUserManager::class));
-			return $mountCache;
-		});
+		$this->registerAlias(IUserMountCache::class, UserMountCache::class);
 
 		$this->registerService(IMountProviderCollection::class, static function (ContainerInterface $c): IMountProviderCollection {
 			$loader = $c->get(IStorageFactory::class);
@@ -779,8 +725,8 @@ class Server extends ServerContainer {
 			);
 		});
 		$this->registerService(Request::class, function (ContainerInterface $c) {
-			if (isset($this['urlParams'])) {
-				$urlParams = $this['urlParams'];
+			if ($this->has('urlParams')) {
+				$urlParams = $this->get('urlParams');
 			} else {
 				$urlParams = [];
 			}
@@ -1120,6 +1066,7 @@ class Server extends ServerContainer {
 		$this->registerDeprecatedAlias(IOCMProvider::class, OCMProvider::class);
 
 		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);
+		$this->registerAlias(ISystemReportManager::class, SystemReportManager::class);
 		$this->registerAlias(IProfileManager::class, ProfileManager::class);
 		$this->registerAlias(IAvailabilityCoordinator::class, AvailabilityCoordinator::class);
 		$this->registerAlias(IDeclarativeManager::class, DeclarativeManager::class);
@@ -1175,8 +1122,13 @@ class Server extends ServerContainer {
 		$eventDispatcher = $this->get(IEventDispatcher::class);
 		$eventDispatcher->addServiceListener(LoginFailed::class, LoginFailedListener::class);
 		$eventDispatcher->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, Store::class);
+		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, SubAdmin::class);
+		$eventDispatcher->addServiceListener(GroupDeletedEvent::class, SubAdmin::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserMountCacheListener::class);
 
 		FilesMetadataManager::loadListeners($eventDispatcher);
 		GenerateBlurhashMetadata::loadListeners($eventDispatcher);

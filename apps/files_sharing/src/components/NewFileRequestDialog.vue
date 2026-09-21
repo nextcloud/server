@@ -197,11 +197,14 @@ export default defineComponent({
 	},
 
 	data() {
+		const destination = (this.context.permissions & Permission.SHARE)
+			? this.context.path
+			: '/'
 		return {
 			currentStep: STEP.FIRST,
 			loading: false,
 
-			destination: this.context.path || '/',
+			destination,
 			label: '',
 			note: '',
 

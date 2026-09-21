@@ -22,7 +22,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
@@ -51,12 +50,7 @@ class WebAuthnController extends Controller {
 		$this->logger->debug('Starting WebAuthn login');
 
 		$this->logger->debug('Converting login name to UID');
-		$uid = $loginName;
-		Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$uid]
-		);
+		$uid = $this->userManager->getUserNameFromLoginName($loginName);
 		$this->logger->debug('Got UID: ' . $uid);
 
 		$publicKeyCredentialRequestOptions = $this->webAuthnManger->startAuthentication($uid, $this->request->getServerHost());

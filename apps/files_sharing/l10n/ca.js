@@ -190,9 +190,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{user} l'ha compartit amb la conversa {owner}",
     "Shared with {user} by {owner}" : "{owner} l'ha compartit amb {user}",
     "Open Sharing Details" : "Obre els detalls d'ús compartit",
-    "Added by {initiator}" : "{initiator} l'ha afegit",
-    "Via “{folder}”" : "Mitjançant «{folder}»",
     "Unshare" : "Deixa de compartir",
+    "Added by {initiator}" : "{initiator} l'ha afegit",
     "Cannot copy, please copy the link manually" : "No es pot copiar; copieu l'enllaç manualment",
     "Copy internal link" : "Copia l'enllaç intern",
     "Internal link" : "Enllaç intern",
@@ -377,6 +376,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "No s'ha pogut compartir %s perquè el rerefons no permet elements compartits de ScienceMesh",
     "Public upload disabled by the administrator" : "L'administrador ha inhabilitat la pujada pública",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Els testimonis han de contenir almenys 1 caràcter i només poden contenir lletres, números o un guió",
+    "Via “{folder}”" : "Mitjançant «{folder}»",
     "Name or email …" : "Nom o adreça electrònica…",
     "Name, email, or Federated Cloud ID …" : "Nom, adreça electrònica o ID de núvol federat…",
     "Searching …" : "S'està cercant…"

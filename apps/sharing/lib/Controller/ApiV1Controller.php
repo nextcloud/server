@@ -29,6 +29,7 @@ use NCU\Sharing\ShareState;
 use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
+use OC\AppFramework\Http\PaginationTrait;
 use OCA\Sharing\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
@@ -42,6 +43,7 @@ use OCP\AppFramework\OCSController;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -58,6 +60,8 @@ use ValueError;
  * @psalm-import-type SharingPermissionPreset from ResponseDefinitions
  */
 final class ApiV1Controller extends OCSController {
+	use PaginationTrait;
+
 	public ShareAccessContext $accessContext;
 
 	public function __construct(
@@ -80,11 +84,11 @@ final class ApiV1Controller extends OCSController {
 	 * Search for recipients that can be added to a share.
 	 *
 	 * @param ?list<class-string<IShareRecipientType>> $filterRecipientTypeClasses Type classes of recipients to filter by
-	 * @param string $query The query to search for
+	 * @param string $query The query to search for, if the query is empty, recommended recipients will be returned
 	 * @param int<1, 100> $limit The maximum number of participants
 	 * @param non-negative-int $offset The offset of the participants
 	 * @param ?string $id If provided, recipients that are already part of the share will not be returned.
-	 * @return DataResponse<Http::STATUS_OK, list<SharingRecipient>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<SharingRecipient>, array{Link?: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
 	 *
 	 * 200: Recipients returned
 	 * 400: Invalid recipient search parameters
@@ -109,13 +113,25 @@ final class ApiV1Controller extends OCSController {
 			return new DataResponse('The offset is too low.', Http::STATUS_BAD_REQUEST);
 		}
 
+		if (!$this->accessContext->currentUser instanceof IUser) {
+			throw new \RuntimeException('No user in session for endpoint that requires authentication');
+		}
+
 		try {
 			try {
 				$this->dbConnection->beginTransaction();
 				$forShare = ($id === null) ? null : $this->manager->getShare($this->accessContext, $id);
 				$recipients = $this->manager->searchRecipients($this->accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $forShare);
+
 				$this->dbConnection->commit();
-				return new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients));
+
+				$headers = $this->buildOffsetNextPageLinkHeader($recipients, [
+					'filterRecipientTypeClasses' => $filterRecipientTypeClasses,
+					'query' => $query,
+					'id' => $id,
+				], $limit, $offset);
+
+				return new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients), headers: $headers);
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;

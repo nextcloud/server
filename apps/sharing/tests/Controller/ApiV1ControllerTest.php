@@ -37,6 +37,7 @@ use Test\Sharing\AbstractSharingManagerTests;
 
 /**
  * @psalm-import-type SharingShare from Share
+ * @psalm-import-type SharingRecipient from Share
  */
 #[Group(name: 'DB')]
 final class ApiV1ControllerTest extends AbstractSharingManagerTests {
@@ -97,7 +98,10 @@ final class ApiV1ControllerTest extends AbstractSharingManagerTests {
 
 	#[Override]
 	protected function searchRecipients(ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?Share $forShare = null): array {
-		/** @psalm-suppress ArgumentTypeCoercion */
+		/**
+		 * @psalm-suppress ArgumentTypeCoercion
+		 * @var SharingRecipient[]
+		 */
 		return $this->executeRequest($accessContext, fn (ApiV1Controller $controller): DataResponse => $controller->searchRecipients($filterRecipientTypeClasses, $query, $limit, $offset, $forShare?->id));
 	}
 

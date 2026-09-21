@@ -197,9 +197,8 @@
     "Shared with the conversation {user} by {owner}" : "Пользователь {owner} предоставил(а) {user} доступ во время беседы",
     "Shared with {user} by {owner}" : "{owner} предоставил(а) доступ {user} ",
     "Open Sharing Details" : "Подробные сведения об общем ресурсе",
-    "Added by {initiator}" : "Добавлено пользователем {initiator}",
-    "Via “{folder}”" : "Через «{folder}»",
     "Unshare" : "Закрыть доступ",
+    "Added by {initiator}" : "Добавлено пользователем {initiator}",
     "Cannot copy, please copy the link manually" : "Не удалось скопировать, выполните копирование вручную",
     "Copy internal link" : "Копировать внутреннюю ссылку",
     "For people who already have access" : "Для тех, у кого уже есть доступ",
@@ -411,6 +410,7 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Не удалось предоставить общий доступ к  «%s» поскольку механизм обмена не поддерживает общие ресурсы типа ScienceMesh",
     "Public upload disabled by the administrator" : "Выгрузка в общедоступную папку запрещена администратором",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токены должны содержать не менее 1 символа и могут содержать только буквы, цифры или дефис",
+    "Via “{folder}”" : "Через «{folder}»",
     "Name or email …" : "Имя или адрес эл.почты…",
     "Name, email, or Federated Cloud ID …" : "Имя или ID межсерверного обмена…",
     "Searching …" : "Поиск…"
