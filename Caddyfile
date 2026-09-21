@@ -10,6 +10,7 @@
 		max_requests 100
 
 		worker {
+			num 2
 			file index.php
 			watch lib/**/*.php
 			watch config/**/*.php
@@ -23,6 +24,7 @@
 			max_consecutive_failures -1
 		}
 		worker {
+			num 2
 			file remote.php
 			match /remote.php/*
 			watch lib/**/*.php
@@ -35,6 +37,7 @@
 			max_consecutive_failures -1
 		}
 		worker {
+			num 2
 			file ocs/v1.php
 			match /ocs/v1.php/*
 			match /ocs/v2.php/*
