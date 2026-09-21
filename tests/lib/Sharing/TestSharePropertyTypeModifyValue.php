@@ -33,9 +33,9 @@ final class TestSharePropertyTypeModifyValue extends TestSharePropertyType1 impl
 	}
 
 	#[\Override]
-	public function modifyValueOnLoad(?string $value): ?string {
-		if ($value === 'modify-on-load') {
-			return 'modified-on-load';
+	public function modifyValueOnFormat(?string $value): ?string {
+		if ($value === 'modify-on-format') {
+			return 'modified-on-format';
 		}
 
 		return $value;

@@ -105,9 +105,9 @@ final class APasswordSharePropertyTypeTest extends TestCase {
 		$this->assertIsString($this->propertyType->validateValue($l10nFactory, $share, '123'));
 	}
 
-	public function testModifyValueOnFetch(): void {
-		$this->assertNull($this->propertyType->modifyValueOnLoad(null));
-		$this->assertEquals(APasswordSharePropertyType::PLACEHOLDER, $this->propertyType->modifyValueOnLoad(''));
+	public function testModifyValueOnFormat(): void {
+		$this->assertNull($this->propertyType->modifyValueOnFormat(null));
+		$this->assertEquals(APasswordSharePropertyType::PLACEHOLDER, $this->propertyType->modifyValueOnFormat(''));
 	}
 
 	public function testModifyValueOnSave(): void {

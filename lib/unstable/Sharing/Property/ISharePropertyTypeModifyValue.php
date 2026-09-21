@@ -26,9 +26,9 @@ interface ISharePropertyTypeModifyValue extends ISharePropertyType {
 	public function modifyValueOnSave(?string $oldValue, ?string $newValue): ?string;
 
 	/**
-	 * Modify the value whenever a share is fetched from the database.
+	 * Modify the value whenever a share is formatted for the output.
 	 *
 	 * @experimental 35.0.0
 	 */
-	public function modifyValueOnLoad(?string $value): ?string;
+	public function modifyValueOnFormat(?string $value): ?string;
 }
