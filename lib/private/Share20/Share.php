@@ -16,6 +16,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
+use OCP\Security\IHasher;
 use OCP\Server;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IAttributes;
@@ -57,6 +58,7 @@ class Share implements IShare {
 	private $expireDate;
 	/** @var string */
 	private $password;
+	private bool $isPasswordHashed = false;
 	private ?\DateTimeInterface $passwordExpirationTime = null;
 	/** @var bool */
 	private $sendPasswordByTalk = false;
@@ -501,6 +503,18 @@ class Share implements IShare {
 	#[\Override]
 	public function setPassword($password) {
 		$this->password = $password;
+		$this->isPasswordHashed = false;
+		return $this;
+	}
+
+	#[\Override]
+	public function setPasswordHash(string $passwordHash): IShare {
+		if (!Server::get(IHasher::class)->validate($passwordHash)) {
+			throw new \InvalidArgumentException();
+		}
+
+		$this->password = $passwordHash;
+		$this->isPasswordHashed = true;
 		return $this;
 	}
 
@@ -510,6 +524,11 @@ class Share implements IShare {
 	#[\Override]
 	public function getPassword() {
 		return $this->password;
+	}
+
+	#[\Override]
+	public function isPasswordHashed(): bool {
+		return $this->isPasswordHashed;
 	}
 
 	/**
