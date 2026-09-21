@@ -1367,6 +1367,8 @@ class OC {
 		\OC_App::reset();
 		\OC_Helper::reset();
 		Filesystem::reset();
+		/** @psalm-suppress InternalMethod */
+		\OCP\Util::resetStaticProperties();
 	}
 
 	/**
