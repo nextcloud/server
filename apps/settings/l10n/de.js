@@ -43,7 +43,7 @@ OC.L10N.register(
     "Unable to change password. Password too long." : "Passwort konnte nicht geändert werden. Passwort ist zu lang.",
     "Authentication error" : "Authentifizierungsfehler",
     "Please provide an admin recovery password; otherwise, all account data will be lost." : "Bitte ein Wiederherstellungspasswort für das Administrationskonto eingeben, da sonst alle Kontodaten verloren gehen.",
-    "Wrong admin recovery password. Please check the password and try again." : "Falsches Wiederherstellungspasswort für das Admin-Konto. Bitte überprüfe das Passwort und versuche es erneut.",
+    "Wrong admin recovery password. Please check the password and try again." : "Falsches Wiederherstellungspasswort für das Administrations-Konto. Bitte das Passwort überprüfen und erneut versuchen.",
     "Backend does not support password change, but the encryption of the account key was updated." : "Das Backend unterstützt keine Passwortänderung, aber die Verschlüsselung des Kontoschlüssels wurde aktualisiert.",
     "Administrator documentation" : "Dokumentation für die Administration",
     "User documentation" : "Dokumentation für Benutzer",
