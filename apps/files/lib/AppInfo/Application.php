@@ -35,6 +35,7 @@ use OCA\Files\Listener\RestrictInteractionListener;
 use OCA\Files\Listener\SyncLivePhotosListener;
 use OCA\Files\Listener\UserFirstTimeLoggedInListener;
 use OCA\Files\Notification\Notifier;
+use OCA\Files\Search\AccountScopedSearchProvider;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Sharing\Permission\NodeCreateSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeDeleteSharePermissionType;
@@ -96,6 +97,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(ShareDeletedFromSelfEvent::class, Listener::class);
 
 		$context->registerSearchProvider(FilesSearchProvider::class);
+		$context->registerAccountScopedSearchProvider(AccountScopedSearchProvider::class);
 
 		$context->registerNotifierService(Notifier::class);
 		$context->registerDashboardWidget(FavoriteWidget::class);

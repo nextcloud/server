@@ -103,6 +103,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Migration\\Version2003Date20241021095629' => __DIR__ . '/..' . '/../lib/Migration/Version2003Date20241021095629.php',
         'OCA\\Files\\Notification\\Notifier' => __DIR__ . '/..' . '/../lib/Notification/Notifier.php',
         'OCA\\Files\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
+        'OCA\\Files\\Search\\AccountScopedSearchProvider' => __DIR__ . '/..' . '/../lib/Search/AccountScopedSearchProvider.php',
         'OCA\\Files\\Search\\FilesSearchProvider' => __DIR__ . '/..' . '/../lib/Search/FilesSearchProvider.php',
         'OCA\\Files\\Service\\ChunkedUploadConfig' => __DIR__ . '/..' . '/../lib/Service/ChunkedUploadConfig.php',
         'OCA\\Files\\Service\\DirectEditingService' => __DIR__ . '/..' . '/../lib/Service/DirectEditingService.php',
