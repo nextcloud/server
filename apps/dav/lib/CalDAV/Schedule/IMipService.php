@@ -40,6 +40,32 @@ class IMipService {
 		'meeting_location' => 'LOCATION'
 	];
 
+	/**
+	 * Properties compared to build an instance's changed-property delta:
+	 * everything the invitation email can show a diff for
+	 * (SUMMARY/DESCRIPTION/LOCATION/URL via STRING_DIFF, DTSTART/DTEND/DURATION
+	 * for the "when" string), plus SEQUENCE/LAST-MODIFIED and the rest of
+	 * iTip's own significantChangeProperties (RRULE/RDATE/EXDATE/STATUS;
+	 * DUE is VTODO-only and not relevant to VEVENT invites).
+	 *
+	 * @var string[]
+	 */
+	private const array INSTANCE_DIFF_PROPERTIES = [
+		'SUMMARY',
+		'DESCRIPTION',
+		'LOCATION',
+		'URL',
+		'DTSTART',
+		'DTEND',
+		'DURATION',
+		'STATUS',
+		'RRULE',
+		'RDATE',
+		'EXDATE',
+		'SEQUENCE',
+		'LAST-MODIFIED',
+	];
+
 	public function __construct(
 		private URLGenerator $urlGenerator,
 		private IDBConnection $db,
@@ -147,6 +173,38 @@ class IMipService {
 		}
 
 		return sprintf('<a href="%1$s">%1$s</a>', htmlspecialchars($url));
+	}
+
+	public function instanceKey(VEvent $event): string {
+		return self::readPropertyWithDefault($event, 'UID', '') . '#' . self::readPropertyWithDefault($event, 'RECURRENCE-ID', '');
+	}
+
+	/**
+	 * Every VEVENT component directly in $calendar, in document order.
+	 *
+	 * @return list<VEvent>
+	 */
+	public function eventInstances(VCalendar $calendar): array {
+		return array_values(array_filter(
+			$calendar->getComponents(),
+			static fn ($component) => $component instanceof VEvent,
+		));
+	}
+
+	/**
+	 * Names of the RFC5545 properties that differ between $newEvent and
+	 * $oldEvent.
+	 *
+	 * @return string[]
+	 */
+	public function diffInstance(VEvent $newEvent, VEvent $oldEvent): array {
+		$changed = [];
+		foreach (self::INSTANCE_DIFF_PROPERTIES as $property) {
+			if (self::readPropertyWithDefault($newEvent, $property, '') !== self::readPropertyWithDefault($oldEvent, $property, '')) {
+				$changed[] = $property;
+			}
+		}
+		return $changed;
 	}
 
 	/**

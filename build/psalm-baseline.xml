@@ -416,10 +416,6 @@
     <RedundantCast>
       <code><![CDATA[(string)$iTipMessage->recipientName]]></code>
     </RedundantCast>
-    <RedundantCondition>
-      <code><![CDATA[!empty($modified['old']) && is_array($modified['old'])]]></code>
-      <code><![CDATA[is_array($modified['old'])]]></code>
-    </RedundantCondition>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipService.php">
     <UndefinedMagicPropertyFetch>
