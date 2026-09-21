@@ -41,6 +41,7 @@ use OCP\Share\IShareProviderWithNotification;
 use OCP\User\Exceptions\UserNotFoundException;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Class ShareByMail
@@ -99,14 +100,10 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		// if the admin enforces a password for all mail shares we create a
 		// random password and send it to the recipient
-		$password = $share->getPassword() ?: '';
-		$passwordEnforced = $this->shareManager->shareApiLinkEnforcePassword();
-		if ($passwordEnforced && empty($password)) {
+		$password = $share->getPassword();
+		if ($password === null && $this->shareManager->shareApiLinkEnforcePassword()) {
 			$password = $this->autoGeneratePassword($share);
-		}
-
-		if (!empty($password)) {
-			$share->setPassword($this->hasher->hash($password));
+			$share->setPasswordHash($this->hasher->hash($password));
 		}
 
 		$shareId = $this->createMailShare($share);
@@ -117,7 +114,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		// Temporary set the clear password again to send it by mail
 		// This need to be done after the share was created in the database
 		// as the password is hashed in between.
-		if (!empty($password)) {
+		if ($password !== null) {
 			$data['password'] = $password;
 		}
 
@@ -228,6 +225,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		if ($share->getToken() === '') {
 			$share->setToken($this->generateToken());
 		}
+
+		if ($share->getPassword() !== null && !$share->isPasswordHashed()) {
+			throw new RuntimeException('The password must be hashed already.');
+		}
+
 		return $this->addShareToDB(
 			$share->getNodeId(),
 			$share->getNodeType(),
@@ -770,6 +772,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			$expiration = \DateTime::createFromInterface($expiration);
 			$expiration->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 		}
+
+		if ($share->getPassword() !== null && !$share->isPasswordHashed()) {
+			throw new RuntimeException('The password must be hashed already.');
+		}
+
 		$qb->update('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
 			->set('item_source', $qb->createNamedParameter($share->getNodeId()))
@@ -1055,7 +1062,9 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$shareTime->setTimestamp((int)$data['stime']);
 		$share->setShareTime($shareTime);
 		$share->setSharedWith($data['share_with'] ?? '');
-		$share->setPassword($data['password']);
+		if (($password = $data['password']) !== null) {
+			$share->setPasswordHash($password);
+		}
 		$passwordExpirationTime = \DateTime::createFromFormat('Y-m-d H:i:s', $data['password_expiration_time'] ?? '');
 		$share->setPasswordExpirationTime($passwordExpirationTime !== false ? $passwordExpirationTime : null);
 		$share->setLabel($data['label'] ?? '');
