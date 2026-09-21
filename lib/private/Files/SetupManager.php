@@ -496,10 +496,21 @@ class SetupManager implements ISetupManager {
 			}
 		}
 
-		// for the user's home folder, and includes children we need everything always
+		// for the user's home folder with children we only need everything
+		// if a non-home mount sits directly at the home folder (e.g. external
+		// storage with '/' as mountpoint), which the logic below can't resolve.
+		// Otherwise fall through and set up just the providers found underneath.
 		if (rtrim($path) === '/' . $user->getUID() . '/files' && $includeChildren) {
-			$this->setupForUser($user);
-			return;
+			$homeRoot = rtrim($path, '/') . '/';
+			foreach ($this->userMountCache->getMountsForUser($user) as $cachedMount) {
+				if ($cachedMount->getMountPoint() === $homeRoot
+					&& !is_a($cachedMount->getMountProvider(), IHomeMountProvider::class, true)
+				) {
+					$this->setupForUser($user);
+
+					return;
+				}
+			}
 		}
 
 		if (!isset($this->setupUserMountProviders[$user->getUID()])) {

@@ -16,6 +16,7 @@ use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
+use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IUserMountCache;
@@ -499,6 +500,86 @@ class SetupManagerTest extends TestCase {
 		$this->setupManager->setupForPath($this->path, true);
 	}
 
+	/**
+	 * Tests that setupForPath on the home folder with children does not
+	 * trigger a full user setup when no non-home mount sits at the home folder.
+	 */
+	public function testSetupForPathHomeRootWithChildrenSkipsFullSetup(): void {
+		$homePath = "/{$this->userId}/files";
+		$homeCachedMount = $this->getCachedMountInfo("{$homePath}/", 42, SetupManagerTestHomeMountProvider::class);
+
+		$this->userMountCache->expects($this->once())
+			->method('getMountsForUser')
+			->with($this->user)
+			->willReturn([$homeCachedMount]);
+		$this->userMountCache->expects($this->once())
+			->method('getMountForPath')
+			->with($this->user, $homePath)
+			->willReturn($homeCachedMount);
+		$this->userMountCache->expects($this->once())
+			->method('getMountsInPath')
+			->with($this->user, $homePath)
+			->willReturn([]);
+
+		$providerMount = $this->createMock(IMountPoint::class);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getUserMountsForProviderClasses')
+			->with($this->user, [SetupManagerTestHomeMountProvider::class])
+			->willReturn([$providerMount]);
+
+		$homeMount = $this->createMock(IMountPoint::class);
+
+		$this->mountProviderCollection->expects($this->once())
+			->method('getHomeMountForUser')
+			->willReturn($homeMount);
+
+		$this->userMountCache->expects($this->once())
+			->method('registerMounts')
+			->with($this->user, [$providerMount], [SetupManagerTestHomeMountProvider::class]);
+
+		// a full user setup enumerates all providers, which must not happen here
+		$this->mountProviderCollection->expects($this->never())
+			->method('addMountForUser');
+
+		$invokedCount = $this->exactly(2);
+		$addMountExpectations = [
+			1 => $homeMount,
+			2 => $providerMount,
+		];
+		$this->mountManager->expects($invokedCount)
+			->method('addMount')
+			->willReturnCallback($this->getAddMountCheckCallback($invokedCount, $addMountExpectations));
+
+		$this->setupManager->setupForPath($homePath, true);
+	}
+
+	/**
+	 * Tests that setupForPath on the home folder with children still triggers
+	 * a full user setup when a non-home mount (e.g. external storage with '/'
+	 * as mountpoint) sits directly at the home folder.
+	 */
+	public function testSetupForPathHomeRootWithOverlayMountForcesFullSetup(): void {
+		$homePath = "/{$this->userId}/files";
+		$homeCachedMount = $this->getCachedMountInfo("{$homePath}/", 42, SetupManagerTestHomeMountProvider::class);
+		$overlayCachedMount = $this->getCachedMountInfo("{$homePath}/", 43, SetupManagerTestFullMountProvider::class);
+
+		$this->userMountCache->expects($this->once())
+			->method('getMountsForUser')
+			->with($this->user)
+			->willReturn([$homeCachedMount, $overlayCachedMount]);
+
+		// a full user setup enumerates all providers for the user
+		$this->mountProviderCollection->expects($this->once())
+			->method('addMountForUser');
+
+		// the partial setup logic must not run
+		$this->userMountCache->expects($this->never())->method('getMountForPath');
+		$this->userMountCache->expects($this->never())->method('getMountsInPath');
+
+		$this->setupManager->setupForPath($homePath, true);
+	}
+
 	public function testSetupForUserResetsUserPaths(): void {
 		$cachedMount = $this->getCachedMountInfo($this->mountPoint, 42);
 
@@ -668,5 +749,12 @@ class SetupManagerTestFullMountProvider implements IMountProvider {
 	#[\Override]
 	public function getMountsForUser(IUser $user, IStorageFactory $loader): array {
 		return [];
+	}
+}
+
+class SetupManagerTestHomeMountProvider implements IHomeMountProvider {
+	#[\Override]
+	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
+		return null;
 	}
 }
