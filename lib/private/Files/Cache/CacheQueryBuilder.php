@@ -33,8 +33,11 @@ class CacheQueryBuilder extends ExtendedQueryBuilder {
 			->selectAlias($this->func()->count('filecache.fileid'), 'number_files')
 			->selectAlias($this->func()->max('filecache.fileid'), 'ref_file_id')
 			->from('filecache', 'filecache')
+			// Compare as strings (objectid = CAST(fileid AS CHAR)) so the systag_by_objectid
+			// index on the string column objectid stays usable; casting objectid to int (or
+			// the implicit string->number coercion against the bigint fileid) defeats it.
 			->leftJoin('filecache', 'systemtag_object_mapping', 'systemtagmap', $this->expr()->andX(
-				$this->expr()->eq('filecache.fileid', $this->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
+				$this->expr()->eq('systemtagmap.objectid', $this->expr()->castColumn('filecache.fileid', IQueryBuilder::PARAM_STR)),
 				$this->expr()->eq('systemtagmap.objecttype', $this->createNamedParameter('files'))
 			))
 			->leftJoin('systemtagmap', 'systemtag', 'systemtag', $this->expr()->andX(
