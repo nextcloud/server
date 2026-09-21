@@ -1142,12 +1142,6 @@ final readonly class SharingBackend implements ISharingBackend {
 
 				/** @var ?string $value */
 				$value = $row['property_value'];
-
-				$propertyType = $registryPropertyTypes[$propertyTypeClass];
-				if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-					$value = $propertyType->modifyValueOnLoad($value);
-				}
-
 				$shares[$shareId]['properties'][$propertyTypeClass] = new ShareProperty($propertyTypeClass, $value);
 			}
 		}
@@ -1315,9 +1309,6 @@ final readonly class SharingBackend implements ISharingBackend {
 		$property = new ShareProperty($propertyTypeClass, $propertyType->getDefaultValue($share));
 
 		$value = $this->updateShareProperty($share->id, $property);
-		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-			$value = $propertyType->modifyValueOnLoad($value);
-		}
 
 		$property = new ShareProperty(
 			$property->class,
