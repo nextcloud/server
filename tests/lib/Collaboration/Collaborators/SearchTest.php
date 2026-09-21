@@ -15,6 +15,7 @@ use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IContainer;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -23,6 +24,7 @@ use Test\TestCase;
 class SearchTest extends TestCase {
 	protected IContainer&MockObject $container;
 	protected IEventDispatcher&MockObject $eventDispatcher;
+	protected IConfig&MockObject $config;
 	protected Search $search;
 
 	#[\Override]
@@ -31,8 +33,8 @@ class SearchTest extends TestCase {
 
 		$this->container = $this->createMock(IContainer::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-
-		$this->search = new Search($this->container, $this->eventDispatcher);
+		$this->config = $this->createMock(IConfig::class);
+		$this->search = new Search($this->container, $this->eventDispatcher, $this->config);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchSharees')]
