@@ -20,7 +20,6 @@ use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
-use NCU\Sharing\Property\ISharePropertyTypeModifyValue;
 use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\IShareRecipientTypePublicSecret;
@@ -592,9 +591,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->backend->setLastUpdated([$share->id], $time);
 
 		$value = $this->backend->updateShareProperty($share->id, $property);
-		if ($propertyType instanceof ISharePropertyTypeModifyValue) {
-			$value = $propertyType->modifyValueOnLoad($value);
-		}
 
 		$property = new ShareProperty(
 			$property->class,
