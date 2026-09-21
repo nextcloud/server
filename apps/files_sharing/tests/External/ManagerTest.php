@@ -232,7 +232,7 @@ class ManagerTest extends TestCase {
 		}
 
 		// Add a share for "user"
-		$this->assertSame(null, call_user_func_array([$this->manager, 'addShare'], [$shareData1, $userOrGroup]));
+		$this->manager->addShare($shareData1, $userOrGroup);
 		$openShares = $this->manager->getOpenShares();
 		$this->assertCount(1, $openShares);
 		$this->assertExternalShareEntry($shareData1, $openShares[0], 1, '{{TemporaryMountPointName#' . $shareData1->getName() . '}}', $userOrGroup);
