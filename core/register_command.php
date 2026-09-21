@@ -90,6 +90,7 @@ use OC\Core\Command\Preview\Generate;
 use OC\Core\Command\Preview\ResetRenderedTexts;
 use OC\Core\Command\Router\ListRoutes;
 use OC\Core\Command\Router\MatchRoute;
+use OC\Core\Command\Search\ProvidersCommand;
 use OC\Core\Command\Search\QueryCommand;
 use OC\Core\Command\Security\BruteforceAttempts;
 use OC\Core\Command\Security\BruteforceResetAttempts;
@@ -265,6 +266,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->addCommand(Server::get(ExportCertificates::class));
 	$application->addCommand(Server::get(ImportCertificate::class));
 	$application->addCommand(Server::get(RemoveCertificate::class));
+	$application->addCommand(new CommandAdapter(ProvidersCommand::class, null, \OC::$server));
 	$application->addCommand(new CommandAdapter(QueryCommand::class, null, \OC::$server));
 	$application->addCommand(Server::get(BruteforceAttempts::class));
 	$application->addCommand(Server::get(BruteforceResetAttempts::class));

@@ -12,6 +12,8 @@ namespace OCA\DAV\CardDAV\Search;
 use NCU\Search\AccountScopedSearchResult;
 use NCU\Search\IAccountScopedSearchProvider;
 use NCU\Search\MetadataField;
+use NCU\Search\SearchPropertyDefinition;
+use NCU\Search\SearchPropertyType;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Search\SearchOperatorEvaluator;
 use OCP\Files\Search\ISearchQuery;
@@ -22,10 +24,7 @@ use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
-/**
- * @psalm-import-type DeclarativeSettingsFormField from \OCP\Settings\IDeclarativeSettingsForm
- */
-class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
+class ContactAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	private const ID = 'contacts';
 
 	/** The properties a `content` condition searches. Anything outside this list is not indexed. */
@@ -63,29 +62,20 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	}
 
 	#[\Override]
-	public function getSearchCriterion(): array {
+	public function getProperties(): array {
 		return [
-			['id' => 'content', 'title' => $this->l10n->t('Content'), 'type' => 'text', 'default' => ''],
-			['id' => 'name', 'title' => $this->l10n->t('Name'), 'type' => 'text', 'default' => ''],
-			['id' => 'email', 'title' => $this->l10n->t('Email'), 'type' => 'text', 'default' => ''],
-			['id' => 'phone', 'title' => $this->l10n->t('Phone'), 'type' => 'text', 'default' => ''],
-			['id' => 'organisation', 'title' => $this->l10n->t('Organisation'), 'type' => 'text', 'default' => ''],
-		];
-	}
-
-	#[\Override]
-	public function getSearchResultMetadataKeys(): array {
-		return [
-			'owner' => $this->l10n->t('Owner'),
-			'addressBookName' => $this->l10n->t('Address book'),
-			'modified' => $this->l10n->t('Modified'),
-			'checksum' => $this->l10n->t('Checksum'),
-			'shared' => $this->l10n->t('Shared'),
-			'emails' => $this->l10n->t('Emails'),
-			'phones' => $this->l10n->t('Phones'),
-			'organisation' => $this->l10n->t('Organisation'),
-			'jobTitle' => $this->l10n->t('Job title'),
-			'categories' => $this->l10n->t('Categories'),
+			new SearchPropertyDefinition('content', $this->l10n->t('Content'), searchable: true),
+			new SearchPropertyDefinition('name', $this->l10n->t('Name'), searchable: true),
+			new SearchPropertyDefinition('owner', $this->l10n->t('Owner'), selectable: true),
+			new SearchPropertyDefinition('address_book_name', $this->l10n->t('Address book'), selectable: true),
+			new SearchPropertyDefinition('modified', $this->l10n->t('Modified'), SearchPropertyType::DateTime, selectable: true),
+			new SearchPropertyDefinition('checksum', $this->l10n->t('Checksum'), selectable: true),
+			new SearchPropertyDefinition('shared', $this->l10n->t('Shared'), SearchPropertyType::Boolean, selectable: true),
+			new SearchPropertyDefinition('email', $this->l10n->t('Emails'), searchable: true, selectable: true, multiValued: true),
+			new SearchPropertyDefinition('phone', $this->l10n->t('Phones'), searchable: true, selectable: true, multiValued: true),
+			new SearchPropertyDefinition('organisation', $this->l10n->t('Organisation'), searchable: true, selectable: true),
+			new SearchPropertyDefinition('job_title', $this->l10n->t('Job title'), selectable: true),
+			new SearchPropertyDefinition('categories', $this->l10n->t('Categories'), selectable: true, multiValued: true),
 		];
 	}
 
@@ -133,7 +123,7 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 
 			$this->addMetaData($entry, 'owner', fn (): string => $this->uidOfPrincipal(
 				(string)($book['{http://owncloud.org/ns}owner-principal'] ?? $book['principaluri'] ?? '')) ?: $userId);
-			$this->addMetaData($entry, 'addressBookName', static fn (): string
+			$this->addMetaData($entry, 'address_book_name', static fn (): string
 				=> (string)($book['{DAV:}displayname'] ?? $book['uri']));
 			$this->addMetaData($entry, 'shared', fn (): bool => $this->isShared($book));
 
@@ -151,8 +141,8 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 			$data = (string)($row['carddata'] ?? '');
 			$this->addMetaData($entry, 'checksum', static fn (): string => 'SHA256:' . hash('sha256', $data));
 
-			$this->addMetaData($entry, 'emails', fn (): array => $this->propertyValues($card, 'EMAIL'));
-			$this->addMetaData($entry, 'phones', fn (): array => $this->propertyValues($card, 'TEL'));
+			$this->addMetaData($entry, 'email', fn (): array => $this->propertyValues($card, 'EMAIL'));
+			$this->addMetaData($entry, 'phone', fn (): array => $this->propertyValues($card, 'TEL'));
 			$this->addMetaData($entry, 'categories', fn (): array => $this->propertyValues($card, 'CATEGORIES'));
 
 			$organisation = $this->propertyValues($card, 'ORG');
@@ -165,7 +155,7 @@ class AccountScopedSearchProvider implements IAccountScopedSearchProvider {
 			});
 
 			$jobTitle = $this->propertyValues($card, 'TITLE');
-			$this->addMetaData($entry, 'jobTitle', static function () use ($jobTitle): string {
+			$this->addMetaData($entry, 'job_title', static function () use ($jobTitle): string {
 				if ($jobTitle === []) {
 					throw new \RuntimeException('no job title recorded on this card');
 				}
