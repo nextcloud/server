@@ -22,6 +22,21 @@ class LivePhotosService {
 	 * Get the associated live photo for a given file id
 	 */
 	public function getLivePhotoPeerId(Node $file): ?int {
+		$peer = $this->getLivePhotoPeerIdUnchecked($file);
+		if ($peer === null) {
+			return null;
+		}
+
+		$peerOfPeer = $this->getLivePhotoPeerIdsUnchecked([$peer])[$peer] ?? null;
+		if ($peerOfPeer === $file->getId()) {
+			// the peer relationship is only valid if it's mutual
+			return $peer;
+		} else {
+			return null;
+		}
+	}
+
+	private function getLivePhotoPeerIdUnchecked(Node $file): ?int {
 		try {
 			$metadata = $this->filesMetadataManager->getMetadataForNode($file);
 		} catch (FilesMetadataNotFoundException $ex) {
@@ -41,6 +56,14 @@ class LivePhotosService {
 	 * @return array<int, int>
 	 */
 	public function getLivePhotoPeerIds(array $fileIds): array {
+		$peersIds = $this->getLivePhotoPeerIdsUnchecked($fileIds);
+		$peersOfPeers = $this->getLivePhotoPeerIdsUnchecked($peersIds);
+
+		// the peer relationship is only valid if it's mutual
+		return array_filter($peersIds, fn (int $peerId, int $fileId) => ($peersOfPeers[$peerId] ?? null) === $fileId, ARRAY_FILTER_USE_BOTH);
+	}
+
+	private function getLivePhotoPeerIdsUnchecked(array $fileIds): array {
 		$metadata = $this->filesMetadataManager->getMetadataForFiles($fileIds);
 		$peersIds = [];
 		foreach ($metadata as $fileId => $item) {
