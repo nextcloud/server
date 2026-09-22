@@ -2171,6 +2171,7 @@ return array(
     'OC\\Preview\\Photoshop' => $baseDir . '/lib/private/Preview/Photoshop.php',
     'OC\\Preview\\Postscript' => $baseDir . '/lib/private/Preview/Postscript.php',
     'OC\\Preview\\PreviewMigrationService' => $baseDir . '/lib/private/Preview/PreviewMigrationService.php',
+    'OC\\Preview\\PreviewProviderDefaults' => $baseDir . '/lib/private/Preview/PreviewProviderDefaults.php',
     'OC\\Preview\\PreviewService' => $baseDir . '/lib/private/Preview/PreviewService.php',
     'OC\\Preview\\ProviderV2' => $baseDir . '/lib/private/Preview/ProviderV2.php',
     'OC\\Preview\\SGI' => $baseDir . '/lib/private/Preview/SGI.php',

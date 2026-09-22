@@ -2212,6 +2212,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\Photoshop' => __DIR__ . '/../../..' . '/lib/private/Preview/Photoshop.php',
         'OC\\Preview\\Postscript' => __DIR__ . '/../../..' . '/lib/private/Preview/Postscript.php',
         'OC\\Preview\\PreviewMigrationService' => __DIR__ . '/../../..' . '/lib/private/Preview/PreviewMigrationService.php',
+        'OC\\Preview\\PreviewProviderDefaults' => __DIR__ . '/../../..' . '/lib/private/Preview/PreviewProviderDefaults.php',
         'OC\\Preview\\PreviewService' => __DIR__ . '/../../..' . '/lib/private/Preview/PreviewService.php',
         'OC\\Preview\\ProviderV2' => __DIR__ . '/../../..' . '/lib/private/Preview/ProviderV2.php',
         'OC\\Preview\\SGI' => __DIR__ . '/../../..' . '/lib/private/Preview/SGI.php',
