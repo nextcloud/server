@@ -200,7 +200,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			}
 		}
 		$intersectingTables = array_intersect($toTables, $fromTables);
-		$intersectingTables = $this->sortTablesByForeignKeys( $toDB, $intersectingTables);
+		$intersectingTables = $this->sortTablesByForeignKeys($toDB, $intersectingTables);
 
 		$this->convertDB($fromDB, $toDB, $intersectingTables, $input, $output);
 		return 0;
