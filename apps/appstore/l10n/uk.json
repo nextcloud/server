@@ -6,6 +6,11 @@
     "Groups" : "Групи",
     "Actions" : "Дії",
     "Show details" : "Показати деталі",
+    "Grid size" : "Розмір сітки",
+    "Small grid size" : "Маленька сітка",
+    "Medium grid size" : "Середня сітка",
+    "Large grid size" : "Велика сітка",
+    "Show incompatible" : "Показувати несумісні",
     "Grid view" : "Показувати сіткою",
     "Cancel" : "Скасувати",
     "Office suite switching is managed through the Nextcloud All-in-One interface." : "Керування офісним пакетом здійснюється через інтерфейс Nextcloud All-in-One.",
@@ -75,8 +80,11 @@
     "{index} of {total}" : "{index} із {total}",
     "Limit to groups" : "Обмежити групами",
     "Save" : "Зберегти",
+    "Update all apps" : "Оновити всі застосунки",
+    "Are you sure you want to update all apps?" : "Дійсно оновити всі застосунки?",
     "Update all" : "Оновити всі",
     "Loading app list" : "Завантаження переліку застосунків",
+    "No matching apps found" : "Відсутні відповідні застосунки",
     "Search everywhere" : "Шукати всюди",
     "Download and enable all" : "Звантажити та увімкнути все",
     "Could not load app discover section" : "Не вдалося завантажити розділ пошуку додатків",
@@ -115,6 +123,7 @@
     "Best security: documents never leave your server" : "Найкращий рівень безпеки: документи ніколи не полишають вашу хмару",
     "Best ODF compatibility" : "Найкраща підтримка ODF",
     "Best support for legacy files" : "Найкраща підтримка файлів старих форматів",
+    "Could not update the app. Please try again later." : "Не вдалося оновити застосунок. Спробуйте пізніше.",
     "An error occurred during the request. Unable to proceed." : "Під час запиту сталася помилка. Неможливо продовжити."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

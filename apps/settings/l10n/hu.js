@@ -350,6 +350,8 @@ OC.L10N.register(
     "Please note that it can take up to 24 hours for your profile picture to be updated everywhere." : "Vegye figyelembe, hogy akár 24 óráig is eltarthat, amíg a profilkép mindenhol frissül.",
     "Your profile picture" : "Az Ön profilképe",
     "Upload profile picture" : "Profilkép feltöltése",
+    "Choose from Nextcloud Files" : "Válasszon a Nextcloud Fájlokból",
+    "Delete picture" : "Kép törlése",
     "The file must be a PNG or JPG" : "A fájlnak PNG-nek vagy JPG-nek kell lennie",
     "Picture provided by original account" : "Az eredeti fiók által biztosított kép.",
     "Your biography. Markdown is supported." : "Az önéletrajza. A Markdown támogatott.",

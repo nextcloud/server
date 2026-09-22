@@ -191,9 +191,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "پاراڭ {user} تەرىپىدىن {owner} بىلەن ئورتاقلاشتى",
     "Shared with {user} by {owner}" : "{user} بىلەن {owner} بىلەن ئورتاقلاشتى",
     "Open Sharing Details" : "ئورتاقلىشىش تەپسىلاتلىرىنى ئېچىڭ",
-    "Added by {initiator}" : "{initiator} by قوشۇلدى",
-    "Via “{folder}”" : "«{folder}» ئارقىلىق",
     "Unshare" : "ھەمبەھىرلىمە",
+    "Added by {initiator}" : "{initiator} by قوشۇلدى",
     "Cannot copy, please copy the link manually" : "كۆچۈرگىلى بولمايدۇ ، ئۇلىنىشنى قولدا كۆچۈرۈڭ",
     "Copy internal link" : "ئىچكى ئۇلىنىشنى كۆچۈرۈڭ",
     "For people who already have access" : "ئاللىبۇرۇن كىرەلەيدىغان ئادەملەر ئۈچۈن",
@@ -405,6 +404,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "%s نى ئورتاقلىشىش مەغلۇب بولدى ، چۈنكى ئارقا تەرىپى ScienceMesh نىڭ پاي چېكىنى قوللىمايدۇ",
     "Public upload disabled by the administrator" : "باشقۇرغۇچى تەرىپىدىن ئاممىۋى يوللاش چەكلەنگەن",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "بەلگىلەر كەم دېگەندە 1 ھەرپتىن تەركىب تاپقان بولۇشى كېرەك، پەقەت ھەرپلەر، سانلار ياكى سىزىقچە بولۇشى مۇمكىن.",
+    "Via “{folder}”" : "«{folder}» ئارقىلىق",
     "Name or email …" : "ئىسىم ياكى ئېلخەت…",
     "Name, email, or Federated Cloud ID …" : "ئىسمى ، ئېلېكترونلۇق خەت ياكى فېدېراتسىيە بۇلۇت كىملىكى…",
     "Searching …" : "ئىزدەش…"

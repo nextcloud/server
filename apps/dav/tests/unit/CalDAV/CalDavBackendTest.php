@@ -22,6 +22,7 @@ use OCA\DAV\Exception\UidConflict;
 use OCP\IConfig;
 use OCP\IL10N;
 use Psr\Log\NullLogger;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
@@ -871,8 +872,33 @@ EOS;
 			'VEVENT with DURATION instead of DTEND' => [(new DateTime('2024-03-01T11:00:00Z'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:vevent-duration@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDURATION:PT2H\r\nSUMMARY:Event with duration\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
 			'all-day VEVENT without DTEND defaults to one day' => [(new DateTime('2024-03-02'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:vevent-allday@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART;VALUE=DATE:20240301\r\nSUMMARY:All day event\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
 			'VEVENT with RDATE only (no RRULE) uses latest RDATE as last occurrence' => [(new DateTime('2024-03-10T09:00:00Z'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:vevent-rdate-only@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nRDATE:20240305T090000Z,20240310T090000Z\r\nSUMMARY:Event with RDATE only\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			'VEVENT with RDATE only and a DURATION includes duration of the last occurrence' => [(new DateTime('2024-03-10T09:30:00Z'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:vevent-rdate-duration@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDURATION:PT30M\r\nRDATE:20240305T090000Z,20240310T090000Z\r\nSUMMARY:Event with RDATE and duration\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			'VEVENT with RRULE COUNT and DTEND includes duration of the last occurrence' => [(new DateTime('2024-03-03T10:00:00Z'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:vevent-rrule-count-dtend@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDTEND:20240301T100000Z\r\nRRULE:FREQ=DAILY;COUNT=3\r\nSUMMARY:Event with RRULE count and DTEND\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
 			'component without UID' => [null, 'uid', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nSUMMARY:Event without UID\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+
+			// Recurrence exception without an accompanying master, e.g. an iTip
+			// REQUEST for an attendee that was only added to a single occurrence
+			'exception without master resolves componentType from the exception' => ['VEVENT', 'componentType', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:exception-only@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDTEND:20240301T100000Z\r\nRECURRENCE-ID:20240301T090000Z\r\nSUMMARY:Occurrence exception without a master\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			'exception without master keeps its own uid' => ['exception-only@example.com', 'uid', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:exception-only@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDTEND:20240301T100000Z\r\nRECURRENCE-ID:20240301T090000Z\r\nSUMMARY:Occurrence exception without a master\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			'exception without master uses its own DTSTART/DTEND for occurrence range' => [(new DateTime('2024-03-01T10:00:00Z'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:exception-only@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDTEND:20240301T100000Z\r\nRECURRENCE-ID:20240301T090000Z\r\nSUMMARY:Occurrence exception without a master\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+
+			// Multiple recurrence exceptions without a master, e.g. an attendee
+			// added to several specific occurrences of a recurring event at once
+			'multiple exceptions without master use earliest DTSTART as firstOccurence' => [(new DateTime('2024-03-01T09:00:00Z'))->getTimestamp(), 'firstOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:multi-exception@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDTEND:20240301T150000Z\r\nRECURRENCE-ID:20240301T090000Z\r\nSUMMARY:Long occurrence\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:multi-exception@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240305T090000Z\r\nDTEND:20240305T093000Z\r\nRECURRENCE-ID:20240305T090000Z\r\nSUMMARY:Short later occurrence\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			'multiple exceptions without master use latest DTEND as lastOccurence regardless of which exception is earliest' => [(new DateTime('2024-03-05T09:30:00Z'))->getTimestamp(), 'lastOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:multi-exception@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDTEND:20240301T150000Z\r\nRECURRENCE-ID:20240301T090000Z\r\nSUMMARY:Long occurrence\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:multi-exception@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240305T090000Z\r\nDTEND:20240305T093000Z\r\nRECURRENCE-ID:20240305T090000Z\r\nSUMMARY:Short later occurrence\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			'multiple exceptions without master resolve uid' => ['multi-exception@example.com', 'uid', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:multi-exception@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDTEND:20240301T150000Z\r\nRECURRENCE-ID:20240301T090000Z\r\nSUMMARY:Long occurrence\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:multi-exception@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240305T090000Z\r\nDTEND:20240305T093000Z\r\nRECURRENCE-ID:20240305T090000Z\r\nSUMMARY:Short later occurrence\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
 		];
+	}
+
+	public function testGetDenormalizedDataRejectsObjectWithOnlyUnsupportedBaseComponent(): void {
+		// A VFREEBUSY is a valid getBaseComponent() candidate (it's neither VTIMEZONE
+		// nor carries RECURRENCE-ID), but it's not a type the extraction logic supports.
+		$calData = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//SabreDAV//SabreDAV//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VFREEBUSY\r\nUID:freebusy-only@example.com\r\nDTSTAMP:20240301T080000Z\r\nDTSTART:20240301T090000Z\r\nDTEND:20240301T100000Z\r\nEND:VFREEBUSY\r\nEND:VCALENDAR\r\n";
+
+		$this->expectException(BadRequest::class);
+		$this->expectExceptionMessage('A valid calendar object must contain at least one VJOURNAL, VEVENT, or VTODO component type');
+
+		$this->backend->getDenormalizedData($calData);
 	}
 
 	public function testCalendarSearch(): void {

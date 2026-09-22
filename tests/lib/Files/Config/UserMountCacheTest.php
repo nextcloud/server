@@ -306,6 +306,8 @@ class UserMountCacheTest extends TestCase {
 		$this->clearCache();
 
 		$user3->delete();
+		// We have to call this manually as the listener is not connected to our test instance
+		$this->cache->removeUserMounts($user3);
 
 		$cachedMounts = $this->cache->getMountsForUser($user1);
 
@@ -543,6 +545,8 @@ class UserMountCacheTest extends TestCase {
 		$this->cache->registerMounts($user1, [$mount1]);
 
 		$user1->delete();
+		// We have to call this manually as the listener is not connected to our test instance
+		$this->cache->removeUserMounts($user1);
 		$this->clearCache();
 
 		$cachedMounts = $this->cache->getMountsForFileId($rootId);

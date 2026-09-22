@@ -50,9 +50,7 @@ use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\AppData\IAppDataFactory;
-use OCP\Files\Folder;
 use OCP\Files\IAppData;
-use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -105,14 +103,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		 */
 		/* Cannot be an alias because Output is not in OCA */
 		$this->registerService(IOutput::class, fn (ContainerInterface $c): IOutput => new Output($c->get('webRoot')));
-
-		$this->registerService(Folder::class, function () {
-			$user = $this->get(IUserSession::class)->getUser();
-			if ($user === null) {
-				return null;
-			}
-			return $this->getServer()->get(IRootFolder::class)->getUserFolder($user->getUID());
-		});
 
 		$this->registerService(IAppData::class, function (ContainerInterface $c): IAppData {
 			return $c->get(IAppDataFactory::class)->get($c->get('appName'));
@@ -308,38 +298,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param list<class-string> $chain
 	 */
 	#[\Override]
-	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
+	protected function query(string $name, bool $autoload = true, array $chain = [], bool $fallback = true): mixed {
+		$name = $this->resolveAlias($name);
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
 		}
 
-		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
-		if ($isServerClass && !$this->has($name)) {
-			return $this->server->query($name, $autoload, $chain);
-		}
-
-		try {
-			return $this->queryNoFallback($name, $chain);
-		} catch (QueryException $firstException) {
-			try {
-				return $this->server->query($name, $autoload, $chain);
-			} catch (QueryException $secondException) {
-				if ($firstException->getCode() === 1) {
-					throw $secondException;
-				}
-				throw $firstException;
-			}
-		}
-	}
-
-	/**
-	 * @param string already sanitized $name
-	 * @param list<class-string> $chain
-	 * @return mixed
-	 * @throws QueryException if the query could not be resolved
-	 * @internal
-	 */
-	public function queryNoFallback($name, array $chain) {
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
 		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
@@ -353,8 +317,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			/* AppFramework services are scoped to the application */
 			return parent::query($name, chain: $chain);
 		}
-
-		throw new QueryException('Could not resolve ' . $name . '!'
-			. ' Class can not be instantiated', 1);
+		if ($fallback) {
+			return $this->server->query($name, $autoload, $chain);
+		} else {
+			throw new QueryException('Could not resolve ' . $name . '! Class can not be instantiated', 1);
+		}
 	}
 }

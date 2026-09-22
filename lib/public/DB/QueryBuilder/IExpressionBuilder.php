@@ -442,4 +442,28 @@ interface IExpressionBuilder {
 	 * @psalm-taint-sink sql $type
 	 */
 	public function castColumn($column, $type): IQueryFunction;
+
+	/**
+	 * Creates an EXISTS () expression with the given arguments.
+	 *
+	 * Note that any parameters used in the subquery have to be created from the parent query.
+	 *
+	 * @param IQueryBuilder $subQuery The subquery to check for existence.
+	 *
+	 * @return IQueryFunction
+	 * @since 36.0.0
+	 */
+	public function exists(IQueryBuilder $subQuery): IQueryFunction;
+
+	/**
+	 * Creates a NOT EXISTS () expression with the given arguments.
+	 *
+	 *  Note that any parameters used in the subquery have to be created from the parent query.
+	 *
+	 * @param IQueryBuilder $subQuery The subquery to check for non-existence.
+	 *
+	 * @return IQueryFunction
+	 * @since 36.0.0
+	 */
+	public function notExists(IQueryBuilder $subQuery): IQueryFunction;
 }

@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "Handlinger",
     "Checking …" : "Tjekker...",
     "Recheck status" : "Recheck-status",
+    "All accounts" : "Alle konti",
     "Delete" : "Slet",
     "System provided storage" : "System provided storage",
     "Saved" : "Gemt",

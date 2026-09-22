@@ -94,6 +94,7 @@ OC.L10N.register(
     "Actions" : "Acties",
     "Checking …" : "Controleren ...",
     "Recheck status" : "Hercontroleer status",
+    "All accounts" : "Alle accounts",
     "Delete" : "Verwijderen",
     "System provided storage" : "Door het systeem geleverde opslag",
     "Saved" : "Bewaard",

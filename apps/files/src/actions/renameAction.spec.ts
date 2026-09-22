@@ -89,7 +89,6 @@ describe('Rename action enabled tests', () => {
 	})
 
 	test('Disabled if more than one node', () => {
-		// @ts-expect-error mocking for tests
 		window.OCA = { Files: { Sidebar: {} } }
 
 		const file1 = new File({

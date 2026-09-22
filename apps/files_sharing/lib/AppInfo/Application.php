@@ -56,7 +56,6 @@ use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IGroup;
 use OCP\Interaction\RestrictInteractionEvent;
 use OCP\Share\Events\BeforeShareDeletedEvent;
 use OCP\Share\Events\ShareCreatedEvent;
@@ -66,7 +65,6 @@ use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\EventDispatcher\GenericEvent as OldGenericEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_sharing';
@@ -133,6 +131,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(ShareMovedEvent::class, SharesUpdatedListener::class);
 		$context->registerEventListener(UserHomeSetupEvent::class, UserHomeSetupListener::class);
 
+		$context->registerEventListener(UserDeletedEvent::class, SharesUpdatedListener::class);
+
 		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
@@ -167,14 +167,6 @@ class Application extends App implements IBootstrap {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->get(Listener::class);
 			$listener->shareNotification($event);
-		});
-		$dispatcher->addListener(IGroup::class . '::postAddUser', function ($event): void {
-			if (!$event instanceof OldGenericEvent) {
-				return;
-			}
-			/** @var Listener $listener */
-			$listener = $this->getContainer()->get(Listener::class);
-			$listener->userAddedToGroup($event);
 		});
 	}
 }

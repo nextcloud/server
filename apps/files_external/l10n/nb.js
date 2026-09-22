@@ -82,6 +82,7 @@ OC.L10N.register(
     "External storages" : "Ekstern lagring",
     "Status" : "Status",
     "Actions" : "Handlinger",
+    "All accounts" : "Alle kontoer",
     "Delete" : "Slett",
     "Saved" : "Lagret",
     "Error while saving" : "Feil under lagring",

@@ -24,6 +24,7 @@
     "Invalid LDAP UUIDs" : "UUIDهای LDAP نامعتبر",
     "None found" : "هیچ‌کدام یافت نشد",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "UUIDهای نامعتبر حساب‌ها یا گروه‌های LDAP یافت شده است. لطفاً تنظیمات «لغو تشخیص UUID» خود را در بخش تخصصی پیکربندی LDAP بررسی کنید و از «occ ldap:update-uuid» برای به‌روزرسانی آن‌ها استفاده کنید",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["%n گروه یافت شد","%n گروه یافت شد"],
     "> 1000 groups found" : "بیش از 1000 گروه یافت شد",
     "> 1000 users found" : "بیش از 1000 کاربر یافت شد",

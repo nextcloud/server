@@ -375,6 +375,18 @@ class RepairMimeTypes implements IRepairStep {
 	}
 
 	/**
+	 * @throws Exception
+	 * @since 36.0.0
+	 */
+	private function introduceAvifType(): IResult|int|null {
+		$updatedMimetypes = [
+			'avif' => 'image/avif',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+	/**
 	 * Check if there are any migrations available
 	 *
 	 * @throws Exception
@@ -495,6 +507,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($mimeTypeVersion, '33.0.0.0', '<') && $this->introduceTomlAndOvpnType()) {
 			$output->info('Fixed toml and ovpn mime type');
+		}
+
+		if (version_compare($mimeTypeVersion, '36.0.0.0', '<') && $this->introduceAvifType()) {
+			$output->info('Fixed avif mime type');
 		}
 
 		if (!$this->dryRun) {

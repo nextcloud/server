@@ -6,7 +6,6 @@
 import type { Locator, Page } from '@playwright/test'
 
 import { expect } from '@playwright/test'
-import { handlePasswordConfirmation } from '../utils/password-confirmation.ts'
 
 /**
  * Page object for the Admin Users Management page (/settings/users).
@@ -84,11 +83,8 @@ export class SettingsUsersPage {
 	/** Save and close the currently open edit dialog. */
 	async saveEditDialog(): Promise<void> {
 		const dialog = this.editUserDialog()
-		const button = dialog.getByRole('button', { name: 'Save' })
-		await button.focus()
-		await button.click({ force: true })
-		await handlePasswordConfirmation(this.page)
-		await dialog.waitFor({ state: 'hidden' })
+		await dialog.getByRole('button', { name: 'Save' }).click()
+		await expect(dialog).toBeHidden({ timeout: 30_000 })
 	}
 
 	/**

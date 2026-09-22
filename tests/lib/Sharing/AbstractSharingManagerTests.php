@@ -17,6 +17,7 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUser;
 use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\ShareSource;
 use OC\Core\Sharing\Permission\ReshareSharePermissionType;
@@ -42,6 +43,9 @@ use Test\TestCase;
  * @psalm-suppress PossiblyUndefinedArrayOffset
  */
 abstract class AbstractSharingManagerTests extends TestCase {
+	/**
+	 * @return SharingRecipient[]
+	 */
 	abstract protected function searchRecipients(
 		ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?Share $forShare = null,
 	): array;
@@ -99,7 +103,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 	/**
 	 * @return SharingShare
 	 */
-	abstract protected function updateShareRecipientPermission(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, SharePermission $permission): array;
+	abstract protected function updateShareRecipientPermission(
+		ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, SharePermission $permission,
+	): array;
 
 	/**
 	 * @return SharingShare
@@ -1905,7 +1911,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$share1 = $this->manager->addShareRecipient($accessContext1, $share1, $recipient2);
 
 		$this->dbConnection->commit();
-		$formatted = $this->updateShareRecipientPermission($accessContext1, $share1, $recipient2, new SharePermission(ReshareSharePermissionType::class, false));
+		$formatted = $this->updateShareRecipientPermission(
+			$accessContext1, $share1, $recipient2, new SharePermission(ReshareSharePermissionType::class, false)
+		);
 		$this->assertEquals([
 			[
 				'class' => TestShareRecipientType1::class,
@@ -2527,28 +2535,6 @@ abstract class AbstractSharingManagerTests extends TestCase {
 					'value' => 'recipient1',
 					'instance' => null,
 					'display_name' => 'Recipient 1',
-					'icon' => [
-						'svg' => '<svg/>',
-					],
-					'secret' => [
-						'updatable' => false,
-					],
-					'initiator' => [
-						'user_id' => 'owner',
-						'instance' => null,
-						'display_name' => 'Owner',
-						'icon' => [
-							'light' => 'http://localhost/index.php/avatar/owner/64',
-							'dark' => 'http://localhost/index.php/avatar/owner/64/dark',
-						],
-					],
-					'permissions' => [],
-				],
-				[
-					'class' => TestShareRecipientType2::class,
-					'value' => 'recipient2',
-					'instance' => null,
-					'display_name' => 'Recipient 2',
 					'icon' => [
 						'svg' => '<svg/>',
 					],
@@ -3444,39 +3430,27 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$this->assertArrayHasKey('recipients', $formatted);
 		$this->assertIsArray($formatted['recipients']);
-		$this->assertCount(4, $formatted['recipients']);
+		$this->assertCount(2, $formatted['recipients']);
 
-		// Parent - secret not visible
+		// Parent is not visible
+
+		// Self
 		$this->assertIsArray($formatted['recipients'][0]);
 		$this->assertArrayHasKey('value', $formatted['recipients'][0]);
-		$this->assertEquals('recipient1', $formatted['recipients'][0]['value']);
+		$this->assertEquals('recipient2', $formatted['recipients'][0]['value']);
 		$this->assertArrayHasKey('secret', $formatted['recipients'][0]);
 		$this->assertIsArray($formatted['recipients'][0]['secret']);
-		$this->assertArrayNotHasKey('value', $formatted['recipients'][0]['secret']);
+		$this->assertNotEmpty($formatted['recipients'][0]['secret']['value']);
 
-		// Self - secret visible
+		// Sibling is not visible
+
+		// Child
 		$this->assertIsArray($formatted['recipients'][1]);
 		$this->assertArrayHasKey('value', $formatted['recipients'][1]);
-		$this->assertEquals('recipient2', $formatted['recipients'][1]['value']);
+		$this->assertEquals('recipient4', $formatted['recipients'][1]['value']);
 		$this->assertArrayHasKey('secret', $formatted['recipients'][1]);
 		$this->assertIsArray($formatted['recipients'][1]['secret']);
 		$this->assertNotEmpty($formatted['recipients'][1]['secret']['value']);
-
-		// Sibling - secret not visible
-		$this->assertIsArray($formatted['recipients'][2]);
-		$this->assertArrayHasKey('value', $formatted['recipients'][2]);
-		$this->assertEquals('recipient3', $formatted['recipients'][2]['value']);
-		$this->assertArrayHasKey('secret', $formatted['recipients'][2]);
-		$this->assertIsArray($formatted['recipients'][2]['secret']);
-		$this->assertArrayNotHasKey('value', $formatted['recipients'][2]['secret']);
-
-		// Child - secret visible
-		$this->assertIsArray($formatted['recipients'][3]);
-		$this->assertArrayHasKey('value', $formatted['recipients'][3]);
-		$this->assertEquals('recipient4', $formatted['recipients'][3]['value']);
-		$this->assertArrayHasKey('secret', $formatted['recipients'][3]);
-		$this->assertIsArray($formatted['recipients'][3]['secret']);
-		$this->assertNotEmpty($formatted['recipients'][3]['secret']['value']);
 	}
 
 	public function testGetShareUniqueDisplayNames(): void {
@@ -4751,7 +4725,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		// give user2 direct access
 		$this->shareSourceType1->userAccess[$this->user2->getUID()] = ['source1'];
 		$user2Share = $this->reloadShare($accessContext2, $share);
-		$this->assertNull($user2Share->recipients[0]->secret);
+		$this->assertEmpty($user2Share->recipients);
 		$formatted = $this->updateShareProperty($accessContext2, $user2Share, new ShareProperty(TestSharePropertyType1::class, 'valid1'));
 
 		$this->assertEquals([
@@ -4767,5 +4741,119 @@ abstract class AbstractSharingManagerTests extends TestCase {
 				'valid_values' => ['valid1'],
 			]
 		], $formatted['properties']);
+	}
+
+	/**
+	 * @return array{
+	 *     shares: array{recipients: ShareRecipient[], owner: string}[],
+	 *     user: ShareUser,
+	 *     filterRecipientTypeClasses?: ?array,
+	 *     notInShare?: ?string,
+	 *     count?: int,
+	 *     offset?: int,
+	 *     expected?: string[]
+	 * }[]
+	 */
+	public static function getRecipientsForUsersData(): array {
+		$initiator = new ShareUser('user1', null);
+		$initiator2 = new ShareUser('user2', null);
+		$recipient1 = new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null, null, $initiator);
+		$recipient2 = new ShareRecipient(TestShareRecipientType2::class, 'recipient2', null, null, $initiator);
+		$recipient1By2 = new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null, null, $initiator2);
+		$owner = new ShareUser('owner', null);
+
+		return [
+			// querying for the owner, with no further filters
+			['shares' => [
+				['recipients' => [$recipient1, $recipient2], 'owner' => 'owner']
+			], 'user' => $owner, 'expected' => ['recipient1', 'recipient2']],
+			// querying for the owner, limit
+			['shares' => [
+				['recipients' => [$recipient1, $recipient2], 'owner' => 'owner']
+			], 'user' => $owner, 'count' => 1, 'expected' => ['recipient1']],
+			// querying for the owner, offset
+			['shares' => [
+				['recipients' => [$recipient1, $recipient2], 'owner' => 'owner']
+			], 'user' => $owner, 'offset' => 1, 'expected' => ['recipient2']],
+			// querying for the owner, offset past end
+			['shares' => [
+				['recipients' => [$recipient1, $recipient2], 'owner' => 'owner']
+			], 'user' => $owner, 'offset' => 2, 'expected' => []],
+			// querying for the initiator, with no further filters
+			['shares' => [
+				['recipients' => [$recipient1], 'owner' => 'owner']
+			], 'user' => $initiator, 'expected' => ['recipient1']],
+			// querying for the wrong initiator
+			['shares' => [
+				['recipients' => [$recipient1], 'owner' => 'owner']
+			], 'user' => $initiator2, 'expected' => []],
+			// querying for the owner, filter type
+			['shares' => [
+				['recipients' => [$recipient1, $recipient2], 'owner' => 'owner']
+			], 'user' => $owner, 'filterRecipientTypeClasses' => [TestShareRecipientType2::class], 'expected' => ['recipient2']],
+			// querying for the owner, multiple shares
+			['shares' => [
+				['recipients' => [$recipient1, $recipient2], 'owner' => 'owner'],
+				['recipients' => [$recipient2], 'owner' => 'owner']
+			], 'user' => $owner, 'expected' => ['recipient2', 'recipient1']],
+			// querying for the owner, multiple shares, not in share
+			['shares' => [
+				['recipients' => [$recipient1, $recipient2], 'owner' => 'owner'],
+				'excluded' => ['recipients' => [$recipient2], 'owner' => 'owner']
+			], 'user' => $owner, 'notInShare' => 'excluded', 'expected' => ['recipient1']],
+			// querying for the owner, multiple shares, offset
+			['shares' => [
+				['recipients' => [$recipient1, $recipient2], 'owner' => 'owner'],
+				['recipients' => [$recipient2], 'owner' => 'owner']
+			], 'user' => $owner, 'offset' => 1, 'expected' => ['recipient1']],
+			// user has both owned share and initiated recipients
+			['shares' => [
+				['recipients' => [$recipient1], 'owner' => 'user2'],
+				['recipients' => [$recipient1By2], 'owner' => 'owner']
+			], 'user' => $initiator2, 'offset' => 0, 'expected' => ['recipient1']],
+		];
+	}
+
+	/**
+	 * @param array{recipients: ShareRecipient[], owner: string}[] $shares
+	 * @param string[] $expected ,
+	 */
+	#[DataProvider('getRecipientsForUsersData')]
+	public function testGetRecipientsForUsers(
+		array $shares,
+		ShareUser $user,
+		?array $filterRecipientTypeClasses = null,
+		?string $notInShare = null,
+		int $count = 5,
+		int $offset = 0,
+		array $expected = [],
+	): void {
+		/** @var Share[] $share */
+		$createdShares = [];
+		$this->dbConnection->beginTransaction();
+		foreach ($shares as $key => $shareData) {
+			$owner = $this->createMock(IUser::class);
+			$owner->method('getUID')->willReturn($shareData['owner']);
+			$ownerAccessContext = new ShareAccessContext($owner);
+
+			$share = $this->manager->createShare($ownerAccessContext);
+			foreach ($shareData['recipients'] as $recipient) {
+				$share = $this->manager->addShareRecipient($ownerAccessContext, $share, $recipient);
+			}
+
+			$createdShares[$key] = $share;
+		}
+
+		$this->dbConnection->commit();
+
+		$accessUser = $this->createMock(IUser::class);
+		$accessUser->method('getUID')->willReturn($user->userId);
+
+		$accessContext = new ShareAccessContext($accessUser);
+
+		$notInShareId = ($notInShare !== null) ? $createdShares[$notInShare] : null;
+		$recipients = $this->searchRecipients($accessContext, $filterRecipientTypeClasses, '', $count, $offset, $notInShareId);
+		$recipientValues = array_map(fn (array $recipient): string => $recipient['value'], $recipients);
+		$this->assertEquals($expected, $recipientValues);
 	}
 }

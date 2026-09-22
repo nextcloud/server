@@ -10,6 +10,8 @@ namespace OC;
 
 use Closure;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Preview\AVIF;
+use OC\Preview\AVIFImagick;
 use OC\Preview\BMP;
 use OC\Preview\CDR;
 use OC\Preview\Db\PreviewMapper;
@@ -24,6 +26,7 @@ use OC\Preview\Image;
 use OC\Preview\IMagickSupport;
 use OC\Preview\Imaginary;
 use OC\Preview\ImaginaryPDF;
+use OC\Preview\JP2;
 use OC\Preview\JPEG;
 use OC\Preview\Krita;
 use OC\Preview\MarkDown;
@@ -273,6 +276,7 @@ class PreviewManager implements IPreview {
 			Krita::class,
 			WebP::class,
 			CDR::class,
+			AVIF::class,
 		];
 
 		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', array_merge([
@@ -320,6 +324,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(XBitmap::class, '/image\/x-xbitmap/');
 		$this->registerCoreProvider(WebP::class, '/image\/webp/');
 		$this->registerCoreProvider(CDR::class, '/application\/coreldraw/');
+		$this->registerCoreProvider(AVIF::class, '/image\/avif/');
 		$this->registerCoreProvider(Krita::class, '/application\/x-krita/');
 		$this->registerCoreProvider(MP3::class, '/audio\/mpeg$/');
 		$this->registerCoreProvider(OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
@@ -331,12 +336,14 @@ class PreviewManager implements IPreview {
 			$imagickProviders = [
 				'SVG' => ['mimetype' => '/image\/svg\+xml/', 'class' => SVG::class],
 				'TIFF' => ['mimetype' => '/image\/tiff/', 'class' => TIFF::class],
+				'JP2' => ['mimetype' => '/image\/jp2/', 'class' => JP2::class],
 				'PDF' => ['mimetype' => '/application\/pdf/', 'class' => PDF::class],
 				'AI' => ['mimetype' => '/application\/illustrator/', 'class' => Illustrator::class],
 				'PSD' => ['mimetype' => '/application\/x-photoshop/', 'class' => Photoshop::class],
 				'EPS' => ['mimetype' => '/application\/postscript/', 'class' => Postscript::class],
 				'TTF' => ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => Font::class],
 				'HEIC' => ['mimetype' => '/image\/(x-)?hei(f|c)/', 'class' => HEIC::class],
+				'AVIF' => ['mimetype' => '/image\/avif/', 'class' => AVIFImagick::class],
 				'TGA' => ['mimetype' => '/image\/(x-)?t(ar)?ga/', 'class' => TGA::class],
 				'SGI' => ['mimetype' => '/image\/(x-)?sgi/', 'class' => SGI::class],
 			];

@@ -191,9 +191,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner}-р {user} харилцан яриад хуваалцсан",
     "Shared with {user} by {owner}" : "{owner}-р {user}-т хуваалцсан",
     "Open Sharing Details" : "Хуваалцалтын дэлгэрэнгүй нээх",
-    "Added by {initiator}" : "{initiator}-р нэмэгдсэн",
-    "Via “{folder}”" : "\"{folder}\"-аар",
     "Unshare" : "Түгээлтийг зогсоох",
+    "Added by {initiator}" : "{initiator}-р нэмэгдсэн",
     "Cannot copy, please copy the link manually" : "Хуулах боломжгүй, холбоосыг гараар хуулна уу",
     "Copy internal link" : "Дотоод холбоос хуулах",
     "For people who already have access" : "Аль хэдийн хандах эрхтэй хүмүүст",
@@ -405,6 +404,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "%s-г хуваалцахад алдаа гарлаа, учир нь арын систем ScienceMesh хуваалцалтыг дэмждэггүй",
     "Public upload disabled by the administrator" : "Нийтийн байршуулалт админаар идэвхгүй болгогдсон",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токен нь дор хаяж 1 тэмдэгт агуулсан байх бөгөөд зөвхөн үсэг, тоо эсвэл зураас агуулж болно",
+    "Via “{folder}”" : "\"{folder}\"-аар",
     "Name or email …" : "Нэр эсвэл имэйл …",
     "Name, email, or Federated Cloud ID …" : "Нэр, имэйл эсвэл Холбогдсон Үүл ID …",
     "Searching …" : "Хайж байна …"

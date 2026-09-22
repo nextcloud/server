@@ -1590,9 +1590,11 @@ class Manager implements IManager {
 	}
 
 	#[\Override]
-	public function countTasks(int $status, array $taskTypeIds = []): int {
+	public function countTasks(
+		?int $status = null, array $taskTypeIds = [], ?int $scheduleAfter = null, ?int $minPickupDelay = null,
+	): int {
 		try {
-			return $this->taskMapper->countByStatus($taskTypeIds, $status);
+			return $this->taskMapper->countTasks($status, $taskTypeIds, $scheduleAfter, $minPickupDelay);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem counting the tasks', 0, $e);
 		}

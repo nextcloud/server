@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: MIT
-name: Close stale issues
+name: Close and lock stale issues
 
 on:
   workflow_dispatch:
@@ -33,5 +33,25 @@ jobs:
         exempt-issue-labels: '1. to develop,2. developing,3. to review,4. to release,security'
         days-before-stale: 30
         days-before-close: 14
-        # debug-only: true
 
+  lock:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: dessant/lock-threads@89ae32b08ed1a541efecbab17912962a5e38981c # v6.0.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-inactive-days: 14
+          issue-comment: >
+            This issue has been automatically locked because it has been closed for more than 14 days.
+            As we do not monitor closed issues, we are locking this issue to prevent further comments from getting lost in the noise.
+
+            Please open a new issue if you have a similar problem instead.
+            For general discussions, please use our forum: https://help.nextcloud.com
+          pr-inactive-days: 7
+          pr-comment: >
+            This pull request has been automatically locked because it has been closed for more than 7 days.
+            As we do not monitor merged or closed pull requests, we are locking this pull request to prevent further comments from getting lost in the noise.
+
+            If you discovered any issues with this pull request, please open a new issue instead.
+            In case you want to discuss this pull request or have further questions, please use our forum: https://help.nextcloud.com

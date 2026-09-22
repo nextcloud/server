@@ -12,6 +12,7 @@
     "LDAP Connection" : "Conexión LDAP",
     "Invalid LDAP UUIDs" : "UUIDs de LDAP inválidas",
     "None found" : "Ninguno encontrado",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["%n grupo encontrado","%n grupos encontrados","%n grupos encontrados"],
     "> 1000 groups found" : "> 1000 grupos encontrados",
     "> 1000 users found" : "> 1000 usuarios encontrados",
