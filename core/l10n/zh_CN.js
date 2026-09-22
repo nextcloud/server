@@ -242,6 +242,7 @@ OC.L10N.register(
     "Pick start date" : "选择起始日期",
     "Pick end date" : "选择结束日期",
     "Search in date range" : "在日期范围内进行搜索",
+    "Apps, files, messages, and more" : "应用, 文件, 消息...",
     "Filters" : "筛选器",
     "Clear search" : "清除搜索",
     "Start typing to search" : "开始输入以搜索",
