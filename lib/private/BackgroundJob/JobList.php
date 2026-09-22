@@ -422,13 +422,19 @@ class JobList implements IJobList {
 	}
 
 	#[Override]
-	public function countByClass(): array {
+	public function countByClass(?int $limit = null, int $offset = 0): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('class')
 			->selectAlias($query->func()->count('id'), 'count')
 			->from('jobs')
 			->orderBy('count')
 			->groupBy('class');
+		if ($offset > 0) {
+			$query = $query->setFirstResult($offset);
+		}
+		if ($limit !== null) {
+			$query = $query->setMaxResults($limit);
+		}
 
 		$result = $query->executeQuery();
 
