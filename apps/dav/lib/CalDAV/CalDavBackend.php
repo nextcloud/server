@@ -1060,20 +1060,25 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * Returns all calendar objects with limited metadata for a calendar
+	 * Returns non-deleted calendar objects with a caller-selected set of fields.
 	 *
-	 * Every item contains an array with the following keys:
-	 *   * id - the table row id
-	 *   * etag - An arbitrary string
-	 *   * uri - a unique key which will be used to construct the uri. This can
-	 *     be any arbitrary string.
-	 *   * calendardata - The iCalendar-compatible calendar data
+	 * By default, the selected fields are id, uid, etag, uri, and calendardata.
+	 * The returned array is keyed by object UID, so uid MUST be included in
+	 * $fields when a custom field list is provided.
 	 *
-	 * @param mixed $calendarId
+	 * Values are returned in their raw database representation. Results are
+	 * restricted to the specified calendar type.
+	 *
+	 * @param int $calendarId
 	 * @param int $calendarType
-	 * @return array
+	 * @param list<string> $fields Empty to use the default field list.
+	 * @return array<string, array<string, mixed>>
 	 */
-	public function getLimitedCalendarObjects(int $calendarId, int $calendarType = self::CALENDAR_TYPE_CALENDAR, array $fields = []):array {
+	public function getLimitedCalendarObjects(
+		int $calendarId,
+		int $calendarType = self::CALENDAR_TYPE_CALENDAR,
+		array $fields = [],
+	): array {
 		$query = $this->db->getQueryBuilder();
 		$query->select($fields ?: ['id', 'uid', 'etag', 'uri', 'calendardata'])
 			->from('calendarobjects')
@@ -1102,39 +1107,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * Returns all calendar objects within a calendar.
+	 * Returns metadata for all non-deleted calendar objects within a calendar.
 	 *
-	 * Every item contains an array with the following keys:
-	 *   * calendardata - The iCalendar-compatible calendar data
-	 *   * uri - a unique key which will be used to construct the uri. This can
-	 *     be any arbitrary string, but making sure it ends with '.ics' is a
-	 *     good idea. This is only the basename, or filename, not the full
-	 *     path.
-	 *   * lastmodified - a timestamp of the last modification time
-	 *   * etag - An arbitrary string, surrounded by double-quotes. (e.g.:
-	 *   '"abcdef"')
-	 *   * size - The size of the calendar objects, in bytes.
-	 *   * component - optional, a string containing the type of object, such
-	 *     as 'vevent' or 'vtodo'. If specified, this will be used to populate
-	 *     the Content-Type header.
+	 * Calendar data is intentionally not returned; getCalendarObject() can be
+	 * used when the iCalendar data is needed.
 	 *
-	 * Note that the etag is optional, but it's highly encouraged to return for
-	 * speed reasons.
-	 *
-	 * The calendardata is also optional. If it's not returned
-	 * 'getCalendarObject' will be called later, which *is* expected to return
-	 * calendardata.
-	 *
-	 * If neither etag or size are specified, the calendardata will be
-	 * used/fetched to determine these numbers. If both are specified the
-	 * amount of times this is needed is reduced by a great degree.
+	 * Results are restricted to the specified calendar type. Objects with a
+	 * non-null deleted_at value are excluded.
 	 *
 	 * @param mixed $calendarId
 	 * @param int $calendarType
 	 * @return array
 	 */
 	#[\Override]
-	public function getCalendarObjects($calendarId, $calendarType = self::CALENDAR_TYPE_CALENDAR):array {
+	public function getCalendarObjects($calendarId, $calendarType = self::CALENDAR_TYPE_CALENDAR): array {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'componenttype', 'classification'])
 			->from('calendarobjects')
@@ -1388,16 +1374,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * Returns information from a single calendar object, based on it's object
-	 * uri.
+	 * Returns a calendar object based on its URI.
 	 *
-	 * The object uri is only the basename, or filename and not a full path.
+	 * The object URI is only the basename, or filename, and not a full path.
+	 * Unlike getCalendarObjects(), this method includes calendardata.
 	 *
-	 * The returned array must have the same keys as getCalendarObjects. The
-	 * 'calendardata' object is required here though, while it's not required
-	 * for getCalendarObjects.
+	 * Soft-deleted objects can also be returned when addressed by their
+	 * stored URI.
 	 *
-	 * This method must return null if the object did not exist.
+	 * This method returns null if the object does not exist.
 	 *
 	 * @param mixed $calendarId
 	 * @param string $objectUri
@@ -1405,7 +1390,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array|null
 	 */
 	#[\Override]
-	public function getCalendarObject($calendarId, $objectUri, int $calendarType = self::CALENDAR_TYPE_CALENDAR) {
+	public function getCalendarObject($calendarId, $objectUri, int $calendarType = self::CALENDAR_TYPE_CALENDAR): ?array {
 		$key = $calendarId . '::' . $objectUri . '::' . $calendarType;
 		if (isset($this->cachedObjects[$key])) {
 			return $this->cachedObjects[$key];
@@ -1415,7 +1400,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->from('calendarobjects')
 			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
-			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)));
+			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)))
+			->setMaxResults(1);
 		$stmt = $query->executeQuery();
 		$row = $stmt->fetchAssociative();
 		$stmt->closeCursor();
@@ -1446,12 +1432,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * Returns a list of calendar objects.
+	 * Returns multiple non-deleted calendar objects by URI.
 	 *
-	 * This method should work identical to getCalendarObject, but instead
-	 * return all the calendar objects in the list as an array.
+	 * Performs a bulk lookup to avoid issuing one database query per URI.
+	 * The URI list is processed in chunks to avoid database parameter limits.
 	 *
-	 * If the backend supports this, it may allow for some speed-ups.
+	 * Objects whose deleted_at value is non-null are excluded. URIs without
+	 * a matching object are omitted, and result order is not guaranteed to
+	 * match the order of $uris.
 	 *
 	 * @param mixed $calendarId
 	 * @param string[] $uris
@@ -1459,7 +1447,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	#[\Override]
-	public function getMultipleCalendarObjects($calendarId, array $uris, $calendarType = self::CALENDAR_TYPE_CALENDAR):array {
+	public function getMultipleCalendarObjects($calendarId, array $uris, $calendarType = self::CALENDAR_TYPE_CALENDAR): array {
 		if (empty($uris)) {
 			return [];
 		}
