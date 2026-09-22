@@ -37,6 +37,7 @@ use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\PostLoginEvent;
+use OCP\User\Events\UserLoggedInEvent;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -194,10 +195,10 @@ class SessionTest extends TestCase {
 		$userSession->expects($this->once())
 			->method('prepareUserLogin');
 
-		$this->dispatcher->expects($this->once())
+		$this->dispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with(
-				$this->callback(function (PostLoginEvent $e): bool {
+				$this->callback(function (PostLoginEvent|UserLoggedInEvent $e): bool {
 					return $e->getUser()->getUID() === 'foo'
 						&& $e->getPassword() === 'bar'
 						&& $e->isTokenLogin() === false;

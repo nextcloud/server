@@ -289,7 +289,6 @@ use OCP\Talk\IBroker;
 use OCP\Teams\ITeamManager;
 use OCP\Translation\ITranslationManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
-use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
@@ -1121,7 +1120,7 @@ class Server extends ServerContainer {
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $this->get(IEventDispatcher::class);
 		$eventDispatcher->addServiceListener(LoginFailed::class, LoginFailedListener::class);
-		$eventDispatcher->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, UserLoggedInListener::class);
 		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
