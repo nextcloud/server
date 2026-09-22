@@ -31,6 +31,7 @@ use OCP\Mail\IMailer;
 use OCP\Mail\Provider\Address;
 use OCP\Mail\Provider\IManager as IMailManager;
 use OCP\Mail\Provider\IMessageSend;
+use OCP\Mail\Provider\IService;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -346,9 +347,9 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @param ?string $userId The user ID of the share initiator
 	 * @param ?string $userEmail The email address of the share initiator
-	 * @return IMessageSend|null A mail service that can send, or null to fall back to the system mailer
+	 * @return (IMessageSend&IService)|null A mail service that can send, or null to fall back to the system mailer
 	 */
-	protected function findMailService(?string $userId, ?string $userEmail): ?IMessageSend {
+	protected function findMailService(?string $userId, ?string $userEmail): (IMessageSend&IService)|null {
 		if ($userId === null || $userEmail === null) {
 			return null;
 		}
@@ -372,20 +373,19 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * Send the share notification email via Mail Provider if available,
 	 * otherwise fall back to the system mailer.
 	 *
-	 * @param IMessageSend $mailService The mail provider service
+	 * @param IMessageSend&IService $mailService The mail provider service
 	 * @param string $senderEmail The sender's email address
 	 * @param string $senderName The sender's display name
 	 * @param array $recipientEmails The recipient email addresses
 	 * @param \OCP\Mail\IEMailTemplate $emailTemplate The email template
 	 */
 	protected function sendViaMailProvider(
-		IMessageSend $mailService,
+		IMessageSend&IService $mailService,
 		string $senderEmail,
 		string $senderName,
 		array $recipientEmails,
 		\OCP\Mail\IEMailTemplate $emailTemplate,
 	): void {
-		/** @psalm-suppress UndefinedInterfaceMethod */
 		$message = $mailService->initiateMessage();
 		$message->setFrom(new Address($senderEmail, $senderName));
 
