@@ -1618,10 +1618,12 @@ $CONFIG = [
 	 * The following providers are disabled by default due to performance or privacy
 	 * concerns:
 	 *
+	 *  - ``OC\Preview\AVIFImagick``
 	 *  - ``OC\Preview\EMF``
 	 *  - ``OC\Preview\Font``
 	 *  - ``OC\Preview\HEIC``
 	 *  - ``OC\Preview\Illustrator``
+	 *  - ``OC\Preview\JP2``
 	 *  - ``OC\Preview\Movie``
 	 *  - ``OC\Preview\MP3``
 	 *  - ``OC\Preview\MSOffice2003``
@@ -1640,6 +1642,13 @@ $CONFIG = [
 	 *   - ``OC\Preview\Imaginary``
 	 *   - ``OC\Preview\ImaginaryPDF``
 	 *
+	 * AVIF has two providers for the same mimetype. ``OC\Preview\AVIF`` is enabled
+	 * by default and decodes with GD, which handles AVIF only when PHP was built
+	 * against a libgd that supports it. ``OC\Preview\AVIFImagick`` covers the
+	 * builds where it was not, and registers only when ImageMagick reports an
+	 * AVIF delegate. Enabling it alongside the default is the useful case: GD is
+	 * tried first, and ImageMagick is tried after it if GD returns nothing.
+	 *
 	 * Defaults to the following providers:
 	 *
 	 *  - ``OC\Preview\PNG``
@@ -1649,6 +1658,7 @@ $CONFIG = [
 	 *  - ``OC\Preview\XBitmap``
 	 *  - ``OC\Preview\Krita``
 	 *  - ``OC\Preview\WebP``
+	 *  - ``OC\Preview\AVIF``
 	 *  - ``OC\Preview\MarkDown``
 	 *  - ``OC\Preview\TXT``
 	 *  - ``OC\Preview\OpenDocument``
@@ -1662,6 +1672,7 @@ $CONFIG = [
 		'OC\Preview\XBitmap',
 		'OC\Preview\Krita',
 		'OC\Preview\WebP',
+		'OC\Preview\AVIF',
 		'OC\Preview\MarkDown',
 		'OC\Preview\TXT',
 		'OC\Preview\OpenDocument',
