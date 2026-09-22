@@ -141,7 +141,7 @@ class Internal extends Session {
 
 			try {
 				$tokenProvider->renewSessionToken($oldId, $newId);
-				Server::get(UserSession::class)->renewMagicSessionId($oldId);
+				\OCP\Server::get(UserSession::class)->renewMagicSessionId($oldId);
 			} catch (InvalidTokenException $e) {
 				// Just ignore
 			}
