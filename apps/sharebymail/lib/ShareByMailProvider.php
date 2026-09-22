@@ -344,25 +344,19 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * if mail providers are enabled globally and the admin has enabled
 	 * user-level sending for share emails, look up the user's mail service.
 	 *
-	 * @param string $userId The user ID of the share initiator
+	 * @param ?string $userId The user ID of the share initiator
+	 * @param ?string $userEmail The email address of the share initiator
 	 * @return IMessageSend|null A mail service that can send, or null to fall back to the system mailer
 	 */
-	protected function findMailService(string $userId): ?IMessageSend {
+	protected function findMailService(?string $userId, ?string $userEmail): ?IMessageSend {
+		if ($userId === null || $userEmail === null) {
+			return null;
+		}
 		if (!$this->settingsManager->useUserEmail()) {
 			return null;
 		}
 
 		if (!$this->appConfig->getValueBool('core', 'mail_providers_enabled', true)) {
-			return null;
-		}
-
-		$user = $this->userManager->get($userId);
-		if ($user === null) {
-			return null;
-		}
-
-		$userEmail = $user->getEMailAddress();
-		if ($userEmail === null) {
 			return null;
 		}
 
@@ -466,10 +460,9 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$instanceName = $this->defaults->getName();
 
 		// Try to send via the user's Mail Provider
-		$mailService = $this->findMailService($initiator);
-		if ($mailService !== null && $initiatorUser instanceof IUser) {
-			$initiatorEmail = $initiatorUser->getEMailAddress();
-			if ($initiatorEmail !== null) {
+		$initiatorEmail = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
+		$mailService = $this->findMailService($initiator, $initiatorEmail);
+		if ($mailService !== null && $initiatorEmail !== null) {
 				$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
 				try {
 					$this->sendViaMailProvider($mailService, $initiatorEmail, $initiatorDisplayName, $emails, $emailTemplate);
@@ -615,7 +608,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$instanceName = $this->defaults->getName();
 
 		// Try to send via the user's Mail Provider
-		$mailService = $this->findMailService($initiator);
+		$mailService = $this->findMailService($initiator, $initiatorEmailAddress);
 		if ($mailService !== null && $initiatorEmailAddress !== null) {
 			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
 			try {
@@ -730,7 +723,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$instanceName = $this->defaults->getName();
 
 		// Try to send via the user's Mail Provider
-		$mailService = $this->findMailService($initiator);
+		$mailService = $this->findMailService($initiator, $initiatorEmailAddress);
 		if ($mailService !== null && $initiatorEmailAddress !== null) {
 			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
 			try {
