@@ -496,7 +496,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				$this->l->t('Open shared item'),
 				$link
 			);
-			
+
 			return $emailTemplate;
 		};
 
@@ -509,7 +509,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		$emailTemplate = $templateFactory();
-		
+
 		// Fall back to the system mailer
 		$message = $this->mailer->createMessage();
 
@@ -606,7 +606,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				$expirationTime = $expirationTime->add(new \DateInterval('PT' . $expirationInterval . 'S'));
 				$emailTemplate->addBodyText($this->l->t('This password will expire at %s', [$expirationTime->format('r')]));
 			}
-			
+
 			return $emailTemplate;
 		};
 
@@ -696,7 +696,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				$this->l->t('Open shared item'),
 				$link
 			);
-			
+
 			return $emailTemplate;
 		};
 
@@ -706,7 +706,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		$instanceName = $this->defaults->getName();
-		
+
 		$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
 			['token' => $share->getToken()]);
 
