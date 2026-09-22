@@ -9,10 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Listener;
 
+use OCA\DAV\BackgroundJob\RegenerateBirthdayCalendarBackgroundJob;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\Events\AddressBookDeletedEvent;
 use OCA\DAV\Events\CardCreatedEvent;
 use OCA\DAV\Events\CardDeletedEvent;
 use OCA\DAV\Events\CardUpdatedEvent;
+use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 
