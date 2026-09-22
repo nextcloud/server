@@ -17,7 +17,7 @@ use OCP\Image;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class AVIFTest extends Provider {
-	use AvifPreviewTrait;
+	use PreviewPixelsTrait;
 
 	#[\Override]
 	protected function setUp(): void {
