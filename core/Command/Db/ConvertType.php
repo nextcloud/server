@@ -200,6 +200,8 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			}
 		}
 		$intersectingTables = array_intersect($toTables, $fromTables);
+		$intersectingTables = $this->sortTablesByForeignKeys( $toDB, $intersectingTables);
+
 		$this->convertDB($fromDB, $toDB, $intersectingTables, $input, $output);
 		return 0;
 	}
@@ -265,6 +267,9 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		if (!empty($toTables)) {
 			$output->writeln('<info>Clearing schema in new database</info>');
 		}
+	
+		$toTables = $this->sortTablesByForeignKeys($db, $toTables, true);
+	
 		foreach ($toTables as $table) {
 			$db->createSchemaManager()->dropTable($table);
 		}
@@ -398,6 +403,97 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 
 		return $this->columnTypes[$tableName][$columnName];
+	}
+
+	/**
+	 * Sort tables so that tables referenced by foreign keys are copied
+	 * before the tables containing those foreign keys.
+	 *
+	 * The dependency information is obtained from the target database,
+	 * making this independent of the source/target database vendor.
+	 *
+	 * @param Connection $connection Target database connection
+	 * @param array<string> $tables Tables to sort
+	 * @param bool $reverse Reverse the sorted tables for dropping tables
+	 * @return array<string> Tables in dependency order
+	 */
+	protected function sortTablesByForeignKeys(Connection $connection, array $tables, bool $reverse = false): array {
+		$tableSet = array_fill_keys($tables, true);
+
+		// dependencies[table] = tables that must be copied before it
+		$dependencies = array_fill_keys($tables, []);
+
+		// dependents[table] = tables that depend on it
+		$dependents = array_fill_keys($tables, []);
+
+		$schemaManager = $connection->createSchemaManager();
+
+		foreach ($tables as $table) {
+			foreach ($schemaManager->listTableForeignKeys($table) as $foreignKey) {
+				$parent = $foreignKey->getForeignTableName();
+
+				// Ignore references to tables which aren't being converted.
+				if (!isset($tableSet[$parent])) {
+					continue;
+				}
+
+				// Ignore self-references. They don't impose an ordering
+				// requirement on the table itself.
+				if ($parent === $table) {
+					continue;
+				}
+
+				$dependencies[$table][$parent] = true;
+				$dependents[$parent][$table] = true;
+			}
+		}
+
+		/*
+		 * Kahn's topological sort.
+		 *
+		 * Tables without dependencies can be copied immediately.
+		 */
+		$ready = [];
+
+		foreach ($tables as $table) {
+			if ($dependencies[$table] === []) {
+				$ready[] = $table;
+			}
+		}
+
+		$result = [];
+
+		while ($ready !== []) {
+			$table = array_shift($ready);
+			$result[] = $table;
+
+			foreach ($dependents[$table] as $dependent => $_) {
+				unset($dependencies[$dependent][$table]);
+
+				if ($dependencies[$dependent] === []) {
+					$ready[] = $dependent;
+				}
+			}
+		}
+
+		/*
+		 * A cycle means there is no valid topological ordering.
+		 *
+		 * Don't silently produce an invalid ordering. Keep the original
+		 * order for the remaining tables; PostgreSQL may still reject
+		 * the conversion, but the failure will accurately expose the
+		 * cyclic dependency rather than being hidden by this sorter.
+		 */
+		if (count($result) !== count($tables)) {
+			$remaining = array_diff($tables, $result);
+			$result = array_merge($result, $remaining);
+		}
+
+		if ($reverse) {
+			$result = array_reverse($result);
+		}
+
+		return $result;
 	}
 
 	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
