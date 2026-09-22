@@ -192,6 +192,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CardDeletedEvent::class, BirthdayListener::class);
 		$context->registerEventListener(CardUpdatedEvent::class, BirthdayListener::class);
 		$context->registerEventListener(CardDeletedEvent::class, ClearPhotoCacheListener::class);
+		$context->registerEventListener(AddressBookDeletedEvent::class, BirthdayListener::class);
 		$context->registerEventListener(CardUpdatedEvent::class, ClearPhotoCacheListener::class);
 		$context->registerEventListener(TrustedServerRemovedEvent::class, TrustedServerRemovedListener::class);
 
