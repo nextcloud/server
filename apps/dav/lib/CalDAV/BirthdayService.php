@@ -306,18 +306,38 @@ class BirthdayService {
 	 * @return mixed
 	 */
 	protected function getAllAffectedPrincipals(int $addressBookId) {
-		$targetPrincipals = [];
 		$shares = $this->cardDavBackEnd->getShares($addressBookId);
+		return $this->getAffectedPrincipalsFromShares($shares);
+	}
+
+	/**
+	 * Resolve address-book shares to the user principals whose birthday
+	 * calendars contain generated events from the address book.
+	 *
+	 * @param list<array<string, mixed>> $shares
+	 * @return list<string>
+	 */
+	public function getAffectedPrincipalsFromShares(array $shares): array {
+		$targetPrincipals = [];
+
 		foreach ($shares as $share) {
-			if ($share['{http://owncloud.org/ns}group-share']) {
-				$users = $this->principalBackend->getGroupMemberSet($share['{http://owncloud.org/ns}principal']);
+			$principal = $share['{http://owncloud.org/ns}principal'] ?? null;
+			if ($principal === null) {
+				continue;
+			}
+
+			if (($share['{http://owncloud.org/ns}group-share'] ?? false) === true) {
+				$users = $this->principalBackend->getGroupMemberSet($principal);
 				foreach ($users as $user) {
-					$targetPrincipals[] = $user['uri'];
+					if (isset($user['uri'])) {
+						$targetPrincipals[] = $user['uri'];
+					}
 				}
 			} else {
-				$targetPrincipals[] = $share['{http://owncloud.org/ns}principal'];
+				$targetPrincipals[] = $principal;
 			}
 		}
+
 		return array_values(array_unique($targetPrincipals, SORT_STRING));
 	}
 
