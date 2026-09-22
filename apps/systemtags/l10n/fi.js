@@ -59,6 +59,7 @@ OC.L10N.register(
     "Reset" : "Palauta",
     "Loading …" : "Ladataan …",
     "Manage tags" : "Hallitse tunnisteita",
+    "Create new tag" : "Luo uusi tunniste",
     "Cancel" : "Peruuta",
     "Apply" : "Toteuta",
     "Failed to load tags" : "Tunnisteiden lataaminen epäonnistui",
