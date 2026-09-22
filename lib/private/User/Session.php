@@ -1074,6 +1074,21 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * Point the remember-me cookie at the regenerated session id, so cookie
+	 * login can still find the token that was renewed along with it.
+	 */
+	public function renewMagicSessionId(string $oldSessionId): void {
+		$request = Server::get(IRequest::class);
+		$username = $request->getCookie('nc_username');
+		$token = $request->getCookie('nc_token');
+		$sessionId = $request->getCookie('nc_session_id');
+		if ($username === null || $token === null || $sessionId !== $oldSessionId) {
+			return;
+		}
+		$this->setMagicInCookie($username, $token);
+	}
+
+	/**
 	 * Remove cookie for "remember username"
 	 */
 	public function unsetMagicInCookie() {
