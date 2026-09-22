@@ -16,6 +16,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
+            'OCA\\Viewer\\' => 11,
         ),
         'N' =>
         array (
@@ -35,6 +36,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
+        ),
+        'OCA\\Viewer\\' =>
+        array (
+            0 => __DIR__ . '/../../..' . '/apps/viewer/lib',
         ),
         'NCU\\' =>
         array (
@@ -118,6 +123,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\WorkflowEngine\\Events\\RegisterRuntimeOperationsEvent' => __DIR__ . '/../../..' . '/lib/unstable/WorkflowEngine/Events/RegisterRuntimeOperationsEvent.php',
         'NCU\\WorkflowEngine\\RuntimeOperation' => __DIR__ . '/../../..' . '/lib/unstable/WorkflowEngine/RuntimeOperation.php',
         'NCU\\WorkflowEngine\\RuntimeScope' => __DIR__ . '/../../..' . '/lib/unstable/WorkflowEngine/RuntimeScope.php',
+        'OCA\\Viewer\\Event\\LoadViewer' => __DIR__ . '/../../..' . '/apps/viewer/lib/Event/LoadViewer.php',
         'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
         'OCP\\Accounts\\IAccountManager' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountManager.php',
         'OCP\\Accounts\\IAccountProperty' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountProperty.php',

@@ -4,6 +4,7 @@
  */
 
 import { registerDefaultHandlers } from '@nextcloud/viewer'
+import { installLegacyViewerApi } from '../../apps/viewer/src/legacy.ts'
 
 // Registers the handlers for images, video and audio, and offers this copy of
 // the viewer to the page. Nothing of the viewer itself is loaded until a file
@@ -13,3 +14,8 @@ import { registerDefaultHandlers } from '@nextcloud/viewer'
 // register, are in place before the Files list takes its first snapshot of the
 // available actions.
 registerDefaultHandlers()
+
+// Nothing here calls OCA.Viewer any more. It stays on the page for apps that
+// have not moved over, warns whenever it is touched, and goes in Nextcloud 39
+// with the rest of apps/viewer.
+installLegacyViewerApi()
