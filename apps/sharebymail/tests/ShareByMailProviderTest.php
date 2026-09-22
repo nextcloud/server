@@ -20,6 +20,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -29,6 +30,7 @@ use OCP\IUserManager;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Mail\Provider\IManager as IMailManager;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -70,6 +72,8 @@ class ShareByMailProviderTest extends TestCase {
 	private SettingsManager&MockObject $settingsManager;
 	private IActivityManager&MockObject $activityManager;
 	private IEventDispatcher&MockObject $eventDispatcher;
+	private IMailManager&MockObject $mailManager;
+	private IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -91,10 +95,14 @@ class ShareByMailProviderTest extends TestCase {
 		$this->share = $this->createMock(IShare::class);
 		$this->activityManager = $this->createMock('OCP\Activity\IManager');
 		$this->settingsManager = $this->createMock(SettingsManager::class);
+		$this->settingsManager->expects($this->any())->method('useUserEmail')->willReturn(true);
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->hasher = $this->createMock(IHasher::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->shareManager = $this->createMock(IManager::class);
+		$this->mailManager = $this->createMock(IMailManager::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->appConfig->expects($this->any())->method('getValueBool')->willReturn(true);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 		$this->config->expects($this->any())->method('getAppValue')->with('core', 'enforce_strict_email_check')->willReturn('yes');
@@ -126,6 +134,8 @@ class ShareByMailProviderTest extends TestCase {
 					$this->eventDispatcher,
 					$this->shareManager,
 					$this->getEmailValidatorWithStrictEmailCheck(),
+					$this->mailManager,
+					$this->appConfig,
 				])
 				->onlyMethods($mockedMethods)
 				->getMock();
@@ -148,6 +158,8 @@ class ShareByMailProviderTest extends TestCase {
 			$this->eventDispatcher,
 			$this->shareManager,
 			$this->getEmailValidatorWithStrictEmailCheck(),
+			$this->mailManager,
+			$this->appConfig,
 		);
 	}
 

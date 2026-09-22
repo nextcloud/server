@@ -14,6 +14,13 @@
 		<NcCheckboxRadioSwitch v-model="replyToInitiator" type="switch">
 			{{ t('sharebymail', 'Reply to initiator') }}
 		</NcCheckboxRadioSwitch>
+
+		<NcCheckboxRadioSwitch v-model="useUserEmail" type="switch">
+			{{ t('sharebymail', 'Send share emails from user\'s email address') }}
+		</NcCheckboxRadioSwitch>
+		<p v-if="useUserEmail" class="settings-hint">
+			{{ t('sharebymail', 'When enabled, share notification emails will be sent from the user\'s personal email address via their Mail Provider (e.g. Nextcloud Mail), similar to calendar invitations. Falls back to the system email if no Mail Provider is available.') }}
+		</p>
 	</NcSettingsSection>
 </template>
 
@@ -43,6 +50,7 @@ export default {
 		return {
 			sendPasswordMail: loadState('sharebymail', 'sendPasswordMail'),
 			replyToInitiator: loadState('sharebymail', 'replyToInitiator'),
+			useUserEmail: loadState('sharebymail', 'useUserEmail'),
 		}
 	},
 
@@ -53,6 +61,10 @@ export default {
 
 		replyToInitiator(newValue) {
 			this.update('replyToInitiator', newValue)
+		},
+
+		useUserEmail(newValue) {
+			this.update('useUserEmail', newValue)
 		},
 	},
 
@@ -88,3 +100,12 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+.settings-hint {
+	color: var(--color-text-maxcontrast);
+	margin-top: 4px;
+	margin-left: 44px;
+	font-size: 0.9em;
+}
+</style>
