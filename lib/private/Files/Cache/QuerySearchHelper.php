@@ -17,6 +17,8 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Search\ISearchBinaryOperator;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\IMetadataQuery;
@@ -98,7 +100,7 @@ class QuerySearchHelper {
 	protected function equipQueryForSystemTags(CacheQueryBuilder $query, IUser $user): void {
 		$query->leftJoin('file', 'systemtag_object_mapping', 'systemtagmap', $query->expr()->andX(
 			$query->expr()->eq('file.fileid', $query->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
-			$query->expr()->eq('systemtagmap.objecttype', $query->createNamedParameter('files'))
+			$query->expr()->eq('systemtagmap.objecttype', $query->createNamedParameter('files')),
 		));
 		$on = $query->expr()->andX($query->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'));
 		if (!$this->groupManager->isAdmin($user->getUID())) {
@@ -113,7 +115,7 @@ class QuerySearchHelper {
 			->leftJoin('tagmap', 'vcategory', 'tag', $query->expr()->andX(
 				$query->expr()->eq('tagmap.categoryid', 'tag.id'),
 				$query->expr()->eq('tag.type', $query->createNamedParameter('files')),
-				$query->expr()->eq('tag.uid', $query->createNamedParameter($user->getUID()))
+				$query->expr()->eq('tag.uid', $query->createNamedParameter($user->getUID())),
 			));
 	}
 
@@ -147,6 +149,8 @@ class QuerySearchHelper {
 		//
 		// while the resulting rows don't have a way to tell what storage they came from (multiple storages/caches can share storage_id)
 		// we can just ask every cache if the row belongs to them and give them the cache to do any post processing on the result.
+
+		$searchQuery = $this->preProcessQuery($searchQuery);
 
 		$builder = $this->getQueryBuilder();
 
@@ -248,5 +252,50 @@ class QuerySearchHelper {
 		}
 
 		return [$caches, $mountByMountPoint];
+	}
+
+	private function preProcessQuery(ISearchQuery $searchQuery): ISearchQuery {
+		// when sharding is enabled, we can't join on the mounts table
+		// so instead we need to fetch the matching mount root ids and filter on those
+		if ($this->connection->getShardDefinition('filecache') !== null) {
+			$operation = $this->replaceMountNameWithRootIds($searchQuery->getSearchOperation());
+			return new SearchQuery(
+				$operation,
+				$searchQuery->getLimit(),
+				$searchQuery->getOffset(),
+				$searchQuery->getOrder(),
+				$searchQuery->getUser(),
+				$searchQuery->limitToHome(),
+				$searchQuery->getSelectFields(),
+			);
+		} else {
+			return $searchQuery;
+		}
+	}
+
+	private function replaceMountNameWithRootIds(ISearchOperator $searchOperator): ISearchOperator {
+		if ($searchOperator instanceof ISearchBinaryOperator) {
+			return new SearchBinaryOperator(
+				$searchOperator->getType(),
+				array_map($this->replaceMountNameWithRootIds(...), $searchOperator->getArguments())
+			);
+		} elseif ($searchOperator instanceof ISearchComparison && $searchOperator->getField() === 'mount_point_name') {
+			if (!in_array($searchOperator->getType(), [
+				ISearchComparison::COMPARE_LIKE,
+				ISearchComparison::COMPARE_EQUAL,
+				ISearchComparison::COMPARE_IN,
+			], true)) {
+				throw new \InvalidArgumentException('Filtering mount name with ' . $searchOperator->getType() . ' is not supported');
+			}
+
+			$query = $this->connection->getQueryBuilder();
+			$query->select('root_id')
+				->from('mounts', 'm')
+				->where($this->searchBuilder->searchOperatorToDBExpr($query, $searchOperator));
+			$rootIds = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			return new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', $rootIds);
+		} else {
+			return $searchOperator;
+		}
 	}
 }
