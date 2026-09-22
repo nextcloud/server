@@ -38,17 +38,17 @@ class LivePhotosService {
 	/**
 	 * Get the associated live photo for multiple file ids
 	 * @param int[] $fileIds
-	 * @return int[]
+	 * @return array<int, int>
 	 */
 	public function getLivePhotoPeerIds(array $fileIds): array {
 		$metadata = $this->filesMetadataManager->getMetadataForFiles($fileIds);
 		$peersIds = [];
-		foreach ($metadata as $item) {
+		foreach ($metadata as $fileId => $item) {
 			if (!$item->hasKey('files-live-photo')) {
 				continue;
 			}
 
-			$peersIds[] = (int)$item->getString('files-live-photo');
+			$peersIds[$fileId] = (int)$item->getString('files-live-photo');
 		}
 		return $peersIds;
 	}
