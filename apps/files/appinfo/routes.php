@@ -153,6 +153,16 @@ return [
 			'verb' => 'POST'
 		],
 		[
+			'name' => 'Template#getPath',
+			'url' => '/api/v1/templates/path',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'Template#setPath',
+			'url' => '/api/v1/templates/path',
+			'verb' => 'PUT',
+		],
+		[
 			'name' => 'TransferOwnership#transfer',
 			'url' => '/api/v1/transferownership',
 			'verb' => 'POST',
