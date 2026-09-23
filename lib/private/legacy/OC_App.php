@@ -35,7 +35,13 @@ use Psr\Log\LoggerInterface;
  * @deprecated 36.0.0 There are no more non-deprecated methods in there
  */
 class OC_App {
+	/**
+	 * @deprecated 36.0.0 use your own constant
+	 */
 	public const supportedApp = 300;
+	/**
+	 * @deprecated 36.0.0 use your own constant
+	 */
 	public const officialApp = 200;
 
 	/**
