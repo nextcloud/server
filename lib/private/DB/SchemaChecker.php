@@ -12,6 +12,7 @@ use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OC\Migration\NullOutput;
 use OCP\App\AppPathNotFoundException;
@@ -19,6 +20,7 @@ use OCP\App\IAppManager;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
+use OCP\IDBConnection;
 
 /**
  * Compares the live database schema against the schema expected for the
@@ -343,7 +345,7 @@ class SchemaChecker {
 		if ($columnDiff->hasNotNullChanged()) {
 			$changes[] = 'nullable';
 		}
-		if ($columnDiff->hasDefaultChanged()) {
+		if ($columnDiff->hasDefaultChanged() && !$this->isIgnorableTextDefaultDiff($columnDiff)) {
 			$changes[] = 'default';
 		}
 		if ($columnDiff->hasAutoIncrementChanged()) {
@@ -360,5 +362,21 @@ class SchemaChecker {
 		}
 
 		return $changes;
+	}
+
+	/**
+	 * MySQL and MariaDB silently ignore a literal DEFAULT clause on TEXT and
+	 * BLOB columns - only NULL is ever actually stored for them. A migration
+	 * that declares such a default therefore always disagrees with the live
+	 * schema on these platforms, even though nothing has actually drifted.
+	 */
+	private function isIgnorableTextDefaultDiff(ColumnDiff $columnDiff): bool {
+		if (!in_array($this->connection->getDatabaseProvider(), [IDBConnection::PLATFORM_MYSQL, IDBConnection::PLATFORM_MARIADB], true)) {
+			return false;
+		}
+
+		$typeName = Type::getTypeRegistry()->lookupName($columnDiff->getNewColumn()->getType());
+
+		return in_array($typeName, [Types::TEXT, Types::BLOB], true);
 	}
 }
