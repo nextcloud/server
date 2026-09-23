@@ -1917,7 +1917,6 @@ return array(
     'OC\\Files\\FileInfo' => $baseDir . '/lib/private/Files/FileInfo.php',
     'OC\\Files\\FilenameValidator' => $baseDir . '/lib/private/Files/FilenameValidator.php',
     'OC\\Files\\Filesystem' => $baseDir . '/lib/private/Files/Filesystem.php',
-    'OC\\Files\\Listeners\\UserMountCacheListener' => $baseDir . '/lib/private/Files/Listeners/UserMountCacheListener.php',
     'OC\\Files\\Lock\\LockManager' => $baseDir . '/lib/private/Files/Lock/LockManager.php',
     'OC\\Files\\Mount\\CacheMountProvider' => $baseDir . '/lib/private/Files/Mount/CacheMountProvider.php',
     'OC\\Files\\Mount\\HomeMountPoint' => $baseDir . '/lib/private/Files/Mount/HomeMountPoint.php',

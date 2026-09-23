@@ -101,7 +101,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedStoreCleanupListener::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedTokenCleanupListener::class);
 		$context->registerEventListener(BeforeUserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
-		$context->registerEventListener(UserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedFilesCleanupListener::class, -10);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedWebAuthnCleanupListener::class);
 		$context->registerEventListener(PasswordUpdatedEvent::class, PasswordUpdatedListener::class);
 
