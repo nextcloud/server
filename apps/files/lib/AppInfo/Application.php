@@ -111,6 +111,12 @@ class Application extends App implements IBootstrap {
 
 		$context->registerEventListener(RestrictInteractionEvent::class, RestrictInteractionListener::class);
 
+		$context->registerEventListener(SharesUpdatedEvent::class, SharesUpdatedListener::class);
+
+		$this->registerSharing();
+	}
+
+	private function registerSharing(): void {
 		$registry = Server::get(ISharingRegistry::class);
 
 		$registry->registerSourceType(Server::get(NodeShareSourceType::class));
@@ -143,8 +149,6 @@ class Application extends App implements IBootstrap {
 		$registry->registerPermissionType(NodeShareSourceType::class, Server::get(NodeDownloadSharePermissionType::class));
 		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeDownloadSharePermissionType::class, ViewSharePermissionPreset::class);
 		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeDownloadSharePermissionType::class, EditSharePermissionPreset::class);
-
-		$context->registerEventListener(SharesUpdatedEvent::class, SharesUpdatedListener::class);
 	}
 
 	#[\Override]
