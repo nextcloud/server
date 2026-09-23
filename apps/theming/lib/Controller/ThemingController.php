@@ -484,6 +484,8 @@ class ThemingController extends Controller {
 		 * @var string $description
 		 * @var string $shortName
 		 */
+		// the icon endpoints serve an uploaded favicon as-is
+		$customFaviconType = $this->imageManager->hasImage('favicon') ? $this->imageManager->getImageMime('favicon') : null;
 		$responseJS = [
 			'name' => $name,
 			'short_name' => $shortName,
@@ -496,13 +498,13 @@ class ThemingController extends Controller {
 					[
 						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon',
 							['app' => $app]) . '?v=' . $cacheBusterValue,
-						'type' => 'image/png',
+						'type' => $customFaviconType ?? 'image/png',
 						'sizes' => '512x512'
 					],
 					[
 						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getFavicon',
 							['app' => $app]) . '?v=' . $cacheBusterValue,
-						'type' => 'image/svg+xml',
+						'type' => $customFaviconType ?? 'image/svg+xml',
 						'sizes' => '16x16'
 					]
 				],
