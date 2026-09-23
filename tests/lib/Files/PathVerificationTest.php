@@ -61,7 +61,7 @@ class PathVerificationTest extends \Test\TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('providesDotFiles')]
 	public function testPathVerificationDotFiles($fileName): void {
 		$this->expectException(InvalidPathException::class);
-		$this->expectExceptionMessage('Dot files are not allowed');
+		$this->expectExceptionMessage('Filenames that begin with a dot are not allowed');
 
 		$this->view->verifyPath('', $fileName);
 	}
