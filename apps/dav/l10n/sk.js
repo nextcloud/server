@@ -237,7 +237,7 @@ OC.L10N.register(
     "Could not rename part file to final file" : "Nepodarilo sa premenovať dočasný súbor na finálny.",
     "Failed to check file size: %1$s" : "Kontrola veľkosti súboru zlyhala: %1$s",
     "Could not open file: %1$s (%2$d), file does seem to exist" : "Nie je možné otvoriť súbor: %1$s (%2$d), zdá sa že súbor existuje",
-    "Could not open file: %1$s (%2$d), file doesn't seem to exist" : "Nie je možné otvoriť súbor: %1$s (%2$d), nezdá sa že súbor existuje",
+    "Could not open file: %1$s (%2$d), file doesn't seem to exist" : "Nie je možné otvoriť súbor: %1$s (%2$d), nezdá sa, že súbor existuje",
     "Failed to get size for : %1$s" : "Nepodarilo sa získať veľkosť pre: %1$s",
     "Encryption not ready: %1$s" : "Šifrovanie nie je dostupné: %1$s",
     "Failed to open file: %1$s" : "Otvorenie súboru zlyhalo: %1$s",
