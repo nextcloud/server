@@ -877,8 +877,11 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$keys = array_keys($shares);
 			$shares = $this->processShareUpdates(array_values($shares));
 			$event->setShares(array_combine($keys, $shares));
+
+			return;
 		}
 
+		/** @psalm-suppress RedundantConditionGivenDocblockType */
 		if ($event instanceof BeforeUserDeletedEvent) {
 			$shareUser = new ShareUser($event->getUser()->getUID(), null);
 
@@ -891,6 +894,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 				$this->dbConnection->rollBack();
 				throw $exception;
 			}
+
+			return;
 		}
 	}
 
