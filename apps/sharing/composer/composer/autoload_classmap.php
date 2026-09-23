@@ -32,6 +32,7 @@ return array(
     'OCA\\Sharing\\Migration\\Version1000Date20260826073021' => $baseDir . '/../lib/Migration/Version1000Date20260826073021.php',
     'OCA\\Sharing\\Migration\\Version1000Date20260826115938' => $baseDir . '/../lib/Migration/Version1000Date20260826115938.php',
     'OCA\\Sharing\\Migration\\Version1000Date20260826122228' => $baseDir . '/../lib/Migration/Version1000Date20260826122228.php',
+    'OCA\\Sharing\\Migration\\Version1000Date20260903133238' => $baseDir . '/../lib/Migration/Version1000Date20260903133238.php',
     'OCA\\Sharing\\Migration\\Version2000Date20261013142538' => $baseDir . '/../lib/Migration/Version2000Date20261013142538.php',
     'OCA\\Sharing\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
 );
