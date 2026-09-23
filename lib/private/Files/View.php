@@ -2004,7 +2004,7 @@ class View {
 			throw new InvalidPathException($l->t('Filename is too long'));
 		} catch (InvalidDirectoryException $ex) {
 			$l = Util::getL10N('lib');
-			throw new InvalidPathException($l->t('Dot files are not allowed'));
+			throw new InvalidPathException($l->t('Filenames that begin with a period are not allowed'));
 		} catch (EmptyFileNameException $ex) {
 			$l = Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Empty filename is not allowed'));
