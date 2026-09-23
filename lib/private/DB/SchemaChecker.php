@@ -16,6 +16,8 @@ use Doctrine\DBAL\Types\Types;
 use OC\Migration\NullOutput;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\DB\Events\AddMissingIndicesEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 
 /**
@@ -28,11 +30,12 @@ class SchemaChecker {
 		private readonly Connection $connection,
 		private readonly IAppConfig $appConfig,
 		private readonly IAppManager $appManager,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 	}
 
 	/**
-	 * @return list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool}>
+	 * @return list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool, optionalIndex: bool}>
 	 */
 	public function getFindings(?string $onlyTable = null): array {
 		$expectedSchema = new Schema();
@@ -65,18 +68,21 @@ class SchemaChecker {
 
 		$comparator = $this->connection->createSchemaManager()->createComparator();
 		$diff = $comparator->compareSchemas($liveSchema, $expectedSchema);
+		$optionalIndexNames = $this->getOptionalIndexNames();
 
-		return array_map(function (array $finding) use ($disabledAppTableOwners, $enabledApps): array {
+		return array_map(function (array $finding) use ($disabledAppTableOwners, $enabledApps, $optionalIndexNames): array {
 			$app = $disabledAppTableOwners[$finding['table']] ?? null;
 			$finding['app'] = $app;
 			// Only tables owned by a disabled app are non-blocking.
 			$finding['enabled'] = $app === null || $app === 'core' || isset($enabledApps[$app]);
+			$finding['optionalIndex'] = ($finding['type'] === 'missing_index' || $finding['type'] === 'unexpected_index')
+				&& isset($optionalIndexNames[$finding['table']][$finding['name']]);
 			return $finding;
 		}, $this->buildFindings($diff));
 	}
 
 	/**
-	 * @param array{table: string, type: string, name?: string, changes?: list<string>, app?: ?string, enabled?: bool} $finding
+	 * @param array{table: string, type: string, name?: string, changes?: list<string>, app?: ?string, enabled?: bool, optionalIndex?: bool} $finding
 	 */
 	public function formatFinding(array $finding): string {
 		return match ($finding['type']) {
@@ -92,23 +98,28 @@ class SchemaChecker {
 	}
 
 	/**
-	 * Splits findings into blocking ones (from core or an enabled app) and
-	 * non-blocking ones, grouped by the disabled app that owns them.
+	 * Splits findings into blocking ones (from core or an enabled app),
+	 * non-blocking ones grouped by the disabled app that owns them, and
+	 * non-blocking optional-index findings (only relevant if occ
+	 * db:add-missing-indices was never run for that table).
 	 *
-	 * @param list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool}> $findings
-	 * @return array{blocking: list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool}>, byDisabledApp: array<string, list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool}>>}
+	 * @param list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool, optionalIndex: bool}> $findings
+	 * @return array{blocking: list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool, optionalIndex: bool}>, byDisabledApp: array<string, list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool, optionalIndex: bool}>>, optionalIndices: list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool, optionalIndex: bool}>}
 	 */
 	public function partitionFindings(array $findings): array {
 		$blocking = [];
 		$byDisabledApp = [];
+		$optionalIndices = [];
 		foreach ($findings as $finding) {
-			if ($finding['enabled']) {
+			if ($finding['optionalIndex']) {
+				$optionalIndices[] = $finding;
+			} elseif ($finding['enabled']) {
 				$blocking[] = $finding;
 			} else {
 				$byDisabledApp[$finding['app']][] = $finding;
 			}
 		}
-		return ['blocking' => $blocking, 'byDisabledApp' => $byDisabledApp];
+		return ['blocking' => $blocking, 'byDisabledApp' => $byDisabledApp, 'optionalIndices' => $optionalIndices];
 	}
 
 	private function applyMigrations(string $app, Schema $schema): void {
@@ -212,6 +223,37 @@ class SchemaChecker {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Apps can register indices that are only ever created or renamed via
+	 * occ db:add-missing-indices (AddMissingIndicesEvent), not through a
+	 * versioned migration. Since running that command is optional, whether
+	 * such an index exists on the live schema depends on whether an admin
+	 * ever ran it - it is not itself a sign of drift in either direction.
+	 * Collect their names here so findings about them can be reported
+	 * separately instead of as blocking missing/unexpected index findings.
+	 *
+	 * @return array<string, array<string, true>> table name => set of index names
+	 */
+	private function getOptionalIndexNames(): array {
+		$event = new AddMissingIndicesEvent();
+		$this->eventDispatcher->dispatchTyped($event);
+
+		$names = [];
+		foreach ($event->getMissingIndices() as $missingIndex) {
+			$table = $this->connection->getPrefix() . $missingIndex['tableName'];
+			$names[$table][$missingIndex['indexName']] = true;
+		}
+		foreach ($event->getIndicesToReplace() as $toReplace) {
+			$table = $this->connection->getPrefix() . $toReplace['tableName'];
+			$names[$table][$toReplace['newIndexName']] = true;
+			foreach ($toReplace['oldIndexNames'] as $oldIndexName) {
+				$names[$table][$oldIndexName] = true;
+			}
+		}
+
+		return $names;
 	}
 
 	private function keepOnlyTable(Schema $schema, string $tableName): void {
