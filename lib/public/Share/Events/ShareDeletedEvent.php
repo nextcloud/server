@@ -16,24 +16,16 @@ use OCP\Share\IShare;
  * @since 21.0.0
  */
 class ShareDeletedEvent extends Event {
-	/** @var IShare */
-	private $share;
-
 	/**
-	 *
-	 * @param IShare $share
-	 * @param IShare[] $children
-	 *
 	 * @since 21.0.0
 	 */
-	public function __construct(IShare $share) {
+	public function __construct(
+		private IShare $share,
+	) {
 		parent::__construct();
-
-		$this->share = $share;
 	}
 
 	/**
-	 * @return IShare
 	 * @since 21.0.0
 	 */
 	public function getShare(): IShare {
