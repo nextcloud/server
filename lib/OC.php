@@ -1354,7 +1354,6 @@ class OC {
 		\OC_Hook::clear();
 		\OC_Util::$styles = [];
 		\OC_Util::$headers = [];
-		\OC_User::setIncognitoMode(false);
 		\OC_User::$_setupedBackends = [];
 		\OC_Helper::reset();
 		Filesystem::reset();

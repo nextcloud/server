@@ -40,6 +40,7 @@ use Psr\Log\LoggerInterface;
  * Hooks provided:
  *   post_login(uid)
  *   logout()
+ * @deprecated 36.0.0 No more non-deprecated methods in there
  */
 class OC_User {
 	public static $_setupedBackends = [];
@@ -94,6 +95,7 @@ class OC_User {
 	/**
 	 * setup the configured backends in config.php
 	 * @suppress PhanDeprecatedFunction
+	 * @internal Should not be used by applications
 	 */
 	public static function setupBackends() {
 		Server::get(IAppManager::class)->loadApps(['prelogin']);
@@ -132,6 +134,7 @@ class OC_User {
 	 * has already happened (e.g. via Single Sign On).
 	 *
 	 * Log in a user and regenerate a new session.
+	 * @internal Should not be called by applications
 	 */
 	public static function loginWithApache(IApacheBackend $backend): bool {
 		$uid = $backend->getCurrentUserId();
@@ -197,6 +200,7 @@ class OC_User {
 	 *                   true: authenticated
 	 *                   false: not authenticated
 	 *                   null: not handled / no backend available
+	 * @deprecated 36.0.0 Should not be used by new apps, for user_saml we need to refactor to drop it
 	 */
 	public static function handleApacheAuth(): ?bool {
 		$backend = self::findFirstActiveUsedBackend();

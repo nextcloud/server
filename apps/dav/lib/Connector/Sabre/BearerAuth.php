@@ -58,7 +58,7 @@ class BearerAuth extends AbstractBearer {
 			$sharedSecret = $this->resolveOcmSharedSecret($bearerToken);
 			if ($sharedSecret !== null) {
 				$this->token = $sharedSecret;
-				\OC_User::setIncognitoMode(true);
+				$this->userSession->setIncognitoMode(true);
 				return $this->principalPrefix . $sharedSecret;
 			}
 		}
@@ -69,7 +69,7 @@ class BearerAuth extends AbstractBearer {
 		// the logged-in user is visible for the rest of the request. If the
 		// bearer token is invalid and Sabre falls back to one of the public
 		// auth backends, that backend will re-enable incognito mode itself.
-		\OC_User::setIncognitoMode(false);
+		$this->userSession->setIncognitoMode(false);
 
 		if ($this->userSession->tryTokenLogin($this->request)) {
 			return $this->setupUserFs($this->userSession->getUser()->getUID());
