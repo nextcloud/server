@@ -73,6 +73,13 @@ abstract class APasswordSharePropertyType implements ISharePropertyType, IShareP
 			return $oldValue;
 		}
 
+		// A password that looks like a password hash would pass here, but that is hard to create by accident.
+		// Intentionally storing a "plain" password in the DB can't be abused by attackers.
+		// TODO: Remove this, once the legacy sync is removed.
+		if ($this->getHasher()->validate($newValue)) {
+			return $newValue;
+		}
+
 		return $this->getHasher()->hash($newValue);
 	}
 
