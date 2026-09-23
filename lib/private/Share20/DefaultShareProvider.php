@@ -110,7 +110,10 @@ class DefaultShareProvider implements
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			//Set the UID of the user we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
-			$qb->setValue('accepted', $qb->createNamedParameter(IShare::STATUS_PENDING));
+			if ($share->getStatus() === null) {
+				$share->setStatus(IShare::STATUS_PENDING);
+			}
+			$qb->setValue('accepted', $qb->createNamedParameter($share->getStatus()));
 
 			//If an expiration date is set store it
 			if ($expirationDate !== null) {
