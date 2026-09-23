@@ -12,6 +12,7 @@ use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OC\Migration\NullOutput;
@@ -60,6 +61,7 @@ class SchemaChecker {
 
 		$this->addMigrationsTable($expectedSchema);
 		$this->materializeUniqueConstraints($expectedSchema);
+		$this->normalizeLongStringColumns($expectedSchema);
 
 		$liveSchema = $this->connection->createSchema();
 
@@ -222,6 +224,25 @@ class SchemaChecker {
 			foreach ($table->getUniqueConstraints() as $constraint) {
 				if (!$table->hasIndex($constraint->getName())) {
 					$table->addUniqueIndex($constraint->getColumns(), $constraint->getName());
+				}
+			}
+		}
+	}
+
+	/**
+	 * Migrator::getDiff() (see lib/private/DB/Migrator.php) rewrites any
+	 * STRING column longer than 4000 characters to TEXT before it generates
+	 * DDL, for consistency between the supported databases. That rewrite
+	 * only happens when a migration is actually applied, never when it is
+	 * replayed here to build the expected schema - so without repeating it,
+	 * any such column would forever be reported as a type mismatch.
+	 */
+	private function normalizeLongStringColumns(Schema $schema): void {
+		foreach ($schema->getTables() as $table) {
+			foreach ($table->getColumns() as $column) {
+				if ($column->getType() instanceof StringType && $column->getLength() > 4000) {
+					$column->setType(Type::getType(Types::TEXT));
+					$column->setLength(null);
 				}
 			}
 		}
