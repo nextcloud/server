@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace NCU\Sharing;
 
+use DateTimeImmutable;
 use NCU\Sharing\Permission\ISharePermissionPreset;
 use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
@@ -24,6 +25,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use OCP\Snowflake\ISnowflakeDecoder;
 
 /**
  * Keep the following types in sync with apps/sharing/lib/ResponseDefinitions.php:
@@ -150,6 +152,8 @@ use OCP\Server;
  */
 #[Consumable(since: '35.0.0')]
 final class Share {
+	private ?DateTimeImmutable $createdAt = null;
+
 	/** @var array<string, list<ShareRecipient>> $recipientsCache */
 	private array $recipientsCache = [];
 
@@ -175,6 +179,13 @@ final class Share {
 		/** @var array<class-string<ISharePermissionType>, SharePermission> $permissions */
 		public readonly array $permissions,
 	) {
+	}
+
+	/**
+	 * @experimental 35.0.0
+	 */
+	public function getCreatedAt(): DateTimeImmutable {
+		return $this->createdAt ??= Server::get(ISnowflakeDecoder::class)->decode($this->id)->getCreatedAt();
 	}
 
 	/**
