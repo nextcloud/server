@@ -40,7 +40,8 @@ class ProvidersCommand {
 				$flags = array_keys(array_filter([
 					'searchable' => $property->isSearchable(),
 					'selectable' => $property->isSelectable(),
-					'multi-valued' => $property->isMultiValued(),
+					'detail-only' => $property->isDetailOnly(),
+					'indexed' => $property->isIndexed(),
 				]));
 				$fields[] = $property->getName() . ' — ' . $property->getTitle()
 					. ' [' . implode(', ', [$property->getType()->value, ...$flags]) . ']';

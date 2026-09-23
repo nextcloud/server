@@ -8,11 +8,12 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Search;
 
+use NCU\Search\AccountScopedSearchResult;
+use NCU\Search\Exceptions\AccountUnavailableException;
+use NCU\Search\Exceptions\SearchTruncatedException;
 use NCU\Search\IAccountScopedSearchProviderRegistry;
-use NCU\Search\MetadataFieldStatus;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
-use OC\Files\Search\SearchQuery;
 use OCP\Console\Attribute\Argument;
 use OCP\Console\Attribute\AsCommand;
 use OCP\Console\Attribute\Option;
@@ -24,7 +25,7 @@ use OCP\Files\Search\ISearchOperator;
 #[AsCommand(
 	name: 'search:query',
 	description: 'Run a query against a registered account-scoped search provider',
-	help: 'This command is experimental: it queries NCU\Search\IAccountScopedSearchProvider, which is itself experimental and may still change or be removed.',
+	help: 'This command is experimental.',
 	usages: [
 		'files alice --where name=roadmap',
 		'contacts bob --where email=example.com --limit 5',
@@ -49,6 +50,8 @@ class QueryCommand {
 		int $limit = 20,
 		#[Option(description: 'Number of matches to skip')]
 		int $offset = 0,
+		#[Option(description: 'Also read the detail-only properties, with one extra lookup per result')]
+		bool $detail = false,
 	): ExitCode {
 		$searchProvider = $this->registry->getProvider($provider);
 		if ($searchProvider === null) {
@@ -58,22 +61,26 @@ class QueryCommand {
 			return ExitCode::Invalid;
 		}
 
-		$operation = $this->buildOperation($where, $output);
-		if ($operation === null) {
+		try {
+			$filter = $this->buildFilter($where);
+		} catch (\InvalidArgumentException $e) {
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
+
 			return ExitCode::Invalid;
 		}
 
-		$query = new SearchQuery($operation, $limit, $offset, []);
-
 		$rows = [];
-		foreach ($searchProvider->search($user, $query) as $result) {
-			$row = ['id' => $result->getId(), 'title' => $result->getTitle()];
-			foreach ($result->getMetaData() as $field) {
-				$row[$field->getName()] = $field->getStatus() === MetadataFieldStatus::Captured
-					? $this->formatValue($field->getValue())
-					: '(' . $field->getStatus()->value . ')';
+		try {
+			foreach ($searchProvider->search($user, $filter, $limit, $offset) as $result) {
+				if ($detail) {
+					$result = $searchProvider->get($user, $result->getId()) ?? $result;
+				}
+				$rows[] = $this->formatResult($result);
 			}
-			$rows[] = $row;
+		} catch (AccountUnavailableException|SearchTruncatedException $e) {
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
+
+			return ExitCode::Failure;
 		}
 
 		if ($rows === []) {
@@ -88,29 +95,43 @@ class QueryCommand {
 	}
 
 	/**
-	 * @param list<string> $where
+	 * @return array<string, string>
 	 */
-	private function buildOperation(array $where, IOutput $output): ?ISearchOperator {
+	private function formatResult(AccountScopedSearchResult $result): array {
+		$row = ['id' => $result->getId(), 'title' => $result->getTitle()];
+		foreach ($result->getMetadata() as $name => $value) {
+			$row[$name] = $this->formatValue($value);
+		}
+		foreach ($result->getMetadataErrors() as $name => $reason) {
+			$row[$name] = '(' . $reason . ')';
+		}
+
+		return $row;
+	}
+
+	/**
+	 * @param list<string> $where
+	 * @throws \InvalidArgumentException on a malformed condition
+	 */
+	private function buildFilter(array $where): ?ISearchOperator {
 		$conditions = [];
 		foreach ($where as $condition) {
 			[$field, $value] = array_pad(explode('=', $condition, 2), 2, '');
 			if ($field === '') {
-				$output->writeln('<error>Invalid --where "' . $condition . '", expected field=value</error>');
-
-				return null;
+				throw new \InvalidArgumentException('Invalid --where "' . $condition . '", expected field=value');
 			}
 			$conditions[] = new SearchComparison(ISearchComparison::COMPARE_LIKE, $field, '%' . $this->escapeLike($value) . '%');
 		}
 
 		return match (count($conditions)) {
-			0 => new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%'),
+			0 => null,
 			1 => $conditions[0],
 			default => new SearchBinaryOperator(SearchBinaryOperator::OPERATOR_AND, $conditions),
 		};
 	}
 
 	/**
-	 * The wildcards are ours to add, so a value containing one must not act as one.
+	 * Escape the LIKE wildcards in a value.
 	 */
 	private function escapeLike(string $value): string {
 		return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $value);

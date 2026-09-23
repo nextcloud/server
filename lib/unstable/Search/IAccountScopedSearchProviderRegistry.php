@@ -20,13 +20,6 @@ use OCP\AppFramework\Attribute\Consumable;
 #[Consumable(since: '36.0.0')]
 interface IAccountScopedSearchProviderRegistry {
 	/**
-	 * Forget any resolved providers, so the next lookup resolves them again.
-	 *
-	 * @experimental 36.0.0
-	 */
-	public function clear(): void;
-
-	/**
 	 * @return array<non-empty-lowercase-string, IAccountScopedSearchProvider> keyed by getId()
 	 * @experimental 36.0.0
 	 */

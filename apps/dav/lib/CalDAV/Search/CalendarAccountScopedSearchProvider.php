@@ -10,10 +10,11 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Search;
 
 use NCU\Search\AccountScopedSearchResult;
+use NCU\Search\Exceptions\AccountUnavailableException;
 use NCU\Search\IAccountScopedSearchProvider;
-use NCU\Search\MetadataField;
 use NCU\Search\SearchPropertyDefinition;
 use NCU\Search\SearchPropertyType;
+use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\Search\SearchOperatorEvaluator;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarExport;
@@ -21,14 +22,15 @@ use OCP\Calendar\ICalendarIsShared;
 use OCP\Calendar\IManager;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
-use OCP\Files\Search\ISearchQuery;
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IL10N;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
+use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Property;
-use Sabre\VObject\Reader;
+use Sabre\VObject\Property\ICalendar\DateTime;
 
 class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	private const ID = 'calendar';
@@ -49,6 +51,7 @@ class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvide
 	public function __construct(
 		private readonly IL10N $l10n,
 		private readonly IManager $calendarManager,
+		private readonly IUserManager $userManager,
 		private readonly LoggerInterface $logger,
 	) {
 	}
@@ -72,19 +75,19 @@ class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvide
 			new SearchPropertyDefinition('calendar_name', $this->l10n->t('Calendar'), selectable: true),
 			new SearchPropertyDefinition('uid', $this->l10n->t('UID'), selectable: true),
 			new SearchPropertyDefinition('shared', $this->l10n->t('Shared'), SearchPropertyType::Boolean, selectable: true),
-			new SearchPropertyDefinition('checksum', $this->l10n->t('Checksum'), selectable: true),
+			new SearchPropertyDefinition('checksum', $this->l10n->t('Checksum'), selectable: true, detailOnly: true),
 			new SearchPropertyDefinition('event_start', $this->l10n->t('Starts'), SearchPropertyType::DateTime, searchable: true, selectable: true),
 			new SearchPropertyDefinition('event_end', $this->l10n->t('Ends'), SearchPropertyType::DateTime, searchable: true, selectable: true),
-			new SearchPropertyDefinition('organizer', $this->l10n->t('Organizer'), searchable: true, selectable: true),
-			new SearchPropertyDefinition('attendee', $this->l10n->t('Attendees'), searchable: true, selectable: true, multiValued: true),
-			new SearchPropertyDefinition('location', $this->l10n->t('Location'), selectable: true),
+			new SearchPropertyDefinition('organizer', $this->l10n->t('Organizer'), searchable: true, selectable: true, detailOnly: true),
+			new SearchPropertyDefinition('attendee', $this->l10n->t('Attendees'), searchable: true, selectable: true, detailOnly: true),
+			new SearchPropertyDefinition('location', $this->l10n->t('Location'), selectable: true, detailOnly: true),
 		];
 	}
 
 	#[\Override]
-	public function search(string $userId, ISearchQuery $query): \Generator {
-		$operation = $query->getSearchOperation();
-		$options = $this->timerangeOptions($operation);
+	public function search(string $userId, ?ISearchOperator $filter, int $limit, int $offset = 0): \Generator {
+		$this->assertAccount($userId);
+		$options = $this->timerangeOptions($filter);
 
 		$seen = [];
 		$skipped = 0;
@@ -97,156 +100,208 @@ class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvide
 					continue;
 				}
 
-				// The same UID can recur within one account — scheduling copies an invitation into
-				// every attendee's own calendar, and recurrence expansion repeats it per occurrence.
-				// Either way it is one meeting, not several.
+				// Invitations and recurrences repeat a UID, but it is still one item.
 				if (isset($seen[$uid])) {
 					continue;
 				}
 				$seen[$uid] = true;
 
-				if (!SearchOperatorEvaluator::matches($operation, fn (string $field): array => $this->valuesFor($object, $field))) {
+				if (!SearchOperatorEvaluator::matches($filter, fn (string $field): array => $this->valuesFor($object, $field))) {
 					continue;
 				}
 
-				// Skipped after matching, because the offset counts matches, not candidates. Exact
-				// because candidate order is sorted in candidates() rather than left to the backend.
-				if ($skipped < $query->getOffset()) {
+				// The offset counts matches, not candidates.
+				if ($skipped < $offset) {
 					$skipped++;
 
 					continue;
 				}
-				if ($yielded >= $query->getLimit()) {
+				if ($yielded >= $limit) {
 					return;
 				}
 				$yielded++;
 
-				$summary = $this->firstString($object, 'SUMMARY');
-				$entry = new AccountScopedSearchResult(
-					$this->encodeId($calendar->getUri(), $uid),
-					$summary !== '' ? $summary : ('Untitled ' . strtolower((string)($object['type'] ?? 'event'))),
+				yield $this->entryFor(
+					$calendar,
+					$userId,
+					$uid,
+					$this->firstString($object, 'SUMMARY'),
+					(string)($object['type'] ?? 'event'),
+					$this->firstTimestamp($object, 'DTSTART'),
+					$this->firstTimestamp($object, 'DTEND'),
 				);
-
-				$this->addMetaData($entry, 'owner', static fn (): string => $userId);
-				$this->addMetaData($entry, 'calendar_name', static fn (): string => (string)$calendar->getDisplayName());
-				$this->addMetaData($entry, 'uid', static fn (): string => $uid);
-				$this->addMetaData($entry, 'shared', static fn (): bool
-					=> $calendar instanceof ICalendarIsShared ? $calendar->isShared() : false);
-
-				$start = $this->firstTimestamp($object, 'DTSTART');
-				$this->addMetaData($entry, 'event_start', static function () use ($start): int {
-					if ($start === null) {
-						throw new \RuntimeException('this object carries no DTSTART');
-					}
-
-					return $start;
-				});
-
-				$end = $this->firstTimestamp($object, 'DTEND') ?? $start;
-				$this->addMetaData($entry, 'event_end', static function () use ($end): int {
-					if ($end === null) {
-						throw new \RuntimeException('this object carries no DTEND');
-					}
-
-					return $end;
-				});
-
-				$ics = $this->exportObject($calendar, $uid);
-				$this->addMetaData($entry, 'checksum', static function () use ($ics): string {
-					if ($ics === null) {
-						throw new \RuntimeException('calendar object not found while computing a checksum');
-					}
-
-					// Hashed here since there is nothing stored to read; re-serialising the same blob
-					// is deterministic, so this is reproducible at export time.
-					return 'SHA256:' . hash('sha256', $ics);
-				});
-
-				$attributes = $ics === null ? null : $this->attributesOf($ics);
-				$this->addMetaData($entry, 'organizer', static function () use ($attributes): string {
-					if (!isset($attributes['organizer'])) {
-						throw new \RuntimeException('no organizer recorded on this object');
-					}
-
-					return $attributes['organizer'];
-				});
-				$this->addMetaData($entry, 'attendee', static function () use ($attributes): array {
-					if (!isset($attributes['attendees'])) {
-						throw new \RuntimeException('no attendees recorded on this object');
-					}
-
-					return $attributes['attendees'];
-				});
-				$this->addMetaData($entry, 'location', static function () use ($attributes): string {
-					if (!isset($attributes['location'])) {
-						throw new \RuntimeException('no location recorded on this object');
-					}
-
-					return $attributes['location'];
-				});
-
-				yield $entry;
 			}
 		}
 	}
 
-	private function addMetaData(AccountScopedSearchResult $entry, string $name, callable $read): void {
-		try {
-			$value = $read();
-			$entry->addMetaData($value === null
-				? MetadataField::notCaptured($name, 'not reported by the storage')
-				: MetadataField::captured($name, $value));
-		} catch (\Throwable $e) {
-			$entry->addMetaData(MetadataField::notCaptured($name, $e->getMessage()));
+	#[\Override]
+	public function get(string $userId, string $id): ?AccountScopedSearchResult {
+		$this->assertAccount($userId);
+		$found = $this->findObject($userId, $id);
+		if ($found === null) {
+			return null;
 		}
+		[$calendar, $uid, $vCalendar] = $found;
+
+		$component = $this->mainComponent($vCalendar);
+		$entry = $this->entryFor(
+			$calendar,
+			$userId,
+			$uid,
+			(string)($component?->SUMMARY ?? ''),
+			$component?->name ?? 'event',
+			$component === null ? null : $this->timestampOf($component, 'DTSTART'),
+			$component === null ? null : $this->timestampOf($component, 'DTEND'),
+		);
+
+		$ics = $vCalendar->serialize();
+		$this->addMetaData($entry, 'checksum', static fn (): string => 'SHA256:' . hash('sha256', $ics));
+
+		$attributes = $component === null ? [] : $this->attributesOf($component);
+		$this->addMetaData($entry, 'organizer', static function () use ($attributes): string {
+			if (!isset($attributes['organizer'])) {
+				throw new \RuntimeException('no organizer recorded on this object');
+			}
+
+			return $attributes['organizer'];
+		});
+		$this->addMetaData($entry, 'attendee', static function () use ($attributes): array {
+			if (!isset($attributes['attendees'])) {
+				throw new \RuntimeException('no attendees recorded on this object');
+			}
+
+			return $attributes['attendees'];
+		});
+		$this->addMetaData($entry, 'location', static function () use ($attributes): string {
+			if (!isset($attributes['location'])) {
+				throw new \RuntimeException('no location recorded on this object');
+			}
+
+			return $attributes['location'];
+		});
+
+		return $entry;
 	}
 
 	#[\Override]
-	public function readContent(string $userId, AccountScopedSearchResult $entry): ?ISimpleFile {
-		$decoded = $this->decodeId($entry->getId());
+	public function readContent(string $userId, string $id): ?ISimpleFile {
+		$this->assertAccount($userId);
+		$found = $this->findObject($userId, $id);
+		if ($found === null) {
+			return null;
+		}
+		[, $uid, $vCalendar] = $found;
+
+		return new InMemoryFile($this->safeName($uid) . '.ics', $vCalendar->serialize());
+	}
+
+	private function entryFor(ICalendar $calendar, string $userId, string $uid, string $summary, string $type, ?int $start, ?int $end): AccountScopedSearchResult {
+		$entry = new AccountScopedSearchResult(
+			$this->encodeId($calendar->getUri(), $uid),
+			$summary !== '' ? $summary : ('Untitled ' . strtolower($type)),
+		);
+
+		$this->addMetaData($entry, 'owner', fn (): string => $this->ownerOf($calendar, $userId));
+		$this->addMetaData($entry, 'calendar_name', static fn (): string => (string)$calendar->getDisplayName());
+		$this->addMetaData($entry, 'uid', static fn (): string => $uid);
+		$this->addMetaData($entry, 'shared', static fn (): bool
+			=> $calendar instanceof ICalendarIsShared ? $calendar->isShared() : false);
+
+		$this->addMetaData($entry, 'event_start', static function () use ($start): int {
+			if ($start === null) {
+				throw new \RuntimeException('this object carries no DTSTART');
+			}
+
+			return $start;
+		});
+
+		$end ??= $start;
+		$this->addMetaData($entry, 'event_end', static function () use ($end): int {
+			if ($end === null) {
+				throw new \RuntimeException('this object carries no DTEND');
+			}
+
+			return $end;
+		});
+
+		return $entry;
+	}
+
+	private function ownerOf(ICalendar $calendar, string $userId): string {
+		$principal = $calendar instanceof CalendarImpl ? $calendar->getOwnerPrincipalUri() : '';
+
+		return str_starts_with($principal, 'principals/users/')
+			? substr($principal, strlen('principals/users/'))
+			: $userId;
+	}
+
+	/**
+	 * @throws AccountUnavailableException
+	 */
+	private function assertAccount(string $userId): void {
+		if (!$this->userManager->userExists($userId)) {
+			throw new AccountUnavailableException('No such account: ' . $userId);
+		}
+	}
+
+	/**
+	 * @return array{0: ICalendar, 1: string, 2: VCalendar}|null
+	 */
+	private function findObject(string $userId, string $id): ?array {
+		$decoded = $this->decodeId($id);
 		if ($decoded === null) {
 			return null;
 		}
 		[$calendarUri, $uid] = $decoded;
 
 		$calendar = $this->findCalendar($userId, $calendarUri);
-		$ics = $calendar === null ? null : $this->exportObject($calendar, $uid);
-		if ($ics === null) {
+		if ($calendar === null) {
 			return null;
 		}
 
-		return new InMemoryFile($this->safeName($uid) . '.ics', $ics);
+		$vCalendar = $this->exportObject($calendar, $uid);
+
+		return $vCalendar === null ? null : [$calendar, $uid, $vCalendar];
+	}
+
+	private function mainComponent(VCalendar $vCalendar): ?Component {
+		foreach ($vCalendar->getComponents() as $component) {
+			if (in_array($component->name, self::COMPONENT_TYPES, true)) {
+				return $component;
+			}
+		}
+
+		return null;
+	}
+
+	private function timestampOf(Component $component, string $name): ?int {
+		$property = $component->select($name)[0] ?? null;
+
+		return $property instanceof DateTime ? $property->getDateTime()->getTimestamp() : null;
+	}
+
+	private function addMetaData(AccountScopedSearchResult $entry, string $name, callable $read): void {
+		try {
+			$value = $read();
+			if ($value === null) {
+				$entry->setMetadataError($name, 'not reported by the storage');
+			} else {
+				$entry->setMetadata($name, $value);
+			}
+		} catch (\Throwable $e) {
+			$entry->setMetadataError($name, $e->getMessage());
+		}
 	}
 
 	/**
-	 * The facts about a meeting that are not its text: who called it, who was invited, where.
+	 * Organizer, attendees and location of an object.
 	 *
 	 * @return array<string, mixed>
 	 */
-	private function attributesOf(string $ics): array {
+	private function attributesOf(Component $component): array {
 		$attributes = [];
 
-		try {
-			$parsed = Reader::read($ics);
-		} catch (\Throwable $e) {
-			$this->logger->debug('Could not parse a calendar object for its attributes', ['exception' => $e]);
-
-			return $attributes;
-		}
-
-		$component = null;
-		foreach ($parsed->getComponents() as $candidate) {
-			if (in_array($candidate->name, ['VEVENT', 'VTODO'], true)) {
-				$component = $candidate;
-				break;
-			}
-		}
-		if ($component === null) {
-			return $attributes;
-		}
-
-		// "CN <address>", because a name is what someone types into a search box and an address is
-		// what identifies the person. Both, or whichever is there.
+		// "CN <address>", or whichever of the two is set.
 		$person = static function (Property $property): string {
 			$name = trim((string)($property['CN'] ?? ''));
 			$address = trim(str_ireplace('mailto:', '', (string)$property));
@@ -289,13 +344,11 @@ class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvide
 	}
 
 	/**
-	 * The object as a standalone iCalendar document — attendees, alarms and recurrence rules
-	 * intact, not a reconstruction from search results.
+	 * The object as a standalone iCalendar document.
 	 *
-	 * `export()` has no uid filter, so this is a linear scan of the calendar per item. Fine for a
-	 * personal calendar, worth caching per calendar per call if it ever shows up as a hot path.
+	 * `export()` has no uid filter, so this scans the whole calendar: never call it per search result.
 	 */
-	private function exportObject(ICalendar $calendar, string $uid): ?string {
+	private function exportObject(ICalendar $calendar, string $uid): ?VCalendar {
 		if (!$calendar instanceof ICalendarExport) {
 			return null;
 		}
@@ -303,7 +356,7 @@ class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvide
 		try {
 			foreach ($calendar->export(null) as $vCalendar) {
 				if ($this->uidOf($vCalendar) === $uid) {
-					return $vCalendar->serialize();
+					return $vCalendar;
 				}
 			}
 		} catch (\Throwable $e) {
@@ -313,10 +366,6 @@ class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvide
 		return null;
 	}
 
-	/**
-	 * Identity is the UID, not the DAV URI: it is the object's own identity, a client may PUT an
-	 * object at any URI it likes, and every expanded occurrence of a recurrence carries it.
-	 */
 	private function uidOf(VCalendar $vCalendar): string {
 		foreach ($vCalendar->getComponents() as $component) {
 			$uid = (string)($component->UID ?? '');
@@ -329,9 +378,7 @@ class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvide
 	}
 
 	/**
-	 * Every object in the calendar, within the query's time range if it has one — otherwise
-	 * deliberately not narrowed by the property index, see `SearchOperatorEvaluator`. The time
-	 * range narrows soundly because it comes from the `DTSTART`/`DTEND` columns, not that index.
+	 * Every object in the calendar, within the query's time range if it has one.
 	 *
 	 * @param array<string, mixed> $options
 	 * @return list<array<string, mixed>>
@@ -340,7 +387,6 @@ class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvide
 		try {
 			$page = $calendar->search('', [], $options, null);
 		} catch (\Throwable $e) {
-			// An unreadable calendar is not a reason to abandon the rest of the account.
 			$this->logger->warning('Calendar search failed', ['exception' => $e, 'calendar' => $calendar->getUri()]);
 
 			return [];
@@ -351,8 +397,7 @@ class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvide
 			$found[(string)($object['uid'] ?? '')] = $object;
 		}
 
-		// Ordered by UID, so resuming a search skips the same matches an interrupted call already
-		// yielded. CalDAV promises no order of its own.
+		// CalDAV has no stable order of its own, and paging needs one.
 		ksort($found);
 
 		return array_values($found);
@@ -371,8 +416,7 @@ class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvide
 		}
 
 		return array_values(array_filter($calendars, static fn (ICalendar $calendar): bool
-			// ICalendarExport excludes federated calendars, which are read-only mirrors of records
-			// held elsewhere and cannot be exported as evidence anyway.
+			// Excludes federated calendars, which cannot be exported.
 			=> $calendar instanceof ICalendarExport
 			&& !in_array($calendar->getUri(), self::GENERATED_CALENDAR_URIS, true)));
 	}
@@ -434,9 +478,8 @@ class CalendarAccountScopedSearchProvider implements IAccountScopedSearchProvide
 	/**
 	 * Property values across every component of the object, flattened.
 	 *
-	 * CalDAV hands back `[value, parameters]` for a property that may occur once and a list of
-	 * those for one that may repeat; `is_array($raw[0])` tells them apart, because a single value
-	 * is always a string or a date.
+	 * CalDAV returns `[value, parameters]` for a single property and a list of those for a
+	 * repeated one.
 	 *
 	 * @param array<string, mixed> $object
 	 * @return list<mixed>

@@ -20,7 +20,9 @@ final class SearchPropertyDefinition {
 	 * @param string $title A human-readable label
 	 * @param bool $searchable Whether the property can be used in a search query
 	 * @param bool $selectable Whether the property is returned in each result's metadata
-	 * @param bool $multiValued Whether the property holds a list of values of its type
+	 * @param bool $detailOnly Whether the property is too expensive to read for every search
+	 *                         result, and is only returned by {@see IAccountScopedSearchProvider::get()}
+	 * @param bool $indexed Whether searching the property is answered by an index rather than a scan
 	 */
 	public function __construct(
 		private readonly string $name,
@@ -28,7 +30,8 @@ final class SearchPropertyDefinition {
 		private readonly SearchPropertyType $type = SearchPropertyType::String,
 		private readonly bool $searchable = false,
 		private readonly bool $selectable = false,
-		private readonly bool $multiValued = false,
+		private readonly bool $detailOnly = false,
+		private readonly bool $indexed = false,
 	) {
 	}
 
@@ -55,7 +58,11 @@ final class SearchPropertyDefinition {
 		return $this->selectable;
 	}
 
-	public function isMultiValued(): bool {
-		return $this->multiValued;
+	public function isDetailOnly(): bool {
+		return $this->detailOnly;
+	}
+
+	public function isIndexed(): bool {
+		return $this->indexed;
 	}
 }

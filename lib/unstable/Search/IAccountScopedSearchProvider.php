@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace NCU\Search;
 
-use OCP\Files\Search\ISearchQuery;
+use NCU\Search\Exceptions\AccountUnavailableException;
+use NCU\Search\Exceptions\SearchTruncatedException;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 /**
@@ -33,24 +35,54 @@ interface IAccountScopedSearchProvider {
 	public function getName(): string;
 
 	/**
-	 * The properties a caller may build a search query against and the metadata `search()`
-	 * attaches to each result.
+	 * The properties a caller may build a search query against and the metadata attached to each
+	 * result.
 	 *
 	 * @return list<SearchPropertyDefinition>
 	 */
 	public function getProperties(): array;
 
 	/**
-	 * Search one account's data with the given query.
+	 * Search one account's data.
+	 *
+	 * The results are yielded in an order chosen by the provider that is total and stable, so a
+	 * caller can page through them with the offset and limit.
 	 *
 	 * @param non-empty-string $userId
-	 * @return \Generator<AccountScopedSearchResult> Each result contains the selectable properties from {@see IAccountScopedSearchProvider::getProperties()} in its metadata
+	 * @param ISearchOperator|null $filter Comparisons on the searchable properties, or null for everything
+	 * @return \Generator<AccountScopedSearchResult> Each result contains the selectable properties
+	 *                                               from {@see getProperties()} that are not detail-only
+	 * @throws AccountUnavailableException when the account's data cannot be read at all
+	 * @throws SearchTruncatedException when the search cannot be answered exhaustively
 	 */
 	public function search(
 		string $userId,
-		ISearchQuery $query,
+		?ISearchOperator $filter,
+		int $limit,
+		int $offset = 0,
 	): \Generator;
 
-	/** May be evidence under legal hold: never call the returned file's mutating methods. */
-	public function readContent(string $userId, AccountScopedSearchResult $entry): ?ISimpleFile;
+	/**
+	 * The current state of one item, as seen by one account.
+	 *
+	 * @param non-empty-string $userId
+	 * @param string $id An id previously returned by {@see search()}
+	 * @return AccountScopedSearchResult|null The item with every selectable property from
+	 *                                        {@see getProperties()} in its metadata, or null when it
+	 *                                        no longer exists or is not visible to the account
+	 * @throws AccountUnavailableException when the account's data cannot be read at all
+	 */
+	public function get(string $userId, string $id): ?AccountScopedSearchResult;
+
+	/**
+	 * The content of one item, as seen by one account.
+	 *
+	 * May be evidence under legal hold: never call the returned file's mutating methods.
+	 *
+	 * @param non-empty-string $userId
+	 * @param string $id An id previously returned by {@see search()}
+	 * @return ISimpleFile|null null when the item no longer exists or is not visible to the account
+	 * @throws AccountUnavailableException when the account's data cannot be read at all
+	 */
+	public function readContent(string $userId, string $id): ?ISimpleFile;
 }

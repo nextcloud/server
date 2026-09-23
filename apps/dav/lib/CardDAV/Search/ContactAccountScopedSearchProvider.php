@@ -10,16 +10,17 @@ declare(strict_types=1);
 namespace OCA\DAV\CardDAV\Search;
 
 use NCU\Search\AccountScopedSearchResult;
+use NCU\Search\Exceptions\AccountUnavailableException;
 use NCU\Search\IAccountScopedSearchProvider;
-use NCU\Search\MetadataField;
 use NCU\Search\SearchPropertyDefinition;
 use NCU\Search\SearchPropertyType;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Search\SearchOperatorEvaluator;
-use OCP\Files\Search\ISearchQuery;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IL10N;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
@@ -47,6 +48,7 @@ class ContactAccountScopedSearchProvider implements IAccountScopedSearchProvider
 	public function __construct(
 		private readonly IL10N $l10n,
 		private readonly CardDavBackend $backend,
+		private readonly IUserManager $userManager,
 		private readonly LoggerInterface $logger,
 	) {
 	}
@@ -71,18 +73,18 @@ class ContactAccountScopedSearchProvider implements IAccountScopedSearchProvider
 			new SearchPropertyDefinition('modified', $this->l10n->t('Modified'), SearchPropertyType::DateTime, selectable: true),
 			new SearchPropertyDefinition('checksum', $this->l10n->t('Checksum'), selectable: true),
 			new SearchPropertyDefinition('shared', $this->l10n->t('Shared'), SearchPropertyType::Boolean, selectable: true),
-			new SearchPropertyDefinition('email', $this->l10n->t('Emails'), searchable: true, selectable: true, multiValued: true),
-			new SearchPropertyDefinition('phone', $this->l10n->t('Phones'), searchable: true, selectable: true, multiValued: true),
+			new SearchPropertyDefinition('email', $this->l10n->t('Emails'), searchable: true, selectable: true),
+			new SearchPropertyDefinition('phone', $this->l10n->t('Phones'), searchable: true, selectable: true),
 			new SearchPropertyDefinition('organisation', $this->l10n->t('Organisation'), searchable: true, selectable: true),
 			new SearchPropertyDefinition('job_title', $this->l10n->t('Job title'), selectable: true),
-			new SearchPropertyDefinition('categories', $this->l10n->t('Categories'), selectable: true, multiValued: true),
+			new SearchPropertyDefinition('categories', $this->l10n->t('Categories'), selectable: true),
 		];
 	}
 
 	#[\Override]
-	public function search(string $userId, ISearchQuery $query): \Generator {
+	public function search(string $userId, ?ISearchOperator $filter, int $limit, int $offset = 0): \Generator {
+		$this->assertAccount($userId);
 		$books = $this->addressBooksFor($userId);
-		$operation = $query->getSearchOperation();
 
 		$skipped = 0;
 		$yielded = 0;
@@ -90,7 +92,6 @@ class ContactAccountScopedSearchProvider implements IAccountScopedSearchProvider
 			$book = $books[(int)($row['addressbookid'] ?? 0)] ?? null;
 			$uri = (string)($row['uri'] ?? '');
 			if ($book === null || $uri === '') {
-				// A hit in the system address book, or one whose book was filtered out.
 				continue;
 			}
 
@@ -99,102 +100,47 @@ class ContactAccountScopedSearchProvider implements IAccountScopedSearchProvider
 				continue;
 			}
 
-			if (!SearchOperatorEvaluator::matches($operation, fn (string $field): array => $this->valuesFor($card, $field))) {
+			if (!SearchOperatorEvaluator::matches($filter, fn (string $field): array => $this->valuesFor($card, $field))) {
 				continue;
 			}
 
-			// Skipped after matching, because the offset counts matches, not candidates. Exact
-			// because candidate order is sorted in candidates() rather than left to the backend.
-			if ($skipped < $query->getOffset()) {
+			// The offset counts matches, not candidates.
+			if ($skipped < $offset) {
 				$skipped++;
 
 				continue;
 			}
-			if ($yielded >= $query->getLimit()) {
+			if ($yielded >= $limit) {
 				return;
 			}
 			$yielded++;
 
-			$name = (string)($card->FN ?? '');
-			$entry = new AccountScopedSearchResult(
-				$this->encodeId((string)$book['uri'], $uri),
-				$name !== '' ? $name : $uri,
-			);
-
-			$this->addMetaData($entry, 'owner', fn (): string => $this->uidOfPrincipal(
-				(string)($book['{http://owncloud.org/ns}owner-principal'] ?? $book['principaluri'] ?? '')) ?: $userId);
-			$this->addMetaData($entry, 'address_book_name', static fn (): string
-				=> (string)($book['{DAV:}displayname'] ?? $book['uri']));
-			$this->addMetaData($entry, 'shared', fn (): bool => $this->isShared($book));
-
-			$rev = $this->revTimestamp($card);
-			$this->addMetaData($entry, 'modified', static function () use ($rev): int {
-				if ($rev === null) {
-					throw new \RuntimeException('the card carries no REV property');
-				}
-
-				return $rev;
-			});
-
-			// Over the stored bytes, which is what readContent() streams. CardDAV keeps no checksum
-			// of its own, so this is computed here rather than read.
-			$data = (string)($row['carddata'] ?? '');
-			$this->addMetaData($entry, 'checksum', static fn (): string => 'SHA256:' . hash('sha256', $data));
-
-			$this->addMetaData($entry, 'email', fn (): array => $this->propertyValues($card, 'EMAIL'));
-			$this->addMetaData($entry, 'phone', fn (): array => $this->propertyValues($card, 'TEL'));
-			$this->addMetaData($entry, 'categories', fn (): array => $this->propertyValues($card, 'CATEGORIES'));
-
-			$organisation = $this->propertyValues($card, 'ORG');
-			$this->addMetaData($entry, 'organisation', static function () use ($organisation): string {
-				if ($organisation === []) {
-					throw new \RuntimeException('no organisation recorded on this card');
-				}
-
-				return $organisation[0];
-			});
-
-			$jobTitle = $this->propertyValues($card, 'TITLE');
-			$this->addMetaData($entry, 'job_title', static function () use ($jobTitle): string {
-				if ($jobTitle === []) {
-					throw new \RuntimeException('no job title recorded on this card');
-				}
-
-				return $jobTitle[0];
-			});
-
-			yield $entry;
-		}
-	}
-
-	/**
-	 * Attach one field, or record why it could not be read. A read failure never drops the whole
-	 * entry — the search result is still yielded and the gap is visible on the field itself.
-	 */
-	private function addMetaData(AccountScopedSearchResult $entry, string $name, callable $read): void {
-		try {
-			$value = $read();
-			$entry->addMetaData($value === null
-				? MetadataField::notCaptured($name, 'not reported by the storage')
-				: MetadataField::captured($name, $value));
-		} catch (\Throwable $e) {
-			$entry->addMetaData(MetadataField::notCaptured($name, $e->getMessage()));
+			yield $this->entryFor($userId, $book, $uri, $card, (string)($row['carddata'] ?? ''));
 		}
 	}
 
 	#[\Override]
-	public function readContent(string $userId, AccountScopedSearchResult $entry): ?ISimpleFile {
-		$decoded = $this->decodeId($entry->getId());
-		if ($decoded === null) {
+	public function get(string $userId, string $id): ?AccountScopedSearchResult {
+		$this->assertAccount($userId);
+		$found = $this->findCard($userId, $id);
+		if ($found === null) {
 			return null;
 		}
-		[$bookUri, $cardUri] = $decoded;
+		[$book, $cardUri, $data] = $found;
 
-		$book = $this->findAddressBook($userId, $bookUri);
-		$data = $book === null ? null : $this->cardData((int)$book['id'], $cardUri);
-		if ($data === null) {
+		$card = $this->parse($data);
+
+		return $card === null ? null : $this->entryFor($userId, $book, $cardUri, $card, $data);
+	}
+
+	#[\Override]
+	public function readContent(string $userId, string $id): ?ISimpleFile {
+		$this->assertAccount($userId);
+		$found = $this->findCard($userId, $id);
+		if ($found === null) {
 			return null;
 		}
+		[, $cardUri, $data] = $found;
 
 		$card = $this->parse($data);
 		$name = $card === null ? '' : (string)($card->FN ?? '');
@@ -203,8 +149,105 @@ class ContactAccountScopedSearchProvider implements IAccountScopedSearchProvider
 	}
 
 	/**
-	 * Every card in the account's address books, deliberately not narrowed by the property index —
-	 * see the class docblock on `SearchOperatorEvaluator`.
+	 * @param array<string, mixed> $book
+	 */
+	private function entryFor(string $userId, array $book, string $uri, VCard $card, string $data): AccountScopedSearchResult {
+		$name = (string)($card->FN ?? '');
+		$entry = new AccountScopedSearchResult(
+			$this->encodeId((string)$book['uri'], $uri),
+			$name !== '' ? $name : $uri,
+		);
+
+		$this->addMetaData($entry, 'owner', fn (): string => $this->uidOfPrincipal(
+			(string)($book['{http://owncloud.org/ns}owner-principal'] ?? $book['principaluri'] ?? '')) ?: $userId);
+		$this->addMetaData($entry, 'address_book_name', static fn (): string
+			=> (string)($book['{DAV:}displayname'] ?? $book['uri']));
+		$this->addMetaData($entry, 'shared', fn (): bool => $this->isShared($book));
+
+		$rev = $this->revTimestamp($card);
+		$this->addMetaData($entry, 'modified', static function () use ($rev): int {
+			if ($rev === null) {
+				throw new \RuntimeException('the card carries no REV property');
+			}
+
+			return $rev;
+		});
+
+		// Over the stored bytes, which is what readContent() returns.
+		$this->addMetaData($entry, 'checksum', static fn (): string => 'SHA256:' . hash('sha256', $data));
+
+		$this->addMetaData($entry, 'email', fn (): array => $this->propertyValues($card, 'EMAIL'));
+		$this->addMetaData($entry, 'phone', fn (): array => $this->propertyValues($card, 'TEL'));
+		$this->addMetaData($entry, 'categories', fn (): array => $this->propertyValues($card, 'CATEGORIES'));
+
+		$organisation = $this->propertyValues($card, 'ORG');
+		$this->addMetaData($entry, 'organisation', static function () use ($organisation): string {
+			if ($organisation === []) {
+				throw new \RuntimeException('no organisation recorded on this card');
+			}
+
+			return $organisation[0];
+		});
+
+		$jobTitle = $this->propertyValues($card, 'TITLE');
+		$this->addMetaData($entry, 'job_title', static function () use ($jobTitle): string {
+			if ($jobTitle === []) {
+				throw new \RuntimeException('no job title recorded on this card');
+			}
+
+			return $jobTitle[0];
+		});
+
+		return $entry;
+	}
+
+	/**
+	 * @throws AccountUnavailableException
+	 */
+	private function assertAccount(string $userId): void {
+		if (!$this->userManager->userExists($userId)) {
+			throw new AccountUnavailableException('No such account: ' . $userId);
+		}
+	}
+
+	/**
+	 * @return array{0: array<string, mixed>, 1: string, 2: string}|null
+	 */
+	private function findCard(string $userId, string $id): ?array {
+		$decoded = $this->decodeId($id);
+		if ($decoded === null) {
+			return null;
+		}
+		[$bookUri, $cardUri] = $decoded;
+
+		$book = $this->findAddressBook($userId, $bookUri);
+		if ($book === null) {
+			return null;
+		}
+
+		$data = $this->cardData((int)$book['id'], $cardUri);
+
+		return $data === null ? null : [$book, $cardUri, $data];
+	}
+
+	/**
+	 * Attach one field, or record why it could not be read.
+	 */
+	private function addMetaData(AccountScopedSearchResult $entry, string $name, callable $read): void {
+		try {
+			$value = $read();
+			if ($value === null) {
+				$entry->setMetadataError($name, 'not reported by the storage');
+			} else {
+				$entry->setMetadata($name, $value);
+			}
+		} catch (\Throwable $e) {
+			$entry->setMetadataError($name, $e->getMessage());
+		}
+	}
+
+	/**
+	 * Every card in the account's address books.
 	 *
 	 * @return list<array<string, mixed>>
 	 */
@@ -225,8 +268,7 @@ class ContactAccountScopedSearchProvider implements IAccountScopedSearchProvider
 			$found[$row['addressbookid'] . ':' . $row['uri']] = $row;
 		}
 
-		// Ordered by the card's own identity, so resuming an account skips the same matches an
-		// interrupted call already yielded. CardDAV promises no order of its own.
+		// CardDAV has no stable order of its own, and paging needs one.
 		ksort($found);
 
 		return array_values($found);
