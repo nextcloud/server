@@ -131,7 +131,7 @@ class Encryption implements IEncryptionModule {
 		}
 
 		/* If useLegacyFileKey is not specified in header, auto-detect, to be safe */
-		$useLegacyFileKey = (($header['useLegacyFileKey'] ?? '') == 'false' ? false : null);
+		$useLegacyFileKey = ((string)($header['useLegacyFileKey'] ?? '') === 'false' ? false : null);
 
 		$this->fileKey = $this->keyManager->getFileKey($this->path, $useLegacyFileKey, $this->session->decryptAllModeActivated());
 
@@ -156,6 +156,14 @@ class Encryption implements IEncryptionModule {
 			// the part file
 			if (Scanner::isPartialFile($path)) {
 				$this->version = $this->version + 1;
+			}
+
+			// A file that is not in the file cache has no stored version, but its
+			// blocks were signed with version 1 - the version the first write of a
+			// file uses. This happens while a file written in this request has not
+			// been scanned yet.
+			if ($this->version === 0) {
+				$this->version = 1;
 			}
 		}
 

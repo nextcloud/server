@@ -229,5 +229,11 @@ class AddMissingIndicesListener implements IEventListener {
 			'taskp_status_type_upd',
 			['status', 'type', 'last_updated']
 		);
+
+		$event->addMissingIndex(
+			'taskprocessing_tasks',
+			'taskp_tasks_scheduled',
+			['scheduled_at']
+		);
 	}
 }

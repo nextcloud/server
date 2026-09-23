@@ -9,6 +9,7 @@
     "Your password will expire today." : "Tu contraseña expirará el día de hoy. ",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La contraseña expirará dentro de %n día. ","La contraseña expirará dentro de %n días. ","La contraseña expirará dentro de %n días. "],
     "LDAP/AD integration" : "Integración LDAP/AD",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["%n grupo encontrado","%n grupos encontrados","%n grupos encontrados"],
     "> 1000 groups found" : "Se encontraron más de 1000 grupos",
     "> 1000 users found" : "Se encontraron más de 1000 usuarios",

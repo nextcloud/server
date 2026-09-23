@@ -9,6 +9,7 @@
 namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
+use OC\KnownUser\KnownUserService;
 use OC\Memcache\WithLocalCache;
 use OCP\Config\IUserConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -32,27 +33,23 @@ use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Backend\IGetUserNameFromLoginNameBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use OCP\Util;
+use Override;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class Manager
  *
  * Hooks available in scope \OC\User:
- * - preSetPassword(\OC\User\User $user, string $password, string $recoverPassword)
- * - postSetPassword(\OC\User\User $user, string $password, string $recoverPassword)
- * - preDelete(\OC\User\User $user)
- * - postDelete(\OC\User\User $user)
- * - preCreateUser(string $uid, string $password)
- * - postCreateUser(\OC\User\User $user, string $password)
- * - change(\OC\User\User $user)
  * - assignedUserId(string $uid)
  * - preUnassignedUserId(string $uid)
  * - postUnassignedUserId(string $uid)
@@ -74,8 +71,9 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	private DisplayNameCache $displayNameCache;
 
-	// IURLGenerator can't be injected through DI
-	private ?IURLGenerator $urlGenerator;
+	// These services cannot be injected through DI because user manager is used early in install process
+	private ?IURLGenerator $urlGenerator = null;
+	private ?KnownUserService $knownUserService = null;
 
 	// This constructor can't autoload any class requiring a DB connection.
 	public function __construct(
@@ -85,10 +83,16 @@ class Manager extends PublicEmitter implements IUserManager {
 		private LoggerInterface $logger,
 	) {
 		$this->cache = new WithLocalCache($cacheFactory->createDistributed('user_backend_map'));
-		$this->listen('\OC\User', 'postDelete', function (IUser $user): void {
-			unset($this->cachedUsers[$user->getUID()]);
-		});
+		$this->eventDispatcher->addListener(UserDeletedEvent::class, $this->handleUserDeletedEvent(...));
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
+	}
+
+	private function handleUserDeletedEvent(UserDeletedEvent $event): void {
+		unset($this->cachedUsers[$event->getUser()->getUID()]);
+	}
+
+	private function getKnownUserService(): KnownUserService {
+		return $this->knownUserService ??= Server::get(KnownUserService::class);
 	}
 
 	/**
@@ -139,7 +143,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		}
 
 		$cachedBackend = $this->cache->get(sha1($uid));
-		if (in_array($cachedBackend, $excludeBackends)) {
+		if (in_array((string)$cachedBackend, $excludeBackends, true)) {
 			$cachedBackend = null;
 		}
 
@@ -157,7 +161,7 @@ class Manager extends PublicEmitter implements IUserManager {
 				continue;
 			}
 
-			if (in_array($i, $excludeBackends)) {
+			if (in_array($i, $excludeBackends, true)) {
 				continue;
 			}
 
@@ -196,7 +200,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			return $this->cachedUsers[$uid];
 		}
 
-		$user = new User($uid, $backend, $this->eventDispatcher, $this, $this->config);
+		$user = new User($uid, $backend, $this->eventDispatcher, $this->config);
 		if ($cacheUser) {
 			$this->cachedUsers[$uid] = $user;
 		}
@@ -374,12 +378,15 @@ class Manager extends PublicEmitter implements IUserManager {
 				$backendUsers = $backend->searchKnownUsersByDisplayName($searcher, $pattern, $limit, $offset);
 			} else {
 				// Better than nothing, but filtering after pagination can remove lots of results.
-				$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
+				$backendUsers = array_filter(
+					$backend->getDisplayNames($pattern, $limit, $offset),
+					fn (string $uid): bool => $this->getKnownUserService()->isKnownToUser($searcher, $uid),
+					ARRAY_FILTER_USE_KEY,
+				);
+
 			}
-			if (is_array($backendUsers)) {
-				foreach ($backendUsers as $uid => $displayName) {
-					$users[] = $this->getUserObject($uid, $backend);
-				}
+			foreach ($backendUsers as $uid => $displayName) {
+				$users[] = $this->getUserObject($uid, $backend);
 			}
 		}
 
@@ -450,8 +457,6 @@ class Manager extends PublicEmitter implements IUserManager {
 			throw new \InvalidArgumentException($l->t('The Login is already being used'));
 		}
 
-		/** @deprecated 21.0.0 use BeforeUserCreatedEvent event with the IEventDispatcher instead */
-		$this->emit('\OC\User', 'preCreateUser', [$uid, $password]);
 		$this->eventDispatcher->dispatchTyped(new BeforeUserCreatedEvent($uid, $password));
 		$state = $backend->createUser($uid, $password);
 		if ($state === false) {
@@ -468,8 +473,6 @@ class Manager extends PublicEmitter implements IUserManager {
 			throw new \RuntimeException('Failed to get user after creation', previous: $e);
 		}
 		if ($user instanceof IUser) {
-			/** @deprecated 21.0.0 use UserCreatedEvent event with the IEventDispatcher instead */
-			$this->emit('\OC\User', 'postCreateUser', [$user, $password]);
 			$this->eventDispatcher->dispatchTyped(new UserCreatedEvent($user, $password));
 			return $user;
 		}
@@ -897,5 +900,20 @@ class Manager extends PublicEmitter implements IUserManager {
 	#[\Override]
 	public function getFederatedUser(ICloudId $cloudId): IUser {
 		return new LazyUser($cloudId->getDisplayId(), $this, $cloudId->getDisplayId());
+	}
+
+	#[Override]
+	public function getUserNameFromLoginName(string $loginName): string {
+		$userName = $loginName;
+		foreach ($this->getBackends() as $backend) {
+			if ($backend instanceof IGetUserNameFromLoginNameBackend) {
+				$newUserName = $backend->getUserNameFromLoginName($loginName);
+				if ($newUserName !== false) {
+					$userName = $newUserName;
+					break;
+				}
+			}
+		}
+		return $userName;
 	}
 }

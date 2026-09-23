@@ -174,9 +174,13 @@ abstract class PHPMongoQuery {
 	 */
 	private static function _isEqual($v, $operatorValue): bool {
 		if (is_array($v) && is_array($operatorValue)) {
+			// deliberately Mongo-style loose array equality, see method docblock
+			/** @psalm-suppress UnrecognizedExpression */
 			return $v == $operatorValue;
 		}
 		if (is_array($v)) {
+			// deliberately Mongo-style loose membership check, see method docblock
+			/** @psalm-suppress UnrecognizedExpression */
 			return in_array($operatorValue, $v);
 		}
 		if (is_string($operatorValue) && preg_match('/^\/(.*?)\/([a-z]*)$/i', $operatorValue, $matches)) {
@@ -267,6 +271,8 @@ abstract class PHPMongoQuery {
 				if (is_array($v)) {
 					return count(array_intersect($v, $operatorValue)) > 0;
 				}
+				// $v and $operatorValue are Mongo-style query values of unknown type, loose match is intentional
+				/** @psalm-suppress UnrecognizedExpression */
 				return in_array($v, $operatorValue);
 			case '$lt':		return $exists && $v < $operatorValue;
 			case '$lte':	return $exists && $v <= $operatorValue;
@@ -286,6 +292,8 @@ abstract class PHPMongoQuery {
 				if (is_array($v)) {
 					return count(array_intersect($v, $operatorValue)) === 0;
 				}
+				// $v and $operatorValue are Mongo-style query values of unknown type, loose match is intentional
+				/** @psalm-suppress UnrecognizedExpression */
 				return !in_array($v, $operatorValue);
 			case '$exists':	return ($operatorValue && $exists) || (!$operatorValue && !$exists);
 			case '$mod':

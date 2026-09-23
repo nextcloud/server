@@ -7,7 +7,9 @@
 
 namespace OC\Files\Cache;
 
+use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
@@ -66,6 +68,7 @@ class SearchBuilder {
 		'owner' => 'string',
 		'creation_time' => 'integer',
 		'upload_time' => 'integer',
+		'mount_point_name' => 'string',
 	];
 
 	/** @var array<string, int|string> */
@@ -82,11 +85,11 @@ class SearchBuilder {
 		'boolean' => IQueryBuilder::PARAM_INT_ARRAY,
 	];
 
-	public const TAG_FAVORITE = '_$!<Favorite>!$_';
+	public const string TAG_FAVORITE = '_$!<Favorite>!$_';
 
 	public function __construct(
-		private IMimeTypeLoader $mimetypeLoader,
-		private IFilesMetadataManager $filesMetadataManager,
+		private readonly IMimeTypeLoader $mimetypeLoader,
+		private readonly IFilesMetadataManager $filesMetadataManager,
 	) {
 	}
 
@@ -105,14 +108,13 @@ class SearchBuilder {
 	}
 
 	/**
-	 * @param IQueryBuilder $builder
 	 * @param ISearchOperator[] $operators
 	 */
 	public function searchOperatorArrayToDBExprArray(
 		IQueryBuilder $builder,
 		array $operators,
 		?IMetadataQuery $metadataQuery = null,
-	) {
+	): array {
 		return array_filter(array_map(function ($operator) use ($builder, $metadataQuery) {
 			return $this->searchOperatorToDBExpr($builder, $operator, $metadataQuery);
 		}, $operators));
@@ -162,7 +164,7 @@ class SearchBuilder {
 		if ($comparison->getExtra()) {
 			[$field, $value, $type, $paramType] = $this->getExtraOperatorField($comparison, $metadataQuery);
 		} else {
-			[$field, $value, $type, $paramType] = $this->getOperatorFieldAndValue($comparison);
+			[$field, $value, $type, $paramType] = $this->getOperatorFieldAndValue($builder, $comparison);
 		}
 
 		if (isset($operatorMap[$type])) {
@@ -175,31 +177,29 @@ class SearchBuilder {
 
 	/**
 	 * @param ISearchComparison $operator
-	 * @return list{string, ParamValue, string, string}
+	 * @return array{string|IQueryFunction, ParamValue, string, string}
 	 */
-	private function getOperatorFieldAndValue(ISearchComparison $operator): array {
+	private function getOperatorFieldAndValue(IQueryBuilder $builder, ISearchComparison $operator): array {
 		$this->validateComparison($operator);
 		$field = $operator->getField();
 		$value = $operator->getValue();
 		$type = $operator->getType();
 		$pathEqHash = $operator->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true);
-		return $this->getOperatorFieldAndValueInner($field, $value, $type, $pathEqHash);
+		return $this->getOperatorFieldAndValueInner($builder, $field, $value, $type, $pathEqHash);
 	}
 
 	/**
-	 * @param string $field
 	 * @param ParamValue $value
-	 * @param string $type
-	 * @return list{string, ParamValue, string, string}
+	 * @return array{string|IQueryFunction, ParamValue, string, string}
 	 */
-	private function getOperatorFieldAndValueInner(string $field, mixed $value, string $type, bool $pathEqHash): array {
+	private function getOperatorFieldAndValueInner(IQueryBuilder $builder, string $field, mixed $value, string $type, bool $pathEqHash): array {
 		$paramType = self::FIELD_TYPES[$field];
 		if ($type === ISearchComparison::COMPARE_IN) {
 			$resultField = $field;
 			$values = [];
 			foreach ($value as $arrayValue) {
 				/** @var ParamSingleValue $arrayValue */
-				[$arrayField, $arrayValue] = $this->getOperatorFieldAndValueInner($field, $arrayValue, ISearchComparison::COMPARE_EQUAL, $pathEqHash);
+				[$arrayField, $arrayValue] = $this->getOperatorFieldAndValueInner($builder, $field, $arrayValue, ISearchComparison::COMPARE_EQUAL, $pathEqHash);
 				$resultField = $arrayField;
 				$values[] = $arrayValue;
 			}
@@ -218,7 +218,6 @@ class SearchBuilder {
 				} elseif (str_contains($value, '%')) {
 					throw new \InvalidArgumentException('Unsupported query value for mimetype: ' . $value . ', only values in the format "mime/type" or "mime/%" are supported');
 				} else {
-					$field = 'mimetype';
 					$value = $this->mimetypeLoader->getId($value);
 					$type = ISearchComparison::COMPARE_EQUAL;
 				}
@@ -240,11 +239,14 @@ class SearchBuilder {
 			$value = md5((string)$value);
 		} elseif ($field === 'owner') {
 			$field = 'uid_owner';
+		} elseif ($field === 'mount_point_name') {
+			$field = $builder->func()->regexSubstring('m.mount_point', $builder->createNamedParameter('[^/]+/$'));
+			$value = $value . '/';
 		}
 		return [$field, $value, $type, $paramType];
 	}
 
-	private function validateComparison(ISearchComparison $operator) {
+	private function validateComparison(ISearchComparison $operator): void {
 		$comparisons = [
 			'mimetype' => ['eq', 'like', 'in'],
 			'mtime' => ['eq', 'gt', 'lt', 'gte', 'lte'],
@@ -261,6 +263,7 @@ class SearchBuilder {
 			'owner' => ['eq'],
 			'creation_time' => ['eq', 'gt', 'lt', 'gte', 'lte'],
 			'upload_time' => ['eq', 'gt', 'lt', 'gte', 'lte'],
+			'mount_point_name' => ['eq', 'like', 'clike', 'in'],
 		];
 
 		if (!isset(self::FIELD_TYPES[$operator->getField()])) {
@@ -281,7 +284,7 @@ class SearchBuilder {
 				throw new \InvalidArgumentException('Invalid type for field ' . $operator->getField());
 			}
 		}
-		if (!in_array($operator->getType(), $comparisons[$operator->getField()])) {
+		if (!in_array($operator->getType(), $comparisons[$operator->getField()], true)) {
 			throw new \InvalidArgumentException('Unsupported comparison for field  ' . $operator->getField() . ': ' . $operator->getType());
 		}
 	}
@@ -311,7 +314,7 @@ class SearchBuilder {
 		return [$field, $value, $type, $paramType];
 	}
 
-	private function getParameterForValue(IQueryBuilder $builder, $value, string $paramType) {
+	private function getParameterForValue(IQueryBuilder $builder, $value, string $paramType): IParameter {
 		if ($value instanceof \DateTime) {
 			$value = $value->getTimestamp();
 		}

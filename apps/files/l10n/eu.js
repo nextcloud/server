@@ -186,10 +186,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Zerrenda hau ez da guztiz ikusten errendimendu arrazoiengatik. Fitxategiak zerrendan zehar nabigatzen duten heinean bistaratuko dira.",
     "File not found" : "Ez da fitxategia aurkitu",
     "Views" : "Ikuspegiak",
-    "Search everywhere …" : "Bilatu nonahi …",
-    "Search here …" : "Bilatu hemen …",
-    "Search scope options" : "Bilaketa-eremuaren aukerak",
     "Search here" : "Bilatu hemen",
+    "Search scope options" : "Bilaketa-eremuaren aukerak",
     "Owner" : "Jabea",
     "{usedQuotaByte} used" : "{usedQuotaByte} erabilita",
     "{used} of {quota} used" : "{used} / {quota} erabilita",
@@ -200,8 +198,8 @@ OC.L10N.register(
     "Storage quota" : "Biltegiratze-kuota",
     "New folder" : "Karpeta berria",
     "Create new folder" : "Sortu karpeta berria",
-    "This name is already in use." : "Izen hau dagoeneko erabiltzen ari da.",
     "Create" : "Sortu",
+    "This name is already in use." : "Izen hau dagoeneko erabiltzen ari da.",
     "Files starting with a dot are hidden by default" : "Puntu batez hasten diren fitxategiak ezkutatuta daude",
     "Failed to start filename sanitization." : "Ezin izan da fitxategi-izenen garbiketa abiatu.",
     "Failed to refresh filename sanitization status." : "Ezin izan da fitxategi-izenen garbiketa egoera freskatu.",
@@ -435,6 +433,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
     "Select all" : "Hautatu dena",
     "Upload too large" : "Igotzekoa handiegia da",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Igotzen saiatzen ari zaren fitxategiek zerbitzari honek onartzen duen gehienezko tamaina gainditzen dute."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Igotzen saiatzen ari zaren fitxategiek zerbitzari honek onartzen duen gehienezko tamaina gainditzen dute.",
+    "Search everywhere …" : "Bilatu nonahi …",
+    "Search here …" : "Bilatu hemen …"
 },
 "nplurals=2; plural=(n != 1);");

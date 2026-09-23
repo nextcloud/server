@@ -30,6 +30,7 @@ use OCP\Files\Cache\IWatcher;
 use OCP\Files\Folder;
 use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\ILockingStorage;
@@ -163,30 +164,30 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 
 			$this->ownerUserFolder = $this->rootFolder->getUserFolder($this->superShare->getShareOwner());
 			$sourceId = $this->superShare->getNodeId();
-			$ownerNodes = $this->ownerUserFolder->getById($sourceId);
 
-			if (count($ownerNodes) === 0) {
+			$ownerNode = $this->ownerUserFolder->getFirstNodeById($sourceId);
+			if ($ownerNode === null) {
 				$this->storage = new FailedStorage(['exception' => new NotFoundException("File by id $sourceId not found")]);
 				$this->cache = new FailedCache();
 				$this->rootPath = '';
 			} else {
-				foreach ($ownerNodes as $ownerNode) {
-					$nonMaskedStorage = $ownerNode->getStorage();
-
-					// check if potential source node would lead to a recursive share setup
-					if ($nonMaskedStorage instanceof Wrapper && $nonMaskedStorage->isWrapperOf($this)) {
-						continue;
+				if ($this->isRecursiveSource($ownerNode)) {
+					$ownerNode = null;
+					foreach ($this->ownerUserFolder->getById($sourceId) as $node) {
+						if (!$this->isRecursiveSource($node)) {
+							$ownerNode = $node;
+							break;
+						}
 					}
-					$this->nonMaskedStorage = $nonMaskedStorage;
-					$this->sourcePath = $ownerNode->getPath();
-					$this->rootPath = $ownerNode->getInternalPath();
-					$this->cache = null;
-					break;
 				}
-				if (!$this->nonMaskedStorage) {
+				if ($ownerNode === null) {
 					// all potential source nodes would have been recursive
 					throw new \Exception('recursive share detected');
 				}
+				$this->nonMaskedStorage = $ownerNode->getStorage();
+				$this->sourcePath = $ownerNode->getPath();
+				$this->rootPath = $ownerNode->getInternalPath();
+				$this->cache = null;
 				$this->storage = new PermissionsMask([
 					'storage' => $this->nonMaskedStorage,
 					'mask' => $this->superShare->getPermissions(),
@@ -210,9 +211,14 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 		self::$initDepth--;
 	}
 
+	private function isRecursiveSource(Node $node): bool {
+		$storage = $node->getStorage();
+		return $storage instanceof Wrapper && $storage->isWrapperOf($this);
+	}
+
 	#[\Override]
 	public function instanceOfStorage(string $class): bool {
-		if ($class === '\OC\Files\Storage\Common' || $class == Common::class) {
+		if ($class === '\OC\Files\Storage\Common' || $class === Common::class) {
 			return true;
 		}
 		if (in_array($class, [
@@ -222,7 +228,8 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 			Home::class,
 			HomeObjectStoreStorage::class,
 			IHomeStorage::class
-		])) {
+		],
+			true)) {
 			return false;
 		}
 		return parent::instanceOfStorage($class);

@@ -19,6 +19,7 @@ use OC\User\DisabledUserException;
 use OCP\App\Events\AppsLoadedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
+use OCP\Files\ISetupManager;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAppConfig;
@@ -133,7 +134,7 @@ class OC {
 			new \OC\AllConfig(new \OC\SystemConfig(self::$config))
 		);
 		$scriptName = $fakeRequest->getScriptName();
-		if (substr($scriptName, -1) == '/') {
+		if (substr($scriptName, -1) === '/') {
 			$scriptName .= 'index.php';
 			//make sure suburi follows the same rules as scriptName
 			if (substr(OC::$SUBURI, -9) !== 'index.php') {
@@ -363,7 +364,7 @@ class OC {
 			if ($appManager->isShipped($appInfo['id'])) {
 				$incompatibleShippedApps[] = $appInfo['name'] . ' (' . $appInfo['id'] . ')';
 			}
-			if (!in_array($appInfo['id'], $incompatibleOverwrites)) {
+			if (!in_array($appInfo['id'], $incompatibleOverwrites, true)) {
 				$incompatibleDisabledApps[] = $appInfo;
 			}
 		}
@@ -682,7 +683,7 @@ class OC {
 		// register autoloader
 		self::$loaderStart = microtime(true);
 
-		self::$CLI = (php_sapi_name() == 'cli');
+		self::$CLI = (php_sapi_name() === 'cli');
 
 		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
@@ -790,7 +791,7 @@ class OC {
 			logger('core')->error('Failed to start profiler: ' . $e->getMessage(), ['app' => 'base']);
 		}
 
-		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
+		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'], true)) {
 			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
 		}
 
@@ -889,14 +890,6 @@ class OC {
 		$eventLogger->start('setup_backends', 'Setup group and user backends');
 		Server::get(\OCP\IUserManager::class)->registerBackend(new \OC\User\Database());
 		Server::get(\OCP\IGroupManager::class)->addBackend(new \OC\Group\Database());
-
-		// Subscribe to the hook
-		\OCP\Util::connectHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			'\OC\User\Database',
-			'preLoginNameUsedAsUserName'
-		);
 
 		//setup extra user backends
 		if (!\OCP\Util::needUpgrade()) {
@@ -1031,29 +1024,14 @@ class OC {
 			// NOTE: This will be replaced to use OCP
 			$userSession = Server::get(\OC\User\Session::class);
 			$userSession->listen('\OC\User', 'postLogin', function () use ($userSession) {
-				if (!defined('PHPUNIT_RUN') && $userSession->isLoggedIn()) {
+				if (!defined('PHPUNIT_RUN') && $userSession->isLoggedIn() && ($user = $userSession->getUser()) !== null) {
 					// reset brute force delay for this IP address and username
-					$uid = $userSession->getUser()->getUID();
+					$uid = $user->getUID();
 					$request = Server::get(IRequest::class);
 					$throttler = Server::get(IThrottler::class);
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
 
-					try {
-						$cache = new \OC\Cache\File();
-						$cache->gc();
-					} catch (\OC\ServerNotAvailableException $e) {
-						// not a GC exception, pass it on
-						throw $e;
-					} catch (\OC\ForbiddenException $e) {
-						// filesystem blocked for this request, ignore
-					} catch (\Exception $e) {
-						// a GC exception should not prevent users from using OC,
-						// so log the exception
-						Server::get(LoggerInterface::class)->warning('Exception when running cache gc.', [
-							'app' => 'core',
-							'exception' => $e,
-						]);
-					}
+					Server::get(ISetupManager::class)->setupForUser($user);
 				}
 			});
 		}
@@ -1080,9 +1058,9 @@ class OC {
 	}
 
 	private static function registerAppRestrictionsHooks(): void {
-		/** @var \OC\Group\Manager $groupManager */
-		$groupManager = Server::get(\OCP\IGroupManager::class);
-		$groupManager->listen('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
+		$eventDispatcher = Server::get(IEventDispatcher::class);
+		$eventDispatcher->addListener(GroupDeletedEvent::class, function (GroupDeletedEvent $event) {
+			$group = $event->getGroup();
 			$appManager = Server::get(\OCP\App\IAppManager::class);
 			$apps = $appManager->getEnabledAppsForGroup($group);
 			foreach ($apps as $appId) {
@@ -1260,7 +1238,7 @@ class OC {
 		// This prevents browsers from redirecting to the default page and then
 		// attempting to parse HTML as CSS and similar.
 		$destinationHeader = $request->getHeader('Sec-Fetch-Dest');
-		if (in_array($destinationHeader, ['font', 'script', 'style'])) {
+		if (in_array($destinationHeader, ['font', 'script', 'style'], true)) {
 			http_response_code(404);
 			return;
 		}
@@ -1375,6 +1353,8 @@ class OC {
 		\OC_App::reset();
 		\OC_Helper::reset();
 		Filesystem::reset();
+		/** @psalm-suppress InternalMethod */
+		\OCP\Util::resetStaticProperties();
 	}
 
 	/**

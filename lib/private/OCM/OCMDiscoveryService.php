@@ -247,6 +247,15 @@ final class OCMDiscoveryService implements IOCMDiscoveryService {
 		$event = new ResourceTypeRegisterEvent($provider);
 		$this->eventDispatcher->dispatchTyped($event);
 
+		$apiVersion = $this->config->getSystemValueString('sharing.federation.ocm.apiVersion');
+		if ($apiVersion !== '') {
+			$provider->setApiVersion($apiVersion);
+			$provider->removeVersion();
+		}
+		if ($this->config->getSystemValueBool('sharing.federation.ocm.removePublicKey')) {
+			$provider->removePublicKey();
+		}
+
 		$this->localProvider = $provider;
 		return $provider;
 	}

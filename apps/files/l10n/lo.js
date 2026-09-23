@@ -176,10 +176,8 @@ OC.L10N.register(
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list.",
     "File not found" : "File not found",
     "Views" : "Views",
-    "Search everywhere …" : "Search everywhere …",
-    "Search here …" : "Search here …",
-    "Search scope options" : "Search scope options",
     "Search here" : "Search here",
+    "Search scope options" : "Search scope options",
     "Owner" : "Owner",
     "{usedQuotaByte} used" : "{usedQuotaByte} used",
     "{used} of {quota} used" : "{used} of {quota} used",
@@ -190,8 +188,8 @@ OC.L10N.register(
     "Storage quota" : "Storage quota",
     "New folder" : "ໂຟນເດີໃຫມ່",
     "Create new folder" : "ສ້າງໂຟນເດີໃຫມ່",
-    "This name is already in use." : "This name is already in use.",
     "Create" : "ສ້າງ",
+    "This name is already in use." : "This name is already in use.",
     "Files starting with a dot are hidden by default" : "Files starting with a dot are hidden by default",
     "Failed to start filename sanitization." : "Failed to start filename sanitization.",
     "Failed to refresh filename sanitization status." : "Failed to refresh filename sanitization status.",
@@ -402,6 +400,8 @@ OC.L10N.register(
     "No entries found in this folder" : "No entries found in this folder",
     "Select all" : "ເລືອກທັງໝົດ",
     "Upload too large" : "Upload too large",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "The files you are trying to upload exceed the maximum size for file uploads on this server."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "The files you are trying to upload exceed the maximum size for file uploads on this server.",
+    "Search everywhere …" : "Search everywhere …",
+    "Search here …" : "Search here …"
 },
 "nplurals=1; plural=0;");

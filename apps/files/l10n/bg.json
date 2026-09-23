@@ -177,10 +177,8 @@
     "This list is not fully rendered for performance reasons. The files will be rendered as you navigate through the list." : "Този списък не е изобразен изцяло от съображения за производителност. Файловете ще се изобразяват, докато навигирате в списъка.",
     "File not found" : "Файлът не е намерен",
     "Views" : "Изгледи",
-    "Search everywhere …" : "Търсете навсякъде...",
-    "Search here …" : "Търсете тук...",
-    "Search scope options" : "Опции за обхват на търсене",
     "Search here" : "Търсете тук",
+    "Search scope options" : "Опции за обхват на търсене",
     "Owner" : "Създател",
     "{usedQuotaByte} used" : "{usedQuotaByte} използвано",
     "{used} of {quota} used" : "{used} от {quota} използвани",
@@ -191,8 +189,8 @@
     "Storage quota" : "Квота за съхранение",
     "New folder" : "Нова папка",
     "Create new folder" : "Създай нова папка",
-    "This name is already in use." : "Това име вече се използва.",
     "Create" : "Създаване",
+    "This name is already in use." : "Това име вече се използва.",
     "Files starting with a dot are hidden by default" : "Файловете започващи с точка са скрити по подразбиране",
     "Failed to start filename sanitization." : "Стартирането на почистването на имената на файловете е неуспешно.",
     "Failed to refresh filename sanitization status." : "Неуспешно обновяване на състоянието на почистване на имената на файловете.",
@@ -410,6 +408,8 @@
     "No entries found in this folder" : "Няма намерени записи в тази папка",
     "Select all" : "Избери всички",
     "Upload too large" : "Прекалено голям файл за качване",
-    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файловете, които се опитвате да качите са по-големи от позволеното на сървъра."
+    "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файловете, които се опитвате да качите са по-големи от позволеното на сървъра.",
+    "Search everywhere …" : "Търсете навсякъде...",
+    "Search here …" : "Търсете тук..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

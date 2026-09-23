@@ -116,7 +116,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.0.0
+	- version: 4.1.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -233,7 +233,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.0
 	- license: MIT
 - dompurify
-	- version: 3.4.14
+	- version: 3.4.15
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -344,7 +344,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.109.2
+	- version: 5.111.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1

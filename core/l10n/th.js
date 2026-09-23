@@ -100,6 +100,7 @@ OC.L10N.register(
     "More apps" : "แอปเพิ่มเติม",
     "Settings" : "การตั้งค่า",
     "Apps" : "แอป",
+    "More" : "เพิ่มเติม",
     "Actions" : "การกระทำ",
     "_{count} notification_::_{count} notifications_" : ["{count} การแจ้งเตือน"],
     "No" : "ไม่",

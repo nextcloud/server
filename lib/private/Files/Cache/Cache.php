@@ -130,7 +130,8 @@ class Cache implements ICache {
 		$query->selectFileCache();
 		$metadataQuery = $query->selectMetadata();
 
-		if (is_string($file) || $file == '') {
+		// a file id of 0 is treated the same as an empty path
+		if (is_string($file) || $file === 0) {
 			// normalize file
 			$file = $this->normalize($file);
 
@@ -322,17 +323,7 @@ class Cache implements ICache {
 			if ($builder->executeStatement()) {
 				$fileId = $builder->getLastInsertId();
 
-				if (count($extensionValues)) {
-					$query = $this->getQueryBuilder();
-					$query->insert('filecache_extended');
-					$query->hintShardKey('storage', $storageId);
-
-					$query->setValue('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
-					foreach ($extensionValues as $column => $value) {
-						$query->setValue($column, $query->createNamedParameter($value));
-					}
-					$query->executeStatement();
-				}
+				$this->setExtensionValues($fileId, $extensionValues, true);
 
 				$event = new CacheEntryInsertedEvent($this->storage, $file, $fileId, $storageId);
 				$this->eventDispatcher->dispatch(CacheEntryInsertedEvent::class, $event);
@@ -400,40 +391,7 @@ class Cache implements ICache {
 			$query->executeStatement();
 		}
 
-		if (count($extensionValues)) {
-			try {
-				$query = $this->getQueryBuilder();
-				$query->insert('filecache_extended');
-				$query->hintShardKey('storage', $this->getNumericStorageId());
-
-				$query->setValue('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT));
-				foreach ($extensionValues as $column => $value) {
-					$query->setValue($column, $query->createNamedParameter($value));
-				}
-
-				$query->executeStatement();
-			} catch (Exception $e) {
-				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-					throw $e;
-				}
-				$query = $this->getQueryBuilder();
-				$query->update('filecache_extended')
-					->whereFileId($id)
-					->hintShardKey('storage', $this->getNumericStorageId())
-					->andWhere($query->expr()->orX(...array_map(function ($key, $value) use ($query) {
-						return $query->expr()->orX(
-							$query->expr()->neq($key, $query->createNamedParameter($value)),
-							$query->expr()->isNull($key)
-						);
-					}, array_keys($extensionValues), array_values($extensionValues))));
-
-				foreach ($extensionValues as $key => $value) {
-					$query->set($key, $query->createNamedParameter($value));
-				}
-
-				$query->executeStatement();
-			}
-		}
+		$this->setExtensionValues($id, $extensionValues, false);
 
 		$path = $this->getPathById($id);
 		// path can still be null if the file doesn't exist
@@ -441,6 +399,73 @@ class Cache implements ICache {
 			$event = new CacheEntryUpdatedEvent($this->storage, $path, $id, $this->getNumericStorageId());
 			$this->eventDispatcher->dispatchTyped($event);
 		}
+	}
+
+	private function hasExtensionValues(int $id) {
+		$query = $this->getQueryBuilder();
+		$query->select('fileid')
+			->from('filecache_extended')
+			->whereFileId($id);
+
+		return $query->executeQuery()->fetchOne() !== false;
+	}
+
+	private function setExtensionValues(int $id, array $extensionValues, bool $newFile) {
+		if (!$extensionValues) {
+			return;
+		}
+
+		// a failed insert in a transaction aborts the transactions on some platforms, so we can't rely on
+		// that behavior to to an "upsert"
+		// for new files, we can safely assume that there won't be a conflict, since the fileid is new
+		if (!$newFile && $this->connection->inTransaction()) {
+			if ($this->hasExtensionValues($id)) {
+				$this->updateExtensionValues($id, $extensionValues);
+			} else {
+				$this->insertExtensionValues($id, $extensionValues);
+			}
+		} else {
+			try {
+				$this->insertExtensionValues($id, $extensionValues);
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
+				$this->updateExtensionValues($id, $extensionValues);
+			}
+		}
+	}
+
+	private function insertExtensionValues(int $id, array $extensionValues) {
+		$query = $this->getQueryBuilder();
+		$query->insert('filecache_extended');
+		$query->hintShardKey('storage', $this->getNumericStorageId());
+
+		$query->setValue('fileid', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT));
+		foreach ($extensionValues as $column => $value) {
+			$query->setValue($column, $query->createNamedParameter($value));
+		}
+
+		$query->executeStatement();
+	}
+
+	private function updateExtensionValues(int $id, array $extensionValues) {
+		$query = $this->getQueryBuilder();
+		$query->update('filecache_extended')
+			->whereFileId($id)
+			->hintShardKey('storage', $this->getNumericStorageId())
+			->andWhere($query->expr()->orX(...array_map(function ($key, $value) use ($query) {
+				return $query->expr()->orX(
+					$query->expr()->neq($key, $query->createNamedParameter($value)),
+					$query->expr()->isNull($key)
+				);
+			}, array_keys($extensionValues), array_values($extensionValues))));
+
+		foreach ($extensionValues as $key => $value) {
+			$query->set($key, $query->createNamedParameter($value));
+		}
+
+		$query->executeStatement();
 	}
 
 	/**
@@ -465,7 +490,7 @@ class Cache implements ICache {
 		$params = [];
 		$extensionParams = [];
 		foreach ($data as $name => $value) {
-			if (in_array($name, $fields)) {
+			if (in_array($name, $fields, true)) {
 				if ($name === 'path') {
 					$params['path_hash'] = md5($value);
 				} elseif ($name === 'mimetype') {
@@ -485,7 +510,7 @@ class Cache implements ICache {
 				}
 				$params[$name] = $value;
 			}
-			if (in_array($name, $extensionFields)) {
+			if (in_array($name, $extensionFields, true)) {
 				$extensionParams[$name] = $value;
 			}
 		}
@@ -579,11 +604,13 @@ class Cache implements ICache {
 				->hintShardKey('storage', $this->getNumericStorageId());
 			$query->executeStatement();
 
-			if ($entry->getMimeType() == FileInfo::MIMETYPE_FOLDER) {
+			if ($entry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 				$this->removeChildren($entry);
 			}
 
-			$this->eventDispatcher->dispatchTyped(new CacheEntryRemovedEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId()));
+			$event = new CacheEntryRemovedEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId());
+			$this->eventDispatcher->dispatchTyped($event);
+			$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent([$event]));
 		}
 	}
 
@@ -631,7 +658,7 @@ class Cache implements ICache {
 			/** @var ICacheEntry[] $childFolders */
 			$childFolders = [];
 			foreach ($children as $child) {
-				if ($child->getMimeType() == FileInfo::MIMETYPE_FOLDER) {
+				if ($child->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 					$childFolders[] = $child;
 				}
 			}
@@ -654,8 +681,8 @@ class Cache implements ICache {
 			$query->executeStatement();
 		}
 
-		$cacheEntryRemovedEvents = [];
-		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
+		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), IQueryBuilder::MAX_IN_PARAMETERS, true) as $chunk) {
+			$cacheEntryRemovedEvents = [];
 			/** @var array<int, string> $chunk */
 			foreach ($chunk as $fileId => $filePath) {
 				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent(
@@ -875,10 +902,7 @@ class Cache implements ICache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$query = $this->getQueryBuilder();
-		$query->delete('filecache')
-			->whereStorageId($this->getNumericStorageId());
-		$query->executeStatement();
+		Storage::removeFileCacheEntries($this->getNumericStorageId());
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('storages')
@@ -1257,6 +1281,16 @@ class Cache implements ICache {
 			// normalizeData() prefers 'encryptedVersion' over 'encrypted' when both are
 			// set, so it has to be cleared too or the mark above gets ignored
 			unset($data['encryptedVersion']);
+			// without the `encrypted` mark the size of the copy is read from `size`
+			$data['unencrypted_size'] = 0;
+		} elseif (isset($data['encryptedVersion'])) {
+			// The storage re-encrypts the content it writes to the target, so the target
+			// is at its own version - the one recorded for it while it was written - and
+			// not at the version of the source.
+			$targetEntry = $this->get($targetPath);
+			if ($targetEntry !== false && !empty($targetEntry['encryptedVersion'])) {
+				$data['encryptedVersion'] = $targetEntry['encryptedVersion'];
+			}
 		}
 
 		$fileId = $this->put($targetPath, $data);
@@ -1291,8 +1325,14 @@ class Cache implements ICache {
 			$data['permissions'] = $entry['scan_permissions'];
 		}
 
-		if ($entry->isEncrypted() && isset($entry['encryptedVersion'])) {
-			$data['encryptedVersion'] = $entry['encryptedVersion'];
+		if ($entry->isEncrypted()) {
+			// the size of an encrypted file is stored in its own column, which every
+			// reader prefers over `size`, so the copy is reported as empty without it
+			$data['unencrypted_size'] = $entry->getUnencryptedSize();
+
+			if (isset($entry['encryptedVersion'])) {
+				$data['encryptedVersion'] = $entry['encryptedVersion'];
+			}
 		}
 
 		return $data;

@@ -10,7 +10,8 @@ namespace OC\Files\Cache;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\QueryOptimizer\QueryOptimizer;
 use OC\Files\Search\SearchBinaryOperator;
-use OC\SystemConfig;
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchQuery;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
@@ -18,28 +19,27 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Search\ISearchBinaryOperator;
+use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Search\ISearchOperator;
 use OCP\Files\Search\ISearchQuery;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\IMetadataQuery;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
-use Psr\Log\LoggerInterface;
 
 class QuerySearchHelper {
 	public function __construct(
-		private IMimeTypeLoader $mimetypeLoader,
-		private IDBConnection $connection,
-		private SystemConfig $systemConfig,
-		private LoggerInterface $logger,
-		private SearchBuilder $searchBuilder,
-		private QueryOptimizer $queryOptimizer,
-		private IGroupManager $groupManager,
-		private IFilesMetadataManager $filesMetadataManager,
+		private readonly IMimeTypeLoader $mimetypeLoader,
+		private readonly IDBConnection $connection,
+		private readonly SearchBuilder $searchBuilder,
+		private readonly QueryOptimizer $queryOptimizer,
+		private readonly IGroupManager $groupManager,
+		private readonly IFilesMetadataManager $filesMetadataManager,
 	) {
 	}
 
-	protected function getQueryBuilder() {
+	protected function getQueryBuilder(): CacheQueryBuilder {
 		return new CacheQueryBuilder(
 			$this->connection->getQueryBuilder(),
 			$this->filesMetadataManager,
@@ -99,7 +99,7 @@ class QuerySearchHelper {
 	protected function equipQueryForSystemTags(CacheQueryBuilder $query, IUser $user): void {
 		$query->leftJoin('file', 'systemtag_object_mapping', 'systemtagmap', $query->expr()->andX(
 			$query->expr()->eq('file.fileid', $query->expr()->castColumn('systemtagmap.objectid', IQueryBuilder::PARAM_INT)),
-			$query->expr()->eq('systemtagmap.objecttype', $query->createNamedParameter('files'))
+			$query->expr()->eq('systemtagmap.objecttype', $query->createNamedParameter('files')),
 		));
 		$on = $query->expr()->andX($query->expr()->eq('systemtag.id', 'systemtagmap.systemtagid'));
 		if (!$this->groupManager->isAdmin($user->getUID())) {
@@ -114,7 +114,15 @@ class QuerySearchHelper {
 			->leftJoin('tagmap', 'vcategory', 'tag', $query->expr()->andX(
 				$query->expr()->eq('tagmap.categoryid', 'tag.id'),
 				$query->expr()->eq('tag.type', $query->createNamedParameter('files')),
-				$query->expr()->eq('tag.uid', $query->createNamedParameter($user->getUID()))
+				$query->expr()->eq('tag.uid', $query->createNamedParameter($user->getUID())),
+			));
+	}
+
+	protected function equipQueryForMounts(CacheQueryBuilder $query, IUser $user): void {
+		$query
+			->leftJoin('file', 'mounts', 'm', $query->expr()->andX(
+				$query->expr()->eq('m.root_id', 'file.fileid'),
+				$query->expr()->eq('m.user_id', $query->createNamedParameter($user->getUID())),
 			));
 	}
 
@@ -148,6 +156,8 @@ class QuerySearchHelper {
 		// while the resulting rows don't have a way to tell what storage they came from (multiple storages/caches can share storage_id)
 		// we can just ask every cache if the row belongs to them and give them the cache to do any post processing on the result.
 
+		$searchQuery = $this->preProcessQuery($searchQuery);
+
 		$builder = $this->getQueryBuilder();
 
 		$requestedFields = array_merge(
@@ -156,21 +166,24 @@ class QuerySearchHelper {
 			$searchQuery->getSelectFields(),
 		);
 
-		$joinExtendedCache = in_array('metadata_etag', $requestedFields)
-			|| in_array('creation_time', $requestedFields)
-			|| in_array('upload_time', $requestedFields)
-			|| in_array('last_activity', $requestedFields);
+		$joinExtendedCache = in_array('metadata_etag', $requestedFields, true)
+			|| in_array('creation_time', $requestedFields, true)
+			|| in_array('upload_time', $requestedFields, true)
+			|| in_array('last_activity', $requestedFields, true);
 
 		$query = $builder->selectFileCache('file', $joinExtendedCache);
 
-		if (in_array('systemtag', $requestedFields)) {
+		if (in_array('systemtag', $requestedFields, true)) {
 			$this->equipQueryForSystemTags($query, $this->requireUser($searchQuery));
 		}
-		if (in_array('tagname', $requestedFields) || in_array('favorite', $requestedFields)) {
+		if (in_array('tagname', $requestedFields, true) || in_array('favorite', $requestedFields, true)) {
 			$this->equipQueryForDavTags($query, $this->requireUser($searchQuery));
 		}
-		if (in_array('owner', $requestedFields) || in_array('share_with', $requestedFields) || in_array('share_type', $requestedFields)) {
+		if (in_array('owner', $requestedFields, true) || in_array('share_with', $requestedFields, true) || in_array('share_type', $requestedFields, true)) {
 			$this->equipQueryForShares($query);
+		}
+		if (in_array('mount_point_name', $requestedFields, true)) {
+			$this->equipQueryForMounts($query, $this->requireUser($searchQuery));
 		}
 
 		$metadataQuery = $query->selectMetadata();
@@ -210,7 +223,7 @@ class QuerySearchHelper {
 	}
 
 	/**
-	 * @return list{0?: array<array-key, ICache>, 1?: array<array-key, IMountPoint>}
+	 * @return array{0?: array<array-key, ICache>, 1?: array<array-key, IMountPoint>}
 	 */
 	public function getCachesAndMountPointsForSearch(IRootFolder $root, string $path, bool $limitToHome = false): array {
 		$rootLength = strlen($path);
@@ -224,10 +237,10 @@ class QuerySearchHelper {
 		if ($internalPath !== '') {
 			// a temporary CacheJail is used to handle filtering down the results to within this folder
 			/** @var ICache[] $caches */
-			$caches = ['' => new CacheJail($storage->getCache(''), $internalPath)];
+			$caches = ['' => new CacheJail($storage->getCache(), $internalPath)];
 		} else {
 			/** @var ICache[] $caches */
-			$caches = ['' => $storage->getCache('')];
+			$caches = ['' => $storage->getCache()];
 		}
 		/** @var IMountPoint[] $mountByMountPoint */
 		$mountByMountPoint = ['' => $mount];
@@ -238,12 +251,57 @@ class QuerySearchHelper {
 				$storage = $mount->getStorage();
 				if ($storage) {
 					$relativeMountPoint = ltrim(substr($mount->getMountPoint(), $rootLength), '/');
-					$caches[$relativeMountPoint] = $storage->getCache('');
+					$caches[$relativeMountPoint] = $storage->getCache();
 					$mountByMountPoint[$relativeMountPoint] = $mount;
 				}
 			}
 		}
 
 		return [$caches, $mountByMountPoint];
+	}
+
+	private function preProcessQuery(ISearchQuery $searchQuery): ISearchQuery {
+		// when sharding is enabled, we can't join on the mounts table
+		// so instead we need to fetch the matching mount root ids and filter on those
+		if ($this->connection->getShardDefinition('filecache') !== null) {
+			$operation = $this->replaceMountNameWithRootIds($searchQuery->getSearchOperation());
+			return new SearchQuery(
+				$operation,
+				$searchQuery->getLimit(),
+				$searchQuery->getOffset(),
+				$searchQuery->getOrder(),
+				$searchQuery->getUser(),
+				$searchQuery->limitToHome(),
+				$searchQuery->getSelectFields(),
+			);
+		} else {
+			return $searchQuery;
+		}
+	}
+
+	private function replaceMountNameWithRootIds(ISearchOperator $searchOperator): ISearchOperator {
+		if ($searchOperator instanceof ISearchBinaryOperator) {
+			return new SearchBinaryOperator(
+				$searchOperator->getType(),
+				array_map($this->replaceMountNameWithRootIds(...), $searchOperator->getArguments())
+			);
+		} elseif ($searchOperator instanceof ISearchComparison && $searchOperator->getField() === 'mount_point_name') {
+			if (!in_array($searchOperator->getType(), [
+				ISearchComparison::COMPARE_LIKE,
+				ISearchComparison::COMPARE_EQUAL,
+				ISearchComparison::COMPARE_IN,
+			], true)) {
+				throw new \InvalidArgumentException('Filtering mount name with ' . $searchOperator->getType() . ' is not supported');
+			}
+
+			$query = $this->connection->getQueryBuilder();
+			$query->select('root_id')
+				->from('mounts', 'm')
+				->where($this->searchBuilder->searchOperatorToDBExpr($query, $searchOperator));
+			$rootIds = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			return new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', $rootIds);
+		} else {
+			return $searchOperator;
+		}
 	}
 }

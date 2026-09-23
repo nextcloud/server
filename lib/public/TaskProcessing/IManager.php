@@ -69,7 +69,7 @@ interface IManager {
 	/**
 	 * @param Task $task The task to run
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs
+	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs, or the specified webhook didn't pass validation
 	 * @throws Exception storing the task in the database failed
 	 * @throws UnauthorizedException the user scheduling the task does not have access to the files used in the input
 	 * @since 30.0.0
@@ -82,7 +82,7 @@ interface IManager {
 	 * @param Task $task The task to run
 	 * @return Task The result task
 	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
-	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs
+	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs, or the specified webhook didn't pass validation
 	 * @throws Exception storing the task in the database failed
 	 * @throws UnauthorizedException the user scheduling the task does not have access to the files used in the input
 	 * @since 30.0.0
@@ -298,15 +298,20 @@ interface IManager {
 	public function setTaskStatus(Task $task, int $status): void;
 
 	/**
-	 * Get the count of tasks filtered by status and optionally by task type(s)
+	 * Get the count of tasks matching the given filters, without loading them
 	 *
-	 * @param int $status The task status to filter by
+	 * @param ?int $status The task status to filter by, or null to count tasks in any status
 	 * @param list<string> $taskTypeIds Optional list of task type IDs to filter by
+	 * @param ?int $scheduleAfter Only count tasks that were scheduled after this timestamp
+	 * @param ?int $minPickupDelay Only count tasks that took more than this many seconds to be picked up by a worker
 	 * @return int The count of matching tasks
 	 * @throws Exception If the query failed
 	 * @since 34.0.0
+	 * @since 36.0.0 - parameter $status became optional, parameters $scheduleAfter and $minPickupDelay were added
 	 */
-	public function countTasks(int $status, array $taskTypeIds = []): int;
+	public function countTasks(
+		?int $status = null, array $taskTypeIds = [], ?int $scheduleAfter = null, ?int $minPickupDelay = null,
+	): int;
 
 	/**
 	 * Extract all input and output file IDs from a task

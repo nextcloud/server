@@ -165,6 +165,15 @@ enum ColumnType: string {
 	case Json = 'json';
 
 	/**
+	 * If you want to store a GUID, you should consider using this type, as some database vendors have a native data type for this kind of data which offers the most efficient way to store it.
+	 * For vendors that do not support this type natively, this type is mapped to the string type internally.
+	 * Values retrieved from the database are always converted to PHP's string type or null if no data is present.
+	 *
+	 * @since 35.0.0
+	 */
+	case Guid = 'guid';
+
+	/**
 	 * @since 35.0.0
 	 */
 	public function getName(): string {

@@ -1,0 +1,6 @@
+{ "translations": {
+    "The owner does not exist: %s" : "Pemilik tidak ada: %s",
+    "Sharing" : "Berbagi",
+    "TODO" : "TODO"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

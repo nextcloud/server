@@ -6,7 +6,6 @@ name: Check node dist files
 on:
   pull_request:
 
-
 jobs:
   changed_files:
     runs-on: ubuntu-latest-low

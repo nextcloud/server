@@ -17,6 +17,7 @@ use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCP\App\IAppManager;
 use OCP\Encryption\IManager;
+use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -67,7 +68,7 @@ trait EncryptionTrait {
 		$this->postLogin();
 		\OC_Util::setupFS($user);
 		if ($this->userManagerEncTrait->userExists($user)) {
-			\OC::$server->getUserFolder($user);
+			Server::get(IRootFolder::class)->getUserFolder($user);
 		}
 	}
 
@@ -76,12 +77,10 @@ trait EncryptionTrait {
 		$this->setupManagerEncTrait->setupForUser($this->userManagerEncTrait->get($name));
 
 		$container = $this->encryptionApp->getContainer();
-		/** @var KeyManager $keyManager */
-		$keyManager = $container->query(KeyManager::class);
-		/** @var Setup $userSetup */
-		$userSetup = $container->query(Setup::class);
+		$keyManager = $container->get(KeyManager::class);
+		$userSetup = $container->get(Setup::class);
 		$userSetup->setupUser($name, $password);
-		$encryptionManager = $container->query(IManager::class);
+		$encryptionManager = $container->get(IManager::class);
 		$this->encryptionApp->setUp($encryptionManager);
 		$keyManager->init($name, $password);
 		$this->invokePrivate($keyManager, 'keyUid', [$name]);

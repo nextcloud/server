@@ -180,6 +180,15 @@ interface ISharingManager {
 	public function updateSharePermission(ShareAccessContext $accessContext, Share $share, SharePermission $permission): Share;
 
 	/**
+	 * Update a permission for a recipient of a share.
+	 *
+	 * @throws ShareNotFoundException
+	 * @throws ShareOperationForbiddenException
+	 * @experimental 35.0.0
+	 */
+	public function updateShareRecipientPermission(ShareAccessContext $accessContext, Share $share, ShareRecipient $recipient, SharePermission $permission): Share;
+
+	/**
 	 * Select a permission preset for a share.
 	 *
 	 * @param class-string<ISharePermissionPreset> $permissionPresetClass

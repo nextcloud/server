@@ -27,11 +27,13 @@ use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class Test_Encryption
@@ -77,7 +79,7 @@ class TrashbinTest extends \Test\TestCase {
 
 		// register trashbin hooks
 		$trashbinApp = new TrashbinApplication();
-		$trashbinApp->boot(new BootContext(new DIContainer('', [], \OC::$server)));
+		$trashbinApp->boot(new BootContext(\OC::$server, new DIContainer('', [], \OC::$server)));
 
 		// create test user
 		self::loginHelper(self::TEST_TRASHBIN_USER2, true);
@@ -217,7 +219,7 @@ class TrashbinTest extends \Test\TestCase {
 		Filesystem::file_put_contents($folder . 'user1-4.txt', 'file4');
 
 		//share user1-4.txt with user2
-		$node = \OC::$server->getUserFolder(self::TEST_TRASHBIN_USER1)->get($folder);
+		$node = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1)->get($folder);
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setShareType(IShare::TYPE_USER)
 			->setNode($node)
@@ -699,12 +701,37 @@ class TrashbinTest extends \Test\TestCase {
 			}
 		}
 
-		\OC_Util::tearDownFS();
+		Server::get(ISetupManager::class)->tearDown();
 		\OC_User::setUserId('');
-		Filesystem::tearDown();
 		\OC_User::setUserId($user);
 		\OC_Util::setupFS($user);
 		Server::get(IRootFolder::class)->getUserFolder($user);
+	}
+
+	public static function trashFilenameProvider(): array {
+		return [
+			['foo.txt', 'foo.txt.d1234'],
+			[
+				'a_very_long_filename_with_a_lot_a_characters_such_that_it_reaches_the_file_length_limit_and_would_cause_issues_if_we_just_appended_the_'
+				. 'timestamp_because_then_the_combined_length_would_overflow_the_column_limit_of_the_filecache_and_truncate_in_db.txt',
+				'a_very_long_filename_with_a_lot_a_characters_such_that_it_reaches_the_file_length_limit_and_would_cause_issues_if_we_just_ded_the_'
+				. 'timestamp_because_then_the_combined_length_would_overflow_the_column_limit_of_the_filecache_and_truncate_in_db.txt.d1234'
+			],
+			[
+				'a_very_long_filename_with_a_lot_a_characters_such_that_it_reaches_the_file_length_limit_and_would_cause_issues_if_we_just_äøšá_the_'
+				. 'timestamp_because_then_the_combined_length_would_overflow_the_column_limit_of_the_filecache_and_truncate_in_db.txt',
+				'a_very_long_filename_with_a_lot_a_characters_such_that_it_reaches_the_file_length_limit_and_would_cause_issues_if_we_ju_á_the_'
+				. 'timestamp_because_then_the_combined_length_would_overflow_the_column_limit_of_the_filecache_and_truncate_in_db.txt.d1234'
+			],
+		];
+	}
+
+	#[DataProvider(methodName: 'trashFilenameProvider')]
+	public function testGetTrashFilename(string $filename, string $expected): void {
+		$result = Trashbin::getTrashFilename($filename, 1234);
+		$this->assertTrue(mb_check_encoding($result, 'UTF-8'));
+		$this->assertEquals($expected, $result);
+		$this->assertTrue(strlen($result) <= 250);
 	}
 }
 

@@ -9,49 +9,14 @@
 name: PHPUnit sharding
 
 on:
-  pull_request:
-  schedule:
-    - cron: "5 2 * * *"
+  workflow_call:
 
 permissions:
   contents: read
 
-concurrency:
-  group: phpunit-mysql-sharding-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
 jobs:
-  changes:
-    runs-on: ubuntu-latest-low
-
-    outputs:
-      src: ${{ steps.changes.outputs.src }}
-
-    steps:
-      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
-        id: changes
-        continue-on-error: true
-        with:
-          filters: |
-            src:
-              - '.github/workflows/**'
-              - '3rdparty/**'
-              - '**/appinfo/**'
-              - '**/lib/**'
-              - '**/templates/**'
-              - '**/tests/**'
-              - 'vendor/**'
-              - 'vendor-bin/**'
-              - '.php-cs-fixer.dist.php'
-              - 'composer.json'
-              - 'composer.lock'
-              - '**.php'
-
   phpunit-mysql:
     runs-on: ubuntu-latest
-
-    needs: changes
-    if: needs.changes.outputs.src != 'false'
 
     strategy:
       fail-fast: false
@@ -176,17 +141,3 @@ jobs:
         if: always()
         run: |
           cat data/nextcloud.log
-
-  summary:
-    permissions:
-      contents: none
-    runs-on: ubuntu-latest-low
-    needs: [changes, phpunit-mysql]
-
-    if: always()
-
-    name: phpunit-mysql-summary
-
-    steps:
-      - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.phpunit-mysql.result != 'success' }}; then exit 1; fi

@@ -221,8 +221,6 @@
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Добро дошли у Nextcloud Календар!\n\nОво је догађај за пример - истражите флексибилност планирања са  Nextcloud Календаром тако што ћете направите било какве измене!\n\nСа Nextcloud Календаром, можете да:\n- Креирате, уређујете и управљате догађајима без муке.\n- Креирате више календара и делите их са члановима тима, пријатељима или породицом.\n- Проверавате доступност и осталима приказујете време у које сте заузети.\n- Лако интегришете са осталим апликацијама и уређајима помоћу CalDAV.\n- Прилагодите своје искуство: правите распоред догађаја који се понављају, подешавате обавештења и остале поставке.",
     "Example event - open me!" : "Догађај за пример - отвори ме!",
     "System Address Book" : "Системски адресар",
-    "The system address book contains contact information for all users in your instance." : "Системски адресар садржи информације о свим корисницима на вашој инстанци.",
-    "Enable System Address Book" : "Укључи системски адресар",
     "DAV system address book" : "DAV системски адресар",
     "No outstanding DAV system address book sync." : "Не постоји ниједна синхронизација DAV системског адресара која треба да се обави.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "DAV синхронизација системског адресара се још увек није покренула јер ваша инстанца има више од 1000 корисника или јер је дошло до грешке. Молимо вас да га ручно покренете командом „occ dav:sync-system-addressbook”.",
@@ -303,6 +301,8 @@
     "Are you accepting the invitation?" : "Да ли прихватате позивницу?",
     "Tentative" : "Условна потврда",
     "Your attendance was updated successfully." : "Ваше присуство је успешно ажурирано.",
+    "The system address book contains contact information for all users in your instance." : "Системски адресар садржи информације о свим корисницима на вашој инстанци.",
+    "Enable System Address Book" : "Укључи системски адресар",
     "No results." : "Нема резултата.",
     "Start typing." : "Почните да куцате"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

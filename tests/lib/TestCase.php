@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -57,6 +59,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 		// restore database connection
 		if (!$this->IsDatabaseAccessAllowed()) {
+			/** @psalm-suppress InternalMethod */
 			\OC::$server->registerService(IDBConnection::class, function () {
 				return self::$realDatabase;
 			});
@@ -79,6 +82,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$container = \OC::$server->getAppContainerForService($name);
 		$container = $container ?? \OC::$server;
 
+		/** @psalm-suppress InternalMethod */
 		$container->registerService($name, function () use ($newService) {
 			return $newService;
 		});
@@ -95,13 +99,15 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			$container = $container ?? \OC::$server;
 
 			if ($oldService !== false) {
+				/** @psalm-suppress InternalMethod */
 				$container->registerService($name, function () use ($oldService) {
 					return $oldService;
 				});
 			} else {
 				// The service was not registered before the test override.
 				// Remove the test registration so the container returns to its prior state.
-				unset($container[$name]);
+				/** @psalm-suppress InternalMethod */
+				$container->removeFromInternalContainer($name);
 			}
 
 			unset($this->services[$name]);
@@ -340,6 +346,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		if (!self::$wasDatabaseAllowed && self::$realDatabase !== null) {
 			// in case an error is thrown in a test, PHPUnit jumps straight to tearDownAfterClass,
 			// so we need the database again
+			/** @psalm-suppress InternalMethod */
 			\OC::$server->registerService(IDBConnection::class, function () {
 				return self::$realDatabase;
 			});
@@ -362,14 +369,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::tearDownAfterClassCleanStrayLocks();
 
 		// Ensure we start with fresh instances of some classes to reduce side-effects between tests
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[Factory::class]);
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[AppFetcher::class]);
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[Installer::class]);
-		/** @psalm-suppress DeprecatedMethod */
-		unset(\OC::$server[Updater::class]);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(Factory::class);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(AppFetcher::class);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(Installer::class);
+		/** @psalm-suppress InternalMethod */
+		\OC::$server->removeFromInternalContainer(Updater::class);
 
 		/** @var SetupManager $setupManager */
 		$setupManager = Server::get(SetupManager::class);
@@ -486,10 +493,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function loginAsUser(string $user = ''): void {
 		self::logout();
-		Filesystem::tearDown();
+		$setupManager = Server::get(SetupManager::class);
+		$setupManager->tearDown();
 		\OC_User::setUserId($user);
 		$userManager = Server::get(IUserManager::class);
-		$setupManager = Server::get(SetupManager::class);
 		$userObject = $userManager->get($user);
 		if (!is_null($userObject)) {
 			$userObject->updateLastLoginTimestamp();
@@ -574,7 +581,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 
 		$r = new \ReflectionClass($this);
-		$doc = $r->getDocComment();
+		$doc = $r->getDocComment() ?: '';
 
 		if (class_exists(Group::class)) {
 			$attributes = array_map(function (\ReflectionAttribute $attribute): string {
@@ -592,6 +599,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	protected function IsDatabaseAccessAllowed(): bool {
 		$annotations = $this->getGroupAnnotations();
-		return in_array('DB', $annotations) || in_array('SLOWDB', $annotations);
+		return in_array('DB', $annotations, true) || in_array('SLOWDB', $annotations, true);
 	}
 }

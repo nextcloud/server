@@ -251,8 +251,6 @@
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Karibu kwenye Kalenda ya Nextcloud!\n\nHili ni sampuli ya tukio - chunguza unyumbufu wa kupanga ukitumia Kalenda ya Nextcloud kwa kufanya mabadiliko yoyote unayotaka!\n\nUkiwa na Kalenda ya Nextcloud, unaweza:\n- Unda, hariri na udhibiti matukio bila shida.\n- Unda kalenda nyingi na uzishiriki na wenzako, marafiki au familia.\n- Angalia upatikanaji na uonyeshe nyakati zako zenye shughuli nyingi kwa wengine.\n- Unganisha bila mshono na programu na vifaa kupitia CalDAV.\n- Badilisha hali yako ya utumiaji kukufaa: panga matukio yanayojirudia, rekebisha arifa na mipangilio mingineyo.",
     "Example event - open me!" : "Tukio la mfano - nifungue!",
     "System Address Book" : "Kitabu cha Anwani za Mfumo",
-    "The system address book contains contact information for all users in your instance." : "Kitabu cha anwani cha mfumo kina maelezo ya mawasiliano kwa watumiaji wote katika mfano wako.",
-    "Enable System Address Book" : "Washa Kitabu cha Anwani za Mfumo",
     "DAV system address book" : "Kitabu cha anwani ya mfumo wa DAV",
     "No outstanding DAV system address book sync." : "Hakuna usawazishaji wa kitabu cha anwani cha mfumo wa DAV.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Usawazishaji wa kitabu cha anwani cha mfumo wa DAV haujatekelezwa kwa vile mfano wako una zaidi ya watumiaji 1000 au kwa sababu hitilafu ilitokea. Tafadhali iendeshe wewe mwenyewe kwa kuita \"occ dav:sync-system-addressbook\".",
@@ -333,6 +331,8 @@
     "Are you accepting the invitation?" : "Je, unakubali mwaliko?",
     "Tentative" : "Vumilivu",
     "Your attendance was updated successfully." : "Mahudhurio yako yamesasishwa kwa mafanikio.",
+    "The system address book contains contact information for all users in your instance." : "Kitabu cha anwani cha mfumo kina maelezo ya mawasiliano kwa watumiaji wote katika mfano wako.",
+    "Enable System Address Book" : "Washa Kitabu cha Anwani za Mfumo",
     "No results." : "Hakuna matokeo.",
     "Start typing." : "Anza kuandika."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

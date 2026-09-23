@@ -13,10 +13,8 @@ use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Versions\Capabilities;
 use OCA\Files_Versions\Events\CreateVersionEvent;
-use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCA\Files_Versions\Listener\CreateVersionListenerForWorkflow;
 use OCA\Files_Versions\Listener\FileEventsListener;
-use OCA\Files_Versions\Listener\LegacyRollbackListener;
 use OCA\Files_Versions\Listener\LoadAdditionalListener;
 use OCA\Files_Versions\Listener\LoadSidebarListener;
 use OCA\Files_Versions\Listener\RegisterWorkflowIntegrationListener;
@@ -91,7 +89,6 @@ class Application extends App implements IBootstrap {
 
 		// we add the version author listener with lower priority to make sure new versions already are created by FileEventsListener
 		$context->registerEventListener(NodeWrittenEvent::class, VersionAuthorListener::class, -1);
-		$context->registerEventListener(VersionRestoredEvent::class, LegacyRollbackListener::class);
 
 		// WFE integration
 		$context->registerEventListener(RegisterOperationsEvent::class, RegisterWorkflowIntegrationListener::class);

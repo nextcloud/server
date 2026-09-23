@@ -54,4 +54,18 @@ final readonly class ShareProperty {
 			'value' => $this->value,
 		]);
 	}
+
+	/**
+	 * @param list<self> $properties
+	 * @return list<SharingPropertyBoolean|SharingPropertyDate|SharingPropertyEnum|SharingPropertyPassword|SharingPropertyString>
+	 * @experimental 35.0.0
+	 */
+	public static function formatMultiple(ISharingRegistry $registry, IFactory $l10nFactory, Share $share, array $properties): array {
+		$properties = array_map(fn (ShareProperty $property): array => $property->format($registry, $l10nFactory, $share), $properties);
+
+		// First sort by priority and then sort by class name to get a stable order regardless of the DB order
+		usort($properties, static fn (array $a, array $b): int => 2 * ($b['priority'] <=> $a['priority']) + ($a['class'] <=> $b['class']));
+
+		return $properties;
+	}
 }

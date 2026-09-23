@@ -300,7 +300,7 @@ class ThemingDefaults extends \OC_Defaults {
 	public function getLogoImage(): ?array {
 		try {
 			$file = $this->imageManager->getImage('logo', false);
-			return ['content' => $file->getContent(), 'mimeType' => $file->getMimeType()];
+			return ['content' => $file->getContent(), 'mimeType' => $this->imageManager->getImageMime('logo')];
 		} catch (\Exception $e) {
 			return parent::getLogoImage();
 		}
@@ -464,7 +464,7 @@ class ThemingDefaults extends \OC_Defaults {
 				$this->appConfig->setAppValueInt(ConfigLexicon::CACHE_BUSTER, (int)$value);
 				break;
 			case ConfigLexicon::USER_THEMING_DISABLED:
-				$value = in_array($value, ['1', 'true', 'yes', 'on']);
+				$value = in_array($value, ['1', 'true', 'yes', 'on'], true);
 				$this->appConfig->setAppValueBool(ConfigLexicon::USER_THEMING_DISABLED, $value);
 				break;
 			default:

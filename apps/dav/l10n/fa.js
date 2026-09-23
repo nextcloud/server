@@ -269,8 +269,6 @@ OC.L10N.register(
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "به نکست‌کلود تقویم خوش آمدید!",
     "Example event - open me!" : "رویداد نمونه - من را باز کنید!",
     "System Address Book" : "دفترچه آدرس سیستم",
-    "The system address book contains contact information for all users in your instance." : "دفترچه آدرس سیستم شامل اطلاعات تماس همه کاربران در نمونه شما است",
-    "Enable System Address Book" : "فعال‌سازی دفترچه آدرس سیستم",
     "DAV system address book" : "دفترچه آدرس سیستم DAV",
     "No outstanding DAV system address book sync." : "هیچ همگام‌سازی دفترچه آدرس سیستم DAV در انتظاری وجود ندارد",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "همگام‌سازی دفترچه آدرس سیستم DAV هنوز اجرا نشده است زیرا نمونه شما بیش از 1000 کاربر دارد یا به دلیل خطایی رخ داده است. لطفاً با فراخوانی \"occ dav:sync-system-addressbook\" آن را به صورت دستی اجرا کنید",
@@ -351,6 +349,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "آیا دعوت را می‌پذیرید؟",
     "Tentative" : "موقت",
     "Your attendance was updated successfully." : "حضور شما با موفقیت به‌روزرسانی شد.",
+    "The system address book contains contact information for all users in your instance." : "دفترچه آدرس سیستم شامل اطلاعات تماس همه کاربران در نمونه شما است",
+    "Enable System Address Book" : "فعال‌سازی دفترچه آدرس سیستم",
     "No results." : "نتیجه‌ای یافت نشد.",
     "Start typing." : "شروع به تایپ کنید."
 },

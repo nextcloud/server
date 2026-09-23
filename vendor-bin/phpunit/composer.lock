@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9131e29a1a39b2050c9fe1f3bdcbc02",
+    "content-hash": "ae7cea54928f743dc88d57db0a80c618",
     "packages": [
         {
             "name": "myclabs/deep-copy",
@@ -1780,7 +1780,7 @@
     "platform": {},
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.2"
+        "php": "8.3"
     },
     "plugin-api-version": "2.9.0"
 }

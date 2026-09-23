@@ -157,6 +157,10 @@ class Filesystem {
 	 * @param string $path
 	 */
 	public const signal_delete = 'delete';
+	public const signal_post_delete = 'post_delete';
+
+	public const signal_touch = 'touch';
+	public const signal_post_touch = 'post_touch';
 
 	/**
 	 * parameters definitions for signals
@@ -174,6 +178,9 @@ class Filesystem {
 	public const signal_delete_mount = 'delete_mount';
 	public const signal_param_mount_type = 'mounttype';
 	public const signal_param_users = 'users';
+	public const signal_setup = 'setup';
+	public const signal_pre_setup = 'preSetup';
+	public const signal_post_init_mountpoints = 'post_initMountPoints';
 
 	/**
 	 * @param bool $shouldLog
@@ -377,6 +384,7 @@ class Filesystem {
 
 	/**
 	 * tear down the filesystem, removing all storage providers
+	 * @deprecated 36.0.0 Use {@see \OCP\Files\ISetupManager::tearDown()} instead.
 	 */
 	public static function tearDown() {
 		\OC_Util::tearDownFS();

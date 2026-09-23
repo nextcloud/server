@@ -554,7 +554,7 @@ class TaskProcessingApiController extends OCSController {
 	 */
 	private function getFileContentsInternal(Task $task, int $fileId): StreamResponse|DataResponse {
 		$ids = $this->taskProcessingManager->extractFileIdsFromTask($task);
-		if (!in_array($fileId, $ids)) {
+		if (!in_array($fileId, $ids, true)) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
 		}
 		if ($task->getUserId() !== null) {

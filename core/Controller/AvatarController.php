@@ -21,7 +21,7 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
-use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IAvatarManager;
 use OCP\IL10N;
@@ -42,7 +42,7 @@ class AvatarController extends Controller {
 		protected IAvatarManager $avatarManager,
 		protected IL10N $l10n,
 		protected IUserManager $userManager,
-		protected IRootFolder $rootFolder,
+		protected ?IUserFolder $userFolder,
 		protected LoggerInterface $logger,
 		protected ?string $userId,
 		protected TimeFactory $timeFactory,
@@ -54,7 +54,7 @@ class AvatarController extends Controller {
 	/**
 	 * Get the dark avatar
 	 *
-	 * @param string $userId ID of the user
+	 * @param non-empty-string $userId ID of the user
 	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
@@ -104,7 +104,7 @@ class AvatarController extends Controller {
 	/**
 	 * Get the avatar
 	 *
-	 * @param string $userId ID of the user
+	 * @param non-empty-string $userId ID of the user
 	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
@@ -151,6 +151,9 @@ class AvatarController extends Controller {
 		return $response;
 	}
 
+	/**
+	 * @param ?non-empty-string $path
+	 */
 	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/avatar/')]
 	public function postAvatar(?string $path = null): JSONResponse {
@@ -158,9 +161,8 @@ class AvatarController extends Controller {
 
 		if (isset($path)) {
 			$path = stripslashes($path);
-			$userFolder = $this->rootFolder->getUserFolder($this->userId);
 			/** @var File $node */
-			$node = $userFolder->get($path);
+			$node = $this->userFolder->get($path);
 			if (!($node instanceof File)) {
 				return new JSONResponse(['data' => ['message' => $this->l10n->t('Please select a file.')]]);
 			}

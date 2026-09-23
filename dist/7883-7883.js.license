@@ -13,7 +13,7 @@ SPDX-FileCopyrightText: Kilian Valkhof
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Dmitry Soshnikov
 SPDX-FileCopyrightText: Ben Briggs
-SPDX-FileCopyrightText: Andrey Sitnik <andrey@sitnik.ru>
+SPDX-FileCopyrightText: Andrey Sitnik <andrey@sitnik.es>
 
 
 This file is generated from multiple sources. Included packages:
@@ -36,22 +36,22 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - baseline-browser-mapping
-	- version: 2.9.11
+	- version: 2.11.20
 	- license: Apache-2.0
 - browserslist-useragent-regexp
 	- version: 4.1.4
 	- license: MIT
 - browserslist
-	- version: 4.28.1
+	- version: 4.28.8
 	- license: MIT
 - caniuse-lite
-	- version: 1.0.30001761
+	- version: 1.0.30001810
 	- license: CC-BY-4.0
 - electron-to-chromium
-	- version: 1.5.267
+	- version: 1.5.419
 	- license: ISC
 - node-releases
-	- version: 2.0.27
+	- version: 2.0.54
 	- license: MIT
 - process
 	- version: 0.11.10

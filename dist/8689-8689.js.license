@@ -31,7 +31,6 @@ SPDX-FileCopyrightText: Eduardo San Martin Morote
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Austin Andrews
-SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
@@ -93,7 +92,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.3
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 4.0.0
+	- version: 4.1.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 3.0.0
@@ -132,7 +131,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.1.2
 	- license: MIT
 - dompurify
-	- version: 3.4.14
+	- version: 3.4.15
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -160,9 +159,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - nostics
 	- version: 1.1.4
-	- license: MIT
-- eventemitter3
-	- version: 5.0.4
 	- license: MIT
 - p-queue
 	- version: 9.3.3

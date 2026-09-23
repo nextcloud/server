@@ -1,7 +1,7 @@
 OC.L10N.register(
     "sharing",
     {
-    "The owner does not exist: %s" : "Majitel neexistuje: %s",
+    "The owner does not exist: %s" : "Vlastník neexistuje: %s",
     "Sharing" : "Sdílení",
     "TODO" : "UDĚLAT"
 },

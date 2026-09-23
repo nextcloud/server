@@ -290,7 +290,7 @@ class SetupManager implements ISetupManager {
 			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (
 				string $providerClass,
 			) use ($user) {
-				return !in_array($providerClass, $this->setupUserMountProviders[$user->getUID()]);
+				return !in_array($providerClass, $this->setupUserMountProviders[$user->getUID()], true);
 			});
 		});
 		$this->afterUserFullySetup($user, $previouslySetupProviders);
@@ -384,7 +384,7 @@ class SetupManager implements ISetupManager {
 		));
 		$newProviders = array_diff($allProviders, $previouslySetupProviders);
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($previouslySetupProviders) {
-			return !in_array($mount->getMountProvider(), $previouslySetupProviders);
+			return !in_array($mount->getMountProvider(), $previouslySetupProviders, true);
 		});
 		$this->registerMounts($user, $mounts, $newProviders);
 
@@ -525,7 +525,7 @@ class SetupManager implements ISetupManager {
 
 		$mountProvider = $cachedMount->getMountProvider();
 		$mountPoint = $cachedMount->getMountPoint();
-		$isMountProviderSetup = in_array($mountProvider, $setupProviders);
+		$isMountProviderSetup = in_array($mountProvider, $setupProviders, true);
 		$isPathSetupAsAuthoritative = $this->isPathSetup($mountPoint);
 		if (!$isMountProviderSetup && !$isPathSetupAsAuthoritative) {
 			if ($mountProvider === '') {
@@ -584,7 +584,7 @@ class SetupManager implements ISetupManager {
 				$mountProvider = $cachedMount->getMountProvider();
 
 				// skip setup for already set up providers
-				if (in_array($mountProvider, $setupProviders)) {
+				if (in_array($mountProvider, $setupProviders, true)) {
 					continue;
 				}
 
@@ -720,7 +720,7 @@ class SetupManager implements ISetupManager {
 			return !is_subclass_of($provider, IHomeMountProvider::class);
 		});
 
-		if (in_array('', $providers)) {
+		if (in_array('', $providers, true)) {
 			$this->setupForUser($user);
 			return;
 		}

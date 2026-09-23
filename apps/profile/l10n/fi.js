@@ -10,10 +10,13 @@ OC.L10N.register(
     "Search for a user profile. Start typing" : "Etsi käyttäjäprofiilia. Aloita kirjoittaminen",
     "Insert selected user profile link" : "Syötä valitun käyttäjäprofiilin linkki",
     "Insert" : "Lisää",
+    "You & {user}" : "Sinä & {user}",
     "You have not added any info yet" : "Et ole lisännyt tietoja vielä",
     "{user} has not added any info yet" : "{user} ei ole lisännyt tietoja vielä",
+    "Edit profile" : "Muokkaa profiilia",
     "The headline and about sections will show up here" : "Otsikko ja listätieto-osiot näkyvät tässä",
     "Profile not found" : "Profiilia ei löytynyt",
+    "The profile does not exist or is unavailable." : "Tätä profiilia ei ole olemassa tai se ei ole saatavilla.",
     "Back to %s" : "Takaisin kohtaan %s",
     "Edit Profile" : "Muokkaa profiilia",
     "The profile does not exist." : "Profiilia ei ole olemassa"

@@ -16,7 +16,7 @@ use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Source\IShareSourceType;
 
 /**
- * Keep the following types in sync with lib/unstable/Sharing/Share.php:
+ * Keep the following types in sync with apps/sharing/lib/ResponseDefinitions.php:
  *
  * @psalm-type SharingIconSVG = array{
  *     // An SVG using the currentColor value for dynamic theming.
@@ -46,6 +46,16 @@ use NCU\Sharing\Source\IShareSourceType;
  *     icon: SharingIcon,
  * }
  *
+ * @psalm-type SharingPermission = array{
+ *     class: class-string<ISharePermissionType>,
+ *     source_class: ?class-string<IShareSourceType>,
+ *     display_name: non-empty-string,
+ *     hint: ?non-empty-string,
+ *     priority: int<1, 100>,
+ *     presets: list<class-string<ISharePermissionPreset>>,
+ *     enabled: bool,
+ * }
+ *
  * @psalm-type SharingRecipient = array{
  *     class: class-string<IShareRecipientType>,
  *     value: non-empty-string,
@@ -58,6 +68,7 @@ use NCU\Sharing\Source\IShareSourceType;
  *         url?: non-empty-string,
  *     },
  *     initiator: ?SharingUser,
+ *     permissions: list<SharingPermission>
  * }
  *
  * @psalm-type SharingState = 'active'|'draft'|'deleted'
@@ -105,16 +116,6 @@ use NCU\Sharing\Source\IShareSourceType;
  *     class: class-string<ISharePermissionPreset>,
  *     display_name: non-empty-string,
  *     hint: ?non-empty-string,
- * }
- *
- * @psalm-type SharingPermission = array{
- *     class: class-string<ISharePermissionType>,
- *     source_class: ?class-string<IShareSourceType>,
- *     display_name: non-empty-string,
- *     hint: ?non-empty-string,
- *     priority: int<1, 100>,
- *     presets: list<class-string<ISharePermissionPreset>>,
- *     enabled: bool,
  * }
  *
  * @psalm-type SharingSourceType = array{

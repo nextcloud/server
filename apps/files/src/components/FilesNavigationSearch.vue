@@ -56,9 +56,9 @@ const isSearchView = computed(() => activeStore.activeView?.id === VIEW_ID)
  */
 const searchLabel = computed(() => {
 	if (searchStore.scope === 'globally') {
-		return t('files', 'Search everywhere …')
+		return t('files', 'Search everywhere')
 	}
-	return t('files', 'Search here …')
+	return t('files', 'Search here')
 })
 </script>
 

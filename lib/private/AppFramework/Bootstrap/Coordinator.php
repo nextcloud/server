@@ -10,7 +10,9 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use OC\App\AppManager;
+use OC\Server;
 use OC\Support\CrashReport\Registry;
+use OCP\App\AppPathNotFoundException;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\QueryException;
@@ -18,7 +20,6 @@ use OCP\Dashboard\IManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use function class_exists;
@@ -33,7 +34,7 @@ class Coordinator {
 	private array $bootedApps = [];
 
 	public function __construct(
-		private ContainerInterface $serverContainer,
+		private Server $serverContainer,
 		private Registry $registry,
 		private IManager $dashboardManager,
 		private IEventDispatcher $eventDispatcher,
@@ -64,12 +65,21 @@ class Coordinator {
 		if ($this->registrationContext === null) {
 			$this->registrationContext = new RegistrationContext($this->logger);
 		}
-		$this->eventLogger->start('bootstrap:register_app:autoloader', 'Setup autoloader for apps');
-		$this->appManager->registerAppsAutoloading($appIds);
-		$this->eventLogger->end('bootstrap:register_app:autoloader');
 		$apps = [];
 		foreach ($appIds as $appId) {
 			$this->eventLogger->start("bootstrap:register_app:$appId", "Register $appId");
+			$this->eventLogger->start("bootstrap:register_app:$appId:autoloader", "Setup autoloader for app $appId");
+			try {
+				$path = $this->appManager->getAppPath($appId);
+				$this->appManager->registerAutoloading($appId, $path);
+			} catch (AppPathNotFoundException $e) {
+				$this->logger->info('Error during app loading: ' . $e->getMessage(), [
+					'exception' => $e,
+					'app' => $appId,
+				]);
+				continue;
+			}
+			$this->eventLogger->end("bootstrap:register_app:$appId:autoloader");
 
 			/*
 			 * Next we check if there is an application class, and it implements
@@ -152,7 +162,7 @@ class Coordinator {
 		try {
 			$application = $this->serverContainer->get($applicationClassName);
 			if ($application instanceof IBootstrap && $application instanceof App) {
-				$context = new BootContext($application->getContainer());
+				$context = new BootContext($this->serverContainer, $application->getContainer());
 				$application->boot($context);
 			}
 		} catch (QueryException $e) {

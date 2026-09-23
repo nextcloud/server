@@ -316,6 +316,8 @@ function html_select_options($options, $selected, $params = []): string {
 		if ($label_name && is_array($label)) {
 			$label = $label[$label_name];
 		}
+		// $value may be a numeric array key or an arbitrary label value, while $selected is a string list
+		/** @psalm-suppress UnrecognizedExpression */
 		$select = in_array($value, $selected) ? ' selected="selected"' : '';
 		$html .= '<option value="' . Util::sanitizeHTML($value) . '"' . $select . '>' . Util::sanitizeHTML($label) . '</option>' . "\n";
 	}

@@ -253,8 +253,6 @@
     "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Καλώς ήρθατε στο Nextcloud Calendar!\n\nΑυτό είναι ένα δείγμα εκδήλωσης - εξερευνήστε την ευελιξία του προγραμματισμού με το Nextcloud Calendar κάνοντας όποιες αλλαγές θέλετε!\n\nΜε το Nextcloud Calendar, μπορείτε:\n- Να δημιουργείτε, επεξεργάζεστε και διαχειρίζεστε εκδηλώσεις αβίαστα.\n- Να δημιουργείτε πολλαπλά ημερολόγια και να τα μοιράζεστε με συναδέλφους, φίλους ή οικογένεια.\n- Να ελέγχετε τη διαθεσιμότητα και να εμφανίζετε τους απασχολημένους χρόνους σας σε άλλους.\n- Να ενσωματώνεστε απρόσκοπτα με εφαρμογές και συσκευές μέσω CalDAV.\n- Να προσαρμόζετε την εμπειρία σας: να προγραμματίζετε επαναλαμβανόμενες εκδηλώσεις, να ρυθμίζετε ειδοποιήσεις και άλλες ρυθμίσεις.",
     "Example event - open me!" : "Δείγμα εκδήλωσης - ανοίξτε με!",
     "System Address Book" : "Βιβλίο Διευθύνσεων Συστήματος",
-    "The system address book contains contact information for all users in your instance." : "Το βιβλίο διευθύνσεων συστήματος περιέχει πληροφορίες επαφών για όλους τους χρήστες στην εγκατάστασή σας.",
-    "Enable System Address Book" : "Ενεργοποίηση Βιβλίου Διευθύνσεων Συστήματος",
     "DAV system address book" : "Βιβλίο διευθύνσεων συστήματος DAV",
     "No outstanding DAV system address book sync." : "Καμία εκκρεμής συγχρονισμός βιβλίου διευθύνσεων συστήματος DAV.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "Ο συγχρονισμός του βιβλίου διευθύνσεων συστήματος DAV δεν έχει εκτελεστεί ακόμη επειδή η εγκατάστασή σας έχει περισσότερους από 1000 χρήστες ή επειδή προέκυψε σφάλμα. Παρακαλώ εκτελέστε τον χειροκίνητα καλώντας \"occ dav:sync-system-addressbook\".",
@@ -335,6 +333,8 @@
     "Are you accepting the invitation?" : "Αποδέχεστε την πρόσκληση;",
     "Tentative" : "Δοκιμαστικό",
     "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία.",
+    "The system address book contains contact information for all users in your instance." : "Το βιβλίο διευθύνσεων συστήματος περιέχει πληροφορίες επαφών για όλους τους χρήστες στην εγκατάστασή σας.",
+    "Enable System Address Book" : "Ενεργοποίηση Βιβλίου Διευθύνσεων Συστήματος",
     "No results." : "Κανένα αποτέλεσμα.",
     "Start typing." : "Ξεκινήστε να πληκτρολογείτε."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

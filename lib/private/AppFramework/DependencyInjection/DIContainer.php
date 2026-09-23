@@ -39,7 +39,7 @@ use OC\CapabilitiesManager;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Diagnostics\EventLogger;
 use OC\Log\PsrLoggerAdapter;
-use OC\ServerContainer;
+use OC\Server;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\User\Session;
 use OCA\WorkflowEngine\Manager;
@@ -50,9 +50,7 @@ use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\AppData\IAppDataFactory;
-use OCP\Files\Folder;
 use OCP\Files\IAppData;
-use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -60,25 +58,23 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\Ip\IRemoteAddress;
-use OCP\Server;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
 	private array $middleWares = [];
-	private ServerContainer $server;
+	private Server $server;
 	private IAppManager $appManager;
 
 	public function __construct(
 		protected string $appName,
 		array $urlParams = [],
-		?ServerContainer $server = null,
+		?Server $server = null,
 	) {
 		parent::__construct();
 		$this->registerParameter('appName', $this->appName);
@@ -108,14 +104,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/* Cannot be an alias because Output is not in OCA */
 		$this->registerService(IOutput::class, fn (ContainerInterface $c): IOutput => new Output($c->get('webRoot')));
 
-		$this->registerService(Folder::class, function () {
-			$user = $this->get(IUserSession::class)->getUser();
-			if ($user === null) {
-				return null;
-			}
-			return $this->getServer()->get(IRootFolder::class)->getUserFolder($user->getUID());
-		});
-
 		$this->registerService(IAppData::class, function (ContainerInterface $c): IAppData {
 			return $c->get(IAppDataFactory::class)->get($c->get('appName'));
 		});
@@ -133,11 +121,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			);
 		});
 
-		$this->registerService(IServerContainer::class, function () {
+		$this->registerService(Server::class, function () {
 			return $this->getServer();
 		});
-		/** @deprecated 32.0.0 */
-		$this->registerDeprecatedAlias('ServerContainer', IServerContainer::class);
 
 		$this->registerAlias(\OCP\WorkflowEngine\IManager::class, Manager::class);
 
@@ -149,12 +135,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->get(ISession::class)->get('user_id');
 		});
 
-		$this->registerService('webRoot', function (ContainerInterface $c): string {
-			return $c->get(IServerContainer::class)->getWebRoot();
-		});
+		$this->registerParameter('webRoot', $this->server->getWebRoot());
 
 		$this->registerService('OC_Defaults', function (ContainerInterface $c): object {
-			return $c->get(IServerContainer::class)->get('ThemingDefaults');
+			return $this->server->get('ThemingDefaults');
 		});
 
 		/** @deprecated 32.0.0 */
@@ -255,7 +239,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	#[\Override]
-	public function getServer(): ServerContainer {
+	public function getServer(): Server {
 		return $this->server;
 	}
 
@@ -278,23 +262,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	#[\Override]
 	public function getAppName() {
 		return $this->query('appName');
-	}
-
-	/**
-	 * @deprecated 12.0.0 use IUserSession->isLoggedIn()
-	 * @return boolean
-	 */
-	public function isLoggedIn() {
-		return Server::get(IUserSession::class)->isLoggedIn();
-	}
-
-	/**
-	 * @deprecated 12.0.0 use IGroupManager->isAdmin($userId)
-	 * @return boolean
-	 */
-	public function isAdminUser() {
-		$uid = $this->getUserId();
-		return \OC_User::isAdminUser($uid);
 	}
 
 	private function getUserId(): string {
@@ -331,48 +298,15 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param list<class-string> $chain
 	 */
 	#[\Override]
-	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
+	protected function query(string $name, bool $autoload = true, array $chain = [], bool $fallback = true): mixed {
+		$name = $this->resolveAlias($name);
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
 		}
 
-		$isServerClass = str_starts_with($name, 'OCP\\') || str_starts_with($name, 'OC\\');
-		if ($isServerClass && !$this->has($name)) {
-			/** @var ServerContainer $server */
-			$server = $this->getServer();
-			return $server->query($name, $autoload, $chain);
-		}
-
-		try {
-			return $this->queryNoFallback($name, $chain);
-		} catch (QueryException $firstException) {
-			try {
-				/** @var ServerContainer $server */
-				$server = $this->getServer();
-				return $server->query($name, $autoload, $chain);
-			} catch (QueryException $secondException) {
-				if ($firstException->getCode() === 1) {
-					throw $secondException;
-				}
-				throw $firstException;
-			}
-		}
-	}
-
-	/**
-	 * @param string $name
-	 * @param list<class-string> $chain
-	 * @return mixed
-	 * @throws QueryException if the query could not be resolved
-	 */
-	public function queryNoFallback($name, array $chain) {
-		$name = $this->sanitizeName($name);
-
-		if ($this->offsetExists($name)) {
-			return parent::query($name, chain: $chain);
+		if (isset($this->container[$name])) {
+			return $this->container[$name];
 		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
-			return parent::query($name, chain: $chain);
-		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
 			return parent::query($name, chain: $chain);
 		} elseif (str_starts_with($name, $this->appManager->getAppNamespace($this->appName) . '\\')) {
 			return parent::query($name, chain: $chain);
@@ -383,8 +317,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			/* AppFramework services are scoped to the application */
 			return parent::query($name, chain: $chain);
 		}
-
-		throw new QueryException('Could not resolve ' . $name . '!'
-			. ' Class can not be instantiated', 1);
+		if ($fallback) {
+			return $this->server->query($name, $autoload, $chain);
+		} else {
+			throw new QueryException('Could not resolve ' . $name . '! Class can not be instantiated', 1);
+		}
 	}
 }

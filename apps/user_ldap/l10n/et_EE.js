@@ -18,6 +18,7 @@ OC.L10N.register(
     "LDAP Connection" : "LDAP ühendus",
     "Invalid LDAP UUIDs" : "Vigased LDAP UUID-d",
     "None found" : "Mitte midagi ei leidu",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["Leidus %n grupp","Leidus %n gruppi"],
     "> 1000 groups found" : "Leidus üle 1000 grupi",
     "> 1000 users found" : "Leidus üle 1000 kasutaja",
