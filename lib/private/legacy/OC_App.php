@@ -35,16 +35,8 @@ use Psr\Log\LoggerInterface;
  * @deprecated 36.0.0 There are no more non-deprecated methods in there
  */
 class OC_App {
-	private static array $alreadyRegistered = [];
 	public const supportedApp = 300;
 	public const officialApp = 200;
-
-	/**
-	 * @internal
-	 */
-	public static function reset(): void {
-		self::$alreadyRegistered = [];
-	}
 
 	/**
 	 * clean the appId
