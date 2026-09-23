@@ -23,6 +23,8 @@ trait Sharing {
 	/** @var SimpleXMLElement[] */
 	private array $storedShareData = [];
 	private ?string $savedShareId = null;
+	/** @var ResponseInterface */
+	private $response;
 
 	/**
 	 * @BeforeScenario
@@ -32,8 +34,22 @@ trait Sharing {
 		$this->storedShareData = [];
 		$this->savedShareId = null;
 	}
-	/** @var ResponseInterface */
-	private $response;
+
+	/**
+	 * @BeforeScenario
+	 */
+	public function enableSharingLegacySyncValidation(): void {
+		// TODO: Disable kill switch
+		$this->runOcc(['config:system:set', '--type=boolean', '--value=true', 'unified_sharing.legacy_sync.validation.enable']);
+	}
+
+	/**
+	 * @AfterScenario
+	 */
+	public function disableSharingLegacySyncValidation(): void {
+		// TODO: Delete kill switch
+		$this->runOcc(['config:system:delete', 'unified_sharing.legacy_sync.validation.enable']);
+	}
 
 	/**
 	 * @Given /^as "([^"]*)" creating a share with$/
