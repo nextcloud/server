@@ -75,6 +75,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		private ClockInterface $clock,
 		private IManager $legacySharingManager,
 		private IConfig $config,
+		private SharingLegacySync $legacySync,
 	) {
 		$this->randomizer = new Randomizer();
 		$this->l10n = $l10nFactory->get('sharing');
@@ -770,6 +771,10 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		?string $lastShareID,
 		?int $limit,
 	): array {
+		if (($currentUser = $accessContext->currentUser) instanceof IUser) {
+			$this->legacySync->mapLegacyShares($currentUser);
+		}
+
 		return $this->backend->getShares($accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 	}
 
@@ -780,8 +785,11 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			$keys = array_keys($shares);
 			$shares = $this->processShareUpdates(array_values($shares));
 			$event->setShares(array_combine($keys, $shares));
+
+			return;
 		}
 
+		/** @psalm-suppress RedundantConditionGivenDocblockType */
 		if ($event instanceof BeforeUserDeletedEvent) {
 			$shareUser = new ShareUser($event->getUser()->getUID(), null);
 
@@ -794,6 +802,8 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 				$this->dbConnection->rollBack();
 				throw $exception;
 			}
+
+			return;
 		}
 	}
 
