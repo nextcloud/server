@@ -9,18 +9,18 @@ import PlusSvg from '@mdi/svg/svg/plus.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
-import { Permission, removeNewFileMenuEntry } from '@nextcloud/files'
+import { Permission } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { join } from 'path'
+import { templateDirectory } from '../store/templateDirectory.ts'
 import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
 
 const templatesEnabled = loadState<boolean>('files', 'templates_enabled', true)
-let templatesPath = loadState<string | false>('files', 'templates_path', false)
 logger.debug('Templates folder enabled', { templatesEnabled })
-logger.debug('Initial templates folder', { templatesPath })
+logger.debug('Initial templates folder', { templateDirectory })
 
 /**
  * Init template folder
@@ -47,7 +47,8 @@ async function initTemplatesFolder(directory: IFolder, name: string) {
 		logger.info('Created new templates folder', {
 			...data.ocs.data,
 		})
-		templatesPath = data.ocs.data.templates_path as string
+		templateDirectory.template_path = data.ocs.data.template_path
+		templateDirectory.available = !!data.ocs.data.template_path
 	} catch (error) {
 		logger.error('Unable to initialize the templates directory', { error })
 		showError(t('files', 'Unable to initialize the templates directory'))
@@ -61,7 +62,7 @@ export const entry: NewMenuEntry = {
 	order: 30,
 	enabled(context: IFolder): boolean {
 		// Templates disabled or templates folder already initialized
-		if (!templatesEnabled || templatesPath) {
+		if (!templatesEnabled || templateDirectory.available) {
 			return false
 		}
 		// Allow creation on your own folders only
@@ -75,10 +76,7 @@ export const entry: NewMenuEntry = {
 
 		if (name !== null) {
 			// Create the template folder
-			initTemplatesFolder(context, name)
-
-			// Remove the menu entry
-			removeNewFileMenuEntry('template-picker')
+			await initTemplatesFolder(context, name)
 		}
 	},
 }
