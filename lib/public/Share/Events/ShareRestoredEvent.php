@@ -15,23 +15,30 @@ use OCP\EventDispatcher\Event;
 use OCP\Share\IShare;
 
 /**
- * @since 35.0.0
+ * @since 36.0.0
  */
-#[Consumable(since: '35.0.0')]
-#[Listenable(since: '35.0.0')]
+#[Consumable(since: '36.0.0')]
+#[Listenable(since: '36.0.0')]
 final class ShareRestoredEvent extends Event {
 	/**
-	 * @since 35.0.0
+	 * @since 36.0.0
 	 */
 	public function __construct(
-		public readonly IShare $share,
+		public IShare $share,
 	) {
 	}
 
 	/**
-	 * @since 35.0.0
+	 * @since 36.0.0
 	 */
 	public function getShare(): IShare {
 		return $this->share;
+	}
+
+	/**
+	 * @since 36.0.0
+	 */
+	public function setShare(IShare $share): void {
+		$this->share = $share;
 	}
 }
