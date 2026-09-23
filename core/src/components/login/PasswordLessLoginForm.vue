@@ -59,12 +59,12 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import InformationIcon from 'vue-material-design-icons/InformationOutline.vue'
 import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
 import LoginButton from './LoginButton.vue'
-import logger from '../../logger.js'
 import {
 	finishAuthentication,
 	NoValidCredentials,
 	startAuthentication,
 } from '../../services/WebAuthnAuthenticationService.ts'
+import { logger } from '../../utils/logger.ts'
 
 export default defineComponent({
 	name: 'PasswordLessLoginForm',
