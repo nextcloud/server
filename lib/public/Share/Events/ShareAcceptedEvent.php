@@ -31,4 +31,11 @@ class ShareAcceptedEvent extends Event {
 	public function getShare(): IShare {
 		return $this->share;
 	}
+
+	/**
+	 * @since 35.0.0
+	 */
+	public function setShare(IShare $share): void {
+		$this->share = $share;
+	}
 }
