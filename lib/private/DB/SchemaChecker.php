@@ -48,7 +48,16 @@ class SchemaChecker {
 
 		// Enabled apps are already autoloaded at boot, no extra class loading needed.
 		foreach (array_keys($enabledApps) as $app) {
-			$this->applyMigrations($app, $expectedSchema);
+			try {
+				$this->applyMigrations($app, $expectedSchema);
+			} catch (AppPathNotFoundException) {
+				// Enabled in config, but the app's code is gone: occ app:remove
+				// only deletes an app's code, never its enabled flag, tables or
+				// config (see Installer::removeApp()). Nothing to replay here;
+				// any of its tables still in the live DB surface as
+				// unattributed unexpected_table findings instead of crashing
+				// the whole check.
+			}
 		}
 
 		// Disabled apps keep their tables, so replay their migrations too.
