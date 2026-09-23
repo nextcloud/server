@@ -1132,7 +1132,11 @@ class DefaultShareProvider implements
 		$shareTime->setTimestamp((int)$data['stime']);
 		$share->setShareTime($shareTime);
 
-		if ($share->getShareType() === IShare::TYPE_USER) {
+		if (($parent = $data['parent']) !== null) {
+			$share->setParent((int)$parent);
+		}
+
+		if ($share->getShareType() === IShare::TYPE_USER || $share->getShareType() === IShare::TYPE_USERGROUP) {
 			$share->setSharedWith($data['share_with']);
 			$share->setSharedWithDisplayNameCallback(fn (IShare $share) => $this->userManager->getDisplayName($share->getSharedWith()));
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
@@ -1755,12 +1759,17 @@ class DefaultShareProvider implements
 	}
 
 	#[\Override]
-	public function getAllShares(): iterable {
+	public function getAllShares(bool $withUserGroup = false): iterable {
+		$shareTypes = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK];
+		if ($withUserGroup) {
+			$shareTypes[] = IShare::TYPE_USERGROUP;
+		}
+
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->select('*')
 			->from('share')
-			->where($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK], IQueryBuilder::PARAM_INT_ARRAY)));
+			->where($qb->expr()->in('share_type', $qb->createNamedParameter($shareTypes, IQueryBuilder::PARAM_INT_ARRAY)));
 
 		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetchAssociative()) {
