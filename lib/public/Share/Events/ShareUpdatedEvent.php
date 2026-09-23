@@ -24,7 +24,7 @@ final class ShareUpdatedEvent extends Event {
 	 * @since 35.0.0
 	 */
 	public function __construct(
-		public readonly IShare $share,
+		public IShare $share,
 	) {
 	}
 
@@ -33,5 +33,12 @@ final class ShareUpdatedEvent extends Event {
 	 */
 	public function getShare(): IShare {
 		return $this->share;
+	}
+
+	/**
+	 * @since 35.0.0
+	 */
+	public function setShare(IShare $share): void {
+		$this->share = $share;
 	}
 }
