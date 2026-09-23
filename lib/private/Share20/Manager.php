@@ -588,9 +588,11 @@ class Manager implements IManager {
 				}
 			}
 
-			$target = $shareFolder . '/' . $share->getNode()->getName();
-			$target = Filesystem::normalizePath($target);
-			$share->setTarget($target);
+			if ($share->getTarget() === null) {
+				$target = $shareFolder . '/' . $share->getNode()->getName();
+				$target = Filesystem::normalizePath($target);
+				$share->setTarget($target);
+			}
 
 			// Pre share event
 			$event = new BeforeShareCreatedEvent($share);
