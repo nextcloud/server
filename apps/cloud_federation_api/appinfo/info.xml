@@ -21,10 +21,4 @@
 	<dependencies>
 		<nextcloud min-version="36" max-version="36"/>
 	</dependencies>
-
-	<repair-steps>
-		<post-migration>
-			<step>OCA\CloudFederationAPI\Migration\DropFederatedInvitesTable</step>
-		</post-migration>
-	</repair-steps>
 </info>
