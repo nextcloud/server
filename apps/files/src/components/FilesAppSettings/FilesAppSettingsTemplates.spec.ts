@@ -38,7 +38,7 @@ function response(path: string, available = true) {
 
 async function mount() {
 	const component = render(FilesAppSettingsTemplates)
-	await waitFor(() => expect(component.getByRole('button', { name: 'Choose folder' })).not.toBeDisabled())
+	await waitFor(() => expect(component.getByRole('button', { name: 'Personal template folder' })).not.toBeDisabled())
 	return component
 }
 
@@ -55,13 +55,14 @@ describe('Personal template folder settings', () => {
 	it('loads the current directory and links to it', async () => {
 		const component = await mount()
 		expect(component.getByText('/Templates')).toBeVisible()
+		expect(component.queryByRole('button', { name: 'Choose folder' })).toBeNull()
 		expect(component.getByRole('button', { name: 'Open folder' })).toHaveAttribute('href', expect.stringContaining('dir=%2FTemplates'))
 	})
 
 	it('selects an existing folder without invoking initialization', async () => {
 		vi.mocked(axios.put).mockResolvedValue(response('/Documents/Templates'))
 		const component = await mount()
-		await fireEvent.click(component.getByRole('button', { name: 'Choose folder' }))
+		await fireEvent.click(component.getByRole('button', { name: 'Personal template folder' }))
 		await waitFor(() => expect(component.getByText('/Documents/Templates')).toBeVisible())
 		expect(axios.put).toHaveBeenCalledWith(expect.stringContaining('/templates/path'), { templatePath: '/Documents/Templates' })
 		expect(axios.post).not.toHaveBeenCalled()
@@ -80,13 +81,14 @@ describe('Personal template folder settings', () => {
 		await waitFor(() => expect(component.getByText('No folder selected')).toBeVisible())
 		expect(axios.put).toHaveBeenCalledWith(expect.any(String), { templatePath: '' })
 		expect(axios.delete).not.toHaveBeenCalled()
+		expect(pickNodes).not.toHaveBeenCalled()
 		expect(component.queryByRole('button', { name: 'Open folder' })).toBeNull()
 	})
 
 	it('keeps the old selection when saving fails', async () => {
 		vi.mocked(axios.put).mockRejectedValue(new Error('Forbidden'))
 		const component = await mount()
-		await fireEvent.click(component.getByRole('button', { name: 'Choose folder' }))
+		await fireEvent.click(component.getByRole('button', { name: 'Personal template folder' }))
 		await waitFor(() => expect(showError).toHaveBeenCalledWith('Unable to update the template folder'))
 		expect(component.getByText('/Templates')).toBeVisible()
 	})
@@ -94,7 +96,7 @@ describe('Personal template folder settings', () => {
 	it('does not save or show an error when the picker is cancelled', async () => {
 		pickNodes.mockRejectedValue(new FilePickerClosed())
 		const component = await mount()
-		await fireEvent.click(component.getByRole('button', { name: 'Choose folder' }))
+		await fireEvent.click(component.getByRole('button', { name: 'Personal template folder' }))
 		await waitFor(() => expect(pickNodes).toHaveBeenCalled())
 		expect(axios.put).not.toHaveBeenCalled()
 		expect(showError).not.toHaveBeenCalled()
@@ -103,7 +105,7 @@ describe('Personal template folder settings', () => {
 	it('reports picker failures', async () => {
 		pickNodes.mockRejectedValue(new Error('Picker failed'))
 		const component = await mount()
-		await fireEvent.click(component.getByRole('button', { name: 'Choose folder' }))
+		await fireEvent.click(component.getByRole('button', { name: 'Personal template folder' }))
 		await waitFor(() => expect(showError).toHaveBeenCalledWith('Unable to choose a template folder'))
 	})
 
@@ -113,7 +115,7 @@ describe('Personal template folder settings', () => {
 		const component = await mount()
 		expect(component.getByText(/This folder is no longer available/)).toBeVisible()
 		expect(component.queryByRole('button', { name: 'Open folder' })).toBeNull()
-		await fireEvent.click(component.getByRole('button', { name: 'Choose folder' }))
+		await fireEvent.click(component.getByRole('button', { name: 'Personal template folder' }))
 		expect(builder.startAt).toHaveBeenCalledWith('/')
 		expect(axios.put).not.toHaveBeenCalled()
 	})
@@ -122,9 +124,9 @@ describe('Personal template folder settings', () => {
 		vi.mocked(axios.get).mockRejectedValueOnce(new Error('Offline'))
 		const component = render(FilesAppSettingsTemplates)
 		await waitFor(() => expect(component.getByText('Unable to load the template folder')).toBeVisible())
-		expect(component.getByRole('button', { name: 'Choose folder' })).toBeDisabled()
+		expect(component.getByRole('button', { name: 'Personal template folder' })).toBeDisabled()
 		await fireEvent.click(component.getByRole('button', { name: 'Retry' }))
 		await waitFor(() => expect(component.getByText('/Templates')).toBeVisible())
-		expect(component.getByRole('button', { name: 'Choose folder' })).not.toBeDisabled()
+		expect(component.getByRole('button', { name: 'Personal template folder' })).not.toBeDisabled()
 	})
 })

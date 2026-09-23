@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import { mdiFolderOutline } from '@mdi/js'
+import { mdiClose, mdiFolderOpenOutline, mdiFolderOutline } from '@mdi/js'
 import { FilePickerClosed, getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { Permission } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
@@ -102,32 +102,45 @@ async function chooseFolder() {
 				:disabled="disabled"
 				@click="chooseFolder">
 				<template #icon>
-					<NcIconSvgWrapper :path="mdiFolderOutline" />
+					<div v-if="templateDirectory.template_path" class="template-settings__actions">
+						<NcButton
+							v-if="templateDirectory.available"
+							:href="folderUrl"
+							:disabled="disabled"
+							:aria-label="t('files', 'Open folder')"
+							:title="t('files', 'Open folder')"
+							variant="tertiary">
+							<template #icon>
+								<NcIconSvgWrapper :path="mdiFolderOpenOutline" />
+							</template>
+						</NcButton>
+						<NcButton
+							:disabled="disabled"
+							:aria-label="t('files', 'Clear selection')"
+							:title="t('files', 'Clear selection')"
+							variant="tertiary"
+							@click="save('')">
+							<template #icon>
+								<NcIconSvgWrapper :path="mdiClose" />
+							</template>
+						</NcButton>
+					</div>
+					<NcIconSvgWrapper v-else :path="mdiFolderOutline" />
 				</template>
 			</NcFormBoxButton>
 		</NcFormBox>
 		<NcNoteCard v-if="!loading && !loadFailed && templateDirectory.template_path && !templateDirectory.available" type="warning">
 			{{ t('files', 'This folder is no longer available. Choose another folder or clear the selection.') }}
 		</NcNoteCard>
-		<div class="template-settings__actions">
-			<NcButton :disabled="disabled" @click="chooseFolder">
-				{{ t('files', 'Choose folder') }}
-			</NcButton>
-			<NcButton v-if="templateDirectory.available" :href="folderUrl" :disabled="disabled">
-				{{ t('files', 'Open folder') }}
-			</NcButton>
-			<NcButton v-if="templateDirectory.template_path" :disabled="disabled" @click="save('')">
-				{{ t('files', 'Clear selection') }}
-			</NcButton>
-		</div>
 	</NcAppSettingsSection>
 </template>
 
 <style scoped lang="scss">
 .template-settings__actions {
+	// Keep the secondary actions above the form row's clickable area.
+	position: relative;
+	z-index: 1;
 	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-	margin-top: 12px;
+	flex-shrink: 0;
 }
 </style>
