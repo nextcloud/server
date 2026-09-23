@@ -29,21 +29,27 @@ class ListCommand extends Base {
 			->addOption(
 				'class',
 				'c',
-				InputOption::VALUE_OPTIONAL,
+				InputOption::VALUE_REQUIRED,
 				'Job class to search for',
 				null
 			)->addOption(
 				'limit',
 				'l',
-				InputOption::VALUE_OPTIONAL,
+				InputOption::VALUE_REQUIRED,
 				'Number of jobs to retrieve',
 				'500'
 			)->addOption(
 				'offset',
 				'o',
-				InputOption::VALUE_OPTIONAL,
+				InputOption::VALUE_REQUIRED,
 				'Offset for retrieving jobs',
 				'0'
+			)
+			->addOption(
+				'group',
+				null,
+				InputOption::VALUE_NONE,
+				'Group jobs by class'
 			)
 		;
 		parent::configure();
@@ -52,10 +58,17 @@ class ListCommand extends Base {
 	#[\Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$limit = (int)$input->getOption('limit');
-		$jobsInfo = $this->formatJobs($this->jobList->getJobsIterator($input->getOption('class'), $limit, (int)$input->getOption('offset')));
-		$this->writeTableInOutputFormat($input, $output, $jobsInfo);
-		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN && count($jobsInfo) >= $limit) {
-			$output->writeln("\n<comment>Output is currently limited to " . $limit . ' jobs. Specify `-l, --limit[=LIMIT]` to override.</comment>');
+		$offset = (int)$input->getOption('offset');
+		$group = $input->getOption('group');
+		if ($group) {
+			$grouped = $this->jobList->countByClass($limit, $offset);
+			$this->writeTableInOutputFormat($input, $output, $grouped);
+		} else {
+			$jobsInfo = $this->formatJobs($this->jobList->getJobsIterator($input->getOption('class'), $limit, $offset));
+			$this->writeTableInOutputFormat($input, $output, $jobsInfo);
+			if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN && count($jobsInfo) >= $limit) {
+				$output->writeln("\n<comment>Output is currently limited to " . $limit . ' jobs. Specify `-l, --limit[=LIMIT]` to override.</comment>');
+			}
 		}
 		return 0;
 	}

@@ -1214,6 +1214,27 @@ class SessionTest extends TestCase {
 		$this->userSession->createRememberMeToken($user);
 	}
 
+	public static function renewMagicSessionIdData(): array {
+		return [
+			'cookie holds the old session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'], true],
+			'cookie holds another session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'other'], false],
+			'no remember-me cookies' => [[], false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'renewMagicSessionIdData')]
+	public function testRenewMagicSessionId(array $cookies, bool $expectRenewal): void {
+		$this->userSession->expects($expectRenewal ? $this->once() : $this->never())
+			->method('setMagicInCookie')
+			->with('u', 't');
+
+		$request = $this->createMock(IRequest::class);
+		$request->method('getCookie')->willReturnCallback(fn (string $key) => $cookies[$key] ?? null);
+		$this->overwriteService(IRequest::class, $request);
+
+		$this->userSession->renewMagicSessionId('old');
+	}
+
 	public function testTryBasicAuthLoginValid(): void {
 		$request = $this->createMock(Request::class);
 		$request->method('__get')

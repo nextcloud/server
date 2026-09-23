@@ -19,6 +19,7 @@ use OC\User\DisabledUserException;
 use OCP\App\Events\AppsLoadedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
+use OCP\Files\ISetupManager;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAppConfig;
@@ -1023,29 +1024,14 @@ class OC {
 			// NOTE: This will be replaced to use OCP
 			$userSession = Server::get(\OC\User\Session::class);
 			$userSession->listen('\OC\User', 'postLogin', function () use ($userSession) {
-				if (!defined('PHPUNIT_RUN') && $userSession->isLoggedIn()) {
+				if (!defined('PHPUNIT_RUN') && $userSession->isLoggedIn() && ($user = $userSession->getUser()) !== null) {
 					// reset brute force delay for this IP address and username
-					$uid = $userSession->getUser()->getUID();
+					$uid = $user->getUID();
 					$request = Server::get(IRequest::class);
 					$throttler = Server::get(IThrottler::class);
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
 
-					try {
-						$cache = new \OC\Cache\File();
-						$cache->gc();
-					} catch (\OC\ServerNotAvailableException $e) {
-						// not a GC exception, pass it on
-						throw $e;
-					} catch (\OC\ForbiddenException $e) {
-						// filesystem blocked for this request, ignore
-					} catch (\Exception $e) {
-						// a GC exception should not prevent users from using OC,
-						// so log the exception
-						Server::get(LoggerInterface::class)->warning('Exception when running cache gc.', [
-							'app' => 'core',
-							'exception' => $e,
-						]);
-					}
+					Server::get(ISetupManager::class)->setupForUser($user);
 				}
 			});
 		}

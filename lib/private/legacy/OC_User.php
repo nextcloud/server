@@ -165,7 +165,7 @@ class OC_User {
 
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password, $backend));
 
-				$userSession->createSessionToken($request, $uid, $uid, $password);
+				$userSession->createSessionToken($request, $uid, $uid, $password, IToken::REMEMBER);
 				$userSession->completeLogin(
 					$user,
 					['loginName' => $uid, 'password' => $password ?? ''],
