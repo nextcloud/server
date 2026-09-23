@@ -87,6 +87,16 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * @throws \Exception
+	 */
+	private function getRememberLoginTokenMapper(): RememberLoginTokenMapper {
+		if ($this->rememberLoginTokenMapper === null) {
+			throw new \Exception('Remember login token mapper is not available');
+		}
+		return $this->rememberLoginTokenMapper;
+	}
+
+	/**
 	 * @param IProvider $provider
 	 */
 	public function setTokenProvider(IProvider $provider) {
@@ -911,7 +921,7 @@ class Session implements IUserSession, Emitter {
 		$isLegacyRememberLoginToken = false;
 		try {
 			// get stored token
-			$rememberLoginToken = $this->rememberLoginTokenMapper->findByToken($currentToken);
+			$rememberLoginToken = $this->getRememberLoginTokenMapper()->findByToken($currentToken);
 			if ($rememberLoginToken->uid !== $uid) {
 				$this->logger->warning('Tried to login using remember-me token token from a different user', [
 					'app' => 'core',
@@ -961,7 +971,7 @@ class Session implements IUserSession, Emitter {
 		} else {
 			// replace successfully used token with a new one
 			$newToken = $this->random->generate(32);
-			$this->rememberLoginTokenMapper->rotateToken($currentToken, $newToken);
+			$this->getRememberLoginTokenMapper()->rotateToken($currentToken, $newToken);
 		}
 		$this->logger->debug('Remember-me token replaced', [
 			'app' => 'core',
@@ -1026,7 +1036,7 @@ class Session implements IUserSession, Emitter {
 		$rememberLoginToken = new RememberLoginToken();
 		$rememberLoginToken->uid = $uid;
 		$rememberLoginToken->token = $token;
-		$this->rememberLoginTokenMapper->insert($rememberLoginToken);
+		$this->getRememberLoginTokenMapper()->insert($rememberLoginToken);
 
 		return $token;
 	}
