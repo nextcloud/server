@@ -524,6 +524,7 @@ OC.L10N.register(
     "Skip to navigation of app" : "Zum Navigationsbereich der App springen",
     "Go to %s" : "%s aufrufen",
     "Get your own free account" : "Holen Sie sich Ihr eigenes kostenloses Konto",
+    "Notifications, contacts and settings" : "Benachrichtigungen, Kontakte und Einstellungen",
     "Previous" : "Vorige",
     "Two-factor authentication" : "Zwei-Faktor-Authentifizierung",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Die erweiterte Sicherheit wurde für Ihr Konto aktiviert. Bitte einen zweiten Faktor für die Anmeldung auswählen:",
