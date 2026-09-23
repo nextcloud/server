@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import type { IBackend, IStorage } from '../types.ts'
 
-import { mdiAccountGroupOutline, mdiInformationOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js'
+import { mdiAccountGroupOutline, mdiEarth, mdiInformationOutline, mdiPencilOutline, mdiTrashCanOutline } from '@mdi/js'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { NcChip, NcLoadingIcon, NcUserBubble, spawnDialog } from '@nextcloud/vue'
@@ -14,9 +14,10 @@ import { computed, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import AddExternalStorageDialog from './AddExternalStorageDialog/AddExternalStorageDialog.vue'
-import { useUsers } from '../composables/useEntities.ts'
+import { useGroups, useUsers } from '../composables/useEntities.ts'
 import { useStorages } from '../store/storages.ts'
 import { StorageStatus, StorageStatusIcons, StorageStatusMessage } from '../types.ts'
+import { appliesToAllAccounts } from '../utils/externalStorageUtils.ts'
 
 const props = defineProps<{
 	storage: IStorage
@@ -51,6 +52,9 @@ const status = computed(() => {
 })
 
 const users = useUsers(() => props.storage.applicableUsers || [])
+const groups = useGroups(() => props.storage.applicableGroups || [])
+
+const isUnrestricted = computed(() => appliesToAllAccounts(props.storage.applicableUsers, props.storage.applicableGroups))
 
 /**
  * Handle deletion of the external storage mount point
@@ -113,11 +117,16 @@ async function reloadStatus() {
 		<td v-if="isAdmin">
 			<div :class="$style.storageTableRow__cellApplicable">
 				<NcChip
-					v-for="group of storage.applicableGroups"
-					:key="group"
+					v-if="isUnrestricted"
+					:iconPath="mdiEarth"
+					noClose
+					:text="t('files_external', 'All accounts')" />
+				<NcChip
+					v-for="group of groups"
+					:key="group.id"
 					:iconPath="mdiAccountGroupOutline"
 					noClose
-					:text="group" />
+					:text="group.displayName" />
 				<NcUserBubble
 					v-for="user of users"
 					:key="user.user"
@@ -169,7 +178,7 @@ async function reloadStatus() {
 	align-items: center;
 
 	max-height: calc(48px + 2 * var(--default-grid-baseline));
-	overflow: scroll;
+	overflow: auto;
 }
 
 .storageTableRow__status_warning {

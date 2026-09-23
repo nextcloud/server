@@ -160,7 +160,7 @@ class Connection extends LDAPUtility {
 		}
 		$helper = Server::get(Helper::class);
 		$this->doNotValidate = !in_array($this->configPrefix,
-			$helper->getServerConfigurationPrefixes());
+			$helper->getServerConfigurationPrefixes(), true);
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->l10n = Util::getL10N('user_ldap');
 	}
@@ -416,7 +416,7 @@ class Connection extends LDAPUtility {
 			} else {
 				$uuidAttributes = Access::UUID_ATTRIBUTES;
 				array_unshift($uuidAttributes, 'auto');
-				if (!in_array($this->configuration->$effectiveSetting, $uuidAttributes)
+				if (!in_array($this->configuration->$effectiveSetting, $uuidAttributes, true)
 					&& !is_null($this->configID)) {
 					$this->configuration->$effectiveSetting = 'auto';
 					$this->configuration->saveConfiguration();
@@ -749,7 +749,7 @@ class Connection extends LDAPUtility {
 			$errno = $this->ldap->errno($cr);
 
 			$this->logger->warning(
-				'Bind failed: ' . $errno . ': ' . $this->ldap->error($cr),
+				'Bind failed for ' . $this->configuration->ldapAgentName . ': ' . $errno . ': ' . $this->ldap->error($cr),
 				['app' => 'user_ldap']
 			);
 

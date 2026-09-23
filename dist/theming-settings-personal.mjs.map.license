@@ -6,7 +6,7 @@ SPDX-FileCopyrightText: Vlad Shilov <omgovich@ya.ru>
 
 This file is generated from multiple sources. Included packages:
 - colord
-	- version: 2.9.3
+	- version: 2.10.0
 	- license: MIT
 - nextcloud-ui
 	- version: 1.0.0

@@ -254,6 +254,7 @@ OC.L10N.register(
     "Please copy the link manually:" : "Kopiera länken manuellt:",
     "Less from connected services" : "Mindre från anslutna tjänster",
     "More from connected services" : "Mer från anslutna tjänster",
+    "Connected services settings" : "Inställningar för anslutna tjänster",
     "Custom date range" : "Anpassat datumintervall",
     "Pick start date" : "Välj startdatum",
     "Pick end date" : "Välj slutdatum",

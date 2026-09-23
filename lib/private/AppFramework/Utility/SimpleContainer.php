@@ -8,7 +8,6 @@
 
 namespace OC\AppFramework\Utility;
 
-use ArrayAccess;
 use Closure;
 use OCP\AppFramework\QueryException;
 use OCP\IContainer;
@@ -26,11 +25,14 @@ use function class_exists;
 /**
  * SimpleContainer is a simple implementation of a container on basis of Pimple
  */
-class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
+class SimpleContainer implements ContainerInterface, IContainer {
 	/** @psalm-suppress ImpureStaticProperty A static property is the only way to pass the information from config to autoload */
 	public static bool $useLazyObjects = false;
 
-	private Container $container;
+	protected Container $container;
+
+	/** @var array<string,string> */
+	private array $aliases = [];
 
 	public function __construct() {
 		$this->container = new Container();
@@ -43,13 +45,13 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 */
 	#[\Override]
 	public function get(string $id): mixed {
-		return $this->query($id);
+		return $this->query($this->sanitizeName($id));
 	}
 
 	#[\Override]
 	public function has(string $id): bool {
 		// If a service is no registered but is an existing class, we can probably load it
-		return isset($this->container[$id]) || class_exists($id);
+		return isset($this->aliases[$id]) || isset($this->container[$id]) || class_exists($id);
 	}
 
 	/**
@@ -121,10 +123,16 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	/**
-	 * @inheritDoc
+	 * @template T
+	 *
+	 * Try to instantiate by using reflection to find out how to build the class.
+	 *
+	 * @param class-string<T>|string $name
 	 * @param list<class-string> $chain
+	 * @return ($name is class-string<T> ? T : mixed)
+	 * @internal
+	 * @throws ContainerExceptionInterface if the class could not be found or instantiated
 	 */
-	#[\Override]
 	public function resolve(string $name, array $chain = []): mixed {
 		$baseMsg = 'Could not resolve ' . $name . '!';
 		try {
@@ -142,44 +150,56 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	/**
-	 * @inheritDoc
+	 * @param string $name Already sanitized name
 	 * @param list<class-string> $chain
 	 */
-	#[\Override]
-	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
-		$name = $this->sanitizeName($name);
+	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
+		$name = $this->resolveAlias($name);
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
 		}
 
-		if ($autoload) {
-			if (in_array($name, $chain, true)) {
-				throw new RuntimeException('Tried to query ' . $name . ', but it is already in the chain: ' . implode(', ', $chain));
-			}
-
-			$object = $this->resolve($name, array_merge($chain, [$name]));
-			$this->registerService($name, function () use ($object) {
-				return $object;
-			});
-			return $object;
+		if (!$autoload) {
+			throw new QueryNotFoundException('Could not resolve ' . $name . '!');
 		}
 
-		throw new QueryNotFoundException('Could not resolve ' . $name . '!');
+		if (in_array($name, $chain, true)) {
+			throw new RuntimeException('Tried to query ' . $name . ', but it is already in the chain: ' . implode(', ', $chain));
+		}
+
+		$object = $this->resolve($name, array_merge($chain, [$name]));
+		$this->registerService($name, static fn () => $object);
+		return $object;
 	}
 
-	#[\Override]
+	/**
+	 * A value is stored in the container with its corresponding name
+	 *
+	 * @since 6.0.0
+	 * @internal apps should use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerParameter
+	 */
 	public function registerParameter(string $name, mixed $value): void {
-		$this[$name] = $value;
+		$this->container[$name] = $value;
 	}
 
-	#[\Override]
+	/**
+	 * A service is registered in the container where a closure is passed in which will actually
+	 * create the service on demand.
+	 * In case the parameter $shared is set to true (the default usage) the once created service will remain in
+	 * memory and be reused on subsequent calls.
+	 * In case the parameter is false the service will be recreated on every call.
+	 *
+	 * @param \Closure(IContainer): mixed $closure
+	 * @internal apps should use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerService
+	 */
 	public function registerService(string $name, Closure $closure, bool $shared = true): void {
-		$wrapped = function () use ($closure) {
-			return $closure($this);
-		};
+		$wrapped = fn () => $closure($this);
 		$name = $this->sanitizeName($name);
 		if (isset($this->container[$name])) {
 			unset($this->container[$name]);
+		}
+		if (isset($this->aliases[$name])) {
+			unset($this->aliases[$name]);
 		}
 		if ($shared) {
 			$this->container[$name] = $wrapped;
@@ -195,11 +215,15 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	 * @param string $alias the alias that should be registered
 	 * @param string $target the target that should be resolved instead
 	 */
-	#[\Override]
 	public function registerAlias(string $alias, string $target): void {
-		$this->registerService($alias, function (ContainerInterface $container) use ($target): mixed {
-			return $container->get($target);
-		}, false);
+		$this->aliases[$alias] = $target;
+	}
+
+	protected function resolveAlias(string $name) : string {
+		while (isset($this->aliases[$name])) {
+			$name = $this->aliases[$name];
+		}
+		return $name;
 	}
 
 	protected function registerDeprecatedAlias(string $alias, string $target): void {
@@ -229,36 +253,16 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 	}
 
 	/**
-	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::has
+	 * @internal Used by tests
 	 */
-	#[\Override]
-	public function offsetExists($id): bool {
-		return $this->container->offsetExists($id);
+	public function removeFromInternalContainer(string $service): void {
+		unset($this->container[$service]);
 	}
 
 	/**
-	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
-	 * @return mixed
+	 * @internal Used by server container on app containers
 	 */
-	#[\Override]
-	#[\ReturnTypeWillChange]
-	public function offsetGet($id) {
-		return $this->container->offsetGet($id);
-	}
-
-	/**
-	 * @deprecated 20.0.0 use \OCP\IContainer::registerService
-	 */
-	#[\Override]
-	public function offsetSet($offset, $value): void {
-		$this->container->offsetSet($offset, $value);
-	}
-
-	/**
-	 * @deprecated 20.0.0
-	 */
-	#[\Override]
-	public function offsetUnset($offset): void {
-		$this->container->offsetUnset($offset);
+	public function setInInternalContainer(string $service, mixed $value): void {
+		$this->container[$service] = $value;
 	}
 }

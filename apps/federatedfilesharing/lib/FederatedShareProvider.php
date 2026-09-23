@@ -8,13 +8,8 @@
 
 namespace OCA\FederatedFileSharing;
 
-use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
-use OCA\CloudFederationAPI\Db\OcmTokenMapMapper;
-use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\Authentication\Exceptions\InvalidTokenException;
-use OCP\Authentication\Token\IToken;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Federation\ICloudFederationProviderManager;
@@ -28,8 +23,6 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
-use OCP\Security\ISecureRandom;
-use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
@@ -177,15 +170,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 * @throws \Exception
 	 */
 	protected function createFederatedShare(IShare $share): string {
-
-		$provider = Server::get(PublicKeyTokenProvider::class);
-		$token = Server::get(ISecureRandom::class)->generate(32, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
-		$uid = $share->getSharedBy();
-		$user = $this->userManager->get($uid);
-		$name = $user?->getDisplayName() ?? $uid;
-		$pass = $share->getPassword();
-
-		$dbToken = $provider->generateToken($token, $uid, $uid, $pass, $name, type: IToken::PERMANENT_TOKEN);
+		$token = $this->tokenHandler->generateToken();
 		$shareId = $this->addShareToDB(
 			$share->getNodeId(),
 			$share->getNodeType(),
@@ -735,25 +720,6 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			->executeQuery();
 
 		$data = $cursor->fetchAssociative();
-
-		if ($data === false) {
-			// Token not found as refresh token, try looking it up as access token
-			try {
-				$accessTokenDb = Server::get(PublicKeyTokenProvider::class)->getToken($token);
-				$mapping = Server::get(OcmTokenMapMapper::class)->getByAccessTokenId($accessTokenDb->getId());
-
-				$qb2 = $this->dbConnection->getQueryBuilder();
-				$cursor = $qb2->select('*')
-					->from('share')
-					->where($qb2->expr()->in('share_type', $qb2->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)))
-					->andWhere($qb2->expr()->eq('token', $qb2->createNamedParameter($mapping->getRefreshToken())))
-					->executeQuery();
-
-				$data = $cursor->fetch();
-			} catch (InvalidTokenException|DoesNotExistException) {
-				// Token is not a valid access token or has no mapping, share not found
-			}
-		}
 		if ($data === false) {
 			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
 		}

@@ -67,7 +67,7 @@ import { t } from '@nextcloud/l10n'
 import { imagePath } from '@nextcloud/router'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import logger from '../../logger.js'
+import { logger } from '../../utils/logger.ts'
 import * as appstoreApi from '~/apps/appstore/src/service/api.ts'
 import { canInstall } from '~/apps/appstore/src/utils/appStatus.js'
 

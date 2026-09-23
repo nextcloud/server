@@ -102,7 +102,7 @@ class SyncLivePhotosListener implements IEventListener {
 			$peerFile = $this->userFolder->getFirstNodeById($peerFileId);
 
 			if ($peerFile === null) {
-				return; // Peer file not found.
+				continue; // Peer file not found.
 			}
 			$peerFile->delete();
 		}
@@ -149,7 +149,7 @@ class SyncLivePhotosListener implements IEventListener {
 		$peerTargetName = substr($targetName, 0, -strlen($sourceExtension)) . $peerFileExtension;
 
 		// in case the rename was initiated from this listener, we stop right now
-		if (in_array($peerFile->getId(), $this->pendingRenames)) {
+		if (in_array($peerFile->getId(), $this->pendingRenames, true)) {
 			return;
 		}
 
@@ -245,7 +245,7 @@ class SyncLivePhotosListener implements IEventListener {
 			}
 		} elseif ($sourceNode instanceof File && $targetNode instanceof File) {
 			// in case the copy was initiated from this listener, we stop right now
-			if (in_array($sourceNode->getId(), $this->pendingCopies)) {
+			if (in_array($sourceNode->getId(), $this->pendingCopies, true)) {
 				return;
 			}
 

@@ -116,7 +116,7 @@ class Local extends Common {
 				 */
 				$file = $it->current();
 				clearstatcache(true, $file->getRealPath());
-				if (in_array($file->getBasename(), ['.', '..'])) {
+				if (in_array($file->getBasename(), ['.', '..'], true)) {
 					$it->next();
 					continue;
 				} elseif ($file->isFile() || $file->isLink()) {

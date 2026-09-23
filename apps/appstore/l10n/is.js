@@ -1,6 +1,7 @@
 OC.L10N.register(
     "appstore",
     {
+    "App store" : "Forritasafn",
     "Apps" : "Forrit",
     "App name" : "Heiti forrits",
     "Version" : "Útgáfa",
@@ -9,6 +10,7 @@ OC.L10N.register(
     "Show details" : "Birta nánari upplýsingar",
     "Grid view" : "Reitasýn",
     "Cancel" : "Cancel",
+    "Features" : "Eiginleikar",
     "Learn more" : "Læra meira",
     "Daemon" : "Púki",
     "Deploy Daemon" : "Setja bakgrunnsþjónustu (daemon) í gang",

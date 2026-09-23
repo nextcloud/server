@@ -14,6 +14,7 @@ use NCU\Sharing\Exception\ShareNotFoundException;
 use NCU\Sharing\Permission\ISharePermissionPreset;
 use NCU\Sharing\Permission\SharePermission;
 use NCU\Sharing\Property\ShareProperty;
+use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
@@ -121,14 +122,6 @@ interface ISharingBackend {
 	public function updateShareRecipientSecret(string $id, ShareRecipient $recipient, string $secret): void;
 
 	/**
-	 * Insert a property for a share.
-	 *
-	 * @throws ShareNotFoundException
-	 * @experimental 35.0.0
-	 */
-	public function createShareProperty(string $id, ShareProperty $property): ?string;
-
-	/**
 	 * Update a property of a share.
 	 *
 	 * @throws ShareNotFoundException
@@ -137,20 +130,20 @@ interface ISharingBackend {
 	public function updateShareProperty(string $id, ShareProperty $property): ?string;
 
 	/**
-	 * Insert a permission for a share.
-	 *
-	 * @throws ShareNotFoundException
-	 * @experimental 35.0.0
-	 */
-	public function createSharePermission(string $id, SharePermission $permission): void;
-
-	/**
 	 * Update a permission of a share.
 	 *
 	 * @throws ShareNotFoundException
 	 * @experimental 35.0.0
 	 */
 	public function updateSharePermission(string $id, SharePermission $permission): void;
+
+	/**
+	 * Update a permission for a recipient of a share.
+	 *
+	 * @throws ShareNotFoundException
+	 * @experimental 35.0.0
+	 */
+	public function updateShareRecipientPermission(string $id, ShareRecipient $recipient, SharePermission $permission): void;
 
 	/**
 	 * Select a permission preset for a share.
@@ -220,4 +213,23 @@ interface ISharingBackend {
 	 * @experimental 35.0.0
 	 */
 	public function ensureDefaults(array $shares): array;
+
+	/**
+	 * Get a list of recipients a user has shared with, ordered by share count
+	 *
+	 * "shared with" includes both shares owned by the user, and reshares initiated by the user
+	 *
+	 * @param ?list<class-string<IShareRecipientType>> $filterRecipientTypeClasses
+	 * @param null|non-empty-string $notInShare
+	 * @param non-negative-int $count
+	 * @return list<ShareRecipient>
+	 * @experimental 35.0.0
+	 */
+	public function getRecommendedRecipients(
+		ShareUser $user,
+		?array $filterRecipientTypeClasses = null,
+		?string $notInShare = null,
+		int $count = 5,
+		int $offset = 0,
+	): array;
 }

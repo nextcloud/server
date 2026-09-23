@@ -8,7 +8,6 @@ import { login } from '@nextcloud/e2e-test-server/playwright'
 import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-with-user.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 import { getToast } from '../../support/utils/toast.ts'
 
 test.describe('Settings: Change user properties', () => {
@@ -22,7 +21,6 @@ test.describe('Settings: Change user properties', () => {
 		await expect(displayNameInput).toHaveValue(user.userId)
 		await displayNameInput.fill('John Doe')
 
-		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
 		await expect(getToast(page, /Account updated/i)).toBeVisible()
@@ -43,7 +41,6 @@ test.describe('Settings: Change user properties', () => {
 		await expect(passwordInput).toHaveValue('')
 		await passwordInput.fill('newpassword123')
 
-		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
 		await expect(getToast(page, /Account updated/i)).toBeVisible()
@@ -64,7 +61,6 @@ test.describe('Settings: Change user properties', () => {
 		await expect(emailInput).toHaveValue('')
 		await emailInput.fill('mymail@example.com')
 
-		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
 		await expect(getToast(page, /Account updated/i)).toBeVisible()
@@ -87,7 +83,6 @@ test.describe('Settings: Change user properties', () => {
 		await quotaCombobox.click()
 		await page.getByRole('option', { name: '5 GB' }).click()
 
-		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
 		await expect(getToast(page, /Account updated/i)).toBeVisible()
@@ -110,7 +105,6 @@ test.describe('Settings: Change user properties', () => {
 		await quotaCombobox.fill('4 MB')
 		await quotaCombobox.press('Enter')
 
-		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
 		await expect(getToast(page, /Account updated/i)).toBeVisible()

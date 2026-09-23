@@ -15,6 +15,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICertificateManager;
+use OCP\IUser;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCM\IOCMProvider;
 use OCP\Server;
@@ -85,6 +86,7 @@ class ExternalStorageTest extends \Test\TestCase {
 			->willReturn('/public.php/webdav');
 		$ocmProvider->method('getEndPoint')
 			->willReturn($uri);
+		$user = $this->createMock(IUser::class);
 
 		return new TestSharingExternalStorage(
 			[
@@ -98,6 +100,7 @@ class ExternalStorageTest extends \Test\TestCase {
 				'certificateManager' => $certificateManager,
 				'HttpClientService' => $httpClientService,
 				'discoveryService' => $discoveryService,
+				'recipient' => $user,
 			]
 		);
 	}

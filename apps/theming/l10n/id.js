@@ -107,6 +107,7 @@ OC.L10N.register(
     "Could not set primary color" : "Tidak dapat menetapkan warna utama",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Tetapkan warna utama untuk menyorot elemen penting. Warna yang digunakan untuk elemen seperti tombol utama mungkin sedikit berbeda karena disesuaikan agar memenuhi persyaratan aksesibilitas.",
     "Reset primary color" : "Reset warna utama",
+    "{time} seconds" : "{time} detik",
     "Reset to default" : "Reset ke bawaan",
     "Non image file selected" : "File yang dipilih bukan file gambar",
     "Preview of the selected image" : "Pratinjau gambar yang dipilih",

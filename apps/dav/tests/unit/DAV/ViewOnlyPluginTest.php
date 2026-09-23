@@ -17,6 +17,7 @@ use OCA\Files_Versions\Sabre\VersionFile;
 use OCA\Files_Versions\Versions\IVersion;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
@@ -36,7 +37,7 @@ class ViewOnlyPluginTest extends TestCase {
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->userFolder = $this->createMock(Folder::class);
+		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->request = $this->createMock(RequestInterface::class);
 		$this->tree = $this->createMock(Tree::class);
 		$server = $this->createMock(Server::class);

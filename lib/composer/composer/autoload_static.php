@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' => 
+        'N' =>
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' => 
+        'NCU\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -204,7 +204,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\Http\\NotFoundResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/NotFoundResponse.php',
         'OCP\\AppFramework\\Http\\ParameterOutOfRangeException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/ParameterOutOfRangeException.php',
         'OCP\\AppFramework\\Http\\RedirectResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/RedirectResponse.php',
-        'OCP\\AppFramework\\Http\\RedirectToDefaultAppResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php',
         'OCP\\AppFramework\\Http\\Response' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Response.php',
         'OCP\\AppFramework\\Http\\StandaloneTemplateResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StandaloneTemplateResponse.php',
         'OCP\\AppFramework\\Http\\StreamResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/StreamResponse.php',
@@ -596,6 +595,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\IMimeTypeLoader' => __DIR__ . '/../../..' . '/lib/public/Files/IMimeTypeLoader.php',
         'OCP\\Files\\IRootFolder' => __DIR__ . '/../../..' . '/lib/public/Files/IRootFolder.php',
         'OCP\\Files\\ISetupManager' => __DIR__ . '/../../..' . '/lib/public/Files/ISetupManager.php',
+        'OCP\\Files\\IUserFolder' => __DIR__ . '/../../..' . '/lib/public/Files/IUserFolder.php',
         'OCP\\Files\\InvalidCharacterInPathException' => __DIR__ . '/../../..' . '/lib/public/Files/InvalidCharacterInPathException.php',
         'OCP\\Files\\InvalidContentException' => __DIR__ . '/../../..' . '/lib/public/Files/InvalidContentException.php',
         'OCP\\Files\\InvalidDirectoryException' => __DIR__ . '/../../..' . '/lib/public/Files/InvalidDirectoryException.php',
@@ -758,7 +758,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\IPreview' => __DIR__ . '/../../..' . '/lib/public/IPreview.php',
         'OCP\\IRequest' => __DIR__ . '/../../..' . '/lib/public/IRequest.php',
         'OCP\\IRequestId' => __DIR__ . '/../../..' . '/lib/public/IRequestId.php',
-        'OCP\\IServerContainer' => __DIR__ . '/../../..' . '/lib/public/IServerContainer.php',
         'OCP\\IServerInfo' => __DIR__ . '/../../..' . '/lib/public/IServerInfo.php',
         'OCP\\ISession' => __DIR__ . '/../../..' . '/lib/public/ISession.php',
         'OCP\\IStreamImage' => __DIR__ . '/../../..' . '/lib/public/IStreamImage.php',
@@ -1023,6 +1022,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Support\\Subscription\\IRegistry' => __DIR__ . '/../../..' . '/lib/public/Support/Subscription/IRegistry.php',
         'OCP\\Support\\Subscription\\ISubscription' => __DIR__ . '/../../..' . '/lib/public/Support/Subscription/ISubscription.php',
         'OCP\\Support\\Subscription\\ISupportedApps' => __DIR__ . '/../../..' . '/lib/public/Support/Subscription/ISupportedApps.php',
+        'OCP\\SystemReport\\ISystemReportManager' => __DIR__ . '/../../..' . '/lib/public/SystemReport/ISystemReportManager.php',
+        'OCP\\SystemReport\\ISystemReportSection' => __DIR__ . '/../../..' . '/lib/public/SystemReport/ISystemReportSection.php',
+        'OCP\\SystemReport\\SystemReportDetail' => __DIR__ . '/../../..' . '/lib/public/SystemReport/SystemReportDetail.php',
+        'OCP\\SystemReport\\SystemReportDetailFormat' => __DIR__ . '/../../..' . '/lib/public/SystemReport/SystemReportDetailFormat.php',
         'OCP\\SystemTag\\Events\\AbstractTagEvent' => __DIR__ . '/../../..' . '/lib/public/SystemTag/Events/AbstractTagEvent.php',
         'OCP\\SystemTag\\Events\\TagCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/SystemTag/Events/TagCreatedEvent.php',
         'OCP\\SystemTag\\Events\\TagDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/SystemTag/Events/TagDeletedEvent.php',
@@ -1079,6 +1082,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\TaskTypes\\ContextAgentInteraction' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ContextAgentInteraction.php',
         'OCP\\TaskProcessing\\TaskTypes\\ContextWrite' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ContextWrite.php',
         'OCP\\TaskProcessing\\TaskTypes\\GenerateEmoji' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/GenerateEmoji.php',
+        'OCP\\TaskProcessing\\TaskTypes\\ImageToImage' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ImageToImage.php',
         'OCP\\TaskProcessing\\TaskTypes\\ImageToTextOpticalCharacterRecognition' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ImageToTextOpticalCharacterRecognition.php',
         'OCP\\TaskProcessing\\TaskTypes\\MultimodalChatWithTools' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/MultimodalChatWithTools.php',
         'OCP\\TaskProcessing\\TaskTypes\\MultimodalContextAgentInteraction' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/MultimodalContextAgentInteraction.php',
@@ -1159,6 +1163,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\User\\Backend\\IGetDisplayNameBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IGetDisplayNameBackend.php',
         'OCP\\User\\Backend\\IGetHomeBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IGetHomeBackend.php',
         'OCP\\User\\Backend\\IGetRealUIDBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IGetRealUIDBackend.php',
+        'OCP\\User\\Backend\\IGetUserNameFromLoginNameBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IGetUserNameFromLoginNameBackend.php',
         'OCP\\User\\Backend\\ILimitAwareCountUsersBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/ILimitAwareCountUsersBackend.php',
         'OCP\\User\\Backend\\IPasswordConfirmationBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IPasswordConfirmationBackend.php',
         'OCP\\User\\Backend\\IPasswordHashBackend' => __DIR__ . '/../../..' . '/lib/public/User/Backend/IPasswordHashBackend.php',
@@ -1186,6 +1191,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\User\\Events\\UserConfigChangedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserConfigChangedEvent.php',
         'OCP\\User\\Events\\UserCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserCreatedEvent.php',
         'OCP\\User\\Events\\UserDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserDeletedEvent.php',
+        'OCP\\User\\Events\\UserEnumerationFilterEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserEnumerationFilterEvent.php',
         'OCP\\User\\Events\\UserFirstTimeLoggedInEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserFirstTimeLoggedInEvent.php',
         'OCP\\User\\Events\\UserIdAssignedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserIdAssignedEvent.php',
         'OCP\\User\\Events\\UserIdUnassignedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserIdUnassignedEvent.php',
@@ -1249,6 +1255,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\AppFramework\\Http\\Attributes\\TwoFactorSetUpDoneRequired' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Attributes/TwoFactorSetUpDoneRequired.php',
         'OC\\AppFramework\\Http\\Dispatcher' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Dispatcher.php',
         'OC\\AppFramework\\Http\\Output' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Output.php',
+        'OC\\AppFramework\\Http\\PaginationTrait' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/PaginationTrait.php',
         'OC\\AppFramework\\Http\\Request' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/Request.php',
         'OC\\AppFramework\\Http\\RequestId' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http/RequestId.php',
         'OC\\AppFramework\\Middleware\\AdditionalScriptsMiddleware' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Middleware/AdditionalScriptsMiddleware.php',
@@ -1348,6 +1355,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Authentication\\LoginCredentials\\Credentials' => __DIR__ . '/../../..' . '/lib/private/Authentication/LoginCredentials/Credentials.php',
         'OC\\Authentication\\LoginCredentials\\Store' => __DIR__ . '/../../..' . '/lib/private/Authentication/LoginCredentials/Store.php',
         'OC\\Authentication\\Login\\ALoginCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/ALoginCommand.php',
+        'OC\\Authentication\\Login\\AlternativeLoginService' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/AlternativeLoginService.php',
         'OC\\Authentication\\Login\\Chain' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/Chain.php',
         'OC\\Authentication\\Login\\ClearLostPasswordTokensCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/ClearLostPasswordTokensCommand.php',
         'OC\\Authentication\\Login\\CompleteLoginCommand' => __DIR__ . '/../../..' . '/lib/private/Authentication/Login/CompleteLoginCommand.php',
@@ -1398,7 +1406,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\BinaryFinder' => __DIR__ . '/../../..' . '/lib/private/BinaryFinder.php',
         'OC\\Blurhash\\Listener\\GenerateBlurhashMetadata' => __DIR__ . '/../../..' . '/lib/private/Blurhash/Listener/GenerateBlurhashMetadata.php',
         'OC\\Broadcast\\Events\\BroadcastEvent' => __DIR__ . '/../../..' . '/lib/private/Broadcast/Events/BroadcastEvent.php',
-        'OC\\Cache\\File' => __DIR__ . '/../../..' . '/lib/private/Cache/File.php',
         'OC\\Calendar\\AvailabilityResult' => __DIR__ . '/../../..' . '/lib/private/Calendar/AvailabilityResult.php',
         'OC\\Calendar\\CalendarEventBuilder' => __DIR__ . '/../../..' . '/lib/private/Calendar/CalendarEventBuilder.php',
         'OC\\Calendar\\CalendarQuery' => __DIR__ . '/../../..' . '/lib/private/Calendar/CalendarQuery.php',
@@ -1428,11 +1435,9 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Collaboration\\Resources\\Manager' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Resources/Manager.php',
         'OC\\Collaboration\\Resources\\ProviderManager' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Resources/ProviderManager.php',
         'OC\\Collaboration\\Resources\\Resource' => __DIR__ . '/../../..' . '/lib/private/Collaboration/Resources/Resource.php',
-        'OC\\Color' => __DIR__ . '/../../..' . '/lib/private/Color.php',
         'OC\\Command\\AsyncBus' => __DIR__ . '/../../..' . '/lib/private/Command/AsyncBus.php',
         'OC\\Command\\CommandJob' => __DIR__ . '/../../..' . '/lib/private/Command/CommandJob.php',
         'OC\\Command\\CronBus' => __DIR__ . '/../../..' . '/lib/private/Command/CronBus.php',
-        'OC\\Command\\FileAccess' => __DIR__ . '/../../..' . '/lib/private/Command/FileAccess.php',
         'OC\\Command\\QueueBus' => __DIR__ . '/../../..' . '/lib/private/Command/QueueBus.php',
         'OC\\Comments\\Comment' => __DIR__ . '/../../..' . '/lib/private/Comments/Comment.php',
         'OC\\Comments\\Manager' => __DIR__ . '/../../..' . '/lib/private/Comments/Manager.php',
@@ -1949,7 +1954,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Config\\LazyStorageMountInfo' => __DIR__ . '/../../..' . '/lib/private/Files/Config/LazyStorageMountInfo.php',
         'OC\\Files\\Config\\MountProviderCollection' => __DIR__ . '/../../..' . '/lib/private/Files/Config/MountProviderCollection.php',
         'OC\\Files\\Config\\UserMountCache' => __DIR__ . '/../../..' . '/lib/private/Files/Config/UserMountCache.php',
-        'OC\\Files\\Config\\UserMountCacheListener' => __DIR__ . '/../../..' . '/lib/private/Files/Config/UserMountCacheListener.php',
         'OC\\Files\\Conversion\\ConversionManager' => __DIR__ . '/../../..' . '/lib/private/Files/Conversion/ConversionManager.php',
         'OC\\Files\\FileInfo' => __DIR__ . '/../../..' . '/lib/private/Files/FileInfo.php',
         'OC\\Files\\FilenameValidator' => __DIR__ . '/../../..' . '/lib/private/Files/FilenameValidator.php',
@@ -1972,6 +1976,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Node\\NonExistingFile' => __DIR__ . '/../../..' . '/lib/private/Files/Node/NonExistingFile.php',
         'OC\\Files\\Node\\NonExistingFolder' => __DIR__ . '/../../..' . '/lib/private/Files/Node/NonExistingFolder.php',
         'OC\\Files\\Node\\Root' => __DIR__ . '/../../..' . '/lib/private/Files/Node/Root.php',
+        'OC\\Files\\Node\\UserFolder' => __DIR__ . '/../../..' . '/lib/private/Files/Node/UserFolder.php',
         'OC\\Files\\Notify\\Change' => __DIR__ . '/../../..' . '/lib/private/Files/Notify/Change.php',
         'OC\\Files\\Notify\\RenameChange' => __DIR__ . '/../../..' . '/lib/private/Files/Notify/RenameChange.php',
         'OC\\Files\\ObjectStore\\AppdataPreviewObjectStoreStorage' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/AppdataPreviewObjectStoreStorage.php',
@@ -2168,6 +2173,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\PhoneNumberUtil' => __DIR__ . '/../../..' . '/lib/private/PhoneNumberUtil.php',
         'OC\\PreviewManager' => __DIR__ . '/../../..' . '/lib/private/PreviewManager.php',
         'OC\\PreviewNotAvailableException' => __DIR__ . '/../../..' . '/lib/private/PreviewNotAvailableException.php',
+        'OC\\Preview\\AVIF' => __DIR__ . '/../../..' . '/lib/private/Preview/AVIF.php',
+        'OC\\Preview\\AVIFImagick' => __DIR__ . '/../../..' . '/lib/private/Preview/AVIFImagick.php',
         'OC\\Preview\\BMP' => __DIR__ . '/../../..' . '/lib/private/Preview/BMP.php',
         'OC\\Preview\\BackgroundCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Preview/BackgroundCleanupJob.php',
         'OC\\Preview\\Bitmap' => __DIR__ . '/../../..' . '/lib/private/Preview/Bitmap.php',
@@ -2180,11 +2187,13 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\Generator' => __DIR__ . '/../../..' . '/lib/private/Preview/Generator.php',
         'OC\\Preview\\GeneratorHelper' => __DIR__ . '/../../..' . '/lib/private/Preview/GeneratorHelper.php',
         'OC\\Preview\\HEIC' => __DIR__ . '/../../..' . '/lib/private/Preview/HEIC.php',
+        'OC\\Preview\\Heif' => __DIR__ . '/../../..' . '/lib/private/Preview/Heif.php',
         'OC\\Preview\\IMagickSupport' => __DIR__ . '/../../..' . '/lib/private/Preview/IMagickSupport.php',
         'OC\\Preview\\Illustrator' => __DIR__ . '/../../..' . '/lib/private/Preview/Illustrator.php',
         'OC\\Preview\\Image' => __DIR__ . '/../../..' . '/lib/private/Preview/Image.php',
         'OC\\Preview\\Imaginary' => __DIR__ . '/../../..' . '/lib/private/Preview/Imaginary.php',
         'OC\\Preview\\ImaginaryPDF' => __DIR__ . '/../../..' . '/lib/private/Preview/ImaginaryPDF.php',
+        'OC\\Preview\\JP2' => __DIR__ . '/../../..' . '/lib/private/Preview/JP2.php',
         'OC\\Preview\\JPEG' => __DIR__ . '/../../..' . '/lib/private/Preview/JPEG.php',
         'OC\\Preview\\Krita' => __DIR__ . '/../../..' . '/lib/private/Preview/Krita.php',
         'OC\\Preview\\MP3' => __DIR__ . '/../../..' . '/lib/private/Preview/MP3.php',
@@ -2415,6 +2424,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Support\\Subscription\\Assertion' => __DIR__ . '/../../..' . '/lib/private/Support/Subscription/Assertion.php',
         'OC\\Support\\Subscription\\Registry' => __DIR__ . '/../../..' . '/lib/private/Support/Subscription/Registry.php',
         'OC\\SystemConfig' => __DIR__ . '/../../..' . '/lib/private/SystemConfig.php',
+        'OC\\SystemReport\\SystemReportManager' => __DIR__ . '/../../..' . '/lib/private/SystemReport/SystemReportManager.php',
         'OC\\SystemTag\\ManagerFactory' => __DIR__ . '/../../..' . '/lib/private/SystemTag/ManagerFactory.php',
         'OC\\SystemTag\\SystemTag' => __DIR__ . '/../../..' . '/lib/private/SystemTag/SystemTag.php',
         'OC\\SystemTag\\SystemTagManager' => __DIR__ . '/../../..' . '/lib/private/SystemTag/SystemTagManager.php',

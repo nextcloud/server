@@ -254,6 +254,7 @@ OC.L10N.register(
     "Please copy the link manually:" : "Por favor, copie el enlace manualmente:",
     "Less from connected services" : "Menos de servicios conectados",
     "More from connected services" : "Más de servicios conectados",
+    "Connected services settings" : "Configuración de servicios conectados",
     "Custom date range" : "Rango de fechas personalizado",
     "Pick start date" : "Escoja una fecha de inicio",
     "Pick end date" : "Escoja una fecha fin",

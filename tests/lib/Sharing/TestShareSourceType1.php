@@ -34,7 +34,7 @@ class TestShareSourceType1 implements IShareSourceType {
 	}
 
 	#[\Override]
-	public function validateSource(string $source): bool {
+	public function validateSource(IUser $owner, string $source): bool {
 		return array_key_exists($source, $this->validSources);
 	}
 

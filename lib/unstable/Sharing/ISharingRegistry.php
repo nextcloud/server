@@ -97,7 +97,7 @@ interface ISharingRegistry {
 	public function getPropertyTypes(): array;
 
 	/**
-	 * @param class-string<IShareSourceType> $sourceTypeClass
+	 * @param ?class-string<IShareSourceType> $sourceTypeClass
 	 * @experimental 35.0.0
 	 */
 	public function registerPermissionType(?string $sourceTypeClass, ISharePermissionType $permissionType): void;

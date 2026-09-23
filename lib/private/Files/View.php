@@ -1210,7 +1210,7 @@ class View {
 				return false;
 			}
 
-			if (in_array('write', $hooks) || in_array('delete', $hooks) || in_array('read', $hooks)) {
+			if (in_array('write', $hooks, true) || in_array('delete', $hooks, true) || in_array('read', $hooks, true)) {
 				// always a shared lock during pre-hooks so the hook can read the file
 				$this->lockFile($path, ILockingProvider::LOCK_SHARED);
 			}
@@ -1219,7 +1219,7 @@ class View {
 			[$storage, $internalPath] = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($run && $storage) {
 				/** @var Storage $storage */
-				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
+				if (in_array('write', $hooks, true) || in_array('delete', $hooks, true)) {
 					try {
 						$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
 					} catch (LockedException $e) {
@@ -1235,15 +1235,15 @@ class View {
 						$result = $storage->$operation($internalPath);
 					}
 				} catch (\Exception $e) {
-					if (in_array('write', $hooks) || in_array('delete', $hooks)) {
+					if (in_array('write', $hooks, true) || in_array('delete', $hooks, true)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-					} elseif (in_array('read', $hooks)) {
+					} elseif (in_array('read', $hooks, true)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 					}
 					throw $e;
 				}
 
-				if ($result !== false && in_array('delete', $hooks)) {
+				if ($result !== false && in_array('delete', $hooks, true)) {
 					$this->removeUpdate($storage, $internalPath);
 				}
 				if ($result !== false && in_array('write', $hooks, true) && $operation !== 'fopen' && $operation !== 'touch') {
@@ -1251,11 +1251,11 @@ class View {
 					$sizeDifference = $operation === 'mkdir' ? 0 : $result;
 					$this->writeUpdate($storage, $internalPath, null, $isCreateOperation ? $sizeDifference : null);
 				}
-				if ($result !== false && in_array('touch', $hooks)) {
+				if ($result !== false && in_array('touch', $hooks, true)) {
 					$this->writeUpdate($storage, $internalPath, $extraParam, 0);
 				}
 
-				if ((in_array('write', $hooks) || in_array('delete', $hooks)) && ($operation !== 'fopen' || $result === false)) {
+				if ((in_array('write', $hooks, true) || in_array('delete', $hooks, true)) && ($operation !== 'fopen' || $result === false)) {
 					$this->changeLock($path, ILockingProvider::LOCK_SHARED);
 				}
 
@@ -1265,9 +1265,9 @@ class View {
 					// make sure our unlocking callback will still be called if connection is aborted
 					ignore_user_abort(true);
 					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path): void {
-						if (in_array('write', $hooks)) {
+						if (in_array('write', $hooks, true)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-						} elseif (in_array('read', $hooks)) {
+						} elseif (in_array('read', $hooks, true)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 						}
 					});
@@ -1280,7 +1280,7 @@ class View {
 				}
 
 				if (!$unlockLater
-					&& (in_array('write', $hooks) || in_array('delete', $hooks) || in_array('read', $hooks))
+					&& (in_array('write', $hooks, true) || in_array('delete', $hooks, true) || in_array('read', $hooks, true))
 				) {
 					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 				}

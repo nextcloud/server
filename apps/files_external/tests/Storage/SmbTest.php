@@ -34,7 +34,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 
 		$id = $this->getUniqueID();
 		$this->loadConfig(__DIR__ . '/../config.smb.php');
-		if (substr($this->config['root'], -1, 1) != '/') {
+		if (substr($this->config['root'], -1, 1) !== '/') {
 			$this->config['root'] .= '/';
 		}
 		$this->config['root'] .= $id; //make sure we have an new empty folder to work in

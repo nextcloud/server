@@ -9,6 +9,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\DirPermissionsMask;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
+use OC\OCM\OCMSignatoryManager;
 use OCA\DAV\Connector\LegacyPublicAuth;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
@@ -34,6 +35,8 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory as IL10nFactory;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
+use OCP\Share\IManager;
+use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 // load needed apps
@@ -59,6 +62,8 @@ $bearerAuthBackend = new BearerAuth(
 	Server::get(IRequest::class),
 	Server::get(IConfig::class),
 	allowOcmAccessToken: true,
+	shareManager: Server::get(IManager::class),
+	ocmSignatoryManager: Server::get(OCMSignatoryManager::class),
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 $authPlugin->addBackend($bearerAuthBackend);
@@ -96,18 +101,14 @@ $server = $serverFactory->createServer(
 		$linkCheckPlugin,
 		$filesDropPlugin
 	) {
-		$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
+		$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''), true);
 		/** @var FederatedShareProvider $shareProvider */
 		$federatedShareProvider = Server::get(FederatedShareProvider::class);
 		if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
 			// this is what is thrown when trying to access a non-existing share
 			throw new \Sabre\DAV\Exception\NotAuthenticated();
 		}
-		try {
-			$share = $authBackend->getShare();
-		} catch (AssertionError $e) {
-			$share = $bearerAuthBackend->getShare();
-		}
+		$share = $authBackend->getShare() ?? $bearerAuthBackend->getShare();
 		$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 		$fileId = $share->getNodeId();
 
@@ -132,7 +133,10 @@ $server = $serverFactory->createServer(
 		Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
 		$rootFolder = Server::get(IRootFolder::class);
-		$userFolder = $rootFolder->getUserFolder($share->getSharedBy());
+		$userId = $share->getShareType() === IShare::TYPE_REMOTE
+			? $share->getShareOwner()
+			: $share->getSharedBy();
+		$userFolder = $rootFolder->getUserFolder($userId);
 		$node = $userFolder->getFirstNodeById($fileId);
 		if (!$node) {
 			throw new \Sabre\DAV\Exception\NotFound();

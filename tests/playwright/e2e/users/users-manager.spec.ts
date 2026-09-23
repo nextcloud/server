@@ -10,7 +10,6 @@ import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { expect } from '@playwright/test'
 import { test as adminUserTest } from '../../support/fixtures/admin-with-user.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 import { getToast } from '../../support/utils/toast.ts'
 
 const test = adminUserTest.extend<{ manager: User }>({
@@ -33,7 +32,6 @@ test.describe('Settings: User Manager Management', () => {
 		await managerCombobox.fill(manager.userId)
 		await page.getByRole('option', { name: manager.userId }).click()
 
-		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
 		await expect(getToast(page, /Account updated/i)).toBeVisible()
@@ -66,7 +64,6 @@ test.describe('Settings: User Manager Management', () => {
 		// Clear the currently-set manager using the NcSelect's clear button
 		await dialog.getByRole('button', { name: /Clear Selected/i }).click()
 
-		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
 		await expect(getToast(page, /Account updated/i)).toBeVisible()

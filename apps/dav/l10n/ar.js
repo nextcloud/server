@@ -219,8 +219,6 @@ OC.L10N.register(
     "Due on %s by %s" : "مطلوبٌ في %s من قِبَل%s",
     "Due on %s" : "مطلوبٌ في %s",
     "System Address Book" : "دفتر عناوين النظام",
-    "The system address book contains contact information for all users in your instance." : "دفتر عناوين النظام يحتوي على معلومات الاتصال لجميع المستخدِمين على خادومك. ",
-    "Enable System Address Book" : "تمكين دفتر عناوين النظام",
     "DAV system address book" : "دفتر عناوين نظام DAV",
     "No outstanding DAV system address book sync." : "لا توجد أي مزامنات معلقة لدفتر عناوني نظام DAV.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "لم يتم تشغيل مزامنة دفتر عناوين نظام DAV حتى الآن بسبب أن الخادم الخاص بك يحتوي على أكثر من 1000 مستخدم أو بسبب حدوث خطأ. يرجى تشغيل المزامنة يدويًا عن طريق الأمر السطري:\n\"occ dav:sync-system-addressbook\"",
@@ -287,6 +285,8 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "هل تقبل الدعوة؟",
     "Tentative" : "مبدئي",
     "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ",
+    "The system address book contains contact information for all users in your instance." : "دفتر عناوين النظام يحتوي على معلومات الاتصال لجميع المستخدِمين على خادومك. ",
+    "Enable System Address Book" : "تمكين دفتر عناوين النظام",
     "No results." : "لا نتائج",
     "Start typing." : "أبدا الكتابة"
 },

@@ -165,7 +165,7 @@ class RepairDavSharesTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('groupExists')
 			->willReturnCallback(function (string $gid) use ($existingGroups) {
-				return in_array($gid, $existingGroups);
+				return in_array($gid, $existingGroups, true);
 			});
 
 		$this->repair->run($this->output);

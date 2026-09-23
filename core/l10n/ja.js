@@ -254,6 +254,7 @@ OC.L10N.register(
     "Please copy the link manually:" : "手動でリンクをコピーしてください：",
     "Less from connected services" : "接続済みサービスからの表示を減らす",
     "More from connected services" : "関連サービスのその他の情報",
+    "Connected services settings" : "接続サービス設定",
     "Custom date range" : "カスタム日付の範囲",
     "Pick start date" : "開始日を指定",
     "Pick end date" : "終了日を指定",

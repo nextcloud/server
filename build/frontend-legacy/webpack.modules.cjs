@@ -25,7 +25,7 @@ module.exports = {
 		update: path.join(__dirname, 'core/src', 'update.ts'),
 	},
 	files: {
-		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.ts'),
+		sidebar: path.join(__dirname, 'apps/files/src', 'main-sidebar.ts'),
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
 		init: path.join(__dirname, 'apps/files/src', 'init.ts'),
 		search: path.join(__dirname, 'apps/files/src/plugins/search', 'folderSearch.ts'),
@@ -61,12 +61,6 @@ module.exports = {
 		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
 		'vue-settings-users-management': path.join(__dirname, 'apps/settings/src', 'main-users-management.ts'),
 		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src', 'main-declarative-settings-forms.ts'),
-	},
-	updatenotification: {
-		init: path.join(__dirname, 'apps/updatenotification/src', 'init.ts'),
-		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
-		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
-		'update-notification-legacy': path.join(__dirname, 'apps/updatenotification/src', 'update-notification-legacy.ts'),
 	},
 	workflowengine: {
 		workflowengine: path.join(__dirname, 'apps/workflowengine/src', 'workflowengine.js'),

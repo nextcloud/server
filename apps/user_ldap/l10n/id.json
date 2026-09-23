@@ -24,6 +24,7 @@
     "Invalid LDAP UUIDs" : "UUID LDAP tidak valid",
     "None found" : "Tidak ditemukan",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "UUID tidak valid dari akun atau grup LDAP telah ditemukan. Harap tinjau pengaturan \"Override UUID detection\" Anda di bagian Expert dari konfigurasi LDAP dan gunakan \"occ ldap:update-uuid\" untuk memperbaruinya.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["%n grup ditemukan"],
     "> 1000 groups found" : "> 1000 grup ditemukan",
     "> 1000 users found" : "> 1000 pengguna ditemukan",

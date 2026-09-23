@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files" : "File",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Anda disebutkan pada \"{file}\", dalam sebuah komentar oleh akun yang sejak itu telah dihapus",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} menyebut Anda dalam sebuah komentar pada \"{file}\"",
+    "Go to file" : "Buka berkas",
     "Files app plugin to add comments to files" : "Plugin aplikasi file untuk menambah komentar pada file",
     "Edit comment" : "Sunting komentar",
     "Delete comment" : "Hapus komentar",

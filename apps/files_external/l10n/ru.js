@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "Действия",
     "Checking …" : "Проверка ...",
     "Recheck status" : "Повторно проверить статус",
+    "All accounts" : "Все аккаунты",
     "Delete" : "Удалить",
     "System provided storage" : "Системное хранилище",
     "Saved" : "Сохранено",

@@ -151,7 +151,7 @@ class CommentsPlugin extends ServerPlugin {
 		];
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
 		foreach ($report as $parameter) {
-			if (!in_array($parameter['name'], $acceptableParameters) || empty($parameter['value'])) {
+			if (!in_array($parameter['name'], $acceptableParameters, true) || empty($parameter['value'])) {
 				continue;
 			}
 			$args[str_replace($ns, '', $parameter['name'])] = $parameter['value'];

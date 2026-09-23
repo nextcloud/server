@@ -82,6 +82,19 @@ default:
             ocPath: ../../
         - PrincipalPropertySearchContext:
             baseUrl: http://localhost:8080
+    encryption:
+      paths:
+        - "%paths.base%/../encryption_features"
+      contexts:
+        - FeatureContext:
+            baseUrl: http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+        - CommandLineContext:
+            baseUrl: http://localhost:8080
+            ocPath: ../../
     federation:
       paths:
         - "%paths.base%/../federation_features"

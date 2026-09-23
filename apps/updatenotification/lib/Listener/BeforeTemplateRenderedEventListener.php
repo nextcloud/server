@@ -36,7 +36,7 @@ class BeforeTemplateRenderedEventListener implements IEventListener {
 			return;
 		}
 
-		if (!$this->appConfig->getValueBool(Application::APP_NAME, 'app_updated.enabled', true)) {
+		if (!$this->appConfig->getValueBool(Application::APP_ID, 'app_updated.enabled', true)) {
 			return;
 		}
 
@@ -50,6 +50,6 @@ class BeforeTemplateRenderedEventListener implements IEventListener {
 			return;
 		}
 
-		Util::addInitScript(Application::APP_NAME, 'init');
+		Util::addInitScript(Application::APP_ID, 'init');
 	}
 }

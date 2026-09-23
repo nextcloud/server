@@ -39,7 +39,7 @@ p($theme->getTitle());
 		<?php } ?>
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta name="apple-mobile-web-app-title" content="<?php p((!empty($_['application']) && $_['appid'] != 'files')? $_['application']:$theme->getTitle()); ?>">
+		<meta name="apple-mobile-web-app-title" content="<?php p((!empty($_['application']) && $_['appid'] !== 'files')? $_['application']:$theme->getTitle()); ?>">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="theme-color" content="<?php p($theme->getColorPrimary()); ?>">
 		<link rel="icon" href="<?php print_unescaped(image_path($_['appid'], 'favicon.ico')); /* IE11+ supports png */ ?>">
@@ -75,16 +75,24 @@ p($theme->getTitle());
 			<div class="header-center">
 				<div id="unified-search"></div>
 			</div>
-			<div class="header-end">
-				<div id="notifications"></div>
-				<div id="contactsmenu"></div>
-				<div id="user-menu"></div>
-			</div>
+			<nav class="header-end" aria-label="<?php p($l->t('Notifications, contacts and settings')); ?>">
+				<ul class="header-end__items">
+					<li class="header-end__item">
+						<div id="notifications"></div>
+					</li>
+					<li class="header-end__item">
+						<div id="contactsmenu"></div>
+					</li>
+					<li class="header-end__item">
+						<div id="user-menu"></div>
+					</li>
+				</ul>
+			</nav>
 		</header>
 
 		<div id="content" class="app-<?php p($_['appid']) ?>">
 			<h1 class="hidden-visually" id="page-heading-level-1">
-				<?php p((!empty($_['application']) && !empty($_['pageTitle']) && $_['application'] != $_['pageTitle'])
+				<?php p((!empty($_['application']) && !empty($_['pageTitle']) && $_['application'] !== $_['pageTitle'])
 					? $_['application'] . ': ' . $_['pageTitle']
 					: (!empty($_['pageTitle']) ? $_['pageTitle'] : $theme->getName())
 				); ?>

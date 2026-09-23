@@ -195,10 +195,11 @@ class CustomPropertiesBackend implements BackendInterface {
 				'{http://apple.com/ns/ical/}calendar-order',
 				'{http://apple.com/ns/ical/}calendar-color',
 				'{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp',
+				'{http://nextcloud.com/ns}disable-alarm-notifications',
 			];
 
 			foreach ($customPropertiesForShares as $customPropertyForShares) {
-				if (in_array($customPropertyForShares, $allRequestedProps)) {
+				if (in_array($customPropertyForShares, $allRequestedProps, true)) {
 					$requestedProps[] = $customPropertyForShares;
 				}
 			}
@@ -276,11 +277,11 @@ class CustomPropertiesBackend implements BackendInterface {
 	}
 
 	private function isPropertyAllowed(string $property): bool {
-		if (in_array($property, self::IGNORED_PROPERTIES)) {
+		if (in_array($property, self::IGNORED_PROPERTIES, true)) {
 			return false;
 		}
 		if (str_starts_with($property, '{http://owncloud.org/ns}') || str_starts_with($property, '{http://nextcloud.org/ns}')) {
-			return in_array($property, self::ALLOWED_NC_PROPERTIES);
+			return in_array($property, self::ALLOWED_NC_PROPERTIES, true);
 		}
 		return true;
 	}
@@ -651,7 +652,7 @@ class CustomPropertiesBackend implements BackendInterface {
 					"Property \"$name\" has an invalid value of type " . gettype($value),
 				);
 			} else {
-				if (!in_array($value::class, self::ALLOWED_SERIALIZED_CLASSES)) {
+				if (!in_array($value::class, self::ALLOWED_SERIALIZED_CLASSES, true)) {
 					throw new DavException(
 						"Property \"$name\" has an invalid value of class " . $value::class,
 					);

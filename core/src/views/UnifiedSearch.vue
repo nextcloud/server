@@ -39,7 +39,7 @@ import debounce from 'debounce'
 import { defineComponent } from 'vue'
 import UnifiedSearchInput from '../components/UnifiedSearch/UnifiedSearchInput.vue'
 import UnifiedSearchModal from '../components/UnifiedSearch/UnifiedSearchModal.vue'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 
 export default defineComponent({
 	name: 'UnifiedSearch',

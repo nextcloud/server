@@ -17,7 +17,6 @@ use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
-use OCP\IBinaryFinder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
@@ -125,24 +124,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * Checks if a function is available
-	 *
-	 * @deprecated 25.0.0 use \OCP\Util::isFunctionEnabled instead
-	 */
-	public static function is_function_enabled(string $function_name): bool {
-		return Util::isFunctionEnabled($function_name);
-	}
-
-	/**
-	 * Try to find a program
-	 * @deprecated 25.0.0 Use \OCP\IBinaryFinder directly
-	 */
-	public static function findBinaryPath(string $program): ?string {
-		$result = Server::get(IBinaryFinder::class)->findBinaryPath($program);
-		return $result !== false ? $result : null;
-	}
-
-	/**
 	 * Calculate the disc space for the given path
 	 *
 	 * BEWARE: this requires that Util::setupFS() was called
@@ -155,6 +136,7 @@ class OC_Helper {
 	 * @psalm-suppress LessSpecificReturnStatement Legacy code outputs weird types - manually validated that they are correct
 	 * @return StorageInfo
 	 * @throws NotFoundException
+	 * @deprecated 36.0.0 use \OCP\Files\IUserFolder::getUserQuota
 	 */
 	public static function getStorageInfo($path, $rootInfo = null, $includeMountPoints = true, $useCache = true) {
 		if (!self::$cacheFactory) {
@@ -346,6 +328,9 @@ class OC_Helper {
 		];
 	}
 
+	/**
+	 * @deprecated 36.0.0
+	 */
 	public static function clearStorageInfo(string $absolutePath): void {
 		/** @var ICacheFactory $cacheFactory */
 		$cacheFactory = Server::get(ICacheFactory::class);

@@ -153,6 +153,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}deleted-at' => ['deleted_at', 'int'],
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}default-alarm-part-day' => ['default_alarm_pday', 'int'],
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}default-alarm-full-day' => ['default_alarm_fday', 'int'],
+		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}disable-alarm-notifications' => ['disable_alarm_notifications', 'bool'],
 	];
 
 	/**
@@ -2166,7 +2167,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$result = [];
 			while ($row = $stmt->fetchAssociative()) {
 				$path = $uriMapper[$row['calendarid']] . '/' . $row['uri'];
-				if (!in_array($path, $result)) {
+				if (!in_array($path, $result, true)) {
 					$result[] = $path;
 				}
 			}
@@ -3043,7 +3044,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		foreach ($this->subscriptionPropertyMap as $xmlName => [$dbName, $type]) {
 			if (array_key_exists($xmlName, $properties)) {
 				$values[$dbName] = $properties[$xmlName];
-				if (in_array($dbName, $propertiesBoolean)) {
+				if (in_array($dbName, $propertiesBoolean, true)) {
 					$values[$dbName] = true;
 				}
 			}
@@ -3423,75 +3424,126 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		// validate data and extract base component
 		/** @var VCalendar $vObject */
 		$vObject = Reader::read($calendarData);
-		/** @var \Sabre\VObject\Component\VEvent[]|\Sabre\VObject\Component\VTodo[]|\Sabre\VObject\Component\VJournal[] $components */
-		$components = $vObject->getBaseComponents();
-		if (count($components) !== 1) {
-			throw new BadRequest('A valid calendar object must contain at least one VJOURNAL, VEVENT, or VTODO component type');
-		}
-		$component = $components[0];
-		// extract basic information
-		$derived['componentType'] = $component->name;
-		$derived['uid'] = $component->UID ? $component->UID->getValue() : null;
-		$derived['classification'] = $component->CLASS ? match ($component->CLASS->getValue()) {
-			'PUBLIC' => self::CLASSIFICATION_PUBLIC,
-			'CONFIDENTIAL' => self::CLASSIFICATION_CONFIDENTIAL,
-			default => self::CLASSIFICATION_PRIVATE,
-		} : self::CLASSIFICATION_PUBLIC;
-		// extract start and end dates
-		// VTODO components can have no start date
-		/** @var  */
-		$startDate = $component->DTSTART instanceof \Sabre\VObject\Property\ICalendar\DateTime ? $component->DTSTART->getDateTime() : null;
-		$endDate = $startDate ? clone $startDate : null;
-		if ($startDate) {
-			// Recurring
-			if ($component->RRULE || $component->RDATE) {
-				// RDATE can have both instances and multiple values
-				// RDATE;TZID=America/Toronto:20250701T000000,20260701T000000
-				// RDATE;TZID=America/Toronto:20270701T000000
-				if ($component->RDATE) {
-					foreach ($component->RDATE as $instance) {
-						foreach ($instance->getDateTimes() as $entry) {
-							if ($entry > $endDate) {
-								$endDate = $entry;
+
+		// Extracts componentType, uid, classification, firstOccurence and lastOccurence from a single event/todo/journal component.
+		// RECURRENCE-ID is irrelevant here: it plays no part in this computation, so it works just as well on a recurrence exception as
+		// it does on a series master or a non-recurring component.
+		$extract = function (Component $component): array {
+			$data = [];
+			$data['componentType'] = $component->name;
+			$data['uid'] = $component->UID ? $component->UID->getValue() : null;
+			$data['classification'] = $component->CLASS ? match ($component->CLASS->getValue()) {
+				'PUBLIC' => self::CLASSIFICATION_PUBLIC,
+				'CONFIDENTIAL' => self::CLASSIFICATION_CONFIDENTIAL,
+				default => self::CLASSIFICATION_PRIVATE,
+			} : self::CLASSIFICATION_PUBLIC;
+			// extract start and end dates
+			// VTODO components can have no start date
+			$startDate = $component->DTSTART instanceof \Sabre\VObject\Property\ICalendar\DateTime ? $component->DTSTART->getDateTime() : null;
+			$endDate = $startDate ? clone $startDate : null;
+			if ($startDate) {
+				// Recurring
+				if ($component->RRULE || $component->RDATE) {
+					// RDATE can have both instances and multiple values
+					// RDATE;TZID=America/Toronto:20250701T000000,20260701T000000
+					// RDATE;TZID=America/Toronto:20270701T000000
+					if ($component->RDATE) {
+						foreach ($component->RDATE as $instance) {
+							foreach ($instance->getDateTimes() as $entry) {
+								if ($entry > $endDate) {
+									$endDate = $entry;
+								}
 							}
 						}
 					}
-				}
-				// RRULE can be infinate or limited by a UNTIL or COUNT
-				if ($component->RRULE) {
-					try {
-						$rule = new EventReaderRRule($component->RRULE->getValue(), $startDate);
-						$endDate = $rule->isInfinite() ? new DateTime(self::MAX_DATE) : $rule->concludes();
-					} catch (NoInstancesException $e) {
-						$this->logger->debug('Caught no instance exception for calendar data. This usually indicates invalid calendar data.', [
-							'app' => 'dav',
-							'exception' => $e,
-						]);
-						throw new Forbidden($e->getMessage());
+					// RRULE can be infinate or limited by a UNTIL or COUNT
+					$isInfinite = false;
+					if ($component->RRULE) {
+						try {
+							$rule = new EventReaderRRule($component->RRULE->getValue(), $startDate);
+							$isInfinite = $rule->isInfinite();
+							$endDate = $isInfinite ? new DateTime(self::MAX_DATE) : $rule->concludes();
+						} catch (NoInstancesException $e) {
+							$this->logger->debug('Caught no instance exception for calendar data. This usually indicates invalid calendar data.', [
+								'app' => 'dav',
+								'exception' => $e,
+							]);
+							throw new Forbidden($e->getMessage());
+						}
+					}
+					// $endDate is still just the start of the last occurrence at this point.
+					// Add the duration of a single occurrence so time-range searches keep
+					// matching this object for as long as that last occurrence is ongoing.
+					// Skip this for an infinite RRULE, since $endDate is already the sentinel MAX_DATE.
+					if (!$isInfinite) {
+						if ($component->DTEND instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+							$endDate = $endDate->add($startDate->diff($component->DTEND->getDateTime()));
+						} elseif ($component->DURATION instanceof \Sabre\VObject\Property\ICalendar\Duration) {
+							$endDate = $endDate->add($component->DURATION->getDateInterval());
+						} elseif ($component->DUE instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+							$endDate = $endDate->add($startDate->diff($component->DUE->getDateTime()));
+						} elseif ($component->name === 'VEVENT' && !$component->DTSTART->hasTime()) {
+							$endDate = $endDate->modify('+1 day');
+						}
+					}
+					// Singleton
+				} else {
+					if ($component->DTEND instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+						// VEVENT component types
+						$endDate = $component->DTEND->getDateTime();
+					} elseif ($component->DURATION  instanceof \Sabre\VObject\Property\ICalendar\Duration) {
+						// VEVENT / VTODO component types
+						$endDate = $startDate->add($component->DURATION->getDateInterval());
+					} elseif ($component->DUE  instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+						// VTODO component types
+						$endDate = $component->DUE->getDateTime();
+					} elseif ($component->name === 'VEVENT' && !$component->DTSTART->hasTime()) {
+						// VEVENT component type without time is automatically one day
+						$endDate = (clone $startDate)->modify('+1 day');
 					}
 				}
-				// Singleton
+			}
+			// convert dates to timestamp and prevent negative values
+			$data['firstOccurence'] = $startDate ? max(0, $startDate->getTimestamp()) : 0;
+			$data['lastOccurence'] = $endDate ? max(0, $endDate->getTimestamp()) : 0;
+
+			return $data;
+		};
+
+		// $extract() only understands these component types; getBaseComponent() itself is not
+		// restricted to them and may also return e.g. a VFREEBUSY or VAVAILABILITY component.
+		$supportedComponentTypes = ['VEVENT', 'VTODO', 'VJOURNAL'];
+
+		// If there is exactly one base component of a supported type, extract its data directly.
+		$baseComponent = $vObject->getBaseComponent();
+		if ($baseComponent !== null && in_array($baseComponent->name, $supportedComponentTypes, true)) {
+			return $derived + $extract($baseComponent);
+		}
+
+		// No supported base component is present, e.g. a scheduling object made up solely of recurrence exceptions without an
+		// accompanying series master (for example, an attendee that was only added to specific occurrences of a recurring event).
+		// Derive the denormalized data by combining the occurrence range of every exception present.
+		/** @var list<Component> $exceptionComponents */
+		$exceptionComponents = array_values(array_filter(
+			$vObject->getComponents(),
+			static fn (Component $component): bool => in_array($component->name, $supportedComponentTypes, true)
+		));
+		if (empty($exceptionComponents)) {
+			throw new BadRequest('A valid calendar object must contain at least one VJOURNAL, VEVENT, or VTODO component type');
+		}
+
+		$combined = null;
+		foreach ($exceptionComponents as $component) {
+			$exceptionData = $extract($component);
+			if ($combined === null) {
+				$combined = $exceptionData;
 			} else {
-				if ($component->DTEND instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
-					// VEVENT component types
-					$endDate = $component->DTEND->getDateTime();
-				} elseif ($component->DURATION  instanceof \Sabre\VObject\Property\ICalendar\Duration) {
-					// VEVENT / VTODO component types
-					$endDate = $startDate->add($component->DURATION->getDateInterval());
-				} elseif ($component->DUE  instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
-					// VTODO component types
-					$endDate = $component->DUE->getDateTime();
-				} elseif ($component->name === 'VEVENT' && !$component->DTSTART->hasTime()) {
-					// VEVENT component type without time is automatically one day
-					$endDate = (clone $startDate)->modify('+1 day');
-				}
+				$combined['firstOccurence'] = min($combined['firstOccurence'], $exceptionData['firstOccurence']);
+				$combined['lastOccurence'] = max($combined['lastOccurence'], $exceptionData['lastOccurence']);
 			}
 		}
-		// convert dates to timestamp and prevent negative values
-		$derived['firstOccurence'] = $startDate ? max(0, $startDate->getTimestamp()) : 0;
-		$derived['lastOccurence'] = $endDate ? max(0, $endDate->getTimestamp()) : 0;
 
-		return $derived;
+		return $derived + $combined;
 	}
 
 	/**
@@ -3684,7 +3736,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			$indexComponents = ['VEVENT', 'VJOURNAL', 'VTODO'];
 			foreach ($vCalendar->getComponents() as $component) {
-				if (!in_array($component->name, $indexComponents)) {
+				if (!in_array($component->name, $indexComponents, true)) {
 					continue;
 				}
 
@@ -3708,7 +3760,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						$indexedParametersForProperty = self::INDEXED_PARAMETERS[$property->name];
 
 						foreach ($parameters as $key => $value) {
-							if (in_array($key, $indexedParametersForProperty)) {
+							if (in_array($key, $indexedParametersForProperty, true)) {
 								// is this a shitty db?
 								if ($this->db->supports4ByteText()) {
 									$value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
@@ -3914,11 +3966,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return 0;
 		}
 
+		$cutoff = max(0, time() - $retention);
+
 		$query = $this->db->getQueryBuilder();
 		$query->delete('calendarchanges')
 			->where(
 				$query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
-				$query->expr()->lte('created_at', $query->createNamedParameter($retention)),
+				$query->expr()->lte('created_at', $query->createNamedParameter($cutoff, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
 			);
 		return $query->executeStatement();
 	}

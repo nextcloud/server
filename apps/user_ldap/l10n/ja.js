@@ -26,6 +26,8 @@ OC.L10N.register(
     "Invalid LDAP UUIDs" : "無効な LDAP UUID",
     "None found" : "該当なし",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAPアカウントまたはグループの無効なUUIDが見つかりました。LDAP設定のエキスパート部分にある \"Override UUID detection\" の設定を見直して、\"occ ldap:update-uuid\"を使ってアップデートしてください。",
+    "LDAP" : "LDAP",
+    "LDAP configuration" : "LDAPの設定",
     "_%n group found_::_%n groups found_" : ["グループ%nが見つかりました "],
     "> 1000 groups found" : "1000 以上のグループが見つかりました",
     "> 1000 users found" : "1000 以上のユーザーが見つかりました",

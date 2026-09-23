@@ -5,7 +5,7 @@
 
 import Axios from '@nextcloud/axios'
 import { getRootUrl } from '@nextcloud/router'
-import logger from './logger.js'
+import { logger } from './utils/logger.ts'
 
 const url = getRootUrl() + '/status.php'
 

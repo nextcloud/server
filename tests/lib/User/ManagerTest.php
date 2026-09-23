@@ -22,6 +22,7 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use OCP\User\Events\UserDeletedEvent;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -181,7 +182,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
@@ -219,7 +220,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('bLeNdEr'))
 			->willReturn(true);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
@@ -233,7 +234,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('fo'))
 			->willReturn(['foo', 'afoo', 'Afoo1', 'Bfoo']);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
@@ -252,7 +253,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->willReturn(['foo1', 'foo2']);
 		$backend1->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend2->expects($this->once())
@@ -260,7 +261,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->willReturn(['foo3']);
 		$backend2->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend1);
 		$this->manager->registerBackend($backend2);
@@ -334,7 +335,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(false);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
@@ -672,7 +673,10 @@ class ManagerTest extends TestCase {
 		$this->manager->registerBackend($backend);
 		$backend->createUser('foo', 'bar');
 		$this->assertTrue($this->manager->userExists('foo'));
-		$this->manager->get('foo')->delete();
+		$fooUser = $this->manager->get('foo');
+		$fooUser->delete();
+		// Call manually as event dispatcher is a mock
+		self::invokePrivate($this->manager, 'handleUserDeletedEvent', [new UserDeletedEvent($fooUser)]);
 		$this->assertFalse($this->manager->userExists('foo'));
 	}
 

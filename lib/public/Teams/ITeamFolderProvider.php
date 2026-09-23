@@ -23,6 +23,21 @@ use OCP\AppFramework\Attribute\Implementable;
 #[Consumable(since: '35.0.0')]
 #[Implementable(since: '35.0.0')]
 interface ITeamFolderProvider extends ITeamResourceProvider {
+
+	/**
+	 * Return the list of team folders that can be linked to the team.
+	 *
+	 * @since 35.0.0
+	 */
+	public function getLinkableTeamFolders(string $circleId): array;
+
+	/**
+	 * Link a team folder to the team.
+	 *
+	 * @since 35.0.0
+	 */
+	public function linkTeamFolder(string $circleId, int $folderId): TeamFolder;
+
 	/**
 	 * Return the folder exclusively linked to the team.
 	 *
@@ -38,6 +53,16 @@ interface ITeamFolderProvider extends ITeamResourceProvider {
 	 * @since 35.0.0
 	 */
 	public function createTeamFolder(Team $team, int $quota = 0): TeamFolder;
+
+	/**
+	 * Update the storage quota of the team folder.
+	 *
+	 * @param string $teamId The team single id.
+	 * @param int $quota Quota in bytes; zero means unlimited.
+	 * @return TeamFolder The updated folder.
+	 * @since 35.0.0
+	 */
+	public function updateTeamFolderQuota(string $teamId, int $quota): TeamFolder;
 
 	/**
 	 * Remove the exclusive relationship but retain the folder and its contents.

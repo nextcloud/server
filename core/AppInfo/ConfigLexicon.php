@@ -29,6 +29,7 @@ class ConfigLexicon implements ILexicon {
 	public const USER_LANGUAGE = 'lang';
 	public const OCM_DISCOVERY_ENABLED = 'ocm_discovery_enabled';
 	public const DAV_REPAIR_REMOVED_BROKEN_PROPERTIES = 'dav_repair_removed_broken_properties';
+	public const SHARE_REPAIR_REMOVED_TRAILING_SLASHES = 'share_repair_removed_trailing_slashes';
 
 	public const USER_LOCALE = 'locale';
 	public const USER_TIMEZONE = 'timezone';
@@ -119,6 +120,13 @@ class ConfigLexicon implements ILexicon {
 				type: ValueType::BOOL,
 				defaultRaw: false,
 				definition: 'Whether the RemoveBrokenProperties repair step has already been run.',
+				lazy: true,
+			),
+			new Entry(
+				key: self::SHARE_REPAIR_REMOVED_TRAILING_SLASHES,
+				type: ValueType::BOOL,
+				defaultRaw: false,
+				definition: 'Whether the repair step stripping trailing slashes from share targets has already been run.',
 				lazy: true,
 			),
 		];

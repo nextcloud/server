@@ -188,7 +188,7 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	#[\Override]
 	public function childExists($name) {
 		$objectTypes = $this->tagMapper->getAvailableObjectTypes();
-		return in_array($name, $objectTypes);
+		return in_array($name, $objectTypes, true);
 	}
 
 	#[\Override]

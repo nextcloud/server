@@ -46,4 +46,18 @@ class ErrorController extends Controller {
 		$response->setStatus(Http::STATUS_NOT_FOUND);
 		return $response;
 	}
+
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[FrontpageRoute(verb: 'GET', url: 'error/418')]
+	public function error418(): TemplateResponse {
+		$response = new TemplateResponse(
+			'core',
+			'418',
+			[],
+			'error'
+		);
+		$response->setStatus(Http::STATUS_IM_A_TEAPOT);
+		return $response;
+	}
 }
