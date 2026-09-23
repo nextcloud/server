@@ -13,6 +13,8 @@ use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\BackgroundJob\IJobList;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -24,20 +26,27 @@ class ExternalShareControllerTest extends \Test\TestCase {
 	private IRequest&MockObject $request;
 	private Manager&MockObject $externalManager;
 	private IJobList&MockObject $jobList;
+	private IUser $user;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
 		$this->externalManager = $this->createMock(Manager::class);
 		$this->jobList = $this->createMock(IJobList::class);
+		$this->user = $this->createMock(IUser::class);
+		$this->user->method('getUID')->willReturn('user');
 	}
 
 	public function getExternalShareController(): ExternalSharesController {
+		$session = $this->createMock(IUserSession::class);
+		$session->method('getUser')
+			->willReturn($this->user);
 		return new ExternalSharesController(
 			'files_sharing',
 			$this->request,
 			$this->externalManager,
 			$this->jobList,
+			$session,
 		);
 	}
 
@@ -55,12 +64,12 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->externalManager
 			->expects($this->once())
 			->method('getShare')
-			->with('4')
+			->with('4', $this->user)
 			->willReturn($share);
 		$this->externalManager
 			->expects($this->once())
 			->method('acceptShare')
-			->with($share);
+			->with($share, $this->user);
 		$this->jobList
 			->expects($this->once())
 			->method('add');
@@ -73,12 +82,12 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->externalManager
 			->expects($this->once())
 			->method('getShare')
-			->with('4')
+			->with('4', $this->user)
 			->willReturn($share);
 		$this->externalManager
 			->expects($this->once())
 			->method('declineShare')
-			->with($share);
+			->with($share, $this->user);
 
 		$this->assertEquals(new JSONResponse(), $this->getExternalShareController()->destroy('4'));
 	}

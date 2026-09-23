@@ -33,6 +33,7 @@ use OCP\Http\Client\LocalServerException;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
@@ -52,9 +53,10 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	private IConfig $config;
 	private IAppConfig $appConfig;
 	private IShareManager $shareManager;
+	private IUser $recipientUser;
 
 	/**
-	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, password: ?string}|array $options
+	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, password: ?string, recipient: IUser}|array $options
 	 */
 	public function __construct($options) {
 		$this->memcacheFactory = Server::get(ICacheFactory::class);
@@ -66,6 +68,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$this->config = Server::get(IConfig::class);
 		$this->appConfig = Server::get(IAppConfig::class);
 		$this->shareManager = Server::get(IShareManager::class);
+		$this->recipientUser = $options['recipient'];
 
 		// use default path to webdav if not found on discovery
 		try {
@@ -214,7 +217,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				// valid Nextcloud instance means that the public share no longer exists
 				// since this is permanent (re-sharing the file will create a new token)
 				// we remove the invalid storage
-				$this->manager->removeShare($this->mountPoint);
+				$this->manager->removeShare($this->recipientUser, $this->mountPoint);
 				$this->manager->getMountManager()->removeMount($this->mountPoint);
 				throw new StorageInvalidException('Remote share not found', 0, $e);
 			} else {
@@ -223,7 +226,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			}
 		} catch (ForbiddenException $e) {
 			// auth error, remove share for now (provide a dialog in the future)
-			$this->manager->removeShare($this->mountPoint);
+			$this->manager->removeShare($this->recipientUser, $this->mountPoint);
 			$this->manager->getMountManager()->removeMount($this->mountPoint);
 			throw new StorageInvalidException('Auth error when getting remote share');
 		} catch (\GuzzleHttp\Exception\ConnectException $e) {

@@ -14,6 +14,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICertificateManager;
+use OCP\IUser;
 use OCP\Server;
 
 /**
@@ -73,6 +74,7 @@ class ExternalStorageTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('newClient')
 			->willReturn($client);
+		$user = $this->createMock(IUser::class);
 
 		return new TestSharingExternalStorage(
 			[
@@ -85,6 +87,7 @@ class ExternalStorageTest extends \Test\TestCase {
 				'manager' => $manager,
 				'certificateManager' => $certificateManager,
 				'HttpClientService' => $httpClientService,
+				'recipient' => $user,
 			]
 		);
 	}

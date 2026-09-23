@@ -14,6 +14,9 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\BackgroundJob\IJobList;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
+use RuntimeException;
 
 /**
  * Class ExternalSharesController
@@ -25,9 +28,18 @@ class ExternalSharesController extends Controller {
 		string $appName,
 		IRequest $request,
 		private readonly Manager $externalManager,
-		private IJobList $jobList,
+		private readonly IJobList $jobList,
+		private readonly IUserSession $userSession,
 	) {
 		parent::__construct($appName, $request);
+	}
+
+	private function getUser(): IUser {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			throw new RuntimeException('No user for non-public page');
+		}
+		return $user;
 	}
 
 	/**
@@ -35,7 +47,7 @@ class ExternalSharesController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function index(): JSONResponse {
-		return new JSONResponse($this->externalManager->getOpenShares());
+		return new JSONResponse($this->externalManager->getOpenShares($this->getUser()));
 	}
 
 	/**
@@ -43,9 +55,9 @@ class ExternalSharesController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function create(string $id): JSONResponse {
-		$externalShare = $this->externalManager->getShare($id);
+		$externalShare = $this->externalManager->getShare($id, $this->getUser());
 		if ($externalShare !== false) {
-			$this->externalManager->acceptShare($externalShare);
+			$this->externalManager->acceptShare($externalShare, $this->getUser());
 			$this->jobList->add(ExternalShareScanJob::class, [$externalShare->getUser(), $externalShare->getMountpoint()]);
 		}
 		return new JSONResponse();
@@ -56,9 +68,9 @@ class ExternalSharesController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function destroy(string $id): JSONResponse {
-		$externalShare = $this->externalManager->getShare($id);
+		$externalShare = $this->externalManager->getShare($id, $this->getUser());
 		if ($externalShare !== false) {
-			$this->externalManager->declineShare($externalShare);
+			$this->externalManager->declineShare($externalShare, $this->getUser());
 		}
 		return new JSONResponse();
 	}
