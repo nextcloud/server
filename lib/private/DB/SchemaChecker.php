@@ -77,8 +77,20 @@ class SchemaChecker {
 		return array_map(function (array $finding) use ($disabledAppTableOwners, $enabledApps, $optionalIndexNames): array {
 			$app = $disabledAppTableOwners[$finding['table']] ?? null;
 			$finding['app'] = $app;
-			// Only tables owned by a disabled app are non-blocking.
-			$finding['enabled'] = $app === null || $app === 'core' || isset($enabledApps[$app]);
+			if ($finding['type'] === 'unexpected_table' && $app === null) {
+				// An unexpected table that cannot be attributed to any known
+				// app is inherently informational, not a sign of drift: occ
+				// app:remove leaves tables and appconfig in place and only
+				// deletes the app's code (see Installer::removeApp()), so a
+				// long-uninstalled app's tables can never be attributed by
+				// applyDisabledMigrations() - there is no code left to replay
+				// migrations from. Treat them the same as residue from a
+				// still-present disabled app instead of blocking on them.
+				$finding['enabled'] = false;
+			} else {
+				// Only tables owned by a disabled app are non-blocking.
+				$finding['enabled'] = $app === null || $app === 'core' || isset($enabledApps[$app]);
+			}
 			$finding['optionalIndex'] = ($finding['type'] === 'missing_index' || $finding['type'] === 'unexpected_index')
 				&& isset($optionalIndexNames[$finding['table']][$finding['name']]);
 			return $finding;
@@ -120,7 +132,10 @@ class SchemaChecker {
 			} elseif ($finding['enabled']) {
 				$blocking[] = $finding;
 			} else {
-				$byDisabledApp[$finding['app']][] = $finding;
+				// $finding['app'] is null for unattributed unexpected tables
+				// (see getFindings()); group those under a placeholder label
+				// rather than coercing null to an empty-string array key.
+				$byDisabledApp[$finding['app'] ?? '(unknown app)'][] = $finding;
 			}
 		}
 		return ['blocking' => $blocking, 'byDisabledApp' => $byDisabledApp, 'optionalIndices' => $optionalIndices];
