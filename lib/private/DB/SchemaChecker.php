@@ -69,8 +69,15 @@ class SchemaChecker {
 		return array_map(function (array $finding) use ($disabledAppTableOwners, $enabledApps): array {
 			$app = $disabledAppTableOwners[$finding['table']] ?? null;
 			$finding['app'] = $app;
-			// Only tables owned by a disabled app are non-blocking.
-			$finding['enabled'] = $app === null || $app === 'core' || isset($enabledApps[$app]);
+			if ($finding['type'] === 'unexpected_table' && $app === null) {
+				// Unattributed unexpected tables are informational, not drift:
+				// occ app:remove leaves tables/config in place, so a removed
+				// app's code is gone and can never be attributed to it.
+				$finding['enabled'] = false;
+			} else {
+				// Only tables owned by a disabled app are non-blocking.
+				$finding['enabled'] = $app === null || $app === 'core' || isset($enabledApps[$app]);
+			}
 			return $finding;
 		}, $this->buildFindings($diff));
 	}
@@ -105,7 +112,10 @@ class SchemaChecker {
 			if ($finding['enabled']) {
 				$blocking[] = $finding;
 			} else {
-				$byDisabledApp[$finding['app']][] = $finding;
+				// $finding['app'] is null for unattributed unexpected tables;
+				// group those under a placeholder label instead of coercing
+				// null to an empty-string array key.
+				$byDisabledApp[$finding['app'] ?? '(unknown app)'][] = $finding;
 			}
 		}
 		return ['blocking' => $blocking, 'byDisabledApp' => $byDisabledApp];

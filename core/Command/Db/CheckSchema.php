@@ -66,6 +66,7 @@ class CheckSchema extends Base {
 
 		$output->writeln('Disabled apps (not affecting exit code):');
 		$output->writeln('If the schema for a disabled app differs from what is expected, this might indicate the app was updated since it was disabled. Missing migrations will be applied once the app is enabled again.');
+		$output->writeln("Tables listed under '(unknown app)' could not be attributed to any app - most likely leftovers from an app that was removed entirely (occ app:remove only deletes its code, not its tables or config).");
 		foreach ($byDisabledApp as $app => $appFindings) {
 			$output->writeln("  {$app}:");
 			foreach ($appFindings as $finding) {
