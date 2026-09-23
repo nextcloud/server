@@ -16,16 +16,13 @@ use OCP\Share\IShare;
  * @since 18.0.0
  */
 class ShareCreatedEvent extends Event {
-	/** @var IShare */
-	private $share;
-
 	/**
 	 * @since 18.0.0
 	 */
-	public function __construct(IShare $share) {
+	public function __construct(
+		private IShare $share,
+	) {
 		parent::__construct();
-
-		$this->share = $share;
 	}
 
 	/**
@@ -33,5 +30,12 @@ class ShareCreatedEvent extends Event {
 	 */
 	public function getShare(): IShare {
 		return $this->share;
+	}
+
+	/**
+	 * @since 35.0.0
+	 */
+	public function setShare(IShare $share): void {
+		$this->share = $share;
 	}
 }
