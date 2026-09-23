@@ -370,16 +370,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	}
 
 	/**
-	 * Send the share notification email via Mail Provider if available,
-	 * otherwise fall back to the system mailer.
-	 *
-	 * @param IMessageSend&IService $mailService The mail provider service
-	 * @param string $senderEmail The sender's email address
-	 * @param string $senderName The sender's display name
-	 * @param array $recipientEmails The recipient email addresses
-	 * @param \OCP\Mail\IEMailTemplate $emailTemplate The email template
-	 */
-	/**
 	 * Send the share email via Mail Provider if available,
 	 * otherwise return false to fall back to the system mailer.
 	 *
@@ -418,6 +408,16 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 	}
 
+	/**
+	 * Send the share notification email via Mail Provider if available,
+	 * otherwise fall back to the system mailer.
+	 *
+	 * @param IMessageSend&IService $mailService The mail provider service
+	 * @param string $senderEmail The sender's email address
+	 * @param string $senderName The sender's display name
+	 * @param array $recipientEmails The recipient email addresses
+	 * @param \OCP\Mail\IEMailTemplate $emailTemplate The email template
+	 */
 	protected function sendViaMailProvider(
 		IMessageSend&IService $mailService,
 		string $senderEmail,
