@@ -1449,4 +1449,27 @@ final readonly class SharingBackend implements ISharingBackend {
 			? $query->expr()->isNull($field)
 			: $query->expr()->eq($field, $query->createNamedParameter($value), is_int($value) ? IQueryBuilder::PARAM_INT : IQueryBuilder::PARAM_STR);
 	}
+
+	#[\Override]
+	public function getUserStatuses(string $id, array $userIds): array {
+		$this->assertInTransaction();
+
+		$userStatuses = [];
+		foreach (array_chunk($userIds, 1000) as $chunk) {
+			$qb = $this->connection->getQueryBuilder();
+			$result = $qb
+				->select('user_id', 'status_id')
+				->from('sharing_share_user_status')
+				->where($qb->expr()->eq('share_id', $qb->createNamedParameter($id)))
+				->andWhere($qb->expr()->in('user_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
+				->executeQuery();
+			/** @var list<array{user_id: string, status_id: int|string}> */
+			$rows = $result->fetchAll();
+			foreach ($rows as $row) {
+				$userStatuses[$row['user_id']] = ShareUserStatus::decode((int)$row['status_id']);
+			}
+		}
+
+		return $userStatuses;
+	}
 }
