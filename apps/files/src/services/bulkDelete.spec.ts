@@ -17,14 +17,14 @@ function success(batch: BulkDeleteItem[]) {
 }
 
 function multiStatus(entries: Array<[string, number]>): string {
-	var responses = entries.map(([href, status]) => `<d:response><d:href>${href}</d:href><d:status>HTTP/1.1 ${status} Error</d:status></d:response>`).join('')
+	const responses = entries.map(([href, status]) => `<d:response><d:href>${href}</d:href><d:status>HTTP/1.1 ${status} Error</d:status></d:response>`).join('')
 	return `<?xml version="1.0" encoding="UTF-8"?><d:multistatus xmlns:d="DAV:">${responses}</d:multistatus>`
 }
 
 test.each([[385, 4], [970, 10], [1100, 11]])('%i files use %i BDELETE requests', async (count, requests) => {
-	var request = vi.fn(async (batch: BulkDeleteItem[]) => success(batch))
-	var onDeleted = vi.fn()
-	var result = await runBulkDelete(files(count), { batchSize: 100, request, onDeleted, onError: vi.fn() })
+	const request = vi.fn(async (batch: BulkDeleteItem[]) => success(batch))
+	const onDeleted = vi.fn()
+	const result = await runBulkDelete(files(count), { batchSize: 100, request, onDeleted, onError: vi.fn() })
 	expect(request).toHaveBeenCalledTimes(requests)
 	expect(onDeleted).toHaveBeenCalledTimes(count)
 	expect(result).toEqual(Array(count).fill(true))
@@ -32,8 +32,8 @@ test.each([[385, 4], [970, 10], [1100, 11]])('%i files use %i BDELETE requests',
 })
 
 test('never has more than five requests in flight', async () => {
-	var active = 0
-	var maximum = 0
+	let active = 0
+	let maximum = 0
 	await runBulkDelete(files(1100), {
 		batchSize: 100,
 		async request(batch) {
@@ -50,24 +50,24 @@ test('never has more than five requests in flight', async () => {
 })
 
 test('creates an Exchange-style DAV delete body', () => {
-	var batch = [
+	const batch = [
 		{ path: '/folder/café + #.txt', fileId: 1 },
 		{ path: '/literal%2Fname.txt', fileId: 2 },
 	]
-	var body = createBDeleteBody(batch)
+	const body = createBDeleteBody(batch)
 	expect(body).toContain('<d:delete xmlns:d="DAV:"><d:target>')
 	expect(body).toContain('<d:href>folder/caf%C3%A9%20%2B%20%23.txt</d:href>')
 	expect(body).toContain('<d:href>literal%252Fname.txt</d:href>')
 })
 
 test('204 means every target was deleted', () => {
-	var batch = files(2)
+	const batch = files(2)
 	expect(parseBDeleteResponse(204, '', batch)).toEqual(success(batch))
 })
 
 test('207 maps the failed target and unattempted suffix', () => {
-	var batch = files(3)
-	var response = parseBDeleteResponse(207, multiStatus([
+	const batch = files(3)
+	const response = parseBDeleteResponse(207, multiStatus([
 		[getBDeleteHref(batch[1]!), 403],
 		[getBDeleteHref(batch[2]!), 424],
 	]), batch)
@@ -82,20 +82,20 @@ test('207 maps the failed target and unattempted suffix', () => {
 })
 
 test('malformed or mismatched multistatus cannot remove visible nodes', () => {
-	var batch = files(2)
+	const batch = files(2)
 	expect(() => parseBDeleteResponse(207, '<d:multistatus xmlns:d="DAV:"/>', batch)).toThrow()
 	expect(() => parseBDeleteResponse(207, multiStatus([['other.txt', 403]]), batch)).toThrow()
 	expect(() => parseBDeleteResponse(200, '', batch)).toThrow()
 })
 
 test('partial failure emits success only for confirmed items and stops unsent batches', async () => {
-	var request = vi.fn(async (batch: BulkDeleteItem[]) => ({
+	const request = vi.fn(async (batch: BulkDeleteItem[]) => ({
 		results: batch.map((file, index) => ({ ...file, status: [204, 403, 424][index], attempted: index < 2 })),
 		stopped: true,
 	}))
-	var onDeleted = vi.fn()
-	var onError = vi.fn()
-	var result = await runBulkDelete(files(6), { batchSize: 3, concurrency: 1, request, onDeleted, onError })
+	const onDeleted = vi.fn()
+	const onError = vi.fn()
+	const result = await runBulkDelete(files(6), { batchSize: 3, concurrency: 1, request, onDeleted, onError })
 	expect(result).toEqual([true, false, false, false, false, false])
 	expect(request).toHaveBeenCalledTimes(1)
 	expect(onDeleted).toHaveBeenCalledTimes(1)
@@ -104,17 +104,17 @@ test('partial failure emits success only for confirmed items and stops unsent ba
 })
 
 test('a lost response is never retried', async () => {
-	var request = vi.fn(async () => { throw new Error('network timeout') })
-	var onDeleted = vi.fn()
-	var result = await runBulkDelete(files(200), { batchSize: 100, concurrency: 1, request, onDeleted, onError: vi.fn() })
+	const request = vi.fn(async () => { throw new Error('network timeout') })
+	const onDeleted = vi.fn()
+	const result = await runBulkDelete(files(200), { batchSize: 100, concurrency: 1, request, onDeleted, onError: vi.fn() })
 	expect(result.every((value) => !value)).toBe(true)
 	expect(request).toHaveBeenCalledTimes(1)
 	expect(onDeleted).not.toHaveBeenCalled()
 })
 
 test('response identities and the stopped suffix are validated', () => {
-	var batch = files(3)
-	var response = success(batch)
+	const batch = files(3)
+	let response = success(batch)
 	response.results[1]!.fileId = 999
 	expect(() => validateBulkDeleteResponse(response, batch)).toThrow()
 	response = success(batch)
@@ -128,14 +128,14 @@ test.each(['/', '../file', '/a/../b', '/a//b', '/a/./b', '/a\\b', '/a\u0000b'])(
 })
 
 test.each(['café + #.txt', '日本語.txt', 'literal%2Fname.txt', 'emoji-😀.txt'])('preserves UTF-8 path %s', (name) => {
-	var file = { path: `/folder/${name}`, fileId: 1 }
+	const file = { path: `/folder/${name}`, fileId: 1 }
 	expect(isBulkDeleteItem(file)).toBe(true)
 	expect(getBDeleteHref(file)).not.toContain(' ')
 })
 
 test('rejects duplicate selections before any request', async () => {
-	var request = vi.fn()
-	var batch = files(1)
+	const request = vi.fn()
+	const batch = files(1)
 	await runBulkDelete([batch[0]!, batch[0]!], { batchSize: 100, request, onDeleted: vi.fn(), onError: vi.fn() })
 	expect(request).not.toHaveBeenCalled()
 })

@@ -20,8 +20,8 @@ vi.mock('@nextcloud/capabilities')
 vi.mock('@nextcloud/event-bus')
 vi.mock('@nextcloud/router', () => ({ generateRemoteUrl: () => 'http://nextcloud.local/remote.php/dav' }))
 
-var view = { id: 'files', name: 'Files' } as IView
-var queue: PQueue
+const view = { id: 'files', name: 'Files' } as IView
+let queue: PQueue
 
 function file(id: number, name = `file-${id}.txt`): File {
 	return new File({
@@ -43,7 +43,7 @@ beforeEach(() => {
 })
 
 test('uses one BDELETE request and only confirmed deletion events', async () => {
-	var nodes = [file(1), file(2)]
+	const nodes = [file(1), file(2)]
 	expect(await deleteNodesInBatches(nodes, view, queue)).toEqual([true, true])
 	expect(axios.request).toHaveBeenCalledTimes(1)
 	expect(axios.delete).not.toHaveBeenCalled()
@@ -70,13 +70,13 @@ test('keeps permanent deletion on the existing path', () => {
 })
 
 test('keeps mixed file-folder selections on the existing path', () => {
-	var folder = new Folder({ id: 3, source: 'http://nextcloud.local/remote.php/dav/files/alice/folder', root: '/files/alice', owner: 'alice', permissions: Permission.ALL })
+	const folder = new Folder({ id: 3, source: 'http://nextcloud.local/remote.php/dav/files/alice/folder', root: '/files/alice', owner: 'alice', permissions: Permission.ALL })
 	expect(deleteNodesInBatches([file(1), folder], view, queue)).toBeNull()
 })
 
 test('keeps shared and external mount roots on the existing path', () => {
-	for (var mountType of ['shared', 'external']) {
-		var mounted = file(1)
+	for (const mountType of ['shared', 'external']) {
+		const mounted = file(1)
 		mounted.attributes['is-mount-root'] = true
 		mounted.attributes['mount-type'] = mountType
 		expect(deleteNodesInBatches([mounted, file(2)], view, queue)).toBeNull()
@@ -84,12 +84,12 @@ test('keeps shared and external mount roots on the existing path', () => {
 })
 
 test('rejects foreign origins, user roots and public share paths', () => {
-	for (var source of [
+	for (const source of [
 		'https://other.invalid/remote.php/dav/files/alice/one',
 		'http://nextcloud.local/remote.php/dav/files/bob/one',
 		'http://nextcloud.local/remote.php/dav/public-files/token/one',
 	]) {
-		var node = { ...file(1), type: file(1).type, permissions: Permission.ALL, fileid: 1, attributes: {}, encodedSource: source } as INode
+		const node = { ...file(1), type: file(1).type, permissions: Permission.ALL, fileid: 1, attributes: {}, encodedSource: source } as INode
 		expect(deleteNodesInBatches([node, file(2)], view, queue)).toBeNull()
 	}
 })

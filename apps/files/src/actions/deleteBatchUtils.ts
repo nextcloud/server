@@ -27,29 +27,29 @@ interface BulkDeleteCapabilities {
  * their existing semantics. node.source must belong to this user's DAV root.
  */
 export function deleteNodesInBatches(nodes: INode[], view: IView, queue: PQueue): Promise<boolean[]> | null {
-	var capabilities = getCapabilities() as BulkDeleteCapabilities
-	var support = capabilities?.dav?.bulk_delete
-	var user = getCurrentUser()
+	const capabilities = getCapabilities() as BulkDeleteCapabilities
+	const support = capabilities?.dav?.bulk_delete
+	const user = getCurrentUser()
 	if (nodes.length < 2 || view.id === 'trashbin' || capabilities?.files?.undelete !== true
 		|| support?.version !== '1.0' || !Number.isInteger(support.max_files) || support.max_files! < 1 || !user) {
 		return null
 	}
 
-	var davRoot = generateRemoteUrl('dav').replace(/\/$/, '')
-	var userRoot = new URL(`${davRoot}/files/${encodeURIComponent(user.uid)}/`, window.location.href)
-	var files: BulkDeleteItem[] = []
+	const davRoot = generateRemoteUrl('dav').replace(/\/$/, '')
+	const userRoot = new URL(`${davRoot}/files/${encodeURIComponent(user.uid)}/`, window.location.href)
+	const files: BulkDeleteItem[] = []
 	try {
-		for (var node of nodes) {
+		for (const node of nodes) {
 			if (node.type !== FileType.File || node.attributes['is-mount-root'] === true
 				|| !(node.permissions & Permission.DELETE) || typeof node.fileid !== 'number') {
 				return null
 			}
-			var source = new URL(node.encodedSource, window.location.href)
+			const source = new URL(node.encodedSource, window.location.href)
 			if (source.origin !== userRoot.origin || !source.pathname.startsWith(userRoot.pathname)
 				|| source.search !== '' || source.hash !== '') {
 				return null
 			}
-			var file = { path: '/' + decodeURIComponent(source.pathname.slice(userRoot.pathname.length)), fileId: node.fileid }
+			const file = { path: '/' + decodeURIComponent(source.pathname.slice(userRoot.pathname.length)), fileId: node.fileid }
 			if (!isBulkDeleteItem(file)) {
 				return null
 			}
@@ -64,7 +64,7 @@ export function deleteNodesInBatches(nodes: INode[], view: IView, queue: PQueue)
 		concurrency: 5,
 		async request(batch) {
 			return queue.add(async () => {
-				var response = await axios.request({
+				const response = await axios.request({
 					method: 'BDELETE',
 					url: userRoot.toString(),
 					data: createBDeleteBody(batch),

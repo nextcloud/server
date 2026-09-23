@@ -51,7 +51,7 @@ function escapeXml(value: string): string {
 }
 
 export function createBDeleteBody(files: BulkDeleteItem[]): string {
-	var hrefs = files.map((file) => `<d:href>${escapeXml(getBDeleteHref(file))}</d:href>`).join('')
+	const hrefs = files.map((file) => `<d:href>${escapeXml(getBDeleteHref(file))}</d:href>`).join('')
 	return `<?xml version="1.0" encoding="UTF-8"?><d:delete xmlns:d="DAV:"><d:target>${hrefs}</d:target></d:delete>`
 }
 
@@ -70,28 +70,28 @@ export function parseBDeleteResponse(status: number, body: unknown, files: BulkD
 		throw new Error('Invalid BDELETE response; refresh the file list before retrying')
 	}
 
-	var document = new DOMParser().parseFromString(body, 'application/xml')
+	const document = new DOMParser().parseFromString(body, 'application/xml')
 	if (document.querySelector('parsererror') !== null
 		|| document.documentElement.namespaceURI !== 'DAV:'
 		|| document.documentElement.localName !== 'multistatus') {
 		throw new Error('Invalid BDELETE multistatus response')
 	}
 
-	var hrefToIndex = new Map(files.map((file, index) => [getBDeleteHref(file), index]))
-	var failures = new Map<number, number>()
-	for (var response of Array.from(document.documentElement.children)) {
+	const hrefToIndex = new Map(files.map((file, index) => [getBDeleteHref(file), index]))
+	const failures = new Map<number, number>()
+	for (const response of Array.from(document.documentElement.children)) {
 		if (response.namespaceURI !== 'DAV:' || response.localName !== 'response') {
 			throw new Error('Invalid BDELETE multistatus child')
 		}
-		var hrefElements = Array.from(response.children).filter((element) => element.namespaceURI === 'DAV:' && element.localName === 'href')
-		var statusElements = Array.from(response.children).filter((element) => element.namespaceURI === 'DAV:' && element.localName === 'status')
+		const hrefElements = Array.from(response.children).filter((element) => element.namespaceURI === 'DAV:' && element.localName === 'href')
+		const statusElements = Array.from(response.children).filter((element) => element.namespaceURI === 'DAV:' && element.localName === 'status')
 		if (hrefElements.length !== 1 || statusElements.length !== 1) {
 			throw new Error('Invalid BDELETE multistatus item')
 		}
-		var href = hrefElements[0]!.textContent ?? ''
-		var match = /^HTTP\/1\.[01]\s+(\d{3})(?:\s|$)/.exec(statusElements[0]!.textContent ?? '')
-		var index = hrefToIndex.get(href)
-		var itemStatus = match ? Number.parseInt(match[1]!, 10) : 0
+		const href = hrefElements[0]!.textContent ?? ''
+		const match = /^HTTP\/1\.[01]\s+(\d{3})(?:\s|$)/.exec(statusElements[0]!.textContent ?? '')
+		const index = hrefToIndex.get(href)
+		const itemStatus = match ? Number.parseInt(match[1]!, 10) : 0
 		if (index === undefined || failures.has(index) || itemStatus < 400 || itemStatus > 599) {
 			throw new Error('BDELETE response does not match the requested files')
 		}
@@ -101,8 +101,8 @@ export function parseBDeleteResponse(status: number, body: unknown, files: BulkD
 		throw new Error('BDELETE 207 response did not contain any failures')
 	}
 
-	var firstFailure = Math.min(...failures.keys())
-	var results: BulkDeleteResult[] = files.map((file, index) => {
+	const firstFailure = Math.min(...failures.keys())
+	const results: BulkDeleteResult[] = files.map((file, index) => {
 		if (index < firstFailure) {
 			if (failures.has(index)) {
 				throw new Error('Invalid BDELETE failure ordering')
@@ -110,13 +110,13 @@ export function parseBDeleteResponse(status: number, body: unknown, files: BulkD
 			return { ...file, status: 204, attempted: true }
 		}
 		if (index === firstFailure) {
-			var itemStatus = failures.get(index)
+			const itemStatus = failures.get(index)
 			if (itemStatus === undefined || itemStatus === 424) {
 				throw new Error('Invalid first BDELETE failure')
 			}
 			return { ...file, status: itemStatus, attempted: true }
 		}
-		var itemStatus = failures.get(index)
+		const itemStatus = failures.get(index)
 		if (itemStatus !== 424) {
 			throw new Error('Invalid stopped BDELETE response')
 		}
@@ -132,10 +132,10 @@ export function validateBulkDeleteResponse(value: unknown, files: BulkDeleteItem
 		|| !('stopped' in value) || typeof value.stopped !== 'boolean' || value.results.length !== files.length) {
 		throw new Error('Invalid bulk delete response; refresh the file list before retrying')
 	}
-	var stopped = false
-	for (var index = 0; index < files.length; index++) {
-		var result = value.results[index]
-		var file = files[index]!
+	let stopped = false
+	for (let index = 0; index < files.length; index++) {
+		const result = value.results[index]
+		const file = files[index]!
 		if (!result || result.path !== file.path || result.fileId !== file.fileId
 			|| !Number.isInteger(result.status) || typeof result.attempted !== 'boolean') {
 			throw new Error('Bulk delete response does not match the requested files')
@@ -162,9 +162,9 @@ export function validateBulkDeleteResponse(value: unknown, files: BulkDeleteItem
  * order. Never retry a BDELETE or fall back to DELETE after dispatching a batch.
  */
 export async function runBulkDelete(files: BulkDeleteItem[], options: BulkDeleteOptions): Promise<boolean[]> {
-	var results = files.map(() => false)
-	var batchSize = options.batchSize
-	var concurrency = options.concurrency ?? 5
+	const results = files.map(() => false)
+	const batchSize = options.batchSize
+	const concurrency = options.concurrency ?? 5
 	if (!Number.isInteger(batchSize) || batchSize < 1 || batchSize > 100
 		|| !Number.isInteger(concurrency) || concurrency < 1 || concurrency > 5
 		|| !files.every(isBulkDeleteItem)
@@ -174,19 +174,19 @@ export async function runBulkDelete(files: BulkDeleteItem[], options: BulkDelete
 		return results
 	}
 
-	var nextIndex = 0
-	var stopped = false
+	let nextIndex = 0
+	let stopped = false
 	async function worker(): Promise<void> {
 		while (!stopped && nextIndex < files.length) {
-			var start = nextIndex
+			const start = nextIndex
 			nextIndex += batchSize
-			var batch = files.slice(start, start + batchSize)
+			const batch = files.slice(start, start + batchSize)
 			try {
-				var response = validateBulkDeleteResponse(await options.request(batch), batch)
+				const response = validateBulkDeleteResponse(await options.request(batch), batch)
 				if (response.stopped) {
 					stopped = true
 				}
-				for (var offset = 0; offset < response.results.length; offset++) {
+				for (let offset = 0; offset < response.results.length; offset++) {
 					if (response.results[offset]!.status === 204) {
 						results[start + offset] = true
 						options.onDeleted(start + offset)

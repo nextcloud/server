@@ -24,6 +24,7 @@ use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
+use Sabre\Xml\Service;
 
 class BulkDeletePluginTest extends TestCase {
 	private Server $server;
@@ -61,11 +62,18 @@ class BulkDeletePluginTest extends TestCase {
 
 	/** @param string[] $hrefs */
 	private function request(array $hrefs, string $container = 'files/alice'): Response {
-		$body = '<?xml version="1.0" encoding="UTF-8"?><d:delete xmlns:d="DAV:"><d:target>';
+		$writer = (new Service())->getWriter();
+		$writer->openMemory();
+		$writer->startDocument();
+		$writer->startElement('{DAV:}delete');
+		$writer->startElement('{DAV:}target');
 		foreach ($hrefs as $href) {
-			$body .= '<d:href>' . htmlspecialchars($href, ENT_XML1 | ENT_QUOTES, 'UTF-8') . '</d:href>';
+			$writer->writeElement('{DAV:}href', $href);
 		}
-		$body .= '</d:target></d:delete>';
+		$writer->endElement();
+		$writer->endElement();
+		$body = $writer->outputMemory();
+
 		$request = new Request('BDELETE', '/nextcloud/remote.php/dav/' . $container . '/', [
 			'Content-Type' => 'application/xml; charset=utf-8',
 		], $body);
@@ -82,14 +90,23 @@ class BulkDeletePluginTest extends TestCase {
 	/** @return array<string, int> */
 	private function failures(Response $response): array {
 		self::assertSame(207, $response->getStatus());
-		$document = new \DOMDocument();
-		self::assertTrue($document->loadXML($response->getBodyAsString()));
-		$xpath = new \DOMXPath($document);
-		$xpath->registerNamespace('d', 'DAV:');
+		$elements = (new Service())->expect('{DAV:}multistatus', $response->getBodyAsString());
+		self::assertIsArray($elements);
 		$failures = [];
-		foreach ($xpath->query('/d:multistatus/d:response') as $item) {
-			$href = $xpath->evaluate('string(d:href)', $item);
-			$status = $xpath->evaluate('string(d:status)', $item);
+		foreach ($elements as $item) {
+			self::assertSame('{DAV:}response', $item['name']);
+			self::assertIsArray($item['value']);
+			$href = null;
+			$status = null;
+			foreach ($item['value'] as $child) {
+				if ($child['name'] === '{DAV:}href') {
+					$href = $child['value'];
+				} elseif ($child['name'] === '{DAV:}status') {
+					$status = $child['value'];
+				}
+			}
+			self::assertIsString($href);
+			self::assertIsString($status);
 			self::assertMatchesRegularExpression('/^HTTP\/1\.1 \d{3} /', $status);
 			$failures[$href] = (int)substr($status, 9, 3);
 		}
@@ -180,6 +197,13 @@ class BulkDeletePluginTest extends TestCase {
 		self::assertSame(array_map(static fn (string $name): string => 'files/alice/folder/' . $name, $names), $this->deleted);
 	}
 
+	public function testFailureResponsePreservesEncodedHref(): void {
+		$this->addFile('café + #.txt')->method('delete')->willThrowException(new Forbidden());
+		$href = 'caf%C3%A9%20%2B%20%23.txt';
+		$response = $this->request([$href]);
+		self::assertSame([$href => 403], $this->failures($response));
+	}
+
 	public function testTargetIsAlwaysRelativeToRequestCollection(): void {
 		$this->nodes['files/alice/folder'] = $this->createMock(Directory::class);
 		$this->addFile('folder/files/bob/one');
@@ -215,6 +239,7 @@ class BulkDeletePluginTest extends TestCase {
 			'duplicate' => [$wrap($href('one') . $href('one'))],
 			'wrong root' => ['<d:remove xmlns:d="DAV:"><d:target>' . $href('one') . '</d:target></d:remove>'],
 			'unexpected element' => [$wrap('<d:prop/>' . $href('one'))],
+			'nested href element' => [$wrap('<d:href><d:prop/></d:href>')],
 			'doctype' => ['<!DOCTYPE d:delete [<!ENTITY x "one">]><d:delete xmlns:d="DAV:"><d:target><d:href>&x;</d:href></d:target></d:delete>'],
 		];
 	}

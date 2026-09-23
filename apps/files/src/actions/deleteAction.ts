@@ -90,7 +90,7 @@ export const action: IFileAction = {
 			return Promise.all(nodes.map(() => null))
 		}
 
-		var batchResult = deleteNodesInBatches(nodes, view, queue)
+		const batchResult = deleteNodesInBatches(nodes, view, queue)
 		if (batchResult !== null) {
 			return batchResult
 		}

@@ -20,6 +20,7 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\Xml\ParseException;
 
 /**
  * Implements the non-standard BDELETE WebDAV method for bounded file batches.
@@ -134,55 +135,45 @@ class BulkDeletePlugin extends ServerPlugin {
 	 * @return list<array{href: string, path: string}>
 	 */
 	private function parseTargets(string $body, string $containerPath): array {
-		$previous = libxml_use_internal_errors(true);
-		try {
-			$document = new \DOMDocument();
-			$loaded = $document->loadXML($body, LIBXML_NONET | LIBXML_NOBLANKS);
-		} finally {
-			libxml_clear_errors();
-			libxml_use_internal_errors($previous);
-		}
-
-		if (!$loaded || $document->doctype !== null) {
+		if (stripos($body, '<!DOCTYPE') !== false) {
 			throw new BadRequest('Invalid BDELETE XML body');
 		}
 
-		$root = $document->documentElement;
-		if ($root === null || $root->namespaceURI !== 'DAV:' || $root->localName !== 'delete') {
-			throw new BadRequest('BDELETE body must have a DAV: delete element');
+		try {
+			$elements = $this->server->xml->expect('{DAV:}delete', $body);
+		} catch (ParseException) {
+			throw new BadRequest('Invalid BDELETE XML body');
+		}
+
+		if ($elements === null) {
+			$elements = [];
+		}
+		if (!is_array($elements)) {
+			throw new BadRequest('BDELETE body must contain DAV: target elements');
 		}
 
 		$hrefs = [];
-		foreach ($root->childNodes as $targetNode) {
-			if ($targetNode instanceof \DOMText && trim($targetNode->textContent) === '') {
-				continue;
-			}
-			if (!$targetNode instanceof \DOMElement || $targetNode->namespaceURI !== 'DAV:' || $targetNode->localName !== 'target') {
+		foreach ($elements as $target) {
+			if (!is_array($target) || ($target['name'] ?? null) !== '{DAV:}target') {
 				throw new BadRequest('BDELETE body may only contain DAV: target elements');
 			}
 
-			$targetHasHref = false;
-			foreach ($targetNode->childNodes as $hrefNode) {
-				if ($hrefNode instanceof \DOMText && trim($hrefNode->textContent) === '') {
-					continue;
-				}
-				if (!$hrefNode instanceof \DOMElement || $hrefNode->namespaceURI !== 'DAV:' || $hrefNode->localName !== 'href') {
+			$targetValue = $target['value'] ?? null;
+			if (!is_array($targetValue) || $targetValue === []) {
+				throw new BadRequest('DAV: target must contain at least one DAV: href');
+			}
+
+			foreach ($targetValue as $hrefElement) {
+				if (!is_array($hrefElement) || ($hrefElement['name'] ?? null) !== '{DAV:}href'
+					|| !is_string($hrefElement['value'] ?? null)) {
 					throw new BadRequest('DAV: target may only contain DAV: href elements');
 				}
-				foreach ($hrefNode->childNodes as $hrefChild) {
-					if ($hrefChild instanceof \DOMElement) {
-						throw new BadRequest('DAV: href must contain text only');
-					}
-				}
-				$href = trim($hrefNode->textContent);
+
+				$href = trim($hrefElement['value']);
 				if ($href === '') {
 					throw new BadRequest('DAV: href must not be empty');
 				}
 				$hrefs[] = $href;
-				$targetHasHref = true;
-			}
-			if (!$targetHasHref) {
-				throw new BadRequest('DAV: target must contain at least one DAV: href');
 			}
 		}
 
@@ -265,23 +256,21 @@ class BulkDeletePlugin extends ServerPlugin {
 	 * @param list<array{href: string, status: int}> $failures
 	 */
 	private function buildMultiStatus(array $failures): string {
-		$document = new \DOMDocument('1.0', 'UTF-8');
-		$document->formatOutput = true;
-		$multiStatus = $document->createElementNS('DAV:', 'd:multistatus');
-		$document->appendChild($multiStatus);
+		$writer = $this->server->xml->getWriter();
+		$writer->openMemory();
+		$writer->setIndent(true);
+		$writer->startDocument();
+		$writer->startElement('{DAV:}multistatus');
 
 		foreach ($failures as $failure) {
-			$item = $document->createElementNS('DAV:', 'd:response');
-			$href = $document->createElementNS('DAV:', 'd:href');
-			$href->appendChild($document->createTextNode($failure['href']));
-			$status = $document->createElementNS('DAV:', 'd:status');
-			$status->appendChild($document->createTextNode($this->statusLine($failure['status'])));
-			$item->appendChild($href);
-			$item->appendChild($status);
-			$multiStatus->appendChild($item);
+			$writer->startElement('{DAV:}response');
+			$writer->writeElement('{DAV:}href', $failure['href']);
+			$writer->writeElement('{DAV:}status', $this->statusLine($failure['status']));
+			$writer->endElement();
 		}
 
-		return $document->saveXML();
+		$writer->endElement();
+		return $writer->outputMemory();
 	}
 
 	private function statusLine(int $status): string {
