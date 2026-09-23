@@ -10,21 +10,25 @@ declare(strict_types=1);
 namespace OCA\Files\Search;
 
 use NCU\Search\AccountScopedSearchResult;
+use NCU\Search\Exceptions\AccountUnavailableException;
+use NCU\Search\Exceptions\SearchTruncatedException;
 use NCU\Search\IAccountScopedSearchProvider;
-use NCU\Search\MetadataField;
 use NCU\Search\SearchPropertyDefinition;
 use NCU\Search\SearchPropertyType;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\SimpleFS\SimpleFile;
 use OCP\Files\File;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
-use OCP\Files\Search\ISearchQuery;
+use OCP\Files\Search\ISearchOrder;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\IAppConfig;
@@ -33,12 +37,12 @@ use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 
 class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	private const ID = 'files';
 
-	/** Page size for share enumeration. */
 	private const SHARE_PAGE = 50;
 
 	/** Share types that mean the content left the organisation. */
@@ -49,8 +53,14 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 		IShare::TYPE_REMOTE_GROUP,
 	];
 
-	/** How many content matches to read from the index before giving up on answering exhaustively. */
+	/** Above this many content matches, the search is refused as truncated. */
 	private const CONTENT_MATCH_LIMIT = 5000;
+
+	/** Property names that differ from the filecache field they are searched on. */
+	private const FIELD_COLUMNS = [
+		'modified' => 'mtime',
+		'created' => 'creation_time',
+	];
 
 	public function __construct(
 		private readonly IL10N $l10n,
@@ -80,29 +90,28 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 			new SearchPropertyDefinition('name', $this->l10n->t('Name'), searchable: true),
 			new SearchPropertyDefinition('owner', $this->l10n->t('Owner'), selectable: true),
 			new SearchPropertyDefinition('path', $this->l10n->t('Path'), searchable: true, selectable: true),
+			new SearchPropertyDefinition('shared_externally', $this->l10n->t('Shared externally'), SearchPropertyType::Boolean, searchable: true),
 			new SearchPropertyDefinition('mimetype', $this->l10n->t('File type'), searchable: true, selectable: true),
 			new SearchPropertyDefinition('size', $this->l10n->t('Size'), SearchPropertyType::Integer, searchable: true, selectable: true),
 			new SearchPropertyDefinition('modified', $this->l10n->t('Modified'), SearchPropertyType::DateTime, searchable: true, selectable: true),
 			new SearchPropertyDefinition('created', $this->l10n->t('Created'), SearchPropertyType::DateTime, searchable: true, selectable: true),
+			new SearchPropertyDefinition('mount_point', $this->l10n->t('Mount point'), selectable: true),
 			new SearchPropertyDefinition('checksum', $this->l10n->t('Checksum'), selectable: true),
-			new SearchPropertyDefinition('share_status', $this->l10n->t('Share status'), SearchPropertyType::Object, selectable: true),
-			new SearchPropertyDefinition('shared_with', $this->l10n->t('Shared with'), selectable: true, multiValued: true),
-			new SearchPropertyDefinition('tags', $this->l10n->t('Tags'), selectable: true, multiValued: true),
+			new SearchPropertyDefinition('share_status', $this->l10n->t('Share status'), SearchPropertyType::Object, selectable: true, detailOnly: true),
+			new SearchPropertyDefinition('shared_with', $this->l10n->t('Shared with'), selectable: true, detailOnly: true),
+			new SearchPropertyDefinition('tags', $this->l10n->t('Tags'), selectable: true, detailOnly: true),
 		];
 
-		// Offered only when an index can actually answer it. Advertising `content` without one
-		// would let a caller build a search that quietly matches nothing.
+		// Only offered when an index can answer it.
 		if ($this->indexAvailable()) {
-			$properties[] = new SearchPropertyDefinition('content', $this->l10n->t('Content'), searchable: true);
+			$properties[] = new SearchPropertyDefinition('content', $this->l10n->t('Content'), searchable: true, indexed: true);
 		}
 
 		return $properties;
 	}
 
 	/**
-	 * Checked per call rather than cached: an administrator can install or remove the index without
-	 * restarting anything, and a search that claims to have read content when it did not is the
-	 * worst answer this can give.
+	 * Not cached, as the index can be installed or removed at any time.
 	 */
 	private function indexAvailable(): bool {
 		try {
@@ -120,81 +129,142 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	}
 
 	#[\Override]
-	public function search(string $userId, ISearchQuery $query): \Generator {
-		$userFolder = $this->rootFolder->getUserFolder($userId);
+	public function search(string $userId, ?ISearchOperator $filter, int $limit, int $offset = 0): \Generator {
+		$userFolder = $this->userFolder($userId);
 
-		$contentMatches = $this->resolveContentTerms($query->getSearchOperation(), $userId, []);
-		$resolvedQuery = new SearchQuery(
-			$this->substituteContent($query->getSearchOperation(), $contentMatches),
-			$query->getLimit(),
-			$query->getOffset(),
-			$query->getOrder(),
-			$query->getUser(),
-			$query->limitToHome(),
-			array_unique([...$query->getSelectFields(), 'creation_time']),
+		// A folder is not an item: its files are found on their own.
+		$operators = [
+			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', FileInfo::MIMETYPE_FOLDER),
+			]),
+		];
+		if ($filter !== null) {
+			$contentMatches = $this->resolveContentTerms($filter, $userId, []);
+			$externallyShared = $this->usesField($filter, 'shared_externally')
+				? $this->externallySharedFileIds($userId)
+				: [];
+			$operators[] = $this->resolveOperator($filter, $contentMatches, $externallyShared);
+		}
+
+		$query = new SearchQuery(
+			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, $operators),
+			$limit,
+			$offset,
+			[new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'fileid')],
+			null,
+			false,
+			['creation_time'],
 		);
 
-		foreach ($userFolder->search($resolvedQuery) as $node) {
-			$entry = new AccountScopedSearchResult((string)$node->getId(), $node->getName());
-
-			$this->addMetaData($entry, 'owner', static fn (): ?string => $node->getOwner()?->getUID());
-			$this->addMetaData($entry, 'path', static fn (): string => $userFolder->getRelativePath($node->getPath()) ?? $node->getPath());
-			$this->addMetaData($entry, 'mimetype', static fn (): string => $node->getMimetype());
-			$this->addMetaData($entry, 'size', static fn (): int|float => $node->getSize());
-			$this->addMetaData($entry, 'modified', static fn (): int => $node->getMTime());
-
-			$this->addMetaData($entry, 'created', static function () use ($node): int {
-				$created = $node->getCreationTime();
-				if ($created === 0) {
-					throw new \RuntimeException('creation time not recorded by the storage');
-				}
-
-				return $created;
-			});
-
-			// Nextcloud stores checksums as "TYPE:VALUE" and only when a client supplied one on
-			// upload; there is no stored SHA-256.
-			$this->addMetaData($entry, 'checksum', static function () use ($node): string {
-				$checksum = $node instanceof File ? $node->getChecksum() : '';
-				if ($checksum === '') {
-					throw new \RuntimeException('no checksum stored for this file');
-				}
-
-				return $checksum;
-			});
-
-			$shareStatus = null;
-			$this->addMetaData($entry, 'share_status', function () use ($node, &$shareStatus): array {
-				$shareStatus = $this->shareStatus($node);
-
-				return $shareStatus;
-			});
-			$this->addMetaData($entry, 'shared_with', static function () use (&$shareStatus): array {
-				if ($shareStatus === null) {
-					throw new \RuntimeException('share status not captured');
-				}
-
-				$recipients = [];
-				foreach ($shareStatus['shares'] as $share) {
-					$recipient = $share['recipient'] ?? '';
-					if ($recipient !== '') {
-						$recipients[] = $recipient;
-					}
-				}
-
-				return array_values(array_unique($recipients));
-			});
-
-			$this->addMetaData($entry, 'tags', fn (): array => $this->visibleTags($node));
-
-			yield $entry;
+		foreach ($userFolder->search($query) as $node) {
+			if ($node instanceof File) {
+				yield $this->entryFor($userFolder, $node, false);
+			}
 		}
 	}
 
+	#[\Override]
+	public function get(string $userId, string $id): ?AccountScopedSearchResult {
+		$userFolder = $this->userFolder($userId);
+		$node = $this->findFile($userFolder, $id);
+
+		return $node === null ? null : $this->entryFor($userFolder, $node, true);
+	}
+
+	#[\Override]
+	public function readContent(string $userId, string $id): ?ISimpleFile {
+		$node = $this->findFile($this->userFolder($userId), $id);
+
+		return $node === null ? null : new SimpleFile($node);
+	}
+
 	/**
-	 * Every distinct `content` term in a tree, resolved once each — the same term can appear more
-	 * than once (e.g. under both branches of an `or`), and each occurrence means the same set, so
-	 * resolving it twice would be an identical Fulltextsearch round-trip for no reason.
+	 * @throws AccountUnavailableException
+	 */
+	private function userFolder(string $userId): Folder {
+		try {
+			return $this->rootFolder->getUserFolder($userId);
+		} catch (UserNotFoundException|NotPermittedException $e) {
+			throw new AccountUnavailableException($e->getMessage(), 0, $e);
+		}
+	}
+
+	private function findFile(Folder $userFolder, string $id): ?File {
+		if (!ctype_digit($id)) {
+			return null;
+		}
+
+		$node = $userFolder->getFirstNodeById((int)$id);
+
+		return $node instanceof File ? $node : null;
+	}
+
+	/**
+	 * @param bool $detail Whether to also read the detail-only properties
+	 */
+	private function entryFor(Folder $userFolder, File $node, bool $detail): AccountScopedSearchResult {
+		$entry = new AccountScopedSearchResult((string)$node->getId(), $node->getName());
+
+		$this->addMetaData($entry, 'owner', static fn (): ?string => $node->getOwner()?->getUID());
+		$this->addMetaData($entry, 'path', static fn (): string => $userFolder->getRelativePath($node->getPath()) ?? $node->getPath());
+		$this->addMetaData($entry, 'mimetype', static fn (): string => $node->getMimetype());
+		$this->addMetaData($entry, 'size', static fn (): int|float => $node->getSize());
+		$this->addMetaData($entry, 'modified', static fn (): int => $node->getMTime());
+
+		$this->addMetaData($entry, 'created', static function () use ($node): int {
+			$created = $node->getCreationTime();
+			if ($created === 0) {
+				throw new \RuntimeException('creation time not recorded by the storage');
+			}
+
+			return $created;
+		});
+
+		$this->addMetaData($entry, 'mount_point', static fn (): string => $node->getMountPoint()->getMountPoint());
+
+		// Stored as "TYPE:VALUE", and only when a client supplied one on upload.
+		$this->addMetaData($entry, 'checksum', static function () use ($node): string {
+			$checksum = $node->getChecksum();
+			if ($checksum === '') {
+				throw new \RuntimeException('no checksum stored for this file');
+			}
+
+			return $checksum;
+		});
+
+		if (!$detail) {
+			return $entry;
+		}
+
+		$shareStatus = null;
+		$this->addMetaData($entry, 'share_status', function () use ($node, &$shareStatus): array {
+			$shareStatus = $this->shareStatus($node);
+
+			return $shareStatus;
+		});
+		$this->addMetaData($entry, 'shared_with', static function () use (&$shareStatus): array {
+			if ($shareStatus === null) {
+				throw new \RuntimeException('share status not captured');
+			}
+
+			$recipients = [];
+			foreach ($shareStatus['shares'] as $share) {
+				$recipient = $share['recipient'] ?? '';
+				if ($recipient !== '') {
+					$recipients[] = $recipient;
+				}
+			}
+
+			return array_values(array_unique($recipients));
+		});
+
+		$this->addMetaData($entry, 'tags', fn (): array => $this->visibleTags($node));
+
+		return $entry;
+	}
+
+	/**
+	 * Every distinct `content` term in a tree, resolved once each.
 	 *
 	 * @param array<string, list<int>> $resolved accumulated so far
 	 * @return array<string, list<int>>
@@ -209,7 +279,7 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 		}
 
 		if ($operator instanceof ISearchComparison && $operator->getField() === 'content') {
-			$term = (string)$operator->getValue();
+			$term = $this->contentTerm($operator);
 			if (!array_key_exists($term, $resolved)) {
 				$resolved[$term] = $this->contentMatchedFileIds($term, $userId);
 			}
@@ -218,25 +288,95 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 		return $resolved;
 	}
 
+	private function usesField(ISearchOperator $operator, string $field): bool {
+		if ($operator instanceof ISearchBinaryOperator) {
+			foreach ($operator->getArguments() as $child) {
+				if ($this->usesField($child, $field)) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		return $operator instanceof ISearchComparison && $operator->getField() === $field;
+	}
+
 	/**
-	 * Rewrite every `content` comparison in a tree into the fileids it resolved to.
+	 * Rewrite a tree into filecache fields, with `content` and `shared_externally` resolved to fileids.
 	 *
 	 * @param array<string, list<int>> $contentMatches
+	 * @param list<int> $externallyShared
 	 */
-	private function substituteContent(ISearchOperator $operator, array $contentMatches): ISearchOperator {
+	private function resolveOperator(ISearchOperator $operator, array $contentMatches, array $externallyShared): ISearchOperator {
 		if ($operator instanceof ISearchBinaryOperator) {
 			return new SearchBinaryOperator(
 				$operator->getType(),
 				array_map(fn (ISearchOperator $child): ISearchOperator
-					=> $this->substituteContent($child, $contentMatches), $operator->getArguments()),
+					=> $this->resolveOperator($child, $contentMatches, $externallyShared), $operator->getArguments()),
 			);
 		}
 
-		if ($operator instanceof ISearchComparison && $operator->getField() === 'content') {
-			return $this->fileIdsToComparison($contentMatches[(string)$operator->getValue()]);
+		if (!$operator instanceof ISearchComparison) {
+			return $operator;
+		}
+
+		if ($operator->getField() === 'content') {
+			return $this->fileIdsToComparison($contentMatches[$this->contentTerm($operator)]);
+		}
+
+		if ($operator->getField() === 'shared_externally') {
+			if ($operator->getType() !== ISearchComparison::COMPARE_EQUAL) {
+				throw new \InvalidArgumentException('Unsupported comparison for field shared_externally: ' . $operator->getType());
+			}
+
+			$ids = $this->fileIdsToComparison($externallyShared);
+
+			return filter_var($operator->getValue(), FILTER_VALIDATE_BOOL)
+				? $ids
+				: new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [$ids]);
+		}
+
+		// The filecache path is relative to the storage root. A file received through a share is
+		// stored under the owner's path, so the recipient's path does not match it.
+		if ($operator->getField() === 'path') {
+			$value = $operator->getValue();
+
+			return new SearchComparison(
+				$operator->getType(),
+				'path',
+				is_array($value)
+					? array_map(static fn (mixed $path): string => 'files/' . ltrim((string)$path, '/'), $value)
+					: 'files/' . ltrim((string)$value, '/'),
+				$operator->getExtra(),
+			);
+		}
+
+		if (isset(self::FIELD_COLUMNS[$operator->getField()])) {
+			return new SearchComparison(
+				$operator->getType(),
+				self::FIELD_COLUMNS[$operator->getField()],
+				$operator->getValue(),
+				$operator->getExtra(),
+			);
 		}
 
 		return $operator;
+	}
+
+	/**
+	 * The text a `content` comparison searches for. The index always matches a term anywhere in
+	 * the content, so the wildcards of a LIKE pattern are dropped.
+	 */
+	private function contentTerm(ISearchComparison $comparison): string {
+		$value = (string)$comparison->getValue();
+		if (!in_array($comparison->getType(), [ISearchComparison::COMPARE_LIKE, ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE], true)) {
+			return $value;
+		}
+
+		$term = preg_replace('/(?<!\\\\)[%_]/', ' ', $value) ?? $value;
+
+		return trim(str_replace(['\\%', '\\_', '\\\\'], ['%', '_', '\\'], $term));
 	}
 
 	/**
@@ -252,8 +392,6 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 				'size' => self::CONTENT_MATCH_LIMIT,
 			], $userId);
 		} catch (\Throwable $e) {
-			// An index that cannot answer must not silently narrow the search to nothing while the
-			// caller reads a result that looks complete.
 			throw new \RuntimeException('The content index did not answer for ' . $userId, 0, $e);
 		}
 
@@ -264,11 +402,9 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 			}
 		}
 
-		// Answering *partially* is just as wrong as not answering: the id set would then be a
-		// subset, and matching on it would silently discard files that genuinely contain the term.
-		// ISearchResult exposes no total, so a full page is the only signal available.
+		// ISearchResult exposes no total, so a full page may be a subset.
 		if (count($fileIds) >= self::CONTENT_MATCH_LIMIT) {
-			throw new \RuntimeException(
+			throw new SearchTruncatedException(
 				'Content search for "' . $term . '" matched at least ' . self::CONTENT_MATCH_LIMIT
 				. ' files for ' . $userId . ' and cannot be answered exhaustively',
 			);
@@ -293,18 +429,41 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	private function addMetaData(AccountScopedSearchResult $entry, string $name, callable $read): void {
 		try {
 			$value = $read();
-			$entry->addMetaData($value === null
-				? MetadataField::notCaptured($name, 'not reported by the storage')
-				: MetadataField::captured($name, $value));
+			if ($value === null) {
+				$entry->setMetadataError($name, 'not reported by the storage');
+			} else {
+				$entry->setMetadata($name, $value);
+			}
 		} catch (\Throwable $e) {
-			$entry->addMetaData(MetadataField::notCaptured($name, $e->getMessage()));
+			$entry->setMetadataError($name, $e->getMessage());
 		}
+	}
+
+	/**
+	 * Fileids of everything the account shared outside the organisation.
+	 *
+	 * @return list<int>
+	 */
+	private function externallySharedFileIds(string $userId): array {
+		$fileIds = [];
+		foreach (self::EXTERNAL_SHARE_TYPES as $shareType) {
+			$offset = 0;
+			do {
+				$page = $this->shareManager->getSharesBy($userId, $shareType, null, false, self::SHARE_PAGE, $offset);
+				foreach ($page as $share) {
+					$fileIds[$share->getNodeId()] = true;
+				}
+				$offset += count($page);
+			} while (count($page) === self::SHARE_PAGE);
+		}
+
+		return array_keys($fileIds);
 	}
 
 	/**
 	 * @return array{shared: bool, externally: bool, shares: list<array{type: int, external: bool, recipient: ?string, shareId: string}>}
 	 */
-	private function shareStatus(Node $node): array {
+	private function shareStatus(File $node): array {
 		$owner = $node->getOwner()?->getUID();
 		if ($owner === null) {
 			throw new \RuntimeException('owner unknown, so shares cannot be enumerated');
@@ -323,8 +482,7 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 						'type' => $shareType,
 						'external' => $external,
 						'recipient' => $share->getSharedWith(),
-						// Deliberately NOT the token: a public-link token is a bearer credential, and
-						// this entry may end up somewhere longer-lived than the search response.
+						// Not the token: a public-link token is a credential.
 						'shareId' => $share->getId(),
 					];
 				}
@@ -340,12 +498,11 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	}
 
 	/**
-	 * The tags on this file that anyone is allowed to see. An invisible tag (`userVisible=false`) is
-	 * hidden by the platform from everyone but administrators, and must stay that way here too.
+	 * The user-visible tags on this file.
 	 *
 	 * @return list<string>
 	 */
-	private function visibleTags(Node $node): array {
+	private function visibleTags(File $node): array {
 		$objectId = (string)$node->getId();
 		$assigned = $this->tagObjectMapper->getTagIdsForObjects([$objectId], 'files');
 		$tagIds = $assigned[$objectId] ?? [];
@@ -372,25 +529,5 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 		}
 
 		return $names;
-	}
-
-	#[\Override]
-	public function readContent(string $userId, AccountScopedSearchResult $entry): ?ISimpleFile {
-		$id = $entry->getId();
-		if (!ctype_digit($id)) {
-			return null;
-		}
-
-		try {
-			$node = $this->rootFolder->getUserFolder($userId)->getFirstNodeById((int)$id);
-		} catch (\Throwable) {
-			return null;
-		}
-
-		if (!$node instanceof File) {
-			return null;
-		}
-
-		return new SimpleFile($node);
 	}
 }

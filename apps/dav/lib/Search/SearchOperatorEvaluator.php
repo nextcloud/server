@@ -14,16 +14,11 @@ use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 
 /**
- * Evaluates an `ISearchOperator` tree against one already-fetched CardDAV or CalDAV object.
+ * Evaluates an `ISearchOperator` tree against one already-fetched CardDAV or CalDAV object, as
+ * neither backend supports AND/OR/NOT trees.
  *
- * Neither backend takes an AND/OR/NOT tree — `CardDavBackend::search()` and `ICalendar::search()`
- * both take one pattern or a short list of named filters — so every candidate is read and the real
- * tree is evaluated here instead. Grouping means what the caller wrote, not what a single `LIKE`
- * could express.
- *
- * Deliberately not narrowed by the property index either way: `oc_cards_properties` and
- * `oc_calendarobjects_props` both store `mb_strcut($value, 0, 254)`, so a match starting past that
- * offset would be missed by the index while still being a real match here.
+ * The property index is not used to narrow candidates: it only stores the first 254 bytes of
+ * each value.
  */
 final class SearchOperatorEvaluator {
 	/**
@@ -99,8 +94,7 @@ final class SearchOperatorEvaluator {
 	}
 
 	/**
-	 * A SQL LIKE pattern as a regex: `%` becomes "anything", `_` becomes "one character", and
-	 * `\%`/`\_`/`\\` are the literal characters, escaped for the regex like everything else.
+	 * A SQL LIKE pattern as a regex, honouring `\%`, `\_` and `\\` escapes.
 	 */
 	private static function likeToRegex(string $pattern): string {
 		$regex = '';
@@ -178,13 +172,10 @@ final class SearchOperatorEvaluator {
 	}
 
 	/**
-	 * A numeric bound every matching item must satisfy, for pushing a range into a backend query —
-	 * CalDAV's `event_start`/`event_end` are the current use, since unlike free text they are
-	 * indexed at full width and narrowing by them is sound.
+	 * A numeric bound every matching item must satisfy, for pushing a range into a backend query.
 	 *
-	 * Only conditions conjoined all the way up to the root qualify: under an `or` or a `not`, the
-	 * bound constrains one branch rather than the whole result, so using it to narrow the backend
-	 * query would drop items that matched some other branch.
+	 * Only conditions ANDed all the way up to the root qualify: under an `or` or a `not` the bound
+	 * does not constrain the whole result.
 	 */
 	public static function mandatoryBound(?ISearchOperator $operator, string $field, string $comparisonType): ?int {
 		if ($operator === null) {

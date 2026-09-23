@@ -11,15 +11,13 @@ namespace NCU\Search;
 
 /**
  * One match from an `IAccountScopedSearchProvider`.
- *
- * Deliberately carries none of `OCP\Search\SearchResultEntry`'s display fields (thumbnail, icon,
- * resource link, …) — those exist for a person clicking a result in the unified search UI, which an
- * account-scoped, system-privileged search has no equivalent of. `id` is required rather than
- * optional: it is the whole reason this type exists, not an afterthought.
  */
 final class AccountScopedSearchResult {
-	/** @var list<MetadataField> */
+	/** @var array<string, mixed> */
 	private array $metadata = [];
+
+	/** @var array<string, string> */
+	private array $metadataErrors = [];
 
 	public function __construct(
 		/** Source-native, stable across renames and moves. */
@@ -36,14 +34,30 @@ final class AccountScopedSearchResult {
 		return $this->title;
 	}
 
-	public function addMetaData(MetadataField $field): void {
-		$this->metadata[] = $field;
+	public function setMetadata(string $name, mixed $value): void {
+		$this->metadata[$name] = $value;
+		unset($this->metadataErrors[$name]);
 	}
 
 	/**
-	 * @return list<MetadataField>
+	 * Record that a property could not be read, and why.
 	 */
-	public function getMetaData(): array {
+	public function setMetadataError(string $name, string $reason): void {
+		$this->metadataErrors[$name] = $reason;
+		unset($this->metadata[$name]);
+	}
+
+	/**
+	 * @return array<string, mixed>
+	 */
+	public function getMetadata(): array {
 		return $this->metadata;
+	}
+
+	/**
+	 * @return array<string, string> Property name => why it could not be read
+	 */
+	public function getMetadataErrors(): array {
+		return $this->metadataErrors;
 	}
 }

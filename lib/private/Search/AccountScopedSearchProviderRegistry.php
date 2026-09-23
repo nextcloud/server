@@ -28,11 +28,6 @@ final class AccountScopedSearchProviderRegistry implements IAccountScopedSearchP
 	}
 
 	#[\Override]
-	public function clear(): void {
-		$this->providers = null;
-	}
-
-	#[\Override]
 	public function getProviders(): array {
 		return $this->load();
 	}
@@ -52,8 +47,7 @@ final class AccountScopedSearchProviderRegistry implements IAccountScopedSearchP
 
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
-			// Too early, nothing registered yet — not cached, so a later call once boot has
-			// finished still sees the real list.
+			// Not cached: nothing is registered yet this early in boot.
 			return [];
 		}
 
