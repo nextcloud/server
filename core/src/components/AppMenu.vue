@@ -339,15 +339,14 @@ export default defineComponent({
 			this.opened = !this.opened
 
 			const date = new Date()
-			if (this.clickTimestamp != 0) {
+			if (this.clickTimestamp !== 0) {
 				if (date - this.clickTimestamp > 10000) {
 					this.clicks = 0
 				}
 			}
 			this.clickTimestamp = date
 			this.clicks++
-if (this.clicks > 20 && !matchMedia('(prefers-reduced-motion: reduce)').matches && !document.body.hasAttribute('data-theme-reduced-motion')) {
-
+			if (this.clicks > 20 && !matchMedia('(prefers-reduced-motion: reduce)').matches && !document.body.hasAttribute('data-theme-reduced-motion')) {
 				const styleTag = document.createElement('style')
 				styleTag.innerHTML = '@keyframes bodyAnimation { 0% {transform: rotate3d(0,0,0,0);} 25% {transform: rotate3d(' + (Math.floor(Math.random() * 3) - 1) + ',' + (Math.floor(Math.random() * 3) - 1) + ',' + (Math.floor(Math.random() * 3) - 1) + ',' + Math.floor(Math.random() * 360) + 'deg);} 50% {transform: rotate3d(' + (Math.floor(Math.random() * 3) - 1) + ',' + (Math.floor(Math.random() * 3) - 1) + ',' + (Math.floor(Math.random() * 3) - 1) + ',' + Math.floor(Math.random() * 360) + 'deg);} 75% {transform: rotate3d(0,0,0,0);} 100% {transform: rotate3d(0,0,0,0);}}'
 				document.body.appendChild(styleTag)
