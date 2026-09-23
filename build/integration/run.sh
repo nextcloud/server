@@ -36,6 +36,9 @@ if [ "$INSTALLED" == "true" ]; then
     $OCC config:system:set sharing.federation.allowSelfSignedCertificates --value true --type bool
 	# Allow creating users with dummy passwords
 	$OCC app:disable password_policy
+	# Enable Unified Sharing legacy sync validation
+	$OCC config:system:set --type=boolean --value=true sharing.unified_api_enable
+	$OCC config:system:set --type=boolean --value=true unified_sharing.legacy_sync.validation.enable
 else
     if [ "$SCENARIO_TO_RUN" != "setup_features/setup.feature" ]; then
         echo "Nextcloud instance needs to be installed" >&2
