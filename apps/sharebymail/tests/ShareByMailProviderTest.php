@@ -777,7 +777,8 @@ class ShareByMailProviderTest extends TestCase {
 				$sendPasswordByTalk,
 				$hideDownload,
 				$label,
-				$expiration
+				$expiration,
+				null,
 			]
 		);
 
