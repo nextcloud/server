@@ -508,14 +508,14 @@ class SetupManager implements ISetupManager {
 		$setupProviders = &$this->setupUserMountProviders[$user->getUID()];
 		$currentProviders = [];
 
+		$this->oneTimeUserSetup($user);
+
 		try {
 			$cachedMount = $this->userMountCache->getMountForPath($user, $path);
 		} catch (NotFoundException $e) {
 			$this->setupForUser($user);
 			return;
 		}
-
-		$this->oneTimeUserSetup($user);
 
 		$this->eventLogger->start('fs:setup:user:path', "Setup $path filesystem for user");
 		$this->eventLogger->start('fs:setup:user:path:find', "Find mountpoint for $path");
