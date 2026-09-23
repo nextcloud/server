@@ -37,6 +37,7 @@ use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\PostLoginEvent;
+use OCP\User\Events\UserLoggedInEvent;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -194,10 +195,10 @@ class SessionTest extends TestCase {
 		$userSession->expects($this->once())
 			->method('prepareUserLogin');
 
-		$this->dispatcher->expects($this->once())
+		$this->dispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with(
-				$this->callback(function (PostLoginEvent $e): bool {
+				$this->callback(function (PostLoginEvent|UserLoggedInEvent $e): bool {
 					return $e->getUser()->getUID() === 'foo'
 						&& $e->getPassword() === 'bar'
 						&& $e->isTokenLogin() === false;
@@ -1211,6 +1212,27 @@ class SessionTest extends TestCase {
 			->with('UserUid', 'LongRandomToken');
 
 		$this->userSession->createRememberMeToken($user);
+	}
+
+	public static function renewMagicSessionIdData(): array {
+		return [
+			'cookie holds the old session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'], true],
+			'cookie holds another session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'other'], false],
+			'no remember-me cookies' => [[], false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'renewMagicSessionIdData')]
+	public function testRenewMagicSessionId(array $cookies, bool $expectRenewal): void {
+		$this->userSession->expects($expectRenewal ? $this->once() : $this->never())
+			->method('setMagicInCookie')
+			->with('u', 't');
+
+		$request = $this->createMock(IRequest::class);
+		$request->method('getCookie')->willReturnCallback(fn (string $key) => $cookies[$key] ?? null);
+		$this->overwriteService(IRequest::class, $request);
+
+		$this->userSession->renewMagicSessionId('old');
 	}
 
 	public function testTryBasicAuthLoginValid(): void {

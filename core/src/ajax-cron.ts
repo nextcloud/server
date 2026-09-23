@@ -4,7 +4,7 @@
  */
 
 import { getRootUrl } from '@nextcloud/router'
-import logger from './logger.js'
+import { logger } from './utils/logger.ts'
 
 window.addEventListener('DOMContentLoaded', async () => {
 	// When the page is loaded send GET to the cron endpoint to trigger background jobs

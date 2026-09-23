@@ -60,7 +60,6 @@ use OC\Files\Config\MountProviderCollection;
 use OC\Files\Config\UserMountCache;
 use OC\Files\Conversion\ConversionManager;
 use OC\Files\FilenameValidator;
-use OC\Files\Listeners\UserMountCacheListener;
 use OC\Files\Lock\LockManager;
 use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
@@ -289,7 +288,6 @@ use OCP\Talk\IBroker;
 use OCP\Teams\ITeamManager;
 use OCP\Translation\ITranslationManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
-use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
@@ -492,7 +490,16 @@ class Server extends ServerContainer {
 
 		$this->registerAlias(IURLGenerator::class, URLGenerator::class);
 
-		$this->registerAlias(ICache::class, Cache\File::class);
+		$this->registerService(ICache::class, static function ($c) {
+			/** @var LoggerInterface $logger */
+			$logger = $c->get(LoggerInterface::class);
+			$logger->debug('The requested service "' . ICache::class . '" is deprecated. Please use "' . ICacheFactory::class . '" instead to create a cache. This service will be removed in a future Nextcloud version.', ['app' => 'serverDI']);
+
+			/** @var ICacheFactory $cacheFactory */
+			$cacheFactory = $c->get(ICacheFactory::class);
+			return $cacheFactory->isLocalCacheAvailable() ? $cacheFactory->createLocal() : $cacheFactory->createInMemory();
+		});
+
 		$this->registerService(Factory::class, static function (Server $c) {
 			$profiler = $c->get(IProfiler::class);
 			$logger = $c->get(LoggerInterface::class);
@@ -1121,14 +1128,13 @@ class Server extends ServerContainer {
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $this->get(IEventDispatcher::class);
 		$eventDispatcher->addServiceListener(LoginFailed::class, LoginFailedListener::class);
-		$eventDispatcher->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, UserLoggedInListener::class);
 		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, SubAdmin::class);
 		$eventDispatcher->addServiceListener(GroupDeletedEvent::class, SubAdmin::class);
-		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserMountCacheListener::class);
 
 		FilesMetadataManager::loadListeners($eventDispatcher);
 		GenerateBlurhashMetadata::loadListeners($eventDispatcher);

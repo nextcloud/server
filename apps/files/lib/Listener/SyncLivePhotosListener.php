@@ -102,7 +102,7 @@ class SyncLivePhotosListener implements IEventListener {
 			$peerFile = $this->userFolder->getFirstNodeById($peerFileId);
 
 			if ($peerFile === null) {
-				return; // Peer file not found.
+				continue; // Peer file not found.
 			}
 			$peerFile->delete();
 		}

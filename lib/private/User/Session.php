@@ -44,6 +44,7 @@ use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
+use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use OCP\Util;
@@ -355,6 +356,12 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$this->dispatcher->dispatchTyped(new PostLoginEvent(
+			$user,
+			$loginDetails['loginName'],
+			$loginDetails['password'],
+			$isToken
+		));
+		$this->dispatcher->dispatchTyped(new UserLoggedInEvent(
 			$user,
 			$loginDetails['loginName'],
 			$loginDetails['password'],
@@ -1064,6 +1071,21 @@ class Session implements IUserSession, Emitter {
 		} catch (SessionNotAvailableException $ex) {
 			// ignore
 		}
+	}
+
+	/**
+	 * Point the remember-me cookie at the regenerated session id, so cookie
+	 * login can still find the token that was renewed along with it.
+	 */
+	public function renewMagicSessionId(string $oldSessionId): void {
+		$request = Server::get(IRequest::class);
+		$username = $request->getCookie('nc_username');
+		$token = $request->getCookie('nc_token');
+		$sessionId = $request->getCookie('nc_session_id');
+		if ($username === null || $token === null || $sessionId !== $oldSessionId) {
+			return;
+		}
+		$this->setMagicInCookie($username, $token);
 	}
 
 	/**
