@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-26.04
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -42,7 +42,7 @@ jobs:
               - '**.php'
 
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     needs: changes
     if: needs.changes.outputs.src != 'false'
@@ -75,7 +75,7 @@ jobs:
   summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-26.04
     needs: [changes, lint]
 
     if: always()

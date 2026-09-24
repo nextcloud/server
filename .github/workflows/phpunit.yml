@@ -18,7 +18,7 @@ concurrency:
 # GitHub allows a maximum of 20 reusable workflows per caller
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       pull-requests: read
@@ -108,7 +108,7 @@ jobs:
   summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-26.04
     needs: [changes, mariadb, memcached, mysql, mysql-sharding, object-store-primary, oci, pgsql, sqlite, nodb, kvstore]
 
     if: always()

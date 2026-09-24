@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       pull-requests: read
@@ -45,7 +45,7 @@ jobs:
               - '**.vue'
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     needs: changes
     if: needs.changes.outputs.src != 'false'
@@ -101,7 +101,7 @@ jobs:
   summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-26.04
     needs: [changes, build]
 
     if: always()

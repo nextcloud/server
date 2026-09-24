@@ -23,7 +23,7 @@ jobs:
 
     # Only run on stableXX branches
     if: startsWith( github.base_ref, 'stable')
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-26.04
 
     steps:
       - name: Set server major version environment

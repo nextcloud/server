@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   update-pr-title:
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-26.04
     permissions:
       pull-requests: write
       contents: read

@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   update-node-dist:
-    runs-on: ubuntu-latest-assets
+    runs-on: ubuntu-26.04-assets
     environment: update-node-dist
 
     steps:
