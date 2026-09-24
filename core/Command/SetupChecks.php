@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 namespace OC\Core\Command;
 
+use OC\Migration\ConsoleOutput;
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\SetupCheck\ISetupCheckManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SetupChecks extends Base {
@@ -60,12 +62,14 @@ class SetupChecks extends Base {
 			return self::FAILURE;
 		}
 
+		$progressOutput = new ConsoleOutput($output instanceof ConsoleOutputInterface ? $output->getErrorOutput() : $output);
+
 		if ($filterByCategory !== '') {
-			$results = $this->setupCheckManager->runByCategory($filterByCategory);
+			$results = $this->setupCheckManager->runByCategory($filterByCategory, $progressOutput);
 		} elseif ($filterByClass !== '') {
-			$results = $this->setupCheckManager->runByClass($filterByClass);
+			$results = $this->setupCheckManager->runByClass($filterByClass, $progressOutput);
 		} else {
-			$results = $this->setupCheckManager->runAll();
+			$results = $this->setupCheckManager->runAll($progressOutput);
 		}
 
 		switch ($input->getOption('output')) {
