@@ -52,6 +52,49 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/** Original values keyed by config key; null means the key was unset. */
 	private array $systemConfigValues = [];
 
+	/** @var array<class-string, object> */
+	protected array $mocks = [];
+
+	/**
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return T
+	 */
+	protected function createInstance(string $class, array $overrides = []): object {
+		$reflection = new \ReflectionClass($class);
+		$constructor = $reflection->getConstructor();
+		if ($constructor === null) {
+			/* No constructor, return a instance directly */
+			return $reflection->newInstance();
+		}
+		$params = [];
+		foreach ($constructor->getParameters() as $parameter) {
+			if (isset($overrides[$parameter->getName()])) {
+				$params[] = $overrides[$parameter->getName()];
+				continue;
+			}
+			$type = $parameter->getType();
+			if ($type === null) {
+				$params[] = null;
+				continue;
+			}
+			if (!($type instanceof \ReflectionNamedType)) {
+				throw new \TypeError('Not supported');
+			}
+			if ($type->isBuiltin()) {
+				throw new \TypeError('Not supported, please override value');
+			}
+			$className = $type->getName();
+			if (isset($overrides[$className])) {
+				$params[] = $overrides[$className];
+				continue;
+			}
+			$this->mocks[$className] = $this->createMock($className);
+			$params[] = $this->mocks[$className];
+		}
+		return $reflection->newInstanceArgs($params);
+	}
+
 	#[\Override]
 	protected function onNotSuccessfulTest(\Throwable $t): never {
 		$this->restoreAllServices();
