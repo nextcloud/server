@@ -349,8 +349,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * @param ?string $userEmail The email address of the share initiator
 	 * @return (IMessageSend&IService)|null A mail service that can send, or null to fall back to the system mailer
 	 */
-	protected function findMailService(?string $userId, ?string $userEmail): (IMessageSend&IService)|null {
-		if ($userId === null || $userEmail === null) {
+	protected function findMailService(?string $userId, ?\OCP\IUser $user = null): (IMessageSend&IService)|null {
+		if ($userId === null || $user === null) {
 			return null;
 		}
 		if (!$this->settingsManager->useUserEmail()) {
@@ -358,6 +358,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		if (!$this->appConfig->getValueBool('core', 'mail_providers_enabled', true)) {
+			return null;
+		}
+
+		$userEmail = $user->getEMailAddress();
+		if ($userEmail === null) {
 			return null;
 		}
 
@@ -373,7 +378,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * Send the share email via Mail Provider if available,
 	 * otherwise return false to fall back to the system mailer.
 	 *
-	 * @param string $initiator The user ID of the share initiator
+	 * @param ?string $initiator The user ID of the share initiator
 	 * @param ?string $initiatorEmail The email address of the share initiator
 	 * @param string $initiatorDisplayName The display name of the share initiator
 	 * @param array $recipientEmails The recipient email addresses
@@ -381,14 +386,19 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * @return bool True if successfully sent via Mail Provider, false if falling back
 	 */
 	protected function sendViaMailProviderWithFallback(
-		string $initiator,
-		?string $initiatorEmail,
+		?string $initiator,
+		?\OCP\IUser $initiatorUser,
 		string $initiatorDisplayName,
 		array $recipientEmails,
 		callable $templateFactory,
 	): bool {
-		$mailService = $this->findMailService($initiator, $initiatorEmail);
-		if ($mailService === null || $initiatorEmail === null) {
+		$mailService = $this->findMailService($initiator, $initiatorUser);
+		if ($mailService === null) {
+			return false;
+		}
+		
+		$initiatorEmail = $initiatorUser->getEMailAddress();
+		if ($initiatorEmail === null) {
 			return false;
 		}
 
@@ -503,8 +513,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$instanceName = $this->defaults->getName();
 
 		// Try to send via the user's Mail Provider
-		$initiatorEmail = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
-		if ($this->sendViaMailProviderWithFallback($initiator, $initiatorEmail, $initiatorDisplayName, $emails, $templateFactory)) {
+		$initiatorUserObj = ($initiatorUser instanceof IUser) ? $initiatorUser : null;
+		if ($this->sendViaMailProviderWithFallback($initiator, $initiatorUserObj, $initiatorDisplayName, $emails, $templateFactory)) {
 			return;
 		}
 
@@ -536,7 +546,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
-		if ($initiatorUser && $this->settingsManager->replyToInitiator()) {
+		if ($initiatorUser instanceof IUser && $this->settingsManager->replyToInitiator()) {
 			$initiatorEmail = $initiatorUser->getEMailAddress();
 			if ($initiatorEmail !== null) {
 				$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
@@ -611,7 +621,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		};
 
 		// Try to send via the user's Mail Provider
-		if ($this->sendViaMailProviderWithFallback($initiator, $initiatorEmailAddress, $initiatorDisplayName, $emails, $templateFactory)) {
+		$initiatorUserObj = ($initiatorUser instanceof IUser) ? $initiatorUser : null;
+		if ($this->sendViaMailProviderWithFallback($initiator, $initiatorUserObj, $initiatorDisplayName, $emails, $templateFactory)) {
 			$this->createPasswordSendActivity($share, $shareWith, false);
 			return true;
 		}
@@ -645,7 +656,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
-		if ($initiatorUser && $this->settingsManager->replyToInitiator()) {
+		if ($initiatorUser instanceof IUser && $this->settingsManager->replyToInitiator()) {
 			$initiatorEmail = $initiatorUser->getEMailAddress();
 			if ($initiatorEmail !== null) {
 				$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
@@ -701,7 +712,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		};
 
 		// Try to send via the user's Mail Provider
-		if ($this->sendViaMailProviderWithFallback($initiator, $initiatorEmailAddress, $initiatorDisplayName, [$recipient], $templateFactory)) {
+		$initiatorUserObj = ($initiatorUser instanceof IUser) ? $initiatorUser : null;
+		if ($this->sendViaMailProviderWithFallback($initiator, $initiatorUserObj, $initiatorDisplayName, [$recipient], $templateFactory)) {
 			return;
 		}
 
