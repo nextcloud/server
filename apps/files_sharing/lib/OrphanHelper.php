@@ -56,6 +56,9 @@ class OrphanHelper {
 		return $query->executeQuery()->fetchOne() !== false;
 	}
 
+	/**
+	 * Note: only detects the regular user trashbin path layout, not group folders trash
+	 */
 	public function isInTrashbin(int $fileId): bool {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('path')
