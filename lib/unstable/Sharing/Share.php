@@ -321,8 +321,13 @@ final class Share {
 	 * @experimental 35.0.0
 	 */
 	public static function formatMultiple(ISharingRegistry $registry, IFactory $l10nFactory, IURLGenerator $urlGenerator, IUserManager $userManager, ShareAccessContext $accessContext, array $shares): array {
-		// First sort by number of enabled permissions and then sort by share id to get a stable order regardless of the DB order
-		usort($shares, static fn (Share $a, Share $b): int => 2 * (count($b->getEffectiveEnabledPermissions($accessContext)) <=> count($a->getEffectiveEnabledPermissions($accessContext))) + ($a->id <=> $b->id));
+		usort(
+			$shares,
+			static fn (Share $a, Share $b): int
+				=> (count($b->getEffectiveEnabledPermissions($accessContext)) <=> count($a->getEffectiveEnabledPermissions($accessContext)))
+				?: ($a->id <=> $b->id),
+		);
+
 		return array_map(static fn (Share $share): array => $share->format($registry, $l10nFactory, $urlGenerator, $userManager, $accessContext), $shares);
 	}
 }
