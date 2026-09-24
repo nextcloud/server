@@ -467,7 +467,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$table = array_shift($ready);
 			$sortedTables[] = $table;
 
-			foreach ($dependents[$table] as $dependent => $_) {
+			foreach (array_keys($dependents[$table]) as $dependent) {
 				unset($dependencies[$dependent][$table]);
 
 				if ($dependencies[$dependent] === []) {
