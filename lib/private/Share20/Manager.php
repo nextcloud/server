@@ -170,7 +170,7 @@ class Manager implements IManager {
 		} elseif ($share->getShareType() === IShare::TYPE_CIRCLE) {
 			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($share->getSharedWith());
 			if ($circle === null) {
-				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid circle'));
+				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid team'));
 			}
 		} elseif ($share->getShareType() !== IShare::TYPE_ROOM && $share->getShareType() !== IShare::TYPE_DECK) {
 			// We cannot handle other types yet
