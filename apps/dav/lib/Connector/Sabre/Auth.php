@@ -185,6 +185,8 @@ class Auth extends AbstractBasic {
 			if ($this->twoFactorManager->needsSecondFactor($this->userSession->getUser())) {
 				throw new \Sabre\DAV\Exception\NotAuthenticated('2FA challenge not passed.');
 			}
+			/** @psalm-suppress DeprecatedClass OC_User is deprecated*/
+			/** @psalm-suppress DeprecatedMethod this call should be removed ideally */
 			if (
 				//Fix for broken webdav clients
 				($this->userSession->isLoggedIn() && is_null($this->session->get(self::DAV_AUTHENTICATED)))

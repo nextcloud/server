@@ -495,10 +495,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		self::logout();
 		$setupManager = Server::get(SetupManager::class);
 		$setupManager->tearDown();
-		\OC_User::setUserId($user);
 		$userManager = Server::get(IUserManager::class);
+		$userSession = Server::get(IUserSession::class);
 		$userObject = $userManager->get($user);
 		if (!is_null($userObject)) {
+			$userSession->setUser($userObject);
 			$userObject->updateLastLoginTimestamp();
 			$setupManager->setupForUser($userObject);
 			$rootFolder = Server::get(IRootFolder::class);

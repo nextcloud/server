@@ -191,10 +191,12 @@ class Session implements IUserSession, Emitter {
 		return $this->activeUser;
 	}
 
+	#[\Override]
 	public function isIncognitoMode(): bool {
 		return $this->incognitoMode;
 	}
 
+	#[\Override]
 	public function setIncognitoMode(bool $mode): void {
 		$this->incognitoMode = $mode;
 	}

@@ -896,13 +896,14 @@ class OC {
 		$eventLogger->start('setup_backends', 'Setup group and user backends');
 		Server::get(\OCP\IUserManager::class)->registerBackend(new \OC\User\Database());
 		Server::get(\OCP\IGroupManager::class)->addBackend(new \OC\Group\Database());
+		$userSession = Server::get(\OCP\IUserSession::class);
 
 		//setup extra user backends
 		if (!\OCP\Util::needUpgrade()) {
 			OC_User::setupBackends();
 		} else {
 			// Run upgrades in incognito mode
-			OC_User::setIncognitoMode(true);
+			$userSession->setIncognitoMode(true);
 		}
 		$eventLogger->end('setup_backends');
 

@@ -12,6 +12,7 @@ use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -33,6 +34,7 @@ class LegacyPublicAuth extends AbstractBasic {
 		private IManager $shareManager,
 		private ISession $session,
 		private IThrottler $throttler,
+		private IUserSession $userSession,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -64,7 +66,7 @@ class LegacyPublicAuth extends AbstractBasic {
 
 		$this->share = $share;
 
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		// check if the share is password protected
 		if ($share->isPasswordProtected()) {

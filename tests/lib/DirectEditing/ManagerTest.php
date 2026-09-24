@@ -21,7 +21,9 @@ use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\ISession;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
@@ -128,6 +130,9 @@ class ManagerTest extends TestCase {
 	 */
 	private $encryptionManager;
 
+	private IUserManager&MockObject $userManager;
+	private ISession&MockObject $session;
+
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
@@ -141,6 +146,8 @@ class ManagerTest extends TestCase {
 		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->encryptionManager = $this->createMock(IManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->session = $this->createMock(ISession::class);
 
 		$l10nFactory = $this->createMock(IFactory::class);
 		$l10nFactory->expects($this->once())
@@ -160,7 +167,14 @@ class ManagerTest extends TestCase {
 			->willReturn($user);
 
 		$this->manager = new Manager(
-			$this->random, $this->connection, $this->userSession, $this->rootFolder, $l10nFactory, $this->encryptionManager
+			$this->random,
+			$this->connection,
+			$this->userSession,
+			$this->rootFolder,
+			$l10nFactory,
+			$this->encryptionManager,
+			$this->userManager,
+			$this->session,
 		);
 
 		$this->manager->registerDirectEditor($this->editor);

@@ -35,10 +35,8 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\ITagManager;
-use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
-use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
@@ -62,14 +60,7 @@ $session->close();
 $requestUri = $request->getRequestUri();
 
 // Backends
-$authBackend = new PublicAuth(
-	$request,
-	Server::get(IManager::class),
-	$session,
-	Server::get(IThrottler::class),
-	Server::get(LoggerInterface::class),
-	Server::get(IURLGenerator::class),
-);
+$authBackend = Server::get(PublicAuth::class);
 $bearerAuthBackend = new BearerAuth(
 	Server::get(IUserSession::class),
 	$session,
