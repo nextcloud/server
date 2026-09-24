@@ -23,7 +23,7 @@ final class ApiControllerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->apiController = $this->createInstance(ApiController::class);
+		$this->apiController = $this->createInstanceWithMocks(ApiController::class);
 	}
 
 	public function testListCategories(): void {

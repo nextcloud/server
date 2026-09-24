@@ -15,7 +15,6 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
-use OCP\IL10N;
 use Test\TestCase;
 
 #[\PHPUnit\Framework\Attributes\Group(name: 'DB')]
@@ -27,11 +26,7 @@ final class PageControllerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->pageController = $this->createInstance(PageController::class);
-
-		$this->mocks[IL10N::class]->expects($this->any())
-			->method('t')
-			->willReturnArgument(0);
+		$this->pageController = $this->createInstanceWithMocks(PageController::class);
 	}
 
 	public function testViewApps(): void {

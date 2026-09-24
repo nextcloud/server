@@ -28,37 +28,17 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ListenerTest extends TestCase {
-	protected IManager&MockObject $activityManager;
-	protected IUserSession&MockObject $session;
-	protected IAppManager&MockObject $appManager;
-	protected IMountProviderCollection&MockObject $mountProviderCollection;
-	protected IRootFolder&MockObject $rootFolder;
-	protected IShareHelper&MockObject $shareHelper;
 	protected Listener $listener;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->activityManager = $this->createMock(IManager::class);
-		$this->session = $this->createMock(IUserSession::class);
-		$this->appManager = $this->createMock(IAppManager::class);
-		$this->mountProviderCollection = $this->createMock(IMountProviderCollection::class);
-		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->shareHelper = $this->createMock(IShareHelper::class);
-
-		$this->listener = new Listener(
-			$this->activityManager,
-			$this->session,
-			$this->appManager,
-			$this->mountProviderCollection,
-			$this->rootFolder,
-			$this->shareHelper
-		);
+		$this->listener = $this->createInstanceWithMocks(Listener::class);
 	}
 
 	public function testCommentEvent(): void {
-		$this->appManager->expects($this->any())
+		$this->mocks[IAppManager::class]->expects($this->any())
 			->method('isEnabledForAnyone')
 			->with('activity')
 			->willReturn(true);
@@ -89,7 +69,7 @@ class ListenerTest extends TestCase {
 			->method('getMountsForFileId')
 			->willReturn($mounts);
 
-		$this->mountProviderCollection->expects($this->any())
+		$this->mocks[IMountProviderCollection::class]->expects($this->any())
 			->method('getMountCache')
 			->willReturn($userMountCache);
 
@@ -100,7 +80,7 @@ class ListenerTest extends TestCase {
 			->method('getFirstNodeById')
 			->willReturn($node);
 
-		$this->rootFolder->expects($this->any())
+		$this->mocks[IRootFolder::class]->expects($this->any())
 			->method('getUserFolder')
 			->willReturn($ownerFolder);
 
@@ -109,11 +89,11 @@ class ListenerTest extends TestCase {
 			'254342' => 'there/i/have/it',
 			'sandra' => 'and/here/i/placed/it'
 		]];
-		$this->shareHelper->expects($this->any())
+		$this->mocks[IShareHelper::class]->expects($this->any())
 			->method('getPathsForAccessList')
 			->willReturn($al);
 
-		$this->session->expects($this->any())
+		$this->mocks[IUserSession::class]->expects($this->any())
 			->method('getUser')
 			->willReturn($ownerUser);
 
@@ -142,10 +122,10 @@ class ListenerTest extends TestCase {
 			->with('add_comment_message', $this->anything())
 			->willReturnSelf();
 
-		$this->activityManager->expects($this->once())
+		$this->mocks[IManager::class]->expects($this->once())
 			->method('generateEvent')
 			->willReturn($activity);
-		$this->activityManager->expects($this->exactly(count($al['users'])))
+		$this->mocks[IManager::class]->expects($this->exactly(count($al['users'])))
 			->method('publish');
 
 		$this->listener->commentEvent($event);

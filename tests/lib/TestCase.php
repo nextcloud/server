@@ -32,6 +32,7 @@ use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
@@ -39,6 +40,7 @@ use OCP\Lock\LockedException;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerExceptionInterface;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
@@ -52,7 +54,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/** Original values keyed by config key; null means the key was unset. */
 	private array $systemConfigValues = [];
 
-	/** @var array<class-string, object> */
+	/** @var array<class-string, MockObject> */
 	protected array $mocks = [];
 
 	/**
@@ -60,7 +62,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * @param class-string<T> $class
 	 * @return T
 	 */
-	protected function createInstance(string $class, array $overrides = []): object {
+	protected function createInstanceWithMocks(string $class, array $overrides = []): object {
 		$reflection = new \ReflectionClass($class);
 		$constructor = $reflection->getConstructor();
 		if ($constructor === null) {
@@ -89,10 +91,34 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				$params[] = $overrides[$className];
 				continue;
 			}
-			$this->mocks[$className] = $this->createMock($className);
-			$params[] = $this->mocks[$className];
+			if (isset($this->mocks[$className])) {
+				$params[] = $this->mocks[$className];
+			} else {
+				$params[] = $this->createAutoMock($className);
+			}
 		}
 		return $reflection->newInstanceArgs($params);
+	}
+
+	protected function createAutoMock($className): MockObject {
+		$mock = $this->createMock($className);
+		switch ($className) {
+			case IL10N::class:
+				// Return the english string with parameters applied
+				$mock
+					->method('t')
+					->willReturnCallback(
+						fn (string $text, array $parameters = []) => vsprintf($text, $parameters)
+					);
+				break;
+			case \OCP\L10N\IFactory::class:
+				$mockL10n = $this->createAutoMock(IL10N::class);
+				$mock->method('get')
+					->willReturn($mockL10n);
+				break;
+		}
+		$this->mocks[$className] = $mock;
+		return $mock;
 	}
 
 	#[\Override]
