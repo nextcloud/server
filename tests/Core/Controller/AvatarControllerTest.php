@@ -19,6 +19,7 @@ function is_uploaded_file($filename) {
 namespace Tests\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Avatar\AvatarManager;
 use OC\Core\Controller\AvatarController;
 use OC\Core\Controller\GuestAvatarController;
 use OCP\AppFramework\Http;
@@ -27,7 +28,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IAvatar;
-use OCP\IAvatarManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
@@ -47,7 +47,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	private IAvatar&MockObject $avatarMock;
 	private IUser&MockObject $userMock;
 	private ISimpleFile&MockObject $avatarFile;
-	private IAvatarManager&MockObject $avatarManager;
+	private AvatarManager&MockObject $avatarManager;
 	private IL10N&MockObject $l;
 	private IUserManager&MockObject $userManager;
 	private IUserFolder&MockObject $userFolder;
@@ -59,7 +59,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->avatarManager = $this->createMock(IAvatarManager::class);
+		$this->avatarManager = $this->createMock(AvatarManager::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')->willReturnArgument(0);
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -174,6 +174,28 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		//Comment out until JS is fixed
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	public static function dataCacheWindow(): array {
+		return [
+			'no version, so the client has nothing that tracks changes' => ['', true, 'private, max-age=86400, immutable'],
+			// 60 days plus this user's share of the 30 day spread
+			'version, and the avatar is the same for every viewer' => ['7', true, 'private, max-age=7461068, immutable'],
+			'version, but the avatar depends on the viewer' => ['7', false, 'private, max-age=86400, immutable'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCacheWindow')]
+	public function testCacheWindow(string $version, bool $cacheable, string $expected): void {
+		$this->avatarMock->method('getFile')->willReturn($this->avatarFile);
+		$this->avatarManager->method('getAvatar')->with('userId')->willReturn($this->avatarMock);
+		$this->avatarManager->method('canCacheAvatarLongTerm')->with('userId')->willReturn($cacheable);
+
+		$light = $this->avatarController->getAvatar('userId', 64, false, $version);
+		$dark = $this->avatarController->getAvatarDark('userId', 64, false, $version);
+
+		$this->assertEquals($expected, $light->getHeaders()['Cache-Control'], 'light avatar');
+		$this->assertEquals($expected, $dark->getHeaders()['Cache-Control'], 'dark avatar');
 	}
 
 	public function testGetAvatarSize64(): void {
