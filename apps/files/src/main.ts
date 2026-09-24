@@ -10,12 +10,12 @@ import Vue from 'vue'
 import FilesApp from './FilesApp.vue'
 import SettingsModel from './models/Setting.ts'
 import router from './router/router.ts'
+import { renderFilesView } from './services/renderFilesView.ts'
 import RouterService from './services/RouterService.ts'
 import SettingsService from './services/Settings.js'
 import { setSidebarDataProvider } from './sidebar/provider.ts'
 import { createFilesStoreDataProvider } from './sidebar/providers/filesStore.ts'
 import { exposeSidebarApi } from './sidebar/setup.ts'
-import { renderFilesView } from './services/renderFilesView.ts'
 import { getPinia } from './store/index.ts'
 
 __webpack_nonce__ = getCSPNonce()

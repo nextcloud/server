@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { View, getNavigation } from '@nextcloud/files'
+import { getNavigation, View } from '@nextcloud/files'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderFilesView } from './renderFilesView.ts'
 

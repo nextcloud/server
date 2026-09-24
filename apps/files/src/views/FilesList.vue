@@ -237,6 +237,7 @@ export default defineComponent({
 			type: Boolean,
 			default: false,
 		},
+
 		// Skip the NcAppContent wrapper when rendered standalone via `renderFilesView()`.
 		embedded: {
 			type: Boolean,
