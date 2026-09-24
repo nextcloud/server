@@ -79,6 +79,7 @@ class UserStoragesServiceTest extends StoragesServiceTestCase {
 		$this->assertEquals($storage->getBackend(), $newStorage->getBackend());
 		$this->assertEquals($storage->getAuthMechanism(), $newStorage->getAuthMechanism());
 		$this->assertEquals($storage->getBackendOptions(), $newStorage->getBackendOptions());
+		$this->assertSame($storage->getMountOptions(), $newStorage->getMountOptions());
 		$this->assertEquals(0, $newStorage->getStatus());
 
 		// hook called once for user

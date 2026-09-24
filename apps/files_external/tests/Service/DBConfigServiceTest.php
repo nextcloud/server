@@ -149,9 +149,11 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals(['foo' => 'bar'], $mount['options']);
 
 		$this->dbConfig->setOption($id, 'foo2', 'bar2');
+		$this->dbConfig->setOption($id, 'disabled', false);
 
 		$mount = $this->dbConfig->getMountById($id);
-		$this->assertEquals(['foo' => 'bar', 'foo2' => 'bar2'], $mount['options']);
+		$this->assertEquals(['foo' => 'bar', 'foo2' => 'bar2', 'disabled' => false], $mount['options']);
+		$this->assertSame(false, $mount['options']['disabled']);
 	}
 
 	public function testSetOptionOverwrite(): void {
