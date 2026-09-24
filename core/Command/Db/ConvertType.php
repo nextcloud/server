@@ -345,7 +345,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		for ($chunk = 0; $chunk < $numChunks; $chunk++) {
 			$query->setFirstResult($chunk * $chunkSize);
 
-			$result = $query->executeQuery();
+			 = $query->executeQuery();
 
 			try {
 				$toDB->beginTransaction();
@@ -461,11 +461,11 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			}
 		}
 
-		$result = [];
+		$sortedTables = [];
 
 		while ($readyTables !== []) {
 			$table = array_shift($ready);
-			$result[] = $table;
+			$sortedTables[] = $table;
 
 			foreach ($dependents[$table] as $dependent => $_) {
 				unset($dependencies[$dependent][$table]);
@@ -484,16 +484,16 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		 * the conversion, but the failure will accurately expose the
 		 * cyclic dependency rather than being hidden by this sorter.
 		 */
-		if (count($result) !== count($tables)) {
-			$remaining = array_diff($tables, $result);
-			$result = array_merge($result, $remaining);
+		if (count($sortedTables) !== count($tables)) {
+			$remaining = array_diff($tables, $sortedTables);
+			$sortedTables = array_merge($sortedTables, $remaining);
 		}
 
 		if ($dependenciesFirst) {
-			$result = array_reverse($result);
+			$sortedTables = array_reverse($sortedTables);
 		}
 
-		return $result;
+		return $sortedTables;
 	}
 
 	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
