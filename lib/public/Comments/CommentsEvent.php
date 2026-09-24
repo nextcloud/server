@@ -10,6 +10,7 @@ namespace OCP\Comments;
 
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IWebhookCompatibleEvent;
 
 /**
  * Class CommentsEvent
@@ -19,7 +20,7 @@ use OCP\EventDispatcher\Event;
  * In the future, once the deprecated methods are removed, this class will be abstract.
  */
 #[Consumable(since: '9.0.0')]
-class CommentsEvent extends Event {
+class CommentsEvent extends Event implements IWebhookCompatibleEvent  {
 	/**
 	 * @since 11.0.0
 	 * @deprecated 33.0.0 Use \OCP\Comments\Events\CommentAddedEvent instead.
@@ -69,5 +70,11 @@ class CommentsEvent extends Event {
 	 */
 	public function getComment(): IComment {
 		return $this->comment;
+	}
+
+	public function getWebhookSerializable(): array {
+		return [
+			'comment' => $this->comment,
+		];
 	}
 }
