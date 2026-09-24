@@ -27,7 +27,6 @@ class ComposerStaticInitCloudFederationAPI
         'OCA\\CloudFederationAPI\\Controller\\OCMRequestController' => __DIR__ . '/..' . '/../lib/Controller/OCMRequestController.php',
         'OCA\\CloudFederationAPI\\Controller\\RequestHandlerController' => __DIR__ . '/..' . '/../lib/Controller/RequestHandlerController.php',
         'OCA\\CloudFederationAPI\\Controller\\TokenController' => __DIR__ . '/..' . '/../lib/Controller/TokenController.php',
-        'OCA\\CloudFederationAPI\\Migration\\DropFederatedInvitesTable' => __DIR__ . '/..' . '/../lib/Migration/DropFederatedInvitesTable.php',
         'OCA\\CloudFederationAPI\\Migration\\Version1016Date202502262004' => __DIR__ . '/..' . '/../lib/Migration/Version1016Date202502262004.php',
         'OCA\\CloudFederationAPI\\Migration\\Version1017Date20260306120000' => __DIR__ . '/..' . '/../lib/Migration/Version1017Date20260306120000.php',
         'OCA\\CloudFederationAPI\\Migration\\Version2000Date20260919141251' => __DIR__ . '/..' . '/../lib/Migration/Version2000Date20260919141251.php',
