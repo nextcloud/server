@@ -39,39 +39,40 @@ class TaskProcessingSuccessRateTest extends TestCase {
 		);
 	}
 
+	/**
+	 * @param int $taskCount Tasks scheduled in the window
+	 * @param int $failedCount Tasks of those that failed
+	 */
+	private function mockCounts(int $taskCount, int $failedCount): void {
+		$this->taskProcessingManager->method('countTasks')
+			->willReturnCallback(function (?int $status = null, array $taskTypeIds = [], ?int $scheduleAfter = null, ?int $minPickupDelay = null) use ($taskCount, $failedCount): int {
+				return $status === Task::STATUS_FAILED ? $failedCount : $taskCount;
+			});
+	}
+
 	public function testPass(): void {
-		$tasks = [];
-		for ($i = 0; $i < 100; $i++) {
-			$task = new Task('test', ['test' => 'test'], 'settings', 'user' . $i);
-			$task->setStartedAt(0);
-			$task->setEndedAt(1);
-			if ($i < 5) {
-				$task->setStatus(Task::STATUS_FAILED); // 5% get status FAILED
-			} else {
-				$task->setStatus(Task::STATUS_SUCCESSFUL);
-			}
-			$tasks[] = $task;
-		}
-		$this->taskProcessingManager->method('getTasks')->willReturn($tasks);
+		// 5% of the tasks failed
+		$this->mockCounts(100, 5);
+		$this->timeFactory->method('now')->willReturn(new \DateTimeImmutable());
 
 		$this->assertEquals(SetupResult::SUCCESS, $this->check->run()->getSeverity());
 	}
 
 	public function testFail(): void {
-		$tasks = [];
-		for ($i = 0; $i < 100; $i++) {
-			$task = new Task('test', ['test' => 'test'], 'settings', 'user' . $i);
-			$task->setStartedAt(0);
-			$task->setEndedAt(1);
-			if ($i < 30) {
-				$task->setStatus(Task::STATUS_FAILED); // 30% get status FAILED
-			} else {
-				$task->setStatus(Task::STATUS_SUCCESSFUL);
-			}
-			$tasks[] = $task;
-		}
-		$this->taskProcessingManager->method('getTasks')->willReturn($tasks);
+		// 30% of the tasks failed
+		$this->mockCounts(100, 30);
+		$this->timeFactory->method('now')->willReturn(new \DateTimeImmutable());
 
 		$this->assertEquals(SetupResult::WARNING, $this->check->run()->getSeverity());
+	}
+
+	public function testWidensTheWindowWhileThereAreNoTasks(): void {
+		$this->timeFactory->method('now')->willReturn(new \DateTimeImmutable());
+		$this->taskProcessingManager->expects($this->never())->method('getTasks');
+		$this->taskProcessingManager->expects($this->exactly(TaskProcessingSuccessRate::MAX_DAYS))
+			->method('countTasks')
+			->willReturn(0);
+
+		$this->assertEquals(SetupResult::SUCCESS, $this->check->run()->getSeverity());
 	}
 }
