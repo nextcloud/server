@@ -244,6 +244,13 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 * For share creation we already ensure this in the share manager.
 	 */
 	public function validateMoveOrCopy(string $source, string $target): bool {
+		[$sourceParent, ] = \Sabre\Uri\split($source);
+		[$targetParent, ] = \Sabre\Uri\split($target);
+		if ($sourceParent === $targetParent) {
+			// this is a simple rename in the same folder, allow it
+			return true;
+		}
+
 		try {
 			$targetNode = $this->tree->getNodeForPath($target);
 		} catch (NotFound) {
