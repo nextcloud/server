@@ -13,6 +13,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\Event\UserMountAddedEvent;
 use OCP\Files\Config\Event\UserMountRemovedEvent;
+use OCP\Files\Folder;
 use OCP\Server;
 use OCP\Share\IShare;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -47,7 +48,7 @@ class ShareMountEventsTest extends TestCase {
 		$this->rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->newFolder(self::FOLDER);
 
 		// The recipient has used their file system before
-		$this->setupFileSystem(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertFalse($this->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->nodeExists(self::FOLDER));
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->events = [];
 	}
@@ -79,7 +80,7 @@ class ShareMountEventsTest extends TestCase {
 		Server::get(SharesUpdatedListener::class)->setCutOffMarkTime($cutOffTime);
 
 		$this->share($shareType, self::FOLDER, self::TEST_FILES_SHARING_API_USER1, $recipient, Constants::PERMISSION_ALL);
-		$this->setupFileSystem(self::TEST_FILES_SHARING_API_USER2);
+		$this->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->get(self::FOLDER);
 
 		$this->assertEquals(
 			['/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . self::FOLDER . '/'],
@@ -91,13 +92,16 @@ class ShareMountEventsTest extends TestCase {
 	#[DataProvider(methodName: 'shareProvider')]
 	public function testMountRemovedEventForDeletedShare(int $shareType, string $recipient, float $cutOffTime): void {
 		$share = $this->share($shareType, self::FOLDER, self::TEST_FILES_SHARING_API_USER1, $recipient, Constants::PERMISSION_ALL);
-		$this->setupFileSystem(self::TEST_FILES_SHARING_API_USER2);
+		$this->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->get(self::FOLDER);
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->events = [];
 
 		Server::get(SharesUpdatedListener::class)->setCutOffMarkTime($cutOffTime);
 		$this->shareManager->deleteShare($share);
-		$this->setupFileSystem(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertFalse(
+			$this->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->nodeExists(self::FOLDER),
+			'The share should no longer be mounted for the recipient',
+		);
 
 		$this->assertEquals(
 			['/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . self::FOLDER . '/'],
@@ -107,11 +111,11 @@ class ShareMountEventsTest extends TestCase {
 	}
 
 	/**
-	 * Log in as the user and access their files, as a new request by them would
+	 * Log in as the user and get their user folder, as a new request by them would
 	 */
-	private function setupFileSystem(string $userId): void {
+	private function getUserFolder(string $userId): Folder {
 		$this->loginHelper($userId);
-		$this->rootFolder->getUserFolder($userId)->getDirectoryListing();
+		return $this->rootFolder->getUserFolder($userId);
 	}
 
 	/**
