@@ -414,10 +414,10 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	 *
 	 * @param Connection $connection Target database connection
 	 * @param array<string> $tables Tables to sort
-	 * @param bool $reverse Reverse the sorted tables for dropping tables
+	 * @param bool $dependenciesFirst Whether to place FK dependencies before dependent tables
 	 * @return array<string> Tables in dependency order
 	 */
-	protected function sortTablesByForeignKeys(Connection $connection, array $tables, bool $reverse = false): array {
+	protected function sortTablesByForeignKeys(Connection $connection, array $tables, bool $dependenciesFirst = false): array {
 		$tableSet = array_fill_keys($tables, true);
 
 		// dependencies[table] = tables that must be copied before it
@@ -430,21 +430,21 @@ class ConvertType extends Command implements CompletionAwareInterface {
 
 		foreach ($tables as $table) {
 			foreach ($schemaManager->listTableForeignKeys($table) as $foreignKey) {
-				$parent = $foreignKey->getForeignTableName();
+				$foreignTable = $foreignKey->getForeignTableName();
 
 				// Ignore references to tables which aren't being converted.
-				if (!isset($tableSet[$parent])) {
+				if (!isset($tableSet[$foreignTable])) {
 					continue;
 				}
 
 				// Ignore self-references. They don't impose an ordering
 				// requirement on the table itself.
-				if ($parent === $table) {
+				if ($foreignTable === $table) {
 					continue;
 				}
 
-				$dependencies[$table][$parent] = true;
-				$dependents[$parent][$table] = true;
+				$dependencies[$table][$foreignTable] = true;
+				$dependents[$foreignTable][$table] = true;
 			}
 		}
 
@@ -453,17 +453,17 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		 *
 		 * Tables without dependencies can be copied immediately.
 		 */
-		$ready = [];
+		$readyTables = [];
 
 		foreach ($tables as $table) {
 			if ($dependencies[$table] === []) {
-				$ready[] = $table;
+				$readyTables[] = $table;
 			}
 		}
 
 		$result = [];
 
-		while ($ready !== []) {
+		while ($readyTables !== []) {
 			$table = array_shift($ready);
 			$result[] = $table;
 
@@ -471,7 +471,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				unset($dependencies[$dependent][$table]);
 
 				if ($dependencies[$dependent] === []) {
-					$ready[] = $dependent;
+					$readyTables[] = $dependent;
 				}
 			}
 		}
@@ -489,7 +489,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$result = array_merge($result, $remaining);
 		}
 
-		if ($reverse) {
+		if ($dependenciesFirst) {
 			$result = array_reverse($result);
 		}
 
