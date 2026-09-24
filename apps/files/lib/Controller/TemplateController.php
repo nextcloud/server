@@ -106,30 +106,33 @@ class TemplateController extends OCSController {
 	/**
 	 * List the available templates
 	 *
+	 * @param ?string $targetPath Destination folder relative to the user root
+	 *
 	 * @return DataResponse<Http::STATUS_OK, list<FilesTemplateFileCreatorWithTemplates>, array{}>
 	 *
 	 * 200: Available templates returned
 	 */
 	#[NoAdminRequired]
-	public function list(): DataResponse {
+	public function list(?string $targetPath = null): DataResponse {
 		/* Convert embedded Template instances to arrays to match return type */
 		return new DataResponse(array_map(static function (array $templateFileCreator) {
 			$templateFileCreator['templates'] = array_map(static fn (Template $template) => $template->jsonSerialize(), $templateFileCreator['templates']);
 			return $templateFileCreator;
-		}, $this->templateManager->listTemplates()));
+		}, $this->templateManager->listTemplates($targetPath)));
 	}
 
 	/**
 	 * List the fields for the template specified by the given file ID
 	 *
 	 * @param int $fileId File ID of the template
+	 * @param ?string $targetPath Destination folder relative to the user root
 	 * @return DataResponse<Http::STATUS_OK, array<string, FilesTemplateField>, array{}>
 	 *
 	 * 200: Fields returned
 	 */
 	#[NoAdminRequired]
-	public function listTemplateFields(int $fileId): DataResponse {
-		$fields = $this->templateManager->listTemplateFields($fileId);
+	public function listTemplateFields(int $fileId, ?string $targetPath = null): DataResponse {
+		$fields = $this->templateManager->listTemplateFields($fileId, $targetPath);
 
 		return new DataResponse(
 			array_merge([], ...$fields),

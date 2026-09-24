@@ -119,4 +119,15 @@ class TemplateControllerTest extends TestCase {
 		$this->manager->expects(self::once())->method('setTemplatePath')->with('');
 		self::assertSame(['template_path' => '', 'available' => false], $this->controller->setPath('')->getData());
 	}
+
+	public function testPassesDestinationToTemplateListing(): void {
+		$this->manager->expects(self::once())->method('listTemplates')->with('/Team/Reports')->willReturn([]);
+		self::assertSame([], $this->controller->list('/Team/Reports')->getData());
+	}
+
+	public function testPassesDestinationToTemplateFields(): void {
+		$this->manager->expects(self::once())->method('listTemplateFields')->with(12, '/Team/Reports')->willReturn([]);
+		self::assertSame([], $this->controller->listTemplateFields(12, '/Team/Reports')->getData());
+	}
+
 }

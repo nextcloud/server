@@ -25156,6 +25156,16 @@
                 ],
                 "parameters": [
                     {
+                        "name": "targetPath",
+                        "in": "query",
+                        "description": "Destination folder relative to the user root",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true,
+                            "default": null
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -25255,6 +25265,16 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "targetPath",
+                        "in": "query",
+                        "description": "Destination folder relative to the user root",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
