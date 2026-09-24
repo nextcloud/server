@@ -66,6 +66,7 @@ class KeyValueCache extends Cache implements IMemcacheTTL {
 
 	#[\Override]
 	public function set($key, $value, $ttl = 0) {
+		$ttl = (int)$ttl;
 		$value = self::encodeValue($value);
 		$ttl = $this->normalizeTtl($ttl);
 		return (bool)$this->getCache()->setex($this->getPrefix() . $key, $ttl, $value);
