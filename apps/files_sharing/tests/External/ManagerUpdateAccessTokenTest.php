@@ -19,10 +19,7 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
-use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
-use OCP\ICertificateManager;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserSession;
@@ -49,21 +46,17 @@ class ManagerUpdateAccessTokenTest extends TestCase {
 		$this->manager = new Manager(
 			$this->createMock(IDBConnection::class),
 			$this->createMock(\OC\Files\Mount\Manager::class),
-			$this->createMock(IStorageFactory::class),
 			$this->createMock(IClientService::class),
 			$this->createMock(INotificationManager::class),
 			$this->createMock(IDiscoveryService::class),
 			$this->createMock(ICloudFederationProviderManager::class),
 			$this->createMock(ICloudFederationFactory::class),
 			$this->createMock(IGroupManager::class),
-			$userSession,
 			$this->createMock(IEventDispatcher::class),
 			$this->logger,
 			$this->createMock(IRootFolder::class),
 			$this->createMock(ISetupManager::class),
-			$this->createMock(ICertificateManager::class),
 			$this->externalShareMapper,
-			$this->createMock(IConfig::class),
 		);
 	}
 
