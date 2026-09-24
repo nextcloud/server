@@ -13,6 +13,7 @@ use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -35,6 +36,7 @@ class PublicAuthTest extends \Test\TestCase {
 	private IThrottler&MockObject $throttler;
 	private LoggerInterface&MockObject $logger;
 	private IURLGenerator&MockObject $urlGenerator;
+	private IUserSession&MockObject $userSession;
 	private PublicAuth $auth;
 
 	private bool|string $oldUser;
@@ -48,6 +50,7 @@ class PublicAuthTest extends \Test\TestCase {
 		$this->throttler = $this->createMock(IThrottler::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 
 		$this->auth = new PublicAuth(
 			$this->request,
@@ -56,6 +59,7 @@ class PublicAuthTest extends \Test\TestCase {
 			$this->throttler,
 			$this->logger,
 			$this->urlGenerator,
+			$this->userSession,
 		);
 
 		// Store current user
