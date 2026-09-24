@@ -11,7 +11,6 @@ return array(
     'OCA\\CloudFederationAPI\\Config' => $baseDir . '/../lib/Config.php',
     'OCA\\CloudFederationAPI\\Controller\\OCMRequestController' => $baseDir . '/../lib/Controller/OCMRequestController.php',
     'OCA\\CloudFederationAPI\\Controller\\RequestHandlerController' => $baseDir . '/../lib/Controller/RequestHandlerController.php',
-    'OCA\\CloudFederationAPI\\Migration\\DropFederatedInvitesTable' => $baseDir . '/../lib/Migration/DropFederatedInvitesTable.php',
     'OCA\\CloudFederationAPI\\Migration\\Version1016Date202502262004' => $baseDir . '/../lib/Migration/Version1016Date202502262004.php',
     'OCA\\CloudFederationAPI\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
 );
