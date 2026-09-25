@@ -83,10 +83,6 @@ jobs:
       - name: PHPUnit database tests
         run: composer run test:db -- --log-junit junit.xml
 
-      - name: Run repair steps
-        run: |
-          ./occ maintenance:repair --include-expensive
-
       - name: Print logs
         if: always()
         run: |
