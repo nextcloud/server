@@ -275,7 +275,6 @@
     "Advanced settings" : "Axustes avanzados",
     "Share label" : "Compartir a etiqueta",
     "Share link token" : "Compartir o testemuño da ligazón",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Defina o testemuño de ligazón de compartición pública como algo doado de lembrar ou xere un novo testemuño. Non se recomenda empregar un testemuño doado de adiviñar para as comparticións que conteñan información confidencial.",
     "Generating…" : "Xerando…",
     "Generate new token" : "Xerar un novo testemuño",
     "Set password" : "Definir o contrasinal",
@@ -405,6 +404,7 @@
     "Via “{folder}”" : "A través de «{folder}»",
     "Name or email …" : "Nome ou correo…",
     "Name, email, or Federated Cloud ID …" : "Nome, correo ou ID de nube federada…",
-    "Searching …" : "Buscando…"
+    "Searching …" : "Buscando…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Defina o testemuño de ligazón de compartición pública como algo doado de lembrar ou xere un novo testemuño. Non se recomenda empregar un testemuño doado de adiviñar para as comparticións que conteñan información confidencial."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

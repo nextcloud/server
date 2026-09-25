@@ -277,7 +277,6 @@ OC.L10N.register(
     "Advanced settings" : "تنظیمات پیشرفته",
     "Share label" : "برچسب اشتراک",
     "Share link token" : "توکن لینک اشتراک",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "توکن لینک اشتراک عمومی را به چیزی به‌یادماندنی تنظیم کنید یا یک توکن جدید ایجاد کنید. برای اشتراک‌هایی که حاوی اطلاعات حساس هستند، استفاده از توکن قابل حدس توصیه نمی‌شود.",
     "Generating…" : "در حال ایجاد…",
     "Generate new token" : "ایجاد توکن جدید",
     "Set password" : "تنظیم رمز عبور",
@@ -407,6 +406,7 @@ OC.L10N.register(
     "Via “{folder}”" : "از طریق “{folder}”",
     "Name or email …" : "نام یا ایمیل …",
     "Name, email, or Federated Cloud ID …" : "نام، ایمیل، یا شناسه ابر فدرال …",
-    "Searching …" : "در حال جستجو …"
+    "Searching …" : "در حال جستجو …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "توکن لینک اشتراک عمومی را به چیزی به‌یادماندنی تنظیم کنید یا یک توکن جدید ایجاد کنید. برای اشتراک‌هایی که حاوی اطلاعات حساس هستند، استفاده از توکن قابل حدس توصیه نمی‌شود."
 },
 "nplurals=2; plural=(n > 1);");

@@ -291,7 +291,6 @@ OC.L10N.register(
     "Advanced settings" : "進階設定",
     "Share label" : "分享標籤",
     "Share link token" : "分享連結權杖",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "將公開分享連結權杖設定為容易記住的權杖，或產生新的權杖。不建議對包含敏感資訊的分享使用可猜測的權杖。",
     "Generating…" : "正在產生……",
     "Generate new token" : "產生新權杖",
     "Set password" : "設定密碼",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Via “{folder}”" : "透過「{folder}」",
     "Name or email …" : "名稱或電子郵件…",
     "Name, email, or Federated Cloud ID …" : "名稱、電子郵件或雲端聯邦 ID…",
-    "Searching …" : "正在搜尋…"
+    "Searching …" : "正在搜尋…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "將公開分享連結權杖設定為容易記住的權杖，或產生新的權杖。不建議對包含敏感資訊的分享使用可猜測的權杖。"
 },
 "nplurals=1; plural=0;");
