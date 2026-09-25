@@ -230,7 +230,7 @@ function getTagLevel(userVisible: boolean, userAssignable: boolean): TagLevel {
 		<div class="system-tag-form__group">
 			<label for="system-tags-input">{{ t('systemtags', 'Search for a tag to edit') }}</label>
 			<NcSelectTags
-				:modelValue="selectedTag"
+				:modelValue="selectedTag?.id ?? null"
 				inputId="system-tags-input"
 				:placeholder="t('systemtags', 'Collaborative tags …')"
 				:fetchTags="false"
