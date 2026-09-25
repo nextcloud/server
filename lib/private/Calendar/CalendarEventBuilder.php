@@ -123,6 +123,21 @@ class CalendarEventBuilder implements ICalendarEventBuilder {
 		foreach ($this->attendees as $attendee) {
 			self::addAttendeeToVEvent($vevent, 'ATTENDEE', $attendee);
 		}
+
+		// Prefix TZID values with '/' to reference globally-defined IANA timezone identifiers
+		// (RFC 5545 §3.2.19). This avoids the need for a VTIMEZONE component: without it,
+		// iTIP invite emails carry TZID=Europe/Berlin with no accompanying VTIMEZONE block,
+		// and some clients (e.g. Grommunio) misinterpret the time.
+		foreach (['DTSTART', 'DTEND'] as $propName) {
+			$prop = $vevent->$propName;
+			if ($prop !== null && isset($prop['TZID'])) {
+				$tzid = (string)$prop['TZID'];
+				if ($tzid !== '' && !str_starts_with($tzid, '/')) {
+					$prop['TZID'] = '/' . $tzid;
+				}
+			}
+		}
+
 		return $vcalendar->serialize();
 	}
 
