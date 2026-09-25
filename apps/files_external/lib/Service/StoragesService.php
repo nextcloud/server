@@ -36,6 +36,9 @@ use Psr\Log\LoggerInterface;
  * @psalm-import-type ExternalMountInfo from DBConfigService
  */
 abstract class StoragesService {
+	// Default policy: once per request
+	private const DEFAULT_FILESYSTEM_CHECK_POLICY = 1;
+
 	public function __construct(
 		protected BackendService $backendService,
 		protected DBConfigService $dbConfig,
@@ -60,13 +63,18 @@ abstract class StoragesService {
 			=> $applicable['type'] === DBConfigService::APPLICABLE_TYPE_GROUP);
 		$applicableGroups = array_map(static fn (array $applicable) => $applicable['value'], $applicableGroups);
 
+		$options = $mount['options'];
+		if (!array_key_exists('filesystem_check_changes', $options)) {
+			$options['filesystem_check_changes'] = self::DEFAULT_FILESYSTEM_CHECK_POLICY;
+		}
+
 		try {
 			$config = $this->createStorage(
 				$mount['mount_point'],
 				$mount['storage_backend'],
 				$mount['auth_backend'],
 				$mount['config'],
-				$mount['options'],
+				$options,
 				array_values($applicableUsers),
 				array_values($applicableGroups),
 				$mount['priority']
@@ -210,6 +218,11 @@ abstract class StoragesService {
 		foreach ($newStorage->getBackendOptions() as $key => $value) {
 			$this->dbConfig->setConfig($configId, $key, $value);
 		}
+
+		if (!array_key_exists('filesystem_check_changes', $newStorage->getMountOptions())) {
+			$newStorage->setMountOption('filesystem_check_changes', self::DEFAULT_FILESYSTEM_CHECK_POLICY);
+		}
+
 		foreach ($newStorage->getMountOptions() as $key => $value) {
 			$this->dbConfig->setOption($configId, $key, $value);
 		}

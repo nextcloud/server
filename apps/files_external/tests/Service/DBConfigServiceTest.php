@@ -141,6 +141,28 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals(['foo' => 'qwerty', 'asd' => '1'], $mount['config']);
 	}
 
+	#[DataProvider('nativeOptionValuesProvider')]
+	public function testSetOptionPreservesNativeTypes(mixed $value): void {
+		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
+
+		$this->dbConfig->setOption($id, 'test_option', $value);
+
+		$mount = $this->dbConfig->getMountById($id);
+
+		$this->assertSame($value, $mount['options']['test_option']);
+	}
+
+	public static function nativeOptionValuesProvider(): array {
+		return [
+			'zero integer' => [0],
+			'positive integer' => [1],
+			'negative integer' => [-1],
+			'float' => [1.5],
+			'true' => [true],
+			'false' => [false],
+		];
+	}
+
 	public function testSetOption(): void {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->dbConfig->setOption($id, 'foo', 'bar');
