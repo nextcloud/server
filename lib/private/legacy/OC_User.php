@@ -247,7 +247,7 @@ class OC_User {
 
 	/**
 	 * Returns the current logout URL valid for the currently logged-in user
-	 * @return non-empty-string
+	 * @return string
 	 */
 	public static function getLogoutUrl(IURLGenerator $urlGenerator): string {
 		return $urlGenerator->getLogoutUrl();
