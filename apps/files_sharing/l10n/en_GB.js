@@ -291,7 +291,6 @@ OC.L10N.register(
     "Advanced settings" : "Advanced settings",
     "Share label" : "Share label",
     "Share link token" : "Share link token",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information.",
     "Generating…" : "Generating…",
     "Generate new token" : "Generate new token",
     "Set password" : "Set password",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Via “{folder}”",
     "Name or email …" : "Name or email …",
     "Name, email, or Federated Cloud ID …" : "Name, email, or Federated Cloud ID …",
-    "Searching …" : "Searching …"
+    "Searching …" : "Searching …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information."
 },
 "nplurals=2; plural=(n != 1);");

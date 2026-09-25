@@ -276,7 +276,6 @@
     "Advanced settings" : "Ezarpen aurreratuak",
     "Share label" : "Partekatu etiketa",
     "Share link token" : "Partekatzeko esteka-tokena",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ezarri partekatze-estekaren token publikoa gogoratzeko erraza den zerbait, edo sortu token berria. Ez da gomendagarria informazio sentikorra duten partekatzeetako tokenak asma daitezkeenak erabiltzea.",
     "Generating…" : "Sortzen...",
     "Generate new token" : "Sortu token berria",
     "Set password" : "Pasahitza ezarri",
@@ -406,6 +405,7 @@
     "Via “{folder}”" : "“{folder}” bidez",
     "Name or email …" : "Izena edo posta ...",
     "Name, email, or Federated Cloud ID …" : "Izena, posta, edo federatutako hodei IDa...",
-    "Searching …" : "Bilatzen…"
+    "Searching …" : "Bilatzen…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ezarri partekatze-estekaren token publikoa gogoratzeko erraza den zerbait, edo sortu token berria. Ez da gomendagarria informazio sentikorra duten partekatzeetako tokenak asma daitezkeenak erabiltzea."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

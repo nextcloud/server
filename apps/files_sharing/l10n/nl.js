@@ -277,7 +277,6 @@ OC.L10N.register(
     "Advanced settings" : "Geavanceerde instellingen",
     "Share label" : "Deel het label",
     "Share link token" : "Share link token",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Stel het publieke deellink-token in op iets dat gemakkelijk te onthouden is of genereer een nieuw token. Het is niet aanbevolen om een raadbaar token te gebruiken voor shares die gevoelige informatie bevatten.",
     "Generating…" : "Genereren…",
     "Generate new token" : "Nieuw token genereren",
     "Set password" : "Instellen wachtwoord",
@@ -407,6 +406,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Via “{folder}”",
     "Name or email …" : "Naam of e-mailadres …",
     "Name, email, or Federated Cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud-ID …",
-    "Searching …" : "Zoeken ..."
+    "Searching …" : "Zoeken ...",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Stel het publieke deellink-token in op iets dat gemakkelijk te onthouden is of genereer een nieuw token. Het is niet aanbevolen om een raadbaar token te gebruiken voor shares die gevoelige informatie bevatten."
 },
 "nplurals=2; plural=(n != 1);");

@@ -453,6 +453,7 @@ OC.L10N.register(
     "Please specify the port number along with the host name (e.g., localhost:5432)." : "Пожалуйста укажите номер порта вместе с именем хоста (напр. localhost:5432)",
     "Database host" : "Хост базы данных",
     "localhost" : "localhost",
+    "Encrypted database connection" : "Зашифрованное соединение с базой данных",
     "Installing …" : "Выполняется установка…",
     "Install" : "Установить",
     "Need help?" : "Требуется помощь?",

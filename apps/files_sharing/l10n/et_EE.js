@@ -291,7 +291,6 @@ OC.L10N.register(
     "Advanced settings" : "Lisavalikud",
     "Share label" : "Jaga silti",
     "Share link token" : "Jagamislingi tunnusluba",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Sisesta avaliku jagamislingi jaoks midagi lihtsalt meeldejäetavat või genereeri uus tunnusluba. Kui link viitab delikaatsetele andmetele, siis palun ära kasuta kergesti aimatavaid tunnuslube.",
     "Generating…" : "Loomisel…",
     "Generate new token" : "Loo uus tunnusluba",
     "Set password" : "Määra salasõna",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Via “{folder}”" : "„{folder}“ kausta kaudu",
     "Name or email …" : "Nimi või e-posti aadress…",
     "Name, email, or Federated Cloud ID …" : "Nimi, e-posti aadress või liitpilve kasutajatunnus…",
-    "Searching …" : "Otsin..."
+    "Searching …" : "Otsin...",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Sisesta avaliku jagamislingi jaoks midagi lihtsalt meeldejäetavat või genereeri uus tunnusluba. Kui link viitab delikaatsetele andmetele, siis palun ära kasuta kergesti aimatavaid tunnuslube."
 },
 "nplurals=2; plural=(n != 1);");
