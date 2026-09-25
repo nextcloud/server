@@ -277,7 +277,6 @@ OC.L10N.register(
     "Advanced settings" : "Pengaturan Lanjutan",
     "Share label" : "Label berbagi",
     "Share link token" : "Token tautan berbagi",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Tetapkan token tautan berbagi publik menjadi sesuatu yang mudah diingat atau buat token baru. Tidak disarankan menggunakan token yang mudah ditebak untuk berbagi yang berisi informasi sensitif.",
     "Generating…" : "Membuat…",
     "Generate new token" : "Buat token baru",
     "Set password" : "Tetapkan kata sandi",
@@ -407,6 +406,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Melalui “{folder}”",
     "Name or email …" : "Nama atau email …",
     "Name, email, or Federated Cloud ID …" : "Nama, email, atau ID Cloud Bersama …",
-    "Searching …" : "Mencari …"
+    "Searching …" : "Mencari …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Tetapkan token tautan berbagi publik menjadi sesuatu yang mudah diingat atau buat token baru. Tidak disarankan menggunakan token yang mudah ditebak untuk berbagi yang berisi informasi sensitif."
 },
 "nplurals=1; plural=0;");

@@ -228,7 +228,6 @@ OC.L10N.register(
     "Advanced settings" : "Definições avançadas",
     "Share label" : "Share label",
     "Share link token" : "Token do link de compartilhamento",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Defina o token do link de compartilhamento público para algo fácil de lembrar ou gere um novo token. Não é recomendado usar um token fácil de adivinhar para compartilhamentos que contenham informações confidenciais.",
     "Generating…" : "Gerando…",
     "Generate new token" : "Gerar novo token",
     "Set password" : "Definir palavra-passe",
@@ -332,6 +331,7 @@ OC.L10N.register(
     "Public upload disabled by the administrator" : "Envio público desativado pelo administrador",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Os tokens devem conter pelo menos 1 caractere e podem incluir apenas letras, números ou um hífen",
     "Name or email …" : "Nome ou e-mail...",
-    "Searching …" : "À procura …"
+    "Searching …" : "À procura …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Defina o token do link de compartilhamento público para algo fácil de lembrar ou gere um novo token. Não é recomendado usar um token fácil de adivinhar para compartilhamentos que contenham informações confidenciais."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
