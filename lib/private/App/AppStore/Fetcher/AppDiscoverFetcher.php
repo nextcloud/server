@@ -17,7 +17,7 @@ use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
 /**
- * Fetch app discover section entries from the app store
+ * Fetches and filters App Store discover-section entries.
  *
  * @psalm-import-type AppStoreFetcherDiscoverElement from ResponseDefinitions
  * @template-extends Fetcher<AppStoreFetcherDiscoverElement>
@@ -49,18 +49,23 @@ class AppDiscoverFetcher extends Fetcher {
 	}
 
 	/**
-	 * Get the app discover section entries
+	 * Returns discover-section entries, optionally including upcoming entries.
 	 *
-	 * @param bool $allowUnstable Include also upcoming entries
+	 * Expired entries are always excluded. Entries with a future start date
+	 * are included only when `$allowUnstable` is true.
+	 *
+	 * @param bool $allowUnstable Whether to include upcoming entries
 	 * @return list<AppStoreFetcherDiscoverElement>
 	 */
 	#[\Override]
-	public function get($allowUnstable = false): array {
+	public function get(bool $allowUnstable = false): array {
+		// The base fetcher is always called with the stable cache policy;
+		// $allowUnstable controls filtering of future-dated entries below.
 		$entries = parent::get(false);
 		$now = new DateTimeImmutable();
 
 		return array_values(array_filter($entries, function (array $entry) use ($now, $allowUnstable) {
-			// Always remove expired entries
+			// Always exclude expired entries.
 			if (isset($entry['expiryDate'])) {
 				try {
 					$expiryDate = new DateTimeImmutable($entry['expiryDate']);
@@ -73,7 +78,7 @@ class AppDiscoverFetcher extends Fetcher {
 				}
 			}
 
-			// If not include upcoming entries, check for upcoming dates and remove those entries
+			// Exclude future-dated entries unless upcoming entries were requested.
 			if (!$allowUnstable && isset($entry['date'])) {
 				try {
 					$date = new DateTimeImmutable($entry['date']);
@@ -85,7 +90,8 @@ class AppDiscoverFetcher extends Fetcher {
 					return false;
 				}
 			}
-			// Otherwise the entry is not time limited and should stay
+
+			// Entries without a relevant date remain eligible.
 			return true;
 		}));
 	}
@@ -101,7 +107,7 @@ class AppDiscoverFetcher extends Fetcher {
 				return (string)$jsonBlob['ETag'];
 			}
 		} catch (\Throwable $e) {
-			// ignore
+			// ETag lookup is best effort.
 		}
 		return null;
 	}

@@ -32,19 +32,17 @@ abstract class Fetcher {
 	public const INVALIDATE_AFTER_SECONDS = 3600;
 	public const INVALIDATE_AFTER_SECONDS_UNSTABLE = 900;
 	public const RETRY_AFTER_FAILURE_SECONDS = 300;
+	/**
+	 * Maximum age of same-version cache data eligible for refresh failure fallback.
+	 */
+	public const MAX_STALE_SECONDS = 7 * 24 * 60 * 60;
 	public const APP_STORE_URL = 'https://apps.nextcloud.com/api/v1';
 
-	/** @var IAppData */
-	protected $appData;
-
-	/** @var string */
-	protected $fileName;
-	/** @var string */
-	protected $endpointName;
-	/** @var ?string */
-	protected $version = null;
-	/** @var ?string */
-	protected $channel = null;
+	protected IAppData $appData;
+	protected string $fileName;
+	protected string $endpointName;
+	protected ?string $version = null;
+	protected ?string $channel = null;
 
 	public function __construct(
 		Factory $appDataFactory,
@@ -58,21 +56,32 @@ abstract class Fetcher {
 	}
 
 	/**
-	 * Fetches the response from the server
+	 * Fetches and validates the response from the App Store server.
 	 *
-	 * @param string $ETag - The ETag of the cached response
-	 * @param string $content - The content of the response
-	 * @param bool $allowUnstable - Allow unstable releases
+	 * A successful response contains a list of App Store entries and cache
+	 * metadata. A suppressed, failed, or invalid refresh returns an empty
+	 * array, allowing get() to consider an eligible stale cache.
 	 *
-	 * @return array{data: list<T>, ETag?: string, timestamp: int, ncversion: string}|array<never, never>
+	 * @param string $ETag          The ETag of the cached response, if available.
+	 * @param string $content       The serialized cached response data used for a
+	 *                              304 Not Modified response.
+	 * @param bool   $allowUnstable Whether unstable releases should be requested.
+	 *
+	 * @return array{
+	 *     data: list<T>,
+	 *     ETag?: string,
+	 *     timestamp: int,
+	 *     ncversion: string
+	 * }|array<never, never>
 	 */
-	protected function fetch($ETag, $content, $allowUnstable = false): array {
+	protected function fetch(string $ETag, string $content, bool $allowUnstable = false): array {
 		$appstoreEnabled = $this->config->getSystemValueBool('appstoreenabled', true);
-		if ((int)$this->config->getAppValue('settings', 'appstore-fetcher-lastFailure', '0') > time() - self::RETRY_AFTER_FAILURE_SECONDS) {
+		if (!$appstoreEnabled) {
 			return [];
 		}
 
-		if (!$appstoreEnabled) {
+		$lastFailure = (int)$this->config->getAppValue('settings', 'appstore-fetcher-lastFailure', '0');
+		if ($lastFailure > (time() - self::RETRY_AFTER_FAILURE_SECONDS)) {
 			return [];
 		}
 
@@ -86,10 +95,11 @@ abstract class Fetcher {
 			];
 		}
 
-		if ($this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL) === self::APP_STORE_URL) {
-			// If we have a valid subscription key, send it to the appstore
+		$appStoreUrl = $this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL);
+		if ($appStoreUrl === self::APP_STORE_URL && $this->registry->delegateHasValidSubscription()) {
 			$subscriptionKey = $this->config->getAppValue('support', 'subscription_key');
-			if ($this->registry->delegateHasValidSubscription() && $subscriptionKey) {
+
+			if ($subscriptionKey) {
 				$options['headers'] ??= [];
 				$options['headers']['X-NC-Subscription-Key'] = $subscriptionKey;
 			}
@@ -106,11 +116,25 @@ abstract class Fetcher {
 
 		$responseJson = [];
 		if ($response->getStatusCode() === Http::STATUS_NOT_MODIFIED) {
-			$responseJson['data'] = json_decode($content, true);
+			// Reuse the locally cached data after the server confirms the ETag is unchanged.
+			$decoded = json_decode($content, true);
+			if (!is_array($decoded) || !array_is_list($decoded)) {
+				return [];
+			}
+
+			/** @var list<T> $decoded */
+			$responseJson['data'] = $decoded;
 		} else {
-			$responseJson['data'] = json_decode($response->getBody(), true);
+			$decoded = json_decode($response->getBody(), true);
+			if (!is_array($decoded) || !array_is_list($decoded)) {
+				return [];
+			}
+
+			/** @var list<T> $decoded */
+			$responseJson['data'] = $decoded;
 			$ETag = $response->getHeader('ETag');
 		}
+
 		$this->config->deleteAppValue('settings', 'appstore-fetcher-lastFailure');
 
 		$responseJson['timestamp'] = $this->timeFactory->getTime();
@@ -123,34 +147,69 @@ abstract class Fetcher {
 	}
 
 	/**
-	 * Returns the array with the entries on the appstore server
+	 * Returns App Store entries, using the cache when appropriate.
 	 *
-	 * @param bool $allowUnstable - Allow unstable releases
+	 * Fresh, same-version cache data is returned immediately. When refreshing
+	 * stale cache data fails, valid same-version data may be used as a
+	 * fallback while it is no older than MAX_STALE_SECONDS.
+	 *
+	 * Cache data from another Nextcloud version, missing or invalid cache
+	 * data, and cache data older than MAX_STALE_SECONDS are not used as
+	 * fallbacks.
+	 *
+	 * A valid empty response from the App Store is returned and written to
+	 * the cache as an empty list; invalid responses are treated as refresh
+	 * failures.
+	 *
+	 * @param bool $allowUnstable Whether unstable releases should be included
 	 * @return list<T>
 	 */
-	public function get($allowUnstable = false): array {
+	public function get(bool $allowUnstable = false): array {
 		$appstoreEnabled = $this->config->getSystemValueBool('appstoreenabled', true);
-		$internetAvailable = $this->config->getSystemValueBool('has_internet_connection', true);
-		$isDefaultAppStore = $this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL) === self::APP_STORE_URL;
-
-		if (!$appstoreEnabled || (!$internetAvailable && $isDefaultAppStore)) {
-			$this->logger->info('AppStore is disabled or this instance has no Internet connection to access the default app store', ['app' => 'appstoreFetcher']);
+		if (!$appstoreEnabled) {
+			$this->logger->info('The appstore is disabled', ['app' => 'appstoreFetcher']);
 			return [];
 		}
 
-		$rootFolder = $this->appData->getFolder('/');
+		$internetAvailable = $this->config->getSystemValueBool('has_internet_connection', true);
+		$appStoreUrl = $this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL);
+		if (!$internetAvailable && $appStoreUrl === self::APP_STORE_URL) {
+			$this->logger->info(
+				'The default app store cannot be accessed since Internet connectivity is disabled on this instance',
+				['app' => 'appstoreFetcher']
+			);
+			return [];
+		}
 
 		$ETag = '';
 		$content = '';
+		/** @var ?list<T> $sameVersionCachedData */
+		$sameVersionCachedData = null;
+		$sameVersionCacheTimestamp = null;
 
+		$rootFolder = $this->appData->getFolder('/');
 		try {
-			// File does already exists
+			// Read the existing cache file.
 			$file = $rootFolder->getFile($this->fileName);
 			$jsonBlob = json_decode($file->getContent(), true);
 
 			if (is_array($jsonBlob)) {
-				// No caching when the version has been updated
+				// Only use cache data generated for the current Nextcloud version.
 				if (isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->getVersion()) {
+					if (
+						isset($jsonBlob['data'])
+						&& is_array($jsonBlob['data'])
+						&& array_is_list($jsonBlob['data'])
+					) {
+						/** @var list<T> $cachedData */
+						$cachedData = $jsonBlob['data'];
+						$sameVersionCachedData = $cachedData;
+					}
+
+					if (isset($jsonBlob['timestamp']) && is_numeric($jsonBlob['timestamp'])) {
+						$sameVersionCacheTimestamp = (int)$jsonBlob['timestamp'];
+					}
+
 					// If the timestamp is older than 3600 seconds request the files new
 					$invalidateAfterSeconds = self::INVALIDATE_AFTER_SECONDS;
 
@@ -158,50 +217,126 @@ abstract class Fetcher {
 						$invalidateAfterSeconds = self::INVALIDATE_AFTER_SECONDS_UNSTABLE;
 					}
 
-					if ((int)$jsonBlob['timestamp'] > ($this->timeFactory->getTime() - $invalidateAfterSeconds)) {
-						return $jsonBlob['data'];
+					if (
+						$sameVersionCachedData !== null
+						&& $sameVersionCacheTimestamp !== null
+						&& $sameVersionCacheTimestamp > ($this->timeFactory->getTime() - $invalidateAfterSeconds)
+					) {
+						$this->logger->debug('Using still fresh appstore cache file', ['app' => 'appstoreFetcher']);
+						return $sameVersionCachedData;
 					}
 
-					if (isset($jsonBlob['ETag'])) {
+					// Reuse the ETag only when valid same-version cached data is available.
+					if ($sameVersionCachedData !== null && isset($jsonBlob['ETag'])) {
 						$ETag = $jsonBlob['ETag'];
-						$content = json_encode($jsonBlob['data']);
+						try {
+							$content = json_encode($sameVersionCachedData, JSON_THROW_ON_ERROR);
+						} catch (\JsonException $e) {
+							$this->logger->warning(
+								'Could not re-encode cached appstore data for conditional request',
+								['app' => 'appstoreFetcher', 'exception' => $e]
+							);
+							$ETag = '';
+							$content = '';
+						}
 					}
 				}
 			}
 		} catch (NotFoundException $e) {
-			// File does not already exist
+			// Create the cache file when it does not already exist.
 			$file = $rootFolder->newFile($this->fileName);
 		} catch (GenericFileException $e) {
 			try {
 				$file->delete();
 			} catch (\Exception) {
-				$this->logger->error('Could not read appstore cache file', ['app' => 'appstoreFetcher', 'exception' => $e]);
+				$this->logger->error(
+					'Could not read appstore cache file',
+					['app' => 'appstoreFetcher', 'exception' => $e]
+				);
 				return [];
 			}
-			$this->logger->warning('Could not read appstore cache file, it will be refreshed', ['app' => 'appstoreFetcher', 'exception' => $e]);
+			$this->logger->warning(
+				'Could not read appstore cache file, it will be refreshed',
+				['app' => 'appstoreFetcher', 'exception' => $e]
+			);
 			$file = $rootFolder->newFile($this->fileName);
 		}
 
-		// Refresh the file content
 		try {
 			$responseJson = $this->fetch($ETag, $content, $allowUnstable);
 
-			if (empty($responseJson) || empty($responseJson['data'])) {
-				return [];
+			// An empty list is a valid successful response. Missing or invalid response
+			// data is treated as a failed refresh and falls back to eligible cached data.
+			if (
+				!isset($responseJson['data'])
+				|| !is_array($responseJson['data'])
+				|| !array_is_list($responseJson['data'])
+			) {
+				return $this->useCachedData($sameVersionCachedData, $sameVersionCacheTimestamp);
 			}
 
-			$file->putContent(json_encode($responseJson));
-			return json_decode($file->getContent(), true)['data'];
+			/** @var list<T> $responseData */
+			$responseData = $responseJson['data'];
+
+			try {
+				$file->putContent(json_encode($responseJson, JSON_THROW_ON_ERROR));
+			} catch (\Exception $e) {
+				// Return fresh data even when updating the cache fails, but log for admin visibility.
+				$this->logger->warning(
+					'Could not write appstore cache file: ' . $e->getMessage(),
+					['app' => 'appstoreFetcher']
+				);
+			}
+
+			return $responseData;
 		} catch (ConnectException $e) {
-			$this->logger->warning('Could not connect to appstore: ' . $e->getMessage(), ['app' => 'appstoreFetcher']);
-			return [];
+			// Handle connection exceptions that escape an overridden or future fetch().
+			$this->logger->warning(
+				'Could not connect to appstore: ' . $e->getMessage(),
+				['app' => 'appstoreFetcher']
+			);
+
+			return $this->useCachedData($sameVersionCachedData, $sameVersionCacheTimestamp);
 		} catch (\Exception $e) {
 			$this->logger->warning($e->getMessage(), [
 				'exception' => $e,
 				'app' => 'appstoreFetcher',
 			]);
+
+			return $this->useCachedData($sameVersionCachedData, $sameVersionCacheTimestamp);
+		}
+	}
+
+	/**
+	 * @param ?list<T> $sameVersionCachedData
+	 * @param ?int $sameVersionCacheTimestamp
+	 * @return list<T>
+	 */
+	private function useCachedData(?array $sameVersionCachedData, ?int $sameVersionCacheTimestamp): array {
+		$now = $this->timeFactory->getTime();
+
+		if ($sameVersionCachedData === null || $sameVersionCacheTimestamp === null) {
 			return [];
 		}
+
+		if ($sameVersionCacheTimestamp >= ($now - self::MAX_STALE_SECONDS)) {
+			$this->logger->warning(
+				'Could not refresh appstore cache, using stale data',
+				['app' => 'appstoreFetcher']
+			);
+
+			return $sameVersionCachedData;
+		}
+
+		$this->logger->warning(
+			'Could not refresh appstore cache and cached data is too old',
+			[
+				'app' => 'appstoreFetcher',
+				'cacheAge' => $now - $sameVersionCacheTimestamp,
+			]
+		);
+
+		return [];
 	}
 
 	/**
