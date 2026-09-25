@@ -266,7 +266,6 @@
     "Advanced settings" : "Paràmetres avançats",
     "Share label" : "Etiqueta d'ús compartit",
     "Share link token" : "Comparteix el testimoni d'enllaç",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Estableix el testimoni d'enllaç de compartició pública en una cosa fàcil de recordar o genera un testimoni nou. No es recomana utilitzar un testimoni endevinable per a elements compartits que continguin informació sensible.",
     "Generating…" : "Generant…",
     "Generate new token" : "Genera un nou testimoni",
     "Set password" : "Estableix una contrasenya",
@@ -377,6 +376,7 @@
     "Via “{folder}”" : "Mitjançant «{folder}»",
     "Name or email …" : "Nom o adreça electrònica…",
     "Name, email, or Federated Cloud ID …" : "Nom, adreça electrònica o ID de núvol federat…",
-    "Searching …" : "S'està cercant…"
+    "Searching …" : "S'està cercant…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Estableix el testimoni d'enllaç de compartició pública en una cosa fàcil de recordar o genera un testimoni nou. No es recomana utilitzar un testimoni endevinable per a elements compartits que continguin informació sensible."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

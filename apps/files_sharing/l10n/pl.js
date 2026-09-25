@@ -285,7 +285,6 @@ OC.L10N.register(
     "Advanced settings" : "Ustawienia zaawansowane",
     "Share label" : "Udostępnij etykietę",
     "Share link token" : "Udostępnij token linku",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ustaw publiczny token linku udostępniania na coś łatwego do zapamiętania lub wygeneruj nowy token. Nie zaleca się używania łatwego do zgadnięcia tokena dla udostępnień zawierających poufne informacje.",
     "Generating…" : "Generowanie…",
     "Generate new token" : "Wygeneruj nowy token",
     "Set password" : "Ustaw hasło",
@@ -415,6 +414,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Przez “{folder}”",
     "Name or email …" : "Nazwa lub adres e-mail…",
     "Name, email, or Federated Cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…",
-    "Searching …" : "Wyszukiwanie…"
+    "Searching …" : "Wyszukiwanie…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ustaw publiczny token linku udostępniania na coś łatwego do zapamiętania lub wygeneruj nowy token. Nie zaleca się używania łatwego do zgadnięcia tokena dla udostępnień zawierających poufne informacje."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

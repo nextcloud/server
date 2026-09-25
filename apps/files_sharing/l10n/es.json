@@ -283,7 +283,6 @@
     "Advanced settings" : "Ajustes avanzados",
     "Share label" : "Compartir etiqueta",
     "Share link token" : "Compartir el token del enlace",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Establezca el token del enlace público del recurso compartido a algo fácil de recordar, o, genere un token nuevo. No recomendamos el uso de tokens fáciles de deducir para recursos compartidos que contengan información sensible.",
     "Generating…" : "Generando…",
     "Generate new token" : "Generar nuevo token",
     "Set password" : "Establecer contraseña",
@@ -413,6 +412,7 @@
     "Via “{folder}”" : "Vía \"{folder}\"",
     "Name or email …" : "Nombre o correo electrónico …",
     "Name, email, or Federated Cloud ID …" : "Nombre, correo electrónico o ID de nube federada...",
-    "Searching …" : "Buscando ..."
+    "Searching …" : "Buscando ...",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Establezca el token del enlace público del recurso compartido a algo fácil de recordar, o, genere un token nuevo. No recomendamos el uso de tokens fáciles de deducir para recursos compartidos que contengan información sensible."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

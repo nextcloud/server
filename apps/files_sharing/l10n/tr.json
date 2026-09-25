@@ -289,7 +289,6 @@
     "Advanced settings" : "Gelişmiş ayarlar",
     "Share label" : "Paylaşım etiketi",
     "Share link token" : "Paylaşım bağlantısı kodu",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Herkese açık paylaşım bağlantısı kodunu kolay hatırlanacak bir şey olarak ayarlayın veya yeni bir kod oluşturun. Önemli bilgiler içeren paylaşımlar için öngörülebilir bir kod kullanılması önerilmez.",
     "Generating…" : "Oluşturuluyor…",
     "Generate new token" : "Yeni kod oluştur",
     "Set password" : "Parola ayarla",
@@ -421,6 +420,7 @@
     "Via “{folder}”" : "“{folder}” ile",
     "Name or email …" : "Ad ya da e-posta adresi …",
     "Name, email, or Federated Cloud ID …" : "Ad, e-posta ya da birleşik bulut kimliği…",
-    "Searching …" : "Aranıyor …"
+    "Searching …" : "Aranıyor …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Herkese açık paylaşım bağlantısı kodunu kolay hatırlanacak bir şey olarak ayarlayın veya yeni bir kod oluşturun. Önemli bilgiler içeren paylaşımlar için öngörülebilir bir kod kullanılması önerilmez."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

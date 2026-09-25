@@ -291,7 +291,6 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avancés",
     "Share label" : "Libellé du partage",
     "Share link token" : "Jeton de lien de partage",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Définissez un jeton de lien de partage public facile à mémoriser ou créez un nouveau jeton. Il n'est pas recommandé d'utiliser un jeton facile à deviner pour les partages contenant des informations sensibles.",
     "Generating…" : "Génération en cours …",
     "Generate new token" : "Générer un nouveau jeton",
     "Set password" : "Définir un mot de passe",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Via “{folder}”",
     "Name or email …" : "Nom ou adresse e-mail …",
     "Name, email, or Federated Cloud ID …" : "Nom, adresse e-mail ou ID de cloud fédéré …",
-    "Searching …" : "Recherche …"
+    "Searching …" : "Recherche …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Définissez un jeton de lien de partage public facile à mémoriser ou créez un nouveau jeton. Il n'est pas recommandé d'utiliser un jeton facile à deviner pour les partages contenant des informations sensibles."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
