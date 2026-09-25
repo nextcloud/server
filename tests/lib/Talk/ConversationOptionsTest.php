@@ -13,9 +13,8 @@ use OC\Talk\ConversationOptions;
 use Test\TestCase;
 
 class ConversationOptionsTest extends TestCase {
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testDefaults(): void {
 		ConversationOptions::default();
-
-		$this->addToAssertionCount(1);
 	}
 }
