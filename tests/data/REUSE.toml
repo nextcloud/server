@@ -122,3 +122,51 @@ path = "images/image.jpg"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>"
 SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = ["media/image.gif", "media/image.ico", "media/image.svg", "media/image-small.png", "media/image-apng.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Nextcloud GmbH"
+SPDX-License-Identifier = "LicenseRef-NextcloudTrademarks"
+
+[[annotations]]
+path = ["media/image1.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Stephen Leonardi <https://unsplash.com/@leo_visions_> <https://unsplash.com/photos/rock-formation-with-lava-during-daytime-eSNjFDbw_i4>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = ["media/image2.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = ["media/image4.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Vincent Riszdorfer <https://unsplash.com/@theguywithacamera> <https://unsplash.com/photos/person-about-to-claim-mountain-Q6X1ifPIfjs>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = ["media/video.mkv", "media/video.ogv", "media/video.webm", "media/video1.mp4"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2012 AnRo0002 <https://commons.wikimedia.org/wiki/User:AnRo0002>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["media/audio.mp3", "media/audio.ogg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022 AC Krah <https://commons.wikimedia.org/wiki/User:AC_Krah>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["media/image3.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2013 Wilfredor <https://commons.wikimedia.org/wiki/User:Wilfredor>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["media/image.png", "media/image.webp"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Master Unknown <https://unsplash.com/@exp00>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"

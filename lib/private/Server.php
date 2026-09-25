@@ -149,6 +149,7 @@ use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Talk\Broker;
 use OC\Teams\TeamManager;
 use OC\Template\JSCombiner;
+use OC\Template\LoadViewerListener;
 use OC\Translation\TranslationManager;
 use OC\User\AvailabilityCoordinator;
 use OC\User\DisplayNameCache;
@@ -163,6 +164,7 @@ use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
 use OCP\Activity\IEventMerger;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\LoginCredentials\IStore;
@@ -852,7 +854,7 @@ class Server extends ServerContainer {
 		$this->registerService(CapabilitiesManager::class, static function (ContainerInterface $c) {
 			$manager = new CapabilitiesManager($c->get(LoggerInterface::class));
 			$manager->registerCapability(static function () use ($c) {
-				return new CoreCapabilities($c->get(IConfig::class));
+				return new CoreCapabilities($c->get(IConfig::class), $c->get(IPreview::class));
 			});
 			$manager->registerCapability(static function () use ($c) {
 				return $c->get(Capabilities::class);
@@ -1136,6 +1138,7 @@ class Server extends ServerContainer {
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, SubAdmin::class);
 		$eventDispatcher->addServiceListener(GroupDeletedEvent::class, SubAdmin::class);
+		$eventDispatcher->addServiceListener(BeforeTemplateRenderedEvent::class, LoadViewerListener::class);
 
 		FilesMetadataManager::loadListeners($eventDispatcher);
 		GenerateBlurhashMetadata::loadListeners($eventDispatcher);

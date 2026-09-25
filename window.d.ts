@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { LegacyViewerApi } from './core/src/viewer-legacy.ts'
 import type Tab from './apps/files/src/models/Tab.js'
 import type RouterService from './apps/files/src/services/RouterService.ts'
 import type Settings from './apps/files/src/services/Settings.js'
@@ -26,6 +27,11 @@ declare global {
 				Settings: Settings
 				Sidebar: SidebarAPI
 			}
+			/**
+			 * @deprecated since 36, removed in 40.
+			 * Use the `@nextcloud/viewer` package instead.
+			 */
+			Viewer?: LegacyViewerApi
 		} & Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
 
 		// Public Files namespace
