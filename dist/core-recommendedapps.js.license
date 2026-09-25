@@ -159,7 +159,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.111.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 9.11.0
+	- version: 9.13.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 8.2.1

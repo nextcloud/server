@@ -1,0 +1,24 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Nick Frasser (https://nfrasser.com)
+SPDX-FileCopyrightText: Rubén Norte <ruben.norte@softonic.com>
+SPDX-FileCopyrightText: Sindre Sorhus
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/files
+	- version: 4.1.0
+	- license: AGPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.13.0
+	- license: AGPL-3.0-or-later
+- axios-retry
+	- version: 4.5.0
+	- license: Apache-2.0
+- is-retry-allowed
+	- version: 2.2.0
+	- license: MIT
+- linkifyjs
+	- version: 4.3.3
+	- license: MIT
