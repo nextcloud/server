@@ -2263,6 +2263,7 @@ return array(
     'OC\\Support\\Subscription\\Assertion' => $baseDir . '/lib/private/Support/Subscription/Assertion.php',
     'OC\\Support\\Subscription\\Registry' => $baseDir . '/lib/private/Support/Subscription/Registry.php',
     'OC\\SystemConfig' => $baseDir . '/lib/private/SystemConfig.php',
+    'OC\\SystemReport\\SystemReportManager' => $baseDir . '/lib/private/SystemReport/SystemReportManager.php',
     'OC\\SystemTag\\ManagerFactory' => $baseDir . '/lib/private/SystemTag/ManagerFactory.php',
     'OC\\SystemTag\\SystemTag' => $baseDir . '/lib/private/SystemTag/SystemTag.php',
     'OC\\SystemTag\\SystemTagManager' => $baseDir . '/lib/private/SystemTag/SystemTagManager.php',
