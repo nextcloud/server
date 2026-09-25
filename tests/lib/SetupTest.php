@@ -149,10 +149,11 @@ class SetupTest extends \Test\TestCase {
 			$webRoot = self::invokePrivate($this->setupClass, 'findWebRoot', [$this->config]);
 		} catch (\InvalidArgumentException $e) {
 			$webRoot = false;
+		} finally {
+			\OC::$CLI = $cliState;
 		}
 
-		\OC::$CLI = $cliState;
-		$this->assertSame($webRoot, $expected);
+		$this->assertSame($expected, $webRoot);
 	}
 
 	public static function findWebRootProvider(): array {
