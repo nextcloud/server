@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCP\ContextChat\Events;
 
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\ContextChat\IContentManager;
 use OCP\ContextChat\IContentProvider;
 use OCP\EventDispatcher\Event;
@@ -16,6 +17,7 @@ use OCP\EventDispatcher\Event;
 /**
  * @since 32.0.0
  */
+#[Listenable(since: '32.0.0')]
 class ContentProviderRegisterEvent extends Event {
 	/**
 	 * @since 32.0.0
