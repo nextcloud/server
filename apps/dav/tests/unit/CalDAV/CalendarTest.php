@@ -12,6 +12,7 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use OCP\IConfig;
 use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -449,6 +450,69 @@ EOD;
 			[3, false],
 			[2, true]
 		];
+	}
+
+	public function testCalendarQuery(): void {
+		/** @var CalDavBackend&MockObject $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->expects($this->once())
+			->method('calendarQuery')
+			->with(666, [], CalDavBackend::CALENDAR_TYPE_CALENDAR)
+			->willReturn(['event-0.ics']);
+
+		// A calendar that is not in the trash bin has the property set to null
+		$calendarInfo = [
+			'principaluri' => 'user1',
+			'id' => 666,
+			'uri' => 'cal',
+			TrashbinPlugin::PROPERTY_DELETED_AT => null,
+		];
+		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
+
+		$this->assertEquals(['event-0.ics'], $c->calendarQuery([]));
+	}
+
+	public function testCalendarQuerySharedCalendar(): void {
+		/** @var CalDavBackend&MockObject $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->expects($this->once())
+			->method('calendarQuery')
+			->with(666, [], CalDavBackend::CALENDAR_TYPE_CALENDAR)
+			->willReturn(['event-public.ics', 'event-private.ics']);
+		$backend->expects($this->any())
+			->method('getCalendarObject')
+			->willReturnMap([
+				[666, 'event-public.ics', CalDavBackend::CALENDAR_TYPE_CALENDAR, ['uri' => 'event-public.ics', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC]],
+				[666, 'event-private.ics', CalDavBackend::CALENDAR_TYPE_CALENDAR, ['uri' => 'event-private.ics', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE]],
+			]);
+
+		$calendarInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'cal',
+			TrashbinPlugin::PROPERTY_DELETED_AT => null,
+		];
+		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
+
+		$this->assertEquals(['event-public.ics'], $c->calendarQuery([]));
+	}
+
+	public function testCalendarQueryDeletedCalendar(): void {
+		/** @var CalDavBackend&MockObject $backend */
+		$backend = $this->createMock(CalDavBackend::class);
+		$backend->expects($this->never())
+			->method('calendarQuery');
+
+		$calendarInfo = [
+			'principaluri' => 'user1',
+			'id' => 666,
+			'uri' => 'cal',
+			TrashbinPlugin::PROPERTY_DELETED_AT => 1234567890,
+		];
+		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
+
+		$this->assertEquals([], $c->calendarQuery([]));
 	}
 
 	public function testRemoveVAlarms(): void {

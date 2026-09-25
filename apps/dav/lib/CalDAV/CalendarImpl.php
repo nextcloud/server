@@ -112,6 +112,11 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 
 	#[\Override]
 	public function search(string $pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null): array {
+		// Objects of a calendar in the trash bin must not be matched, e.g. when calculating the user status
+		if ($this->isDeleted()) {
+			return [];
+		}
+
 		return $this->backend->search($this->calendarInfo, $pattern,
 			$searchProperties, $options, $limit, $offset);
 	}

@@ -340,6 +340,11 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 
 	#[\Override]
 	public function calendarQuery(array $filters) {
+		// Objects of a calendar in the trash bin must not be matched, e.g. in free-busy reports
+		if ($this->isDeleted()) {
+			return [];
+		}
+
 		$uris = $this->caldavBackend->calendarQuery($this->calendarInfo['id'], $filters, $this->getCalendarType());
 		if ($this->isShared()) {
 			return array_filter($uris, function ($uri) {
