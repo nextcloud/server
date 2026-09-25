@@ -127,4 +127,14 @@ class Adapter {
 			throw $e;
 		}
 	}
+
+	/**
+	 * Return a transformer turning an INSERT query into a conflict tolerant
+	 * one, or null when the platform has no native support for it.
+	 *
+	 * @return null|callable(string): string
+	 */
+	public function getInsertIgnoreSqlTransformer(): ?callable {
+		return null;
+	}
 }

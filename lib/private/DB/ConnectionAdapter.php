@@ -299,4 +299,11 @@ class ConnectionAdapter implements IDBConnection {
 	public function getCrossShardMoveHelper(): CrossShardMoveHelper {
 		return $this->inner->getCrossShardMoveHelper();
 	}
+
+	/**
+	 * @return null|callable(string): string
+	 */
+	public function getInsertIgnoreSqlTransformer(): ?callable {
+		return $this->inner->getInsertIgnoreSqlTransformer();
+	}
 }

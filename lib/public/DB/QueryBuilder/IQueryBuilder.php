@@ -226,6 +226,24 @@ interface IQueryBuilder {
 	public function executeStatement(?IDBConnection $connection = null): int;
 
 	/**
+	 * Ignore unique constraint conflicts for INSERT queries.
+	 *
+	 * Rows conflicting with an existing row on a unique constraint are skipped
+	 * instead of raising an error, the row count returned by
+	 * {@see self::executeStatement()} is reduced accordingly.
+	 *
+	 * On platforms without native support for conflict tolerant inserts the
+	 * query is executed as a regular INSERT.
+	 *
+	 * Must only be called on INSERT queries.
+	 *
+	 * @return $this
+	 * @since 36.0.0
+	 * @throws \LogicException when called on a non-INSERT query
+	 */
+	public function ignoreConflictsOnInsert(): self;
+
+	/**
 	 * Gets the complete SQL string formed by the current specifications of this QueryBuilder.
 	 *
 	 * <code>

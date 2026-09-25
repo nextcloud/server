@@ -154,6 +154,53 @@ abstract class QBMapper {
 	}
 
 	/**
+	 * Creates a new entry in the db from an entity, ignoring conflicts on
+	 * unique constraints
+	 *
+	 * @param Entity $entity the entity that should be created
+	 * @psalm-param T $entity the entity that should be created
+	 * @return int number of inserted rows (0 if a conflicting row already exists)
+	 * @throws Exception
+	 * @since 36.0.0
+	 */
+	public function insertIgnoreConflict(Entity $entity): int {
+		if ($entity instanceof SnowflakeAwareEntity) {
+			/** @psalm-suppress DocblockTypeContradiction */
+			$entity->generateId();
+		}
+
+		// get updated fields to save, fields have to be set using a setter to
+		// be saved
+		$properties = $entity->getUpdatedFields();
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert($this->tableName);
+		$qb->ignoreConflictsOnInsert();
+
+		// build the fields
+		foreach ($properties as $property => $updated) {
+			if ($property === 'id' && $entity->id === null) {
+				continue;
+			}
+
+			$column = $entity->propertyToColumn($property);
+			$getter = 'get' . ucfirst($property);
+			$type = $this->getParameterTypeForProperty($entity, $property);
+			$qb->setValue($column, $qb->createNamedParameter($entity->$getter(), $type));
+		}
+
+		try {
+			return $qb->executeStatement();
+		} catch (Exception $ex) {
+			// fallback for platforms without native conflict tolerant inserts
+			if ($ex->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				return 0;
+			}
+			throw $ex;
+		}
+	}
+
+	/**
 	 * Updates an entry in the db from an entity
 	 *
 	 * @param Entity $entity the entity that should be created

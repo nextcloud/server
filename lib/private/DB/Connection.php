@@ -991,4 +991,11 @@ class Connection extends PrimaryReadReplicaConnection {
 	public function getCrossShardMoveHelper(): CrossShardMoveHelper {
 		return new CrossShardMoveHelper($this->shardConnectionManager);
 	}
+
+	/**
+	 * @return null|callable(string): string
+	 */
+	public function getInsertIgnoreSqlTransformer(): ?callable {
+		return $this->adapter->getInsertIgnoreSqlTransformer();
+	}
 }

@@ -35,7 +35,12 @@ class AdapterPgSql extends Adapter {
 		foreach ($values as $key => $value) {
 			$builder->setValue($key, $builder->createNamedParameter($value));
 		}
-		$queryString = $builder->getSQL() . ' ON CONFLICT DO NOTHING';
-		return $this->conn->executeStatement($queryString, $builder->getParameters(), $builder->getParameterTypes());
+		$builder->ignoreConflictsOnInsert();
+		return $builder->executeStatement();
+	}
+
+	#[\Override]
+	public function getInsertIgnoreSqlTransformer(): callable {
+		return fn (string $sql) => $sql . ' ON CONFLICT DO NOTHING';
 	}
 }
