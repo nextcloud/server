@@ -5,7 +5,7 @@
 <template>
 	<fieldset class="ldap-wizard__login">
 		<legend>
-			{{ t('user_ldap', 'When logging in, {instanceName} will find the user based on the following attributes:', { instanceName }) }}
+			{{ t('user_ldap', 'When logging in, {instanceName} will find the user based on the following attributes:', { instanceName }, { escape: false }) }}
 		</legend>
 
 		<NcCheckboxRadioSwitch
