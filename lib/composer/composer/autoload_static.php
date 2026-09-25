@@ -2249,6 +2249,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Support\\Subscription\\Assertion' => __DIR__ . '/../../..' . '/lib/private/Support/Subscription/Assertion.php',
         'OC\\Support\\Subscription\\Registry' => __DIR__ . '/../../..' . '/lib/private/Support/Subscription/Registry.php',
         'OC\\SystemConfig' => __DIR__ . '/../../..' . '/lib/private/SystemConfig.php',
+        'OC\\SystemReport\\SystemReportManager' => __DIR__ . '/../../..' . '/lib/private/SystemReport/SystemReportManager.php',
         'OC\\SystemTag\\ManagerFactory' => __DIR__ . '/../../..' . '/lib/private/SystemTag/ManagerFactory.php',
         'OC\\SystemTag\\SystemTag' => __DIR__ . '/../../..' . '/lib/private/SystemTag/SystemTag.php',
         'OC\\SystemTag\\SystemTagManager' => __DIR__ . '/../../..' . '/lib/private/SystemTag/SystemTagManager.php',
