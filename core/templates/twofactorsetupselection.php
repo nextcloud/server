@@ -6,10 +6,10 @@ declare(strict_types=1);
  */
 
 ?>
-<div class="body-login-container update">
+<div class="body-login-container update two-factor">
 	<h2 class="two-factor-header"><?php p($l->t('Set up two-factor authentication')) ?></h2>
 	<?php p($l->t('Enhanced security is enforced for your account. Choose which provider to set up:')) ?>
-	<ul>
+	<ul class="two-factor-providers">
 	<?php foreach ($_['providers'] as $provider): ?>
 		<li>
 			<a class="two-factor-provider"
@@ -26,7 +26,7 @@ declare(strict_types=1);
 					$icon = image_path('core', 'actions/password-white.svg');
 				}
 		?>
-				<img src="<?php p($icon) ?>" alt="" />
+				<span class="two-factor-provider-icon"><img src="<?php p($icon) ?>" alt="" /></span>
 				<div>
 					<h3><?php p($provider->getDisplayName()) ?></h3>
 					<p><?php p($provider->getDescription()) ?></p>
@@ -35,7 +35,9 @@ declare(strict_types=1);
 		</li>
 	<?php endforeach; ?>
 	</ul>
-	<p><a id="cancel-login" class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
-		<?php p($l->t('Cancel login')) ?>
-	</a></p>
+	<div class="two-factor-actions">
+		<a id="cancel-login" href="<?php print_unescaped($_['logout_url']); ?>">
+			<?php p($l->t('Cancel login')) ?>
+		</a>
+	</div>
 </div>
