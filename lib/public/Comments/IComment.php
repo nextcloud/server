@@ -8,6 +8,8 @@
 
 namespace OCP\Comments;
 
+use JsonSerializable;
+
 /**
  * Interface IComment
  *
@@ -15,7 +17,7 @@ namespace OCP\Comments;
  *
  * @since 9.0.0
  */
-interface IComment {
+interface IComment extends JsonSerializable {
 	/**
 	 * @since 9.0.0
 	 */

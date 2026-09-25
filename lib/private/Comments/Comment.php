@@ -523,4 +523,23 @@ class Comment implements IComment {
 
 		return $this;
 	}
+
+	public function jsonSerialize(): mixed {
+		return [
+			'id' => $this->getId(),
+			'parent_id' => $this->getParentId(),
+			'top_parent_id' => $this->getTopmostParentId(),
+			'children_count' => $this->getChildrenCount(),
+			'message' => $this->getMessage(),
+			'actor_type' => $this->getActorType(),
+			'actor_id' => $this->getActorId(),
+			'object_type' => $this->getObjectType(),
+			'object_id' => $this->getObjectId(),
+			'reference_id' => $this->getReferenceId(),
+			'metadata' => $this->getMetaData(),
+			'creation_time' => $this->getCreationDateTime()->format(\DateTimeInterface::ATOM),
+			'reactions' => $this->getReactions(),
+			'expire_data' => $this->getExpireDate(),
+		];
+	}
 }
