@@ -131,4 +131,52 @@ class LimiterTest extends TestCase {
 
 		$this->limiter->registerUserRequest('MyIdentifier', 100, 100, $user);
 	}
+
+	public function testIsAnonRateLimitReached(): void {
+		$this->backend
+			->expects($this->once())
+			->method('getAttempts')
+			->with(
+				'MyIdentifier',
+				'4664f0d9c88dcb7552be47b37bb52ce35977b2e60e1ac13757cf625f31f87050a41f3da064887fa87d49fd042e4c8eb20de8f10464877d3959677ab011b73a47'
+			)
+			->willReturn(101);
+		$this->backend
+			->expects($this->never())
+			->method('registerAttempt');
+
+		$this->assertTrue($this->limiter->isAnonRateLimitReached('MyIdentifier', 100, '127.0.0.1'));
+	}
+
+	public function testIsAnonRateLimitNotReached(): void {
+		$this->backend
+			->expects($this->once())
+			->method('getAttempts')
+			->with(
+				'MyIdentifier',
+				'4664f0d9c88dcb7552be47b37bb52ce35977b2e60e1ac13757cf625f31f87050a41f3da064887fa87d49fd042e4c8eb20de8f10464877d3959677ab011b73a47'
+			)
+			->willReturn(99);
+		$this->backend
+			->expects($this->never())
+			->method('registerAttempt');
+
+		$this->assertFalse($this->limiter->isAnonRateLimitReached('MyIdentifier', 100, '127.0.0.1'));
+	}
+
+	public function testRegisterAnonAttempt(): void {
+		$this->backend
+			->expects($this->never())
+			->method('getAttempts');
+		$this->backend
+			->expects($this->once())
+			->method('registerAttempt')
+			->with(
+				'MyIdentifier',
+				'4664f0d9c88dcb7552be47b37bb52ce35977b2e60e1ac13757cf625f31f87050a41f3da064887fa87d49fd042e4c8eb20de8f10464877d3959677ab011b73a47',
+				100
+			);
+
+		$this->limiter->registerAnonAttempt('MyIdentifier', 100, '127.0.0.1');
+	}
 }
