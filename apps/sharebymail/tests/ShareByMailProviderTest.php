@@ -95,14 +95,12 @@ class ShareByMailProviderTest extends TestCase {
 		$this->share = $this->createMock(IShare::class);
 		$this->activityManager = $this->createMock('OCP\Activity\IManager');
 		$this->settingsManager = $this->createMock(SettingsManager::class);
-		$this->settingsManager->expects($this->any())->method('useUserEmail')->willReturn(true);
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->hasher = $this->createMock(IHasher::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->mailManager = $this->createMock(IMailManager::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->appConfig->expects($this->any())->method('getValueBool')->willReturn(true);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 		$this->config->expects($this->any())->method('getAppValue')->with('core', 'enforce_strict_email_check')->willReturn('yes');
