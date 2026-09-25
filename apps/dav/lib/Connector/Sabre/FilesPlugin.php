@@ -70,6 +70,7 @@ class FilesPlugin extends ServerPlugin {
 	public const UPLOAD_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}upload_time';
 	public const CREATION_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}creation_time';
 	public const LAST_ACTIVITY_PROPERTYNAME = '{http://nextcloud.org/ns}last_activity';
+	public const MIME_TYPE_GROUP = '{http://nextcloud.org/ns}mime_type_group';
 	public const SHARE_NOTE = '{http://nextcloud.org/ns}note';
 	public const SHARE_HIDE_DOWNLOAD_PROPERTYNAME = '{http://nextcloud.org/ns}hide-download';
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
@@ -451,6 +452,10 @@ class FilesPlugin extends ServerPlugin {
 
 			$propFind->handle(self::LAST_ACTIVITY_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getLastActivity();
+			});
+
+			$propFind->handle(self::MIME_TYPE_GROUP, function () use ($node) {
+				return $node instanceof GroupableFile ? $node->getGroup() : null;
 			});
 
 			foreach ($node->getFileInfo()->getMetadata() as $metadataKey => $metadataValue) {
