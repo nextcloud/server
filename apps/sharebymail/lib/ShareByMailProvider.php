@@ -27,6 +27,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
+use OCP\Mail\IMessage;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -421,6 +422,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			$emailTemplate->addFooter();
 		}
 
+		$this->addInitiatorToCc($message, $initiatorUser, $initiatorDisplayName);
+
 		$message->useTemplate($emailTemplate);
 		$failedRecipients = $this->mailer->send($message);
 		if (!empty($failedRecipients)) {
@@ -517,6 +520,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			$emailTemplate->addFooter();
 		}
 
+		$this->addInitiatorToCc($message, $initiatorUser, $initiatorDisplayName);
+
 		$message->useTemplate($emailTemplate);
 		$failedRecipients = $this->mailer->send($message);
 		if (!empty($failedRecipients)) {
@@ -579,8 +584,29 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		$message->setTo([$recipient]);
+		$this->addInitiatorToCc($message, $initiatorUser, $initiatorDisplayName);
 		$message->useTemplate($emailTemplate);
 		$this->mailer->send($message);
+	}
+
+	/**
+	 * Add the initiator of a share to the recipients of a mail in CC
+	 *
+	 * Does nothing unless the administrator enabled it and the initiator is a
+	 * user with a mail address configured. The address is only looked up when
+	 * the setting is enabled.
+	 *
+	 * The display name is optional, as it is for the "Reply-To" address.
+	 */
+	private function addInitiatorToCc(IMessage $message, ?IUser $initiatorUser, ?string $initiatorDisplayName): void {
+		if ($initiatorUser === null || !$this->settingsManager->ccToInitiator()) {
+			return;
+		}
+
+		$initiatorEmail = $initiatorUser->getEMailAddress();
+		if ($initiatorEmail !== null) {
+			$message->setCc([$initiatorEmail => $initiatorDisplayName]);
+		}
 	}
 
 	/**
