@@ -115,6 +115,7 @@
 <script>
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { n, t } from '@nextcloud/l10n'
 import debounce from 'debounce'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
@@ -125,7 +126,7 @@ import Magnify from 'vue-material-design-icons/Magnify.vue'
 import SearchResult from '../components/UnifiedSearch/LegacySearchResult.vue'
 import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders.vue'
 import { defaultLimit, enableLiveSearch, getTypes, minSearchLength, regexFilterIn, regexFilterNot, search } from '../services/LegacyUnifiedSearchService.js'
-import { logger } from '../utils/logger.ts'
+import { unifiedSearchLogger as logger } from '../utils/logger.ts'
 
 const REQUEST_FAILED = 0
 const REQUEST_OK = 1
@@ -143,6 +144,13 @@ export default {
 		SearchResult,
 		SearchResultPlaceholders,
 		NcTextField,
+	},
+
+	setup() {
+		return {
+			t,
+			n,
+		}
 	},
 
 	data() {
@@ -383,7 +391,7 @@ export default {
 		 */
 		onReset() {
 			emit('nextcloud:unified-search.reset')
-			this.logger.debug('Search reset')
+			logger.debug('Search reset')
 			this.query = ''
 			this.resetState()
 			this.focusInput()
@@ -471,12 +479,12 @@ export default {
 
 			if (!types.length) {
 				// no results since no types were selected
-				this.logger.error('No types to search in')
+				logger.error('No types to search in')
 				return
 			}
 
 			this.$set(this.loading, 'all', true)
-			this.logger.debug(`Searching ${query} in`, types)
+			logger.debug(`Searching ${query} in`, types)
 
 			Promise.all(types.map(async (type) => {
 				try {
@@ -518,7 +526,7 @@ export default {
 
 					// If this is not a cancelled throw
 					if (error.response && error.response.status) {
-						this.logger.error(`Error searching for ${this.typesMap[type]}`, error)
+						logger.error(`Error searching for ${this.typesMap[type]}`, error)
 						showError(this.t('core', 'An error occurred while searching for {type}', { type: this.typesMap[type] }))
 						return REQUEST_FAILED
 					}
