@@ -35,7 +35,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\L10N\IFactory;
+use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Security\ISecureRandom;
@@ -85,6 +85,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				throw new \TypeError('Not supported');
 			}
 			if ($type->isBuiltin()) {
+				if ($parameter->isOptional()) {
+					$params[] = $parameter->getDefaultValue();
+					continue;
+				}
 				throw new \TypeError('Not supported, please override value');
 			}
 			$className = $type->getName();
@@ -112,7 +116,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 						fn (string $text, array $parameters = []) => vsprintf($text, $parameters)
 					);
 				break;
-			case IFactory::class:
+			case IL10NFactory::class:
 				$mockL10n = $this->createAutoMock(IL10N::class);
 				$mock->method('get')
 					->willReturn($mockL10n);
