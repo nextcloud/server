@@ -172,7 +172,7 @@ class OC_User {
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password, $backend));
 
-				$userSession->createSessionToken($request, $uid, $uid, $password);
+				$userSession->createSessionToken($request, $uid, $uid, $password, IToken::REMEMBER);
 				$userSession->createRememberMeToken($userSession->getUser());
 
 				if (empty($password)) {
