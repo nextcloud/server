@@ -11,28 +11,14 @@ namespace Test\Authentication\Login;
 
 use OC\Authentication\Login\LoggedInCheckCommand;
 use OC\Core\Controller\LoginController;
-use OCP\EventDispatcher\IEventDispatcher;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class LoggedInCheckCommandTest extends ALoginTestCommand {
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var IEventDispatcher|MockObject */
-	private $dispatcher;
-
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->dispatcher = $this->createMock(IEventDispatcher::class);
-
-		$this->cmd = new LoggedInCheckCommand(
-			$this->logger,
-			$this->dispatcher
-		);
+		$this->cmd = $this->createInstanceWithMocks(LoggedInCheckCommand::class);
 	}
 
 	public function testProcessSuccessfulLogin(): void {
@@ -45,7 +31,7 @@ class LoggedInCheckCommandTest extends ALoginTestCommand {
 
 	public function testProcessFailedLogin(): void {
 		$data = $this->getFailedLoginData();
-		$this->logger->expects($this->once())
+		$this->mocks[LoggerInterface::class]->expects($this->once())
 			->method('warning');
 
 		$result = $this->cmd->process($data);

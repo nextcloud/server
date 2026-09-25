@@ -14,7 +14,6 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class DatabaseTest
@@ -23,8 +22,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 class DatabaseTest extends Backend {
 	/** @var array */
 	private $users;
-	/** @var IEventDispatcher|MockObject */
-	private $eventDispatcher;
 
 	/** @var Database */
 	protected $backend;
@@ -40,9 +37,7 @@ class DatabaseTest extends Backend {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-
-		$this->backend = new Database($this->eventDispatcher);
+		$this->backend = $this->createInstanceWithMocks(Database::class);
 
 		foreach ($this->backend->getUsers() as $user) {
 			$this->backend->deleteUser($user);
@@ -64,7 +59,7 @@ class DatabaseTest extends Backend {
 		$user = $this->getUser();
 		$this->backend->createUser($user, 'pass1');
 
-		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')
+		$this->mocks[IEventDispatcher::class]->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(
 				function (Event $event): void {
 					$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);
@@ -84,7 +79,7 @@ class DatabaseTest extends Backend {
 		$user = $this->getUser();
 		$this->backend->createUser($user, 'pass1');
 
-		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')
+		$this->mocks[IEventDispatcher::class]->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(
 				function (Event $event): void {
 					$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);

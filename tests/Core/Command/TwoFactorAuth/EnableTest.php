@@ -13,17 +13,10 @@ use OC\Authentication\TwoFactorAuth\ProviderManager;
 use OC\Core\Command\TwoFactorAuth\Enable;
 use OCP\IUser;
 use OCP\IUserManager;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 class EnableTest extends TestCase {
-	/** @var ProviderManager|MockObject */
-	private $providerManager;
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
 	/** @var CommandTester */
 	private $command;
 
@@ -31,15 +24,12 @@ class EnableTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->providerManager = $this->createMock(ProviderManager::class);
-		$this->userManager = $this->createMock(IUserManager::class);
-
-		$cmd = new Enable($this->providerManager, $this->userManager);
+		$cmd = $this->createInstanceWithMocks(Enable::class);
 		$this->command = new CommandTester($cmd);
 	}
 
 	public function testInvalidUID(): void {
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('nope')
 			->willReturn(null);
@@ -55,11 +45,11 @@ class EnableTest extends TestCase {
 
 	public function testEnableNotSupported(): void {
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('belle')
 			->willReturn($user);
-		$this->providerManager->expects($this->once())
+		$this->mocks[ProviderManager::class]->expects($this->once())
 			->method('tryEnableProviderFor')
 			->with('totp', $user)
 			->willReturn(false);
@@ -75,11 +65,11 @@ class EnableTest extends TestCase {
 
 	public function testEnabled(): void {
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('belle')
 			->willReturn($user);
-		$this->providerManager->expects($this->once())
+		$this->mocks[ProviderManager::class]->expects($this->once())
 			->method('tryEnableProviderFor')
 			->with('totp', $user)
 			->willReturn(true);

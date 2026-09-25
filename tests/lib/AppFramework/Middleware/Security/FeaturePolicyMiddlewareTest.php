@@ -21,18 +21,13 @@ class FeaturePolicyMiddlewareTest extends \Test\TestCase {
 	private $middleware;
 	/** @var Controller|MockObject */
 	private $controller;
-	/** @var FeaturePolicyManager|MockObject */
-	private $manager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->controller = $this->createMock(Controller::class);
-		$this->manager = $this->createMock(FeaturePolicyManager::class);
-		$this->middleware = new FeaturePolicyMiddleware(
-			$this->manager
-		);
+		$this->middleware = $this->createInstanceWithMocks(FeaturePolicyMiddleware::class);
 	}
 
 	public function testAfterController(): void {
@@ -45,9 +40,9 @@ class FeaturePolicyMiddlewareTest extends \Test\TestCase {
 		$mergedPolicy->addAllowedGeoLocationDomain('mergedPolicy');
 		$response->method('getFeaturePolicy')
 			->willReturn($currentPolicy);
-		$this->manager->method('getDefaultPolicy')
+		$this->mocks[FeaturePolicyManager::class]->method('getDefaultPolicy')
 			->willReturn($defaultPolicy);
-		$this->manager->method('mergePolicies')
+		$this->mocks[FeaturePolicyManager::class]->method('mergePolicies')
 			->with($defaultPolicy, $currentPolicy)
 			->willReturn($mergedPolicy);
 		$response->expects($this->once())

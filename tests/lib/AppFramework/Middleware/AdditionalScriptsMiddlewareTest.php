@@ -17,56 +17,44 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\PublicShareController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUserSession;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
-	/** @var IUserSession|MockObject */
-	private $userSession;
-
 	/** @var Controller */
 	private $controller;
 
 	/** @var AdditionalScriptsMiddleware */
 	private $middleWare;
-	/** @var IEventDispatcher|MockObject */
-	private $dispatcher;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->userSession = $this->createMock(IUserSession::class);
-		$this->dispatcher = $this->createMock(IEventDispatcher::class);
-		$this->middleWare = new AdditionalScriptsMiddleware(
-			$this->userSession,
-			$this->dispatcher
-		);
+		$this->middleWare = $this->createInstanceWithMocks(AdditionalScriptsMiddleware::class);
 
 		$this->controller = $this->createMock(Controller::class);
 	}
 
 	public function testNoTemplateResponse(): void {
-		$this->userSession->expects($this->never())
+		$this->mocks[IUserSession::class]->expects($this->never())
 			->method($this->anything());
-		$this->dispatcher->expects($this->never())
+		$this->mocks[IEventDispatcher::class]->expects($this->never())
 			->method($this->anything());
 
 		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(Response::class));
 	}
 
 	public function testPublicShareController(): void {
-		$this->userSession->expects($this->never())
+		$this->mocks[IUserSession::class]->expects($this->never())
 			->method($this->anything());
-		$this->dispatcher->expects($this->never())
+		$this->mocks[IEventDispatcher::class]->expects($this->never())
 			->method($this->anything());
 
 		$this->middleWare->afterController($this->createMock(PublicShareController::class), 'myMethod', $this->createMock(Response::class));
 	}
 
 	public function testStandaloneTemplateResponse(): void {
-		$this->userSession->expects($this->never())
+		$this->mocks[IUserSession::class]->expects($this->never())
 			->method($this->anything());
-		$this->dispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatchTyped')
 			->willReturnCallback(function ($event): void {
 				if ($event instanceof BeforeTemplateRenderedEvent && $event->isLoggedIn() === false) {
@@ -80,9 +68,9 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testTemplateResponseNotLoggedIn(): void {
-		$this->userSession->method('isLoggedIn')
+		$this->mocks[IUserSession::class]->method('isLoggedIn')
 			->willReturn(false);
-		$this->dispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatchTyped')
 			->willReturnCallback(function ($event): void {
 				if ($event instanceof BeforeTemplateRenderedEvent && $event->isLoggedIn() === false) {
@@ -98,9 +86,9 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 	public function testTemplateResponseLoggedIn(): void {
 		$events = [];
 
-		$this->userSession->method('isLoggedIn')
+		$this->mocks[IUserSession::class]->method('isLoggedIn')
 			->willReturn(true);
-		$this->dispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatchTyped')
 			->willReturnCallback(function ($event): void {
 				if ($event instanceof BeforeTemplateRenderedEvent && $event->isLoggedIn() === true) {

@@ -18,8 +18,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 class CompressionMiddlewareTest extends \Test\TestCase {
-	/** @var IRequest */
-	private $request;
 	/** @var Controller */
 	private $controller;
 	/** @var CompressionMiddleware */
@@ -28,17 +26,13 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->request = $this->createMock(IRequest::class);
-		$this->middleWare = new CompressionMiddleware(
-			$this->request
-		);
+		$this->middleWare = $this->createInstanceWithMocks(CompressionMiddleware::class);
 
 		$this->controller = $this->createMock(Controller::class);
 	}
 
 	public function testGzipOCSV1(): void {
-		$this->request->method('getHeader')
+		$this->mocks[IRequest::class]->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
 
@@ -60,7 +54,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testGzipOCSV2(): void {
-		$this->request->method('getHeader')
+		$this->mocks[IRequest::class]->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
 
@@ -82,7 +76,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testGzipJSONResponse(): void {
-		$this->request->method('getHeader')
+		$this->mocks[IRequest::class]->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
 
@@ -104,7 +98,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testNoGzipDataResponse(): void {
-		$this->request->method('getHeader')
+		$this->mocks[IRequest::class]->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
 
@@ -124,7 +118,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testNoGzipNo200(): void {
-		$this->request->method('getHeader')
+		$this->mocks[IRequest::class]->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
 

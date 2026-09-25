@@ -14,22 +14,19 @@ use OC\OCM\OCMSignatoryManager;
 use OC\OCM\Rfc9421SignatoryManager;
 use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
 use OCP\Security\Signature\Model\Signatory;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class Rfc9421SignatoryManagerTest extends TestCase {
-	private OCMSignatoryManager&MockObject $delegate;
 	private Rfc9421SignatoryManager $wrapper;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->delegate = $this->createMock(OCMSignatoryManager::class);
-		$this->wrapper = new Rfc9421SignatoryManager($this->delegate);
+		$this->wrapper = $this->createInstanceWithMocks(Rfc9421SignatoryManager::class);
 	}
 
 	public function testGetOptionsForcesRfc9421Format(): void {
-		$this->delegate->method('getOptions')->willReturn([
+		$this->mocks[OCMSignatoryManager::class]->method('getOptions')->willReturn([
 			'algorithm' => 'rsa-sha512',
 			'rfc9421.format' => false,
 		]);
@@ -41,26 +38,26 @@ class Rfc9421SignatoryManagerTest extends TestCase {
 
 	public function testGetLocalSignatoryReturnsJwksKey(): void {
 		$signatory = $this->createMock(Signatory::class);
-		$this->delegate->method('getLocalJwksSignatory')->willReturn($signatory);
+		$this->mocks[OCMSignatoryManager::class]->method('getLocalJwksSignatory')->willReturn($signatory);
 
 		$this->assertSame($signatory, $this->wrapper->getLocalSignatory());
 	}
 
 	public function testGetLocalSignatoryThrowsWhenJwksKeyUnavailable(): void {
-		$this->delegate->method('getLocalJwksSignatory')->willReturn(null);
+		$this->mocks[OCMSignatoryManager::class]->method('getLocalJwksSignatory')->willReturn(null);
 
 		$this->expectException(IdentityNotFoundException::class);
 		$this->wrapper->getLocalSignatory();
 	}
 
 	public function testProviderIdDelegated(): void {
-		$this->delegate->method('getProviderId')->willReturn('ocm');
+		$this->mocks[OCMSignatoryManager::class]->method('getProviderId')->willReturn('ocm');
 		$this->assertSame('ocm', $this->wrapper->getProviderId());
 	}
 
 	public function testRemoteSignatoryDelegated(): void {
 		$signatory = $this->createMock(Signatory::class);
-		$this->delegate->expects($this->once())
+		$this->mocks[OCMSignatoryManager::class]->expects($this->once())
 			->method('getRemoteSignatory')
 			->with('sender.example.org')
 			->willReturn($signatory);
@@ -69,7 +66,7 @@ class Rfc9421SignatoryManagerTest extends TestCase {
 
 	public function testRemoteKeyDelegated(): void {
 		$key = $this->createMock(Key::class);
-		$this->delegate->expects($this->once())
+		$this->mocks[OCMSignatoryManager::class]->expects($this->once())
 			->method('getRemoteKey')
 			->with('sender.example.org', 'kid-1')
 			->willReturn($key);

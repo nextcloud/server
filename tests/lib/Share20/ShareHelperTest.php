@@ -14,9 +14,6 @@ use OCP\Share\IManager;
 use Test\TestCase;
 
 class ShareHelperTest extends TestCase {
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $manager;
-
 	/** @var ShareHelper */
 	private $helper;
 
@@ -24,9 +21,7 @@ class ShareHelperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->manager = $this->createMock(IManager::class);
-
-		$this->helper = new ShareHelper($this->manager);
+		$this->helper = $this->createInstanceWithMocks(ShareHelper::class);
 	}
 
 	public static function dataGetPathsForAccessList(): array {
@@ -52,7 +47,7 @@ class ShareHelperTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetPathsForAccessList')]
 	public function testGetPathsForAccessList(array $userList, array $userMap, $resolveUsers, array $remoteList, array $remoteMap, $resolveRemotes, array $expected): void {
-		$this->manager->expects($this->once())
+		$this->mocks[IManager::class]->expects($this->once())
 			->method('getAccessList')
 			->willReturn([
 				'users' => $userList,
@@ -63,7 +58,7 @@ class ShareHelperTest extends TestCase {
 		$node = $this->createMock(Node::class);
 		/** @var ShareHelper|\PHPUnit\Framework\MockObject\MockObject $helper */
 		$helper = $this->getMockBuilder(ShareHelper::class)
-			->setConstructorArgs([$this->manager])
+			->setConstructorArgs([$this->mocks[IManager::class]])
 			->onlyMethods(['getPathsForUsers', 'getPathsForRemotes'])
 			->getMock();
 

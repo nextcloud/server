@@ -17,12 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class AddUserTest extends TestCase {
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $groupManager;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-
 	/** @var AddUser */
 	private $command;
 
@@ -35,10 +29,7 @@ class AddUserTest extends TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->userManager = $this->createMock(IUserManager::class);
-		$this->command = new AddUser($this->userManager, $this->groupManager);
+		$this->command = $this->createInstanceWithMocks(AddUser::class);
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
@@ -59,7 +50,7 @@ class AddUserTest extends TestCase {
 	public function testNoGroup(): void {
 		$this->configureInput('myGroup', 'myUser');
 
-		$this->groupManager->method('get')
+		$this->mocks[IGroupManager::class]->method('get')
 			->with('myGroup')
 			->willReturn(null);
 
@@ -74,11 +65,11 @@ class AddUserTest extends TestCase {
 		$this->configureInput('myGroup', 'myUser');
 
 		$group = $this->createMock(IGroup::class);
-		$this->groupManager->method('get')
+		$this->mocks[IGroupManager::class]->method('get')
 			->with('myGroup')
 			->willReturn($group);
 
-		$this->userManager->method('get')
+		$this->mocks[IUserManager::class]->method('get')
 			->with('myUser')
 			->willReturn(null);
 
@@ -93,12 +84,12 @@ class AddUserTest extends TestCase {
 		$this->configureInput('myGroup', 'myUser');
 
 		$group = $this->createMock(IGroup::class);
-		$this->groupManager->method('get')
+		$this->mocks[IGroupManager::class]->method('get')
 			->with('myGroup')
 			->willReturn($group);
 
 		$user = $this->createMock(IUser::class);
-		$this->userManager->method('get')
+		$this->mocks[IUserManager::class]->method('get')
 			->with('myUser')
 			->willReturn($user);
 
@@ -113,13 +104,13 @@ class AddUserTest extends TestCase {
 		$this->configureInput('myGroup', ['myUser', 'myOtherUser']);
 
 		$group = $this->createMock(IGroup::class);
-		$this->groupManager->method('get')
+		$this->mocks[IGroupManager::class]->method('get')
 			->with('myGroup')
 			->willReturn($group);
 
 		$user1 = $this->createMock(IUser::class);
 		$user2 = $this->createMock(IUser::class);
-		$this->userManager->method('get')
+		$this->mocks[IUserManager::class]->method('get')
 			->willReturnMap([
 				['myUser', $user1],
 				['myOtherUser', $user2],
@@ -144,12 +135,12 @@ class AddUserTest extends TestCase {
 		$this->configureInput('myGroup', ['myUser', 'myOtherUser']);
 
 		$group = $this->createMock(IGroup::class);
-		$this->groupManager->method('get')
+		$this->mocks[IGroupManager::class]->method('get')
 			->with('myGroup')
 			->willReturn($group);
 
 		$user = $this->createMock(IUser::class);
-		$this->userManager->method('get')
+		$this->mocks[IUserManager::class]->method('get')
 			->willReturnMap([
 				['myUser', $user],
 				['myOtherUser', null],

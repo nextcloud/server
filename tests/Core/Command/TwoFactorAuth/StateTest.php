@@ -18,12 +18,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
 class StateTest extends TestCase {
-	/** @var IRegistry|MockObject */
-	private $registry;
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
 	/** @var CommandTester|MockObject */
 	private $cmd;
 
@@ -31,10 +25,7 @@ class StateTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->registry = $this->createMock(IRegistry::class);
-		$this->userManager = $this->createMock(IUserManager::class);
-
-		$cmd = new State($this->registry, $this->userManager);
+		$cmd = $this->createInstanceWithMocks(State::class);
 		$this->cmd = new CommandTester($cmd);
 	}
 
@@ -49,7 +40,7 @@ class StateTest extends TestCase {
 
 	public function testStateNoProvidersActive(): void {
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('eldora')
 			->willReturn($user);
@@ -57,7 +48,7 @@ class StateTest extends TestCase {
 			'u2f' => false,
 			'totp' => false,
 		];
-		$this->registry->expects($this->once())
+		$this->mocks[IRegistry::class]->expects($this->once())
 			->method('getProviderStates')
 			->with($user)
 			->willReturn($states);
@@ -72,7 +63,7 @@ class StateTest extends TestCase {
 
 	public function testStateOneProviderActive(): void {
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('mohamed')
 			->willReturn($user);
@@ -80,7 +71,7 @@ class StateTest extends TestCase {
 			'u2f' => true,
 			'totp' => false,
 		];
-		$this->registry->expects($this->once())
+		$this->mocks[IRegistry::class]->expects($this->once())
 			->method('getProviderStates')
 			->with($user)
 			->willReturn($states);

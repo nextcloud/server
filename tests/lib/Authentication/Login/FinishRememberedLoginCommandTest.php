@@ -12,31 +12,19 @@ namespace Test\Authentication\Login;
 use OC\Authentication\Login\FinishRememberedLoginCommand;
 use OC\User\Session;
 use OCP\IConfig;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class FinishRememberedLoginCommandTest extends ALoginTestCommand {
-	/** @var Session|MockObject */
-	private $userSession;
-	/** @var IConfig|MockObject */
-	private $config;
-
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userSession = $this->createMock(Session::class);
-		$this->config = $this->createMock(IConfig::class);
-
-		$this->cmd = new FinishRememberedLoginCommand(
-			$this->userSession,
-			$this->config
-		);
+		$this->cmd = $this->createInstanceWithMocks(FinishRememberedLoginCommand::class);
 	}
 
 	public function testProcessNotRememberedLogin(): void {
 		$data = $this->getLoggedInLoginData();
 		$data->setRememberLogin(false);
-		$this->userSession->expects($this->never())
+		$this->mocks[Session::class]->expects($this->never())
 			->method('createRememberMeToken');
 
 		$result = $this->cmd->process($data);
@@ -46,11 +34,11 @@ class FinishRememberedLoginCommandTest extends ALoginTestCommand {
 
 	public function testProcess(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('getSystemValueBool')
 			->with('auto_logout', false)
 			->willReturn(false);
-		$this->userSession->expects($this->once())
+		$this->mocks[Session::class]->expects($this->once())
 			->method('createRememberMeToken')
 			->with($this->user);
 
@@ -61,11 +49,11 @@ class FinishRememberedLoginCommandTest extends ALoginTestCommand {
 
 	public function testProcessNotRemeberedLoginWithAutologout(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('getSystemValueBool')
 			->with('auto_logout', false)
 			->willReturn(true);
-		$this->userSession->expects($this->never())
+		$this->mocks[Session::class]->expects($this->never())
 			->method('createRememberMeToken');
 
 		$result = $this->cmd->process($data);

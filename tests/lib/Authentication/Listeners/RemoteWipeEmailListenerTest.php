@@ -27,20 +27,8 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RemoteWipeEmailListenerTest extends TestCase {
-	/** @var IMailer|MockObject */
-	private $mailer;
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
-	/** @var IFactory|MockObject */
-	private $l10nFactory;
-
 	/** @var IL10N|MockObject */
 	private $l10n;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
 
 	/** @var IEventListener */
 	private $listener;
@@ -48,27 +36,16 @@ class RemoteWipeEmailListenerTest extends TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->mailer = $this->createMock(IMailer::class);
-		$this->userManager = $this->createMock(IUserManager::class);
-		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->listener = $this->createInstanceWithMocks(RemoteWipeEmailListener::class);
 
-		$this->l10nFactory->method('get')->with('core')->willReturn($this->l10n);
+		$this->mocks[IFactory::class]->method('get')->with('core')->willReturn($this->l10n);
 		$this->l10n->method('t')->willReturnArgument(0);
-
-		$this->listener = new RemoteWipeEmailListener(
-			$this->mailer,
-			$this->userManager,
-			$this->l10nFactory,
-			$this->logger
-		);
 	}
 
 	public function testHandleUnrelated(): void {
 		$event = new Event();
-		$this->mailer->expects($this->never())->method('send');
+		$this->mocks[IMailer::class]->expects($this->never())->method('send');
 
 		$this->listener->handle($event);
 	}
@@ -78,11 +55,11 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
 		$token->method('getUID')->willReturn('nope');
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('nope')
 			->willReturn(null);
-		$this->mailer->expects($this->never())->method('send');
+		$this->mocks[IMailer::class]->expects($this->never())->method('send');
 
 		$this->listener->handle($event);
 	}
@@ -93,12 +70,12 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$event = new RemoteWipeStarted($token);
 		$token->method('getUID')->willReturn('nope');
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('nope')
 			->willReturn($user);
 		$user->method('getEMailAddress')->willReturn(null);
-		$this->mailer->expects($this->never())->method('send');
+		$this->mocks[IMailer::class]->expects($this->never())->method('send');
 
 		$this->listener->handle($event);
 	}
@@ -109,15 +86,15 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$event = new RemoteWipeStarted($token);
 		$token->method('getUID')->willReturn('nope');
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('nope')
 			->willReturn($user);
 		$user->method('getEMailAddress')->willReturn('user@domain.org');
-		$this->mailer->expects($this->once())
+		$this->mocks[IMailer::class]->expects($this->once())
 			->method('send')
 			->willThrowException(new Exception());
-		$this->logger->expects($this->once())
+		$this->mocks[LoggerInterface::class]->expects($this->once())
 			->method('error');
 
 		$this->listener->handle($event);
@@ -129,19 +106,19 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$event = new RemoteWipeStarted($token);
 		$token->method('getUID')->willReturn('nope');
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('nope')
 			->willReturn($user);
 		$user->method('getEMailAddress')->willReturn('user@domain.org');
 		$message = $this->createMock(IMessage::class);
-		$this->mailer->expects($this->once())
+		$this->mocks[IMailer::class]->expects($this->once())
 			->method('createMessage')
 			->willReturn($message);
 		$message->expects($this->once())
 			->method('setTo')
 			->with($this->equalTo(['user@domain.org']));
-		$this->mailer->expects($this->once())
+		$this->mocks[IMailer::class]->expects($this->once())
 			->method('send')
 			->with($message);
 
@@ -153,11 +130,11 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);
 		$token->method('getUID')->willReturn('nope');
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('nope')
 			->willReturn(null);
-		$this->mailer->expects($this->never())->method('send');
+		$this->mocks[IMailer::class]->expects($this->never())->method('send');
 
 		$this->listener->handle($event);
 	}
@@ -168,12 +145,12 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$event = new RemoteWipeFinished($token);
 		$token->method('getUID')->willReturn('nope');
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('nope')
 			->willReturn($user);
 		$user->method('getEMailAddress')->willReturn(null);
-		$this->mailer->expects($this->never())->method('send');
+		$this->mocks[IMailer::class]->expects($this->never())->method('send');
 
 		$this->listener->handle($event);
 	}
@@ -184,15 +161,15 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$event = new RemoteWipeFinished($token);
 		$token->method('getUID')->willReturn('nope');
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('nope')
 			->willReturn($user);
 		$user->method('getEMailAddress')->willReturn('user@domain.org');
-		$this->mailer->expects($this->once())
+		$this->mocks[IMailer::class]->expects($this->once())
 			->method('send')
 			->willThrowException(new Exception());
-		$this->logger->expects($this->once())
+		$this->mocks[LoggerInterface::class]->expects($this->once())
 			->method('error');
 
 		$this->listener->handle($event);
@@ -204,19 +181,19 @@ class RemoteWipeEmailListenerTest extends TestCase {
 		$event = new RemoteWipeFinished($token);
 		$token->method('getUID')->willReturn('nope');
 		$user = $this->createMock(IUser::class);
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('nope')
 			->willReturn($user);
 		$user->method('getEMailAddress')->willReturn('user@domain.org');
 		$message = $this->createMock(IMessage::class);
-		$this->mailer->expects($this->once())
+		$this->mocks[IMailer::class]->expects($this->once())
 			->method('createMessage')
 			->willReturn($message);
 		$message->expects($this->once())
 			->method('setTo')
 			->with($this->equalTo(['user@domain.org']));
-		$this->mailer->expects($this->once())
+		$this->mocks[IMailer::class]->expects($this->once())
 			->method('send')
 			->with($message);
 

@@ -12,36 +12,16 @@ namespace lib\Security;
 use OC\Net\HostnameClassifier;
 use OC\Net\IpAddressClassifier;
 use OC\Security\RemoteHostValidator;
-use OCP\IConfig;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RemoteHostValidatorTest extends TestCase {
-	/** @var IConfig|IConfig&MockObject|MockObject */
-	private IConfig $config;
-	/** @var HostnameClassifier|HostnameClassifier&MockObject|MockObject */
-	private HostnameClassifier $hostnameClassifier;
-	/** @var IpAddressClassifier|IpAddressClassifier&MockObject|MockObject */
-	private IpAddressClassifier $ipAddressClassifier;
-	/** @var MockObject|LoggerInterface|LoggerInterface&MockObject */
-	private LoggerInterface $logger;
 	private RemoteHostValidator $validator;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->hostnameClassifier = $this->createMock(HostnameClassifier::class);
-		$this->ipAddressClassifier = $this->createMock(IpAddressClassifier::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->validator = new RemoteHostValidator(
-			$this->config,
-			$this->hostnameClassifier,
-			$this->ipAddressClassifier,
-			$this->logger,
-		);
+		$this->validator = $this->createInstanceWithMocks(RemoteHostValidator::class);
 	}
 
 	public static function dataValid(): array {
@@ -53,11 +33,11 @@ class RemoteHostValidatorTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataValid')]
 	public function testValid(string $host, bool $expected): void {
-		$this->hostnameClassifier
+		$this->mocks[HostnameClassifier::class]
 			->method('isLocalHostname')
 			->with($host)
 			->willReturn(false);
-		$this->ipAddressClassifier
+		$this->mocks[IpAddressClassifier::class]
 			->method('isLocalAddress')
 			->with($host)
 			->willReturn(false);
@@ -69,11 +49,11 @@ class RemoteHostValidatorTest extends TestCase {
 
 	public function testLocalHostname(): void {
 		$host = 'localhost';
-		$this->hostnameClassifier
+		$this->mocks[HostnameClassifier::class]
 			->method('isLocalHostname')
 			->with($host)
 			->willReturn(true);
-		$this->ipAddressClassifier
+		$this->mocks[IpAddressClassifier::class]
 			->method('isLocalAddress')
 			->with($host)
 			->willReturn(false);
@@ -85,11 +65,11 @@ class RemoteHostValidatorTest extends TestCase {
 
 	public function testLocalAddress(): void {
 		$host = '10.0.0.10';
-		$this->hostnameClassifier
+		$this->mocks[HostnameClassifier::class]
 			->method('isLocalHostname')
 			->with($host)
 			->willReturn(false);
-		$this->ipAddressClassifier
+		$this->mocks[IpAddressClassifier::class]
 			->method('isLocalAddress')
 			->with($host)
 			->willReturn(true);

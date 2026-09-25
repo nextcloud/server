@@ -12,32 +12,21 @@ namespace Test\Authentication\Login;
 use OC\Authentication\Login\SetUserTimezoneCommand;
 use OCP\IConfig;
 use OCP\ISession;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class SetUserTimezoneCommandTest extends ALoginTestCommand {
-
-	private IConfig&MockObject $config;
-
-	private ISession&MockObject $session;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->session = $this->createMock(ISession::class);
-
-		$this->cmd = new SetUserTimezoneCommand(
-			$this->config,
-			$this->session
-		);
+		$this->cmd = $this->createInstanceWithMocks(SetUserTimezoneCommand::class);
 	}
 
 	public function testProcessNoTimezoneSet(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->config->expects($this->never())
+		$this->mocks[IConfig::class]->expects($this->never())
 			->method('setUserValue');
-		$this->session->expects($this->never())
+		$this->mocks[ISession::class]->expects($this->never())
 			->method('set');
 
 		$result = $this->cmd->process($data);
@@ -75,7 +64,7 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('getUserValue')
 			->with(
 				$this->username,
@@ -84,7 +73,7 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 				''
 			)
 			->willReturn('');
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('setUserValue')
 			->with(
 				$this->username,
@@ -92,7 +81,7 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 				'timezone',
 				$timezone
 			);
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('set')
 			->with(
 				'timezone',
@@ -106,9 +95,9 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 
 	public function testProcessUnknownTimezone(): void {
 		$data = $this->getLoggedInLoginDataWithTimezone('Mars/Olympus_Mons');
-		$this->config->expects($this->never())
+		$this->mocks[IConfig::class]->expects($this->never())
 			->method('setUserValue');
-		$this->session->expects($this->never())
+		$this->mocks[ISession::class]->expects($this->never())
 			->method('set');
 
 		$result = $this->cmd->process($data);
@@ -121,7 +110,7 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('getUserValue')
 			->with(
 				$this->username,
@@ -130,9 +119,9 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 				'',
 			)
 			->willReturn('Europe/Berlin');
-		$this->config->expects($this->never())
+		$this->mocks[IConfig::class]->expects($this->never())
 			->method('setUserValue');
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('set')
 			->with(
 				'timezone',

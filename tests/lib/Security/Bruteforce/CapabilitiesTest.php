@@ -18,38 +18,25 @@ class CapabilitiesTest extends TestCase {
 	/** @var Capabilities */
 	private $capabilities;
 
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-
-	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
-	private $throttler;
-
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->createMock(IRequest::class);
-
-		$this->throttler = $this->createMock(IThrottler::class);
-
-		$this->capabilities = new Capabilities(
-			$this->request,
-			$this->throttler
-		);
+		$this->capabilities = $this->createInstanceWithMocks(Capabilities::class);
 	}
 
 	public function testGetCapabilities(): void {
-		$this->throttler->expects($this->atLeastOnce())
+		$this->mocks[IThrottler::class]->expects($this->atLeastOnce())
 			->method('getDelay')
 			->with('10.10.10.10')
 			->willReturn(42);
 
-		$this->throttler->expects($this->atLeastOnce())
+		$this->mocks[IThrottler::class]->expects($this->atLeastOnce())
 			->method('isBypassListed')
 			->with('10.10.10.10')
 			->willReturn(true);
 
-		$this->request->method('getRemoteAddress')
+		$this->mocks[IRequest::class]->method('getRemoteAddress')
 			->willReturn('10.10.10.10');
 
 		$expected = [
@@ -64,12 +51,12 @@ class CapabilitiesTest extends TestCase {
 	}
 
 	public function testGetCapabilitiesOnCli(): void {
-		$this->throttler->expects($this->atLeastOnce())
+		$this->mocks[IThrottler::class]->expects($this->atLeastOnce())
 			->method('getDelay')
 			->with('')
 			->willReturn(0);
 
-		$this->request->method('getRemoteAddress')
+		$this->mocks[IRequest::class]->method('getRemoteAddress')
 			->willReturn('');
 
 		$expected = [

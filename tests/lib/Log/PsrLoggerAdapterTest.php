@@ -12,26 +12,22 @@ namespace Test\Log;
 use OC\Log;
 use OC\Log\PsrLoggerAdapter;
 use OCP\ILogger;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Test\TestCase;
 
 class PsrLoggerAdapterTest extends TestCase {
-	protected Log&MockObject $logger;
 	protected PsrLoggerAdapter $loggerAdapter;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->logger = $this->createMock(Log::class);
-		$this->loggerAdapter = new PsrLoggerAdapter($this->logger);
+		$this->loggerAdapter = $this->createInstanceWithMocks(PsrLoggerAdapter::class);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataPsrLoggingLevels')]
 	public function testLoggingWithPsrLogLevels(string $level, int $expectedLevel): void {
-		$this->logger->expects(self::once())
+		$this->mocks[Log::class]->expects(self::once())
 			->method('log')
 			->with($expectedLevel, 'test message', ['app' => 'test']);
 		$this->loggerAdapter->log($level, 'test message', ['app' => 'test']);
@@ -57,7 +53,7 @@ class PsrLoggerAdapterTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataInvalidLoggingLevel')]
 	public function testInvalidLoggingLevel($level): void {
-		$this->logger->expects(self::never())
+		$this->mocks[Log::class]->expects(self::never())
 			->method('log');
 		$this->expectException(InvalidArgumentException::class);
 

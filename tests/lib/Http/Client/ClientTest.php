@@ -12,58 +12,32 @@ namespace Test\Http\Client;
 
 use GuzzleHttp\Psr7\Response;
 use OC\Http\Client\Client;
-use OC\Security\CertificateManager;
 use OCP\Http\Client\LocalServerException;
 use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
 use OCP\ServerVersion;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use function parse_url;
 
 /**
  * Class ClientTest
  */
 class ClientTest extends \Test\TestCase {
-	/** @var \GuzzleHttp\Client|MockObject */
-	private $guzzleClient;
-	/** @var CertificateManager|MockObject */
-	private $certificateManager;
 	/** @var Client */
 	private $client;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IRemoteHostValidator|MockObject */
-	private IRemoteHostValidator $remoteHostValidator;
-	private LoggerInterface $logger;
-	private ServerVersion $serverVersion;
 	/** @var array */
 	private $defaultRequestOptions;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config = $this->createMock(IConfig::class);
-		$this->guzzleClient = $this->createMock(\GuzzleHttp\Client::class);
-		$this->certificateManager = $this->createMock(ICertificateManager::class);
-		$this->remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->serverVersion = $this->createMock(ServerVersion::class);
 
-		$this->client = new Client(
-			$this->config,
-			$this->certificateManager,
-			$this->guzzleClient,
-			$this->remoteHostValidator,
-			$this->logger,
-			$this->serverVersion,
-		);
+		$this->client = $this->createInstanceWithMocks(Client::class);
 	}
 
 	public function testGetProxyUri(): void {
-		$this->config
+		$this->mocks[IConfig::class]
 			->method('getSystemValueString')
 			->with('proxy', '')
 			->willReturn('');
@@ -71,13 +45,13 @@ class ClientTest extends \Test\TestCase {
 	}
 
 	public function testGetProxyUriProxyHostEmptyPassword(): void {
-		$this->config
+		$this->mocks[IConfig::class]
 			->method('getSystemValue')
 			->willReturnMap([
 				['proxyexclude', [], []],
 			]);
 
-		$this->config
+		$this->mocks[IConfig::class]
 			->method('getSystemValueString')
 			->willReturnMap([
 				['proxy', '', 'foo'],
@@ -91,12 +65,12 @@ class ClientTest extends \Test\TestCase {
 	}
 
 	public function testGetProxyUriProxyHostWithPassword(): void {
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->once())
 			->method('getSystemValue')
 			->with('proxyexclude', [])
 			->willReturn([]);
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
 			->willReturnMap([
@@ -110,12 +84,12 @@ class ClientTest extends \Test\TestCase {
 	}
 
 	public function testGetProxyUriProxyHostWithPasswordAndExclude(): void {
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->once())
 			->method('getSystemValue')
 			->with('proxyexclude', [])
 			->willReturn(['bar']);
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
 			->willReturnMap([
@@ -162,7 +136,7 @@ class ClientTest extends \Test\TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataPreventLocalAddress')]
 	public function testPreventLocalAddressDisabledByGlobalConfig(string $uri): void {
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('getSystemValueBool')
 			->with('allow_local_remote_servers', false)
 			->willReturn(true);
@@ -175,7 +149,7 @@ class ClientTest extends \Test\TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataPreventLocalAddress')]
 	public function testPreventLocalAddressDisabledByOption(string $uri): void {
-		$this->config->expects($this->never())
+		$this->mocks[IConfig::class]->expects($this->never())
 			->method('getSystemValueBool');
 
 		self::invokePrivate($this->client, 'preventLocalAddress', [$uri, [
@@ -190,7 +164,7 @@ class ClientTest extends \Test\TestCase {
 	public function testPreventLocalAddressOnGet(string $uri): void {
 		$host = parse_url($uri, PHP_URL_HOST);
 		$this->expectException(LocalServerException::class);
-		$this->remoteHostValidator
+		$this->mocks[IRemoteHostValidator::class]
 			->method('isValid')
 			->with($host)
 			->willReturn(false);
@@ -205,7 +179,7 @@ class ClientTest extends \Test\TestCase {
 	public function testPreventLocalAddressOnHead(string $uri): void {
 		$host = parse_url($uri, PHP_URL_HOST);
 		$this->expectException(LocalServerException::class);
-		$this->remoteHostValidator
+		$this->mocks[IRemoteHostValidator::class]
 			->method('isValid')
 			->with($host)
 			->willReturn(false);
@@ -220,7 +194,7 @@ class ClientTest extends \Test\TestCase {
 	public function testPreventLocalAddressOnPost(string $uri): void {
 		$host = parse_url($uri, PHP_URL_HOST);
 		$this->expectException(LocalServerException::class);
-		$this->remoteHostValidator
+		$this->mocks[IRemoteHostValidator::class]
 			->method('isValid')
 			->with($host)
 			->willReturn(false);
@@ -235,7 +209,7 @@ class ClientTest extends \Test\TestCase {
 	public function testPreventLocalAddressOnPut(string $uri): void {
 		$host = parse_url($uri, PHP_URL_HOST);
 		$this->expectException(LocalServerException::class);
-		$this->remoteHostValidator
+		$this->mocks[IRemoteHostValidator::class]
 			->method('isValid')
 			->with($host)
 			->willReturn(false);
@@ -250,7 +224,7 @@ class ClientTest extends \Test\TestCase {
 	public function testPreventLocalAddressOnDelete(string $uri): void {
 		$host = parse_url($uri, PHP_URL_HOST);
 		$this->expectException(LocalServerException::class);
-		$this->remoteHostValidator
+		$this->mocks[IRemoteHostValidator::class]
 			->method('isValid')
 			->with($host)
 			->willReturn(false);
@@ -259,19 +233,19 @@ class ClientTest extends \Test\TestCase {
 	}
 
 	private function setUpDefaultRequestOptions(): void {
-		$this->config
+		$this->mocks[IConfig::class]
 			->method('getSystemValue')
 			->willReturnMap([
 				['proxyexclude', [], []],
 			]);
-		$this->config
+		$this->mocks[IConfig::class]
 			->method('getSystemValueString')
 			->willReturnMap([
 				['proxy', '', 'foo'],
 				['proxyuserpwd', '', ''],
 				['overwrite.cli.url', '', '']
 			]);
-		$this->config
+		$this->mocks[IConfig::class]
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, true],
@@ -279,13 +253,13 @@ class ClientTest extends \Test\TestCase {
 				['http_client_add_user_agent_url', false, false]
 			]);
 
-		$this->certificateManager
+		$this->mocks[ICertificateManager::class]
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')
 			->with()
 			->willReturn('/my/path.crt');
 
-		$this->serverVersion->method('getVersionString')
+		$this->mocks[ServerVersion::class]->method('getVersionString')
 			->willReturn('123.45.6');
 
 		$acceptEnc = (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
@@ -313,7 +287,7 @@ class ClientTest extends \Test\TestCase {
 	public function testGet(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('get', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->get('http://localhost/', [])->getStatusCode());
@@ -330,7 +304,7 @@ class ClientTest extends \Test\TestCase {
 			],
 		]);
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('get', 'http://localhost/', $options)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->get('http://localhost/', $options)->getStatusCode());
@@ -339,7 +313,7 @@ class ClientTest extends \Test\TestCase {
 	public function testPost(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('post', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->post('http://localhost/', [])->getStatusCode());
@@ -356,7 +330,7 @@ class ClientTest extends \Test\TestCase {
 			],
 		]);
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('post', 'http://localhost/', $options)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->post('http://localhost/', $options)->getStatusCode());
@@ -365,7 +339,7 @@ class ClientTest extends \Test\TestCase {
 	public function testPut(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('put', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->put('http://localhost/', [])->getStatusCode());
@@ -382,7 +356,7 @@ class ClientTest extends \Test\TestCase {
 			],
 		]);
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('put', 'http://localhost/', $options)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->put('http://localhost/', $options)->getStatusCode());
@@ -391,7 +365,7 @@ class ClientTest extends \Test\TestCase {
 	public function testDelete(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('delete', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->delete('http://localhost/', [])->getStatusCode());
@@ -408,7 +382,7 @@ class ClientTest extends \Test\TestCase {
 			],
 		]);
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('delete', 'http://localhost/', $options)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->delete('http://localhost/', $options)->getStatusCode());
@@ -417,7 +391,7 @@ class ClientTest extends \Test\TestCase {
 	public function testOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('options', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->options('http://localhost/', [])->getStatusCode());
@@ -434,7 +408,7 @@ class ClientTest extends \Test\TestCase {
 			],
 		]);
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('options', 'http://localhost/', $options)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->options('http://localhost/', $options)->getStatusCode());
@@ -443,7 +417,7 @@ class ClientTest extends \Test\TestCase {
 	public function testHead(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('head', 'http://localhost/', $this->defaultRequestOptions)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->head('http://localhost/', [])->getStatusCode());
@@ -460,14 +434,14 @@ class ClientTest extends \Test\TestCase {
 			],
 		]);
 
-		$this->guzzleClient->method('request')
+		$this->mocks[\GuzzleHttp\Client::class]->method('request')
 			->with('head', 'http://localhost/', $options)
 			->willReturn(new Response(418));
 		$this->assertEquals(418, $this->client->head('http://localhost/', $options)->getStatusCode());
 	}
 
 	public function testSetDefaultOptionsWithNotInstalled(): void {
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
@@ -475,22 +449,22 @@ class ClientTest extends \Test\TestCase {
 				['allow_local_remote_servers', false, false],
 				['http_client_add_user_agent_url', false, false],
 			]);
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
 			->willReturnMap([
 				['proxy', '', ''],
 				['overwrite.cli.url', '', ''],
 			]);
-		$this->certificateManager
+		$this->mocks[ICertificateManager::class]
 			->expects($this->never())
 			->method('listCertificates');
-		$this->certificateManager
+		$this->mocks[ICertificateManager::class]
 			->expects($this->once())
 			->method('getDefaultCertificatesBundlePath')
 			->willReturn(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 
-		$this->serverVersion->method('getVersionString')
+		$this->mocks[ServerVersion::class]->method('getVersionString')
 			->willReturn('123.45.6');
 
 		$acceptEnc = (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
@@ -521,7 +495,7 @@ class ClientTest extends \Test\TestCase {
 	}
 
 	public function testSetDefaultOptionsWithProxy(): void {
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
@@ -529,12 +503,12 @@ class ClientTest extends \Test\TestCase {
 				['allow_local_remote_servers', false, false],
 				['http_client_add_user_agent_url', false, false],
 			]);
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->once())
 			->method('getSystemValue')
 			->with('proxyexclude', [])
 			->willReturn([]);
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->exactly(3))
 			->method('getSystemValueString')
 			->willReturnMap([
@@ -542,13 +516,13 @@ class ClientTest extends \Test\TestCase {
 				['proxyuserpwd', '', ''],
 				['overwrite.cli.url', '', ''],
 			]);
-		$this->certificateManager
+		$this->mocks[ICertificateManager::class]
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')
 			->with()
 			->willReturn('/my/path.crt');
 
-		$this->serverVersion->method('getVersionString')
+		$this->mocks[ServerVersion::class]->method('getVersionString')
 			->willReturn('123.45.6');
 
 		$acceptEnc = (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
@@ -583,7 +557,7 @@ class ClientTest extends \Test\TestCase {
 	}
 
 	public function testSetDefaultOptionsWithProxyAndExclude(): void {
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
@@ -591,12 +565,12 @@ class ClientTest extends \Test\TestCase {
 				['allow_local_remote_servers', false, false],
 				['http_client_add_user_agent_url', false, false],
 			]);
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->once())
 			->method('getSystemValue')
 			->with('proxyexclude', [])
 			->willReturn(['bar']);
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->exactly(3))
 			->method('getSystemValueString')
 			->willReturnMap([
@@ -604,13 +578,13 @@ class ClientTest extends \Test\TestCase {
 				['proxyuserpwd', '', ''],
 				['overwrite.cli.url', '', ''],
 			]);
-		$this->certificateManager
+		$this->mocks[ICertificateManager::class]
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')
 			->with()
 			->willReturn('/my/path.crt');
 
-		$this->serverVersion->method('getVersionString')
+		$this->mocks[ServerVersion::class]->method('getVersionString')
 			->willReturn('123.45.6');
 
 		$acceptEnc = (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';
@@ -654,7 +628,7 @@ class ClientTest extends \Test\TestCase {
 
 	#[DataProvider('dataForTestSetServerUrlInUserAgent')]
 	public function testSetServerUrlInUserAgent(string $url, string $userAgent): void {
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->exactly(3))
 			->method('getSystemValueBool')
 			->willReturnMap([
@@ -662,20 +636,20 @@ class ClientTest extends \Test\TestCase {
 				['allow_local_remote_servers', false, false],
 				['http_client_add_user_agent_url', false, true],
 			]);
-		$this->config
+		$this->mocks[IConfig::class]
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
 			->willReturnMap([
 				['proxy', '', ''],
 				['overwrite.cli.url', '', $url],
 			]);
-		$this->certificateManager
+		$this->mocks[ICertificateManager::class]
 			->expects($this->once())
 			->method('getAbsoluteBundlePath')
 			->with()
 			->willReturn('/my/path.crt');
 
-		$this->serverVersion->method('getVersionString')
+		$this->mocks[ServerVersion::class]->method('getVersionString')
 			->willReturn('123.45.6');
 
 		$acceptEnc = (((curl_version()['features'] ?? 0) & CURL_VERSION_BROTLI) === CURL_VERSION_BROTLI) ? 'br, gzip' : 'gzip';

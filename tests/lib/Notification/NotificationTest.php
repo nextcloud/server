@@ -14,21 +14,16 @@ use OCP\Notification\IAction;
 use OCP\Notification\INotification;
 use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotificationTest extends TestCase {
 	/** @var INotification */
 	protected $notification;
-	protected IValidator&MockObject $validator;
-	protected IRichTextFormatter&MockObject $richTextFormatter;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->validator = $this->createMock(IValidator::class);
-		$this->richTextFormatter = $this->createMock(IRichTextFormatter::class);
-		$this->notification = new Notification($this->validator, $this->richTextFormatter);
+		$this->notification = $this->createInstanceWithMocks(Notification::class);
 	}
 
 	protected static function dataValidString($maxLength): array {
@@ -539,7 +534,7 @@ class NotificationTest extends TestCase {
 				'getSubject',
 				'getParsedSubject',
 			])
-			->setConstructorArgs([$this->validator, $this->richTextFormatter])
+			->setConstructorArgs([$this->mocks[IValidator::class], $this->mocks[IRichTextFormatter::class]])
 			->getMock();
 
 		$notification->expects($this->once())
@@ -572,7 +567,7 @@ class NotificationTest extends TestCase {
 				'getParsedSubject',
 				'getSubject',
 			])
-			->setConstructorArgs([$this->validator, $this->richTextFormatter])
+			->setConstructorArgs([$this->mocks[IValidator::class], $this->mocks[IRichTextFormatter::class]])
 			->getMock();
 
 		$notification->expects($this->once())
@@ -621,7 +616,7 @@ class NotificationTest extends TestCase {
 				'getObjectType',
 				'getObjectId',
 			])
-			->setConstructorArgs([$this->validator, $this->richTextFormatter])
+			->setConstructorArgs([$this->mocks[IValidator::class], $this->mocks[IRichTextFormatter::class]])
 			->getMock();
 
 		$notification->expects($this->any())

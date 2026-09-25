@@ -22,15 +22,13 @@ use Test\TestCase;
 
 class DbLocksTest extends TestCase {
 
-	private Connection&MockObject $connection;
 	private InputInterface&MockObject $input;
 	private DbLocks $command;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = $this->createMock(Connection::class);
 		$this->input = $this->createMock(InputInterface::class);
-		$this->command = new DbLocks($this->connection);
+		$this->command = $this->createInstanceWithMocks(DbLocks::class);
 	}
 
 	private function mockMySQLLocks(): array {
@@ -62,9 +60,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testMySQLNoLocksShowsInfoMessage(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->connection->method('executeQuery')
+		$this->mocks[Connection::class]->method('executeQuery')
 			->willReturn($this->mockResult([]));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -76,9 +74,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testPostgreSQLNoLocksShowsInfoMessage(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(PostgreSQLPlatform::class));
-		$this->connection->method('executeQuery')
+		$this->mocks[Connection::class]->method('executeQuery')
 			->willReturn($this->mockResult([]));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -90,9 +88,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testMySQLLocksFoundShowsErrorMessage(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->connection->method('executeQuery')
+		$this->mocks[Connection::class]->method('executeQuery')
 			->willReturn($this->mockResult($this->mockMySQLLocks()));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -104,9 +102,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testPostgreSQLLocksFoundShowsErrorMessage(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(PostgreSQLPlatform::class));
-		$this->connection->method('executeQuery')
+		$this->mocks[Connection::class]->method('executeQuery')
 			->willReturn($this->mockResult($this->mockPostgreSQLLocks()));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -118,9 +116,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testJsonOutputWhenLocksExist(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->connection->method('executeQuery')
+		$this->mocks[Connection::class]->method('executeQuery')
 			->willReturn($this->mockResult($this->mockMySQLLocks()));
 		$this->input->method('getOption')->willReturnMap([['json', true]]);
 
@@ -135,7 +133,7 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testSQLiteReturnsSuccessWithMessage(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(SqlitePlatform::class));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -147,9 +145,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testNullColumnRenderedAsDash(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->connection->method('executeQuery')
+		$this->mocks[Connection::class]->method('executeQuery')
 			->willReturn($this->mockResult($this->mockMySQLLocks()));  // blocking_query = null
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 

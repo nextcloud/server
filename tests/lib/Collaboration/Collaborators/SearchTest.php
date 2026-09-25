@@ -14,25 +14,18 @@ use OC\Collaboration\Collaborators\SearchResult;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IContainer;
 use OCP\Share\IShare;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SearchTest extends TestCase {
-	protected IContainer&MockObject $container;
-	protected IEventDispatcher&MockObject $eventDispatcher;
 	protected Search $search;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->container = $this->createMock(IContainer::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-
-		$this->search = new Search($this->container, $this->eventDispatcher);
+		$this->search = $this->createInstanceWithMocks(Search::class);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchSharees')]
@@ -91,7 +84,7 @@ class SearchTest extends TestCase {
 				return $expectedMoreResults;
 			});
 
-		$this->container->expects($this->any())
+		$this->mocks[IContainer::class]->expects($this->any())
 			->method('get')
 			->willReturnCallback(function ($class) use ($userPlugin, $groupPlugin, $remotePlugin, $mailPlugin) {
 				if ($class === 'user') {

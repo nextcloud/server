@@ -16,7 +16,6 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
-use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
@@ -25,12 +24,6 @@ use Test\TestCase;
 class SearchBuilderTest extends TestCase {
 	/** @var IQueryBuilder */
 	private $builder;
-
-	/** @var IMimeTypeLoader&\PHPUnit\Framework\MockObject\MockObject */
-	private $mimetypeLoader;
-
-	/** @var IFilesMetadataManager&\PHPUnit\Framework\MockObject\MockObject */
-	private $filesMetadataManager;
 
 	/** @var SearchBuilder */
 	private $searchBuilder;
@@ -42,10 +35,9 @@ class SearchBuilderTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->builder = Server::get(IDBConnection::class)->getQueryBuilder();
-		$this->mimetypeLoader = $this->createMock(IMimeTypeLoader::class);
-		$this->filesMetadataManager = $this->createMock(IFilesMetadataManager::class);
+		$this->searchBuilder = $this->createInstanceWithMocks(SearchBuilder::class);
 
-		$this->mimetypeLoader->expects($this->any())
+		$this->mocks[IMimeTypeLoader::class]->expects($this->any())
 			->method('getId')
 			->willReturnMap([
 				['text', 1],
@@ -56,7 +48,7 @@ class SearchBuilderTest extends TestCase {
 				['image', 6],
 			]);
 
-		$this->mimetypeLoader->expects($this->any())
+		$this->mocks[IMimeTypeLoader::class]->expects($this->any())
 			->method('getMimetypeById')
 			->willReturnMap([
 				[1, 'text'],
@@ -66,8 +58,6 @@ class SearchBuilderTest extends TestCase {
 				[5, 'image/png'],
 				[6, 'image']
 			]);
-
-		$this->searchBuilder = new SearchBuilder($this->mimetypeLoader, $this->filesMetadataManager);
 		$this->numericStorageId = 10000;
 
 		$this->builder->select(['fileid'])
@@ -105,8 +95,8 @@ class SearchBuilderTest extends TestCase {
 		$data['parent'] = -1;
 		if (isset($data['mimetype'])) {
 			[$mimepart,] = explode('/', $data['mimetype']);
-			$data['mimepart'] = $this->mimetypeLoader->getId($mimepart);
-			$data['mimetype'] = $this->mimetypeLoader->getId($data['mimetype']);
+			$data['mimepart'] = $this->mocks[IMimeTypeLoader::class]->getId($mimepart);
+			$data['mimetype'] = $this->mocks[IMimeTypeLoader::class]->getId($data['mimetype']);
 		} else {
 			$data['mimepart'] = 1;
 			$data['mimetype'] = 1;

@@ -11,8 +11,6 @@ namespace Test\Memcache;
 
 use OC\Memcache\KeyValueCacheFactory;
 use OC\SystemConfig;
-use OCP\Diagnostics\IEventLogger;
-use PHPUnit\Framework\MockObject\MockObject;
 use Predis\Client;
 use Predis\Connection\Cluster\ClusterInterface;
 use Predis\Connection\NodeConnectionInterface;
@@ -27,16 +25,11 @@ use Test\TestCase;
  * mapping in {@see KeyValueCacheFactory::buildConnectionConfig()} is pure.
  */
 class KeyValueCacheFactoryTest extends TestCase {
-	private SystemConfig&MockObject $config;
-	private IEventLogger&MockObject $eventLogger;
 	private KeyValueCacheFactory $factory;
 
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->config = $this->createMock(SystemConfig::class);
-		$this->eventLogger = $this->createMock(IEventLogger::class);
-		$this->factory = new KeyValueCacheFactory($this->config, $this->eventLogger);
+		$this->factory = $this->createInstanceWithMocks(KeyValueCacheFactory::class);
 	}
 
 	public function testSingleServerTcp(): void {
@@ -220,24 +213,24 @@ class KeyValueCacheFactoryTest extends TestCase {
 	}
 
 	public function testIsAvailableWithoutConfig(): void {
-		$this->config->method('getValue')->with('memcache.kvstore', [])->willReturn([]);
+		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])->willReturn([]);
 		$this->assertFalse($this->factory->isAvailable());
 	}
 
 	public function testIsAvailableWithConfig(): void {
-		$this->config->method('getValue')->with('memcache.kvstore', [])
+		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])
 			->willReturn(['server' => ['host' => 'localhost']]);
 		$this->assertTrue($this->factory->isAvailable());
 	}
 
 	public function testGetInstanceThrowsWhenUnavailable(): void {
-		$this->config->method('getValue')->with('memcache.kvstore', [])->willReturn([]);
+		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])->willReturn([]);
 		$this->expectException(\RuntimeException::class);
 		$this->factory->getInstance();
 	}
 
 	public function testGetInstanceSingleServer(): void {
-		$this->config->method('getValue')->with('memcache.kvstore', [])
+		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])
 			->willReturn(['server' => ['host' => 'localhost', 'port' => 6379]]);
 
 		$client = $this->factory->getInstance();
@@ -246,7 +239,7 @@ class KeyValueCacheFactoryTest extends TestCase {
 	}
 
 	public function testGetInstanceCluster(): void {
-		$this->config->method('getValue')->with('memcache.kvstore', [])
+		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])
 			->willReturn(['seeds' => [['host' => 'localhost', 'port' => 7000]]]);
 
 		$client = $this->factory->getInstance();
@@ -254,7 +247,7 @@ class KeyValueCacheFactoryTest extends TestCase {
 	}
 
 	public function testGetInstanceSentinel(): void {
-		$this->config->method('getValue')->with('memcache.kvstore', [])
+		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])
 			->willReturn([
 				'sentinel' => [
 					'service' => 'mymaster',
@@ -267,7 +260,7 @@ class KeyValueCacheFactoryTest extends TestCase {
 	}
 
 	public function testGetInstanceIsMemoized(): void {
-		$this->config->method('getValue')->with('memcache.kvstore', [])
+		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])
 			->willReturn(['server' => ['host' => 'localhost']]);
 
 		$this->assertSame($this->factory->getInstance(), $this->factory->getInstance());

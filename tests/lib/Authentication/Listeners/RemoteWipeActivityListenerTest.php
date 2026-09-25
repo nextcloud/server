@@ -18,16 +18,9 @@ use OCP\Activity\IManager as IActivityManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RemoteWipeActivityListenerTest extends TestCase {
-	/** @var IActivityManager|MockObject */
-	private $activityManager;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
 	/** @var IEventListener */
 	private $listener;
 
@@ -35,13 +28,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->activityManager = $this->createMock(IActivityManager::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->listener = new RemoteWipeActivityListener(
-			$this->activityManager,
-			$this->logger
-		);
+		$this->listener = $this->createInstanceWithMocks(RemoteWipeActivityListener::class);
 	}
 
 	public function testHandleUnrelated(): void {
@@ -57,7 +44,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
 		$activityEvent = $this->createMock(IActivityEvent::class);
-		$this->activityManager->expects($this->once())
+		$this->mocks[IActivityManager::class]->expects($this->once())
 			->method('generateEvent')
 			->willReturn($activityEvent);
 		$activityEvent->expects($this->once())
@@ -82,7 +69,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 			->method('setSubject')
 			->with('remote_wipe_start', ['name' => 'Token 1'])
 			->willReturnSelf();
-		$this->activityManager->expects($this->once())
+		$this->mocks[IActivityManager::class]->expects($this->once())
 			->method('publish');
 
 		$this->listener->handle($event);
@@ -91,9 +78,9 @@ class RemoteWipeActivityListenerTest extends TestCase {
 	public function testHandleRemoteWipeStartedCanNotPublish(): void {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
-		$this->activityManager->expects($this->once())
+		$this->mocks[IActivityManager::class]->expects($this->once())
 			->method('generateEvent');
-		$this->activityManager->expects($this->once())
+		$this->mocks[IActivityManager::class]->expects($this->once())
 			->method('publish')
 			->willThrowException(new \BadMethodCallException());
 
@@ -105,7 +92,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);
 		$activityEvent = $this->createMock(IActivityEvent::class);
-		$this->activityManager->expects($this->once())
+		$this->mocks[IActivityManager::class]->expects($this->once())
 			->method('generateEvent')
 			->willReturn($activityEvent);
 		$activityEvent->expects($this->once())
@@ -130,7 +117,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 			->method('setSubject')
 			->with('remote_wipe_finish', ['name' => 'Token 1'])
 			->willReturnSelf();
-		$this->activityManager->expects($this->once())
+		$this->mocks[IActivityManager::class]->expects($this->once())
 			->method('publish');
 
 		$this->listener->handle($event);

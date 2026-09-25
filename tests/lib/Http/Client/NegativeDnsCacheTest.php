@@ -16,8 +16,6 @@ use OCP\ICacheFactory;
 class NegativeDnsCacheTest extends \Test\TestCase {
 	/** @var ICache */
 	private $cache;
-	/** @var ICacheFactory */
-	private $cacheFactory;
 	/** @var NegativeDnsCache */
 	private $negativeDnsCache;
 
@@ -26,13 +24,12 @@ class NegativeDnsCacheTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->cache = $this->createMock(ICache::class);
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->cacheFactory
+
+		$this->negativeDnsCache = $this->createInstanceWithMocks(NegativeDnsCache::class);
+		$this->mocks[ICacheFactory::class]
 			->method('createLocal')
 			->with('NegativeDnsCache')
 			->willReturn($this->cache);
-
-		$this->negativeDnsCache = new NegativeDnsCache($this->cacheFactory);
 	}
 
 	public function testSetNegativeCacheForDnsType() : void {

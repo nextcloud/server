@@ -16,8 +16,6 @@ use OCP\Constants;
 use OCP\IRequest;
 
 class NotModifiedMiddlewareTest extends \Test\TestCase {
-	/** @var IRequest */
-	private $request;
 	/** @var Controller */
 	private $controller;
 	/** @var NotModifiedMiddleware */
@@ -26,11 +24,7 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->request = $this->createMock(IRequest::class);
-		$this->middleWare = new NotModifiedMiddleware(
-			$this->request
-		);
+		$this->middleWare = $this->createInstanceWithMocks(NotModifiedMiddleware::class);
 
 		$this->controller = $this->createMock(Controller::class);
 	}
@@ -58,7 +52,7 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataModified')]
 	public function testMiddleware(?string $etag, string $etagHeader, ?\DateTime $lastModified, string $lastModifiedHeader, bool $notModifiedSet): void {
-		$this->request->method('getHeader')
+		$this->mocks[IRequest::class]->method('getHeader')
 			->willReturnCallback(function (string $name) use ($etagHeader, $lastModifiedHeader) {
 				if ($name === 'IF_NONE_MATCH') {
 					return $etagHeader;

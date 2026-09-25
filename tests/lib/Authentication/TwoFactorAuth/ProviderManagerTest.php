@@ -17,16 +17,9 @@ use OCP\Authentication\TwoFactorAuth\IDeactivatableByAdmin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IUser;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ProviderManagerTest extends TestCase {
-	/** @var ProviderLoader|MockObject */
-	private $providerLoader;
-
-	/** @var IRegistry|MockObject */
-	private $registry;
-
 	/** @var ProviderManager */
 	private $providerManager;
 
@@ -34,13 +27,7 @@ class ProviderManagerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->providerLoader = $this->createMock(ProviderLoader::class);
-		$this->registry = $this->createMock(IRegistry::class);
-
-		$this->providerManager = new ProviderManager(
-			$this->providerLoader,
-			$this->registry
-		);
+		$this->providerManager = $this->createInstanceWithMocks(ProviderManager::class);
 	}
 
 	public function testTryEnableInvalidProvider(): void {
@@ -53,13 +40,13 @@ class ProviderManagerTest extends TestCase {
 	public function testTryEnableUnsupportedProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
-		$this->providerLoader->expects($this->once())
+		$this->mocks[ProviderLoader::class]->expects($this->once())
 			->method('getProviders')
 			->with($user)
 			->willReturn([
 				'u2f' => $provider,
 			]);
-		$this->registry->expects($this->never())
+		$this->mocks[IRegistry::class]->expects($this->never())
 			->method('enableProviderFor');
 
 		$res = $this->providerManager->tryEnableProviderFor('u2f', $user);
@@ -70,7 +57,7 @@ class ProviderManagerTest extends TestCase {
 	public function testTryEnableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IActivatableByAdmin::class);
-		$this->providerLoader->expects($this->once())
+		$this->mocks[ProviderLoader::class]->expects($this->once())
 			->method('getProviders')
 			->with($user)
 			->willReturn([
@@ -79,7 +66,7 @@ class ProviderManagerTest extends TestCase {
 		$provider->expects($this->once())
 			->method('enableFor')
 			->with($user);
-		$this->registry->expects($this->once())
+		$this->mocks[IRegistry::class]->expects($this->once())
 			->method('enableProviderFor')
 			->with($provider, $user);
 
@@ -98,13 +85,13 @@ class ProviderManagerTest extends TestCase {
 	public function testTryDisableUnsupportedProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
-		$this->providerLoader->expects($this->once())
+		$this->mocks[ProviderLoader::class]->expects($this->once())
 			->method('getProviders')
 			->with($user)
 			->willReturn([
 				'u2f' => $provider,
 			]);
-		$this->registry->expects($this->never())
+		$this->mocks[IRegistry::class]->expects($this->never())
 			->method('disableProviderFor');
 
 		$res = $this->providerManager->tryDisableProviderFor('u2f', $user);
@@ -115,7 +102,7 @@ class ProviderManagerTest extends TestCase {
 	public function testTryDisableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IDeactivatableByAdmin::class);
-		$this->providerLoader->expects($this->once())
+		$this->mocks[ProviderLoader::class]->expects($this->once())
 			->method('getProviders')
 			->with($user)
 			->willReturn([
@@ -124,7 +111,7 @@ class ProviderManagerTest extends TestCase {
 		$provider->expects($this->once())
 			->method('disableFor')
 			->with($user);
-		$this->registry->expects($this->once())
+		$this->mocks[IRegistry::class]->expects($this->once())
 			->method('disableProviderFor')
 			->with($provider, $user);
 

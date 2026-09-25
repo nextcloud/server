@@ -20,55 +20,36 @@ use OCP\IUser;
 use OCP\Search\IInAppSearch;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class SearchComposerTest extends TestCase {
-	private Coordinator&MockObject $bootstrapCoordinator;
-	private ContainerInterface&MockObject $container;
-	private IURLGenerator&MockObject $urlGenerator;
-	private LoggerInterface&MockObject $logger;
-	private IAppConfig&MockObject $appConfig;
 	private SearchComposer $searchComposer;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->bootstrapCoordinator = $this->createMock(Coordinator::class);
-		$this->container = $this->createMock(ContainerInterface::class);
-		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
-
-		$this->searchComposer = new SearchComposer(
-			$this->bootstrapCoordinator,
-			$this->container,
-			$this->urlGenerator,
-			$this->logger,
-			$this->appConfig
-		);
+		$this->searchComposer = $this->createInstanceWithMocks(SearchComposer::class);
 
 		$this->setupUrlGenerator();
 	}
 
 	private function setupUrlGenerator(): void {
-		$this->urlGenerator->method('imagePath')
+		$this->mocks[IURLGenerator::class]->method('imagePath')
 			->willReturnCallback(function ($appId, $imageName) {
 				return "/apps/$appId/img/$imageName";
 			});
 	}
 
 	private function setupEmptyRegistrationContext(): void {
-		$this->bootstrapCoordinator->expects($this->once())
+		$this->mocks[Coordinator::class]->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn(null);
 	}
 
 	private function setupAppConfigForAllowedProviders(array $allowedProviders = []): void {
-		$this->appConfig->method('getValueArray')
+		$this->mocks[IAppConfig::class]->method('getValueArray')
 			->with('core', 'unified_search.providers_allowed')
 			->willReturn($allowedProviders);
 	}
@@ -100,7 +81,7 @@ class SearchComposerTest extends TestCase {
 			$containerMap[] = [$config['service'], $provider];
 		}
 
-		$this->container->expects($this->exactly(count($providerConfigs)))
+		$this->mocks[ContainerInterface::class]->expects($this->exactly(count($providerConfigs)))
 			->method('get')
 			->willReturnMap($containerMap);
 
@@ -111,7 +92,7 @@ class SearchComposerTest extends TestCase {
 		$registrationContext = $this->createMock(RegistrationContext::class);
 		$registrationContext->method('getSearchProviders')->willReturn($registrations);
 
-		$this->bootstrapCoordinator->expects($this->once())
+		$this->mocks[Coordinator::class]->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 	}

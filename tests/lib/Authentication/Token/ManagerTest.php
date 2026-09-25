@@ -19,25 +19,19 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-	/** @var PublicKeyTokenProvider|MockObject */
-	private $publicKeyTokenProvider;
 	/** @var Manager */
 	private $manager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->publicKeyTokenProvider = $this->createMock(PublicKeyTokenProvider::class);
-		$this->manager = new Manager(
-			$this->publicKeyTokenProvider
-		);
+		$this->manager = $this->createInstanceWithMocks(Manager::class);
 	}
 
 	public function testGenerateToken(): void {
 		$token = new PublicKeyToken();
 
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('generateToken')
 			->with(
 				'token',
@@ -70,7 +64,7 @@ class ManagerTest extends TestCase {
 		$token = new PublicKeyToken();
 		$token->setUid('uid');
 
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('generateToken')
 			->with(
 				'token',
@@ -81,7 +75,7 @@ class ManagerTest extends TestCase {
 				IToken::TEMPORARY_TOKEN,
 				IToken::REMEMBER
 			)->willThrowException($exception);
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('token')
 			->willReturn($token);
@@ -104,7 +98,7 @@ class ManagerTest extends TestCase {
 		$token->method('getName')
 			->willReturn(str_repeat('a', 120) . '…');
 
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('generateToken')
 			->with(
 				'token',
@@ -138,14 +132,14 @@ class ManagerTest extends TestCase {
 
 	protected function setNoCall(IToken $token) {
 		if (!($token instanceof PublicKeyToken)) {
-			$this->publicKeyTokenProvider->expects($this->never())
+			$this->mocks[PublicKeyTokenProvider::class]->expects($this->never())
 				->method($this->anything());
 		}
 	}
 
 	protected function setCall(IToken $token, string $function, $return = null) {
 		if ($token instanceof PublicKeyToken) {
-			$this->publicKeyTokenProvider->expects($this->once())
+			$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 				->method($function)
 				->with($token)
 				->willReturn($return);
@@ -213,7 +207,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testInvalidateTokens(): void {
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('invalidateToken')
 			->with('token');
 
@@ -221,7 +215,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testInvalidateTokenById(): void {
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('invalidateTokenById')
 			->with('uid', 42);
 
@@ -229,14 +223,14 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testInvalidateOldTokens(): void {
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('invalidateOldTokens');
 
 		$this->manager->invalidateOldTokens();
 	}
 
 	public function testInvalidateLastUsedBefore(): void {
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('invalidateLastUsedBefore')
 			->with('user', 946684800);
 
@@ -247,7 +241,7 @@ class ManagerTest extends TestCase {
 		$t1 = new PublicKeyToken();
 		$t2 = new PublicKeyToken();
 
-		$this->publicKeyTokenProvider
+		$this->mocks[PublicKeyTokenProvider::class]
 			->method('getTokenByUser')
 			->willReturn([$t1, $t2]);
 
@@ -257,7 +251,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testRenewSessionTokenPublicKey(): void {
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('renewSessionToken')
 			->with('oldId', 'newId');
 
@@ -265,7 +259,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testRenewSessionInvalid(): void {
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('renewSessionToken')
 			->with('oldId', 'newId')
 			->willThrowException(new InvalidTokenException());
@@ -277,7 +271,7 @@ class ManagerTest extends TestCase {
 	public function testGetTokenByIdPublicKey(): void {
 		$token = $this->createMock(IToken::class);
 
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('getTokenById')
 			->with(42)
 			->willReturn($token);
@@ -286,7 +280,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetTokenByIdInvalid(): void {
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('getTokenById')
 			->with(42)
 			->willThrowException(new InvalidTokenException());
@@ -298,7 +292,7 @@ class ManagerTest extends TestCase {
 	public function testGetTokenPublicKey(): void {
 		$token = new PublicKeyToken();
 
-		$this->publicKeyTokenProvider
+		$this->mocks[PublicKeyTokenProvider::class]
 			->method('getToken')
 			->with('tokenId')
 			->willReturn($token);
@@ -307,7 +301,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetTokenInvalid(): void {
-		$this->publicKeyTokenProvider
+		$this->mocks[PublicKeyTokenProvider::class]
 			->method('getToken')
 			->with('tokenId')
 			->willThrowException(new InvalidTokenException());
@@ -324,7 +318,7 @@ class ManagerTest extends TestCase {
 	public function testRotatePublicKey(): void {
 		$token = new PublicKeyToken();
 
-		$this->publicKeyTokenProvider
+		$this->mocks[PublicKeyTokenProvider::class]
 			->method('rotate')
 			->with($token, 'oldId', 'newId')
 			->willReturn($token);
@@ -335,7 +329,7 @@ class ManagerTest extends TestCase {
 	public function testMarkPasswordInvalidPublicKey(): void {
 		$token = $this->createMock(PublicKeyToken::class);
 
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('markPasswordInvalid')
 			->with($token, 'tokenId');
 
@@ -349,7 +343,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testUpdatePasswords(): void {
-		$this->publicKeyTokenProvider->expects($this->once())
+		$this->mocks[PublicKeyTokenProvider::class]->expects($this->once())
 			->method('updatePasswords')
 			->with('uid', 'pass');
 
@@ -362,7 +356,7 @@ class ManagerTest extends TestCase {
 		$t1->setId(123);
 		$t2->setId(456);
 
-		$this->publicKeyTokenProvider
+		$this->mocks[PublicKeyTokenProvider::class]
 			->expects($this->once())
 			->method('getTokenByUser')
 			->with('theUser')
@@ -372,7 +366,7 @@ class ManagerTest extends TestCase {
 			['theUser', 123],
 			['theUser', 456],
 		];
-		$this->publicKeyTokenProvider
+		$this->mocks[PublicKeyTokenProvider::class]
 			->expects($this->exactly(2))
 			->method('invalidateTokenById')
 			->willReturnCallback(function () use (&$calls): void {
@@ -393,12 +387,12 @@ class ManagerTest extends TestCase {
 		$t3->setId(789);
 		$t3->setName('mobile client');
 
-		$this->publicKeyTokenProvider
+		$this->mocks[PublicKeyTokenProvider::class]
 			->expects($this->once())
 			->method('getTokenByUser')
 			->with('theUser')
 			->willReturn([$t1, $t2, $t3]);
-		$this->publicKeyTokenProvider
+		$this->mocks[PublicKeyTokenProvider::class]
 			->expects($this->once())
 			->method('invalidateTokenById')
 			->with('theUser', 456);

@@ -14,33 +14,18 @@ use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\SystemReport\SystemReportManager;
 use OCP\SystemReport\ISystemReportSection;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 final class SystemReportManagerTest extends TestCase {
-	private Coordinator&MockObject $coordinator;
-
-	private ContainerInterface&MockObject $container;
-
-	private LoggerInterface&MockObject $logger;
-
 	private SystemReportManager $manager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->coordinator = $this->createMock(Coordinator::class);
-		$this->container = $this->createMock(ContainerInterface::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->manager = new SystemReportManager(
-			$this->coordinator,
-			$this->container,
-			$this->logger,
-		);
+		$this->manager = $this->createInstanceWithMocks(SystemReportManager::class);
 	}
 
 	/**
@@ -52,7 +37,7 @@ final class SystemReportManagerTest extends TestCase {
 			->method('getSystemReportSections')
 			->willReturn($registrations);
 
-		$this->coordinator->expects(self::atLeastOnce())
+		$this->mocks[Coordinator::class]->expects(self::atLeastOnce())
 			->method('getRegistrationContext')
 			->willReturn($context);
 	}
@@ -69,7 +54,7 @@ final class SystemReportManagerTest extends TestCase {
 			->method('getDetails')
 			->willReturn([]);
 
-		$this->container->expects(self::once())
+		$this->mocks[ContainerInterface::class]->expects(self::once())
 			->method('get')
 			->with($section::class)
 			->willReturn($section);
@@ -86,7 +71,7 @@ final class SystemReportManagerTest extends TestCase {
 		$section->method('getDetails')
 			->willThrowException(new \RuntimeException('boom'));
 
-		$this->container->method('get')
+		$this->mocks[ContainerInterface::class]->method('get')
 			->with($section::class)
 			->willReturn($section);
 
@@ -94,14 +79,14 @@ final class SystemReportManagerTest extends TestCase {
 			new ServiceRegistration('testing', $section::class),
 		]);
 
-		$this->logger->expects(self::once())
+		$this->mocks[LoggerInterface::class]->expects(self::once())
 			->method('error');
 
 		$this->assertSame([], $this->manager->getSections());
 	}
 
 	public function testGetSectionsSkipsUnresolvableClass(): void {
-		$this->container->method('get')
+		$this->mocks[ContainerInterface::class]->method('get')
 			->with(\stdClass::class)
 			->willThrowException($this->createStub(NotFoundExceptionInterface::class));
 
@@ -109,7 +94,7 @@ final class SystemReportManagerTest extends TestCase {
 			new ServiceRegistration('testing', \stdClass::class),
 		]);
 
-		$this->logger->expects(self::once())
+		$this->mocks[LoggerInterface::class]->expects(self::once())
 			->method('error');
 
 		$this->assertSame([], $this->manager->getSections());

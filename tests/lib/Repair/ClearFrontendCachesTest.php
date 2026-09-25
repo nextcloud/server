@@ -16,8 +16,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ClearFrontendCachesTest extends \Test\TestCase {
 
-	private ICacheFactory&MockObject $cacheFactory;
-	private JSCombiner&MockObject $jsCombiner;
 	private IOutput&MockObject $outputMock;
 
 	protected ClearFrontendCaches $repair;
@@ -28,10 +26,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 
 		$this->outputMock = $this->createMock(IOutput::class);
 
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->jsCombiner = $this->createMock(JSCombiner::class);
-
-		$this->repair = new ClearFrontendCaches($this->cacheFactory, $this->jsCombiner);
+		$this->repair = $this->createInstanceWithMocks(ClearFrontendCaches::class);
 	}
 
 	public function testRun(): void {
@@ -39,9 +34,9 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 		$imagePathCache->expects($this->once())
 			->method('clear')
 			->with('');
-		$this->jsCombiner->expects($this->once())
+		$this->mocks[JSCombiner::class]->expects($this->once())
 			->method('resetCache');
-		$this->cacheFactory->expects($this->once())
+		$this->mocks[ICacheFactory::class]->expects($this->once())
 			->method('createDistributed')
 			->with('imagePath')
 			->willReturn($imagePathCache);

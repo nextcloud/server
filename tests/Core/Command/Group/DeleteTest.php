@@ -15,9 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DeleteTest extends TestCase {
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $groupManager;
-
 	/** @var Delete */
 	private $command;
 
@@ -30,9 +27,7 @@ class DeleteTest extends TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->command = new Delete($this->groupManager);
+		$this->command = $this->createInstanceWithMocks(Delete::class);
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->output = $this->createMock(OutputInterface::class);
@@ -47,11 +42,11 @@ class DeleteTest extends TestCase {
 				}
 				throw new \Exception();
 			});
-		$this->groupManager->method('groupExists')
+		$this->mocks[IGroupManager::class]->method('groupExists')
 			->with($gid)
 			->willReturn(false);
 
-		$this->groupManager->expects($this->never())
+		$this->mocks[IGroupManager::class]->expects($this->never())
 			->method('get');
 		$this->output->expects($this->once())
 			->method('writeln')
@@ -70,7 +65,7 @@ class DeleteTest extends TestCase {
 				throw new \Exception();
 			});
 
-		$this->groupManager->expects($this->never())
+		$this->mocks[IGroupManager::class]->expects($this->never())
 			->method($this->anything());
 		$this->output->expects($this->once())
 			->method('writeln')
@@ -91,10 +86,10 @@ class DeleteTest extends TestCase {
 		$group = $this->createMock(IGroup::class);
 		$group->method('delete')
 			->willReturn(false);
-		$this->groupManager->method('groupExists')
+		$this->mocks[IGroupManager::class]->method('groupExists')
 			->with($gid)
 			->willReturn(true);
-		$this->groupManager->method('get')
+		$this->mocks[IGroupManager::class]->method('get')
 			->with($gid)
 			->willReturn($group);
 
@@ -117,10 +112,10 @@ class DeleteTest extends TestCase {
 		$group = $this->createMock(IGroup::class);
 		$group->method('delete')
 			->willReturn(true);
-		$this->groupManager->method('groupExists')
+		$this->mocks[IGroupManager::class]->method('groupExists')
 			->with($gid)
 			->willReturn(true);
-		$this->groupManager->method('get')
+		$this->mocks[IGroupManager::class]->method('get')
 			->with($gid)
 			->willReturn($group);
 

@@ -11,21 +11,17 @@ namespace OC\Repair\NC29;
 
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SanitizeAccountPropertiesTest extends TestCase {
 
-	private IJobList&MockObject $jobList;
 	private SanitizeAccountProperties $repairStep;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->jobList = $this->createMock(IJobList::class);
-
-		$this->repairStep = new SanitizeAccountProperties($this->jobList);
+		$this->repairStep = $this->createInstanceWithMocks(SanitizeAccountProperties::class);
 	}
 
 	public function testGetName(): void {
@@ -33,7 +29,7 @@ class SanitizeAccountPropertiesTest extends TestCase {
 	}
 
 	public function testRun(): void {
-		$this->jobList->expects(self::once())
+		$this->mocks[IJobList::class]->expects(self::once())
 			->method('add')
 			->with(SanitizeAccountPropertiesJob::class, null);
 

@@ -30,27 +30,17 @@ use Test\TestCase;
 
 #[Group('DB')]
 class ManagerTest extends TestCase {
-	private IConfig&MockObject $config;
-	private IEventDispatcher&MockObject $eventDispatcher;
-	private ICacheFactory&MockObject $cacheFactory;
 	private ICache&MockObject $cache;
-	private LoggerInterface&MockObject $logger;
 	private IUserManager $manager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->config = $this->createMock(IConfig::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->cache = $this->createMock(ICache::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
 
-		$this->cacheFactory->method('createDistributed')
+		$this->manager = $this->createInstanceWithMocks(Manager::class);
+		$this->mocks[ICacheFactory::class]->method('createDistributed')
 			->willReturn($this->cache);
-
-		$this->manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
 	}
 
 	public function testGetBackends(): void {
@@ -667,7 +657,7 @@ class ManagerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnArgument(2);
 
-		$this->manager = new Manager($config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$this->manager = new Manager($config, $this->mocks[ICacheFactory::class], $this->mocks[IEventDispatcher::class], $this->mocks[LoggerInterface::class]);
 		$backend = new \Test\Util\User\Dummy();
 
 		$this->manager->registerBackend($backend);
@@ -692,7 +682,7 @@ class ManagerTest extends TestCase {
 			});
 
 		$this->manager = $this->getMockBuilder(Manager::class)
-			->setConstructorArgs([$this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger])
+			->setConstructorArgs([$this->mocks[IConfig::class], $this->mocks[ICacheFactory::class], $this->mocks[IEventDispatcher::class], $this->mocks[LoggerInterface::class]])
 			->onlyMethods(['getUserConfig', 'get'])
 			->getMock();
 		$this->manager->method('getUserConfig')->willReturn($userConfig);

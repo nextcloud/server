@@ -12,19 +12,15 @@ namespace Test\Mail;
 use OC\Mail\EmailValidator;
 use OCP\IAppConfig;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class EmailValidatorTest extends TestCase {
-	private IAppConfig&MockObject $appConfig;
 	private EmailValidator $emailValidator;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->emailValidator = new EmailValidator($this->appConfig);
+		$this->emailValidator = $this->createInstanceWithMocks(EmailValidator::class);
 	}
 
 	public static function mailAddressProvider(): array {
@@ -43,7 +39,7 @@ class EmailValidatorTest extends TestCase {
 
 	#[DataProvider('mailAddressProvider')]
 	public function testIsValid($email, $expected, $strict): void {
-		$this->appConfig
+		$this->mocks[IAppConfig::class]
 			->expects($this->atMost(1))
 			->method('getValueString')
 			->with('core', 'enforce_strict_email_check', 'yes')

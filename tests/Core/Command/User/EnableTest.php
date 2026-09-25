@@ -15,8 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class EnableTest extends TestCase {
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
 	/** @var InputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
 	/** @var OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
@@ -28,12 +26,10 @@ class EnableTest extends TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->userManager = $this->createMock(IUserManager::class);
 		$this->consoleInput = $this->createMock(InputInterface::class);
 		$this->consoleOutput = $this->createMock(OutputInterface::class);
 
-		$this->command = new Enable($this->userManager);
+		$this->command = $this->createInstanceWithMocks(Enable::class);
 	}
 
 	public function testValidUser(): void {
@@ -42,7 +38,7 @@ class EnableTest extends TestCase {
 			->method('setEnabled')
 			->with(true);
 
-		$this->userManager
+		$this->mocks[IUserManager::class]
 			->method('get')
 			->with('user')
 			->willReturn($user);
@@ -60,7 +56,7 @@ class EnableTest extends TestCase {
 	}
 
 	public function testInvalidUser(): void {
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with('user')
 			->willReturn(null);
