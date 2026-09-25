@@ -16,6 +16,40 @@ abstract class Cache extends \Test\Cache\TestCache {
 	 */
 	protected $instance;
 
+	/**
+	 * @return array<string, array{0: mixed}>
+ 	*/
+	public static function roundtripValuesProvider(): array {
+		return [
+			'string' => ['some string value'],
+			'empty string' => [''],
+			'numeric string' => ['0123'],
+			'float-like string' => ['3.14'],
+			'scientific notation string' => ['1e3'],
+			'integer' => [1234],
+			'zero' => [0],
+			'negative integer' => [-42],
+			'float' => [3.14],
+			'zero-fraction float' => [1.0],
+			'negative float' => [-2.75],
+			'scientific notation float' => [1.2e3],
+			'boolean true' => [true],
+			'boolean false' => [false],
+			'null' => [null],
+			'list' => [['a', 'b', 'c']],
+			'associative array' => [['foo' => 'bar', 'baz' => 42]],
+			'mixed nested array' => [[
+				'int' => 7,
+				'float' => 3.14,
+				'whole-float' => 1.0,
+				'string' => '3.14',
+				'bool' => true,
+				'null' => null,
+				'list' => [1, 2.5, '3'],
+			]],
+		];
+	}
+
 	public function testExistsAfterSet(): void {
 		$this->assertFalse($this->instance->hasKey('foo'));
 		$this->instance->set('foo', 'bar');
@@ -32,6 +66,15 @@ abstract class Cache extends \Test\Cache\TestCache {
 		$this->assertNull($this->instance->get('foo'));
 		$this->instance->set('foo', ['bar']);
 		$this->assertEquals(['bar'], $this->instance->get('foo'));
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('roundtripValuesProvider')]
+	public function testStoreAndReadBack(mixed $value): void {
+		$this->assertNull($this->instance->get('roundtrip'), 'key should be empty before storing');
+
+		$this->assertNotFalse($this->instance->set('roundtrip', $value), 'value should be stored');
+		$this->assertTrue($this->instance->hasKey('roundtrip'), 'stored key should exist');
+		$this->assertSame($value, $this->instance->get('roundtrip'), 'stored value should be read back unchanged');
 	}
 
 	public function testDoesNotExistAfterRemove(): void {
