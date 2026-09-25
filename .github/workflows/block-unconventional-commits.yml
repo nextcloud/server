@@ -23,7 +23,7 @@ jobs:
   block-unconventional-commits:
     name: Block unconventional commits
 
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-26.04
 
     steps:
       - name: Checkout

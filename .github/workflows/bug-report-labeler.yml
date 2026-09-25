@@ -9,7 +9,7 @@ on:
 jobs:
   add-version-label:
     if: contains(github.event.issue.title, '[Bug]')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       issues: write
     steps:
@@ -30,7 +30,7 @@ jobs:
               nextcloudVersion = parseInt(versionMatch[1], 10);
               label = nextcloudVersion + '-feedback';
             }
-            
+
             if (label) {
               try {
                 await github.rest.issues.addLabels({

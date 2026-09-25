@@ -27,7 +27,7 @@ jobs:
       pull-requests: write
     name: Block fixup and squash commits
 
-    runs-on: ubuntu-latest-low
+    runs-on: ubuntu-26.04
 
     steps:
       - name: Run check
