@@ -57,4 +57,14 @@ interface IOutput {
 	 * @since 8.1.0
 	 */
 	public function setCookie($name, $value, $expire, $path, $domain, $secure, $httpOnly, $sameSite = 'Lax');
+
+	/**
+	 * Send the response produced so far to the client, so the remaining work of
+	 * this process does not delay it. Nothing may be written to the output after.
+	 *
+	 * @return bool true if the connection was closed, false if the response was
+	 *              only flushed because the SAPI does not support closing it
+	 * @since 35.0.0
+	 */
+	public function finishRequest(): bool;
 }

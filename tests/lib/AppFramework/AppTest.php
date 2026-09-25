@@ -14,6 +14,11 @@ use OC\AppFramework\Http\Dispatcher;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\StreamResponse;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\ISession;
+use Psr\Log\LoggerInterface;
 
 function rrmdir($directory) {
 	$files = array_diff(scandir($directory), ['.','..']);
@@ -86,6 +91,92 @@ class AppTest extends \Test\TestCase {
 			$this->container);
 	}
 
+	public function testRequestIsNotFinishedEarlyByDefault(): void {
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->willReturn(['HTTP/2.0 200 OK', [], [], $this->output, new Response()]);
+
+		$this->io->expects($this->never())
+			->method('finishRequest');
+
+		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
+	}
+
+	public function testRequestIsFinishedEarlyWhenTheResponseAsksForIt(): void {
+		$response = new Response();
+		$response->setFlushEarly(true);
+
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->willReturn(['HTTP/2.0 200 OK', [], [], $this->output, $response]);
+
+		$session = $this->createMock(ISession::class);
+		$session->expects($this->once())
+			->method('close');
+		$this->container[ISession::class] = $session;
+
+		$connection = $this->createMock(IDBConnection::class);
+		$connection->method('inTransaction')
+			->willReturn(false);
+		$this->container[IDBConnection::class] = $connection;
+
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->never())
+			->method('warning');
+		$this->container[LoggerInterface::class] = $logger;
+
+		$this->io->expects($this->once())
+			->method('finishRequest');
+
+		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
+	}
+
+	public function testRequestIsNotFinishedEarlyWhenDisabledByTheAdmin(): void {
+		$response = new Response();
+		$response->setFlushEarly(true);
+
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->willReturn(['HTTP/2.0 200 OK', [], [], $this->output, $response]);
+
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValueBool')
+			->with('flush_response_early', true)
+			->willReturn(false);
+		$this->container[IConfig::class] = $config;
+
+		$this->io->expects($this->never())
+			->method('finishRequest');
+
+		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
+	}
+
+	public function testOpenTransactionIsLoggedWhenFinishingEarly(): void {
+		$response = new Response();
+		$response->setFlushEarly(true);
+
+		$this->dispatcher->expects($this->once())
+			->method('dispatch')
+			->willReturn(['HTTP/2.0 200 OK', [], [], $this->output, $response]);
+
+		$this->container[ISession::class] = $this->createMock(ISession::class);
+
+		$connection = $this->createMock(IDBConnection::class);
+		$connection->method('inTransaction')
+			->willReturn(true);
+		$this->container[IDBConnection::class] = $connection;
+
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->once())
+			->method('warning');
+		$this->container[LoggerInterface::class] = $logger;
+
+		$this->io->expects($this->once())
+			->method('finishRequest');
+
+		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
+	}
+
 	public function testBuildAppNamespace(): void {
 		$ns = App::buildAppNamespace('someapp');
 		$this->assertEquals('OCA\Someapp', $ns);
@@ -144,7 +235,9 @@ class AppTest extends \Test\TestCase {
 	}
 
 	public function testCallbackIsCalled(): void {
-		$mock = $this->getMockBuilder('OCP\AppFramework\Http\ICallbackResponse')
+		// The dispatcher always hands back a Response, not a bare ICallbackResponse
+		$mock = $this->getMockBuilder(StreamResponse::class)
+			->disableOriginalConstructor()
 			->getMock();
 
 		$return = ['HTTP/2.0 200 OK', [], [], $this->output, $mock];
