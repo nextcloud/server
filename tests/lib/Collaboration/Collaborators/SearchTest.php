@@ -12,6 +12,7 @@ use OC\Collaboration\Collaborators\SearchResult;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IContainer;
 use OCP\Share\IShare;
 use Test\TestCase;
@@ -19,6 +20,8 @@ use Test\TestCase;
 class SearchTest extends TestCase {
 	/** @var IContainer|\PHPUnit\Framework\MockObject\MockObject */
 	protected $container;
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	protected $eventDispatcher;
 	/** @var ISearch */
 	protected $search;
 
@@ -26,8 +29,9 @@ class SearchTest extends TestCase {
 		parent::setUp();
 
 		$this->container = $this->createMock(IContainer::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
-		$this->search = new Search($this->container);
+		$this->search = new Search($this->container, $this->eventDispatcher);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchSharees')]
@@ -88,7 +92,7 @@ class SearchTest extends TestCase {
 
 		$this->container->expects($this->any())
 			->method('resolve')
-			->willReturnCallback(function ($class) use ($searchResult, $userPlugin, $groupPlugin, $remotePlugin, $mailPlugin) {
+			->willReturnCallback(function ($class) use ($searchResult) {
 				if ($class === SearchResult::class) {
 					return $searchResult;
 				} elseif ($class === $userPlugin) {
