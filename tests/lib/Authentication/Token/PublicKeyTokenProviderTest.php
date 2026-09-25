@@ -22,6 +22,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
 use OCP\Server;
@@ -128,23 +129,118 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->getPassword($actual, $token);
 	}
 
-	public function testGenerateTokenLongPassword(): void {
-		$token = 'tokentokentokentokentoken';
-		$uid = 'user';
-		$user = 'User';
-		$password = '';
-		for ($i = 0; $i < 500; $i++) {
-			$password .= 'e';
-		}
+	public function testGenerateTokenRejectsPasswordAboveStorageLimit(): void {
+		$password = str_repeat('e', IUserManager::MAX_PASSWORD_LENGTH + 1);
 		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
-		$type = IToken::PERMANENT_TOKEN;
+
 		$this->config->method('getSystemValueBool')
 			->willReturnMap([
 				['auth.storeCryptedPassword', true, true],
 			]);
-		$this->expectException(\RuntimeException::class);
 
-		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type, IToken::DO_NOT_REMEMBER);
+		$this->mapper->expects($this->never())
+			->method('insert');
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage(sprintf(
+			'Storing an encrypted password longer than %d bytes in an authentication token is not supported.',
+			IUserManager::MAX_PASSWORD_LENGTH,
+		));
+
+		$this->tokenProvider->generateToken(
+			'tokentokentokentokentoken',
+			'user',
+			'User',
+			$password,
+			$name,
+			IToken::PERMANENT_TOKEN,
+			IToken::DO_NOT_REMEMBER,
+		);
+	}
+
+	public function testGenerateTokenDoesNotStoreLongPasswordWhenStorageIsDisabled(): void {
+		$password = str_repeat('a', IUserManager::MAX_PASSWORD_LENGTH + 1);
+
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, false],
+			]);
+
+		$actual = $this->tokenProvider->generateToken(
+			'tokentokentokentokentoken',
+			'user',
+			'User',
+			$password,
+			'Test token',
+			IToken::PERMANENT_TOKEN,
+			IToken::DO_NOT_REMEMBER,
+		);
+
+		$this->assertSame(2048, $this->getPublicKeyBits($actual));
+		$this->assertNull($actual->getPassword());
+		$this->assertNull($actual->getPasswordHash());
+	}
+
+	private function getPublicKeyBits(PublicKeyToken $token): int {
+		$publicKey = openssl_pkey_get_public($token->getPublicKey());
+		$this->assertNotFalse($publicKey);
+
+		$details = openssl_pkey_get_details($publicKey);
+		$this->assertIsArray($details);
+
+		return $details['bits'];
+	}
+
+	public function testGenerateTokenUses2048BitKeyAtOaepLimit(): void {
+		// 214 = PublicKeyTokenProvider::RSA_2048_OAEP_MAX_PLAINTEXT_LENGTH
+		$password = str_repeat('a', 214);
+
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+
+		$actual = $this->tokenProvider->generateToken(
+			'tokentokentokentokentoken',
+			'user',
+			'User',
+			$password,
+			'Test token',
+			IToken::PERMANENT_TOKEN,
+			IToken::DO_NOT_REMEMBER,
+		);
+
+		$this->assertSame(2048, $this->getPublicKeyBits($actual));
+		$this->assertSame(
+			$password,
+			$this->tokenProvider->getPassword($actual, 'tokentokentokentokentoken'),
+		);
+	}
+
+	public function testGenerateTokenUses4096BitKeyAboveOaepLimit(): void {
+		// 215 = PublicKeyTokenProvider::RSA_2048_OAEP_MAX_PLAINTEXT_LENGTH + 1
+		$password = str_repeat('a', 215);
+
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+
+		$actual = $this->tokenProvider->generateToken(
+			'tokentokentokentokentoken',
+			'user',
+			'User',
+			$password,
+			'Test token',
+			IToken::PERMANENT_TOKEN,
+			IToken::DO_NOT_REMEMBER,
+		);
+
+		$this->assertSame(4096, $this->getPublicKeyBits($actual));
+		$this->assertSame(
+			$password,
+			$this->tokenProvider->getPassword($actual, 'tokentokentokentokentoken'),
+		);
 	}
 
 	public function testGenerateTokenInvalidName(): void {
@@ -287,6 +383,48 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->setPassword($actual, $token, $newpass);
 
 		$this->assertSame($newpass, $this->tokenProvider->getPassword($actual, 'tokentokentokentokentoken'));
+	}
+
+	public function testSetPasswordFailsWhenExistingKeyIsTooSmall(): void {
+		$tokenId = 'tokentokentokentokentoken';
+
+		$this->config->method('getSystemValueBool')
+			->willReturnMap([
+				['auth.storeCryptedPassword', true, true],
+			]);
+
+		$token = $this->tokenProvider->generateToken(
+			$tokenId,
+			'user',
+			'User',
+			'short-password',
+			'Test token',
+			IToken::PERMANENT_TOKEN,
+			IToken::DO_NOT_REMEMBER,
+		);
+
+		$this->assertSame(2048, $this->getPublicKeyBits($token));
+
+		$this->mapper->method('getTokenByUser')
+			->with('user')
+			->willReturn([$token]);
+
+		$this->logger->expects($this->once())
+			->method('critical')
+			->with($this->stringStartsWith('Something is wrong with your openssl setup:'));
+
+		$this->mapper->expects($this->never())
+			->method('update');
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('OpenSSL reported a problem');
+
+		$this->tokenProvider->setPassword(
+			$token,
+			$tokenId,
+			// 215 = PublicKeyTokenProvider::RSA_2048_OAEP_MAX_PLAINTEXT_LENGTH + 1
+			str_repeat('a', 215),
+		);
 	}
 
 	public function testSetPasswordInvalidToken(): void {
