@@ -73,7 +73,7 @@
     "libphonenumber-js": "^1.13.12",
     "lodash": "^4.18.1",
     "marked": "^17.0.6",
-    "moment": "^2.30.1",
+    "moment": "^2.31.0",
     "moment-timezone": "^0.6.3",
     "p-limit": "^7.3.2",
     "p-queue": "^9.3.3",
