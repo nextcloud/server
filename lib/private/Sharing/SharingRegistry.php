@@ -17,10 +17,7 @@ use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Source\IShareSourceType;
 use RuntimeException;
 
-// TODO: Maybe add validate method to run all checks before using the manager
 final class SharingRegistry implements ISharingRegistry {
-	private ?ISharingLegacyBackend $legacyBackend = null;
-
 	/** @var array<class-string<IShareSourceType>, IShareSourceType> */
 	private array $sourceTypes = [];
 
@@ -59,7 +56,6 @@ final class SharingRegistry implements ISharingRegistry {
 
 	#[\Override]
 	public function clear(): void {
-		$this->legacyBackend = null;
 		$this->sourceTypes = [];
 		$this->recipientTypes = [];
 		$this->propertyTypes = [];
@@ -72,20 +68,6 @@ final class SharingRegistry implements ISharingRegistry {
 		$this->permissionPresets = [];
 		$this->permissionTypeCompatiblePermissionPresets = [];
 		$this->permissionPresetCompatiblePermissionTypes = [];
-	}
-
-	#[\Override]
-	public function registerLegacyBackend(ISharingLegacyBackend $legacyBackend): void {
-		if ($this->legacyBackend instanceof ISharingLegacyBackend) {
-			throw new RuntimeException('A sharing legacy backend is already registered');
-		}
-
-		$this->legacyBackend = $legacyBackend;
-	}
-
-	#[\Override]
-	public function getLegacyBackend(): ?ISharingLegacyBackend {
-		return $this->legacyBackend;
 	}
 
 	#[\Override]

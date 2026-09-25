@@ -567,9 +567,8 @@ class Manager implements IManager {
 				$this->verifyPassword($share->getPassword());
 
 				// If a password is set. Hash it!
-				if ($share->getShareType() === IShare::TYPE_LINK
-					&& $share->getPassword() !== null) {
-					$share->setPassword($this->hasher->hash($share->getPassword()));
+				if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL) && $share->getPassword() !== null && !$share->isPasswordHashed()) {
+					$share->setPasswordHash($this->hasher->hash($share->getPassword()));
 				}
 			}
 
@@ -588,9 +587,11 @@ class Manager implements IManager {
 				}
 			}
 
-			$target = $shareFolder . '/' . $share->getNode()->getName();
-			$target = Filesystem::normalizePath($target);
-			$share->setTarget($target);
+			if ($share->getTarget() === null) {
+				$target = $shareFolder . '/' . $share->getNode()->getName();
+				$target = Filesystem::normalizePath($target);
+				$share->setTarget($target);
+			}
 
 			// Pre share event
 			$event = new BeforeShareCreatedEvent($share);
@@ -832,7 +833,7 @@ class Manager implements IManager {
 
 			// If a password is set. Hash it!
 			if (!empty($share->getPassword())) {
-				$share->setPassword($this->hasher->hash($share->getPassword()));
+				$share->setPasswordHash($this->hasher->hash($share->getPassword()));
 				if ($share->getShareType() === IShare::TYPE_EMAIL) {
 					// Shares shared by email have temporary passwords
 					$this->setSharePasswordExpirationTime($share);
@@ -850,7 +851,12 @@ class Manager implements IManager {
 		} else {
 			// Reset the password to the original one, as it is either the same
 			// as the "new" password or a hashed version of it.
-			$share->setPassword($originalShare->getPassword());
+			$password = $originalShare->getPassword();
+			if ($password !== null && $originalShare->isPasswordHashed()) {
+				$share->setPasswordHash($password);
+			} else {
+				$share->setPassword($password);
+			}
 		}
 
 		return false;

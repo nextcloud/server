@@ -26,10 +26,10 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Share\IShare;
-use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\BeforeUserDeletedEvent;
 
 /**
- * @template-implements IEventListener<UserDeletedEvent>
+ * @template-implements IEventListener<BeforeUserDeletedEvent>
  */
 final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator implements IEventListener {
 
@@ -39,7 +39,7 @@ final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator
 		private readonly IUserManager $userManager,
 		private readonly ISharingManager $manager,
 	) {
-		$eventDispatcher->addServiceListener(UserDeletedEvent::class, self::class);
+		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, self::class);
 	}
 
 	#[\Override]
