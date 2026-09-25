@@ -9,6 +9,7 @@
 		data-cy-file-request-dialog
 		:close-on-click-outside="false"
 		:name="currentStep !== STEP.LAST ? t('files_sharing', 'Create a file request') : t('files_sharing', 'File request created')"
+		:set-return-focus="returnFocusTarget"
 		size="normal"
 		@closing="onCancel">
 		<!-- Header -->
@@ -226,6 +227,10 @@ export default defineComponent({
 	},
 
 	methods: {
+		returnFocusTarget(): HTMLElement | null {
+			return document.querySelector<HTMLElement>('[data-cy-upload-picker] button')
+		},
+
 		onPageNext() {
 			const form = this.$refs.form as HTMLFormElement
 
