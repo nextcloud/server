@@ -345,12 +345,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * if mail providers are enabled globally and the admin has enabled
 	 * user-level sending for share emails, look up the user's mail service.
 	 *
-	 * @param ?string $userId The user ID of the share initiator
-	 * @param ?string $userEmail The email address of the share initiator
+	 * @param ?IUser $user The share initiator user object
 	 * @return (IMessageSend&IService)|null A mail service that can send, or null to fall back to the system mailer
 	 */
-	protected function findMailService(?string $userId, ?\OCP\IUser $user = null): (IMessageSend&IService)|null {
-		if ($userId === null || $user === null) {
+	protected function findMailService(?IUser $user = null): (IMessageSend&IService)|null {
+		if ($user === null) {
 			return null;
 		}
 		if (!$this->settingsManager->useUserEmail()) {
@@ -366,7 +365,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			return null;
 		}
 
-		$mailService = $this->mailManager->findServiceByAddress($userId, $userEmail);
+		$mailService = $this->mailManager->findServiceByAddress($user->getUID(), $userEmail);
 		if ($mailService instanceof IMessageSend) {
 			return $mailService;
 		}
@@ -378,21 +377,19 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * Send the share email via Mail Provider if available,
 	 * otherwise return false to fall back to the system mailer.
 	 *
-	 * @param ?string $initiator The user ID of the share initiator
-	 * @param ?string $initiatorEmail The email address of the share initiator
+	 * @param ?IUser $initiatorUser The share initiator user object
 	 * @param string $initiatorDisplayName The display name of the share initiator
 	 * @param array $recipientEmails The recipient email addresses
 	 * @param callable $templateFactory A factory function that returns an \OCP\Mail\IEMailTemplate
 	 * @return bool True if successfully sent via Mail Provider, false if falling back
 	 */
 	protected function sendViaMailProviderWithFallback(
-		?string $initiator,
-		?\OCP\IUser $initiatorUser,
+		?IUser $initiatorUser,
 		string $initiatorDisplayName,
 		array $recipientEmails,
 		callable $templateFactory,
 	): bool {
-		$mailService = $this->findMailService($initiator, $initiatorUser);
+		$mailService = $this->findMailService($initiatorUser);
 		if ($mailService === null) {
 			return false;
 		}
@@ -514,7 +511,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		// Try to send via the user's Mail Provider
 		$initiatorUserObj = ($initiatorUser instanceof IUser) ? $initiatorUser : null;
-		if ($this->sendViaMailProviderWithFallback($initiator, $initiatorUserObj, $initiatorDisplayName, $emails, $templateFactory)) {
+		if ($this->sendViaMailProviderWithFallback($initiatorUserObj, $initiatorDisplayName, $emails, $templateFactory)) {
 			return;
 		}
 
@@ -622,7 +619,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		// Try to send via the user's Mail Provider
 		$initiatorUserObj = ($initiatorUser instanceof IUser) ? $initiatorUser : null;
-		if ($this->sendViaMailProviderWithFallback($initiator, $initiatorUserObj, $initiatorDisplayName, $emails, $templateFactory)) {
+		if ($this->sendViaMailProviderWithFallback($initiatorUserObj, $initiatorDisplayName, $emails, $templateFactory)) {
 			$this->createPasswordSendActivity($share, $shareWith, false);
 			return true;
 		}
@@ -713,7 +710,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		// Try to send via the user's Mail Provider
 		$initiatorUserObj = ($initiatorUser instanceof IUser) ? $initiatorUser : null;
-		if ($this->sendViaMailProviderWithFallback($initiator, $initiatorUserObj, $initiatorDisplayName, [$recipient], $templateFactory)) {
+		if ($this->sendViaMailProviderWithFallback($initiatorUserObj, $initiatorDisplayName, [$recipient], $templateFactory)) {
 			return;
 		}
 
