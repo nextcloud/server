@@ -859,7 +859,9 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		foreach (ShareUserStatus::cases() as $case) {
 			$userStatus = ShareUserStatus::from($case->value);
 
+			$before = $this->manager->getTime();
 			$formatted = $this->updateShareUserStatus($accessContext2, $share2, $userStatus);
+			$after = $this->manager->getTime();
 			$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
 			$this->assertEquals($userStatus->value, $formatted['user_status']);
 		}
@@ -3707,12 +3709,12 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		$share2 = $this->manager->updateShareState($accessContext, $share2, ShareState::Active);
 
 		$this->dbConnection->commit();
-		$after2 = $this->manager->getTime();
 
 		$accessContext2 = new ShareAccessContext($this->user2);
 		$this->dbConnection->beginTransaction();
 		$this->manager->updateShareUserStatus($accessContext2, $this->manager->getShare($accessContext2, $share2->id), ShareUserStatus::Accepted);
 		$this->dbConnection->commit();
+		$after2 = $this->manager->getTime();
 
 		$formatted = $this->getShares($accessContext, null, null, null, null, null, null);
 		$this->assertCount(2, $formatted);
