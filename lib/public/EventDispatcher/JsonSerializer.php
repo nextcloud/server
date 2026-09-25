@@ -34,6 +34,10 @@ final class JsonSerializer {
 			return [
 				'id' => $node->getId(),
 				'path' => $node->getPath(),
+				'type' => $node->getType(),
+				'mimetype' => $node->getMimetype(),
+				'size' => $node->getSize(),
+				'mtime' => $node->getMtime(),
 			];
 		}
 	}
