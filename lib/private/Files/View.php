@@ -2171,27 +2171,62 @@ class View {
 	}
 
 	/**
-	 * Lock a path and all its parents up to the root of the view
+	 * Lock a path and its parent directories up to the view root.
 	 *
-	 * @param string $path the path of the file to lock relative to the view
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
+	 * The target path is locked using `$lockMountPoint`; parent directories are
+	 * always locked on their attached storage. If acquiring a parent lock fails,
+	 * locks already acquired by this method are released on a best-effort basis
+	 * before the acquisition failure is rethrown.
 	 *
-	 * @return bool False if the path is excluded from locking, true otherwise
-	 * @throws LockedException
+	 * @param string $path Path relative to the view
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or
+	 *                  \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @param bool $lockMountPoint Whether to lock the target mount point instead
+	 *                             of its attached mount/storage
+	 *
+	 * @return bool False if the target path is excluded from locking; true otherwise
+	 * @throws LockedException If locking the target path or a parent directory fails
 	 */
-	public function lockFile($path, $type, $lockMountPoint = false) {
+	public function lockFile(
+		string $path,
+		int $type,
+		bool $lockMountPoint = false,
+	): bool {
 		$absolutePath = $this->getAbsolutePath($path);
 		$absolutePath = Filesystem::normalizePath($absolutePath);
 		if (!$this->shouldLockFile($absolutePath)) {
 			return false;
 		}
 
-		$this->lockPath($path, $type, $lockMountPoint);
+		/** @var array<array{string, int, bool}> $acquiredLocks */
+		$acquiredLocks = [];
+		try {
+			$this->lockPath($path, $type, $lockMountPoint);
+			$acquiredLocks[] = [$path, $type, $lockMountPoint];
 
-		$parents = $this->getParents($path);
-		foreach ($parents as $parent) {
-			$this->lockPath($parent, ILockingProvider::LOCK_SHARED);
+			$parents = $this->getParents($path);
+			foreach ($parents as $parent) {
+				$this->lockPath($parent, ILockingProvider::LOCK_SHARED);
+				$acquiredLocks[] = [$parent, ILockingProvider::LOCK_SHARED, false];
+			}
+		} catch (\Throwable $e) {
+			// Undo only locks which were acquired successfully. Reverse order mirrors
+			// stack-style acquisition and avoids retaining parent locks after failure.
+			foreach (array_reverse($acquiredLocks) as [$lockedPath, $lockedType, $lockedMountPoint]) {
+				try {
+					$this->unlockPath($lockedPath, $lockedType, $lockedMountPoint);
+				} catch (\Throwable $unlockException) {
+					// Do not replace the acquisition failure with a cleanup failure.
+					// The provider may still need its normal TTL/request cleanup as a fallback.
+					$this->logger->warning('Failed to release a partially acquired file lock', [
+						'app' => 'core',
+						'path' => $lockedPath,
+						'exception' => $unlockException,
+					]);
+				}
+			}
+
+			throw $e;
 		}
 
 		return true;
