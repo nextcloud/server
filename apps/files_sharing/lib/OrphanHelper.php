@@ -57,6 +57,18 @@ class OrphanHelper {
 	}
 
 	/**
+	 * Note: only detects the regular user trashbin path layout, not group folders trash
+	 */
+	public function isInTrashbin(int $fileId): bool {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('path')
+			->from('filecache')
+			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+		$path = $query->executeQuery()->fetchOne();
+		return $path !== false && str_starts_with($path, 'files_trashbin/');
+	}
+
+	/**
 	 * @return \Traversable<int, array{id: int, owner: string, fileid: int, target: string}>
 	 */
 	public function getAllShares(?string $owner = null, ?string $with = null) {
