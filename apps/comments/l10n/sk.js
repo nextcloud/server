@@ -6,7 +6,7 @@ OC.L10N.register(
     "{author} commented" : "{author} komentoval",
     "You commented on %1$s" : "Komentovali ste %1$s",
     "You commented on {file}" : "Komentovali ste {file}",
-    "%1$s commented on %2$s" : "%1$s komentoval %2$s",
+    "%1$s commented on %2$s" : "%1$s komentoval/a %2$s",
     "{author} commented on {file}" : "{author} komentoval {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentáre</strong> pre súbory",
     "Files" : "Súbory",

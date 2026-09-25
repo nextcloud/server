@@ -199,9 +199,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} поділив(-ла-)ся в чаті {user}",
     "Shared with {user} by {owner}" : "{owner} поділив(-ла-)ся з {user}",
     "Open Sharing Details" : "Відкрити деталі спільного доступу",
-    "Added by {initiator}" : "Додано {initiator}",
-    "Via “{folder}”" : "Через “{folder}”",
     "Unshare" : "Закрити доступ",
+    "Added by {initiator}" : "Додано {initiator}",
     "Cannot copy, please copy the link manually" : "Неможливо скопіювати, скопіюйте посилання вручну",
     "Copy internal link" : "Копіювати посилання",
     "For people who already have access" : "Для тих, хто має доступ",
@@ -286,7 +285,6 @@ OC.L10N.register(
     "Advanced settings" : "Розширені",
     "Share label" : "Мітка спільного ресурсу",
     "Share link token" : "Токен спільного ресурсу",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Встановіть токен для публічного посилання на спільний ресурс з простою для запам'ятовування назвою або створіть новий токен. Не рекомендується використовувати токени, які можна легко вгадати, для спільних ресурсів, що містять чутливі дані.",
     "Generating…" : "Створення...",
     "Generate new token" : "Створити новий токен",
     "Set password" : "Встановити пароль",
@@ -413,8 +411,10 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Спільне використання %s не вдалося, оскільки бекенд не підтримує спільне використання ScienceMesh",
     "Public upload disabled by the administrator" : "Публічне завантаження вимкнено адміністратором",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Токени мають містити щонайменше 1 символ, можуть складатися тільки з літер, цифр або дефісу",
+    "Via “{folder}”" : "Через “{folder}”",
     "Name or email …" : "Ім'я або електронна адреса …",
     "Name, email, or Federated Cloud ID …" : "Ім’я, адреса електронної пошти або ідентифікатор хмари…",
-    "Searching …" : "Пошук..."
+    "Searching …" : "Пошук...",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Встановіть токен для публічного посилання на спільний ресурс з простою для запам'ятовування назвою або створіть новий токен. Не рекомендується використовувати токени, які можна легко вгадати, для спільних ресурсів, що містять чутливі дані."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

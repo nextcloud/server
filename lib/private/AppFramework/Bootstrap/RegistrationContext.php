@@ -41,6 +41,7 @@ use OCP\SetupCheck\ISetupCheck;
 use OCP\Share\IPublicShareTemplateProvider;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\Support\CrashReport\IReporter;
+use OCP\SystemReport\ISystemReportSection;
 use OCP\Talk\ITalkBackend;
 use OCP\TaskProcessing\ITaskType;
 use OCP\Teams\ITeamResourceProvider;
@@ -51,7 +52,6 @@ use Override;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Throwable;
-use function array_shift;
 
 class RegistrationContext {
 	/** @var ServiceRegistration<ICapability>[] */
@@ -143,6 +143,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<ISetupCheck>[] */
 	private array $setupChecks = [];
+
+	/** @var ServiceRegistration<ISystemReportSection>[] */
+	private array $systemReportSections = [];
 
 	/** @var PreviewProviderRegistration[] */
 	private array $previewProviders = [];
@@ -449,6 +452,14 @@ class RegistrationContext {
 			}
 
 			#[\Override]
+			public function registerSystemReportSection(string $sectionClass): void {
+				$this->context->registerSystemReportSection(
+					$this->appId,
+					$sectionClass
+				);
+			}
+
+			#[\Override]
 			public function registerDeclarativeSettings(string $declarativeSettingsClass): void {
 				$this->context->registerDeclarativeSettings(
 					$this->appId,
@@ -679,6 +690,13 @@ class RegistrationContext {
 	}
 
 	/**
+	 * @psalm-param class-string<ISystemReportSection> $sectionClass
+	 */
+	public function registerSystemReportSection(string $appId, string $sectionClass): void {
+		$this->systemReportSections[] = new ServiceRegistration($appId, $sectionClass);
+	}
+
+	/**
 	 * @psalm-param class-string<IDeclarativeSettingsForm> $declarativeSettingsClass
 	 */
 	public function registerDeclarativeSettings(string $appId, string $declarativeSettingsClass): void {
@@ -731,7 +749,7 @@ class RegistrationContext {
 	 * @param App[] $apps
 	 */
 	public function delegateCapabilityRegistrations(array $apps): void {
-		while (($registration = array_shift($this->capabilities)) !== null) {
+		foreach ($this->capabilities as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -752,13 +770,14 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->capabilities = [];
 	}
 
 	/**
 	 * @param App[] $apps
 	 */
 	public function delegateCrashReporterRegistrations(array $apps, Registry $registry): void {
-		while (($registration = array_shift($this->crashReporters)) !== null) {
+		foreach ($this->crashReporters as $registration) {
 			try {
 				$registry->registerLazy($registration->getService());
 			} catch (Throwable $e) {
@@ -768,10 +787,11 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->crashReporters = [];
 	}
 
 	public function delegateDashboardPanelRegistrations(IManager $dashboardManager): void {
-		while (($panel = array_shift($this->dashboardPanels)) !== null) {
+		foreach ($this->dashboardPanels as $panel) {
 			try {
 				$dashboardManager->lazyRegisterWidget($panel->getService(), $panel->getAppId());
 			} catch (Throwable $e) {
@@ -781,10 +801,11 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->dashboardPanels = [];
 	}
 
 	public function delegateEventListenerRegistrations(IEventDispatcher $eventDispatcher): void {
-		while (($registration = array_shift($this->eventListeners)) !== null) {
+		foreach ($this->eventListeners as $registration) {
 			try {
 				$eventDispatcher->addServiceListener(
 					$registration->getEvent(),
@@ -798,13 +819,14 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->eventListeners = [];
 	}
 
 	/**
 	 * @param App[] $apps
 	 */
 	public function delegateContainerRegistrations(array $apps): void {
-		while (($registration = array_shift($this->services)) !== null) {
+		foreach ($this->services as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -832,8 +854,9 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->services = [];
 
-		while (($registration = array_shift($this->aliases)) !== null) {
+		foreach ($this->aliases as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -857,8 +880,9 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->aliases = [];
 
-		while (($registration = array_shift($this->parameters)) !== null) {
+		foreach ($this->parameters as $registration) {
 			$appId = $registration->getAppId();
 			if (!isset($apps[$appId])) {
 				// If we land here something really isn't right. But at least we caught the
@@ -882,6 +906,7 @@ class RegistrationContext {
 				]);
 			}
 		}
+		$this->parameters = [];
 	}
 
 	/**
@@ -1053,6 +1078,13 @@ class RegistrationContext {
 	 */
 	public function getSetupChecks(): array {
 		return $this->setupChecks;
+	}
+
+	/**
+	 * @return ServiceRegistration<ISystemReportSection>[]
+	 */
+	public function getSystemReportSections(): array {
+		return $this->systemReportSections;
 	}
 
 	/**

@@ -690,6 +690,7 @@ OC.L10N.register(
     "New account" : "新帳戶",
     "Adding new account …" : "新增帳號……",
     "Add new account" : "添加新帳戶",
+    "Only letters, numbers, spaces, and _.@-' are allowed" : "只允許使用字母、數字、空格以及 _.@-'",
     "Display name" : "顯示名稱",
     "Either password or email is required" : "需要密碼或電郵地址",
     "Member of the following groups (required)" : "以下群組的成員（必需）",

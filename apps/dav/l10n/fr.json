@@ -10,7 +10,7 @@
     "You updated calendar {calendar}" : "Vous avez mis à jour l’agenda {calendar}",
     "{actor} restored calendar {calendar}" : "{actor} a restauré l’agenda {calendar}",
     "You restored calendar {calendar}" : "Vous avez restauré l’agenda {calendar}",
-    "You shared calendar {calendar} as public link" : "Vous avez partagé l’agenda {calendar} avec un lien public ",
+    "You shared calendar {calendar} as public link" : "Vous avez partagé l’agenda {calendar} avec un lien public",
     "You removed public link for calendar {calendar}" : "Vous avez supprimé le lien public pour l’agenda {calendar}",
     "{actor} shared calendar {calendar} with you" : "{actor} a partagé l’agenda {calendar} avec vous",
     "You shared calendar {calendar} with {user}" : "Vous avez partagé l’agenda {calendar} avec {user}",

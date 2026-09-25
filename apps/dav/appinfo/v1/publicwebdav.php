@@ -9,6 +9,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\DirPermissionsMask;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
+use OC\OCM\OCMSignatoryManager;
 use OCA\DAV\Connector\LegacyPublicAuth;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
@@ -34,6 +35,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory as IL10nFactory;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
@@ -60,6 +62,8 @@ $bearerAuthBackend = new BearerAuth(
 	Server::get(IRequest::class),
 	Server::get(IConfig::class),
 	allowOcmAccessToken: true,
+	shareManager: Server::get(IManager::class),
+	ocmSignatoryManager: Server::get(OCMSignatoryManager::class),
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 $authPlugin->addBackend($bearerAuthBackend);
@@ -104,11 +108,7 @@ $server = $serverFactory->createServer(
 			// this is what is thrown when trying to access a non-existing share
 			throw new \Sabre\DAV\Exception\NotAuthenticated();
 		}
-		try {
-			$share = $authBackend->getShare();
-		} catch (AssertionError $e) {
-			$share = $bearerAuthBackend->getShare();
-		}
+		$share = $authBackend->getShare() ?? $bearerAuthBackend->getShare();
 		$isReadable = $share->getPermissions() & Constants::PERMISSION_READ;
 		$fileId = $share->getNodeId();
 

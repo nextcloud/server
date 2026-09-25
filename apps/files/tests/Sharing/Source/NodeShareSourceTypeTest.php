@@ -12,12 +12,12 @@ use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\Source\ShareSource;
-use OC\Files\Filesystem;
 use OC\Sharing\SharingManager;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\IFileAccess;
 use OCP\Files\IRootFolder;
+use OCP\Files\ISetupManager;
 use OCP\Files\Node;
 use OCP\IDBConnection;
 use OCP\IURLGenerator;
@@ -37,6 +37,8 @@ final class NodeShareSourceTypeTest extends TestCase {
 
 	private IUser $user1;
 
+	private IUser $user2;
+
 	private Node $node;
 
 	private NodeShareSourceType $sourceType;
@@ -49,8 +51,8 @@ final class NodeShareSourceTypeTest extends TestCase {
 
 		$this->manager = Server::get(ISharingManager::class);
 
-		$user1 = $this->createUser('user1', 'password');
-		$this->user1 = $user1;
+		$this->user1 = $this->createUser('user1', 'password');
+		$this->user2 = $this->createUser('user2', 'password');
 
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder($this->user1->getUID());
 		$this->node = $userFolder->newFile('foo.txt', 'bar');
@@ -69,17 +71,18 @@ final class NodeShareSourceTypeTest extends TestCase {
 	protected function tearDown(): void {
 		$this->user1->delete();
 
-		Filesystem::tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 
 		parent::tearDown();
 	}
 
 	public function testValidateSource(): void {
-		$this->assertTrue($this->sourceType->validateSource((string)$this->node->getId()));
-		$this->assertFalse($this->sourceType->validateSource('-1'));
-		$this->assertFalse($this->sourceType->validateSource('000123'));
-		$this->assertFalse($this->sourceType->validateSource('123abcdef'));
-		$this->assertFalse($this->sourceType->validateSource('000123abcdef'));
+		$this->assertTrue($this->sourceType->validateSource($this->user1, (string)$this->node->getId()));
+		$this->assertFalse($this->sourceType->validateSource($this->user2, (string)$this->node->getId()));
+		$this->assertFalse($this->sourceType->validateSource($this->user1, '-1'));
+		$this->assertFalse($this->sourceType->validateSource($this->user1, '000123'));
+		$this->assertFalse($this->sourceType->validateSource($this->user1, '123abcdef'));
+		$this->assertFalse($this->sourceType->validateSource($this->user1, '000123abcdef'));
 	}
 
 	public function testGetSourceDisplayName(): void {

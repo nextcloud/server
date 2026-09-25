@@ -84,6 +84,7 @@ OC.L10N.register(
     "Compatibility with Mac NFD encoding (slow)" : "Mac NFD كودلاش ئىقتىدارى (ئاستا)",
     "Status" : "ھالەت",
     "Actions" : "ھەرىكەتلەر",
+    "All accounts" : "بارلىق ھېساباتلار",
     "Delete" : "ئۆچۈر",
     "Saved" : "ساقلاندى",
     "Allow people to mount external storage" : "كىشىلەرنىڭ سىرتقى ساقلىغۇچ ئورنىتىشىغا يول قويۇڭ",

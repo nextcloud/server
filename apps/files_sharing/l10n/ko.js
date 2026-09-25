@@ -191,9 +191,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner}님이 {user} 대화방과 함께 공유함",
     "Shared with {user} by {owner}" : "{owner}님이 {user}님에게 공유함",
     "Open Sharing Details" : "공유 세부 사항 열기",
-    "Added by {initiator}" : "{initiator}님에 의해 추가됨",
-    "Via “{folder}”" : "“{folder}”(을)를 통하여",
     "Unshare" : "공유 해제",
+    "Added by {initiator}" : "{initiator}님에 의해 추가됨",
     "Cannot copy, please copy the link manually" : "복사할 수 없습니다, 링크를 수동으로 복사하세요.",
     "Copy internal link" : "내부 링크 복사",
     "For people who already have access" : "이미 접근 권한이 있는 사람들에게",
@@ -278,7 +277,6 @@ OC.L10N.register(
     "Advanced settings" : "고급 설정",
     "Share label" : "공유 이름",
     "Share link token" : "공유 링크 토큰",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "공개 공유 링크 토큰을 기억하기 쉬운 것으로 설정하거나 새 토큰을 생성하세요. 민감한 정보가 포함된 공유에는 추측 가능한 토큰을 사용하지 않는 것이 좋습니다.",
     "Generating…" : "생성 중…",
     "Generate new token" : "새 토큰 생성",
     "Set password" : "비밀번호 설정",
@@ -405,8 +403,10 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "백엔드가 ScienceMesh 공유를 지원하지 않기 때문에 %s의 공유가 실패했습니다.",
     "Public upload disabled by the administrator" : "공개 업로드는 관리자에 의해 비활성화되어 있음",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "토큰은 1 자 이상이어야 하며 문자, 숫자, 하이픈만 포함할 수 있습니다.",
+    "Via “{folder}”" : "“{folder}”(을)를 통하여",
     "Name or email …" : "이름 또는 이메일 …",
     "Name, email, or Federated Cloud ID …" : "이름, 이메일, 또는 연합 클라우드 ID …",
-    "Searching …" : "검색 ..."
+    "Searching …" : "검색 ...",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "공개 공유 링크 토큰을 기억하기 쉬운 것으로 설정하거나 새 토큰을 생성하세요. 민감한 정보가 포함된 공유에는 추측 가능한 토큰을 사용하지 않는 것이 좋습니다."
 },
 "nplurals=1; plural=0;");

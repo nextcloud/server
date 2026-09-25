@@ -87,6 +87,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 	public function searchRecipients(
 		ShareAccessContext $accessContext, ?array $filterRecipientTypeClasses, string $query, int $limit, int $offset, ?Share $forShare = null,
 	): array {
+		$user = $accessContext->currentUser;
+		if ($query === '' && $user instanceof IUser) {
+			$shareUser = new ShareUser($user->getUID(), null);
+			return $this->backend->getRecommendedRecipients($shareUser, $filterRecipientTypeClasses, $forShare?->id, $limit, $offset);
+		}
+
 		$recipientTypes = $this->registry->getRecipientTypes();
 
 		if ($filterRecipientTypeClasses !== null) {
@@ -253,6 +259,10 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 	#[\Override]
 	public function addShareSource(ShareAccessContext $accessContext, Share $share, ShareSource $source): Share {
+		if ($share->owner->instance !== null) {
+			throw new ShareOperationForbiddenException();
+		}
+
 		// only the owner can add sources, otherwise a user could add sources others don't have access to, which would remove their access
 		$this->validateShareEditPermissions($accessContext, $share, true);
 
@@ -260,7 +270,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			throw new RuntimeException('The source type is not registered: ' . $source->class);
 		}
 
-		if (!$sourceType->validateSource($source->value)) {
+		$ownerUser = $this->userManager->get($share->owner->userId);
+		if (!$ownerUser instanceof IUser) {
+			throw new RuntimeException('Owner does not exist.');
+		}
+
+		if (!$sourceType->validateSource($ownerUser, $source->value)) {
 			throw new ShareInvalidException('Invalid source: ' . $source->value . ' ' . $source->class, $this->l10n->t('The source does not exist.'));
 		}
 
@@ -864,10 +879,16 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			null, array_values(array_map(static fn (SharePermission $permission): string => $permission->class, $share->getEffectiveEnabledPermissions($accessContext)))
 		);
 
-		$usersToCheck = [];
-		if ($share->owner->instance === null && ($ownerUser = $this->userManager->get($share->owner->userId)) instanceof IUser) {
-			$usersToCheck[] = $ownerUser;
+		if ($share->owner->instance !== null) {
+			throw new ShareOperationForbiddenException();
 		}
+
+		$ownerUser = $this->userManager->get($share->owner->userId);
+		if (!$ownerUser instanceof IUser) {
+			throw new RuntimeException('Owner does not exist.');
+		}
+
+		$usersToCheck = [$ownerUser];
 
 		if ($accessContext->currentUser instanceof IUser && !$share->owner->isCurrentUser($accessContext)) {
 			$usersToCheck[] = $accessContext->currentUser;
@@ -896,7 +917,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 					throw new RuntimeException('The source type is not registered: ' . $source->class);
 				}
 
-				if (!$sourceType->validateSource($source->value)) {
+				if (!$sourceType->validateSource($ownerUser, $source->value)) {
 					continue;
 				}
 

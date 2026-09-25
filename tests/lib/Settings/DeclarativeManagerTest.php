@@ -583,7 +583,8 @@ class DeclarativeManagerTest extends TestCase {
 			->method('setValue')
 			->with('test_field_2', 'some password', $this->adminUser);
 
-		\OC::$server->registerService('OCA\\Testing\\Settings\\DeclarativeForm', fn () => $form, false);
+		$appContainer = \OC::$server->getAppContainerForService('OCA\\Testing\\Settings\\DeclarativeForm');
+		$appContainer->registerService('OCA\\Testing\\Settings\\DeclarativeForm', fn () => $form, false);
 
 		$context = $this->createMock(RegistrationContext::class);
 		$context->expects(self::atLeastOnce())
@@ -616,7 +617,8 @@ class DeclarativeManagerTest extends TestCase {
 			->with('test_field_2', $this->adminUser)
 			->willReturn('very secret password');
 
-		\OC::$server->registerService('OCA\\Testing\\Settings\\DeclarativeForm', fn () => $form, false);
+		$appContainer = \OC::$server->getAppContainerForService('OCA\\Testing\\Settings\\DeclarativeForm');
+		$appContainer->registerService('OCA\\Testing\\Settings\\DeclarativeForm', fn () => $form, false);
 
 		$context = $this->createMock(RegistrationContext::class);
 		$context->expects(self::atLeastOnce())

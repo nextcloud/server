@@ -103,7 +103,7 @@ import IconCog from 'vue-material-design-icons/Cog.vue'
 import IconDotsGrid from 'vue-material-design-icons/DotsGrid.vue'
 import AppMenuActions from './AppMenuActions.vue'
 import AppMenuItem from './AppMenuItem.vue'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 
 // Settings IDs that represent actions, not navigable pages.
 const SETTINGS_ACTION_IDS = new Set(['logout'])
@@ -197,6 +197,8 @@ export default defineComponent({
 			// skidding sign isn't auto-mirrored, so we flip it here. Snapshot
 			// at init: Nextcloud's language doesn't change at runtime.
 			popoverSkidding: isRTL() ? 82 : -82, // thats the width of the product logo + main container margin
+			clicks: 0,
+			clickTimestamp: 0,
 		}
 	},
 
@@ -335,6 +337,23 @@ export default defineComponent({
 			this.hoverOpen = false
 			this.openedFrom = source
 			this.opened = !this.opened
+
+			const date = new Date()
+			if (this.clickTimestamp !== 0) {
+				if (date - this.clickTimestamp > 10000) {
+					this.clicks = 0
+				}
+			}
+			this.clickTimestamp = date
+			this.clicks++
+			if (this.clicks > 20 && !matchMedia('(prefers-reduced-motion: reduce)').matches && !document.body.hasAttribute('data-theme-reduced-motion')) {
+				const styleTag = document.createElement('style')
+				styleTag.innerHTML = '@keyframes bodyAnimation { 0% {transform: rotate3d(0,0,0,0);} 25% {transform: rotate3d(' + (Math.floor(Math.random() * 3) - 1) + ',' + (Math.floor(Math.random() * 3) - 1) + ',' + (Math.floor(Math.random() * 3) - 1) + ',' + Math.floor(Math.random() * 360) + 'deg);} 50% {transform: rotate3d(' + (Math.floor(Math.random() * 3) - 1) + ',' + (Math.floor(Math.random() * 3) - 1) + ',' + (Math.floor(Math.random() * 3) - 1) + ',' + Math.floor(Math.random() * 360) + 'deg);} 75% {transform: rotate3d(0,0,0,0);} 100% {transform: rotate3d(0,0,0,0);}}'
+				document.body.appendChild(styleTag)
+				document.body.setAttribute('style', 'animation-name:bodyAnimation;animation-duration:10s;animation-iteration-count:infinite;animation-direction:alternate')
+			} else if (this.clicks > 15) {
+				document.body.setAttribute('style', 'filter:sepia(' + Math.floor(Math.random() * 100) + '%) invert(' + Math.floor(Math.random() * 2) * 100 + '%) hue-rotate(' + (Math.floor(Math.random() * 360)) + 'deg) blur(' + Math.floor(this.clicks / 30) + 'px);transition:filter 1s !important')
+			}
 		},
 
 		// Hover-to-open, mouse only so keyboard focus never triggers it.
@@ -373,6 +392,7 @@ export default defineComponent({
 		onPointerLeave() {
 			this.clearOpenTimer()
 			this.scheduleClose()
+			this.clicks = 0
 		},
 
 		// Cursor moved into the open popover: keep it open.

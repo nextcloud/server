@@ -198,9 +198,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Διαμοιράστηκε με τη συζήτηση {user} από τον {owner}",
     "Shared with {user} by {owner}" : "Διαμοιράστηκε με τον {user} από τον {owner}",
     "Open Sharing Details" : "Άνοιγμα Λεπτομερειών Διαμοιρασμού",
-    "Added by {initiator}" : "Προστέθηκε από {initiator}",
-    "Via “{folder}”" : "Μέσω “{folder}”",
     "Unshare" : "Αναίρεση διαμοιρασμού",
+    "Added by {initiator}" : "Προστέθηκε από {initiator}",
     "Cannot copy, please copy the link manually" : "Δεν μπορεί να αντιγραφεί, παρακαλώ αντιγράψτε χειροκίνητα",
     "Copy internal link" : "Αντιγραφή εσωτερικού συνδέσμου",
     "For people who already have access" : "Για άτομα που έχουν ήδη πρόσβαση",
@@ -285,7 +284,6 @@ OC.L10N.register(
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Share label" : "Ετικέτα διαμοιρασμού",
     "Share link token" : "Διακριτικό συνδέσμου διαμοιρασμού",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ορίστε το token του δημόσιου συνδέσμου διαμοιρασμού σε κάτι εύκολο να θυμηθείτε ή δημιουργήστε ένα νέο διακριτικό. Δεν συνιστάται η χρήση ευανάγνωστου token για διαμοιρασμούς που περιέχουν ευαίσθητες πληροφορίες.",
     "Generating…" : "Δημιουργείται…",
     "Generate new token" : "Δημιουργία νέου διακριτικού",
     "Set password" : "Ορισμός συνθηματικού",
@@ -412,8 +410,10 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Ο διαμοιρασμός %s απέτυχε επειδή το σύστημα υποστήριξης δεν υποστηρίζει μετοχές ScienceMesh",
     "Public upload disabled by the administrator" : "Δημόσιο ανέβασμα είναι απενεργοποιημένο από τον διαχειριστή",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Τα tokens πρέπει να περιέχουν τουλάχιστον 1 χαρακτήρα και μπορούν να περιέχουν μόνο γράμματα, αριθμούς ή παύλα",
+    "Via “{folder}”" : "Μέσω “{folder}”",
     "Name or email …" : "Όνομα ή διεύθυνση ηλεκτρονικού ταχυδρομείου",
     "Name, email, or Federated Cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…",
-    "Searching …" : "Αναζήτηση ..."
+    "Searching …" : "Αναζήτηση ...",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ορίστε το token του δημόσιου συνδέσμου διαμοιρασμού σε κάτι εύκολο να θυμηθείτε ή δημιουργήστε ένα νέο διακριτικό. Δεν συνιστάται η χρήση ευανάγνωστου token για διαμοιρασμούς που περιέχουν ευαίσθητες πληροφορίες."
 },
 "nplurals=2; plural=(n != 1);");

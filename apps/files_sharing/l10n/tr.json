@@ -197,9 +197,10 @@
     "Shared with the conversation {user} by {owner}" : "{owner} tarafından görüşme {user} ile paylaştırılmış",
     "Shared with {user} by {owner}" : "{owner} tarafından {user} ile paylaşılmış",
     "Open Sharing Details" : "Paylaşım bilgilerini aç",
-    "Added by {initiator}" : "{initiator} tarafından eklendi",
-    "Via “{folder}”" : "“{folder}” ile",
+    "Unshare \"{folder}\"" : "\"{folder}\" klasörünü paylaşımdan kaldır",
     "Unshare" : "Paylaşımı kaldır",
+    "Added by {initiator}" : "{initiator} tarafından eklendi",
+    "Via \"{folder}\"" : "\"{folder}\" üzerinden",
     "Cannot copy, please copy the link manually" : "Kopyalanamadı. Lütfen bağlantıyı el ile kopyalayın",
     "Copy internal link" : "İç bağlantıyı kopyala",
     "For people who already have access" : "Erişme izni olan kişiler için",
@@ -257,6 +258,7 @@
     "Are you sure you want to delete this share? This operation cannot be undone." : "Bu paylaşımı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
     "Edit share" : "Paylaşımı düzenle",
     "Toggle recipients" : "Alıcıları aç/kapat",
+    "Remove recipient" : "Alıcıyı kaldır",
     "Note from" : "Notu yazan",
     "Note:" : "Not:",
     "File drop" : "Dosya bırakma",
@@ -287,7 +289,6 @@
     "Advanced settings" : "Gelişmiş ayarlar",
     "Share label" : "Paylaşım etiketi",
     "Share link token" : "Paylaşım bağlantısı kodu",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Herkese açık paylaşım bağlantısı kodunu kolay hatırlanacak bir şey olarak ayarlayın veya yeni bir kod oluşturun. Önemli bilgiler içeren paylaşımlar için öngörülebilir bir kod kullanılması önerilmez.",
     "Generating…" : "Oluşturuluyor…",
     "Generate new token" : "Yeni kod oluştur",
     "Set password" : "Parola ayarla",
@@ -416,8 +417,10 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Arka yüz ScienceMesh paylaşımlarına izin vermediğinden %s paylaşılamadı",
     "Public upload disabled by the administrator" : "Herkese açık yükleme özelliği BT yöneticisi tarafından kapatılmış",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Kodlar en az 1 karakter uzunluğunda olmalı ve yalnızca harf, sayı veya tire karakterlerini içermelidir",
+    "Via “{folder}”" : "“{folder}” ile",
     "Name or email …" : "Ad ya da e-posta adresi …",
     "Name, email, or Federated Cloud ID …" : "Ad, e-posta ya da birleşik bulut kimliği…",
-    "Searching …" : "Aranıyor …"
+    "Searching …" : "Aranıyor …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Herkese açık paylaşım bağlantısı kodunu kolay hatırlanacak bir şey olarak ayarlayın veya yeni bir kod oluşturun. Önemli bilgiler içeren paylaşımlar için öngörülebilir bir kod kullanılması önerilmez."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

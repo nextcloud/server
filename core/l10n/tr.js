@@ -524,6 +524,7 @@ OC.L10N.register(
     "Skip to navigation of app" : "Uygulama gezinmesine geç",
     "Go to %s" : "%s bölümüne git",
     "Get your own free account" : "Ücretsiz hesabınızı açın",
+    "Notifications, contacts and settings" : "Bildirimler, kişiler ve ayarlar",
     "Previous" : "Önceki",
     "Two-factor authentication" : "İki adımlı doğrulama",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "Hesabınız için gelişmiş güvenlik etkinleştirildi. Kimlik doğrulaması için bir ikinci adım seçin:",

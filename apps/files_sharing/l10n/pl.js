@@ -199,9 +199,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Udostępnione w rozmowie {user} przez {owner}",
     "Shared with {user} by {owner}" : "Udostępnione {user} przez {owner}",
     "Open Sharing Details" : "Otwórz szczegóły udostępniania",
-    "Added by {initiator}" : "Dodane przez {initiator}",
-    "Via “{folder}”" : "Przez “{folder}”",
     "Unshare" : "Zatrzymaj udostępnianie",
+    "Added by {initiator}" : "Dodane przez {initiator}",
     "Cannot copy, please copy the link manually" : "Nie można skopiować, spróbuj skopiować link ręcznie",
     "Copy internal link" : "Kopiuj link wewnętrzny",
     "For people who already have access" : "Dla osób, które już mają dostęp",
@@ -286,7 +285,6 @@ OC.L10N.register(
     "Advanced settings" : "Ustawienia zaawansowane",
     "Share label" : "Udostępnij etykietę",
     "Share link token" : "Udostępnij token linku",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ustaw publiczny token linku udostępniania na coś łatwego do zapamiętania lub wygeneruj nowy token. Nie zaleca się używania łatwego do zgadnięcia tokena dla udostępnień zawierających poufne informacje.",
     "Generating…" : "Generowanie…",
     "Generate new token" : "Wygeneruj nowy token",
     "Set password" : "Ustaw hasło",
@@ -413,8 +411,10 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Udostępnienie %s nie powiodło się, ponieważ oprogramowanie nie obsługuje udostępniania ScienceMesh",
     "Public upload disabled by the administrator" : "Przesyłanie publiczne zostało wyłączone przez administratora",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokeny muszą zawierać co najmniej 1 znak i mogą zawierać wyłącznie litery, cyfry lub myślnik",
+    "Via “{folder}”" : "Przez “{folder}”",
     "Name or email …" : "Nazwa lub adres e-mail…",
     "Name, email, or Federated Cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…",
-    "Searching …" : "Wyszukiwanie…"
+    "Searching …" : "Wyszukiwanie…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ustaw publiczny token linku udostępniania na coś łatwego do zapamiętania lub wygeneruj nowy token. Nie zaleca się używania łatwego do zgadnięcia tokena dla udostępnień zawierających poufne informacje."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

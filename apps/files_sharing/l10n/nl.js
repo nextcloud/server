@@ -191,9 +191,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Gedeeld met gesprek {user} door {owner}",
     "Shared with {user} by {owner}" : "Gedeeld met {user} door {owner}",
     "Open Sharing Details" : "Open Delen details",
-    "Added by {initiator}" : "Toegevoegd door {initiator}",
-    "Via “{folder}”" : "Via “{folder}”",
     "Unshare" : "Delen stoppen",
+    "Added by {initiator}" : "Toegevoegd door {initiator}",
     "Cannot copy, please copy the link manually" : "Kan niet kopiëren, kopieer de link handmatig",
     "Copy internal link" : "Kopieer interne link",
     "For people who already have access" : "Voor personen die al toegang hebben",
@@ -278,7 +277,6 @@ OC.L10N.register(
     "Advanced settings" : "Geavanceerde instellingen",
     "Share label" : "Deel het label",
     "Share link token" : "Share link token",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Stel het publieke deellink-token in op iets dat gemakkelijk te onthouden is of genereer een nieuw token. Het is niet aanbevolen om een raadbaar token te gebruiken voor shares die gevoelige informatie bevatten.",
     "Generating…" : "Genereren…",
     "Generate new token" : "Nieuw token genereren",
     "Set password" : "Instellen wachtwoord",
@@ -405,8 +403,10 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Delen %s is mislukt omdat het back-end geen ScienceMesh-shares ondersteunt",
     "Public upload disabled by the administrator" : "Publieke upload uitgeschakeld door de systeembeheerder",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokens moeten minimaal 1 teken bevatten en mogen alleen letters, cijfers of een koppelteken bevatten",
+    "Via “{folder}”" : "Via “{folder}”",
     "Name or email …" : "Naam of e-mailadres …",
     "Name, email, or Federated Cloud ID …" : "Naam, e-mailadres of gefedereerde Cloud-ID …",
-    "Searching …" : "Zoeken ..."
+    "Searching …" : "Zoeken ...",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Stel het publieke deellink-token in op iets dat gemakkelijk te onthouden is of genereer een nieuw token. Het is niet aanbevolen om een raadbaar token te gebruiken voor shares die gevoelige informatie bevatten."
 },
 "nplurals=2; plural=(n != 1);");

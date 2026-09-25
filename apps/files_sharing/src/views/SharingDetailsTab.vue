@@ -122,7 +122,8 @@
 						v-model="share.token"
 						autocomplete="off"
 						:label="t('files_sharing', 'Share link token')"
-						:helper-text="t('files_sharing', 'Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information.')"
+						:helper-text="t('files_sharing', 'Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information.', { maxLength: TOKEN_MAX_LENGTH })"
+						:maxlength="TOKEN_MAX_LENGTH"
 						show-trailing-button
 						:trailing-button-label="loadingToken ? t('files_sharing', 'Generating…') : t('files_sharing', 'Generate new token')"
 						@trailing-button-click="generateNewToken">
@@ -166,6 +167,7 @@
 					<NcDateTimePickerNative
 						v-if="hasExpirationDate"
 						id="share-date-picker"
+						ref="expireDate"
 						:model-value="new Date(share.expireDate ?? dateTomorrow)"
 						:min="dateTomorrow"
 						:max="maxExpirationDateEnforced"
@@ -173,7 +175,8 @@
 						:label="t('files_sharing', 'Expiration date')"
 						:placeholder="t('files_sharing', 'Expiration date')"
 						type="date"
-						@input="onExpirationChange" />
+						@update:model-value="onExpirationChange"
+						@change="checkExpirationDateValidity" />
 					<NcCheckboxRadioSwitch
 						v-if="isPublicShare"
 						v-model="share.hideDownload"
@@ -181,7 +184,7 @@
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
-						v-else
+						v-else-if="canShowDownloadPermission"
 						v-model="canDownload"
 						:disabled="!canSetDownload"
 						data-cy-files-sharing-share-permissions-checkbox="download">
@@ -338,6 +341,12 @@ import logger from '../services/logger.ts'
 import { generateToken } from '../services/TokenService.ts'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 
+/**
+ * Maximum length of a custom share token, matching the oc_share.token
+ * database column (see ShareAPIController::TOKEN_MAX_LENGTH).
+ */
+const TOKEN_MAX_LENGTH = 32
+
 /** @typedef {import('../models/Share.js').default} Share */
 export default {
 	name: 'SharingDetailsTab',
@@ -387,6 +396,7 @@ export default {
 
 	data() {
 		return {
+			TOKEN_MAX_LENGTH,
 			writeNoteToRecipientIsChecked: false,
 			sharingPermission: getBundledPermissions().ALL.toString(),
 			revertSharingPermission: getBundledPermissions().ALL.toString(),
@@ -451,8 +461,21 @@ export default {
 			return getBundledPermissions(this.config.excludeReshareFromEdit)
 		},
 
+		/**
+		 * Permissions the current user is allowed to hand out.
+		 * On a reshare this is capped by what they received themselves.
+		 *
+		 * @return {number}
+		 */
+		grantablePermissions() {
+			const received = Number(this.fileInfo.sharePermissions)
+			// A missing prop means we don't know, not that they hold nothing
+			return Number.isNaN(received) ? getBundledPermissions().ALL : received
+		},
+
 		allPermissions() {
-			return this.isFolder ? this.bundledPermissions.ALL.toString() : this.bundledPermissions.ALL_FILE.toString()
+			const bundle = this.isFolder ? this.bundledPermissions.ALL : this.bundledPermissions.ALL_FILE
+			return (bundle & this.grantablePermissions).toString()
 		},
 
 		/**
@@ -701,6 +724,10 @@ export default {
 			return (this.fileInfo.canDownload() || this.canDownload)
 		},
 
+		canShowDownloadPermission() {
+			return !this.isPublicShare && !this.isRemoteShare
+		},
+
 		canRemoveReadPermission() {
 			return this.allowsFileDrop && (
 				this.share.type === ShareType.Link
@@ -892,6 +919,32 @@ export default {
 
 	methods: {
 		/**
+		 * Check native `min` / `max` constraints on the expiration date field.
+		 * Prefer the change event target when available (same pattern as SharingEntryLink).
+		 *
+		 * @param {Event} [event]
+		 * @return {boolean}
+		 */
+		checkExpirationDateValidity(event) {
+			const fromEvent = event?.target
+			const fromRef = this.$refs.expireDate?.$el?.querySelector?.('input')
+			const input = fromEvent instanceof HTMLInputElement
+				? fromEvent
+				: (fromRef instanceof HTMLInputElement ? fromRef : null)
+
+			if (!input) {
+				return true
+			}
+
+			input.setCustomValidity('')
+			const isValid = input.checkValidity()
+			if (!isValid) {
+				input.reportValidity()
+			}
+			return isValid
+		},
+
+		/**
 		 * Set a share attribute on the current share
 		 *
 		 * @param {string} scope The attribute scope
@@ -1051,15 +1104,20 @@ export default {
 		handleDefaultPermissions() {
 			if (this.isNewShare) {
 				const defaultPermissions = this.config.defaultPermissions
-				const permissionsWithoutShare = defaultPermissions & ~ATOMIC_PERMISSIONS.SHARE
-				const basePermissions = getBundledPermissions(true)
-				if (permissionsWithoutShare === basePermissions.READ_ONLY
-					|| permissionsWithoutShare === basePermissions.ALL
-					|| permissionsWithoutShare === basePermissions.ALL_FILE) {
-					this.sharingPermission = permissionsWithoutShare.toString()
+				const basePermissions = this.bundledPermissions
+				if (defaultPermissions === basePermissions.READ_ONLY) {
+					this.sharingPermission = basePermissions.READ_ONLY.toString()
+				} else if (defaultPermissions === basePermissions.ALL
+					|| defaultPermissions === basePermissions.ALL_FILE) {
+					this.sharingPermission = this.allPermissions
+				} else if (defaultPermissions === basePermissions.FILE_DROP) {
+					this.sharingPermission = basePermissions.FILE_DROP.toString()
 				} else {
 					this.sharingPermission = 'custom'
-					this.share.permissions = defaultPermissions
+					// The admin default can ask for more than a resharer may pass on.
+					// Only the value is capped: deciding the branch on the capped value
+					// would push every reshare into this one and expand the accordion.
+					this.share.permissions = defaultPermissions & this.grantablePermissions
 					this.advancedSectionAccordionExpanded = true
 					this.setCustomPermissions = true
 				}
@@ -1083,6 +1141,15 @@ export default {
 		initializePermissions() {
 			this.handleShareType()
 			this.handleDefaultPermissions()
+			// A new share starts from the full permission set, so the atomic
+			// checkboxes would pre-check rights a resharer cannot pass on and the
+			// share would be rejected on save. An existing share keeps what is
+			// stored, so a permission the owner revoked afterwards stays revocable.
+			if (this.isNewShare) {
+				// The editor owns the share it is building, like the rest of this file.
+				// eslint-disable-next-line vue/no-mutating-props
+				this.share.permissions &= this.grantablePermissions
+			}
 			this.handleCustomPermissions()
 		},
 
@@ -1131,6 +1198,8 @@ export default {
 
 			if (!this.hasExpirationDate) {
 				this.share.expireDate = ''
+			} else if (!this.checkExpirationDateValidity()) {
+				return
 			}
 
 			if (this.isNewShare) {
@@ -1462,5 +1531,10 @@ export default {
 			}
 		}
 	}
+}
+
+:deep(input:user-invalid) {
+	--input-border-color: var(--color-border-error, var(--color-error)) !important;
+	border-color: var(--color-border-error, var(--color-error)) !important;
 }
 </style>

@@ -690,6 +690,7 @@ OC.L10N.register(
     "New account" : "Yeni hesap",
     "Adding new account …" : "Yeni hesap ekleniyor…",
     "Add new account" : "Yeni hesap ekle",
+    "Only letters, numbers, spaces, and _.@-' are allowed" : "Yalnızca harf, rakam, boşluk ve _.@-' karakterleri kullanılabilir",
     "Display name" : "Görüntülenecek ad",
     "Either password or email is required" : "Parola ya da e-posta adresi zorunludur",
     "Member of the following groups (required)" : "Şu grupların üyesi (zorunlu)",

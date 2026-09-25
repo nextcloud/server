@@ -191,9 +191,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "پاراڭ {user} تەرىپىدىن {owner} بىلەن ئورتاقلاشتى",
     "Shared with {user} by {owner}" : "{user} بىلەن {owner} بىلەن ئورتاقلاشتى",
     "Open Sharing Details" : "ئورتاقلىشىش تەپسىلاتلىرىنى ئېچىڭ",
-    "Added by {initiator}" : "{initiator} by قوشۇلدى",
-    "Via “{folder}”" : "«{folder}» ئارقىلىق",
     "Unshare" : "ھەمبەھىرلىمە",
+    "Added by {initiator}" : "{initiator} by قوشۇلدى",
     "Cannot copy, please copy the link manually" : "كۆچۈرگىلى بولمايدۇ ، ئۇلىنىشنى قولدا كۆچۈرۈڭ",
     "Copy internal link" : "ئىچكى ئۇلىنىشنى كۆچۈرۈڭ",
     "For people who already have access" : "ئاللىبۇرۇن كىرەلەيدىغان ئادەملەر ئۈچۈن",
@@ -278,7 +277,6 @@ OC.L10N.register(
     "Advanced settings" : "ئىلغار تەڭشەكلەر",
     "Share label" : "ئورتاقلىشىش بەلگىسى",
     "Share link token" : "ئۇلىنىش نۇمۇرىنى ھەمبەھىرلە",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "ئاممىۋى ئورتاقلىشىش ئۇلىنىش بەلگىسىنى ئاسان ئېسىدە ساقلىنىدىغان قىلىپ تەڭشەڭ ياكى يېڭى بەلگە ھاسىل قىلىڭ. مەخپىي ئۇچۇرلارنى ئۆز ئىچىگە ئالغان ئورتاقلىشىشلار ئۈچۈن پەرەز قىلغىلى بولىدىغان بەلگە ئىشلىتىش تەۋسىيە قىلىنمايدۇ.",
     "Generating…" : "ياساۋاتىدۇ...",
     "Generate new token" : "يېڭى نۇمۇر ياساۋاتىدۇ",
     "Set password" : "پارول بەلگىلەڭ",
@@ -405,8 +403,10 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "%s نى ئورتاقلىشىش مەغلۇب بولدى ، چۈنكى ئارقا تەرىپى ScienceMesh نىڭ پاي چېكىنى قوللىمايدۇ",
     "Public upload disabled by the administrator" : "باشقۇرغۇچى تەرىپىدىن ئاممىۋى يوللاش چەكلەنگەن",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "بەلگىلەر كەم دېگەندە 1 ھەرپتىن تەركىب تاپقان بولۇشى كېرەك، پەقەت ھەرپلەر، سانلار ياكى سىزىقچە بولۇشى مۇمكىن.",
+    "Via “{folder}”" : "«{folder}» ئارقىلىق",
     "Name or email …" : "ئىسىم ياكى ئېلخەت…",
     "Name, email, or Federated Cloud ID …" : "ئىسمى ، ئېلېكترونلۇق خەت ياكى فېدېراتسىيە بۇلۇت كىملىكى…",
-    "Searching …" : "ئىزدەش…"
+    "Searching …" : "ئىزدەش…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "ئاممىۋى ئورتاقلىشىش ئۇلىنىش بەلگىسىنى ئاسان ئېسىدە ساقلىنىدىغان قىلىپ تەڭشەڭ ياكى يېڭى بەلگە ھاسىل قىلىڭ. مەخپىي ئۇچۇرلارنى ئۆز ئىچىگە ئالغان ئورتاقلىشىشلار ئۈچۈن پەرەز قىلغىلى بولىدىغان بەلگە ئىشلىتىش تەۋسىيە قىلىنمايدۇ."
 },
 "nplurals=2; plural=(n != 1);");

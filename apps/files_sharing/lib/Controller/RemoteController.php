@@ -19,7 +19,10 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * @psalm-import-type Files_SharingRemoteShare from ResponseDefinitions
@@ -34,10 +37,18 @@ class RemoteController extends OCSController {
 		IRequest $request,
 		private readonly Manager $externalManager,
 		private readonly LoggerInterface $logger,
-		private readonly ?string $userId,
+		private readonly IUserSession $userSession,
 		private readonly IRootFolder $rootFolder,
 	) {
 		parent::__construct($appName, $request);
+	}
+
+	private function getUser(): IUser {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			throw new RuntimeException('No user for non-public page');
+		}
+		return $user;
 	}
 
 	/**
@@ -49,7 +60,7 @@ class RemoteController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function getOpenShares(): DataResponse {
-		$shares = $this->externalManager->getOpenShares();
+		$shares = $this->externalManager->getOpenShares($this->getUser());
 		$shares = array_map($this->extendShareInfo(...), $shares);
 		return new DataResponse($shares);
 	}
@@ -65,13 +76,13 @@ class RemoteController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function acceptShare(string $id): DataResponse {
-		$externalShare = $this->externalManager->getShare($id);
+		$externalShare = $this->externalManager->getShare($id, $this->getUser());
 		if ($externalShare === false) {
 			$this->logger->error('Could not accept federated share with id: ' . $id . ' Share not found.', ['app' => 'files_sharing']);
 			throw new OCSNotFoundException('Wrong share ID, share does not exist.');
 		}
 
-		if (!$this->externalManager->acceptShare($externalShare)) {
+		if (!$this->externalManager->acceptShare($externalShare, $this->getUser())) {
 			$this->logger->error('Could not accept federated share with id: ' . $id, ['app' => 'files_sharing']);
 			throw new OCSNotFoundException('Wrong share ID, share does not exist.');
 		}
@@ -90,13 +101,13 @@ class RemoteController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function declineShare(string $id): DataResponse {
-		$externalShare = $this->externalManager->getShare($id);
+		$externalShare = $this->externalManager->getShare($id, $this->getUser());
 		if ($externalShare === false) {
 			$this->logger->error('Could not decline federated share with id: ' . $id . ' Share not found.', ['app' => 'files_sharing']);
 			throw new OCSNotFoundException('Wrong share ID, share does not exist.');
 		}
 
-		if (!$this->externalManager->declineShare($externalShare)) {
+		if (!$this->externalManager->declineShare($externalShare, $this->getUser())) {
 			$this->logger->error('Could not decline federated share with id: ' . $id, ['app' => 'files_sharing']);
 			throw new OCSNotFoundException('Wrong share ID, share does not exist.');
 		}
@@ -112,7 +123,7 @@ class RemoteController extends OCSController {
 		$shareData = $share->jsonSerialize();
 
 		$shareData['parent'] = $shareData['parent'] !== '-1' ? $shareData['parent'] : null;
-		$userFolder = $this->rootFolder->getUserFolder($this->userId);
+		$userFolder = $this->rootFolder->getUserFolder($this->getUser()->getUID());
 
 		try {
 			$mountPointNode = $userFolder->get($share->getMountpoint());
@@ -139,7 +150,7 @@ class RemoteController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function getShares(): DataResponse {
-		$shares = $this->externalManager->getAcceptedShares();
+		$shares = $this->externalManager->getAcceptedShares($this->getUser());
 		$shares = array_map(fn (ExternalShare $share) => $this->extendShareInfo($share), $shares);
 		return new DataResponse($shares);
 	}
@@ -155,7 +166,7 @@ class RemoteController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function getShare(string $id): DataResponse {
-		$shareInfo = $this->externalManager->getShare($id);
+		$shareInfo = $this->externalManager->getShare($id, $this->getUser());
 
 		if ($shareInfo === false) {
 			throw new OCSNotFoundException('share does not exist');
@@ -177,15 +188,15 @@ class RemoteController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function unshare(string $id): DataResponse {
-		$shareInfo = $this->externalManager->getShare($id);
+		$shareInfo = $this->externalManager->getShare($id, $this->getUser());
 
 		if ($shareInfo === false) {
 			throw new OCSNotFoundException('Share does not exist');
 		}
 
-		$mountPoint = '/' . $this->userId . '/files' . $shareInfo->getMountpoint();
+		$mountPoint = '/' . $this->getUser()->getUID() . '/files' . $shareInfo->getMountpoint();
 
-		if ($this->externalManager->removeShare($mountPoint) === true) {
+		if ($this->externalManager->removeShare($this->getUser(), $mountPoint) === true) {
 			return new DataResponse();
 		} else {
 			throw new OCSForbiddenException('Could not unshare');

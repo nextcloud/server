@@ -9,6 +9,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\DirPermissionsMask;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
+use OC\OCM\OCMSignatoryManager;
 use OCA\DAV\Connector\Sabre\BearerAuth;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
@@ -75,6 +76,8 @@ $bearerAuthBackend = new BearerAuth(
 	$request,
 	Server::get(IConfig::class),
 	allowOcmAccessToken: true,
+	shareManager: Server::get(IManager::class),
+	ocmSignatoryManager: Server::get(OCMSignatoryManager::class),
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 $authPlugin->addBackend($bearerAuthBackend);

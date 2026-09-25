@@ -8,10 +8,8 @@
 namespace OCA\CloudFederationAPI\Controller;
 
 use OC\AppFramework\Http\Attributes\FederationRateLimit;
-use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
-use OCA\CloudFederationAPI\Db\OcmTokenMapMapper;
 use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -20,7 +18,6 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
@@ -41,9 +38,7 @@ use OCP\OCM\Events\OCMNotificationReceivedEvent;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\Security\Signature\Exceptions\IncomingRequestException;
 use OCP\Security\Signature\IIncomingSignedRequest;
-use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -71,7 +66,6 @@ class RequestHandlerController extends Controller {
 		private ICloudFederationFactory $factory,
 		private ICloudIdManager $cloudIdManager,
 		private readonly IOCMDiscoveryService $ocmDiscoveryService,
-		private ITimeFactory $timeFactory,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -409,21 +403,12 @@ class RequestHandlerController extends Controller {
 	}
 
 	/**
-	 * map login name to internal LDAP UID if a LDAP backend is in use
-	 *
-	 * @param string $uid
-	 * @return string mixed
+	 * Map login name to internal LDAP UID if an LDAP backend is in use
 	 */
-	private function mapUid($uid) {
-		// FIXME this should be a method in the user management instead
+	private function mapUid(string $uid): string {
 		$this->logger->debug('shareWith before, ' . $uid, ['app' => $this->appName]);
-		Util::emitHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			['uid' => &$uid]
-		);
+		$uid = $this->userManager->getUserNameFromLoginName($uid);
 		$this->logger->debug('shareWith after, ' . $uid, ['app' => $this->appName]);
-
 		return $uid;
 	}
 
@@ -471,14 +456,7 @@ class RequestHandlerController extends Controller {
 		try {
 			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
 			if ($provider instanceof ISignedCloudFederationProvider || $provider instanceof \NCU\Federation\ISignedCloudFederationProvider) {
-				$identity = $provider->getFederationIdFromSharedSecret($sharedSecret, $notification);
-				if ($identity === '') {
-					$tokenProvider = Server::get(PublicKeyTokenProvider::class);
-					$accessTokenDb = $tokenProvider->getToken($sharedSecret);
-					$mapping = Server::get(OcmTokenMapMapper::class)->getByAccessTokenId($accessTokenDb->getId());
-					$identity = $provider->getFederationIdFromSharedSecret($mapping->getRefreshToken(), $notification);
-				}
-				return $identity;
+				return $provider->getFederationIdFromSharedSecret($sharedSecret, $notification);
 			}
 			$this->logger->debug('cloud federation provider {provider} does not implement ISignedCloudFederationProvider', ['provider' => $provider::class]);
 		} catch (\Exception $e) {

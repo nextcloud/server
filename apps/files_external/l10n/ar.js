@@ -85,6 +85,7 @@ OC.L10N.register(
     "Compatibility with Mac NFD encoding (slow)" : "التوافق مع نظام التشفير Mac NFD (بطيء)",
     "Status" : "الحاله",
     "Actions" : "الإجراءات",
+    "All accounts" : "جميع الحسابات",
     "Delete" : "حذف",
     "Saved" : "حفظ",
     "Error while saving" : "خطأ أثناء الحفظ",

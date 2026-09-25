@@ -197,9 +197,10 @@
     "Shared with the conversation {user} by {owner}" : "Delad med konversationen {user} av {owner}",
     "Shared with {user} by {owner}" : "Delad med {user} av {owner}",
     "Open Sharing Details" : "Öppna delningsinformation",
-    "Added by {initiator}" : "Tillagd av {initiator}",
-    "Via “{folder}”" : "Via “{folder}”",
+    "Unshare \"{folder}\"" : "Sluta dela \"{folder}\"",
     "Unshare" : "Sluta dela",
+    "Added by {initiator}" : "Tillagd av {initiator}",
+    "Via \"{folder}\"" : "Via \"{folder}\"",
     "Cannot copy, please copy the link manually" : "Det gick inte att kopiera. Kopiera länken manuellt",
     "Copy internal link" : "Kopiera intern länk",
     "For people who already have access" : "För personer som redan har åtkomst",
@@ -257,6 +258,7 @@
     "Are you sure you want to delete this share? This operation cannot be undone." : "Är du säker på att du vill ta bort den här delningen? Åtgärden kan inte ångras.",
     "Edit share" : "Redigera delning",
     "Toggle recipients" : "Visa/dölj mottagare",
+    "Remove recipient" : "Ta bort mottagare",
     "Note from" : "Anteckning från",
     "Note:" : "Anteckning:",
     "File drop" : "Filinlämning",
@@ -287,7 +289,6 @@
     "Advanced settings" : "Avancerade inställningar",
     "Share label" : "Etikett för delning",
     "Share link token" : "Token för delningslänk",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ange en lättmemorerad token för den offentliga delningslänken eller generera en ny. Använd inte en lättgissad token för delningar som innehåller känslig information.",
     "Generating…" : "Genererar …",
     "Generate new token" : "Generera ny token",
     "Set password" : "Ange lösenord",
@@ -416,8 +417,10 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Det gick inte att dela %s eftersom bakomliggande system inte stöder ScienceMesh-delningar",
     "Public upload disabled by the administrator" : "Offentlig uppladdning har inaktiverats av administratören",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Token måste innehålla minst ett tecken och får endast innehålla bokstäver, siffror eller bindestreck",
+    "Via “{folder}”" : "Via “{folder}”",
     "Name or email …" : "Namn eller e-postadress …",
     "Name, email, or Federated Cloud ID …" : "Namn, e-postadress eller federerat moln-ID …",
-    "Searching …" : "Söker …"
+    "Searching …" : "Söker …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ange en lättmemorerad token för den offentliga delningslänken eller generera en ny. Använd inte en lättgissad token för delningar som innehåller känslig information."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

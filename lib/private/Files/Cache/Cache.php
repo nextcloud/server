@@ -608,7 +608,9 @@ class Cache implements ICache {
 				$this->removeChildren($entry);
 			}
 
-			$this->eventDispatcher->dispatchTyped(new CacheEntryRemovedEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId()));
+			$event = new CacheEntryRemovedEvent($this->storage, $entry->getPath(), $entry->getId(), $this->getNumericStorageId());
+			$this->eventDispatcher->dispatchTyped($event);
+			$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent([$event]));
 		}
 	}
 
@@ -679,8 +681,8 @@ class Cache implements ICache {
 			$query->executeStatement();
 		}
 
-		$cacheEntryRemovedEvents = [];
-		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), IQueryBuilder::MAX_IN_PARAMETERS) as $chunk) {
+		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), IQueryBuilder::MAX_IN_PARAMETERS, true) as $chunk) {
+			$cacheEntryRemovedEvents = [];
 			/** @var array<int, string> $chunk */
 			foreach ($chunk as $fileId => $filePath) {
 				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent(
@@ -900,10 +902,7 @@ class Cache implements ICache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$query = $this->getQueryBuilder();
-		$query->delete('filecache')
-			->whereStorageId($this->getNumericStorageId());
-		$query->executeStatement();
+		Storage::removeFileCacheEntries($this->getNumericStorageId());
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('storages')
@@ -1282,6 +1281,16 @@ class Cache implements ICache {
 			// normalizeData() prefers 'encryptedVersion' over 'encrypted' when both are
 			// set, so it has to be cleared too or the mark above gets ignored
 			unset($data['encryptedVersion']);
+			// without the `encrypted` mark the size of the copy is read from `size`
+			$data['unencrypted_size'] = 0;
+		} elseif (isset($data['encryptedVersion'])) {
+			// The storage re-encrypts the content it writes to the target, so the target
+			// is at its own version - the one recorded for it while it was written - and
+			// not at the version of the source.
+			$targetEntry = $this->get($targetPath);
+			if ($targetEntry !== false && !empty($targetEntry['encryptedVersion'])) {
+				$data['encryptedVersion'] = $targetEntry['encryptedVersion'];
+			}
 		}
 
 		$fileId = $this->put($targetPath, $data);
@@ -1316,8 +1325,14 @@ class Cache implements ICache {
 			$data['permissions'] = $entry['scan_permissions'];
 		}
 
-		if ($entry->isEncrypted() && isset($entry['encryptedVersion'])) {
-			$data['encryptedVersion'] = $entry['encryptedVersion'];
+		if ($entry->isEncrypted()) {
+			// the size of an encrypted file is stored in its own column, which every
+			// reader prefers over `size`, so the copy is reported as empty without it
+			$data['unencrypted_size'] = $entry->getUnencryptedSize();
+
+			if (isset($entry['encryptedVersion'])) {
+				$data['encryptedVersion'] = $entry['encryptedVersion'];
+			}
 		}
 
 		return $data;

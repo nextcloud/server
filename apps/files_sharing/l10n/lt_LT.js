@@ -199,9 +199,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Bendrinimas su pokalbiu {user}, kurį aliko {owner}",
     "Shared with {user} by {owner}" : "Bendrinimas su {user}, kurį aliko {owner}",
     "Open Sharing Details" : "Atidaryti Bendrinimo Informaciją",
-    "Added by {initiator}" : "Pridėjo {initiator}",
-    "Via “{folder}”" : "Per „{folder}“",
     "Unshare" : "Nustoti bendrinti",
+    "Added by {initiator}" : "Pridėjo {initiator}",
     "Cannot copy, please copy the link manually" : "Nepavyksta nukopijuoti, nukopijuokite nuorodą rankiniu būdu",
     "Copy internal link" : "Kopijuoti vidinę nuorodą",
     "For people who already have access" : "Tiems, kurie jau turi prieigą",
@@ -286,7 +285,6 @@ OC.L10N.register(
     "Advanced settings" : "Išplėstiniai nustatymai",
     "Share label" : "Bendrinimo etiketė",
     "Share link token" : "Pasidalinti nuorodos žymeniu",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nustatykite viešosios nuorodos žymenį taip, kad jį būtų lengva įsiminti, arba sugeneruokite naują žymenį. Nerekomenduojama naudoti lengvai atspėjamą žymenį, jei dalinatės slapta informacija.",
     "Generating…" : "Generuojama…",
     "Generate new token" : "Generuoti naują žymenį",
     "Set password" : "Nustatyti slaptažodį",
@@ -413,8 +411,10 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Dalijimasis %s nepavyko, nes serveris nepalaiko „ScienceMesh“ dalijimosi",
     "Public upload disabled by the administrator" : "Įkėlimas viešam naudojimui yra išjungtas",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Žymuo turi būti sudarytas iš ne mažiau kaip 1 simbolio ir gali būti sudarytas tik iš raidžių, skaičių arba brūkšnelio",
+    "Via “{folder}”" : "Per „{folder}“",
     "Name or email …" : "Vardas ar el. paštas…",
     "Name, email, or Federated Cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…",
-    "Searching …" : "Ieškoma…"
+    "Searching …" : "Ieškoma…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nustatykite viešosios nuorodos žymenį taip, kad jį būtų lengva įsiminti, arba sugeneruokite naują žymenį. Nerekomenduojama naudoti lengvai atspėjamą žymenį, jei dalinatės slapta informacija."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

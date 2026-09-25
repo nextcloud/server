@@ -191,9 +191,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Condiviso con la conversazione {user} da {owner}",
     "Shared with {user} by {owner}" : "Condiviso con {user} da {owner}",
     "Open Sharing Details" : "Apri i dettagli di condivisione",
-    "Added by {initiator}" : "Aggiunto da {initiator}",
-    "Via “{folder}”" : "Tramite “{folder}”",
     "Unshare" : "Rimuovi condivisione",
+    "Added by {initiator}" : "Aggiunto da {initiator}",
     "Cannot copy, please copy the link manually" : "Impossibile copiare, copia il collegamento manualmente",
     "Copy internal link" : "Copia collegamento interno",
     "For people who already have access" : "Per le persone che hanno già accesso",
@@ -278,7 +277,6 @@ OC.L10N.register(
     "Advanced settings" : "Impostazioni avanzate",
     "Share label" : "Condividi etichetta",
     "Share link token" : "Token del collegamento di condivisione",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Imposta il token del collegamento di condivisione pubblica su qualcosa di facile da ricordare o genera un nuovo token. Non è consigliabile usare un token indovinabile per le condivisioni che contengono informazioni sensibili.",
     "Generating…" : "Generazione in corso…",
     "Generate new token" : "Genera nuovo token",
     "Set password" : "Imposta password",
@@ -405,8 +403,10 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Condivisione di %s non riuscita poiché il motore non supporta condivisioni di ScienceMesh",
     "Public upload disabled by the administrator" : "Caricamento pubblico disabilitato dall'amministratore",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "I token devono contenere almeno 1 carattere e possono contenere solo lettere, numeri o un trattino",
+    "Via “{folder}”" : "Tramite “{folder}”",
     "Name or email …" : "Nome o email...",
     "Name, email, or Federated Cloud ID …" : "Nome, email o ID di cloud federata...",
-    "Searching …" : "Ricerca in corso..."
+    "Searching …" : "Ricerca in corso...",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Imposta il token del collegamento di condivisione pubblica su qualcosa di facile da ricordare o genera un nuovo token. Non è consigliabile usare un token indovinabile per le condivisioni che contengono informazioni sensibili."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

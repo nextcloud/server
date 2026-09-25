@@ -548,6 +548,7 @@ OC.L10N.register(
     "Please note that it can take up to 24 hours for your profile picture to be updated everywhere." : "请注意，您的个人资料图片可能需要 24 小时才能在所有地方更新完成。",
     "Your profile picture" : "您的个人资料图片",
     "Upload profile picture" : "上传个人资料图片",
+    "Choose from Nextcloud Files" : "从 Nextcloud 文件中选择",
     "The file must be a PNG or JPG" : "文件必须是 PNG 或 JPG 格式",
     "Picture provided by original account" : "初始账号提供的图片",
     "Your biography. Markdown is supported." : "您的传记，支持 Markdown。",

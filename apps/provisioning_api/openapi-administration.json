@@ -1492,6 +1492,13 @@
                 "responses": {
                     "200": {
                         "description": "Users details returned based on last logged in information",
+                        "headers": {
+                            "Link": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {

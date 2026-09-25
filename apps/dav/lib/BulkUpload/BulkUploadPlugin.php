@@ -10,7 +10,7 @@ namespace OCA\DAV\BulkUpload;
 use OCA\DAV\Connector\Sabre\MtimeSanitizer;
 use OCP\AppFramework\Http;
 use OCP\Files\DavUtil;
-use OCP\Files\Folder;
+use OCP\Files\IUserFolder;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -19,7 +19,7 @@ use Sabre\HTTP\ResponseInterface;
 
 class BulkUploadPlugin extends ServerPlugin {
 	public function __construct(
-		private Folder $userFolder,
+		private IUserFolder $userFolder,
 		private LoggerInterface $logger,
 	) {
 	}

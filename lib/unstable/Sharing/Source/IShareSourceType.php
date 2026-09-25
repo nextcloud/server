@@ -28,14 +28,12 @@ interface IShareSourceType {
 	public function getDisplayName(IFactory $l10nFactory): string;
 
 	/**
-	 * Validate that a source exists.
-	 *
-	 * Any check if the source is allowed to be accessed and shared, must be implemented through {@see RestrictInteractionEvent}.
+	 * Validate that a source exists and is accessible by the owner.
 	 *
 	 * @param non-empty-string $source
 	 * @experimental 35.0.0
 	 */
-	public function validateSource(string $source): bool;
+	public function validateSource(IUser $owner, string $source): bool;
 
 	/**
 	 * @param non-empty-string $source

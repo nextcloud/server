@@ -249,6 +249,7 @@ OC.MimeTypeList={
 'audio/wav': t('core', "RIFF\/WAVe standard Audio"),
 'audio/webm': t('core', "WebM audio"),
 'audio/x-scpls': t('core', "MP3 ShoutCast playlist"),
+'image/avif': t('core', "AVIF image"),
 'image/bmp': t('core', "Windows BMP image"),
 'image/bpg': t('core', "Better Portable Graphics image"),
 'image/emf': t('core', "EMF image"),

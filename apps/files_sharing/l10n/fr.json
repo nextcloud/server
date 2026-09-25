@@ -197,9 +197,10 @@
     "Shared with the conversation {user} by {owner}" : "Partagé avec la conversation {user} par {owner}",
     "Shared with {user} by {owner}" : "Partagé avec {user} par {owner}",
     "Open Sharing Details" : "Ouvrir les détails du partage",
-    "Added by {initiator}" : "Ajouté par {initiator}",
-    "Via “{folder}”" : "Via “{folder}”",
+    "Unshare \"{folder}\"" : "Ne plus partager « {folder} »",
     "Unshare" : "Ne plus partager",
+    "Added by {initiator}" : "Ajouté par {initiator}",
+    "Via \"{folder}\"" : "Via « {folder} »",
     "Cannot copy, please copy the link manually" : "Impossible de copier, merci de le copier manuellement",
     "Copy internal link" : "Copier le lien interne",
     "For people who already have access" : "Pour les personnes qui y ont déjà accès",
@@ -257,6 +258,7 @@
     "Are you sure you want to delete this share? This operation cannot be undone." : "Êtes-vous sûr de vouloir supprimer ce partage ? Cette opération est irréversible.",
     "Edit share" : "Modifier le partage",
     "Toggle recipients" : "Développer ou réduire la liste de destinataires",
+    "Remove recipient" : "Retirer le destinataire",
     "Note from" : "Note de",
     "Note:" : "Note :",
     "File drop" : "Dépôt de fichier",
@@ -287,7 +289,6 @@
     "Advanced settings" : "Paramètres avancés",
     "Share label" : "Libellé du partage",
     "Share link token" : "Jeton de lien de partage",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Définissez un jeton de lien de partage public facile à mémoriser ou créez un nouveau jeton. Il n'est pas recommandé d'utiliser un jeton facile à deviner pour les partages contenant des informations sensibles.",
     "Generating…" : "Génération en cours …",
     "Generate new token" : "Générer un nouveau jeton",
     "Set password" : "Définir un mot de passe",
@@ -416,8 +417,10 @@
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Le partage de %s a échoué, car le serveur ne prend pas en charge les partages ScienceMesh",
     "Public upload disabled by the administrator" : "Téléversement public désactivé par l’administrateur",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Les jetons doivent contenir au moins un caractère et ne peuvent contenir que des lettres, des chiffres ou un trait d'union",
+    "Via “{folder}”" : "Via “{folder}”",
     "Name or email …" : "Nom ou adresse e-mail …",
     "Name, email, or Federated Cloud ID …" : "Nom, adresse e-mail ou ID de cloud fédéré …",
-    "Searching …" : "Recherche …"
+    "Searching …" : "Recherche …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Définissez un jeton de lien de partage public facile à mémoriser ou créez un nouveau jeton. Il n'est pas recommandé d'utiliser un jeton facile à deviner pour les partages contenant des informations sensibles."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

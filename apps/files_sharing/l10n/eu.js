@@ -192,9 +192,8 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} jabeak {user} elkarrizketarekin partekatua",
     "Shared with {user} by {owner}" : "{owner} jabeak {user} erabiltzailearekin partekatua",
     "Open Sharing Details" : "Ireki partekatzearen xehetasunak",
-    "Added by {initiator}" : "Honek gehitua: {initiator}",
-    "Via “{folder}”" : "“{folder}” bidez",
     "Unshare" : "Ez partekatu",
+    "Added by {initiator}" : "Honek gehitua: {initiator}",
     "Cannot copy, please copy the link manually" : "Ezin izan da kopiatu. Kopiatu esteka eskuz",
     "Copy internal link" : "Kopiatu barne-esteka",
     "For people who already have access" : "Dagoeneko sarbidea duten pertsonentzat",
@@ -279,7 +278,6 @@ OC.L10N.register(
     "Advanced settings" : "Ezarpen aurreratuak",
     "Share label" : "Partekatu etiketa",
     "Share link token" : "Partekatzeko esteka-tokena",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ezarri partekatze-estekaren token publikoa gogoratzeko erraza den zerbait, edo sortu token berria. Ez da gomendagarria informazio sentikorra duten partekatzeetako tokenak asma daitezkeenak erabiltzea.",
     "Generating…" : "Sortzen...",
     "Generate new token" : "Sortu token berria",
     "Set password" : "Pasahitza ezarri",
@@ -406,8 +404,10 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "%s partekatzeak huts egin du atzealdeak ez dituelako ScienceMesh parteatzeak onartzen",
     "Public upload disabled by the administrator" : "Administratzaileak igoera publikoak desgaitu ditu",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Tokenek gutxienez karaktere 1 izan behar dute, eta letrak, zenbakiak edo marratxo bat baino ezin dituzte eduki",
+    "Via “{folder}”" : "“{folder}” bidez",
     "Name or email …" : "Izena edo posta ...",
     "Name, email, or Federated Cloud ID …" : "Izena, posta, edo federatutako hodei IDa...",
-    "Searching …" : "Bilatzen…"
+    "Searching …" : "Bilatzen…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ezarri partekatze-estekaren token publikoa gogoratzeko erraza den zerbait, edo sortu token berria. Ez da gomendagarria informazio sentikorra duten partekatzeetako tokenak asma daitezkeenak erabiltzea."
 },
 "nplurals=2; plural=(n != 1);");

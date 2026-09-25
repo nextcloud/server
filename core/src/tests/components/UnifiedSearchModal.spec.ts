@@ -39,7 +39,7 @@ vi.mock('../../store/unified-search-external-filters.js', () => ({
 // The real module builds a logger at import time (detectUser() and all), and the modal
 // logs on provider init. Stubbed to keep the unit off that dependency and out of the
 // test output; the vi.fn()s also leave log calls assertable if a test ever needs them.
-vi.mock('../../logger.js', () => ({
+vi.mock('../../utils/logger.ts', () => ({
 	unifiedSearchLogger: { debug: vi.fn(), error: vi.fn() },
 }))
 
