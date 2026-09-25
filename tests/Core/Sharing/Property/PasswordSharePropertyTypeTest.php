@@ -88,10 +88,12 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 		);
 
 		$appConfig = Server::get(IAppConfig::class);
+		$appConfig->deleteKey(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
 		$appConfig->deleteKey(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED);
 
 		$this->assertNull($this->propertyType->getDefaultValue($share));
 
+		$appConfig->setValueBool(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT, true);
 		$appConfig->setValueBool(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED, true);
 
 		$value = $this->propertyType->getDefaultValue($share);
@@ -100,6 +102,7 @@ final class PasswordSharePropertyTypeTest extends TestCase {
 		$this->assertGreaterThan(1, strlen((string)$value));
 		$this->assertTrue($this->propertyType->validateValue(Server::get(IFactory::class), $share, $value));
 
+		$appConfig->deleteKey(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
 		$appConfig->deleteKey(Application::APP_ID, ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED);
 	}
 
