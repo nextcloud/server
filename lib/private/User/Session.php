@@ -12,6 +12,8 @@ use OC;
 use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
+use OC\Authentication\RememberLogin\RememberLoginToken;
+use OC\Authentication\RememberLogin\RememberLoginTokenMapper;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
@@ -22,6 +24,7 @@ use OC\Http\CookieHelper;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC_User;
 use OCA\DAV\Connector\Sabre\Auth;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
@@ -79,7 +82,18 @@ class Session implements IUserSession, Emitter {
 		private ILockdownManager $lockdownManager,
 		private LoggerInterface $logger,
 		private IEventDispatcher $dispatcher,
+		private ?RememberLoginTokenMapper $rememberLoginTokenMapper,
 	) {
+	}
+
+	/**
+	 * @throws \Exception
+	 */
+	private function getRememberLoginTokenMapper(): RememberLoginTokenMapper {
+		if ($this->rememberLoginTokenMapper === null) {
+			throw new \Exception('Remember login token mapper is not available');
+		}
+		return $this->rememberLoginTokenMapper;
 	}
 
 	/**
@@ -904,15 +918,31 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		// get stored tokens
-		$tokens = $this->config->getUserKeys($uid, 'login_token');
-		// test cookies token against stored tokens
-		if (!in_array($currentToken, $tokens, true)) {
-			$this->logger->info('Tried to log in but could not verify token', [
-				'app' => 'core',
-				'user' => $uid,
-			]);
-			return false;
+		$isLegacyRememberLoginToken = false;
+		try {
+			// get stored token
+			$rememberLoginToken = $this->getRememberLoginTokenMapper()->findByToken($currentToken);
+			if ($rememberLoginToken->uid !== $uid) {
+				$this->logger->warning('Tried to login using remember-me token token from a different user', [
+					'app' => 'core',
+					'user' => $uid,
+				]);
+				return false;
+			}
+		} catch (DoesNotExistException $ex) {
+			// TODO: remove this after migration to 'remember_login_tokens' table is finished
+			$legacyRememberLoginTokens = $this->config->getUserKeys($uid, 'login_token');
+			$isLegacyRememberLoginToken = in_array($currentToken, $legacyRememberLoginTokens, true);
+			if ($isLegacyRememberLoginToken) {
+				// remove token from 'preferences' table
+				$this->config->deleteUserValue($uid, 'login_token', $currentToken);
+			} else {
+				$this->logger->info('Tried to log in but could not verify token', [
+					'app' => 'core',
+					'user' => $uid,
+				]);
+				return false;
+			}
 		}
 
 		try {
@@ -934,10 +964,15 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		// replace successfully used token with a new one
-		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
-		$newToken = $this->random->generate(32);
-		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
+		if ($isLegacyRememberLoginToken) {
+			// legacy token was removed from 'preferences' table
+			// create new one on 'remember_login_tokens' table
+			$newToken = $this->createRememberLoginToken($uid);
+		} else {
+			// replace successfully used token with a new one
+			$newToken = $this->random->generate(32);
+			$this->getRememberLoginTokenMapper()->rotateToken($currentToken, $newToken);
+		}
 		$this->logger->debug('Remember-me token replaced', [
 			'app' => 'core',
 			'user' => $uid,
@@ -989,9 +1024,21 @@ class Session implements IUserSession, Emitter {
 	 * @param IUser $user
 	 */
 	public function createRememberMeToken(IUser $user) {
-		$token = $this->random->generate(32);
-		$this->config->setUserValue($user->getUID(), 'login_token', $token, (string)$this->timeFactory->getTime());
+		$token = $this->createRememberLoginToken($user->getUID());
 		$this->setMagicInCookie($user->getUID(), $token);
+	}
+
+	/**
+	 * Generates a new remember login token, stores it for the given user and returns the plain token
+	 */
+	private function createRememberLoginToken(string $uid): string {
+		$token = $this->random->generate(32);
+		$rememberLoginToken = new RememberLoginToken();
+		$rememberLoginToken->uid = $uid;
+		$rememberLoginToken->token = $token;
+		$this->getRememberLoginTokenMapper()->insert($rememberLoginToken);
+
+		return $token;
 	}
 
 	/**
