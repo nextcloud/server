@@ -1,0 +1,27 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
+
+This file is generated from multiple sources. Included packages:
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
+- @nextcloud/files
+	- version: 4.1.0
+	- license: AGPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.11.0
+	- license: AGPL-3.0-or-later
+- @vueuse/core
+	- version: 14.4.0
+	- license: MIT
+- @vueuse/shared
+	- version: 14.4.0
+	- license: MIT
+- vue-material-design-icons
+	- version: 5.3.1
+	- license: MIT
