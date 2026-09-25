@@ -15,6 +15,7 @@ use Doctrine\DBAL\Schema\Index as DBALIndex;
 use Doctrine\DBAL\Schema\SchemaException as DBALSchemaException;
 use Doctrine\DBAL\Schema\Table as DBALTable;
 use Doctrine\DBAL\Types\Type as DBALType;
+use OC\DB\Connection;
 use OCP\DB\Schema\ColumnType;
 use OCP\DB\Schema\IColumn;
 use OCP\DB\Schema\IForeignKeyConstraint;
@@ -27,7 +28,8 @@ use OCP\DB\Schema\SchemaException;
  */
 class Table implements ITable {
 	public function __construct(
-		private DBALTable $table,
+		private readonly DBALTable $table,
+		private readonly Connection $connection,
 	) {
 	}
 
@@ -117,7 +119,7 @@ class Table implements ITable {
 
 	#[\Override]
 	public function hasPrimaryKey(): bool {
-		return $this->table->hasPrimaryKey();
+		return $this->table->getPrimaryKey() !== null;
 	}
 
 	#[\Override]
@@ -206,7 +208,7 @@ class Table implements ITable {
 	): self {
 		try {
 			$this->table->addForeignKeyConstraint(
-				$foreignTable instanceof self ? $foreignTable->getWrappedTable() : $foreignTable,
+				$foreignTable instanceof self ? $foreignTable->getWrappedTable() : $this->connection->getPrefix() . $foreignTable,
 				$localColumnNames,
 				$foreignColumnNames,
 				$options,
