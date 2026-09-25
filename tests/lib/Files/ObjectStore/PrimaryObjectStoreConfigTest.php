@@ -10,17 +10,13 @@ namespace lib\Files\ObjectStore;
 
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\ObjectStore\StorageObjectStore;
-use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IUser;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PrimaryObjectStoreConfigTest extends TestCase {
 	private array $systemConfig = [];
 	private array $userConfig = [];
-	private IConfig&MockObject $config;
-	private IAppManager&MockObject $appManager;
 	private PrimaryObjectStoreConfig $objectStoreConfig;
 
 	#[\Override]
@@ -28,9 +24,8 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		parent::setUp();
 
 		$this->systemConfig = [];
-		$this->config = $this->createMock(IConfig::class);
-		$this->appManager = $this->createMock(IAppManager::class);
-		$this->config->method('getSystemValue')
+		$this->objectStoreConfig = $this->createInstanceWithMocks(PrimaryObjectStoreConfig::class);
+		$this->mocks[IConfig::class]->method('getSystemValue')
 			->willReturnCallback(function ($key, $default = '') {
 				if (isset($this->systemConfig[$key])) {
 					return $this->systemConfig[$key];
@@ -38,7 +33,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 					return $default;
 				}
 			});
-		$this->config->method('getUserValue')
+		$this->mocks[IConfig::class]->method('getUserValue')
 			->willReturnCallback(function ($userId, $appName, $key, $default = '') {
 				if (isset($this->userConfig[$userId][$appName][$key])) {
 					return $this->userConfig[$userId][$appName][$key];
@@ -46,12 +41,10 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 					return $default;
 				}
 			});
-		$this->config->method('setUserValue')
+		$this->mocks[IConfig::class]->method('setUserValue')
 			->willReturnCallback(function ($userId, $appName, $key, $value): void {
 				$this->userConfig[$userId][$appName][$key] = $value;
 			});
-
-		$this->objectStoreConfig = new PrimaryObjectStoreConfig($this->config, $this->appManager);
 	}
 
 	private function getUser(string $uid): IUser {
@@ -79,7 +72,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$result = $this->objectStoreConfig->getObjectStoreConfigForUser($this->getUser('test'));
 		$this->assertEquals('server1', $result['arguments']['host']);
 
-		$this->assertEquals('server1', $this->config->getUserValue('test', 'homeobjectstore', 'objectstore', null));
+		$this->assertEquals('server1', $this->mocks[IConfig::class]->getUserValue('test', 'homeobjectstore', 'objectstore', null));
 	}
 
 	public function testExistingUserKeepsStorage() {
@@ -107,7 +100,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$result = $this->objectStoreConfig->getObjectStoreConfigForUser($this->getUser('test'));
 		$this->assertEquals('server1', $result['arguments']['host']);
 
-		$this->assertEquals('server1', $this->config->getUserValue('test', 'homeobjectstore', 'objectstore', null));
+		$this->assertEquals('server1', $this->mocks[IConfig::class]->getUserValue('test', 'homeobjectstore', 'objectstore', null));
 
 		$result = $this->objectStoreConfig->getObjectStoreConfigForUser($this->getUser('other-user'));
 		$this->assertEquals('server2', $result['arguments']['host']);

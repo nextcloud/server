@@ -17,17 +17,12 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\Migration\IOutput;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use function in_array;
 
 class RepairDavSharesTest extends TestCase {
 
 	private IOutput&MockObject $output;
-	private IConfig&MockObject $config;
-	private IDBConnection&MockObject $dbc;
-	private LoggerInterface&MockObject $logger;
-	private IGroupManager&MockObject $groupManager;
 	private RepairDavShares $repair;
 
 	#[\Override]
@@ -36,21 +31,11 @@ class RepairDavSharesTest extends TestCase {
 
 		$this->output = $this->createMock(IOutput::class);
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->dbc = $this->createMock(IDBConnection::class);
-		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->repair = new RepairDavShares(
-			$this->config,
-			$this->dbc,
-			$this->groupManager,
-			$this->logger
-		);
+		$this->repair = $this->createInstanceWithMocks(RepairDavShares::class);
 	}
 
 	public function testRun(): void {
-		$this->config->expects($this->any())
+		$this->mocks[IConfig::class]->expects($this->any())
 			->method('getSystemValueString')
 			->with('version', '0.0.0')
 			->willReturn('20.0.2');
@@ -158,11 +143,11 @@ class RepairDavSharesTest extends TestCase {
 		$updateMock->expects($this->exactly(2))
 			->method('executeStatement');
 
-		$this->dbc->expects($this->atLeast(2))
+		$this->mocks[IDBConnection::class]->expects($this->atLeast(2))
 			->method('getQueryBuilder')
 			->willReturnOnConsecutiveCalls($selectMock, $updateMock);
 
-		$this->groupManager->expects($this->any())
+		$this->mocks[IGroupManager::class]->expects($this->any())
 			->method('groupExists')
 			->willReturnCallback(function (string $gid) use ($existingGroups) {
 				return in_array($gid, $existingGroups, true);

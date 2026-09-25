@@ -13,27 +13,16 @@ use OC\AppFramework\Http\Request;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ContentSecurityPolicyNonceManagerTest extends TestCase {
-	/** @var CsrfTokenManager&MockObject */
-	private $CSRFTokenManager;
-	/** @var Request&MockObject */
-	private $request;
 	/** @var ContentSecurityPolicyNonceManager */
 	private $nonceManager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->CSRFTokenManager = $this->createMock(CsrfTokenManager::class);
-		$this->request = $this->createMock(Request::class);
-		$this->nonceManager = new ContentSecurityPolicyNonceManager(
-			$this->CSRFTokenManager,
-			$this->request
-		);
+		$this->nonceManager = $this->createInstanceWithMocks(ContentSecurityPolicyNonceManager::class);
 	}
 
 	public function testGetNonce(): void {
@@ -45,7 +34,7 @@ class ContentSecurityPolicyNonceManagerTest extends TestCase {
 			->method('getEncryptedValue')
 			->willReturn($tokenValue);
 
-		$this->CSRFTokenManager
+		$this->mocks[CsrfTokenManager::class]
 			->expects($this->once())
 			->method('getToken')
 			->willReturn($token);
@@ -57,12 +46,12 @@ class ContentSecurityPolicyNonceManagerTest extends TestCase {
 
 	public function testGetNonceServerVar(): void {
 		$token = 'SERVERNONCE';
-		$this->request
+		$this->mocks[Request::class]
 			->method('__isset')
 			->with('server')
 			->willReturn(true);
 
-		$this->request
+		$this->mocks[Request::class]
 			->method('__get')
 			->with('server')
 			->willReturn(['CSP_NONCE' => $token]);

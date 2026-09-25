@@ -35,6 +35,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Security\ISecureRandom;
@@ -111,7 +112,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 						fn (string $text, array $parameters = []) => vsprintf($text, $parameters)
 					);
 				break;
-			case \OCP\L10N\IFactory::class:
+			case IFactory::class:
 				$mockL10n = $this->createAutoMock(IL10N::class);
 				$mock->method('get')
 					->willReturn($mockL10n);

@@ -12,32 +12,18 @@ namespace Test\Authentication\Login;
 use OC\Authentication\Login\UserDisabledCheckCommand;
 use OC\Core\Controller\LoginController;
 use OCP\IUserManager;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 
 class UserDisabledCheckCommandTest extends ALoginTestCommand {
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userManager = $this->createMock(IUserManager::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->cmd = new UserDisabledCheckCommand(
-			$this->userManager,
-			$this->logger
-		);
+		$this->cmd = $this->createInstanceWithMocks(UserDisabledCheckCommand::class);
 	}
 
 	public function testProcessNonExistingUser(): void {
 		$data = $this->getBasicLoginData();
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with($this->username)
 			->willReturn(null);
@@ -49,7 +35,7 @@ class UserDisabledCheckCommandTest extends ALoginTestCommand {
 
 	public function testProcessDisabledUser(): void {
 		$data = $this->getBasicLoginData();
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with($this->username)
 			->willReturn($this->user);
@@ -65,7 +51,7 @@ class UserDisabledCheckCommandTest extends ALoginTestCommand {
 
 	public function testProcess(): void {
 		$data = $this->getBasicLoginData();
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('get')
 			->with($this->username)
 			->willReturn($this->user);

@@ -12,22 +12,16 @@ namespace Test;
 
 use OC\Log\ErrorHandler;
 use OCP\ILogger;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class ErrorHandlerTest extends TestCase {
-	private LoggerInterface&MockObject $logger;
 	private ErrorHandler $errorHandler;
 	private int $errorReporting;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->errorHandler = new ErrorHandler(
-			$this->logger
-		);
+		$this->errorHandler = $this->createInstanceWithMocks(ErrorHandler::class);
 
 		$this->errorReporting = error_reporting(E_ALL);
 	}
@@ -64,7 +58,7 @@ class ErrorHandlerTest extends TestCase {
 	public function testRemovePasswordFromError($username, $password): void {
 		$url = 'http://' . $username . ':' . $password . '@owncloud.org';
 		$expectedResult = 'http://xxx:xxx@owncloud.org';
-		$this->logger->expects(self::once())
+		$this->mocks[LoggerInterface::class]->expects(self::once())
 			->method('log')
 			->with(
 				ILogger::ERROR,

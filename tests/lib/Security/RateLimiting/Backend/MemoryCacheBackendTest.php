@@ -17,12 +17,6 @@ use OCP\IConfig;
 use Test\TestCase;
 
 class MemoryCacheBackendTest extends TestCase {
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $cacheFactory;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
 	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
 	private $cache;
 	/** @var MemoryCacheBackend */
@@ -31,27 +25,18 @@ class MemoryCacheBackendTest extends TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->config = $this->createMock(IConfig::class);
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->cache = $this->createMock(ICache::class);
+		$this->memoryCache = $this->createInstanceWithMocks(MemoryCacheBackend::class);
 
-		$this->cacheFactory
+		$this->mocks[ICacheFactory::class]
 			->expects($this->once())
 			->method('createDistributed')
 			->with('OC\Security\RateLimiting\Backend\MemoryCacheBackend')
 			->willReturn($this->cache);
 
-		$this->config->method('getSystemValueBool')
+		$this->mocks[IConfig::class]->method('getSystemValueBool')
 			->with('ratelimit.protection.enabled')
 			->willReturn(true);
-
-		$this->memoryCache = new MemoryCacheBackend(
-			$this->config,
-			$this->cacheFactory,
-			$this->timeFactory
-		);
 	}
 
 	public function testGetAttemptsWithNoAttemptsBefore(): void {
@@ -65,7 +50,7 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testGetAttempts(): void {
-		$this->timeFactory
+		$this->mocks[ITimeFactory::class]
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(210);
@@ -86,7 +71,7 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testRegisterAttemptWithNoAttemptsBefore(): void {
-		$this->timeFactory
+		$this->mocks[ITimeFactory::class]
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(123);
@@ -108,7 +93,7 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testRegisterAttempt(): void {
-		$this->timeFactory
+		$this->mocks[ITimeFactory::class]
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(86);

@@ -9,37 +9,21 @@
 namespace Test\Encryption;
 
 use OC\Encryption\EncryptionWrapper;
-use OC\Encryption\Manager;
 use OC\Files\Storage\Wrapper\Encryption;
-use OC\Memcache\ArrayCache;
 use OCA\Files_Trashbin\Storage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IDisableEncryptionStorage;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class EncryptionWrapperTest extends TestCase {
 	/** @var EncryptionWrapper */
 	private $instance;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
-	private $logger;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Encryption\Manager */
-	private $manager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|ArrayCache */
-	private $arrayCache;
-
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->arrayCache = $this->createMock(ArrayCache::class);
-		$this->manager = $this->createMock(Manager::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->instance = new EncryptionWrapper($this->arrayCache, $this->manager, $this->logger);
+		$this->instance = $this->createInstanceWithMocks(EncryptionWrapper::class);
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('provideWrapStorage')]

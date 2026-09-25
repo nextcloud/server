@@ -27,8 +27,6 @@ use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestWith;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 abstract class VersionedPreviewFile implements IVersionedPreviewFile, File {
@@ -36,42 +34,13 @@ abstract class VersionedPreviewFile implements IVersionedPreviewFile, File {
 }
 
 class GeneratorTest extends TestCase {
-	private IConfig&MockObject $config;
-	private IAppConfig&MockObject $appConfig;
-	private IPreview&MockObject $previewManager;
-	private GeneratorHelper&MockObject $helper;
-	private IEventDispatcher&MockObject $eventDispatcher;
 	private Generator $generator;
-	private LoggerInterface&MockObject $logger;
-	private StorageFactory&MockObject $storageFactory;
-	private PreviewMapper&MockObject $previewMapper;
-	private PreviewMigrationService&MockObject $migrationService;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->previewManager = $this->createMock(IPreview::class);
-		$this->helper = $this->createMock(GeneratorHelper::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->previewMapper = $this->createMock(PreviewMapper::class);
-		$this->storageFactory = $this->createMock(StorageFactory::class);
-		$this->migrationService = $this->createMock(PreviewMigrationService::class);
-
-		$this->generator = new Generator(
-			$this->config,
-			$this->appConfig,
-			$this->previewManager,
-			$this->helper,
-			$this->eventDispatcher,
-			$this->logger,
-			$this->previewMapper,
-			$this->storageFactory,
-			$this->migrationService,
-		);
+		$this->generator = $this->createInstanceWithMocks(Generator::class);
 	}
 
 	private function getFile(int $fileId, string $mimeType, bool $hasVersion = false): File {
@@ -99,7 +68,7 @@ class GeneratorTest extends TestCase {
 	public function testGetCachedPreview(bool $hasPreview): void {
 		$file = $this->getFile(42, 'myMimeType', $hasPreview);
 
-		$this->previewManager->method('isMimeSupported')
+		$this->mocks[IPreview::class]->method('isMimeSupported')
 			->with($this->equalTo('myMimeType'))
 			->willReturn(true);
 
@@ -123,14 +92,14 @@ class GeneratorTest extends TestCase {
 		$previewFile->setStorageId(1);
 		$previewFile->setMimeType('image/png');
 
-		$this->previewMapper->method('getAvailablePreviews')
+		$this->mocks[PreviewMapper::class]->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
 			->willReturn([42 => [
 				$maxPreview,
 				$previewFile,
 			]]);
 
-		$this->eventDispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatchTyped')
 			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
 
@@ -144,20 +113,20 @@ class GeneratorTest extends TestCase {
 	public function testGetNewPreview(bool $hasVersion): void {
 		$file = $this->getFile(42, 'myMimeType', $hasVersion);
 
-		$this->previewManager->method('isMimeSupported')
+		$this->mocks[IPreview::class]->method('isMimeSupported')
 			->with($this->equalTo('myMimeType'))
 			->willReturn(true);
 
-		$this->previewMapper->method('getAvailablePreviews')
+		$this->mocks[PreviewMapper::class]->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
 			->willReturn([42 => []]);
 
-		$this->config->method('getSystemValueString')
+		$this->mocks[IConfig::class]->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
 
-		$this->config->method('getSystemValueInt')
+		$this->mocks[IConfig::class]->method('getSystemValueInt')
 			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
@@ -173,13 +142,13 @@ class GeneratorTest extends TestCase {
 			->with($file)
 			->willReturn(true);
 
-		$this->previewManager->method('getProviders')
+		$this->mocks[IPreview::class]->method('getProviders')
 			->willReturn([
 				'/image\/png/' => ['wrongProvider'],
 				'/myMimeType/' => ['brokenProvider', 'invalidProvider', 'unavailableProvider', 'validProvider'],
 			]);
 
-		$this->helper->method('getProvider')
+		$this->mocks[GeneratorHelper::class]->method('getProvider')
 			->willReturnCallback(function ($provider) use ($invalidProvider, $validProvider, $unavailableProvider) {
 				if ($provider === 'wrongProvider') {
 					$this->fail('Wrongprovider should not be constructed!');
@@ -201,7 +170,7 @@ class GeneratorTest extends TestCase {
 		$image->method('valid')->willReturn(true);
 		$image->method('dataMimeType')->willReturn('image/png');
 
-		$this->helper->method('getThumbnail')
+		$this->mocks[GeneratorHelper::class]->method('getThumbnail')
 			->willReturnCallback(function ($provider, $file, $x, $y) use ($invalidProvider, $validProvider, $image): false|IImage {
 				if ($provider === $validProvider) {
 					return $image;
@@ -213,13 +182,13 @@ class GeneratorTest extends TestCase {
 		$image->method('data')
 			->willReturn('my data');
 
-		$this->previewMapper->method('insert')
+		$this->mocks[PreviewMapper::class]->method('insert')
 			->willReturnCallback(fn (Preview $preview): Preview => $preview);
 
-		$this->previewMapper->method('update')
+		$this->mocks[PreviewMapper::class]->method('update')
 			->willReturnCallback(fn (Preview $preview): Preview => $preview);
 
-		$this->storageFactory->method('writePreview')
+		$this->mocks[StorageFactory::class]->method('writePreview')
 			->willReturnCallback(function (Preview $preview, mixed $data) use ($hasVersion): int {
 				$data = stream_get_contents($data);
 				if ($hasVersion) {
@@ -245,10 +214,10 @@ class GeneratorTest extends TestCase {
 			});
 
 		$image = $this->getMockImage(2048, 2048, 'my resized data');
-		$this->helper->method('getImage')
+		$this->mocks[GeneratorHelper::class]->method('getImage')
 			->willReturn($image);
 
-		$this->eventDispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatchTyped')
 			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
 
@@ -280,31 +249,31 @@ class GeneratorTest extends TestCase {
 		$previewFile->setStorageId(1);
 		$previewFile->setMimeType('image/png');
 
-		$this->previewManager->method('isMimeSupported')
+		$this->mocks[IPreview::class]->method('isMimeSupported')
 			->with($this->equalTo('myMimeType'))
 			->willReturn(true);
 
-		$this->previewMapper->method('getAvailablePreviews')
+		$this->mocks[PreviewMapper::class]->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
 			->willReturn([42 => []]);
 
-		$this->config->method('getSystemValueString')
+		$this->mocks[IConfig::class]->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
 
-		$this->config->method('getSystemValueInt')
+		$this->mocks[IConfig::class]->method('getSystemValueInt')
 			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
 
-		$this->appConfig->method('getValueBool')
+		$this->mocks[IAppConfig::class]->method('getValueBool')
 			->willReturnCallback(fn ($app, $key, $default) => match ($key) {
 				ConfigLexicon::ON_DEMAND_PREVIEW_MIGRATION => true,
 				'previewMovedDone' => false,
 			});
 
-		$this->migrationService->expects($this->exactly(1))
+		$this->mocks[PreviewMigrationService::class]->expects($this->exactly(1))
 			->method('migrateFileId')
 			->willReturn([$maxPreview, $previewFile]);
 
@@ -318,7 +287,7 @@ class GeneratorTest extends TestCase {
 
 		$file = $this->getFile(42, 'invalidType');
 
-		$this->previewManager->method('isMimeSupported')
+		$this->mocks[IPreview::class]->method('isMimeSupported')
 			->with('invalidType')
 			->willReturn(false);
 
@@ -330,13 +299,13 @@ class GeneratorTest extends TestCase {
 		$maxPreview->setVersion(null);
 		$maxPreview->setMimetype('image/png');
 
-		$this->previewMapper->method('getAvailablePreviews')
+		$this->mocks[PreviewMapper::class]->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
 			->willReturn([42 => [
 				$maxPreview,
 			]]);
 
-		$this->eventDispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatchTyped')
 			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType'));
 
@@ -363,17 +332,17 @@ class GeneratorTest extends TestCase {
 		$previewFile->setVersion(null);
 		$previewFile->setMimeType('image/png');
 
-		$this->previewMapper->method('getAvailablePreviews')
+		$this->mocks[PreviewMapper::class]->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
 			->willReturn([42 => [
 				$maxPreview,
 				$previewFile,
 			]]);
 
-		$this->previewManager->expects($this->never())
+		$this->mocks[IPreview::class]->expects($this->never())
 			->method('isMimeSupported');
 
-		$this->eventDispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatchTyped')
 			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType'));
 
@@ -384,14 +353,14 @@ class GeneratorTest extends TestCase {
 	public function testNoProvider(): void {
 		$file = $this->getFile(42, 'myMimeType');
 
-		$this->previewMapper->method('getAvailablePreviews')
+		$this->mocks[PreviewMapper::class]->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
 			->willReturn([42 => []]);
 
-		$this->previewManager->method('getProviders')
+		$this->mocks[IPreview::class]->method('getProviders')
 			->willReturn([]);
 
-		$this->eventDispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatchTyped')
 			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
 
@@ -459,7 +428,7 @@ class GeneratorTest extends TestCase {
 	public function testCorrectSize(int $maxX, int $maxY, int $reqX, int $reqY, bool $crop, string $mode, int $expectedX, int $expectedY): void {
 		$file = $this->getFile(42, 'myMimeType');
 
-		$this->previewManager->method('isMimeSupported')
+		$this->mocks[IPreview::class]->method('isMimeSupported')
 			->with($this->equalTo('myMimeType'))
 			->willReturn(true);
 
@@ -474,7 +443,7 @@ class GeneratorTest extends TestCase {
 		$this->assertSame($maxPreview->getName(), $maxX . '-' . $maxY . '-max.png');
 		$this->assertSame($maxPreview->getMimeType(), 'image/png');
 
-		$this->previewMapper->method('getAvailablePreviews')
+		$this->mocks[PreviewMapper::class]->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
 			->willReturn([42 => [
 				$maxPreview,
@@ -487,22 +456,22 @@ class GeneratorTest extends TestCase {
 		$filename .= '.png';
 
 		$image = $this->getMockImage($maxX, $maxY);
-		$this->helper->method('getImage')
+		$this->mocks[GeneratorHelper::class]->method('getImage')
 			->willReturn($image);
 
-		$this->previewMapper->method('insert')
+		$this->mocks[PreviewMapper::class]->method('insert')
 			->willReturnCallback(function (Preview $preview) use ($filename): Preview {
 				$this->assertSame($preview->getName(), $filename);
 				return $preview;
 			});
 
-		$this->previewMapper->method('update')
+		$this->mocks[PreviewMapper::class]->method('update')
 			->willReturnCallback(fn (Preview $preview): Preview => $preview);
 
-		$this->storageFactory->method('writePreview')
+		$this->mocks[StorageFactory::class]->method('writePreview')
 			->willReturn(1000);
 
-		$this->eventDispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatchTyped')
 			->with(new BeforePreviewFetchedEvent($file, $reqX, $reqY, $crop, $mode, null));
 

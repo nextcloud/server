@@ -14,16 +14,9 @@ use OC\Http\WellKnown\RequestManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Http\WellKnown\IResponse;
 use OCP\IRequest;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class WellKnownControllerTest extends TestCase {
-	/** @var IRequest|MockObject */
-	private $request;
-
-	/** @var RequestManager|MockObject */
-	private $manager;
-
 	/** @var WellKnownController */
 	private $controller;
 
@@ -31,13 +24,7 @@ class WellKnownControllerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->createMock(IRequest::class);
-		$this->manager = $this->createMock(RequestManager::class);
-
-		$this->controller = new WellKnownController(
-			$this->request,
-			$this->manager,
-		);
+		$this->controller = $this->createInstanceWithMocks(WellKnownController::class);
 	}
 
 	public function testHandleNotProcessed(): void {
@@ -53,11 +40,11 @@ class WellKnownControllerTest extends TestCase {
 		$response->expects(self::once())
 			->method('toHttpResponse')
 			->willReturn($jsonResponse);
-		$this->manager->expects(self::once())
+		$this->mocks[RequestManager::class]->expects(self::once())
 			->method('process')
 			->with(
 				'nodeinfo',
-				$this->request
+				$this->mocks[IRequest::class]
 			)->willReturn($response);
 		$jsonResponse->expects(self::once())
 			->method('addHeader')

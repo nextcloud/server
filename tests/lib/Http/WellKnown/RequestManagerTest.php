@@ -19,7 +19,6 @@ use OCP\Http\WellKnown\IRequestContext;
 use OCP\Http\WellKnown\IResponse;
 use OCP\Http\WellKnown\JrdResponse;
 use OCP\IRequest;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -27,24 +26,13 @@ use Test\TestCase;
 use function get_class;
 
 class RequestManagerTest extends TestCase {
-	private Coordinator&MockObject $coordinator;
-	private ContainerInterface&MockObject $container;
-	private LoggerInterface&MockObject $logger;
 	private RequestManager $manager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->coordinator = $this->createMock(Coordinator::class);
-		$this->container = $this->createMock(ContainerInterface::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->manager = new RequestManager(
-			$this->coordinator,
-			$this->container,
-			$this->logger,
-		);
+		$this->manager = $this->createInstanceWithMocks(RequestManager::class);
 	}
 
 	public function testProcessAppsNotRegistered(): void {
@@ -57,7 +45,7 @@ class RequestManagerTest extends TestCase {
 	public function testProcessNoHandlersRegistered(): void {
 		$request = $this->createMock(IRequest::class);
 		$registrationContext = $this->createMock(RegistrationContext::class);
-		$this->coordinator->expects(self::once())
+		$this->mocks[Coordinator::class]->expects(self::once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$registrationContext->expects(self::once())
@@ -72,7 +60,7 @@ class RequestManagerTest extends TestCase {
 	public function testProcessHandlerNotLoadable(): void {
 		$request = $this->createMock(IRequest::class);
 		$registrationContext = $this->createMock(RegistrationContext::class);
-		$this->coordinator->expects(self::once())
+		$this->mocks[Coordinator::class]->expects(self::once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$handler = new class {
@@ -82,11 +70,11 @@ class RequestManagerTest extends TestCase {
 			->willReturn([
 				new ServiceRegistration('test', get_class($handler)),
 			]);
-		$this->container->expects(self::once())
+		$this->mocks[ContainerInterface::class]->expects(self::once())
 			->method('get')
 			->with(get_class($handler))
 			->willThrowException(new QueryException(''));
-		$this->logger->expects(self::once())
+		$this->mocks[LoggerInterface::class]->expects(self::once())
 			->method('error');
 
 		$response = $this->manager->process('webfinger', $request);
@@ -97,7 +85,7 @@ class RequestManagerTest extends TestCase {
 	public function testProcessHandlerOfWrongType(): void {
 		$request = $this->createMock(IRequest::class);
 		$registrationContext = $this->createMock(RegistrationContext::class);
-		$this->coordinator->expects(self::once())
+		$this->mocks[Coordinator::class]->expects(self::once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$handler = new class {
@@ -107,11 +95,11 @@ class RequestManagerTest extends TestCase {
 			->willReturn([
 				new ServiceRegistration('test', get_class($handler)),
 			]);
-		$this->container->expects(self::once())
+		$this->mocks[ContainerInterface::class]->expects(self::once())
 			->method('get')
 			->with(get_class($handler))
 			->willReturn($handler);
-		$this->logger->expects(self::once())
+		$this->mocks[LoggerInterface::class]->expects(self::once())
 			->method('error');
 
 		$response = $this->manager->process('webfinger', $request);
@@ -122,7 +110,7 @@ class RequestManagerTest extends TestCase {
 	public function testProcess(): void {
 		$request = $this->createMock(IRequest::class);
 		$registrationContext = $this->createMock(RegistrationContext::class);
-		$this->coordinator->expects(self::once())
+		$this->mocks[Coordinator::class]->expects(self::once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 		$handler = new class implements IHandler {
@@ -136,7 +124,7 @@ class RequestManagerTest extends TestCase {
 			->willReturn([
 				new ServiceRegistration('test', get_class($handler)),
 			]);
-		$this->container->expects(self::once())
+		$this->mocks[ContainerInterface::class]->expects(self::once())
 			->method('get')
 			->with(get_class($handler))
 			->willReturn($handler);

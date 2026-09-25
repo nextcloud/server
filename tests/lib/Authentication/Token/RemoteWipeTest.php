@@ -19,19 +19,9 @@ use OC\Authentication\Token\RemoteWipe;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RemoteWipeTest extends TestCase {
-	/** @var ITokenProvider|MockObject */
-	private $tokenProvider;
-
-	/** @var IEventDispatcher|MockObject */
-	private $eventDispatcher;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
 	/** @var RemoteWipe */
 	private $remoteWipe;
 
@@ -39,15 +29,7 @@ class RemoteWipeTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tokenProvider = $this->createMock(ITokenProvider::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->remoteWipe = new RemoteWipe(
-			$this->tokenProvider,
-			$this->eventDispatcher,
-			$this->logger
-		);
+		$this->remoteWipe = $this->createInstanceWithMocks(RemoteWipe::class);
 	}
 
 	public function testMarkNonWipableTokenForWipe(): void {
@@ -61,7 +43,7 @@ class RemoteWipeTest extends TestCase {
 		$token->expects($this->once())
 			->method('wipe');
 
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[ITokenProvider::class]->expects($this->once())
 			->method('updateToken')
 			->with($token);
 
@@ -75,7 +57,7 @@ class RemoteWipeTest extends TestCase {
 		$user->method('getUID')->willReturn('user123');
 		$token1 = $this->createMock(IToken::class);
 		$token2 = $this->createMock(IToken::class);
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[ITokenProvider::class]->expects($this->once())
 			->method('getTokenByUser')
 			->with('user123')
 			->willReturn([$token1, $token2]);
@@ -91,13 +73,13 @@ class RemoteWipeTest extends TestCase {
 		$user->method('getUID')->willReturn('user123');
 		$token1 = $this->createMock(IToken::class);
 		$token2 = $this->createMock(IWipeableToken::class);
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[ITokenProvider::class]->expects($this->once())
 			->method('getTokenByUser')
 			->with('user123')
 			->willReturn([$token1, $token2]);
 		$token2->expects($this->once())
 			->method('wipe');
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[ITokenProvider::class]->expects($this->once())
 			->method('updateToken')
 			->with($token2);
 
@@ -108,11 +90,11 @@ class RemoteWipeTest extends TestCase {
 
 	public function testStartWipingNotAWipeToken(): void {
 		$token = $this->createMock(IToken::class);
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[ITokenProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('tk1')
 			->willReturn($token);
-		$this->eventDispatcher->expects($this->never())
+		$this->mocks[IEventDispatcher::class]->expects($this->never())
 			->method('dispatch');
 
 		$result = $this->remoteWipe->start('tk1');
@@ -122,13 +104,13 @@ class RemoteWipeTest extends TestCase {
 
 	public function testStartWiping(): void {
 		$token = $this->createMock(IToken::class);
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[ITokenProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('tk1')
 			->willThrowException(new WipeTokenException($token));
-		$this->eventDispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatch');
-		$this->eventDispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatch')
 			->with(RemoteWipeStarted::class, $this->equalTo(new RemoteWipeStarted($token)));
 
@@ -139,11 +121,11 @@ class RemoteWipeTest extends TestCase {
 
 	public function testFinishWipingNotAWipeToken(): void {
 		$token = $this->createMock(IToken::class);
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[ITokenProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('tk1')
 			->willReturn($token);
-		$this->eventDispatcher->expects($this->never())
+		$this->mocks[IEventDispatcher::class]->expects($this->never())
 			->method('dispatch');
 
 		$result = $this->remoteWipe->finish('tk1');
@@ -153,16 +135,16 @@ class RemoteWipeTest extends TestCase {
 
 	public function startFinishWiping() {
 		$token = $this->createMock(IToken::class);
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[ITokenProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('tk1')
 			->willThrowException(new WipeTokenException($token));
-		$this->eventDispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatch');
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[ITokenProvider::class]->expects($this->once())
 			->method('invalidateToken')
 			->with($token);
-		$this->eventDispatcher->expects($this->once())
+		$this->mocks[IEventDispatcher::class]->expects($this->once())
 			->method('dispatch')
 			->with(RemoteWipeFinished::class, $this->equalTo(new RemoteWipeFinished($token)));
 

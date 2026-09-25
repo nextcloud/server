@@ -9,53 +9,20 @@
 namespace Test;
 
 use OC\Installer;
-use OC\IntegrityCheck\Checker;
 use OC\Updater;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
-use OCP\IAppConfig;
 use OCP\IConfig;
-use OCP\ServerVersion;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 
 class UpdaterTest extends TestCase {
-	/** @var ServerVersion|MockObject */
-	private $serverVersion;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IAppConfig|MockObject */
-	private $appConfig;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
 	/** @var Updater */
 	private $updater;
-	/** @var Checker|MockObject */
-	private $checker;
-	/** @var Installer|MockObject */
-	private $installer;
-	private IAppManager&MockObject $appManager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->serverVersion = $this->createMock(ServerVersion::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->checker = $this->createMock(Checker::class);
-		$this->installer = $this->createMock(Installer::class);
-		$this->appManager = $this->createMock(IAppManager::class);
 
-		$this->updater = new Updater(
-			$this->serverVersion,
-			$this->config,
-			$this->appConfig,
-			$this->checker,
-			$this->logger,
-			$this->installer,
-			$this->appManager,
-		);
+		$this->updater = $this->createInstanceWithMocks(Updater::class);
 	}
 
 	/**
@@ -98,11 +65,11 @@ class UpdaterTest extends TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('versionCompatibilityTestData')]
 	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersions, $result, $debug = false, $vendor = 'nextcloud'): void {
-		$this->config->expects($this->any())
+		$this->mocks[IConfig::class]->expects($this->any())
 			->method('getSystemValueBool')
 			->with('debug', false)
 			->willReturn($debug);
-		$this->config->expects($this->any())
+		$this->mocks[IConfig::class]->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'vendor', '')
 			->willReturn($vendor);
@@ -130,29 +97,29 @@ class UpdaterTest extends TestCase {
 	}
 
 	public function testUpgradeAppStoreAppsRestoresMissingAutoDisabledAppBeforeEnabling(): void {
-		$this->installer->expects($this->once())
+		$this->mocks[Installer::class]->expects($this->once())
 			->method('isUpdateAvailable')
 			->with('mailroundcube')
 			->willReturn(false);
 
-		$this->installer->expects($this->once())
+		$this->mocks[Installer::class]->expects($this->once())
 			->method('downloadApp')
 			->with('mailroundcube');
 
-		$this->installer->expects($this->once())
+		$this->mocks[Installer::class]->expects($this->once())
 			->method('installApp')
 			->with('mailroundcube');
 
-		$this->appManager->expects($this->once())
+		$this->mocks[IAppManager::class]->expects($this->once())
 			->method('getAppPath')
 			->with('mailroundcube', true)
 			->willThrowException(new AppPathNotFoundException('missing'));
 
-		$this->appManager->expects($this->once())
+		$this->mocks[IAppManager::class]->expects($this->once())
 			->method('enableApp')
 			->with('mailroundcube');
 
-		$this->appManager->expects($this->never())
+		$this->mocks[IAppManager::class]->expects($this->never())
 			->method('enableAppForGroups');
 
 		self::invokePrivate($this->updater, 'upgradeAppStoreApps', [
