@@ -3393,12 +3393,6 @@
     <InvalidReturnType>
       <code><![CDATA[TemplateResponse]]></code>
     </InvalidReturnType>
-    <UndefinedMethod>
-      <code><![CDATA[$template]]></code>
-      <code><![CDATA[$template]]></code>
-      <code><![CDATA[$template]]></code>
-      <code><![CDATA[$template]]></code>
-    </UndefinedMethod>
   </file>
   <file src="lib/private/DirectEditing/Token.php">
     <LessSpecificReturnStatement>
