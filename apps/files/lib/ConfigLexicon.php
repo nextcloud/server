@@ -27,6 +27,7 @@ class ConfigLexicon implements ILexicon {
 	public const RECENT_FILES_GROUP_MIME_TYPES = 'recent_files_group_mime_types';
 	public const RECENT_FILES_GROUP_TIMESPAN_MINUTES = 'recent_files_group_timespan_minutes';
 	public const LOCAL_CLIENT_INTEGRATION = 'local_client_integration';
+	public const ORGANIZATION_TEMPLATE_FOLDER = 'organization_template_folder';
 
 	#[\Override]
 	public function getStrictness(): Strictness {
@@ -36,6 +37,13 @@ class ConfigLexicon implements ILexicon {
 	#[\Override]
 	public function getAppConfigs(): array {
 		return [
+			new Entry(
+				self::ORGANIZATION_TEMPLATE_FOLDER,
+				ValueType::ARRAY,
+				defaultRaw: [],
+				definition: 'Owner and folder ID of the template directory published to all users',
+				lazy: false,
+			),
 			new Entry(
 				self::OVERWRITES_HOME_FOLDERS,
 				ValueType::ARRAY,

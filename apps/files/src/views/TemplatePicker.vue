@@ -27,9 +27,10 @@
 
 				<TemplatePreview
 					v-for="template in provider.templates"
-					:key="template.fileid"
+					:key="templateKey(template)"
+					:selection-key="templateKey(template)"
 					v-bind="template"
-					:checked="checked === template.fileid"
+					:checked="checked === templateKey(template)"
 					:ratio="provider.ratio"
 					@confirm-click="onConfirmClick"
 					@check="onCheck" />
@@ -85,20 +86,11 @@ export default defineComponent({
 		TemplatePreview,
 	},
 
-	props: {
-		/**
-		 * The parent folder where to create the node
-		 */
-		parent: {
-			type: Object,
-			default: () => null,
-		},
-	},
-
 	data() {
 		return {
+			parent: null as Node | null,
 			// Check empty template by default
-			checked: -1,
+			checked: -1 as string | number,
 			loading: false,
 			name: null as string | null,
 			opened: false,
@@ -133,7 +125,7 @@ export default defineComponent({
 				return null
 			}
 
-			return this.provider.templates!.find((template) => template.fileid === this.checked)
+			return this.provider.templates!.find((template) => this.templateKey(template) === this.checked)
 		},
 
 		/**
@@ -164,13 +156,19 @@ export default defineComponent({
 	methods: {
 		t,
 
+		templateKey(template) {
+			return JSON.stringify([template.templateType, template.templateId])
+		},
+
 		/**
 		 * Open the picker
 		 *
 		 * @param name the file name to create
 		 * @param provider the template provider picked
+		 * @param parent the destination folder for this opening
 		 */
-		async open(name: string, provider) {
+		async open(name: string, provider, parent: Node) {
+			this.parent = parent
 			this.checked = this.emptyTemplate.fileid
 			this.name = name
 			this.provider = provider
@@ -181,9 +179,9 @@ export default defineComponent({
 				return
 			}
 
-			const templates = await getTemplates()
+			const templates = await getTemplates(this.parent.path)
 			const fetchedProvider = templates.find((fetchedProvider) => fetchedProvider.app === provider.app && fetchedProvider.label === provider.label)
-			if (fetchedProvider === null) {
+			if (fetchedProvider === undefined) {
 				throw new Error('Failed to match provider in results')
 			}
 			this.provider = fetchedProvider
@@ -219,18 +217,18 @@ export default defineComponent({
 		 *
 		 * @param fileid the selected template file id
 		 */
-		onCheck(fileid: number) {
+		onCheck(fileid: string | number) {
 			this.checked = fileid
 		},
 
-		onConfirmClick(fileid: number) {
+		onConfirmClick(fileid: string | number) {
 			if (fileid === this.checked) {
 				this.onSubmit()
 			}
 		},
 
 		async createFile(templateFields = []) {
-			const currentDirectory = new URL(window.location.href).searchParams.get('dir') || '/'
+			const currentDirectory = this.parent?.path || '/'
 
 			// If the file doesn't have an extension, add the default one
 			if (this.nameWithoutExt === this.name) {
@@ -318,7 +316,7 @@ export default defineComponent({
 			// selected and it's not the blank template
 			let fields = []
 			if (fileId && fileId !== this.emptyTemplate.fileid) {
-				fields = await getTemplateFields(fileId)
+				fields = await getTemplateFields(fileId, this.parent?.path)
 			}
 
 			if (fields.length > 0) {

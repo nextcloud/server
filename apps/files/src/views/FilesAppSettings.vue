@@ -4,6 +4,7 @@
 -->
 
 <script setup lang="ts">
+import { getCurrentUser } from '@nextcloud/auth'
 import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { nextTick } from 'vue'
@@ -56,6 +57,7 @@ async function showKeyboardShortcuts() {
 		<FilesAppSettingsGeneral />
 		<FilesAppSettingsAppearance />
 		<FilesAppSettingsTemplates />
+		<FilesAppSettingsTemplates v-if="getCurrentUser()?.isAdmin" organization />
 		<FilesAppSettingsLegacyApi />
 		<FilesAppSettingsWarnings />
 		<FilesAppSettingsWebDav />

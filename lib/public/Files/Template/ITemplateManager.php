@@ -48,19 +48,22 @@ interface ITemplateManager {
 	/**
 	 * Get a list of available file creators and their offered templates
 	 *
+	 * @param ?string $targetPath Destination folder relative to the user root (since 35.0.0)
+	 *
 	 * @return list<array{app: string, label: string, extension: string, iconClass: ?string, iconSvgInline: ?string, mimetypes: list<string>, ratio: ?float, actionLabel: string, templates: list<Template>}>
 	 * @since 21.0.0
 	 */
-	public function listTemplates(): array;
+	public function listTemplates(?string $targetPath = null): array;
 
 	/**
 	 * Get the fields for a given template
 	 *
 	 * @param int $fileId
+	 * @param ?string $targetPath Destination folder relative to the user root (since 35.0.0)
 	 * @return array
 	 * @since 32.0.0
 	 */
-	public function listTemplateFields(int $fileId): array;
+	public function listTemplateFields(int $fileId, ?string $targetPath = null): array;
 
 	/**
 	 * @return bool

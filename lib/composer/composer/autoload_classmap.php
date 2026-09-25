@@ -2000,6 +2000,7 @@ return array(
     'OC\\Files\\Stream\\HashWrapper' => $baseDir . '/lib/private/Files/Stream/HashWrapper.php',
     'OC\\Files\\Stream\\Quota' => $baseDir . '/lib/private/Files/Stream/Quota.php',
     'OC\\Files\\Stream\\SeekableHttpStream' => $baseDir . '/lib/private/Files/Stream/SeekableHttpStream.php',
+    'OC\\Files\\Template\\TemplateDirectoryResolver' => $baseDir . '/lib/private/Files/Template/TemplateDirectoryResolver.php',
     'OC\\Files\\Template\\TemplateManager' => $baseDir . '/lib/private/Files/Template/TemplateManager.php',
     'OC\\Files\\Type\\Detection' => $baseDir . '/lib/private/Files/Type/Detection.php',
     'OC\\Files\\Type\\Loader' => $baseDir . '/lib/private/Files/Type/Loader.php',

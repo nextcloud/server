@@ -76,6 +76,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Controller\\DirectEditingViewController' => __DIR__ . '/..' . '/../lib/Controller/DirectEditingViewController.php',
         'OCA\\Files\\Controller\\FilenamesController' => __DIR__ . '/..' . '/../lib/Controller/FilenamesController.php',
         'OCA\\Files\\Controller\\OpenLocalEditorController' => __DIR__ . '/..' . '/../lib/Controller/OpenLocalEditorController.php',
+        'OCA\\Files\\Controller\\OrganizationTemplateController' => __DIR__ . '/..' . '/../lib/Controller/OrganizationTemplateController.php',
         'OCA\\Files\\Controller\\TemplateController' => __DIR__ . '/..' . '/../lib/Controller/TemplateController.php',
         'OCA\\Files\\Controller\\TransferOwnershipController' => __DIR__ . '/..' . '/../lib/Controller/TransferOwnershipController.php',
         'OCA\\Files\\Controller\\ViewController' => __DIR__ . '/..' . '/../lib/Controller/ViewController.php',
@@ -122,6 +123,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => __DIR__ . '/..' . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
         'OCA\\Files\\Sharing\\Source\\NodeShareSourceMetadata' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceMetadata.php',
         'OCA\\Files\\Sharing\\Source\\NodeShareSourceType' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceType.php',
+        'OCA\\Files\\Template\\OrganizationTemplateProvider' => __DIR__ . '/..' . '/../lib/Template/OrganizationTemplateProvider.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -2041,6 +2041,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Stream\\HashWrapper' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/HashWrapper.php',
         'OC\\Files\\Stream\\Quota' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/Quota.php',
         'OC\\Files\\Stream\\SeekableHttpStream' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/SeekableHttpStream.php',
+        'OC\\Files\\Template\\TemplateDirectoryResolver' => __DIR__ . '/../../..' . '/lib/private/Files/Template/TemplateDirectoryResolver.php',
         'OC\\Files\\Template\\TemplateManager' => __DIR__ . '/../../..' . '/lib/private/Files/Template/TemplateManager.php',
         'OC\\Files\\Type\\Detection' => __DIR__ . '/../../..' . '/lib/private/Files/Type/Detection.php',
         'OC\\Files\\Type\\Loader' => __DIR__ . '/../../..' . '/lib/private/Files/Type/Loader.php',

@@ -75,6 +75,7 @@ class Application extends App implements IBootstrap {
 		/*
 		 * Register capabilities
 		 */
+		$context->registerTemplateProvider(\OCA\Files\Template\OrganizationTemplateProvider::class);
 		$context->registerCapability(Capabilities::class);
 		$context->registerCapability(AdvancedCapabilities::class);
 		$context->registerCapability(DirectEditingCapabilities::class);

@@ -119,18 +119,18 @@ class TemplateManager implements ITemplateManager {
 	}
 
 	#[Override]
-	public function listTemplates(): array {
-		return array_values(array_map(function (TemplateFileCreator $entry) {
+	public function listTemplates(?string $targetPath = null): array {
+		return array_values(array_map(function (TemplateFileCreator $entry) use ($targetPath) {
 			return array_merge($entry->jsonSerialize(), [
-				'templates' => $this->getTemplateFiles($entry)
+				'templates' => $this->getTemplateFiles($entry, $targetPath)
 			]);
 		}, $this->listCreators()));
 	}
 
 	#[Override]
-	public function listTemplateFields(int $fileId): array {
+	public function listTemplateFields(int $fileId, ?string $targetPath = null): array {
 		foreach ($this->listCreators() as $creator) {
-			$fields = $this->getTemplateFields($creator, $fileId);
+			$fields = $this->getTemplateFields($creator, $fileId, $targetPath);
 			if (empty($fields)) {
 				continue;
 			}
@@ -168,6 +168,10 @@ class TemplateManager implements ITemplateManager {
 				}
 			}
 
+			if ($template !== null && (!$template instanceof File || !$template->isReadable())) {
+				throw new NotPermittedException('Template is not readable');
+			}
+
 			$filename = basename($filePath);
 			$this->filenameValidator->validateFilename($filename);
 			$targetFile = $folder->newFile($filename, ($template instanceof File ? $template->fopen('rb') : null));
@@ -200,10 +204,10 @@ class TemplateManager implements ITemplateManager {
 	/**
 	 * @return list<Template>
 	 */
-	private function getTemplateFiles(TemplateFileCreator $type): array {
+	private function getTemplateFiles(TemplateFileCreator $type, ?string $targetPath): array {
 		$templates = array_merge(
 			$this->getProviderTemplates($type),
-			$this->getUserTemplates($type)
+			$this->getUserTemplates($type, $targetPath)
 		);
 
 		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($templates, false));
@@ -220,7 +224,7 @@ class TemplateManager implements ITemplateManager {
 			foreach ($type->getMimetypes() as $mimetype) {
 				foreach ($provider->getCustomTemplates($mimetype) as $template) {
 					$templateId = $template->jsonSerialize()['templateId'];
-					$templates[$templateId] = $template;
+					$templates[get_class($provider) . ':' . $templateId] = $template;
 				}
 			}
 		}
@@ -231,39 +235,45 @@ class TemplateManager implements ITemplateManager {
 	/**
 	 * @return list<Template>
 	 */
-	private function getUserTemplates(TemplateFileCreator $type): array {
+	private function getUserTemplates(TemplateFileCreator $type, ?string $targetPath): array {
 		$templates = [];
-
+		$folders = [];
 		try {
-			$userTemplateFolder = $this->getTemplateFolder();
+			$folders[] = $this->getTemplateFolder();
 		} catch (\Exception $e) {
-			return $templates;
 		}
-
-		foreach ($type->getMimetypes() as $mimetype) {
-			foreach ($userTemplateFolder->searchByMime($mimetype) as $templateFile) {
-				if (!($templateFile instanceof File)) {
-					continue;
+		if ($targetPath !== null && $this->userId !== null) {
+			$resolver = new TemplateDirectoryResolver();
+			$folders = array_merge($folders, $resolver->resolve($this->rootFolder->getUserFolder($this->userId), $targetPath));
+		}
+		foreach ($folders as $folder) {
+			if (!$folder->isReadable()) {
+				continue;
+			}
+			foreach ($type->getMimetypes() as $mimetype) {
+				foreach ($folder->searchByMime($mimetype) as $file) {
+					if (!$file instanceof File || !$file->isReadable()) {
+						continue;
+					}
+					$path = $this->rootFolder->getUserFolder($this->userId)->getRelativePath($file->getPath());
+					if ($path === null) {
+						continue;
+					}
+					$template = new Template('user', $path, $file);
+					$template->setHasPreview($this->previewManager->isAvailable($file));
+					$templates[$file->getId()] = $template;
 				}
-				$template = new Template(
-					'user',
-					$this->rootFolder->getUserFolder($this->userId)->getRelativePath($templateFile->getPath()),
-					$templateFile
-				);
-				$template->setHasPreview($this->previewManager->isAvailable($templateFile));
-				$templates[] = $template;
 			}
 		}
-
-		return $templates;
+		return array_values($templates);
 	}
 
 	/*
 	 * @return list<Field>
 	 */
-	private function getTemplateFields(TemplateFileCreator $type, int $fileId): array {
+	private function getTemplateFields(TemplateFileCreator $type, int $fileId, ?string $targetPath): array {
 		$providerTemplates = $this->getProviderTemplates($type);
-		$userTemplates = $this->getUserTemplates($type);
+		$userTemplates = $this->getUserTemplates($type, $targetPath);
 
 		$matchedTemplates = array_filter(
 			array_merge($providerTemplates, $userTemplates),

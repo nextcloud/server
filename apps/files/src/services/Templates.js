@@ -8,18 +8,20 @@ import { generateOcsUrl } from '@nextcloud/router'
 
 /**
  *
+ * @param {string} targetPath Destination folder relative to the user root
  */
-export async function getTemplates() {
-	const response = await axios.get(generateOcsUrl('apps/files/api/v1/templates'))
+export async function getTemplates(targetPath) {
+	const response = await axios.get(generateOcsUrl('apps/files/api/v1/templates'), { params: { targetPath } })
 	return response.data.ocs.data
 }
 
 /**
  *
- * @param fileId
+ * @param {number} fileId Template file ID
+ * @param {string} targetPath Destination folder relative to the user root
  */
-export async function getTemplateFields(fileId) {
-	const response = await axios.get(generateOcsUrl(`apps/files/api/v1/templates/fields/${fileId}`))
+export async function getTemplateFields(fileId, targetPath) {
+	const response = await axios.get(generateOcsUrl(`apps/files/api/v1/templates/fields/${fileId}`), { params: { targetPath } })
 	return response.data.ocs.data
 }
 
