@@ -1,5 +1,16 @@
 # SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: MIT
+#
+# Automatically normalizes pull request titles for `stable*` branches.
+#
+# On PR open/edit, this workflow checks the target branch and ensures the title
+# starts with the matching prefix (for example `[stable31]`). Any existing
+# stable-branch tags are removed before the correct one is added.
+#
+# This is intended to keep backport and stable-branch PR titles consistent.
+# It runs automatically and does not need manual input. If stable branch naming
+# or title conventions change, update the branch filter and regex logic below.
+
 name: Update PRs titles on stable branches
 
 on:
@@ -20,7 +31,7 @@ jobs:
       contents: read
 
     steps:
-      - name: Wait for potential title edits
+      - name: Delay to avoid racing with follow-up title edits
         run: sleep 15
 
       - name: Get PR details and update title
@@ -28,18 +39,12 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: pr } = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number,
-            });
-
+            const pr = context.payload.pull_request;
             const baseBranch = pr.base.ref;
             const currentTitle = pr.title;
 
-            // Check if this is a stable branch
-            // Should not happen as we only trigger on stable* branches 🤷‍♀️
             if (!baseBranch.startsWith('stable')) {
+              // Should never happen as we only trigger on stable* branches 🤷‍♀️
               console.log(`Not a stable branch: ${baseBranch}`);
               return;
             }
