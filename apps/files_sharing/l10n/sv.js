@@ -291,7 +291,6 @@ OC.L10N.register(
     "Advanced settings" : "Avancerade inställningar",
     "Share label" : "Etikett för delning",
     "Share link token" : "Token för delningslänk",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ange en lättmemorerad token för den offentliga delningslänken eller generera en ny. Använd inte en lättgissad token för delningar som innehåller känslig information.",
     "Generating…" : "Genererar …",
     "Generate new token" : "Generera ny token",
     "Set password" : "Ange lösenord",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Via “{folder}”",
     "Name or email …" : "Namn eller e-postadress …",
     "Name, email, or Federated Cloud ID …" : "Namn, e-postadress eller federerat moln-ID …",
-    "Searching …" : "Söker …"
+    "Searching …" : "Söker …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ange en lättmemorerad token för den offentliga delningslänken eller generera en ny. Använd inte en lättgissad token för delningar som innehåller känslig information."
 },
 "nplurals=2; plural=(n != 1);");

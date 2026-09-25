@@ -291,7 +291,6 @@ OC.L10N.register(
     "Advanced settings" : "Rozšírené nastavenia",
     "Share label" : "Štítok zdieľania",
     "Share link token" : "Zdieľať token pre odkaz",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nastavte token odkazu pre verejné zdieľanie na niečo, čo sa ľahko zapamätá, alebo vygenerujte nový token. Neodporúča sa používať uhádnuteľný token pre zdieľania, ktoré obsahujú citlivé informácie.",
     "Generating…" : "Generuje sa...",
     "Generate new token" : "Vygenerovať nový token",
     "Set password" : "Nastaviť heslo",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Prostredníctvom „{folder}“",
     "Name or email …" : "Meno alebo e-mail …",
     "Name, email, or Federated Cloud ID …" : "Meno, e-mail alebo ID združeného cloudu …",
-    "Searching …" : "Hľadá sa …"
+    "Searching …" : "Hľadá sa …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nastavte token odkazu pre verejné zdieľanie na niečo, čo sa ľahko zapamätá, alebo vygenerujte nový token. Neodporúča sa používať uhádnuteľný token pre zdieľania, ktoré obsahujú citlivé informácie."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
