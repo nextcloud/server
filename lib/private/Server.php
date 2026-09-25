@@ -154,6 +154,7 @@ use OC\User\AvailabilityCoordinator;
 use OC\User\DisplayNameCache;
 use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
+use OC\User\Listeners\UserQuotaChangedListener;
 use OC\User\Session;
 use OC\User\User;
 use OCA\Theming\ImageManager;
@@ -1133,6 +1134,7 @@ class Server extends ServerContainer {
 		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, Store::class);
 		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
+		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserQuotaChangedListener::class);
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, SubAdmin::class);
 		$eventDispatcher->addServiceListener(GroupDeletedEvent::class, SubAdmin::class);
