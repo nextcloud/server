@@ -10,6 +10,7 @@ namespace Test\Files\Search\QueryOptimizer;
 use OC\Files\Search\QueryOptimizer\QueryOptimizer;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use Test\TestCase;
@@ -196,5 +197,36 @@ class CombinedTests extends TestCase {
 		$this->optimizer->processOperator($operator);
 
 		$this->assertEquals('(mimetype in ["image\/png","image\/jpeg"] and ((storage eq 1 and (path eq "files" or path like "files\/%")) or storage eq 2 or (storage eq 3 and path in ["files\/301","files\/302"])))', $operator->__toString());
+	}
+
+	public function testNegatedGroupSurvivesTheFullPipeline(): void {
+		$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
+			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', 1),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
+			]),
+		]);
+
+		$this->optimizer->processOperator($operator);
+
+		$this->assertEquals('((not storage eq 1) or (not path eq "foo"))', $operator->__toString());
+	}
+
+	public function testNegatedLargeInIsPushedDownAfterSplitting(): void {
+		$ids = range(1, 1500);
+		$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
+			new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', $ids),
+		]);
+
+		$this->optimizer->processOperator($operator);
+
+		// SplitLargeIn turns the single `in` into `or (in, in)`, which needs pushing back down
+		// through the `not` a second time before it is something SearchBuilder can turn into SQL.
+		$chunks = array_chunk($ids, IQueryBuilder::MAX_IN_PARAMETERS);
+		$expected = '(' . implode(' and ', array_map(
+			static fn (array $chunk): string => '(not fileid in ' . json_encode($chunk) . ')',
+			$chunks,
+		)) . ')';
+		$this->assertEquals($expected, $operator->__toString());
 	}
 }
