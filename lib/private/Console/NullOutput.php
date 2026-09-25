@@ -66,6 +66,10 @@ class NullOutput implements IOutput {
 	}
 
 	#[Override]
+	public function writeTree(iterable $nodes, string $root = ''): void {
+	}
+
+	#[Override]
 	public function progressStart(int $max = 0): void {
 	}
 

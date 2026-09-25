@@ -108,6 +108,7 @@ use OC\RichObjectStrings\RichTextFormatter;
 use OC\RichObjectStrings\Validator;
 use OC\Route\CachingRouter;
 use OC\Route\Router;
+use OC\Search\AccountScopedSearchProviderRegistry;
 use OC\Security\Bruteforce\Capabilities;
 use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;
@@ -1104,6 +1105,8 @@ class Server extends ServerContainer {
 		$this->registerAlias(\NCU\Sharing\ISharingRegistry::class, SharingRegistry::class);
 		$this->registerAlias(\NCU\Sharing\ISharingManager::class, SharingManager::class);
 		$this->registerAlias(\NCU\Sharing\ISharingBackend::class, SharingBackend::class);
+
+		$this->registerAlias(\NCU\Search\IAccountScopedSearchProviderRegistry::class, AccountScopedSearchProviderRegistry::class);
 
 		$this->registerService(IGlobalScaleService::class, static function (ContainerInterface $c): IGlobalScaleService {
 			/** @var Coordinator $coordinator */

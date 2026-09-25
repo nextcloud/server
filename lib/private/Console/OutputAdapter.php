@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace OC\Console;
 
 use OCP\Console\IOutput;
+use OCP\Console\OutputFormat;
 use OCP\Console\Verbosity;
 use Override;
 use Symfony\Component\Console\Input\InputInterface;
@@ -66,6 +67,34 @@ class OutputAdapter implements IOutput {
 	#[Override]
 	public function writeStreamingTableInOutputFormat(\Iterator $items, int $tableGroupSize): void {
 		$this->commandAdapter->writeStreamingTableInOutputFormat($this->input, $this->output, $items, $tableGroupSize);
+	}
+
+	#[Override]
+	public function writeTree(iterable $nodes, string $root = ''): void {
+		$outputFormat = OutputFormat::tryFrom((string)$this->input->getOption('output')) ?? OutputFormat::Plain;
+		if ($outputFormat === OutputFormat::Plain) {
+			$this->symfonyStyle->tree($nodes, $root);
+
+			return;
+		}
+
+		$data = $this->toArray($nodes);
+		$this->output->writeln(json_encode(
+			$root !== '' ? [$root => $data] : $data,
+			$outputFormat === OutputFormat::JsonPretty ? JSON_PRETTY_PRINT : 0,
+		));
+	}
+
+	/**
+	 * @return array<string, mixed>
+	 */
+	private function toArray(iterable $nodes): array {
+		$result = [];
+		foreach ($nodes as $key => $value) {
+			$result[$key] = is_iterable($value) ? $this->toArray($value) : $value;
+		}
+
+		return $result;
 	}
 
 	#[Override]
