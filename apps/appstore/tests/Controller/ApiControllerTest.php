@@ -105,4 +105,27 @@ final class ApiControllerTest extends TestCase {
 		$jsonResponse = json_encode($response->getData());
 		$this->assertJsonStringEqualsJsonFile(__DIR__ . '/../fixtures/categories-api-response.json', $jsonResponse);
 	}
+
+	public static function dataCreateProxyPreviewUrl(): array {
+		return [
+			'empty' => ['', ''],
+			'already proxied by the app store' => [
+				'https://usercontent.apps.nextcloud.com/aHR0cHM6Ly9leGFtcGxlLm9yZy9hLnBuZw==',
+				'https://usercontent.apps.nextcloud.com/aHR0cHM6Ly9leGFtcGxlLm9yZy9hLnBuZw==',
+			],
+			'source URL' => [
+				'https://example.org/a.png',
+				'https://usercontent.apps.nextcloud.com/aHR0cHM6Ly9leGFtcGxlLm9yZy9hLnBuZw==',
+			],
+			'source URL encoding to + and /' => [
+				'https://example.org/?a=>>>',
+				'https://usercontent.apps.nextcloud.com/aHR0cHM6Ly9leGFtcGxlLm9yZy8_YT0-Pj4=',
+			],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCreateProxyPreviewUrl')]
+	public function testCreateProxyPreviewUrl(string $url, string $expected): void {
+		$this->assertSame($expected, self::invokePrivate($this->apiController, 'createProxyPreviewUrl', [$url]));
+	}
 }
