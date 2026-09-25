@@ -27,6 +27,8 @@ class AmazonS3 extends Backend {
 			->setText($l->t('S3-Compatible Object Storage'))
 			->addParameters([
 				new DefinitionParameter('bucket', $l->t('Bucket')),
+				(new DefinitionParameter('prefix', $l->t('Object key prefix')))
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('hostname', $l->t('Hostname')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('port', $l->t('Port')))
