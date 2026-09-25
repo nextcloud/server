@@ -97,8 +97,6 @@ class SessionTest extends TestCase {
 				'setMagicInCookie',
 			])
 			->getMock();
-
-		\OC_User::setIncognitoMode(false);
 	}
 
 	public static function isLoggedInData(): array {

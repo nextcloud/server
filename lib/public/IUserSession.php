@@ -96,4 +96,16 @@ interface IUserSession {
 	 * @since 18.0.0
 	 */
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void;
+
+	/**
+	 * Checks whether incognito mode is currently enabled
+	 * @since 36.0.0
+	 */
+	public function isIncognitoMode(): bool;
+
+	/**
+	 * Sets incognito mode
+	 * @since 36.0.0
+	 */
+	public function setIncognitoMode(bool $mode): void;
 }

@@ -59,19 +59,16 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 
-		$this->controller = $this->getMockBuilder(TwoFactorChallengeController::class)
-			->setConstructorArgs([
-				'core',
-				$this->request,
-				$this->twoFactorManager,
-				$this->userSession,
-				$this->session,
-				$this->urlGenerator,
-				$this->logger,
-			])
-			->onlyMethods(['getLogoutUrl'])
-			->getMock();
-		$this->controller->expects($this->any())
+		$this->controller = new TwoFactorChallengeController(
+			'core',
+			$this->request,
+			$this->twoFactorManager,
+			$this->userSession,
+			$this->session,
+			$this->urlGenerator,
+			$this->logger,
+		);
+		$this->urlGenerator->expects($this->any())
 			->method('getLogoutUrl')
 			->willReturn('logoutAttribute');
 	}

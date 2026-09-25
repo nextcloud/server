@@ -25,6 +25,8 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\ISession;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
@@ -53,6 +55,8 @@ class Manager implements IManager {
 		private IRootFolder $rootFolder,
 		private IFactory $l10nFactory,
 		private EncryptionManager $encryptionManager,
+		private IUserManager $userManager,
+		private ISession $session,
 	) {
 		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
 		$this->l10n = $l10nFactory->get('lib');
@@ -252,8 +256,12 @@ class Manager implements IManager {
 		return $result !== 0;
 	}
 
-	public function invokeTokenScope($userId): void {
-		\OC_User::setUserId($userId);
+	public function invokeTokenScope(string $userId): void {
+		if ($user = $this->userManager->get($userId)) {
+			$this->userSession->setUser($user);
+		} else {
+			$this->session->set('user_id', $userId);
+		}
 	}
 
 	public function revertTokenScope(): void {

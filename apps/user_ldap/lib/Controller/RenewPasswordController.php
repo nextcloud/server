@@ -103,7 +103,8 @@ class RenewPasswordController extends Controller {
 		}
 
 		try {
-			if (!is_null($newPassword) && \OC_User::setPassword($user, $newPassword)) {
+			$userObject = $this->userManager->get($user);
+			if (!is_null($newPassword) && !is_null($userObject) && $userObject->setPassword($user, $newPassword)) {
 				$this->session->set('loginMessages', [
 					[], [$this->l10n->t('Please login with the new password')]
 				]);

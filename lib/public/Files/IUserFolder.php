@@ -19,7 +19,7 @@ interface IUserFolder extends Folder {
 
 	/**
 	 * @param bool $useCache - Use the cached value if available instead of recalculate.
-	 * @return array{used: int|float, free: int|float, total: int|float, quota: int|float}
+	 * @return array{used: int|float, free: int|float, total: int|float, quota: int|float, relative: float}
 	 * @since 36.0.0
 	 */
 	public function getUserQuota(bool $useCache = true): array;
