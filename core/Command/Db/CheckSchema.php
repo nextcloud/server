@@ -57,7 +57,7 @@ class CheckSchema extends Base {
 	}
 
 	/**
-	 * @param array<string, list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool}>> $byDisabledApp
+	 * @param array<string, list<array{table: string, type: string, name?: string, changes?: list<string>, app: ?string, enabled: bool, optionalIndex: bool}>> $byDisabledApp
 	 */
 	private function printDisabledAppFindings(array $byDisabledApp, OutputInterface $output): void {
 		if ($byDisabledApp === []) {
