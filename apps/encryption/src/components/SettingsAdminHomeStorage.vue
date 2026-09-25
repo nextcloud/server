@@ -39,7 +39,7 @@ watchDebounced(encryptHomeStorage, async (encryptHomeStorage, oldValue) => {
 	<NcCheckboxRadioSwitch
 		v-model="encryptHomeStorage"
 		:loading="isSavingHomeStorageEncryption"
-		:description="t('encryption', 'Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted')"
+		:description="t('encryption', 'Controls whether server-side encryption applies to files within the home storage of accounts. Modifying this setting does not control separately mounted external storage, and does not trigger bulk encryption or decryption of existing files.')"
 		type="switch">
 		{{ t('encryption', 'Encrypt the home storage') }}
 	</NcCheckboxRadioSwitch>
