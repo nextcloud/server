@@ -19,6 +19,7 @@ class SQLiteSessionInit implements EventSubscriber {
 	public function __construct(
 		private readonly bool $caseSensitiveLike,
 		private readonly string $journalMode,
+		private readonly int $busyTimeout,
 	) {
 	}
 
@@ -27,6 +28,7 @@ class SQLiteSessionInit implements EventSubscriber {
 		$args->getConnection()->executeStatement('PRAGMA case_sensitive_like = ' . $sensitive);
 		$args->getConnection()->executeStatement('PRAGMA journal_mode = ' . $this->journalMode);
 		$args->getConnection()->executeStatement('PRAGMA foreign_keys = true');
+		$args->getConnection()->executeStatement('PRAGMA busy_timeout = ' . $this->busyTimeout);
 		/** @var \Doctrine\DBAL\Driver\PDO\Connection $connection */
 		$connection = $args->getConnection()->getWrappedConnection();
 		$pdo = $connection->getWrappedConnection();
