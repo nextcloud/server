@@ -200,6 +200,8 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			}
 		}
 		$intersectingTables = array_intersect($toTables, $fromTables);
+		$intersectingTables = $this->sortTablesByForeignKeys($toDB, $intersectingTables);
+
 		$this->convertDB($fromDB, $toDB, $intersectingTables, $input, $output);
 		return 0;
 	}
@@ -265,6 +267,9 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		if (!empty($toTables)) {
 			$output->writeln('<info>Clearing schema in new database</info>');
 		}
+	
+		$toTables = $this->sortTablesByForeignKeys($db, $toTables, true);
+	
 		foreach ($toTables as $table) {
 			$db->createSchemaManager()->dropTable($table);
 		}
@@ -340,7 +345,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		for ($chunk = 0; $chunk < $numChunks; $chunk++) {
 			$query->setFirstResult($chunk * $chunkSize);
 
-			$result = $query->executeQuery();
+			 = $query->executeQuery();
 
 			try {
 				$toDB->beginTransaction();
@@ -398,6 +403,97 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 
 		return $this->columnTypes[$tableName][$columnName];
+	}
+
+	/**
+	 * Sort tables so that tables referenced by foreign keys are copied
+	 * before the tables containing those foreign keys.
+	 *
+	 * The dependency information is obtained from the target database,
+	 * making this independent of the source/target database vendor.
+	 *
+	 * @param Connection $connection Target database connection
+	 * @param array<string> $tables Tables to sort
+	 * @param bool $dependenciesFirst Whether to place FK dependencies before dependent tables
+	 * @return array<string> Tables in dependency order
+	 */
+	protected function sortTablesByForeignKeys(Connection $connection, array $tables, bool $dependenciesFirst = false): array {
+		$tableSet = array_fill_keys($tables, true);
+
+		// dependencies[table] = tables that must be copied before it
+		$dependencies = array_fill_keys($tables, []);
+
+		// dependents[table] = tables that depend on it
+		$dependents = array_fill_keys($tables, []);
+
+		$schemaManager = $connection->createSchemaManager();
+
+		foreach ($tables as $table) {
+			foreach ($schemaManager->listTableForeignKeys($table) as $foreignKey) {
+				$foreignTable = $foreignKey->getForeignTableName();
+
+				// Ignore references to tables which aren't being converted.
+				if (!isset($tableSet[$foreignTable])) {
+					continue;
+				}
+
+				// Ignore self-references. They don't impose an ordering
+				// requirement on the table itself.
+				if ($foreignTable === $table) {
+					continue;
+				}
+
+				$dependencies[$table][$foreignTable] = true;
+				$dependents[$foreignTable][$table] = true;
+			}
+		}
+
+		/*
+		 * Kahn's topological sort.
+		 *
+		 * Tables without dependencies can be copied immediately.
+		 */
+		$readyTables = [];
+
+		foreach ($tables as $table) {
+			if ($dependencies[$table] === []) {
+				$readyTables[] = $table;
+			}
+		}
+
+		$sortedTables = [];
+
+		while ($readyTables !== []) {
+			$table = array_shift($ready);
+			$sortedTables[] = $table;
+
+			foreach (array_keys($dependents[$table]) as $dependent) {
+				unset($dependencies[$dependent][$table]);
+
+				if ($dependencies[$dependent] === []) {
+					$readyTables[] = $dependent;
+				}
+			}
+		}
+
+		/*
+		 * A cycle means there is no valid topological ordering.
+		 *
+		 * Don't silently produce an invalid ordering. Keep the original
+		 * order for the remaining tables; PostgreSQL may still reject
+		 * the conversion, but the failure will accurately expose the
+		 * cyclic dependency rather than being hidden by this sorter.
+		 */
+		if (count($sortedTables) !== count($tables)) {
+			$remaining = array_diff($tables, $sortedTables);
+			$sortedTables = array_merge($sortedTables, $remaining);
+		}
+
+		if ($dependenciesFirst) {
+			$sortedTables = array_reverse($sortedTables);
+		}
+
+		return $sortedTables;
 	}
 
 	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
