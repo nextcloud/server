@@ -41416,7 +41416,7 @@
         "/index.php/apps/theming/favicon/{app}": {
             "get": {
                 "operationId": "theming-icon-get-favicon",
-                "summary": "Return a 32x32 favicon as png",
+                "summary": "Return a favicon as svg",
                 "tags": [
                     "theming/icon"
                 ],
@@ -41445,13 +41445,7 @@
                     "200": {
                         "description": "Favicon returned",
                         "content": {
-                            "image/png": {
-                                "schema": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
-                            },
-                            "image/x-icon": {
+                            "*/*": {
                                 "schema": {
                                     "type": "string",
                                     "format": "binary"
@@ -41524,16 +41518,6 @@
                                 "schema": {
                                     "type": "string",
                                     "format": "binary"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Touch icon not found",
-                        "content": {
-                            "text/html": {
-                                "schema": {
-                                    "type": "string"
                                 }
                             }
                         }
