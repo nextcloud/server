@@ -346,9 +346,9 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * user-level sending for share emails, look up the user's mail service.
 	 *
 	 * @param ?IUser $user The share initiator user object
-	 * @return (IMessageSend&IService)|null A mail service that can send, or null to fall back to the system mailer
+	 * @return array{IMessageSend&IService, string}|null The mail service and user email, or null to fall back
 	 */
-	protected function findMailService(?IUser $user = null): (IMessageSend&IService)|null {
+	protected function findMailService(?IUser $user = null): ?array {
 		if ($user === null) {
 			return null;
 		}
@@ -367,7 +367,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$mailService = $this->mailManager->findServiceByAddress($user->getUID(), $userEmail);
 		if ($mailService instanceof IMessageSend) {
-			return $mailService;
+			return [$mailService, $userEmail];
 		}
 
 		return null;
@@ -385,19 +385,16 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 */
 	protected function sendViaMailProviderWithFallback(
 		?IUser $initiatorUser,
-		string $initiatorDisplayName,
+		?string $initiatorDisplayName,
 		array $recipientEmails,
 		callable $templateFactory,
 	): bool {
-		$mailService = $this->findMailService($initiatorUser);
-		if ($mailService === null) {
+		$result = $this->findMailService($initiatorUser);
+		if ($result === null) {
 			return false;
 		}
-		
-		$initiatorEmail = $initiatorUser->getEMailAddress();
-		if ($initiatorEmail === null) {
-			return false;
-		}
+
+		[$mailService, $initiatorEmail] = $result;
 
 		$emailTemplate = $templateFactory();
 		$instanceName = $this->defaults->getName();
@@ -421,14 +418,14 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *
 	 * @param IMessageSend&IService $mailService The mail provider service
 	 * @param string $senderEmail The sender's email address
-	 * @param string $senderName The sender's display name
+	 * @param ?string $senderName The sender's display name
 	 * @param array $recipientEmails The recipient email addresses
 	 * @param \OCP\Mail\IEMailTemplate $emailTemplate The email template
 	 */
 	protected function sendViaMailProvider(
 		IMessageSend&IService $mailService,
 		string $senderEmail,
-		string $senderName,
+		?string $senderName,
 		array $recipientEmails,
 		\OCP\Mail\IEMailTemplate $emailTemplate,
 	): void {
