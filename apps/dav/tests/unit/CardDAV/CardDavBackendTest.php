@@ -682,62 +682,7 @@ class CardDavBackendTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestSearch')]
 	public function testSearch(string $pattern, array $properties, array $options, array $expectedUris, array $expectedNeedles): void {
-		$vCards = [];
-
-		$vCards[0] = new VCard();
-		$vCards[0]->add(new Text($vCards[0], 'UID', 'uid-0'));
-		$vCards[0]->add(new Text($vCards[0], 'FN', 'John Doe'));
-		$vCards[0]->add(new Text($vCards[0], 'CLOUD', 'john@nextcloud.com'));
-
-		$vCards[1] = new VCard();
-		$vCards[1]->add(new Text($vCards[1], 'UID', 'uid-1'));
-		$vCards[1]->add(new Text($vCards[1], 'FN', 'John M. Doe'));
-
-		$vCards[2] = new VCard();
-		$vCards[2]->add(new Text($vCards[2], 'UID', 'uid-2'));
-		$vCards[2]->add(new Text($vCards[2], 'FN', 'find without options'));
-		$vCards[2]->add(new Text($vCards[2], 'CLOUD', 'peter_pan@nextcloud.com'));
-
-		$vCardIds = [];
-		$query = $this->db->getQueryBuilder();
-		for ($i = 0; $i < 3; $i++) {
-			$query->insert($this->dbCardsTable)
-				->values(
-					[
-						'addressbookid' => $query->createNamedParameter(0),
-						'carddata' => $query->createNamedParameter($vCards[$i]->serialize(), IQueryBuilder::PARAM_LOB),
-						'uri' => $query->createNamedParameter('uri' . $i),
-						'lastmodified' => $query->createNamedParameter(time()),
-						'etag' => $query->createNamedParameter('etag' . $i),
-						'size' => $query->createNamedParameter(120),
-					]
-				);
-			$query->executeStatement();
-			$vCardIds[] = $query->getLastInsertId();
-		}
-
-		$propertyRows = [
-			[$vCardIds[0], 'FN', 'John Doe'],
-			[$vCardIds[0], 'CLOUD', 'John@nextcloud.com'],
-			[$vCardIds[1], 'FN', 'John M. Doe'],
-			[$vCardIds[2], 'FN', 'find without options'],
-			[$vCardIds[2], 'CLOUD', 'peter_pan@nextcloud.com'],
-		];
-
-		foreach ($propertyRows as [$cardId, $name, $value]) {
-			$query = $this->db->getQueryBuilder();
-			$query->insert($this->dbCardsPropertiesTable)
-				->values(
-					[
-						'addressbookid' => $query->createNamedParameter(0),
-						'cardid' => $query->createNamedParameter($cardId),
-						'name' => $query->createNamedParameter($name),
-						'value' => $query->createNamedParameter($value),
-						'preferred' => $query->createNamedParameter(0),
-					]
-				);
-			$query->executeStatement();
-		}
+		$this->seedSearchCards();
 
 		$result = $this->backend->search(0, $pattern, $properties, $options);
 
@@ -759,6 +704,81 @@ class CardDavBackendTest extends TestCase {
 				strpos($row['carddata'], $expectedByUri[$row['uri']]),
 				'Returned carddata does not contain expected fragment for ' . $row['uri']
 			);
+		}
+	}
+
+	public function testSearchPaginationUsesCardIdOrder(): void {
+		$this->seedSearchCards();
+
+		$firstPage = $this->backend->search(0, 'john', ['FN'], [
+			'limit' => 1,
+			'offset' => 0,
+		]);
+		$secondPage = $this->backend->search(0, 'john', ['FN'], [
+			'limit' => 1,
+			'offset' => 1,
+		]);
+		$twoResults = $this->backend->search(0, 'john', ['FN'], [
+			'limit' => 2,
+		]);
+
+		self::assertSame(['uri0'], array_column($firstPage, 'uri'));
+		self::assertSame(['uri1'], array_column($secondPage, 'uri'));
+		self::assertSame(['uri0', 'uri1'], array_column($twoResults, 'uri'));
+	}
+
+	private function seedSearchCards(): void {
+		$vCards = [];
+
+		$vCards[0] = new VCard();
+		$vCards[0]->add(new Text($vCards[0], 'UID', 'uid-0'));
+		$vCards[0]->add(new Text($vCards[0], 'FN', 'John Doe'));
+		$vCards[0]->add(new Text($vCards[0], 'CLOUD', 'john@nextcloud.com'));
+
+		$vCards[1] = new VCard();
+		$vCards[1]->add(new Text($vCards[1], 'UID', 'uid-1'));
+		$vCards[1]->add(new Text($vCards[1], 'FN', 'John M. Doe'));
+
+		$vCards[2] = new VCard();
+		$vCards[2]->add(new Text($vCards[2], 'UID', 'uid-2'));
+		$vCards[2]->add(new Text($vCards[2], 'FN', 'find without options'));
+		$vCards[2]->add(new Text($vCards[2], 'CLOUD', 'peter_pan@nextcloud.com'));
+
+		$vCardIds = [];
+		$query = $this->db->getQueryBuilder();
+		for ($i = 0; $i < 3; $i++) {
+			$query->insert($this->dbCardsTable)
+				->values([
+					'addressbookid' => $query->createNamedParameter(0),
+					'carddata' => $query->createNamedParameter($vCards[$i]->serialize(), IQueryBuilder::PARAM_LOB),
+					'uri' => $query->createNamedParameter('uri' . $i),
+					'lastmodified' => $query->createNamedParameter(time()),
+					'etag' => $query->createNamedParameter('etag' . $i),
+					'size' => $query->createNamedParameter(120),
+				]);
+			$query->executeStatement();
+			$vCardIds[] = $query->getLastInsertId();
+		}
+
+		$propertyRows = [
+			[$vCardIds[0], 'FN', 'John Doe'],
+			[$vCardIds[0], 'CLOUD', 'John@nextcloud.com'],
+			[$vCardIds[1], 'FN', 'John M. Doe'],
+			[$vCardIds[2], 'FN', 'find without options'],
+			[$vCardIds[2], 'CLOUD', 'peter_pan@nextcloud.com'],
+		];
+
+		foreach ($propertyRows as [$cardId, $name, $value]) {
+			$query = $this->db->getQueryBuilder();
+			$query->insert($this->dbCardsPropertiesTable)
+				->values([
+					'addressbookid' => $query->createNamedParameter(0),
+					'cardid' => $query->createNamedParameter($cardId),
+					'name' => $query->createNamedParameter($name),
+					'value' => $query->createNamedParameter($value),
+					'preferred' => $query->createNamedParameter(0),
+				]);
+			$query->executeStatement();
 		}
 	}
 

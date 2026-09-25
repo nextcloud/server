@@ -1207,13 +1207,16 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * } $options
 	 * @return array
 	 */
-	private function searchByAddressBookIds(array $addressBookIds,
+	private function searchByAddressBookIds(
+		array $addressBookIds,
 		string $pattern,
 		array $searchProperties,
-		array $options = []): array {
+		array $options = [],
+	): array {
 		if (empty($addressBookIds)) {
 			return [];
 		}
+
 		$escapePattern = !\array_key_exists('escape_like_param', $options) || $options['escape_like_param'] !== false;
 		$useWildcards = !\array_key_exists('wildcard', $options) || $options['wildcard'] !== false;
 
@@ -1253,6 +1256,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			} else {
 				$query2->andWhere($query2->expr()->ilike('cp.value', $query2->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
 			}
+		}
+		if (isset($options['limit']) || isset($options['offset'])) {
+			$query2->orderBy('cp.cardid', 'ASC');
 		}
 		if (isset($options['limit'])) {
 			$query2->setMaxResults($options['limit']);
@@ -1299,6 +1305,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$query->select('c.addressbookid', 'c.carddata', 'c.uri')
 			->from($this->dbCardsTable, 'c')
 			->where($query->expr()->in('c.id', $query->createParameter('matches')));
+
+		if (isset($options['limit']) || isset($options['offset'])) {
+			$query->orderBy('c.id', 'ASC');
+		}
 
 		foreach (array_chunk($matches, IQueryBuilder::MAX_IN_PARAMETERS) as $matchesChunk) {
 			$query->setParameter('matches', $matchesChunk, IQueryBuilder::PARAM_INT_ARRAY);
