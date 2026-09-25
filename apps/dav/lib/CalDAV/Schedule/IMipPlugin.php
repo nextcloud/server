@@ -10,7 +10,6 @@
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalendarObject;
-use OCA\DAV\CalDAV\EventComparisonService;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
@@ -65,7 +64,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		private Defaults $defaults,
 		private IUserSession $userSession,
 		private IMipService $imipService,
-		private EventComparisonService $eventComparisonService,
 		private IMailManager $mailManager,
 		private IEmailValidator $emailValidator,
 		private IAccountManager $accountManager,
@@ -149,26 +147,45 @@ class IMipPlugin extends SabreIMipPlugin {
 		$newEvents = $iTipMessage->message;
 		$oldEvents = $this->getVCalendar();
 
-		$modified = $this->eventComparisonService->findModified($newEvents, $oldEvents);
-		/** @var VEvent $vEvent */
-		$vEvent = array_pop($modified['new']);
-		/** @var VEvent $oldVevent */
-		$oldVevent = !empty($modified['old']) && is_array($modified['old']) ? array_pop($modified['old']) : null;
-		$isModified = isset($oldVevent);
+		$modifiedInstances = $this->imipService->findModifiedInstances($newEvents, $oldEvents);
 
 		// No changed events after all - this shouldn't happen if there is significant change yet here we are
 		// The scheduling status is debatable
-		if (empty($vEvent)) {
+		if (empty($modifiedInstances)) {
 			$this->logger->warning('iTip message said the change was significant but comparison did not detect any updated VEvents');
 			$iTipMessage->scheduleStatus = '1.0;We got the message, but it\'s not significant enough to warrant an email';
 			return;
 		}
 
-		// we (should) have one event component left
-		// as the ITip\Broker creates one iTip message per change
-		// and triggers the "schedule" event once per message
-		// we also might not have an old event as this could be a new
-		// invitation, or a new recurrence exception
+		// we (should) have one changed instance per message, as the ITip\Broker
+		// creates one iTip message per attendee and triggers the "schedule"
+		// event once per message; a message can still bundle several changed
+		// instances (e.g. master + overrides edited together), in which case
+		// only the primary instance is reflected in the email for now
+		$primaryInstance = null;
+		foreach ($modifiedInstances as $instance) {
+			if (!isset($instance['new']->{'RECURRENCE-ID'})) {
+				$primaryInstance = $instance;
+				break;
+			}
+		}
+		$primaryInstance ??= $modifiedInstances[0];
+
+		if (count($modifiedInstances) > 1) {
+			$this->logger->debug('iTip message contains multiple changed instances; only the master/primary instance is reflected in the invitation email', [
+				'uid' => $iTipMessage->uid,
+				'instanceCount' => count($modifiedInstances),
+			]);
+		}
+
+		/** @var VEvent $vEvent */
+		$vEvent = $primaryInstance['new'];
+		/** @var VEvent|null $oldVevent */
+		$oldVevent = $primaryInstance['old'];
+		$isModified = $oldVevent !== null;
+
+		// we might not have an old event as this could be a new invitation,
+		// or a new recurrence exception
 		$attendee = $this->imipService->getCurrentAttendee($iTipMessage);
 		if ($attendee === null) {
 			$uid = $vEvent->UID ?? 'no UID found';

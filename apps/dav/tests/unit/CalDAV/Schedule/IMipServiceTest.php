@@ -2572,4 +2572,242 @@ class IMipServiceTest extends TestCase {
 		$this->assertSame(htmlspecialchars($data['meeting_occurring']), $actualHtmlValues[4]);
 		$this->assertSame(htmlspecialchars($data['meeting_description']), $actualHtmlValues[5]);
 	}
+
+	public function testFindModifiedInstancesNoModifiedEvent(): void {
+		$vCalendarOld = new VCalendar();
+		$vCalendarNew = new VCalendar();
+
+		$vEventOld = $vCalendarOld->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$vEventOld->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventOld->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$vEventNew = $vCalendarNew->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$vEventNew->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventNew->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$result = $this->service->findModifiedInstances($vCalendarNew, $vCalendarOld);
+		$this->assertEmpty($result);
+	}
+
+	public function testFindModifiedInstancesNewEvent(): void {
+		$vCalendarOld = null;
+		$vCalendarNew = new VCalendar();
+
+		$vEventNew = $vCalendarNew->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$vEventNew->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventNew->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$result = $this->service->findModifiedInstances($vCalendarNew, $vCalendarOld);
+		$this->assertEquals([['new' => $vEventNew, 'old' => null]], $result);
+	}
+
+	public function testFindModifiedInstancesModifiedUnmodifiedEvent(): void {
+		$vCalendarOld = new VCalendar();
+		$vCalendarNew = new VCalendar();
+
+		$vEventOld1 = $vCalendarOld->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$vEventOld1->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventOld1->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$vEventOld2 = $vCalendarOld->add('VEVENT', [
+			'UID' => 'uid-1235',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$vEventOld2->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventOld2->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$vEventNew1 = $vCalendarNew->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$vEventNew1->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventNew1->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$vEventNew2 = $vCalendarNew->add('VEVENT', [
+			'UID' => 'uid-1235',
+			'LAST-MODIFIED' => 123457,
+			'SEQUENCE' => 3,
+			'SUMMARY' => 'Fellowship meeting 2',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$vEventNew2->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventNew2->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$result = $this->service->findModifiedInstances($vCalendarNew, $vCalendarOld);
+		$this->assertEquals([['new' => $vEventNew2, 'old' => $vEventOld2]], $result);
+	}
+
+	/**
+	 * Instances are matched by UID (and RECURRENCE-ID), not just by their
+	 * SEQUENCE/RRULE/LAST-MODIFIED hash, so two unrelated events that
+	 * happen to share those values must never be paired with each other.
+	 */
+	public function testFindModifiedInstancesNeverPairsAcrossDifferentUids(): void {
+		$vCalendarOld = new VCalendar();
+		$vCalendarNew = new VCalendar();
+
+		$vEventOld = $vCalendarOld->add('VEVENT', [
+			'UID' => 'uid-old',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$vEventOld->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+
+		$vEventNew = $vCalendarNew->add('VEVENT', [
+			'UID' => 'uid-new',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$vEventNew->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+
+		$result = $this->service->findModifiedInstances($vCalendarNew, $vCalendarOld);
+		$this->assertEquals([['new' => $vEventNew, 'old' => null]], $result);
+	}
+
+	/**
+	 * A message bundling a recurring event's master together with one of
+	 * its overrides must pair each instance with its own matching old
+	 * counterpart, not with each other or by array position.
+	 */
+	public function testFindModifiedInstancesPairsMasterAndOverrideIndependently(): void {
+		$vCalendarOld = new VCalendar();
+		$vCalendarNew = new VCalendar();
+
+		$recurrenceId = new \DateTime('2016-01-02 00:00:00');
+
+		$oldMaster = $vCalendarOld->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$oldOverride = $vCalendarOld->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Elevenses',
+			'DTSTART' => $recurrenceId,
+			'RECURRENCE-ID' => $recurrenceId,
+		]);
+
+		$newMaster = $vCalendarNew->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 3,
+			'SUMMARY' => 'Fellowship meeting, moved',
+			'DTSTART' => new \DateTime('2016-01-01 01:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$newOverride = $vCalendarNew->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Elevenses, moved',
+			'DTSTART' => $recurrenceId,
+			'RECURRENCE-ID' => $recurrenceId,
+		]);
+
+		$result = $this->service->findModifiedInstances($vCalendarNew, $vCalendarOld);
+		$this->assertEquals([
+			['new' => $newMaster, 'old' => $oldMaster],
+			['new' => $newOverride, 'old' => $oldOverride],
+		], $result);
+	}
+
+	// First test to certify fix for issue nextcloud/server#41084
+	public function testFindModifiedInstancesSequenceNumberIncrementDetectedForFirstModificationToEventWithoutZeroInit(): void {
+		$vCalendarOld = new VCalendar();
+		$vCalendarNew = new VCalendar();
+
+		$vEventOld = $vCalendarOld->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			// 'SEQUENCE' => 0,			// sequence number may not be set to zero during event creation and instead fully omitted
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$vEventOld->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventOld->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$vEventNew = $vCalendarNew->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$vEventNew->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventNew->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$result = $this->service->findModifiedInstances($vCalendarNew, $vCalendarOld);
+		$this->assertEquals([['new' => $vEventNew, 'old' => $vEventOld]], $result);
+	}
+
+	// Second test to certify fix for issue nextcloud/server#41084
+	public function testFindModifiedInstancesSequenceNumberIncrementDetectedForFirstModificationToEventWithZeroInit(): void {
+		$vCalendarOld = new VCalendar();
+		$vCalendarNew = new VCalendar();
+
+		$vEventOld = $vCalendarOld->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$vEventOld->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventOld->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$vEventNew = $vCalendarNew->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z',
+		]);
+		$vEventNew->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$vEventNew->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$result = $this->service->findModifiedInstances($vCalendarNew, $vCalendarOld);
+		$this->assertEquals([['new' => $vEventNew, 'old' => $vEventOld]], $result);
+	}
 }
