@@ -69,6 +69,7 @@ use OCA\Settings\SetupChecks\PushService;
 use OCA\Settings\SetupChecks\RandomnessSecure;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
 use OCA\Settings\SetupChecks\RepairSanitizeSystemTagsAvailable;
+use OCA\Settings\SetupChecks\S3SseCEncryption;
 use OCA\Settings\SetupChecks\SchedulingTableSize;
 use OCA\Settings\SetupChecks\SecurityHeaders;
 use OCA\Settings\SetupChecks\ServerIdConfig;
@@ -212,6 +213,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(RandomnessSecure::class);
 		$context->registerSetupCheck(ReadOnlyConfig::class);
 		$context->registerSetupCheck(RepairSanitizeSystemTagsAvailable::class);
+		$context->registerSetupCheck(S3SseCEncryption::class);
 		$context->registerSetupCheck(SecurityHeaders::class);
 		$context->registerSetupCheck(ServerIdConfig::class);
 		$context->registerSetupCheck(SchedulingTableSize::class);
