@@ -16,6 +16,7 @@ export type LDAPConfig = {
 	ldapTLS: '0' | '1' // Example: 1
 	turnOffCertCheck: '0' | '1' // Example: 0
 	ldapIgnoreNamingRules: string // Example: >
+	ldapUserActiveState: string // Example: active
 	ldapUserDisplayName: string // Example: displayname
 	ldapUserDisplayName2: string // Example: uid
 	ldapUserFilterObjectclass?: string // Example: inetOrgPerson
