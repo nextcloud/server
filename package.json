@@ -53,7 +53,7 @@
     "@nextcloud/logger": "^3.0.3",
     "@nextcloud/password-confirmation": "^6.1.0",
     "@nextcloud/paths": "^3.1.0",
-    "@nextcloud/router": "^3.1.0",
+    "@nextcloud/router": "^3.2.0",
     "@nextcloud/sharing": "^0.4.0",
     "@nextcloud/vue": "^9.9.0",
     "@vueuse/core": "^14.4.0",
