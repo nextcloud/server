@@ -291,6 +291,7 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avancés",
     "Share label" : "Libellé du partage",
     "Share link token" : "Jeton de lien de partage",
+    "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "Définissez un jeton de lien de partage public facile à mémoriser ou créez un nouveau jeton. Les jetons peuvent faire jusqu'à {maxLength} caractères de long et ne peuvent contenir que des lettres, chiffres et traits d'union. Il n'est pas recommandé d'utiliser un jeton facile à deviner pour les partages contenant des informations sensibles.",
     "Generating…" : "Génération en cours …",
     "Generate new token" : "Générer un nouveau jeton",
     "Set password" : "Définir un mot de passe",

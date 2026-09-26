@@ -289,6 +289,7 @@
     "Advanced settings" : "Gelişmiş ayarlar",
     "Share label" : "Paylaşım etiketi",
     "Share link token" : "Paylaşım bağlantısı kodu",
+    "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "kodHerkese açık paylaşım bağlantısı kodunu kolay hatırlanacak bir şey olarak ayarlayın veya yeni bir kod oluşturun. Kodlar en fazla {maxLength} karakter uzunluğunda olabilir ve yalnızca harf, rakam ve tire karakterlerini içerebilir. Önemli bilgiler içeren paylaşımlar için öngörülebilir bir kod kullanılması önerilmez.",
     "Generating…" : "Oluşturuluyor…",
     "Generate new token" : "Yeni kod oluştur",
     "Set password" : "Parola ayarla",
