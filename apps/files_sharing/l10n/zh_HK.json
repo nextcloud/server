@@ -289,6 +289,7 @@
     "Advanced settings" : "進階設定",
     "Share label" : "分享標籤",
     "Share link token" : "分享連結權杖",
+    "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "將公開分享連結的權杖設為容易記住的內容，或產生新的權杖。權杖最多可包含{maxLength}個字元，且只能使用英文字母、數字及連字號。對於包含敏感資料的分享，不建議使用容易猜到的權杖。",
     "Generating…" : "正在產生 …",
     "Generate new token" : "産生新權杖",
     "Set password" : "設置密碼",
