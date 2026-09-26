@@ -289,6 +289,7 @@
     "Advanced settings" : "Erweiterte Einstellungen",
     "Share label" : "Freigabe-Label",
     "Share link token" : "Freigabe-Token teilen",
+    "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "Das öffentliche Share-Link-Token auf etwas setzen, das leicht zu merken ist, oder ein neues Token erstellen. Token können bis zu {maxLength} Zeichen lang sein und dürfen nur Buchstaben, Zahlen und Bindestriche enthalten. Es ist nicht zu empfehlen, für Freigaben, die vertrauliche Informationen enthalten, ein erratbares Token zu verwenden.",
     "Generating…" : "Generieren …",
     "Generate new token" : "Neues Token generieren",
     "Set password" : "Passwort setzen",
