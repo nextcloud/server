@@ -27,7 +27,7 @@ const recoveryEnabled = ref(adminSettings.recoveryEnabled!)
 <template>
 	<NcSettingsSection :name="t('encryption', 'Default encryption module')">
 		<NcNoteCard v-if="adminSettings.initStatus === InitStatus.NotInitialized && !adminSettings.masterKeyEnabled" type="warning">
-			{{ t('encryption', 'Encryption app is enabled but your keys are not initialized, please log-out and log-in again') }}
+			{{ t('encryption', 'Your encryption keys are not initialized for this session. Please sign out and sign back in.') }}
 		</NcNoteCard>
 
 		<template v-else>
