@@ -26,6 +26,17 @@ $template = $_['template'];
 			<?php endif; ?>
 	<?php endif; ?>
 	<?php print_unescaped($template); ?>
+	<?php if ($_['hasOtherProviders']): ?>
+	<p>
+		<a class="two-factor-secondary" href="<?php p(\OCP\Server::get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.selectChallenge',
+			[
+				'redirect_url' => $_['redirect_url'],
+			]
+		)) ?>">
+			<?php p($l->t('Use another method')) ?>
+		</a>
+	</p>
+	<?php endif; ?>
 	<?php if (!is_null($_['backupProvider'])): ?>
 	<p>
 		<a class="two-factor-secondary" href="<?php p(\OCP\Server::get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.showChallenge',
