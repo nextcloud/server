@@ -85,6 +85,33 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
+	public function testGetFormPassesDisabledSettingsAndInitializationStatus(): void {
+		$this->appConfig
+			->method('getValueBool')
+			->willReturnMap([
+				['encryption', 'recoveryAdminEnabled', false],
+				['encryption', 'encryptHomeStorage', true, false],
+				['encryption', 'useMasterKey', true, false],
+			]);
+
+		$this->session
+			->method('get')
+			->with('encryptionInitialized')
+			->willReturn('2');
+
+		$this->initialState
+			->expects(self::once())
+			->method('provideInitialState')
+			->with('adminSettings', [
+				'recoveryEnabled' => false,
+				'initStatus' => '2',
+				'encryptHomeStorage' => false,
+				'masterKeyEnabled' => false,
+			]);
+
+		$this->admin->getForm();
+	}
+
 	public function testGetSection(): void {
 		$this->assertSame('security', $this->admin->getSection());
 	}
