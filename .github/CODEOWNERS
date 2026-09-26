@@ -72,9 +72,9 @@ package-lock.json                             @nextcloud/server-dependabot
 
 # Two-Factor Authentication
 # https://github.com/nextcloud/wg-two-factor-authentication#members
-**/TwoFactorAuth                    @ChristophWurst @miaulalala @nickvergessen
-/apps/twofactor_backupcodes         @ChristophWurst @miaulalala @nickvergessen
-/core/templates/twofactor*          @ChristophWurst @miaulalala @nickvergessen
+**/TwoFactorAuth                    @ChristophWurst @miaulalala
+/apps/twofactor_backupcodes         @ChristophWurst @miaulalala
+/core/templates/twofactor*          @ChristophWurst @miaulalala
 
 # Limit login to IP
 # Watch login routes for https://github.com/nextcloud/limit_login_to_ip
@@ -107,5 +107,4 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 /apps/dav/lib/Connector/Sabre/BlockLegacyClientPlugin.php @nextcloud/desktop
 
 # Personal interest
-*/Activity/*                                              @nickvergessen @nextcloud/server-backend
-/apps/workflowengine/lib                                  @nickvergessen @blizzz
+/apps/workflowengine/lib                                  @blizzz
