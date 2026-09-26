@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Tests\Core\Command\Config\App;
 
-use OC\Config\ConfigManager;
 use OC\Core\Command\Config\App\GetConfig;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
@@ -20,8 +19,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class GetConfigTest extends TestCase {
-	protected IAppConfig&MockObject $appConfig;
-	protected ConfigManager&MockObject $configManager;
 	protected InputInterface&MockObject $consoleInput;
 	protected OutputInterface&MockObject $consoleOutput;
 	protected Command $command;
@@ -29,13 +26,10 @@ class GetConfigTest extends TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->configManager = $this->createMock(ConfigManager::class);
 		$this->consoleInput = $this->createMock(InputInterface::class);
 		$this->consoleOutput = $this->createMock(OutputInterface::class);
 
-		$this->command = new GetConfig($this->appConfig, $this->configManager);
+		$this->command = $this->createInstanceWithMocks(GetConfig::class);
 	}
 
 	public static function dataGet(): array {
@@ -83,7 +77,7 @@ class GetConfigTest extends TestCase {
 	public function testGet(string $configName, mixed $value, bool $configExists, mixed $defaultValue, bool $hasDefault, string $outputFormat, int $expectedReturn, ?string $expectedMessage): void {
 		if (!$expectedReturn) {
 			if ($configExists) {
-				$this->appConfig->expects($this->once())
+				$this->mocks[IAppConfig::class]->expects($this->once())
 					->method('getDetails')
 					->with('app-name', $configName)
 					->willReturn(['value' => $value]);
@@ -91,7 +85,7 @@ class GetConfigTest extends TestCase {
 		}
 
 		if (!$configExists) {
-			$this->appConfig->expects($this->once())
+			$this->mocks[IAppConfig::class]->expects($this->once())
 				->method('getDetails')
 				->with('app-name', $configName)
 				->willThrowException(new AppConfigUnknownKeyException());

@@ -22,26 +22,17 @@ class CSPMiddlewareTest extends \Test\TestCase {
 	private $middleware;
 	/** @var Controller&MockObject */
 	private $controller;
-	/** @var ContentSecurityPolicyManager&MockObject */
-	private $contentSecurityPolicyManager;
-	/** @var ContentSecurityPolicyNonceManager&MockObject */
-	private $cspNonceManager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->controller = $this->createMock(Controller::class);
-		$this->contentSecurityPolicyManager = $this->createMock(ContentSecurityPolicyManager::class);
-		$this->cspNonceManager = $this->createMock(ContentSecurityPolicyNonceManager::class);
-		$this->middleware = new CSPMiddleware(
-			$this->contentSecurityPolicyManager,
-			$this->cspNonceManager,
-		);
+		$this->middleware = $this->createInstanceWithMocks(CSPMiddleware::class);
 	}
 
 	public function testAfterController(): void {
-		$this->cspNonceManager
+		$this->mocks[ContentSecurityPolicyNonceManager::class]
 			->expects($this->once())
 			->method('browserSupportsCspV3')
 			->willReturn(false);
@@ -56,11 +47,11 @@ class CSPMiddlewareTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('getContentSecurityPolicy')
 			->willReturn($currentPolicy);
-		$this->contentSecurityPolicyManager
+		$this->mocks[ContentSecurityPolicyManager::class]
 			->expects($this->once())
 			->method('getDefaultPolicy')
 			->willReturn($defaultPolicy);
-		$this->contentSecurityPolicyManager
+		$this->mocks[ContentSecurityPolicyManager::class]
 			->expects($this->once())
 			->method('mergePolicies')
 			->with($defaultPolicy, $currentPolicy)
@@ -85,12 +76,12 @@ class CSPMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testAfterControllerWithContentSecurityPolicy3Support(): void {
-		$this->cspNonceManager
+		$this->mocks[ContentSecurityPolicyNonceManager::class]
 			->expects($this->once())
 			->method('browserSupportsCspV3')
 			->willReturn(true);
 		$token = base64_encode('the-nonce');
-		$this->cspNonceManager
+		$this->mocks[ContentSecurityPolicyNonceManager::class]
 			->expects($this->once())
 			->method('getNonce')
 			->willReturn($token);
@@ -105,11 +96,11 @@ class CSPMiddlewareTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('getContentSecurityPolicy')
 			->willReturn($currentPolicy);
-		$this->contentSecurityPolicyManager
+		$this->mocks[ContentSecurityPolicyManager::class]
 			->expects($this->once())
 			->method('getDefaultPolicy')
 			->willReturn($defaultPolicy);
-		$this->contentSecurityPolicyManager
+		$this->mocks[ContentSecurityPolicyManager::class]
 			->expects($this->once())
 			->method('mergePolicies')
 			->with($defaultPolicy, $currentPolicy)

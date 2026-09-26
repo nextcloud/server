@@ -23,15 +23,13 @@ use Test\TestCase;
 
 class DbInfoTest extends TestCase {
 
-	private Connection&MockObject $connection;
 	private InputInterface&MockObject $input;
 	private DbInfo $command;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = $this->createMock(Connection::class);
 		$this->input = $this->createMock(InputInterface::class);
-		$this->command = new DbInfo($this->connection);
+		$this->command = $this->createInstanceWithMocks(DbInfo::class);
 	}
 
 	private function mockMySQLResult(array $overrides = []): Result&MockObject {
@@ -58,9 +56,9 @@ class DbInfoTest extends TestCase {
 	}
 
 	public function testMySQLTableOutput(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->connection->method('executeQuery')
+		$this->mocks[Connection::class]->method('executeQuery')
 			->willReturn($this->mockMySQLResult());
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -74,9 +72,9 @@ class DbInfoTest extends TestCase {
 	}
 
 	public function testPostgreSQLTableOutput(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(PostgreSQLPlatform::class));
-		$this->connection->method('executeQuery')
+		$this->mocks[Connection::class]->method('executeQuery')
 			->willReturn($this->mockPostgreSQLResult());
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -88,11 +86,11 @@ class DbInfoTest extends TestCase {
 	}
 
 	public function testSQLiteTableOutput(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(SqlitePlatform::class));
 		$result = $this->createMock(Result::class);
 		$result->method('fetchAssociative')->willReturn(['version' => '3.43.0']);
-		$this->connection->method('executeQuery')->willReturn($result);
+		$this->mocks[Connection::class]->method('executeQuery')->willReturn($result);
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
 		$output = new BufferedOutput();
@@ -103,7 +101,7 @@ class DbInfoTest extends TestCase {
 	}
 
 	public function testUnsupportedPlatformReturnsFailure(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(AbstractPlatform::class));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -115,9 +113,9 @@ class DbInfoTest extends TestCase {
 	}
 
 	public function testJsonOutputContainsSettingKeys(): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->connection->method('executeQuery')
+		$this->mocks[Connection::class]->method('executeQuery')
 			->willReturn($this->mockMySQLResult());
 		$this->input->method('getOption')->willReturnMap([['json', true]]);
 
@@ -149,9 +147,9 @@ class DbInfoTest extends TestCase {
 		bool $expectedOk,
 		string $settingLabel,
 	): void {
-		$this->connection->method('getDatabasePlatform')
+		$this->mocks[Connection::class]->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->connection->method('executeQuery')
+		$this->mocks[Connection::class]->method('executeQuery')
 			->willReturn($this->mockMySQLResult([$field => $value]));
 		$this->input->method('getOption')->willReturnMap([['json', true]]);
 

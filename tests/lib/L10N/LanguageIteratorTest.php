@@ -9,14 +9,9 @@ namespace Test\L10N;
 
 use OC\L10N\LanguageIterator;
 use OCP\IConfig;
-use OCP\IUser;
 use Test\TestCase;
 
 class LanguageIteratorTest extends TestCase {
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
-	protected $user;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
 	/** @var LanguageIterator */
 	protected $iterator;
 
@@ -24,10 +19,7 @@ class LanguageIteratorTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->user = $this->createMock(IUser::class);
-		$this->config = $this->createMock(IConfig::class);
-
-		$this->iterator = new LanguageIterator($this->user, $this->config);
+		$this->iterator = $this->createInstanceWithMocks(LanguageIterator::class);
 	}
 
 	public static function languageSettingsProvider(): array {
@@ -60,17 +52,17 @@ class LanguageIteratorTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('languageSettingsProvider')]
 	public function testIterator($forcedLang, $userLang, $sysLang, $expectedValues): void {
-		$this->config->expects($this->any())
+		$this->mocks[IConfig::class]->expects($this->any())
 			->method('getSystemValue')
 			->willReturnMap([
 				['force_language', false, $forcedLang],
 			]);
-		$this->config->expects($this->any())
+		$this->mocks[IConfig::class]->expects($this->any())
 			->method('getSystemValueString')
 			->willReturnMap([
 				['default_language', 'en', $sysLang],
 			]);
-		$this->config->expects($this->any())
+		$this->mocks[IConfig::class]->expects($this->any())
 			->method('getUserValue')
 			->willReturn($userLang);
 

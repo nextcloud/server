@@ -14,28 +14,16 @@ use OCP\IAppConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CleanPreviewsTest extends TestCase {
-	private IJobList&MockObject $jobList;
-	private IUserManager&MockObject $userManager;
-	private IAppConfig&MockObject $appConfig;
 	private CleanPreviews $repair;
 
 	#[\Override]
 	public function setUp(): void {
 		parent::setUp();
 
-		$this->jobList = $this->createMock(IJobList::class);
-		$this->userManager = $this->createMock(IUserManager::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
-
-		$this->repair = new CleanPreviews(
-			$this->jobList,
-			$this->userManager,
-			$this->appConfig
-		);
+		$this->repair = $this->createInstanceWithMocks(CleanPreviews::class);
 	}
 
 	public function testGetName(): void {
@@ -50,7 +38,7 @@ class CleanPreviewsTest extends TestCase {
 		$user2->method('getUID')
 			->willReturn('user2');
 
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('callForSeenUsers')
 			->willReturnCallback(function (\Closure $function) use (&$user1, $user2): void {
 				$function($user1);
@@ -58,19 +46,19 @@ class CleanPreviewsTest extends TestCase {
 			});
 
 		$jobListCalls = [];
-		$this->jobList->expects($this->exactly(2))
+		$this->mocks[IJobList::class]->expects($this->exactly(2))
 			->method('add')
 			->willReturnCallback(function () use (&$jobListCalls): void {
 				$jobListCalls[] = func_get_args();
 			});
 
-		$this->appConfig->expects($this->once())
+		$this->mocks[IAppConfig::class]->expects($this->once())
 			->method('getValueBool')
 			->with(
 				$this->equalTo('core'),
 				$this->equalTo('previewsCleanedUp'),
 			)->willReturn(false);
-		$this->appConfig->expects($this->once())
+		$this->mocks[IAppConfig::class]->expects($this->once())
 			->method('setValueBool')
 			->with(
 				$this->equalTo('core'),
@@ -86,19 +74,19 @@ class CleanPreviewsTest extends TestCase {
 	}
 
 	public function testRunAlreadyDone(): void {
-		$this->userManager->expects($this->never())
+		$this->mocks[IUserManager::class]->expects($this->never())
 			->method($this->anything());
 
-		$this->jobList->expects($this->never())
+		$this->mocks[IJobList::class]->expects($this->never())
 			->method($this->anything());
 
-		$this->appConfig->expects($this->once())
+		$this->mocks[IAppConfig::class]->expects($this->once())
 			->method('getValueBool')
 			->with(
 				$this->equalTo('core'),
 				$this->equalTo('previewsCleanedUp'),
 			)->willReturn(true);
-		$this->appConfig->expects($this->never())
+		$this->mocks[IAppConfig::class]->expects($this->never())
 			->method('setValueBool');
 
 		$this->repair->run($this->createMock(IOutput::class));

@@ -11,49 +11,20 @@ namespace Test\Encryption;
 use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Manager;
-use OC\Encryption\Util;
-use OC\Files\View;
-use OC\Memcache\ArrayCache;
 use OCP\Encryption\IEncryptionModule;
 use OCP\IAppConfig;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\Server;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 	/** @var Manager */
 	private $manager;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-
-	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
-	private $view;
-
-	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
-	private $util;
-
-	/** @var ArrayCache|\PHPUnit\Framework\MockObject\MockObject */
-	private $arrayCache;
-
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config = $this->createMock(IConfig::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->l10n = $this->createMock(IL10N::class);
-		$this->view = $this->createMock(View::class);
-		$this->util = $this->createMock(Util::class);
-		$this->arrayCache = $this->createMock(ArrayCache::class);
-		$this->manager = new Manager($this->config, $this->logger, $this->l10n, $this->view, $this->util, $this->arrayCache);
+		$this->manager = $this->createInstanceWithMocks(Manager::class);
 	}
 
 	public function testManagerIsDisabled(): void {
@@ -61,12 +32,12 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testManagerIsDisabledIfEnabledButNoModules(): void {
-		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
+		$this->mocks[IConfig::class]->expects($this->any())->method('getAppValue')->willReturn(true);
 		$this->assertFalse($this->manager->isEnabled());
 	}
 
 	public function testManagerIsDisabledIfDisabledButModules(): void {
-		$this->config->expects($this->any())->method('getAppValue')->willReturn(false);
+		$this->mocks[IConfig::class]->expects($this->any())->method('getAppValue')->willReturn(false);
 		$em = $this->createMock(IEncryptionModule::class);
 		$em->expects($this->any())->method('getId')->willReturn('id');
 		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
@@ -81,7 +52,7 @@ class ManagerTest extends TestCase {
 		$appConfig = Server::get(IAppConfig::class);
 		$appConfig->setValueBool('core', 'encryption_enabled', true);
 
-		$this->config->expects($this->any())->method('getSystemValueBool')->willReturn(true);
+		$this->mocks[IConfig::class]->expects($this->any())->method('getSystemValueBool')->willReturn(true);
 		$result = $this->manager->isEnabled();
 
 		$appConfig->deleteKey('core', 'encryption_enabled');
@@ -89,7 +60,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testModuleRegistration() {
-		$this->config->expects($this->any())->method('getAppValue')->willReturn('yes');
+		$this->mocks[IConfig::class]->expects($this->any())->method('getAppValue')->willReturn('yes');
 
 		$this->addNewEncryptionModule($this->manager, 0);
 		$this->assertCount(1, $this->manager->getEncryptionModules());
@@ -106,7 +77,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testModuleUnRegistration(): void {
-		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
+		$this->mocks[IConfig::class]->expects($this->any())->method('getAppValue')->willReturn(true);
 		$this->addNewEncryptionModule($this->manager, 0);
 		$this->assertCount(1, $this->manager->getEncryptionModules());
 
@@ -118,7 +89,7 @@ class ManagerTest extends TestCase {
 		$this->expectException(ModuleDoesNotExistsException::class);
 		$this->expectExceptionMessage('Module with ID: unknown does not exist.');
 
-		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
+		$this->mocks[IConfig::class]->expects($this->any())->method('getAppValue')->willReturn(true);
 		$this->addNewEncryptionModule($this->manager, 0);
 		$this->assertCount(1, $this->manager->getEncryptionModules());
 		$this->manager->getEncryptionModule('unknown');
@@ -128,7 +99,7 @@ class ManagerTest extends TestCase {
 		global $defaultId;
 		$defaultId = null;
 
-		$this->config->expects($this->any())
+		$this->mocks[IConfig::class]->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'default_encryption_module')
 			->willReturnCallback(function () {
@@ -152,7 +123,7 @@ class ManagerTest extends TestCase {
 		global $defaultId;
 		$defaultId = null;
 
-		$this->config->expects($this->any())
+		$this->mocks[IConfig::class]->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'default_encryption_module')
 			->willReturnCallback(function () {
@@ -177,7 +148,7 @@ class ManagerTest extends TestCase {
 		global $defaultId;
 		$defaultId = null;
 
-		$this->config->expects($this->any())
+		$this->mocks[IConfig::class]->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'default_encryption_module')
 			->willReturnCallback(function () {
@@ -195,7 +166,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('ID0', $this->manager->getDefaultEncryptionModuleId());
 
 		// Set to an existing module
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('setAppValue')
 			->with('core', 'default_encryption_module', 'ID1');
 		$this->assertTrue($this->manager->setDefaultEncryptionModule('ID1'));

@@ -14,28 +14,24 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\IOutput;
 use OCP\Files\File;
 use OCP\Files\SimpleFS\ISimpleFile;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class FileDisplayResponseTest extends \Test\TestCase {
-	private File&MockObject $file;
 	private FileDisplayResponse $response;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->file = $this->createMock(File::class);
-		$this->file->expects($this->once())
+		$this->response = $this->createInstanceWithMocks(FileDisplayResponse::class);
+		$this->mocks[File::class]->expects($this->once())
 			->method('getETag')
 			->willReturn('myETag');
-		$this->file->expects($this->once())
+		$this->mocks[File::class]->expects($this->once())
 			->method('getName')
 			->willReturn('myFileName');
-		$this->file->expects($this->once())
+		$this->mocks[File::class]->expects($this->once())
 			->method('getMTime')
 			->willReturn(1464825600);
-
-		$this->response = new FileDisplayResponse($this->file);
 	}
 
 	public function testHeader(): void {
@@ -64,7 +60,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 			->willReturn(Http::STATUS_NOT_MODIFIED);
 		$output->expects($this->never())
 			->method('setOutput');
-		$this->file->expects($this->never())
+		$this->mocks[File::class]->expects($this->never())
 			->method('getContent');
 
 		$this->response->callback($output);
@@ -75,10 +71,10 @@ class FileDisplayResponseTest extends \Test\TestCase {
 		fwrite($resource, 'my data');
 		rewind($resource);
 
-		$this->file->expects($this->once())
+		$this->mocks[File::class]->expects($this->once())
 			->method('fopen')
 			->willReturn($resource);
-		$this->file->expects($this->any())
+		$this->mocks[File::class]->expects($this->any())
 			->method('getSize')
 			->willReturn(7);
 
@@ -99,7 +95,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 	}
 
 	public function testFileNotFound(): void {
-		$this->file->expects($this->once())
+		$this->mocks[File::class]->expects($this->once())
 			->method('fopen')
 			->willReturn(false);
 

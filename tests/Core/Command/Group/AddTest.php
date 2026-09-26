@@ -15,9 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class AddTest extends TestCase {
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $groupManager;
-
 	/** @var Add */
 	private $command;
 
@@ -30,9 +27,7 @@ class AddTest extends TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->command = new Add($this->groupManager);
+		$this->command = $this->createInstanceWithMocks(Add::class);
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->input->method('getArgument')
@@ -48,11 +43,11 @@ class AddTest extends TestCase {
 	public function testGroupExists(): void {
 		$gid = 'myGroup';
 		$group = $this->createMock(IGroup::class);
-		$this->groupManager->method('get')
+		$this->mocks[IGroupManager::class]->method('get')
 			->with($gid)
 			->willReturn($group);
 
-		$this->groupManager->expects($this->never())
+		$this->mocks[IGroupManager::class]->expects($this->never())
 			->method('createGroup');
 		$this->output->expects($this->once())
 			->method('writeln')
@@ -66,10 +61,10 @@ class AddTest extends TestCase {
 		$group = $this->createMock(IGroup::class);
 		$group->method('getGID')
 			->willReturn($gid);
-		$this->groupManager->method('createGroup')
+		$this->mocks[IGroupManager::class]->method('createGroup')
 			->willReturn($group);
 
-		$this->groupManager->expects($this->once())
+		$this->mocks[IGroupManager::class]->expects($this->once())
 			->method('createGroup')
 			->with($this->equalTo($gid));
 		$this->output->expects($this->once())

@@ -14,25 +14,21 @@ use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
 use OCP\User\Events\UserChangedEvent;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class AvatarVersionListenerTest extends \Test\TestCase {
-	private IUserConfig&MockObject $userConfig;
 	private AvatarVersionListener $listener;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->userConfig = $this->createMock(IUserConfig::class);
-		$this->listener = new AvatarVersionListener($this->userConfig);
+		$this->listener = $this->createInstanceWithMocks(AvatarVersionListener::class);
 	}
 
 	public function testBumpsTheVersionWhenTheAccountChanges(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('alice');
 
-		$this->userConfig->expects($this->once())->method('setValueInt')
+		$this->mocks[IUserConfig::class]->expects($this->once())->method('setValueInt')
 			->with('alice', 'avatar', 'version', 1);
 
 		$this->listener->handle(new UserUpdatedEvent($user, []));
@@ -42,7 +38,7 @@ class AvatarVersionListenerTest extends \Test\TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('alice');
 
-		$this->userConfig->expects($this->once())->method('setValueInt')
+		$this->mocks[IUserConfig::class]->expects($this->once())->method('setValueInt')
 			->with('alice', 'avatar', 'version', 1);
 
 		$this->listener->handle(new UserChangedEvent($user, 'enabled', false, true));
@@ -51,13 +47,13 @@ class AvatarVersionListenerTest extends \Test\TestCase {
 	public function testIgnoresUnrelatedUserChanges(): void {
 		$user = $this->createMock(IUser::class);
 
-		$this->userConfig->expects($this->never())->method('setValueInt');
+		$this->mocks[IUserConfig::class]->expects($this->never())->method('setValueInt');
 
 		$this->listener->handle(new UserChangedEvent($user, 'quota', '1 GB', '2 GB'));
 	}
 
 	public function testIgnoresOtherEvents(): void {
-		$this->userConfig->expects($this->never())->method('setValueInt');
+		$this->mocks[IUserConfig::class]->expects($this->never())->method('setValueInt');
 
 		$this->listener->handle(new Event());
 	}

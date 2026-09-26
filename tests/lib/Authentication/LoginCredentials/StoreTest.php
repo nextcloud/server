@@ -22,17 +22,6 @@ use Test\TestCase;
 use function json_encode;
 
 class StoreTest extends TestCase {
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $session;
-
-	/** @var IProvider|\PHPUnit\Framework\MockObject\MockObject */
-	private $tokenProvider;
-
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
-	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
-	private $crypto;
-
 	/** @var Store */
 	private $store;
 
@@ -40,12 +29,7 @@ class StoreTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->session = $this->createMock(ISession::class);
-		$this->tokenProvider = $this->createMock(IProvider::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->crypto = $this->createMock(ICrypto::class);
-
-		$this->store = new Store($this->session, $this->logger, $this->crypto, $this->tokenProvider);
+		$this->store = $this->createInstanceWithMocks(Store::class);
 	}
 
 	public function testAuthenticate(): void {
@@ -55,10 +39,10 @@ class StoreTest extends TestCase {
 			'password' => '123456',
 		];
 
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('set')
 			->with($this->equalTo('login_credentials'), $this->equalTo(json_encode($params)));
-		$this->crypto->expects($this->once())
+		$this->mocks[ICrypto::class]->expects($this->once())
 			->method('encrypt')
 			->willReturn('123456');
 
@@ -73,7 +57,7 @@ class StoreTest extends TestCase {
 	}
 
 	public function testGetLoginCredentialsNoTokenProvider(): void {
-		$this->store = new Store($this->session, $this->logger, $this->crypto, null);
+		$this->store = new Store($this->mocks[ISession::class], $this->mocks[LoggerInterface::class], $this->mocks[ICrypto::class], null);
 
 		$this->expectException(CredentialsUnavailableException::class);
 
@@ -85,10 +69,10 @@ class StoreTest extends TestCase {
 		$user = 'user123';
 		$password = 'passme';
 		$token = $this->createMock(IToken::class);
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[IProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
 			->willReturn($token);
@@ -98,7 +82,7 @@ class StoreTest extends TestCase {
 		$token->expects($this->once())
 			->method('getLoginName')
 			->willReturn($user);
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[IProvider::class]->expects($this->once())
 			->method('getPassword')
 			->with($token, 'sess2233')
 			->willReturn($password);
@@ -110,7 +94,7 @@ class StoreTest extends TestCase {
 	}
 
 	public function testGetLoginCredentialsSessionNotAvailable(): void {
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('getId')
 			->willThrowException(new SessionNotAvailableException());
 		$this->expectException(CredentialsUnavailableException::class);
@@ -119,10 +103,10 @@ class StoreTest extends TestCase {
 	}
 
 	public function testGetLoginCredentialsInvalidToken(): void {
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[IProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
 			->willThrowException(new InvalidTokenException());
@@ -136,21 +120,21 @@ class StoreTest extends TestCase {
 		$user = 'user987';
 		$password = '7389374';
 
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[IProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
 			->willThrowException(new InvalidTokenException());
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(true);
-		$this->crypto->expects($this->once())
+		$this->mocks[ICrypto::class]->expects($this->once())
 			->method('decrypt')
 			->willReturn($password);
-		$this->session->expects($this->exactly(2))
+		$this->mocks[ISession::class]->expects($this->exactly(2))
 			->method('get')
 			->willReturnMap([
 				[
@@ -176,21 +160,21 @@ class StoreTest extends TestCase {
 		$uid = 'id987';
 		$password = '7389374';
 
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[IProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
 			->willThrowException(new InvalidTokenException());
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(true);
-		$this->crypto->expects($this->once())
+		$this->mocks[ICrypto::class]->expects($this->once())
 			->method('decrypt')
 			->willReturn($password);
-		$this->session->expects($this->exactly(2))
+		$this->mocks[ISession::class]->expects($this->exactly(2))
 			->method('get')
 			->willReturnMap([
 				[
@@ -217,21 +201,21 @@ class StoreTest extends TestCase {
 		$user = 'user987';
 		$password = '7389374';
 
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[IProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
 			->willThrowException(new InvalidTokenException());
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(true);
-		$this->crypto->expects($this->once())
+		$this->mocks[ICrypto::class]->expects($this->once())
 			->method('decrypt')
 			->willReturn($password);
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('get')
 			->with($this->equalTo('login_credentials'))
 			->willReturn('{"run":true,"uid":"id987","loginName":"user987","password":"7389374"}');
@@ -243,10 +227,10 @@ class StoreTest extends TestCase {
 	}
 
 	public function testGetLoginCredentialsPasswordlessToken(): void {
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[IProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
 			->willThrowException(new PasswordlessTokenException());
@@ -266,23 +250,23 @@ class StoreTest extends TestCase {
 			'password' => $password,
 		];
 
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('set')
 			->with($this->equalTo('login_credentials'), $this->equalTo(json_encode($params)));
 
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('getId')
 			->willReturn('sess2233');
-		$this->tokenProvider->expects($this->once())
+		$this->mocks[IProvider::class]->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
 			->willThrowException(new PasswordlessTokenException());
 
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(true);
-		$this->session->expects($this->once())
+		$this->mocks[ISession::class]->expects($this->once())
 			->method('get')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(json_encode($params));

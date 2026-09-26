@@ -9,11 +9,8 @@
 namespace Test\Share20;
 
 use OC\Share20\Share;
-use OCP\Files\IRootFolder;
-use OCP\IUserManager;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IShare;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ShareTest
@@ -21,17 +18,12 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @package Test\Share20
  */
 class ShareTest extends \Test\TestCase {
-	protected IRootFolder&MockObject $rootFolder;
-	protected IUserManager&MockObject $userManager;
 	protected IShare $share;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->userManager = $this->createMock(IUserManager::class);
-		$this->share = new Share($this->rootFolder, $this->userManager);
+		$this->share = $this->createInstanceWithMocks(Share::class);
 	}
 
 	public function testSetIdInt(): void {

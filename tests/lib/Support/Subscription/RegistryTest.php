@@ -18,35 +18,17 @@ use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
 	private Registry $registry;
-	private MockObject&IConfig $config;
-	private MockObject&ContainerInterface $serverContainer;
-	private MockObject&IUserManager $userManager;
-	private MockObject&IGroupManager $groupManager;
-	private MockObject&LoggerInterface $logger;
 	private MockObject&IManager $notificationManager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->config = $this->createMock(IConfig::class);
-		$this->serverContainer = $this->createMock(ContainerInterface::class);
-		$this->userManager = $this->createMock(IUserManager::class);
-		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->notificationManager = $this->createMock(IManager::class);
-		$this->registry = new Registry(
-			$this->config,
-			$this->serverContainer,
-			$this->userManager,
-			$this->groupManager,
-			$this->logger
-		);
+		$this->registry = $this->createInstanceWithMocks(Registry::class);
 	}
 
 	/**
@@ -86,7 +68,7 @@ class RegistryTest extends TestCase {
 
 	public function testDelegateHasValidSubscriptionConfig(): void {
 		/* @var ISubscription|\PHPUnit\Framework\MockObject\MockObject $subscription */
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('getSystemValueBool')
 			->with('has_valid_subscription')
 			->willReturn(true);
@@ -117,7 +99,7 @@ class RegistryTest extends TestCase {
 	}
 
 	public function testSubscriptionService(): void {
-		$this->serverContainer->method('get')
+		$this->mocks[ContainerInterface::class]->method('get')
 			->with(DummySubscription::class)
 			->willReturn(new DummySubscription(true, false, false));
 		$this->registry->registerService(DummySubscription::class);
@@ -140,7 +122,7 @@ class RegistryTest extends TestCase {
 		$dummyGroup->expects($this->once())
 			->method('getUsers')
 			->willReturn([]);
-		$this->groupManager->expects($this->once())
+		$this->mocks[IGroupManager::class]->expects($this->once())
 			->method('get')
 			->willReturn($dummyGroup);
 
@@ -148,7 +130,7 @@ class RegistryTest extends TestCase {
 	}
 
 	public function testDelegateIsHardUserLimitReachedWithoutSupportApp(): void {
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('getSystemValueBool')
 			->with('one-click-instance')
 			->willReturn(false);
@@ -168,19 +150,19 @@ class RegistryTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataForUserLimitCheck')]
 	public function testDelegateIsHardUserLimitReachedWithoutSupportAppAndUserCount($userLimit, $userCount, $disabledUsers, $expectedResult): void {
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('getSystemValueBool')
 			->with('one-click-instance')
 			->willReturn(true);
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('getSystemValueInt')
 			->with('one-click-instance.user-limit')
 			->willReturn($userLimit);
-		$this->config->expects($this->once())
+		$this->mocks[IConfig::class]->expects($this->once())
 			->method('getUsersForUserValue')
 			->with('core', 'enabled', 'false')
 			->willReturn(array_fill(0, $disabledUsers, ''));
-		$this->userManager->expects($this->once())
+		$this->mocks[IUserManager::class]->expects($this->once())
 			->method('countUsersTotal')
 			->willReturn($userCount);
 
@@ -189,7 +171,7 @@ class RegistryTest extends TestCase {
 			$dummyGroup->expects($this->once())
 				->method('getUsers')
 				->willReturn([]);
-			$this->groupManager->expects($this->once())
+			$this->mocks[IGroupManager::class]->expects($this->once())
 				->method('get')
 				->willReturn($dummyGroup);
 		}

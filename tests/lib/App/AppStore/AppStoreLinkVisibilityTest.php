@@ -17,28 +17,16 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Support\Subscription\IRegistry;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AppStoreLinkVisibilityTest extends TestCase {
-	private IConfig&MockObject $config;
-	private IAppConfig&MockObject $appConfig;
-	private IRegistry&MockObject $registry;
 	private AppStoreLinkVisibility $visibility;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->registry = $this->createMock(IRegistry::class);
-
-		$this->visibility = new AppStoreLinkVisibility(
-			$this->config,
-			$this->appConfig,
-			$this->registry,
-		);
+		$this->visibility = $this->createInstanceWithMocks(AppStoreLinkVisibility::class);
 	}
 
 	/**
@@ -46,16 +34,16 @@ class AppStoreLinkVisibilityTest extends TestCase {
 	 * @param bool $value the stored value, or the lexicon default when $stored is false
 	 */
 	private function arrange(bool $stored, bool $value, bool $appStoreEnabled, bool $subscription): void {
-		$this->appConfig->method('hasKey')
+		$this->mocks[IAppConfig::class]->method('hasKey')
 			->with('core', ConfigLexicon::APPSTORE_LINK_SHOWN)
 			->willReturn($stored);
-		$this->appConfig->method('getValueBool')
+		$this->mocks[IAppConfig::class]->method('getValueBool')
 			->with('core', ConfigLexicon::APPSTORE_LINK_SHOWN)
 			->willReturn($value);
-		$this->config->method('getSystemValueBool')
+		$this->mocks[IConfig::class]->method('getSystemValueBool')
 			->with('appstoreenabled', true)
 			->willReturn($appStoreEnabled);
-		$this->registry->method('delegateHasValidSubscription')
+		$this->mocks[IRegistry::class]->method('delegateHasValidSubscription')
 			->willReturn($subscription);
 	}
 

@@ -13,17 +13,12 @@ use OCP\IDBConnection;
 use OCP\IEmojiHelper;
 
 class EmojiHelperTest extends TestCase {
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	private $db;
-
 	private IEmojiHelper $helper;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->db = $this->createMock(IDBConnection::class);
-		$this->helper = new EmojiHelper($this->db);
+		$this->helper = $this->createInstanceWithMocks(EmojiHelper::class);
 	}
 
 	/**
@@ -32,7 +27,7 @@ class EmojiHelperTest extends TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('doesPlatformSupportEmojiDataProvider')]
 	public function testDoesPlatformSupportEmoji(bool $supports4ByteText, bool $expected): void {
-		$this->db->expects($this->once())
+		$this->mocks[IDBConnection::class]->expects($this->once())
 			->method('supports4ByteText')
 			->willReturn($supports4ByteText);
 

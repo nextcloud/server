@@ -32,13 +32,16 @@ use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerExceptionInterface;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
@@ -51,6 +54,77 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	protected array $services = [];
 	/** Original values keyed by config key; null means the key was unset. */
 	private array $systemConfigValues = [];
+
+	/** @var array<class-string, MockObject> */
+	protected array $mocks = [];
+
+	/**
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return T
+	 */
+	protected function createInstanceWithMocks(string $class, array $overrides = []): object {
+		$reflection = new \ReflectionClass($class);
+		$constructor = $reflection->getConstructor();
+		if ($constructor === null) {
+			/* No constructor, return a instance directly */
+			return $reflection->newInstance();
+		}
+		$params = [];
+		foreach ($constructor->getParameters() as $parameter) {
+			if (isset($overrides[$parameter->getName()])) {
+				$params[] = $overrides[$parameter->getName()];
+				continue;
+			}
+			$type = $parameter->getType();
+			if ($type === null) {
+				$params[] = null;
+				continue;
+			}
+			if (!($type instanceof \ReflectionNamedType)) {
+				throw new \TypeError('Not supported');
+			}
+			if ($type->isBuiltin()) {
+				if ($parameter->isOptional()) {
+					$params[] = $parameter->getDefaultValue();
+					continue;
+				}
+				throw new \TypeError('Not supported, please override value');
+			}
+			$className = $type->getName();
+			if (isset($overrides[$className])) {
+				$params[] = $overrides[$className];
+				continue;
+			}
+			if (isset($this->mocks[$className])) {
+				$params[] = $this->mocks[$className];
+			} else {
+				$params[] = $this->createAutoMock($className);
+			}
+		}
+		return $reflection->newInstanceArgs($params);
+	}
+
+	protected function createAutoMock($className): MockObject {
+		$mock = $this->createMock($className);
+		switch ($className) {
+			case IL10N::class:
+				// Return the english string with parameters applied
+				$mock
+					->method('t')
+					->willReturnCallback(
+						fn (string $text, array $parameters = []) => vsprintf($text, $parameters)
+					);
+				break;
+			case IL10NFactory::class:
+				$mockL10n = $this->createAutoMock(IL10N::class);
+				$mock->method('get')
+					->willReturn($mockL10n);
+				break;
+		}
+		$this->mocks[$className] = $mock;
+		return $mock;
+	}
 
 	#[\Override]
 	protected function onNotSuccessfulTest(\Throwable $t): never {

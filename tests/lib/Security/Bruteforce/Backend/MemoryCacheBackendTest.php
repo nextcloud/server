@@ -18,10 +18,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class MemoryCacheBackendTest extends TestCase {
-	/** @var ICacheFactory|MockObject */
-	private $cacheFactory;
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
 	/** @var ICache|MockObject */
 	private $cache;
 	private IBackend $backend;
@@ -29,21 +25,14 @@ class MemoryCacheBackendTest extends TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->cache = $this->createMock(ICache::class);
 
-		$this->cacheFactory
+		$this->backend = $this->createInstanceWithMocks(MemoryCacheBackend::class);
+		$this->mocks[ICacheFactory::class]
 			->expects($this->once())
 			->method('createDistributed')
 			->with(MemoryCacheBackend::class)
 			->willReturn($this->cache);
-
-		$this->backend = new MemoryCacheBackend(
-			$this->cacheFactory,
-			$this->timeFactory
-		);
 	}
 
 	public function testGetAttemptsWithNoAttemptsBefore(): void {
@@ -102,7 +91,7 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testRegisterAttempt(): void {
-		$this->timeFactory
+		$this->mocks[ITimeFactory::class]
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(12 * 3600 + 86);
