@@ -8,16 +8,9 @@
 
 namespace OCA\Files\Controller;
 
-use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
 use OCA\Files\AppInfo\Application;
-use OCA\Files\ConfigLexicon;
-use OCA\Files\Event\LoadAdditionalScriptsEvent;
-use OCA\Files\Event\LoadSearchPlugins;
-use OCA\Files\Event\LoadSidebar;
-use OCA\Files\Service\UserConfig;
-use OCA\Files\Service\ViewConfig;
-use OCA\Viewer\Event\LoadViewer;
+use OCA\Files\Event\LoadFilesApp;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -27,21 +20,15 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\Authentication\TwoFactorAuth\IRegistry;
-use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
-use OCP\Files\Template\ITemplateManager;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use OCP\Util;
 
 /**
  * @package OCA\Files\Controller
@@ -54,18 +41,11 @@ class ViewController extends Controller {
 		IRequest $request,
 		private IURLGenerator $urlGenerator,
 		private IL10N $l10n,
-		private IConfig $config,
 		private IEventDispatcher $eventDispatcher,
 		private IUserSession $userSession,
 		private IAppManager $appManager,
 		private IRootFolder $rootFolder,
 		private IInitialState $initialState,
-		private ITemplateManager $templateManager,
-		private UserConfig $userConfig,
-		private ViewConfig $viewConfig,
-		private FilenameValidator $filenameValidator,
-		private IRegistry $twoFactorRegistry,
-		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -143,10 +123,6 @@ class ViewController extends Controller {
 			}
 		}
 
-		// Load the files we need
-		Util::addInitScript('files', 'init');
-		Util::addScript('files', 'main');
-
 		$user = $this->userSession->getUser();
 		$userId = $user->getUID();
 
@@ -175,46 +151,8 @@ class ViewController extends Controller {
 		}
 
 		$this->initialState->provideInitialState('storageStats', $storageInfo);
-		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
-		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
-		$this->initialState->provideInitialState('recent_limit', $this->appConfig->getAppValueInt(ConfigLexicon::RECENT_LIMIT, 100));
-		// Not yet consumed by the frontend, provided for future implementation
-		$this->initialState->provideInitialState('group_recent_files', $this->appConfig->getAppValueBool(ConfigLexicon::GROUP_RECENT_FILES, false));
-		$this->initialState->provideInitialState('recent_files_group_mime_types', $this->appConfig->getAppValueArray(ConfigLexicon::RECENT_FILES_GROUP_MIME_TYPES, []));
-		$this->initialState->provideInitialState('recent_files_group_timespan_minutes', $this->appConfig->getAppValueInt(ConfigLexicon::RECENT_FILES_GROUP_TIMESPAN_MINUTES, 2));
 
-		// File sorting user config
-		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
-		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
-
-		// Forbidden file characters (deprecated use capabilities)
-		// TODO: Remove with next release of `@nextcloud/files`
-		$forbiddenCharacters = $this->filenameValidator->getForbiddenCharacters();
-		$this->initialState->provideInitialState('forbiddenCharacters', $forbiddenCharacters);
-
-		$event = new LoadAdditionalScriptsEvent();
-		$this->eventDispatcher->dispatchTyped($event);
-		$this->eventDispatcher->dispatchTyped(new ResourcesLoadAdditionalScriptsEvent());
-		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
-		$this->eventDispatcher->dispatchTyped(new LoadSearchPlugins());
-		// Load Viewer scripts
-		if (class_exists(LoadViewer::class)) {
-			$this->eventDispatcher->dispatchTyped(new LoadViewer());
-		}
-
-		$this->initialState->provideInitialState('templates_enabled', true);
-		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
-		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
-		$this->initialState->provideInitialState('localClientEnabled', $this->appConfig->getAppValueBool(ConfigLexicon::LOCAL_CLIENT_INTEGRATION));
-
-		$isTwoFactorEnabled = false;
-		foreach ($this->twoFactorRegistry->getProviderStates($user) as $providerId => $providerState) {
-			if ($providerId !== 'backup_codes' && $providerState === true) {
-				$isTwoFactorEnabled = true;
-			}
-		}
-
-		$this->initialState->provideInitialState('isTwoFactorEnabled', $isTwoFactorEnabled);
+		$this->eventDispatcher->dispatchTyped(new LoadFilesApp());
 
 		$response = new TemplateResponse(
 			Application::APP_ID,
