@@ -291,6 +291,7 @@ OC.L10N.register(
     "Advanced settings" : "Configurações avançadas",
     "Share label" : "Compartilhar etiqueta",
     "Share link token" : "Token do link de compartilhamento",
+    "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "Defina o token do link de compartilhamento público com algo fácil de lembrar ou gere um novo token. Os tokens podem ter até {maxLength} caracteres e devem conter apenas letras, números e hífens. Não é recomendável usar um token fácil de adivinhar para compartilhamentos que contenham informações confidenciais.",
     "Generating…" : "Gerando…",
     "Generate new token" : "Gerar novo token",
     "Set password" : "Definir senha",
