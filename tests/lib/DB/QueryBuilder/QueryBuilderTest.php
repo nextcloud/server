@@ -1496,4 +1496,61 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->expectException(\LogicException::class);
 		$this->queryBuilder->ignoreConflictsOnInsert();
 	}
+
+	private function prepareInsertThrowing(\OCP\DB\Exception $exception): void {
+		$this->queryBuilder->insert('appconfig')
+			->setValue('appid', $this->queryBuilder->createNamedParameter('testIgnoreConflicts'));
+
+		$connection = $this->createMock(ConnectionAdapter::class);
+		$connection->method('executeStatement')
+			->willThrowException($exception);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$connection]);
+	}
+
+	public function testIgnoreConflictsOnInsertCatchesUniqueViolation(): void {
+		$this->prepareInsertThrowing(new class extends \OCP\DB\Exception {
+			#[\Override]
+			public function getReason(): ?int {
+				return self::REASON_UNIQUE_CONSTRAINT_VIOLATION;
+			}
+		});
+		$this->queryBuilder->ignoreConflictsOnInsert();
+
+		$this->assertSame(0, $this->queryBuilder->executeStatement());
+	}
+
+	public function testIgnoreConflictsOnInsertRethrowsOtherErrors(): void {
+		$exception = new class extends \OCP\DB\Exception {
+			#[\Override]
+			public function getReason(): ?int {
+				return self::REASON_DEADLOCK;
+			}
+		};
+		$this->prepareInsertThrowing($exception);
+		$this->queryBuilder->ignoreConflictsOnInsert();
+
+		try {
+			$this->queryBuilder->executeStatement();
+			$this->fail('Expected the exception to be rethrown');
+		} catch (\OCP\DB\Exception $e) {
+			$this->assertSame($exception, $e);
+		}
+	}
+
+	public function testUniqueViolationNotCaughtWithoutFlag(): void {
+		$exception = new class extends \OCP\DB\Exception {
+			#[\Override]
+			public function getReason(): ?int {
+				return self::REASON_UNIQUE_CONSTRAINT_VIOLATION;
+			}
+		};
+		$this->prepareInsertThrowing($exception);
+
+		try {
+			$this->queryBuilder->executeStatement();
+			$this->fail('Expected the exception to be rethrown');
+		} catch (\OCP\DB\Exception $e) {
+			$this->assertSame($exception, $e);
+		}
+	}
 }

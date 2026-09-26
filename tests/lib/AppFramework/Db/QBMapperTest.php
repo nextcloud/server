@@ -264,45 +264,6 @@ class QBMapperTest extends \Test\TestCase {
 		$this->assertSame(1, $this->mapper->insertIgnoreConflict($entity));
 	}
 
-	public function testInsertIgnoreConflictReturnsZeroOnUniqueViolation(): void {
-		$entity = new QBTestEntity();
-		$entity->setStringProp('string');
-
-		$exception = new class extends \OCP\DB\Exception {
-			#[\Override]
-			public function getReason(): ?int {
-				return self::REASON_UNIQUE_CONSTRAINT_VIOLATION;
-			}
-		};
-
-		$this->qb->method('executeStatement')
-			->willThrowException($exception);
-
-		$this->assertSame(0, $this->mapper->insertIgnoreConflict($entity));
-	}
-
-	public function testInsertIgnoreConflictRethrowsOtherErrors(): void {
-		$entity = new QBTestEntity();
-		$entity->setStringProp('string');
-
-		$exception = new class extends \OCP\DB\Exception {
-			#[\Override]
-			public function getReason(): ?int {
-				return self::REASON_DEADLOCK;
-			}
-		};
-
-		$this->qb->method('executeStatement')
-			->willThrowException($exception);
-
-		try {
-			$this->mapper->insertIgnoreConflict($entity);
-			$this->fail('Expected the exception to be rethrown');
-		} catch (\OCP\DB\Exception $e) {
-			$this->assertSame($exception, $e);
-		}
-	}
-
 	public function testGetParameterTypeForProperty(): void {
 		$entity = new QBTestEntity();
 

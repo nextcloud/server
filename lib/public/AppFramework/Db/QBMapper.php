@@ -189,15 +189,7 @@ abstract class QBMapper {
 			$qb->setValue($column, $qb->createNamedParameter($entity->$getter(), $type));
 		}
 
-		try {
-			return $qb->executeStatement();
-		} catch (Exception $ex) {
-			// fallback for platforms without native conflict tolerant inserts
-			if ($ex->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
-				return 0;
-			}
-			throw $ex;
-		}
+		return $qb->executeStatement();
 	}
 
 	/**

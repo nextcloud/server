@@ -230,10 +230,9 @@ interface IQueryBuilder {
 	 *
 	 * Rows conflicting with an existing row on a unique constraint are skipped
 	 * instead of raising an error, the row count returned by
-	 * {@see self::executeStatement()} is reduced accordingly.
-	 *
-	 * On platforms without native support for conflict tolerant inserts the
-	 * query is executed as a regular INSERT.
+	 * {@see self::executeStatement()} is reduced accordingly. On platforms
+	 * without native support for conflict tolerant inserts the resulting
+	 * constraint violation is caught and reported as 0 affected rows.
 	 *
 	 * Must only be called on INSERT queries.
 	 *

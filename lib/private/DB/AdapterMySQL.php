@@ -40,17 +40,6 @@ class AdapterMySQL extends Adapter {
 		return $this->collation;
 	}
 
-	#[\Override]
-	public function insertIgnoreConflict(string $table, array $values): int {
-		$builder = $this->conn->getQueryBuilder();
-		$builder->insert($table);
-		foreach ($values as $key => $value) {
-			$builder->setValue($key, $builder->createNamedParameter($value));
-		}
-		$builder->ignoreConflictsOnInsert();
-		return $builder->executeStatement();
-	}
-
 	/**
 	 * We can't use ON DUPLICATE KEY UPDATE here because Nextcloud use the CLIENT_FOUND_ROWS flag
 	 * With this flag the MySQL returns the number of selected rows
