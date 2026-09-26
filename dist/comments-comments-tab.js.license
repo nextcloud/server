@@ -8,6 +8,7 @@ SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: readable-stream developers
 SPDX-FileCopyrightText: qs developers
+SPDX-FileCopyrightText: moment developers
 SPDX-FileCopyrightText: jden <jason@denizac.org>
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
@@ -33,7 +34,6 @@ SPDX-FileCopyrightText: Jordan Harbamd <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: James Halliday
-SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
@@ -248,7 +248,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.3.0
 	- license: BSD-3-Clause
 - moment
-	- version: 2.30.1
+	- version: 2.31.0
 	- license: MIT
 - nested-property
 	- version: 4.0.0
