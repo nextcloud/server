@@ -87,7 +87,7 @@
     "@zip.js/zip.js": "^2.17.0",
     "axe-core": "^4.13.0",
     "concurrently": "^10.0.5",
-    "eslint": "^10.10.0",
+    "eslint": "^10.11.0",
     "eslint-plugin-no-only-tests": "^3.4.0",
     "is-svg": "^6.1.0",
     "jsdom": "^30.1.0",
