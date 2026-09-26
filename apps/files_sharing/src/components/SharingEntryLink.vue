@@ -248,6 +248,8 @@
 				<VueQrcode
 					tag="img"
 					:value="shareLink"
+					:size="256"
+					:margin="2"
 					class="qr-code-dialog__img" />
 			</div>
 		</NcDialog>
@@ -958,8 +960,14 @@ export default {
 	justify-content: center;
 
 	&__img {
-		width: 100%;
+		max-width: 256px;
+		max-height: 256px;
+		width: auto;
 		height: auto;
+		image-rendering: -webkit-optimize-contrast;
+		image-rendering: -moz-crisp-edges;
+		image-rendering: pixelated;
+		image-rendering: crisp-edges;
 	}
 }
 </style>
