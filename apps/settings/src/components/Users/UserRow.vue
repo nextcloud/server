@@ -307,6 +307,11 @@ const userActions = computed(() => {
 			text: t('settings', 'Resend welcome email'),
 			action: sendWelcomeMail,
 		})
+		actions.push({
+			icon: 'icon-password',
+			text: t('settings', 'Send password reset email'),
+			action: sendPasswordResetMail,
+		})
 	}
 	return actions.concat(props.externalActions)
 })
@@ -410,6 +415,18 @@ function sendWelcomeMail() {
 	loading.all = true
 	store.dispatch('sendWelcomeMail', props.user.id)
 		.then(() => showSuccess(t('settings', 'Welcome mail sent!'), { timeout: 2000 }))
+		.finally(() => {
+			loading.all = false
+		})
+}
+
+/**
+ * Send a password reset email to the account.
+ */
+function sendPasswordResetMail() {
+	loading.all = true
+	store.dispatch('sendPasswordResetMail', props.user.id)
+		.then(() => showSuccess(t('settings', 'Password reset email sent!'), { timeout: 2000 }))
 		.finally(() => {
 			loading.all = false
 		})

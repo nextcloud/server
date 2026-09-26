@@ -25,6 +25,7 @@ use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\Defaults;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoSubAdminRequired;
@@ -40,6 +41,8 @@ use OCP\Files\IRootFolder;
 use OCP\Group\ISubAdmin;
 use OCP\HintException;
 use OCP\IAppConfig;
+use OC\Security\RateLimiting\Exception\RateLimitExceededException;
+use OC\Security\RateLimiting\Limiter;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -47,14 +50,16 @@ use OCP\IL10N;
 use OCP\IPhoneNumberUtil;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Util;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
+use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
+use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\User\Backend\ISetDisplayNameBackend;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -88,6 +93,10 @@ class UsersController extends AUserDataOCSController {
 		private IPhoneNumberUtil $phoneNumberUtil,
 		private IAppManager $appManager,
 		private IAppConfig $appConfig,
+		private IVerificationToken $verificationToken,
+		private IMailer $mailer,
+		private Defaults $defaults,
+		private Limiter $limiter,
 		GroupDisplayNameCache $groupDisplayNameCache,
 	) {
 		parent::__construct(
@@ -2063,6 +2072,94 @@ class UsersController extends AUserDataOCSController {
 				]
 			);
 			throw new OCSException($this->l10n->t('Sending email failed'), 102);
+		}
+
+		return new DataResponse();
+	}
+
+	/**
+	 * Trigger the existing lost-password email flow for a user, so an admin
+	 * can force a password reset without knowing the current password.
+	 *
+	 * @param string $userId ID of the user
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
+	 * @throws OCSException
+	 *
+	 * 200: Password reset email sent
+	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
+	public function sendPasswordResetEmail(string $userId): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+
+		$targetUser = $this->userManager->get($userId);
+		if ($targetUser === null) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+
+		// Check if admin / subadmin (same scoping as resendWelcomeMessage)
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		if (
+			!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
+			&& !($isAdmin || $isDelegatedAdmin)
+		) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+
+		if ($this->config->getSystemValue('lost_password_link', '') === 'disabled') {
+			throw new OCSException($this->l10n->t('Password reset is disabled'), Http::STATUS_BAD_REQUEST);
+		}
+
+		$email = $targetUser->getEMailAddress();
+		if ($email === '' || $email === null) {
+			throw new OCSException($this->l10n->t('Email address not available'), 101);
+		}
+
+		// Same per-user rate limit as the self-service lost-password flow
+		try {
+			$this->limiter->registerUserRequest('lostpasswordemail', 5, 1800, $targetUser);
+		} catch (RateLimitExceededException $e) {
+			throw new OCSException($this->l10n->t('Could not send reset email, too many were sent recently'), Http::STATUS_TOO_MANY_REQUESTS, $e);
+		}
+
+		$coreL10n = $this->l10nFactory->get('core');
+
+		// The token is stored encrypted with the user's email + the system
+		// secret, so it invalidates automatically when the email changes.
+		$token = $this->verificationToken->create($targetUser, 'lostpassword', $email);
+		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', [
+			'userId' => $targetUser->getUID(),
+			'token' => $token,
+		]);
+
+		$emailTemplate = $this->mailer->createEMailTemplate('core.ResetPassword', [
+			'link' => $link,
+		]);
+		$emailTemplate->setSubject($coreL10n->t('%s password reset', [$this->defaults->getName()]));
+		$emailTemplate->addHeader();
+		$emailTemplate->addHeading($coreL10n->t('Password reset'));
+		$emailTemplate->addBodyText(
+			htmlspecialchars($coreL10n->t('Click the following button to reset your password. If you have not requested the password reset, then ignore this email.')),
+			$coreL10n->t('Click the following link to reset your password. If you have not requested the password reset, then ignore this email.')
+		);
+		$emailTemplate->addBodyButton(
+			htmlspecialchars($coreL10n->t('Reset your password')),
+			$link,
+			false
+		);
+		$emailTemplate->addFooter();
+
+		try {
+			$message = $this->mailer->createMessage();
+			$message->setTo([$email => $targetUser->getDisplayName()]);
+			$message->setFrom([Util::getDefaultEmailAddress('no-reply') => $this->defaults->getName()]);
+			$message->useTemplate($emailTemplate);
+			$this->mailer->send($message);
+		} catch (\Exception $e) {
+			$this->logger->error($e->getMessage(), ['app' => 'provisioning_api', 'exception' => $e]);
+			throw new OCSException($this->l10n->t('Sending email failed'), 102, $e);
 		}
 
 		return new DataResponse();
