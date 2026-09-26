@@ -46,6 +46,8 @@ class GeneratorTest extends TestCase {
 	private StorageFactory&MockObject $storageFactory;
 	private PreviewMapper&MockObject $previewMapper;
 	private PreviewMigrationService&MockObject $migrationService;
+	/** @var callable(Preview): bool */
+	private $previewExistsCallback;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -60,6 +62,10 @@ class GeneratorTest extends TestCase {
 		$this->previewMapper = $this->createMock(PreviewMapper::class);
 		$this->storageFactory = $this->createMock(StorageFactory::class);
 		$this->migrationService = $this->createMock(PreviewMigrationService::class);
+
+		$this->previewExistsCallback = fn (Preview $preview): bool => true;
+		$this->storageFactory->method('previewExists')
+			->willReturnCallback(fn (Preview $preview): bool => ($this->previewExistsCallback)($preview));
 
 		$this->generator = new Generator(
 			$this->config,
@@ -92,6 +98,30 @@ class GeneratorTest extends TestCase {
 		$file->method('getMountPoint')
 			->willReturn($mountPoint);
 		return $file;
+	}
+
+	private function makePreviewEntity(int $width, int $height, bool $max = false): Preview {
+		$preview = new Preview();
+		$preview->setWidth($width);
+		$preview->setHeight($height);
+		$preview->setMax($max);
+		$preview->setSize(1000);
+		$preview->setCropped(false);
+		$preview->setStorageId(1);
+		$preview->setMimeType('image/png');
+		return $preview;
+	}
+
+	/**
+	 * @return list<array{width: int, height: int, crop: bool, mode: string}>
+	 */
+	private function sizeSpecifications(int ...$sizes): array {
+		return array_map(fn (int $size): array => [
+			'width' => $size,
+			'height' => $size,
+			'crop' => false,
+			'mode' => IPreview::MODE_FILL,
+		], $sizes);
 	}
 
 	#[TestWith([true])]
@@ -136,6 +166,275 @@ class GeneratorTest extends TestCase {
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($hasPreview ? 'abc-256-256.png' : '256-256.png', $result->getName());
+		$this->assertSame(1000, $result->getSize());
+	}
+
+	/**
+	 * A max preview whose file went missing must not dead-end later requests:
+	 * the stale row is dropped so a new preview is generated.
+	 */
+	public function testMaxPreviewWithMissingFileIsRegenerated(): void {
+		$file = $this->getFile(42, 'myMimeType');
+		$this->previewExistsCallback = fn (Preview $preview): bool => false;
+
+		$staleMaxPreview = new Preview();
+		$staleMaxPreview->setWidth(1000);
+		$staleMaxPreview->setHeight(1000);
+		$staleMaxPreview->setMax(true);
+		$staleMaxPreview->setSize(1000);
+		$staleMaxPreview->setCropped(false);
+		$staleMaxPreview->setStorageId(1);
+		$staleMaxPreview->setMimeType('image/png');
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->with($this->equalTo([42]))
+			->willReturn([42 => [$staleMaxPreview]]);
+
+		$this->previewMapper->expects($this->once())
+			->method('delete')
+			->with($staleMaxPreview);
+
+		$this->previewManager->method('isMimeSupported')->willReturn(true);
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(fn ($key, $default) => $default);
+
+		$provider = $this->createMock(IProviderV2::class);
+		$provider->method('isAvailable')->willReturn(true);
+		$this->previewManager->method('getProviders')
+			->willReturn(['/myMimeType/' => ['validProvider']]);
+		$this->helper->method('getProvider')->willReturn($provider);
+
+		$image = $this->createMock(IImage::class);
+		$image->method('width')->willReturn(2048);
+		$image->method('height')->willReturn(2048);
+		$image->method('valid')->willReturn(true);
+		$image->method('dataMimeType')->willReturn('image/png');
+		$image->method('data')->willReturn('my data');
+		$this->helper->method('getThumbnail')->willReturn($image);
+
+		$this->storageFactory->method('writePreview')->willReturn(7);
+		$this->previewMapper->method('insert')->willReturnArgument(0);
+
+		$result = $this->generator->getPreview($file, -1, -1);
+
+		$this->assertSame('2048-2048-max.png', $result->getName());
+	}
+
+	/**
+	 * The purged row must also leave the list searched for cached previews,
+	 * otherwise a request for the old max size is handed the deleted row.
+	 */
+	public function testRegeneratedMaxPreviewIsNotServedFromTheStaleRow(): void {
+		$file = $this->getFile(42, 'myMimeType');
+		$this->previewExistsCallback = fn (Preview $preview): bool => false;
+
+		$staleMaxPreview = new Preview();
+		$staleMaxPreview->setWidth(1024);
+		$staleMaxPreview->setHeight(1024);
+		$staleMaxPreview->setMax(true);
+		$staleMaxPreview->setSize(1000);
+		$staleMaxPreview->setCropped(false);
+		$staleMaxPreview->setStorageId(1);
+		$staleMaxPreview->setMimeType('image/png');
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->with($this->equalTo([42]))
+			->willReturn([42 => [$staleMaxPreview]]);
+		$this->previewMapper->expects($this->once())
+			->method('delete')
+			->with($staleMaxPreview);
+
+		$this->previewManager->method('isMimeSupported')->willReturn(true);
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(fn ($key, $default) => $default);
+
+		$provider = $this->createMock(IProviderV2::class);
+		$provider->method('isAvailable')->willReturn(true);
+		$this->previewManager->method('getProviders')
+			->willReturn(['/myMimeType/' => ['validProvider']]);
+		$this->helper->method('getProvider')->willReturn($provider);
+
+		$maxImage = $this->createMock(IImage::class);
+		$maxImage->method('width')->willReturn(2048);
+		$maxImage->method('height')->willReturn(2048);
+		$maxImage->method('valid')->willReturn(true);
+		$maxImage->method('dataMimeType')->willReturn('image/png');
+		$maxImage->method('data')->willReturn('my data');
+		$this->helper->method('getThumbnail')->willReturn($maxImage);
+		$this->helper->method('getImage')->willReturn($maxImage);
+
+		$resized = $this->createMock(IImage::class);
+		$resized->method('width')->willReturn(1000);
+		$resized->method('height')->willReturn(1000);
+		$resized->method('valid')->willReturn(true);
+		$resized->method('dataMimeType')->willReturn('image/png');
+		$resized->method('data')->willReturn('my resized data');
+		$maxImage->method('resizeCopy')->willReturn($resized);
+		$maxImage->method('preciseResizeCopy')->willReturn($resized);
+
+		$this->storageFactory->method('writePreview')->willReturn(11);
+		$this->previewMapper->method('insert')->willReturnArgument(0);
+
+		$result = $this->generator->getPreview($file, 1000, 1000);
+
+		$this->assertSame('1024-1024.png', $result->getName());
+		$this->assertSame(11, $result->getSize());
+	}
+
+	/**
+	 * A cached non-max preview whose file is gone must be dropped and rebuilt
+	 * from the max preview rather than reported as generated.
+	 */
+	public function testCachedPreviewWithMissingFileIsRegenerated(): void {
+		$file = $this->getFile(42, 'myMimeType');
+		$this->previewExistsCallback = fn (Preview $preview): bool => $preview->isMax();
+
+		$maxPreview = new Preview();
+		$maxPreview->setWidth(1000);
+		$maxPreview->setHeight(1000);
+		$maxPreview->setMax(true);
+		$maxPreview->setSize(1000);
+		$maxPreview->setCropped(false);
+		$maxPreview->setStorageId(1);
+		$maxPreview->setMimeType('image/png');
+
+		$stalePreview = new Preview();
+		$stalePreview->setWidth(256);
+		$stalePreview->setHeight(256);
+		$stalePreview->setMax(false);
+		$stalePreview->setSize(1000);
+		$stalePreview->setCropped(false);
+		$stalePreview->setStorageId(1);
+		$stalePreview->setMimeType('image/png');
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->with($this->equalTo([42]))
+			->willReturn([42 => [$maxPreview, $stalePreview]]);
+		$this->previewMapper->expects($this->once())
+			->method('delete')
+			->with($stalePreview);
+
+		$this->previewManager->method('isMimeSupported')->willReturn(true);
+
+		$image = $this->getMockImage(1000, 1000, 'my resized data');
+		$this->helper->method('getImage')->willReturn($image);
+
+		$this->storageFactory->method('writePreview')->willReturn(11);
+		$this->previewMapper->method('insert')->willReturnArgument(0);
+
+		$result = $this->generator->getPreview($file, 100, 100);
+
+		$this->assertSame('256-256.png', $result->getName());
+		$this->assertSame(11, $result->getSize());
+	}
+
+	/**
+	 * preview:generate-all (and preview:generate with several --size values)
+	 * asks for every configured size in one call. A missing file for one size
+	 * must not drop or skip the others.
+	 */
+	public function testGeneratePreviewsDropsOnlyTheMissingSizeAmongMany(): void {
+		$file = $this->getFile(42, 'myMimeType');
+
+		$maxPreview = $this->makePreviewEntity(2048, 2048, max: true);
+		$preview64 = $this->makePreviewEntity(64, 64);
+		$stale256 = $this->makePreviewEntity(256, 256);
+		$preview1024 = $this->makePreviewEntity(1024, 1024);
+
+		$this->previewExistsCallback = function (Preview $preview) use ($stale256): bool {
+			return $preview !== $stale256;
+		};
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->with($this->equalTo([42]))
+			->willReturn([42 => [$maxPreview, $preview64, $stale256, $preview1024]]);
+		$this->previewMapper->expects($this->once())
+			->method('delete')
+			->with($stale256);
+
+		$this->previewManager->method('isMimeSupported')->willReturn(true);
+
+		$image = $this->getMockImage(2048, 2048, 'my resized data');
+		$this->helper->expects($this->once())
+			->method('getImage')
+			->willReturn($image);
+
+		$this->storageFactory->expects($this->once())
+			->method('writePreview')
+			->willReturn(11);
+		$this->previewMapper->method('insert')->willReturnArgument(0);
+
+		$result = $this->generator->generatePreviews($file, $this->sizeSpecifications(64, 256, 1024));
+
+		$this->assertSame('1024-1024.png', $result->getName());
+	}
+
+	/**
+	 * Two of several configured sizes can be gone at once. Each stale row is
+	 * dropped and rebuilt from the max preview.
+	 */
+	public function testGeneratePreviewsRegeneratesEveryMissingSize(): void {
+		$file = $this->getFile(42, 'myMimeType');
+
+		$maxPreview = $this->makePreviewEntity(2048, 2048, max: true);
+		$stale64 = $this->makePreviewEntity(64, 64);
+		$preview256 = $this->makePreviewEntity(256, 256);
+		$stale1024 = $this->makePreviewEntity(1024, 1024);
+
+		$this->previewExistsCallback = function (Preview $preview) use ($stale64, $stale1024): bool {
+			return $preview !== $stale64 && $preview !== $stale1024;
+		};
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->with($this->equalTo([42]))
+			->willReturn([42 => [$maxPreview, $stale64, $preview256, $stale1024]]);
+
+		$deleted = [];
+		$this->previewMapper->expects($this->exactly(2))
+			->method('delete')
+			->willReturnCallback(function (Preview $preview) use (&$deleted): Preview {
+				$deleted[] = $preview;
+				return $preview;
+			});
+
+		$this->previewManager->method('isMimeSupported')->willReturn(true);
+
+		$image = $this->getMockImage(2048, 2048, 'my resized data');
+		$this->helper->method('getImage')->willReturn($image);
+
+		$this->storageFactory->expects($this->exactly(2))
+			->method('writePreview')
+			->willReturn(11);
+		$this->previewMapper->method('insert')->willReturnArgument(0);
+
+		$result = $this->generator->generatePreviews($file, $this->sizeSpecifications(64, 256, 1024));
+
+		$this->assertSame([$stale64, $stale1024], $deleted);
+		$this->assertSame('1024-1024.png', $result->getName());
+	}
+
+	/**
+	 * When every requested size still has a file, generatePreviews must not
+	 * delete rows or write new files.
+	 */
+	public function testGeneratePreviewsKeepsAllPresentSizes(): void {
+		$file = $this->getFile(42, 'myMimeType');
+
+		$maxPreview = $this->makePreviewEntity(2048, 2048, max: true);
+		$preview64 = $this->makePreviewEntity(64, 64);
+		$preview256 = $this->makePreviewEntity(256, 256);
+		$preview1024 = $this->makePreviewEntity(1024, 1024);
+
+		$this->previewMapper->method('getAvailablePreviews')
+			->with($this->equalTo([42]))
+			->willReturn([42 => [$maxPreview, $preview64, $preview256, $preview1024]]);
+		$this->previewMapper->expects($this->never())->method('delete');
+		$this->storageFactory->expects($this->never())->method('writePreview');
+		$this->helper->expects($this->never())->method('getImage');
+
+		$result = $this->generator->generatePreviews($file, $this->sizeSpecifications(64, 256, 1024));
+
+		$this->assertSame('1024-1024.png', $result->getName());
 		$this->assertSame(1000, $result->getSize());
 	}
 
