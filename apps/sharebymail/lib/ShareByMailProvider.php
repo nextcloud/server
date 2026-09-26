@@ -19,6 +19,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -27,6 +28,10 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
+use OCP\Mail\Provider\Address;
+use OCP\Mail\Provider\IManager as IMailManager;
+use OCP\Mail\Provider\IMessageSend;
+use OCP\Mail\Provider\IService;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
@@ -74,6 +79,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		private IEventDispatcher $eventDispatcher,
 		private IShareManager $shareManager,
 		private IEmailValidator $emailValidator,
+		private IMailManager $mailManager,
+		private IAppConfig $appConfig,
 	) {
 	}
 
@@ -328,6 +335,115 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				'exception' => $e,
 			]);
 		}
+
+	}
+
+	/**
+	 * Try to find a Mail Provider service for the given user that can send mail.
+	 *
+	 * This follows the same pattern as IMipPlugin for calendar invitations:
+	 * if mail providers are enabled globally and the admin has enabled
+	 * user-level sending for share emails, look up the user's mail service.
+	 *
+	 * @param ?IUser $user The share initiator user object
+	 * @return array{IMessageSend&IService, string}|null The mail service and user email, or null to fall back
+	 */
+	protected function findMailService(?IUser $user = null): ?array {
+		if ($user === null) {
+			return null;
+		}
+		if (!$this->settingsManager->useUserEmail()) {
+			return null;
+		}
+
+		if (!$this->appConfig->getValueBool('core', 'mail_providers_enabled', true)) {
+			return null;
+		}
+
+		$userEmail = $user->getEMailAddress();
+		if ($userEmail === null) {
+			return null;
+		}
+
+		$mailService = $this->mailManager->findServiceByAddress($user->getUID(), $userEmail);
+		if ($mailService instanceof IMessageSend) {
+			return [$mailService, $userEmail];
+		}
+
+		return null;
+	}
+
+	/**
+	 * Send the share email via Mail Provider if available,
+	 * otherwise return false to fall back to the system mailer.
+	 *
+	 * @param ?IUser $initiatorUser The share initiator user object
+	 * @param string $initiatorDisplayName The display name of the share initiator
+	 * @param array $recipientEmails The recipient email addresses
+	 * @param callable $templateFactory A factory function that returns an \OCP\Mail\IEMailTemplate
+	 * @return bool True if successfully sent via Mail Provider, false if falling back
+	 */
+	protected function sendViaMailProviderWithFallback(
+		?IUser $initiatorUser,
+		?string $initiatorDisplayName,
+		array $recipientEmails,
+		callable $templateFactory,
+	): bool {
+		$result = $this->findMailService($initiatorUser);
+		if ($result === null) {
+			return false;
+		}
+
+		[$mailService, $initiatorEmail] = $result;
+
+		$emailTemplate = $templateFactory();
+		$instanceName = $this->defaults->getName();
+		$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
+
+		try {
+			$this->sendViaMailProvider($mailService, $initiatorEmail, $initiatorDisplayName, $recipientEmails, $emailTemplate);
+			return true;
+		} catch (\Exception $e) {
+			$this->logger->warning('Failed to send share email via Mail Provider, falling back to system mailer.', [
+				'app' => 'sharebymail',
+				'exception' => $e,
+			]);
+			return false;
+		}
+	}
+
+	/**
+	 * Send the share notification email via Mail Provider if available,
+	 * otherwise fall back to the system mailer.
+	 *
+	 * @param IMessageSend&IService $mailService The mail provider service
+	 * @param string $senderEmail The sender's email address
+	 * @param ?string $senderName The sender's display name
+	 * @param array $recipientEmails The recipient email addresses
+	 * @param \OCP\Mail\IEMailTemplate $emailTemplate The email template
+	 */
+	protected function sendViaMailProvider(
+		IMessageSend&IService $mailService,
+		string $senderEmail,
+		?string $senderName,
+		array $recipientEmails,
+		\OCP\Mail\IEMailTemplate $emailTemplate,
+	): void {
+		$message = $mailService->initiateMessage();
+		$message->setFrom(new Address($senderEmail, $senderName));
+
+		$recipients = array_map(fn (string $email) => new Address($email), $recipientEmails);
+		if (count($recipients) > 1) {
+			$message->setBcc(...$recipients);
+		} else {
+			$message->setTo(...$recipients);
+		}
+
+		$message->setSubject($emailTemplate->renderSubject());
+		$message->setBodyPlain($emailTemplate->renderText());
+		$message->setBodyHtml($emailTemplate->renderHtml());
+
+		$mailService->sendMessage($message);
 	}
 
 	/**
@@ -347,43 +463,59 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
+
+		$templateFactory = function () use ($filename, $link, $initiatorDisplayName, $expiration, $shareWith, $note): \OCP\Mail\IEMailTemplate {
+			$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientNotification', [
+				'filename' => $filename,
+				'link' => $link,
+				'initiator' => $initiatorDisplayName,
+				'expiration' => $expiration,
+				'shareWith' => $shareWith,
+				'note' => $note
+			]);
+
+			$emailTemplate->setSubject($this->l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]));
+			$emailTemplate->addHeader();
+			$emailTemplate->addHeading($this->l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]), false);
+
+			if ($note !== '') {
+				$emailTemplate->addBodyListItem(
+					htmlspecialchars($note),
+					$this->l->t('Note:'),
+					$this->getAbsoluteImagePath('caldav/description.png'),
+					$note
+				);
+			}
+
+			if ($expiration !== null) {
+				$dateString = (string)$this->l->l('date', $expiration, ['width' => 'medium']);
+				$emailTemplate->addBodyListItem(
+					$this->l->t('This share is valid until %s at midnight', [$dateString]),
+					$this->l->t('Expiration:'),
+					$this->getAbsoluteImagePath('caldav/time.png'),
+				);
+			}
+
+			$emailTemplate->addBodyButton(
+				$this->l->t('Open shared item'),
+				$link
+			);
+
+			return $emailTemplate;
+		};
+
+		$instanceName = $this->defaults->getName();
+
+		// Try to send via the user's Mail Provider
+		$initiatorUserObj = ($initiatorUser instanceof IUser) ? $initiatorUser : null;
+		if ($this->sendViaMailProviderWithFallback($initiatorUserObj, $initiatorDisplayName, $emails, $templateFactory)) {
+			return;
+		}
+
+		$emailTemplate = $templateFactory();
+
+		// Fall back to the system mailer
 		$message = $this->mailer->createMessage();
-
-		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientNotification', [
-			'filename' => $filename,
-			'link' => $link,
-			'initiator' => $initiatorDisplayName,
-			'expiration' => $expiration,
-			'shareWith' => $shareWith,
-			'note' => $note
-		]);
-
-		$emailTemplate->setSubject($this->l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]));
-		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]), false);
-
-		if ($note !== '') {
-			$emailTemplate->addBodyListItem(
-				htmlspecialchars($note),
-				$this->l->t('Note:'),
-				$this->getAbsoluteImagePath('caldav/description.png'),
-				$note
-			);
-		}
-
-		if ($expiration !== null) {
-			$dateString = (string)$this->l->l('date', $expiration, ['width' => 'medium']);
-			$emailTemplate->addBodyListItem(
-				$this->l->t('This share is valid until %s at midnight', [$dateString]),
-				$this->l->t('Expiration:'),
-				$this->getAbsoluteImagePath('caldav/time.png'),
-			);
-		}
-
-		$emailTemplate->addBodyButton(
-			$this->l->t('Open shared item'),
-			$link
-		);
 
 		// If multiple recipients are given, we send the mail to all of them
 		if (count($emails) > 1) {
@@ -394,7 +526,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		// The "From" contains the sharers name
-		$instanceName = $this->defaults->getName();
 		$senderName = $instanceName;
 		if ($this->settingsManager->replyToInitiator()) {
 			$senderName = $this->l->t(
@@ -409,7 +540,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
-		if ($initiatorUser && $this->settingsManager->replyToInitiator()) {
+		if ($initiatorUser instanceof IUser && $this->settingsManager->replyToInitiator()) {
 			$initiatorEmail = $initiatorUser->getEMailAddress();
 			if ($initiatorEmail !== null) {
 				$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
@@ -457,29 +588,44 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$plainBodyPart = $this->l->t('%1$s shared %2$s with you. You should have already received a separate mail with a link to access it.', [$initiatorDisplayName, $filename]);
 		$htmlBodyPart = $this->l->t('%1$s shared %2$s with you. You should have already received a separate mail with a link to access it.', [$initiatorDisplayName, $filename]);
 
-		$message = $this->mailer->createMessage();
+		$templateFactory = function () use ($filename, $password, $initiatorDisplayName, $initiatorEmailAddress, $shareWith, $htmlBodyPart, $plainBodyPart): \OCP\Mail\IEMailTemplate {
+			$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientPasswordNotification', [
+				'filename' => $filename,
+				'password' => $password,
+				'initiator' => $initiatorDisplayName,
+				'initiatorEmail' => $initiatorEmailAddress,
+				'shareWith' => $shareWith,
+			]);
 
-		$emailTemplate = $this->mailer->createEMailTemplate('sharebymail.RecipientPasswordNotification', [
-			'filename' => $filename,
-			'password' => $password,
-			'initiator' => $initiatorDisplayName,
-			'initiatorEmail' => $initiatorEmailAddress,
-			'shareWith' => $shareWith,
-		]);
+			$emailTemplate->setSubject($this->l->t('Password to access %1$s shared to you by %2$s', [$filename, $initiatorDisplayName]));
+			$emailTemplate->addHeader();
+			$emailTemplate->addHeading($this->l->t('Password to access %s', [$filename]), false);
+			$emailTemplate->addBodyText(htmlspecialchars($htmlBodyPart), $plainBodyPart);
+			$emailTemplate->addBodyText($this->l->t('It is protected with the following password:'));
+			$emailTemplate->addBodyText($password);
 
-		$emailTemplate->setSubject($this->l->t('Password to access %1$s shared to you by %2$s', [$filename, $initiatorDisplayName]));
-		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l->t('Password to access %s', [$filename]), false);
-		$emailTemplate->addBodyText(htmlspecialchars($htmlBodyPart), $plainBodyPart);
-		$emailTemplate->addBodyText($this->l->t('It is protected with the following password:'));
-		$emailTemplate->addBodyText($password);
+			if ($this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false) === true) {
+				$expirationTime = new \DateTime();
+				$expirationInterval = $this->config->getSystemValue('sharing.mail_link_password_expiration_interval', 3600);
+				$expirationTime = $expirationTime->add(new \DateInterval('PT' . $expirationInterval . 'S'));
+				$emailTemplate->addBodyText($this->l->t('This password will expire at %s', [$expirationTime->format('r')]));
+			}
 
-		if ($this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false) === true) {
-			$expirationTime = new \DateTime();
-			$expirationInterval = $this->config->getSystemValue('sharing.mail_link_password_expiration_interval', 3600);
-			$expirationTime = $expirationTime->add(new \DateInterval('PT' . $expirationInterval . 'S'));
-			$emailTemplate->addBodyText($this->l->t('This password will expire at %s', [$expirationTime->format('r')]));
+			return $emailTemplate;
+		};
+
+		// Try to send via the user's Mail Provider
+		$initiatorUserObj = ($initiatorUser instanceof IUser) ? $initiatorUser : null;
+		if ($this->sendViaMailProviderWithFallback($initiatorUserObj, $initiatorDisplayName, $emails, $templateFactory)) {
+			$this->createPasswordSendActivity($share, $shareWith, false);
+			return true;
 		}
+
+		$instanceName = $this->defaults->getName();
+
+		// Fall back to the system mailer
+		$emailTemplate = $templateFactory();
+		$message = $this->mailer->createMessage();
 
 		// If multiple recipients are given, we send the mail to all of them
 		if (count($emails) > 1) {
@@ -490,7 +636,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		}
 
 		// The "From" contains the sharers name
-		$instanceName = $this->defaults->getName();
 		$senderName = $instanceName;
 		if ($this->settingsManager->replyToInitiator()) {
 			$senderName = $this->l->t(
@@ -505,7 +650,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
-		if ($initiatorUser && $this->settingsManager->replyToInitiator()) {
+		if ($initiatorUser instanceof IUser && $this->settingsManager->replyToInitiator()) {
 			$initiatorEmail = $initiatorUser->getEMailAddress();
 			if ($initiatorEmail !== null) {
 				$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
@@ -542,24 +687,40 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$plainHeading = $this->l->t('%1$s shared %2$s with you and wants to add:', [$initiatorDisplayName, $filename]);
 		$htmlHeading = $this->l->t('%1$s shared %2$s with you and wants to add', [$initiatorDisplayName, $filename]);
 
-		$message = $this->mailer->createMessage();
+		$templateFactory = function () use ($initiatorDisplayName, $htmlHeading, $plainHeading, $note, $share): \OCP\Mail\IEMailTemplate {
+			$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote');
 
-		$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote');
+			$emailTemplate->setSubject($this->l->t('%s added a note to a file shared with you', [$initiatorDisplayName]));
+			$emailTemplate->addHeader();
+			$emailTemplate->addHeading(htmlspecialchars($htmlHeading), $plainHeading);
+			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
 
-		$emailTemplate->setSubject($this->l->t('%s added a note to a file shared with you', [$initiatorDisplayName]));
-		$emailTemplate->addHeader();
-		$emailTemplate->addHeading(htmlspecialchars($htmlHeading), $plainHeading);
-		$emailTemplate->addBodyText(htmlspecialchars($note), $note);
+			$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
+				['token' => $share->getToken()]);
+			$emailTemplate->addBodyButton(
+				$this->l->t('Open shared item'),
+				$link
+			);
+
+			return $emailTemplate;
+		};
+
+		// Try to send via the user's Mail Provider
+		$initiatorUserObj = ($initiatorUser instanceof IUser) ? $initiatorUser : null;
+		if ($this->sendViaMailProviderWithFallback($initiatorUserObj, $initiatorDisplayName, [$recipient], $templateFactory)) {
+			return;
+		}
+
+		$instanceName = $this->defaults->getName();
 
 		$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
 			['token' => $share->getToken()]);
-		$emailTemplate->addBodyButton(
-			$this->l->t('Open shared item'),
-			$link
-		);
+
+		// Fall back to the system mailer
+		$emailTemplate = $templateFactory();
+		$message = $this->mailer->createMessage();
 
 		// The "From" contains the sharers name
-		$instanceName = $this->defaults->getName();
 		$senderName = $instanceName;
 		if ($this->settingsManager->replyToInitiator()) {
 			$senderName = $this->l->t(
