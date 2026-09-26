@@ -444,7 +444,7 @@ export default defineComponent({
 		 */
 		summary() {
 			const hidden = this.dirContents.length - this.dirContentsFiltered.length
-			return getSummaryFor(this.dirContentsFiltered, hidden)
+			return getSummaryFor(this.dirContentsFiltered, hidden, this.isPublic)
 		},
 
 		debouncedFetchContent() {
