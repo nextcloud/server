@@ -37,6 +37,7 @@ class Admin implements ISettings {
 		private IInitialState $initialState,
 		private IAppConfig $appConfig,
 		private IUserConfig $userConfig,
+		private IManager $encryptionManager,
 	) {
 	}
 
@@ -70,6 +71,7 @@ class Admin implements ISettings {
 			'initStatus' => $session->getStatus(),
 			'encryptHomeStorage' => $encryptHomeStorage,
 			'masterKeyEnabled' => $util->isMasterKeyEnabled(),
+			'serverSideEncryptionEnabled' => $this->encryptionManager->isEnabled(),
 		]);
 
 		\OCP\Util::addStyle(Application::APP_ID, 'settings_admin');
