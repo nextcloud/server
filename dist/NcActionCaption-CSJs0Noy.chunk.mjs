@@ -1,0 +1,2 @@
+import{N as t}from"./NcModal-CtmIGtwl.chunk.mjs";import{_ as e}from"./Web-D6RX_wec.chunk.mjs";import{o as a,i,t as r}from"./preload-helper-0vEJIPm_.chunk.mjs";const s={name:"NcActionCaption",inject:{isInSemanticMenu:{from:t,default:!1}},props:{name:{type:String,required:!0}}},c=["role"];function p(m,u,n,d,f,o){return a(),i("li",{class:"app-navigation-caption",role:o.isInSemanticMenu&&"presentation"},r(n.name),9,c)}const I=e(s,[["render",p],["__scopeId","data-v-1009e96c"]]);export{I as N};
+//# sourceMappingURL=NcActionCaption-CSJs0Noy.chunk.mjs.map
