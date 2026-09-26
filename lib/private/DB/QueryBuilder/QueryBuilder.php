@@ -321,10 +321,7 @@ class QueryBuilder extends TypedQueryBuilder {
 		$sql = $this->queryBuilder->getSQL();
 		if ($this->insertIgnoreConflicts
 			&& $this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT) {
-			$transformer = $this->connection->getInsertIgnoreSqlTransformer();
-			if ($transformer !== null) {
-				return $transformer($sql);
-			}
+			return $this->connection->getInsertIgnoreConflictSql($sql);
 		}
 		return $sql;
 	}

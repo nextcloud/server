@@ -52,7 +52,7 @@ class AdapterMySQL extends Adapter {
 	 * Risk: it can also ignore other errors like type mismatch or truncated data…
 	 */
 	#[\Override]
-	public function getInsertIgnoreSqlTransformer(): callable {
-		return fn (string $sql) => preg_replace('/^INSERT/i', 'INSERT IGNORE', $sql) ?? $sql;
+	public function getInsertIgnoreConflictSql(string $sql): string {
+		return preg_replace('/^INSERT/i', 'INSERT IGNORE', $sql) ?? $sql;
 	}
 }

@@ -31,7 +31,7 @@ class AdapterPgSql extends Adapter {
 	 * would leave error logs in the DB.
 	 */
 	#[\Override]
-	public function getInsertIgnoreSqlTransformer(): callable {
-		return fn (string $sql) => $sql . ' ON CONFLICT DO NOTHING';
+	public function getInsertIgnoreConflictSql(string $sql): string {
+		return $sql . ' ON CONFLICT DO NOTHING';
 	}
 }
