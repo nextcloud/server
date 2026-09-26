@@ -13,7 +13,7 @@ style('twofactor_backupcodes', 'style');
 <p><?php p($l->t('Use one of the backup codes you saved when setting up two-factor authentication.')) ?></p>
 
 <form method="POST" class="challenge-form">
-	<input type="text" class="challenge" name="challenge" required="required" autofocus autocomplete="off" autocapitalize="off" placeholder="<?php p($l->t('Backup code')) ?>">
+	<input type="text" class="challenge two-factor-code-input" name="challenge" required="required" autofocus autocomplete="one-time-code" autocapitalize="off" placeholder="<?php p($l->t('Backup code')) ?>">
 	<button class="two-factor-submit primary" type="submit">
 		<?php p($l->t('Submit')); ?>
 	</button>
