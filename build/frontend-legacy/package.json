@@ -73,7 +73,7 @@
     "marked": "^17.0.6",
     "moment": "^2.30.1",
     "moment-timezone": "^0.6.4",
-    "p-limit": "^7.3.2",
+    "p-limit": "^7.3.3",
     "p-queue": "^9.3.3",
     "path": "^0.12.7",
     "pinia": "^2.3.1",
