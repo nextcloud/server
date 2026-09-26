@@ -212,6 +212,58 @@ class QBMapperTest extends \Test\TestCase {
 		$this->mapper->update($entity);
 	}
 
+	public function testInsertIgnoreConflictEntityParameterTypeMapping(): void {
+		$datetime = new \DateTimeImmutable();
+		$entity = new QBTestEntity();
+		$entity->setIntProp(123);
+		$entity->setBoolProp(true);
+		$entity->setStringProp('string');
+		$entity->setDatetimeProp($datetime);
+
+		$intParam = $this->qb->createNamedParameter('int_prop', IQueryBuilder::PARAM_INT);
+		$boolParam = $this->qb->createNamedParameter('bool_prop', IQueryBuilder::PARAM_BOOL);
+		$stringParam = $this->qb->createNamedParameter('string_prop', IQueryBuilder::PARAM_STR);
+		$datetimeParam = $this->qb->createNamedParameter('datetime_prop', IQueryBuilder::PARAM_DATETIME_IMMUTABLE);
+
+		$this->qb->expects($this->once())
+			->method('insert')
+			->with($this->equalTo('table'));
+		$this->qb->expects($this->once())
+			->method('ignoreConflictsOnInsert');
+
+		$createNamedParameterCalls = [
+			[123, IQueryBuilder::PARAM_INT, null],
+			[true, IQueryBuilder::PARAM_BOOL, null],
+			['string', IQueryBuilder::PARAM_STR, null],
+			[$datetime, IQueryBuilder::PARAM_DATETIME_IMMUTABLE, null],
+		];
+		$this->qb->expects($this->exactly(4))
+			->method('createNamedParameter')
+			->willReturnCallback(function () use (&$createNamedParameterCalls): void {
+				$expected = array_shift($createNamedParameterCalls);
+				$this->assertEquals($expected, func_get_args());
+			});
+
+		$setValueCalls = [
+			['int_prop', $intParam],
+			['bool_prop', $boolParam],
+			['string_prop', $stringParam],
+			['datetime_prop', $datetimeParam],
+		];
+		$this->qb->expects($this->exactly(4))
+			->method('setValue')
+			->willReturnCallback(function () use (&$setValueCalls): void {
+				$expected = array_shift($setValueCalls);
+				$this->assertEquals($expected, func_get_args());
+			});
+
+		$this->qb->expects($this->once())
+			->method('executeStatement')
+			->willReturn(1);
+
+		$this->assertSame(1, $this->mapper->insertIgnoreConflict($entity));
+	}
+
 	public function testGetParameterTypeForProperty(): void {
 		$entity = new QBTestEntity();
 

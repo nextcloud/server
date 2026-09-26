@@ -359,4 +359,10 @@ abstract class ExtendedQueryBuilder extends TypedQueryBuilder {
 		$this->builder->forUpdate($conflictResolutionMode);
 		return $this;
 	}
+
+	#[\Override]
+	public function ignoreConflictsOnInsert(): self {
+		$this->builder->ignoreConflictsOnInsert();
+		return $this;
+	}
 }

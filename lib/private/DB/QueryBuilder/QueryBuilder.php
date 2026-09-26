@@ -19,6 +19,7 @@ use OC\DB\QueryBuilder\FunctionBuilder\OCIFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\PgSqlFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
 use OC\SystemConfig;
+use OCP\DB\Exception;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\ConflictResolutionMode;
 use OCP\DB\QueryBuilder\ICompositeExpression;
@@ -40,6 +41,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	private bool $nonEmptyWhere = false;
 	protected ?string $lastInsertedTable = null;
 	private array $selectedColumns = [];
+	private bool $insertIgnoreConflicts = false;
 
 	/**
 	 * Initializes a new QueryBuilder.
@@ -277,11 +279,29 @@ class QueryBuilder extends TypedQueryBuilder {
 			$connection = $this->connection;
 		}
 
-		return $connection->executeStatement(
-			$this->getSQL(),
-			$this->getParameters(),
-			$this->getParameterTypes(),
-		);
+		try {
+			return $connection->executeStatement(
+				$this->getSQL(),
+				$this->getParameters(),
+				$this->getParameterTypes(),
+			);
+		} catch (Exception $e) {
+			// fallback for platforms without native conflict tolerant inserts
+			if ($this->insertIgnoreConflicts
+				&& $e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				return 0;
+			}
+			throw $e;
+		}
+	}
+
+	#[\Override]
+	public function ignoreConflictsOnInsert(): self {
+		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::INSERT) {
+			throw new \LogicException('ignoreConflictsOnInsert() can only be used on INSERT queries');
+		}
+		$this->insertIgnoreConflicts = true;
+		return $this;
 	}
 
 	/**
@@ -298,7 +318,12 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function getSQL() {
-		return $this->queryBuilder->getSQL();
+		$sql = $this->queryBuilder->getSQL();
+		if ($this->insertIgnoreConflicts
+			&& $this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT) {
+			return $this->connection->getInsertIgnoreConflictSql($sql);
+		}
+		return $sql;
 	}
 
 	/**
