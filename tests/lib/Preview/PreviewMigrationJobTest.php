@@ -16,6 +16,7 @@ use OC\Preview\PreviewMigrationService;
 use OC\Preview\PreviewService;
 use OC\Preview\Storage\StorageFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJobList;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
 use OCP\Files\IMimeTypeDetector;
@@ -143,6 +144,7 @@ class PreviewMigrationJobTest extends TestCase {
 				$this->storageFactory,
 				Server::get(IAppDataFactory::class),
 			),
+			Server::get(IJobList::class),
 			$this->logger,
 		);
 	}
@@ -258,24 +260,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->assertEquals(2, count($folder->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 
-		$job = new PreviewMigrationJob(
-			Server::get(ITimeFactory::class),
-			$this->appConfig,
-			$this->config,
-			Server::get(IRootFolder::class),
-			new PreviewMigrationService(
-				$this->config,
-				Server::get(IRootFolder::class),
-				$this->logger,
-				$this->mimeTypeDetector,
-				$this->mimeTypeLoader,
-				Server::get(IDBConnection::class),
-				$this->previewMapper,
-				$this->storageFactory,
-				Server::get(IAppDataFactory::class),
-			),
-			$this->logger,
-		);
+		$job = $this->createJob();
 		$this->invokePrivate($job, 'run', [[]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 		$this->assertEquals(2, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
@@ -303,24 +288,7 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->assertEquals(9, count($folder->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5))));
 
-		$job = new PreviewMigrationJob(
-			Server::get(ITimeFactory::class),
-			$this->appConfig,
-			$this->config,
-			Server::get(IRootFolder::class),
-			new PreviewMigrationService(
-				$this->config,
-				Server::get(IRootFolder::class),
-				$this->logger,
-				$this->mimeTypeDetector,
-				$this->mimeTypeLoader,
-				Server::get(IDBConnection::class),
-				$this->previewMapper,
-				$this->storageFactory,
-				Server::get(IAppDataFactory::class),
-			),
-			$this->logger,
-		);
+		$job = $this->createJob();
 		$this->invokePrivate($job, 'run', [[]]);
 		$previews = iterator_to_array($this->previewMapper->getAvailablePreviewsForFile(5));
 		$this->assertEquals(9, count($previews));
