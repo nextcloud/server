@@ -68,7 +68,7 @@
     "vue-router": "^5.0.6",
     "vuedraggable": "4.1.0",
     "vuex": "^4.1.0",
-    "webdav": "^5.10.0"
+    "webdav": "^5.11.0"
   },
   "devDependencies": {
     "@nextcloud/browserslist-config": "^3.1.2",
