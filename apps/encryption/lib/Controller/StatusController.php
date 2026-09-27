@@ -13,6 +13,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Encryption\IManager;
+use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -46,9 +47,15 @@ class StatusController extends Controller {
 		switch ($this->session->getStatus()) {
 			case Session::INIT_EXECUTED:
 				$status = 'interactionNeeded';
-				$message = $this->l->t(
-					'Your encryption key could not be unlocked. If your login password has changed, update your private key password in Personal settings to restore access to your encrypted files.'
-				);
+				if ($this->appConfig->getValueBool('encryption', 'useMasterKey', true)) {
+					$message = $this->l->t(
+						'Server-side encryption could not be initialized. Please contact your administrator for guidance.'
+					);
+				} else {
+					$message = $this->l->t(
+						'Your private encryption key could not be unlocked. If your login password has changed, update your private key password in Personal settings to restore access to your encrypted files.'
+					);
+				}
 				break;
 			case Session::NOT_INITIALIZED:
 				$status = 'interactionNeeded';
