@@ -52,6 +52,7 @@ jobs:
           - 'collaboration_features'
           - 'comments_features'
           - '--tags ~@requires-s3 dav_features'
+          - 'encryption_features'
           - 'features'
           - 'federation_features'
           - '--tags ~@large files_features'
