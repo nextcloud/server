@@ -17,9 +17,7 @@ use OCP\Config\IUserConfig;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\IAppConfig;
-use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -45,20 +43,6 @@ class UtilTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->any())
-			->method('getUID')
-			->willReturn('admin');
-
-		/** @var IUserSession|MockObject $userSessionMock */
-		$userSessionMock = $this->createMock(IUserSession::class);
-		$userSessionMock->expects($this->any())
-			->method('getUser')
-			->willReturn($user);
-		$userSessionMock->expects($this->any())
-			->method('isLoggedIn')
-			->willReturn(true);
-
 		$this->appConfigMock = $this->createMock(IAppConfig::class);
 		$this->userConfigMock = $this->createMock(IUserConfig::class);
 
@@ -68,19 +52,7 @@ class UtilTest extends TestCase {
 				return self::$tempStorage[$key] ?? $default;
 			});
 
-		$this->userConfigMock->expects($this->any())
-			->method('setValueBool')
-			->willReturnCallback(function (string $userId, string $app, string $key, bool $value): bool {
-				self::$tempStorage[$key] = $value;
-				return true;
-			});
-
-		$this->instance = new Util($this->filesMock, $cryptMock, $userSessionMock, $this->appConfigMock, $this->userConfigMock, $this->userManagerMock);
-	}
-
-	public function testSetRecoveryForUser(): void {
-		$this->instance->setRecoveryForUser(true);
-		$this->assertArrayHasKey('recoveryEnabled', self::$tempStorage);
+		$this->instance = new Util($this->filesMock, $cryptMock, $this->appConfigMock, $this->userConfigMock, $this->userManagerMock);
 	}
 
 	public function testIsRecoveryEnabledForUser(): void {
