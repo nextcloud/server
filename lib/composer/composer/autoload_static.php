@@ -1348,6 +1348,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\AppInfo\\Capabilities' => __DIR__ . '/../../..' . '/core/AppInfo/Capabilities.php',
         'OC\\Core\\AppInfo\\ConfigLexicon' => __DIR__ . '/../../..' . '/core/AppInfo/ConfigLexicon.php',
         'OC\\Core\\BackgroundJobs\\BackgroundCleanupUpdaterBackupsJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php',
+        'OC\\Core\\BackgroundJobs\\CheckCodeIntegrityJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CheckCodeIntegrityJob.php',
         'OC\\Core\\BackgroundJobs\\CheckForUserCertificates' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CheckForUserCertificates.php',
         'OC\\Core\\BackgroundJobs\\CleanupLoginFlowV2' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CleanupLoginFlowV2.php',
         'OC\\Core\\BackgroundJobs\\GenerateMetadataJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/GenerateMetadataJob.php',

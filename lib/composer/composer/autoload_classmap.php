@@ -1307,6 +1307,7 @@ return array(
     'OC\\Core\\AppInfo\\Capabilities' => $baseDir . '/core/AppInfo/Capabilities.php',
     'OC\\Core\\AppInfo\\ConfigLexicon' => $baseDir . '/core/AppInfo/ConfigLexicon.php',
     'OC\\Core\\BackgroundJobs\\BackgroundCleanupUpdaterBackupsJob' => $baseDir . '/core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php',
+    'OC\\Core\\BackgroundJobs\\CheckCodeIntegrityJob' => $baseDir . '/core/BackgroundJobs/CheckCodeIntegrityJob.php',
     'OC\\Core\\BackgroundJobs\\CheckForUserCertificates' => $baseDir . '/core/BackgroundJobs/CheckForUserCertificates.php',
     'OC\\Core\\BackgroundJobs\\CleanupLoginFlowV2' => $baseDir . '/core/BackgroundJobs/CleanupLoginFlowV2.php',
     'OC\\Core\\BackgroundJobs\\GenerateMetadataJob' => $baseDir . '/core/BackgroundJobs/GenerateMetadataJob.php',
