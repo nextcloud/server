@@ -15,9 +15,10 @@ import { InitStatus } from '../utils/types.ts'
 
 const adminSettings = loadState<{
 	recoveryEnabled: boolean
-	masterKeyEnabled: boolean
-	encryptHomeStorage: boolean
 	initStatus: typeof InitStatus[keyof typeof InitStatus]
+	encryptHomeStorage: boolean
+	masterKeyEnabled: boolean
+	serverSideEncryptionEnabled: boolean
 }>('encryption', 'adminSettings')
 
 const encryptHomeStorage = ref(adminSettings.encryptHomeStorage!)
