@@ -13,6 +13,7 @@ namespace OCA\Encryption\Tests\Controller;
 use OCA\Encryption\Controller\StatusController;
 use OCA\Encryption\Session;
 use OCP\Encryption\IManager;
+use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -24,6 +25,7 @@ class StatusControllerTest extends TestCase {
 	protected IL10N&MockObject $l10nMock;
 	protected Session&MockObject $sessionMock;
 	protected IManager&MockObject $encryptionManagerMock;
+	protected IAppConfig&MockObject $appConfigMock;
 
 	protected StatusController $controller;
 
@@ -42,12 +44,14 @@ class StatusControllerTest extends TestCase {
 				return $message;
 			});
 		$this->encryptionManagerMock = $this->createMock(IManager::class);
+		$this->appConfigMock = $this->createMock(IAppConfig::class);
 
 		$this->controller = new StatusController('encryptionTest',
 			$this->requestMock,
 			$this->l10nMock,
 			$this->sessionMock,
-			$this->encryptionManagerMock);
+			$this->encryptionManagerMock,
+			$this->appConfigMock);
 	}
 
 	/**
@@ -70,6 +74,35 @@ class StatusControllerTest extends TestCase {
 			[Session::INIT_SUCCESSFUL, 'success'],
 			[Session::NOT_INITIALIZED, 'interactionNeeded'],
 			['unknown', 'error'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestGetStatusInitExecutedMessage')]
+	public function testGetStatusInitExecutedMessage(bool $masterKeyEnabled, string $expectedMessage): void {
+		$this->sessionMock->expects($this->atLeastOnce())
+			->method('getStatus')
+			->willReturn(Session::INIT_EXECUTED);
+
+		$this->appConfigMock->expects(self::once())
+			->method('getValueBool')
+			->with('encryption', 'useMasterKey', true)
+			->willReturn($masterKeyEnabled);
+
+		$data = $this->controller->getStatus()->getData();
+
+		$this->assertSame($expectedMessage, $data['data']['message']);
+	}
+
+	public static function dataTestGetStatusInitExecutedMessage(): array {
+		return [
+			'master key enabled' => [
+				true,
+				'Server-side encryption could not be initialized. Please contact your administrator.',
+			],
+			'per-user key enabled' => [
+				false,
+				'Your private encryption key could not be unlocked. If your login password has changed, update your private key password in Personal settings to restore access to your encrypted files.',
+			],
 		];
 	}
 }
