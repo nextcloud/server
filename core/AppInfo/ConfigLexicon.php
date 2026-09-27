@@ -42,6 +42,8 @@ class ConfigLexicon implements ILexicon {
 
 	public const APPSTORE_LINK_SHOWN = 'appstore_link_shown';
 
+	public const INTEGRITY_CHECK_NOTIFIED_RESULT = 'integrity_check_notified_result';
+
 	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
@@ -119,6 +121,13 @@ class ConfigLexicon implements ILexicon {
 				type: ValueType::BOOL,
 				defaultRaw: false,
 				definition: 'Whether the repair step stripping trailing slashes from share targets has already been run.',
+				lazy: true,
+			),
+			new Entry(
+				key: self::INTEGRITY_CHECK_NOTIFIED_RESULT,
+				type: ValueType::STRING,
+				defaultRaw: '',
+				definition: 'Fingerprint of the code integrity check result admins were last notified about, empty when the check passed.',
 				lazy: true,
 			),
 		];
