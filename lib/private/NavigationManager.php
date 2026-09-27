@@ -19,6 +19,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use OCP\Navigation\Events\NavigationEntriesFilterEvent;
 use Override;
 use Psr\Log\LoggerInterface;
 
@@ -152,6 +153,13 @@ class NavigationManager implements INavigationManager {
 			$result = array_filter($this->entries, function ($entry) use ($type) {
 				return $entry['type'] === $type;
 			});
+		}
+
+		if ($this->eventDispatcher->hasListeners(NavigationEntriesFilterEvent::class)) {
+			$event = new NavigationEntriesFilterEvent($result, $type);
+			$this->eventDispatcher->dispatchTyped($event);
+			// a listener removes entries; adding one is LoadAdditionalEntriesEvent's job
+			$result = array_intersect_key($result, $event->getEntries());
 		}
 
 		return $this->proceedNavigation($result, $type);

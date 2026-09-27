@@ -805,6 +805,7 @@ return array(
     'OCP\\Migration\\IRepairStepExpensive' => $baseDir . '/lib/public/Migration/IRepairStepExpensive.php',
     'OCP\\Migration\\SimpleMigrationStep' => $baseDir . '/lib/public/Migration/SimpleMigrationStep.php',
     'OCP\\Navigation\\Events\\LoadAdditionalEntriesEvent' => $baseDir . '/lib/public/Navigation/Events/LoadAdditionalEntriesEvent.php',
+    'OCP\\Navigation\\Events\\NavigationEntriesFilterEvent' => $baseDir . '/lib/public/Navigation/Events/NavigationEntriesFilterEvent.php',
     'OCP\\Notification\\AlreadyProcessedException' => $baseDir . '/lib/public/Notification/AlreadyProcessedException.php',
     'OCP\\Notification\\IAction' => $baseDir . '/lib/public/Notification/IAction.php',
     'OCP\\Notification\\IApp' => $baseDir . '/lib/public/Notification/IApp.php',

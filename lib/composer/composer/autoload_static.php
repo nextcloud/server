@@ -846,6 +846,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Migration\\IRepairStepExpensive' => __DIR__ . '/../../..' . '/lib/public/Migration/IRepairStepExpensive.php',
         'OCP\\Migration\\SimpleMigrationStep' => __DIR__ . '/../../..' . '/lib/public/Migration/SimpleMigrationStep.php',
         'OCP\\Navigation\\Events\\LoadAdditionalEntriesEvent' => __DIR__ . '/../../..' . '/lib/public/Navigation/Events/LoadAdditionalEntriesEvent.php',
+        'OCP\\Navigation\\Events\\NavigationEntriesFilterEvent' => __DIR__ . '/../../..' . '/lib/public/Navigation/Events/NavigationEntriesFilterEvent.php',
         'OCP\\Notification\\AlreadyProcessedException' => __DIR__ . '/../../..' . '/lib/public/Notification/AlreadyProcessedException.php',
         'OCP\\Notification\\IAction' => __DIR__ . '/../../..' . '/lib/public/Notification/IAction.php',
         'OCP\\Notification\\IApp' => __DIR__ . '/../../..' . '/lib/public/Notification/IApp.php',
