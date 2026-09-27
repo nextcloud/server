@@ -23,7 +23,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
