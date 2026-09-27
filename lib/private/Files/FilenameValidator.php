@@ -181,7 +181,7 @@ class FilenameValidator implements IFilenameValidator {
 		// the special directories . and .. would cause never ending recursion
 		// we check the trimmed name here to ensure unexpected trimming will not cause severe issues
 		if ($trimmed === '.' || $trimmed === '..') {
-			throw new InvalidDirectoryException($this->l10n->t('Dot files are not allowed'));
+			throw new InvalidDirectoryException($this->l10n->t('Filenames that begin with a dot are not allowed'));
 		}
 
 		// 255 characters is the limit on common file systems (ext/xfs)
