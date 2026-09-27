@@ -192,7 +192,7 @@ class Manager implements IManager {
 			/** @psalm-suppress UndefinedClass */
 			$circle = Circles::detailsCircle($share->getSharedWith());
 			if ($circle === null) {
-				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid circle'));
+				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid team'));
 			}
 		} elseif ($share->getShareType() !== IShare::TYPE_ROOM && $share->getShareType() !== IShare::TYPE_DECK) {
 			// We cannot handle other types yet
