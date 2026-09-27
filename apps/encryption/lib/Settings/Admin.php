@@ -12,6 +12,7 @@ namespace OCA\Encryption\Settings;
 use OC\Files\View;
 use OCA\Encryption\AppInfo\Application;
 use OCA\Encryption\Crypto\Crypt;
+use OCP\Encryption\IManager;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\AppFramework\Http\TemplateResponse;
