@@ -109,7 +109,7 @@ async function refreshStatus() {
 	</NcNoteCard>
 
 	<NcNoteCard v-else-if="status === SanitizeFilenameStatus.Done" type="success">
-		{{ t('files', 'All files have been santized for Windows filename support.') }}
+		{{ t('files', 'All files have been sanitized for Windows filename support.') }}
 	</NcNoteCard>
 
 	<form
