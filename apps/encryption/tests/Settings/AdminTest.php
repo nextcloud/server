@@ -13,6 +13,7 @@ use OCA\Encryption\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Config\IUserConfig;
+use OCP\Encryption\IManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -36,6 +37,7 @@ class AdminTest extends TestCase {
 	protected IInitialState&MockObject $initialState;
 	protected IAppConfig&MockObject $appConfig;
 	protected IUserConfig&MockObject $userConfig;
+	protected IManager&MockObject $encryptionManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -49,6 +51,7 @@ class AdminTest extends TestCase {
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->userConfig = $this->createMock(IUserConfig::class);
+		$this->encryptionManager = $this->createMock(IManager::class);
 
 		$this->admin = new Admin(
 			$this->l,
@@ -60,10 +63,16 @@ class AdminTest extends TestCase {
 			$this->initialState,
 			$this->appConfig,
 			$this->userConfig,
+			$this->encryptionManager,
 		);
 	}
 
 	public function testGetForm(): void {
+		$this->encryptionManager
+			->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+
 		$this->appConfig
 			->method('getValueBool')
 			->willReturnMap([
@@ -79,13 +88,19 @@ class AdminTest extends TestCase {
 				'recoveryEnabled' => true,
 				'initStatus' => '0',
 				'encryptHomeStorage' => true,
-				'masterKeyEnabled' => true
+				'masterKeyEnabled' => true,
+				'serverSideEncryptionEnabled' => true,
 			]);
 		$expected = new TemplateResponse('encryption', 'settings', renderAs: '');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
 	public function testGetFormPassesDisabledSettingsAndInitializationStatus(): void {
+		$this->encryptionManager
+			->expects(self::once())
+			->method('isEnabled')
+			->willReturn(false);
+
 		$this->appConfig
 			->method('getValueBool')
 			->willReturnMap([
@@ -107,6 +122,7 @@ class AdminTest extends TestCase {
 				'initStatus' => '2',
 				'encryptHomeStorage' => false,
 				'masterKeyEnabled' => false,
+				'serverSideEncryptionEnabled' => false,
 			]);
 
 		$this->admin->getForm();
