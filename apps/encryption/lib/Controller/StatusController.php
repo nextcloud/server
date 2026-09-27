@@ -32,6 +32,7 @@ class StatusController extends Controller {
 		private IL10N $l,
 		private Session $session,
 		private IManager $encryptionManager,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
