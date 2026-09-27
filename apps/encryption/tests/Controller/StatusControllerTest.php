@@ -97,7 +97,7 @@ class StatusControllerTest extends TestCase {
 		return [
 			'master key enabled' => [
 				true,
-				'Server-side encryption could not be initialized. Please contact your administrator.',
+				'Server-side encryption could not be initialized. Please contact your administrator for guidance.',
 			],
 			'per-user key enabled' => [
 				false,
