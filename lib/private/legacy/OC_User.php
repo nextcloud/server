@@ -27,6 +27,7 @@ use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Events\BeforeUserLoggedInEvent;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
@@ -151,7 +152,7 @@ class OC_User {
 
 				if (!$user) {
 					// Should not happen except from bad code or configuration
-					throw new \OCP\User\Exceptions\UserNotFoundException('User ' . $uid . ' not found');
+					throw new UserNotFoundException('User ' . $uid . ' not found');
 				}
 				if (!$user->isEnabled()) {
 					$message = Server::get(IFactory::class)->get('lib')->t('Account disabled');

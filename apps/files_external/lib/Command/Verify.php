@@ -68,7 +68,7 @@ class Verify extends Base {
 		$logMessages = [];
 		$logListener = null;
 		if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-			$logListener = function (BeforeMessageLoggedEvent $event) use (&$logMessages) {
+			$logListener = function (BeforeMessageLoggedEvent $event) use (&$logMessages): void {
 				$format = self::FORMATTING[$event->getLevel()];
 				$logMessages[] = " - <$format>" . $event->getMessage()['message'] . "</$format>";
 			};
