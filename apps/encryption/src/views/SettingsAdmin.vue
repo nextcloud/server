@@ -30,7 +30,7 @@ const recoveryEnabled = ref(adminSettings.recoveryEnabled!)
 		<NcNoteCard v-if="adminSettings.initStatus === InitStatus.NotInitialized && !adminSettings.masterKeyEnabled" type="warning">
 			{{ adminSettings.serverSideEncryptionEnabled
 				? t('encryption', 'Your encryption keys are not initialized for this session. Please sign out and sign back in.')
-				: t('encryption', 'Server-side encryption is disabled. Enable it in the admin settings to use the encryption module.') }}
+				: t('encryption', 'Server-side encryption is disabled. To enable it, open Administration settings, select Security, and turn on Server-side encryption.') }}
 		</NcNoteCard>
 
 		<template v-else>
