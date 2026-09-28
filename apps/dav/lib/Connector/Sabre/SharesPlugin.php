@@ -142,13 +142,15 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			return $shares;
 		}
 
-		// also check the owner side
+		// also check outgoing shares made by the user (or anyone for IShareOwnerlessMount)
 		$userRoot = $this->rootFolder->getUserFolder($this->userId);
+		$outgoingAncestorShares = [];
 		while (str_starts_with($node->getPath(), $userRoot->getPath() . '/')) {
-			$shares = array_merge($shares, $this->getShare($node, false));
+			$outgoingAncestorShares[] = $this->getShare($node, false);
 			$node = $node->getParent();
 		}
-		return $shares;
+
+		return array_merge($shares, ...$outgoingAncestorShares);
 	}
 
 	/**
@@ -278,7 +280,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$targetShares = $this->getSharesForTarget($targetNode->getNode());
 		if ($targetShares === []) {
-			// Target is not a share so no re-sharing inprogress
+			// Target is not a share so no re-sharing in progress
 			return true;
 		}
 
