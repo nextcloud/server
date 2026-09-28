@@ -54,6 +54,7 @@ final class SharingManagerTest extends AbstractSharingManagerTests {
 			foreach ($item->recipients as $recipient) {
 				$recipient->getDisabledPermissions();
 			}
+
 			// ensure source metadata is loaded
 			foreach ($item->sources as $source) {
 				$source->format($this->registry, $this->l10nFactory, false);
