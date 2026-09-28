@@ -9,12 +9,14 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Filesystem;
+use OC\Files\View;
 use OC\SystemConfig;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
 use OCP\Files\NotEnoughSpaceException;
 use OCP\Files\Storage\IStorage;
+use OCP\IUser;
 
 class Quota extends Wrapper {
 	/** @var callable|null */
@@ -25,6 +27,8 @@ class Quota extends Wrapper {
 	private SystemConfig $config;
 	private bool $quotaIncludeExternalStorage;
 	private bool $enabled = true;
+	/** The user the wrapped home storage belongs to, if known */
+	private ?IUser $user;
 
 	/**
 	 * @param array $parameters
@@ -35,6 +39,7 @@ class Quota extends Wrapper {
 		$this->quotaCallback = $parameters['quotaCallback'] ?? null;
 		$this->sizeRoot = $parameters['root'] ?? '';
 		$this->quotaIncludeExternalStorage = $parameters['include_external_storage'] ?? false;
+		$this->user = $parameters['user'] ?? null;
 	}
 
 	public function getQuota(): int|float {
@@ -56,13 +61,28 @@ class Quota extends Wrapper {
 		return $this->getQuota() !== FileInfo::SPACE_UNLIMITED;
 	}
 
+	/**
+	 * Usage of the quota user's files including the external storages mounted in them.
+	 * It is read through that user's view, since the session user differs when writing into their shares.
+	 * Storages using the quota user's session credentials count as empty in other sessions.
+	 */
+	private function getSizeIncludingExternalStorage(): int|float {
+		if ($this->user === null) {
+			$rootInfo = Filesystem::getFileInfo('', 'ext');
+		} else {
+			$view = new View('/' . $this->user->getUID() . '/files');
+			$rootInfo = $view->getFileInfo('', 'ext');
+		}
+
+		if ($rootInfo) {
+			return $rootInfo->getSize(true);
+		}
+		return FileInfo::SPACE_NOT_COMPUTED;
+	}
+
 	protected function getSize(string $path, ?IStorage $storage = null): int|float {
 		if ($this->quotaIncludeExternalStorage) {
-			$rootInfo = Filesystem::getFileInfo('', 'ext');
-			if ($rootInfo) {
-				return $rootInfo->getSize(true);
-			}
-			return FileInfo::SPACE_NOT_COMPUTED;
+			return $this->getSizeIncludingExternalStorage();
 		} else {
 			$cache = is_null($storage) ? $this->getCache() : $storage->getCache();
 			$data = $cache->get($path);
