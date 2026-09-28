@@ -682,7 +682,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$recipients = $share->recipients;
 		foreach ($recipients as &$shareRecipient) {
-			if ($shareRecipient->class === $recipient->class && $shareRecipient->value === $recipient->value && $shareRecipient->instance === $recipient->instance) {
+			if ($shareRecipient->equals($recipient)) {
 				$permissions = $shareRecipient->permissions;
 				$permissions[$permission->class] = $permission;
 
