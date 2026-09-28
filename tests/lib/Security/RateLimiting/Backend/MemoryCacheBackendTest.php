@@ -12,7 +12,6 @@ namespace Test\Security\RateLimiting\Backend;
 use OC\Security\RateLimiting\Backend\MemoryCacheBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ICache;
-use OCP\ICacheFactory;
 use OCP\IConfig;
 use Test\TestCase;
 
@@ -25,14 +24,7 @@ class MemoryCacheBackendTest extends TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->cache = $this->createMock(ICache::class);
 		$this->memoryCache = $this->createInstanceWithMocks(MemoryCacheBackend::class);
-
-		$this->mocks[ICacheFactory::class]
-			->expects($this->once())
-			->method('createDistributed')
-			->with('OC\Security\RateLimiting\Backend\MemoryCacheBackend')
-			->willReturn($this->cache);
 
 		$this->mocks[IConfig::class]->method('getSystemValueBool')
 			->with('ratelimit.protection.enabled')
@@ -40,7 +32,7 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testGetAttemptsWithNoAttemptsBefore(): void {
-		$this->cache
+		$this->cacheMocks[MemoryCacheBackend::class]
 			->expects($this->once())
 			->method('get')
 			->with('eea460b8d756885099c7f0a4c083bf6a745069ee4a301984e726df58fd4510bffa2dac4b7fd5d835726a6753ffa8343ba31c7e902bbef78fc68c2e743667cb4b')
@@ -54,7 +46,7 @@ class MemoryCacheBackendTest extends TestCase {
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(210);
-		$this->cache
+		$this->cacheMocks[MemoryCacheBackend::class]
 			->expects($this->once())
 			->method('get')
 			->with('eea460b8d756885099c7f0a4c083bf6a745069ee4a301984e726df58fd4510bffa2dac4b7fd5d835726a6753ffa8343ba31c7e902bbef78fc68c2e743667cb4b')
@@ -76,12 +68,12 @@ class MemoryCacheBackendTest extends TestCase {
 			->method('getTime')
 			->willReturn(123);
 
-		$this->cache
+		$this->cacheMocks[MemoryCacheBackend::class]
 			->expects($this->once())
 			->method('get')
 			->with('eea460b8d756885099c7f0a4c083bf6a745069ee4a301984e726df58fd4510bffa2dac4b7fd5d835726a6753ffa8343ba31c7e902bbef78fc68c2e743667cb4b')
 			->willReturn(null);
-		$this->cache
+		$this->cacheMocks[MemoryCacheBackend::class]
 			->expects($this->once())
 			->method('set')
 			->with(
@@ -98,7 +90,7 @@ class MemoryCacheBackendTest extends TestCase {
 			->method('getTime')
 			->willReturn(86);
 
-		$this->cache
+		$this->cacheMocks[MemoryCacheBackend::class]
 			->expects($this->once())
 			->method('get')
 			->with('eea460b8d756885099c7f0a4c083bf6a745069ee4a301984e726df58fd4510bffa2dac4b7fd5d835726a6753ffa8343ba31c7e902bbef78fc68c2e743667cb4b')
@@ -110,7 +102,7 @@ class MemoryCacheBackendTest extends TestCase {
 				'123',
 				'124',
 			]));
-		$this->cache
+		$this->cacheMocks[MemoryCacheBackend::class]
 			->expects($this->once())
 			->method('set')
 			->with(

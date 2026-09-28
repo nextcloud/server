@@ -9,20 +9,16 @@ namespace Tests\Core\Command\Maintenance;
 
 use OC\Core\Command\Maintenance\UpdateTheme;
 use OC\Files\Type\Detection;
-use OCP\ICache;
-use OCP\ICacheFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class UpdateThemeTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleInput;
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleOutput;
+	protected InputInterface&MockObject $consoleInput;
+	protected OutputInterface&MockObject $consoleOutput;
 
-	/** @var \Symfony\Component\Console\Command\Command */
-	protected $command;
+	protected UpdateTheme $command;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -41,14 +37,9 @@ class UpdateThemeTest extends TestCase {
 		$this->mocks[Detection::class]->expects($this->once())
 			->method('getAllAliases')
 			->willReturn([]);
-		$cache = $this->createMock(ICache::class);
-		$cache->expects($this->once())
+		$this->cacheMocks['imagePath']->expects($this->once())
 			->method('clear')
 			->with('');
-		$this->mocks[ICacheFactory::class]->expects($this->once())
-			->method('createDistributed')
-			->with('imagePath')
-			->willReturn($cache);
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 }

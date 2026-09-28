@@ -30,6 +30,8 @@ use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -57,6 +59,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	/** @var array<class-string, MockObject> */
 	protected array $mocks = [];
+	/** @var array<class-string, MockObject&ICache> */
+	protected array $cacheMocks = [];
 
 	/**
 	 * @template T
@@ -132,6 +136,23 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				$mockL10n = $this->createAutoMock(IL10N::class);
 				$mock->method('get')
 					->willReturn($mockL10n);
+				break;
+			case ICacheFactory::class:
+				$mock->method('isAvailable')->willReturn(true);
+				$mock->method('isLocalCacheAvailable')->willReturn(true);
+				$callback = function (string $prefix = ''): ICache {
+					if (!isset($this->cacheMocks[$prefix])) {
+						$cache = $this->createMock(ICache::class);
+						$this->cacheMocks[$prefix] = $cache;
+					}
+					return $this->cacheMocks[$prefix];
+				};
+				$mock->method('createLocking')->willReturnCallback($callback);
+				$mock->method('createDistributed')->willReturnCallback($callback);
+				$mock->method('createLocal')->willReturnCallback($callback);
+				$mock->method('createInMemory')->willReturnCallback(
+					fn (int $capacity): ICache => $callback('InMemory'),
+				);
 				break;
 		}
 		$this->mocks[$className] = $mock;

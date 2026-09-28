@@ -21,22 +21,17 @@ use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use OCP\Server;
-use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class JSCombinerTest extends \Test\TestCase {
-	private ICache&MockObject $depsCache;
-
+	private string $cacheName;
 	private JSCombiner $jsCombiner;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->depsCache = $this->createMock(ICache::class);
+		$this->cacheName = 'JS-' . md5('');
 		$this->jsCombiner = $this->createInstanceWithMocks(JSCombiner::class);
-		$this->mocks[ICacheFactory::class]->expects($this->atLeastOnce())
-			->method('createDistributed')
-			->willReturn($this->depsCache);
 	}
 
 	public function testProcessDebugMode(): void {
@@ -191,7 +186,7 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$file = $this->createMock(ISimpleFile::class);
 
-		$this->depsCache->method('get')
+		$this->cacheMocks[$this->cacheName]->method('get')
 			->with('awesomeapp-combine.js.deps')
 			->willReturn('{}');
 

@@ -16,7 +16,6 @@ use OC\User\User;
 use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudId;
-use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
@@ -30,17 +29,13 @@ use Test\TestCase;
 
 #[Group('DB')]
 class ManagerTest extends TestCase {
-	private ICache&MockObject $cache;
 	private IUserManager $manager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->cache = $this->createMock(ICache::class);
 
 		$this->manager = $this->createInstanceWithMocks(Manager::class);
-		$this->mocks[ICacheFactory::class]->method('createDistributed')
-			->willReturn($this->cache);
 	}
 
 	public function testGetBackends(): void {
