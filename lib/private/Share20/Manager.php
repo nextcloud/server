@@ -1641,6 +1641,11 @@ class Manager implements IManager {
 
 	#[Override]
 	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true): bool {
+		// Password enforcement requires the default password prompt to be enabled.
+		if (!$this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT)) {
+			return false;
+		}
+
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
 		if ($excludedGroups !== '' && $checkGroupMembership) {
 			$excludedGroups = json_decode($excludedGroups);

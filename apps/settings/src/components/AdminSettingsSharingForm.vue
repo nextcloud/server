@@ -59,15 +59,20 @@
 				<NcCheckboxRadioSwitch v-model="settings.enableLinkPasswordByDefault">
 					{{ t('settings', 'Always ask for a password') }}
 				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch v-model="settings.enforceLinksPassword" :disabled="!settings.enableLinkPasswordByDefault">
+				<NcCheckboxRadioSwitch
+					v-show="settings.enableLinkPasswordByDefault"
+					v-model="settings.enforceLinksPassword">
 					{{ t('settings', 'Enforce password protection') }}
 				</NcCheckboxRadioSwitch>
-				<label v-if="settings.enforceLinksPasswordExcludedGroupsEnabled" class="sharing__labeled-entry sharing__input">
+				<label
+					v-if="settings.enforceLinksPasswordExcludedGroupsEnabled"
+					v-show="settings.enableLinkPasswordByDefault"
+					class="sharing__labeled-entry sharing__input">
 					<span>{{ t('settings', 'Exclude groups from password requirements') }}</span>
 					<NcSettingsSelectGroup
 						v-model="settings.enforceLinksPasswordExcludedGroups"
 						style="width: 100%"
-						:disabled="!settings.enforceLinksPassword || !settings.enableLinkPasswordByDefault" />
+						:disabled="!settings.enforceLinksPassword" />
 				</label>
 				<label class="sharing__labeled-entry sharing__input">
 					<span>{{ t('settings', 'Exclude groups from creating link shares') }}</span>
