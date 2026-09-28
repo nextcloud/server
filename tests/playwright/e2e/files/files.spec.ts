@@ -21,7 +21,7 @@ test.describe('Files', () => {
 		await expect(row).toBeVisible()
 		await expect(row).toHaveAttribute('data-cy-files-list-row-name', 'original.txt')
 		await expect(row).toBeActiveRow()
-		await expect(page.getByText('The file could not be found')).toHaveCount(0)
+		await expect(page.getByRole('alert').filter({ hasText: 'The file could not be found' })).toHaveCount(0)
 	})
 
 	test('Opens a valid folder shows its content', async ({ page, user, filesListPage }) => {
@@ -31,13 +31,13 @@ test.describe('Files', () => {
 		await filesListPage.waitForList()
 
 		await expect(filesListPage.getBreadcrumbs()).toContainText('folder')
-		await expect(page.getByText('The file could not be found')).toHaveCount(0)
+		await expect(page.getByRole('alert').filter({ hasText: 'The file could not be found' })).toHaveCount(0)
 	})
 
 	test('Opens an unknown file show an error', async ({ page }) => {
 		await page.goto('apps/files/files/123456')
 
 		// The error toast is shown once the (failing) PROPFIND resolves
-		await expect(page.getByText('The file could not be found')).toBeVisible()
+		await expect(page.getByRole('alert').filter({ hasText: 'The file could not be found' })).toBeVisible()
 	})
 })

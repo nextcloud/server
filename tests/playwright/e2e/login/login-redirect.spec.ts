@@ -26,13 +26,13 @@ test.describe('Login: Redirect', () => {
 		await page.goto('/settings/user#profile')
 
 		// Wait for the profile settings checkbox to confirm the page has loaded
-		await expect(page.getByRole('checkbox', { name: /Enable profile/i })).toBeVisible()
+		await expect(page.getByRole('switch', { name: /Enable profile/i })).toBeVisible()
 
 		// Simulate session expiry by clearing all cookies
 		await context.clearCookies()
 
 		// Clicking the checkbox triggers an authenticated request that returns 302 to login
-		await page.getByRole('checkbox', { name: /Enable profile/i }).click({ force: true })
+		await page.getByRole('switch', { name: /Enable profile/i }).click({ force: true })
 
 		await expect(page).toHaveURL(/\/login/i)
 		await expect(page).toHaveURL(/redirect_url=/)
@@ -48,6 +48,6 @@ test.describe('Login: Redirect', () => {
 		await loginPage.login(user.userId, user.password)
 
 		await expect(page).toHaveURL(/\/settings\/user/)
-		await expect(page.getByRole('checkbox', { name: /Enable profile/i })).toBeVisible()
+		await expect(page.getByRole('switch', { name: /Enable profile/i })).toBeVisible()
 	})
 })

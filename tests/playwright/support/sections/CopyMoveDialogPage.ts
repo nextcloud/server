@@ -142,7 +142,7 @@ export class CopyMoveDialogPage {
 	 * that {@link confirm} has already awaited.
 	 */
 	private async actionSettled(): Promise<void> {
-		await expect(this.page.locator('.toastify.toast-loading')).toHaveCount(0, { timeout: 15000 })
+		await expect(this.page.getByRole('status').filter({ hasText: /(Copying|Moving) .* …/ })).toHaveCount(0, { timeout: 15000 })
 	}
 
 	/** Copy into the folder currently shown in the picker. */
