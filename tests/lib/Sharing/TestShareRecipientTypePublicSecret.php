@@ -53,12 +53,12 @@ final readonly class TestShareRecipientTypePublicSecret implements IShareRecipie
 	}
 
 	#[\Override]
-	public function getRecipientDisplayName(string $recipient): ?string {
+	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string {
 		return $this->validRecipients[$recipient];
 	}
 
 	#[\Override]
-	public function getRecipientIcon(string $recipient): ShareIconSVG|ShareIconURL {
+	public function getRecipientIcon(string $recipient, ?string $instance): ShareIconSVG|ShareIconURL {
 		return match ($recipient) {
 			'url' => new ShareIconURL('https://example.com/light.png', 'https://example.com/dark.png'),
 			default => new ShareIconSVG('<svg/>'),

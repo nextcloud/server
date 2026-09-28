@@ -52,13 +52,13 @@ interface IShareRecipientType {
 	 * @return ?non-empty-string
 	 * @experimental 35.0.0
 	 */
-	public function getRecipientDisplayName(string $recipient): ?string;
+	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string;
 
 	/**
 	 * @param non-empty-string $recipient
 	 * @experimental 35.0.0
 	 */
-	public function getRecipientIcon(string $recipient): null|ShareIconSVG|ShareIconURL;
+	public function getRecipientIcon(string $recipient, ?string $instance): null|ShareIconSVG|ShareIconURL;
 
 	/**
 	 * @param non-empty-string $recipient

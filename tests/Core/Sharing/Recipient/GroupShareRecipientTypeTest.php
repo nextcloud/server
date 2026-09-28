@@ -16,10 +16,14 @@ use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\GroupShareRecipientType;
 use OC\Group\Database;
 use OC\Sharing\SharingManager;
+use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\CardDAV\ContactsManager;
+use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
@@ -108,7 +112,23 @@ final class GroupShareRecipientTypeTest extends TestCase {
 		// Clear display name cache, because setting the display name on the group doesn't update it in the cache of the manager
 		self::invokePrivate(self::invokePrivate(Server::get(IGroupManager::class), 'displayNameCache'), 'clear');
 
-		$this->assertEquals('Group 1', $this->recipientType->getRecipientDisplayName($this->group1->getGID()));
+		$this->assertEquals('Group 1', $this->recipientType->getRecipientDisplayName($this->group1->getGID(), null));
+		$this->assertNull($this->recipientType->getRecipientDisplayName($this->group1->getGID(), 'https://example.com'));
+
+		$cardDavBackend = Server::get(CardDavBackend::class);
+		$contactsManager = Server::get(IManager::class);
+		$addressBookId = $cardDavBackend->createAddressBook('principals/users/' . $this->user1->getUID(), 'Personal', []);
+		Server::get(ContactsManager::class)->setupContactsProvider($contactsManager, $this->user1->getUID(), Server::get(IURLGenerator::class));
+
+		$contactsManager->createOrUpdate(['CLOUD' => $this->group1->getGID() . '@https://example.com', 'FN' => 'Remote Group 1'], (string)$addressBookId);
+
+		$this->assertEquals('Remote Group 1', $this->recipientType->getRecipientDisplayName($this->group1->getGID(), 'https://example.com'));
+		$this->assertNull($this->recipientType->getRecipientDisplayName($this->group2->getGID(), 'https://example.com'));
+		$this->assertNull($this->recipientType->getRecipientDisplayName($this->group1->getGID(), 'https://example.org'));
+		$this->assertNull($this->recipientType->getRecipientDisplayName($this->group1->getGID(), 'http://example.com'));
+		$this->assertNull($this->recipientType->getRecipientDisplayName($this->group1->getGID(), 'example.com'));
+
+		$cardDavBackend->deleteAddressBook($addressBookId);
 	}
 
 	public function testSearchRecipients(): void {
