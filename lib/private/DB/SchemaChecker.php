@@ -157,7 +157,15 @@ class SchemaChecker {
 			// Disabled apps are not autoloaded on boot. Load only the migration
 			// classes themselves directly from disk, rather than registering
 			// the whole app for PSR-4 autoloading.
+			$namespace = $this->appManager->getAppNamespace($app);
 			foreach ($this->findMigrationFiles($appPath . '/lib/Migration') as $file) {
+				$fqcn = $namespace . '\\Migration\\' . basename($file, '.php');
+				if (class_exists($fqcn, false)) {
+					// Another app already declared this exact class name (e.g.
+					// a fork sharing its namespace); requiring it again would
+					// be an uncatchable fatal, not a \Throwable.
+					return;
+				}
 				require_once $file;
 			}
 
