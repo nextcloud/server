@@ -10,6 +10,8 @@ on:
       - "tests/phpunit-autotest.xml"
       - "lib/private/Snowflake/*"
       - "tests/lib/Preview/PreviewMapperTest.php"
+      - "lib/private/Sharing"
+      - "tests/lib/Sharing"
   workflow_dispatch:
   schedule:
     - cron: "15 1 * * 1-6"
