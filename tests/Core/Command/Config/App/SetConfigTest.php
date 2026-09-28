@@ -30,7 +30,13 @@ class SetConfigTest extends TestCase {
 		$this->consoleInput = $this->createMock(InputInterface::class);
 		$this->consoleOutput = $this->createMock(OutputInterface::class);
 
-		$this->command = $this->createInstanceWithMocks(SetConfig::class);
+		$this->command = $this->createInstanceWithMocks(
+			SetConfig::class,
+			[
+				/* Mock internal class */
+				'appConfig' => $this->createAutoMock(AppConfig::class),
+			],
+		);
 	}
 
 	public static function dataSet(): array {

@@ -16,13 +16,18 @@ use OC\Security\CSRF\CsrfTokenManager;
 use Test\TestCase;
 
 class ContentSecurityPolicyNonceManagerTest extends TestCase {
-	/** @var ContentSecurityPolicyNonceManager */
-	private $nonceManager;
+	private ContentSecurityPolicyNonceManager $nonceManager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->nonceManager = $this->createInstanceWithMocks(ContentSecurityPolicyNonceManager::class);
+		$this->nonceManager = $this->createInstanceWithMocks(
+			ContentSecurityPolicyNonceManager::class,
+			[
+				/* We mock the private class */
+				'request' => $this->createAutoMock(Request::class),
+			],
+		);
 	}
 
 	public function testGetNonce(): void {

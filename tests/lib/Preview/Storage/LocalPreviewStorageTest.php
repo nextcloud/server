@@ -25,7 +25,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Test\TestCase;
 
 class LocalPreviewStorageTest extends TestCase {
 	private string $tmpDir;

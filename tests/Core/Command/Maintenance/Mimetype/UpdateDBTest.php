@@ -9,20 +9,18 @@
 namespace Tests\Core\Command\Maintenance\Mimetype;
 
 use OC\Core\Command\Maintenance\Mimetype\UpdateDB;
-use OC\Files\Type\Detection;
-use OC\Files\Type\Loader;
+use OCP\Files\IMimeTypeDetector;
+use OCP\Files\IMimeTypeLoader;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class UpdateDBTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleInput;
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleOutput;
+	protected InputInterface&MockObject $consoleInput;
+	protected OutputInterface&MockObject $consoleOutput;
 
-	/** @var \Symfony\Component\Console\Command\Command */
-	protected $command;
+	protected UpdateDB $command;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -38,17 +36,17 @@ class UpdateDBTest extends TestCase {
 			->with('repair-filecache')
 			->willReturn(false);
 
-		$this->mocks[Detection::class]->expects($this->once())
+		$this->mocks[IMimeTypeDetector::class]->expects($this->once())
 			->method('getAllMappings')
 			->willReturn([
 				'ext' => ['testing/existingmimetype']
 			]);
-		$this->mocks[Loader::class]->expects($this->once())
+		$this->mocks[IMimeTypeLoader::class]->expects($this->once())
 			->method('exists')
 			->with('testing/existingmimetype')
 			->willReturn(true);
 
-		$this->mocks[Loader::class]->expects($this->never())
+		$this->mocks[IMimeTypeLoader::class]->expects($this->never())
 			->method('updateFilecache');
 
 		$calls = [
@@ -70,26 +68,26 @@ class UpdateDBTest extends TestCase {
 			->with('repair-filecache')
 			->willReturn(false);
 
-		$this->mocks[Detection::class]->expects($this->once())
+		$this->mocks[IMimeTypeDetector::class]->expects($this->once())
 			->method('getAllMappings')
 			->willReturn([
 				'ext' => ['testing/existingmimetype'],
 				'new' => ['testing/newmimetype']
 			]);
-		$this->mocks[Loader::class]->expects($this->exactly(2))
+		$this->mocks[IMimeTypeLoader::class]->expects($this->exactly(2))
 			->method('exists')
 			->willReturnMap([
 				['testing/existingmimetype', true],
 				['testing/newmimetype', false],
 			]);
-		$this->mocks[Loader::class]->expects($this->exactly(2))
+		$this->mocks[IMimeTypeLoader::class]->expects($this->exactly(2))
 			->method('getId')
 			->willReturnMap([
 				['testing/existingmimetype', 1],
 				['testing/newmimetype', 2],
 			]);
 
-		$this->mocks[Loader::class]->expects($this->once())
+		$this->mocks[IMimeTypeLoader::class]->expects($this->once())
 			->method('updateFilecache')
 			->with('new', 2)
 			->willReturn(3);
@@ -111,12 +109,12 @@ class UpdateDBTest extends TestCase {
 	}
 
 	public function testSkipComments(): void {
-		$this->mocks[Detection::class]->expects($this->once())
+		$this->mocks[IMimeTypeDetector::class]->expects($this->once())
 			->method('getAllMappings')
 			->willReturn([
 				'_comment' => 'some comment in the JSON'
 			]);
-		$this->mocks[Loader::class]->expects($this->never())
+		$this->mocks[IMimeTypeLoader::class]->expects($this->never())
 			->method('exists');
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
@@ -127,23 +125,23 @@ class UpdateDBTest extends TestCase {
 			->with('repair-filecache')
 			->willReturn(true);
 
-		$this->mocks[Detection::class]->expects($this->once())
+		$this->mocks[IMimeTypeDetector::class]->expects($this->once())
 			->method('getAllMappings')
 			->willReturn([
 				'ext' => ['testing/existingmimetype'],
 			]);
-		$this->mocks[Loader::class]->expects($this->exactly(1))
+		$this->mocks[IMimeTypeLoader::class]->expects($this->exactly(1))
 			->method('exists')
 			->willReturnMap([
 				['testing/existingmimetype', true],
 			]);
-		$this->mocks[Loader::class]->expects($this->exactly(1))
+		$this->mocks[IMimeTypeLoader::class]->expects($this->exactly(1))
 			->method('getId')
 			->willReturnMap([
 				['testing/existingmimetype', 1],
 			]);
 
-		$this->mocks[Loader::class]->expects($this->once())
+		$this->mocks[IMimeTypeLoader::class]->expects($this->once())
 			->method('updateFilecache')
 			->with('ext', 1)
 			->willReturn(3);

@@ -22,7 +22,8 @@ class FileDisplayResponseTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->response = $this->createInstanceWithMocks(FileDisplayResponse::class);
+		/* This needs to be configured before calling the constructor */
+		$this->createAutoMock(File::class);
 		$this->mocks[File::class]->expects($this->once())
 			->method('getETag')
 			->willReturn('myETag');
@@ -32,6 +33,14 @@ class FileDisplayResponseTest extends \Test\TestCase {
 		$this->mocks[File::class]->expects($this->once())
 			->method('getMTime')
 			->willReturn(1464825600);
+
+		$this->response = $this->createInstanceWithMocks(
+			FileDisplayResponse::class,
+			[
+				/* This parameter is a union type so we have to specify which class to mock */
+				'file' => $this->mocks[File::class],
+			],
+		);
 	}
 
 	public function testHeader(): void {

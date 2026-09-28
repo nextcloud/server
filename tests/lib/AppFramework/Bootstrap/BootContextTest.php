@@ -11,7 +11,7 @@ namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\BootContext;
 use OC\Server;
-use OCP\AppFramework\IAppContainer;
+use Psr\Container\ContainerInterface;
 use Test\TestCase;
 
 class BootContextTest extends TestCase {
@@ -27,7 +27,7 @@ class BootContextTest extends TestCase {
 	public function testGetAppContainer(): void {
 		$container = $this->context->getAppContainer();
 
-		$this->assertSame($this->mocks[IAppContainer::class], $container);
+		$this->assertSame($this->mocks[ContainerInterface::class], $container);
 	}
 
 	public function testGetServerContainer(): void {

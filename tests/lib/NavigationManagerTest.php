@@ -8,11 +8,11 @@
 
 namespace Test;
 
-use OC\Group\Manager;
 use OC\NavigationManager;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
@@ -305,7 +305,7 @@ class NavigationManagerTest extends TestCase {
 			->method('getEnabledAppsForUser')
 			->with($user)
 			->willReturn(['test']);
-		$this->mocks[Manager::class]->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
+		$this->mocks[IGroupManager::class]->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
 
 		$this->navigationManager->clear();
 		$this->mocks[IEventDispatcher::class]->expects($this->atLeastOnce())
@@ -509,7 +509,7 @@ class NavigationManagerTest extends TestCase {
 			->method('getEnabledAppsForUser')
 			->with($user)
 			->willReturn(['test']);
-		$this->mocks[Manager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
+		$this->mocks[IGroupManager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
 
 		$this->navigationManager->clear();
 		$this->mocks[IEventDispatcher::class]->expects($this->once())
@@ -552,7 +552,7 @@ class NavigationManagerTest extends TestCase {
 		$this->mocks[IUserSession::class]->method('isLoggedIn')->willReturn(true);
 		$this->mocks[IAppManager::class]->method('getEnabledAppsForUser')->willReturn([]);
 		$this->mocks[IAppManager::class]->method('isEnabledForUser')->willReturn(true);
-		$this->mocks[Manager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
+		$this->mocks[IGroupManager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
 		$this->mocks[IConfig::class]->method('getUserValue')
 			->willReturnCallback(static function (string $userId, string $appName, string $key, mixed $default = '') {
 				return $key === 'apporder' ? json_encode(['other' => ['app' => 'other', 'order' => 0]]) : $default;
@@ -582,7 +582,7 @@ class NavigationManagerTest extends TestCase {
 		$this->mocks[IUserSession::class]->method('getUser')->willReturn($user);
 		$this->mocks[IUserSession::class]->method('isLoggedIn')->willReturn(true);
 		$this->mocks[IAppManager::class]->method('getEnabledAppsForUser')->with($user)->willReturn(['test']);
-		$this->mocks[Manager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
+		$this->mocks[IGroupManager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
 
 		// The app is enabled but not booted yet ...
 		$this->mocks[IAppManager::class]->expects($this->atLeastOnce())
@@ -622,7 +622,7 @@ class NavigationManagerTest extends TestCase {
 		$this->mocks[IUserSession::class]->method('isLoggedIn')->willReturn(true);
 		$this->mocks[IAppManager::class]->method('getEnabledAppsForUser')->with($user)->willReturn(['test']);
 		$this->mocks[IAppManager::class]->method('isAppLoaded')->with('test')->willReturn(true);
-		$this->mocks[Manager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
+		$this->mocks[IGroupManager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
 
 		// App has no navigation entries; info.xml must only be read once
 		$this->mocks[IAppManager::class]->expects($this->once())
@@ -648,7 +648,7 @@ class NavigationManagerTest extends TestCase {
 		$this->mocks[IUserSession::class]->method('isLoggedIn')->willReturn(true);
 		$this->mocks[IAppManager::class]->method('getEnabledAppsForUser')->with($user)->willReturn(['test']);
 		$this->mocks[IAppManager::class]->method('isAppLoaded')->with('test')->willReturn(true);
-		$this->mocks[Manager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
+		$this->mocks[IGroupManager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
 
 		// Resolved once for the initial getAll(), then again after clear(true) resets the state
 		$this->mocks[IAppManager::class]->expects($this->exactly(2))
@@ -866,7 +866,7 @@ class NavigationManagerTest extends TestCase {
 				['user1', 'core', 'defaultapp', '', $userDefaultApps],
 				['user1', 'core', 'apporder', '[]', $userApporder],
 			]);
-		$this->mocks[Manager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
+		$this->mocks[IGroupManager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
 
 		$this->navigationManager->setup();
 		$this->assertEquals($expectedApp, $this->navigationManager->getDefaultEntryIdForUser(null, $withFallbacks));
@@ -875,7 +875,7 @@ class NavigationManagerTest extends TestCase {
 	public function testDefaultEntryUpdated(): void {
 		$this->mocks[IAppManager::class]->method('getEnabledApps')->willReturn([]);
 		$this->mocks[IAppManager::class]->method('getEnabledAppsForUser')->willReturn([]);
-		$this->mocks[Manager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
+		$this->mocks[IGroupManager::class]->expects($this->any())->method('isAdmin')->willReturn(false);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');
