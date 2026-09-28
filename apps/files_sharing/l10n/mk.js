@@ -197,6 +197,7 @@ OC.L10N.register(
     "Open Sharing Details" : "Отвори детали за споделувањето",
     "Unshare" : "Отстрани споделување",
     "Added by {initiator}" : "Додадено од {initiator}",
+    "Via \"{folder}\"" : "Преку \"{folder}\"",
     "Cannot copy, please copy the link manually" : "Неможе да се копира, копирајте го линкот рачно",
     "Copy internal link" : "Копирај внатрешен линк",
     "For people who already have access" : "За луѓе кој веќе имаат пристап",
