@@ -395,7 +395,6 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Migration\\RegisterUpdateCalendarResourcesRoomBackgroundJob' => __DIR__ . '/..' . '/../lib/Migration/RegisterUpdateCalendarResourcesRoomBackgroundJob.php',
         'OCA\\DAV\\Migration\\RemoveClassifiedEventActivity' => __DIR__ . '/..' . '/../lib/Migration/RemoveClassifiedEventActivity.php',
         'OCA\\DAV\\Migration\\RemoveDeletedUsersCalendarSubscriptions' => __DIR__ . '/..' . '/../lib/Migration/RemoveDeletedUsersCalendarSubscriptions.php',
-        'OCA\\DAV\\Migration\\RemoveObjectProperties' => __DIR__ . '/..' . '/../lib/Migration/RemoveObjectProperties.php',
         'OCA\\DAV\\Migration\\RemoveOrphanEventsAndContacts' => __DIR__ . '/..' . '/../lib/Migration/RemoveOrphanEventsAndContacts.php',
         'OCA\\DAV\\Migration\\Version1004Date20170825134824' => __DIR__ . '/..' . '/../lib/Migration/Version1004Date20170825134824.php',
         'OCA\\DAV\\Migration\\Version1004Date20170919104507' => __DIR__ . '/..' . '/../lib/Migration/Version1004Date20170919104507.php',
