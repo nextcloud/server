@@ -25,7 +25,7 @@ class ContentSecurityPolicyNonceManagerTest extends TestCase {
 			ContentSecurityPolicyNonceManager::class,
 			[
 				/* We mock the private class */
-				'request' => $this->createAutoMock(Request::class),
+				'request' => $this->getAutoMock(Request::class),
 			],
 		);
 	}

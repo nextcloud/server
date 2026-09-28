@@ -13,7 +13,6 @@ use OCP\Migration\IOutput;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ClearFrontendCachesTest extends \Test\TestCase {
-
 	private IOutput&MockObject $outputMock;
 
 	protected ClearFrontendCaches $repair;
@@ -28,7 +27,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 	}
 
 	public function testRun(): void {
-		$this->cacheMocks['imagePath']->expects($this->once())
+		$this->getCacheAutoMock('imagePath')->expects($this->once())
 			->method('clear')
 			->with('');
 		$this->mocks[JSCombiner::class]->expects($this->once())

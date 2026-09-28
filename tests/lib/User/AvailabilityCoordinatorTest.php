@@ -54,7 +54,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$user->method('getUID')
 			->willReturn('user');
 
-		$this->cacheMocks['OutOfOfficeData']->expects(self::exactly(2))
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
 			->method('get')
 			->willReturnOnConsecutiveCalls(null, null);
 		$this->mocks[AbsenceService::class]->expects(self::once())
@@ -66,7 +66,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 			[$user->getUID() . '_timezone', 'Europe/Berlin', 3600],
 			[$user->getUID(), '{"id":"420","startDate":1696111200,"endDate":1696802340,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}', 300],
 		];
-		$this->cacheMocks['OutOfOfficeData']->expects(self::exactly(2))
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
 			->method('set')
 			->willReturnCallback(static function () use (&$calls): void {
 				$expected = array_shift($calls);
@@ -102,12 +102,12 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$user->method('getUID')
 			->willReturn('user');
 
-		$this->cacheMocks['OutOfOfficeData']->expects(self::exactly(2))
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
 			->method('get')
 			->willReturnOnConsecutiveCalls('UTC', '{"id":"420","startDate":1696118400,"endDate":1696809540,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}');
 		$this->mocks[AbsenceService::class]->expects(self::never())
 			->method('getAbsence');
-		$this->cacheMocks['OutOfOfficeData']->expects(self::exactly(1))
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(1))
 			->method('set');
 
 		$expected = new OutOfOfficeData(
@@ -137,13 +137,13 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$user->method('getUID')
 			->willReturn('user');
 
-		$this->cacheMocks['OutOfOfficeData']->expects(self::exactly(2))
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
 			->method('get')
 			->willReturnOnConsecutiveCalls('UTC', null);
 		$this->mocks[AbsenceService::class]->expects(self::once())
 			->method('getAbsence')
 			->willReturn(null);
-		$this->cacheMocks['OutOfOfficeData']->expects(self::never())
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::never())
 			->method('set');
 
 		$actual = $this->availabilityCoordinator->getCurrentOutOfOfficeData($user);
@@ -166,14 +166,14 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$user->method('getUID')
 			->willReturn('user');
 
-		$this->cacheMocks['OutOfOfficeData']->expects(self::exactly(2))
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
 			->method('get')
 			->willReturnOnConsecutiveCalls('UTC', '{"id":"420",}');
 		$this->mocks[AbsenceService::class]->expects(self::once())
 			->method('getAbsence')
 			->with('user')
 			->willReturn($absence);
-		$this->cacheMocks['OutOfOfficeData']->expects(self::once())
+		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::once())
 			->method('set')
 			->with('user', '{"id":"420","startDate":1696118400,"endDate":1696809540,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}', 300);
 

@@ -22,7 +22,7 @@ class NegativeDnsCacheTest extends \Test\TestCase {
 	}
 
 	public function testSetNegativeCacheForDnsType() : void {
-		$this->cacheMocks['NegativeDnsCache']
+		$this->getCacheAutoMock('NegativeDnsCache')
 			->expects($this->once())
 			->method('set')
 			->with('www.example.com-1', 'true', 3600);
@@ -31,7 +31,7 @@ class NegativeDnsCacheTest extends \Test\TestCase {
 	}
 
 	public function testIsNegativeCached(): void {
-		$this->cacheMocks['NegativeDnsCache']
+		$this->getCacheAutoMock('NegativeDnsCache')
 			->expects($this->once())
 			->method('hasKey')
 			->with('www.example.com-1')

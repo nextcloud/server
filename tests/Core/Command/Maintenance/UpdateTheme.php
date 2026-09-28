@@ -37,7 +37,7 @@ class UpdateThemeTest extends TestCase {
 		$this->mocks[Detection::class]->expects($this->once())
 			->method('getAllAliases')
 			->willReturn([]);
-		$this->cacheMocks['imagePath']->expects($this->once())
+		$this->getCacheAutoMock('imagePath')->expects($this->once())
 			->method('clear')
 			->with('');
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);

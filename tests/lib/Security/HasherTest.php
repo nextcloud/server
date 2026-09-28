@@ -104,11 +104,11 @@ class HasherTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->hasher = $this->createInstanceWithMocks(Hasher::class);
-		$this->mocks[IConfig::class]->method('getSystemValueInt')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueInt')
 			->willReturnCallback(function ($name, $default) {
 				return $default;
 			});
+		$this->hasher = $this->createInstanceWithMocks(Hasher::class);
 	}
 
 	public function testHash(): void {

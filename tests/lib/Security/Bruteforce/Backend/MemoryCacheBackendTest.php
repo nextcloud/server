@@ -25,7 +25,7 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testGetAttemptsWithNoAttemptsBefore(): void {
-		$this->cacheMocks[MemoryCacheBackend::class]
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('get')
 			->with('8b9da631d1f7b022bb2c3c489e16092f82b42fd4')
@@ -48,7 +48,7 @@ class MemoryCacheBackendTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAttempts')]
 	public function testGetAttempts(int $maxAge, ?string $action, ?array $metadata, int $expected): void {
-		$this->cacheMocks[MemoryCacheBackend::class]
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('get')
 			->with('8b9da631d1f7b022bb2c3c489e16092f82b42fd4')
@@ -63,12 +63,12 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testRegisterAttemptWithNoAttemptsBefore(): void {
-		$this->cacheMocks[MemoryCacheBackend::class]
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('get')
 			->with('8b9da631d1f7b022bb2c3c489e16092f82b42fd4')
 			->willReturn(null);
-		$this->cacheMocks[MemoryCacheBackend::class]
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('set')
 			->with(
@@ -85,7 +85,7 @@ class MemoryCacheBackendTest extends TestCase {
 			->method('getTime')
 			->willReturn(12 * 3600 + 86);
 
-		$this->cacheMocks[MemoryCacheBackend::class]
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('get')
 			->with('8b9da631d1f7b022bb2c3c489e16092f82b42fd4')
@@ -97,7 +97,7 @@ class MemoryCacheBackendTest extends TestCase {
 				'123#' . hash('sha1', 'action5') . '#' . hash('sha1', json_encode(['metadata1'])),
 				'124#' . hash('sha1', 'action6') . '#' . hash('sha1', json_encode(['metadata1'])),
 			]));
-		$this->cacheMocks[MemoryCacheBackend::class]
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('set')
 			->with(

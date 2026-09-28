@@ -23,8 +23,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 		parent::setUp();
 
 		/* This needs to be configured before calling the constructor */
-		$this->createAutoMock(File::class);
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getETag')
 			->willReturn('myETag');
 		$this->mocks[File::class]->expects($this->once())

@@ -34,7 +34,7 @@ class SetConfigTest extends TestCase {
 			SetConfig::class,
 			[
 				/* Mock internal class */
-				'appConfig' => $this->createAutoMock(AppConfig::class),
+				'appConfig' => $this->getAutoMock(AppConfig::class),
 			],
 		);
 	}

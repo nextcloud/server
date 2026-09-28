@@ -100,13 +100,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				$params[] = $overrides[$className];
 				continue;
 			}
-			if (isset($this->mocks[$className])) {
-				$params[] = $this->mocks[$className];
-			} else {
-				$params[] = $this->createAutoMock($className);
-			}
+			$params[] = $this->getAutoMock($className);
 		}
 		return $reflection->newInstanceArgs($params);
+	}
+
+	/**
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return T&MockObject
+	 */
+	protected function getAutoMock(string $className): MockObject {
+		if (isset($this->mocks[$className])) {
+			return $this->mocks[$className];
+		} else {
+			return $this->createAutoMock($className);
+		}
 	}
 
 	/**
@@ -133,30 +142,34 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 					});
 				break;
 			case IL10NFactory::class:
-				$mockL10n = $this->createAutoMock(IL10N::class);
+				$mockL10n = $this->getAutoMock(IL10N::class);
 				$mock->method('get')
 					->willReturn($mockL10n);
 				break;
 			case ICacheFactory::class:
 				$mock->method('isAvailable')->willReturn(true);
 				$mock->method('isLocalCacheAvailable')->willReturn(true);
-				$callback = function (string $prefix = ''): ICache {
-					if (!isset($this->cacheMocks[$prefix])) {
-						$cache = $this->createMock(ICache::class);
-						$this->cacheMocks[$prefix] = $cache;
-					}
-					return $this->cacheMocks[$prefix];
-				};
-				$mock->method('createLocking')->willReturnCallback($callback);
-				$mock->method('createDistributed')->willReturnCallback($callback);
-				$mock->method('createLocal')->willReturnCallback($callback);
+				$mock->method('createLocking')->willReturnCallback($this->getCacheAutoMock(...));
+				$mock->method('createDistributed')->willReturnCallback($this->getCacheAutoMock(...));
+				$mock->method('createLocal')->willReturnCallback($this->getCacheAutoMock(...));
 				$mock->method('createInMemory')->willReturnCallback(
-					fn (int $capacity): ICache => $callback('InMemory'),
+					fn (int $capacity): ICache => $this->getCacheAutoMock('InMemory'),
 				);
 				break;
 		}
 		$this->mocks[$className] = $mock;
 		return $mock;
+	}
+
+	/**
+	 * @return ICache&MockObject
+	 */
+	protected function getCacheAutoMock(string $prefix): MockObject {
+		if (!isset($this->cacheMocks[$prefix])) {
+			$cache = $this->createMock(ICache::class);
+			$this->cacheMocks[$prefix] = $cache;
+		}
+		return $this->cacheMocks[$prefix];
 	}
 
 	#[\Override]

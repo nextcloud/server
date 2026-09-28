@@ -15,8 +15,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\ICache;
-use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
@@ -186,7 +184,7 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$file = $this->createMock(ISimpleFile::class);
 
-		$this->cacheMocks[$this->cacheName]->method('get')
+		$this->getCacheAutoMock($this->cacheName)->method('get')
 			->with('awesomeapp-combine.js.deps')
 			->willReturn('{}');
 
@@ -498,11 +496,7 @@ var b = \'world\';
 			->method('getDirectoryListing')
 			->willReturn([$file]);
 
-		$cache = $this->createMock(ICache::class);
-		$this->mocks[ICacheFactory::class]->expects($this->once())
-			->method('createDistributed')
-			->willReturn($cache);
-		$cache->expects($this->never())
+		$this->getCacheAutoMock('JS-')->expects($this->once())
 			->method('clear');
 		$this->mocks[IAppData::class]->expects($this->once())
 			->method('getDirectoryListing')
