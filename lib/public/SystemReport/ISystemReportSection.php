@@ -15,27 +15,27 @@ namespace OCP\SystemReport;
  * purposes. Register your implementation with
  * \OCP\AppFramework\Bootstrap\IRegistrationContext::registerSystemReportSection().
  *
- * @since 36.0.0
+ * @since 33.0.10
  */
 interface ISystemReportSection {
 	/**
 	 * Unique, stable identifier of this section, e.g. "saml".
 	 * Sections registered under the same id are merged.
 	 *
-	 * @since 36.0.0
+	 * @since 33.0.10
 	 */
 	public function getId(): string;
 
 	/**
 	 * Translated title shown as heading for this section in the report.
 	 *
-	 * @since 36.0.0
+	 * @since 33.0.10
 	 */
 	public function getTitle(): string;
 
 	/**
 	 * @return SystemReportDetail[]
-	 * @since 36.0.0
+	 * @since 33.0.10
 	 */
 	public function getDetails(): array;
 }

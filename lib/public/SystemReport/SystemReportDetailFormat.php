@@ -12,13 +12,13 @@ namespace OCP\SystemReport;
 /**
  * How a \OCP\SystemReport\SystemReportDetail should be rendered.
  *
- * @since 36.0.0
+ * @since 33.0.10
  */
 enum SystemReportDetailFormat {
-	/** @since 36.0.0 */
+	/** @since 33.0.10 */
 	case SingleLine;
-	/** @since 36.0.0 */
+	/** @since 33.0.10 */
 	case MultiLine;
-	/** @since 36.0.0 */
+	/** @since 33.0.10 */
 	case Preformatted;
 }

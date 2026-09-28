@@ -12,7 +12,7 @@ namespace OCP\SystemReport;
 /**
  * A single piece of information contributed to a system report section.
  *
- * @since 36.0.0
+ * @since 33.0.10
  */
 final readonly class SystemReportDetail {
 	/**
@@ -21,7 +21,7 @@ final readonly class SystemReportDetail {
 	 *                        passwords, private keys, or tokens - system reports are
 	 *                        commonly shared with third parties for support purposes.
 	 * @param SystemReportDetailFormat $format How to render $content
-	 * @since 36.0.0
+	 * @since 33.0.10
 	 */
 	public function __construct(
 		private string $title,
@@ -30,17 +30,17 @@ final readonly class SystemReportDetail {
 	) {
 	}
 
-	/** @since 36.0.0 */
+	/** @since 33.0.10 */
 	public function getTitle(): string {
 		return $this->title;
 	}
 
-	/** @since 36.0.0 */
+	/** @since 33.0.10 */
 	public function getContent(): string {
 		return $this->content;
 	}
 
-	/** @since 36.0.0 */
+	/** @since 33.0.10 */
 	public function getFormat(): SystemReportDetailFormat {
 		return $this->format;
 	}

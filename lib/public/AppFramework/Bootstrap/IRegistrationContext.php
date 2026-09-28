@@ -387,7 +387,7 @@ interface IRegistrationContext {
 	 * will contribute a section to the system report
 	 *
 	 * @param class-string<\OCP\SystemReport\ISystemReportSection> $sectionClass
-	 * @since 36.0.0
+	 * @since 33.0.10
 	 */
 	public function registerSystemReportSection(string $sectionClass): void;
 

@@ -410,6 +410,13 @@ class RegistrationContext {
 				);
 			}
 
+			public function registerSystemReportSection(string $sectionClass): void {
+				$this->context->registerSystemReportSection(
+					$this->appId,
+					$sectionClass
+				);
+			}
+
 			public function registerDeclarativeSettings(string $declarativeSettingsClass): void {
 				$this->context->registerDeclarativeSettings(
 					$this->appId,
