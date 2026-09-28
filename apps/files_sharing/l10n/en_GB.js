@@ -291,6 +291,7 @@ OC.L10N.register(
     "Advanced settings" : "Advanced settings",
     "Share label" : "Share label",
     "Share link token" : "Share link token",
+    "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information.",
     "Generating…" : "Generating…",
     "Generate new token" : "Generate new token",
     "Set password" : "Set password",
