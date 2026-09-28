@@ -159,7 +159,7 @@ class TemplateLayout {
 				}
 
 				$page->assign('user_displayname', $userDisplayName);
-				$page->assign('user_uid', \OC_User::getUser());
+				$page->assign('user_uid', $user?->getUID() ?? false);
 				break;
 			case TemplateResponse::RENDER_AS_PUBLIC:
 				$page = $this->templateManager->getTemplate('core', 'layout.public');

@@ -10,7 +10,6 @@ namespace OC\Core\Controller;
 
 use OC\AppFramework\Http\Attributes\TwoFactorSetUpDoneRequired;
 use OC\Authentication\TwoFactorAuth\Manager;
-use OC_User;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -47,13 +46,6 @@ class TwoFactorChallengeController extends Controller {
 	}
 
 	/**
-	 * @return string
-	 */
-	protected function getLogoutUrl() {
-		return OC_User::getLogoutUrl($this->urlGenerator);
-	}
-
-	/**
 	 * @param IProvider[] $providers
 	 */
 	private function splitProvidersAndBackupCodes(array $providers): array {
@@ -86,7 +78,7 @@ class TwoFactorChallengeController extends Controller {
 			'backupProvider' => $backupProvider,
 			'providerMissing' => $providerSet->isProviderMissing(),
 			'redirect_url' => $redirect_url,
-			'logout_url' => $this->getLogoutUrl(),
+			'logout_url' => $this->urlGenerator->getLogoutUrl(),
 			'hasSetupProviders' => !empty($setupProviders),
 		];
 		Util::addScript('core', 'twofactor-request-token');
@@ -128,7 +120,7 @@ class TwoFactorChallengeController extends Controller {
 			'error_message' => $errorMessage,
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,
-			'logout_url' => $this->getLogoutUrl(),
+			'logout_url' => $this->urlGenerator->getLogoutUrl(),
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
@@ -191,7 +183,7 @@ class TwoFactorChallengeController extends Controller {
 
 		$data = [
 			'providers' => $setupProviders,
-			'logout_url' => $this->getLogoutUrl(),
+			'logout_url' => $this->urlGenerator->getLogoutUrl(),
 			'redirect_url' => $redirect_url,
 		];
 
@@ -222,7 +214,7 @@ class TwoFactorChallengeController extends Controller {
 		$tmpl = $provider->getLoginSetup($user)->getBody();
 		$data = [
 			'provider' => $provider,
-			'logout_url' => $this->getLogoutUrl(),
+			'logout_url' => $this->urlGenerator->getLogoutUrl(),
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];

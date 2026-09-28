@@ -374,7 +374,7 @@ class User {
 			throw new \Exception('Home dir attribute can\'t be read from LDAP for uid: ' . $this->getUsername());
 		}
 
-		// false will apply default behaviour as defined and done by OC_User
+		// false will apply default behaviour
 		$this->userConfig->setValueString($this->getUsername(), 'user_ldap', 'homePath', '');
 		return false;
 	}

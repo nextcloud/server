@@ -14,6 +14,7 @@ use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -47,6 +48,7 @@ class PublicAuth extends AbstractBasic {
 		private IThrottler $throttler,
 		private LoggerInterface $logger,
 		private IURLGenerator $urlGenerator,
+		private IUserSession $userSession,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -134,7 +136,7 @@ class PublicAuth extends AbstractBasic {
 		}
 
 		$this->share = $share;
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		// If already authenticated
 		if ($this->isShareInSession($share)) {
@@ -173,7 +175,7 @@ class PublicAuth extends AbstractBasic {
 			return false;
 		}
 
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		// check if the share is password protected
 		if ($share->isPasswordProtected()) {

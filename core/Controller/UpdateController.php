@@ -31,6 +31,7 @@ use OCP\IConfig;
 use OCP\IEventSourceFactory;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -45,6 +46,7 @@ class UpdateController extends OCSController {
 		private readonly Updater $updater,
 		private readonly IEventDispatcher $dispatcher,
 		private readonly LoggerInterface $logger,
+		private readonly IUserSession $userSession,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -83,7 +85,7 @@ class UpdateController extends OCSController {
 
 		// if a user is currently logged in, their session must be ignored to
 		// avoid side effects
-		\OC_User::setIncognitoMode(true);
+		$this->userSession->setIncognitoMode(true);
 
 		$incompatibleApps = [];
 

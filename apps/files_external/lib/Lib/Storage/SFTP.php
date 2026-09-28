@@ -191,7 +191,8 @@ class SFTP extends Common {
 
 	private function hostKeysPath(): string|false {
 		try {
-			$userId = \OC_User::getUser();
+			$userId = Server::get(\OCP\IUserSession::class)->getUser()?->getUID() ?? false;
+			;
 			if ($userId === false) {
 				return false;
 			}

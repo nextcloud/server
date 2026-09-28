@@ -40,6 +40,7 @@ use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
@@ -412,7 +413,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	#[\Override]
 	public function getOwner(string $path): string|false {
 		if ($this->owner === null) {
-			$this->owner = \OC_User::getUser();
+			$this->owner = Server::get(IUserSession::class)->getUser()?->getUID() ?? false;
 		}
 
 		return $this->owner;
