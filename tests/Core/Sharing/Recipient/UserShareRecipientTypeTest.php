@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Tests\Core\Sharing\Recipient;
 
+use NCU\Sharing\Icon\ShareIconURL;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Recipient\ShareRecipient;
@@ -16,8 +17,12 @@ use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\UserShareRecipientType;
 use OC\Sharing\SharingManager;
 use OC\User\Database;
+use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\CardDAV\ContactsManager;
+use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
@@ -95,7 +100,28 @@ final class UserShareRecipientTypeTest extends TestCase {
 	}
 
 	public function testGetRecipientDisplayName(): void {
-		$this->assertEquals('User 1', $this->recipientType->getRecipientDisplayName($this->user1->getUID()));
+		$this->assertEquals('User 1', $this->recipientType->getRecipientDisplayName($this->user1->getUID(), null));
+		$this->assertNull($this->recipientType->getRecipientDisplayName($this->user1->getUID(), 'https://example.com'));
+
+		$cardDavBackend = Server::get(CardDavBackend::class);
+		$contactsManager = Server::get(IManager::class);
+		$addressBookId = $cardDavBackend->createAddressBook('principals/users/' . $this->user1->getUID(), 'Personal', []);
+		Server::get(ContactsManager::class)->setupContactsProvider($contactsManager, $this->user1->getUID(), Server::get(IURLGenerator::class));
+
+		$contactsManager->createOrUpdate(['CLOUD' => $this->user1->getUID() . '@https://example.com', 'FN' => 'Remote User 1'], (string)$addressBookId);
+
+		$this->assertEquals('Remote User 1', $this->recipientType->getRecipientDisplayName($this->user1->getUID(), 'https://example.com'));
+		$this->assertNull($this->recipientType->getRecipientDisplayName($this->user2->getUID(), 'https://example.com'));
+		$this->assertNull($this->recipientType->getRecipientDisplayName($this->user1->getUID(), 'https://example.org'));
+		$this->assertNull($this->recipientType->getRecipientDisplayName($this->user1->getUID(), 'http://example.com'));
+		$this->assertNull($this->recipientType->getRecipientDisplayName($this->user1->getUID(), 'example.com'));
+
+		$cardDavBackend->deleteAddressBook($addressBookId);
+	}
+
+	public function testGetRecipientIcon(): void {
+		$this->assertEquals(new ShareIconURL('http://localhost/index.php/avatar/user1/64', 'http://localhost/index.php/avatar/user1/64/dark'), $this->recipientType->getRecipientIcon($this->user1->getUID(), null));
+		$this->assertEquals(new ShareIconURL('http://localhost/index.php/avatar/user1@https%253A%2F%2Fexample.com/64', 'http://localhost/index.php/avatar/user1@https%253A%2F%2Fexample.com/64/dark'), $this->recipientType->getRecipientIcon($this->user1->getUID(), 'https://example.com'));
 	}
 
 	public function testSearchRecipients(): void {

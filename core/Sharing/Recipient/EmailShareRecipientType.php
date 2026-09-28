@@ -12,6 +12,7 @@ namespace OC\Core\Sharing\Recipient;
 use NCU\Sharing\Icon\ShareIconSVG;
 use NCU\Sharing\Icon\ShareIconURL;
 use NCU\Sharing\Recipient\AShareRecipientTypeSearchCollaborator;
+use NCU\Sharing\Recipient\TShareRecipientTypeDisplayNameAddressBook;
 use OC\Core\AppInfo\Application;
 use OCP\Interaction\InteractionReceiver;
 use OCP\Interaction\Receivers\EmailReceiver;
@@ -20,9 +21,9 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IEmailValidator;
 use OCP\Share\IShare;
 
-// TODO: Add logic to send emails when share state is updated to active
-
 final class EmailShareRecipientType extends AShareRecipientTypeSearchCollaborator {
+	use TShareRecipientTypeDisplayNameAddressBook;
+
 	public function __construct(
 		private readonly IEmailValidator $emailValidator,
 	) {
@@ -44,12 +45,17 @@ final class EmailShareRecipientType extends AShareRecipientTypeSearchCollaborato
 	}
 
 	#[\Override]
-	public function getRecipientDisplayName(string $recipient): string {
-		return $recipient;
+	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string {
+		if ($instance !== null) {
+			// An email is always remote and can never have an instance.
+			return null;
+		}
+
+		return $this->getRecipientDisplayNameFromAddressBook($recipient, 'EMAIL');
 	}
 
 	#[\Override]
-	public function getRecipientIcon(string $recipient): null|ShareIconSVG|ShareIconURL {
+	public function getRecipientIcon(string $recipient, ?string $instance): null|ShareIconSVG|ShareIconURL {
 		return null;
 	}
 
