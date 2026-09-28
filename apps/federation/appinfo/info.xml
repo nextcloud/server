@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
+  - SPDX-License-Identifier: AGPL-3.0-only
+-->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>federation</id>
+	<name>Federation</name>
+	<summary>Federation allows you to connect with other trusted servers to exchange the account directory.</summary>
+	<description>Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing.</description>
+	<version>1.22.0</version>
+	<licence>agpl</licence>
+	<author>Bjoern Schiessle</author>
+	<namespace>Federation</namespace>
+
+	<types>
+		<authentication/>
+	</types>
+	<category>social</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+
+	<dependencies>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+
+	<background-jobs>
+		<job>OCA\Federation\SyncJob</job>
+	</background-jobs>
+
+	<commands>
+		<command>OCA\Federation\Command\SyncFederationAddressBooks</command>
+		<command>OCA\Federation\Command\SyncFederationCalendars</command>
+	</commands>
+
+	<settings>
+		<admin>OCA\Federation\Settings\Admin</admin>
+	</settings>
+</info>

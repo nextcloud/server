@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+ -->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>user_status</id>
+	<name>User status</name>
+	<summary>User status</summary>
+	<description><![CDATA[User status]]></description>
+	<version>1.12.0</version>
+	<licence>agpl</licence>
+	<author mail="oc.list@georgehrke.com" >Georg Ehrke</author>
+	<namespace>UserStatus</namespace>
+	<category>social</category>
+	<bugs>https://github.com/nextcloud/server</bugs>
+	<navigations>
+		<navigation>
+			<id>user_status-menu-entry</id>
+			<name>User status</name>
+			<order>1</order>
+			<type>settings</type>
+		</navigation>
+	</navigations>
+	<dependencies>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+	<background-jobs>
+		<job>OCA\UserStatus\BackgroundJob\ClearOldStatusesBackgroundJob</job>
+	</background-jobs>
+	<contactsmenu>
+		<provider>OCA\UserStatus\ContactsMenu\StatusProvider</provider>
+	</contactsmenu>
+</info>

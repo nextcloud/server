@@ -1,0 +1,1506 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
+
+use OCA\DAV\CalDAV\EventComparisonService;
+use OCA\DAV\CalDAV\Schedule\IMipPlugin;
+use OCA\DAV\CalDAV\Schedule\IMipService;
+use OCP\Accounts\IAccount;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
+use OCP\Accounts\IAccountPropertyCollection;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Defaults;
+use OCP\IAppConfig;
+use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Mail\IAttachment;
+use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IMailer;
+use OCP\Mail\IMessage;
+use OCP\Mail\Provider\Address;
+use OCP\Mail\Provider\IManager as IMailManager;
+use OCP\Mail\Provider\IMessage as IMailMessageNew;
+use OCP\Mail\Provider\IMessageSend as IMailMessageSend;
+use OCP\Mail\Provider\IService as IMailService;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\ITip\Message;
+use Test\TestCase;
+use function array_merge;
+
+interface IMailServiceMock extends IMailService, IMailMessageSend {
+	// workaround for creating mock class with multiple interfaces
+	// TODO: remove after phpUnit 10 is supported.
+}
+
+class IMipPluginTest extends TestCase {
+	private IMessage&MockObject $mailMessage;
+	private IMailer&MockObject $mailer;
+	private IEMailTemplate&MockObject $emailTemplate;
+	private IAttachment&MockObject $emailAttachment;
+	private ITimeFactory&MockObject $timeFactory;
+	private IAppConfig&MockObject $config;
+	private IUserSession&MockObject $userSession;
+	private IUser&MockObject $user;
+	private IMipPlugin $plugin;
+	private IMipService&MockObject $service;
+	private Defaults&MockObject $defaults;
+	private LoggerInterface&MockObject $logger;
+	private EventComparisonService&MockObject $eventComparisonService;
+	private IMailManager&MockObject $mailManager;
+	private IMailServiceMock&MockObject $mailService;
+	private IMailMessageNew&MockObject $mailMessageNew;
+	private IAccountManager&MockObject $accountManager;
+
+	protected function setUp(): void {
+		$this->mailMessage = $this->createMock(IMessage::class);
+		$this->mailMessage->method('setFrom')->willReturn($this->mailMessage);
+		$this->mailMessage->method('setReplyTo')->willReturn($this->mailMessage);
+		$this->mailMessage->method('setTo')->willReturn($this->mailMessage);
+
+		$this->mailer = $this->createMock(IMailer::class);
+		$this->mailer->method('createMessage')->willReturn($this->mailMessage);
+
+		$this->emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($this->emailTemplate);
+
+		$this->emailAttachment = $this->createMock(IAttachment::class);
+		$this->mailer->method('createAttachment')->willReturn($this->emailAttachment);
+
+		$this->logger = $this->createMock(LoggerInterface::class);
+
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->timeFactory->method('getTime')->willReturn(1496912528); // 2017-01-01
+
+		$this->config = $this->createMock(IAppConfig::class);
+
+		$this->user = $this->createMock(IUser::class);
+
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->userSession->method('getUser')
+			->willReturn($this->user);
+
+		$this->defaults = $this->createMock(Defaults::class);
+		$this->defaults->method('getName')
+			->willReturn('Instance Name 123');
+
+		$this->service = $this->createMock(IMipService::class);
+
+		$this->eventComparisonService = $this->createMock(EventComparisonService::class);
+
+		$this->mailManager = $this->createMock(IMailManager::class);
+
+		$this->mailService = $this->createMock(IMailServiceMock::class);
+
+		$this->mailMessageNew = $this->createMock(IMailMessageNew::class);
+
+		$this->accountManager = $this->createMock(IAccountManager::class);
+
+		$this->plugin = new IMipPlugin(
+			$this->config,
+			$this->mailer,
+			$this->logger,
+			$this->timeFactory,
+			$this->defaults,
+			$this->userSession,
+			$this->service,
+			$this->eventComparisonService,
+			$this->mailManager,
+			$this->accountManager,
+		);
+	}
+
+	public function testDeliveryNoSignificantChange(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$message->message = new VCalendar();
+		$message->message->add('VEVENT', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$message->message->VEVENT->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$message->message->VEVENT->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE']);
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		$message->significantChange = false;
+
+		$this->config->expects(self::never())
+			->method('getValueBool');
+
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.0', $message->getScheduleStatus());
+	}
+
+	public function testParsingSingle(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE',  'CN' => 'Frodo']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		// save the old copy in the plugin
+		$oldVCalendar = new VCalendar();
+		$oldVEvent = new VEvent($oldVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		]);
+		$oldVEvent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'boromir@tra.it.or', ['RSVP' => 'TRUE']);
+		$oldVCalendar->add($oldVEvent);
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting without (!) Boromir',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
+		$this->plugin->setVCalendar($oldVCalendar);
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, false],
+				['core', 'mail_providers_enabled', true, false],
+			]);
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('frodo@hobb.it')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($newVevent, $oldVEvent)
+			->willReturn($data);
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', true);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $newVevent, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		$this->service->expects(self::once())
+			->method('createInvitationToken')
+			->with($message, $newVevent, 1496912700)
+			->willReturn('token');
+		$this->service->expects(self::once())
+			->method('addResponseButtons')
+			->with($this->emailTemplate, 'token');
+		$this->service->expects(self::once())
+			->method('addMoreOptionsButton')
+			->with($this->emailTemplate, 'token');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	public function testAttendeeIsResource(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'the-shire@hobb.it', ['RSVP' => 'TRUE',  'CN' => 'The Shire', 'CUTYPE' => 'ROOM']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'the-shire@hobb.it';
+		// save the old copy in the plugin
+		$oldVCalendar = new VCalendar();
+		$oldVEvent = new VEvent($oldVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		]);
+		$oldVEvent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'the-shire@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'The Shire', 'CUTYPE' => 'ROOM']);
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'boromir@tra.it.or', ['RSVP' => 'TRUE']);
+		$oldVCalendar->add($oldVEvent);
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting without (!) Boromir',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$room = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$room = $attendee;
+			}
+		}
+		$this->plugin->setVCalendar($oldVCalendar);
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::once())
+			->method('getValueBool')
+			->with('dav', 'caldav_external_attendees_disabled', false)
+			->willReturn(false);
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('the-shire@hobb.it')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($room);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($room)
+			->willReturn(true);
+		$this->service->expects(self::never())
+			->method('isCircle');
+		$this->service->expects(self::never())
+			->method('buildBodyData');
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::never())
+			->method('getFrom');
+		$this->service->expects(self::never())
+			->method('addSubjectAndHeading');
+		$this->service->expects(self::never())
+			->method('addBulletList');
+		$this->service->expects(self::never())
+			->method('getAttendeeRsvpOrReqForParticipant');
+		$this->config->expects(self::never())
+			->method('getValueString');
+		$this->service->expects(self::never())
+			->method('createInvitationToken');
+		$this->service->expects(self::never())
+			->method('addResponseButtons');
+		$this->service->expects(self::never())
+			->method('addMoreOptionsButton');
+		$this->mailer->expects(self::never())
+			->method('send');
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.0', $message->getScheduleStatus());
+	}
+
+	public function testAttendeeIsCircle(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'circle+82utEV1Fle8wvxndZLK5TVAPtxj8IIe@middle.earth', ['RSVP' => 'TRUE', 'CN' => 'The Fellowship', 'CUTYPE' => 'GROUP']);
+		$newVevent->add('ATTENDEE', 'mailto:' . 'boromir@tra.it.or', ['RSVP' => 'TRUE', 'MEMBER' => 'circle+82utEV1Fle8wvxndZLK5TVAPtxj8IIe@middle.earth']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'circle+82utEV1Fle8wvxndZLK5TVAPtxj8IIe@middle.earth';
+		$attendees = $newVevent->select('ATTENDEE');
+		$circle = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$circle = $attendee;
+			}
+		}
+		$this->assertNotEmpty($circle, 'Failed to find attendee belonging to the circle');
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::once())
+			->method('getValueBool')
+			->with('dav', 'caldav_external_attendees_disabled', false)
+			->willReturn(false);
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('circle+82utEV1Fle8wvxndZLK5TVAPtxj8IIe@middle.earth')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['new' => [$newVevent], 'old' => null]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($circle);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($circle)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($circle)
+			->willReturn(true);
+		$this->service->expects(self::never())
+			->method('buildBodyData');
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::never())
+			->method('getFrom');
+		$this->service->expects(self::never())
+			->method('addSubjectAndHeading');
+		$this->service->expects(self::never())
+			->method('addBulletList');
+		$this->service->expects(self::never())
+			->method('getAttendeeRsvpOrReqForParticipant');
+		$this->config->expects(self::never())
+			->method('getValueString');
+		$this->service->expects(self::never())
+			->method('createInvitationToken');
+		$this->service->expects(self::never())
+			->method('addResponseButtons');
+		$this->service->expects(self::never())
+			->method('addMoreOptionsButton');
+		$this->mailer->expects(self::never())
+			->method('send');
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.0', $message->getScheduleStatus());
+	}
+
+	public function testParsingRecurrence(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z'
+		]);
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE',  'CN' => 'Frodo']);
+		$newvEvent2 = new VEvent($newVCalendar, 'two', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Elevenses',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RECURRENCE-ID' => new \DateTime('2016-01-01 00:00:00')
+		]);
+		$newvEvent2->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newvEvent2->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		// save the old copy in the plugin
+		$oldVCalendar = new VCalendar();
+		$oldVEvent = new VEvent($oldVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'LAST-MODIFIED' => 123456,
+			'SEQUENCE' => 2,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+			'RRULE' => 'FREQ=DAILY;INTERVAL=1;UNTIL=20160201T000000Z'
+		]);
+		$oldVEvent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Elevenses',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
+		$this->plugin->setVCalendar($oldVCalendar);
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, false],
+				['core', 'mail_providers_enabled', true, false],
+			]);
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('frodo@hobb.it')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($newVevent, null)
+			->willReturn($data);
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Elevenses', false);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $newVevent, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		$this->service->expects(self::once())
+			->method('createInvitationToken')
+			->with($message, $newVevent, 1496912700)
+			->willReturn('token');
+		$this->service->expects(self::once())
+			->method('addResponseButtons')
+			->with($this->emailTemplate, 'token');
+		$this->service->expects(self::once())
+			->method('addMoreOptionsButton')
+			->with($this->emailTemplate, 'token');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	public function testEmailValidationFailed(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$message->message = new VCalendar();
+		$message->message->add('VEVENT', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$message->message->VEVENT->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$message->message->VEVENT->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE']);
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('frodo@hobb.it')
+			->willReturn(false);
+
+		$this->plugin->schedule($message);
+		$this->assertEquals('5.0', $message->getScheduleStatus());
+	}
+
+	public function testFailedDelivery(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVcalendar = new VCalendar();
+		$newVevent = new VEvent($newVcalendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE',  'CN' => 'Frodo']);
+		$message->message = $newVcalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		// save the old copy in the plugin
+		$oldVcalendar = new VCalendar();
+		$oldVevent = new VEvent($oldVcalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		]);
+		$oldVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$oldVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$oldVevent->add('ATTENDEE', 'mailto:' . 'boromir@tra.it.or', ['RSVP' => 'TRUE']);
+		$oldVcalendar->add($oldVevent);
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting without (!) Boromir',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
+		$this->plugin->setVCalendar($oldVcalendar);
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('frodo@hobb.it')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($newVevent, null)
+			->willReturn($data);
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', false);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $newVevent, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		$this->service->expects(self::once())
+			->method('createInvitationToken')
+			->with($message, $newVevent, 1496912700)
+			->willReturn('token');
+		$this->service->expects(self::once())
+			->method('addResponseButtons')
+			->with($this->emailTemplate, 'token');
+		$this->service->expects(self::once())
+			->method('addMoreOptionsButton')
+			->with($this->emailTemplate, 'token');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->mailer
+			->method('send')
+			->willThrowException(new \Exception());
+		$this->logger->expects(self::once())
+			->method('error');
+		$this->plugin->schedule($message);
+		$this->assertEquals('5.0', $message->getScheduleStatus());
+	}
+
+	public function testMailProviderSend(): void {
+		// construct iTip message with event and attendees
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$calendar = new VCalendar();
+		$event = new VEvent($calendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$event->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$event->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE',  'CN' => 'Frodo']);
+		$message->message = $calendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		// construct
+		foreach ($event->select('ATTENDEE') as $entry) {
+			if (strcasecmp($entry->getValue(), $message->recipient) === 0) {
+				$attendee = $entry;
+			}
+		}
+		// construct body data return
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting without (!) Boromir',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		// construct system config mock returns
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		// construct user mock returns
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		// construct user session mock returns
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		// construct service mock returns
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, false],
+				['core', 'mail_providers_enabled', true, true],
+			]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($attendee);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($attendee)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($attendee)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($event, null)
+			->willReturn($data);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', false);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $event, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->service->expects(self::once())
+			->method('createInvitationToken')
+			->with($message, $event, 1496912700)
+			->willReturn('token');
+		$this->service->expects(self::once())
+			->method('addResponseButtons')
+			->with($this->emailTemplate, 'token');
+		$this->service->expects(self::once())
+			->method('addMoreOptionsButton')
+			->with($this->emailTemplate, 'token');
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['old' => [] ,'new' => [$event]]);
+		// construct mail mock returns
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('frodo@hobb.it')
+			->willReturn(true);
+		// construct mail provider mock returns
+		$this->mailService
+			->method('initiateMessage')
+			->willReturn($this->mailMessageNew);
+		$this->mailService
+			->method('sendMessage')
+			->with($this->mailMessageNew);
+		$this->mailManager
+			->method('findServiceByAddress')
+			->with('user1', 'gandalf@wiz.ard')
+			->willReturn($this->mailService);
+
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	public function testMailProviderDisabled(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting without (!) Boromir',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE',  'CN' => 'Frodo']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		// save the old copy in the plugin
+		$oldVCalendar = new VCalendar();
+		$oldVEvent = new VEvent($oldVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		]);
+		$oldVEvent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$oldVEvent->add('ATTENDEE', 'mailto:' . 'boromir@tra.it.or', ['RSVP' => 'TRUE']);
+		$oldVCalendar->add($oldVEvent);
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting without (!) Boromir',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
+		$this->plugin->setVCalendar($oldVCalendar);
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('frodo@hobb.it')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($newVevent, $oldVEvent)
+			->willReturn($data);
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', true);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $newVevent, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		$this->config->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, false],
+				['core', 'mail_providers_enabled', true, false],
+			]);
+		$this->service->expects(self::once())
+			->method('createInvitationToken')
+			->with($message, $newVevent, 1496912700)
+			->willReturn('token');
+		$this->service->expects(self::once())
+			->method('addResponseButtons')
+			->with($this->emailTemplate, 'token');
+		$this->service->expects(self::once())
+			->method('addMoreOptionsButton')
+			->with($this->emailTemplate, 'token');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	public function testNoOldEvent(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'VEVENT', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, false],
+				['core', 'mail_providers_enabled', true, false],
+			]);
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('frodo@hobb.it')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->with($newVCalendar, null)
+			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($newVevent, null)
+			->willReturn($data);
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', false);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $newVevent, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		$this->service->expects(self::once())
+			->method('createInvitationToken')
+			->with($message, $newVevent, 1496912700)
+			->willReturn('token');
+		$this->service->expects(self::once())
+			->method('addResponseButtons')
+			->with($this->emailTemplate, 'token');
+		$this->service->expects(self::once())
+			->method('addMoreOptionsButton')
+			->with($this->emailTemplate, 'token');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->mailer
+			->method('send')
+			->willReturn([]);
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	public function testNoButtons(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'VEVENT', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, false],
+				['core', 'mail_providers_enabled', true, false],
+			]);
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('frodo@hobb.it')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->with($newVCalendar, null)
+			->willReturn(['old' => [] ,'new' => [$newVevent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($newVevent, null)
+			->willReturn($data);
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', false);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $newVevent, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('no');
+		$this->service->expects(self::never())
+			->method('createInvitationToken');
+		$this->service->expects(self::never())
+			->method('addResponseButtons');
+		$this->service->expects(self::never())
+			->method('addMoreOptionsButton');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->mailer
+			->method('send')
+			->willReturn([]);
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	public function testExternalAttendeesDisabledForExternalUser(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:external@example.com', ['RSVP' => 'TRUE', 'CN' => 'External User']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:external@example.com';
+
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::once())
+			->method('getValueBool')
+			->with('dav', 'caldav_external_attendees_disabled', false)
+			->willReturn(true);
+		$this->service->expects(self::once())
+			->method('isSystemUser')
+			->with('external@example.com')
+			->willReturn(false);
+		$this->eventComparisonService->expects(self::never())
+			->method('findModified');
+		$this->service->expects(self::never())
+			->method('getCurrentAttendee');
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->willReturn(true);
+		$this->mailer->expects(self::never())
+			->method('send');
+
+		$this->plugin->schedule($message);
+		$this->assertEquals('5.0', $message->getScheduleStatus());
+	}
+
+	public function testExternalAttendeesDisabledForSystemUser(): void {
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$newVCalendar = new VCalendar();
+		$newVevent = new VEvent($newVCalendar, 'one', array_merge([
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		], []));
+		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$newVevent->add('ATTENDEE', 'mailto:frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$message->message = $newVCalendar;
+		$message->sender = 'mailto:gandalf@wiz.ard';
+		$message->senderName = 'Mr. Wizard';
+		$message->recipient = 'mailto:frodo@hobb.it';
+
+		$oldVCalendar = new VCalendar();
+		$oldVEvent = new VEvent($oldVCalendar, 'one', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 0,
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
+		]);
+		$oldVEvent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$oldVEvent->add('ATTENDEE', 'mailto:frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+		$oldVCalendar->add($oldVEvent);
+
+		$data = ['invitee_name' => 'Mr. Wizard',
+			'meeting_title' => 'Fellowship meeting',
+			'attendee_name' => 'frodo@hobb.it'
+		];
+		$attendees = $newVevent->select('ATTENDEE');
+		$atnd = '';
+		foreach ($attendees as $attendee) {
+			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
+				$atnd = $attendee;
+			}
+		}
+		$this->plugin->setVCalendar($oldVCalendar);
+		$this->service->expects(self::once())
+			->method('getLastOccurrence')
+			->willReturn(1496912700);
+		$this->config->expects(self::exactly(2))
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'caldav_external_attendees_disabled', false, true],
+				['core', 'mail_providers_enabled', true, false],
+			]);
+		$this->service->expects(self::once())
+			->method('isSystemUser')
+			->with('frodo@hobb.it')
+			->willReturn(true);
+		$this->eventComparisonService->expects(self::once())
+			->method('findModified')
+			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
+		$this->service->expects(self::once())
+			->method('getCurrentAttendee')
+			->with($message)
+			->willReturn($atnd);
+		$this->service->expects(self::once())
+			->method('isRoomOrResource')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('isCircle')
+			->with($atnd)
+			->willReturn(false);
+		$this->service->expects(self::once())
+			->method('buildBodyData')
+			->with($newVevent, $oldVEvent)
+			->willReturn($data);
+		$this->user->expects(self::any())
+			->method('getUID')
+			->willReturn('user1');
+		$this->user->expects(self::any())
+			->method('getDisplayName')
+			->willReturn('Mr. Wizard');
+		$this->user->expects(self::any())
+			->method('getEMailAddress')
+			->willReturn('gandalf@wiz.ard');
+		$this->userSession->expects(self::any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->service->expects(self::once())
+			->method('getFrom');
+		$this->service->expects(self::once())
+			->method('addSubjectAndHeading')
+			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', true);
+		$this->service->expects(self::once())
+			->method('addBulletList')
+			->with($this->emailTemplate, $newVevent, $data);
+		$this->service->expects(self::once())
+			->method('getAttendeeRsvpOrReqForParticipant')
+			->willReturn(true);
+		$this->config->expects(self::once())
+			->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		$this->service->expects(self::once())
+			->method('createInvitationToken')
+			->with($message, $newVevent, 1496912700)
+			->willReturn('token');
+		$this->service->expects(self::once())
+			->method('addResponseButtons')
+			->with($this->emailTemplate, 'token');
+		$this->service->expects(self::once())
+			->method('addMoreOptionsButton')
+			->with($this->emailTemplate, 'token');
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->willReturn(true);
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	/**
+	 * Runs schedule() for an organizer sourced REQUEST whose iTip message
+	 * carries no sender name and captures the resulting From and Reply-To
+	 * headers, sent either via the system or the user's mail account.
+	 *
+	 * @return array{from: ?array, replyTo: ?array}
+	 */
+	private function scheduleWithoutSenderName(string $organizer, string $recipient, bool $viaMailProvider = false): array {
+		$vCalendar = new VCalendar();
+		$vEvent = new VEvent($vCalendar, 'VEVENT', [
+			'UID' => 'uid-1234',
+			'SEQUENCE' => 1,
+			'SUMMARY' => 'Meeting',
+			'DTSTART' => new \DateTime('2017-01-01 00:00:00'),
+		]);
+		$vEvent->add('ORGANIZER', 'mailto:' . $organizer);
+		$vEvent->add('ATTENDEE', 'mailto:' . $recipient, ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
+
+		$message = new Message();
+		$message->method = 'REQUEST';
+		$message->message = $vCalendar;
+		$message->sender = 'mailto:' . $organizer;
+		$message->senderName = null;
+		$message->recipient = 'mailto:' . $recipient;
+
+		$capturedFrom = null;
+		$capturedReplyTo = null;
+		$mailMessage = $this->createMock(IMessage::class);
+		$mailMessage->method('setTo')->willReturn($mailMessage);
+		$mailMessage->method('setFrom')
+			->willReturnCallback(function (array $from) use (&$capturedFrom, $mailMessage) {
+				$capturedFrom = $from;
+				return $mailMessage;
+			});
+		$mailMessage->method('setReplyTo')
+			->willReturnCallback(function (array $replyTo) use (&$capturedReplyTo, $mailMessage) {
+				$capturedReplyTo = $replyTo;
+				return $mailMessage;
+			});
+
+		$mailer = $this->createMock(IMailer::class);
+		$mailer->method('createMessage')->willReturn($mailMessage);
+		$mailer->method('createEMailTemplate')->willReturn($this->emailTemplate);
+		$mailer->method('validateMailAddress')->with($recipient)->willReturn(true);
+		$mailer->method('send')->willReturn([]);
+
+		if ($viaMailProvider) {
+			$this->mailMessageNew->method('setFrom')
+				->willReturnCallback(function (Address $from) use (&$capturedFrom) {
+					$capturedFrom = [$from->getAddress() => (string)$from->getLabel()];
+					return $this->mailMessageNew;
+				});
+			$this->mailService->method('initiateMessage')->willReturn($this->mailMessageNew);
+			$this->mailService->expects(self::once())
+				->method('sendMessage')
+				->with($this->mailMessageNew);
+			$this->mailManager->method('findServiceByAddress')->willReturn($this->mailService);
+		}
+
+		$this->service->method('getLastOccurrence')->willReturn(1496912700);
+		$this->service->method('getCurrentAttendee')->willReturn($vEvent->select('ATTENDEE')[0]);
+		$this->service->method('isRoomOrResource')->willReturn(false);
+		$this->service->method('isCircle')->willReturn(false);
+		$this->service->method('getAttendeeRsvpOrReqForParticipant')->willReturn(false);
+		$this->service->method('buildBodyData')->willReturn([
+			'meeting_title' => 'Meeting',
+			'invitee_name' => '',
+			'attendee_name' => $recipient,
+		]);
+		// Mirrors the real IMipService::getFrom() so assertions read like the
+		// actual mail header.
+		$this->service->method('getFrom')
+			->willReturnCallback(static fn (?string $senderName, string $default): string
+				=> ($senderName === null || $senderName === '') ? $default : $senderName . ' via ' . $default);
+
+		$this->config->method('getValueBool')->willReturnMap([
+			['dav', 'caldav_external_attendees_disabled', false, false],
+			['core', 'mail_providers_enabled', true, $viaMailProvider],
+		]);
+		$this->eventComparisonService->method('findModified')
+			->willReturn(['old' => [], 'new' => [$vEvent]]);
+
+		$plugin = new IMipPlugin(
+			$this->config,
+			$mailer,
+			$this->logger,
+			$this->timeFactory,
+			$this->defaults,
+			$this->userSession,
+			$this->service,
+			$this->eventComparisonService,
+			$this->mailManager,
+			$this->accountManager,
+		);
+		$plugin->schedule($message);
+		self::assertSame('1.1', $message->getScheduleStatus());
+
+		return ['from' => $capturedFrom, 'replyTo' => $capturedReplyTo];
+	}
+
+	/**
+	 * Messages are regularly brokered on behalf of somebody else, so headers
+	 * must not fall back to the session user's name when the sender address
+	 * is not theirs.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'transportProvider')]
+	public function testSenderNameIsNotTakenFromAnUnrelatedSessionUser(bool $viaMailProvider): void {
+		$this->user->method('getUID')->willReturn('bilbo');
+		$this->user->method('getDisplayName')->willReturn('Bilbo Baggins');
+		$this->user->method('getEMailAddress')->willReturn('bilbo@hobb.it');
+
+		$result = $this->scheduleWithoutSenderName('a@example.com', 'frodo@hobb.it', $viaMailProvider);
+
+		self::assertSame(['Instance Name 123'], array_values($result['from']));
+		if (!$viaMailProvider) {
+			self::assertSame(['a@example.com'], $result['replyTo']);
+		}
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'transportProvider')]
+	public function testSenderNameFallsBackToSessionUserWhenTheyAreTheSender(bool $viaMailProvider): void {
+		$this->user->method('getUID')->willReturn('gandalf');
+		$this->user->method('getDisplayName')->willReturn('Mr. Wizard');
+		$this->user->method('getEMailAddress')->willReturn('gandalf@wiz.ard');
+
+		$result = $this->scheduleWithoutSenderName('gandalf@wiz.ard', 'frodo@hobb.it', $viaMailProvider);
+
+		self::assertSame(['Mr. Wizard via Instance Name 123'], array_values($result['from']));
+		if (!$viaMailProvider) {
+			self::assertSame(['gandalf@wiz.ard' => 'Mr. Wizard'], $result['replyTo']);
+		}
+	}
+
+	/**
+	 * The session user must also be recognized as the sender when sending
+	 * under one of their profile email aliases.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'transportProvider')]
+	public function testSenderNameUsesSessionUserForTheirAliasAddress(bool $viaMailProvider): void {
+		$this->user->method('getUID')->willReturn('carl');
+		$this->user->method('getDisplayName')->willReturn('Carl Session');
+		$this->user->method('getEMailAddress')->willReturn('carl@example.com');
+
+		$aliasProperty = $this->createMock(IAccountProperty::class);
+		$aliasProperty->method('getValue')->willReturn('Shared@Corp.example');
+		$emailCollection = $this->createMock(IAccountPropertyCollection::class);
+		$emailCollection->method('getProperties')->willReturn([$aliasProperty]);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getPropertyCollection')
+			->with(IAccountManager::COLLECTION_EMAIL)
+			->willReturn($emailCollection);
+		$this->accountManager->method('getAccount')->with($this->user)->willReturn($account);
+
+		$result = $this->scheduleWithoutSenderName('shared@corp.example', 'frodo@hobb.it', $viaMailProvider);
+
+		self::assertSame(['Carl Session via Instance Name 123'], array_values($result['from']));
+		if (!$viaMailProvider) {
+			self::assertSame(['shared@corp.example' => 'Carl Session'], $result['replyTo']);
+		}
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'transportProvider')]
+	public function testSenderNameStaysNeutralForBlankDisplayNames(bool $viaMailProvider): void {
+		$this->user->method('getUID')->willReturn('gandalf');
+		$this->user->method('getDisplayName')->willReturn('  ');
+		$this->user->method('getEMailAddress')->willReturn('gandalf@wiz.ard');
+
+		$result = $this->scheduleWithoutSenderName('gandalf@wiz.ard', 'frodo@hobb.it', $viaMailProvider);
+
+		self::assertSame(['Instance Name 123'], array_values($result['from']));
+		if (!$viaMailProvider) {
+			self::assertSame(['gandalf@wiz.ard'], $result['replyTo']);
+		}
+	}
+
+	/**
+	 * Sessionless contexts: invitation link responses and background jobs.
+	 */
+	public function testSenderNameStaysNeutralWithoutSessionUser(): void {
+		$this->userSession = $this->createMock(IUserSession::class);
+
+		$result = $this->scheduleWithoutSenderName('a@example.com', 'frodo@hobb.it');
+
+		self::assertSame(['Instance Name 123'], array_values($result['from']));
+		self::assertSame(['a@example.com'], $result['replyTo']);
+	}
+
+	public static function transportProvider(): array {
+		return [
+			'system email account' => [false],
+			'user email account' => [true],
+		];
+	}
+}

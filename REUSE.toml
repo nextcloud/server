@@ -1,0 +1,406 @@
+version = 1
+SPDX-PackageName = "nextcloud"
+SPDX-PackageSupplier = "Nextcloud <info@nextcloud.com>"
+SPDX-PackageDownloadLocation = "https://github.com/nextcloud/server"
+
+[[annotations]]
+path = ["lib/l10n/**.js", "lib/l10n/**.json", "core/l10n/**.js", "core/l10n/**.json", "apps/admin_audit/l10n/**.js", "apps/admin_audit/l10n/**.json", "apps/comments/l10n/**.js", "apps/comments/l10n/**.json", "apps/dav/l10n/**.js", "apps/dav/l10n/**.json", "apps/encryption/l10n/**.js", "apps/encryption/l10n/**.json", "apps/federatedfilesharing/l10n/**.js", "apps/federatedfilesharing/l10n/**.json", "apps/federation/l10n/**.js", "apps/federation/l10n/**.json", "apps/files/l10n/**.js", "apps/files/l10n/**.json", "apps/files_external/l10n/**.js", "apps/files_external/l10n/**.json", "apps/files_sharing/l10n/**.js", "apps/files_sharing/l10n/**.json", "apps/files_trashbin/l10n/**.js", "apps/files_trashbin/l10n/**.json", "apps/files_versions/l10n/**.js", "apps/files_versions/l10n/**.json", "apps/provisioning_api/l10n/**.js", "apps/provisioning_api/l10n/**.json", "apps/settings/l10n/**.js", "apps/settings/l10n/**.json", "apps/systemtags/l10n/**.js", "apps/systemtags/l10n/**.json", "apps/updatenotification/l10n/**.js", "apps/updatenotification/l10n/**.json", "apps/user_ldap/l10n/**.js", "apps/user_ldap/l10n/**.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc., 2016-2024 Nextcloud translators"
+SPDX-License-Identifier = "AGPL-3.0-only OR AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["apps/cloud_federation_api/l10n/**.js", "apps/cloud_federation_api/l10n/**.json", "apps/contactsinteraction/l10n/**.js", "apps/contactsinteraction/l10n/**.json", "apps/dashboard/l10n/**.js", "apps/dashboard/l10n/**.json", "apps/files_reminders/l10n/**.js", "apps/files_reminders/l10n/**.json", "apps/lookup_server_connector/l10n/**.js", "apps/lookup_server_connector/l10n/**.json", "apps/profile/l10n/**.js", "apps/profile/l10n/**.json", "apps/sharebymail/l10n/**.js", "apps/oauth2/l10n/**.js", "apps/oauth2/l10n/**.json", "apps/sharebymail/l10n/**.json", "apps/theming/l10n/**.js", "apps/theming/l10n/**.json", "apps/twofactor_backupcodes/l10n/**.js", "apps/twofactor_backupcodes/l10n/**.json", "apps/user_status/l10n/**.js", "apps/user_status/l10n/**.json", "apps/weather_status/l10n/**.js", "apps/weather_status/l10n/**.json", "apps/webhook_listeners/l10n/**.js", "apps/webhook_listeners/l10n/**.json", "apps/workflowengine/l10n/**.js", "apps/workflowengine/l10n/**.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016-2024 Nextcloud translators"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["lib/l10n/zh_TW.js", "lib/l10n/zh_TW.json", "core/l10n/zh_TW.js", "core/l10n/zh_TW.json", "apps/admin_audit/l10n/zh_TW.js", "apps/admin_audit/l10n/zh_TW.json", "apps/comments/l10n/zh_TW.js", "apps/comments/l10n/zh_TW.json", "apps/dav/l10n/zh_TW.js", "apps/dav/l10n/zh_TW.json", "apps/encryption/l10n/zh_TW.js", "apps/encryption/l10n/zh_TW.json", "apps/federatedfilesharing/l10n/zh_TW.js", "apps/federatedfilesharing/l10n/zh_TW.json", "apps/federation/l10n/zh_TW.js", "apps/federation/l10n/zh_TW.json", "apps/files/l10n/zh_TW.js", "apps/files/l10n/zh_TW.json", "apps/files_external/l10n/zh_TW.js", "apps/files_external/l10n/zh_TW.json", "apps/files_sharing/l10n/zh_TW.js", "apps/files_sharing/l10n/zh_TW.json", "apps/files_trashbin/l10n/zh_TW.js", "apps/files_trashbin/l10n/zh_TW.json", "apps/files_versions/l10n/zh_TW.js", "apps/files_versions/l10n/zh_TW.json", "apps/provisioning_api/l10n/zh_TW.js", "apps/provisioning_api/l10n/zh_TW.json", "apps/settings/l10n/zh_TW.js", "apps/settings/l10n/zh_TW.json", "apps/systemtags/l10n/zh_TW.js", "apps/systemtags/l10n/zh_TW.json", "apps/testing/l10n/zh_TW.js", "apps/testing/l10n/zh_TW.json", "apps/updatenotification/l10n/zh_TW.js", "apps/updatenotification/l10n/zh_TW.json", "apps/user_ldap/l10n/zh_TW.js", "apps/user_ldap/l10n/zh_TW.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc., 2016-2024 Nextcloud translators, 2024 moda-l10n <https://ocf.tw/>"
+SPDX-License-Identifier = "AGPL-3.0-only OR AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["apps/cloud_federation_api/l10n/zh_TW.js", "apps/cloud_federation_api/l10n/zh_TW.json", "apps/contactsinteraction/l10n/zh_TW.js", "apps/contactsinteraction/l10n/zh_TW.json", "apps/dashboard/l10n/zh_TW.js", "apps/dashboard/l10n/zh_TW.json", "apps/files_reminders/l10n/zh_TW.js", "apps/files_reminders/l10n/zh_TW.json", "apps/lookup_server_connector/l10n/zh_TW.js", "apps/lookup_server_connector/l10n/zh_TW.json", "apps/profile/l10n/zh_TW.js", "apps/profile/l10n/zh_TW.json", "apps/sharebymail/l10n/zh_TW.js", "apps/oauth2/l10n/zh_TW.js", "apps/oauth2/l10n/zh_TW.json", "apps/sharebymail/l10n/zh_TW.json", "apps/theming/l10n/zh_TW.js", "apps/theming/l10n/zh_TW.json", "apps/twofactor_backupcodes/l10n/zh_TW.js", "apps/twofactor_backupcodes/l10n/zh_TW.json", "apps/user_status/l10n/zh_TW.js", "apps/user_status/l10n/zh_TW.json", "apps/weather_status/l10n/zh_TW.js", "apps/weather_status/l10n/zh_TW.json", "apps/webhook_listeners/l10n/zh_TW.js", "apps/webhook_listeners/l10n/zh_TW.json", "apps/workflowengine/l10n/zh_TW.js", "apps/workflowengine/l10n/zh_TW.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016-2024 Nextcloud translators, 2024 moda-l10n <https://ocf.tw/>"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["tests/data/block-aligned-plus-one.txt", "tests/data/block-aligned.txt", "tests/data/data.tar.gz", "tests/data/data.zip", "tests/data/desktopapp.png", "tests/data/desktopapp.svg", "tests/data/certificates/badCertificate.crt", "tests/data/certificates/expiredCertificate.crt", "tests/data/certificates/goodCertificate.crt", "tests/data/certificates/openSslTrustedCertificate.crt", "tests/data/integritycheck/app/AnotherFile.txt", "tests/data/integritycheck/app/subfolder/file.txt", "tests/data/integritycheck/appWithInvalidData/AnotherFile.txt", "tests/data/integritycheck/appWithInvalidData/UnecessaryFile", "apps/user_ldap/tests/Integration/data/avatar-invalid.gif", "apps/user_ldap/tests/Integration/data/avatar-valid.jpg", "apps/user_ldap/img/copy.png", "apps/user_ldap/img/copy.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ".tx/config"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2011-2012 ownCloud, Inc., 2017-2023 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ".htaccess"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["core/templates/filetemplates/template.odp", "core/templates/filetemplates/template.ods", "core/templates/filetemplates/template.odt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2013-2016 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = "core/skeleton/welcome.txt"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2013 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ".jshintrc"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2014 ownCloud, Inc., 2017 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ".mailmap"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015-2016 ownCloud, Inc., 2016-2021 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["tests/data/integritycheck/htaccessUnmodified/.htaccess", "tests/data/integritycheck/htaccessUnmodified/subfolder/.htaccess", "tests/data/integritycheck/htaccessWithInvalidModifiedContent/.htaccess", "tests/data/integritycheck/htaccessWithValidModifiedContent/subfolder/.htaccess"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["tests/data/l10n/cs.json", "tests/data/l10n/de.json", "tests/data/l10n/ru.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 ownCloud, Inc., 2021 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["tests/data/lorem.txt", "apps/files/l10n/xgettextfiles"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2012 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["robots.txt", "tests/data/testavatar.png", "tests/data/testimage.gif", "tests/data/testimage.jpg", "tests/data/testimage.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2013 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = [".tag", "tests/data/lorem-big.txt", "tests/data/strängé**filename**(duplicate**#2).txt", "tests/data/strõngÚ**filename**(duplicate**#2).txt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2014 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = "tests/data/testimagelarge.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["tests/data/setUploadLimit/htaccess", "tests/data/setUploadLimit/user.ini"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 ownCloud, Inc., 2018 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["tests/data/testimage-wide.png", "tests/data/testimage.eps", "tests/data/testimage.mp3", "tests/data/testimage.mp4", "tests/data/testimage.odt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["themes/example/core/img/favicon-touch.png", "themes/example/core/img/favicon-touch.svg", "themes/example/core/img/favicon.ico", "themes/example/core/img/favicon.png", "themes/example/core/img/favicon.svg", "themes/example/core/img/logo-icon.png", "themes/example/core/img/logo-icon.svg", "themes/example/core/img/logo-mail.gif", "themes/example/core/img/logo.png", "themes/example/core/img/logo.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["tests/data/testapp.zip", "tests/data/testapp2.zip", "tests/docker/mariadb/oc.cnf", "apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/1.txt", "apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/2.txt", "apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/3.txt", "apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/4.txt", "apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/5.txt", "apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/reports/put/6.txt", "apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/5.ics", "apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/6.ics", "apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/7.ics", "apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/8.ics", "apps/dav/tests/testsuits/caldavtest/data/Resource/CalDAV/sharing/calendars/read-write/9.ics", "apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/sharing/read-write/6.vcf", "apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/sharing/read-write/7.vcf", "apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/sharing/read-write/8.vcf", "apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/sharing/read-write/9.vcf", "apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/vreports/put/1.vcf", "apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/vreports/put/2.vcf", "apps/dav/tests/testsuits/caldavtest/data/Resource/CardDAV/vreports/put/3.vcf"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc."
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["core/img/loading-dark.gif", "core/img/loading-small-dark.gif", "core/img/loading-small.gif", "core/img/loading.gif"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc., 2016 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = "apps/settings/js/templates.js"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = "tests/docker/mysqlmb4/mb4.cnf"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc., 2017 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = "tests/data/integritycheck/htaccessWithValidModifiedContent/.htaccess"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc., 2019 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["core/img/favicon**.**", "core/img/logo/logo**.**", "tests/data/testimage.webp", "tests/data/broken-video.webm", "apps/testing/img/logo.png", "core/img/apps/spreed.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016-2024 Nextcloud GmbH"
+SPDX-License-Identifier = "LicenseRef-NextcloudTrademarks"
+
+[[annotations]]
+path = ["apps/settings/data/Reasons to use Nextcloud.pdf"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2020 Nextcloud GmbH"
+SPDX-License-Identifier = "LicenseRef-NextcloudTrademarks"
+
+[[annotations]]
+path = "core/img/desktopapp.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["build/psalm-baseline-ocp.xml", "build/psalm-baseline-security.xml", "build/psalm-baseline.xml", "build/stubs/xsl.php", "build/stubs/gd.php", "build/stubs/imagick.php", "build/stubs/intl.php", "build/stubs/IntlChar.php", "build/stubs/ldap.php", "build/stubs/memcached.php", "build/stubs/redis.php", "build/stubs/redis_cluster.php", "build/stubs/sftp.php", "build/stubs/ssh2.php", "build/stubs/apcu.php"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2020 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["cypress/tsconfig.json", "cypress/fixtures/appstore/apps.json", "dist/icons.css"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["build/stubs/pcntl.php", "build/stubs/zip.php"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022 JetBrains"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "build/stubs/excimer.php"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Wikimedia Foundation"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["core/js/mimetypelist.js", "core/js/core.json", "themes/example/core/img"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = ["tests/data/testapp.0.8.tar.gz", "tests/data/testapp.tar.gz", "tests/data/testapp1.tar.gz", "core/img/filetypes/package-x-generic.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["core/js/merged-template-prepend.json", "tests/data/certificates/goodCertificate.crt", "tests/data/emails/new-account-email-custom-text-alternative.txt", "tests/data/emails/new-account-email-custom.html", "tests/data/emails/new-account-email-custom.txt", "tests/data/emails/new-account-email-single-button.html", "tests/data/emails/new-account-email-single-button.txt", "tests/data/emails/new-account-email.html", "tests/data/emails/new-account-email.txt", "core/img/actions/checkbox-mixed.svg", "core/img/actions/checkmark-white.svg", "core/img/actions/checkbox-mark-dark.svg", "core/img/actions/checkbox-mark-white.svg", "core/img/actions/checkbox-mark.svg", "core/img/actions/checkbox-mixed-dark.svg", "core/img/actions/checkbox-mixed-white.svg", "core/img/actions/checkbox-mixed.svgcore/img/actions/checkmark-white.svg", "core/img/actions/checkmark.png", "core/img/actions/checkmark.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2017 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["core/src/systemtags/templates/result.handlebars", "core/src/systemtags/templates/result_form.handlebars", "core/src/systemtags/templates/selection.handlebars", "apps/files/js/templates.js", "apps/files/js/templates/detailsview.handlebars", "apps/files/js/templates/favorite_mark.handlebars", "apps/files/js/templates/file_action_trigger.handlebars", "apps/files/js/templates/fileactionsmenu.handlebars", "apps/files/js/templates/filemultiselectmenu.handlebars", "apps/files/js/templates/filesummary.handlebars", "apps/files/js/templates/mainfileinfodetailsview.handlebars", "apps/files/js/templates/newfilemenu.handlebars", "apps/files/js/templates/newfilemenu_filename_form.handlebars", "apps/files/js/templates/operationprogressbar.handlebars", "apps/files/js/templates/operationprogressbarlabel.handlebars", "apps/files/js/templates/template_addbutton.handlebars", "apps/files_external/js/templates.js", "apps/files_external/js/templates/credentialsDialog.handlebars", "apps/files_external/js/templates/mountOptionsDropDown.handlebars", "apps/files_external/js/templates.js", "apps/files_sharing/js/templates/files_drop.handlebars", "apps/files_sharing/js/templates.js", "tests/data/testimage.heic", "package.json", "package-lock.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["core/src/jquery/contactsmenu/jquery_entry.handlebars", "tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js", "tests/data/integritycheck/mimetypeListModified/core/signature.json", "tests/data/guest_avatar_einstein_32.png", "tests/data/guest_avatar_einstein_32.svg", "tests/data/test.pdf", "apps/workflowengine/img/app.svg", "apps/workflowengine/img/app-dark.svg", "apps/settings/js/templates/federationscopemenu.handlebars"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = [".npmignore", "tests/data/testimage-badheader.jpg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2021 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["build/stubs/ftp.php", "tests/data/integritycheck/mimetypeListModified/coresignature.json", "apps/settings/tests/UserMigration/assets/account-complex-config.json", "apps/settings/tests/UserMigration/assets/account-complex.json", "apps/settings/tests/UserMigration/assets/account-config.json", "apps/settings/tests/UserMigration/assets/account.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2022 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["build/stubs/app_api.php", "build/stubs/SensitiveParameter.phpstub", "build/stubs/psr_container.php", "tests/data/testimage-large.jpg", "apps/dav/tests/integration/UserMigration/assets/address_books/contact-complex.vcf", "apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple-complex.vcf", "apps/dav/tests/integration/UserMigration/assets/address_books/contact-multiple.vcf", "apps/dav/tests/integration/UserMigration/assets/address_books/contact.vcf", "apps/dav/tests/integration/UserMigration/assets/calendars/event-alarms.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/event-attendees.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/event-categories.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-alarm-recurring.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/event-complex-recurrence.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/event-custom-color.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple-recurring.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/event-multiple.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/event-recurring.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/event-timed.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/journal-todo-event.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/journal.ics", "apps/dav/tests/integration/UserMigration/assets/calendars/todo.ics", "apps/workflowengine/img/workflow-off.svg", "core/img/filetypes/font.svg", "core/img/actions/star-rounded.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2023 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-1.ics", "apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-2.ics", "apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-3.ics", "apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-4.ics", "apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-5.ics", "apps/dav/tests/unit/test_fixtures/caldav-search-limit-timerange-6.ics", "apps/dav/tests/unit/test_fixtures/caldav-search-missing-start-1.ics", "apps/dav/tests/unit/test_fixtures/caldav-search-missing-start-2.ics"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2023 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = "apps/dav/lib/ExampleContentFiles/exampleContact.vcf"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["composer.json", "composer.lock", ".github/CODEOWNERS", "__tests__/tsconfig.json", "tsconfig.json", "build/integration/composer.**", "vendor-bin/**/composer.json", "vendor-bin/**/composer.lock", "apps/**/composer/composer.json", "apps/**/composer/composer.lock", "apps/**/composer/composer/installed.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-only OR AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["vendor-bin/**/composer.json", "vendor-bin/**/composer.lock"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2021 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["apps/encryption/img/app.svg", "apps/federation/img/app.svg", "apps/files/img/add-color.png", "apps/files/img/add-color.svg", "apps/files/img/app-dark.svg", "apps/files/img/app.svg", "apps/files/img/change.png", "apps/files/img/change.svg", "apps/files/img/delete-color.png", "apps/files/img/delete-color.svg", "apps/files/img/folder.svg", "apps/files/img/folder-move.svg", "apps/files_external/img/app-dark.svg", "apps/files_external/img/app.svg", "apps/user_ldap/img/app-dark.svg", "apps/user_ldap/img/app.svg", "apps/comments/img/comments-dark.svg", "apps/comments/img/comments.svg", "apps/files_reminders/img/alarm.svg", "apps/files_reminders/img/app-dark.svg", "apps/files_reminders/img/app.svg", "apps/files_versions/img/app-dark.svg", "apps/files_versions/img/app.svg", "apps/files_trashbin/img/app-dark.svg", "apps/files_trashbin/img/app.svg", "apps/theming/img/accessibility-dark.svg", "apps/testing/img/app.svg", "apps/sharebymail/img/app.svg", "apps/systemtags/img/app.svg", "apps/provisioning_api/img/app.svg", "apps/settings/img/apps.svg", "apps/settings/img/change.svg", "apps/settings/img/help.svg", "apps/settings/img/password.svg", "apps/settings/img/personal.png", "apps/settings/img/personal.svg", "apps/settings/img/share.svg", "apps/settings/img/users-white.svg", "apps/settings/img/users.svg", "apps/files_sharing/img/app.svg", "apps/settings/img/admin.svg", "apps/settings/img/library_add_check.svg", "apps/settings/img/settings.svg", "apps/settings/img/settings_apps.svg", "apps/settings/img/toggle-filelist.svg", "apps/webhook_listeners/img/app-dark.svg", "apps/webhook_listeners/img/app.svg", "core/img/filetypes/application-pdf.svg", "core/img/breadcrumb.svg", "core/img/filetypes/application.svg", "core/img/filetypes/audio.svg", "core/img/filetypes/file.svg", "core/img/filetypes/folder-drag-accept.svg", "core/img/filetypes/folder-encrypted.svg", "core/img/filetypes/folder-external.svg", "core/img/filetypes/folder-public.svg", "core/img/filetypes/folder-shared.svg", "core/img/filetypes/folder-starred.svg", "core/img/filetypes/folder.svg", "core/img/filetypes/image.svg", "core/img/filetypes/link.svg", "core/img/filetypes/location.svg", "core/img/filetypes/mindmap.svg", "core/img/filetypes/text-calendar.svg", "core/img/filetypes/text-code.svg", "core/img/filetypes/text-vcard.svg", "core/img/filetypes/text.svg", "core/img/filetypes/video.svg", "core/img/filetypes/x-office-document.svg", "core/img/filetypes/x-office-drawing.svg", "core/img/filetypes/x-office-form-template.svg", "core/img/filetypes/x-office-form.svg", "core/img/filetypes/x-office-presentation.svg", "core/img/filetypes/x-office-spreadsheet.svg", "core/img/places/calendar-dark.png", "core/img/places/calendar.png", "core/img/places/calendar.svg", "core/img/places/contacts-dark.png", "core/img/places/contacts.svg", "core/img/places/default-app-icon.svg", "core/img/places/files.svg", "core/img/places/home.svg", "core/img/places/link.svg", "core/img/places/music.svg", "core/img/places/picture.svg", "core/img/rating/s0.svg", "core/img/rating/s1.svg", "core/img/rating/s10.svg", "core/img/rating/s2.svg", "core/img/rating/s3.svg", "core/img/rating/s4.svg", "core/img/rating/s5.svg", "core/img/rating/s6.svg", "core/img/rating/s7.svg", "core/img/rating/s8.svg", "core/img/rating/s9.svg", "core/img/mail.svg", "core/img/rss.svg", "core/img/clients/desktop.svg", "core/img/clients/phone.svg", "core/img/clients/tablet.svg", "core/img/categories/auth.svg", "core/img/categories/bundles.svg", "core/img/categories/customization.svg", "core/img/categories/files.svg", "core/img/categories/games.svg", "core/img/categories/integration.svg", "core/img/categories/monitoring.svg", "core/img/categories/multimedia.svg", "core/img/categories/office.svg", "core/img/categories/organization.svg", "core/img/categories/social.svg", "core/img/categories/workflow.svg", "core/img/apps/circles.svg", "core/img/apps/notes.svg", "core/img/apps/richdocuments.svg", "core/img/caldav/attendees.png", "core/img/caldav/attendees.svg", "core/img/caldav/description.png", "core/img/caldav/description.svg", "core/img/caldav/link.png", "core/img/caldav/link.svg", "core/img/caldav/location.png", "core/img/caldav/location.svg", "core/img/caldav/organizer.png", "core/img/caldav/organizer.svg", "core/img/caldav/time.png", "core/img/caldav/time.svg", "core/img/caldav/title.png", "core/img/caldav/title.svg", "core/img/actions/add-folder-description.svg", "core/img/actions/add.svg", "core/img/actions/address.png", "core/img/actions/address.svg", "core/img/actions/alert-outline.svg", "core/img/actions/arrow-left.svg", "core/img/actions/arrow-right.svg", "core/img/actions/audio-off.svg", "core/img/actions/audio.svg", "core/img/actions/caret-white.svg", "core/img/actions/caret.svg", "core/img/actions/change.svg", "core/img/actions/clippy.svg", "core/img/actions/close.svg", "core/img/actions/comment.png", "core/img/actions/comment.svg", "core/img/actions/confirm-fade.svg", "core/img/actions/confirm-white.svg", "core/img/actions/confirm.svg", "core/img/actions/delete.png", "core/img/actions/delete.svg", "core/img/actions/details.svg", "core/img/actions/disabled-user.svg", "core/img/actions/disabled-users.svg", "core/img/actions/download.png", "core/img/actions/download.svg", "core/img/actions/edit.svg", "core/img/actions/error-white.svg", "core/img/actions/error.svg", "core/img/actions/external.svg", "core/img/actions/filter.svg", "core/img/actions/fullscreen.svg", "core/img/actions/group.svg", "core/img/actions/history.png", "core/img/actions/history.svg", "core/img/actions/info-white.svg", "core/img/actions/info.png", "core/img/actions/info.svg", "core/img/actions/logout.svg", "core/img/actions/mail.svg", "core/img/actions/menu-sidebar.svg", "core/img/actions/menu.svg", "core/img/actions/more-white.svg", "core/img/actions/more.png", "core/img/actions/more.svg", "core/img/actions/password-white.svg", "core/img/actions/password.png", "core/img/actions/password.svg", "core/img/actions/pause.svg", "core/img/actions/phone.svg", "core/img/actions/play-add.svg", "core/img/actions/play-next.svg", "core/img/actions/play-previous.svg", "core/img/actions/play.svg", "core/img/actions/profile.svg", "core/img/actions/projects.svg", "core/img/actions/public-white.svg", "core/img/actions/public.svg", "core/img/actions/quota.svg", "core/img/actions/recent.svg", "core/img/actions/rename.svg", "core/img/actions/screen-off.svg", "core/img/actions/screen.svg", "core/img/actions/search.svg", "core/img/actions/settings-dark.svg", "core/img/actions/settings.svg", "core/img/actions/share.png", "core/img/actions/share.svg", "core/img/actions/shared.svg", "core/img/actions/sound-off.svg", "core/img/actions/sound.svg", "core/img/actions/star-dark.svg", "core/img/actions/star.png", "core/img/actions/star.svg", "core/img/actions/starred.png", "core/img/actions/starred.svg", "core/img/actions/tag.png", "core/img/actions/tag.svg", "core/img/actions/template-add.svg", "core/img/actions/timezone.svg", "core/img/actions/toggle-background.svg", "core/img/actions/toggle-filelist.svg", "core/img/actions/toggle-pictures.svg", "core/img/actions/toggle.svg", "core/img/actions/triangle-e.svg", "core/img/actions/triangle-n.svg", "core/img/actions/triangle-s.svg", "core/img/actions/unshare.svg", "core/img/actions/upload.svg", "core/img/actions/user-admin.svg", "core/img/actions/user.svg", "core/img/actions/verified.svg", "core/img/actions/verify.svg", "core/img/actions/verifying.svg", "core/img/actions/video-off.svg", "core/img/actions/video-switch.svg", "core/img/actions/video.svg", "core/img/actions/view-close.svg", "core/img/actions/view-download.svg", "core/img/actions/view-next.svg", "core/img/actions/view-pause.svg", "core/img/actions/view-play.svg", "core/img/actions/view-previous.svg", "core/img/places/contacts-dark.png", "core/img/places/contacts.svg", "apps/user_status/img/app-dark.svg", "apps/user_status/img/app.svg", "apps/theming/img/app-dark.svg", "apps/theming/img/app.svg", "apps/updatenotification/img/app.svg", "apps/weather_status/img/app-dark.svg", "apps/weather_status/img/app.svg", "apps/updatenotification/img/notification.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018-2024 Google LLC"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["core/fonts/NotoSans*.woff2", "core/fonts/NotoSans*.ttf"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2012-2024 Google LLC"
+SPDX-License-Identifier = "OFL-1.1"
+
+[[annotations]]
+path = "apps/settings/img/ai.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018-2024 Google LLC"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "core/img/filetypes/whiteboard.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Simran-B <https://pictogrammers.com/contributor/Simran-B/>"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["lib/composer/**", "apps/**/composer/autoload.php", "apps/**/composer/composer/**.php", "apps/files_external/3rdparty/autoload.php", "apps/files_external/3rdparty/composer/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Nils Adermann, Jordi Boggiano"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "core/vendor/zxcvbn/dist/zxcvbn.js"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2012-2016 Dan Wheeler and Dropbox, Inc."
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["core/src/jquery/css/images/ui-bg_diagonals-thick_20_666666_40x40.png", "core/src/jquery/css/images/ui-bg_flat_10_000000_40x100.png", "core/src/jquery/css/images/ui-bg_flat_35_1d2d44_40x100.png", "core/src/jquery/css/images/ui-icons_1d2d44_256x240.png", "core/src/jquery/css/images/ui-icons_ffd27a_256x240.png", "core/src/jquery/css/images/ui-icons_ffffff_256x240.png"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2013 jQuery Foundation and other contributors <http://jqueryui.com/>, 2022 OpenJS Foundation and other contributors <https://openjsf.org/>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "dist/preview-service-worker.js"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018 Google LLC (generated with workbox <https://developer.chrome.com/docs/workbox>)"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "core/img/actions/clippy.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2017-2024 Michael Richins"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = "core/img/apps/richdocumentscode.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016-2024 Collabora Ltd."
+SPDX-License-Identifier = "LicenseRef-CollaboraTrademarks"
+
+[[annotations]]
+path = ["core/img/x.svg", "core/img/twitter.svg", "core/img/actions/twitter.svg", "apps/federatedfilesharing/img/social-twitter.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "X Corp."
+SPDX-License-Identifier = "LicenseRef-XTrademarks"
+
+[[annotations]]
+path = ["core/img/bluesky.svg", "core/img/actions/bluesky.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2012-2024 Fonticons, Inc."
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["core/img/facebook.svg", "apps/federatedfilesharing/img/social-facebook.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Meta"
+SPDX-License-Identifier = "LicenseRef-FacebookTrademarks"
+
+[[annotations]]
+path = "apps/federatedfilesharing/img/social-diaspora.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Diaspora"
+SPDX-License-Identifier = "LicenseRef-DiasporaTrademarks"
+
+[[annotations]]
+path = ["core/img/mastodon.svg", "core/img/actions/mastodon.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Mastodon gGmbH"
+SPDX-License-Identifier = "LicenseRef-MastodonTrademarks"
+
+[[annotations]]
+path = "core/img/googleplay.png"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Google LLC."
+SPDX-License-Identifier = "LicenseRef-GooglePlayBadge"
+
+[[annotations]]
+path = "core/img/appstore.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Apple Inc."
+SPDX-License-Identifier = "LicenseRef-AppleAppStoreBadge"
+
+[[annotations]]
+path = "apps/weather_status/img/met.no.icons/**.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2015-2017 NRK og Meteorologisk institutt <https://github.com/metno/weathericons>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "core/img/f-droid.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2016 Andrew Nayenko <relan@airpost.net>"
+SPDX-License-Identifier = "CC-BY-SA-3.0 OR GPL-3.0-or-later"
+
+[[annotations]]
+path = "cypress/fixtures/image.jpg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>"
+SPDX-License-Identifier = "LicenseRef-Unsplash"
+
+[[annotations]]
+path = "apps/settings/tests/UserMigration/assets/account-complex.jpg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2017 Fabian Wiktor <https://www.pexels.com/photo/seaside-994605/>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "apps/settings/tests/UserMigration/assets/account.png"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019 Fabian Wiktor <https://www.pexels.com/photo/green-and-brown-island-on-blue-sea-under-blue-sky-4011450/>"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["openapi.json", ".envrc", "flake.nix", "flake.lock"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"

@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Nadzorna ploča",
+    "Dashboard app" : "Nadzorna ploča aplikacije",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Započnite dan informirani\n\nNextcloud nadzorna ploča vaša je početna točka dana i pruža vam pregled nadolazećih termina, hitnih e-poruka, poruka u chatu, dolaznih tiketa, najnovijih tweetova i još mnogo toga! Korisnici mogu dodavati widgete koji im odgovaraju i prilagoditi pozadinu prema vlastitim željama.",
+    "Weather" : "Vrijeme",
+    "Status" : "Status",
+    "Good morning" : "Dobro jutro",
+    "Good morning, {name}" : "Dobro jutro, {name}",
+    "Good afternoon" : "Dobar dan",
+    "Good afternoon, {name}" : "Dobar dan, {name}",
+    "Good evening" : "Dobar dan",
+    "Good evening, {name}" : "Dobar dan, {name}",
+    "Hello" : "Pozdrav",
+    "Hello, {name}" : "Pozdrav, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Sretan rođendan 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Sretan rođendan, {name} 🥳🤩🎂🎉",
+    "Customize" : "Uredi",
+    "Edit widgets" : "Uredi widgete",
+    "Get more widgets from the App Store" : "Nabavite više widgeta iz trgovine aplikacijama",
+    "Weather service" : "Davatelj vremenske prognoze",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Radi vaše privatnosti, podatke o vremenu u vaše ime dohvaća vaš {productName} poslužitelj, tako da vremenska usluga ne prima nikakve osobne podatke.",
+    "Weather data from Met.no" : "Podaci o vremenskoj prognozi iz Met.no",
+    "geocoding with Nominatim" : "geokodiranje uz Nominatim",
+    "elevation data from OpenTopoData" : "podaci o nadmorskoj visini iz OpenTopoData"
+},
+"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

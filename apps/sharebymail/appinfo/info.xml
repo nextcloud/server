@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>sharebymail</id>
+	<name>Share by mail</name>
+	<summary>Share provider which allows you to share files by mail</summary>
+	<description>Share provider which allows you to share files by mail</description>
+	<version>1.22.0</version>
+	<licence>agpl</licence>
+	<author>Bjoern Schiessle</author>
+	<namespace>ShareByMail</namespace>
+
+	<types>
+		<filesystem/>
+	</types>
+	<category>social</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+
+	<settings>
+		<admin>OCA\ShareByMail\Settings\Admin</admin>
+	</settings>
+
+	<activity>
+		<providers>
+			<provider>OCA\ShareByMail\Activity</provider>
+		</providers>
+	</activity>
+</info>

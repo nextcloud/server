@@ -1,0 +1,5 @@
+{ "translations": {
+    "Lookup Server Connector" : "Εφαρμογή σύνδεσης με Διακομιστή Αναζήτησης",
+    "Sync public account information with the lookup server" : "Συγχρονισμός δημόσιων πληροφοριών λογαριασμού με τον διακομιστή αναζήτησης"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

@@ -1,0 +1,133 @@
+/*!
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2011-2015 Twitter, Inc. (Bootstrap (http://getbootstrap.com))
+ * SPDX-License-Identifier: MIT
+ */
+
+.tooltip {
+    position: absolute;
+    display: block;
+    font-family: var(--font-face);
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    line-break: auto;
+    line-height: 1.6;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    white-space: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    overflow-wrap: anywhere;
+    font-size: 12px;
+    opacity: 0;
+    z-index: 100000;
+    /* default to top */
+    margin-top: -3px;
+    padding: 10px 0;
+    filter: drop-shadow(0 1px 10px var(--color-box-shadow));
+    &.in,
+    &.show,
+    &.tooltip[aria-hidden='false'] {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity .15s;
+    }
+    &.top .tooltip-arrow,
+    &[x-placement^='top'] {
+        inset-inline-start: 50%;
+        margin-inline-start: -10px;
+    }
+    &.bottom,
+    &[x-placement^='bottom'] {
+        margin-top: 3px;
+        padding: 10px 0;
+    }
+    &.right,
+    &[x-placement^='right'] {
+        margin-inline-start: 3px;
+        padding: 0 10px;
+        .tooltip-arrow {
+            top: 50%;
+            inset-inline-start: 0;
+            margin-top: -10px;
+            border-width: 10px 10px 10px 0;
+            border-inline-end-color: var(--color-main-background);
+        }
+    }
+    &.left,
+    &[x-placement^='left'] {
+        margin-inline-start: -3px;
+        padding: 0 5px;
+        .tooltip-arrow {
+            top: 50%;
+            inset-inline-end: 0;
+            margin-top: -10px;
+            border-width: 10px 0 10px 10px;
+            border-inline-start-color: var(--color-main-background);
+        }
+    }
+    /* TOP */
+    &.top,
+    &.top-left,
+    &[x-placement^='top'],
+    &.top-right {
+        .tooltip-arrow, .arrow {
+            bottom: 0;
+            border-width: 10px 10px 0;
+            border-top-color: var(--color-main-background);
+        }
+    }
+    &.top-left .tooltip-arrow {
+        inset-inline-end: 10px;
+        margin-bottom: -10px;
+    }
+    &.top-right .tooltip-arrow {
+        inset-inline-start: 10px;
+        margin-bottom: -10px;
+    }
+    /* BOTTOM */
+    &.bottom,
+    &[x-placement^='bottom'],
+    &.bottom-left,
+    &.bottom-right {
+        .tooltip-arrow, .arrow {
+            top: 0;
+            border-width: 0 10px 10px;
+            border-bottom-color: var(--color-main-background);
+        }
+    }
+    &[x-placement^='bottom'] .tooltip-arrow,
+    &.bottom .tooltip-arrow {
+        inset-inline-start: 50%;
+        margin-inline-start: -10px;
+    }
+    &.bottom-left .tooltip-arrow {
+        inset-inline-end: 10px;
+        margin-top: -10px;
+    }
+    &.bottom-right .tooltip-arrow {
+        inset-inline-start: 10px;
+        margin-top: -10px;
+    }
+}
+
+.tooltip-inner {
+    max-width: 350px;
+    padding: 5px 8px;
+    background-color: var(--color-main-background);
+    color: var(--color-main-text);
+    text-align: center;
+    border-radius: var(--border-radius);
+}
+
+.tooltip-arrow, .tooltip .arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+}

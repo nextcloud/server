@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
+ - SPDX-License-Identifier: AGPL-3.0-only
+ -->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>encryption</id>
+	<name>Default encryption module</name>
+	<summary>Default encryption module for server-side encryption</summary>
+	<description>
+In order to use this encryption module you need to enable server-side encryption in the admin settings. Once enabled this module will encrypt all your files transparently. The encryption is based on AES 256 keys.
+The module will not touch existing files, only new files will be encrypted after server-side encryption was enabled. It is also not possible to disable the encryption again and switch back to an unencrypted system.
+Please read the documentation to know all implications before you decide to enable server-side encryption.
+	</description>
+	<version>2.20.0</version>
+	<licence>agpl</licence>
+	<author>Bjoern Schiessle</author>
+	<author>Clark Tomlinson</author>
+	<types>
+		<filesystem/>
+	</types>
+	<documentation>
+		<user>user-encryption</user>
+		<admin>admin-encryption</admin>
+	</documentation>
+	<category>files</category>
+	<category>security</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+
+	<dependencies>
+		<lib>openssl</lib>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+
+	<repair-steps>
+		<post-migration>
+			<step>OCA\Encryption\Migration\SetMasterKeyStatus</step>
+		</post-migration>
+	</repair-steps>
+
+	<commands>
+		<command>OCA\Encryption\Command\EnableMasterKey</command>
+		<command>OCA\Encryption\Command\DisableMasterKey</command>
+		<command>OCA\Encryption\Command\RecoverUser</command>
+		<command>OCA\Encryption\Command\ScanLegacyFormat</command>
+		<command>OCA\Encryption\Command\FixEncryptedVersion</command>
+		<command>OCA\Encryption\Command\FixKeyLocation</command>
+		<command>OCA\Encryption\Command\DropLegacyFileKey</command>
+		<command>OCA\Encryption\Command\CleanOrphanedKeys</command>
+	</commands>
+
+	<settings>
+		<admin>OCA\Encryption\Settings\Admin</admin>
+		<personal>OCA\Encryption\Settings\Personal</personal>
+	</settings>
+</info>

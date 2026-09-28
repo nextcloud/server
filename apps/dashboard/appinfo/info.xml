@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>dashboard</id>
+	<name>Dashboard</name>
+	<summary>Dashboard app</summary>
+	<description><![CDATA[Start your day informed
+
+The Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking.]]>
+	</description>
+	<version>7.12.0</version>
+	<licence>agpl</licence>
+	<author>Julius Härtl</author>
+	<namespace>Dashboard</namespace>
+
+	<category>customization</category>
+
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+
+	<dependencies>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+
+	<navigations>
+		<navigation>
+			<name>Dashboard</name>
+			<route>dashboard.dashboard.index</route>
+			<icon>dashboard.svg</icon>
+			<order>-10</order>
+		</navigation>
+	</navigations>
+</info>

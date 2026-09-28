@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-FileCopyrightText: 2011-2016 ownCloud, Inc.
+ - SPDX-License-Identifier: AGPL-3.0-only
+ -->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>user_ldap</id>
+	<name>LDAP user and group backend</name>
+	<summary>This application enables administrators to connect Nextcloud to an LDAP-based user directory.</summary>
+	<description>This application enables administrators to connect Nextcloud to an LDAP-based user directory for authentication and provisioning users, groups and user attributes. Admins can configure this application to connect to one or more LDAP directories or Active Directories via an LDAP interface. Attributes such as user quota, email, avatar pictures, group memberships and more can be pulled into Nextcloud from a directory with the appropriate queries and filters.
+
+A user logs into Nextcloud with their LDAP or AD credentials, and is granted access based on an authentication request handled by the LDAP or AD server. Nextcloud does not store LDAP or AD passwords, rather these credentials are used to authenticate a user and then Nextcloud uses a session for the user ID. More information is available in the LDAP User and Group Backend documentation.
+
+	</description>
+	<version>1.23.0</version>
+	<licence>agpl</licence>
+	<author>Dominik Schmidt</author>
+	<author>Arthur Schiwon</author>
+	<namespace>User_LDAP</namespace>
+	<types>
+		<authentication/>
+	</types>
+	<documentation>
+		<admin>admin-ldap</admin>
+	</documentation>
+	<category>integration</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<lib>ldap</lib>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+
+	<background-jobs>
+		<job>OCA\User_LDAP\Jobs\UpdateGroups</job>
+		<job>OCA\User_LDAP\Jobs\CleanUp</job>
+		<job>OCA\User_LDAP\Jobs\Sync</job>
+	</background-jobs>
+
+	<repair-steps>
+		<install>
+			<step>OCA\User_LDAP\Migration\SetDefaultProvider</step>
+		</install>
+		<uninstall>
+			<step>OCA\User_LDAP\Migration\UnsetDefaultProvider</step>
+		</uninstall>
+		<post-migration>
+			<step>OCA\User_LDAP\Migration\UUIDFixInsert</step>
+			<step>OCA\User_LDAP\Migration\RemoveRefreshTime</step>
+		</post-migration>
+	</repair-steps>
+
+	<commands>
+		<command>OCA\User_LDAP\Command\CheckUser</command>
+		<command>OCA\User_LDAP\Command\CheckGroup</command>
+		<command>OCA\User_LDAP\Command\CreateEmptyConfig</command>
+		<command>OCA\User_LDAP\Command\DeleteConfig</command>
+		<command>OCA\User_LDAP\Command\PromoteGroup</command>
+		<command>OCA\User_LDAP\Command\ResetGroup</command>
+		<command>OCA\User_LDAP\Command\ResetUser</command>
+		<command>OCA\User_LDAP\Command\Search</command>
+		<command>OCA\User_LDAP\Command\SetConfig</command>
+		<command>OCA\User_LDAP\Command\ShowConfig</command>
+		<command>OCA\User_LDAP\Command\ShowRemnants</command>
+		<command>OCA\User_LDAP\Command\TestConfig</command>
+		<command>OCA\User_LDAP\Command\TestUserSettings</command>
+		<command>OCA\User_LDAP\Command\UpdateUUID</command>
+	</commands>
+
+	<settings>
+		<admin>OCA\User_LDAP\Settings\Admin</admin>
+		<admin-section>OCA\User_LDAP\Settings\Section</admin-section>
+	</settings>
+</info>

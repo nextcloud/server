@@ -1,0 +1,24 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Табло",
+    "Dashboard app" : "Приложение за Табло",
+    "Weather" : "Време",
+    "Status" : "Състояние",
+    "Good morning" : "Добро утро",
+    "Good morning, {name}" : "Добро утро, {name}",
+    "Good afternoon" : "Добър ден",
+    "Good afternoon, {name}" : "Добър ден, {name}",
+    "Good evening" : "Добър вечер",
+    "Good evening, {name}" : "Добър вечер, {name}",
+    "Hello" : "Здравейте",
+    "Hello, {name}" : "Здравейте, {name}",
+    "Customize" : "Персонизиране",
+    "Edit widgets" : "Редактиране на изпълнимите модули",
+    "Get more widgets from the App Store" : "Вземете повече приспособления от  App Store",
+    "Weather service" : "Метеорологична услуга",
+    "Weather data from Met.no" : "Данни за времето от Met.no",
+    "geocoding with Nominatim" : "геокодиране с Nominatim",
+    "elevation data from OpenTopoData" : " кота данни от OpenTopoData"
+},
+"nplurals=2; plural=(n != 1);");

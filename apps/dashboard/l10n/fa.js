@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "پیشخوان",
+    "Dashboard app" : "برنامهٔ پیشخوان",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "روز خود را آگاهانه آغاز کنید",
+    "Weather" : "آب و هوا",
+    "Status" : "وضعیت",
+    "Good morning" : "صبح بخیر",
+    "Good morning, {name}" : "صبح بخیر، {name}",
+    "Good afternoon" : "بعد از ظهر بخیر",
+    "Good afternoon, {name}" : "بعد از ظهر بخیر، {name}",
+    "Good evening" : "عصر بخیر",
+    "Good evening, {name}" : "عصر بخیر، {name}",
+    "Hello" : "سلام",
+    "Hello, {name}" : "سلام، {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "تولدت مبارک 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "تولدت مبارک، {name} 🥳🤩🎂🎉",
+    "Customize" : "سفارشی‌سازی",
+    "Edit widgets" : "ویرایش ابزارک‌ها",
+    "Get more widgets from the App Store" : "دریافت ابزارک‌های بیشتر از فروشگاه برنامه",
+    "Weather service" : "سرویس آب و هوا",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "برای حفظ حریم خصوصی شما، داده‌های آب و هوا توسط سرور {productName} به نمایندگی از شما درخواست می‌شود تا سرویس آب و هوا هیچ اطلاعات شخصی دریافت نکند.",
+    "Weather data from Met.no" : "داده‌های آب و هوا از Met.no",
+    "geocoding with Nominatim" : "مکان‌یابی جغرافیایی با Nominatim",
+    "elevation data from OpenTopoData" : "داده‌های ارتفاع از OpenTopoData"
+},
+"nplurals=2; plural=(n > 1);");

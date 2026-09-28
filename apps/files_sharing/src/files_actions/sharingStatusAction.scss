@@ -1,0 +1,33 @@
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+ // Only when rendered inline, when not enough space, this is put in the menu
+.action-items > .files-list__row-action-sharing-status {
+	// align icons with text-less inline actions
+	padding-inline: 0 !important;
+
+	.button-vue__wrapper {
+		// put icon at the end of the button
+		flex-direction: row-reverse;
+		gap: var(--default-grid-baseline);
+	}
+}
+
+svg.sharing-status__avatar {
+	height: var(--button-inner-size, 32px) !important;
+	width: var(--button-inner-size, 32px) !important;
+	max-height: var(--button-inner-size, 32px) !important;
+	max-width: var(--button-inner-size, 32px) !important;
+	border-radius: var(--button-inner-size, 32px);
+	overflow: hidden;
+}
+
+.files-list__row-action-sharing-status {
+	.button-vue__text {
+		color: var(--color-primary-element);
+	}
+	.button-vue__icon {
+		color: var(--color-primary-element);
+	}
+}

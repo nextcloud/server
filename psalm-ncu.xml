@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<psalm
+	errorLevel="1"
+	resolveFromConfigFile="true"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://getpsalm.org/schema/config"
+	xsi:schemaLocation="https://getpsalm.org/schema/config"
+	findUnusedBaselineEntry="false"
+	findUnusedCode="false"
+>
+	<plugins>
+		<plugin filename="build/psalm/NcuExperimentalChecker.php"/>
+	</plugins>
+	<projectFiles>
+		<directory name="lib/unstable"/>
+	</projectFiles>
+</psalm>

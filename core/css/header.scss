@@ -1,0 +1,241 @@
+/*!
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+@mixin header-menu-height() {
+	min-height: calc(var(--default-clickable-area) * 1.5); // show at least 1.5 entries
+	max-height: calc(100vh - var(--header-height) - (2 * var(--default-grid-baseline)));
+}
+
+/* Skip navigation links – show only on keyboard focus */
+#skip-actions {
+	position: absolute;
+	overflow: hidden;
+	z-index: 9999;
+	top: -999px;
+	inset-inline-start: 3px;
+	padding: 11px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 11px;
+
+	&:focus-within {
+		top: var(--header-height);
+	}
+}
+
+/* HEADERS ------------------------------------------------------------------ */
+#header {
+	// prevent ugly selection effect on accidental selection
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	// for legacy the reasons the guest layout also uses the same id, so we need to exclude it as it uses a different layout.
+	&:not(.header-guest) {
+		display: inline-flex;
+		position: absolute;
+		top: 0;
+		width: 100%;
+		z-index: 2000;
+		height: var(--header-height);
+		box-sizing: border-box;
+		justify-content: space-between;
+	}
+
+	// This is the first entry in the header, it represents the "home"-link
+	#nextcloud {
+		padding: 5px 0;
+		padding-inline-start: 86px; // logo width + 2 * the inset (padding)
+		position: relative;
+		height: calc(100% - var(--default-grid-baseline));
+		box-sizing: border-box;
+		opacity: 1;
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		overflow: hidden;
+		margin: 2px;
+
+		&:hover, &:active {
+			opacity: 1;
+		}
+
+		// the actual logo within the home-link entry
+		.logo {
+			display: inline-flex;
+			background-image: var(--image-logoheader, var(--image-logo, url('../img/logo/logo.svg')));
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position: center;
+			width: 62px;
+			position: absolute;
+			inset-inline-start: 12px;
+			top: 1px;
+			bottom: 1px;
+			// Invert if not customized and background is bright
+			filter: var(--image-logoheader-custom, var(--background-image-invert-if-bright));
+		}
+	}
+
+	// focus visible styles
+	// this adds a small line below all entries when visually focussed
+	#nextcloud:focus-visible,
+	.app-menu-entry a:focus-visible,
+	.header-menu button:first-of-type:focus-visible {
+		outline: none;
+
+		&::after {
+			content: " ";
+			position: absolute;
+			inset-block-end: 2px;
+			transform: translateX(-50%);
+			width: 12px;
+			height: 2px;
+			border-radius: 3px;
+			background-color: var(--color-background-plain-text);
+			inset-inline-start: 50%;
+			opacity: 1;
+		}
+	}
+
+	// This is the first part of the header
+	// for the user template it contains the application icons (app menu)
+	// for public templates this contains e.g. share information
+	.header-start {
+		display: inline-flex;
+		align-items: center;
+		flex: 1 0;
+		white-space: nowrap;
+		min-width: 0;
+	}
+
+	// This is the last part of the header
+	// It contains the short cuts like unified search, contacts-, or account menu
+	.header-end {
+		display: inline-flex;
+		align-items: center;
+		justify-content: flex-end;
+		flex-shrink: 1;
+		// Add some spacing so the last entry looks ok
+		margin-inline-end: calc(3 * var(--default-grid-baseline));
+
+		// legacy JQuery header menus
+		// TODO: we already migrated our own code and deprecated it - can be removed together with global jQuery
+		> div,
+		> form {
+			height: 100%;
+			position: relative;
+			> .menutoggle {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: var(--header-height);
+				height: var(--header-menu-item-height);
+				cursor: pointer;
+				opacity: 0.85;
+				padding: 0;
+				margin: 2px 0;
+
+				&:focus {
+					opacity: 1;
+				}
+
+				&:focus-visible {
+					outline: none;
+				}
+			}
+
+			> .menu {
+				background-color: var(--color-main-background);
+				filter: drop-shadow(0 1px 5px var(--color-box-shadow));
+				border-radius: var(--border-radius-large);
+				box-sizing: border-box;
+				z-index: 2000;
+				position: absolute;
+				max-width: 350px;
+				@include header-menu-height();
+				inset-inline-end: 8px; // relative to parent
+				top: var(--header-height);
+				margin: 0;
+				overflow-y: auto;
+
+				&:not(.popovermenu) {
+					display: none;
+				}
+
+				/* Dropdown arrow */
+				&:after {
+					border: 10px solid transparent;
+					border-bottom-color: var(--color-main-background);
+					bottom: 100%;
+					content: ' ';
+					height: 0;
+					width: 0;
+					position: absolute;
+					pointer-events: none;
+					inset-inline-end: 10px;
+				}
+
+				& > div,
+				& > ul {
+					-webkit-overflow-scrolling: touch;
+					@include header-menu-height();
+				}
+			}
+
+			.emptycontent {
+				h2 {
+					font-weight: normal;
+					font-size: 16px;
+				}
+				[class^='icon-'],
+				[class*='icon-'] {
+					background-size: 48px;
+					height: 48px;
+					width: 48px;
+				}
+			}
+		}
+	}
+
+	// Public layout related headers
+	// app related header container ONLY on public shares (layout.public.php)
+	.header-appname {
+		color: var(--color-background-plain-text);
+		font-size: 16px;
+		font-weight: bold;
+		margin: 0;
+		padding: 0;
+		padding-inline-end: 5px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		// Take full width to push the header-shared-by bellow (if any)
+		flex: 1 1 100%;
+
+		// container for the public template header information
+		.header-info {
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+
+			.header-title {
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.header-shared-by  {
+				color: var(--color-background-plain-text);
+				position: relative;
+				font-weight: 300;
+				font-size: var(--font-size-small);
+				line-height: var(--font-size-small);
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		}
+	}
+}

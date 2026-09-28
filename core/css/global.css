@@ -1,0 +1,6 @@
+/*!
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2015 ownCloud Inc.
+ * SPDX-FileCopyrightText: 2015 Raghu Nayyar, http://raghunayyar.com
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */body[dir=ltr] .pull-left,body[dir=ltr] .pull-start{float:left}body[dir=ltr] .pull-right,body[dir=ltr] .pull-end{float:right}body[dir=ltr] .clear-left,body[dir=ltr] .clear-start{clear:left}body[dir=ltr] .clear-right,body[dir=ltr] .clear-end{clear:right}body[dir=rtl] .pull-left,body[dir=rtl] .pull-start{float:right}body[dir=rtl] .pull-right,body[dir=rtl] .pull-end{float:left}body[dir=rtl] .clear-left,body[dir=rtl] .clear-start{clear:right}body[dir=rtl] .clear-right,body[dir=rtl] .clear-end{clear:left}.clear-both{clear:both}.hidden{display:none}.hidden-visually{position:absolute;inset-inline-start:-10000px;top:-10000px;width:1px;height:1px;overflow:hidden}.bold{font-weight:600}.center{text-align:center}.inlineblock{display:inline-block}/*# sourceMappingURL=global.css.map */

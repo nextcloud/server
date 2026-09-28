@@ -1,0 +1,562 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+namespace OCP\Share;
+
+use OCP\Files\Folder;
+use OCP\Files\Node;
+
+use OCP\IUser;
+use OCP\Share\Exceptions\GenericShareException;
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\Exceptions\ShareTokenException;
+
+/**
+ * This interface allows to manage sharing files between users and groups.
+ *
+ * This interface must not be implemented in your application but
+ * instead should be used as a service and injected in your code with
+ * dependency injection.
+ *
+ * @since 9.0.0
+ */
+interface IManager {
+	/**
+	 * Create a Share
+	 *
+	 * @param IShare $share
+	 * @return IShare The share object
+	 * @throws \Exception
+	 * @since 9.0.0
+	 */
+	public function createShare(IShare $share);
+
+	/**
+	 * Update a share.
+	 * The target of the share can't be changed this way: use moveShare
+	 * The share can't be removed this way (permission 0): use deleteShare
+	 * The state can't be changed this way: use acceptShare
+	 *
+	 * @param IShare $share
+	 * @param bool $onlyValid Only updates valid shares, invalid shares will be deleted automatically and are not updated
+	 * @return IShare The share object
+	 * @throws \InvalidArgumentException
+	 * @since 9.0.0
+	 */
+	public function updateShare(IShare $share, bool $onlyValid = true);
+
+	/**
+	 * Accept a share.
+	 *
+	 * @param IShare $share
+	 * @param string $recipientId
+	 * @return IShare The share object
+	 * @throws \InvalidArgumentException
+	 * @since 18.0.0
+	 */
+	public function acceptShare(IShare $share, string $recipientId): IShare;
+
+	/**
+	 * Delete a share
+	 *
+	 * @param IShare $share
+	 * @throws ShareNotFound
+	 * @throws \InvalidArgumentException
+	 * @since 9.0.0
+	 */
+	public function deleteShare(IShare $share);
+
+	/**
+	 * Unshare a file as the recipient.
+	 * This can be different from a regular delete for example when one of
+	 * the users in a groups deletes that share. But the provider should
+	 * handle this.
+	 *
+	 * @param IShare $share
+	 * @param string $recipientId
+	 * @since 9.0.0
+	 */
+	public function deleteFromSelf(IShare $share, $recipientId);
+
+	/**
+	 * Restore the share when it has been deleted
+	 * Certain share types can be restored when they have been deleted
+	 * but the provider should properly handle this\
+	 *
+	 * @param IShare $share The share to restore
+	 * @param string $recipientId The user to restore the share for
+	 * @return IShare The restored share object
+	 * @throws GenericShareException In case restoring the share failed
+	 *
+	 * @since 14.0.0
+	 */
+	public function restoreShare(IShare $share, string $recipientId): IShare;
+
+	/**
+	 * Move the share as a recipient of the share.
+	 * This is updating the share target. So where the recipient has the share mounted.
+	 *
+	 * @param IShare $share
+	 * @param string $recipientId
+	 * @return IShare
+	 * @throws \InvalidArgumentException If $share is a link share or the $recipient does not match
+	 * @since 9.0.0
+	 */
+	public function moveShare(IShare $share, $recipientId);
+
+	/**
+	 * Get all shares shared by (initiated) by the provided user in a folder.
+	 *
+	 * @param string $userId
+	 * @param Folder $node
+	 * @param bool $reshares
+	 * @param bool $shallow Whether the method should stop at the first level, or look into sub-folders.
+	 * @return IShare[][] [$fileId => IShare[], ...]
+	 * @since 11.0.0
+	 */
+	public function getSharesInFolder($userId, Folder $node, $reshares = false, $shallow = true);
+
+	/**
+	 * Get shares shared by (initiated) by the provided user.
+	 *
+	 * @param string $userId
+	 * @param int $shareType
+	 * @param Node|null $path
+	 * @param bool $reshares
+	 * @param int $limit The maximum number of returned results, -1 for all results
+	 * @param int $offset
+	 * @param bool $onlyValid Only returns valid shares, invalid shares will be deleted automatically and are not returned
+	 * @return IShare[]
+	 * @since 9.0.0
+	 */
+	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0, bool $onlyValid = true);
+
+	/**
+	 * Get shares shared with $user.
+	 * Filter by $node if provided
+	 *
+	 * @param string $userId
+	 * @param int $shareType
+	 * @param Node|null $node
+	 * @param int $limit The maximum number of shares returned, -1 for all
+	 * @param int $offset
+	 * @return IShare[]
+	 * @since 9.0.0
+	 */
+	public function getSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
+
+	/**
+	 * Get deleted shares shared with $user.
+	 * Filter by $node if provided
+	 *
+	 * @param string $userId
+	 * @param int $shareType
+	 * @param Node|null $node
+	 * @param int $limit The maximum number of shares returned, -1 for all
+	 * @param int $offset
+	 * @return IShare[]
+	 * @since 14.0.0
+	 */
+	public function getDeletedSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
+
+	/**
+	 * Retrieve a share by the share id.
+	 * If the recipient is set make sure to retrieve the file for that user.
+	 * This makes sure that if a user has moved/deleted a group share this
+	 * is reflected.
+	 *
+	 * @param string $id
+	 * @param string|null $recipient userID of the recipient
+	 * @param bool $onlyValid Only returns valid shares, invalid shares will be deleted automatically and are not returned
+	 * @return IShare
+	 * @throws ShareNotFound
+	 * @since 9.0.0
+	 */
+	public function getShareById($id, $recipient = null, bool $onlyValid = true);
+
+	/**
+	 * Get the share by token possible with password
+	 *
+	 * @param string $token
+	 * @return IShare
+	 * @throws ShareNotFound
+	 * @since 9.0.0
+	 */
+	public function getShareByToken($token);
+
+	/**
+	 * Verify the password of a public share
+	 *
+	 * @param IShare $share
+	 * @param ?string $password
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function checkPassword(IShare $share, $password);
+
+	/**
+	 * The user with UID is deleted.
+	 * All share providers have to cleanup the shares with this user as well
+	 * as shares owned by this user.
+	 * Shares only initiated by this user are fine.
+	 *
+	 * @param string $uid
+	 * @since 9.1.0
+	 */
+	public function userDeleted($uid);
+
+	/**
+	 * The group with $gid is deleted
+	 * We need to clear up all shares to this group
+	 *
+	 * @param string $gid
+	 * @since 9.1.0
+	 */
+	public function groupDeleted($gid);
+
+	/**
+	 * The user $uid is deleted from the group $gid
+	 * All user specific group shares have to be removed
+	 *
+	 * @param string $uid
+	 * @param string $gid
+	 * @since 9.1.0
+	 */
+	public function userDeletedFromGroup($uid, $gid);
+
+	/**
+	 * Get access list to a path. This means
+	 * all the users that can access a given path.
+	 *
+	 * Consider:
+	 * -root
+	 * |-folder1 (23)
+	 *  |-folder2 (32)
+	 *   |-fileA (42)
+	 *
+	 * fileA is shared with user1 and user1@server1 and email1@maildomain1
+	 * folder2 is shared with group2 (user4 is a member of group2)
+	 * folder1 is shared with user2 (renamed to "folder (1)") and user2@server2
+	 *                        and email2@maildomain2
+	 *
+	 * Then the access list to '/folder1/folder2/fileA' with $currentAccess is:
+	 * [
+	 *  users  => [
+	 *      'user1' => ['node_id' => 42, 'node_path' => '/fileA'],
+	 *      'user4' => ['node_id' => 32, 'node_path' => '/folder2'],
+	 *      'user2' => ['node_id' => 23, 'node_path' => '/folder (1)'],
+	 *  ],
+	 *  remote => [
+	 *      'user1@server1' => ['node_id' => 42, 'token' => 'SeCr3t'],
+	 *      'user2@server2' => ['node_id' => 23, 'token' => 'FooBaR'],
+	 *  ],
+	 *  public => bool
+	 *  mail => [
+	 *      'email1@maildomain1' => ['node_id' => 42, 'token' => 'aBcDeFg'],
+	 *      'email2@maildomain2' => ['node_id' => 23, 'token' => 'hIjKlMn'],
+	 *  ]
+	 *
+	 * The access list to '/folder1/folder2/fileA' **without** $currentAccess is:
+	 * [
+	 *  users  => ['user1', 'user2', 'user4'],
+	 *  remote => bool,
+	 *  public => bool
+	 *  mail => ['email1@maildomain1', 'email2@maildomain2']
+	 * ]
+	 *
+	 * This is required for encryption/activity
+	 *
+	 * @param \OCP\Files\Node $path
+	 * @param bool $recursive Should we check all parent folders as well
+	 * @param bool $currentAccess Should the user have currently access to the file
+	 * @return array
+	 * @since 12
+	 */
+	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false);
+
+	/**
+	 * Instantiates a new share object. This is to be passed to
+	 * createShare.
+	 *
+	 * @return IShare
+	 * @since 9.0.0
+	 */
+	public function newShare();
+
+	/**
+	 * Is the share API enabled
+	 *
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function shareApiEnabled();
+
+	/**
+	 * Is public link sharing enabled
+	 *
+	 * @param ?IUser $user User to check against group exclusions, defaults to current session user
+	 * @return bool
+	 * @since 9.0.0
+	 * @since 32.0.3 Added optional $user parameter
+	 */
+	public function shareApiAllowLinks(?IUser $user = null);
+
+	/**
+	 * Is password on public link required
+	 *
+	 * @param bool $checkGroupMembership Check group membership exclusion
+	 * @return bool
+	 * @since 9.0.0
+	 * @since 24.0.0 Added optional $checkGroupMembership parameter
+	 */
+	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true);
+
+	/**
+	 * Is default expire date enabled
+	 *
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function shareApiLinkDefaultExpireDate();
+
+	/**
+	 * Is default expire date enforced
+	 *`
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function shareApiLinkDefaultExpireDateEnforced();
+
+	/**
+	 * Number of default expire days
+	 *
+	 * @return int
+	 * @since 9.0.0
+	 */
+	public function shareApiLinkDefaultExpireDays();
+
+	/**
+	 * Is default internal expire date enabled
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDate(): bool;
+
+	/**
+	 * Is default remote expire date enabled
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDate(): bool;
+
+	/**
+	 * Is default expire date enforced
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDateEnforced(): bool;
+
+	/**
+	 * Is default expire date enforced for remote shares
+	 *
+	 * @return bool
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDateEnforced(): bool;
+
+	/**
+	 * Number of default expire days
+	 *
+	 * @return int
+	 * @since 22.0.0
+	 */
+	public function shareApiInternalDefaultExpireDays(): int;
+
+	/**
+	 * Number of default expire days for remote shares
+	 *
+	 * @return int
+	 * @since 22.0.0
+	 */
+	public function shareApiRemoteDefaultExpireDays(): int;
+
+	/**
+	 * Allow public upload on link shares
+	 *
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function shareApiLinkAllowPublicUpload();
+
+	/**
+	 * check if user can only share with group members
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function shareWithGroupMembersOnly();
+
+	/**
+	 * If shareWithGroupMembersOnly is enabled, return an optional
+	 * list of groups that must be excluded from the principle of
+	 * belonging to the same group.
+	 * @return array
+	 * @since 27.0.0
+	 */
+	public function shareWithGroupMembersOnlyExcludeGroupsList();
+
+	/**
+	 * Check if users can share with groups
+	 * @return bool
+	 * @since 9.0.1
+	 */
+	public function allowGroupSharing();
+
+	/**
+	 * Check if user enumeration is allowed
+	 *
+	 * @return bool
+	 * @since 19.0.0
+	 */
+	public function allowEnumeration(): bool;
+
+	/**
+	 * Check if user enumeration is limited to the users groups
+	 *
+	 * @return bool
+	 * @since 19.0.0
+	 */
+	public function limitEnumerationToGroups(): bool;
+
+	/**
+	 * Check if user enumeration is limited to the phonebook matches
+	 *
+	 * @return bool
+	 * @since 21.0.1
+	 */
+	public function limitEnumerationToPhone(): bool;
+
+	/**
+	 * Check if user enumeration is allowed to return also on full match
+	 * and ignore limitations to phonebook or groups.
+	 *
+	 * @return bool
+	 * @since 21.0.1
+	 */
+	public function allowEnumerationFullMatch(): bool;
+
+	/**
+	 * When `allowEnumerationFullMatch` is enabled and `matchEmail` is set,
+	 * then also return results for full email matches.
+	 *
+	 * @return bool
+	 * @since 25.0.0
+	 */
+	public function matchEmail(): bool;
+
+	/**
+	 * When `allowEnumerationFullMatch` is enabled and `matchUserId` is set,
+	 * then also return results for full user id matches.
+	 *
+	 * @return bool
+	 * @since 32.0.1
+	 */
+	public function matchUserId(): bool;
+
+	/**
+	 * When `allowEnumerationFullMatch` is enabled and `ignoreSecondDisplayName` is set,
+	 * then the search should ignore matches on the second displayname and only use the first.
+	 *
+	 * @return bool
+	 * @since 25.0.0
+	 */
+	public function ignoreSecondDisplayName(): bool;
+
+
+	/**
+	 * Check if custom tokens are allowed
+	 *
+	 * @since 31.0.0
+	 */
+	public function allowCustomTokens(): bool;
+
+	/**
+	 * Check if the current user can view the share
+	 * even if the download is disabled.
+	 *
+	 * @since 32.0.0
+	 */
+	public function allowViewWithoutDownload(): bool;
+
+	/**
+	 * Check if the current user can enumerate the target user
+	 *
+	 * @param IUser|null $currentUser
+	 * @param IUser $targetUser
+	 * @return bool
+	 * @since 23.0.0
+	 */
+	public function currentUserCanEnumerateTargetUser(?IUser $currentUser, IUser $targetUser): bool;
+
+	/**
+	 * Check if sharing is disabled for the given user
+	 *
+	 * @since 9.0.0
+	 */
+	public function sharingDisabledForUser(?string $userId): bool;
+
+	/**
+	 * Check if outgoing server2server shares are allowed
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function outgoingServer2ServerSharesAllowed();
+
+	/**
+	 * Check if outgoing server2server shares are allowed
+	 * @return bool
+	 * @since 14.0.0
+	 */
+	public function outgoingServer2ServerGroupSharesAllowed();
+
+
+	/**
+	 * Check if a given share provider exists
+	 * @param int $shareType
+	 * @return bool
+	 * @since 11.0.0
+	 */
+	public function shareProviderExists($shareType);
+
+	/**
+	 * @param string $shareProviderClass
+	 * @since 21.0.0
+	 */
+	public function registerShareProvider(string $shareProviderClass): void;
+
+	/**
+	 * @Internal
+	 *
+	 * Get all the shares as iterable to reduce memory overhead
+	 * Note, since this opens up database cursors the iterable should
+	 * be fully itterated.
+	 *
+	 * @return iterable
+	 * @since 18.0.0
+	 */
+	public function getAllShares(): iterable;
+
+	/**
+	 * Generate a unique share token
+	 *
+	 * @throws ShareTokenException Failed to generate a unique token
+	 * @since 31.0.0
+	 */
+	public function generateToken(): string;
+}

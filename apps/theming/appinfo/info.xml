@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>theming</id>
+	<name>Theming</name>
+	<summary>Adjust the Nextcloud theme</summary>
+	<description>Adjust the Nextcloud theme</description>
+	<version>2.7.0</version>
+	<licence>agpl</licence>
+	<author>Nextcloud</author>
+	<namespace>Theming</namespace>
+
+	<types>
+		<logging/>
+	</types>
+
+	<category>customization</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+
+	<repair-steps>
+		<post-migration>
+			<step>OCA\Theming\Migration\InitBackgroundImagesMigration</step>
+		</post-migration>
+	</repair-steps>
+
+	<commands>
+		<command>OCA\Theming\Command\UpdateConfig</command>
+	</commands>
+
+	<settings>
+		<admin>OCA\Theming\Settings\Admin</admin>
+		<admin-section>OCA\Theming\Settings\AdminSection</admin-section>
+		<personal>OCA\Theming\Settings\Personal</personal>
+		<personal-section>OCA\Theming\Settings\PersonalSection</personal-section>
+	</settings>
+</info>

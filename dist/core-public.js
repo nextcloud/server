@@ -1,0 +1,2 @@
+(()=>{"use strict";const e=document.body,t=document.querySelector("footer");let o=t?.offsetHeight;t&&new ResizeObserver(t=>{for(const r of t){const t=r.contentRect.height;if(t===o)return;o=t,e.style.setProperty("--footer-height",`${t}px`)}}).observe(t,{box:"border-box"})})();
+//# sourceMappingURL=core-public.js.map?v=856edf99c7219defca55

@@ -1,0 +1,9 @@
+OC.L10N.register(
+    "contactsinteraction",
+    {
+    "Recently contacted" : "Baru-baru ini dihubungi",
+    "Contacts Interaction" : "Interaksi Kontak",
+    "Manages interaction between accounts and contacts" : "Mengelola interaksi antara akun dan kontak",
+    "Collect data about accounts and contacts interactions and provide an address book for the data" : "Mengumpulkan data tentang interaksi akun dan kontak serta menyediakan buku alamat untuk data tersebut"
+},
+"nplurals=1; plural=0;");

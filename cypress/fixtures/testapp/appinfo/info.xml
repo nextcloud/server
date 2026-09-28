@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <!--
+    SPDX-FileCopyrightText: Ferdinand Thiessen <opensource@fthiessen.de>
+    SPDX-License-Identifier: CC0-1.0
+    -->
+    <id>testapp</id>
+    <name>Test App</name>
+    <summary>Test App</summary>
+    <description><![CDATA[A simple test app]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="opensource@fthiessen.de" >Ferdinand Thiessen</author>
+    <namespace>TestApp</namespace>
+    <category>games</category>
+    <bugs>https://github.com/nextcloud/server/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="28" max-version="29"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>Test App</name>
+            <route>testapp.page.index</route>
+        </navigation>
+        <navigation>
+            <name>Test App 2</name>
+            <route>testapp.page.index</route>
+        </navigation>
+    </navigations>
+</info>

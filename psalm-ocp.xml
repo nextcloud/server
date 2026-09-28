@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<psalm
+	errorLevel="4"
+	resolveFromConfigFile="true"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://getpsalm.org/schema/config"
+	xsi:schemaLocation="https://getpsalm.org/schema/config"
+    errorBaseline="build/psalm-baseline-ocp.xml"
+	findUnusedBaselineEntry="false"
+	findUnusedCode="false"
+>
+	<plugins>
+		<plugin filename="build/psalm/AppFrameworkTainter.php" />
+		<plugin filename="build/psalm/OcpSinceChecker.php" />
+	</plugins>
+	<projectFiles>
+		<directory name="lib/public"/>
+		<ignoreFiles>
+			<directory name="lib/composer/bin"/>
+		</ignoreFiles>
+	</projectFiles>
+	<stubs>
+		<file name="build/stubs/gd.php"/>
+		<file name="build/stubs/ldap.php"/>
+		<file name="build/stubs/psr_container.php"/>
+	</stubs>
+	<extraFiles>
+		<directory name="3rdparty"/>
+	</extraFiles>
+</psalm>

@@ -1,0 +1,13 @@
+{
+    "config" : {
+        "vendor-dir": ".",
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
+        "autoloader-suffix": "WeatherStatus"
+    },
+    "autoload" : {
+        "psr-4": {
+            "OCA\\WeatherStatus\\": "../lib/"
+        }
+    }
+}

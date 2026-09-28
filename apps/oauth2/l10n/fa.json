@@ -1,0 +1,23 @@
+{ "translations": {
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "کلاینت شما مجاز به اتصال نیست. لطفاً به مدیر کلاینت خود اطلاع دهید.",
+    "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "آدرس بازگردانی شما باید یک آدرس کامل باشد، برای مثال: https://yourdomain.com/path",
+    "OAuth 2.0" : "OAuth 2.0",
+    "Allows OAuth2 compatible authentication from other web applications." : "امکان احراز هویت سازگار با OAuth2 را از سایر برنامه‌های وب فراهم می‌کند.",
+    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "برنامه OAuth2 به مدیران اجازه می‌دهد تا جریان احراز هویت داخلی را به‌گونه‌ای پیکربندی کنند که امکان احراز هویت سازگار با OAuth2 را از سایر برنامه‌های وب فراهم کند.",
+    "Secret key" : "کلید مخفی",
+    "Delete" : "حذف",
+    "An unknown error occurred." : "خطای ناشناخته‌ای رخ داد.",
+    "OAuth 2.0 clients" : "کلاینت‌های OAuth 2.0",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 به سرویس‌های خارجی اجازه می‌دهد تا به {instanceName} دسترسی درخواست کنند.",
+    "Name" : "نام",
+    "Redirection URI" : "آدرس بازگردانی",
+    "Client identifier" : "شناسه کلاینت",
+    "Delete client" : "حذف کلاینت",
+    "Make sure you store the secret key, it cannot be recovered." : "مطمئن شوید که کلید مخفی را ذخیره کرده‌اید، زیرا قابل بازیابی نیست.",
+    "Add client" : "افزودن کلاینت",
+    "Add" : "افزودن",
+    "Client Identifier" : "شناسه کلاینت",
+    "Show client secret" : "نمایش کلید مخفی کلاینت",
+    "Hide client secret" : "مخفی کردن کلید مخفی کلاینت"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}

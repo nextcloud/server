@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ - SPDX-License-Identifier: AGPL-3.0-only
+ -->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>updatenotification</id>
+	<name>Update notification</name>
+	<summary>Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater.</summary>
+	<description>Displays update notifications for Nextcloud, app updates, and provides the SSO for the updater.</description>
+	<version>1.22.0</version>
+	<licence>agpl</licence>
+	<author>Lukas Reschke</author>
+	<namespace>UpdateNotification</namespace>
+	<category>monitoring</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+
+	<background-jobs>
+		<job>OCA\UpdateNotification\BackgroundJob\UpdateAvailableNotifications</job>
+	</background-jobs>
+
+	<commands>
+		<command>OCA\UpdateNotification\Command\Check</command>
+	</commands>
+
+	<settings>
+		<admin>OCA\UpdateNotification\Settings\Admin</admin>
+	</settings>
+</info>

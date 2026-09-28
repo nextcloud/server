@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Painel",
+    "Dashboard app" : "Aplicativo Painel",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Comece o dia informado \n\nO Painel do Nextcloud (Nextcloud Dashboard) é o seu ponto de partida do dia, oferecendo uma visão geral de seus próximos compromissos, e-mails urgentes, mensagens de bate-papo, tickets recebidos, tweets mais recentes e muito mais! As pessoas podem adicionar os widgets que desejarem e alterar o plano de fundo de acordo com sua preferência.",
+    "Weather" : "Clima",
+    "Status" : "Status",
+    "Good morning" : "Bom dia",
+    "Good morning, {name}" : "Bom dia, {name}",
+    "Good afternoon" : "Boa tarde",
+    "Good afternoon, {name}" : "Boa tarde, {name}",
+    "Good evening" : "Boa noite",
+    "Good evening, {name}" : "Boa noite, {name}",
+    "Hello" : "Olá",
+    "Hello, {name}" : "Olá, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Feliz Aniversário 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Feliz Aniversário, {name} 🥳🤩🎂🎉",
+    "Customize" : "Personalizar",
+    "Edit widgets" : "Editar widgets",
+    "Get more widgets from the App Store" : "Obtenha mais widgets na Loja de Aplicativos",
+    "Weather service" : "Serviço de Clima",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Para sua privacidade, os dados meteorológicos são solicitados pelo seu servidor {productName} em seu nome, para que o serviço meteorológico não receba nenhuma informação pessoal.",
+    "Weather data from Met.no" : "Dados de Tempo do Met.no",
+    "geocoding with Nominatim" : "geocodificado com Nominatim",
+    "elevation data from OpenTopoData" : "dados topográficos de OpenTopoData"
+},
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

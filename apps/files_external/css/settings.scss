@@ -1,0 +1,194 @@
+/*!
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+#files_external {
+	margin-bottom: 0px;
+}
+
+#externalStorage {
+	margin: 15px 0 20px 0;
+
+	tr.externalStorageLoading > td {
+		text-align: center;
+	}
+
+	td {
+		height: 50px;
+
+		&.mountOptionsToggle,
+		&.remove,
+		&.save {
+			position: relative;
+			padding: 0 !important;
+			width: 44px;
+			[class^='icon-'],
+			[class*=' icon-'] {
+				width: 44px;
+				height: 44px;
+				margin: 3px;
+				opacity: 0.5;
+				padding: 14px;
+				vertical-align: text-bottom;
+				cursor: pointer;
+				&:hover {
+					opacity: 1;
+				}
+			}
+		}
+
+		&.mountPoint,
+		&.backend,
+		&.authentication,
+		&.configuration {
+			min-width: 160px;
+			width: 15%;
+		}
+
+		&.status {
+			/* overwrite conflicting core styles */
+			display: table-cell;
+			vertical-align: middle;
+			/* ensure width does not change even if internal span is not displayed */
+			width: 43px;
+
+			> span {
+				display: inline-block;
+				height: 28px;
+				width: 28px;
+				vertical-align: text-bottom;
+				border-radius: 50%;
+				cursor: pointer;
+			}
+		}
+
+		> input:not(.applicableToAllUsers), & > select {
+			width: 100%;
+		}
+
+		> img {
+			padding-top: 7px;
+			opacity: 0.5;
+
+			&:hover {
+				cursor:pointer;
+				opacity: 1;
+			}
+		}
+	}
+
+	.popovermenu li > .menuitem {
+		width: fit-content !important;
+	}
+}
+
+#addMountPoint>td { border:none; }
+
+#addMountPoint>td.applicable { visibility:hidden; }
+
+#addMountPoint>td.hidden { visibility:hidden; }
+
+#selectBackend {
+	margin-inline-start: -10px;
+	width: 150px;
+}
+
+#externalStorage td.configuration,
+#externalStorage td.backend {
+	white-space: normal;
+}
+
+#externalStorage td.configuration > * {
+	white-space: nowrap;
+}
+
+#externalStorage td.configuration input.added  {
+	margin-inline-end: 6px;
+}
+
+#externalStorage label > input[type="checkbox"] {
+	margin-inline-end: 3px;
+}
+
+#externalStorage td.configuration label {
+	width: 100%;
+	display: inline-flex;
+	align-items: center;
+}
+
+#externalStorage td.configuration input.disabled-success {
+	background-color: rgba(134, 255, 110, 0.9);
+}
+
+#externalStorage td.applicable label {
+	display: inline-flex;
+	align-items: center;
+}
+
+#externalStorage td.applicable div.chzn-container {
+	position: relative;
+	top: 3px;
+}
+
+#externalStorage .select2-container.applicableUsers {
+	width: 100% !important;
+}
+
+#userMountingBackends {
+	padding-inline-start: 25px;
+}
+
+.files-external-select2 .select2-results .select2-result-label {
+	height: 32px;
+	padding: 3px;
+}
+
+.files-external-select2 .select2-results .select2-result-label > span {
+	display: block;
+	position: relative;
+}
+
+.files-external-select2 .select2-results .select2-result-label .avatardiv {
+	display:inline-block;
+}
+
+.files-external-select2 .select2-results .select2-result-label .avatardiv + span {
+	position: absolute;
+	top: 5px;
+	margin-inline-start: 10px;
+}
+
+.files-external-select2 .select2-results .select2-result-label .avatardiv[data-type="group"] + span {
+	vertical-align: top;
+	top: 6px;
+	position: absolute;
+	max-width: 80%;
+	inset-inline-start: 30px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#externalStorage .select2-container .select2-search-choice {
+	display: flex;
+	.select2-search-choice-close {
+		display: block;
+		inset-inline-start: auto;
+		position: relative;
+		width: 20px;
+	}
+}
+
+#externalStorage .mountOptionsToggle .dropdown {
+	width: auto;
+}
+
+.nav-icon-external-storage {
+	background-image: var(--icon-external-dark);
+}
+
+.global_credentials__personal {
+    margin: 10px auto;
+    text-align: center;
+    width: min(400px, 100vw);
+}

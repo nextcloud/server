@@ -1,0 +1,60 @@
+/*!
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+@use 'variables';
+@use 'functions';
+
+.toastify.toast {
+	min-width: 200px;
+	background: none;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	box-shadow: 0 0 6px 0 var(--color-box-shadow);
+	padding: 12px;
+	padding-inline-end: 34px;
+	margin-top: 45px;
+	position: fixed;
+	z-index: 9000;
+	border-radius: var(--border-radius);
+
+	.toast-close {
+		position: absolute;
+		top: 0;
+		inset-inline-end: 0;
+		width: 38px;
+		opacity: 0.4;
+		padding: 12px;
+		@include functions.icon-color('close', 'actions', variables.$color-black, 2, true);
+		background-position: center;
+		background-repeat: no-repeat;
+		text-indent: 200%;
+		white-space: nowrap;
+		overflow: hidden;
+
+		&:hover, &:focus, &:active {
+			cursor: pointer;
+			opacity: 1;
+		}
+	}
+}
+
+.toastify.toastify-top {
+	inset-inline-end: 10px;
+}
+
+.toast-error {
+	border-inline-start: 3px solid var(--color-border-error);
+}
+
+.toast-info {
+	border-inline-start: 3px solid var(--color-primary-element);
+}
+
+.toast-warning {
+	border-inline-start: 3px solid var(--color-warning-hover);
+}
+
+.toast-success {
+	border-inline-start: 3px solid var(--color-border-success);
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ - SPDX-License-Identifier: AGPL-3.0-only
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 bootstrap="bootstrap.php"
+		 timeoutForSmallTests="900"
+		 timeoutForMediumTests="900"
+		 timeoutForLargeTests="900"
+		 cacheDirectory=".phpunit.cache"
+		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
+	<testsuite name="Nextcloud Server">
+		<directory>lib/</directory>
+		<directory>Core/</directory>
+		<directory>../apps/</directory>
+		<exclude>../apps/user_ldap/tests/Integration</exclude>
+	</testsuite>
+	<source>
+		<include>
+			<directory>..</directory>
+		</include>
+		<exclude>
+			<directory>../3rdparty</directory>
+			<directory>../apps/*/composer</directory>
+			<directory>../apps/*/tests</directory>
+			<directory>../apps/files_external/3rdparty</directory>
+			<directory>../build</directory>
+			<directory>../lib/composer</directory>
+			<directory>../tests</directory>
+			<directory>../vendor-bin</directory>
+		</exclude>
+	</source>
+</phpunit>

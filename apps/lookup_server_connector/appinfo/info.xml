@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>lookup_server_connector</id>
+	<name>Lookup Server Connector</name>
+	<summary>Sync public account information with the lookup server</summary>
+	<description>Sync public account information with the lookup server</description>
+	<version>1.20.0</version>
+	<licence>agpl</licence>
+	<author>Bjoern Schiessle</author>
+	<namespace>LookupServerConnector</namespace>
+	<types>
+		<authentication/>
+	</types>
+	<category>integration</category>
+	<category>social</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+</info>

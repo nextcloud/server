@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>federatedfilesharing</id>
+	<name>Federated file sharing</name>
+	<summary>Provide federated file sharing across servers</summary>
+	<description>Provide federated file sharing across servers</description>
+	<version>1.22.0</version>
+	<licence>agpl</licence>
+	<author>Bjoern Schiessle</author>
+	<author>Roeland Jago Douma</author>
+	<namespace>FederatedFileSharing</namespace>
+	<category>files</category>
+	<category>social</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+
+	<dependencies>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+
+	<settings>
+		<admin>OCA\FederatedFileSharing\Settings\Admin</admin>
+		<personal>OCA\FederatedFileSharing\Settings\Personal</personal>
+		<personal-section>OCA\FederatedFileSharing\Settings\PersonalSection</personal-section>
+	</settings>
+</info>

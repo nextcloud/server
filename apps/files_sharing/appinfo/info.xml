@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2011-2016 owncloud, Inc.
+  - SPDX-License-Identifier: AGPL-3.0-only
+-->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>files_sharing</id>
+	<name>File sharing</name>
+	<summary>File sharing</summary>
+	<description>
+		This application enables people to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable people can then share files and folders with other accounts and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other people outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.
+Turning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation.
+
+	</description>
+	<version>1.24.1</version>
+	<licence>agpl</licence>
+	<author>Michael Gapczynski</author>
+	<author>Bjoern Schiessle</author>
+	<namespace>Files_Sharing</namespace>
+	<types>
+		<filesystem/>
+	</types>
+
+	<category>files</category>
+	<category>social</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+
+	<background-jobs>
+		<job>OCA\Files_Sharing\DeleteOrphanedSharesJob</job>
+		<job>OCA\Files_Sharing\ExpireSharesJob</job>
+		<job>OCA\Files_Sharing\SharesReminderJob</job>
+		<job>OCA\Files_Sharing\BackgroundJob\FederatedSharesDiscoverJob</job>
+	</background-jobs>
+
+	<repair-steps>
+		<post-migration>
+			<step>OCA\Files_Sharing\Migration\OwncloudGuestShareType</step>
+			<step>OCA\Files_Sharing\Migration\SetPasswordColumn</step>
+			<step>OCA\Files_Sharing\Migration\SetAcceptedStatus</step>
+		</post-migration>
+	</repair-steps>
+
+	<commands>
+		<command>OCA\Files_Sharing\Command\CleanupRemoteStorages</command>
+		<command>OCA\Files_Sharing\Command\ExiprationNotification</command>
+		<command>OCA\Files_Sharing\Command\DeleteOrphanShares</command>
+		<command>OCA\Files_Sharing\Command\FixShareOwners</command>
+		<command>OCA\Files_Sharing\Command\ListShares</command>
+	</commands>
+
+	<settings>
+		<personal>OCA\Files_Sharing\Settings\Personal</personal>
+	</settings>
+
+	<activity>
+		<settings>
+			<setting>OCA\Files_Sharing\Activity\Settings\Shared</setting>
+			<setting>OCA\Files_Sharing\Activity\Settings\RemoteShare</setting>
+			<setting>OCA\Files_Sharing\Activity\Settings\PublicLinks</setting>
+			<setting>OCA\Files_Sharing\Activity\Settings\PublicLinksUpload</setting>
+		</settings>
+
+		<filters>
+			<filter>OCA\Files_Sharing\Activity\Filter</filter>
+		</filters>
+
+		<providers>
+			<provider>OCA\Files_Sharing\Activity\Providers\Downloads</provider>
+			<provider>OCA\Files_Sharing\Activity\Providers\Groups</provider>
+			<provider>OCA\Files_Sharing\Activity\Providers\PublicLinks</provider>
+			<provider>OCA\Files_Sharing\Activity\Providers\RemoteShares</provider>
+			<provider>OCA\Files_Sharing\Activity\Providers\Users</provider>
+		</providers>
+	</activity>
+
+	<collaboration>
+		<plugins>
+			<plugin type="autocomplete-sort">OCA\Files_Sharing\Collaboration\ShareRecipientSorter</plugin>
+		</plugins>
+	</collaboration>
+
+	<public>
+		<files>public.php</files>
+	</public>
+</info>

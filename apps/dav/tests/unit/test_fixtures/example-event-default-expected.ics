@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sabre//Sabre VObject 4.5.6//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:RANDOM-UID
+DTSTAMP:20250121T000000Z
+SUMMARY:Example event - open me!
+DTSTART:20250128T100000Z
+DTEND:20250128T110000Z
+DESCRIPTION:Welcome to Nextcloud Calendar!\n\nThis is a sample event - expl
+ ore the flexibility of planning with Nextcloud Calendar by making any edit
+ s you want!\n\nWith Nextcloud Calendar\, you can:\n- Create\, edit\, and m
+ anage events effortlessly.\n- Create multiple calendars and share them wit
+ h teammates\, friends\, or family.\n- Check availability and display your 
+ busy times to others.\n- Seamlessly integrate with apps and devices via Ca
+ lDAV.\n- Customize your experience: schedule recurring events\, adjust not
+ ifications and other settings.
+END:VEVENT
+END:VCALENDAR

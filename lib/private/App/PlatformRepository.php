@@ -1,0 +1,211 @@
+<?php
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+namespace OC\App;
+
+/**
+ * Class PlatformRepository
+ *
+ * Inspired by the composer project - licensed under MIT
+ * https://github.com/composer/composer/blob/master/src/Composer/Repository/PlatformRepository.php#L82
+ *
+ * @package OC\App
+ */
+class PlatformRepository {
+	private array $packages;
+
+	public function __construct() {
+		$this->packages = $this->initialize();
+	}
+
+	protected function initialize(): array {
+		$loadedExtensions = get_loaded_extensions();
+		$packages = [];
+
+		// Extensions scanning
+		foreach ($loadedExtensions as $name) {
+			if (in_array($name, ['standard', 'Core'])) {
+				continue;
+			}
+
+			$ext = new \ReflectionExtension($name);
+			try {
+				$prettyVersion = $ext->getVersion();
+				/** @psalm-suppress TypeDoesNotContainNull
+				 * @psalm-suppress RedundantCondition
+				 * TODO Remove these annotations once psalm fixes the method signature ( https://github.com/vimeo/psalm/pull/8655 )
+				 */
+				$prettyVersion = $this->normalizeVersion($prettyVersion ?? '0');
+			} catch (\UnexpectedValueException $e) {
+				$prettyVersion = '0';
+				$prettyVersion = $this->normalizeVersion($prettyVersion);
+			}
+
+			$packages[$this->buildPackageName($name)] = $prettyVersion;
+		}
+
+		foreach ($loadedExtensions as $name) {
+			$prettyVersion = null;
+			switch ($name) {
+				case 'curl':
+					$curlVersion = curl_version();
+					$prettyVersion = $curlVersion['version'];
+					break;
+
+				case 'intl':
+					$name = 'ICU';
+					if (defined('INTL_ICU_VERSION')) {
+						$prettyVersion = INTL_ICU_VERSION;
+					} else {
+						$reflector = new \ReflectionExtension('intl');
+
+						ob_start();
+						$reflector->info();
+						$output = ob_get_clean();
+
+						preg_match('/^ICU version => (.*)$/m', $output, $matches);
+						$prettyVersion = $matches[1];
+					}
+
+					break;
+
+				case 'libxml':
+					$prettyVersion = LIBXML_DOTTED_VERSION;
+					break;
+
+				case 'openssl':
+					$prettyVersion = preg_replace_callback('{^(?:OpenSSL\s*)?([0-9.]+)([a-z]?).*}', function ($match) {
+						return $match[1] . (empty($match[2]) ? '' : '.' . (ord($match[2]) - 96));
+					}, OPENSSL_VERSION_TEXT);
+					break;
+
+				case 'pcre':
+					$prettyVersion = preg_replace('{^(\S+).*}', '$1', PCRE_VERSION);
+					break;
+
+				case 'uuid':
+					$prettyVersion = phpversion('uuid');
+					break;
+
+				case 'xsl':
+					$prettyVersion = LIBXSLT_DOTTED_VERSION;
+					break;
+
+				default:
+					// None handled extensions have no special cases, skip
+					continue 2;
+			}
+
+			if ($prettyVersion === null) {
+				continue;
+			}
+			try {
+				$prettyVersion = $this->normalizeVersion($prettyVersion);
+			} catch (\UnexpectedValueException $e) {
+				continue;
+			}
+
+			$packages[$this->buildPackageName($name)] = $prettyVersion;
+		}
+
+		return $packages;
+	}
+
+	private function buildPackageName(string $name): string {
+		return str_replace(' ', '-', $name);
+	}
+
+	public function findLibrary(string $name): ?string {
+		$extName = $this->buildPackageName($name);
+		if (isset($this->packages[$extName])) {
+			return $this->packages[$extName];
+		}
+		return null;
+	}
+
+	private static string $modifierRegex = '[._-]?(?:(stable|beta|b|RC|alpha|a|patch|pl|p)(?:[.-]?(\d+))?)?([.-]?dev)?';
+
+	/**
+	 * Normalizes a version string to be able to perform comparisons on it
+	 *
+	 * https://github.com/composer/composer/blob/master/src/Composer/Package/Version/VersionParser.php#L94
+	 *
+	 * @param string $fullVersion optional complete version string to give more context
+	 * @throws \UnexpectedValueException
+	 */
+	public function normalizeVersion(string $version, ?string $fullVersion = null): string {
+		$version = trim($version);
+		if ($fullVersion === null) {
+			$fullVersion = $version;
+		}
+		// ignore aliases and just assume the alias is required instead of the source
+		if (preg_match('{^([^,\s]+) +as +([^,\s]+)$}', $version, $match)) {
+			$version = $match[1];
+		}
+		// match master-like branches
+		if (preg_match('{^(?:dev-)?(?:master|trunk|default)$}i', $version)) {
+			return '9999999-dev';
+		}
+		if (strtolower(substr($version, 0, 4)) === 'dev-') {
+			return 'dev-' . substr($version, 4);
+		}
+		// match classical versioning
+		if (preg_match('{^v?(\d{1,3})(\.\d+)?(\.\d+)?(\.\d+)?' . self::$modifierRegex . '$}i', $version, $matches)) {
+			$version = $matches[1]
+				. (!empty($matches[2]) ? $matches[2] : '.0')
+				. (!empty($matches[3]) ? $matches[3] : '.0')
+				. (!empty($matches[4]) ? $matches[4] : '.0');
+			$index = 5;
+		} elseif (preg_match('{^v?(\d{4}(?:[.:-]?\d{2}){1,6}(?:[.:-]?\d{1,3})?)' . self::$modifierRegex . '$}i', $version, $matches)) { // match date-based versioning
+			$version = preg_replace('{\D}', '-', $matches[1]);
+			$index = 2;
+		} elseif (preg_match('{^v?(\d{4,})(\.\d+)?(\.\d+)?(\.\d+)?' . self::$modifierRegex . '$}i', $version, $matches)) {
+			$version = $matches[1]
+				. (!empty($matches[2]) ? $matches[2] : '.0')
+				. (!empty($matches[3]) ? $matches[3] : '.0')
+				. (!empty($matches[4]) ? $matches[4] : '.0');
+			$index = 5;
+		}
+		// add version modifiers if a version was matched
+		if (isset($index)) {
+			if (!empty($matches[$index])) {
+				if ($matches[$index] === 'stable') {
+					return $version;
+				}
+				$version .= '-' . $this->expandStability($matches[$index]) . (!empty($matches[$index + 1]) ? $matches[$index + 1] : '');
+			}
+			if (!empty($matches[$index + 2])) {
+				$version .= '-dev';
+			}
+			return $version;
+		}
+		$extraMessage = '';
+		if (preg_match('{ +as +' . preg_quote($version) . '$}', $fullVersion)) {
+			$extraMessage = ' in "' . $fullVersion . '", the alias must be an exact version';
+		} elseif (preg_match('{^' . preg_quote($version) . ' +as +}', $fullVersion)) {
+			$extraMessage = ' in "' . $fullVersion . '", the alias source must be an exact version, if it is a branch name you should prefix it with dev-';
+		}
+		throw new \UnexpectedValueException('Invalid version string "' . $version . '"' . $extraMessage);
+	}
+
+	private function expandStability(string $stability): string {
+		$stability = strtolower($stability);
+		switch ($stability) {
+			case 'a':
+				return 'alpha';
+			case 'b':
+				return 'beta';
+			case 'p':
+			case 'pl':
+				return 'patch';
+			case 'rc':
+				return 'RC';
+			default:
+				return $stability;
+		}
+	}
+}

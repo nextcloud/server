@@ -1,0 +1,138 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCP\Security\Bruteforce;
+
+/**
+ * Class Throttler implements the bruteforce protection for security actions in
+ * Nextcloud.
+ *
+ * It is working by logging invalid login attempts to the database and slowing
+ * down all login attempts from the same subnet. The max delay is 30 seconds and
+ * the starting delay are 200 milliseconds. (after the first failed login)
+ *
+ * This is based on Paragonie's AirBrake for Airship CMS. You can find the original
+ * code at https://github.com/paragonie/airship/blob/7e5bad7e3c0fbbf324c11f963fd1f80e59762606/src/Engine/Security/AirBrake.php
+ *
+ * @package OC\Security\Bruteforce
+ * @since 25.0.0
+ */
+interface IThrottler {
+	/**
+	 * @since 25.0.0
+	 * @deprecated 28.0.0
+	 */
+	public const MAX_DELAY = 25;
+
+	/**
+	 * @since 25.0.0
+	 * @deprecated 28.0.0
+	 */
+	public const MAX_DELAY_MS = 25000; // in milliseconds
+
+	/**
+	 * @since 25.0.0
+	 * @deprecated 28.0.0
+	 */
+	public const MAX_ATTEMPTS = 10;
+
+	/**
+	 * Register a failed attempt to bruteforce a security control
+	 *
+	 * @param string $action
+	 * @param string $ip
+	 * @param array $metadata Optional metadata logged with the attempt
+	 * @since 25.0.0
+	 */
+	public function registerAttempt(string $action, string $ip, array $metadata = []): void;
+
+
+	/**
+	 * Check if the IP is allowed to bypass the brute force protection
+	 *
+	 * @param string $ip
+	 * @return bool
+	 * @since 28.0.0
+	 */
+	public function isBypassListed(string $ip): bool;
+
+	/**
+	 * Get the throttling delay (in milliseconds)
+	 *
+	 * @param string $ip
+	 * @param string $action optionally filter by action
+	 * @param float $maxAgeHours
+	 * @return int
+	 * @since 25.0.0
+	 * @deprecated 28.0.0 This method is considered internal as of Nextcloud 28. Use {@see showBruteforceWarning()} to decide whether a warning should be shown.
+	 */
+	public function getAttempts(string $ip, string $action = '', float $maxAgeHours = 12): int;
+
+	/**
+	 * Whether a warning should be shown about the throttle
+	 *
+	 * @param string $ip
+	 * @param string $action optionally filter by action
+	 * @return bool
+	 * @since 28.0.0
+	 */
+	public function showBruteforceWarning(string $ip, string $action = ''): bool;
+
+	/**
+	 * Get the throttling delay (in milliseconds)
+	 *
+	 * @param string $ip
+	 * @param string $action optionally filter by action
+	 * @return int
+	 * @since 25.0.0
+	 * @deprecated 28.0.0 This method is considered internal as of Nextcloud 28. Use {@see showBruteforceWarning()} to decide whether a warning should be shown.
+	 */
+	public function getDelay(string $ip, string $action = ''): int;
+
+	/**
+	 * Reset the throttling delay for an IP address, action and metadata
+	 *
+	 * @param string $ip
+	 * @param string $action
+	 * @param array $metadata
+	 * @since 25.0.0
+	 */
+	public function resetDelay(string $ip, string $action, array $metadata): void;
+
+	/**
+	 * Reset the throttling delay for an IP address
+	 *
+	 * @param string $ip
+	 * @since 25.0.0
+	 * @deprecated 28.0.0 This method is considered internal as of Nextcloud 28. Use {@see resetDelay()} and only reset the entries of your action and metadata
+	 */
+	public function resetDelayForIP(string $ip): void;
+
+	/**
+	 * Will sleep for the defined amount of time
+	 *
+	 * @param string $ip
+	 * @param string $action optionally filter by action
+	 * @return int the time spent sleeping
+	 * @since 25.0.0
+	 * @deprecated 28.0.0 Use {@see sleepDelayOrThrowOnMax()} instead and abort handling the request when it throws
+	 */
+	public function sleepDelay(string $ip, string $action = ''): int;
+
+	/**
+	 * Will sleep for the defined amount of time unless maximum was reached in the last 30 minutes
+	 * In this case a "429 Too Many Request" exception is thrown
+	 *
+	 * @param string $ip
+	 * @param string $action optionally filter by action
+	 * @return int the time spent sleeping
+	 * @throws MaxDelayReached when reached the maximum
+	 * @since 25.0.0
+	 */
+	public function sleepDelayOrThrowOnMax(string $ip, string $action = ''): int;
+}

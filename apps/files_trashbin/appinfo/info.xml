@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2013-2016 owncloud, Inc.
+  - SPDX-License-Identifier: AGPL-3.0-only
+-->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>files_trashbin</id>
+	<name>Deleted files</name>
+	<summary>This application enables people to restore files that were deleted from the system.</summary>
+	<description>
+This application enables people to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the people file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.
+To prevent an account from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation.
+
+	</description>
+	<version>1.22.0</version>
+	<licence>agpl</licence>
+	<author>Bjoern Schiessle</author>
+	<namespace>Files_Trashbin</namespace>
+	<types>
+		<filesystem/>
+		<dav/>
+	</types>
+	<documentation>
+		<user>user-trashbin</user>
+	</documentation>
+	<category>files</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="32" max-version="32"/>
+	</dependencies>
+
+	<background-jobs>
+		<job>OCA\Files_Trashbin\BackgroundJob\ExpireTrash</job>
+	</background-jobs>
+
+	<commands>
+		<command>OCA\Files_Trashbin\Command\CleanUp</command>
+		<command>OCA\Files_Trashbin\Command\ExpireTrash</command>
+		<command>OCA\Files_Trashbin\Command\Size</command>
+		<command>OCA\Files_Trashbin\Command\RestoreAllFiles</command>
+	</commands>
+
+	<sabre>
+		<collections>
+			<collection>OCA\Files_Trashbin\Sabre\RootCollection</collection>
+		</collections>
+		<plugins>
+			<plugin>OCA\Files_Trashbin\Sabre\TrashbinPlugin</plugin>
+		</plugins>
+	</sabre>
+
+	<trash>
+		<backend for="OCP\Files\Storage\IStorage">OCA\Files_Trashbin\Trash\LegacyTrashBackend</backend>
+	</trash>
+</info>

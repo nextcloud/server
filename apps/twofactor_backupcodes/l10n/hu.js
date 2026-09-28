@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "twofactor_backupcodes",
+    {
+    "You created two-factor backup codes for your account" : "Kétfaktoros helyreállítási kódot hozott létre a fiókjához",
+    "Second-factor backup codes" : "Második lépcsős biztonsági kódok",
+    "Generate backup codes" : "Biztonsági kódok előállítása",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Engedélyezte a kétlépcsős hitelesítést, de még nem hozott létre biztonsági kódokat. Ezek ahhoz szükségesek, hogy akkor is hozzáférjen a fiókjához, ha elveszíti a második faktort.",
+    "Backup code" : "Biztonsági kód",
+    "Use backup code" : "Biztonsági kód használata",
+    "Two factor backup codes" : "Kétlépcsős biztonsági mentési kódok",
+    "A two-factor auth backup codes provider" : "Kétlépcsős hitelesítés biztonsági kódjainak szolgáltatója",
+    "An error occurred while generating your backup codes" : "Hiba történt a biztonsági kódok előállítása során",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Létrejöttek a biztonsági kódok. {total} kódból {used} lett felhasználva.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Ezek a biztonsági kódjai. Mentse el vagy nyomtassa ki őket úgy, hogy később is meglegyenek.",
+    "List of backup codes" : "Biztonsági kódok listája",
+    "Regenerate backup codes" : "Biztonsági kódok újbóli előállítása",
+    "Print backup codes" : "Biztonsági kódok nyomtatása",
+    "Save backup codes" : "Biztonsági kódok mentése",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "Ha újra előállítja a biztonsági kódokat, akkor a régiek automatikusan érvénytelenítve lesznek.",
+    "{name} backup codes" : "{name} biztonsági kódjai",
+    "Unable to open a new tab for printing" : "Nem nyitható új lap a nyomtatáshoz",
+    "Use one of the backup codes you saved when setting up two-factor authentication." : "Használjon egy biztonsági kódot, amikor beállítja a kétlépcsős hitelesítést.",
+    "Submit" : "Küldés"
+},
+"nplurals=2; plural=(n != 1);");

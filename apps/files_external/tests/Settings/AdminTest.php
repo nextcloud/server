@@ -1,0 +1,119 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+namespace OCA\Files_External\Tests\Settings;
+
+use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\MountConfig;
+use OCA\Files_External\Service\BackendService;
+use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Settings\Admin;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Encryption\IManager;
+use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
+
+class AdminTest extends TestCase {
+	private IManager&MockObject $encryptionManager;
+	private GlobalStoragesService&MockObject $globalStoragesService;
+	private BackendService&MockObject $backendService;
+	private GlobalAuth&MockObject $globalAuth;
+	private IL10N&MockObject $l10n;
+	private Admin $admin;
+
+	protected function setUp(): void {
+		parent::setUp();
+		$this->encryptionManager = $this->createMock(IManager::class);
+		$this->globalStoragesService = $this->createMock(GlobalStoragesService::class);
+		$this->backendService = $this->createMock(BackendService::class);
+		$this->globalAuth = $this->createMock(GlobalAuth::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->l10n->method('t')->willReturnCallback(function ($text) {
+			return $text;
+		});
+
+		$this->admin = new Admin(
+			$this->encryptionManager,
+			$this->globalStoragesService,
+			$this->backendService,
+			$this->globalAuth,
+			$this->l10n
+		);
+	}
+
+	public function testGetForm(): void {
+		$this->encryptionManager
+			->expects($this->once())
+			->method('isEnabled')
+			->willReturn(false);
+		$this->globalStoragesService
+			->expects($this->once())
+			->method('getStorages')
+			->willReturn(['a', 'b', 'c']);
+		$this->backendService
+			->expects($this->once())
+			->method('getAvailableBackends')
+			->willReturn(['d', 'e', 'f']);
+		$this->backendService
+			->expects($this->once())
+			->method('getAuthMechanisms')
+			->willReturn(['g', 'h', 'i']);
+		$this->backendService
+			->expects($this->once())
+			->method('isUserMountingAllowed')
+			->willReturn(true);
+		$this->backendService
+			->expects($this->exactly(2))
+			->method('getBackends')
+			->willReturn([]);
+		$this->globalAuth
+			->expects($this->once())
+			->method('getAuth')
+			->with('')
+			->willReturn('asdf:asdf');
+		$params = [
+			'encryptionEnabled' => false,
+			'visibilityType' => BackendService::VISIBILITY_ADMIN,
+			'storages' => ['a', 'b', 'c'],
+			'backends' => ['d', 'e', 'f'],
+			'authMechanisms' => ['g', 'h', 'i'],
+			'dependencies' => MountConfig::dependencyMessage($this->backendService->getBackends()),
+			'allowUserMounting' => true,
+			'globalCredentials' => 'asdf:asdf',
+			'globalCredentialsUid' => '',
+		];
+		$expected = new TemplateResponse('files_external', 'settings', $params, '');
+		$this->assertEquals($expected, $this->admin->getForm());
+	}
+
+	public function testGetSection(): void {
+		$this->assertSame('externalstorages', $this->admin->getSection());
+	}
+
+	public function testGetPriority(): void {
+		$this->assertSame(40, $this->admin->getPriority());
+	}
+
+	public function testGetName(): void {
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with('External storage')
+			->willReturn('External storage');
+
+		$this->assertSame('External storage', $this->admin->getName());
+	}
+
+	public function testGetAuthorizedAppConfig(): void {
+		$this->assertSame([], $this->admin->getAuthorizedAppConfig());
+	}
+
+	public function testImplementsIDelegatedSettings(): void {
+		$this->assertInstanceOf(\OCP\Settings\IDelegatedSettings::class, $this->admin);
+		$this->assertInstanceOf(\OCP\Settings\ISettings::class, $this->admin);
+	}
+}

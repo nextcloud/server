@@ -1,0 +1,49 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Block merges for EOL
+
+on: pull_request
+
+permissions:
+  contents: read
+
+concurrency:
+  group: block-merge-eol-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  block-merges-eol:
+    name: Block merges for EOL branches
+
+    # Only run on stableXX branches
+    if: startsWith( github.base_ref, 'stable')
+    runs-on: ubuntu-latest-low
+
+    steps:
+      - name: Set server major version environment
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const regex = /^stable(\d+)$/
+            const baseRef = context.payload.pull_request.base.ref
+            const match = baseRef.match(regex)
+            if (match) {
+              console.log('Setting server_major to ' + match[1]);
+              core.exportVariable('server_major', match[1]);
+              console.log('Setting current_month to ' + (new Date()).toISOString().substr(0, 7));
+              core.exportVariable('current_month', (new Date()).toISOString().substr(0, 7));
+            }
+
+      - name: Checking if server ${{ env.server_major }} is EOL
+        if: ${{ env.server_major != '' }}
+        run: |
+          curl -s https://raw.githubusercontent.com/nextcloud-releases/updater_server/production/config/major_versions.json \
+            | jq '.["${{ env.server_major }}"]["eol"] // "9999-99" | . >= "${{ env.current_month }}"' \
+            | grep -q true

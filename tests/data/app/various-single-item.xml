@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>notifications</id>
+	<name>Notifications</name>
+	<description>A single screenshot should be an array</description>
+	<version>1.0.0</version>
+	<licence>agpl</licence>
+	<author>Joas Schilling</author>
+
+	<category>monitoring</category>
+
+	<screenshot>https://raw.githubusercontent.com/nextcloud/notifications/refs/heads/master/docs/screenshot.png</screenshot>
+
+	<dependencies>
+		<nextcloud min-version="16" max-version="16"/>
+	</dependencies>
+</info>

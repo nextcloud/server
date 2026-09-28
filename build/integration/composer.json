@@ -1,0 +1,16 @@
+{
+	"config": {
+		"platform": {
+			"php": "8.1"
+		},
+		"sort-packages": true
+	},
+	"require-dev": {
+		"behat/behat": "^3.15",
+		"dms/phpunit-arraysubset-asserts": "^0.5",
+		"guzzlehttp/guzzle": "^7.9",
+		"phpunit/phpunit": "^9.6",
+		"sabre/dav": "^4.7",
+		"symfony/event-dispatcher": "^6.4"
+	}
+}

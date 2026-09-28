@@ -1,0 +1,11 @@
+{
+	"config": {
+		"sort-packages": true,
+		"platform": {
+			"php": "8.1"
+		}
+	},
+	"require": {
+		"nextcloud/openapi-extractor": "^1.0.0"
+	}
+}

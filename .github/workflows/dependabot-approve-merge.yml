@@ -1,0 +1,58 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Auto approve Dependabot PRs
+
+on:
+  pull_request_target: # zizmor: ignore[dangerous-triggers]
+    branches:
+      - main
+      - master
+      - stable*
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependabot-approve-merge-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  auto-approve-merge:
+    if: github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'renovate[bot]'
+    runs-on: ubuntu-latest-low
+    permissions:
+      # for hmarr/auto-approve-action to approve PRs
+      pull-requests: write
+      # for alexwilson/enable-github-automerge-action to approve PRs
+      contents: write
+
+    steps:
+      - name: Disabled on forks
+        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        run: |
+          echo 'Can not approve PRs from forks'
+          exit 1
+
+      - uses: mdecoleman/pr-branch-name@55795d86b4566d300d237883103f052125cc7508 # v3.0.0
+        id: branchname
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # GitHub actions bot approve
+      - uses: hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363 # v4.0.0
+        if: startsWith(steps.branchname.outputs.branch, 'dependabot/')
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Enable GitHub auto merge
+      - name: Auto merge
+        uses: alexwilson/enable-github-automerge-action@56e3117d1ae1540309dc8f7a9f2825bc3c5f06ff # v2.0.0
+        if: startsWith(steps.branchname.outputs.branch, 'dependabot/')
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
