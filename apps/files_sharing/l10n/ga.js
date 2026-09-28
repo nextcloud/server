@@ -291,6 +291,7 @@ OC.L10N.register(
     "Advanced settings" : "Ardsocruithe",
     "Share label" : "Comhroinn lipéad",
     "Share link token" : "Comhroinn comhartha nasc",
+    "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "Socraigh an comhartha don nasc comhroinnte poiblí ar rud éigin atá éasca le cuimhneamh air, nó gineadh comhartha nua. Is féidir leis na comharthaí a bheith suas le {maxLength} carachtar ar fad, agus ní cheadaítear ach litreacha, uimhreacha agus fleiscíní iontu. Ní moltar comhartha atá furasta a thomhas a úsáid le haghaidh comhroinnte ina bhfuil faisnéis íogair.",
     "Generating…" : "Ag giniúint…",
     "Generate new token" : "Gin comhartha nua",
     "Set password" : "Socraigh pasfhocal",
