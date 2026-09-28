@@ -105,7 +105,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		return $reflection->newInstanceArgs($params);
 	}
 
-	protected function createAutoMock($className): MockObject {
+	/**
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return T&MockObject
+	 */
+	protected function createAutoMock(string $className): MockObject {
 		$mock = $this->createMock($className);
 		switch ($className) {
 			case IL10N::class:
@@ -115,6 +120,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 					->willReturnCallback(
 						fn (string $text, array $parameters = []) => vsprintf($text, $parameters)
 					);
+				$mock
+					->method('n')
+					->willReturnCallback(function (string $textSingular, string $textPlural, int $count, array $args) {
+						$text = $count === 1 ? $textSingular : $textPlural;
+						$text = str_replace('%n', (string)$count, $text);
+						return vsprintf($text, $args);
+					});
 				break;
 			case IL10NFactory::class:
 				$mockL10n = $this->createAutoMock(IL10N::class);

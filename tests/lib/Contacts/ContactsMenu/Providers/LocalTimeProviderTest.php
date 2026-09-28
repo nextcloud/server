@@ -16,36 +16,18 @@ use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\ILinkAction;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
-use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\L10N\IFactory as IL10NFactory;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class LocalTimeProviderTest extends TestCase {
-
-	private IL10N&MockObject $l;
-
 	private LocalTimeProvider $provider;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
-		$this->l = $this->createMock(IL10N::class);
-		$this->l->expects($this->any())
-			->method('t')
-			->willReturnCallback(function ($text, $parameters = []) {
-				return vsprintf($text, $parameters);
-			});
-		$this->l->expects($this->any())
-			->method('n')
-			->willReturnCallback(function ($text, $textPlural, $n, $parameters = []) {
-				$formatted = str_replace('%n', (string)$n, $n === 1 ? $text : $textPlural);
-				return vsprintf($formatted, $parameters);
-			});
 
 		$this->provider = $this->createInstanceWithMocks(LocalTimeProvider::class);
 	}
@@ -100,10 +82,6 @@ class LocalTimeProviderTest extends TestCase {
 			->method('get')
 			->with('user1')
 			->willReturn($user);
-
-		$this->mocks[IL10NFactory::class]->method('get')
-			->with('lib')
-			->willReturn($this->l);
 
 		$this->mocks[IConfig::class]->method('getSystemValueString')
 			->with('default_timezone', 'UTC')
