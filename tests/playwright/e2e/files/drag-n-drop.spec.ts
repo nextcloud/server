@@ -56,7 +56,7 @@ test.describe('files: Drag and Drop', () => {
 
 		await dropFilesOn(filesListPage.getDropArea(), dataTransfer)
 
-		await expect(page.locator('.toast-warning')).toBeVisible()
+		await expect(page.getByRole('status').filter({ hasText: 'Directories will not be uploaded' })).toBeVisible()
 		await expect(filesListPage.getRowForFile('first.txt')).toBeVisible()
 		await expect(filesListPage.getRowForFile('second.txt')).toBeVisible()
 		await expect(filesListPage.getRowForFile('Foo')).toHaveCount(0)

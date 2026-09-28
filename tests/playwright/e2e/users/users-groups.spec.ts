@@ -69,7 +69,7 @@ userGroupTest('Account Management: Assign user to a group', async ({ page, testG
 
 	await handlePasswordConfirmation(page)
 	await settingsPage.saveEditDialog()
-	await expect(page.getByText(/Account updated/i)).toBeVisible()
+	await expect(page.getByRole('status').filter({ hasText: 'Account updated' })).toBeVisible()
 
 	// user is now group now shows 1 member
 	await expect(settingsPage.groupMemberCount(testGroup)).toHaveText('1')

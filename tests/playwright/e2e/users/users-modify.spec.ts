@@ -24,7 +24,7 @@ test.describe('Settings: Change user properties', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(page.getByRole('status').filter({ hasText: 'Account updated' })).toBeVisible()
 
 		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -45,7 +45,7 @@ test.describe('Settings: Change user properties', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(page.getByRole('status').filter({ hasText: 'Account updated' })).toBeVisible()
 
 		// Verify by logging in with the new password
 		await login(context.request, { ...user, password: 'newpassword123' })
@@ -66,7 +66,7 @@ test.describe('Settings: Change user properties', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(page.getByRole('status').filter({ hasText: 'Account updated' })).toBeVisible()
 
 		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -89,7 +89,7 @@ test.describe('Settings: Change user properties', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(page.getByRole('status').filter({ hasText: 'Account updated' })).toBeVisible()
 
 		// Verify backend
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -112,7 +112,7 @@ test.describe('Settings: Change user properties', () => {
 		await handlePasswordConfirmation(page)
 		await settingsPage.saveEditDialog()
 
-		await expect(page.getByText(/Account updated/i)).toBeVisible()
+		await expect(page.getByRole('status').filter({ hasText: 'Account updated' })).toBeVisible()
 
 		// Verify backend (stored as bytes)
 		const { stdout: jsonList } = await runOcc(['user:info', '--output=json', user.userId])
@@ -144,7 +144,7 @@ test.describe('Settings: Change user properties', () => {
 
 			await settingsPage.saveEditDialog()
 
-			await expect(page.getByText(/Account updated/i)).toBeVisible()
+			await expect(page.getByRole('status').filter({ hasText: 'Account updated' })).toBeVisible()
 
 			// Verify backend via OCS API (page shares admin auth state)
 			const response = await page.request.get(
