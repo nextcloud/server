@@ -596,6 +596,17 @@ class UserMountCache implements IUserMountCache {
 
 		try {
 			$query->executeStatement();
+
+			$cachedMount = new CachedMountInfo(
+				$user,
+				$rootCacheEntry->getStorageId(),
+				$rootCacheEntry->getId(),
+				$mountPoint,
+				$mountProvider,
+				$mountId,
+				$rootCacheEntry->getPath(),
+			);
+			$this->eventDispatcher->dispatchTyped(new UserMountAddedEvent($cachedMount));
 			unset($this->mountsForUsers[$user->getUID()]);
 		} catch (DbalException $e) {
 			if ($e->getReason() !== DbalException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
