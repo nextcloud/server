@@ -474,7 +474,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			->andWhere($this->isNullOrEqual($qb, 'recipient_instance', $recipient->instance))
 			->executeQuery();
 
-		/** @var int|false $recipientId */
+		/** @var int|string|false $recipientId */
 		$recipientId = $result->fetchOne();
 		if ($recipientId === false) {
 			throw new ShareNotFoundException();
@@ -484,7 +484,7 @@ final readonly class SharingBackend implements ISharingBackend {
 		$rowCount = $qb
 			->update('sharing_share_recipient_permissions')
 			->set('permission_enabled', $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL))
-			->where($qb->expr()->eq('recipient_id', $qb->createNamedParameter($recipientId)))
+			->where($qb->expr()->eq('recipient_id', $qb->createNamedParameter((string)$recipientId, IQueryBuilder::PARAM_STR)))
 			->andWhere(
 				$qb->expr()->eq('permission_class_id', $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT))
 			)
@@ -494,7 +494,7 @@ final readonly class SharingBackend implements ISharingBackend {
 			$qb
 				->insert('sharing_share_recipient_permissions')
 				->values([
-					'recipient_id' => $qb->createNamedParameter($recipientId),
+					'recipient_id' => $qb->createNamedParameter((string)$recipientId, IQueryBuilder::PARAM_STR),
 					'permission_class_id' => $qb->createNamedParameter($this->classMapper->getClassId($permission->class), IQueryBuilder::PARAM_INT),
 					'permission_enabled' => $qb->createNamedParameter($permission->enabled, IQueryBuilder::PARAM_BOOL),
 				])
@@ -1012,7 +1012,7 @@ final readonly class SharingBackend implements ISharingBackend {
 				)
 				->from('sharing_share_recipient_permissions', 'srp')
 				->innerJoin('srp', 'sharing_share_recipients', 'sr', $qb->expr()->eq('sr.id', 'srp.recipient_id'))
-				->where($qb->expr()->in('srp.recipient_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)))
+				->where($qb->expr()->in('srp.recipient_id', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
 				->executeQuery();
 
 			foreach ($result->fetchAll() as $row) {
@@ -1026,8 +1026,8 @@ final readonly class SharingBackend implements ISharingBackend {
 					continue;
 				}
 
-				/** @var int $recipientId */
-				$recipientId = $row['recipient_id'];
+				/** @var non-empty-string $recipientId */
+				$recipientId = (string)$row['recipient_id'];
 
 				$shareRecipientPermissions[$shareId] ??= [];
 				$shareRecipientPermissions[$shareId][$recipientId] ??= [];
