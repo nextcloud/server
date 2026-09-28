@@ -35,7 +35,7 @@ OC.L10N.register(
     "Disable querying" : "Zakázať dotazovanie",
     "Unable to update federated files sharing config" : "Nedá sa aktualizovať konfigurácia zdieľania združených súborov",
     "Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing." : "Upravte ako ľudia môžu zdieľať medzi servermi. Toto zahŕňa zdieľania medzi ľuďmi na tomto serveri ako aj používanie združeného zdieľania.",
-    "Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Povoliť užívateľom z tohto servera sprístupňovať obsah na iných serveroch (to umožňuje WebDAV prístup k verejným zdieľaniam)",
+    "Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Povoliť používateľom z tohto servera sprístupňovať obsah na iných serveroch (to umožňuje WebDAV prístup k verejným zdieľaniam)",
     "Allow people on this server to receive shares from other servers" : "Povoliť používateľom na tomto serveri prijímať zdieľania z iných serverov",
     "Allow people on this server to send shares to groups on other servers" : "Povoliť užívateľom na tomto serveri odosielať sprístupnenia skupinám na iné servery",
     "Allow people on this server to receive group shares from other servers" : "Povoliť užívateľom na tomto serveri prijímať zdieľania pre skupiny z iných serverov",
