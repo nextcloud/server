@@ -46,11 +46,16 @@ class Action {
 		}
 
 		$replaceArray = [];
+		$context = ['app' => 'admin_audit'];
 		foreach ($elements as $element) {
 			if ($params[$element] instanceof \DateTime) {
 				$params[$element] = $params[$element]->format('Y-m-d H:i:s');
 			}
 			$replaceArray[] = $params[$element];
+			// Named {placeholders} are interpolated by the logger
+			if (str_contains($text, '{' . $element . '}')) {
+				$context[$element] = $params[$element];
+			}
 		}
 
 		$this->logger->info(
@@ -58,9 +63,7 @@ class Action {
 				$text,
 				$replaceArray
 			),
-			[
-				'app' => 'admin_audit'
-			]
+			$context
 		);
 	}
 }
