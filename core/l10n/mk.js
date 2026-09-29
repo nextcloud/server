@@ -580,6 +580,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Премногу неточни обиди за најавување. Обиди се повторно за 30 секунди.",
     "Groups" : "Групи",
     "Group list is empty" : "Листата во групата е празна",
-    "Unable to retrieve the group list" : "Неможе да се вчита листата со групи"
+    "Unable to retrieve the group list" : "Неможе да се вчита листата со групи",
+    "Search apps, files, tags, messages …" : "Барај апликации, датотеки, ознаки, пораки …"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
