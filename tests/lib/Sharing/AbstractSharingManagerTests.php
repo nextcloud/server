@@ -4596,7 +4596,7 @@ abstract class AbstractSharingManagerTests extends TestCase {
 
 		$formatted = $this->getShare(new ShareAccessContext(overrideChecks: true), $share->id);
 		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			[
 				'class' => TestShareRecipientType1::class,
 				'value' => 'recipient1',
