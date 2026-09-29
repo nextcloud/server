@@ -103,6 +103,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Settings\\Section' => __DIR__ . '/..' . '/../lib/Settings/Section.php',
         'OCA\\User_LDAP\\SetupChecks\\LdapConnection' => __DIR__ . '/..' . '/../lib/SetupChecks/LdapConnection.php',
         'OCA\\User_LDAP\\SetupChecks\\LdapInvalidUuids' => __DIR__ . '/..' . '/../lib/SetupChecks/LdapInvalidUuids.php',
+        'OCA\\User_LDAP\\Support\\SystemReportSection' => __DIR__ . '/..' . '/../lib/Support/SystemReportSection.php',
         'OCA\\User_LDAP\\UserPluginManager' => __DIR__ . '/..' . '/../lib/UserPluginManager.php',
         'OCA\\User_LDAP\\User\\DeletedUsersIndex' => __DIR__ . '/..' . '/../lib/User/DeletedUsersIndex.php',
         'OCA\\User_LDAP\\User\\Manager' => __DIR__ . '/..' . '/../lib/User/Manager.php',
