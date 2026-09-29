@@ -89,13 +89,18 @@ final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborato
 	}
 
 	#[\Override]
-	public function getCollaboratorType(): int {
-		return IShare::TYPE_GROUP;
+	public function getCollaboratorTypes(): array {
+		return [IShare::TYPE_GROUP, IShare::TYPE_REMOTE_GROUP];
 	}
 
 	#[\Override]
-	public function getCollaboratorKey(): string {
-		return 'groups';
+	public function getCollaboratorKeys(): array {
+		return ['groups', 'remote_groups'];
+	}
+
+	#[\Override]
+	public function splitRemoteInstance(): bool {
+		return true;
 	}
 
 	#[\Override]

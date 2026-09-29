@@ -150,13 +150,15 @@ final class UserShareRecipientTypeTest extends TestCase {
 
 		$this->assertEquals(array_map($generateRecipient(...), [$this->user2]), $this->recipientType->searchRecipients($accessContext, 'user', 1, 0));
 		$this->assertEquals(array_map($generateRecipient(...), [$this->user2, $this->user3]), $this->recipientType->searchRecipients($accessContext, 'user', 2, 0));
-		// Wrong: Offset not applied correctly
-		$this->assertEquals(array_map($generateRecipient(...), [$this->user2, $this->user3, $this->user4]), $this->recipientType->searchRecipients($accessContext, 'user', 2, 1));
+		$this->assertEquals(array_map($generateRecipient(...), [$this->user2, $this->user3]), $this->recipientType->searchRecipients($accessContext, 'user', 2, 1));
 		$this->assertEquals(array_map($generateRecipient(...), [$this->user3, $this->user4]), $this->recipientType->searchRecipients($accessContext, 'user', 2, 2));
 		$this->assertEquals(array_map($generateRecipient(...), [$this->user4]), $this->recipientType->searchRecipients($accessContext, 'user', 2, 3));
 
 		$this->assertEquals(array_map($generateRecipient(...), [$this->user2]), $this->recipientType->searchRecipients($accessContext, 'user2', 2, 0));
 		$this->assertEquals(array_map($generateRecipient(...), [$this->user2]), $this->recipientType->searchRecipients($accessContext, 'user2@example.com', 2, 0));
+
+		$this->assertEquals([new ShareRecipient(UserShareRecipientType::class, 'example', 'example.com')], $this->recipientType->searchRecipients($accessContext, 'example@example.com', 1, 0));
+		$this->assertEquals([new ShareRecipient(UserShareRecipientType::class, 'example', 'https://example.com')], $this->recipientType->searchRecipients($accessContext, 'example@https://example.com', 1, 0));
 	}
 
 	public function testDelete(): void {

@@ -65,12 +65,17 @@ final class EmailShareRecipientType extends AShareRecipientTypeSearchCollaborato
 	}
 
 	#[\Override]
-	public function getCollaboratorType(): int {
-		return IShare::TYPE_EMAIL;
+	public function getCollaboratorTypes(): array {
+		return [IShare::TYPE_EMAIL];
 	}
 
 	#[\Override]
-	public function getCollaboratorKey(): string {
-		return 'emails';
+	public function getCollaboratorKeys(): array {
+		return ['emails'];
+	}
+
+	#[\Override]
+	public function splitRemoteInstance(): bool {
+		return false;
 	}
 }

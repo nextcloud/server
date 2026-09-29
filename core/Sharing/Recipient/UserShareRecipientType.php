@@ -93,13 +93,18 @@ final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator
 	}
 
 	#[\Override]
-	public function getCollaboratorType(): int {
-		return IShare::TYPE_USER;
+	public function getCollaboratorTypes(): array {
+		return [IShare::TYPE_USER, IShare::TYPE_REMOTE];
 	}
 
 	#[\Override]
-	public function getCollaboratorKey(): string {
-		return 'users';
+	public function getCollaboratorKeys(): array {
+		return ['users', 'remotes'];
+	}
+
+	#[\Override]
+	public function splitRemoteInstance(): bool {
+		return true;
 	}
 
 	#[\Override]
