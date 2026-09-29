@@ -205,6 +205,7 @@
     "Currently {processedUsers} of {totalUsers} accounts are already processed." : "{processedUsers} / {totalUsers} hesap zaten işlenmiş.",
     "Preparing …" : "Hazırlanıyor…",
     "Refresh" : "Yenlle",
+    "All files have been sanitized for Windows filename support." : "Tüm dosya adları Windows dosya adı desteğine göre temizlendi.",
     "Some files could not be sanitized, please check your logs." : "Bazı dosya adları sadeleştirilemedi. Lütfen günlük kayıtlarına bakın.",
     "Sanitization errors" : "Sadeleştirme sorunları",
     "Not sanitized filenames" : "Sadeleştirilmeyen dosya adları",
