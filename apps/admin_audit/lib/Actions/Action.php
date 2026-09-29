@@ -47,17 +47,22 @@ class Action {
 		}
 
 		$replaceArray = [];
+		$context = ['app' => 'admin_audit'];
 		foreach ($elements as $element) {
 			$value = $params[$element];
 			if ($value instanceof \DateTimeInterface) {
 				$value = $value->format('Y-m-d H:i:s');
 			}
 			$replaceArray[] = $value;
+			// Named {placeholders} are interpolated by the logger
+			if (str_contains($text, '{' . $element . '}')) {
+				$context[$element] = $value;
+			}
 		}
 
 		$this->logger->info(
 			vsprintf($text, $replaceArray),
-			['app' => 'admin_audit'],
+			$context,
 		);
 	}
 }
