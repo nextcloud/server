@@ -13,6 +13,7 @@
 @use 'mobile.scss';
 @use 'tooltip.scss';
 @use 'public.scss';
+@use 'forced-colors.scss';
 
 // If you include .css, it will be imported as url
 @use '../../node_modules/@nextcloud/dialogs/dist/style.css' as *;
