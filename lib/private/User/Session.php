@@ -873,7 +873,6 @@ class Session implements IUserSession, Emitter {
 	 * @return bool
 	 */
 	public function loginWithCookie($uid, $currentToken, $oldSessionId) {
-		$this->session->regenerateId();
 		$this->manager->emit('\OC\User', 'preRememberedLogin', [$uid]);
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
@@ -910,6 +909,10 @@ class Session implements IUserSession, Emitter {
 			]);
 			return false;
 		}
+
+		// Only rotate the session once the cookie is known to be valid; failed attempts must not
+		// fork the session, as concurrent requests would otherwise lose its data.
+		$this->session->regenerateId();
 
 		// replace successfully used token with a new one
 		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
