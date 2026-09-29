@@ -104,7 +104,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.4
 	- license: MIT
 - p-queue
-	- version: 9.3.0
+	- version: 9.3.3
 	- license: MIT
 - @nextcloud/vue-select
 	- version: 3.26.0
@@ -125,7 +125,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.18.1
+	- version: 1.20.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1

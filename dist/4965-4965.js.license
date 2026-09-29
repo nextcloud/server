@@ -1,19 +1,16 @@
 SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
-SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Tobias Koppers @sokra
-SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
-SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
@@ -56,10 +53,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.18.1
-	- license: MIT
-- base64-js
-	- version: 1.5.1
+	- version: 1.20.0
 	- license: MIT
 - css-loader
 	- version: 7.1.2
@@ -79,14 +73,8 @@ This file is generated from multiple sources. Included packages:
 - focus-trap
 	- version: 7.8.0
 	- license: MIT
-- ieee754
-	- version: 1.2.1
-	- license: BSD-3-Clause
 - marked
 	- version: 16.4.2
-	- license: MIT
-- buffer
-	- version: 6.0.3
 	- license: MIT
 - process
 	- version: 0.11.10
