@@ -25,7 +25,6 @@
 			['uid' => &$uid]
 		)]]></code>
       <code><![CDATA[getFederationIdFromSharedSecret]]></code>
-      <code><![CDATA[getFederationIdFromSharedSecret]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/comments/lib/Activity/Listener.php">
@@ -207,31 +206,16 @@
     </NullableReturnStatement>
     <UndefinedMagicPropertyFetch>
       <code><![CDATA[$component->CLASS]]></code>
-      <code><![CDATA[$component->CLASS]]></code>
-      <code><![CDATA[$component->CLASS]]></code>
-      <code><![CDATA[$component->DTEND]]></code>
       <code><![CDATA[$component->DTEND]]></code>
       <code><![CDATA[$component->DTEND]]></code>
       <code><![CDATA[$component->DTSTART]]></code>
-      <code><![CDATA[$component->DTSTART]]></code>
-      <code><![CDATA[$component->DTSTART]]></code>
-      <code><![CDATA[$component->DUE]]></code>
       <code><![CDATA[$component->DUE]]></code>
       <code><![CDATA[$component->DUE]]></code>
       <code><![CDATA[$component->DURATION]]></code>
       <code><![CDATA[$component->DURATION]]></code>
-      <code><![CDATA[$component->DURATION]]></code>
-      <code><![CDATA[$component->RDATE]]></code>
-      <code><![CDATA[$component->RDATE]]></code>
-      <code><![CDATA[$component->RDATE]]></code>
-      <code><![CDATA[$component->RDATE]]></code>
       <code><![CDATA[$component->RDATE]]></code>
       <code><![CDATA[$component->RDATE]]></code>
       <code><![CDATA[$component->RRULE]]></code>
-      <code><![CDATA[$component->RRULE]]></code>
-      <code><![CDATA[$component->RRULE]]></code>
-      <code><![CDATA[$component->UID]]></code>
-      <code><![CDATA[$component->UID]]></code>
       <code><![CDATA[$component->UID]]></code>
     </UndefinedMagicPropertyFetch>
   </file>
@@ -2459,9 +2443,6 @@
       <code><![CDATA[deleteAppValue]]></code>
       <code><![CDATA[deleteAppValue]]></code>
       <code><![CDATA[deleteAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>

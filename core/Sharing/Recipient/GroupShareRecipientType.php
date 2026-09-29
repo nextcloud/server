@@ -20,7 +20,7 @@ use OC\Core\AppInfo\Application;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
-use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\Interaction\InteractionReceiver;
@@ -30,7 +30,7 @@ use OCP\L10N\IFactory;
 use OCP\Share\IShare;
 
 /**
- * @template-implements IEventListener<GroupDeletedEvent>
+ * @template-implements IEventListener<BeforeGroupDeletedEvent>
  */
 final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborator implements IEventListener {
 	public function __construct(
@@ -39,7 +39,7 @@ final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborato
 		private readonly IGroupManager $groupManager,
 		private readonly ISharingManager $manager,
 	) {
-		$eventDispatcher->addServiceListener(GroupDeletedEvent::class, self::class);
+		$eventDispatcher->addServiceListener(BeforeGroupDeletedEvent::class, self::class);
 	}
 
 	#[\Override]
