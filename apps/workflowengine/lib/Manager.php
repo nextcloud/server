@@ -422,7 +422,8 @@ class Manager implements IManager {
 	 * @param array $events
 	 */
 	protected function validateEvents(string $entity, array $events, IOperation $operation): void {
-		/** @psalm-suppress TaintedCallable newInstance is not called */
+		/** @psalm-taint-escape callable */
+		$entity = $entity;
 		$reflection = new \ReflectionClass($entity);
 		if ($entity !== IEntity::class && !in_array(IEntity::class, $reflection->getInterfaceNames())) {
 			throw new \UnexpectedValueException($this->l->t('Entity %s is invalid', [$entity]));
@@ -464,7 +465,8 @@ class Manager implements IManager {
 			throw new \UnexpectedValueException($this->l->t('The provided operation data is too long'));
 		}
 
-		/** @psalm-suppress TaintedCallable newInstance is not called */
+		/** @psalm-taint-escape callable */
+		$class = $class;
 		$reflection = new \ReflectionClass($class);
 		if ($class !== IOperation::class && !in_array(IOperation::class, $reflection->getInterfaceNames())) {
 			throw new \UnexpectedValueException($this->l->t('Operation %s is invalid', [$class]) . join(', ', $reflection->getInterfaceNames()));
@@ -498,14 +500,16 @@ class Manager implements IManager {
 				throw new \UnexpectedValueException($this->l->t('The provided check value is too long'));
 			}
 
-			$reflection = new \ReflectionClass($check['class']);
-			if ($check['class'] !== ICheck::class && !in_array(ICheck::class, $reflection->getInterfaceNames())) {
+			/** @psalm-taint-escape callable */
+			$checkClass = $check['class'];
+			$reflection = new \ReflectionClass($checkClass);
+			if ($checkClass !== ICheck::class && !in_array(ICheck::class, $reflection->getInterfaceNames(), true)) {
 				throw new \UnexpectedValueException($this->l->t('Check %s is invalid', [$class]));
 			}
 
 			try {
 				/** @var ICheck $instance */
-				$instance = $this->container->get($check['class']);
+				$instance = $this->container->get($checkClass);
 			} catch (ContainerExceptionInterface) {
 				throw new \UnexpectedValueException($this->l->t('Check %s does not exist', [$class]));
 			}
