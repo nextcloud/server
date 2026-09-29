@@ -15,11 +15,13 @@ use NCU\Search\Exceptions\SearchTruncatedException;
 use NCU\Search\IAccountScopedSearchProvider;
 use NCU\Search\SearchPropertyDefinition;
 use NCU\Search\SearchPropertyType;
+use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\SimpleFS\SimpleFile;
+use OCP\Files\Cache\ICache;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -143,7 +145,7 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 			$externallyShared = $this->usesField($filter, 'shared_externally')
 				? $this->externallySharedFileIds($userId)
 				: [];
-			$operators[] = $this->resolveOperator($filter, $contentMatches, $externallyShared);
+			$operators[] = $this->resolveOperator($filter, $userFolder, $contentMatches, $externallyShared);
 		}
 
 		$query = new SearchQuery(
@@ -308,12 +310,12 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	 * @param array<string, list<int>> $contentMatches
 	 * @param list<int> $externallyShared
 	 */
-	private function resolveOperator(ISearchOperator $operator, array $contentMatches, array $externallyShared): ISearchOperator {
+	private function resolveOperator(ISearchOperator $operator, Folder $userFolder, array $contentMatches, array $externallyShared): ISearchOperator {
 		if ($operator instanceof ISearchBinaryOperator) {
 			return new SearchBinaryOperator(
 				$operator->getType(),
 				array_map(fn (ISearchOperator $child): ISearchOperator
-					=> $this->resolveOperator($child, $contentMatches, $externallyShared), $operator->getArguments()),
+					=> $this->resolveOperator($child, $userFolder, $contentMatches, $externallyShared), $operator->getArguments()),
 			);
 		}
 
@@ -337,19 +339,8 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 				: new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [$ids]);
 		}
 
-		// The filecache path is relative to the storage root. A file received through a share is
-		// stored under the owner's path, so the recipient's path does not match it.
 		if ($operator->getField() === 'path') {
-			$value = $operator->getValue();
-
-			return new SearchComparison(
-				$operator->getType(),
-				'path',
-				is_array($value)
-					? array_map(static fn (mixed $path): string => 'files/' . ltrim((string)$path, '/'), $value)
-					: 'files/' . ltrim((string)$value, '/'),
-				$operator->getExtra(),
-			);
+			return $this->pathToOperator($operator, $userFolder);
 		}
 
 		if (isset(self::FIELD_COLUMNS[$operator->getField()])) {
@@ -362,6 +353,126 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 		}
 
 		return $operator;
+	}
+
+	/**
+	 * A `path` comparison as filecache conditions. Paths are relative to the user folder, while the
+	 * filecache stores them relative to the root of each mounted storage. Only the mounts are used
+	 * to resolve them, so no filecache query is made.
+	 */
+	private function pathToOperator(ISearchComparison $comparison, Folder $userFolder): ISearchOperator {
+		$value = $comparison->getValue();
+
+		return match ($comparison->getType()) {
+			ISearchComparison::COMPARE_EQUAL => $this->pathEquals($userFolder, (string)$value),
+			ISearchComparison::COMPARE_IN => (array)$value === []
+				? $this->fileIdsToComparison([])
+				: new SearchBinaryOperator(
+					ISearchBinaryOperator::OPERATOR_OR,
+					array_map(fn (mixed $path): ISearchOperator => $this->pathEquals($userFolder, (string)$path), (array)$value),
+				),
+			ISearchComparison::COMPARE_LIKE,
+			ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE => $this->folderContents($userFolder, $this->likeFolderPath((string)$value)),
+			default => throw new \InvalidArgumentException('Unsupported comparison for field path: ' . $comparison->getType()),
+		};
+	}
+
+	/**
+	 * The cache of the storage a user folder path is mounted from, and the path inside that storage.
+	 *
+	 * @return array{ICache, string, string}|null cache, internal path and absolute path
+	 */
+	private function locate(Folder $userFolder, string $path): ?array {
+		try {
+			$fullPath = $userFolder->getFullPath($path);
+		} catch (NotPermittedException) {
+			return null;
+		}
+
+		$mount = $this->rootFolder->getMount($fullPath);
+		$cache = $mount->getStorage()?->getCache();
+
+		return $cache === null ? null : [$cache, $mount->getInternalPath($fullPath), $fullPath];
+	}
+
+	/**
+	 * A path inside a storage, with the roots of any jails the cache is wrapped in prepended.
+	 */
+	private function unjailedPath(ICache $cache, string $internalPath): string {
+		return (new CacheJail($cache, $internalPath))->getGetUnjailedRoot();
+	}
+
+	private function pathEquals(Folder $userFolder, string $path): ISearchOperator {
+		$location = $this->locate($userFolder, $path);
+		if ($location === null) {
+			return $this->fileIdsToComparison([]);
+		}
+		[$cache, $internalPath] = $location;
+
+		return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+			new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', $cache->getNumericStorageId()),
+			new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', $this->unjailedPath($cache, $internalPath)),
+		]);
+	}
+
+	/**
+	 * The folder a `<folder>/%` LIKE pattern selects. Other patterns cannot be mapped onto the
+	 * storages mounted in the user folder.
+	 */
+	private function likeFolderPath(string $pattern): string {
+		if (!str_ends_with($pattern, '/%')) {
+			throw new \InvalidArgumentException('A path pattern must have the form "<folder>/%": ' . $pattern);
+		}
+
+		$prefix = substr($pattern, 0, -2);
+		$path = '';
+		$length = strlen($prefix);
+		for ($i = 0; $i < $length; $i++) {
+			$char = $prefix[$i];
+			if ($char === '\\' && $i + 1 < $length) {
+				$path .= $prefix[++$i];
+
+				continue;
+			}
+			if ($char === '%' || $char === '_') {
+				throw new \InvalidArgumentException('A path pattern must have the form "<folder>/%": ' . $pattern);
+			}
+			$path .= $char;
+		}
+
+		return $path;
+	}
+
+	/**
+	 * Everything below a folder: its own storage from the folder down, and every storage mounted
+	 * inside it.
+	 */
+	private function folderContents(Folder $userFolder, string $path): ISearchOperator {
+		$location = $this->locate($userFolder, $path);
+		if ($location === null) {
+			return $this->fileIdsToComparison([]);
+		}
+		[$cache, $internalPath, $fullPath] = $location;
+
+		$filters = [$internalPath === ''
+			? $cache->getQueryFilterForStorage()
+			: new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'storage', $cache->getNumericStorageId()),
+				new SearchComparison(
+					ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE,
+					'path',
+					SearchComparison::escapeLikeParameter($this->unjailedPath($cache, $internalPath)) . '/%',
+				),
+			])];
+
+		foreach ($this->rootFolder->getMountsIn($fullPath) as $mount) {
+			$storage = $mount->getStorage();
+			if ($storage !== null) {
+				$filters[] = $storage->getCache()->getQueryFilterForStorage();
+			}
+		}
+
+		return new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $filters);
 	}
 
 	/**
