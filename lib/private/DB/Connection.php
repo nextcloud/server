@@ -95,6 +95,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			'companion_tables' => [
 				'filecache_extended',
 				'files_metadata',
+				'files_metadata_index',
 			],
 			'primary_key' => 'fileid',
 			'shard_key' => 'storage',
