@@ -401,4 +401,84 @@ class EncryptionTest extends TestCase {
 
 		$this->instance->prepareDecryptAll($input, $output, 'user');
 	}
+
+	public function testEncryptUsesConsecutivePositionsForMultipleBlocks(): void {
+		$blockSize = $this->instance->getUnencryptedBlockSize(true);
+		$this->invokePrivate($this->instance, 'fileKey', ['file-key']);
+		$this->invokePrivate($this->instance, 'version', [2]);
+
+		$encryptedBlocks = [];
+		$this->cryptMock->expects($this->exactly(2))
+			->method('symmetricEncryptFileContent')
+			->willReturnCallback(function ($data, $fileKey, $version, $position) use (&$encryptedBlocks): string {
+				$encryptedBlocks[] = [$data, $position];
+				return 'encrypted-' . $position;
+			});
+
+		$result = $this->instance->encrypt(str_repeat('a', $blockSize * 2), '4');
+
+		$this->assertSame([
+			[str_repeat('a', $blockSize), '4'],
+			[str_repeat('a', $blockSize), '5'],
+		], $encryptedBlocks);
+		$this->assertSame('encrypted-4encrypted-5', $result);
+	}
+
+	public function testEncryptAppliesEndSuffixOnlyToFinalCompleteBlock(): void {
+		$blockSize = $this->instance->getUnencryptedBlockSize(true);
+		$this->invokePrivate($this->instance, 'fileKey', ['file-key']);
+		$this->invokePrivate($this->instance, 'version', [2]);
+
+		$positions = [];
+		$this->cryptMock->expects($this->exactly(2))
+			->method('symmetricEncryptFileContent')
+			->willReturnCallback(function ($data, $fileKey, $version, $position) use (&$positions): string {
+				$positions[] = $position;
+				return 'encrypted-' . $position;
+			});
+
+		$result = $this->instance->encrypt(str_repeat('b', $blockSize * 2), '7end');
+
+		$this->assertSame(['7', '8end'], $positions);
+		$this->assertSame('encrypted-7encrypted-8end', $result);
+	}
+
+	public function testEncryptBuffersTrailingPartialBlockWithoutMarkingPreviousBlockAsEnd(): void {
+		$blockSize = $this->instance->getUnencryptedBlockSize(true);
+		$this->invokePrivate($this->instance, 'fileKey', ['file-key']);
+		$this->invokePrivate($this->instance, 'version', [2]);
+
+		$positions = [];
+		$this->cryptMock->expects($this->once())
+			->method('symmetricEncryptFileContent')
+			->willReturnCallback(function ($data, $fileKey, $version, $position) use (&$positions): string {
+				$positions[] = $position;
+				return 'encrypted-' . $position;
+			});
+
+		$result = $this->instance->encrypt(str_repeat('c', $blockSize) . 'tail', '7end');
+
+		$this->assertSame(['7'], $positions);
+		$this->assertSame('encrypted-7', $result);
+		$this->assertSame('tail', $this->invokePrivate($this->instance, 'writeCache'));
+	}
+
+	public function testEncryptPreservesEndSuffixForSingleCompleteBlock(): void {
+		$blockSize = $this->instance->getUnencryptedBlockSize(true);
+		$this->invokePrivate($this->instance, 'fileKey', ['file-key']);
+		$this->invokePrivate($this->instance, 'version', [2]);
+
+		$positions = [];
+		$this->cryptMock->expects($this->once())
+			->method('symmetricEncryptFileContent')
+			->willReturnCallback(function ($data, $fileKey, $version, $position) use (&$positions): string {
+				$positions[] = $position;
+				return 'encrypted-' . $position;
+			});
+
+		$result = $this->instance->encrypt(str_repeat('d', $blockSize), '9end');
+
+		$this->assertSame(['9end'], $positions);
+		$this->assertSame('encrypted-9end', $result);
+	}
 }
