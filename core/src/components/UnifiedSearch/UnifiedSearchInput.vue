@@ -98,7 +98,7 @@ const placeholderText = t('core', 'Search apps, files, tags, messages …')
 		-webkit-backdrop-filter: var(--filter-background-blur);
 		backdrop-filter: var(--filter-background-blur);
 		box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.12);
-		color: var(--color-background-plain-text);
+		color: color-mix(in srgb, var(--color-background-plain-text) 70%, var(--color-background-plain));
 		cursor: pointer;
 		text-align: center;
 		font: inherit;
