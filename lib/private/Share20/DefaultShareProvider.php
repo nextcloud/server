@@ -46,6 +46,7 @@ use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use function str_starts_with;
 use function strlen;
 
@@ -110,7 +111,10 @@ class DefaultShareProvider implements
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			//Set the UID of the user we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
-			$qb->setValue('accepted', $qb->createNamedParameter(IShare::STATUS_PENDING));
+			if ($share->getStatus() === null) {
+				$share->setStatus(IShare::STATUS_PENDING);
+			}
+			$qb->setValue('accepted', $qb->createNamedParameter($share->getStatus()));
 
 			//If an expiration date is set store it
 			if ($expirationDate !== null) {
@@ -133,8 +137,11 @@ class DefaultShareProvider implements
 			$qb->setValue('token', $qb->createNamedParameter($share->getToken()));
 
 			//If a password is set store it
-			if ($share->getPassword() !== null) {
-				$qb->setValue('password', $qb->createNamedParameter($share->getPassword()));
+			if (($password = $share->getPassword()) !== null) {
+				if (!$share->isPasswordHashed()) {
+					throw new RuntimeException('The password must be hashed already.');
+				}
+				$qb->setValue('password', $qb->createNamedParameter($password));
 			}
 
 			$qb->setValue('password_by_talk', $qb->createNamedParameter($share->getSendPasswordByTalk(), IQueryBuilder::PARAM_BOOL));
@@ -185,9 +192,9 @@ class DefaultShareProvider implements
 			$qb->setValue('note', $qb->createNamedParameter($share->getNote()));
 		}
 
-		// Set the time this share was created
-		$shareTime = $this->timeFactory->now();
+		$shareTime = $share->getShareTime() ?? \DateTime::createFromImmutable($this->timeFactory->now());
 		$qb->setValue('stime', $qb->createNamedParameter($shareTime->getTimestamp()));
+		$share->setShareTime($shareTime);
 
 		// insert the data and fetch the id of the share
 		$qb->executeStatement();
@@ -196,8 +203,6 @@ class DefaultShareProvider implements
 		$id = $qb->getLastInsertId();
 		$share->setId((string)$id);
 		$share->setProviderId($this->identifier());
-
-		$share->setShareTime(\DateTime::createFromImmutable($shareTime));
 
 		$mailSendValue = $share->getMailSend();
 		$share->setMailSend(($mailSendValue === null) ? true : $mailSendValue);
@@ -287,10 +292,15 @@ class DefaultShareProvider implements
 				->set('attributes', $qb->createNamedParameter($shareAttributes))
 				->executeStatement();
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
+			$password = $share->getPassword();
+			if ($password !== null && !$share->isPasswordHashed()) {
+				throw new RuntimeException('The password must be hashed already.');
+			}
+
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->update('share')
 				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-				->set('password', $qb->createNamedParameter($share->getPassword()))
+				->set('password', $qb->createNamedParameter($password))
 				->set('password_by_talk', $qb->createNamedParameter($share->getSendPasswordByTalk(), IQueryBuilder::PARAM_BOOL))
 				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
 				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
@@ -1129,7 +1139,9 @@ class DefaultShareProvider implements
 			$share->setSharedWith($data['share_with']);
 			$share->setSharedWithDisplayNameCallback(fn (IShare $share) => $this->groupManager->getDisplayName($share->getSharedWith()));
 		} elseif ($share->getShareType() === IShare::TYPE_LINK) {
-			$share->setPassword($data['password']);
+			if (($password = $data['password']) !== null) {
+				$share->setPasswordHash($password);
+			}
 			$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
 			$share->setToken($data['token']);
 		}
