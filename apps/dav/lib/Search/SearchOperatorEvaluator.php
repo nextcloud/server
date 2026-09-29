@@ -45,16 +45,14 @@ final class SearchOperatorEvaluator {
 		}
 
 		return match ($operator->getType()) {
-			ISearchBinaryOperator::OPERATOR_OR => array_reduce(
+			ISearchBinaryOperator::OPERATOR_OR => array_any(
 				$operator->getArguments(),
-				static fn (bool $carry, ISearchOperator $child): bool => $carry || self::node($child, $values),
-				false,
+				static fn (ISearchOperator $child): bool => self::node($child, $values),
 			),
 			ISearchBinaryOperator::OPERATOR_NOT => !self::node($operator->getArguments()[0], $values),
-			default => array_reduce(
+			default => array_all(
 				$operator->getArguments(),
-				static fn (bool $carry, ISearchOperator $child): bool => $carry && self::node($child, $values),
-				true,
+				static fn (ISearchOperator $child): bool => self::node($child, $values),
 			),
 		};
 	}
@@ -148,13 +146,7 @@ final class SearchOperatorEvaluator {
 	 * @param callable(string): bool $test
 	 */
 	private static function any(array $values, callable $test): bool {
-		foreach ($values as $value) {
-			if ($value !== null && !is_array($value) && $test((string)$value)) {
-				return true;
-			}
-		}
-
-		return false;
+		return array_any($values, static fn (mixed $value): bool => $value !== null && !is_array($value) && $test((string)$value));
 	}
 
 	/**
@@ -162,13 +154,7 @@ final class SearchOperatorEvaluator {
 	 * @param callable(float): bool $test
 	 */
 	private static function anyNumeric(array $values, callable $test): bool {
-		foreach ($values as $value) {
-			if (is_numeric($value) && $test((float)$value)) {
-				return true;
-			}
-		}
-
-		return false;
+		return array_any($values, static fn (mixed $value): bool => is_numeric($value) && $test((float)$value));
 	}
 
 	/**
