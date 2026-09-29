@@ -66,12 +66,15 @@ interface IEncryptionModule {
 	public function end($path, $position);
 
 	/**
-	 * encrypt data
+	 * Encrypt plaintext data. Complete blocks are encrypted, and a trailing
+	 * partial block may be buffered for a subsequent call or end().
 	 *
-	 * @param string $data you want to encrypt
-	 * @param string $position position of the block we want to encrypt (starts with '0')
+	 * @param string $data Plaintext to encrypt
+	 * @param string $position Zero-based position of the block to encrypt;
+	 *                         '0' identifies the first block. An `end` suffix
+	 *                         marks the final block, e.g. '3end'.
 	 *
-	 * @return mixed encrypted data
+	 * @return mixed Encrypted data
 	 *
 	 * @since 8.1.0
 	 * @since 9.0.0 parameter $position added
