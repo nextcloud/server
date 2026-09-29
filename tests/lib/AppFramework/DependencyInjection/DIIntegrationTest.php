@@ -9,7 +9,8 @@ namespace Test\AppFramework\DependencyInjection;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Utility\SimpleContainer;
-use OC\ServerContainer;
+use OC\Config;
+use OC\Server;
 use Test\TestCase;
 
 interface Interface1 {
@@ -33,18 +34,15 @@ class ClassB {
 	}
 }
 
-class DIIntergrationTests extends TestCase {
-	public function __construct() {
-		parent::__construct(static::class);
-	}
+class DIIntegrationTest extends TestCase {
 	private DIContainer $container;
-	private ServerContainer $server;
+	private Server $server;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->server = new ServerContainer();
+		$this->server = new Server('', new Config(\OC::$configDir));
 		$this->container = new DIContainer('App1', [], $this->server);
 	}
 
@@ -55,12 +53,12 @@ class DIIntergrationTests extends TestCase {
 
 		$this->server->registerService(ClassB::class, function (SimpleContainer $c) {
 			return new ClassB(
-				$c->query(Interface1::class)
+				$c->get(Interface1::class)
 			);
 		});
 
 		/** @var ClassB $res */
-		$res = $this->container->query(ClassB::class);
+		$res = $this->container->get(ClassB::class);
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
@@ -71,12 +69,12 @@ class DIIntergrationTests extends TestCase {
 
 		$this->container->registerService(ClassB::class, function (SimpleContainer $c) {
 			return new ClassB(
-				$c->query(Interface1::class)
+				$c->get(Interface1::class)
 			);
 		});
 
 		/** @var ClassB $res */
-		$res = $this->container->query(ClassB::class);
+		$res = $this->container->get(ClassB::class);
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
@@ -91,12 +89,12 @@ class DIIntergrationTests extends TestCase {
 
 		$this->container->registerService(ClassB::class, function (SimpleContainer $c) {
 			return new ClassB(
-				$c->query(Interface1::class)
+				$c->get(Interface1::class)
 			);
 		});
 
 		/** @var ClassB $res */
-		$res = $this->container->query(ClassB::class);
+		$res = $this->container->get(ClassB::class);
 		$this->assertSame(ClassA2::class, get_class($res->interface1));
 	}
 
@@ -111,12 +109,12 @@ class DIIntergrationTests extends TestCase {
 
 		$this->server->registerService(ClassB::class, function (SimpleContainer $c) {
 			return new ClassB(
-				$c->query(Interface1::class)
+				$c->get(Interface1::class)
 			);
 		});
 
 		/** @var ClassB $res */
-		$res = $this->container->query(ClassB::class);
+		$res = $this->container->get(ClassB::class);
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 }

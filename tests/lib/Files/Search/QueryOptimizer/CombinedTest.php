@@ -14,10 +14,7 @@ use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use Test\TestCase;
 
-class CombinedTests extends TestCase {
-	public function __construct() {
-		parent::__construct(static::class);
-	}
+class CombinedTest extends TestCase {
 	private QueryOptimizer $optimizer;
 
 	#[\Override]
