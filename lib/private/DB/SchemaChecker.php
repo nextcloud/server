@@ -18,6 +18,8 @@ use Doctrine\DBAL\Types\Types;
 use OC\Migration\NullOutput;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\DB\Events\AddMissingIndicesEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 
@@ -31,6 +33,7 @@ class SchemaChecker {
 		private readonly Connection $connection,
 		private readonly IAppConfig $appConfig,
 		private readonly IAppManager $appManager,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -74,6 +77,8 @@ class SchemaChecker {
 
 		$comparator = $this->connection->createSchemaManager()->createComparator();
 		$diff = $comparator->compareSchemas($liveSchema, $expectedSchema);
+		$optionalIndexNames = $this->getOptionalIndexNames();
+		$findings = array_filter($this->buildFindings($diff), fn (array $finding): bool => !$this->isOptionalIndexFinding($finding, $optionalIndexNames));
 
 		return array_map(function (array $finding) use ($disabledAppTableOwners, $enabledApps): array {
 			$app = $disabledAppTableOwners[$finding['table']] ?? null;
@@ -88,7 +93,7 @@ class SchemaChecker {
 				$finding['enabled'] = $app === null || $app === 'core' || isset($enabledApps[$app]);
 			}
 			return $finding;
-		}, $this->buildFindings($diff));
+		}, array_values($findings));
 	}
 
 	/**
@@ -258,6 +263,46 @@ class SchemaChecker {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Apps can register indices that are only ever created or renamed via
+	 * occ db:add-missing-indices (AddMissingIndicesEvent), not through a
+	 * versioned migration. Since running that command is optional, whether
+	 * such an index exists on the live schema depends on whether an admin
+	 * ever ran it - it is not itself a sign of drift in either direction.
+	 * Collect their names here so findings about them can be filtered out
+	 * entirely, rather than reported as missing/unexpected index findings.
+	 *
+	 * @return array<string, array<string, true>> table name => set of index names
+	 */
+	private function getOptionalIndexNames(): array {
+		$event = new AddMissingIndicesEvent();
+		$this->eventDispatcher->dispatchTyped($event);
+
+		$names = [];
+		foreach ($event->getMissingIndices() as $missingIndex) {
+			$table = $this->connection->getPrefix() . $missingIndex['tableName'];
+			$names[$table][$missingIndex['indexName']] = true;
+		}
+		foreach ($event->getIndicesToReplace() as $toReplace) {
+			$table = $this->connection->getPrefix() . $toReplace['tableName'];
+			$names[$table][$toReplace['newIndexName']] = true;
+			foreach ($toReplace['oldIndexNames'] as $oldIndexName) {
+				$names[$table][$oldIndexName] = true;
+			}
+		}
+
+		return $names;
+	}
+
+	/**
+	 * @param array{table: string, type: string, name?: string, changes?: list<string>} $finding
+	 * @param array<string, array<string, true>> $optionalIndexNames table name => set of index names, as returned by getOptionalIndexNames()
+	 */
+	private function isOptionalIndexFinding(array $finding, array $optionalIndexNames): bool {
+		return ($finding['type'] === 'missing_index' || $finding['type'] === 'unexpected_index')
+			&& isset($optionalIndexNames[$finding['table']][$finding['name']]);
 	}
 
 	private function keepOnlyTable(Schema $schema, string $tableName): void {
