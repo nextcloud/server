@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\Encryption\Settings;
 
-use OC\Files\View;
 use OCA\Encryption\AppInfo\Application;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
