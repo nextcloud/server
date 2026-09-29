@@ -557,8 +557,25 @@ class UserMountCache implements IUserMountCache {
 		return $result;
 	}
 
+	private function loadMountInfo(IUser $user, string $mountPoint): CachedMountInfo {
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
+			->from('mounts', 'm')
+			->innerJoin('m', 'filecache', 'f', $builder->expr()->eq('m.root_id', 'f.fileid'))
+			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($user->getUID())))
+			->andWhere($builder->expr()->eq('mount_point_hash', $builder->createNamedParameter(hash('xxh128', $mountPoint), IQueryBuilder::PARAM_STR_ARRAY)));
+
+		$row = $query->executeQuery()->fetch();
+		return $this->dbRowToMountInfo($row);
+	}
+
 	#[\Override]
 	public function removeMount(string $mountPoint, ?IUser $user = null): void {
+		if ($user) {
+			$lazyMountInfo = new LazyCallbackStorageMountInfo($user, $mountPoint, fn () => $this->loadMountInfo($user, $mountPoint));
+			$this->eventDispatcher->dispatchTyped(new UserMountRemovedEvent($lazyMountInfo));
+		}
+
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('mounts')
 			->where($query->expr()->eq('mount_point_hash', $query->createNamedParameter(hash('xxh128', $mountPoint))));
