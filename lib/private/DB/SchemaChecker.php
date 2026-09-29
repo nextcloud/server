@@ -22,6 +22,7 @@ use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 /**
  * Compares the live database schema against the schema expected for the
@@ -34,6 +35,7 @@ class SchemaChecker {
 		private readonly IAppConfig $appConfig,
 		private readonly IAppManager $appManager,
 		private readonly IEventDispatcher $eventDispatcher,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
@@ -179,13 +181,18 @@ class SchemaChecker {
 			}
 
 			$this->applyMigrations($app, $schema);
-		} catch (\Throwable) {
-			return;
-		}
-
-		foreach ($schema->getTables() as $table) {
-			if (!isset($existingTables[$table->getName()])) {
-				$disabledAppTableOwners[$table->getName()] = $app;
+		} catch (\Throwable $e) {
+			$this->logger->warning('Could not replay migrations for disabled app {app}', [
+				'app' => $app,
+				'exception' => $e,
+			]);
+		} finally {
+			// Attribute whatever was applied before a failure too, so it
+			// isn't misreported as blocking drift owned by no app.
+			foreach ($schema->getTables() as $table) {
+				if (!isset($existingTables[$table->getName()])) {
+					$disabledAppTableOwners[$table->getName()] = $app;
+				}
 			}
 		}
 	}
