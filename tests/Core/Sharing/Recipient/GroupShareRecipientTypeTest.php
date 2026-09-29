@@ -147,6 +147,9 @@ final class GroupShareRecipientTypeTest extends TestCase {
 		$this->assertEquals(array_map($generateRecipient(...), [$this->group2]), $this->recipientType->searchRecipients($accessContext, 'group', 1, 1));
 
 		$this->assertEquals(array_map($generateRecipient(...), [$this->group1]), $this->recipientType->searchRecipients($accessContext, 'group1', 1, 0));
+
+		$this->assertEquals([new ShareRecipient(GroupShareRecipientType::class, 'example', 'example.com')], $this->recipientType->searchRecipients($accessContext, 'example@example.com', 1, 0));
+		$this->assertEquals([new ShareRecipient(GroupShareRecipientType::class, 'example', 'https://example.com')], $this->recipientType->searchRecipients($accessContext, 'example@https://example.com', 1, 0));
 	}
 
 	public function testDelete(): void {

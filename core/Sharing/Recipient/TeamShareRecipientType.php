@@ -89,13 +89,18 @@ final class TeamShareRecipientType extends AShareRecipientTypeSearchCollaborator
 	}
 
 	#[\Override]
-	public function getCollaboratorType(): int {
-		return IShare::TYPE_CIRCLE;
+	public function getCollaboratorTypes(): array {
+		return [IShare::TYPE_CIRCLE];
 	}
 
 	#[\Override]
-	public function getCollaboratorKey(): string {
-		return 'circles';
+	public function getCollaboratorKeys(): array {
+		return ['circles'];
+	}
+
+	#[\Override]
+	public function splitRemoteInstance(): bool {
+		return false;
 	}
 
 	#[\Override]

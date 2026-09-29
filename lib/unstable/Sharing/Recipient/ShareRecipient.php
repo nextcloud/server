@@ -46,9 +46,6 @@ final class ShareRecipient {
 		/** @var array<class-string<ISharePermissionType>, SharePermission> $permissions */
 		public readonly array $permissions = [],
 	) {
-		if ($instance !== null && !preg_match('/^https?:\/\/.+/', $instance)) {
-			throw new RuntimeException('The instance is not a valid absolute URL: ' . $instance);
-		}
 	}
 
 	/**
