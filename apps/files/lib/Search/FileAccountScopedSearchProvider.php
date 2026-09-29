@@ -45,8 +45,6 @@ use Psr\Log\LoggerInterface;
 class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	private const ID = 'files';
 
-	private const SHARE_PAGE = 50;
-
 	/** Share types that mean the content left the organisation. */
 	private const EXTERNAL_SHARE_TYPES = [
 		IShare::TYPE_LINK,
@@ -558,14 +556,9 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	private function externallySharedFileIds(string $userId): array {
 		$fileIds = [];
 		foreach (self::EXTERNAL_SHARE_TYPES as $shareType) {
-			$offset = 0;
-			do {
-				$page = $this->shareManager->getSharesBy($userId, $shareType, null, false, self::SHARE_PAGE, $offset);
-				foreach ($page as $share) {
-					$fileIds[$share->getNodeId()] = true;
-				}
-				$offset += count($page);
-			} while (count($page) === self::SHARE_PAGE);
+			foreach ($this->shareManager->getSharesBy($userId, $shareType, null, false, -1) as $share) {
+				$fileIds[$share->getNodeId()] = true;
+			}
 		}
 
 		return array_keys($fileIds);
@@ -584,21 +577,16 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 		$entries = [];
 		foreach ([...self::EXTERNAL_SHARE_TYPES, IShare::TYPE_USER, IShare::TYPE_GROUP] as $shareType) {
 			$external = in_array($shareType, self::EXTERNAL_SHARE_TYPES, true);
-			$offset = 0;
-			do {
-				$page = $this->shareManager->getSharesBy($owner, $shareType, $node, true, self::SHARE_PAGE, $offset);
-				foreach ($page as $share) {
-					$externally = $externally || $external;
-					$entries[] = [
-						'type' => $shareType,
-						'external' => $external,
-						'recipient' => $share->getSharedWith(),
-						// Not the token: a public-link token is a credential.
-						'shareId' => $share->getId(),
-					];
-				}
-				$offset += count($page);
-			} while (count($page) === self::SHARE_PAGE);
+			foreach ($this->shareManager->getSharesBy($owner, $shareType, $node, true, -1) as $share) {
+				$externally = $externally || $external;
+				$entries[] = [
+					'type' => $shareType,
+					'external' => $external,
+					'recipient' => $share->getSharedWith(),
+					// Not the token: a public-link token is a credential.
+					'shareId' => $share->getId(),
+				];
+			}
 		}
 
 		return [

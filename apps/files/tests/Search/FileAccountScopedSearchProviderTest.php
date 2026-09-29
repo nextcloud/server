@@ -21,10 +21,12 @@ use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\Server;
 use OCP\Share\IManager as IShareManager;
+use OCP\Share\IShare;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use Test\Traits\MountProviderTrait;
@@ -36,6 +38,7 @@ class FileAccountScopedSearchProviderTest extends TestCase {
 	use UserTrait;
 
 	private string $userId;
+	private IShareManager&MockObject $shareManager;
 	private FileAccountScopedSearchProvider $provider;
 
 	#[\Override]
@@ -71,13 +74,15 @@ class FileAccountScopedSearchProviderTest extends TestCase {
 
 		$this->loginAsUser($this->userId);
 
+		$this->shareManager = $this->createMock(IShareManager::class);
+
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')->willReturnArgument(0);
 
 		$this->provider = new FileAccountScopedSearchProvider(
 			$l10n,
 			Server::get(IRootFolder::class),
-			$this->createMock(IShareManager::class),
+			$this->shareManager,
 			$this->createMock(ISystemTagObjectMapper::class),
 			$this->createMock(ISystemTagManager::class),
 			$this->createMock(IFullTextSearchManager::class),
@@ -149,5 +154,66 @@ class FileAccountScopedSearchProviderTest extends TestCase {
 	public function testUnsupportedPathComparison(string $type, string $value): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->searchPaths(new SearchComparison($type, 'path', $value));
+	}
+
+	private function fileId(string $path): int {
+		return Server::get(IRootFolder::class)->getUserFolder($this->userId)->get($path)->getId();
+	}
+
+	private function share(int $type, int $nodeId): IShare&MockObject {
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn($type);
+		$share->method('getNodeId')->willReturn($nodeId);
+		$share->method('getSharedWith')->willReturn('recipient');
+		$share->method('getId')->willReturn('share-' . $type);
+
+		return $share;
+	}
+
+	public static function sharedExternallyProvider(): array {
+		return [
+			'shared' => [true, ['/External/external.txt', '/Team/team.txt']],
+			'not shared' => [false, ['/Docs/Nested/nested.txt', '/Docs/in-docs.txt', '/root.txt']],
+		];
+	}
+
+	#[DataProvider('sharedExternallyProvider')]
+	public function testSearchSharedExternally(bool $value, array $expected): void {
+		$shares = [
+			IShare::TYPE_LINK => [$this->share(IShare::TYPE_LINK, $this->fileId('External/external.txt'))],
+			IShare::TYPE_EMAIL => [$this->share(IShare::TYPE_EMAIL, $this->fileId('Team/team.txt'))],
+		];
+		$this->shareManager->expects($this->exactly(4))
+			->method('getSharesBy')
+			->willReturnCallback(function (string $userId, int $type, $path, bool $reshares, int $limit) use ($shares): array {
+				$this->assertSame($this->userId, $userId);
+				$this->assertNull($path);
+				$this->assertSame(-1, $limit);
+
+				return $shares[$type] ?? [];
+			});
+
+		$this->assertSame(
+			$expected,
+			$this->searchPaths(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'shared_externally', $value)),
+		);
+	}
+
+	public function testGetShareStatus(): void {
+		$fileId = $this->fileId('root.txt');
+		$this->shareManager->expects($this->exactly(6))
+			->method('getSharesBy')
+			->willReturnCallback(function (string $owner, int $type, $node, bool $reshares, int $limit) use ($fileId): array {
+				$this->assertSame($fileId, $node->getId());
+				$this->assertSame(-1, $limit);
+
+				return in_array($type, [IShare::TYPE_LINK, IShare::TYPE_USER], true) ? [$this->share($type, $fileId)] : [];
+			});
+
+		$status = $this->provider->get($this->userId, (string)$fileId)->getMetadata()['share_status'];
+
+		$this->assertTrue($status['shared']);
+		$this->assertTrue($status['externally']);
+		$this->assertSame([IShare::TYPE_LINK, IShare::TYPE_USER], array_column($status['shares'], 'type'));
 	}
 }
