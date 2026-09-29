@@ -539,7 +539,7 @@ class Directory extends Node implements
 			$info = $this->getNode()->get($path);
 		} catch (NotFoundException $e) {
 			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $destinationPath
-				. ' could not be located');
+				. ' could not be located', previous: $e);
 		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
 		} catch (NotPermittedException $ex) {
