@@ -34,6 +34,7 @@ class UtilTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+		self::$tempStorage = [];
 		$this->mountMock = $this->createMock(IMountPoint::class);
 		$this->filesMock = $this->createMock(View::class);
 		$this->userManagerMock = $this->createMock(IUserManager::class);
@@ -56,6 +57,7 @@ class UtilTest extends TestCase {
 	}
 
 	public function testIsRecoveryEnabledForUser(): void {
+		self::$tempStorage['recoveryEnabled'] = true;
 		$this->assertTrue($this->instance->isRecoveryEnabledForUser('admin'));
 
 		// Assert recovery will return default value if not set
