@@ -1013,7 +1013,7 @@ class EncryptionTest extends Storage {
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestShouldEncrypt')]
 	public function testShouldEncrypt(
 		bool $encryptionEnabled,
-		bool $encryptMountPoint,
+		bool|string $encryptMountPoint,
 		?bool $encryptionModule,
 		bool $encryptionModuleShouldEncrypt,
 		bool $expected,
@@ -1091,6 +1091,7 @@ class EncryptionTest extends Storage {
 	public static function dataTestShouldEncrypt(): array {
 		return [
 			[true, false, false, false, false],
+			[true, '', false, false, false],
 			[true, true, false, false, false],
 			[true, true, true, false, false],
 			[true, true, true, true, true],
