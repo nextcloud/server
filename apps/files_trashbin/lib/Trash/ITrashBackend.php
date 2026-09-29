@@ -40,7 +40,7 @@ interface ITrashBackend {
 	 *
 	 * @param IUser $user
 	 * @return ?ITrashItem
-	 * @since 35.0.0
+	 * @since 36.0.0
 	 */
 	public function getTrashRootItem(IUser $user, string $name): ?ITrashItem;
 
