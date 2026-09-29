@@ -42,7 +42,12 @@ class SchemaChecker {
 
 		// Enabled apps are already autoloaded at boot, no extra class loading needed.
 		foreach (array_keys($enabledApps) as $app) {
-			$this->applyMigrations($app, $expectedSchema);
+			try {
+				$this->applyMigrations($app, $expectedSchema);
+			} catch (AppPathNotFoundException) {
+				// Enabled in config, but the app's code is gone (occ app:remove
+				// leaves config/tables in place). Nothing to replay here.
+			}
 		}
 
 		// Disabled apps keep their tables, so replay their migrations too.
@@ -69,8 +74,15 @@ class SchemaChecker {
 		return array_map(function (array $finding) use ($disabledAppTableOwners, $enabledApps): array {
 			$app = $disabledAppTableOwners[$finding['table']] ?? null;
 			$finding['app'] = $app;
-			// Only tables owned by a disabled app are non-blocking.
-			$finding['enabled'] = $app === null || $app === 'core' || isset($enabledApps[$app]);
+			if ($finding['type'] === 'unexpected_table' && $app === null) {
+				// Unattributed unexpected tables are informational, not drift:
+				// occ app:remove leaves tables/config in place, so a removed
+				// app's code is gone and can never be attributed to it.
+				$finding['enabled'] = false;
+			} else {
+				// Only tables owned by a disabled app are non-blocking.
+				$finding['enabled'] = $app === null || $app === 'core' || isset($enabledApps[$app]);
+			}
 			return $finding;
 		}, $this->buildFindings($diff));
 	}
@@ -105,7 +117,10 @@ class SchemaChecker {
 			if ($finding['enabled']) {
 				$blocking[] = $finding;
 			} else {
-				$byDisabledApp[$finding['app']][] = $finding;
+				// $finding['app'] is null for unattributed unexpected tables;
+				// group those under a placeholder label instead of coercing
+				// null to an empty-string array key.
+				$byDisabledApp[$finding['app'] ?? '(unknown app)'][] = $finding;
 			}
 		}
 		return ['blocking' => $blocking, 'byDisabledApp' => $byDisabledApp];
@@ -142,7 +157,15 @@ class SchemaChecker {
 			// Disabled apps are not autoloaded on boot. Load only the migration
 			// classes themselves directly from disk, rather than registering
 			// the whole app for PSR-4 autoloading.
+			$namespace = $this->appManager->getAppNamespace($app);
 			foreach ($this->findMigrationFiles($appPath . '/lib/Migration') as $file) {
+				$fqcn = $namespace . '\\Migration\\' . basename($file, '.php');
+				if (class_exists($fqcn, false)) {
+					// Another app already declared this exact class name (e.g.
+					// a fork sharing its namespace); requiring it again would
+					// be an uncatchable fatal, not a \Throwable.
+					return;
+				}
 				require_once $file;
 			}
 
