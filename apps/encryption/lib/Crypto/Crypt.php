@@ -59,6 +59,8 @@ class Crypt {
 	// default encoding format, old Nextcloud versions used base64
 	public const BINARY_ENCODING_FORMAT = 'binary';
 
+	private const MAX_HEADER_LENGTH = 8192;
+
 	private string $user;
 
 	private ?string $currentCipher = null;
