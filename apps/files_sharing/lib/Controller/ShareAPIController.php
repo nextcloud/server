@@ -681,6 +681,7 @@ class ShareAPIController extends OCSController {
 			if ($expireDate !== '') {
 				try {
 					$expireDateTime = $this->parseDate($expireDate);
+					$expireDateTime->setTime(23, 59, 59);
 					$share->setExpirationDate($expireDateTime);
 				} catch (\Exception $e) {
 					throw new OCSNotFoundException($e->getMessage(), $e);
@@ -1359,6 +1360,7 @@ class ShareAPIController extends OCSController {
 		} elseif ($expireDate !== null) {
 			try {
 				$expireDateTime = $this->parseDate($expireDate);
+				$expireDateTime->setTime(23, 59, 59);
 				$share->setExpirationDate($expireDateTime);
 			} catch (\Exception $e) {
 				throw new OCSBadRequestException($e->getMessage(), $e);
