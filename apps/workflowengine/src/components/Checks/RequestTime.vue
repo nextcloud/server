@@ -96,7 +96,11 @@ function validate(): boolean {
 	valid.value = Boolean(startTime) && TIME_PATTERN.test(startTime!)
 		&& Boolean(endTime) && TIME_PATTERN.test(endTime!)
 		&& isKnownTimezone(timezone)
-	emit(valid.value ? 'valid' : 'invalid')
+	if (valid.value) {
+		emit('valid')
+	} else {
+		emit('invalid')
+	}
 	return valid.value
 }
 

@@ -4,7 +4,7 @@
 -->
 <template>
 	<SelectWithCustomValue
-		:aria-label="t('workflowengine', 'File type')"
+		:comboboxLabel="t('workflowengine', 'File type')"
 		:customLabel="t('workflowengine', 'Custom MIME type')"
 		:customPlaceholder="t('workflowengine', 'e.g. httpd/unix-directory')"
 		:modelValue="modelValue"
@@ -14,6 +14,8 @@
 </template>
 
 <script setup lang="ts">
+import type { PredefinedValue } from '../../types.ts'
+
 import { t } from '@nextcloud/l10n'
 import { imagePath } from '@nextcloud/router'
 import SelectWithCustomValue from './SelectWithCustomValue.vue'
@@ -22,7 +24,7 @@ withDefaults(defineProps<{ modelValue?: string }>(), { modelValue: '' })
 
 defineEmits<{ 'update:modelValue': [value: string] }>()
 
-const predefinedTypes = [
+const predefinedTypes: PredefinedValue[] = [
 	{
 		iconUrl: imagePath('core', 'filetypes/audio'),
 		label: t('workflowengine', 'Audio'),

@@ -3,9 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { Component } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 
 import { defineCustomElement } from 'vue'
+
+/**
+ * What a compiled single file component is, as `defineCustomElement` wants it.
+ * Mirrors the constraint of its own overload.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type CustomElementComponent = new (...args: any[]) => ComponentPublicInstance<any>
 import { logger } from '../logger.ts'
 
 /**
@@ -20,7 +27,7 @@ import { logger } from '../logger.ts'
  *   namespace, e.g. `oca-myapp-checks-request_user_agent`
  * @return The element name, to be used as `CheckPlugin.element`
  */
-export function registerCustomElement(component: Component, customElementId: string): string {
+export function registerCustomElement(component: CustomElementComponent, customElementId: string): string {
 	if (window.customElements.get(customElementId)) {
 		logger.error(`Custom element with ID ${customElementId} is already defined!`)
 		throw new Error(`Custom element with ID ${customElementId} is already defined!`)

@@ -4,7 +4,7 @@
 -->
 <template>
 	<SelectWithCustomValue
-		:aria-label="t('workflowengine', 'Request URL')"
+		:comboboxLabel="t('workflowengine', 'Request URL')"
 		:customLabel="t('workflowengine', 'Custom URL')"
 		:customPlaceholder="customPlaceholder"
 		:modelValue="modelValue"
@@ -14,6 +14,8 @@
 </template>
 
 <script setup lang="ts">
+import type { PredefinedValue } from '../../types.ts'
+
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import SelectWithCustomValue from './SelectWithCustomValue.vue'
@@ -28,7 +30,7 @@ const props = withDefaults(defineProps<{
 
 defineEmits<{ 'update:modelValue': [value: string] }>()
 
-const predefinedTypes = [
+const predefinedTypes: PredefinedValue[] = [
 	{
 		icon: 'icon-files-dark',
 		id: 'webdav',

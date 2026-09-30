@@ -113,14 +113,22 @@ const lastCheckComplete = computed(() => {
 	return lastCheck === undefined || lastCheck.class !== null
 })
 
+// Filter rows are keyed by the check they render, so removing one cannot make
+// another row reuse a component that still points at the removed check.
+const checkKeys = new WeakMap<CheckType, number>()
+let lastCheckKey = 0
+
 /**
- * Filter rows are keyed by the check they render, so removing one cannot make
- * another row reuse a component that still points at the removed check.
- *
  * @param check - The check of the row
  */
-function checkKey(check: CheckType): CheckType {
-	return check
+function checkKey(check: CheckType): number {
+	let key = checkKeys.get(check)
+	if (key === undefined) {
+		lastCheckKey += 1
+		key = lastCheckKey
+		checkKeys.set(check, key)
+	}
+	return key
 }
 
 function validate(): void {

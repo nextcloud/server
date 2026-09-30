@@ -93,20 +93,24 @@ export interface CheckPlugin {
 	element?: string
 }
 
+/** What the card of an operation shows. */
+export interface OperationCard {
+	name: string
+	description: string
+	icon: string
+	iconClass?: string
+	/** Colour of the card, defaults to the primary element colour */
+	color?: string
+}
+
 /**
  * A plugin that describes an operation on the flow settings page.
  *
  * Registered through `window.OCA.WorkflowEngine.registerOperator()`.
  */
-export interface OperatorPlugin {
+export interface OperatorPlugin extends OperationCard {
 	/** PHP class name of the operation */
 	id: string
-	name: string
-	description: string
-	icon: string
-	iconClass?: string
-	/** Colour of the operation card, defaults to the primary element colour */
-	color: string
 	/** Default value of the operation field */
 	operation: string
 	fixedEntity: string
@@ -130,4 +134,10 @@ export interface PredefinedValue {
 	icon?: string
 	/** An image to show instead of an icon class */
 	iconUrl?: string
+}
+
+/** The api apps register their plugins through. */
+export interface WorkflowEngineApi {
+	registerCheck(plugin: CheckPlugin): void
+	registerOperator(plugin: OperatorPlugin): void
 }

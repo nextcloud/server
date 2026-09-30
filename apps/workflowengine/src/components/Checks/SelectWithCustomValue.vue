@@ -5,7 +5,7 @@
 <template>
 	<div>
 		<NcSelect
-			:aria-label-combobox="ariaLabel"
+			:aria-label-combobox="comboboxLabel"
 			:class="$style.select"
 			:clearable="false"
 			:modelValue="currentValue"
@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<{
 	/** Label of the entry that switches to free text */
 	customLabel: string
 	/** Accessible name of the combobox */
-	ariaLabel: string
+	comboboxLabel: string
 	/** Placeholder of the combobox */
 	placeholder: string
 	/** Placeholder of the free text input */

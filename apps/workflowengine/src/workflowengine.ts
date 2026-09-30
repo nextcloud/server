@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { CheckPlugin, OperatorPlugin } from './types.ts'
+import type { CheckPlugin, OperatorPlugin, WorkflowEngineApi } from './types.ts'
 
 import { createPinia, setActivePinia } from 'pinia'
 import { createApp } from 'vue'
@@ -18,11 +18,15 @@ setActivePinia(pinia)
 
 const store = useWorkflowStore()
 
+// every app declares `window.OCA` with its own members, so the part this app
+// owns is narrowed here instead of in a global declaration
+const OCA = window.OCA as unknown as { WorkflowEngine?: WorkflowEngineApi }
+
 /**
  * Public javascript api for apps to register custom plugins
  */
-window.OCA.WorkflowEngine = {
-	...window.OCA.WorkflowEngine,
+OCA.WorkflowEngine = {
+	...OCA.WorkflowEngine,
 
 	/**
 	 * Register the value editor of a check.
@@ -43,7 +47,7 @@ window.OCA.WorkflowEngine = {
 	},
 }
 
-ShippedChecks.forEach((checkPlugin) => window.OCA.WorkflowEngine.registerCheck(checkPlugin))
+ShippedChecks.forEach((checkPlugin) => OCA.WorkflowEngine!.registerCheck(checkPlugin))
 
 createApp(Workflow)
 	.use(pinia)

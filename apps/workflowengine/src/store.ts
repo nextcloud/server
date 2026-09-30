@@ -113,9 +113,11 @@ export const useWorkflowStore = defineStore('workflowengine', () => {
 		if (operation === undefined) {
 			return
 		}
+		// the server data wins over the plugin, the default only fills a gap
+		const merged = { ...plugin, ...operation }
 		operations.value = {
 			...operations.value,
-			[plugin.id]: { color: DEFAULT_OPERATOR_COLOR, ...plugin, ...operation },
+			[plugin.id]: { ...merged, color: merged.color ?? DEFAULT_OPERATOR_COLOR },
 		}
 	}
 

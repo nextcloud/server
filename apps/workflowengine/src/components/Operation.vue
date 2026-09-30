@@ -25,13 +25,15 @@
 <script setup lang="ts">
 /* eslint vue/multi-word-component-names: "warn" */
 
+import type { OperationCard } from '../types.ts'
+
 import { t } from '@nextcloud/l10n'
 import { computed, nextTick, ref, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import { contrastingTextColor, DEFAULT_TEXT_COLOR, iconFilterFor, knownTextColor } from '../helpers/contrast.ts'
 
 const props = defineProps<{
-	operation: Record<string, string>
+	operation: OperationCard
 	colored?: boolean
 }>()
 
