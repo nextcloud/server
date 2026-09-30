@@ -1962,6 +1962,7 @@ return array(
     'OC\\Files\\Search\\QueryOptimizer\\MergeDistributiveOperations' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/MergeDistributiveOperations.php',
     'OC\\Files\\Search\\QueryOptimizer\\OrEqualsToIn' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/OrEqualsToIn.php',
     'OC\\Files\\Search\\QueryOptimizer\\PathPrefixOptimizer' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/PathPrefixOptimizer.php',
+    'OC\\Files\\Search\\QueryOptimizer\\PushDownNegation' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/PushDownNegation.php',
     'OC\\Files\\Search\\QueryOptimizer\\QueryOptimizer' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/QueryOptimizer.php',
     'OC\\Files\\Search\\QueryOptimizer\\QueryOptimizerStep' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/QueryOptimizerStep.php',
     'OC\\Files\\Search\\QueryOptimizer\\ReplacingOptimizerStep' => $baseDir . '/lib/private/Files/Search/QueryOptimizer/ReplacingOptimizerStep.php',
