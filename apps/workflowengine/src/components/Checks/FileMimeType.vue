@@ -44,6 +44,7 @@
 import { imagePath } from '@nextcloud/router'
 import NcEllipsisedOption from '@nextcloud/vue/components/NcEllipsisedOption'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { useCheckValue } from '../../composables/useCheckValue.ts'
 
 export default {
 	name: 'FileMimeType',
@@ -60,6 +61,10 @@ export default {
 	},
 
 	emits: ['update:model-value'],
+
+	setup(props, { emit }) {
+		return useCheckValue(() => props.modelValue, (value) => emit('update:model-value', value))
+	},
 
 	data() {
 		return {
@@ -95,8 +100,6 @@ export default {
 					id: '/video\\/.*/',
 				},
 			],
-
-			newValue: '',
 		}
 	},
 
@@ -106,11 +109,7 @@ export default {
 		},
 
 		isPredefined() {
-			const matchingPredefined = this.predefinedTypes.find((type) => this.newValue === type.id)
-			if (matchingPredefined) {
-				return true
-			}
-			return false
+			return this.predefinedTypes.some((type) => this.newValue === type.id)
 		},
 
 		customValue() {
@@ -134,33 +133,15 @@ export default {
 		},
 	},
 
-	watch: {
-		modelValue() {
-			this.updateInternalValue()
-		},
-	},
-
 	methods: {
-		validateRegex(string) {
-			const regexRegex = /^\/(.*)\/([gui]{0,3})$/
-			const result = regexRegex.exec(string)
-			return result !== null
-		},
-
-		updateInternalValue() {
-			this.newValue = this.modelValue
-		},
-
 		setValue(value) {
 			if (value !== null) {
-				this.newValue = value.id
-				this.$emit('update:model-value', this.newValue)
+				this.emitValue(value.id)
 			}
 		},
 
 		updateCustom(event) {
-			this.newValue = event.target.value || event.detail[0]
-			this.$emit('update:model-value', this.newValue)
+			this.emitValue(event.target.value || event.detail[0])
 		},
 	},
 }

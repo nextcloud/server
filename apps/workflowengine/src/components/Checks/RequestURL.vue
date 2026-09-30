@@ -38,7 +38,7 @@
 <script>
 import NcEllipsisedOption from '@nextcloud/vue/components/NcEllipsisedOption'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import valueMixin from '../../mixins/valueMixin.js'
+import { useCheckValue } from '../../composables/useCheckValue.ts'
 
 export default {
 	name: 'RequestURL',
@@ -46,10 +46,6 @@ export default {
 		NcEllipsisedOption,
 		NcSelect,
 	},
-
-	mixins: [
-		valueMixin,
-	],
 
 	props: {
 		modelValue: {
@@ -65,9 +61,12 @@ export default {
 
 	emits: ['update:model-value'],
 
+	setup(props, { emit }) {
+		return useCheckValue(() => props.modelValue, (value) => emit('update:model-value', value))
+	},
+
 	data() {
 		return {
-			newValue: '',
 			predefinedTypes: [
 				{
 					icon: 'icon-files-dark',
@@ -120,23 +119,15 @@ export default {
 	},
 
 	methods: {
-		validateRegex(string) {
-			const regexRegex = /^\/(.*)\/([gui]{0,3})$/
-			const result = regexRegex.exec(string)
-			return result !== null
-		},
-
 		setValue(value) {
 			// TODO: check if value requires a regex and set the check operator according to that
 			if (value !== null) {
-				this.newValue = value.id
-				this.$emit('update:model-value', this.newValue)
+				this.emitValue(value.id)
 			}
 		},
 
 		updateCustom(event) {
-			this.newValue = event.target.value
-			this.$emit('update:model-value', this.newValue)
+			this.emitValue(event.target.value)
 		},
 	},
 }

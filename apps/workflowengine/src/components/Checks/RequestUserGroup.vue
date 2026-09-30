@@ -23,6 +23,7 @@ import axios from '@nextcloud/axios'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { useCheckValue } from '../../composables/useCheckValue.ts'
 import { logger } from '../../logger.ts'
 
 const groups = []
@@ -50,30 +51,30 @@ export default {
 	},
 
 	emits: ['update:model-value'],
+
+	setup(props, { emit }) {
+		return useCheckValue(() => props.modelValue, (value) => emit('update:model-value', value))
+	},
+
 	data() {
 		return {
 			groups,
 			status,
 			wantedGroups,
-			newValue: '',
 		}
 	},
 
 	computed: {
-		currentValue: {
-			get() {
-				return this.groups.find((group) => group.id === this.newValue) || null
-			},
-
-			set(value) {
-				this.newValue = value
-			},
+		currentValue() {
+			return this.groups.find((group) => group.id === this.newValue) || null
 		},
 	},
 
 	watch: {
-		modelValue() {
-			this.updateInternalValue()
+		newValue(value) {
+			if (value && this.currentValue === null) {
+				this.searchAsync(value)
+			}
 		},
 	},
 
@@ -118,13 +119,6 @@ export default {
 			})
 		},
 
-		async updateInternalValue() {
-			if (!this.newValue) {
-				await this.searchAsync(this.modelValue)
-			}
-			this.newValue = this.modelValue
-		},
-
 		addGroup(group) {
 			const index = this.groups.findIndex((item) => item.id === group.id)
 			if (index === -1) {
@@ -138,8 +132,7 @@ export default {
 		},
 
 		update(value) {
-			this.newValue = value.id
-			this.$emit('update:model-value', this.newValue)
+			this.emitValue(value.id)
 		},
 
 		enqueueWantedGroup(expectedGroupId) {

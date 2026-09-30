@@ -5,7 +5,7 @@
 
 import FileMimeType from './FileMimeType.vue'
 import FileSystemTag from './FileSystemTag.vue'
-import { stringValidator, validateIPv4, validateIPv6 } from '../../helpers/validators.js'
+import { stringValidator, validateIPv4, validateIPv6 } from '../../helpers/validators.ts'
 import { registerCustomElement } from '../../helpers/window.js'
 
 /**

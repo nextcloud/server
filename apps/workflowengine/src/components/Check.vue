@@ -165,11 +165,7 @@ export default {
 		this.currentOption = this.checks[this.check.class]
 		this.currentOperator = this.operators.find((operator) => operator.operator === this.check.operator)
 
-		if (this.currentElement) {
-			// If we do not set it, the check`s value would remain empty. Unsure why Vue behaves this way.
-			this.$refs.checkComponent.modelValue = undefined
-		} else if (this.currentOption?.component) {
-			// keeping this in an else for apps that try to be backwards compatible and may ship both
+		if (!this.currentElement && this.currentOption?.component) {
 			// to be removed in 03/2028
 			logger.warn('Developer warning: `CheckPlugin.options` is deprecated. Use `CheckPlugin.element` instead.')
 		}

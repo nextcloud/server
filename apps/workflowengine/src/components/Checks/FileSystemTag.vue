@@ -13,6 +13,7 @@
 
 <script>
 import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
+import { useCheckValue } from '../../composables/useCheckValue.ts'
 
 export default {
 	name: 'FileSystemTag',
@@ -29,33 +30,21 @@ export default {
 
 	emits: ['update:model-value'],
 
-	data() {
-		return {
-			newValue: [],
-		}
-	},
-
-	watch: {
-		modelValue() {
-			this.updateValue()
-		},
-	},
-
-	beforeMount() {
-		this.updateValue()
+	setup(props, { emit }) {
+		return useCheckValue(
+			() => props.modelValue,
+			(value) => emit('update:model-value', value),
+			{
+				// NcSelectTags works on numeric tag ids, the rule stores a string
+				parse: (modelValue) => (modelValue === '' ? null : parseInt(modelValue)),
+				format: (value) => String(value || ''),
+			},
+		)
 	},
 
 	methods: {
-		updateValue() {
-			if (this.modelValue !== '') {
-				this.newValue = parseInt(this.modelValue)
-			} else {
-				this.newValue = null
-			}
-		},
-
 		update() {
-			this.$emit('update:model-value', this.newValue || '')
+			this.emitValue()
 		},
 	},
 }

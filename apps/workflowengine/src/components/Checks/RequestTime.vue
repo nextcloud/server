@@ -33,8 +33,32 @@
 <script>
 import moment from 'moment-timezone'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { useCheckValue } from '../../composables/useCheckValue.ts'
 
 const zones = moment.tz.names()
+const TIME_PATTERN = /^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i
+
+/**
+ * Split the stored `["HH:MM Zone","HH:MM Zone"]` pair into its parts.
+ *
+ * @param {string} modelValue - The stored value
+ */
+function parseTimeSpan(modelValue) {
+	try {
+		const data = JSON.parse(modelValue)
+		if (data.length === 2) {
+			return {
+				startTime: data[0].split(' ', 2)[0],
+				endTime: data[1].split(' ', 2)[0],
+				timezone: data[0].split(' ', 2)[1],
+			}
+		}
+	} catch {
+		// ignore invalid values
+	}
+	return { startTime: null, endTime: null, timezone: moment.tz.guess() }
+}
+
 export default {
 	name: 'RequestTime',
 	components: {
@@ -48,60 +72,36 @@ export default {
 		},
 	},
 
-	emits: ['update:model-value'],
+	emits: ['update:model-value', 'valid', 'invalid'],
+
+	setup(props, { emit }) {
+		return useCheckValue(
+			() => props.modelValue,
+			(value) => emit('update:model-value', value),
+			{
+				parse: parseTimeSpan,
+				format: ({ startTime, endTime, timezone }) => `["${startTime} ${timezone}","${endTime} ${timezone}"]`,
+			},
+		)
+	},
+
 	data() {
 		return {
 			timezones: zones,
 			valid: false,
-			newValue: {
-				startTime: null,
-				endTime: null,
-				timezone: moment.tz.guess(),
-			},
-
-			stringifiedValue: '[]',
 		}
 	},
 
-	watch: {
-		modelValue() {
-			this.updateInternalValue()
-		},
-	},
-
 	beforeMount() {
-		// this is necessary to keep so the value is re-applied when a different
-		// check is being removed.
-		this.updateInternalValue()
+		this.validate()
 	},
 
 	methods: {
-		updateInternalValue() {
-			try {
-				const data = JSON.parse(this.modelValue)
-				if (data.length === 2) {
-					this.newValue = {
-						startTime: data[0].split(' ', 2)[0],
-						endTime: data[1].split(' ', 2)[0],
-						timezone: data[0].split(' ', 2)[1],
-					}
-					this.stringifiedValue = `["${this.newValue.startTime} ${this.newValue.timezone}","${this.newValue.endTime} ${this.newValue.timezone}"]`
-					this.validate()
-				}
-			} catch {
-				// ignore invalid values
-			}
-		},
-
 		validate() {
-			this.valid = this.newValue.startTime && this.newValue.startTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
-				&& this.newValue.endTime && this.newValue.endTime.match(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/i) !== null
+			this.valid = Boolean(this.newValue.startTime) && TIME_PATTERN.test(this.newValue.startTime)
+				&& Boolean(this.newValue.endTime) && TIME_PATTERN.test(this.newValue.endTime)
 				&& moment.tz.zone(this.newValue.timezone) !== null
-			if (this.valid) {
-				this.$emit('valid')
-			} else {
-				this.$emit('invalid')
-			}
+			this.$emit(this.valid ? 'valid' : 'invalid')
 			return this.valid
 		},
 
@@ -110,8 +110,7 @@ export default {
 				this.newValue.timezone = moment.tz.guess()
 			}
 			if (this.validate()) {
-				this.stringifiedValue = `["${this.newValue.startTime} ${this.newValue.timezone}","${this.newValue.endTime} ${this.newValue.timezone}"]`
-				this.$emit('update:model-value', this.stringifiedValue)
+				this.emitValue()
 			}
 		},
 	},
