@@ -207,6 +207,7 @@ OC.L10N.register(
     "Currently {processedUsers} of {totalUsers} accounts are already processed." : "Actuellement, {processedUsers} sur {totalUsers} comptes ont déjà été traités.",
     "Preparing …" : "Préparation …",
     "Refresh" : "Actualiser",
+    "All files have been sanitized for Windows filename support." : "Tous les fichiers ont été nettoyés pour être compatibles avec les noms de fichiers Windows.",
     "Some files could not be sanitized, please check your logs." : "Certains fichiers n’ont pas pu être nettoyés. Veuillez consulter les journaux.",
     "Sanitization errors" : "Erreurs de nettoyage",
     "Not sanitized filenames" : "Noms de fichiers non nettoyés",
