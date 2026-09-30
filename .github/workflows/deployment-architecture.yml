@@ -44,9 +44,7 @@ jobs:
         run: docker compose --file deployment/compose.yaml up --detach --wait db redis app
 
       - name: Scale app servers and start load balancer
-        run: |
-          docker compose --file deployment/compose.yaml up --detach --wait --scale app=3 app
-          docker compose --file deployment/compose.yaml up --detach --wait load-balancer
+        run: docker compose --file deployment/compose.yaml up --detach --wait --scale app=3 load-balancer
 
       - name: Verify load-balanced Nextcloud and three app servers
         run: |

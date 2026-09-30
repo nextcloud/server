@@ -16,12 +16,11 @@ From the repository root:
 ```sh
 cp deployment/.env.example .env
 docker compose --file deployment/compose.yaml up --detach --wait db redis app
-docker compose --file deployment/compose.yaml up --detach --wait --scale app=3 app
-docker compose --file deployment/compose.yaml up --detach --wait load-balancer
+docker compose --file deployment/compose.yaml up --detach --wait --scale app=3 load-balancer
 curl --fail http://127.0.0.1:8080/status.php
 ```
 
-Start the first app container before scaling it so initial setup completes and becomes healthy before additional instances join. The status endpoint should report `"installed": true` before treating the stack as ready.
+Start the first app container before scaling it so initial setup completes and becomes healthy before additional instances join. Pass `--scale app=3` when starting the load balancer too; each Compose `up` reconciles the requested replica count, so omitting the scale option resets the service to one instance. The status endpoint should report `"installed": true` before treating the stack as ready.
 
 The HAProxy frontend discovers up to three app containers through Docker's internal DNS. To add more instances, update the HAProxy `server-template` slot count and the scale command together.
 
