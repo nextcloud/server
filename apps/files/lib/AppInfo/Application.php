@@ -43,6 +43,7 @@ use OCA\Files\Sharing\Permission\NodeDownloadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCA\Files\Sharing\Property\NodeGridViewSharePropertyType;
+use OCA\Files\Sharing\Property\NodeNicknameSharePropertyType;
 use OCA\Files\Sharing\SharesUpdatedListener;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCP\AppFramework\App;
@@ -123,6 +124,10 @@ class Application extends App implements IBootstrap {
 		$registry->registerPropertyType(new NodeGridViewSharePropertyType());
 		$registry->markPropertyTypeCompatibleWithSourceType(NodeGridViewSharePropertyType::class, NodeShareSourceType::class);
 		$registry->markPropertyTypeCompatibleWithRecipientType(NodeGridViewSharePropertyType::class, TokenShareRecipientType::class);
+
+		$registry->registerPropertyType(new NodeNicknameSharePropertyType());
+		$registry->markPropertyTypeCompatibleWithSourceType(NodeNicknameSharePropertyType::class, NodeShareSourceType::class);
+		$registry->markPropertyTypeCompatibleWithRecipientType(NodeNicknameSharePropertyType::class, TokenShareRecipientType::class);
 
 		$registry->registerPermissionType(NodeShareSourceType::class, Server::get(NodeCreateSharePermissionType::class));
 		$registry->markPermissionTypeCompatibleWithPermissionPreset(NodeCreateSharePermissionType::class, EditSharePermissionPreset::class);

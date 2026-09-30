@@ -22,6 +22,7 @@ final readonly class LegacyMapper {
 
 	/**
 	 * @param non-empty-string $id
+	 * @param non-empty-string $recipientSecret
 	 */
 	public function createLegacyMapping(string $id, string $legacyProvider, int $legacyId, DateTimeImmutable $lastUpdated, string $recipientSecret, string $recipientValue): LegacyMapping {
 		$qb = $this->dbConnection->getQueryBuilder();
@@ -56,7 +57,7 @@ final readonly class LegacyMapper {
 			->andWhere($qb->expr()->eq('legacy_id', $qb->createNamedParameter($legacyId, IQueryBuilder::PARAM_INT)))
 			->executeQuery();
 
-		/** @var array{id: int, last_updated: int, recipient_secret: string, recipient_value: string}|false $row */
+		/** @var array{id: int, last_updated: int, recipient_secret: non-empty-string, recipient_value: string}|false $row */
 		$row = $result->fetch();
 		if ($row === false) {
 			return null;
@@ -85,7 +86,7 @@ final readonly class LegacyMapper {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->executeQuery();
 
-		/** @var list<array{id: int, legacy_provider: string, legacy_id: int, last_updated: int, recipient_secret: string, recipient_value: string}> $rows */
+		/** @var list<array{id: int, legacy_provider: string, legacy_id: int, last_updated: int, recipient_secret: non-empty-string, recipient_value: string}> $rows */
 		$rows = $result->fetchAllAssociative();
 		foreach ($rows as $row) {
 			$legacyMappings[] = new LegacyMapping(

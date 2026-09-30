@@ -21,6 +21,7 @@ final readonly class LegacyMapping {
 		public string $legacyProvider,
 		public int $legacyId,
 		public DateTimeImmutable $lastUpdated,
+		/** @var non-empty-string $recipientSecret */
 		public string $recipientSecret,
 		public string $recipientValue,
 	) {
