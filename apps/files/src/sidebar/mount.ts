@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { PiniaVuePlugin } from 'pinia'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import FilesSidebar from '../views/FilesSidebar.vue'
 import { pinia } from '../store/index.ts'
 import { logger } from '../utils/logger.ts'
@@ -31,26 +30,25 @@ export function mountSidebar(target: HTMLElement): boolean {
 
 	const state = getSidebarSharedState()
 	if (state.instance !== undefined) {
-		if (state.instance.$el.parentElement === target) {
+		if (state.instance.mountpoint.parentElement === target) {
 			logger.debug('sidebar: already rendered within the requested element')
 			return true
 		}
 
 		logger.debug('sidebar: moving the sidebar into the requested element')
-		state.instance.$destroy()
-		state.instance.$el.remove()
+		state.instance.app.unmount()
+		state.instance.mountpoint.remove()
 	}
 
+	// the sidebar is rendered within the mountpoint, so let it take part in the layout of the target
 	const mountpoint = document.createElement('div')
-	mountpoint.id = 'app-sidebar'
+	mountpoint.style.display = 'contents'
 	target.appendChild(mountpoint)
 
-	Vue.use(PiniaVuePlugin)
-	const SidebarRoot = Vue.extend(FilesSidebar)
-	state.instance = new SidebarRoot({
-		name: 'SidebarRoot',
-		pinia: pinia,
-	}).$mount(mountpoint)
+	const app = createApp(FilesSidebar)
+	app.use(pinia)
+	app.mount(mountpoint)
+	state.instance = { app, mountpoint }
 
 	logger.debug('sidebar: rendered within the current app')
 	return true

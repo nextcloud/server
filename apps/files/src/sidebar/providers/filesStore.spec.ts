@@ -15,6 +15,7 @@ import type { ISidebarDataProvider } from '../types.ts'
 import { File, Folder } from '@nextcloud/files'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { toRaw } from 'vue'
 
 vi.mock('@nextcloud/auth')
 vi.mock('../../services/WebdavClient.ts', () => ({ fetchNode: vi.fn() }))
@@ -91,14 +92,14 @@ describe('Files app sidebar data provider', () => {
 		activeStore.activeView = { id: 'files' } as never
 		provider.setNode(node)
 
-		expect(provider.node.value).toBe(node)
-		expect(provider.folder.value).toBe(folder)
+		expect(toRaw(provider.node.value)).toBe(node)
+		expect(toRaw(provider.folder.value)).toBe(folder)
 		expect(provider.view.value).toMatchObject({ id: 'files' })
 	})
 
 	test('sets the node as active node of the files app', () => {
 		provider.setNode(node)
-		expect(useActiveStore(pinia).activeNode).toBe(node)
+		expect(toRaw(useActiveStore(pinia).activeNode)).toBe(node)
 
 		provider.setNode()
 		expect(useActiveStore(pinia).activeNode).toBeUndefined()
@@ -112,7 +113,7 @@ describe('Files app sidebar data provider', () => {
 			await vi.waitUntil(() => useSidebarStore(pinia).isOpen)
 
 			// the Viewer only provides a partial node, so the loaded one is used
-			expect(useSidebarStore(pinia).currentNode).toBe(node)
+			expect(toRaw(useSidebarStore(pinia).currentNode)).toBe(node)
 			expect(fetchNode).not.toHaveBeenCalled()
 		})
 
@@ -121,7 +122,7 @@ describe('Files app sidebar data provider', () => {
 			await vi.waitUntil(() => useSidebarStore(pinia).isOpen)
 
 			expect(fetchNode).toHaveBeenCalledWith(node.path)
-			expect(useSidebarStore(pinia).currentNode).toBe(fetchedNode)
+			expect(toRaw(useSidebarStore(pinia).currentNode)).toBe(fetchedNode)
 		})
 
 		test('reports a node which cannot be resolved', async () => {
