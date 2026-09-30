@@ -6,6 +6,7 @@
 	<div>
 		<NcSelect
 			v-model="newValue"
+			:aria-label-combobox="t('workflowengine', 'Request URL')"
 			:model-value="currentValue"
 			:placeholder="t('workflowengine', 'Select a request URL')"
 			label="label"

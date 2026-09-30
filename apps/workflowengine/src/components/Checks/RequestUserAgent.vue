@@ -6,6 +6,7 @@
 	<div>
 		<NcSelect
 			v-model="currentValue"
+			:aria-label-combobox="t('workflowengine', 'User agent')"
 			:placeholder="t('workflowengine', 'Select a user agent')"
 			label="label"
 			:options="options"

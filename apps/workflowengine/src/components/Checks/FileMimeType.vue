@@ -5,6 +5,7 @@
 <template>
 	<div>
 		<NcSelect
+			:aria-label-combobox="t('workflowengine', 'File type')"
 			:model-value="currentValue"
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"

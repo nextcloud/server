@@ -6,12 +6,14 @@
 	<div class="timeslot">
 		<input
 			v-model="newValue.startTime"
+			:aria-label="t('workflowengine', 'Start time')"
 			type="text"
 			class="timeslot--start"
 			placeholder="e.g. 08:00"
 			@input="update">
 		<input
 			v-model="newValue.endTime"
+			:aria-label="t('workflowengine', 'End time')"
 			type="text"
 			placeholder="e.g. 18:00"
 			@input="update">
@@ -21,6 +23,7 @@
 		<NcSelect
 			v-show="valid"
 			v-model="newValue.timezone"
+			:aria-label-combobox="t('workflowengine', 'Timezone')"
 			:clearable="false"
 			:options="timezones"
 			@input="update" />

@@ -10,6 +10,7 @@
 		</div>
 		<NcSelect
 			v-else
+			:aria-label-combobox="t('workflowengine', 'Trigger')"
 			:disabled="allEvents.length <= 1"
 			:multiple="true"
 			:options="allEvents"

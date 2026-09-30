@@ -5,6 +5,7 @@
 <template>
 	<NcSelectTags
 		v-model="newValue"
+		:aria-label-combobox="t('workflowengine', 'Tag')"
 		:limit="null"
 		:multiple="false"
 		@input="update" />

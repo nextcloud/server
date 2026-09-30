@@ -7,6 +7,7 @@
 		<NcSelect
 			ref="checkSelector"
 			v-model="currentOption"
+			:aria-label-combobox="t('workflowengine', 'Filter')"
 			:options="options"
 			label="name"
 			:clearable="false"
@@ -14,6 +15,7 @@
 			@input="updateCheck" />
 		<NcSelect
 			v-model="currentOperator"
+			:aria-label-combobox="t('workflowengine', 'Comparator')"
 			:disabled="!currentOption"
 			:options="operators"
 			class="comparator"
