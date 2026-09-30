@@ -3,12 +3,39 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { OCSResponse } from '@nextcloud/typings/ocs'
+
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
 import { logger } from '../utils/logger.ts'
 
-export const defaultLimit = loadState('unified-search', 'limit-default')
+/** A search provider */
+export interface SearchType {
+	id: string
+	name: string
+}
+
+/** A search result as returned by a search provider */
+export interface SearchResultEntry {
+	title: string
+	subline?: string
+	resourceUrl: string
+	thumbnailUrl?: string
+	icon?: string
+	rounded?: boolean
+	attributes?: Record<string, string>
+}
+
+/** A page of search results */
+export interface SearchResultPage {
+	name: string
+	isPaginated: boolean
+	entries: SearchResultEntry[]
+	cursor: number | string | null
+}
+
+export const defaultLimit = loadState<number>('unified-search', 'limit-default')
 export const minSearchLength = loadState('unified-search', 'min-search-length', 1)
 export const enableLiveSearch = loadState('unified-search', 'live-search', true)
 
@@ -16,18 +43,9 @@ export const regexFilterIn = /(^|\s)in:([a-z_-]+)/ig
 export const regexFilterNot = /(^|\s)-in:([a-z_-]+)/ig
 
 /**
- * Create a cancel token
- *
- * @return {import('axios').CancelTokenSource}
- */
-const createCancelToken = () => axios.CancelToken.source()
-
-/**
  * Get the list of available search providers
- *
- * @return {Promise<Array>}
  */
-export async function getTypes() {
+export async function getTypes(): Promise<SearchType[]> {
 	try {
 		const { data } = await axios.get(generateOcsUrl('search/providers'), {
 			params: {
@@ -40,28 +58,24 @@ export async function getTypes() {
 			return data.ocs.data
 		}
 	} catch (error) {
-		logger.error(error)
+		logger.error('Could not load the search providers', { error })
 	}
 	return []
 }
 
 /**
- * Get the list of available search providers
+ * Search one provider, cancellable.
  *
- * @param {object} options destructuring object
- * @param {string} options.type the type to search
- * @param {string} options.query the search
- * @param {number|string|undefined} options.cursor the offset for paginated searches
- * @return {object} {request: Promise, cancel: Promise}
+ * @param options - destructuring object
+ * @param options.type - the type to search
+ * @param options.query - the search
+ * @param options.cursor - the offset for paginated searches
  */
-export function search({ type, query, cursor }) {
-	/**
-	 * Generate an axios cancel token
-	 */
-	const cancelToken = createCancelToken()
+export function search({ type, query, cursor }: { type: string, query: string, cursor?: number | string }) {
+	const controller = new AbortController()
 
-	const request = async () => axios.get(generateOcsUrl('search/providers/{type}/search', { type }), {
-		cancelToken: cancelToken.token,
+	const request = async () => axios.get<OCSResponse<SearchResultPage>>(generateOcsUrl('search/providers/{type}/search', { type }), {
+		signal: controller.signal,
 		params: {
 			term: query,
 			cursor,
@@ -72,6 +86,6 @@ export function search({ type, query, cursor }) {
 
 	return {
 		request,
-		cancel: cancelToken.cancel,
+		cancel: () => controller.abort(),
 	}
 }
