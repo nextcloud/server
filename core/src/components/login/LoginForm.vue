@@ -14,7 +14,7 @@
 		<fieldset class="login-form__fieldset" data-login-form>
 			<NcNoteCard
 				v-if="apacheAuthFailed"
-				:title="t('core', 'Server side authentication failed!')"
+				:heading="t('core', 'Server side authentication failed!')"
 				type="warning">
 				{{ t('core', 'Please contact your administrator.') }}
 			</NcNoteCard>
@@ -33,7 +33,7 @@
 			</NcNoteCard>
 			<NcNoteCard
 				v-if="internalException"
-				:class="t('core', 'An internal error occurred.')"
+				:heading="t('core', 'An internal error occurred.')"
 				type="warning">
 				{{ t('core', 'Please try again or contact your administrator.') }}
 			</NcNoteCard>
@@ -74,7 +74,7 @@
 				v-model="password"
 				name="password"
 				:class="{ shake: invalidPassword }"
-				:spellchecking="false"
+				spellcheck="false"
 				autocapitalize="none"
 				:autocomplete="autoCompleteAllowed ? 'current-password' : 'off'"
 				:label="t('core', 'Password')"
