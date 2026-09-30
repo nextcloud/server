@@ -121,6 +121,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Sharing\\Permission\\NodeReadSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeReadSharePermissionType.php',
         'OCA\\Files\\Sharing\\Permission\\NodeUpdateSharePermissionType' => __DIR__ . '/..' . '/../lib/Sharing/Permission/NodeUpdateSharePermissionType.php',
         'OCA\\Files\\Sharing\\Property\\NodeGridViewSharePropertyType' => __DIR__ . '/..' . '/../lib/Sharing/Property/NodeGridViewSharePropertyType.php',
+        'OCA\\Files\\Sharing\\Property\\NodeNicknameSharePropertyType' => __DIR__ . '/..' . '/../lib/Sharing/Property/NodeNicknameSharePropertyType.php',
         'OCA\\Files\\Sharing\\SharesUpdatedListener' => __DIR__ . '/..' . '/../lib/Sharing/SharesUpdatedListener.php',
         'OCA\\Files\\Sharing\\SourceNodeTargetManager' => __DIR__ . '/..' . '/../lib/Sharing/SourceNodeTargetManager.php',
         'OCA\\Files\\Sharing\\Source\\NodeShareSourceMetadata' => __DIR__ . '/..' . '/../lib/Sharing/Source/NodeShareSourceMetadata.php',

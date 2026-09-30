@@ -45,6 +45,7 @@ use OCA\Files\Sharing\Permission\NodeDownloadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCA\Files\Sharing\Property\NodeGridViewSharePropertyType;
+use OCA\Files\Sharing\Property\NodeNicknameSharePropertyType;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCA\Files\Sharing\SourceNodeTargetManager;
 use OCP\Constants;
@@ -667,7 +668,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus($legacyStatus)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -725,7 +727,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_ACCEPTED)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -784,7 +787,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_ACCEPTED)
 				->setTarget('/abc')
@@ -844,7 +848,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_PENDING)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -862,7 +867,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_ACCEPTED)
 				->setTarget('/abc')
@@ -926,7 +932,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_PENDING)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -944,7 +951,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus($legacyStatus)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1008,7 +1016,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_ACCEPTED)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1026,7 +1035,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_ACCEPTED)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1114,7 +1124,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_ACCEPTED)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1132,7 +1143,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_ACCEPTED)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1207,7 +1219,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', $enabled)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_ACCEPTED)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1268,7 +1281,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', $enabled)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setShareTime(DateTime::createFromImmutable($created))
 				->setMailSend(false)
@@ -1306,6 +1320,7 @@ final class SharingLegacySyncTest extends TestCase {
 					PasswordSharePropertyType::class => new ShareProperty(PasswordSharePropertyType::class, null),
 					LabelSharePropertyType::class => new ShareProperty(LabelSharePropertyType::class, null),
 					NodeGridViewSharePropertyType::class => new ShareProperty(NodeGridViewSharePropertyType::class, 'false'),
+					NodeNicknameSharePropertyType::class => new ShareProperty(NodeNicknameSharePropertyType::class, 'false'),
 				],
 				[
 					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, true),
@@ -1329,7 +1344,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', $enabled)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_PENDING)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1391,7 +1407,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setShareTime(DateTime::createFromImmutable($created))
 				->setMailSend(false)
@@ -1428,6 +1445,7 @@ final class SharingLegacySyncTest extends TestCase {
 					PasswordSharePropertyType::class => new ShareProperty(PasswordSharePropertyType::class, null),
 					LabelSharePropertyType::class => new ShareProperty(LabelSharePropertyType::class, null),
 					NodeGridViewSharePropertyType::class => new ShareProperty(NodeGridViewSharePropertyType::class, 'false'),
+					NodeNicknameSharePropertyType::class => new ShareProperty(NodeNicknameSharePropertyType::class, 'false'),
 				],
 				[
 					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, true),
@@ -1451,7 +1469,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_PENDING)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1491,6 +1510,7 @@ final class SharingLegacySyncTest extends TestCase {
 					PasswordSharePropertyType::class => new ShareProperty(PasswordSharePropertyType::class, $passwordHash),
 					LabelSharePropertyType::class => new ShareProperty(LabelSharePropertyType::class, null),
 					NodeGridViewSharePropertyType::class => new ShareProperty(NodeGridViewSharePropertyType::class, 'false'),
+					NodeNicknameSharePropertyType::class => new ShareProperty(NodeNicknameSharePropertyType::class, 'false'),
 				],
 				[
 					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, true),
@@ -1514,7 +1534,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_PENDING)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1565,6 +1586,7 @@ final class SharingLegacySyncTest extends TestCase {
 					PasswordSharePropertyType::class => new ShareProperty(PasswordSharePropertyType::class, null),
 					LabelSharePropertyType::class => new ShareProperty(LabelSharePropertyType::class, null),
 					NodeGridViewSharePropertyType::class => new ShareProperty(NodeGridViewSharePropertyType::class, $enabled ? 'true' : 'false'),
+					NodeNicknameSharePropertyType::class => new ShareProperty(NodeNicknameSharePropertyType::class, 'false'),
 				],
 				[
 					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, true),
@@ -1588,7 +1610,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', $enabled),
+						->setAttribute('config', 'grid_view', $enabled)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_PENDING)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1628,6 +1651,7 @@ final class SharingLegacySyncTest extends TestCase {
 					PasswordSharePropertyType::class => new ShareProperty(PasswordSharePropertyType::class, null),
 					LabelSharePropertyType::class => new ShareProperty(LabelSharePropertyType::class, null),
 					NodeGridViewSharePropertyType::class => new ShareProperty(NodeGridViewSharePropertyType::class, 'false'),
+					NodeNicknameSharePropertyType::class => new ShareProperty(NodeNicknameSharePropertyType::class, 'false'),
 				],
 				[
 					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, true),
@@ -1651,7 +1675,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_PENDING)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1691,6 +1716,7 @@ final class SharingLegacySyncTest extends TestCase {
 					PasswordSharePropertyType::class => new ShareProperty(PasswordSharePropertyType::class, null),
 					LabelSharePropertyType::class => new ShareProperty(LabelSharePropertyType::class, 'label'),
 					NodeGridViewSharePropertyType::class => new ShareProperty(NodeGridViewSharePropertyType::class, 'false'),
+					NodeNicknameSharePropertyType::class => new ShareProperty(NodeNicknameSharePropertyType::class, 'false'),
 				],
 				[
 					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, true),
@@ -1714,7 +1740,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_PENDING)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1754,6 +1781,7 @@ final class SharingLegacySyncTest extends TestCase {
 					PasswordSharePropertyType::class => new ShareProperty(PasswordSharePropertyType::class, null),
 					LabelSharePropertyType::class => new ShareProperty(LabelSharePropertyType::class, null),
 					NodeGridViewSharePropertyType::class => new ShareProperty(NodeGridViewSharePropertyType::class, 'false'),
+					NodeNicknameSharePropertyType::class => new ShareProperty(NodeNicknameSharePropertyType::class, 'false'),
 				],
 				[
 					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, true),
@@ -1777,7 +1805,8 @@ final class SharingLegacySyncTest extends TestCase {
 				->setAttributes(
 					(new ShareAttributes())
 						->setAttribute('permissions', 'download', true)
-						->setAttribute('config', 'grid_view', false),
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
 				)
 				->setStatus(IShare::STATUS_PENDING)
 				->setTarget('/' . $this->nodeFolder->getName())
@@ -1788,6 +1817,203 @@ final class SharingLegacySyncTest extends TestCase {
 				->setNote('note'),
 		];
 
+		$shareUserStatuses = [
+			[
+				$this->user1->getUID() => ShareUserStatus::Pending,
+			],
+		];
+
+		$this->assertSyncingWorks($shares, $legacyShares, $shareUserStatuses, true);
+	}
+
+	public function testFileRequestWithoutEmails(): void {
+		[$id, $created] = $this->generateIdAndCreatedTimestamp();
+		$owner = new ShareUser($this->owner->getUID(), null);
+		$secret = $this->sharingManager->generateSecret();
+
+		$shares = [
+			new Share(
+				$id,
+				$owner,
+				$created,
+				ShareState::Active,
+				null,
+				[new ShareSource(NodeShareSourceType::class, (string)$this->nodeFolder->getId())],
+				[new ShareRecipient(TokenShareRecipientType::class, $this->sharingManager->generateSecret(), null, $secret, $owner)],
+				[
+					ExpirationDateSharePropertyType::class => new ShareProperty(ExpirationDateSharePropertyType::class, null),
+					NoteSharePropertyType::class => new ShareProperty(NoteSharePropertyType::class, null),
+					PasswordSharePropertyType::class => new ShareProperty(PasswordSharePropertyType::class, null),
+					LabelSharePropertyType::class => new ShareProperty(LabelSharePropertyType::class, null),
+					NodeGridViewSharePropertyType::class => new ShareProperty(NodeGridViewSharePropertyType::class, 'false'),
+					NodeNicknameSharePropertyType::class => new ShareProperty(NodeNicknameSharePropertyType::class, 'true'),
+				],
+				[
+					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, false),
+					NodeDownloadSharePermissionType::class => new SharePermission(NodeDownloadSharePermissionType::class, false),
+					ReshareSharePermissionType::class => new SharePermission(ReshareSharePermissionType::class, false),
+					NodeCreateSharePermissionType::class => new SharePermission(NodeCreateSharePermissionType::class, true),
+					NodeUpdateSharePermissionType::class => new SharePermission(NodeUpdateSharePermissionType::class, false),
+					NodeDeleteSharePermissionType::class => new SharePermission(NodeDeleteSharePermissionType::class, false),
+				],
+			),
+		];
+
+		$legacyShares = [
+			$this->legacySharingManager->newShare()
+				->setProviderId('ocMailShare')
+				->setNode($this->nodeFolder)
+				->setShareType(IShare::TYPE_EMAIL)
+				->setSharedWith('')
+				->setSharedBy($this->owner->getUID())
+				->setShareOwner($this->owner->getUID())
+				->setPermissions(Constants::PERMISSION_CREATE)
+				->setAttributes(
+					(new ShareAttributes())
+						->setAttribute('permissions', 'download', false)
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', true),
+				)
+				->setStatus(IShare::STATUS_PENDING)
+				->setShareTime(DateTime::createFromImmutable($created))
+				->setMailSend(false)
+				->setToken($secret)
+				->setHideDownload(true),
+		];
+		$shareUserStatuses = [
+			[
+				$this->user1->getUID() => ShareUserStatus::Pending,
+			],
+		];
+
+		$this->assertSyncingWorks($shares, $legacyShares, $shareUserStatuses, true);
+	}
+
+	public function testFileRequestWithEmails(): void {
+		[$id, $created] = $this->generateIdAndCreatedTimestamp();
+		$owner = new ShareUser($this->owner->getUID(), null);
+		$secret1 = $this->sharingManager->generateSecret();
+		$secret2 = $this->sharingManager->generateSecret();
+		$secret3 = $this->sharingManager->generateSecret();
+
+		$shares = [
+			new Share(
+				$id,
+				$owner,
+				$created,
+				ShareState::Active,
+				null,
+				[new ShareSource(NodeShareSourceType::class, (string)$this->nodeFolder->getId())],
+				[
+					new ShareRecipient(TokenShareRecipientType::class, $this->sharingManager->generateSecret(), null, $secret1, $owner),
+					new ShareRecipient(EmailShareRecipientType::class, 'example@example.com', null, $secret2, $owner),
+					new ShareRecipient(EmailShareRecipientType::class, 'example@example.org', null, $secret3, $owner),
+				],
+				[
+					ExpirationDateSharePropertyType::class => new ShareProperty(ExpirationDateSharePropertyType::class, null),
+					NoteSharePropertyType::class => new ShareProperty(NoteSharePropertyType::class, null),
+					PasswordSharePropertyType::class => new ShareProperty(PasswordSharePropertyType::class, null),
+					LabelSharePropertyType::class => new ShareProperty(LabelSharePropertyType::class, null),
+					NodeGridViewSharePropertyType::class => new ShareProperty(NodeGridViewSharePropertyType::class, 'false'),
+					NodeNicknameSharePropertyType::class => new ShareProperty(NodeNicknameSharePropertyType::class, 'true'),
+				],
+				[
+					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, false),
+					NodeDownloadSharePermissionType::class => new SharePermission(NodeDownloadSharePermissionType::class, false),
+					ReshareSharePermissionType::class => new SharePermission(ReshareSharePermissionType::class, false),
+					NodeCreateSharePermissionType::class => new SharePermission(NodeCreateSharePermissionType::class, true),
+					NodeUpdateSharePermissionType::class => new SharePermission(NodeUpdateSharePermissionType::class, false),
+					NodeDeleteSharePermissionType::class => new SharePermission(NodeDeleteSharePermissionType::class, false),
+				],
+			),
+		];
+
+		$legacyShares = [
+			$this->legacySharingManager->newShare()
+				->setProviderId('ocMailShare')
+				->setNode($this->nodeFolder)
+				->setShareType(IShare::TYPE_EMAIL)
+				->setSharedWith('')
+				->setSharedBy($this->owner->getUID())
+				->setShareOwner($this->owner->getUID())
+				->setPermissions(Constants::PERMISSION_CREATE)
+				->setAttributes(
+					(new ShareAttributes())
+						->setAttribute('permissions', 'download', false)
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', true)
+						->setAttribute('shareWith', 'emails', ['example@example.com', 'example@example.org']),
+				)
+				->setStatus(IShare::STATUS_PENDING)
+				->setShareTime(DateTime::createFromImmutable($created))
+				->setMailSend(false)
+				->setToken($secret1)
+				->setHideDownload(true),
+		];
+
+		$shareUserStatuses = [
+			[
+				$this->user1->getUID() => ShareUserStatus::Pending,
+			],
+		];
+
+		$this->assertSyncingWorks($shares, $legacyShares, $shareUserStatuses, true);
+	}
+
+	public function testFileDrop(): void {
+		[$id, $created] = $this->generateIdAndCreatedTimestamp();
+		$owner = new ShareUser($this->owner->getUID(), null);
+		$secret = $this->sharingManager->generateSecret();
+
+		$shares = [
+			new Share(
+				$id,
+				$owner,
+				$created,
+				ShareState::Active,
+				null,
+				[new ShareSource(NodeShareSourceType::class, (string)$this->nodeFolder->getId())],
+				[new ShareRecipient(TokenShareRecipientType::class, $this->sharingManager->generateSecret(), null, $secret, $owner)],
+				[
+					ExpirationDateSharePropertyType::class => new ShareProperty(ExpirationDateSharePropertyType::class, null),
+					NoteSharePropertyType::class => new ShareProperty(NoteSharePropertyType::class, null),
+					PasswordSharePropertyType::class => new ShareProperty(PasswordSharePropertyType::class, null),
+					LabelSharePropertyType::class => new ShareProperty(LabelSharePropertyType::class, null),
+					NodeGridViewSharePropertyType::class => new ShareProperty(NodeGridViewSharePropertyType::class, 'false'),
+					NodeNicknameSharePropertyType::class => new ShareProperty(NodeNicknameSharePropertyType::class, 'false'),
+				],
+				[
+					NodeReadSharePermissionType::class => new SharePermission(NodeReadSharePermissionType::class, false),
+					NodeDownloadSharePermissionType::class => new SharePermission(NodeDownloadSharePermissionType::class, true),
+					ReshareSharePermissionType::class => new SharePermission(ReshareSharePermissionType::class, false),
+					NodeCreateSharePermissionType::class => new SharePermission(NodeCreateSharePermissionType::class, true),
+					NodeUpdateSharePermissionType::class => new SharePermission(NodeUpdateSharePermissionType::class, false),
+					NodeDeleteSharePermissionType::class => new SharePermission(NodeDeleteSharePermissionType::class, false),
+				],
+			),
+		];
+
+		$legacyShares = [
+			$this->legacySharingManager->newShare()
+				->setProviderId('ocinternal')
+				->setNode($this->nodeFolder)
+				->setShareType(IShare::TYPE_LINK)
+				->setSharedBy($this->owner->getUID())
+				->setShareOwner($this->owner->getUID())
+				->setPermissions(Constants::PERMISSION_CREATE)
+				->setAttributes(
+					(new ShareAttributes())
+						->setAttribute('permissions', 'download', true)
+						->setAttribute('config', 'grid_view', false)
+						->setAttribute('fileRequest', 'enabled', false),
+				)
+				->setStatus(IShare::STATUS_PENDING)
+				->setTarget('/' . $this->nodeFolder->getName())
+				->setShareTime(DateTime::createFromImmutable($created))
+				->setMailSend(false)
+				->setToken($secret)
+				->setHideDownload(false),
+		];
 		$shareUserStatuses = [
 			[
 				$this->user1->getUID() => ShareUserStatus::Pending,

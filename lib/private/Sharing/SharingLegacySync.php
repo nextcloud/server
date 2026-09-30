@@ -22,6 +22,7 @@ use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\ISharePermissionType;
 use NCU\Sharing\Permission\SharePermission;
+use NCU\Sharing\Property\ISharePropertyType;
 use NCU\Sharing\Property\ShareProperty;
 use NCU\Sharing\Recipient\IShareRecipientType;
 use NCU\Sharing\Recipient\ShareRecipient;
@@ -48,6 +49,7 @@ use OCA\Files\Sharing\Permission\NodeDownloadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeReadSharePermissionType;
 use OCA\Files\Sharing\Permission\NodeUpdateSharePermissionType;
 use OCA\Files\Sharing\Property\NodeGridViewSharePropertyType;
+use OCA\Files\Sharing\Property\NodeNicknameSharePropertyType;
 use OCA\Files\Sharing\Source\NodeShareSourceType;
 use OCA\Files\Sharing\SourceNodeTargetManager;
 use OCP\Constants;
@@ -69,6 +71,7 @@ use OCP\Share\Events\ShareMovedEvent;
 use OCP\Share\Events\ShareRestoredEvent;
 use OCP\Share\Events\ShareUpdatedEvent;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Snowflake\ISnowflakeGenerator;
@@ -340,7 +343,7 @@ final class SharingLegacySync implements IEventListener {
 			$nodeId = $legacyShare->getNodeId();
 			$sources[$nodeId] ??= new ShareSource(NodeShareSourceType::class, (string)$nodeId);
 
-			$recipientTypeClass = $this->legacyShareTypeToRecipientTypeClass($legacyShare->getShareType());
+			$recipientTypeClass = $this->legacyShareTypeToRecipientTypeClass($legacyShare->getShareType(), $legacyShare->getAttributes());
 			$isTokenRecipient = $recipientTypeClass === TokenShareRecipientType::class;
 			$recipients[$recipientTypeClass] ??= [];
 			$sharedWith = $legacyShare->getSharedWith();
@@ -398,6 +401,7 @@ final class SharingLegacySync implements IEventListener {
 			new ShareProperty(LabelSharePropertyType::class, ($label = $legacyShares[0]->getLabel()) !== '' ? $label : null),
 			new ShareProperty(NoteSharePropertyType::class, ($note = $legacyShares[0]->getNote()) !== '' ? $note : null),
 			new ShareProperty(NodeGridViewSharePropertyType::class, $legacyShares[0]->getAttributes()?->getAttribute('config', 'grid_view') === true ? 'true' : 'false'),
+			new ShareProperty(NodeNicknameSharePropertyType::class, $legacyShares[0]->getAttributes()?->getAttribute('fileRequest', 'enabled') === true ? 'true' : 'false'),
 		];
 
 		// TODO: Wrong, reshare can have less permissions
@@ -492,7 +496,7 @@ final class SharingLegacySync implements IEventListener {
 		foreach ($this->legacyMapper->getLegacyMappings($share->id) as $legacyMapping) {
 			$legacyShare = $legacyMapping->getLegacyShare($this->legacySharingManager);
 
-			$recipientTypeClass = $this->legacyShareTypeToRecipientTypeClass($legacyShare->getShareType());
+			$recipientTypeClass = $this->legacyShareTypeToRecipientTypeClass($legacyShare->getShareType(), $legacyShare->getAttributes());
 			$uniqueRecipientId = $this->getUniqueRecipientId($legacyShare);
 			$legacyNodeId = (string)$legacyShare->getNodeId();
 
@@ -507,7 +511,7 @@ final class SharingLegacySync implements IEventListener {
 		$validLegacyShares = [];
 		foreach ($share->recipients as $recipient) {
 			// {@see IShare::TYPE_USERGROUP} shares are handled automatically by the DefaultShareProvider.
-			$legacyShareType = $this->recipientTypeClassToLegacyShareType($recipient->class, $recipient->instance);
+			$legacyShareType = $this->recipientTypeClassToLegacyShareType($recipient->class, $recipient->instance, $share->properties);
 			if ($legacyShareType === null) {
 				continue;
 			}
@@ -523,7 +527,8 @@ final class SharingLegacySync implements IEventListener {
 				$legacyShare = $this->legacySharingManager->newShare();
 				$legacyShare->setShareType($legacyShareType);
 				$legacyShare->setNodeId((int)$source->value);
-				if (($legacySharedWith = $this->recipientToLegacySharedWith($recipient)) !== null) {
+				/** @psalm-suppress ArgumentTypeCoercion Psalm gets confused with the properties keys */
+				if (($legacySharedWith = $this->recipientToLegacySharedWith($recipient, $share->properties)) !== null) {
 					$legacyShare->setSharedWith($legacySharedWith);
 				}
 
@@ -539,6 +544,7 @@ final class SharingLegacySync implements IEventListener {
 
 				$legacyShare->setSharedBy($recipient->initiator->userId);
 
+				// TODO: Compute permissions for the recipient instead
 				[$permissions, $allowDownload] = $this->permissionsToLegacyPermissions($source, array_keys($share->getEffectiveEnabledPermissions(new ShareAccessContext(overrideChecks: true))));
 				$legacyShare->setPermissions($permissions);
 
@@ -546,7 +552,9 @@ final class SharingLegacySync implements IEventListener {
 				$attributes->setAttribute('permissions', 'download', $allowDownload);
 				$legacyShare->setHideDownload(!$allowDownload);
 
-				$legacyShare->setToken(in_array($recipient->class, [EmailShareRecipientType::class, TokenShareRecipientType::class], true) ? ($recipient->secret ?? '') : '');
+				$attributes->setAttribute('fileRequest', 'enabled', ($share->properties[NodeNicknameSharePropertyType::class] ?? null)?->value === 'true');
+
+				$legacyShare->setToken($this->isPublicLegacyShare($legacyShare) ? ($recipient->secret ?? '') : '');
 
 				if ($share->owner->instance !== null) {
 					throw new RuntimeException("Incoming remote shares aren't handled by " . self::class);
@@ -584,7 +592,7 @@ final class SharingLegacySync implements IEventListener {
 				$legacyShare->setExpirationDate($expirationDate);
 				// We don't call setNoExpirationDate, because the value isn't actually saved
 
-				if (($passwordHash = $share->properties[PasswordSharePropertyType::class]?->value ?? null) !== null) {
+				if (($passwordHash = ($share->properties[PasswordSharePropertyType::class] ?? null)?->value) !== null) {
 					$legacyShare->setPasswordHash($passwordHash);
 				}
 
@@ -789,7 +797,14 @@ final class SharingLegacySync implements IEventListener {
 		return $permissions;
 	}
 
-	private function recipientToLegacySharedWith(ShareRecipient $recipient): ?string {
+	/**
+	 * @param array<class-string<ISharePropertyType>, ShareProperty> $shareProperties
+	 */
+	private function recipientToLegacySharedWith(ShareRecipient $recipient, array $shareProperties): ?string {
+		if (($shareProperties[NodeNicknameSharePropertyType::class] ?? null)?->value === 'true') {
+			return '';
+		}
+
 		if ($recipient->instance !== null) {
 			return $this->cloudIdManager->getCloudId($recipient->value, $recipient->instance)->getId();
 		}
@@ -803,12 +818,17 @@ final class SharingLegacySync implements IEventListener {
 
 	/**
 	 * @param class-string<IShareRecipientType> $recipientTypeClass
+	 * @param array<class-string<ISharePropertyType>, ShareProperty> $shareProperties
 	 * @return ?IShare::TYPE_*
 	 */
-	private function recipientTypeClassToLegacyShareType(string $recipientTypeClass, ?string $instance): ?int {
+	private function recipientTypeClassToLegacyShareType(string $recipientTypeClass, ?string $recipientInstance, array $shareProperties): ?int {
+		if (($shareProperties[NodeNicknameSharePropertyType::class] ?? null)?->value === 'true') {
+			return IShare::TYPE_EMAIL;
+		}
+
 		return match ($recipientTypeClass) {
-			UserShareRecipientType::class => $instance === null ? IShare::TYPE_USER : IShare::TYPE_REMOTE,
-			GroupShareRecipientType::class => $instance === null ? IShare::TYPE_GROUP : IShare::TYPE_REMOTE_GROUP,
+			UserShareRecipientType::class => $recipientInstance === null ? IShare::TYPE_USER : IShare::TYPE_REMOTE,
+			GroupShareRecipientType::class => $recipientInstance === null ? IShare::TYPE_GROUP : IShare::TYPE_REMOTE_GROUP,
 			TokenShareRecipientType::class => IShare::TYPE_LINK,
 			EmailShareRecipientType::class => IShare::TYPE_EMAIL,
 			TeamShareRecipientType::class => IShare::TYPE_CIRCLE,
@@ -821,7 +841,11 @@ final class SharingLegacySync implements IEventListener {
 	 * @param IShare::TYPE_* $legacyShareType
 	 * @return class-string<IShareRecipientType>
 	 */
-	private function legacyShareTypeToRecipientTypeClass(int $legacyShareType): string {
+	private function legacyShareTypeToRecipientTypeClass(int $legacyShareType, ?IAttributes $attributes): string {
+		if ($attributes?->getAttribute('fileRequest', 'enabled') === true) {
+			return TokenShareRecipientType::class;
+		}
+
 		return match ($legacyShareType) {
 			IShare::TYPE_USER, IShare::TYPE_REMOTE => UserShareRecipientType::class,
 			IShare::TYPE_GROUP, IShare::TYPE_REMOTE_GROUP => GroupShareRecipientType::class,
