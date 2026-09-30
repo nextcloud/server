@@ -18,6 +18,7 @@ use OC\Preview\Storage\StorageFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\FileInfo;
 use OCP\Files\IAppData;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
@@ -89,7 +90,10 @@ class PreviewMigrationJobTest extends TestCase {
 		$this->mimeTypeDetector = $this->createMock(IMimeTypeDetector::class);
 		$this->mimeTypeDetector->method('detectPath')->willReturn('image/png');
 		$this->mimeTypeLoader = $this->createMock(IMimeTypeLoader::class);
-		$this->mimeTypeLoader->method('getId')->with('image/png')->willReturn(42);
+		$this->mimeTypeLoader->method('getId')->willReturnMap([
+			['image/png', 42],
+			[FileInfo::MIMETYPE_FOLDER, Server::get(IMimeTypeLoader::class)->getId(FileInfo::MIMETYPE_FOLDER)],
+		]);
 		$this->mimeTypeLoader->method('getMimetypeById')->with(42)->willReturn('image/png');
 		$this->logger = $this->createMock(LoggerInterface::class);
 	}
@@ -144,8 +148,6 @@ class PreviewMigrationJobTest extends TestCase {
 				Server::get(IAppDataFactory::class),
 			),
 			Server::get(IJobList::class),
-			Server::get(IDBConnection::class),
-			Server::get(IMimeTypeLoader::class),
 			$this->logger,
 		);
 	}
