@@ -4,12 +4,14 @@
 -->
 
 <script setup lang="ts">
+import type { ComponentPublicInstance } from 'vue'
 import type { INavigationEntry } from '../types/navigation.d.ts'
 
+import { mdiDotsHorizontal } from '@mdi/js'
 import { t } from '@nextcloud/l10n'
 import { computed, ref, watch } from 'vue'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
-import IconDotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
 import AppActionIcon from './AppActionIcon.vue'
 import AppMenuAction from './AppMenuAction.vue'
 import AppMenuItem from './AppMenuItem.vue'
@@ -53,9 +55,21 @@ const focusedIndex = ref(0)
 const overflowFocusedIndex = ref(0)
 const overflowOpened = ref(false)
 
-const rowItems = ref<ItemRef[]>([])
-const overflowItems = ref<ItemRef[]>([])
+// Items by position; a ref inside v-for does not keep the source order.
+const rowItems: (ItemRef | undefined)[] = []
+const overflowItems: (ItemRef | undefined)[] = []
 const overflowTrigger = ref<ItemRef | null>(null)
+
+/**
+ * Keep the rendered item of a position.
+ *
+ * @param items - The items of one of the two roving contexts
+ * @param index - The position of the item
+ * @param item - The rendered item, null once it is removed
+ */
+function setItem(items: (ItemRef | undefined)[], index: number, item: Element | ComponentPublicInstance | null): void {
+	items[index] = (item ?? undefined) as ItemRef | undefined
+}
 
 const hasOverflow = computed(() => props.actions.length > ACTIONS_PER_ROW)
 
@@ -105,11 +119,11 @@ function trySubmenuFocus(retries: number): void {
 	if (!overflowOpened.value || retries <= 0) {
 		return
 	}
-	if (overflowItems.value.length === 0) {
+	if (!overflowItems[0]) {
 		requestAnimationFrame(() => trySubmenuFocus(retries - 1))
 		return
 	}
-	overflowItems.value[0].$el.focus()
+	overflowItems[0].$el.focus()
 }
 
 /**
@@ -151,7 +165,7 @@ function onSubmenuKeydown(event: KeyboardEvent): void {
 		return
 	}
 	overflowFocusedIndex.value = next
-	overflowItems.value[next]?.$el?.focus()
+	overflowItems[next]?.$el?.focus()
 }
 
 /**
@@ -164,7 +178,7 @@ function focusRowItem(index: number): void {
 		overflowTrigger.value?.$el?.focus()
 		return
 	}
-	rowItems.value[index]?.$el?.focus()
+	rowItems[index]?.$el?.focus()
 }
 
 /**
@@ -234,7 +248,7 @@ function nextIndex(event: KeyboardEvent, current: number, total: number, orienta
  */
 function activate(index: number, orientation: 'horizontal' | 'vertical'): void {
 	if (orientation === 'vertical') {
-		overflowItems.value[index]?.$el?.click()
+		overflowItems[index]?.$el?.click()
 		return
 	}
 	if (hasOverflow.value && index === rowActions.value.length) {
@@ -242,7 +256,7 @@ function activate(index: number, orientation: 'horizontal' | 'vertical'): void {
 		overflowTrigger.value?.$el?.click()
 		return
 	}
-	rowItems.value[index]?.$el?.click()
+	rowItems[index]?.$el?.click()
 }
 
 /** Collapse the submenu and let the app menu close as well. */
@@ -261,7 +275,7 @@ function onOverflowActionClick(): void {
 		<AppMenuAction
 			v-for="(action, i) in rowActions"
 			:key="action.id"
-			ref="rowItems"
+			:ref="(item) => setItem(rowItems, i, item)"
 			:action="action"
 			:tabindex="i === focusedIndex ? 0 : -1"
 			@click="emit('click')" />
@@ -271,9 +285,9 @@ function onOverflowActionClick(): void {
 			:shown="overflowOpened"
 			:triggers="[]"
 			placement="auto-end"
-			popover-base-class="app-menu-actions__popover-base"
-			popup-role="menu"
-			:set-return-focus="returnFocusTarget"
+			popoverBaseClass="app-menu-actions__popover-base"
+			popupRole="menu"
+			:setReturnFocus="returnFocusTarget"
 			@update:shown="overflowOpened = $event">
 			<template #trigger>
 				<AppMenuItem
@@ -287,7 +301,7 @@ function onOverflowActionClick(): void {
 						<!-- Inline icon: the core dots asset ships a black fill,
 							which AppActionIcon would paint unchanged. -->
 						<AppActionIcon>
-							<IconDotsHorizontal />
+							<NcIconSvgWrapper :path="mdiDotsHorizontal" />
 						</AppActionIcon>
 					</template>
 				</AppMenuItem>
@@ -301,7 +315,7 @@ function onOverflowActionClick(): void {
 				<AppMenuAction
 					v-for="(action, i) in overflowActions"
 					:key="action.id"
-					ref="overflowItems"
+					:ref="(item) => setItem(overflowItems, i, item)"
 					compact
 					:action="action"
 					:tabindex="i === overflowFocusedIndex ? 0 : -1"

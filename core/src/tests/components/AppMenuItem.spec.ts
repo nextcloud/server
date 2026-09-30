@@ -35,34 +35,34 @@ function makeApp(overrides: Partial<INavigationEntry> = {}): INavigationEntry {
 
 describe('core: AppMenuItem', () => {
 	it('renders the label', () => {
-		const wrapper = mount(AppMenuItem, { propsData: { app: makeApp({ name: 'Files' }) } })
+		const wrapper = mount(AppMenuItem, { props: { app: makeApp({ name: 'Files' }) } })
 		expect(wrapper.text()).toContain('Files')
 	})
 
 	it('active app has aria-current="page"', () => {
-		const wrapper = mount(AppMenuItem, { propsData: { app: makeApp({ active: true }) } })
+		const wrapper = mount(AppMenuItem, { props: { app: makeApp({ active: true }) } })
 		expect(wrapper.attributes('aria-current')).toBe('page')
 	})
 
 	it('renders an anchor for entries with a target', () => {
-		const wrapper = mount(AppMenuItem, { propsData: { app: makeApp({ href: '/apps/files' }) } })
+		const wrapper = mount(AppMenuItem, { props: { app: makeApp({ href: '/apps/files' }) } })
 		expect(wrapper.element.tagName).toBe('A')
 		expect(wrapper.attributes('href')).toBe('/apps/files')
 	})
 
 	it('renders a button for entries without a target', () => {
-		const wrapper = mount(AppMenuItem, { propsData: { app: makeApp({ href: '' }) } })
+		const wrapper = mount(AppMenuItem, { props: { app: makeApp({ href: '' }) } })
 		expect(wrapper.element.tagName).toBe('BUTTON')
 		expect(wrapper.attributes('type')).toBe('button')
 		expect(wrapper.attributes('href')).toBeUndefined()
 	})
 
 	it('renders the app icon by default and lets consumers replace it', () => {
-		const wrapper = mount(AppMenuItem, { propsData: { app: makeApp() } })
+		const wrapper = mount(AppMenuItem, { props: { app: makeApp() } })
 		expect(wrapper.find('.app-icon').exists()).toBe(true)
 
 		const slotted = mount(AppMenuItem, {
-			propsData: { app: makeApp() },
+			props: { app: makeApp() },
 			slots: { icon: '<span class="custom-icon" />' },
 		})
 		expect(slotted.find('.app-icon').exists()).toBe(false)
@@ -70,7 +70,7 @@ describe('core: AppMenuItem', () => {
 	})
 
 	it('emits the activation to the parent', async () => {
-		const wrapper = mount(AppMenuItem, { propsData: { app: makeApp({ href: '' }) } })
+		const wrapper = mount(AppMenuItem, { props: { app: makeApp({ href: '' }) } })
 		await wrapper.trigger('click')
 		expect(wrapper.emitted('click')).toHaveLength(1)
 	})
