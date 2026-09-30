@@ -15,9 +15,11 @@ import {
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
-import { NcButton, NcIconSvgWrapper, NcLoadingIcon } from '@nextcloud/vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import NcGuestContent from '@nextcloud/vue/components/NcGuestContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import OCEventSource from '../OC/eventsource.js'
 
@@ -233,10 +235,10 @@ function reloadPage() {
 				{{ isShowingDetails ? t('core', 'Hide details') : t('core', 'Show details') }}
 			</NcButton>
 			<Transition
-				:enter-active-class="$style.updater__transition_active"
-				:leave-active-class="$style.updater__transition_active"
-				:leave-to-class="$style.updater__transition_collapsed"
-				:enter-class="$style.updater__transition_collapsed">
+				:enterActiveClass="$style.updater__transition_active"
+				:leaveActiveClass="$style.updater__transition_active"
+				:leaveToClass="$style.updater__transition_collapsed"
+				:enterFromClass="$style.updater__transition_collapsed">
 				<ul
 					v-show="isShowingDetails"
 					id="core-update-details"
