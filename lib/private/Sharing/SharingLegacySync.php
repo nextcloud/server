@@ -76,6 +76,7 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Snowflake\ISnowflakeGenerator;
 use RuntimeException;
+use ValueError;
 
 /**
  * @template-implements IEventListener<ShareAcceptedEvent|ShareCreatedEvent|ShareDeletedEvent|ShareDeletedFromSelfEvent|ShareMovedEvent|ShareRestoredEvent|ShareUpdatedEvent|SharesUpdatedEvent|SharesDeletedEvent>
@@ -349,7 +350,7 @@ final class SharingLegacySync implements IEventListener {
 			$sharedWith = $legacyShare->getSharedWith();
 			$recipient = $isTokenRecipient ? ['value' => $legacyMapping->recipientValue, 'remote' => null] : $this->splitLegacySharedWith($legacyShare->getShareType(), $sharedWith);
 			/** @psalm-suppress ArgumentTypeCoercion */
-			$recipients[$recipientTypeClass][$this->getUniqueRecipientId($legacyShare)] ??= new ShareRecipient(
+			$recipients[$recipientTypeClass][$this->getLegacySharedWithUnique($legacyShare)] ??= new ShareRecipient(
 				$recipientTypeClass,
 				$recipient['value'],
 				$recipient['remote'],
@@ -489,217 +490,272 @@ final class SharingLegacySync implements IEventListener {
 	}
 
 	private function syncShareToLegacyShares(Share $share): void {
-		/** @var array<class-string<IShareRecipientType>, array<string, array<string, LegacyMapping>>> $legacyMappings */
+		/** @var array<IShare::TYPE_*, array<string, array<int, LegacyMapping>>> $legacyMappings */
 		$legacyMappings = [];
 		/** @var array<string, IShare> */
-		$legacyShares = [];
+		$oldLegacyShares = [];
 		foreach ($this->legacyMapper->getLegacyMappings($share->id) as $legacyMapping) {
 			$legacyShare = $legacyMapping->getLegacyShare($this->legacySharingManager);
 
-			$recipientTypeClass = $this->legacyShareTypeToRecipientTypeClass($legacyShare->getShareType(), $legacyShare->getAttributes());
-			$uniqueRecipientId = $this->getUniqueRecipientId($legacyShare);
-			$legacyNodeId = (string)$legacyShare->getNodeId();
+			$legacyShareType = $legacyShare->getShareType();
+			$legacySharedWithUnique = $this->getLegacySharedWithUnique($legacyShare);
 
-			$legacyMappings[$recipientTypeClass] ??= [];
-			$legacyMappings[$recipientTypeClass][$uniqueRecipientId] ??= [];
-			$legacyMappings[$recipientTypeClass][$uniqueRecipientId][$legacyNodeId] = $legacyMapping;
+			$legacyMappings[$legacyShareType] ??= [];
+			$legacyMappings[$legacyShareType][$legacySharedWithUnique] ??= [];
+			$legacyMappings[$legacyShareType][$legacySharedWithUnique][$legacyShare->getNodeId()] = $legacyMapping;
 
-			$legacyShares[$legacyShare->getFullId()] = $legacyShare;
+			$oldLegacyShares[$legacyShare->getFullId()] = $legacyShare;
 		}
 
-		/** @var array<string, true> $validLegacyShares */
-		$validLegacyShares = [];
-		foreach ($share->recipients as $recipient) {
-			// {@see IShare::TYPE_USERGROUP} shares are handled automatically by the DefaultShareProvider.
-			$legacyShareType = $this->recipientTypeClassToLegacyShareType($recipient->class, $recipient->instance, $share->properties);
-			if ($legacyShareType === null) {
+		if ($share->recipients === []) {
+			return;
+		}
+
+		/** @var array<string, IShare> */
+		$newLegacyShares = [];
+		foreach ($share->sources as $source) {
+			if ($source->class !== NodeShareSourceType::class) {
 				continue;
 			}
 
-			foreach ($share->sources as $source) {
-				if ($source->class !== NodeShareSourceType::class) {
-					continue;
-				}
+			if (($share->properties[NodeNicknameSharePropertyType::class] ?? null)?->value === 'true') {
+				// TODO: If and how to handle other recipients?
 
 				$attributes = new ShareAttributes();
 
 				// Create a new object to avoid copying existing attributes.
 				$legacyShare = $this->legacySharingManager->newShare();
-				$legacyShare->setShareType($legacyShareType);
-				$legacyShare->setNodeId((int)$source->value);
-				/** @psalm-suppress ArgumentTypeCoercion Psalm gets confused with the properties keys */
-				if (($legacySharedWith = $this->recipientToLegacySharedWith($recipient, $share->properties)) !== null) {
-					$legacyShare->setSharedWith($legacySharedWith);
-				}
+				$legacyShare->setShareType(IShare::TYPE_EMAIL);
+				$legacyShare->setSharedWith('');
 
-				$legacyShare->setShareTime(DateTime::createFromImmutable($share->getCreatedAt()));
+				$attributes->setAttribute('shareWith', 'emails', array_map(static fn (ShareRecipient $recipient): string => $recipient->value, array_values(array_filter($share->recipients, static fn (ShareRecipient $recipient): bool => $recipient->class === EmailShareRecipientType::class))));
 
-				if ($recipient->instance !== null) {
-					throw new RuntimeException("Incoming remote shares aren't handled by " . self::class);
-				}
-
+				// TODO: Use the token recipient
+				$recipient = $share->recipients[0];
 				if ($recipient->initiator === null) {
 					throw new RuntimeException('Share recipient cannot be null at this point.');
 				}
 
+				$recipientSecret = $recipient->secret;
+				if ($recipientSecret === null) {
+					throw new RuntimeException('secret must be set.');
+				}
+
 				$legacyShare->setSharedBy($recipient->initiator->userId);
+				$legacyShare->setToken($this->isPublicLegacyShare($legacyShare) ? $recipientSecret : '');
 
-				// TODO: Compute permissions for the recipient instead
-				[$permissions, $allowDownload] = $this->permissionsToLegacyPermissions($source, array_keys($share->getEffectiveEnabledPermissions(new ShareAccessContext(overrideChecks: true))));
-				$legacyShare->setPermissions($permissions);
-
-				// Always set both, to avoid mixups.
-				$attributes->setAttribute('permissions', 'download', $allowDownload);
-				$legacyShare->setHideDownload(!$allowDownload);
-
-				$attributes->setAttribute('fileRequest', 'enabled', ($share->properties[NodeNicknameSharePropertyType::class] ?? null)?->value === 'true');
-
-				$legacyShare->setToken($this->isPublicLegacyShare($legacyShare) ? ($recipient->secret ?? '') : '');
-
-				if ($share->owner->instance !== null) {
-					throw new RuntimeException("Incoming remote shares aren't handled by " . self::class);
-				}
-
-				$legacyShare->setShareOwner($share->owner->userId);
-
-				$legacyShare->setStatus(
-					$this->userStatusToLegacyUserStatus(
-						(
-							$recipient->class === UserShareRecipientType::class && $recipient->instance === null
-							? ($this->backend->getUserStatuses($share->id, [$recipient->value])[$recipient->value] ?? null)
-							: null
-						) ?? ShareUserStatus::Pending
-					)
-				);
-
-				if ($recipient->class === UserShareRecipientType::class && $recipient->instance === null) {
-					$target = $this->getSourceNodeTargetManager()->getTarget($recipient->value, $share->owner, (int)$source->value) ?? $this->getSourceNodeTargetManager()->createDefaultTarget($recipient->value, $share->owner, (int)$source->value);
-					$legacyShare->setTarget($target);
-				}
-
-				$legacyShare->setNote(($share->properties[NoteSharePropertyType::class] ?? null)?->value ?? '');
-
-				$legacyShare->setLabel($this->isPublicLegacyShare($legacyShare) ? ($share->properties[LabelSharePropertyType::class] ?? null)?->value ?? '' : '');
-
-				$attributes->setAttribute('config', 'grid_view', ($share->properties[NodeGridViewSharePropertyType::class] ?? null)?->value === 'true');
-
-				$expirationDate = ($share->properties[ExpirationDateSharePropertyType::class] ?? null)?->value;
-				$expirationDate = $expirationDate !== null ? DateTime::createFromFormat(DateTimeInterface::ATOM, $expirationDate) : null;
-				if ($expirationDate === false) {
-					throw new RuntimeException('Failed to parse expiration date.');
-				}
-
-				$legacyShare->setExpirationDate($expirationDate);
-				// We don't call setNoExpirationDate, because the value isn't actually saved
-
-				if (($passwordHash = ($share->properties[PasswordSharePropertyType::class] ?? null)?->value) !== null) {
-					$legacyShare->setPasswordHash($passwordHash);
-				}
+				$legacyShare->setStatus(IShare::STATUS_PENDING);
 
 				$legacyShare->setAttributes($attributes);
 
-				if (($legacyMapping = $legacyMappings[$recipient->class][$this->getUniqueRecipientId($recipient)][$source->value] ?? null) !== null) {
-					$oldLegacyShare = $legacyMapping->getLegacyShare($this->legacySharingManager);
+				$this->setCommonLegacyShareFields($share, $source, $legacyShare);
 
-					$legacyShare->setId($oldLegacyShare->getId());
-					$legacyShare->setProviderId($oldLegacyShare->getProviderId());
+				$legacyShare = $this->createOrUpdateLegacyShare($share, $legacyMappings, $legacyShare, '', $recipientSecret);
 
-					$this->legacyMapper->updateLegacyMapping(new LegacyMapping(
-						$legacyMapping->id,
-						$legacyMapping->legacyProvider,
-						$legacyMapping->legacyId,
-						$share->lastUpdated,
-						$legacyMapping->recipientSecret,
-						$legacyMapping->recipientValue,
-					));
-				} else {
-					try {
-						// We need to create the legacy mapping ourselves to control the share id, so we disable the automapping of new legacy shares.
-						$this->ignoreNewLegacyShare = true;
-						// This is the only way we can get a provider and id assigned.
-						$legacyShare = $this->legacySharingManager->createShare($legacyShare);
-						$this->ignoreNewLegacyShare = false;
-					} catch (Exception $exception) {
-						$this->ignoreNewLegacyShare = false;
-						throw $exception;
+				$newLegacyShares[$legacyShare->getFullId()] = $legacyShare;
+			} else {
+				foreach ($share->recipients as $recipient) {
+					// {@see IShare::TYPE_USERGROUP} shares are handled automatically by the DefaultShareProvider.
+					/** @psalm-suppress ArgumentTypeCoercion Psalm gets confused with the properties keys */
+					$legacyShareType = $this->recipientTypeClassToLegacyShareType($recipient->class, $recipient->instance, $share->properties);
+					if ($legacyShareType === null) {
+						continue;
 					}
 
-					$secret = $recipient->secret;
-					if ($secret === null) {
+					// Create a new object to avoid copying existing attributes.
+					$legacyShare = $this->legacySharingManager->newShare();
+					$legacyShare->setShareType($legacyShareType);
+
+					/** @psalm-suppress ArgumentTypeCoercion Psalm gets confused with the properties keys */
+					if (($legacySharedWith = $this->recipientToLegacySharedWith($recipient, $share->properties)) !== null) {
+						$legacyShare->setSharedWith($legacySharedWith);
+					}
+
+					if ($recipient->instance !== null) {
+						throw new RuntimeException("Incoming remote shares aren't handled by " . self::class);
+					}
+
+					if ($recipient->initiator === null) {
+						throw new RuntimeException('Share recipient cannot be null at this point.');
+					}
+
+					$legacyShare->setSharedBy($recipient->initiator->userId);
+
+					$recipientSecret = $recipient->secret;
+					if ($recipientSecret === null) {
 						throw new RuntimeException('secret must be set.');
 					}
 
-					$this->legacyMapper->createLegacyMapping(
-						$share->id,
-						$legacyShare->getProviderId(),
-						(int)$legacyShare->getId(),
-						$share->lastUpdated,
-						$secret,
-						$recipient->value,
+					$legacyShare->setToken($this->isPublicLegacyShare($legacyShare) ? $recipientSecret : '');
+
+					$legacyShare->setStatus(
+						$this->userStatusToLegacyUserStatus(
+							(
+								$recipient->class === UserShareRecipientType::class && $recipient->instance === null
+								? ($this->backend->getUserStatuses($share->id, [$recipient->value])[$recipient->value] ?? null)
+								: null
+							) ?? ShareUserStatus::Pending
+						)
 					);
-				}
 
-				// Child shares might automatically get accepted, so we need to update their user status.
-				if ($recipient->class === GroupShareRecipientType::class) {
-					if (($recipientType = $this->sharingRegistry->getRecipientTypes()[$recipient->class] ?? null) === null) {
-						throw new RuntimeException('The recipient type is not registered: ' . $recipient->class);
+					if ($recipient->class === UserShareRecipientType::class && $recipient->instance === null) {
+						$target = $this->getSourceNodeTargetManager()->getTarget($recipient->value, $share->owner, (int)$source->value) ?? $this->getSourceNodeTargetManager()->createDefaultTarget($recipient->value, $share->owner, (int)$source->value);
+						$legacyShare->setTarget($target);
 					}
 
-					$userIds = $recipientType->getUsers($recipient->value);
+					$this->setCommonLegacyShareFields($share, $source, $legacyShare);
 
-					$userIdsByUserStatus = [];
-					foreach ($this->backend->getUserStatuses($share->id, $userIds) as $userId => $userStatus) {
-						$userIdsByUserStatus[$userStatus->value] ??= [];
-						$userIdsByUserStatus[$userStatus->value][] = $userId;
-					}
+					$legacyShare = $this->createOrUpdateLegacyShare($share, $legacyMappings, $legacyShare, $recipient->value, $recipientSecret);
 
-					foreach ($userIdsByUserStatus as $userStatus => $userIds) {
-						foreach (array_chunk($userIds, 1000) as $chunk) {
-							$qb = $this->dbConnection->getQueryBuilder();
-							$qb
-								->update('share')
-								->set('accepted', $qb->createNamedParameter($this->userStatusToLegacyUserStatus(ShareUserStatus::from($userStatus)), IQueryBuilder::PARAM_INT))
-								->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP, IQueryBuilder::PARAM_INT)))
-								->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter((int)$legacyShare->getId(), IQueryBuilder::PARAM_INT)))
-								->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
-								->executeStatement();
+					foreach ($share->recipients as $recipient) {
+						// Child shares might automatically get accepted, so we need to update their user status.
+						if ($recipient->class === GroupShareRecipientType::class) {
+							if (($recipientType = $this->sharingRegistry->getRecipientTypes()[$recipient->class] ?? null) === null) {
+								throw new RuntimeException('The recipient type is not registered: ' . $recipient->class);
+							}
+
+							$userIds = $recipientType->getUsers($recipient->value);
+
+							$userIdsByUserStatus = [];
+							foreach ($this->backend->getUserStatuses($share->id, $userIds) as $userId => $userStatus) {
+								$userIdsByUserStatus[$userStatus->value] ??= [];
+								$userIdsByUserStatus[$userStatus->value][] = $userId;
+							}
+
+							foreach ($userIdsByUserStatus as $userStatus => $userIds) {
+								foreach (array_chunk($userIds, 1000) as $chunk) {
+									$qb = $this->dbConnection->getQueryBuilder();
+									$qb
+										->update('share')
+										->set('accepted', $qb->createNamedParameter($this->userStatusToLegacyUserStatus(ShareUserStatus::from($userStatus)), IQueryBuilder::PARAM_INT))
+										->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP, IQueryBuilder::PARAM_INT)))
+										->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter((int)$legacyShare->getId(), IQueryBuilder::PARAM_INT)))
+										->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
+										->executeStatement();
+								}
+							}
+
+							$userIdsByTarget = [];
+							foreach ($this->getSourceNodeTargetManager()->getTargets($userIds, $share->owner, (int)$source->value) as $userId => $target) {
+								$userIdsByTarget[$target] ??= [];
+								$userIdsByTarget[$target][] = $userId;
+							}
+
+							foreach ($userIdsByTarget as $target => $userIds) {
+								foreach (array_chunk($userIds, 1000) as $chunk) {
+									$qb = $this->dbConnection->getQueryBuilder();
+									$qb
+										->update('share')
+										->set('file_target', $qb->createNamedParameter($target))
+										->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP, IQueryBuilder::PARAM_INT)))
+										->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter((int)$legacyShare->getId(), IQueryBuilder::PARAM_INT)))
+										->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
+										->executeStatement();
+								}
+							}
 						}
 					}
 
-					$userIdsByTarget = [];
-					foreach ($this->getSourceNodeTargetManager()->getTargets($userIds, $share->owner, (int)$source->value) as $userId => $target) {
-						$userIdsByTarget[$target] ??= [];
-						$userIdsByTarget[$target][] = $userId;
-					}
-
-					foreach ($userIdsByTarget as $target => $userIds) {
-						foreach (array_chunk($userIds, 1000) as $chunk) {
-							$qb = $this->dbConnection->getQueryBuilder();
-							$qb
-								->update('share')
-								->set('file_target', $qb->createNamedParameter($target))
-								->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP, IQueryBuilder::PARAM_INT)))
-								->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter((int)$legacyShare->getId(), IQueryBuilder::PARAM_INT)))
-								->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
-								->executeStatement();
-						}
-					}
+					$newLegacyShares[$legacyShare->getFullId()] = $legacyShare;
 				}
-
-				$legacyShares[$legacyShare->getFullId()] = $legacyShare;
-				$validLegacyShares[$legacyShare->getFullId()] = true;
 			}
 		}
 
-		$invalidLegacyShares = array_diff(array_keys($legacyShares), array_keys($validLegacyShares));
-		foreach ($invalidLegacyShares as $invalidLegacyShareId) {
-			$this->legacySharingManager->deleteShare($legacyShares[$invalidLegacyShareId]);
-			unset($legacyShares[$invalidLegacyShareId]);
+		foreach (array_diff(array_keys($oldLegacyShares), array_keys($newLegacyShares)) as $invalidLegacyShareId) {
+			$this->legacySharingManager->deleteShare($oldLegacyShares[$invalidLegacyShareId]);
 		}
 
-		foreach ($legacyShares as $legacyShare) {
+		foreach ($newLegacyShares as $legacyShare) {
 			$this->legacySharingManager->updateShare($legacyShare);
 		}
+	}
+
+	private function setCommonLegacyShareFields(Share $share, ShareSource $source, IShare $legacyShare): void {
+		$attributes = $legacyShare->getAttributes() ?? new ShareAttributes();
+
+		$legacyShare->setNodeId((int)$source->value);
+
+		$legacyShare->setShareTime(DateTime::createFromImmutable($share->getCreatedAt()));
+
+		// TODO: Compute permissions for the recipient instead
+		[$permissions, $allowDownload] = $this->permissionsToLegacyPermissions($source, array_keys($share->getEffectiveEnabledPermissions(new ShareAccessContext(overrideChecks: true))));
+		$legacyShare->setPermissions($permissions);
+
+		// Always set both, to avoid mixups.
+		$attributes->setAttribute('permissions', 'download', $allowDownload);
+		$legacyShare->setHideDownload(!$allowDownload);
+
+		$attributes->setAttribute('fileRequest', 'enabled', ($share->properties[NodeNicknameSharePropertyType::class] ?? null)?->value === 'true');
+
+		if ($share->owner->instance !== null) {
+			throw new RuntimeException("Incoming remote shares aren't handled by " . self::class);
+		}
+
+		$legacyShare->setShareOwner($share->owner->userId);
+
+		$legacyShare->setNote(($share->properties[NoteSharePropertyType::class] ?? null)?->value ?? '');
+
+		$legacyShare->setLabel($this->isPublicLegacyShare($legacyShare) ? ($share->properties[LabelSharePropertyType::class] ?? null)?->value ?? '' : '');
+
+		$attributes->setAttribute('config', 'grid_view', ($share->properties[NodeGridViewSharePropertyType::class] ?? null)?->value === 'true');
+
+		$expirationDate = ($share->properties[ExpirationDateSharePropertyType::class] ?? null)?->value;
+		$expirationDate = $expirationDate !== null ? DateTime::createFromFormat(DateTimeInterface::ATOM, $expirationDate) : null;
+		if ($expirationDate === false) {
+			throw new RuntimeException('Failed to parse expiration date.');
+		}
+
+		$legacyShare->setExpirationDate($expirationDate);
+		// We don't call setNoExpirationDate, because the value isn't actually saved
+
+		if (($passwordHash = ($share->properties[PasswordSharePropertyType::class] ?? null)?->value) !== null) {
+			$legacyShare->setPasswordHash($passwordHash);
+		}
+
+		$legacyShare->setAttributes($attributes);
+	}
+
+	/**
+	 * @param array<IShare::TYPE_*, array<string, array<int, LegacyMapping>>> $legacyMappings
+	 */
+	private function createOrUpdateLegacyShare(Share $share, array $legacyMappings, IShare $legacyShare, string $recipientValue, string $recipientSecret): IShare {
+		if (($legacyMapping = $legacyMappings[$legacyShare->getShareType()][$this->getLegacySharedWithUnique($legacyShare)][$legacyShare->getNodeId()] ?? null) !== null) {
+			$oldLegacyShare = $legacyMapping->getLegacyShare($this->legacySharingManager);
+
+			$legacyShare->setId($oldLegacyShare->getId());
+			$legacyShare->setProviderId($oldLegacyShare->getProviderId());
+
+			$this->legacyMapper->updateLegacyMapping(new LegacyMapping(
+				$legacyMapping->id,
+				$legacyMapping->legacyProvider,
+				$legacyMapping->legacyId,
+				$share->lastUpdated,
+				$legacyMapping->recipientSecret,
+				$legacyMapping->recipientValue,
+			));
+		} else {
+			try {
+				// We need to create the legacy mapping ourselves to control the share id, so we disable the automapping of new legacy shares.
+				$this->ignoreNewLegacyShare = true;
+				// This is the only way we can get a provider and id assigned.
+				$legacyShare = $this->legacySharingManager->createShare($legacyShare);
+				$this->ignoreNewLegacyShare = false;
+			} catch (Exception $exception) {
+				$this->ignoreNewLegacyShare = false;
+				throw $exception;
+			}
+
+			$this->legacyMapper->createLegacyMapping(
+				$share->id,
+				$legacyShare->getProviderId(),
+				(int)$legacyShare->getId(),
+				$share->lastUpdated,
+				$recipientSecret,
+				$recipientValue,
+			);
+		}
+
+		return $legacyShare;
 	}
 
 	/**
@@ -899,24 +955,7 @@ final class SharingLegacySync implements IEventListener {
 		];
 	}
 
-	private function getUniqueRecipientId(IShare|ShareRecipient $legacyShareOrRecipient): string {
-		if ($legacyShareOrRecipient instanceof IShare) {
-			return $legacyShareOrRecipient->getShareType() === IShare::TYPE_LINK ? $legacyShareOrRecipient->getToken() : $legacyShareOrRecipient->getSharedWith();
-		}
-
-		if ($legacyShareOrRecipient->class === TokenShareRecipientType::class) {
-			$secret = $legacyShareOrRecipient->secret;
-			if ($secret === null) {
-				throw new RuntimeException('secret must be set.');
-			}
-
-			return $secret;
-		}
-
-		if (($instance = $legacyShareOrRecipient->instance) !== null) {
-			return $legacyShareOrRecipient->value . '@' . $instance;
-		}
-
-		return $legacyShareOrRecipient->value;
+	private function getLegacySharedWithUnique(IShare $legacyShare): string {
+		return $this->isPublicLegacyShare($legacyShare) ? $legacyShare->getToken() : $legacyShare->getSharedWith();
 	}
 }
