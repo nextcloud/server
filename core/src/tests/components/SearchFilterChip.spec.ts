@@ -14,7 +14,7 @@ import SearchFilterChip from '../../components/UnifiedSearch/SearchFilterChip.vu
 
 function factory(propsData = {}) {
 	return shallowMount(SearchFilterChip, {
-		propsData: { text: 'Photos', pretext: '', ...propsData },
+		props: { text: 'Photos', pretext: '', ...propsData },
 	})
 }
 

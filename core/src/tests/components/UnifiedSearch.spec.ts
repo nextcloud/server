@@ -4,9 +4,9 @@
  */
 import type * as VueUseCore from '@vueuse/core'
 
-import { shallowMount } from '@vue/test-utils'
+import { enableAutoUnmount, shallowMount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { ref } from 'vue'
+import { defineComponent, h, ref } from 'vue'
 
 const mobile = ref(false)
 vi.mock('@nextcloud/vue/composables/useIsMobile', () => ({
@@ -24,9 +24,40 @@ vi.mock('@vueuse/core', async (importOriginal) => ({
 
 import UnifiedSearch from '../../views/UnifiedSearch.vue'
 
-function factory() {
+// What the view calls on its children through their template refs
+const inputApi = { focus: vi.fn() }
+const modalApi = { moveActive: vi.fn(), activateActive: vi.fn() }
+
+const UnifiedSearchInputStub = defineComponent({
+	name: 'UnifiedSearchInput',
+	props: ['query', 'expanded', 'activeDescendantId', 'loading', 'filtersRevealed'],
+	emits: ['click', 'openFilters', 'close', 'update:query', 'navigate', 'activate'],
+	setup(_, { expose }) {
+		expose(inputApi)
+		return () => h('div', { class: 'unified-search-input' }, [h('input')])
+	},
+})
+
+const UnifiedSearchModalStub = defineComponent({
+	name: 'UnifiedSearchModal',
+	props: ['query', 'open', 'filtersRevealed'],
+	emits: ['update:query', 'update:open', 'update:activeDescendant', 'update:loading'],
+	setup(_, { expose }) {
+		expose(modalApi)
+		return () => h('div')
+	},
+})
+
+function factory(options = {}) {
 	return shallowMount(UnifiedSearch, {
-		global: { mocks: { t: (_: string, s: string) => s, OCP: {} } },
+		global: {
+			mocks: { t: (_: string, s: string) => s, OCP: {} },
+			stubs: {
+				UnifiedSearchInput: UnifiedSearchInputStub,
+				UnifiedSearchModal: UnifiedSearchModalStub,
+			},
+		},
+		...options,
 	})
 }
 
@@ -66,6 +97,8 @@ function addContentEditable() {
 	document.body.appendChild(editor)
 	return editor
 }
+
+enableAutoUnmount(afterEach)
 
 beforeEach(() => {
 	mobile.value = false
@@ -121,13 +154,13 @@ describe('UnifiedSearch open-state model', () => {
 describe('UnifiedSearch focus shortcut (Ctrl/Cmd+K)', () => {
 	it('desktop: focuses the header input and claims the key', () => {
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 
 		const prevented = pressCtrl()
 
 		expect(focusInput).toHaveBeenCalled()
 		expect(prevented).toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	it('mobile: opens the modal instead (no header input to focus)', () => {
@@ -137,7 +170,7 @@ describe('UnifiedSearch focus shortcut (Ctrl/Cmd+K)', () => {
 		pressCtrl()
 
 		expect(wrapper.vm.showUnifiedSearch).toBe(true)
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	// The allowlist means the page owns Ctrl+F, not Ctrl+K. Nothing on those pages binds
@@ -145,20 +178,20 @@ describe('UnifiedSearch focus shortcut (Ctrl/Cmd+K)', () => {
 	it('still claims the key on pages that own Ctrl+F', () => {
 		location.value = { pathname: '/settings/users' }
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 
 		const prevented = pressCtrl()
 
 		expect(focusInput).toHaveBeenCalled()
 		expect(prevented).toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	it('unbinds the shortcut when the component is torn down', () => {
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 
-		wrapper.destroy()
+		wrapper.unmount()
 		pressCtrl()
 
 		expect(focusInput).not.toHaveBeenCalled()
@@ -167,35 +200,35 @@ describe('UnifiedSearch focus shortcut (Ctrl/Cmd+K)', () => {
 	// Under Caps Lock / Shift, event.key is 'K'. The shortcut must still fire.
 	it('fires regardless of key case', () => {
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 
 		pressCtrl('K')
 
 		expect(focusInput).toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	it('leaves the key to the editor the user is typing in', () => {
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 
 		const prevented = pressCtrl('k', addContentEditable())
 
 		expect(focusInput).not.toHaveBeenCalled()
 		expect(prevented).not.toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	it('stays quiet behind an open modal from another app', () => {
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 		addVisibleModalMask()
 
 		const prevented = pressCtrl('k')
 
 		expect(focusInput).not.toHaveBeenCalled()
 		expect(prevented).not.toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	// useHotKey has no way to exempt a component's own scrim, so the open results panel
@@ -203,7 +236,7 @@ describe('UnifiedSearch focus shortcut (Ctrl/Cmd+K)', () => {
 	// a papercut: the browser gets the key instead.
 	it('gives up the key behind its own results scrim', () => {
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 		document.body.appendChild(wrapper.vm.$el)
 		addVisibleModalMask(wrapper.vm.$el)
 
@@ -211,7 +244,7 @@ describe('UnifiedSearch focus shortcut (Ctrl/Cmd+K)', () => {
 
 		expect(focusInput).not.toHaveBeenCalled()
 		expect(prevented).not.toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 })
 
@@ -219,14 +252,14 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 	// Ctrl+F used to open the modal on an empty query; it now mirrors Ctrl+K.
 	it('desktop: focuses the input instead of opening an empty modal', () => {
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 
 		const prevented = pressCtrl('f')
 
 		expect(focusInput).toHaveBeenCalled()
 		expect(wrapper.vm.showUnifiedSearch).toBe(false)
 		expect(prevented).toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	it('mobile: opens the modal (no header input to focus)', () => {
@@ -236,19 +269,19 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 		pressCtrl('f')
 
 		expect(wrapper.vm.showUnifiedSearch).toBe(true)
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	it('stays out of the way on pages that own the search shortcut', () => {
 		location.value = { pathname: '/settings/users' }
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 
 		const prevented = pressCtrl('f')
 
 		expect(focusInput).not.toHaveBeenCalled()
 		expect(prevented).not.toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	// Deck filters cards in place and binds Ctrl+F to its own board input, so the header
@@ -256,64 +289,58 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 	it('leaves Ctrl+F to Deck, which filters in its own board input', () => {
 		location.value = { pathname: '/apps/deck' }
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 
 		const prevented = pressCtrl('f')
 
 		expect(focusInput).not.toHaveBeenCalled()
 		expect(prevented).not.toHaveBeenCalled()
 		expect(wrapper.vm.showUnifiedSearch).toBe(false)
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	// Once search is engaged, Ctrl+F belongs to the browser again: a second press must
 	// reach the native find bar instead of being swallowed to re-focus what is already focused.
 	it('falls through to the browser once the results are open', () => {
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 		wrapper.vm.showUnifiedSearch = true
 
 		const prevented = pressCtrl('f')
 
 		expect(prevented).not.toHaveBeenCalled()
 		expect(focusInput).not.toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	it('falls through to the browser while the header input already holds focus', () => {
-		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
 		// The engaged check tests the real focused element against the input's DOM subtree,
-		// so it needs a focusable node that is actually in the document.
-		const host = document.createElement('div')
-		const field = document.createElement('input')
-		host.appendChild(field)
-		document.body.appendChild(host)
-		wrapper.vm.$refs.searchInput = { $el: host }
-		field.focus()
+		// so the field has to be part of the document.
+		const wrapper = factory({ attachTo: document.body })
+		const focusInput = inputApi.focus
+		;(wrapper.get('input').element as HTMLInputElement).focus()
 
 		const prevented = pressCtrl('f')
 
 		expect(prevented).not.toHaveBeenCalled()
 		expect(focusInput).not.toHaveBeenCalled()
-		host.remove()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	it('leaves the key to the editor the user is typing in', () => {
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 
 		const prevented = pressCtrl('f', addContentEditable())
 
 		expect(focusInput).not.toHaveBeenCalled()
 		expect(prevented).not.toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	it('leaves the key to an input the user is typing in', () => {
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 		const field = document.createElement('input')
 		document.body.appendChild(field)
 
@@ -321,32 +348,31 @@ describe('UnifiedSearch find shortcut (Ctrl+F) aligns with Ctrl+K', () => {
 
 		expect(focusInput).not.toHaveBeenCalled()
 		expect(prevented).not.toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	it('stays quiet behind an open modal from another app', () => {
 		const wrapper = factory()
-		const focusInput = vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
+		const focusInput = inputApi.focus
 		addVisibleModalMask()
 
 		const prevented = pressCtrl('f')
 
 		expect(focusInput).not.toHaveBeenCalled()
 		expect(prevented).not.toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 
 	// Only Ctrl+F defers to the browser. Ctrl+K has no native meaning worth preserving
 	// (in Firefox it focuses the address bar), so it stays claimed even when engaged.
 	it('does not make Ctrl+K fall through as well', () => {
 		const wrapper = factory()
-		vi.spyOn(wrapper.vm, 'focusInput').mockImplementation(() => {})
 		wrapper.vm.showUnifiedSearch = true
 
 		const prevented = pressCtrl('k')
 
 		expect(prevented).toHaveBeenCalled()
-		wrapper.destroy()
+		wrapper.unmount()
 	})
 })
 
@@ -382,8 +408,7 @@ describe('UnifiedSearch selection relay', () => {
 
 	it('relays input arrow navigation to the results', () => {
 		const wrapper = factory()
-		const modal = { moveActive: vi.fn(), activateActive: vi.fn() }
-		wrapper.vm.$refs.searchModal = modal
+		const modal = modalApi
 
 		wrapper.findComponent({ name: 'UnifiedSearchInput' }).vm.$emit('navigate', 'next')
 
@@ -392,8 +417,7 @@ describe('UnifiedSearch selection relay', () => {
 
 	it('relays input activation (Enter) to the results', () => {
 		const wrapper = factory()
-		const modal = { moveActive: vi.fn(), activateActive: vi.fn() }
-		wrapper.vm.$refs.searchModal = modal
+		const modal = modalApi
 
 		wrapper.findComponent({ name: 'UnifiedSearchInput' }).vm.$emit('activate')
 
@@ -402,10 +426,10 @@ describe('UnifiedSearch selection relay', () => {
 })
 
 describe('UnifiedSearch funnel reveal', () => {
-	it('opens the modal and reveals filters when the input emits open-filters', async () => {
+	it('opens the modal and reveals filters when the input emits openFilters', async () => {
 		const wrapper = factory()
 		expect(wrapper.vm.showUnifiedSearch).toBe(false)
-		wrapper.findComponent({ name: 'UnifiedSearchInput' }).vm.$emit('open-filters')
+		wrapper.findComponent({ name: 'UnifiedSearchInput' }).vm.$emit('openFilters')
 		await wrapper.vm.$nextTick()
 		expect(wrapper.vm.showUnifiedSearch).toBe(true)
 		expect(wrapper.vm.filtersRevealed).toBe(true)

@@ -10,7 +10,7 @@ import SearchResult from '../../components/UnifiedSearch/SearchResult.vue'
 
 function factory(propsData = {}, attrs = {}) {
 	return mount(SearchResult, {
-		propsData: { title: 'A document', resourceUrl: '/f/1', thumbnailUrl: '', ...propsData },
+		props: { title: 'A document', resourceUrl: '/f/1', thumbnailUrl: '', ...propsData },
 		attrs,
 	})
 }

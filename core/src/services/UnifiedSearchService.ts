@@ -8,17 +8,36 @@ import axios from '@nextcloud/axios'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import { logger } from '../utils/logger.ts'
 
-/**
- * Create a cancel token
- *
- * @return {import('axios').CancelTokenSource}
- */
-const createCancelToken = () => axios.CancelToken.source()
+/** Parameters of a search in one provider */
+export interface SearchOptions {
+	/** The provider to search */
+	type: string
+	/** The search term */
+	query: string
+	/** The offset for paginated searches */
+	cursor?: number | string | null
+	/** Start of the date-range filter */
+	since?: string
+	/** End of the date-range filter */
+	until?: string
+	/** Maximum number of results */
+	limit?: number
+	/** Filter results by person */
+	person?: string
+	/** Additional queries to filter search results */
+	extraQueries?: Record<string, unknown>
+}
+
+/** A contact as returned by the contacts menu */
+interface Contact {
+	id: string
+	fullName: string
+	emailAddresses: string[]
+	isUser?: boolean
+}
 
 /**
  * Get the list of available search providers
- *
- * @return {Promise<Array>}
  */
 export async function getProviders() {
 	try {
@@ -33,30 +52,26 @@ export async function getProviders() {
 			return data.ocs.data
 		}
 	} catch (error) {
-		logger.error(error)
+		logger.error('Could not load the search providers', { error })
 	}
 	return []
 }
 
 /**
- * Get the list of available search providers
+ * Search one provider, cancellable.
  *
- * @param {object} options destructuring object
- * @param {string} options.type the type to search
- * @param {string} options.query the search term
- * @param {number|string|null} [options.cursor] the offset for paginated searches
- * @param {string} [options.since] start of the date-range filter
- * @param {string} [options.until] end of the date-range filter
- * @param {number} [options.limit] maximum number of results
- * @param {string} [options.person] filter results by person
- * @param {object} [options.extraQueries] additional queries to filter search results
- * @return {object} {request: Promise, cancel: Promise}
+ * @param options - The search parameters
+ * @param options.type
+ * @param options.query
+ * @param options.cursor
+ * @param options.since
+ * @param options.until
+ * @param options.limit
+ * @param options.person
+ * @param options.extraQueries
  */
-export function search({ type, query, cursor, since, until, limit, person, extraQueries = {} }) {
-	/**
-	 * Generate an axios cancel token
-	 */
-	const cancelToken = createCancelToken()
+export function search({ type, query, cursor, since, until, limit, person, extraQueries = {} }: SearchOptions) {
+	const cancelToken = axios.CancelToken.source()
 
 	const request = async () => axios.get(generateOcsUrl('search/providers/{type}/search', { type }), {
 		cancelToken: cancelToken.token,
@@ -82,12 +97,11 @@ export function search({ type, query, cursor, since, until, limit, person, extra
 /**
  * Get the list of active contacts
  *
- * @param {object} filter filter contacts by string
- * @param {string} filter.searchTerm the query
- * @return {object} {request: Promise}
+ * @param filter - filter contacts by string
+ * @param filter.searchTerm - the query
  */
-export async function getContacts({ searchTerm }) {
-	const { data: { contacts } } = await axios.post(generateUrl('/contactsmenu/contacts'), {
+export async function getContacts({ searchTerm }: { searchTerm: string }): Promise<Contact[]> {
+	const { data: { contacts } } = await axios.post<{ contacts: Contact[] }>(generateUrl('/contactsmenu/contacts'), {
 		filter: searchTerm,
 	})
 	/*
@@ -95,13 +109,12 @@ export async function getContacts({ searchTerm }) {
 	 * If authtenicated user is searching/filtering, do not add them to the list
 	 */
 	if (!searchTerm) {
-		let authenticatedUser = getCurrentUser()
-		authenticatedUser = {
+		const authenticatedUser = getCurrentUser()!
+		contacts.unshift({
 			id: authenticatedUser.uid,
-			fullName: authenticatedUser.displayName,
+			fullName: authenticatedUser.displayName ?? authenticatedUser.uid,
 			emailAddresses: [],
-		}
-		contacts.unshift(authenticatedUser)
+		})
 		return contacts
 	}
 
