@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
+import { createApp } from 'vue'
 import ContactsMenu from '../views/ContactsMenu.vue'
 import ContactsMenuService from '../services/ContactsMenuService.ts'
+import { mountInPlace } from '../utils/mountInPlace.ts'
 
 /**
  * Set up the contacts menu component ("ContactsMenu")
@@ -16,11 +17,6 @@ export function setUp() {
 
 	if (mountPoint) {
 		window.OC.ContactsMenu = new ContactsMenuService()
-
-		new Vue({
-			name: 'ContactsMenuRoot',
-			el: mountPoint,
-			render: (h) => h(ContactsMenu),
-		})
+		mountInPlace(createApp(ContactsMenu), mountPoint)
 	}
 }

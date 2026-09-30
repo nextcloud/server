@@ -11,7 +11,7 @@ import ContactMenuEntry from '../../../components/ContactsMenu/ContactMenuEntry.
 describe('Contact', function() {
 	it('passes the avatar url to non-user contacts', () => {
 		const view = shallowMount(ContactMenuEntry, {
-			propsData: {
+			props: {
 				contact: {
 					id: '11111111-2222-3333-4444-555555555555',
 					uid: '11111111-2222-3333-4444-555555555555',
@@ -32,7 +32,7 @@ describe('Contact', function() {
 
 	it('lets user contacts resolve the avatar via their user id', () => {
 		const view = shallowMount(ContactMenuEntry, {
-			propsData: {
+			props: {
 				contact: {
 					id: 'jane',
 					uid: 'jane',
@@ -52,7 +52,7 @@ describe('Contact', function() {
 
 	it('links to the top action', () => {
 		const view = shallowMount(ContactMenuEntry, {
-			propsData: {
+			props: {
 				contact: {
 					id: null,
 					fullName: 'Acosta Lancaster',
