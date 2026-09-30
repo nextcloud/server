@@ -20,7 +20,6 @@ use OCP\Encryption\IManager;
 use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
@@ -43,11 +42,6 @@ trait EncryptionTrait {
 
 	private IUserManager $userManagerEncTrait;
 	private ISetupManager $setupManagerEncTrait;
-
-	/**
-	 * @var IConfig
-	 */
-	private $config;
 
 	private IAppConfig $appConfig;
 
@@ -109,20 +103,19 @@ trait EncryptionTrait {
 
 		$this->encryptionApp = new Application([], $isReady);
 
-		$this->config = Server::get(IConfig::class);
 		$this->appConfig = Server::get(IAppConfig::class);
 		$this->encryptionWasEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled');
-		$this->originalEncryptionModule = $this->config->getAppValue('core', 'default_encryption_module');
-		$this->config->setAppValue('core', 'default_encryption_module', Encryption::ID);
+		$this->originalEncryptionModule = $this->appConfig->getValueString('core', 'default_encryption_module');
+		$this->appConfig->setValueString('core', 'default_encryption_module', Encryption::ID);
 		$this->appConfig->setValueBool('core', 'encryption_enabled', true);
 		$this->assertTrue(Server::get(\OCP\Encryption\IManager::class)->isEnabled());
 	}
 
 	protected function tearDownEncryptionTrait() {
-		if ($this->config) {
+		if ($this->appConfig) {
 			$this->appConfig->setValueBool('core', 'encryption_enabled', $this->encryptionWasEnabled);
-			$this->config->setAppValue('core', 'default_encryption_module', $this->originalEncryptionModule);
-			$this->config->deleteAppValue('encryption', 'useMasterKey');
+			$this->appConfig->setValueBool('core', 'default_encryption_module', $this->originalEncryptionModule);
+			$this->appConfig->deleteKey('encryption', 'useMasterKey');
 		}
 	}
 }
