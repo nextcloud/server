@@ -989,7 +989,7 @@ class Server extends ServerContainer {
 		$this->registerAlias(\OCP\Share\IManager::class, \OC\Share20\Manager::class);
 
 		$this->registerService(ISearch::class, static function (Server $c): ISearch {
-			$instance = new Search($c, $c->get(IEventDispatcher::class));
+			$instance = new Search($c, $c->get(IEventDispatcher::class), $c->get(IConfig::class));
 
 			// register default plugins
 			$instance->registerPlugin(['shareType' => IShare::TYPE_USER, 'class' => UserPlugin::class]);
