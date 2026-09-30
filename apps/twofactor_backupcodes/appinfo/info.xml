@@ -9,7 +9,7 @@
 	<name>Two factor backup codes</name>
 	<summary>A two-factor auth backup codes provider</summary>
 	<description>A two-factor auth backup codes provider</description>
-	<version>2.0.0-dev.0</version>
+	<version>2.0.0</version>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
 	<namespace>TwoFactorBackupCodes</namespace>

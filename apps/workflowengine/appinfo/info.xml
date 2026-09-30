@@ -9,7 +9,7 @@
 	<name>Nextcloud workflow engine</name>
 	<summary>Nextcloud workflow engine</summary>
 	<description>Nextcloud workflow engine</description>
-	<version>3.0.0-dev.0</version>
+	<version>3.0.0</version>
 	<licence>agpl</licence>
 	<author>Arthur Schiwon</author>
 	<author>Julius Härtl</author>

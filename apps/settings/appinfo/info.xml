@@ -9,7 +9,7 @@
 	<name>Nextcloud settings</name>
 	<summary>Nextcloud settings</summary>
 	<description>Nextcloud settings</description>
-	<version>2.0.0-dev.0</version>
+	<version>2.0.0</version>
 	<licence>agpl</licence>
 	<author>Nextcloud</author>
 	<namespace>Settings</namespace>
