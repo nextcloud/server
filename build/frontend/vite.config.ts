@@ -10,13 +10,20 @@ const modules = {
 	appstore: {
 		main: resolve(import.meta.dirname, 'apps/appstore/src', 'main.ts'),
 	},
-	core: {
-		'viewer-init': resolve(import.meta.dirname, '../../core/src', 'viewer-init.ts'),
-	},
 	comments: {
 		'comments-app': resolve(import.meta.dirname, 'apps/comments/src', 'comments-app.ts'),
 		'comments-tab': resolve(import.meta.dirname, 'apps/comments/src', 'files-sidebar.ts'),
 		init: resolve(import.meta.dirname, 'apps/comments/src', 'init.ts'),
+	},
+	core: {
+		install: resolve(import.meta.dirname, 'core/src', 'install.ts'),
+		login: resolve(import.meta.dirname, 'core/src', 'login.ts'),
+		login_flow: resolve(import.meta.dirname, 'core/src', 'login-flow.ts'),
+		public_share_auth: resolve(import.meta.dirname, 'core/src', 'public-share-auth.ts'),
+		recommendedapps: resolve(import.meta.dirname, 'core/src', 'recommendedapps.ts'),
+		'unsupported-browser': resolve(import.meta.dirname, 'core/src', 'unsupported-browser.ts'),
+		update: resolve(import.meta.dirname, 'core/src', 'update.ts'),
+		'viewer-init': resolve(import.meta.dirname, 'core/src', 'viewer-init.ts'),
 	},
 	dashboard: {
 		main: resolve(import.meta.dirname, 'apps/dashboard/src', 'main.js'),

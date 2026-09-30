@@ -163,6 +163,7 @@ class ClientFlowLoginController extends Controller {
 		]);
 
 		Util::addScript('core', 'login_flow');
+		Util::addStyle('core', 'login_flow');
 		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow',
@@ -222,6 +223,7 @@ class ClientFlowLoginController extends Controller {
 		]);
 
 		Util::addScript('core', 'login_flow');
+		Util::addStyle('core', 'login_flow');
 		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow',
