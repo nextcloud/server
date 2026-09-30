@@ -32,8 +32,8 @@
 			:model-value="check.value"
 			class="option"
 			@update:model-value="updateCheck"
-			@valid="(valid = true) && validate()"
-			@invalid="!(valid = false) && validate()" />
+			@valid="onElementValidity(true)"
+			@invalid="onElementValidity(false)" />
 		<component
 			:is="currentOption.component"
 			v-else-if="currentOperator && currentComponent"
@@ -42,8 +42,8 @@
 			:check="check"
 			class="option"
 			@input="updateCheck"
-			@valid="(valid = true) && validate()"
-			@invalid="!(valid = false) && validate()" />
+			@valid="onElementValidity(true)"
+			@invalid="onElementValidity(false)" />
 		<input
 			v-else
 			v-model="check.value"
@@ -106,6 +106,8 @@ export default {
 			currentOperator: null,
 			options: [],
 			valid: false,
+			// undefined until a check element reports on its own value
+			elementValid: undefined,
 		}
 	},
 
@@ -183,13 +185,21 @@ export default {
 		},
 
 		validate() {
-			this.valid = true
+			let valid = true
 			if (this.currentOption && this.currentOption.validate) {
-				this.valid = !!this.currentOption.validate(this.check)
+				valid = !!this.currentOption.validate(this.check)
+			} else if (this.elementValid !== undefined) {
+				valid = this.elementValid
 			}
+			this.valid = valid
 			// eslint-disable-next-line vue/no-mutating-props
-			this.check.invalid = !this.valid
-			this.$emit('validate', this.valid)
+			this.check.invalid = !valid
+			this.$emit('validate', valid)
+		},
+
+		onElementValidity(elementValid) {
+			this.elementValid = elementValid
+			this.validate()
 		},
 
 		updateCheck(event) {
@@ -197,6 +207,9 @@ export default {
 			const matchingOperator = this.operators.findIndex((operator) => selectedOperator === operator.operator)
 			if (this.check.class !== this.currentOption.class || matchingOperator === -1) {
 				this.currentOperator = this.operators[0]
+			}
+			if (this.check.class !== this.currentOption.class) {
+				this.elementValid = undefined
 			}
 			if (event?.detail) {
 				this.check.value = event.detail[0]

@@ -322,12 +322,12 @@ test.describe('Flow admin settings', () => {
 
 			await rule.startTimeInput().fill('25:00')
 			await rule.endTimeInput().fill('18:00')
-			// the check reports the invalid span itself; its plugin declares no
-			// validate function, so the state does not reach the save button
 			await expect(rule.invalidTimeSpanHint()).toBeVisible()
+			await expect(rule.saveButton()).toHaveAccessibleName('The configuration is invalid')
 
 			await rule.startTimeInput().fill('08:00')
 			await expect(rule.invalidTimeSpanHint()).toBeHidden()
+			await expect(rule.saveButton()).toHaveAccessibleName('Save')
 
 			await rule.timezoneCombobox().click()
 			await page.getByRole('option').filter({ has: page.getByTitle('Europe/Berlin', { exact: true }) }).click()
