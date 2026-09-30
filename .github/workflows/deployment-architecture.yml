@@ -1,0 +1,85 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Deployment architecture
+
+on:
+  pull_request:
+    paths:
+      - 'deployment/**'
+      - '.github/workflows/deployment-architecture.yml'
+  push:
+    paths:
+      - 'deployment/**'
+      - '.github/workflows/deployment-architecture.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deployment-architecture-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  compose-smoke-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      COMPOSE_PROJECT_NAME: nextcloud-architecture
+      POSTGRES_PASSWORD: ci-only-postgres-password
+      NEXTCLOUD_ADMIN_USER: admin
+      NEXTCLOUD_ADMIN_PASSWORD: ci-only-nextcloud-password
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate Compose configuration
+        run: docker compose --file deployment/compose.yaml config --quiet
+
+      - name: Start database, cache, and first app server
+        run: docker compose --file deployment/compose.yaml up --detach --wait db redis app
+
+      - name: Scale app servers and start load balancer
+        run: |
+          docker compose --file deployment/compose.yaml up --detach --wait --scale app=3 app
+          docker compose --file deployment/compose.yaml up --detach --wait load-balancer
+
+      - name: Verify load-balanced Nextcloud and three app servers
+        run: |
+          docker compose --file deployment/compose.yaml ps --format json \
+            | jq --slurp --exit-status '[.[] | select(.Service == "app" and .State == "running")] | length == 3'
+          curl --fail --silent --show-error --retry 20 --retry-all-errors --retry-delay 2 \
+            http://127.0.0.1:8080/status.php | jq --exit-status '.installed == true'
+
+      - name: Create and verify database and file backups
+        run: |
+          backup_dir="$RUNNER_TEMP/nextcloud-backups"
+          bash deployment/backup.sh "$backup_dir"
+          database_dump="$(find "$backup_dir" -name 'database-*.dump' -print -quit)"
+          data_archive="$(find "$backup_dir" -name 'data-*.tar.gz' -print -quit)"
+          config_archive="$(find "$backup_dir" -name 'config-*.tar.gz' -print -quit)"
+          apps_archive="$(find "$backup_dir" -name 'custom-apps-*.tar.gz' -print -quit)"
+          test -s "$database_dump"
+          test -s "$data_archive"
+          test -s "$config_archive"
+          test -s "$apps_archive"
+          docker compose --file deployment/compose.yaml exec -T db createdb -U nextcloud nextcloud_restore_check
+          docker compose --file deployment/compose.yaml exec -T db \
+            pg_restore --exit-on-error -U nextcloud -d nextcloud_restore_check < "$database_dump"
+          docker compose --file deployment/compose.yaml exec -T db \
+            psql --no-psqlrc -U nextcloud -d nextcloud_restore_check -tAc \
+            "SELECT to_regclass('public.oc_appconfig') IS NOT NULL" | grep --fixed-strings --line-regexp t
+          mkdir -p "$backup_dir/restored-data" "$backup_dir/restored-config" "$backup_dir/restored-apps"
+          tar --extract --gzip --file "$data_archive" --directory "$backup_dir/restored-data"
+          tar --extract --gzip --file "$config_archive" --directory "$backup_dir/restored-config"
+          tar --extract --gzip --file "$apps_archive" --directory "$backup_dir/restored-apps"
+          test -f "$backup_dir/restored-config/config.php"
+          shasum --check "$backup_dir"/SHA256SUMS-*
+
+      - name: Stop test stack
+        if: always()
+        run: docker compose --file deployment/compose.yaml down --volumes --remove-orphans

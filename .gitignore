@@ -154,6 +154,9 @@ Vagrantfile
 /tests/coverage*
 /tests/css
 /tests/karma-coverage
+/deployment/backups/
+/deployment/.env
+/.env
 /tests/autoconfig*
 /tests/autotest*
 /tests/data/lorem-copy.txt
