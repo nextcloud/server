@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Deployment configuration
+
+on:
+  pull_request:
+    paths:
+      - 'deployment/compose.yaml'
+      - '.github/workflows/deployment-compose.yml'
+  push:
+    branches:
+      - master
+    paths:
+      - 'deployment/compose.yaml'
+      - '.github/workflows/deployment-compose.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deployment-compose-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate Docker Compose configuration
+        run: docker compose --file deployment/compose.yaml config --quiet
