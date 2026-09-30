@@ -90,6 +90,10 @@ class IMipPluginCharsetTest extends TestCase {
 			->willReturn($l10n);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->userManager->method('getByEmail')->willReturn([]);
+		$message = new \OC\Mail\Message(new Email(), false);
+		$this->mailer = $this->createMock(IMailer::class);
+		$this->mailer->method('createMessage')
+			->willReturn($message);
 		$this->imipService = new IMipService(
 			$this->urlGenerator,
 			$this->db,
@@ -99,13 +103,10 @@ class IMipPluginCharsetTest extends TestCase {
 			$this->userManager,
 			$this->userConfig,
 			$this->appConfig,
+			$this->mailer,
 		);
 
 		// IMipPlugin
-		$message = new \OC\Mail\Message(new Email(), false);
-		$this->mailer = $this->createMock(IMailer::class);
-		$this->mailer->method('createMessage')
-			->willReturn($message);
 		$this->logger = new NullLogger();
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->defaults->method('getName')

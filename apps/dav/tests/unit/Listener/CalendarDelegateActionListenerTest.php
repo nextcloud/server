@@ -66,6 +66,7 @@ class CalendarDelegateActionListenerTest extends TestCase {
 			$this->createMock(IUserManager::class),
 			$this->createMock(IUserConfig::class),
 			$this->createMock(IAppConfig::class),
+			$this->createMock(IMailer::class),
 		);
 
 		$proxy = new Proxy();
