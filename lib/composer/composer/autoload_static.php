@@ -105,6 +105,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\Sharing\\Recipient\\IShareRecipientTypePublicSecret' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Recipient/IShareRecipientTypePublicSecret.php',
         'NCU\\Sharing\\Recipient\\IShareRecipientTypeSearch' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Recipient/IShareRecipientTypeSearch.php',
         'NCU\\Sharing\\Recipient\\ShareRecipient' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Recipient/ShareRecipient.php',
+        'NCU\\Sharing\\Recipient\\TShareRecipientTypeDisplayNameAddressBook' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Recipient/TShareRecipientTypeDisplayNameAddressBook.php',
         'NCU\\Sharing\\Share' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/Share.php',
         'NCU\\Sharing\\ShareAccessContext' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/ShareAccessContext.php',
         'NCU\\Sharing\\ShareState' => __DIR__ . '/../../..' . '/lib/unstable/Sharing/ShareState.php',

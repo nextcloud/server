@@ -64,6 +64,7 @@ return array(
     'NCU\\Sharing\\Recipient\\IShareRecipientTypePublicSecret' => $baseDir . '/lib/unstable/Sharing/Recipient/IShareRecipientTypePublicSecret.php',
     'NCU\\Sharing\\Recipient\\IShareRecipientTypeSearch' => $baseDir . '/lib/unstable/Sharing/Recipient/IShareRecipientTypeSearch.php',
     'NCU\\Sharing\\Recipient\\ShareRecipient' => $baseDir . '/lib/unstable/Sharing/Recipient/ShareRecipient.php',
+    'NCU\\Sharing\\Recipient\\TShareRecipientTypeDisplayNameAddressBook' => $baseDir . '/lib/unstable/Sharing/Recipient/TShareRecipientTypeDisplayNameAddressBook.php',
     'NCU\\Sharing\\Share' => $baseDir . '/lib/unstable/Sharing/Share.php',
     'NCU\\Sharing\\ShareAccessContext' => $baseDir . '/lib/unstable/Sharing/ShareAccessContext.php',
     'NCU\\Sharing\\ShareState' => $baseDir . '/lib/unstable/Sharing/ShareState.php',
