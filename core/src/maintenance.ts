@@ -10,7 +10,7 @@ import { logger } from './utils/logger.ts'
 const url = getRootUrl() + '/status.php'
 
 /**
- *
+ * Reload the page once the maintenance mode ends.
  */
 function check() {
 	logger.info('checking the Nextcloud maintenance status')
@@ -29,7 +29,7 @@ function check() {
 			// Wait 20sec before the next request
 			setTimeout(check, 20 * 1000)
 		})
-		.catch(logger.error.bind(this))
+		.catch((error) => logger.error('Could not check the maintenance status', { error }))
 }
 
 // Off we go!
