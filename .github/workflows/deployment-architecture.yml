@@ -50,8 +50,9 @@ jobs:
 
       - name: Verify load-balanced Nextcloud and three app servers
         run: |
-          docker compose --file deployment/compose.yaml ps --format json \
-            | jq --slurp --exit-status '[.[] | select(.Service == "app" and .State == "running")] | length == 3'
+          running_apps="$(docker compose --file deployment/compose.yaml ps --status running --quiet app | wc -l | tr -d ' ')"
+          echo "Running Nextcloud app containers: $running_apps"
+          test "$running_apps" -eq 3
           curl --fail --silent --show-error --retry 20 --retry-all-errors --retry-delay 2 \
             http://127.0.0.1:8080/status.php | jq --exit-status '.installed == true'
 
