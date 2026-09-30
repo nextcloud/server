@@ -112,12 +112,15 @@ router.beforeResolve((to, from) => {
 	}
 })
 
+// Navigate through the router service, so stores reacting to the same deletion
+// (e.g. the sidebar closing) build on this navigation instead of the outdated route.
 subscribe('files:node:deleted', (node: INode) => {
-	if (router.currentRoute.value.params.fileid === String(node.fileid)) {
-		const params = { ...router.currentRoute.value.params }
+	const { Router } = window.OCP.Files
+	if (Router.params.fileid === String(node.fileid)) {
+		const params = { ...Router.params }
 		const { getPath } = usePathsStore(pinia)
 		const { getNode } = useFilesStore(pinia)
-		const source = getPath(router.currentRoute.value.params.view as string, node.dirname)
+		const source = getPath(Router.params.view, node.dirname)
 		const parentFolder = getNode(source!)
 		if (source && parentFolder) {
 			params.fileid = String(parentFolder.fileid)
@@ -125,14 +128,10 @@ subscribe('files:node:deleted', (node: INode) => {
 			delete params.fileid
 		}
 
-		const query = { ...router.currentRoute.value.query }
+		const query = { ...Router.query }
 		delete query.opendetails
 		delete query.openfile
 
-		router.replace({
-			name: router.currentRoute.value.name as string,
-			params,
-			query,
-		})
+		Router.goToRoute(null, params, query, true)
 	}
 })
