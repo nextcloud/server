@@ -43,16 +43,18 @@ class DeleteTest extends TestCase {
 	}
 
 	/**
-	 * Default option mapping: --last-used-before unset, --cancel-wipe unset.
+	 * Default option mapping: --last-used-before unset, --cancel-wipe unset, --all unset.
 	 *
 	 * @param string|null $lastUsedBefore
 	 * @param bool $cancelWipe
+	 * @param bool $all
 	 */
-	private function mockOptions(?string $lastUsedBefore = null, bool $cancelWipe = false): void {
+	private function mockOptions(?string $lastUsedBefore = null, bool $cancelWipe = false, bool $all = false): void {
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
 				['last-used-before', $lastUsedBefore],
 				['cancel-wipe', $cancelWipe],
+				['all', $all],
 			]);
 	}
 
@@ -210,5 +212,54 @@ class DeleteTest extends TestCase {
 
 		$result = self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 		$this->assertSame(Command::SUCCESS, $result);
+	}
+
+	public function testDeleteAll(): void {
+		$this->consoleInput->expects($this->exactly(2))
+			->method('getArgument')
+			->willReturnMap([
+				['uid', 'user'],
+				['id', null]
+			]);
+
+		$this->mockOptions(all: true);
+
+		$this->tokenProvider->expects($this->once())
+			->method('invalidateTokensOfUserExcept')
+			->with('user', null)
+			->willReturn([1, 2, 3]);
+
+		$this->consoleOutput->expects($this->once())
+			->method('writeln')
+			->with('Deleted 3 token(s)');
+
+		$result = self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+		$this->assertSame(Command::SUCCESS, $result);
+	}
+
+	public static function dataAllWithOtherMode(): array {
+		return [
+			'id' => ['42', null, false],
+			'last-used-before' => [null, '946684800', false],
+			'cancel-wipe' => [null, null, true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAllWithOtherMode')]
+	public function testAllIsMutuallyExclusive(?string $id, ?string $lastUsedBefore, bool $cancelWipe): void {
+		$this->consoleInput->expects($this->exactly(2))
+			->method('getArgument')
+			->willReturnMap([
+				['uid', 'user'],
+				['id', $id]
+			]);
+
+		$this->mockOptions($lastUsedBefore, $cancelWipe, all: true);
+
+		$this->expectException(RuntimeException::class);
+
+		$this->tokenProvider->expects($this->never())->method('invalidateTokensOfUserExcept');
+
+		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 }

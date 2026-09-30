@@ -267,6 +267,13 @@ class PublicKeyTokenProvider implements IProvider {
 		if ($token->getUID() !== $uid) {
 			return;
 		}
+		$this->dropToken($token);
+	}
+
+	/**
+	 * No ownership check. Only pass tokens already loaded for the right user.
+	 */
+	private function dropToken(PublicKeyToken $token): void {
 		$this->mapper->invalidate($token->getToken());
 		$this->cacheInvalidHash($token->getToken());
 		$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($token));
@@ -294,6 +301,21 @@ class PublicKeyTokenProvider implements IProvider {
 	#[\Override]
 	public function invalidateLastUsedBefore(string $uid, int $before): void {
 		$this->mapper->invalidateLastUsedBefore($uid, $before);
+	}
+
+	#[\Override]
+	public function invalidateTokensOfUserExcept(string $uid, ?int $exceptTokenId): array {
+		$invalidated = [];
+		foreach ($this->mapper->getTokenByUser($uid) as $token) {
+			if ($token->getId() === $exceptTokenId || $token->getType() === OCPIToken::WIPE_TOKEN) {
+				continue;
+			}
+
+			$this->dropToken($token);
+			$invalidated[] = $token->getId();
+		}
+
+		return $invalidated;
 	}
 
 	#[\Override]
