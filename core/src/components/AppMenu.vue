@@ -296,7 +296,7 @@ export default defineComponent({
 		;(this.$refs.popover as { $on: (e: string, fn: () => void) => void }).$on('after-hide', this.onPopoverAfterHide)
 	},
 
-	beforeUnmount() {
+	beforeDestroy() {
 		this.clearOpenTimer()
 		this.clearCloseTimer()
 		this.clearSuppressClickTimer()
