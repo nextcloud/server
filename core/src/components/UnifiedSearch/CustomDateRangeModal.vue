@@ -9,8 +9,6 @@
 		:name="t('core', 'Custom date range')"
 		:show.sync="isModalOpen"
 		size="small"
-		:clear-view-delay="0"
-		:title="t('core', 'Custom date range')"
 		@close="closeModal">
 		<!-- Custom date range -->
 		<div class="unified-search-custom-date-modal">
