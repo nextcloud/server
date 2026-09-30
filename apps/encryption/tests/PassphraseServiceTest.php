@@ -15,6 +15,7 @@ use OCA\Encryption\Recovery;
 use OCA\Encryption\Services\PassphraseService;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
+use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -84,19 +85,7 @@ class PassphraseServiceTest extends TestCase {
 	}
 
 	public function testSetPassphrase_currentUser() {
-		$instance = $this->getMockBuilder(PassphraseService::class)
-			->onlyMethods(['initMountPoints'])
-			->setConstructorArgs([
-				$this->util,
-				$this->crypt,
-				$this->session,
-				$this->recovery,
-				$this->keyManager,
-				$this->createMock(LoggerInterface::class),
-				$this->userManager,
-				$this->userSession,
-			])
-			->getMock();
+		$instance = $this->instance;
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('testUser');
@@ -120,25 +109,14 @@ class PassphraseServiceTest extends TestCase {
 
 		$this->keyManager->expects(self::atLeastOnce())
 			->method('setPrivateKey')
-			->with('testUser', 'crypt-header: encrypted-key');
+			->with('testUser', 'crypt-header: encrypted-key')
+			->willReturn(true);
 
 		$this->assertTrue($instance->setPassphraseForUser('testUser', 'password'));
 	}
 
 	public function testSetPassphrase_currentUserFails() {
-		$instance = $this->getMockBuilder(PassphraseService::class)
-			->onlyMethods(['initMountPoints'])
-			->setConstructorArgs([
-				$this->util,
-				$this->crypt,
-				$this->session,
-				$this->recovery,
-				$this->keyManager,
-				$this->createMock(LoggerInterface::class),
-				$this->userManager,
-				$this->userSession,
-			])
-			->getMock();
+		$instance = $this->instance;
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('testUser');
@@ -164,19 +142,7 @@ class PassphraseServiceTest extends TestCase {
 	}
 
 	public function testSetPassphrase_currentUserNotExists() {
-		$instance = $this->getMockBuilder(PassphraseService::class)
-			->onlyMethods(['initMountPoints'])
-			->setConstructorArgs([
-				$this->util,
-				$this->crypt,
-				$this->session,
-				$this->recovery,
-				$this->keyManager,
-				$this->createMock(LoggerInterface::class),
-				$this->userManager,
-				$this->userSession,
-			])
-			->getMock();
+		$instance = $this->instance;
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('testUser');
@@ -192,4 +158,126 @@ class PassphraseServiceTest extends TestCase {
 		$this->assertFalse($instance->setPassphraseForUser('testUser', 'password'));
 	}
 
+	private function createOtherUserService(bool $hasKeys, bool $hasFiles, bool $recoveryEnabled): PassphraseService {
+		$user = $this->createMock(IUser::class);
+		$this->userManager->method('get')->with('testUser')->willReturn($user);
+		$this->userSession->method('getUser')->willReturn(null);
+		$this->keyManager->method('userHasKeys')->with('testUser')->willReturn($hasKeys);
+		$this->util->method('userHasFiles')->with('testUser')->willReturn($hasFiles);
+		$this->recovery->method('isRecoveryEnabledForUser')
+			->with('testUser')->willReturn($recoveryEnabled);
+
+		$instance = $this->getMockBuilder(PassphraseService::class)
+			->onlyMethods(['initMountPoints'])
+			->setConstructorArgs([
+				$this->util,
+				$this->crypt,
+				$this->session,
+				$this->recovery,
+				$this->keyManager,
+				$this->createMock(LoggerInterface::class),
+				$this->userManager,
+				$this->userSession,
+			])
+			->getMock();
+		$instance->expects(self::once())->method('initMountPoints')->with($user);
+		return $instance;
+	}
+
+	public function testSetPassphraseForUserReturnsFalseWhenCurrentUserPrivateKeyWriteFails(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('testUser');
+		$this->userManager->method('get')->willReturn($user);
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->session->method('getPrivateKey')->willReturn('private-key');
+		$this->crypt->method('encryptPrivateKey')->willReturn('encrypted-key');
+		$this->crypt->method('generateHeader')->willReturn('header');
+		$this->keyManager->expects(self::once())->method('setPrivateKey')
+			->with('testUser', 'headerencrypted-key')->willReturn(false);
+
+		$this->assertFalse($this->instance->setPassphraseForUser('testUser', 'new-password'));
+	}
+
+	public function testSetPassphraseForUserSkipsRecoveryKeyDecryptionWhenRotationIsNotNeeded(): void {
+		$instance = $this->otherUserService(true, true, false);
+		$this->keyManager->expects(self::never())->method('getSystemPrivateKey');
+		$this->crypt->expects(self::never())->method('decryptPrivateKey');
+		$this->crypt->expects(self::never())->method('createKeyPair');
+
+		$this->assertFalse($instance->setPassphraseForUser('testUser', 'new-password', 'irrelevant-password'));
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'recoveryDecryptionFailures')]
+	public function testSetPassphraseForUserRejectsFailedRecoveryDecryptionBeforeWritingKeys(bool $throws): void {
+		$instance = $this->otherUserService(true, true, true);
+		$this->keyManager->method('getRecoveryKeyId')->willReturn('recovery');
+		$this->keyManager->method('getSystemPrivateKey')->willReturn('encrypted-recovery-key');
+		if ($throws) {
+			$this->crypt->method('decryptPrivateKey')
+				->willThrowException(new \RuntimeException('decryption failed'));
+		} else {
+			$this->crypt->method('decryptPrivateKey')->willReturn(false);
+		}
+		$this->crypt->expects(self::never())->method('createKeyPair');
+		$this->keyManager->expects(self::never())->method('setPublicKey');
+		$this->keyManager->expects(self::never())->method('setPrivateKey');
+		$this->recovery->expects(self::never())->method('recoverUsersFiles');
+
+		$this->expectException(GenericEncryptionException::class);
+		$instance->setPassphraseForUser('testUser', 'new-password', 'bad-recovery-password');
+	}
+
+	public static function recoveryDecryptionFailures(): array {
+		return ['returns false' => [false], 'throws' => [true]];
+	}
+
+	public function testSetPassphraseForUserRecoversFilesWhenKeyWritesSucceed(): void {
+		$instance = $this->otherUserService(true, true, true);
+		$this->keyManager->method('getRecoveryKeyId')->willReturn('recovery');
+		$this->keyManager->method('getSystemPrivateKey')->willReturn('encrypted-recovery-key');
+		$this->crypt->expects(self::once())->method('decryptPrivateKey')
+			->with('encrypted-recovery-key', 'recovery-password')
+			->willReturn('recovery-private-key');
+		$this->crypt->method('createKeyPair')->willReturn([
+			'publicKey' => 'public-key',
+			'privateKey' => 'private-key',
+		]);
+		$this->crypt->method('encryptPrivateKey')->willReturn('encrypted-private-key');
+		$this->crypt->method('generateHeader')->willReturn('header');
+		$this->keyManager->expects(self::once())->method('setPublicKey')->willReturn(true);
+		$this->keyManager->expects(self::once())->method('setPrivateKey')->willReturn(true);
+		$this->recovery->expects(self::once())->method('recoverUsersFiles')
+			->with('recovery-password', 'testUser');
+
+		$this->assertTrue($instance->setPassphraseForUser(
+			'testUser', 'new-password', 'recovery-password'
+		));
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'failedKeyWrites')]
+	public function testSetPassphraseForUserReturnsFalseWhenKeyWriteFails(bool $publicWriteSucceeds): void {
+		$instance = $this->otherUserService(false, false, false);
+		$this->crypt->expects(self::never())->method('decryptPrivateKey');
+		$this->crypt->method('createKeyPair')->willReturn([
+			'publicKey' => 'public-key',
+			'privateKey' => 'private-key',
+		]);
+		$this->crypt->method('encryptPrivateKey')->willReturn('encrypted-private-key');
+		$this->crypt->method('generateHeader')->willReturn('header');
+		$this->keyManager->expects(self::once())->method('setPublicKey')
+			->willReturn($publicWriteSucceeds);
+		$this->keyManager->expects($publicWriteSucceeds ? self::once() : self::never())
+			->method('setPrivateKey')
+			->willReturn(false);
+		$this->recovery->expects(self::never())->method('recoverUsersFiles');
+
+		$this->assertFalse($instance->setPassphraseForUser('testUser', 'new-password'));
+	}
+
+	public static function failedKeyWrites(): array {
+		return [
+			'public write fails' => [false],
+			'private write fails after public write' => [true],
+		];
+	}
 }
