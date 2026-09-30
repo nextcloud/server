@@ -68,6 +68,8 @@ export default defineComponent({
 		},
 	},
 
+	emits: ['abort', 'update:username'],
+
 	setup() {
 		return {
 			t,

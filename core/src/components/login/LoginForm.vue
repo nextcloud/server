@@ -190,6 +190,8 @@ export default {
 		},
 	},
 
+	emits: ['submit', 'update:username'],
+
 	setup() {
 		// non reactive props
 		return {

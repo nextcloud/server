@@ -69,6 +69,8 @@ export default {
 		},
 	},
 
+	emits: ['done', 'update:username'],
+
 	setup() {
 		return {
 			t,

@@ -60,6 +60,8 @@ export default {
 		},
 	},
 
+	emits: ['update:is-open', 'set:custom-date-range'],
+
 	setup() {
 		return {
 			t,
