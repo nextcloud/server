@@ -41,7 +41,7 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 
 		$serverId = $this->serverInfo->getServerId();
 		$isCli = (int)$this->isCli(); // 1 bit
-		$sequenceId = $this->sequenceGenerator->nextId($seconds, $milliseconds, $serverId); //  12 bits
+		$sequenceId = $this->sequenceGenerator->nextId($serverId, $seconds, $milliseconds); //  12 bits
 		if ($sequenceId > 0xFFF || $sequenceId === false) {
 			// Throttle a bit, wait for next millisecond
 			usleep(1000);
