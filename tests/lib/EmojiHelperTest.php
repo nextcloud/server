@@ -64,6 +64,16 @@ class EmojiHelperTest extends TestCase {
 			['0', false],
 			['$', false],
 			['$$', false],
+			// Cyrillic
+			['а', false],
+			['Б', false],
+			['ж', false],
+			['Я', false],
+			// Greek
+			['α', false],
+			['Ω', false],
+			['λ', false],
+			['Σ', false],
 			// Extracted from spreed/node_modules/emojis-list/index.js
 			// https://github.com/Kikobeats/emojis-list/blob/master/index.js
 			['🀄️', true],

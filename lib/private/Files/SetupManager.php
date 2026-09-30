@@ -209,20 +209,6 @@ class SetupManager implements ISetupManager {
 			return $storage;
 		}, 50, $existingMounts);
 
-		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
-		$this->storageFactory->addStorageWrapper(Quota::class, function ($mountPoint, $storage, IMountPoint $mount) use ($quotaIncludeExternal) {
-			// set up quota for home storages, even for other users
-			// which can happen when using sharing
-			if ($mount instanceof HomeMountPoint) {
-				$user = $mount->getUser();
-				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
-					return $user->getQuotaBytes();
-				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
-			}
-
-			return $storage;
-		}, 50, $existingMounts);
-
 		$this->storageFactory->addStorageWrapper('readonly', function (string $mountPoint, IStorage $storage, IMountPoint $mount) {
 			/*
 			 * Do not allow any operations that modify the storage
@@ -237,6 +223,28 @@ class SetupManager implements ISetupManager {
 					),
 				]);
 			}
+			return $storage;
+		}, 50, $existingMounts);
+	}
+
+	/**
+	 * Some wrapper are inited after BeforeFileSystemSetupEvent, to permit
+	 * custom apps to preventively register their own handler
+	 *
+	 * @param IMountPoint[] $existingMounts
+	 */
+	private function setupCustomizableWrappers(array $existingMounts): void {
+		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
+		$this->storageFactory->addStorageWrapper(Quota::class, function ($mountPoint, $storage, IMountPoint $mount) use ($quotaIncludeExternal) {
+			// set up quota for home storages, even for other users
+			// which can happen when using sharing
+			if ($mount instanceof HomeMountPoint) {
+				$user = $mount->getUser();
+				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
+					return $user->getQuotaBytes();
+				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
+			}
+
 			return $storage;
 		}, 50, $existingMounts);
 	}
@@ -327,6 +335,8 @@ class SetupManager implements ISetupManager {
 				$this->storageFactory->addStorageWrapper($wrapperName, $wrapper['callable'], $wrapper['priority'], $mounts);
 			}
 		}
+
+		$this->setupCustomizableWrappers($mounts);
 
 		$userDir = '/' . $user->getUID() . '/files';
 

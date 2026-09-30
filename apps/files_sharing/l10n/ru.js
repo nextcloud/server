@@ -285,7 +285,6 @@ OC.L10N.register(
     "Advanced settings" : "Расширенные параметры",
     "Share label" : "Метка общего доступа",
     "Share link token" : "Токен ссылки на общий ресурс",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Установите простой для запоминания токен ссылки на общий ресурс или сгенерируйте новый. Не рекомендуется использовать легко угадываемые токены для общих ресурсов с конфиденциальной информацией.",
     "Generating…" : "Создание…",
     "Generate new token" : "Создать новый токен",
     "Set password" : "Задать пароль",
@@ -415,6 +414,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Через «{folder}»",
     "Name or email …" : "Имя или адрес эл.почты…",
     "Name, email, or Federated Cloud ID …" : "Имя или ID межсерверного обмена…",
-    "Searching …" : "Поиск…"
+    "Searching …" : "Поиск…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Установите простой для запоминания токен ссылки на общий ресурс или сгенерируйте новый. Не рекомендуется использовать легко угадываемые токены для общих ресурсов с конфиденциальной информацией."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

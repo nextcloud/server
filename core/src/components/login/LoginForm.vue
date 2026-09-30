@@ -51,22 +51,18 @@
 			<h2 class="login-form__headline" data-login-form-headline>
 				{{ headlineText }}
 			</h2>
-			<NcTextField
+			<LoginNameInput
 				id="user"
 				ref="user"
-				v-model="user"
-				:label="loginText"
-				name="user"
-				:maxlength="255"
+				:user.sync="user"
 				:class="{ shake: invalidPassword }"
-				autocapitalize="none"
-				:spellchecking="false"
-				:autocomplete="autoCompleteAllowed ? 'username' : 'off'"
+				:auto-complete-allowed="autoCompleteAllowed"
+				:allow-email="emailEnabled"
+				name="user"
 				required
-				:error="userNameError"
-				:helper-text="userInputHelperText"
+				:error="isError"
 				data-login-form-input-user
-				@change="updateUsername" />
+				@update:user="updateUsername" />
 
 			<NcPasswordField
 				id="password"
@@ -131,22 +127,19 @@ import debounce from 'debounce'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
 import LoginButton from './LoginButton.vue'
-import AuthMixin from '../../mixins/auth.js'
+import LoginNameInput from './LoginNameInput.vue'
 
 export default {
 	name: 'LoginForm',
 
 	components: {
 		LoginButton,
+		LoginNameInput,
 		NcCheckboxRadioSwitch,
 		NcPasswordField,
-		NcTextField,
 		NcNoteCard,
 	},
-
-	mixins: [AuthMixin],
 
 	props: {
 		username: {
@@ -241,10 +234,6 @@ export default {
 				|| this.throttleDelay > 5000
 		},
 
-		userNameError() {
-			return this.isError || this.userNameInputLengthIs255
-		},
-
 		errorLabel() {
 			if (this.invalidPassword) {
 				return t('core', 'Wrong login or password.')
@@ -289,13 +278,6 @@ export default {
 		emailEnabled() {
 			return this.emailStates.every((state) => state === '1')
 		},
-
-		loginText() {
-			if (this.emailEnabled) {
-				return t('core', 'Account name or email')
-			}
-			return t('core', 'Account name')
-		},
 	},
 
 	watch: {
@@ -309,9 +291,9 @@ export default {
 
 	mounted() {
 		if (this.username === '') {
-			this.$refs.user.$refs.inputField.$refs.input.focus()
+			this.$refs.user.focus()
 		} else {
-			this.$refs.password.$refs.inputField.$refs.input.focus()
+			this.$refs.password.focus()
 		}
 	},
 

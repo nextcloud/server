@@ -151,12 +151,29 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
 		$typedMap = [
+			['core', 'shareapi_enable_link_password_by_default', true],
 			['core', 'shareapi_enforce_links_password', true],
 		];
 		$result = $this->getResults($map, $typedMap);
 		$this->assertArrayHasKey('password', $result['public']);
 		$this->assertArrayHasKey('enforced', $result['public']['password']);
 		$this->assertTrue($result['public']['password']['enforced']);
+	}
+
+	public function testLinkPasswordEnforcedWithoutDefaultPrompt(): void {
+		$map = [
+			['core', 'shareapi_enabled', 'yes', 'yes'],
+			['core', 'shareapi_allow_links', 'yes', 'yes'],
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+		];
+		$typedMap = [
+			['core', 'shareapi_enable_link_password_by_default', false],
+			['core', 'shareapi_enforce_links_password', true],
+		];
+		$result = $this->getResults($map, $typedMap);
+		$this->assertArrayHasKey('password', $result['public']);
+		$this->assertArrayHasKey('enforced', $result['public']['password']);
+		$this->assertFalse($result['public']['password']['enforced']);
 	}
 
 	public function testLinkNoPassword(): void {

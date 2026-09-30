@@ -113,6 +113,9 @@ class TwoFactorChallengeController extends Controller {
 			$backupProvider = null;
 		}
 
+		[$regularProviders] = $this->splitProvidersAndBackupCodes($providerSet->getProviders());
+		$otherProviders = array_filter($regularProviders, fn (IProvider $p) => $p->getId() !== $provider->getId());
+
 		$errorMessage = '';
 		$error = false;
 		if ($this->session->exists('two_factor_auth_error')) {
@@ -128,6 +131,7 @@ class TwoFactorChallengeController extends Controller {
 			'error_message' => $errorMessage,
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,
+			'hasOtherProviders' => $otherProviders !== [],
 			'logout_url' => $this->getLogoutUrl(),
 			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),

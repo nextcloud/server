@@ -291,7 +291,6 @@ OC.L10N.register(
     "Advanced settings" : "詳細設定",
     "Share label" : "共有ラベル",
     "Share link token" : "共有リンクのトークン",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "公開共有リンクのトークンを覚えやすいものに設定するか、新しいトークンを生成してください。機密情報を含む共有には、推測可能なトークンを使用することはおすすめしません。",
     "Generating…" : "生成中…",
     "Generate new token" : "新しいトークンの生成",
     "Set password" : "パスワード設定",
@@ -423,6 +422,7 @@ OC.L10N.register(
     "Via “{folder}”" : "“{folder}” 経由",
     "Name or email …" : "名前またはメールアドレス…",
     "Name, email, or Federated Cloud ID …" : "名前、メールアドレス、またはクラウド連携ID…",
-    "Searching …" : "検索しています…"
+    "Searching …" : "検索しています…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "公開共有リンクのトークンを覚えやすいものに設定するか、新しいトークンを生成してください。機密情報を含む共有には、推測可能なトークンを使用することはおすすめしません。"
 },
 "nplurals=1; plural=0;");

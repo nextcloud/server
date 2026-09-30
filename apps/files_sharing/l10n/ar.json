@@ -265,7 +265,6 @@
     "Advanced settings" : "الإعدادات المتقدمة",
     "Share label" : "علامة رابط المشاركة",
     "Share link token" : "أَمَارَة رابط المشاركة",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "عيّن أَمَارَة رابط المشارَكة العامة على شيء يسهل تذكره أو أنشئ أَمَارَة جديدة. لا يُنصح باستعمال أَمَارَة يمكن تخمينها للمشارَكات التي تحتوي على معلومات حساسة.",
     "Generating…" : "توليد ...",
     "Generate new token" : "توليد أَمَارَة جديدة",
     "Set password" : "تعيين كلمة المرور",
@@ -375,6 +374,7 @@
     "Via “{folder}”" : "عبر “{folder}”",
     "Name or email …" : "الاسم أو الإيميل …",
     "Name, email, or Federated Cloud ID …" : "الاسم أو البريد أو المعرف السحابي الموحد",
-    "Searching …" : "البحث جارٍ …"
+    "Searching …" : "البحث جارٍ …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "عيّن أَمَارَة رابط المشارَكة العامة على شيء يسهل تذكره أو أنشئ أَمَارَة جديدة. لا يُنصح باستعمال أَمَارَة يمكن تخمينها للمشارَكات التي تحتوي على معلومات حساسة."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

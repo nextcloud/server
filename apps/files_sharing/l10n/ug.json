@@ -275,7 +275,6 @@
     "Advanced settings" : "ئىلغار تەڭشەكلەر",
     "Share label" : "ئورتاقلىشىش بەلگىسى",
     "Share link token" : "ئۇلىنىش نۇمۇرىنى ھەمبەھىرلە",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "ئاممىۋى ئورتاقلىشىش ئۇلىنىش بەلگىسىنى ئاسان ئېسىدە ساقلىنىدىغان قىلىپ تەڭشەڭ ياكى يېڭى بەلگە ھاسىل قىلىڭ. مەخپىي ئۇچۇرلارنى ئۆز ئىچىگە ئالغان ئورتاقلىشىشلار ئۈچۈن پەرەز قىلغىلى بولىدىغان بەلگە ئىشلىتىش تەۋسىيە قىلىنمايدۇ.",
     "Generating…" : "ياساۋاتىدۇ...",
     "Generate new token" : "يېڭى نۇمۇر ياساۋاتىدۇ",
     "Set password" : "پارول بەلگىلەڭ",
@@ -405,6 +404,7 @@
     "Via “{folder}”" : "«{folder}» ئارقىلىق",
     "Name or email …" : "ئىسىم ياكى ئېلخەت…",
     "Name, email, or Federated Cloud ID …" : "ئىسمى ، ئېلېكترونلۇق خەت ياكى فېدېراتسىيە بۇلۇت كىملىكى…",
-    "Searching …" : "ئىزدەش…"
+    "Searching …" : "ئىزدەش…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "ئاممىۋى ئورتاقلىشىش ئۇلىنىش بەلگىسىنى ئاسان ئېسىدە ساقلىنىدىغان قىلىپ تەڭشەڭ ياكى يېڭى بەلگە ھاسىل قىلىڭ. مەخپىي ئۇچۇرلارنى ئۆز ئىچىگە ئالغان ئورتاقلىشىشلار ئۈچۈن پەرەز قىلغىلى بولىدىغان بەلگە ئىشلىتىش تەۋسىيە قىلىنمايدۇ."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

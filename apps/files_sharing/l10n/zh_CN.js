@@ -285,7 +285,6 @@ OC.L10N.register(
     "Advanced settings" : "高级选项",
     "Share label" : "共享标签",
     "Share link token" : "共享链接令牌",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "将公开共享链接令牌设置为易于记忆的令牌或生成新令牌。不建议对包含敏感信息的共享使用可猜测的令牌。",
     "Generating…" : "正在生成…",
     "Generate new token" : "生成新令牌",
     "Set password" : "设置密码",
@@ -415,6 +414,7 @@ OC.L10N.register(
     "Via “{folder}”" : "通过“{folder}”",
     "Name or email …" : "名称或电子邮件…",
     "Name, email, or Federated Cloud ID …" : "名称、电子邮件或联合云 ID…",
-    "Searching …" : "正在搜索…"
+    "Searching …" : "正在搜索…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "将公开共享链接令牌设置为易于记忆的令牌或生成新令牌。不建议对包含敏感信息的共享使用可猜测的令牌。"
 },
 "nplurals=1; plural=0;");

@@ -277,7 +277,6 @@ OC.L10N.register(
     "Advanced settings" : "Нарийвчилсан тохиргоо",
     "Share label" : "Хуваалцах шошго",
     "Share link token" : "Хуваалцах холбоосын токен",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Нийтийн хуваалцах холбоосын токеныг санахад хялбар зүйл болгож тохируулна уу эсвэл шинэ токен үүсгэнэ үү. Нууц мэдээлэл агуулсан хуваалцалтад таахад хялбар токен ашиглахыг зөвлөдөггүй.",
     "Generating…" : "Үүсгэж байна…",
     "Generate new token" : "Шинэ токен үүсгэх",
     "Set password" : "Нууц үг тохируулах",
@@ -407,6 +406,7 @@ OC.L10N.register(
     "Via “{folder}”" : "\"{folder}\"-аар",
     "Name or email …" : "Нэр эсвэл имэйл …",
     "Name, email, or Federated Cloud ID …" : "Нэр, имэйл эсвэл Холбогдсон Үүл ID …",
-    "Searching …" : "Хайж байна …"
+    "Searching …" : "Хайж байна …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Нийтийн хуваалцах холбоосын токеныг санахад хялбар зүйл болгож тохируулна уу эсвэл шинэ токен үүсгэнэ үү. Нууц мэдээлэл агуулсан хуваалцалтад таахад хялбар токен ашиглахыг зөвлөдөггүй."
 },
 "nplurals=2; plural=(n != 1);");

@@ -14,8 +14,10 @@ use NCU\Sharing\ShareAccessContext;
 use OC\Core\Sharing\Recipient\EmailShareRecipientType;
 use OC\User\Database;
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\CardDAV\ContactsManager;
 use OCP\Contacts\IManager;
 use OCP\IDBConnection;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
@@ -65,7 +67,21 @@ final class EmailShareRecipientTypeTest extends TestCase {
 	}
 
 	public function testGetRecipientDisplayName(): void {
-		$this->assertEquals('example@example.com', $this->recipientType->getRecipientDisplayName('example@example.com'));
+		$this->assertNull($this->recipientType->getRecipientDisplayName('example@example.com', null));
+		$this->assertNull($this->recipientType->getRecipientDisplayName('example@example.com', 'https://example.com'));
+
+		$cardDavBackend = Server::get(CardDavBackend::class);
+		$contactsManager = Server::get(IManager::class);
+		$addressBookId = $cardDavBackend->createAddressBook('principals/users/' . $this->user1->getUID(), 'Personal', []);
+		Server::get(ContactsManager::class)->setupContactsProvider($contactsManager, $this->user1->getUID(), Server::get(IURLGenerator::class));
+
+		$contactsManager->createOrUpdate(['EMAIL' => 'example@example.com', 'FN' => 'Email 1'], (string)$addressBookId);
+
+		$this->assertEquals('Email 1', $this->recipientType->getRecipientDisplayName('example@example.com', null));
+		$this->assertNull($this->recipientType->getRecipientDisplayName('example@example.com', 'https://example.com'));
+		$this->assertNull($this->recipientType->getRecipientDisplayName('example@example.org', null));
+
+		$cardDavBackend->deleteAddressBook($addressBookId);
 	}
 
 	public function testSearchRecipients(): void {
@@ -74,9 +90,10 @@ final class EmailShareRecipientTypeTest extends TestCase {
 		}
 
 		$cardDavBackend = Server::get(CardDavBackend::class);
-		$addressBookId = $cardDavBackend->createAddressBook('principals/users/user1', 'Personal', []);
-
 		$contactsManager = Server::get(IManager::class);
+		$addressBookId = $cardDavBackend->createAddressBook('principals/users/' . $this->user1->getUID(), 'Personal', []);
+		Server::get(ContactsManager::class)->setupContactsProvider($contactsManager, $this->user1->getUID(), Server::get(IURLGenerator::class));
+
 		foreach (['email1@example.com', 'email2@example.com', 'email3@example.com', 'email4@example.com'] as $email) {
 			$contactsManager->createOrUpdate(['EMAIL' => $email], (string)$addressBookId);
 		}

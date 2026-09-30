@@ -283,7 +283,6 @@
     "Advanced settings" : "Išplėstiniai nustatymai",
     "Share label" : "Bendrinimo etiketė",
     "Share link token" : "Pasidalinti nuorodos žymeniu",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nustatykite viešosios nuorodos žymenį taip, kad jį būtų lengva įsiminti, arba sugeneruokite naują žymenį. Nerekomenduojama naudoti lengvai atspėjamą žymenį, jei dalinatės slapta informacija.",
     "Generating…" : "Generuojama…",
     "Generate new token" : "Generuoti naują žymenį",
     "Set password" : "Nustatyti slaptažodį",
@@ -413,6 +412,7 @@
     "Via “{folder}”" : "Per „{folder}“",
     "Name or email …" : "Vardas ar el. paštas…",
     "Name, email, or Federated Cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…",
-    "Searching …" : "Ieškoma…"
+    "Searching …" : "Ieškoma…",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Nustatykite viešosios nuorodos žymenį taip, kad jį būtų lengva įsiminti, arba sugeneruokite naują žymenį. Nerekomenduojama naudoti lengvai atspėjamą žymenį, jei dalinatės slapta informacija."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

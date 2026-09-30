@@ -906,6 +906,60 @@ class SessionTest extends TestCase {
 		$this->assertFalse($granted);
 	}
 
+	public function testRememberLoginMissingSessionToken(): void {
+		$session = $this->createMock(Memory::class);
+		$managerMethods = get_class_methods(Manager::class);
+		//keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)
+			->onlyMethods($mockedManagerMethods)
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
+			])
+			->getMock();
+		$userSession = $this->getMockBuilder(Session::class)
+			//override, otherwise tests will fail because of setcookie()
+			->onlyMethods(['setMagicInCookie'])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->getMock();
+
+		$user = $this->createMock(IUser::class);
+		$token = 'goodToken';
+		$oldSessionId = 'sess321';
+
+		$session->expects($this->never())
+			->method('regenerateId');
+		$manager->expects($this->once())
+			->method('get')
+			->with('foo')
+			->willReturn($user);
+		$this->config->expects($this->once())
+			->method('getUserKeys')
+			->with('foo', 'login_token')
+			->willReturn([$token]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($oldSessionId)
+			->willThrowException(new InvalidTokenException());
+
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
+		$this->tokenProvider->expects($this->never())
+			->method('renewSessionToken');
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+		$session->expects($this->never())
+			->method('set')
+			->with('user_id', 'foo');
+
+		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
+
+		$this->assertFalse($granted);
+	}
+
 	public function testRememberLoginInvalidToken(): void {
 		$session = $this->createMock(Memory::class);
 		$managerMethods = get_class_methods(Manager::class);
@@ -930,7 +984,7 @@ class SessionTest extends TestCase {
 		$token = 'goodToken';
 		$oldSessionId = 'sess321';
 
-		$session->expects($this->once())
+		$session->expects($this->never())
 			->method('regenerateId');
 		$manager->expects($this->once())
 			->method('get')
@@ -981,7 +1035,7 @@ class SessionTest extends TestCase {
 		$token = 'goodToken';
 		$oldSessionId = 'sess321';
 
-		$session->expects($this->once())
+		$session->expects($this->never())
 			->method('regenerateId');
 		$manager->expects($this->once())
 			->method('get')

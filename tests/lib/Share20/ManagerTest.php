@@ -90,7 +90,6 @@ class ManagerTest extends \Test\TestCase {
 	protected LoggerInterface&MockObject $logger;
 	protected IConfig&MockObject $config;
 	protected ISecureRandom&MockObject $secureRandom;
-	protected IHasher&MockObject $hasher;
 	protected IShareProvider&MockObject $defaultProvider;
 	protected IMountManager&MockObject $mountManager;
 	protected IGroupManager&MockObject $groupManager;
@@ -115,7 +114,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
-		$this->hasher = $this->createMock(IHasher::class);
 		$this->mountManager = $this->createMock(IMountManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -179,7 +177,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->logger,
 			$this->config,
 			$this->secureRandom,
-			$this->hasher,
+			Server::get(IHasher::class),
 			$this->mountManager,
 			$this->groupManager,
 			$this->l10nFactory,
@@ -205,7 +203,7 @@ class ManagerTest extends \Test\TestCase {
 				$this->logger,
 				$this->config,
 				$this->secureRandom,
-				$this->hasher,
+				Server::get(IHasher::class),
 				$this->mountManager,
 				$this->groupManager,
 				$this->l10nFactory,
@@ -904,16 +902,36 @@ class ManagerTest extends \Test\TestCase {
 		]);
 
 		$this->appConfig->method('getValueBool')->willReturnMap([
+			['core', 'shareapi_enable_link_password_by_default', true],
 			['core', 'shareapi_enforce_links_password', true],
 		]);
 
 		self::invokePrivate($this->manager, 'verifyPassword', [null]);
 	}
 
+	public function testVerifyPasswordEnforcedWithoutDefaultPrompt(): void {
+		$this->config->method('getAppValue')->willReturnMap([
+			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
+		]);
+
+		$this->appConfig->method('getValueBool')->willReturnMap([
+			['core', 'shareapi_enable_link_password_by_default', false],
+			['core', 'shareapi_enforce_links_password', true],
+		]);
+
+		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
+		$this->assertNull($result);
+	}
+
 	public function testVerifyPasswordNotEnforcedGroup(): void {
 		$this->config->method('getAppValue')->willReturnMap([
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', '["admin"]'],
 			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
+		]);
+
+		$this->appConfig->method('getValueBool')->willReturnMap([
+			['core', 'shareapi_enable_link_password_by_default', true],
+			['core', 'shareapi_enforce_links_password', true],
 		]);
 
 		// Create admin user
@@ -929,6 +947,11 @@ class ManagerTest extends \Test\TestCase {
 		$this->config->method('getAppValue')->willReturnMap([
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', '["admin", "special"]'],
 			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
+		]);
+
+		$this->appConfig->method('getValueBool')->willReturnMap([
+			['core', 'shareapi_enable_link_password_by_default', true],
+			['core', 'shareapi_enforce_links_password', true],
 		]);
 
 		// Create admin user
@@ -3347,11 +3370,6 @@ class ManagerTest extends \Test\TestCase {
 			->method('setLinkParent')
 			->with($share);
 
-		$this->hasher->expects($this->once())
-			->method('hash')
-			->with('password')
-			->willReturn('hashed');
-
 		$this->secureRandom->method('generate')
 			->willReturn('token');
 
@@ -3395,7 +3413,8 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals('/target', $share->getTarget());
 		$this->assertSame($date, $share->getExpirationDate());
 		$this->assertEquals('token', $share->getToken());
-		$this->assertEquals('hashed', $share->getPassword());
+		$this->assertTrue($share->isPasswordHashed());
+		$this->assertNotEmpty($share->getPassword());
 	}
 
 	public function testCreateShareMail(): void {
@@ -4193,46 +4212,106 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testCheckPasswordInvalidPassword(): void {
-		$share = $this->createMock(IShare::class);
-		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
-		$share->method('getPassword')->willReturn('password');
-		$share->method('isPasswordProtected')->willReturn(true);
+		$passwordHash = Server::get(IHasher::class)->hash('password');
 
-		$this->hasher->method('verify')->with('invalidpassword', 'password', '')->willReturn(false);
+		$share = $this->manager->newShare()
+			->setShareType(IShare::TYPE_LINK)
+			->setPasswordHash($passwordHash);
 
 		$this->assertFalse($this->manager->checkPassword($share, 'invalidpassword'));
 	}
 
 	public function testCheckPasswordValidPassword(): void {
-		$share = $this->createMock(IShare::class);
-		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
-		$share->method('getPassword')->willReturn('passwordHash');
-		$share->method('isPasswordProtected')->willReturn(true);
+		$passwordHash = Server::get(IHasher::class)->hash('password');
 
-		$this->hasher->method('verify')->with('password', 'passwordHash', '')->willReturn(true);
+		$share = $this->manager->newShare()
+			->setShareType(IShare::TYPE_LINK)
+			->setPasswordHash($passwordHash);
 
 		$this->assertTrue($this->manager->checkPassword($share, 'password'));
 	}
 
-	public function testCheckPasswordUpdateShare(): void {
-		$share = $this->manager->newShare();
-		$share->setShareType(IShare::TYPE_LINK)
-			->setPassword('passwordHash');
+	public static function dataHasherAlgorithm(): array {
+		$algorithms = [
+			PASSWORD_BCRYPT,
+		];
 
-		$this->hasher->method('verify')->with('password', 'passwordHash', '')
-			->willReturnCallback(function ($pass, $hash, &$newHash) {
-				$newHash = 'newHash';
+		if (\defined('PASSWORD_ARGON2I')) {
+			$algorithms[] = PASSWORD_ARGON2I;
+		}
 
-				return true;
-			});
+		if (\defined('PASSWORD_ARGON2ID')) {
+			$algorithms[] = PASSWORD_ARGON2ID;
+		}
+
+		return array_map(static fn (string $algorithm): array => [$algorithm], $algorithms);
+	}
+
+	#[DataProvider('dataHasherAlgorithm')]
+	public function testCheckPasswordUpdateShareNoRehash(string $algorithm): void {
+		$hasher = Server::get(IHasher::class);
+		$this->invokePrivate($hasher, 'forcedAlgorithm', [$algorithm]);
+
+		$passwordHash = $hasher->hash('password');
+		$this->assertEquals((match ($algorithm) {
+			PASSWORD_ARGON2ID => 3,
+			PASSWORD_ARGON2I => 2,
+			PASSWORD_BCRYPT => 1,
+		}), (int)(explode('|', $passwordHash)[0]));
+
+		$share = $this->manager->newShare()
+			->setShareType(IShare::TYPE_LINK)
+			->setPasswordHash($passwordHash);
+
+		$this->defaultProvider->expects($this->never())->method('update');
+
+		$this->assertTrue($this->manager->checkPassword($share, 'password'));
+
+		$this->invokePrivate($hasher, 'forcedAlgorithm', [null]);
+	}
+
+	#[DataProvider('dataHasherAlgorithm')]
+	public function testCheckPasswordUpdateShare(string $algorithm): void {
+		$hasher = Server::get(IHasher::class);
+		$this->invokePrivate($hasher, 'forcedAlgorithm', [$algorithm]);
+
+		$passwordHash = $hasher->hash('password');
+		$this->assertEquals((match ($algorithm) {
+			PASSWORD_ARGON2ID => 3,
+			PASSWORD_ARGON2I => 2,
+			PASSWORD_BCRYPT => 1,
+		}), (int)(explode('|', $passwordHash)[0]));
+
+		$previousHasherOptions = $this->invokePrivate($hasher, 'options');
+
+		// Make sure the hasher wants to rehash the password
+		$this->invokePrivate(
+			$hasher,
+			'options',
+			[
+				[
+					'threads' => $previousHasherOptions['threads'] ?? 1,
+					'memory_cost' => ($previousHasherOptions['memory_cost'] ?? PASSWORD_ARGON2_DEFAULT_MEMORY_COST) + 1,
+					'time_cost' => ($previousHasherOptions['time_cost'] ?? PASSWORD_ARGON2_DEFAULT_TIME_COST) + 1,
+					'cost' => ($previousHasherOptions['cost'] ?? PASSWORD_BCRYPT_DEFAULT_COST) + 1,
+				],
+			],
+		);
+
+		$share = $this->manager->newShare()
+			->setShareType(IShare::TYPE_LINK)
+			->setPasswordHash($passwordHash);
 
 		$this->defaultProvider->expects($this->once())
 			->method('update')
-			->with($this->callback(function (IShare $share) {
-				return $share->getPassword() === 'newHash';
+			->with($this->callback(function (IShare $share) use ($passwordHash) {
+				return $share->getPassword() !== null && $share->isPasswordHashed() && $share->getPassword() !== $passwordHash;
 			}));
 
 		$this->assertTrue($this->manager->checkPassword($share, 'password'));
+
+		$this->invokePrivate($hasher, 'options', [$previousHasherOptions]);
+		$this->invokePrivate($hasher, 'forcedAlgorithm', [null]);
 	}
 
 	public function testUpdateShareCantChangeShareType(): void {
@@ -4458,11 +4537,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('validateExpirationDateLink')->with($share);
 		$manager->expects($this->once())->method('verifyPassword')->with('password');
 
-		$this->hasher->expects($this->once())
-			->method('hash')
-			->with('password')
-			->willReturn('hashed');
-
 		$this->defaultProvider->expects($this->once())
 			->method('update')
 			->with($share)
@@ -4538,9 +4612,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDateLink');
 
-		$this->hasher->expects($this->never())
-			->method('hash');
-
 		$this->defaultProvider->expects($this->never())
 			->method('update');
 
@@ -4598,11 +4669,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('verifyPassword')->with('password');
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('validateExpirationDateLink');
-
-		$this->hasher->expects($this->once())
-			->method('hash')
-			->with('password')
-			->willReturn('hashed');
 
 		$this->defaultProvider->expects($this->once())
 			->method('update')
@@ -4678,11 +4744,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('validateExpirationDateLink');
 
-		$this->hasher->expects($this->once())
-			->method('hash')
-			->with('password')
-			->willReturn('hashed');
-
 		$this->defaultProvider->expects($this->once())
 			->method('update')
 			->with($share, 'password')
@@ -4756,16 +4817,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('verifyPassword')->with('password');
 		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->once())->method('validateExpirationDateLink');
-
-		$this->hasher->expects($this->once())
-			->method('verify')
-			->with('password', 'anotherPasswordHash')
-			->willReturn(false);
-
-		$this->hasher->expects($this->once())
-			->method('hash')
-			->with('password')
-			->willReturn('hashed');
 
 		$this->defaultProvider->expects($this->once())
 			->method('update')
@@ -4844,10 +4895,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDateLink');
 
-		// If the password is empty, we have nothing to hash
-		$this->hasher->expects($this->never())
-			->method('hash');
-
 		$this->defaultProvider->expects($this->never())
 			->method('update');
 
@@ -4911,10 +4958,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDateLink');
-
-		// If the password is empty, we have nothing to hash
-		$this->hasher->expects($this->never())
-			->method('hash');
 
 		$this->defaultProvider->expects($this->never())
 			->method('update');
@@ -4980,10 +5023,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDateLink');
 
-		// If the password is empty, we have nothing to hash
-		$this->hasher->expects($this->never())
-			->method('hash');
-
 		$this->defaultProvider->expects($this->never())
 			->method('update');
 
@@ -5047,12 +5086,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDateLink');
-
-		// If the old & new passwords are the same, we don't do anything
-		$this->hasher->expects($this->never())
-			->method('verify');
-		$this->hasher->expects($this->never())
-			->method('hash');
 
 		$this->defaultProvider->expects($this->never())
 			->method('update');
@@ -5118,12 +5151,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDateLink');
 
-		// If the old & new passwords are the same, we don't do anything
-		$this->hasher->expects($this->never())
-			->method('verify');
-		$this->hasher->expects($this->never())
-			->method('hash');
-
 		$this->defaultProvider->expects($this->never())
 			->method('update');
 
@@ -5187,12 +5214,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDateLink');
-
-		// If the old & new passwords are the same, we don't do anything
-		$this->hasher->expects($this->never())
-			->method('verify');
-		$this->hasher->expects($this->never())
-			->method('hash');
 
 		$this->defaultProvider->expects($this->never())
 			->method('update');

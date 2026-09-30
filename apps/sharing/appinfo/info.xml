@@ -7,8 +7,8 @@
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>sharing</id>
 	<name>Sharing</name>
-	<summary>TODO</summary>
-	<description>TODO</description>
+	<summary>This app provides APIs and occ commands to manage shares.</summary>
+	<description>This app provides APIs and occ commands to manage shares.</description>
 	<version>2.0.0-dev.3</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author>Kate Döen</author>

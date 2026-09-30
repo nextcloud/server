@@ -277,7 +277,6 @@ OC.L10N.register(
     "Advanced settings" : "Mipangilio ya kiwango cha juu",
     "Share label" : "Shiriki lebo",
     "Share link token" : "Shiriki tokeni ya kiungo",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Weka tokeni ya kiungo cha kushiriki hadharani iwe kitu ambacho ni rahisi kukumbuka au kutengeneza tokeni mpya. Haipendekezi kutumia tokeni inayoweza kukisiwa kwa hisa ambazo zina taarifa nyeti.",
     "Generating…" : "Inazalisha...",
     "Generate new token" : "Tengeneza tokeni mpya",
     "Set password" : " Weka nenosiri",
@@ -407,6 +406,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Kupitia \"{folder}\"",
     "Name or email …" : "Jina au barua pepe",
     "Name, email, or Federated Cloud ID …" : "Jina, barua pepe au kitambulisho cha Cloudi kilichoshirikishwa...",
-    "Searching …" : "Inatafuta"
+    "Searching …" : "Inatafuta",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Weka tokeni ya kiungo cha kushiriki hadharani iwe kitu ambacho ni rahisi kukumbuka au kutengeneza tokeni mpya. Haipendekezi kutumia tokeni inayoweza kukisiwa kwa hisa ambazo zina taarifa nyeti."
 },
 "nplurals=2; plural=(n != 1);");

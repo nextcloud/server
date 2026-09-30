@@ -200,11 +200,15 @@ class QuerySearchHelper {
 
 		$result->closeCursor();
 
-		// loop through all caches for each result to see if the result matches that storage
+		// a result can only belong to the caches of its own storage, so only those are asked if the result matches
 		// results are grouped by the same array keys as the caches argument to allow the caller to distinguish the source of the results
+		$cachesByStorage = [];
+		foreach ($caches as $cacheKey => $cache) {
+			$cachesByStorage[$cache->getNumericStorageId()][$cacheKey] = $cache;
+		}
 		$results = array_fill_keys(array_keys($caches), []);
 		foreach ($rawEntries as $rawEntry) {
-			foreach ($caches as $cacheKey => $cache) {
+			foreach ($cachesByStorage[$rawEntry->getStorageId()] ?? [] as $cacheKey => $cache) {
 				$entry = $cache->getCacheEntryFromSearchResult($rawEntry);
 				if ($entry) {
 					$results[$cacheKey][] = $entry;

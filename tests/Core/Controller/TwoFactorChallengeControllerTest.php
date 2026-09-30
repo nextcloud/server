@@ -23,6 +23,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Template\ITemplate;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -126,12 +127,6 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('getProviderSet')
 			->with($user)
 			->willReturn($providerSet);
-		$provider->expects($this->once())
-			->method('getId')
-			->willReturn('u2f');
-		$backupProvider->expects($this->once())
-			->method('getId')
-			->willReturn('backup_codes');
 
 		$this->session->expects($this->once())
 			->method('exists')
@@ -152,6 +147,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			'error' => true,
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,
+			'hasOtherProviders' => false,
 			'logout_url' => 'logoutAttribute',
 			'template' => '<html/>',
 			'redirect_url' => '/re/dir/ect/url',
@@ -159,6 +155,39 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		], 'guest');
 
 		$this->assertEquals($expected, $this->controller->showChallenge('myprovider', '/re/dir/ect/url'));
+	}
+
+	public static function dataShowChallengeOtherProviders(): array {
+		return [
+			'single provider' => [['totp'], 'totp', false],
+			'single provider with backup codes' => [['totp', 'backup_codes'], 'totp', false],
+			'two providers' => [['totp', 'email', 'backup_codes'], 'totp', true],
+			'backup codes with a regular provider' => [['totp', 'backup_codes'], 'backup_codes', true],
+			'backup codes only' => [['backup_codes'], 'backup_codes', false],
+		];
+	}
+
+	#[DataProvider('dataShowChallengeOtherProviders')]
+	public function testShowChallengeOtherProviders(array $providerIds, string $challengeProviderId, bool $expected): void {
+		$user = $this->createMock(IUser::class);
+		$providers = array_map(function (string $id): IProvider {
+			$provider = $this->createMock(IProvider::class);
+			$provider->method('getId')->willReturn($id);
+			$tmpl = $this->createMock(ITemplate::class);
+			$tmpl->method('fetchPage')->willReturn('<html/>');
+			$provider->method('getTemplate')->willReturn($tmpl);
+			return $provider;
+		}, $providerIds);
+
+		$this->userSession->method('getUser')->willReturn($user);
+		$this->twoFactorManager->method('getProviderSet')
+			->with($user)
+			->willReturn(new ProviderSet($providers, false));
+
+		$response = $this->controller->showChallenge($challengeProviderId);
+
+		$this->assertInstanceOf(StandaloneTemplateResponse::class, $response);
+		$this->assertSame($expected, $response->getParams()['hasOtherProviders']);
 	}
 
 	public function testShowInvalidChallenge(): void {

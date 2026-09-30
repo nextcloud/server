@@ -291,7 +291,7 @@ OC.L10N.register(
     "Advanced settings" : "Erweiterte Einstellungen",
     "Share label" : "Freigabe-Label",
     "Share link token" : "Freigabe-Token teilen",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Das öffentliche Freigabelink-Token auf einen Begriff festlegen, der leicht zu merken ist , oder generiere ein neues Token. Es ist nicht empfehlenswert, ein erratbares Token für Freigaben zu verwenden, die vertrauliche Informationen enthalten.",
+    "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "Das öffentliche Share-Link-Token auf etwas setzen, das leicht zu merken ist, oder ein neues Token erstellen. Token können bis zu {maxLength} Zeichen lang sein und dürfen nur Buchstaben, Zahlen und Bindestriche enthalten. Es ist nicht zu empfehlen, für Freigaben, die vertrauliche Informationen enthalten, ein erratbares Token zu verwenden.",
     "Generating…" : "Generieren …",
     "Generate new token" : "Neues Token generieren",
     "Set password" : "Passwort setzen",
@@ -423,6 +423,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Über \"{folder}”",
     "Name or email …" : "Name oder E-Mail-Adresse …",
     "Name, email, or Federated Cloud ID …" : "Name, E-Mail-Adresse oder Federated-Cloud-ID …",
-    "Searching …" : "Suche …"
+    "Searching …" : "Suche …",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Das öffentliche Freigabelink-Token auf einen Begriff festlegen, der leicht zu merken ist , oder generiere ein neues Token. Es ist nicht empfehlenswert, ein erratbares Token für Freigaben zu verwenden, die vertrauliche Informationen enthalten."
 },
 "nplurals=2; plural=(n != 1);");

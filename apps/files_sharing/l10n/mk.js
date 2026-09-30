@@ -197,6 +197,7 @@ OC.L10N.register(
     "Open Sharing Details" : "Отвори детали за споделувањето",
     "Unshare" : "Отстрани споделување",
     "Added by {initiator}" : "Додадено од {initiator}",
+    "Via \"{folder}\"" : "Преку \"{folder}\"",
     "Cannot copy, please copy the link manually" : "Неможе да се копира, копирајте го линкот рачно",
     "Copy internal link" : "Копирај внатрешен линк",
     "For people who already have access" : "За луѓе кој веќе имаат пристап",
@@ -282,7 +283,6 @@ OC.L10N.register(
     "Advanced settings" : "Напредни параметри",
     "Share label" : "Ознака на споделувањето",
     "Share link token" : "Сподели токен за линк",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Поставете го токенот за јавен линкза споделување на нешто лесно за паметење или генерирајте нов токен. Не се препорачува да се користи токен што може да се погоди за акции што содржат чувствителни информации.",
     "Generating…" : "Се генерира…",
     "Generate new token" : "Генерирај нов токен",
     "Set password" : "Постави лозинка",
@@ -412,6 +412,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Преку “{folder}”",
     "Name or email …" : "Име или е-пошта ...",
     "Name, email, or Federated Cloud ID …" : "Име, е-пошта или федерален ИД ...",
-    "Searching …" : "Пребарување ..."
+    "Searching …" : "Пребарување ...",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Поставете го токенот за јавен линкза споделување на нешто лесно за паметење или генерирајте нов токен. Не се препорачува да се користи токен што може да се погоди за акции што содржат чувствителни информации."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

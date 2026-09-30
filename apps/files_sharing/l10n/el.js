@@ -284,7 +284,6 @@ OC.L10N.register(
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Share label" : "Ετικέτα διαμοιρασμού",
     "Share link token" : "Διακριτικό συνδέσμου διαμοιρασμού",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ορίστε το token του δημόσιου συνδέσμου διαμοιρασμού σε κάτι εύκολο να θυμηθείτε ή δημιουργήστε ένα νέο διακριτικό. Δεν συνιστάται η χρήση ευανάγνωστου token για διαμοιρασμούς που περιέχουν ευαίσθητες πληροφορίες.",
     "Generating…" : "Δημιουργείται…",
     "Generate new token" : "Δημιουργία νέου διακριτικού",
     "Set password" : "Ορισμός συνθηματικού",
@@ -414,6 +413,7 @@ OC.L10N.register(
     "Via “{folder}”" : "Μέσω “{folder}”",
     "Name or email …" : "Όνομα ή διεύθυνση ηλεκτρονικού ταχυδρομείου",
     "Name, email, or Federated Cloud ID …" : "Όνομα, διεύθυνση ηλεκτρονικού ταχυδρομείου ή Ομοσπονδιακό αναγνωριστικό Cloud…",
-    "Searching …" : "Αναζήτηση ..."
+    "Searching …" : "Αναζήτηση ...",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ορίστε το token του δημόσιου συνδέσμου διαμοιρασμού σε κάτι εύκολο να θυμηθείτε ή δημιουργήστε ένα νέο διακριτικό. Δεν συνιστάται η χρήση ευανάγνωστου token για διαμοιρασμούς που περιέχουν ευαίσθητες πληροφορίες."
 },
 "nplurals=2; plural=(n != 1);");

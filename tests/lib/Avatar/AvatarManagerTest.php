@@ -18,6 +18,7 @@ use OC\User\User;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\Config\IUserConfig;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IAppData;
@@ -51,6 +52,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	/** @var KnownUserService | \PHPUnit\Framework\MockObject\MockObject */
 	private $knownUserService;
 	private ICloudIdManager&\PHPUnit\Framework\MockObject\MockObject $cloudIdManager;
+	private IUserConfig&\PHPUnit\Framework\MockObject\MockObject $userConfig;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -65,6 +67,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 
 		$this->avatarManager = new AvatarManager(
 			$this->userSession,
@@ -75,7 +78,8 @@ class AvatarManagerTest extends \Test\TestCase {
 			$this->config,
 			$this->accountManager,
 			$this->knownUserService,
-			$this->cloudIdManager
+			$this->cloudIdManager,
+			$this->userConfig,
 		);
 	}
 
@@ -130,7 +134,7 @@ class AvatarManagerTest extends \Test\TestCase {
 			->with('valid-user')
 			->willReturn($folder);
 
-		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
+		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config, $this->userConfig);
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
 	}
 
@@ -177,7 +181,7 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('getScope')
 			->willReturn(IAccountManager::SCOPE_FEDERATED);
 
-		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
+		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config, $this->userConfig);
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
 	}
 
@@ -263,11 +267,42 @@ class AvatarManagerTest extends \Test\TestCase {
 		}
 
 		if ($expectedPlaceholder) {
-			$expected = new PlaceholderAvatar($folder, $user, $this->config, $this->logger);
+			$expected = new PlaceholderAvatar($folder, $user, $this->config, $this->logger, $this->userConfig);
 		} else {
-			$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
+			$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config, $this->userConfig);
 		}
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
+	}
+
+	public static function dataCanCacheAvatarLongTerm(): array {
+		return [
+			'federated is the same for everyone' => [IAccountManager::SCOPE_FEDERATED, true, true],
+			'no scope resolves to one placeholder' => ['', true, true],
+			'private depends on the viewer' => [IAccountManager::SCOPE_PRIVATE, true, false],
+			'disabled' => [IAccountManager::SCOPE_FEDERATED, false, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCanCacheAvatarLongTerm')]
+	public function testCanCacheAvatarLongTerm(string $scope, bool $enabled, bool $expected): void {
+		$user = $this->createMock(User::class);
+		$user->method('getUID')->willReturn('valid-user');
+		$user->method('isEnabled')->willReturn($enabled);
+		$this->userManager->method('get')->with('valid-user')->willReturn($user);
+
+		$property = $this->createMock(IAccountProperty::class);
+		$property->method('getScope')->willReturn($scope);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getProperty')->with(IAccountManager::PROPERTY_AVATAR)->willReturn($property);
+		$this->accountManager->method('getAccount')->with($user)->willReturn($account);
+
+		$this->assertEquals($expected, $this->avatarManager->canCacheAvatarLongTerm('valid-user'));
+	}
+
+	public function testCannotCacheAnAvatarForAnUnknownUser(): void {
+		$this->userManager->method('get')->with('nobody')->willReturn(null);
+
+		$this->assertFalse($this->avatarManager->canCacheAvatarLongTerm('nobody'));
 	}
 
 	public function testGetAvatarInvalidUser(): void {

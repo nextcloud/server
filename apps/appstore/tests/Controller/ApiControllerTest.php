@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Support\Subscription\IRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -51,6 +52,8 @@ final class ApiControllerTest extends TestCase {
 
 	private LoggerInterface&MockObject $logger;
 
+	private IURLGenerator&MockObject $urlGenerator;
+
 	private ApiController $apiController;
 
 	#[\Override]
@@ -69,6 +72,7 @@ final class ApiControllerTest extends TestCase {
 		$this->installer = $this->createMock(Installer::class);
 		$this->subscriptionRegistry = $this->createMock(IRegistry::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->apiController = new ApiController(
 			$this->request,
@@ -83,6 +87,7 @@ final class ApiControllerTest extends TestCase {
 			$this->installer,
 			$this->subscriptionRegistry,
 			$this->logger,
+			$this->urlGenerator,
 		);
 	}
 

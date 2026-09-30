@@ -277,7 +277,6 @@ OC.L10N.register(
     "Advanced settings" : "ການຕັ້ງຄ່າຂັ້ນສູງ",
     "Share label" : "ປ້າຍກຳກັບການແບ່ງປັນ",
     "Share link token" : "ໂທເຄັນລິ້ງແບ່ງປັນ",
-    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "ກຳນົດໂທເຄັນລິ້ງແບ່ງປັນສາທາລະນະໃຫ້ເປັນສິ່ງທີ່ຈື່ງ່າຍ ຫຼື ສ້າງໂທເຄັນໃໝ່. ບໍ່ແນະນຳໃຫ້ໃຊ້ໂທເຄັນທີ່ຄາດເດົາໄດ້ສຳລັບການແບ່ງປັນທີ່ມີຂໍ້ມູນທີ່ລະອຽດອ່ອນ.",
     "Generating…" : "ກຳລັງສ້າງ...",
     "Generate new token" : "ສ້າງໂທເຄັນໃໝ່",
     "Set password" : "ກຳນົດລະຫັດຜ່ານ",
@@ -407,6 +406,7 @@ OC.L10N.register(
     "Via “{folder}”" : "ຜ່ານ “{folder}”",
     "Name or email …" : "ຊື່ ຫຼື ອິເມວ...",
     "Name, email, or Federated Cloud ID …" : "ຊື່, ອິເມວ, ຫຼື ໄອດີຄລາວແບບລວມສູນ...",
-    "Searching …" : "ກຳລັງຄົ້ນຫາ..."
+    "Searching …" : "ກຳລັງຄົ້ນຫາ...",
+    "Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information." : "ກຳນົດໂທເຄັນລິ້ງແບ່ງປັນສາທາລະນະໃຫ້ເປັນສິ່ງທີ່ຈື່ງ່າຍ ຫຼື ສ້າງໂທເຄັນໃໝ່. ບໍ່ແນະນຳໃຫ້ໃຊ້ໂທເຄັນທີ່ຄາດເດົາໄດ້ສຳລັບການແບ່ງປັນທີ່ມີຂໍ້ມູນທີ່ລະອຽດອ່ອນ."
 },
 "nplurals=1; plural=0;");

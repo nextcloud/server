@@ -187,10 +187,10 @@ import BreadCrumbs from '../components/BreadCrumbs.vue'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 import FileListFilters from '../components/FileListFilter/FileListFilters.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
+import { useFilesSorting } from '../composables/filesSorting.ts'
 import { useEnabledFileListActions } from '../composables/useFileListActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
-import filesSortingMixin from '../mixins/filesSorting.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
@@ -227,10 +227,6 @@ export default defineComponent({
 		IconAlertCircleOutline,
 		IconReload,
 	},
-
-	mixins: [
-		filesSortingMixin,
-	],
 
 	props: {
 		isPublic: {
@@ -296,6 +292,8 @@ export default defineComponent({
 			uploaderStore,
 			userConfigStore,
 			viewConfigStore,
+
+			...useFilesSorting(),
 
 			// non reactive data
 			enableGridView,

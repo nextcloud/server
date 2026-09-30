@@ -17,6 +17,7 @@ class QueryOptimizer {
 	public function __construct() {
 		// note that the order here is relevant
 		$this->steps = [
+			new PushDownNegation(),
 			new PathPrefixOptimizer(),
 			new MergeDistributiveOperations(),
 			new FlattenSingleArgumentBinaryOperation(),
@@ -24,6 +25,9 @@ class QueryOptimizer {
 			new OrEqualsToIn(),
 			new FlattenNestedBool(),
 			new SplitLargeIn(),
+			// SplitLargeIn can turn a `not (in (...))` into `not (or (in (...), in (...)))`, which
+			// needs pushing down again before it reaches the query builder.
+			new PushDownNegation(),
 		];
 	}
 

@@ -1356,7 +1356,6 @@ class OC {
 		\OC_Util::$headers = [];
 		\OC_User::setIncognitoMode(false);
 		\OC_User::$_setupedBackends = [];
-		\OC_App::reset();
 		\OC_Helper::reset();
 		Filesystem::reset();
 		/** @psalm-suppress InternalMethod */

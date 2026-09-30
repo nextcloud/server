@@ -46,9 +46,6 @@ final class ShareRecipient {
 		/** @var array<class-string<ISharePermissionType>, SharePermission> $permissions */
 		public readonly array $permissions = [],
 	) {
-		if ($instance !== null && !preg_match('/^https?:\/\/.+/', $instance)) {
-			throw new RuntimeException('The instance is not a valid absolute URL: ' . $instance);
-		}
 	}
 
 	/**
@@ -68,12 +65,7 @@ final class ShareRecipient {
 			throw new RuntimeException('The recipient type is not registered: ' . $this->class);
 		}
 
-		if ($this->instance !== null) {
-			// TODO: Support federation
-			throw new RuntimeException('Currently only local recipients are supported.');
-		}
-
-		$displayName = $recipientType->getRecipientDisplayName($this->value) ?? $this->value;
+		$displayName = $recipientType->getRecipientDisplayName($this->value, $this->instance) ?? $this->value;
 		if (!$isUnique) {
 			$displayName .= ' (' . $recipientType->getDisplayName($l10nFactory) . ': ' . $this->value . ')';
 		}
@@ -93,7 +85,7 @@ final class ShareRecipient {
 			);
 		}
 
-		$icon = $recipientType->getRecipientIcon($this->value);
+		$icon = $recipientType->getRecipientIcon($this->value, $this->instance);
 		$icon ??= new ShareIconURL(
 			$urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $displayName, 'size' => 64]),
 			$urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $displayName, 'size' => 64, 'darkTheme' => true]),
@@ -121,15 +113,21 @@ final class ShareRecipient {
 
 		$recipientDisplayNames = [];
 		foreach ($recipients as $recipient) {
-			$displayName = $recipientTypes[$recipient->class]?->getRecipientDisplayName($recipient->value) ?? $recipient->value;
+			$displayName = $recipientTypes[$recipient->class]?->getRecipientDisplayName($recipient->value, $recipient->instance) ?? $recipient->value;
 			$recipientDisplayNames[$displayName] ??= 0;
 			++$recipientDisplayNames[$displayName];
 		}
 
-		// First sort by least amount of disabled permissions, then by instance, then by class and finally by value to get a stable order regardless of the DB order
-		usort($recipients, static fn (ShareRecipient $a, ShareRecipient $b): int => 8 * (count($a->getDisabledPermissions()) <=> count($b->getDisabledPermissions())) + 4 * ($a->instance === null ? -1 : ($a->instance <=> $b->instance)) + 2 * ($a->class <=> $b->class) + ($a->value <=> $b->value));
+		usort(
+			$recipients,
+			static fn (ShareRecipient $a, ShareRecipient $b): int
+				=> (count($a->getDisabledPermissions()) <=> count($b->getDisabledPermissions()))
+				?: ($a->instance === null ? -1 : ($a->instance <=> $b->instance))
+				?: ($a->class <=> $b->class)
+				?: ($a->value <=> $b->value),
+		);
 
-		return array_map(static fn (ShareRecipient $recipient): array => $recipient->format($registry, $l10nFactory, $urlGenerator, $userManager, $recipientDisplayNames[$recipientTypes[$recipient->class]?->getRecipientDisplayName($recipient->value) ?? $recipient->value] === 1), $recipients);
+		return array_map(static fn (ShareRecipient $recipient): array => $recipient->format($registry, $l10nFactory, $urlGenerator, $userManager, $recipientDisplayNames[$recipientTypes[$recipient->class]?->getRecipientDisplayName($recipient->value, $recipient->instance) ?? $recipient->value] === 1), $recipients);
 	}
 
 	/**
