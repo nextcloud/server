@@ -19,9 +19,11 @@ class FileSequence implements ISequence {
 	/** Lock file directory **/
 	public const LOCK_FILE_DIRECTORY = 'sfi_file_sequence';
 	/** Lock filename format **/
-	private const string LOCK_FILE_FORMAT = 'seq-%03d.lock';
-	/** Delete sequences after SEQUENCE_TTL seconds **/
+	private const string LOCK_FILE_FORMAT = 'seq-%03d.slots';
+	/** Reuse the slot of a sequence after SEQUENCE_TTL seconds **/
 	private const int SEQUENCE_TTL = 30;
+	/** Size of a slot: the seconds and the last sequence ID, both as unsigned 32-bit integers **/
+	private const int SLOT_SIZE = 8;
 
 	private string $workDir;
 
@@ -69,42 +71,28 @@ class FileSequence implements ISequence {
 			throw new \Exception('Unable to acquire lock on sequence ID file: ' . $filePath);
 		}
 
-		// Read content
-		$content = (string)fgets($fp);
-		$locks = $content === ''
-			? []
-			: json_decode($content, true, 3, JSON_THROW_ON_ERROR);
-
-		// Generate new ID
-		if (isset($locks[$seconds])) {
-			if (isset($locks[$seconds][$milliseconds])) {
-				++$locks[$seconds][$milliseconds];
-			} else {
-				$locks[$seconds][$milliseconds] = 0;
+		// Each file holds one slot per second of the TTL window and per millisecond mapped to it
+		$slot = (($seconds % self::SEQUENCE_TTL + self::SEQUENCE_TTL) % self::SEQUENCE_TTL) * intdiv(1000, self::NB_FILES)
+			+ intdiv($milliseconds, self::NB_FILES);
+		$slotSecondsKey = $seconds & 0xFFFFFFFF;
+		fseek($fp, $slot * self::SLOT_SIZE);
+		$data = fread($fp, self::SLOT_SIZE);
+		$sequenceId = 0;
+		if (is_string($data) && strlen($data) === self::SLOT_SIZE) {
+			['seconds' => $slotSeconds, 'sequence' => $slotSequenceId] = unpack('Nseconds/Nsequence', $data);
+			if ($slotSeconds === $slotSecondsKey) {
+				$sequenceId = $slotSequenceId + 1;
 			}
-		} else {
-			$locks[$seconds] = [
-				$milliseconds => 0
-			];
 		}
 
-		// Clean old sequence IDs
-		$cleanBefore = $seconds - self::SEQUENCE_TTL;
-		$locks = array_filter($locks, static function ($key) use ($cleanBefore) {
-			return $key >= $cleanBefore;
-		}, ARRAY_FILTER_USE_KEY);
-
-		// Write data
-		ftruncate($fp, 0);
-		$content = json_encode($locks, JSON_THROW_ON_ERROR);
-		rewind($fp);
-		fwrite($fp, $content);
-		fsync($fp);
+		// No fsync needed, the file only coordinates processes running at the same time
+		fseek($fp, $slot * self::SLOT_SIZE);
+		fwrite($fp, pack('NN', $slotSecondsKey, $sequenceId));
 
 		// Release lock
 		fclose($fp);
 
-		return $locks[$seconds][$milliseconds];
+		return $sequenceId;
 	}
 
 	private function getFilePath(int $fileId): string {
