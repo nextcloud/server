@@ -175,23 +175,18 @@ const Dialogs = {
 	 *
 	 * @deprecated Use NcDialog from `@nextcloud/vue` instead
 	 */
-	prompt: function(text, title, callback, modal, name, password) {
-		return new Promise((resolve) => {
-			spawnDialog(
-				defineAsyncComponent(() => import('../components/LegacyDialogPrompt.vue')),
-				{
-					text,
-					name: title,
-					callback,
-					inputName: name,
-					isPassword: !!password,
-				},
-				(...args) => {
-					callback(...args)
-					resolve()
-				},
-			)
-		})
+	prompt: async function(text, title, callback, modal, name, password) {
+		const result = await spawnDialog(
+			defineAsyncComponent(() => import('../components/LegacyDialogPrompt.vue')),
+			{
+				text,
+				name: title,
+				inputName: name,
+				isPassword: !!password,
+			},
+		)
+		// the payload of a close event with several arguments is their list
+		callback(...(Array.isArray(result) ? result : [result]))
 	},
 
 	/**
