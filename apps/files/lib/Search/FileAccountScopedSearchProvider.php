@@ -418,27 +418,35 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	 * storages mounted in the user folder.
 	 */
 	private function likeFolderPath(string $pattern): string {
-		if (!str_ends_with($pattern, '/%')) {
+		$literals = $this->likeLiterals($pattern);
+		if (count($literals) !== 2 || $literals[1] !== '' || !str_ends_with($pattern, '%') || !str_ends_with($literals[0], '/')) {
 			throw new \InvalidArgumentException('A path pattern must have the form "<folder>/%": ' . $pattern);
 		}
 
-		$prefix = substr($pattern, 0, -2);
-		$path = '';
-		$length = strlen($prefix);
-		for ($i = 0; $i < $length; $i++) {
-			$char = $prefix[$i];
-			if ($char === '\\' && $i + 1 < $length) {
-				$path .= $prefix[++$i];
+		return substr($literals[0], 0, -1);
+	}
 
-				continue;
+	/**
+	 * The literal parts of a LIKE pattern, split at its unescaped `%` and `_` wildcards, with the
+	 * `\%`, `\_` and `\\` escapes resolved.
+	 *
+	 * @return non-empty-list<string>
+	 */
+	private function likeLiterals(string $pattern): array {
+		$literals = [''];
+		$length = strlen($pattern);
+		for ($i = 0; $i < $length; $i++) {
+			$char = $pattern[$i];
+			if ($char === '\\' && $i + 1 < $length) {
+				$literals[count($literals) - 1] .= $pattern[++$i];
+			} elseif ($char === '%' || $char === '_') {
+				$literals[] = '';
+			} else {
+				$literals[count($literals) - 1] .= $char;
 			}
-			if ($char === '%' || $char === '_') {
-				throw new \InvalidArgumentException('A path pattern must have the form "<folder>/%": ' . $pattern);
-			}
-			$path .= $char;
 		}
 
-		return $path;
+		return $literals;
 	}
 
 	/**
@@ -475,7 +483,7 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 
 	/**
 	 * The text a `content` comparison searches for. The index always matches a term anywhere in
-	 * the content, so the wildcards of a LIKE pattern are dropped.
+	 * the content, so the wildcards of a LIKE pattern only separate words.
 	 */
 	private function contentTerm(ISearchComparison $comparison): string {
 		$value = (string)$comparison->getValue();
@@ -483,9 +491,7 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 			return $value;
 		}
 
-		$term = preg_replace('/(?<!\\\\)[%_]/', ' ', $value) ?? $value;
-
-		return trim(str_replace(['\\%', '\\_', '\\\\'], ['%', '_', '\\'], $term));
+		return trim(implode(' ', $this->likeLiterals($value)));
 	}
 
 	/**

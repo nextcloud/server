@@ -39,6 +39,7 @@ class FileAccountScopedSearchProviderTest extends TestCase {
 
 	private string $userId;
 	private IShareManager&MockObject $shareManager;
+	private IFullTextSearchManager&MockObject $fullTextSearchManager;
 	private FileAccountScopedSearchProvider $provider;
 
 	#[\Override]
@@ -75,6 +76,7 @@ class FileAccountScopedSearchProviderTest extends TestCase {
 		$this->loginAsUser($this->userId);
 
 		$this->shareManager = $this->createMock(IShareManager::class);
+		$this->fullTextSearchManager = $this->createMock(IFullTextSearchManager::class);
 
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')->willReturnArgument(0);
@@ -85,7 +87,7 @@ class FileAccountScopedSearchProviderTest extends TestCase {
 			$this->shareManager,
 			$this->createMock(ISystemTagObjectMapper::class),
 			$this->createMock(ISystemTagManager::class),
-			$this->createMock(IFullTextSearchManager::class),
+			$this->fullTextSearchManager,
 			$this->createMock(IAppConfig::class),
 			$this->createMock(LoggerInterface::class),
 		);
@@ -131,6 +133,7 @@ class FileAccountScopedSearchProviderTest extends TestCase {
 				'/%',
 				['/Docs/Nested/nested.txt', '/Docs/in-docs.txt', '/External/external.txt', '/Team/team.txt', '/root.txt'],
 			],
+			'escaped character in folder' => [ISearchComparison::COMPARE_LIKE, 'Doc\\s/%', ['/Docs/Nested/nested.txt', '/Docs/in-docs.txt']],
 			'missing folder' => [ISearchComparison::COMPARE_LIKE, 'Missing/%', []],
 			'file as folder' => [ISearchComparison::COMPARE_LIKE, 'root.txt/%', []],
 		];
@@ -146,6 +149,10 @@ class FileAccountScopedSearchProviderTest extends TestCase {
 			'suffix pattern' => [ISearchComparison::COMPARE_LIKE, '%.txt'],
 			'wildcard in folder' => [ISearchComparison::COMPARE_LIKE, 'Do_s/%'],
 			'partial name' => [ISearchComparison::COMPARE_LIKE, 'Do%'],
+			'single character wildcard' => [ISearchComparison::COMPARE_LIKE, 'Docs/_'],
+			'escaped trailing wildcard' => [ISearchComparison::COMPARE_LIKE, 'Docs/\\%'],
+			'wildcard after the folder wildcard' => [ISearchComparison::COMPARE_LIKE, 'Docs/%\\%'],
+			'escaped backslash before the wildcard' => [ISearchComparison::COMPARE_LIKE, 'Docs\\\\%'],
 			'ordering' => [ISearchComparison::COMPARE_GREATER_THAN, 'Docs'],
 		];
 	}
@@ -215,5 +222,26 @@ class FileAccountScopedSearchProviderTest extends TestCase {
 		$this->assertTrue($status['shared']);
 		$this->assertTrue($status['externally']);
 		$this->assertSame([IShare::TYPE_LINK, IShare::TYPE_USER], array_column($status['shares'], 'type'));
+	}
+
+	public static function contentTermProvider(): array {
+		return [
+			'equal' => [ISearchComparison::COMPARE_EQUAL, 'budget %', 'budget %'],
+			'surrounding wildcards' => [ISearchComparison::COMPARE_LIKE, '%budget%', 'budget'],
+			'wildcards separate words' => [ISearchComparison::COMPARE_LIKE, 'q1%report_2026', 'q1 report 2026'],
+			'escaped wildcards' => [ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE, '100\\% snake\\_case', '100% snake_case'],
+			'escaped backslash' => [ISearchComparison::COMPARE_LIKE, 'back\\\\slash', 'back\\slash'],
+			'escaped backslash before a wildcard' => [ISearchComparison::COMPARE_LIKE, 'a\\\\%', 'a\\'],
+		];
+	}
+
+	#[DataProvider('contentTermProvider')]
+	public function testContentTerm(string $type, string $value, string $expectedTerm): void {
+		$this->fullTextSearchManager->expects($this->once())
+			->method('search')
+			->with($this->callback(fn (array $request): bool => $request['search'] === $expectedTerm), $this->userId)
+			->willReturn([]);
+
+		$this->assertSame([], $this->searchPaths(new SearchComparison($type, 'content', $value)));
 	}
 }
