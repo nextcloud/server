@@ -2,18 +2,483 @@
  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import type { SearchResultEntry, SearchType } from '../services/LegacyUnifiedSearchService.ts'
+
+import { mdiMagnify } from '@mdi/js'
+import { showError } from '@nextcloud/dialogs'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { n, t } from '@nextcloud/l10n'
+import debounce from 'debounce'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import SearchResult from '../components/UnifiedSearch/LegacySearchResult.vue'
+import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders.vue'
+import { defaultLimit, enableLiveSearch, getTypes, minSearchLength, regexFilterIn, regexFilterNot, search } from '../services/LegacyUnifiedSearchService.ts'
+import { unifiedSearchLogger as logger } from '../utils/logger.ts'
+
+const REQUEST_FAILED = 0
+const REQUEST_OK = 1
+const REQUEST_CANCELED = 2
+
+const ariaLabel = t('core', 'Search')
+
+const root = useTemplateRef('root')
+const input = useTemplateRef('input')
+
+const types = ref<SearchType[]>([])
+// Cursors per types
+const cursors = ref<Record<string, number | string>>({})
+// Various search limits per types
+const limits = ref<Record<string, number>>({})
+// Loading types
+const loading = ref<Record<string, boolean>>({})
+// Reached search types
+const reached = ref<Record<string, boolean>>({})
+// List of all results
+const results = ref<Record<string, SearchResultEntry[]>>({})
+
+const query = ref('')
+const focused = ref<number | null>(null)
+const triggered = ref(false)
+const open = ref(false)
+
+// Pending cancellable requests
+let requests: (() => void)[] = []
+
+const typesIDs = computed(() => types.value.map((type) => type.id))
+const typesNames = computed(() => types.value.map((type) => type.name))
+const typesMap = computed(() => Object.fromEntries(types.value.map((type) => [type.id, type.name])))
+
+/** Is there any result to display */
+const hasResults = computed(() => Object.keys(results.value).length !== 0)
+
+/** The results in the order of the providers */
+const orderedResults = computed(() => typesIDs.value
+	.filter((type) => type in results.value)
+	.map((type) => ({
+		type,
+		list: results.value[type]!,
+	})))
+
+/** Only the filters that are available on the results are offered */
+const availableFilters = computed(() => Object.keys(results.value))
+
+/** Applied filters */
+const usedFiltersIn = computed(() => [...query.value.matchAll(regexFilterIn)].map((match) => match[2]!))
+
+/** Applied anti filters */
+const usedFiltersNot = computed(() => [...query.value.matchAll(regexFilterNot)].map((match) => match[2]!))
+
+/** Valid query empty content title */
+const validQueryTitle = computed(() => triggered.value
+	? t('core', 'No results for {query}', { query: query.value })
+	: t('core', 'Press Enter to start searching'))
+
+/** Is the current search too short */
+const isShortQuery = computed(() => !!query.value && query.value.trim().length < minSearchLength)
+
+/** Short query empty content description */
+const shortQueryDescription = computed(() => {
+	if (!isShortQuery.value) {
+		return ''
+	}
+
+	return n(
+		'core',
+		'Please enter {minSearchLength} character or more to search',
+		'Please enter {minSearchLength} characters or more to search',
+		minSearchLength,
+		{ minSearchLength },
+	)
+})
+
+/** Is the current search valid */
+const isValidQuery = computed(() => !!query.value && query.value.trim() !== '' && !isShortQuery.value)
+
+/** Is there any search in progress */
+const isLoading = computed(() => Object.values(loading.value).some((state) => state === true))
+
+const onInputDebounced = enableLiveSearch
+	? debounce(onInput, 500)
+	: () => {
+			triggered.value = false
+		}
+
+getTypes().then((providers) => {
+	types.value = providers
+	logger.debug('Unified Search initialized with the following providers', { types: providers })
+})
+
+onMounted(() => {
+	// onNavigationChange needs the rendered form
+	subscribe('files:navigation:changed', onNavigationChange)
+
+	if (!window.OCP.Accessibility.disableKeyboardShortcuts()) {
+		document.addEventListener('keydown', onKeyDown)
+	}
+})
+
+onBeforeUnmount(() => {
+	unsubscribe('files:navigation:changed', onNavigationChange)
+	document.removeEventListener('keydown', onKeyDown)
+})
+
+/**
+ * Open the search with Ctrl+F and move through the results with the arrow keys.
+ *
+ * @param event - The keydown event
+ */
+function onKeyDown(event: KeyboardEvent) {
+	// if not already opened, allows us to trigger default browser on second keydown
+	if (event.ctrlKey && event.code === 'KeyF' && !open.value) {
+		event.preventDefault()
+		open.value = true
+	} else if (event.ctrlKey && event.key === 'f' && open.value) {
+		// User wants to use the native browser search, so we close ours again
+		open.value = false
+	}
+
+	// https://www.w3.org/WAI/GL/wiki/Using_ARIA_menus
+	if (open.value) {
+		if (event.key === 'ArrowDown') {
+			focusNext(event)
+		}
+		if (event.key === 'ArrowUp') {
+			focusPrev(event)
+		}
+	}
+}
+
+/**
+ * Refresh the providers in the background when the menu opens, announce when it closes.
+ *
+ * @param isOpen - The new open state of the menu
+ */
+async function onOpenChange(isOpen: boolean) {
+	if (isOpen) {
+		types.value = await getTypes()
+	} else {
+		emit('nextcloud:unified-search.close')
+	}
+}
+
+/**
+ * Clear the search when the files app navigates.
+ */
+function onNavigationChange() {
+	root.value?.$el?.querySelector?.('form[role="search"]')?.reset?.()
+}
+
+/**
+ * Reset the search state
+ */
+function onReset() {
+	emit('nextcloud:unified-search.reset')
+	logger.debug('Search reset')
+	query.value = ''
+	resetState()
+	focusInput()
+}
+
+/**
+ * Forget the results of the previous search.
+ */
+async function resetState() {
+	cursors.value = {}
+	limits.value = {}
+	reached.value = {}
+	results.value = {}
+	focused.value = null
+	triggered.value = false
+	await cancelPendingRequests()
+}
+
+/**
+ * Cancel any ongoing searches
+ */
+async function cancelPendingRequests() {
+	// Cloning so we can keep processing other requests
+	const pending = requests.slice(0)
+	requests = []
+
+	await Promise.all(pending.map((cancel) => cancel()))
+}
+
+/**
+ * Focus the search input once it can take the focus: the header menu only
+ * makes its content visible a frame after it reports being opened.
+ */
+function focusInput() {
+	requestAnimationFrame(() => requestAnimationFrame(() => {
+		input.value?.focus()
+		input.value?.select()
+	}))
+}
+
+/**
+ * Start searching on input
+ */
+async function onInput() {
+	emit('nextcloud:unified-search.search', { query: query.value })
+
+	// Do not search if not long enough
+	if (query.value.trim() === '' || isShortQuery.value) {
+		for (const type of typesIDs.value) {
+			delete results.value[type]
+		}
+		return
+	}
+
+	let searchTypes = typesIDs.value
+
+	// Filter out types
+	if (usedFiltersNot.value.length > 0) {
+		searchTypes = typesIDs.value.filter((type) => !usedFiltersNot.value.includes(type))
+	}
+
+	// Only use those filters if any and check if they are valid
+	if (usedFiltersIn.value.length > 0) {
+		searchTypes = typesIDs.value.filter((type) => usedFiltersIn.value.includes(type))
+	}
+
+	// Remove any filters from the query
+	const term = query.value.replace(regexFilterIn, '').replace(regexFilterNot, '')
+
+	// Reset search if the query changed
+	await resetState()
+	triggered.value = true
+
+	if (!searchTypes.length) {
+		logger.error('No types to search in')
+		return
+	}
+
+	loading.value.all = true
+	logger.debug(`Searching ${term} in`, { types: searchTypes })
+
+	const states = await Promise.all(searchTypes.map(async (type) => {
+		try {
+			const { request, cancel } = search({ type, query: term })
+			requests.push(cancel)
+
+			const { data } = await request()
+			const page = data.ocs.data
+
+			if (page.entries.length > 0) {
+				results.value[type] = page.entries
+			} else {
+				delete results.value[type]
+			}
+
+			if (page.cursor) {
+				cursors.value[type] = page.cursor
+			} else if (!page.isPaginated) {
+				// If no cursor and no pagination, we save the default amount
+				// provided by server's initial state `defaultLimit`
+				limits.value[type] = defaultLimit
+			}
+
+			// Check if we reached end of pagination
+			if (page.entries.length < defaultLimit) {
+				reached.value[type] = true
+			}
+
+			// If none already focused, focus the first rendered result
+			if (focused.value === null) {
+				focused.value = 0
+			}
+			return REQUEST_OK
+		} catch (error) {
+			delete results.value[type]
+
+			// If this is not a cancelled throw
+			if ((error as { response?: { status?: number } }).response?.status) {
+				logger.error(`Error searching for ${typesMap.value[type]}`, { error })
+				showError(t('core', 'An error occurred while searching for {type}', { type: typesMap.value[type] }))
+				return REQUEST_FAILED
+			}
+			return REQUEST_CANCELED
+		}
+	}))
+
+	// Another search was triggered if a request has been cancelled, so this one is not done loading
+	if (!states.includes(REQUEST_CANCELED)) {
+		loading.value = {}
+	}
+}
+
+/**
+ * Load more results for the provided type
+ *
+ * @param type - The provider
+ */
+async function loadMore(type: string) {
+	// If already loading, ignore
+	if (loading.value[type]) {
+		return
+	}
+
+	if (cursors.value[type]) {
+		const { request, cancel } = search({ type, query: query.value, cursor: cursors.value[type] })
+		requests.push(cancel)
+
+		const { data } = await request()
+		const page = data.ocs.data
+
+		if (page.cursor) {
+			cursors.value[type] = page.cursor
+		}
+
+		if (page.entries.length > 0) {
+			results.value[type]!.push(...page.entries)
+		}
+
+		// Check if we reached end of pagination
+		if (page.entries.length < defaultLimit) {
+			reached.value[type] = true
+		}
+	} else if (limits.value[type] && limits.value[type] >= 0) {
+		// Without a cursor all results are loaded already, so the next ones are only revealed
+		limits.value[type] += defaultLimit
+
+		// Check if we reached end of pagination
+		if (limits.value[type] >= results.value[type]!.length) {
+			reached.value[type] = true
+		}
+	}
+
+	// Focus result after render
+	if (focused.value !== null) {
+		nextTick(() => focusIndex(focused.value!))
+	}
+}
+
+/**
+ * Return a subset of the array if the search provider
+ * doesn't supports pagination
+ *
+ * @param list - The results
+ * @param type - The provider
+ */
+function limitIfAny(list: SearchResultEntry[], type: string): SearchResultEntry[] {
+	if (type in limits.value) {
+		return list.slice(0, limits.value[type])
+	}
+	return list
+}
+
+/**
+ * The rendered result links.
+ */
+function getResultsList(): HTMLElement[] {
+	return [...(root.value?.$el as HTMLElement | undefined)?.querySelectorAll<HTMLElement>('.unified-search__results .unified-search__result') ?? []]
+}
+
+/**
+ * Focus the first result if any
+ *
+ * @param event - The keydown event
+ */
+function focusFirst(event?: KeyboardEvent) {
+	if (getResultsList().length > 0) {
+		event?.preventDefault()
+		focused.value = 0
+		focusIndex(focused.value)
+	}
+}
+
+/**
+ * Focus the next result if any
+ *
+ * @param event - The keydown event
+ */
+function focusNext(event: KeyboardEvent) {
+	if (focused.value === null) {
+		focusFirst(event)
+		return
+	}
+
+	// If we're not focusing the last, focus the next one
+	if (focused.value + 1 < getResultsList().length) {
+		event.preventDefault()
+		focused.value++
+		focusIndex(focused.value)
+	}
+}
+
+/**
+ * Focus the previous result if any
+ *
+ * @param event - The keydown event
+ */
+function focusPrev(event: KeyboardEvent) {
+	if (focused.value === null) {
+		focusFirst(event)
+		return
+	}
+
+	// If we're not focusing the first, focus the previous one
+	if (getResultsList().length > 0 && focused.value > 0) {
+		event.preventDefault()
+		focused.value--
+		focusIndex(focused.value)
+	}
+}
+
+/**
+ * Focus the specified result index if it exists
+ *
+ * @param index - The result index
+ */
+function focusIndex(index: number) {
+	getResultsList()[index]?.focus()
+}
+
+/**
+ * Set the current focused element based on the target
+ *
+ * @param event - The focus event
+ */
+function setFocusedIndex(event: FocusEvent) {
+	const index = getResultsList().findIndex((result) => result === event.target)
+	if (index > -1) {
+		// let's not use focusIndex as the entry is already focused
+		focused.value = index
+	}
+}
+
+/**
+ * Restrict the search to a provider.
+ *
+ * @param filter - The filter to add to the query, e.g. `in:files`
+ */
+function onClickFilter(filter: string) {
+	query.value = `${query.value} ${filter}`
+		.replace(/ {2}/g, ' ')
+		.trim()
+	onInput()
+}
+</script>
+
 <template>
 	<NcHeaderMenu
 		id="unified-search"
+		ref="root"
+		v-model:open="open"
 		class="unified-search"
-		:exclude-click-outside-selectors="['.popover']"
-		:open.sync="open"
-		:aria-label="ariaLabel"
-		@open="onOpen"
-		@close="onClose">
+		:excludeClickOutsideSelectors="['.popover']"
+		:ariaLabel="ariaLabel"
+		@update:open="onOpenChange"
+		@opened="focusInput">
 		<!-- Header icon -->
 		<template #trigger>
-			<Magnify class="unified-search__trigger-icon" :size="20" />
+			<NcIconSvgWrapper class="unified-search__trigger-icon" :path="mdiMagnify" />
 		</template>
 
 		<!-- Search form & filters wrapper -->
@@ -22,16 +487,16 @@
 				<NcTextField
 					ref="input"
 					v-model="query"
-					trailing-button-icon="close"
+					trailingButtonIcon="close"
 					:label="ariaLabel"
-					:trailing-button-label="t('core', 'Reset search')"
-					:show-trailing-button="query !== ''"
+					:trailingButtonLabel="t('core', 'Reset search')"
+					:showTrailingButton="query !== ''"
 					aria-describedby="unified-search-desc"
 					class="unified-search__form-input"
 					:class="{ 'unified-search__form-input--with-reset': !!query }"
 					:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ') })"
-					@trailing-button-click="onReset"
-					@input="onInputDebounced" />
+					@trailingButtonClick="onReset"
+					@update:modelValue="onInputDebounced" />
 				<p id="unified-search-desc" class="hidden-visually">
 					{{ t('core', 'Search starts once you start typing and results may be reached with the arrow keys') }}
 				</p>
@@ -62,7 +527,7 @@
 				v-else-if="isValidQuery"
 				:name="validQueryTitle">
 				<template #icon>
-					<Magnify />
+					<NcIconSvgWrapper :path="mdiMagnify" />
 				</template>
 			</NcEmptyContent>
 
@@ -71,651 +536,47 @@
 				:name="t('core', 'Start typing to search')"
 				:description="shortQueryDescription">
 				<template #icon>
-					<Magnify />
+					<NcIconSvgWrapper :path="mdiMagnify" />
 				</template>
 			</NcEmptyContent>
 		</template>
 
 		<!-- Grouped search results -->
-		<template v-for="({ list, type }, typesIndex) in orderedResults" v-else>
-			<h2 :key="type" class="unified-search__results-header">
-				{{ typesMap[type] }}
-			</h2>
-			<ul
-				:key="type"
-				class="unified-search__results"
-				:class="`unified-search__results-${type}`"
-				:aria-label="typesMap[type]">
-				<!-- Search results -->
-				<li v-for="(result, index) in limitIfAny(list, type)" :key="result.resourceUrl">
-					<SearchResult
-						v-bind="result"
-						:query="query"
-						:focused="focused === 0 && typesIndex === 0 && index === 0"
-						@focus="setFocusedIndex" />
-				</li>
+		<template v-else>
+			<template v-for="({ list, type }, typesIndex) in orderedResults" :key="type">
+				<h2 class="unified-search__results-header">
+					{{ typesMap[type] }}
+				</h2>
+				<ul
+					class="unified-search__results"
+					:class="`unified-search__results-${type}`"
+					:aria-label="typesMap[type]">
+					<!-- Search results -->
+					<li v-for="(result, index) in limitIfAny(list, type)" :key="result.resourceUrl">
+						<SearchResult
+							v-bind="result"
+							:query="query"
+							:focused="focused === 0 && typesIndex === 0 && index === 0"
+							@focus="setFocusedIndex" />
+					</li>
 
-				<!-- Load more button -->
-				<li>
-					<SearchResult
-						v-if="!reached[type]"
-						class="unified-search__result-more"
-						:title="loading[type]
-							? t('core', 'Loading more results …')
-							: t('core', 'Load more results')"
-						:icon-class="loading[type] ? 'icon-loading-small' : ''"
-						@click.prevent.stop="loadMore(type)"
-						@focus="setFocusedIndex" />
-				</li>
-			</ul>
+					<!-- Load more button -->
+					<li>
+						<SearchResult
+							v-if="!reached[type]"
+							class="unified-search__result-more"
+							:title="loading[type]
+								? t('core', 'Loading more results …')
+								: t('core', 'Load more results')"
+							:iconClass="loading[type] ? 'icon-loading-small' : ''"
+							@click.prevent.stop="loadMore(type)"
+							@focus="setFocusedIndex" />
+					</li>
+				</ul>
+			</template>
 		</template>
 	</NcHeaderMenu>
 </template>
-
-<script>
-import { showError } from '@nextcloud/dialogs'
-import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { n, t } from '@nextcloud/l10n'
-import debounce from 'debounce'
-import NcActionButton from '@nextcloud/vue/components/NcActionButton'
-import NcActions from '@nextcloud/vue/components/NcActions'
-import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
-import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-import Magnify from 'vue-material-design-icons/Magnify.vue'
-import SearchResult from '../components/UnifiedSearch/LegacySearchResult.vue'
-import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders.vue'
-import { defaultLimit, enableLiveSearch, getTypes, minSearchLength, regexFilterIn, regexFilterNot, search } from '../services/LegacyUnifiedSearchService.js'
-import { unifiedSearchLogger as logger } from '../utils/logger.ts'
-
-const REQUEST_FAILED = 0
-const REQUEST_OK = 1
-const REQUEST_CANCELED = 2
-
-export default {
-	name: 'LegacyUnifiedSearch',
-
-	components: {
-		Magnify,
-		NcActionButton,
-		NcActions,
-		NcEmptyContent,
-		NcHeaderMenu,
-		SearchResult,
-		SearchResultPlaceholders,
-		NcTextField,
-	},
-
-	setup() {
-		return {
-			t,
-			n,
-		}
-	},
-
-	data() {
-		return {
-			types: [],
-
-			// Cursors per types
-			cursors: {},
-			// Various search limits per types
-			limits: {},
-			// Loading types
-			loading: {},
-			// Reached search types
-			reached: {},
-			// Pending cancellable requests
-			requests: [],
-			// List of all results
-			results: {},
-
-			query: '',
-			focused: null,
-			triggered: false,
-
-			defaultLimit,
-			minSearchLength,
-			enableLiveSearch,
-
-			open: false,
-		}
-	},
-
-	computed: {
-		typesIDs() {
-			return this.types.map((type) => type.id)
-		},
-
-		typesNames() {
-			return this.types.map((type) => type.name)
-		},
-
-		typesMap() {
-			return this.types.reduce((prev, curr) => {
-				prev[curr.id] = curr.name
-				return prev
-			}, {})
-		},
-
-		ariaLabel() {
-			return t('core', 'Search')
-		},
-
-		/**
-		 * Is there any result to display
-		 *
-		 * @return {boolean}
-		 */
-		hasResults() {
-			return Object.keys(this.results).length !== 0
-		},
-
-		/**
-		 * Return ordered results
-		 *
-		 * @return {Array}
-		 */
-		orderedResults() {
-			return this.typesIDs
-				.filter((type) => type in this.results)
-				.map((type) => ({
-					type,
-					list: this.results[type],
-				}))
-		},
-
-		/**
-		 * Available filters
-		 * We only show filters that are available on the results
-		 *
-		 * @return {string[]}
-		 */
-		availableFilters() {
-			return Object.keys(this.results)
-		},
-
-		/**
-		 * Applied filters
-		 *
-		 * @return {string[]}
-		 */
-		usedFiltersIn() {
-			let match
-			const filters = []
-			while ((match = regexFilterIn.exec(this.query)) !== null) {
-				filters.push(match[2])
-			}
-			return filters
-		},
-
-		/**
-		 * Applied anti filters
-		 *
-		 * @return {string[]}
-		 */
-		usedFiltersNot() {
-			let match
-			const filters = []
-			while ((match = regexFilterNot.exec(this.query)) !== null) {
-				filters.push(match[2])
-			}
-			return filters
-		},
-
-		/**
-		 * Valid query empty content title
-		 *
-		 * @return {string}
-		 */
-		validQueryTitle() {
-			return this.triggered
-				? t('core', 'No results for {query}', { query: this.query })
-				: t('core', 'Press Enter to start searching')
-		},
-
-		/**
-		 * Short query empty content description
-		 *
-		 * @return {string}
-		 */
-		shortQueryDescription() {
-			if (!this.isShortQuery) {
-				return ''
-			}
-
-			return n(
-				'core',
-				'Please enter {minSearchLength} character or more to search',
-				'Please enter {minSearchLength} characters or more to search',
-				this.minSearchLength,
-				{ minSearchLength: this.minSearchLength },
-			)
-		},
-
-		/**
-		 * Is the current search too short
-		 *
-		 * @return {boolean}
-		 */
-		isShortQuery() {
-			return this.query && this.query.trim().length < minSearchLength
-		},
-
-		/**
-		 * Is the current search valid
-		 *
-		 * @return {boolean}
-		 */
-		isValidQuery() {
-			return this.query && this.query.trim() !== '' && !this.isShortQuery
-		},
-
-		/**
-		 * Have we reached the end of all types searches
-		 *
-		 * @return {boolean}
-		 */
-		isDoneSearching() {
-			return Object.values(this.reached).every((state) => state === false)
-		},
-
-		/**
-		 * Is there any search in progress
-		 *
-		 * @return {boolean}
-		 */
-		isLoading() {
-			return Object.values(this.loading).some((state) => state === true)
-		},
-	},
-
-	async created() {
-		this.types = await getTypes()
-		logger.debug('Unified Search initialized with the following providers', this.types)
-	},
-
-	beforeDestroy() {
-		unsubscribe('files:navigation:changed', this.onNavigationChange)
-	},
-
-	mounted() {
-		// subscribe in mounted, as onNavigationChange relys on $el
-		subscribe('files:navigation:changed', this.onNavigationChange)
-
-		if (OCP.Accessibility.disableKeyboardShortcuts()) {
-			return
-		}
-
-		document.addEventListener('keydown', (event) => {
-			// if not already opened, allows us to trigger default browser on second keydown
-			if (event.ctrlKey && event.code === 'KeyF' && !this.open) {
-				event.preventDefault()
-				this.open = true
-			} else if (event.ctrlKey && event.key === 'f' && this.open) {
-				// User wants to use the native browser search, so we close ours again
-				this.open = false
-			}
-
-			// https://www.w3.org/WAI/GL/wiki/Using_ARIA_menus
-			if (this.open) {
-				// If arrow down, focus next result
-				if (event.key === 'ArrowDown') {
-					this.focusNext(event)
-				}
-
-				// If arrow up, focus prev result
-				if (event.key === 'ArrowUp') {
-					this.focusPrev(event)
-				}
-			}
-		})
-	},
-
-	methods: {
-		async onOpen() {
-			// Update types list in the background
-			this.types = await getTypes()
-		},
-
-		onClose() {
-			emit('nextcloud:unified-search.close')
-		},
-
-		onNavigationChange() {
-			this.$el?.querySelector?.('form[role="search"]')?.reset?.()
-		},
-
-		/**
-		 * Reset the search state
-		 */
-		onReset() {
-			emit('nextcloud:unified-search.reset')
-			logger.debug('Search reset')
-			this.query = ''
-			this.resetState()
-			this.focusInput()
-		},
-
-		async resetState() {
-			this.cursors = {}
-			this.limits = {}
-			this.reached = {}
-			this.results = {}
-			this.focused = null
-			this.triggered = false
-			await this.cancelPendingRequests()
-		},
-
-		/**
-		 * Cancel any ongoing searches
-		 */
-		async cancelPendingRequests() {
-			// Cloning so we can keep processing other requests
-			const requests = this.requests.slice(0)
-			this.requests = []
-
-			// Cancel all pending requests
-			await Promise.all(requests.map((cancel) => cancel()))
-		},
-
-		/**
-		 * Focus the search input on next tick
-		 */
-		focusInput() {
-			this.$nextTick(() => {
-				this.$refs.input.focus()
-				this.$refs.input.select()
-			})
-		},
-
-		/**
-		 * If we have results already, open first one
-		 * If not, trigger the search again
-		 */
-		onInputEnter() {
-			if (this.hasResults) {
-				const results = this.getResultsList()
-				results[0].click()
-				return
-			}
-			this.onInput()
-		},
-
-		/**
-		 * Start searching on input
-		 */
-		async onInput() {
-			// emit the search query
-			emit('nextcloud:unified-search.search', { query: this.query })
-
-			// Do not search if not long enough
-			if (this.query.trim() === '' || this.isShortQuery) {
-				for (const type of this.typesIDs) {
-					this.$delete(this.results, type)
-				}
-				return
-			}
-
-			let types = this.typesIDs
-			let query = this.query
-
-			// Filter out types
-			if (this.usedFiltersNot.length > 0) {
-				types = this.typesIDs.filter((type) => this.usedFiltersNot.indexOf(type) === -1)
-			}
-
-			// Only use those filters if any and check if they are valid
-			if (this.usedFiltersIn.length > 0) {
-				types = this.typesIDs.filter((type) => this.usedFiltersIn.indexOf(type) > -1)
-			}
-
-			// Remove any filters from the query
-			query = query.replace(regexFilterIn, '').replace(regexFilterNot, '')
-
-			// Reset search if the query changed
-			await this.resetState()
-			this.triggered = true
-
-			if (!types.length) {
-				// no results since no types were selected
-				logger.error('No types to search in')
-				return
-			}
-
-			this.$set(this.loading, 'all', true)
-			logger.debug(`Searching ${query} in`, types)
-
-			Promise.all(types.map(async (type) => {
-				try {
-					// Init cancellable request
-					const { request, cancel } = search({ type, query })
-					this.requests.push(cancel)
-
-					// Fetch results
-					const { data } = await request()
-
-					// Process results
-					if (data.ocs.data.entries.length > 0) {
-						this.$set(this.results, type, data.ocs.data.entries)
-					} else {
-						this.$delete(this.results, type)
-					}
-
-					// Save cursor if any
-					if (data.ocs.data.cursor) {
-						this.$set(this.cursors, type, data.ocs.data.cursor)
-					} else if (!data.ocs.data.isPaginated) {
-					// If no cursor and no pagination, we save the default amount
-					// provided by server's initial state `defaultLimit`
-						this.$set(this.limits, type, this.defaultLimit)
-					}
-
-					// Check if we reached end of pagination
-					if (data.ocs.data.entries.length < this.defaultLimit) {
-						this.$set(this.reached, type, true)
-					}
-
-					// If none already focused, focus the first rendered result
-					if (this.focused === null) {
-						this.focused = 0
-					}
-					return REQUEST_OK
-				} catch (error) {
-					this.$delete(this.results, type)
-
-					// If this is not a cancelled throw
-					if (error.response && error.response.status) {
-						logger.error(`Error searching for ${this.typesMap[type]}`, error)
-						showError(this.t('core', 'An error occurred while searching for {type}', { type: this.typesMap[type] }))
-						return REQUEST_FAILED
-					}
-					return REQUEST_CANCELED
-				}
-			})).then((results) => {
-				// Do not declare loading finished if the request have been cancelled
-				// This means another search was triggered and we're therefore still loading
-				if (results.some((result) => result === REQUEST_CANCELED)) {
-					return
-				}
-				// We finished all searches
-				this.loading = {}
-			})
-		},
-
-		onInputDebounced: enableLiveSearch
-			? debounce(function(e) {
-					this.onInput(e)
-				}, 500)
-			: function() {
-				this.triggered = false
-			},
-
-		/**
-		 * Load more results for the provided type
-		 *
-		 * @param {string} type type
-		 */
-		async loadMore(type) {
-			// If already loading, ignore
-			if (this.loading[type]) {
-				return
-			}
-
-			if (this.cursors[type]) {
-				// Init cancellable request
-				const { request, cancel } = search({ type, query: this.query, cursor: this.cursors[type] })
-				this.requests.push(cancel)
-
-				// Fetch results
-				const { data } = await request()
-
-				// Save cursor if any
-				if (data.ocs.data.cursor) {
-					this.$set(this.cursors, type, data.ocs.data.cursor)
-				}
-
-				// Process results
-				if (data.ocs.data.entries.length > 0) {
-					this.results[type].push(...data.ocs.data.entries)
-				}
-
-				// Check if we reached end of pagination
-				if (data.ocs.data.entries.length < this.defaultLimit) {
-					this.$set(this.reached, type, true)
-				}
-			} else {
-				// If no cursor, we might have all the results already,
-				// let's fake pagination and show the next xxx entries
-				if (this.limits[type] && this.limits[type] >= 0) {
-					this.limits[type] += this.defaultLimit
-
-					// Check if we reached end of pagination
-					if (this.limits[type] >= this.results[type].length) {
-						this.$set(this.reached, type, true)
-					}
-				}
-			}
-
-			// Focus result after render
-			if (this.focused !== null) {
-				this.$nextTick(() => {
-					this.focusIndex(this.focused)
-				})
-			}
-		},
-
-		/**
-		 * Return a subset of the array if the search provider
-		 * doesn't supports pagination
-		 *
-		 * @param {Array} list the results
-		 * @param {string} type the type
-		 * @return {Array}
-		 */
-		limitIfAny(list, type) {
-			if (type in this.limits) {
-				return list.slice(0, this.limits[type])
-			}
-			return list
-		},
-
-		getResultsList() {
-			return this.$el.querySelectorAll('.unified-search__results .unified-search__result')
-		},
-
-		/**
-		 * Focus the first result if any
-		 *
-		 * @param {Event} event the keydown event
-		 */
-		focusFirst(event) {
-			const results = this.getResultsList()
-			if (results && results.length > 0) {
-				if (event) {
-					event.preventDefault()
-				}
-				this.focused = 0
-				this.focusIndex(this.focused)
-			}
-		},
-
-		/**
-		 * Focus the next result if any
-		 *
-		 * @param {Event} event the keydown event
-		 */
-		focusNext(event) {
-			if (this.focused === null) {
-				this.focusFirst(event)
-				return
-			}
-
-			const results = this.getResultsList()
-			// If we're not focusing the last, focus the next one
-			if (results && results.length > 0 && this.focused + 1 < results.length) {
-				event.preventDefault()
-				this.focused++
-				this.focusIndex(this.focused)
-			}
-		},
-
-		/**
-		 * Focus the previous result if any
-		 *
-		 * @param {Event} event the keydown event
-		 */
-		focusPrev(event) {
-			if (this.focused === null) {
-				this.focusFirst(event)
-				return
-			}
-
-			const results = this.getResultsList()
-			// If we're not focusing the first, focus the previous one
-			if (results && results.length > 0 && this.focused > 0) {
-				event.preventDefault()
-				this.focused--
-				this.focusIndex(this.focused)
-			}
-		},
-
-		/**
-		 * Focus the specified result index if it exists
-		 *
-		 * @param {number} index the result index
-		 */
-		focusIndex(index) {
-			const results = this.getResultsList()
-			if (results && results[index]) {
-				results[index].focus()
-			}
-		},
-
-		/**
-		 * Set the current focused element based on the target
-		 *
-		 * @param {Event} event the focus event
-		 */
-		setFocusedIndex(event) {
-			const entry = event.target
-			const results = this.getResultsList()
-			const index = [...results].findIndex((search) => search === entry)
-			if (index > -1) {
-				// let's not use focusIndex as the entry is already focused
-				this.focused = index
-			}
-		},
-
-		onClickFilter(filter) {
-			this.query = `${this.query} ${filter}`
-				.replace(/ {2}/g, ' ')
-				.trim()
-			this.onInput()
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 @use "sass:math";
