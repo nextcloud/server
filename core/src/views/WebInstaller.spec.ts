@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { SetupConfig, SetupLinks } from '../install.ts'
+import type { SetupConfig, SetupLinks } from '../types/install.d.ts'
 
 import { cleanup, findByRole, fireEvent, getAllByRole, getByRole, render } from '@testing-library/vue'
 import { beforeEach, describe, expect, it } from 'vitest'
