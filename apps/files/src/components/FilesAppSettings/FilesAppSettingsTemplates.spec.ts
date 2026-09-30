@@ -130,3 +130,31 @@ describe('Personal template folder settings', () => {
 		expect(component.getByRole('button', { name: 'Personal template folder' })).not.toBeDisabled()
 	})
 })
+
+describe('Organization template folder settings', () => {
+	beforeEach(() => {
+		cleanup()
+		vi.clearAllMocks()
+		vi.mocked(getFilePickerBuilder).mockReturnValue(builder as unknown as ReturnType<typeof getFilePickerBuilder>)
+	})
+
+	it('loads the admin setting and explains publication to all users', async () => {
+		vi.mocked(axios.get).mockResolvedValue({ data: { ocs: { data: { template_path: '/Team templates', available: true, owner: 'another-admin' } } } })
+		const component = render(FilesAppSettingsTemplates, { props: { organization: true } })
+		await waitFor(() => expect(component.getByText('/Team templates')).toBeVisible())
+		expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('/templates/organization'))
+		expect(component.getByText(/every user/)).toBeVisible()
+		expect(component.getByText('Published by another-admin')).toBeVisible()
+		expect(component.queryByRole('button', { name: 'Open folder' })).toBeNull()
+	})
+
+	it('allows clearing a deleted organization folder', async () => {
+		vi.mocked(axios.get).mockResolvedValue({ data: { ocs: { data: { template_path: '', available: false, owner: 'admin' } } } })
+		vi.mocked(axios.put).mockResolvedValue({ data: { ocs: { data: { template_path: '', available: false, owner: '' } } } })
+		const component = render(FilesAppSettingsTemplates, { props: { organization: true } })
+		await waitFor(() => expect(component.getByRole('button', { name: 'Clear selection' })).not.toBeDisabled())
+		await fireEvent.click(component.getByRole('button', { name: 'Clear selection' }))
+		await waitFor(() => expect(axios.put).toHaveBeenCalledWith(expect.stringContaining('/templates/organization'), { templatePath: '' }))
+		expect(axios.delete).not.toHaveBeenCalled()
+	})
+})

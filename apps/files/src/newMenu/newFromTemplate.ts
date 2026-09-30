@@ -16,13 +16,10 @@ import { newNodeName } from '../utils/newNodeDialog.ts'
 
 // async to reduce bundle size
 const TemplatePickerVue = defineAsyncComponent(() => import('../views/TemplatePicker.vue'))
-let TemplatePicker: ComponentInstance & { open: (n: string, t: TemplateFile) => void } | null = null
+let TemplatePicker: ComponentInstance & { open: (n: string, t: TemplateFile, parent: IFolder) => void } | null = null
 
-/**
- *
- * @param context
- */
-async function getTemplatePicker(context: IFolder) {
+/** Get the shared picker instance. */
+async function getTemplatePicker() {
 	if (TemplatePicker === null) {
 		// Create document root
 		const mountingPoint = document.createElement('div')
@@ -35,9 +32,6 @@ async function getTemplatePicker(context: IFolder) {
 				TemplatePickerVue,
 				{
 					ref: 'picker',
-					props: {
-						parent: context,
-					},
 				},
 			),
 			methods: { open(...args) { this.$refs.picker.open(...args) } },
@@ -75,7 +69,7 @@ export function registerTemplateEntries() {
 			},
 			order: 11,
 			async handler(context: IFolder, content: INode[]) {
-				const templatePicker = getTemplatePicker(context)
+				const templatePicker = getTemplatePicker()
 				const name = await newNodeName(`${provider.label}${provider.extension}`, content, {
 					label: t('files', 'Filename'),
 					name: provider.label,
@@ -84,7 +78,7 @@ export function registerTemplateEntries() {
 				if (name !== null) {
 					// Create the file
 					const picker = await templatePicker
-					picker.open(name.trim(), provider)
+					picker.open(name.trim(), provider, context)
 				}
 			},
 		} satisfies NewMenuEntry)
