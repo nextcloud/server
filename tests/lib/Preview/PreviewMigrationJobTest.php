@@ -144,6 +144,8 @@ class PreviewMigrationJobTest extends TestCase {
 				Server::get(IAppDataFactory::class),
 			),
 			Server::get(IJobList::class),
+			Server::get(IDBConnection::class),
+			Server::get(IMimeTypeLoader::class),
 			$this->logger,
 		);
 	}
@@ -244,6 +246,28 @@ class PreviewMigrationJobTest extends TestCase {
 
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewsForFile($orphanFileId))));
+	}
+
+	#[TestDox('Orphaned preview files must be removed from the storage and the filecache even when their filecache rows are not readable')]
+	public function testMigrationDeletesUnreadableOrphanedPreview(): void {
+		$orphanFileId = 9999997;
+		$folder = $this->previewAppData->newFolder((string)$orphanFileId);
+		$file = $folder->newFile('64-64-crop.jpg', 'abcdefg');
+		$fileId = $file->getId();
+		$storage = Server::get(IRootFolder::class)->getMountPoint()->getStorage();
+		$internalPath = $storage->getCache()->getPathById($fileId);
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->update('filecache')
+			->set('permissions', $qb->createNamedParameter(0))
+			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($fileId)))
+			->executeStatement();
+
+		$this->runAllPartitions();
+
+		$this->assertFalse($storage->file_exists($internalPath));
+		$this->assertEquals(-1, $storage->getCache()->getId($internalPath));
+		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 	}
 
 	#[TestDox('A partition must only migrate the legacy preview folders belonging to it')]
