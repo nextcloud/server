@@ -3,61 +3,40 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { mdiArrowRight } from '@mdi/js'
+import { t } from '@nextcloud/l10n'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+
+withDefaults(defineProps<{
+	loading: boolean
+	value?: string
+	valueLoading?: string
+}>(), {
+	value: () => t('core', 'Log in'),
+	valueLoading: () => t('core', 'Logging in …'),
+})
+</script>
+
 <template>
 	<NcButton
+		:class="$style.loginButton"
 		variant="primary"
 		type="submit"
-		:wide="true"
-		:disabled="loading"
-		@click="$emit('click')">
+		wide
+		:disabled="loading">
 		{{ !loading ? value : valueLoading }}
 		<template #icon>
-			<div v-if="loading" class="submit-wrapper__icon icon-loading-small-dark" />
-			<ArrowRight v-else class="submit-wrapper__icon" />
+			<NcLoadingIcon v-if="loading" />
+			<NcIconSvgWrapper v-else :path="mdiArrowRight" />
 		</template>
 	</NcButton>
 </template>
 
-<script>
-import { translate as t } from '@nextcloud/l10n'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-
-export default {
-	name: 'LoginButton',
-	components: {
-		ArrowRight,
-		NcButton,
-	},
-
-	props: {
-		value: {
-			type: String,
-			default: t('core', 'Log in'),
-		},
-
-		valueLoading: {
-			type: String,
-			default: t('core', 'Logging in …'),
-		},
-
-		loading: {
-			type: Boolean,
-			required: true,
-		},
-
-		invertedColors: {
-			type: Boolean,
-			default: false,
-		},
-	},
-
-	emits: ['click'],
-}
-</script>
-
-<style lang="scss" scoped>
-.button-vue {
+<style module>
+.loginButton {
 	margin-top: .5rem;
 }
 </style>
