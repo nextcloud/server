@@ -5,12 +5,6 @@
 const path = require('path')
 
 module.exports = {
-	core: {
-		'public-page-menu': path.resolve(__dirname, 'core/src', 'public-page-menu.ts'),
-		'public-page-user-menu': path.resolve(__dirname, 'core/src', 'public-page-user-menu.ts'),
-		'unified-search': path.join(__dirname, 'core/src', 'unified-search.ts'),
-		'legacy-unified-search': path.join(__dirname, 'core/src', 'legacy-unified-search.js'),
-	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
 		collaboration: path.join(__dirname, 'apps/files_sharing/src', 'collaborationresourceshandler.js'),

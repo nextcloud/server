@@ -9,7 +9,6 @@ import noOnlyTests from 'eslint-plugin-no-only-tests'
 import { defineConfig } from 'eslint/config'
 import * as globals from 'globals'
 import { fileURLToPath } from 'node:url'
-import { coreVue3Sources } from './build/core-vue3.mjs'
 
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url))
 
@@ -91,15 +90,6 @@ export default defineConfig([
 			'**/js/',
 			'**/l10n/', // all translations (config only ignored in root)
 			'**/vendor/', // different vendors
-		],
-	},
-
-	// core components still built by build/frontend-legacy
-	{
-		name: 'server/core-vue2',
-		ignores: [
-			'**/core/src/**/*.vue',
-			...coreVue3Sources.map((path) => `!**/${path}`),
 		],
 	},
 ])

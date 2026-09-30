@@ -46,7 +46,9 @@ class PublicTemplateResponse extends TemplateResponse {
 	) {
 		parent::__construct($appName, $templateName, $params, 'public', $status, $headers);
 		\OCP\Util::addScript('core', 'public-page-menu');
+		\OCP\Util::addStyle('core', 'public-page-menu');
 		\OCP\Util::addScript('core', 'public-page-user-menu');
+		\OCP\Util::addStyle('core', 'public-page-user-menu');
 
 		$state = \OCP\Server::get(IInitialStateService::class);
 		$state->provideLazyInitialState('core', 'public-page-menu', function () {
