@@ -122,3 +122,33 @@ export function togglePermissions(initialPermissionSet, permissionsToToggle) {
 export function canTogglePermissions(permissionSet, permissionsToToggle) {
 	return permissionsSetIsValid(togglePermissions(permissionSet, permissionsToToggle))
 }
+
+/**
+ * The permission bundles the share editor offers, in the order they are matched.
+ *
+ * @type {string[]}
+ */
+const EDITOR_BUNDLES = ['READ_ONLY', 'ALL', 'ALL_FILE', 'FILE_DROP']
+
+/**
+ * Find the permission bundle a share's permissions correspond to.
+ *
+ * Link and email shares carry the SHARE permission whenever federation on
+ * public shares is enabled: the server adds it on top of whatever bundle was
+ * picked, so it must be ignored when matching those shares against a bundle.
+ *
+ * @param {number} permissions - the share permissions.
+ * @param {object} [options] - matching options.
+ * @param {boolean} [options.isPublicShare] - whether the share is a link or email share.
+ * @param {boolean} [options.excludeReshareFromEdit] - whether SHARE is excluded from the editing bundles.
+ *
+ * @return {string|null} the name of the matching bundle, or `null` for custom permissions.
+ */
+export function matchBundledPermissions(permissions, { isPublicShare = false, excludeReshareFromEdit = false } = {}) {
+	const bundles = getBundledPermissions(isPublicShare || excludeReshareFromEdit)
+	const comparablePermissions = isPublicShare
+		? subtractPermissions(permissions, ATOMIC_PERMISSIONS.SHARE)
+		: permissions
+
+	return EDITOR_BUNDLES.find((bundle) => bundles[bundle] === comparablePermissions) ?? null
+}
