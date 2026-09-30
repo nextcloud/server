@@ -21,8 +21,31 @@ if [ -z "$PHP_EXE" ]; then
 	PHP_EXE=php
 fi
 PHP=$(which "$PHP_EXE")
+
+# Running the tests of a single app checked out into apps-extra/ (e.g.
+# "apps-extra/user_saml/tests/...") should not also require EXTRA_APPS_PATHS
+# to be set by hand: derive that one app from the given test path and add it,
+# unless the caller already listed apps via EXTRA_APPS_PATHS themselves.
+if [ -n "$2" ] && [[ "$2" == apps-extra/*/* ]]; then
+	AUTO_EXTRA_APP_PATH="apps-extra/$(echo "$2" | cut -d/ -f2)"
+	if [ -z "$EXTRA_APPS_PATHS" ]; then
+		export EXTRA_APPS_PATHS="$AUTO_EXTRA_APP_PATH"
+	elif [[ ":$EXTRA_APPS_PATHS:" != *":$AUTO_EXTRA_APP_PATH:"* ]]; then
+		export EXTRA_APPS_PATHS="$EXTRA_APPS_PATHS:$AUTO_EXTRA_APP_PATH"
+	fi
+fi
+
+USING_APP_PHPUNIT=
 if [ -z "$PHPUNIT_EXE" ]; then
-	if [ -f lib/composer/bin/phpunit ]; then
+	# When exactly one app is under test and it ships its own pinned phpunit
+	# (via vendor-bin/phpunit and the composer-bin-plugin proxy), use it: the
+	# app's own tests are written against that version, which may be older
+	# than the one server itself requires.
+	if [ -n "$EXTRA_APPS_PATHS" ] && [ "$EXTRA_APPS_PATHS" = "${EXTRA_APPS_PATHS%%:*}" ] && [ -f "$EXTRA_APPS_PATHS/vendor/bin/phpunit" ]; then
+		PHPUNIT_EXE="./$EXTRA_APPS_PATHS/vendor/bin/phpunit"
+		PHPUNIT=$(readlink -f "$PHPUNIT_EXE")
+		USING_APP_PHPUNIT=1
+	elif [ -f lib/composer/bin/phpunit ]; then
 		PHPUNIT_EXE="./lib/composer/bin/phpunit"
 		PHPUNIT=$(readlink -f "$PHPUNIT_EXE")
 	else
@@ -54,7 +77,13 @@ function print_syntax {
 	echo -e "\t\"testfile\" is the name of a test file, for example lib/template.php" >&2
 	echo -e "\nExample: ./autotest.sh sqlite lib/template.php" >&2
 	echo "will run the test suite from \"tests/lib/template.php\"" >&2
+	echo -e "\nExample: ./autotest.sh sqlite apps-extra/user_saml/tests/unit/SAMLSettingsTest.php" >&2
+	echo "will run the test suite from an app checked out into apps-extra/" >&2
 	echo -e "\nIf no arguments are specified, all tests will be run with all database configs" >&2
+	echo -e "\nApps in the default apps/ directory are always loaded. Additional app" >&2
+	echo -e "directories are picked up automatically (apps2/, apps-extra/) or via the" >&2
+	echo -e "EXTRA_APPS_PATHS environment variable, a \":\"-separated list of further" >&2
+	echo -e "app directories to load and enable, e.g. EXTRA_APPS_PATHS=/path/to/apps" >&2
 }
 
 if [ -x "$PHP" ]; then
@@ -81,7 +110,9 @@ PHPUNIT_VERSION=$($PHPUNIT --version | cut -d" " -f2)
 PHPUNIT_MAJOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f1)
 PHPUNIT_MINOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f2)
 
-if ! [ "$PHPUNIT_MAJOR_VERSION" -gt 11 -o \( "$PHPUNIT_MAJOR_VERSION" -eq 11 -a "$PHPUNIT_MINOR_VERSION" -ge 5 \) ]; then
+# An app's own pinned phpunit (see PHPUNIT_EXE resolution above) is exempt:
+# its tests are written against that version on purpose, not server's.
+if [ -z "$USING_APP_PHPUNIT" ] && ! [ "$PHPUNIT_MAJOR_VERSION" -gt 11 -o \( "$PHPUNIT_MAJOR_VERSION" -eq 11 -a "$PHPUNIT_MINOR_VERSION" -ge 5 \) ]; then
 	echo "phpunit version >= 11.5 required. Version found: $PHPUNIT_VERSION" >&2
 	exit 4
 fi
@@ -413,6 +444,7 @@ function execute_tests {
 #
 # start test execution
 #
+
 if [ -z "$1" ]
   then
 	# run all known database configs
