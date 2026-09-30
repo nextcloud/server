@@ -51,10 +51,15 @@ interface IPreviewStorage {
 	/**
 	 * Migration helper
 	 *
+	 * Called before the migrated preview rows are inserted, inside the same
+	 * transaction. It may set storage specific fields on the previews but must
+	 * not write the preview rows themselves.
+	 *
 	 * To remove at some point
+	 * @param list<Preview> $previews
 	 * @throws Exception
 	 */
-	public function migratePreview(Preview $preview): void;
+	public function migratePreviews(array $previews): void;
 
 	/**
 	 * @throws NotPermittedException
