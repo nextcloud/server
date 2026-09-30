@@ -15,6 +15,7 @@ use NCU\Sharing\Icon\ShareIconURL;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\Recipient\AShareRecipientTypeSearchCollaborator;
 use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\Recipient\TShareRecipientTypeDisplayNameAddressBook;
 use NCU\Sharing\ShareAccessContext;
 use OC\Core\AppInfo\Application;
 use OCP\EventDispatcher\Event;
@@ -33,6 +34,8 @@ use OCP\Share\IShare;
  * @template-implements IEventListener<BeforeGroupDeletedEvent>
  */
 final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborator implements IEventListener {
+	use TShareRecipientTypeDisplayNameAddressBook;
+
 	public function __construct(
 		IEventDispatcher $eventDispatcher,
 		private readonly IDBConnection $dbConnection,
@@ -62,7 +65,11 @@ final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborato
 	}
 
 	#[\Override]
-	public function getRecipientDisplayName(string $recipient): ?string {
+	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string {
+		if ($instance !== null) {
+			return $this->getRecipientDisplayNameFromAddressBook($recipient . '@' . $instance, 'CLOUD');
+		}
+
 		$displayName = $this->groupManager->getDisplayName($recipient);
 		if ($displayName === '') {
 			return null;
@@ -72,7 +79,7 @@ final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborato
 	}
 
 	#[\Override]
-	public function getRecipientIcon(string $recipient): null|ShareIconSVG|ShareIconURL {
+	public function getRecipientIcon(string $recipient, ?string $instance): null|ShareIconSVG|ShareIconURL {
 		return null;
 	}
 
@@ -82,13 +89,18 @@ final class GroupShareRecipientType extends AShareRecipientTypeSearchCollaborato
 	}
 
 	#[\Override]
-	public function getCollaboratorType(): int {
-		return IShare::TYPE_GROUP;
+	public function getCollaboratorTypes(): array {
+		return [IShare::TYPE_GROUP, IShare::TYPE_REMOTE_GROUP];
 	}
 
 	#[\Override]
-	public function getCollaboratorKey(): string {
-		return 'groups';
+	public function getCollaboratorKeys(): array {
+		return ['groups', 'remote_groups'];
+	}
+
+	#[\Override]
+	public function splitRemoteInstance(): bool {
+		return true;
 	}
 
 	#[\Override]

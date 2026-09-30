@@ -14,6 +14,7 @@ use NCU\Sharing\Icon\ShareIconURL;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\Recipient\AShareRecipientTypeSearchCollaborator;
 use NCU\Sharing\Recipient\ShareRecipient;
+use NCU\Sharing\Recipient\TShareRecipientTypeDisplayNameAddressBook;
 use NCU\Sharing\ShareAccessContext;
 use OC\Core\AppInfo\Application;
 use OCP\EventDispatcher\Event;
@@ -32,6 +33,7 @@ use OCP\User\Events\BeforeUserDeletedEvent;
  * @template-implements IEventListener<BeforeUserDeletedEvent>
  */
 final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator implements IEventListener {
+	use TShareRecipientTypeDisplayNameAddressBook;
 
 	public function __construct(
 		IEventDispatcher $eventDispatcher,
@@ -62,15 +64,26 @@ final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator
 	}
 
 	#[\Override]
-	public function getRecipientDisplayName(string $recipient): ?string {
+	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string {
+		if ($instance !== null) {
+			return $this->getRecipientDisplayNameFromAddressBook($recipient . '@' . $instance, 'CLOUD');
+		}
+
 		return $this->userManager->getDisplayName($recipient);
 	}
 
 	#[\Override]
-	public function getRecipientIcon(string $recipient): ShareIconURL {
+	public function getRecipientIcon(string $recipient, ?string $instance): ShareIconURL {
+		// The avatar endpoints automatically handle avatars of remote users.
+		$id = $recipient;
+		if ($instance !== null) {
+			// The instance could contain https:// or http://
+			$id .= '@' . urlencode($instance);
+		}
+
 		return new ShareIconURL(
-			$this->userManager->getAvatarUrlLight($recipient, 64),
-			$this->userManager->getAvatarUrlDark($recipient, 64),
+			$this->userManager->getAvatarUrlLight($id, 64),
+			$this->userManager->getAvatarUrlDark($id, 64),
 		);
 	}
 
@@ -80,13 +93,18 @@ final class UserShareRecipientType extends AShareRecipientTypeSearchCollaborator
 	}
 
 	#[\Override]
-	public function getCollaboratorType(): int {
-		return IShare::TYPE_USER;
+	public function getCollaboratorTypes(): array {
+		return [IShare::TYPE_USER, IShare::TYPE_REMOTE];
 	}
 
 	#[\Override]
-	public function getCollaboratorKey(): string {
-		return 'users';
+	public function getCollaboratorKeys(): array {
+		return ['users', 'remotes'];
+	}
+
+	#[\Override]
+	public function splitRemoteInstance(): bool {
+		return true;
 	}
 
 	#[\Override]
