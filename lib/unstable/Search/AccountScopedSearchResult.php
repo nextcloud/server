@@ -11,6 +11,8 @@ namespace NCU\Search;
 
 /**
  * One match from an `IAccountScopedSearchProvider`.
+ *
+ * @experimental 36.0.0
  */
 final class AccountScopedSearchResult {
 	/** @var array<string, mixed> */
@@ -19,21 +21,33 @@ final class AccountScopedSearchResult {
 	/** @var array<string, string> */
 	private array $metadataErrors = [];
 
+	/**
+	 * @param string $id Source-native, stable across renames and moves
+	 * @experimental 36.0.0
+	 */
 	public function __construct(
-		/** Source-native, stable across renames and moves. */
 		private readonly string $id,
 		private readonly string $title,
 	) {
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function getId(): string {
 		return $this->id;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function getTitle(): string {
 		return $this->title;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function setMetadata(string $name, mixed $value): void {
 		$this->metadata[$name] = $value;
 		unset($this->metadataErrors[$name]);
@@ -41,6 +55,8 @@ final class AccountScopedSearchResult {
 
 	/**
 	 * Record that a property could not be read, and why.
+	 *
+	 * @experimental 36.0.0
 	 */
 	public function setMetadataError(string $name, string $reason): void {
 		$this->metadataErrors[$name] = $reason;
@@ -49,6 +65,7 @@ final class AccountScopedSearchResult {
 
 	/**
 	 * @return array<string, mixed>
+	 * @experimental 36.0.0
 	 */
 	public function getMetadata(): array {
 		return $this->metadata;
@@ -56,6 +73,7 @@ final class AccountScopedSearchResult {
 
 	/**
 	 * @return array<string, string> Property name => why it could not be read
+	 * @experimental 36.0.0
 	 */
 	public function getMetadataErrors(): array {
 		return $this->metadataErrors;

@@ -24,6 +24,7 @@ interface IAccountScopedSearchProvider {
 	 * A stable identifier for this provider, e.g. `files`.
 	 *
 	 * @return non-empty-lowercase-string
+	 * @experimental 36.0.0
 	 */
 	public function getId(): string;
 
@@ -31,6 +32,7 @@ interface IAccountScopedSearchProvider {
 	 * A human-readable name for this provider.
 	 *
 	 * @return non-empty-string
+	 * @experimental 36.0.0
 	 */
 	public function getName(): string;
 
@@ -39,6 +41,7 @@ interface IAccountScopedSearchProvider {
 	 * result.
 	 *
 	 * @return list<SearchPropertyDefinition>
+	 * @experimental 36.0.0
 	 */
 	public function getProperties(): array;
 
@@ -54,6 +57,7 @@ interface IAccountScopedSearchProvider {
 	 *                                               from {@see getProperties()} that are not detail-only
 	 * @throws AccountUnavailableException when the account's data cannot be read at all
 	 * @throws SearchTruncatedException when the search cannot be answered exhaustively
+	 * @experimental 36.0.0
 	 */
 	public function search(
 		string $userId,
@@ -71,6 +75,7 @@ interface IAccountScopedSearchProvider {
 	 *                                        {@see getProperties()} in its metadata, or null when it
 	 *                                        no longer exists or is not visible to the account
 	 * @throws AccountUnavailableException when the account's data cannot be read at all
+	 * @experimental 36.0.0
 	 */
 	public function get(string $userId, string $id): ?AccountScopedSearchResult;
 
@@ -83,6 +88,7 @@ interface IAccountScopedSearchProvider {
 	 * @param string $id An id previously returned by {@see search()}
 	 * @return ISimpleFile|null null when the item no longer exists or is not visible to the account
 	 * @throws AccountUnavailableException when the account's data cannot be read at all
+	 * @experimental 36.0.0
 	 */
 	public function readContent(string $userId, string $id): ?ISimpleFile;
 }

@@ -15,11 +15,28 @@ namespace NCU\Search;
  * @experimental 36.0.0
  */
 enum SearchPropertyType: string {
+	/**
+	 * @experimental 36.0.0
+	 */
 	case String = 'string';
+	/**
+	 * @experimental 36.0.0
+	 */
 	case Integer = 'integer';
-	/** A Unix timestamp. */
+	/**
+	 * A Unix timestamp.
+	 *
+	 * @experimental 36.0.0
+	 */
 	case DateTime = 'datetime';
+	/**
+	 * @experimental 36.0.0
+	 */
 	case Boolean = 'boolean';
-	/** A structured value, as an associative array. */
+	/**
+	 * A structured value, as an associative array.
+	 *
+	 * @experimental 36.0.0
+	 */
 	case Object = 'object';
 }
