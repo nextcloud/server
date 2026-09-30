@@ -23,6 +23,7 @@ final class SearchPropertyDefinition {
 	 * @param bool $detailOnly Whether the property is too expensive to read for every search
 	 *                         result, and is only returned by {@see IAccountScopedSearchProvider::get()}
 	 * @param bool $indexed Whether searching the property is answered by an index rather than a scan
+	 * @experimental 36.0.0
 	 */
 	public function __construct(
 		private readonly string $name,
@@ -37,31 +38,50 @@ final class SearchPropertyDefinition {
 
 	/**
 	 * @return non-empty-string
+	 * @experimental 36.0.0
 	 */
 	public function getName(): string {
 		return $this->name;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function getTitle(): string {
 		return $this->title;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function getType(): SearchPropertyType {
 		return $this->type;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function isSearchable(): bool {
 		return $this->searchable;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function isSelectable(): bool {
 		return $this->selectable;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function isDetailOnly(): bool {
 		return $this->detailOnly;
 	}
 
+	/**
+	 * @experimental 36.0.0
+	 */
 	public function isIndexed(): bool {
 		return $this->indexed;
 	}

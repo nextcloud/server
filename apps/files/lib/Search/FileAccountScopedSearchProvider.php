@@ -433,18 +433,21 @@ class FileAccountScopedSearchProvider implements IAccountScopedSearchProvider {
 	 * @return non-empty-list<string>
 	 */
 	private function likeLiterals(string $pattern): array {
-		$literals = [''];
+		$literals = [];
+		$literal = '';
 		$length = strlen($pattern);
 		for ($i = 0; $i < $length; $i++) {
 			$char = $pattern[$i];
 			if ($char === '\\' && $i + 1 < $length) {
-				$literals[count($literals) - 1] .= $pattern[++$i];
+				$literal .= $pattern[++$i];
 			} elseif ($char === '%' || $char === '_') {
-				$literals[] = '';
+				$literals[] = $literal;
+				$literal = '';
 			} else {
-				$literals[count($literals) - 1] .= $char;
+				$literal .= $char;
 			}
 		}
+		$literals[] = $literal;
 
 		return $literals;
 	}
