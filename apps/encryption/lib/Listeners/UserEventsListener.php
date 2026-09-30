@@ -114,7 +114,8 @@ class UserEventsListener implements IEventListener {
 	}
 
 	/**
-	 * If the password can't be changed within Nextcloud, than update the key password in advance.
+	 * Update the user's encryption passphrase before the account password changes when
+	 * Nextcloud cannot change the user's password itself.
 	 */
 	public function onBeforePasswordUpdated(IUser $user, string $password, ?string $recoveryPassword = null): void {
 		if (!$user->canChangePassword()) {
@@ -123,21 +124,23 @@ class UserEventsListener implements IEventListener {
 	}
 
 	/**
-	 * Change a user's encryption passphrase
+	 * Update the user's encryption passphrase after the account password changes.
 	 */
 	public function onPasswordUpdated(string $userId, string $password, ?string $recoveryPassword): void {
 		$this->passphraseService->setPassphraseForUser($userId, $password, $recoveryPassword);
 	}
 
 	/**
-	 * Set user password resetting state to allow ignoring "reset"-requests on password update
+	 * Mark the password reset as in progress so the password-update handler skips
+	 * changing the encryption passphrase.
 	 */
 	public function onBeforePasswordReset(string $userId): void {
 		$this->passphraseService->setProcessingReset($userId);
 	}
 
 	/**
-	 * Create new encryption keys on password reset and backup the old one
+	 * Back up the existing encryption keys, replace them with new keys, and clear
+	 * the password-reset state.
 	 */
 	public function onPasswordReset(string $userId, string $password): void {
 		$this->keyManager->backupUserKeys('passwordReset', $userId);
