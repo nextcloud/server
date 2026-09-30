@@ -62,7 +62,4 @@ module.exports = {
 		'vue-settings-users-management': path.join(__dirname, 'apps/settings/src', 'main-users-management.ts'),
 		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src', 'main-declarative-settings-forms.ts'),
 	},
-	workflowengine: {
-		workflowengine: path.join(__dirname, 'apps/workflowengine/src', 'workflowengine.ts'),
-	},
 }

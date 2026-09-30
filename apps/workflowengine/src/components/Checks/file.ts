@@ -3,15 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { Check, CheckPlugin, Comparison } from '../../types.ts'
+
+import { t } from '@nextcloud/l10n'
 import FileMimeType from './FileMimeType.vue'
 import FileSystemTag from './FileSystemTag.vue'
+import { registerCustomElement } from '../../helpers/customElements.ts'
 import { stringValidator, validateIPv4, validateIPv6 } from '../../helpers/validators.ts'
-import { registerCustomElement } from '../../helpers/window.js'
 
-/**
- *
- */
-function stringOrRegexOperators() {
+/** The comparisons a check offers that matches either literally or by regex. */
+function stringOrRegexOperators(): Comparison[] {
 	return [
 		{ operator: 'matches', name: t('workflowengine', 'matches') },
 		{ operator: '!matches', name: t('workflowengine', 'does not match') },
@@ -20,12 +21,12 @@ function stringOrRegexOperators() {
 	]
 }
 
-const FileChecks = [
+const FileChecks: CheckPlugin[] = [
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\FileName',
 		name: t('workflowengine', 'File name'),
 		operators: stringOrRegexOperators,
-		placeholder: (check) => {
+		placeholder: (check: Check) => {
 			if (check.operator === 'matches' || check.operator === '!matches') {
 				return '/^dummy-.+$/i'
 			}
@@ -51,7 +52,7 @@ const FileChecks = [
 			{ operator: 'greater', name: t('workflowengine', 'greater') },
 		],
 		placeholder: () => '5 MB',
-		validate: (check) => check.value ? check.value.match(/^[0-9]+[ ]?[kmgt]?b$/i) !== null : false,
+		validate: (check: Check) => (check.value ? check.value.match(/^[0-9]+[ ]?[kmgt]?b$/i) !== null : false),
 	},
 
 	{
@@ -63,13 +64,13 @@ const FileChecks = [
 			{ operator: 'matchesIPv6', name: t('workflowengine', 'matches IPv6') },
 			{ operator: '!matchesIPv6', name: t('workflowengine', 'does not match IPv6') },
 		],
-		placeholder: (check) => {
+		placeholder: (check: Check) => {
 			if (check.operator === 'matchesIPv6' || check.operator === '!matchesIPv6') {
 				return '::1/128'
 			}
 			return '127.0.0.1/32'
 		},
-		validate: (check) => {
+		validate: (check: Check) => {
 			if (check.operator === 'matchesIPv6' || check.operator === '!matchesIPv6') {
 				return validateIPv6(check.value)
 			}

@@ -91,6 +91,9 @@ const modules = {
 	weather_status: {
 		'weather-status': resolve(import.meta.dirname, 'apps/weather_status/src', 'weather-status.js'),
 	},
+	workflowengine: {
+		workflowengine: resolve(import.meta.dirname, 'apps/workflowengine/src', 'workflowengine.ts'),
+	},
 }
 
 // convert modules to modules entries prefied with the app id

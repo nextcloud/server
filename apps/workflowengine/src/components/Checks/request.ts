@@ -3,13 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { CheckPlugin } from '../../types.ts'
+
+import { t } from '@nextcloud/l10n'
 import RequestTime from './RequestTime.vue'
 import RequestURL from './RequestURL.vue'
 import RequestUserAgent from './RequestUserAgent.vue'
 import RequestUserGroup from './RequestUserGroup.vue'
-import { registerCustomElement } from '../../helpers/window.js'
+import { registerCustomElement } from '../../helpers/customElements.ts'
 
-const RequestChecks = [
+const RequestChecks: CheckPlugin[] = [
 	{
 		class: 'OCA\\WorkflowEngine\\Check\\RequestURL',
 		name: t('workflowengine', 'Request URL'),

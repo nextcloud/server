@@ -120,3 +120,14 @@ export interface OperatorPlugin {
 	 */
 	element?: string
 }
+
+/** One of the values a check offers besides free text. */
+export interface PredefinedValue {
+	/** The value that gets stored */
+	id: string
+	label: string
+	/** A global icon class */
+	icon?: string
+	/** An image to show instead of an icon class */
+	iconUrl?: string
+}

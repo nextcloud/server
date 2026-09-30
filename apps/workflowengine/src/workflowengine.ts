@@ -5,18 +5,15 @@
 
 import type { CheckPlugin, OperatorPlugin } from './types.ts'
 
-import { t } from '@nextcloud/l10n'
-import { createPinia, PiniaVuePlugin, setActivePinia } from 'pinia'
-import Vue from 'vue'
-import Settings from './components/Workflow.vue'
-import ShippedChecks from './components/Checks/index.js'
+import { createPinia, setActivePinia } from 'pinia'
+import { createApp } from 'vue'
+import Workflow from './components/Workflow.vue'
+import ShippedChecks from './components/Checks/index.ts'
 import { useWorkflowStore } from './store.ts'
 
-Vue.use(PiniaVuePlugin)
-
 const pinia = createPinia()
-// plugins may register before the app is mounted, so the store has to be usable
-// outside of a component from here on
+// apps may register their plugins before the app is mounted, so the store has
+// to be usable outside of a component from here on
 setActivePinia(pinia)
 
 const store = useWorkflowStore()
@@ -46,10 +43,8 @@ window.OCA.WorkflowEngine = {
 	},
 }
 
-ShippedChecks.forEach((checkPlugin: CheckPlugin) => window.OCA.WorkflowEngine.registerCheck(checkPlugin))
+ShippedChecks.forEach((checkPlugin) => window.OCA.WorkflowEngine.registerCheck(checkPlugin))
 
-Vue.prototype.t = t
-
-const View = Vue.extend(Settings)
-const workflowengine = new View({ pinia })
-workflowengine.$mount('#workflowengine')
+createApp(Workflow)
+	.use(pinia)
+	.mount('#workflowengine')

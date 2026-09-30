@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import FileChecks from './file.js'
-import RequestChecks from './request.js'
+import FileChecks from './file.ts'
+import RequestChecks from './request.ts'
 
 export default [...FileChecks, ...RequestChecks]

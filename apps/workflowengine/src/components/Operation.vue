@@ -5,17 +5,18 @@
 <template>
 	<div
 		ref="operationElement"
-		class="actions__item"
-		:class="{ colored: colored }">
-		<div class="icon" :class="operation.iconClass" :style="{ backgroundImage: operation.iconClass ? '' : `url(${operation.icon})` }" />
-		<div class="actions__item__description">
+		:class="[$style.actions__item, { [$style.colored]: colored }]">
+		<div
+			:class="[$style.icon, operation.iconClass]"
+			:style="{ backgroundImage: operation.iconClass ? '' : `url(${operation.icon})` }" />
+		<div :class="$style.actions__item__description">
 			<h3>{{ operation.name }}</h3>
 			<small>{{ operation.description }}</small>
 			<NcButton v-if="colored">
 				{{ t('workflowengine', 'Add new flow') }}
 			</NcButton>
 		</div>
-		<div class="actions__item_options">
+		<div :class="$style.actions__item_options">
 			<slot />
 		</div>
 	</div>
@@ -25,9 +26,9 @@
 /* eslint vue/multi-word-component-names: "warn" */
 
 import { t } from '@nextcloud/l10n'
-import Color from 'color'
 import { computed, nextTick, ref, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import { contrastingTextColor, DEFAULT_TEXT_COLOR, iconFilterFor, knownTextColor } from '../helpers/contrast.ts'
 
 const props = defineProps<{
 	operation: Record<string, string>
@@ -35,43 +36,30 @@ const props = defineProps<{
 }>()
 
 const operationElement = ref<HTMLDivElement>()
-const color = ref('var(--color-main-text)')
+const color = ref(DEFAULT_TEXT_COLOR)
 const backgroundColor = computed(() => props.colored ? (props.operation.color || 'var(--color-primary-element)') : 'transparent')
 
 watch(backgroundColor, async () => {
-	if (backgroundColor.value === 'transparent') {
-		color.value = 'var(--color-main-text)'
-		return
-	} else if (backgroundColor.value === 'var(--color-primary-element)') {
-		color.value = 'var(--color-primary-element-text)'
+	const known = knownTextColor(backgroundColor.value)
+	if (known !== null) {
+		color.value = known
 		return
 	}
 
-	let bgColor = backgroundColor.value
-	if (!bgColor.startsWith('#')) {
+	let resolved = backgroundColor.value
+	if (!resolved.startsWith('#')) {
+		// only the browser knows what a custom property resolves to
 		await nextTick()
-		bgColor = window.getComputedStyle(operationElement.value!).backgroundColor
+		resolved = window.getComputedStyle(operationElement.value!).backgroundColor
 	}
-	try {
-		const contrast = Color(bgColor).contrast(Color('#ffffff'))
-		color.value = contrast > 4.5 ? '#ffffff' : '#000000'
-	} catch {
-		color.value = 'var(--color-main-text)'
-	}
+	color.value = contrastingTextColor(resolved)
 }, { immediate: true })
 
-/**
- * Filter to apply to the icon to make it accessible on the given background color.
- */
-const iconFilter = computed(() => {
-	if (color.value === '#000000') {
-		return 'invert(100%)'
-	}
-	return 'none'
-})
+/** Filter to apply to the icon to make it accessible on the given background color. */
+const iconFilter = computed(() => iconFilterFor(color.value))
 </script>
 
-<style scoped lang="scss">
+<style module lang="scss">
 @use "./../styles/operation.scss" as *;
 
 .actions__item {

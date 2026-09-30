@@ -3,13 +3,13 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div v-if="operation" class="section rule" :style="{ borderLeftColor: operation.color || '' }">
-		<div class="trigger">
+	<div v-if="operation" :class="$style.rule" :style="{ borderInlineStartColor: operation.color || '' }">
+		<div :class="$style.trigger">
 			<p>
 				<span>{{ t('workflowengine', 'When') }}</span>
 				<Event :rule="rule" @update="updateRule" />
 			</p>
-			<p v-for="(check, index) in rule.checks" :key="index">
+			<p v-for="check in rule.checks" :key="checkKey(check)">
 				<span>{{ t('workflowengine', 'and') }}</span>
 				<Check
 					:check="check"
@@ -22,27 +22,24 @@
 				<span />
 				<input
 					v-if="lastCheckComplete"
-					type="button"
-					class="check--add"
+					:class="$style.addCheck"
 					:value="t('workflowengine', 'Add a new filter')"
+					type="button"
 					@click="onAddFilter">
 			</p>
 		</div>
-		<div class="flow-icon icon-confirm" />
-		<div class="action">
+		<div class="icon-confirm" :class="[$style.flowIcon]" />
+		<div :class="$style.action">
 			<Operation :operation="operation">
+				<!-- eslint-disable vue/attribute-hyphenation -- a custom element takes hyphenated attributes -->
 				<component
 					:is="operation.element"
 					v-if="operation.element"
-					:model-value="inputValue"
-					@update:model-value="updateOperationByEvent" />
-				<component
-					:is="operation.options"
-					v-else-if="operation.options"
-					v-model="rule.operation"
-					@input="updateOperation" />
+					ref="operationElement"
+					:model-value="inputValue" />
+				<!-- eslint-enable vue/attribute-hyphenation -->
 			</Operation>
-			<div class="buttons">
+			<div :class="$style.buttons">
 				<NcButton v-if="rule.id < -1 || dirty" @click="cancelRule">
 					{{ t('workflowengine', 'Cancel') }}
 				</NcButton>
@@ -50,276 +47,270 @@
 					{{ t('workflowengine', 'Delete') }}
 				</NcButton>
 				<NcButton
-					:type="ruleStatus.type"
 					:title="ruleStatus.tooltip"
+					:variant="ruleStatus.variant"
 					@click="saveRule">
 					<template #icon>
-						<component :is="ruleStatus.icon" :size="20" />
+						<NcIconSvgWrapper :path="ruleStatus.icon" :size="20" />
 					</template>
 					{{ ruleStatus.title }}
 				</NcButton>
 			</div>
-			<p v-if="error" class="error-message">
+			<p v-if="error" :class="$style.errorMessage">
 				{{ error }}
 			</p>
 		</div>
 	</div>
 </template>
 
-<script>
-import NcActionButton from '@nextcloud/vue/components/NcActionButton'
-import NcActions from '@nextcloud/vue/components/NcActions'
+<script setup lang="ts">
+/* eslint vue/multi-word-component-names: "warn" */
+
+import type { Check as CheckType, Rule } from '../types.ts'
+
+import { mdiArrowRight, mdiCheck, mdiClose } from '@mdi/js'
+import { t } from '@nextcloud/l10n'
+import { computed, onMounted, ref, useTemplateRef } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-import IconCheckMark from 'vue-material-design-icons/Check.vue'
-import IconClose from 'vue-material-design-icons/Close.vue'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import Check from './Check.vue'
 import Event from './Event.vue'
 import Operation from './Operation.vue'
+import { useCustomElementEvents } from '../composables/useCustomElementEvents.ts'
 import { logger } from '../logger.ts'
 import { useWorkflowStore } from '../store.ts'
 
-export default {
-	name: 'Rule',
-	components: {
-		Check,
-		Event,
-		NcActionButton,
-		NcActions,
-		NcButton,
-		Operation,
-	},
+const props = defineProps<{ rule: Rule }>()
 
-	props: {
-		rule: {
-			type: Object,
-			required: true,
-		},
-	},
+const store = useWorkflowStore()
 
-	setup() {
-		return { store: useWorkflowStore() }
-	},
+const error = ref<string | null>(null)
+const dirty = ref(props.rule.id < 0)
+const originalRule = ref<Rule | null>(null)
+const inputValue = ref('')
+const operationElement = useTemplateRef<Element>('operationElement')
 
-	data() {
+const operation = computed(() => store.operationForRule(props.rule))
+
+const ruleStatus = computed(() => {
+	if (error.value || !props.rule.valid || props.rule.checks.length === 0
+		|| props.rule.checks.some((check) => check.invalid === true)) {
 		return {
-			editing: false,
-			checks: [],
-			error: null,
-			dirty: this.rule.id < 0,
-			originalRule: null,
-			element: null,
-			inputValue: '',
+			title: t('workflowengine', 'The configuration is invalid'),
+			icon: mdiClose,
+			variant: 'warning' as const,
+			tooltip: error.value ?? undefined,
 		}
-	},
+	}
+	if (!dirty.value) {
+		return { title: t('workflowengine', 'Active'), icon: mdiCheck, variant: 'success' as const, tooltip: undefined }
+	}
+	return { title: t('workflowengine', 'Save'), icon: mdiArrowRight, variant: 'primary' as const, tooltip: undefined }
+})
 
-	computed: {
-		/**
-		 * @return {OperatorPlugin}
-		 */
-		operation() {
-			return this.store.operationForRule(this.rule)
-		},
+const lastCheckComplete = computed(() => {
+	const lastCheck = props.rule.checks.at(-1)
+	return lastCheck === undefined || lastCheck.class !== null
+})
 
-		ruleStatus() {
-			if (this.error || !this.rule.valid || this.rule.checks.length === 0 || this.rule.checks.some((check) => check.invalid === true)) {
-				return {
-					title: t('workflowengine', 'The configuration is invalid'),
-					icon: IconClose,
-					type: 'warning',
-					tooltip: this.error,
-				}
-			}
-			if (!this.dirty) {
-				return { title: t('workflowengine', 'Active'), icon: IconCheckMark, type: 'success' }
-			}
-			return { title: t('workflowengine', 'Save'), icon: IconArrowRight, type: 'primary' }
-		},
-
-		lastCheckComplete() {
-			const lastCheck = this.rule.checks[this.rule.checks.length - 1]
-			return typeof lastCheck === 'undefined' || lastCheck.class !== null
-		},
-	},
-
-	mounted() {
-		this.originalRule = JSON.parse(JSON.stringify(this.rule))
-		if (this.operation?.element) {
-			this.inputValue = this.rule.operation
-		} else if (this.operation?.options) {
-			// keeping this in an else for apps that try to be backwards compatible and may ship both
-			// to be removed in 03/2028
-			logger.warn('Developer warning: `OperatorPlugin.options` is deprecated. Use `OperatorPlugin.element` instead.')
-		}
-	},
-
-	methods: {
-		async updateOperation(operation) {
-			this.$set(this.rule, 'operation', operation)
-			this.updateRule()
-		},
-
-		async updateOperationByEvent(event) {
-			this.inputValue = event.detail[0]
-			this.$set(this.rule, 'operation', event.detail[0])
-			this.updateRule()
-		},
-
-		validate(/* state */) {
-			this.error = null
-			this.store.updateRule(this.rule)
-		},
-
-		updateRule() {
-			if (!this.dirty) {
-				this.dirty = true
-			}
-
-			this.error = null
-			this.store.updateRule(this.rule)
-		},
-
-		async saveRule() {
-			try {
-				await this.store.pushUpdateRule(this.rule)
-				this.dirty = false
-				this.error = null
-				this.originalRule = JSON.parse(JSON.stringify(this.rule))
-			} catch (error) {
-				logger.error('Failed to save operation', { error })
-				this.error = error.response.data.ocs.meta.message
-			}
-		},
-
-		async deleteRule() {
-			try {
-				await this.store.deleteRule(this.rule)
-			} catch (error) {
-				logger.error('Failed to delete operation', { error })
-				this.error = error.response.data.ocs.meta.message
-			}
-		},
-
-		cancelRule() {
-			if (this.rule.id < 0) {
-				this.store.removeRule(this.rule)
-			} else {
-				this.inputValue = this.originalRule.operation
-				this.store.updateRule(this.originalRule)
-				this.originalRule = JSON.parse(JSON.stringify(this.rule))
-				this.dirty = false
-			}
-		},
-
-		async removeCheck(check) {
-			const index = this.rule.checks.findIndex((item) => item === check)
-			if (index > -1) {
-				this.$delete(this.rule.checks, index)
-			}
-			this.store.updateRule(this.rule)
-		},
-
-		onAddFilter() {
-			// eslint-disable-next-line vue/no-mutating-props
-			this.rule.checks.push({ class: null, operator: null, value: '' })
-		},
-	},
+/**
+ * Filter rows are keyed by the check they render, so removing one cannot make
+ * another row reuse a component that still points at the removed check.
+ *
+ * @param check - The check of the row
+ */
+function checkKey(check: CheckType): CheckType {
+	return check
 }
+
+function validate(): void {
+	error.value = null
+	store.updateRule(props.rule)
+}
+
+function updateRule(): void {
+	dirty.value = true
+	error.value = null
+	store.updateRule(props.rule)
+}
+
+/**
+ * @param event - The change the operation's custom element reported
+ */
+function updateOperationByEvent(event: CustomEvent<unknown[]>): void {
+	inputValue.value = event.detail[0] as string
+	store.setRuleOperation(props.rule, inputValue.value)
+	updateRule()
+}
+
+async function saveRule(): Promise<void> {
+	try {
+		await store.pushUpdateRule(props.rule)
+		dirty.value = false
+		error.value = null
+		originalRule.value = structuredClone(toPlainRule(props.rule))
+	} catch (exception) {
+		logger.error('Failed to save operation', { error: exception })
+		error.value = ocsMessage(exception)
+	}
+}
+
+async function deleteRule(): Promise<void> {
+	try {
+		await store.deleteRule(props.rule)
+	} catch (exception) {
+		logger.error('Failed to delete operation', { error: exception })
+		error.value = ocsMessage(exception)
+	}
+}
+
+function cancelRule(): void {
+	if (props.rule.id < 0) {
+		store.removeRule(props.rule)
+		return
+	}
+	inputValue.value = originalRule.value!.operation
+	store.updateRule(originalRule.value!)
+	originalRule.value = structuredClone(toPlainRule(props.rule))
+	dirty.value = false
+}
+
+/**
+ * @param check - The filter to drop
+ */
+function removeCheck(check: CheckType): void {
+	store.removeCheck(props.rule, check)
+	updateRule()
+}
+
+function onAddFilter(): void {
+	store.addCheck(props.rule)
+}
+
+/**
+ * The store holds reactive proxies, which cannot be structurally cloned.
+ *
+ * @param rule - The rule to copy
+ */
+function toPlainRule(rule: Rule): Rule {
+	return JSON.parse(JSON.stringify(rule))
+}
+
+/**
+ * @param exception - The rejected request
+ */
+function ocsMessage(exception: unknown): string | null {
+	const response = (exception as { response?: { data?: { ocs?: { meta?: { message?: string } } } } }).response
+	return response?.data?.ocs?.meta?.message ?? null
+}
+
+useCustomElementEvents(operationElement, {
+	'update:model-value': updateOperationByEvent,
+})
+
+onMounted(() => {
+	originalRule.value = structuredClone(toPlainRule(props.rule))
+	if (operation.value?.element) {
+		inputValue.value = props.rule.operation
+	}
+})
 </script>
 
-<style scoped lang="scss">
+<style module lang="scss">
+.buttons {
+	display: flex;
+	justify-content: end;
 
-	.buttons {
-		display: flex;
-		justify-content: end;
-
-		button {
-			margin-inline-start: 5px;
-		}
-		button:last-child{
-			margin-inline-end: 10px;
-		}
+	button {
+		margin-inline-start: 5px;
 	}
 
-	.error-message {
-		float: right;
+	button:last-child {
 		margin-inline-end: 10px;
 	}
+}
 
-	.flow-icon {
-		width: 44px;
-	}
+.errorMessage {
+	float: inline-end;
+	margin-inline-end: 10px;
+}
 
-	.rule {
-		display: flex;
-		flex-wrap: wrap;
-		border-inline-start: 5px solid var(--color-primary-element);
+.flowIcon {
+	width: 44px;
+	background-position: right 27px;
+	padding-inline-end: 20px;
+	margin-inline-end: 20px;
+}
 
-		.trigger,
-		.action {
-			flex-grow: 1;
-			min-height: 100px;
-			max-width: 920px;
-		}
-		.action {
-			max-width: 400px;
-			position: relative;
-		}
-		.icon-confirm {
-			background-position: right 27px;
-			padding-inline-end: 20px;
-			margin-inline-end: 20px;
-		}
-	}
+.rule {
+	display: flex;
+	flex-wrap: wrap;
+	border-inline-start: 5px solid var(--color-primary-element);
+	margin-bottom: 20px;
+	padding: 10px;
+}
 
-	.trigger p, .action p {
-		min-height: 34px;
-		display: flex;
+.trigger,
+.action {
+	flex-grow: 1;
+	min-height: 100px;
+	max-width: 920px;
+}
 
-		& > span {
-			min-width: 50px;
-			text-align: end;
-			color: var(--color-text-maxcontrast);
-			padding-inline-end: 10px;
-			padding-top: 6px;
-		}
-		.multiselect {
-			flex-grow: 1;
-			max-width: 300px;
-		}
-	}
+.action {
+	max-width: 400px;
+	position: relative;
+}
 
-	.trigger p:first-child span {
-			padding-top: 3px;
-	}
+.trigger p,
+.action p {
+	min-height: 34px;
+	display: flex;
 
-	.trigger p:last-child {
-			padding-top: 8px;
-	}
-
-	.check--add {
-		background-position: 7px center;
-		background-color: transparent;
-		padding-inline-start: 6px;
-		margin: 0;
-		width: 180px;
-		border-radius: var(--border-radius);
+	& > span:first-child {
+		min-width: 50px;
+		text-align: end;
 		color: var(--color-text-maxcontrast);
-		font-weight: normal;
-		text-align: start;
-		font-size: 1em;
+		padding-inline-end: 10px;
+		padding-top: 6px;
+	}
+}
+
+.trigger p:first-child span {
+	padding-top: 3px;
+}
+
+.trigger p:last-child {
+	padding-top: 8px;
+}
+
+.addCheck {
+	background-position: 7px center;
+	background-color: transparent;
+	padding-inline-start: 6px;
+	margin: 0;
+	width: 180px;
+	border-radius: var(--border-radius);
+	color: var(--color-text-maxcontrast);
+	font-weight: normal;
+	text-align: start;
+	font-size: 1em;
+}
+
+@media (max-width: 1400px) {
+	.rule {
+		width: 100%;
+		max-width: 100%;
 	}
 
-	@media (max-width:1400px) {
-		.rule {
-			&, .trigger, .action {
-				width: 100%;
-				max-width: 100%;
-			}
-			.flow-icon {
-				display: none;
-			}
-		}
+	.trigger,
+	.action {
+		width: 100%;
+		max-width: 100%;
 	}
 
+	.flowIcon {
+		display: none;
+	}
+}
 </style>

@@ -4,6 +4,7 @@
  */
 
 import type {
+	Check,
 	CheckPlugin,
 	Entity,
 	FlatEntityEvent,
@@ -136,6 +137,61 @@ export const useWorkflowStore = defineStore('workflowengine', () => {
 	}
 
 	/**
+	 * Apply a change to a check. Checks are edited in place, so this is the one
+	 * place that writes to them; persisting the flow stays with the caller.
+	 *
+	 * @param check - The check to change
+	 * @param patch - The fields to change
+	 */
+	function updateCheck(check: Check, patch: Partial<Check>): void {
+		Object.assign(check, patch)
+	}
+
+	/**
+	 * Append an empty check to a flow.
+	 *
+	 * @param rule - The flow to extend
+	 */
+	function addCheck(rule: Rule): void {
+		rule.checks.push({ class: null, operator: null, value: '' })
+	}
+
+	/**
+	 * Drop a check from a flow.
+	 *
+	 * @param rule - The flow to shorten
+	 * @param check - The check to drop
+	 */
+	function removeCheck(rule: Rule, check: Check): void {
+		const index = rule.checks.indexOf(check)
+		if (index > -1) {
+			rule.checks.splice(index, 1)
+		}
+	}
+
+	/**
+	 * Point a flow at the entity it watches and the events that trigger it.
+	 *
+	 * @param rule - The flow to retrigger
+	 * @param entity - Class of the entity to watch
+	 * @param events - Names of the events to react to
+	 */
+	function setRuleTrigger(rule: Rule, entity: string, events: string[]): void {
+		rule.entity = entity
+		rule.events = events
+	}
+
+	/**
+	 * Store the value the operation's own editor produced.
+	 *
+	 * @param rule - The flow to change
+	 * @param operation - The new operation value
+	 */
+	function setRuleOperation(rule: Rule, operation: string): void {
+		rule.operation = operation
+	}
+
+	/**
 	 * Drop a flow from the list without deleting it on the server.
 	 *
 	 * @param rule - The flow to drop
@@ -239,6 +295,11 @@ export const useWorkflowStore = defineStore('workflowengine', () => {
 		createNewRule,
 		updateRule,
 		removeRule,
+		updateCheck,
+		addCheck,
+		removeCheck,
+		setRuleTrigger,
+		setRuleOperation,
 		pushUpdateRule,
 		deleteRule,
 		setValid,

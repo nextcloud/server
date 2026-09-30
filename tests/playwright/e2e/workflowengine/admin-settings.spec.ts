@@ -169,6 +169,8 @@ test.describe('Flow admin settings', () => {
 
 		await rule.removeFilter(0)
 		await expect(rule.filterComboboxes()).toHaveCount(1)
+		// the surviving row shows its own filter, not the one that was removed
+		await expectSelectedOption(page, rule.filterCombobox(), /File size \(upload\)/)
 
 		const response = await save(page, rule)
 		expect(response.status()).toBe(200)
