@@ -11,6 +11,7 @@ use OC\Files\Filesystem;
 use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\Storage\Home;
 use OC\Files\Storage\Wrapper\Quota;
+use OC\Files\View;
 use OC\SystemConfig;
 use OCA\Files_Sharing\External\Storage;
 use OCP\Files\FileInfo;
@@ -194,7 +195,7 @@ class OC_Helper {
 				/** @var Home|HomeObjectStoreStorage $storage */
 				$user = $storage->getUser();
 			} else {
-				$user = Server::get(IUserSession::class)->getUser();
+				$user = self::getUserOfPath($rootInfo->getPath()) ?? Server::get(IUserSession::class)->getUser();
 			}
 			$quota = $user?->getQuotaBytes() ?? FileInfo::SPACE_UNKNOWN;
 			if ($user !== null && $quota !== FileInfo::SPACE_UNLIMITED) {
@@ -281,13 +282,31 @@ class OC_Helper {
 	}
 
 	/**
+	 * The user whose tree an absolute path is in, e.g. the user `alice` for `/alice/files/...`
+	 */
+	private static function getUserOfPath(string $path): ?IUser {
+		$userId = explode('/', ltrim($path, '/'))[0];
+		if ($userId === '') {
+			return null;
+		}
+		return Server::get(IUserManager::class)->get($userId);
+	}
+
+	/**
 	 * Get storage info including all mount points and quota
 	 *
 	 * @psalm-suppress LessSpecificReturnStatement Legacy code outputs weird types - manually validated that they are correct
 	 * @return StorageInfo
+	 * @throws NotFoundException
 	 */
 	private static function getGlobalStorageInfo(int|float $quota, IUser $user, IMountPoint $mount): array {
-		$rootInfo = Filesystem::getFileInfo('', 'ext');
+		// the usage has to be read from the home of the user the quota belongs to,
+		// which is not necessarily the user of the current session
+		$view = new View('/' . $user->getUID() . '/files');
+		$rootInfo = $view->getFileInfo('', 'ext');
+		if (!$rootInfo instanceof FileInfo) {
+			throw new NotFoundException('The root directory of the user\'s files is missing');
+		}
 		/** @var int|float $used */
 		$used = $rootInfo['size'];
 		if ($used < 0) {

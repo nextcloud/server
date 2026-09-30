@@ -3900,8 +3900,13 @@
     </InvalidArgument>
   </file>
   <file src="lib/private/legacy/OC_Helper.php">
+    <InternalClass>
+      <code><![CDATA[new View('/' . $user->getUID() . '/files')]]></code>
+    </InternalClass>
     <InternalMethod>
       <code><![CDATA[getAbsolutePath]]></code>
+      <code><![CDATA[getFileInfo]]></code>
+      <code><![CDATA[new View('/' . $user->getUID() . '/files')]]></code>
     </InternalMethod>
   </file>
   <file src="lib/public/AppFramework/Http/Response.php">
