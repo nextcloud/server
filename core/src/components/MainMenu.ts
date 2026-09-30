@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
+import { createApp } from 'vue'
 import AppMenu from './AppMenu.vue'
+import { mountInPlace } from '../utils/mountInPlace.ts'
 
 /**
  * Set up the main menu component ("AppMenu")
@@ -16,11 +17,10 @@ export function setUp() {
 		// no container, possibly we're on a public page
 		return
 	}
-	const AppMenuApp = Vue.extend(AppMenu)
-	const appMenu = new AppMenuApp({}).$mount(container)
+	const appMenu = mountInPlace(createApp(AppMenu), container) as InstanceType<typeof AppMenu>
 
-	Object.assign(OC, {
-		setNavigationCounter(id, counter) {
+	Object.assign(window.OC, {
+		setNavigationCounter(id: string, counter: number) {
 			appMenu.setNavigationCounter(id, counter)
 		},
 	})
