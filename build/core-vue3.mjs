@@ -23,5 +23,6 @@ export const coreVue3Sources = [
 /** Unit tests, relative to the repository root. */
 export const coreVue3Specs = [
 	'core/src/tests/components/Login/**/*.spec.ts',
+	'core/src/tests/utils/mountInPlace.spec.ts',
 	'core/src/views/WebInstaller.spec.ts',
 ]
