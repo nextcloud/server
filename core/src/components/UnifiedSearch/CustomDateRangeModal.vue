@@ -59,6 +59,8 @@ export default {
 		},
 	},
 
+	emits: ['update:is-open', 'set:custom-date-range'],
+
 	data() {
 		return {
 			dateFilter: { startFrom: null, endAt: null },
