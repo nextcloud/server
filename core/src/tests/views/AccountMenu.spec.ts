@@ -46,9 +46,11 @@ vi.mock('@nextcloud/password-confirmation', () => ({
 const NO_STATUS = { status: null, icon: null, message: null }
 
 const MOUNT_OPTIONS = {
-	stubs: {
-		AccountMenuEntry: true,
-		AccountMenuProfileEntry: true,
+	global: {
+		stubs: {
+			AccountMenuEntry: true,
+			AccountMenuProfileEntry: true,
+		},
 	},
 }
 

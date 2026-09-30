@@ -2,50 +2,18 @@
  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
-<template>
-	<NcHeaderMenu
-		id="user-menu"
-		class="account-menu"
-		:aria-label="t('core', 'Settings menu')"
-		:description="avatarDescription">
-		<template #trigger>
-			<NcAvatar
-				class="account-menu__avatar"
-				disable-menu
-				disable-tooltip
-				:hide-status="!showUserStatus"
-				:user="currentUserId"
-				:preloaded-user-status="userStatus" />
-		</template>
-		<ul class="account-menu__list">
-			<AccountMenuProfileEntry
-				:id="profileEntry.id"
-				:name="profileEntry.name"
-				:href="profileEntry.href"
-				:active="profileEntry.active" />
-			<AccountMenuEntry
-				v-for="entry in otherEntries"
-				:id="entry.id"
-				:key="entry.id"
-				:name="entry.name"
-				:href="entry.href"
-				:active="entry.active"
-				:icon="entry.icon" />
-		</ul>
-	</NcHeaderMenu>
-</template>
-
-<script lang="ts">
+<script setup lang="ts">
 import { getCurrentUser } from '@nextcloud/auth'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
 import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
 import AccountMenuProfileEntry from '../components/AccountMenu/AccountMenuProfileEntry.vue'
+import { getAllStatusOptions } from '../../../apps/user_status/src/services/statusOptionsService.js'
 
 interface ISettingsNavigationEntry {
 	/**
@@ -86,28 +54,6 @@ interface ISettingsNavigationEntry {
 	classes: string
 }
 
-// See: apps/user_status/src/services/statusOptionsService.js
-// TODO: either import this again from the user_status app when core is migrated to Vue 3
-// Or get rid of the forbidden import
-const USER_DEFINABLE_STATUSES = [{
-	type: 'online',
-	label: t('user_status', 'Online'),
-}, {
-	type: 'away',
-	label: t('user_status', 'Away'),
-}, {
-	type: 'busy',
-	label: t('user_status', 'Busy'),
-}, {
-	type: 'dnd',
-	label: t('user_status', 'Do not disturb'),
-	subline: t('user_status', 'Mute all notifications'),
-}, {
-	type: 'invisible',
-	label: t('user_status', 'Invisible'),
-	subline: t('user_status', 'Appear offline'),
-}]
-
 interface IPreloadedUserStatus {
 	status: string | null
 	icon: string | null
@@ -136,78 +82,83 @@ function loadInitialUserStatus(): { showUserStatus: boolean, userStatus: IPreloa
 	return { showUserStatus: true, userStatus: { status, icon, message } }
 }
 
-export default defineComponent({
-	name: 'AccountMenu',
+const statusLabels: Record<string, string> = Object.fromEntries(getAllStatusOptions().map(({ type, label }) => [type, label]))
 
-	components: {
-		AccountMenuEntry,
-		AccountMenuProfileEntry,
-		NcAvatar,
-		NcHeaderMenu,
-	},
+const currentUser = getCurrentUser()!
+const currentDisplayName = currentUser.displayName ?? currentUser.uid
+const currentUserId = currentUser.uid
 
-	setup() {
-		const settingsNavEntries = loadState<Record<string, ISettingsNavigationEntry>>('core', 'settingsNavEntries', {})
-		const { profile: profileEntry, ...otherEntries } = settingsNavEntries
+const settingsNavEntries = loadState<Record<string, ISettingsNavigationEntry>>('core', 'settingsNavEntries', {})
+const { profile: profileEntry, ...otherEntries } = settingsNavEntries
 
-		return {
-			currentDisplayName: getCurrentUser()?.displayName ?? getCurrentUser()!.uid,
-			currentUserId: getCurrentUser()!.uid,
+const initialUserStatus = loadInitialUserStatus()
+const showUserStatus = initialUserStatus.showUserStatus
+const userStatus = ref(initialUserStatus.userStatus)
 
-			profileEntry,
-			otherEntries,
-
-			t,
-		}
-	},
-
-	data() {
-		return loadInitialUserStatus()
-	},
-
-	computed: {
-		translatedUserStatus() {
-			return {
-				...this.userStatus,
-				status: this.translateStatus(this.userStatus.status),
-			}
-		},
-
-		avatarDescription() {
-			const description = [
-				t('core', 'Avatar of {displayName}', { displayName: this.currentDisplayName }),
-				...Object.values(this.translatedUserStatus).filter(Boolean),
-			].join(' — ')
-			return description
-		},
-	},
-
-	mounted() {
-		subscribe('user_status:status.updated', this.handleUserStatusUpdated)
-		emit('core:user-menu:mounted')
-	},
-
-	methods: {
-		handleUserStatusUpdated(state) {
-			if (this.currentUserId === state.userId) {
-				this.userStatus = {
-					status: state.status,
-					icon: state.icon,
-					message: state.message,
-				}
-			}
-		},
-
-		translateStatus(status) {
-			const statusMap = Object.fromEntries(USER_DEFINABLE_STATUSES.map(({ type, label }) => [type, label]))
-			if (statusMap[status]) {
-				return statusMap[status]
-			}
-			return status
-		},
-	},
+const avatarDescription = computed(() => {
+	const translatedUserStatus = {
+		...userStatus.value,
+		status: userStatus.value.status && (statusLabels[userStatus.value.status] ?? userStatus.value.status),
+	}
+	return [
+		t('core', 'Avatar of {displayName}', { displayName: currentDisplayName }),
+		...Object.values(translatedUserStatus).filter(Boolean),
+	].join(' — ')
 })
+
+onMounted(() => {
+	subscribe('user_status:status.updated', handleUserStatusUpdated)
+	emit('core:user-menu:mounted')
+})
+
+/**
+ * Show the new status of the current user.
+ *
+ * @param state - The updated status
+ */
+function handleUserStatusUpdated(state: IPreloadedUserStatus & { userId: string }) {
+	if (currentUserId === state.userId) {
+		userStatus.value = {
+			status: state.status,
+			icon: state.icon,
+			message: state.message,
+		}
+	}
+}
 </script>
+
+<template>
+	<NcHeaderMenu
+		id="user-menu"
+		class="account-menu"
+		:aria-label="t('core', 'Settings menu')"
+		:description="avatarDescription">
+		<template #trigger>
+			<NcAvatar
+				class="account-menu__avatar"
+				disableMenu
+				disableTooltip
+				:hideStatus="!showUserStatus"
+				:user="currentUserId"
+				:preloadedUserStatus="userStatus" />
+		</template>
+		<ul class="account-menu__list">
+			<AccountMenuProfileEntry
+				:id="profileEntry.id"
+				:name="profileEntry.name"
+				:href="profileEntry.href"
+				:active="profileEntry.active" />
+			<AccountMenuEntry
+				v-for="entry in otherEntries"
+				:id="entry.id"
+				:key="entry.id"
+				:name="entry.name"
+				:href="entry.href"
+				:active="entry.active"
+				:icon="entry.icon" />
+		</ul>
+	</NcHeaderMenu>
+</template>
 
 <style lang="scss" scoped>
 :deep(#header-menu-user-menu) {
