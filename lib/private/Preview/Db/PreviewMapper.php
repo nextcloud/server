@@ -60,6 +60,8 @@ class PreviewMapper extends QBMapper {
 		/** @var Preview $preview */
 		$preview = $entity;
 
+		// The version row reuses the preview id, so it has to exist before it is written.
+		$preview->generateId();
 		$preview->setMimetypeId($this->mimeTypeLoader->getId($preview->getMimeType()));
 		$preview->setSourceMimetypeId($this->mimeTypeLoader->getId($preview->getSourceMimeType()));
 
@@ -90,7 +92,7 @@ class PreviewMapper extends QBMapper {
 			'file_id' => IQueryBuilder::PARAM_INT,
 			'storage_id' => IQueryBuilder::PARAM_INT,
 			'old_file_id' => IQueryBuilder::PARAM_INT,
-			'location_id' => IQueryBuilder::PARAM_INT,
+			'location_id' => IQueryBuilder::PARAM_STR,
 			'width' => IQueryBuilder::PARAM_INT,
 			'height' => IQueryBuilder::PARAM_INT,
 			'mimetype_id' => IQueryBuilder::PARAM_INT,
