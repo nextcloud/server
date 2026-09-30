@@ -2195,7 +2195,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('createShare')->with(
 			$this->callback(function (IShare $share) use ($path) {
 				$date = new \DateTime('2000-01-01');
-				$date->setTime(0, 0, 0);
+				$date->setTime(23, 59, 59);
 
 				return $share->getNode() === $path
 				&& $share->getShareType() === IShare::TYPE_LINK
@@ -2748,7 +2748,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) {
 				$date = new \DateTime('2000-01-01');
-				$date->setTime(0, 0, 0);
+				$date->setTime(23, 59, 59);
 
 				return $share->getPermissions() === (Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE | Constants::PERMISSION_DELETE)
 				&& $share->getPassword() === 'password'
@@ -3232,7 +3232,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
 			$this->callback(function (IShare $share) {
 				$date = new \DateTime('2010-12-23');
-				$date->setTime(0, 0, 0);
+				$date->setTime(23, 59, 59);
 
 				return $share->getPermissions() === Constants::PERMISSION_ALL
 				&& $share->getPassword() === 'password'

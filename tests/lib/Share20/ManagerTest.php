@@ -1584,9 +1584,6 @@ class ManagerTest extends \Test\TestCase {
 		$future->add(new \DateInterval('P2D'));
 		$future->setTime(1, 2, 3);
 
-		$expected = clone $future;
-		$expected->setTime(23, 59, 59);
-
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
 		$share->setExpirationDate($future);
@@ -1609,7 +1606,7 @@ class ManagerTest extends \Test\TestCase {
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
-		$this->assertEquals($expected, $share->getExpirationDate());
+		$this->assertEquals($future, $share->getExpirationDate());
 	}
 
 	#[DataProvider('validateExpirationDateInternalProvider')]
@@ -1618,16 +1615,13 @@ class ManagerTest extends \Test\TestCase {
 		$date->add(new \DateInterval('P5D'));
 		$date->setTime(1, 2, 3);
 
-		$expected = clone $date;
-		$expected->setTime(23, 59, 59);
-
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
 		$share->setExpirationDate($date);
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
-		$this->assertEquals($expected, $share->getExpirationDate());
+		$this->assertEquals($date, $share->getExpirationDate());
 	}
 
 	#[DataProvider('validateExpirationDateInternalProvider')]
@@ -1679,9 +1673,6 @@ class ManagerTest extends \Test\TestCase {
 		$future->add(new \DateInterval('P5D'));
 		$future->setTime(1, 2, 3);
 
-		$expected = clone $future;
-		$expected->setTime(23, 59, 59);
-
 		$share = $this->manager->newShare();
 		$share->setShareType($shareType);
 		$share->setExpirationDate($future);
@@ -1704,7 +1695,7 @@ class ManagerTest extends \Test\TestCase {
 
 		self::invokePrivate($this->manager, 'validateExpirationDateInternal', [$share]);
 
-		$this->assertEquals($expected, $share->getExpirationDate());
+		$this->assertEquals($future, $share->getExpirationDate());
 	}
 
 	#[DataProvider('validateExpirationDateInternalProvider')]
@@ -1855,9 +1846,6 @@ class ManagerTest extends \Test\TestCase {
 		$future->add(new \DateInterval('P2D'));
 		$future->setTime(1, 2, 3);
 
-		$expected = clone $future;
-		$expected->setTime(23, 59, 59);
-
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($future);
 
@@ -1874,7 +1862,7 @@ class ManagerTest extends \Test\TestCase {
 
 		self::invokePrivate($this->manager, 'validateExpirationDateLink', [$share]);
 
-		$this->assertEquals($expected, $share->getExpirationDate());
+		$this->assertEquals($future, $share->getExpirationDate());
 	}
 
 	public function testValidateExpirationDateNoDefault(): void {
@@ -1883,7 +1871,6 @@ class ManagerTest extends \Test\TestCase {
 		$date->setTime(1, 2, 3);
 
 		$expected = clone $date;
-		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
@@ -1935,7 +1922,6 @@ class ManagerTest extends \Test\TestCase {
 		$future->setTime(1, 2, 3);
 
 		$expected = clone $future;
-		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
@@ -1965,7 +1951,6 @@ class ManagerTest extends \Test\TestCase {
 
 		$expected = clone $future;
 		$expected->setTimezone($this->timezone);
-		$expected->setTime(23, 59, 59);
 		$expected->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		$share = $this->manager->newShare();
