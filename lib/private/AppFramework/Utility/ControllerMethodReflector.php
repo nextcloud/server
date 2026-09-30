@@ -57,8 +57,12 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 					$cutString = str_replace(' ', '', $cutString);
 					$splitArray = explode(',', $cutString);
 					foreach ($splitArray as $annotationValues) {
-						[$key, $value] = explode('=', $annotationValues);
-						$this->annotations[$annotation][$key] = $value;
+						if (!str_contains($annotationValues, '=')) {
+							$this->annotations[$annotation][$annotationValues] = '';
+							continue;
+						}
+						[$paramKey, $paramValue] = explode('=', $annotationValues, 2);
+						$this->annotations[$annotation][$paramKey] = $paramValue;
 					}
 					continue;
 				}
