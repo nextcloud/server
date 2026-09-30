@@ -24,8 +24,10 @@ use OCA\Files\Collaboration\Resources\ResourceProvider;
 use OCA\Files\ConfigLexicon;
 use OCA\Files\Dashboard\FavoriteWidget;
 use OCA\Files\DirectEditingCapabilities;
+use OCA\Files\Event\LoadFilesApp;
 use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Files\Listener\LoadFilesAppListener;
 use OCA\Files\Listener\LoadSearchPluginsListener;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Listener\NodeAddedToFavoriteListener;
@@ -79,6 +81,7 @@ class Application extends App implements IBootstrap {
 		$context->registerCapability(AdvancedCapabilities::class);
 		$context->registerCapability(DirectEditingCapabilities::class);
 
+		$context->registerEventListener(LoadFilesApp::class, LoadFilesAppListener::class);
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);
 		$context->registerEventListener(BeforeNodeRenamedEvent::class, SyncLivePhotosListener::class);
