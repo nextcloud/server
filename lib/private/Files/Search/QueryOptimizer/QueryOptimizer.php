@@ -18,6 +18,7 @@ class QueryOptimizer {
 		// note that the order here is relevant
 		$this->steps = [
 			new PushDownNegation(),
+			new SimplifyEmptyIn(),
 			new PathPrefixOptimizer(),
 			new MergeDistributiveOperations(),
 			new FlattenSingleArgumentBinaryOperation(),

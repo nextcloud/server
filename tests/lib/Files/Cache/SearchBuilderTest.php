@@ -173,6 +173,15 @@ class SearchBuilderTest extends TestCase {
 			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
 				new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%bar'),
 			]), [1]],
+			[new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', []), []],
+			[new SearchComparison(ISearchComparison::COMPARE_IN, 'mimetype', []), []],
+			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_NOT, [
+				new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', []),
+			]), [0, 1]],
+			[new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mtime', 100),
+				new SearchComparison(ISearchComparison::COMPARE_IN, 'fileid', []),
+			]), [0]],
 		];
 	}
 

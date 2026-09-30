@@ -2007,6 +2007,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Search\\QueryOptimizer\\QueryOptimizer' => __DIR__ . '/../../..' . '/lib/private/Files/Search/QueryOptimizer/QueryOptimizer.php',
         'OC\\Files\\Search\\QueryOptimizer\\QueryOptimizerStep' => __DIR__ . '/../../..' . '/lib/private/Files/Search/QueryOptimizer/QueryOptimizerStep.php',
         'OC\\Files\\Search\\QueryOptimizer\\ReplacingOptimizerStep' => __DIR__ . '/../../..' . '/lib/private/Files/Search/QueryOptimizer/ReplacingOptimizerStep.php',
+        'OC\\Files\\Search\\QueryOptimizer\\SimplifyEmptyIn' => __DIR__ . '/../../..' . '/lib/private/Files/Search/QueryOptimizer/SimplifyEmptyIn.php',
         'OC\\Files\\Search\\QueryOptimizer\\SplitLargeIn' => __DIR__ . '/../../..' . '/lib/private/Files/Search/QueryOptimizer/SplitLargeIn.php',
         'OC\\Files\\Search\\SearchBinaryOperator' => __DIR__ . '/../../..' . '/lib/private/Files/Search/SearchBinaryOperator.php',
         'OC\\Files\\Search\\SearchComparison' => __DIR__ . '/../../..' . '/lib/private/Files/Search/SearchComparison.php',
