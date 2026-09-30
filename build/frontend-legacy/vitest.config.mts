@@ -9,6 +9,7 @@ import { resolve } from 'node:path'
 import { promisify } from 'node:util'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import { defaultExclude, defineConfig } from 'vitest/config'
+import { coreVue3Specs } from '../core-vue3.mjs'
 
 const gitIgnore: string[] = []
 // get all files ignored in the apps directory (e.g. if putting `view` app there).
@@ -68,6 +69,7 @@ export default defineConfig({
 		exclude: [
 			...defaultExclude,
 			...gitIgnore,
+			...coreVue3Specs,
 		],
 		globalSetup: './__tests__/setup-global.js',
 		server: {
