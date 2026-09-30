@@ -8,7 +8,6 @@ import { exec } from 'node:child_process'
 import { resolve } from 'node:path'
 import { promisify } from 'node:util'
 import { defaultExclude, defineConfig } from 'vitest/config'
-import { coreVue3Specs } from '../core-vue3.mjs'
 
 const gitIgnore: string[] = []
 // get all files ignored in the apps directory (e.g. if putting `view` app there).
@@ -45,7 +44,7 @@ export default defineConfig({
 		},
 	},
 	test: {
-		include: ['apps/**/*.{test,spec}.?(c|m)[jt]s?(x)', ...coreVue3Specs],
+		include: ['{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
 		env: {
 			LANG: 'en_US',
 			TZ: 'UTC',
@@ -59,7 +58,7 @@ export default defineConfig({
 		coverage: {
 			include: [
 				'apps/*/src/**',
-				/* 'core/src/**', */
+				'core/src/**',
 			],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
 			reporter: ['lcov', 'text'],

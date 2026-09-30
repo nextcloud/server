@@ -9,7 +9,6 @@ import { resolve } from 'node:path'
 import { promisify } from 'node:util'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import { defaultExclude, defineConfig } from 'vitest/config'
-import { coreVue3Specs } from '../core-vue3.mjs'
 
 const gitIgnore: string[] = []
 // get all files ignored in the apps directory (e.g. if putting `view` app there).
@@ -49,7 +48,7 @@ export default defineConfig({
 		},
 	},
 	test: {
-		include: ['./{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+		include: ['./apps/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
 		environment: 'jsdom',
 		environmentOptions: {
 			jsdom: {
@@ -57,8 +56,8 @@ export default defineConfig({
 			},
 		},
 		coverage: {
-			include: ['./apps/*/src/**', 'core/src/**'],
-			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
+			include: ['./apps/*/src/**'],
+			exclude: ['**.spec.*', '**.test.*', '**.cy.*'],
 			reporter: ['lcov', 'text'],
 			reportsDirectory: resolve(import.meta.dirname, '../../coverage/legacy'),
 		},
@@ -69,7 +68,6 @@ export default defineConfig({
 		exclude: [
 			...defaultExclude,
 			...gitIgnore,
-			...coreVue3Specs,
 		],
 		globalSetup: './__tests__/setup-global.js',
 		server: {

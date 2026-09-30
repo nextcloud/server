@@ -6,7 +6,6 @@
 import { recommendedVue2 } from '@nextcloud/eslint-config'
 import { defineConfig } from 'eslint/config'
 import * as globals from 'globals'
-import { coreVue3Sources, coreVue3Specs } from '../core-vue3.mjs'
 
 export default defineConfig([
 	{
@@ -63,11 +62,5 @@ export default defineConfig([
 			// the public share entry point is Vue 3, it is linted by the Vue 3 frontend
 			'**/apps/files_sharing/src/public/',
 		],
-	},
-
-	// core components already built by build/frontend
-	{
-		name: 'server/core-vue3',
-		ignores: [...coreVue3Sources, ...coreVue3Specs],
 	},
 ])
