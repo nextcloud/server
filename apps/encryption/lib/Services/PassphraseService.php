@@ -194,7 +194,7 @@ class PassphraseService {
 	/**
 	 * Init mount points for given user
 	 */
-	private function initMountPoints(IUser $user): void {
+	protected function initMountPoints(IUser $user): void {
 		Filesystem::initMountPoints($user);
 	}
 }
