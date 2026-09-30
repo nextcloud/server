@@ -77,6 +77,7 @@ import Check from './Check.vue'
 import Event from './Event.vue'
 import Operation from './Operation.vue'
 import { logger } from '../logger.ts'
+import { useWorkflowStore } from '../store.ts'
 
 export default {
 	name: 'Rule',
@@ -96,6 +97,10 @@ export default {
 		},
 	},
 
+	setup() {
+		return { store: useWorkflowStore() }
+	},
+
 	data() {
 		return {
 			editing: false,
@@ -113,7 +118,7 @@ export default {
 		 * @return {OperatorPlugin}
 		 */
 		operation() {
-			return this.$store.getters.getOperationForRule(this.rule)
+			return this.store.operationForRule(this.rule)
 		},
 
 		ruleStatus() {
@@ -162,7 +167,7 @@ export default {
 
 		validate(/* state */) {
 			this.error = null
-			this.$store.dispatch('updateRule', this.rule)
+			this.store.updateRule(this.rule)
 		},
 
 		updateRule() {
@@ -171,12 +176,12 @@ export default {
 			}
 
 			this.error = null
-			this.$store.dispatch('updateRule', this.rule)
+			this.store.updateRule(this.rule)
 		},
 
 		async saveRule() {
 			try {
-				await this.$store.dispatch('pushUpdateRule', this.rule)
+				await this.store.pushUpdateRule(this.rule)
 				this.dirty = false
 				this.error = null
 				this.originalRule = JSON.parse(JSON.stringify(this.rule))
@@ -188,7 +193,7 @@ export default {
 
 		async deleteRule() {
 			try {
-				await this.$store.dispatch('deleteRule', this.rule)
+				await this.store.deleteRule(this.rule)
 			} catch (error) {
 				logger.error('Failed to delete operation', { error })
 				this.error = error.response.data.ocs.meta.message
@@ -197,10 +202,10 @@ export default {
 
 		cancelRule() {
 			if (this.rule.id < 0) {
-				this.$store.dispatch('removeRule', this.rule)
+				this.store.removeRule(this.rule)
 			} else {
 				this.inputValue = this.originalRule.operation
-				this.$store.dispatch('updateRule', this.originalRule)
+				this.store.updateRule(this.originalRule)
 				this.originalRule = JSON.parse(JSON.stringify(this.rule))
 				this.dirty = false
 			}
@@ -211,7 +216,7 @@ export default {
 			if (index > -1) {
 				this.$delete(this.rule.checks, index)
 			}
-			this.$store.dispatch('updateRule', this.rule)
+			this.store.updateRule(this.rule)
 		},
 
 		onAddFilter() {

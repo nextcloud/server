@@ -73,7 +73,7 @@
 import { mdiPlus } from '@mdi/js'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
-import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'pinia'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
@@ -83,6 +83,7 @@ import MenuUp from 'vue-material-design-icons/MenuUp.vue'
 import Operation from './Operation.vue'
 import Rule from './Rule.vue'
 import WorkflowOffSvg from '../../img/workflow-off.svg?raw'
+import { useWorkflowStore } from '../store.ts'
 
 const ACTION_LIMIT = 3
 const ADMIN_SCOPE = 0
@@ -116,11 +117,8 @@ export default {
 	},
 
 	computed: {
-		...mapGetters({
-			rules: 'getRules',
-		}),
-
-		...mapState({
+		...mapState(useWorkflowStore, {
+			rules: 'configuredRules',
 			appstoreEnabled: 'appstoreEnabled',
 			scope: 'scope',
 			operations: 'operations',
@@ -151,12 +149,12 @@ export default {
 	},
 
 	mounted() {
-		this.$store.dispatch('fetchRules')
+		useWorkflowStore().fetchRules()
 	},
 
 	methods: {
 		createNewRule(operation) {
-			this.$store.dispatch('createNewRule', operation)
+			useWorkflowStore().createNewRule(operation)
 		},
 	},
 }

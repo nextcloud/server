@@ -63,6 +63,6 @@ module.exports = {
 		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src', 'main-declarative-settings-forms.ts'),
 	},
 	workflowengine: {
-		workflowengine: path.join(__dirname, 'apps/workflowengine/src', 'workflowengine.js'),
+		workflowengine: path.join(__dirname, 'apps/workflowengine/src', 'workflowengine.ts'),
 	},
 }

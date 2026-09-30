@@ -70,6 +70,7 @@ import NcActions from '@nextcloud/vue/components/NcActions'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import { logger } from '../logger.ts'
+import { useWorkflowStore } from '../store.ts'
 
 export default {
 	/* eslint vue/multi-word-component-names: "warn" */
@@ -99,6 +100,10 @@ export default {
 		},
 	},
 
+	setup() {
+		return { store: useWorkflowStore() }
+	},
+
 	data() {
 		return {
 			deleteVisible: false,
@@ -113,7 +118,7 @@ export default {
 
 	computed: {
 		checks() {
-			return this.$store.getters.getChecksForEntity(this.rule.entity)
+			return this.store.checksForEntity(this.rule.entity)
 		},
 
 		operators() {

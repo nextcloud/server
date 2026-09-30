@@ -34,6 +34,7 @@
 <script>
 import { showWarning } from '@nextcloud/dialogs'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { useWorkflowStore } from '../store.ts'
 
 export default {
 	/* eslint vue/multi-word-component-names: "warn" */
@@ -49,17 +50,21 @@ export default {
 		},
 	},
 
+	setup() {
+		return { store: useWorkflowStore() }
+	},
+
 	computed: {
 		entity() {
-			return this.$store.getters.getEntityForOperation(this.operation)
+			return this.store.entityForOperation(this.operation)
 		},
 
 		operation() {
-			return this.$store.getters.getOperationForRule(this.rule)
+			return this.store.operationForRule(this.rule)
 		},
 
 		allEvents() {
-			return this.$store.getters.getEventsForOperation(this.operation)
+			return this.store.events
 		},
 
 		currentEvent() {
