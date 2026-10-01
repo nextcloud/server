@@ -10,6 +10,9 @@ const modules = {
 	appstore: {
 		main: resolve(import.meta.dirname, 'apps/appstore/src', 'main.ts'),
 	},
+	core: {
+		'viewer-init': resolve(import.meta.dirname, '../../core/src', 'viewer-init.ts'),
+	},
 	comments: {
 		'comments-app': resolve(import.meta.dirname, 'apps/comments/src', 'comments-app.ts'),
 		'comments-tab': resolve(import.meta.dirname, 'apps/comments/src', 'files-sidebar.ts'),

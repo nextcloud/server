@@ -38,11 +38,16 @@ window.OCP.Files.Router = new RouterService(router)
 const fileId = loadState<number | null>('files_sharing', 'fileId', null)
 const token = loadState<string>('files_sharing', 'sharingToken')
 if (fileId !== null) {
-	window.OCP.Files.Router.goToRoute(
-		'filelist',
-		{ ...window.OCP.Files.Router.params, token, fileid: String(fileId) },
-		{ ...window.OCP.Files.Router.query, openfile: 'true' },
-	)
+	// The router lands its first navigation, to the URL the page was opened
+	// with, asynchronously: a push made before it finishes is overwritten by it,
+	// and the shared file is never opened
+	router.isReady()
+		.then(() => window.OCP.Files.Router.goToRoute(
+			'filelist',
+			{ ...window.OCP.Files.Router.params, token, fileid: String(fileId) },
+			{ ...window.OCP.Files.Router.query, openfile: 'true' },
+		))
+		.catch((error) => logger.error('Could not open the shared file', { error }))
 }
 
 // When the file list is loaded we need to apply the "userconfig" setup on the share

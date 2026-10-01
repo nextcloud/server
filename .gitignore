@@ -47,6 +47,7 @@ node_modules/
 !/apps/theming
 !/apps/twofactor_backupcodes
 !/apps/user_status
+!/apps/viewer
 !/apps/weather_status
 !/apps/webhook_listeners
 !/apps/workflowengine
