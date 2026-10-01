@@ -189,8 +189,6 @@ abstract class StoragesService {
 	 * @return StorageConfig storage config, with added id
 	 */
 	public function addStorage(StorageConfig $newStorage): StorageConfig {
-		$allStorages = $this->readConfig();
-
 		$configId = $this->dbConfig->addMount(
 			$newStorage->getMountPoint(),
 			$newStorage->getBackend()->getIdentifier(),
@@ -217,9 +215,6 @@ abstract class StoragesService {
 		if (count($newStorage->getApplicableUsers()) === 0 && count($newStorage->getApplicableGroups()) === 0) {
 			$this->dbConfig->addApplicable($configId, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
 		}
-
-		// add new storage
-		$allStorages[$configId] = $newStorage;
 
 		$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
