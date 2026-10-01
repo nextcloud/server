@@ -307,7 +307,7 @@ interface IManager {
 	 * @return int The count of matching tasks
 	 * @throws Exception If the query failed
 	 * @since 34.0.0
-	 * @since 36.0.0 - parameter $status became optional, parameters $scheduleAfter and $minPickupDelay were added
+	 * @since 35.0.2 - parameter $status became optional, parameters $scheduleAfter and $minPickupDelay were added
 	 */
 	public function countTasks(
 		?int $status = null, array $taskTypeIds = [], ?int $scheduleAfter = null, ?int $minPickupDelay = null,

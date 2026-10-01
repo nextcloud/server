@@ -70,7 +70,7 @@ interface IFunctionBuilder {
 	 * @param string|ILiteral|IParameter|IQueryFunction $pattern The pattern to match and return
 	 *
 	 * @return IQueryFunction
-	 * @since 36.0.0
+	 * @since 35.0.2
 	 */
 	public function regexSubstring($input, $pattern): IQueryFunction;
 

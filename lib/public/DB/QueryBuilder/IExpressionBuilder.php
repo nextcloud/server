@@ -451,7 +451,7 @@ interface IExpressionBuilder {
 	 * @param IQueryBuilder $subQuery The subquery to check for existence.
 	 *
 	 * @return IQueryFunction
-	 * @since 36.0.0
+	 * @since 35.0.1
 	 */
 	public function exists(IQueryBuilder $subQuery): IQueryFunction;
 
@@ -463,7 +463,7 @@ interface IExpressionBuilder {
 	 * @param IQueryBuilder $subQuery The subquery to check for non-existence.
 	 *
 	 * @return IQueryFunction
-	 * @since 36.0.0
+	 * @since 35.0.1
 	 */
 	public function notExists(IQueryBuilder $subQuery): IQueryFunction;
 }
