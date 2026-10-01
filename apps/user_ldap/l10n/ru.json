@@ -132,7 +132,6 @@
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Разрешает вход в систему по атрибуту электронной почты. «mail» и «mailPrimaryAddress» разрешены.",
     "LDAP/AD Email Address:" : "LDAP/AD Адрес электронной почты:",
     "Other Attributes:" : "Другие атрибуты:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Определяет фильтр для применения при попытке входа.  «%% uid» заменяет имя пользователя для входа в систему. Например: \"uid=%%uid\"",
     "Attempts to receive a DN for the given login name and the current login filter" : "Попытки получить DN для данного имени пользователя и текущего фильтра LDAP",
     "Test Login name" : "Проверить логин",
     "Verify settings" : "Проверить настройки",
@@ -266,6 +265,7 @@
     "Pronouns Field" : " Поле местоимений",
     "User profile Pronouns will be set from the specified attribute" : "Местоимения в профиле пользователя будут заданы из указанного атрибута",
     "UUID Attribute for Users:" : "UUID-атрибуты для пользователей:",
-    "UUID Attribute for Groups:" : "UUID-атрибуты для групп:"
+    "UUID Attribute for Groups:" : "UUID-атрибуты для групп:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Определяет фильтр для применения при попытке входа.  «%% uid» заменяет имя пользователя для входа в систему. Например: \"uid=%%uid\""
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

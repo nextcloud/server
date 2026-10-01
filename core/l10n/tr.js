@@ -537,6 +537,7 @@ OC.L10N.register(
     "Cancel login" : "Oturum açmaktan vazgeç",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Hesabınız için gelişmiş güvenlik kullanımı zorunlu kılınmış. Kurulacak hizmet sağlayıcıyı seçin:",
     "Error while validating your second factor" : "İkinci aşama doğrulanırken sorun çıktı",
+    "Use another method" : "Başka bir yöntem kullan",
     "Access through untrusted domain" : "Güvenilmeyen etki alanı üzerinden erişim",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Lütfen BT yöneticiniz ile görüşün. Yöneticisi siz iseniz, config/config.php dosyası içerisindeki \"trusted_domain\" ayarını config/config.sample.php dosyasındaki gibi düzenleyin.",
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Bu ayar ile ilgili ayrıntılı bilgi almak için %1$sbelgelere%2$s bakabilirsiniz.",

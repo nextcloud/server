@@ -537,6 +537,7 @@ OC.L10N.register(
     "Cancel login" : "Annuler la connexion",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "La sécurité renforcée est appliquée à votre compte. Choisissez le fournisseur à configurer :",
     "Error while validating your second factor" : "Erreur lors de la validation de votre second facteur",
+    "Use another method" : "Utiliser une autre méthode",
     "Access through untrusted domain" : "Accès à partir d'un domaine non approuvé",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Veuillez contacter votre administrateur. Si vous êtes un administrateur, modifiez la variable « trusted_domains » dans le fichier config/config.php comme l’exemple dans le fichier config/config.sample.php.",
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Vous trouverez d’autres informations sur la configuration dans la %1$sdocumentation%2$s.",

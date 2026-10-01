@@ -207,6 +207,7 @@ OC.L10N.register(
     "Currently {processedUsers} of {totalUsers} accounts are already processed." : "目前已處理 {processedUsers} 個帳號，共 {totalUsers} 個。",
     "Preparing …" : "正在準備 ……",
     "Refresh" : "重新整理",
+    "All files have been sanitized for Windows filename support." : "所有檔案均已清理，以支援 Windows 檔案名稱格式。",
     "Some files could not be sanitized, please check your logs." : "部份檔案無法完成消毒流程，請檢查您的紀錄檔。",
     "Sanitization errors" : "消毒錯誤",
     "Not sanitized filenames" : "未消毒的檔案名稱",

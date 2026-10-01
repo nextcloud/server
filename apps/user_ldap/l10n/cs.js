@@ -134,7 +134,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Umožňuje přihlašování pomocí atributu e-mail. Je možné použít „mail“ a „mailPrimaryAddress“.",
     "LDAP/AD Email Address:" : "E-mailová adresa z LDAP/AD:",
     "Other Attributes:" : "Další atributy:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definuje filtr který použít při pokusu o přihlášení. `%%uid` je nahrazeno uživatelským jménem z přihlašovací akce. Příklad: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Pokusy získat rozlišené jméno (DN) pro dané přihlašovací jméno a stávající filtr přihlášení",
     "Test Login name" : "Vyzkoušet přihlašovací jméno",
     "Verify settings" : "Ověřit nastavení",
@@ -268,6 +267,7 @@ OC.L10N.register(
     "Pronouns Field" : "Kolonka pro zájmena",
     "User profile Pronouns will be set from the specified attribute" : "Zájmeno v profilu uživatele bude nastaveno ze zadaného atributu",
     "UUID Attribute for Users:" : "UUID atribut pro uživatele:",
-    "UUID Attribute for Groups:" : "UUID atribut pro skupiny:"
+    "UUID Attribute for Groups:" : "UUID atribut pro skupiny:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definuje filtr který použít při pokusu o přihlášení. `%%uid` je nahrazeno uživatelským jménem z přihlašovací akce. Příklad: `uid=%%uid`"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
