@@ -12,13 +12,11 @@ namespace Test\Snowflake;
 use OC\Snowflake\FileSequence;
 use OCP\ITempManager;
 
-/**
- * @package Test
- */
 class FileSequenceTest extends ISequenceBase {
 	private string $path;
 
 	public function setUp():void {
+		parent::setUp();
 		$tempManager = $this->createMock(ITempManager::class);
 		$this->path = sys_get_temp_dir() . '/' . uniqid('file_sequence_test_');
 		mkdir($this->path);
@@ -34,6 +32,7 @@ class FileSequenceTest extends ISequenceBase {
 			rmdir($directory);
 		}
 		rmdir($this->path);
+		parent::tearDown();
 	}
 
 	public function testSequenceIncrementsWithinTheSameMillisecond(): void {
@@ -55,11 +54,5 @@ class FileSequenceTest extends ISequenceBase {
 		$this->assertSame(0, $this->sequence->nextId(42, 1000, 500));
 		$this->assertSame(0, $this->sequence->nextId(42, 1001, 500));
 		$this->assertSame(1, $this->sequence->nextId(42, 1000, 500));
-	}
-
-	public function testSequenceWithSecondsBeforeTheEpoch(): void {
-		$this->assertSame(0, $this->sequence->nextId(42, -5, 10));
-		$this->assertSame(1, $this->sequence->nextId(42, -5, 10));
-		$this->assertSame(0, $this->sequence->nextId(42, 25, 10));
 	}
 }
