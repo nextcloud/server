@@ -10,33 +10,19 @@ declare(strict_types=1);
 namespace Test\Http\Client;
 
 use OC\Http\Client\NegativeDnsCache;
-use OCP\ICache;
-use OCP\ICacheFactory;
 
 class NegativeDnsCacheTest extends \Test\TestCase {
-	/** @var ICache */
-	private $cache;
-	/** @var ICacheFactory */
-	private $cacheFactory;
-	/** @var NegativeDnsCache */
-	private $negativeDnsCache;
+	private NegativeDnsCache $negativeDnsCache;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->cache = $this->createMock(ICache::class);
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->cacheFactory
-			->method('createLocal')
-			->with('NegativeDnsCache')
-			->willReturn($this->cache);
-
-		$this->negativeDnsCache = new NegativeDnsCache($this->cacheFactory);
+		$this->negativeDnsCache = $this->createInstanceWithMocks(NegativeDnsCache::class);
 	}
 
 	public function testSetNegativeCacheForDnsType() : void {
-		$this->cache
+		$this->getCacheAutoMock('NegativeDnsCache')
 			->expects($this->once())
 			->method('set')
 			->with('www.example.com-1', 'true', 3600);
@@ -45,7 +31,7 @@ class NegativeDnsCacheTest extends \Test\TestCase {
 	}
 
 	public function testIsNegativeCached(): void {
-		$this->cache
+		$this->getCacheAutoMock('NegativeDnsCache')
 			->expects($this->once())
 			->method('hasKey')
 			->with('www.example.com-1')
