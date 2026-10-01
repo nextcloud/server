@@ -52,7 +52,8 @@
 				:key="group.id"
 				:active="selectedGroupDecoded === group.id"
 				:name="group.title"
-				:count="group.count" />
+				:count="group.count"
+				@select="emit('select')" />
 			<div v-if="loadingGroups" role="note">
 				<NcLoadingIcon :name="t('settings', 'Loading groups…')" />
 			</div>
@@ -83,6 +84,10 @@ import { useFormatGroups } from '../composables/useGroupsNavigation.ts'
 import logger from '../logger.ts'
 import { searchGroups } from '../service/groups.ts'
 import { useStore } from '../store/index.js'
+
+const emit = defineEmits<{
+	(e: 'select'): void
+}>()
 
 const store = useStore()
 const route = useRoute()

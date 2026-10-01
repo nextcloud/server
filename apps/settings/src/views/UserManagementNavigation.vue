@@ -89,7 +89,7 @@
 			</NcAppNavigationItem>
 		</NcAppNavigationList>
 
-		<AppNavigationGroupList />
+		<AppNavigationGroupList @select="clearSearch" />
 
 		<template #footer>
 			<NcButton
