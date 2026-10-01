@@ -348,6 +348,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Events\\SubscriptionDeletedEvent' => __DIR__ . '/..' . '/../lib/Events/SubscriptionDeletedEvent.php',
         'OCA\\DAV\\Events\\SubscriptionUpdatedEvent' => __DIR__ . '/..' . '/../lib/Events/SubscriptionUpdatedEvent.php',
         'OCA\\DAV\\Exception\\ExampleEventException' => __DIR__ . '/..' . '/../lib/Exception/ExampleEventException.php',
+        'OCA\\DAV\\Exception\\InvalidSyncTokenException' => __DIR__ . '/..' . '/../lib/Exception/InvalidSyncTokenException.php',
         'OCA\\DAV\\Exception\\ServerMaintenanceMode' => __DIR__ . '/..' . '/../lib/Exception/ServerMaintenanceMode.php',
         'OCA\\DAV\\Exception\\UidConflict' => __DIR__ . '/..' . '/../lib/Exception/UidConflict.php',
         'OCA\\DAV\\Exception\\UnsupportedLimitOnInitialSyncException' => __DIR__ . '/..' . '/../lib/Exception/UnsupportedLimitOnInitialSyncException.php',

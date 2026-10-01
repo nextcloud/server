@@ -1565,12 +1565,12 @@ EOD;
 		$deleted = $this->backend->pruneOutdatedSyncTokens(0, 0);
 		// At least one from the object creation and one from the object update
 		$this->assertGreaterThanOrEqual(2, $deleted);
-		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 1);
-		$this->assertEmpty($changes['added']);
-		$this->assertEmpty($changes['modified']);
-		$this->assertEmpty($changes['deleted']);
+		// The changes since the sync token are gone, so it must be rejected instead of returning an incomplete delta
+		$this->assertNull($this->backend->getChangesForCalendar($calendarId, $syncToken, 1));
 
-		// Test that objects remain
+		// Start over with an initial sync
+		$changes = $this->backend->getChangesForCalendar($calendarId, '', 1);
+		$syncToken = $changes['syncToken'];
 
 		// Currently changes are empty
 		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 100);
@@ -1601,6 +1601,7 @@ EOD;
 		$this->assertEquals(1, count($changes['added']));
 		$this->assertEmpty($changes['modified']);
 		$this->assertEmpty($changes['deleted']);
+		$syncTokenAfterAdd = $changes['syncToken'];
 
 		// update the card
 		$calData = <<<'EOD'
@@ -1631,8 +1632,11 @@ EOD;
 		$deleted = $this->backend->pruneOutdatedSyncTokens(1, 0);
 		$this->assertEquals(1, $deleted); // We had two changes before, now one
 
+		// The add is gone, so a delta from before it must be rejected
+		$this->assertNull($this->backend->getChangesForCalendar($calendarId, $syncToken, 100));
+
 		// Only update should remain
-		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 100);
+		$changes = $this->backend->getChangesForCalendar($calendarId, $syncTokenAfterAdd, 100);
 		$this->assertEmpty($changes['added']);
 		$this->assertEquals(1, count($changes['modified']));
 		$this->assertEmpty($changes['deleted']);
@@ -1792,10 +1796,20 @@ EOD;
 
 		$this->backend->restoreChanges($calendarId);
 
-		$changesAfter = $this->backend->getChangesForCalendar($calendarId, $changesBefore['syncToken'], 1);
-		self::assertEquals([], $changesAfter['added']);
-		self::assertEqualsCanonicalizing([$uri1, $uri3], $changesAfter['modified']);
-		self::assertEquals([$uri2], $changesAfter['deleted']);
+		// The original changes are gone, so a client with an old sync token has to do a full sync
+		self::assertNull($this->backend->getChangesForCalendar($calendarId, $changesBefore['syncToken'], 1));
+
+		$query = $this->db->getQueryBuilder();
+		$query->select('uri', 'operation')
+			->from('calendarchanges')
+			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)));
+		$restored = [];
+		foreach ($query->executeQuery()->fetchAllAssociative() as $row) {
+			$restored[(int)$row['operation']][] = $row['uri'];
+		}
+		self::assertArrayNotHasKey(1, $restored);
+		self::assertEqualsCanonicalizing([$uri1, $uri3], $restored[2]);
+		self::assertEquals([$uri2], $restored[3]);
 	}
 
 	public function testSearchWithLimitAndTimeRange(): void {

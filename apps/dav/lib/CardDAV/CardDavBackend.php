@@ -897,7 +897,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $syncToken
 	 * @param int $syncLevel
 	 * @param int|null $limit
-	 * @return array
+	 * @return array|null
 	 */
 	#[\Override]
 	public function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null) {
@@ -929,6 +929,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				$syncValues = explode('_', $syncToken);
 				$lastID = $syncValues[1];
 				$initialSyncToken = $syncValues[2];
+				if ($this->isSyncTokenOutdated((int)$addressBookId, (int)$initialSyncToken, (int)$currentToken)) {
+					return null;
+				}
 				$qb = $this->db->getQueryBuilder();
 				$qb->select('id', 'uri')
 					->from('cards')
@@ -952,6 +955,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					$result['result_truncated'] = count($result['added']) >= $limit;
 				}
 			} elseif ($syncToken) {
+				if ($this->isSyncTokenOutdated((int)$addressBookId, (int)$syncToken, (int)$currentToken)) {
+					return null;
+				}
+
 				$qb = $this->db->getQueryBuilder();
 				$qb->select('uri', 'operation', 'synctoken')
 					->from('addressbookchanges')
@@ -969,7 +976,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 				// Fetching all changes
 				$stmt = $qb->executeQuery();
-				$rowCount = $stmt->rowCount();
+				// Count the fetched rows ourselves, rowCount() is not reliable for SELECT statements
+				$rowCount = 0;
 
 				$changes = [];
 				$highestSyncToken = 0;
@@ -979,6 +987,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				while ($row = $stmt->fetchAssociative()) {
 					$changes[$row['uri']] = $row['operation'];
 					$highestSyncToken = $row['synctoken'];
+					$rowCount++;
 				}
 
 				$stmt->closeCursor();
@@ -1011,7 +1020,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				 *
 				 * Therefore, we differentiate between truncated and non-truncated results when returning the synctoken.
 				 */
-				if ($rowCount === $limit && $highestSyncToken < $currentToken) {
+				if ($limit > 0 && $rowCount === $limit && $highestSyncToken < $currentToken) {
 					$result['syncToken'] = $highestSyncToken;
 					$result['result_truncated'] = true;
 				}
@@ -1043,6 +1052,31 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			}
 			return $result;
 		}, $this->db);
+	}
+
+	/**
+	 * Checks whether changes after the given sync token were already removed by
+	 * pruneOutdatedSyncTokens(). A delta sync from such a token would silently
+	 * miss those changes, so the client has to do a full sync instead.
+	 */
+	private function isSyncTokenOutdated(int $addressBookId, int $syncToken, int $currentToken): bool {
+		// Sync tokens start at 1, a token of 0 describes the same (empty) state
+		$syncToken = max($syncToken, 1);
+		if ($syncToken >= $currentToken) {
+			return false;
+		}
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->select($qb->func()->min('synctoken'))
+			->from('addressbookchanges')
+			->where($qb->expr()->eq('addressbookid', $qb->createNamedParameter($addressBookId, IQueryBuilder::PARAM_INT)));
+		$result = $qb->executeQuery();
+		$oldestSyncToken = $result->fetchOne();
+		$result->closeCursor();
+
+		// Every change bumps the sync token by one (see addChange), so the history
+		// is only complete if the oldest change at most is the client's sync token
+		return $oldestSyncToken === null || $oldestSyncToken === false || (int)$oldestSyncToken > $syncToken;
 	}
 
 	/**

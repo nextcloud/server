@@ -15,6 +15,7 @@ use OC\Http\Client\Response;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Exception\InvalidSyncTokenException;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -586,6 +587,69 @@ END:VCARD';
 			'system',
 			'1234567890',
 			null,
+			'1',
+			'principals/system/system',
+			[]
+		);
+	}
+
+	private function createForbiddenReportException(string $body): ClientException {
+		$request = new PsrRequest(
+			'REPORT',
+			'https://server2.internal/remote.php/dav/addressbooks/system/system/system',
+			['Content-Type' => 'application/xml'],
+		);
+		$response = new PsrResponse(
+			403,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		);
+		return new ClientException('Client error: `REPORT` resulted in a `403 Forbidden` response', $request, $response);
+	}
+
+	public function testInvalidSyncToken(): void {
+		$body = '<?xml version="1.0" encoding="utf-8"?>
+<d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+  <s:exception>Sabre\DAV\Exception\InvalidSyncToken</s:exception>
+  <s:message>Invalid or unknown sync token</s:message>
+  <d:valid-sync-token/>
+</d:error>';
+		$this->client
+			->method('request')
+			->willThrowException($this->createForbiddenReportException($body));
+		$this->backend->expects($this->never())
+			->method('deleteAddressBook');
+
+		$this->expectException(InvalidSyncTokenException::class);
+		$this->service->syncRemoteAddressBook(
+			'',
+			'system',
+			'system',
+			'1234567890',
+			'http://sabre.io/ns/sync/42',
+			'1',
+			'principals/system/system',
+			[]
+		);
+	}
+
+	public function testOtherForbiddenIsNotInvalidSyncToken(): void {
+		$body = '<?xml version="1.0" encoding="utf-8"?>
+<d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+  <s:exception>Sabre\DAV\Exception\Forbidden</s:exception>
+  <s:message>Access denied</s:message>
+</d:error>';
+		$this->client
+			->method('request')
+			->willThrowException($this->createForbiddenReportException($body));
+
+		$this->expectException(ClientException::class);
+		$this->service->syncRemoteAddressBook(
+			'',
+			'system',
+			'system',
+			'1234567890',
+			'http://sabre.io/ns/sync/42',
 			'1',
 			'principals/system/system',
 			[]
