@@ -59,11 +59,32 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		private ?IUser $owner = null,
 	) {
 		$this->mount = $mount;
-		if (($this->data['encrypted'] ?? false) && isset($this->data['unencrypted_size'])) {
+		if (self::hasPlaintextSize($this->data)) {
 			$this->rawSize = $this->data['unencrypted_size'];
 		} else {
 			$this->rawSize = $this->data['size'] ?? 0;
 		}
+	}
+
+	/**
+	 * Whether `unencrypted_size` holds the plaintext size of a cache entry.
+	 *
+	 * Server side encryption only marks files as encrypted, so on a folder the `encrypted`
+	 * flag comes from end-to-end encryption, which does not maintain `unencrypted_size`.
+	 * There the propagated value is only meaningful once a child entry contributed one.
+	 *
+	 * @param array|ICacheEntry $data
+	 */
+	private static function hasPlaintextSize($data): bool {
+		if (empty($data['encrypted']) || !isset($data['unencrypted_size'])) {
+			return false;
+		}
+
+		if (($data['mimetype'] ?? null) === self::MIMETYPE_FOLDER) {
+			return $data['unencrypted_size'] > 0;
+		}
+
+		return true;
 	}
 
 	#[\Override]
@@ -174,7 +195,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if ($includeMounts) {
 			$this->updateEntryFromSubMounts();
 
-			if ($this->isEncrypted() && ($this->data['unencrypted_size'] ?? 0) > 0) {
+			if (self::hasPlaintextSize($this->data)) {
 				return $this->data['unencrypted_size'];
 			} else {
 				return isset($this->data['size']) ? 0 + $this->data['size'] : 0;
@@ -356,7 +377,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		if (!$data) {
 			return;
 		}
-		$hasUnencryptedSize = !empty($data['encrypted']) && isset($data['unencrypted_size']);
+		$hasUnencryptedSize = self::hasPlaintextSize($data);
 		if ($hasUnencryptedSize) {
 			$subSize = $data['unencrypted_size'];
 		} else {
