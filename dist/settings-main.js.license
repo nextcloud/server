@@ -17,7 +17,6 @@ SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: Thorsten Lünborg
-SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Richie Bendall
@@ -136,10 +135,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.18.1
-	- license: MIT
-- base64-js
-	- version: 1.5.1
+	- version: 1.20.0
 	- license: MIT
 - char-regex
 	- version: 2.0.2
@@ -166,7 +162,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.4.15
+	- version: 3.4.16
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
 	- version: 15.0.5
@@ -189,9 +185,6 @@ This file is generated from multiple sources. Included packages:
 - hast-util-whitespace
 	- version: 2.0.1
 	- license: MIT
-- ieee754
-	- version: 1.2.1
-	- license: BSD-3-Clause
 - inline-style-parser
 	- version: 0.1.1
 	- license: MIT
@@ -281,9 +274,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - micromark
 	- version: 4.0.2
-	- license: MIT
-- buffer
-	- version: 6.0.3
 	- license: MIT
 - process
 	- version: 0.11.10
