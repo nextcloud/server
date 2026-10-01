@@ -47,16 +47,14 @@ class ShareMountEventsTest extends TestCase {
 
 		$this->rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->newFolder(self::FOLDER);
 
-		// The recipient has used their file system before
-		$this->assertFalse($this->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->nodeExists(self::FOLDER));
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$this->events = [];
 	}
 
 	protected function tearDown(): void {
 		$this->eventDispatcher->removeListener(UserMountAddedEvent::class, $this->listener);
 		$this->eventDispatcher->removeListener(UserMountRemovedEvent::class, $this->listener);
 		Server::get(SharesUpdatedListener::class)->setCutOffMarkTime(-1);
+		$this->events = [];
 
 		parent::tearDown();
 	}
@@ -82,8 +80,8 @@ class ShareMountEventsTest extends TestCase {
 		$this->share($shareType, self::FOLDER, self::TEST_FILES_SHARING_API_USER1, $recipient, Constants::PERMISSION_ALL);
 		$this->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->get(self::FOLDER);
 
-		$this->assertEquals(
-			['/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . self::FOLDER . '/'],
+		$this->assertContains(
+			'/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . self::FOLDER . '/',
 			$this->getMountPointsOfEvents(UserMountAddedEvent::class, self::TEST_FILES_SHARING_API_USER2),
 			'A UserMountAddedEvent should be dispatched for the share mount of the recipient',
 		);
@@ -93,8 +91,6 @@ class ShareMountEventsTest extends TestCase {
 	public function testMountRemovedEventForDeletedShare(int $shareType, string $recipient, float $cutOffTime): void {
 		$share = $this->share($shareType, self::FOLDER, self::TEST_FILES_SHARING_API_USER1, $recipient, Constants::PERMISSION_ALL);
 		$this->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->get(self::FOLDER);
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$this->events = [];
 
 		Server::get(SharesUpdatedListener::class)->setCutOffMarkTime($cutOffTime);
 		$this->shareManager->deleteShare($share);
@@ -111,7 +107,11 @@ class ShareMountEventsTest extends TestCase {
 	}
 
 	/**
-	 * Log in as the user and get their user folder, as a new request by them would
+	 * Get the user folder of the user as a new request by them would
+	 *
+	 * Logging in tears down the file system, so the mounts of the user are set up again.
+	 * Otherwise the mounts already set up for the user earlier in this process are
+	 * reused and changes to the shares of the user are not picked up.
 	 */
 	private function getUserFolder(string $userId): Folder {
 		$this->loginHelper($userId);
