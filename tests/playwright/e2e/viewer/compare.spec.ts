@@ -21,7 +21,7 @@ test.describe('Viewer compare API', () => {
 				_nc_viewer_scope: Record<string, { service: { open: (...args: unknown[]) => unknown } }>
 			}
 			win.__capturedNodes = []
-			const service = win._nc_viewer_scope.handlers_v1!.service
+			const service = win._nc_viewer_scope.handlers_v2!.service
 			const original = service.open.bind(service)
 			service.open = (nodes: unknown, file: unknown, ...rest: unknown[]) => {
 				win.__capturedNodes.push(file)
@@ -43,7 +43,7 @@ test.describe('Viewer compare API', () => {
 				__capturedNodes: unknown[]
 				_nc_viewer_scope: Record<string, { service: { compare: (a: unknown, b: unknown) => Promise<void> } }>
 			}
-			await win._nc_viewer_scope.handlers_v1!.service.compare(win.__capturedNodes[0], win.__capturedNodes[1])
+			await win._nc_viewer_scope.handlers_v2!.service.compare(win.__capturedNodes[0], win.__capturedNodes[1])
 		})
 
 		const comparison = viewerPage.modal.locator('.viewer__comparison')
