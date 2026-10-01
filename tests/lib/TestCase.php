@@ -57,9 +57,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/** Original values keyed by config key; null means the key was unset. */
 	private array $systemConfigValues = [];
 
-	/** @var array<class-string, MockObject> */
+	/** @var class-string-map<T, T&MockObject> */
 	protected array $mocks = [];
-	/** @var array<class-string, MockObject&ICache> */
+	/** @var array<string, MockObject&ICache> */
 	protected array $cacheMocks = [];
 
 	/**
@@ -106,8 +106,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
-	 * @template T
-	 * @param class-string<T> $class
+	 * @template T of object
+	 * @param class-string<T> $className
 	 * @return T&MockObject
 	 */
 	protected function getAutoMock(string $className): MockObject {
@@ -119,8 +119,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
-	 * @template T
-	 * @param class-string<T> $class
+	 * @template T of object
+	 * @param class-string<T> $className
 	 * @return T&MockObject
 	 */
 	protected function createAutoMock(string $className): MockObject {
@@ -142,9 +142,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 					});
 				break;
 			case IL10NFactory::class:
-				$mockL10n = $this->getAutoMock(IL10N::class);
 				$mock->method('get')
-					->willReturn($mockL10n);
+					->willReturn($this->getAutoMock(IL10N::class));
 				break;
 			case ICacheFactory::class:
 				$mock->method('isAvailable')->willReturn(true);
