@@ -11,7 +11,9 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\App\IAppManager;
 use OCP\Cache\CappedMemoryCache;
 use OCP\Encryption\IFile;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Server;
 use OCP\Share\IManager;
@@ -71,11 +73,14 @@ class File implements IFile {
 		// first get the shares for the parent and cache the result so that we don't
 		// need to check all parents for every file
 		$parent = dirname($ownerPath);
-		$parentNode = $userFolder->get($parent);
 		if (isset($this->cache[$parent])) {
 			$resultForParents = $this->cache[$parent];
 		} else {
-			$resultForParents = $this->shareManager->getAccessList($parentNode);
+			$resultForParents = ['users' => [], 'public' => false, 'remote' => false];
+			$parentNode = $this->getClosestExistingNode($userFolder, $parent);
+			if ($parentNode !== null) {
+				$resultForParents = $this->shareManager->getAccessList($parentNode) + $resultForParents;
+			}
 			$this->cache[$parent] = $resultForParents;
 		}
 		$userIds = array_merge($userIds, $resultForParents['users']);
@@ -106,5 +111,24 @@ class File implements IFile {
 		$uniqueUserIds = array_unique($userIds);
 
 		return ['users' => $uniqueUserIds, 'public' => $public];
+	}
+
+	/**
+	 * Get the node for $path, or for its closest ancestor that is known to the cache.
+	 *
+	 * @return ?Node null if not even the user folder itself could be resolved
+	 */
+	private function getClosestExistingNode(Folder $userFolder, string $path): ?Node {
+		while (true) {
+			try {
+				return $userFolder->get($path);
+			} catch (NotFoundException) {
+				$parent = dirname($path);
+				if ($parent === $path) {
+					return null;
+				}
+				$path = $parent;
+			}
+		}
 	}
 }
