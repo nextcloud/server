@@ -66,6 +66,13 @@ class GeneratorTest extends TestCase {
 		$this->assertEquals($this->serverInfo->getServerId(), $data->getServerId());
 	}
 
+	public function testGeneratorRejectsTimestampBeforeEpoch(): void {
+		$generator = new SnowflakeGenerator(new TimeFactory(), $this->sequence, $this->serverInfo);
+
+		$this->expectException(\InvalidArgumentException::class);
+		$generator->nextId(new \DateTimeImmutable('2025-09-30 23:59:59 UTC'));
+	}
+
 	public function testMinForTime(): void {
 		$generator = new SnowflakeGenerator(new TimeFactory(), $this->sequence, $this->serverInfo);
 		$now = time();

@@ -13,6 +13,19 @@ use OC_Util;
 use OCP\ITempManager;
 use Override;
 
+/**
+ * Sequence IDs shared between processes through lock files in the temporary directory.
+ *
+ * Each lock file is a table of counters. To get a sequence ID, the file chosen by the
+ * millisecond (ms % NB_FILES) is locked and the slot of that second and millisecond is
+ * read: ((seconds % SEQUENCE_TTL) * (1000 / NB_FILES) + ms / NB_FILES). A slot holds the
+ * seconds it was last used for and the last sequence ID handed out. If the seconds match,
+ * the next sequence ID is that one plus one, otherwise it starts at 0. The result is
+ * written back and the file unlocked.
+ *
+ * A slot is reused SEQUENCE_TTL seconds later, the seconds mismatch then resets its counter.
+ * No fsync is needed, as the files only coordinate processes running at the same time.
+ */
 class FileSequence implements ISequence {
 	/** Number of files to use */
 	private const int NB_FILES = 20;
@@ -72,22 +85,20 @@ class FileSequence implements ISequence {
 		}
 
 		// Each file holds one slot per second of the TTL window and per millisecond mapped to it
-		$slot = (($seconds % self::SEQUENCE_TTL + self::SEQUENCE_TTL) % self::SEQUENCE_TTL) * intdiv(1000, self::NB_FILES)
-			+ intdiv($milliseconds, self::NB_FILES);
-		$slotSecondsKey = $seconds & 0xFFFFFFFF;
+		$slot = ($seconds % self::SEQUENCE_TTL) * intdiv(1000, self::NB_FILES) + intdiv($milliseconds, self::NB_FILES);
 		fseek($fp, $slot * self::SLOT_SIZE);
 		$data = fread($fp, self::SLOT_SIZE);
 		$sequenceId = 0;
 		if (is_string($data) && strlen($data) === self::SLOT_SIZE) {
 			['seconds' => $slotSeconds, 'sequence' => $slotSequenceId] = unpack('Nseconds/Nsequence', $data);
-			if ($slotSeconds === $slotSecondsKey) {
+			if ($slotSeconds === $seconds) {
 				$sequenceId = $slotSequenceId + 1;
 			}
 		}
 
 		// No fsync needed, the file only coordinates processes running at the same time
 		fseek($fp, $slot * self::SLOT_SIZE);
-		fwrite($fp, pack('NN', $slotSecondsKey, $sequenceId));
+		fwrite($fp, pack('NN', $seconds, $sequenceId));
 
 		// Release lock
 		fclose($fp);

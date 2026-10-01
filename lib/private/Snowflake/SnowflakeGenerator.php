@@ -37,6 +37,9 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 
 		// Relative time
 		$seconds = $timestamp->getTimestamp() - self::TS_OFFSET;
+		if ($seconds < 0) {
+			throw new \InvalidArgumentException('Snowflake IDs cannot be generated for a time before ' . date(DATE_ATOM, self::TS_OFFSET));
+		}
 		$milliseconds = (int)$timestamp->format('v');
 
 		$serverId = $this->serverInfo->getServerId();
