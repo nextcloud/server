@@ -20,7 +20,7 @@ interface ISetupCheckManager {
 	 *
 	 * @param ?IOutput $output - Reports the check that is about to run as debug output, so a check that crashes or runs out of memory can be identified.
 	 * @since 28.0.0
-	 * @since 36.0.0 - parameter $output was added
+	 * @since 35.0.2 - parameter $output was added
 	 * @return array<string,array<string,SetupResult>> Result of each check, first level key is category, second level key is title
 	 */
 	public function runAll(?IOutput $output = null): array;
@@ -32,7 +32,7 @@ interface ISetupCheckManager {
 	 * @param ?IOutput $output - Reports the check that is about to run as debug output, so a check that crashes or runs out of memory can be identified.
 	 * @return array<string,array<string,SetupResult>> Result of each check, first level key is category, second level key is title
 	 * @since 35.0.0
-	 * @since 36.0.0 - parameter $output was added
+	 * @since 35.0.2 - parameter $output was added
 	 */
 	public function runByCategory(string $filterByCategory, ?IOutput $output = null): array;
 
@@ -43,7 +43,7 @@ interface ISetupCheckManager {
 	 * @param ?IOutput $output - Reports the check that is about to run as debug output, so a check that crashes or runs out of memory can be identified.
 	 * @return array<string,array<string,SetupResult>> Result of each check, first level key is category, second level key is title
 	 * @since 35.0.0
-	 * @since 36.0.0 - parameter $output was added
+	 * @since 35.0.2 - parameter $output was added
 	 */
 	public function runByClass(string $filterByClass, ?IOutput $output = null): array;
 }

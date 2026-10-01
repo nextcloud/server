@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCP\SystemReport;
 
 /**
- * @since 35.0.1
+ * @since 35.0.2
  */
 interface ISystemReportManager {
 	/**
@@ -20,7 +20,7 @@ interface ISystemReportManager {
 	 * the whole report.
 	 *
 	 * @return ISystemReportSection[]
-	 * @since 35.0.1
+	 * @since 35.0.2
 	 */
 	public function getSections(): array;
 }
