@@ -13,7 +13,7 @@
 				class="account-menu__avatar"
 				disable-menu
 				disable-tooltip
-				:hide-user-status="!showUserStatus"
+				:hide-status="!showUserStatus"
 				:user="currentUserId"
 				:preloaded-user-status="userStatus" />
 		</template>
