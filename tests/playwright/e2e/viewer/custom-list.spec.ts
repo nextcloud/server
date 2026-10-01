@@ -30,7 +30,7 @@ async function captureFolderNodes(page: Page): Promise<void> {
 			_nc_viewer_scope: Record<string, { service: { open: (...args: unknown[]) => unknown } }>
 		}
 		win.__capturedList = []
-		const service = win._nc_viewer_scope.handlers_v1!.service
+		const service = win._nc_viewer_scope.handlers_v2!.service
 		const original = service.open.bind(service)
 		// Only the first open is the folder listing; every later one is a list
 		// this test handed over, so the wrapper steps aside once it has it
@@ -76,7 +76,7 @@ async function openList(page: Page, names: string[], loadMore: string[] = []): P
 						return pick(more)
 					},
 				}
-		return win._nc_viewer_scope.handlers_v1!.service.open(list, list[0], options)
+		return win._nc_viewer_scope.handlers_v2!.service.open(list, list[0], options)
 	}, { wanted: names, more: loadMore })
 }
 
