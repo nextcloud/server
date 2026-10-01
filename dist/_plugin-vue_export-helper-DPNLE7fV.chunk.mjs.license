@@ -33,7 +33,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.4
 	- license: GPL-3.0-or-later
 - @nextcloud/viewer
-	- version: 2.0.0-beta.13
+	- version: 2.0.0-beta.14
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.8.5
