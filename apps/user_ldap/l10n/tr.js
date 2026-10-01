@@ -135,7 +135,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "E-posta adresi ile oturum açılmasını sağlar. 'mail' ve 'mailPrimaryAddress' kullanılabilir.",
     "LDAP/AD Email Address:" : "LDAP/AD e-posta adresi:",
     "Other Attributes:" : "Diğer öznitelikler:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Oturum açma girişiminde uygulanacak süzgeci tanımlar. Oturum açma işleminde `%%uid` kullanıcı adı ile değiştirilir. Örnek: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Belirtilen kullanıcı adı ve geçerli oturum açma süzgeci için bir etki alanı adı almayı dener",
     "Test Login name" : "Kullanıcı adını sına",
     "Verify settings" : "Ayarları doğrula",
@@ -269,6 +268,7 @@ OC.L10N.register(
     "Pronouns Field" : "Hitap alanı",
     "User profile Pronouns will be set from the specified attribute" : "Kullanıcı profilindeki hitap alanının değeri belirtilen öznitelikten alınır",
     "UUID Attribute for Users:" : "Kullanıcılar için UUID Özniteliği:",
-    "UUID Attribute for Groups:" : "Gruplar için UUID Özniteliği:"
+    "UUID Attribute for Groups:" : "Gruplar için UUID Özniteliği:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Oturum açma girişiminde uygulanacak süzgeci tanımlar. Oturum açma işleminde `%%uid` kullanıcı adı ile değiştirilir. Örnek: `uid=%%uid`"
 },
 "nplurals=2; plural=(n > 1);");

@@ -65,7 +65,7 @@ OC.L10N.register(
     "Add remote share" : "Pridať vzdialené úložisko",
     "Remote share" : "Vzdialené úložisko",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete pridať vzdialené úložisko {name} patriace používateľovi {owner}@{remote}?",
-    "Remote share password" : "Heslo k vzdialenému úložisku",
+    "Remote share password" : "Heslo k vzdialenému zdieľaniu",
     "Incoming share could not be processed" : "Prichádzajúce zdieľanie sa nepodarilo spracovať",
     "X (formerly Twitter)" : "X (predtým Twitter)",
     "formerly Twitter" : "predtým Twitter"

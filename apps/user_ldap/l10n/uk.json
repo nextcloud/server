@@ -130,7 +130,6 @@
     "LDAP/AD Username:" : "Ім'я користувача LDAP/AD:",
     "LDAP/AD Email Address:" : "Адреса електронної пошти LDAP/AD:",
     "Other Attributes:" : "Інші Атрибути:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Визначає фільтр, який буде застосовано при спробі входу в систему. `%%uid` замінює ім'я користувача при спробі входу. Приклад: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Спроби отримати DN для заданого логіна і поточного фільтра входу",
     "Test Login name" : "Тест Ім'я користувача",
     "Verify settings" : "Перевірити налаштування",
@@ -257,6 +256,7 @@
     "Pronouns Field" : "Поле займенників",
     "User profile Pronouns will be set from the specified attribute" : "Профіль користувача Займенники будуть встановлені з вказаного атрибуту",
     "UUID Attribute for Users:" : "UUID Атрибут для користувачів:",
-    "UUID Attribute for Groups:" : "UUID Атрибут для груп:"
+    "UUID Attribute for Groups:" : "UUID Атрибут для груп:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Визначає фільтр, який буде застосовано при спробі входу в систему. `%%uid` замінює ім'я користувача при спробі входу. Приклад: `uid=%%uid`"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }
