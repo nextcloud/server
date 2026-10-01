@@ -131,6 +131,7 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { GroupSorting } from '../../constants/GroupManagement.ts'
 import logger from '../../logger.ts'
+import { useUsersStore } from '../../store/users.ts'
 import { unlimitedQuota } from '../../utils/userUtils.ts'
 
 export default {
@@ -166,6 +167,10 @@ export default {
 				inline: 'nearest',
 			})
 		}, { stop: true, prevent: true })
+
+		return {
+			usersStore: useUsersStore(),
+		}
 	},
 
 	data() {
@@ -178,11 +183,11 @@ export default {
 	computed: {
 		groupSorting: {
 			get() {
-				return this.$store.getters.getGroupSorting === GroupSorting.GroupName ? 'name' : 'member-count'
+				return this.usersStore.orderBy === GroupSorting.GroupName ? 'name' : 'member-count'
 			},
 
 			set(sorting) {
-				this.$store.commit('setGroupSorting', sorting === 'name' ? GroupSorting.GroupName : GroupSorting.UserCount)
+				this.usersStore.setGroupSorting(sorting === 'name' ? GroupSorting.GroupName : GroupSorting.UserCount)
 			},
 		},
 
@@ -190,7 +195,7 @@ export default {
 		 * Admin has configured `sort_groups_by_name` in the system config
 		 */
 		isGroupSortingEnforced() {
-			return this.$store.getters.getServerData.forceSortGroupByName
+			return this.usersStore.serverData.forceSortGroupByName
 		},
 
 		isModalOpen: {
@@ -204,11 +209,11 @@ export default {
 		},
 
 		showConfig() {
-			return this.$store.getters.getShowConfig
+			return this.usersStore.showConfig
 		},
 
 		settings() {
-			return this.$store.getters.getServerData
+			return this.usersStore.serverData
 		},
 
 		showLanguages: {
@@ -296,10 +301,10 @@ export default {
 			async set(value) {
 				try {
 					this.loadingSendMail = true
-					this.$store.commit('setServerData', {
+					this.usersStore.serverData = {
 						...this.settings,
 						newUserSendEmail: value,
-					})
+					}
 					await axios.post(generateUrl('/settings/users/preferences/newUser.sendEmail'), { value: value ? 'yes' : 'no' })
 				} catch (error) {
 					logger.error('Could not update newUser.sendEmail preference', { error })
@@ -328,7 +333,7 @@ export default {
 		},
 
 		setShowConfig(key, status) {
-			this.$store.dispatch('setShowConfig', { key, value: status })
+			this.usersStore.setShowConfig({ key, value: status })
 		},
 
 		/**
@@ -361,7 +366,7 @@ export default {
 			if (quota === 'none') {
 				quota = unlimitedQuota
 			}
-			this.$store.dispatch('setAppConfig', {
+			this.usersStore.setAppConfig({
 				app: 'files',
 				key: 'default_quota',
 				// ensure we only send the preset id
