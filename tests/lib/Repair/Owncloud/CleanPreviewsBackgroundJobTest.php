@@ -28,7 +28,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		parent::setUp();
 
 		$this->job = $this->createInstanceWithMocks(CleanPreviewsBackgroundJob::class);
-		$this->mocks[IUserManager::class]->expects($this->any())->method('userExists')->willReturn(true);
+		$this->getAutoMock(IUserManager::class)->expects($this->any())->method('userExists')->willReturn(true);
 	}
 
 	public function testCleanupPreviewsUnfinished(): void {
@@ -36,7 +36,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$userRoot = $this->createMock(Folder::class);
 		$thumbnailFolder = $this->createMock(Folder::class);
 
-		$this->mocks[IRootFolder::class]->method('getUserFolder')
+		$this->getAutoMock(IRootFolder::class)->method('getUserFolder')
 			->with($this->equalTo('myuid'))
 			->willReturn($userFolder);
 
@@ -56,9 +56,9 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$thumbnailFolder->expects($this->never())
 			->method('delete');
 
-		$this->mocks[ITimeFactory::class]->method('getTime')->willReturnOnConsecutiveCalls(100, 200);
+		$this->getAutoMock(ITimeFactory::class)->method('getTime')->willReturnOnConsecutiveCalls(100, 200);
 
-		$this->mocks[IJobList::class]->expects($this->once())
+		$this->getAutoMock(IJobList::class)->expects($this->once())
 			->method('add')
 			->with(
 				$this->equalTo(CleanPreviewsBackgroundJob::class),
@@ -66,7 +66,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 			);
 
 		$loggerCalls = [];
-		$this->mocks[LoggerInterface::class]->expects($this->exactly(2))
+		$this->getAutoMock(LoggerInterface::class)->expects($this->exactly(2))
 			->method('info')
 			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
@@ -84,7 +84,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$userRoot = $this->createMock(Folder::class);
 		$thumbnailFolder = $this->createMock(Folder::class);
 
-		$this->mocks[IRootFolder::class]->method('getUserFolder')
+		$this->getAutoMock(IRootFolder::class)->method('getUserFolder')
 			->with($this->equalTo('myuid'))
 			->willReturn($userFolder);
 
@@ -102,13 +102,13 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$thumbnailFolder->method('getDirectoryListing')
 			->willReturn([$previewFolder1]);
 
-		$this->mocks[ITimeFactory::class]->method('getTime')->willReturnOnConsecutiveCalls(100, 101);
+		$this->getAutoMock(ITimeFactory::class)->method('getTime')->willReturnOnConsecutiveCalls(100, 101);
 
-		$this->mocks[IJobList::class]->expects($this->never())
+		$this->getAutoMock(IJobList::class)->expects($this->never())
 			->method('add');
 
 		$loggerCalls = [];
-		$this->mocks[LoggerInterface::class]->expects($this->exactly(2))
+		$this->getAutoMock(LoggerInterface::class)->expects($this->exactly(2))
 			->method('info')
 			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
@@ -125,12 +125,12 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 	}
 
 	public function testNoUserFolder(): void {
-		$this->mocks[IRootFolder::class]->method('getUserFolder')
+		$this->getAutoMock(IRootFolder::class)->method('getUserFolder')
 			->with($this->equalTo('myuid'))
 			->willThrowException(new NotFoundException());
 
 		$loggerCalls = [];
-		$this->mocks[LoggerInterface::class]->expects($this->exactly(2))
+		$this->getAutoMock(LoggerInterface::class)->expects($this->exactly(2))
 			->method('info')
 			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
@@ -147,7 +147,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$userFolder = $this->createMock(IUserFolder::class);
 		$userRoot = $this->createMock(Folder::class);
 
-		$this->mocks[IRootFolder::class]->method('getUserFolder')
+		$this->getAutoMock(IRootFolder::class)->method('getUserFolder')
 			->with($this->equalTo('myuid'))
 			->willReturn($userFolder);
 
@@ -158,7 +158,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 			->willThrowException(new NotFoundException());
 
 		$loggerCalls = [];
-		$this->mocks[LoggerInterface::class]->expects($this->exactly(2))
+		$this->getAutoMock(LoggerInterface::class)->expects($this->exactly(2))
 			->method('info')
 			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();
@@ -176,7 +176,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$userRoot = $this->createMock(Folder::class);
 		$thumbnailFolder = $this->createMock(Folder::class);
 
-		$this->mocks[IRootFolder::class]->method('getUserFolder')
+		$this->getAutoMock(IRootFolder::class)->method('getUserFolder')
 			->with($this->equalTo('myuid'))
 			->willReturn($userFolder);
 
@@ -195,9 +195,9 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$thumbnailFolder->method('getDirectoryListing')
 			->willReturn([$previewFolder1]);
 
-		$this->mocks[ITimeFactory::class]->method('getTime')->willReturnOnConsecutiveCalls(100, 101);
+		$this->getAutoMock(ITimeFactory::class)->method('getTime')->willReturnOnConsecutiveCalls(100, 101);
 
-		$this->mocks[IJobList::class]->expects($this->never())
+		$this->getAutoMock(IJobList::class)->expects($this->never())
 			->method('add');
 
 		$thumbnailFolder->expects($this->once())
@@ -205,7 +205,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 			->willThrowException(new NotPermittedException());
 
 		$loggerCalls = [];
-		$this->mocks[LoggerInterface::class]->expects($this->exactly(2))
+		$this->getAutoMock(LoggerInterface::class)->expects($this->exactly(2))
 			->method('info')
 			->willReturnCallback(function () use (&$loggerCalls): void {
 				$loggerCalls[] = func_get_args();

@@ -27,7 +27,7 @@ class EmojiHelperTest extends TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('doesPlatformSupportEmojiDataProvider')]
 	public function testDoesPlatformSupportEmoji(bool $supports4ByteText, bool $expected): void {
-		$this->mocks[IDBConnection::class]->expects($this->once())
+		$this->getAutoMock(IDBConnection::class)->expects($this->once())
 			->method('supports4ByteText')
 			->willReturn($supports4ByteText);
 

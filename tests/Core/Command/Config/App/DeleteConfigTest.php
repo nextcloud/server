@@ -66,12 +66,12 @@ class DeleteConfigTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataDelete')]
 	public function testDelete(string $configName, bool $configExists, bool $checkIfExists, int $expectedReturn, string $expectedMessage): void {
-		$this->mocks[IAppConfig::class]->expects(($checkIfExists) ? $this->once() : $this->never())
+		$this->getAutoMock(IAppConfig::class)->expects(($checkIfExists) ? $this->once() : $this->never())
 			->method('getKeys')
 			->with('app-name')
 			->willReturn($configExists ? [$configName] : []);
 
-		$this->mocks[IAppConfig::class]->expects(($expectedReturn === 0) ? $this->once() : $this->never())
+		$this->getAutoMock(IAppConfig::class)->expects(($expectedReturn === 0) ? $this->once() : $this->never())
 			->method('deleteKey')
 			->with('app-name', $configName);
 

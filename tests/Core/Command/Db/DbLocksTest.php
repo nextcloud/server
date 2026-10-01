@@ -60,9 +60,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testMySQLNoLocksShowsInfoMessage(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult([]));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -74,9 +74,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testPostgreSQLNoLocksShowsInfoMessage(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(PostgreSQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult([]));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -88,9 +88,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testMySQLLocksFoundShowsErrorMessage(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockMySQLLocks()));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -102,9 +102,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testPostgreSQLLocksFoundShowsErrorMessage(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(PostgreSQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockPostgreSQLLocks()));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -116,9 +116,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testJsonOutputWhenLocksExist(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockMySQLLocks()));
 		$this->input->method('getOption')->willReturnMap([['json', true]]);
 
@@ -133,7 +133,7 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testSQLiteReturnsSuccessWithMessage(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(SqlitePlatform::class));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -145,9 +145,9 @@ class DbLocksTest extends TestCase {
 	}
 
 	public function testNullColumnRenderedAsDash(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockMySQLLocks()));  // blocking_query = null
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 

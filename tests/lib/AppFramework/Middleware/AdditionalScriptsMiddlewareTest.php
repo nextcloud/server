@@ -34,27 +34,27 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testNoTemplateResponse(): void {
-		$this->mocks[IUserSession::class]->expects($this->never())
+		$this->getAutoMock(IUserSession::class)->expects($this->never())
 			->method($this->anything());
-		$this->mocks[IEventDispatcher::class]->expects($this->never())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->never())
 			->method($this->anything());
 
 		$this->middleWare->afterController($this->controller, 'myMethod', $this->createMock(Response::class));
 	}
 
 	public function testPublicShareController(): void {
-		$this->mocks[IUserSession::class]->expects($this->never())
+		$this->getAutoMock(IUserSession::class)->expects($this->never())
 			->method($this->anything());
-		$this->mocks[IEventDispatcher::class]->expects($this->never())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->never())
 			->method($this->anything());
 
 		$this->middleWare->afterController($this->createMock(PublicShareController::class), 'myMethod', $this->createMock(Response::class));
 	}
 
 	public function testStandaloneTemplateResponse(): void {
-		$this->mocks[IUserSession::class]->expects($this->never())
+		$this->getAutoMock(IUserSession::class)->expects($this->never())
 			->method($this->anything());
-		$this->mocks[IEventDispatcher::class]->expects($this->once())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
 			->method('dispatchTyped')
 			->willReturnCallback(function ($event): void {
 				if ($event instanceof BeforeTemplateRenderedEvent && $event->isLoggedIn() === false) {
@@ -68,9 +68,9 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testTemplateResponseNotLoggedIn(): void {
-		$this->mocks[IUserSession::class]->method('isLoggedIn')
+		$this->getAutoMock(IUserSession::class)->method('isLoggedIn')
 			->willReturn(false);
-		$this->mocks[IEventDispatcher::class]->expects($this->once())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
 			->method('dispatchTyped')
 			->willReturnCallback(function ($event): void {
 				if ($event instanceof BeforeTemplateRenderedEvent && $event->isLoggedIn() === false) {
@@ -86,9 +86,9 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 	public function testTemplateResponseLoggedIn(): void {
 		$events = [];
 
-		$this->mocks[IUserSession::class]->method('isLoggedIn')
+		$this->getAutoMock(IUserSession::class)->method('isLoggedIn')
 			->willReturn(true);
-		$this->mocks[IEventDispatcher::class]->expects($this->once())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
 			->method('dispatchTyped')
 			->willReturnCallback(function ($event): void {
 				if ($event instanceof BeforeTemplateRenderedEvent && $event->isLoggedIn() === true) {

@@ -27,12 +27,12 @@ class BootContextTest extends TestCase {
 	public function testGetAppContainer(): void {
 		$container = $this->context->getAppContainer();
 
-		$this->assertSame($this->mocks[ContainerInterface::class], $container);
+		$this->assertSame($this->getAutoMock(ContainerInterface::class), $container);
 	}
 
 	public function testGetServerContainer(): void {
 		$container = $this->context->getServerContainer();
 
-		$this->assertSame($this->mocks[Server::class], $container);
+		$this->assertSame($this->getAutoMock(Server::class), $container);
 	}
 }

@@ -34,16 +34,16 @@ class AppStoreLinkVisibilityTest extends TestCase {
 	 * @param bool $value the stored value, or the lexicon default when $stored is false
 	 */
 	private function arrange(bool $stored, bool $value, bool $appStoreEnabled, bool $subscription): void {
-		$this->mocks[IAppConfig::class]->method('hasKey')
+		$this->getAutoMock(IAppConfig::class)->method('hasKey')
 			->with('core', ConfigLexicon::APPSTORE_LINK_SHOWN)
 			->willReturn($stored);
-		$this->mocks[IAppConfig::class]->method('getValueBool')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->with('core', ConfigLexicon::APPSTORE_LINK_SHOWN)
 			->willReturn($value);
-		$this->mocks[IConfig::class]->method('getSystemValueBool')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueBool')
 			->with('appstoreenabled', true)
 			->willReturn($appStoreEnabled);
-		$this->mocks[IRegistry::class]->method('delegateHasValidSubscription')
+		$this->getAutoMock(IRegistry::class)->method('delegateHasValidSubscription')
 			->willReturn($subscription);
 	}
 

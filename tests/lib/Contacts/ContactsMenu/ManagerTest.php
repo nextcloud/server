@@ -46,23 +46,23 @@ class ManagerTest extends TestCase {
 		$entries = $this->generateTestEntries();
 		$provider = $this->createMock(IProvider::class);
 
-		$this->mocks[IConfig::class]->expects($this->exactly(2))
+		$this->getAutoMock(IConfig::class)->expects($this->exactly(2))
 			->method('getSystemValueInt')
 			->willReturnMap([
 				['sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT, 25],
 				['sharing.minSearchStringLength', 0, 0],
 			]);
-		$this->mocks[ContactsStore::class]->expects($this->once())
+		$this->getAutoMock(ContactsStore::class)->expects($this->once())
 			->method('getContacts')
 			->with($user, $filter)
 			->willReturn($entries);
-		$this->mocks[ActionProviderStore::class]->expects($this->once())
+		$this->getAutoMock(ActionProviderStore::class)->expects($this->once())
 			->method('getProviders')
 			->with($user)
 			->willReturn([$provider]);
 		$provider->expects($this->exactly(25))
 			->method('process');
-		$this->mocks[IAppManager::class]->expects($this->once())
+		$this->getAutoMock(IAppManager::class)->expects($this->once())
 			->method('isEnabledForUser')
 			->with($this->equalTo('contacts'), $user)
 			->willReturn(false);
@@ -82,23 +82,23 @@ class ManagerTest extends TestCase {
 		$entries = $this->generateTestEntries();
 		$provider = $this->createMock(IProvider::class);
 
-		$this->mocks[IConfig::class]->expects($this->exactly(2))
+		$this->getAutoMock(IConfig::class)->expects($this->exactly(2))
 			->method('getSystemValueInt')
 			->willReturnMap([
 				['sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT, 3],
 				['sharing.minSearchStringLength', 0, 0],
 			]);
-		$this->mocks[ContactsStore::class]->expects($this->once())
+		$this->getAutoMock(ContactsStore::class)->expects($this->once())
 			->method('getContacts')
 			->with($user, $filter)
 			->willReturn($entries);
-		$this->mocks[ActionProviderStore::class]->expects($this->once())
+		$this->getAutoMock(ActionProviderStore::class)->expects($this->once())
 			->method('getProviders')
 			->with($user)
 			->willReturn([$provider]);
 		$provider->expects($this->exactly(3))
 			->method('process');
-		$this->mocks[IAppManager::class]->expects($this->once())
+		$this->getAutoMock(IAppManager::class)->expects($this->once())
 			->method('isEnabledForUser')
 			->with($this->equalTo('contacts'), $user)
 			->willReturn(false);
@@ -117,13 +117,13 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 
-		$this->mocks[IConfig::class]->expects($this->exactly(2))
+		$this->getAutoMock(IConfig::class)->expects($this->exactly(2))
 			->method('getSystemValueInt')
 			->willReturnMap([
 				['sharing.maxAutocompleteResults', Constants::SHARING_MAX_AUTOCOMPLETE_RESULTS_DEFAULT, 3],
 				['sharing.minSearchStringLength', 0, 4],
 			]);
-		$this->mocks[IAppManager::class]->expects($this->once())
+		$this->getAutoMock(IAppManager::class)->expects($this->once())
 			->method('isEnabledForUser')
 			->with($this->equalTo('contacts'), $user)
 			->willReturn(false);
@@ -144,11 +144,11 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$entry = current($this->generateTestEntries());
 		$provider = $this->createMock(IProvider::class);
-		$this->mocks[ContactsStore::class]->expects($this->once())
+		$this->getAutoMock(ContactsStore::class)->expects($this->once())
 			->method('findOne')
 			->with($user, $shareTypeFilter, $shareWithFilter)
 			->willReturn($entry);
-		$this->mocks[ActionProviderStore::class]->expects($this->once())
+		$this->getAutoMock(ActionProviderStore::class)->expects($this->once())
 			->method('getProviders')
 			->with($user)
 			->willReturn([$provider]);
@@ -166,11 +166,11 @@ class ManagerTest extends TestCase {
 
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
-		$this->mocks[ContactsStore::class]->expects($this->once())
+		$this->getAutoMock(ContactsStore::class)->expects($this->once())
 			->method('findOne')
 			->with($user, $shareTypeFilter, $shareWithFilter)
 			->willReturn(null);
-		$this->mocks[ActionProviderStore::class]->expects($this->never())
+		$this->getAutoMock(ActionProviderStore::class)->expects($this->never())
 			->method('getProviders')
 			->with($user)
 			->willReturn([$provider]);

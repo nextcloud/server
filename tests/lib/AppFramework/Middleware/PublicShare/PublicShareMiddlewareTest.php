@@ -52,7 +52,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 	public function testBeforeControllerShareApiDisabled(bool $shareApi, bool $shareLinks): void {
 		$controller = $this->createMock(PublicShareController::class);
 
-		$this->mocks[IAppConfig::class]->method('getValueBool')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
 				['core', 'shareapi_enabled', true, $shareApi],
 				['core', 'shareapi_allow_links', true, $shareLinks],
@@ -65,7 +65,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 	public function testBeforeControllerNoTokenParam(): void {
 		$controller = $this->createMock(PublicShareController::class);
 
-		$this->mocks[IAppConfig::class]->method('getValueBool')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
 				['core', 'shareapi_enabled', true, true],
 				['core', 'shareapi_allow_links', true, true],
@@ -78,13 +78,13 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 	public function testBeforeControllerInvalidToken(): void {
 		$controller = $this->createMock(PublicShareController::class);
 
-		$this->mocks[IAppConfig::class]->method('getValueBool')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
 				['core', 'shareapi_enabled', true, true],
 				['core', 'shareapi_allow_links', true, true],
 			]);
 
-		$this->mocks[IRequest::class]->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('token', null)
 			->willReturn('myToken');
 
@@ -99,16 +99,16 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 
 	public function testBeforeControllerValidTokenNotAuthenticated(): void {
 		$controller = $this->getMockBuilder(PublicShareController::class)
-			->setConstructorArgs(['app', $this->mocks[IRequest::class], $this->mocks[ISession::class]])
+			->setConstructorArgs(['app', $this->getAutoMock(IRequest::class), $this->getAutoMock(ISession::class)])
 			->getMock();
 
-		$this->mocks[IAppConfig::class]->method('getValueBool')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
 				['core', 'shareapi_enabled', true, true],
 				['core', 'shareapi_allow_links', true, true],
 			]);
 
-		$this->mocks[IRequest::class]->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('token', null)
 			->willReturn('myToken');
 
@@ -124,16 +124,16 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 
 	public function testBeforeControllerValidTokenAuthenticateMethod(): void {
 		$controller = $this->getMockBuilder(PublicShareController::class)
-			->setConstructorArgs(['app', $this->mocks[IRequest::class], $this->mocks[ISession::class]])
+			->setConstructorArgs(['app', $this->getAutoMock(IRequest::class), $this->getAutoMock(ISession::class)])
 			->getMock();
 
-		$this->mocks[IAppConfig::class]->method('getValueBool')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
 				['core', 'shareapi_enabled', true, true],
 				['core', 'shareapi_allow_links', true, true],
 			]);
 
-		$this->mocks[IRequest::class]->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('token', null)
 			->willReturn('myToken');
 
@@ -146,16 +146,16 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 
 	public function testBeforeControllerValidTokenShowAuthenticateMethod(): void {
 		$controller = $this->getMockBuilder(PublicShareController::class)
-			->setConstructorArgs(['app', $this->mocks[IRequest::class], $this->mocks[ISession::class]])
+			->setConstructorArgs(['app', $this->getAutoMock(IRequest::class), $this->getAutoMock(ISession::class)])
 			->getMock();
 
-		$this->mocks[IAppConfig::class]->method('getValueBool')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
 				['core', 'shareapi_enabled', true, true],
 				['core', 'shareapi_allow_links', true, true],
 			]);
 
-		$this->mocks[IRequest::class]->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('token', null)
 			->willReturn('myToken');
 
@@ -168,16 +168,16 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 
 	public function testBeforeControllerAuthPublicShareController(): void {
 		$controller = $this->getMockBuilder(AuthPublicShareController::class)
-			->setConstructorArgs(['app', $this->mocks[IRequest::class], $this->mocks[ISession::class], $this->createMock(IURLGenerator::class)])
+			->setConstructorArgs(['app', $this->getAutoMock(IRequest::class), $this->getAutoMock(ISession::class), $this->createMock(IURLGenerator::class)])
 			->getMock();
 
-		$this->mocks[IAppConfig::class]->method('getValueBool')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->willReturnMap([
 				['core', 'shareapi_enabled', true, true],
 				['core', 'shareapi_allow_links', true, true],
 			]);
 
-		$this->mocks[IRequest::class]->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('token', null)
 			->willReturn('myToken');
 
@@ -187,7 +187,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$controller->method('isPasswordProtected')
 			->willReturn(true);
 
-		$this->mocks[ISession::class]->expects($this->once())
+		$this->getAutoMock(ISession::class)->expects($this->once())
 			->method('set')
 			->with('public_link_authenticate_redirect', '[]');
 
@@ -230,15 +230,15 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$controller = $this->getMockBuilder(AuthPublicShareController::class)
 			->setConstructorArgs([
 				'app',
-				$this->mocks[IRequest::class],
-				$this->mocks[ISession::class],
+				$this->getAutoMock(IRequest::class),
+				$this->getAutoMock(ISession::class),
 				$this->createMock(IURLGenerator::class),
 			])->getMock();
 		$controller->setToken('token');
 
 		$exception = new NeedAuthenticationException();
 
-		$this->mocks[IRequest::class]->method('getParam')
+		$this->getAutoMock(IRequest::class)->method('getParam')
 			->with('_route')
 			->willReturn('my.route');
 

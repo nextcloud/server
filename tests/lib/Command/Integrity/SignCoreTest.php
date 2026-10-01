@@ -84,7 +84,7 @@ class SignCoreTest extends TestCase {
 				['path', 'certificate'],
 			]);
 
-		$this->mocks[FileAccessHelper::class]
+		$this->getAutoMock(FileAccessHelper::class)
 			->method('file_get_contents')
 			->willReturnMap([
 				['privateKey', false],
@@ -113,7 +113,7 @@ class SignCoreTest extends TestCase {
 				['path', 'certificate'],
 			]);
 
-		$this->mocks[FileAccessHelper::class]
+		$this->getAutoMock(FileAccessHelper::class)
 			->expects($this->any())
 			->method('file_get_contents')
 			->willReturnMap([
@@ -144,7 +144,7 @@ class SignCoreTest extends TestCase {
 				['path', 'certificate'],
 			]);
 
-		$this->mocks[FileAccessHelper::class]
+		$this->getAutoMock(FileAccessHelper::class)
 			->expects($this->any())
 			->method('file_get_contents')
 			->willReturnMap([
@@ -152,7 +152,7 @@ class SignCoreTest extends TestCase {
 				['certificate', file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt')],
 			]);
 
-		$this->mocks[Checker::class]
+		$this->getAutoMock(Checker::class)
 			->expects($this->once())
 			->method('writeCoreSignature')
 			->willThrowException(new \Exception('My exception message'));
@@ -180,7 +180,7 @@ class SignCoreTest extends TestCase {
 				['path', 'certificate'],
 			]);
 
-		$this->mocks[FileAccessHelper::class]
+		$this->getAutoMock(FileAccessHelper::class)
 			->expects($this->any())
 			->method('file_get_contents')
 			->willReturnMap([
@@ -188,7 +188,7 @@ class SignCoreTest extends TestCase {
 				['certificate', file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt')],
 			]);
 
-		$this->mocks[Checker::class]
+		$this->getAutoMock(Checker::class)
 			->expects($this->once())
 			->method('writeCoreSignature');
 

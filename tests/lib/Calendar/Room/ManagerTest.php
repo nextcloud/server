@@ -33,7 +33,7 @@ class ManagerTest extends TestCase {
 		$backend = $this->createMock(IBackend::class);
 		$backend->method('getBackendIdentifier')->willReturn('from_bootstrap');
 		$context = $this->createMock(RegistrationContext::class);
-		$this->mocks[Coordinator::class]->expects(self::once())
+		$this->getAutoMock(Coordinator::class)->expects(self::once())
 			->method('getRegistrationContext')
 			->willReturn($context);
 		$context->expects(self::once())
@@ -41,7 +41,7 @@ class ManagerTest extends TestCase {
 			->willReturn([
 				new ServiceRegistration('calendar_room_foo', $backendClass)
 			]);
-		$this->mocks[ContainerInterface::class]->expects(self::once())
+		$this->getAutoMock(ContainerInterface::class)->expects(self::once())
 			->method('get')
 			->with($backendClass)
 			->willReturn($backend);
@@ -50,7 +50,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testUpdate(): void {
-		$this->mocks[ResourcesRoomsUpdater::class]->expects(self::once())
+		$this->getAutoMock(ResourcesRoomsUpdater::class)->expects(self::once())
 			->method('updateRooms');
 
 		$this->manager->update();

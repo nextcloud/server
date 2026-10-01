@@ -38,7 +38,7 @@ class CleanPreviewsTest extends TestCase {
 		$user2->method('getUID')
 			->willReturn('user2');
 
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('callForSeenUsers')
 			->willReturnCallback(function (\Closure $function) use (&$user1, $user2): void {
 				$function($user1);
@@ -46,19 +46,19 @@ class CleanPreviewsTest extends TestCase {
 			});
 
 		$jobListCalls = [];
-		$this->mocks[IJobList::class]->expects($this->exactly(2))
+		$this->getAutoMock(IJobList::class)->expects($this->exactly(2))
 			->method('add')
 			->willReturnCallback(function () use (&$jobListCalls): void {
 				$jobListCalls[] = func_get_args();
 			});
 
-		$this->mocks[IAppConfig::class]->expects($this->once())
+		$this->getAutoMock(IAppConfig::class)->expects($this->once())
 			->method('getValueBool')
 			->with(
 				$this->equalTo('core'),
 				$this->equalTo('previewsCleanedUp'),
 			)->willReturn(false);
-		$this->mocks[IAppConfig::class]->expects($this->once())
+		$this->getAutoMock(IAppConfig::class)->expects($this->once())
 			->method('setValueBool')
 			->with(
 				$this->equalTo('core'),
@@ -74,19 +74,19 @@ class CleanPreviewsTest extends TestCase {
 	}
 
 	public function testRunAlreadyDone(): void {
-		$this->mocks[IUserManager::class]->expects($this->never())
+		$this->getAutoMock(IUserManager::class)->expects($this->never())
 			->method($this->anything());
 
-		$this->mocks[IJobList::class]->expects($this->never())
+		$this->getAutoMock(IJobList::class)->expects($this->never())
 			->method($this->anything());
 
-		$this->mocks[IAppConfig::class]->expects($this->once())
+		$this->getAutoMock(IAppConfig::class)->expects($this->once())
 			->method('getValueBool')
 			->with(
 				$this->equalTo('core'),
 				$this->equalTo('previewsCleanedUp'),
 			)->willReturn(true);
-		$this->mocks[IAppConfig::class]->expects($this->never())
+		$this->getAutoMock(IAppConfig::class)->expects($this->never())
 			->method('setValueBool');
 
 		$this->repair->run($this->createMock(IOutput::class));

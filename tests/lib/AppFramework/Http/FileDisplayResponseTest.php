@@ -26,10 +26,10 @@ class FileDisplayResponseTest extends \Test\TestCase {
 		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getETag')
 			->willReturn('myETag');
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getName')
 			->willReturn('myFileName');
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getMTime')
 			->willReturn(1464825600);
 
@@ -37,7 +37,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 			FileDisplayResponse::class,
 			[
 				/* This parameter is a union type so we have to specify which class to mock */
-				'file' => $this->mocks[File::class],
+				'file' => $this->getAutoMock(File::class),
 			],
 		);
 	}
@@ -68,7 +68,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 			->willReturn(Http::STATUS_NOT_MODIFIED);
 		$output->expects($this->never())
 			->method('setOutput');
-		$this->mocks[File::class]->expects($this->never())
+		$this->getAutoMock(File::class)->expects($this->never())
 			->method('getContent');
 
 		$this->response->callback($output);
@@ -79,10 +79,10 @@ class FileDisplayResponseTest extends \Test\TestCase {
 		fwrite($resource, 'my data');
 		rewind($resource);
 
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('fopen')
 			->willReturn($resource);
-		$this->mocks[File::class]->expects($this->any())
+		$this->getAutoMock(File::class)->expects($this->any())
 			->method('getSize')
 			->willReturn(7);
 
@@ -103,7 +103,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 	}
 
 	public function testFileNotFound(): void {
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('fopen')
 			->willReturn(false);
 

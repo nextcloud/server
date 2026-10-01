@@ -40,11 +40,11 @@ class WellKnownControllerTest extends TestCase {
 		$response->expects(self::once())
 			->method('toHttpResponse')
 			->willReturn($jsonResponse);
-		$this->mocks[RequestManager::class]->expects(self::once())
+		$this->getAutoMock(RequestManager::class)->expects(self::once())
 			->method('process')
 			->with(
 				'nodeinfo',
-				$this->mocks[IRequest::class]
+				$this->getAutoMock(IRequest::class)
 			)->willReturn($response);
 		$jsonResponse->expects(self::once())
 			->method('addHeader')

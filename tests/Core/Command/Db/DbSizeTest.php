@@ -45,9 +45,9 @@ class DbSizeTest extends TestCase {
 	}
 
 	public function testMySQLOutputContainsTableAndTotal(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockRows()));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -61,9 +61,9 @@ class DbSizeTest extends TestCase {
 	}
 
 	public function testPostgreSQLOutputContainsTableAndTotal(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(PostgreSQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockRows()));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -75,7 +75,7 @@ class DbSizeTest extends TestCase {
 	}
 
 	public function testSQLiteReturnsSuccessWithMessage(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(SqlitePlatform::class));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 
@@ -87,9 +87,9 @@ class DbSizeTest extends TestCase {
 	}
 
 	public function testJsonOutputIsValidArray(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockRows()));
 		$this->input->method('getOption')->willReturnMap([['json', true]]);
 
@@ -105,9 +105,9 @@ class DbSizeTest extends TestCase {
 	}
 
 	public function testTotalSizeCalculation(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockRows()));
 		$this->input->method('getOption')->willReturnMap([['json', false]]);
 

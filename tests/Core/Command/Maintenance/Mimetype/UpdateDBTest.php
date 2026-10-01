@@ -36,17 +36,17 @@ class UpdateDBTest extends TestCase {
 			->with('repair-filecache')
 			->willReturn(false);
 
-		$this->mocks[IMimeTypeDetector::class]->expects($this->once())
+		$this->getAutoMock(IMimeTypeDetector::class)->expects($this->once())
 			->method('getAllMappings')
 			->willReturn([
 				'ext' => ['testing/existingmimetype']
 			]);
-		$this->mocks[IMimeTypeLoader::class]->expects($this->once())
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->once())
 			->method('exists')
 			->with('testing/existingmimetype')
 			->willReturn(true);
 
-		$this->mocks[IMimeTypeLoader::class]->expects($this->never())
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->never())
 			->method('updateFilecache');
 
 		$calls = [
@@ -68,26 +68,26 @@ class UpdateDBTest extends TestCase {
 			->with('repair-filecache')
 			->willReturn(false);
 
-		$this->mocks[IMimeTypeDetector::class]->expects($this->once())
+		$this->getAutoMock(IMimeTypeDetector::class)->expects($this->once())
 			->method('getAllMappings')
 			->willReturn([
 				'ext' => ['testing/existingmimetype'],
 				'new' => ['testing/newmimetype']
 			]);
-		$this->mocks[IMimeTypeLoader::class]->expects($this->exactly(2))
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->exactly(2))
 			->method('exists')
 			->willReturnMap([
 				['testing/existingmimetype', true],
 				['testing/newmimetype', false],
 			]);
-		$this->mocks[IMimeTypeLoader::class]->expects($this->exactly(2))
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->exactly(2))
 			->method('getId')
 			->willReturnMap([
 				['testing/existingmimetype', 1],
 				['testing/newmimetype', 2],
 			]);
 
-		$this->mocks[IMimeTypeLoader::class]->expects($this->once())
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->once())
 			->method('updateFilecache')
 			->with('new', 2)
 			->willReturn(3);
@@ -109,12 +109,12 @@ class UpdateDBTest extends TestCase {
 	}
 
 	public function testSkipComments(): void {
-		$this->mocks[IMimeTypeDetector::class]->expects($this->once())
+		$this->getAutoMock(IMimeTypeDetector::class)->expects($this->once())
 			->method('getAllMappings')
 			->willReturn([
 				'_comment' => 'some comment in the JSON'
 			]);
-		$this->mocks[IMimeTypeLoader::class]->expects($this->never())
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->never())
 			->method('exists');
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
@@ -125,23 +125,23 @@ class UpdateDBTest extends TestCase {
 			->with('repair-filecache')
 			->willReturn(true);
 
-		$this->mocks[IMimeTypeDetector::class]->expects($this->once())
+		$this->getAutoMock(IMimeTypeDetector::class)->expects($this->once())
 			->method('getAllMappings')
 			->willReturn([
 				'ext' => ['testing/existingmimetype'],
 			]);
-		$this->mocks[IMimeTypeLoader::class]->expects($this->exactly(1))
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->exactly(1))
 			->method('exists')
 			->willReturnMap([
 				['testing/existingmimetype', true],
 			]);
-		$this->mocks[IMimeTypeLoader::class]->expects($this->exactly(1))
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->exactly(1))
 			->method('getId')
 			->willReturnMap([
 				['testing/existingmimetype', 1],
 			]);
 
-		$this->mocks[IMimeTypeLoader::class]->expects($this->once())
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->once())
 			->method('updateFilecache')
 			->with('ext', 1)
 			->willReturn(3);

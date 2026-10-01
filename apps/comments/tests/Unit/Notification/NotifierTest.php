@@ -56,7 +56,7 @@ class NotifierTest extends TestCase {
 			->willReturn('/you/files/' . $fileName);
 
 		$userFolder = $this->createMock(IUserFolder::class);
-		$this->mocks[IRootFolder::class]->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('getUserFolder')
 			->with('you')
 			->willReturn($userFolder);
@@ -102,11 +102,11 @@ class NotifierTest extends TestCase {
 			->with('absolute-image-path')
 			->willReturnSelf();
 
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('imagePath')
 			->with('core', 'actions/comment.svg')
 			->willReturn('image-path');
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('getAbsoluteURL')
 			->with('image-path')
 			->willReturn('absolute-image-path');
@@ -131,17 +131,17 @@ class NotifierTest extends TestCase {
 			->method('getId')
 			->willReturn('1234');
 
-		$this->mocks[ICommentsManager::class]
+		$this->getAutoMock(ICommentsManager::class)
 			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
-		$this->mocks[ICommentsManager::class]
+		$this->getAutoMock(ICommentsManager::class)
 			->expects($this->once())
 			->method('resolveDisplayName')
 			->with('user', 'you')
 			->willReturn('Your name');
 
-		$this->mocks[IUserManager::class]
+		$this->getAutoMock(IUserManager::class)
 			->expects($this->exactly(2))
 			->method('getDisplayName')
 			->willReturnMap([
@@ -167,7 +167,7 @@ class NotifierTest extends TestCase {
 			->willReturn('/you/files/' . $fileName);
 
 		$userFolder = $this->createMock(IUserFolder::class);
-		$this->mocks[IRootFolder::class]->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('getUserFolder')
 			->with('you')
 			->willReturn($userFolder);
@@ -213,11 +213,11 @@ class NotifierTest extends TestCase {
 			->with('absolute-image-path')
 			->willReturnSelf();
 
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('imagePath')
 			->with('core', 'actions/comment.svg')
 			->willReturn('image-path');
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('getAbsoluteURL')
 			->with('image-path')
 			->willReturn('absolute-image-path');
@@ -239,17 +239,17 @@ class NotifierTest extends TestCase {
 			->method('getMentions')
 			->willReturn([['type' => 'user', 'id' => 'you']]);
 
-		$this->mocks[ICommentsManager::class]
+		$this->getAutoMock(ICommentsManager::class)
 			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
-		$this->mocks[ICommentsManager::class]
+		$this->getAutoMock(ICommentsManager::class)
 			->expects($this->once())
 			->method('resolveDisplayName')
 			->with('user', 'you')
 			->willReturn('Your name');
 
-		$this->mocks[IUserManager::class]
+		$this->getAutoMock(IUserManager::class)
 			->expects($this->once())
 			->method('getDisplayName')
 			->willReturnMap([
@@ -263,7 +263,7 @@ class NotifierTest extends TestCase {
 	public function testPrepareDifferentApp(): void {
 		$this->expectException(UnknownNotificationException::class);
 
-		$this->mocks[IRootFolder::class]
+		$this->getAutoMock(IRootFolder::class)
 			->expects($this->never())
 			->method('getFirstNodeById');
 
@@ -281,11 +281,11 @@ class NotifierTest extends TestCase {
 			->expects($this->never())
 			->method('setParsedSubject');
 
-		$this->mocks[ICommentsManager::class]
+		$this->getAutoMock(ICommentsManager::class)
 			->expects($this->never())
 			->method('get');
 
-		$this->mocks[IUserManager::class]
+		$this->getAutoMock(IUserManager::class)
 			->expects($this->never())
 			->method('getDisplayName');
 
@@ -295,7 +295,7 @@ class NotifierTest extends TestCase {
 	public function testPrepareNotFound(): void {
 		$this->expectException(UnknownNotificationException::class);
 
-		$this->mocks[IRootFolder::class]
+		$this->getAutoMock(IRootFolder::class)
 			->expects($this->never())
 			->method('getFirstNodeById');
 
@@ -313,12 +313,12 @@ class NotifierTest extends TestCase {
 			->expects($this->never())
 			->method('setParsedSubject');
 
-		$this->mocks[ICommentsManager::class]
+		$this->getAutoMock(ICommentsManager::class)
 			->expects($this->once())
 			->method('get')
 			->willThrowException(new NotFoundException());
 
-		$this->mocks[IUserManager::class]
+		$this->getAutoMock(IUserManager::class)
 			->expects($this->never())
 			->method('getDisplayName');
 
@@ -330,7 +330,7 @@ class NotifierTest extends TestCase {
 
 		$displayName = 'Huraga';
 
-		$this->mocks[IRootFolder::class]
+		$this->getAutoMock(IRootFolder::class)
 			->expects($this->never())
 			->method('getFirstNodeById');
 
@@ -358,12 +358,12 @@ class NotifierTest extends TestCase {
 			->method('getActorType')
 			->willReturn('users');
 
-		$this->mocks[ICommentsManager::class]
+		$this->getAutoMock(ICommentsManager::class)
 			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
 
-		$this->mocks[IUserManager::class]
+		$this->getAutoMock(IUserManager::class)
 			->expects($this->once())
 			->method('getDisplayName')
 			->with('huraga')
@@ -377,7 +377,7 @@ class NotifierTest extends TestCase {
 
 		$displayName = 'Huraga';
 
-		$this->mocks[IRootFolder::class]
+		$this->getAutoMock(IRootFolder::class)
 			->expects($this->never())
 			->method('getFirstNodeById');
 
@@ -406,12 +406,12 @@ class NotifierTest extends TestCase {
 			->method('getActorType')
 			->willReturn('users');
 
-		$this->mocks[ICommentsManager::class]
+		$this->getAutoMock(ICommentsManager::class)
 			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
 
-		$this->mocks[IUserManager::class]
+		$this->getAutoMock(IUserManager::class)
 			->expects($this->once())
 			->method('getDisplayName')
 			->with('huraga')
@@ -426,7 +426,7 @@ class NotifierTest extends TestCase {
 		$displayName = 'Huraga';
 
 		$userFolder = $this->createMock(IUserFolder::class);
-		$this->mocks[IRootFolder::class]->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('getUserFolder')
 			->with('you')
 			->willReturn($userFolder);
@@ -463,12 +463,12 @@ class NotifierTest extends TestCase {
 			->method('getActorType')
 			->willReturn('users');
 
-		$this->mocks[ICommentsManager::class]
+		$this->getAutoMock(ICommentsManager::class)
 			->expects($this->once())
 			->method('get')
 			->willReturn($this->comment);
 
-		$this->mocks[IUserManager::class]
+		$this->getAutoMock(IUserManager::class)
 			->expects($this->once())
 			->method('getDisplayName')
 			->with('huraga')

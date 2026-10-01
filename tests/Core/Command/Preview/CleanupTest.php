@@ -34,7 +34,7 @@ class CleanupTest extends TestCase {
 	}
 
 	public function testCleanup(): void {
-		$this->mocks[PreviewService::class]->expects($this->once())->method('deleteAll');
+		$this->getAutoMock(PreviewService::class)->expects($this->once())->method('deleteAll');
 
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())
@@ -47,11 +47,11 @@ class CleanupTest extends TestCase {
 		$appDataFolder = $this->createMock(Folder::class);
 		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
 
-		$this->mocks[IRootFolder::class]->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('getAppDataDirectoryName')
 			->willReturn('appdata_some_id');
 
-		$this->mocks[IRootFolder::class]->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('get')
 			->with('appdata_some_id')
 			->willReturn($appDataFolder);
@@ -80,16 +80,16 @@ class CleanupTest extends TestCase {
 		$appDataFolder = $this->createMock(Folder::class);
 		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
 
-		$this->mocks[IRootFolder::class]->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('getAppDataDirectoryName')
 			->willReturn('appdata_some_id');
 
-		$this->mocks[IRootFolder::class]->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('get')
 			->with('appdata_some_id')
 			->willReturn($appDataFolder);
 
-		$this->mocks[LoggerInterface::class]->expects($this->once())->method('error')->with("Previews can't be removed: preview folder isn't deletable");
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())->method('error')->with("Previews can't be removed: preview folder isn't deletable");
 		$this->output->expects($this->once())->method('writeln')->with("Previews can't be removed: preview folder isn't deletable");
 
 		$this->assertEquals(1, $this->repair->run($this->input, $this->output));
@@ -109,16 +109,16 @@ class CleanupTest extends TestCase {
 		$appDataFolder = $this->createMock(Folder::class);
 		$appDataFolder->expects($this->once())->method('get')->with('preview')->willReturn($previewFolder);
 
-		$this->mocks[IRootFolder::class]->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('getAppDataDirectoryName')
 			->willReturn('appdata_some_id');
 
-		$this->mocks[IRootFolder::class]->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('get')
 			->with('appdata_some_id')
 			->willReturn($appDataFolder);
 
-		$this->mocks[LoggerInterface::class]->expects($this->once())->method('error')->with($errorMessage);
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())->method('error')->with($errorMessage);
 		$this->output->expects($this->once())->method('writeln')->with($errorMessage);
 
 		$this->assertEquals(1, $this->repair->run($this->input, $this->output));
@@ -132,14 +132,14 @@ class CleanupTest extends TestCase {
 	}
 
 	public function testCleanupWithPreviewServiceException(): void {
-		$this->mocks[IRootFolder::class]->method('getAppDataDirectoryName')
+		$this->getAutoMock(IRootFolder::class)->method('getAppDataDirectoryName')
 			->willThrowException(new NotFoundException());
 
-		$this->mocks[PreviewService::class]->expects($this->once())->method('deleteAll')
+		$this->getAutoMock(PreviewService::class)->expects($this->once())->method('deleteAll')
 			->willThrowException(new NotPermittedException('abc'));
 
-		$this->mocks[LoggerInterface::class]->expects($this->once())->method('info')->with("Legacy previews can't be removed: appdata folder can't be found");
-		$this->mocks[LoggerInterface::class]->expects($this->once())->method('error')->with("Previews can't be removed: exception occurred: abc");
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())->method('info')->with("Legacy previews can't be removed: appdata folder can't be found");
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())->method('error')->with("Previews can't be removed: exception occurred: abc");
 
 		$this->assertEquals(1, $this->repair->run($this->input, $this->output));
 	}

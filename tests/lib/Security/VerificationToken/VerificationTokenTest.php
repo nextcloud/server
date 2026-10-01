@@ -71,16 +71,16 @@ class VerificationTokenTest extends TestCase {
 			->method('getUID')
 			->willReturn('alice');
 
-		$this->mocks[IConfig::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getUserValue')
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
-		$this->mocks[ICrypto::class]->method('decrypt')
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
 			->with('encryptedToken', 'foobar' . '357111317')
 			->willThrowException(new \Exception('decryption failed'));
 
@@ -98,16 +98,16 @@ class VerificationTokenTest extends TestCase {
 			->method('getUID')
 			->willReturn('alice');
 
-		$this->mocks[IConfig::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getUserValue')
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
-		$this->mocks[ICrypto::class]->method('decrypt')
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
 			->with('encryptedToken', 'foobar' . '357111317')
 			->willReturn('decrypted^nonsense');
 
@@ -128,20 +128,20 @@ class VerificationTokenTest extends TestCase {
 			->method('getLastLogin')
 			->willReturn(604803);
 
-		$this->mocks[IConfig::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getUserValue')
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
-		$this->mocks[ICrypto::class]->method('decrypt')
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
 			->with('encryptedToken', 'foobar' . '357111317')
 			->willReturn('604800:mY70K3n');
 
-		$this->mocks[ITimeFactory::class]->expects($this->any())
+		$this->getAutoMock(ITimeFactory::class)->expects($this->any())
 			->method('getTime')
 			->willReturn(604800 * 3);
 
@@ -162,20 +162,20 @@ class VerificationTokenTest extends TestCase {
 			->method('getLastLogin')
 			->willReturn(604803);
 
-		$this->mocks[IConfig::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getUserValue')
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
-		$this->mocks[ICrypto::class]->method('decrypt')
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
 			->with('encryptedToken', 'foobar' . '357111317')
 			->willReturn('604800:mY70K3n');
 
-		$this->mocks[ITimeFactory::class]->expects($this->any())
+		$this->getAutoMock(ITimeFactory::class)->expects($this->any())
 			->method('getTime')
 			->willReturn(604801);
 
@@ -196,20 +196,20 @@ class VerificationTokenTest extends TestCase {
 			->method('getLastLogin')
 			->willReturn(604703);
 
-		$this->mocks[IConfig::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getUserValue')
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
-		$this->mocks[ICrypto::class]->method('decrypt')
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
 			->with('encryptedToken', 'foobar' . '357111317')
 			->willReturn('604802:mY70K3n');
 
-		$this->mocks[ITimeFactory::class]->expects($this->any())
+		$this->getAutoMock(ITimeFactory::class)->expects($this->any())
 			->method('getTime')
 			->willReturn(604801);
 
@@ -230,20 +230,20 @@ class VerificationTokenTest extends TestCase {
 			->method('getLastLogin')
 			->willReturn(604703);
 
-		$this->mocks[IConfig::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getUserValue')
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
-		$this->mocks[ICrypto::class]->method('decrypt')
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
 			->with('encryptedToken', 'foobar' . '357111317')
 			->willReturn('604802:barfoo');
 
-		$this->mocks[ITimeFactory::class]->expects($this->any())
+		$this->getAutoMock(ITimeFactory::class)->expects($this->any())
 			->method('getTime')
 			->willReturn(604801);
 
@@ -256,13 +256,13 @@ class VerificationTokenTest extends TestCase {
 			->method('getUID')
 			->willReturn('alice');
 
-		$this->mocks[ISecureRandom::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(ISecureRandom::class)->expects($this->atLeastOnce())
 			->method('generate')
 			->willReturn('barfoo');
-		$this->mocks[ICrypto::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(ICrypto::class)->expects($this->atLeastOnce())
 			->method('encrypt')
 			->willReturn('encryptedToken');
-		$this->mocks[IConfig::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('setUserValue')
 			->with('alice', 'core', 'fingerprintToken', 'encryptedToken');
 

@@ -27,7 +27,7 @@ class CleanupTest extends TestCase {
 	}
 
 	public function testCleanup(): void {
-		$this->mocks[IRegistry::class]->expects($this->once())
+		$this->getAutoMock(IRegistry::class)->expects($this->once())
 			->method('cleanUp')
 			->with('u2f');
 

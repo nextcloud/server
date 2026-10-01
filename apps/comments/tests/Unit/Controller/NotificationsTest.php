@@ -42,22 +42,22 @@ class NotificationsTest extends TestCase {
 	}
 
 	public function testViewGuestRedirect(): void {
-		$this->mocks[ICommentsManager::class]->expects($this->never())
+		$this->getAutoMock(ICommentsManager::class)->expects($this->never())
 			->method('get');
 
-		$this->mocks[IRootFolder::class]->expects($this->never())
+		$this->getAutoMock(IRootFolder::class)->expects($this->never())
 			->method('getUserFolder');
 
-		$this->mocks[IUserSession::class]->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->once())
 			->method('getUser')
 			->willReturn(null);
 
-		$this->mocks[IManager::class]->expects($this->never())
+		$this->getAutoMock(IManager::class)->expects($this->never())
 			->method('createNotification');
-		$this->mocks[IManager::class]->expects($this->never())
+		$this->getAutoMock(IManager::class)->expects($this->never())
 			->method('markProcessed');
 
-		$this->mocks[IURLGenerator::class]->expects($this->exactly(2))
+		$this->getAutoMock(IURLGenerator::class)->expects($this->exactly(2))
 			->method('linkToRoute')
 			->willReturnMap([
 				['comments.Notifications.view', ['id' => '42'], 'link-to-comment'],
@@ -79,7 +79,7 @@ class NotificationsTest extends TestCase {
 			->method('getId')
 			->willReturn('1234');
 
-		$this->mocks[ICommentsManager::class]->expects($this->any())
+		$this->getAutoMock(ICommentsManager::class)->expects($this->any())
 			->method('get')
 			->with('42')
 			->willReturn($comment);
@@ -88,7 +88,7 @@ class NotificationsTest extends TestCase {
 		$folder = $this->createMock(IUserFolder::class);
 		$user = $this->createMock(IUser::class);
 
-		$this->mocks[IRootFolder::class]->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('getUserFolder')
 			->willReturn($folder);
 
@@ -96,7 +96,7 @@ class NotificationsTest extends TestCase {
 			->method('getFirstNodeById')
 			->willReturn($file);
 
-		$this->mocks[IUserSession::class]->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
 
@@ -109,10 +109,10 @@ class NotificationsTest extends TestCase {
 			->method($this->anything())
 			->willReturn($notification);
 
-		$this->mocks[IManager::class]->expects($this->once())
+		$this->getAutoMock(IManager::class)->expects($this->once())
 			->method('createNotification')
 			->willReturn($notification);
-		$this->mocks[IManager::class]->expects($this->once())
+		$this->getAutoMock(IManager::class)->expects($this->once())
 			->method('markProcessed')
 			->with($notification);
 
@@ -121,17 +121,17 @@ class NotificationsTest extends TestCase {
 	}
 
 	public function testViewInvalidComment(): void {
-		$this->mocks[ICommentsManager::class]->expects($this->any())
+		$this->getAutoMock(ICommentsManager::class)->expects($this->any())
 			->method('get')
 			->with('42')
 			->willThrowException(new NotFoundException());
 
-		$this->mocks[IRootFolder::class]->expects($this->never())
+		$this->getAutoMock(IRootFolder::class)->expects($this->never())
 			->method('getUserFolder');
 
 		$user = $this->createMock(IUser::class);
 
-		$this->mocks[IUserSession::class]->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
 
@@ -139,9 +139,9 @@ class NotificationsTest extends TestCase {
 			->method('getUID')
 			->willReturn('user');
 
-		$this->mocks[IManager::class]->expects($this->never())
+		$this->getAutoMock(IManager::class)->expects($this->never())
 			->method('createNotification');
-		$this->mocks[IManager::class]->expects($this->never())
+		$this->getAutoMock(IManager::class)->expects($this->never())
 			->method('markProcessed');
 
 		$response = $this->notificationsController->view('42');
@@ -157,14 +157,14 @@ class NotificationsTest extends TestCase {
 			->method('getId')
 			->willReturn('1234');
 
-		$this->mocks[ICommentsManager::class]->expects($this->any())
+		$this->getAutoMock(ICommentsManager::class)->expects($this->any())
 			->method('get')
 			->with('42')
 			->willReturn($comment);
 
 		$folder = $this->createMock(IUserFolder::class);
 
-		$this->mocks[IRootFolder::class]->expects($this->once())
+		$this->getAutoMock(IRootFolder::class)->expects($this->once())
 			->method('getUserFolder')
 			->willReturn($folder);
 
@@ -174,7 +174,7 @@ class NotificationsTest extends TestCase {
 
 		$user = $this->createMock(IUser::class);
 
-		$this->mocks[IUserSession::class]->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
 
@@ -187,10 +187,10 @@ class NotificationsTest extends TestCase {
 			->method($this->anything())
 			->willReturn($notification);
 
-		$this->mocks[IManager::class]->expects($this->once())
+		$this->getAutoMock(IManager::class)->expects($this->once())
 			->method('createNotification')
 			->willReturn($notification);
-		$this->mocks[IManager::class]->expects($this->once())
+		$this->getAutoMock(IManager::class)->expects($this->once())
 			->method('markProcessed')
 			->with($notification);
 

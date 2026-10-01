@@ -23,7 +23,7 @@ class SimpleFileTest extends \Test\TestCase {
 	}
 
 	public function testGetName(): void {
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getName')
 			->willReturn('myname');
 
@@ -31,7 +31,7 @@ class SimpleFileTest extends \Test\TestCase {
 	}
 
 	public function testGetSize(): void {
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getSize')
 			->willReturn(42);
 
@@ -39,7 +39,7 @@ class SimpleFileTest extends \Test\TestCase {
 	}
 
 	public function testGetETag(): void {
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getETag')
 			->willReturn('etag');
 
@@ -47,7 +47,7 @@ class SimpleFileTest extends \Test\TestCase {
 	}
 
 	public function testGetMTime(): void {
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getMTime')
 			->willReturn(101);
 
@@ -55,7 +55,7 @@ class SimpleFileTest extends \Test\TestCase {
 	}
 
 	public function testGetContent(): void {
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getContent')
 			->willReturn('foo');
 
@@ -63,7 +63,7 @@ class SimpleFileTest extends \Test\TestCase {
 	}
 
 	public function testPutContent(): void {
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('putContent')
 			->with($this->equalTo('bar'));
 
@@ -71,14 +71,14 @@ class SimpleFileTest extends \Test\TestCase {
 	}
 
 	public function testDelete(): void {
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('delete');
 
 		$this->simpleFile->delete();
 	}
 
 	public function testGetMimeType(): void {
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getMimeType')
 			->willReturn('app/awesome');
 
@@ -86,9 +86,9 @@ class SimpleFileTest extends \Test\TestCase {
 	}
 
 	public function testGetContentInvalidAppData(): void {
-		$this->mocks[File::class]->method('getContent')
+		$this->getAutoMock(File::class)->method('getContent')
 			->willReturn(false);
-		$this->mocks[File::class]->method('stat')->willReturn(false);
+		$this->getAutoMock(File::class)->method('stat')->willReturn(false);
 
 		$parent = $this->createMock(Folder::class);
 		$parent->method('stat')->willReturn(false);
@@ -96,7 +96,7 @@ class SimpleFileTest extends \Test\TestCase {
 		$root = $this->createMock(Folder::class);
 		$root->method('stat')->willReturn([]);
 
-		$this->mocks[File::class]->method('getParent')->willReturn($parent);
+		$this->getAutoMock(File::class)->method('getParent')->willReturn($parent);
 		$parent->method('getParent')->willReturn($root);
 
 		$this->expectException(NotFoundException::class);
@@ -105,7 +105,7 @@ class SimpleFileTest extends \Test\TestCase {
 	}
 
 	public function testRead(): void {
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('fopen')
 			->with('r');
 
@@ -113,7 +113,7 @@ class SimpleFileTest extends \Test\TestCase {
 	}
 
 	public function testWrite(): void {
-		$this->mocks[File::class]->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('fopen')
 			->with('w');
 

@@ -40,13 +40,13 @@ class ProviderManagerTest extends TestCase {
 	public function testTryEnableUnsupportedProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
-		$this->mocks[ProviderLoader::class]->expects($this->once())
+		$this->getAutoMock(ProviderLoader::class)->expects($this->once())
 			->method('getProviders')
 			->with($user)
 			->willReturn([
 				'u2f' => $provider,
 			]);
-		$this->mocks[IRegistry::class]->expects($this->never())
+		$this->getAutoMock(IRegistry::class)->expects($this->never())
 			->method('enableProviderFor');
 
 		$res = $this->providerManager->tryEnableProviderFor('u2f', $user);
@@ -57,7 +57,7 @@ class ProviderManagerTest extends TestCase {
 	public function testTryEnableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IActivatableByAdmin::class);
-		$this->mocks[ProviderLoader::class]->expects($this->once())
+		$this->getAutoMock(ProviderLoader::class)->expects($this->once())
 			->method('getProviders')
 			->with($user)
 			->willReturn([
@@ -66,7 +66,7 @@ class ProviderManagerTest extends TestCase {
 		$provider->expects($this->once())
 			->method('enableFor')
 			->with($user);
-		$this->mocks[IRegistry::class]->expects($this->once())
+		$this->getAutoMock(IRegistry::class)->expects($this->once())
 			->method('enableProviderFor')
 			->with($provider, $user);
 
@@ -85,13 +85,13 @@ class ProviderManagerTest extends TestCase {
 	public function testTryDisableUnsupportedProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
-		$this->mocks[ProviderLoader::class]->expects($this->once())
+		$this->getAutoMock(ProviderLoader::class)->expects($this->once())
 			->method('getProviders')
 			->with($user)
 			->willReturn([
 				'u2f' => $provider,
 			]);
-		$this->mocks[IRegistry::class]->expects($this->never())
+		$this->getAutoMock(IRegistry::class)->expects($this->never())
 			->method('disableProviderFor');
 
 		$res = $this->providerManager->tryDisableProviderFor('u2f', $user);
@@ -102,7 +102,7 @@ class ProviderManagerTest extends TestCase {
 	public function testTryDisableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IDeactivatableByAdmin::class);
-		$this->mocks[ProviderLoader::class]->expects($this->once())
+		$this->getAutoMock(ProviderLoader::class)->expects($this->once())
 			->method('getProviders')
 			->with($user)
 			->willReturn([
@@ -111,7 +111,7 @@ class ProviderManagerTest extends TestCase {
 		$provider->expects($this->once())
 			->method('disableFor')
 			->with($user);
-		$this->mocks[IRegistry::class]->expects($this->once())
+		$this->getAutoMock(IRegistry::class)->expects($this->once())
 			->method('disableProviderFor')
 			->with($provider, $user);
 

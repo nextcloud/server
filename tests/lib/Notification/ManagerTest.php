@@ -38,12 +38,12 @@ class ManagerTest extends TestCase {
 		parent::setUp();
 		$this->cache = $this->createMock(ICache::class);
 		$this->manager = $this->createInstanceWithMocks(Manager::class);
-		$this->mocks[ICacheFactory::class]->method('createDistributed')
+		$this->getAutoMock(ICacheFactory::class)->method('createDistributed')
 			->with('notifications')
 			->willReturn($this->cache);
 
 		$this->registrationContext = $this->createMock(RegistrationContext::class);
-		$this->mocks[Coordinator::class]->method('getRegistrationContext')
+		$this->getAutoMock(Coordinator::class)->method('getRegistrationContext')
 			->willReturn($this->registrationContext);
 	}
 
@@ -63,7 +63,7 @@ class ManagerTest extends TestCase {
 	public function testRegisterAppInvalid(): void {
 		$this->manager->registerApp(DummyNotifier::class);
 
-		$this->mocks[LoggerInterface::class]->expects($this->once())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('error');
 		self::invokePrivate($this->manager, 'getApps');
 	}
@@ -94,7 +94,7 @@ class ManagerTest extends TestCase {
 	public function testRegisterNotifierInvalid(): void {
 		$this->manager->registerNotifierService(DummyApp::class);
 
-		$this->mocks[LoggerInterface::class]->expects($this->once())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('error');
 		self::invokePrivate($this->manager, 'getNotifiers');
 	}
@@ -115,13 +115,13 @@ class ManagerTest extends TestCase {
 
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[IValidator::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ICacheFactory::class],
-				$this->mocks[IRegistry::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[Coordinator::class],
-				$this->mocks[IRichTextFormatter::class],
+				$this->getAutoMock(IValidator::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ICacheFactory::class),
+				$this->getAutoMock(IRegistry::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(IRichTextFormatter::class),
 			])
 			->onlyMethods(['getApps'])
 			->getMock();
@@ -146,13 +146,13 @@ class ManagerTest extends TestCase {
 
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[IValidator::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ICacheFactory::class],
-				$this->mocks[IRegistry::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[Coordinator::class],
-				$this->mocks[IRichTextFormatter::class],
+				$this->getAutoMock(IValidator::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ICacheFactory::class),
+				$this->getAutoMock(IRegistry::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(IRichTextFormatter::class),
 			])
 			->onlyMethods(['getApps'])
 			->getMock();
@@ -171,13 +171,13 @@ class ManagerTest extends TestCase {
 
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[IValidator::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ICacheFactory::class],
-				$this->mocks[IRegistry::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[Coordinator::class],
-				$this->mocks[IRichTextFormatter::class],
+				$this->getAutoMock(IValidator::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ICacheFactory::class),
+				$this->getAutoMock(IRegistry::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(IRichTextFormatter::class),
 			])
 			->onlyMethods(['getApps'])
 			->getMock();
@@ -197,13 +197,13 @@ class ManagerTest extends TestCase {
 
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[IValidator::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ICacheFactory::class],
-				$this->mocks[IRegistry::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[Coordinator::class],
-				$this->mocks[IRichTextFormatter::class],
+				$this->getAutoMock(IValidator::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ICacheFactory::class),
+				$this->getAutoMock(IRegistry::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(IRichTextFormatter::class),
 			])
 			->onlyMethods(['getApps'])
 			->getMock();
@@ -231,10 +231,10 @@ class ManagerTest extends TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsFairUseOfFreePushService')]
 	public function testIsFairUseOfFreePushService(bool $hasValidSubscription, int $userCount, bool $isFair): void {
-		$this->mocks[IRegistry::class]->method('delegateHasValidSubscription')
+		$this->getAutoMock(IRegistry::class)->method('delegateHasValidSubscription')
 			->willReturn($hasValidSubscription);
 
-		$this->mocks[IUserManager::class]->method('countSeenUsers')
+		$this->getAutoMock(IUserManager::class)->method('countSeenUsers')
 			->willReturn($userCount);
 
 		$this->assertSame($isFair, $this->manager->isFairUseOfFreePushService());

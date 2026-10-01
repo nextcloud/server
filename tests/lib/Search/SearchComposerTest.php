@@ -36,20 +36,20 @@ class SearchComposerTest extends TestCase {
 	}
 
 	private function setupUrlGenerator(): void {
-		$this->mocks[IURLGenerator::class]->method('imagePath')
+		$this->getAutoMock(IURLGenerator::class)->method('imagePath')
 			->willReturnCallback(function ($appId, $imageName) {
 				return "/apps/$appId/img/$imageName";
 			});
 	}
 
 	private function setupEmptyRegistrationContext(): void {
-		$this->mocks[Coordinator::class]->expects($this->once())
+		$this->getAutoMock(Coordinator::class)->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn(null);
 	}
 
 	private function setupAppConfigForAllowedProviders(array $allowedProviders = []): void {
-		$this->mocks[IAppConfig::class]->method('getValueArray')
+		$this->getAutoMock(IAppConfig::class)->method('getValueArray')
 			->with('core', 'unified_search.providers_allowed')
 			->willReturn($allowedProviders);
 	}
@@ -81,7 +81,7 @@ class SearchComposerTest extends TestCase {
 			$containerMap[] = [$config['service'], $provider];
 		}
 
-		$this->mocks[ContainerInterface::class]->expects($this->exactly(count($providerConfigs)))
+		$this->getAutoMock(ContainerInterface::class)->expects($this->exactly(count($providerConfigs)))
 			->method('get')
 			->willReturnMap($containerMap);
 
@@ -92,7 +92,7 @@ class SearchComposerTest extends TestCase {
 		$registrationContext = $this->createMock(RegistrationContext::class);
 		$registrationContext->method('getSearchProviders')->willReturn($registrations);
 
-		$this->mocks[Coordinator::class]->expects($this->once())
+		$this->getAutoMock(Coordinator::class)->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn($registrationContext);
 	}

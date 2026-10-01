@@ -27,10 +27,10 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 
 	public function testNotTwoFactorAuthenticated(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->willReturn(false);
-		$this->mocks[Manager::class]->expects($this->never())
+		$this->getAutoMock(Manager::class)->expects($this->never())
 			->method('prepareTwoFactorLogin');
 
 		$result = $this->cmd->process($data);
@@ -41,7 +41,7 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 	public function testSkippedForVerifiedWebAuthnLogin(): void {
 		$data = $this->getLoggedInLoginData();
 		$data->setWebAuthnUserVerified(true);
-		$this->mocks[Manager::class]->expects($this->never())
+		$this->getAutoMock(Manager::class)->expects($this->never())
 			->method('prepareTwoFactorLogin');
 
 		$result = $this->cmd->process($data);
@@ -53,18 +53,18 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 	public function testNotSkippedForWebAuthnLoginWithoutUserVerification(): void {
 		$data = $this->getLoggedInLoginData();
 		$data->setWebAuthnUserVerified(false);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->willReturn(true);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('prepareTwoFactorLogin');
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getProviderSet')
 			->willReturn(new ProviderSet([], false));
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getLoginSetupProviders')
 			->willReturn([]);
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('linkToRoute')
 			->willReturn('two/factor/url');
 
@@ -75,33 +75,33 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 
 	public function testProcessOneActiveProvider(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->willReturn(true);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('prepareTwoFactorLogin')
 			->with(
 				$this->user,
 				$data->isRememberLogin()
 			);
 		$provider = $this->createMock(ITwoFactorAuthProvider::class);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getProviderSet')
 			->willReturn(new ProviderSet([
 				$provider,
 			], false));
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getLoginSetupProviders')
 			->with($this->user)
 			->willReturn([]);
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->any())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->any())
 			->method('isEnforcedFor')
 			->with($this->user)
 			->willReturn(false);
 		$provider->expects($this->once())
 			->method('getId')
 			->willReturn('test');
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('linkToRoute')
 			->with(
 				'core.TwoFactorChallenge.showChallenge',
@@ -119,10 +119,10 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 
 	public function testProcessMissingProviders(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->willReturn(true);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('prepareTwoFactorLogin')
 			->with(
 				$this->user,
@@ -132,20 +132,20 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 		$provider->expects($this->once())
 			->method('getId')
 			->willReturn('test1');
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getProviderSet')
 			->willReturn(new ProviderSet([
 				$provider,
 			], true));
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getLoginSetupProviders')
 			->with($this->user)
 			->willReturn([]);
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->any())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->any())
 			->method('isEnforcedFor')
 			->with($this->user)
 			->willReturn(false);
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('linkToRoute')
 			->with(
 				'core.TwoFactorChallenge.selectChallenge'
@@ -160,10 +160,10 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 
 	public function testProcessTwoActiveProviders(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->willReturn(true);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('prepareTwoFactorLogin')
 			->with(
 				$this->user,
@@ -177,21 +177,21 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 		$provider2->expects($this->once())
 			->method('getId')
 			->willReturn('test2');
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getProviderSet')
 			->willReturn(new ProviderSet([
 				$provider1,
 				$provider2,
 			], false));
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getLoginSetupProviders')
 			->with($this->user)
 			->willReturn([]);
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->any())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->any())
 			->method('isEnforcedFor')
 			->with($this->user)
 			->willReturn(false);
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('linkToRoute')
 			->with(
 				'core.TwoFactorChallenge.selectChallenge'
@@ -206,27 +206,27 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 
 	public function testProcessFailingProviderAndEnforcedButNoSetupProviders(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->willReturn(true);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('prepareTwoFactorLogin')
 			->with(
 				$this->user,
 				$data->isRememberLogin()
 			);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getProviderSet')
 			->willReturn(new ProviderSet([], true));
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getLoginSetupProviders')
 			->with($this->user)
 			->willReturn([]);
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->any())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->any())
 			->method('isEnforcedFor')
 			->with($this->user)
 			->willReturn(true);
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('linkToRoute')
 			->with(
 				'core.TwoFactorChallenge.selectChallenge'
@@ -241,30 +241,30 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 
 	public function testProcessFailingProviderAndEnforced(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->willReturn(true);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('prepareTwoFactorLogin')
 			->with(
 				$this->user,
 				$data->isRememberLogin()
 			);
 		$provider = $this->createMock(IActivatableAtLogin::class);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getProviderSet')
 			->willReturn(new ProviderSet([
 				$provider,
 			], true));
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getLoginSetupProviders')
 			->with($this->user)
 			->willReturn([]);
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->any())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->any())
 			->method('isEnforcedFor')
 			->with($this->user)
 			->willReturn(true);
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('linkToRoute')
 			->with(
 				'core.TwoFactorChallenge.selectChallenge'
@@ -279,27 +279,27 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 
 	public function testProcessNoProvidersButEnforced(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->willReturn(true);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('prepareTwoFactorLogin')
 			->with(
 				$this->user,
 				$data->isRememberLogin()
 			);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getProviderSet')
 			->willReturn(new ProviderSet([], false));
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getLoginSetupProviders')
 			->with($this->user)
 			->willReturn([]);
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->any())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->any())
 			->method('isEnforcedFor')
 			->with($this->user)
 			->willReturn(true);
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('linkToRoute')
 			->with(
 				'core.TwoFactorChallenge.selectChallenge'
@@ -314,33 +314,33 @@ class TwoFactorCommandTest extends ALoginTestCommand {
 
 	public function testProcessWithRedirectUrl(): void {
 		$data = $this->getLoggedInLoginDataWithRedirectUrl();
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->willReturn(true);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('prepareTwoFactorLogin')
 			->with(
 				$this->user,
 				$data->isRememberLogin()
 			);
 		$provider = $this->createMock(ITwoFactorAuthProvider::class);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getProviderSet')
 			->willReturn(new ProviderSet([
 				$provider,
 			], false));
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getLoginSetupProviders')
 			->with($this->user)
 			->willReturn([]);
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->any())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->any())
 			->method('isEnforcedFor')
 			->with($this->user)
 			->willReturn(false);
 		$provider->expects($this->once())
 			->method('getId')
 			->willReturn('test');
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('linkToRoute')
 			->with(
 				'core.TwoFactorChallenge.showChallenge',

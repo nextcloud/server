@@ -296,14 +296,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -311,7 +311,7 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([]);
 		// construct logger returns
-		$this->mocks[LoggerInterface::class]->expects(self::once())->method('warning')
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())->method('warning')
 			->with('iMip message could not be processed because user has no calendar that can process iMip messages');
 		// construct parameters
 		$userId = 'attendee1';
@@ -336,14 +336,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -351,7 +351,7 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns
-		$this->mocks[LoggerInterface::class]->expects(self::once())->method('warning')
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())->method('warning')
 			->with('iMip message does not contain any event(s)');
 		// construct parameters
 		$userId = 'attendee1';
@@ -380,14 +380,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -419,14 +419,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -439,7 +439,7 @@ class ManagerTest extends TestCase {
 		$calendar->add('METHOD', 'REQUEST');
 		$calendar->VEVENT->remove('ORGANIZER');
 		// Logger expects warning
-		$this->mocks[LoggerInterface::class]->expects($this->once())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('warning')
 			->with('iMip message event does not contain an organizer and no recipient was provided');
 
@@ -459,14 +459,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -474,7 +474,7 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns
-		$this->mocks[LoggerInterface::class]->expects(self::once())->method('warning')
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())->method('warning')
 			->with('iMip message event does not contains a UID');
 		// construct parameters
 		$userId = 'attendee1';
@@ -503,14 +503,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -518,7 +518,7 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns
-		$this->mocks[LoggerInterface::class]->expects(self::once())->method('warning')
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())->method('warning')
 			->with('iMip message could not be processed because no corresponding event was found in any calendar');
 		// construct parameters
 		$userId = 'attendee1';
@@ -539,14 +539,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -554,7 +554,7 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns
-		$this->mocks[LoggerInterface::class]->expects(self::once())->method('warning')
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())->method('warning')
 			->with('iMip message could not be processed because user has no calendar that can process iMip messages');
 		// construct parameters
 		$userId = 'attendee1';
@@ -582,14 +582,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -623,14 +623,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal', 'getPrimaryCalendar'])
 			->getMock();
@@ -675,14 +675,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -690,7 +690,7 @@ class ManagerTest extends TestCase {
 			->method('getCalendarsForPrincipal')
 			->willReturn([$userCalendar]);
 		// construct logger returns - should log warning since event not found and absent=ignore
-		$this->mocks[LoggerInterface::class]->expects(self::once())->method('warning')
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())->method('warning')
 			->with('iMip message could not be processed because no corresponding event was found in any calendar');
 		// construct parameters
 		$userId = 'attendee1';
@@ -716,14 +716,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal', 'getPrimaryCalendar'])
 			->getMock();
@@ -733,7 +733,7 @@ class ManagerTest extends TestCase {
 		$manager->expects(self::never())
 			->method('getPrimaryCalendar');
 		// construct logger returns
-		$this->mocks[LoggerInterface::class]->expects(self::once())->method('warning')
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())->method('warning')
 			->with('iMip message could not be processed because user has no calendar that can process iMip messages');
 		// construct parameters
 		$userId = 'attendee1';
@@ -772,14 +772,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal', 'getPrimaryCalendar'])
 			->getMock();
@@ -824,14 +824,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['getCalendarsForPrincipal', 'getPrimaryCalendar'])
 			->getMock();
@@ -867,7 +867,7 @@ class ManagerTest extends TestCase {
 		$recipient = 'recipient@example.com';
 		$calendarData = $this->vCalendar1a->serialize();
 
-		$this->mocks[LoggerInterface::class]->expects(self::once())
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())
 			->method('error')
 			->with('Invalid principal URI provided for iMip request');
 
@@ -884,14 +884,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['handleIMip'])
 			->getMock();
@@ -910,7 +910,7 @@ class ManagerTest extends TestCase {
 		$recipient = 'recipient@example.com';
 		$calendarData = $this->vCalendar2a->serialize();
 
-		$this->mocks[LoggerInterface::class]->expects(self::once())
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())
 			->method('error')
 			->with('Invalid principal URI provided for iMip reply');
 
@@ -927,14 +927,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['handleIMip'])
 			->getMock();
@@ -954,7 +954,7 @@ class ManagerTest extends TestCase {
 		$recipient = 'recipient@example.com';
 		$calendarData = $this->vCalendar3a->serialize();
 
-		$this->mocks[LoggerInterface::class]->expects(self::once())
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())
 			->method('error')
 			->with('Invalid principal URI provided for iMip cancel');
 
@@ -972,14 +972,14 @@ class ManagerTest extends TestCase {
 		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
-				$this->mocks[Coordinator::class],
-				$this->mocks[ContainerInterface::class],
-				$this->mocks[LoggerInterface::class],
-				$this->mocks[ITimeFactory::class],
-				$this->mocks[ISecureRandom::class],
-				$this->mocks[IUserManager::class],
-				$this->mocks[ServerFactory::class],
-				$this->mocks[PropertyMapper::class],
+				$this->getAutoMock(Coordinator::class),
+				$this->getAutoMock(ContainerInterface::class),
+				$this->getAutoMock(LoggerInterface::class),
+				$this->getAutoMock(ITimeFactory::class),
+				$this->getAutoMock(ISecureRandom::class),
+				$this->getAutoMock(IUserManager::class),
+				$this->getAutoMock(ServerFactory::class),
+				$this->getAutoMock(PropertyMapper::class),
 			])
 			->onlyMethods(['handleIMip'])
 			->getMock();
@@ -1085,7 +1085,7 @@ EOF;
 		$user1 = $this->createMock(IUser::class);
 		$user2 = $this->createMock(IUser::class);
 
-		$this->mocks[IUserManager::class]->expects(self::exactly(3))
+		$this->getAutoMock(IUserManager::class)->expects(self::exactly(3))
 			->method('getByEmail')
 			->willReturnMap([
 				['user@imap.localhost', [$user1]],
@@ -1121,7 +1121,7 @@ EOF;
 				$response->setBody($this->getFreeBusyResponse());
 			});
 
-		$this->mocks[ServerFactory::class]->expects(self::once())
+		$this->getAutoMock(ServerFactory::class)->expects(self::once())
 			->method('createAttendeeAvailabilityServer')
 			->willReturn($server);
 
@@ -1152,7 +1152,7 @@ EOF;
 		$user1 = $this->createMock(IUser::class);
 		$user2 = $this->createMock(IUser::class);
 
-		$this->mocks[IUserManager::class]->expects(self::exactly(3))
+		$this->getAutoMock(IUserManager::class)->expects(self::exactly(3))
 			->method('getByEmail')
 			->willReturnMap([
 				['user@imap.localhost', [$user1]],
@@ -1188,7 +1188,7 @@ EOF;
 				$response->setBody($this->getFreeBusyResponse());
 			});
 
-		$this->mocks[ServerFactory::class]->expects(self::once())
+		$this->getAutoMock(ServerFactory::class)->expects(self::once())
 			->method('createAttendeeAvailabilityServer')
 			->willReturn($server);
 

@@ -78,15 +78,15 @@ class LocalTimeProviderTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('user1');
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with('user1')
 			->willReturn($user);
 
-		$this->mocks[IConfig::class]->method('getSystemValueString')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueString')
 			->with('default_timezone', 'UTC')
 			->willReturn('UTC');
-		$this->mocks[IConfig::class]
+		$this->getAutoMock(IConfig::class)
 			->method('getUserValue')
 			->willReturnMap([
 				['user1', 'core', 'timezone', '', $targetUserTZ],
@@ -97,24 +97,24 @@ class LocalTimeProviderTest extends TestCase {
 			$currentUser = $this->createMock(IUser::class);
 			$currentUser->method('getUID')
 				->willReturn('currentUser');
-			$this->mocks[IUserSession::class]->method('getUser')
+			$this->getAutoMock(IUserSession::class)->method('getUser')
 				->willReturn($currentUser);
 		}
 
-		$this->mocks[ITimeFactory::class]->method('getDateTime')
+		$this->getAutoMock(ITimeFactory::class)->method('getDateTime')
 			->willReturnCallback(fn ($time, $tz) => (new \DateTime('2023-01-04 10:24:43', new \DateTimeZone('UTC')))->setTimezone($tz));
 
-		$this->mocks[IDateTimeFormatter::class]->method('formatTime')
+		$this->getAutoMock(IDateTimeFormatter::class)->method('formatTime')
 			->willReturnCallback(fn (\DateTime $time) => $time->format('H:i'));
 
-		$this->mocks[IURLGenerator::class]->method('imagePath')
+		$this->getAutoMock(IURLGenerator::class)->method('imagePath')
 			->willReturn('actions/recent.svg');
-		$this->mocks[IURLGenerator::class]->method('getAbsoluteURL')
+		$this->getAutoMock(IURLGenerator::class)->method('getAbsoluteURL')
 			->with('actions/recent.svg')
 			->willReturn('https://localhost/actions/recent.svg');
 
 		$action = $this->createMock(ILinkAction::class);
-		$this->mocks[IActionFactory::class]->expects($this->once())
+		$this->getAutoMock(IActionFactory::class)->expects($this->once())
 			->method('newLinkAction')
 			->with(
 				'https://localhost/actions/recent.svg',

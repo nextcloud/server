@@ -84,7 +84,7 @@ class SearchTest extends TestCase {
 				return $expectedMoreResults;
 			});
 
-		$this->mocks[IContainer::class]->expects($this->any())
+		$this->getAutoMock(IContainer::class)->expects($this->any())
 			->method('get')
 			->willReturnCallback(function ($class) use ($userPlugin, $groupPlugin, $remotePlugin, $mailPlugin) {
 				if ($class === 'user') {

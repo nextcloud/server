@@ -124,7 +124,7 @@ class HasherTest extends \Test\TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('hashProviders70_71')]
 	public function testVerify($password, $hash, $expected): void {
-		$this->mocks[IConfig::class]
+		$this->getAutoMock(IConfig::class)
 			->expects($this->any())
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) {
@@ -187,7 +187,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
 
-		$this->mocks[IConfig::class]->method('getSystemValueBool')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(true);
 
@@ -211,7 +211,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2ID support to test ARGON2ID hashes');
 		}
 
-		$this->mocks[IConfig::class]->method('getSystemValueBool')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(false);
 
@@ -229,7 +229,7 @@ class HasherTest extends \Test\TestCase {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
 
-		$this->mocks[IConfig::class]->method('getSystemValueBool')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueBool')
 			->with('hashing_default_password')
 			->willReturn(true);
 

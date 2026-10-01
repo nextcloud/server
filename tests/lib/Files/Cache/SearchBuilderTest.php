@@ -37,7 +37,7 @@ class SearchBuilderTest extends TestCase {
 		$this->builder = Server::get(IDBConnection::class)->getQueryBuilder();
 		$this->searchBuilder = $this->createInstanceWithMocks(SearchBuilder::class);
 
-		$this->mocks[IMimeTypeLoader::class]->expects($this->any())
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->any())
 			->method('getId')
 			->willReturnMap([
 				['text', 1],
@@ -48,7 +48,7 @@ class SearchBuilderTest extends TestCase {
 				['image', 6],
 			]);
 
-		$this->mocks[IMimeTypeLoader::class]->expects($this->any())
+		$this->getAutoMock(IMimeTypeLoader::class)->expects($this->any())
 			->method('getMimetypeById')
 			->willReturnMap([
 				[1, 'text'],
@@ -95,8 +95,8 @@ class SearchBuilderTest extends TestCase {
 		$data['parent'] = -1;
 		if (isset($data['mimetype'])) {
 			[$mimepart,] = explode('/', $data['mimetype']);
-			$data['mimepart'] = $this->mocks[IMimeTypeLoader::class]->getId($mimepart);
-			$data['mimetype'] = $this->mocks[IMimeTypeLoader::class]->getId($data['mimetype']);
+			$data['mimepart'] = $this->getAutoMock(IMimeTypeLoader::class)->getId($mimepart);
+			$data['mimetype'] = $this->getAutoMock(IMimeTypeLoader::class)->getId($data['mimetype']);
 		} else {
 			$data['mimepart'] = 1;
 			$data['mimetype'] = 1;

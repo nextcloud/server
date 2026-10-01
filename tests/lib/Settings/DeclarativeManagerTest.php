@@ -247,7 +247,7 @@ class DeclarativeManagerTest extends TestCase {
 			->method('getUID')
 			->willReturn('admin_test_user');
 
-		$this->mocks[IGroupManager::class]->expects($this->any())
+		$this->getAutoMock(IGroupManager::class)->expects($this->any())
 			->method('isAdmin')
 			->willReturnCallback(function ($userId) {
 				return $userId === 'admin_test_user';
@@ -398,7 +398,7 @@ class DeclarativeManagerTest extends TestCase {
 		$schema = self::validSchemaAllFields;
 		$this->declarativeManager->registerSchema($app, $schema);
 
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(fn ($app, $configkey, $default) => $default);
 
@@ -440,7 +440,7 @@ class DeclarativeManagerTest extends TestCase {
 		$this->declarativeManager->registerSchema($app, $schema);
 
 		// config->getUserValue() should be called with json encoded default value
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getUserValue')
 			->with($this->adminUser->getUID(), $app, 'test_field_json', json_encode($schema['fields'][0]['default']))
 			->willReturn(json_encode($schema['fields'][0]['default']));
@@ -461,7 +461,7 @@ class DeclarativeManagerTest extends TestCase {
 		$this->declarativeManager->registerSchema($app, $schema);
 		self::$testSetInternalValueAfterChange = false;
 
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(function ($app, $configkey, $default) {
 				if ($configkey === 'some_real_setting' && self::$testSetInternalValueAfterChange) {
@@ -470,7 +470,7 @@ class DeclarativeManagerTest extends TestCase {
 				return $default;
 			});
 
-		$this->mocks[IAppConfig::class]->expects($this->once())
+		$this->getAutoMock(IAppConfig::class)->expects($this->once())
 			->method('setValueString')
 			->with($app, 'some_real_setting', '120m');
 
@@ -506,7 +506,7 @@ class DeclarativeManagerTest extends TestCase {
 			'120m'
 		);
 
-		$this->mocks[IEventDispatcher::class]->expects($this->once())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
 			->method('dispatchTyped')
 			->with($setDeclarativeSettingsValueEvent);
 		$this->declarativeManager->setValue($this->adminUser, $app, $schema['id'], 'some_real_setting', '120m');
@@ -552,13 +552,13 @@ class DeclarativeManagerTest extends TestCase {
 			->method('getDeclarativeSettings')
 			->willReturn([new ServiceRegistration('testing', 'OCA\\Testing\\Settings\\DeclarativeForm')]);
 
-		$this->mocks[Coordinator::class]->expects(self::atLeastOnce())
+		$this->getAutoMock(Coordinator::class)->expects(self::atLeastOnce())
 			->method('getRegistrationContext')
 			->willReturn($context);
 
 		$this->declarativeManager->loadSchemas();
 
-		$this->mocks[IEventDispatcher::class]->expects(self::never())
+		$this->getAutoMock(IEventDispatcher::class)->expects(self::never())
 			->method('dispatchTyped');
 
 		$this->declarativeManager->setValue($this->adminUser, 'testing', 'test_form_1', 'test_field_2', 'some password');
@@ -586,13 +586,13 @@ class DeclarativeManagerTest extends TestCase {
 			->method('getDeclarativeSettings')
 			->willReturn([new ServiceRegistration('testing', 'OCA\\Testing\\Settings\\DeclarativeForm')]);
 
-		$this->mocks[Coordinator::class]->expects(self::atLeastOnce())
+		$this->getAutoMock(Coordinator::class)->expects(self::atLeastOnce())
 			->method('getRegistrationContext')
 			->willReturn($context);
 
 		$this->declarativeManager->loadSchemas();
 
-		$this->mocks[IEventDispatcher::class]->expects(self::never())
+		$this->getAutoMock(IEventDispatcher::class)->expects(self::never())
 			->method('dispatchTyped');
 
 		$password = $this->invokePrivate($this->declarativeManager, 'getValue', [$this->adminUser, 'testing', 'test_form_1', 'test_field_2']);

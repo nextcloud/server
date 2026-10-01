@@ -33,11 +33,11 @@ class RemoteHostValidatorTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataValid')]
 	public function testValid(string $host, bool $expected): void {
-		$this->mocks[HostnameClassifier::class]
+		$this->getAutoMock(HostnameClassifier::class)
 			->method('isLocalHostname')
 			->with($host)
 			->willReturn(false);
-		$this->mocks[IpAddressClassifier::class]
+		$this->getAutoMock(IpAddressClassifier::class)
 			->method('isLocalAddress')
 			->with($host)
 			->willReturn(false);
@@ -49,11 +49,11 @@ class RemoteHostValidatorTest extends TestCase {
 
 	public function testLocalHostname(): void {
 		$host = 'localhost';
-		$this->mocks[HostnameClassifier::class]
+		$this->getAutoMock(HostnameClassifier::class)
 			->method('isLocalHostname')
 			->with($host)
 			->willReturn(true);
-		$this->mocks[IpAddressClassifier::class]
+		$this->getAutoMock(IpAddressClassifier::class)
 			->method('isLocalAddress')
 			->with($host)
 			->willReturn(false);
@@ -65,11 +65,11 @@ class RemoteHostValidatorTest extends TestCase {
 
 	public function testLocalAddress(): void {
 		$host = '10.0.0.10';
-		$this->mocks[HostnameClassifier::class]
+		$this->getAutoMock(HostnameClassifier::class)
 			->method('isLocalHostname')
 			->with($host)
 			->willReturn(false);
-		$this->mocks[IpAddressClassifier::class]
+		$this->getAutoMock(IpAddressClassifier::class)
 			->method('isLocalAddress')
 			->with($host)
 			->willReturn(true);

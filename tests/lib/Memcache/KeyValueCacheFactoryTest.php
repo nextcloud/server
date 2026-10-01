@@ -213,24 +213,24 @@ class KeyValueCacheFactoryTest extends TestCase {
 	}
 
 	public function testIsAvailableWithoutConfig(): void {
-		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])->willReturn([]);
+		$this->getAutoMock(SystemConfig::class)->method('getValue')->with('memcache.kvstore', [])->willReturn([]);
 		$this->assertFalse($this->factory->isAvailable());
 	}
 
 	public function testIsAvailableWithConfig(): void {
-		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])
+		$this->getAutoMock(SystemConfig::class)->method('getValue')->with('memcache.kvstore', [])
 			->willReturn(['server' => ['host' => 'localhost']]);
 		$this->assertTrue($this->factory->isAvailable());
 	}
 
 	public function testGetInstanceThrowsWhenUnavailable(): void {
-		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])->willReturn([]);
+		$this->getAutoMock(SystemConfig::class)->method('getValue')->with('memcache.kvstore', [])->willReturn([]);
 		$this->expectException(\RuntimeException::class);
 		$this->factory->getInstance();
 	}
 
 	public function testGetInstanceSingleServer(): void {
-		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])
+		$this->getAutoMock(SystemConfig::class)->method('getValue')->with('memcache.kvstore', [])
 			->willReturn(['server' => ['host' => 'localhost', 'port' => 6379]]);
 
 		$client = $this->factory->getInstance();
@@ -239,7 +239,7 @@ class KeyValueCacheFactoryTest extends TestCase {
 	}
 
 	public function testGetInstanceCluster(): void {
-		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])
+		$this->getAutoMock(SystemConfig::class)->method('getValue')->with('memcache.kvstore', [])
 			->willReturn(['seeds' => [['host' => 'localhost', 'port' => 7000]]]);
 
 		$client = $this->factory->getInstance();
@@ -247,7 +247,7 @@ class KeyValueCacheFactoryTest extends TestCase {
 	}
 
 	public function testGetInstanceSentinel(): void {
-		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])
+		$this->getAutoMock(SystemConfig::class)->method('getValue')->with('memcache.kvstore', [])
 			->willReturn([
 				'sentinel' => [
 					'service' => 'mymaster',
@@ -260,7 +260,7 @@ class KeyValueCacheFactoryTest extends TestCase {
 	}
 
 	public function testGetInstanceIsMemoized(): void {
-		$this->mocks[SystemConfig::class]->method('getValue')->with('memcache.kvstore', [])
+		$this->getAutoMock(SystemConfig::class)->method('getValue')->with('memcache.kvstore', [])
 			->willReturn(['server' => ['host' => 'localhost']]);
 
 		$this->assertSame($this->factory->getInstance(), $this->factory->getInstance());

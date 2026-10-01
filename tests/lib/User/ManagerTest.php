@@ -652,7 +652,7 @@ class ManagerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnArgument(2);
 
-		$this->manager = new Manager($config, $this->mocks[ICacheFactory::class], $this->mocks[IEventDispatcher::class], $this->mocks[LoggerInterface::class]);
+		$this->manager = new Manager($config, $this->getAutoMock(ICacheFactory::class), $this->getAutoMock(IEventDispatcher::class), $this->getAutoMock(LoggerInterface::class));
 		$backend = new \Test\Util\User\Dummy();
 
 		$this->manager->registerBackend($backend);
@@ -677,7 +677,7 @@ class ManagerTest extends TestCase {
 			});
 
 		$this->manager = $this->getMockBuilder(Manager::class)
-			->setConstructorArgs([$this->mocks[IConfig::class], $this->mocks[ICacheFactory::class], $this->mocks[IEventDispatcher::class], $this->mocks[LoggerInterface::class]])
+			->setConstructorArgs([$this->getAutoMock(IConfig::class), $this->getAutoMock(ICacheFactory::class), $this->getAutoMock(IEventDispatcher::class), $this->getAutoMock(LoggerInterface::class)])
 			->onlyMethods(['getUserConfig', 'get'])
 			->getMock();
 		$this->manager->method('getUserConfig')->willReturn($userConfig);

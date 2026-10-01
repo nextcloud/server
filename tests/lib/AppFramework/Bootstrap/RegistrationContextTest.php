@@ -37,7 +37,7 @@ class RegistrationContextTest extends TestCase {
 		$container->expects($this->once())
 			->method('registerCapability')
 			->with($name);
-		$this->mocks[LoggerInterface::class]->expects($this->never())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
 		$this->context->for('myapp')->registerCapability($name);
@@ -53,7 +53,7 @@ class RegistrationContextTest extends TestCase {
 		$dispatcher->expects($this->once())
 			->method('addServiceListener')
 			->with($event, $service, 0);
-		$this->mocks[LoggerInterface::class]->expects($this->never())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
 		$this->context->for('myapp')->registerEventListener($event, $service);
@@ -73,7 +73,7 @@ class RegistrationContextTest extends TestCase {
 		$container->expects($this->once())
 			->method('registerService')
 			->with($service, $factory, $shared);
-		$this->mocks[LoggerInterface::class]->expects($this->never())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
 		$this->context->for('myapp')->registerService($service, $factory, $shared);
@@ -92,7 +92,7 @@ class RegistrationContextTest extends TestCase {
 		$container->expects($this->once())
 			->method('registerAlias')
 			->with($alias, $target);
-		$this->mocks[LoggerInterface::class]->expects($this->never())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
 		$this->context->for('myapp')->registerServiceAlias($alias, $target);
@@ -111,7 +111,7 @@ class RegistrationContextTest extends TestCase {
 		$container->expects($this->once())
 			->method('registerParameter')
 			->with($name, $value);
-		$this->mocks[LoggerInterface::class]->expects($this->never())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
 		$this->context->for('myapp')->registerParameter($name, $value);

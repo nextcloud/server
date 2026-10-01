@@ -28,10 +28,10 @@ class EnforceTest extends TestCase {
 	}
 
 	public function testEnforce(): void {
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->once())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->once())
 			->method('setState')
 			->with($this->equalTo(new EnforcementState(true)));
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->once())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->once())
 			->method('getState')
 			->willReturn(new EnforcementState(true));
 
@@ -45,10 +45,10 @@ class EnforceTest extends TestCase {
 	}
 
 	public function testEnforceForOneGroup(): void {
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->once())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->once())
 			->method('setState')
 			->with($this->equalTo(new EnforcementState(true, ['twofactorers'])));
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->once())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->once())
 			->method('getState')
 			->willReturn(new EnforcementState(true, ['twofactorers']));
 
@@ -63,10 +63,10 @@ class EnforceTest extends TestCase {
 	}
 
 	public function testEnforceForAllExceptOneGroup(): void {
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->once())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->once())
 			->method('setState')
 			->with($this->equalTo(new EnforcementState(true, [], ['yoloers'])));
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->once())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->once())
 			->method('getState')
 			->willReturn(new EnforcementState(true, [], ['yoloers']));
 
@@ -81,10 +81,10 @@ class EnforceTest extends TestCase {
 	}
 
 	public function testDisableEnforced(): void {
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->once())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->once())
 			->method('setState')
 			->with(new EnforcementState(false));
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->once())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->once())
 			->method('getState')
 			->willReturn(new EnforcementState(false));
 
@@ -98,7 +98,7 @@ class EnforceTest extends TestCase {
 	}
 
 	public function testCurrentStateEnabled(): void {
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->once())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->once())
 			->method('getState')
 			->willReturn(new EnforcementState(true));
 
@@ -110,7 +110,7 @@ class EnforceTest extends TestCase {
 	}
 
 	public function testCurrentStateDisabled(): void {
-		$this->mocks[MandatoryTwoFactor::class]->expects($this->once())
+		$this->getAutoMock(MandatoryTwoFactor::class)->expects($this->once())
 			->method('getState')
 			->willReturn(new EnforcementState(false));
 

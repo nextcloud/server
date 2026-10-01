@@ -32,7 +32,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testGzipOCSV1(): void {
-		$this->mocks[IRequest::class]->method('getHeader')
+		$this->getAutoMock(IRequest::class)->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
 
@@ -54,7 +54,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testGzipOCSV2(): void {
-		$this->mocks[IRequest::class]->method('getHeader')
+		$this->getAutoMock(IRequest::class)->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
 
@@ -76,7 +76,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testGzipJSONResponse(): void {
-		$this->mocks[IRequest::class]->method('getHeader')
+		$this->getAutoMock(IRequest::class)->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
 
@@ -98,7 +98,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testNoGzipDataResponse(): void {
-		$this->mocks[IRequest::class]->method('getHeader')
+		$this->getAutoMock(IRequest::class)->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
 
@@ -118,7 +118,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testNoGzipNo200(): void {
-		$this->mocks[IRequest::class]->method('getHeader')
+		$this->getAutoMock(IRequest::class)->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
 

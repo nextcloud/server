@@ -24,7 +24,7 @@ class FinishRememberedLoginCommandTest extends ALoginTestCommand {
 	public function testProcessNotRememberedLogin(): void {
 		$data = $this->getLoggedInLoginData();
 		$data->setRememberLogin(false);
-		$this->mocks[Session::class]->expects($this->never())
+		$this->getAutoMock(Session::class)->expects($this->never())
 			->method('createRememberMeToken');
 
 		$result = $this->cmd->process($data);
@@ -34,11 +34,11 @@ class FinishRememberedLoginCommandTest extends ALoginTestCommand {
 
 	public function testProcess(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getSystemValueBool')
 			->with('auto_logout', false)
 			->willReturn(false);
-		$this->mocks[Session::class]->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('createRememberMeToken')
 			->with($this->user);
 
@@ -49,11 +49,11 @@ class FinishRememberedLoginCommandTest extends ALoginTestCommand {
 
 	public function testProcessNotRemeberedLoginWithAutologout(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getSystemValueBool')
 			->with('auto_logout', false)
 			->willReturn(true);
-		$this->mocks[Session::class]->expects($this->never())
+		$this->getAutoMock(Session::class)->expects($this->never())
 			->method('createRememberMeToken');
 
 		$result = $this->cmd->process($data);

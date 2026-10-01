@@ -22,7 +22,7 @@ class UidLoginCommandTest extends ALoginTestCommand {
 
 	public function testProcessFailingLogin(): void {
 		$data = $this->getBasicLoginData();
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('checkPasswordNoLogging')
 			->with(
 				$this->username,
@@ -38,7 +38,7 @@ class UidLoginCommandTest extends ALoginTestCommand {
 
 	public function testProcess(): void {
 		$data = $this->getBasicLoginData();
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('checkPasswordNoLogging')
 			->with(
 				$this->username,

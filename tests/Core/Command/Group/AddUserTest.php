@@ -50,7 +50,7 @@ class AddUserTest extends TestCase {
 	public function testNoGroup(): void {
 		$this->configureInput('myGroup', 'myUser');
 
-		$this->mocks[IGroupManager::class]->method('get')
+		$this->getAutoMock(IGroupManager::class)->method('get')
 			->with('myGroup')
 			->willReturn(null);
 
@@ -65,11 +65,11 @@ class AddUserTest extends TestCase {
 		$this->configureInput('myGroup', 'myUser');
 
 		$group = $this->createMock(IGroup::class);
-		$this->mocks[IGroupManager::class]->method('get')
+		$this->getAutoMock(IGroupManager::class)->method('get')
 			->with('myGroup')
 			->willReturn($group);
 
-		$this->mocks[IUserManager::class]->method('get')
+		$this->getAutoMock(IUserManager::class)->method('get')
 			->with('myUser')
 			->willReturn(null);
 
@@ -84,12 +84,12 @@ class AddUserTest extends TestCase {
 		$this->configureInput('myGroup', 'myUser');
 
 		$group = $this->createMock(IGroup::class);
-		$this->mocks[IGroupManager::class]->method('get')
+		$this->getAutoMock(IGroupManager::class)->method('get')
 			->with('myGroup')
 			->willReturn($group);
 
 		$user = $this->createMock(IUser::class);
-		$this->mocks[IUserManager::class]->method('get')
+		$this->getAutoMock(IUserManager::class)->method('get')
 			->with('myUser')
 			->willReturn($user);
 
@@ -104,13 +104,13 @@ class AddUserTest extends TestCase {
 		$this->configureInput('myGroup', ['myUser', 'myOtherUser']);
 
 		$group = $this->createMock(IGroup::class);
-		$this->mocks[IGroupManager::class]->method('get')
+		$this->getAutoMock(IGroupManager::class)->method('get')
 			->with('myGroup')
 			->willReturn($group);
 
 		$user1 = $this->createMock(IUser::class);
 		$user2 = $this->createMock(IUser::class);
-		$this->mocks[IUserManager::class]->method('get')
+		$this->getAutoMock(IUserManager::class)->method('get')
 			->willReturnMap([
 				['myUser', $user1],
 				['myOtherUser', $user2],
@@ -135,12 +135,12 @@ class AddUserTest extends TestCase {
 		$this->configureInput('myGroup', ['myUser', 'myOtherUser']);
 
 		$group = $this->createMock(IGroup::class);
-		$this->mocks[IGroupManager::class]->method('get')
+		$this->getAutoMock(IGroupManager::class)->method('get')
 			->with('myGroup')
 			->willReturn($group);
 
 		$user = $this->createMock(IUser::class);
-		$this->mocks[IUserManager::class]->method('get')
+		$this->getAutoMock(IUserManager::class)->method('get')
 			->willReturnMap([
 				['myUser', $user],
 				['myOtherUser', null],

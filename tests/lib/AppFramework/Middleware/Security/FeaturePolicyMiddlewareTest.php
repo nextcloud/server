@@ -40,9 +40,9 @@ class FeaturePolicyMiddlewareTest extends \Test\TestCase {
 		$mergedPolicy->addAllowedGeoLocationDomain('mergedPolicy');
 		$response->method('getFeaturePolicy')
 			->willReturn($currentPolicy);
-		$this->mocks[FeaturePolicyManager::class]->method('getDefaultPolicy')
+		$this->getAutoMock(FeaturePolicyManager::class)->method('getDefaultPolicy')
 			->willReturn($defaultPolicy);
-		$this->mocks[FeaturePolicyManager::class]->method('mergePolicies')
+		$this->getAutoMock(FeaturePolicyManager::class)->method('mergePolicies')
 			->with($defaultPolicy, $currentPolicy)
 			->willReturn($mergedPolicy);
 		$response->expects($this->once())

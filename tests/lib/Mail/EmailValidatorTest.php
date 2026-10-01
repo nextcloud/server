@@ -39,7 +39,7 @@ class EmailValidatorTest extends TestCase {
 
 	#[DataProvider('mailAddressProvider')]
 	public function testIsValid($email, $expected, $strict): void {
-		$this->mocks[IAppConfig::class]
+		$this->getAutoMock(IAppConfig::class)
 			->expects($this->atMost(1))
 			->method('getValueString')
 			->with('core', 'enforce_strict_email_check', 'yes')

@@ -30,7 +30,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 		$this->getCacheAutoMock('imagePath')->expects($this->once())
 			->method('clear')
 			->with('');
-		$this->mocks[JSCombiner::class]->expects($this->once())
+		$this->getAutoMock(JSCombiner::class)->expects($this->once())
 			->method('resetCache');
 
 		$this->repair->run($this->outputMock);

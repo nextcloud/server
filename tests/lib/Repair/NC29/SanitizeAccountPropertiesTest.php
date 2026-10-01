@@ -29,7 +29,7 @@ class SanitizeAccountPropertiesTest extends TestCase {
 	}
 
 	public function testRun(): void {
-		$this->mocks[IJobList::class]->expects(self::once())
+		$this->getAutoMock(IJobList::class)->expects(self::once())
 			->method('add')
 			->with(SanitizeAccountPropertiesJob::class, null);
 

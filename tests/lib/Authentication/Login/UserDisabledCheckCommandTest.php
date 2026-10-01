@@ -23,7 +23,7 @@ class UserDisabledCheckCommandTest extends ALoginTestCommand {
 
 	public function testProcessNonExistingUser(): void {
 		$data = $this->getBasicLoginData();
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with($this->username)
 			->willReturn(null);
@@ -35,7 +35,7 @@ class UserDisabledCheckCommandTest extends ALoginTestCommand {
 
 	public function testProcessDisabledUser(): void {
 		$data = $this->getBasicLoginData();
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with($this->username)
 			->willReturn($this->user);
@@ -51,7 +51,7 @@ class UserDisabledCheckCommandTest extends ALoginTestCommand {
 
 	public function testProcess(): void {
 		$data = $this->getBasicLoginData();
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with($this->username)
 			->willReturn($this->user);

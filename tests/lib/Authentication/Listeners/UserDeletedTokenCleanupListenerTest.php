@@ -32,8 +32,8 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 
 	public function testHandleUnrelated(): void {
 		$event = new Event();
-		$this->mocks[Manager::class]->expects($this->never())->method('getTokenByUser');
-		$this->mocks[LoggerInterface::class]->expects($this->never())->method('error');
+		$this->getAutoMock(Manager::class)->expects($this->never())->method('getTokenByUser');
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())->method('error');
 
 		$this->listener->handle($event);
 	}
@@ -43,11 +43,11 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 		$user->method('getUID')->willReturn('user123');
 		$event = new UserDeletedEvent($user);
 		$exception = new Exception('nope');
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getTokenByUser')
 			->with('user123')
 			->willThrowException($exception);
-		$this->mocks[LoggerInterface::class]->expects($this->once())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('error');
 
 		$this->listener->handle($event);
@@ -63,7 +63,7 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 		$token2->method('getId')->willReturn(2);
 		$token3 = $this->createMock(IToken::class);
 		$token3->method('getId')->willReturn(3);
-		$this->mocks[Manager::class]->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('getTokenByUser')
 			->with('user123')
 			->willReturn([
@@ -77,13 +77,13 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 			['user123', 2],
 			['user123', 3],
 		];
-		$this->mocks[Manager::class]->expects($this->exactly(3))
+		$this->getAutoMock(Manager::class)->expects($this->exactly(3))
 			->method('invalidateTokenById')
 			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
-		$this->mocks[LoggerInterface::class]->expects($this->never())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->never())
 			->method('error');
 
 		$this->listener->handle($event);

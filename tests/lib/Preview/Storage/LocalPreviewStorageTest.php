@@ -42,13 +42,13 @@ class LocalPreviewStorageTest extends TestCase {
 		mkdir($this->tmpDir, 0777, true);
 
 		$this->storage = $this->createInstanceWithMocks(LocalPreviewStorage::class);
-		$this->mocks[IConfig::class]->method('getSystemValueString')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueString')
 			->with('datadirectory', $this->anything())
 			->willReturn($this->tmpDir);
-		$this->mocks[IRootFolder::class]->method('getAppDataDirectoryName')->willReturn('appdata_test');
+		$this->getAutoMock(IRootFolder::class)->method('getAppDataDirectoryName')->willReturn('appdata_test');
 
-		$this->mocks[IMimeTypeDetector::class]->method('detectPath')->willReturn('image/jpeg');
-		$this->mocks[IMimeTypeLoader::class]->method('getMimetypeById')->willReturn('image/jpeg');
+		$this->getAutoMock(IMimeTypeDetector::class)->method('detectPath')->willReturn('image/jpeg');
+		$this->getAutoMock(IMimeTypeLoader::class)->method('getMimetypeById')->willReturn('image/jpeg');
 	}
 
 	#[\Override]
@@ -117,7 +117,7 @@ class LocalPreviewStorageTest extends TestCase {
 	 * checkForFileCache = false (no legacy path-hash queries).
 	 */
 	private function setMigrationDone(): void {
-		$this->mocks[IAppConfig::class]->method('getValueBool')
+		$this->getAutoMock(IAppConfig::class)->method('getValueBool')
 			->with('core', 'previewMovedDone')
 			->willReturn(true);
 	}
@@ -139,13 +139,13 @@ class LocalPreviewStorageTest extends TestCase {
 			'etag' => 'abc',
 			'mimetype' => '6',
 		];
-		$this->mocks[IDBConnection::class]->method('getTypedQueryBuilder')
+		$this->getAutoMock(IDBConnection::class)->method('getTypedQueryBuilder')
 			->willReturn($this->buildQueryBuilderMock([$filecacheRow]));
 
 		// Outer batch transaction + one inner savepoint for the insert.
-		$this->mocks[IDBConnection::class]->expects($this->exactly(2))->method('beginTransaction');
-		$this->mocks[IDBConnection::class]->expects($this->exactly(2))->method('commit');
-		$this->mocks[IDBConnection::class]->expects($this->never())->method('rollBack');
+		$this->getAutoMock(IDBConnection::class)->expects($this->exactly(2))->method('beginTransaction');
+		$this->getAutoMock(IDBConnection::class)->expects($this->exactly(2))->method('commit');
+		$this->getAutoMock(IDBConnection::class)->expects($this->never())->method('rollBack');
 
 		$count = $this->storage->scan();
 
@@ -171,7 +171,7 @@ class LocalPreviewStorageTest extends TestCase {
 			'etag' => 'abc',
 			'mimetype' => '6',
 		];
-		$this->mocks[IDBConnection::class]->method('getTypedQueryBuilder')
+		$this->getAutoMock(IDBConnection::class)->method('getTypedQueryBuilder')
 			->willReturn($this->buildQueryBuilderMock([$filecacheRow]));
 
 		$ucvException = new class('duplicate key') extends DBException {
@@ -180,12 +180,12 @@ class LocalPreviewStorageTest extends TestCase {
 				return self::REASON_UNIQUE_CONSTRAINT_VIOLATION;
 			}
 		};
-		$this->mocks[PreviewMapper::class]->method('insert')->willThrowException($ucvException);
+		$this->getAutoMock(PreviewMapper::class)->method('insert')->willThrowException($ucvException);
 
 		// Inner savepoint is rolled back; outer batch transaction is committed.
-		$this->mocks[IDBConnection::class]->expects($this->exactly(2))->method('beginTransaction');
-		$this->mocks[IDBConnection::class]->expects($this->once())->method('commit');
-		$this->mocks[IDBConnection::class]->expects($this->exactly(1))->method('rollBack');
+		$this->getAutoMock(IDBConnection::class)->expects($this->exactly(2))->method('beginTransaction');
+		$this->getAutoMock(IDBConnection::class)->expects($this->once())->method('commit');
+		$this->getAutoMock(IDBConnection::class)->expects($this->exactly(1))->method('rollBack');
 
 		$count = $this->storage->scan();
 
@@ -207,7 +207,7 @@ class LocalPreviewStorageTest extends TestCase {
 			'etag' => 'abc',
 			'mimetype' => '6',
 		];
-		$this->mocks[IDBConnection::class]->method('getTypedQueryBuilder')
+		$this->getAutoMock(IDBConnection::class)->method('getTypedQueryBuilder')
 			->willReturn($this->buildQueryBuilderMock([$filecacheRow]));
 
 		$driverException = new class('some driver error') extends DBException {
@@ -216,12 +216,12 @@ class LocalPreviewStorageTest extends TestCase {
 				return self::REASON_DRIVER;
 			}
 		};
-		$this->mocks[PreviewMapper::class]->method('insert')->willThrowException($driverException);
+		$this->getAutoMock(PreviewMapper::class)->method('insert')->willThrowException($driverException);
 
 		// Inner savepoint rolled back; outer batch also rolled back via rethrow.
-		$this->mocks[IDBConnection::class]->expects($this->exactly(2))->method('beginTransaction');
-		$this->mocks[IDBConnection::class]->expects($this->never())->method('commit');
-		$this->mocks[IDBConnection::class]->expects($this->exactly(2))->method('rollBack');
+		$this->getAutoMock(IDBConnection::class)->expects($this->exactly(2))->method('beginTransaction');
+		$this->getAutoMock(IDBConnection::class)->expects($this->never())->method('commit');
+		$this->getAutoMock(IDBConnection::class)->expects($this->exactly(2))->method('rollBack');
 
 		$this->expectException(DBException::class);
 		$this->storage->scan();
@@ -248,13 +248,13 @@ class LocalPreviewStorageTest extends TestCase {
 			'mimetype' => '6',
 		], $fileIds);
 
-		$this->mocks[IDBConnection::class]->method('getTypedQueryBuilder')
+		$this->getAutoMock(IDBConnection::class)->method('getTypedQueryBuilder')
 			->willReturn($this->buildQueryBuilderMock($filecacheRows));
 
 		// 1 outer batch transaction + 3 inner savepoints (one per preview insert).
-		$this->mocks[IDBConnection::class]->expects($this->exactly(4))->method('beginTransaction');
-		$this->mocks[IDBConnection::class]->expects($this->exactly(4))->method('commit');
-		$this->mocks[IDBConnection::class]->expects($this->never())->method('rollBack');
+		$this->getAutoMock(IDBConnection::class)->expects($this->exactly(4))->method('beginTransaction');
+		$this->getAutoMock(IDBConnection::class)->expects($this->exactly(4))->method('commit');
+		$this->getAutoMock(IDBConnection::class)->expects($this->never())->method('rollBack');
 
 		$count = $this->storage->scan();
 

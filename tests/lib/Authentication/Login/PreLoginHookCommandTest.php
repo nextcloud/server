@@ -23,7 +23,7 @@ class PreLoginHookCommandTest extends ALoginTestCommand {
 
 	public function testProcess(): void {
 		$data = $this->getBasicLoginData();
-		$this->mocks[IEventDispatcher::class]->expects($this->once())
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
 			->method('dispatchTyped')
 			->with($this->callback(function (BeforeUserLoggedInEvent $event): bool {
 				$this->assertEquals($this->username, $event->getUsername());

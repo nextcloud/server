@@ -47,7 +47,7 @@ class ShareHelperTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetPathsForAccessList')]
 	public function testGetPathsForAccessList(array $userList, array $userMap, $resolveUsers, array $remoteList, array $remoteMap, $resolveRemotes, array $expected): void {
-		$this->mocks[IManager::class]->expects($this->once())
+		$this->getAutoMock(IManager::class)->expects($this->once())
 			->method('getAccessList')
 			->willReturn([
 				'users' => $userList,
@@ -58,7 +58,7 @@ class ShareHelperTest extends TestCase {
 		$node = $this->createMock(Node::class);
 		/** @var ShareHelper|\PHPUnit\Framework\MockObject\MockObject $helper */
 		$helper = $this->getMockBuilder(ShareHelper::class)
-			->setConstructorArgs([$this->mocks[IManager::class]])
+			->setConstructorArgs([$this->getAutoMock(IManager::class)])
 			->onlyMethods(['getPathsForUsers', 'getPathsForRemotes'])
 			->getMock();
 

@@ -62,20 +62,20 @@ class SetConfigTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataSet')]
 	public function testSet(string $configName, mixed $newValue, bool $configExists, bool $updateOnly, bool $updated, string $expectedMessage): void {
-		$this->mocks[AppConfig::class]->method('hasKey')
+		$this->getAutoMock(AppConfig::class)->method('hasKey')
 			->with('app-name', $configName)
 			->willReturn($configExists);
 
 		if (!$configExists) {
-			$this->mocks[AppConfig::class]->method('getValueType')
+			$this->getAutoMock(AppConfig::class)->method('getValueType')
 				->willThrowException(new AppConfigUnknownKeyException());
 		} else {
-			$this->mocks[AppConfig::class]->method('getValueType')
+			$this->getAutoMock(AppConfig::class)->method('getValueType')
 				->willReturn(IAppConfig::VALUE_MIXED);
 		}
 
 		if ($updated) {
-			$this->mocks[AppConfig::class]->expects($this->once())
+			$this->getAutoMock(AppConfig::class)->expects($this->once())
 				->method('setValueMixed')
 				->with('app-name', $configName, $newValue);
 		}

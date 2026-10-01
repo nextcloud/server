@@ -26,7 +26,7 @@ class Rfc9421SignatoryManagerTest extends TestCase {
 	}
 
 	public function testGetOptionsForcesRfc9421Format(): void {
-		$this->mocks[OCMSignatoryManager::class]->method('getOptions')->willReturn([
+		$this->getAutoMock(OCMSignatoryManager::class)->method('getOptions')->willReturn([
 			'algorithm' => 'rsa-sha512',
 			'rfc9421.format' => false,
 		]);
@@ -38,26 +38,26 @@ class Rfc9421SignatoryManagerTest extends TestCase {
 
 	public function testGetLocalSignatoryReturnsJwksKey(): void {
 		$signatory = $this->createMock(Signatory::class);
-		$this->mocks[OCMSignatoryManager::class]->method('getLocalJwksSignatory')->willReturn($signatory);
+		$this->getAutoMock(OCMSignatoryManager::class)->method('getLocalJwksSignatory')->willReturn($signatory);
 
 		$this->assertSame($signatory, $this->wrapper->getLocalSignatory());
 	}
 
 	public function testGetLocalSignatoryThrowsWhenJwksKeyUnavailable(): void {
-		$this->mocks[OCMSignatoryManager::class]->method('getLocalJwksSignatory')->willReturn(null);
+		$this->getAutoMock(OCMSignatoryManager::class)->method('getLocalJwksSignatory')->willReturn(null);
 
 		$this->expectException(IdentityNotFoundException::class);
 		$this->wrapper->getLocalSignatory();
 	}
 
 	public function testProviderIdDelegated(): void {
-		$this->mocks[OCMSignatoryManager::class]->method('getProviderId')->willReturn('ocm');
+		$this->getAutoMock(OCMSignatoryManager::class)->method('getProviderId')->willReturn('ocm');
 		$this->assertSame('ocm', $this->wrapper->getProviderId());
 	}
 
 	public function testRemoteSignatoryDelegated(): void {
 		$signatory = $this->createMock(Signatory::class);
-		$this->mocks[OCMSignatoryManager::class]->expects($this->once())
+		$this->getAutoMock(OCMSignatoryManager::class)->expects($this->once())
 			->method('getRemoteSignatory')
 			->with('sender.example.org')
 			->willReturn($signatory);
@@ -66,7 +66,7 @@ class Rfc9421SignatoryManagerTest extends TestCase {
 
 	public function testRemoteKeyDelegated(): void {
 		$key = $this->createMock(Key::class);
-		$this->mocks[OCMSignatoryManager::class]->expects($this->once())
+		$this->getAutoMock(OCMSignatoryManager::class)->expects($this->once())
 			->method('getRemoteKey')
 			->with('sender.example.org', 'kid-1')
 			->willReturn($key);

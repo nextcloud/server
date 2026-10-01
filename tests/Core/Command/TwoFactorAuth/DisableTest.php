@@ -29,7 +29,7 @@ class DisableTest extends TestCase {
 	}
 
 	public function testInvalidUID(): void {
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with('nope')
 			->willReturn(null);
@@ -45,11 +45,11 @@ class DisableTest extends TestCase {
 
 	public function testEnableNotSupported(): void {
 		$user = $this->createMock(IUser::class);
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with('ricky')
 			->willReturn($user);
-		$this->mocks[ProviderManager::class]->expects($this->once())
+		$this->getAutoMock(ProviderManager::class)->expects($this->once())
 			->method('tryDisableProviderFor')
 			->with('totp', $user)
 			->willReturn(false);
@@ -65,11 +65,11 @@ class DisableTest extends TestCase {
 
 	public function testEnabled(): void {
 		$user = $this->createMock(IUser::class);
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with('ricky')
 			->willReturn($user);
-		$this->mocks[ProviderManager::class]->expects($this->once())
+		$this->getAutoMock(ProviderManager::class)->expects($this->once())
 			->method('tryDisableProviderFor')
 			->with('totp', $user)
 			->willReturn(true);

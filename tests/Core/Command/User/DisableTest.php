@@ -38,7 +38,7 @@ class DisableTest extends TestCase {
 			->method('setEnabled')
 			->with(false);
 
-		$this->mocks[IUserManager::class]
+		$this->getAutoMock(IUserManager::class)
 			->method('get')
 			->with('user')
 			->willReturn($user);
@@ -56,7 +56,7 @@ class DisableTest extends TestCase {
 	}
 
 	public function testInvalidUser(): void {
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with('user')
 			->willReturn(null);

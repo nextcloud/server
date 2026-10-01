@@ -80,7 +80,7 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testRegisterAttempt(): void {
-		$this->mocks[ITimeFactory::class]
+		$this->getAutoMock(ITimeFactory::class)
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(12 * 3600 + 86);

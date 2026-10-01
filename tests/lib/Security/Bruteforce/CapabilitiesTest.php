@@ -26,17 +26,17 @@ class CapabilitiesTest extends TestCase {
 	}
 
 	public function testGetCapabilities(): void {
-		$this->mocks[IThrottler::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(IThrottler::class)->expects($this->atLeastOnce())
 			->method('getDelay')
 			->with('10.10.10.10')
 			->willReturn(42);
 
-		$this->mocks[IThrottler::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(IThrottler::class)->expects($this->atLeastOnce())
 			->method('isBypassListed')
 			->with('10.10.10.10')
 			->willReturn(true);
 
-		$this->mocks[IRequest::class]->method('getRemoteAddress')
+		$this->getAutoMock(IRequest::class)->method('getRemoteAddress')
 			->willReturn('10.10.10.10');
 
 		$expected = [
@@ -51,12 +51,12 @@ class CapabilitiesTest extends TestCase {
 	}
 
 	public function testGetCapabilitiesOnCli(): void {
-		$this->mocks[IThrottler::class]->expects($this->atLeastOnce())
+		$this->getAutoMock(IThrottler::class)->expects($this->atLeastOnce())
 			->method('getDelay')
 			->with('')
 			->willReturn(0);
 
-		$this->mocks[IRequest::class]->method('getRemoteAddress')
+		$this->getAutoMock(IRequest::class)->method('getRemoteAddress')
 			->willReturn('');
 
 		$expected = [

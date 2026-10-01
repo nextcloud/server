@@ -27,7 +27,7 @@ class PsrLoggerAdapterTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataPsrLoggingLevels')]
 	public function testLoggingWithPsrLogLevels(string $level, int $expectedLevel): void {
-		$this->mocks[Log::class]->expects(self::once())
+		$this->getAutoMock(Log::class)->expects(self::once())
 			->method('log')
 			->with($expectedLevel, 'test message', ['app' => 'test']);
 		$this->loggerAdapter->log($level, 'test message', ['app' => 'test']);
@@ -53,7 +53,7 @@ class PsrLoggerAdapterTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataInvalidLoggingLevel')]
 	public function testInvalidLoggingLevel($level): void {
-		$this->mocks[Log::class]->expects(self::never())
+		$this->getAutoMock(Log::class)->expects(self::never())
 			->method('log');
 		$this->expectException(InvalidArgumentException::class);
 

@@ -31,7 +31,7 @@ class LoggedInCheckCommandTest extends ALoginTestCommand {
 
 	public function testProcessFailedLogin(): void {
 		$data = $this->getFailedLoginData();
-		$this->mocks[LoggerInterface::class]->expects($this->once())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('warning');
 
 		$result = $this->cmd->process($data);

@@ -25,7 +25,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 
 		$this->systemConfig = [];
 		$this->objectStoreConfig = $this->createInstanceWithMocks(PrimaryObjectStoreConfig::class);
-		$this->mocks[IConfig::class]->method('getSystemValue')
+		$this->getAutoMock(IConfig::class)->method('getSystemValue')
 			->willReturnCallback(function ($key, $default = '') {
 				if (isset($this->systemConfig[$key])) {
 					return $this->systemConfig[$key];
@@ -33,7 +33,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 					return $default;
 				}
 			});
-		$this->mocks[IConfig::class]->method('getUserValue')
+		$this->getAutoMock(IConfig::class)->method('getUserValue')
 			->willReturnCallback(function ($userId, $appName, $key, $default = '') {
 				if (isset($this->userConfig[$userId][$appName][$key])) {
 					return $this->userConfig[$userId][$appName][$key];
@@ -41,7 +41,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 					return $default;
 				}
 			});
-		$this->mocks[IConfig::class]->method('setUserValue')
+		$this->getAutoMock(IConfig::class)->method('setUserValue')
 			->willReturnCallback(function ($userId, $appName, $key, $value): void {
 				$this->userConfig[$userId][$appName][$key] = $value;
 			});
@@ -72,7 +72,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$result = $this->objectStoreConfig->getObjectStoreConfigForUser($this->getUser('test'));
 		$this->assertEquals('server1', $result['arguments']['host']);
 
-		$this->assertEquals('server1', $this->mocks[IConfig::class]->getUserValue('test', 'homeobjectstore', 'objectstore', null));
+		$this->assertEquals('server1', $this->getAutoMock(IConfig::class)->getUserValue('test', 'homeobjectstore', 'objectstore', null));
 	}
 
 	public function testExistingUserKeepsStorage() {
@@ -100,7 +100,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 		$result = $this->objectStoreConfig->getObjectStoreConfigForUser($this->getUser('test'));
 		$this->assertEquals('server1', $result['arguments']['host']);
 
-		$this->assertEquals('server1', $this->mocks[IConfig::class]->getUserValue('test', 'homeobjectstore', 'objectstore', null));
+		$this->assertEquals('server1', $this->getAutoMock(IConfig::class)->getUserValue('test', 'homeobjectstore', 'objectstore', null));
 
 		$result = $this->objectStoreConfig->getObjectStoreConfigForUser($this->getUser('other-user'));
 		$this->assertEquals('server2', $result['arguments']['host']);

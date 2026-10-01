@@ -534,7 +534,7 @@ class NotificationTest extends TestCase {
 				'getSubject',
 				'getParsedSubject',
 			])
-			->setConstructorArgs([$this->mocks[IValidator::class], $this->mocks[IRichTextFormatter::class]])
+			->setConstructorArgs([$this->getAutoMock(IValidator::class), $this->getAutoMock(IRichTextFormatter::class)])
 			->getMock();
 
 		$notification->expects($this->once())
@@ -567,7 +567,7 @@ class NotificationTest extends TestCase {
 				'getParsedSubject',
 				'getSubject',
 			])
-			->setConstructorArgs([$this->mocks[IValidator::class], $this->mocks[IRichTextFormatter::class]])
+			->setConstructorArgs([$this->getAutoMock(IValidator::class), $this->getAutoMock(IRichTextFormatter::class)])
 			->getMock();
 
 		$notification->expects($this->once())
@@ -616,7 +616,7 @@ class NotificationTest extends TestCase {
 				'getObjectType',
 				'getObjectId',
 			])
-			->setConstructorArgs([$this->mocks[IValidator::class], $this->mocks[IRichTextFormatter::class]])
+			->setConstructorArgs([$this->getAutoMock(IValidator::class), $this->getAutoMock(IRichTextFormatter::class)])
 			->getMock();
 
 		$notification->expects($this->any())

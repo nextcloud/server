@@ -44,7 +44,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
 		$activityEvent = $this->createMock(IActivityEvent::class);
-		$this->mocks[IActivityManager::class]->expects($this->once())
+		$this->getAutoMock(IActivityManager::class)->expects($this->once())
 			->method('generateEvent')
 			->willReturn($activityEvent);
 		$activityEvent->expects($this->once())
@@ -69,7 +69,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 			->method('setSubject')
 			->with('remote_wipe_start', ['name' => 'Token 1'])
 			->willReturnSelf();
-		$this->mocks[IActivityManager::class]->expects($this->once())
+		$this->getAutoMock(IActivityManager::class)->expects($this->once())
 			->method('publish');
 
 		$this->listener->handle($event);
@@ -78,9 +78,9 @@ class RemoteWipeActivityListenerTest extends TestCase {
 	public function testHandleRemoteWipeStartedCanNotPublish(): void {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
-		$this->mocks[IActivityManager::class]->expects($this->once())
+		$this->getAutoMock(IActivityManager::class)->expects($this->once())
 			->method('generateEvent');
-		$this->mocks[IActivityManager::class]->expects($this->once())
+		$this->getAutoMock(IActivityManager::class)->expects($this->once())
 			->method('publish')
 			->willThrowException(new \BadMethodCallException());
 
@@ -92,7 +92,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);
 		$activityEvent = $this->createMock(IActivityEvent::class);
-		$this->mocks[IActivityManager::class]->expects($this->once())
+		$this->getAutoMock(IActivityManager::class)->expects($this->once())
 			->method('generateEvent')
 			->willReturn($activityEvent);
 		$activityEvent->expects($this->once())
@@ -117,7 +117,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 			->method('setSubject')
 			->with('remote_wipe_finish', ['name' => 'Token 1'])
 			->willReturnSelf();
-		$this->mocks[IActivityManager::class]->expects($this->once())
+		$this->getAutoMock(IActivityManager::class)->expects($this->once())
 			->method('publish');
 
 		$this->listener->handle($event);

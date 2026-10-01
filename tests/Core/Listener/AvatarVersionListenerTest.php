@@ -28,7 +28,7 @@ class AvatarVersionListenerTest extends \Test\TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('alice');
 
-		$this->mocks[IUserConfig::class]->expects($this->once())->method('setValueInt')
+		$this->getAutoMock(IUserConfig::class)->expects($this->once())->method('setValueInt')
 			->with('alice', 'avatar', 'version', 1);
 
 		$this->listener->handle(new UserUpdatedEvent($user, []));
@@ -38,7 +38,7 @@ class AvatarVersionListenerTest extends \Test\TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('alice');
 
-		$this->mocks[IUserConfig::class]->expects($this->once())->method('setValueInt')
+		$this->getAutoMock(IUserConfig::class)->expects($this->once())->method('setValueInt')
 			->with('alice', 'avatar', 'version', 1);
 
 		$this->listener->handle(new UserChangedEvent($user, 'enabled', false, true));
@@ -47,13 +47,13 @@ class AvatarVersionListenerTest extends \Test\TestCase {
 	public function testIgnoresUnrelatedUserChanges(): void {
 		$user = $this->createMock(IUser::class);
 
-		$this->mocks[IUserConfig::class]->expects($this->never())->method('setValueInt');
+		$this->getAutoMock(IUserConfig::class)->expects($this->never())->method('setValueInt');
 
 		$this->listener->handle(new UserChangedEvent($user, 'quota', '1 GB', '2 GB'));
 	}
 
 	public function testIgnoresOtherEvents(): void {
-		$this->mocks[IUserConfig::class]->expects($this->never())->method('setValueInt');
+		$this->getAutoMock(IUserConfig::class)->expects($this->never())->method('setValueInt');
 
 		$this->listener->handle(new Event());
 	}

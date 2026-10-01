@@ -52,7 +52,7 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataModified')]
 	public function testMiddleware(?string $etag, string $etagHeader, ?\DateTime $lastModified, string $lastModifiedHeader, bool $notModifiedSet): void {
-		$this->mocks[IRequest::class]->method('getHeader')
+		$this->getAutoMock(IRequest::class)->method('getHeader')
 			->willReturnCallback(function (string $name) use ($etagHeader, $lastModifiedHeader) {
 				if ($name === 'IF_NONE_MATCH') {
 					return $etagHeader;

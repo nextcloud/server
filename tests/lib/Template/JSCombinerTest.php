@@ -33,7 +33,7 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessDebugMode(): void {
-		$this->mocks[IConfig::class]
+		$this->getAutoMock(IConfig::class)
 			->expects($this->once())
 			->method('getSystemValueBool')
 			->with('debug')
@@ -44,7 +44,7 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessNotInstalled(): void {
-		$this->mocks[IConfig::class]
+		$this->getAutoMock(IConfig::class)
 			->expects($this->exactly(2))
 			->method('getSystemValueBool')
 			->willReturnMap([
@@ -57,7 +57,7 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessUncachedFileNoAppDataFolder(): void {
-		$this->mocks[IConfig::class]
+		$this->getAutoMock(IConfig::class)
 			->expects($this->exactly(2))
 			->method('getSystemValueBool')
 			->willReturnMap([
@@ -65,8 +65,8 @@ class JSCombinerTest extends \Test\TestCase {
 				['installed', true],
 			]);
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->mocks[IAppData::class]->expects($this->once())->method('getFolder')->with('awesomeapp')->willThrowException(new NotFoundException());
-		$this->mocks[IAppData::class]->expects($this->once())->method('newFolder')->with('awesomeapp')->willReturn($folder);
+		$this->getAutoMock(IAppData::class)->expects($this->once())->method('getFolder')->with('awesomeapp')->willThrowException(new NotFoundException());
+		$this->getAutoMock(IAppData::class)->expects($this->once())->method('newFolder')->with('awesomeapp')->willReturn($folder);
 		$file = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
 
@@ -93,7 +93,7 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessUncachedFile(): void {
-		$this->mocks[IConfig::class]
+		$this->getAutoMock(IConfig::class)
 			->expects($this->exactly(2))
 			->method('getSystemValueBool')
 			->willReturnMap([
@@ -101,7 +101,7 @@ class JSCombinerTest extends \Test\TestCase {
 				['installed', true],
 			]);
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->mocks[IAppData::class]->expects($this->once())->method('getFolder')->with('awesomeapp')->willReturn($folder);
+		$this->getAutoMock(IAppData::class)->expects($this->once())->method('getFolder')->with('awesomeapp')->willReturn($folder);
 		$file = $this->createMock(ISimpleFile::class);
 		$fileDeps = $this->createMock(ISimpleFile::class);
 		$gzfile = $this->createMock(ISimpleFile::class);
@@ -127,7 +127,7 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessCachedFile(): void {
-		$this->mocks[IConfig::class]
+		$this->getAutoMock(IConfig::class)
 			->expects($this->exactly(2))
 			->method('getSystemValueBool')
 			->willReturnMap([
@@ -135,7 +135,7 @@ class JSCombinerTest extends \Test\TestCase {
 				['installed', true],
 			]);
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->mocks[IAppData::class]->expects($this->once())->method('getFolder')->with('awesomeapp')->willReturn($folder);
+		$this->getAutoMock(IAppData::class)->expects($this->once())->method('getFolder')->with('awesomeapp')->willReturn($folder);
 		$file = $this->createMock(ISimpleFile::class);
 
 		$fileDeps = $this->createMock(ISimpleFile::class);
@@ -164,7 +164,7 @@ class JSCombinerTest extends \Test\TestCase {
 	}
 
 	public function testProcessCachedFileMemcache(): void {
-		$this->mocks[IConfig::class]
+		$this->getAutoMock(IConfig::class)
 			->expects($this->exactly(2))
 			->method('getSystemValueBool')
 			->willReturnMap([
@@ -172,7 +172,7 @@ class JSCombinerTest extends \Test\TestCase {
 				['installed', true],
 			]);
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->mocks[IAppData::class]->expects($this->once())
+		$this->getAutoMock(IAppData::class)->expects($this->once())
 			->method('getFolder')
 			->with('awesomeapp')
 			->willReturn($folder);
@@ -269,7 +269,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$file->expects($this->once())
 			->method('getContent')
 			->willReturn('');
-		$this->mocks[LoggerInterface::class]->expects($this->once())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('info')
 			->with('JSCombiner: deps file empty: combine.js.deps');
 		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
@@ -450,7 +450,7 @@ var b = \'world\';
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetCachedSCSS')]
 	public function testGetCachedSCSS($appName, $fileName, $result): void {
-		$this->mocks[IURLGenerator::class]->expects($this->once())
+		$this->getAutoMock(IURLGenerator::class)->expects($this->once())
 			->method('linkToRoute')
 			->with('core.Js.getJs', [
 				'fileName' => 'foo.js',
@@ -498,7 +498,7 @@ var b = \'world\';
 
 		$this->getCacheAutoMock('JS-')->expects($this->once())
 			->method('clear');
-		$this->mocks[IAppData::class]->expects($this->once())
+		$this->getAutoMock(IAppData::class)->expects($this->once())
 			->method('getDirectoryListing')
 			->willReturn([$folder]);
 

@@ -32,12 +32,12 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testManagerIsDisabledIfEnabledButNoModules(): void {
-		$this->mocks[IConfig::class]->expects($this->any())->method('getAppValue')->willReturn(true);
+		$this->getAutoMock(IConfig::class)->expects($this->any())->method('getAppValue')->willReturn(true);
 		$this->assertFalse($this->manager->isEnabled());
 	}
 
 	public function testManagerIsDisabledIfDisabledButModules(): void {
-		$this->mocks[IConfig::class]->expects($this->any())->method('getAppValue')->willReturn(false);
+		$this->getAutoMock(IConfig::class)->expects($this->any())->method('getAppValue')->willReturn(false);
 		$em = $this->createMock(IEncryptionModule::class);
 		$em->expects($this->any())->method('getId')->willReturn('id');
 		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
@@ -52,7 +52,7 @@ class ManagerTest extends TestCase {
 		$appConfig = Server::get(IAppConfig::class);
 		$appConfig->setValueBool('core', 'encryption_enabled', true);
 
-		$this->mocks[IConfig::class]->expects($this->any())->method('getSystemValueBool')->willReturn(true);
+		$this->getAutoMock(IConfig::class)->expects($this->any())->method('getSystemValueBool')->willReturn(true);
 		$result = $this->manager->isEnabled();
 
 		$appConfig->deleteKey('core', 'encryption_enabled');
@@ -60,7 +60,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testModuleRegistration() {
-		$this->mocks[IConfig::class]->expects($this->any())->method('getAppValue')->willReturn('yes');
+		$this->getAutoMock(IConfig::class)->expects($this->any())->method('getAppValue')->willReturn('yes');
 
 		$this->addNewEncryptionModule($this->manager, 0);
 		$this->assertCount(1, $this->manager->getEncryptionModules());
@@ -77,7 +77,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testModuleUnRegistration(): void {
-		$this->mocks[IConfig::class]->expects($this->any())->method('getAppValue')->willReturn(true);
+		$this->getAutoMock(IConfig::class)->expects($this->any())->method('getAppValue')->willReturn(true);
 		$this->addNewEncryptionModule($this->manager, 0);
 		$this->assertCount(1, $this->manager->getEncryptionModules());
 
@@ -89,7 +89,7 @@ class ManagerTest extends TestCase {
 		$this->expectException(ModuleDoesNotExistsException::class);
 		$this->expectExceptionMessage('Module with ID: unknown does not exist.');
 
-		$this->mocks[IConfig::class]->expects($this->any())->method('getAppValue')->willReturn(true);
+		$this->getAutoMock(IConfig::class)->expects($this->any())->method('getAppValue')->willReturn(true);
 		$this->addNewEncryptionModule($this->manager, 0);
 		$this->assertCount(1, $this->manager->getEncryptionModules());
 		$this->manager->getEncryptionModule('unknown');
@@ -99,7 +99,7 @@ class ManagerTest extends TestCase {
 		global $defaultId;
 		$defaultId = null;
 
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'default_encryption_module')
 			->willReturnCallback(function () {
@@ -123,7 +123,7 @@ class ManagerTest extends TestCase {
 		global $defaultId;
 		$defaultId = null;
 
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'default_encryption_module')
 			->willReturnCallback(function () {
@@ -148,7 +148,7 @@ class ManagerTest extends TestCase {
 		global $defaultId;
 		$defaultId = null;
 
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'default_encryption_module')
 			->willReturnCallback(function () {
@@ -166,7 +166,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('ID0', $this->manager->getDefaultEncryptionModuleId());
 
 		// Set to an existing module
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('setAppValue')
 			->with('core', 'default_encryption_module', 'ID1');
 		$this->assertTrue($this->manager->setDefaultEncryptionModule('ID1'));

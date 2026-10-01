@@ -26,11 +26,11 @@ class CreateSessionTokenCommandTest extends ALoginTestCommand {
 
 	public function testProcess(): void {
 		// Just return the route name as path to not return an empty string
-		$this->mocks[IURLGenerator::class]->expects(self::once())
+		$this->getAutoMock(IURLGenerator::class)->expects(self::once())
 			->method('linkToRoute')
 			->willReturnArgument(0);
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getSystemValueInt')
 			->with(
 				'remember_login_cookie_lifetime',
@@ -40,7 +40,7 @@ class CreateSessionTokenCommandTest extends ALoginTestCommand {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->mocks[Session::class]->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('createSessionToken')
 			->with(
 				$this->request,
@@ -50,7 +50,7 @@ class CreateSessionTokenCommandTest extends ALoginTestCommand {
 				IToken::REMEMBER,
 				null
 			);
-		$this->mocks[Session::class]->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('updateTokens')
 			->with(
 				$this->username,
@@ -64,11 +64,11 @@ class CreateSessionTokenCommandTest extends ALoginTestCommand {
 
 	public function testProcessDoNotRemember(): void {
 		// Just return the route name as path to not return an empty string
-		$this->mocks[IURLGenerator::class]->expects(self::once())
+		$this->getAutoMock(IURLGenerator::class)->expects(self::once())
 			->method('linkToRoute')
 			->willReturnArgument(0);
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getSystemValueInt')
 			->with(
 				'remember_login_cookie_lifetime',
@@ -78,7 +78,7 @@ class CreateSessionTokenCommandTest extends ALoginTestCommand {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->mocks[Session::class]->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('createSessionToken')
 			->with(
 				$this->request,
@@ -88,7 +88,7 @@ class CreateSessionTokenCommandTest extends ALoginTestCommand {
 				IToken::DO_NOT_REMEMBER,
 				null
 			);
-		$this->mocks[Session::class]->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('updateTokens')
 			->with(
 				$this->username,
@@ -103,15 +103,15 @@ class CreateSessionTokenCommandTest extends ALoginTestCommand {
 
 	public function testLoginFlowEphemeral(): void {
 		$this->redirectUrl = 'EPHEMERAL_ROUTE';
-		$this->mocks[IURLGenerator::class]->expects(self::once())
+		$this->getAutoMock(IURLGenerator::class)->expects(self::once())
 			->method('linkToRoute')
 			->willReturn($this->redirectUrl);
-		$this->mocks[ITimeFactory::class]->expects(self::once())
+		$this->getAutoMock(ITimeFactory::class)->expects(self::once())
 			->method('getTime')
 			->willReturn(1000);
 
 		$data = $this->getLoggedInLoginDataWithRedirectUrl();
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getSystemValueInt')
 			->with(
 				'remember_login_cookie_lifetime',
@@ -121,7 +121,7 @@ class CreateSessionTokenCommandTest extends ALoginTestCommand {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->mocks[Session::class]->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('createSessionToken')
 			->with(
 				$this->request,
@@ -131,7 +131,7 @@ class CreateSessionTokenCommandTest extends ALoginTestCommand {
 				IToken::REMEMBER,
 				1000 + 5 * 60
 			);
-		$this->mocks[Session::class]->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('updateTokens')
 			->with(
 				$this->username,

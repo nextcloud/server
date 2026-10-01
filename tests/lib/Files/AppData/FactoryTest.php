@@ -22,9 +22,9 @@ class FactoryTest extends \Test\TestCase {
 	}
 
 	public function testGet(): void {
-		$this->mocks[IRootFolder::class]->expects($this->never())
+		$this->getAutoMock(IRootFolder::class)->expects($this->never())
 			->method($this->anything());
-		$this->mocks[SystemConfig::class]->expects($this->never())
+		$this->getAutoMock(SystemConfig::class)->expects($this->never())
 			->method($this->anything());
 
 		$this->factory->get('foo');

@@ -25,7 +25,7 @@ class UpdateLastPasswordConfirmCommandTest extends ALoginTestCommand {
 		$this->user->expects($this->once())
 			->method('getLastLogin')
 			->willReturn(1234);
-		$this->mocks[ISession::class]->expects($this->once())
+		$this->getAutoMock(ISession::class)->expects($this->once())
 			->method('set')
 			->with(
 				'last-password-confirm',

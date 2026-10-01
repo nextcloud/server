@@ -68,7 +68,7 @@ class RegistryTest extends TestCase {
 
 	public function testDelegateHasValidSubscriptionConfig(): void {
 		/* @var ISubscription|\PHPUnit\Framework\MockObject\MockObject $subscription */
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getSystemValueBool')
 			->with('has_valid_subscription')
 			->willReturn(true);
@@ -99,7 +99,7 @@ class RegistryTest extends TestCase {
 	}
 
 	public function testSubscriptionService(): void {
-		$this->mocks[ContainerInterface::class]->method('get')
+		$this->getAutoMock(ContainerInterface::class)->method('get')
 			->with(DummySubscription::class)
 			->willReturn(new DummySubscription(true, false, false));
 		$this->registry->registerService(DummySubscription::class);
@@ -122,7 +122,7 @@ class RegistryTest extends TestCase {
 		$dummyGroup->expects($this->once())
 			->method('getUsers')
 			->willReturn([]);
-		$this->mocks[IGroupManager::class]->expects($this->once())
+		$this->getAutoMock(IGroupManager::class)->expects($this->once())
 			->method('get')
 			->willReturn($dummyGroup);
 
@@ -130,7 +130,7 @@ class RegistryTest extends TestCase {
 	}
 
 	public function testDelegateIsHardUserLimitReachedWithoutSupportApp(): void {
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getSystemValueBool')
 			->with('one-click-instance')
 			->willReturn(false);
@@ -150,19 +150,19 @@ class RegistryTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataForUserLimitCheck')]
 	public function testDelegateIsHardUserLimitReachedWithoutSupportAppAndUserCount($userLimit, $userCount, $disabledUsers, $expectedResult): void {
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getSystemValueBool')
 			->with('one-click-instance')
 			->willReturn(true);
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getSystemValueInt')
 			->with('one-click-instance.user-limit')
 			->willReturn($userLimit);
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getUsersForUserValue')
 			->with('core', 'enabled', 'false')
 			->willReturn(array_fill(0, $disabledUsers, ''));
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('countUsersTotal')
 			->willReturn($userCount);
 
@@ -171,7 +171,7 @@ class RegistryTest extends TestCase {
 			$dummyGroup->expects($this->once())
 				->method('getUsers')
 				->willReturn([]);
-			$this->mocks[IGroupManager::class]->expects($this->once())
+			$this->getAutoMock(IGroupManager::class)->expects($this->once())
 				->method('get')
 				->willReturn($dummyGroup);
 		}

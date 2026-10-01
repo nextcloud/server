@@ -77,7 +77,7 @@ class GetConfigTest extends TestCase {
 	public function testGet(string $configName, mixed $value, bool $configExists, mixed $defaultValue, bool $hasDefault, string $outputFormat, int $expectedReturn, ?string $expectedMessage): void {
 		if (!$expectedReturn) {
 			if ($configExists) {
-				$this->mocks[IAppConfig::class]->expects($this->once())
+				$this->getAutoMock(IAppConfig::class)->expects($this->once())
 					->method('getDetails')
 					->with('app-name', $configName)
 					->willReturn(['value' => $value]);
@@ -85,7 +85,7 @@ class GetConfigTest extends TestCase {
 		}
 
 		if (!$configExists) {
-			$this->mocks[IAppConfig::class]->expects($this->once())
+			$this->getAutoMock(IAppConfig::class)->expects($this->once())
 				->method('getDetails')
 				->with('app-name', $configName)
 				->willThrowException(new AppConfigUnknownKeyException());

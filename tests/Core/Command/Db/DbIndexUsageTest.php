@@ -51,9 +51,9 @@ class DbIndexUsageTest extends TestCase {
 	}
 
 	public function testNoUnusedIndexesPrintsSuccessMessage(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult([]));
 		$this->input->method('getOption')->willReturnMap([['json', false], ['all', false]]);
 
@@ -65,9 +65,9 @@ class DbIndexUsageTest extends TestCase {
 	}
 
 	public function testMySQLUnusedIndexesRendersTable(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockMySQLRows()));
 		$this->input->method('getOption')->willReturnMap([['json', false], ['all', false]]);
 
@@ -83,9 +83,9 @@ class DbIndexUsageTest extends TestCase {
 	}
 
 	public function testPostgreSQLUnusedIndexesRendersTable(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(PostgreSQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockPostgreSQLRows()));
 		$this->input->method('getOption')->willReturnMap([['json', false], ['all', false]]);
 
@@ -99,9 +99,9 @@ class DbIndexUsageTest extends TestCase {
 	}
 
 	public function testAllFlagSuppressesCountMessage(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockMySQLRows()));
 		$this->input->method('getOption')->willReturnMap([['json', false], ['all', true]]);
 
@@ -112,9 +112,9 @@ class DbIndexUsageTest extends TestCase {
 	}
 
 	public function testDefaultFilterIncludedInQuery(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->expects($this->once())
+		$this->getAutoMock(Connection::class)->expects($this->once())
 			->method('executeQuery')
 			->with($this->stringContains('count_read = 0'))
 			->willReturn($this->mockResult([]));
@@ -124,9 +124,9 @@ class DbIndexUsageTest extends TestCase {
 	}
 
 	public function testAllFlagRemovesFilterFromQuery(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->expects($this->once())
+		$this->getAutoMock(Connection::class)->expects($this->once())
 			->method('executeQuery')
 			->with($this->logicalNot($this->stringContains('count_read = 0')))
 			->willReturn($this->mockResult([]));
@@ -136,9 +136,9 @@ class DbIndexUsageTest extends TestCase {
 	}
 
 	public function testJsonOutputWhenRowsExist(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(MySQLPlatform::class));
-		$this->mocks[Connection::class]->method('executeQuery')
+		$this->getAutoMock(Connection::class)->method('executeQuery')
 			->willReturn($this->mockResult($this->mockMySQLRows()));
 		$this->input->method('getOption')->willReturnMap([['json', true], ['all', false]]);
 
@@ -154,7 +154,7 @@ class DbIndexUsageTest extends TestCase {
 	}
 
 	public function testSQLiteReturnsSuccessWithMessage(): void {
-		$this->mocks[Connection::class]->method('getDatabasePlatform')
+		$this->getAutoMock(Connection::class)->method('getDatabasePlatform')
 			->willReturn($this->createMock(SqlitePlatform::class));
 		$this->input->method('getOption')->willReturnMap([['json', false], ['all', false]]);
 

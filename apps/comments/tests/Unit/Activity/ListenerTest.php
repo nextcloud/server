@@ -38,7 +38,7 @@ class ListenerTest extends TestCase {
 	}
 
 	public function testCommentEvent(): void {
-		$this->mocks[IAppManager::class]->expects($this->any())
+		$this->getAutoMock(IAppManager::class)->expects($this->any())
 			->method('isEnabledForAnyone')
 			->with('activity')
 			->willReturn(true);
@@ -69,7 +69,7 @@ class ListenerTest extends TestCase {
 			->method('getMountsForFileId')
 			->willReturn($mounts);
 
-		$this->mocks[IMountProviderCollection::class]->expects($this->any())
+		$this->getAutoMock(IMountProviderCollection::class)->expects($this->any())
 			->method('getMountCache')
 			->willReturn($userMountCache);
 
@@ -80,7 +80,7 @@ class ListenerTest extends TestCase {
 			->method('getFirstNodeById')
 			->willReturn($node);
 
-		$this->mocks[IRootFolder::class]->expects($this->any())
+		$this->getAutoMock(IRootFolder::class)->expects($this->any())
 			->method('getUserFolder')
 			->willReturn($ownerFolder);
 
@@ -89,11 +89,11 @@ class ListenerTest extends TestCase {
 			'254342' => 'there/i/have/it',
 			'sandra' => 'and/here/i/placed/it'
 		]];
-		$this->mocks[IShareHelper::class]->expects($this->any())
+		$this->getAutoMock(IShareHelper::class)->expects($this->any())
 			->method('getPathsForAccessList')
 			->willReturn($al);
 
-		$this->mocks[IUserSession::class]->expects($this->any())
+		$this->getAutoMock(IUserSession::class)->expects($this->any())
 			->method('getUser')
 			->willReturn($ownerUser);
 
@@ -122,10 +122,10 @@ class ListenerTest extends TestCase {
 			->with('add_comment_message', $this->anything())
 			->willReturnSelf();
 
-		$this->mocks[IManager::class]->expects($this->once())
+		$this->getAutoMock(IManager::class)->expects($this->once())
 			->method('generateEvent')
 			->willReturn($activity);
-		$this->mocks[IManager::class]->expects($this->exactly(count($al['users'])))
+		$this->getAutoMock(IManager::class)->expects($this->exactly(count($al['users'])))
 			->method('publish');
 
 		$this->listener->commentEvent($event);

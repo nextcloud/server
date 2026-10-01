@@ -28,7 +28,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 	}
 
 	public function testIsEnabled(): void {
-		$this->mocks[IConfig::class]->expects(self::once())
+		$this->getAutoMock(IConfig::class)->expects(self::once())
 			->method('getAppValue')
 			->with('dav', 'hide_absence_settings', 'no')
 			->willReturn('no');
@@ -48,7 +48,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$absence->setMessage('On vacation');
 		$absence->setReplacementUserId('batman');
 		$absence->setReplacementUserDisplayName('Bruce Wayne');
-		$this->mocks[TimezoneService::class]->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
+		$this->getAutoMock(TimezoneService::class)->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -57,7 +57,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
 			->method('get')
 			->willReturnOnConsecutiveCalls(null, null);
-		$this->mocks[AbsenceService::class]->expects(self::once())
+		$this->getAutoMock(AbsenceService::class)->expects(self::once())
 			->method('getAbsence')
 			->with($user->getUID())
 			->willReturn($absence);
@@ -105,7 +105,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
 			->method('get')
 			->willReturnOnConsecutiveCalls('UTC', '{"id":"420","startDate":1696118400,"endDate":1696809540,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}');
-		$this->mocks[AbsenceService::class]->expects(self::never())
+		$this->getAutoMock(AbsenceService::class)->expects(self::never())
 			->method('getAbsence');
 		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(1))
 			->method('set');
@@ -140,7 +140,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
 			->method('get')
 			->willReturnOnConsecutiveCalls('UTC', null);
-		$this->mocks[AbsenceService::class]->expects(self::once())
+		$this->getAutoMock(AbsenceService::class)->expects(self::once())
 			->method('getAbsence')
 			->willReturn(null);
 		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::never())
@@ -160,7 +160,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$absence->setMessage('On vacation');
 		$absence->setReplacementUserId('batman');
 		$absence->setReplacementUserDisplayName('Bruce Wayne');
-		$this->mocks[TimezoneService::class]->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
+		$this->getAutoMock(TimezoneService::class)->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -169,7 +169,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$this->getCacheAutoMock('OutOfOfficeData')->expects(self::exactly(2))
 			->method('get')
 			->willReturnOnConsecutiveCalls('UTC', '{"id":"420",}');
-		$this->mocks[AbsenceService::class]->expects(self::once())
+		$this->getAutoMock(AbsenceService::class)->expects(self::once())
 			->method('getAbsence')
 			->with('user')
 			->willReturn($absence);

@@ -37,7 +37,7 @@ final class SystemReportManagerTest extends TestCase {
 			->method('getSystemReportSections')
 			->willReturn($registrations);
 
-		$this->mocks[Coordinator::class]->expects(self::atLeastOnce())
+		$this->getAutoMock(Coordinator::class)->expects(self::atLeastOnce())
 			->method('getRegistrationContext')
 			->willReturn($context);
 	}
@@ -54,7 +54,7 @@ final class SystemReportManagerTest extends TestCase {
 			->method('getDetails')
 			->willReturn([]);
 
-		$this->mocks[ContainerInterface::class]->expects(self::once())
+		$this->getAutoMock(ContainerInterface::class)->expects(self::once())
 			->method('get')
 			->with($section::class)
 			->willReturn($section);
@@ -71,7 +71,7 @@ final class SystemReportManagerTest extends TestCase {
 		$section->method('getDetails')
 			->willThrowException(new \RuntimeException('boom'));
 
-		$this->mocks[ContainerInterface::class]->method('get')
+		$this->getAutoMock(ContainerInterface::class)->method('get')
 			->with($section::class)
 			->willReturn($section);
 
@@ -79,14 +79,14 @@ final class SystemReportManagerTest extends TestCase {
 			new ServiceRegistration('testing', $section::class),
 		]);
 
-		$this->mocks[LoggerInterface::class]->expects(self::once())
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())
 			->method('error');
 
 		$this->assertSame([], $this->manager->getSections());
 	}
 
 	public function testGetSectionsSkipsUnresolvableClass(): void {
-		$this->mocks[ContainerInterface::class]->method('get')
+		$this->getAutoMock(ContainerInterface::class)->method('get')
 			->with(\stdClass::class)
 			->willThrowException($this->createStub(NotFoundExceptionInterface::class));
 
@@ -94,7 +94,7 @@ final class SystemReportManagerTest extends TestCase {
 			new ServiceRegistration('testing', \stdClass::class),
 		]);
 
-		$this->mocks[LoggerInterface::class]->expects(self::once())
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())
 			->method('error');
 
 		$this->assertSame([], $this->manager->getSections());

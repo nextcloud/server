@@ -22,7 +22,7 @@ class CompleteLoginCommandTest extends ALoginTestCommand {
 
 	public function testProcess(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[Session::class]->expects($this->once())
+		$this->getAutoMock(Session::class)->expects($this->once())
 			->method('completeLogin')
 			->with(
 				$this->user,

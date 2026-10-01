@@ -43,11 +43,11 @@ class AddTest extends TestCase {
 	public function testGroupExists(): void {
 		$gid = 'myGroup';
 		$group = $this->createMock(IGroup::class);
-		$this->mocks[IGroupManager::class]->method('get')
+		$this->getAutoMock(IGroupManager::class)->method('get')
 			->with($gid)
 			->willReturn($group);
 
-		$this->mocks[IGroupManager::class]->expects($this->never())
+		$this->getAutoMock(IGroupManager::class)->expects($this->never())
 			->method('createGroup');
 		$this->output->expects($this->once())
 			->method('writeln')
@@ -61,10 +61,10 @@ class AddTest extends TestCase {
 		$group = $this->createMock(IGroup::class);
 		$group->method('getGID')
 			->willReturn($gid);
-		$this->mocks[IGroupManager::class]->method('createGroup')
+		$this->getAutoMock(IGroupManager::class)->method('createGroup')
 			->willReturn($group);
 
-		$this->mocks[IGroupManager::class]->expects($this->once())
+		$this->getAutoMock(IGroupManager::class)->expects($this->once())
 			->method('createGroup')
 			->with($this->equalTo($gid));
 		$this->output->expects($this->once())

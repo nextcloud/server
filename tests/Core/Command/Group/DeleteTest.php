@@ -42,11 +42,11 @@ class DeleteTest extends TestCase {
 				}
 				throw new \Exception();
 			});
-		$this->mocks[IGroupManager::class]->method('groupExists')
+		$this->getAutoMock(IGroupManager::class)->method('groupExists')
 			->with($gid)
 			->willReturn(false);
 
-		$this->mocks[IGroupManager::class]->expects($this->never())
+		$this->getAutoMock(IGroupManager::class)->expects($this->never())
 			->method('get');
 		$this->output->expects($this->once())
 			->method('writeln')
@@ -65,7 +65,7 @@ class DeleteTest extends TestCase {
 				throw new \Exception();
 			});
 
-		$this->mocks[IGroupManager::class]->expects($this->never())
+		$this->getAutoMock(IGroupManager::class)->expects($this->never())
 			->method($this->anything());
 		$this->output->expects($this->once())
 			->method('writeln')
@@ -86,10 +86,10 @@ class DeleteTest extends TestCase {
 		$group = $this->createMock(IGroup::class);
 		$group->method('delete')
 			->willReturn(false);
-		$this->mocks[IGroupManager::class]->method('groupExists')
+		$this->getAutoMock(IGroupManager::class)->method('groupExists')
 			->with($gid)
 			->willReturn(true);
-		$this->mocks[IGroupManager::class]->method('get')
+		$this->getAutoMock(IGroupManager::class)->method('get')
 			->with($gid)
 			->willReturn($group);
 
@@ -112,10 +112,10 @@ class DeleteTest extends TestCase {
 		$group = $this->createMock(IGroup::class);
 		$group->method('delete')
 			->willReturn(true);
-		$this->mocks[IGroupManager::class]->method('groupExists')
+		$this->getAutoMock(IGroupManager::class)->method('groupExists')
 			->with($gid)
 			->willReturn(true);
-		$this->mocks[IGroupManager::class]->method('get')
+		$this->getAutoMock(IGroupManager::class)->method('get')
 			->with($gid)
 			->willReturn($group);
 

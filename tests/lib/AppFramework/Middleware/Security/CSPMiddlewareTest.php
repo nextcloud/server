@@ -32,7 +32,7 @@ class CSPMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testAfterController(): void {
-		$this->mocks[ContentSecurityPolicyNonceManager::class]
+		$this->getAutoMock(ContentSecurityPolicyNonceManager::class)
 			->expects($this->once())
 			->method('browserSupportsCspV3')
 			->willReturn(false);
@@ -47,11 +47,11 @@ class CSPMiddlewareTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('getContentSecurityPolicy')
 			->willReturn($currentPolicy);
-		$this->mocks[ContentSecurityPolicyManager::class]
+		$this->getAutoMock(ContentSecurityPolicyManager::class)
 			->expects($this->once())
 			->method('getDefaultPolicy')
 			->willReturn($defaultPolicy);
-		$this->mocks[ContentSecurityPolicyManager::class]
+		$this->getAutoMock(ContentSecurityPolicyManager::class)
 			->expects($this->once())
 			->method('mergePolicies')
 			->with($defaultPolicy, $currentPolicy)
@@ -76,12 +76,12 @@ class CSPMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testAfterControllerWithContentSecurityPolicy3Support(): void {
-		$this->mocks[ContentSecurityPolicyNonceManager::class]
+		$this->getAutoMock(ContentSecurityPolicyNonceManager::class)
 			->expects($this->once())
 			->method('browserSupportsCspV3')
 			->willReturn(true);
 		$token = base64_encode('the-nonce');
-		$this->mocks[ContentSecurityPolicyNonceManager::class]
+		$this->getAutoMock(ContentSecurityPolicyNonceManager::class)
 			->expects($this->once())
 			->method('getNonce')
 			->willReturn($token);
@@ -96,11 +96,11 @@ class CSPMiddlewareTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('getContentSecurityPolicy')
 			->willReturn($currentPolicy);
-		$this->mocks[ContentSecurityPolicyManager::class]
+		$this->getAutoMock(ContentSecurityPolicyManager::class)
 			->expects($this->once())
 			->method('getDefaultPolicy')
 			->willReturn($defaultPolicy);
-		$this->mocks[ContentSecurityPolicyManager::class]
+		$this->getAutoMock(ContentSecurityPolicyManager::class)
 			->expects($this->once())
 			->method('mergePolicies')
 			->with($defaultPolicy, $currentPolicy)

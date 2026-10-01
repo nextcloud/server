@@ -44,7 +44,7 @@ class RemoteWipeNotificationsListenerTest extends TestCase {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
 		$notification = $this->createMock(INotification::class);
-		$this->mocks[INotificationManager::class]->expects($this->once())
+		$this->getAutoMock(INotificationManager::class)->expects($this->once())
 			->method('createNotification')
 			->willReturn($notification);
 		$notification->expects($this->once())
@@ -57,7 +57,7 @@ class RemoteWipeNotificationsListenerTest extends TestCase {
 			->with('user123')
 			->willReturnSelf();
 		$now = new DateTime();
-		$this->mocks[ITimeFactory::class]->method('getDateTime')->willReturn($now);
+		$this->getAutoMock(ITimeFactory::class)->method('getDateTime')->willReturn($now);
 		$notification->expects($this->once())
 			->method('setDateTime')
 			->with($now)
@@ -74,7 +74,7 @@ class RemoteWipeNotificationsListenerTest extends TestCase {
 				'name' => 'Token 1'
 			])
 			->willReturnSelf();
-		$this->mocks[INotificationManager::class]->expects($this->once())
+		$this->getAutoMock(INotificationManager::class)->expects($this->once())
 			->method('notify');
 
 		$this->listener->handle($event);
@@ -84,7 +84,7 @@ class RemoteWipeNotificationsListenerTest extends TestCase {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);
 		$notification = $this->createMock(INotification::class);
-		$this->mocks[INotificationManager::class]->expects($this->once())
+		$this->getAutoMock(INotificationManager::class)->expects($this->once())
 			->method('createNotification')
 			->willReturn($notification);
 		$notification->expects($this->once())
@@ -97,7 +97,7 @@ class RemoteWipeNotificationsListenerTest extends TestCase {
 			->with('user123')
 			->willReturnSelf();
 		$now = new DateTime();
-		$this->mocks[ITimeFactory::class]->method('getDateTime')->willReturn($now);
+		$this->getAutoMock(ITimeFactory::class)->method('getDateTime')->willReturn($now);
 		$notification->expects($this->once())
 			->method('setDateTime')
 			->with($now)
@@ -114,7 +114,7 @@ class RemoteWipeNotificationsListenerTest extends TestCase {
 				'name' => 'Token 1'
 			])
 			->willReturnSelf();
-		$this->mocks[INotificationManager::class]->expects($this->once())
+		$this->getAutoMock(INotificationManager::class)->expects($this->once())
 			->method('notify');
 
 		$this->listener->handle($event);

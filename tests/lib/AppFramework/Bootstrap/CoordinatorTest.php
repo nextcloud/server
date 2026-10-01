@@ -29,7 +29,7 @@ class CoordinatorTest extends TestCase {
 		parent::setUp();
 
 		$this->coordinator = $this->createInstanceWithMocks(Coordinator::class);
-		$this->mocks[AppManager::class]->expects($this->any())
+		$this->getAutoMock(AppManager::class)->expects($this->any())
 			->method('getAppNamespace')
 			->with('settings')
 			->willReturn('OCA\\Settings');
@@ -37,11 +37,11 @@ class CoordinatorTest extends TestCase {
 
 	public function testBootAppNotLoadable(): void {
 		$appId = 'settings';
-		$this->mocks[Server::class]->expects($this->once())
+		$this->getAutoMock(Server::class)->expects($this->once())
 			->method('get')
 			->with(Application::class)
 			->willThrowException(new QueryException(''));
-		$this->mocks[LoggerInterface::class]->expects($this->once())
+		$this->getAutoMock(LoggerInterface::class)->expects($this->once())
 			->method('error');
 
 		$this->coordinator->bootApp($appId);
@@ -50,7 +50,7 @@ class CoordinatorTest extends TestCase {
 	public function testBootAppNotBootable(): void {
 		$appId = 'settings';
 		$mockApp = $this->createMock(Application::class);
-		$this->mocks[Server::class]->expects($this->once())
+		$this->getAutoMock(Server::class)->expects($this->once())
 			->method('get')
 			->with(Application::class)
 			->willReturn($mockApp);
@@ -73,7 +73,7 @@ class CoordinatorTest extends TestCase {
 			public function boot(IBootContext $context): void {
 			}
 		};
-		$this->mocks[Server::class]->expects($this->once())
+		$this->getAutoMock(Server::class)->expects($this->once())
 			->method('get')
 			->with(Application::class)
 			->willReturn($mockApp);

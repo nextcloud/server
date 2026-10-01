@@ -39,7 +39,7 @@ class ContentSecurityPolicyNonceManagerTest extends TestCase {
 			->method('getEncryptedValue')
 			->willReturn($tokenValue);
 
-		$this->mocks[CsrfTokenManager::class]
+		$this->getAutoMock(CsrfTokenManager::class)
 			->expects($this->once())
 			->method('getToken')
 			->willReturn($token);
@@ -51,12 +51,12 @@ class ContentSecurityPolicyNonceManagerTest extends TestCase {
 
 	public function testGetNonceServerVar(): void {
 		$token = 'SERVERNONCE';
-		$this->mocks[Request::class]
+		$this->getAutoMock(Request::class)
 			->method('__isset')
 			->with('server')
 			->willReturn(true);
 
-		$this->mocks[Request::class]
+		$this->getAutoMock(Request::class)
 			->method('__get')
 			->with('server')
 			->willReturn(['CSP_NONCE' => $token]);

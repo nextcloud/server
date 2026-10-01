@@ -26,7 +26,7 @@ class MemoryCacheBackendTest extends TestCase {
 		parent::setUp();
 		$this->memoryCache = $this->createInstanceWithMocks(MemoryCacheBackend::class);
 
-		$this->mocks[IConfig::class]->method('getSystemValueBool')
+		$this->getAutoMock(IConfig::class)->method('getSystemValueBool')
 			->with('ratelimit.protection.enabled')
 			->willReturn(true);
 	}
@@ -42,7 +42,7 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testGetAttempts(): void {
-		$this->mocks[ITimeFactory::class]
+		$this->getAutoMock(ITimeFactory::class)
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(210);
@@ -63,7 +63,7 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testRegisterAttemptWithNoAttemptsBefore(): void {
-		$this->mocks[ITimeFactory::class]
+		$this->getAutoMock(ITimeFactory::class)
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(123);
@@ -85,7 +85,7 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testRegisterAttempt(): void {
-		$this->mocks[ITimeFactory::class]
+		$this->getAutoMock(ITimeFactory::class)
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(86);

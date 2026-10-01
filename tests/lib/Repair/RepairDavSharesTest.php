@@ -35,7 +35,7 @@ class RepairDavSharesTest extends TestCase {
 	}
 
 	public function testRun(): void {
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueString')
 			->with('version', '0.0.0')
 			->willReturn('20.0.2');
@@ -143,11 +143,11 @@ class RepairDavSharesTest extends TestCase {
 		$updateMock->expects($this->exactly(2))
 			->method('executeStatement');
 
-		$this->mocks[IDBConnection::class]->expects($this->atLeast(2))
+		$this->getAutoMock(IDBConnection::class)->expects($this->atLeast(2))
 			->method('getQueryBuilder')
 			->willReturnOnConsecutiveCalls($selectMock, $updateMock);
 
-		$this->mocks[IGroupManager::class]->expects($this->any())
+		$this->getAutoMock(IGroupManager::class)->expects($this->any())
 			->method('groupExists')
 			->willReturnCallback(function (string $gid) use ($existingGroups) {
 				return in_array($gid, $existingGroups, true);

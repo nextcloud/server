@@ -59,7 +59,7 @@ class DatabaseTest extends Backend {
 		$user = $this->getUser();
 		$this->backend->createUser($user, 'pass1');
 
-		$this->mocks[IEventDispatcher::class]->expects($this->once())->method('dispatchTyped')
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(
 				function (Event $event): void {
 					$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);
@@ -79,7 +79,7 @@ class DatabaseTest extends Backend {
 		$user = $this->getUser();
 		$this->backend->createUser($user, 'pass1');
 
-		$this->mocks[IEventDispatcher::class]->expects($this->once())->method('dispatchTyped')
+		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(
 				function (Event $event): void {
 					$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);

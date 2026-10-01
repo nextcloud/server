@@ -25,7 +25,7 @@ class ClearLostPasswordTokensCommandTest extends ALoginTestCommand {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('deleteUserValue')
 			->with(
 				$this->username,

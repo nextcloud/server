@@ -34,7 +34,7 @@ class UpdateThemeTest extends TestCase {
 		$this->consoleInput->method('getOption')
 			->with('maintenance:theme:update')
 			->willReturn(true);
-		$this->mocks[Detection::class]->expects($this->once())
+		$this->getAutoMock(Detection::class)->expects($this->once())
 			->method('getAllAliases')
 			->willReturn([]);
 		$this->getCacheAutoMock('imagePath')->expects($this->once())

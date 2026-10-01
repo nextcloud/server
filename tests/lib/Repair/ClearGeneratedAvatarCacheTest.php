@@ -41,7 +41,7 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('shouldRunDataProvider')]
 	public function testShouldRun($from, $expected): void {
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueString')
 			->with('version', '0.0.0.0')
 			->willReturn($from);

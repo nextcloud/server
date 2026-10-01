@@ -65,11 +65,11 @@ class UpdaterTest extends TestCase {
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('versionCompatibilityTestData')]
 	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersions, $result, $debug = false, $vendor = 'nextcloud'): void {
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueBool')
 			->with('debug', false)
 			->willReturn($debug);
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'vendor', '')
 			->willReturn($vendor);
@@ -97,29 +97,29 @@ class UpdaterTest extends TestCase {
 	}
 
 	public function testUpgradeAppStoreAppsRestoresMissingAutoDisabledAppBeforeEnabling(): void {
-		$this->mocks[Installer::class]->expects($this->once())
+		$this->getAutoMock(Installer::class)->expects($this->once())
 			->method('isUpdateAvailable')
 			->with('mailroundcube')
 			->willReturn(false);
 
-		$this->mocks[Installer::class]->expects($this->once())
+		$this->getAutoMock(Installer::class)->expects($this->once())
 			->method('downloadApp')
 			->with('mailroundcube');
 
-		$this->mocks[Installer::class]->expects($this->once())
+		$this->getAutoMock(Installer::class)->expects($this->once())
 			->method('installApp')
 			->with('mailroundcube');
 
-		$this->mocks[IAppManager::class]->expects($this->once())
+		$this->getAutoMock(IAppManager::class)->expects($this->once())
 			->method('getAppPath')
 			->with('mailroundcube', true)
 			->willThrowException(new AppPathNotFoundException('missing'));
 
-		$this->mocks[IAppManager::class]->expects($this->once())
+		$this->getAutoMock(IAppManager::class)->expects($this->once())
 			->method('enableApp')
 			->with('mailroundcube');
 
-		$this->mocks[IAppManager::class]->expects($this->never())
+		$this->getAutoMock(IAppManager::class)->expects($this->never())
 			->method('enableAppForGroups');
 
 		self::invokePrivate($this->updater, 'upgradeAppStoreApps', [

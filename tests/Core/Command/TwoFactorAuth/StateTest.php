@@ -40,7 +40,7 @@ class StateTest extends TestCase {
 
 	public function testStateNoProvidersActive(): void {
 		$user = $this->createMock(IUser::class);
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with('eldora')
 			->willReturn($user);
@@ -48,7 +48,7 @@ class StateTest extends TestCase {
 			'u2f' => false,
 			'totp' => false,
 		];
-		$this->mocks[IRegistry::class]->expects($this->once())
+		$this->getAutoMock(IRegistry::class)->expects($this->once())
 			->method('getProviderStates')
 			->with($user)
 			->willReturn($states);
@@ -63,7 +63,7 @@ class StateTest extends TestCase {
 
 	public function testStateOneProviderActive(): void {
 		$user = $this->createMock(IUser::class);
-		$this->mocks[IUserManager::class]->expects($this->once())
+		$this->getAutoMock(IUserManager::class)->expects($this->once())
 			->method('get')
 			->with('mohamed')
 			->willReturn($user);
@@ -71,7 +71,7 @@ class StateTest extends TestCase {
 			'u2f' => true,
 			'totp' => false,
 		];
-		$this->mocks[IRegistry::class]->expects($this->once())
+		$this->getAutoMock(IRegistry::class)->expects($this->once())
 			->method('getProviderStates')
 			->with($user)
 			->willReturn($states);

@@ -52,17 +52,17 @@ class LanguageIteratorTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('languageSettingsProvider')]
 	public function testIterator($forcedLang, $userLang, $sysLang, $expectedValues): void {
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValue')
 			->willReturnMap([
 				['force_language', false, $forcedLang],
 			]);
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getSystemValueString')
 			->willReturnMap([
 				['default_language', 'en', $sysLang],
 			]);
-		$this->mocks[IConfig::class]->expects($this->any())
+		$this->getAutoMock(IConfig::class)->expects($this->any())
 			->method('getUserValue')
 			->willReturn($userLang);
 

@@ -58,7 +58,7 @@ class ErrorHandlerTest extends TestCase {
 	public function testRemovePasswordFromError($username, $password): void {
 		$url = 'http://' . $username . ':' . $password . '@owncloud.org';
 		$expectedResult = 'http://xxx:xxx@owncloud.org';
-		$this->mocks[LoggerInterface::class]->expects(self::once())
+		$this->getAutoMock(LoggerInterface::class)->expects(self::once())
 			->method('log')
 			->with(
 				ILogger::ERROR,

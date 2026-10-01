@@ -24,9 +24,9 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 
 	public function testProcessNoTimezoneSet(): void {
 		$data = $this->getLoggedInLoginData();
-		$this->mocks[IConfig::class]->expects($this->never())
+		$this->getAutoMock(IConfig::class)->expects($this->never())
 			->method('setUserValue');
-		$this->mocks[ISession::class]->expects($this->never())
+		$this->getAutoMock(ISession::class)->expects($this->never())
 			->method('set');
 
 		$result = $this->cmd->process($data);
@@ -64,7 +64,7 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getUserValue')
 			->with(
 				$this->username,
@@ -73,7 +73,7 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 				''
 			)
 			->willReturn('');
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('setUserValue')
 			->with(
 				$this->username,
@@ -81,7 +81,7 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 				'timezone',
 				$timezone
 			);
-		$this->mocks[ISession::class]->expects($this->once())
+		$this->getAutoMock(ISession::class)->expects($this->once())
 			->method('set')
 			->with(
 				'timezone',
@@ -95,9 +95,9 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 
 	public function testProcessUnknownTimezone(): void {
 		$data = $this->getLoggedInLoginDataWithTimezone('Mars/Olympus_Mons');
-		$this->mocks[IConfig::class]->expects($this->never())
+		$this->getAutoMock(IConfig::class)->expects($this->never())
 			->method('setUserValue');
-		$this->mocks[ISession::class]->expects($this->never())
+		$this->getAutoMock(ISession::class)->expects($this->never())
 			->method('set');
 
 		$result = $this->cmd->process($data);
@@ -110,7 +110,7 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($this->username);
-		$this->mocks[IConfig::class]->expects($this->once())
+		$this->getAutoMock(IConfig::class)->expects($this->once())
 			->method('getUserValue')
 			->with(
 				$this->username,
@@ -119,9 +119,9 @@ class SetUserTimezoneCommandTest extends ALoginTestCommand {
 				'',
 			)
 			->willReturn('Europe/Berlin');
-		$this->mocks[IConfig::class]->expects($this->never())
+		$this->getAutoMock(IConfig::class)->expects($this->never())
 			->method('setUserValue');
-		$this->mocks[ISession::class]->expects($this->once())
+		$this->getAutoMock(ISession::class)->expects($this->once())
 			->method('set')
 			->with(
 				'timezone',
