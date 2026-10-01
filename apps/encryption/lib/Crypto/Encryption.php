@@ -511,7 +511,9 @@ class Encryption implements IEncryptionModule {
 		if ($parts[2] === 'files_versions') {
 			$realPath = '/' . $parts[1] . '/files/' . implode('/', array_slice($parts, 3));
 			$length = strrpos($realPath, '.');
-			$realPath = substr($realPath, 0, $length);
+			if ($length !== false) {
+				$realPath = substr($realPath, 0, $length);
+			}
 		}
 
 		return $realPath;
