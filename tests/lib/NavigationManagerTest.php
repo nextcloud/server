@@ -21,6 +21,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use OCP\Navigation\Events\NavigationEntriesFilterEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -242,6 +243,51 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEquals(['logout'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_ACTION)));
 		$this->assertEquals(['files'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_APPS)));
 		$this->assertEquals(['files', 'logout'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_ALL)));
+	}
+
+	public function testGetAllLetsListenersRemoveEntries(): void {
+		$this->navigationManager->add(['id' => 'files', 'name' => 'Files', 'order' => 1, 'href' => 'url']);
+		$this->navigationManager->add(['id' => 'social', 'name' => 'Social', 'order' => 2, 'href' => 'url']);
+		$this->navigationManager->add(['id' => 'logout', 'name' => 'Log out', 'order' => 3, 'href' => 'url', 'type' => INavigationManager::TYPE_ACTION]);
+
+		$types = [];
+		$this->dispatcher->method('hasListeners')->with(NavigationEntriesFilterEvent::class)->willReturn(true);
+		$this->dispatcher->method('dispatchTyped')->willReturnCallback(function ($event) use (&$types): void {
+			$this->assertInstanceOf(NavigationEntriesFilterEvent::class, $event);
+			$types[] = $event->getType();
+			$entries = $event->getEntries();
+			unset($entries['files']);
+			$event->setEntries($entries);
+		});
+
+		$this->assertEquals(['social'], array_keys($this->navigationManager->getAll()));
+		$this->assertEquals(['social', 'logout'], array_keys($this->navigationManager->getAll(INavigationManager::TYPE_ALL)));
+		$this->assertEquals([INavigationManager::TYPE_APPS, INavigationManager::TYPE_ALL], $types);
+	}
+
+	public function testGetAllIgnoresEntriesAListenerAddsOrChanges(): void {
+		$this->navigationManager->add(['id' => 'files', 'name' => 'Files', 'order' => 1, 'href' => 'url']);
+
+		$this->dispatcher->method('hasListeners')->willReturn(true);
+		$this->dispatcher->method('dispatchTyped')->willReturnCallback(function (NavigationEntriesFilterEvent $event): void {
+			$entries = $event->getEntries();
+			$entries['files']['href'] = 'https://evil.example';
+			$entries['extra'] = ['id' => 'extra', 'name' => 'Extra', 'order' => 0, 'href' => 'url', 'type' => 'link', 'active' => false];
+			$event->setEntries($entries);
+		});
+
+		$all = $this->navigationManager->getAll();
+		$this->assertEquals(['files'], array_keys($all));
+		$this->assertEquals('url', $all['files']['href']);
+	}
+
+	public function testGetAllDispatchesNoFilterEventWithoutListeners(): void {
+		$this->navigationManager->add(['id' => 'files', 'name' => 'Files', 'order' => 1, 'href' => 'url']);
+
+		$this->dispatcher->method('hasListeners')->willReturn(false);
+		$this->dispatcher->expects($this->never())->method('dispatchTyped');
+
+		$this->assertEquals(['files'], array_keys($this->navigationManager->getAll()));
 	}
 
 	public function testAddArrayClearGetAll(): void {
