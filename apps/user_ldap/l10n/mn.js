@@ -133,7 +133,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Имэйл атрибутаар нэвтрэхийг зөвшөөрдөг. 'mail' болон 'mailPrimaryAddress' зөвшөөрөгддөг.",
     "LDAP/AD Email Address:" : "LDAP/AD имэйл хаяг:",
     "Other Attributes:" : "бусад шинж чанарууд",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Нэвтрэх оролдлого хийгдэх үед хэрэглэгдэх шүүлтүүрийг тодорхойлно. `%%uid` нь нэвтрэх үйлдэл дэх хэрэглэгчийн нэрийг орлоно. Жишээ: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Өгөгдсөн нэвтрэх нэр болон одоогийн нэвтрэх шүүлтүүрийн хувьд DN авах оролдлого хийнэ",
     "Test Login name" : "Нэвтрэх нэр туршилт",
     "Verify settings" : "тохиргоог шалгах",
@@ -267,6 +266,7 @@ OC.L10N.register(
     "Pronouns Field" : "Төлөөний үг талбар",
     "User profile Pronouns will be set from the specified attribute" : "Хэрэглэгчийн профайлын төлөөний үг заасан атрибутаас тохируулагдана",
     "UUID Attribute for Users:" : "Хэрэглэгчдийн UUID атрибут:",
-    "UUID Attribute for Groups:" : "Бүлгүүдийн UUID атрибут:"
+    "UUID Attribute for Groups:" : "Бүлгүүдийн UUID атрибут:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Нэвтрэх оролдлого хийгдэх үед хэрэглэгдэх шүүлтүүрийг тодорхойлно. `%%uid` нь нэвтрэх үйлдэл дэх хэрэглэгчийн нэрийг орлоно. Жишээ: `uid=%%uid`"
 },
 "nplurals=2; plural=(n != 1);");

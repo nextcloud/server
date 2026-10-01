@@ -44,7 +44,7 @@
     "Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Зміна каналу оновлень також вплине на сторінку керування застосунками. Так, після перемикання на канал \"бета\", вам пропонуватимуться до встановлення оновлення застосунків бета-версій на сторінці керування застосунками.",
     "Current update channel:" : "Поточний канал оновлень:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Ви завжди зможете перейти на нову версію, проте не можна буде повернутися на стабільну версію.",
-    "Notify members of the following groups about available updates:" : "Повідомляти учасників таких груп про доступні оновлення:",
+    "Notify members of the following groups about available updates:" : "Повідомляти учасників визначених груп про доступні оновлення:",
     "No groups" : "Без груп",
     "Only notifications for app updates are available." : "Доступні лише сповіщення про оновлення застосунків.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Вибраний канал оновлення робить спеціальні сповіщення для сервера застарілими.",

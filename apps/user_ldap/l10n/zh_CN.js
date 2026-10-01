@@ -134,7 +134,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "允许使用电子邮件属性登录。“mail”和“mailPrimaryAddress”均被允许。",
     "LDAP/AD Email Address:" : "LDAP/AD 邮箱地址：",
     "Other Attributes:" : "其他属性：",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "定义尝试登录时要应用的筛选条件。`%%uid` 替换登录操作中的用户名。示例：`uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "尝试接收给定登录名和当前登录筛选条件的 DN",
     "Test Login name" : "测试登录名",
     "Verify settings" : "验证设置",
@@ -268,6 +267,7 @@ OC.L10N.register(
     "Pronouns Field" : "代词栏",
     "User profile Pronouns will be set from the specified attribute" : "用户个人资料中的代词将从指定属性设置",
     "UUID Attribute for Users:" : "用户 UUID 属性：",
-    "UUID Attribute for Groups:" : "组的 UUID 属性："
+    "UUID Attribute for Groups:" : "组的 UUID 属性：",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "定义尝试登录时要应用的筛选条件。`%%uid` 替换登录操作中的用户名。示例：`uid=%%uid`"
 },
 "nplurals=1; plural=0;");

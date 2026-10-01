@@ -131,7 +131,6 @@ OC.L10N.register(
     "LDAP/AD Username:" : "LDAP/AD όνομα χρήστη:",
     "LDAP/AD Email Address:" : "LDAP/AD Διεύθυνση email:",
     "Other Attributes:" : "Άλλες Ιδιότητες:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Ορίζει το φίλτρο που θα εφαρμοστεί, όταν επιχειρηθεί σύνδεση. Το \"%%uid\" αντικαθιστά το όνομα χρήστη κατά τη σύνδεση. Παράδειγμα: \"uid=%%uid\"",
     "Attempts to receive a DN for the given login name and the current login filter" : "Προσπαθεί να λάβει ένα DN για το συγκεκριμένο όνομα σύνδεσης και το τρέχον φίλτρο σύνδεσης",
     "Test Login name" : "Δοκιμαστικό Όνομα Σύνδεσης",
     "Verify settings" : "Επιβεβαίωση ρυθμίσεων",
@@ -247,6 +246,7 @@ OC.L10N.register(
     "Pronouns Field" : "Πεδίο Προσφώνησης",
     "User profile Pronouns will be set from the specified attribute" : "Η προσφώνηση στο προφίλ χρήστη θα οριστεί από την καθορισμένη ιδιότητα",
     "UUID Attribute for Users:" : "Χαρακτηριστικό UUID για Χρήστες:",
-    "UUID Attribute for Groups:" : "Χαρακτηριστικό UUID για Ομάδες:"
+    "UUID Attribute for Groups:" : "Χαρακτηριστικό UUID για Ομάδες:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Ορίζει το φίλτρο που θα εφαρμοστεί, όταν επιχειρηθεί σύνδεση. Το \"%%uid\" αντικαθιστά το όνομα χρήστη κατά τη σύνδεση. Παράδειγμα: \"uid=%%uid\""
 },
 "nplurals=2; plural=(n != 1);");
