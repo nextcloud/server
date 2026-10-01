@@ -33,6 +33,9 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 	public function nextId(): string {
 		// Relative time
 		[$seconds, $milliseconds] = $this->getCurrentTime();
+		if ($seconds < 0) {
+			throw new \InvalidArgumentException('Snowflake IDs cannot be generated for a time before ' . date(DATE_ATOM, self::TS_OFFSET));
+		}
 
 		$serverId = $this->serverInfo->getServerId();
 		$isCli = (int)$this->isCli(); // 1 bit
