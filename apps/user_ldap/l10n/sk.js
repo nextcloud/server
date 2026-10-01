@@ -135,7 +135,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Umožňuje prihlásenie pomocou atribútu e-mailu. Povolené sú 'mail' a 'mailPrimaryAddress'.",
     "LDAP/AD Email Address:" : "LDAP/AD emailová adresa:",
     "Other Attributes:" : "Iné atribúty:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definuje filter, ktorý sa použije pri pokuse o prihlásenie. `%%uid` nahradí používateľské meno v akcii prihlásenia. Príklad: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Pokusy o získanie DN pre dané prihlasovacie meno a aktuálny filter prihlásenia",
     "Test Login name" : "Testovacie prihlasovacie meno",
     "Verify settings" : "Overiť nastavenia",
@@ -269,6 +268,7 @@ OC.L10N.register(
     "Pronouns Field" : "Kolónka Oslovenie",
     "User profile Pronouns will be set from the specified attribute" : "Oslovenie uživateľského profilu sa nastaví zo zadaného atribútu",
     "UUID Attribute for Users:" : "UUID atribút pre používateľov:",
-    "UUID Attribute for Groups:" : "UUID atribút pre skupiny:"
+    "UUID Attribute for Groups:" : "UUID atribút pre skupiny:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definuje filter, ktorý sa použije pri pokuse o prihlásenie. `%%uid` nahradí používateľské meno v akcii prihlásenia. Príklad: `uid=%%uid`"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

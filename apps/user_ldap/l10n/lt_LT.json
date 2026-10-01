@@ -132,7 +132,6 @@
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Leidžia prisijungti naudojant el. pašto atributą. Leidžiami „mail“ ir „mailPrimaryAddress“.",
     "LDAP/AD Email Address:" : "LDAP/AD el. pašto adresas:",
     "Other Attributes:" : "Kiti požymiai:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Apibrėžia filtrą, kuris bus taikomas bandant prisijungti. `%%uid` prisijungimo veiksme pakeičia vartotojo vardą. Pavyzdys: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Bandoma gauti DN nurodytą prisijungimo vardą ir dabartinį prisijungimo filtrą",
     "Test Login name" : "Ištestuokite prisijungimo vardą",
     "Verify settings" : "Patikrinti nustatymus",
@@ -266,6 +265,7 @@
     "Pronouns Field" : "Vardiklių laukas",
     "User profile Pronouns will be set from the specified attribute" : "Vartotojo profilio vardikliai bus nustatyti pagal nurodytą atributą",
     "UUID Attribute for Users:" : "UUID požymis vartotojams:",
-    "UUID Attribute for Groups:" : "UUID požymis grupėms:"
+    "UUID Attribute for Groups:" : "UUID požymis grupėms:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Apibrėžia filtrą, kuris bus taikomas bandant prisijungti. `%%uid` prisijungimo veiksme pakeičia vartotojo vardą. Pavyzdys: `uid=%%uid`"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

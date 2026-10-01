@@ -135,7 +135,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Ermöglicht die Anmeldung anhand eines E-Mail-Attributs. 'mail' und 'mailPrimaryAddress' sind zulässig.",
     "LDAP/AD Email Address:" : "LDAP-/AD E-Mail-Adresse:",
     "Other Attributes:" : "Andere Attribute:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Bestimmt den Filter, welcher bei einer Anmeldung angewandt wird. `%%uid` ersetzt den Benutzernamen bei der Anmeldung. Beispiel: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Es wird versucht, einen DN für den angegebenen Anmeldenamen und den aktuellen Anmeldefilter zu erhalten",
     "Test Login name" : "Anmeldenamen testen",
     "Verify settings" : "Einstellungen überprüfen",
@@ -269,6 +268,7 @@ OC.L10N.register(
     "Pronouns Field" : "Pronomenfeld",
     "User profile Pronouns will be set from the specified attribute" : "Benutzerprofil-Pronomen werden aus dem angegebenen Attribut festgelegt",
     "UUID Attribute for Users:" : "UUID-Attribute für Benutzer:",
-    "UUID Attribute for Groups:" : "UUID-Attribute für Gruppen:"
+    "UUID Attribute for Groups:" : "UUID-Attribute für Gruppen:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Bestimmt den Filter, welcher bei einer Anmeldung angewandt wird. `%%uid` ersetzt den Benutzernamen bei der Anmeldung. Beispiel: `uid=%%uid`"
 },
 "nplurals=2; plural=(n != 1);");

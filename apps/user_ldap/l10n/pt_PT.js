@@ -97,7 +97,6 @@ OC.L10N.register(
     "When logging in, {instanceName} will find the user based on the following attributes:" : "Ao fazer login, {instanceName} encontrará o usuário com base nos seguintes atributos:",
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Permite o login com base em um atributo de e-mail. Os atributos 'mail' e 'mailPrimaryAddress' são permitidos.",
     "Other Attributes:" : "Outros Atributos:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Define o filtro a ser aplicado quando for tentado o login. `%%uid` substitui o nome de usuário na ação de login. Exemplo: `uid=%%uid`",
     "Test Login name" : "Testar o nome de login",
     "Verify settings" : "Verificar definições",
     "No object found in the given Base DN. Please revise." : "Nenhum objeto encontrado na Base DN fornecida. Por favor verifique.",
@@ -210,6 +209,7 @@ OC.L10N.register(
     "\"$home\" Placeholder Field" : "Campo Reservado \"$home\"",
     "User profile Pronouns will be set from the specified attribute" : "Os Pronomes no perfil do usuário serão definidos a partir do atributo especificado",
     "UUID Attribute for Users:" : "Atributo UUID para utilizadores:",
-    "UUID Attribute for Groups:" : "Atributo UUID para grupos:"
+    "UUID Attribute for Groups:" : "Atributo UUID para grupos:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Define o filtro a ser aplicado quando for tentado o login. `%%uid` substitui o nome de usuário na ação de login. Exemplo: `uid=%%uid`"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -537,6 +537,7 @@ OC.L10N.register(
     "Cancel login" : "Katkesta sisselogimine",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "Sinu kontol on kasutusel täiendava turvalisuse meetmed. Vali teenusepakkuja, mida soovid kasutada:",
     "Error while validating your second factor" : "Viga teise autentimisastme õigsuse kontrollimisel",
+    "Use another method" : "Kasuta muud meetodit",
     "Access through untrusted domain" : "Ligipääs läbi ebausaldusväärse domeeni",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Palun võta ühendust oma süsteemihalduriga või peakasutajaga. Kui ise oled peakasutaja, muuda seadistusfails „config/config.php“ tingimust „trusted_domains“, nagu in tehtud näidisfailis „config.sample.php“.",
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Rohkem infot selle seadistamiseks leiad %1$s dokumentatsioonist %2$s.",

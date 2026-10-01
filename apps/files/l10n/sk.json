@@ -205,6 +205,7 @@
     "Currently {processedUsers} of {totalUsers} accounts are already processed." : "Aktuálne je spracovaných {processedUsers} z {totalUsers} účtov.",
     "Preparing …" : "Pripravuje sa …",
     "Refresh" : "Obnoviť",
+    "All files have been sanitized for Windows filename support." : "Všetky súbory boli sanitizované pre podporu názvov súborov v systéme Windows.",
     "Some files could not be sanitized, please check your logs." : "Niektoré súbory nebolo možné upravené, prosím, skontrolujte svoje protokoly.",
     "Sanitization errors" : "Chyby v sanitizácii",
     "Not sanitized filenames" : "Nezabezpečené názvy súborov",
