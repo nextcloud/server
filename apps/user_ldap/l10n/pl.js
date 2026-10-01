@@ -134,7 +134,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Umożliwia logowanie przy użyciu atrybutu e-mail. Dozwolone są „mail” oraz „mailPrimaryAddress”.",
     "LDAP/AD Email Address:" : "Adres e-mail LDAP/AD:",
     "Other Attributes:" : "Inne atrybuty:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definiuje filter do zastosowania podczas próby logowania. \"%%uid\" zastępuje nazwę użytkownika podczas logowania. Przykład: \"uid=%%uid\"",
     "Attempts to receive a DN for the given login name and the current login filter" : "Próbuje otrzymać nazwę wyróżniającą dla podanej nazwy użytkownika i bieżącego filtra logowania",
     "Test Login name" : "Testowa nazwa użytkownika",
     "Verify settings" : "Weryfikuj ustawienia",
@@ -268,6 +267,7 @@ OC.L10N.register(
     "Pronouns Field" : "Pole zaimków",
     "User profile Pronouns will be set from the specified attribute" : "Zaimki w profilu użytkownika zostaną ustawione na podstawie określonego atrybutu",
     "UUID Attribute for Users:" : "Atrybuty UUID dla użytkowników:",
-    "UUID Attribute for Groups:" : "Atrybuty UUID dla grup:"
+    "UUID Attribute for Groups:" : "Atrybuty UUID dla grup:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definiuje filter do zastosowania podczas próby logowania. \"%%uid\" zastępuje nazwę użytkownika podczas logowania. Przykład: \"uid=%%uid\""
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -134,7 +134,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "امکان ورود با یک ویژگی ایمیل را فراهم می‌کند. 'mail' و 'mailPrimaryAddress' مجاز هستند.",
     "LDAP/AD Email Address:" : "آدرس ایمیل LDAP/AD:",
     "Other Attributes:" : "سایر ویژگی‌ها:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "فیلتری را که هنگام تلاش برای ورود اعمال می‌شود، تعریف می‌کند. `%%uid` نام کاربری را در عمل ورود جایگزین می‌کند. مثال: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "تلاش برای دریافت DN برای نام ورود داده شده و فیلتر ورود فعلی",
     "Test Login name" : "تست نام ورود",
     "Verify settings" : "تأیید تنظیمات",
@@ -268,6 +267,7 @@ OC.L10N.register(
     "Pronouns Field" : "فیلد ضمایر",
     "User profile Pronouns will be set from the specified attribute" : "ضمایر پروفایل کاربر از ویژگی مشخص شده تنظیم خواهد شد",
     "UUID Attribute for Users:" : "ویژگی UUID برای کاربران:",
-    "UUID Attribute for Groups:" : "ویژگی UUID برای گروه‌ها:"
+    "UUID Attribute for Groups:" : "ویژگی UUID برای گروه‌ها:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "فیلتری را که هنگام تلاش برای ورود اعمال می‌شود، تعریف می‌کند. `%%uid` نام کاربری را در عمل ورود جایگزین می‌کند. مثال: `uid=%%uid`"
 },
 "nplurals=2; plural=(n > 1);");

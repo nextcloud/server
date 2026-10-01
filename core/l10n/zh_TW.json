@@ -535,6 +535,7 @@
     "Cancel login" : "取消登入",
     "Enhanced security is enforced for your account. Choose which provider to set up:" : "您的帳號已啟用進階安全機制。請選擇提供者：",
     "Error while validating your second factor" : "驗證您的第二因素時發生錯誤",
+    "Use another method" : "使用其他方法",
     "Access through untrusted domain" : "經由不可信任的網域存取",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "請聯絡您的管理員。如果您就是管理員，請參考 config.sample.php 範例編輯 config/config.php 的「trusted_domains」設定。",
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "關於組態設定的更多資訊，請參閱%1$s文件%2$s。",

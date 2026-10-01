@@ -131,7 +131,6 @@ OC.L10N.register(
     "LDAP/AD Username:" : "LDAP/AD Jina la mtumiaji:",
     "LDAP/AD Email Address:" : "Anwani ya Barua Pepe ya LDAP/AD:",
     "Other Attributes:" : "Sifa Nyingine:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Inafafanua kichujio cha kutumia, kuingia unapojaribiwa. `%%uid` inachukua nafasi ya jina la mtumiaji katika kitendo cha kuingia. Mfano: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Majaribio ya kupokea DN kwa jina lililotolewa la kuingia na kichujio cha sasa cha kuingia",
     "Test Login name" : "Jaribu jina la Kuingia",
     "Verify settings" : "Thibitisha mipangilio",
@@ -259,6 +258,7 @@ OC.L10N.register(
     "Pronouns Field" : "Uwanja wa Viwakilishi",
     "User profile Pronouns will be set from the specified attribute" : "Viwakilishi vya wasifu wa mtumiaji vitawekwa kutoka kwa sifa iliyobainishwa",
     "UUID Attribute for Users:" : "Sifa ya UUID kwa watumiaji",
-    "UUID Attribute for Groups:" : "Sifa ya UUID kwa Vikundi:"
+    "UUID Attribute for Groups:" : "Sifa ya UUID kwa Vikundi:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Inafafanua kichujio cha kutumia, kuingia unapojaribiwa. `%%uid` inachukua nafasi ya jina la mtumiaji katika kitendo cha kuingia. Mfano: `uid=%%uid`"
 },
 "nplurals=2; plural=(n != 1);");
