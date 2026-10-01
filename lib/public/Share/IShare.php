@@ -457,7 +457,7 @@ interface IShare {
 	 * Sets the password for the shared, but in it's already hashed form.
 	 * Use {@see isPasswordHashed} to check if the return value of {@see getPassword} is already hashed.
 	 *
-	 * @since 35.0.0
+	 * @since 35.0.2
 	 */
 	public function setPasswordHash(string $passwordHash): IShare;
 
@@ -474,7 +474,7 @@ interface IShare {
 	/**
 	 * Returns whether the return value of {@see getPassword} is already hashed.
 	 *
-	 * @since 35.0.0
+	 * @since 35.0.2
 	 */
 	public function isPasswordHashed(): bool;
 
