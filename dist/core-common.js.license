@@ -14,24 +14,20 @@ SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
 SPDX-FileCopyrightText: readable-stream developers
 SPDX-FileCopyrightText: perfect-debounce developers
 SPDX-FileCopyrightText: p-queue developers
-SPDX-FileCopyrightText: omahlama
 SPDX-FileCopyrightText: inline-style-parser developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
-SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
 SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
-SPDX-FileCopyrightText: Rubén Norte <ruben.norte@softonic.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 SPDX-FileCopyrightText: Richie Bendall
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
@@ -68,7 +64,6 @@ SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Andrea Giammarchi
-SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
@@ -101,9 +96,6 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.1
 	- license: BSD-2-Clause
 - @mdi/js
-	- version: 7.4.47
-	- license: Apache-2.0
-- @mdi/svg
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
@@ -220,21 +212,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/router
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
-- @nextcloud/sharing
-	- version: 1.0.0-beta.4
-	- license: GPL-3.0-or-later
-- @nextcloud/dialogs
-	- version: 6.4.2
-	- license: AGPL-3.0-or-later
-- @nextcloud/files
-	- version: 3.12.2
-	- license: AGPL-3.0-or-later
-- @nextcloud/sharing
-	- version: 0.4.0
-	- license: GPL-3.0-or-later
-- @nextcloud/upload
-	- version: 1.12.0
-	- license: AGPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.26.0
 	- license: MIT
@@ -286,9 +263,6 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 11.3.0
 	- license: MIT
-- axios-retry
-	- version: 4.5.0
-	- license: Apache-2.0
 - axios
 	- version: 1.18.1
 	- license: MIT
@@ -297,12 +271,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - birpc
 	- version: 2.9.0
-	- license: MIT
-- blurhash
-	- version: 2.0.5
-	- license: MIT
-- cancelable-promise
-	- version: 4.3.1
 	- license: MIT
 - char-regex
 	- version: 2.0.2
@@ -475,9 +443,6 @@ This file is generated from multiple sources. Included packages:
 - nostics
 	- version: 1.1.4
 	- license: MIT
-- p-cancelable
-	- version: 4.0.1
-	- license: MIT
 - p-queue
 	- version: 9.3.3
 	- license: MIT
@@ -489,9 +454,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - path
 	- version: 0.12.7
-	- license: MIT
-- pinia
-	- version: 2.3.1
 	- license: MIT
 - process
 	- version: 0.11.10
@@ -552,9 +514,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - tabbable
 	- version: 6.5.0
-	- license: MIT
-- toastify-js
-	- version: 1.12.0
 	- license: MIT
 - trim-lines
 	- version: 3.0.1
@@ -618,9 +577,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - web-namespaces
 	- version: 2.0.1
-	- license: MIT
-- webdav
-	- version: 5.10.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
