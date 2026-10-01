@@ -62,10 +62,4 @@ class FileSequenceTest extends ISequenceBase {
 		$this->assertSame(0, $this->sequence->nextId(42, 1001, 500));
 		$this->assertSame(1, $this->sequence->nextId(42, 1000, 500));
 	}
-
-	public function testSequenceWithSecondsBeforeTheEpoch(): void {
-		$this->assertSame(0, $this->sequence->nextId(42, -5, 10));
-		$this->assertSame(1, $this->sequence->nextId(42, -5, 10));
-		$this->assertSame(0, $this->sequence->nextId(42, 25, 10));
-	}
 }

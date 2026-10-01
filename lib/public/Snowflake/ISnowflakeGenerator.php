@@ -42,6 +42,7 @@ interface ISnowflakeGenerator {
 	 *
 	 * @param ?DateTimeImmutable $timestamp Generate the Snowflake ID for a specific time. This should only be used in very special cases.
 	 * @return non-empty-string
+	 * @throws \InvalidArgumentException if the timestamp is before 2025-10-01, as such a time cannot be represented
 	 *
 	 * @since 33.0
 	 */
