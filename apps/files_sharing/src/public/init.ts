@@ -4,17 +4,17 @@
  */
 
 import type { Folder } from '@nextcloud/files'
-import type { ShareAttribute } from './sharing.d.ts'
+import type { ShareAttribute } from '../sharing.d.ts'
 
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getNavigation } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
-import RouterService from '../../files/src/services/RouterService.ts'
-import registerFileDropView from './files_views/publicFileDrop.ts'
-import registerPublicFileShareView from './files_views/publicFileShare.ts'
-import registerPublicShareView from './files_views/publicShare.ts'
-import router from './router/index.ts'
-import logger from './services/logger.ts'
+import logger from '../services/logger.ts'
+import router from './router.ts'
+import registerFileDropView from './views/publicFileDrop.ts'
+import registerPublicFileShareView from './views/publicFileShare.ts'
+import registerPublicShareView from './views/publicShare.ts'
+import RouterService from '~/apps/files/src/services/RouterService.ts'
 
 registerFileDropView()
 registerPublicShareView()

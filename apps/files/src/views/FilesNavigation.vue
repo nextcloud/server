@@ -15,7 +15,7 @@
 
 			<!-- Settings modal-->
 			<FilesAppSettings
-				:open.sync="settingsOpened"
+				v-model:open="settingsOpened"
 				data-cy-files-navigation-settings
 				@close="settingsOpened = false" />
 		</template>
@@ -31,7 +31,9 @@
 					:name="t('files', 'Files settings')"
 					data-cy-files-navigation-settings-button
 					@click.prevent.stop="settingsOpened = true">
-					<IconCog slot="icon" :size="20" />
+					<template #icon>
+						<IconCog :size="20" />
+					</template>
 				</NcAppNavigationItem>
 			</ul>
 		</template>
@@ -43,7 +45,7 @@ import { emit } from '@nextcloud/event-bus'
 import { getNavigation } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { computed, provide, ref, watchEffect } from 'vue'
-import { useRoute } from 'vue-router/composables'
+import { useRoute } from 'vue-router'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import IconCog from 'vue-material-design-icons/CogOutline.vue'
@@ -79,15 +81,15 @@ const currentNavigationViewId = computed(() => {
 		.sort((a, b) => Object.keys(b.params!).length - Object.keys(a.params!).length)
 	// if we have a full match use that
 	if (matchingParams.length > 0) {
-		return matchingParams[0]
+		return matchingParams[0]!.id
 	}
 	// otherwise check if at least view + dir matches
 	const matchingDir = views.find((view) => view.params?.dir === route.query.dir)
 	if (matchingDir) {
-		return matchingDir
+		return matchingDir.id
 	}
 	// finally fallback to the parent view
-	return views.find((view) => view.id === currentViewId.value)!
+	return views.find((view) => view.id === currentViewId.value)?.id
 })
 provide('currentNavigationView', currentNavigationViewId)
 

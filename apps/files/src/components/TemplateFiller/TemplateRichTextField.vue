@@ -14,7 +14,7 @@
 			v-model="value"
 			type="text"
 			:label="fieldLabel"
-			:label-outside="true"
+			:labelOutside="true"
 			:placeholder="field.content"
 			@input="input" />
 	</div>

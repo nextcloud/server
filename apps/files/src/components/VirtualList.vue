@@ -319,7 +319,7 @@ export default defineComponent({
 		})
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		if (this.resizeObserver) {
 			this.resizeObserver.disconnect()
 		}

@@ -59,7 +59,7 @@ describe('Sidebar rendering', () => {
 
 		expect(mountSidebar(content)).toBe(true)
 		expect(isSidebarMounted()).toBe(true)
-		// the mountpoint is replaced by the sidebar itself
+		// the sidebar is rendered within a single mountpoint
 		expect(content.children).toHaveLength(1)
 		expect(content.querySelector('aside')).not.toBeNull()
 	})

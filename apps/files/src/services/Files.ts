@@ -8,7 +8,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 import { getDefaultPropfind, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { join } from 'path'
 import { useFilesStore } from '../store/files.ts'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { useSearchStore } from '../store/search.ts'
 import { logger } from '../utils/logger.ts'
 import { client } from './WebdavClient.ts'
@@ -23,7 +23,7 @@ import { searchNodes } from './WebDavSearch.ts'
  * @param options.signal - Abort signal to cancel the request
  */
 export async function getContents(path = '/', options?: { signal: AbortSignal }): Promise<ContentsWithRoot> {
-	const searchStore = useSearchStore(getPinia())
+	const searchStore = useSearchStore(pinia)
 
 	if (searchStore.query.length < 3) {
 		return await defaultGetContents(path, options)
@@ -78,7 +78,7 @@ export async function defaultGetContents(path: string, options?: { signal: Abort
  * @param signal - The aboort signal
  */
 async function getLocalSearch(path: string, query: string, signal?: AbortSignal): Promise<ContentsWithRoot> {
-	const filesStore = useFilesStore(getPinia())
+	const filesStore = useFilesStore(pinia)
 	let folder = filesStore.getDirectoryByPath('files', path)
 	if (!folder) {
 		const rootPath = join(getRootPath(), path)

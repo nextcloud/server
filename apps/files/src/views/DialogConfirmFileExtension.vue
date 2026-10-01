@@ -66,7 +66,7 @@ function closeDialog(value: boolean) {
 	<NcDialog
 		:buttons="buttons"
 		:open="open"
-		no-close
+		noClose
 		:name="t('files', 'Change file extension')"
 		size="small">
 		<p v-if="newExtension && oldExtension">

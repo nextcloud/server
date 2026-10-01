@@ -6,25 +6,49 @@
 import type { Location, Route } from 'vue-router'
 import type VueRouter from 'vue-router'
 
+import { unref } from 'vue'
+
 export default class RouterService {
 	// typescript compiles this to `#router` to make it private even in JS,
 	// but in TS it needs to be called without the visibility specifier
 	private router: VueRouter
 
+	/**
+	 * The location of a navigation that was requested but is not applied yet.
+	 *
+	 * vue-router applies navigations asynchronously, so `currentRoute` still
+	 * holds the previous route until the navigation resolves. Several stores
+	 * react to the same state change and each merges its own change into the
+	 * route it reads here, so without this they would all read the route from
+	 * before the first navigation and overwrite each other's parameters.
+	 */
+	private pendingLocation?: Location
+
 	constructor(router: VueRouter) {
 		this.router = router
 	}
 
+	/**
+	 * The route the wrapped router is currently on.
+	 *
+	 * This service is shared between the files app (vue-router 5, where
+	 * `currentRoute` is a ref) and the public share bundle (vue-router 3, where
+	 * it is the route itself), so the value has to be unwrapped.
+	 */
+	private get route(): Route {
+		return unref(this.router.currentRoute) as Route
+	}
+
 	get name(): string | null | undefined {
-		return this.router.currentRoute.name
+		return this.pendingLocation?.name ?? this.route.name
 	}
 
 	get query(): Record<string, string | (string | null)[] | null | undefined> {
-		return this.router.currentRoute.query || {}
+		return this.pendingLocation?.query ?? this.route.query ?? {}
 	}
 
 	get params(): Record<string, string> {
-		return this.router.currentRoute.params || {}
+		return (this.pendingLocation?.params ?? this.route.params ?? {}) as Record<string, string>
 	}
 
 	/**
@@ -43,6 +67,7 @@ export default class RouterService {
 	 * @see https://router.vuejs.org/guide/essentials/navigation.html#navigate-to-a-different-location
 	 */
 	goTo(path: string, replace = false): Promise<Route> {
+		this.pendingLocation = undefined
 		return this.router.push({
 			path,
 			replace,
@@ -64,11 +89,19 @@ export default class RouterService {
 		query?: Record<string, string | (string | null)[] | null | undefined>,
 		replace?: boolean,
 	): Promise<Route> {
-		name ??= this.router.currentRoute.name as string
+		name ??= this.name as string
 		const location: Location = { name, query, params }
-		if (replace) {
-			return this._router.replace(location)
-		}
-		return this._router.push(location)
+		this.pendingLocation = location
+
+		const navigation = replace
+			? this._router.replace(location)
+			: this._router.push(location)
+
+		return navigation.finally(() => {
+			// only the newest request may clear it, an older one is already obsolete
+			if (this.pendingLocation === location) {
+				this.pendingLocation = undefined
+			}
+		})
 	}
 }

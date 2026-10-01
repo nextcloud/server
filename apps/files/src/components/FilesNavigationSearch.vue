@@ -20,10 +20,12 @@ const activeStore = useActiveStore()
 const searchStore = useSearchStore()
 
 /**
- * When the route is changed from search view to something different
- * we need to clear the search box.
+ * When the route is changed from search view to something different we need to clear the search box.
+ *
+ * This component is rendered by the navigation, not by a `RouterView`, so the
+ * in-component guards do not apply to it and a global guard is needed.
  */
-onBeforeNavigation((to, from, next) => {
+onBeforeNavigation((to, from) => {
 	if (to.params.view !== VIEW_ID
 		&& (from.params.view === VIEW_ID || from.query.dir !== to.query.dir)) {
 		// we are leaving the search view or navigate to another directory -> unset the query
@@ -32,17 +34,15 @@ onBeforeNavigation((to, from, next) => {
 	} else if (to.params.view === VIEW_ID && from.params.view === VIEW_ID) {
 		// fix the query if the user refreshed the view
 		if (searchStore.query && !to.query.query) {
-			// @ts-expect-error This is a weird issue with vue-router v4 and will be fixed in v5 (vue 3)
-			return next({
+			return {
 				...to,
 				query: {
 					...to.query,
 					query: searchStore.query,
 				},
-			})
+			}
 		}
 	}
-	next()
 })
 
 /**
@@ -69,13 +69,13 @@ const searchLabel = computed(() => {
 				<template #icon>
 					<NcIconSvgWrapper :path="searchStore.scope === 'globally' ? mdiSearchWeb : mdiMagnify" />
 				</template>
-				<NcActionButton close-after-click @click="searchStore.scope = 'filter'">
+				<NcActionButton closeAfterClick @click="searchStore.scope = 'filter'">
 					<template #icon>
 						<NcIconSvgWrapper :path="mdiMagnify" />
 					</template>
 					{{ t('files', 'Search here') }}
 				</NcActionButton>
-				<NcActionButton close-after-click @click="searchStore.scope = 'globally'">
+				<NcActionButton closeAfterClick @click="searchStore.scope = 'globally'">
 					<template #icon>
 						<NcIconSvgWrapper :path="mdiSearchWeb" />
 					</template>

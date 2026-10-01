@@ -3,24 +3,24 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
+	<NcAppContent :pageHeading="pageHeading" data-cy-files-content>
 		<div class="files-list__header" :class="{ 'files-list__header--public': isPublic }">
 			<!-- Uploader -->
-			<component :is="isNarrow ? 'Teleport' : 'div'" :to="isNarrow ? 'body' : undefined">
-				<UploadPicker
+			<Teleport :disabled="!isNarrow" to="body">
+				<NcUploadPicker
 					v-if="canUpload && !isQuotaExceeded && currentFolder"
-					allow-folders
-					:no-label="isNarrow"
+					:actions="newFileMenuActions"
+					directory
+					:iconOnly="isNarrow"
 					class="files-list__header-upload-button"
 					:class="{ 'files-list__header-upload-button--narrow': isNarrow }"
 					:content="getContent"
 					:destination="currentFolder"
-					:forbidden-characters="forbiddenCharacters"
 					multiple
-					primary
-					@failed="onUploadFail"
-					@uploaded="onUpload" />
-			</component>
+					variant="primary"
+					data-cy-upload-picker
+					@upload:finished="onUploadFinished" />
+			</Teleport>
 
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="directory" @reload="fetchContent" />
@@ -36,19 +36,19 @@
 				class="files-list__header-actions"
 				:inline="1"
 				variant="tertiary"
-				force-name>
+				forceName>
 				<NcActionButton
 					v-for="action in enabledFileListActions"
 					:key="action.id"
 					:disabled="!!loadingAction"
 					:data-cy-files-list-action="action.id"
-					close-after-click
+					closeAfterClick
 					@click="execFileListAction(action)">
 					<template #icon>
 						<NcLoadingIcon v-if="loadingAction === action.id" :size="18" />
 						<NcIconSvgWrapper
 							v-else-if="action.iconSvgInline !== undefined && currentView"
-							:svg="action.iconSvgInline(currentView)" />
+							:svg="action.iconSvgInline(currentView /* TODO: FIXME */)" />
 					</template>
 					{{ actionDisplayName(action) }}
 				</NcActionButton>
@@ -73,7 +73,7 @@
 		</div>
 
 		<!-- Drag and drop notice -->
-		<DragAndDropNotice v-if="!loading && canUpload && currentFolder" :current-folder="currentFolder" />
+		<DragAndDropNotice v-if="!loading && canUpload && currentFolder" :currentFolder />
 
 		<!--
 			Initial current view loading0. This should never happen,
@@ -90,8 +90,8 @@
 		<FilesListVirtual
 			v-else
 			ref="filesListVirtual"
-			:current-folder="currentFolder"
-			:current-view="currentView"
+			:currentFolder
+			:currentView
 			:nodes="dirContentsSorted"
 			:summary="summary">
 			<template #empty>
@@ -130,16 +130,16 @@
 					data-cy-files-content-empty>
 					<template v-if="directory !== '/'" #action>
 						<!-- Uploader -->
-						<UploadPicker
+						<NcUploadPicker
 							v-if="canUpload && !isQuotaExceeded"
-							allow-folders
+							:actions="newFileMenuActions"
+							directory
 							class="files-list__header-upload-button"
 							:content="getContent"
 							:destination="currentFolder"
-							:forbidden-characters="forbiddenCharacters"
 							multiple
-							@failed="onUploadFail"
-							@uploaded="onUpload" />
+							data-cy-upload-picker
+							@upload:finished="onUploadFinished" />
 						<NcButton v-else :to="toPreviousDir" variant="primary">
 							{{ t('files', 'Go back') }}
 						</NcButton>
@@ -154,24 +154,23 @@
 </template>
 
 <script lang="ts">
-import type { ContentsWithRoot, FileListAction, INode, Node } from '@nextcloud/files'
-import type { Upload } from '@nextcloud/upload'
+import type { ContentsWithRoot, IFileListAction, INode, Node } from '@nextcloud/files'
+import type { IUpload } from '@nextcloud/files/upload'
 import type { ComponentPublicInstance } from 'vue'
-import type { Route } from 'vue-router'
+import type { RouteLocationRaw } from 'vue-router'
 import type { UserConfig } from '../types.ts'
 
-import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Permission, sortNodes } from '@nextcloud/files'
+import { UploadStatus } from '@nextcloud/files/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import { dirname, join } from '@nextcloud/paths'
+import { basename, dirname, join } from '@nextcloud/paths'
 import { ShareType } from '@nextcloud/sharing'
-import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { useThrottleFn } from '@vueuse/core'
 import { normalize, relative } from 'path'
 import { computed, defineComponent, nextTick, watch } from 'vue'
-import Teleport from 'vue2-teleport' // TODO: replace with native Vue Teleport when we switch to Vue 3
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
@@ -179,6 +178,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcUploadPicker from '@nextcloud/vue/components/NcUploadPicker'
 import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import IconReload from 'vue-material-design-icons/Reload.vue'
@@ -190,6 +190,7 @@ import FilesListVirtual from '../components/FilesListVirtual.vue'
 import { useFilesSorting } from '../composables/filesSorting.ts'
 import { useEnabledFileListActions } from '../composables/useFileListActions.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useNewFileMenuActions } from '../composables/useNewFileMenuActions.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActiveStore } from '../store/active.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -221,8 +222,7 @@ export default defineComponent({
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		Teleport,
-		UploadPicker,
+		NcUploadPicker,
 		ViewGridIcon,
 		IconAlertCircleOutline,
 		IconReload,
@@ -250,7 +250,6 @@ export default defineComponent({
 		const { directory, fileId } = useRouteParameters()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
-		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
 
 		const currentView = computed(() => activeStore.activeView)
 		const currentFolder = computed(() => activeStore.activeFolder)
@@ -265,6 +264,8 @@ export default defineComponent({
 			dirContents,
 			currentView,
 		)
+
+		const newFileMenuActions = useNewFileMenuActions(currentFolder, dirContents)
 
 		// wait until the current folder is set up to notifiy the list is initialized
 		const stopWatching = watch(currentFolder, () => {
@@ -282,6 +283,7 @@ export default defineComponent({
 			enabledFileListActions,
 			fileId,
 			isNarrow,
+			newFileMenuActions,
 
 			sidebar,
 			activeStore,
@@ -297,7 +299,6 @@ export default defineComponent({
 
 			// non reactive data
 			enableGridView,
-			forbiddenCharacters,
 			ShareType,
 			t,
 		}
@@ -413,7 +414,7 @@ export default defineComponent({
 		/**
 		 * Route to the previous directory.
 		 */
-		toPreviousDir(): Route {
+		toPreviousDir(): RouteLocationRaw {
 			const dir = this.directory.split('/').slice(0, -1).join('/') || '/'
 			return { ...this.$route, query: { dir } }
 		},
@@ -552,7 +553,7 @@ export default defineComponent({
 				window.addEventListener('DOMContentLoaded', () => {
 					if (!this.currentView) {
 						logger.warn('No current view after DOMContentLoaded, redirecting to the default view')
-						window.OCP.Files.Router.goToRoute(null, { view: defaultView() })
+						window.OCP.Files.Router.goToRoute(null, { view: defaultView()! })
 					}
 				}, { once: true })
 				return
@@ -578,7 +579,7 @@ export default defineComponent({
 
 				// Define current directory children
 				// TODO: make it more official
-				this.$set(folder, '_children', contents.map((node) => node.source))
+				folder._children = contents.map((node) => node.source)
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {
@@ -610,66 +611,29 @@ export default defineComponent({
 		},
 
 		/**
-		 * The upload manager have finished handling the queue
+		 * An upload of the upload manager has finished - successfully, failed or cancelled.
 		 *
-		 * @param upload the uploaded data
+		 * @param upload - The upload that finished
 		 */
-		onUpload(upload: Upload) {
+		onUploadFinished(upload: IUpload) {
+			if (upload.status === UploadStatus.FAILED) {
+				logger.error('Upload failed', { upload })
+				showError(t('files', 'Could not upload "{name}"', { name: basename(upload.source) }))
+				return
+			}
+
+			// Cancelled uploads are user initiated and do not add any content
+			if (upload.status !== UploadStatus.FINISHED) {
+				return
+			}
+
 			// Let's only refresh the current Folder
 			// Navigating to a different folder will refresh it anyway
-			const needsRefresh = dirname(upload.source) === this.currentFolder!.source
-
 			// TODO: fetch uploaded files data only
-			// Use parseInt(upload.response?.headers?.['oc-fileid']) to get the fileid
-			if (needsRefresh) {
+			if (dirname(upload.source) === this.currentFolder!.source) {
 				// fetchContent will cancel the previous ongoing promise
 				this.fetchContent()
 			}
-		},
-
-		async onUploadFail(upload: Upload) {
-			const status = upload.response?.status || 0
-
-			if (upload.status === UploadStatus.CANCELLED) {
-				showWarning(t('files', 'Upload was cancelled by user'))
-				return
-			}
-
-			// Check known status codes
-			if (status === 507) {
-				showError(t('files', 'Not enough free space'))
-				return
-			} else if (status === 404 || status === 409) {
-				showError(t('files', 'Target folder does not exist any more'))
-				return
-			} else if (status === 403) {
-				showError(t('files', 'Operation is blocked by access control'))
-				return
-			}
-
-			// Else we try to parse the response error message
-			if (typeof upload.response?.data === 'string') {
-				try {
-					const parser = new DOMParser()
-					const doc = parser.parseFromString(upload.response.data, 'text/xml')
-					const message = doc.getElementsByTagName('s:message')[0]?.textContent ?? ''
-					if (message.trim() !== '') {
-						// The server message is also translated
-						showError(t('files', 'Error during upload: {message}', { message }))
-						return
-					}
-				} catch (error) {
-					logger.error('Could not parse message', { error })
-				}
-			}
-
-			// Finally, check the status code if we have one
-			if (status !== 0) {
-				showError(t('files', 'Error during upload, status code {status}', { status }))
-				return
-			}
-
-			showError(t('files', 'Unknown error during upload'))
 		},
 
 		/**
@@ -695,7 +659,7 @@ export default defineComponent({
 			this.dirContentsFiltered = nodes
 		},
 
-		actionDisplayName(action: FileListAction): string {
+		actionDisplayName(action: IFileListAction): string {
 			let displayName = action.id
 			try {
 				displayName = action.displayName(this.currentView!)
@@ -705,13 +669,12 @@ export default defineComponent({
 			return displayName
 		},
 
-		async execFileListAction(action: FileListAction) {
+		async execFileListAction(action: IFileListAction) {
 			this.loadingAction = action.id
 
 			const displayName = this.actionDisplayName(action)
 			try {
 				const success = await action.exec({
-					nodes: [this.source],
 					view: this.currentView,
 					folder: this.currentFolder,
 					contents: this.dirContents,

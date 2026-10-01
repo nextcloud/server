@@ -8,8 +8,7 @@ import type { IFileListFilterChip, IFileListFilterWithUi, INode } from '@nextclo
 import svgCalendarRangeOutline from '@mdi/svg/svg/calendar-range-outline.svg?raw'
 import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
-import wrap from '@vue/web-component-wrapper'
-import Vue from 'vue'
+import { defineCustomElement } from 'vue'
 import FileListFilterModified from '../components/FileListFilter/FileListFilterModified.vue'
 
 export interface ITimePreset {
@@ -21,7 +20,7 @@ export interface ITimePreset {
 const tagName = 'files-file-list-filter-modified'
 
 class ModifiedFilter extends FileListFilter implements IFileListFilterWithUi {
-	private currentInstance?: Vue
+	private currentInstance?: InstanceType<typeof FileListFilterModified>
 	private currentPreset?: ITimePreset
 
 	public readonly displayName = t('files', 'Modified')
@@ -72,20 +71,7 @@ export type { ModifiedFilter }
  * Register the file list filter by modification date
  */
 export function registerModifiedFilter() {
-	const WrappedComponent = wrap(Vue, FileListFilterModified)
-	// In Vue 2, wrap doesn't support disabling shadow :(
-	// Disable with a hack
-	Object.defineProperty(WrappedComponent.prototype, 'attachShadow', {
-		value() {
-			return this
-		},
-	})
-	Object.defineProperty(WrappedComponent.prototype, 'shadowRoot', {
-		get() {
-			return this
-		},
-	})
-
+	const WrappedComponent = defineCustomElement(FileListFilterModified, { shadowRoot: false })
 	customElements.define(tagName, WrappedComponent)
 	registerFileListFilter(new ModifiedFilter())
 }

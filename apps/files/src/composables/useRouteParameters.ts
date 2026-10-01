@@ -4,7 +4,7 @@
  */
 
 import { computed } from 'vue'
-import { useRoute } from 'vue-router/composables'
+import { useRoute } from 'vue-router'
 
 /**
  * Get information about the current route
@@ -23,7 +23,7 @@ export function useRouteParameters() {
 	 * Get the current fileId used on the route
 	 */
 	const fileId = computed<number | null>(() => {
-		const fileId = Number.parseInt(route.params.fileid ?? '0') || null
+		const fileId = Number.parseInt([route.params.fileid ?? '0'].flat()[0]) || null
 		return Number.isNaN(fileId) ? null : fileId
 	})
 
