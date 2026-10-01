@@ -9,7 +9,6 @@
 namespace OC\Core\Command\Encryption;
 
 use OCP\App\IAppManager;
-use OCP\IAppConfig;
 use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -25,7 +24,6 @@ class DecryptAll extends Command {
 	public function __construct(
 		protected IAppManager $appManager,
 		protected IConfig $config,
-		protected IAppConfig $appConfig,
 		protected \OC\Encryption\DecryptAll $decryptAll,
 		protected QuestionHelper $questionHelper,
 	) {
@@ -89,11 +87,11 @@ class DecryptAll extends Command {
 			return 1;
 		}
 
-		$originallyEnabled = $this->appConfig->getValueBool('core', 'encryption_enabled');
+		$originallyEnabled = $this->config->getAppValue('core', 'encryption_enabled', 'no') === 'yes';
 		try {
 			if ($originallyEnabled) {
 				$output->write('Disable server side encryption... ');
-				$this->appConfig->setValueBool('core', 'encryption_enabled', false);
+				$this->config->setAppValue('core', 'encryption_enabled', 'no');
 				$output->writeln('done.');
 			} else {
 				$output->writeln('Server side encryption not enabled. Nothing to do.');
@@ -121,18 +119,18 @@ class DecryptAll extends Command {
 					$output->writeln(' aborted.');
 					if ($originallyEnabled) {
 						$output->writeln('Server side encryption remains enabled');
-						$this->appConfig->setValueBool('core', 'encryption_enabled', true);
+						$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 					}
 				} elseif (($uid !== '') && $originallyEnabled) {
 					$output->writeln('Server side encryption remains enabled');
-					$this->appConfig->setValueBool('core', 'encryption_enabled', true);
+					$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 				}
 				$this->resetMaintenanceAndTrashbin();
 				return 0;
 			}
 			if ($originallyEnabled) {
 				$output->write('Enable server side encryption... ');
-				$this->appConfig->setValueBool('core', 'encryption_enabled', true);
+				$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 				$output->writeln('done.');
 			}
 			$output->writeln('aborted');
@@ -140,7 +138,7 @@ class DecryptAll extends Command {
 		} catch (\Exception $e) {
 			// enable server side encryption again if something went wrong
 			if ($originallyEnabled) {
-				$this->appConfig->setValueBool('core', 'encryption_enabled', true);
+				$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 			}
 			$this->resetMaintenanceAndTrashbin();
 			throw $e;
