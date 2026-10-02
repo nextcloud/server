@@ -9,6 +9,7 @@
 namespace Test\Group;
 
 use OC\Group\Database;
+use OC\Group\Listeners\MembershipCacheListener;
 use OC\User\Manager;
 use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -55,9 +56,10 @@ class ManagerTest extends TestCase {
 	}
 
 	private function wireCacheInvalidation(\OC\Group\Manager $manager): void {
+		$listener = new MembershipCacheListener($manager);
 		$this->dispatcher->method('dispatchTyped')
-			->willReturnCallback(function ($event) use ($manager): void {
-				$manager->handle($event);
+			->willReturnCallback(function ($event) use ($listener): void {
+				$listener->handle($event);
 			});
 	}
 

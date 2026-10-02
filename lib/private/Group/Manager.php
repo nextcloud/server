@@ -11,16 +11,11 @@ namespace OC\Group;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\SubAdmin;
 use OCA\Settings\Settings\Admin\Users;
-use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\EventDispatcher\IEventListener;
 use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICreateNamedGroupBackend;
 use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Events\BeforeGroupCreatedEvent;
-use OCP\Group\Events\BeforeGroupDeletedEvent;
-use OCP\Group\Events\BeforeUserAddedEvent;
-use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\GroupCreatedEvent;
 use OCP\Group\ISubAdmin;
 use OCP\GroupInterface;
@@ -35,10 +30,7 @@ use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-/**
- * @template-implements IEventListener<BeforeGroupDeletedEvent|BeforeUserAddedEvent|BeforeUserRemovedEvent>
- */
-class Manager implements IGroupManager, IEventListener {
+class Manager implements IGroupManager {
 	/** @var list<GroupInterface> */
 	private array $backends = [];
 	/** @var array<string, IGroup> */
@@ -382,17 +374,14 @@ class Manager implements IGroupManager, IEventListener {
 		return $this->subAdmin;
 	}
 
-	#[\Override]
-	public function handle(Event $event): void {
-		if ($event instanceof BeforeGroupDeletedEvent) {
-			unset($this->cachedGroups[$event->getGroup()->getGID()]);
-			$this->cachedUserGroups->clear();
-			$this->cachedUserGroupsLocal = [];
-		}
+	public function invalidateUserGroups(string $uid): void {
+		$this->cachedUserGroups->remove($uid);
+		unset($this->cachedUserGroupsLocal[$uid]);
+	}
 
-		if ($event instanceof BeforeUserAddedEvent || $event instanceof BeforeUserRemovedEvent) {
-			$this->cachedUserGroups->remove($event->getUser()->getUID());
-			unset($this->cachedUserGroupsLocal[$event->getUser()->getUID()]);
-		}
+	public function invalidateGroup(string $gid): void {
+		unset($this->cachedGroups[$gid]);
+		$this->cachedUserGroups->clear();
+		$this->cachedUserGroupsLocal = [];
 	}
 }
