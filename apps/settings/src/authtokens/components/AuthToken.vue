@@ -42,28 +42,28 @@
 				v-model:open="actionOpen"
 				:title="t('settings', 'Device settings')"
 				:aria-label="t('settings', 'Device settings')">
+				<!-- TODO: add text/longtext with some description -->
 				<NcActionCheckbox
 					v-if="canChangeScope"
 					:modelValue="token.scope.filesystem"
 					@update:modelValue="updateFileSystemScope">
-					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Allow filesystem access') }}
 				</NcActionCheckbox>
+				<!-- TODO: add text/longtext with some description -->
 				<NcActionButton
 					v-if="token.canRename"
 					icon="icon-rename"
 					@click.stop.prevent="startRename">
-					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Rename') }}
 				</NcActionButton>
 
 				<!-- revoke & wipe -->
 				<template v-if="token.canDelete">
 					<template v-if="token.type !== TokenType.WIPING_TOKEN">
+						<!-- TODO: add text/longtext with some description -->
 						<NcActionButton
 							icon="icon-delete"
 							@click.stop.prevent="revoke">
-							<!-- TODO: add text/longtext with some description -->
 							{{ t('settings', 'Revoke') }}
 						</NcActionButton>
 						<NcActionButton

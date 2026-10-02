@@ -148,6 +148,33 @@ describe('AuthToken revoke flow', () => {
 	})
 })
 
+describe('AuthToken action labels', () => {
+	it('labels each action with its own text', () => {
+		const token = makeToken()
+		const wrapper = mount(AuthToken, {
+			props: { token },
+			global: {
+				mocks: {
+					t: (_: string, text: string) => text,
+				},
+				stubs: {
+					NcActions: { template: '<ul><slot /></ul>' },
+					NcActionCheckbox: true,
+					NcDateTime: true,
+					NcIconSvgWrapper: true,
+				},
+				plugins: [createTestingPinia({
+					createSpy: vi.fn,
+					initialState: { 'auth-token': { tokens: [token] } },
+				})],
+			},
+		})
+
+		const labels = wrapper.findAll('button').map((button) => button.text())
+		expect(labels).toEqual(expect.arrayContaining(['Rename', 'Revoke', 'Wipe device']))
+	})
+})
+
 describe('AuthToken wipe flow', () => {
 	beforeEach(() => {
 		vi.clearAllMocks()
