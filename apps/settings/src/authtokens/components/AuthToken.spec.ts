@@ -8,6 +8,7 @@ import type { IToken } from '../store/authtoken.ts'
 import { createTestingPinia } from '@pinia/testing'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { nextTick } from 'vue'
 
 // AuthToken.vue reads window.OC.theme.productName at module evaluation time.
 // vi.hoisted runs before imports, so this guarantees the property is set on
@@ -44,35 +45,38 @@ function makeToken(overrides: Partial<IToken> = {}): IToken {
 
 function mountAuthToken(token: IToken) {
 	return mount(AuthToken, {
-		// Vue Test Utils v1 (legacy pipeline) uses propsData; v2 also accepts it
-		propsData: { token },
-		mocks: {
-			t: (_: string, text: string) => text,
+		props: { token },
+		global: {
+			mocks: {
+				t: (_: string, text: string) => text,
+			},
+			stubs: {
+				NcActions: true,
+				NcActionButton: true,
+				NcActionCheckbox: true,
+				NcButton: true,
+				NcDateTime: true,
+				NcIconSvgWrapper: true,
+				NcTextField: true,
+			},
+			plugins: [createTestingPinia({
+				createSpy: vi.fn,
+				initialState: { 'auth-token': { tokens: [token] } },
+			})],
 		},
-		stubs: {
-			NcActions: true,
-			NcActionButton: true,
-			NcActionCheckbox: true,
-			NcButton: true,
-			NcDateTime: true,
-			NcIconSvgWrapper: true,
-			NcTextField: true,
-		},
-		pinia: createTestingPinia({
-			createSpy: vi.fn,
-			initialState: { 'auth-token': { tokens: [token] } },
-		}),
 	})
 }
 
 function mountDeleteDialog(token: IToken, open = true) {
 	return mount(AuthTokenDeleteDialog, {
-		propsData: { token, open },
-		mocks: {
-			t: (_: string, text: string) => text,
-		},
-		stubs: {
-			NcDialog: { template: '<div><slot /></div>' },
+		props: { token, open },
+		global: {
+			mocks: {
+				t: (_: string, text: string) => text,
+			},
+			stubs: {
+				NcDialog: { template: '<div><slot /></div>' },
+			},
 		},
 	})
 }
@@ -88,7 +92,7 @@ describe('AuthToken revoke flow', () => {
 		const store = useAuthTokenStore()
 
 		;(wrapper.vm as unknown as { revoke: () => void }).revoke()
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		const dialog = wrapper.findComponent(AuthTokenDeleteDialog)
 		expect(dialog.exists()).toBe(true)
@@ -102,12 +106,12 @@ describe('AuthToken revoke flow', () => {
 		const store = useAuthTokenStore()
 
 		;(wrapper.vm as unknown as { revoke: () => void }).revoke()
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		const dialog = wrapper.findComponent(AuthTokenDeleteDialog)
 		dialog.vm.$emit('confirm')
 		dialog.vm.$emit('update:open', false)
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		expect(store.deleteToken).toHaveBeenCalledTimes(1)
 		expect(store.deleteToken).toHaveBeenCalledWith(token)
@@ -119,11 +123,11 @@ describe('AuthToken revoke flow', () => {
 		const store = useAuthTokenStore()
 
 		;(wrapper.vm as unknown as { revoke: () => void }).revoke()
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		const dialog = wrapper.findComponent(AuthTokenDeleteDialog)
 		dialog.vm.$emit('update:open', false)
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		// Dialog is v-if'd off the tree once closed
 		expect(wrapper.findComponent(AuthTokenDeleteDialog).exists()).toBe(false)
@@ -135,7 +139,7 @@ describe('AuthToken revoke flow', () => {
 		const wrapper = mountAuthToken(token)
 
 		;(wrapper.vm as unknown as { revoke: () => void }).revoke()
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		const dialog = wrapper.findComponent(AuthTokenDeleteDialog)
 		expect(dialog.exists()).toBe(true)
