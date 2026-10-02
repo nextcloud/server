@@ -157,6 +157,7 @@ OC.L10N.register(
     "Delete" : "Delete",
     "File drop" : "File drop",
     "Terms of service" : "Terms of service",
+    "Upload" : "Upload",
     "Share with group" : "Share with group",
     "Share in conversation" : "Share in conversation",
     "Share with remote group" : "Share with remote group",

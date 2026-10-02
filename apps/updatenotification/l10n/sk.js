@@ -8,7 +8,7 @@ OC.L10N.register(
     "See what's new" : "Pozrite si, čo je nového.",
     "{app} updated to version {version}" : "{app} aktualizovaná na verziu {version}",
     "Update notifications" : "Aktualizovať hlásenia",
-    "The update server could not be reached since %d days to check for new updates." : "Aktualizačný server je nedostupný %d dní pre kontrolu aktualizácií.",
+    "The update server could not be reached since %d days to check for new updates." : "Aktualizačný server sa už %d dní nepodarilo kontaktovať kvôli kontrole nových aktualizácií.",
     "Please check the Nextcloud and server log files for errors." : "Chyby skontrolujte prosím v logoch Nextcloud a webového servera",
     "Update to {serverAndVersion} is available." : "Je dostupná aktualizácia na {serverAndVersion}.",
     "Update for {app} to version %s is available." : "Pre {app} je dostupná aktualizácia na verziu %s.",
