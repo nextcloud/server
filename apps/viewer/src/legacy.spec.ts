@@ -110,6 +110,27 @@ describe('OCA.Viewer compatibility layer', () => {
 		expect(target.basename).toBe('pineapple.jpg')
 	})
 
+	it('addresses a file with a dav source relative to its dav home', async () => {
+		await viewer().open({
+			fileInfo: { source: 'https://cloud.example/remote.php/dav/files/emma/Photos/2019/x.jpg', filename: '/Photos/2019/x.jpg', mime: 'image/jpeg' },
+		})
+
+		const [, target] = viewerOpen.mock.calls[0]
+		expect(target.source).toBe('https://cloud.example/remote.php/dav/files/emma/Photos/2019/x.jpg')
+		expect(target.root).toBe('/files/emma')
+		expect(target.path).toBe('/Photos/2019/x.jpg')
+	})
+
+	it('addresses a file of another dav service relative to its home there', async () => {
+		await viewer().open({
+			fileInfo: { source: 'https://cloud.example/remote.php/dav/photos/emma/albums/Trip/x.jpg', mime: 'image/jpeg' },
+		})
+
+		const [, target] = viewerOpen.mock.calls[0]
+		expect(target.root).toBe('/photos/emma')
+		expect(target.basename).toBe('x.jpg')
+	})
+
 	it('passes the handler on to openWith', async () => {
 		await viewer().openWith('richdocuments', { fileInfo: { fileid: 1, filename: '/a.pdf', mime: 'application/pdf' } })
 		expect(viewerOpen.mock.calls[0][3]).toBe('richdocuments')
