@@ -6,8 +6,8 @@
 import type { IToken } from '../store/authtoken.ts'
 
 import { createTestingPinia } from '@pinia/testing'
-import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 // AuthToken.vue reads window.OC.theme.productName at module evaluation time.
@@ -29,6 +29,8 @@ import AuthToken from './AuthToken.vue'
 import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 import { detect } from '../utils/userAgentDetect.ts'
+
+enableAutoUnmount(afterEach)
 
 function makeToken(overrides: Partial<IToken> = {}): IToken {
 	return {
@@ -145,6 +147,90 @@ describe('AuthToken revoke flow', () => {
 		expect(dialog.exists()).toBe(true)
 		expect(dialog.props('open')).toBe(true)
 		expect((dialog.props('token') as IToken).type).toBe(TokenType.WIPING_TOKEN)
+	})
+})
+
+describe('AuthToken rename focus', () => {
+	function mountRenamable(token: IToken) {
+		return mount(AuthToken, {
+			props: { token },
+			attachTo: document.body,
+			global: {
+				mocks: {
+					t: (_: string, text: string) => text,
+				},
+				stubs: {
+					NcActions: { template: '<div><button>Device settings</button><slot /></div>' },
+					NcActionButton: true,
+					NcActionCheckbox: true,
+					NcButton: true,
+					NcDateTime: true,
+					NcIconSvgWrapper: true,
+					NcTextField: { template: '<input>', methods: { select() {} } },
+				},
+				plugins: [createTestingPinia({
+					createSpy: vi.fn,
+					initialState: { 'auth-token': { tokens: [token] } },
+				})],
+			},
+		})
+	}
+
+	function actionsButton(wrapper: ReturnType<typeof mountRenamable>) {
+		return wrapper.findAll('button').find((button) => button.text() === 'Device settings')!.element
+	}
+
+	it('returns focus to the actions button after cancelling with Escape', async () => {
+		const wrapper = mountRenamable(makeToken())
+
+		;(wrapper.vm as unknown as { startRename: () => void }).startRename()
+		await nextTick()
+		await wrapper.find('input').trigger('keyup', { key: 'Escape' })
+		await nextTick()
+
+		expect(wrapper.find('form').exists()).toBe(false)
+		expect(document.activeElement).toBe(actionsButton(wrapper))
+	})
+
+	it('returns focus to the actions button after saving the new name', async () => {
+		const token = makeToken()
+		const wrapper = mountRenamable(token)
+		const store = useAuthTokenStore()
+
+		;(wrapper.vm as unknown as { startRename: () => void }).startRename()
+		await nextTick()
+		await wrapper.find('form').trigger('submit')
+		await nextTick()
+
+		expect(store.renameToken).toHaveBeenCalledWith(token, token.name)
+		expect(document.activeElement).toBe(actionsButton(wrapper))
+	})
+
+	// Renaming always asks for the password, and that dialog takes focus until it closes.
+	it('returns focus to the actions button once the password confirmation closes', async () => {
+		const token = makeToken()
+		const wrapper = mountRenamable(token)
+		const store = useAuthTokenStore()
+		const dialogField = document.createElement('input')
+		document.body.appendChild(dialogField)
+		let closeDialog = () => {}
+		vi.mocked(store.renameToken).mockImplementation(async () => {
+			await new Promise((resolve) => setTimeout(resolve))
+			dialogField.focus()
+			await new Promise<void>((resolve) => {
+				closeDialog = resolve
+			})
+			dialogField.remove()
+			return true
+		})
+
+		;(wrapper.vm as unknown as { startRename: () => void }).startRename()
+		await nextTick()
+		await wrapper.find('form').trigger('submit')
+		await vi.waitFor(() => expect(document.activeElement).toBe(dialogField))
+		closeDialog()
+
+		await vi.waitFor(() => expect(document.activeElement).toBe(actionsButton(wrapper)))
 	})
 })
 
