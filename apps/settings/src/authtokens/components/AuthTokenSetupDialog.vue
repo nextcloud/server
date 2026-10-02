@@ -46,7 +46,8 @@
 				v-else
 				:value="qrUrl"
 				:size="196"
-				:margin="4" />
+				:margin="4"
+				aria-hidden="true" />
 		</div>
 	</NcDialog>
 </template>
