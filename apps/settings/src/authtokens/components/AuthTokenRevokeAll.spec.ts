@@ -10,12 +10,6 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 
-// AuthToken.vue, pulled in transitively, reads window.OC.theme.productName at module
-// evaluation time. vi.hoisted runs before imports, so it is set before the SFC is parsed.
-vi.hoisted(() => {
-	(window as unknown as { OC: { theme: { productName: string } } }).OC.theme = { productName: 'Nextcloud' }
-})
-
 const defaultLoadState = vi.hoisted(() => (_app: string, key: string) => (key === 'app_tokens' ? [] : true))
 vi.mock('@nextcloud/initial-state', () => ({
 	loadState: vi.fn(defaultLoadState),
@@ -56,9 +50,6 @@ const NcButtonStub = {
 function mountSection(tokens: IToken[]) {
 	return mount(AuthTokenSection, {
 		global: {
-			mocks: {
-				t: (_: string, text: string) => text,
-			},
 			stubs: {
 				AuthTokenList: true,
 				AuthTokenSetup: true,
@@ -78,9 +69,6 @@ function mountDialog(props: { count: number, wipePendingCount: number, open?: bo
 	return mount(AuthTokenRevokeAllDialog, {
 		props: { open: true, ...props },
 		global: {
-			mocks: {
-				t: (_: string, text: string) => text,
-			},
 			stubs: {
 				NcDialog: NcDialogStub,
 			},

@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import type { IDialogButton } from '@nextcloud/dialogs'
 
-import { translatePlural as n, translate as t } from '@nextcloud/l10n'
+import { n, t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'

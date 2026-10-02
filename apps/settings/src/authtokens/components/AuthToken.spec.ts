@@ -6,16 +6,10 @@
 import type { IToken } from '../store/authtoken.ts'
 
 import { createTestingPinia } from '@pinia/testing'
+import { getByRole } from '@testing-library/vue'
 import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
-
-// AuthToken.vue reads window.OC.theme.productName at module evaluation time.
-// vi.hoisted runs before imports, so this guarantees the property is set on
-// the existing jsdom window before the SFC is first parsed.
-vi.hoisted(() => {
-	(window as unknown as { OC: { theme: { productName: string } } }).OC.theme = { productName: 'Nextcloud' }
-})
 
 // Mock @nextcloud/dialogs so the wipe action's showConfirmation call resolves
 // synchronously in tests. Hoisted so it's installed before AuthToken.vue imports.
@@ -30,6 +24,9 @@ import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
 import AuthTokenSetupDialog from './AuthTokenSetupDialog.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 import { detect } from '../utils/userAgentDetect.ts'
+
+// AuthToken.vue reads window.OC.theme.productName, which the test window lacks
+;(window as unknown as { OC: { theme: { productName: string } } }).OC.theme = { productName: 'Nextcloud' }
 
 enableAutoUnmount(afterEach)
 
@@ -46,13 +43,11 @@ function makeToken(overrides: Partial<IToken> = {}): IToken {
 	}
 }
 
-function mountAuthToken(token: IToken) {
+function mountAuthToken(token: IToken, { stubs = {}, attachTo }: { stubs?: Record<string, object | boolean>, attachTo?: HTMLElement } = {}) {
 	return mount(AuthToken, {
 		props: { token },
+		attachTo,
 		global: {
-			mocks: {
-				t: (_: string, text: string) => text,
-			},
 			stubs: {
 				NcActions: true,
 				NcActionButton: true,
@@ -61,6 +56,7 @@ function mountAuthToken(token: IToken) {
 				NcDateTime: true,
 				NcIconSvgWrapper: true,
 				NcTextField: true,
+				...stubs,
 			},
 			plugins: [createTestingPinia({
 				createSpy: vi.fn,
@@ -74,9 +70,6 @@ function mountDeleteDialog(token: IToken, open = true) {
 	return mount(AuthTokenDeleteDialog, {
 		props: { token, open },
 		global: {
-			mocks: {
-				t: (_: string, text: string) => text,
-			},
 			stubs: {
 				NcDialog: { template: '<div><slot /></div>' },
 			},
@@ -153,32 +146,17 @@ describe('AuthToken revoke flow', () => {
 
 describe('AuthToken rename focus', () => {
 	function mountRenamable(token: IToken) {
-		return mount(AuthToken, {
-			props: { token },
+		return mountAuthToken(token, {
 			attachTo: document.body,
-			global: {
-				mocks: {
-					t: (_: string, text: string) => text,
-				},
-				stubs: {
-					NcActions: { template: '<div><button>Device settings</button><slot /></div>' },
-					NcActionButton: true,
-					NcActionCheckbox: true,
-					NcButton: true,
-					NcDateTime: true,
-					NcIconSvgWrapper: true,
-					NcTextField: { template: '<input>', methods: { select() {} } },
-				},
-				plugins: [createTestingPinia({
-					createSpy: vi.fn,
-					initialState: { 'auth-token': { tokens: [token] } },
-				})],
+			stubs: {
+				NcActions: { template: '<div><button>Device settings</button><slot /></div>' },
+				NcTextField: { template: '<input>', methods: { select() {} } },
 			},
 		})
 	}
 
 	function actionsButton(wrapper: ReturnType<typeof mountRenamable>) {
-		return wrapper.findAll('button').find((button) => button.text() === 'Device settings')!.element
+		return getByRole(wrapper.element, 'button', { name: 'Device settings' })
 	}
 
 	it('returns focus to the actions button after cancelling with Escape', async () => {
@@ -190,7 +168,7 @@ describe('AuthToken rename focus', () => {
 		await nextTick()
 
 		expect(wrapper.find('form').exists()).toBe(false)
-		expect(document.activeElement).toBe(actionsButton(wrapper))
+		expect(actionsButton(wrapper)).toHaveFocus()
 	})
 
 	it('returns focus to the actions button after saving the new name', async () => {
@@ -204,23 +182,20 @@ describe('AuthToken rename focus', () => {
 		await nextTick()
 
 		expect(store.renameToken).toHaveBeenCalledWith(token, token.name)
-		expect(document.activeElement).toBe(actionsButton(wrapper))
+		expect(actionsButton(wrapper)).toHaveFocus()
 	})
 
-	// Renaming always asks for the password, and that dialog takes focus until it closes.
 	it('returns focus to the actions button once the password confirmation closes', async () => {
 		const token = makeToken()
 		const wrapper = mountRenamable(token)
 		const store = useAuthTokenStore()
 		const dialogField = document.createElement('input')
 		document.body.appendChild(dialogField)
-		let closeDialog = () => {}
+		const dialog = Promise.withResolvers<void>()
 		vi.mocked(store.renameToken).mockImplementation(async () => {
 			await new Promise((resolve) => setTimeout(resolve))
 			dialogField.focus()
-			await new Promise<void>((resolve) => {
-				closeDialog = resolve
-			})
+			await dialog.promise
 			dialogField.remove()
 			return true
 		})
@@ -228,32 +203,20 @@ describe('AuthToken rename focus', () => {
 		;(wrapper.vm as unknown as { startRename: () => void }).startRename()
 		await nextTick()
 		await wrapper.find('form').trigger('submit')
-		await vi.waitFor(() => expect(document.activeElement).toBe(dialogField))
-		closeDialog()
+		await vi.waitFor(() => expect(dialogField).toHaveFocus(), { interval: 1 })
+		dialog.resolve()
 
-		await vi.waitFor(() => expect(document.activeElement).toBe(actionsButton(wrapper)))
+		await vi.waitFor(() => expect(actionsButton(wrapper)).toHaveFocus(), { interval: 1 })
 	})
 })
 
 describe('AuthToken action labels', () => {
 	it('labels each action with its own text', () => {
-		const token = makeToken()
-		const wrapper = mount(AuthToken, {
-			props: { token },
-			global: {
-				mocks: {
-					t: (_: string, text: string) => text,
-				},
-				stubs: {
-					NcActions: { template: '<ul><slot /></ul>' },
-					NcActionCheckbox: true,
-					NcDateTime: true,
-					NcIconSvgWrapper: true,
-				},
-				plugins: [createTestingPinia({
-					createSpy: vi.fn,
-					initialState: { 'auth-token': { tokens: [token] } },
-				})],
+		const wrapper = mountAuthToken(makeToken(), {
+			stubs: {
+				NcActions: { template: '<ul><slot /></ul>' },
+				NcActionButton: false,
+				NcButton: false,
 			},
 		})
 
@@ -263,14 +226,11 @@ describe('AuthToken action labels', () => {
 })
 
 describe('AuthTokenSetupDialog QR code', () => {
-	// The login name and password are shown as text, so the QR code adds nothing for assistive technology
+	// The credentials are shown as text, so the QR code is redundant for screen readers
 	it('hides the QR code from assistive technology', async () => {
 		const wrapper = mount(AuthTokenSetupDialog, {
 			props: { token: { token: 'app-password', loginName: 'admin', deviceToken: makeToken() } },
 			global: {
-				mocks: {
-					t: (_: string, text: string) => text,
-				},
 				stubs: {
 					NcDialog: { template: '<div><slot /></div>' },
 					NcIconSvgWrapper: true,
@@ -280,11 +240,10 @@ describe('AuthTokenSetupDialog QR code', () => {
 			},
 		})
 
-		await wrapper.findAll('button').find((button) => button.text() === 'Show QR code for mobile apps')!.trigger('click')
+		getByRole(wrapper.element, 'button', { name: 'Show QR code for mobile apps' }).click()
+		await nextTick()
 
-		const qrCode = wrapper.find('canvas')
-		expect(qrCode.exists()).toBe(true)
-		expect(qrCode.attributes('aria-hidden')).toBe('true')
+		expect(wrapper.find('canvas').element).toHaveAttribute('aria-hidden', 'true')
 	})
 })
 

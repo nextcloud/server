@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import type { ITokenResponse } from '../../../../apps/settings/src/authtokens/store/authtoken.ts'
+import type { ITokenResponse } from '~/apps/settings/src/authtokens/store/authtoken.ts'
 
 import { mdiQrcodeScan } from '@mdi/js'
 import { getCurrentUser } from '@nextcloud/auth'

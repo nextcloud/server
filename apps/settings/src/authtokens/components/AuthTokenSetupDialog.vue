@@ -2,6 +2,129 @@
   - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import type { ITokenResponse } from '../store/authtoken.ts'
+
+import QR from '@chenfengyuan/vue-qrcode'
+import { mdiCheck, mdiContentCopy } from '@mdi/js'
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { getRootUrl } from '@nextcloud/router'
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import logger from '../../logger.ts'
+
+const props = withDefaults(defineProps<{
+	/** The newly created token, `null` while the dialog is closed */
+	token?: ITokenResponse | null
+}>(), {
+	token: null,
+})
+
+const emit = defineEmits<{
+	/** The dialog was closed */
+	close: []
+}>()
+
+const passwordField = useTemplateRef('passwordField')
+
+const isNameCopied = ref(false)
+const isPasswordCopied = ref(false)
+const showQRCode = ref(false)
+
+const open = computed({
+	get() {
+		return props.token !== null
+	},
+
+	set(value: boolean) {
+		if (!value) {
+			emit('close')
+		}
+	},
+})
+
+const copyPasswordIcon = computed(() => isPasswordCopied.value ? mdiCheck : mdiContentCopy)
+
+const copyNameIcon = computed(() => isNameCopied.value ? mdiCheck : mdiContentCopy)
+
+const appPassword = computed(() => props.token?.token ?? '')
+
+const loginName = computed(() => props.token?.loginName ?? '')
+
+const qrUrl = computed(() => {
+	const server = window.location.protocol + '//' + window.location.host + getRootUrl()
+	return `nc://login/user:${loginName.value}&password:${appPassword.value}&server:${server}`
+})
+
+const copyPasswordLabel = computed(() => {
+	if (isPasswordCopied.value) {
+		return t('settings', 'App password copied!')
+	}
+	return t('settings', 'Copy app password')
+})
+
+const copyLoginNameLabel = computed(() => {
+	if (isNameCopied.value) {
+		return t('settings', 'Login name copied!')
+	}
+	return t('settings', 'Copy login name')
+})
+
+watch(() => props.token, () => {
+	// reset showing the QR code on token change
+	showQRCode.value = false
+})
+
+watch(open, () => {
+	if (open.value) {
+		nextTick(() => {
+			passwordField.value!.select()
+		})
+	}
+})
+
+/**
+ * Copy the app password to the clipboard
+ */
+async function copyPassword() {
+	try {
+		await navigator.clipboard.writeText(appPassword.value)
+		isPasswordCopied.value = true
+	} catch (e) {
+		isPasswordCopied.value = false
+		logger.error(e as Error)
+		showError(t('settings', 'Could not copy app password. Please copy it manually.'))
+	} finally {
+		setTimeout(() => {
+			isPasswordCopied.value = false
+		}, 4000)
+	}
+}
+
+/**
+ * Copy the login name to the clipboard
+ */
+async function copyLoginName() {
+	try {
+		await navigator.clipboard.writeText(loginName.value)
+		isNameCopied.value = true
+	} catch (e) {
+		isNameCopied.value = false
+		logger.error(e as Error)
+		showError(t('settings', 'Could not copy login name. Please copy it manually.'))
+	} finally {
+		setTimeout(() => {
+			isNameCopied.value = false
+		}, 4000)
+	}
+}
+</script>
+
 <template>
 	<NcDialog
 		v-model:open="open"
@@ -24,7 +147,7 @@
 		</div>
 		<div class="token-dialog__password">
 			<NcTextField
-				ref="appPassword"
+				ref="passwordField"
 				:label="t('settings', 'Password')"
 				:modelValue="appPassword"
 				readonly />
@@ -46,149 +169,6 @@
 		</div>
 	</NcDialog>
 </template>
-
-<script lang="ts">
-import type { PropType } from 'vue'
-import type { ITokenResponse } from '../store/authtoken.ts'
-
-import QR from '@chenfengyuan/vue-qrcode'
-import { mdiCheck, mdiContentCopy } from '@mdi/js'
-import { showError } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import { getRootUrl } from '@nextcloud/router'
-import { defineComponent } from 'vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcDialog from '@nextcloud/vue/components/NcDialog'
-import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-import logger from '../../logger.ts'
-
-export default defineComponent({
-	name: 'AuthTokenSetupDialog',
-	components: {
-		NcButton,
-		NcDialog,
-		NcIconSvgWrapper,
-		NcTextField,
-		QR,
-	},
-
-	props: {
-		token: {
-			type: Object as PropType<ITokenResponse | null>,
-			required: false,
-			default: null,
-		},
-	},
-
-	emits: ['close'],
-
-	data() {
-		return {
-			isNameCopied: false,
-			isPasswordCopied: false,
-			showQRCode: false,
-		}
-	},
-
-	computed: {
-		open: {
-			get() {
-				return this.token !== null
-			},
-
-			set(value: boolean) {
-				if (!value) {
-					this.$emit('close')
-				}
-			},
-		},
-
-		copyPasswordIcon() {
-			return this.isPasswordCopied ? mdiCheck : mdiContentCopy
-		},
-
-		copyNameIcon() {
-			return this.isNameCopied ? mdiCheck : mdiContentCopy
-		},
-
-		appPassword() {
-			return this.token?.token ?? ''
-		},
-
-		loginName() {
-			return this.token?.loginName ?? ''
-		},
-
-		qrUrl() {
-			const server = window.location.protocol + '//' + window.location.host + getRootUrl()
-			return `nc://login/user:${this.loginName}&password:${this.appPassword}&server:${server}`
-		},
-
-		copyPasswordLabel() {
-			if (this.isPasswordCopied) {
-				return t('settings', 'App password copied!')
-			}
-			return t('settings', 'Copy app password')
-		},
-
-		copyLoginNameLabel() {
-			if (this.isNameCopied) {
-				return t('settings', 'Login name copied!')
-			}
-			return t('settings', 'Copy login name')
-		},
-	},
-
-	watch: {
-		token() {
-			// reset showing the QR code on token change
-			this.showQRCode = false
-		},
-
-		open() {
-			if (this.open) {
-				this.$nextTick(() => {
-					this.$refs.appPassword!.select()
-				})
-			}
-		},
-	},
-
-	methods: {
-		t,
-		async copyPassword() {
-			try {
-				await navigator.clipboard.writeText(this.appPassword)
-				this.isPasswordCopied = true
-			} catch (e) {
-				this.isPasswordCopied = false
-				logger.error(e as Error)
-				showError(t('settings', 'Could not copy app password. Please copy it manually.'))
-			} finally {
-				setTimeout(() => {
-					this.isPasswordCopied = false
-				}, 4000)
-			}
-		},
-
-		async copyLoginName() {
-			try {
-				await navigator.clipboard.writeText(this.loginName)
-				this.isNameCopied = true
-			} catch (e) {
-				this.isNameCopied = false
-				logger.error(e as Error)
-				showError(t('settings', 'Could not copy login name. Please copy it manually.'))
-			} finally {
-				setTimeout(() => {
-					this.isNameCopied = false
-				}, 4000)
-			}
-		},
-	},
-})
-</script>
 
 <style scoped lang="scss">
 :deep(.token-dialog) {

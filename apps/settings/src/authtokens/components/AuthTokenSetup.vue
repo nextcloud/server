@@ -3,6 +3,50 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { ITokenResponse } from '../store/authtoken.ts'
+
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import AuthTokenSetupDialog from './AuthTokenSetupDialog.vue'
+import logger from '../../logger.ts'
+import { useAuthTokenStore } from '../store/authtoken.ts'
+
+const authTokenStore = useAuthTokenStore()
+
+const deviceName = ref('')
+const loading = ref(false)
+const newToken = ref<ITokenResponse | null>(null)
+
+/**
+ * Clear the form and close the new app password dialog
+ */
+function reset() {
+	loading.value = false
+	deviceName.value = ''
+	newToken.value = null
+}
+
+/**
+ * Create an app password with the entered name
+ */
+async function submit() {
+	try {
+		loading.value = true
+		newToken.value = await authTokenStore.addToken(deviceName.value)
+	} catch (error) {
+		logger.error(error as Error)
+		showError(t('settings', 'Error while creating device token'))
+		reset()
+	} finally {
+		loading.value = false
+	}
+}
+</script>
+
 <template>
 	<form
 		id="generate-app-token-section"
@@ -26,63 +70,6 @@
 		<AuthTokenSetupDialog :token="newToken" @close="newToken = null" />
 	</form>
 </template>
-
-<script lang="ts">
-import type { ITokenResponse } from '../store/authtoken.ts'
-
-import { showError } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-import AuthTokenSetupDialog from './AuthTokenSetupDialog.vue'
-import logger from '../../logger.ts'
-import { useAuthTokenStore } from '../store/authtoken.ts'
-
-export default defineComponent({
-	name: 'AuthTokenSetup',
-	components: {
-		NcButton,
-		NcTextField,
-		AuthTokenSetupDialog,
-	},
-
-	setup() {
-		const authTokenStore = useAuthTokenStore()
-		return { authTokenStore }
-	},
-
-	data() {
-		return {
-			deviceName: '',
-			loading: false,
-			newToken: null as ITokenResponse | null,
-		}
-	},
-
-	methods: {
-		t,
-		reset() {
-			this.loading = false
-			this.deviceName = ''
-			this.newToken = null
-		},
-
-		async submit() {
-			try {
-				this.loading = true
-				this.newToken = await this.authTokenStore.addToken(this.deviceName)
-			} catch (error) {
-				logger.error(error as Error)
-				showError(t('settings', 'Error while creating device token'))
-				this.reset()
-			} finally {
-				this.loading = false
-			}
-		},
-	},
-})
-</script>
 
 <style lang="scss" scoped>
 	#generate-app-token-section {
