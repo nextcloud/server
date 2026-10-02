@@ -47,7 +47,6 @@ module.exports = {
 		'vue-settings-profile-contact': path.join(__dirname, 'apps/settings/src', 'main-profile-contact.js'),
 		'vue-settings-language-locale': path.join(__dirname, 'apps/settings/src', 'main-language-locale.js'),
 		'vue-settings-personal-password': path.join(__dirname, 'apps/settings/src', 'main-personal-password.js'),
-		'vue-settings-personal-security': path.join(__dirname, 'apps/settings/src', 'main-personal-security.js'),
 		'vue-settings-personal-webauthn': path.join(__dirname, 'apps/settings/src', 'main-personal-webauth.js'),
 		'vue-settings-users-management': path.join(__dirname, 'apps/settings/src', 'main-users-management.ts'),
 		'declarative-settings-forms': path.join(__dirname, 'apps/settings/src', 'main-declarative-settings-forms.ts'),

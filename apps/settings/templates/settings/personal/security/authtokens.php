@@ -5,8 +5,9 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-\OCP\Util::addScript('settings', 'vue-settings-personal-security', 'core');
+\OCP\Util::addScript('settings', 'personal-security-authtokens', 'core');
+\OCP\Util::addStyle('settings', 'personal-security-authtokens');
 
 ?>
 
-<div id="security-authtokens" class="section"></div>
+<div id="security-authtokens"></div>

@@ -16,9 +16,9 @@
 						ref="input"
 						v-model="newName"
 						:label="t('settings', 'Device name')"
-						:show-trailing-button="true"
-						:trailing-button-label="t('settings', 'Cancel renaming')"
-						@trailing-button-click="cancelRename"
+						:showTrailingButton="true"
+						:trailingButtonLabel="t('settings', 'Cancel renaming')"
+						@trailingButtonClick="cancelRename"
 						@keyup.esc="cancelRename" />
 					<NcButton :aria-label="t('settings', 'Save new name')" variant="tertiary" type="submit">
 						<template #icon>
@@ -33,18 +33,18 @@
 		<td>
 			<NcDateTime
 				class="auth-token__last-activity"
-				:ignore-seconds="true"
+				:ignoreSeconds="true"
 				:timestamp="tokenLastActivity" />
 		</td>
 		<td class="auth-token__actions">
 			<NcActions
 				v-if="!token.current"
+				v-model:open="actionOpen"
 				:title="t('settings', 'Device settings')"
-				:aria-label="t('settings', 'Device settings')"
-				:open.sync="actionOpen">
+				:aria-label="t('settings', 'Device settings')">
 				<NcActionCheckbox
 					v-if="canChangeScope"
-					:model-value="token.scope.filesystem"
+					:modelValue="token.scope.filesystem"
 					@update:modelValue="updateFileSystemScope">
 					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Allow filesystem access') }}
@@ -84,8 +84,8 @@
 		</td>
 		<AuthTokenDeleteDialog
 			v-if="deleteDialogOpen"
+			v-model:open="deleteDialogOpen"
 			:token="token"
-			:open.sync="deleteDialogOpen"
 			@confirm="confirmDelete" />
 	</tr>
 </template>

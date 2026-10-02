@@ -44,7 +44,10 @@ export default defineConfig({
 		},
 	},
 	test: {
-		include: ['apps/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+		include: [
+			'apps/**/*.{test,spec}.?(c|m)[jt]s?(x)',
+			'../../apps/settings/src/authtokens/**/*.spec.ts',
+		],
 		env: {
 			LANG: 'en_US',
 			TZ: 'UTC',

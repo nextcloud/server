@@ -4,14 +4,14 @@
 -->
 <template>
 	<NcDialog
-		:open.sync="open"
+		v-model:open="open"
 		:name="t('settings', 'New app password')"
-		content-classes="token-dialog">
+		contentClasses="token-dialog">
 		<p>
 			{{ t('settings', 'Use the credentials below to configure your app or device. For security reasons this password will only be shown once.') }}
 		</p>
 		<div class="token-dialog__name">
-			<NcTextField :label="t('settings', 'Login')" :model-value="loginName" readonly />
+			<NcTextField :label="t('settings', 'Login')" :modelValue="loginName" readonly />
 			<NcButton
 				variant="tertiary"
 				:title="copyLoginNameLabel"
@@ -26,7 +26,7 @@
 			<NcTextField
 				ref="appPassword"
 				:label="t('settings', 'Password')"
-				:model-value="appPassword"
+				:modelValue="appPassword"
 				readonly />
 			<NcButton
 				variant="tertiary"
@@ -42,7 +42,11 @@
 			<NcButton v-if="!showQRCode" @click="showQRCode = true">
 				{{ t('settings', 'Show QR code for mobile apps') }}
 			</NcButton>
-			<QR v-else :value="qrUrl" />
+			<QR
+				v-else
+				:value="qrUrl"
+				:size="196"
+				:margin="4" />
 		</div>
 	</NcDialog>
 </template>
@@ -51,7 +55,6 @@
 import type { PropType } from 'vue'
 import type { ITokenResponse } from '../store/authtoken.ts'
 
-import QR from '@chenfengyuan/vue-qrcode'
 import { mdiCheck, mdiContentCopy } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
@@ -61,6 +64,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+import QR from 'qrcode.vue'
 import logger from '../../logger.ts'
 
 export default defineComponent({
@@ -80,6 +84,8 @@ export default defineComponent({
 			default: null,
 		},
 	},
+
+	emits: ['close'],
 
 	data() {
 		return {
