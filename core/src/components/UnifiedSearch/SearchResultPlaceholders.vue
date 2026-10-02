@@ -2,6 +2,26 @@
  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
+const light = ref<string>()
+const dark = ref<string>()
+
+onMounted(() => {
+	const styles = getComputedStyle(document.documentElement)
+	dark.value = styles.getPropertyValue('--color-placeholder-dark')
+	light.value = styles.getPropertyValue('--color-placeholder-light')
+})
+
+/**
+ * A random width for a placeholder line, in percent.
+ */
+function randWidth() {
+	return Math.floor(Math.random() * 20) + 30
+}
+</script>
+
 <template>
 	<ul>
 		<!-- Placeholder animation -->
@@ -39,31 +59,6 @@
 		</li>
 	</ul>
 </template>
-
-<script>
-export default {
-	name: 'SearchResultPlaceholders',
-
-	data() {
-		return {
-			light: null,
-			dark: null,
-		}
-	},
-
-	mounted() {
-		const styles = getComputedStyle(document.documentElement)
-		this.dark = styles.getPropertyValue('--color-placeholder-dark')
-		this.light = styles.getPropertyValue('--color-placeholder-light')
-	},
-
-	methods: {
-		randWidth() {
-			return Math.floor(Math.random() * 20) + 30
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 $clickable-area: 44px;

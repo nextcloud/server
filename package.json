@@ -70,6 +70,7 @@
     "debounce": "^3.0.0",
     "dompurify": "^3.4.16",
     "escape-html": "^1.0.3",
+    "focus-trap": "^8.2.2",
     "marked": "^18.0.13",
     "moment": "^2.31.0",
     "p-queue": "^9.3.3",

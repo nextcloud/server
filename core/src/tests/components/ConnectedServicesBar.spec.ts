@@ -15,13 +15,13 @@ vi.mock('@nextcloud/router', () => ({
 import ConnectedServicesBar from '../../components/UnifiedSearch/ConnectedServicesBar.vue'
 
 function factory(active = false) {
-	return mount(ConnectedServicesBar, { propsData: { active } })
+	return mount(ConnectedServicesBar, { props: { active } })
 }
 
 describe('ConnectedServicesBar', () => {
 	// Matched by label, not position, so it still finds the toggle if the gear ever
 	// stops rendering as an <a>.
-	const toggle = (wrapper: ReturnType<typeof factory>) => wrapper.findAll('button').wrappers
+	const toggle = (wrapper: ReturnType<typeof factory>) => wrapper.findAll('button')
 		.find((button) => button.text().includes('connected services'))!
 
 	it('offers to opt in while connected services are off', () => {
