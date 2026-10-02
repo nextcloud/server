@@ -36,7 +36,7 @@ import { defineComponent } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import AuthTokenSetupDialog from './AuthTokenSetupDialog.vue'
-import logger from '../logger.ts'
+import logger from '../../logger.ts'
 import { useAuthTokenStore } from '../store/authtoken.ts'
 
 export default defineComponent({

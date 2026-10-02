@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import type { ITokenResponse } from '../../../../apps/settings/src/store/authtoken.ts'
+import type { ITokenResponse } from '../../../../apps/settings/src/authtokens/store/authtoken.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
