@@ -5,6 +5,7 @@
 
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { defineComponent, h, nextTick } from 'vue'
 
 const capabilities = vi.hoisted(() => ({
 	getCapabilities: vi.fn(),
@@ -17,10 +18,11 @@ vi.mock('@nextcloud/auth', () => ({
 
 vi.mock('@nextcloud/axios', () => ({ default: { post: vi.fn() } }))
 
-vi.mock('@nextcloud/event-bus', () => ({
+const eventBus = vi.hoisted(() => ({
 	subscribe: vi.fn(),
 	unsubscribe: vi.fn(),
 }))
+vi.mock('@nextcloud/event-bus', () => eventBus)
 
 vi.mock('@nextcloud/initial-state', () => ({
 	loadState: vi.fn((_app: string, key: string, fallback: unknown) => {
@@ -48,40 +50,27 @@ vi.mock('@nextcloud/router', () => ({
 }))
 
 vi.mock('@nextcloud/vue/components/NcButton', () => ({
-	default: {
+	default: defineComponent({
 		name: 'NcButton',
 		inheritAttrs: false,
-		render(h) {
-			return h('button', {
-				attrs: this.$attrs,
-				on: {
-					click: (event: MouseEvent) => this.$emit('click', event),
-				},
-			}, this.$slots.icon)
+		emits: ['click'],
+		setup(_, { attrs, emit, slots }) {
+			return () => h('button', { ...attrs, onClick: (event: MouseEvent) => emit('click', event) }, slots.icon?.())
 		},
-	},
+	}),
 }))
 
 vi.mock('@nextcloud/vue/components/NcListItem', () => ({
-	default: {
+	default: defineComponent({
 		name: 'NcListItem',
-		render(h) {
-			return h('li', [
-				this.$slots.subname,
-				this.$slots['extra-actions'],
-				this.$slots.indicator,
+		props: ['name', 'href'],
+		setup(props, { slots }) {
+			return () => h('li', { 'data-name': props.name, 'data-href': props.href }, [
+				slots.subname?.(),
+				slots['extra-actions']?.(),
 			])
 		},
-	},
-}))
-
-vi.mock('@nextcloud/vue/components/NcLoadingIcon', () => ({
-	default: {
-		name: 'NcLoadingIcon',
-		render(h) {
-			return h('span')
-		},
-	},
+	}),
 }))
 
 vi.mock('@nextcloud/vue/functions/dialog', () => ({
@@ -89,21 +78,12 @@ vi.mock('@nextcloud/vue/functions/dialog', () => ({
 }))
 
 vi.mock('../../components/AccountMenu/AccountQRLoginDialog.vue', () => ({
-	default: {
+	default: defineComponent({
 		name: 'AccountQRLoginDialog',
-		render(h) {
-			return h('div')
+		setup() {
+			return () => h('div')
 		},
-	},
-}))
-
-vi.mock('vue-material-design-icons/QrcodeScan.vue', () => ({
-	default: {
-		name: 'IconQrcodeScan',
-		render(h) {
-			return h('span')
-		},
-	},
+	}),
 }))
 
 describe('core: AccountMenuProfileEntry', () => {
@@ -119,7 +99,7 @@ describe('core: AccountMenuProfileEntry', () => {
 	it('labels the QR code button for assistive technologies', async () => {
 		const AccountMenuProfileEntry = (await import('../../components/AccountMenu/AccountMenuProfileEntry.vue')).default
 		const wrapper = mount(AccountMenuProfileEntry, {
-			propsData: {
+			props: {
 				id: 'profile',
 				name: 'Profile',
 				href: '/settings/user',
@@ -128,5 +108,27 @@ describe('core: AccountMenuProfileEntry', () => {
 		})
 
 		expect(wrapper.get('button').attributes('aria-label')).toBe('Show QR code for mobile app login')
+	})
+
+	it.each([
+		['settings:profile-enabled:updated', true, 'data-href', '/settings/user'],
+		['settings:display-name:updated', 'Jane Doe', 'data-name', 'Jane Doe'],
+	])('follows the %s event', async (event, payload, attribute, expected) => {
+		eventBus.subscribe.mockClear()
+		const AccountMenuProfileEntry = (await import('../../components/AccountMenu/AccountMenuProfileEntry.vue')).default
+		const wrapper = mount(AccountMenuProfileEntry, {
+			props: {
+				id: 'profile',
+				name: 'Profile',
+				href: '/settings/user',
+				active: false,
+			},
+		})
+		const [, handler] = eventBus.subscribe.mock.calls.find(([name]) => name === event)!
+
+		handler(payload)
+		await nextTick()
+
+		expect(wrapper.get('li').attributes(attribute)).toBe(expected)
 	})
 })

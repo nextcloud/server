@@ -8,8 +8,8 @@ import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
 import IconCopy from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
 import { DialogBuilder, FilePickerType, getFilePickerBuilder } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
+import { basename } from '@nextcloud/paths'
 import { spawnDialog } from '@nextcloud/vue/functions/dialog'
-import { basename } from 'path'
 import { defineAsyncComponent } from 'vue'
 import { logger } from '../utils/logger.ts'
 
@@ -175,23 +175,18 @@ const Dialogs = {
 	 *
 	 * @deprecated Use NcDialog from `@nextcloud/vue` instead
 	 */
-	prompt: function(text, title, callback, modal, name, password) {
-		return new Promise((resolve) => {
-			spawnDialog(
-				defineAsyncComponent(() => import('../components/LegacyDialogPrompt.vue')),
-				{
-					text,
-					name: title,
-					callback,
-					inputName: name,
-					isPassword: !!password,
-				},
-				(...args) => {
-					callback(...args)
-					resolve()
-				},
-			)
-		})
+	prompt: async function(text, title, callback, modal, name, password) {
+		const result = await spawnDialog(
+			defineAsyncComponent(() => import('../components/LegacyDialogPrompt.vue')),
+			{
+				text,
+				name: title,
+				inputName: name,
+				isPassword: !!password,
+			},
+		)
+		// the payload of a close event with several arguments is their list
+		callback(...(Array.isArray(result) ? result : [result]))
 	},
 
 	/**

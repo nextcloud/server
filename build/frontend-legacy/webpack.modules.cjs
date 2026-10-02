@@ -6,16 +6,10 @@ const path = require('path')
 
 module.exports = {
 	core: {
-		'ajax-cron': path.join(__dirname, 'core/src', 'ajax-cron.ts'),
-		main: path.join(__dirname, 'core/src', 'main.js'),
-		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
 		'public-page-menu': path.resolve(__dirname, 'core/src', 'public-page-menu.ts'),
 		'public-page-user-menu': path.resolve(__dirname, 'core/src', 'public-page-user-menu.ts'),
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.ts'),
 		'legacy-unified-search': path.join(__dirname, 'core/src', 'legacy-unified-search.js'),
-		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
-		public: path.join(__dirname, 'core/src', 'public.ts'),
-		'twofactor-request-token': path.join(__dirname, 'core/src', 'twofactor-request-token.ts'),
 	},
 	files_sharing: {
 		additionalScripts: path.join(__dirname, 'apps/files_sharing/src', 'additionalScripts.js'),
