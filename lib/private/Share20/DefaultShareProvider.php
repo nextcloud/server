@@ -10,6 +10,7 @@ namespace OC\Share20;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Filesystem;
+use OC\Group\Group;
 use OC\Share20\Exception\BackendError;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
@@ -1472,9 +1473,8 @@ class DefaultShareProvider implements
 					continue;
 				}
 
-				$userList = $group->getUsers();
-				foreach ($userList as $user) {
-					$uid = $user->getUID();
+				$userIds = $group instanceof Group ? $group->getUserIds() : array_keys($group->getUsers());
+				foreach ($userIds as $uid) {
 					$users[$uid] = $users[$uid] ?? [];
 					$users[$uid][$row['id']] = $row;
 				}
