@@ -26,19 +26,25 @@ class CriticalActionPerformedEvent extends Event {
 	/** @var bool */
 	private $obfuscateParameters;
 
+	private ?string $operation;
+
 	/**
 	 * @param string $logMessage
 	 * @param array $parameters
 	 * @param bool $obfuscateParameters
+	 * @param ?string $operation Stable identifier of the action in the form `app.entity.action`, e.g. `federatedfilesharing.share.accepted`
 	 * @since 22.0.0
+	 * @since 36.0.0 added the $operation parameter
 	 */
 	public function __construct(string $logMessage,
 		array $parameters = [],
-		bool $obfuscateParameters = false) {
+		bool $obfuscateParameters = false,
+		?string $operation = null) {
 		parent::__construct();
 		$this->logMessage = $logMessage;
 		$this->parameters = $parameters;
 		$this->obfuscateParameters = $obfuscateParameters;
+		$this->operation = $operation;
 	}
 
 	/**
@@ -63,5 +69,12 @@ class CriticalActionPerformedEvent extends Event {
 	 */
 	public function getObfuscateParameters(): bool {
 		return $this->obfuscateParameters;
+	}
+
+	/**
+	 * @since 36.0.0
+	 */
+	public function getOperation(): ?string {
+		return $this->operation;
 	}
 }
