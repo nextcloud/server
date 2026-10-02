@@ -17,7 +17,7 @@ OC.L10N.register(
     "Failed to set reminder" : "Nepodarilo sa nastavit pripomienku",
     "Reminder cleared for \"{fileName}\"" : "Pripomienka pre \"{fileName}\" bola odstránená",
     "Failed to clear reminder" : "Nepodarilo sa odstrániť pripomienku",
-    "Reminder at custom date & time" : "Pripomienka vo vlastný dátum a čas",
+    "Reminder at custom date & time" : "Pripomienka vo vlastnom dátume a čase",
     "Cancel" : "Zrušiť",
     "Clear reminder" : "Vymazať pripomienku",
     "Set reminder" : "Nastaviť pripomienku",

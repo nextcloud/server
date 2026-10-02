@@ -261,7 +261,7 @@ OC.L10N.register(
     "Back" : "Späť",
     "Continue" : "Pokračovať",
     "Please renew your password." : "Obnovte svoje heslo.",
-    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Upozornenie:</b> nie je nainštalovaný LDAP modul pre PHP, backend vrstva nebude fungovať. Požiadajte administrátora systému, aby ho nainštaloval.",
+    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Upozornenie:</b> nie je nainštalovaný PHP LDAP modul, serverová časť nebude fungovať. Požiadajte administrátora systému, aby ho nainštaloval.",
     "Configuration Active" : "Nastavenia sú aktívne ",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Neodporúčané, použite iba pri testovaní! Pokiaľ spojenie funguje iba z daným nastavením, importujte SSL certifikát LDAP servera do vášho %s servera.",
     "\"$home\" Placeholder Field" : "Výplňová kolónka „$home“",

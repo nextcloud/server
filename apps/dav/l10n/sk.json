@@ -208,7 +208,7 @@
     "{actor} unshared address book {addressbook} from you" : "{actor} prestal zdieľať adresár {addressbook} s vami",
     "You unshared address book {addressbook} from {user}" : "Zrušili ste zdieľanie adresára {addressbook} s používateľom {user}",
     "{actor} unshared address book {addressbook} from {user}" : "{actor} nezdieľa adresár {addressbook} od {user}",
-    "{actor} unshared address book {addressbook} from themselves" : "{actor} nezdieľa adresár {addressbook} od samého seba",
+    "{actor} unshared address book {addressbook} from themselves" : "{actor} zrušil/-a zdieľanie adresára {addressbook} so sebou samým",
     "You shared address book {addressbook} with group {group}" : "Zdieľate adresár {addressbook} so skupinou {group}",
     "{actor} shared address book {addressbook} with group {group}" : "{actor} zdieľa adresár {addressbook} so skupinou {group}",
     "You unshared address book {addressbook} from group {group}" : "Nezdieľate adresár {addressbook} od skupiny {group}",
