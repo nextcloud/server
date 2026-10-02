@@ -68,6 +68,8 @@ export default defineConfig({
 		exclude: [
 			...defaultExclude,
 			...gitIgnore,
+			// the app password section is Vue 3, it is tested by the Vue 3 frontend
+			'**/apps/settings/src/authtokens/**',
 		],
 		globalSetup: './__tests__/setup-global.js',
 		server: {

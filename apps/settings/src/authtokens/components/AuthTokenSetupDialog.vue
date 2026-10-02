@@ -4,14 +4,14 @@
 -->
 <template>
 	<NcDialog
-		:open.sync="open"
+		v-model:open="open"
 		:name="t('settings', 'New app password')"
-		content-classes="token-dialog">
+		contentClasses="token-dialog">
 		<p>
 			{{ t('settings', 'Use the credentials below to configure your app or device. For security reasons this password will only be shown once.') }}
 		</p>
 		<div class="token-dialog__name">
-			<NcTextField :label="t('settings', 'Login')" :model-value="loginName" readonly />
+			<NcTextField :label="t('settings', 'Login')" :modelValue="loginName" readonly />
 			<NcButton
 				variant="tertiary"
 				:title="copyLoginNameLabel"
@@ -26,7 +26,7 @@
 			<NcTextField
 				ref="appPassword"
 				:label="t('settings', 'Password')"
-				:model-value="appPassword"
+				:modelValue="appPassword"
 				readonly />
 			<NcButton
 				variant="tertiary"
@@ -80,6 +80,8 @@ export default defineComponent({
 			default: null,
 		},
 	},
+
+	emits: ['close'],
 
 	data() {
 		return {
