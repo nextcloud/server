@@ -1472,9 +1472,7 @@ class DefaultShareProvider implements
 					continue;
 				}
 
-				$userList = $group->getUsers();
-				foreach ($userList as $user) {
-					$uid = $user->getUID();
+				foreach ($group->getUserIds() as $uid) {
 					$users[$uid] = $users[$uid] ?? [];
 					$users[$uid][$row['id']] = $row;
 				}

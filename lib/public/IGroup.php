@@ -47,6 +47,17 @@ interface IGroup {
 	public function getUsers(): array;
 
 	/**
+	 * Get the ids of all users in the group
+	 *
+	 * Unlike {@see self::getUsers()} the ids are not checked against the user
+	 * backends, so they can contain users that no longer exist.
+	 *
+	 * @return list<string>
+	 * @since 36.0.0
+	 */
+	public function getUserIds(): array;
+
+	/**
 	 * check if a user is in the group
 	 *
 	 * @param IUser $user
