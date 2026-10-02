@@ -1001,7 +1001,7 @@ OC.L10N.register(
     "You are a member of the following groups:" : "Você é membro dos seguintes grupos:",
     "Primary email for password reset and notifications" : "E-mail principal para redefinição de senha e notificações",
     "Week starts on {firstDayOfWeek}" : "A semana começa com {firstDayOfWeek}",
-    "Edit your Profile visibility" : "Edite a visibilidade do seu Perfil",
+    "Edit your Profile visibility" : "Edite a visibilidade do seu perfil",
     "Enable profile" : "Ativar perfil",
     "Unable to update visibility of {displayId}" : "Não é possível atualizar a visibilidade de {displayId}",
     "Timezone" : "Fuso horário",

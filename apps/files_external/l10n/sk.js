@@ -139,7 +139,7 @@ OC.L10N.register(
     "Add external storage" : "Pridať externé úložisko",
     "Global credentials saved" : "Globálne poverenia uložené",
     "Could not save global credentials" : "Nepodarilo sa uložiť globálne poverenia",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje.",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť na overenie voči viacerým externým úložiskám, ktoré majú rovnaké prihlasovacie údaje.",
     "Saving …" : "Ukladanie …",
     "Save" : "Uložiť",
     "Unable to update this external storage config. {statusMessage}" : "Nepodarilo sa aktualizovať konfiguráciu externého úložiska. {statusMessage}",
