@@ -26,7 +26,7 @@ class Amazons3CopyTest extends \Test\TestCase {
 			->getMock();
 
 		// The constructor is disabled, so the properties copy() relies on are uninitialised
-		$this->invokePrivate($storage, 'initCaches');
+		$this->invokePrivate($storage, 'clearCache');
 		$this->invokePrivate($storage, 'storageClass', ['STANDARD']);
 		// invokePrivate() cannot reach these two: $logger is private, so it is invisible on
 		// the mock subclass, and 'test' resolves to the test() method before the property
