@@ -39,6 +39,7 @@
 		<td class="auth-token__actions">
 			<NcActions
 				v-if="!token.current"
+				ref="actions"
 				v-model:open="actionOpen"
 				:title="t('settings', 'Device settings')"
 				:aria-label="t('settings', 'Device settings')">
@@ -285,6 +286,13 @@ export default defineComponent({
 
 		cancelRename() {
 			this.renaming = false
+			this.$nextTick(() => {
+				this.focusActions()
+			})
+		},
+
+		focusActions() {
+			(this.$refs.actions as { $el: HTMLElement } | undefined)?.$el.querySelector('button')?.focus()
 		},
 
 		revoke() {
@@ -296,9 +304,13 @@ export default defineComponent({
 			this.authTokenStore.deleteToken(this.token)
 		},
 
-		rename() {
+		async rename() {
 			this.renaming = false
-			this.authTokenStore.renameToken(this.token, this.newName)
+			// Waits for the password confirmation, which takes focus while it is open
+			await this.authTokenStore.renameToken(this.token, this.newName)
+			this.$nextTick(() => {
+				this.focusActions()
+			})
 		},
 
 		async wipe() {
