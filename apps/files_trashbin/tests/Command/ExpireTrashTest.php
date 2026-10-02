@@ -20,6 +20,7 @@ use OCP\Server;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -38,6 +39,7 @@ class ExpireTrashTest extends TestCase {
 	private IUserManager $userManager;
 	private IUser $user;
 	private ITimeFactory&MockObject $timeFactory;
+	private LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -46,6 +48,7 @@ class ExpireTrashTest extends TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->expiration = Server::get(Expiration::class);
 		$this->invokePrivate($this->expiration, 'timeFactory', [$this->timeFactory]);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$userId = self::getUniqueID('user');
 		$this->userManager = Server::get(IUserManager::class);
@@ -91,24 +94,41 @@ class ExpireTrashTest extends TestCase {
 		$trashFiles = Helper::getTrashFiles('/', $userId);
 		$this->assertEquals(1, count($trashFiles));
 
-		$outputInterface = $this->createMock(OutputInterface::class);
-		$inputInterface = $this->createMock(InputInterface::class);
-		$inputInterface->expects($this->any())
-			->method('getArgument')
-			->with('user_id')
-			->willReturn([$userId]);
+		$this->logger->expects($this->never())->method('error');
+		$this->assertSame(0, $this->executeCommand([$userId]));
+
+		$trashFiles = Helper::getTrashFiles('/', $userId);
+		$this->assertEquals($shouldExpire ? 0 : 1, count($trashFiles));
+	}
+
+	public function testUserWithoutTrashbinIsSkipped(): void {
+		$this->expiration->setRetentionObligation('auto');
+		$this->logger->expects($this->never())->method('error');
+
+		$this->assertSame(0, $this->executeCommand([$this->user->getUID()]));
+	}
+
+	public function testErrorDoesNotAbortRemainingUsers(): void {
+		$this->expiration->setRetentionObligation('auto');
+		$this->userFolder->getParent()->newFile('files_trashbin');
+		$this->logger->expects($this->exactly(2))->method('error');
+
+		$this->assertSame(0, $this->executeCommand([$this->user->getUID(), $this->user->getUID()]));
+	}
+
+	private function executeCommand(array $userIds): int {
+		$input = $this->createMock(InputInterface::class);
+		$input->method('getArgument')->with('user_id')->willReturn($userIds);
 
 		$command = new ExpireTrash(
 			Server::get(IUserManager::class),
 			$this->expiration,
 			Server::get(SetupManager::class),
 			Server::get(IRootFolder::class),
+			$this->logger,
 		);
 
-		$this->invokePrivate($command, 'execute', [$inputInterface, $outputInterface]);
-
-		$trashFiles = Helper::getTrashFiles('/', $userId);
-		$this->assertEquals($shouldExpire ? 0 : 1, count($trashFiles));
+		return $this->invokePrivate($command, 'execute', [$input, $this->createMock(OutputInterface::class)]);
 	}
 
 	public static function retentionObligationProvider(): array {
