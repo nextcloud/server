@@ -78,7 +78,7 @@ OC.L10N.register(
     "Documentation resources" : "Zdroje dokumentácie",
     "Changelog" : "Zoznam zmien",
     "Supported" : "Podporované",
-    "Featured" : "Doporučená",
+    "Featured" : "Odporúčané",
     "This app is supported via your current Nextcloud subscription." : "Táto aplikácia je podporovaná prostredníctvom vášho aktuálneho predplatného Nextcloud.",
     "Featured apps are developed by and within the community. They offer central functionality and are ready for production use." : "Odporúčané aplikácie sú vyvíjané komunitou Sú prepojené so zbytkom Nextcloud a pripravené na produkčné nasadenie.",
     "Community rating: {score}/5" : "Komunitné hodnotenie: {score}/5",

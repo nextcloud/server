@@ -135,6 +135,7 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "允許以電子郵件特性登入。允許使用「mail」與「mailPrimaryAddress」。",
     "LDAP/AD Email Address:" : "LDAP/AD 電子郵件地址：",
     "Other Attributes:" : "其他特性：",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "定義試圖登入時所要套用的過濾條件。「%uid」會在登入動作時取代使用者名稱。範例：「uid=%ud」",
     "Attempts to receive a DN for the given login name and the current login filter" : "嘗試接收指定登入名稱與目前登入過濾條件的 DN",
     "Test Login name" : "測試登入名稱",
     "Verify settings" : "驗證設定",
