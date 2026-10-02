@@ -3,15 +3,124 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { getRequestToken } from '@nextcloud/auth'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { generateUrl, imagePath } from '@nextcloud/router'
+import debounce from 'debounce'
+import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import LoginButton from './LoginButton.vue'
+import LoginNameInput from './LoginNameInput.vue'
+
+const username = defineModel<string>('username', { default: '' })
+
+const props = withDefaults(defineProps<{
+	redirectUrl?: string | false
+	errors?: string[]
+	messages?: string[]
+	throttleDelay?: number
+	autoCompleteAllowed?: boolean
+	remembermeAllowed?: boolean
+	directLogin?: boolean
+	emailStates?: string[]
+}>(), {
+	redirectUrl: false,
+	errors: () => [],
+	messages: () => [],
+	throttleDelay: 0,
+	autoCompleteAllowed: true,
+	remembermeAllowed: true,
+	directLogin: false,
+	emailStates: () => [],
+})
+
+const emit = defineEmits<{
+	submit: []
+}>()
+
+// Escaping is left to Vue, otherwise "J's cloud" would be shown as "J&#39;s cloud"
+const headlineText = t('core', 'Log in to {productName}', { productName: window.OC.theme.name }, undefined, { sanitize: false, escape: false })
+const loginTimeout = loadState('core', 'loginTimeout', 300)
+const requestToken = getRequestToken()
+const timezone = new Intl.DateTimeFormat().resolvedOptions().timeZone
+const timezoneOffset = -new Date().getTimezoneOffset() / 60
+const loadingIcon = imagePath('core', 'loading-dark.gif')
+const loginActionUrl = generateUrl('login')
+
+const userInput = useTemplateRef('userInput')
+const passwordInput = useTemplateRef('passwordInput')
+
+const loading = ref(false)
+const password = ref('')
+const rememberme = ref(['1'])
+const visible = ref(false)
+
+const apacheAuthFailed = computed(() => props.errors.includes('apacheAuthFailed'))
+const csrfCheckFailed = computed(() => props.errors.includes('csrfCheckFailed'))
+const internalException = computed(() => props.errors.includes('internalexception'))
+const invalidPassword = computed(() => props.errors.includes('invalidpassword'))
+const userDisabled = computed(() => props.errors.includes('userdisabled'))
+const isError = computed(() => invalidPassword.value || userDisabled.value || props.throttleDelay > 5000)
+const emailEnabled = computed(() => props.emailStates.every((state) => state === '1'))
+
+const errorLabel = computed(() => {
+	if (invalidPassword.value) {
+		return t('core', 'Wrong login or password.')
+	}
+	if (userDisabled.value) {
+		return t('core', 'This account is disabled')
+	}
+	if (props.throttleDelay > 5000) {
+		return t('core', 'Too many failed login attempts from your location. Try again in 30 seconds.')
+	}
+	return undefined
+})
+
+// Clearing the password after a long idle time prevents leaking it on public devices
+if (loginTimeout > 0) {
+	watch(password, debounce(() => {
+		password.value = ''
+	}, loginTimeout * 1000))
+}
+
+onMounted(() => {
+	if (username.value === '') {
+		userInput.value?.focus()
+	} else {
+		passwordInput.value?.focus()
+	}
+})
+
+/**
+ * Submit the form natively, but only once.
+ *
+ * @param event - The submit event
+ */
+function submit(event: SubmitEvent) {
+	visible.value = false
+
+	if (loading.value) {
+		event.preventDefault()
+		return
+	}
+
+	loading.value = true
+	emit('submit')
+}
+</script>
+
 <template>
 	<form
-		ref="loginForm"
-		class="login-form"
+		:class="$style.loginForm"
 		method="post"
 		name="login"
 		:action="loginActionUrl"
 		@submit="submit">
-		<fieldset class="login-form__fieldset" data-login-form>
+		<fieldset :class="$style.loginForm__fieldset" data-login-form>
 			<NcNoteCard
 				v-if="apacheAuthFailed"
 				:heading="t('core', 'Server side authentication failed!')"
@@ -48,25 +157,24 @@
 				<!-- the following div ensures that the spinner is always inside the #message div -->
 				<div style="clear: both;" />
 			</div>
-			<h2 class="login-form__headline" data-login-form-headline>
+			<h2 :class="$style.loginForm__headline" data-login-form-headline>
 				{{ headlineText }}
 			</h2>
 			<LoginNameInput
 				id="user"
-				ref="user"
-				:user.sync="user"
+				ref="userInput"
+				v-model:user="username"
 				:class="{ shake: invalidPassword }"
-				:auto-complete-allowed="autoCompleteAllowed"
-				:allow-email="emailEnabled"
+				:autoCompleteAllowed="autoCompleteAllowed"
+				:allowEmail="emailEnabled"
 				name="user"
 				required
 				:error="isError"
-				data-login-form-input-user
-				@update:user="updateUsername" />
+				data-login-form-input-user />
 
 			<NcPasswordField
 				id="password"
-				ref="password"
+				ref="passwordInput"
 				v-model="password"
 				name="password"
 				:class="{ shake: invalidPassword }"
@@ -74,7 +182,7 @@
 				autocapitalize="none"
 				:autocomplete="autoCompleteAllowed ? 'current-password' : 'off'"
 				:label="t('core', 'Password')"
-				:helper-text="errorLabel"
+				:helperText="errorLabel"
 				:error="isError"
 				:visible="visible"
 				data-login-form-input-password
@@ -83,7 +191,6 @@
 			<NcCheckboxRadioSwitch
 				v-if="remembermeAllowed"
 				id="rememberme"
-				ref="rememberme"
 				v-model="rememberme"
 				name="rememberme"
 				value="1"
@@ -119,217 +226,8 @@
 	</form>
 </template>
 
-<script>
-import { loadState } from '@nextcloud/initial-state'
-import { translate as t } from '@nextcloud/l10n'
-import { generateUrl, imagePath } from '@nextcloud/router'
-import debounce from 'debounce'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
-import LoginButton from './LoginButton.vue'
-import LoginNameInput from './LoginNameInput.vue'
-
-export default {
-	name: 'LoginForm',
-
-	components: {
-		LoginButton,
-		LoginNameInput,
-		NcCheckboxRadioSwitch,
-		NcPasswordField,
-		NcNoteCard,
-	},
-
-	props: {
-		username: {
-			type: String,
-			default: '',
-		},
-
-		redirectUrl: {
-			type: [Boolean, String],
-			default: false,
-		},
-
-		errors: {
-			type: Array,
-			default: () => [],
-		},
-
-		messages: {
-			type: Array,
-			default: () => [],
-		},
-
-		throttleDelay: {
-			type: Number,
-			default: 0,
-		},
-
-		autoCompleteAllowed: {
-			type: Boolean,
-			default: true,
-		},
-
-		remembermeAllowed: {
-			type: Boolean,
-			default: true,
-		},
-
-		directLogin: {
-			type: Boolean,
-			default: false,
-		},
-
-		emailStates: {
-			type: Array,
-			default() {
-				return []
-			},
-		},
-	},
-
-	emits: ['submit', 'update:username'],
-
-	setup() {
-		// non reactive props
-		return {
-			t,
-
-			// Disable escape and sanitize to prevent special characters to be html escaped
-			// For example "J's cloud" would be escaped to "J&#39; cloud". But we do not need escaping as Vue does this in `v-text` automatically
-			headlineText: t('core', 'Log in to {productName}', { productName: OC.theme.name }, undefined, { sanitize: false, escape: false }),
-
-			loginTimeout: loadState('core', 'loginTimeout', 300),
-			requestToken: window.OC.requestToken,
-			timezone: (new Intl.DateTimeFormat())?.resolvedOptions()?.timeZone,
-			timezoneOffset: (-new Date().getTimezoneOffset() / 60),
-		}
-	},
-
-	data(props) {
-		return {
-			loading: false,
-			user: props.username,
-			password: '',
-			rememberme: ['1'],
-			visible: false,
-		}
-	},
-
-	computed: {
-		/**
-		 * Reset the login form after a long idle time (debounced)
-		 */
-		resetFormTimeout() {
-			// Infinite timeout, do nothing
-			if (this.loginTimeout <= 0) {
-				return () => {}
-			}
-			// Debounce for given timeout (in seconds so convert to milli seconds)
-			return debounce(this.handleResetForm, this.loginTimeout * 1000)
-		},
-
-		isError() {
-			return this.invalidPassword || this.userDisabled
-				|| this.throttleDelay > 5000
-		},
-
-		errorLabel() {
-			if (this.invalidPassword) {
-				return t('core', 'Wrong login or password.')
-			}
-			if (this.userDisabled) {
-				return t('core', 'This account is disabled')
-			}
-			if (this.throttleDelay > 5000) {
-				return t('core', 'Too many failed login attempts from your location. Try again in 30 seconds.')
-			}
-			return undefined
-		},
-
-		apacheAuthFailed() {
-			return this.errors.indexOf('apacheAuthFailed') !== -1
-		},
-
-		csrfCheckFailed() {
-			return this.errors.indexOf('csrfCheckFailed') !== -1
-		},
-
-		internalException() {
-			return this.errors.indexOf('internalexception') !== -1
-		},
-
-		invalidPassword() {
-			return this.errors.indexOf('invalidpassword') !== -1
-		},
-
-		userDisabled() {
-			return this.errors.indexOf('userdisabled') !== -1
-		},
-
-		loadingIcon() {
-			return imagePath('core', 'loading-dark.gif')
-		},
-
-		loginActionUrl() {
-			return generateUrl('login')
-		},
-
-		emailEnabled() {
-			return this.emailStates.every((state) => state === '1')
-		},
-	},
-
-	watch: {
-		/**
-		 * Reset form reset after the password was changed
-		 */
-		password() {
-			this.resetFormTimeout()
-		},
-	},
-
-	mounted() {
-		if (this.username === '') {
-			this.$refs.user.focus()
-		} else {
-			this.$refs.password.focus()
-		}
-	},
-
-	methods: {
-		/**
-		 * Handle reset of the login form after a long IDLE time
-		 * This is recommended security behavior to prevent password leak on public devices
-		 */
-		handleResetForm() {
-			this.password = ''
-		},
-
-		updateUsername() {
-			this.$emit('update:username', this.user)
-		},
-
-		submit(event) {
-			this.visible = false
-
-			if (this.loading) {
-				// Prevent the form from being submitted twice
-				event.preventDefault()
-				return
-			}
-
-			this.loading = true
-			this.$emit('submit')
-		},
-	},
-}
-</script>
-
-<style lang="scss" scoped>
-.login-form {
+<style module lang="scss">
+.loginForm {
 	text-align: start;
 	font-size: 1rem;
 	margin: 0;
@@ -347,7 +245,7 @@ export default {
 	}
 
 	// Only show the error state if the user interacted with the login box
-	:deep(input:invalid:not(:user-invalid)) {
+	:global(input:invalid:not(:user-invalid)) {
 		border-color: var(--color-border-maxcontrast) !important;
 	}
 }

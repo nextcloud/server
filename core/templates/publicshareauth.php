@@ -8,6 +8,7 @@
 
 \OCP\Util::addStyle('core', 'guest');
 \OCP\Util::addScript('core', 'public_share_auth');
+\OCP\Util::addStyle('core', 'public_share_auth');
 
 $showPasswordReset = isset($_['identityOk']) && $_['identityOk'] !== null;
 $initialState = \OCP\Server::get(\OCP\IInitialStateService::class);
