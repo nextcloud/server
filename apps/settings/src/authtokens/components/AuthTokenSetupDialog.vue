@@ -42,7 +42,7 @@
 			<NcButton v-if="!showQRCode" @click="showQRCode = true">
 				{{ t('settings', 'Show QR code for mobile apps') }}
 			</NcButton>
-			<QR v-else :value="qrUrl" />
+			<QR v-else :value="qrUrl" aria-hidden="true" />
 		</div>
 	</NcDialog>
 </template>

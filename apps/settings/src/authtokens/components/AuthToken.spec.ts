@@ -27,6 +27,7 @@ vi.mock('@nextcloud/dialogs', () => ({
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import AuthToken from './AuthToken.vue'
 import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
+import AuthTokenSetupDialog from './AuthTokenSetupDialog.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 import { detect } from '../utils/userAgentDetect.ts'
 
@@ -258,6 +259,32 @@ describe('AuthToken action labels', () => {
 
 		const labels = wrapper.findAll('button').map((button) => button.text())
 		expect(labels).toEqual(expect.arrayContaining(['Rename', 'Revoke', 'Wipe device']))
+	})
+})
+
+describe('AuthTokenSetupDialog QR code', () => {
+	// The login name and password are shown as text, so the QR code adds nothing for assistive technology
+	it('hides the QR code from assistive technology', async () => {
+		const wrapper = mount(AuthTokenSetupDialog, {
+			props: { token: { token: 'app-password', loginName: 'admin', deviceToken: makeToken() } },
+			global: {
+				mocks: {
+					t: (_: string, text: string) => text,
+				},
+				stubs: {
+					NcDialog: { template: '<div><slot /></div>' },
+					NcIconSvgWrapper: true,
+					// jsdom has no canvas 2D context to draw the QR code on
+					VueQrcode: { template: '<canvas />' },
+				},
+			},
+		})
+
+		await wrapper.findAll('button').find((button) => button.text() === 'Show QR code for mobile apps')!.trigger('click')
+
+		const qrCode = wrapper.find('canvas')
+		expect(qrCode.exists()).toBe(true)
+		expect(qrCode.attributes('aria-hidden')).toBe('true')
 	})
 })
 
