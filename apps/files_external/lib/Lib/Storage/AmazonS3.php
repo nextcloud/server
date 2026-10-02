@@ -29,9 +29,7 @@ use Override;
 use Psr\Log\LoggerInterface;
 
 class AmazonS3 extends Common {
-	use S3ConnectionTrait {
-		parseParams as private parseConnectionParams;
-	}
+	use S3ConnectionTrait;
 	use S3ObjectTrait;
 
 	private LoggerInterface $logger;
@@ -46,7 +44,6 @@ class AmazonS3 extends Common {
 	private IMimeTypeDetector $mimeDetector;
 	private ICache $memCache;
 	private ?bool $versioningEnabled = null;
-	private string $prefix = '';
 
 	public function __construct(array $parameters) {
 		parent::__construct($parameters);
@@ -59,13 +56,6 @@ class AmazonS3 extends Common {
 		$cacheFactory = Server::get(ICacheFactory::class);
 		$this->memCache = $cacheFactory->createLocal('s3-external');
 		$this->logger = Server::get(LoggerInterface::class);
-	}
-
-	#[\Override]
-	protected function parseParams($params) {
-		$this->parseConnectionParams($params);
-		$prefix = trim(trim($params['prefix'] ?? ''), '/');
-		$this->prefix = $prefix !== '' ? $prefix . '/' : '';
 	}
 
 	private function normalizePath(string $path): string {
@@ -281,8 +271,9 @@ class AmazonS3 extends Common {
 
 	private function batchDelete(string $path = ''): bool {
 		// TODO explore using https://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.S3.BatchDelete.html
-		// an empty path clears the whole storage; scoping Prefix to $this->prefix keeps
-		// the deletion confined to the configured prefix, or the entire bucket when none is set
+		// an unfiltered listObjectsV2 would enumerate the whole bucket; scoping Prefix to
+		// $this->prefix keeps clearBucket() confined to this mount's prefix, so it cannot
+		// delete objects belonging to another mount sharing the same bucket
 		$params = [
 			'Bucket' => $this->bucket,
 			'Prefix' => $this->addPrefix($path === '' ? '' : $path . '/'),
