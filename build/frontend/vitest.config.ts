@@ -61,6 +61,7 @@ export default defineConfig({
 		coverage: {
 			include: [
 				'apps/*/src/**',
+				'../../apps/settings/src/authtokens/**',
 				/* 'core/src/**', */
 			],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],

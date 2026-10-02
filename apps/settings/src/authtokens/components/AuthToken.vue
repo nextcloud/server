@@ -286,13 +286,13 @@ export default defineComponent({
 
 		cancelRename() {
 			this.renaming = false
-			this.$nextTick(() => {
-				this.focusActions()
-			})
+			this.focusActions()
 		},
 
-		focusActions() {
-			(this.$refs.actions as { $el: HTMLElement } | undefined)?.$el.querySelector('button')?.focus()
+		async focusActions() {
+			await this.$nextTick()
+			const actions = this.$refs.actions as { $el: HTMLElement } | undefined
+			actions?.$el.querySelector('button')?.focus()
 		},
 
 		revoke() {
@@ -306,11 +306,9 @@ export default defineComponent({
 
 		async rename() {
 			this.renaming = false
-			// Waits for the password confirmation, which takes focus while it is open
+			// The password confirmation holds focus until it closes, so refocus after it
 			await this.authTokenStore.renameToken(this.token, this.newName)
-			this.$nextTick(() => {
-				this.focusActions()
-			})
+			this.focusActions()
 		},
 
 		async wipe() {
