@@ -9,7 +9,7 @@ import { translatePlural as n, translate as t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors, confirmPassword, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-import logger from '../logger.ts'
+import logger from '../../logger.ts'
 
 const BASE_URL = generateUrl('/settings/personal/authtokens')
 addPasswordConfirmationInterceptors(axios)

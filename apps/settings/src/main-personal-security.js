@@ -7,7 +7,7 @@ import { getCSPNonce } from '@nextcloud/auth'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import VTooltipPlugin from 'v-tooltip'
 import Vue from 'vue'
-import AuthTokenSection from './components/AuthTokenSection.vue'
+import AuthTokenSection from './authtokens/components/AuthTokenSection.vue'
 
 __webpack_nonce__ = getCSPNonce()
 
