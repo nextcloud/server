@@ -104,6 +104,24 @@ class Group implements IGroup {
 			return $this->users;
 		}
 
+		$this->users = $this->getVerifiedUsers($this->getBackendUserIds());
+		$this->usersLoaded = true;
+		return $this->users;
+	}
+
+	#[\Override]
+	public function getUserIds(): array {
+		if ($this->usersLoaded) {
+			return array_keys($this->users);
+		}
+
+		return $this->getBackendUserIds();
+	}
+
+	/**
+	 * @return list<string>
+	 */
+	private function getBackendUserIds(): array {
 		$userIds = [];
 		foreach ($this->backends as $backend) {
 			$diff = array_diff(
@@ -114,10 +132,7 @@ class Group implements IGroup {
 				$userIds = array_merge($userIds, $diff);
 			}
 		}
-
-		$this->users = $this->getVerifiedUsers($userIds);
-		$this->usersLoaded = true;
-		return $this->users;
+		return $userIds;
 	}
 
 	/**
