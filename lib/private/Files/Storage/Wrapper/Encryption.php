@@ -758,9 +758,19 @@ class Encryption extends Wrapper {
 			}
 
 			try {
+				// A failed child copy leaves entries already copied in the target.
+				// For moves, the source is retained because the recursive copy reports failure.
+				// We do not roll back the partial target here: safe cleanup must account for
+				// target content that existed before this operation.
+				// TODO: Define and implement safe cleanup for partial copies.
 				while ($result && ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
-						$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, $preserveMtime, $isRename);
+						$result = $this->copyFromStorage(
+							$sourceStorage,
+							$sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file,
+							$preserveMtime,
+							$isRename,
+						);
 					}
 				}
 			} finally {
