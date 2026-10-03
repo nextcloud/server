@@ -1080,7 +1080,7 @@ class EncryptionTest extends Storage {
 		$storage2->method('getId')
 			->willReturn('stroage2');
 		$cache = $this->createMock(ICache::class);
-		$cache->expects($this->once())
+		$cache->expects($this->exactly(2))
 			->method('get')
 			->with($sourceInternalPath)
 			->willReturn(['encryptedVersion' => 0]);
@@ -1128,16 +1128,16 @@ class EncryptionTest extends Storage {
 			});
 		$storage2->method('getId')
 			->willReturn('stroage2');
-		if ($expectedEncrypted) {
-			$cache = $this->createMock(ICache::class);
-			$cache->expects($this->once())
-				->method('get')
-				->with($sourceInternalPath)
-				->willReturn(['encryptedVersion' => 12345]);
-			$storage2->expects($this->once())
-				->method('getCache')
-				->willReturn($cache);
-		}
+
+		$cache = $this->createMock(ICache::class);
+		$cache->expects($this->exactly($expectedEncrypted ? 2 : 1))
+			->method('get')
+			->with($sourceInternalPath)
+			->willReturn(['encryptedVersion' => 12345]);
+		$storage2->expects($this->once())
+			->method('getCache')
+			->willReturn($cache);
+
 		$this->encryptionManager->expects($this->any())
 			->method('isEnabled')
 			->willReturn($encryptionEnabled);
