@@ -86,12 +86,4 @@ class EventDispatcher implements IEventDispatcher {
 	public function dispatchTyped(Event $event): void {
 		$this->dispatch(get_class($event), $event);
 	}
-
-	/**
-	 * @return SymfonyDispatcher
-	 * @deprecated 20.0.0
-	 */
-	public function getSymfonyDispatcher(): SymfonyDispatcher {
-		return $this->dispatcher;
-	}
 }
