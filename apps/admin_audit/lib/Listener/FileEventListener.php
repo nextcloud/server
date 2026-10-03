@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Listener;
 
 use OCA\AdminAudit\Actions\Action;
+use OCA\AdminAudit\Operation;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -47,6 +48,7 @@ class FileEventListener extends Action implements IEventListener {
 				'path' => $file->getPath(),
 			];
 			$this->log(
+				Operation::PreviewAccessed,
 				'Preview accessed: (id: "%s", width: "%s", height: "%s" crop: "%s", mode: "%s", path: "%s")',
 				$params,
 				array_keys($params)
@@ -64,7 +66,7 @@ class FileEventListener extends Action implements IEventListener {
 	 */
 	private function versionRestored(VersionRestoredEvent $event): void {
 		$version = $event->getVersion();
-		$this->log('Version "%s" of "%s" was restored.',
+		$this->log(Operation::VersionRestored, 'Version "%s" of "%s" was restored.',
 			[
 				'version' => $version->getRevisionId(),
 				'path' => $version->getVersionPath()

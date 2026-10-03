@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Listener;
 
 use OCA\AdminAudit\Actions\Action;
+use OCA\AdminAudit\Operation;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
 use OCP\EventDispatcher\Event;
@@ -30,6 +31,7 @@ class SecurityEventListener extends Action implements IEventListener {
 
 	private function twoFactorProviderChallengePassed(TwoFactorProviderChallengePassed $event): void {
 		$this->log(
+			Operation::TwoFactorPassed,
 			'Successful two factor attempt by user %s (%s) with provider %s',
 			[
 				'uid' => $event->getUser()->getUID(),
@@ -46,6 +48,7 @@ class SecurityEventListener extends Action implements IEventListener {
 
 	private function twoFactorProviderChallengeFailed(TwoFactorProviderChallengeFailed $event): void {
 		$this->log(
+			Operation::TwoFactorFailed,
 			'Failed two factor attempt by user %s (%s) with provider %s',
 			[
 				'uid' => $event->getUser()->getUID(),

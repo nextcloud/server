@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Listener;
 
 use OCA\AdminAudit\Actions\Action;
+use OCA\AdminAudit\Operation;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\SystemTag\Events\TagCreatedEvent;
@@ -28,7 +29,7 @@ class TagEventListener extends Action implements IEventListener {
 
 		$tag = $event->getTag();
 
-		$this->log('System tag "%s" (%s, %s) created',
+		$this->log(Operation::SystemTagCreated, 'System tag "%s" (%s, %s) created',
 			[
 				'name' => $tag->getName(),
 				'visibility' => $tag->isUserVisible() ? 'visible' : 'invisible',

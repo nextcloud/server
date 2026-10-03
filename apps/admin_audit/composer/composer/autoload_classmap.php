@@ -27,4 +27,5 @@ return array(
     'OCA\\AdminAudit\\Listener\\SharingEventListener' => $baseDir . '/../lib/Listener/SharingEventListener.php',
     'OCA\\AdminAudit\\Listener\\TagEventListener' => $baseDir . '/../lib/Listener/TagEventListener.php',
     'OCA\\AdminAudit\\Listener\\UserManagementEventListener' => $baseDir . '/../lib/Listener/UserManagementEventListener.php',
+    'OCA\\AdminAudit\\Operation' => $baseDir . '/../lib/Operation.php',
 );

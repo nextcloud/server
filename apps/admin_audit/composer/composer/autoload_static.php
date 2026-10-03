@@ -42,6 +42,7 @@ class ComposerStaticInitAdminAudit
         'OCA\\AdminAudit\\Listener\\SharingEventListener' => __DIR__ . '/..' . '/../lib/Listener/SharingEventListener.php',
         'OCA\\AdminAudit\\Listener\\TagEventListener' => __DIR__ . '/..' . '/../lib/Listener/TagEventListener.php',
         'OCA\\AdminAudit\\Listener\\UserManagementEventListener' => __DIR__ . '/..' . '/../lib/Listener/UserManagementEventListener.php',
+        'OCA\\AdminAudit\\Operation' => __DIR__ . '/..' . '/../lib/Operation.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
