@@ -35,7 +35,6 @@ class TagServiceTest extends \Test\TestCase {
 	private IManager&MockObject $activityManager;
 	private Folder $root;
 	private TagService&MockObject $tagService;
-	private ITags $tagger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -56,7 +55,6 @@ class TagServiceTest extends \Test\TestCase {
 
 		$this->root = Server::get(IRootFolder::class)->getUserFolder($this->user);
 
-		$this->tagger = Server::get(ITagManager::class)->load('files');
 		$this->tagService = $this->getTagService();
 	}
 
@@ -95,24 +93,24 @@ class TagServiceTest extends \Test\TestCase {
 		// set tags
 		$this->tagService->updateFileTags('subdir/test.txt', [$tag1, $tag2]);
 
-		// Sync to reload tags
-		$this->tagger->addMultiple([], sync:true);
-		$this->assertEquals([$fileId], $this->tagger->getIdsForTag($tag1));
-		$this->assertEquals([$fileId], $this->tagger->getIdsForTag($tag2));
+		// use a freshly loaded ITags instance after each updateFileTags() call (more realistic)
+		$tagger = Server::get(ITagManager::class)->load('files');
+		$this->assertEquals([$fileId], $tagger->getIdsForTag($tag1));
+		$this->assertEquals([$fileId], $tagger->getIdsForTag($tag2));
 
 		// remove tag
 		$this->tagService->updateFileTags('subdir/test.txt', [$tag2]);
-		// Sync to reload tags
-		$this->tagger->addMultiple([], sync:true);
-		$this->assertEquals([], $this->tagger->getIdsForTag($tag1));
-		$this->assertEquals([$fileId], $this->tagger->getIdsForTag($tag2));
+
+		$tagger = Server::get(ITagManager::class)->load('files');
+		$this->assertEquals([], $tagger->getIdsForTag($tag1));
+		$this->assertEquals([$fileId], $tagger->getIdsForTag($tag2));
 
 		// clear tags
 		$this->tagService->updateFileTags('subdir/test.txt', []);
 		// Sync to reload tags
-		$this->tagger->addMultiple([], sync:true);
-		$this->assertEquals([], $this->tagger->getIdsForTag($tag1));
-		$this->assertEquals([], $this->tagger->getIdsForTag($tag2));
+		$tagger = Server::get(ITagManager::class)->load('files');
+		$this->assertEquals([], $tagger->getIdsForTag($tag1));
+		$this->assertEquals([], $tagger->getIdsForTag($tag2));
 
 		// non-existing file
 		$caught = false;
