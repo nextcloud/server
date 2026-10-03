@@ -246,7 +246,7 @@ class JobList implements IJobList {
 			$update = $this->connection->getQueryBuilder();
 			$update->update('jobs')
 				->set('reserved_at', $update->createNamedParameter($this->timeFactory->getTime()))
-				->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime()))
+				->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime() + 1))
 				->where($update->expr()->eq('id', $update->createParameter('jobid')))
 				->andWhere($update->expr()->eq('reserved_at', $update->createParameter('reserved_at')))
 				->andWhere($update->expr()->eq('last_checked', $update->createParameter('last_checked')));
