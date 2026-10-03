@@ -19,9 +19,37 @@ use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
+final class LazyDirectoryStorage extends Temporary {
+	public bool $firstChildProcessed = false;
+	public bool $resumedBeforeFirstChildProcessed = false;
+	public bool $throwAfterFirstEntry = false;
+
+	#[\Override]
+	public function getDirectoryContent(string $directory): \Traversable {
+		$first = true;
+
+		foreach (parent::getDirectoryContent($directory) as $entry) {
+			yield $entry;
+
+			if (!$first) {
+				continue;
+			}
+
+			$first = false;
+
+			if (!$this->firstChildProcessed) {
+				$this->resumedBeforeFirstChildProcessed = true;
+			}
+
+			if ($this->throwAfterFirstEntry) {
+				throw new \RuntimeException('Directory listing failed after the first entry');
+			}
+		}
+	}
+}
+
 /**
  * Class ScannerTest
- *
  *
  * @package Test\Files\Cache
  */
@@ -123,6 +151,55 @@ class ScannerTest extends TestCase {
 		$this->assertEquals($cachedDataFolder['fileid'], $cachedDataImage['parent']);
 		$this->assertEquals($cachedDataFolder['size'], $cachedDataImage['size'] + $cachedDataText['size'] + $cachedDataText2['size']);
 		$this->assertEquals($cachedDataFolder2['size'], $cachedDataText2['size']);
+	}
+
+	public function testDirectoryContentIsConsumedLazily(): void {
+		$storage = new LazyDirectoryStorage();
+		$storage->file_put_contents('file.txt', 'content');
+
+		$scanner = new Scanner($storage);
+		$scanner->listen(
+			'\OC\Files\Cache\Scanner',
+			'scanFile',
+			function (string $path) use ($storage): void {
+				if ($path === 'file.txt') {
+					$storage->firstChildProcessed = true;
+				}
+			},
+		);
+
+		$scanner->scan('');
+
+		$this->assertTrue($storage->firstChildProcessed);
+		$this->assertFalse($storage->resumedBeforeFirstChildProcessed);
+		$this->assertTrue($storage->getCache()->inCache('file.txt'));
+	}
+
+	public function testDirectoryContentFailureRollsBackTransaction(): void {
+		$storage = new LazyDirectoryStorage();
+		$storage->file_put_contents('file.txt', 'content');
+		$storage->throwAfterFirstEntry = true;
+
+		$scanner = new Scanner($storage);
+		$connection = Server::get(IDBConnection::class);
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Directory listing failed after the first entry');
+
+		try {
+			$scanner->scan('');
+		} finally {
+			$this->assertFalse($connection->inTransaction());
+		}
+	}
+
+	public function testEmptyDirectoryScanDoesNotLeaveTransactionOpen(): void {
+		$storage = new LazyDirectoryStorage([]);
+		$scanner = new Scanner($storage);
+
+		$scanner->scan('');
+
+		$this->assertFalse(Server::get(IDBConnection::class)->inTransaction());
 	}
 
 	public function testShallow(): void {
