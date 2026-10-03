@@ -10,6 +10,7 @@ return array(
     'OCA\\Theming\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Theming\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\Theming\\Command\\UpdateConfig' => $baseDir . '/../lib/Command/UpdateConfig.php',
+    'OCA\\Theming\\ConfigLexicon' => $baseDir . '/../lib/ConfigLexicon.php',
     'OCA\\Theming\\Controller\\IconController' => $baseDir . '/../lib/Controller/IconController.php',
     'OCA\\Theming\\Controller\\ThemingController' => $baseDir . '/../lib/Controller/ThemingController.php',
     'OCA\\Theming\\Controller\\UserThemeController' => $baseDir . '/../lib/Controller/UserThemeController.php',
