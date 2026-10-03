@@ -18,6 +18,8 @@ use OC\Files\Utils\Scanner;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Events\FileCacheUpdated;
+use OCP\Files\Events\NodeAddedToCache;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -207,6 +209,53 @@ class ScannerTest extends TestCase {
 		$newRoot = $cache->get('');
 
 		$this->assertNotEquals($oldRoot->getEtag(), $newRoot->getEtag());
+	}
+
+	public function testScanDispatchesAddedForNewAndUpdatedForChangedEntries(): void {
+		$storage = new Temporary([]);
+		$mount = new MountPoint($storage, '');
+		Filesystem::getMountManager()->addMount($mount);
+
+		$storage->mkdir('folder');
+		$storage->file_put_contents('folder/bar.txt', 'qwerty');
+		$storage->touch('folder/bar.txt', time() - 200);
+
+		/** @var list<object> $events */
+		$events = [];
+		$dispatcher = $this->createMock(IEventDispatcher::class);
+		$dispatcher->method('dispatchTyped')
+			->willReturnCallback(function (object $event) use (&$events): void {
+				$events[] = $event;
+			});
+
+		$scanner = new TestScanner(
+			Server::get(IUserManager::class)->get(''),
+			Server::get(IDBConnection::class),
+			$dispatcher,
+			Server::get(LoggerInterface::class),
+			Server::get(SetupManager::class),
+		);
+		$scanner->addMount($mount);
+
+		$pathsForEvents = function (string $class) use (&$events): array {
+			return array_values(array_map(
+				static fn (object $event): string => $event->getPath(),
+				array_filter($events, static fn (object $event): bool => $event instanceof $class),
+			));
+		};
+
+		// first scan: everything is new, nothing is updated
+		$scanner->scan('');
+		$this->assertContains('folder/bar.txt', $pathsForEvents(NodeAddedToCache::class));
+		$this->assertContains('folder', $pathsForEvents(NodeAddedToCache::class));
+		$this->assertSame([], $pathsForEvents(FileCacheUpdated::class));
+
+		// re-scan after modifying the file: updated, not new
+		$events = [];
+		$storage->file_put_contents('folder/bar.txt', 'qwerty asdf');
+		$scanner->scan('');
+		$this->assertContains('folder/bar.txt', $pathsForEvents(FileCacheUpdated::class));
+		$this->assertSame([], $pathsForEvents(NodeAddedToCache::class));
 	}
 
 	public function testShallow(): void {
