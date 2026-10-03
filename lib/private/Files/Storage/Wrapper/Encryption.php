@@ -714,6 +714,8 @@ class Encryption extends Wrapper {
 		}
 
 		// Attempt to reuse the source key so copied versions, if any, remain decryptable.
+		// For directories, this may copy descendant keys again during recursion.
+		// TODO: Verify key-storage copy semantics and optimize to avoid duplicate work if possible.
 		$sourceCacheEntry = $sourceStorage->getCache()->get($sourceInternalPath);
 		$sourceIsEncrypted = $sourceCacheEntry !== false && !empty($sourceCacheEntry['encrypted']);
 		$hasCommonSourceStorage = $sourceStorage->instanceOfStorage(Common::class);
