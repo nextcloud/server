@@ -155,7 +155,13 @@ interface IAppConfig {
 	 * @param bool $lazy search within lazy loaded config
 	 * @param int|null $typedAs enforce type for the returned values {@see self::VALUE_STRING} and others
 	 *
-	 * @return array<string, string|int|float|bool|array> [appId => configValue]
+	 * @return (
+	 *      $typedAs is self::VALUE_INT ? array<string, int> : (
+	 *      $typedAs is self::VALUE_FLOAT ? array<string, float> : (
+	 *      $typedAs is self::VALUE_BOOL ? array<string, bool> : (
+	 *      $typedAs is self::VALUE_ARRAY ? array<string, array> : (
+	 *      $typedAs is int ? array<string, string> :
+	 *      array<string, string|int|float|bool|array>))))) [appId => configValue]
 	 * @since 29.0.0
 	 */
 	public function searchValues(string $key, bool $lazy = false, ?int $typedAs = null): array;
