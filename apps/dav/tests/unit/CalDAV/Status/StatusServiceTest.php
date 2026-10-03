@@ -161,7 +161,7 @@ class StatusServiceTest extends TestCase {
 			->method('getDateTime');
 		$this->calendarManager->expects(self::never())
 			->method('searchForPrincipal');
-		$this->userStatusService->expects(self::once())
+		$this->userStatusService->expects(self::exactly(2))
 			->method('revertUserStatus');
 		$this->logger->expects(self::once())
 			->method('debug');
@@ -203,7 +203,7 @@ class StatusServiceTest extends TestCase {
 		$this->calendarManager->expects(self::once())
 			->method('searchForPrincipal')
 			->willReturn([]);
-		$this->userStatusService->expects(self::once())
+		$this->userStatusService->expects(self::exactly(2))
 			->method('revertUserStatus');
 		$this->logger->expects(self::once())
 			->method('debug');
@@ -248,7 +248,7 @@ class StatusServiceTest extends TestCase {
 		$this->calendarManager->expects(self::once())
 			->method('searchForPrincipal')
 			->willReturn([['objects' => []]]);
-		$this->userStatusService->expects(self::once())
+		$this->userStatusService->expects(self::exactly(2))
 			->method('revertUserStatus');
 		$this->logger->expects(self::once())
 			->method('debug');
@@ -296,7 +296,99 @@ class StatusServiceTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('debug');
 		$this->userStatusService->expects(self::once())
-			->method('setUserStatus');
+			->method('setUserStatus')
+			->with('admin', IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY_SINGLE, true);
+
+		$this->service->processCalendarStatus('admin');
+	}
+
+	public function testCalendarEventWithAttendees(): void {
+		$user = $this->createConfiguredMock(IUser::class, [
+			'getUID' => 'admin',
+		]);
+
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn($user);
+		$this->availabilityCoordinator->expects(self::once())
+			->method('getCurrentOutOfOfficeData')
+			->willReturn(null);
+		$this->availabilityCoordinator->expects(self::never())
+			->method('isInEffect');
+		$this->cache->expects(self::once())
+			->method('get')
+			->willReturn(null);
+		$this->cache->expects(self::once())
+			->method('set');
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$this->createMock(CalendarImpl::class)]);
+		$this->calendarManager->expects(self::once())
+			->method('newQuery')
+			->willReturn(new CalendarQuery('admin'));
+		$this->timeFactory->expects(self::exactly(2))
+			->method('getDateTime')
+			->willReturn(new \DateTime());
+		$this->userStatusService->expects(self::once())
+			->method('findByUserId')
+			->willThrowException(new DoesNotExistException(''));
+		$this->calendarManager->expects(self::once())
+			->method('searchForPrincipal')
+			->willReturn([['objects' => [['ATTENDEE' => [['mailto:other@example.com', []]]]]]]);
+		$this->userStatusService->expects(self::never())
+			->method('revertUserStatus');
+		$this->logger->expects(self::once())
+			->method('debug');
+		$this->userStatusService->expects(self::once())
+			->method('setUserStatus')
+			->with('admin', IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY, true);
+
+		$this->service->processCalendarStatus('admin');
+	}
+
+	public function testCalendarEventMeetingTakesPriorityOverSingle(): void {
+		$user = $this->createConfiguredMock(IUser::class, [
+			'getUID' => 'admin',
+		]);
+
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn($user);
+		$this->availabilityCoordinator->expects(self::once())
+			->method('getCurrentOutOfOfficeData')
+			->willReturn(null);
+		$this->availabilityCoordinator->expects(self::never())
+			->method('isInEffect');
+		$this->cache->expects(self::once())
+			->method('get')
+			->willReturn(null);
+		$this->cache->expects(self::once())
+			->method('set');
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$this->createMock(CalendarImpl::class)]);
+		$this->calendarManager->expects(self::once())
+			->method('newQuery')
+			->willReturn(new CalendarQuery('admin'));
+		$this->timeFactory->expects(self::exactly(2))
+			->method('getDateTime')
+			->willReturn(new \DateTime());
+		$this->userStatusService->expects(self::once())
+			->method('findByUserId')
+			->willThrowException(new DoesNotExistException(''));
+		$this->calendarManager->expects(self::once())
+			->method('searchForPrincipal')
+			->willReturn([
+				['objects' => [[]]],
+				['objects' => [['ATTENDEE' => [['mailto:other@example.com', []]]]]],
+			]);
+		$this->userStatusService->expects(self::never())
+			->method('revertUserStatus');
+		$this->logger->expects(self::once())
+			->method('debug');
+		$this->userStatusService->expects(self::once())
+			->method('setUserStatus')
+			->with('admin', IUserStatus::BUSY, IUserStatus::MESSAGE_CALENDAR_BUSY, true);
 
 		$this->service->processCalendarStatus('admin');
 	}
