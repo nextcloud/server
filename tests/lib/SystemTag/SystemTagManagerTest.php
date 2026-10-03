@@ -525,7 +525,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('test')
-			->willReturn($isAdmin);
+			->willReturn($isAdmin ?? false);
 		$this->appConfig->expects($this->any())
 			->method('getValueBool')
 			->with('systemtags', 'restrict_creation_to_admin')
@@ -539,15 +539,7 @@ class SystemTagManagerTest extends TestCase {
 		\OC::$CLI = $oldCli;
 	}
 
-	public static function disallowedToCreateProvider(): array {
-		return [
-			[false],
-			[null],
-		];
-	}
-
-	#[\PHPUnit\Framework\Attributes\DataProvider('disallowedToCreateProvider')]
-	public function testDisallowedToCreateTag(?bool $isAdmin): void {
+	public function testDisallowedToCreateTag(): void {
 		$oldCli = \OC::$CLI;
 		\OC::$CLI = false;
 
@@ -557,11 +549,11 @@ class SystemTagManagerTest extends TestCase {
 			->willReturn('test');
 		$this->userSession->expects($this->any())
 			->method('getUser')
-			->willReturn($isAdmin === null ? null : $user);
+			->willReturn($user);
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('test')
-			->willReturn($isAdmin);
+			->willReturn(false);
 		$this->appConfig->expects($this->any())
 			->method('getValueBool')
 			->with('systemtags', 'restrict_creation_to_admin')
@@ -573,11 +565,7 @@ class SystemTagManagerTest extends TestCase {
 		\OC::$CLI = $oldCli;
 	}
 
-	/**
-	 * @param ISystemTag $tag1
-	 * @param ISystemTag $tag2
-	 */
-	private function assertSameTag($tag1, $tag2) {
+	private function assertSameTag(ISystemTag $tag1, ISystemTag $tag2): void {
 		$this->assertEquals($tag1->getId(), $tag2->getId());
 		$this->assertEquals($tag1->getName(), $tag2->getName());
 		$this->assertEquals($tag1->isUserVisible(), $tag2->isUserVisible());

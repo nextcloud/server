@@ -913,7 +913,6 @@ class OC {
 		self::registerResourceCollectionHooks();
 		self::registerFileReferenceEventListener();
 		self::registerRenderReferenceEventListener();
-		self::registerAppRestrictionsHooks();
 
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue('installed', false)) {
@@ -1061,29 +1060,6 @@ class OC {
 		/** @var IEventDispatcher $dispatcher */
 		$dispatcher = Server::get(IEventDispatcher::class);
 		$dispatcher->addServiceListener(UserChangedEvent::class, \OC\Accounts\Hooks::class);
-	}
-
-	private static function registerAppRestrictionsHooks(): void {
-		$eventDispatcher = Server::get(IEventDispatcher::class);
-		$eventDispatcher->addListener(GroupDeletedEvent::class, function (GroupDeletedEvent $event) {
-			$group = $event->getGroup();
-			$appManager = Server::get(\OCP\App\IAppManager::class);
-			$apps = $appManager->getEnabledAppsForGroup($group);
-			foreach ($apps as $appId) {
-				$restrictions = $appManager->getAppRestriction($appId);
-				if (empty($restrictions)) {
-					continue;
-				}
-				$key = array_search($group->getGID(), $restrictions, true);
-				unset($restrictions[$key]);
-				$restrictions = array_values($restrictions);
-				if (empty($restrictions)) {
-					$appManager->disableApp($appId);
-				} else {
-					$appManager->enableAppForGroups($appId, $restrictions);
-				}
-			}
-		});
 	}
 
 	private static function registerResourceCollectionHooks(): void {
