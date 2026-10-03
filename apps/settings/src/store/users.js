@@ -869,6 +869,20 @@ const actions = {
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
 	},
 	/**
+	 * Trigger a password reset email for the user
+	 *
+	 * @param {object} context store context
+	 * @param {string} userid user id
+	 * @return {Promise<boolean>}
+	 */
+	sendPasswordResetMail(context, userid) {
+		return api.requireAdmin().then(() => {
+			return api.post(generateOcsUrl('cloud/users/{userid}/resetpassword', { userid }))
+				.then(() => true)
+				.catch((error) => { throw error })
+		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
+	},
+	/**
 	 * Migrate local storage keys to database
 	 *
 	 * @param {object} context store context

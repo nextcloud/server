@@ -54,6 +54,7 @@ return [
 		['root' => '/cloud', 'name' => 'Users#addSubAdmin', 'url' => '/users/{userId}/subadmins', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#removeSubAdmin', 'url' => '/users/{userId}/subadmins', 'verb' => 'DELETE'],
 		['root' => '/cloud', 'name' => 'Users#resendWelcomeMessage', 'url' => '/users/{userId}/welcome', 'verb' => 'POST'],
+		['root' => '/cloud', 'name' => 'Users#sendPasswordResetEmail', 'url' => '/users/{userId}/resetpassword', 'verb' => 'POST'],
 
 		// Config
 		['name' => 'AppConfig#getApps', 'url' => '/api/v1/config/apps', 'verb' => 'GET'],
