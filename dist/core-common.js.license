@@ -212,7 +212,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.26.0
@@ -578,7 +578,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - webdav
-	- version: 5.10.0
+	- version: 5.11.0
 	- license: MIT
 - @floating-ui/core
 	- version: 1.8.0
