@@ -83,7 +83,7 @@ interface ISession {
 	 * @return void
 	 * @since 9.0.0, $updateToken added in 14.0.0
 	 */
-	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false);
+	public function regenerateId(bool $deleteOldSession = false, bool $updateToken = false);
 
 	/**
 	 * Wrapper around session_id
