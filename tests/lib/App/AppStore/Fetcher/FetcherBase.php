@@ -211,8 +211,8 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->exactly(2))
 			->method('getTime')
 			->willReturnOnConsecutiveCalls(
-				4801,
-				1502
+				90001,
+				90002,
 			);
 		$client = $this->createMock(IClient::class);
 		$this->clientService
@@ -474,8 +474,8 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->exactly(2))
 			->method('getTime')
 			->willReturnOnConsecutiveCalls(
-				4801,
-				4802
+				90001,
+				90002,
 			);
 		$client = $this->createMock(IClient::class);
 		$this->clientService
@@ -557,8 +557,8 @@ abstract class FetcherBase extends TestCase {
 			->expects($this->exactly(2))
 			->method('getTime')
 			->willReturnOnConsecutiveCalls(
-				4801,
-				4802,
+				90001,
+				90002,
 			);
 		$client = $this->createMock(IClient::class);
 		$this->clientService
