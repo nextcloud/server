@@ -371,10 +371,10 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	 */
 	protected function testRemote(): bool {
 		try {
-			return $this->testRemoteUrl($this->getRemote() . '/ocm-provider/index.php')
-				   || $this->testRemoteUrl($this->getRemote() . '/ocm-provider/')
-				   || $this->testRemoteUrl($this->getRemote() . '/.well-known/ocm')
-				   || $this->testRemoteUrl($this->getRemote() . '/status.php');
+			return $this->testRemoteUrl($this->getRemote() . '/.well-known/ocm')
+				|| $this->testRemoteUrl($this->getRemote() . '/ocm-provider/')
+				|| $this->testRemoteUrl($this->getRemote() . '/ocm-provider/index.php')
+				|| $this->testRemoteUrl($this->getRemote() . '/status.php');
 		} catch (\Exception $e) {
 			return false;
 		}
