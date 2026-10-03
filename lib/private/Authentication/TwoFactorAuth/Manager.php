@@ -36,13 +36,19 @@ use function array_diff;
 use function array_filter;
 
 class Manager {
+	/** Session keys used during the 2FA login flow; string values are persisted in session state. */
 	public const SESSION_UID_KEY = 'two_factor_auth_uid';
 	public const SESSION_UID_DONE = 'two_factor_auth_passed';
 	public const REMEMBER_LOGIN = 'two_factor_remember_login';
+
+	/** User config key for login tokens pending 2FA completion. */
+	private const LOGIN_TOKEN_2FA_CONFIG_KEY = 'login_token_2fa';
+
+	/** Special provider ID used for backup codes provider. */
 	public const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
 
 	/** @psalm-var array<string, bool> */
-	private $userIsTwoFactorAuthenticated = [];
+	private $userHasUsableSecondFactor = [];
 
 	public function __construct(
 		private ProviderLoader $providerLoader,
@@ -59,288 +65,396 @@ class Manager {
 	}
 
 	/**
-	 * Determine whether the user must provide a second factor challenge
+	 * Whether the user currently has 2FA effectively enabled.
+	 *
+	 * This returns true when 2FA is mandatory for the user or when the user has at
+	 * least one enabled non-backup-code provider. 
+	 *
+	 * Backup codes alone do not count as 2FA being enabled for this check.
+	 *
+	 * The result is cached per user for the lifetime of this manager instance.
 	 */
 	public function isTwoFactorAuthenticated(IUser $user): bool {
-		if (isset($this->userIsTwoFactorAuthenticated[$user->getUID()])) {
-			return $this->userIsTwoFactorAuthenticated[$user->getUID()];
+		$uid = $user->getUID();
+
+		if (isset($this->userHasUsableSecondFactor[$uid])) {
+			return $this->userHasUsableSecondFactor[$uid];
 		}
 
 		if ($this->mandatoryTwoFactor->isEnforcedFor($user)) {
+			$this->userHasUsableSecondFactor[$uid] = true;
 			return true;
 		}
 
 		$providerStates = $this->providerRegistry->getProviderStates($user);
 		$providers = $this->providerLoader->getProviders($user);
 		$fixedStates = $this->fixMissingProviderStates($providerStates, $providers, $user);
-		$enabled = array_filter($fixedStates);
-		$providerIds = array_keys($enabled);
-		$providerIdsWithoutBackupCodes = array_diff($providerIds, [self::BACKUP_CODES_PROVIDER_ID]);
 
-		$this->userIsTwoFactorAuthenticated[$user->getUID()] = !empty($providerIdsWithoutBackupCodes);
-		return $this->userIsTwoFactorAuthenticated[$user->getUID()];
+		$enabledProviderIds = array_keys(array_filter($fixedStates));
+		$hasNonBackupProvider = !empty(array_diff($enabledProviderIds, [self::BACKUP_CODES_PROVIDER_ID]));
+
+		$this->userHasUsableSecondFactor[$uid] = $hasNonBackupProvider;
+
+		return $hasNonBackupProvider;
 	}
 
 	/**
-	 * Get a 2FA provider by its ID
+	 * Return the enabled 2FA provider with the given ID for the user.
+	 *
+	 * @throws Exception
 	 */
-	public function getProvider(IUser $user, string $challengeProviderId): ?IProvider {
+	public function getProvider(IUser $user, string $providerId): ?IProvider {
 		$providers = $this->getProviderSet($user)->getProviders();
-		return $providers[$challengeProviderId] ?? null;
+		return $providers[$providerId] ?? null;
 	}
 
 	/**
+	 * Return the user's 2FA providers that can be activated during login.
+	 *
 	 * @return IActivatableAtLogin[]
 	 * @throws Exception
 	 */
 	public function getLoginSetupProviders(IUser $user): array {
 		$providers = $this->providerLoader->getProviders($user);
-		return array_filter($providers, function (IProvider $provider) {
-			return ($provider instanceof IActivatableAtLogin);
-		});
+
+		return array_filter(
+			$providers,
+			static fn (IProvider $provider): bool => $provider instanceof IActivatableAtLogin,
+		);
 	}
 
 	/**
-	 * Check if the persistant mapping of enabled/disabled state of each available
-	 * provider is missing an entry and add it to the registry in that case.
+	 * Ensure every loaded provider has a persisted enabled/disabled state.
 	 *
-	 * @todo remove in Nextcloud 17 as by then all providers should have been updated
+	 * Missing state entries are derived from the provider and written back to the registry.
 	 *
 	 * @param array<string, bool> $providerStates
 	 * @param IProvider[] $providers
-	 * @param IUser $user
-	 * @return array<string, bool> the updated $providerStates variable
+	 * @return array<string, bool>
+	 *
+	 * @todo Remove once provider states are guaranteed for all loaded providers.
 	 */
-	private function fixMissingProviderStates(array $providerStates,
-		array $providers, IUser $user): array {
+	private function fixMissingProviderStates(array $providerStates, array $providers, IUser $user): array {
 		foreach ($providers as $provider) {
-			if (isset($providerStates[$provider->getId()])) {
-				// All good
+			$providerId = $provider->getId();
+
+			if (isset($providerStates[$providerId])) {
 				continue;
 			}
 
 			$enabled = $provider->isTwoFactorAuthEnabledForUser($user);
+
 			if ($enabled) {
 				$this->providerRegistry->enableProviderFor($provider, $user);
 			} else {
 				$this->providerRegistry->disableProviderFor($provider, $user);
 			}
-			$providerStates[$provider->getId()] = $enabled;
+
+			$providerStates[$providerId] = $enabled;
 		}
 
 		return $providerStates;
 	}
 
 	/**
-	 * @param array $states
+	 * Check whether any enabled provider state refers to a provider that failed to load.
+	 *
+	 * @param array<string, bool> $states
 	 * @param IProvider[] $providers
 	 */
 	private function isProviderMissing(array $states, array $providers): bool {
-		$indexed = [];
+		$providersById = [];
 		foreach ($providers as $provider) {
-			$indexed[$provider->getId()] = $provider;
+			$providersById[$provider->getId()] = $provider;
 		}
 
-		$missing = [];
+		$missingCount = 0;
 		foreach ($states as $providerId => $enabled) {
 			if (!$enabled) {
-				// Don't care
 				continue;
 			}
 
-			if (!isset($indexed[$providerId])) {
-				$missing[] = $providerId;
-				$this->logger->alert("two-factor auth provider '$providerId' failed to load",
-					[
-						'app' => 'core',
-					]);
+			if (!isset($providersById[$providerId])) {
+				$missingCount++;
+				$this->logger->alert("two-factor auth provider '$providerId' failed to load", ['app' => 'core']);
 			}
 		}
 
-		if (!empty($missing)) {
-			// There was at least one provider missing
-			$this->logger->alert(count($missing) . ' two-factor auth providers failed to load', ['app' => 'core']);
-
+		if ($missingCount > 0) {
+			$this->logger->alert($missingCount . ' two-factor auth providers failed to load', ['app' => 'core']);
 			return true;
 		}
 
-		// If we reach this, there was not a single provider missing
 		return false;
 	}
 
 	/**
-	 * Get the list of 2FA providers for the given user
+	 * Build the user's enabled 2FA provider set, repairing missing persisted state first.
 	 *
-	 * @param IUser $user
 	 * @throws Exception
 	 */
 	public function getProviderSet(IUser $user): ProviderSet {
 		$providerStates = $this->providerRegistry->getProviderStates($user);
 		$providers = $this->providerLoader->getProviders($user);
 
-		$fixedStates = $this->fixMissingProviderStates($providerStates, $providers, $user);
-		$isProviderMissing = $this->isProviderMissing($fixedStates, $providers);
+		$completeStates = $this->fixMissingProviderStates($providerStates, $providers, $user);
+		$isProviderMissing = $this->isProviderMissing($completeStates, $providers);
 
-		$enabled = array_filter($providers, function (IProvider $provider) use ($fixedStates) {
-			return $fixedStates[$provider->getId()];
-		});
-		return new ProviderSet($enabled, $isProviderMissing);
+		$enabledProviders = array_filter(
+			$providers,
+			static fn (IProvider $provider): bool => $completeStates[$provider->getId()],
+		);
+		
+		return new ProviderSet($enabledProviders, $isProviderMissing);
 	}
 
 	/**
-	 * Verify the given challenge
+	 * Verify a 2FA challenge against the given provider for the user.
 	 *
-	 * @param string $providerId
-	 * @param IUser $user
-	 * @param string $challenge
-	 * @return boolean
+	 * On success, this finalizes pending 2FA state and dispatches success events.
+	 * On failure, failure events are dispatched.
+	 *
+	 * Returns false if the provider is unavailable or the challenge does not verify.
+	 *
+	 * @throws Exception
 	 */
 	public function verifyChallenge(string $providerId, IUser $user, string $challenge): bool {
 		$provider = $this->getProvider($user, $providerId);
+
 		if ($provider === null) {
 			return false;
 		}
 
-		$passed = $provider->verifyChallenge($user, $challenge);
-		if ($passed) {
-			if ($this->session->get(self::REMEMBER_LOGIN) === true) {
-				// TODO: resolve cyclic dependency and use DI
-				/** @var Session $session */
-				$session = Server::get(IUserSession::class);
-				$session->createRememberMeToken($user);
-			}
-			$this->session->remove(self::SESSION_UID_KEY);
-			$this->session->remove(self::REMEMBER_LOGIN);
-			$this->session->set(self::SESSION_UID_DONE, $user->getUID());
-
-			// Clear token from db
-			$sessionId = $this->session->getId();
-			$token = $this->tokenProvider->getToken($sessionId);
-			$tokenId = $token->getId();
-			$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', (string)$tokenId);
-
-			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserEnabled($user, $provider));
-			$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengePassed($user, $provider));
-
-			$this->publishEvent($user, 'twofactor_success', [
-				'provider' => $provider->getDisplayName(),
-			]);
-		} else {
-			$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserDisabled($user, $provider));
-			$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengeFailed($user, $provider));
-
-			$this->publishEvent($user, 'twofactor_failed', [
-				'provider' => $provider->getDisplayName(),
-			]);
+		if (!$provider->verifyChallenge($user, $challenge)) {
+			$this->handleFailedChallenge($user, $provider);
+			return false;
 		}
-		return $passed;
+
+		$this->handleSuccessfulChallenge($user, $provider);
+		return true;
 	}
 
 	/**
-	 * Push a 2fa event the user's activity stream
-	 *
-	 * @param IUser $user
-	 * @param string $event
-	 * @param array $params
+	 * Finalize session and token state after a successful 2FA challenge.
 	 */
-	private function publishEvent(IUser $user, string $event, array $params) {
+	private function handleSuccessfulChallenge(IUser $user, IProvider $provider): void {
+		$uid = $user->getUID();
+
+		if ($this->session->get(self::REMEMBER_LOGIN) === true) {
+			// TODO: resolve cyclic dependency and use DI
+			/** @var Session $session */
+			$session = Server::get(IUserSession::class);
+			$session->createRememberMeToken($user);
+		}
+
+		$this->session->remove(self::SESSION_UID_KEY);
+		$this->session->remove(self::REMEMBER_LOGIN);
+		$this->session->set(self::SESSION_UID_DONE, $uid);
+
+		// Clear the pending 2FA marker for the current login token.
+		$sessionId = $this->session->getId();
+		$token = $this->tokenProvider->getToken($sessionId);
+		$this->config->deleteUserValue($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY, (string)$token->getId());
+
+		$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserEnabled($user, $provider));
+		$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengePassed($user, $provider));
+
+		$this->publishEvent($user, 'twofactor_success', ['provider' => $provider->getDisplayName()]);
+	}
+
+	/**
+	 * Record side effects for a failed 2FA challenge.
+	 */
+	private function handleFailedChallenge(IUser $user, IProvider $provider): void {
+		$this->dispatcher->dispatchTyped(new TwoFactorProviderForUserDisabled($user, $provider));
+		$this->dispatcher->dispatchTyped(new TwoFactorProviderChallengeFailed($user, $provider));
+
+		$this->publishEvent($user, 'twofactor_failed', ['provider' => $provider->getDisplayName()]);
+	}
+
+	/**
+	 * Publish a 2FA security activity event for the user.
+	 *
+	 * @param array<string, mixed> $params
+	 */
+	private function publishEvent(IUser $user, string $event, array $params): void {
+		$uid = $user->getUID();
+
 		$activity = $this->activityManager->generateEvent();
 		$activity->setApp('core')
 			->setType('security')
-			->setAuthor($user->getUID())
-			->setAffectedUser($user->getUID())
+			->setAuthor($uid)
+			->setAffectedUser($uid)
 			->setSubject($event, $params);
+
 		try {
 			$this->activityManager->publish($activity);
 		} catch (BadMethodCallException $e) {
-			$this->logger->warning('could not publish activity', ['app' => 'core', 'exception' => $e]);
+			$this->logger->warning('Could not publish activity', ['app' => 'core', 'exception' => $e]);
 		}
 	}
 
 	/**
-	 * Check if the currently logged in user needs to pass 2FA
+	 * Determine whether the current login session still requires a 2FA challenge.
 	 *
-	 * @param IUser $user the currently logged in user
-	 * @return boolean
+	 * This considers pending-challenge markers, session- and token-backed satisfied
+	 * states, and whether the user still has a usable second factor configured.
 	 */
 	public function needsSecondFactor(?IUser $user = null): bool {
 		if ($user === null) {
 			return false;
 		}
 
-		// If we are authenticated using an app password or AppAPI Auth, skip all this
+		// App passwords and AppAPI-authenticated sessions bypass interactive 2FA.
 		if ($this->session->exists('app_password') || $this->session->get('app_api') === true) {
 			return false;
 		}
 
-		// First check if the session tells us we should do 2FA (99% case)
-		if (!$this->session->exists(self::SESSION_UID_KEY)) {
-			// Check if the session tells us it is 2FA authenticated already
-			if ($this->session->exists(self::SESSION_UID_DONE)
-				&& $this->session->get(self::SESSION_UID_DONE) === $user->getUID()) {
-				return false;
+		$uid = $user->getUID();
+
+		// A pending challenge is authoritative. If it can still be completed, 2FA is
+		// required. Otherwise clear stale pending state and let the user proceed.
+		if ($this->hasPendingSecondFactorChallenge()) {
+			if ($this->isTwoFactorAuthenticated($user)) {
+				return true;
 			}
-
-			/*
-			 * If the session is expired check if we are not logged in by a token
-			 * that still needs 2FA auth
-			 */
-			try {
-				$sessionId = $this->session->getId();
-				$token = $this->tokenProvider->getToken($sessionId);
-				$tokenId = $token->getId();
-				$tokensNeeding2FA = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
-
-				if (!\in_array((string)$tokenId, $tokensNeeding2FA, true)) {
-					$this->session->set(self::SESSION_UID_DONE, $user->getUID());
-					return false;
-				}
-			} catch (InvalidTokenException|SessionNotAvailableException $e) {
-			}
-		}
-
-		if (!$this->isTwoFactorAuthenticated($user)) {
-			// There is no second factor any more -> let the user pass
-			//   This prevents infinite redirect loops when a user is about
-			//   to solve the 2FA challenge, and the provider app is
-			//   disabled the same time
-			$this->session->remove(self::SESSION_UID_KEY);
-
-			$keys = $this->config->getUserKeys($user->getUID(), 'login_token_2fa');
-			foreach ($keys as $key) {
-				$this->config->deleteUserValue($user->getUID(), 'login_token_2fa', $key);
-			}
+			
+			$this->clearStaleSecondFactorChallenge($user);
 			return false;
 		}
 
+		// Without a pending challenge, previously-satisfied state may still satisfy 2FA.
+		if ($this->isSecondFactorSatisfiedBySession($user)) {
+			return false;
+		}
+
+		if ($this->isSecondFactorSatisfiedByTokenState($user)) {
+			$this->session->set(self::SESSION_UID_DONE, $uid);
+			return false;
+		}
+
+		// No pending or satisfied state was found. If the user no longer has a usable second
+		// factor, clear stale pending state and let the user proceed. Otherwise, the current
+		// login session still requires a completed 2FA challenge.
+		if (!$this->isTwoFactorAuthenticated($user)) {
+			$this->clearStaleSecondFactorChallenge($user);
+			return false;
+		}
+
+		// No pending or satisfied state was found, but the user still has a usable
+		// second factor configured. The current login session therefore still requires
+		// completion of a 2FA challenge.
 		return true;
 	}
 
 	/**
-	 * Prepare the 2FA login
-	 *
-	 * @param IUser $user
-	 * @param boolean $rememberMe
+	 * Whether the session currently indicates an in-progress 2FA challenge.
 	 */
-	public function prepareTwoFactorLogin(IUser $user, bool $rememberMe) {
-		$this->session->set(self::SESSION_UID_KEY, $user->getUID());
-		$this->session->set(self::REMEMBER_LOGIN, $rememberMe);
-
-		$id = $this->session->getId();
-		$token = $this->tokenProvider->getToken($id);
-		$this->config->setUserValue($user->getUID(), 'login_token_2fa', (string)$token->getId(), (string)$this->timeFactory->getTime());
+	private function hasPendingSecondFactorChallenge(): bool {
+		// TODO: replace marker-based interpretation with an explicit auth state model.
+		// For now, SESSION_UID_KEY is the authoritative pending-challenge marker.
+		return $this->session->exists(self::SESSION_UID_KEY);
 	}
 
-	public function clearTwoFactorPending(string $userId) {
-		$tokensNeeding2FA = $this->config->getUserKeys($userId, 'login_token_2fa');
+	/**
+	 * Whether this session already recorded 2FA completion for the user.
+	 */
+	private function isSecondFactorSatisfiedBySession(IUser $user): bool {
+		$uid = $user->getUID();
 
-		foreach ($tokensNeeding2FA as $tokenId) {
-			$this->config->deleteUserValue($userId, 'login_token_2fa', $tokenId);
+		return $this->session->exists(self::SESSION_UID_DONE)
+			&& $this->session->get(self::SESSION_UID_DONE) === $uid;
+	}
 
+	/**
+	 * Whether the current login token no longer belongs to a login pending 2FA.
+	 */
+	private function isSecondFactorSatisfiedByTokenState(IUser $user): bool {
+		$uid = $user->getUID();
+
+		try {
+			$sessionId = $this->session->getId();
+			$token = $this->tokenProvider->getToken($sessionId);
+			$tokensNeeding2FA = $this->config->getUserKeys($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY);
+
+			return !\in_array((string)$token->getId(), $tokensNeeding2FA, true);
+		} catch (InvalidTokenException|SessionNotAvailableException $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Clear stale pending 2FA state during an active login session.
+	 *
+	 * Removes the pending session marker and persisted token markers, but does not
+	 * invalidate the login tokens themselves.
+	 *
+	 * @see clearTwoFactorPending() for broader pending-2FA cleanup.
+	 */
+	private function clearStaleSecondFactorChallenge(IUser $user): void {
+		$uid = $user->getUID();
+
+		$this->session->remove(self::SESSION_UID_KEY);
+		$this->clearPersistedPendingTwoFactorTokens($uid);
+	}
+
+	/**
+	 * Delete persisted pending-2FA token markers for the user.
+	 *
+	 * Does not invalidate the tokens themselves or touch session state.
+	 *
+	 * @return string[] token IDs that were marked as pending 2FA
+	 */
+	private function clearPersistedPendingTwoFactorTokens(string $uid): array {
+		$pendingTokenIds = $this->config->getUserKeys($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY);
+
+		foreach ($pendingTokenIds as $pendingTokenId) {
+			$this->config->deleteUserValue($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY, $pendingTokenId);
+		}
+
+		return $pendingTokenIds;
+	}
+	
+	/**
+	 * Remove all persisted pending-2FA login state for the user.
+	 *
+	 * Unlike clearStaleSecondFactorChallenge(), this also invalidates the affected
+	 * login tokens and does not touch session state.
+	 *
+	 * Missing tokens are ignored because persisted markers may outlive the token itself.
+	 *
+	 * @see clearStaleSecondFactorChallenge() for active-session cleanup.
+	 */
+	public function clearTwoFactorPending(string $uid): void {
+		$pendingTokenIds = $this->clearPersistedPendingTwoFactorTokens($uid);
+
+		foreach ($pendingTokenIds as $pendingTokenId) {
 			try {
-				$this->tokenProvider->invalidateTokenById($userId, (int)$tokenId);
+				$this->tokenProvider->invalidateTokenById($uid, (int)$pendingTokenId);
 			} catch (DoesNotExistException $e) {
+				// Ignore stale persisted entries for tokens that were already removed.
 			}
 		}
+	}
+
+	/**
+	 * Mark the current login attempt as pending 2FA verification.
+	 *
+	 * Stores pending 2FA state in the session, preserves the remember-me choice,
+	 * and records the current login token as requiring 2FA so the flow can be
+	 * resumed if session state is lost before verification completes.
+	 */
+	public function prepareTwoFactorLogin(IUser $user, bool $rememberMe): void {
+		$uid = $user->getUID();
+
+		$this->session->set(self::SESSION_UID_KEY, $uid);
+		$this->session->set(self::REMEMBER_LOGIN, $rememberMe);
+
+		$sessionId = $this->session->getId();
+		$token = $this->tokenProvider->getToken($sessionId);
+		$tokenId = (string)$token->getId();
+		$timestamp = (string)$this->timeFactory->getTime();
+
+		$this->config->setUserValue($uid, self::LOGIN_TOKEN_2FA_CONFIG_KEY, $tokenId, $timestamp);
 	}
 }
