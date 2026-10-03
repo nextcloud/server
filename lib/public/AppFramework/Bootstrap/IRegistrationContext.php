@@ -151,6 +151,22 @@ interface IRegistrationContext {
 	public function registerSearchProvider(string $class): void;
 
 	/**
+	 * Register an account-scoped search provider
+	 *
+	 * Unlike a unified search provider, this searches on behalf of an account passed explicitly
+	 * rather than the calling session, and returns structured metadata rather than display strings.
+	 * `\NCU\Search\IAccountScopedSearchProvider` is currently experimental and may still change.
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<\NCU\Search\IAccountScopedSearchProvider> $class
+	 *
+	 * @return void
+	 *
+	 * @since 36.0.0
+	 */
+	public function registerAccountScopedSearchProvider(string $class): void;
+
+	/**
 	 * Register an alternative login option
 	 *
 	 * It is allowed to register more than one option per app.
