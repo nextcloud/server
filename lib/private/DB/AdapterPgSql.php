@@ -26,16 +26,12 @@ class AdapterPgSql extends Adapter {
 		return $statement;
 	}
 
+	/**
+	 * "upsert" is only available since PgSQL 9.5, but the generic way
+	 * would leave error logs in the DB.
+	 */
 	#[\Override]
-	public function insertIgnoreConflict(string $table, array $values) : int {
-		// "upsert" is only available since PgSQL 9.5, but the generic way
-		// would leave error logs in the DB.
-		$builder = $this->conn->getQueryBuilder();
-		$builder->insert($table);
-		foreach ($values as $key => $value) {
-			$builder->setValue($key, $builder->createNamedParameter($value));
-		}
-		$queryString = $builder->getSQL() . ' ON CONFLICT DO NOTHING';
-		return $this->conn->executeStatement($queryString, $builder->getParameters(), $builder->getParameterTypes());
+	public function getInsertIgnoreConflictSql(string $sql): string {
+		return $sql . ' ON CONFLICT DO NOTHING';
 	}
 }

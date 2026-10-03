@@ -1449,4 +1449,108 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->queryBuilder->executeQuery();
 	}
+
+	public function testIgnoreConflictsOnInsertSql(): void {
+		$this->queryBuilder->insert('appconfig')
+			->setValue('appid', $this->queryBuilder->createNamedParameter('testIgnoreConflicts'))
+			->setValue('configkey', $this->queryBuilder->createNamedParameter('testing'));
+		$this->queryBuilder->ignoreConflictsOnInsert();
+
+		$sql = $this->queryBuilder->getSQL();
+		match ($this->connection->getDatabaseProvider()) {
+			IDBConnection::PLATFORM_MYSQL,
+			IDBConnection::PLATFORM_MARIADB => $this->assertStringStartsWith('INSERT IGNORE INTO', $sql),
+			IDBConnection::PLATFORM_POSTGRES,
+			IDBConnection::PLATFORM_SQLITE => $this->assertStringEndsWith('ON CONFLICT DO NOTHING', $sql),
+			default => $this->assertStringStartsWith('INSERT INTO', $sql),
+		};
+	}
+
+	public function testIgnoreConflictsOnInsertExecution(): void {
+		$buildInsert = function (IQueryBuilder $qb): void {
+			$qb->insert('*PREFIX*appconfig')
+				->values([
+					'appid' => $qb->createNamedParameter('testIgnoreConflicts'),
+					'configkey' => $qb->createNamedParameter('testing'),
+					'configvalue' => $qb->createNamedParameter('42'),
+				])
+				->ignoreConflictsOnInsert();
+		};
+
+		$qb = $this->connection->getQueryBuilder();
+		$buildInsert($qb);
+		$this->assertSame(1, $qb->executeStatement());
+
+		$qb = $this->connection->getQueryBuilder();
+		$buildInsert($qb);
+		$this->assertSame(0, $qb->executeStatement());
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->delete('*PREFIX*appconfig')
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter('testIgnoreConflicts')))
+			->executeStatement();
+	}
+
+	public function testIgnoreConflictsOnInsertOnSelect(): void {
+		$this->queryBuilder->select('*')->from('appconfig');
+		$this->expectException(\LogicException::class);
+		$this->queryBuilder->ignoreConflictsOnInsert();
+	}
+
+	private function prepareInsertThrowing(\OCP\DB\Exception $exception): void {
+		$this->queryBuilder->insert('appconfig')
+			->setValue('appid', $this->queryBuilder->createNamedParameter('testIgnoreConflicts'));
+
+		$connection = $this->createMock(ConnectionAdapter::class);
+		$connection->method('executeStatement')
+			->willThrowException($exception);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$connection]);
+	}
+
+	public function testIgnoreConflictsOnInsertCatchesUniqueViolation(): void {
+		$this->prepareInsertThrowing(new class extends \OCP\DB\Exception {
+			#[\Override]
+			public function getReason(): ?int {
+				return self::REASON_UNIQUE_CONSTRAINT_VIOLATION;
+			}
+		});
+		$this->queryBuilder->ignoreConflictsOnInsert();
+
+		$this->assertSame(0, $this->queryBuilder->executeStatement());
+	}
+
+	public function testIgnoreConflictsOnInsertRethrowsOtherErrors(): void {
+		$exception = new class extends \OCP\DB\Exception {
+			#[\Override]
+			public function getReason(): ?int {
+				return self::REASON_DEADLOCK;
+			}
+		};
+		$this->prepareInsertThrowing($exception);
+		$this->queryBuilder->ignoreConflictsOnInsert();
+
+		try {
+			$this->queryBuilder->executeStatement();
+			$this->fail('Expected the exception to be rethrown');
+		} catch (\OCP\DB\Exception $e) {
+			$this->assertSame($exception, $e);
+		}
+	}
+
+	public function testUniqueViolationNotCaughtWithoutFlag(): void {
+		$exception = new class extends \OCP\DB\Exception {
+			#[\Override]
+			public function getReason(): ?int {
+				return self::REASON_UNIQUE_CONSTRAINT_VIOLATION;
+			}
+		};
+		$this->prepareInsertThrowing($exception);
+
+		try {
+			$this->queryBuilder->executeStatement();
+			$this->fail('Expected the exception to be rethrown');
+		} catch (\OCP\DB\Exception $e) {
+			$this->assertSame($exception, $e);
+		}
+	}
 }
