@@ -82,8 +82,7 @@ async function completeSetup(page: Page, setupPage: SetupPage, mode: Recommended
 	await expect(setupPage.installRecommendedButton()).toBeVisible()
 
 	if (mode === 'skip') {
-		await setupPage.skipButton().click()
-		await page.goto('apps/files/')
+		await setupPage.skipRecommendedApps()
 		await expect(page.locator('[data-cy-files-content]')).toBeVisible()
 		return
 	}
@@ -131,6 +130,44 @@ test.describe('Nextcloud installation wizard', { tag: '@setup' }, () => {
 
 			await setupPage.selectDatabase('SQLite')
 			await completeSetup(page, setupPage, 'install-failure')
+		})
+
+		test('can retry or skip when loading recommended apps fails', async ({ page, setupPage }) => {
+			let appListRequests = 0
+			await page.route(/\/apps\/appstore\/api\/v1\/apps(\?.*)?$/, async (route) => {
+				appListRequests++
+
+				if (appListRequests === 1) {
+					await route.fulfill({ status: 503 })
+					return
+				}
+
+				await route.fulfill({ json: APPSTORE_APPS })
+			})
+			await setupPage.open()
+
+			await setupPage.selectDatabase('SQLite')
+			const admin = randomAdmin()
+			await setupPage.install(admin, admin)
+
+			// A failed initial listing must leave a usable escape hatch, without
+			// exposing the install action for an unavailable app list.
+			await expect(setupPage.recommendedAppsLoadError()).toBeVisible()
+			await expect(setupPage.retryRecommendedAppsButton()).toBeVisible()
+			await expect(setupPage.skipButton()).toBeVisible()
+			await expect(setupPage.installRecommendedButton()).toBeHidden()
+
+			// Retry requests the listing again and restores the normal install UI.
+			await setupPage.retryRecommendedAppsButton().click()
+			await expect(setupPage.recommendedAppsLoadError()).toBeHidden()
+			await expect(setupPage.retryRecommendedAppsButton()).toBeHidden()
+			await expect(setupPage.installRecommendedButton()).toBeVisible()
+			await expect.poll(() => appListRequests).toBe(2)
+
+			// Skip must navigate to the default page rather than leave the user
+			// stranded on the setup screen.
+			await setupPage.skipRecommendedApps()
+			await expect(page.locator('[data-cy-files-content]')).toBeVisible()
 		})
 	})
 
