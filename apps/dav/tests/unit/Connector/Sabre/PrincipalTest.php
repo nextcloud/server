@@ -909,6 +909,61 @@ class PrincipalTest extends TestCase {
 		];
 	}
 
+	/**
+	 * Without a user session there is no sharer whose group membership could
+	 * restrict the result, so resolution has to proceed unrestricted instead of
+	 * failing outright. This is the iMIP scheduling-reply case: an external
+	 * attendee answering an invitation is never logged in, so bailing out here
+	 * made every such reply fail with "3.7;Could not find principal".
+	 */
+	public function testFindByUriWithGroupRestrictionAndNoSession(): void {
+		$this->shareManager->expects($this->once())
+			->method('shareApiEnabled')
+			->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->willReturn(true);
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn(null);
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->willReturn('user2');
+
+		$this->userManager->expects($this->once())
+			->method('getByEmail')
+			->with('user2@foo.bar')
+			->willReturn([$user2]);
+
+		// No session means no group set to intersect against, so membership
+		// must not be consulted at all.
+		$this->groupManager->expects($this->never())
+			->method('getUserGroupIds');
+
+		$this->assertEquals(
+			'principals/users/user2',
+			$this->connector->findByUri('mailto:user2@foo.bar', 'principals/users')
+		);
+	}
+
+	/**
+	 * Regression guard for the outer gate: when the sharing API is disabled
+	 * entirely the method must still return null, and must do so before it
+	 * looks at the session at all.
+	 */
+	public function testFindByUriSharingApiDisabledDoesNotConsultSession(): void {
+		$this->shareManager->expects($this->once())
+			->method('shareApiEnabled')
+			->willReturn(false);
+
+		$this->userSession->expects($this->never())
+			->method('getUser');
+
+		$this->assertNull($this->connector->findByUri('mailto:user2@foo.bar', 'principals/users'));
+	}
+
 	public function testGetEmailAddressesOfPrincipal(): void {
 		$principal = [
 			'{http://sabredav.org/ns}email-address' => 'bar@company.org',
