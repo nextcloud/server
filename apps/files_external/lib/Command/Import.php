@@ -40,23 +40,49 @@ class Import extends Base {
 	protected function configure(): void {
 		$this
 			->setName('files_external:import')
-			->setDescription('Import mount configurations')
+			->setDescription('Import external storage mounts from JSON')
 			->addOption(
 				'user',
 				'',
 				InputOption::VALUE_OPTIONAL,
-				'user to add the mount configurations for, if not set the mount will be added as system mount'
+				'user ID for which to create personal mounts; omit to create global mounts'
 			)
 			->addArgument(
 				'path',
 				InputArgument::REQUIRED,
-				'path to a json file containing the mounts to import, use "-" to read from stdin'
+				'JSON file containing exported mount configurations; use "-" to read from stdin'
 			)
 			->addOption(
 				'dry',
 				'',
 				InputOption::VALUE_NONE,
-				'Don\'t save the imported mounts, only list the new mounts'
+				'parse and display the mounts without saving them'
+			)->setHelp(<<<'HELP'
+Creates external storage mounts from JSON input.
+
+The input may be:
+  - JSON produced by files_external:export or files_external:list
+  - the legacy mount.json external-storage format
+
+Input may be read from a file or from standard input by using "-". Existing
+mounts are not updated or replaced. Duplicate mounts cause the command to
+fail, and successfully imported mounts receive new mount IDs.
+
+Without --user, mounts are created as global mounts. With --user, all
+imported mounts are created as personal mounts for that user; the user's
+applicability is forced even if the input contains different applicability
+information.
+
+Use --dry to parse, check, and display the mounts without saving them.
+Imported JSON may contain passwords, keys, or tokens. Protect the input and
+any command output accordingly.
+
+Examples:
+  occ files_external:import mounts.json
+  occ files_external:import --user alice alice-mounts.json
+  occ files_external:import --dry mounts.json
+  cat mounts.json | occ files_external:import -
+HELP
 			);
 		parent::configure();
 	}
