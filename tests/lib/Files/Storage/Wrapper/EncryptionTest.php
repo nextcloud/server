@@ -1265,6 +1265,66 @@ class EncryptionTest extends Storage {
 		];
 	}
 
+	private function copyDirectoryAfterKeyCopyFailure(array|false $sourceCacheEntry, ?string $mountPoint): bool {
+		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$sourceCache = $this->createMock(ICache::class);
+		$sourceStorage->method('instanceOfStorage')
+			->with(\OC\Files\Storage\Common::class)
+			->willReturn(true);
+		$sourceStorage->method('getMountOption')
+			->with('mount_point')
+			->willReturn($mountPoint);
+		$sourceStorage->method('getId')->willReturn('source-storage');
+		$sourceStorage->method('getCache')->willReturn($sourceCache);
+		$sourceCache->method('get')->with('source')->willReturn($sourceCacheEntry);
+		$sourceStorage->method('is_dir')->with('source')->willReturn(true);
+		$sourceStorage->method('opendir')->with('source')->willReturn(false);
+
+		$instance = $this->getInstanceWithMockedMethods(['copyKeys']);
+		if ($mountPoint !== null) {
+			$instance->expects($this->once())
+				->method('copyKeys')
+				->with($mountPoint . '/source', '/target')
+				->willReturn(false);
+		} else {
+			$instance->expects($this->never())->method('copyKeys');
+		}
+
+		return self::invokePrivate($instance, 'copyBetweenStorage', [
+			$sourceStorage,
+			'source',
+			'target',
+			false,
+			false,
+		]);
+	}
+
+	public function testCopyWarnsWhenEncryptedSourceKeyReuseFails(): void {
+		$this->logger->expects($this->once())
+			->method('warning')
+			->with(
+				'Could not reuse encryption keys for encrypted source; copied versions may be unreadable',
+				$this->callback(static fn (array $context): bool =>
+					$context['reason'] === 'source key directory is missing or key copy failed'
+					&& $context['sourceStorageId'] === 'source-storage'
+					&& $context['sourceInternalPath'] === 'source'
+					&& $context['targetPath'] === '/target'
+				),
+			);
+
+		$this->assertFalse(
+			$this->copyDirectoryAfterKeyCopyFailure(['encrypted' => true], '/source-mount')
+		);
+	}
+
+	public function testCopyDoesNotWarnWhenPlaintextSourceKeyReuseFails(): void {
+		$this->logger->expects($this->never())->method('warning');
+
+		$this->assertFalse(
+			$this->copyDirectoryAfterKeyCopyFailure(['encrypted' => false], '/source-mount')
+		);
+	}
+
 	/**
 	 * @param string $path
 	 * @param bool $expected
