@@ -135,6 +135,7 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Umožňuje prihlásenie pomocou atribútu e-mailu. Povolené sú 'mail' a 'mailPrimaryAddress'.",
     "LDAP/AD Email Address:" : "LDAP/AD emailová adresa:",
     "Other Attributes:" : "Iné atribúty:",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "Definuje filter, ktorý sa použije pri pokuse o prihlásenie. `%uid` nahradí používateľské meno v akcii prihlásenia. Príklad: `uid=%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Pokusy o získanie DN pre dané prihlasovacie meno a aktuálny filter prihlásenia",
     "Test Login name" : "Testovacie prihlasovacie meno",
     "Verify settings" : "Overiť nastavenia",

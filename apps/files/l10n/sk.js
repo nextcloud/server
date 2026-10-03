@@ -258,6 +258,7 @@ OC.L10N.register(
     "Switch to list view" : "Prepnúť na zobrazenie v zozname",
     "Switch to grid view" : "Prepnúť na zobrazenie v mriežke",
     "The file could not be found" : "Súbor nebol nájdený",
+    "Could not upload \"{name}\"" : "Nie je možné nahrať „{name}“",
     "File list is reloading" : "Zoznam súborov sa znova načítava",
     "Loading current folder" : "Načítavanie súčasného priečinka",
     "Retry" : "Zopakovať",

@@ -256,6 +256,7 @@
     "Switch to list view" : "Passer à la vue en liste",
     "Switch to grid view" : "Basculer en vue en grille",
     "The file could not be found" : "Le fichier n'a pas pu être trouvé",
+    "Could not upload \"{name}\"" : "Impossible de téléverser « {name} »",
     "File list is reloading" : "La liste des fichiers est en cours de rechargement",
     "Loading current folder" : "Chargement du dossier courant",
     "Retry" : "Réessayer",

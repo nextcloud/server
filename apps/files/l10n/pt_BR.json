@@ -256,6 +256,7 @@
     "Switch to list view" : "Alternar para a visualização de lista",
     "Switch to grid view" : "Alternar para a visualização em grade",
     "The file could not be found" : "Não foi possível encontrar o arquivo",
+    "Could not upload \"{name}\"" : "Não foi possível carregar “{name}”",
     "File list is reloading" : "A lista de arquivos está recarregando",
     "Loading current folder" : "Carregando a pasta atual",
     "Retry" : "Tentar novamente",
