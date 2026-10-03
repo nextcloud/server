@@ -12,6 +12,7 @@ import FilesAppSettingsAppearance from '../components/FilesAppSettings/FilesAppS
 import FilesAppSettingsGeneral from '../components/FilesAppSettings/FilesAppSettingsGeneral.vue'
 import FilesAppSettingsLegacyApi from '../components/FilesAppSettings/FilesAppSettingsLegacyApi.vue'
 import FilesAppSettingsShortcuts from '../components/FilesAppSettings/FilesAppSettingsShortcuts.vue'
+import FilesAppSettingsTemplates from '../components/FilesAppSettings/FilesAppSettingsTemplates.vue'
 import FilesAppSettingsWarnings from '../components/FilesAppSettings/FilesAppSettingsWarnings.vue'
 import FilesAppSettingsWebDav from '../components/FilesAppSettings/FilesAppSettingsWebDav.vue'
 
@@ -54,6 +55,7 @@ async function showKeyboardShortcuts() {
 		@update:open="emit('close')">
 		<FilesAppSettingsGeneral />
 		<FilesAppSettingsAppearance />
+		<FilesAppSettingsTemplates />
 		<FilesAppSettingsLegacyApi />
 		<FilesAppSettingsWarnings />
 		<FilesAppSettingsWebDav />
