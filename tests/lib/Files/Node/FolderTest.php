@@ -41,6 +41,7 @@ use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Storage\IStorage;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\Traits\UserTrait;
 
 /**
  * Class FolderTest
