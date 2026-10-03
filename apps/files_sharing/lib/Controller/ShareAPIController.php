@@ -840,20 +840,18 @@ class ShareAPIController extends OCSController {
 		$roomShares = $this->shareManager->getSharedWith($this->userId, IShare::TYPE_ROOM, $node, -1, 0);
 		$deckShares = $this->shareManager->getSharedWith($this->userId, IShare::TYPE_DECK, $node, -1, 0);
 
-		$shares = array_merge($userShares, $groupShares, $circleShares, $roomShares, $deckShares);
-
-		$filteredShares = array_filter($shares, function (IShare $share) {
-			return $share->getShareOwner() !== $this->userId && $share->getSharedBy() !== $this->userId;
-		});
-
 		$formatted = [];
-		foreach ($filteredShares as $share) {
-			if ($this->canAccessShare($share)) {
-				try {
-					$formatted[] = $this->formatShare($share);
-				} catch (NotFoundException $e) {
-					// Ignore this share
-				}
+		foreach (array_merge($userShares, $groupShares, $circleShares, $roomShares, $deckShares) as $share) {
+			if ($share->getShareOwner() === $this->userId || $share->getSharedBy() === $this->userId) {
+				continue;
+			}
+			if (!$this->canAccessShare($share)) {
+				continue;
+			}
+			try {
+				$formatted[] = $this->formatShare($share);
+			} catch (NotFoundException $e) {
+				// Ignore this share
 			}
 		}
 
