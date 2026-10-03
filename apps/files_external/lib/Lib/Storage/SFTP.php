@@ -20,16 +20,19 @@ use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Server;
 use phpseclib3\Net\SFTP\Stream;
+use Psr\Log\LoggerInterface;
 
 /**
  * Uses phpseclib's Net\SFTP class and the Net\SFTP\Stream stream wrapper to
  * provide access to SFTP servers.
  */
 class SFTP extends Common {
+	private const DEFAULT_PORT = 22;
+
 	private $host;
 	private $user;
 	private $root;
-	private $port = 22;
+	private $port = self::DEFAULT_PORT;
 
 	private $auth = [];
 
@@ -58,9 +61,9 @@ class SFTP extends Common {
 		if (is_array($parsed) && isset($parsed['port'])) {
 			return [$parsed['host'], $parsed['port']];
 		} elseif (is_array($parsed)) {
-			return [$parsed['host'], 22];
+			return [$parsed['host'], self::DEFAULT_PORT];
 		} else {
-			return [$input, 22];
+			return [$input, self::DEFAULT_PORT];
 		}
 	}
 
@@ -78,10 +81,15 @@ class SFTP extends Common {
 		$parsedHost = $this->splitHost($parameters['host']);
 		$this->host = $parsedHost[0];
 
-		// Handle empty port parameter to allow host-defined ports
-		// and ensure strictly numeric ports
-		$parsedPort = $parameters['port'] ?? null;
-		$this->port = (int)(is_numeric($parsedPort) ? $parsedPort : $parsedHost[1]);
+		// The port field holds whatever the administrator typed, so only accept a
+		// valid TCP port and otherwise keep the port from the host field. Leading
+		// zeros are stripped so that "0022" keeps working.
+		$configuredPort = trim((string)($parameters['port'] ?? ''));
+		$port = filter_var(ltrim($configuredPort, '0'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 65535]]);
+		if ($port === false && $configuredPort !== '') {
+			Server::get(LoggerInterface::class)->warning('Ignoring invalid port configured for SFTP storage, falling back to the port from the host field', ['port' => $configuredPort, 'fallback' => $parsedHost[1]]);
+		}
+		$this->port = $port ?: $parsedHost[1];
 
 		if (!isset($parameters['user'])) {
 			throw new \UnexpectedValueException('no authentication parameters specified');
