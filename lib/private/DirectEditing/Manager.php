@@ -14,6 +14,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DirectEditing\ACreateFromTemplate;
+use OCP\DirectEditing\ATemplate;
 use OCP\DirectEditing\IEditor;
 use OCP\DirectEditing\IManager;
 use OCP\DirectEditing\IToken;
@@ -88,6 +89,10 @@ class Manager implements IManager {
 				}
 
 				$templates = array_map(function ($template) use ($creator) {
+					if ($template instanceof ATemplate) {
+						$template = $template->jsonSerialize();
+					}
+
 					$template['extension'] = $creator->getExtension();
 					$template['mimetype'] = $creator->getMimetype();
 					return $template;
