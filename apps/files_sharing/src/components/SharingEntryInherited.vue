@@ -21,18 +21,19 @@
 			v-if="share.viaPath && share.viaFileid"
 			icon="icon-folder"
 			:href="viaFileTargetUrl">
-			{{ t('files_sharing', 'Via “{folder}”', { folder: viaFolderName }) }}
+			{{ t('files_sharing', 'Via "{folder}"', { folder: viaFolderName }) }}
 		</NcActionLink>
 		<NcActionButton
 			v-if="share.canDelete"
 			icon="icon-close"
 			@click.prevent="onDelete">
-			{{ t('files_sharing', 'Unshare') }}
+			{{ unshareLabel }}
 		</NcActionButton>
 	</SharingEntrySimple>
 </template>
 
 <script>
+import { t } from '@nextcloud/l10n'
 import { basename } from '@nextcloud/paths'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
@@ -70,6 +71,13 @@ export default {
 
 		viaFolderName() {
 			return basename(this.share.viaPath)
+		},
+
+		unshareLabel() {
+			if (this.viaFolderName) {
+				return t('files_sharing', 'Unshare "{folder}"', { folder: this.viaFolderName })
+			}
+			return t('files_sharing', 'Unshare')
 		},
 	},
 }
