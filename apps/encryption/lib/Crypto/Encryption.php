@@ -334,16 +334,33 @@ class Encryption implements IEncryptionModule {
 	}
 
 	/**
-	 * update encrypted file, e.g. give additional users access to the file
+	 * {@inheritdoc}
 	 *
-	 * @param string $path path to the file which should be updated
-	 * @param string $uid ignored
-	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
-	 * @return bool
+	 * Update the file's encrypted file keys for recipients represented by the
+	 * access list, including applicable system-key recipients. This updates key
+	 * material; it does not re-encrypt the file contents.
+	 *
+	 * An empty access-list array skips file-key updates. If a file-cache version
+	 * is remembered, this attempts to apply it before returning false.
+	 *
+	 * @param string $path File path relative to the data directory
+	 * @param string $uid Unused; retained for the encryption-module interface
+	 * @param array $accessList Access-list data, including `users` and `public`
+	 * @return bool True if a file key was found and replacement keys were stored
+	 *              for recipients whose public keys are available; false if the
+	 *              access-list array is empty or no file key was found
+	 * @throws PublicKeyMissingException If the owner's public key or a required
+	 *                                   system public key is unavailable
+	 * @throws MultiKeyEncryptException If file-key encryption fails, existing
+	 *                                  keys cannot be deleted, or replacement
+	 *                                  keys cannot be stored
+	 * @psalm-suppress UnusedParam $uid is unused; retained for the interface
 	 */
 	#[\Override]
 	public function update($path, $uid, array $accessList) {
 		if (empty($accessList)) {
+			// A partial-file write may have deferred saving its version until
+			// this update hook. Apply it even though there are no keys to rebuild.
 			if (isset(self::$rememberVersion[$path])) {
 				$this->keyManager->setVersion($path, self::$rememberVersion[$path], new View());
 				unset(self::$rememberVersion[$path]);
@@ -353,34 +370,61 @@ class Encryption implements IEncryptionModule {
 
 		$fileKey = $this->keyManager->getFileKey($path, null);
 
-		if (!empty($fileKey)) {
-			$publicKeys = [];
-			if ($this->useMasterPassword === true) {
-				$publicKeys[$this->keyManager->getMasterKeyId()] = $this->keyManager->getPublicMasterKey();
-			} else {
-				foreach ($accessList['users'] as $user) {
-					try {
-						$publicKeys[$user] = $this->keyManager->getPublicKey($user);
-					} catch (PublicKeyMissingException $e) {
-						$this->logger->warning('Could not encrypt file for ' . $user . ': ' . $e->getMessage());
+		if (empty($fileKey)) {
+			$this->logger->debug(
+				'No encryption file key found; skipping the key update for "{path}". The file may be unencrypted.',
+				['app' => 'encryption', 'path' => $path]
+			);
+			return false;
+		}
+
+		$publicKeys = [];
+		$owner = $this->getOwner($path);
+		if ($this->useMasterPassword === true) {
+			$publicKeys[$this->keyManager->getMasterKeyId()] = $this->keyManager->getPublicMasterKey();
+		} else {
+			foreach ($accessList['users'] as $user) {
+				try {
+					$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+				} catch (PublicKeyMissingException $e) {
+					// Keep updating for recipients whose public keys are available.
+					$this->logger->warning(
+						'Could not create an updated share key for recipient "{uid}" because their public key is unavailable.',
+						['app' => 'encryption', 'uid' => $user, 'path' => $path, 'exception' => $e]
+					);
+					// if the public key of the owner is missing we should fail.
+					if ($user === $owner) {
+						throw $e;
 					}
 				}
 			}
+		}
 
-			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $this->getOwner($path));
+		$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $owner);
+		$shareKeys = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
 
-			$shareKeys = $this->crypt->multiKeyEncrypt($fileKey, $publicKeys);
+		// Remove stale keys before installing the current recipient set.
+		// If deletion fails, don't continue with a potentially inconsistent set.
+		// TODO: This should really be atomic and/or support rollback.
+		if (!$this->keyManager->deleteAllFileKeys($path)) {
+			throw new MultiKeyEncryptException(
+				'Could not remove existing encryption keys for file "' . $path . '".'
+			);
+		}
 
-			$this->keyManager->deleteAllFileKeys($path);
-
-			foreach ($shareKeys as $uid => $keyFile) {
-				$this->keyManager->setShareKey($path, $uid, $keyFile);
+		$failedRecipients = [];
+		foreach ($shareKeys as $uid => $keyFile) {
+			// Check each write: storage doesn't replace the full key set atomically,
+			// so earlier recipient keys may already be stored if a later write fails.
+			if (!$this->keyManager->setShareKey($path, $uid, $keyFile)) {
+				$failedRecipients[] = $uid;
 			}
-		} else {
-			$this->logger->debug('no file key found, we assume that the file "{file}" is not encrypted',
-				['file' => $path, 'app' => 'encryption']);
+		}
 
-			return false;
+		if ($failedRecipients !== []) {
+			throw new MultiKeyEncryptException(
+				'Could not store updated share keys for file "' . $path . '" for recipients: ' . implode(', ', $failedRecipients)
+			);
 		}
 
 		return true;
