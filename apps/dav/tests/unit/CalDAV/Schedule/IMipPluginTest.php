@@ -108,6 +108,10 @@ class IMipPluginTest extends TestCase {
 		// the actual pairing/diff algorithm instead of re-describing its outcome
 		// per test. eventInstances() stays mocked per test below, since it reads
 		// a VCalendar's children and these fixtures build VEvents standalone.
+		// buildRequestEmail()/buildReplyEmail()/buildCancellationEmail() own the
+		// full content-building sequence internally now (see IMipServiceTest for
+		// coverage of that sequencing); these tests only verify schedule() calls
+		// the right one with the right arguments.
 		$l10nFactory = $this->createMock(L10NFactory::class);
 		$l10nFactory->method('findGenericLanguage')->willReturn('en');
 		$l10nFactory->method('findLocale')->willReturn('en_US');
@@ -121,6 +125,7 @@ class IMipPluginTest extends TestCase {
 			$this->createMock(IUserManager::class),
 			$this->createMock(IUserConfig::class),
 			$this->createMock(IAppConfig::class),
+			$this->createMock(IMailer::class),
 		);
 		$this->service->method('instanceKey')
 			->willReturnCallback(fn (VEvent $event) => $realImipService->instanceKey($event));
@@ -201,10 +206,6 @@ class IMipPluginTest extends TestCase {
 		$oldVEvent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
 		$oldVEvent->add('ATTENDEE', 'mailto:' . 'boromir@tra.it.or', ['RSVP' => 'TRUE']);
 		$oldVCalendar->add($oldVEvent);
-		$data = ['invitee_name' => 'Mr. Wizard',
-			'meeting_title' => 'Fellowship meeting without (!) Boromir',
-			'attendee_name' => 'frodo@hobb.it'
-		];
 		$attendees = $newVevent->select('ATTENDEE');
 		$atnd = '';
 		foreach ($attendees as $attendee) {
@@ -240,10 +241,6 @@ class IMipPluginTest extends TestCase {
 			->method('isCircle')
 			->with($atnd)
 			->willReturn(false);
-		$this->service->expects(self::once())
-			->method('buildBodyData')
-			->with($newVevent, $oldVEvent)
-			->willReturn($data);
 		$this->user->expects(self::any())
 			->method('getUID')
 			->willReturn('user1');
@@ -259,28 +256,9 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
-			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', true);
-		$this->service->expects(self::once())
-			->method('addBulletList')
-			->with($this->emailTemplate, $newVevent, $data);
-		$this->service->expects(self::once())
-			->method('getAttendeeRsvpOrReqForParticipant')
-			->willReturn(true);
-		$this->config->expects(self::once())
-			->method('getValueString')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
-		$this->service->expects(self::once())
-			->method('createInvitationToken')
-			->with($message, $newVevent, 1496912700)
-			->willReturn('token');
-		$this->service->expects(self::once())
-			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
-			->with($this->emailTemplate, 'token');
+			->method('buildRequestEmail')
+			->with($message, $newVevent, $oldVEvent, $atnd, 'frodo@hobb.it', null, 'gandalf@wiz.ard', 'Mr. Wizard', 1496912700)
+			->willReturn($this->emailTemplate);
 		$this->mailer->expects(self::once())
 			->method('send')
 			->willReturn([]);
@@ -316,10 +294,6 @@ class IMipPluginTest extends TestCase {
 		$oldVEvent->add('ATTENDEE', 'mailto:' . 'the-shire@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'The Shire', 'CUTYPE' => 'ROOM']);
 		$oldVEvent->add('ATTENDEE', 'mailto:' . 'boromir@tra.it.or', ['RSVP' => 'TRUE']);
 		$oldVCalendar->add($oldVEvent);
-		$data = ['invitee_name' => 'Mr. Wizard',
-			'meeting_title' => 'Fellowship meeting without (!) Boromir',
-			'attendee_name' => 'frodo@hobb.it'
-		];
 		$attendees = $newVevent->select('ATTENDEE');
 		$room = '';
 		foreach ($attendees as $attendee) {
@@ -351,8 +325,6 @@ class IMipPluginTest extends TestCase {
 			->willReturn(true);
 		$this->service->expects(self::never())
 			->method('isCircle');
-		$this->service->expects(self::never())
-			->method('buildBodyData');
 		$this->user->expects(self::any())
 			->method('getUID')
 			->willReturn('user1');
@@ -365,19 +337,11 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::never())
 			->method('getFrom');
 		$this->service->expects(self::never())
-			->method('addSubjectAndHeading');
+			->method('buildRequestEmail');
 		$this->service->expects(self::never())
-			->method('addBulletList');
+			->method('buildReplyEmail');
 		$this->service->expects(self::never())
-			->method('getAttendeeRsvpOrReqForParticipant');
-		$this->config->expects(self::never())
-			->method('getValueString');
-		$this->service->expects(self::never())
-			->method('createInvitationToken');
-		$this->service->expects(self::never())
-			->method('addResponseButtons');
-		$this->service->expects(self::never())
-			->method('addMoreOptionsButton');
+			->method('buildCancellationEmail');
 		$this->mailer->expects(self::never())
 			->method('send');
 		$this->plugin->schedule($message);
@@ -432,8 +396,6 @@ class IMipPluginTest extends TestCase {
 			->method('isCircle')
 			->with($circle)
 			->willReturn(true);
-		$this->service->expects(self::never())
-			->method('buildBodyData');
 		$this->user->expects(self::any())
 			->method('getUID')
 			->willReturn('user1');
@@ -446,19 +408,11 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::never())
 			->method('getFrom');
 		$this->service->expects(self::never())
-			->method('addSubjectAndHeading');
+			->method('buildRequestEmail');
 		$this->service->expects(self::never())
-			->method('addBulletList');
+			->method('buildReplyEmail');
 		$this->service->expects(self::never())
-			->method('getAttendeeRsvpOrReqForParticipant');
-		$this->config->expects(self::never())
-			->method('getValueString');
-		$this->service->expects(self::never())
-			->method('createInvitationToken');
-		$this->service->expects(self::never())
-			->method('addResponseButtons');
-		$this->service->expects(self::never())
-			->method('addMoreOptionsButton');
+			->method('buildCancellationEmail');
 		$this->mailer->expects(self::never())
 			->method('send');
 		$this->plugin->schedule($message);
@@ -503,10 +457,6 @@ class IMipPluginTest extends TestCase {
 		]);
 		$oldVEvent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
 		$oldVEvent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
-		$data = ['invitee_name' => 'Mr. Wizard',
-			'meeting_title' => 'Elevenses',
-			'attendee_name' => 'frodo@hobb.it'
-		];
 		$attendees = $newVevent->select('ATTENDEE');
 		$atnd = '';
 		foreach ($attendees as $attendee) {
@@ -545,10 +495,6 @@ class IMipPluginTest extends TestCase {
 			->method('isCircle')
 			->with($atnd)
 			->willReturn(false);
-		$this->service->expects(self::once())
-			->method('buildBodyData')
-			->with($newvEvent2, null)
-			->willReturn($data);
 		$this->user->expects(self::any())
 			->method('getUID')
 			->willReturn('user1');
@@ -564,28 +510,9 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
-			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Elevenses', false);
-		$this->service->expects(self::once())
-			->method('addBulletList')
-			->with($this->emailTemplate, $newvEvent2, $data);
-		$this->service->expects(self::once())
-			->method('getAttendeeRsvpOrReqForParticipant')
-			->willReturn(true);
-		$this->config->expects(self::once())
-			->method('getValueString')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
-		$this->service->expects(self::once())
-			->method('createInvitationToken')
-			->with($message, $newvEvent2, 1496912700)
-			->willReturn('token');
-		$this->service->expects(self::once())
-			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
-			->with($this->emailTemplate, 'token');
+			->method('buildRequestEmail')
+			->with($message, $newvEvent2, null, $atnd, 'frodo@hobb.it', null, 'gandalf@wiz.ard', 'Mr. Wizard', 1496912700)
+			->willReturn($this->emailTemplate);
 		$this->mailer->expects(self::once())
 			->method('send')
 			->willReturn([]);
@@ -626,10 +553,6 @@ class IMipPluginTest extends TestCase {
 		$message->sender = 'mailto:gandalf@wiz.ard';
 		$message->senderName = 'Mr. Wizard';
 		$message->recipient = 'mailto:' . 'frodo@hobb.it';
-		$data = ['invitee_name' => 'Mr. Wizard',
-			'meeting_title' => 'Fellowship meeting',
-			'attendee_name' => 'frodo@hobb.it'
-		];
 		$attendees = $masterVevent->select('ATTENDEE');
 		$atnd = '';
 		foreach ($attendees as $attendee) {
@@ -666,10 +589,6 @@ class IMipPluginTest extends TestCase {
 			->method('isCircle')
 			->with($atnd)
 			->willReturn(false);
-		$this->service->expects(self::once())
-			->method('buildBodyData')
-			->with($masterVevent, null)
-			->willReturn($data);
 		$this->user->expects(self::any())
 			->method('getUID')
 			->willReturn('user1');
@@ -685,28 +604,9 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
-			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', false);
-		$this->service->expects(self::once())
-			->method('addBulletList')
-			->with($this->emailTemplate, $masterVevent, $data);
-		$this->service->expects(self::once())
-			->method('getAttendeeRsvpOrReqForParticipant')
-			->willReturn(true);
-		$this->config->expects(self::once())
-			->method('getValueString')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
-		$this->service->expects(self::once())
-			->method('createInvitationToken')
-			->with($message, $masterVevent, 1496912700)
-			->willReturn('token');
-		$this->service->expects(self::once())
-			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
-			->with($this->emailTemplate, 'token');
+			->method('buildRequestEmail')
+			->with($message, $masterVevent, null, $atnd, 'frodo@hobb.it', null, 'gandalf@wiz.ard', 'Mr. Wizard', 1496912700)
+			->willReturn($this->emailTemplate);
 		$this->mailer->expects(self::once())
 			->method('send')
 			->willReturn([]);
@@ -739,10 +639,6 @@ class IMipPluginTest extends TestCase {
 		$message->sender = 'mailto:gandalf@wiz.ard';
 		$message->senderName = 'Mr. Wizard';
 		$message->recipient = 'mailto:' . 'boromir@tra.it.or';
-		$data = ['invitee_name' => 'Mr. Wizard',
-			'meeting_title' => 'Fellowship meeting',
-			'attendee_name' => 'boromir@tra.it.or'
-		];
 		$attendees = $newVevent->select('ATTENDEE');
 		$atnd = '';
 		foreach ($attendees as $attendee) {
@@ -775,10 +671,6 @@ class IMipPluginTest extends TestCase {
 			->method('isCircle')
 			->with($atnd)
 			->willReturn(false);
-		$this->service->expects(self::once())
-			->method('buildCancelledBodyData')
-			->with($newVevent)
-			->willReturn($data);
 		$this->user->expects(self::any())
 			->method('getUID')
 			->willReturn('user1');
@@ -794,20 +686,13 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
-			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'cancel', 'Mr. Wizard', 'Fellowship meeting', false);
-		$this->service->expects(self::once())
-			->method('addBulletList')
-			->with($this->emailTemplate, $newVevent, $data);
-		// no RSVP/response-button handling for CANCEL messages
+			->method('buildCancellationEmail')
+			->with($newVevent, 'boromir@tra.it.or', null, 'gandalf@wiz.ard', 'Mr. Wizard')
+			->willReturn($this->emailTemplate);
 		$this->service->expects(self::never())
-			->method('getAttendeeRsvpOrReqForParticipant');
+			->method('buildRequestEmail');
 		$this->service->expects(self::never())
-			->method('createInvitationToken');
-		$this->service->expects(self::never())
-			->method('addResponseButtons');
-		$this->service->expects(self::never())
-			->method('addMoreOptionsButton');
+			->method('buildReplyEmail');
 		$this->mailer->expects(self::once())
 			->method('send')
 			->willReturn([]);
@@ -855,10 +740,6 @@ class IMipPluginTest extends TestCase {
 		$message->sender = 'mailto:gandalf@wiz.ard';
 		$message->senderName = 'Mr. Wizard';
 		$message->recipient = 'mailto:' . 'frodo@hobb.it';
-		$data = ['invitee_name' => 'Mr. Wizard',
-			'meeting_title' => 'Fellowship meeting without (!) Boromir',
-			'attendee_name' => 'frodo@hobb.it'
-		];
 		$attendees = $newVevent->select('ATTENDEE');
 		$atnd = '';
 		foreach ($attendees as $attendee) {
@@ -885,10 +766,6 @@ class IMipPluginTest extends TestCase {
 			->method('isCircle')
 			->with($atnd)
 			->willReturn(false);
-		$this->service->expects(self::once())
-			->method('buildBodyData')
-			->with($newVevent, null)
-			->willReturn($data);
 		$this->user->expects(self::any())
 			->method('getUID')
 			->willReturn('user1');
@@ -904,31 +781,9 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
-			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', false);
-		$this->service->expects(self::once())
-			->method('addBulletList')
-			->with($this->emailTemplate, $newVevent, $data);
-		$this->service->expects(self::once())
-			->method('getAttendeeRsvpOrReqForParticipant')
-			->willReturn(true);
-		$this->config->expects(self::once())
-			->method('getValueString')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
-		$this->service->expects(self::once())
-			->method('createInvitationToken')
-			->with($message, $newVevent, 1496912700)
-			->willReturn('token');
-		$this->service->expects(self::once())
-			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
-			->with($this->emailTemplate, 'token');
-		$this->mailer->expects(self::once())
-			->method('send')
-			->willReturn([]);
+			->method('buildRequestEmail')
+			->with($message, $newVevent, null, $atnd, 'frodo@hobb.it', null, 'gandalf@wiz.ard', 'Mr. Wizard', 1496912700)
+			->willReturn($this->emailTemplate);
 		$this->mailer
 			->method('send')
 			->willThrowException(new \Exception());
@@ -961,16 +816,6 @@ class IMipPluginTest extends TestCase {
 				$attendee = $entry;
 			}
 		}
-		// construct body data return
-		$data = ['invitee_name' => 'Mr. Wizard',
-			'meeting_title' => 'Fellowship meeting without (!) Boromir',
-			'attendee_name' => 'frodo@hobb.it'
-		];
-		// construct system config mock returns
-		$this->config->expects(self::once())
-			->method('getValueString')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
 		// construct user mock returns
 		$this->user->expects(self::any())
 			->method('getUID')
@@ -1005,30 +850,11 @@ class IMipPluginTest extends TestCase {
 			->with($attendee)
 			->willReturn(false);
 		$this->service->expects(self::once())
-			->method('buildBodyData')
-			->with($event, null)
-			->willReturn($data);
-		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
-			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', false);
-		$this->service->expects(self::once())
-			->method('addBulletList')
-			->with($this->emailTemplate, $event, $data);
-		$this->service->expects(self::once())
-			->method('getAttendeeRsvpOrReqForParticipant')
-			->willReturn(true);
-		$this->service->expects(self::once())
-			->method('createInvitationToken')
-			->with($message, $event, 1496912700)
-			->willReturn('token');
-		$this->service->expects(self::once())
-			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
-			->with($this->emailTemplate, 'token');
+			->method('buildRequestEmail')
+			->with($message, $event, null, $attendee, 'frodo@hobb.it', null, 'gandalf@wiz.ard', 'Mr. Wizard', 1496912700)
+			->willReturn($this->emailTemplate);
 		$this->service->expects(self::once())
 			->method('eventInstances')
 			->with($calendar)
@@ -1077,10 +903,6 @@ class IMipPluginTest extends TestCase {
 		$oldVEvent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
 		$oldVEvent->add('ATTENDEE', 'mailto:' . 'boromir@tra.it.or', ['RSVP' => 'TRUE']);
 		$oldVCalendar->add($oldVEvent);
-		$data = ['invitee_name' => 'Mr. Wizard',
-			'meeting_title' => 'Fellowship meeting without (!) Boromir',
-			'attendee_name' => 'frodo@hobb.it'
-		];
 		$attendees = $newVevent->select('ATTENDEE');
 		$atnd = '';
 		foreach ($attendees as $attendee) {
@@ -1110,10 +932,6 @@ class IMipPluginTest extends TestCase {
 			->method('isCircle')
 			->with($atnd)
 			->willReturn(false);
-		$this->service->expects(self::once())
-			->method('buildBodyData')
-			->with($newVevent, $oldVEvent)
-			->willReturn($data);
 		$this->user->expects(self::any())
 			->method('getUID')
 			->willReturn('user1');
@@ -1129,34 +947,15 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
-			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', true);
-		$this->service->expects(self::once())
-			->method('addBulletList')
-			->with($this->emailTemplate, $newVevent, $data);
-		$this->service->expects(self::once())
-			->method('getAttendeeRsvpOrReqForParticipant')
-			->willReturn(true);
-		$this->config->expects(self::once())
-			->method('getValueString')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
+			->method('buildRequestEmail')
+			->with($message, $newVevent, $oldVEvent, $atnd, 'frodo@hobb.it', null, 'gandalf@wiz.ard', 'Mr. Wizard', 1496912700)
+			->willReturn($this->emailTemplate);
 		$this->config->expects(self::exactly(2))
 			->method('getValueBool')
 			->willReturnMap([
 				['dav', 'caldav_external_attendees_disabled', false, false],
 				['core', 'mail_providers_enabled', true, false],
 			]);
-		$this->service->expects(self::once())
-			->method('createInvitationToken')
-			->with($message, $newVevent, 1496912700)
-			->willReturn('token');
-		$this->service->expects(self::once())
-			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
-			->with($this->emailTemplate, 'token');
 		$this->mailer->expects(self::once())
 			->method('send')
 			->willReturn([]);
@@ -1180,10 +979,6 @@ class IMipPluginTest extends TestCase {
 		$message->sender = 'mailto:gandalf@wiz.ard';
 		$message->senderName = 'Mr. Wizard';
 		$message->recipient = 'mailto:' . 'frodo@hobb.it';
-		$data = ['invitee_name' => 'Mr. Wizard',
-			'meeting_title' => 'Fellowship meeting',
-			'attendee_name' => 'frodo@hobb.it'
-		];
 		$attendees = $newVevent->select('ATTENDEE');
 		$atnd = '';
 		foreach ($attendees as $attendee) {
@@ -1216,10 +1011,6 @@ class IMipPluginTest extends TestCase {
 			->method('isCircle')
 			->with($atnd)
 			->willReturn(false);
-		$this->service->expects(self::once())
-			->method('buildBodyData')
-			->with($newVevent, null)
-			->willReturn($data);
 		$this->user->expects(self::any())
 			->method('getUID')
 			->willReturn('user1');
@@ -1235,130 +1026,10 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
-			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', false);
-		$this->service->expects(self::once())
-			->method('addBulletList')
-			->with($this->emailTemplate, $newVevent, $data);
-		$this->service->expects(self::once())
-			->method('getAttendeeRsvpOrReqForParticipant')
-			->willReturn(true);
-		$this->config->expects(self::once())
-			->method('getValueString')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
-		$this->service->expects(self::once())
-			->method('createInvitationToken')
-			->with($message, $newVevent, 1496912700)
-			->willReturn('token');
-		$this->service->expects(self::once())
-			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
-			->with($this->emailTemplate, 'token');
+			->method('buildRequestEmail')
+			->with($message, $newVevent, null, $atnd, 'frodo@hobb.it', null, 'gandalf@wiz.ard', 'Mr. Wizard', 1496912700)
+			->willReturn($this->emailTemplate);
 		$this->mailer->expects(self::once())
-			->method('send')
-			->willReturn([]);
-		$this->mailer
-			->method('send')
-			->willReturn([]);
-		$this->plugin->schedule($message);
-		$this->assertEquals('1.1', $message->getScheduleStatus());
-	}
-
-	public function testNoButtons(): void {
-		$message = new Message();
-		$message->method = 'REQUEST';
-		$newVCalendar = new VCalendar();
-		$newVevent = new VEvent($newVCalendar, 'VEVENT', array_merge([
-			'UID' => 'uid-1234',
-			'SEQUENCE' => 1,
-			'SUMMARY' => 'Fellowship meeting',
-			'DTSTART' => new \DateTime('2016-01-01 00:00:00')
-		], []));
-		$newVevent->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
-		$newVevent->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
-		$message->message = $newVCalendar;
-		$message->sender = 'mailto:gandalf@wiz.ard';
-		$message->recipient = 'mailto:' . 'frodo@hobb.it';
-		$data = ['invitee_name' => 'Mr. Wizard',
-			'meeting_title' => 'Fellowship meeting',
-			'attendee_name' => 'frodo@hobb.it'
-		];
-		$attendees = $newVevent->select('ATTENDEE');
-		$atnd = '';
-		foreach ($attendees as $attendee) {
-			if (strcasecmp($attendee->getValue(), $message->recipient) === 0) {
-				$atnd = $attendee;
-			}
-		}
-		$this->service->expects(self::once())
-			->method('getLastOccurrence')
-			->willReturn(1496912700);
-		$this->config->expects(self::exactly(2))
-			->method('getValueBool')
-			->willReturnMap([
-				['dav', 'caldav_external_attendees_disabled', false, false],
-				['core', 'mail_providers_enabled', true, false],
-			]);
-		$this->service->expects(self::once())
-			->method('eventInstances')
-			->with($newVCalendar)
-			->willReturn([$newVevent]);
-		$this->service->expects(self::once())
-			->method('getCurrentAttendee')
-			->with($message)
-			->willReturn($atnd);
-		$this->service->expects(self::once())
-			->method('isRoomOrResource')
-			->with($atnd)
-			->willReturn(false);
-		$this->service->expects(self::once())
-			->method('isCircle')
-			->with($atnd)
-			->willReturn(false);
-		$this->service->expects(self::once())
-			->method('buildBodyData')
-			->with($newVevent, null)
-			->willReturn($data);
-		$this->user->expects(self::any())
-			->method('getUID')
-			->willReturn('user1');
-		$this->user->expects(self::any())
-			->method('getDisplayName')
-			->willReturn('Mr. Wizard');
-		$this->user->expects(self::any())
-			->method('getEMailAddress')
-			->willReturn('gandalf@wiz.ard');
-		$this->userSession->expects(self::any())
-			->method('getUser')
-			->willReturn($this->user);
-		$this->service->expects(self::once())
-			->method('getFrom');
-		$this->service->expects(self::once())
-			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', false);
-		$this->service->expects(self::once())
-			->method('addBulletList')
-			->with($this->emailTemplate, $newVevent, $data);
-		$this->service->expects(self::once())
-			->method('getAttendeeRsvpOrReqForParticipant')
-			->willReturn(true);
-		$this->config->expects(self::once())
-			->method('getValueString')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('no');
-		$this->service->expects(self::never())
-			->method('createInvitationToken');
-		$this->service->expects(self::never())
-			->method('addResponseButtons');
-		$this->service->expects(self::never())
-			->method('addMoreOptionsButton');
-		$this->mailer->expects(self::once())
-			->method('send')
-			->willReturn([]);
-		$this->mailer
 			->method('send')
 			->willReturn([]);
 		$this->plugin->schedule($message);
@@ -1432,10 +1103,6 @@ class IMipPluginTest extends TestCase {
 		$oldVEvent->add('ATTENDEE', 'mailto:frodo@hobb.it', ['RSVP' => 'TRUE', 'CN' => 'Frodo']);
 		$oldVCalendar->add($oldVEvent);
 
-		$data = ['invitee_name' => 'Mr. Wizard',
-			'meeting_title' => 'Fellowship meeting',
-			'attendee_name' => 'frodo@hobb.it'
-		];
 		$attendees = $newVevent->select('ATTENDEE');
 		$atnd = '';
 		foreach ($attendees as $attendee) {
@@ -1475,10 +1142,6 @@ class IMipPluginTest extends TestCase {
 			->method('isCircle')
 			->with($atnd)
 			->willReturn(false);
-		$this->service->expects(self::once())
-			->method('buildBodyData')
-			->with($newVevent, $oldVEvent)
-			->willReturn($data);
 		$this->user->expects(self::any())
 			->method('getUID')
 			->willReturn('user1');
@@ -1494,28 +1157,9 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getFrom');
 		$this->service->expects(self::once())
-			->method('addSubjectAndHeading')
-			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', true);
-		$this->service->expects(self::once())
-			->method('addBulletList')
-			->with($this->emailTemplate, $newVevent, $data);
-		$this->service->expects(self::once())
-			->method('getAttendeeRsvpOrReqForParticipant')
-			->willReturn(true);
-		$this->config->expects(self::once())
-			->method('getValueString')
-			->with('dav', 'invitation_link_recipients', 'yes')
-			->willReturn('yes');
-		$this->service->expects(self::once())
-			->method('createInvitationToken')
-			->with($message, $newVevent, 1496912700)
-			->willReturn('token');
-		$this->service->expects(self::once())
-			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
-			->with($this->emailTemplate, 'token');
+			->method('buildRequestEmail')
+			->with($message, $newVevent, $oldVEvent, $atnd, 'frodo@hobb.it', null, 'gandalf@wiz.ard', 'Mr. Wizard', 1496912700)
+			->willReturn($this->emailTemplate);
 		$this->mailer->expects(self::once())
 			->method('send')
 			->willReturn([]);
@@ -1585,12 +1229,7 @@ class IMipPluginTest extends TestCase {
 		$this->service->method('getCurrentAttendee')->willReturn($vEvent->select('ATTENDEE')[0]);
 		$this->service->method('isRoomOrResource')->willReturn(false);
 		$this->service->method('isCircle')->willReturn(false);
-		$this->service->method('getAttendeeRsvpOrReqForParticipant')->willReturn(false);
-		$this->service->method('buildBodyData')->willReturn([
-			'meeting_title' => 'Meeting',
-			'invitee_name' => '',
-			'attendee_name' => $recipient,
-		]);
+		$this->service->method('buildRequestEmail')->willReturn($this->emailTemplate);
 		// Mirrors the real IMipService::getFrom() so assertions read like the
 		// actual mail header.
 		$this->service->method('getFrom')
