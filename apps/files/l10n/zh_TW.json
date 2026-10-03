@@ -256,6 +256,7 @@
     "Switch to list view" : "切換至列表檢視",
     "Switch to grid view" : "切換到格狀檢視",
     "The file could not be found" : "找不到檔案",
+    "Could not upload \"{name}\"" : "無法上傳「{name}」",
     "File list is reloading" : "正在重新載入檔案清單",
     "Loading current folder" : "正在載入目前資料夾",
     "Retry" : "重試",

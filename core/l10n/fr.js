@@ -1,6 +1,8 @@
 OC.L10N.register(
     "core",
     {
+    "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n fichier ne correspond pas à la version signée. Il peut avoir été modifié ou ajouté sans autorisation.","%n fichiers ne correspondent pas à la version signée. Ils peuvent avoir été modifiés ou ajoutés sans autorisation.","%n fichiers ne correspondent pas à la version signée. Ils peuvent avoir été modifiés ou ajoutés sans autorisation."],
+    "The code integrity check result has changed" : "Le résultat de la vérification d'intégrité du code a changé",
     "Please select a file." : "Veuillez sélectionner un fichier.",
     "File is too big" : "Le fichier est trop volumineux",
     "The selected file is not an image." : "Le fichier sélectionné n’est pas une image.",
