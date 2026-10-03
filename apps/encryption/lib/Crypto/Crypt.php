@@ -59,6 +59,8 @@ class Crypt {
 	// default encoding format, old Nextcloud versions used base64
 	public const BINARY_ENCODING_FORMAT = 'binary';
 
+	private const MAX_HEADER_LENGTH = 8192;
+
 	private string $user;
 
 	private ?string $currentCipher = null;
@@ -298,13 +300,26 @@ class Crypt {
 	}
 
 	/**
-	 * generate password hash used to encrypt the users private key
+	 * Generate the password hash used to encrypt a private key.
 	 *
-	 * @param string $uid only used for user keys
+	 * @param string $password Password used to generate the hash.
+	 * @param string $cipher Cipher whose key size determines the output length.
+	 * @param string $uid User ID; leave empty for system keys.
+	 * @param int $iterations Number of PBKDF2 iterations.
+	 *
+	 * @return string Raw binary password hash.
+	 * @throws \InvalidArgumentException If the cipher is unsupported.
+	 * @throws \ValueError If the iteration count is less than or equal to zero.
 	 */
-	protected function generatePasswordHash(string $password, string $cipher, string $uid = '', int $iterations = 600000): string {
+	protected function generatePasswordHash(
+		string $password,
+		string $cipher,
+		string $uid = '',
+		int $iterations = 600000,
+	): string {
 		$instanceId = $this->config->getSystemValue('instanceid');
 		$instanceSecret = $this->config->getSystemValue('secret');
+		// This private-key format does not store a separate salt, so derive one from stable values for decryption.
 		$salt = hash('sha256', $uid . $instanceId . $instanceSecret, true);
 		$keySize = $this->getKeySize($cipher);
 
@@ -340,11 +355,20 @@ class Crypt {
 	}
 
 	/**
-	 * @param string $privateKey
-	 * @param string $password
-	 * @param string $uid for regular users, empty for system keys
+	 * Decrypt and validate an encrypted private key.
+	 *
+	 * The key format and cipher are read from the payload header when present;
+	 * headerless keys use the legacy format.
+	 *
+	 * @param string $privateKey Encrypted private-key payload, optionally with a header.
+	 * @param string $password Password or key material used to decrypt the key.
+	 * @param string $uid User ID used to derive the decryption key; empty for system keys.
+	 * @return string|false The decrypted private key, or false if it is not a valid private key.
+	 * @throws DecryptionFailedException If symmetric decryption fails.
+	 * @throws GenericEncryptionException If signature validation fails.
+	 * @throws ServerNotAvailableException If the required legacy cipher is disabled.
 	 */
-	public function decryptPrivateKey($privateKey, $password = '', $uid = '') : string|false {
+	public function decryptPrivateKey(string $privateKey, string $password = '', string $uid = ''): string|false {
 		$header = $this->parseHeader($privateKey);
 
 		if (isset($header['cipher'])) {
@@ -353,10 +377,18 @@ class Crypt {
 			$cipher = $this->getLegacyCipher();
 		}
 
+		if (!isset(self::SUPPORTED_CIPHERS_AND_KEY_SIZE[$cipher])) {
+			throw new DecryptionFailedException('cipher "' . $cipher . '" is not supported');
+		}
+
 		if (isset($header['keyFormat'])) {
 			$keyFormat = $header['keyFormat'];
 		} else {
 			$keyFormat = self::LEGACY_KEY_FORMAT;
+		}
+
+		if (in_array($keyFormat, self::SUPPORTED_KEY_FORMATS, true) === false) {
+			throw new DecryptionFailedException('key format "' . $keyFormat . '" is not supported');
 		}
 
 		if ($keyFormat === 'hash') {
@@ -545,26 +577,52 @@ class Crypt {
 	}
 
 	/**
-	 * @param string $data
-	 * @return array
+	 * Parse the encryption header.
+	 *
+	 * @param string $data Encrypted payload, prefixed with a header (unless legacy).
+	 * @return array<string, string> Header fields, or an empty array if no header is present.
+	 * @throws DecryptionFailedException If a present header is malformed.
 	 */
-	protected function parseHeader($data) {
+	protected function parseHeader(string $data): array {
 		$result = [];
+		$headerStart = strlen(self::HEADER_START);
 
-		if (substr($data, 0, strlen(self::HEADER_START)) === self::HEADER_START) {
-			$endAt = strpos($data, self::HEADER_END);
-			$header = substr($data, 0, $endAt + strlen(self::HEADER_END));
+		// Headerless payloads use the legacy defaults.
+		if (substr($data, 0, $headerStart) !== self::HEADER_START) {
+			return $result;
+		}
 
-			// +1 not to start with an ':' which would result in empty element at the beginning
-			$exploded = explode(':',
-				substr($header, strlen(self::HEADER_START) + 1));
+		if (($data[$headerStart] ?? '') !== ':') {
+			throw new DecryptionFailedException('Malformed encryption header: missing separator');
+		}
 
-			$element = array_shift($exploded);
+		$headerPrefix = substr($data, 0, self::MAX_HEADER_LENGTH);
+		$endAt = strpos($headerPrefix, self::HEADER_END, $headerStart + 1);
 
-			while ($element !== self::HEADER_END) {
-				$result[$element] = array_shift($exploded);
-				$element = array_shift($exploded);
-			}
+		if ($endAt === false) {
+			throw new DecryptionFailedException('Malformed encryption header: missing terminator or header too large');
+		}
+
+		// Skip "HBEGIN:" and include the "HEND" token for validation.
+		$header = substr(
+			$data,
+			$headerStart + 1,
+			$endAt + strlen(self::HEADER_END) - ($headerStart + 1)
+		);
+		$elements = explode(':', $header);
+
+		// Validate the shape: the terminator must be followed by complete, non-empty key/value pairs.
+		if (array_pop($elements) !== self::HEADER_END
+			|| $elements === []
+			|| count($elements) % 2 !== 0
+			|| in_array('', $elements, true)
+		) {
+			throw new DecryptionFailedException('Malformed encryption header: invalid fields');
+		}
+
+		$elementCount = count($elements);
+		for ($i = 0; $i < $elementCount; $i += 2) {
+			$result[$elements[$i]] = $elements[$i + 1];
 		}
 
 		return $result;

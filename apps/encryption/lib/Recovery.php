@@ -17,6 +17,13 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 
+/**
+ * Manages server-side encryption recovery settings and file-key recovery.
+ *
+ * Supports administrator recovery configuration and per-user recovery
+ * opt-ins. Intended for per-user-key mode; recovery keys are not used in
+ * master-key mode.
+ */
 class Recovery {
 	protected ?IUser $user;
 
@@ -158,7 +165,14 @@ class Recovery {
 	}
 
 	/**
-	 * recover users files with the recovery key
+	 * Attempt to restore a user's access to encrypted files.
+	 *
+	 * Uses the recovery private key to re-wrap file encryption keys; file
+	 * contents are not rewritten. If the recovery password cannot decrypt the
+	 * recovery private key, this method processes no files.
+	 *
+	 * @param string $recoveryPassword Password for the recovery private key
+	 * @param string $user User ID whose file access should be restored
 	 */
 	public function recoverUsersFiles(string $recoveryPassword, string $user): void {
 		$encryptedKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
