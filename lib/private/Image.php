@@ -282,7 +282,7 @@ class Image implements IImage {
 				$retVal = imagebmp($this->resource, $filePath);
 				break;
 			case IMAGETYPE_WEBP:
-				$retVal = imagewebp($this->resource, null, $this->getWebpQuality());
+				$retVal = imagewebp($this->resource, $filePath, $this->getWebpQuality());
 				break;
 			case IMAGETYPE_AVIF:
 				$retVal = imageavif($this->resource, $filePath);
