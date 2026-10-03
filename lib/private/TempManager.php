@@ -105,27 +105,30 @@ class TempManager implements ITempManager {
 
 	#[\Override]
 	public function clean(): void {
-		$this->cleanFiles($this->current);
+		$this->current = $this->cleanFiles($this->current);
 	}
 
 	/**
 	 * Remove the specified local temporary files and directories.
 	 *
 	 * Missing paths are ignored. Failures raised while traversing a directory
-	 * are logged and processing continues with the remaining paths. The method
-	 * does not report whether each path was removed successfully.
+	 * are logged and processing continues with the remaining paths.
 	 *
 	 * @param list<string> $files Local filesystem paths
-	 * @return void
+	 * @return list<string> Paths that still need cleanup
 	 */
-	protected function cleanFiles(array $files): void {
+	protected function cleanFiles(array $files): array {
+		$remaining = [];
+
 		foreach ($files as $file) {
 			if (!file_exists($file)) {
 				continue;
 			}
 			
 			try {
-				Files::rmdirr($file);
+				if (!Files::rmdirr($file)) {
+					$remaining[] = $file;
+				}
 			} catch (\UnexpectedValueException $ex) {
 				$this->log->warning(
 					'Error deleting temporary file/folder: {file} - Reason: {error}',
@@ -134,8 +137,11 @@ class TempManager implements ITempManager {
 						'error' => $ex->getMessage(),
 					]
 				);
+				$remaining[] = $file;
 			}
 		}
+
+		return $remaining;
 	}
 
 	#[\Override]
@@ -166,11 +172,12 @@ class TempManager implements ITempManager {
 			if (substr($file, 0, 7) === self::TMP_PREFIX) {
 				$path = $this->tmpBaseDir . '/' . $file;
 				$mtime = filemtime($path);
-				if ($mtime < $cutOfTime) {
+				if ($mtime !== false && $mtime < $cutOfTime) {
 					$files[] = $path;
 				}
 			}
 		}
+		closedir($dh);
 
 		return $files;
 	}
