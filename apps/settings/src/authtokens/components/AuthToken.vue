@@ -16,9 +16,9 @@
 						ref="input"
 						v-model="newName"
 						:label="t('settings', 'Device name')"
-						:show-trailing-button="true"
-						:trailing-button-label="t('settings', 'Cancel renaming')"
-						@trailing-button-click="cancelRename"
+						:showTrailingButton="true"
+						:trailingButtonLabel="t('settings', 'Cancel renaming')"
+						@trailingButtonClick="cancelRename"
 						@keyup.esc="cancelRename" />
 					<NcButton :aria-label="t('settings', 'Save new name')" variant="tertiary" type="submit">
 						<template #icon>
@@ -33,37 +33,38 @@
 		<td>
 			<NcDateTime
 				class="auth-token__last-activity"
-				:ignore-seconds="true"
+				:ignoreSeconds="true"
 				:timestamp="tokenLastActivity" />
 		</td>
 		<td class="auth-token__actions">
 			<NcActions
 				v-if="!token.current"
+				ref="actions"
+				v-model:open="actionOpen"
 				:title="t('settings', 'Device settings')"
-				:aria-label="t('settings', 'Device settings')"
-				:open.sync="actionOpen">
+				:aria-label="t('settings', 'Device settings')">
+				<!-- TODO: add text/longtext with some description -->
 				<NcActionCheckbox
 					v-if="canChangeScope"
-					:model-value="token.scope.filesystem"
+					:modelValue="token.scope.filesystem"
 					@update:modelValue="updateFileSystemScope">
-					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Allow filesystem access') }}
 				</NcActionCheckbox>
+				<!-- TODO: add text/longtext with some description -->
 				<NcActionButton
 					v-if="token.canRename"
 					icon="icon-rename"
 					@click.stop.prevent="startRename">
-					<!-- TODO: add text/longtext with some description -->
 					{{ t('settings', 'Rename') }}
 				</NcActionButton>
 
 				<!-- revoke & wipe -->
 				<template v-if="token.canDelete">
 					<template v-if="token.type !== TokenType.WIPING_TOKEN">
+						<!-- TODO: add text/longtext with some description -->
 						<NcActionButton
 							icon="icon-delete"
 							@click.stop.prevent="revoke">
-							<!-- TODO: add text/longtext with some description -->
 							{{ t('settings', 'Revoke') }}
 						</NcActionButton>
 						<NcActionButton
@@ -84,8 +85,8 @@
 		</td>
 		<AuthTokenDeleteDialog
 			v-if="deleteDialogOpen"
+			v-model:open="deleteDialogOpen"
 			:token="token"
-			:open.sync="deleteDialogOpen"
 			@confirm="confirmDelete" />
 	</tr>
 </template>
@@ -285,6 +286,13 @@ export default defineComponent({
 
 		cancelRename() {
 			this.renaming = false
+			this.focusActions()
+		},
+
+		async focusActions() {
+			await this.$nextTick()
+			const actions = this.$refs.actions as { $el: HTMLElement } | undefined
+			actions?.$el.querySelector('button')?.focus()
 		},
 
 		revoke() {
@@ -296,9 +304,11 @@ export default defineComponent({
 			this.authTokenStore.deleteToken(this.token)
 		},
 
-		rename() {
+		async rename() {
 			this.renaming = false
-			this.authTokenStore.renameToken(this.token, this.newName)
+			// The password confirmation holds focus until it closes, so refocus after it
+			await this.authTokenStore.renameToken(this.token, this.newName)
+			this.focusActions()
 		},
 
 		async wipe() {

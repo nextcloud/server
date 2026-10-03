@@ -19,9 +19,9 @@
 		</div>
 		<AuthTokenRevokeAllDialog
 			v-if="revokeAllDialogOpen"
+			v-model:open="revokeAllDialogOpen"
 			:count="authTokenStore.revocableCount"
-			:wipe-pending-count="authTokenStore.wipePendingCount"
-			:open.sync="revokeAllDialogOpen"
+			:wipePendingCount="authTokenStore.wipePendingCount"
 			@confirm="revokeAllOthers" />
 	</NcSettingsSection>
 </template>

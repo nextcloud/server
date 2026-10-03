@@ -7,7 +7,8 @@ import type { IToken } from '../store/authtoken.ts'
 
 import { createTestingPinia } from '@pinia/testing'
 import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { nextTick } from 'vue'
 
 // AuthToken.vue, pulled in transitively, reads window.OC.theme.productName at module
 // evaluation time. vi.hoisted runs before imports, so it is set before the SFC is parsed.
@@ -15,13 +16,16 @@ vi.hoisted(() => {
 	(window as unknown as { OC: { theme: { productName: string } } }).OC.theme = { productName: 'Nextcloud' }
 })
 
+const defaultLoadState = vi.hoisted(() => (_app: string, key: string) => (key === 'app_tokens' ? [] : true))
 vi.mock('@nextcloud/initial-state', () => ({
-	loadState: vi.fn((_app: string, key: string) => (key === 'app_tokens' ? [] : true)),
+	loadState: vi.fn(defaultLoadState),
 }))
 
+import { loadState } from '@nextcloud/initial-state'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import AuthTokenRevokeAllDialog from './AuthTokenRevokeAllDialog.vue'
 import AuthTokenSection from './AuthTokenSection.vue'
+import AuthTokenSetup from './AuthTokenSetup.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 
 function makeToken(overrides: Partial<IToken> = {}): IToken {
@@ -45,36 +49,41 @@ const NcDialogStub = {
 }
 
 const NcButtonStub = {
+	emits: ['click'],
 	template: '<button @click="$emit(\'click\')"><slot /></button>',
 }
 
 function mountSection(tokens: IToken[]) {
 	return mount(AuthTokenSection, {
-		mocks: {
-			t: (_: string, text: string) => text,
+		global: {
+			mocks: {
+				t: (_: string, text: string) => text,
+			},
+			stubs: {
+				AuthTokenList: true,
+				AuthTokenSetup: true,
+				NcSettingsSection: { template: '<div><slot /></div>' },
+				NcButton: NcButtonStub,
+				NcDialog: NcDialogStub,
+			},
+			plugins: [createTestingPinia({
+				createSpy: vi.fn,
+				initialState: { 'auth-token': { tokens } },
+			})],
 		},
-		stubs: {
-			AuthTokenList: true,
-			AuthTokenSetup: true,
-			NcSettingsSection: { template: '<div><slot /></div>' },
-			NcButton: NcButtonStub,
-			NcDialog: NcDialogStub,
-		},
-		pinia: createTestingPinia({
-			createSpy: vi.fn,
-			initialState: { 'auth-token': { tokens } },
-		}),
 	})
 }
 
 function mountDialog(props: { count: number, wipePendingCount: number, open?: boolean }) {
 	return mount(AuthTokenRevokeAllDialog, {
-		propsData: { open: true, ...props },
-		mocks: {
-			t: (_: string, text: string) => text,
-		},
-		stubs: {
-			NcDialog: NcDialogStub,
+		props: { open: true, ...props },
+		global: {
+			mocks: {
+				t: (_: string, text: string) => text,
+			},
+			stubs: {
+				NcDialog: NcDialogStub,
+			},
 		},
 	})
 }
@@ -147,7 +156,7 @@ describe('AuthTokenSection revoke-all button', () => {
 		const dialog = wrapper.findComponent(AuthTokenRevokeAllDialog)
 		dialog.vm.$emit('confirm')
 		dialog.vm.$emit('update:open', false)
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		expect(store.deleteAllOtherTokens).toHaveBeenCalledTimes(1)
 	})
@@ -163,10 +172,27 @@ describe('AuthTokenSection revoke-all button', () => {
 
 		const dialog = wrapper.findComponent(AuthTokenRevokeAllDialog)
 		dialog.vm.$emit('update:open', false)
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		expect(wrapper.findComponent(AuthTokenRevokeAllDialog).exists()).toBe(false)
 		expect(store.deleteAllOtherTokens).not.toHaveBeenCalled()
+	})
+})
+
+describe('AuthTokenSection create form', () => {
+	afterEach(() => {
+		vi.mocked(loadState).mockImplementation(defaultLoadState)
+	})
+
+	it('shows the create form when creating app passwords is allowed', () => {
+		const wrapper = mountSection([makeToken({ id: 1, current: true })])
+		expect(wrapper.findComponent(AuthTokenSetup).exists()).toBe(true)
+	})
+
+	it('hides the create form when creating app passwords is disabled', () => {
+		vi.mocked(loadState).mockImplementation((app: string, key: string) => (key === 'can_create_app_token' ? false : defaultLoadState(app, key)))
+		const wrapper = mountSection([makeToken({ id: 1, current: true })])
+		expect(wrapper.findComponent(AuthTokenSetup).exists()).toBe(false)
 	})
 })
 
