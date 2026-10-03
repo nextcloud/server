@@ -281,15 +281,23 @@ $CONFIG = [
 	'default_timezone' => 'Europe/Berlin',
 
 	/**
-	 * ``true`` enables the Help menu item in the user menu (top right of the
-	 * Nextcloud Web interface).
-	 * ``false`` removes the Help item.
+	 * Controls the visibility of the "Help & privacy" navigation entry for
+	 * signed-in users. Set to ``false`` to hide it.
+	 *
+	 * Defaults to ``true``
 	 */
 	'knowledgebaseenabled' => true,
 
 	/**
-	 * ``true`` embeds the documentation in an iframe inside Nextcloud.
-	 * ``false`` only shows buttons to the online documentation.
+	 * Determines how documentation is displayed on the "Help & privacy" page.
+	 *
+	 * - ``true``: Embeds bundled documentation within an iframe.
+	 * - ``false``: Displays links to external documentation and other help and
+	 *   privacy resources.
+	 *
+	 * Custom themes may override the external documentation URLs.
+	 *
+	 * Defaults to ``false``
 	 */
 	'knowledgebase.embedded' => false,
 
