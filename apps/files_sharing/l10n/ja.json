@@ -290,6 +290,7 @@
     "Advanced settings" : "詳細設定",
     "Share label" : "共有ラベル",
     "Share link token" : "共有リンクのトークン",
+    "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "公開共有リンクのトークンを覚えやすいものに設定するか、新しいトークンを生成してください。トークンの長さは最大{maxLength}文字までで、英字、数字、ハイフンのみ使用できます。機密情報を含む共有リンクには、推測されやすいトークンを使用することは推奨されません。",
     "Generating…" : "生成中…",
     "Generate new token" : "新しいトークンの生成",
     "Set password" : "パスワード設定",

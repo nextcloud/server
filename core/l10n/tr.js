@@ -1,6 +1,10 @@
 OC.L10N.register(
     "core",
     {
+    "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n dosya imzalanmış sürümle eşleşmiyor. İzinsiz olarak değiştirilmiş veya eklenmiş olabilir.","%n dosya imzalanmış sürümle eşleşmiyor. İzinsiz olarak değiştirilmiş veya eklenmiş olabilirler."],
+    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["%s imza eksik veya geçersiz, bu nedenle doğrulanamadı.","%s imza eksik veya geçersiz, bu nedenle doğrulanamadılar."],
+    "The code integrity check result has changed" : "Kod bütünlüğü denetimi sonucu değişti",
+    "Review integrity check results" : "Bütünlük denetimi sonuçlarını gözden geçirin",
     "Please select a file." : "Lütfen bir dosya seçin.",
     "File is too big" : "Dosya çok büyük",
     "The selected file is not an image." : "Seçilmiş dosya bir görsel dosyası değil.",
@@ -90,6 +94,7 @@ OC.L10N.register(
     "The account limit of this instance is reached." : "Bu kopya için hesap sayısı sınırına ulaşıldı.",
     "Enter your subscription key in the support app in order to increase the account limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Hesap sayısı sınırını artırmak için destek uygulamasına abonelik kodunuzu yazın. Bu ayrıca size Nextcloud Enterprise sürümünün sunduğu ve kurumsal operasyonlar için önemle önerilen tüm ek faydaları sağlar.",
     "Learn more ↗" : "Ayrıntılı bilgi alın ↗",
+    "Review the results in the administration overview." : "Yönetim özetindeki sonuçları gözden geçirin.",
     "Can edit" : "Düzenleyebilir",
     "Share with others" : "Başkalarıyla paylaş",
     "Can view" : "Görebilir",

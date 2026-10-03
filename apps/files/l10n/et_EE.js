@@ -258,6 +258,7 @@ OC.L10N.register(
     "Switch to list view" : "Kasuta loendivaadet",
     "Switch to grid view" : "Kasuta ruudustikuvaadet",
     "The file could not be found" : "Seda faili ei õnnestu leida",
+    "Could not upload \"{name}\"" : "Üleslaadimine ei õnnestunud: {name}",
     "File list is reloading" : "Faililoend on laadimisel",
     "Loading current folder" : "Laadin käesolevat kausta",
     "Retry" : "Proovi uuesti",

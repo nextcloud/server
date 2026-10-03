@@ -1,4 +1,8 @@
 { "translations": {
+    "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n súbor nezodpovedá podpísanej verzii. Mohol byť upravený alebo pridaný bez autorizácie.","%n súborov nezodpovedá podpísanej verzii. Mohli byť upravené alebo pridané bez autorizácie.","%n súborov nezodpovedá podpísanej verzii. Mohli byť upravené alebo pridané bez autorizácie.","%n súborov nezodpovedá podpísanej verzii. Mohli byť upravené alebo pridané bez autorizácie."],
+    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["Podpis %s chýba alebo je neplatný, takže ho nebolo možné overiť.","Podpisy %s chýbajú alebo sú neplatné, takže ich nebolo možné overiť.","Podpisy %s chýbajú alebo sú neplatné, takže ich nebolo možné overiť.","Podpisy %s chýbajú alebo sú neplatné, takže ich nebolo možné overiť."],
+    "The code integrity check result has changed" : "Výsledok kontroly integrity kódu sa zmenil",
+    "Review integrity check results" : "Skontrolovať výsledky kontroly integrity",
     "Please select a file." : "Prosím, vyberte súbor.",
     "File is too big" : "Súbor je príliš veľký",
     "The selected file is not an image." : "Vybraný súbor nie je obrázok.",
@@ -88,6 +92,7 @@
     "The account limit of this instance is reached." : "Limit pre počet užívateľov pre túto inštanciu bol dosiahnutý.",
     "Enter your subscription key in the support app in order to increase the account limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Zadajte svoj kľúč predplatného v aplikácii podpory, aby ste zvýšili limit pre množstvo účtov. To vám tiež poskytuje všetky ďalšie výhody, ktoré Nextcloud Enterprise ponúka a je vysoko odporúčaný pre prevádzku vo firemnom prostredí.",
     "Learn more ↗" : "Viac informácií ↗",
+    "Review the results in the administration overview." : "Skontrolujte výsledky v prehľade správy.",
     "Can edit" : "Môže upravovať",
     "Share with others" : "Zdieľať s ostatnými",
     "Can view" : "Môže zobraziť",
