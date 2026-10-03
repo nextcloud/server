@@ -14,6 +14,7 @@ use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Config\IUserConfig;
 use OCP\IConfig;
 use OCP\INavigationManager;
 use OCP\Settings\ISettings;
@@ -28,6 +29,7 @@ class Personal implements ISettings {
 		private IInitialState $initialStateService,
 		private ThemingDefaults $themingDefaults,
 		private INavigationManager $navigationManager,
+		private IUserConfig $userConfig,
 	) {
 	}
 
@@ -81,6 +83,7 @@ class Personal implements ISettings {
 		$this->initialStateService->provideInitialState('enableBlurFilter', $this->config->getUserValue($this->userId, 'theming', 'force_enable_blur_filter', ''));
 		$this->initialStateService->provideInitialState('navigationBar', [
 			'userAppOrder' => json_decode($this->config->getUserValue($this->userId, 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR),
+			'userPinnedApps' => $this->userConfig->getValueArray($this->userId, 'core', 'apps_pinned'),
 			'enforcedDefaultApp' => $forcedDefaultEntry
 		]);
 

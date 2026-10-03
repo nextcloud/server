@@ -9,12 +9,15 @@ import { nextTick, useTemplateRef } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import IconArrowDown from 'vue-material-design-icons/ArrowDown.vue'
 import IconArrowUp from 'vue-material-design-icons/ArrowUp.vue'
+import IconPin from 'vue-material-design-icons/Pin.vue'
+import IconPinOutline from 'vue-material-design-icons/PinOutline.vue'
 
 export interface IApp {
 	id: string // app id
 	icon: string // path to the icon svg
 	label?: string // display name
 	default?: boolean // for app as default app
+	pinned?: boolean // for app pinned to the navigation bar
 }
 
 const props = defineProps<{
@@ -40,11 +43,16 @@ const props = defineProps<{
 	 * Is this the last element in the list
 	 */
 	isLast?: boolean
+	/**
+	 * Show the toggle for pinning the app to the navigation bar
+	 */
+	showPin?: boolean
 }>()
 
 const emit = defineEmits<{
 	'move:up': []
 	'move:down': []
+	'toggle:pinned': []
 	/**
 	 * We need this as Sortable.js removes all native focus event listeners
 	 */
@@ -124,6 +132,19 @@ function keepFocus() {
 		</div>
 
 		<div class="order-selector-element__actions">
+			<NcButton
+				v-if="showPin"
+				:aria-label="app.pinned ? t('theming', 'Unpin app from the navigation bar') : t('theming', 'Pin app to the navigation bar')"
+				:aria-describedby="ariaDescribedby"
+				:aria-details="ariaDetails"
+				:pressed="!!app.pinned"
+				variant="tertiary-no-background"
+				@update:pressed="$emit('toggle:pinned')">
+				<template #icon>
+					<IconPin v-if="app.pinned" :size="20" />
+					<IconPinOutline v-else :size="20" />
+				</template>
+			</NcButton>
 			<NcButton
 				v-show="!isFirst && !app.default"
 				ref="buttonUp"
