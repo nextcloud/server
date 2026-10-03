@@ -35,9 +35,11 @@ export const entry: NewMenuEntry = {
 		return sharingConfig.isPublicShareAllowed
 	},
 	async handler(context: Folder, content: Node[]) {
-		spawnDialog(NewFileRequestDialogVue, {
+		await spawnDialog(NewFileRequestDialogVue, {
 			context,
 			content,
 		})
+		// The menu item that opened the dialog is gone; send focus back to New
+		document.querySelector<HTMLElement>('[data-cy-upload-picker] button')?.focus()
 	},
 }
