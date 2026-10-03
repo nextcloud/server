@@ -103,6 +103,8 @@ export default defineComponent({
 		},
 	},
 
+	emits: ['update:username'],
+
 	setup() {
 		return {
 			supportsWebauthn: browserSupportsWebAuthn(),

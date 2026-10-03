@@ -70,6 +70,8 @@ export default defineComponent({
 		},
 	},
 
+	emits: ['click'],
+
 	data() {
 		return {
 			loading: false,
