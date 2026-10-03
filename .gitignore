@@ -184,3 +184,5 @@ core/js/mimetypelist.js
 /cypress
 
 /.direnv
+
+/.hypothesis/
