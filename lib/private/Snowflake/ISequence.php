@@ -20,6 +20,8 @@ interface ISequence {
 
 	/**
 	 * Returns next sequence ID for current time and server
+	 *
+	 * @param non-negative-int $seconds seconds since the Snowflake epoch
 	 */
 	public function nextId(int $serverId, int $seconds, int $milliseconds): int|false;
 }
