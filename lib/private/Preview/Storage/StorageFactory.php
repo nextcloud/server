@@ -57,8 +57,8 @@ class StorageFactory implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function migratePreview(Preview $preview): void {
-		$this->getBackend()->migratePreview($preview);
+	public function migratePreviews(array $previews): void {
+		$this->getBackend()->migratePreviews($previews);
 	}
 
 	#[Override]
