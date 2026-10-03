@@ -314,6 +314,11 @@ const getters = {
 const CancelToken = axios.CancelToken
 let searchRequestCancelSource = null
 
+/**
+ *
+ * @param context
+ * @param response
+ */
 function commitGroupsFromUsersResponse(context, response) {
 	const groups = response.data.ocs.data.groups ?? []
 	if (groups.length === 0) {

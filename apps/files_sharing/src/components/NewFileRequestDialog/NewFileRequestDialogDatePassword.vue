@@ -36,9 +36,9 @@
 				:model-value="expirationDate"
 				name="expirationDate"
 				type="date"
-				@input="$emit('update:expirationDate', $event)" />
+				@input="$emit('update:expiration-date', $event)" />
 
-			<p v-if="defaultExpireDateEnforced" class="file-request-dialog__info">
+			<p v-if="defaultExpireDateEnforced && defaultExpireDate" class="file-request-dialog__info">
 				<IconInfo :size="18" class="file-request-dialog__info-icon" />
 				{{ t('files_sharing', 'Your administrator has enforced a {count} days expiration policy.', { count: defaultExpireDate }) }}
 			</p>
@@ -87,10 +87,10 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
+
 import { t } from '@nextcloud/l10n'
 import {
-	type PropType,
-
 	defineComponent,
 } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -139,7 +139,7 @@ export default defineComponent({
 	},
 
 	emits: [
-		'update:expirationDate',
+		'update:expiration-date',
 		'update:password',
 	],
 
@@ -205,7 +205,7 @@ export default defineComponent({
 	mounted() {
 		// If defined, we set the default expiration date
 		if (this.defaultExpireDate) {
-			this.$emit('update:expirationDate', sharingConfig.defaultExpirationDate)
+			this.$emit('update:expiration-date', sharingConfig.defaultExpirationDate)
 		}
 
 		// If enforced, we cannot set a date before the default expiration days (see admin settings)
@@ -221,7 +221,7 @@ export default defineComponent({
 
 	methods: {
 		onToggleDeadline(checked: boolean) {
-			this.$emit('update:expirationDate', checked ? (this.maxDate || this.minDate) : null)
+			this.$emit('update:expiration-date', checked ? (this.maxDate || this.minDate) : null)
 		},
 
 		async onTogglePassword(checked: boolean) {

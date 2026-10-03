@@ -2,12 +2,12 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import type { Ref } from 'vue'
 import type { ILocalizedValue } from '../constants/AppDiscoverTypes.ts'
 
 import { getLanguage } from '@nextcloud/l10n'
 import {
-	type Ref,
-
 	computed,
 } from 'vue'
 
