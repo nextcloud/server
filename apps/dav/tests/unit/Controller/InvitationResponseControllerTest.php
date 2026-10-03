@@ -18,6 +18,7 @@ use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\ITip\Message;
 use Test\TestCase;
@@ -27,6 +28,7 @@ class InvitationResponseControllerTest extends TestCase {
 	private IRequest&MockObject $request;
 	private ITimeFactory&MockObject $timeFactory;
 	private InvitationResponseServer&MockObject $responseServer;
+	private IURLGenerator&MockObject $urlGenerator;
 	private InvitationResponseController $controller;
 
 	protected function setUp(): void {
@@ -36,13 +38,17 @@ class InvitationResponseControllerTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->responseServer = $this->createMock(InvitationResponseServer::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->urlGenerator->method('linkToRoute')
+			->willReturn('/apps/dav/invitation/moreOptions/TOKEN123');
 
 		$this->controller = new InvitationResponseController(
 			'appName',
 			$this->request,
 			$this->dbConnection,
 			$this->timeFactory,
-			$this->responseServer
+			$this->responseServer,
+			$this->urlGenerator
 		);
 	}
 
@@ -53,8 +59,7 @@ class InvitationResponseControllerTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attendeeProvider')]
-	public function testAccept(bool $isExternalAttendee): void {
+	public function testAccept(): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
@@ -66,57 +71,17 @@ class InvitationResponseControllerTest extends TestCase {
 			'expiration' => 420000,
 		], 1337);
 
-		$expected = <<<EOF
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Nextcloud/Nextcloud CalDAV Server//EN
-METHOD:REPLY
-BEGIN:VEVENT
-ATTENDEE;PARTSTAT=ACCEPTED:mailto:attendee@foo.bar
-ORGANIZER:mailto:organizer@foo.bar
-UID:this-is-the-events-uid
-SEQUENCE:0
-REQUEST-STATUS:2.0;Success
-DTSTAMP:19700101T002217Z
-END:VEVENT
-END:VCALENDAR
-
-EOF;
-		$expected = preg_replace('~\R~u', "\r\n", $expected);
-
-		$called = false;
-		$this->responseServer->expects($this->once())
-			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
-				$called = true;
-				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
-				$this->assertEquals('VEVENT', $iTipMessage->component);
-				$this->assertEquals('REPLY', $iTipMessage->method);
-				$this->assertEquals(null, $iTipMessage->sequence);
-				$this->assertEquals('mailto:attendee@foo.bar', $iTipMessage->sender);
-				if ($isExternalAttendee) {
-					$this->assertEquals('mailto:organizer@foo.bar', $iTipMessage->recipient);
-				} else {
-					$this->assertEquals('mailto:attendee@foo.bar', $iTipMessage->recipient);
-				}
-
-				$iTipMessage->scheduleStatus = '1.2;Message delivered locally';
-
-				$this->assertEquals($expected, $iTipMessage->message->serialize());
-			});
-		$this->responseServer->expects($this->once())
-			->method('isExternalAttendee')
-			->willReturn($isExternalAttendee);
+		$this->responseServer->expects($this->never())
+			->method('handleITipMessage');
 
 		$response = $this->controller->accept('TOKEN123');
 		$this->assertInstanceOf(TemplateResponse::class, $response);
-		$this->assertEquals('schedule-response-success', $response->getTemplateName());
-		$this->assertEquals([], $response->getParams());
-		$this->assertTrue($called);
+		$this->assertEquals('schedule-response-options', $response->getTemplateName());
+		$this->assertEquals('ACCEPTED', $response->getParams()['preselect']);
+		$this->assertEquals('TOKEN123', $response->getParams()['token']);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attendeeProvider')]
-	public function testAcceptSequence(bool $isExternalAttendee): void {
+	public function testAcceptShowsConfirmationPageRegardlessOfSequence(): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
@@ -128,57 +93,16 @@ EOF;
 			'expiration' => 420000,
 		], 1337);
 
-		$expected = <<<EOF
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Nextcloud/Nextcloud CalDAV Server//EN
-METHOD:REPLY
-BEGIN:VEVENT
-ATTENDEE;PARTSTAT=ACCEPTED:mailto:attendee@foo.bar
-ORGANIZER:mailto:organizer@foo.bar
-UID:this-is-the-events-uid
-SEQUENCE:1337
-REQUEST-STATUS:2.0;Success
-DTSTAMP:19700101T002217Z
-END:VEVENT
-END:VCALENDAR
-
-EOF;
-		$expected = preg_replace('~\R~u', "\r\n", $expected);
-
-		$called = false;
-		$this->responseServer->expects($this->once())
-			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
-				$called = true;
-				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
-				$this->assertEquals('VEVENT', $iTipMessage->component);
-				$this->assertEquals('REPLY', $iTipMessage->method);
-				$this->assertEquals(1337, $iTipMessage->sequence);
-				$this->assertEquals('mailto:attendee@foo.bar', $iTipMessage->sender);
-				if ($isExternalAttendee) {
-					$this->assertEquals('mailto:organizer@foo.bar', $iTipMessage->recipient);
-				} else {
-					$this->assertEquals('mailto:attendee@foo.bar', $iTipMessage->recipient);
-				}
-
-				$iTipMessage->scheduleStatus = '1.2;Message delivered locally';
-
-				$this->assertEquals($expected, $iTipMessage->message->serialize());
-			});
-		$this->responseServer->expects($this->once())
-			->method('isExternalAttendee')
-			->willReturn($isExternalAttendee);
+		$this->responseServer->expects($this->never())
+			->method('handleITipMessage');
 
 		$response = $this->controller->accept('TOKEN123');
 		$this->assertInstanceOf(TemplateResponse::class, $response);
-		$this->assertEquals('schedule-response-success', $response->getTemplateName());
-		$this->assertEquals([], $response->getParams());
-		$this->assertTrue($called);
+		$this->assertEquals('schedule-response-options', $response->getTemplateName());
+		$this->assertEquals('ACCEPTED', $response->getParams()['preselect']);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attendeeProvider')]
-	public function testAcceptRecurrenceId(bool $isExternalAttendee): void {
+	public function testAcceptShowsConfirmationPageRegardlessOfRecurrenceId(): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
@@ -190,54 +114,13 @@ EOF;
 			'expiration' => 420000,
 		], 1337);
 
-		$expected = <<<EOF
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Nextcloud/Nextcloud CalDAV Server//EN
-METHOD:REPLY
-BEGIN:VEVENT
-ATTENDEE;PARTSTAT=ACCEPTED:mailto:attendee@foo.bar
-ORGANIZER:mailto:organizer@foo.bar
-UID:this-is-the-events-uid
-SEQUENCE:0
-REQUEST-STATUS:2.0;Success
-RECURRENCE-ID;TZID=Europe/Berlin:20180726T150000
-DTSTAMP:19700101T002217Z
-END:VEVENT
-END:VCALENDAR
-
-EOF;
-		$expected = preg_replace('~\R~u', "\r\n", $expected);
-
-		$called = false;
-		$this->responseServer->expects($this->once())
-			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
-				$called = true;
-				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
-				$this->assertEquals('VEVENT', $iTipMessage->component);
-				$this->assertEquals('REPLY', $iTipMessage->method);
-				$this->assertEquals(0, $iTipMessage->sequence);
-				$this->assertEquals('mailto:attendee@foo.bar', $iTipMessage->sender);
-				if ($isExternalAttendee) {
-					$this->assertEquals('mailto:organizer@foo.bar', $iTipMessage->recipient);
-				} else {
-					$this->assertEquals('mailto:attendee@foo.bar', $iTipMessage->recipient);
-				}
-
-				$iTipMessage->scheduleStatus = '1.2;Message delivered locally';
-
-				$this->assertEquals($expected, $iTipMessage->message->serialize());
-			});
-		$this->responseServer->expects($this->once())
-			->method('isExternalAttendee')
-			->willReturn($isExternalAttendee);
+		$this->responseServer->expects($this->never())
+			->method('handleITipMessage');
 
 		$response = $this->controller->accept('TOKEN123');
 		$this->assertInstanceOf(TemplateResponse::class, $response);
-		$this->assertEquals('schedule-response-success', $response->getTemplateName());
-		$this->assertEquals([], $response->getParams());
-		$this->assertTrue($called);
+		$this->assertEquals('schedule-response-options', $response->getTemplateName());
+		$this->assertEquals('ACCEPTED', $response->getParams()['preselect']);
 	}
 
 	public function testAcceptTokenNotFound(): void {
@@ -267,8 +150,7 @@ EOF;
 		$this->assertEquals([], $response->getParams());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attendeeProvider')]
-	public function testDecline(bool $isExternalAttendee): void {
+	public function testDecline(): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
 			'uid' => 'this-is-the-events-uid',
@@ -280,60 +162,22 @@ EOF;
 			'expiration' => 420000,
 		], 1337);
 
-		$expected = <<<EOF
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Nextcloud/Nextcloud CalDAV Server//EN
-METHOD:REPLY
-BEGIN:VEVENT
-ATTENDEE;PARTSTAT=DECLINED:mailto:attendee@foo.bar
-ORGANIZER:mailto:organizer@foo.bar
-UID:this-is-the-events-uid
-SEQUENCE:0
-REQUEST-STATUS:2.0;Success
-DTSTAMP:19700101T002217Z
-END:VEVENT
-END:VCALENDAR
-
-EOF;
-		$expected = preg_replace('~\R~u', "\r\n", $expected);
-
-		$called = false;
-		$this->responseServer->expects($this->once())
-			->method('handleITipMessage')
-			->willReturnCallback(function (Message $iTipMessage) use (&$called, $isExternalAttendee, $expected): void {
-				$called = true;
-				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
-				$this->assertEquals('VEVENT', $iTipMessage->component);
-				$this->assertEquals('REPLY', $iTipMessage->method);
-				$this->assertEquals(null, $iTipMessage->sequence);
-				$this->assertEquals('mailto:attendee@foo.bar', $iTipMessage->sender);
-				if ($isExternalAttendee) {
-					$this->assertEquals('mailto:organizer@foo.bar', $iTipMessage->recipient);
-				} else {
-					$this->assertEquals('mailto:attendee@foo.bar', $iTipMessage->recipient);
-				}
-
-				$iTipMessage->scheduleStatus = '1.2;Message delivered locally';
-
-				$this->assertEquals($expected, $iTipMessage->message->serialize());
-			});
-		$this->responseServer->expects($this->once())
-			->method('isExternalAttendee')
-			->willReturn($isExternalAttendee);
+		$this->responseServer->expects($this->never())
+			->method('handleITipMessage');
 
 		$response = $this->controller->decline('TOKEN123');
 		$this->assertInstanceOf(TemplateResponse::class, $response);
-		$this->assertEquals('schedule-response-success', $response->getTemplateName());
-		$this->assertEquals([], $response->getParams());
-		$this->assertTrue($called);
+		$this->assertEquals('schedule-response-options', $response->getTemplateName());
+		$this->assertEquals('DECLINED', $response->getParams()['preselect']);
+		$this->assertEquals('TOKEN123', $response->getParams()['token']);
 	}
 
 	public function testOptions(): void {
 		$response = $this->controller->options('TOKEN123');
 		$this->assertInstanceOf(TemplateResponse::class, $response);
 		$this->assertEquals('schedule-response-options', $response->getTemplateName());
-		$this->assertEquals(['token' => 'TOKEN123'], $response->getParams());
+		$this->assertEquals('TOKEN123', $response->getParams()['token']);
+		$this->assertArrayHasKey('formAction', $response->getParams());
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'attendeeProvider')]
