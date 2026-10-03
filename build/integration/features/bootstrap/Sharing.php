@@ -153,6 +153,26 @@ trait Sharing {
 	}
 
 	/**
+	 * @Then /^last link share can not be downloaded with status "([^"]*)"$/
+	 */
+	public function lastLinkShareCanNotBeDownloaded(string $status): void {
+		if (count($this->lastShareData->data->element) > 0) {
+			$url = $this->lastShareData->data[0]->url;
+		} else {
+			$url = $this->lastShareData->data->url;
+		}
+		$fullUrl = $url . '/download';
+
+		$client = new Client();
+		try {
+			$response = $client->get($fullUrl, ['stream' => true]);
+		} catch (ClientException $ex) {
+			$response = $ex->getResponse();
+		}
+		Assert::assertNotEquals($status, $response->getStatusCode());
+	}
+
+	/**
 	 * @Then /^last share can be downloaded$/
 	 */
 	public function lastShareCanBeDownloaded() {

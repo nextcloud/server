@@ -10,49 +10,7 @@ use PHPUnit\Framework\Assert;
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait CommandLine {
-	/** @var int return code of last command */
-	private $lastCode;
-	/** @var string stdout of last command */
-	private $lastStdOut;
-	/** @var string stderr of last command */
-	private $lastStdErr;
-
-	/** @var string */
-	protected $ocPath = '../..';
-
-	/**
-	 * Invokes an OCC command
-	 *
-	 * @param []string $args OCC command, the part behind "occ". For example: "files:transfer-ownership"
-	 * @return int exit code
-	 */
-	public function runOcc($args = [], string $inputString = '') {
-		$args = array_map(function ($arg) {
-			return escapeshellarg($arg);
-		}, $args);
-		$args[] = '--no-ansi';
-		$args = implode(' ', $args);
-
-		$descriptor = [
-			0 => ['pipe', 'r'],
-			1 => ['pipe', 'w'],
-			2 => ['pipe', 'w'],
-		];
-		$process = proc_open('php console.php ' . $args, $descriptor, $pipes, $this->ocPath);
-		if ($inputString !== '') {
-			fwrite($pipes[0], $inputString . "\n");
-			fclose($pipes[0]);
-		}
-		$this->lastStdOut = stream_get_contents($pipes[1]);
-		$this->lastStdErr = stream_get_contents($pipes[2]);
-		$this->lastCode = proc_close($process);
-
-		// Clean opcode cache
-		$client = new GuzzleHttp\Client();
-		$client->request('GET', 'http://localhost:8080/apps/testing/clean_opcode_cache.php');
-
-		return $this->lastCode;
-	}
+	use OccRunner;
 
 	/**
 	 * @Given /^invoking occ with "([^"]*)"$/
