@@ -111,6 +111,7 @@ class TestUserSettings extends Command {
 				'ldapExpertUUIDUserAttr',
 				'ldapQuotaAttribute',
 				'ldapEmailAttribute',
+				'ldapUserActiveState',
 				'ldapUserDisplayName',
 				'ldapUserDisplayName2',
 				'ldapExtStorageHomeAttribute',

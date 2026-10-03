@@ -170,6 +170,13 @@ class User {
 		}
 		unset($attr);
 
+		// active attribute
+		$attr = strtolower($this->connection->ldapUserActiveState);
+		if (isset($ldapEntry[$attr])) {
+			$this->updateUserActiveState($ldapEntry[$attr][0]);
+		}
+		unset($attr);
+
 		// check for cached profile data
 		$username = $this->getUsername(); // buffer variable, to save resource
 		$cacheKey = 'getUserProfile-' . $username;
@@ -729,5 +736,10 @@ class User {
 			$this->userConfig->deleteUserConfig($this->getUsername(), 'user_ldap', 'extStorageHome');
 			return '';
 		}
+	}
+
+	public function updateUserActiveState(string $valueFromLDAP): void {
+		$user = $this->userManager->get($this->uid);
+		$user->setEnabled($valueFromLDAP === 'TRUE');
 	}
 }
