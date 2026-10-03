@@ -60,6 +60,8 @@ class BulkUploadPlugin extends ServerPlugin {
 			}
 
 			try {
+				$path = $headers['x-file-path'];
+
 				// TODO: Remove 'x-file-mtime' when the desktop client no longer use it.
 				if (isset($headers['x-file-mtime'])) {
 					$mtime = MtimeSanitizer::sanitizeMtime($headers['x-file-mtime']);
@@ -69,19 +71,20 @@ class BulkUploadPlugin extends ServerPlugin {
 					$mtime = null;
 				}
 
-				$node = $this->userFolder->newFile($headers['x-file-path'], $content);
+				$node = $this->userFolder->newFile($path, $content);
 				$node->touch($mtime);
-				$node = $this->userFolder->getFirstNodeById($node->getId());
-
-				$writtenFiles[$headers['x-file-path']] = [
+				// re-fetch to obtain updated metadata
+				$node = $this->userFolder->get($path);
+ 
+				$writtenFiles[$path] = [
 					'error' => false,
 					'etag' => $node->getETag(),
 					'fileid' => DavUtil::getDavFileId($node->getId()),
 					'permissions' => DavUtil::getDavPermissions($node, $node->getParent()),
 				];
 			} catch (\Exception $e) {
-				$this->logger->error($e->getMessage(), ['path' => $headers['x-file-path']]);
-				$writtenFiles[$headers['x-file-path']] = [
+				$this->logger->error($e->getMessage(), ['path' => $path ?? null]);
+				$writtenFiles[$path ?? ''] = [
 					'error' => true,
 					'message' => $e->getMessage(),
 				];

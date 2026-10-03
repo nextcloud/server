@@ -197,6 +197,51 @@ class MultipartRequestParserTest extends TestCase {
 		$multipartParser->parseNextPart();
 	}
 
+	public function testMissingFilePath(): void {
+		$bodyObject = self::getValidBodyObject();
+		unset($bodyObject['0']['headers']['X-File-Path']);
+
+		$multipartParser = $this->getMultipartParser($bodyObject);
+
+		$this->expectExceptionMessage('The X-File-Path header must not be null or empty.');
+		$multipartParser->parseNextPart();
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidContentLengthProvider')]
+	public function testInvalidContentLength(string $contentLength): void {
+		$bodyObject = self::getValidBodyObject();
+		$bodyObject['0']['headers']['Content-Length'] = $contentLength;
+
+		$multipartParser = $this->getMultipartParser($bodyObject);
+
+		$this->expectExceptionMessage('Content-Length must be a non-negative integer.');
+		$multipartParser->parseNextPart();
+	}
+
+	public static function invalidContentLengthProvider(): array {
+		return [
+			'non-numeric' => ['not-a-number'],
+			'negative' => ['-1'],
+			'decimal' => ['1.5'],
+			'empty' => [''],
+		];
+	}
+
+	public function testZeroContentLength(): void {
+		$bodyObject = self::getValidBodyObject();
+		$bodyObject['0']['headers']['Content-Length'] = 0;
+		$bodyObject['0']['headers']['X-File-MD5'] = md5('');
+		unset($bodyObject['0']['headers']['OC-Checksum']);
+		$bodyObject['0']['content'] = '';
+
+		$multipartParser = $this->getMultipartParser($bodyObject);
+
+		[$headers, $content] = $multipartParser->parseNextPart();
+
+		$this->assertSame('0', $headers['content-length']);
+		$this->assertSame('', $content);
+}
+
 	/**
 	 * Test with a lower Content-Length.
 	 */
