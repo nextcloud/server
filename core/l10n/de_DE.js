@@ -1,6 +1,10 @@
 OC.L10N.register(
     "core",
     {
+    "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n Datei stimmt nicht mit der signierten Version überein. Möglicherweise wurde sie ohne Genehmigung geändert oder hinzugefügt.","%n Dateien stimmen nicht mit der signierten Version überein. Möglicherweise wurden sie ohne Genehmigung geändert oder hinzugefügt."],
+    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["Bei %s fehlt die Signatur oder ist ungültig, sodass sie nicht überprüft werden konnte.","Bei %s fehlen die Signaturen oder sind ungültig, sodass sie nicht überprüft werden konnten."],
+    "The code integrity check result has changed" : "Ergebnis der Code-Integritätsprüfung hat sich geändert",
+    "Review integrity check results" : "Ergebnisse der Integritätsprüfung überprüfen",
     "Please select a file." : "Bitte eine Datei auswählen.",
     "File is too big" : "Datei ist zu groß",
     "The selected file is not an image." : "Die ausgewählte Datei ist kein Bild.",
@@ -90,6 +94,7 @@ OC.L10N.register(
     "The account limit of this instance is reached." : "Das Kontenlimit dieser Instanz ist erreicht.",
     "Enter your subscription key in the support app in order to increase the account limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Geben Sie Ihren Abonnementschlüssel in der Support-App ein, um das Konto-Limit zu erhöhen. Damit erhalten Sie auch alle zusätzlichen Vorteile, die Nextcloud Enterprise bietet. Dies ist für den Betrieb in Unternehmen sehr zu empfehlen.",
     "Learn more ↗" : "Erfahren Sie mehr ↗",
+    "Review the results in the administration overview." : "Die Ergebnisse in der Administrationsübersicht überprüfen",
     "Can edit" : "Kann bearbeiten",
     "Share with others" : "Mit anderen teilen",
     "Can view" : "Kann ansehen",
@@ -457,7 +462,7 @@ OC.L10N.register(
     "Database password" : "Datenbank-Passwort",
     "Database name" : "Datenbank-Name",
     "Database tablespace" : "Datenbank-Tablespace",
-    "Please specify the port number along with the host name (e.g., localhost:5432)." : "Bitte die Portnummer mit der Hostadresse zusammen angeben (z.B. localhost:5432)",
+    "Please specify the port number along with the host name (e.g., localhost:5432)." : "Bitte die Portnummer mit der Hostadresse zusammen angeben (Z. B. localhost:5432)",
     "Database host" : "Datenbank-Host",
     "localhost" : "localhost",
     "Encrypted database connection" : "Verschlüsselte Datenbankverbindung",

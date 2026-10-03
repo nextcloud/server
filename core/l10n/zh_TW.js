@@ -1,6 +1,10 @@
 OC.L10N.register(
     "core",
     {
+    "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n 檔案不符合已簽署的釋出版本。可能有未經授權的修改或新增。"],
+    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["%s 缺少簽章或簽章無效，因此無法驗證。"],
+    "The code integrity check result has changed" : "程式碼完整性檢查結果已變更",
+    "Review integrity check results" : "審閱完整性檢查結果",
     "Please select a file." : "請選取一個檔案。",
     "File is too big" : "檔案太大",
     "The selected file is not an image." : "選取的檔案不是圖片檔。",
@@ -90,6 +94,7 @@ OC.L10N.register(
     "The account limit of this instance is reached." : "已達此站台的帳號數量上限。",
     "Enter your subscription key in the support app in order to increase the account limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "在支援應用程式中輸入您的訂閱金鑰以增加帳號限制。這也確實為您提供了 Nextcloud Enterprise 提供的所有額外好處，並且強烈推薦用於公司的營運。",
     "Learn more ↗" : "深入瞭解 ↗",
+    "Review the results in the administration overview." : "在管理員概覽中審閱結果。",
     "Can edit" : "可以編輯",
     "Share with others" : "與其他人分享",
     "Can view" : "可以檢視",
