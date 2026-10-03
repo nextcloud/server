@@ -68,7 +68,7 @@
     "is-svg": "^6.1.0",
     "libphonenumber-js": "^1.13.13",
     "lodash": "^4.18.1",
-    "marked": "^18.0.13",
+    "marked": "^18.0.14",
     "moment": "^2.31.0",
     "moment-timezone": "^0.6.4",
     "p-limit": "^7.3.3",
