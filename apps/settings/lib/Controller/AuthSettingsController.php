@@ -212,15 +212,7 @@ class AuthSettingsController extends Controller {
 			return $this->getServiceNotAvailableResponse();
 		}
 
-		$revoked = [];
-		foreach ($this->tokenProvider->getTokenByUser($this->userId) as $token) {
-			if ($token->getId() === $currentTokenId || $token->getType() === IToken::WIPE_TOKEN) {
-				continue;
-			}
-
-			$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
-			$revoked[] = $token->getId();
-		}
+		$revoked = $this->tokenProvider->invalidateTokensOfUserExcept($this->userId, $currentTokenId);
 
 		if ($revoked !== []) {
 			// One aggregate entry rather than one per token, so a bulk revoke does not bury the feed.
