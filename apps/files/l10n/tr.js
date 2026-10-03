@@ -258,6 +258,7 @@ OC.L10N.register(
     "Switch to list view" : "Liste görünümüne geç",
     "Switch to grid view" : "Tablo görünümüne geç",
     "The file could not be found" : "Dosya bulunamadı",
+    "Could not upload \"{name}\"" : "\"{name}\" yüklenemedi",
     "File list is reloading" : "Dosya listesi yeniden yükleniyor",
     "Loading current folder" : "Geçerli klasör yükleniyor",
     "Retry" : "Yeniden dene",

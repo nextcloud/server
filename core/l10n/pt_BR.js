@@ -1,6 +1,10 @@
 OC.L10N.register(
     "core",
     {
+    "_%n file does not match the signed release. It may have been modified or added without authorization._::_%n files do not match the signed release. They may have been modified or added without authorization._" : ["%n arquivo não corresponde ao lançamento assinado. Ele pode ter sido modificado ou adicionado sem autorização.","%n de arquivos não correspondem ao lançamento assinado. Eles podem ter sido modificados ou adicionados sem autorização.","%n arquivos não correspondem ao lançamento assinado. Eles podem ter sido modificados ou adicionados sem autorização."],
+    "_The signature of %s is missing or invalid, so it could not be verified._::_The signatures of %s are missing or invalid, so they could not be verified._" : ["A assinatura de %s está ausente ou inválida, portanto, não foi possível verificá-la.","As assinaturas de %s estão ausentes ou inválidas, portanto, não foi possível verificá-las.","As assinaturas de %s estão ausentes ou inválidas, portanto, não foi possível verificá-las."],
+    "The code integrity check result has changed" : "O resultado da verificação de integridade do código mudou",
+    "Review integrity check results" : "Revisar os resultados da verificação de integridade",
     "Please select a file." : "Por favor, selecione um arquivo.",
     "File is too big" : "O arquivo é muito grande",
     "The selected file is not an image." : "O arquivo selecionado não é uma imagem",
@@ -90,6 +94,7 @@ OC.L10N.register(
     "The account limit of this instance is reached." : "O limite de contas desta instância foi atingido.",
     "Enter your subscription key in the support app in order to increase the account limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Digite sua chave de assinatura no aplicativo de suporte para aumentar o limite de contas. Isso também concede a você todos os benefícios adicionais que o Nextcloud Empresarial oferece e é altamente recomendado para operações em empresas.",
     "Learn more ↗" : "Saiba mais ↗",
+    "Review the results in the administration overview." : "Revise os resultados na visão geral da administração.",
     "Can edit" : "Pode editar",
     "Share with others" : "Compartilhar com outros",
     "Can view" : "Pode visualizar",
