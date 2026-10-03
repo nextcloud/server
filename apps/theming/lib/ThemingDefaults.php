@@ -407,10 +407,10 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		$route = false;
-		if ($image === 'favicon.ico' && ($this->imageManager->canConvert('ICO') || $this->getCustomFavicon() !== null)) {
+		if ($image === 'favicon.ico') {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getFavicon', ['app' => $app]);
 		}
-		if (($image === 'favicon-touch.png' || $image === 'favicon-fb.png') && ($this->imageManager->canConvert('PNG') || $this->getCustomFavicon() !== null)) {
+		if ($image === 'favicon-touch.png' || ($image === 'favicon-fb.png' && $this->useTouchIconForSocialPreview())) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon', ['app' => $app]);
 		}
 		if ($image === 'manifest.json') {
@@ -432,6 +432,17 @@ class ThemingDefaults extends \OC_Defaults {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Social media previews only support raster images, so the touch icon replaces
+	 * the default preview image only if it is an uploaded raster favicon or a themed png
+	 */
+	private function useTouchIconForSocialPreview(): bool {
+		if ($this->getCustomFavicon() === null) {
+			return $this->imageManager->canConvert('PNG');
+		}
+		return in_array($this->imageManager->getImageMime('favicon'), ['image/png', 'image/jpeg', 'image/gif'], true);
 	}
 
 	protected function getCustomFavicon(): ?ISimpleFile {

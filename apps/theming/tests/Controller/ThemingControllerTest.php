@@ -246,14 +246,10 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	/**
-	 * Checks that trying to upload an SVG favicon without imagemagick
-	 * results in an unsupported media type response.
+	 * Checks that an image rejected by the image manager
+	 * results in an unprocessable entity response.
 	 */
-	public function testUploadSVGFaviconWithoutImagemagick(): void {
-		$this->imageManager
-			->method('shouldReplaceIcons')
-			->willReturn(false);
-
+	public function testUploadUnsupportedImage(): void {
 		$this->request
 			->expects($this->once())
 			->method('getParam')
@@ -725,13 +721,16 @@ class ThemingControllerTest extends TestCase {
 
 	public static function dataGetManifest(): array {
 		return [
-			[true],
-			[false],
+			[true, false, 'image/png', 'image/svg+xml'],
+			[false, false, 'image/png', 'image/svg+xml'],
+			[true, true, 'image/gif', 'image/gif'],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataGetManifest')]
-	public function testGetManifest(bool $standalone): void {
+	public function testGetManifest(bool $standalone, bool $customFavicon, string $touchIconType, string $faviconType): void {
+		$this->imageManager->method('hasImage')->with('favicon')->willReturn($customFavicon);
+		$this->imageManager->method('getImageMime')->with('favicon')->willReturn('image/gif');
 		$this->appConfig
 			->expects($this->once())
 			->method('getAppValueInt')
@@ -764,12 +763,12 @@ class ThemingControllerTest extends TestCase {
 				=> [
 					[
 						'src' => 'touchicon?v=0',
-						'type' => 'image/png',
+						'type' => $touchIconType,
 						'sizes' => '512x512'
 					],
 					[
 						'src' => 'favicon?v=0',
-						'type' => 'image/svg+xml',
+						'type' => $faviconType,
 						'sizes' => '16x16'
 					]
 				],

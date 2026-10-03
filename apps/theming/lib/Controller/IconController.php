@@ -18,10 +18,12 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -75,10 +77,10 @@ class IconController extends Controller {
 	}
 
 	/**
-	 * Return a 32x32 favicon as png
+	 * Return a favicon as svg
 	 *
 	 * @param string $app ID of the app
-	 * @return DataDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/png'}>|FileDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/x-icon'}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
 	 * @throws \Exception
 	 *
 	 * 200: Favicon returned
@@ -92,46 +94,32 @@ class IconController extends Controller {
 			$app = 'core';
 		}
 
-		$response = null;
-		$iconFile = null;
-		// retrieve instance favicon
+		$customFavicon = $this->getCustomFaviconResponse();
+		if ($customFavicon !== null) {
+			return $customFavicon;
+		}
+
+		$cacheKey = 'favIconSvg-' . $app . $this->themingDefaults->getColorPrimary();
 		try {
-			$iconFile = $this->imageManager->getImage('favicon', false);
-			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
-		} catch (NotFoundException $e) {
-		}
-		// retrieve or generate app specific favicon, but only if no custom favicon was uploaded
-		if ($iconFile === null && ($this->imageManager->canConvert('PNG') || $this->imageManager->canConvert('SVG')) && $this->imageManager->canConvert('ICO')) {
-			$color = $this->themingDefaults->getColorPrimary();
-			try {
-				$iconFile = $this->imageManager->getCachedImage('favIcon-' . $app . $color);
-			} catch (NotFoundException $exception) {
-				$icon = $this->iconBuilder->getFavicon($app);
-				if ($icon === false || $icon === '') {
-					return new NotFoundResponse();
-				}
-				$iconFile = $this->imageManager->setCachedImage('favIcon-' . $app . $color, $icon);
+			$iconFile = $this->imageManager->getCachedImage($cacheKey);
+		} catch (NotFoundException $exception) {
+			$icon = $this->iconBuilder->getFavicon($app);
+			if ($icon === false || $icon === '') {
+				return new NotFoundResponse();
 			}
-			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/x-icon']);
+			$iconFile = $this->imageManager->setCachedImage($cacheKey, $icon);
 		}
-		// fallback to core favicon
-		if ($response === null) {
-			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
-			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
-		}
-		$response->cacheFor(86400);
-		return $response;
+		return $this->createIconResponse($iconFile, 'image/svg+xml');
 	}
 
 	/**
 	 * Return a 512x512 icon for touch devices
 	 *
 	 * @param string $app ID of the app
-	 * @return DataDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/png'}>|FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
+	 * @return DataDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/png'}>|FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>
 	 * @throws \Exception
 	 *
 	 * 200: Touch icon returned
-	 * 404: Touch icon not found
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
@@ -141,33 +129,57 @@ class IconController extends Controller {
 			$app = 'core';
 		}
 
-		$response = null;
-		$iconFile = null;
-		// retrieve instance favicon
-		try {
-			$iconFile = $this->imageManager->getImage('favicon');
-			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => $iconFile->getMimeType()]);
-		} catch (NotFoundException $e) {
+		$customFavicon = $this->getCustomFaviconResponse();
+		if ($customFavicon !== null) {
+			return $customFavicon;
 		}
-		// retrieve or generate app specific touch icon, but only if no custom favicon was uploaded
-		if ($iconFile === null && $this->imageManager->canConvert('PNG')) {
-			$color = $this->themingDefaults->getColorPrimary();
+
+		// touch icons need to be png, which can only be rendered with imagick
+		if ($this->imageManager->canConvert('PNG')) {
+			$iconFile = null;
+			$cacheKey = 'touchIcon-' . $app . $this->themingDefaults->getColorPrimary();
 			try {
-				$iconFile = $this->imageManager->getCachedImage('touchIcon-' . $app . $color);
+				$iconFile = $this->imageManager->getCachedImage($cacheKey);
 			} catch (NotFoundException $exception) {
 				$icon = $this->iconBuilder->getTouchIcon($app);
-				if ($icon === false || $icon === '') {
-					return new NotFoundResponse();
+				if ($icon !== false && $icon !== '') {
+					$iconFile = $this->imageManager->setCachedImage($cacheKey, $icon);
 				}
-				$iconFile = $this->imageManager->setCachedImage('touchIcon-' . $app . $color, $icon);
 			}
-			$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => 'image/png']);
+			if ($iconFile !== null) {
+				return $this->createIconResponse($iconFile, 'image/png');
+			}
 		}
-		// fallback to core touch icon
-		if ($response === null) {
-			$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
-			$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
+
+		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
+		$response = new DataDisplayResponse($this->fileAccessHelper->file_get_contents($fallbackLogo), Http::STATUS_OK, ['Content-Type' => 'image/png']);
+		$response->cacheFor(86400);
+		return $response;
+	}
+
+	/**
+	 * An uploaded favicon is used for all apps and served as-is
+	 *
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|null
+	 */
+	private function getCustomFaviconResponse(): ?FileDisplayResponse {
+		try {
+			$iconFile = $this->imageManager->getImage('favicon');
+		} catch (NotFoundException $e) {
+			return null;
 		}
+		return $this->createIconResponse($iconFile, $this->imageManager->getImageMime('favicon'));
+	}
+
+	/**
+	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>
+	 */
+	private function createIconResponse(ISimpleFile $iconFile, string $mime): FileDisplayResponse {
+		$response = new FileDisplayResponse($iconFile, Http::STATUS_OK, ['Content-Type' => $mime]);
+		// the generated svg embeds the app icon as data uri
+		$csp = new EmptyContentSecurityPolicy();
+		$csp->addAllowedImageDomain('data:');
+		$response->setContentSecurityPolicy($csp);
 		$response->cacheFor(86400);
 		return $response;
 	}

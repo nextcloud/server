@@ -803,6 +803,37 @@ class ThemingDefaultsTest extends TestCase {
 		];
 	}
 
+	public static function dataReplaceImagePathFacebookIcon(): array {
+		return [
+			'no custom favicon with imagick' => ['', true, true],
+			'no custom favicon without imagick' => ['', false, false],
+			'png favicon' => ['image/png', false, true],
+			'jpeg favicon' => ['image/jpeg', false, true],
+			'gif favicon' => ['image/gif', false, true],
+			'svg favicon' => ['image/svg+xml', true, false],
+			'ico favicon' => ['image/x-icon', true, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataReplaceImagePathFacebookIcon')]
+	public function testReplaceImagePathFacebookIcon(string $faviconMime, bool $canConvertPng, bool $replaced): void {
+		$this->imageManager->method('getImageMime')
+			->with('favicon')
+			->willReturn($faviconMime);
+		if ($faviconMime === '') {
+			$this->imageManager->method('getImage')
+				->with('favicon')
+				->willThrowException(new NotFoundException());
+		}
+		$this->imageManager->method('canConvert')->with('PNG')->willReturn($canConvertPng);
+		$this->urlGenerator->method('linkToRoute')
+			->with('theming.Icon.getTouchIcon', ['app' => 'core'])
+			->willReturn('themingRoute');
+		$this->util->method('getCacheBuster')->willReturn('1234abcd');
+
+		$this->assertEquals($replaced ? 'themingRoute?v=1234abcd' : false, $this->template->replaceImagePath('core', 'favicon-fb.png'));
+	}
+
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataReplaceImagePath')]
 	public function testReplaceImagePath(string $app, string $image, string|bool $result = 'themingRoute?v=1234abcd'): void {
 		$this->cache->expects($this->any())
