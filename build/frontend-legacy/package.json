@@ -52,7 +52,7 @@
     "@simplewebauthn/browser": "^14.0.0",
     "@vue/web-component-wrapper": "^1.3.0",
     "@vueuse/components": "^11.3.0",
-    "@vueuse/core": "^11.3.0",
+    "@vueuse/core": "^15.0.0",
     "@vueuse/integrations": "^11.3.0",
     "blurhash": "^2.0.5",
     "browserslist-useragent-regexp": "^4.1.4",
