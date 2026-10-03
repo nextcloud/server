@@ -13,23 +13,16 @@ use OCA\Encryption\Crypto\Crypt;
 use OCP\Config\IUserConfig;
 use OCP\Files\Storage\IStorage;
 use OCP\IAppConfig;
-use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
-use OCP\PreConditionNotMetException;
 
 class Util {
-	private IUser|false $user;
-
 	public function __construct(
 		private View $files,
 		private Crypt $crypt,
-		IUserSession $userSession,
 		private IAppConfig $appConfig,
 		private IUserConfig $userConfig,
 		private IUserManager $userManager,
 	) {
-		$this->user = $userSession->isLoggedIn() ? $userSession->getUser() : false;
 	}
 
 	/**
@@ -65,15 +58,6 @@ class Util {
 	 */
 	public function isMasterKeyEnabled(): bool {
 		return $this->appConfig->getValueBool('encryption', 'useMasterKey', true);
-	}
-
-	public function setRecoveryForUser(bool $enabled): bool {
-		try {
-			$this->userConfig->setValueBool($this->user->getUID(), 'encryption', 'recoveryEnabled', $enabled);
-			return true;
-		} catch (PreConditionNotMetException $e) {
-			return false;
-		}
 	}
 
 	/**
