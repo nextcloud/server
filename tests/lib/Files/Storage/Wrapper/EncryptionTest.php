@@ -664,6 +664,67 @@ class EncryptionTest extends Storage {
 		];
 	}
 
+	public function testMoveFromStorageKeepsSourceWhenSourceDirectoryCannotBeOpened(): void {
+		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$sourceCache = $this->createMock(ICache::class);
+
+		$sourceStorage->expects($this->once())
+			->method('isDeletable')
+			->with('source')
+			->willReturn(true);
+		$sourceStorage->method('instanceOfStorage')->willReturn(false);
+		$sourceStorage->expects($this->once())
+			->method('getCache')
+			->willReturn($sourceCache);
+		$sourceCache->expects($this->once())
+			->method('get')
+			->with('source')
+			->willReturn(false);
+		$sourceStorage->expects($this->once())
+			->method('is_dir')
+			->with('source')
+			->willReturn(true);
+		$sourceStorage->expects($this->once())
+			->method('opendir')
+			->with('source')
+			->willReturn(false);
+		$sourceStorage->expects($this->never())->method('rmdir');
+		$sourceStorage->expects($this->never())->method('unlink');
+
+		$this->assertFalse(
+			$this->instance->moveFromStorage($sourceStorage, 'source', 'target')
+		);
+	}
+
+	public function testCopyBetweenStorageVersionsRemovesMarkerWhenCopyThrows(): void {
+		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$targetStorage = $this->createMock(\OC\Files\Storage\Storage::class);
+
+		$targetStorage->expects($this->once())
+			->method('copyFromStorage')
+			->with($sourceStorage, '/files/source.txt', '/files_versions/source.txt.123')
+			->willThrowException(new \RuntimeException('Copy failed'));
+
+		$instance = $this->getInstanceWithMockedMethods(['getCache'], $targetStorage);
+		$marker = 'encryption_copy_version_/files/source.txt';
+
+		$this->arrayCache->expects($this->once())
+			->method('set')
+			->with($marker, true);
+		$this->arrayCache->expects($this->once())
+			->method('remove')
+			->with($marker);
+
+		$this->expectException(\RuntimeException::class);
+		self::invokePrivate($instance, 'copyBetweenStorage', [
+			$sourceStorage,
+			'/files/source.txt',
+			'/files_versions/source.txt.123',
+			false,
+			false,
+		]);
+	}
+
 	public function testIsLocal(): void {
 		$this->encryptionManager->expects($this->once())
 			->method('isEnabled')->willReturn(true);
@@ -1154,8 +1215,13 @@ class EncryptionTest extends Storage {
 		$instance->expects($this->any())->method('getCache')
 			->willReturn($cache);
 
-		$this->arrayCache->expects($this->once())->method('set')
-			->with('encryption_copy_version_' . $sourceInternalPath, true);
+		$marker = 'encryption_copy_version_' . $sourceInternalPath;
+		$this->arrayCache->expects($this->once())
+			->method('set')
+			->with($marker, true);
+		$this->arrayCache->expects($this->once())
+			->method('remove')
+			->with($marker);
 
 		if ($copyResult) {
 			$cache->expects($this->once())->method('get')
