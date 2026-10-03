@@ -323,6 +323,9 @@ class Server extends ServerContainer {
 			return $this;
 		});
 		$this->registerService(ContainerInterface::class, static fn (ContainerInterface $c) => $c);
+		$this->registerService(\OC\PhpDumpCache::class, function (ContainerInterface $c) {
+			return new \OC\PhpDumpCache($c->get(SystemConfig::class)->getValue('cachedirectory', \OC::$SERVERROOT . '/cache'));
+		});
 
 		$this->registerAlias(\OCP\Calendar\IManager::class, \OC\Calendar\Manager::class);
 
