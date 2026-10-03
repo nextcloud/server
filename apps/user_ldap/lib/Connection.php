@@ -408,6 +408,12 @@ class Connection extends LDAPUtility {
 			}
 		}
 
+		// an empty filter is invalid and causes ldap_search() to fail, so
+		// fall back to matching any object
+		if (empty($this->configuration->ldapUserFilter)) {
+			$this->configuration->ldapUserFilter = '(objectClass=*)';
+		}
+
 		foreach (['ldapExpertUUIDUserAttr' => 'ldapUuidUserAttribute',
 			'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute'] as $expertSetting => $effectiveSetting) {
 			$uuidOverride = $this->configuration->$expertSetting;
