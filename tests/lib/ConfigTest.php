@@ -11,6 +11,7 @@ namespace Test;
 use OC\Config;
 use OCP\ITempManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\WithEnvironmentVariable;
 
 class ConfigTest extends TestCase {
 	public const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false);';
@@ -46,11 +47,10 @@ class ConfigTest extends TestCase {
 		$this->assertSame($expectedConfig, $this->getConfig()->getKeys());
 	}
 
+	#[WithEnvironmentVariable('NC_taste', 'great')]
 	public function testGetKeysReturnsEnvironmentKeysIfSet() {
 		$expectedConfig = ['foo', 'beers', 'alcohol_free', 'taste'];
-		putenv('NC_taste=great');
 		$this->assertSame($expectedConfig, $this->getConfig()->getKeys());
-		putenv('NC_taste');
 	}
 
 	public function testGetValue(): void {
@@ -63,34 +63,22 @@ class ConfigTest extends TestCase {
 		$this->assertSame(['Appenzeller', 'Guinness', 'Kölsch'], $config->getValue('beers'));
 	}
 
+	#[WithEnvironmentVariable('NC_foo', 'baz')]
 	public function testGetValueReturnsEnvironmentValueIfSet(): void {
 		$config = $this->getConfig();
-		$this->assertEquals('bar', $config->getValue('foo'));
-
-		putenv('NC_foo=baz');
-		$config = $this->getConfig();
 		$this->assertEquals('baz', $config->getValue('foo'));
-		putenv('NC_foo'); // unset the env variable
 	}
 
+	#[WithEnvironmentVariable('NC_foo', '0')]
 	public function testGetValueReturnsEnvironmentValueIfSetToZero(): void {
 		$config = $this->getConfig();
-		$this->assertEquals('bar', $config->getValue('foo'));
-
-		putenv('NC_foo=0');
-		$config = $this->getConfig();
 		$this->assertEquals('0', $config->getValue('foo'));
-		putenv('NC_foo'); // unset the env variable
 	}
 
+	#[WithEnvironmentVariable('NC_foo', 'false')]
 	public function testGetValueReturnsEnvironmentValueIfSetToFalse(): void {
 		$config = $this->getConfig();
-		$this->assertEquals('bar', $config->getValue('foo'));
-
-		putenv('NC_foo=false');
-		$config = $this->getConfig();
 		$this->assertEquals('false', $config->getValue('foo'));
-		putenv('NC_foo'); // unset the env variable
 	}
 
 	public function testSetValue(): void {
