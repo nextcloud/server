@@ -314,7 +314,7 @@ class ScannerTest extends TestCase {
 
 		$this->scanner->scan('folder/bar.txt');
 
-		// manipulate etag to simulate an empty etag
+		// Simulate a cached file with an empty ETag.
 		$this->scanner->scan('', IScanner::SCAN_SHALLOW, IScanner::REUSE_ETAG);
 		/** @var CacheEntry $data0 */
 		$data0 = $this->cache->get('folder/bar.txt');
@@ -326,10 +326,10 @@ class ScannerTest extends TestCase {
 		$data0['etag'] = '';
 		$this->cache->put('folder/bar.txt', $data0->getData());
 
-		// rescan
+		// Rescanning must recreate the empty ETag.
 		$this->scanner->scan('folder/bar.txt', IScanner::SCAN_SHALLOW, IScanner::REUSE_ETAG);
 
-		// verify cache content
+		// The recreated ETag must be non-empty.
 		$newData0 = $this->cache->get('folder/bar.txt');
 		$this->assertIsString($newData0['etag']);
 		$this->assertNotEmpty($newData0['etag']);
@@ -415,14 +415,14 @@ class ScannerTest extends TestCase {
 		$this->scanner->scan('');
 
 		$oldFolderEntry = $this->cache->get('folder');
-		// create a new file in a folder by keeping the mtime unchanged, but mark the folder as unscanned
+		// Add a file without changing the folder mtime, then mark the folder unscanned.
 		$this->storage->file_put_contents('folder/new.txt', 'foo');
 		$this->storage->touch('folder', $oldFolderEntry->getMTime());
 		$this->cache->update($oldFolderEntry->getId(), ['size' => -1]);
 
 		$this->scanner->scan('');
 
-		$this->cache->inCache('folder/new.txt');
+		$this->assertTrue($this->cache->inCache('folder/new.txt'));
 
 		$newFolderEntry = $this->cache->get('folder');
 		$this->assertNotEquals($newFolderEntry->getEtag(), $oldFolderEntry->getEtag());
@@ -436,17 +436,18 @@ class ScannerTest extends TestCase {
 
 		$oldFolderEntry1 = $this->cache->get('folder');
 		$oldFolderEntry2 = $this->cache->get('folder/sub');
-		// create a new file in a folder by keeping the mtime unchanged, but mark the folder as unscanned
+		// Add a file without changing its parent folder's mtime, then mark that folder unscanned.
 		$this->storage->file_put_contents('folder/sub/new.txt', 'foo');
-		$this->storage->touch('folder/sub', $oldFolderEntry1->getMTime());
+		$this->storage->touch('folder/sub', $oldFolderEntry2->getMTime());
 
-		// we only mark the direct parent as unscanned, which is the current "notify" behavior
+		// Notifications mark the new file's direct parent as unscanned, not its ancestors.
 		$this->cache->update($oldFolderEntry2->getId(), ['size' => -1]);
 
 		$this->scanner->scan('');
 
-		$this->cache->inCache('folder/new.txt');
+		$this->assertTrue($this->cache->inCache('folder/sub/new.txt'));
 
+		// The changed subfolder ETag must also be reflected in its ancestor.
 		$newFolderEntry1 = $this->cache->get('folder');
 		$this->assertNotEquals($newFolderEntry1->getEtag(), $oldFolderEntry1->getEtag());
 		$newFolderEntry2 = $this->cache->get('folder/sub');
