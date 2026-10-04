@@ -100,6 +100,15 @@ interface IProvider {
 	public function invalidateLastUsedBefore(string $uid, int $before): void;
 
 	/**
+	 * Invalidate every token of a user. Tokens pending a remote wipe are kept, because
+	 * invalidating one cancels its wipe.
+	 *
+	 * @param int|null $exceptTokenId Token to keep as well, e.g. the caller's own session
+	 * @return list<int> Ids of the invalidated tokens
+	 */
+	public function invalidateTokensOfUserExcept(string $uid, ?int $exceptTokenId): array;
+
+	/**
 	 * Save the updated token
 	 *
 	 * @param OCPIToken $token
