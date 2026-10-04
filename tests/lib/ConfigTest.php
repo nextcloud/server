@@ -47,6 +47,14 @@ class ConfigTest extends TestCase {
 		$this->assertSame($expectedConfig, $this->getConfig()->getKeys());
 	}
 
+	#[WithEnvironmentVariable('NC_foo', 'baz')]
+	public function testGetKeysDoesNotDuplicateEnvironmentOverrideKey(): void {
+		$config = $this->getConfig();
+
+		$this->assertSame(['foo', 'beers', 'alcohol_free'], $config->getKeys());
+		$this->assertSame('baz', $config->getValue('foo'));
+	}
+
 	#[WithEnvironmentVariable('NC_taste', 'great')]
 	public function testGetKeysReturnsEnvironmentKeysIfSet() {
 		$expectedConfig = ['foo', 'beers', 'alcohol_free', 'taste'];
