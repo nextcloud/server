@@ -113,8 +113,8 @@ class ConfigTest extends TestCase {
 		$content = file_get_contents($this->configFile);
 		$this->assertEquals(self::TESTCONTENT, $content);
 
-		// Changing configs to existing values and deleting non-existing once
-		// should not rewrite the config.php
+		// Setting values to their current values or deleting non-existent keys
+		// should not rewrite config.php.
 		$config->setValues([
 			'foo' => 'bar',
 			'not_exists' => null,
@@ -130,7 +130,7 @@ class ConfigTest extends TestCase {
 			'alcohol_free' => null,
 		]);
 		$this->assertSame('moo', $config->getValue('foo'));
-		$this->assertSame(null, $config->getValue('not_exists'));
+		$this->assertSame('missing', $config->getValue('alcohol_free', 'missing'));
 
 		$content = file_get_contents($this->configFile);
 		$expected = "<?php\n";
