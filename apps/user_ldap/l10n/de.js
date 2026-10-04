@@ -262,7 +262,7 @@ OC.L10N.register(
     "Back" : "Zurück",
     "Continue" : "Fortsetzen",
     "Please renew your password." : "Bitte dein Passwort erneuern",
-    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitte die Systemadministration kontaktieren und diese um die Installation des Moduls bitten.",
+    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Achtung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Die Systemadministration kontaktieren und sie um Installation des Moduls bitten.",
     "Configuration Active" : "Konfiguration aktiv",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Nur für Testzwecke geeignet, sollte Standardmäßig nicht verwendet werden. Falls die Verbindung nur mit dieser Option funktioniert, das SSL-Zertifikat des LDAP-Servers in deinen %s Server importieren.",
     "\"$home\" Placeholder Field" : "\"$home\" Platzhalter-Feld",
