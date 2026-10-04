@@ -46,6 +46,8 @@ OC.L10N.register(
     "Video" : "Video",
     "File type" : "Filtype",
     "Tag" : "Mærke",
+    "Start time" : "Starttidspunkt",
+    "End time" : "Sluttidspunkt",
     "Timezone" : "Tidszone",
     "Files WebDAV" : "Fil WebDAV",
     "Request URL" : "Forespurgt URL",

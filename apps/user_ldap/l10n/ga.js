@@ -135,6 +135,7 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Ceadaíonn sé logáil isteach i gcoinne tréith ríomhphoist. Ceadaítear 'mail' agus 'mailPrimaryAddress'.",
     "LDAP/AD Email Address:" : "Seoladh Ríomhphoist LDAP/AD:",
     "Other Attributes:" : "Tréithe Eile:",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "Sainmhíníonn sé an scagaire atá le cur i bhfeidhm nuair a dhéantar iarracht logáil isteach. Cuirtear `%uid` in áit an ainm úsáideora sa ghníomh logála isteach. Sampla: `uid=%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Iarrachtaí DN a fháil don ainm logála isteach tugtha agus don scagaire logála isteach reatha",
     "Test Login name" : "Ainm Logála Isteach Tástála",
     "Verify settings" : "Fíoraigh socruithe",
