@@ -2,6 +2,7 @@ OC.L10N.register(
     "sharing",
     {
     "The owner does not exist: %s" : "Ejeren eksisterer ikke: %s",
-    "Sharing" : "Deling"
+    "Sharing" : "Deling",
+    "This app provides APIs and occ commands to manage shares." : "Denne app leverer API'er og occ-kommandoer til at administrere delinger."
 },
 "nplurals=2; plural=(n != 1);");

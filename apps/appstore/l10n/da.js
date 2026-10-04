@@ -1,6 +1,7 @@
 OC.L10N.register(
     "appstore",
     {
+    "App store" : "App Store",
     "Apps" : "Apps",
     "App name" : "App navn",
     "Version" : "Version",
@@ -9,6 +10,10 @@ OC.L10N.register(
     "Show details" : "Vis detaljer",
     "Grid view" : "Gittervisning",
     "Cancel" : "Annullér",
+    "Office suite switching is managed through the Nextcloud All-in-One interface." : "Skift af kontorpakke styres i grænsefladen til Nextcloud All-in-One.",
+    "Please use the AIO interface to switch between office suites." : "Brug AIO-grænsefladen til at skifte mellem kontorpakker.",
+    "Disable office suites" : "Deaktiver kontorpakker",
+    "installed" : "installeret",
     "Features" : "Funktioner",
     "Learn more" : "Lær mere",
     "Daemon" : "Systemtjeneste",
@@ -100,6 +105,16 @@ OC.L10N.register(
     "App bundles" : "App bundles",
     "Featured apps" : "Udvalgte apps",
     "Supported apps" : "Understøttede apps",
+    "Good Nextcloud integration" : "God integration med Nextcloud",
+    "Open source" : "Open source",
+    "Best performance" : "Bedste ydeevne",
+    "Limited ODF compatibility" : "Begrænset ODF-kompatibilitet",
+    "Best Microsoft compatibility" : "Bedste kompatibilitet med Microsoft",
+    "Best Nextcloud integration" : "Bedste integration med Nextcloud",
+    "Good performance" : "God ydeevne",
+    "Best security: documents never leave your server" : "Bedste sikkerhed: dokumenterne forlader aldrig din server",
+    "Best ODF compatibility" : "Bedste ODF-kompatibilitet",
+    "Best support for legacy files" : "Bedste understøttelse af ældre filer",
     "An error occurred during the request. Unable to proceed." : "Der opstod en fejl under anmodningen. Kan ikke fortsætte."
 },
 "nplurals=2; plural=(n != 1);");
