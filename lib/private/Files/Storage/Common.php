@@ -81,14 +81,15 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	}
 
 	protected function remove(string $path): bool {
-		if ($this->file_exists($path)) {
-			if ($this->is_dir($path)) {
-				return $this->rmdir($path);
-			} elseif ($this->is_file($path)) {
-				return $this->unlink($path);
-			}
+		if (!$this->file_exists($path)) {
+			return false;
 		}
-		return false;
+
+		if ($this->is_dir($path)) {
+			return $this->rmdir($path);
+		} elseif ($this->is_file($path)) {
+			return $this->unlink($path);
+		}
 	}
 
 	#[\Override]
@@ -216,32 +217,70 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 
 	#[\Override]
 	public function copy(string $source, string $target): bool {
+		// Copying a path onto itself must not truncate a file or remove a directory.
+		// FIXME: This only catches identical path strings; normalized aliases and
+		// overlapping directory paths (ancestor/descendant) are not detected.
+		if ($source === $target) {
+			return $this->file_exists($source);
+		}
+
 		if ($this->is_dir($source)) {
-			$this->remove($target);
-			$dir = $this->opendir($source);
-			$this->mkdir($target);
-			while (($file = readdir($dir)) !== false) {
-				if (!Filesystem::isIgnoredDir($file)) {
+			$dir = false;
+			try {
+				$dir = $this->opendir($source);
+				if (!is_resource($dir)) {
+					return false;
+				}
+
+				if (($this->file_exists($target) && !$this->remove($target))
+					|| !$this->mkdir($target)) {
+					return false;
+				}
+
+				while (($file = readdir($dir)) !== false) {
+					if (Filesystem::isIgnoredDir($file)) {
+						continue;
+					}
+					// FIXME: A failed copy can leave a partially written target file or directory tree.
+					// Overwriting an existing target removes it before the copy completes.
 					if (!$this->copy($source . '/' . $file, $target . '/' . $file)) {
-						closedir($dir);
 						return false;
 					}
 				}
+				return true;
+			} finally {
+				if (is_resource($dir)) {
+					closedir($dir);
+				}
 			}
-			closedir($dir);
-			return true;
 		} else {
 			$sourceStream = $this->fopen($source, 'r');
-			$targetStream = $this->fopen($target, 'w');
-			$result = stream_copy_to_stream($sourceStream, $targetStream);
-			if ($result !== false) {
-				$result = true;
+			if (!is_resource($sourceStream)) {
+				return false;
+ 			}
+
+			try {
+				$targetStream = $this->fopen($target, 'w');
+				if (!is_resource($targetStream)) {
+					return false;
+				}
+
+				try {
+					// FIXME: If copying fails, the target may be left partially written.
+					$result = stream_copy_to_stream($sourceStream, $targetStream);
+				} finally {
+					$closeResult = fclose($targetStream);
+					$this->removeCachedFile($target);
+				}
+
+				if ($result === false || $closeResult === false) {
+					Server::get(LoggerInterface::class)->warning("Failed to write data while copying $source to $target");
+					return false;
+				}
+				return true;
+			} finally {
+				fclose($sourceStream);
 			}
-			if (!$result) {
-				Server::get(LoggerInterface::class)->warning("Failed to write data while copying $source to $target");
-			}
-			$this->removeCachedFile($target);
-			return $result;
 		}
 	}
 
