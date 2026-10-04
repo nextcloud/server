@@ -188,6 +188,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 			['/index.php', 'http://localhost/nextcloud/index.php'],
 			['/apps/index.php', 'http://localhost/nextcloud/apps/index.php'],
 			['apps/index.php', 'http://localhost/nextcloud/apps/index.php'],
+			['/nextcloud/apps/index.php', 'http://localhost/nextcloud/apps/index.php'],
 		];
 	}
 
