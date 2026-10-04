@@ -17,8 +17,6 @@ use PHPUnit\Framework\Attributes\WithEnvironmentVariable;
 class ConfigTest extends TestCase {
 	public const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false);';
 
-	/** @var array */
-	private $initialConfig = ['foo' => 'bar', 'beers' => ['Appenzeller', 'Guinness', 'Kölsch'], 'alcohol_free' => false];
 	/** @var string */
 	private $configFile;
 	/** @var string */
@@ -57,7 +55,7 @@ class ConfigTest extends TestCase {
 	}
 
 	#[WithEnvironmentVariable('NC_taste', 'great')]
-	public function testGetKeysReturnsEnvironmentKeysIfSet() {
+	public function testGetKeysReturnsEnvironmentKeysIfSet(): void {
 		$expectedConfig = ['foo', 'beers', 'alcohol_free', 'taste'];
 		$this->assertSame($expectedConfig, $this->getConfig()->getKeys());
 	}
