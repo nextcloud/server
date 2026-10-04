@@ -250,6 +250,7 @@ class Application extends App implements IBootstrap {
 	#[\Override]
 	public function boot(IBootContext $context): void {
 		VObject\Component\VCalendar::$propertyMap[TipBroker::INVITATION_FORWARDING_PROPERTY] = VObject\Property\Boolean::class;
+		VObject\Component\VCalendar::$propertyMap[TipBroker::ALLOW_ATTENDEE_GUESTS_PROPERTY] = VObject\Property\Boolean::class;
 
 		// Load all dav apps
 		$context->getServerContainer()->get(IAppManager::class)->loadApps(['dav']);
