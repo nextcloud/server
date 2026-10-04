@@ -17,16 +17,18 @@ use PHPUnit\Framework\Attributes\WithEnvironmentVariable;
 class ConfigTest extends TestCase {
 	public const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false);';
 
-	/** @var string */
-	private $configFile;
-	/** @var string */
-	private $randomTmpDir;
+	private string $configFile;
+	private string $randomTmpDir;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->randomTmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
+		$randomTmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
+		if ($randomTmpDir === false) {
+			throw new \RuntimeException('Could not create temporary directory for ConfigTest');
+		}
+		$this->randomTmpDir = $randomTmpDir;
 		$this->configFile = $this->randomTmpDir . 'testconfig.php';
 		file_put_contents($this->configFile, self::TESTCONTENT);
 	}
@@ -73,19 +75,19 @@ class ConfigTest extends TestCase {
 	#[WithEnvironmentVariable('NC_foo', 'baz')]
 	public function testGetValueReturnsEnvironmentValueIfSet(): void {
 		$config = $this->getConfig();
-		$this->assertEquals('baz', $config->getValue('foo'));
+		$this->assertSame('baz', $config->getValue('foo'));
 	}
 
 	#[WithEnvironmentVariable('NC_foo', '0')]
 	public function testGetValueReturnsEnvironmentValueIfSetToZero(): void {
 		$config = $this->getConfig();
-		$this->assertEquals('0', $config->getValue('foo'));
+		$this->assertSame('0', $config->getValue('foo'));
 	}
 
 	#[WithEnvironmentVariable('NC_foo', 'false')]
 	public function testGetValueReturnsEnvironmentValueIfSetToFalse(): void {
 		$config = $this->getConfig();
-		$this->assertEquals('false', $config->getValue('foo'));
+		$this->assertSame('false', $config->getValue('foo'));
 	}
 
 	public function testSetValue(): void {
@@ -98,7 +100,7 @@ class ConfigTest extends TestCase {
 		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n);\n";
-		$this->assertEquals($expected, $content);
+		$this->assertSame($expected, $content);
 
 		$config->setValue('bar', 'red');
 		$config->setValue('apps', ['files', 'gallery']);
@@ -112,13 +114,13 @@ class ConfigTest extends TestCase {
 		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'bar' => 'red',\n  'apps' => \n "
 			. " array (\n    0 => 'files',\n    1 => 'gallery',\n  ),\n);\n";
-		$this->assertEquals($expected, $content);
+		$this->assertSame($expected, $content);
 	}
 
 	public function testSetValues(): void {
 		$config = $this->getConfig();
 		$content = file_get_contents($this->configFile);
-		$this->assertEquals(self::TESTCONTENT, $content);
+		$this->assertSame(self::TESTCONTENT, $content);
 
 		// Setting values to their current values or deleting non-existent keys
 		// should not rewrite config.php.
@@ -130,7 +132,7 @@ class ConfigTest extends TestCase {
 		$this->assertSame('bar', $config->getValue('foo'));
 		$this->assertSame(null, $config->getValue('not_exists'));
 		$content = file_get_contents($this->configFile);
-		$this->assertEquals(self::TESTCONTENT, $content);
+		$this->assertSame(self::TESTCONTENT, $content);
 
 		$config->setValues([
 			'foo' => 'moo',
@@ -144,7 +146,7 @@ class ConfigTest extends TestCase {
 		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n);\n";
-		$this->assertEquals($expected, $content);
+		$this->assertSame($expected, $content);
 	}
 
 	public function testDeleteKey(): void {
@@ -157,7 +159,7 @@ class ConfigTest extends TestCase {
 		$expected .= Config::CONF_WARNING;
 		$expected .= "\$CONFIG = array (\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n);\n";
-		$this->assertEquals($expected, $content);
+		$this->assertSame($expected, $content);
 	}
 
 	public function testConfigMerge(): void {
@@ -171,7 +173,7 @@ class ConfigTest extends TestCase {
 
 		// Ensure that the config value can be read and the config has not been modified
 		$this->assertSame('totallyOutdated', $config->getValue('php53', 'bogusValue'));
-		$this->assertEquals(self::TESTCONTENT, file_get_contents($this->configFile));
+		$this->assertSame(self::TESTCONTENT, file_get_contents($this->configFile));
 
 		// Write a new value to the config
 		$config->setValue('CoolWebsites', ['demo.owncloud.org', 'owncloud.org', 'owncloud.com']);
@@ -180,6 +182,6 @@ class ConfigTest extends TestCase {
 		$expected .= "\$CONFIG = array (\n  'foo' => 'bar',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  "
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'php53' => 'totallyOutdated',\n  'CoolWebsites' => \n  array (\n  "
 			. "  0 => 'demo.owncloud.org',\n    1 => 'owncloud.org',\n    2 => 'owncloud.com',\n  ),\n);\n";
-		$this->assertEquals($expected, file_get_contents($this->configFile));
+		$this->assertSame($expected, file_get_contents($this->configFile));
 	}
 }
