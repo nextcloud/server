@@ -141,13 +141,7 @@ class CardDavBackendTest extends TestCase {
 			$this->createMock(LoggerInterface::class)
 		);
 
-		$this->backend = new CardDavBackend($this->db,
-			$this->principal,
-			$this->userManager,
-			$this->dispatcher,
-			$this->sharingBackend,
-			$this->config,
-		);
+		$this->backend = $this->createBackend();
 		// start every test with a empty cards_properties and cards table
 		$query = $this->db->getQueryBuilder();
 		$query->delete('cards_properties')->executeStatement();
@@ -161,6 +155,44 @@ class CardDavBackendTest extends TestCase {
 		foreach ($books as $book) {
 			$this->backend->deleteAddressBook($book['id']);
 		}
+	}
+
+	/**
+	 * A fresh instance starts with an empty in-memory etag cache, like a
+	 * subsequent request or background job would.
+	 */
+	private function createBackend(): CardDavBackend {
+		return new CardDavBackend($this->db,
+			$this->principal,
+			$this->userManager,
+			$this->dispatcher,
+			$this->sharingBackend,
+			$this->config,
+		);
+	}
+
+	private function countChanges(int $addressBookId): int {
+		$query = $this->db->getQueryBuilder();
+		$query->select($query->func()->count('*'))
+			->from('addressbookchanges')
+			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
+		$result = $query->executeQuery();
+		$count = (int)$result->fetchOne();
+		$result->closeCursor();
+
+		return $count;
+	}
+
+	private function getSyncToken(int $addressBookId): int {
+		$query = $this->db->getQueryBuilder();
+		$query->select('synctoken')
+			->from('addressbooks')
+			->where($query->expr()->eq('id', $query->createNamedParameter($addressBookId)));
+		$result = $query->executeQuery();
+		$syncToken = (int)$result->fetchOne();
+		$result->closeCursor();
+
+		return $syncToken;
 	}
 
 	protected function tearDown(): void {
@@ -484,6 +516,69 @@ class CardDavBackendTest extends TestCase {
 
 		// delete the card
 		$this->assertTrue($this->backend->deleteCard($bookId, $uri));
+	}
+
+	public function testDeleteCardWithoutMatchingRowRecordsNoChange(): void {
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$books = $this->backend->getUsersOwnAddressBooks(self::UNIT_TEST_USER);
+		$bookId = (int)$books[0]['id'];
+
+		$this->assertFalse($this->backend->deleteCard($bookId, 'does-not-exist.vcf'));
+
+		$this->assertSame(0, $this->countChanges($bookId));
+		$this->assertSame(1, $this->getSyncToken($bookId));
+	}
+
+	public function testUpdateCardWithUnchangedDataRecordsNoChange(): void {
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$books = $this->backend->getUsersOwnAddressBooks(self::UNIT_TEST_USER);
+		$bookId = (int)$books[0]['id'];
+
+		$uri = $this->getUniqueID('card');
+		$this->backend->createCard($bookId, $uri, $this->vcardTest0);
+		$changesAfterCreate = $this->countChanges($bookId);
+		$syncTokenAfterCreate = $this->getSyncToken($bookId);
+
+		$etag = $this->createBackend()->updateCard($bookId, $uri, $this->vcardTest0);
+
+		$this->assertEquals('"' . md5($this->vcardTest0) . '"', $etag);
+		$this->assertSame($changesAfterCreate, $this->countChanges($bookId));
+		$this->assertSame($syncTokenAfterCreate, $this->getSyncToken($bookId));
+	}
+
+	public function testUpdateCardWithChangedDataRecordsChange(): void {
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$books = $this->backend->getUsersOwnAddressBooks(self::UNIT_TEST_USER);
+		$bookId = (int)$books[0]['id'];
+
+		$uri = $this->getUniqueID('card');
+		$this->backend->createCard($bookId, $uri, $this->vcardTest0);
+		$changesAfterCreate = $this->countChanges($bookId);
+		$syncTokenAfterCreate = $this->getSyncToken($bookId);
+
+		$this->createBackend()->updateCard($bookId, $uri, $this->vcardTest1);
+
+		$this->assertSame($changesAfterCreate + 1, $this->countChanges($bookId));
+		$this->assertSame($syncTokenAfterCreate + 1, $this->getSyncToken($bookId));
+	}
+
+	/**
+	 * Federated full syncs null `lastmodified` up front and delete whatever is
+	 * still null afterwards, so an unchanged card must still refresh the column.
+	 */
+	public function testUpdateCardWithUnchangedDataClearsPendingState(): void {
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$books = $this->backend->getUsersOwnAddressBooks(self::UNIT_TEST_USER);
+		$bookId = (int)$books[0]['id'];
+
+		$uri = $this->getUniqueID('card');
+		$this->backend->createCard($bookId, $uri, $this->vcardTest0);
+		$this->backend->markCardsAsPending($bookId);
+		$this->assertCount(1, $this->backend->getPendingCards($bookId));
+
+		$this->createBackend()->updateCard($bookId, $uri, $this->vcardTest0);
+
+		$this->assertEmpty($this->backend->getPendingCards($bookId));
 	}
 
 	public function testSyncSupport(): void {
