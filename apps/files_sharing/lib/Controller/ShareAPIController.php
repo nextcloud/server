@@ -2221,32 +2221,33 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @psalm-template T of array{tags?: list<string>, file_source: int, ...array<string, mixed>}
 	 * @param list<T> $fileList
-	 * @return list<T> file list populated with tags
+	 * @return list<T&array{tags: list<string>}> file list populated with tags
 	 */
 	private function populateTags(array $fileList): array {
+		if ($fileList === []) {
+			return [];
+		}
+
 		$tagger = $this->tagManager->load('files');
-		$tags = $tagger->getTagsForObjects(array_map(static fn (array $fileData) => $fileData['file_source'], $fileList));
+		$tags = $tagger->getTagsForObjects(array_map(
+			static fn (array $fileData) => $fileData['file_source'],
+			$fileList
+		));
 
 		if (!is_array($tags)) {
 			throw new \UnexpectedValueException('$tags must be an array');
 		}
 
-		// Set empty tag array
-		foreach ($fileList as &$fileData) {
-			$fileData['tags'] = [];
+		$index = [];
+		foreach ($fileList as $i => $fileData) {
+			$fileList[$i]['tags'] = [];
+			// Multiple share rows can point to the same file_source, so store all positions.
+			$index[$fileData['file_source']][] = $i;
 		}
-		unset($fileData);
 
-		if (!empty($tags)) {
-			foreach ($tags as $fileId => $fileTags) {
-				foreach ($fileList as &$fileData) {
-					if ($fileId !== $fileData['file_source']) {
-						continue;
-					}
-
-					$fileData['tags'] = $fileTags;
-				}
-				unset($fileData);
+		foreach ($tags as $fileSource => $fileTags) {
+			foreach ($index[$fileSource] ?? [] as $i) {
+				$fileList[$i]['tags'] = $fileTags;
 			}
 		}
 
