@@ -90,6 +90,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 		} elseif ($this->is_file($path)) {
 			return $this->unlink($path);
 		}
+
+		return false;
 	}
 
 	#[\Override]
