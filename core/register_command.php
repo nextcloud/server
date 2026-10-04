@@ -156,6 +156,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->addCommand(Server::get(Delete::class));
 	$application->addCommand(Server::get(JobWorker::class));
 	$application->addCommand(Server::get(RunningJobs::class));
+	$application->addCommand(Server::get(Command\MessageQueue\Consume::class));
 	$application->addCommand(Server::get(JobsHistory::class));
 
 	$application->addCommand(Server::get(Test::class));

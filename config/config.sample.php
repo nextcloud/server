@@ -1767,12 +1767,38 @@ $CONFIG = [
 	 * the background jobs which advertise themselves as not time sensitive will be
 	 * delayed during the "working" hours and only run in the 4 hours after the given time.
 	 * This is, e.g., used for activity expiration, suspicious login training, and update checks.
+	 * Messages in the low priority queue of the message queue are delayed the same way.
 	 *
 	 * A value of 1, e.g., will only run these background jobs between 01:00am UTC and 05:00am UTC.
 	 *
 	 * Defaults to ``100`` which disables the feature
 	 */
 	'maintenance_window_start' => 1,
+
+	/**
+	 * Consume the message queue during cron runs
+	 *
+	 * Messages dispatched by apps are handled after the background jobs of each
+	 * cron run. Large instances can disable this and instead run one or more
+	 * dedicated workers with ``occ message-queue:consume``.
+	 *
+	 * Defaults to ``true``
+	 */
+	'message_queue.consume_in_cron' => true,
+
+	/**
+	 * Handle messages right after the request
+	 *
+	 * When running under PHP-FPM, messages dispatched during a web request are
+	 * handled by the same PHP process after the response was sent to the
+	 * client, so they don't have to wait for the next cron run. Messages that
+	 * are not handled within a few seconds stay in the queue. Large instances
+	 * running dedicated workers can disable this to keep PHP-FPM processes
+	 * available for requests.
+	 *
+	 * Defaults to ``true``
+	 */
+	'message_queue.handle_after_request' => true,
 
 	/**
 	 * Log all LDAP requests into a file

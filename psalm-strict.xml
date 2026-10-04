@@ -69,6 +69,10 @@
 		<directory name="lib/public/SystemReport"/>
 		<directory name="lib/private/SystemReport"/>
 		<directory name="tests/lib/SystemReport"/>
+		<directory name="lib/public/MessageQueue"/>
+		<directory name="lib/private/MessageQueue"/>
+		<directory name="core/Command/MessageQueue"/>
+		<directory name="tests/lib/MessageQueue"/>
 		<ignoreFiles>
 			<!-- Circles internals are used -->
 			<file name="core/Sharing/Recipient/TeamShareRecipientType.php"/>
