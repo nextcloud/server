@@ -9,6 +9,7 @@
 namespace Test;
 
 use OC\Config;
+use OCP\Files;
 use OCP\ITempManager;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\WithEnvironmentVariable;
@@ -34,7 +35,7 @@ class ConfigTest extends TestCase {
 
 	#[\Override]
 	protected function tearDown(): void {
-		unlink($this->configFile);
+		Files::rmdirr($this->randomTmpDir);
 		parent::tearDown();
 	}
 
@@ -182,8 +183,5 @@ class ConfigTest extends TestCase {
 			. "  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n  'alcohol_free' => false,\n  'php53' => 'totallyOutdated',\n  'CoolWebsites' => \n  array (\n  "
 			. "  0 => 'demo.owncloud.org',\n    1 => 'owncloud.org',\n    2 => 'owncloud.com',\n  ),\n);\n";
 		$this->assertEquals($expected, file_get_contents($this->configFile));
-
-		// Cleanup
-		unlink($additionalConfigPath);
 	}
 }
