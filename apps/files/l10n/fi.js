@@ -199,6 +199,7 @@ OC.L10N.register(
     "Refresh" : "Päivitä",
     "Sanitization errors" : "Siistimisvirheet",
     "Windows filename support has been enabled." : "Windows-tiedostonimien tuki on otettu käyttöön.",
+    "Limit" : "Raja",
     "Sanitize filenames" : "Siisti tiedostonimet",
     "(starting)" : "(aloitetaan)",
     "Submit" : "Lähetä",
