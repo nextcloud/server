@@ -670,7 +670,7 @@
     "Default language" : "Standard-Sprache",
     "Common languages" : "Gebräuchliche Sprachen",
     "Other languages" : "Weitere Sprachen",
-    "Password change is disabled because the master key is disabled" : "Das Ändern des Passwortes ist deaktiviert, da der Master-Schlüssel deaktiviert ist",
+    "Password change is disabled because the master key is disabled" : "Das Ändern des Passwortes ist deaktiviert, da der Hauptschlüssel deaktiviert ist",
     "No accounts" : "Keine Konten",
     "Loading accounts …" : "Lade Konten …",
     "List of accounts. This list is not fully rendered for performance reasons. The accounts will be rendered as you navigate through the list." : "Kontenliste. Diese Liste wird aus Performance-Gründen nicht vollständig ausgegeben. Die Konten werden ausgegeben, wenn Sie durch die Liste navigieren.",

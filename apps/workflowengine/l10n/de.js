@@ -59,7 +59,7 @@ OC.L10N.register(
     "Video" : "Video",
     "File type" : "Dateityp",
     "Custom MIME type" : "Benutzerdefinierter MIME Typ",
-    "e.g. httpd/unix-directory" : "z. B. httpd/unix-directory",
+    "e.g. httpd/unix-directory" : "z. B. httpd/unix-directory",
     "Select a file type" : "Dateityp auswählen",
     "Tag" : "Schlagwort",
     "Start time" : "Startzeit",
