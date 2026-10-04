@@ -160,14 +160,14 @@ class ScannerTest extends TestCase {
 
 		$this->scanner->scan('', IScanner::SCAN_SHALLOW);
 		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
-		$this->assertFalse($this->cache->inCache('folder/2bar.txt'));
+		$this->assertFalse($this->cache->inCache('folder2/bar.txt'));
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(-1, $cachedData['size']);
 
 		$this->scanner->backgroundScan();
 
 		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
-		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
+		$this->assertTrue($this->cache->inCache('folder2/bar.txt'));
 
 		$cachedData = $this->cache->get('');
 		$this->assertnotEquals(-1, $cachedData['size']);
@@ -182,16 +182,15 @@ class ScannerTest extends TestCase {
 
 		$this->scanner->scan('', IScanner::SCAN_SHALLOW);
 		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
-		$this->assertFalse($this->cache->inCache('folder/2bar.txt'));
 		$this->assertFalse($this->cache->inCache('folder2/bar.txt'));
-		$this->cache->put('folder2', ['size' => 1]); // mark as complete
+		// Mark folder2 complete so the incomplete-only scan skips its contents.
+		$this->cache->put('folder2', ['size' => 1]);
 
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(-1, $cachedData['size']);
 
 		$this->scanner->scan('', IScanner::SCAN_RECURSIVE_INCOMPLETE, IScanner::REUSE_ETAG | IScanner::REUSE_SIZE);
 
-		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
 		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
 		$this->assertFalse($this->cache->inCache('folder2/bar.txt'));
 
@@ -212,7 +211,7 @@ class ScannerTest extends TestCase {
 		$this->cache->put('folder', ['size' => -1]);
 		$this->cache->put('folder/subfolder1', ['size' => -1]);
 
-		// do a scan to get the folders into the cache.
+		// Cache the newly created directory tree before adding files to it.
 		$this->scanner->backgroundScan();
 
 		$this->assertTrue($this->cache->inCache('folder/subfolder1/subfolder3'));
@@ -221,7 +220,7 @@ class ScannerTest extends TestCase {
 		$this->storage->file_put_contents('folder/subfolder1/subfolder3/bar3.txt', 'foobar');
 		$this->storage->file_put_contents('folder/subfolder2/bar2.txt', 'foobar');
 
-		//mark folders as incomplete.
+		// Mark the new files' parent folders incomplete to simulate notifications.
 		$this->cache->put('folder/subfolder1', ['size' => -1]);
 		$this->cache->put('folder/subfolder2', ['size' => -1]);
 		$this->cache->put('folder/subfolder1/subfolder3', ['size' => -1]);
@@ -232,7 +231,6 @@ class ScannerTest extends TestCase {
 		$this->assertTrue($this->cache->inCache('folder/subfolder2/bar2.txt'));
 		$this->assertTrue($this->cache->inCache('folder/subfolder1/subfolder3/bar3.txt'));
 
-		//check if folder sizes are correct.
 		$this->assertEquals(18, $this->cache->get('folder')['size']);
 		$this->assertEquals(12, $this->cache->get('folder/subfolder1')['size']);
 		$this->assertEquals(6, $this->cache->get('folder/subfolder1/subfolder3')['size']);
