@@ -955,13 +955,16 @@ class View {
 			}
 			$run = true;
 
-			$this->lockFile($target, ILockingProvider::LOCK_SHARED);
-			$this->lockFile($source, ILockingProvider::LOCK_SHARED);
+			$targetLocked = $this->lockFile($target, ILockingProvider::LOCK_SHARED);
+			$sourceLocked = false;
 			$lockTypePath1 = ILockingProvider::LOCK_SHARED;
 			$lockTypePath2 = ILockingProvider::LOCK_SHARED;
 
+			$operationException = null;
 			try {
+				$sourceLocked = $this->lockFile($source, ILockingProvider::LOCK_SHARED);
 				$exists = $this->file_exists($target);
+
 				if ($this->shouldEmitHooks($source) && $this->shouldEmitHooks($target)) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
@@ -974,6 +977,7 @@ class View {
 					);
 					$this->emit_file_hooks_pre($exists, $target, $run);
 				}
+
 				if ($run) {
 					$mount1 = $this->getMount($source);
 					$mount2 = $this->getMount($target);
@@ -1014,15 +1018,54 @@ class View {
 						$this->emit_file_hooks_post($exists, $target);
 					}
 				}
-			} catch (\Exception $e) {
-				$this->unlockFile($target, $lockTypePath2);
-				$this->unlockFile($source, $lockTypePath1);
+			} catch (\Throwable $e) {
+				$operationException = $e;
 				throw $e;
-			}
+			} finally {
+				$cleanupException = null;
 
-			$this->unlockFile($target, $lockTypePath2);
-			$this->unlockFile($source, $lockTypePath1);
+				// Preserve the prior target-then-source unlock order, but do not
+				// leave the source locked if releasing the target itself fails.
+				try {
+					if ($targetLocked) {
+						$this->unlockFile($target, $lockTypePath2);
+					}
+				} catch (\Throwable $unlockException) {
+					if ($operationException !== null) {
+						$this->logger->error('Failed to release target lock after copy operation', [
+							'app' => 'core',
+							'source' => $source,
+							'target' => $target,
+							'exception' => $unlockException,
+						]);
+					} else {
+						$cleanupException = $unlockException;
+					}
+				}
+
+				try {
+					if ($sourceLocked) {
+						$this->unlockFile($source, $lockTypePath1);
+					}
+				} catch (\Throwable $unlockException) {
+					if ($operationException !== null || $cleanupException !== null) {
+						$this->logger->error('Failed to release source lock after copy operation', [
+							'app' => 'core',
+							'source' => $source,
+							'target' => $target,
+							'exception' => $unlockException,
+						]);
+					} else {
+						$cleanupException = $unlockException;
+					}
+				}
+
+				if ($operationException === null && $cleanupException !== null) {
+					throw $cleanupException;
+				}
+			}
 		}
+
 		return $result;
 	}
 
