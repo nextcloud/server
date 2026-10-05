@@ -181,12 +181,20 @@ class Generator {
 						throw new NotFoundException();
 					}
 
-					if ($maxPreviewImage === null) {
-						$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
-					}
-
 					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
-					$previewFile = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
+					$source = $maxPreviewImage === null ? $this->findResizeSource($previews, $maxPreview, $width, $height, $previewVersion) : null;
+					if ($source !== null) {
+						$sourceImage = $this->helper->getImage(new PreviewFile($source, $this->storageFactory, $this->previewMapper));
+						$previewFile = $this->generatePreview($file, $sourceImage, $width, $height, $crop, $source->getWidth(), $source->getHeight(), $previewVersion, $cacheResult);
+						if ($sourceImage instanceof Image) {
+							$sourceImage->destroy();
+						}
+					} else {
+						if ($maxPreviewImage === null) {
+							$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
+						}
+						$previewFile = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
+					}
 				}
 			} catch (\InvalidArgumentException $e) {
 				throw new NotFoundException('', 0, $e);
@@ -206,6 +214,28 @@ class Generator {
 		}
 
 		return $previewFile;
+	}
+
+	/**
+	 * Smallest cached, uncropped preview larger than the requested size
+	 *
+	 * @param Preview[] $previews
+	 */
+	private function findResizeSource(array $previews, Preview $maxPreview, int $width, int $height, ?string $version): ?Preview {
+		$source = null;
+		foreach ($previews as $preview) {
+			if ($preview->isMax() || $preview->isCropped()
+				|| $preview->getVersion() !== $version
+				|| $preview->getMimetype() !== $maxPreview->getMimetype()
+				|| $preview->getWidth() < $width || $preview->getHeight() < $height
+				|| ($preview->getWidth() === $width && $preview->getHeight() === $height)) {
+				continue;
+			}
+			if ($source === null || $preview->getWidth() * $preview->getHeight() < $source->getWidth() * $source->getHeight()) {
+				$source = $preview;
+			}
+		}
+		return $source;
 	}
 
 	/**
