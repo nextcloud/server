@@ -17,6 +17,7 @@ use OCA\Encryption\Util;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Config\IUserConfig;
+use OCP\Encryption\IManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -37,6 +38,7 @@ class Admin implements ISettings {
 		private IInitialState $initialState,
 		private IAppConfig $appConfig,
 		private IUserConfig $userConfig,
+		private IManager $encryptionManager,
 	) {
 	}
 
@@ -70,6 +72,7 @@ class Admin implements ISettings {
 			'initStatus' => $session->getStatus(),
 			'encryptHomeStorage' => $encryptHomeStorage,
 			'masterKeyEnabled' => $util->isMasterKeyEnabled(),
+			'serverSideEncryptionEnabled' => $this->encryptionManager->isEnabled(),
 		]);
 
 		\OCP\Util::addStyle(Application::APP_ID, 'settings_admin');

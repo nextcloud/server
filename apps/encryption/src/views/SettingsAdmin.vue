@@ -15,9 +15,10 @@ import { InitStatus } from '../utils/types.ts'
 
 const adminSettings = loadState<{
 	recoveryEnabled: boolean
-	masterKeyEnabled: boolean
-	encryptHomeStorage: boolean
 	initStatus: typeof InitStatus[keyof typeof InitStatus]
+	encryptHomeStorage: boolean
+	masterKeyEnabled: boolean
+	serverSideEncryptionEnabled: boolean
 }>('encryption', 'adminSettings')
 
 const encryptHomeStorage = ref(adminSettings.encryptHomeStorage!)
@@ -27,7 +28,9 @@ const recoveryEnabled = ref(adminSettings.recoveryEnabled!)
 <template>
 	<NcSettingsSection :name="t('encryption', 'Default encryption module')">
 		<NcNoteCard v-if="adminSettings.initStatus === InitStatus.NotInitialized && !adminSettings.masterKeyEnabled" type="warning">
-			{{ t('encryption', 'Encryption app is enabled but your keys are not initialized, please log-out and log-in again') }}
+			{{ adminSettings.serverSideEncryptionEnabled
+				? t('encryption', 'Your encryption keys are not initialized for this session. Please sign out and sign back in.')
+				: t('encryption', 'Server-side encryption is disabled. To enable it, open Administration settings, select Security, and turn on Server-side encryption.') }}
 		</NcNoteCard>
 
 		<template v-else>
