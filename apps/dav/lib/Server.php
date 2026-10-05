@@ -14,7 +14,6 @@ use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
-use OCA\DAV\CalDAV\EventComparisonService;
 use OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
@@ -358,7 +357,6 @@ class Server {
 						\OCP\Server::get(Defaults::class),
 						$userSession,
 						\OCP\Server::get(IMipService::class),
-						\OCP\Server::get(EventComparisonService::class),
 						\OCP\Server::get(\OCP\Mail\Provider\IManager::class),
 						\OCP\Server::get(IEmailValidator::class),
 						\OCP\Server::get(IAccountManager::class),
