@@ -569,6 +569,69 @@ class GeneratorTest extends TestCase {
 		$this->assertSame($expectedName, $result->getName());
 	}
 
+	#[TestWith(['image/png', false, true])]
+	#[TestWith(['image/jpeg', false, false])]
+	#[TestWith(['image/png', true, false])]
+	public function testResizeWithResizingProvider(string $maxMimeType, bool $hasSmallerPreview, bool $expectProviderResult): void {
+		$file = $this->getFile(42, 'myMimeType');
+
+		$this->getAutoMock(IPreview::class)->method('isMimeSupported')
+			->willReturn(true);
+
+		$maxPreview = new Preview();
+		$maxPreview->setWidth(2048);
+		$maxPreview->setHeight(2048);
+		$maxPreview->setMax(true);
+		$maxPreview->setSize(1000);
+		$maxPreview->setVersion(null);
+		$maxPreview->setMimeType($maxMimeType);
+		$previews = [$maxPreview];
+
+		if ($hasSmallerPreview) {
+			$smallerPreview = new Preview();
+			$smallerPreview->setWidth(256);
+			$smallerPreview->setHeight(256);
+			$smallerPreview->setMax(false);
+			$smallerPreview->setSize(1000);
+			$smallerPreview->setCropped(false);
+			$smallerPreview->setVersion(null);
+			$smallerPreview->setMimeType($maxMimeType);
+			$previews[] = $smallerPreview;
+		}
+
+		$this->getAutoMock(PreviewMapper::class)->method('getAvailablePreviews')
+			->willReturn([42 => $previews]);
+
+		$provider = $this->createMock(IProviderV2::class);
+		$provider->method('isAvailable')->willReturn(true);
+		$this->getAutoMock(IPreview::class)->method('getProviders')
+			->willReturn(['/.*/' => ['provider']]);
+		$this->getAutoMock(GeneratorHelper::class)->method('getProvider')
+			->willReturn($provider);
+		$this->getAutoMock(GeneratorHelper::class)->method('resizesEfficiently')
+			->with($provider)
+			->willReturn(true);
+
+		$this->getAutoMock(GeneratorHelper::class)->expects($hasSmallerPreview ? $this->never() : $this->once())
+			->method('getThumbnail')
+			->with($provider, $file, 64, 64, false)
+			->willReturn($this->getMockImage(64, 64, 'provider data'));
+		$this->getAutoMock(GeneratorHelper::class)->expects($expectProviderResult ? $this->never() : $this->once())
+			->method('getImage')
+			->willReturn($this->getMockImage(256, 256, 'resized data'));
+
+		$this->getAutoMock(PreviewMapper::class)->method('insert')
+			->willReturnCallback(fn (Preview $preview): Preview => $preview);
+		$this->getAutoMock(StorageFactory::class)->method('writePreview')
+			->willReturnCallback(function (Preview $preview, mixed $data) use ($expectProviderResult): int {
+				$this->assertSame($expectProviderResult ? 'provider data' : 'resized data', stream_get_contents($data));
+				return 1000;
+			});
+
+		$result = $this->generator->getPreview($file, 32, 32);
+		$this->assertSame('64-64.png', $result->getName());
+	}
+
 	public function testUnreadbleFile(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
