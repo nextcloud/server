@@ -117,4 +117,31 @@ class HomeCacheTest extends TestCase {
 		$this->assertFalse($this->cache->inCache($dir1));
 		$this->assertFalse($this->cache->inCache('test.txt'));
 	}
+
+	public static function specialFolderPathsDataProvider(): array {
+		return [
+			['files_trashbin'],
+			['files_versions'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('specialFolderPathsDataProvider')]
+	public function testSpecialFolderSizeIgnoresUnknownChildSizes(string $path): void {
+		$knownSizePath = $path . '/knownsize';
+		$unknownSizePath = $path . '/unknownsize';
+
+		$this->cache->put('', ['size' => 0, 'mtime' => 20, 'mimetype' => 'httpd/unix-directory']);
+		$this->cache->put($path, ['size' => -1, 'mtime' => 20, 'mimetype' => 'httpd/unix-directory']);
+		$this->cache->put($knownSizePath, ['size' => 1000, 'mtime' => 20, 'mimetype' => 'httpd/unix-directory']);
+		$this->cache->put($unknownSizePath, ['size' => -1, 'mtime' => 25, 'mimetype' => 'httpd/unix-directory']);
+
+		$this->assertSame(1000, $this->cache->calculateFolderSize($path));
+		$this->assertSame(1000, $this->cache->get($path)['size']);
+
+		$this->cache->remove('');
+
+		$this->assertFalse($this->cache->inCache($path));
+		$this->assertFalse($this->cache->inCache($knownSizePath));
+		$this->assertFalse($this->cache->inCache($unknownSizePath));
+	}
 }
