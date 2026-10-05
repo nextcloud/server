@@ -174,7 +174,7 @@ OC.L10N.register(
     "Groups" : "Gruppen",
     "Advanced" : "Fortgeschritten",
     "Expert" : "Experte",
-    "The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "Das PHP-Modul für LDAP ist nicht installiert, daher wird das Backend nicht funktionieren. Bitte die Systemadministration kontaktieren und diese um Installation des Moduls bitten.",
+    "The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitte die Systemadministration kontaktieren und sie um die Installation des Moduls bitten.",
     "Select LDAP Config" : "LDAP-Konfiguration auswählen",
     "Create New Config" : "Neue Konfiguration erstellen",
     "Create configuration" : "Konfiguration erstellen",
