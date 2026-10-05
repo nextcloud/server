@@ -324,7 +324,7 @@ class ScannerTest extends TestCase {
 		$data0['etag'] = '';
 		$this->cache->put('folder/bar.txt', $data0->getData());
 
-		// Rescanning must recreate the empty ETag.
+		// Rescanning must replace the empty cached ETag.
 		$this->scanner->scan('folder/bar.txt', IScanner::SCAN_SHALLOW, IScanner::REUSE_ETAG);
 
 		// The recreated ETag must be non-empty.
