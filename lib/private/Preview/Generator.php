@@ -35,6 +35,11 @@ class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
 	public const SEMAPHORE_ID_NEW = 0x07ea;
 
+	/** Formats whose max preview size can be read from the header */
+	private const LAZY_MAX_PREVIEW_MIMETYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+	/** Covers the size and EXIF orientation of a JPEG */
+	private const IMAGE_HEAD_SIZE = 256 * 1024;
+
 	private array $cachedNumConcurrentPreviews = [];
 
 	public function __construct(
@@ -126,21 +131,30 @@ class Generator {
 			$previewVersion = $file->getPreviewVersion();
 		}
 
-		// Get the max preview and infer the max preview sizes from that
-		// The image is only set if the max preview was just generated
-		[$maxPreview, $maxPreviewImage] = $this->getMaxPreview($previews, $file, $mimeType, $previewVersion);
-		if ($maxPreviewImage instanceof IStreamImage) {
-			$maxPreviewImage = null;
-		}
-		if ($maxPreview->getSize() === 0) {
-			$this->storageFactory->deletePreview($maxPreview);
-			$this->previewMapper->delete($maxPreview);
-			$this->logger->error('Max preview generated for file {path} has size 0, deleting and throwing exception.', ['path' => $file->getPath()]);
-			throw new NotFoundException('Max preview size 0, invalid!');
+		// Only generate the max preview when requested, if its size can be predicted
+		$maxPreview = $this->findMaxPreview($previews, $previewVersion);
+		$maxPreviewImage = null;
+		$predictedMaxSize = $maxPreview === null ? $this->predictMaxPreviewSize($file, $mimeType) : null;
+		if ($maxPreview === null && ($predictedMaxSize === null || $this->requiresMaxPreview($specifications, ...$predictedMaxSize))) {
+			// The image is only set if the max preview was just generated
+			[$maxPreview, $maxPreviewImage] = $this->getMaxPreview($previews, $file, $mimeType, $previewVersion);
+			if ($maxPreviewImage instanceof IStreamImage) {
+				$maxPreviewImage = null;
+			}
 		}
 
-		$maxWidth = $maxPreview->getWidth();
-		$maxHeight = $maxPreview->getHeight();
+		if ($maxPreview !== null) {
+			if ($maxPreview->getSize() === 0) {
+				$this->storageFactory->deletePreview($maxPreview);
+				$this->previewMapper->delete($maxPreview);
+				$this->logger->error('Max preview generated for file {path} has size 0, deleting and throwing exception.', ['path' => $file->getPath()]);
+				throw new NotFoundException('Max preview size 0, invalid!');
+			}
+			$maxWidth = $maxPreview->getWidth();
+			$maxHeight = $maxPreview->getHeight();
+		} else {
+			[$maxWidth, $maxHeight] = $predictedMaxSize;
+		}
 
 		if ($maxWidth <= 0 || $maxHeight <= 0) {
 			throw new NotFoundException('The maximum preview sizes are zero or less pixels');
@@ -163,7 +177,7 @@ class Generator {
 			[$width, $height] = $this->calculateSize($width, $height, $crop, $mode, $maxWidth, $maxHeight);
 
 			// No need to generate a preview that is just the max preview
-			if ($width === $maxWidth && $height === $maxHeight) {
+			if ($maxPreview !== null && $width === $maxWidth && $height === $maxHeight) {
 				// ensure correct return value if this was the last one
 				$previewFile = new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper);
 				continue;
@@ -172,7 +186,7 @@ class Generator {
 			// Try to get a cached preview. Else generate (and store) one
 			try {
 				$preview = array_find($previews, fn (Preview $preview): bool => $preview->getWidth() === $width
-					&& $preview->getHeight() === $height && $preview->getMimetype() === $maxPreview->getMimetype()
+					&& $preview->getHeight() === $height && ($maxPreview === null || $preview->getMimetype() === $maxPreview->getMimetype())
 					&& $preview->getVersion() === $previewVersion && $preview->isCropped() === $crop);
 
 				if ($preview) {
@@ -186,7 +200,9 @@ class Generator {
 					$previewFile = $maxPreviewImage === null
 						? $this->generateFromCheaperSource($file, $previews, $maxPreview, $mimeType, $width, $height, $crop, $previewVersion, $cacheResult)
 						: null;
-					if ($previewFile === null) {
+					if ($previewFile === null && $maxPreview === null) {
+						$previewFile = $this->generateFromOriginal($file, $mimeType, $width, $height, $crop, $maxWidth / $maxHeight, $previewVersion, $cacheResult);
+					} elseif ($previewFile === null) {
 						if ($maxPreviewImage === null) {
 							$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
 						}
@@ -218,21 +234,21 @@ class Generator {
 	 *
 	 * @param Preview[] $previews
 	 */
-	private function generateFromCheaperSource(File $file, array $previews, Preview $maxPreview, string $mimeType, int $width, int $height, bool $crop, ?string $version, bool $cacheResult): ?ISimpleFile {
+	private function generateFromCheaperSource(File $file, array $previews, ?Preview $maxPreview, string $mimeType, int $width, int $height, bool $crop, ?string $version, bool $cacheResult): ?ISimpleFile {
 		$sourceImage = null;
-		$source = $this->findResizeSource($previews, $maxPreview, $width, $height, $version);
+		$source = $this->findResizeSource($previews, $maxPreview?->getMimetype(), $width, $height, $version);
 		if ($source !== null) {
 			$sourceImage = $this->helper->getImage(new PreviewFile($source, $this->storageFactory, $this->previewMapper));
 		} else {
 			if ($cacheResult) {
-				$previewFile = $this->generateWithResizingProvider($file, $maxPreview, $mimeType, $width, $height, $crop, $version);
+				$previewFile = $this->generateWithResizingProvider($file, $maxPreview?->getMimetype(), $mimeType, $width, $height, $crop, $version);
 				if ($previewFile !== null) {
 					return $previewFile;
 				}
 			}
 
 			// Only pays off for previews much smaller than the max preview
-			if (8 * $width <= $maxPreview->getWidth() && 8 * $height <= $maxPreview->getHeight()) {
+			if ($maxPreview !== null && 8 * $width <= $maxPreview->getWidth() && 8 * $height <= $maxPreview->getHeight()) {
 				$sourceImage = $this->helper->getScaledImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper), $width, $height);
 			}
 		}
@@ -253,7 +269,7 @@ class Generator {
 	 * Generate the preview from the original with a provider that resizes
 	 * efficiently, like Imaginary. Only the provider of the max preview is used.
 	 */
-	private function generateWithResizingProvider(File $file, Preview $maxPreview, string $mimeType, int $width, int $height, bool $crop, ?string $version): ?ISimpleFile {
+	private function generateWithResizingProvider(File $file, ?string $expectedMimeType, string $mimeType, int $width, int $height, bool $crop, ?string $version): ?ISimpleFile {
 		$provider = $this->getAvailableProviders($file, $mimeType)->current();
 		if ($provider === null || !$this->helper->resizesEfficiently($provider)) {
 			return null;
@@ -268,7 +284,7 @@ class Generator {
 		}
 
 		// Another format would not match the cache lookup
-		if (!($preview instanceof IImage) || $preview->dataMimeType() !== $maxPreview->getMimetype()) {
+		if (!($preview instanceof IImage) || ($expectedMimeType !== null && $preview->dataMimeType() !== $expectedMimeType)) {
 			return null;
 		}
 
@@ -313,16 +329,114 @@ class Generator {
 	}
 
 	/**
+	 * Generate the preview from the original file, without max preview
+	 *
+	 * @param float $ratio width / height of the max preview
+	 */
+	private function generateFromOriginal(File $file, string $mimeType, int $width, int $height, bool $crop, float $ratio, ?string $version, bool $cacheResult): ISimpleFile {
+		[$boxWidth, $boxHeight] = $crop
+			? [max($width, (int)ceil($height * $ratio)), max($height, (int)ceil($width / $ratio))]
+			: [$width, $height];
+
+		foreach ($this->getAvailableProviders($file, $mimeType) as $provider) {
+			$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
+			$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
+			try {
+				$image = $this->helper->getThumbnail($provider, $file, $boxWidth, $boxHeight);
+			} finally {
+				self::unguardWithSemaphore($sem);
+			}
+
+			// A stream image can't be resized in PHP
+			if (!($image instanceof IImage) || $image instanceof IStreamImage) {
+				continue;
+			}
+
+			try {
+				return $this->generatePreview($file, $image, $width, $height, $crop, $image->width(), $image->height(), $version, $cacheResult);
+			} finally {
+				if ($image instanceof Image) {
+					$image->destroy();
+				}
+			}
+		}
+
+		throw new NotFoundException('No provider successfully handled the preview generation');
+	}
+
+	/**
+	 * @param Preview[] $previews
+	 */
+	private function findMaxPreview(array $previews, ?string $version): ?Preview {
+		return array_find($previews, fn (Preview $preview): bool => $preview->isMax() && $preview->getVersion() === $version);
+	}
+
+	/**
+	 * Predict the max preview size from the image header, as providers would generate it
+	 *
+	 * @return array{int, int}|null
+	 */
+	private function predictMaxPreviewSize(File $file, string $mimeType): ?array {
+		if ($mimeType !== $file->getMimeType() || !in_array($mimeType, self::LAZY_MAX_PREVIEW_MIMETYPES, true)) {
+			return null;
+		}
+
+		$stream = $file->fopen('r');
+		if (!is_resource($stream)) {
+			return null;
+		}
+		$head = fread($stream, self::IMAGE_HEAD_SIZE);
+		fclose($stream);
+		$size = $head === false ? false : @getimagesizefromstring($head);
+		if ($size === false || $size[0] <= 0 || $size[1] <= 0) {
+			return null;
+		}
+		[$width, $height] = $size;
+
+		if ($mimeType === 'image/jpeg' && is_callable('exif_read_data')) {
+			$exif = @exif_read_data('data://image/jpeg;base64,' . base64_encode($head), 'IFD0');
+			// Orientations 5 to 8 rotate the image by 90 degrees
+			if ($exif !== false && (int)($exif['Orientation'] ?? 1) >= 5) {
+				[$width, $height] = [$height, $width];
+			}
+		}
+
+		$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
+		$maxHeight = $this->config->getSystemValueInt('preview_max_y', 4096);
+		if ($width > $maxWidth || $height > $maxHeight) {
+			// Same rounding as Image::fitIn()
+			$ratio = $width / $height;
+			[$width, $height] = [(int)round(min($maxWidth, $ratio * $maxHeight)), (int)round(min($maxHeight, $maxWidth / $ratio))];
+		}
+		return [$width, $height];
+	}
+
+	private function requiresMaxPreview(array $specifications, int $maxWidth, int $maxHeight): bool {
+		foreach ($specifications as $specification) {
+			$width = $specification['width'] ?? -1;
+			$height = $specification['height'] ?? -1;
+			if ($width === -1 && $height === -1) {
+				return true;
+			}
+			[$width, $height] = $this->calculateSize($width, $height, $specification['crop'] ?? false, $specification['mode'] ?? IPreview::MODE_FILL, $maxWidth, $maxHeight);
+			if ($width === $maxWidth && $height === $maxHeight) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Smallest cached, uncropped preview larger than the requested size
 	 *
 	 * @param Preview[] $previews
 	 */
-	private function findResizeSource(array $previews, Preview $maxPreview, int $width, int $height, ?string $version): ?Preview {
+	private function findResizeSource(array $previews, ?string $mimeType, int $width, int $height, ?string $version): ?Preview {
 		$source = null;
 		foreach ($previews as $preview) {
 			if ($preview->isMax() || $preview->isCropped()
 				|| $preview->getVersion() !== $version
-				|| $preview->getMimetype() !== $maxPreview->getMimetype()
+				|| ($mimeType !== null && $preview->getMimetype() !== $mimeType)
 				|| $preview->getWidth() < $width || $preview->getHeight() < $height
 				|| ($preview->getWidth() === $width && $preview->getHeight() === $height)) {
 				continue;
@@ -449,10 +563,9 @@ class Generator {
 	private function getMaxPreview(array $previews, File $file, string $mimeType, ?string $version): array {
 		// We don't know the max preview size, so we can't use getCachedPreview.
 		// It might have been generated with a higher resolution than the current value.
-		foreach ($previews as $preview) {
-			if ($preview->isMax() && ($version === $preview->getVersion())) {
-				return [$preview, null];
-			}
+		$maxPreview = $this->findMaxPreview($previews, $version);
+		if ($maxPreview !== null) {
+			return [$maxPreview, null];
 		}
 
 		$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
