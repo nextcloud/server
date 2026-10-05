@@ -126,8 +126,11 @@ class Generator {
 		}
 
 		// Get the max preview and infer the max preview sizes from that
-		$maxPreview = $this->getMaxPreview($previews, $file, $mimeType, $previewVersion);
-		$maxPreviewImage = null; // only load the image when we need it
+		// The image is only set if the max preview was just generated
+		[$maxPreview, $maxPreviewImage] = $this->getMaxPreview($previews, $file, $mimeType, $previewVersion);
+		if ($maxPreviewImage instanceof IStreamImage) {
+			$maxPreviewImage = null;
+		}
 		if ($maxPreview->getSize() === 0) {
 			$this->storageFactory->deletePreview($maxPreview);
 			$this->previewMapper->delete($maxPreview);
@@ -314,14 +317,15 @@ class Generator {
 
 	/**
 	 * @param Preview[] $previews
+	 * @return array{Preview, ?IImage} the max preview and its image, if it was generated
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(array $previews, File $file, string $mimeType, ?string $version): Preview {
+	private function getMaxPreview(array $previews, File $file, string $mimeType, ?string $version): array {
 		// We don't know the max preview size, so we can't use getCachedPreview.
 		// It might have been generated with a higher resolution than the current value.
 		foreach ($previews as $preview) {
 			if ($preview->isMax() && ($version === $preview->getVersion())) {
-				return $preview;
+				return [$preview, null];
 			}
 		}
 
@@ -336,7 +340,7 @@ class Generator {
 				[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
 				foreach ($previews as $preview) {
 					if ($preview->isMax() && ($version === $preview->getVersion())) {
-						return $preview;
+						return [$preview, null];
 					}
 				}
 			}
@@ -345,10 +349,11 @@ class Generator {
 	}
 
 	/**
+	 * @return array{Preview, IImage}
 	 * @throws DBException
 	 * @throws NotFoundException
 	 */
-	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): Preview {
+	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): array {
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
 			// Filter out providers that does not support this mime
@@ -399,7 +404,7 @@ class Generator {
 					$previewEntry->setMimetype($preview->dataMimeType());
 					$previewEntry->setEtag($file->getEtag());
 					$previewEntry->setMtime((new \DateTime())->getTimestamp());
-					return $this->savePreview($previewEntry, $preview);
+					return [$this->savePreview($previewEntry, $preview), $preview];
 				} catch (NotPermittedException) {
 					throw new NotFoundException();
 				}
