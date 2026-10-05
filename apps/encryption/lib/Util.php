@@ -85,21 +85,35 @@ class Util {
 	}
 
 	/**
-	 * get owner from give path, path relative to data/ expected
+	 * Get the owner based on the path.
 	 *
-	 * @param string $path relative to data/
-	 * @return string
-	 * @throws \BadMethodCallException
+	 * The user must exist at call time.
+	 *
+	 * @param string $path Virtual path, e.g. /alice/files/report.txt
+	 * @return string UID, e.g. alice
+	 * @throws \BadMethodCallException if the path is malformed or its owner does not exist
 	 */
-	public function getOwner($path) {
-		$owner = '';
+	public function getOwner(string $path): string {
+		if (!str_starts_with($path, '/')) {
+			throw new \BadMethodCallException(
+				'Malformed path: Expected a path rooted at the data directory, e.g. /alice/files/report.txt'
+			);
+		}
+
 		$parts = explode('/', $path, 3);
-		if (count($parts) > 1) {
-			$owner = $parts[1];
-			if ($this->userManager->userExists($owner) === false) {
-				throw new \BadMethodCallException('Unknown user: '
-				. 'method expects path to a user folder relative to the data folder');
-			}
+		$owner = $parts[1] ?? '';
+
+		if ($owner === '') {
+			throw new \BadMethodCallException(
+				'Malformed path: Expected a path rooted at the data directory, e.g. /alice/files/report.txt'
+			);
+		}
+
+		if ($this->userManager->userExists($owner) === false) {
+			// The UID may no longer exist in any backend, or the path may be malformed.
+			throw new \BadMethodCallException(
+				'Cannot determine owner: The path may be malformed or its user may no longer exist'
+			);
 		}
 
 		return $owner;
