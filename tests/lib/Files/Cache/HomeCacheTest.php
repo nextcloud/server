@@ -37,6 +37,9 @@ class DummyUser extends User {
 	}
 }
 
+/**
+ * Tests home-storage-specific cache behavior, with a current focus on size reporting.
+ */
 #[Group('DB')]
 class HomeCacheTest extends TestCase {
 	private Home $storage;
@@ -53,11 +56,10 @@ class HomeCacheTest extends TestCase {
 	}
 
 	/**
-	 * Tests that the root and files folder size calculation ignores the subdirs
-	 * that have an unknown size. This makes sure that quota calculation still
-	 * works as it's based on the "files" folder size.
+	 * The files folder size must ignore children with unknown sizes, and the root
+	 * must report the files folder size.
 	 */
-	public function testRootFolderSizeIgnoresUnknownUpdate(): void {
+	public function testFilesFolderSizeIgnoresUnknownChildSizes(): void {
 		$dir1 = 'files/knownsize';
 		$dir2 = 'files/unknownsize';
 		$fileData = [];
@@ -75,43 +77,44 @@ class HomeCacheTest extends TestCase {
 		$this->assertTrue($this->cache->inCache($dir1));
 		$this->assertTrue($this->cache->inCache($dir2));
 
-		// check that files and root size ignored the unknown sizes
-		$this->assertEquals(1000, $this->cache->calculateFolderSize('files'));
+		$this->assertSame(1000, $this->cache->calculateFolderSize('files'));
+		$this->assertSame(1000, $this->cache->get('files')['size']);
+		$this->assertSame(1000, $this->cache->get('')['size']);
 
-		// clean up
+		// Removing the root also removes its descendants.
 		$this->cache->remove('');
-		$this->cache->remove('files');
-		$this->cache->remove($dir1);
-		$this->cache->remove($dir2);
 
+		$this->assertFalse($this->cache->inCache(''));
 		$this->assertFalse($this->cache->inCache('files'));
 		$this->assertFalse($this->cache->inCache($dir1));
 		$this->assertFalse($this->cache->inCache($dir2));
 	}
 
-	public function testRootFolderSizeIsFilesSize(): void {
+	/**
+	 * The root reports the files folder size, not the stored root size or the
+	 * size of other entries directly under the root.
+	 */
+	public function testRootFolderSizeMatchesFilesFolderSize(): void {
 		$dir1 = 'files';
-		$afile = 'test.txt';
 		$fileData = [];
 		$fileData[''] = ['size' => 1500, 'mtime' => 20, 'mimetype' => 'httpd/unix-directory'];
 		$fileData[$dir1] = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'httpd/unix-directory'];
-		$fileData[$afile] = ['size' => 500, 'mtime' => 20];
+		$fileData['test.txt'] = ['size' => 500, 'mtime' => 20, 'mimetype' => 'text/plain'];
 
 		$this->cache->put('', $fileData['']);
 		$this->cache->put($dir1, $fileData[$dir1]);
+		$this->cache->put('test.txt', $fileData['test.txt']);
 
-		$this->assertTrue($this->cache->inCache($dir1));
+		$this->assertTrue($this->cache->inCache('test.txt'));
 
-		// check that root size ignored the unknown sizes
-		$data = $this->cache->get('files');
-		$this->assertEquals(1000, $data['size']);
-		$data = $this->cache->get('');
-		$this->assertEquals(1000, $data['size']);
+		$this->assertSame(1000, $this->cache->get('files')['size']);
+		$this->assertSame(1000, $this->cache->get('')['size']);
 
-		// clean up
+		// Removing the root also removes its descendants.
 		$this->cache->remove('');
-		$this->cache->remove($dir1);
 
+		$this->assertFalse($this->cache->inCache(''));
 		$this->assertFalse($this->cache->inCache($dir1));
+		$this->assertFalse($this->cache->inCache('test.txt'));
 	}
 }
