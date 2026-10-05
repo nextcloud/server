@@ -179,8 +179,8 @@ class TaskProcessingApiController extends OCSController {
 			return new DataResponse([
 				'task' => $json,
 			]);
-		} catch (PreConditionNotMetException) {
-			return new DataResponse(['message' => $this->l->t('The given provider is not available')], Http::STATUS_PRECONDITION_FAILED);
+		} catch (PreConditionNotMetException $e) {
+			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_PRECONDITION_FAILED);
 		} catch (ValidationException $e) {
 			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		} catch (UnauthorizedException) {
