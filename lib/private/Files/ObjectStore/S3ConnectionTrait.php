@@ -37,6 +37,7 @@ trait S3ConnectionTrait {
 	protected ?S3Client $connection = null;
 	private ?ICache $existingBucketsCache = null;
 	private bool $usePresignedUrl = false;
+	protected string $prefix = '';
 
 	protected function parseParams($params) {
 		if (empty($params['bucket'])) {
@@ -77,6 +78,9 @@ trait S3ConnectionTrait {
 
 		$this->params = $params;
 		$this->usePresignedUrl = $params['use_presigned_url'] ?? false;
+
+		$prefix = trim(trim($params['prefix'] ?? ''), '/');
+		$this->prefix = $prefix !== '' ? $prefix . '/' : '';
 	}
 
 	public function getBucket() {
