@@ -483,6 +483,28 @@ class GeneratorTest extends TestCase {
 		}
 	}
 
+	public function testHardwareConcurrencyFromCache(): void {
+		$this->getAutoMock(IConfig::class)->method('getSystemValueInt')
+			->willReturnCallback(fn ($key, $default) => $default);
+		$cache = $this->getCacheAutoMock('preview');
+		$cache->method('get')->with('hardware_concurrency')->willReturn(3);
+		$cache->expects($this->never())->method('set');
+
+		$this->assertSame(6, $this->generator->getNumConcurrentPreviews('preview_concurrency_all'));
+		$this->assertSame(3, $this->generator->getNumConcurrentPreviews('preview_concurrency_new'));
+	}
+
+	public function testHardwareConcurrencyIsCached(): void {
+		$this->getAutoMock(IConfig::class)->method('getSystemValueInt')
+			->willReturnCallback(fn ($key, $default) => $default);
+		$cache = $this->getCacheAutoMock('preview');
+		$cache->method('get')->with('hardware_concurrency')->willReturn(null);
+		$cache->expects($this->once())->method('set')
+			->with('hardware_concurrency', $this->isInt(), 3600);
+
+		$this->generator->getNumConcurrentPreviews('preview_concurrency_new');
+	}
+
 	public function testUnreadbleFile(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
