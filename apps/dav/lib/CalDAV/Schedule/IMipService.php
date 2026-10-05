@@ -18,6 +18,7 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
@@ -75,6 +76,7 @@ class IMipService {
 		private readonly IUserManager $userManager,
 		private readonly IUserConfig $userConfig,
 		private readonly IAppConfig $appConfig,
+		private readonly IMailer $mailer,
 	) {
 		$language = $this->l10nFactory->findGenericLanguage();
 		$locale = $this->l10nFactory->findLocale($language);
@@ -205,6 +207,116 @@ class IMipService {
 			}
 		}
 		return $changed;
+	}
+
+	/**
+	 * Builds the full REQUEST invitation/update email, including the
+	 * old-vs-new diff and, when the recipient is eligible, the Accept/Decline
+	 * response buttons.
+	 */
+	public function buildRequestEmail(
+		Message $iTipMessage,
+		VEvent $vEvent,
+		?VEvent $oldVevent,
+		Property $attendee,
+		string $recipient,
+		?string $recipientName,
+		string $sender,
+		?string $senderName,
+		int $lastOccurrence,
+	): IEMailTemplate {
+		$data = $this->withRecipientNames($this->buildBodyData($vEvent, $oldVevent), $recipient, $recipientName, $sender, $senderName);
+
+		$template = $this->newTemplate(IMipPlugin::METHOD_REQUEST, $data);
+		$this->addSubjectAndHeading($template, IMipPlugin::METHOD_REQUEST, $data['invitee_name'], $data['meeting_title'], $oldVevent !== null);
+		$this->addBulletList($template, $vEvent, $data);
+
+		// Only add response buttons to invitation requests: Fix Issue #11230
+		if ($this->getAttendeeRsvpOrReqForParticipant($attendee)) {
+			/*
+			** Only offer invitation accept/reject buttons, which link back to the
+			** nextcloud server, to recipients who can access the nextcloud server via
+			** their internet/intranet.  Issue #12156
+			**
+			** The app setting is stored in the appconfig database table.
+			**
+			** For nextcloud servers accessible to the public internet, the default
+			** "invitation_link_recipients" value "yes" (all recipients) is appropriate.
+			**
+			** When the nextcloud server is restricted behind a firewall, accessible
+			** only via an internal network or via vpn, you can set "dav.invitation_link_recipients"
+			** to the email address or email domain, or comma separated list of addresses or domains,
+			** of recipients who can access the server.
+			**
+			** To always deliver URLs, set invitation_link_recipients to "yes".
+			** To suppress URLs entirely, set invitation_link_recipients to boolean "no".
+			*/
+			$recipientDomain = substr(strrchr($recipient, '@'), 1);
+			$invitationLinkRecipients = explode(',', preg_replace('/\s+/', '', strtolower($this->appConfig->getValueString('dav', 'invitation_link_recipients', 'yes'))));
+
+			if (strcmp('yes', $invitationLinkRecipients[0]) === 0
+				|| in_array(strtolower($recipient), $invitationLinkRecipients, true)
+				|| in_array(strtolower($recipientDomain), $invitationLinkRecipients, true)) {
+				$token = $this->createInvitationToken($iTipMessage, $vEvent, $lastOccurrence);
+				$this->addResponseButtons($template, $token);
+				$this->addMoreOptionsButton($template, $token);
+			}
+		}
+
+		$template->addFooter();
+		return $template;
+	}
+
+	/**
+	 * Builds the REPLY email an organizer receives when an attendee responds.
+	 */
+	public function buildReplyEmail(
+		Message $iTipMessage,
+		VEvent $vEvent,
+		string $recipient,
+		?string $recipientName,
+		string $sender,
+		?string $senderName,
+	): IEMailTemplate {
+		$data = $this->withRecipientNames($this->buildReplyBodyData($vEvent), $recipient, $recipientName, $sender, $senderName);
+
+		$template = $this->newTemplate(IMipPlugin::METHOD_REPLY, $data);
+		$replyingAttendee = $this->getReplyingAttendee($iTipMessage);
+		$this->addSubjectAndHeading($template, IMipPlugin::METHOD_REPLY, $data['invitee_name'], $data['meeting_title'], false, $replyingAttendee);
+		$this->addBulletList($template, $vEvent, $data);
+		$template->addFooter();
+		return $template;
+	}
+
+	/**
+	 * Builds the CANCEL email an attendee receives when dropped from an event.
+	 */
+	public function buildCancellationEmail(
+		VEvent $vEvent,
+		string $recipient,
+		?string $recipientName,
+		string $sender,
+		?string $senderName,
+	): IEMailTemplate {
+		$data = $this->withRecipientNames($this->buildCancelledBodyData($vEvent), $recipient, $recipientName, $sender, $senderName);
+
+		$template = $this->newTemplate(IMipPlugin::METHOD_CANCEL, $data);
+		$this->addSubjectAndHeading($template, IMipPlugin::METHOD_CANCEL, $data['invitee_name'], $data['meeting_title'], false);
+		$this->addBulletList($template, $vEvent, $data);
+		$template->addFooter();
+		return $template;
+	}
+
+	private function withRecipientNames(array $data, string $recipient, ?string $recipientName, string $sender, ?string $senderName): array {
+		$data['attendee_name'] = $recipientName ?: $recipient;
+		$data['invitee_name'] = $senderName ?: $sender;
+		return $data;
+	}
+
+	private function newTemplate(string $method, array $data): IEMailTemplate {
+		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
+		$template->addHeader();
+		return $template;
 	}
 
 	/**

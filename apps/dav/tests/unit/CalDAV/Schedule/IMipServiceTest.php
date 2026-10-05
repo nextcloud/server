@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\EventReader;
 use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Config\IUserConfig;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -21,9 +22,12 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Property\ICalendar\DateTime;
 use Test\TestCase;
 
@@ -38,6 +42,7 @@ class IMipServiceTest extends TestCase {
 	private ITimeFactory&MockObject $timeFactory;
 	private IMipService $service;
 	private IUserManager&MockObject $userManager;
+	private IMailer&MockObject $mailer;
 
 	private VCalendar $vCalendar1a;
 	private VCalendar $vCalendar1b;
@@ -58,6 +63,7 @@ class IMipServiceTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->mailer = $this->createMock(IMailer::class);
 		$this->l10nFactory->expects(self::once())
 			->method('findGenericLanguage')
 			->willReturn('en');
@@ -74,6 +80,7 @@ class IMipServiceTest extends TestCase {
 			$this->userManager,
 			$this->userConfig,
 			$this->appConfig,
+			$this->mailer,
 		);
 
 		// construct calendar with a 1 hour event and same start/end time zones
@@ -2690,5 +2697,207 @@ class IMipServiceTest extends TestCase {
 		]);
 
 		$this->assertSame([$vEvent1, $vEvent2], $this->service->eventInstances($vCalendar));
+	}
+
+	private function stubNow(): void {
+		$this->timeFactory->method('getDateTime')->willReturnCallback(
+			function ($v1, $v2) {
+				return match (true) {
+					$v1 === 'now' && $v2 === null => new \DateTime('2016-01-01 00:00:00'),
+				};
+			}
+		);
+	}
+
+	private function mockInvitationTokenStorage(): void {
+		$this->random->method('generate')->willReturn('sometoken');
+		$queryBuilder = $this->createMock(IQueryBuilder::class);
+		$queryBuilder->method('insert')->willReturnSelf();
+		$queryBuilder->method('values')->willReturnSelf();
+		$queryBuilder->method('createNamedParameter')->willReturnArgument(0);
+		$queryBuilder->method('executeStatement')->willReturn(1);
+		$this->db->method('getQueryBuilder')->willReturn($queryBuilder);
+	}
+
+	/**
+	 * Recreates the eligibility/config gate that used to be asserted at the
+	 * IMipPlugin level (schedule() no longer sees it at all - it's fully
+	 * internal to buildRequestEmail() now).
+	 */
+	public function testBuildRequestEmailAddsResponseButtonsWhenEligibleAndAllowed(): void {
+		$this->stubNow();
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$attendee = $vEvent->add('ATTENDEE', 'mailto:frodo@hobb.it', ['RSVP' => 'TRUE']);
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->appConfig->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+		$this->mockInvitationTokenStorage();
+
+		$iTipMessage = new Message();
+		$iTipMessage->recipient = 'mailto:frodo@hobb.it';
+		$iTipMessage->sender = 'mailto:gandalf@wiz.ard';
+		$iTipMessage->sequence = 1;
+
+		$template->expects(self::once())->method('addBodyButtonGroup');
+		$template->expects(self::once())->method('addBodyText');
+		$template->expects(self::once())->method('addFooter');
+
+		$result = $this->service->buildRequestEmail(
+			$iTipMessage,
+			$vEvent,
+			null,
+			$attendee,
+			'frodo@hobb.it',
+			null,
+			'gandalf@wiz.ard',
+			'Mr. Wizard',
+			1735689600,
+		);
+
+		$this->assertSame($template, $result);
+	}
+
+	public function testBuildRequestEmailOmitsResponseButtonsWhenLinkRecipientsDisallow(): void {
+		$this->stubNow();
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$attendee = $vEvent->add('ATTENDEE', 'mailto:frodo@hobb.it', ['RSVP' => 'TRUE']);
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->appConfig->method('getValueString')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('no');
+
+		$iTipMessage = new Message();
+		$iTipMessage->recipient = 'mailto:frodo@hobb.it';
+		$iTipMessage->sender = 'mailto:gandalf@wiz.ard';
+		$iTipMessage->sequence = 1;
+
+		$template->expects(self::never())->method('addBodyButtonGroup');
+		$template->expects(self::never())->method('addBodyText');
+
+		$this->service->buildRequestEmail(
+			$iTipMessage,
+			$vEvent,
+			null,
+			$attendee,
+			'frodo@hobb.it',
+			null,
+			'gandalf@wiz.ard',
+			'Mr. Wizard',
+			1735689600,
+		);
+	}
+
+	public function testBuildRequestEmailOmitsResponseButtonsWhenAttendeeNotEligible(): void {
+		$this->stubNow();
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$attendee = $vEvent->add('ATTENDEE', 'mailto:frodo@hobb.it', ['RSVP' => 'FALSE', 'ROLE' => 'NON-PARTICIPANT']);
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+
+		$iTipMessage = new Message();
+		$iTipMessage->recipient = 'mailto:frodo@hobb.it';
+		$iTipMessage->sender = 'mailto:gandalf@wiz.ard';
+		$iTipMessage->sequence = 1;
+
+		// eligibility is checked before the link-recipients config at all
+		$this->appConfig->expects(self::never())->method('getValueString');
+		$template->expects(self::never())->method('addBodyButtonGroup');
+
+		$this->service->buildRequestEmail(
+			$iTipMessage,
+			$vEvent,
+			null,
+			$attendee,
+			'frodo@hobb.it',
+			null,
+			'gandalf@wiz.ard',
+			'Mr. Wizard',
+			1735689600,
+		);
+	}
+
+	/**
+	 * REPLY never offers Accept/Decline buttons (those belong on the
+	 * REQUEST the reply is answering, not on the reply notification the
+	 * organizer receives).
+	 */
+	public function testBuildReplyEmailNeverAddsResponseButtons(): void {
+		$this->stubNow();
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+		$vEvent->add('ATTENDEE', 'mailto:frodo@hobb.it', ['PARTSTAT' => 'ACCEPTED']);
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+
+		$iTipMessage = new Message();
+		$iTipMessage->method = 'REPLY';
+		$iTipMessage->message = $vCalendar;
+		$iTipMessage->sender = 'mailto:frodo@hobb.it';
+
+		$template->expects(self::never())->method('addBodyButtonGroup');
+		$template->expects(self::once())->method('addFooter');
+
+		$result = $this->service->buildReplyEmail(
+			$iTipMessage,
+			$vEvent,
+			'gandalf@wiz.ard',
+			'Mr. Wizard',
+			'frodo@hobb.it',
+			null,
+		);
+
+		$this->assertSame($template, $result);
+	}
+
+	public function testBuildCancellationEmailNeverAddsResponseButtons(): void {
+		$this->stubNow();
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', [
+			'UID' => 'uid-1234',
+			'SUMMARY' => 'Fellowship meeting',
+			'DTSTART' => new \DateTime('2016-01-01 00:00:00'),
+		]);
+
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+
+		$template->expects(self::never())->method('addBodyButtonGroup');
+		$template->expects(self::once())->method('addFooter');
+
+		$result = $this->service->buildCancellationEmail(
+			$vEvent,
+			'frodo@hobb.it',
+			null,
+			'gandalf@wiz.ard',
+			'Mr. Wizard',
+		);
+
+		$this->assertSame($template, $result);
 	}
 }

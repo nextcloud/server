@@ -216,7 +216,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		$vEvent = $primaryInstance['new'];
 		/** @var VEvent|null $oldVevent */
 		$oldVevent = $primaryInstance['old'];
-		$isModified = $oldVevent !== null;
 
 		// we might not have an old event as this could be a new invitation,
 		// or a new recurrence exception
@@ -249,67 +248,15 @@ class IMipPlugin extends SabreIMipPlugin {
 			$senderName = $this->getSenderNameFor($sender);
 		}
 
-		$replyingAttendee = null;
-		switch ($method) {
-			case self::METHOD_REPLY:
-				$data = $this->imipService->buildReplyBodyData($vEvent);
-				$replyingAttendee = $this->imipService->getReplyingAttendee($iTipMessage);
-				break;
-			case self::METHOD_CANCEL:
-				$data = $this->imipService->buildCancelledBodyData($vEvent);
-				break;
-			default:
-				$data = $this->imipService->buildBodyData($vEvent, $oldVevent);
-				break;
-		}
-
-		$data['attendee_name'] = ($recipientName ?: $recipient);
-		$data['invitee_name'] = ($senderName ?: $sender);
+		$template = match ($method) {
+			self::METHOD_REPLY => $this->imipService->buildReplyEmail($iTipMessage, $vEvent, $recipient, $recipientName, $sender, $senderName),
+			self::METHOD_CANCEL => $this->imipService->buildCancellationEmail($vEvent, $recipient, $recipientName, $sender, $senderName),
+			default => $this->imipService->buildRequestEmail($iTipMessage, $vEvent, $oldVevent, $attendee, $recipient, $recipientName, $sender, $senderName, $lastOccurrence),
+		};
 
 		$fromEMail = Util::getDefaultEmailAddress('invitations-noreply');
 		$fromName = $this->imipService->getFrom($senderName, $this->defaults->getName());
 
-		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
-		$template->addHeader();
-
-		$this->imipService->addSubjectAndHeading($template, $method, $data['invitee_name'], $data['meeting_title'], $isModified, $replyingAttendee);
-		$this->imipService->addBulletList($template, $vEvent, $data);
-
-		// Only add response buttons to invitation requests: Fix Issue #11230
-		if (strcasecmp($method, self::METHOD_REQUEST) === 0 && $this->imipService->getAttendeeRsvpOrReqForParticipant($attendee)) {
-
-			/*
-			** Only offer invitation accept/reject buttons, which link back to the
-			** nextcloud server, to recipients who can access the nextcloud server via
-			** their internet/intranet.  Issue #12156
-			**
-			** The app setting is stored in the appconfig database table.
-			**
-			** For nextcloud servers accessible to the public internet, the default
-			** "invitation_link_recipients" value "yes" (all recipients) is appropriate.
-			**
-			** When the nextcloud server is restricted behind a firewall, accessible
-			** only via an internal network or via vpn, you can set "dav.invitation_link_recipients"
-			** to the email address or email domain, or comma separated list of addresses or domains,
-			** of recipients who can access the server.
-			**
-			** To always deliver URLs, set invitation_link_recipients to "yes".
-			** To suppress URLs entirely, set invitation_link_recipients to boolean "no".
-			*/
-
-			$recipientDomain = substr(strrchr($recipient, '@'), 1);
-			$invitationLinkRecipients = explode(',', preg_replace('/\s+/', '', strtolower($this->config->getValueString('dav', 'invitation_link_recipients', 'yes'))));
-
-			if (strcmp('yes', $invitationLinkRecipients[0]) === 0
-				|| in_array(strtolower($recipient), $invitationLinkRecipients, true)
-				|| in_array(strtolower($recipientDomain), $invitationLinkRecipients, true)) {
-				$token = $this->imipService->createInvitationToken($iTipMessage, $vEvent, $lastOccurrence);
-				$this->imipService->addResponseButtons($template, $token);
-				$this->imipService->addMoreOptionsButton($template, $token);
-			}
-		}
-
-		$template->addFooter();
 		// convert iTip Message to string
 		$itip_msg = $iTipMessage->message->serialize();
 
