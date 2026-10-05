@@ -9,6 +9,7 @@
 namespace OC\Core\AppInfo;
 
 use NCU\Sharing\ISharingRegistry;
+use OC\App\Listeners\RemoveGroupRestrictionsListener;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
 use OC\Authentication\Listeners\RemoteWipeActivityListener;
@@ -41,8 +42,11 @@ use OC\Core\Sharing\Recipient\TokenShareRecipientType;
 use OC\Core\Sharing\Recipient\UserShareRecipientType;
 use OC\DirectEditing\Listeners\UserDeletedTokenCleanupListener as UserDeletedDirectEditingTokenCleanupListener;
 use OC\DirectEditing\Listeners\UserDisabledTokenCleanupListener as UserDisabledDirectEditingTokenCleanupListener;
+use OC\Group\DisplayNameCache as GroupDisplayNameCache;
+use OC\Group\Listeners\MembershipCacheListener;
 use OC\OCM\OCMDiscoveryHandler;
 use OC\TagManager;
+use OC\User\DisplayNameCache;
 use OCP\Accounts\UserUpdatedEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -52,6 +56,13 @@ use OCP\AppFramework\Http\Events\BeforeLoginTemplateRenderedEvent;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
+use OCP\Group\Events\BeforeGroupDeletedEvent;
+use OCP\Group\Events\BeforeUserAddedEvent;
+use OCP\Group\Events\BeforeUserRemovedEvent;
+use OCP\Group\Events\GroupChangedEvent;
+use OCP\Group\Events\GroupDeletedEvent;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAppConfig;
 use OCP\Interaction\RestrictInteractionEvent;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
@@ -108,6 +119,18 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(PasswordUpdatedEvent::class, PasswordUpdatedListener::class);
 		$context->registerEventListener(UserUpdatedEvent::class, AvatarVersionListener::class);
 		$context->registerEventListener(UserChangedEvent::class, AvatarVersionListener::class);
+
+		$context->registerEventListener(UserChangedEvent::class, DisplayNameCache::class);
+		$context->registerEventListener(UserDeletedEvent::class, DisplayNameCache::class);
+		$context->registerEventListener(GroupChangedEvent::class, GroupDisplayNameCache::class);
+		$context->registerEventListener(GroupDeletedEvent::class, GroupDisplayNameCache::class);
+		$context->registerEventListener(BeforeUserAddedEvent::class, MembershipCacheListener::class);
+		$context->registerEventListener(UserAddedEvent::class, MembershipCacheListener::class);
+		$context->registerEventListener(BeforeUserRemovedEvent::class, MembershipCacheListener::class);
+		$context->registerEventListener(UserRemovedEvent::class, MembershipCacheListener::class);
+		$context->registerEventListener(BeforeGroupDeletedEvent::class, MembershipCacheListener::class);
+		$context->registerEventListener(GroupDeletedEvent::class, MembershipCacheListener::class);
+		$context->registerEventListener(GroupDeletedEvent::class, RemoveGroupRestrictionsListener::class);
 
 		// Tags
 		$context->registerEventListener(UserDeletedEvent::class, TagManager::class);

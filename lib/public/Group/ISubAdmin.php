@@ -9,12 +9,14 @@ declare(strict_types=1);
 
 namespace OCP\Group;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\IGroup;
 use OCP\IUser;
 
 /**
  * @since 16.0.0
  */
+#[Consumable(since: '16.0.0')]
 interface ISubAdmin {
 	/**
 	 * add a SubAdmin
