@@ -13,6 +13,7 @@ use OC\Files\Storage\Temporary;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\FilesMetadata\Service\IndexRequestService;
 use OC\FilesMetadata\Service\MetadataRequestService;
+use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
@@ -128,5 +129,75 @@ class FilesMetadataManagerTest extends TestCase {
 		$service->dropMetadataForFiles(123, $fileIds);
 
 		$this->assertSame($expectedChunks, $boundChunks);
+	}
+
+	public function testGetMetadataFromFileIdsChunking(): void {
+		$connection = $this->createMock(IDBConnection::class);
+		$qb = $this->createMock(IQueryBuilder::class);
+		$expr = $this->createMock(IExpressionBuilder::class);
+		$result = $this->createMock(IResult::class);
+
+		$connection->method('getQueryBuilder')->willReturn($qb);
+		$qb->method('expr')->willReturn($expr);
+		$qb->method('select')->willReturnSelf();
+		$qb->method('from')->willReturnSelf();
+		$qb->method('where')->willReturnSelf();
+		$qb->method('runAcrossAllShards')->willReturnSelf();
+		$qb->method('executeQuery')->willReturn($result);
+		$result->method('fetchAssociative')->willReturn(false);
+
+		$fileIds = range(1, IQueryBuilder::MAX_IN_PARAMETERS * 2 + 1);
+		$expectedChunks = array_chunk($fileIds, IQueryBuilder::MAX_IN_PARAMETERS);
+		$boundChunks = [];
+
+		$qb->expects($this->exactly(count($expectedChunks)))
+			->method('createNamedParameter')
+			->willReturnCallback(function (array $chunk, $type) use (&$boundChunks): string {
+				$this->assertSame(IQueryBuilder::PARAM_INT_ARRAY, $type);
+				$boundChunks[] = $chunk;
+				return ':param';
+			});
+
+		$service = new MetadataRequestService($connection, $this->logger);
+		$service->getMetadataFromFileIds($fileIds);
+
+		$this->assertSame($expectedChunks, $boundChunks);
+	}
+
+	public function testGetMetadataFromFileIdsMergesResultsAcrossChunks(): void {
+		$connection = $this->createMock(IDBConnection::class);
+		$qb = $this->createMock(IQueryBuilder::class);
+		$expr = $this->createMock(IExpressionBuilder::class);
+		$result = $this->createMock(IResult::class);
+
+		$connection->method('getQueryBuilder')->willReturn($qb);
+		$qb->method('expr')->willReturn($expr);
+		$qb->method('select')->willReturnSelf();
+		$qb->method('from')->willReturnSelf();
+		$qb->method('where')->willReturnSelf();
+		$qb->method('runAcrossAllShards')->willReturnSelf();
+		$qb->method('createNamedParameter')->willReturn(':param');
+		$qb->method('executeQuery')->willReturn($result);
+
+		$fileIds = range(1, IQueryBuilder::MAX_IN_PARAMETERS + 2);
+		$firstId = $fileIds[0];
+		$lastId = end($fileIds);
+		$row = static fn (int $fileId): array => [
+			'file_id' => (string)$fileId,
+			'json' => '{}',
+			'sync_token' => 'token',
+		];
+
+		// one row then end-of-result per chunk, so both chunks contribute
+		$fetches = [$row($firstId), false, $row($lastId), false];
+		$result->method('fetchAssociative')
+			->willReturnCallback(function () use (&$fetches) {
+				return array_shift($fetches);
+			});
+
+		$service = new MetadataRequestService($connection, $this->logger);
+		$metadata = $service->getMetadataFromFileIds($fileIds);
+
+		$this->assertSame([$firstId, $lastId], array_keys($metadata));
 	}
 }
