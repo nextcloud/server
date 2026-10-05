@@ -69,7 +69,7 @@ import { showError } from '@nextcloud/dialogs'
 import { FileType, Folder, getSidebar, Permission, View } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, provide, watch } from 'vue'
 import FileEntry from './FileEntry.vue'
 import FileEntryGrid from './FileEntryGrid.vue'
 import FileListFilterChips from './FileListFilter/FileListFilterChips.vue'
@@ -80,6 +80,7 @@ import FilesListTableHeader from './FilesListTableHeader.vue'
 import VirtualList from './VirtualList.vue'
 import { useEnabledFileActions } from '../composables/useFileActions.ts'
 import { useFileListHeaders } from '../composables/useFileListHeaders.ts'
+import { FileListLayoutKey, getFileListLayout, resetInlineActionsWidth, useInlineActionsWidth } from '../composables/useFileListLayout.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
 import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActiveStore } from '../store/active.ts'
@@ -125,19 +126,8 @@ export default defineComponent({
 		const activeStore = useActiveStore()
 		const userConfigStore = useUserConfigStore()
 
-		const { isNarrow, isWide } = useFileListWidth()
+		const { width, isNarrow, isWide } = useFileListWidth()
 		const { fileId, openDetails, openFile } = useRouteParameters()
-
-		const isMimeAvailable = computed(() => {
-			if (!userConfigStore.userConfig.show_mime_column) {
-				return false
-			}
-			if (!isWide.value) {
-				return false // only show on wide screens
-			}
-			return props.nodes
-				.some((node: INode) => node.mime !== undefined || node.mime !== 'application/octet-stream')
-		})
 
 		const isMtimeAvailable = computed(() => {
 			// Hide mtime column on narrow screens
@@ -154,6 +144,22 @@ export default defineComponent({
 			}
 			return props.nodes.some((node: INode) => node.size !== undefined)
 		})
+
+		const inlineActionsWidth = useInlineActionsWidth()
+		watch(() => [props.currentFolder, props.currentView], resetInlineActionsWidth, { immediate: true })
+
+		const layout = computed(() => getFileListLayout(width.value, {
+			inlineActions: true,
+			mime: userConfigStore.userConfig.show_mime_column
+				&& isWide.value // only show on wide screens
+				&& props.nodes.some((node: INode) => node.mime !== undefined || node.mime !== 'application/octet-stream'),
+			size: isSizeAvailable.value,
+			mtime: isMtimeAvailable.value,
+			columns: isNarrow.value ? [] : (props.currentView.columns ?? []),
+		}, inlineActionsWidth.value))
+		provide(FileListLayoutKey, layout)
+
+		const isMimeAvailable = computed(() => layout.value.mime)
 
 		return {
 			fileId,
