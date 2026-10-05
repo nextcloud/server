@@ -1041,7 +1041,7 @@ class View {
 			$mount = $this->getMount($path);
 			$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
 			$storage = $mount->getStorage();
-			if ($storage->getCache()->inCache($internalPath) && !$storage->file_exists($path)) {
+			if ($storage->getCache()->inCache($internalPath) && !$storage->file_exists($internalPath)) {
 				$this->writeUpdate($storage, $internalPath);
 			}
 		}
