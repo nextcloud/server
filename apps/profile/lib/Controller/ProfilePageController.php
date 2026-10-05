@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\Profile\Controller;
 
+use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
+use OCA\Settings\ConfigLexicon;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -20,6 +22,7 @@ use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -43,6 +46,7 @@ class ProfilePageController extends Controller {
 		private IUserStatusManager $userStatusManager,
 		private INavigationManager $navigationManager,
 		private IEventDispatcher $eventDispatcher,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -60,6 +64,13 @@ class ProfilePageController extends Controller {
 			[],
 			TemplateResponse::RENDER_AS_GUEST,
 		);
+
+		if (
+			$this->appConfig->getValueBool('settings', ConfigLexicon::PROFILE_PRIVATE)
+			&& !$this->userSession->isLoggedIn()
+		) {
+			throw new NotLoggedInException();
+		}
 
 		$targetUser = $this->userManager->get($targetUserId);
 		if ($targetUser === null) {
