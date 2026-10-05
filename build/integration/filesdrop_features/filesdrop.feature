@@ -38,10 +38,11 @@ Feature: FilesDrop
     And As an "user0"
     And user "user0" created a folder "/drop"
     And as "user0" creating a share with
-      | path | drop |
-      | shareType | 3 |
-      | publicUpload | true |
-	  | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
+      | path         | drop                                                     |
+      | shareType    | 4                                                        |
+      | publicUpload | true                                                     |
+      | attributes   | [{"scope":"fileRequest","key":"enabled","value":true}]   |
+      | shareWith    |                                                          |
     And Updating last share with
       | permissions | 4 |
     When Dropping file "/folder/a.txt" with "abc"
@@ -65,10 +66,11 @@ Scenario: Files drop allow MKCOL without a nickname
     And As an "user0"
     And user "user0" created a folder "/drop"
     And as "user0" creating a share with
-      | path | drop |
-      | shareType | 3 |
-      | publicUpload | true |
-	  | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
+      | path         | drop                                                     |
+      | shareType    | 4                                                        |
+      | publicUpload | true                                                     |
+      | attributes   | [{"scope":"fileRequest","key":"enabled","value":true}]   |
+      | shareWith    |                                                          |
     And Updating last share with
       | permissions | 4 |
     When Creating folder "folder" in drop
@@ -79,10 +81,11 @@ Scenario: Files drop allow MKCOL without a nickname
     And As an "user0"
     And user "user0" created a folder "/drop"
     And as "user0" creating a share with
-      | path | drop |
-      | shareType | 3 |
-      | publicUpload | true |
-	  | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
+      | path         | drop                                                     |
+      | shareType    | 4                                                        |
+      | publicUpload | true                                                     |
+      | attributes   | [{"scope":"fileRequest","key":"enabled","value":true}]   |
+      | shareWith    |                                                          |
     And Updating last share with
       | permissions | 4 |
     When Creating folder "folder" in drop as "nickname"
@@ -93,10 +96,11 @@ Scenario: Files drop allow MKCOL without a nickname
     And As an "user0"
     And user "user0" created a folder "/drop"
     And as "user0" creating a share with
-      | path | drop |
-      | shareType | 3 |
-      | publicUpload | true |
-	  | attributes | [{"scope":"fileRequest","key":"enabled","value":true}] |
+      | path         | drop                                                     |
+      | shareType    | 4                                                        |
+      | publicUpload | true                                                     |
+      | attributes   | [{"scope":"fileRequest","key":"enabled","value":true}]   |
+      | shareWith    |                                                          |
     And Updating last share with
       | permissions | 4 |
     When dropping file "/folder/a.txt" with "abc"
