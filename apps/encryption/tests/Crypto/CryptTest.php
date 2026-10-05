@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace OCA\Encryption\Tests\Crypto;
 
+use OC\Encryption\Exceptions\DecryptionFailedException;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IConfig;
@@ -276,6 +277,66 @@ class CryptTest extends TestCase {
 		$this->assertSame('bar', $result['foo']);
 		$this->assertSame('AES-256-CFB', $result['cipher']);
 		$this->assertSame('binary', $result['encoding']);
+	}
+
+	public function testParseHeaderlessLegacyKey(): void {
+		$this->assertSame(
+			[],
+			self::invokePrivate($this->crypt, 'parseHeader', ['legacy-key-data'])
+		);
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'malformedHeaders')]
+	public function testParseHeaderRejectsMalformedInput(string $data): void {
+		$this->expectException(DecryptionFailedException::class);
+		self::invokePrivate($this->crypt, 'parseHeader', [$data]);
+	}
+
+	public static function malformedHeaders(): array {
+		return [
+			'missing separator' => ['HBEGINcipher:AES-256-CFB:HEND'],
+			'missing terminator' => ['HBEGIN:cipher:AES-256-CFB'],
+			'no fields' => ['HBEGIN:HEND'],
+			'odd number of fields' => ['HBEGIN:cipher:HEND'],
+			'empty field name' => ['HBEGIN::AES-256-CFB:HEND'],
+			'empty field value' => ['HBEGIN:cipher::HEND'],
+			'terminator beyond limit' => [
+				'HBEGIN:foo:' . str_repeat('a', 8177) . ':HEND',
+			],
+		];
+	}
+
+	public function testParseHeaderAcceptsHeaderAtLimit(): void {
+		$data = 'HBEGIN:foo:' . str_repeat('a', 8176) . ':HEND';
+
+		$this->assertSame(
+			['foo' => str_repeat('a', 8176)],
+			self::invokePrivate($this->crypt, 'parseHeader', [$data])
+		);
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'unsupportedPrivateKeyMetadata')]
+	public function testDecryptPrivateKeyRejectsUnsupportedMetadata(string $header): void {
+		$crypt = $this->getMockBuilder(Crypt::class)
+			->setConstructorArgs([
+				$this->logger,
+				$this->userSession,
+				$this->config,
+				$this->l,
+			])
+			->onlyMethods(['symmetricDecryptFileContent'])
+			->getMock();
+		$crypt->expects(self::never())->method('symmetricDecryptFileContent');
+
+		$this->expectException(DecryptionFailedException::class);
+		$crypt->decryptPrivateKey($header . 'encrypted-key', 'password');
+	}
+
+	public static function unsupportedPrivateKeyMetadata(): array {
+		return [
+			'cipher' => ['HBEGIN:cipher:unknown:keyFormat:password:HEND'],
+			'key format' => ['HBEGIN:cipher:AES-256-CFB:keyFormat:unknown:HEND'],
+		];
 	}
 
 	/**
