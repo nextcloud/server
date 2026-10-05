@@ -144,4 +144,17 @@ class HomeCacheTest extends TestCase {
 		$this->assertFalse($this->cache->inCache($knownSizePath));
 		$this->assertFalse($this->cache->inCache($unknownSizePath));
 	}
+
+	public function testSlashRootAliasUsesFilesFolderSize(): void {
+		$this->cache->put('', ['size' => 1500, 'mtime' => 20, 'mimetype' => 'httpd/unix-directory']);
+		$this->cache->put('files', ['size' => 1000, 'mtime' => 20, 'mimetype' => 'httpd/unix-directory']);
+
+		$this->assertSame(0, $this->cache->calculateFolderSize('/'));
+		$this->assertSame(1000, $this->cache->get('/')['size']);
+
+		$this->cache->remove('');
+
+		$this->assertFalse($this->cache->inCache(''));
+		$this->assertFalse($this->cache->inCache('files'));
+	}
 }
