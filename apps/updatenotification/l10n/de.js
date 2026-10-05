@@ -38,7 +38,7 @@ OC.L10N.register(
     "Please note that the web updater is not recommended with more than 100 accounts! Please use the command line updater instead!" : "Bitte beachten, dass der Web Updater bei mehr als 100 Konten nicht empfohlen wird! Bitte stattdessen den Befehlszeilen-Updater verwenden!",
     "Open updater" : "Updater öffnen",
     "Download now" : "Jetzt herunterladen",
-    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Der Web-Updater ist deaktiviert. Bitte zum Aktualisieren den Befehlszeilen-Updater verwenden oder den entsprechenden Update-Mechanismus für deine Installationsmethode (z. B. Docker pull).",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Der Web-Updater ist deaktiviert. Bitte zum Aktualisieren den Befehlszeilen-Updater verwenden oder den entsprechenden Update-Mechanismus für deine Installationsmethode (z. B. Docker pull).",
     "What's new?" : "Was ist neu?",
     "View changelog" : "Liste der Änderungen ansehen",
     "The update check is not yet finished. Please refresh the page." : "Die Aktualisierungsprüfung ist noch nicht abgeschlossen. Bitte die Seite neu laden.",
