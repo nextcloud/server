@@ -200,6 +200,9 @@ class GeneratorTest extends TestCase {
 		$image->method('height')->willReturn(2048);
 		$image->method('valid')->willReturn(true);
 		$image->method('dataMimeType')->willReturn('image/png');
+		$image->method('data')->willReturn('my data');
+		$image->method('resizeCopy')
+			->willReturnCallback(fn (int $size): IImage => $this->getMockImage($size, $size, 'my resized data'));
 
 		$this->helper->method('getThumbnail')
 			->willReturnCallback(function ($provider, $file, $x, $y) use ($invalidProvider, $validProvider, $image): false|IImage {
@@ -209,9 +212,6 @@ class GeneratorTest extends TestCase {
 					return false;
 				}
 			});
-
-		$image->method('data')
-			->willReturn('my data');
 
 		$this->previewMapper->method('insert')
 			->willReturnCallback(fn (Preview $preview): Preview => $preview);
@@ -244,9 +244,9 @@ class GeneratorTest extends TestCase {
 				$this->fail('file name is wrong:' . $preview->getName());
 			});
 
-		$image = $this->getMockImage(2048, 2048, 'my resized data');
-		$this->helper->method('getImage')
-			->willReturn($image);
+		// The generated max preview is reused, not decoded again
+		$this->helper->expects($this->never())
+			->method('getImage');
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
