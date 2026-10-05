@@ -51,6 +51,7 @@
 			:aria-label="actionsTooltip"
 			menu-align="right"
 			:open.sync="open"
+			placement="auto"
 			@close="onCancel">
 			<!-- pending data menu -->
 			<NcActionText v-if="errors.pending"
