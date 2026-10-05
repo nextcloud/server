@@ -9,6 +9,7 @@ SPDX-FileCopyrightText: webfansplz
 SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: readable-stream developers
 SPDX-FileCopyrightText: perfect-debounce developers
+SPDX-FileCopyrightText: moment developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: escape-html developers
@@ -27,7 +28,6 @@ SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: James Halliday
-SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: GitHub Inc.
@@ -51,9 +51,6 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.12
 	- license: MIT
 - @mdi/js
-	- version: 7.4.47
-	- license: Apache-2.0
-- @mdi/svg
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
@@ -162,7 +159,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -195,7 +192,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.18.1
+	- version: 1.20.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -213,7 +210,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.5.0
 	- license: MIT
 - dompurify
-	- version: 3.4.15
+	- version: 3.4.16
 	- license: (MPL-2.0 OR Apache-2.0)
 - escape-html
 	- version: 1.0.3
@@ -240,7 +237,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.1.0
 	- license: MIT
 - moment
-	- version: 2.30.1
+	- version: 2.31.0
 	- license: MIT
 - buffer
 	- version: 6.0.3
@@ -306,7 +303,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.111.0
+	- version: 5.111.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1

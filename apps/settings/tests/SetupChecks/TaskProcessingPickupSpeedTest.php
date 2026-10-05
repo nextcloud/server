@@ -14,7 +14,6 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
 use OCP\SetupCheck\SetupResult;
 use OCP\TaskProcessing\IManager;
-use OCP\TaskProcessing\Task;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -39,37 +38,44 @@ class TaskProcessingPickupSpeedTest extends TestCase {
 		);
 	}
 
+	/**
+	 * @param int $taskCount Tasks scheduled in the window
+	 * @param int $slowCount Tasks of those that were picked up too late
+	 */
+	private function mockCounts(int $taskCount, int $slowCount): void {
+		$this->taskProcessingManager->method('countTasks')
+			->willReturnCallback(function (?int $status = null, array $taskTypeIds = [], ?int $scheduleAfter = null, ?int $minPickupDelay = null) use ($taskCount, $slowCount): int {
+				if ($minPickupDelay === null) {
+					return $taskCount;
+				}
+				$this->assertSame(TaskProcessingPickupSpeed::MAX_PICKUP_DELAY, $minPickupDelay);
+				return $slowCount;
+			});
+	}
+
 	public function testPass(): void {
-		$tasks = [];
-		for ($i = 0; $i < 100; $i++) {
-			$task = new Task('test', ['test' => 'test'], 'settings', 'user' . $i);
-			$task->setStartedAt(0);
-			if ($i < 5) {
-				$task->setScheduledAt(60 * 5); // 5% get 5mins
-			} else {
-				$task->setScheduledAt(60); // the rest gets 1min
-			}
-			$tasks[] = $task;
-		}
-		$this->taskProcessingManager->method('getTasks')->willReturn($tasks);
+		// 5% of the tasks were picked up too late
+		$this->mockCounts(100, 5);
+		$this->timeFactory->method('now')->willReturn(new \DateTimeImmutable());
 
 		$this->assertEquals(SetupResult::SUCCESS, $this->check->run()->getSeverity());
 	}
 
 	public function testFail(): void {
-		$tasks = [];
-		for ($i = 0; $i < 100; $i++) {
-			$task = new Task('test', ['test' => 'test'], 'settings', 'user' . $i);
-			$task->setStartedAt(0);
-			if ($i < 30) {
-				$task->setScheduledAt(60 * 5); // 30% get 5mins
-			} else {
-				$task->setScheduledAt(60); // the rest gets 1min
-			}
-			$tasks[] = $task;
-		}
-		$this->taskProcessingManager->method('getTasks')->willReturn($tasks);
+		// 30% of the tasks were picked up too late
+		$this->mockCounts(100, 30);
+		$this->timeFactory->method('now')->willReturn(new \DateTimeImmutable());
 
 		$this->assertEquals(SetupResult::WARNING, $this->check->run()->getSeverity());
+	}
+
+	public function testWidensTheWindowWhileThereAreNoTasks(): void {
+		$this->timeFactory->method('now')->willReturn(new \DateTimeImmutable());
+		$this->taskProcessingManager->expects($this->never())->method('getTasks');
+		$this->taskProcessingManager->expects($this->exactly(TaskProcessingPickupSpeed::MAX_DAYS - 1))
+			->method('countTasks')
+			->willReturn(0);
+
+		$this->assertEquals(SetupResult::SUCCESS, $this->check->run()->getSeverity());
 	}
 }

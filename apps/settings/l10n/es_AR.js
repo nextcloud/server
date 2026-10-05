@@ -367,6 +367,7 @@ OC.L10N.register(
     "Done" : "Terminado",
     "Change" : "Cambiar",
     "Delete" : "Eliminar",
+    "Default" : "Por defecto",
     "Account name" : "Nombre de la cuenta",
     "Save" : "Guardar",
     "Email" : "Correo electrónico",

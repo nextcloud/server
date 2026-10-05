@@ -90,6 +90,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine on
 
+	# Faster /204 endpoint
+	# Route used to check connectivity on clients
+	RedirectMatch 204 ^(/index.php)?/204$
+
 ##
 ## Rule: Workaround for WebDAV with apache+php-cgi
 ##
@@ -105,7 +109,7 @@
 ##
 ## Rule: Workaround for WebDAV with MS DavClnt
 ##
-## Context: 
+## Context:
 ##    - DavClnt attempts an OPTIONS request against `/` instead of the specified endpoint
 ##    - Redirects the client to the endpoint rather than the login page (which confuses DavClnt)
 ##
@@ -145,7 +149,7 @@
 ##
 ## Context:
 ##    - Intentionally excludes URIs used for HTTPS certificate verifications
-##        - RFC 8555 / ACME HTTP Challenges (acme-challenge) 
+##        - RFC 8555 / ACME HTTP Challenges (acme-challenge)
 ##        - File-based Validations (pki-validation)
 ##    - XXX: Sometimes we are using `/index.php` and other times `index.php` as our replacement URI; this may be incorrect
 ##

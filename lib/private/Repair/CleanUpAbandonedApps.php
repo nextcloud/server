@@ -13,7 +13,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class CleanUpAbandonedApps implements IRepairStep {
-	protected const ABANDONED_APPS = ['accessibility', 'files_videoplayer'];
+	protected const ABANDONED_APPS = ['accessibility', 'files_videoplayer', 'viewer'];
 
 	public function __construct(
 		private readonly IConfig $config,

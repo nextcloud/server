@@ -50,7 +50,7 @@ const boundary = document.getElementById('app-content-vue')!
 		<NcPopover
 			v-else
 			:boundary="boundary"
-			:popup-role="selectedFilter ? 'dialog' : 'menu'"
+			:popupRole="selectedFilter ? 'dialog' : 'menu'"
 			@update:shown="selectedFilter = undefined">
 			<template #trigger>
 				<NcButton

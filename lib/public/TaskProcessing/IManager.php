@@ -298,15 +298,20 @@ interface IManager {
 	public function setTaskStatus(Task $task, int $status): void;
 
 	/**
-	 * Get the count of tasks filtered by status and optionally by task type(s)
+	 * Get the count of tasks matching the given filters, without loading them
 	 *
-	 * @param int $status The task status to filter by
+	 * @param ?int $status The task status to filter by, or null to count tasks in any status
 	 * @param list<string> $taskTypeIds Optional list of task type IDs to filter by
+	 * @param ?int $scheduleAfter Only count tasks that were scheduled after this timestamp
+	 * @param ?int $minPickupDelay Only count tasks that took more than this many seconds to be picked up by a worker
 	 * @return int The count of matching tasks
 	 * @throws Exception If the query failed
 	 * @since 34.0.0
+	 * @since 36.0.0 - parameter $status became optional, parameters $scheduleAfter and $minPickupDelay were added
 	 */
-	public function countTasks(int $status, array $taskTypeIds = []): int;
+	public function countTasks(
+		?int $status = null, array $taskTypeIds = [], ?int $scheduleAfter = null, ?int $minPickupDelay = null,
+	): int;
 
 	/**
 	 * Extract all input and output file IDs from a task

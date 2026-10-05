@@ -50,8 +50,6 @@ use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 use RuntimeException;
 
-// TODO: Add accept/reject
-// TODO: Add permission masking (reshares)
 // TODO: Test sharing to federated users, groups and circles
 // TODO: Implement share transfers
 // TODO: Cache share owner
@@ -188,14 +186,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		// No need to update the last updated timestamp, because the share will be deleted anyway.
 
-		$ids = $this->backend->onOwnerDeleted($owner);
-
-		$legacyBackend = $this->registry->getLegacyBackend();
-		if ($legacyBackend instanceof ISharingLegacyBackend) {
-			foreach ($ids as $id) {
-				$legacyBackend->deleteShare($id);
-			}
-		}
+		$this->backend->onOwnerDeleted($owner);
 	}
 
 	#[\Override]
@@ -259,6 +250,10 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 	#[\Override]
 	public function addShareSource(ShareAccessContext $accessContext, Share $share, ShareSource $source): Share {
+		if ($share->owner->instance !== null) {
+			throw new ShareOperationForbiddenException();
+		}
+
 		// only the owner can add sources, otherwise a user could add sources others don't have access to, which would remove their access
 		$this->validateShareEditPermissions($accessContext, $share, true);
 
@@ -266,7 +261,12 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			throw new RuntimeException('The source type is not registered: ' . $source->class);
 		}
 
-		if (!$sourceType->validateSource($source->value)) {
+		$ownerUser = $this->userManager->get($share->owner->userId);
+		if (!$ownerUser instanceof IUser) {
+			throw new RuntimeException('Owner does not exist.');
+		}
+
+		if (!$sourceType->validateSource($ownerUser, $source->value)) {
 			throw new ShareInvalidException('Invalid source: ' . $source->value . ' ' . $source->class, $this->l10n->t('The source does not exist.'));
 		}
 
@@ -673,7 +673,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 
 		$recipients = $share->recipients;
 		foreach ($recipients as &$shareRecipient) {
-			if ($shareRecipient->class === $recipient->class && $shareRecipient->value === $recipient->value && $shareRecipient->instance === $recipient->instance) {
+			if ($shareRecipient->equals($recipient)) {
 				$permissions = $shareRecipient->permissions;
 				$permissions[$permission->class] = $permission;
 
@@ -750,11 +750,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 		$this->validateShareEditPermissions($accessContext, $share);
 
 		$this->backend->deleteShare($share->id);
-
-		$legacyBackend = $this->registry->getLegacyBackend();
-		if ($legacyBackend instanceof ISharingLegacyBackend) {
-			$legacyBackend->deleteShare($share->id);
-		}
 	}
 
 	#[\Override]
@@ -870,10 +865,16 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 			null, array_values(array_map(static fn (SharePermission $permission): string => $permission->class, $share->getEffectiveEnabledPermissions($accessContext)))
 		);
 
-		$usersToCheck = [];
-		if ($share->owner->instance === null && ($ownerUser = $this->userManager->get($share->owner->userId)) instanceof IUser) {
-			$usersToCheck[] = $ownerUser;
+		if ($share->owner->instance !== null) {
+			throw new ShareOperationForbiddenException();
 		}
+
+		$ownerUser = $this->userManager->get($share->owner->userId);
+		if (!$ownerUser instanceof IUser) {
+			throw new RuntimeException('Owner does not exist.');
+		}
+
+		$usersToCheck = [$ownerUser];
 
 		if ($accessContext->currentUser instanceof IUser && !$share->owner->isCurrentUser($accessContext)) {
 			$usersToCheck[] = $accessContext->currentUser;
@@ -902,7 +903,7 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 					throw new RuntimeException('The source type is not registered: ' . $source->class);
 				}
 
-				if (!$sourceType->validateSource($source->value)) {
+				if (!$sourceType->validateSource($ownerUser, $source->value)) {
 					continue;
 				}
 
@@ -972,27 +973,6 @@ final readonly class SharingManager implements ISharingManager, IEventListener {
 						$share->permissions,
 					);
 				}
-			}
-
-			$legacyBackend = $this->registry->getLegacyBackend();
-			if ($legacyBackend instanceof ISharingLegacyBackend) {
-				$compatibleSourceTypes = array_fill_keys($legacyBackend->getCompatibleSourceTypes(), true);
-				foreach ($share->sources as $source) {
-					if (!isset($compatibleSourceTypes[$source->class])) {
-						throw new RuntimeException('The legacy backend ' . $legacyBackend::class . ' does not support this source type: ' . $source->class);
-					}
-				}
-
-				$compatibleRecipientTypes = array_fill_keys($legacyBackend->getCompatibleRecipientTypes(), true);
-				foreach ($share->recipients as $recipient) {
-					if (!isset($compatibleRecipientTypes[$recipient->class])) {
-						throw new RuntimeException(
-							'The legacy backend ' . $legacyBackend::class . ' does not support this recipient type: ' . $recipient->class
-						);
-					}
-				}
-
-				$legacyBackend->updateShare($share);
 			}
 		}
 

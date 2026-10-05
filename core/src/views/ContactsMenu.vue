@@ -21,7 +21,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import ContactMenuEntry from '../components/ContactsMenu/ContactMenuEntry.vue'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 
 const storage = getBuilder('core:contacts')
 	.persist(true)

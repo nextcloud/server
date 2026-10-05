@@ -7,9 +7,9 @@ import { File, Folder, Permission } from '@nextcloud/files'
 import { createTestingPinia } from '@pinia/testing'
 import { shallowMount } from '@vue/test-utils'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { nextTick } from 'vue'
+import { nextTick, toRaw } from 'vue'
 import FileEntryGrid from './FileEntryGrid.vue'
-import router from '../router/router.ts'
+import { router } from '../router/router.ts'
 import { useActiveStore } from '../store/active.ts'
 
 // useFileListWidth builds its ResizeObserver while the module is evaluated, so
@@ -52,18 +52,20 @@ describe('FileEntryGrid.vue', () => {
 	// was first rendered rather than the one the file lives in.
 	test('follows the active folder after navigating', async () => {
 		const wrapper = shallowMount(FileEntryGrid, {
-			propsData: { source, nodes: [source] },
-			mocks: { t: (_: string, text: string) => text },
-			router,
-			pinia: createTestingPinia({ createSpy: vi.fn }),
+			props: { source, nodes: [source] },
+			global: {
+				mocks: { t: (_: string, text: string) => text },
+				plugins: [router, createTestingPinia({ createSpy: vi.fn })],
+			},
 		})
 		const activeStore = useActiveStore()
 
-		expect(wrapper.vm.activeFolder).not.toBe(nestedFolder)
+		expect(toRaw(wrapper.vm.activeFolder)).not.toBe(nestedFolder)
 
 		activeStore.activeFolder = nestedFolder
 		await nextTick()
 
-		expect(wrapper.vm.activeFolder).toBe(nestedFolder)
+		// the store hands out a reactive proxy of the folder, so compare the raw object
+		expect(toRaw(wrapper.vm.activeFolder)).toBe(nestedFolder)
 	})
 })

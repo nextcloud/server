@@ -197,7 +197,7 @@ class Upgrade extends Command {
 
 			$success = $updater->upgrade();
 
-			$this->postUpgradeCheck($input, $output);
+			$this->postUpgradeCheck($input, $output, $success);
 
 			if (!$success) {
 				return self::ERROR_FAILURE;
@@ -227,8 +227,9 @@ class Upgrade extends Command {
 	 *
 	 * @param InputInterface $input input interface
 	 * @param OutputInterface $output output interface
+	 * @param bool $upgradeSucceeded whether the upgrade itself completed successfully
 	 */
-	protected function postUpgradeCheck(InputInterface $input, OutputInterface $output) {
+	protected function postUpgradeCheck(InputInterface $input, OutputInterface $output, bool $upgradeSucceeded) {
 		$trustedDomains = $this->config->getSystemValue('trusted_domains', []);
 		if (empty($trustedDomains)) {
 			$output->write(
@@ -236,6 +237,10 @@ class Upgrade extends Command {
 				. 'set automatically by the upgrade script, '
 				. 'please set it manually</warning>'
 			);
+		}
+
+		if (!$upgradeSucceeded) {
+			return;
 		}
 
 		$this->checkSchema($output);

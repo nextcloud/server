@@ -134,7 +134,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Tillåter inloggning med ett e-postattribut. \"mail\" och \"mailPrimaryAddress\" stöds.",
     "LDAP/AD Email Address:" : "LDAP-/AD-e-postadress:",
     "Other Attributes:" : "Övriga attribut:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Anger filtret som används vid inloggningsförsök. `%%uid` ersätts med användarnamnet vid inloggningen. Exempel: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Försöker hämta ett DN för det angivna inloggningsnamnet med det aktuella inloggningsfiltret",
     "Test Login name" : "Testa inloggningsnamn",
     "Verify settings" : "Verifiera inställningar",
@@ -268,6 +267,7 @@ OC.L10N.register(
     "Pronouns Field" : "Pronomenfält",
     "User profile Pronouns will be set from the specified attribute" : "Pronomen i användarprofilen hämtas från det angivna attributet",
     "UUID Attribute for Users:" : "UUID-attribut för användare:",
-    "UUID Attribute for Groups:" : "UUID-attribut för grupper:"
+    "UUID Attribute for Groups:" : "UUID-attribut för grupper:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Anger filtret som används vid inloggningsförsök. `%%uid` ersätts med användarnamnet vid inloggningen. Exempel: `uid=%%uid`"
 },
 "nplurals=2; plural=(n != 1);");

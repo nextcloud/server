@@ -14,28 +14,32 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\IOutput;
 use OCP\Files\File;
 use OCP\Files\SimpleFS\ISimpleFile;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class FileDisplayResponseTest extends \Test\TestCase {
-	private File&MockObject $file;
 	private FileDisplayResponse $response;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->file = $this->createMock(File::class);
-		$this->file->expects($this->once())
+		/* This needs to be configured before calling the constructor */
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getETag')
 			->willReturn('myETag');
-		$this->file->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getName')
 			->willReturn('myFileName');
-		$this->file->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('getMTime')
 			->willReturn(1464825600);
 
-		$this->response = new FileDisplayResponse($this->file);
+		$this->response = $this->createInstanceWithMocks(
+			FileDisplayResponse::class,
+			[
+				/* This parameter is a union type so we have to specify which class to mock */
+				'file' => $this->getAutoMock(File::class),
+			],
+		);
 	}
 
 	public function testHeader(): void {
@@ -64,7 +68,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 			->willReturn(Http::STATUS_NOT_MODIFIED);
 		$output->expects($this->never())
 			->method('setOutput');
-		$this->file->expects($this->never())
+		$this->getAutoMock(File::class)->expects($this->never())
 			->method('getContent');
 
 		$this->response->callback($output);
@@ -75,10 +79,10 @@ class FileDisplayResponseTest extends \Test\TestCase {
 		fwrite($resource, 'my data');
 		rewind($resource);
 
-		$this->file->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('fopen')
 			->willReturn($resource);
-		$this->file->expects($this->any())
+		$this->getAutoMock(File::class)->expects($this->any())
 			->method('getSize')
 			->willReturn(7);
 
@@ -99,7 +103,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 	}
 
 	public function testFileNotFound(): void {
-		$this->file->expects($this->once())
+		$this->getAutoMock(File::class)->expects($this->once())
 			->method('fopen')
 			->willReturn(false);
 

@@ -27,7 +27,7 @@ use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Events\BeforeUserLoggedInEvent;
-use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Exceptions\UserNotFoundException;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
@@ -147,13 +147,18 @@ class OC_User {
 				/** @var Session $userSession */
 				$userSession = Server::get(IUserSession::class);
 				$dispatcher = Server::get(IEventDispatcher::class);
+				$request = Server::get(IRequest::class);
+				$user = $userSession->getUser();
 
-				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
+				if (!$user) {
+					// Should not happen except from bad code or configuration
+					throw new UserNotFoundException('User ' . $uid . ' not found');
+				}
+				if (!$user->isEnabled()) {
 					$message = Server::get(IFactory::class)->get('lib')->t('Account disabled');
 					throw new DisabledUserException($message);
 				}
-				$userSession->setLoginName($uid);
-				$request = Server::get(IRequest::class);
+
 				$password = null;
 				if ($backend instanceof IProvideUserSecretBackend) {
 					$password = $backend->getCurrentUserSecret();
@@ -161,9 +166,12 @@ class OC_User {
 
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password, $backend));
 
-				$user = $userSession->getUser();
-				$userSession->completeLogin($user, ['loginName' => $uid, 'password' => $password ?? '']);
-				$userSession->createSessionToken($request, $uid, $uid, $password);
+				$userSession->createSessionToken($request, $uid, $uid, $password, IToken::REMEMBER);
+				$userSession->completeLogin(
+					$user,
+					['loginName' => $uid, 'password' => $password ?? ''],
+					regenerateSessionId:false,
+				);
 				$userSession->createRememberMeToken($user);
 
 				if (empty($password)) {
@@ -180,17 +188,6 @@ class OC_User {
 						// simply skip updating the token when is it missing
 					}
 				}
-
-				// first call the UserLoggedIn event, the login-process needs to be
-				// completed before we can safely create the user's folder.
-				// For example encryption needs to initialize the users keys first
-				// before we can create the user folder with the skeleton files
-				$dispatcher->dispatchTyped(new UserLoggedInEvent(
-					$user,
-					$uid,
-					null,
-					false)
-				);
 			}
 			return true;
 		}
@@ -251,7 +248,7 @@ class OC_User {
 
 	/**
 	 * Returns the current logout URL valid for the currently logged-in user
-	 * @return non-empty-string
+	 * @return string
 	 */
 	public static function getLogoutUrl(IURLGenerator $urlGenerator): string {
 		return $urlGenerator->getLogoutUrl();

@@ -148,10 +148,6 @@ const unreadLabel = computed(() => {
 		padding-inline: var(--default-grid-baseline);
 	}
 
-	&--active &__label {
-		font-weight: bold;
-	}
-
 	// Utility entries ("More apps", "App store") are subdued, they are not apps.
 	&--outlined &__label {
 		color: var(--color-text-maxcontrast);

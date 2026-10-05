@@ -13,6 +13,7 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Wrapper\Quota;
 use OCP\Files;
+use OCP\Files\FileInfo;
 use OCP\Files\NotEnoughSpaceException;
 use OCP\ITempManager;
 use OCP\Server;
@@ -258,7 +259,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			->getMock();
 		$storage->expects($this->any())
 			->method('free_space')
-			->willReturn(Files\FileInfo::SPACE_UNLIMITED);
+			->willReturn(FileInfo::SPACE_UNLIMITED);
 		$storage->mkdir('uploads');
 
 		$instance = new Quota(['storage' => $storage, 'quota' => 5.0]);

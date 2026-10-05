@@ -44,6 +44,7 @@ use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
+use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use OCP\Util;
@@ -355,6 +356,12 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$this->dispatcher->dispatchTyped(new PostLoginEvent(
+			$user,
+			$loginDetails['loginName'],
+			$loginDetails['password'],
+			$isToken
+		));
+		$this->dispatcher->dispatchTyped(new UserLoggedInEvent(
 			$user,
 			$loginDetails['loginName'],
 			$loginDetails['password'],
@@ -889,7 +896,6 @@ class Session implements IUserSession, Emitter {
 	 * @return bool
 	 */
 	public function loginWithCookie($uid, $currentToken, $oldSessionId) {
-		$this->session->regenerateId();
 		$this->dispatcher->dispatchTyped(new BeforeUserLoggedInWithCookieEvent($uid));
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
@@ -926,6 +932,10 @@ class Session implements IUserSession, Emitter {
 			]);
 			return false;
 		}
+
+		// Only rotate the session once the cookie is known to be valid; failed attempts must not
+		// fork the session, as concurrent requests would otherwise lose its data.
+		$this->session->regenerateId();
 
 		// replace successfully used token with a new one
 		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
@@ -1064,6 +1074,21 @@ class Session implements IUserSession, Emitter {
 		} catch (SessionNotAvailableException $ex) {
 			// ignore
 		}
+	}
+
+	/**
+	 * Point the remember-me cookie at the regenerated session id, so cookie
+	 * login can still find the token that was renewed along with it.
+	 */
+	public function renewMagicSessionId(string $oldSessionId): void {
+		$request = Server::get(IRequest::class);
+		$username = $request->getCookie('nc_username');
+		$token = $request->getCookie('nc_token');
+		$sessionId = $request->getCookie('nc_session_id');
+		if ($username === null || $token === null || $sessionId !== $oldSessionId) {
+			return;
+		}
+		$this->setMagicInCookie($username, $token);
 	}
 
 	/**

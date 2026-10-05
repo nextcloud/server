@@ -133,7 +133,7 @@
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Permet de se connecter à l’aide d’un attribut d’adresse e-mail. Les attributs 'mail' et 'mailPrimaryAddress' sont autorisés.",
     "LDAP/AD Email Address:" : "Adresse e-mail LDAP/AD :",
     "Other Attributes:" : "Autres attributs :",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Définit le filtre à appliquer lors de la tentative de connexion. `%%uid` remplace le nom d’utilisateur lors de la connexion. Exemple : `uid=%%uid`",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "Définit le filtre à appliquer lors de la tentative de connexion. `%uid` remplace le nom d'utilisateur lors de la connexion. Exemple : `uid=%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Tente d’obtenir un DN pour le nom de connexion indiqué à l’aide du filtre de connexion actuel",
     "Test Login name" : "Nom de connexion à tester",
     "Verify settings" : "Vérifier les paramètres",
@@ -267,6 +267,7 @@
     "Pronouns Field" : "Champ des pronoms",
     "User profile Pronouns will be set from the specified attribute" : "Les pronoms du profil utilisateur seront définis à partir de l’attribut spécifié",
     "UUID Attribute for Users:" : "Attribut UUID pour les Utilisateurs :",
-    "UUID Attribute for Groups:" : "Attribut UUID pour les Groupes :"
+    "UUID Attribute for Groups:" : "Attribut UUID pour les Groupes :",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Définit le filtre à appliquer lors de la tentative de connexion. `%%uid` remplace le nom d’utilisateur lors de la connexion. Exemple : `uid=%%uid`"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

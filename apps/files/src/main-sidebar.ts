@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getCSPNonce } from '@nextcloud/auth'
 import { exposeSidebarMount, initializeSidebar } from './sidebar/setup.ts'
 
-__webpack_nonce__ = getCSPNonce()
+import 'vite/modulepreload-polyfill'
 
 // apps can render the sidebar within their own layout at any time
 exposeSidebarMount()

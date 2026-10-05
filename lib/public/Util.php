@@ -34,6 +34,18 @@ class Util {
 	private static ?bool $needUpgradeCache = null;
 
 	/**
+	 * Reset static vars
+	 * @since 36.0.0
+	 * @internal Only for internal use, may be removed at any point
+	 */
+	public static function resetStaticProperties(): void {
+		self::$scriptsInit = [];
+		self::$scripts = [];
+		self::$scriptDeps = [];
+		self::$needUpgradeCache = null;
+	}
+
+	/**
 	 * get the current installed version of Nextcloud
 	 * @return array
 	 * @since 4.0.0

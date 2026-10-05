@@ -1,0 +1,19 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Dmitry Iv <dfcreative@gmail.com>
+SPDX-FileCopyrightText: Josh Junon (https://github.com/qix-)
+SPDX-FileCopyrightText: Josh Junon <josh@junon.me>
+SPDX-FileCopyrightText: color developers
+
+This file is generated from multiple sources. Included packages:
+- color
+	- version: 5.0.3
+	- license: MIT
+- color-convert
+	- version: 3.1.3
+	- license: MIT
+- color-name
+	- version: 2.1.0
+	- license: MIT
+- color-string
+	- version: 2.1.4
+	- license: MIT

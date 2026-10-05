@@ -99,7 +99,8 @@
                             "webdav-root",
                             "reference-api",
                             "reference-regex",
-                            "mod-rewrite-working"
+                            "mod-rewrite-working",
+                            "previews"
                         ],
                         "properties": {
                             "pollinterval": {
@@ -117,6 +118,20 @@
                             },
                             "mod-rewrite-working": {
                                 "type": "boolean"
+                            },
+                            "previews": {
+                                "type": "object",
+                                "required": [
+                                    "enabled_providers"
+                                ],
+                                "properties": {
+                                    "enabled_providers": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
                             },
                             "user": {
                                 "type": "object",
@@ -9352,6 +9367,15 @@
                             "type": "boolean",
                             "default": false
                         }
+                    },
+                    {
+                        "name": "v",
+                        "in": "query",
+                        "description": "Avatar version, which lets the response be cached for longer. A stale version still returns the current avatar",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
                     }
                 ],
                 "responses": {
@@ -9455,6 +9479,15 @@
                         "schema": {
                             "type": "boolean",
                             "default": false
+                        }
+                    },
+                    {
+                        "name": "v",
+                        "in": "query",
+                        "description": "Avatar version, which lets the response be cached for longer. A stale version still returns the current avatar",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
                         }
                     }
                 ],

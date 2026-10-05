@@ -16,27 +16,16 @@ use OCP\IUser;
  * @since 18.0.0
  */
 class UserLoggedInEvent extends Event {
-	/** @var IUser */
-	private $user;
-
-	/** @var string|null */
-	private $password;
-
-	/** @var bool */
-	private $isTokenLogin;
-
-	/** @var string */
-	private $loginName;
-
 	/**
 	 * @since 18.0.0
 	 */
-	public function __construct(IUser $user, string $loginName, ?string $password, bool $isTokenLogin) {
+	public function __construct(
+		private IUser $user,
+		private string $loginName,
+		private ?string $password,
+		private bool $isTokenLogin,
+	) {
 		parent::__construct();
-		$this->user = $user;
-		$this->password = $password;
-		$this->isTokenLogin = $isTokenLogin;
-		$this->loginName = $loginName;
 	}
 
 	/**

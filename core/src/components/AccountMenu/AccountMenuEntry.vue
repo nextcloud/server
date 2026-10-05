@@ -5,7 +5,7 @@
 
 <template>
 	<NcListItem
-		:id="href ? undefined : id"
+		:id="href ? undefined : `${id}-account-menu-entry`"
 		:anchor-id="id"
 		:active="active"
 		class="account-menu-entry"
@@ -69,6 +69,8 @@ export default defineComponent({
 			default: '',
 		},
 	},
+
+	emits: ['click'],
 
 	data() {
 		return {

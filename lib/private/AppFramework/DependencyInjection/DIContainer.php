@@ -298,28 +298,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param list<class-string> $chain
 	 */
 	#[\Override]
-	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
+	protected function query(string $name, bool $autoload = true, array $chain = [], bool $fallback = true): mixed {
 		$name = $this->resolveAlias($name);
 		if ($name === 'AppName' || $name === 'appName') {
 			return $this->appName;
 		}
 
-		$result = $this->queryNoFallback($name, $chain);
-		if ($result !== null) {
-			return $result;
-		}
-		return $this->server->query($name, $autoload, $chain);
-	}
-
-	/**
-	 * @param string already sanitized $name
-	 * @param list<class-string> $chain
-	 * @return mixed
-	 * @throws QueryException if the query could not be resolved
-	 * @internal
-	 */
-	public function queryNoFallback($name, array $chain) {
-		$name = $this->resolveAlias($name);
 		if (isset($this->container[$name])) {
 			return $this->container[$name];
 		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
@@ -333,6 +317,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			/* AppFramework services are scoped to the application */
 			return parent::query($name, chain: $chain);
 		}
-		return null;
+		if ($fallback) {
+			return $this->server->query($name, $autoload, $chain);
+		} else {
+			throw new QueryException('Could not resolve ' . $name . '! Class can not be instantiated', 1);
+		}
 	}
 }

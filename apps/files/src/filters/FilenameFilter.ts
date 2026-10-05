@@ -7,7 +7,7 @@ import type { IFileListFilterChip, INode } from '@nextcloud/files'
 
 import { subscribe } from '@nextcloud/event-bus'
 import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { useSearchStore } from '../store/search.ts'
 
 /**
@@ -55,7 +55,7 @@ class FilenameFilter extends FileListFilter {
 				})
 			} else {
 				// make sure to also reset the search store when pressing the "X" on the filter chip
-				const store = useSearchStore(getPinia())
+				const store = useSearchStore(pinia)
 				if (store.scope === 'filter') {
 					store.query = ''
 				}

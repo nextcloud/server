@@ -5,7 +5,7 @@
 <template>
 	<fieldset class="ldap-wizard__login">
 		<legend>
-			{{ t('user_ldap', 'When logging in, {instanceName} will find the user based on the following attributes:', { instanceName }) }}
+			{{ t('user_ldap', 'When logging in, {instanceName} will find the user based on the following attributes:', { instanceName }, { escape: false }) }}
 		</legend>
 
 		<NcCheckboxRadioSwitch
@@ -43,7 +43,7 @@
 				v-if="ldapLoginFilterMode"
 				:modelValue="ldapConfigProxy.ldapLoginFilter"
 				:placeholder="t('user_ldap', 'Edit LDAP Query')"
-				:helperText="t('user_ldap', 'Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`')"
+				:helperText="t('user_ldap', 'Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`')"
 				@change="(event) => ldapConfigProxy.ldapLoginFilter = event.target.value" />
 			<div v-else>
 				<span>{{ t('user_ldap', 'LDAP Filter:') }}</span>

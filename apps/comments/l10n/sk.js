@@ -6,7 +6,7 @@ OC.L10N.register(
     "{author} commented" : "{author} komentoval",
     "You commented on %1$s" : "Komentovali ste %1$s",
     "You commented on {file}" : "Komentovali ste {file}",
-    "%1$s commented on %2$s" : "%1$s komentoval %2$s",
+    "%1$s commented on %2$s" : "%1$s komentoval/a %2$s",
     "{author} commented on {file}" : "{author} komentoval {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentáre</strong> pre súbory",
     "Files" : "Súbory",
@@ -33,6 +33,6 @@ OC.L10N.register(
     "Comment deleted" : "Komentár bol odstránený",
     "An error occurred while trying to delete the comment" : "Vyskytla sa chyba pri mazaní komentára",
     "An error occurred while trying to create the comment" : "Vyskytla sa chyba pri vytváraní komentára",
-    "Write a comment …" : "Napísať komentár ..."
+    "Write a comment …" : "Napísať komentár …"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

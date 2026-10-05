@@ -6,7 +6,7 @@
 import { getFileActions } from '@nextcloud/files'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { dirname } from 'path'
-import { useRoute, useRouter } from 'vue-router/composables'
+import { useRoute, useRouter } from 'vue-router'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { executeAction } from '../utils/actionUtils.ts'
 import { logger } from '../utils/logger.ts'

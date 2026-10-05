@@ -36,6 +36,8 @@ class Hasher implements IHasher {
 	private array $options = [];
 	/** Salt used for legacy passwords */
 	private ?string $legacySalt = null;
+	/** Only used for testing */
+	private ?string $forcedAlgorithm = null;
 
 	public function __construct(
 		private IConfig $config,
@@ -72,15 +74,13 @@ class Hasher implements IHasher {
 	public function hash(string $message): string {
 		$alg = $this->getPrefferedAlgorithm();
 
-		if (\defined('PASSWORD_ARGON2ID') && $alg === PASSWORD_ARGON2ID) {
-			return 3 . '|' . password_hash($message, PASSWORD_ARGON2ID, $this->options);
-		}
+		$version = match ($alg) {
+			PASSWORD_ARGON2ID => 3,
+			PASSWORD_ARGON2I => 2,
+			PASSWORD_BCRYPT => 1,
+		};
 
-		if (\defined('PASSWORD_ARGON2I') && $alg === PASSWORD_ARGON2I) {
-			return 2 . '|' . password_hash($message, PASSWORD_ARGON2I, $this->options);
-		}
-
-		return 1 . '|' . password_hash($message, PASSWORD_BCRYPT, $this->options);
+		return $version . '|' . password_hash($message, $alg, $this->options);
 	}
 
 	/**
@@ -182,6 +182,10 @@ class Hasher implements IHasher {
 	}
 
 	private function getPrefferedAlgorithm(): string {
+		if ($this->forcedAlgorithm !== null) {
+			return $this->forcedAlgorithm;
+		}
+
 		$default = PASSWORD_BCRYPT;
 		if (\defined('PASSWORD_ARGON2I')) {
 			$default = PASSWORD_ARGON2I;

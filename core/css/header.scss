@@ -157,6 +157,21 @@
 				flex: 1 0;
 			}
 		}
+
+		// List wrapper for notifications / contacts / account (and injected entries)
+		&__items {
+			display: inline-flex;
+			align-items: center;
+			justify-content: flex-end;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		&__item {
+			display: flex;
+			align-items: center;
+		}
 	}
 
 	// Public layout related headers

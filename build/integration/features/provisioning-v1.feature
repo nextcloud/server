@@ -658,7 +658,6 @@ Feature: provisioning
       | updatenotification |
       | user_ldap |
       | user_status |
-      | viewer |
       | workflowengine |
       | webhook_listeners |
       | weather_status |

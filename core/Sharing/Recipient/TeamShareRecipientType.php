@@ -70,12 +70,16 @@ final class TeamShareRecipientType extends AShareRecipientTypeSearchCollaborator
 	}
 
 	#[\Override]
-	public function getRecipientDisplayName(string $recipient): ?string {
+	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string {
+		if ($instance !== null) {
+			return null;
+		}
+
 		return $this->getTeamManager()->getTeam($recipient)?->getDisplayName();
 	}
 
 	#[\Override]
-	public function getRecipientIcon(string $recipient): null|ShareIconSVG|ShareIconURL {
+	public function getRecipientIcon(string $recipient, ?string $instance): null|ShareIconSVG|ShareIconURL {
 		return null;
 	}
 
@@ -85,13 +89,18 @@ final class TeamShareRecipientType extends AShareRecipientTypeSearchCollaborator
 	}
 
 	#[\Override]
-	public function getCollaboratorType(): int {
-		return IShare::TYPE_CIRCLE;
+	public function getCollaboratorTypes(): array {
+		return [IShare::TYPE_CIRCLE];
 	}
 
 	#[\Override]
-	public function getCollaboratorKey(): string {
-		return 'circles';
+	public function getCollaboratorKeys(): array {
+		return ['circles'];
+	}
+
+	#[\Override]
+	public function splitRemoteInstance(): bool {
+		return false;
 	}
 
 	#[\Override]

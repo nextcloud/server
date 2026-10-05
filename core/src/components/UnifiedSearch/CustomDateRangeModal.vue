@@ -9,8 +9,6 @@
 		:name="t('core', 'Custom date range')"
 		:show.sync="isModalOpen"
 		size="small"
-		:clear-view-delay="0"
-		:title="t('core', 'Custom date range')"
 		@close="closeModal">
 		<!-- Custom date range -->
 		<div class="unified-search-custom-date-modal">
@@ -40,6 +38,7 @@
 </template>
 
 <script>
+import { t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePickerNative'
 import NcModal from '@nextcloud/vue/components/NcModal'
@@ -59,6 +58,14 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+	},
+
+	emits: ['update:is-open', 'set:custom-date-range'],
+
+	setup() {
+		return {
+			t,
+		}
 	},
 
 	data() {

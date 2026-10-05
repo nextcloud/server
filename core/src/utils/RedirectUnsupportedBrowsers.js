@@ -4,9 +4,9 @@
  */
 
 import { generateUrl } from '@nextcloud/router'
-import logger from '../logger.js'
 import { supportedBrowsersRegExp } from '../services/BrowsersListService.js'
 import browserStorage from '../services/BrowserStorageService.js'
+import { logger } from './logger.ts'
 
 export const browserStorageKey = 'unsupported-browser-ignore'
 const redirectPath = generateUrl('/unsupported')

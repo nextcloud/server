@@ -12,7 +12,7 @@ import { emit } from '@nextcloud/event-bus'
 import { DefaultType, FileType } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { useFilesStore } from '../store/files.ts'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { logger } from '../utils/logger.ts'
 import { isDownloadable } from '../utils/permissions.ts'
@@ -161,8 +161,8 @@ async function downloadNodes(nodes: INode[]) {
  * @return The current directory node or null if not found
  */
 function getCurrentDirectory(view: IView, directory: string): INode | null {
-	const filesStore = useFilesStore(getPinia())
-	const pathsStore = usePathsStore(getPinia())
+	const filesStore = useFilesStore(pinia)
+	const pathsStore = usePathsStore(pinia)
 	if (!view?.id) {
 		return null
 	}

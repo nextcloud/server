@@ -26,13 +26,13 @@ use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IGroup;
 use OCP\IUser;
-use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserLoggedInEvent;
 
 /**
  * Listens to config events and update the mounts for the applicable users
  *
- * @template-implements IEventListener<StorageCreatedEvent|StorageDeletedEvent|StorageUpdatedEvent|BeforeGroupDeletedEvent|UserCreatedEvent|UserAddedEvent|UserRemovedEvent|PostLoginEvent|Event>
+ * @template-implements IEventListener<StorageCreatedEvent|StorageDeletedEvent|StorageUpdatedEvent|BeforeGroupDeletedEvent|UserCreatedEvent|UserAddedEvent|UserRemovedEvent|UserLoggedInEvent|Event>
  */
 class MountCacheService implements IEventListener {
 	private CappedMemoryCache $storageRootCache;
@@ -69,7 +69,7 @@ class MountCacheService implements IEventListener {
 		if ($event instanceof UserCreatedEvent) {
 			$this->handleUserCreated($event->getUser());
 		}
-		if ($event instanceof PostLoginEvent) {
+		if ($event instanceof UserLoggedInEvent) {
 			$this->onLogin($event->getUser());
 		}
 	}

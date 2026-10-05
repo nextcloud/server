@@ -472,6 +472,25 @@ describe('core: AppMenu', () => {
 
 			expect(wrapper.vm.opened).toBe(false)
 		})
+
+		it('cancels a pending hover-open when it is destroyed', async () => {
+			const wrapper = mount(AppMenu, { attachTo: document.body })
+			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
+
+			wrapper.destroy()
+			vi.advanceTimersByTime(500)
+
+			expect(wrapper.vm.opened).toBe(false)
+		})
+	})
+
+	it('stops listening for app list refreshes when it is destroyed', () => {
+		const wrapper = mount(AppMenu, { attachTo: document.body })
+		const [[, handler]] = eventBus.subscribe.mock.calls
+		wrapper.destroy()
+
+		expect(eventBus.unsubscribe).toHaveBeenCalledWith('nextcloud:app-menu.refresh', handler)
+		expect(eventBus.__handlers['nextcloud:app-menu.refresh']).toEqual([])
 	})
 })
 

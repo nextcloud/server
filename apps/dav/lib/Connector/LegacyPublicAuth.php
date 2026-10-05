@@ -97,8 +97,7 @@ class LegacyPublicAuth extends AbstractBasic {
 		return true;
 	}
 
-	public function getShare(): IShare {
-		assert($this->share !== null);
+	public function getShare(): ?IShare {
 		return $this->share;
 	}
 }

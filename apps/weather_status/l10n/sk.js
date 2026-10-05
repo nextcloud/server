@@ -84,7 +84,7 @@ OC.L10N.register(
     "{temperature} {unit} sleet and thunder" : "{temperature} {unit} dážď so snehom a búrka",
     "{temperature} {unit} heavy sleet and thunder later today" : "{temperature} {unit} silný dážď so snehom a búrka neskôr dnes",
     "{temperature} {unit} heavy sleet and thunder" : "{temperature} {unit} silný dážď so snehom a búrka",
-    "{temperature} {unit} light sleet showers later today" : "{temperature} {unit} slabé prehánky so snehom neskôr dnes",
+    "{temperature} {unit} light sleet showers later today" : "{temperature} {unit} slabé prehánky so snehom a dažďom neskôr dnes",
     "{temperature} {unit} light sleet showers" : "{temperature} {unit} slabé prehánky so snehom",
     "{temperature} {unit} light sleet showers and polar twilight later today" : "{temperature} {unit} slabé prehánky so snehom a polárny súmrak neskôr dnes",
     "{temperature} {unit} light sleet showers and polar twilight" : "{temperature} {unit} slabé prehánky so snehom a polárny súmrak",

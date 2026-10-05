@@ -13,6 +13,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Preview\AVIF;
 use OC\Preview\AVIFImagick;
 use OC\Preview\BMP;
+use OC\Preview\CDR;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\EMF;
 use OC\Preview\Font;
@@ -25,6 +26,7 @@ use OC\Preview\Image;
 use OC\Preview\IMagickSupport;
 use OC\Preview\Imaginary;
 use OC\Preview\ImaginaryPDF;
+use OC\Preview\JP2;
 use OC\Preview\JPEG;
 use OC\Preview\Krita;
 use OC\Preview\MarkDown;
@@ -273,6 +275,7 @@ class PreviewManager implements IPreview {
 			XBitmap::class,
 			Krita::class,
 			WebP::class,
+			CDR::class,
 			AVIF::class,
 		];
 
@@ -320,6 +323,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(BMP::class, '/image\/bmp/');
 		$this->registerCoreProvider(XBitmap::class, '/image\/x-xbitmap/');
 		$this->registerCoreProvider(WebP::class, '/image\/webp/');
+		$this->registerCoreProvider(CDR::class, '/application\/coreldraw/');
 		$this->registerCoreProvider(AVIF::class, '/image\/avif/');
 		$this->registerCoreProvider(Krita::class, '/application\/x-krita/');
 		$this->registerCoreProvider(MP3::class, '/audio\/mpeg$/');
@@ -332,6 +336,7 @@ class PreviewManager implements IPreview {
 			$imagickProviders = [
 				'SVG' => ['mimetype' => '/image\/svg\+xml/', 'class' => SVG::class],
 				'TIFF' => ['mimetype' => '/image\/tiff/', 'class' => TIFF::class],
+				'JP2' => ['mimetype' => '/image\/jp2/', 'class' => JP2::class],
 				'PDF' => ['mimetype' => '/application\/pdf/', 'class' => PDF::class],
 				'AI' => ['mimetype' => '/application\/illustrator/', 'class' => Illustrator::class],
 				'PSD' => ['mimetype' => '/application\/x-photoshop/', 'class' => Photoshop::class],

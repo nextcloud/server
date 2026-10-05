@@ -5,7 +5,7 @@
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl, getRootUrl } from '@nextcloud/router'
-import logger from '../logger.js'
+import { logger } from './logger.ts'
 
 /**
  *

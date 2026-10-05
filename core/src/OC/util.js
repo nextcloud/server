@@ -5,7 +5,7 @@
 
 import { formatFileSize as humanFileSize } from '@nextcloud/files'
 import moment from 'moment'
-import logger from '../logger.js'
+import { logger } from '../utils/logger.ts'
 import OC from './index.js'
 import History from './util-history.js'
 

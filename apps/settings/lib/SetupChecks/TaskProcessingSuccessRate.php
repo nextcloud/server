@@ -40,14 +40,12 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 
 	#[\Override]
 	public function run(): SetupResult {
-		$taskCount = 0;
 		$lastNDays = 0;
-		while ($taskCount === 0 && $lastNDays < self::MAX_DAYS) {
+		do {
 			$lastNDays++;
-			// userId: '' means no filter, whereas null would mean guest
-			$tasks = $this->taskProcessingManager->getTasks(userId: '', scheduleAfter: $this->timeFactory->now()->getTimestamp() - (60 * 60 * 24 * $lastNDays));
-			$taskCount = count($tasks);
-		}
+			$scheduleAfter = $this->timeFactory->now()->getTimestamp() - (60 * 60 * 24 * $lastNDays);
+			$taskCount = $this->taskProcessingManager->countTasks(scheduleAfter: $scheduleAfter);
+		} while ($taskCount === 0 && $lastNDays < self::MAX_DAYS);
 		if ($taskCount === 0) {
 			return SetupResult::success(
 				$this->l10n->n(
@@ -57,16 +55,7 @@ class TaskProcessingSuccessRate implements ISetupCheck {
 				)
 			);
 		}
-		$failedCount = 0;
-		foreach ($tasks as $task) {
-			if ($task->getEndedAt() === null) {
-				continue; // task was not picked up yet
-			}
-			$status = $task->getStatus();
-			if ($status === Task::STATUS_FAILED) {
-				$failedCount++;
-			}
-		}
+		$failedCount = $this->taskProcessingManager->countTasks(status: Task::STATUS_FAILED, scheduleAfter: $scheduleAfter);
 
 		if (($failedCount / $taskCount) < self::MAX_FAILURE_PERCENTAGE) {
 			return SetupResult::success(

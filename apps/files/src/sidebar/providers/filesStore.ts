@@ -12,7 +12,7 @@ import { computed } from 'vue'
 import { fetchNode } from '../../services/WebdavClient.ts'
 import { useActiveStore } from '../../store/active.ts'
 import { useFilesStore } from '../../store/files.ts'
-import { getPinia } from '../../store/index.ts'
+import { pinia as filesPinia } from '../../store/index.ts'
 import { useSidebarStore } from '../../store/sidebar.ts'
 import { logger } from '../../utils/logger.ts'
 
@@ -24,7 +24,7 @@ import { logger } from '../../utils/logger.ts'
  *
  * @param pinia - The pinia instance of the files app
  */
-export function createFilesStoreDataProvider(pinia: Pinia = getPinia()): ISidebarDataProvider {
+export function createFilesStoreDataProvider(pinia: Pinia = filesPinia): ISidebarDataProvider {
 	const node = computed(() => useActiveStore(pinia).activeNode)
 	const folder = computed(() => useActiveStore(pinia).activeFolder)
 	const view = computed(() => useActiveStore(pinia).activeView)

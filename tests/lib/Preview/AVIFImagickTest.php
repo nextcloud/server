@@ -16,7 +16,7 @@ use OC\Preview\AVIFImagick;
  */
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class AVIFImagickTest extends Provider {
-	use AvifPreviewTrait;
+	use PreviewPixelsTrait;
 
 	#[\Override]
 	protected function setUp(): void {

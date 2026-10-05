@@ -74,6 +74,11 @@ describe('Default setup page', () => {
 		await expect(component.findByRole('textbox', { name: 'Administration account name' })).resolves.not.toThrow()
 		await expect(component.findByLabelText('Administration account password')).resolves.not.toThrow()
 		await expect(component.findByRole('textbox', { name: 'Data folder' })).resolves.not.toThrow()
+
+		// Database and storage section is expanded without autoconfig
+		const advancedConfig = component.getByText('Storage & database').closest('details')!
+		expect(advancedConfig.open).toBe(true)
+		expect(advancedConfig.style.display).toBe('')
 	})
 
 	it('Renders single DB sqlite', async () => {
@@ -368,7 +373,7 @@ describe('Setup page with autoconfig', () => {
 
 		// Database and storage section is hidden as already set in autoconfig
 		await expect(component.findByText('Storage & database')).resolves.not.toThrow()
-		expect(component.getByText('Storage & database').closest('details')!.getAttribute('hidden')).toBeNull()
+		expect(component.getByText('Storage & database').closest('details')!.style.display).toBe('none')
 	})
 })
 

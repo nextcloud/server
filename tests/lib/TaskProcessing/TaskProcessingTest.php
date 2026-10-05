@@ -10,6 +10,7 @@ namespace Test\TaskProcessing;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
+use OC\TaskProcessing\Db\Task as DbTask;
 use OC\TaskProcessing\Db\TaskMapper;
 use OC\TaskProcessing\Manager;
 use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
@@ -1381,6 +1382,54 @@ class TaskProcessingTest extends \Test\TestCase {
 	public function testNonexistentTask(): void {
 		$this->expectException(NotFoundException::class);
 		$this->manager->getTask(2147483646);
+	}
+
+	/**
+	 * Insert a task without going through a provider, to control its timestamps and status.
+	 */
+	private function insertTask(int $status, ?int $scheduledAt, ?int $startedAt): DbTask {
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setStatus($status);
+		$task->setScheduledAt($scheduledAt);
+		$task->setStartedAt($startedAt);
+		/** @var DbTask $entity */
+		$entity = $this->taskMapper->insert(DbTask::fromPublicTask($task));
+		return $entity;
+	}
+
+	public function testCountTasks(): void {
+		// Far in the future, so that tasks of other tests are outside of the window
+		$now = time() + 365 * 24 * 3600;
+		$window = $now - 7200;
+		$totalBefore = $this->manager->countTasks();
+		$entities = [];
+
+		try {
+			// Scheduled within the window, picked up after 1 minute
+			$entities[] = $this->insertTask(Task::STATUS_SUCCESSFUL, $now - 3600, $now - 3540);
+			// Scheduled within the window, picked up after 10 minutes
+			$entities[] = $this->insertTask(Task::STATUS_SUCCESSFUL, $now - 3600, $now - 3000);
+			// Scheduled within the window, picked up after 10 minutes, but failed
+			$entities[] = $this->insertTask(Task::STATUS_FAILED, $now - 3600, $now - 3000);
+			// Scheduled within the window, never picked up
+			$entities[] = $this->insertTask(Task::STATUS_CANCELLED, $now - 3600, null);
+			// Scheduled before the window, picked up after 10 minutes
+			$entities[] = $this->insertTask(Task::STATUS_SUCCESSFUL, $now - 90000, $now - 89400);
+
+			self::assertEquals($totalBefore + 5, $this->manager->countTasks());
+			self::assertEquals(4, $this->manager->countTasks(scheduleAfter: $window));
+			self::assertEquals(1, $this->manager->countTasks(status: Task::STATUS_FAILED, scheduleAfter: $window));
+			// Tasks that were never picked up are not counted as slow
+			self::assertEquals(2, $this->manager->countTasks(scheduleAfter: $window, minPickupDelay: 60 * 4));
+			self::assertEquals(1, $this->manager->countTasks(status: Task::STATUS_SUCCESSFUL, scheduleAfter: $window, minPickupDelay: 60 * 4));
+			self::assertEquals(0, $this->manager->countTasks(scheduleAfter: $window, minPickupDelay: 60 * 20));
+			self::assertEquals(4, $this->manager->countTasks(taskTypeIds: [TextToText::ID], scheduleAfter: $window));
+			self::assertEquals(0, $this->manager->countTasks(taskTypeIds: [TextToImage::ID], scheduleAfter: $window));
+		} finally {
+			foreach ($entities as $entity) {
+				$this->taskMapper->delete($entity);
+			}
+		}
 	}
 
 	public function testOldTasksShouldBeCleanedUp(): void {

@@ -379,7 +379,7 @@ class UserTest extends TestCase {
 		$this->dispatcher->expects(self::atLeastOnce())
 			->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) use (&$hooksCalled) {
+				function (Event $event) use (&$hooksCalled): void {
 					if ($event instanceof BeforePasswordUpdatedEvent) {
 						$hooksCalled++;
 						$this->assertEquals('foo', $event->getUser()->getUID());
@@ -438,7 +438,7 @@ class UserTest extends TestCase {
 		$this->dispatcher->expects(self::atLeastOnce())
 			->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) use (&$hooksCalled) {
+				function (Event $event) use (&$hooksCalled): void {
 					if ($event instanceof BeforeUserDeletedEvent) {
 						$hooksCalled++;
 						$this->assertEquals('foo', $event->getUser()->getUID());

@@ -18,6 +18,7 @@ use OC\User\User;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\Config\IUserConfig;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IAppData;
@@ -32,51 +33,14 @@ use Psr\Log\LoggerInterface;
  * Class AvatarManagerTest
  */
 class AvatarManagerTest extends \Test\TestCase {
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
-	private $appData;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $accountManager;
 	/** @var AvatarManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $avatarManager;
-	/** @var KnownUserService | \PHPUnit\Framework\MockObject\MockObject */
-	private $knownUserService;
-	private ICloudIdManager&\PHPUnit\Framework\MockObject\MockObject $cloudIdManager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userSession = $this->createMock(IUserSession::class);
-		$this->userManager = $this->createMock(Manager::class);
-		$this->appData = $this->createMock(IAppData::class);
-		$this->l10n = $this->createMock(IL10N::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->accountManager = $this->createMock(IAccountManager::class);
-		$this->knownUserService = $this->createMock(KnownUserService::class);
-		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
-
-		$this->avatarManager = new AvatarManager(
-			$this->userSession,
-			$this->userManager,
-			$this->appData,
-			$this->l10n,
-			$this->logger,
-			$this->config,
-			$this->accountManager,
-			$this->knownUserService,
-			$this->cloudIdManager
-		);
+		$this->avatarManager = $this->createInstanceWithMocks(AvatarManager::class);
 	}
 
 	public function testGetAvatarForSelf(): void {
@@ -92,18 +56,18 @@ class AvatarManagerTest extends \Test\TestCase {
 			->willReturn(true);
 
 		// requesting user
-		$this->userSession->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
 
-		$this->userManager
+		$this->getAutoMock(Manager::class)
 			->expects($this->once())
 			->method('get')
 			->with('valid-user')
 			->willReturn($user);
 
 		$account = $this->createMock(IAccount::class);
-		$this->accountManager->expects($this->once())
+		$this->getAutoMock(IAccountManager::class)->expects($this->once())
 			->method('getAccount')
 			->with($user)
 			->willReturn($account);
@@ -118,25 +82,25 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('getScope')
 			->willReturn(IAccountManager::SCOPE_PRIVATE);
 
-		$this->knownUserService->expects($this->any())
+		$this->getAutoMock(KnownUserService::class)->expects($this->any())
 			->method('isKnownToUser')
 			->with('valid-user', 'valid-user')
 			->willReturn(true);
 
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
+		$this->getAutoMock(IAppData::class)
 			->expects($this->once())
 			->method('getFolder')
 			->with('valid-user')
 			->willReturn($folder);
 
-		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
+		$expected = new UserAvatar($folder, $this->getAutoMock(IL10N::class), $user, $this->getAutoMock(LoggerInterface::class), $this->getAutoMock(IConfig::class), $this->getAutoMock(IUserConfig::class));
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
 	}
 
 	public function testGetAvatarValidUserDifferentCasing(): void {
 		$user = $this->createMock(User::class);
-		$this->userManager->expects($this->once())
+		$this->getAutoMock(Manager::class)->expects($this->once())
 			->method('get')
 			->with('vaLid-USER')
 			->willReturn($user);
@@ -150,19 +114,19 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('isEnabled')
 			->willReturn(true);
 
-		$this->userSession->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
 
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
+		$this->getAutoMock(IAppData::class)
 			->expects($this->once())
 			->method('getFolder')
 			->with('valid-user')
 			->willReturn($folder);
 
 		$account = $this->createMock(IAccount::class);
-		$this->accountManager->expects($this->once())
+		$this->getAutoMock(IAccountManager::class)->expects($this->once())
 			->method('getAccount')
 			->with($user)
 			->willReturn($account);
@@ -177,7 +141,7 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('getScope')
 			->willReturn(IAccountManager::SCOPE_FEDERATED);
 
-		$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
+		$expected = new UserAvatar($folder, $this->getAutoMock(IL10N::class), $user, $this->getAutoMock(LoggerInterface::class), $this->getAutoMock(IConfig::class), $this->getAutoMock(IUserConfig::class));
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
 	}
 
@@ -208,7 +172,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		}
 
 		// requesting user
-		$this->userSession->expects($this->once())
+		$this->getAutoMock(IUserSession::class)->expects($this->once())
 			->method('getUser')
 			->willReturn($requestingUser);
 
@@ -223,14 +187,14 @@ class AvatarManagerTest extends \Test\TestCase {
 			->method('isEnabled')
 			->willReturn(true);
 
-		$this->userManager
+		$this->getAutoMock(Manager::class)
 			->expects($this->once())
 			->method('get')
 			->with('valid-user')
 			->willReturn($user);
 
 		$account = $this->createMock(IAccount::class);
-		$this->accountManager->expects($this->once())
+		$this->getAutoMock(IAccountManager::class)->expects($this->once())
 			->method('getAccount')
 			->with($user)
 			->willReturn($account);
@@ -246,35 +210,66 @@ class AvatarManagerTest extends \Test\TestCase {
 			->willReturn($avatarScope);
 
 		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
+		$this->getAutoMock(IAppData::class)
 			->expects($this->once())
 			->method('getFolder')
 			->with('valid-user')
 			->willReturn($folder);
 
 		if (!$isPublicCall) {
-			$this->knownUserService->expects($this->any())
+			$this->getAutoMock(KnownUserService::class)->expects($this->any())
 				->method('isKnownToUser')
 				->with('requesting-user', 'valid-user')
 				->willReturn($isKnownUser);
 		} else {
-			$this->knownUserService->expects($this->never())
+			$this->getAutoMock(KnownUserService::class)->expects($this->never())
 				->method('isKnownToUser');
 		}
 
 		if ($expectedPlaceholder) {
-			$expected = new PlaceholderAvatar($folder, $user, $this->config, $this->logger);
+			$expected = new PlaceholderAvatar($folder, $user, $this->getAutoMock(IConfig::class), $this->getAutoMock(LoggerInterface::class), $this->getAutoMock(IUserConfig::class));
 		} else {
-			$expected = new UserAvatar($folder, $this->l10n, $user, $this->logger, $this->config);
+			$expected = new UserAvatar($folder, $this->getAutoMock(IL10N::class), $user, $this->getAutoMock(LoggerInterface::class), $this->getAutoMock(IConfig::class), $this->getAutoMock(IUserConfig::class));
 		}
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
+	}
+
+	public static function dataCanCacheAvatarLongTerm(): array {
+		return [
+			'federated is the same for everyone' => [IAccountManager::SCOPE_FEDERATED, true, true],
+			'no scope resolves to one placeholder' => ['', true, true],
+			'private depends on the viewer' => [IAccountManager::SCOPE_PRIVATE, true, false],
+			'disabled' => [IAccountManager::SCOPE_FEDERATED, false, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCanCacheAvatarLongTerm')]
+	public function testCanCacheAvatarLongTerm(string $scope, bool $enabled, bool $expected): void {
+		$user = $this->createMock(User::class);
+		$user->method('getUID')->willReturn('valid-user');
+		$user->method('isEnabled')->willReturn($enabled);
+		$this->getAutoMock(Manager::class)->method('get')->with('valid-user')->willReturn($user);
+
+		$property = $this->createMock(IAccountProperty::class);
+		$property->method('getScope')->willReturn($scope);
+		$account = $this->createMock(IAccount::class);
+		$account->method('getProperty')->with(IAccountManager::PROPERTY_AVATAR)->willReturn($property);
+		$this->getAutoMock(IAccountManager::class)->method('getAccount')->with($user)->willReturn($account);
+
+		$this->assertEquals($expected, $this->avatarManager->canCacheAvatarLongTerm('valid-user'));
+	}
+
+	public function testCannotCacheAnAvatarForAnUnknownUser(): void {
+		$this->getAutoMock(Manager::class)->method('get')->with('nobody')->willReturn(null);
+
+		$this->assertFalse($this->avatarManager->canCacheAvatarLongTerm('nobody'));
 	}
 
 	public function testGetAvatarInvalidUser(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('user does not exist');
 
-		$this->userManager
+		$this->getAutoMock(Manager::class)
 			->expects($this->once())
 			->method('get')
 			->with('invalidUser')
@@ -286,7 +281,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	public function testGetAvatarForRemoteUser(): void {
 		$cloudId = 'user@https://remote.example.com';
 
-		$this->userManager
+		$this->getAutoMock(Manager::class)
 			->expects($this->once())
 			->method('get')
 			->willReturn(null);
@@ -296,17 +291,17 @@ class AvatarManagerTest extends \Test\TestCase {
 		$resolvedCloudId->method('getRemote')->willReturn('https://remote.example.com');
 		$resolvedCloudId->method('getDisplayId')->willReturn('user@remote.example.com');
 
-		$this->cloudIdManager->expects($this->once())
+		$this->getAutoMock(ICloudIdManager::class)->expects($this->once())
 			->method('isValidCloudId')
 			->with($cloudId)
 			->willReturn(true);
-		$this->cloudIdManager->method('resolveCloudId')
+		$this->getAutoMock(ICloudIdManager::class)->method('resolveCloudId')
 			->with($cloudId)
 			->willReturn($resolvedCloudId);
-		$this->overwriteService(ICloudIdManager::class, $this->cloudIdManager);
+		$this->overwriteService(ICloudIdManager::class, $this->getAutoMock(ICloudIdManager::class));
 
-		$this->appData->expects($this->once())->method('getFolder');
-		$this->accountManager->expects($this->never())->method('getAccount');
+		$this->getAutoMock(IAppData::class)->expects($this->once())->method('getFolder');
+		$this->getAutoMock(IAccountManager::class)->expects($this->never())->method('getAccount');
 
 		$avatar = $this->avatarManager->getAvatar($cloudId);
 
@@ -320,13 +315,13 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('user does not exist');
 
-		$this->userManager
+		$this->getAutoMock(Manager::class)
 			->expects($this->once())
 			->method('get')
 			->with('invalidUser')
 			->willReturn(null);
 
-		$this->cloudIdManager->expects($this->once())
+		$this->getAutoMock(ICloudIdManager::class)->expects($this->once())
 			->method('isValidCloudId')
 			->with('invalidUser')
 			->willReturn(false);

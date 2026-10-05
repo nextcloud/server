@@ -269,8 +269,6 @@ OC.L10N.register(
     "Wrong login or password." : "Погрешно корисничко име или лозинка.",
     "This account is disabled" : "Оваа сметка е оневозможена",
     "Too many failed login attempts from your location. Try again in 30 seconds." : "Премногу неточни обиди за најавување од вашата локација. Обиди се повторно за 30 секунди.",
-    "Account name or email" : "Корисничко име или е-пошта",
-    "Account name" : "Корисничко име",
     "Server side authentication failed!" : "Автентификацијата на серверската страна е неуспешна!",
     "Please contact your administrator." : "Ве молиме контактирајте го вашиот администратор.",
     "Session error" : "Грешка во сесијата",
@@ -278,6 +276,9 @@ OC.L10N.register(
     "An internal error occurred." : "Се случи внатрешна грешка.",
     "Please try again or contact your administrator." : "Ве молиме обидете се повторно или контактирајте го вашиот администратор.",
     "Remember me" : "Запамти ме",
+    "Email length is at max (255)" : "Должината на Е-пошта е максимум (255)",
+    "Account name or email" : "Корисничко име или е-пошта",
+    "Account name" : "Корисничко име",
     "Log in with a device" : "Најавете се со уред",
     "Login or email" : "Корисничко име или лозинка",
     "Your account is not setup for passwordless login." : "Вашата сметка не е поставена за најавување без лозинка.",
@@ -454,7 +455,6 @@ OC.L10N.register(
     "Failed to add the item to the project" : "Неуспешно додавање на ставката во проектот",
     "Connect items to a project to make them easier to find" : "Поврзете ги датотеките и папките во проект за да може полесно да ги пронаоѓате",
     "Type to search for existing projects" : "Пребарувај за постоечки проекти",
-    "Email length is at max (255)" : "Должината на Е-пошта е максимум (255)",
     "Clipboard not available, please copy manually" : "Клипбоард не е достапен, копирај рачно",
     "Personal" : "Лично",
     "Accounts" : "Сметки",
@@ -580,6 +580,7 @@ OC.L10N.register(
     "Too many incorrect login attempts. Please try again in 30 seconds." : "Премногу неточни обиди за најавување. Обиди се повторно за 30 секунди.",
     "Groups" : "Групи",
     "Group list is empty" : "Листата во групата е празна",
-    "Unable to retrieve the group list" : "Неможе да се вчита листата со групи"
+    "Unable to retrieve the group list" : "Неможе да се вчита листата со групи",
+    "Search apps, files, tags, messages …" : "Барај апликации, датотеки, ознаки, пораки …"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

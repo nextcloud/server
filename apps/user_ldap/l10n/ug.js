@@ -133,7 +133,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "ئېلخەت قىممىتى بىلەن كىرىشكە يول قوي. 'mail' ھەمدە 'mailPrimaryAddress' قا يول قۇيۇلىدۇ.",
     "LDAP/AD Email Address:" : "LDAP / AD ئېلېكترونلۇق خەت ئادرېسى:",
     "Other Attributes:" : "باشقا خاسلىقى:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "كىرىشكە ئۇرۇنغاندا قوللىنىلىدىغان سۈزگۈچنى بەلگىلەيدۇ. كىرىش ھەرىكىتىدىكى ئىشلەتكۈچى ئىسمىنىڭ ئورنىنى `%%uid` ئالىدۇ. مىسال: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "بېرىلگەن كىرىش ئىسمى ۋە نۆۋەتتىكى كىرىش سۈزگۈچ ئۈچۈن DN تاپشۇرۇۋېلىشقا ئۇرۇنۇش",
     "Test Login name" : "سىناق كىرىش ئىسمى",
     "Verify settings" : "تەڭشەكلەرنى دەلىللەڭ",
@@ -263,6 +262,7 @@ OC.L10N.register(
     "Pronouns Field" : "ئالمىشىش مەيدانى",
     "User profile Pronouns will be set from the specified attribute" : "ئىشلەتكۈچى ئارخىپى ئالماشلار بەلگىلەنگەن خاسلىقتىن تەڭشىلىدۇ",
     "UUID Attribute for Users:" : "ئىشلەتكۈچىلەر ئۈچۈن UUID خاسلىقى:",
-    "UUID Attribute for Groups:" : "گۇرۇپپىلارغا UUID خاسلىقى:"
+    "UUID Attribute for Groups:" : "گۇرۇپپىلارغا UUID خاسلىقى:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "كىرىشكە ئۇرۇنغاندا قوللىنىلىدىغان سۈزگۈچنى بەلگىلەيدۇ. كىرىش ھەرىكىتىدىكى ئىشلەتكۈچى ئىسمىنىڭ ئورنىنى `%%uid` ئالىدۇ. مىسال: `uid=%%uid`"
 },
 "nplurals=2; plural=(n != 1);");

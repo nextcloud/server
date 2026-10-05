@@ -12,6 +12,7 @@ namespace OC\Session;
 
 use OC\Authentication\Token\IProvider;
 use OC\Diagnostics\TLogSlowOperation;
+use OC\User\Session as UserSession;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Server;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -149,6 +150,7 @@ class Internal extends Session {
 
 			try {
 				$tokenProvider->renewSessionToken($oldId, $newId);
+				Server::get(UserSession::class)->renewMagicSessionId($oldId);
 			} catch (InvalidTokenException $e) {
 				// Just ignore
 			}

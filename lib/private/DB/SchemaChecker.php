@@ -12,11 +12,17 @@ use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Types\StringType;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use OC\Migration\NullOutput;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\DB\Events\AddMissingIndicesEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
+use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 /**
  * Compares the live database schema against the schema expected for the
@@ -28,6 +34,8 @@ class SchemaChecker {
 		private readonly Connection $connection,
 		private readonly IAppConfig $appConfig,
 		private readonly IAppManager $appManager,
+		private readonly IEventDispatcher $eventDispatcher,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
@@ -42,7 +50,12 @@ class SchemaChecker {
 
 		// Enabled apps are already autoloaded at boot, no extra class loading needed.
 		foreach (array_keys($enabledApps) as $app) {
-			$this->applyMigrations($app, $expectedSchema);
+			try {
+				$this->applyMigrations($app, $expectedSchema);
+			} catch (AppPathNotFoundException) {
+				// Enabled in config, but the app's code is gone (occ app:remove
+				// leaves config/tables in place). Nothing to replay here.
+			}
 		}
 
 		// Disabled apps keep their tables, so replay their migrations too.
@@ -55,6 +68,7 @@ class SchemaChecker {
 
 		$this->addMigrationsTable($expectedSchema);
 		$this->materializeUniqueConstraints($expectedSchema);
+		$this->normalizeLongStringColumns($expectedSchema);
 
 		$liveSchema = $this->connection->createSchema();
 
@@ -65,14 +79,23 @@ class SchemaChecker {
 
 		$comparator = $this->connection->createSchemaManager()->createComparator();
 		$diff = $comparator->compareSchemas($liveSchema, $expectedSchema);
+		$optionalIndexNames = $this->getOptionalIndexNames();
+		$findings = array_filter($this->buildFindings($diff), fn (array $finding): bool => !$this->isOptionalIndexFinding($finding, $optionalIndexNames));
 
 		return array_map(function (array $finding) use ($disabledAppTableOwners, $enabledApps): array {
 			$app = $disabledAppTableOwners[$finding['table']] ?? null;
 			$finding['app'] = $app;
-			// Only tables owned by a disabled app are non-blocking.
-			$finding['enabled'] = $app === null || $app === 'core' || isset($enabledApps[$app]);
+			if ($finding['type'] === 'unexpected_table' && $app === null) {
+				// Unattributed unexpected tables are informational, not drift:
+				// occ app:remove leaves tables/config in place, so a removed
+				// app's code is gone and can never be attributed to it.
+				$finding['enabled'] = false;
+			} else {
+				// Only tables owned by a disabled app are non-blocking.
+				$finding['enabled'] = $app === null || $app === 'core' || isset($enabledApps[$app]);
+			}
 			return $finding;
-		}, $this->buildFindings($diff));
+		}, array_values($findings));
 	}
 
 	/**
@@ -105,7 +128,10 @@ class SchemaChecker {
 			if ($finding['enabled']) {
 				$blocking[] = $finding;
 			} else {
-				$byDisabledApp[$finding['app']][] = $finding;
+				// $finding['app'] is null for unattributed unexpected tables;
+				// group those under a placeholder label instead of coercing
+				// null to an empty-string array key.
+				$byDisabledApp[$finding['app'] ?? '(unknown app)'][] = $finding;
 			}
 		}
 		return ['blocking' => $blocking, 'byDisabledApp' => $byDisabledApp];
@@ -142,18 +168,31 @@ class SchemaChecker {
 			// Disabled apps are not autoloaded on boot. Load only the migration
 			// classes themselves directly from disk, rather than registering
 			// the whole app for PSR-4 autoloading.
+			$namespace = $this->appManager->getAppNamespace($app);
 			foreach ($this->findMigrationFiles($appPath . '/lib/Migration') as $file) {
+				$fqcn = $namespace . '\\Migration\\' . basename($file, '.php');
+				if (class_exists($fqcn, false)) {
+					// Another app already declared this exact class name (e.g.
+					// a fork sharing its namespace); requiring it again would
+					// be an uncatchable fatal, not a \Throwable.
+					return;
+				}
 				require_once $file;
 			}
 
 			$this->applyMigrations($app, $schema);
-		} catch (\Throwable) {
-			return;
-		}
-
-		foreach ($schema->getTables() as $table) {
-			if (!isset($existingTables[$table->getName()])) {
-				$disabledAppTableOwners[$table->getName()] = $app;
+		} catch (\Throwable $e) {
+			$this->logger->warning('Could not replay migrations for disabled app {app}', [
+				'app' => $app,
+				'exception' => $e,
+			]);
+		} finally {
+			// Attribute whatever was applied before a failure too, so it
+			// isn't misreported as blocking drift owned by no app.
+			foreach ($schema->getTables() as $table) {
+				if (!isset($existingTables[$table->getName()])) {
+					$disabledAppTableOwners[$table->getName()] = $app;
+				}
 			}
 		}
 	}
@@ -212,6 +251,65 @@ class SchemaChecker {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Migrator::getDiff() (see lib/private/DB/Migrator.php) rewrites any
+	 * STRING column longer than 4000 characters to TEXT before it generates
+	 * DDL, for consistency between the supported databases. That rewrite
+	 * only happens when a migration is actually applied, never when it is
+	 * replayed here to build the expected schema - so without repeating it,
+	 * any such column would forever be reported as a type mismatch.
+	 */
+	private function normalizeLongStringColumns(Schema $schema): void {
+		foreach ($schema->getTables() as $table) {
+			foreach ($table->getColumns() as $column) {
+				if ($column->getType() instanceof StringType && $column->getLength() > 4000) {
+					$column->setType(Type::getType(Types::TEXT));
+					$column->setLength(null);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Apps can register indices that are only ever created or renamed via
+	 * occ db:add-missing-indices (AddMissingIndicesEvent), not through a
+	 * versioned migration. Since running that command is optional, whether
+	 * such an index exists on the live schema depends on whether an admin
+	 * ever ran it - it is not itself a sign of drift in either direction.
+	 * Collect their names here so findings about them can be filtered out
+	 * entirely, rather than reported as missing/unexpected index findings.
+	 *
+	 * @return array<string, array<string, true>> table name => set of index names
+	 */
+	private function getOptionalIndexNames(): array {
+		$event = new AddMissingIndicesEvent();
+		$this->eventDispatcher->dispatchTyped($event);
+
+		$names = [];
+		foreach ($event->getMissingIndices() as $missingIndex) {
+			$table = $this->connection->getPrefix() . $missingIndex['tableName'];
+			$names[$table][$missingIndex['indexName']] = true;
+		}
+		foreach ($event->getIndicesToReplace() as $toReplace) {
+			$table = $this->connection->getPrefix() . $toReplace['tableName'];
+			$names[$table][$toReplace['newIndexName']] = true;
+			foreach ($toReplace['oldIndexNames'] as $oldIndexName) {
+				$names[$table][$oldIndexName] = true;
+			}
+		}
+
+		return $names;
+	}
+
+	/**
+	 * @param array{table: string, type: string, name?: string, changes?: list<string>} $finding
+	 * @param array<string, array<string, true>> $optionalIndexNames table name => set of index names, as returned by getOptionalIndexNames()
+	 */
+	private function isOptionalIndexFinding(array $finding, array $optionalIndexNames): bool {
+		return ($finding['type'] === 'missing_index' || $finding['type'] === 'unexpected_index')
+			&& isset($optionalIndexNames[$finding['table']][$finding['name']]);
 	}
 
 	private function keepOnlyTable(Schema $schema, string $tableName): void {
@@ -301,7 +399,7 @@ class SchemaChecker {
 		if ($columnDiff->hasNotNullChanged()) {
 			$changes[] = 'nullable';
 		}
-		if ($columnDiff->hasDefaultChanged()) {
+		if ($columnDiff->hasDefaultChanged() && !$this->isIgnorableTextDefaultDiff($columnDiff)) {
 			$changes[] = 'default';
 		}
 		if ($columnDiff->hasAutoIncrementChanged()) {
@@ -318,5 +416,21 @@ class SchemaChecker {
 		}
 
 		return $changes;
+	}
+
+	/**
+	 * MySQL and MariaDB silently ignore a literal DEFAULT clause on TEXT and
+	 * BLOB columns - only NULL is ever actually stored for them. A migration
+	 * that declares such a default therefore always disagrees with the live
+	 * schema on these platforms, even though nothing has actually drifted.
+	 */
+	private function isIgnorableTextDefaultDiff(ColumnDiff $columnDiff): bool {
+		if (!in_array($this->connection->getDatabaseProvider(), [IDBConnection::PLATFORM_MYSQL, IDBConnection::PLATFORM_MARIADB], true)) {
+			return false;
+		}
+
+		$typeName = Type::getTypeRegistry()->lookupName($columnDiff->getNewColumn()->getType());
+
+		return in_array($typeName, [Types::TEXT, Types::BLOB], true);
 	}
 }

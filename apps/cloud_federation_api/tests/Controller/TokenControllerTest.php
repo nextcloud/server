@@ -11,16 +11,11 @@ namespace OCA\CloudFederationAPI\Tests\Controller;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use OC\Authentication\Token\IProvider;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Controller\TokenController;
-use OCA\CloudFederationAPI\Db\OcmTokenMapMapper;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Authentication\Exceptions\ExpiredTokenException;
-use OCP\Authentication\Exceptions\InvalidTokenException;
-use OCP\Authentication\Token\IToken;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use OCP\IAppConfig;
@@ -32,6 +27,7 @@ use OCP\Security\Signature\Exceptions\SignatureNotFoundException;
 use OCP\Security\Signature\IIncomingSignedRequest;
 use OCP\Security\Signature\ISignatureManager;
 use OCP\Security\Signature\Model\Signatory;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -40,20 +36,18 @@ use Test\TestCase;
 
 class TokenControllerTest extends TestCase {
 	private IRequest&MockObject $request;
-	private IProvider&MockObject $tokenProvider;
 	private ISecureRandom&MockObject $random;
 	private ITimeFactory&MockObject $timeFactory;
 	private LoggerInterface&MockObject $logger;
 	private ISignatureManager&MockObject $signatureManager;
 	private OCMSignatoryManager&MockObject $signatoryManager;
 	private IAppConfig&MockObject $appConfig;
-	private OcmTokenMapMapper&MockObject $ocmTokenMapMapper;
 	private IShareManager&MockObject $shareManager;
 	private ICloudIdManager&MockObject $cloudIdManager;
 
 	private TokenController $controller;
 
-	/** Public key matching the signatory private key configured by configureHappyPath(). */
+	/** Public key matching the signatory private key configured by mockSignatory(). */
 	private string $publicKeyPem = '';
 
 	#[\Override]
@@ -61,7 +55,6 @@ class TokenControllerTest extends TestCase {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
-		$this->tokenProvider = $this->createMock(IProvider::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -70,20 +63,17 @@ class TokenControllerTest extends TestCase {
 			->willReturnCallback(static fn (string $uri): string => (string)parse_url($uri, PHP_URL_HOST));
 		$this->signatoryManager = $this->createMock(OCMSignatoryManager::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
-		$this->ocmTokenMapMapper = $this->createMock(OcmTokenMapMapper::class);
 		$this->shareManager = $this->createMock(IShareManager::class);
 		$this->cloudIdManager = $this->createMock(ICloudIdManager::class);
 
 		$this->controller = new TokenController(
 			$this->request,
-			$this->tokenProvider,
 			$this->random,
 			$this->timeFactory,
 			$this->logger,
 			$this->signatureManager,
 			$this->signatoryManager,
 			$this->appConfig,
-			$this->ocmTokenMapMapper,
 			$this->shareManager,
 			$this->cloudIdManager,
 		);
@@ -96,47 +86,25 @@ class TokenControllerTest extends TestCase {
 	}
 
 	/**
-	 * Configure the collaborators so that exchanging $refreshToken issues a JWT
-	 * access token. Returns the refresh token mock for further expectations.
+	 * Accept any signed request, as if the remote had signed it correctly.
 	 */
-	private function configureHappyPath(
-		string $refreshToken,
-		int $tokenId,
-		string $uid,
-		string $shareOwner,
-		string $sharedWith,
-		string $jti,
-		array $scope = [IToken::SCOPE_FILESYSTEM => true],
-	): IToken&MockObject {
+	private function mockSignedRequest(string $origin = 'remote.example.com'): void {
+		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
+		$signedRequest->method('getOrigin')->willReturn($origin);
+		$this->signatureManager->method('getIncomingSignedRequest')
+			->willReturn($signedRequest);
+	}
+
+	/**
+	 * Publish a freshly generated RSA signatory and pin the issue time and jti.
+	 */
+	private function mockSignatory(string $jti): void {
 		$privateKey = openssl_pkey_new([
 			'private_key_bits' => 2048,
 			'private_key_type' => OPENSSL_KEYTYPE_RSA,
 		]);
 		openssl_pkey_export($privateKey, $privateKeyPem);
 		$this->publicKeyPem = openssl_pkey_get_details($privateKey)['key'];
-
-		$refreshTokenMock = $this->createMock(IToken::class);
-		$refreshTokenMock->method('getType')->willReturn(IToken::PERMANENT_TOKEN);
-		$refreshTokenMock->method('getId')->willReturn($tokenId);
-		$refreshTokenMock->method('getUID')->willReturn($uid);
-		$refreshTokenMock->method('getLoginName')->willReturn($uid);
-		$refreshTokenMock->method('getScopeAsArray')->willReturn($scope);
-		$this->tokenProvider->method('getToken')
-			->with($refreshToken)
-			->willReturn($refreshTokenMock);
-
-		$share = $this->createMock(IShare::class);
-		$share->method('getShareOwner')->willReturn($shareOwner);
-		$share->method('getSharedWith')->willReturn($sharedWith);
-		$share->method('getId')->willReturn('789');
-		$this->shareManager->method('getShareByToken')
-			->with($refreshToken)
-			->willReturn($share);
-		$cloudId = $this->createMock(ICloudId::class);
-		$cloudId->method('getRemote')->willReturn('https://remote.example.com');
-		$this->cloudIdManager->method('resolveCloudId')
-			->with($sharedWith)
-			->willReturn($cloudId);
 
 		$signatory = new Signatory();
 		$signatory->setKeyId('https://local.example.com/index.php/ocm#signature');
@@ -145,30 +113,58 @@ class TokenControllerTest extends TestCase {
 
 		$this->random->method('generate')->willReturn($jti);
 		$this->timeFactory->method('getTime')->willReturn(1000000);
+	}
 
-		$accessToken = $this->createMock(IToken::class);
-		$accessToken->method('getId')->willReturn(456);
-		$this->tokenProvider->method('generateToken')->willReturn($accessToken);
+	/**
+	 * Make $refreshToken resolve to a share, and that share's recipient to a remote.
+	 *
+	 * @param string|null $storedToken token stored on the share, as compared against the presented one
+	 */
+	private function mockShare(
+		string $refreshToken,
+		?string $storedToken,
+		int $shareType = IShare::TYPE_REMOTE,
+		string $shareOwner = 'owner',
+		string $sharedWith = 'sharee@remote.example.com',
+	): IShare&MockObject {
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn($shareType);
+		$share->method('getToken')->willReturn($storedToken);
+		$share->method('getShareOwner')->willReturn($shareOwner);
+		$share->method('getSharedWith')->willReturn($sharedWith);
+		$share->method('getId')->willReturn('789');
+		$this->shareManager->method('getShareByToken')
+			->with($refreshToken)
+			->willReturn($share);
 
-		return $refreshTokenMock;
+		$cloudId = $this->createMock(ICloudId::class);
+		$cloudId->method('getRemote')->willReturn('https://remote.example.com');
+		$this->cloudIdManager->method('resolveCloudId')
+			->with($sharedWith)
+			->willReturn($cloudId);
+
+		return $share;
+	}
+
+	/**
+	 * Configure the collaborators so that exchanging $refreshToken issues a JWT
+	 * access token. Returns the share mock for further expectations.
+	 */
+	private function configureHappyPath(
+		string $refreshToken,
+		string $shareOwner,
+		string $sharedWith,
+		string $jti,
+		int $shareType = IShare::TYPE_REMOTE,
+	): IShare&MockObject {
+		$this->mockSignatory($jti);
+
+		return $this->mockShare($refreshToken, $refreshToken, $shareType, $shareOwner, $sharedWith);
 	}
 
 	public function testAccessTokenSuccess(): void {
-		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
-		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
-		$this->signatureManager->method('getIncomingSignedRequest')
-			->with($this->signatoryManager, null, 'remote.example.com')
-			->willReturn($signedRequest);
-
-		$this->configureHappyPath('valid-refresh-token', 123, 'testuser', 'owner', 'sharee@department@remote.example.com', 'fixedjtivalue00');
-
-		$this->ocmTokenMapMapper->expects($this->once())
-			->method('insert')
-			->with($this->callback(function ($mapping) {
-				return $mapping->getAccessTokenId() === 456
-					&& $mapping->getRefreshToken() === 'valid-refresh-token'
-					&& $mapping->getExpires() === 1000000 + 3600;
-			}));
+		$this->mockSignedRequest();
+		$this->configureHappyPath('valid-refresh-token', 'owner', 'sharee@department@remote.example.com', 'fixedjtivalue00');
 
 		$result = $this->controller->accessToken('authorization_code', 'valid-refresh-token');
 
@@ -192,61 +188,58 @@ class TokenControllerTest extends TestCase {
 		$this->assertSame(1000000 + 3600, $decoded->exp);
 	}
 
-	public function testAccessTokenDoesNotRevokeExistingTokens(): void {
+	public function testAccessTokenVerifiesSignatureAgainstShareRecipientOrigin(): void {
 		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
 		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
-		$this->signatureManager->method('getIncomingSignedRequest')
-			->with($this->signatoryManager)
+		$this->signatureManager->expects($this->once())
+			->method('getIncomingSignedRequest')
+			->with($this->signatoryManager, null, 'remote.example.com')
 			->willReturn($signedRequest);
 
-		$this->configureHappyPath('valid-refresh-token', 123, 'testuser', 'owner', 'sharee@remote.example.com', 'fixedjtivalue00');
-
-		// A refresh token may back multiple concurrent access tokens, so an
-		// exchange only adds one and never revokes or deletes an existing one.
-		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
-		$this->ocmTokenMapMapper->expects($this->never())->method('delete');
-		$this->ocmTokenMapMapper->expects($this->once())->method('insert');
+		$this->configureHappyPath('valid-refresh-token', 'owner', 'sharee@remote.example.com', 'fixedjtivalue00');
 
 		$result = $this->controller->accessToken('authorization_code', 'valid-refresh-token');
 
 		$this->assertEquals(Http::STATUS_OK, $result->getStatus());
 	}
 
-	public function testAccessTokenLocksRefreshTokenToExchangeOnly(): void {
-		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
-		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
-		$this->signatureManager->method('getIncomingSignedRequest')
-			->with($this->signatoryManager)
-			->willReturn($signedRequest);
-
-		$refreshTokenMock = $this->configureHappyPath('valid-refresh-token', 123, 'testuser', 'owner', 'sharee@remote.example.com', 'fixedjtivalue00');
-
-		// The refresh token must be downgraded so it can no longer mount the
-		// filesystem, only be replayed against the token endpoint.
-		$refreshTokenMock->expects($this->once())
-			->method('setScope')
-			->with($this->callback(fn (array $scope): bool => ($scope[IToken::SCOPE_FILESYSTEM] ?? null) === false));
+	public function testAccessTokenWithRemoteGroupShare(): void {
+		$this->mockSignedRequest();
+		$this->configureHappyPath('valid-refresh-token', 'owner', 'sharee@remote.example.com', 'fixedjtivalue00', IShare::TYPE_REMOTE_GROUP);
 
 		$result = $this->controller->accessToken('authorization_code', 'valid-refresh-token');
 
 		$this->assertEquals(Http::STATUS_OK, $result->getStatus());
 	}
 
-	public function testAccessTokenDoesNotRelockAlreadyLockedRefreshToken(): void {
-		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
-		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
-		$this->signatureManager->method('getIncomingSignedRequest')
-			->with($this->signatoryManager)
-			->willReturn($signedRequest);
+	public function testAccessTokenWithNonFederatedShare(): void {
+		$this->mockSignedRequest();
+		$this->mockShare('link-share-token', 'link-share-token', IShare::TYPE_LINK);
 
-		$refreshTokenMock = $this->configureHappyPath('valid-refresh-token', 123, 'testuser', 'owner', 'sharee@remote.example.com', 'fixedjtivalue00', [IToken::SCOPE_FILESYSTEM => false]);
+		$result = $this->controller->accessToken('authorization_code', 'link-share-token');
 
-		// Already locked from a previous exchange: do not rewrite the scope.
-		$refreshTokenMock->expects($this->never())->method('setScope');
+		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $result->getStatus());
+		$this->assertEquals(['error' => 'invalid_grant'], $result->getData());
+	}
 
-		$result = $this->controller->accessToken('authorization_code', 'valid-refresh-token');
+	public function testAccessTokenWithMismatchingShareToken(): void {
+		$this->mockSignedRequest();
+		$this->mockShare('presented-token', 'other-token');
 
-		$this->assertEquals(Http::STATUS_OK, $result->getStatus());
+		$result = $this->controller->accessToken('authorization_code', 'presented-token');
+
+		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $result->getStatus());
+		$this->assertEquals(['error' => 'invalid_grant'], $result->getData());
+	}
+
+	public function testAccessTokenWithTokenlessShare(): void {
+		$this->mockSignedRequest();
+		$this->mockShare('presented-token', null);
+
+		$result = $this->controller->accessToken('authorization_code', 'presented-token');
+
+		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $result->getStatus());
+		$this->assertEquals(['error' => 'invalid_grant'], $result->getData());
 	}
 
 	public function testAccessTokenWithoutSignatureEnforcementDisabled(): void {
@@ -257,7 +250,7 @@ class TokenControllerTest extends TestCase {
 			->with('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, false, true)
 			->willReturn(false);
 
-		$this->configureHappyPath('refresh-token', 123, 'testuser', 'owner', 'sharee', 'fixedjtivalue00');
+		$this->configureHappyPath('refresh-token', 'owner', 'sharee@remote.example.com', 'fixedjtivalue00');
 
 		$result = $this->controller->accessToken('authorization_code', 'refresh-token');
 
@@ -289,10 +282,7 @@ class TokenControllerTest extends TestCase {
 	}
 
 	public function testAccessTokenUnsupportedGrantType(): void {
-		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
-		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
-		$this->signatureManager->method('getIncomingSignedRequest')
-			->willReturn($signedRequest);
+		$this->mockSignedRequest();
 
 		$result = $this->controller->accessToken('password', 'refresh-token');
 
@@ -301,10 +291,7 @@ class TokenControllerTest extends TestCase {
 	}
 
 	public function testAccessTokenMissingGrantType(): void {
-		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
-		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
-		$this->signatureManager->method('getIncomingSignedRequest')
-			->willReturn($signedRequest);
+		$this->mockSignedRequest();
 
 		$result = $this->controller->accessToken('', 'refresh-token');
 
@@ -313,10 +300,7 @@ class TokenControllerTest extends TestCase {
 	}
 
 	public function testAccessTokenMissingRefreshToken(): void {
-		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
-		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
-		$this->signatureManager->method('getIncomingSignedRequest')
-			->willReturn($signedRequest);
+		$this->mockSignedRequest();
 
 		$result = $this->controller->accessToken('authorization_code', '');
 
@@ -324,35 +308,11 @@ class TokenControllerTest extends TestCase {
 		$this->assertEquals(['error' => 'refresh_token is required'], $result->getData());
 	}
 
-	public function testAccessTokenNonPermanentToken(): void {
-		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
-		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
-		$this->signatureManager->method('getIncomingSignedRequest')
-			->willReturn($signedRequest);
-
-		$refreshToken = $this->createMock(IToken::class);
-		$refreshToken->method('getType')->willReturn(IToken::TEMPORARY_TOKEN);
-		$refreshToken->method('getId')->willReturn(123);
-
-		$this->tokenProvider->method('getToken')
-			->with('non-permanent-token')
-			->willReturn($refreshToken);
-
-		$result = $this->controller->accessToken('authorization_code', 'non-permanent-token');
-
-		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $result->getStatus());
-		$this->assertEquals(['error' => 'invalid_grant'], $result->getData());
-	}
-
 	public function testAccessTokenInvalidToken(): void {
-		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
-		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
-		$this->signatureManager->method('getIncomingSignedRequest')
-			->willReturn($signedRequest);
-
-		$this->tokenProvider->method('getToken')
+		$this->mockSignedRequest();
+		$this->shareManager->method('getShareByToken')
 			->with('invalid-token')
-			->willThrowException(new InvalidTokenException());
+			->willThrowException(new ShareNotFound());
 
 		$result = $this->controller->accessToken('authorization_code', 'invalid-token');
 
@@ -360,30 +320,10 @@ class TokenControllerTest extends TestCase {
 		$this->assertEquals(['error' => 'invalid_grant'], $result->getData());
 	}
 
-	public function testAccessTokenExpiredToken(): void {
-		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
-		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
-		$this->signatureManager->method('getIncomingSignedRequest')
-			->willReturn($signedRequest);
-
-		$this->tokenProvider->method('getToken')
-			->with('expired-token')
-			->willThrowException(new ExpiredTokenException($this->createMock(IToken::class)));
-
-		$result = $this->controller->accessToken('authorization_code', 'expired-token');
-
-		$this->assertEquals(Http::STATUS_UNAUTHORIZED, $result->getStatus());
-		$this->assertEquals(['error' => 'invalid_grant'], $result->getData());
-	}
-
 	public function testAccessTokenServerError(): void {
-		$signedRequest = $this->createMock(IIncomingSignedRequest::class);
-		$signedRequest->method('getOrigin')->willReturn('remote.example.com');
-		$this->signatureManager->method('getIncomingSignedRequest')
-			->willReturn($signedRequest);
-
-		$this->tokenProvider->method('getToken')
-			->willThrowException(new \RuntimeException('Database connection failed'));
+		$this->mockSignedRequest();
+		$this->mockShare('some-token', 'some-token');
+		$this->signatoryManager->method('getLocalJwksSignatory')->willReturn(null);
 
 		$result = $this->controller->accessToken('authorization_code', 'some-token');
 
@@ -399,7 +339,7 @@ class TokenControllerTest extends TestCase {
 			->with('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, false, true)
 			->willReturn(false);
 
-		$this->configureHappyPath('refresh-token', 123, 'testuser', 'owner', 'sharee', 'fixedjtivalue00');
+		$this->configureHappyPath('refresh-token', 'owner', 'sharee@remote.example.com', 'fixedjtivalue00');
 
 		$result = $this->controller->accessToken('authorization_code', 'refresh-token');
 

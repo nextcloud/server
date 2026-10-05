@@ -25,6 +25,7 @@
     "None found" : "Nenájdené",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Boli nájdené neplatné UUID účtov alebo skupín LDAP. Skontrolujte svoje nastavenia „Prepísať detekciu UUID“ v expertnej časti konfigurácie LDAP a použite „occ ldap:update-uuid“ na ich aktualizáciu.",
     "LDAP" : "LDAP",
+    "LDAP configuration" : "Konfigurácia LDAP",
     "_%n group found_::_%n groups found_" : ["%n nájdená skupina","%n nájdené skupiny","%n nájdených skupín","%n nájdených skupín"],
     "> 1000 groups found" : "> 1000 nájdených skupín",
     "> 1000 users found" : "> 1000 nájdených užívateľov",
@@ -132,7 +133,7 @@
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Umožňuje prihlásenie pomocou atribútu e-mailu. Povolené sú 'mail' a 'mailPrimaryAddress'.",
     "LDAP/AD Email Address:" : "LDAP/AD emailová adresa:",
     "Other Attributes:" : "Iné atribúty:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definuje filter, ktorý sa použije pri pokuse o prihlásenie. `%%uid` nahradí používateľské meno v akcii prihlásenia. Príklad: `uid=%%uid`",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "Definuje filter, ktorý sa použije pri pokuse o prihlásenie. `%uid` nahradí používateľské meno v akcii prihlásenia. Príklad: `uid=%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Pokusy o získanie DN pre dané prihlasovacie meno a aktuálny filter prihlásenia",
     "Test Login name" : "Testovacie prihlasovacie meno",
     "Verify settings" : "Overiť nastavenia",
@@ -259,13 +260,14 @@
     "Back" : "Späť",
     "Continue" : "Pokračovať",
     "Please renew your password." : "Obnovte svoje heslo.",
-    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Upozornenie:</b> nie je nainštalovaný LDAP modul pre PHP, backend vrstva nebude fungovať. Požiadajte administrátora systému, aby ho nainštaloval.",
+    "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Upozornenie:</b> nie je nainštalovaný PHP LDAP modul, serverová časť nebude fungovať. Požiadajte administrátora systému, aby ho nainštaloval.",
     "Configuration Active" : "Nastavenia sú aktívne ",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Neodporúčané, použite iba pri testovaní! Pokiaľ spojenie funguje iba z daným nastavením, importujte SSL certifikát LDAP servera do vášho %s servera.",
     "\"$home\" Placeholder Field" : "Výplňová kolónka „$home“",
     "Pronouns Field" : "Kolónka Oslovenie",
     "User profile Pronouns will be set from the specified attribute" : "Oslovenie uživateľského profilu sa nastaví zo zadaného atribútu",
     "UUID Attribute for Users:" : "UUID atribút pre používateľov:",
-    "UUID Attribute for Groups:" : "UUID atribút pre skupiny:"
+    "UUID Attribute for Groups:" : "UUID atribút pre skupiny:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definuje filter, ktorý sa použije pri pokuse o prihlásenie. `%%uid` nahradí používateľské meno v akcii prihlásenia. Príklad: `uid=%%uid`"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

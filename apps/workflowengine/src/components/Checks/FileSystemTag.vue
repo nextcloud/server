@@ -5,57 +5,28 @@
 <template>
 	<NcSelectTags
 		v-model="newValue"
+		:aria-label-combobox="t('workflowengine', 'Tag')"
 		:limit="null"
 		:multiple="false"
-		@input="update" />
+		@update:modelValue="emitValue()" />
 </template>
 
-<script>
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
 import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
+import { useCheckValue } from '../../composables/useCheckValue.ts'
 
-export default {
-	name: 'FileSystemTag',
-	components: {
-		NcSelectTags,
+const props = withDefaults(defineProps<{ modelValue?: string }>(), { modelValue: '' })
+
+const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
+
+const { newValue, emitValue } = useCheckValue<number | null>(
+	() => props.modelValue,
+	(value) => emit('update:modelValue', value),
+	{
+		// NcSelectTags works on numeric tag ids, a rule stores the id as a string
+		parse: (modelValue) => (modelValue === '' ? null : Number.parseInt(modelValue)),
+		format: (value) => String(value || ''),
 	},
-
-	props: {
-		modelValue: {
-			type: String,
-			default: '',
-		},
-	},
-
-	emits: ['update:model-value'],
-
-	data() {
-		return {
-			newValue: [],
-		}
-	},
-
-	watch: {
-		modelValue() {
-			this.updateValue()
-		},
-	},
-
-	beforeMount() {
-		this.updateValue()
-	},
-
-	methods: {
-		updateValue() {
-			if (this.modelValue !== '') {
-				this.newValue = parseInt(this.modelValue)
-			} else {
-				this.newValue = null
-			}
-		},
-
-		update() {
-			this.$emit('update:model-value', this.newValue || '')
-		},
-	},
-}
+)
 </script>

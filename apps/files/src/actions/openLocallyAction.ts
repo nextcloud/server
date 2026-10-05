@@ -3,18 +3,20 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { IFileAction } from '@nextcloud/files'
+import type { ActionContextSingle, IFile, IFileAction, INode } from '@nextcloud/files'
 
 import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 import IconWeb from '@mdi/svg/svg/web.svg?raw'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { DialogBuilder, showError } from '@nextcloud/dialogs'
+import { FileType } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
 import { generateOcsUrl } from '@nextcloud/router'
 import { isPublicShare } from '@nextcloud/sharing/public'
+import { getViewer } from '@nextcloud/viewer'
 import { logger } from '../utils/logger.ts'
 import { isSyncable } from '../utils/permissions.ts'
 
@@ -44,8 +46,8 @@ export const action: IFileAction = {
 		return isSyncable(nodes[0]!)
 	},
 
-	async exec({ nodes }) {
-		await attemptOpenLocalClient(nodes[0].path)
+	async exec({ nodes, contents }) {
+		await attemptOpenLocalClient(nodes[0], contents)
 		return null
 	},
 
@@ -60,15 +62,19 @@ export const action: IFileAction = {
  * 2. Open online: The viewer is used to open the file.
  * 3. Close the dialog and nothing happens (abort).
  *
- * @param path - The path to open
+ * @param node - The file to open
+ * @param contents - The folder the file is in, so the viewer can navigate
  */
-async function attemptOpenLocalClient(path: string) {
-	await openLocalClient(path)
+async function attemptOpenLocalClient(node: INode, contents: ActionContextSingle['contents']) {
+	await openLocalClient(node.path)
 	const result = await confirmLocalEditDialog()
 	if (result === 'local') {
-		await openLocalClient(path)
+		await openLocalClient(node.path)
 	} else if (result === 'online') {
-		window.OCA.Viewer.open({ path })
+		// The listing carries the folders too, and the viewer pages through
+		// files alone
+		const files = contents.filter((entry): entry is IFile => entry.type === FileType.File)
+		await getViewer().open(files, node as IFile)
 	}
 }
 

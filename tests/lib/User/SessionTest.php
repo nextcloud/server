@@ -37,6 +37,7 @@ use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\PostLoginEvent;
+use OCP\User\Events\UserLoggedInEvent;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -194,10 +195,10 @@ class SessionTest extends TestCase {
 		$userSession->expects($this->once())
 			->method('prepareUserLogin');
 
-		$this->dispatcher->expects($this->once())
+		$this->dispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->with(
-				$this->callback(function (PostLoginEvent $e): bool {
+				$this->callback(function (PostLoginEvent|UserLoggedInEvent $e): bool {
 					return $e->getUser()->getUID() === 'foo'
 						&& $e->getPassword() === 'bar'
 						&& $e->isTokenLogin() === false;
@@ -448,7 +449,7 @@ class SessionTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) {
+				function (Event $event): void {
 					if ($event instanceof LoginFailed) {
 						$this->assertEquals($event, new LoginFailed('john', 'doe'));
 					} elseif ($event instanceof BeforeUserLoggedInEvent) {
@@ -579,7 +580,7 @@ class SessionTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) {
+				function (Event $event): void {
 					if ($event instanceof LoginFailed) {
 						$this->assertEquals($event, new LoginFailed('john', 'doe'));
 					} elseif ($event instanceof BeforeUserLoggedInEvent) {
@@ -905,6 +906,60 @@ class SessionTest extends TestCase {
 		$this->assertFalse($granted);
 	}
 
+	public function testRememberLoginMissingSessionToken(): void {
+		$session = $this->createMock(Memory::class);
+		$managerMethods = get_class_methods(Manager::class);
+		//keep following methods intact in order to ensure hooks are working
+		$mockedManagerMethods = array_diff($managerMethods, ['__construct', 'emit', 'listen']);
+		$manager = $this->getMockBuilder(Manager::class)
+			->onlyMethods($mockedManagerMethods)
+			->setConstructorArgs([
+				$this->config,
+				$this->createMock(ICacheFactory::class),
+				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
+			])
+			->getMock();
+		$userSession = $this->getMockBuilder(Session::class)
+			//override, otherwise tests will fail because of setcookie()
+			->onlyMethods(['setMagicInCookie'])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher])
+			->getMock();
+
+		$user = $this->createMock(IUser::class);
+		$token = 'goodToken';
+		$oldSessionId = 'sess321';
+
+		$session->expects($this->never())
+			->method('regenerateId');
+		$manager->expects($this->once())
+			->method('get')
+			->with('foo')
+			->willReturn($user);
+		$this->config->expects($this->once())
+			->method('getUserKeys')
+			->with('foo', 'login_token')
+			->willReturn([$token]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($oldSessionId)
+			->willThrowException(new InvalidTokenException());
+
+		$this->config->expects($this->never())
+			->method('deleteUserValue');
+		$this->tokenProvider->expects($this->never())
+			->method('renewSessionToken');
+		$userSession->expects($this->never())
+			->method('setMagicInCookie');
+		$session->expects($this->never())
+			->method('set')
+			->with('user_id', 'foo');
+
+		$granted = $userSession->loginWithCookie('foo', $token, $oldSessionId);
+
+		$this->assertFalse($granted);
+	}
+
 	public function testRememberLoginInvalidToken(): void {
 		$session = $this->createMock(Memory::class);
 		$managerMethods = get_class_methods(Manager::class);
@@ -929,7 +984,7 @@ class SessionTest extends TestCase {
 		$token = 'goodToken';
 		$oldSessionId = 'sess321';
 
-		$session->expects($this->once())
+		$session->expects($this->never())
 			->method('regenerateId');
 		$manager->expects($this->once())
 			->method('get')
@@ -980,7 +1035,7 @@ class SessionTest extends TestCase {
 		$token = 'goodToken';
 		$oldSessionId = 'sess321';
 
-		$session->expects($this->once())
+		$session->expects($this->never())
 			->method('regenerateId');
 		$manager->expects($this->once())
 			->method('get')
@@ -1213,6 +1268,27 @@ class SessionTest extends TestCase {
 		$this->userSession->createRememberMeToken($user);
 	}
 
+	public static function renewMagicSessionIdData(): array {
+		return [
+			'cookie holds the old session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'old'], true],
+			'cookie holds another session id' => [['nc_username' => 'u', 'nc_token' => 't', 'nc_session_id' => 'other'], false],
+			'no remember-me cookies' => [[], false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'renewMagicSessionIdData')]
+	public function testRenewMagicSessionId(array $cookies, bool $expectRenewal): void {
+		$this->userSession->expects($expectRenewal ? $this->once() : $this->never())
+			->method('setMagicInCookie')
+			->with('u', 't');
+
+		$request = $this->createMock(IRequest::class);
+		$request->method('getCookie')->willReturnCallback(fn (string $key) => $cookies[$key] ?? null);
+		$this->overwriteService(IRequest::class, $request);
+
+		$this->userSession->renewMagicSessionId('old');
+	}
+
 	public function testTryBasicAuthLoginValid(): void {
 		$request = $this->createMock(Request::class);
 		$request->method('__get')
@@ -1363,7 +1439,7 @@ class SessionTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) {
+				function (Event $event): void {
 					if ($event instanceof LoginFailed) {
 						$this->assertEquals($event, new LoginFailed('john', 'I-AM-A-PASSWORD'));
 					} elseif ($event instanceof BeforeUserLoggedInEvent) {
@@ -1426,7 +1502,7 @@ class SessionTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) {
+				function (Event $event): void {
 					if ($event instanceof LoginFailed) {
 						$this->assertEquals($event, new LoginFailed('john@foo.bar', 'I-AM-A-PASSWORD'));
 					} elseif ($event instanceof BeforeUserLoggedInEvent) {

@@ -25,6 +25,7 @@
     "None found" : "Nincs találat",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAP-fiókok vagy csoportok érvénytelen UUID azonosítói találhatók. Nézze át a „UUID észlelés felülbírálása” beállítást az LDAP beállítások Szakértő részében, majd a frissítésükhöz használja az „occ ldap:update-uuid” parancsot.",
     "LDAP" : "LDAP",
+    "LDAP configuration" : "LDAP-beállítások",
     "_%n group found_::_%n groups found_" : ["%n csoport található","%n csoport található"],
     "> 1000 groups found" : "> 1000 csoport található",
     "> 1000 users found" : "> 1000 felhasználó találhatófound",
@@ -132,7 +133,6 @@
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Engedélyezi a bejelentkezést egy e-mail-attribútum alapján. A „mail” és a „mailPrimaryAddress” engedélyezett.",
     "LDAP/AD Email Address:" : "LDAP/AD e-mail-cím:",
     "Other Attributes:" : "Más attribútumok:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Meghatározza a belépéskor alkalmazandó szűrőt. A `%%uid` lecseréli a felhasználónevet a bejelentkezési műveletnél. Például: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Megpróbál fogadni egy DN-t a megadott bejelentkezési név és a jelenlegi bejelentkezési szűrő alapján",
     "Test Login name" : "Teszt bejelentkezési név",
     "Verify settings" : "Beállítások ellenőrzése",
@@ -266,6 +266,7 @@
     "Pronouns Field" : "Névmások mezője",
     "User profile Pronouns will be set from the specified attribute" : "A felhasználói profil Névmások mezője a megadott attribútumból lesz beállítva",
     "UUID Attribute for Users:" : "A felhasználók UUID attribútuma:",
-    "UUID Attribute for Groups:" : "A csoportok UUID attribútuma:"
+    "UUID Attribute for Groups:" : "A csoportok UUID attribútuma:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Meghatározza a belépéskor alkalmazandó szűrőt. A `%%uid` lecseréli a felhasználónevet a bejelentkezési műveletnél. Például: `uid=%%uid`"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

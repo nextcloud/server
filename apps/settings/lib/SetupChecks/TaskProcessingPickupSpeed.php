@@ -19,6 +19,7 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 	public const MAX_SLOW_PERCENTAGE = 0.1;
 
 	public const MAX_DAYS = 14;
+	public const MAX_PICKUP_DELAY = 60 * 4;
 
 	public function __construct(
 		private IL10N $l10n,
@@ -39,14 +40,12 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 
 	#[\Override]
 	public function run(): SetupResult {
-		$taskCount = 0;
 		$lastNDays = 1;
-		while ($taskCount === 0 && $lastNDays < self::MAX_DAYS) {
+		do {
 			$lastNDays++;
-			// userId: '' means no filter, whereas null would mean guest
-			$tasks = $this->taskProcessingManager->getTasks(userId: '', scheduleAfter: $this->timeFactory->now()->getTimestamp() - (60 * 60 * 24 * $lastNDays));
-			$taskCount = count($tasks);
-		}
+			$scheduleAfter = $this->timeFactory->now()->getTimestamp() - (60 * 60 * 24 * $lastNDays);
+			$taskCount = $this->taskProcessingManager->countTasks(scheduleAfter: $scheduleAfter);
+		} while ($taskCount === 0 && $lastNDays < self::MAX_DAYS);
 		if ($taskCount === 0) {
 			return SetupResult::success(
 				$this->l10n->n(
@@ -56,19 +55,8 @@ class TaskProcessingPickupSpeed implements ISetupCheck {
 				)
 			);
 		}
-		$slowCount = 0;
-		foreach ($tasks as $task) {
-			if ($task->getStartedAt() === null) {
-				continue; // task was not picked up yet
-			}
-			if ($task->getScheduledAt() === null) {
-				continue; // task was not scheduled yet -- should not happen, but the API specifies null as return value
-			}
-			$pickupDelay = $task->getScheduledAt() - $task->getStartedAt();
-			if ($pickupDelay > 60 * 4) {
-				$slowCount++; // task pickup took longer than 4 minutes
-			}
-		}
+		// Tasks that have not been picked up yet are not counted as slow
+		$slowCount = $this->taskProcessingManager->countTasks(scheduleAfter: $scheduleAfter, minPickupDelay: self::MAX_PICKUP_DELAY);
 
 		if (($slowCount / $taskCount) < self::MAX_SLOW_PERCENTAGE) {
 			return SetupResult::success(

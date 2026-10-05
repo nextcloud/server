@@ -32,18 +32,17 @@ use Psr\Log\LoggerInterface;
  * This class manages the apps. It allows them to register and integrate in the
  * Nextcloud ecosystem. Furthermore, this class is responsible for installing,
  * upgrading and removing apps.
+ * @deprecated 36.0.0 There are no more non-deprecated methods in there
  */
 class OC_App {
-	private static array $alreadyRegistered = [];
-	public const supportedApp = 300;
-	public const officialApp = 200;
-
 	/**
-	 * @internal
+	 * @deprecated 36.0.0 use your own constant
 	 */
-	public static function reset(): void {
-		self::$alreadyRegistered = [];
-	}
+	public const supportedApp = 300;
+	/**
+	 * @deprecated 36.0.0 use your own constant
+	 */
+	public const officialApp = 200;
 
 	/**
 	 * clean the appId
@@ -259,6 +258,7 @@ class OC_App {
 
 	/**
 	 * List all apps, this is used in apps.php
+	 * @deprecated 36.0.0 Use your own logic around IAppManager, this is legacy specific formatting
 	 */
 	public function listAllApps(): array {
 		$appManager = Server::get(IAppManager::class);

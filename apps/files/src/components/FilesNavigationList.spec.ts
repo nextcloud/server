@@ -4,12 +4,12 @@
  */
 
 import { getNavigation, View } from '@nextcloud/files'
-import { enableAutoDestroy, shallowMount } from '@vue/test-utils'
+import { enableAutoUnmount, shallowMount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test } from 'vitest'
 import { nextTick } from 'vue'
 import FilesNavigationList from './FilesNavigationList.vue'
 
-enableAutoDestroy(afterEach)
+enableAutoUnmount(afterEach)
 
 describe('FilesNavigationList.vue', () => {
 	beforeEach(() => {
@@ -27,7 +27,7 @@ describe('FilesNavigationList.vue', () => {
 
 		navigation.register(view1)
 
-		const wrapper = shallowMount(FilesNavigationList)
+		const wrapper = shallowMount(FilesNavigationList, { global: { renderStubDefaultSlot: true } })
 		let items = wrapper.findAllComponents({ name: 'FilesNavigationListItem' })
 		expect(items).toHaveLength(1)
 		expect(items.at(0).props('view').id).toBe('view-1')
@@ -49,7 +49,7 @@ describe('FilesNavigationList.vue', () => {
 		navigation.register(view2)
 		navigation.register(view1)
 
-		const wrapper = shallowMount(FilesNavigationList)
+		const wrapper = shallowMount(FilesNavigationList, { global: { renderStubDefaultSlot: true } })
 		const items = wrapper.findAllComponents({ name: 'FilesNavigationListItem' })
 		expect(items).toHaveLength(2)
 		expect(items.at(0).props('view').id).toBe('view-1')
@@ -72,7 +72,7 @@ describe('FilesNavigationList.vue', () => {
 		navigation.register(view2)
 		navigation.register(view1)
 
-		const wrapper = shallowMount(FilesNavigationList)
+		const wrapper = shallowMount(FilesNavigationList, { global: { renderStubDefaultSlot: true } })
 		const items = wrapper.findAllComponents({ name: 'FilesNavigationListItem' })
 		expect(items).toHaveLength(2)
 		expect(items.at(0).props('view').id).toBe('view-1')
@@ -87,7 +87,7 @@ describe('FilesNavigationList.vue', () => {
 		navigation.register(view2)
 		navigation.register(view1)
 
-		const wrapper = shallowMount(FilesNavigationList)
+		const wrapper = shallowMount(FilesNavigationList, { global: { renderStubDefaultSlot: true } })
 		const items = wrapper.findAllComponents({ name: 'FilesNavigationListItem' })
 		expect(items).toHaveLength(2)
 		expect(items.at(0).props('view').id).toBe('view-1')

@@ -30,7 +30,7 @@
 
 			<NcCheckboxRadioSwitch
 				:modelValue="ldapConfigProxy.turnOffCertCheck === '1'"
-				:aria-label="t('user_ldap', 'Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your {instanceName} server.', { instanceName })"
+				:aria-label="t('user_ldap', 'Not recommended, use it for testing only! If connection only works with this option, import the LDAP server\'s SSL certificate in your {instanceName} server.', { instanceName }, { escape: false })"
 				@update:modelValue="ldapConfigProxy.turnOffCertCheck = $event ? '1' : '0'">
 				{{ t('user_ldap', 'Turn off SSL certificate validation.') }}
 			</NcCheckboxRadioSwitch>
@@ -71,6 +71,13 @@
 				:placeholder="t('user_ldap', 'Optional; one attribute per line')"
 				:label="t('user_ldap', 'User Search Attributes')"
 				@change="(event) => ldapConfigProxy.ldapAttributesForUserSearch = event.target.value" />
+
+			<NcTextField
+				autocomplete="off"
+				:modelValue="ldapConfigProxy.ldapUserActiveState"
+				:label="t('user_ldap', 'User Active/Inactive Attribute')"
+				:title="t('user_ldap', 'User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not.')"
+				@change="(event) => ldapConfigProxy.ldapUserActiveState = event.target.value" />
 
 			<NcCheckboxRadioSwitch
 				:modelValue="ldapConfigProxy.markRemnantsAsDisabled === '1'"

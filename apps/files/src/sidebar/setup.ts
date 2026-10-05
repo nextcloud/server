@@ -5,7 +5,7 @@
 
 import type { ISidebar } from '@nextcloud/files'
 
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { useSidebarStore } from '../store/sidebar.ts'
 import { logger } from '../utils/logger.ts'
 import { isSidebarMounted, mountSidebar } from './mount.ts'
@@ -65,7 +65,7 @@ export function renderSidebar(target: HTMLElement): void {
  */
 export function exposeSidebarApi(): void {
 	window.OCA.Files ??= {}
-	window.OCA.Files._sidebar = () => useSidebarStore(getPinia()) satisfies Omit<ISidebar, 'available' | 'mount' | 'registerTab' | 'registerAction'>
+	window.OCA.Files._sidebar = () => useSidebarStore(pinia) satisfies Omit<ISidebar, 'available' | 'mount' | 'registerTab' | 'registerAction'>
 }
 
 /**

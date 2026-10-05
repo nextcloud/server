@@ -17,14 +17,12 @@ use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
-use OCP\IBinaryFinder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Server;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -125,24 +123,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * Checks if a function is available
-	 *
-	 * @deprecated 25.0.0 use \OCP\Util::isFunctionEnabled instead
-	 */
-	public static function is_function_enabled(string $function_name): bool {
-		return Util::isFunctionEnabled($function_name);
-	}
-
-	/**
-	 * Try to find a program
-	 * @deprecated 25.0.0 Use \OCP\IBinaryFinder directly
-	 */
-	public static function findBinaryPath(string $program): ?string {
-		$result = Server::get(IBinaryFinder::class)->findBinaryPath($program);
-		return $result !== false ? $result : null;
-	}
-
-	/**
 	 * Calculate the disc space for the given path
 	 *
 	 * BEWARE: this requires that Util::setupFS() was called
@@ -188,10 +168,7 @@ class OC_Helper {
 		if (!$rootInfo instanceof FileInfo) {
 			throw new NotFoundException('The root directory of the user\'s files is missing');
 		}
-		$used = $rootInfo->getSize($includeMountPoints);
-		if ($used < 0) {
-			$used = 0.0;
-		}
+
 		/** @var int|float $quota */
 		$quota = FileInfo::SPACE_UNLIMITED;
 		$mount = $rootInfo->getMountPoint();
@@ -227,7 +204,13 @@ class OC_Helper {
 		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
 			/** @var Quota $sourceStorage */
 			$quota = $sourceStorage->getQuota();
+			$used = $sourceStorage->getSize($path, $storage);
+		} else {
+			$used = $rootInfo->getSize($includeMountPoints);
 		}
+
+		$used = max($used, 0.0);
+
 		try {
 			$free = $sourceStorage->free_space($rootInfo->getInternalPath());
 			if (is_bool($free)) {

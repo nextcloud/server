@@ -56,6 +56,7 @@
 		<directory name="apps/updatenotification"/>
 		<directory name="apps/user_ldap"/>
 		<directory name="apps/user_status"/>
+		<directory name="apps/viewer"/>
 		<directory name="apps/weather_status"/>
 		<directory name="apps/webhook_listeners"/>
 		<directory name="apps/workflowengine"/>
@@ -98,6 +99,7 @@
 			<directory name="apps/updatenotification/tests"/>
 			<directory name="apps/user_ldap/tests"/>
 			<directory name="apps/user_status/tests"/>
+			<directory name="apps/viewer/tests"/>
 			<directory name="apps/webhook_listeners/tests"/>
 			<directory name="apps/workflowengine/tests"/>
 			<directory name="apps/**/composer"/>
