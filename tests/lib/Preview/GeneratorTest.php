@@ -532,6 +532,43 @@ class GeneratorTest extends TestCase {
 		$this->assertSame('64-64.png', $result->getName());
 	}
 
+	#[TestWith([32, true, false, '64-64.png'])]
+	#[TestWith([32, false, true, '64-64.png'])]
+	#[TestWith([512, false, true, '1024-1024.png'])]
+	public function testResizeFromScaledMaxPreview(int $size, bool $scaledAvailable, bool $expectFullDecode, string $expectedName): void {
+		$file = $this->getFile(42, 'myMimeType');
+
+		$this->getAutoMock(IPreview::class)->method('isMimeSupported')
+			->willReturn(true);
+
+		$maxPreview = new Preview();
+		$maxPreview->setWidth(2048);
+		$maxPreview->setHeight(2048);
+		$maxPreview->setMax(true);
+		$maxPreview->setSize(1000);
+		$maxPreview->setVersion(null);
+		$maxPreview->setMimeType('image/jpeg');
+
+		$this->getAutoMock(PreviewMapper::class)->method('getAvailablePreviews')
+			->willReturn([42 => [$maxPreview]]);
+
+		$this->getAutoMock(GeneratorHelper::class)->expects($size === 32 ? $this->once() : $this->never())
+			->method('getScaledImage')
+			->with($this->anything(), 64, 64)
+			->willReturn($scaledAvailable ? $this->getMockImage(256, 256) : null);
+		$this->getAutoMock(GeneratorHelper::class)->expects($expectFullDecode ? $this->once() : $this->never())
+			->method('getImage')
+			->willReturn($this->getMockImage(2048, 2048));
+
+		$this->getAutoMock(PreviewMapper::class)->method('insert')
+			->willReturnCallback(fn (Preview $preview): Preview => $preview);
+		$this->getAutoMock(StorageFactory::class)->method('writePreview')
+			->willReturn(1000);
+
+		$result = $this->generator->getPreview($file, $size, $size);
+		$this->assertSame($expectedName, $result->getName());
+	}
+
 	public function testUnreadbleFile(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')

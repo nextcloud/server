@@ -182,10 +182,9 @@ class Generator {
 					}
 
 					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
-					$source = $maxPreviewImage === null ? $this->findResizeSource($previews, $maxPreview, $width, $height, $previewVersion) : null;
-					if ($source !== null) {
-						$sourceImage = $this->helper->getImage(new PreviewFile($source, $this->storageFactory, $this->previewMapper));
-						$previewFile = $this->generatePreview($file, $sourceImage, $width, $height, $crop, $source->getWidth(), $source->getHeight(), $previewVersion, $cacheResult);
+					$sourceImage = $maxPreviewImage === null ? $this->loadSmallerSource($previews, $maxPreview, $width, $height, $previewVersion) : null;
+					if ($sourceImage !== null) {
+						$previewFile = $this->generatePreview($file, $sourceImage, $width, $height, $crop, $sourceImage->width(), $sourceImage->height(), $previewVersion, $cacheResult);
 						if ($sourceImage instanceof Image) {
 							$sourceImage->destroy();
 						}
@@ -214,6 +213,24 @@ class Generator {
 		}
 
 		return $previewFile;
+	}
+
+	/**
+	 * A cheaper resize source than the full max preview, if any
+	 *
+	 * @param Preview[] $previews
+	 */
+	private function loadSmallerSource(array $previews, Preview $maxPreview, int $width, int $height, ?string $version): ?IImage {
+		$source = $this->findResizeSource($previews, $maxPreview, $width, $height, $version);
+		if ($source !== null) {
+			return $this->helper->getImage(new PreviewFile($source, $this->storageFactory, $this->previewMapper));
+		}
+
+		// Only pays off for previews much smaller than the max preview
+		if (8 * $width <= $maxPreview->getWidth() && 8 * $height <= $maxPreview->getHeight()) {
+			return $this->helper->getScaledImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper), $width, $height);
+		}
+		return null;
 	}
 
 	/**
