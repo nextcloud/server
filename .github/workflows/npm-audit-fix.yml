@@ -52,7 +52,7 @@ jobs:
 
       - name: Fix npm audit
         id: npm-audit
-        uses: nextcloud-libraries/npm-audit-action@10cb4119761f3440587f2d3bb655b26afb8f5a61
+        uses: nextcloud-libraries/npm-audit-action@20df3567a2e736ea87a3d5c4a437a8463f74dda6
 
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v5
