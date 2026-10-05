@@ -31,6 +31,13 @@ class GeneratorHelper {
 		return $provider->getThumbnail($file, $maxWidth, $maxHeight) ?? false;
 	}
 
+	/**
+	 * Whether small previews are faster to generate from the original than from the max preview
+	 */
+	public function resizesEfficiently(IProviderV2 $provider): bool {
+		return $provider instanceof Imaginary;
+	}
+
 	public function getImage(ISimpleFile $maxPreview): IImage {
 		$image = new OCPImage();
 		$image->loadFromData($maxPreview->getContent());

@@ -27,6 +27,7 @@ use OCP\Image;
 use OCP\IPreview;
 use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
+use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
 use Psr\Log\LoggerInterface;
 
@@ -182,13 +183,10 @@ class Generator {
 					}
 
 					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
-					$sourceImage = $maxPreviewImage === null ? $this->loadSmallerSource($previews, $maxPreview, $width, $height, $previewVersion) : null;
-					if ($sourceImage !== null) {
-						$previewFile = $this->generatePreview($file, $sourceImage, $width, $height, $crop, $sourceImage->width(), $sourceImage->height(), $previewVersion, $cacheResult);
-						if ($sourceImage instanceof Image) {
-							$sourceImage->destroy();
-						}
-					} else {
+					$previewFile = $maxPreviewImage === null
+						? $this->generateFromCheaperSource($file, $previews, $maxPreview, $mimeType, $width, $height, $crop, $previewVersion, $cacheResult)
+						: null;
+					if ($previewFile === null) {
 						if ($maxPreviewImage === null) {
 							$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
 						}
@@ -216,21 +214,102 @@ class Generator {
 	}
 
 	/**
-	 * A cheaper resize source than the full max preview, if any
+	 * Generate the preview from a cheaper source than the full max preview
 	 *
 	 * @param Preview[] $previews
 	 */
-	private function loadSmallerSource(array $previews, Preview $maxPreview, int $width, int $height, ?string $version): ?IImage {
+	private function generateFromCheaperSource(File $file, array $previews, Preview $maxPreview, string $mimeType, int $width, int $height, bool $crop, ?string $version, bool $cacheResult): ?ISimpleFile {
+		$sourceImage = null;
 		$source = $this->findResizeSource($previews, $maxPreview, $width, $height, $version);
 		if ($source !== null) {
-			return $this->helper->getImage(new PreviewFile($source, $this->storageFactory, $this->previewMapper));
+			$sourceImage = $this->helper->getImage(new PreviewFile($source, $this->storageFactory, $this->previewMapper));
+		} else {
+			if ($cacheResult) {
+				$previewFile = $this->generateWithResizingProvider($file, $maxPreview, $mimeType, $width, $height, $crop, $version);
+				if ($previewFile !== null) {
+					return $previewFile;
+				}
+			}
+
+			// Only pays off for previews much smaller than the max preview
+			if (8 * $width <= $maxPreview->getWidth() && 8 * $height <= $maxPreview->getHeight()) {
+				$sourceImage = $this->helper->getScaledImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper), $width, $height);
+			}
 		}
 
-		// Only pays off for previews much smaller than the max preview
-		if (8 * $width <= $maxPreview->getWidth() && 8 * $height <= $maxPreview->getHeight()) {
-			return $this->helper->getScaledImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper), $width, $height);
+		if ($sourceImage === null) {
+			return null;
 		}
-		return null;
+		try {
+			return $this->generatePreview($file, $sourceImage, $width, $height, $crop, $sourceImage->width(), $sourceImage->height(), $version, $cacheResult);
+		} finally {
+			if ($sourceImage instanceof Image) {
+				$sourceImage->destroy();
+			}
+		}
+	}
+
+	/**
+	 * Generate the preview from the original with a provider that resizes
+	 * efficiently, like Imaginary. Only the provider of the max preview is used.
+	 */
+	private function generateWithResizingProvider(File $file, Preview $maxPreview, string $mimeType, int $width, int $height, bool $crop, ?string $version): ?ISimpleFile {
+		$provider = $this->getAvailableProviders($file, $mimeType)->current();
+		if ($provider === null || !$this->helper->resizesEfficiently($provider)) {
+			return null;
+		}
+
+		$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
+		$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
+		try {
+			$preview = $this->helper->getThumbnail($provider, $file, $width, $height, $crop);
+		} finally {
+			self::unguardWithSemaphore($sem);
+		}
+
+		// Another format would not match the cache lookup
+		if (!($preview instanceof IImage) || $preview->dataMimeType() !== $maxPreview->getMimetype()) {
+			return null;
+		}
+
+		$previewEntry = $this->createPreviewEntry($file, $width, $height, false, $crop, $preview->dataMimeType(), $version);
+		return new PreviewFile($this->savePreview($previewEntry, $preview), $this->storageFactory, $this->previewMapper);
+	}
+
+	/**
+	 * @return \Generator<IProviderV2> by priority
+	 */
+	private function getAvailableProviders(File $file, string $mimeType): \Generator {
+		foreach ($this->previewManager->getProviders() as $supportedMimeType => $providers) {
+			if (!preg_match($supportedMimeType, $mimeType)) {
+				continue;
+			}
+
+			foreach ($providers as $providerClosure) {
+				$provider = $this->helper->getProvider($providerClosure);
+				if ($provider && $provider->isAvailable($file)) {
+					yield $provider;
+				}
+			}
+		}
+	}
+
+	private function createPreviewEntry(File $file, int $width, int $height, bool $max, bool $crop, ?string $mimeType, ?string $version): Preview {
+		$previewEntry = new Preview();
+		$previewEntry->generateId();
+		$previewEntry->setFileId($file->getId());
+		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
+		$previewEntry->setSourceMimeType($file->getMimeType());
+		$previewEntry->setWidth($width);
+		$previewEntry->setHeight($height);
+		$previewEntry->setVersion($version);
+		$previewEntry->setMax($max);
+		$previewEntry->setCropped($crop);
+		$previewEntry->setEncrypted(false);
+		$previewEntry->setMimetype($mimeType);
+		$previewEntry->setEtag($file->getEtag());
+		$previewEntry->setMtime((new \DateTime())->getTimestamp());
+		return $previewEntry;
 	}
 
 	/**
@@ -401,60 +480,29 @@ class Generator {
 	 * @throws NotFoundException
 	 */
 	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): array {
-		$previewProviders = $this->previewManager->getProviders();
-		foreach ($previewProviders as $supportedMimeType => $providers) {
-			// Filter out providers that does not support this mime
-			if (!preg_match($supportedMimeType, $mimeType)) {
+		foreach ($this->getAvailableProviders($file, $mimeType) as $provider) {
+			$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
+			$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
+			try {
+				$this->logger->debug('Calling preview provider for {mimeType} with width={width}, height={height}', [
+					'mimeType' => $mimeType,
+					'width' => $width,
+					'height' => $height,
+				]);
+				$preview = $this->helper->getThumbnail($provider, $file, $width, $height);
+			} finally {
+				self::unguardWithSemaphore($sem);
+			}
+
+			if (!($preview instanceof IImage)) {
 				continue;
 			}
 
-			foreach ($providers as $providerClosure) {
-
-				$provider = $this->helper->getProvider($providerClosure);
-				if (!$provider) {
-					continue;
-				}
-
-				if (!$provider->isAvailable($file)) {
-					continue;
-				}
-
-				$previewConcurrency = $this->getNumConcurrentPreviews('preview_concurrency_new');
-				$sem = self::guardWithSemaphore(self::SEMAPHORE_ID_NEW, $previewConcurrency);
-				try {
-					$this->logger->debug('Calling preview provider for {mimeType} with width={width}, height={height}', [
-						'mimeType' => $mimeType,
-						'width' => $width,
-						'height' => $height,
-					]);
-					$preview = $this->helper->getThumbnail($provider, $file, $width, $height);
-				} finally {
-					self::unguardWithSemaphore($sem);
-				}
-
-				if (!($preview instanceof IImage)) {
-					continue;
-				}
-
-				try {
-					$previewEntry = new Preview();
-					$previewEntry->generateId();
-					$previewEntry->setFileId($file->getId());
-					$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
-					$previewEntry->setSourceMimeType($file->getMimeType());
-					$previewEntry->setWidth($preview->width());
-					$previewEntry->setHeight($preview->height());
-					$previewEntry->setVersion($version);
-					$previewEntry->setMax($max);
-					$previewEntry->setCropped($crop);
-					$previewEntry->setEncrypted(false);
-					$previewEntry->setMimetype($preview->dataMimeType());
-					$previewEntry->setEtag($file->getEtag());
-					$previewEntry->setMtime((new \DateTime())->getTimestamp());
-					return [$this->savePreview($previewEntry, $preview), $preview];
-				} catch (NotPermittedException) {
-					throw new NotFoundException();
-				}
+			try {
+				$previewEntry = $this->createPreviewEntry($file, $preview->width(), $preview->height(), $max, $crop, $preview->dataMimeType(), $version);
+				return [$this->savePreview($previewEntry, $preview), $preview];
+			} catch (NotPermittedException) {
+				throw new NotFoundException();
 			}
 		}
 
@@ -595,20 +643,7 @@ class Generator {
 			throw new \InvalidArgumentException('Preview generation failed: invalid or null MIME type');
 		}
 
-		$previewEntry = new Preview();
-		$previewEntry->generateId();
-		$previewEntry->setFileId($file->getId());
-		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
-		$previewEntry->setWidth($width);
-		$previewEntry->setSourceMimeType($file->getMimeType());
-		$previewEntry->setHeight($height);
-		$previewEntry->setVersion($version);
-		$previewEntry->setMax(false);
-		$previewEntry->setCropped($crop);
-		$previewEntry->setEncrypted(false);
-		$previewEntry->setMimeType($preview->dataMimeType());
-		$previewEntry->setEtag($file->getEtag());
-		$previewEntry->setMtime((new \DateTime())->getTimestamp());
+		$previewEntry = $this->createPreviewEntry($file, $width, $height, false, $crop, $preview->dataMimeType(), $version);
 
 		if ($cacheResult) {
 			$previewEntry = $this->savePreview($previewEntry, $preview);

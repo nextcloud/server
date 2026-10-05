@@ -11,6 +11,8 @@ namespace Test\Preview;
 
 use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
+use OC\Preview\Imaginary;
+use OC\Preview\JPEG;
 use OCP\Files\SimpleFS\ISimpleFile;
 use Test\TestCase;
 
@@ -54,6 +56,12 @@ class GeneratorHelperTest extends TestCase {
 
 	public function testGetScaledImageWithoutImagick(): void {
 		$this->assertNull($this->getHelper(false)->getScaledImage($this->getPreviewFile('image/jpeg', 800, 600), 64, 48));
+	}
+
+	public function testResizesEfficiently(): void {
+		$helper = $this->getHelper(false);
+		$this->assertTrue($helper->resizesEfficiently(new Imaginary([])));
+		$this->assertFalse($helper->resizesEfficiently(new JPEG()));
 	}
 
 	public function testGetScaledImageOfPng(): void {
