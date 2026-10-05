@@ -34,6 +34,9 @@ class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
 	public const SEMAPHORE_ID_NEW = 0x07ea;
 
+	/** The viewer only shows the max preview of images */
+	private const MAX_NON_IMAGE_PREVIEW_SIZE = 1024;
+
 	private array $cachedNumConcurrentPreviews = [];
 
 	public function __construct(
@@ -327,6 +330,10 @@ class Generator {
 
 		$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
 		$maxHeight = $this->config->getSystemValueInt('preview_max_y', 4096);
+		if (!str_starts_with($mimeType, 'image/')) {
+			$maxWidth = min($maxWidth, self::MAX_NON_IMAGE_PREVIEW_SIZE);
+			$maxHeight = min($maxHeight, self::MAX_NON_IMAGE_PREVIEW_SIZE);
+		}
 
 		try {
 			return $this->generateProviderPreview($file, $maxWidth, $maxHeight, false, true, $mimeType, $version);
