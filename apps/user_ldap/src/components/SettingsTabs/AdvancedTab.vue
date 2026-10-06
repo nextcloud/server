@@ -72,6 +72,13 @@
 				:label="t('user_ldap', 'User Search Attributes')"
 				@change="(event) => ldapConfigProxy.ldapAttributesForUserSearch = event.target.value" />
 
+			<NcTextField
+				autocomplete="off"
+				:modelValue="ldapConfigProxy.ldapUserActiveState"
+				:label="t('user_ldap', 'User Active/Inactive Attribute')"
+				:title="t('user_ldap', 'User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not.')"
+				@change="(event) => ldapConfigProxy.ldapUserActiveState = event.target.value" />
+
 			<NcCheckboxRadioSwitch
 				:modelValue="ldapConfigProxy.markRemnantsAsDisabled === '1'"
 				:aria-label="t('user_ldap', 'When switched on, users imported from LDAP which are then missing will be disabled')"

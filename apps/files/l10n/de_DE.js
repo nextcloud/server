@@ -272,7 +272,7 @@ OC.L10N.register(
     "The file could not be found or you do not have permissions to view it. Ask the sender to share it." : "Die Datei konnte nicht gefunden werden oder Sie haben keine Berechtigungen, um sie anzuzeigen. Bitten Sie den Absender, die Datei zu teilen.",
     "No search results for “{query}”" : "Keine Suchergebnisse für \"{query}\"",
     "Search for files" : "Nach Dateien suchen",
-    "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Ermöglicht die Einschränkung von Dateinamen, um sicherzustellen, dass Dateien mit allen Clients synchronisiert werden können. Standardmäßig sind alle unter POSIX (z. B. Linux oder macOS) gültigen Dateinamen zulässig.",
+    "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Ermöglicht die Einschränkung von Dateinamen, um sicherzustellen, dass Dateien mit allen Clients synchronisiert werden können. Standardmäßig sind alle unter POSIX (z. B. Linux oder macOS) gültigen Dateinamen zulässig.",
     "After enabling the Windows compatible filenames, existing files cannot be modified anymore but can be renamed to valid new names by their owner." : "Nach Aktivierung der Windows-kompatiblen Dateinamen können vorhandene Dateien nicht mehr geändert, aber von ihrem Besitzer in gültige neue Namen umbenannt werden.",
     "Failed to toggle Windows filename support" : "Windows Dateinamenunterstützung konnte nicht umgeschaltet werden",
     "Files compatibility" : "Dateikompatibilität",

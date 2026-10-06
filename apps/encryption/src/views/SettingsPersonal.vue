@@ -44,9 +44,9 @@ async function reloadStatus() {
 </script>
 
 <template>
-	<NcSettingsSection :name="t('encryption', 'Basic encryption module')">
+	<NcSettingsSection :name="t('encryption', 'Default encryption module')">
 		<NcNoteCard v-if="initialized === InitStatus.NotInitialized" type="warning">
-			{{ t('encryption', 'Encryption app is enabled but your keys are not initialized, please log-out and log-in again') }}
+			{{ t('encryption', 'Your encryption keys are not initialized for this session. Please sign out and sign back in.') }}
 		</NcNoteCard>
 
 		<SettingsPersonalChangePrivateKey
