@@ -135,6 +135,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\RandomnessSecure' => $baseDir . '/../lib/SetupChecks/RandomnessSecure.php',
     'OCA\\Settings\\SetupChecks\\ReadOnlyConfig' => $baseDir . '/../lib/SetupChecks/ReadOnlyConfig.php',
     'OCA\\Settings\\SetupChecks\\RepairSanitizeSystemTagsAvailable' => $baseDir . '/../lib/SetupChecks/RepairSanitizeSystemTagsAvailable.php',
+    'OCA\\Settings\\SetupChecks\\S3SseCEncryption' => $baseDir . '/../lib/SetupChecks/S3SseCEncryption.php',
     'OCA\\Settings\\SetupChecks\\SchedulingTableSize' => $baseDir . '/../lib/SetupChecks/SchedulingTableSize.php',
     'OCA\\Settings\\SetupChecks\\SecurityHeaders' => $baseDir . '/../lib/SetupChecks/SecurityHeaders.php',
     'OCA\\Settings\\SetupChecks\\ServerIdConfig' => $baseDir . '/../lib/SetupChecks/ServerIdConfig.php',
