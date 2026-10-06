@@ -8,6 +8,7 @@
 namespace OCA\Federation\AppInfo;
 
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
+use OCA\Federation\ConfigLexicon;
 use OCA\Federation\Listener\SabrePluginAuthInitListener;
 use OCA\Federation\Listener\TrustedServerRemovedListener;
 use OCP\AppFramework\App;
@@ -31,6 +32,8 @@ class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(SabrePluginAuthInitEvent::class, SabrePluginAuthInitListener::class);
 		$context->registerEventListener(TrustedServerRemovedEvent::class, TrustedServerRemovedListener::class);
+
+		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
 	#[\Override]
