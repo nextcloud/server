@@ -10,7 +10,12 @@ namespace OCA\AdminAudit\Tests\Actions;
 use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\UserManagementEventListener;
 use OCP\IUser;
+use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\UserIdAssignedEvent;
+use OCP\User\Events\UserIdUnassignedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -75,7 +80,7 @@ class UserManagementEventListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testEmailChanged(): void {
+	public function testUserEmailChanged(): void {
 		$this->logger->expects($this->once())
 			->method('info')
 			->with('Email address changed for user alice', ['app' => 'admin_audit']);
@@ -88,5 +93,56 @@ class UserManagementEventListenerTest extends TestCase {
 		);
 
 		$this->listener->handle($event);
+	}
+
+	public function testUserCreated(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('User created: "alice"', ['app' => 'admin_audit']);
+
+		$this->listener->handle(new UserCreatedEvent($this->user, 'password'));
+	}
+
+	public function testUserDeleted(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('User deleted: "alice"', ['app' => 'admin_audit']);
+
+		$this->listener->handle(new UserDeletedEvent($this->user));
+	}
+
+	public function testPasswordUpdatedForDatabaseUser(): void {
+		$this->user->method('getBackendClassName')->willReturn('Database');
+
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('Password of user "alice" has been changed', ['app' => 'admin_audit']);
+
+		$this->listener->handle(new PasswordUpdatedEvent($this->user, 'new-password'));
+	}
+
+	public function testPasswordUpdatedForNonDatabaseUserIsNotLogged(): void {
+		$this->user->method('getBackendClassName')->willReturn('LDAP');
+
+		$this->logger->expects($this->never())->method('info');
+		$this->logger->expects($this->never())->method('critical');
+
+		$this->listener->handle(new PasswordUpdatedEvent($this->user, 'new-password'));
+	}
+
+	public function testUserIdAssigned(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('UserID assigned: "alice"', ['app' => 'admin_audit']);
+
+		$this->listener->handle(new UserIdAssignedEvent('alice'));
+	}
+
+	public function testUserIdUnassigned(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with('UserID unassigned: "alice"', ['app' => 'admin_audit']);
+
+		$this->listener->handle(new UserIdUnassignedEvent('alice'));
 	}
 }
