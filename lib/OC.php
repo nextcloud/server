@@ -215,8 +215,45 @@ class OC {
 		// Check if config is writable
 		$configFileWritable = is_writable($configFilePath);
 		$configReadOnly = Server::get(IConfig::class)->getSystemValueBool('config_is_read_only');
-		if (!$configFileWritable && !$configReadOnly
-			|| !$configFileWritable && \OCP\Util::needUpgrade()) {
+		$needUpgrade = \OCP\Util::needUpgrade();
+
+		// Upgrades require a writable config.php even when config_is_read_only is set
+		if (!$configFileWritable && $needUpgrade) {
+			$urlGenerator = Server::get(IURLGenerator::class);
+			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
+			$docs = $urlGenerator->linkToDocs('admin-config');
+
+			if (self::$CLI) {
+				echo $l->t('Cannot write into "config" directory!') . "\n";
+				if ($configReadOnly) {
+					echo $l->t('Your Nextcloud instance needs an update, but config.php is configured as read-only via "config_is_read_only".') . "\n";
+					echo $l->t('Temporarily set "config_is_read_only" to false and make sure the config directory is writable for the web server, run the upgrade, then restore read-only mode.') . "\n";
+				} else {
+					echo $l->t('Your Nextcloud instance needs an update, but the config directory is not writable.') . "\n";
+					echo $l->t('This can usually be fixed by giving the web server write access to the config directory.') . "\n";
+				}
+				echo $l->t('See %s', [ $docs ]) . "\n";
+				exit;
+			}
+
+			if ($configReadOnly) {
+				$hint = $l->t('Your Nextcloud instance needs an update, but config.php is configured as read-only via "config_is_read_only".') . ' '
+					. $l->t('Temporarily set "config_is_read_only" to false and make sure the config directory is writable for the web server, run the upgrade, then restore read-only mode.') . ' '
+					. $l->t('See %s', [ $docs ]);
+			} else {
+				$hint = $l->t('Your Nextcloud instance needs an update, but the config directory is not writable.') . ' '
+					. $l->t('This can usually be fixed by giving the web server write access to the config directory.') . ' '
+					. $l->t('See %s', [ $docs ]);
+			}
+			Server::get(ITemplateManager::class)->printErrorPage(
+				$l->t('Cannot write into "config" directory!'),
+				$hint,
+				503
+			);
+		}
+
+		// Not writable and not intentionally read-only: permission / setup hint
+		if (!$configFileWritable && !$configReadOnly) {
 			$urlGenerator = Server::get(IURLGenerator::class);
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 
