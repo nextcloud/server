@@ -632,6 +632,121 @@ class GeneratorTest extends TestCase {
 		$this->assertSame('64-64.png', $result->getName());
 	}
 
+	private function getJpegFile(int $width, int $height, ?int $orientation = null): File {
+		ob_start();
+		imagejpeg(imagecreatetruecolor($width, $height));
+		$jpeg = ob_get_clean();
+		if ($orientation !== null) {
+			// EXIF segment with only the orientation
+			$tiff = "II*\0" . pack('V', 8) . pack('v', 1) . pack('vvVvv', 0x0112, 3, 1, $orientation, 0) . pack('V', 0);
+			$jpeg = substr($jpeg, 0, 2) . "\xFF\xE1" . pack('n', 2 + 6 + strlen($tiff)) . "Exif\0\0" . $tiff . substr($jpeg, 2);
+		}
+
+		$file = $this->getFile(42, 'image/jpeg');
+		$file->method('fopen')->willReturnCallback(function () use ($jpeg) {
+			$stream = fopen('php://memory', 'r+');
+			fwrite($stream, $jpeg);
+			rewind($stream);
+			return $stream;
+		});
+		return $file;
+	}
+
+	#[TestWith([2000, 1500, null, false, 64, 48, '64-48.png'])]
+	#[TestWith([2000, 1500, null, true, 86, 64, '64-64-crop.png'])]
+	#[TestWith([2000, 1500, 6, false, 48, 64, '48-64.png'])]
+	public function testLazyMaxPreview(int $width, int $height, ?int $orientation, bool $crop, int $expectedBoxWidth, int $expectedBoxHeight, string $expectedName): void {
+		$file = $this->getJpegFile($width, $height, $orientation);
+
+		$this->getAutoMock(IPreview::class)->method('isMimeSupported')
+			->willReturn(true);
+		$this->getAutoMock(IConfig::class)->method('getSystemValueInt')
+			->willReturnCallback(fn ($key, $default) => $default);
+		$this->getAutoMock(PreviewMapper::class)->method('getAvailablePreviews')
+			->willReturn([42 => []]);
+
+		$provider = $this->createMock(IProviderV2::class);
+		$provider->method('isAvailable')->willReturn(true);
+		$this->getAutoMock(IPreview::class)->method('getProviders')
+			->willReturn(['/image\/jpeg/' => ['provider']]);
+		$this->getAutoMock(GeneratorHelper::class)->method('getProvider')
+			->willReturn($provider);
+
+		$this->getAutoMock(GeneratorHelper::class)->expects($this->once())
+			->method('getThumbnail')
+			->with($provider, $file, $expectedBoxWidth, $expectedBoxHeight)
+			->willReturn($this->getMockImage($expectedBoxHeight, $expectedBoxWidth));
+
+		$this->getAutoMock(PreviewMapper::class)->expects($this->once())
+			->method('insert')
+			->willReturnCallback(function (Preview $preview): Preview {
+				$this->assertFalse($preview->isMax());
+				return $preview;
+			});
+		$this->getAutoMock(StorageFactory::class)->method('writePreview')
+			->willReturn(1000);
+
+		$result = $this->generator->getPreview($file, 32, 32, $crop);
+		$this->assertSame($expectedName, $result->getName());
+	}
+
+	#[TestWith([-1, -1])]
+	#[TestWith([1000, 1000])]
+	public function testLazyMaxPreviewGeneratedWhenRequested(int $requestedWidth, int $requestedHeight): void {
+		$file = $this->getJpegFile(2000, 1000);
+
+		$this->getAutoMock(IConfig::class)->method('getSystemValueInt')
+			->willReturnCallback(fn ($key, $default) => in_array($key, ['preview_max_x', 'preview_max_y'], true) ? 1000 : $default);
+		$this->getAutoMock(PreviewMapper::class)->method('getAvailablePreviews')
+			->willReturn([42 => []]);
+
+		$provider = $this->createMock(IProviderV2::class);
+		$provider->method('isAvailable')->willReturn(true);
+		$this->getAutoMock(IPreview::class)->method('getProviders')
+			->willReturn(['/image\/jpeg/' => ['provider']]);
+		$this->getAutoMock(GeneratorHelper::class)->method('getProvider')
+			->willReturn($provider);
+
+		$this->getAutoMock(GeneratorHelper::class)->expects($this->once())
+			->method('getThumbnail')
+			->with($provider, $file, 1000, 1000)
+			->willReturn($this->getMockImage(500, 1000, 'max data'));
+
+		$this->getAutoMock(PreviewMapper::class)->method('insert')
+			->willReturnCallback(fn (Preview $preview): Preview => $preview);
+		$this->getAutoMock(StorageFactory::class)->method('writePreview')
+			->willReturn(1000);
+
+		$result = $this->generator->getPreview($file, $requestedWidth, $requestedHeight);
+		$this->assertSame('1000-500-max.png', $result->getName());
+	}
+
+	public function testLazyMaxPreviewCachedPreview(): void {
+		$file = $this->getJpegFile(2000, 1500);
+
+		$this->getAutoMock(IConfig::class)->method('getSystemValueInt')
+			->willReturnCallback(fn ($key, $default) => $default);
+
+		$cachedPreview = new Preview();
+		$cachedPreview->setWidth(64);
+		$cachedPreview->setHeight(48);
+		$cachedPreview->setMax(false);
+		$cachedPreview->setSize(1000);
+		$cachedPreview->setCropped(false);
+		$cachedPreview->setVersion(null);
+		$cachedPreview->setMimeType('image/webp');
+		$this->getAutoMock(PreviewMapper::class)->method('getAvailablePreviews')
+			->willReturn([42 => [$cachedPreview]]);
+
+		$this->getAutoMock(GeneratorHelper::class)->expects($this->never())
+			->method('getThumbnail');
+		$this->getAutoMock(PreviewMapper::class)->expects($this->never())
+			->method('insert');
+
+		$result = $this->generator->getPreview($file, 32, 32);
+		$this->assertSame('64-48.webp', $result->getName());
+	}
+
 	public function testUnreadbleFile(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
