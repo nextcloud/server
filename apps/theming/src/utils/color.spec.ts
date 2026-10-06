@@ -4,7 +4,7 @@
  */
 
 import { expect, test } from 'vitest'
-import { getTextColor } from './color.ts'
+import { getTextColor, isSameColor } from './color.ts'
 
 test('getTextColor returns black for light backgrounds', () => {
 	expect(getTextColor('#FFFFFF')).toBe('#000000') // white background
@@ -33,4 +33,19 @@ test('getTextColor handles shorthand hex colors', () => {
 test('getTextColor handles invalid hex colors', () => {
 	expect(getTextColor('invalid')).toBe('#ffffff')
 	expect(getTextColor('#GG')).toBe('#ffffff')
+})
+
+test('isSameColor matches the same color in different notations', () => {
+	expect(isSameColor('#0082c9', '#0082C9')).toBe(true)
+	expect(isSameColor('#0082c9', 'rgb(0, 130, 201)')).toBe(true)
+	expect(isSameColor('#fff', '#ffffff')).toBe(true)
+})
+
+test('isSameColor distinguishes different colors', () => {
+	expect(isSameColor('#0082c9', '#0082c8')).toBe(false)
+	expect(isSameColor('#0082c9', '#0082c980')).toBe(false)
+})
+
+test('isSameColor handles invalid colors', () => {
+	expect(isSameColor('not-a-color', '#000000')).toBe(false)
 })
