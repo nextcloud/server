@@ -7,6 +7,7 @@
 
 namespace OC\Lockdown;
 
+use OC\Authentication\Token\TokenScopes;
 use OCP\Authentication\Token\IToken;
 use OCP\ISession;
 use OCP\Lockdown\ILockdownManager;
@@ -25,7 +26,10 @@ class LockdownManager implements ILockdownManager {
 	 *
 	 * @param callable $sessionCallback we need to inject the session lazily to avoid dependency loops
 	 */
-	public function __construct(callable $sessionCallback) {
+	public function __construct(
+		callable $sessionCallback,
+		private TokenScopes $tokenScopes,
+	) {
 		$this->sessionCallback = $sessionCallback;
 	}
 
@@ -64,6 +68,17 @@ class LockdownManager implements ILockdownManager {
 	#[\Override]
 	public function canAccessFilesystem() {
 		$scope = $this->getScopeAsArray();
-		return !$scope || $scope[IToken::SCOPE_FILESYSTEM];
+		if ($scope && $this->tokenScopes->fromBlob($scope) === null) {
+			return $scope[IToken::SCOPE_FILESYSTEM] ?? false;
+		}
+		return $this->hasScope(TokenScopes::FILES_READ);
+	}
+
+	/**
+	 * True for every scope when there is no token or it has no scopes (full access)
+	 */
+	public function hasScope(string $scope): bool {
+		$scopes = $this->tokenScopes->fromBlob($this->getScopeAsArray() ?? []);
+		return $scopes === null || in_array($scope, $scopes, true);
 	}
 }

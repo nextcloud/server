@@ -1399,6 +1399,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Authentication\\Token\\PublicKeyTokenProvider' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/PublicKeyTokenProvider.php',
         'OC\\Authentication\\Token\\RemoteWipe' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/RemoteWipe.php',
         'OC\\Authentication\\Token\\TokenCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/TokenCleanupJob.php',
+        'OC\\Authentication\\Token\\TokenScopes' => __DIR__ . '/../../..' . '/lib/private/Authentication/Token/TokenScopes.php',
         'OC\\Authentication\\TwoFactorAuth\\Db\\ProviderUserAssignmentDao' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/Db/ProviderUserAssignmentDao.php',
         'OC\\Authentication\\TwoFactorAuth\\EnforcementState' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/EnforcementState.php',
         'OC\\Authentication\\TwoFactorAuth\\Manager' => __DIR__ . '/../../..' . '/lib/private/Authentication/TwoFactorAuth/Manager.php',
