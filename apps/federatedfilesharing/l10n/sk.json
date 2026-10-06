@@ -1,7 +1,7 @@
 { "translations": {
     "Invalid Federated Cloud ID" : "Neplatný identifikátor Federovaného cloudu",
     "Server to server sharing is not enabled on this server" : "Zdieľanie server-server nie je na tomto serveri povolené",
-    "Couldn't establish a federated share." : "Nepodarilo sa nadviazať federované zdieľanie",
+    "Couldn't establish a federated share." : "Nepodarilo sa nadviazať federované zdieľanie.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Nepodarilo sa nadviazať federované zdieľanie, možno je nesprávne heslo.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Požiadavka na federované zdieľanie bola odoslaná, obdržíte pozvánku. Skontrolujte oznámenia.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Nepodarilo sa nadviazať federované zdieľanie, pravdepodobne je verzia servera s ktorým chcete zdieľať príliš zastaraná (Nextcloud <= 9).",
@@ -20,7 +20,7 @@
     "Federated Cloud Sharing" : "Zdieľanie prostredníctvom federovaného cloudu",
     "Sharing" : "Zdieľanie",
     "Federated file sharing" : "Federované zdieľanie súborov",
-    "Provide federated file sharing across servers" : "Poskytnúť združené zdieľanie súborov naprieč servermi",
+    "Provide federated file sharing across servers" : "Poskytnúť federované zdieľanie súborov medzi servermi",
     "Confirm data upload to lookup server" : "Potvrdiť nahranie dáť na vyhľadávací server",
     "When enabled, all account properties (e.g. email address) with scope visibility set to \"published\", will be automatically synced and transmitted to an external system and made available in a public, global address book." : "Keď je táto možnosť povolená, všetky vlastnosti účtu (napr. e-mailová adresa) s viditeľnosťou rozsahu nastavenou na „zverejnené“ sa automaticky synchronizujú a prenesú do externého systému a sprístupnia sa vo verejnom globálnom adresári.",
     "Enable data upload" : "Povoliť nahrávanie dát",
@@ -63,7 +63,7 @@
     "Add remote share" : "Pridať vzdialené úložisko",
     "Remote share" : "Vzdialené úložisko",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete pridať vzdialené úložisko {name} patriace používateľovi {owner}@{remote}?",
-    "Remote share password" : "Heslo k vzdialenému úložisku",
+    "Remote share password" : "Heslo k vzdialenému zdieľaniu",
     "Incoming share could not be processed" : "Prichádzajúce zdieľanie sa nepodarilo spracovať",
     "X (formerly Twitter)" : "X (predtým Twitter)",
     "formerly Twitter" : "predtým Twitter"

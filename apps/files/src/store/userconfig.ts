@@ -11,7 +11,7 @@ import { emit, subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-import { ref, set } from 'vue'
+import { ref } from 'vue'
 
 const initialUserConfig = loadState<UserConfig>('files', 'config', {
 	crop_image_previews: true,
@@ -38,7 +38,7 @@ export const useUserConfigStore = defineStore('userconfig', () => {
 	 * @param value The new value
 	 */
 	function onUpdate<Key extends string>(key: Key, value: UserConfig[Key]): void {
-		set(userConfig.value, key, value)
+		userConfig.value[key] = value
 	}
 
 	/**

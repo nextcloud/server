@@ -30,15 +30,20 @@ use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerExceptionInterface;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
@@ -51,6 +56,120 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	protected array $services = [];
 	/** Original values keyed by config key; null means the key was unset. */
 	private array $systemConfigValues = [];
+
+	/** @var class-string-map<T, T&MockObject> */
+	protected array $mocks = [];
+	/** @var array<string, MockObject&ICache> */
+	protected array $cacheMocks = [];
+
+	/**
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return T
+	 */
+	protected function createInstanceWithMocks(string $class, array $overrides = []): object {
+		$reflection = new \ReflectionClass($class);
+		$constructor = $reflection->getConstructor();
+		if ($constructor === null) {
+			/* No constructor, return a instance directly */
+			return $reflection->newInstance();
+		}
+		$params = [];
+		foreach ($constructor->getParameters() as $parameter) {
+			if (isset($overrides[$parameter->getName()])) {
+				$params[] = $overrides[$parameter->getName()];
+				continue;
+			}
+			$type = $parameter->getType();
+			if ($type === null) {
+				$params[] = null;
+				continue;
+			}
+			if (!($type instanceof \ReflectionNamedType)) {
+				throw new \TypeError('Not supported');
+			}
+			if ($type->isBuiltin()) {
+				if ($parameter->isOptional()) {
+					$params[] = $parameter->getDefaultValue();
+					continue;
+				}
+				throw new \TypeError('Not supported, please override value');
+			}
+			$className = $type->getName();
+			if (isset($overrides[$className])) {
+				$params[] = $overrides[$className];
+				continue;
+			}
+			$params[] = $this->getAutoMock($className);
+		}
+		return $reflection->newInstanceArgs($params);
+	}
+
+	/**
+	 * @template T of object
+	 * @param class-string<T> $className
+	 * @return T&MockObject
+	 */
+	protected function getAutoMock(string $className): MockObject {
+		if (isset($this->mocks[$className])) {
+			return $this->mocks[$className];
+		} else {
+			return $this->createAutoMock($className);
+		}
+	}
+
+	/**
+	 * @template T of object
+	 * @param class-string<T> $className
+	 * @return T&MockObject
+	 */
+	protected function createAutoMock(string $className): MockObject {
+		$mock = $this->createMock($className);
+		switch ($className) {
+			case IL10N::class:
+				// Return the english string with parameters applied
+				$mock
+					->method('t')
+					->willReturnCallback(
+						fn (string $text, array $parameters = []) => vsprintf($text, $parameters)
+					);
+				$mock
+					->method('n')
+					->willReturnCallback(function (string $textSingular, string $textPlural, int $count, array $args) {
+						$text = $count === 1 ? $textSingular : $textPlural;
+						$text = str_replace('%n', (string)$count, $text);
+						return vsprintf($text, $args);
+					});
+				break;
+			case IL10NFactory::class:
+				$mock->method('get')
+					->willReturn($this->getAutoMock(IL10N::class));
+				break;
+			case ICacheFactory::class:
+				$mock->method('isAvailable')->willReturn(true);
+				$mock->method('isLocalCacheAvailable')->willReturn(true);
+				$mock->method('createLocking')->willReturnCallback($this->getCacheAutoMock(...));
+				$mock->method('createDistributed')->willReturnCallback($this->getCacheAutoMock(...));
+				$mock->method('createLocal')->willReturnCallback($this->getCacheAutoMock(...));
+				$mock->method('createInMemory')->willReturnCallback(
+					fn (int $capacity): ICache => $this->getCacheAutoMock('InMemory'),
+				);
+				break;
+		}
+		$this->mocks[$className] = $mock;
+		return $mock;
+	}
+
+	/**
+	 * @return ICache&MockObject
+	 */
+	protected function getCacheAutoMock(string $prefix): MockObject {
+		if (!isset($this->cacheMocks[$prefix])) {
+			$cache = $this->createMock(ICache::class);
+			$this->cacheMocks[$prefix] = $cache;
+		}
+		return $this->cacheMocks[$prefix];
+	}
 
 	#[\Override]
 	protected function onNotSuccessfulTest(\Throwable $t): never {

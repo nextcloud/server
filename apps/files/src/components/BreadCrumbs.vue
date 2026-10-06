@@ -14,14 +14,14 @@
 			v-for="(section, index) in sections"
 			:key="section.dir"
 			v-bind="section"
+			v-model:open="isMenuOpen"
 			dir="auto"
 			:to="section.to"
-			:force-icon-text="index === 0 && !isNarrow"
-			force-menu
-			:open.sync="isMenuOpen"
+			:forceIconText="index === 0 && !isNarrow"
+			forceMenu
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
-			@dragover.native="onDragOver($event, section.dir)"
+			@dragover="onDragOver($event, section.dir)"
 			@drop="onDrop($event, section.dir)">
 			<template v-if="index === 0" #icon>
 				<NcIconSvgWrapper
@@ -33,7 +33,7 @@
 			</template>
 			<template v-if="index === sections.length - 1" #default>
 				<!-- Sharing button -->
-				<NcActionButton v-if="canShare" close-after-click @click="openSharingSidebar">
+				<NcActionButton v-if="canShare" closeAfterClick @click="openSharingSidebar">
 					<template #icon>
 						<NcIconSvgWrapper :path="mdiAccountPlus" />
 					</template>
@@ -41,7 +41,7 @@
 				</NcActionButton>
 
 				<!-- Reload button -->
-				<NcActionButton close-after-click @click="$emit('reload')">
+				<NcActionButton closeAfterClick @click="$emit('reload')">
 					<template #icon>
 						<NcIconSvgWrapper :path="mdiReload" />
 					</template>

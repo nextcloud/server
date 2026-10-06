@@ -12,42 +12,20 @@ namespace Test\Security\Bruteforce\Backend;
 use OC\Security\Bruteforce\Backend\IBackend;
 use OC\Security\Bruteforce\Backend\MemoryCacheBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\ICache;
-use OCP\ICacheFactory;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class MemoryCacheBackendTest extends TestCase {
-	/** @var ICacheFactory|MockObject */
-	private $cacheFactory;
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-	/** @var ICache|MockObject */
-	private $cache;
 	private IBackend $backend;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->cache = $this->createMock(ICache::class);
-
-		$this->cacheFactory
-			->expects($this->once())
-			->method('createDistributed')
-			->with(MemoryCacheBackend::class)
-			->willReturn($this->cache);
-
-		$this->backend = new MemoryCacheBackend(
-			$this->cacheFactory,
-			$this->timeFactory
-		);
+		$this->backend = $this->createInstanceWithMocks(MemoryCacheBackend::class);
 	}
 
 	public function testGetAttemptsWithNoAttemptsBefore(): void {
-		$this->cache
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('get')
 			->with('8b9da631d1f7b022bb2c3c489e16092f82b42fd4')
@@ -70,7 +48,7 @@ class MemoryCacheBackendTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAttempts')]
 	public function testGetAttempts(int $maxAge, ?string $action, ?array $metadata, int $expected): void {
-		$this->cache
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('get')
 			->with('8b9da631d1f7b022bb2c3c489e16092f82b42fd4')
@@ -85,12 +63,12 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testRegisterAttemptWithNoAttemptsBefore(): void {
-		$this->cache
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('get')
 			->with('8b9da631d1f7b022bb2c3c489e16092f82b42fd4')
 			->willReturn(null);
-		$this->cache
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('set')
 			->with(
@@ -102,12 +80,12 @@ class MemoryCacheBackendTest extends TestCase {
 	}
 
 	public function testRegisterAttempt(): void {
-		$this->timeFactory
+		$this->getAutoMock(ITimeFactory::class)
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(12 * 3600 + 86);
 
-		$this->cache
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('get')
 			->with('8b9da631d1f7b022bb2c3c489e16092f82b42fd4')
@@ -119,7 +97,7 @@ class MemoryCacheBackendTest extends TestCase {
 				'123#' . hash('sha1', 'action5') . '#' . hash('sha1', json_encode(['metadata1'])),
 				'124#' . hash('sha1', 'action6') . '#' . hash('sha1', json_encode(['metadata1'])),
 			]));
-		$this->cache
+		$this->getCacheAutoMock(MemoryCacheBackend::class)
 			->expects($this->once())
 			->method('set')
 			->with(

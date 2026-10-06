@@ -1,0 +1,10 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/image-editor
+	- version: 1.0.0-beta.6
+	- license: AGPL-3.0-or-later
+- @nextcloud/viewer
+	- version: 2.0.0-beta.14
+	- license: AGPL-3.0-or-later

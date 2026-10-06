@@ -104,6 +104,8 @@ export default defineComponent({
 		},
 	},
 
+	emits: ['update:username'],
+
 	setup() {
 		return {
 			t,

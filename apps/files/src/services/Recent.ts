@@ -9,7 +9,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { Folder, Permission } from '@nextcloud/files'
 import { getRecentSearch, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { loadState } from '@nextcloud/initial-state'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { logger } from '../utils/logger.ts'
 import { client } from './WebdavClient.ts'
@@ -27,8 +27,8 @@ const recentLimit = loadState<number>('files', 'recent_limit', 100)
  * @param options Options including abort signal
  * @param options.signal Abort signal to cancel the request
  */
-export async function getContents(path = '/', options: { signal: AbortSignal }): Promise<ContentsWithRoot> {
-	const store = useUserConfigStore(getPinia())
+export async function getContents(path = '/', options?: { signal: AbortSignal }): Promise<ContentsWithRoot> {
+	const store = useUserConfigStore(pinia)
 
 	/**
 	 * Filter function that returns only the visible nodes - or hidden if explicitly configured
@@ -41,7 +41,7 @@ export async function getContents(path = '/', options: { signal: AbortSignal }):
 
 	try {
 		const contentsResponse = await client.search('/', {
-			signal: options.signal,
+			signal: options?.signal,
 			details: true,
 			data: getRecentSearch(lastTwoWeeksTimestamp, recentLimit),
 		}) as ResponseDataDetailed<SearchResult>
@@ -65,7 +65,7 @@ export async function getContents(path = '/', options: { signal: AbortSignal }):
 			contents,
 		}
 	} catch (error) {
-		if (options.signal.aborted) {
+		if (options?.signal.aborted) {
 			logger.info('Fetching recent files aborted')
 			throw new DOMException('Aborted', 'AbortError')
 		}

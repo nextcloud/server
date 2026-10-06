@@ -1033,6 +1033,15 @@ $CONFIG = [
 	'updatechecker' => true,
 
 	/**
+	 * Re-run the code integrity check once a day in a background job and notify
+	 * admins when its result changes, for example when a file inside the Nextcloud
+	 * or app folders is modified or added.
+	 *
+	 * Defaults to ``true``
+	 */
+	'integrity.check.scheduled' => true,
+
+	/**
 	 * URL that Nextcloud should use to look for updates
 	 *
 	 * Defaults to ``https://updates.nextcloud.com/updater_server/``

@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { ShallowRef } from 'vue'
-import type Vue from 'vue'
+import type { App, ShallowRef } from 'vue'
 import type { ISidebarDataProvider } from './types.ts'
 
 import { shallowRef } from 'vue'
@@ -13,9 +12,7 @@ import { shallowRef } from 'vue'
  * The sidebar state that must be a singleton for the whole page.
  *
  * The `files-main` and `files-sidebar` entry points both contain the sidebar code,
- * but the Webpack build only shares modules from `node_modules` between bundles.
- * Module scoped state therefore exists once per entry point, so it is kept on the
- * `OCA.Files.Sidebar` namespace instead - the same approach `getPinia()` uses.
+ * so the state is kept on the `OCA.Files.Sidebar` namespace to share it between them.
  */
 export interface SidebarSharedState {
 	/** The registered data provider backing the sidebar. */
@@ -25,7 +22,10 @@ export interface SidebarSharedState {
 	standaloneProvider?: ISidebarDataProvider
 
 	/** The rendered sidebar, if it is currently mounted. */
-	instance?: Vue
+	instance?: {
+		app: App
+		mountpoint: HTMLElement
+	}
 }
 
 /**

@@ -14,8 +14,10 @@ use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,6 +30,7 @@ class ExpireTrash extends Base {
 		private readonly ?Expiration $expiration,
 		private readonly SetupManager $setupManager,
 		private readonly IRootFolder $rootFolder,
+		private readonly LoggerInterface $logger,
 	) {
 		parent::__construct();
 	}
@@ -66,8 +69,6 @@ class ExpireTrash extends Base {
 				if ($user) {
 					$output->writeln("Remove deleted files of <info>$userId</info>");
 					$this->expireTrashForUser($user, $output);
-					$output->writeln("<error>Unknown user $userId</error>");
-					return 1;
 				} else {
 					$output->writeln("<error>Unknown user $userId</error>");
 					return 1;
@@ -91,19 +92,27 @@ class ExpireTrash extends Base {
 	private function expireTrashForUser(IUser $user, OutputInterface $output): void {
 		try {
 			$trashRoot = $this->getTrashRoot($user);
+			if ($trashRoot === null) {
+				$output->writeln('No trashbin found for user <info>' . $user->getUID() . '</info>, skipping', OutputInterface::VERBOSITY_VERBOSE);
+				return;
+			}
 			Trashbin::expire($trashRoot, $user);
 		} catch (\Throwable $e) {
 			$output->writeln('<error>Error while expiring trashbin for user ' . $user->getUID() . '</error>');
-			throw $e;
+			$this->logger->error('Error while expiring trashbin for user ' . $user->getUID(), ['exception' => $e]);
 		} finally {
 			$this->setupManager->tearDown();
 		}
 	}
 
-	private function getTrashRoot(IUser $user): Folder {
+	private function getTrashRoot(IUser $user): ?Folder {
 		$this->setupManager->setupForUser($user);
 
-		$folder = $this->rootFolder->getUserFolder($user->getUID())->getParent()->get('files_trashbin');
+		try {
+			$folder = $this->rootFolder->getUserFolder($user->getUID())->getParent()->get('files_trashbin');
+		} catch (NotFoundException) {
+			return null;
+		}
 		if (!$folder instanceof Folder) {
 			throw new \LogicException("Didn't expect files_trashbin to be a file instead of a folder");
 		}

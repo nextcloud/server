@@ -135,7 +135,7 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "メール属性に対してログインが許可されています。\"mail\" と \"mailPrimaryAddress\" が利用可能です。",
     "LDAP/AD Email Address:" : "LDAP/ADメールアドレス:",
     "Other Attributes:" : "その他の属性:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "ログイン実行時に適用するフィルターを定義します。`%%uid` にはログイン操作におけるユーザー名が入ります。例： `uid=%%uid`",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "ログインが試行された際に適用するフィルターを定義します。`%uid` は、ログインアクション内のユーザー名を置き換えます。例：`uid=%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "指定されたログイン名と現在のログインフィルタのDNを取得します",
     "Test Login name" : "テスト用ログイン名",
     "Verify settings" : "設定のチェック",
@@ -269,6 +269,7 @@ OC.L10N.register(
     "Pronouns Field" : "代名詞フィールド",
     "User profile Pronouns will be set from the specified attribute" : "ユーザープロファイルの代名詞は、指定された属性から設定されます",
     "UUID Attribute for Users:" : "ユーザーのUUID属性:",
-    "UUID Attribute for Groups:" : "グループの UUID 属性:"
+    "UUID Attribute for Groups:" : "グループの UUID 属性:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "ログイン実行時に適用するフィルターを定義します。`%%uid` にはログイン操作におけるユーザー名が入ります。例： `uid=%%uid`"
 },
 "nplurals=1; plural=0;");

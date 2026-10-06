@@ -7,12 +7,12 @@ import type { IFolder, INode } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { showInfo, showWarning } from '@nextcloud/dialogs'
+import { openConflictPicker } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { getUniqueName } from '@nextcloud/files'
 import { defaultRemoteURL, defaultRootPath, getClient, getDefaultPropfind, resultToNode } from '@nextcloud/files/dav'
 import { t } from '@nextcloud/l10n'
 import { join } from '@nextcloud/paths'
-import { openConflictPicker } from '@nextcloud/upload'
 import { getFilenameValidity } from '../utils/filenameValidity.ts'
 import { logger } from '../utils/logger.ts'
 import { newNodeName } from '../utils/newNodeDialog.ts'
@@ -217,12 +217,11 @@ export async function resolveConflict<T extends ((Directory | File) | INode)>(fi
 		})
 
 		// Let the user choose what to do with the conflicting files
-		const { selected, renamed } = await openConflictPicker(destination.path, conflicts, contents)
-
-		logger.debug('Conflict resolution', { uploads, selected, renamed })
+		const conflictResults = await openConflictPicker(destination.path, conflicts, contents)
+		logger.debug('Conflict resolution', { uploads, conflictResults })
 
 		// If the user selected nothing, we cancel the upload
-		if (selected.length === 0 && renamed.length === 0 && uploads.length === 0) {
+		if (conflictResults === null || (conflictResults.selected.length === 0 && conflictResults.renamed.length === 0 && uploads.length === 0)) {
 			// User skipped
 			showInfo(t('files', 'Conflicts resolution skipped'))
 			logger.info('User skipped the conflict resolution')
@@ -230,7 +229,7 @@ export async function resolveConflict<T extends ((Directory | File) | INode)>(fi
 		}
 
 		// Update the list of files to upload
-		return [...uploads, ...selected, ...renamed] as (typeof files)
+		return [...uploads, ...conflictResults.selected, ...conflictResults.renamed] as (typeof files)
 	} catch (error) {
 		// User cancelled
 		logger.warn('User cancelled the upload', { error })

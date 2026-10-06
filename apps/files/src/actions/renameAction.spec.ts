@@ -9,7 +9,7 @@ import * as eventBus from '@nextcloud/event-bus'
 import { File, Folder, Permission } from '@nextcloud/files'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { useFilesStore } from '../store/files.ts'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { action } from './renameAction.ts'
 
 const view = {
@@ -25,7 +25,7 @@ beforeEach(() => {
 		permissions: Permission.CREATE,
 		root: '/files/admin',
 	})
-	const files = useFilesStore(getPinia())
+	const files = useFilesStore(pinia)
 	files.setRoot({ service: 'files', root })
 })
 

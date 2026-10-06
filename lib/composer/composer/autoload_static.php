@@ -16,6 +16,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
+            'OCA\\Viewer\\' => 11,
         ),
         'N' =>
         array (
@@ -35,6 +36,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
+        ),
+        'OCA\\Viewer\\' =>
+        array (
+            0 => __DIR__ . '/../../..' . '/apps/viewer/lib',
         ),
         'NCU\\' =>
         array (
@@ -118,6 +123,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'NCU\\WorkflowEngine\\Events\\RegisterRuntimeOperationsEvent' => __DIR__ . '/../../..' . '/lib/unstable/WorkflowEngine/Events/RegisterRuntimeOperationsEvent.php',
         'NCU\\WorkflowEngine\\RuntimeOperation' => __DIR__ . '/../../..' . '/lib/unstable/WorkflowEngine/RuntimeOperation.php',
         'NCU\\WorkflowEngine\\RuntimeScope' => __DIR__ . '/../../..' . '/lib/unstable/WorkflowEngine/RuntimeScope.php',
+        'OCA\\Viewer\\Event\\LoadViewer' => __DIR__ . '/../../..' . '/apps/viewer/lib/Event/LoadViewer.php',
         'OCP\\Accounts\\IAccount' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccount.php',
         'OCP\\Accounts\\IAccountManager' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountManager.php',
         'OCP\\Accounts\\IAccountProperty' => __DIR__ . '/../../..' . '/lib/public/Accounts/IAccountProperty.php',
@@ -1471,6 +1477,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\AppInfo\\Capabilities' => __DIR__ . '/../../..' . '/core/AppInfo/Capabilities.php',
         'OC\\Core\\AppInfo\\ConfigLexicon' => __DIR__ . '/../../..' . '/core/AppInfo/ConfigLexicon.php',
         'OC\\Core\\BackgroundJobs\\BackgroundCleanupUpdaterBackupsJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php',
+        'OC\\Core\\BackgroundJobs\\CheckCodeIntegrityJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CheckCodeIntegrityJob.php',
         'OC\\Core\\BackgroundJobs\\CheckForUserCertificates' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CheckForUserCertificates.php',
         'OC\\Core\\BackgroundJobs\\CleanupBackgroundJobsJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CleanupBackgroundJobsJob.php',
         'OC\\Core\\BackgroundJobs\\CleanupLoginFlowV2' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CleanupLoginFlowV2.php',
@@ -2007,6 +2014,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Search\\QueryOptimizer\\QueryOptimizer' => __DIR__ . '/../../..' . '/lib/private/Files/Search/QueryOptimizer/QueryOptimizer.php',
         'OC\\Files\\Search\\QueryOptimizer\\QueryOptimizerStep' => __DIR__ . '/../../..' . '/lib/private/Files/Search/QueryOptimizer/QueryOptimizerStep.php',
         'OC\\Files\\Search\\QueryOptimizer\\ReplacingOptimizerStep' => __DIR__ . '/../../..' . '/lib/private/Files/Search/QueryOptimizer/ReplacingOptimizerStep.php',
+        'OC\\Files\\Search\\QueryOptimizer\\SimplifyEmptyIn' => __DIR__ . '/../../..' . '/lib/private/Files/Search/QueryOptimizer/SimplifyEmptyIn.php',
         'OC\\Files\\Search\\QueryOptimizer\\SplitLargeIn' => __DIR__ . '/../../..' . '/lib/private/Files/Search/QueryOptimizer/SplitLargeIn.php',
         'OC\\Files\\Search\\SearchBinaryOperator' => __DIR__ . '/../../..' . '/lib/private/Files/Search/SearchBinaryOperator.php',
         'OC\\Files\\Search\\SearchComparison' => __DIR__ . '/../../..' . '/lib/private/Files/Search/SearchComparison.php',
@@ -2248,6 +2256,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Repair' => __DIR__ . '/../../..' . '/lib/private/Repair.php',
         'OC\\RepairException' => __DIR__ . '/../../..' . '/lib/private/RepairException.php',
         'OC\\Repair\\AddBruteForceCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddBruteForceCleanupJob.php',
+        'OC\\Repair\\AddCheckCodeIntegrityJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddCheckCodeIntegrityJob.php',
         'OC\\Repair\\AddCleanupBackgroundJobsJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddCleanupBackgroundJobsJob.php',
         'OC\\Repair\\AddCleanupDeletedUsersBackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/AddCleanupDeletedUsersBackgroundJob.php',
         'OC\\Repair\\AddCleanupLoginTokens' => __DIR__ . '/../../..' . '/lib/private/Repair/AddCleanupLoginTokens.php',
@@ -2452,6 +2461,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Template\\JSCombiner' => __DIR__ . '/../../..' . '/lib/private/Template/JSCombiner.php',
         'OC\\Template\\JSConfigHelper' => __DIR__ . '/../../..' . '/lib/private/Template/JSConfigHelper.php',
         'OC\\Template\\JSResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/JSResourceLocator.php',
+        'OC\\Template\\LoadViewerListener' => __DIR__ . '/../../..' . '/lib/private/Template/LoadViewerListener.php',
         'OC\\Template\\ResourceLocator' => __DIR__ . '/../../..' . '/lib/private/Template/ResourceLocator.php',
         'OC\\Template\\ResourceNotFoundException' => __DIR__ . '/../../..' . '/lib/private/Template/ResourceNotFoundException.php',
         'OC\\Template\\Template' => __DIR__ . '/../../..' . '/lib/private/Template/Template.php',

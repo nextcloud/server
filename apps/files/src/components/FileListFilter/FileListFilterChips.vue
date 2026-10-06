@@ -22,13 +22,13 @@ const activeChips = computed(() => filterStore.activeChips)
 		<li v-for="(chip, index) of activeChips" :key="index">
 			<NcChip
 				:aria-label-close="t('files', 'Remove filter')"
-				:icon-svg="chip.icon"
+				:iconSvg="chip.icon"
 				:text="chip.text"
 				@close="chip.onclick">
 				<template v-if="chip.user" #icon>
 					<NcAvatar
-						disable-menu
-						hide-status
+						disableMenu
+						hideStatus
 						:size="24"
 						:user="chip.user" />
 				</template>

@@ -82,15 +82,15 @@ function onToggle(open: boolean) {
 
 <template>
 	<NcAppSidebar
+		v-model:active="sidebar.activeTab"
 		data-cy-sidebar
-		force-menu
-		:active.sync="sidebar.activeTab"
+		forceMenu
 		:background="background"
 		:class="{ 'app-sidebar--full': sidebar.isFullScreen }"
 		:empty="!sidebar.hasContext"
 		:loading="!sidebar.hasContext"
 		:name="sidebar.currentNode?.displayname ?? t('files', 'Loading …')"
-		no-toggle
+		noToggle
 		:open="sidebar.isOpen"
 		@closed="onClosed"
 		@opened="onOpened"
@@ -105,7 +105,7 @@ function onToggle(open: boolean) {
 			<NcActionButton
 				v-for="action of sidebar.currentActions"
 				:key="action.id"
-				close-after-click
+				closeAfterClick
 				@click="action.onClick(actionContext)">
 				<template #icon>
 					<NcIconSvgWrapper :svg="action.iconSvgInline(actionContext)" />

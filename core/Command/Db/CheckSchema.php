@@ -39,15 +39,15 @@ class CheckSchema extends Base {
 		['blocking' => $blocking, 'byDisabledApp' => $byDisabledApp] = $this->schemaChecker->partitionFindings($findings);
 
 		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
-			if ($findings === []) {
+			if ($blocking === []) {
 				$output->writeln('<info>The live database schema matches the expected schema.</info>');
 			} else {
 				foreach ($blocking as $finding) {
 					$output->writeln('<comment>' . $this->schemaChecker->formatFinding($finding) . '</comment>');
 				}
-				if ($output->isVerbose()) {
-					$this->printDisabledAppFindings($byDisabledApp, $output);
-				}
+			}
+			if ($output->isVerbose()) {
+				$this->printDisabledAppFindings($byDisabledApp, $output);
 			}
 		} else {
 			$this->writeArrayInOutputFormat($input, $output, $findings);

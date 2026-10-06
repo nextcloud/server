@@ -66,7 +66,7 @@
 		</fieldset>
 
 		<!-- Autoconfig toggle -->
-		<details :open="!isValidAutoconfig" data-cy-setup-form-advanced-config>
+		<details v-show="!isValidAutoconfig" open data-cy-setup-form-advanced-config>
 			<summary>{{ t('core', 'Storage & database') }}</summary>
 
 			<!-- Data folder -->
@@ -258,7 +258,6 @@
 			class="setup-form__button"
 			:class="{ 'setup-form__button--loading': loading }"
 			:disabled="loading"
-			:loading="loading"
 			:wide="true"
 			alignment="center-reverse"
 			data-cy-setup-form-submit

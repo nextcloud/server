@@ -14,7 +14,6 @@ SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
 SPDX-FileCopyrightText: readable-stream developers
 SPDX-FileCopyrightText: perfect-debounce developers
 SPDX-FileCopyrightText: p-queue developers
-SPDX-FileCopyrightText: omahlama
 SPDX-FileCopyrightText: inline-style-parser developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: hookable developers
@@ -200,7 +199,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.26.0
@@ -251,16 +250,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.18.1
+	- version: 1.20.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
 	- license: MIT
 - birpc
 	- version: 2.9.0
-	- license: MIT
-- blurhash
-	- version: 2.0.5
 	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
@@ -293,7 +289,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.4.15
+	- version: 3.4.16
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
 	- version: 15.0.5
@@ -433,9 +429,6 @@ This file is generated from multiple sources. Included packages:
 - nostics
 	- version: 1.1.4
 	- license: MIT
-- pinia
-	- version: 2.3.1
-	- license: MIT
 - process
 	- version: 0.11.10
 	- license: MIT
@@ -563,7 +556,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - webpack
-	- version: 5.111.0
+	- version: 5.111.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1

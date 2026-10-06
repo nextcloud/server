@@ -133,7 +133,6 @@
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Engedélyezi a bejelentkezést egy e-mail-attribútum alapján. A „mail” és a „mailPrimaryAddress” engedélyezett.",
     "LDAP/AD Email Address:" : "LDAP/AD e-mail-cím:",
     "Other Attributes:" : "Más attribútumok:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Meghatározza a belépéskor alkalmazandó szűrőt. A `%%uid` lecseréli a felhasználónevet a bejelentkezési műveletnél. Például: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Megpróbál fogadni egy DN-t a megadott bejelentkezési név és a jelenlegi bejelentkezési szűrő alapján",
     "Test Login name" : "Teszt bejelentkezési név",
     "Verify settings" : "Beállítások ellenőrzése",
@@ -267,6 +266,7 @@
     "Pronouns Field" : "Névmások mezője",
     "User profile Pronouns will be set from the specified attribute" : "A felhasználói profil Névmások mezője a megadott attribútumból lesz beállítva",
     "UUID Attribute for Users:" : "A felhasználók UUID attribútuma:",
-    "UUID Attribute for Groups:" : "A csoportok UUID attribútuma:"
+    "UUID Attribute for Groups:" : "A csoportok UUID attribútuma:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Meghatározza a belépéskor alkalmazandó szűrőt. A `%%uid` lecseréli a felhasználónevet a bejelentkezési műveletnél. Például: `uid=%%uid`"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
