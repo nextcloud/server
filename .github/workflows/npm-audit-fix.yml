@@ -9,13 +9,11 @@
 name: Npm audit fix and compile
 
 on:
-  workflow_dispatch:
-  schedule:
-    # At 2:30 on Sundays
-    - cron: '30 2 * * 0'
+  pull_request: 
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   build:
@@ -24,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ['main', 'master', 'stable31', 'stable30']
+        branches: ['stable32']
 
     name: npm-audit-fix-${{ matrix.branches }}
 
@@ -41,8 +39,8 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
         id: versions
         with:
-          fallbackNode: '^20'
-          fallbackNpm: '^10'
+          fallbackNode: '^24'
+          fallbackNpm: '^11'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
@@ -54,28 +52,10 @@ jobs:
 
       - name: Fix npm audit
         id: npm-audit
-        uses: nextcloud-libraries/npm-audit-action@1b1728b2b4a7a78d69de65608efcf4db0e3e42d0 # v0.2.0
+        uses: nextcloud-libraries/npm-audit-action@20df3567a2e736ea87a3d5c4a437a8463f74dda6
 
-      - name: Run npm ci and npm run build
-        if: steps.checkout.outcome == 'success'
-        env:
-          CYPRESS_INSTALL_BINARY: 0
-        run: |
-          npm ci
-          npm run build --if-present
-
-      - name: Create Pull Request
-        if: steps.checkout.outcome == 'success'
-        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v5
         with:
-          token: ${{ secrets.COMMAND_BOT_PAT }}
-          commit-message: 'fix(deps): Fix npm audit'
-          committer: GitHub <noreply@github.com>
-          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
-          signoff: true
-          branch: automated/noid/${{ matrix.branches }}-fix-npm-audit
-          title: '[${{ matrix.branches }}] Fix npm audit'
+          issue-number: ${{ github.event.number }}
           body: ${{ steps.npm-audit.outputs.markdown }}
-          labels: |
-            dependencies
-            3. to review
