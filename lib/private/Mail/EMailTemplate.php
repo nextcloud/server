@@ -41,447 +41,220 @@ class EMailTemplate implements IEMailTemplate {
 
 	protected string $head = <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" style="-webkit-font-smoothing:antialiased;background:#fff!important">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" style="-webkit-font-smoothing:antialiased">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width">
+	<meta name="color-scheme" content="light dark">
+	<meta name="supported-color-schemes" content="light dark">
 	<title></title>
-	<style type="text/css">@media only screen{html{min-height:100%;background:#fff}}@media only screen and (max-width:610px){table.body img{width:auto;height:auto}table.body center{min-width:0!important}table.body .container{width:95%!important}table.body .columns{height:auto!important;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;padding-left:30px!important;padding-right:30px!important}th.small-12{display:inline-block!important;width:100%!important}table.menu{width:100%!important}table.menu td,table.menu th{width:auto!important;display:inline-block!important}table.menu.vertical td,table.menu.vertical th{display:block!important}table.menu[align=center]{width:auto!important}}</style>
+	<style type="text/css">
+		:root{color-scheme:light dark;supported-color-schemes:light dark}
+		body{margin:0;padding:0;width:100%!important}
+		@media only screen and (max-width:640px){
+			.nc-card{border-radius:0!important;width:100%!important}
+			.nc-pad{padding-left:20px!important;padding-right:20px!important}
+			.nc-button{display:block!important;margin:0 0 12px 0!important}
+		}
+		@media (prefers-color-scheme:dark){
+			.nc-page{background:#181818!important}
+			.nc-card{background:#222222!important}
+			.nc-text{color:#ebebeb!important}
+			.nc-muted{color:#a6a6a6!important}
+			.nc-link{color:#ebebeb!important}
+			.nc-border{border-color:#3b3b3b!important}
+			.nc-note-neutral,.nc-secondary{background:#2c2c2c!important}
+			.nc-note-info{background:#10303f!important}
+			.nc-note-warning{background:#3a2e10!important}
+			.nc-note-error{background:#3d1717!important}
+		}
+	</style>
 </head>
-<body style="-moz-box-sizing:border-box;-ms-text-size-adjust:100%;-webkit-box-sizing:border-box;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;margin:0;background:#fff!important;box-sizing:border-box;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;min-width:100%;padding:0;text-align:left;width:100%!important">
-	<span class="preheader" style="color:#F5F5F5;display:none!important;font-size:1px;line-height:1px;max-height:0;max-width:0;mso-hide:all!important;opacity:0;overflow:hidden;visibility:hidden">
-	</span>
-	<table class="body" style="-webkit-font-smoothing:antialiased;margin:0;background:#fff;border-collapse:collapse;border-spacing:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;width:100%">
-		<tr style="padding:0;text-align:left;vertical-align:top">
-			<td class="center" align="center" valign="top" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-				<center data-parsed="" style="min-width:580px;width:100%">
+<body class="nc-page" style="-moz-box-sizing:border-box;-ms-text-size-adjust:100%;-webkit-box-sizing:border-box;-webkit-text-size-adjust:100%;Margin:0;background:#f4f4f5;box-sizing:border-box;margin:0;min-width:100%;padding:0;width:100%!important">
+<table role="presentation" class="nc-page" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;border-collapse:collapse;border-spacing:0;width:100%">
+	<tr>
+		<td align="center" style="padding:32px 0">
+			<table role="presentation" class="nc-card" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-collapse:separate;border-radius:16px;border-spacing:0;max-width:600px;overflow:hidden;text-align:left;width:600px">
 EOF;
 
 	protected string $tail = <<<EOF
-					</center>
-				</td>
-			</tr>
-		</table>
-		<!-- prevent Gmail on iOS font size manipulation -->
-		<div style="display:none;white-space:nowrap;font:15px courier;line-height:0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>
-	</body>
+			</table>
+		</td>
+	</tr>
+</table>
+</body>
 </html>
-
 EOF;
 
 	protected string $header = <<<EOF
-<table align="center" class="wrapper header float-center" style="Margin:0 auto;background:#fff;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%%">
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<td class="wrapper-inner" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:20px;text-align:left;vertical-align:top;word-wrap:break-word">
-			<table align="center" class="container" style="Margin:0 auto;background:0 0;border-collapse:collapse;border-spacing:0;margin:0 auto;padding:0;text-align:inherit;vertical-align:top;width:150px">
-				<tbody>
-				<tr style="padding:0;text-align:left;vertical-align:top">
-					<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-						<table class="row collapse" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
-							<tbody>
-							<tr style="padding:0;text-align:left;vertical-align:top">
-								<center data-parsed="" style="background-color:%s;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
-									<img class="logo float-center" src="%s" alt="%s" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none;max-height:105px;max-width:105px;width:auto;height:auto"%s>
-								</center>
-							</tr>
-							</tbody>
-						</table>
+				<tr>
+					<td class="nc-pad" style="background:%1\$s;padding:24px 36px">
+						<img class="logo" src="%2\$s" alt="%3\$s"%4\$s style="-ms-interpolation-mode:bicubic;border:none;display:block;max-height:48px;max-width:200px;outline:0;text-decoration:none;width:auto">
 					</td>
 				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-</table>
-<table class="spacer float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<td height="40px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-size:80px;font-weight:400;hyphens:auto;line-height:80px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td>
-	</tr>
-	</tbody>
-</table>
 EOF;
 
 	protected string $heading = <<<EOF
-<table align="center" class="container main-heading float-center" style="Margin:0 auto;background:0 0!important;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:580px">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-			<h1 class="text-center" style="Margin:0;Margin-bottom:10px;color:inherit;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:24px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:center;word-wrap:normal">%s</h1>
-		</td>
-	</tr>
-	</tbody>
-</table>
-<table class="spacer float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<td height="36px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-size:40px;font-weight:400;hyphens:auto;line-height:36px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td>
-	</tr>
-	</tbody>
-</table>
+				<tr>
+					<td class="nc-pad" style="padding:32px 36px 8px">
+						<h1 class="nc-text" style="Margin:0;color:#222222;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:24px;font-weight:700;line-height:1.3;margin:0">%s</h1>
+					</td>
+				</tr>
 EOF;
 
 	protected string $bodyBegin = <<<EOF
-<table align="center" class="wrapper content float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%">
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<td class="wrapper-inner" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-			<table align="center" class="container" style="Margin:0 auto;background:#fff;border-collapse:collapse;border-spacing:0;margin:0 auto;padding:0;text-align:inherit;vertical-align:top;width:580px">
-				<tbody>
-				<tr style="padding:0;text-align:left;vertical-align:top">
-					<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+				<tr>
+					<td class="nc-pad" style="padding:16px 36px 12px">
 EOF;
 
 	protected string $bodyText = <<<EOF
-<table class="row description" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
-			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
-				<tr style="padding:0;text-align:left;vertical-align:top">
-					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-						<p style="Margin:0;Margin-bottom:10px;color:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center">%s</p>
-					</th>
-					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
-				</tr>
-			</table>
-		</th>
-	</tr>
-	</tbody>
-</table>
+						<p class="nc-muted" style="Margin:0 0 20px;color:#5c5c5c;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.5;margin:0 0 20px">%s</p>
 EOF;
 
-	// note: listBegin (like bodyBegin) is not processed through sprintf, so "%" is not escaped as "%%". (bug #12151)
 	protected string $listBegin = <<<EOF
-<table class="row description" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
-			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+						<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="Margin:0 0 20px;border-collapse:collapse;border-spacing:0;margin:0 0 20px;width:100%">
 EOF;
 
 	protected string $listItem = <<<EOF
-				<tr style="padding:0;text-align:left;vertical-align:top">
-					<td style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;width:15px;">
-						<p class="text-left" style="Margin:0;Margin-bottom:10px;color:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;padding-left:10px;text-align:left">%s</p>
-					</td>
-					<td style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-						<p class="text-left" style="Margin:0;Margin-bottom:10px;color:#555;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;padding-left:10px;text-align:left">%s</p>
-					</td>
-					<td class="expander" style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></td>
-				</tr>
+							<tr>
+								<td style="padding:0 12px 12px 0;vertical-align:top;width:16px">%s</td>
+								<td class="nc-text" style="color:#222222;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;padding:0 0 12px;text-align:left;vertical-align:top">%s</td>
+							</tr>
 EOF;
 
 	protected string $listEnd = <<<EOF
-			</table>
-		</th>
-	</tr>
-	</tbody>
-</table>
+						</table>
 EOF;
 
 	protected string $buttonGroup = <<<EOF
-<table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<td height="50px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:50px;font-weight:400;hyphens:auto;line-height:50px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td>
-	</tr>
-	</tbody>
-</table>
-<table align="center" class="row btn-group" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
-			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
-				<tr style="padding:0;text-align:left;vertical-align:top">
-					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-						<center data-parsed="" style="min-width:490px;width:100%%">
-							<!--[if (gte mso 9)|(IE)]>
-							<table>
-								<tr>
-									<td>
-									<![endif]-->
-										<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:%1\$s;background-color:%1\$s;color:#fefefe;">
-											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
-														<tr style="padding:0;text-align:left;vertical-align:top">
-															<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid %2\$s;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-																<a href="%3\$s" style="Margin:0;border:0 solid %4\$s;color:%5\$s;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid %6\$s;text-decoration:none">%7\$s</a>
-															</td>
-														</tr>
-													</table>
-												</td>
-											</tr>
-										</table>
-									<!--[if (gte mso 9)|(IE)]>
-									</td>
-									<td>
-									<![endif]-->
-										<table class="button btn default secondary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;background-color: #ccc;margin:0 0 30px 0;max-height:40px;max-width:300px;padding:1px;border-radius:8px;text-align:center;vertical-align:top;width:auto">
-											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
-														<tr style="padding:0;text-align:left;vertical-align:top">
-															<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid #777;border-collapse:collapse!important;color:#fefefe;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-																<a href="%8\$s" style="Margin:0;background-color:#fff;border:0 solid #777;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;border-radius: 7px;padding:8px;text-align:left;text-decoration:none">%9\$s</a>
-															</td>
-														</tr>
-													</table>
-												</td>
-											</tr>
-										</table>
-									<!--[if (gte mso 9)|(IE)]>
-									</td>
-								</tr>
-							</table>
-							<![endif]-->
-						</center>
-					</th>
-					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
-				</tr>
-			</table>
-		</th>
-	</tr>
-	</tbody>
-</table>
+						<table role="presentation" cellpadding="0" cellspacing="0" style="Margin:8px 0 20px;border-collapse:collapse;border-spacing:0;margin:8px 0 20px">
+							<tr>
+								<td>
+									<a class="nc-button" href="%3\$s" style="background:%1\$s;border:1px solid %2\$s;border-radius:8px;color:%5\$s;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:700;line-height:1.2;margin:0 12px 12px 0;padding:13px 24px;text-align:center;text-decoration:none">%7\$s</a><a class="nc-button nc-secondary nc-border nc-text" href="%8\$s" style="background:#ffffff;border:1px solid #d1d1d1;border-radius:8px;color:#222222;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:700;line-height:1.2;margin:0 0 12px 0;padding:13px 24px;text-align:center;text-decoration:none">%9\$s</a>
+								</td>
+							</tr>
+						</table>
 EOF;
 
 	protected string $button = <<<EOF
-<table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<td height="50px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:50px;font-weight:400;hyphens:auto;line-height:50px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td>
-	</tr>
-	</tbody>
-</table>
-<table align="center" class="row btn-group" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
-			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
-				<tr style="padding:0;text-align:left;vertical-align:top">
-					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-						<center data-parsed="" style="min-width:490px;width:100%%">
-							<table class="button btn default primary float-center" style="Margin:0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0;border-radius:8px;padding:0;text-align:center;vertical-align:top;width:auto;background:%1\$s;color:#fefefe;background-color:%1\$s;">
-								<tr style="padding:0;text-align:left;vertical-align:top">
-									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
-											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid %2\$s;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="%3\$s" style="Margin:0;border:0 solid %4\$s;color:%5\$s;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid %5\$s;text-decoration:none">%7\$s</a>
-												</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</table>
-						</center>
-					</th>
-					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
-				</tr>
-			</table>
-		</th>
-	</tr>
-	</tbody>
-</table>
+						<table role="presentation" cellpadding="0" cellspacing="0" style="Margin:8px 0 20px;border-collapse:collapse;border-spacing:0;margin:8px 0 20px">
+							<tr>
+								<td>
+									<a class="nc-button" href="%3\$s" style="background:%1\$s;border:1px solid %2\$s;border-radius:8px;color:%5\$s;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:700;line-height:1.2;padding:13px 24px;text-align:center;text-decoration:none">%7\$s</a>
+								</td>
+							</tr>
+						</table>
 EOF;
 
 	protected string $bodyEnd = <<<EOF
-
 					</td>
 				</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-</table>
 EOF;
 
 	protected string $footer = <<<EOF
-<table class="spacer float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<td height="60px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:60px;font-weight:400;hyphens:auto;line-height:60px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td>
-	</tr>
-	</tbody>
-</table>
-<table align="center" class="wrapper footer float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%%">
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<td class="wrapper-inner" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-			<center data-parsed="" style="min-width:580px;width:100%%">
-				<table class="spacer float-center" style="Margin:0 auto;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:100%%">
-					<tbody>
-					<tr style="padding:0;text-align:left;vertical-align:top">
-						<td height="15px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:15px;font-weight:400;hyphens:auto;line-height:15px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td>
-					</tr>
-					</tbody>
-				</table>
-				<p class="text-center float-center" align="center" style="Margin:0;Margin-bottom:10px;color:#C8C8C8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:400;line-height:16px;margin:0;margin-bottom:10px;padding:0;text-align:center">%s</p>
-			</center>
-		</td>
-	</tr>
-</table>
+				<tr>
+					<td class="nc-pad nc-border nc-muted" style="border-top:1px solid #e5e5e5;color:#767676;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:13px;line-height:1.6;padding:24px 36px 32px">%s</td>
+				</tr>
 EOF;
 
 	protected string $sender = <<<EOF
-<table align="center" class="container sender float-center" style="Margin:0 auto;background:0 0!important;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:580px">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<td style="Margin:0;border-collapse:collapse!important;padding:0;padding-bottom:20px;text-align:center;vertical-align:top">
-			<table style="Margin:0 auto;border-collapse:collapse;border-spacing:0;margin:0 auto;padding:0">
-				<tr style="padding:0;vertical-align:middle">
-					<td style="Margin:0;padding:0;vertical-align:middle;width:40px">%1\$s</td>
-					<td style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;padding-left:12px;text-align:left;vertical-align:middle"><strong>%2\$s</strong>%3\$s</td>
+				<tr>
+					<td class="nc-pad" style="padding:32px 36px 0">
+						<table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0">
+							<tr>
+								<td style="padding:0;vertical-align:middle;width:44px">%1\$s</td>
+								<td class="nc-text" style="color:#222222;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.4;padding:0 0 0 14px;vertical-align:middle"><strong>%2\$s</strong>%3\$s</td>
+							</tr>
+						</table>
+					</td>
 				</tr>
-			</table>
-		</td>
-	</tr>
-	</tbody>
-</table>
 EOF;
 
 	protected string $senderSubline = <<<EOF
-<br><span style="color:#777;font-size:14px">%s</span>
+<br><span class="nc-muted" style="color:#767676;font-size:14px">%s</span>
 EOF;
 
 	protected string $initials = <<<EOF
-<div style="background:%1\$s;border-radius:50%%;color:%2\$s;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:600;height:40px;line-height:40px;text-align:center;width:40px">%3\$s</div>
+<div style="background:%1\$s;border-radius:50%%;color:%2\$s;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:700;height:44px;line-height:44px;text-align:center;width:44px">%3\$s</div>
 EOF;
 
 	protected string $note = <<<EOF
-<table class="row note" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
-			<table style="background:%1\$s;border-collapse:collapse;border-left:4px solid %2\$s;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
-				<tr style="padding:0;text-align:left;vertical-align:top">
-					<td style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.4;margin:0;padding:12px 16px;text-align:left">%3\$s</td>
-				</tr>
-			</table>
-		</th>
-	</tr>
-	</tbody>
-</table>
+						<table role="presentation" width="100%%" cellpadding="0" cellspacing="0" style="Margin:0 0 20px;border-collapse:separate;border-spacing:0;margin:0 0 20px;width:100%%">
+							<tr>
+								<td class="nc-note-%4\$s nc-text" style="background:%1\$s;border-left:4px solid %2\$s;border-radius:12px;color:#222222;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;padding:16px 20px">%3\$s</td>
+							</tr>
+						</table>
 EOF;
 
 	protected string $noteLabel = <<<EOF
-<span style="color:#777;font-size:14px">%s</span><br>
+<span class="nc-muted" style="color:#767676;font-size:14px">%s</span><br>
 EOF;
 
 	/** @var array<string, array{background: string, border: string}> */
 	protected array $noteColors = [
-		IEMailTemplate::NOTE_NEUTRAL => ['background' => '#f5f5f5', 'border' => '#ccc'],
+		IEMailTemplate::NOTE_NEUTRAL => ['background' => '#f4f4f5', 'border' => 'transparent'],
 		IEMailTemplate::NOTE_INFO => ['background' => '#e5f0f5', 'border' => '#0071ad'],
-		IEMailTemplate::NOTE_WARNING => ['background' => '#fdf6e3', 'border' => '#a37200'],
-		IEMailTemplate::NOTE_ERROR => ['background' => '#fbe5e5', 'border' => '#db0606'],
+		IEMailTemplate::NOTE_WARNING => ['background' => '#fdf3dc', 'border' => '#a37200'],
+		IEMailTemplate::NOTE_ERROR => ['background' => '#fbe5e5', 'border' => '#c50000'],
 	];
 
 	protected string $detailsBegin = <<<EOF
-<table class="row details" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
-			<table style="border:1px solid #ddd;border-collapse:separate;border-radius:8px;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
-				<tr style="padding:0;text-align:left;vertical-align:top">
-					<td colspan="2" style="Margin:0;%1\$smargin:0;padding:16px;text-align:left;vertical-align:top">
-						<table style="border-collapse:collapse;border-spacing:0;padding:0">
-							<tr style="padding:0;vertical-align:middle">
-								%2\$s<td style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:middle"><strong style="font-size:18px">%3\$s</strong>%4\$s</td>
+						<table role="presentation" class="nc-border" width="100%%" cellpadding="0" cellspacing="0" style="Margin:0 0 20px;border:1px solid #e5e5e5;border-collapse:separate;border-radius:12px;border-spacing:0;margin:0 0 20px;width:100%%">
+							<tr>
+								<td class="nc-border" colspan="2" style="%1\$spadding:20px">
+									<table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0">
+										<tr>
+											%2\$s<td class="nc-text" style="color:#222222;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.4;padding:0;vertical-align:middle"><strong style="font-size:18px">%3\$s</strong>%4\$s</td>
+										</tr>
+									</table>
+								</td>
 							</tr>
-						</table>
-					</td>
-				</tr>
 EOF;
 
 	protected string $detailsLeading = <<<EOF
-<td style="Margin:0;margin:0;padding:0;padding-right:12px;vertical-align:middle">%s</td>
+<td style="padding:0 16px 0 0;vertical-align:middle">%s</td>
 EOF;
 
 	protected string $detailsDateBadge = <<<EOF
-<table style="border:1px solid #ddd;border-collapse:separate;border-radius:6px;border-spacing:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;padding:0;text-align:center;width:48px">
-	<tr><td style="background:%1\$s;border-radius:5px 5px 0 0;color:%2\$s;font-size:11px;font-weight:600;padding:2px 0;text-transform:uppercase">%3\$s</td></tr>
-	<tr><td style="color:#0a0a0a;font-size:20px;font-weight:600;padding:4px 0">%4\$s</td></tr>
+<table role="presentation" class="nc-border" cellpadding="0" cellspacing="0" style="border:1px solid #e5e5e5;border-collapse:separate;border-radius:8px;border-spacing:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;text-align:center;width:52px">
+	<tr><td style="background:%1\$s;border-radius:7px 7px 0 0;color:%2\$s;font-size:11px;font-weight:700;letter-spacing:1px;padding:3px 0;text-transform:uppercase">%3\$s</td></tr>
+	<tr><td class="nc-text" style="color:#222222;font-size:22px;font-weight:700;padding:4px 0 6px">%4\$s</td></tr>
 </table>
 EOF;
 
 	protected string $detailsRow = <<<EOF
-				<tr style="padding:0;text-align:left;vertical-align:top">
-					<td style="Margin:0;%1\$scolor:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.4;margin:0;padding:10px 16px;text-align:left;vertical-align:top;width:35%%">%2\$s</td>
-					<td style="Margin:0;%1\$scolor:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.4;margin:0;padding:10px 16px 10px 0;text-align:left;vertical-align:top">%3\$s</td>
-				</tr>
+							<tr>
+								<td class="nc-border nc-muted" style="%1\$scolor:#767676;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;padding:12px 20px;vertical-align:top;width:30%%">%2\$s</td>
+								<td class="nc-border nc-text" style="%1\$scolor:#222222;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;padding:12px 20px 12px 0;vertical-align:top">%3\$s</td>
+							</tr>
 EOF;
 
 	protected string $detailsEnd = <<<EOF
-			</table>
-		</th>
-	</tr>
-	</tbody>
-</table>
+						</table>
 EOF;
 
 	protected string $buttonsBegin = <<<EOF
-<table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<td height="20px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-size:20px;font-weight:400;hyphens:auto;line-height:20px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td>
-	</tr>
-	</tbody>
-</table>
-<table align="center" class="row btn-group" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
-	<tbody>
-	<tr style="padding:0;text-align:left;vertical-align:top">
-		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
-			<center data-parsed="" style="min-width:490px;width:100%%">
-				%s
-				<!--[if (gte mso 9)|(IE)]>
-				<table>
-					<tr>
-						<td>
-						<![endif]-->
+						%s<table role="presentation" cellpadding="0" cellspacing="0" style="Margin:8px 0 20px;border-collapse:collapse;border-spacing:0;margin:8px 0 20px">
+							<tr>
+								<td>
 EOF;
 
 	protected string $buttonsLabel = <<<EOF
-<p style="Margin:0;Margin-bottom:10px;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:600;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center">%s</p>
+<p class="nc-text" style="Margin:8px 0 12px;color:#222222;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:700;line-height:1.4;margin:8px 0 12px">%s</p>
 EOF;
 
 	protected string $buttonsPrimary = <<<EOF
-							<table class="button btn default primary float-center" style="Margin:0 0 10px 0;background:%1\$s;background-color:%1\$s;border-collapse:collapse;border-radius:8px;border-spacing:0;display:inline-block;float:none;margin:0 0 10px 0;margin-right:15px;padding:0;text-align:center;vertical-align:top;width:auto">
-								<tr style="padding:0;text-align:left;vertical-align:top">
-									<td style="Margin:0;border-collapse:collapse!important;margin:0;padding:0;text-align:left;vertical-align:top">
-										<a href="%2\$s" style="Margin:0;color:%3\$s;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;text-decoration:none">%4\$s</a>
-									</td>
-								</tr>
-							</table>
+<a class="nc-button" href="%2\$s" style="background:%1\$s;border:1px solid %1\$s;border-radius:8px;color:%3\$s;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:700;line-height:1.2;margin:0 12px 12px 0;padding:13px 24px;text-align:center;text-decoration:none">%4\$s</a>
 EOF;
 
 	protected string $buttonsSecondary = <<<EOF
-							<table class="button btn default secondary float-center" style="Margin:0 0 10px 0;background-color:#ccc;border-collapse:collapse;border-radius:8px;border-spacing:0;display:inline-block;float:none;margin:0 0 10px 0;margin-right:15px;padding:1px;text-align:center;vertical-align:top;width:auto">
-								<tr style="padding:0;text-align:left;vertical-align:top">
-									<td style="Margin:0;border-collapse:collapse!important;margin:0;padding:0;text-align:left;vertical-align:top">
-										<a href="%1\$s" style="Margin:0;background-color:#fff;border-radius:7px;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;text-decoration:none">%2\$s</a>
-									</td>
-								</tr>
-							</table>
-EOF;
-
-	protected string $buttonsSeparator = <<<EOF
-						<!--[if (gte mso 9)|(IE)]>
-						</td>
-						<td>
-						<![endif]-->
+<a class="nc-button nc-secondary nc-border nc-text" href="%1\$s" style="background:#ffffff;border:1px solid #d1d1d1;border-radius:8px;color:#222222;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:700;line-height:1.2;margin:0 12px 12px 0;padding:13px 24px;text-align:center;text-decoration:none">%2\$s</a>
 EOF;
 
 	protected string $buttonsEnd = <<<EOF
-						<!--[if (gte mso 9)|(IE)]>
-						</td>
-					</tr>
-				</table>
-				<![endif]-->
-			</center>
-		</th>
-	</tr>
-	</tbody>
-</table>
+								</td>
+							</tr>
+						</table>
 EOF;
 
 	public function __construct(
@@ -556,6 +329,7 @@ EOF;
 			$plainTitle = $title;
 		}
 
+		$this->ensureBodyIsClosed();
 		$this->htmlBody .= vsprintf($this->heading, [htmlspecialchars($title)]);
 		if ($plainTitle !== false) {
 			$this->plainBody .= $plainTitle . PHP_EOL . PHP_EOL;
@@ -636,7 +410,7 @@ EOF;
 
 		$htmlText = $text;
 		if ($metaInfo) {
-			$htmlText = '<em style="color:#777;">' . $metaInfo . '</em><br>' . $htmlText;
+			$htmlText = '<em class="nc-muted" style="color:#767676;">' . $metaInfo . '</em><br>' . $htmlText;
 		}
 		if ($icon !== '') {
 			$icon = '<img src="' . htmlspecialchars($icon) . '" alt="&bull;">';
@@ -728,7 +502,7 @@ EOF;
 		$color = $this->themingDefaults->getDefaultColorPrimary();
 		$textColor = $this->themingDefaults->getDefaultTextColorPrimary();
 
-		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textColor, $textColor, $textLeft, $urlRight, $textRight]);
+		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, htmlspecialchars($urlLeft), $color, $textColor, $textColor, $textLeft, htmlspecialchars($urlRight), $textRight]);
 		$this->plainBody .= PHP_EOL . $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
 		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
 	}
@@ -759,7 +533,7 @@ EOF;
 
 		$color = $this->themingDefaults->getDefaultColorPrimary();
 		$textColor = $this->themingDefaults->getDefaultTextColorPrimary();
-		$this->htmlBody .= vsprintf($this->button, [$color, $color, $url, $color, $textColor, $textColor, $text]);
+		$this->htmlBody .= vsprintf($this->button, [$color, $color, htmlspecialchars($url), $color, $textColor, $textColor, $text]);
 
 		if ($plainText !== false) {
 			$this->plainBody .= $plainText . ': ';
@@ -794,7 +568,7 @@ EOF;
 
 		$htmlLabel = $label !== '' ? vsprintf($this->buttonsLabel, [htmlspecialchars($label)]) : '';
 		$this->htmlBody .= vsprintf($this->buttonsBegin, [$htmlLabel]);
-		$this->htmlBody .= implode($this->buttonsSeparator, $htmlButtons);
+		$this->htmlBody .= implode('', $htmlButtons);
 		$this->htmlBody .= $this->buttonsEnd;
 
 		if ($label !== '') {
@@ -812,7 +586,7 @@ EOF;
 			return;
 		}
 
-		$this->ensureBodyListClosed();
+		$this->ensureBodyIsClosed();
 
 		$htmlSubline = $subline !== '' ? vsprintf($this->senderSubline, [htmlspecialchars($subline)]) : '';
 		$this->htmlBody .= vsprintf($this->sender, [$this->renderInitials($displayName), htmlspecialchars($displayName), $htmlSubline]);
@@ -829,7 +603,10 @@ EOF;
 		if ($this->footerAdded) {
 			return;
 		}
-		$colors = $this->noteColors[$type] ?? $this->noteColors[IEMailTemplate::NOTE_NEUTRAL];
+		if (!isset($this->noteColors[$type])) {
+			$type = IEMailTemplate::NOTE_NEUTRAL;
+		}
+		$colors = $this->noteColors[$type];
 
 		$this->ensureBodyIsOpened();
 		$this->ensureBodyListClosed();
@@ -841,7 +618,7 @@ EOF;
 				? vsprintf($this->noteLabel, [$htmlLabel]) . $htmlText
 				: '<strong>' . $htmlLabel . '</strong> ' . $htmlText;
 		}
-		$this->htmlBody .= vsprintf($this->note, [$colors['background'], $colors['border'], $htmlText]);
+		$this->htmlBody .= vsprintf($this->note, [$colors['background'], $colors['border'], $htmlText, $type]);
 
 		if ($type === IEMailTemplate::NOTE_NEUTRAL) {
 			if ($label !== '') {
@@ -880,7 +657,7 @@ EOF;
 		$subtitle = $details->getSubtitle();
 		$htmlSubtitle = $subtitle !== '' ? vsprintf($this->senderSubline, [htmlspecialchars($subtitle)]) : '';
 		$rows = $details->getRows();
-		$separator = 'border-bottom:1px solid #ddd;';
+		$separator = 'border-bottom:1px solid #e5e5e5;';
 
 		$this->htmlBody .= vsprintf($this->detailsBegin, [$rows !== [] ? $separator : '', $leading, htmlspecialchars($details->getTitle()), $htmlSubtitle]);
 		$this->plainBody .= $details->getTitle() . PHP_EOL;
@@ -900,7 +677,7 @@ EOF;
 						$plainParts[] = $part['text'] === $part['url'] ? $part['url'] : $part['text'] . ' (' . $part['url'] . ')';
 						break;
 					case EMailDetailsRow::PART_MUTED:
-						$htmlParts[] = '<span style="color:#777">' . $text . '</span>';
+						$htmlParts[] = '<span class="nc-muted" style="color:#767676">' . $text . '</span>';
 						$plainParts[] = $part['text'];
 						break;
 					default:
@@ -910,7 +687,7 @@ EOF;
 			}
 
 			$this->htmlBody .= vsprintf($this->detailsRow, [
-				$index > 0 ? 'border-top:1px solid #eee;' : '',
+				$index > 0 ? 'border-top:1px solid #e5e5e5;' : '',
 				htmlspecialchars($row->getLabel()),
 				implode('<br>', $htmlParts),
 			]);
