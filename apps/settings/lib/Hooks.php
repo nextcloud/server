@@ -21,6 +21,8 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserChangedEvent;
@@ -109,7 +111,8 @@ class Hooks implements IEventListener {
 			$template->setSubject($l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceName]));
 			$template->addHeader();
 			$template->addHeading($l->t('Password changed for %s', [$user->getDisplayName()]), false);
-			$template->addBodyText($text . ' ' . $l->t('If you did not request this, please contact an administrator.'));
+			$template->addBodyText($text);
+			$template->addBodyNote($l->t('If you did not request this, please contact an administrator.'), '', IEMailTemplate::NOTE_WARNING);
 			$template->addFooter();
 
 			$message = $this->mailer->createMessage();
@@ -178,10 +181,17 @@ class Hooks implements IEventListener {
 			$template->setSubject($l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceName]));
 			$template->addHeader();
 			$template->addHeading($l->t('Email address changed for %s', [$user->getDisplayName()]), false);
-			$template->addBodyText($text . ' ' . $l->t('If you did not request this, please contact an administrator.'));
+			$template->addBodyText($text);
+			$details = (new EMailDetails($user->getDisplayName()))->setInitials($user->getDisplayName());
+			$details->addRow($l->t('Previous email address'))->text($oldMailAddress);
+			$newMailAddress = $details->addRow($l->t('New email address'));
 			if ($user->getEMailAddress()) {
-				$template->addBodyText($l->t('The new email address is %s', [$user->getEMailAddress()]));
+				$newMailAddress->text($user->getEMailAddress());
+			} else {
+				$newMailAddress->muted($l->t('No email address set'));
 			}
+			$template->addBodyDetails($details);
+			$template->addBodyNote($l->t('If you did not request this, please contact an administrator.'), '', IEMailTemplate::NOTE_WARNING);
 			$template->addFooter();
 
 			$message = $this->mailer->createMessage();

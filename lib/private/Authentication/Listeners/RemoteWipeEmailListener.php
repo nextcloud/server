@@ -19,6 +19,7 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10nFactory;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 use Psr\Log\LoggerInterface;
@@ -107,8 +108,10 @@ class RemoteWipeEmailListener implements IEventListener {
 			$htmlHeading,
 			$plainHeading
 		);
-		$emailTemplate->addBodyText(
-			$this->l10n->t('Device or application »%s« has started the remote wipe process. You will receive another email once the process has finished', [$event->getToken()->getName()])
+		$emailTemplate->addBodyNote(
+			$this->l10n->t('Device or application »%s« has started the remote wipe process. You will receive another email once the process has finished', [$event->getToken()->getName()]),
+			'',
+			IEMailTemplate::NOTE_WARNING,
 		);
 		$emailTemplate->addFooter();
 		$message->setTo([$user->getEMailAddress()]);
@@ -135,8 +138,10 @@ class RemoteWipeEmailListener implements IEventListener {
 			$htmlHeading,
 			$plainHeading
 		);
-		$emailTemplate->addBodyText(
-			$this->l10n->t('Device or application »%s« has finished the remote wipe process.', [$event->getToken()->getName()])
+		$emailTemplate->addBodyNote(
+			$this->l10n->t('Device or application »%s« has finished the remote wipe process.', [$event->getToken()->getName()]),
+			'',
+			IEMailTemplate::NOTE_INFO,
 		);
 		$emailTemplate->addFooter();
 		$message->setTo([$user->getEMailAddress()]);

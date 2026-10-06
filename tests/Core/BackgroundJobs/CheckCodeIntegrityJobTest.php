@@ -49,6 +49,7 @@ class CheckCodeIntegrityJobTest extends TestCase {
 	private IGroupManager&MockObject $groupManager;
 	private INotificationManager&MockObject $notificationManager;
 	private IMailer&MockObject $mailer;
+	private IEMailTemplate&MockObject $template;
 	private IL10N&MockObject $l10n;
 	/** @var list<string> recipients collected by expectAdminNotifications() */
 	private array $users = [];
@@ -76,7 +77,8 @@ class CheckCodeIntegrityJobTest extends TestCase {
 				=> vsprintf(str_replace('%n', (string)$count, $count === 1 ? $singular : $plural), $parameters)
 		);
 
-		$this->mailer->method('createEMailTemplate')->willReturn($this->createMock(IEMailTemplate::class));
+		$this->template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($this->template);
 		$this->mailer->method('createMessage')->willReturn($this->createMock(IMessage::class));
 
 		$this->notificationManager->method('createNotification')->willReturnCallback(
@@ -182,6 +184,13 @@ class CheckCodeIntegrityJobTest extends TestCase {
 		$this->notificationManager->expects($this->never())->method('markProcessed');
 		$this->expectAdminNotifications($fingerprint, ['files' => 1, 'unverified' => []]);
 		$this->mailer->expects($this->once())->method('send');
+		$this->template->expects($this->never())->method('addBodyText');
+		$this->template->expects($this->once())->method('addBodyNote')->with(
+			'1 file does not match the signed release. It may have been modified or added without authorization.',
+			'',
+			IEMailTemplate::NOTE_WARNING,
+		);
+		$this->template->expects($this->once())->method('addBodyButton');
 		$this->expectStoredFingerprint($fingerprint);
 
 		self::invokePrivate($this->job, 'run', [null]);
@@ -214,6 +223,23 @@ class CheckCodeIntegrityJobTest extends TestCase {
 		$this->expectAdminNotifications($fingerprint, ['files' => 2, 'unverified' => []]);
 		$this->mailer->expects($this->once())->method('send');
 		$this->expectStoredFingerprint($fingerprint);
+
+		self::invokePrivate($this->job, 'run', [null]);
+	}
+
+	public function testMailPutsEverySentenceInOneWarningNote(): void {
+		$this->mockAdmins();
+		$results = self::FAILED_RESULT;
+		$results['files'] = ['EXCEPTION' => ['class' => \Exception::class, 'message' => 'Signature data not found.']];
+		$this->checker->method('getResults')->willReturn($results);
+		$this->appConfig->method('getValueString')->willReturn('');
+
+		$this->template->expects($this->once())->method('addBodyNote')->with(
+			"1 file does not match the signed release. It may have been modified or added without authorization.\n"
+			. 'The signature of files is missing or invalid, so it could not be verified.',
+			'',
+			IEMailTemplate::NOTE_WARNING,
+		);
 
 		self::invokePrivate($this->job, 'run', [null]);
 	}
