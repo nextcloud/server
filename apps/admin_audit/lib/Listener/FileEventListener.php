@@ -11,6 +11,7 @@ namespace OCA\AdminAudit\Listener;
 
 use OC\Files\Node\NonExistingFile;
 use OCA\AdminAudit\Actions\Action;
+use OCA\AdminAudit\IAuditLogger;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -23,13 +24,19 @@ use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Preview\BeforePreviewFetchedEvent;
-use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
  * @template-implements IEventListener<BeforePreviewFetchedEvent|VersionRestoredEvent|NodeRenamedEvent|NodeCreatedEvent|NodeCopiedEvent|NodeWrittenEvent|BeforeNodeReadEvent|BeforeNodeDeletedEvent>
  */
 class FileEventListener extends Action implements IEventListener {
+	public function __construct(
+		IAuditLogger $logger,
+		private LoggerInterface $systemLogger,
+	) {
+		parent::__construct($logger);
+	}
+
 	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof BeforePreviewFetchedEvent) {
@@ -71,7 +78,7 @@ class FileEventListener extends Action implements IEventListener {
 				array_keys($params)
 			);
 		} catch (InvalidPathException|NotFoundException $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->systemLogger->error(
 				'Exception thrown in file preview: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -105,7 +112,7 @@ class FileEventListener extends Action implements IEventListener {
 				'newpath' => $target->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->systemLogger->error(
 				'Exception thrown in file rename: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -129,7 +136,7 @@ class FileEventListener extends Action implements IEventListener {
 				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->systemLogger->error(
 				'Exception thrown in file create: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -158,7 +165,7 @@ class FileEventListener extends Action implements IEventListener {
 				'newpath' => $target->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->systemLogger->error(
 				'Exception thrown in file copy: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -181,7 +188,7 @@ class FileEventListener extends Action implements IEventListener {
 				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->systemLogger->error(
 				'Exception thrown in file write: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -208,7 +215,7 @@ class FileEventListener extends Action implements IEventListener {
 				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->systemLogger->error(
 				'Exception thrown in file read: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -231,7 +238,7 @@ class FileEventListener extends Action implements IEventListener {
 				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->systemLogger->error(
 				'Exception thrown in file delete: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
