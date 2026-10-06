@@ -42,6 +42,9 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	/** @var array{column: string, order: string}[] */
 	private array $sortList = [];
 	private string $mainTable = '';
+	private array $insertValues = [];
+	/** @var list<array> */
+	private array $additionalInsertRows = [];
 
 	public function __construct(
 		IQueryBuilder $builder,
@@ -173,6 +176,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 
 	#[\Override]
 	public function setValue($column, $value) {
+		$this->insertValues[$column] = $value;
 		if ($this->shardDefinition) {
 			if ($this->shardDefinition->isKey($column)) {
 				$this->primaryKeys[] = $value;
@@ -186,8 +190,23 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 
 	#[\Override]
 	public function values(array $values) {
+		$this->insertValues = [];
+		$this->additionalInsertRows = [];
 		foreach ($values as $column => $value) {
 			$this->setValue($column, $value);
+		}
+		return $this;
+	}
+
+	#[\Override]
+	public function addValues(array $values): self {
+		if (!$this->shardDefinition) {
+			parent::addValues($values);
+		} elseif ($this->insertValues === []) {
+			$this->values($values);
+		} else {
+			// rows can belong to different shards, so they are inserted one by one
+			$this->additionalInsertRows[] = $values;
 		}
 		return $this;
 	}
@@ -411,6 +430,9 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		$this->validate();
 		if ($this->shardDefinition) {
 			$runner = new ShardQueryRunner($this->shardConnectionManager, $this->shardDefinition);
+			if ($this->insertTable && $this->additionalInsertRows) {
+				return $this->executeInsertRows();
+			}
 			if ($this->insertTable) {
 				$shards = $runner->getShards($this->allShards, $this->getShardKeys());
 				if (!$shards) {
@@ -435,6 +457,19 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 			}
 		}
 		return parent::executeStatement($connection);
+	}
+
+	private function executeInsertRows(): int {
+		$rows = [$this->insertValues, ...$this->additionalInsertRows];
+		$count = 0;
+		foreach ($rows as $row) {
+			$this->shardKeys = [];
+			$this->primaryKeys = [];
+			parent::values([]);
+			$this->values($row);
+			$count += $this->executeStatement();
+		}
+		return $count;
 	}
 
 	#[\Override]
