@@ -12,6 +12,8 @@ namespace OC\Mail;
 use OCP\Defaults;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\EMailDetailsRow;
 use OCP\Mail\IEMailTemplate;
 
 /**
@@ -321,6 +323,167 @@ EOF;
 </table>
 EOF;
 
+	protected string $sender = <<<EOF
+<table align="center" class="container sender float-center" style="Margin:0 auto;background:0 0!important;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:580px">
+	<tbody>
+	<tr style="padding:0;text-align:left;vertical-align:top">
+		<td style="Margin:0;border-collapse:collapse!important;padding:0;padding-bottom:20px;text-align:center;vertical-align:top">
+			<table style="Margin:0 auto;border-collapse:collapse;border-spacing:0;margin:0 auto;padding:0">
+				<tr style="padding:0;vertical-align:middle">
+					<td style="Margin:0;padding:0;vertical-align:middle;width:40px">%1\$s</td>
+					<td style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;padding-left:12px;text-align:left;vertical-align:middle"><strong>%2\$s</strong>%3\$s</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	</tbody>
+</table>
+EOF;
+
+	protected string $senderSubline = <<<EOF
+<br><span style="color:#777;font-size:14px">%s</span>
+EOF;
+
+	protected string $initials = <<<EOF
+<div style="background:%1\$s;border-radius:50%%;color:%2\$s;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:600;height:40px;line-height:40px;text-align:center;width:40px">%3\$s</div>
+EOF;
+
+	protected string $note = <<<EOF
+<table class="row note" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
+	<tbody>
+	<tr style="padding:0;text-align:left;vertical-align:top">
+		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
+			<table style="background:%1\$s;border-collapse:collapse;border-left:4px solid %2\$s;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
+				<tr style="padding:0;text-align:left;vertical-align:top">
+					<td style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.4;margin:0;padding:12px 16px;text-align:left">%3\$s</td>
+				</tr>
+			</table>
+		</th>
+	</tr>
+	</tbody>
+</table>
+EOF;
+
+	protected string $noteLabel = <<<EOF
+<span style="color:#777;font-size:14px">%s</span><br>
+EOF;
+
+	/** @var array<string, array{background: string, border: string}> */
+	protected array $noteColors = [
+		IEMailTemplate::NOTE_NEUTRAL => ['background' => '#f5f5f5', 'border' => '#ccc'],
+		IEMailTemplate::NOTE_INFO => ['background' => '#e5f0f5', 'border' => '#0071ad'],
+		IEMailTemplate::NOTE_WARNING => ['background' => '#fdf6e3', 'border' => '#a37200'],
+		IEMailTemplate::NOTE_ERROR => ['background' => '#fbe5e5', 'border' => '#db0606'],
+	];
+
+	protected string $detailsBegin = <<<EOF
+<table class="row details" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
+	<tbody>
+	<tr style="padding:0;text-align:left;vertical-align:top">
+		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
+			<table style="border:1px solid #ddd;border-collapse:separate;border-radius:8px;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
+				<tr style="padding:0;text-align:left;vertical-align:top">
+					<td colspan="2" style="Margin:0;%1\$smargin:0;padding:16px;text-align:left;vertical-align:top">
+						<table style="border-collapse:collapse;border-spacing:0;padding:0">
+							<tr style="padding:0;vertical-align:middle">
+								%2\$s<td style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:middle"><strong style="font-size:18px">%3\$s</strong>%4\$s</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+EOF;
+
+	protected string $detailsLeading = <<<EOF
+<td style="Margin:0;margin:0;padding:0;padding-right:12px;vertical-align:middle">%s</td>
+EOF;
+
+	protected string $detailsDateBadge = <<<EOF
+<table style="border:1px solid #ddd;border-collapse:separate;border-radius:6px;border-spacing:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;padding:0;text-align:center;width:48px">
+	<tr><td style="background:%1\$s;border-radius:5px 5px 0 0;color:%2\$s;font-size:11px;font-weight:600;padding:2px 0;text-transform:uppercase">%3\$s</td></tr>
+	<tr><td style="color:#0a0a0a;font-size:20px;font-weight:600;padding:4px 0">%4\$s</td></tr>
+</table>
+EOF;
+
+	protected string $detailsRow = <<<EOF
+				<tr style="padding:0;text-align:left;vertical-align:top">
+					<td style="Margin:0;%1\$scolor:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.4;margin:0;padding:10px 16px;text-align:left;vertical-align:top;width:35%%">%2\$s</td>
+					<td style="Margin:0;%1\$scolor:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.4;margin:0;padding:10px 16px 10px 0;text-align:left;vertical-align:top">%3\$s</td>
+				</tr>
+EOF;
+
+	protected string $detailsEnd = <<<EOF
+			</table>
+		</th>
+	</tr>
+	</tbody>
+</table>
+EOF;
+
+	protected string $buttonsBegin = <<<EOF
+<table class="spacer" style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%%">
+	<tbody>
+	<tr style="padding:0;text-align:left;vertical-align:top">
+		<td height="20px" style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-size:20px;font-weight:400;hyphens:auto;line-height:20px;margin:0;mso-line-height-rule:exactly;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">&#xA0;</td>
+	</tr>
+	</tbody>
+</table>
+<table align="center" class="row btn-group" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%%">
+	<tbody>
+	<tr style="padding:0;text-align:left;vertical-align:top">
+		<th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:30px;padding-left:30px;padding-right:30px;text-align:left;width:550px">
+			<center data-parsed="" style="min-width:490px;width:100%%">
+				%s
+				<!--[if (gte mso 9)|(IE)]>
+				<table>
+					<tr>
+						<td>
+						<![endif]-->
+EOF;
+
+	protected string $buttonsLabel = <<<EOF
+<p style="Margin:0;Margin-bottom:10px;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:600;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center">%s</p>
+EOF;
+
+	protected string $buttonsPrimary = <<<EOF
+							<table class="button btn default primary float-center" style="Margin:0 0 10px 0;background:%1\$s;background-color:%1\$s;border-collapse:collapse;border-radius:8px;border-spacing:0;display:inline-block;float:none;margin:0 0 10px 0;margin-right:15px;padding:0;text-align:center;vertical-align:top;width:auto">
+								<tr style="padding:0;text-align:left;vertical-align:top">
+									<td style="Margin:0;border-collapse:collapse!important;margin:0;padding:0;text-align:left;vertical-align:top">
+										<a href="%2\$s" style="Margin:0;color:%3\$s;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;text-decoration:none">%4\$s</a>
+									</td>
+								</tr>
+							</table>
+EOF;
+
+	protected string $buttonsSecondary = <<<EOF
+							<table class="button btn default secondary float-center" style="Margin:0 0 10px 0;background-color:#ccc;border-collapse:collapse;border-radius:8px;border-spacing:0;display:inline-block;float:none;margin:0 0 10px 0;margin-right:15px;padding:1px;text-align:center;vertical-align:top;width:auto">
+								<tr style="padding:0;text-align:left;vertical-align:top">
+									<td style="Margin:0;border-collapse:collapse!important;margin:0;padding:0;text-align:left;vertical-align:top">
+										<a href="%1\$s" style="Margin:0;background-color:#fff;border-radius:7px;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;text-decoration:none">%2\$s</a>
+									</td>
+								</tr>
+							</table>
+EOF;
+
+	protected string $buttonsSeparator = <<<EOF
+						<!--[if (gte mso 9)|(IE)]>
+						</td>
+						<td>
+						<![endif]-->
+EOF;
+
+	protected string $buttonsEnd = <<<EOF
+						<!--[if (gte mso 9)|(IE)]>
+						</td>
+					</tr>
+				</table>
+				<![endif]-->
+			</center>
+		</th>
+	</tr>
+	</tbody>
+</table>
+EOF;
+
 	public function __construct(
 		protected Defaults $themingDefaults,
 		protected IURLGenerator $urlGenerator,
@@ -603,6 +766,182 @@ EOF;
 		}
 
 		$this->plainBody .= $url . PHP_EOL;
+	}
+
+	/**
+	 * @param non-empty-list<array{text: string, url: string}> $buttons
+	 */
+	#[\Override]
+	public function addBodyButtons(array $buttons, string $label = ''): void {
+		if ($this->footerAdded) {
+			return;
+		}
+
+		$this->ensureBodyIsOpened();
+		$this->ensureBodyListClosed();
+
+		$color = $this->themingDefaults->getDefaultColorPrimary();
+		$textColor = $this->themingDefaults->getDefaultTextColorPrimary();
+
+		$htmlButtons = [];
+		foreach ($buttons as $index => $button) {
+			$url = htmlspecialchars($button['url']);
+			$text = htmlspecialchars($button['text']);
+			$htmlButtons[] = $index === 0
+				? vsprintf($this->buttonsPrimary, [$color, $url, $textColor, $text])
+				: vsprintf($this->buttonsSecondary, [$url, $text]);
+		}
+
+		$htmlLabel = $label !== '' ? vsprintf($this->buttonsLabel, [htmlspecialchars($label)]) : '';
+		$this->htmlBody .= vsprintf($this->buttonsBegin, [$htmlLabel]);
+		$this->htmlBody .= implode($this->buttonsSeparator, $htmlButtons);
+		$this->htmlBody .= $this->buttonsEnd;
+
+		if ($label !== '') {
+			$this->plainBody .= $label . PHP_EOL;
+		}
+		foreach ($buttons as $button) {
+			$this->plainBody .= $button['text'] . ': ' . $button['url'] . PHP_EOL;
+		}
+		$this->plainBody .= PHP_EOL;
+	}
+
+	#[\Override]
+	public function addBodySender(string $displayName, string $subline = ''): void {
+		if ($this->footerAdded) {
+			return;
+		}
+
+		$this->ensureBodyListClosed();
+
+		$htmlSubline = $subline !== '' ? vsprintf($this->senderSubline, [htmlspecialchars($subline)]) : '';
+		$this->htmlBody .= vsprintf($this->sender, [$this->renderInitials($displayName), htmlspecialchars($displayName), $htmlSubline]);
+
+		$this->plainBody .= $displayName;
+		if ($subline !== '') {
+			$this->plainBody .= ' (' . $subline . ')';
+		}
+		$this->plainBody .= PHP_EOL . PHP_EOL;
+	}
+
+	#[\Override]
+	public function addBodyNote(string $text, string $label = '', string $type = IEMailTemplate::NOTE_NEUTRAL): void {
+		if ($this->footerAdded) {
+			return;
+		}
+		$colors = $this->noteColors[$type] ?? $this->noteColors[IEMailTemplate::NOTE_NEUTRAL];
+
+		$this->ensureBodyIsOpened();
+		$this->ensureBodyListClosed();
+
+		$htmlText = str_replace("\n", '<br/>', htmlspecialchars($text));
+		if ($label !== '') {
+			$htmlLabel = htmlspecialchars($label);
+			$htmlText = $type === IEMailTemplate::NOTE_NEUTRAL
+				? vsprintf($this->noteLabel, [$htmlLabel]) . $htmlText
+				: '<strong>' . $htmlLabel . '</strong> ' . $htmlText;
+		}
+		$this->htmlBody .= vsprintf($this->note, [$colors['background'], $colors['border'], $htmlText]);
+
+		if ($type === IEMailTemplate::NOTE_NEUTRAL) {
+			if ($label !== '') {
+				$this->plainBody .= $label . PHP_EOL;
+			}
+			$this->plainBody .= '> ' . str_replace("\n", PHP_EOL . '> ', $text);
+		} else {
+			$this->plainBody .= $label !== '' ? $label . ' ' . $text : $text;
+		}
+		$this->plainBody .= PHP_EOL . PHP_EOL;
+	}
+
+	#[\Override]
+	public function addBodyDetails(EMailDetails $details): void {
+		if ($this->footerAdded) {
+			return;
+		}
+
+		$this->ensureBodyIsOpened();
+		$this->ensureBodyListClosed();
+
+		$leading = '';
+		$initialsName = $details->getInitialsName();
+		$dateBadge = $details->getDateBadge();
+		if ($initialsName !== null) {
+			$leading = vsprintf($this->detailsLeading, [$this->renderInitials($initialsName)]);
+		} elseif ($dateBadge !== null) {
+			$leading = vsprintf($this->detailsLeading, [vsprintf($this->detailsDateBadge, [
+				$this->themingDefaults->getDefaultColorPrimary(),
+				$this->themingDefaults->getDefaultTextColorPrimary(),
+				htmlspecialchars($dateBadge['month']),
+				htmlspecialchars($dateBadge['day']),
+			])]);
+		}
+
+		$subtitle = $details->getSubtitle();
+		$htmlSubtitle = $subtitle !== '' ? vsprintf($this->senderSubline, [htmlspecialchars($subtitle)]) : '';
+		$rows = $details->getRows();
+		$separator = 'border-bottom:1px solid #ddd;';
+
+		$this->htmlBody .= vsprintf($this->detailsBegin, [$rows !== [] ? $separator : '', $leading, htmlspecialchars($details->getTitle()), $htmlSubtitle]);
+		$this->plainBody .= $details->getTitle() . PHP_EOL;
+		if ($subtitle !== '') {
+			$this->plainBody .= $subtitle . PHP_EOL;
+		}
+
+		$linkColor = $this->themingDefaults->getDefaultColorPrimary();
+		foreach ($rows as $index => $row) {
+			$htmlParts = [];
+			$plainParts = [];
+			foreach ($row->getParts() as $part) {
+				$text = htmlspecialchars($part['text']);
+				switch ($part['type']) {
+					case EMailDetailsRow::PART_LINK:
+						$htmlParts[] = '<a class="nc-link" href="' . htmlspecialchars($part['url']) . '" style="color:' . $linkColor . '">' . $text . '</a>';
+						$plainParts[] = $part['text'] === $part['url'] ? $part['url'] : $part['text'] . ' (' . $part['url'] . ')';
+						break;
+					case EMailDetailsRow::PART_MUTED:
+						$htmlParts[] = '<span style="color:#777">' . $text . '</span>';
+						$plainParts[] = $part['text'];
+						break;
+					default:
+						$htmlParts[] = $text;
+						$plainParts[] = $part['text'];
+				}
+			}
+
+			$this->htmlBody .= vsprintf($this->detailsRow, [
+				$index > 0 ? 'border-top:1px solid #eee;' : '',
+				htmlspecialchars($row->getLabel()),
+				implode('<br>', $htmlParts),
+			]);
+
+			$plainLabel = '  ' . $row->getLabel() . ': ';
+			$indent = PHP_EOL . str_repeat(' ', mb_strlen($plainLabel));
+			$this->plainBody .= $plainLabel . implode($indent, $plainParts) . PHP_EOL;
+		}
+
+		$this->htmlBody .= $this->detailsEnd;
+		$this->plainBody .= PHP_EOL;
+	}
+
+	/**
+	 * Initials circle in the theming colors, same letters as the generated avatars
+	 */
+	protected function renderInitials(string $name): string {
+		$name = trim($name);
+		$initials = '?';
+		if ($name !== '') {
+			$initials = implode('', array_map(
+				static fn (string $namePart): string => mb_strtoupper(mb_substr(trim($namePart), 0, 1, 'UTF-8'), 'UTF-8'),
+				explode(' ', $name, 2),
+			));
+		}
+
+		return vsprintf($this->initials, [
+			$this->themingDefaults->getDefaultColorPrimary(),
+			$this->themingDefaults->getDefaultTextColorPrimary(),
+			htmlspecialchars($initials),
+		]);
 	}
 
 	/**

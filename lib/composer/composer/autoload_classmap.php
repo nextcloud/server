@@ -765,6 +765,8 @@ return array(
     'OCP\\Log\\ILogFactory' => $baseDir . '/lib/public/Log/ILogFactory.php',
     'OCP\\Log\\IWriter' => $baseDir . '/lib/public/Log/IWriter.php',
     'OCP\\Log\\RotationTrait' => $baseDir . '/lib/public/Log/RotationTrait.php',
+    'OCP\\Mail\\EMailDetails' => $baseDir . '/lib/public/Mail/EMailDetails.php',
+    'OCP\\Mail\\EMailDetailsRow' => $baseDir . '/lib/public/Mail/EMailDetailsRow.php',
     'OCP\\Mail\\Events\\BeforeMessageSent' => $baseDir . '/lib/public/Mail/Events/BeforeMessageSent.php',
     'OCP\\Mail\\Headers\\AutoSubmitted' => $baseDir . '/lib/public/Mail/Headers/AutoSubmitted.php',
     'OCP\\Mail\\IAttachment' => $baseDir . '/lib/public/Mail/IAttachment.php',
