@@ -6,15 +6,10 @@
 import type { IToken } from '../store/authtoken.ts'
 
 import { createTestingPinia } from '@pinia/testing'
-import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-
-// AuthToken.vue reads window.OC.theme.productName at module evaluation time.
-// vi.hoisted runs before imports, so this guarantees the property is set on
-// the existing jsdom window before the SFC is first parsed.
-vi.hoisted(() => {
-	(window as unknown as { OC: { theme: { productName: string } } }).OC.theme = { productName: 'Nextcloud' }
-})
+import { getByRole } from '@testing-library/vue'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { nextTick } from 'vue'
 
 // Mock @nextcloud/dialogs so the wipe action's showConfirmation call resolves
 // synchronously in tests. Hoisted so it's installed before AuthToken.vue imports.
@@ -26,8 +21,14 @@ vi.mock('@nextcloud/dialogs', () => ({
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import AuthToken from './AuthToken.vue'
 import AuthTokenDeleteDialog from './AuthTokenDeleteDialog.vue'
+import AuthTokenSetupDialog from './AuthTokenSetupDialog.vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 import { detect } from '../utils/userAgentDetect.ts'
+
+// AuthToken.vue reads window.OC.theme.productName, which the test window lacks
+;(window as unknown as { OC: { theme: { productName: string } } }).OC.theme = { productName: 'Nextcloud' }
+
+enableAutoUnmount(afterEach)
 
 function makeToken(overrides: Partial<IToken> = {}): IToken {
 	return {
@@ -42,37 +43,36 @@ function makeToken(overrides: Partial<IToken> = {}): IToken {
 	}
 }
 
-function mountAuthToken(token: IToken) {
+function mountAuthToken(token: IToken, { stubs = {}, attachTo }: { stubs?: Record<string, object | boolean>, attachTo?: HTMLElement } = {}) {
 	return mount(AuthToken, {
-		// Vue Test Utils v1 (legacy pipeline) uses propsData; v2 also accepts it
-		propsData: { token },
-		mocks: {
-			t: (_: string, text: string) => text,
+		props: { token },
+		attachTo,
+		global: {
+			stubs: {
+				NcActions: true,
+				NcActionButton: true,
+				NcActionCheckbox: true,
+				NcButton: true,
+				NcDateTime: true,
+				NcIconSvgWrapper: true,
+				NcTextField: true,
+				...stubs,
+			},
+			plugins: [createTestingPinia({
+				createSpy: vi.fn,
+				initialState: { 'auth-token': { tokens: [token] } },
+			})],
 		},
-		stubs: {
-			NcActions: true,
-			NcActionButton: true,
-			NcActionCheckbox: true,
-			NcButton: true,
-			NcDateTime: true,
-			NcIconSvgWrapper: true,
-			NcTextField: true,
-		},
-		pinia: createTestingPinia({
-			createSpy: vi.fn,
-			initialState: { 'auth-token': { tokens: [token] } },
-		}),
 	})
 }
 
 function mountDeleteDialog(token: IToken, open = true) {
 	return mount(AuthTokenDeleteDialog, {
-		propsData: { token, open },
-		mocks: {
-			t: (_: string, text: string) => text,
-		},
-		stubs: {
-			NcDialog: { template: '<div><slot /></div>' },
+		props: { token, open },
+		global: {
+			stubs: {
+				NcDialog: { template: '<div><slot /></div>' },
+			},
 		},
 	})
 }
@@ -88,7 +88,7 @@ describe('AuthToken revoke flow', () => {
 		const store = useAuthTokenStore()
 
 		;(wrapper.vm as unknown as { revoke: () => void }).revoke()
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		const dialog = wrapper.findComponent(AuthTokenDeleteDialog)
 		expect(dialog.exists()).toBe(true)
@@ -102,12 +102,12 @@ describe('AuthToken revoke flow', () => {
 		const store = useAuthTokenStore()
 
 		;(wrapper.vm as unknown as { revoke: () => void }).revoke()
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		const dialog = wrapper.findComponent(AuthTokenDeleteDialog)
 		dialog.vm.$emit('confirm')
 		dialog.vm.$emit('update:open', false)
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		expect(store.deleteToken).toHaveBeenCalledTimes(1)
 		expect(store.deleteToken).toHaveBeenCalledWith(token)
@@ -119,11 +119,11 @@ describe('AuthToken revoke flow', () => {
 		const store = useAuthTokenStore()
 
 		;(wrapper.vm as unknown as { revoke: () => void }).revoke()
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		const dialog = wrapper.findComponent(AuthTokenDeleteDialog)
 		dialog.vm.$emit('update:open', false)
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		// Dialog is v-if'd off the tree once closed
 		expect(wrapper.findComponent(AuthTokenDeleteDialog).exists()).toBe(false)
@@ -135,12 +135,115 @@ describe('AuthToken revoke flow', () => {
 		const wrapper = mountAuthToken(token)
 
 		;(wrapper.vm as unknown as { revoke: () => void }).revoke()
-		await wrapper.vm.$nextTick()
+		await nextTick()
 
 		const dialog = wrapper.findComponent(AuthTokenDeleteDialog)
 		expect(dialog.exists()).toBe(true)
 		expect(dialog.props('open')).toBe(true)
 		expect((dialog.props('token') as IToken).type).toBe(TokenType.WIPING_TOKEN)
+	})
+})
+
+describe('AuthToken rename focus', () => {
+	function mountRenamable(token: IToken) {
+		return mountAuthToken(token, {
+			attachTo: document.body,
+			stubs: {
+				NcActions: { template: '<div><button>Device settings</button><slot /></div>' },
+				NcTextField: { template: '<input>', methods: { select() {} } },
+			},
+		})
+	}
+
+	function actionsButton(wrapper: ReturnType<typeof mountRenamable>) {
+		return getByRole(wrapper.element, 'button', { name: 'Device settings' })
+	}
+
+	it('returns focus to the actions button after cancelling with Escape', async () => {
+		const wrapper = mountRenamable(makeToken())
+
+		;(wrapper.vm as unknown as { startRename: () => void }).startRename()
+		await nextTick()
+		await wrapper.find('input').trigger('keyup', { key: 'Escape' })
+		await nextTick()
+
+		expect(wrapper.find('form').exists()).toBe(false)
+		expect(actionsButton(wrapper)).toHaveFocus()
+	})
+
+	it('returns focus to the actions button after saving the new name', async () => {
+		const token = makeToken()
+		const wrapper = mountRenamable(token)
+		const store = useAuthTokenStore()
+
+		;(wrapper.vm as unknown as { startRename: () => void }).startRename()
+		await nextTick()
+		await wrapper.find('form').trigger('submit')
+		await nextTick()
+
+		expect(store.renameToken).toHaveBeenCalledWith(token, token.name)
+		expect(actionsButton(wrapper)).toHaveFocus()
+	})
+
+	it('returns focus to the actions button once the password confirmation closes', async () => {
+		const token = makeToken()
+		const wrapper = mountRenamable(token)
+		const store = useAuthTokenStore()
+		const dialogField = document.createElement('input')
+		document.body.appendChild(dialogField)
+		const dialog = Promise.withResolvers<void>()
+		vi.mocked(store.renameToken).mockImplementation(async () => {
+			await new Promise((resolve) => setTimeout(resolve))
+			dialogField.focus()
+			await dialog.promise
+			dialogField.remove()
+			return true
+		})
+
+		;(wrapper.vm as unknown as { startRename: () => void }).startRename()
+		await nextTick()
+		await wrapper.find('form').trigger('submit')
+		await vi.waitFor(() => expect(dialogField).toHaveFocus(), { interval: 1 })
+		dialog.resolve()
+
+		await vi.waitFor(() => expect(actionsButton(wrapper)).toHaveFocus(), { interval: 1 })
+	})
+})
+
+describe('AuthToken action labels', () => {
+	it('labels each action with its own text', () => {
+		const wrapper = mountAuthToken(makeToken(), {
+			stubs: {
+				NcActions: { template: '<ul><slot /></ul>' },
+				NcActionButton: false,
+				NcButton: false,
+			},
+		})
+
+		const labels = wrapper.findAll('button').map((button) => button.text())
+		expect(labels).toEqual(expect.arrayContaining(['Rename', 'Revoke', 'Wipe device']))
+	})
+})
+
+describe('AuthTokenSetupDialog QR code', () => {
+	// The credentials are shown as text, so the QR code is redundant for screen readers
+	it('hides the QR code from assistive technology', async () => {
+		const wrapper = mount(AuthTokenSetupDialog, {
+			props: { token: { token: 'app-password', loginName: 'admin', deviceToken: makeToken() } },
+			global: {
+				stubs: {
+					NcDialog: { template: '<div><slot /></div>' },
+					NcIconSvgWrapper: true,
+					// jsdom has no canvas 2D context to draw the QR code on
+					VueQrcode: { template: '<canvas />' },
+				},
+			},
+		})
+
+		getByRole(wrapper.element, 'button', { name: 'Show QR code for mobile apps' }).click()
+		await nextTick()
+
+		expect(wrapper.find('canvas').element).toHaveAttribute('aria-hidden', 'true')
 	})
 })
 

@@ -3,6 +3,30 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import AuthTokenList from './AuthTokenList.vue'
+import AuthTokenRevokeAllDialog from './AuthTokenRevokeAllDialog.vue'
+import AuthTokenSetup from './AuthTokenSetup.vue'
+import { useAuthTokenStore } from '../store/authtoken.ts'
+
+const authTokenStore = useAuthTokenStore()
+
+const canCreateToken = loadState<boolean>('settings', 'can_create_app_token')
+const revokeAllDialogOpen = ref(false)
+
+/**
+ * Revoke every token except the current session
+ */
+function revokeAllOthers() {
+	authTokenStore.deleteAllOtherTokens()
+}
+</script>
+
 <template>
 	<NcSettingsSection
 		:name="t('settings', 'Devices & sessions', {}, undefined, { sanitize: false })"
@@ -19,55 +43,12 @@
 		</div>
 		<AuthTokenRevokeAllDialog
 			v-if="revokeAllDialogOpen"
+			v-model:open="revokeAllDialogOpen"
 			:count="authTokenStore.revocableCount"
-			:wipe-pending-count="authTokenStore.wipePendingCount"
-			:open.sync="revokeAllDialogOpen"
+			:wipePendingCount="authTokenStore.wipePendingCount"
 			@confirm="revokeAllOthers" />
 	</NcSettingsSection>
 </template>
-
-<script lang="ts">
-import { loadState } from '@nextcloud/initial-state'
-import { translate as t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
-import AuthTokenList from './AuthTokenList.vue'
-import AuthTokenRevokeAllDialog from './AuthTokenRevokeAllDialog.vue'
-import AuthTokenSetup from './AuthTokenSetup.vue'
-import { useAuthTokenStore } from '../store/authtoken.ts'
-
-export default defineComponent({
-	name: 'AuthTokenSection',
-	components: {
-		AuthTokenList,
-		AuthTokenRevokeAllDialog,
-		AuthTokenSetup,
-		NcButton,
-		NcSettingsSection,
-	},
-
-	setup() {
-		const authTokenStore = useAuthTokenStore()
-		return { authTokenStore }
-	},
-
-	data() {
-		return {
-			canCreateToken: loadState('settings', 'can_create_app_token'),
-			revokeAllDialogOpen: false,
-		}
-	},
-
-	methods: {
-		t,
-
-		revokeAllOthers() {
-			this.authTokenStore.deleteAllOtherTokens()
-		},
-	},
-})
-</script>
 
 <style lang="scss" scoped>
 .auth-token-section__revoke-all {

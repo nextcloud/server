@@ -7,7 +7,7 @@
 import type { IDialogButton } from '@nextcloud/dialogs'
 import type { IToken } from '../store/authtoken.ts'
 
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'

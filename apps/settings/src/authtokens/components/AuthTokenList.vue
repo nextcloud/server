@@ -3,6 +3,19 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
+import AuthToken from './AuthToken.vue'
+import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
+
+const authTokenStore = useAuthTokenStore()
+
+const sortedTokens = computed(() => [...authTokenStore.tokens]
+	.filter((t) => t.type !== TokenType.ONETIME_TOKEN)
+	.sort((t1, t2) => t2.lastActivity - t1.lastActivity))
+</script>
+
 <template>
 	<table id="app-tokens-table" class="token-list">
 		<thead>
@@ -28,37 +41,6 @@
 		</tbody>
 	</table>
 </template>
-
-<script lang="ts">
-import { translate as t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
-import AuthToken from './AuthToken.vue'
-import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
-
-export default defineComponent({
-	name: 'AuthTokenList',
-	components: {
-		AuthToken,
-	},
-
-	setup() {
-		const authTokenStore = useAuthTokenStore()
-		return { authTokenStore }
-	},
-
-	computed: {
-		sortedTokens() {
-			return [...this.authTokenStore.tokens]
-				.filter((t) => t.type !== TokenType.ONETIME_TOKEN)
-				.sort((t1, t2) => t2.lastActivity - t1.lastActivity)
-		},
-	},
-
-	methods: {
-		t,
-	},
-})
-</script>
 
 <style lang="scss" scoped>
 .token-list {

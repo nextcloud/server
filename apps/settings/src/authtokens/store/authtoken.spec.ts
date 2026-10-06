@@ -38,7 +38,7 @@ describe('store:authtoken addToken', () => {
 		const response = await store.addToken('Laptop')
 
 		expect(response.deviceToken).toBe(deviceToken)
-		expect(store.tokens).toContain(deviceToken)
+		expect(store.tokens).toContainEqual(deviceToken)
 	})
 
 	it('lets a failed request reach the caller so it can be reported', async () => {
