@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
 import { describe, expect, it, vi } from 'vitest'
+import Vue from 'vue'
 import Share from './Share.ts'
 
 vi.mock('../services/SharingService.ts', () => ({
