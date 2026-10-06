@@ -2,6 +2,75 @@
  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
+import AppIcon from '../AppIcon.vue'
+
+const props = withDefaults(defineProps<{
+	title: string
+	thumbnailUrl?: string | null
+	subline?: string | null
+	resourceUrl?: string | null
+	icon?: string
+	rounded?: boolean
+	query?: string
+	/**
+	 * DOM id set on the option element (the <li>). The combobox input points
+	 * aria-activedescendant at this id to name the active row while focus stays
+	 * in the input.
+	 */
+	elementId?: string
+	/**
+	 * Whether this row is the selected result. Highlights it (via NcListItem's
+	 * active state) so the auto-selected first result and arrow navigation are
+	 * visible while the search input keeps focus.
+	 */
+	active?: boolean
+}>(), {
+	thumbnailUrl: null,
+	subline: null,
+	resourceUrl: null,
+	icon: '',
+	rounded: false,
+	query: '',
+	elementId: undefined,
+	active: false,
+})
+
+const thumbnailHasError = ref(false)
+
+/** A usable thumbnail image (a preview/avatar), not errored. */
+const hasThumbnail = computed(() => isValidIconOrPreviewUrl(props.thumbnailUrl) && !thumbnailHasError.value)
+
+/** The icon is a real URL we can put in an <img>, not a legacy CSS class string. */
+const iconIsUrl = computed(() => isValidIconOrPreviewUrl(props.icon))
+
+/**
+ * App-style icon (bright glyph on a primary circle, like the app menu). Providers
+ * flag it by marking the entry rounded with an icon URL and no thumbnail.
+ */
+const isAppIcon = computed(() => props.rounded && iconIsUrl.value && !hasThumbnail.value)
+
+watch(() => props.thumbnailUrl, () => {
+	thumbnailHasError.value = false
+})
+
+/**
+ * @param url - The url to check
+ */
+function isValidIconOrPreviewUrl(url: string | null): boolean {
+	return !!url && (/^https?:\/\//.test(url) || url.startsWith('/'))
+}
+
+/**
+ * Fall back to the icon if the thumbnail cannot be loaded.
+ */
+function thumbnailErrorHandler() {
+	thumbnailHasError.value = true
+}
+</script>
+
 <template>
 	<NcListItem
 		:id="elementId"
@@ -9,7 +78,7 @@
 		:name="title"
 		:bold="false"
 		:active="active"
-		:href="resourceUrl"
+		:href="resourceUrl ?? undefined"
 		target="_self">
 		<template #icon>
 			<AppIcon
@@ -27,7 +96,7 @@
 				}">
 				<img
 					v-if="hasThumbnail"
-					:src="thumbnailUrl"
+					:src="thumbnailUrl ?? undefined"
 					@error="thumbnailErrorHandler">
 				<img
 					v-else-if="iconIsUrl"
@@ -42,118 +111,6 @@
 		</template>
 	</NcListItem>
 </template>
-
-<script>
-import NcListItem from '@nextcloud/vue/components/NcListItem'
-import AppIcon from '../AppIcon.vue'
-
-export default {
-	name: 'SearchResult',
-	components: {
-		AppIcon,
-		NcListItem,
-	},
-
-	props: {
-		thumbnailUrl: {
-			type: String,
-			default: null,
-		},
-
-		title: {
-			type: String,
-			required: true,
-		},
-
-		subline: {
-			type: String,
-			default: null,
-		},
-
-		resourceUrl: {
-			type: String,
-			default: null,
-		},
-
-		icon: {
-			type: String,
-			default: '',
-		},
-
-		rounded: {
-			type: Boolean,
-			default: false,
-		},
-
-		query: {
-			type: String,
-			default: '',
-		},
-
-		/**
-		 * DOM id set on the option element (the <li>). The combobox input points
-		 * aria-activedescendant at this id to name the active row while focus stays
-		 * in the input.
-		 */
-		elementId: {
-			type: String,
-			default: undefined,
-		},
-
-		/**
-		 * Whether this row is the selected result. Highlights it (via NcListItem's
-		 * active state) so the auto-selected first result and arrow navigation are
-		 * visible while the search input keeps focus.
-		 */
-		active: {
-			type: Boolean,
-			default: false,
-		},
-	},
-
-	data() {
-		return {
-			thumbnailHasError: false,
-		}
-	},
-
-	computed: {
-		/** A usable thumbnail image (a preview/avatar), not errored. */
-		hasThumbnail() {
-			return this.isValidIconOrPreviewUrl(this.thumbnailUrl) && !this.thumbnailHasError
-		},
-
-		/** The icon is a real URL we can put in an <img>, not a legacy CSS class string. */
-		iconIsUrl() {
-			return this.isValidIconOrPreviewUrl(this.icon)
-		},
-
-		/**
-		 * App-style icon (bright glyph on a primary circle, like the app menu). Providers
-		 * flag it by marking the entry rounded with an icon URL and no thumbnail.
-		 */
-		isAppIcon() {
-			return this.rounded && this.iconIsUrl && !this.hasThumbnail
-		},
-	},
-
-	watch: {
-		thumbnailUrl() {
-			this.thumbnailHasError = false
-		},
-	},
-
-	methods: {
-		isValidIconOrPreviewUrl(url) {
-			return /^https?:\/\//.test(url) || url.startsWith('/')
-		},
-
-		thumbnailErrorHandler() {
-			this.thumbnailHasError = true
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 .result-item {

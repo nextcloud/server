@@ -3,16 +3,59 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { ContactsMenuEntry } from '@nextcloud/vue/functions/contactsMenu'
+
+import { getEnabledContactsMenuActions } from '@nextcloud/vue/functions/contactsMenu'
+import { computed } from 'vue'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionText from '@nextcloud/vue/components/NcActionText'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+
+interface ContactAction {
+	title: string
+	icon: string
+	hyperlink: string
+}
+
+/** A contact as returned by the contacts menu API */
+type Contact = Omit<ContactsMenuEntry, 'topAction' | 'actions'> & {
+	topAction: ContactAction | null
+	actions: ContactAction[]
+}
+
+const props = defineProps<{
+	contact: Contact
+}>()
+
+const actions = computed(() => props.contact.topAction
+	? [props.contact.topAction, ...props.contact.actions]
+	: props.contact.actions)
+
+const jsActions = computed(() => getEnabledContactsMenuActions(props.contact))
+
+const preloadedUserStatus = computed(() => props.contact.status
+	? {
+			status: props.contact.status,
+			message: props.contact.statusMessage,
+			icon: props.contact.statusIcon,
+		}
+	: undefined)
+</script>
+
 <template>
 	<li class="contact">
 		<NcAvatar
 			class="contact__avatar"
-			:user="contact.isUser ? contact.uid : undefined"
-			:is-no-user="!contact.isUser"
-			:disable-menu="true"
-			:display-name="contact.fullName"
-			:url="contact.isUser ? undefined : contact.avatar"
-			:preloaded-user-status="preloadedUserStatus" />
+			:user="contact.isUser ? contact.uid ?? undefined : undefined"
+			:isNoUser="!contact.isUser"
+			disableMenu
+			:displayName="contact.fullName"
+			:url="contact.isUser ? undefined : contact.avatar ?? undefined"
+			:preloadedUserStatus="preloadedUserStatus" />
 		<a
 			class="contact__body"
 			:href="contact.profileUrl || contact.topAction?.hyperlink">
@@ -24,10 +67,9 @@
 		<NcActions
 			v-if="actions.length"
 			:inline="contact.topAction ? 1 : 0">
-			<template v-for="(action, idx) in actions">
+			<template v-for="(action, idx) in actions" :key="idx">
 				<NcActionLink
 					v-if="action.hyperlink !== '#'"
-					:key="`${idx}-link`"
 					:href="action.hyperlink"
 					class="other-actions">
 					<template #icon>
@@ -35,7 +77,7 @@
 					</template>
 					{{ action.title }}
 				</NcActionLink>
-				<NcActionText v-else :key="`${idx}-text`" class="other-actions">
+				<NcActionText v-else class="other-actions">
 					<template #icon>
 						<img aria-hidden="true" class="contact__action__icon" :src="action.icon">
 					</template>
@@ -45,7 +87,7 @@
 			<NcActionButton
 				v-for="action in jsActions"
 				:key="action.id"
-				:close-after-click="true"
+				closeAfterClick
 				class="other-actions"
 				@click="action.callback(contact)">
 				<template #icon>
@@ -56,59 +98,6 @@
 		</NcActions>
 	</li>
 </template>
-
-<script>
-import { getEnabledContactsMenuActions } from '@nextcloud/vue/functions/contactsMenu'
-import NcActionButton from '@nextcloud/vue/components/NcActionButton'
-import NcActionLink from '@nextcloud/vue/components/NcActionLink'
-import NcActions from '@nextcloud/vue/components/NcActions'
-import NcActionText from '@nextcloud/vue/components/NcActionText'
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
-
-export default {
-	name: 'ContactMenuEntry',
-	components: {
-		NcActionLink,
-		NcActionText,
-		NcActionButton,
-		NcActions,
-		NcAvatar,
-		NcIconSvgWrapper,
-	},
-
-	props: {
-		contact: {
-			required: true,
-			type: Object,
-		},
-	},
-
-	computed: {
-		actions() {
-			if (this.contact.topAction) {
-				return [this.contact.topAction, ...this.contact.actions]
-			}
-			return this.contact.actions
-		},
-
-		jsActions() {
-			return getEnabledContactsMenuActions(this.contact)
-		},
-
-		preloadedUserStatus() {
-			if (this.contact.status) {
-				return {
-					status: this.contact.status,
-					message: this.contact.statusMessage,
-					icon: this.contact.statusIcon,
-				}
-			}
-			return undefined
-		},
-	},
-}
-</script>
 
 <style scoped lang="scss">
 .contact {

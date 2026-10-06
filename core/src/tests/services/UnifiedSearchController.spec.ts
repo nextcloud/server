@@ -10,7 +10,7 @@ const service = vi.hoisted(() => ({
 	getProviders: vi.fn(),
 	getContacts: vi.fn(),
 }))
-vi.mock('../../services/UnifiedSearchService.js', () => service)
+vi.mock('../../services/UnifiedSearchService.ts', () => service)
 
 /**
  * Deferred stand-in for a provider's `search()` return value. Resolve it to

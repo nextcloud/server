@@ -473,21 +473,21 @@ describe('core: AppMenu', () => {
 			expect(wrapper.vm.opened).toBe(false)
 		})
 
-		it('cancels a pending hover-open when it is destroyed', async () => {
+		it('cancels a pending hover-open when it is unmounted', async () => {
 			const wrapper = mount(AppMenu, { attachTo: document.body })
 			await wrapper.get('.app-menu__trigger').trigger('mouseenter')
 
-			wrapper.destroy()
+			wrapper.unmount()
 			vi.advanceTimersByTime(500)
 
 			expect(wrapper.vm.opened).toBe(false)
 		})
 	})
 
-	it('stops listening for app list refreshes when it is destroyed', () => {
+	it('stops listening for app list refreshes when it is unmounted', () => {
 		const wrapper = mount(AppMenu, { attachTo: document.body })
 		const [[, handler]] = eventBus.subscribe.mock.calls
-		wrapper.destroy()
+		wrapper.unmount()
 
 		expect(eventBus.unsubscribe).toHaveBeenCalledWith('nextcloud:app-menu.refresh', handler)
 		expect(eventBus.__handlers['nextcloud:app-menu.refresh']).toEqual([])

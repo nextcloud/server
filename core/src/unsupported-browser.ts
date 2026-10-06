@@ -4,18 +4,13 @@
  */
 
 import { generateUrl } from '@nextcloud/router'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import UnsupportedBrowser from './views/UnsupportedBrowser.vue'
-import browserStorage from './services/BrowserStorageService.js'
+import browserStorage from './services/BrowserStorageService.ts'
 import { browserStorageKey } from './utils/RedirectUnsupportedBrowsers.js'
 
-// If the ignore token is set, redirect
 if (browserStorage.getItem(browserStorageKey) === 'true') {
-	window.location = generateUrl('/')
+	window.location.href = generateUrl('/')
+} else {
+	createApp(UnsupportedBrowser).mount('#unsupported-browser')
 }
-
-export default new Vue({
-	el: '#unsupported-browser',
-	name: 'UnsupportedBrowserRoot',
-	render: (h) => h(UnsupportedBrowser),
-})

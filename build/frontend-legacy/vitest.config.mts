@@ -48,7 +48,7 @@ export default defineConfig({
 		},
 	},
 	test: {
-		include: ['./{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+		include: ['./apps/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
 		environment: 'jsdom',
 		environmentOptions: {
 			jsdom: {
@@ -56,8 +56,8 @@ export default defineConfig({
 			},
 		},
 		coverage: {
-			include: ['./apps/*/src/**', 'core/src/**'],
-			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
+			include: ['./apps/*/src/**'],
+			exclude: ['**.spec.*', '**.test.*', '**.cy.*'],
 			reporter: ['lcov', 'text'],
 			reportsDirectory: resolve(import.meta.dirname, '../../coverage/legacy'),
 		},

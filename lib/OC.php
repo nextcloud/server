@@ -316,7 +316,9 @@ class OC {
 		Util::addTranslations('core');
 		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
+		Util::addStyle('core', 'main');
 		Util::addScript('core', 'update');
+		Util::addStyle('core', 'update');
 
 		$initialState = Server::get(IInitialStateService::class);
 		$serverVersion = Server::get(\OCP\ServerVersion::class);

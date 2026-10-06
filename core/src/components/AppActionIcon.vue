@@ -4,8 +4,9 @@
 -->
 
 <script setup lang="ts">
+import { mdiPlus } from '@mdi/js'
 import { computed } from 'vue'
-import IconPlus from 'vue-material-design-icons/Plus.vue'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 const props = defineProps<{
 	/** URL of the icon, painted as-is so the colors of the action are kept. */
@@ -39,7 +40,7 @@ const indicatorStyle = computed(() => ({
 			class="app-action-icon__indicator"
 			:style="indicatorStyle"
 			aria-hidden="true">
-			<IconPlus />
+			<NcIconSvgWrapper inline :path="mdiPlus" />
 		</span>
 	</span>
 </template>
@@ -69,14 +70,16 @@ const indicatorStyle = computed(() => ({
 	}
 
 	// Slotted icon components ship their own SVG dimensions.
-	:deep(.material-design-icon) {
+	:deep(.icon-vue) {
 		width: var(--app-action-icon-glyph-size);
 		height: var(--app-action-icon-glyph-size);
+	}
 
-		svg {
-			width: 100%;
-			height: 100%;
-		}
+	:deep(.icon-vue svg) {
+		width: 100%;
+		height: 100%;
+		max-width: none;
+		max-height: none;
 	}
 
 	&__indicator {
@@ -98,7 +101,7 @@ const indicatorStyle = computed(() => ({
 		// of it cannot follow the theme text color.
 		color: #fff;
 
-		:deep(svg) {
+		:deep(.icon-vue) {
 			width: 100%;
 			height: 100%;
 		}

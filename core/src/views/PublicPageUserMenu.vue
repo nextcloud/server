@@ -2,19 +2,61 @@
  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
+<script setup lang="ts">
+import type { NextcloudUser } from '@nextcloud/auth'
+
+import { mdiAccountOutline } from '@mdi/js'
+import { getGuestUser } from '@nextcloud/auth'
+import { showGuestUserPrompt } from '@nextcloud/dialogs'
+import { subscribe } from '@nextcloud/event-bus'
+import { t } from '@nextcloud/l10n'
+import { computed, onMounted, ref } from 'vue'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
+
+import '@nextcloud/dialogs/style.css'
+
+const avatarDescription = t('core', 'User menu')
+
+const displayName = ref(getGuestUser().displayName)
+
+const privacyNotice = computed(() => displayName.value
+	? t('core', 'Your guest name: {user}', { user: displayName.value })
+	: t('core', 'You are currently not identified.'))
+
+onMounted(() => {
+	subscribe('user:info:changed', (user: NextcloudUser) => {
+		displayName.value = user.displayName || ''
+	})
+})
+
+/**
+ * Ask the guest for the name to be shown to others.
+ */
+function setNickname() {
+	showGuestUserPrompt({
+		nickname: displayName.value,
+		cancellable: true,
+	})
+}
+</script>
+
 <template>
 	<NcHeaderMenu
 		id="public-page-user-menu"
 		class="public-page-user-menu"
-		is-nav
+		isNav
 		:aria-label="t('core', 'User menu')"
 		:description="avatarDescription">
 		<template #trigger>
 			<NcAvatar
 				class="public-page-user-menu__avatar"
-				disable-menu
-				disable-tooltip
-				is-guest
+				disableMenu
+				disableTooltip
+				isGuest
 				:user="displayName || '?'" />
 		</template>
 
@@ -32,79 +74,12 @@
 				href="#"
 				@click.prevent.stop="setNickname">
 				<template #icon>
-					<IconAccount />
+					<NcIconSvgWrapper :path="mdiAccountOutline" />
 				</template>
 			</AccountMenuEntry>
 		</ul>
 	</NcHeaderMenu>
 </template>
-
-<script lang="ts">
-import type { NextcloudUser } from '@nextcloud/auth'
-
-import { getGuestUser } from '@nextcloud/auth'
-import { showGuestUserPrompt } from '@nextcloud/dialogs'
-import { subscribe } from '@nextcloud/event-bus'
-import { t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import IconAccount from 'vue-material-design-icons/AccountOutline.vue'
-import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
-
-import '@nextcloud/dialogs/style.css'
-
-export default defineComponent({
-	name: 'PublicPageUserMenu',
-	components: {
-		AccountMenuEntry,
-		IconAccount,
-		NcAvatar,
-		NcHeaderMenu,
-		NcNoteCard,
-	},
-
-	setup() {
-		return {
-			t,
-		}
-	},
-
-	data() {
-		return {
-			displayName: getGuestUser().displayName,
-		}
-	},
-
-	computed: {
-		avatarDescription(): string {
-			return t('core', 'User menu')
-		},
-
-		privacyNotice(): string {
-			return this.displayName
-				? t('core', 'Your guest name: {user}', { user: this.displayName })
-				: t('core', 'You are currently not identified.')
-		},
-	},
-
-	mounted() {
-		subscribe('user:info:changed', (user: NextcloudUser) => {
-			this.displayName = user.displayName || ''
-		})
-	},
-
-	methods: {
-		setNickname() {
-			showGuestUserPrompt({
-				nickname: this.displayName,
-				cancellable: true,
-			})
-		},
-	},
-})
-</script>
 
 <style scoped lang="scss">
 .public-page-user-menu {

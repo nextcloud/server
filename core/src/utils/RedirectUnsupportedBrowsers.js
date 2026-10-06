@@ -4,8 +4,8 @@
  */
 
 import { generateUrl } from '@nextcloud/router'
-import { supportedBrowsersRegExp } from '../services/BrowsersListService.js'
-import browserStorage from '../services/BrowserStorageService.js'
+import { supportedBrowsersRegExp } from '../services/BrowsersListService.ts'
+import browserStorage from '../services/BrowserStorageService.ts'
 import { logger } from './logger.ts'
 
 export const browserStorageKey = 'unsupported-browser-ignore'

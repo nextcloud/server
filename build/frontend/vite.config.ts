@@ -10,13 +10,30 @@ const modules = {
 	appstore: {
 		main: resolve(import.meta.dirname, 'apps/appstore/src', 'main.ts'),
 	},
-	core: {
-		'viewer-init': resolve(import.meta.dirname, '../../core/src', 'viewer-init.ts'),
-	},
 	comments: {
 		'comments-app': resolve(import.meta.dirname, 'apps/comments/src', 'comments-app.ts'),
 		'comments-tab': resolve(import.meta.dirname, 'apps/comments/src', 'files-sidebar.ts'),
 		init: resolve(import.meta.dirname, 'apps/comments/src', 'init.ts'),
+	},
+	core: {
+		'ajax-cron': resolve(import.meta.dirname, 'core/src', 'ajax-cron.ts'),
+		install: resolve(import.meta.dirname, 'core/src', 'install.ts'),
+		'legacy-unified-search': resolve(import.meta.dirname, 'core/src', 'legacy-unified-search.ts'),
+		login: resolve(import.meta.dirname, 'core/src', 'login.ts'),
+		login_flow: resolve(import.meta.dirname, 'core/src', 'login-flow.ts'),
+		main: resolve(import.meta.dirname, 'core/src', 'main.ts'),
+		maintenance: resolve(import.meta.dirname, 'core/src', 'maintenance.ts'),
+		public: resolve(import.meta.dirname, 'core/src', 'public.ts'),
+		'public-page-menu': resolve(import.meta.dirname, 'core/src', 'public-page-menu.ts'),
+		'public-page-user-menu': resolve(import.meta.dirname, 'core/src', 'public-page-user-menu.ts'),
+		public_share_auth: resolve(import.meta.dirname, 'core/src', 'public-share-auth.ts'),
+		recommendedapps: resolve(import.meta.dirname, 'core/src', 'recommendedapps.ts'),
+		'twofactor-request-token': resolve(import.meta.dirname, 'core/src', 'twofactor-request-token.ts'),
+		'unified-search': resolve(import.meta.dirname, 'core/src', 'unified-search.ts'),
+		'unsupported-browser': resolve(import.meta.dirname, 'core/src', 'unsupported-browser.ts'),
+		'unsupported-browser-redirect': resolve(import.meta.dirname, 'core/src', 'unsupported-browser-redirect.ts'),
+		update: resolve(import.meta.dirname, 'core/src', 'update.ts'),
+		'viewer-init': resolve(import.meta.dirname, 'core/src', 'viewer-init.ts'),
 	},
 	dashboard: {
 		main: resolve(import.meta.dirname, 'apps/dashboard/src', 'main.js'),

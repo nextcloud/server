@@ -2,14 +2,45 @@
  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import { mdiCalendarRange } from '@mdi/js'
+import { t } from '@nextcloud/l10n'
+import { ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcModal from '@nextcloud/vue/components/NcModal'
+
+/** The picked range, either end may still be missing */
+export interface DateRange {
+	startFrom: Date | null
+	endAt: Date | null
+}
+
+const isOpen = defineModel<boolean>('isOpen', { required: true })
+
+const emit = defineEmits<{
+	setCustomDateRange: [range: DateRange]
+}>()
+
+const dateFilter = ref<DateRange>({ startFrom: null, endAt: null })
+
+/**
+ * Search in the picked range.
+ */
+function applyCustomRange() {
+	emit('setCustomDateRange', dateFilter.value)
+	isOpen.value = false
+}
+</script>
+
 <template>
 	<NcModal
-		v-if="isModalOpen"
+		v-if="isOpen"
 		id="unified-search"
+		v-model:show="isOpen"
 		:name="t('core', 'Custom date range')"
-		:show.sync="isModalOpen"
-		size="small"
-		@close="closeModal">
+		size="small">
 		<!-- Custom date range -->
 		<div class="unified-search-custom-date-modal">
 			<h1>{{ t('core', 'Custom date range') }}</h1>
@@ -29,75 +60,13 @@
 				<NcButton @click="applyCustomRange">
 					{{ t('core', 'Search in date range') }}
 					<template #icon>
-						<CalendarRangeIcon :size="20" />
+						<NcIconSvgWrapper :path="mdiCalendarRange" />
 					</template>
 				</NcButton>
 			</div>
 		</div>
 	</NcModal>
 </template>
-
-<script>
-import { t } from '@nextcloud/l10n'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePickerNative'
-import NcModal from '@nextcloud/vue/components/NcModal'
-import CalendarRangeIcon from 'vue-material-design-icons/CalendarRange.vue'
-
-export default {
-	name: 'CustomDateRangeModal',
-	components: {
-		NcButton,
-		NcModal,
-		CalendarRangeIcon,
-		NcDateTimePicker,
-	},
-
-	props: {
-		isOpen: {
-			type: Boolean,
-			required: true,
-		},
-	},
-
-	emits: ['update:is-open', 'set:custom-date-range'],
-
-	setup() {
-		return {
-			t,
-		}
-	},
-
-	data() {
-		return {
-			dateFilter: { startFrom: null, endAt: null },
-		}
-	},
-
-	computed: {
-		isModalOpen: {
-			get() {
-				return this.isOpen
-			},
-
-			set(value) {
-				this.$emit('update:is-open', value)
-			},
-		},
-	},
-
-	methods: {
-		closeModal() {
-			this.isModalOpen = false
-		},
-
-		applyCustomRange() {
-			this.$emit('set:custom-date-range', this.dateFilter)
-			this.closeModal()
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 .unified-search-custom-date-modal {

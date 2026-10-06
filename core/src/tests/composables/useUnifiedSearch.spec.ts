@@ -11,7 +11,7 @@ const service = vi.hoisted(() => ({
 	getProviders: vi.fn(),
 	getContacts: vi.fn(),
 }))
-vi.mock('../../services/UnifiedSearchService.js', () => service)
+vi.mock('../../services/UnifiedSearchService.ts', () => service)
 
 import { useUnifiedSearch } from '../../composables/useUnifiedSearch.ts'
 
@@ -149,7 +149,7 @@ describe('useUnifiedSearch', () => {
 		const { wrapper, api } = mountComposable()
 
 		api.search('query', ['files'])
-		wrapper.destroy()
+		wrapper.unmount()
 
 		// Unmount must dispose the controller, which cancels the pending request.
 		expect(providers.files.cancel).toHaveBeenCalledOnce()

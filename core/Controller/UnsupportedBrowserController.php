@@ -34,6 +34,7 @@ class UnsupportedBrowserController extends Controller {
 	public function index(): Response {
 		Util::addTranslations('core');
 		Util::addScript('core', 'unsupported-browser');
+		Util::addStyle('core', 'unsupported-browser');
 		Util::addStyle('core', 'icons');
 
 		// not using RENDER_AS_ERROR as we need the JSConfigHelper for url generation

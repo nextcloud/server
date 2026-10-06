@@ -3,36 +3,29 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getCSPNonce } from '@nextcloud/auth'
 import Axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
-import { initCore } from './init.js'
+import { initCore } from './init.ts'
 import OC from './OC/index.js'
 
-import 'core-js/stable/index.js'
-import 'regenerator-runtime/runtime.js'
 import './globals.js'
-
-__webpack_nonce__ = getCSPNonce()
+// Legacy Vue 2 code observes the Vue 3 nodes of the files store and leaves
+// reactive proxies in their data, which the native structuredClone rejects
+// when a node is cloned. core-js' implementation clones them like plain data.
+import 'core-js/stable/structured-clone.js'
 
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()
-
-	// fallback to hashchange when no history support
-	if (window.history.pushState) {
-		window.onpopstate = OC.Util.History._onPopState.bind(OC.Util.History)
-	} else {
-		window.onhashchange = OC.Util.History._onPopState.bind(OC.Util.History)
-	}
+	window.onpopstate = OC.Util.History._onPopState.bind(OC.Util.History)
 })
 
 // Fix error "CSRF check failed"
 document.addEventListener('DOMContentLoaded', function() {
-	const form = document.getElementById('password-input-form')
+	const form = document.getElementById('password-input-form') as HTMLFormElement | null
 	if (form) {
 		form.addEventListener('submit', async function(event) {
 			event.preventDefault()
-			const requestToken = document.getElementById('requesttoken')
+			const requestToken = document.getElementById('requesttoken') as HTMLInputElement | null
 			if (requestToken) {
 				const url = generateUrl('/csrftoken')
 				const resp = await Axios.get(url)
