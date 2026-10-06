@@ -541,6 +541,13 @@ export default {
 		},
 
 		/**
+		 * Source name exposed for a received share that was renamed.
+		 */
+		originalDisplayName() {
+			return this.fileInfo?.attributes?.['original-displayname'] || ''
+		},
+
+		/**
 		 * Process the sharedWithMe share data
 		 * and init sharedWithMe
 		 *
@@ -550,7 +557,8 @@ export default {
 		processSharedWithMe({ data }) {
 			if (data.ocs && data.ocs.data && data.ocs.data[0]) {
 				const share = new Share(data)
-				const title = shareWithTitle(share)
+				const originalDisplayName = share.originalDisplayName || this.originalDisplayName()
+				const title = shareWithTitle(share, originalDisplayName)
 				const displayName = share.ownerDisplayName
 				const user = share.owner
 
@@ -573,13 +581,10 @@ export default {
 				// Fallback to compare owner and current user.
 				this.sharedWithMe = {
 					displayName: this.fileInfo.shareOwner,
-					title: t(
-						'files_sharing',
-						'Shared with you by {owner}',
-						{ owner: this.fileInfo.shareOwner },
-						undefined,
-						{ escape: false },
-					),
+					title: shareWithTitle({
+						type: ShareType.User,
+						ownerDisplayName: this.fileInfo.shareOwner,
+					}, this.originalDisplayName()),
 
 					user: this.fileInfo.shareOwnerId,
 				}

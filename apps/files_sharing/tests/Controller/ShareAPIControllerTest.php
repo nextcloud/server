@@ -722,6 +722,7 @@ class ShareAPIControllerTest extends TestCase {
 			'item_permissions' => 4,
 			'is-mount-root' => false,
 			'mount-type' => '',
+			'original_displayname' => null,
 		];
 		$data['File shared with user'] = [$share, $expected, true];
 
@@ -780,6 +781,7 @@ class ShareAPIControllerTest extends TestCase {
 			'item_permissions' => 4,
 			'is-mount-root' => false,
 			'mount-type' => '',
+			'original_displayname' => null,
 		];
 		$data['Folder shared with group'] = [$share, $expected, true];
 
@@ -842,6 +844,7 @@ class ShareAPIControllerTest extends TestCase {
 			'item_permissions' => 4,
 			'is-mount-root' => false,
 			'mount-type' => '',
+			'original_displayname' => null,
 		];
 		$data['File shared by link with Expire'] = [$share, $expected, false];
 
@@ -3766,6 +3769,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => '[{"scope":"permissions","key":"download","value":true}]',
 				'item_permissions' => 1,
 			],
@@ -3809,6 +3813,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => '[{"scope":"permissions","key":"download","value":true}]',
 				'item_permissions' => 1,
 			], $share, [
@@ -3865,6 +3870,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], $share, [], false
@@ -3910,6 +3916,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 11,
 			], $share, [], false
@@ -3960,6 +3967,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], $share, [], false
@@ -4003,6 +4011,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], $share, [], false
@@ -4058,6 +4067,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], $share, [], false
@@ -4103,6 +4113,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], $share, [], false
@@ -4152,6 +4163,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 				'is_trusted_server' => false,
@@ -4202,6 +4214,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 				'is_trusted_server' => false,
@@ -4255,6 +4268,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], $share, [], false
@@ -4304,6 +4318,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], $share, [], false
@@ -4353,6 +4368,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], $share, [], false
@@ -4416,6 +4432,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], $share, [], false
@@ -4461,6 +4478,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], $share, [], false
@@ -4511,6 +4529,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 11,
 			], $share, [], false
@@ -4718,6 +4737,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 1,
 			], false, []
@@ -4758,6 +4778,7 @@ class ShareAPIControllerTest extends TestCase {
 				'item_mtime' => 1234567890,
 				'is-mount-root' => false,
 				'mount-type' => '',
+				'original_displayname' => null,
 				'attributes' => null,
 				'item_permissions' => 9,
 			], true, [

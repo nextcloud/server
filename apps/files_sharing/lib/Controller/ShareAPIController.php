@@ -18,6 +18,7 @@ use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
+use OCA\Files_Sharing\OriginalDisplayName;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\GlobalSiteSelector\Service\SlaveService;
@@ -209,6 +210,9 @@ class ShareAPIController extends OCSController {
 		$result['file_target'] = $share->getTarget();
 		$result['item_size'] = $node->getSize();
 		$result['item_mtime'] = $node->getMTime();
+		$result['original_displayname'] = $isOwnShare
+			? null
+			: OriginalDisplayName::forShare($share, (string)$node->getName(), $node->getInternalPath() === '');
 
 		if ($this->trustedServers !== null && in_array($share->getShareType(), [IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP], true)) {
 			$result['is_trusted_server'] = false;
