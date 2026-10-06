@@ -5,7 +5,7 @@ OC.L10N.register(
     "No server found with ID: %s" : "Nenašiel sa žiadny server s ID: %s",
     "Could not remove server" : "Nepodarilo sa odstrániť server",
     "Server is already in the list of trusted servers." : "Server sa už nachádza v zozname dôveryhodných serverov.",
-    "No server to federate with found" : "Server pre združenie sa nenašiel",
+    "No server to federate with found" : "Nenašiel sa žiadny server na federáciu",
     "Could not add server" : "Nebolo možné pridať server",
     "Trusted servers" : "Dôveryhodné servery",
     "Federation" : "Združovanie",
