@@ -3,10 +3,34 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+
+// Initial state of a group admin, as rendered by the settings UsersController
+const usersSettings = vi.hoisted(() => ({
+	subAdminGroups: [{ id: 'group1', name: 'Group One' }],
+	systemGroups: [{ id: 'admin', name: 'Admins', usercount: 1 }],
+}))
+
+vi.mock('@nextcloud/initial-state', () => ({
+	loadState: (app: string, key: string, fallback: unknown) => (key === 'usersSettings' ? usersSettings : fallback),
+}))
+
 import usersStore from './users.js'
 
 const { mutations } = usersStore
+
+describe('store:users groups of a group admin', () => {
+	it('starts with the groups the group admin manages', () => {
+		expect(usersStore.state.groups.map(({ id }) => id)).toEqual(['group1', 'admin'])
+	})
+
+	it('keeps them when the groups are reset', () => {
+		const state = { groups: [] }
+		mutations.resetGroups(state)
+
+		expect(state.groups.map(({ id }) => id)).toEqual(['group1', 'admin'])
+	})
+})
 
 describe('store:users addGroup', () => {
 	it('inserts a new group filled up with defaults', () => {
