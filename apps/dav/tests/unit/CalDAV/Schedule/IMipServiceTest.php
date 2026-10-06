@@ -20,6 +20,8 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\EMailDetailsRow;
 use OCP\Mail\IEMailTemplate;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -226,9 +228,7 @@ class IMipServiceTest extends TestCase {
 			'meeting_description' => '',
 			'meeting_title' => 'Testing Event',
 			'meeting_location' => '',
-			'meeting_location_html' => '',
 			'meeting_url' => '',
-			'meeting_url_html' => '',
 		];
 		// generate actual output
 		$actual = $this->service->buildBodyData($vCalendar->VEVENT[0], null);
@@ -284,9 +284,7 @@ class IMipServiceTest extends TestCase {
 			'meeting_description' => $testDescription,
 			'meeting_title' => $testTitle,
 			'meeting_location' => $testLocation,
-			'meeting_location_html' => null,
 			'meeting_url' => $testUrl,
-			'meeting_url_html' => null,
 		];
 
 		$actual = $this->service->buildBodyData($vCalendar->VEVENT[0], null);
@@ -337,11 +335,7 @@ class IMipServiceTest extends TestCase {
 			'meeting_title' => 'Testing Event',
 			'meeting_location' => '',
 			'meeting_url' => '',
-			'meeting_url_html' => null,
-			'meeting_when_html' => null,
-			'meeting_title_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />%s', 'Testing Singleton Event', 'Testing Event'),
-			'meeting_description_html' => null,
-			'meeting_location_html' => null
+			'meeting_title_previous' => 'Testing Singleton Event',
 		];
 		// generate actual output
 		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
@@ -410,20 +404,38 @@ class IMipServiceTest extends TestCase {
 
 		$expected = [
 			'meeting_when' => $this->service->generateWhenString($eventReaderNew),
-			'meeting_when_html' => null,
 			'meeting_description' => $newDescription,
 			'meeting_title' => $newTitle,
 			'meeting_location' => $newLocation,
 			'meeting_url' => $newUrl,
-			'meeting_url_html' => null,
-			'meeting_title_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />%s', htmlspecialchars($oldTitle), htmlspecialchars($newTitle)),
-			'meeting_description_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />%s', htmlspecialchars($oldDescription), htmlspecialchars($newDescription)),
-			'meeting_location_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />%s', htmlspecialchars($oldLocation), htmlspecialchars($newLocation)),
+			'meeting_title_previous' => $oldTitle,
+			'meeting_description_previous' => $oldDescription,
+			'meeting_location_previous' => $oldLocation,
+			'meeting_url_previous' => $oldUrl,
 		];
 
 		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
 
 		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBuildBodyDataUpdatedWhen(): void {
+		$this->l10n->method('l')
+			->willReturnCallback(static fn (string $type, \DateTime $date): string => $date->format($type === 'time' ? 'H:i' : 'm-d'));
+		$this->l10n->method('n')
+			->willReturnCallback(static fn (string $singular, string $plural, int $count, array $parameters = []): string => implode(' ', $parameters));
+		$this->timeFactory->method('getDateTime')->willReturn(new \DateTime('20240601T000000'));
+
+		$vCalendarNew = clone $this->vCalendar1a;
+		$vCalendarOld = clone $this->vCalendar1a;
+		$vCalendarOld->VEVENT[0]->DTSTART->setValue('20240702T080000');
+		$vCalendarOld->VEVENT[0]->DTEND->setValue('20240702T090000');
+
+		$actual = $this->service->buildBodyData($vCalendarNew->VEVENT[0], $vCalendarOld->VEVENT[0]);
+
+		$this->assertSame('07-01 08:00 09:00 (America/Toronto)', $actual['meeting_when']);
+		$this->assertSame('07-02 08:00 09:00 (America/Toronto)', $actual['meeting_when_previous']);
+		$this->assertArrayNotHasKey('meeting_title_previous', $actual);
 	}
 
 	public function testBuildReplyBodyDataEscapesStrings(): void {
@@ -474,9 +486,7 @@ class IMipServiceTest extends TestCase {
 			'meeting_description' => $testDescription,
 			'meeting_title' => $testTitle,
 			'meeting_location' => $testLocation,
-			'meeting_location_html' => null,
 			'meeting_url' => $testUrl,
-			'meeting_url_html' => null,
 		];
 
 		$actual = $this->service->buildReplyBodyData($vCalendar->VEVENT[0]);
@@ -532,15 +542,10 @@ class IMipServiceTest extends TestCase {
 
 		$expected = [
 			'meeting_when' => $expectedWhenString,
-			'meeting_when_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />', htmlspecialchars($expectedWhenString)),
 			'meeting_description' => $testDescription,
 			'meeting_title' => $testTitle,
 			'meeting_location' => $testLocation,
 			'meeting_url' => $testUrl,
-			'meeting_url_html' => null,
-			'meeting_title_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />', htmlspecialchars($testTitle)),
-			'meeting_description_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />', htmlspecialchars($testDescription)),
-			'meeting_location_html' => sprintf('<span style="text-decoration: line-through">%s</span><br />', htmlspecialchars($testLocation)),
 		];
 
 		$actual = $this->service->buildCancelledBodyData($vCalendar->VEVENT[0]);
@@ -2489,87 +2494,207 @@ class IMipServiceTest extends TestCase {
 		);
 	}
 
-	/**
-	 * Test that HTML properties are preferred over non-HTML ones
-	 * and that these will be passed through as is.
-	 */
-	public function testAddBulletListMaintainsHtmlProperties(): void {
-		$template = $this->createMock(IEMailTemplate::class);
+	private function createDetailsEvent(): \Sabre\VObject\Component\VEvent {
 		$vCalendar = new VCalendar();
 		$vEvent = $vCalendar->add('VEVENT', []);
-		$vEvent->add('SUMMARY', 'Test Event');
 		$vEvent->add('UID', 'test-uid');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Event');
+		return $vEvent;
+	}
 
-		$data = [
-			'meeting_title' => 'Title',
-			'meeting_title_html' => '<strong>Title</strong>',
-			'meeting_when' => 'Monday & Tuesday',
-			'meeting_when_html' => '<em>Monday & Tuesday</em>',
-			'meeting_location' => 'Room A',
-			'meeting_location_html' => '<span>Room <b>A</b></span>',
-			'meeting_url' => 'https://example.com',
-			'meeting_url_html' => '<a href="https://example.com">https://example.com</a>',
-			'meeting_description' => 'Description',
-			'meeting_description_html' => '<p>Description</p>',
-			'meeting_occurring' => 'Every Monday',
-			'meeting_occurring_html' => '<em>Every Monday</em>',
-		];
-
-		$actualHtmlValues = [];
-		$template
-			->method('addBodyListItem')
-			->willReturnCallback(function (string $html) use (&$actualHtmlValues): void {
-				$actualHtmlValues[] = $html;
-			});
-
-		$this->appConfig->method('getValueBool')->willReturn(false);
-		$this->service->addBulletList($template, $vEvent, $data);
-
-		$this->assertCount(6, $actualHtmlValues);
-		$this->assertSame($data['meeting_title_html'], $actualHtmlValues[0]);
-		$this->assertSame($data['meeting_when_html'], $actualHtmlValues[1]);
-		$this->assertSame($data['meeting_location_html'], $actualHtmlValues[2]);
-		$this->assertSame($data['meeting_url_html'], $actualHtmlValues[3]);
-		$this->assertSame($data['meeting_occurring_html'], $actualHtmlValues[4]);
-		$this->assertSame($data['meeting_description_html'], $actualHtmlValues[5]);
+	private function mockDetailsL10n(): void {
+		$this->l10n->method('t')->willReturnCallback(
+			static fn (string $text, array $parameters = []): string => vsprintf($text, $parameters)
+		);
+		$this->l10n->method('n')->willReturnCallback(
+			static fn (string $singular, string $plural, int $count): string => str_replace('%n', (string)$count, $count === 1 ? $singular : $plural)
+		);
+		$this->l10n->method('l')->willReturnCallback(
+			static fn (string $type, \DateTimeInterface $date, array $options): string => match ($options['width']) {
+				'full' => $date->format('l, F j, Y'),
+				'~MMM' => $date->format('M'),
+				'~d' => $date->format('j'),
+			}
+		);
 	}
 
 	/**
-	 * Test that non-HTML properties are used when no HTML properties
-	 * being provided and that those are escaped through `htmlspecialchars()`.
+	 * @return list<array{0: string, 1: list<array{type: string, text: string, url: string}>}>
 	 */
-	public function testAddBulletListEscapesNonHtmlProperties(): void {
+	private static function rowsOf(EMailDetails $details): array {
+		return array_map(
+			static fn (EMailDetailsRow $row): array => [$row->getLabel(), $row->getParts()],
+			$details->getRows(),
+		);
+	}
+
+	public function testAddEventDetails(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
 		$template = $this->createMock(IEMailTemplate::class);
-		$vCalendar = new VCalendar();
-		$vEvent = $vCalendar->add('VEVENT', []);
-		$vEvent->add('SUMMARY', 'Test Event');
-		$vEvent->add('UID', 'test-uid');
 
 		$data = [
-			'meeting_title' => '<script>alert("xss")</script>',
-			'meeting_when' => '<em>Monday & Tuesday</em>',
-			'meeting_location' => '<div onclick="hack()">Room "A" & B</div>',
-			'meeting_url' => 'https://example.com/?a=1&b=<script>',
-			'meeting_description' => '<p>Description with "quotes" & ampersands</p>',
-			'meeting_occurring' => '<b>Every Monday & Wednesday</b>',
+			'meeting_title' => '<b>Title</b>',
+			'meeting_when' => 'Monday & Tuesday',
+			'meeting_location' => 'Room "A"',
+			'meeting_url' => 'https://example.com/?a=1&b=2',
+			'meeting_description' => "Line 1\nLine 2",
+			'meeting_occurring' => 'Every Monday',
 		];
 
-		$actualHtmlValues = [];
-		$template
-			->method('addBodyListItem')
-			->willReturnCallback(function (string $html) use (&$actualHtmlValues): void {
-				$actualHtmlValues[] = $html;
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details) use ($data): bool {
+				self::assertSame($data['meeting_title'], $details->getTitle());
+				self::assertSame('Monday, July 1, 2024', $details->getSubtitle());
+				self::assertSame(['month' => 'Jul', 'day' => '1'], $details->getDateBadge());
+				self::assertSame([
+					['When', [['type' => 'text', 'text' => $data['meeting_when'], 'url' => '']]],
+					['Occurring', [['type' => 'text', 'text' => $data['meeting_occurring'], 'url' => '']]],
+					['Where', [['type' => 'text', 'text' => $data['meeting_location'], 'url' => '']]],
+					['Link', [['type' => 'link', 'text' => $data['meeting_url'], 'url' => $data['meeting_url']]]],
+				], self::rowsOf($details));
+				return true;
+			}));
+		$template->expects(self::once())
+			->method('addBodyNote')
+			->with($data['meeting_description'], 'Description');
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), $data);
+	}
+
+	public function testAddEventDetailsShowsPreviousValues(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$data = [
+			'meeting_title' => 'New title',
+			'meeting_title_previous' => 'Old title',
+			'meeting_when' => 'Tomorrow',
+			'meeting_when_previous' => 'Today',
+			'meeting_location' => 'https://example.com/new',
+			'meeting_location_previous' => 'https://example.com/old',
+			'meeting_url' => '',
+			'meeting_url_previous' => 'https://example.com/removed',
+			'meeting_description' => 'New description',
+			'meeting_description_previous' => 'Old description',
+		];
+
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				self::assertSame('New title', $details->getTitle());
+				self::assertSame([
+					['Title', [
+						['type' => 'text', 'text' => 'New title', 'url' => ''],
+						['type' => 'muted', 'text' => 'Previously: Old title', 'url' => ''],
+					]],
+					['When', [
+						['type' => 'text', 'text' => 'Tomorrow', 'url' => ''],
+						['type' => 'muted', 'text' => 'Previously: Today', 'url' => ''],
+					]],
+					['Where', [
+						['type' => 'link', 'text' => 'https://example.com/new', 'url' => 'https://example.com/new'],
+						['type' => 'muted', 'text' => 'Previously: https://example.com/old', 'url' => ''],
+					]],
+					['Calendar', [['type' => 'text', 'text' => 'Personal', 'url' => '']]],
+				], self::rowsOf($details));
+				return true;
+			}));
+		$calls = [
+			['New description', 'Description'],
+			['Old description', 'Previous description'],
+		];
+		$template->expects(self::exactly(2))
+			->method('addBodyNote')
+			->willReturnCallback(function (string $text, string $label) use (&$calls): void {
+				self::assertSame(array_shift($calls), [$text, $label]);
 			});
 
-		$this->appConfig->method('getValueBool')->willReturn(false);
-		$this->service->addBulletList($template, $vEvent, $data);
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), $data, 'Personal');
+	}
 
-		$this->assertCount(6, $actualHtmlValues);
-		$this->assertSame(htmlspecialchars($data['meeting_title']), $actualHtmlValues[0]);
-		$this->assertSame(htmlspecialchars($data['meeting_when']), $actualHtmlValues[1]);
-		$this->assertSame(htmlspecialchars($data['meeting_location']), $actualHtmlValues[2]);
-		$this->assertSame(htmlspecialchars($data['meeting_url']), $actualHtmlValues[3]);
-		$this->assertSame(htmlspecialchars($data['meeting_occurring']), $actualHtmlValues[4]);
-		$this->assertSame(htmlspecialchars($data['meeting_description']), $actualHtmlValues[5]);
+	public function testAddEventDetailsWithoutOptionalValues(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				self::assertSame('Untitled event', $details->getTitle());
+				self::assertSame(['When'], array_column(self::rowsOf($details), 0));
+				return true;
+			}));
+		$template->expects(self::never())
+			->method('addBodyNote');
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), [
+			'meeting_title' => '',
+			'meeting_when' => 'Today',
+			'meeting_location' => '',
+			'meeting_url' => '',
+			'meeting_description' => '',
+		]);
+	}
+
+	public function testAddEventDetailsListsAttendees(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')
+			->with('dav', 'invitation_list_attendees')
+			->willReturn(true);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$vEvent = $this->createDetailsEvent();
+		$vEvent->add('ORGANIZER', 'mailto:organizer@example.com', ['CN' => 'Organizer', 'PARTSTAT' => 'ACCEPTED']);
+		$vEvent->add('ATTENDEE', 'mailto:a1@example.com', ['CN' => 'Attendee 1', 'PARTSTAT' => 'ACCEPTED']);
+		for ($i = 2; $i <= 7; $i++) {
+			$vEvent->add('ATTENDEE', 'mailto:a' . $i . '@example.com');
+		}
+
+		$template->expects(self::once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				$rows = self::rowsOf($details);
+				self::assertSame(['Organizer', [
+					['type' => 'link', 'text' => 'Organizer ✔︎', 'url' => 'mailto:organizer@example.com'],
+				]], $rows[1]);
+				self::assertSame(['Attendees', [
+					['type' => 'link', 'text' => 'Attendee 1 ✔︎', 'url' => 'mailto:a1@example.com'],
+					['type' => 'link', 'text' => 'a2@example.com', 'url' => 'mailto:a2@example.com'],
+					['type' => 'link', 'text' => 'a3@example.com', 'url' => 'mailto:a3@example.com'],
+					['type' => 'link', 'text' => 'a4@example.com', 'url' => 'mailto:a4@example.com'],
+					['type' => 'link', 'text' => 'a5@example.com', 'url' => 'mailto:a5@example.com'],
+					['type' => 'muted', 'text' => 'and 2 others', 'url' => ''],
+				]], $rows[2]);
+				return true;
+			}));
+
+		$this->service->addEventDetails($template, $vEvent, [
+			'meeting_title' => 'Test Event',
+			'meeting_when' => 'Today',
+			'meeting_location' => '',
+			'meeting_url' => '',
+			'meeting_description' => '',
+		]);
+	}
+
+	public function testAddResponseButtons(): void {
+		$this->mockDetailsL10n();
+		$this->urlGenerator->method('linkToRouteAbsolute')
+			->willReturnCallback(static fn (string $route, array $parameters): string => $route . '/' . $parameters['token']);
+		$template = $this->createMock(IEMailTemplate::class);
+
+		$template->expects(self::once())
+			->method('addBodyButtons')
+			->with([
+				['text' => 'Accept', 'url' => 'dav.invitation_response.accept/token'],
+				['text' => 'Decline', 'url' => 'dav.invitation_response.decline/token'],
+				['text' => 'More options …', 'url' => 'dav.invitation_response.options/token'],
+			], 'Will you attend?');
+
+		$this->service->addResponseButtons($template, 'token');
 	}
 }

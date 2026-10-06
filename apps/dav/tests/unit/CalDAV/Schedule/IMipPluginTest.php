@@ -230,11 +230,14 @@ class IMipPluginTest extends TestCase {
 			->willReturn($this->user);
 		$this->service->expects(self::once())
 			->method('getFrom');
+		$this->emailTemplate->expects(self::once())
+			->method('addBodySender')
+			->with('Mr. Wizard', 'gandalf@wiz.ard');
 		$this->service->expects(self::once())
 			->method('addSubjectAndHeading')
 			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', true);
 		$this->service->expects(self::once())
-			->method('addBulletList')
+			->method('addEventDetails')
 			->with($this->emailTemplate, $newVevent, $data);
 		$this->service->expects(self::once())
 			->method('getAttendeeRsvpOrReqForParticipant')
@@ -249,9 +252,6 @@ class IMipPluginTest extends TestCase {
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
 			->with($this->emailTemplate, 'token');
 		$this->mailer->expects(self::once())
 			->method('send')
@@ -336,7 +336,7 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::never())
 			->method('addSubjectAndHeading');
 		$this->service->expects(self::never())
-			->method('addBulletList');
+			->method('addEventDetails');
 		$this->service->expects(self::never())
 			->method('getAttendeeRsvpOrReqForParticipant');
 		$this->config->expects(self::never())
@@ -345,8 +345,6 @@ class IMipPluginTest extends TestCase {
 			->method('createInvitationToken');
 		$this->service->expects(self::never())
 			->method('addResponseButtons');
-		$this->service->expects(self::never())
-			->method('addMoreOptionsButton');
 		$this->mailer->expects(self::never())
 			->method('send');
 		$this->plugin->schedule($message);
@@ -416,7 +414,7 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::never())
 			->method('addSubjectAndHeading');
 		$this->service->expects(self::never())
-			->method('addBulletList');
+			->method('addEventDetails');
 		$this->service->expects(self::never())
 			->method('getAttendeeRsvpOrReqForParticipant');
 		$this->config->expects(self::never())
@@ -425,8 +423,6 @@ class IMipPluginTest extends TestCase {
 			->method('createInvitationToken');
 		$this->service->expects(self::never())
 			->method('addResponseButtons');
-		$this->service->expects(self::never())
-			->method('addMoreOptionsButton');
 		$this->mailer->expects(self::never())
 			->method('send');
 		$this->plugin->schedule($message);
@@ -529,7 +525,7 @@ class IMipPluginTest extends TestCase {
 			->method('addSubjectAndHeading')
 			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Elevenses', false);
 		$this->service->expects(self::once())
-			->method('addBulletList')
+			->method('addEventDetails')
 			->with($this->emailTemplate, $newVevent, $data);
 		$this->service->expects(self::once())
 			->method('getAttendeeRsvpOrReqForParticipant')
@@ -544,9 +540,6 @@ class IMipPluginTest extends TestCase {
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
 			->with($this->emailTemplate, 'token');
 		$this->mailer->expects(self::once())
 			->method('send')
@@ -659,7 +652,7 @@ class IMipPluginTest extends TestCase {
 			->method('addSubjectAndHeading')
 			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', false);
 		$this->service->expects(self::once())
-			->method('addBulletList')
+			->method('addEventDetails')
 			->with($this->emailTemplate, $newVevent, $data);
 		$this->service->expects(self::once())
 			->method('getAttendeeRsvpOrReqForParticipant')
@@ -674,9 +667,6 @@ class IMipPluginTest extends TestCase {
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
 			->with($this->emailTemplate, 'token');
 		$this->mailer->expects(self::once())
 			->method('send')
@@ -766,7 +756,7 @@ class IMipPluginTest extends TestCase {
 			->method('addSubjectAndHeading')
 			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', false);
 		$this->service->expects(self::once())
-			->method('addBulletList')
+			->method('addEventDetails')
 			->with($this->emailTemplate, $event, $data);
 		$this->service->expects(self::once())
 			->method('getAttendeeRsvpOrReqForParticipant')
@@ -777,9 +767,6 @@ class IMipPluginTest extends TestCase {
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
 			->with($this->emailTemplate, 'token');
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
@@ -880,7 +867,7 @@ class IMipPluginTest extends TestCase {
 			->method('addSubjectAndHeading')
 			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting without (!) Boromir', true);
 		$this->service->expects(self::once())
-			->method('addBulletList')
+			->method('addEventDetails')
 			->with($this->emailTemplate, $newVevent, $data);
 		$this->service->expects(self::once())
 			->method('getAttendeeRsvpOrReqForParticipant')
@@ -901,9 +888,6 @@ class IMipPluginTest extends TestCase {
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
 			->with($this->emailTemplate, 'token');
 		$this->mailer->expects(self::once())
 			->method('send')
@@ -986,7 +970,7 @@ class IMipPluginTest extends TestCase {
 			->method('addSubjectAndHeading')
 			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', false);
 		$this->service->expects(self::once())
-			->method('addBulletList')
+			->method('addEventDetails')
 			->with($this->emailTemplate, $newVevent, $data);
 		$this->service->expects(self::once())
 			->method('getAttendeeRsvpOrReqForParticipant')
@@ -1001,9 +985,6 @@ class IMipPluginTest extends TestCase {
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
 			->with($this->emailTemplate, 'token');
 		$this->mailer->expects(self::once())
 			->method('send')
@@ -1088,7 +1069,7 @@ class IMipPluginTest extends TestCase {
 			->method('addSubjectAndHeading')
 			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', false);
 		$this->service->expects(self::once())
-			->method('addBulletList')
+			->method('addEventDetails')
 			->with($this->emailTemplate, $newVevent, $data);
 		$this->service->expects(self::once())
 			->method('getAttendeeRsvpOrReqForParticipant')
@@ -1101,8 +1082,6 @@ class IMipPluginTest extends TestCase {
 			->method('createInvitationToken');
 		$this->service->expects(self::never())
 			->method('addResponseButtons');
-		$this->service->expects(self::never())
-			->method('addMoreOptionsButton');
 		$this->mailer->expects(self::once())
 			->method('send')
 			->willReturn([]);
@@ -1242,7 +1221,7 @@ class IMipPluginTest extends TestCase {
 			->method('addSubjectAndHeading')
 			->with($this->emailTemplate, 'request', 'Mr. Wizard', 'Fellowship meeting', true);
 		$this->service->expects(self::once())
-			->method('addBulletList')
+			->method('addEventDetails')
 			->with($this->emailTemplate, $newVevent, $data);
 		$this->service->expects(self::once())
 			->method('getAttendeeRsvpOrReqForParticipant')
@@ -1257,9 +1236,6 @@ class IMipPluginTest extends TestCase {
 			->willReturn('token');
 		$this->service->expects(self::once())
 			->method('addResponseButtons')
-			->with($this->emailTemplate, 'token');
-		$this->service->expects(self::once())
-			->method('addMoreOptionsButton')
 			->with($this->emailTemplate, 'token');
 		$this->mailer->expects(self::once())
 			->method('send')
@@ -1295,6 +1271,11 @@ class IMipPluginTest extends TestCase {
 
 		$capturedFrom = null;
 		$capturedReplyTo = null;
+		$capturedSender = null;
+		$this->emailTemplate->method('addBodySender')
+			->willReturnCallback(function (string $displayName, string $subline) use (&$capturedSender): void {
+				$capturedSender = [$displayName, $subline];
+			});
 		$mailMessage = $this->createMock(IMessage::class);
 		$mailMessage->method('setTo')->willReturn($mailMessage);
 		$mailMessage->method('setFrom')
@@ -1365,7 +1346,7 @@ class IMipPluginTest extends TestCase {
 		$plugin->schedule($message);
 		self::assertSame('1.1', $message->getScheduleStatus());
 
-		return ['from' => $capturedFrom, 'replyTo' => $capturedReplyTo];
+		return ['from' => $capturedFrom, 'replyTo' => $capturedReplyTo, 'sender' => $capturedSender];
 	}
 
 	/**
@@ -1382,6 +1363,7 @@ class IMipPluginTest extends TestCase {
 		$result = $this->scheduleWithoutSenderName('a@example.com', 'frodo@hobb.it', $viaMailProvider);
 
 		self::assertSame(['Instance Name 123'], array_values($result['from']));
+		self::assertSame(['a@example.com', ''], $result['sender']);
 		if (!$viaMailProvider) {
 			self::assertSame(['a@example.com'], $result['replyTo']);
 		}
@@ -1396,6 +1378,7 @@ class IMipPluginTest extends TestCase {
 		$result = $this->scheduleWithoutSenderName('gandalf@wiz.ard', 'frodo@hobb.it', $viaMailProvider);
 
 		self::assertSame(['Mr. Wizard via Instance Name 123'], array_values($result['from']));
+		self::assertSame(['Mr. Wizard', 'gandalf@wiz.ard'], $result['sender']);
 		if (!$viaMailProvider) {
 			self::assertSame(['gandalf@wiz.ard' => 'Mr. Wizard'], $result['replyTo']);
 		}
@@ -1424,6 +1407,7 @@ class IMipPluginTest extends TestCase {
 		$result = $this->scheduleWithoutSenderName('shared@corp.example', 'frodo@hobb.it', $viaMailProvider);
 
 		self::assertSame(['Carl Session via Instance Name 123'], array_values($result['from']));
+		self::assertSame(['Carl Session', 'shared@corp.example'], $result['sender']);
 		if (!$viaMailProvider) {
 			self::assertSame(['shared@corp.example' => 'Carl Session'], $result['replyTo']);
 		}
@@ -1437,6 +1421,7 @@ class IMipPluginTest extends TestCase {
 		$result = $this->scheduleWithoutSenderName('gandalf@wiz.ard', 'frodo@hobb.it', $viaMailProvider);
 
 		self::assertSame(['Instance Name 123'], array_values($result['from']));
+		self::assertSame(['gandalf@wiz.ard', ''], $result['sender']);
 		if (!$viaMailProvider) {
 			self::assertSame(['gandalf@wiz.ard'], $result['replyTo']);
 		}
@@ -1451,6 +1436,7 @@ class IMipPluginTest extends TestCase {
 		$result = $this->scheduleWithoutSenderName('a@example.com', 'frodo@hobb.it');
 
 		self::assertSame(['Instance Name 123'], array_values($result['from']));
+		self::assertSame(['a@example.com', ''], $result['sender']);
 		self::assertSame(['a@example.com'], $result['replyTo']);
 	}
 

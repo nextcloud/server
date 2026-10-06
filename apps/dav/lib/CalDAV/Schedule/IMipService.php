@@ -17,6 +17,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as L10NFactory;
+use OCP\Mail\EMailDetails;
 use OCP\Mail\IEMailTemplate;
 use OCP\Security\ISecureRandom;
 use Sabre\VObject\Component\VCalendar;
@@ -26,9 +27,10 @@ use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property;
 use Sabre\VObject\Recur\EventIterator;
-use function htmlspecialchars;
 
 class IMipService {
+
+	private const int MAX_LISTED_ATTENDEES = 5;
 
 	private IL10N $l10n;
 
@@ -78,75 +80,9 @@ class IMipService {
 		return $default;
 	}
 
-	private function getStrikethroughString(?string $oldString, ?string $newValue = null): ?string {
-		if ($oldString === null || $oldString === '') {
-			return null;
-		}
-
-		$strikethrough = '<span style="text-decoration: line-through">%s</span><br />%s';
-		return sprintf($strikethrough, $oldString, $newValue ?? '');
-	}
-
-	private function generateDiffString(VEvent $vEvent, VEvent $oldVEvent, string $property): ?string {
-		if (!isset($vEvent->$property)) {
-			return null;
-		}
-
-		$newValue = $vEvent->$property->getValue();
-		$newString = $newValue === null ? null : htmlspecialchars($newValue);
-
-		$propertyChanged = isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newString;
-		if ($propertyChanged) {
-			$oldValue = $oldVEvent->$property->getValue();
-			$oldString = htmlspecialchars($oldValue);
-
-			return $this->getStrikethroughString($oldString, $newString);
-		}
-		return $newString;
-	}
-
-	/**
-	 * Like generateDiffString() but linkifies the property values if they are urls.
-	 */
-	private function generateLinkifiedDiffString(VEvent $vEvent, VEvent $oldVEvent, string $property): ?string {
-		if (!isset($vEvent->$property)) {
-			return null;
-		}
-
-		$newValue = $vEvent->$property->getValue();
-		$newString = $this->linkify($newValue) ?? htmlspecialchars($newValue);
-
-		$propertyChanged = isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newValue;
-		if ($propertyChanged) {
-			$oldValue = $oldVEvent->$property->getValue();
-			$oldString = $this->linkify($oldValue) ?? htmlspecialchars($oldValue);
-
-			return $this->getStrikethroughString($oldString, $newString);
-		}
-
-		return $this->getStrikethroughString($newString);
-	}
-
-	/**
-	 * Convert a given url to a html link element or return null otherwise.
-	 */
-	private function linkify(?string $url): ?string {
-		if ($url === null) {
-			return null;
-		}
-
-		$isValidLinkUrl
-			= filter_var($url, FILTER_VALIDATE_URL) !== false
-			&& (
-				str_starts_with($url, 'http://')
-				|| str_starts_with($url, 'https://')
-			);
-
-		if (!$isValidLinkUrl) {
-			return null;
-		}
-
-		return sprintf('<a href="%1$s">%1$s</a>', htmlspecialchars($url));
+	private function isLinkUrl(string $url): bool {
+		return filter_var($url, FILTER_VALIDATE_URL) !== false
+			&& (str_starts_with($url, 'http://') || str_starts_with($url, 'https://'));
 	}
 
 	/**
@@ -166,26 +102,18 @@ class IMipService {
 			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
 		}
 
-		$data['meeting_location_html'] = $this->linkify($data['meeting_location']);
-		$data['meeting_url_html'] = $this->linkify($data['meeting_url']);
-
 		if (!empty($oldVEvent)) {
-			$data['meeting_title_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY');
-			$data['meeting_description_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'DESCRIPTION');
-			$data['meeting_location_html'] = $this->generateLinkifiedDiffString($vEvent, $oldVEvent, 'LOCATION');
-
-			$oldMeetingUrl = self::readPropertyWithDefault($oldVEvent, 'URL', $defaultVal);
-			$oldMeetingUrlAsLink = $this->linkify($oldMeetingUrl);
-			$meetingUrlAsLinkChanged = !empty($oldMeetingUrlAsLink) && $oldMeetingUrlAsLink !== $data['meeting_url_html'];
-			if ($meetingUrlAsLinkChanged) {
-				$data['meeting_url_html'] = $this->getStrikethroughString(htmlspecialchars($oldMeetingUrl), $data['meeting_url_html']);
+			foreach (self::STRING_DIFF as $key => $property) {
+				$oldValue = self::readPropertyWithDefault($oldVEvent, $property, $defaultVal);
+				if ($oldValue !== $defaultVal && $oldValue !== $data[$key]) {
+					$data[$key . '_previous'] = $oldValue;
+				}
 			}
 
 			$oldMeetingWhen = $this->generateWhenString($eventReaderPrevious);
-			$meetingWhenChanged = $oldMeetingWhen !== $data['meeting_when'];
-			$data['meeting_when_html'] = $meetingWhenChanged
-				? $this->getStrikethroughString($oldMeetingWhen, $data['meeting_when'])
-				: null;
+			if ($oldMeetingWhen !== $data['meeting_when']) {
+				$data['meeting_when_previous'] = $oldMeetingWhen;
+			}
 		}
 		// generate occurring next string
 		if ($eventReaderCurrent->recurs()) {
@@ -208,9 +136,6 @@ class IMipService {
 		foreach (self::STRING_DIFF as $key => $property) {
 			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
 		}
-
-		$data['meeting_location_html'] = $this->linkify($data['meeting_location']);
-		$data['meeting_url_html'] = $this->linkify($data['meeting_url']);
 
 		// generate occurring next string
 		if ($eventReader->recurs()) {
@@ -833,24 +758,12 @@ class IMipService {
 		$eventReaderCurrent = new EventReader($vEvent);
 		$defaultVal = '';
 
-		$newMeetingWhen = $this->generateWhenString($eventReaderCurrent);
-		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');
-		$newDescription = isset($vEvent->DESCRIPTION) && (string)$vEvent->DESCRIPTION !== '' ? (string)$vEvent->DESCRIPTION : $defaultVal;
-		$newUrl = isset($vEvent->URL) && (string)$vEvent->URL !== '' ? $this->linkify((string)$vEvent->URL) : $defaultVal;
-		$newLocation = isset($vEvent->LOCATION) && (string)$vEvent->LOCATION !== '' ? (string)$vEvent->LOCATION : $defaultVal;
-		$newLocationHtml = $this->linkify($newLocation);
-
 		$data = [];
-		$data['meeting_when_html'] = $this->getStrikethroughString(htmlspecialchars($newMeetingWhen));
-		$data['meeting_when'] = $newMeetingWhen;
-		$data['meeting_title_html'] = $this->getStrikethroughString(htmlspecialchars($newSummary));
-		$data['meeting_title'] = $newSummary !== '' ? $newSummary: $this->l10n->t('Untitled event');
-		$data['meeting_description_html'] = $this->getStrikethroughString(htmlspecialchars($newDescription));
-		$data['meeting_description'] = $newDescription;
-		$data['meeting_url_html'] = $this->getStrikethroughString($newUrl);
-		$data['meeting_url'] = isset($vEvent->URL) ? (string)$vEvent->URL : '';
-		$data['meeting_location_html'] = $this->getStrikethroughString($newLocationHtml ?? htmlspecialchars($newLocation));
-		$data['meeting_location'] = $newLocation;
+		$data['meeting_when'] = $this->generateWhenString($eventReaderCurrent);
+		$data['meeting_title'] = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');
+		$data['meeting_description'] = isset($vEvent->DESCRIPTION) ? (string)$vEvent->DESCRIPTION : $defaultVal;
+		$data['meeting_url'] = isset($vEvent->URL) ? (string)$vEvent->URL : $defaultVal;
+		$data['meeting_location'] = isset($vEvent->LOCATION) ? (string)$vEvent->LOCATION : $defaultVal;
 
 		return $data;
 	}
@@ -1025,17 +938,62 @@ class IMipService {
 	}
 
 	/**
-	 * @param string $path
-	 * @return string
+	 * Add the event card, followed by the description, to the iMip mail.
+	 *
+	 * Values that changed in an update are shown with their previous value.
 	 */
-	public function getAbsoluteImagePath($path): string {
-		return $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->imagePath('core', $path)
-		);
+	public function addEventDetails(IEMailTemplate $template, VEvent $vevent, array $data, string $calendarName = ''): void {
+		$start = (new EventReader($vevent))->startDateTime();
+		$details = (new EMailDetails($data['meeting_title'] ?: $this->l10n->t('Untitled event')))
+			->setSubtitle((string)$this->l10n->l('date', $start, ['width' => 'full']))
+			->setDateBadge(
+				(string)$this->l10n->l('date', $start, ['width' => '~MMM']),
+				(string)$this->l10n->l('date', $start, ['width' => '~d']),
+			);
+
+		if (isset($data['meeting_title_previous'])) {
+			$this->addDetailsRow($details, $this->l10n->t('Title'), $data, 'meeting_title');
+		}
+		$this->addDetailsRow($details, $this->l10n->t('When'), $data, 'meeting_when');
+		if (isset($data['meeting_occurring'])) {
+			$details->addRow($this->l10n->t('Occurring'))->text($data['meeting_occurring']);
+		}
+		$this->addDetailsRow($details, $this->l10n->t('Where'), $data, 'meeting_location');
+		$this->addDetailsRow($details, $this->l10n->t('Link'), $data, 'meeting_url');
+		if ($calendarName !== '') {
+			$details->addRow($this->l10n->t('Calendar'))->text($calendarName);
+		}
+		$this->addAttendees($details, $vevent);
+
+		$template->addBodyDetails($details);
+
+		if ($data['meeting_description'] !== '') {
+			$template->addBodyNote($data['meeting_description'], $this->l10n->t('Description'));
+			if (isset($data['meeting_description_previous'])) {
+				$template->addBodyNote($data['meeting_description_previous'], $this->l10n->t('Previous description'));
+			}
+		}
+	}
+
+	private function addDetailsRow(EMailDetails $details, string $label, array $data, string $key): void {
+		$value = $data[$key] ?? '';
+		if ($value === '') {
+			return;
+		}
+
+		$row = $details->addRow($label);
+		if ($this->isLinkUrl($value)) {
+			$row->link($value, $value);
+		} else {
+			$row->text($value);
+		}
+		if (isset($data[$key . '_previous'])) {
+			$row->muted($this->l10n->t('Previously: %s', [$data[$key . '_previous']]));
+		}
 	}
 
 	/**
-	 * addAttendees: add organizer and attendee names/emails to iMip mail.
+	 * Add organizer and attendee rows to the event card.
 	 *
 	 * Enable with DAV setting: invitation_list_attendees (default: no)
 	 *
@@ -1044,12 +1002,9 @@ class IMipService {
 	 * To enable including attendees in invitation emails:
 	 *   % php occ config:app:set dav invitation_list_attendees --value yes --type bool
 	 *
-	 * @param IEMailTemplate $template
-	 * @param IL10N $this->l10n
-	 * @param VEvent $vevent
 	 * @author brad2014 on github.com
 	 */
-	public function addAttendees(IEMailTemplate $template, VEvent $vevent) {
+	private function addAttendees(EMailDetails $details, VEvent $vevent): void {
 		if (!$this->appConfig->getValueBool('dav', 'invitation_list_attendees')) {
 			return;
 		}
@@ -1057,24 +1012,8 @@ class IMipService {
 		if (isset($vevent->ORGANIZER)) {
 			/** @var Property&Property\ICalendar\CalAddress $organizer */
 			$organizer = $vevent->ORGANIZER;
-			$organizerEmail = substr($organizer->getNormalizedValue(), 7);
-			/** @var string|null $organizerName */
-			$organizerName = isset($organizer->CN) ? $organizer->CN->getValue() : null;
-			$organizerHTML = sprintf('<a href="%s">%s</a>',
-				htmlspecialchars($organizer->getNormalizedValue()),
-				htmlspecialchars($organizerName ?: $organizerEmail));
-			$organizerText = sprintf('%s <%s>', $organizerName, $organizerEmail);
-			if (isset($organizer['PARTSTAT'])) {
-				/** @var Parameter $partstat */
-				$partstat = $organizer['PARTSTAT'];
-				if (strcasecmp($partstat->getValue(), 'ACCEPTED') === 0) {
-					$organizerHTML .= ' ✔︎';
-					$organizerText .= ' ✔︎';
-				}
-			}
-			$template->addBodyListItem($organizerHTML, $this->l10n->t('Organizer:'),
-				$this->getAbsoluteImagePath('caldav/organizer.png'),
-				$organizerText, '', IMipPlugin::IMIP_INDENT);
+			$details->addRow($this->l10n->t('Organizer'))
+				->link($this->getAttendeeLabel($organizer), $organizer->getNormalizedValue());
 		}
 
 		$attendees = $vevent->select('ATTENDEE');
@@ -1082,71 +1021,31 @@ class IMipService {
 			return;
 		}
 
-		$attendeesHTML = [];
-		$attendeesText = [];
-		foreach ($attendees as $attendee) {
+		$row = $details->addRow($this->l10n->t('Attendees'));
+		foreach (array_slice($attendees, 0, self::MAX_LISTED_ATTENDEES) as $attendee) {
 			/** @var Property&Property\ICalendar\CalAddress $attendee */
-			$attendeeEmail = substr($attendee->getNormalizedValue(), 7);
-			$attendeeName = null;
-			if (isset($attendee['CN'])) {
-				/** @var Parameter $cn */
-				$cn = $attendee['CN'];
-				$attendeeName = $cn->getValue();
-			}
-			$attendeeHTML = sprintf('<a href="%s">%s</a>',
-				htmlspecialchars($attendee->getNormalizedValue()),
-				htmlspecialchars($attendeeName ?: $attendeeEmail));
-			$attendeeText = sprintf('%s <%s>', $attendeeName, $attendeeEmail);
-			if (isset($attendee['PARTSTAT'])) {
-				/** @var Parameter $partstat */
-				$partstat = $attendee['PARTSTAT'];
-				if (strcasecmp($partstat->getValue(), 'ACCEPTED') === 0) {
-					$attendeeHTML .= ' ✔︎';
-					$attendeeText .= ' ✔︎';
-				}
-			}
-			$attendeesHTML[] = $attendeeHTML;
-			$attendeesText[] = $attendeeText;
+			$row->link($this->getAttendeeLabel($attendee), $attendee->getNormalizedValue());
 		}
-
-		$template->addBodyListItem(implode('<br/>', $attendeesHTML), $this->l10n->t('Attendees:'),
-			$this->getAbsoluteImagePath('caldav/attendees.png'),
-			implode("\n", $attendeesText), '', IMipPlugin::IMIP_INDENT);
+		$hiddenCount = count($attendees) - self::MAX_LISTED_ATTENDEES;
+		if ($hiddenCount > 0) {
+			$row->muted($this->l10n->n('and %n other', 'and %n others', $hiddenCount));
+		}
 	}
 
 	/**
-	 * @param IEMailTemplate $template
-	 * @param VEVENT $vevent
-	 * @param $data
+	 * @param Property&Property\ICalendar\CalAddress $attendee
 	 */
-	public function addBulletList(IEMailTemplate $template, VEvent $vevent, $data) {
-		$template->addBodyListItem(
-			$data['meeting_title_html'] ?? htmlspecialchars($data['meeting_title']), $this->l10n->t('Title:'),
-			$this->getAbsoluteImagePath('caldav/title.png'), $data['meeting_title'], '', IMipPlugin::IMIP_INDENT);
-		if ($data['meeting_when'] !== '') {
-			$template->addBodyListItem($data['meeting_when_html'] ?? htmlspecialchars($data['meeting_when']), $this->l10n->t('When:'),
-				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_when'], '', IMipPlugin::IMIP_INDENT);
+	private function getAttendeeLabel(Property $attendee): string {
+		$cn = $attendee['CN'];
+		$label = $cn instanceof Parameter ? (string)$cn->getValue() : '';
+		if ($label === '') {
+			$label = substr($attendee->getNormalizedValue(), 7);
 		}
-		if ($data['meeting_location'] !== '') {
-			$template->addBodyListItem($data['meeting_location_html'] ?? htmlspecialchars($data['meeting_location']), $this->l10n->t('Location:'),
-				$this->getAbsoluteImagePath('caldav/location.png'), $data['meeting_location'], '', IMipPlugin::IMIP_INDENT);
+		$partstat = $attendee['PARTSTAT'];
+		if ($partstat instanceof Parameter && strcasecmp((string)$partstat->getValue(), 'ACCEPTED') === 0) {
+			$label .= ' ✔︎';
 		}
-		if ($data['meeting_url'] !== '') {
-			$template->addBodyListItem($data['meeting_url_html'] ?? htmlspecialchars($data['meeting_url']), $this->l10n->t('Link:'),
-				$this->getAbsoluteImagePath('caldav/link.png'), $data['meeting_url'], '', IMipPlugin::IMIP_INDENT);
-		}
-		if (isset($data['meeting_occurring'])) {
-			$template->addBodyListItem($data['meeting_occurring_html'] ?? htmlspecialchars($data['meeting_occurring']), $this->l10n->t('Occurring:'),
-				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_occurring'], '', IMipPlugin::IMIP_INDENT);
-		}
-
-		$this->addAttendees($template, $vevent);
-
-		/* Put description last, like an email body, since it can be arbitrarily long */
-		if ($data['meeting_description']) {
-			$template->addBodyListItem($data['meeting_description_html'] ?? htmlspecialchars($data['meeting_description']), $this->l10n->t('Description:'),
-				$this->getAbsoluteImagePath('caldav/description.png'), $data['meeting_description'], '', IMipPlugin::IMIP_INDENT);
-		}
+		return $label;
 	}
 
 	/**
@@ -1206,28 +1105,20 @@ class IMipService {
 	 * @param $token
 	 */
 	public function addResponseButtons(IEMailTemplate $template, $token) {
-		$template->addBodyButtonGroup(
-			$this->l10n->t('Accept'),
-			$this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.accept', [
-				'token' => $token,
-			]),
-			$this->l10n->t('Decline'),
-			$this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.decline', [
-				'token' => $token,
-			])
-		);
-	}
-
-	public function addMoreOptionsButton(IEMailTemplate $template, $token) {
-		$moreOptionsURL = $this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.options', [
-			'token' => $token,
-		]);
-		$html = vsprintf('<small><a href="%s">%s</a></small>', [
-			$moreOptionsURL, $this->l10n->t('More options …')
-		]);
-		$text = $this->l10n->t('More options at %s', [$moreOptionsURL]);
-
-		$template->addBodyText($html, $text);
+		$template->addBodyButtons([
+			[
+				'text' => $this->l10n->t('Accept'),
+				'url' => $this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.accept', ['token' => $token]),
+			],
+			[
+				'text' => $this->l10n->t('Decline'),
+				'url' => $this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.decline', ['token' => $token]),
+			],
+			[
+				'text' => $this->l10n->t('More options …'),
+				'url' => $this->urlGenerator->linkToRouteAbsolute('dav.invitation_response.options', ['token' => $token]),
+			],
+		], $this->l10n->t('Will you attend?'));
 	}
 
 	public function getReplyingAttendee(Message $iTipMessage): ?Property {
