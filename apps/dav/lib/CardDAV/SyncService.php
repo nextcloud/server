@@ -46,7 +46,17 @@ class SyncService extends ASyncService {
 	 * @psalm-return list{0: ?string, 1: boolean}
 	 * @throws \Exception
 	 */
-	public function syncRemoteAddressBook(string $url, string $userName, string $addressBookUrl, string $sharedSecret, ?string $syncToken, string $targetBookHash, string $targetPrincipal, array $targetProperties): array {
+	public function syncRemoteAddressBook(
+		string $url,
+		string $userName,
+		string $addressBookUrl,
+		string $sharedSecret,
+		?string $syncToken,
+		string $targetBookHash,
+		string $targetPrincipal,
+		array $targetProperties,
+		bool $tokenOnly = false,
+	): array {
 		// 1. create addressbook
 		$book = $this->ensureSystemAddressBookExists($targetPrincipal, $targetBookHash, $targetProperties);
 		$addressBookId = $book['id'];
@@ -55,6 +65,9 @@ class SyncService extends ASyncService {
 		try {
 			$absoluteUri = $this->prepareUri($url, $addressBookUrl);
 			$response = $this->requestSyncReport($absoluteUri, $userName, $sharedSecret, $syncToken);
+			if ($tokenOnly) {
+				return [$response['token'], false];
+			}
 		} catch (ClientExceptionInterface $ex) {
 			if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {
 				// remote server revoked access to the address book, remove it
