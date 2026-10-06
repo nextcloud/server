@@ -21,7 +21,7 @@ OC.L10N.register(
     "File copied" : "Kopírovaný súbor",
     "Tag assigned" : "Priradený štítok",
     "Someone" : "Niekto",
-    "%s created %s" : "%s vytvorené %s",
+    "%s created %s" : "%s vytvoril(a) %s",
     "%s modified %s" : "%s zmenené %s",
     "%s deleted %s" : "%s vymazané %s",
     "%s accessed %s" : "%s pristupené k %s",
