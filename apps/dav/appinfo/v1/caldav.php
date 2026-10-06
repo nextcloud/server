@@ -31,6 +31,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
 use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\CalDAV\CalendarRoot;
+use OCA\DAV\CalDAV\Principal\Collection as PrincipalCollection;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
@@ -82,7 +83,7 @@ $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 $sendInvitations = \OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
 
 // Root nodes
-$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
+$principalCollection = new PrincipalCollection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
 $addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', \OC::$server->get(LoggerInterface::class));
