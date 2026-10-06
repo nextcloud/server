@@ -11,8 +11,8 @@ namespace OCA\AdminAudit\Tests\Listener;
 
 use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\CriticalActionPerformedEventListener;
-use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\EventDispatcher\Event;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
