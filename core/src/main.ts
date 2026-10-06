@@ -9,6 +9,10 @@ import { initCore } from './init.ts'
 import OC from './OC/index.js'
 
 import './globals.js'
+// Legacy Vue 2 code observes the Vue 3 nodes of the files store and leaves
+// reactive proxies in their data, which the native structuredClone rejects
+// when a node is cloned. core-js' implementation clones them like plain data.
+import 'core-js/stable/structured-clone.js'
 
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()

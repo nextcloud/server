@@ -67,6 +67,7 @@
     "@vueuse/integrations": "^15.0.0",
     "browserslist-useragent-regexp": "^4.1.4",
     "color": "^5.0.3",
+    "core-js": "^3.50.0",
     "debounce": "^3.0.0",
     "dompurify": "^3.4.16",
     "escape-html": "^1.0.3",
