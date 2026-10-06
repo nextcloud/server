@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Listener;
 
 use OCA\AdminAudit\Actions\Action;
+use OCA\AdminAudit\Operation;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\PasswordUpdatedEvent;
@@ -42,6 +43,7 @@ class UserManagementEventListener extends Action implements IEventListener {
 
 	private function userCreated(UserCreatedEvent $event): void {
 		$this->log(
+			Operation::UserCreated,
 			'User created: "%s"',
 			[
 				'uid' => $event->getUid()
@@ -54,6 +56,7 @@ class UserManagementEventListener extends Action implements IEventListener {
 
 	private function userDeleted(UserDeletedEvent $event): void {
 		$this->log(
+			Operation::UserDeleted,
 			'User deleted: "%s"',
 			[
 				'uid' => $event->getUser()->getUID()
@@ -67,10 +70,10 @@ class UserManagementEventListener extends Action implements IEventListener {
 	private function userChanged(UserChangedEvent $event): void {
 		switch ($event->getFeature()) {
 			case 'enabled':
+				$enabled = $event->getValue() === true;
 				$this->log(
-					$event->getValue() === true
-						? 'User enabled: "%s"'
-						: 'User disabled: "%s"',
+					$enabled ? Operation::UserEnabled : Operation::UserDisabled,
+					$enabled ? 'User enabled: "%s"' : 'User disabled: "%s"',
 					['user' => $event->getUser()->getUID()],
 					[
 						'user',
@@ -79,6 +82,7 @@ class UserManagementEventListener extends Action implements IEventListener {
 				break;
 			case 'eMailAddress':
 				$this->log(
+					Operation::UserEmailChanged,
 					'Email address changed for user %s',
 					['user' => $event->getUser()->getUID()],
 					[
@@ -92,6 +96,7 @@ class UserManagementEventListener extends Action implements IEventListener {
 	private function passwordUpdated(PasswordUpdatedEvent $event): void {
 		if ($event->getUser()->getBackendClassName() === 'Database') {
 			$this->log(
+				Operation::UserPasswordChanged,
 				'Password of user "%s" has been changed',
 				[
 					'user' => $event->getUser()->getUID(),
@@ -108,6 +113,7 @@ class UserManagementEventListener extends Action implements IEventListener {
 	 */
 	private function userIdAssigned(UserIdAssignedEvent $event): void {
 		$this->log(
+			Operation::UserIdAssigned,
 			'UserID assigned: "%s"',
 			[ 'uid' => $event->getUserId() ],
 			[ 'uid' ]
@@ -119,6 +125,7 @@ class UserManagementEventListener extends Action implements IEventListener {
 	 */
 	private function userIdUnassigned(UserIdUnassignedEvent $event): void {
 		$this->log(
+			Operation::UserIdUnassigned,
 			'UserID unassigned: "%s"',
 			[ 'uid' => $event->getUserId() ],
 			[ 'uid' ]
