@@ -13,10 +13,13 @@ use OC\InitialStateService;
 use OC\TemplateLayout;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Config\IUserConfig;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\INavigationManager;
 use OCP\IRequest;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\ServerVersion;
 use OCP\Template\ITemplateManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -108,6 +111,66 @@ class TemplateLayoutTest extends \Test\TestCase {
 			'app version and version hash if shipped app' => ['apps/shipped', 'style.css', true, false, '?v=' . substr(md5('shipped_1-version_hash'), 0, 8) . '-42'],
 			'prefer path over file' => ['apps/shipped', 'other/app.css', true, false, '?v=' . substr(md5('shipped_1-version_hash'), 0, 8) . '-42'],
 		];
+	}
+
+	public static function dataPinnedEntryIds(): array {
+		return [
+			'nothing pinned' => [[], []],
+			'pinned ids in stored order' => [['mail', 'files'], ['mail', 'files']],
+			'non-string entries are dropped' => [['files', 3, null, ['x'], 'mail'], ['files', 'mail']],
+			'keys are reindexed' => [['a' => 'files', 'b' => 'mail'], ['files', 'mail']],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPinnedEntryIds')]
+	public function testGetPinnedEntryIds(array $stored, array $expected): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('alice');
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession->method('getUser')->willReturn($user);
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects(self::once())
+			->method('getValueArray')
+			->with('alice', 'core', 'apps_pinned')
+			->willReturn($stored);
+		$this->overwriteService(IUserSession::class, $userSession);
+		$this->overwriteService(IUserConfig::class, $userConfig);
+
+		try {
+			self::assertSame($expected, self::invokePrivate($this->createTemplateLayout(), 'getPinnedEntryIds'));
+		} finally {
+			$this->restoreService(IUserSession::class);
+			$this->restoreService(IUserConfig::class);
+		}
+	}
+
+	public function testGetPinnedEntryIdsWithoutUser(): void {
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession->method('getUser')->willReturn(null);
+		$userConfig = $this->createMock(IUserConfig::class);
+		$userConfig->expects(self::never())->method('getValueArray');
+		$this->overwriteService(IUserSession::class, $userSession);
+		$this->overwriteService(IUserConfig::class, $userConfig);
+
+		try {
+			self::assertSame([], self::invokePrivate($this->createTemplateLayout(), 'getPinnedEntryIds'));
+		} finally {
+			$this->restoreService(IUserSession::class);
+			$this->restoreService(IUserConfig::class);
+		}
+	}
+
+	private function createTemplateLayout(): TemplateLayout {
+		return new TemplateLayout(
+			$this->config,
+			$this->appConfig,
+			$this->appManager,
+			$this->initialState,
+			$this->navigationManager,
+			$this->templateManager,
+			$this->serverVersion,
+			$this->request,
+		);
 	}
 
 }

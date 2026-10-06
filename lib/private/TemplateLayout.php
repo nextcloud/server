@@ -25,6 +25,7 @@ use OC\Template\JSResourceLocator;
 use OCA\Theming\Service\ThemesService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Config\IUserConfig;
 use OCP\Defaults;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -85,6 +86,7 @@ class TemplateLayout {
 				$this->initialState->provideInitialState('core', 'apps', array_values($this->navigationManager->getAll()));
 				$this->initialState->provideInitialState('core', 'navigationActions', array_values($this->navigationManager->getAll(INavigationManager::TYPE_ACTION)));
 				$this->initialState->provideInitialState('core', 'appStoreLinkShown', Server::get(AppStoreLinkVisibility::class)->isShownToUsers());
+				$this->initialState->provideInitialState('core', 'apps-pinned', $this->getPinnedEntryIds());
 
 				$this->initialState->provideInitialState('unified-search', 'min-search-length', $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UNIFIED_SEARCH_MIN_SEARCH_LENGTH));
 				if ($this->config->getSystemValueBool('unified_search.enabled', false) || !$this->config->getSystemValueBool('enable_non-accessible_features', true)) {
@@ -316,6 +318,21 @@ class TemplateLayout {
 		$page->assign('id-app-navigation', $renderAs === TemplateResponse::RENDER_AS_USER ? '#app-navigation' : null);
 
 		return $page;
+	}
+
+	/**
+	 * Navigation entry ids the user pinned to show inline in the header navigation bar
+	 *
+	 * @return list<string>
+	 */
+	private function getPinnedEntryIds(): array {
+		$user = Server::get(IUserSession::class)->getUser();
+		if ($user === null) {
+			return [];
+		}
+
+		$pinned = Server::get(IUserConfig::class)->getValueArray($user->getUID(), 'core', 'apps_pinned');
+		return array_values(array_filter($pinned, is_string(...)));
 	}
 
 	protected function getVersionHashSuffix(string $path = '', string $file = ''): string {
