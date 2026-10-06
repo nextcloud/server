@@ -1,0 +1,37 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Chen Fengyuan (https://chenfengyuan.com/)
+SPDX-FileCopyrightText: Denis Pushkarev
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Ryan Day <soldair@gmail.com>
+SPDX-FileCopyrightText: dijkstrajs developers
+SPDX-FileCopyrightText: moment developers
+
+This file is generated from multiple sources. Included packages:
+- @chenfengyuan/vue-qrcode
+	- version: 2.0.0
+	- license: MIT
+- @mdi/svg
+	- version: 7.4.47
+	- license: Apache-2.0
+- core-js
+	- version: 3.50.0
+	- license: MIT
+- dijkstrajs
+	- version: 1.0.3
+	- license: MIT
+- moment
+	- version: 2.31.0
+	- license: MIT
+- nextcloud-ui
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later
+- qrcode
+	- version: 1.5.4
+	- license: MIT
+- vite
+	- version: 7.3.6
+	- license: MIT

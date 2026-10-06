@@ -1,0 +1,2 @@
+import{g as e}from"./star-outline-DjjWvcsp.chunk.mjs";import{l as n}from"./xhr-request-CRYJkZJ-.chunk.mjs";import"./previewUtils-BVwJqumb.chunk.mjs";import"./index-sxCZ9gyt.chunk.mjs";window.addEventListener("DOMContentLoaded",async()=>{try{n.debug("Running web cron"),await window.fetch(`${e()}/cron.php`),n.debug("Web cron successfull")}catch(o){n.debug("Running web cron failed",{error:o})}});
+//# sourceMappingURL=core-ajax-cron.mjs.map

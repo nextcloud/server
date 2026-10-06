@@ -28,7 +28,6 @@ SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
-SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 SPDX-FileCopyrightText: Richie Bendall
 SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
@@ -39,7 +38,6 @@ SPDX-FileCopyrightText: Max <max@nextcloud.com>
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
-SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
@@ -49,7 +47,6 @@ SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Hiroki Osame
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
-SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evan You
@@ -59,7 +56,6 @@ SPDX-FileCopyrightText: Eduardo San Martin Morote
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
-SPDX-FileCopyrightText: Chen Fengyuan
 SPDX-FileCopyrightText: Borys Serebrov
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
@@ -70,9 +66,6 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
 This file is generated from multiple sources. Included packages:
-- @chenfengyuan/vue-qrcode
-	- version: 1.0.2
-	- license: MIT
 - @floating-ui/core
 	- version: 1.8.0
 	- license: MIT
@@ -238,9 +231,6 @@ This file is generated from multiple sources. Included packages:
 - @ungap/structured-clone
 	- version: 1.3.0
 	- license: ISC
-- @vue/devtools-api
-	- version: 6.6.4
-	- license: MIT
 - @vue/reactivity
 	- version: 3.5.41
 	- license: MIT
@@ -445,15 +435,6 @@ This file is generated from multiple sources. Included packages:
 - p-queue
 	- version: 9.3.3
 	- license: MIT
-- inherits
-	- version: 2.0.3
-	- license: ISC
-- util
-	- version: 0.10.4
-	- license: MIT
-- path
-	- version: 0.12.7
-	- license: MIT
 - process
 	- version: 0.11.10
 	- license: MIT
@@ -565,9 +546,6 @@ This file is generated from multiple sources. Included packages:
 - vue-loader
 	- version: 15.11.1
 	- license: MIT
-- vue-material-design-icons
-	- version: 5.3.1
-	- license: MIT
 - vue-router
 	- version: 3.6.5
 	- license: MIT
@@ -579,12 +557,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - webdav
 	- version: 5.11.0
-	- license: MIT
-- @floating-ui/core
-	- version: 1.8.0
-	- license: MIT
-- @floating-ui/utils
-	- version: 0.2.12
 	- license: MIT
 - @nextcloud/auth
 	- version: 2.6.0
@@ -625,15 +597,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/viewer
 	- version: 2.0.0-beta.14
 	- license: AGPL-3.0-or-later
-- @vueuse/core
-	- version: 14.4.0
-	- license: MIT
-- @vueuse/shared
-	- version: 14.4.0
-	- license: MIT
-- focus-trap
-	- version: 8.2.2
-	- license: MIT
 - @nextcloud/vue
 	- version: 9.13.1
 	- license: AGPL-3.0-or-later
@@ -673,9 +636,6 @@ This file is generated from multiple sources. Included packages:
 - date-fns
 	- version: 4.1.0
 	- license: MIT
-- debounce
-	- version: 3.0.0
-	- license: MIT
 - dompurify
 	- version: 3.4.16
 	- license: (MPL-2.0 OR Apache-2.0)
@@ -688,18 +648,12 @@ This file is generated from multiple sources. Included packages:
 - nostics
 	- version: 1.2.0
 	- license: MIT
-- p-queue
-	- version: 9.3.3
-	- license: MIT
 - perfect-debounce
 	- version: 2.1.0
 	- license: MIT
 - semver
 	- version: 7.8.5
 	- license: ISC
-- tabbable
-	- version: 6.5.0
-	- license: MIT
 - vue-router
 	- version: 5.3.1
 	- license: MIT

@@ -156,9 +156,6 @@ This file is generated from multiple sources. Included packages:
 - util
 	- version: 0.10.4
 	- license: MIT
-- path
-	- version: 0.12.7
-	- license: MIT
 - process
 	- version: 0.11.10
 	- license: MIT

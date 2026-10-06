@@ -1,0 +1,34 @@
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: David Myers <hello@davidmyers.dev>
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+
+This file is generated from multiple sources. Included packages:
+- @mdi/svg
+	- version: 7.4.47
+	- license: Apache-2.0
+- @nextcloud/initial-state
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 3.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 1.0.0-beta.4
+	- license: GPL-3.0-or-later
+- @nextcloud/vue
+	- version: 9.13.1
+	- license: AGPL-3.0-or-later
+- @vitejs/plugin-vue
+	- version: 6.0.8
+	- license: MIT
+- vite
+	- version: 7.3.6
+	- license: MIT
+- vite-plugin-node-polyfills
+	- version: 0.28.0
+	- license: MIT
