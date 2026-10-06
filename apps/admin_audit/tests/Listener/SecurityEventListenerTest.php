@@ -9,29 +9,29 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\Tests\Listener;
 
-use OCA\AdminAudit\AuditLogger;
+use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\SecurityEventListener;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
+use OCP\EventDispatcher\Event;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SecurityEventListenerTest extends TestCase {
-	private AuditLogger|MockObject $logger;
+	private IAuditLogger&MockObject $logger;
 
 	private SecurityEventListener $security;
 
-	private MockObject|IUser $user;
+	private MockObject&IUser $user;
 
-	/** @var IProvider&MockObject */
-	private $provider;
+	private IProvider&MockObject $provider;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(AuditLogger::class);
+		$this->logger = $this->createMock(IAuditLogger::class);
 		$this->security = new SecurityEventListener($this->logger);
 
 		$this->user = $this->createMock(IUser::class);
@@ -41,7 +41,7 @@ class SecurityEventListenerTest extends TestCase {
 		$this->provider->method('getDisplayName')->willReturn('myprovider');
 	}
 
-	public function testTwofactorFailed(): void {
+	public function testTwoFactorFailed(): void {
 		$this->logger->expects($this->once())
 			->method('info')
 			->with(
@@ -52,7 +52,7 @@ class SecurityEventListenerTest extends TestCase {
 		$this->security->handle(new twoFactorProviderChallengeFailed($this->user, $this->provider));
 	}
 
-	public function testTwofactorSuccess(): void {
+	public function testTwoFactorSuccess(): void {
 		$this->logger->expects($this->once())
 			->method('info')
 			->with(
@@ -61,5 +61,12 @@ class SecurityEventListenerTest extends TestCase {
 			);
 
 		$this->security->handle(new TwoFactorProviderChallengePassed($this->user, $this->provider));
+	}
+
+	public function testUnrelatedEventIsIgnored(): void {
+		$this->logger->expects($this->never())
+			->method($this->anything());
+
+		$this->listener->handle(new Event());
 	}
 }
