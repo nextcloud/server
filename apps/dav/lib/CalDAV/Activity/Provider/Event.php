@@ -113,29 +113,29 @@ class Event extends Base {
 		}
 
 		if ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_event') {
-			$subject = $this->l->t('{actor} created event {event} in calendar {calendar}');
+			$subject = $this->l->t('{actor} created {event} in calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_ADD . '_event_self') {
-			$subject = $this->l->t('You created event {event} in calendar {calendar}');
+			$subject = $this->l->t('You created {event} in calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_event') {
-			$subject = $this->l->t('{actor} deleted event {event} from calendar {calendar}');
+			$subject = $this->l->t('{actor} deleted {event} from calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_DELETE . '_event_self') {
-			$subject = $this->l->t('You deleted event {event} from calendar {calendar}');
+			$subject = $this->l->t('You deleted {event} from calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_event') {
-			$subject = $this->l->t('{actor} updated event {event} in calendar {calendar}');
+			$subject = $this->l->t('{actor} updated {event} in calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_event_self') {
-			$subject = $this->l->t('You updated event {event} in calendar {calendar}');
+			$subject = $this->l->t('You updated {event} in calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_event') {
-			$subject = $this->l->t('{actor} moved event {event} from calendar {sourceCalendar} to calendar {targetCalendar}');
+			$subject = $this->l->t('{actor} moved {event} from calendar {sourceCalendar} to calendar {targetCalendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_event_self') {
-			$subject = $this->l->t('You moved event {event} from calendar {sourceCalendar} to calendar {targetCalendar}');
+			$subject = $this->l->t('You moved {event} from calendar {sourceCalendar} to calendar {targetCalendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event') {
-			$subject = $this->l->t('{actor} deleted event {event} from calendar {calendar}');
+			$subject = $this->l->t('{actor} deleted {event} from calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE_TO_TRASH . '_event_self') {
-			$subject = $this->l->t('You deleted event {event} from calendar {calendar}');
+			$subject = $this->l->t('You deleted {event} from calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_RESTORE . '_event') {
-			$subject = $this->l->t('{actor} restored event {event} of calendar {calendar}');
+			$subject = $this->l->t('{actor} restored {event} of calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_RESTORE . '_event_self') {
-			$subject = $this->l->t('You restored event {event} of calendar {calendar}');
+			$subject = $this->l->t('You restored {event} of calendar {calendar}');
 		} else {
 			throw new UnknownActivityException();
 		}
