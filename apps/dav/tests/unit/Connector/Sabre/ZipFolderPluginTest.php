@@ -145,7 +145,6 @@ class ZipFolderPluginTest extends TestCase {
 		$plugin->handleDownload($this->createRequest($folderPath, $filesFilter), $this->response);
 	}
 
-
 	public static function dataDownloadingAFolderWithMissingFilesReportingShouldSucceed(): array {
 		return [
 			// files are reporting as missing either because they are download-blocked or because some error happened
@@ -222,7 +221,6 @@ class ZipFolderPluginTest extends TestCase {
 		$this->assertFalse($continueHandling);
 	}
 
-
 	private function createPlugin(bool $reportMissingFiles): ZipFolderPlugin {
 		$this->config->method('getSystemValueBool')
 			->with('archive_report_missing_files', true)
@@ -281,6 +279,16 @@ class ZipFolderPluginTest extends TestCase {
 		$folder->method('getPath')->willReturn($path);
 		$folder->method('getName')->willReturn(basename($path));
 		$folder->method('getDirectoryListing')->willReturn($children);
+		$folder->method('get')->willReturnCallback(
+			function (string $path) use ($children) {
+				foreach ($children as $child) {
+					if ($child->getName() === $path) {
+						return $child;
+					}
+				}
+				return null;
+			}
+		);
 
 		return $folder;
 	}

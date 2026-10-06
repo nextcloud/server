@@ -225,7 +225,6 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 
 		foreach ($event->getNodes($rootPath) as $path => [$node, $reason]) {
-			assert($node instanceof NcNode);
 			$filename = str_replace($rootPath, '', $path);
 			if ($node === null) {
 				if ($this->reportMissingFiles) {
@@ -235,6 +234,7 @@ class ZipFolderPlugin extends ServerPlugin {
 			}
 
 			try {
+				assert($node instanceof NcNode);
 				$streamError = $this->streamNode($streamer, $node, $rootPath);
 			} catch (\Exception $e) {
 				if (!$this->reportMissingFiles) {
