@@ -22,7 +22,7 @@ use Test\TestCase;
 class SecurityEventListenerTest extends TestCase {
 	private IAuditLogger&MockObject $logger;
 
-	private SecurityEventListener $security;
+	private SecurityEventListener $listener;
 
 	private MockObject&IUser $user;
 
@@ -32,7 +32,7 @@ class SecurityEventListenerTest extends TestCase {
 		parent::setUp();
 
 		$this->logger = $this->createMock(IAuditLogger::class);
-		$this->security = new SecurityEventListener($this->logger);
+		$this->listener = new SecurityEventListener($this->logger);
 
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')->willReturn('myuid');
@@ -49,7 +49,7 @@ class SecurityEventListenerTest extends TestCase {
 				['app' => 'admin_audit']
 			);
 
-		$this->security->handle(new twoFactorProviderChallengeFailed($this->user, $this->provider));
+		$this->listener->handle(new twoFactorProviderChallengeFailed($this->user, $this->provider));
 	}
 
 	public function testTwoFactorSuccess(): void {
@@ -60,7 +60,7 @@ class SecurityEventListenerTest extends TestCase {
 				['app' => 'admin_audit']
 			);
 
-		$this->security->handle(new TwoFactorProviderChallengePassed($this->user, $this->provider));
+		$this->listener->handle(new TwoFactorProviderChallengePassed($this->user, $this->provider));
 	}
 
 	public function testUnrelatedEventIsIgnored(): void {
