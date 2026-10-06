@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\Tests\Listener;
 
-use OCA\AdminAudit\IAuditLogger
+use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\CriticalActionPerformedEventListener;
 use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\EventDispatcher\Event;
