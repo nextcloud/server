@@ -140,7 +140,7 @@ export default {
 		div {
 			position: relative;
 			width: 100%;
-			overflow-x: hidden;
+			overflow-x: clip;
 			text-overflow: ellipsis;
 			margin: -1px 0;
 		}
