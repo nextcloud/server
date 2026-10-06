@@ -2004,4 +2004,39 @@ class ShareByMailProviderTest extends TestCase {
 
 		self::invokePrivate($provider, 'sendNote', [$share]);
 	}
+
+	public function testSendNoteDoesNotEscapeHeading(): void {
+		$provider = $this->getInstance();
+		$initiatorUser = $this->createMock(IUser::class);
+		$initiatorUser->method('getDisplayName')->willReturn('Tom & Jerry\'s');
+		$initiatorUser->method('getEMailAddress')->willReturn(null);
+		$this->userManager->method('get')->with('InitiatorUser')->willReturn($initiatorUser);
+		$this->settingsManager->method('replyToInitiator')->willReturn(false);
+		$this->defaults->method('getName')->willReturn('UnitTestCloud');
+		$this->urlGenerator->method('linkToRouteAbsolute')->willReturn('https://example.com/file.txt');
+
+		$message = $this->createMock(Message::class);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$template
+			->expects($this->once())
+			->method('addHeading')
+			->with(
+				'Tom & Jerry\'s shared file.txt with you',
+				'Tom & Jerry\'s shared file.txt with you'
+			);
+		$this->mailer->expects($this->once())->method('send')->with($message);
+
+		$node = $this->createMock(File::class);
+		$node->method('getName')->willReturn('file.txt');
+		$share = $this->createMock(IShare::class);
+		$share->method('getSharedBy')->willReturn('InitiatorUser');
+		$share->method('getSharedWith')->willReturn('john@doe.com');
+		$share->method('getNode')->willReturn($node);
+		$share->method('getNote')->willReturn('Some note');
+		$share->method('getToken')->willReturn('token');
+
+		self::invokePrivate($provider, 'sendNote', [$share]);
+	}
 }
