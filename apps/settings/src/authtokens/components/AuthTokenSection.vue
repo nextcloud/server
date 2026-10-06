@@ -16,7 +16,7 @@ import { useAuthTokenStore } from '../store/authtoken.ts'
 
 const authTokenStore = useAuthTokenStore()
 
-const canCreateToken = loadState('settings', 'can_create_app_token')
+const canCreateToken = loadState<boolean>('settings', 'can_create_app_token')
 const revokeAllDialogOpen = ref(false)
 
 /**
