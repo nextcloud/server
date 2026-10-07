@@ -85,7 +85,7 @@ class FilesPluginTest extends TestCase {
 	/**
 	 * @param class-string<INode> $class
 	 */
-	private function createTestNode(string $class, string $path = '/dummypath'): INode&MockObject {
+	private function createTestNode(string $class, string $path = '/dummypath', bool $isUpdateable = true): INode&MockObject {
 		$node = $this->createMock($class);
 
 		$node->expects($this->any())
@@ -114,6 +114,9 @@ class FilesPluginTest extends TestCase {
 		$fileInfo->expects($this->any())
 			->method('isReadable')
 			->willReturn(true);
+		$fileInfo->expects($this->any())
+			->method('isUpdateable')
+			->willReturn($isUpdateable);
 		$fileInfo->expects($this->any())
 			->method('getCreationTime')
 			->willReturn(123456789);
@@ -485,6 +488,39 @@ class FilesPluginTest extends TestCase {
 		$this->assertEquals(200, $result[FilesPlugin::LASTMODIFIED_PROPERTYNAME]);
 		$this->assertEquals(200, $result[FilesPlugin::GETETAG_PROPERTYNAME]);
 		$this->assertEquals(200, $result[FilesPlugin::CREATIONDATE_PROPERTYNAME]);
+	}
+
+	public function testUpdatePropsReadOnlyNode(): void {
+		$node = $this->createTestNode(File::class, '/dummypath', false);
+
+		$node->expects($this->never())
+			->method('touch');
+		$node->expects($this->never())
+			->method('setEtag');
+		$node->expects($this->never())
+			->method('setCreationTime');
+
+		$propPatch = new PropPatch([
+			FilesPlugin::GETETAG_PROPERTYNAME => 'newetag',
+			FilesPlugin::LASTMODIFIED_PROPERTYNAME => 'Fri, 13 Feb 2015 00:01:02 GMT',
+			FilesPlugin::CREATIONDATE_PROPERTYNAME => '2007-08-31T16:47+00:00',
+			FilesPlugin::CREATION_TIME_PROPERTYNAME => '1188578820',
+		]);
+
+		$this->plugin->handleUpdateProperties(
+			'/dummypath',
+			$propPatch
+		);
+
+		$propPatch->commit();
+
+		$this->assertEmpty($propPatch->getRemainingMutations());
+
+		$result = $propPatch->getResult();
+		$this->assertEquals(403, $result[FilesPlugin::LASTMODIFIED_PROPERTYNAME]);
+		$this->assertEquals(403, $result[FilesPlugin::GETETAG_PROPERTYNAME]);
+		$this->assertEquals(403, $result[FilesPlugin::CREATIONDATE_PROPERTYNAME]);
+		$this->assertEquals(403, $result[FilesPlugin::CREATION_TIME_PROPERTYNAME]);
 	}
 
 	public function testUpdatePropsForbidden(): void {
