@@ -84,6 +84,22 @@ package-lock.json                             @nextcloud/server-dependabot
 openapi*.json                       @provokateurin @nextcloud/server-backend
 ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 
+# IDP team
+/lib/public/Accounts                @nextcloud/idp
+/lib/private/Accounts               @nextcloud/idp
+/lib/public/Authentication          @nextcloud/idp
+/lib/private/Authentication         @nextcloud/idp
+/lib/public/*User*                  @nextcloud/idp
+/lib/private/User                   @nextcloud/idp
+/lib/public/*Group*                 @nextcloud/idp
+/lib/private/Group                  @nextcloud/idp
+/lib/public/Teams                   @nextcloud/idp
+/lib/private/Teams                  @nextcloud/idp
+/lib/public/LDAP                    @nextcloud/idp
+/lib/private/LDAP                   @nextcloud/idp
+/apps/user_ldap                     @nextcloud/idp
+/apps/profile                       @nextcloud/idp
+
 # Talk team
 /lib/private/Comments               @nickvergessen @nextcloud/talk-backend
 /lib/private/Federation             @nickvergessen @nextcloud/talk-backend @nextcloud/server-backend
@@ -92,7 +108,7 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 /lib/public/Federation              @nickvergessen @nextcloud/talk-backend @nextcloud/server-backend
 /lib/public/OCM                     @nickvergessen @nextcloud/talk-backend @nextcloud/server-backend
 /lib/public/Talk                    @nickvergessen @nextcloud/talk-backend
-/lib/public/UserStatus              @nickvergessen @nextcloud/talk-backend
+/lib/public/UserStatus              @nickvergessen @nextcloud/talk-backend @nextcloud/idp
 */Notifications/*                   @nickvergessen @nextcloud/talk-backend
 
 # Groupware team
