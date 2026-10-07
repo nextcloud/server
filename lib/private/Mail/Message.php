@@ -225,6 +225,14 @@ class Message implements IMessage {
 	public function setHtmlBody(string $body): IMessage {
 		if (!$this->plainTextOnly) {
 			$this->symfonyEmail->html($body);
+			
+			if (str_contains($body, 'cid:logo')) {
+				$themingDefaults = \OCP\Server::get(\OCP\Defaults::class);
+				$logoImage = $themingDefaults->getLogoImage();
+				if ($logoImage !== null) {
+					$this->attachInline($logoImage['content'], 'logo', $logoImage['mimeType']);
+				}
+			}
 		}
 		return $this;
 	}
