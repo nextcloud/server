@@ -97,6 +97,62 @@ class SharedQueryBuilderTest extends TestCase {
 		$this->fail('exception expected');
 	}
 
+	public function testAddValuesOnShardedTableInsertsPerShard(): void {
+		$usedShards = [];
+		$shardConnectionManager = $this->createMock(ShardConnectionManager::class);
+		$shardConnectionManager->method('getConnection')
+			->willReturnCallback(function (ShardDefinition $definition, int $shard) use (&$usedShards) {
+				$usedShards[] = $shard;
+				return $this->connection;
+			});
+		$query = new ShardedQueryBuilder(
+			$this->connection->getQueryBuilder(),
+			[
+				new ShardDefinition('filecache_extended', 'fileid', [], 'fileid', new RoundRobinShardMapper(), [], [[], []], 0, 0),
+			],
+			$shardConnectionManager,
+			$this->autoIncrementHandler,
+		);
+
+		$fileIds = [9990001, 9990002, 9990003];
+		$query->insert('filecache_extended');
+		foreach ($fileIds as $fileId) {
+			$query->addValues([
+				'fileid' => $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT),
+				'upload_time' => $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT),
+			]);
+		}
+
+		try {
+			$this->assertSame(3, $query->executeStatement());
+			$this->assertSame([1, 0, 1], $usedShards);
+
+			$select = $this->connection->getQueryBuilder();
+			$result = $select->select('fileid', 'upload_time')
+				->from('filecache_extended')
+				->where($select->expr()->in('fileid', $select->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
+				->orderBy('fileid')
+				->executeQuery();
+			$this->assertEquals(array_map(static fn (int $id) => ['fileid' => $id, 'upload_time' => $id], $fileIds), $result->fetchAllAssociative());
+			$result->closeCursor();
+		} finally {
+			$delete = $this->connection->getQueryBuilder();
+			$delete->delete('filecache_extended')
+				->where($delete->expr()->in('fileid', $delete->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
+				->executeStatement();
+		}
+	}
+
+	public function testAddValuesOnNonShardedTable(): void {
+		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
+		$query->insert('appconfig')
+			->addValues(['configkey' => $query->createNamedParameter('a')])
+			->addValues(['configkey' => $query->createNamedParameter('b')]);
+
+		$this->assertMatchesRegularExpression('/^INSERT (INTO|ALL)/', $query->getSQL());
+		$this->assertSame(2, substr_count($query->getSQL(), ':dcValue'));
+	}
+
 	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testValidateNonSharedTable(): void {
 		$query = $this->getQueryBuilder('filecache', 'storage', 'fileid');
