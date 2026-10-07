@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Add reaction on start
-        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v3.0.1
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
@@ -52,7 +52,7 @@ jobs:
           exit 1
 
       - name: Init branch
-        uses: xt0rted/pull-request-comment-branch@e8b8daa837e8ea7331c0003c9c316a64c6d8b0b1 # v1
+        uses: xt0rted/pull-request-comment-branch@e8b8daa837e8ea7331c0003c9c316a64c6d8b0b1 # v3.0.0
         id: comment-branch
 
       - name: Checkout ${{ steps.comment-branch.outputs.head_ref }}
@@ -82,7 +82,7 @@ jobs:
           git config --local user.name 'nextcloud-command'
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v3.0.1
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         if: ${{ env.server_ref == '' }}
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
@@ -102,7 +102,7 @@ jobs:
           git push
 
       - name: Add reaction on failure
-        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v3.0.1
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         if: failure()
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
