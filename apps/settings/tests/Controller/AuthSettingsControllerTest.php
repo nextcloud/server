@@ -16,10 +16,12 @@ use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\IWipeableToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\RemoteWipe;
+use OC\Authentication\Token\TokenScopes;
 use OCA\Settings\Activity\Provider;
 use OCA\Settings\Controller\AuthSettingsController;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Authentication\Exceptions\WipeTokenException;
@@ -78,6 +80,7 @@ class AuthSettingsControllerTest extends TestCase {
 			$logger,
 			$this->serverConfig,
 			$this->l,
+			new TokenScopes(),
 		);
 	}
 
@@ -528,6 +531,100 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password')->getData());
 	}
 
+	public static function dataUpdateScopedToken(): array {
+		$stored = [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => [TokenScopes::CALENDAR_READ]];
+		return [
+			'scopes omitted' => [$stored, [IToken::SCOPE_FILESYSTEM => false]],
+			'scopes sent back unchanged' => [$stored, $stored],
+			'legacy filesystem toggle' => [$stored, [IToken::SCOPE_FILESYSTEM => true, TokenScopes::KEY => [TokenScopes::CALENDAR_READ]]],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateScopedToken')]
+	public function testUpdateScopedTokenKeepsScopes(array $stored, array $scope): void {
+		$tokenId = 42;
+		$token = $this->createMock(PublicKeyToken::class);
+
+		$this->mockGetTokenById($tokenId, $token);
+		$this->mockActivityManager();
+
+		$token->method('getUID')->willReturn('jane');
+		$token->method('getName')->willReturn('App password');
+		$token->method('getScopeAsArray')->willReturn($stored);
+
+		$token->expects($this->never())
+			->method('setScope');
+		$token->expects($this->once())
+			->method('setName')
+			->with('Renamed');
+
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with($token);
+
+		$this->assertSame([], $this->controller->update($tokenId, $scope, 'Renamed')->getData());
+	}
+
+	public static function dataUpdateScopes(): array {
+		$calendar = [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => [TokenScopes::CALENDAR_READ]];
+		return [
+			'scopes set, filesystem flips too' => [[IToken::SCOPE_FILESYSTEM => true], [TokenScopes::KEY => [TokenScopes::CALENDAR_READ]], $calendar],
+			'scopes cleared' => [$calendar, [IToken::SCOPE_FILESYSTEM => false, TokenScopes::KEY => null], [IToken::SCOPE_FILESYSTEM => true]],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataUpdateScopes')]
+	public function testUpdateScopesPublishOneActivity(array $stored, array $scope, array $expected): void {
+		$tokenId = 42;
+		$token = $this->createMock(PublicKeyToken::class);
+
+		$this->mockGetTokenById($tokenId, $token);
+		$this->mockActivityManager(Provider::APP_TOKEN_SCOPES_CHANGED);
+
+		$token->method('getUID')->willReturn('jane');
+		$token->method('getName')->willReturn('App password');
+		$token->method('getScopeAsArray')->willReturn($stored);
+
+		$token->expects($this->once())
+			->method('setScope')
+			->with($expected);
+
+		$this->tokenProvider->expects($this->once())
+			->method('updateToken')
+			->with($token);
+
+		$this->assertSame([], $this->controller->update($tokenId, $scope, 'App password')->getData());
+	}
+
+	public function testUpdateInvalidScopes(): void {
+		$tokenId = 42;
+		$token = $this->createMock(PublicKeyToken::class);
+
+		$this->mockGetTokenById($tokenId, $token);
+
+		$token->method('getUID')->willReturn('jane');
+		$token->method('getName')->willReturn('App password');
+		$token->method('getScopeAsArray')->willReturn([IToken::SCOPE_FILESYSTEM => true]);
+
+		$token->expects($this->never())
+			->method('setScope');
+		$token->expects($this->never())
+			->method('setName');
+		$this->tokenProvider->expects($this->never())
+			->method('updateToken');
+
+		$response = $this->controller->update($tokenId, [TokenScopes::KEY => ['app:deck']], 'Renamed');
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
+	}
+
+	public function testUpdateRequiresStrictPasswordConfirmation(): void {
+		$attributes = (new \ReflectionMethod(AuthSettingsController::class, 'update'))
+			->getAttributes(PasswordConfirmationRequired::class);
+
+		$this->assertCount(1, $attributes);
+		$this->assertTrue($attributes[0]->newInstance()->getStrict());
+	}
+
 	public function testUpdateExpired(): void {
 		$tokenId = 42;
 		$token = $this->createMock(PublicKeyToken::class);
@@ -589,10 +686,21 @@ class AuthSettingsControllerTest extends TestCase {
 		return $token;
 	}
 
-	private function mockActivityManager(): void {
+	private function mockActivityManager(?string $subject = null): void {
+		$event = $this->createMock(IEvent::class);
+		if ($subject !== null) {
+			foreach (['setApp', 'setType', 'setAffectedUser', 'setAuthor', 'setObject'] as $method) {
+				$event->method($method)->willReturnSelf();
+			}
+			$event->expects($this->once())
+				->method('setSubject')
+				->with($subject, $this->anything())
+				->willReturnSelf();
+		}
+
 		$this->activityManager->expects($this->once())
 			->method('generateEvent')
-			->willReturn($this->createMock(IEvent::class));
+			->willReturn($event);
 		$this->activityManager->expects($this->once())
 			->method('publish');
 	}
