@@ -188,7 +188,7 @@ OC.L10N.register(
     "Reset" : "Redefinir",
     "Reset folder to system default" : "Redefinir pasta para o padrão do sistema",
     "Share expiration: {date}" : "Expiração do compartilhamento: {date}",
-    "Share Expiration" : "Expiração do Compartilhamento",
+    "Share Expiration" : "Expiração do compartilhamento",
     "group" : "grupo",
     "conversation" : "conversa",
     "remote" : "remoto",

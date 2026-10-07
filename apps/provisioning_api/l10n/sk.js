@@ -1,7 +1,7 @@
 OC.L10N.register(
     "provisioning_api",
     {
-    "Logged in account must be an administrator or have authorization to edit this setting." : "Prihlásený používateľ musí byť správcom, alebo musí mať špeciálne právo na uprávu k tohoto nastavenia.",
+    "Logged in account must be an administrator or have authorization to edit this setting." : "Prihlásený účet musí byť správcom alebo mať oprávnenie na úpravu tohto nastavenia.",
     "Could not create non-existing user ID" : "Nie je možné vytvoriť neexistujúce ID užívateľa",
     "User already exists" : "Používateľ už existuje",
     "Group %1$s does not exist" : "Skupina %1$s neexistuje",

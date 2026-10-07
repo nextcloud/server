@@ -400,7 +400,7 @@ OC.L10N.register(
     "Names must not be empty." : "Názvy nesmú byť prázdne.",
     "Names must not start with a dot." : "Názvy nesmú začínať bodkou.",
     "\"{char}\" is not allowed inside a name." : "“{char}“ nie je povolené v názve.",
-    "\"{segment}\" is a reserved name and not allowed." : "“{segment}“ je rezervovaný názov a nie je povolený.",
+    "\"{segment}\" is a reserved name and not allowed." : "„{segment}“ je rezervovaný názov a nie je povolený.",
     "\"{extension}\" is not an allowed name." : "\"{extension}“ nie je povolený názov.",
     "Names must not end with \"{extension}\"." : "Názov nesmie končiť na \"{extension}\".",
     "Invalid name." : "Neplatný názov.",
