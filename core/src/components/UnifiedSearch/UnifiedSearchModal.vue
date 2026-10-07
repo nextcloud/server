@@ -11,8 +11,8 @@
 			<CustomDateRangeModal
 				:isOpen="showDateRangeModal"
 				class="unified-search__date-range"
-				@set:customDateRange="setCustomDateRange"
-				@update:isOpen="showDateRangeModal = $event" />
+				@set:custom-date-range="setCustomDateRange"
+				@update:is-open="showDateRangeModal = $event" />
 
 			<div id="unified-search-results" ref="panel" class="unified-search-modal__container">
 				<!-- Polite status region: announces searching / done / result count to
