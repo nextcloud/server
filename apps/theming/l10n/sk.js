@@ -27,7 +27,7 @@ OC.L10N.register(
     "No file uploaded" : "Žiadny súbor nebol nahraný",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Už používate vlastný motív vzhľadu. Predošlé nastavenia tým môžu byť prepísané.",
     "Theming" : "Zmena vzhľadu",
-    "Appearance and accessibility" : "Vzhľad a správanie",
+    "Appearance and accessibility" : "Vzhľad a prístupnosť",
     "PHP Imagick module" : "Modul PHP Imagick",
     "The PHP module \"imagick\" is not enabled although the theming app is. For favicon generation to work correctly, you need to install and enable this module." : "PHP modul „imagick“ nie je povolený, hoci tematická aplikácia áno. Aby generovanie favicon správne fungovalo, musíte nainštalovať a povoliť tento modul.",
     "The PHP module \"imagick\" in this instance has no SVG support. For better compatibility it is recommended to install it." : "PHP modul \"imagick\" v tomto prípade nemá podporu SVG. Pre lepšiu kompatibilitu sa ju odporúča nainštalovať.",

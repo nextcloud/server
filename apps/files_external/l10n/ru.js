@@ -88,6 +88,7 @@ OC.L10N.register(
     "Edit storage" : "Изменить хранилище",
     "Add storage" : "Добавить хранилище",
     "Folder name" : "Имя папки",
+    "Without a restriction this storage is available to every account on this server." : "Без указания каких-либо ограничений это хранилище будет доступно для всех учетных записей на этом сервере.",
     "Authentication" : "Способ авторизации",
     "Cancel" : "Cancel",
     "Edit" : "Редактировать",

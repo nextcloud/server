@@ -33,6 +33,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
 use OCP\Mail\IMailer;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -1614,6 +1615,7 @@ class DefaultShareProvider implements
 		$note = '') {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
+		$initiatorEmail = $initiatorUser?->getEMailAddress();
 
 		$message = $this->mailer->createMessage();
 
@@ -1627,11 +1629,18 @@ class DefaultShareProvider implements
 
 		$emailTemplate->setSubject($l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]));
 		$emailTemplate->addHeader();
+		$emailTemplate->addBodySender($initiatorDisplayName, $initiatorEmail ?? '');
 		$emailTemplate->addHeading($l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]), false);
 
 		if ($note !== '') {
-			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
+			$emailTemplate->addBodyNote($note, $l->t('Note'));
 		}
+
+		$details = new EMailDetails($filename);
+		if ($expiration !== null) {
+			$details->addRow($l->t('Valid until'))->text((string)$l->l('date', $expiration, ['width' => 'medium']));
+		}
+		$emailTemplate->addBodyDetails($details);
 
 		$emailTemplate->addBodyButton(
 			$l->t('Open %s', [$filename]),
@@ -1653,14 +1662,9 @@ class DefaultShareProvider implements
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
-		if ($initiatorUser) {
-			$initiatorEmail = $initiatorUser->getEMailAddress();
-			if ($initiatorEmail !== null) {
-				$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
-				$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
-			} else {
-				$emailTemplate->addFooter();
-			}
+		if ($initiatorEmail !== null) {
+			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
+			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
 		} else {
 			$emailTemplate->addFooter();
 		}
@@ -1709,16 +1713,16 @@ class DefaultShareProvider implements
 			$initiatorUser = $this->userManager->get($initiator);
 			$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 			$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
-			$plainHeading = $l->t('%1$s shared %2$s with you and wants to add:', [$initiatorDisplayName, $filename]);
-			$htmlHeading = $l->t('%1$s shared %2$s with you and wants to add', [$initiatorDisplayName, $filename]);
+			$heading = $l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]);
 			$message = $this->mailer->createMessage();
 
 			$emailTemplate = $this->mailer->createEMailTemplate('defaultShareProvider.sendNote');
 
 			$emailTemplate->setSubject($l->t('%s added a note to a file shared with you', [$initiatorDisplayName]));
 			$emailTemplate->addHeader();
-			$emailTemplate->addHeading($htmlHeading, $plainHeading);
-			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
+			$emailTemplate->addBodySender($initiatorDisplayName, $initiatorEmailAddress ?? '');
+			$emailTemplate->addHeading($heading);
+			$emailTemplate->addBodyNote($note, $l->t('Note'));
 
 			$link = $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $share->getNode()->getId()]);
 			$emailTemplate->addBodyButton(

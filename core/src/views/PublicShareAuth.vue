@@ -10,13 +10,12 @@ import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { getSharingToken } from '@nextcloud/sharing/public'
-import { NcTextField } from '@nextcloud/vue'
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
-import NcGuestContent from '@nextcloud/vue/components/NcGuestContent'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 const publicShareAuth = loadState<{
 	canResendPassword: boolean
@@ -33,19 +32,10 @@ const isPasswordResetProcessed = !!publicShareAuth.showPasswordReset
 const showPasswordReset = ref(publicShareAuth.showPasswordReset ?? false)
 const password = ref('')
 const email = ref('')
-
-// TODO: Remove when using Vue 3
-onMounted(() => {
-	const instance = getCurrentInstance()
-	if (instance) {
-		// @ts-expect-error Vue internals
-		(instance.proxy.$el as HTMLElement)?.classList.add('guest-box')
-	}
-})
 </script>
 
 <template>
-	<NcGuestContent :class="$style.publicShareAuth">
+	<div :class="$style.publicShareAuth">
 		<h2>{{ t('core', 'This share is password-protected') }}</h2>
 		<form
 			v-show="!showPasswordReset"
@@ -112,12 +102,12 @@ onMounted(() => {
 			@click="showPasswordReset = true">
 			{{ t('core', 'Forgot password') }}
 		</NcButton>
-	</NcGuestContent>
+	</div>
 </template>
 
 <style module>
 .publicShareAuth {
-	max-width: 400px !important;
+	max-width: 400px;
 }
 
 .publicShareAuth__form {

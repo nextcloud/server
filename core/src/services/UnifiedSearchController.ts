@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { search as unifiedSearch } from './UnifiedSearchService.js'
+import { search as unifiedSearch } from './UnifiedSearchService.ts'
 
 type CategorySearchStatus = 'loading' | 'loaded' | 'failed' | 'blocked'
 

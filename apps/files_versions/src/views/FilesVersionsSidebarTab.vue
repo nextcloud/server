@@ -47,7 +47,7 @@ import type { Version } from '../utils/versions.ts'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
-import { getViewer, canView as viewerCanView } from '@nextcloud/viewer'
+import { getViewer, canCompare as viewerCanCompare, canView as viewerCanView } from '@nextcloud/viewer'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { watchDebounced } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
@@ -117,14 +117,12 @@ const initialVersionMtime = computed(() => {
 
 const canView = computed(() => props.node !== null && viewerCanView(props.node))
 
-// Comparison puts two files side by side, which needs the width for it and
-// only means something for a picture: two clips or two recordings playing
-// next to each other say nothing about what changed between them. The old
-// viewer asked each handler through a `canCompare` flag, which the package
-// does not carry yet; until it does, the mime is what decides.
+// Comparison puts two files side by side, which needs the width for it, and
+// is only offered where the handler showing the file says it means
+// something: two pictures or two documents, not two clips playing at once.
 const canCompare = computed(() => !isMobile.value
-	&& canView.value
-	&& (props.node?.mime ?? '').startsWith('image/'))
+	&& props.node !== null
+	&& viewerCanCompare(props.node))
 
 // When either the current node to show or its mtime changes we need to refetch the versions
 // When the id changed we immediately show changes

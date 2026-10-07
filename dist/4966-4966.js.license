@@ -140,16 +140,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/viewer
-	- version: 2.0.0-beta.14
+	- version: 2.0.0-beta.15
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 14.4.0
 	- license: MIT
 - @vueuse/shared
 	- version: 14.4.0
-	- license: MIT
-- focus-trap
-	- version: 8.2.2
 	- license: MIT
 - @nextcloud/vue
 	- version: 9.13.1
@@ -193,6 +190,9 @@ This file is generated from multiple sources. Included packages:
 - emoji-mart-vue-fast
 	- version: 15.0.5
 	- license: BSD-3-Clause
+- focus-trap
+	- version: 8.2.3
+	- license: MIT
 - hookable
 	- version: 5.5.3
 	- license: MIT

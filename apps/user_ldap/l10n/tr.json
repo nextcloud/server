@@ -55,6 +55,8 @@
     "Base User Tree" : "Temel Kullanıcı Ağacı",
     "Optional; one attribute per line" : "İsteğe bağlı; her satıra bir öznitelik",
     "User Search Attributes" : "Kullanıcı arama öznitelikleri",
+    "User Active/Inactive Attribute" : "Kullanıcı Etkin/Etkisiz özniteliği",
+    "User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not." : "Kullanıcının etkin ya da etkisiz olup olmadığı kullanıcı özniteliği. Etkinse `TRUE`, etkisizse `FALSE` olmalıdır.",
     "When switched on, users imported from LDAP which are then missing will be disabled" : "Açıldığında, LDAP üzerinden içe aktarılmış ancak daha sonra kaybolmuş kullanıcılar kullanımdan kaldırılır",
     "Disable users missing from LDAP" : "LDAP üzerinde bulunmayan kullanıcılar kullanımdan kaldırılsın",
     "Group Display Name Field" : "Görüntülenecek Grup Adı Alanı",

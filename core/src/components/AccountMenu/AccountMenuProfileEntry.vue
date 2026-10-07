@@ -3,10 +3,82 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { ITokenResponse } from '~/apps/settings/src/authtokens/store/authtoken.ts'
+
+import { mdiQrcodeScan } from '@mdi/js'
+import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
+import { generateUrl } from '@nextcloud/router'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
+import AccountQrLoginDialog from './AccountQRLoginDialog.vue'
+
+defineProps<{
+	id: string
+	name: string
+	href: string
+	active: boolean
+}>()
+
+addPasswordConfirmationInterceptors(axios)
+
+// @ts-expect-error capabilities is missing the capability to type it...
+const canCreateAppToken = getCapabilities().core?.['can-create-app-token'] ?? false
+
+const profileEnabled = ref(loadState('user_status', 'profileEnabled', { profileEnabled: false }).profileEnabled)
+const displayName = ref(getCurrentUser()!.displayName ?? getCurrentUser()!.uid)
+
+onMounted(() => {
+	subscribe('settings:profile-enabled:updated', handleProfileEnabledUpdate)
+	subscribe('settings:display-name:updated', handleDisplayNameUpdate)
+})
+
+onBeforeUnmount(() => {
+	unsubscribe('settings:profile-enabled:updated', handleProfileEnabledUpdate)
+	unsubscribe('settings:display-name:updated', handleDisplayNameUpdate)
+})
+
+/**
+ * Create a one-time app password and show it as QR code for the mobile apps.
+ */
+async function handleQrCodeClick() {
+	const { data } = await axios.post<ITokenResponse>(
+		generateUrl('/settings/personal/authtokens'),
+		{ qrcodeLogin: true },
+		{ confirmPassword: PwdConfirmationMode.Strict },
+	)
+
+	await spawnDialog(AccountQrLoginDialog, { data })
+}
+
+/**
+ * @param enabled - Whether the profile is enabled now
+ */
+function handleProfileEnabledUpdate(enabled: boolean) {
+	profileEnabled.value = enabled
+}
+
+/**
+ * @param name - The new display name
+ */
+function handleDisplayNameUpdate(name: string) {
+	displayName.value = name
+}
+</script>
+
 <template>
 	<NcListItem
 		:id="profileEnabled ? undefined : id"
-		:anchor-id="id"
+		:anchorId="id"
 		:active="active"
 		compact
 		:href="profileEnabled ? href : undefined"
@@ -21,123 +93,9 @@
 				variant="secondary"
 				@click="handleQrCodeClick">
 				<template #icon>
-					<IconQrcodeScan :size="20" />
+					<NcIconSvgWrapper :path="mdiQrcodeScan" :size="20" />
 				</template>
 			</NcButton>
 		</template>
-		<template v-if="loading" #indicator>
-			<NcLoadingIcon />
-		</template>
 	</NcListItem>
 </template>
-
-<script lang="ts">
-import type { ITokenResponse } from '../../../../apps/settings/src/store/authtoken.ts'
-
-import { getCurrentUser } from '@nextcloud/auth'
-import axios from '@nextcloud/axios'
-import { getCapabilities } from '@nextcloud/capabilities'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { loadState } from '@nextcloud/initial-state'
-import { t } from '@nextcloud/l10n'
-import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
-import { generateUrl } from '@nextcloud/router'
-import { spawnDialog } from '@nextcloud/vue/functions/dialog'
-import { defineComponent } from 'vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcListItem from '@nextcloud/vue/components/NcListItem'
-import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import IconQrcodeScan from 'vue-material-design-icons/QrcodeScan.vue'
-import AccountQrLoginDialog from './AccountQRLoginDialog.vue'
-
-addPasswordConfirmationInterceptors(axios)
-
-const { profileEnabled } = loadState('user_status', 'profileEnabled', { profileEnabled: false })
-
-// @ts-expect-error capabilities is missing the capability to type it...
-const canCreateAppToken = getCapabilities().core?.['can-create-app-token'] ?? false
-
-export default defineComponent({
-	name: 'AccountMenuProfileEntry',
-
-	components: {
-		IconQrcodeScan,
-		NcButton,
-		NcListItem,
-		NcLoadingIcon,
-	},
-
-	props: {
-		id: {
-			type: String,
-			required: true,
-		},
-
-		name: {
-			type: String,
-			required: true,
-		},
-
-		href: {
-			type: String,
-			required: true,
-		},
-
-		active: {
-			type: Boolean,
-			required: true,
-		},
-	},
-
-	setup() {
-		return {
-			canCreateAppToken,
-			displayName: getCurrentUser()!.displayName,
-			profileEnabled,
-			t,
-		}
-	},
-
-	data() {
-		return {
-			loading: false,
-		}
-	},
-
-	mounted() {
-		subscribe('settings:profile-enabled:updated', this.handleProfileEnabledUpdate)
-		subscribe('settings:display-name:updated', this.handleDisplayNameUpdate)
-	},
-
-	beforeDestroy() {
-		unsubscribe('settings:profile-enabled:updated', this.handleProfileEnabledUpdate)
-		unsubscribe('settings:display-name:updated', this.handleDisplayNameUpdate)
-	},
-
-	methods: {
-		handleClick() {
-			if (this.profileEnabled) {
-				this.loading = true
-			}
-		},
-
-		async handleQrCodeClick() {
-			const { data } = await axios.post<ITokenResponse>(
-				generateUrl('/settings/personal/authtokens'),
-				{ qrcodeLogin: true },
-				{ confirmPassword: PwdConfirmationMode.Strict },
-			)
-
-			await spawnDialog(AccountQrLoginDialog, { data })
-		},
-
-		handleProfileEnabledUpdate(profileEnabled: boolean) {
-			this.profileEnabled = profileEnabled
-		},
-
-		handleDisplayNameUpdate(displayName: string) {
-			this.displayName = displayName
-		},
-	},
-})
-</script>

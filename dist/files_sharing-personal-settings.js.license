@@ -100,7 +100,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.41.0
@@ -156,9 +156,6 @@ This file is generated from multiple sources. Included packages:
 - util
 	- version: 0.10.4
 	- license: MIT
-- path
-	- version: 0.12.7
-	- license: MIT
 - process
 	- version: 0.11.10
 	- license: MIT
@@ -175,7 +172,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.111.0
+	- version: 5.111.1
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

@@ -15,6 +15,12 @@ export default defineConfig({
 			if (error.message.includes('`fallbackFocus` was specified but was not a node, or did not return a node')) {
 				return false
 			}
+			// NcPopover passes its fallback as `fallBackFocus`, which focus-trap does
+			// not know, and jsdom has no layout so nothing counts as tabbable.
+			// TODO: remove once NcPopover sets `fallbackFocus`.
+			if (error.message.includes('Your focus-trap must have at least one container with at least one tabbable node')) {
+				return false
+			}
 			// A worker that still has console output in flight when it shuts down
 			// fails the run even though every test passed. The specs that log
 			// heavily (the focus trap above prints per interaction) hit this

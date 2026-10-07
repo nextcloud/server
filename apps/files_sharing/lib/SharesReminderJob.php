@@ -22,6 +22,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -245,6 +246,7 @@ class SharesReminderJob extends TimedJob {
 			$id = $share->getFullId();
 			$this->logger->error("File by share ID $id not found.");
 		}
+		$reminderInfo['expiration'] = $share->getExpirationDate();
 		$share->setReminderSent(true);
 		$this->shareManager->updateShare($share);
 		return $reminderInfo;
@@ -261,7 +263,7 @@ class SharesReminderJob extends TimedJob {
 		$from = [Util::getDefaultEmailAddress($instanceName) => $instanceName];
 		$l = $this->l10nFactory->get('files_sharing', $reminderInfo['userLang'] ?? null);
 		$emailTemplate = $this->generateEMailTemplate($l, [
-			'link' => $reminderInfo['folderLink'], 'name' => $reminderInfo['folderName']
+			'link' => $reminderInfo['folderLink'], 'name' => $reminderInfo['folderName'], 'expiration' => $reminderInfo['expiration']
 		]);
 
 		$message = $this->mailer->createMessage();
@@ -297,6 +299,11 @@ class SharesReminderJob extends TimedJob {
 		$emailTemplate->addBodyText($l->t(
 			'We would like to kindly remind you that you have not yet uploaded any files to the shared folder.'
 		));
+		$details = new EMailDetails($folder['name']);
+		if ($folder['expiration'] !== null) {
+			$details->addRow($l->t('Valid until'))->text((string)$l->l('date', $folder['expiration'], ['width' => 'medium']));
+		}
+		$emailTemplate->addBodyDetails($details);
 		$emailTemplate->addBodyButton(
 			$l->t('Open "%s"', [$folder['name']]),
 			$folder['link']

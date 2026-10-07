@@ -6,10 +6,11 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\AdminAudit\Tests\Actions;
+namespace OCA\AdminAudit\Tests\Listener;
 
 use OCA\AdminAudit\IAuditLogger;
 use OCA\AdminAudit\Listener\UserManagementEventListener;
+use OCP\EventDispatcher\Event;
 use OCP\IUser;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserChangedEvent;
@@ -35,12 +36,18 @@ class UserManagementEventListenerTest extends TestCase {
 
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')->willReturn('alice');
-		$this->user->method('getDisplayName')->willReturn('Alice');
+	}
+
+	public function testUnrelatedEventIsIgnored(): void {
+		$this->logger->expects($this->never())
+			->method($this->anything());
+
+		$this->listener->handle(new Event());
 	}
 
 	public function testSkipUnsupported(): void {
 		$this->logger->expects($this->never())
-			->method('info');
+			->method($this->anything());
 
 		$event = new UserChangedEvent(
 			$this->user,
@@ -81,7 +88,7 @@ class UserManagementEventListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testEmailChanged(): void {
+	public function testUserEmailChanged(): void {
 		$this->logger->expects($this->once())
 			->method('info')
 			->with('Email address changed for user alice', ['app' => 'admin_audit', 'operation' => 'users.user.email_changed']);
@@ -112,13 +119,23 @@ class UserManagementEventListenerTest extends TestCase {
 		$this->listener->handle(new UserDeletedEvent($this->user));
 	}
 
-	public function testPasswordUpdated(): void {
+	public function testPasswordUpdatedForDatabaseUser(): void {
 		$this->user->method('getBackendClassName')->willReturn('Database');
+
 		$this->logger->expects($this->once())
 			->method('info')
 			->with('Password of user "alice" has been changed', ['app' => 'admin_audit', 'operation' => 'users.user.password_changed']);
 
-		$this->listener->handle(new PasswordUpdatedEvent($this->user, 'password'));
+		$this->listener->handle(new PasswordUpdatedEvent($this->user, 'new-password'));
+	}
+
+	public function testPasswordUpdatedForNonDatabaseUserIsNotLogged(): void {
+		$this->user->method('getBackendClassName')->willReturn('LDAP');
+
+		$this->logger->expects($this->never())->method('info');
+		$this->logger->expects($this->never())->method('critical');
+
+		$this->listener->handle(new PasswordUpdatedEvent($this->user, 'new-password'));
 	}
 
 	public function testUserIdAssigned(): void {

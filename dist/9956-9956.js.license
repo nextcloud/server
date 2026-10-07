@@ -9,7 +9,6 @@ SPDX-FileCopyrightText: webfansplz
 SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: readable-stream developers
 SPDX-FileCopyrightText: perfect-debounce developers
-SPDX-FileCopyrightText: p-queue developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: hookable developers
 SPDX-FileCopyrightText: debounce developers
@@ -135,9 +134,6 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/shared
 	- version: 14.4.0
 	- license: MIT
-- focus-trap
-	- version: 8.2.2
-	- license: MIT
 - @nextcloud/vue
 	- version: 9.13.1
 	- license: AGPL-3.0-or-later
@@ -180,6 +176,9 @@ This file is generated from multiple sources. Included packages:
 - dompurify
 	- version: 3.4.16
 	- license: (MPL-2.0 OR Apache-2.0)
+- focus-trap
+	- version: 8.2.3
+	- license: MIT
 - hookable
 	- version: 5.5.3
 	- license: MIT
@@ -191,9 +190,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - nostics
 	- version: 1.2.0
-	- license: MIT
-- p-queue
-	- version: 9.3.3
 	- license: MIT
 - perfect-debounce
 	- version: 2.1.0

@@ -10,11 +10,13 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Reminder\NotificationProvider;
 
 use DateTime;
+use OCA\DAV\CalDAV\EventReader;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
+use OCP\Mail\EMailDetails;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IEmailValidator;
@@ -96,7 +98,7 @@ class EmailProvider extends AbstractProvider {
 			$template = $this->mailer->createEMailTemplate('dav.calendarReminder');
 			$template->addHeader();
 			$this->addSubjectAndHeading($template, $l10n, $vevent);
-			$this->addBulletList($template, $l10n, $calendarDisplayName ?? $this->getCalendarDisplayNameFallback($lang), $vevent);
+			$this->addEventDetails($template, $l10n, $calendarDisplayName ?? $this->getCalendarDisplayNameFallback($lang), $vevent);
 			$template->addFooter();
 
 			foreach ($emailAddresses as $emailAddress) {
@@ -136,48 +138,27 @@ class EmailProvider extends AbstractProvider {
 		$template->addHeading($this->getTitleFromVEvent($vevent, $l10n));
 	}
 
-	/**
-	 * @param IEMailTemplate $template
-	 * @param IL10N $l10n
-	 * @param string $calendarDisplayName
-	 * @param array $eventData
-	 */
-	private function addBulletList(IEMailTemplate $template,
+	private function addEventDetails(IEMailTemplate $template,
 		IL10N $l10n,
 		string $calendarDisplayName,
 		VEvent $vevent):void {
-		$template->addBodyListItem(
-			htmlspecialchars($calendarDisplayName),
-			$l10n->t('Calendar:'),
-			$this->getAbsoluteImagePath('actions/info.png'),
-			htmlspecialchars($calendarDisplayName),
-		);
-
-		$template->addBodyListItem($this->generateDateString($l10n, $vevent), $l10n->t('Date:'),
-			$this->getAbsoluteImagePath('places/calendar.png'));
-
+		$start = (new EventReader($vevent))->startDateTime();
+		$details = (new EMailDetails($this->getTitleFromVEvent($vevent, $l10n)))
+			->setSubtitle((string)$l10n->l('date', $start, ['width' => 'full']))
+			->setDateBadge(
+				(string)$l10n->l('date', $start, ['width' => '~MMM']),
+				(string)$l10n->l('date', $start, ['width' => '~d']),
+			);
+		$details->addRow($l10n->t('Calendar'))->text($calendarDisplayName);
+		$details->addRow($l10n->t('When'))->text($this->generateDateString($l10n, $vevent));
 		if (isset($vevent->LOCATION)) {
-			$template->addBodyListItem(
-				htmlspecialchars((string)$vevent->LOCATION),
-				$l10n->t('Where:'),
-				$this->getAbsoluteImagePath('actions/address.png'),
-				htmlspecialchars((string)$vevent->LOCATION),
-			);
+			$details->addRow($l10n->t('Where'))->text((string)$vevent->LOCATION);
 		}
-		if (isset($vevent->DESCRIPTION)) {
-			$template->addBodyListItem(
-				htmlspecialchars((string)$vevent->DESCRIPTION),
-				$l10n->t('Description:'),
-				$this->getAbsoluteImagePath('actions/more.png'),
-				htmlspecialchars((string)$vevent->DESCRIPTION),
-			);
-		}
-	}
+		$template->addBodyDetails($details);
 
-	private function getAbsoluteImagePath(string $path):string {
-		return $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->imagePath('core', $path)
-		);
+		if (isset($vevent->DESCRIPTION)) {
+			$template->addBodyNote((string)$vevent->DESCRIPTION, $l10n->t('Description'));
+		}
 	}
 
 	/**

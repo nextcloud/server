@@ -1,0 +1,2 @@
+import{o as r}from"./livePhotoUtils-CVUhgL4S.chunk.mjs";import{b as s}from"./star-outline-BpDZzOb8.chunk.mjs";import"./index-D6fZh9CR.chunk.mjs";document.addEventListener("DOMContentLoaded",()=>{r(o=>{const t=window.document.getElementById("cancel-login");if(!t)return;const n=t.getAttribute("href");if(!n)return;const e=new URL(n,s());e.searchParams.set("requesttoken",o),t.setAttribute("href",e.pathname+e.search)})});
+//# sourceMappingURL=core-twofactor-request-token.mjs.map

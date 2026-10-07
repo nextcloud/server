@@ -135,6 +135,7 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed.",
     "LDAP/AD Email Address:" : "LDAP/AD Email Address:",
     "Other Attributes:" : "Other Attributes:",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Attempts to receive a DN for the given login name and the current login filter",
     "Test Login name" : "Test Login name",
     "Verify settings" : "Verify settings",

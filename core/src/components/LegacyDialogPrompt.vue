@@ -2,12 +2,50 @@
  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { nextTick, onMounted, ref, useTemplateRef } from 'vue'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+
+withDefaults(defineProps<{
+	name: string
+	text: string
+	isPassword: boolean
+	inputName?: string
+}>(), {
+	inputName: 'prompt-input',
+})
+
+const emit = defineEmits<{
+	close: [confirmed: boolean, value: string]
+}>()
+
+const input = useTemplateRef('input')
+const inputValue = ref('')
+
+const buttons = [
+	{
+		label: t('core', 'No'),
+		callback: () => emit('close', false, inputValue.value),
+	},
+	{
+		label: t('core', 'Yes'),
+		variant: 'primary' as const,
+		callback: () => emit('close', true, inputValue.value),
+	},
+]
+
+onMounted(() => nextTick(() => input.value?.focus()))
+</script>
+
 <template>
 	<NcDialog
-		dialog-classes="legacy-prompt__dialog"
+		dialogClasses="legacy-prompt__dialog"
 		:buttons="buttons"
 		:name="name"
-		@update:open="$emit('close', false, inputValue)">
+		@update:open="emit('close', false, inputValue)">
 		<p class="legacy-prompt__text" v-text="text" />
 		<NcPasswordField
 			v-if="isPassword"
@@ -26,74 +64,6 @@
 			:name="inputName" />
 	</NcDialog>
 </template>
-
-<script lang="ts">
-import { translate as t } from '@nextcloud/l10n'
-import { defineComponent } from 'vue'
-import NcDialog from '@nextcloud/vue/components/NcDialog'
-import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-
-export default defineComponent({
-	name: 'LegacyDialogPrompt',
-
-	components: {
-		NcDialog,
-		NcTextField,
-		NcPasswordField,
-	},
-
-	props: {
-		name: {
-			type: String,
-			required: true,
-		},
-
-		text: {
-			type: String,
-			required: true,
-		},
-
-		isPassword: {
-			type: Boolean,
-			required: true,
-		},
-
-		inputName: {
-			type: String,
-			default: 'prompt-input',
-		},
-	},
-
-	emits: ['close'],
-
-	data() {
-		return {
-			inputValue: '',
-		}
-	},
-
-	computed: {
-		buttons() {
-			return [
-				{
-					label: t('core', 'No'),
-					callback: () => this.$emit('close', false, this.inputValue),
-				},
-				{
-					label: t('core', 'Yes'),
-					type: 'primary',
-					callback: () => this.$emit('close', true, this.inputValue),
-				},
-			]
-		},
-	},
-
-	mounted() {
-		this.$nextTick(() => this.$refs.input?.focus?.())
-	},
-})
-</script>
 
 <style scoped lang="scss">
 .legacy-prompt {

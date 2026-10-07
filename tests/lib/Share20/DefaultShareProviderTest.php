@@ -30,7 +30,10 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Mail\IMessage;
 use OCP\Security\IHasher;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -3154,5 +3157,116 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertEquals($id3, $shares[2]->getId());
 		$this->assertEquals(IShare::TYPE_LINK, $shares[2]->getShareType());
+	}
+
+	private function createMailL10n(): IL10N&MockObject {
+		$l = $this->createMock(IL10N::class);
+		$l->method('t')->willReturnCallback(fn (string $text, array $parameters = []): string => vsprintf($text, $parameters));
+		$l->method('l')->with('date', $this->isInstanceOf(\DateTime::class), ['width' => 'medium'])->willReturn('Oct 6, 2026');
+		return $l;
+	}
+
+	public function testSendUserShareMail(): void {
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('Sharer');
+		$initiator->method('getEMailAddress')->willReturn('sharer@example.com');
+		$this->userManager->method('get')->with('sharer')->willReturn($initiator);
+		$this->defaults->method('getName')->willReturn('Cloud');
+
+		$message = $this->createMock(IMessage::class);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->mailer->expects($this->once())->method('send')->with($message)->willReturn([]);
+
+		$template->expects($this->once())->method('addBodySender')->with('Sharer', 'sharer@example.com');
+		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you', false);
+		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');
+		$template->expects($this->once())->method('addBodyDetails')->with($this->callback(function (EMailDetails $details): bool {
+			$rows = $details->getRows();
+			return $details->getTitle() === 'file.txt'
+				&& count($rows) === 1
+				&& $rows[0]->getLabel() === 'Valid until'
+				&& $rows[0]->getParts()[0]['text'] === 'Oct 6, 2026';
+		}));
+		$template->expects($this->never())->method('addBodyText');
+		$template->expects($this->once())->method('addBodyButton')->with('Open file.txt', 'https://example.com/link');
+		$message->expects($this->once())->method('setReplyTo')->with(['sharer@example.com' => 'Sharer']);
+
+		self::invokePrivate($this->provider, 'sendUserShareMail', [
+			$this->createMailL10n(),
+			'file.txt',
+			'https://example.com/link',
+			'sharer',
+			'recipient@example.com',
+			new \DateTime('2026-10-06'),
+			'A note & more',
+		]);
+	}
+
+	public function testSendUserShareMailWithoutNoteAndExpiration(): void {
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('Sharer');
+		$initiator->method('getEMailAddress')->willReturn(null);
+		$this->userManager->method('get')->with('sharer')->willReturn($initiator);
+		$this->defaults->method('getName')->willReturn('Cloud');
+
+		$message = $this->createMock(IMessage::class);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->mailer->expects($this->once())->method('send')->with($message)->willReturn([]);
+
+		$template->expects($this->once())->method('addBodySender')->with('Sharer', '');
+		$template->expects($this->never())->method('addBodyNote');
+		$template->expects($this->once())->method('addBodyDetails')->with($this->callback(
+			fn (EMailDetails $details): bool => $details->getTitle() === 'file.txt' && $details->getRows() === []
+		));
+		$message->expects($this->never())->method('setReplyTo');
+
+		self::invokePrivate($this->provider, 'sendUserShareMail', [
+			$this->createMailL10n(),
+			'file.txt',
+			'https://example.com/link',
+			'sharer',
+			'recipient@example.com',
+		]);
+	}
+
+	public function testSendNote(): void {
+		$initiator = $this->createMock(IUser::class);
+		$initiator->method('getDisplayName')->willReturn('Sharer');
+		$initiator->method('getEMailAddress')->willReturn('sharer@example.com');
+		$this->userManager->method('get')->with('sharer')->willReturn($initiator);
+		$recipient = $this->createMock(IUser::class);
+		$recipient->method('getEMailAddress')->willReturn('recipient@example.com');
+		$recipient->method('getDisplayName')->willReturn('Recipient');
+		$this->l10nFactory->method('getUserLanguage')->with($recipient)->willReturn('en');
+		$this->l10nFactory->method('get')->with('lib', 'en')->willReturn($this->createMailL10n());
+		$this->defaults->method('getName')->willReturn('Cloud');
+		$this->urlGenerator->method('linkToRouteAbsolute')->willReturn('https://example.com/link');
+
+		$node = $this->createMock(File::class);
+		$node->method('getName')->willReturn('file.txt');
+		$node->method('getId')->willReturn(42);
+		$share = $this->createMock(IShare::class);
+		$share->method('getNode')->willReturn($node);
+		$share->method('getSharedBy')->willReturn('sharer');
+		$share->method('getNote')->willReturn('A note & more');
+
+		$message = $this->createMock(IMessage::class);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->mailer->expects($this->once())->method('send')->with($message);
+
+		$template->expects($this->once())->method('addBodySender')->with('Sharer', 'sharer@example.com');
+		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you');
+		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');
+		$template->expects($this->never())->method('addBodyText');
+		$template->expects($this->once())->method('addBodyButton')->with('Open file.txt', 'https://example.com/link');
+		$message->expects($this->once())->method('setTo')->with(['recipient@example.com' => 'Recipient']);
+
+		self::invokePrivate($this->provider, 'sendNote', [[$recipient], $share]);
 	}
 }

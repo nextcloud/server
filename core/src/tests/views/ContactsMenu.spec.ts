@@ -33,7 +33,7 @@ describe('ContactsMenu', function() {
 		})
 
 		const view = render(ContactsMenu)
-		await view.findByRole('button')
+		await view.findByRole('button', { name: 'Search contacts' })
 			.then((button) => button.click())
 
 		await expect(view.findByText(/Loading your contacts\s…/)).resolves.toBeTruthy()
@@ -49,7 +49,7 @@ describe('ContactsMenu', function() {
 		vi.spyOn(console, 'error').mockImplementation(() => {})
 
 		const view = render(ContactsMenu)
-		await view.findByRole('button')
+		await view.findByRole('button', { name: 'Search contacts' })
 			.then((button) => button.click())
 		await expect(view.findByText(/Could not load your contacts/)).resolves.toBeTruthy()
 	})
@@ -113,7 +113,7 @@ describe('ContactsMenu', function() {
 		})
 
 		const view = render(ContactsMenu)
-		await view.findByRole('button')
+		await view.findByRole('button', { name: 'Search contacts' })
 			.then((button) => button.click())
 
 		await expect(view.findByRole('list', { name: 'Contacts list' })).resolves.toBeTruthy()

@@ -123,7 +123,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
-	- version: 3.1.0
+	- version: 3.2.0
 	- license: GPL-3.0-or-later
 - @vue/reactivity
 	- version: 3.5.41
@@ -216,7 +216,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - webdav
-	- version: 5.10.0
+	- version: 5.11.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1

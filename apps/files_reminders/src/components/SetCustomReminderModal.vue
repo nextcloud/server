@@ -9,7 +9,7 @@ import type { INode } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit as emitEventBus } from '@nextcloud/event-bus'
 import { formatRelativeTime, t } from '@nextcloud/l10n'
-import { computed, onBeforeMount, onMounted, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, ref, toRaw } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
@@ -73,7 +73,7 @@ async function setCustom(): Promise<void> {
 
 	try {
 		await setReminder(props.node.fileid!, customDueDate.value)
-		const node = props.node.clone()
+		const node = toRaw(props.node).clone()
 		node.attributes['reminder-due-date'] = customDueDate.value.toISOString()
 		emitEventBus('files:node:updated', node)
 		showSuccess(t('files_reminders', 'Reminder set for "{fileName}"', { fileName: props.node.displayname }))
@@ -90,7 +90,7 @@ async function setCustom(): Promise<void> {
 async function clear(): Promise<void> {
 	try {
 		await clearReminder(props.node.fileid!)
-		const node = props.node.clone()
+		const node = toRaw(props.node).clone()
 		node.attributes['reminder-due-date'] = ''
 		emitEventBus('files:node:updated', node)
 		showSuccess(t('files_reminders', 'Reminder cleared for "{fileName}"', { fileName: props.node.displayname }))
