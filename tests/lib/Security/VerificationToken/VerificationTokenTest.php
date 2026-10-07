@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Test\Security\VerificationToken;
 
 use OC\Security\VerificationToken\VerificationToken;
+use OC\User\LastInteractiveLogin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IUser;
@@ -27,6 +28,12 @@ class VerificationTokenTest extends TestCase {
 		parent::setUp();
 
 		$this->token = $this->createInstanceWithMocks(VerificationToken::class);
+	}
+
+	protected function mockLastInteractiveLogin(int $timestamp): void {
+		$this->getAutoMock(LastInteractiveLogin::class)->expects($this->atLeastOnce())
+			->method('get')
+			->willReturn($timestamp);
 	}
 
 	public function testTokenUserUnknown(): void {
@@ -124,9 +131,6 @@ class VerificationTokenTest extends TestCase {
 		$user->expects($this->atLeastOnce())
 			->method('getUID')
 			->willReturn('alice');
-		$user->expects($this->any())
-			->method('getLastLogin')
-			->willReturn(604803);
 
 		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getUserValue')
@@ -158,9 +162,7 @@ class VerificationTokenTest extends TestCase {
 		$user->expects($this->atLeastOnce())
 			->method('getUID')
 			->willReturn('alice');
-		$user->expects($this->any())
-			->method('getLastLogin')
-			->willReturn(604803);
+		$this->mockLastInteractiveLogin(604803);
 
 		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getUserValue')
@@ -184,6 +186,39 @@ class VerificationTokenTest extends TestCase {
 		$this->token->check('encryptedToken', $user, 'fingerprintToken', 'foobar', true);
 	}
 
+	public function testTokenNotExpiredBySessionRevalidation(): void {
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->atLeastOnce())
+			->method('isEnabled')
+			->willReturn(true);
+		$user->expects($this->atLeastOnce())
+			->method('getUID')
+			->willReturn('alice');
+		$user->expects($this->never())
+			->method('getLastLogin');
+		// last actual authentication predates the token
+		$this->mockLastInteractiveLogin(604700);
+
+		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->with('alice', 'core', 'fingerprintToken', null)
+			->willReturn('encryptedToken');
+		$this->getAutoMock(IConfig::class)->expects($this->any())
+			->method('getSystemValueString')
+			->with('secret')
+			->willReturn('357111317');
+
+		$this->getAutoMock(ICrypto::class)->method('decrypt')
+			->with('encryptedToken', 'foobar' . '357111317')
+			->willReturn('604800:barfoo');
+
+		$this->getAutoMock(ITimeFactory::class)->expects($this->any())
+			->method('getTime')
+			->willReturn(604801);
+
+		$this->token->check('barfoo', $user, 'fingerprintToken', 'foobar', true);
+	}
+
 	public function testTokenMismatch(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->atLeastOnce())
@@ -192,9 +227,6 @@ class VerificationTokenTest extends TestCase {
 		$user->expects($this->atLeastOnce())
 			->method('getUID')
 			->willReturn('alice');
-		$user->expects($this->any())
-			->method('getLastLogin')
-			->willReturn(604703);
 
 		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getUserValue')
@@ -226,9 +258,6 @@ class VerificationTokenTest extends TestCase {
 		$user->expects($this->atLeastOnce())
 			->method('getUID')
 			->willReturn('alice');
-		$user->expects($this->any())
-			->method('getLastLogin')
-			->willReturn(604703);
 
 		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
 			->method('getUserValue')
