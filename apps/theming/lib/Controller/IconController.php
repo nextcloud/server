@@ -7,6 +7,7 @@
 
 namespace OCA\Theming\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
@@ -53,6 +54,7 @@ class IconController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope]
 	public function getThemedIcon(string $app, string $image): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';
@@ -87,6 +89,7 @@ class IconController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope]
 	public function getFavicon(string $app = 'core'): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';
@@ -136,6 +139,7 @@ class IconController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope]
 	public function getTouchIcon(string $app = 'core'): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';

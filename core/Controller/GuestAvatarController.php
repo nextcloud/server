@@ -7,6 +7,7 @@
 
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -50,6 +51,7 @@ class GuestAvatarController extends Controller {
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/guest/{guestName}/{size}')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope]
 	public function getAvatar(string $guestName, int $size, ?bool $darkTheme = false) {
 		$darkTheme = $darkTheme ?? false;
 
@@ -102,6 +104,7 @@ class GuestAvatarController extends Controller {
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/guest/{guestName}/{size}/dark')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope]
 	public function getAvatarDark(string $guestName, int $size) {
 		return $this->getAvatar($guestName, $size, true);
 	}

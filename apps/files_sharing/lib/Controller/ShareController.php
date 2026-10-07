@@ -8,9 +8,11 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\ServerNotAvailableException;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
@@ -54,6 +56,7 @@ use OCP\Share\IShare;
  * @package OCA\Files_Sharing\Controllers
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class ShareController extends AuthPublicShareController {
 	protected ?IShare $share = null;
 

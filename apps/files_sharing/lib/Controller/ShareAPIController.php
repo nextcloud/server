@@ -10,12 +10,14 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use Exception;
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Circles\Api\v1\Circles;
 use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Federation\TrustedServers;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files_Sharing\ResponseDefinitions;
@@ -74,6 +76,7 @@ use Psr\Log\LoggerInterface;
  *
  * @psalm-import-type Files_SharingShare from ResponseDefinitions
  */
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class ShareAPIController extends OCSController {
 
 	/** Maximum length of a custom share token, matching the oc_share.token database column. */
@@ -547,6 +550,7 @@ class ShareAPIController extends OCSController {
 	 * 200: Share deleted successfully
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_SHARE)]
 	public function deleteShare(string $id): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -611,6 +615,7 @@ class ShareAPIController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[UserRateLimit(limit: 60, period: 600)]
+	#[TokenScope(scope: TokenScopes::FILES_SHARE)]
 	public function createShare(
 		?string $path = null,
 		?int $permissions = null,
@@ -1247,6 +1252,7 @@ class ShareAPIController extends OCSController {
 	 * 200: Share updated successfully
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_SHARE)]
 	public function updateShare(
 		string $id,
 		?int $permissions = null,
@@ -2160,6 +2166,7 @@ class ShareAPIController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[UserRateLimit(limit: 10, period: 600)]
+	#[TokenScope(scope: TokenScopes::FILES_SHARE)]
 	public function sendShareEmail(string $id, $password = ''): DataResponse {
 		try {
 			$share = $this->getShareById($id);

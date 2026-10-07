@@ -8,6 +8,8 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\External\ExternalShare;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\ResponseDefinitions;
@@ -28,6 +30,7 @@ use RuntimeException;
  * @psalm-import-type Files_SharingRemoteShare from ResponseDefinitions
  * @api
  */
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class RemoteController extends OCSController {
 	/**
 	 * Remote controller constructor.

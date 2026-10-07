@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -30,6 +32,7 @@ use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class AcceptController extends Controller {
 
 	public function __construct(

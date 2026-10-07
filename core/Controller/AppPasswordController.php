@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
@@ -120,6 +121,7 @@ class AppPasswordController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/apppassword', root: '/core')]
+	#[TokenScope]
 	public function deleteAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
 			throw new OCSForbiddenException('no app password in use');
@@ -147,6 +149,7 @@ class AppPasswordController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/apppassword/rotate', root: '/core')]
+	#[TokenScope]
 	public function rotateAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
 			throw new OCSForbiddenException('no app password in use');

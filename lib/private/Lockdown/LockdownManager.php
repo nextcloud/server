@@ -77,6 +77,13 @@ class LockdownManager implements ILockdownManager {
 	}
 
 	/**
+	 * Malformed scopes count as scoped, so they fail closed
+	 */
+	public function isScoped(): bool {
+		return $this->scopes() !== null;
+	}
+
+	/**
 	 * True for every scope when there is no token or it has no scopes (full access)
 	 */
 	public function hasScope(string $scope): bool {
