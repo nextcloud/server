@@ -55,7 +55,6 @@ class IMipPlugin extends SabreIMipPlugin {
 	public const METHOD_REQUEST = 'request';
 	public const METHOD_REPLY = 'reply';
 	public const METHOD_CANCEL = 'cancel';
-	public const IMIP_INDENT = 15;
 
 	public function __construct(
 		private IAppConfig $config,
@@ -223,9 +222,10 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
 		$template->addHeader();
+		$template->addBodySender($data['invitee_name'], $senderName !== null ? $sender : '');
 
 		$this->imipService->addSubjectAndHeading($template, $method, $data['invitee_name'], $data['meeting_title'], $isModified, $replyingAttendee);
-		$this->imipService->addBulletList($template, $vEvent, $data);
+		$this->imipService->addEventDetails($template, $vEvent, $data);
 
 		// Only add response buttons to invitation requests: Fix Issue #11230
 		if (strcasecmp($method, self::METHOD_REQUEST) === 0 && $this->imipService->getAttendeeRsvpOrReqForParticipant($attendee)) {
@@ -257,7 +257,6 @@ class IMipPlugin extends SabreIMipPlugin {
 				|| in_array(strtolower($recipientDomain), $invitationLinkRecipients, true)) {
 				$token = $this->imipService->createInvitationToken($iTipMessage, $vEvent, $lastOccurrence);
 				$this->imipService->addResponseButtons($template, $token);
-				$this->imipService->addMoreOptionsButton($template, $token);
 			}
 		}
 

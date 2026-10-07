@@ -12,6 +12,8 @@ namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCP\IL10N;
 use OCP\IUser;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\EMailDetailsRow;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
@@ -119,8 +121,6 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 				return [];
 			});
 
-		$this->setupURLGeneratorMock(2);
-
 		$vcalendar = $this->getNoAttendeeVCalendar();
 		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $principalEmailAddresses, $users);
 	}
@@ -211,7 +211,6 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 				$this->assertEquals($expected, func_get_args());
 				return [];
 			});
-		$this->setupURLGeneratorMock(2);
 
 		$vcalendar = $this->getAttendeeVCalendar();
 		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $principalEmailAddresses, $users);
@@ -280,7 +279,6 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 				$this->assertEquals($expected, func_get_args());
 				return [];
 			});
-		$this->setupURLGeneratorMock(1);
 
 		$vcalendar = $this->getAttendeeVCalendar();
 		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $principalEmailAddresses, $users);
@@ -307,10 +305,26 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 			->with()
 			->willReturn($template);
 
-		$template->expects($this->exactly(4))
-			->method('addBodyListItem')
-			->with()
-			->willReturn($template);
+		$template->expects($this->once())
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				$rows = array_map(
+					static fn (EMailDetailsRow $row): array => [$row->getLabel(), array_column($row->getParts(), 'text')],
+					$details->getRows(),
+				);
+				return $details->getTitle() === 'Fellowship meeting'
+					&& $details->getSubtitle() === 'date'
+					&& $details->getDateBadge() === ['month' => 'date', 'day' => 'date']
+					&& $rows === [
+						['Calendar', ['Personal']],
+						['When', ['weekdayName, datetime - time (UTC)']],
+						['Where', ['Location 123']],
+					];
+			}));
+
+		$template->expects($this->once())
+			->method('addBodyNote')
+			->with('DESCRIPTION 456', 'Description');
 
 		$template->expects($this->once())
 			->method('addFooter')
@@ -427,27 +441,6 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 		);
 
 		return $vcalendar;
-	}
-
-	private function setupURLGeneratorMock(int $times = 1): void {
-		$this->urlGenerator
-			->expects($this->exactly($times * 4))
-			->method('imagePath')
-			->willReturnMap([
-				['core', 'actions/info.png', 'imagePath1'],
-				['core', 'places/calendar.png', 'imagePath2'],
-				['core', 'actions/address.png', 'imagePath3'],
-				['core', 'actions/more.png', 'imagePath4'],
-			]);
-		$this->urlGenerator
-			->expects($this->exactly($times * 4))
-			->method('getAbsoluteURL')
-			->willReturnMap([
-				['imagePath1', 'AbsURL1'],
-				['imagePath2', 'AbsURL2'],
-				['imagePath3', 'AbsURL3'],
-				['imagePath4', 'AbsURL4'],
-			]);
 	}
 
 	private function getUsers(): array {

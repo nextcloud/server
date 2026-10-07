@@ -36,9 +36,8 @@ use Throwable;
  * of their calendar-proxy delegates creates, modifies, deletes, trashes,
  * or restores an event on their behalf.
  *
- * The email body is built with IMipService so the owner sees the same rich
- * bullet-list rendering used for regular invitations, including diff
- * strike-throughs on update.
+ * The email body is built with IMipService so the owner sees the same event
+ * card used for regular invitations, including previous values on update.
  *
  * @template-implements IEventListener<CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarObjectDeletedEvent|CalendarObjectMovedToTrashEvent|CalendarObjectRestoredEvent>
  */
@@ -154,9 +153,8 @@ class CalendarDelegateActionListener implements IEventListener {
 		$actorName = $actor->getDisplayName() ?: $actor->getUID();
 		$calendarName = (string)($calendarInfo['{DAV:}displayname'] ?? $calendarInfo['uri'] ?? 'calendar');
 
-		// Build the same data payload IMipPlugin uses, so addBulletList renders
-		// the familiar title/when/location/url/description list — with diff
-		// strikethroughs when an old version is available.
+		// Build the same data payload IMipPlugin uses, so addEventDetails renders
+		// the familiar event card, with previous values when an old version is available.
 		$isCancellation = $action === self::ACTION_DELETE || $action === self::ACTION_TRASH;
 		$data = $isCancellation
 			? $this->imipService->buildCancelledBodyData($newVEvent)
@@ -173,14 +171,10 @@ class CalendarDelegateActionListener implements IEventListener {
 		]);
 		$template->addHeader();
 		$template->setSubject($subject);
+		$template->addBodySender($actorName, $actor->getEMailAddress() ?? '');
 		$template->addHeading($heading);
 
-		// Attribution row (who did it, on which calendar) — sits above the
-		// event details so the owner immediately sees the responsible delegate.
-		$template->addBodyListItem($actorName, $l->t('Delegate:'));
-		$template->addBodyListItem($calendarName, $l->t('Calendar:'));
-
-		$this->imipService->addBulletList($template, $newVEvent, $data);
+		$this->imipService->addEventDetails($template, $newVEvent, $data, $calendarName);
 
 		$template->addFooter();
 
