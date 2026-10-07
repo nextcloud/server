@@ -34,6 +34,8 @@ class VerificationTokenTest extends TestCase {
 	protected $timeFactory;
 	/** @var IJobList|MockObject */
 	protected $jobList;
+	/** @var LastInteractiveLogin|MockObject */
+	protected $lastInteractiveLogin;
 
 	#[\Override]
 	protected function setUp(): void {
@@ -44,18 +46,20 @@ class VerificationTokenTest extends TestCase {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->jobList = $this->createMock(IJobList::class);
+		$this->lastInteractiveLogin = $this->createMock(LastInteractiveLogin::class);
 
 		$this->token = new VerificationToken(
 			$this->config,
 			$this->crypto,
 			$this->timeFactory,
 			$this->secureRandom,
-			$this->jobList
+			$this->jobList,
+			$this->lastInteractiveLogin,
 		);
 	}
 
 	protected function mockLastInteractiveLogin(int $timestamp): void {
-		$this->getAutoMock(LastInteractiveLogin::class)->expects($this->atLeastOnce())
+		$this->lastInteractiveLogin->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($timestamp);
 	}
@@ -223,20 +227,20 @@ class VerificationTokenTest extends TestCase {
 		// last actual authentication predates the token
 		$this->mockLastInteractiveLogin(604700);
 
-		$this->getAutoMock(IConfig::class)->expects($this->atLeastOnce())
+		$this->config->expects($this->atLeastOnce())
 			->method('getUserValue')
 			->with('alice', 'core', 'fingerprintToken', null)
 			->willReturn('encryptedToken');
-		$this->getAutoMock(IConfig::class)->expects($this->any())
+		$this->config->expects($this->any())
 			->method('getSystemValueString')
 			->with('secret')
 			->willReturn('357111317');
 
-		$this->getAutoMock(ICrypto::class)->method('decrypt')
+		$this->crypto->method('decrypt')
 			->with('encryptedToken', 'foobar' . '357111317')
 			->willReturn('604800:barfoo');
 
-		$this->getAutoMock(ITimeFactory::class)->expects($this->any())
+		$this->timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(604801);
 
