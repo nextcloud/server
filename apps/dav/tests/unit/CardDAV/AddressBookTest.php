@@ -12,11 +12,14 @@ namespace OCA\DAV\Tests\unit\CardDAV;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\Card;
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\PropPatch;
+use Sabre\DAV\Server;
+use Sabre\DAV\SimpleCollection;
 use Test\TestCase;
 
 class AddressBookTest extends TestCase {
@@ -148,6 +151,10 @@ class AddressBookTest extends TestCase {
 			'principal' => $hasOwnerSet ? 'user1' : 'user2',
 			'protected' => true
 		], [
+			'privilege' => '{DAV:}write-acl',
+			'principal' => $hasOwnerSet ? 'user1' : 'user2',
+			'protected' => true
+		], [
 			'privilege' => '{DAV:}write-properties',
 			'principal' => $hasOwnerSet ? 'user1' : 'user2',
 			'protected' => true
@@ -178,6 +185,56 @@ class AddressBookTest extends TestCase {
 			'read-only property not set and no owner' => [true, null, false],
 			'read-only property is false and no owner' => [true, false, false],
 			'read-only property is true and no owner' => [false, true, false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'providesSharingPrivileges')]
+	public function testOnlyOwnerHoldsWriteAcl(string $principal, bool $readOnly, bool $expectsWrite, bool $expectsWriteAcl): void {
+		/** @var CardDavBackend&MockObject $backend */
+		$backend = $this->createMock(CardDavBackend::class);
+		$backend->method('applyShareAcl')->willReturnArgument(1);
+		$addressBookInfo = [
+			'{DAV:}displayname' => 'Test address book',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'{http://owncloud.org/ns}read-only' => $readOnly,
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'default',
+		];
+		$addressBook = new AddressBook($backend, $addressBookInfo, $this->createMock(IL10N::class));
+
+		$aclPlugin = new class($principal) extends DavAclPlugin {
+			public function __construct(
+				private string $principal,
+			) {
+				parent::__construct();
+			}
+
+			#[\Override]
+			public function getCurrentUserPrincipal() {
+				return $this->principal;
+			}
+
+			#[\Override]
+			public function getPrincipalMembership($mainPrincipal) {
+				return [];
+			}
+		};
+		$server = new Server(new SimpleCollection('root'));
+		$server->addPlugin($aclPlugin);
+
+		$privileges = $aclPlugin->getCurrentUserPrivilegeSet($addressBook);
+
+		$this->assertSame($expectsWrite, in_array('{DAV:}write', $privileges, true));
+		$this->assertSame($expectsWriteAcl, in_array('{DAV:}write-acl', $privileges, true));
+	}
+
+	public static function providesSharingPrivileges(): array {
+		return [
+			'owner' => ['user1', false, true, true],
+			'owner of read-only share' => ['user1', true, true, true],
+			'read-write sharee' => ['user2', false, true, false],
+			'read-only sharee' => ['user2', true, false, false],
 		];
 	}
 }
