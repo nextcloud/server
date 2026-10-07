@@ -7,6 +7,8 @@
 
 namespace OCA\Files_Sharing\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
+use OCA\Files\TokenScopes;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
@@ -29,6 +31,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
 
+#[TokenScope(scope: TokenScopes::FILES_READ)]
 class PublicPreviewController extends PublicShareController {
 
 	private IShare $share;

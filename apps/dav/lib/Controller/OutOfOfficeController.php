@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace OCA\DAV\Controller;
 
 use DateTimeImmutable;
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OCA\DAV\ResponseDefinitions;
 use OCA\DAV\Service\AbsenceService;
+use OCA\DAV\TokenScopes;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -50,6 +52,7 @@ class OutOfOfficeController extends OCSController {
 	 * 404: No out-of-office data was found
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CALENDAR_READ)]
 	public function getCurrentOutOfOfficeData(string $userId): DataResponse {
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
@@ -77,6 +80,7 @@ class OutOfOfficeController extends OCSController {
 	 * 404: No out-of-office data was found
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CALENDAR_READ)]
 	public function getOutOfOffice(string $userId): DataResponse {
 		try {
 			$data = $this->absenceService->getAbsence($userId);
@@ -115,6 +119,7 @@ class OutOfOfficeController extends OCSController {
 	 * 404: When the replacementUserId was provided but replacement user was not found
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CALENDAR_WRITE)]
 	public function setOutOfOffice(
 		string $firstDay,
 		string $lastDay,
@@ -176,6 +181,7 @@ class OutOfOfficeController extends OCSController {
 	 * 401: When the user is not logged in
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CALENDAR_WRITE)]
 	public function clearOutOfOffice(): DataResponse {
 		$user = $this->userSession?->getUser();
 		if ($user === null) {

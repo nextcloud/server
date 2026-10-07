@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use Generator;
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -38,6 +40,7 @@ use function usort;
  * @psalm-import-type Files_SharingShareesSearchResult from ResponseDefinitions
  * @psalm-import-type Files_SharingShareesRecommendedResult from ResponseDefinitions
  */
+#[TokenScope(scope: TokenScopes::FILES_SHARE)]
 class ShareesAPIController extends OCSController {
 
 	protected int $offset = 0;

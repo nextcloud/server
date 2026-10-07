@@ -9,12 +9,14 @@ declare(strict_types=1);
 namespace OCA\DAV\Controller;
 
 use InvalidArgumentException;
+use OC\AppFramework\Http\Attributes\TokenScope;
 /**
  * @psalm-type CalendarImportResult = array{items: list<string>, total: non-negative-int}
  */
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\Import\ImportService;
+use OCA\DAV\TokenScopes;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -62,6 +64,7 @@ class CalendarImportController extends OCSController {
 	#[ApiRoute(verb: 'POST', url: '/import', root: '/calendar')]
 	#[UserRateLimit(limit: 10, period: 3600)]
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CALENDAR_WRITE)]
 	public function import(string $transaction, string $target, array $options, string $data, ?string $user = null): DataResponse|StreamTraversableResponse {
 		$calendarId = $target;
 		$format = isset($options['format']) ? $options['format'] : null;

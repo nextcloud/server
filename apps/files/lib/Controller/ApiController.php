@@ -8,12 +8,14 @@
 
 namespace OCA\Files\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\Files\Node\Node;
 use OCA\Files\Helper;
 use OCA\Files\ResponseDefinitions;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
+use OCA\Files\TokenScopes;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -53,6 +55,7 @@ use Throwable;
  *
  * @package OCA\Files\Controller
  */
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class ApiController extends Controller {
 	private ?Folder $userFolder = null;
 

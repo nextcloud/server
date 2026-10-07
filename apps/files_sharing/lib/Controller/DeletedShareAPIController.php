@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OCA\Deck\Sharing\ShareAPIHelper;
+use OCA\Files\TokenScopes;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -35,6 +37,7 @@ use Psr\Container\ContainerExceptionInterface;
 /**
  * @psalm-import-type Files_SharingDeletedShare from ResponseDefinitions
  */
+#[TokenScope(scope: TokenScopes::FILES_WRITE)]
 class DeletedShareAPIController extends OCSController {
 
 	public function __construct(

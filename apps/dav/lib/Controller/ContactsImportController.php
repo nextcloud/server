@@ -9,11 +9,13 @@ declare(strict_types=1);
 namespace OCA\DAV\Controller;
 
 use InvalidArgumentException;
+use OC\AppFramework\Http\Attributes\TokenScope;
 /**
  * @psalm-type ContactsImportResult = array{items: list<string>, total: non-negative-int}
  */
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CardDAV\Import\ImportService;
+use OCA\DAV\TokenScopes;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -62,6 +64,7 @@ class ContactsImportController extends OCSController {
 	#[ApiRoute(verb: 'POST', url: '/import', root: '/contacts')]
 	#[UserRateLimit(limit: 10, period: 3600)]
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CONTACTS_WRITE)]
 	public function import(string $transaction, string $target, array $options, string $data, ?string $user = null): DataResponse|StreamTraversableResponse {
 		$addressBookId = $target;
 		$format = isset($options['format']) ? $options['format'] : null;
