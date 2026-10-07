@@ -63,6 +63,8 @@ Assisted-by: AGENT_NAME:MODEL_VERSION
 Common types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `perf`, `build`, `ci`.  
 The scope should match the affected component or app (e.g. `files_sharing`, `core`, `encryption`).
 
+In the `Assisted-by` trailer, `AGENT_NAME` is the tool or harness that produced the change (e.g. `ClaudeCode`, `Copilot`, `Cursor`, `omp`), not the model vendor. `MODEL_VERSION` is the exact model identifier. Do not copy the example values.
+
 Example:
 ```
 feat(files_sharing): allow sharing with contacts
