@@ -74,7 +74,7 @@ jobs:
           if [[ '${{ matrix.sftpd }}' == 'openssh' ]]; then docker run -p 2222:22 --name sftp -d -v /tmp/sftp:/home/test atmoz/sftp 'test:test:::data'; fi
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 #v2.36.0
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
