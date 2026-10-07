@@ -4563,33 +4563,8 @@ class ShareAPIControllerTest extends TestCase {
 			$expects['attributes'] = \json_encode($shareParams['attributes']);
 		}
 		if (isset($shareParams['node'])) {
-			/** @var Node&MockObject */
-			$node = $this->createMock($shareParams['node']['class']);
-
-			$node->method('getMimeType')->willReturn($shareParams['node']['mimeType']);
-
-			$mountPoint = $this->createMock(IMountPoint::class);
-			$mountPoint->method('getMountType')->willReturn('');
-			$node->method('getMountPoint')->willReturn($mountPoint);
-
-			$node->method('getPath')->willReturn($shareParams['node']['path']);
-			$node->method('getId')->willReturn($shareParams['node']['id']);
-
-			$parent = $this->createMock(Folder::class);
-			$parent->method('getId')->willReturn(1);
-			$node->method('getParent')->willReturn($parent);
-
-			$node->method('getSize')->willReturn(123456);
-			$node->method('getMTime')->willReturn(1234567890);
-
-			$cache = $this->createMock(ICache::class);
-			$cache->method('getNumericStorageId')->willReturn(100);
-			$storage = $this->createMock(IStorage::class);
-			$storage->method('getId')->willReturn('storageId');
-			$storage->method('getCache')->willReturn($cache);
-
-			$node->method('getStorage')->willReturn($storage);
-
+			['class' => $nodeClass, 'mimeType' => $mime, 'path' => $path, 'id' => $id] = $shareParams['node'];
+			$node = $this->createMockNode($nodeClass, $id, $path, $mime);
 			$share->setNode($node);
 		}
 		if (isset($shareParams['note'])) {
@@ -4678,6 +4653,38 @@ class ShareAPIControllerTest extends TestCase {
 		} catch (NotFoundException $e) {
 			$this->assertTrue($exception);
 		}
+	}
+
+	/**
+	 * @param class-string<Node> $class
+	 */
+	private function createMockNode(string $class, string $id, string $path, string $mimeType): Node&MockObject {
+		$node = $this->createMock($class);
+		$node->method('getMimeType')->willReturn($mimeType);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$mountPoint->method('getMountType')->willReturn('');
+		$node->method('getMountPoint')->willReturn($mountPoint);
+
+		$node->method('getPath')->willReturn($path);
+		$node->method('getId')->willReturn($id);
+
+		$parent = $this->createMock(Folder::class);
+		$parent->method('getId')->willReturn(1);
+		$node->method('getParent')->willReturn($parent);
+
+		$node->method('getSize')->willReturn(123456);
+		$node->method('getMTime')->willReturn(1234567890);
+
+		$cache = $this->createMock(ICache::class);
+		$cache->method('getNumericStorageId')->willReturn(100);
+		$storage = $this->createMock(IStorage::class);
+		$storage->method('getId')->willReturn('storageId');
+		$storage->method('getCache')->willReturn($cache);
+
+		$node->method('getStorage')->willReturn($storage);
+
+		return $node;
 	}
 
 	public static function dataFormatRoomShare(): array {
