@@ -26,6 +26,7 @@ use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\DB\Exception;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -656,11 +657,30 @@ class Session implements IUserSession, Emitter {
 		try {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);
-			// Make sure the current sessionId has no leftover tokens
-			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember, $expires): void {
-				$this->tokenProvider->invalidateToken($sessionId);
-				$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember, expires:$expires);
-			}, Server::get(IDBConnection::class));
+			try {
+				// Make sure the current sessionId has no leftover tokens
+				$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember, $expires): void {
+					$this->tokenProvider->invalidateToken($sessionId);
+					$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember, expires:$expires);
+				}, Server::get(IDBConnection::class));
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
+				// It's rare, but if two requests of the same session (e.g. env-based SAML)
+				// try to create the session token they might end up here at the same time
+				// because we use the session ID as token and the db token is created anew
+				// with every request.
+				//
+				// This has to happen after the transaction was rolled back, as PostgreSQL
+				// rejects any further query in a transaction that had an error.
+				//
+				// If the UIDs match, then this should be fine.
+				$existing = $this->tokenProvider->getToken($sessionId);
+				if ($existing->getUID() !== $uid) {
+					throw new \Exception('Token conflict handled, but UIDs do not match. This should not happen', 0, $e);
+				}
+			}
 			return true;
 		} catch (SessionNotAvailableException $ex) {
 			// This can happen with OCC, where a memory session is used
