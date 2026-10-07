@@ -57,6 +57,8 @@ OC.L10N.register(
     "Base User Tree" : "Base brugertræ",
     "Optional; one attribute per line" : "Valgfrit; én attribut pr. linje",
     "User Search Attributes" : "Brugersøgningsattributter",
+    "User Active/Inactive Attribute" : "Attribut for aktiv/inaktiv bruger",
+    "User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not." : "Brugerattribut, der angiver, om brugeren er aktiv eller inaktiv. Skal være `TRUE`, hvis brugeren er aktiv, ellers `FALSE`.",
     "When switched on, users imported from LDAP which are then missing will be disabled" : "Når det aktiveres, så vil brugere der er importeret fra LDAP, som derefter mangler, blive deaktiveret",
     "Disable users missing from LDAP" : "Deaktiver brugere, der mangler i LDAP",
     "Group Display Name Field" : "Gruppevisning navnefelt",
