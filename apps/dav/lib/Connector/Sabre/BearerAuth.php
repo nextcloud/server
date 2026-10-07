@@ -21,6 +21,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\IRequest;
@@ -62,10 +63,7 @@ class BearerAuth extends AbstractBearer {
 	public function validateBearerToken($bearerToken) {
 		\OC_Util::setupFS();
 
-		if (!$this->userSession->isLoggedIn()) {
-			$this->userSession->tryTokenLogin($this->request);
-		}
-		if ($this->userSession->isLoggedIn()) {
+		if ($this->userSession->tryTokenLogin($this->request)) {
 			return $this->setupUserFs($this->userSession->getUser()->getUID());
 		}
 
