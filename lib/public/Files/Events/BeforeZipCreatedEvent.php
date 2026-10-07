@@ -19,10 +19,10 @@ use OCP\Files\Node;
  *
  * By setting `successful` to false the tar creation can be aborted and the download denied.
  *
- * If `allowPartialArchive` is set to true, the archive creation should be blocked only
- * if access to the entire directory/all files is to be blocked. To block
- * archiving of certain files only, `addNodeFilter` should be used to add a callable
- * to filter out nodes.
+ * If `allowsPartialArchive` returns true, listeners should only block the
+ * archive creation if access to the entire directory or all files is denied.
+ * Single nodes can be excluded from the archive with `addNodeFilter`.
+ * Listeners can always block the whole archive with `setSuccessful(false)`.
  *
  * @since 25.0.0
  */
@@ -31,22 +31,21 @@ class BeforeZipCreatedEvent extends Event {
 	private bool $successful = true;
 	private ?string $errorMessage = null;
 	private ?Folder $folder = null;
-	/** @var iterable<Node>|null */
-	private ?iterable $nodesIterable;
-	/** @var array<callable(Node): array{0: bool, 1: ?string}> */
+	/** @var list<callable(Node): ?string> */
 	private array $nodeFilters = [];
 
 	/**
 	 * @param string|Folder $directory Folder instance, or (deprecated) string path relative to user folder
 	 * @param list<string> $files Selected files, empty for folder selection
-	 * @param ?bool $allowPartialArchive True if missing/blocked files should not block the creation of the archive
+	 * @param bool $allowPartialArchive True if excluded or missing files should not block the creation of the archive
 	 * @since 25.0.0
 	 * @since 31.0.0 support `OCP\Files\Folder` as `$directory` parameter - passing a string is deprecated now
+	 * @since 36.0.0 `$allowPartialArchive` parameter
 	 */
 	public function __construct(
 		string|Folder $directory,
 		private array $files,
-		public ?bool $allowPartialArchive = false,
+		private bool $allowPartialArchive = false,
 	) {
 		parent::__construct();
 		if ($directory instanceof Folder) {
@@ -112,64 +111,40 @@ class BeforeZipCreatedEvent extends Event {
 	}
 
 	/**
-	 * Sets the iterable that will be used to yield nodes to be included in the
-	 * archive. Nodes can be filtered out by adding filters via `addNodeFilter`.
+	 * Whether the archive may be created without the nodes excluded by node filters.
 	 *
-	 * @param iterable<Node> $iterable
-	 * @return void
+	 * @since 36.0.0
 	 */
-	public function setNodesIterable(iterable $iterable): void {
-		$this->nodesIterable = $iterable;
+	public function allowsPartialArchive(): bool {
+		return $this->allowPartialArchive;
 	}
 
 	/**
-	 * @param callable(Node): array{0: bool, 1: ?string} $filter filter that
-	 *                                                           receives a Node and returns an array with a bool telling if the file is
-	 *                                                           to be included in the archive and an optional reason string.
+	 * Adds a filter deciding whether a node is included in the archive.
+	 * Excluding a folder also excludes all of its content.
 	 *
-	 * @return void
+	 * @param callable(Node): ?string $filter returns null to include the node,
+	 *                                        or the reason for excluding it
+	 * @since 36.0.0
 	 */
 	public function addNodeFilter(callable $filter): void {
 		$this->nodeFilters[] = $filter;
 	}
 
 	/**
-	 * Returns a generator yielding a string key with the node's path relative
-	 * to the downloaded folder and an array which contains a node or null in
-	 * the first position (indicating whether the node should be skipped) and a
-	 * reason for skipping in the second position.
+	 * Returns the reason given by the first filter excluding the node, or null
+	 * if the node is to be included in the archive.
 	 *
-	 * @return iterable<string, array{0: ?Node, 1: ?string}>
+	 * @since 36.0.0
 	 */
-	public function getNodes(string $rootPath): iterable {
-		if (!isset($this->nodesIterable)) {
-			throw new \LogicException('No nodes iterable set');
-		}
-
-		if (!$this->successful) {
-			return;
-		}
-
-		foreach ($this->nodesIterable as $node) {
-			$relativePath = trim(str_replace($rootPath, '', $node->getPath()), '/');
-			$parent = rtrim(substr($relativePath, 0, strpos($relativePath, '/', 1) ?: 0), '/');
-			// we need to filter by file name or first parent folder
-			$filterName = $parent === '' ? $node->getName() : $parent;
-			if (!empty($this->files) && !in_array($filterName, $this->files)) {
-				// the node is supposed to be filtered out
-				continue;
+	public function getExclusionReason(Node $node): ?string {
+		foreach ($this->nodeFilters as $filter) {
+			$reason = $filter($node);
+			if ($reason !== null) {
+				return $reason;
 			}
-
-			foreach ($this->nodeFilters as $filter) {
-				[$include, $reason] = $filter($node);
-				if (!$include) {
-					yield $relativePath => [null, $reason];
-					continue 2;
-				}
-			}
-
-			yield $relativePath => [$node, null];
 		}
+		return null;
 	}
 
 	/**

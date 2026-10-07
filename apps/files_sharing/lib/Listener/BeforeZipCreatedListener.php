@@ -68,18 +68,17 @@ class BeforeZipCreatedListener implements IEventListener {
 		$isRootDownloadable = $viewOnlyHandler->isDownloadable($folderToCheck);
 
 		if (!$isRootDownloadable) {
-			$message = $event->allowPartialArchive ? 'Access to this resource and its children has been denied.' : 'Access to this resource or one of its sub-items has been denied.';
+			$message = $event->allowsPartialArchive() ? 'Access to this resource and its children has been denied.' : 'Access to this resource or one of its sub-items has been denied.';
 			$event->setErrorMessage($message);
 			$event->setSuccessful(false);
 			return;
 		}
 
-		if ($event->allowPartialArchive) {
+		if ($event->allowsPartialArchive()) {
 			$event->setSuccessful(true);
-			$event->addNodeFilter(fn (Node $node): array => [
-				$viewOnlyHandler->isDownloadable($node),
-				'Download is disabled for this resource'
-			]);
+			$event->addNodeFilter(fn (Node $node): ?string => $viewOnlyHandler->isDownloadable($node)
+				? null
+				: 'Download is disabled for this resource');
 		} elseif ($viewOnlyHandler->check($pathsToCheck)) {
 			// keep the old behaviour
 			$event->setSuccessful(true);

@@ -199,12 +199,6 @@ class ZipFolderPlugin extends ServerPlugin {
 			throw new Forbidden($errorMessage);
 		}
 
-		// At this point either the event handlers did not block the download
-		// or they support the new mechanism that filters out nodes that are not
-		// downloadable, in either case we can use the new API to set the iterator
-		$content = empty($files) ? $folder->getDirectoryListing() : array_map(fn (string $path) => $folder->get($path), $files);
-		$event->setNodesIterable($this->getIterableFromNodes($content));
-
 		$archiveName = $folder->getName();
 		if (count(explode('/', trim($folder->getPath(), '/'), 3)) === 2) {
 			// this is a download of the root folder
@@ -224,33 +218,10 @@ class ZipFolderPlugin extends ServerPlugin {
 			$streamer->addEmptyDir($archiveName);
 		}
 
-		foreach ($event->getNodes($rootPath) as $path => [$node, $reason]) {
-			$filename = str_replace($rootPath, '', $path);
-			if ($node === null) {
-				if ($this->reportMissingFiles) {
-					$this->missingInfo[$filename] = $reason;
-				}
-				continue;
-			}
-
-			try {
-				assert($node instanceof NcNode);
-				$streamError = $this->streamNode($streamer, $node, $rootPath);
-			} catch (\Exception $e) {
-				if (!$this->reportMissingFiles) {
-					throw $e;
-				}
-
-				$logMessage = $this->l10n->t('Error while streaming the file');
-				$this->logger->error($logMessage, ['exception' => $e]);
-				$reason = $this->l10n->t('File could not be added to the archive. Please check the server logs for more information.');
-				$this->missingInfo[$filename] = $reason;
-				continue;
-			}
-
-			if ($this->reportMissingFiles && $streamError !== null) {
-				$this->missingInfo[$filename] = $streamError;
-			}
+		$content = empty($files) ? $folder->getDirectoryListing() : array_map(fn (string $path) => $folder->get($path), $files);
+		foreach ($content as $node) {
+			assert($node instanceof NcNode);
+			$this->streamTree($streamer, $event, $node, $rootPath);
 		}
 
 		if ($this->reportMissingFiles && !empty($this->missingInfo)) {
@@ -267,21 +238,44 @@ class ZipFolderPlugin extends ServerPlugin {
 	}
 
 	/**
-	 * Given a set of nodes, produces a list of all nodes contained in them
-	 * recursively.
+	 * Adds the node and, for folders, its content to the archive, skipping
+	 * nodes excluded by the event's node filters.
 	 *
-	 * @param NcNode[] $nodes
-	 * @return iterable<NcNode>
+	 * @throws \Exception if adding a node fails and missing files are not reported
 	 */
-	private function getIterableFromNodes(array $nodes): iterable {
-		foreach ($nodes as $node) {
-			yield $node;
+	private function streamTree(Streamer $streamer, BeforeZipCreatedEvent $event, NcNode $node, string $rootPath): void {
+		$filename = ltrim(str_replace($rootPath, '', $node->getPath()), '/');
+		$children = [];
+		try {
+			$reason = $event->getExclusionReason($node);
+			if ($reason !== null) {
+				if ($this->reportMissingFiles) {
+					$this->missingInfo[$filename] = $reason;
+				}
+				return;
+			}
+
+			$streamError = $this->streamNode($streamer, $node, $rootPath);
+			if ($this->reportMissingFiles && $streamError !== null) {
+				$this->missingInfo[$filename] = $streamError;
+			}
 
 			if ($node instanceof NcFolder) {
-				foreach ($node->getDirectoryListing() as $child) {
-					yield from $this->getIterableFromNodes([$child]);
-				}
+				$children = $node->getDirectoryListing();
 			}
+		} catch (\Exception $e) {
+			if (!$this->reportMissingFiles) {
+				throw $e;
+			}
+
+			$logMessage = $this->l10n->t('Error while streaming the file');
+			$this->logger->error($logMessage, ['exception' => $e]);
+			$this->missingInfo[$filename] = $this->l10n->t('File could not be added to the archive. Please check the server logs for more information.');
+			return;
+		}
+
+		foreach ($children as $child) {
+			$this->streamTree($streamer, $event, $child, $rootPath);
 		}
 	}
 

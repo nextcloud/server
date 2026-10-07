@@ -15,6 +15,7 @@ use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
 use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -27,7 +28,7 @@ use Test\TestCase;
 class BeforeZipCreatedListenerTest extends TestCase {
 	private IUserSession&MockObject $userSession;
 	private IRootFolder&MockObject $rootFolder;
-	private Folder&MockObject $userFolder;
+	private IUserFolder&MockObject $userFolder;
 	private BeforeZipCreatedListener $listener;
 
 	protected function setUp(): void {
@@ -35,7 +36,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-		$this->userFolder = $this->createMock(Folder::class);
+		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->listener = new BeforeZipCreatedListener($this->userSession, $this->rootFolder);
 
 		$user = $this->createMock(IUser::class);
@@ -55,7 +56,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => false,
 				'expectedSuccess' => false,
 				'expectedMessage' => 'Access to this resource or one of its sub-items has been denied.',
-				'expectedNodeList' => [],
+				'expectedExclusions' => [],
 			],
 			'partial archive disabled, no filtering, 1 blocked 1 non-blocked file => should fail event' => [
 				'folderPath' => $rootFromFolder,
@@ -65,7 +66,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => false,
 				'expectedSuccess' => false,
 				'expectedMessage' => 'Access to this resource or one of its sub-items has been denied.',
-				'expectedNodeList' => [],
+				'expectedExclusions' => [],
 			],
 			'partial archive enabled, no filtering, 1 blocked file => should not fail event' => [
 				'folderPath' => $rootFromFolder,
@@ -75,7 +76,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => true,
 				'expectedSuccess' => true,
 				'expectedMessage' => null,
-				'expectedNodeList' => ['blocked.txt' => [null, 'Download is disabled for this resource']],
+				'expectedExclusions' => ['blocked.txt' => 'Download is disabled for this resource'],
 			],
 			'partial archive enabled, no filtering, 1 blocked 1 non-blocked file => should not fail event' => [
 				'folderPath' => $rootFromFolder,
@@ -85,7 +86,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => true,
 				'expectedSuccess' => true,
 				'expectedMessage' => null,
-				'expectedNodeList' => ['blocked.txt' => [null, 'Download is disabled for this resource'], 'allowed.txt' => null],
+				'expectedExclusions' => ['blocked.txt' => 'Download is disabled for this resource', 'allowed.txt' => null],
 			],
 			'partial archive disabled, with filtering, 1 blocked 2 non-blocked files => should fail event' => [
 				'folderPath' => $rootFromFolder,
@@ -95,7 +96,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => false,
 				'expectedSuccess' => false,
 				'expectedMessage' => 'Access to this resource or one of its sub-items has been denied.',
-				'expectedNodeList' => [],
+				'expectedExclusions' => [],
 			],
 			'partial archive enabled, with filtering, 1 blocked 2 non-blocked files => should not fail event' => [
 				'folderPath' => $rootFromFolder,
@@ -105,7 +106,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => true,
 				'expectedSuccess' => true,
 				'expectedMessage' => null,
-				'expectedNodeList' => ['blocked.txt' => [null, 'Download is disabled for this resource'], 'allowed.txt' => null],
+				'expectedExclusions' => ['blocked.txt' => 'Download is disabled for this resource', 'allowed.txt' => null],
 			],
 			'partial archive disabled, with filtering on non-blocked file, 1 blocked 1 non-blocked file => should succeed event' => [
 				'folderPath' => $rootFromFolder,
@@ -115,7 +116,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => false,
 				'expectedSuccess' => true,
 				'expectedMessage' => null,
-				'expectedNodeList' => ['allowed.txt' => null],
+				'expectedExclusions' => ['allowed.txt' => null],
 			],
 			'partial archive enabled, with filtering on non-blocked file, 1 downloadable 1 non-blocked file => should succeed event' => [
 				'folderPath' => $rootFromFolder,
@@ -125,7 +126,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => true,
 				'expectedSuccess' => true,
 				'expectedMessage' => null,
-				'expectedNodeList' => ['allowed.txt' => null],
+				'expectedExclusions' => ['allowed.txt' => null],
 			],
 			'partial archive disabled, root (containing) folder not downloadable, with filtering' => [
 				'folderPath' => $rootFromFolder,
@@ -135,7 +136,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => false,
 				'expectedSuccess' => false,
 				'expectedMessage' => 'Access to this resource or one of its sub-items has been denied.',
-				'expectedNodeList' => [],
+				'expectedExclusions' => [],
 			],
 			'partial archive enabled, root (containing) folder not downloadable, with filtering' => [
 				'folderPath' => $rootFromFolder,
@@ -145,7 +146,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => true,
 				'expectedSuccess' => false,
 				'expectedMessage' => 'Access to this resource and its children has been denied.',
-				'expectedNodeList' => [],
+				'expectedExclusions' => [],
 			],
 			'partial archive disabled, root (containing) folder not downloadable, no filtering' => [
 				'folderPath' => $rootFromFolder,
@@ -155,7 +156,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => false,
 				'expectedSuccess' => false,
 				'expectedMessage' => 'Access to this resource or one of its sub-items has been denied.',
-				'expectedNodeList' => [],
+				'expectedExclusions' => [],
 			],
 			'partial archive enabled, root (containing) folder not downloadable, no filtering' => [
 				'folderPath' => $rootFromFolder,
@@ -165,7 +166,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'allowPartialArchive' => true,
 				'expectedSuccess' => false,
 				'expectedMessage' => 'Access to this resource and its children has been denied.',
-				'expectedNodeList' => [],
+				'expectedExclusions' => [],
 			],
 		];
 	}
@@ -179,7 +180,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 		bool $allowPartialArchive,
 		bool $expectedSuccess,
 		?string $expectedMessage,
-		array $expectedNodeList,
+		array $expectedExclusions,
 	): void {
 		$fileNodes = [];
 		$fileNodesByName = [];
@@ -206,19 +207,8 @@ class BeforeZipCreatedListenerTest extends TestCase {
 		$this->assertEquals($expectedSuccess, $event->isSuccessful());
 		$this->assertSame($expectedMessage, $event->getErrorMessage());
 
-		$event->setNodesIterable($fileNodes);
-		$actualNodes = iterator_to_array($event->getNodes($folderPathFromUserRoot));
-		$this->assertCount(count($expectedNodeList), $actualNodes);
-		foreach ($expectedNodeList as $relativePath => $expectedValue) {
-			$path = "$relativePath";
-			if ($expectedValue === null) {
-				// cannot reference the node in the data provider, add it here
-				$node = $fileNodesByName[$path] ?? null;
-				$this->assertNotNull($node, 'Node mock must be present for the test to be correct.');
-				$expectedValue = [$node, null];
-			}
-
-			$this->assertEquals($expectedValue, $actualNodes[$path] ?? []);
+		foreach ($expectedExclusions as $name => $expectedReason) {
+			$this->assertSame($expectedReason, $event->getExclusionReason($fileNodesByName[$name]));
 		}
 	}
 

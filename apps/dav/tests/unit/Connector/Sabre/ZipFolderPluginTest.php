@@ -80,7 +80,7 @@ class ZipFolderPluginTest extends TestCase {
 			->method('dispatchTyped')
 			->willReturnCallback(function (BeforeZipCreatedEvent $event) use ($reportMissingFiles, $errorMessage): BeforeZipCreatedEvent {
 				$this->assertSame([], $event->getFiles());
-				$this->assertEquals($reportMissingFiles, $event->allowPartialArchive);
+				$this->assertSame($reportMissingFiles, $event->allowsPartialArchive());
 				$event->setSuccessful(false);
 				$event->setErrorMessage($errorMessage);
 
@@ -132,7 +132,7 @@ class ZipFolderPluginTest extends TestCase {
 			->method('dispatchTyped')
 			->willReturnCallback(function (BeforeZipCreatedEvent $event) use ($errorMessage, $filesFilter): BeforeZipCreatedEvent {
 				$this->assertSame($filesFilter, $event->getFiles());
-				$this->assertFalse($event->allowPartialArchive);
+				$this->assertFalse($event->allowsPartialArchive());
 				$event->setSuccessful(false);
 				$event->setErrorMessage($errorMessage);
 
@@ -194,14 +194,8 @@ class ZipFolderPluginTest extends TestCase {
 			->method('dispatchTyped')
 			->willReturnCallback(function (BeforeZipCreatedEvent $event) use ($downloadBlocked, $filesFilter): BeforeZipCreatedEvent {
 				$this->assertSame($filesFilter, $event->getFiles());
-				$this->assertTrue($event->allowPartialArchive);
-				$event->addNodeFilter(static function ($node) use ($downloadBlocked): array {
-					if (in_array($node->getName(), $downloadBlocked)) {
-						return [false, 'blocked'];
-					}
-
-					return [true, null];
-				});
+				$this->assertTrue($event->allowsPartialArchive());
+				$event->addNodeFilter(static fn (OCPNode $node): ?string => in_array($node->getName(), $downloadBlocked, true) ? 'blocked' : null);
 
 				return $event;
 			});
@@ -218,6 +212,49 @@ class ZipFolderPluginTest extends TestCase {
 		}
 
 		// assert that the handling should be stopped
+		$this->assertFalse($continueHandling);
+	}
+
+	/*
+	 * Tests that the content of an excluded folder is not listed, and that a
+	 * folder whose content cannot be listed is reported as missing without
+	 * aborting the archive.
+	 */
+	public function testDownloadingAFolderWithExcludedAndUnreadableSubfolders(): void {
+		$plugin = $this->createPlugin(true);
+
+		$folderPath = '/user/files/folder';
+		$allowedFile = $this->createFile("{$folderPath}/allowed.txt", 'allowed');
+		$blockedFolder = $this->createFolderNode("{$folderPath}/blocked", []);
+		$blockedFolder->expects($this->never())->method('getDirectoryListing');
+		$brokenFolder = $this->createMock(Folder::class);
+		$brokenFolder->method('getPath')->willReturn("{$folderPath}/broken");
+		$brokenFolder->method('getName')->willReturn('broken');
+		$brokenFolder->method('getMTime')->willReturn(123);
+		$brokenFolder->method('getDirectoryListing')->willThrowException(new \RuntimeException('storage not available'));
+
+		$folder = $this->createFolderNode($folderPath, [$allowedFile, $blockedFolder, $brokenFolder]);
+		$directory = $this->createDirectoryNode($folder);
+
+		$this->tree->expects($this->once())
+			->method('getNodeForPath')
+			->with($folderPath)
+			->willReturn($directory);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(static function (BeforeZipCreatedEvent $event): BeforeZipCreatedEvent {
+				$event->addNodeFilter(static fn (OCPNode $node): ?string => $node->getName() === 'blocked' ? 'blocked' : null);
+				return $event;
+			});
+
+		ob_start();
+		$continueHandling = $plugin->handleDownload($this->createRequest($folderPath), $this->response);
+
+		$output = $this->getActualOutputForAssertion();
+		$this->assertStringContainsString('folder/blocked": "blocked"', $output);
+		$this->assertStringContainsString('folder/broken": "File could not be added to the archive. Please check the server logs for more information."', $output);
+		$this->assertStringNotContainsString('allowed.txt":', $output);
 		$this->assertFalse($continueHandling);
 	}
 
@@ -278,6 +315,7 @@ class ZipFolderPluginTest extends TestCase {
 		$folder = $this->createMock(Folder::class);
 		$folder->method('getPath')->willReturn($path);
 		$folder->method('getName')->willReturn(basename($path));
+		$folder->method('getMTime')->willReturn(123);
 		$folder->method('getDirectoryListing')->willReturn($children);
 		$folder->method('get')->willReturnCallback(
 			function (string $path) use ($children) {
