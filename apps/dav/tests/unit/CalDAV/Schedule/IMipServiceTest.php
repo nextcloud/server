@@ -2529,6 +2529,31 @@ class IMipServiceTest extends TestCase {
 		);
 	}
 
+	public function testAddEventDetailsPutsDescriptionAfterCard(): void {
+		$this->mockDetailsL10n();
+		$this->appConfig->method('getValueBool')->willReturn(false);
+		$template = $this->createMock(IEMailTemplate::class);
+		$order = [];
+		$template->method('addBodyNote')->willReturnCallback(function (string $text, string $label) use (&$order): void {
+			$order[] = 'note:' . $label;
+		});
+		$template->method('addBodyDetails')->willReturnCallback(function () use (&$order): void {
+			$order[] = 'details';
+		});
+
+		$this->service->addEventDetails($template, $this->createDetailsEvent(), [
+			'meeting_title' => 'Title',
+			'meeting_when' => 'Monday',
+			'meeting_location' => '',
+			'meeting_url' => '',
+			'meeting_description' => 'New description',
+			'meeting_description_previous' => 'Old description',
+			'meeting_occurring' => '',
+		]);
+
+		$this->assertSame(['details', 'note:Description', 'note:Previous description'], $order);
+	}
+
 	public function testAddEventDetails(): void {
 		$this->mockDetailsL10n();
 		$this->appConfig->method('getValueBool')->willReturn(false);

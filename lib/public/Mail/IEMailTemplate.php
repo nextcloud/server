@@ -159,7 +159,8 @@ interface IEMailTemplate {
 	 *
 	 * Use {@see self::NOTE_NEUTRAL} for content written by a user (share note,
 	 * event description), the other types for messages from the server itself.
-	 * Line breaks in $text are kept.
+	 * Line breaks in $text are kept. A short note about a shared item goes
+	 * before its details card, longer content like an event description after it.
 	 *
 	 * @param string $label Label above the text for neutral notes, bold title before it for the other types
 	 * @param self::NOTE_* $type
