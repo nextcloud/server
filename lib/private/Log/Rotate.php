@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,34 +13,53 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 use OCP\Log\RotationTrait;
-use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
- * This rotates the current logfile to a new name, this way the total log usage
- * will stay limited and older entries are available for a while longer.
- * For more professional log management set the 'logfile' config to a different
- * location and manage that with your own tools.
+ * Rotates the current logfile to a new name.
+ *
+ * The log file is checked against the configured maximum size at each job
+ * interval, independently of log writing. Only the most recent rotated file
+ * is kept.
+ *
+ * This rotation is only intended to be used for small/simple deployments. Use
+ * `logrotate` (or a similar tool) for more elaborate or robust rotation
+ * management.
  */
 class Rotate extends TimedJob {
 	use RotationTrait;
 
-	public function __construct(ITimeFactory $time) {
+	public function __construct(
+		ITimeFactory $time,
+		private IConfig $config,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($time);
 
-		$this->setInterval(3600);
+		$this->setInterval(self::DEFAULT_ROTATION_INTERVAL);
 	}
 
 	#[\Override]
 	public function run($argument): void {
-		$config = Server::get(IConfig::class);
-		$this->filePath = $config->getSystemValueString('logfile', $config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');
+		$defaultFilePath = $this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log';
 
-		$this->maxSize = $config->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);
+		$this->filePath = $this->config->getSystemValueString('logfile', $defaultFilePath);
+		if ($this->filePath === '') {
+			return;
+		}
+
+		$this->maxSize = $this->config->getSystemValueInt('log_rotate_size', self::DEFAULT_MAX_SIZE);
 		if ($this->shouldRotateBySize()) {
 			$rotatedFile = $this->rotate();
-			$msg = 'Log file "' . $this->filePath . '" was over ' . $this->maxSize . ' bytes, moved to "' . $rotatedFile . '"';
-			Server::get(LoggerInterface::class)->info($msg, ['app' => Rotate::class]);
+			$this->logger->info(
+				'Log file "{filePath}" reached the configured rotation size of {maxSize} bytes and was moved to "{rotatedFile}"',
+				[
+					'app' => self::class,
+					'filePath' => $this->filePath,
+					'maxSize' => $this->maxSize,
+					'rotatedFile' => $rotatedFile,
+				],
+			);
 		}
 	}
 }
