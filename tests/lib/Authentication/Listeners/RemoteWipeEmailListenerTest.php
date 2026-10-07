@@ -42,6 +42,7 @@ class RemoteWipeEmailListenerTest extends TestCase {
 
 		$this->getAutoMock(IFactory::class)->method('get')->with('core')->willReturn($this->l10n);
 		$this->l10n->method('t')->willReturnArgument(0);
+		$this->getAutoMock(IL10N::class)->method('getLanguageCode')->willReturn('de');
 	}
 
 	public function testHandleUnrelated(): void {
@@ -122,6 +123,9 @@ class RemoteWipeEmailListenerTest extends TestCase {
 			->method('createEMailTemplate')
 			->with('auth.RemoteWipeStarted')
 			->willReturn($template);
+		$template->expects($this->once())
+			->method('setLanguage')
+			->with('de');
 		$template->expects($this->never())->method('addBodyText');
 		$template->expects($this->once())
 			->method('addBodyNote')
@@ -207,6 +211,9 @@ class RemoteWipeEmailListenerTest extends TestCase {
 			->method('createEMailTemplate')
 			->with('auth.RemoteWipeFinished')
 			->willReturn($template);
+		$template->expects($this->once())
+			->method('setLanguage')
+			->with('de');
 		$template->expects($this->never())->method('addBodyText');
 		$template->expects($this->once())
 			->method('addBodyNote')

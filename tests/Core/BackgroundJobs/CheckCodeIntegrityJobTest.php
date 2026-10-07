@@ -72,6 +72,7 @@ class CheckCodeIntegrityJobTest extends TestCase {
 
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->method('t')->willReturnArgument(0);
+		$this->l10n->method('getLanguageCode')->willReturn('de');
 		$this->l10n->method('n')->willReturnCallback(
 			fn (string $singular, string $plural, int $count, array $parameters = []): string
 				=> vsprintf(str_replace('%n', (string)$count, $count === 1 ? $singular : $plural), $parameters)
@@ -234,6 +235,7 @@ class CheckCodeIntegrityJobTest extends TestCase {
 		$this->checker->method('getResults')->willReturn($results);
 		$this->appConfig->method('getValueString')->willReturn('');
 
+		$this->template->expects($this->once())->method('setLanguage')->with('de');
 		$this->template->expects($this->once())->method('addBodyNote')->with(
 			"1 file does not match the signed release. It may have been modified or added without authorization.\n"
 			. 'The signature of files is missing or invalid, so it could not be verified.',

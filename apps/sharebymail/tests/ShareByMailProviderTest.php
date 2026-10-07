@@ -81,6 +81,7 @@ class ShareByMailProviderTest extends TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
+		$this->l->method('getLanguageCode')->willReturn('de');
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->rootFolder = $this->createMock('OCP\Files\IRootFolder');
@@ -437,7 +438,9 @@ class ShareByMailProviderTest extends TestCase {
 			->willReturnCallback(function () use (&$calls) {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
-				return $this->createMock(IEMailTemplate::class);
+				$template = $this->createMock(IEMailTemplate::class);
+				$template->expects($this->once())->method('setLanguage')->with('de');
+				return $template;
 			});
 
 		// Main email notification is sent as well as the password
@@ -616,7 +619,9 @@ class ShareByMailProviderTest extends TestCase {
 			->willReturnCallback(function () use (&$calls) {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
-				return $this->createMock(IEMailTemplate::class);
+				$template = $this->createMock(IEMailTemplate::class);
+				$template->expects($this->once())->method('setLanguage')->with('de');
+				return $template;
 			});
 
 		// Main email notification is sent as well as the password to owner
@@ -1336,6 +1341,10 @@ class ShareByMailProviderTest extends TestCase {
 			->willReturn($template);
 		$template
 			->expects($this->once())
+			->method('setLanguage')
+			->with('de');
+		$template
+			->expects($this->once())
 			->method('addHeader');
 		$template
 			->expects($this->once())
@@ -1987,6 +1996,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->mailer->method('createEMailTemplate')->willReturn($template);
 		$this->mailer->expects($this->once())->method('send')->with($message);
 
+		$template->expects($this->once())->method('setLanguage')->with('de');
 		$template->expects($this->once())->method('addBodySender')->with('Sharer', $senderSubline);
 		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you', 'Sharer shared file.txt with you');
 		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');

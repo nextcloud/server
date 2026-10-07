@@ -176,6 +176,10 @@ class SharesReminderJobTest extends \Test\TestCase {
 		$this->mailer->method('createEMailTemplate')->willReturn($templateMock);
 		$templateMock
 			->expects(($shouldBeReminded ? $this->once() : $this->never()))
+			->method('setLanguage')
+			->with('en');
+		$templateMock
+			->expects(($shouldBeReminded ? $this->once() : $this->never()))
 			->method('addBodyDetails')
 			->with($this->callback(function (EMailDetails $details): bool {
 				$rows = $details->getRows();

@@ -367,6 +367,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			'shareWith' => $shareWith,
 			'note' => $note
 		]);
+		$emailTemplate->setLanguage($this->l->getLanguageCode());
 
 		$emailTemplate->setSubject($this->l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]));
 		$emailTemplate->addHeader();
@@ -465,6 +466,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			'initiatorEmail' => $initiatorEmailAddress,
 			'shareWith' => $shareWith,
 		]);
+		$emailTemplate->setLanguage($this->l->getLanguageCode());
 
 		$emailTemplate->setSubject($this->l->t('Password to access %1$s shared to you by %2$s', [$filename, $initiatorDisplayName]));
 		$emailTemplate->addHeader();
@@ -543,6 +545,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$message = $this->mailer->createMessage();
 
 		$emailTemplate = $this->mailer->createEMailTemplate('shareByMail.sendNote');
+		$emailTemplate->setLanguage($this->l->getLanguageCode());
 
 		$emailTemplate->setSubject($this->l->t('%s added a note to a file shared with you', [$initiatorDisplayName]));
 		$emailTemplate->addHeader();
@@ -609,6 +612,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			'initiatorEmail' => $initiatorEMailAddress,
 			'shareWith' => $shareWith,
 		]);
+		$emailTemplate->setLanguage($this->l->getLanguageCode());
 
 		$emailTemplate->setSubject($this->l->t('Password to access %1$s shared by you with %2$s', [$filename, $shareWith]));
 		$emailTemplate->addHeader();

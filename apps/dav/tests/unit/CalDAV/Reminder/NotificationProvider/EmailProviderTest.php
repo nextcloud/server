@@ -139,12 +139,16 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 			->willReturnArgument(0);
 		$enL10N->method('l')
 			->willReturnArgument(0);
+		$enL10N->method('getLanguageCode')
+			->willReturn('en');
 
 		$deL10N = $this->createMock(IL10N::class);
 		$deL10N->method('t')
 			->willReturnArgument(0);
 		$deL10N->method('l')
 			->willReturnArgument(0);
+		$deL10N->method('getLanguageCode')
+			->willReturn('de');
 
 		$this->l10nFactory
 			->method('getUserLanguage')
@@ -181,6 +185,12 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 		$message21 = $this->getMessageMock('foo3@example.org', $template2);
 		$message22 = $this->getMessageMock('foo4@example.org', $template2);
 		$message23 = $this->getMessageMock('uid1@example.com', $template2);
+		$template1->expects($this->once())
+			->method('setLanguage')
+			->with('de');
+		$template2->expects($this->once())
+			->method('setLanguage')
+			->with('en');
 
 		$this->mailer->expects(self::exactly(2))
 			->method('createEMailTemplate')
