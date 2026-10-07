@@ -19,6 +19,8 @@ use OCP\IDBConnection;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Mail\EMailDetails;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 use OCP\Server;
@@ -170,6 +172,18 @@ class SharesReminderJobTest extends \Test\TestCase {
 		$this->logout();
 		$messageMock = $this->createMock(IMessage::class);
 		$this->mailer->method('createMessage')->willReturn($messageMock);
+		$templateMock = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($templateMock);
+		$templateMock
+			->expects(($shouldBeReminded ? $this->once() : $this->never()))
+			->method('addBodyDetails')
+			->with($this->callback(function (EMailDetails $details): bool {
+				$rows = $details->getRows();
+				return $details->getTitle() === 'test'
+					&& count($rows) === 1
+					&& $rows[0]->getLabel() === 'Valid until'
+					&& $rows[0]->getParts()[0]['text'] !== '';
+			}));
 		$this->mailer
 			->expects(($shouldBeReminded ? $this->once() : $this->never()))
 			->method('send')

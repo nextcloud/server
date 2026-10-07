@@ -1490,7 +1490,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addBodyNote')
-			->with('This is a note to the recipient', 'Note from Mrs. Owner User');
+			->with('This is a note to the recipient', 'Note');
 		$template
 			->expects($this->once())
 			->method('addBodyButton')
@@ -1973,5 +1973,47 @@ class ShareByMailProviderTest extends TestCase {
 			'sendMailNotification',
 			[$share]
 		);
+	}
+
+	public static function dataSendNote(): array {
+		return [
+			[true, 'sharer@example.com'],
+			[false, ''],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataSendNote')]
+	public function testSendNote(bool $replyToInitiator, string $senderSubline): void {
+		$provider = $this->getInstance();
+		$initiatorUser = $this->createMock(IUser::class);
+		$initiatorUser->method('getDisplayName')->willReturn('Sharer');
+		$initiatorUser->method('getEMailAddress')->willReturn('sharer@example.com');
+		$this->userManager->method('get')->with('InitiatorUser')->willReturn($initiatorUser);
+		$this->settingsManager->method('replyToInitiator')->willReturn($replyToInitiator);
+		$this->defaults->method('getName')->willReturn('UnitTestCloud');
+		$this->urlGenerator->method('linkToRouteAbsolute')->willReturn('https://example.com/file.txt');
+
+		$message = $this->createMock(Message::class);
+		$this->mailer->method('createMessage')->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer->method('createEMailTemplate')->willReturn($template);
+		$this->mailer->expects($this->once())->method('send')->with($message);
+
+		$template->expects($this->once())->method('addBodySender')->with('Sharer', $senderSubline);
+		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you', 'Sharer shared file.txt with you');
+		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');
+		$template->expects($this->never())->method('addBodyText');
+		$template->expects($this->once())->method('addBodyButton')->with('Open shared item', 'https://example.com/file.txt');
+
+		$node = $this->createMock(File::class);
+		$node->method('getName')->willReturn('file.txt');
+		$share = $this->createMock(IShare::class);
+		$share->method('getSharedBy')->willReturn('InitiatorUser');
+		$share->method('getSharedWith')->willReturn('john@doe.com');
+		$share->method('getNode')->willReturn($node);
+		$share->method('getNote')->willReturn('A note & more');
+		$share->method('getToken')->willReturn('token');
+
+		self::invokePrivate($provider, 'sendNote', [$share]);
 	}
 }
