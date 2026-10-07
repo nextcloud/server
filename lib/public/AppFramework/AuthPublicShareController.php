@@ -149,6 +149,9 @@ abstract class AuthPublicShareController extends PublicShareController {
 			}
 		}
 
+		// Recipients often paste passwords with leading/trailing whitespace or newlines
+		$password = trim($password);
+
 		if (!$this->verifyPassword($password)) {
 			$this->authFailed();
 			$response = $this->showAuthFailed();
