@@ -197,6 +197,59 @@ class LoggerTest extends TestCase implements IWriter {
 		$logFile->error('Testing logging with {user}', ['something' => 'extra', 'user' => 'john']);
 	}
 
+	public function testArrayContextIsEncodedByDefault(): void {
+		$this->mockDefaultLogLevel();
+		/** @var IWriter&MockObject */
+		$writerMock = $this->createMock(IWriter::class);
+		$logFile = new Log($writerMock, $this->config);
+		$writerMock->expects($this->once())->method('write')->with('no app in context', [
+			'params' => '{"path":"/a.txt","id":42}',
+			'message' => 'File deleted',
+		]);
+		$logFile->error('File deleted', ['params' => ['path' => '/a.txt', 'id' => 42]]);
+	}
+
+	public function testArrayContextIsKeptWithStructuredContext(): void {
+		$this->mockDefaultLogLevel();
+		/** @var IWriter&MockObject */
+		$writerMock = $this->createMock(IWriter::class);
+		$logFile = new Log($writerMock, $this->config, structuredContext: true);
+		$writerMock->expects($this->once())->method('write')->with('admin_audit', [
+			'app' => 'admin_audit',
+			'params' => [
+				'path' => '/a.txt',
+				'id' => 42,
+				'crop' => true,
+				'shareWith' => null,
+				'date' => '2026-10-31 00:00:00',
+				'nested' => ['ids' => [1, 2]],
+			],
+			'message' => 'File deleted',
+		]);
+		$logFile->error('File deleted', [
+			'app' => 'admin_audit',
+			'params' => [
+				'path' => '/a.txt',
+				'id' => 42,
+				'crop' => true,
+				'shareWith' => null,
+				'date' => new \DateTimeImmutable('2026-10-31 00:00:00', new \DateTimeZone('UTC')),
+				'nested' => ['ids' => [1, 2]],
+			],
+		]);
+	}
+
+	public function testArrayPlaceholderIsEncodedWithStructuredContext(): void {
+		$this->mockDefaultLogLevel();
+		/** @var IWriter&MockObject */
+		$writerMock = $this->createMock(IWriter::class);
+		$logFile = new Log($writerMock, $this->config, structuredContext: true);
+		$writerMock->expects($this->once())->method('write')->with('no app in context', [
+			'message' => 'Transferred value: {"id":42}',
+		]);
+		$logFile->error('Transferred value: {params}', ['params' => ['id' => 42]]);
+	}
+
 	private function getLogs(): array {
 		return $this->logs;
 	}
