@@ -172,9 +172,9 @@ class NewUserMailHelperTest extends TestCase {
 			.nc-link{color:#ebebeb!important}
 			.nc-border{border-color:#3b3b3b!important}
 			.nc-note-neutral,.nc-secondary{background:#2c2c2c!important}
-			.nc-note-info{background:#10303f!important}
-			.nc-note-warning{background:#3a2e10!important}
-			.nc-note-error{background:#3d1717!important}
+			.nc-note-info{background:#003553!important;border-left-color:#00AEFF!important}
+			.nc-note-warning{background:#3D3010!important;border-left-color:#FFEEC5!important}
+			.nc-note-error{background:#552121!important;border-left-color:#FFCCCC!important}
 		}
 	</style>
 </head>
@@ -289,9 +289,9 @@ EOF;
 			.nc-link{color:#ebebeb!important}
 			.nc-border{border-color:#3b3b3b!important}
 			.nc-note-neutral,.nc-secondary{background:#2c2c2c!important}
-			.nc-note-info{background:#10303f!important}
-			.nc-note-warning{background:#3a2e10!important}
-			.nc-note-error{background:#3d1717!important}
+			.nc-note-info{background:#003553!important;border-left-color:#00AEFF!important}
+			.nc-note-warning{background:#3D3010!important;border-left-color:#FFEEC5!important}
+			.nc-note-error{background:#552121!important;border-left-color:#FFCCCC!important}
 		}
 	</style>
 </head>
@@ -410,9 +410,9 @@ EOF;
 			.nc-link{color:#ebebeb!important}
 			.nc-border{border-color:#3b3b3b!important}
 			.nc-note-neutral,.nc-secondary{background:#2c2c2c!important}
-			.nc-note-info{background:#10303f!important}
-			.nc-note-warning{background:#3a2e10!important}
-			.nc-note-error{background:#3d1717!important}
+			.nc-note-info{background:#003553!important;border-left-color:#00AEFF!important}
+			.nc-note-warning{background:#3D3010!important;border-left-color:#FFEEC5!important}
+			.nc-note-error{background:#552121!important;border-left-color:#FFCCCC!important}
 		}
 	</style>
 </head>
