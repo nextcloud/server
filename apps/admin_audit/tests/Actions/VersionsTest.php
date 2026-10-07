@@ -28,7 +28,7 @@ class VersionsTest extends TestCase {
 	public function testDelete(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('Version "/a.txt.v1700000000" was deleted.', ['app' => 'admin_audit', 'operation' => 'versions.version.deleted']);
+			->with('Version "/a.txt.v1700000000" was deleted.', ['app' => 'admin_audit', 'operation' => 'versions.version.deleted', 'params' => ['path' => '/a.txt.v1700000000']]);
 
 		$this->versions->delete(['path' => '/a.txt.v1700000000']);
 	}

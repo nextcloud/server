@@ -30,19 +30,19 @@ class CacheEventListenerTest extends TestCase {
 		$this->storage = $this->createMock(IStorage::class);
 	}
 
-	private function expectInfo(string $message, string $operation): void {
+	private function expectInfo(string $message, string $operation, array $params): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with($message, ['app' => 'admin_audit', 'operation' => $operation]);
+			->with($message, ['app' => 'admin_audit', 'operation' => $operation, 'params' => $params]);
 	}
 
 	public function testEntryInserted(): void {
-		$this->expectInfo('Cache entry inserted for fileid "42", path "files/a.txt" on storageid "3"', 'files.cache_entry.inserted');
+		$this->expectInfo('Cache entry inserted for fileid "42", path "files/a.txt" on storageid "3"', 'files.cache_entry.inserted', ['fileid' => 42, 'path' => 'files/a.txt', 'storageid' => 3]);
 		$this->listener->handle(new CacheEntryInsertedEvent($this->storage, 'files/a.txt', 42, 3));
 	}
 
 	public function testEntryRemoved(): void {
-		$this->expectInfo('Cache entry removed for fileid "42", path "files/a.txt" on storageid "3"', 'files.cache_entry.removed');
+		$this->expectInfo('Cache entry removed for fileid "42", path "files/a.txt" on storageid "3"', 'files.cache_entry.removed', ['fileid' => 42, 'path' => 'files/a.txt', 'storageid' => 3]);
 		$this->listener->handle(new CacheEntryRemovedEvent($this->storage, 'files/a.txt', 42, 3));
 	}
 }

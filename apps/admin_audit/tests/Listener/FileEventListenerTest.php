@@ -38,7 +38,7 @@ class FileEventListenerTest extends TestCase {
 			->method('info')
 			->with(
 				'Preview accessed: (id: "42", width: "64", height: "64" crop: "1", mode: "fill", path: "/alice/files/a.jpg")',
-				['app' => 'admin_audit', 'operation' => 'files.preview.accessed'],
+				['app' => 'admin_audit', 'operation' => 'files.preview.accessed', 'params' => ['id' => 42, 'width' => 64, 'height' => 64, 'crop' => true, 'mode' => 'fill', 'path' => '/alice/files/a.jpg']],
 			);
 
 		$this->listener->handle(new BeforePreviewFetchedEvent($file, 64, 64, true, 'fill'));
@@ -51,7 +51,7 @@ class FileEventListenerTest extends TestCase {
 
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('Version "1700000000" of "/a.txt" was restored.', ['app' => 'admin_audit', 'operation' => 'versions.version.restored']);
+			->with('Version "1700000000" of "/a.txt" was restored.', ['app' => 'admin_audit', 'operation' => 'versions.version.restored', 'params' => ['version' => 1700000000, 'path' => '/a.txt']]);
 
 		$this->listener->handle(new VersionRestoredEvent($version));
 	}
