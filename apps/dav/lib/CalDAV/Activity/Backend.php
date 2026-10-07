@@ -525,7 +525,7 @@ class Backend {
 			->setType($object['type'] === 'event' ? 'calendar_event' : 'calendar_todo')
 			->setAuthor($currentUser);
 
-		$users = $this->getUsersForShares(array_intersect($sourceShares, $targetShares));
+		$users = $this->getUsersForShares($this->intersectSharesByPrincipal($sourceShares, $targetShares));
 		$users[] = $targetOwner;
 
 		// Users for share can return the owner itself if the calendar is published
@@ -568,6 +568,37 @@ class Backend {
 
 			$this->activityManager->publish($event);
 		}
+	}
+
+
+	/**
+	 * Intersect calendar share lists by principal URI.
+	 *
+	 * Share entries are nested arrays; PHP's array_intersect() would cast them
+	 * to the string "Array" and emit "Array to string conversion" warnings.
+	 *
+	 * @param array $sourceShares
+	 * @param array $targetShares
+	 * @return array
+	 */
+	protected function intersectSharesByPrincipal(array $sourceShares, array $targetShares): array {
+		$targetPrincipals = [];
+		foreach ($targetShares as $share) {
+			$principal = $share['{http://owncloud.org/ns}principal'] ?? null;
+			if (is_string($principal) && $principal !== '') {
+				$targetPrincipals[$principal] = true;
+			}
+		}
+
+		$common = [];
+		foreach ($sourceShares as $share) {
+			$principal = $share['{http://owncloud.org/ns}principal'] ?? null;
+			if (is_string($principal) && isset($targetPrincipals[$principal])) {
+				$common[] = $share;
+			}
+		}
+
+		return $common;
 	}
 
 	/**
