@@ -84,6 +84,29 @@ package-lock.json                             @nextcloud/server-dependabot
 openapi*.json                       @provokateurin @nextcloud/server-backend
 ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 
+# Files Team
+/lib/public/Files*                  @nextcloud/files-backend
+/lib/public/Files_FullTextSearch    @nextcloud/files-backend @GhassenKefi
+/lib/public/Share*                  @nextcloud/files-backend
+/lib/private/Share*                 @nextcloud/files-backend
+/apps/encryption                    @nextcloud/files-backend
+/apps/encryption/src                @nextcloud/files-frontend
+/apps/federatedfilesharing          @nextcloud/files-backend
+/apps/federatedfilesharing/src      @nextcloud/files-frontend
+/apps/files                         @nextcloud/files
+/apps/files/lib                     @nextcloud/files-backend
+/apps/files/tests                   @nextcloud/files-backend
+/apps/files/src                     @nextcloud/files-frontend @skjnldsv
+/apps/files_*                       @nextcloud/files
+/apps/files_*/lib                   @nextcloud/files-backend
+/apps/files_*/tests                 @nextcloud/files-backend
+/apps/files_*/src                   @nextcloud/files-frontend
+/apps/sharebymail                   @nextcloud/files-backend
+/apps/sharebymail/src               @nextcloud/files-frontend
+/apps/sharing                       @nextcloud/files
+/apps/sharing/lib                   @nextcloud/files-backend @provokateurin
+/apps/sharing/src                   @nextcloud/files-frontend
+
 # IDP team
 /lib/public/Accounts                @nextcloud/idp
 /lib/private/Accounts               @nextcloud/idp
