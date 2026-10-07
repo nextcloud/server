@@ -324,6 +324,41 @@ class BackendTest extends TestCase {
 		$this->assertEquals($expected, $users);
 	}
 
+	public static function dataIntersectSharesByPrincipal(): array {
+		$share = static function (string $principal, bool $readOnly = false): array {
+			return [
+				'href' => 'principal:' . $principal,
+				'commonName' => $principal,
+				'status' => 1,
+				'readOnly' => $readOnly,
+				'{http://owncloud.org/ns}principal' => $principal,
+				'{http://owncloud.org/ns}group-share' => false,
+			];
+		};
+		return [
+			'empty' => [[], [], []],
+			'no overlap' => [
+				[$share('principals/users/a')],
+				[$share('principals/users/b')],
+				[],
+			],
+			'overlap keeps source entry' => [
+				[$share('principals/users/a', true), $share('principals/users/c')],
+				[$share('principals/users/b'), $share('principals/users/a', false)],
+				[$share('principals/users/a', true)],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataIntersectSharesByPrincipal
+	 */
+	public function testIntersectSharesByPrincipal(array $source, array $target, array $expected): void {
+		$backend = $this->getBackend();
+		$result = $this->invokePrivate($backend, 'intersectSharesByPrincipal', [$source, $target]);
+		$this->assertEquals($expected, $result);
+	}
+
 	/**
 	 * @param string[] $users
 	 * @return IUser[]&MockObject[]
