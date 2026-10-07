@@ -15,6 +15,10 @@ trait RotationTrait {
 	/**
 	 * @since 36.0.0
 	 */
+	protected const DEFAULT_ROTATION_INTERVAL = 60 * 60;
+	/**
+	 * @since 36.0.0
+	 */
 	protected const DEFAULT_MAX_SIZE = 100 * 1024 * 1024;
 	/**
 	 * @since 14.0.0
@@ -32,7 +36,14 @@ trait RotationTrait {
 	 */
 	protected function rotate(): string {
 		$rotatedFile = $this->filePath . '.1';
-		rename($this->filePath, $rotatedFile);
+		if (!@rename($this->filePath, $rotatedFile)) {
+			throw new \RuntimeException(sprintf(
+				'Failed to rotate log file "%s" to "%s".',
+				$this->filePath,
+				$rotatedFile,
+			));
+		}
+
 		return $rotatedFile;
 	}
 
