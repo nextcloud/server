@@ -22,8 +22,8 @@ use OCP\IUser;
  * expire on login, so they must be compared against this value instead.
  */
 class LastInteractiveLogin {
-	private const string CONFIG_APP = 'login';
-	private const string CONFIG_KEY = 'lastInteractiveLogin';
+	private const CONFIG_APP = 'login';
+	private const CONFIG_KEY = 'lastInteractiveLogin';
 
 	public function __construct(
 		private IUserConfig $userConfig,
