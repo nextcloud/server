@@ -32,6 +32,16 @@ const isPasswordResetProcessed = !!publicShareAuth.showPasswordReset
 const showPasswordReset = ref(publicShareAuth.showPasswordReset ?? false)
 const password = ref('')
 const email = ref('')
+
+/** Strip pasted whitespace/newlines before the native form POST. */
+function onPasswordSubmit(event: Event) {
+	const form = event.target as HTMLFormElement
+	const input = form.elements.namedItem('password') as HTMLInputElement | null
+	if (input) {
+		input.value = input.value.trim()
+		password.value = input.value
+	}
+}
 </script>
 
 <template>
@@ -40,7 +50,8 @@ const email = ref('')
 		<form
 			v-show="!showPasswordReset"
 			:class="$style.publicShareAuth__form"
-			method="POST">
+			method="POST"
+			@submit="onPasswordSubmit">
 			<NcNoteCard v-if="invalidPassword" type="error">
 				{{ t('core', 'The password is wrong or expired. Please try again or request a new one.') }}
 			</NcNoteCard>
