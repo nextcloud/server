@@ -14,8 +14,10 @@ use OCP\Collaboration\Reference\Reference;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IURLGenerator;
@@ -130,11 +132,27 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 				'link' => $reference->getUrl(),
 				'mimetype' => $file->getMimetype(),
 				'mtime' => $file->getMTime(),
-				'preview-available' => $this->previewManager->isAvailable($file)
+				'preview-available' => $this->previewManager->isAvailable($file),
+				'permissions' => $file->getPermissions(),
+				'hide-download' => $this->canDownload($file) ? 'no' : 'yes',
 			]);
 		} catch (InvalidPathException|NotFoundException|NotPermittedException|UserNotFoundException $e) {
 			throw new NotFoundException();
 		}
+	}
+
+	/**
+	 * Whether the user may download the file: not when it comes from a share
+	 * that forbids it
+	 */
+	private function canDownload(Node $file): bool {
+		$storage = $file->getStorage();
+		if (!$storage->instanceOfStorage(ISharedStorage::class)) {
+			return true;
+		}
+
+		/** @var ISharedStorage $storage */
+		return $storage->getShare()->canDownload();
 	}
 
 	#[\Override]
