@@ -120,8 +120,9 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 /lib/private/Teams                  @nextcloud/idp
 /lib/public/LDAP                    @nextcloud/idp
 /lib/private/LDAP                   @nextcloud/idp
-/apps/user_ldap                     @nextcloud/idp
+/apps/lookup_server_connector       @nextcloud/idp
 /apps/profile                       @nextcloud/idp
+/apps/user_ldap                     @nextcloud/idp
 
 # Talk team
 /lib/private/Comments               @nickvergessen @nextcloud/talk-backend
