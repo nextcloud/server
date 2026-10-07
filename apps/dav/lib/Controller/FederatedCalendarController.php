@@ -9,11 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarEntity;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarInvitationService;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\ResponseDefinitions;
+use OCA\DAV\TokenScopes;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -44,6 +46,7 @@ class FederatedCalendarController extends OCSController {
 	 * 401: When the user is not logged in
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CALENDAR_READ)]
 	public function getPending(): DataResponse {
 		if ($this->userId === null) {
 			return new DataResponse(null, Http::STATUS_UNAUTHORIZED);
@@ -76,6 +79,7 @@ class FederatedCalendarController extends OCSController {
 	 * 200: Invitation accepted successfully
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CALENDAR_WRITE)]
 	public function accept(int $id): DataResponse {
 		$this->invitationService->accept($this->getPendingCalendar($id));
 		return new DataResponse(null);
@@ -91,6 +95,7 @@ class FederatedCalendarController extends OCSController {
 	 * 200: Invitation declined successfully
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::CALENDAR_WRITE)]
 	public function decline(int $id): DataResponse {
 		$this->invitationService->decline($this->getPendingCalendar($id));
 		return new DataResponse(null);

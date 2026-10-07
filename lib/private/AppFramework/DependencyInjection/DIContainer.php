@@ -29,6 +29,7 @@ use OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware;
 use OC\AppFramework\Middleware\Security\RateLimitingMiddleware;
 use OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
+use OC\AppFramework\Middleware\Security\TokenScopeMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\ScopedPsrLogger;
 use OC\AppFramework\Services\AppConfig;
@@ -214,6 +215,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware($c->get(RateLimitingMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(PublicShareMiddleware::class));
 			$dispatcher->registerMiddleware($c->get(AdditionalScriptsMiddleware::class));
+			// After AdditionalScriptsMiddleware, so pages are refused before their listeners run
+			$dispatcher->registerMiddleware($c->get(TokenScopeMiddleware::class));
 
 			$coordinator = $c->get(Coordinator::class);
 			$registrationContext = $coordinator->getRegistrationContext();

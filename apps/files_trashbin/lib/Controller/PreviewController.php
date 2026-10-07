@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\Files_Trashbin\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
+use OCA\Files\TokenScopes;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -27,6 +29,7 @@ use OCP\IRequest;
 use OCP\IUserSession;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+#[TokenScope(scope: TokenScopes::FILES_READ)]
 class PreviewController extends Controller {
 	public function __construct(
 		string $appName,

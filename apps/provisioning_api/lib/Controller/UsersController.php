@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use InvalidArgumentException;
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\AppFramework\Http\PaginationTrait;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Group\DisplayNameCache as GroupDisplayNameCache;
@@ -705,6 +706,7 @@ class UsersController extends AUserDataOCSController {
 	 */
 	#[NoAdminRequired]
 	#[NoSubAdminRequired]
+	#[TokenScope]
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {

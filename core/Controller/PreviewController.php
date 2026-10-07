@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
+use OCA\Files\TokenScopes;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -62,6 +64,7 @@ class PreviewController extends Controller {
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview.png')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getPreview(
 		string $file = '',
 		int $x = 32,
@@ -105,6 +108,7 @@ class PreviewController extends Controller {
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope(scope: TokenScopes::FILES_READ)]
 	public function getPreviewByFileId(
 		int $fileId,
 		int $x = 32,
@@ -193,6 +197,7 @@ class PreviewController extends Controller {
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/core/mimeicon')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[TokenScope]
 	public function getMimeIconUrl(string $mime = 'application/octet-stream') {
 		$url = $this->mimeIconProvider->getMimeIconUrl($mime);
 		if ($url === null) {

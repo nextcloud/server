@@ -1,0 +1,183 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace Test\AppFramework\Middleware\Security;
+
+use OC\AppFramework\Http\Attributes\TokenScope;
+use OC\AppFramework\Middleware\Security\Exceptions\TokenScopeException;
+use OC\AppFramework\Middleware\Security\TokenScopeMiddleware;
+use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Authentication\Token\PublicKeyToken;
+use OC\Authentication\Token\TokenScopes;
+use OC\Core\Controller\PreviewController;
+use OC\Lockdown\LockdownManager;
+use OCA\DAV\Controller\DirectController;
+use OCA\Files\Controller\ConversionApiController;
+use OCA\Files\Controller\DirectEditingController;
+use OCA\Files\Controller\DirectEditingViewController;
+use OCA\Files\Controller\TemplateController;
+use OCA\Files\TokenScopes as FilesTokenScopes;
+use OCA\Files_Sharing\Controller\ShareAPIController;
+use OCA\Files_Sharing\Controller\ShareesAPIController;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IRequest;
+use OCP\ISession;
+use OCP\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
+use Test\TestCase;
+
+class TokenScopeTestController extends Controller {
+	#[NoAdminRequired]
+	#[TokenScope]
+	public function anyToken(): void {
+	}
+
+	#[NoAdminRequired]
+	#[TokenScope(scope: FilesTokenScopes::FILES_SHARE)]
+	public function share(): void {
+	}
+
+	#[NoAdminRequired]
+	public function unannotated(): void {
+	}
+
+	#[TokenScope]
+	public function adminOnly(): void {
+	}
+}
+
+#[TokenScope(scope: FilesTokenScopes::FILES_WRITE)]
+class TokenScopeTestClassController extends Controller {
+	#[NoAdminRequired]
+	public function files(): void {
+	}
+
+	#[NoAdminRequired]
+	#[TokenScope(scope: FilesTokenScopes::FILES_SHARE)]
+	public function share(): void {
+	}
+}
+
+class TokenScopeMiddlewareTest extends TestCase {
+	private const FILES = [FilesTokenScopes::FILES_READ, FilesTokenScopes::FILES_WRITE];
+	private const CALENDAR = ['calendar:read', 'calendar:write'];
+
+	private IRequest&MockObject $request;
+	private ControllerMethodReflector $reflector;
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->request = $this->createMock(IRequest::class);
+		$this->reflector = new ControllerMethodReflector(Server::get(LoggerInterface::class));
+	}
+
+	public static function requests(): array {
+		return [
+			'any token' => [[], TokenScopeTestController::class, 'anyToken', true],
+			'scope missing' => [self::FILES, TokenScopeTestController::class, 'share', false],
+			'scope held' => [[...self::FILES, FilesTokenScopes::FILES_SHARE], TokenScopeTestController::class, 'share', true],
+			'unannotated' => [self::FILES, TokenScopeTestController::class, 'unannotated', false],
+			'unannotated, legacy token' => [null, TokenScopeTestController::class, 'unannotated', true],
+			'admin only' => [self::FILES, TokenScopeTestController::class, 'adminOnly', false],
+			'class attribute' => [self::FILES, TokenScopeTestClassController::class, 'files', true],
+			'class attribute, other scope' => [self::CALENDAR, TokenScopeTestClassController::class, 'files', false],
+			'method overrides class' => [self::FILES, TokenScopeTestClassController::class, 'share', false],
+		];
+	}
+
+	#[DataProvider('requests')]
+	public function testBeforeController(?array $scopes, string $class, string $method, bool $allowed): void {
+		$controller = new $class('test', $this->request);
+		$this->reflector->reflect($controller, $method);
+
+		if (!$allowed) {
+			$this->expectException(TokenScopeException::class);
+		}
+		$this->middleware($scopes)->beforeController($controller, $method);
+		$this->addToAssertionCount(1);
+	}
+
+	public function testPageRenderIsRefused(): void {
+		$response = $this->middleware(self::FILES)
+			->afterController(new TokenScopeTestController('test', $this->request), 'anyToken', new TemplateResponse('files', 'index'));
+
+		$this->assertNotInstanceOf(TemplateResponse::class, $response);
+		$this->assertSame(Http::STATUS_FORBIDDEN, $response->getStatus());
+	}
+
+	public function testOtherResponsesPass(): void {
+		$controller = new TokenScopeTestController('test', $this->request);
+		$json = new JSONResponse([]);
+		$this->assertSame($json, $this->middleware(self::FILES)->afterController($controller, 'anyToken', $json));
+
+		$page = new TemplateResponse('files', 'index');
+		$this->assertSame($page, $this->middleware(null)->afterController($controller, 'anyToken', $page));
+	}
+
+	/**
+	 * Without their own attribute these would fall back to their class's wider scope
+	 */
+	public static function pinnedScopes(): array {
+		return [
+			'create share' => [ShareAPIController::class, 'createShare', FilesTokenScopes::FILES_SHARE],
+			'update share' => [ShareAPIController::class, 'updateShare', FilesTokenScopes::FILES_SHARE],
+			'delete share' => [ShareAPIController::class, 'deleteShare', FilesTokenScopes::FILES_SHARE],
+			'send share email' => [ShareAPIController::class, 'sendShareEmail', FilesTokenScopes::FILES_SHARE],
+			'sharee search' => [ShareesAPIController::class, 'search', FilesTokenScopes::FILES_SHARE],
+			'recommended sharees' => [ShareesAPIController::class, 'findRecommended', FilesTokenScopes::FILES_SHARE],
+			'direct link' => [DirectController::class, 'getUrl', FilesTokenScopes::FILES_SHARE],
+			'preview' => [PreviewController::class, 'getPreview', FilesTokenScopes::FILES_READ],
+			'preview by file id' => [PreviewController::class, 'getPreviewByFileId', FilesTokenScopes::FILES_READ],
+		];
+	}
+
+	#[DataProvider('pinnedScopes')]
+	public function testPinnedScopes(string $class, string $method, string $scope): void {
+		$attribute = (new \ReflectionMethod($class, $method))->getAttributes(TokenScope::class)[0]
+			?? (new \ReflectionClass($class))->getAttributes(TokenScope::class)[0];
+		$this->assertSame($scope, $attribute->newInstance()->scope);
+	}
+
+	/**
+	 * These hand files to other apps, so no scoped token may reach them
+	 */
+	public static function refusedControllers(): array {
+		return [
+			[TemplateController::class],
+			[DirectEditingController::class],
+			[DirectEditingViewController::class],
+			[ConversionApiController::class],
+		];
+	}
+
+	#[DataProvider('refusedControllers')]
+	public function testRefusedControllersStayUnannotated(string $class): void {
+		$class = new \ReflectionClass($class);
+		$this->assertSame([], $class->getAttributes(TokenScope::class));
+		foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+			$this->assertSame([], $method->getAttributes(TokenScope::class), $method->getName());
+		}
+	}
+
+	private function middleware(?array $scopes): TokenScopeMiddleware {
+		$lockdownManager = new LockdownManager(fn () => $this->createMock(ISession::class), new TokenScopes());
+		$token = new PublicKeyToken();
+		$token->setScope($scopes === null ? [] : [TokenScopes::KEY => $scopes]);
+		$lockdownManager->setToken($token);
+
+		return new TokenScopeMiddleware($this->reflector, $lockdownManager);
+	}
+}

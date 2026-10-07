@@ -9,8 +9,10 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Db\DirectMapper;
+use OCA\Files\TokenScopes;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
@@ -58,6 +60,7 @@ class DirectController extends OCSController {
 	 * 200: Direct link returned
 	 */
 	#[NoAdminRequired]
+	#[TokenScope(scope: TokenScopes::FILES_SHARE)]
 	public function getUrl(int $fileId, int $expirationTime = 60 * 60 * 8): DataResponse {
 		if (!$this->shareManager->shareApiAllowLinks()) {
 			throw new OCSForbiddenException('Creating direct links is disabled');

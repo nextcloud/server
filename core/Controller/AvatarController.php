@@ -8,6 +8,7 @@
 
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Http\Attributes\TokenScope;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Avatar\AvatarManager;
 use OCP\AppFramework\Controller;
@@ -85,6 +86,7 @@ class AvatarController extends Controller {
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}/dark')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[NoSameSiteCookieRequired]
+	#[TokenScope]
 	public function getAvatarDark(string $userId, int $size, bool $guestFallback = false, string $v = '') {
 		if ($size <= 64) {
 			if ($size !== 64) {
@@ -135,6 +137,7 @@ class AvatarController extends Controller {
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	#[NoSameSiteCookieRequired]
+	#[TokenScope]
 	public function getAvatar(string $userId, int $size, bool $guestFallback = false, string $v = '') {
 		if ($size <= 64) {
 			if ($size !== 64) {
