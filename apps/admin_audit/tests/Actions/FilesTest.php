@@ -41,39 +41,39 @@ class FilesTest extends TestCase {
 		$this->target->method('getPath')->willReturn('/alice/files/b.txt');
 	}
 
-	private function expectInfo(string $message, string $operation): void {
+	private function expectInfo(string $message, string $operation, array $params): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with($message, ['app' => 'admin_audit', 'operation' => $operation]);
+			->with($message, ['app' => 'admin_audit', 'operation' => $operation, 'params' => $params]);
 	}
 
 	public function testRead(): void {
-		$this->expectInfo('File with id "42" accessed: "/alice/files/b.txt"', 'files.file.read');
+		$this->expectInfo('File with id "42" accessed: "/alice/files/b.txt"', 'files.file.read', ['id' => 42, 'path' => '/alice/files/b.txt']);
 		$this->files->read(new BeforeNodeReadEvent($this->target));
 	}
 
 	public function testRename(): void {
-		$this->expectInfo('File renamed with id "42" from "/alice/files/a.txt" to "/alice/files/b.txt"', 'files.file.renamed');
+		$this->expectInfo('File renamed with id "42" from "/alice/files/a.txt" to "/alice/files/b.txt"', 'files.file.renamed', ['newid' => 42, 'oldpath' => '/alice/files/a.txt', 'newpath' => '/alice/files/b.txt']);
 		$this->files->afterRename(new NodeRenamedEvent($this->source, $this->target));
 	}
 
 	public function testCreate(): void {
-		$this->expectInfo('File with id "42" created: "/alice/files/b.txt"', 'files.file.created');
+		$this->expectInfo('File with id "42" created: "/alice/files/b.txt"', 'files.file.created', ['id' => 42, 'path' => '/alice/files/b.txt']);
 		$this->files->create(new NodeCreatedEvent($this->target));
 	}
 
 	public function testCopy(): void {
-		$this->expectInfo('File id copied from: "41" to "42", path from "/alice/files/a.txt" to "/alice/files/b.txt"', 'files.file.copied');
+		$this->expectInfo('File id copied from: "41" to "42", path from "/alice/files/a.txt" to "/alice/files/b.txt"', 'files.file.copied', ['oldid' => 41, 'newid' => 42, 'oldpath' => '/alice/files/a.txt', 'newpath' => '/alice/files/b.txt']);
 		$this->files->copy(new NodeCopiedEvent($this->source, $this->target));
 	}
 
 	public function testWrite(): void {
-		$this->expectInfo('File with id "42" written to: "/alice/files/b.txt"', 'files.file.written');
+		$this->expectInfo('File with id "42" written to: "/alice/files/b.txt"', 'files.file.written', ['id' => 42, 'path' => '/alice/files/b.txt']);
 		$this->files->write(new NodeWrittenEvent($this->target));
 	}
 
 	public function testDelete(): void {
-		$this->expectInfo('File with id "42" deleted: "/alice/files/b.txt"', 'files.file.deleted');
+		$this->expectInfo('File with id "42" deleted: "/alice/files/b.txt"', 'files.file.deleted', ['id' => 42, 'path' => '/alice/files/b.txt']);
 		$this->files->delete(new BeforeNodeDeletedEvent($this->target));
 	}
 }
