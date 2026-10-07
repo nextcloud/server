@@ -201,6 +201,11 @@ function handleUserStatusUpdated(state: IPreloadedUserStatus & { userId: string 
 		width: fit-content !important;
 	}
 
+	// Lives here because NcListItem does not pass the scope id of AccountMenuEntry on to its root
+	:deep(.account-menu-entry .list-item-content__main) {
+		width: fit-content;
+	}
+
 	:deep(button) {
 		// Normally header menus are slightly translucent when not active
 		// this is generally ok but for the avatar this is weird so fix the opacity

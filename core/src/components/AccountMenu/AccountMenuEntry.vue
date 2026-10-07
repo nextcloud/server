@@ -89,9 +89,5 @@ function onClick(event: MouseEvent) {
 		width: 20px;
 		margin: calc((var(--default-clickable-area) - 20px) / 2); // 20px icon size
 	}
-
-	:deep(.list-item-content__main) {
-		width: fit-content;
-	}
 }
 </style>
