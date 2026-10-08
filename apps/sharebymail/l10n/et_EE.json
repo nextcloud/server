@@ -17,9 +17,10 @@
     "Failed to send share by email. Got an invalid email address" : "Jaosmeedia saatmine e-postiga ei õnnestunud. Ilmselt oli e-posti aadress vale.",
     "Failed to send share by email" : "Jaosmeediat polnud võimalik e-kirjaga saata",
     "%1$s shared %2$s with you" : "%1$s jagas sinuga: %2$s",
-    "Note:" : "Märkus:",
-    "This share is valid until %s at midnight" : "See jaosmeedia kehtib vaid %s keskööni",
-    "Expiration:" : "Aegumine:",
+    "Note" : "Märge",
+    "Valid until" : "Kehtib kuni",
+    "Password" : "Salasõna",
+    "Required" : "Kohustuslik",
     "Open shared item" : "Ava jagatud objekt",
     "%1$s via %2$s" : "%1$s %2$s kaudu",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%2$s jagas sulle „%1$s“ jaosmeediat. Peaksid juba olema saanud eraldi e-kirja ligipääsuks vajaliku lingiga.",
@@ -27,8 +28,6 @@
     "Password to access %s" : "Salasõna ligipääsuks „%s“ jaosmeediale",
     "It is protected with the following password:" : "See on kaitstud järgneva salasõnaga:",
     "This password will expire at %s" : "See salasõna aegub %s",
-    "%1$s shared %2$s with you and wants to add:" : "%1$s jagas sinuga %2$s ning soovib lisada:",
-    "%1$s shared %2$s with you and wants to add" : "%1$s jagas sinuga %2$s ning soovib lisada",
     "%s added a note to a file shared with you" : "%s jagas koos sulle jagatud failiga ka märget",
     "You just shared %1$s with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Sa just jagasid „%1$s“ meediat kasutajale „%2$s“. Jaosmeedia teave on juba saadetud kasutajale. Kuna %3$s serveri peakasutaja on kehtestanud turvareeglid, siis iga jaosmeedia peab  olema kaitstud salasõnaga ning salasõna ei tohi kasutajale otse saata. Seetõttu pead salasõna saajale edastama käsitsi.",
     "Password to access %1$s shared by you with %2$s" : "%2$s jagas sinuga salasõna ligipääsuks „%1$s“ jaosmeediale",
@@ -39,6 +38,11 @@
     "Unable to update share by mail config" : "E-postiga jagamise seadistuste uuendamine ei õnnestu.",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Võimaldab e-posti aadressi sisestamise alusel jagada faili või kausta konkreetsele adressaadile.",
     "Send password by mail" : "Saada salasõna e-postiga",
-    "Reply to initiator" : "Vasta algatajale"
+    "Reply to initiator" : "Vasta algatajale",
+    "Note:" : "Märkus:",
+    "This share is valid until %s at midnight" : "See jaosmeedia kehtib vaid %s keskööni",
+    "Expiration:" : "Aegumine:",
+    "%1$s shared %2$s with you and wants to add:" : "%1$s jagas sinuga %2$s ning soovib lisada:",
+    "%1$s shared %2$s with you and wants to add" : "%1$s jagas sinuga %2$s ning soovib lisada"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

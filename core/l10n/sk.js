@@ -349,7 +349,7 @@ OC.L10N.register(
     "All teams" : "Všetky tímy",
     "Search contacts in team {team}" : "Vyhľadať kontakty v tíme {team}",
     "Search contacts …" : "Prehľadať kontakty ...",
-    "Reset search" : "Vynuluj vyhľadávanie",
+    "Reset search" : "Vynulovať vyhľadávanie",
     "Could not load your contacts" : "Nie je možné načítať Vaše kontakty",
     "No contacts found" : "Kontakty nenájdené",
     "Contacts list" : "Zoznam kontaktov",

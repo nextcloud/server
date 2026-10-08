@@ -63,6 +63,7 @@
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "როგორც ჩანს ეს %s ინსტანცია მოქმედებს 32-ბიტიან PHP გარემოზე და open_basedir php.ini-ში კონფიგურირებულია. ეს 4 გბ-ზე დიდ ფაილებთან გამოიწვევს პრობლემს და რეკომედირებული არაა.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "გთხოვთ ამოშალოთ open_basedir პარამეტრი php.ini-დან ან გადახვიდეთ 64-ბიტიან PHP-ზე.",
     "Set an admin password." : "დააყენეთ ადმინისტრატორის პაროლი.",
+    "Valid until" : "ვარგისია",
     "Unknown share type" : "ამოუცნობი გაზიარების სახეობა",
     "Expiration date is in the past" : "ვადის ამოწურვის თარიღი წარსულშია",
     "The requested share does not exist anymore" : "მოთხოვნილი გაზიარება მეტი აღარ არსებობს",

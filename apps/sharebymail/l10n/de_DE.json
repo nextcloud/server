@@ -17,9 +17,10 @@
     "Failed to send share by email. Got an invalid email address" : "Die Freigabe per E-Mail konnte nicht gesendet werden. Es wurde eine ungültige E-Mail-Adresse angegeben.",
     "Failed to send share by email" : "Freigabe konnte nicht per E-Mail gesendet werden",
     "%1$s shared %2$s with you" : "%1$s hat %2$s mit Ihnen geteilt",
-    "Note:" : "Anmerkung:",
-    "This share is valid until %s at midnight" : "Diese Freigabe ist bis zum %s um Mitternacht gültig",
-    "Expiration:" : "Ablauf:",
+    "Note" : "Notiz",
+    "Valid until" : "Gültig bis",
+    "Password" : "Passwort",
+    "Required" : "Erforderlich",
     "Open shared item" : "Geteiltes Element öffnen",
     "%1$s via %2$s" : "%1$s über %2$s",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "%1$s hat %2$s mit Ihnen geteilt. Den entsprechenden Link sollten Sie bereits in einer separaten Mail erhalten haben.",
@@ -27,8 +28,6 @@
     "Password to access %s" : "Zugriffspasswort %s",
     "It is protected with the following password:" : "Dies ist mit dem folgendem Passwort geschützt:",
     "This password will expire at %s" : "Dieses Passwort wird um %s ablaufen.",
-    "%1$s shared %2$s with you and wants to add:" : "%1$s hat %2$s mit Ihnen geteilt und möchte hinzufügen:",
-    "%1$s shared %2$s with you and wants to add" : "%1$s hat %2$s mit Ihnen geteilt und möchte hinzufügen",
     "%s added a note to a file shared with you" : "%s hat eine Notiz zu einer Datei, die mit Ihnen geteilt wurde, hinzugefügt",
     "You just shared %1$s with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Sie haben %1$s mit %2$s geteilt. Die Freigabe wurde an den Empfänger gesandt. Aufgrund der Sicherheits-Richtlinien, welche die Administration von %3$s vorgegeben hat, benötigt jede Freigabe einen Passwortschutz und es ist nicht zulässig, ein Passwort direkt an den Empfänger zu versenden. Aus diesem Grund müssen Sie das Passwort selbst an den Empfänger senden.",
     "Password to access %1$s shared by you with %2$s" : "Passwort für den Zugriff auf %1$s, von Ihnen mit %2$s geteilt",
@@ -39,6 +38,11 @@
     "Unable to update share by mail config" : "Einstellungen zum Teilen via E-Mail konnten nicht aktualisiert werden",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Ermöglicht Personen, einen personalisierten Link zu einer Datei oder einem Ordner durch Eingabe einer E-Mail-Adresse zu teilen.",
     "Send password by mail" : "Passwort per Mail senden",
-    "Reply to initiator" : "Antwort an Initiator"
+    "Reply to initiator" : "Antwort an Initiator",
+    "Note:" : "Anmerkung:",
+    "This share is valid until %s at midnight" : "Diese Freigabe ist bis zum %s um Mitternacht gültig",
+    "Expiration:" : "Ablauf:",
+    "%1$s shared %2$s with you and wants to add:" : "%1$s hat %2$s mit Ihnen geteilt und möchte hinzufügen:",
+    "%1$s shared %2$s with you and wants to add" : "%1$s hat %2$s mit Ihnen geteilt und möchte hinzufügen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

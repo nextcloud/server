@@ -18,6 +18,8 @@ OC.L10N.register(
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nun podemos unviate una contraseña xenerada automáticamente. Afita una direición de corréu electrónicu na configuración personal y volvi tentalo.",
     "Failed to send share by email. Got an invalid email address" : "Nun se pue unvar l'elementu compartíu per corréu electrónicu. Consiguióse una direición de corréu electrónicu inválida",
     "Failed to send share by email" : "Nun se pue unviar l'elementu compartíu per corréu electrónicu",
+    "Note" : "Nota",
+    "Password" : "Contraseña",
     "%1$s via %2$s" : "%1$s per %2$s",
     "It is protected with the following password:" : "L'elementu ta protexíu cola contraseña siguiente:",
     "This password will expire at %s" : "La contraseña va caducar a la hora: %s",
