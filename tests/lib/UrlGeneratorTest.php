@@ -22,6 +22,10 @@ use OCP\IUserSession;
  * @package Test
  */
 class UrlGeneratorTest extends \Test\TestCase {
+	private bool $originalRedirectUrlExists;
+	private mixed $originalRedirectUrl;
+	private string|false $originalFrontControllerActive;
+
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	private $config;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserSession */
@@ -40,6 +44,10 @@ class UrlGeneratorTest extends \Test\TestCase {
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
+		$this->originalRedirectUrlExists = array_key_exists('redirect_url', $_REQUEST);
+		$this->originalRedirectUrl = $_REQUEST['redirect_url'] ?? null;
+		$this->originalFrontControllerActive = getenv('front_controller_active');
+
 		$this->config = $this->createMock(IConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
@@ -57,8 +65,19 @@ class UrlGeneratorTest extends \Test\TestCase {
 
 	#[\Override]
 	protected function tearDown(): void {
-		// Reset webRoot
 		\OC::$WEBROOT = $this->originalWebRoot;
+		if ($this->originalRedirectUrlExists) {
+			$_REQUEST['redirect_url'] = $this->originalRedirectUrl;
+		} else {
+			unset($_REQUEST['redirect_url']);
+		}
+		if ($this->originalFrontControllerActive === false) {
+			putenv('front_controller_active');
+		} else {
+			putenv('front_controller_active=' . $this->originalFrontControllerActive);
+		}
+
+		parent::tearDown();
 	}
 
 	private function mockBaseUrl() {
@@ -169,6 +188,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 			['/index.php', 'http://localhost/nextcloud/index.php'],
 			['/apps/index.php', 'http://localhost/nextcloud/apps/index.php'],
 			['apps/index.php', 'http://localhost/nextcloud/apps/index.php'],
+			['/nextcloud/apps/index.php', 'http://localhost/nextcloud/apps/index.php'],
 		];
 	}
 
