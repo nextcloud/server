@@ -1374,14 +1374,10 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('setReplyTo')
 			->with(['owner@example.com' => 'Mrs. Owner User']);
-		$this->defaults
-			->expects($this->exactly(2))
-			->method('getSlogan')
-			->willReturn('Testing like 1990');
 		$template
 			->expects($this->once())
 			->method('addFooter')
-			->with('UnitTestCloud - Testing like 1990');
+			->with();
 		$template
 			->expects($this->once())
 			->method('setSubject')
@@ -1520,14 +1516,10 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('setReplyTo')
 			->with(['owner@example.com' => 'Mrs. Owner User']);
-		$this->defaults
-			->expects($this->exactly(2))
-			->method('getSlogan')
-			->willReturn('Testing like 1990');
 		$template
 			->expects($this->once())
 			->method('addFooter')
-			->with('UnitTestCloud - Testing like 1990');
+			->with();
 		$template
 			->expects($this->once())
 			->method('setSubject')
@@ -1640,14 +1632,10 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('setReplyTo')
 			->with(['owner@example.com' => 'Mrs. Owner User']);
-		$this->defaults
-			->expects($this->exactly(2))
-			->method('getSlogan')
-			->willReturn('Testing like 1990');
 		$template
 			->expects($this->once())
 			->method('addFooter')
-			->with('UnitTestCloud - Testing like 1990');
+			->with();
 		$template
 			->expects($this->once())
 			->method('setSubject')

@@ -348,4 +348,38 @@ class EMailTemplateTest extends TestCase {
 		$this->assertSame($html, $this->emailTemplate->renderHtml());
 		$this->assertSame($text, $this->emailTemplate->renderText());
 	}
+
+	public function testEMailTemplateDefaultFooterOnBehalfOfSender(): void {
+		$this->defaults->method('getDefaultColorPrimary')->willReturn('#0082c9');
+		$this->defaults->method('getDefaultTextColorPrimary')->willReturn('#ffffff');
+		$this->defaults->method('getName')->willReturn('TestCloud');
+		$this->defaults->method('getSlogan')->willReturn('A safe home for your data');
+		$this->urlGenerator->method('getAbsoluteURL')->with('/')->willReturn('https://cloud.example.org/');
+		$l10n = $this->createMock(IL10N::class);
+		$l10n->method('t')->willReturnCallback(fn (string $text, array $parameters = []): string => vsprintf($text, $parameters));
+		$factory = $this->createMock(IFactory::class);
+		$factory->method('get')->willReturn($l10n);
+		$template = new EMailTemplate($this->defaults, $this->urlGenerator, $factory, 252, 120, 'test.TestTemplate', []);
+
+		$template->addBodySender('Tom & Jerry', 'tom@example.org');
+		$template->addFooter();
+
+		$html = $template->renderHtml();
+		$this->assertStringContainsString('This email was sent from <a class="nc-link" href="https://cloud.example.org/" style="color:inherit">cloud.example.org</a> on behalf of Tom &amp; Jerry.', $html);
+		$this->assertStringNotContainsString('please do not reply', $html);
+		$this->assertStringEndsWith(
+			'-- ' . PHP_EOL . 'TestCloud - A safe home for your data' . PHP_EOL . 'This email was sent from cloud.example.org on behalf of Tom & Jerry.',
+			$template->renderText(),
+		);
+	}
+
+	public function testEMailTemplateCustomFooterWinsOverSender(): void {
+		$this->mockThemingColors();
+
+		$this->emailTemplate->addBodySender('Alice Martin');
+		$this->emailTemplate->addFooter('Custom footer');
+
+		$this->assertStringNotContainsString('on behalf of', $this->emailTemplate->renderHtml());
+		$this->assertStringEndsWith('-- ' . PHP_EOL . 'Custom footer', $this->emailTemplate->renderText());
+	}
 }

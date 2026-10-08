@@ -1661,13 +1661,10 @@ class DefaultShareProvider implements
 		$message->setFrom([Util::getDefaultEmailAddress('noreply') => $senderName]);
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
-		// also the default footer contains a "Do not reply" which needs to be adjusted.
 		if ($initiatorEmail !== null) {
 			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
-			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
-		} else {
-			$emailTemplate->addFooter();
 		}
+		$emailTemplate->addFooter();
 
 		$message->useTemplate($emailTemplate);
 		$failedRecipients = $this->mailer->send($message);
@@ -1742,10 +1739,8 @@ class DefaultShareProvider implements
 			$message->setFrom([Util::getDefaultEmailAddress($instanceName) => $senderName]);
 			if ($initiatorEmailAddress !== null) {
 				$message->setReplyTo([$initiatorEmailAddress => $initiatorDisplayName]);
-				$emailTemplate->addFooter($instanceName . ' - ' . $this->defaults->getSlogan());
-			} else {
-				$emailTemplate->addFooter();
 			}
+			$emailTemplate->addFooter();
 
 			if (count($toList) === 1) {
 				$message->setTo($toList);

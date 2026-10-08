@@ -36,6 +36,8 @@ class EMailTemplate implements IEMailTemplate {
 	protected bool $bodyListOpened = false;
 	/** indicated if the footer is added */
 	protected bool $footerAdded = false;
+	/** name of the person the email is sent on behalf of, set by addBodySender */
+	protected ?string $senderName = null;
 	/** @var array<array{name: string, content: string, mimeType: string}> images to embed inline, referenced via cid: */
 	protected array $inlineImages = [];
 
@@ -585,6 +587,7 @@ EOF;
 		if ($this->footerAdded) {
 			return;
 		}
+		$this->senderName = $displayName;
 
 		$this->ensureBodyIsClosed();
 
@@ -742,13 +745,24 @@ EOF;
 	 */
 	#[\Override]
 	public function addFooter(string $text = '', ?string $lang = null): void {
+		$plainText = null;
 		if ($text === '') {
 			$l10n = $this->l10nFactory->get('lib', $lang);
 			$slogan = $this->themingDefaults->getSlogan($lang);
 			if ($slogan !== '') {
 				$slogan = ' - ' . $slogan;
 			}
-			$text = $this->themingDefaults->getName() . $slogan . '<br>' . $l10n->t('This is an automatically sent email, please do not reply.');
+			$text = $this->themingDefaults->getName() . $slogan . '<br>';
+			if ($this->senderName !== null) {
+				$url = $this->urlGenerator->getAbsoluteURL('/');
+				$host = parse_url($url, PHP_URL_HOST) ?: $url;
+				$link = '<a class="nc-link" href="' . htmlspecialchars($url) . '" style="color:inherit">' . htmlspecialchars($host) . '</a>';
+				$text .= $l10n->t('This email was sent from %1$s on behalf of %2$s.', [$link, htmlspecialchars($this->senderName)]);
+				$plainText = $this->themingDefaults->getName() . $slogan . PHP_EOL
+					. $l10n->t('This email was sent from %1$s on behalf of %2$s.', [$host, $this->senderName]);
+			} else {
+				$text .= $l10n->t('This is an automatically sent email, please do not reply.');
+			}
 		}
 
 		if ($this->footerAdded) {
@@ -761,7 +775,7 @@ EOF;
 		$this->htmlBody .= vsprintf($this->footer, [$text]);
 		$this->htmlBody .= $this->tail;
 		$this->plainBody .= PHP_EOL . '-- ' . PHP_EOL;
-		$this->plainBody .= str_replace('<br>', PHP_EOL, $text);
+		$this->plainBody .= $plainText ?? str_replace('<br>', PHP_EOL, $text);
 	}
 
 	/**
