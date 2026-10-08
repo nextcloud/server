@@ -64,7 +64,6 @@ function onClick(event: MouseEvent) {
 			<img
 				v-else
 				class="account-menu-entry__icon"
-				:class="{ 'account-menu-entry__icon--active': active }"
 				:src="iconSource"
 				alt="">
 		</template>
@@ -78,10 +77,6 @@ function onClick(event: MouseEvent) {
 		width: 16px;
 		margin: calc((var(--default-clickable-area) - 16px) / 2); // 16px icon size
 		filter: var(--background-invert-if-dark);
-
-		&--active {
-			filter: var(--primary-invert-if-dark);
-		}
 	}
 
 	&__loading {
