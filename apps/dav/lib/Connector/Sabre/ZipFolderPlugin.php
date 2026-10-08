@@ -114,10 +114,16 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 
 		$query = $request->getQueryParameters();
+		// POST requests pass the parameters in the request body,
+		// as other plugins do not support query parameters on POST requests
+		$params = $request->getMethod() === 'POST' ? $request->getPostData() : $query;
 
-		// Get accept header - or if set overwrite with accept GET-param
+		// Get accept header - or if set overwrite with accept parameter
 		$accept = $request->getHeaderAsArray('Accept');
-		$acceptParam = $query['accept'] ?? '';
+		$acceptParam = $params['accept'] ?? '';
+		if (!is_string($acceptParam)) {
+			return null;
+		}
 		if ($acceptParam !== '') {
 			$accept = array_map(fn (string $name) => strtolower(trim($name)), explode(',', $acceptParam));
 		}
@@ -129,14 +135,10 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 
 		$files = $request->getHeaderAsArray('X-NC-Files');
-		$filesParam = $query['files'] ?? '';
-
-		// Check POST body for files parameter
-		if ($request->getMethod() === 'POST') {
-			$postData = $request->getPostData();
-			if (isset($postData['files'])) {
-				$filesParam = $postData['files'];
-			}
+		$filesParam = $params['files'] ?? '';
+		if (!is_string($filesParam)) {
+			$this->logger->notice('Invalid files filter parameter for ZipFolderPlugin', ['filter' => $filesParam]);
+			return null;
 		}
 
 		// The preferred way would be POST or headers, but this is not possible for simple browser requests ("links")
