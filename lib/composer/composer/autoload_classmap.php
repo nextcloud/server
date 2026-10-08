@@ -113,6 +113,7 @@ return array(
     'OCP\\AppFramework\\Attribute\\Consumable' => $baseDir . '/lib/public/AppFramework/Attribute/Consumable.php',
     'OCP\\AppFramework\\Attribute\\Dispatchable' => $baseDir . '/lib/public/AppFramework/Attribute/Dispatchable.php',
     'OCP\\AppFramework\\Attribute\\ExceptionalImplementable' => $baseDir . '/lib/public/AppFramework/Attribute/ExceptionalImplementable.php',
+    'OCP\\AppFramework\\Attribute\\Expensive' => $baseDir . '/lib/public/AppFramework/Attribute/Expensive.php',
     'OCP\\AppFramework\\Attribute\\Implementable' => $baseDir . '/lib/public/AppFramework/Attribute/Implementable.php',
     'OCP\\AppFramework\\Attribute\\Listenable' => $baseDir . '/lib/public/AppFramework/Attribute/Listenable.php',
     'OCP\\AppFramework\\Attribute\\Throwable' => $baseDir . '/lib/public/AppFramework/Attribute/Throwable.php',
