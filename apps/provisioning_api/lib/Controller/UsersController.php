@@ -681,9 +681,13 @@ class UsersController extends AUserDataOCSController {
 	#[NoAdminRequired]
 	#[NoSubAdminRequired]
 	public function getUser(string $userId): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
+
 		$includeScopes = false;
-		$currentUser = $this->userSession->getUser();
-		if ($currentUser && $currentUser->getUID() === $userId) {
+		if ($currentLoggedInUser->getUID() === $userId) {
 			$includeScopes = true;
 		}
 
@@ -692,6 +696,7 @@ class UsersController extends AUserDataOCSController {
 		if ($data === null) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
+
 		return new DataResponse($data);
 	}
 
@@ -706,14 +711,15 @@ class UsersController extends AUserDataOCSController {
 	#[NoAdminRequired]
 	#[NoSubAdminRequired]
 	public function getCurrentUser(): DataResponse {
-		$user = $this->userSession->getUser();
-		if ($user) {
-			/** @var Provisioning_APIUserDetails $data */
-			$data = $this->getUserData($user->getUID(), true);
-			return new DataResponse($data);
+		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
-		throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		/** @var Provisioning_APIUserDetails $data */
+		$data = $this->getUserData($currentLoggedInUser->getUID(), true);
+
+		return new DataResponse($data);
 	}
 
 	/**
@@ -732,7 +738,9 @@ class UsersController extends AUserDataOCSController {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		return $this->getEditableFieldsForUser($currentLoggedInUser->getUID());
+		$data = $this->getEditableFieldsForUser($currentLoggedInUser->getUID());
+
+		return new DataResponse($data);
 	}
 
 	/**
@@ -745,6 +753,10 @@ class UsersController extends AUserDataOCSController {
 	#[NoAdminRequired]
 	public function getEnabledApps(): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
+
 		return new DataResponse(['apps' => $this->appManager->getEnabledAppsForUser($currentLoggedInUser)]);
 	}
 
@@ -777,7 +789,10 @@ class UsersController extends AUserDataOCSController {
 			$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
 			$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 			if (
-				!($isAdmin || $isDelegatedAdmin)
+				!(
+					$isAdmin
+					|| $isDelegatedAdmin
+				)
 				&& !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
 			) {
 				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
@@ -914,6 +929,7 @@ class UsersController extends AUserDataOCSController {
 			default:
 				throw new OCSException('', 103);
 		}
+
 		return new DataResponse();
 	}
 
@@ -1162,6 +1178,7 @@ class UsersController extends AUserDataOCSController {
 
 		/** @var Provisioning_APIUserDetails $data */
 		$data = $this->getUserData($userId);
+
 		return new DataResponse($data);
 	}
 
@@ -1234,12 +1251,16 @@ class UsersController extends AUserDataOCSController {
 	#[NoSubAdminRequired]
 	#[UserRateLimit(limit: 50, period: 600)]
 	public function editUser(string $userId, string $key, string $value): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
+
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		$currentLoggedInUser = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
 
 		$permittedFields = [];
@@ -1541,24 +1562,32 @@ class UsersController extends AUserDataOCSController {
 	#[PasswordConfirmationRequired]
 	#[NoAdminRequired]
 	public function wipeUserDevices(string $userId): DataResponse {
-		/** @var IUser $currentLoggedInUser */
 		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
 
 		$targetUser = $this->userManager->get($userId);
-
 		if ($targetUser === null) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
+		// Users cannot wipe their own devices.
 		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			throw new OCSException('', 101);
 		}
 
-		// If not permitted
-		$subAdminManager = $this->groupManager->getSubAdmin();
+		// Full admins can manage any user; delegated admins cannot manage admins;
+		// subadmins are limited to users accessible through their groups.
 		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
-		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
-		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID())) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		if (
+			!$isAdmin
+			&& !(
+				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+				&& !$this->groupManager->isAdmin($targetUser->getUID())
+			)
+			&& !$this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUser)
+		) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
@@ -1580,31 +1609,39 @@ class UsersController extends AUserDataOCSController {
 	#[NoAdminRequired]
 	public function deleteUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
 
 		$targetUser = $this->userManager->get($userId);
-
 		if ($targetUser === null) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
+		// Users cannot delete their own account.
 		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			throw new OCSException('', 101);
 		}
 
-		// If not permitted
-		$subAdminManager = $this->groupManager->getSubAdmin();
+		// Full admins can manage any user; delegated admins cannot manage admins;
+		// subadmins are limited to users accessible through their groups.
 		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
-		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
-		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID())) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		if (
+			!$isAdmin
+			&& !(
+				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+				&& !$this->groupManager->isAdmin($targetUser->getUID())
+			)
+			&& !$this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUser)
+		) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		// Go ahead with the delete
-		if ($targetUser->delete()) {
-			return new DataResponse();
-		} else {
+		if (!$targetUser->delete()) {
 			throw new OCSException('', 101);
 		}
+
+		return new DataResponse();
 	}
 
 	/**
@@ -1645,22 +1682,36 @@ class UsersController extends AUserDataOCSController {
 	 */
 	private function setEnabled(string $userId, bool $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
-
-		$targetUser = $this->userManager->get($userId);
-		if ($targetUser === null || $targetUser->getUID() === $currentLoggedInUser->getUID()) {
-			throw new OCSException('', 101);
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
 		}
 
-		// If not permitted
-		$subAdminManager = $this->groupManager->getSubAdmin();
-		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
-		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
-		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID())) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		$targetUser = $this->userManager->get($userId);
+		if ($targetUser === null) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		// enable/disable the user now
+		// Users cannot toggle their own account.
+		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
+			throw new OCSException('', 101);
+		}
+
+		// Full admins can manage any user; delegated admins cannot manage admins;
+		// subadmins are limited to users accessible through their groups.
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		if (
+			!$isAdmin
+			&& !(
+				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+				&& !$this->groupManager->isAdmin($targetUser->getUID())
+			)
+			&& !$this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUser)
+		) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+
 		$targetUser->setEnabled($value);
+
 		return new DataResponse();
 	}
 
@@ -1676,36 +1727,41 @@ class UsersController extends AUserDataOCSController {
 	#[NoAdminRequired]
 	#[NoSubAdminRequired]
 	public function getUsersGroups(string $userId): DataResponse {
-		$loggedInUser = $this->userSession->getUser();
+		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
 
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
-		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
-		if ($targetUser->getUID() === $loggedInUser->getUID() || $isAdmin || $isDelegatedAdmin) {
-			// Self lookup or admin lookup
+		// Self lookups and full or delegated admins receive all target group memberships.
+		if (
+			$targetUser->getUID() === $currentLoggedInUser->getUID()
+			|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+			|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+		) {
 			return new DataResponse([
 				'groups' => $this->groupManager->getUserGroupIds($targetUser)
 			]);
-		} else {
-			$subAdminManager = $this->groupManager->getSubAdmin();
-
-			// Looking up someone else
-			if ($subAdminManager->isUserAccessible($loggedInUser, $targetUser)) {
-				// Return the group that the method caller is subadmin of for the user in question
-				$groups = array_values(array_intersect(
-					array_map(static fn (IGroup $group) => $group->getGID(), $subAdminManager->getSubAdminsGroups($loggedInUser)),
-					$this->groupManager->getUserGroupIds($targetUser)
-				));
-				return new DataResponse(['groups' => $groups]);
-			} else {
-				// Not permitted
-				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
-			}
 		}
+
+		$subAdminManager = $this->groupManager->getSubAdmin();
+
+		// Subadmins may only look up accessible users.
+		if (!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+
+		// Return only target memberships in groups administered by the caller.
+		$groups = array_values(array_intersect(
+			array_map(static fn (IGroup $group) => $group->getGID(), $subAdminManager->getSubAdminsGroups($currentLoggedInUser)),
+			$this->groupManager->getUserGroupIds($targetUser)
+		));
+
+		return new DataResponse(['groups' => $groups]);
 	}
 
 	/**
@@ -1720,17 +1776,22 @@ class UsersController extends AUserDataOCSController {
 	#[NoAdminRequired]
 	#[NoSubAdminRequired]
 	public function getUsersGroupsDetails(string $userId): DataResponse {
-		$loggedInUser = $this->userSession->getUser();
+		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
 
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
-		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
-		if ($targetUser->getUID() === $loggedInUser->getUID() || $isAdmin || $isDelegatedAdmin) {
-			// Self lookup or admin lookup
+		// Self lookups and full or delegated admins receive all target group memberships.
+		if (
+			$targetUser->getUID() === $currentLoggedInUser->getUID()
+			||  $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+			|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+		) {
 			$groups = array_map(
 				function (Group $group) {
 					return [
@@ -1744,44 +1805,37 @@ class UsersController extends AUserDataOCSController {
 				},
 				array_values($this->groupManager->getUserGroups($targetUser)),
 			);
-			return new DataResponse([
-				'groups' => $groups,
-			]);
-		} else {
-			$subAdminManager = $this->groupManager->getSubAdmin();
-
-			// Looking up someone else
-			if ($subAdminManager->isUserAccessible($loggedInUser, $targetUser)) {
-				// Return the group that the method caller is subadmin of for the user in question
-				$gids = array_values(array_intersect(
-					array_map(
-						static fn (IGroup $group) => $group->getGID(),
-						$subAdminManager->getSubAdminsGroups($loggedInUser),
-					),
-					$this->groupManager->getUserGroupIds($targetUser)
-				));
-				$groups = array_map(
-					function (string $gid) {
-						$group = $this->groupManager->get($gid);
-						return [
-							'id' => $group->getGID(),
-							'displayname' => $group->getDisplayName(),
-							'usercount' => $group->count(),
-							'disabled' => $group->countDisabled(),
-							'canAdd' => $group->canAddUser(),
-							'canRemove' => $group->canRemoveUser(),
-						];
-					},
-					$gids,
-				);
-				return new DataResponse([
-					'groups' => $groups,
-				]);
-			} else {
-				// Not permitted
-				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
-			}
+			return new DataResponse([ 'groups' => $groups ]);
 		}
+
+		$subAdminManager = $this->groupManager->getSubAdmin();
+
+		// Subadmins may only look up accessible users.
+		if (!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
+		}
+		
+		// Return only target membership details in groups administered by the caller.
+		$gids = array_values(array_intersect(
+			array_map(static fn (IGroup $group) => $group->getGID(), $subAdminManager->getSubAdminsGroups($currentLoggedInUser)),
+			$this->groupManager->getUserGroupIds($targetUser)
+		));
+		$groups = array_map(
+			function (string $gid) {
+				$group = $this->groupManager->get($gid);
+				return [
+					'id' => $group->getGID(),
+					'displayname' => $group->getDisplayName(),
+					'usercount' => $group->count(),
+					'disabled' => $group->countDisabled(),
+					'canAdd' => $group->canAddUser(),
+					'canRemove' => $group->canRemoveUser(),
+				];
+			},
+			$gids,
+		);
+
+		return new DataResponse([ 'groups' => $groups ]);
 	}
 
 	/**
@@ -1796,17 +1850,25 @@ class UsersController extends AUserDataOCSController {
 	#[NoAdminRequired]
 	#[NoSubAdminRequired]
 	public function getUserSubAdminGroupsDetails(string $userId): DataResponse {
-		$loggedInUser = $this->userSession->getUser();
+		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
 
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
-		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
-		if ($targetUser->getUID() === $loggedInUser->getUID() || $isAdmin || $isDelegatedAdmin) {
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		if (
+			$targetUser->getUID() === $currentLoggedInUser->getUID()
+			|| $isAdmin
+			|| $isDelegatedAdmin
+		) {
 			$subAdminManager = $this->groupManager->getSubAdmin();
+
 			$groups = array_map(
 				function (IGroup $group) {
 					return [
@@ -1820,9 +1882,7 @@ class UsersController extends AUserDataOCSController {
 				},
 				array_values($subAdminManager->getSubAdminsGroups($targetUser)),
 			);
-			return new DataResponse([
-				'groups' => $groups,
-			]);
+			return new DataResponse([ 'groups' => $groups ]);
 		}
 		throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 	}
@@ -1840,30 +1900,42 @@ class UsersController extends AUserDataOCSController {
 	#[PasswordConfirmationRequired]
 	#[NoAdminRequired]
 	public function addToGroup(string $userId, string $groupid = ''): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
+
+		$targetUser = $this->userManager->get($userId);
+		if ($targetUser === null) {
+			throw new OCSException('', 103);
+		}
+
 		if ($groupid === '') {
 			throw new OCSException('', 101);
 		}
 
 		$group = $this->groupManager->get($groupid);
-		$targetUser = $this->userManager->get($userId);
 		if ($group === null) {
 			throw new OCSException('', 102);
 		}
-		if ($targetUser === null) {
-			throw new OCSException('', 103);
-		}
 
 		// If they're not an admin, check they are a subadmin of the group in question
-		$loggedInUser = $this->userSession->getUser();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
-		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
-		if (!$isAdmin && !($isDelegatedAdmin && $groupid !== 'admin') && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		if (
+			!$isAdmin
+			&& !(
+				$isDelegatedAdmin
+				&& $groupid !== 'admin'
+			)
+			&& !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)
+		) {
 			throw new OCSException('', 104);
 		}
 
-		// Add user to group
 		$group->addUser($targetUser);
+
 		return new DataResponse();
 	}
 
@@ -1880,9 +1952,17 @@ class UsersController extends AUserDataOCSController {
 	#[PasswordConfirmationRequired]
 	#[NoAdminRequired]
 	public function removeFromGroup(string $userId, string $groupid): DataResponse {
-		$loggedInUser = $this->userSession->getUser();
+		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
 
-		if ($groupid === null || trim($groupid) === '') {
+		$targetUser = $this->userManager->get($userId);
+		if ($targetUser === null) {
+			throw new OCSException('', 103);
+		}
+
+		if (trim($groupid) === '') {
 			throw new OCSException('', 101);
 		}
 
@@ -1891,21 +1971,23 @@ class UsersController extends AUserDataOCSController {
 			throw new OCSException('', 102);
 		}
 
-		$targetUser = $this->userManager->get($userId);
-		if ($targetUser === null) {
-			throw new OCSException('', 103);
-		}
-
 		// If they're not an admin, check they are a subadmin of the group in question
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
-		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
-		if (!$isAdmin && !($isDelegatedAdmin && $groupid !== 'admin') && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		if (
+			!$isAdmin
+			&& !(
+				$isDelegatedAdmin
+				&& $groupid !== 'admin'
+			)
+			&& !$subAdminManager->isSubAdminOfGroup($currentLoggedInUser, $group)
+		) {
 			throw new OCSException('', 104);
 		}
 
 		// Check they aren't removing themselves from 'admin' or their 'subadmin; group
-		if ($targetUser->getUID() === $loggedInUser->getUID()) {
+		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			if ($isAdmin || $isDelegatedAdmin) {
 				if ($group->getGID() === 'admin') {
 					throw new OCSException($this->l10n->t('Cannot remove yourself from the admin group'), 105);
@@ -1916,7 +1998,7 @@ class UsersController extends AUserDataOCSController {
 			}
 		} elseif (!($isAdmin || $isDelegatedAdmin)) {
 			/** @var IGroup[] $subAdminGroups */
-			$subAdminGroups = $subAdminManager->getSubAdminsGroups($loggedInUser);
+			$subAdminGroups = $subAdminManager->getSubAdminsGroups($currentLoggedInUser);
 			$subAdminGroups = array_map(function (IGroup $subAdminGroup) {
 				return $subAdminGroup->getGID();
 			}, $subAdminGroups);
@@ -1931,6 +2013,7 @@ class UsersController extends AUserDataOCSController {
 
 		// Remove user from group
 		$group->removeUser($targetUser);
+
 		return new DataResponse();
 	}
 
@@ -1947,17 +2030,16 @@ class UsersController extends AUserDataOCSController {
 	#[AuthorizedAdminSetting(settings: Users::class)]
 	#[PasswordConfirmationRequired]
 	public function addSubAdmin(string $userId, string $groupid): DataResponse {
-		$group = $this->groupManager->get($groupid);
 		$user = $this->userManager->get($userId);
-
-		// Check if the user exists
 		if ($user === null) {
 			throw new OCSException($this->l10n->t('User does not exist'), 101);
 		}
-		// Check if group exists
+
+		$group = $this->groupManager->get($groupid);
 		if ($group === null) {
 			throw new OCSException($this->l10n->t('Group does not exist'), 102);
 		}
+
 		// Check if trying to make subadmin of admin group
 		if ($group->getGID() === 'admin') {
 			throw new OCSException($this->l10n->t('Cannot create sub-admins for admin group'), 103);
@@ -1969,8 +2051,9 @@ class UsersController extends AUserDataOCSController {
 		if ($subAdminManager->isSubAdminOfGroup($user, $group)) {
 			return new DataResponse();
 		}
-		// Go
+
 		$subAdminManager->createSubAdmin($user, $group);
+
 		return new DataResponse();
 	}
 
@@ -1987,25 +2070,24 @@ class UsersController extends AUserDataOCSController {
 	#[AuthorizedAdminSetting(settings: Users::class)]
 	#[PasswordConfirmationRequired]
 	public function removeSubAdmin(string $userId, string $groupid): DataResponse {
-		$group = $this->groupManager->get($groupid);
 		$user = $this->userManager->get($userId);
-		$subAdminManager = $this->groupManager->getSubAdmin();
-
-		// Check if the user exists
 		if ($user === null) {
 			throw new OCSException($this->l10n->t('User does not exist'), 101);
 		}
-		// Check if the group exists
+
+		$group = $this->groupManager->get($groupid);
 		if ($group === null) {
 			throw new OCSException($this->l10n->t('Group does not exist'), 101);
 		}
+
 		// Check if they are a subadmin of this said group
+		$subAdminManager = $this->groupManager->getSubAdmin();
 		if (!$subAdminManager->isSubAdminOfGroup($user, $group)) {
 			throw new OCSException($this->l10n->t('User is not a sub-admin of this group'), 102);
 		}
 
-		// Go
 		$subAdminManager->deleteSubAdmin($user, $group);
+
 		return new DataResponse();
 	}
 
@@ -2037,6 +2119,9 @@ class UsersController extends AUserDataOCSController {
 	#[NoAdminRequired]
 	public function resendWelcomeMessage(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			throw new OCSException('', OCSController::RESPOND_UNAUTHORISED);
+		}
 
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
@@ -2049,9 +2134,11 @@ class UsersController extends AUserDataOCSController {
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 		if (
 			!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
-			&& !($isAdmin || $isDelegatedAdmin)
+			&& !(
+				$isAdmin
+				|| $isDelegatedAdmin
+			)
 		) {
-			// No rights
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
