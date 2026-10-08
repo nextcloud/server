@@ -44,6 +44,7 @@ vi.mock('../../logger.js', () => ({
 }))
 
 import ConnectedServicesBar from '../../components/UnifiedSearch/ConnectedServicesBar.vue'
+import CustomDateRangeModal from '../../components/UnifiedSearch/CustomDateRangeModal.vue'
 import UnifiedSearchModal from '../../components/UnifiedSearch/UnifiedSearchModal.vue'
 import { isCategoryVisible } from '../../services/UnifiedSearchController.ts'
 
@@ -868,6 +869,37 @@ describe('UnifiedSearchModal People filter', () => {
 		await wrapper.vm.$nextTick()
 
 		expect(wrapper.vm.filters.some((f: { type: string }) => f.type === 'person')).toBe(true)
+	})
+})
+
+describe('UnifiedSearchModal custom date range', () => {
+	// Renders the real dialog so both sides of its event contract are covered: Vue 2.7
+	// does not normalize v-on names, so the listeners must match its kebab-case emits.
+	it('applies the picked range and closes the dialog on "Search in date range"', async () => {
+		const wrapper = shallowMount(UnifiedSearchModal, {
+			propsData: { open: true, query: '' },
+			stubs: { CustomDateRangeModal },
+			mocks: { t: (_: string, s: string) => s },
+		})
+		const customRangeEntry = wrapper.findAllComponents({ name: 'NcActionButton' }).wrappers
+			.find((w) => w.text().includes('Custom date range'))
+		customRangeEntry!.vm.$emit('click')
+		await wrapper.vm.$nextTick()
+
+		const dialog = wrapper.findComponent(CustomDateRangeModal)
+		expect(dialog.findComponent({ name: 'NcModal' }).exists()).toBe(true)
+
+		const startFrom = new Date(2026, 8, 1)
+		const endAt = new Date(2026, 8, 30)
+		const [startPicker, endPicker] = dialog.findAllComponents({ name: 'NcDateTimePickerNative' }).wrappers
+		startPicker.vm.$emit('update:modelValue', startFrom)
+		endPicker.vm.$emit('update:modelValue', endAt)
+		dialog.findComponent({ name: 'NcButton' }).vm.$emit('click')
+		await wrapper.vm.$nextTick()
+
+		expect(wrapper.vm.filters).toContainEqual(expect.objectContaining({ type: 'date', startFrom, endAt }))
+		expect(wrapper.vm.showDateRangeModal).toBe(false)
+		expect(dialog.findComponent({ name: 'NcModal' }).exists()).toBe(false)
 	})
 })
 
