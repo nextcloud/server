@@ -2322,10 +2322,12 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->willReturn($targetUser);
 		$this->groupManager
-			->expects($this->exactly(3))
+			->expects($this->once())
 			->method('isAdmin')
 			->with('UID')
 			->willReturn(true);
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$targetUser
 			->expects($this->any())
 			->method('getUID')
@@ -2361,10 +2363,12 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->willReturn($targetUser);
 		$this->groupManager
-			->expects($this->exactly(3))
+			->expects($this->once())
 			->method('isAdmin')
 			->with('UID')
 			->willReturn(true);
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$targetUser
 			->expects($this->any())
 			->method('getUID')
@@ -2408,13 +2412,10 @@ class UsersControllerTest extends TestCase {
 			->method('isAdmin')
 			->with('admin')
 			->willReturn(true);
-		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
-			->disableOriginalConstructor()
-			->getMock();
 		$this->groupManager
-			->expects($this->once())
-			->method('getSubAdmin')
-			->willReturn($subAdminManager);
+			->expects($this->never())
+			->method('getSubAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
 		$targetUser
 			->expects($this->any())
 			->method('getUID')
@@ -2559,11 +2560,10 @@ class UsersControllerTest extends TestCase {
 			->method('isAdmin')
 			->with('admin')
 			->willReturn(true);
-		$subAdminManager = $this->createMock(SubAdmin::class);
 		$this->groupManager
-			->expects($this->once())
-			->method('getSubAdmin')
-			->willReturn($subAdminManager);
+			->expects($this->never())
+			->method('getSubAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
 		$targetUser
 			->expects($this->any())
 			->method('getUID')
@@ -2608,11 +2608,10 @@ class UsersControllerTest extends TestCase {
 			->method('isAdmin')
 			->with('admin')
 			->willReturn(true);
-		$subAdminManager = $this->createMock(SubAdmin::class);
 		$this->groupManager
-			->expects($this->once())
-			->method('getSubAdmin')
-			->willReturn($subAdminManager);
+			->expects($this->never())
+			->method('getSubAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
 		$targetUser
 			->expects($this->any())
 			->method('getUID')
@@ -3526,9 +3525,12 @@ class UsersControllerTest extends TestCase {
 	public function testGetUsersGroupsSelfTargetted(): void {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(3))
+			->expects($this->once())
 			->method('getUID')
 			->willReturn('UserToLookup');
+		$this->groupManager->expects($this->never())->method('isAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$targetUser
 			->expects($this->once())
@@ -3555,9 +3557,11 @@ class UsersControllerTest extends TestCase {
 	public function testGetUsersGroupsForAdminUser(): void {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('admin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$targetUser
 			->expects($this->once())
@@ -4439,9 +4443,11 @@ class UsersControllerTest extends TestCase {
 			->willReturn($targetUser);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('admin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -4466,9 +4472,11 @@ class UsersControllerTest extends TestCase {
 			->willReturn($targetUser);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('admin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
