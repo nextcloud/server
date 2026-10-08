@@ -9,8 +9,10 @@
 namespace Test\Group;
 
 use OC\Group\Database;
+use OC\Settings\AuthorizedGroupMapper;
 use OC\User\Manager;
 use OC\User\User;
+use OCA\Settings\Settings\Admin\Users;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
@@ -20,6 +22,7 @@ use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\GroupInterface;
 use OCP\IUser;
+use OCP\IDBConnection;
 use OCP\Security\Ip\IRemoteAddress;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
