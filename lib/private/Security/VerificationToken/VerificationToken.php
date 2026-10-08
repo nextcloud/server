@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OC\Security\VerificationToken;
 
+use OC\User\LastInteractiveLogin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
@@ -26,6 +27,7 @@ class VerificationToken implements IVerificationToken {
 		private ITimeFactory $timeFactory,
 		private ISecureRandom $secureRandom,
 		private IJobList $jobList,
+		private LastInteractiveLogin $lastInteractiveLogin,
 	) {
 	}
 
@@ -70,7 +72,7 @@ class VerificationToken implements IVerificationToken {
 		}
 
 		if ($splitToken[0] < ($this->timeFactory->getTime() - self::TOKEN_LIFETIME)
-			|| ($expiresWithLogin && $user->getLastLogin() > $splitToken[0])) {
+			|| ($expiresWithLogin && $this->lastInteractiveLogin->get($user) > $splitToken[0])) {
 			$this->throwInvalidTokenException(InvalidTokenException::TOKEN_EXPIRED);
 		}
 

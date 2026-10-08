@@ -17,6 +17,7 @@ class Chain {
 		private CompleteLoginCommand $completeLoginCommand,
 		private CreateSessionTokenCommand $createSessionTokenCommand,
 		private ClearLostPasswordTokensCommand $clearLostPasswordTokensCommand,
+		private RecordInteractiveLoginCommand $recordInteractiveLoginCommand,
 		private UpdateLastPasswordConfirmCommand $updateLastPasswordConfirmCommand,
 		private SetUserTimezoneCommand $setUserTimezoneCommand,
 		private TwoFactorCommand $twoFactorCommand,
@@ -33,6 +34,7 @@ class Chain {
 			->setNext($this->completeLoginCommand)
 			->setNext($this->createSessionTokenCommand)
 			->setNext($this->clearLostPasswordTokensCommand)
+			->setNext($this->recordInteractiveLoginCommand)
 			->setNext($this->updateLastPasswordConfirmCommand)
 			->setNext($this->setUserTimezoneCommand)
 			->setNext($this->twoFactorCommand)
