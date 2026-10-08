@@ -92,6 +92,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "{user} vam omogoča souporabo {share} prek skupine {group}",
     "Accept" : "Sprejmi",
     "Decline" : "Zavrni",
+    "Valid until" : "Veljavno do",
     "you" : "vi",
     "Expiration date" : "Datum preteka",
     "Select a date" : "Izbor datuma",
