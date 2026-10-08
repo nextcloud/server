@@ -50,6 +50,7 @@ class CalendarDelegateActionListenerTest extends TestCase {
 			static fn (string $text, array $parameters = []): string => vsprintf($text, $parameters)
 		);
 		$l10n->method('l')->willReturn('date');
+		$l10n->method('getLanguageCode')->willReturn('de');
 		$l10nFactory = $this->createMock(IFactory::class);
 		$l10nFactory->method('get')->willReturn($l10n);
 
@@ -114,6 +115,9 @@ class CalendarDelegateActionListenerTest extends TestCase {
 		$owner->method('getEMailAddress')->willReturn('alice@example.com');
 		$this->userManager->method('get')->with('alice')->willReturn($owner);
 
+		$this->template->expects(self::once())
+			->method('setLanguage')
+			->with('de');
 		$this->template->expects(self::once())
 			->method('addBodySender')
 			->with('Bob', $expectedSubline);

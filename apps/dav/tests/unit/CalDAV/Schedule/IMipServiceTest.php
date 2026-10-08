@@ -164,6 +164,12 @@ class IMipServiceTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testGetLanguageCode(): void {
+		$this->l10n->method('getLanguageCode')->willReturn('ar');
+
+		$this->assertEquals('ar', $this->service->getLanguageCode());
+	}
+
 	public function testIsSystemUserWhenUserExists(): void {
 		$email = 'user@example.com';
 		$user = $this->createMock(IUser::class);

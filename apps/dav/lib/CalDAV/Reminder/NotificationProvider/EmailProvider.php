@@ -96,6 +96,7 @@ class EmailProvider extends AbstractProvider {
 			$fromEMail = Util::getDefaultEmailAddress('reminders-noreply');
 
 			$template = $this->mailer->createEMailTemplate('dav.calendarReminder');
+			$template->setLanguage($l10n->getLanguageCode());
 			$template->addHeader();
 			$this->addSubjectAndHeading($template, $l10n, $vevent);
 			$this->addEventDetails($template, $l10n, $calendarDisplayName ?? $this->getCalendarDisplayNameFallback($lang), $vevent);

@@ -1626,6 +1626,7 @@ class DefaultShareProvider implements
 			'expiration' => $expiration,
 			'shareWith' => $shareWith,
 		]);
+		$emailTemplate->setLanguage($l->getLanguageCode());
 
 		$emailTemplate->setSubject($l->t('%1$s shared %2$s with you', [$initiatorDisplayName, $filename]));
 		$emailTemplate->addHeader();
@@ -1714,6 +1715,7 @@ class DefaultShareProvider implements
 			$message = $this->mailer->createMessage();
 
 			$emailTemplate = $this->mailer->createEMailTemplate('defaultShareProvider.sendNote');
+			$emailTemplate->setLanguage($l->getLanguageCode());
 
 			$emailTemplate->setSubject($l->t('%s added a note to a file shared with you', [$initiatorDisplayName]));
 			$emailTemplate->addHeader();

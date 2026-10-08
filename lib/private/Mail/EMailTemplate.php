@@ -36,6 +36,8 @@ class EMailTemplate implements IEMailTemplate {
 	protected bool $bodyListOpened = false;
 	/** indicated if the footer is added */
 	protected bool $footerAdded = false;
+	/** language of the recipient, set by setLanguage */
+	protected ?string $language = null;
 	/** name of the person the email is sent on behalf of, set by addBodySender */
 	protected ?string $senderName = null;
 	/** @var array<array{name: string, content: string, mimeType: string}> images to embed inline, referenced via cid: */
@@ -306,6 +308,13 @@ EOF;
 			$logoSrc = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
 		}
 		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $logoSrc, $this->themingDefaults->getName(), $logoSizeDimensions]);
+	}
+
+	#[\Override]
+	public function setLanguage(string $language): void {
+		if ($language !== '') {
+			$this->language = $language;
+		}
 	}
 
 	/**
@@ -746,6 +755,7 @@ EOF;
 	 */
 	#[\Override]
 	public function addFooter(string $text = '', ?string $lang = null): void {
+		$lang ??= $this->language;
 		$plainText = null;
 		if ($text === '') {
 			$l10n = $this->l10nFactory->get('lib', $lang);
@@ -797,7 +807,28 @@ EOF;
 			$this->ensureBodyIsClosed();
 			$this->htmlBody .= $this->tail;
 		}
-		return $this->htmlBody;
+		if ($this->language === null) {
+			return $this->htmlBody;
+		}
+
+		$direction = $this->l10nFactory->getLanguageDirection($this->language);
+		$lang = htmlspecialchars(str_replace('_', '-', $this->language));
+		$html = str_replace('lang="en" xml:lang="en"', 'lang="' . $lang . '" xml:lang="' . $lang . '" dir="' . $direction . '"', $this->htmlBody);
+		return $direction === 'rtl' ? $this->mirrorStyles($html) : $html;
+	}
+
+	/**
+	 * Swap left and right in the template's own styles: the style attributes
+	 * and the style element. Text content is never touched.
+	 */
+	protected function mirrorStyles(string $html): string {
+		$mirror = static function (array $match): string {
+			// 4-value margin and padding shorthands are top, right, bottom, left
+			$css = preg_replace('/\\b(margin|padding):([^\\s;"!]+) ([^\\s;"!]+) ([^\\s;"!]+) ([^\\s;"!]+)/', '$1:$2 $5 $4 $3', $match[2]) ?? $match[2];
+			return $match[1] . strtr($css, ['left' => 'right', 'right' => 'left']) . $match[3];
+		};
+		$html = preg_replace_callback('/(style=")([^"]*)(")/', $mirror, $html) ?? $html;
+		return preg_replace_callback('/(<style[^>]*>)(.*?)(<\\/style>)/s', $mirror, $html) ?? $html;
 	}
 
 	/**

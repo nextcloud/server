@@ -230,6 +230,10 @@ class IMipPluginTest extends TestCase {
 			->willReturn($this->user);
 		$this->service->expects(self::once())
 			->method('getFrom');
+		$this->service->method('getLanguageCode')->willReturn('ar');
+		$this->emailTemplate->expects(self::once())
+			->method('setLanguage')
+			->with('ar');
 		$this->emailTemplate->expects(self::once())
 			->method('addBodySender')
 			->with('Mr. Wizard', 'gandalf@wiz.ard');

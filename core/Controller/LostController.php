@@ -255,6 +255,7 @@ class LostController extends Controller {
 		$emailTemplate = $this->mailer->createEMailTemplate('core.ResetPassword', [
 			'link' => $link,
 		]);
+		$emailTemplate->setLanguage($this->l10n->getLanguageCode());
 
 		$emailTemplate->setSubject($this->l10n->t('%s password reset', [$this->defaults->getName()]));
 		$emailTemplate->addHeader();

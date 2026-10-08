@@ -314,6 +314,7 @@ class AccountManager implements IAccountManager {
 		if (!$this->l10n) {
 			$this->l10n = $this->l10nFactory->get('core');
 		}
+		$emailTemplate->setLanguage($this->l10n->getLanguageCode());
 
 		$emailTemplate->setSubject($this->l10n->t('%s email verification', [$this->defaults->getName()]));
 		$emailTemplate->addHeader();

@@ -157,6 +157,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
+		$this->l->method('getLanguageCode')->willReturn('de');
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')
@@ -176,6 +177,9 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->method('createMessage')
 			->willReturn($this->createMock(Message::class));
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$emailTemplate->expects($this->once())
+			->method('setLanguage')
+			->with('de');
 		$this->mailer
 			->expects($this->once())
 			->method('createEMailTemplate')

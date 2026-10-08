@@ -73,6 +73,19 @@ interface IEMailTemplate {
 	public function addHeader();
 
 	/**
+	 * Sets the language of the recipient
+	 *
+	 * Used for the lang and dir attributes of the HTML email, mirrors the
+	 * layout for right-to-left languages, and is the default language of
+	 * the footer. Call it before addFooter().
+	 *
+	 * @param string $language Language code, e.g. `ar` or `pt_BR`
+	 *
+	 * @since 36.0.0
+	 */
+	public function setLanguage(string $language): void;
+
+	/**
 	 * Adds a heading to the email
 	 *
 	 * @param string $title

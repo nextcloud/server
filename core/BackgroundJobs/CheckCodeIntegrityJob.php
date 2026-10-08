@@ -194,6 +194,7 @@ class CheckCodeIntegrityJob extends TimedJob {
 		$l = $this->l10nFactory->get('core', $this->l10nFactory->getUserLanguage($admin));
 
 		$template = $this->mailer->createEMailTemplate('core.CodeIntegrityChanged', $summary);
+		$template->setLanguage($l->getLanguageCode());
 		$template->setSubject($l->t('The code integrity check result has changed'));
 		$template->addHeader();
 		$template->addHeading($l->t('The code integrity check result has changed'));

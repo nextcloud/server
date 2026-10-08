@@ -133,6 +133,7 @@ class MailSettingsController extends Controller {
 				$template = $this->mailer->createEMailTemplate('settings.TestEmail', [
 					'displayname' => $displayName,
 				]);
+				$template->setLanguage($this->l10n->getLanguageCode());
 
 				$template->setSubject($this->l10n->t('Email setting test'));
 				$template->addHeader();

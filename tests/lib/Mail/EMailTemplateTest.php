@@ -382,4 +382,80 @@ class EMailTemplateTest extends TestCase {
 		$this->assertStringNotContainsString('on behalf of', $this->emailTemplate->renderHtml());
 		$this->assertStringEndsWith('-- ' . PHP_EOL . 'Custom footer', $this->emailTemplate->renderText());
 	}
+
+	private function renderBlocks(EMailTemplate $template): void {
+		$details = new EMailDetails('Q3 board review');
+		$details->setSubtitle('Thursday, October 15, 2026')
+			->setDateBadge('Oct', '15');
+		$details->addRow('When')->text('14:00 - 15:30 (Europe/Berlin)');
+		$details->addRow('Where')->text('Meeting room 2, left wing');
+
+		$template->addHeader();
+		$template->addBodySender('Alice Martin', 'alice.martin@example.org');
+		$template->addHeading('Alice Martin invited you to an event');
+		$template->addBodyNote('Turn left after the entrance.', 'Description');
+		$template->addBodyNote('The password is sent in a separate email.', 'This share is password protected.', IEMailTemplate::NOTE_WARNING);
+		$template->addBodyDetails($details);
+		$template->addBodyButtons([
+			['text' => 'Accept', 'url' => 'https://example.org/invitation/accept'],
+			['text' => 'Decline', 'url' => 'https://example.org/invitation/decline'],
+		]);
+		$template->addFooter('TestCloud - A safe home for your data');
+	}
+
+	public function testEMailTemplateLanguageLtr(): void {
+		$this->mockThemingColors();
+		$this->l10n->method('getLanguageDirection')->with('pt_BR')->willReturn('ltr');
+
+		$this->emailTemplate->setLanguage('pt_BR');
+		$this->renderBlocks($this->emailTemplate);
+		$html = $this->emailTemplate->renderHtml();
+
+		$this->assertStringContainsString('lang="pt-BR" xml:lang="pt-BR" dir="ltr"', $html);
+		$this->assertStringContainsString('border-left:4px solid', $html);
+		$this->assertStringNotContainsString('border-right:4px solid', $html);
+	}
+
+	public function testEMailTemplateLanguageRtl(): void {
+		$this->mockThemingColors();
+		$this->l10n->method('getLanguageDirection')->with('ar')->willReturn('rtl');
+
+		$this->emailTemplate->setLanguage('ar');
+		$this->renderBlocks($this->emailTemplate);
+
+		$expectedHTML = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/blocks-email-rtl.html');
+		$this->assertSame($expectedHTML, $this->emailTemplate->renderHtml());
+	}
+
+	public function testEMailTemplateRtlMirrorsOnlyStyles(): void {
+		$this->mockThemingColors();
+		$this->l10n->method('getLanguageDirection')->willReturn('rtl');
+
+		$this->emailTemplate->setLanguage('he');
+		$this->renderBlocks($this->emailTemplate);
+		$html = $this->emailTemplate->renderHtml();
+
+		$this->assertStringContainsString('lang="he" xml:lang="he" dir="rtl"', $html);
+		// Note bar, padding shorthands and the dark mode rules are mirrored
+		$this->assertStringContainsString('border-right:4px solid', $html);
+		$this->assertStringNotContainsString('border-left:4px solid', $html);
+		$this->assertStringContainsString('padding:12px 0 12px 20px', $html);
+		$this->assertStringContainsString('border-right-color:', $html);
+		// Text content is left alone
+		$this->assertStringContainsString('Turn left after the entrance.', $html);
+		$this->assertStringContainsString('Meeting room 2, left wing', $html);
+		$this->assertStringContainsString('Turn left after the entrance.', $this->emailTemplate->renderText());
+	}
+
+	public function testEMailTemplateDefaultFooterUsesLanguage(): void {
+		$this->mockThemingColors();
+		$factory = $this->createMock(IFactory::class);
+		$factory->expects($this->once())->method('get')->with('lib', 'ar')->willReturn($this->createMock(IL10N::class));
+		$factory->method('getLanguageDirection')->willReturn('rtl');
+		$template = new EMailTemplate($this->defaults, $this->urlGenerator, $factory, 252, 120, 'test.TestTemplate', []);
+
+		$template->setLanguage('ar');
+		$template->addFooter();
+		$template->renderHtml();
+	}
 }

@@ -3163,6 +3163,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')->willReturnCallback(fn (string $text, array $parameters = []): string => vsprintf($text, $parameters));
 		$l->method('l')->with('date', $this->isInstanceOf(\DateTime::class), ['width' => 'medium'])->willReturn('Oct 6, 2026');
+		$l->method('getLanguageCode')->willReturn('de');
 		return $l;
 	}
 
@@ -3179,6 +3180,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->mailer->method('createEMailTemplate')->willReturn($template);
 		$this->mailer->expects($this->once())->method('send')->with($message)->willReturn([]);
 
+		$template->expects($this->once())->method('setLanguage')->with('de');
 		$template->expects($this->once())->method('addBodySender')->with('Sharer', 'sharer@example.com');
 		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you', false);
 		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');
@@ -3260,6 +3262,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->mailer->method('createEMailTemplate')->willReturn($template);
 		$this->mailer->expects($this->once())->method('send')->with($message);
 
+		$template->expects($this->once())->method('setLanguage')->with('de');
 		$template->expects($this->once())->method('addBodySender')->with('Sharer', 'sharer@example.com');
 		$template->expects($this->once())->method('addHeading')->with('Sharer shared file.txt with you');
 		$template->expects($this->once())->method('addBodyNote')->with('A note & more', 'Note');

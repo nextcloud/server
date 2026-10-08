@@ -48,6 +48,7 @@ class HooksTest extends TestCase {
 
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')->willReturnCallback(fn (string $text, array $parameters = []): string => vsprintf($text, $parameters));
+		$l10n->method('getLanguageCode')->willReturn('de');
 		$l10nFactory = $this->createMock(IFactory::class);
 		$l10nFactory->method('get')->with('settings')->willReturn($l10n);
 
@@ -80,6 +81,7 @@ class HooksTest extends TestCase {
 	public function testPasswordChangedMail(): void {
 		$this->user->method('getEMailAddress')->willReturn('alice@example.com');
 
+		$this->template->expects($this->once())->method('setLanguage')->with('de');
 		$this->template->expects($this->once())->method('addBodyText')
 			->with('Your password on https://cloud.example.com/ was changed.');
 		$this->template->expects($this->once())->method('addBodyNote')
@@ -93,6 +95,7 @@ class HooksTest extends TestCase {
 		$this->user->method('getEMailAddress')->willReturn('new@example.com');
 		$order = [];
 
+		$this->template->expects($this->once())->method('setLanguage')->with('de');
 		$this->template->expects($this->once())->method('addBodyText')
 			->with('Your email address on https://cloud.example.com/ was changed.');
 		$this->template->expects($this->once())->method('addBodyDetails')
