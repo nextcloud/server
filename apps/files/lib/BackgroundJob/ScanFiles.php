@@ -83,24 +83,38 @@ class ScanFiles extends TimedJob {
 			$result = $query->executeQuery();
 			while ($res = $result->fetchAssociative()) {
 				if ($res['user_id']) {
+					$result->closeCursor();
 					return $res['user_id'];
 				}
 			}
+			$result->closeCursor();
 
 			// as a fallback, we try a slower approach where we find all mounted storages first
 			// this is essentially doing the inner join manually
 			$storages = $this->getAllMountedStorages();
+			if ($storages === []) {
+				return false;
+			}
 
-			$query = $this->connection->getQueryBuilder();
-			$query->select('m.user_id')
-				->from('filecache', 'f')
-				->leftJoin('f', 'mounts', 'm', $query->expr()->eq('m.storage_id', 'f.storage'))
-				->where($query->expr()->eq('f.size', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
-				->andWhere($query->expr()->gt('f.parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
-				->andWhere($query->expr()->in('f.storage', $query->createNamedParameter($storages, IQueryBuilder::PARAM_INT_ARRAY)))
-				->setMaxResults(1)
-				->runAcrossAllShards();
-			return $query->executeQuery()->fetchOne();
+			foreach (array_chunk($storages, IQueryBuilder::MAX_IN_PARAMETERS) as $storageChunk) {
+				$query = $this->connection->getQueryBuilder();
+				$query->select('m.user_id')
+					->from('filecache', 'f')
+					->leftJoin('f', 'mounts', 'm', $query->expr()->eq('m.storage_id', 'f.storage'))
+					->where($query->expr()->eq('f.size', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
+					->andWhere($query->expr()->gt('f.parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
+					->andWhere($query->expr()->in('f.storage', $query->createNamedParameter($storageChunk, IQueryBuilder::PARAM_INT_ARRAY)))
+					->setMaxResults(1)
+					->runAcrossAllShards();
+
+				$result = $query->executeQuery();
+				$user = $result->fetchOne();
+				$result->closeCursor();
+				if ($user) {
+					return $user;
+				}
+			}
+			return false;
 		} else {
 			$query = $this->connection->getQueryBuilder();
 			$query->select('m.user_id')
