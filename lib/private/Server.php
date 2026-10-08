@@ -4,6 +4,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -447,6 +448,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->get(LoggerInterface::class),
 				$this->get(ICacheFactory::class),
 				$this->get(IRemoteAddress::class),
+				$this->get(IUserSession::class),
 			);
 			return $groupManager;
 		});
