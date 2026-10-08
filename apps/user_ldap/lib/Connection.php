@@ -748,7 +748,7 @@ class Connection extends LDAPUtility {
 			$errno = $this->ldap->errno($cr);
 
 			$this->logger->warning(
-				'Bind failed: ' . $errno . ': ' . $this->ldap->error($cr),
+				'Bind failed for ' . $this->configuration->ldapAgentName . ': ' . $errno . ': ' . $this->ldap->error($cr),
 				['app' => 'user_ldap']
 			);
 
