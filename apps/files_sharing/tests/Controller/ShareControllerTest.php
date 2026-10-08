@@ -43,6 +43,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -80,6 +81,7 @@ class ShareControllerTest extends \Test\TestCase {
 	private IEventDispatcher&MockObject $eventDispatcher;
 	private FederatedShareProvider&MockObject $federatedShareProvider;
 	private IPublicShareTemplateFactory&MockObject $publicShareTemplateFactory;
+	private IUserSession&MockObject $userSession;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -104,6 +106,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->defaults = $this->createMock(Defaults::class);
+		$this->userSession = $this->createMock(IUserSession::class);
 		$this->publicShareTemplateFactory = $this->createMock(IPublicShareTemplateFactory::class);
 		$this->publicShareTemplateFactory
 			->expects($this->any())
@@ -144,6 +147,7 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->defaults,
 			$this->publicShareTemplateFactory,
+			$this->userSession,
 		);
 
 		// Store current user

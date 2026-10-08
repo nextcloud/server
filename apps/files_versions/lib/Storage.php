@@ -15,7 +15,6 @@ use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\View;
 use OC\User\NoUserException;
-use OC_User;
 use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
@@ -41,6 +40,7 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Server;
 use OCP\User\Exceptions\UserNotFoundException;
@@ -96,14 +96,15 @@ class Storage {
 	public static function getUidAndFilename($filename) {
 		$uid = Filesystem::getOwner($filename);
 		$userManager = Server::get(IUserManager::class);
+		$userInSession = Server::get(IUserSession::class)->getUser()?->getUID() ?? false;
 		// if the user with the UID doesn't exists, e.g. because the UID points
 		// to a remote user with a federated cloud ID we use the current logged-in
 		// user. We need a valid local user to create the versions
 		if (!$userManager->userExists($uid)) {
-			$uid = OC_User::getUser();
+			$uid = $userInSession;
 		}
 		Filesystem::initMountPoints($uid);
-		if ($uid !== OC_User::getUser()) {
+		if ($uid !== $userInSession) {
 			$info = Filesystem::getFileInfo($filename);
 			$ownerView = new View('/' . $uid . '/files');
 			try {

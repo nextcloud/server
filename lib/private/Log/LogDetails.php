@@ -11,6 +11,7 @@ namespace OC\Log;
 
 use OC\SystemConfig;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Server;
 
 abstract class LogDetails {
@@ -37,7 +38,7 @@ abstract class LogDetails {
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = $request->getMethod();
 		if ($this->config->getValue('installed', false)) {
-			$user = \OC_User::getUser() ?: '--';
+			$user = Server::get(IUserSession::class)->getUser()?->getUID() ?? '--';
 		} else {
 			$user = '--';
 		}

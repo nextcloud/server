@@ -19,12 +19,14 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\FileInfo;
+use OCP\Files\IUserFolder;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Notification\IManager;
 use OCP\Server;
@@ -54,6 +56,8 @@ abstract class APersonalInfoSettings implements ISettings {
 		private IInitialState $initialStateService,
 		private IManager $manager,
 		private IUserStatusManager $userStatusManager,
+		private IUserSession $userSession,
+		private IUserFolder $userFolder,
 	) {
 	}
 
@@ -73,14 +77,14 @@ abstract class APersonalInfoSettings implements ISettings {
 			$lookupServerUploadEnabled = $shareProvider->isLookupServerUploadEnabled();
 		}
 
-		$uid = \OC_User::getUser();
-		$user = $this->userManager->get($uid);
+		$user = $this->userSession->getUser();
+		if (!$user) {
+			throw new \Exception('No user in session');
+		}
+		$uid = $user->getUID();
 		$account = $this->accountManager->getAccount($user);
 
-		// make sure FS is setup before querying storage related stuff...
-		\OC_Util::setupFS($user->getUID());
-
-		$storageInfo = \OC_Helper::getStorageInfo('/');
+		$storageInfo = $this->userFolder->getUserQuota();
 		if ($storageInfo['quota'] === FileInfo::SPACE_UNLIMITED) {
 			$totalSpace = $this->l->t('Unlimited');
 		} else {
