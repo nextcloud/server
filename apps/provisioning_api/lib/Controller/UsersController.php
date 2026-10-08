@@ -835,12 +835,12 @@ class UsersController extends AUserDataOCSController {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		$subAdminManager = $this->groupManager->getSubAdmin();
-		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
-		$isAdminOrSubadmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID())
-			|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser);
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isAdminOrSubadmin = $isAdmin
+ 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUser);
 
 		$permittedFields = [];
+
 		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			// Editing self (display, email)
 			if ($targetUser->canEditProperty(IAccountManager::COLLECTION_EMAIL)) {
@@ -848,8 +848,14 @@ class UsersController extends AUserDataOCSController {
 			}
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX;
 		} else {
-			// Check if admin / subadmin
-			if ($isAdminOrSubadmin || $isDelegatedAdmin && !$this->groupManager->isAdmin($targetUser->getUID())) {
+			// Full admins can manage any user; delegated admins cannot manage admins;
+			// subadmins are limited to users accessible through their groups.
+			if (
+				$isAdminOrSubadmin
+				|| (
+					$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+					&& !$this->groupManager->isAdmin($targetUser->getUID())
+				) {
 				// They have permissions over the user
 				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 			} else {
