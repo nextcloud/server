@@ -458,4 +458,51 @@ class EMailTemplateTest extends TestCase {
 		$template->addFooter();
 		$template->renderHtml();
 	}
+
+	public function testEMailTemplateRendersTheSameEveryTime(): void {
+		$this->mockThemingColors();
+		$this->emailTemplate->addHeader();
+		$this->emailTemplate->addHeading('Welcome aboard');
+		$this->emailTemplate->addBodyText('Hello');
+
+		$text = $this->emailTemplate->renderText();
+		$html = $this->emailTemplate->renderHtml();
+
+		$this->assertSame($html, $this->emailTemplate->renderHtml());
+		$this->assertSame($text, $this->emailTemplate->renderText());
+		$this->assertStringEndsWith('</html>', $html);
+		$this->assertSame(1, substr_count($html, '</html>'));
+	}
+
+	public function testEMailTemplateUsesFragmentsOfSubclassAtRender(): void {
+		$this->mockThemingColors();
+		$template = new class($this->defaults, $this->urlGenerator, $this->l10n, 252, 120, 'test.TestTemplate', []) extends EMailTemplate {
+			protected string $heading = '<h1 class="custom">%s</h1>';
+		};
+
+		$template->addHeading('Welcome & hello');
+
+		$this->assertStringContainsString('<h1 class="custom">Welcome &amp; hello</h1>', $template->renderHtml());
+	}
+
+	public function testEMailTemplateKeepsWhatSubclassesWriteDirectly(): void {
+		$this->mockThemingColors();
+		$template = new class($this->defaults, $this->urlGenerator, $this->l10n, 252, 120, 'test.TestTemplate', []) extends EMailTemplate {
+			public function addCustomPart(): void {
+				$this->htmlBody .= '<p id="custom">Custom part</p>';
+				$this->plainBody .= 'Custom part' . PHP_EOL;
+			}
+		};
+
+		$template->addHeading('First');
+		$template->addCustomPart();
+		$template->addHeading('Second');
+		$html = $template->renderHtml();
+
+		$custom = strpos($html, '<p id="custom">Custom part</p>');
+		$this->assertNotFalse($custom);
+		$this->assertGreaterThan(strpos($html, 'First'), $custom);
+		$this->assertLessThan(strpos($html, 'Second'), $custom);
+		$this->assertSame('First' . PHP_EOL . PHP_EOL . 'Custom part' . PHP_EOL . 'Second' . PHP_EOL . PHP_EOL, $template->renderText());
+	}
 }

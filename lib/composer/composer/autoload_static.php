@@ -2136,6 +2136,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Log\\Systemdlog' => __DIR__ . '/../../..' . '/lib/private/Log/Systemdlog.php',
         'OC\\Mail\\Attachment' => __DIR__ . '/../../..' . '/lib/private/Mail/Attachment.php',
         'OC\\Mail\\EMailTemplate' => __DIR__ . '/../../..' . '/lib/private/Mail/EMailTemplate.php',
+        'OC\\Mail\\EMailTemplateBlock' => __DIR__ . '/../../..' . '/lib/private/Mail/EMailTemplateBlock.php',
         'OC\\Mail\\EmailValidator' => __DIR__ . '/../../..' . '/lib/private/Mail/EmailValidator.php',
         'OC\\Mail\\Mailer' => __DIR__ . '/../../..' . '/lib/private/Mail/Mailer.php',
         'OC\\Mail\\Message' => __DIR__ . '/../../..' . '/lib/private/Mail/Message.php',

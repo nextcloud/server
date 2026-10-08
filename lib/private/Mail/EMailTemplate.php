@@ -262,6 +262,9 @@ EOF;
 						</table>
 EOF;
 
+	/** @var list<EMailTemplateBlock> parts of the email, rendered by renderHtml and renderText */
+	protected array $blocks = [];
+
 	public function __construct(
 		protected Defaults $themingDefaults,
 		protected IURLGenerator $urlGenerator,
@@ -271,7 +274,6 @@ EOF;
 		protected string $emailId,
 		protected array $data,
 	) {
-		$this->htmlBody .= $this->head;
 	}
 
 	/**
@@ -307,7 +309,12 @@ EOF;
 		} else {
 			$logoSrc = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
 		}
-		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $logoSrc, $this->themingDefaults->getName(), $logoSizeDimensions]);
+		$this->addBlock(EMailTemplateBlock::HEADER, [
+			'color' => $this->themingDefaults->getDefaultColorPrimary(),
+			'logo' => $logoSrc,
+			'name' => $this->themingDefaults->getName(),
+			'dimensions' => $logoSizeDimensions,
+		]);
 	}
 
 	#[\Override]
@@ -341,11 +348,11 @@ EOF;
 			$plainTitle = $title;
 		}
 
-		$this->ensureBodyIsClosed();
-		$this->htmlBody .= vsprintf($this->heading, [htmlspecialchars($title)]);
-		if ($plainTitle !== false) {
-			$this->plainBody .= $plainTitle . PHP_EOL . PHP_EOL;
-		}
+		$this->addBlock(
+			EMailTemplateBlock::HEADING,
+			['title' => htmlspecialchars($title)],
+			$plainTitle !== false ? $plainTitle . PHP_EOL . PHP_EOL : '',
+		);
 	}
 
 	/**
@@ -377,13 +384,11 @@ EOF;
 			$text = htmlspecialchars($text);
 		}
 
-		$this->ensureBodyListClosed();
-		$this->ensureBodyIsOpened();
-
-		$this->htmlBody .= vsprintf($this->bodyText, [$text]);
-		if ($plainText !== false) {
-			$this->plainBody .= $plainText . PHP_EOL . PHP_EOL;
-		}
+		$this->addBlock(
+			EMailTemplateBlock::TEXT,
+			['text' => $text],
+			$plainText !== false ? $plainText . PHP_EOL . PHP_EOL : '',
+		);
 	}
 
 	/**
@@ -408,8 +413,6 @@ EOF;
 		$plainMetaInfo = '',
 		$plainIndent = 0,
 	): void {
-		$this->ensureBodyListOpened();
-
 		if ($plainText === '' || $plainText === true) {
 			$plainText = $text;
 			$text = htmlspecialchars($text);
@@ -429,17 +432,18 @@ EOF;
 		} else {
 			$icon = '&bull;';
 		}
-		$this->htmlBody .= vsprintf($this->listItem, [$icon, $htmlText]);
+
+		$plain = '';
 		if ($plainText !== false) {
 			if ($plainIndent === 0) {
 				/*
 				 * If plainIndent is not set by caller, this is the old NC17 layout code.
 				 */
-				$this->plainBody .= '  * ' . $plainText;
+				$plain = '  * ' . $plainText;
 				if ($plainMetaInfo !== false) {
-					$this->plainBody .= ' (' . $plainMetaInfo . ')';
+					$plain .= ' (' . $plainMetaInfo . ')';
 				}
-				$this->plainBody .= PHP_EOL;
+				$plain .= PHP_EOL;
 			} else {
 				/*
 				 * Caller can set plainIndent > 0 to format plainText in tabular fashion.
@@ -450,11 +454,13 @@ EOF;
 				 */
 				/** @var string $label */
 				$label = ($plainMetaInfo !== false)? $plainMetaInfo : '';
-				$this->plainBody .= sprintf("%{$plainIndent}s %s\n",
+				$plain = sprintf("%{$plainIndent}s %s\n",
 					$label,
 					str_replace("\n", "\n" . str_repeat(' ', $plainIndent + 1), $plainText));
 			}
 		}
+
+		$this->addBlock(EMailTemplateBlock::LIST_ITEM, ['icon' => $icon, 'text' => $htmlText], $plain);
 	}
 
 	protected function ensureBodyListOpened(): void {
@@ -508,15 +514,19 @@ EOF;
 			$textRight = htmlspecialchars($textRight);
 		}
 
-		$this->ensureBodyIsOpened();
-		$this->ensureBodyListClosed();
-
-		$color = $this->themingDefaults->getDefaultColorPrimary();
-		$textColor = $this->themingDefaults->getDefaultTextColorPrimary();
-
-		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, htmlspecialchars($urlLeft), $color, $textColor, $textColor, $textLeft, htmlspecialchars($urlRight), $textRight]);
-		$this->plainBody .= PHP_EOL . $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
-		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
+		$this->addBlock(
+			EMailTemplateBlock::BUTTON_GROUP,
+			[
+				'color' => $this->themingDefaults->getDefaultColorPrimary(),
+				'textColor' => $this->themingDefaults->getDefaultTextColorPrimary(),
+				'urlLeft' => htmlspecialchars($urlLeft),
+				'textLeft' => $textLeft,
+				'urlRight' => htmlspecialchars($urlRight),
+				'textRight' => $textRight,
+			],
+			PHP_EOL . $plainTextLeft . ': ' . $urlLeft . PHP_EOL
+				. $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL,
+		);
 	}
 
 	/**
@@ -535,23 +545,21 @@ EOF;
 			return;
 		}
 
-		$this->ensureBodyIsOpened();
-		$this->ensureBodyListClosed();
-
 		if ($plainText === '') {
 			$plainText = $text;
 			$text = htmlspecialchars($text);
 		}
 
-		$color = $this->themingDefaults->getDefaultColorPrimary();
-		$textColor = $this->themingDefaults->getDefaultTextColorPrimary();
-		$this->htmlBody .= vsprintf($this->button, [$color, $color, htmlspecialchars($url), $color, $textColor, $textColor, $text]);
-
-		if ($plainText !== false) {
-			$this->plainBody .= $plainText . ': ';
-		}
-
-		$this->plainBody .= $url . PHP_EOL;
+		$this->addBlock(
+			EMailTemplateBlock::BUTTON,
+			[
+				'color' => $this->themingDefaults->getDefaultColorPrimary(),
+				'textColor' => $this->themingDefaults->getDefaultTextColorPrimary(),
+				'url' => htmlspecialchars($url),
+				'text' => $text,
+			],
+			($plainText !== false ? $plainText . ': ' : '') . $url . PHP_EOL,
+		);
 	}
 
 	/**
@@ -563,33 +571,24 @@ EOF;
 			return;
 		}
 
-		$this->ensureBodyIsOpened();
-		$this->ensureBodyListClosed();
-
-		$color = $this->themingDefaults->getDefaultColorPrimary();
-		$textColor = $this->themingDefaults->getDefaultTextColorPrimary();
-
-		$htmlButtons = [];
-		foreach ($buttons as $index => $button) {
-			$url = htmlspecialchars($button['url']);
-			$text = htmlspecialchars($button['text']);
-			$htmlButtons[] = $index === 0
-				? vsprintf($this->buttonsPrimary, [$color, $url, $textColor, $text])
-				: vsprintf($this->buttonsSecondary, [$url, $text]);
-		}
-
-		$htmlLabel = $label !== '' ? vsprintf($this->buttonsLabel, [htmlspecialchars($label)]) : '';
-		$this->htmlBody .= vsprintf($this->buttonsBegin, [$htmlLabel]);
-		$this->htmlBody .= implode('', $htmlButtons);
-		$this->htmlBody .= $this->buttonsEnd;
-
-		if ($label !== '') {
-			$this->plainBody .= $label . PHP_EOL;
-		}
+		$plain = $label !== '' ? $label . PHP_EOL : '';
 		foreach ($buttons as $button) {
-			$this->plainBody .= $button['text'] . ': ' . $button['url'] . PHP_EOL;
+			$plain .= $button['text'] . ': ' . $button['url'] . PHP_EOL;
 		}
-		$this->plainBody .= PHP_EOL;
+
+		$this->addBlock(
+			EMailTemplateBlock::BUTTONS,
+			[
+				'color' => $this->themingDefaults->getDefaultColorPrimary(),
+				'textColor' => $this->themingDefaults->getDefaultTextColorPrimary(),
+				'buttons' => array_map(static fn (array $button): array => [
+					'text' => htmlspecialchars($button['text']),
+					'url' => htmlspecialchars($button['url']),
+				], $buttons),
+				'label' => htmlspecialchars($label),
+			],
+			$plain . PHP_EOL,
+		);
 	}
 
 	#[\Override]
@@ -599,16 +598,15 @@ EOF;
 		}
 		$this->senderName = $displayName;
 
-		$this->ensureBodyIsClosed();
-
-		$htmlSubline = $subline !== '' ? vsprintf($this->senderSubline, [htmlspecialchars($subline)]) : '';
-		$this->htmlBody .= vsprintf($this->sender, [$this->renderInitials($displayName), htmlspecialchars($displayName), $htmlSubline]);
-
-		$this->plainBody .= $displayName;
-		if ($subline !== '') {
-			$this->plainBody .= ' (' . $subline . ')';
-		}
-		$this->plainBody .= PHP_EOL . PHP_EOL;
+		$this->addBlock(
+			EMailTemplateBlock::SENDER,
+			[
+				'initials' => $this->getInitialsValues($displayName),
+				'name' => htmlspecialchars($displayName),
+				'subline' => htmlspecialchars($subline),
+			],
+			$displayName . ($subline !== '' ? ' (' . $subline . ')' : '') . PHP_EOL . PHP_EOL,
+		);
 	}
 
 	#[\Override]
@@ -619,29 +617,22 @@ EOF;
 		if (!isset($this->noteColors[$type])) {
 			$type = IEMailTemplate::NOTE_NEUTRAL;
 		}
-		$colors = $this->noteColors[$type];
-
-		$this->ensureBodyIsOpened();
-		$this->ensureBodyListClosed();
-
-		$htmlText = str_replace("\n", '<br/>', htmlspecialchars($text));
-		if ($label !== '') {
-			$htmlLabel = htmlspecialchars($label);
-			$htmlText = $type === IEMailTemplate::NOTE_NEUTRAL
-				? vsprintf($this->noteLabel, [$htmlLabel]) . $htmlText
-				: '<strong>' . $htmlLabel . '</strong> ' . $htmlText;
-		}
-		$this->htmlBody .= vsprintf($this->note, [$colors['background'], $colors['border'], $htmlText, $type]);
 
 		if ($type === IEMailTemplate::NOTE_NEUTRAL) {
-			if ($label !== '') {
-				$this->plainBody .= $label . PHP_EOL;
-			}
-			$this->plainBody .= '> ' . str_replace("\n", PHP_EOL . '> ', $text);
+			$plain = ($label !== '' ? $label . PHP_EOL : '') . '> ' . str_replace("\n", PHP_EOL . '> ', $text);
 		} else {
-			$this->plainBody .= $label !== '' ? $label . ' ' . $text : $text;
+			$plain = $label !== '' ? $label . ' ' . $text : $text;
 		}
-		$this->plainBody .= PHP_EOL . PHP_EOL;
+
+		$this->addBlock(
+			EMailTemplateBlock::NOTE,
+			[
+				'type' => $type,
+				'text' => str_replace("\n", '<br/>', htmlspecialchars($text)),
+				'label' => htmlspecialchars($label),
+			],
+			$plain . PHP_EOL . PHP_EOL,
+		);
 	}
 
 	#[\Override]
@@ -650,36 +641,26 @@ EOF;
 			return;
 		}
 
-		$this->ensureBodyIsOpened();
-		$this->ensureBodyListClosed();
-
-		$leading = '';
 		$initialsName = $details->getInitialsName();
 		$dateBadge = $details->getDateBadge();
+		$leading = null;
 		if ($initialsName !== null) {
-			$leading = vsprintf($this->detailsLeading, [$this->renderInitials($initialsName)]);
+			$leading = ['initials' => $this->getInitialsValues($initialsName)];
 		} elseif ($dateBadge !== null) {
-			$leading = vsprintf($this->detailsLeading, [vsprintf($this->detailsDateBadge, [
-				$this->themingDefaults->getDefaultColorPrimary(),
-				$this->themingDefaults->getDefaultTextColorPrimary(),
-				htmlspecialchars($dateBadge['month']),
-				htmlspecialchars($dateBadge['day']),
-			])]);
+			$leading = ['badge' => [
+				'color' => $this->themingDefaults->getDefaultColorPrimary(),
+				'textColor' => $this->themingDefaults->getDefaultTextColorPrimary(),
+				'month' => htmlspecialchars($dateBadge['month']),
+				'day' => htmlspecialchars($dateBadge['day']),
+			]];
 		}
 
 		$subtitle = $details->getSubtitle();
-		$htmlSubtitle = $subtitle !== '' ? vsprintf($this->senderSubline, [htmlspecialchars($subtitle)]) : '';
-		$rows = $details->getRows();
-		$separator = 'border-bottom:1px solid #e5e5e5;';
-
-		$this->htmlBody .= vsprintf($this->detailsBegin, [$rows !== [] ? $separator : '', $leading, htmlspecialchars($details->getTitle()), $htmlSubtitle]);
-		$this->plainBody .= $details->getTitle() . PHP_EOL;
-		if ($subtitle !== '') {
-			$this->plainBody .= $subtitle . PHP_EOL;
-		}
+		$plain = $details->getTitle() . PHP_EOL . ($subtitle !== '' ? $subtitle . PHP_EOL : '');
 
 		$linkColor = $this->themingDefaults->getDefaultColorPrimary();
-		foreach ($rows as $index => $row) {
+		$rows = [];
+		foreach ($details->getRows() as $row) {
 			$htmlParts = [];
 			$plainParts = [];
 			foreach ($row->getParts() as $part) {
@@ -698,26 +679,31 @@ EOF;
 						$plainParts[] = $part['text'];
 				}
 			}
-
-			$this->htmlBody .= vsprintf($this->detailsRow, [
-				$index > 0 ? 'border-top:1px solid #e5e5e5;' : '',
-				htmlspecialchars($row->getLabel()),
-				implode('<br>', $htmlParts),
-			]);
+			$rows[] = ['label' => htmlspecialchars($row->getLabel()), 'value' => implode('<br>', $htmlParts)];
 
 			$plainLabel = '  ' . $row->getLabel() . ': ';
 			$indent = PHP_EOL . str_repeat(' ', mb_strlen($plainLabel));
-			$this->plainBody .= $plainLabel . implode($indent, $plainParts) . PHP_EOL;
+			$plain .= $plainLabel . implode($indent, $plainParts) . PHP_EOL;
 		}
 
-		$this->htmlBody .= $this->detailsEnd;
-		$this->plainBody .= PHP_EOL;
+		$this->addBlock(
+			EMailTemplateBlock::DETAILS,
+			[
+				'leading' => $leading,
+				'title' => htmlspecialchars($details->getTitle()),
+				'subtitle' => htmlspecialchars($subtitle),
+				'rows' => $rows,
+			],
+			$plain . PHP_EOL,
+		);
 	}
 
 	/**
-	 * Initials circle in the theming colors, same letters as the generated avatars
+	 * Values of the initials circle in the theming colors, same letters as the generated avatars
+	 *
+	 * @return array{color: string, textColor: string, initials: string}
 	 */
-	protected function renderInitials(string $name): string {
+	protected function getInitialsValues(string $name): array {
 		$name = trim($name);
 		$initials = '?';
 		if ($name !== '') {
@@ -727,11 +713,11 @@ EOF;
 			));
 		}
 
-		return vsprintf($this->initials, [
-			$this->themingDefaults->getDefaultColorPrimary(),
-			$this->themingDefaults->getDefaultTextColorPrimary(),
-			htmlspecialchars($initials),
-		]);
+		return [
+			'color' => $this->themingDefaults->getDefaultColorPrimary(),
+			'textColor' => $this->themingDefaults->getDefaultTextColorPrimary(),
+			'initials' => htmlspecialchars($initials),
+		];
 	}
 
 	/**
@@ -781,12 +767,11 @@ EOF;
 		}
 		$this->footerAdded = true;
 
-		$this->ensureBodyIsClosed();
-
-		$this->htmlBody .= vsprintf($this->footer, [$text]);
-		$this->htmlBody .= $this->tail;
-		$this->plainBody .= PHP_EOL . '-- ' . PHP_EOL;
-		$this->plainBody .= $plainText ?? str_replace('<br>', PHP_EOL, $text);
+		$this->addBlock(
+			EMailTemplateBlock::FOOTER,
+			['text' => $text],
+			PHP_EOL . '-- ' . PHP_EOL . ($plainText ?? str_replace('<br>', PHP_EOL, $text)),
+		);
 	}
 
 	/**
@@ -802,18 +787,24 @@ EOF;
 	 */
 	#[\Override]
 	public function renderHtml(): string {
-		if (!$this->footerAdded) {
-			$this->footerAdded = true;
-			$this->ensureBodyIsClosed();
-			$this->htmlBody .= $this->tail;
+		$this->closeEmail();
+
+		$this->htmlBody = $this->head;
+		$this->bodyOpened = false;
+		$this->bodyListOpened = false;
+		foreach ($this->blocks as $block) {
+			$this->renderBlockHtml($block);
 		}
+		$html = $this->htmlBody;
+		$this->htmlBody = '';
+
 		if ($this->language === null) {
-			return $this->htmlBody;
+			return $html;
 		}
 
 		$direction = $this->l10nFactory->getLanguageDirection($this->language);
 		$lang = htmlspecialchars(str_replace('_', '-', $this->language));
-		$html = str_replace('lang="en" xml:lang="en"', 'lang="' . $lang . '" xml:lang="' . $lang . '" dir="' . $direction . '"', $this->htmlBody);
+		$html = str_replace('lang="en" xml:lang="en"', 'lang="' . $lang . '" xml:lang="' . $lang . '" dir="' . $direction . '"', $html);
 		return $direction === 'rtl' ? $this->mirrorStyles($html) : $html;
 	}
 
@@ -836,11 +827,166 @@ EOF;
 	 */
 	#[\Override]
 	public function renderText(): string {
+		$this->closeEmail();
+		return implode('', array_map(static fn (EMailTemplateBlock $block): string => $block->text, $this->blocks));
+	}
+
+	/**
+	 * Record a block, after any HTML or text a subclass wrote directly
+	 *
+	 * @param EMailTemplateBlock::* $type
+	 * @param array<string, mixed> $values
+	 */
+	protected function addBlock(string $type, array $values = [], string $text = ''): void {
+		$this->addRawBlock();
+		$this->blocks[] = new EMailTemplateBlock($type, $values, $text);
+	}
+
+	/**
+	 * Keep what a subclass appended to htmlBody or plainBody, in order
+	 */
+	private function addRawBlock(): void {
+		if ($this->htmlBody === '' && $this->plainBody === '') {
+			return;
+		}
+		$this->blocks[] = new EMailTemplateBlock(EMailTemplateBlock::RAW, ['html' => $this->htmlBody], $this->plainBody);
+		$this->htmlBody = '';
+		$this->plainBody = '';
+	}
+
+	/**
+	 * Ends the email when it is rendered without a footer, nothing can be added afterwards
+	 */
+	private function closeEmail(): void {
+		$this->addRawBlock();
 		if (!$this->footerAdded) {
 			$this->footerAdded = true;
-			$this->ensureBodyIsClosed();
-			$this->htmlBody .= $this->tail;
+			$this->blocks[] = new EMailTemplateBlock(EMailTemplateBlock::END);
 		}
-		return $this->plainBody;
+	}
+
+	private function renderBlockHtml(EMailTemplateBlock $block): void {
+		$values = $block->values;
+		switch ($block->type) {
+			case EMailTemplateBlock::HEADER:
+				$this->htmlBody .= vsprintf($this->header, [$values['color'], $values['logo'], $values['name'], $values['dimensions']]);
+				break;
+			case EMailTemplateBlock::HEADING:
+				$this->ensureBodyIsClosed();
+				$this->htmlBody .= vsprintf($this->heading, [$values['title']]);
+				break;
+			case EMailTemplateBlock::TEXT:
+				$this->ensureBodyListClosed();
+				$this->ensureBodyIsOpened();
+				$this->htmlBody .= vsprintf($this->bodyText, [$values['text']]);
+				break;
+			case EMailTemplateBlock::LIST_ITEM:
+				$this->ensureBodyListOpened();
+				$this->htmlBody .= vsprintf($this->listItem, [$values['icon'], $values['text']]);
+				break;
+			case EMailTemplateBlock::BUTTON_GROUP:
+				$this->ensureBodyIsOpened();
+				$this->ensureBodyListClosed();
+				$this->htmlBody .= vsprintf($this->buttonGroup, [
+					$values['color'], $values['color'], $values['urlLeft'], $values['color'], $values['textColor'],
+					$values['textColor'], $values['textLeft'], $values['urlRight'], $values['textRight'],
+				]);
+				break;
+			case EMailTemplateBlock::BUTTON:
+				$this->ensureBodyIsOpened();
+				$this->ensureBodyListClosed();
+				$this->htmlBody .= vsprintf($this->button, [
+					$values['color'], $values['color'], $values['url'], $values['color'], $values['textColor'],
+					$values['textColor'], $values['text'],
+				]);
+				break;
+			case EMailTemplateBlock::BUTTONS:
+				$this->ensureBodyIsOpened();
+				$this->ensureBodyListClosed();
+				$this->htmlBody .= $this->renderButtons($values);
+				break;
+			case EMailTemplateBlock::SENDER:
+				$this->ensureBodyIsClosed();
+				$subline = $values['subline'] !== '' ? vsprintf($this->senderSubline, [$values['subline']]) : '';
+				$this->htmlBody .= vsprintf($this->sender, [$this->renderInitials($values['initials']), $values['name'], $subline]);
+				break;
+			case EMailTemplateBlock::NOTE:
+				$this->ensureBodyIsOpened();
+				$this->ensureBodyListClosed();
+				$this->htmlBody .= $this->renderNote($values);
+				break;
+			case EMailTemplateBlock::DETAILS:
+				$this->ensureBodyIsOpened();
+				$this->ensureBodyListClosed();
+				$this->htmlBody .= $this->renderDetails($values);
+				break;
+			case EMailTemplateBlock::FOOTER:
+				$this->ensureBodyIsClosed();
+				$this->htmlBody .= vsprintf($this->footer, [$values['text']]);
+				$this->htmlBody .= $this->tail;
+				break;
+			case EMailTemplateBlock::END:
+				$this->ensureBodyIsClosed();
+				$this->htmlBody .= $this->tail;
+				break;
+			case EMailTemplateBlock::RAW:
+				$this->htmlBody .= $values['html'];
+				break;
+		}
+	}
+
+	/**
+	 * @param array{color: string, textColor: string, initials: string} $values
+	 */
+	protected function renderInitials(array $values): string {
+		return vsprintf($this->initials, [$values['color'], $values['textColor'], $values['initials']]);
+	}
+
+	/**
+	 * @param array<string, mixed> $values
+	 */
+	private function renderButtons(array $values): string {
+		$htmlButtons = [];
+		foreach ($values['buttons'] as $index => $button) {
+			$htmlButtons[] = $index === 0
+				? vsprintf($this->buttonsPrimary, [$values['color'], $button['url'], $values['textColor'], $button['text']])
+				: vsprintf($this->buttonsSecondary, [$button['url'], $button['text']]);
+		}
+		$label = $values['label'] !== '' ? vsprintf($this->buttonsLabel, [$values['label']]) : '';
+		return vsprintf($this->buttonsBegin, [$label]) . implode('', $htmlButtons) . $this->buttonsEnd;
+	}
+
+	/**
+	 * @param array<string, mixed> $values
+	 */
+	private function renderNote(array $values): string {
+		$text = $values['text'];
+		if ($values['label'] !== '') {
+			$text = $values['type'] === IEMailTemplate::NOTE_NEUTRAL
+				? vsprintf($this->noteLabel, [$values['label']]) . $text
+				: '<strong>' . $values['label'] . '</strong> ' . $text;
+		}
+		$colors = $this->noteColors[$values['type']];
+		return vsprintf($this->note, [$colors['background'], $colors['border'], $text, $values['type']]);
+	}
+
+	/**
+	 * @param array<string, mixed> $values
+	 */
+	private function renderDetails(array $values): string {
+		$leading = '';
+		if (isset($values['leading']['initials'])) {
+			$leading = vsprintf($this->detailsLeading, [$this->renderInitials($values['leading']['initials'])]);
+		} elseif (isset($values['leading']['badge'])) {
+			$badge = $values['leading']['badge'];
+			$leading = vsprintf($this->detailsLeading, [vsprintf($this->detailsDateBadge, [$badge['color'], $badge['textColor'], $badge['month'], $badge['day']])]);
+		}
+
+		$subtitle = $values['subtitle'] !== '' ? vsprintf($this->senderSubline, [$values['subtitle']]) : '';
+		$html = vsprintf($this->detailsBegin, [$values['rows'] !== [] ? 'border-bottom:1px solid #e5e5e5;' : '', $leading, $values['title'], $subtitle]);
+		foreach ($values['rows'] as $index => $row) {
+			$html .= vsprintf($this->detailsRow, [$index > 0 ? 'border-top:1px solid #e5e5e5;' : '', $row['label'], $row['value']]);
+		}
+		return $html . $this->detailsEnd;
 	}
 }

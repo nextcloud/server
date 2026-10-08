@@ -2090,6 +2090,7 @@ return array(
     'OC\\Log\\Systemdlog' => $baseDir . '/lib/private/Log/Systemdlog.php',
     'OC\\Mail\\Attachment' => $baseDir . '/lib/private/Mail/Attachment.php',
     'OC\\Mail\\EMailTemplate' => $baseDir . '/lib/private/Mail/EMailTemplate.php',
+    'OC\\Mail\\EMailTemplateBlock' => $baseDir . '/lib/private/Mail/EMailTemplateBlock.php',
     'OC\\Mail\\EmailValidator' => $baseDir . '/lib/private/Mail/EmailValidator.php',
     'OC\\Mail\\Mailer' => $baseDir . '/lib/private/Mail/Mailer.php',
     'OC\\Mail\\Message' => $baseDir . '/lib/private/Mail/Message.php',
