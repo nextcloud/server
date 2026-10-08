@@ -14,44 +14,36 @@
 			</li>
 		</ul>
 
-		<Draggable
-			v-model="layout"
-			v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
-			class="panels"
-			:itemKey="(element) => element"
-			handle=".panel--header"
-			@end="saveLayout">
-			<template #item="{ element: panelId }">
-				<div :key="panelId" class="panel">
-					<template v-if="isApiWidgetV2(panels[panelId].id)">
-						<div class="panel--header">
-							<h2>
-								<img v-if="apiWidgets[panels[panelId].id].icon_url" :src="apiWidgets[panels[panelId].id].icon_url" alt="">
-								<span v-else :class="apiWidgets[panels[panelId].id].icon_class" aria-hidden="true" />
-								{{ apiWidgets[panels[panelId].id].title }}
-							</h2>
-						</div>
-						<div class="panel--content">
-							<ApiDashboardWidget
-								:widget="apiWidgets[panels[panelId].id]"
-								:data="apiWidgetItems[panels[panelId].id]"
-								:loading="loadingItems" />
-						</div>
-					</template>
-					<template v-else>
-						<div class="panel--header">
-							<h2>
-								<span :class="panels[panelId].iconClass" aria-hidden="true" />
-								{{ panels[panelId].title }}
-							</h2>
-						</div>
-						<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
-							<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
-						</div>
-					</template>
-				</div>
-			</template>
-		</Draggable>
+		<div ref="panelsElement" class="panels">
+			<div v-for="panelId in layout" :key="panelId" class="panel">
+				<template v-if="isApiWidgetV2(panels[panelId].id)">
+					<div class="panel--header">
+						<h2>
+							<img v-if="apiWidgets[panels[panelId].id].icon_url" :src="apiWidgets[panels[panelId].id].icon_url" alt="">
+							<span v-else :class="apiWidgets[panels[panelId].id].icon_class" aria-hidden="true" />
+							{{ apiWidgets[panels[panelId].id].title }}
+						</h2>
+					</div>
+					<div class="panel--content">
+						<ApiDashboardWidget
+							:widget="apiWidgets[panels[panelId].id]"
+							:data="apiWidgetItems[panels[panelId].id]"
+							:loading="loadingItems" />
+					</div>
+				</template>
+				<template v-else>
+					<div class="panel--header">
+						<h2>
+							<span :class="panels[panelId].iconClass" aria-hidden="true" />
+							{{ panels[panelId].title }}
+						</h2>
+					</div>
+					<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
+						<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
+					</div>
+				</template>
+			</div>
+		</div>
 
 		<div class="footer">
 			<NcButton @click="showModal">
@@ -84,32 +76,21 @@
 						</label>
 					</li>
 				</ol>
-				<Draggable
-					v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
-					class="panels"
-					tag="ol"
-					:itemKey="(panel) => panel.id"
-					handle=".draggable"
-					:modelValue="modalPanelList"
-					@update:modelValue="onModalPanelListUpdate"
-					@start="onModalDragStart"
-					@end="onModalDragEnd">
-					<template #item="{ element: panel }">
-						<li :key="panel.id" :class="'panel-' + panel.id">
-							<input
-								:id="'panel-checkbox-' + panel.id"
-								type="checkbox"
-								class="checkbox"
-								:checked="isActive(panel)"
-								@input="updateCheckbox(panel, $event.target.checked)">
-							<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
-								<img v-if="panel.iconUrl" alt="" :src="panel.iconUrl">
-								<span v-else :class="panel.iconClass" aria-hidden="true" />
-								{{ panel.title }}
-							</label>
-						</li>
-					</template>
-				</Draggable>
+				<ol ref="modalPanelsElement" class="panels">
+					<li v-for="panel in modalPanelList" :key="panel.id" :class="'panel-' + panel.id">
+						<input
+							:id="'panel-checkbox-' + panel.id"
+							type="checkbox"
+							class="checkbox"
+							:checked="isActive(panel)"
+							@input="updateCheckbox(panel, $event.target.checked)">
+						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
+							<img v-if="panel.iconUrl" alt="" :src="panel.iconUrl">
+							<span v-else :class="panel.iconClass" aria-hidden="true" />
+							{{ panel.title }}
+						</label>
+					</li>
+				</ol>
 				<a v-if="isAdmin && appStoreEnabled" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
 
 				<div v-if="statuses.weather && isStatusActive('weather')">
@@ -134,9 +115,8 @@ import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl, generateUrl } from '@nextcloud/router'
-// import this directly so Vite builds it and we don't end up using the UMD bundle which
-// tries to run "new Function(...)" (for no good reason) which is blocked by our CSP
-import Draggable from 'vuedraggable/src/vuedraggable.js'
+import { useSortable } from '@vueuse/integrations/useSortable'
+import { nextTick, ref } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
@@ -164,7 +144,6 @@ export default {
 	components: {
 		ApiDashboardWidget,
 		NcButton,
-		Draggable,
 		NcModal,
 		Pencil,
 		NcUserStatusIcon,
@@ -175,9 +154,65 @@ export default {
 	],
 
 	setup() {
+		const layout = ref(loadState('dashboard', 'layout').filter((panelId) => panels[panelId]))
+		const modalPanelList = ref([])
+		const isModalDragging = ref(false)
+
+		const panelsElement = ref(null)
+		const modalPanelsElement = ref(null)
+
+		const sortableOptions = {
+			swapThreshold: 0.30,
+			delay: 500,
+			delayOnTouchOnly: true,
+			touchStartThreshold: 3,
+		}
+
+		/**
+		 * Save the current panel layout of the user
+		 */
+		function saveLayout() {
+			axios.post(generateOcsUrl('/apps/dashboard/api/v3/layout'), {
+				layout: layout.value,
+			})
+		}
+
+		// useSortable applies the new order on the next tick, so the end handlers have to wait for it
+		useSortable(panelsElement, layout, {
+			...sortableOptions,
+			handle: '.panel--header',
+			onEnd: async () => {
+				await nextTick()
+				saveLayout()
+			},
+		})
+
+		useSortable(modalPanelsElement, modalPanelList, {
+			...sortableOptions,
+			handle: '.draggable',
+			watchElement: true,
+			onStart: () => {
+				isModalDragging.value = true
+			},
+			onEnd: async () => {
+				await nextTick()
+				isModalDragging.value = false
+				layout.value = modalPanelList.value
+					.filter((panel) => layout.value.includes(panel.id))
+					.map((panel) => panel.id)
+				saveLayout()
+			},
+		})
+
 		return {
 			t,
 			productName: window.OC.theme.productName,
+			layout,
+			modalPanelList,
+			isModalDragging,
+			panelsElement,
+			modalPanelsElement,
+			saveLayout,
 		}
 	},
 
@@ -195,9 +230,6 @@ export default {
 			firstRun,
 			displayName: getCurrentUser()?.displayName,
 			uid: getCurrentUser()?.uid,
-			layout: loadState('dashboard', 'layout').filter((panelId) => panels[panelId]),
-			modalPanelList: [],
-			isModalDragging: false,
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			appStoreEnabled: loadState('dashboard', 'appStoreEnabled', true),
@@ -406,12 +438,6 @@ export default {
 			}
 		},
 
-		saveLayout() {
-			axios.post(generateOcsUrl('/apps/dashboard/api/v3/layout'), {
-				layout: this.layout,
-			})
-		},
-
 		saveStatuses() {
 			axios.post(generateOcsUrl('/apps/dashboard/api/v3/statuses'), {
 				statuses: this.enabledStatuses,
@@ -437,22 +463,6 @@ export default {
 				}
 				return indexA - indexB || a.id - b.id
 			})
-		},
-
-		onModalPanelListUpdate(newList) {
-			this.modalPanelList = newList
-		},
-
-		onModalDragStart() {
-			this.isModalDragging = true
-		},
-
-		onModalDragEnd() {
-			this.isModalDragging = false
-			this.layout = this.modalPanelList
-				.filter((panel) => this.layout.includes(panel.id))
-				.map((panel) => panel.id)
-			this.saveLayout()
 		},
 
 		updateCheckbox(panel, currentValue) {
