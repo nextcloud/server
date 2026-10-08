@@ -21,6 +21,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
+use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Notification\IManager as INotificationManager;
 use Psr\Log\LoggerInterface;
@@ -196,9 +197,7 @@ class CheckCodeIntegrityJob extends TimedJob {
 		$template->setSubject($l->t('The code integrity check result has changed'));
 		$template->addHeader();
 		$template->addHeading($l->t('The code integrity check result has changed'));
-		foreach (self::formatSummary($l, $summary) as $sentence) {
-			$template->addBodyText($sentence);
-		}
+		$template->addBodyNote(implode("\n", self::formatSummary($l, $summary)), '', IEMailTemplate::NOTE_WARNING);
 		$template->addBodyButton(
 			$l->t('Review integrity check results'),
 			$this->urlGenerator->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']),

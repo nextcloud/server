@@ -64,9 +64,9 @@ class EMailTemplate implements IEMailTemplate {
 			.nc-link{color:#ebebeb!important}
 			.nc-border{border-color:#3b3b3b!important}
 			.nc-note-neutral,.nc-secondary{background:#2c2c2c!important}
-			.nc-note-info{background:#10303f!important}
-			.nc-note-warning{background:#3a2e10!important}
-			.nc-note-error{background:#3d1717!important}
+			.nc-note-info{background:#003553!important;border-left-color:#00AEFF!important}
+			.nc-note-warning{background:#3D3010!important;border-left-color:#FFEEC5!important}
+			.nc-note-error{background:#552121!important;border-left-color:#FFCCCC!important}
 		}
 	</style>
 </head>
@@ -181,7 +181,7 @@ EOF;
 	protected string $note = <<<EOF
 						<table role="presentation" width="100%%" cellpadding="0" cellspacing="0" style="Margin:0 0 20px;border-collapse:separate;border-spacing:0;margin:0 0 20px;width:100%%">
 							<tr>
-								<td class="nc-note-%4\$s nc-text" style="background:%1\$s;border-left:4px solid %2\$s;border-radius:12px;color:#222222;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;padding:16px 20px">%3\$s</td>
+								<td class="nc-note-%4\$s nc-text" style="background:%1\$s;border-left:4px solid %2\$s;border-radius:4px;color:#222222;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.5;padding:16px 20px">%3\$s</td>
 							</tr>
 						</table>
 EOF;
@@ -193,9 +193,9 @@ EOF;
 	/** @var array<string, array{background: string, border: string}> */
 	protected array $noteColors = [
 		IEMailTemplate::NOTE_NEUTRAL => ['background' => '#f4f4f5', 'border' => 'transparent'],
-		IEMailTemplate::NOTE_INFO => ['background' => '#e5f0f5', 'border' => '#0071ad'],
-		IEMailTemplate::NOTE_WARNING => ['background' => '#fdf3dc', 'border' => '#a37200'],
-		IEMailTemplate::NOTE_ERROR => ['background' => '#fbe5e5', 'border' => '#c50000'],
+		IEMailTemplate::NOTE_INFO => ['background' => '#D5F1FA', 'border' => '#0066AC'],
+		IEMailTemplate::NOTE_WARNING => ['background' => '#FFEEC5', 'border' => '#664700'],
+		IEMailTemplate::NOTE_ERROR => ['background' => '#FFE7E7', 'border' => '#8A0000'],
 	];
 
 	protected string $detailsBegin = <<<EOF
