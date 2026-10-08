@@ -257,6 +257,23 @@ describe('Download action execute tests', () => {
 			root: '/files/admin',
 		})
 
+		const form = {
+			style: {},
+			appendChild: vi.fn(),
+			submit: vi.fn(),
+			remove: vi.fn(),
+		} as unknown as HTMLFormElement
+		const inputs: HTMLInputElement[] = []
+		vi.spyOn(document, 'createElement').mockImplementation((tagName: string) => {
+			if (tagName === 'form') {
+				return form
+			}
+			const input = {} as HTMLInputElement
+			inputs.push(input)
+			return input
+		})
+		vi.spyOn(document.body, 'appendChild').mockImplementation((node) => node)
+
 		const exec = await action.execBatch!({
 			nodes: [file1, file2],
 			view,
@@ -266,9 +283,14 @@ describe('Download action execute tests', () => {
 
 		// Silent action
 		expect(exec).toStrictEqual([null, null])
-		expect(link.download).toEqual('')
-		expect(link.href).toMatch('https://cloud.domain.com/remote.php/dav/files/admin/Dir/?accept=zip&files=%5B%22foo.txt%22%2C%22bar.txt%22%5D')
-		expect(link.click).toHaveBeenCalledTimes(1)
+		// The file list is sent in the request body to avoid too long URLs
+		expect(form.method).toBe('POST')
+		expect(form.action).toBe('https://cloud.domain.com/remote.php/dav/files/admin/Dir/')
+		expect(inputs).toContainEqual(expect.objectContaining({ type: 'hidden', name: 'accept', value: 'zip' }))
+		expect(inputs).toContainEqual(expect.objectContaining({ type: 'hidden', name: 'files', value: '["foo.txt","bar.txt"]' }))
+		expect(inputs).toContainEqual(expect.objectContaining({ type: 'hidden', name: 'requesttoken' }))
+		expect(form.submit).toHaveBeenCalledTimes(1)
+		expect(form.remove).toHaveBeenCalledTimes(1)
 	})
 
 	test('Download fails with error', async () => {
