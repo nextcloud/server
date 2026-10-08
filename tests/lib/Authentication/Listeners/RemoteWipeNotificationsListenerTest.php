@@ -32,12 +32,11 @@ class RemoteWipeNotificationsListenerTest extends TestCase {
 		$this->listener = $this->createInstanceWithMocks(RemoteWipeNotificationsListener::class);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testHandleUnrelated(): void {
 		$event = new Event();
 
 		$this->listener->handle($event);
-
-		$this->addToAssertionCount(1);
 	}
 
 	public function testHandleRemoteWipeStarted(): void {
