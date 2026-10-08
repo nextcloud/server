@@ -8,7 +8,6 @@ $baseDir = $vendorDir;
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\AdminAudit\\Actions\\Action' => $baseDir . '/../lib/Actions/Action.php',
-    'OCA\\AdminAudit\\Actions\\Files' => $baseDir . '/../lib/Actions/Files.php',
     'OCA\\AdminAudit\\Actions\\Sharing' => $baseDir . '/../lib/Actions/Sharing.php',
     'OCA\\AdminAudit\\Actions\\Trashbin' => $baseDir . '/../lib/Actions/Trashbin.php',
     'OCA\\AdminAudit\\Actions\\Versions' => $baseDir . '/../lib/Actions/Versions.php',

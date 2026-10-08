@@ -9,26 +9,52 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\Listener;
 
+use OC\Files\Node\NonExistingFile;
 use OCA\AdminAudit\Actions\Action;
+use OCA\AdminAudit\IAuditLogger;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
+use OCP\Files\Events\Node\BeforeNodeReadEvent;
+use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeCreatedEvent;
+use OCP\Files\Events\Node\NodeRenamedEvent;
+use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Preview\BeforePreviewFetchedEvent;
-use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
- * @template-implements IEventListener<BeforePreviewFetchedEvent|VersionRestoredEvent>
+ * @template-implements IEventListener<BeforePreviewFetchedEvent|VersionRestoredEvent|NodeRenamedEvent|NodeCreatedEvent|NodeCopiedEvent|NodeWrittenEvent|BeforeNodeReadEvent|BeforeNodeDeletedEvent>
  */
 class FileEventListener extends Action implements IEventListener {
+	public function __construct(
+		IAuditLogger $logger,
+		private LoggerInterface $systemLogger,
+	) {
+		parent::__construct($logger);
+	}
+
 	#[\Override]
 	public function handle(Event $event): void {
 		if ($event instanceof BeforePreviewFetchedEvent) {
 			$this->beforePreviewFetched($event);
 		} elseif ($event instanceof VersionRestoredEvent) {
 			$this->versionRestored($event);
+		} elseif ($event instanceof NodeRenamedEvent) {
+			$this->nodeRenamed($event);
+		} elseif ($event instanceof NodeCreatedEvent) {
+			$this->nodeCreated($event);
+		} elseif ($event instanceof NodeCopiedEvent) {
+			$this->nodeCopied($event);
+		} elseif ($event instanceof NodeWrittenEvent) {
+			$this->nodeWritten($event);
+		} elseif ($event instanceof BeforeNodeReadEvent) {
+			$this->beforeNodeRead($event);
+		} elseif ($event instanceof BeforeNodeDeletedEvent) {
+			$this->beforeNodeDeleted($event);
 		}
 	}
 
@@ -52,7 +78,7 @@ class FileEventListener extends Action implements IEventListener {
 				array_keys($params)
 			);
 		} catch (InvalidPathException|NotFoundException $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->systemLogger->error(
 				'Exception thrown in file preview: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
@@ -70,6 +96,157 @@ class FileEventListener extends Action implements IEventListener {
 				'path' => $version->getVersionPath()
 			],
 			['version', 'path']
+		);
+	}
+
+	/**
+	 * Logs file rename actions
+	 */
+	private function nodeRenamed(NodeRenamedEvent $event): void {
+		try {
+			$target = $event->getTarget();
+			$source = $event->getSource();
+			$params = [
+				'newid' => $target->getId(),
+				'oldpath' => $source->getPath(),
+				'newpath' => $target->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			$this->systemLogger->error(
+				'Exception thrown in file rename: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
+
+		$this->log(
+			'File renamed with id "%s" from "%s" to "%s"',
+			$params,
+			array_keys($params)
+		);
+	}
+
+	/**
+	 * Logs creation of files
+	 */
+	private function nodeCreated(NodeCreatedEvent $event): void {
+		try {
+			$node = $event->getNode();
+			$params = [
+				'id' => $node->getId(),
+				'path' => $node->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			$this->systemLogger->error(
+				'Exception thrown in file create: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
+		if ($params['path'] === '/' || $params['path'] === '') {
+			return;
+		}
+		$this->log(
+			'File with id "%s" created: "%s"',
+			$params,
+			array_keys($params)
+		);
+	}
+
+	/**
+	 * Logs copying of files
+	 */
+	private function nodeCopied(NodeCopiedEvent $event): void {
+		try {
+			$source = $event->getSource();
+			$target = $event->getTarget();
+			$params = [
+				'oldid' => $source->getId(),
+				'newid' => $target->getId(),
+				'oldpath' => $source->getPath(),
+				'newpath' => $target->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			$this->systemLogger->error(
+				'Exception thrown in file copy: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
+		$this->log(
+			'File id copied from: "%s" to "%s", path from "%s" to "%s"',
+			$params,
+			array_keys($params)
+		);
+	}
+
+	/**
+	 * Logs writing of files
+	 */
+	private function nodeWritten(NodeWrittenEvent $event): void {
+		try {
+			$node = $event->getNode();
+			$params = [
+				'id' => $node->getId(),
+				'path' => $node->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			$this->systemLogger->error(
+				'Exception thrown in file write: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
+		if ($params['path'] === '/' || $params['path'] === '') {
+			return;
+		}
+
+		$this->log(
+			'File with id "%s" written to: "%s"',
+			$params,
+			array_keys($params)
+		);
+	}
+
+	/**
+	 * Logs file read actions
+	 */
+	private function beforeNodeRead(BeforeNodeReadEvent $event): void {
+		try {
+			$node = $event->getNode();
+			$params = [
+				'id' => $node instanceof NonExistingFile ? 'not-yet-assigned' : $node->getId(),
+				'path' => $node->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			$this->systemLogger->error(
+				'Exception thrown in file read: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
+		$this->log(
+			'File with id "%s" accessed: "%s"',
+			$params,
+			array_keys($params)
+		);
+	}
+
+	/**
+	 * Logs deletions of files
+	 */
+	private function beforeNodeDeleted(BeforeNodeDeletedEvent $event): void {
+		try {
+			$node = $event->getNode();
+			$params = [
+				'id' => $node->getId(),
+				'path' => $node->getPath(),
+			];
+		} catch (InvalidPathException|NotFoundException $e) {
+			$this->systemLogger->error(
+				'Exception thrown in file delete: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
+		$this->log(
+			'File with id "%s" deleted: "%s"',
+			$params,
+			array_keys($params)
 		);
 	}
 }

@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\AppInfo;
 
-use OCA\AdminAudit\Actions\Files;
 use OCA\AdminAudit\Actions\Sharing;
 use OCA\AdminAudit\Actions\Trashbin;
 use OCA\AdminAudit\Actions\Versions;
@@ -38,7 +37,6 @@ use OCP\Authentication\Events\AnyLoginFailedEvent;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
 use OCP\Console\ConsoleEvent;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
@@ -68,7 +66,6 @@ use OCP\User\Events\UserIdUnassignedEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\Util;
-use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -109,6 +106,12 @@ class Application extends App implements IBootstrap {
 		// File events
 		$context->registerEventListener(BeforePreviewFetchedEvent::class, FileEventListener::class);
 		$context->registerEventListener(VersionRestoredEvent::class, FileEventListener::class);
+		$context->registerEventListener(NodeRenamedEvent::class, FileEventListener::class);
+		$context->registerEventListener(NodeCreatedEvent::class, FileEventListener::class);
+		$context->registerEventListener(NodeCopiedEvent::class, FileEventListener::class);
+		$context->registerEventListener(NodeWrittenEvent::class, FileEventListener::class);
+		$context->registerEventListener(BeforeNodeReadEvent::class, FileEventListener::class);
+		$context->registerEventListener(BeforeNodeDeletedEvent::class, FileEventListener::class);
 
 		// Security events
 		$context->registerEventListener(TwoFactorProviderChallengePassed::class, SecurityEventListener::class);
@@ -136,20 +139,17 @@ class Application extends App implements IBootstrap {
 		$logger = $context->getAppContainer()->get(IAuditLogger::class);
 
 		/*
-		 * TODO: once the hooks are migrated to lazy events, this should be done
-		 *       in \OCA\AdminAudit\AppInfo\Application::register
+		 * TODO: once the remaining legacy hooks are migrated to lazy events,
+		 *       move their registration to \OCA\AdminAudit\AppInfo\Application::register
 		 */
-		$this->registerLegacyHooks($logger, $context->getServerContainer());
+		$this->registerLegacyHooks($logger);
 	}
 
 	/**
-	 * Register hooks in order to log them
+	 * Register legacy hooks in order to log them
 	 */
-	private function registerLegacyHooks(IAuditLogger $logger, ContainerInterface $serverContainer): void {
-		/** @var IEventDispatcher $eventDispatcher */
-		$eventDispatcher = $serverContainer->get(IEventDispatcher::class);
+	private function registerLegacyHooks(IAuditLogger $logger): void {
 		$this->sharingLegacyHooks($logger);
-		$this->fileHooks($logger, $eventDispatcher);
 		$this->trashbinHooks($logger);
 		$this->versionsHooks($logger);
 	}
@@ -161,52 +161,6 @@ class Application extends App implements IBootstrap {
 		Util::connectHook(Share::class, 'post_update_password', $shareActions, 'updatePassword');
 		Util::connectHook(Share::class, 'post_set_expiration_date', $shareActions, 'updateExpirationDate');
 		Util::connectHook(Share::class, 'share_link_access', $shareActions, 'shareAccessed');
-	}
-
-	private function fileHooks(IAuditLogger $logger, IEventDispatcher $eventDispatcher): void {
-		$fileActions = new Files($logger);
-
-		$eventDispatcher->addListener(
-			NodeRenamedEvent::class,
-			function (NodeRenamedEvent $event) use ($fileActions): void {
-				$fileActions->afterRename($event);
-			}
-		);
-
-		$eventDispatcher->addListener(
-			NodeCreatedEvent::class,
-			function (NodeCreatedEvent $event) use ($fileActions): void {
-				$fileActions->create($event);
-			}
-		);
-
-		$eventDispatcher->addListener(
-			NodeCopiedEvent::class,
-			function (NodeCopiedEvent $event) use ($fileActions): void {
-				$fileActions->copy($event);
-			}
-		);
-
-		$eventDispatcher->addListener(
-			NodeWrittenEvent::class,
-			function (NodeWrittenEvent $event) use ($fileActions): void {
-				$fileActions->write($event);
-			}
-		);
-
-		$eventDispatcher->addListener(
-			BeforeNodeReadEvent::class,
-			function (BeforeNodeReadEvent $event) use ($fileActions): void {
-				$fileActions->read($event);
-			}
-		);
-
-		$eventDispatcher->addListener(
-			BeforeNodeDeletedEvent::class,
-			function (BeforeNodeDeletedEvent $event) use ($fileActions): void {
-				$fileActions->delete($event);
-			}
-		);
 	}
 
 	private function versionsHooks(IAuditLogger $logger): void {
