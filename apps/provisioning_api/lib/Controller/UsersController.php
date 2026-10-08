@@ -1228,35 +1228,39 @@ class UsersController extends AUserDataOCSController {
 	#[NoSubAdminRequired]
 	#[UserRateLimit(limit: 50, period: 600)]
 	public function editUser(string $userId, string $key, string $value): DataResponse {
-		$currentLoggedInUser = $this->userSession->getUser();
-
 		$targetUser = $this->userManager->get($userId);
 		if ($targetUser === null) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
+		$currentLoggedInUser = $this->userSession->getUser();
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+
 		$permittedFields = [];
+
 		if ($targetUser->getUID() === $currentLoggedInUser->getUID()) {
 			if ($targetUser->canChangeDisplayName()) {
 				$permittedFields[] = self::USER_FIELD_DISPLAYNAME;
 			}
 
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
-
 			$permittedFields[] = self::USER_FIELD_PASSWORD;
 			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
 			$permittedFields[] = self::USER_FIELD_TIMEZONE;
+
+			$forceLanguage = $this->config->getSystemValue('force_language', false);
 			if (
-				$this->config->getSystemValue('force_language', false) === false
-				|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				$forceLanguage === false
+				|| $isAdmin
 				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 			}
 
+			$forceLocale = $this->config->getSystemValue('force_locale', false);
 			if (
-				$this->config->getSystemValue('force_locale', false) === false
-				|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				$forceLocale === false
+				|| $isAdmin
 				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LOCALE;
@@ -1274,20 +1278,24 @@ class UsersController extends AUserDataOCSController {
 				$permittedFields[] = $property;
 			}
 
-			// If admin they can edit their own quota and manager
-			$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
-			$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
-			if ($isAdmin || $isDelegatedAdmin) {
+			// Full and delegated admins can edit their own quota and manager.
+			if (
+				$isAdmin
+				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+			) {
 				$permittedFields[] = self::USER_FIELD_QUOTA;
 				$permittedFields[] = self::USER_FIELD_MANAGER;
 			}
 		} else {
-			// Check if admin / subadmin
-			$subAdminManager = $this->groupManager->getSubAdmin();
+			// Full admins can manage any user; delegated admins cannot manage admins;
+			// subadmins are limited to users accessible through their groups.
 			if (
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
-				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isAdmin($targetUser->getUID())
-				|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
+				$isAdmin
+				|| (
+					$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+					&& !$this->groupManager->isAdmin($targetUser->getUID())
+				)
+				|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUser)
 			) {
 				// They have permissions over the user
 				if (
