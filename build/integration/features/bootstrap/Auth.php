@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/autoload.php';
 
@@ -17,6 +18,8 @@ trait Auth {
 	private $unrestrictedClientToken;
 	/** @var string */
 	private $restrictedClientToken;
+	/** @var string */
+	private $scopedClientToken;
 	/** @var Client */
 	private $client;
 	/** @var string */
@@ -106,8 +109,22 @@ trait Auth {
 	 */
 	public function aNewRestrictedClientTokenIsAdded() {
 		$tokenObj = $this->createClientToken();
-		$newCreatedTokenId = $tokenObj->deviceToken->id;
-		$fullUrl = substr($this->baseUrl, 0, -5) . '/index.php/settings/personal/authtokens/' . $newCreatedTokenId;
+		$this->updateClientTokenScope($tokenObj->deviceToken->id, ['filesystem' => false]);
+		$this->restrictedClientToken = $tokenObj->token;
+	}
+
+	/**
+	 * @Given a new client token limited to :scopes is added
+	 */
+	public function aNewClientTokenLimitedToIsAdded(string $scopes): void {
+		$tokenObj = $this->createClientToken();
+		$this->updateClientTokenScope($tokenObj->deviceToken->id, ['scopes' => explode(' ', $scopes)]);
+		Assert::assertEquals(200, $this->response->getStatusCode());
+		$this->scopedClientToken = $tokenObj->token;
+	}
+
+	private function updateClientTokenScope(int $id, array $scope): void {
+		$fullUrl = substr($this->baseUrl, 0, -5) . '/index.php/settings/personal/authtokens/' . $id;
 		$client = new Client();
 		$options = [
 			'auth' => ['user0', '123456'],
@@ -116,14 +133,11 @@ trait Auth {
 			],
 			'json' => [
 				'name' => md5(microtime()),
-				'scope' => [
-					'filesystem' => false,
-				],
+				'scope' => $scope,
 			],
 			'cookies' => $this->cookieJar,
 		];
 		$this->response = $client->request('PUT', $fullUrl, $options);
-		$this->restrictedClientToken = $tokenObj->token;
 	}
 
 	/**
@@ -168,6 +182,15 @@ trait Auth {
 	 */
 	public function requestingWithRestrictedBasicTokenAuth($url, $method) {
 		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:' . $this->restrictedClientToken), true);
+	}
+
+	/**
+	 * @When requesting :url with :method using scoped basic token auth
+	 *
+	 * No cookies: the browser session that created the token would win over it
+	 */
+	public function requestingWithScopedBasicTokenAuth(string $url, string $method): void {
+		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:' . $this->scopedClientToken));
 	}
 
 	/**
