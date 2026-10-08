@@ -24,7 +24,6 @@ import { registerModifiedFilter } from './filters/ModifiedFilter.ts'
 import { registerTypeFilter } from './filters/TypeFilter.ts'
 import { entry as newFolderEntry } from './newMenu/newFolder.ts'
 import { registerTemplateEntries } from './newMenu/newFromTemplate.ts'
-import { entry as newTemplatesFolder } from './newMenu/newTemplatesFolder.ts'
 import { initLivePhotos } from './services/LivePhotos.ts'
 import registerPreviewServiceWorker from './services/ServiceWorker.js'
 import { registerFavoritesView } from './views/favorites.ts'
@@ -49,7 +48,6 @@ registerFileAction(viewInFolderAction)
 
 // Register new menu entry
 addNewFileMenuEntry(newFolderEntry)
-addNewFileMenuEntry(newTemplatesFolder)
 registerTemplateEntries()
 
 // Register files views when not on public share
