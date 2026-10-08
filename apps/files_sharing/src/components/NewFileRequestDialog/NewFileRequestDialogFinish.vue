@@ -40,24 +40,27 @@
 				@focusout.native="addNewEmail" />
 
 			<!-- Email list -->
-			<div v-if="emails.length > 0" class="file-request-dialog__emails">
-				<NcChip
-					v-for="mail in emails"
-					:key="mail"
-					:aria-label-close="t('files_sharing', 'Remove email')"
-					:text="mail"
-					@close="$emit('remove-email', mail)">
-					<template #icon>
-						<NcAvatar
-							disable-menu
-							disable-tooltip
-							:display-name="mail"
-							is-no-user
-							hide-status
-							:size="24" />
-					</template>
-				</NcChip>
-			</div>
+			<ul
+				v-if="emails.length > 0"
+				class="file-request-dialog__emails"
+				:aria-label="t('files_sharing', 'Recipient emails')">
+				<li v-for="mail in emails" :key="mail">
+					<NcChip
+						:aria-label-close="t('files_sharing', 'Remove email: {email}', { email: mail })"
+						:text="mail"
+						@close="$emit('remove-email', mail)">
+						<template #icon>
+							<NcAvatar
+								disable-menu
+								disable-tooltip
+								:display-name="mail"
+								is-no-user
+								hide-status
+								:size="24" />
+						</template>
+					</NcChip>
+				</li>
+			</ul>
 		</template>
 	</div>
 </template>
@@ -229,14 +232,16 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.input-field,
-.file-request-dialog__emails {
+.input-field {
 	margin-top: var(--margin);
 }
 
 .file-request-dialog__emails {
 	display: flex;
-	gap: var(--default-grid-baseline);
 	flex-wrap: wrap;
+	gap: var(--default-grid-baseline);
+	list-style: none;
+	margin-block: var(--margin) 0;
+	padding-inline: 0;
 }
 </style>
