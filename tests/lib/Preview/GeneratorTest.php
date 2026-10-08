@@ -483,6 +483,38 @@ class GeneratorTest extends TestCase {
 		}
 	}
 
+	#[TestWith(['image/jpeg', 4096])]
+	#[TestWith(['text/plain', 1024])]
+	#[TestWith(['application/pdf', 1024])]
+	public function testMaxPreviewSize(string $mimeType, int $expectedSize): void {
+		$file = $this->getFile(42, $mimeType);
+
+		$this->getAutoMock(PreviewMapper::class)->method('getAvailablePreviews')
+			->willReturn([42 => []]);
+		$this->getAutoMock(IConfig::class)->method('getSystemValueInt')
+			->willReturnCallback(fn ($key, $default) => $default);
+
+		$provider = $this->createMock(IProviderV2::class);
+		$provider->method('isAvailable')->willReturn(true);
+		$this->getAutoMock(IPreview::class)->method('getProviders')
+			->willReturn(['/.*/' => ['provider']]);
+		$this->getAutoMock(GeneratorHelper::class)->method('getProvider')
+			->willReturn($provider);
+
+		$this->getAutoMock(GeneratorHelper::class)->expects($this->once())
+			->method('getThumbnail')
+			->with($provider, $file, $expectedSize, $expectedSize)
+			->willReturn($this->getMockImage($expectedSize, $expectedSize, 'my data'));
+
+		$this->getAutoMock(PreviewMapper::class)->method('insert')
+			->willReturnCallback(fn (Preview $preview): Preview => $preview);
+		$this->getAutoMock(StorageFactory::class)->method('writePreview')
+			->willReturn(1000);
+
+		$result = $this->generator->getPreview($file);
+		$this->assertSame("$expectedSize-$expectedSize-max.png", $result->getName());
+	}
+
 	public function testUnreadbleFile(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
