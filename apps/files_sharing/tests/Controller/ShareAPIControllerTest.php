@@ -3914,6 +3914,67 @@ class ShareAPIControllerTest extends TestCase {
 
 		$result['Link share with send password by talk'] = self::formatShareCase($shareWithExpects, $methods, $expects);
 
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_LINK);
+		$methods = [
+			'setSharedBy' => 'currentUser',
+			'setToken' => 'myToken',
+		];
+		$expects = [
+			'uid_owner' => 'currentUser',
+			'displayname_owner' => 'currentUser',
+			'token' => 'myToken',
+			'share_with' => null,
+			'can_edit' => true,
+			'can_delete' => true,
+			'item_permissions' => 11,
+			'url' => 'myLink',
+			'password' => null,
+		];
+
+		$result['Link share with current user as initiator'] = self::formatShareCase($shareWithExpects, $methods, $expects);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_LINK);
+		$methods = [
+			'setShareOwner' => 'currentUser',
+			'setToken' => 'myToken',
+		];
+		$expects = [
+			'token' => 'myToken',
+			'share_with' => null,
+			'can_edit' => true,
+			'can_delete' => true,
+			'url' => 'myLink',
+			'password' => null,
+			'uid_file_owner' => 'currentUser',
+			'displayname_file_owner' => 'currentUser',
+			'item_permissions' => 7,
+		];
+
+		$users = [[ 'currentUser', ['getDisplayName' => 'currentUser']]];
+		$result['Link share with current user as file owner'] = self::formatShareCase($shareWithExpects, $methods, $expects, $users);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_LINK);
+		$methods = [
+			'setSharedBy' => 'currentUser',
+			'setToken' => 'myToken',
+			'setPermissions' => Constants::PERMISSION_ALL,
+		];
+		$expects = [
+			'share_with' => null,
+			'can_edit' => true,
+			'can_delete' => true,
+			'password' => null,
+			'uid_owner' => 'currentUser',
+			'displayname_owner' => 'currentUser',
+			'permissions' => 31,
+			'item_permissions' => 31,
+			'token' => null,
+			'url' => null,
+		];
+
+		$users = [['currentUser', ['getDisplayName' => 'currentUser']]];
+		$result['Link share with current user as initiator and share permissions higher than node permissions'] = self::formatShareCase($shareWithExpects, $methods, $expects, $users);
+
 		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_REMOTE, $folder);
 		$methods = [
 			'setSharedWith' => 'user@server.com',
@@ -4013,6 +4074,73 @@ class ShareAPIControllerTest extends TestCase {
 		$expects['send_password_by_talk'] = true;
 
 		$result['Mail share with send password by talk'] = self::formatShareCase($shareWithExpects, $methods, $expects);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_EMAIL);
+		$methods = [
+			'setSharedWith' => 'user@server.com',
+			'setSharedBy' => 'currentUser',
+			'setToken' => 'myToken',
+		];
+		$expects = [
+			'share_with' => 'user@server.com',
+			'share_with_displayname' => 'mail display name',
+			'uid_owner' => 'currentUser',
+			'displayname_owner' => 'currentUser',
+			'token' => 'myToken',
+			'can_edit' => true,
+			'can_delete' => true,
+			'item_permissions' => 11,
+			'password' => null,
+			'password_expiration_time' => null,
+		];
+
+		$result['Mail share with current user as initiator and token'] = self::formatShareCase($shareWithExpects, $methods, $expects);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_EMAIL);
+		$methods = [
+			'setSharedWith' => 'user@server.com',
+			'setShareOwner' => 'currentUser',
+			'setToken' => 'myToken',
+		];
+		$expects = [
+			'share_with' => 'user@server.com',
+			'share_with_displayname' => 'mail display name',
+			'uid_file_owner' => 'currentUser',
+			'displayname_file_owner' => 'currentUser',
+			'token' => 'myToken',
+			'can_edit' => true,
+			'can_delete' => true,
+			'item_permissions' => 7,
+			'password' => null,
+			'password_expiration_time' => null,
+		];
+
+		$users = [[ 'currentUser', [ 'getDisplayName' => 'currentUser' ]],];
+		$result['Mail share with current user as file owner'] = self::formatShareCase($shareWithExpects, $methods, $expects, $users);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_EMAIL);
+		$methods = [
+			'setSharedWith' => 'user@server.com',
+			'setSharedBy' => 'currentUser',
+			'setToken' => 'myToken',
+			'setPermissions' => Constants::PERMISSION_ALL,
+		];
+		$expects = [
+			'share_with' => 'user@server.com',
+			'share_with_displayname' => 'mail display name',
+			'uid_owner' => 'currentUser',
+			'displayname_owner' => 'currentUser',
+			'token' => null,
+			'can_edit' => true,
+			'can_delete' => true,
+			'permissions' => 31,
+			'item_permissions' => 31,
+			'password' => null,
+			'password_expiration_time' => null,
+		];
+
+		$users = [['currentUser', ['getDisplayName' => 'currentUser']]];
+		$result['Mail share with current user as initiator and share permissions higher than node permissions'] = self::formatShareCase($shareWithExpects, $methods, $expects, $users);
 
 		// Preview is available
 		$shareWithExpects = self::getShareWithExpects(nodeInfo: $fileWithPreview);
