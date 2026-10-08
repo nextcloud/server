@@ -33,7 +33,7 @@ class AuthorizedGroupMapper extends QBMapper {
 	 * A class may appear more than once if multiple of the user's groups authorize it.
 	 *
 	 * @return list<string>
- 	 * @throws Exception
+	 * @throws Exception
 	 */
 	public function findAllClassesForUser(IUser $user): array {
 		$groupManager = Server::get(IGroupManager::class);
@@ -64,7 +64,7 @@ class AuthorizedGroupMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($queryBuilder->expr()->eq('id', $queryBuilder->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
 		return $this->findEntity($qb);
 	}
