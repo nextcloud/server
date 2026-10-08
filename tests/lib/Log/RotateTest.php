@@ -28,6 +28,8 @@ class RotateTest extends TestCase {
 	#[\Override]
 	protected function tearDown(): void {
 		@unlink($this->logFile);
+		@unlink($this->logFile . '.1/keep');
+		@rmdir($this->logFile . '.1');
 		@unlink($this->logFile . '.1');
 
 		parent::tearDown();
@@ -105,5 +107,29 @@ class RotateTest extends TestCase {
 
 		$this->assertSame('12345', file_get_contents($this->logFile));
 		$this->assertFileDoesNotExist($this->logFile . '.1');
+	}
+
+	public function testThrowsWhenRotatedFileCannotBeCreated(): void {
+		file_put_contents($this->logFile, '12345');
+		mkdir($this->logFile . '.1');
+		file_put_contents($this->logFile . '.1/keep', 'keep');
+
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->never())->method('info');
+
+		$job = $this->createJob($this->createConfig($this->logFile), $logger);
+
+		try {
+			$job->run(null);
+			self::fail('Expected rotation to fail when the destination is a directory.');
+		} catch (\RuntimeException $e) {
+			$this->assertSame(
+				sprintf('Failed to rotate log file "%s" to "%s".', $this->logFile, $this->logFile . '.1'),
+				$e->getMessage(),
+			);
+		}
+
+		$this->assertSame('12345', file_get_contents($this->logFile));
+		$this->assertSame('keep', file_get_contents($this->logFile . '.1/keep'));
 	}
 }
