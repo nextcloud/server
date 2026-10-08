@@ -21,8 +21,8 @@ use OCP\Group\Backend\IGroupDetailsBackend;
 use OCP\Group\Backend\IRemoveFromGroupBackend;
 use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\GroupInterface;
-use OCP\IUser;
 use OCP\IDBConnection;
+use OCP\IUser;
 use OCP\Security\Ip\IRemoteAddress;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -484,6 +484,7 @@ class ManagerTest extends TestCase {
 		return $mapper;
 	}
 
+	#[\PHPUnit\Framework\Attributes\Group('DB')]
 	public function testIsDelegatedAdminForNonexistentUser(): void {
 		$this->getAutoMock(Manager::class)
 			->expects($this->once())
@@ -500,6 +501,7 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($manager->isDelegatedAdmin('missing-user'));
 	}
 
+	#[\PHPUnit\Framework\Attributes\Group('DB')]
 	public function testIsDelegatedAdminWhenAdminActionsAreDenied(): void {
 		$remoteAddress = $this->createMock(IRemoteAddress::class);
 		$remoteAddress->expects($this->once())
@@ -537,6 +539,7 @@ class ManagerTest extends TestCase {
 	 * @param list<string> $authorizedClasses
 	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('delegatedAdminClassesProvider')]
+	#[\PHPUnit\Framework\Attributes\Group('DB')]
 	public function testIsDelegatedAdminForExistingUser(array $authorizedClasses, bool $expected): void {
 		$user = $this->getTestUser('user1');
 		$this->getAutoMock(Manager::class)
