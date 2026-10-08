@@ -15,7 +15,10 @@
     "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Nastavljanje souporabe %1$s je spodletelo, ker je predmet že v souporabi z  računom %2$s.",
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Samodejno ustvarjenega gesla ni mogoče poslati. Najprej je treba nastaviti veljavni elektronski naslov med osebnimi nastavitvami.",
     "Failed to send share by email" : "Pošiljanje povezave po elektronski pošti je spodletelo.",
-    "Note:" : "Opomba:",
+    "Note" : "Opomba",
+    "Valid until" : "Veljavno do",
+    "Password" : "Geslo",
+    "Required" : "Zahtevano",
     "%1$s via %2$s" : "%1$s prek %2$s",
     "It is protected with the following password:" : "Zaščiten je z geslom:",
     "This password will expire at %s" : "Geslo bo poteklo %s",
@@ -24,6 +27,7 @@
     "Could not find share" : "Mape v souporabi ni mogoče najti",
     "Share provider which allows you to share files by mail" : "Ponudnik souporabe, ki omogoča souporabo datotek prek elektronske pošte",
     "Send password by mail" : "Pošlji geslo po elektronski pošti",
-    "Reply to initiator" : "Odgovori pošiljatelju"
+    "Reply to initiator" : "Odgovori pošiljatelju",
+    "Note:" : "Opomba:"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
