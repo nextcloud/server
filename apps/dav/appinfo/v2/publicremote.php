@@ -17,6 +17,7 @@ use OCA\DAV\Files\Sharing\FilesDropPlugin;
 use OCA\DAV\Files\Sharing\PublicLinkCheckPlugin;
 use OCA\DAV\Storage\PublicOwnerWrapper;
 use OCA\DAV\Storage\PublicShareWrapper;
+use OCA\DAV\Upload\AsyncRequestPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCA\FederatedFileSharing\FederatedShareProvider;
@@ -190,6 +191,7 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 
 $server->addPlugin($linkCheckPlugin);
 $server->addPlugin($filesDropPlugin);
+$server->addPlugin(Server::get(AsyncRequestPlugin::class));
 $server->addPlugin(new ChunkingV2Plugin(Server::get(ICacheFactory::class)));
 $server->addPlugin(new ChunkingPlugin());
 
