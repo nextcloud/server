@@ -135,7 +135,7 @@
     "Set location for weather" : "Angiv lokalitet for vejret",
     "Remove from favorites" : "Fjern fra favoritter",
     "Add as favorite" : "Tilføj til favoritter",
-    "You are not logged in." : "Du er ikke logget på.",
+    "You are not logged in." : "Du er ikke logget ind.",
     "There was an error getting the weather status information." : "Der opstod en fejl under hentning af oplysninger om vejret.",
     "No weather information found" : "Ingen vejrudsigt fundet",
     "Location not found" : "Den valgte lokalitet blev ikke fundet",

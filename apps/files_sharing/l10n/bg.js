@@ -90,6 +90,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Получихте {share} за група {group} като споделяне от {user}",
     "Accept" : "Приемане",
     "Decline" : "Отхвърляне",
+    "Valid until" : "Валиден до",
     "you" : "ти",
     "Expiration date" : "Валидност",
     "Select a date" : "Избор на дата",
