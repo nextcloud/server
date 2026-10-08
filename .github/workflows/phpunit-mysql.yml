@@ -26,8 +26,9 @@ jobs:
         include:
           - mysql-versions: '8.4'
             php-versions: '8.5'
+            partitioning: true
 
-    name: MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }}) - database tests
+    name: MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }})${{ case(matrix.partitioning, ' Partitioning', '') }} - database tests
 
     services:
       cache:
@@ -84,6 +85,12 @@ jobs:
           cp tests/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=mysql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f tests/enable_all.php
+
+      - name: Enable partitioning for oc_filecache
+        if: ${{ matrix.partitioning }}
+        run: |
+          echo "alter table oc_filecache drop primary key, add primary key (fileid, storage);" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword nextcloud
+          echo "alter table oc_filecache partition by hash(storage) partitions 5;" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword nextcloud
 
       - name: PHPUnit
         run: composer run test:db -- --log-junit junit.xml
