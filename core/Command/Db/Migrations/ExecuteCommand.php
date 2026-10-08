@@ -8,10 +8,14 @@
 
 namespace OC\Core\Command\Db\Migrations;
 
+use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
+use OC\DB\Types\TimestampImmutableType;
+use OC\DB\Types\TinyIntType;
 use OC\Migration\ConsoleOutput;
 use OCP\App\IAppManager;
+use OCP\DB\Types;
 use OCP\IConfig;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
@@ -27,6 +31,8 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 		private IAppManager $appManager,
 	) {
 		parent::__construct();
+		Type::addType(Types::TINYINT, TinyIntType::class);
+		Type::addType(Types::TIMESTAMP_IMMUTABLE, TimestampImmutableType::class);
 	}
 
 	#[\Override]

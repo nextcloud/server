@@ -1834,6 +1834,8 @@ return array(
     'OC\\DB\\Schema\\Index' => $baseDir . '/lib/private/DB/Schema/Index.php',
     'OC\\DB\\Schema\\Table' => $baseDir . '/lib/private/DB/Schema/Table.php',
     'OC\\DB\\SetTransactionIsolationLevel' => $baseDir . '/lib/private/DB/SetTransactionIsolationLevel.php',
+    'OC\\DB\\Types\\TimestampImmutableType' => $baseDir . '/lib/private/DB/Types/TimestampImmutableType.php',
+    'OC\\DB\\Types\\TinyIntType' => $baseDir . '/lib/private/DB/Types/TinyIntType.php',
     'OC\\Dashboard\\Manager' => $baseDir . '/lib/private/Dashboard/Manager.php',
     'OC\\DatabaseException' => $baseDir . '/lib/private/DatabaseException.php',
     'OC\\DatabaseSetupException' => $baseDir . '/lib/private/DatabaseSetupException.php',
