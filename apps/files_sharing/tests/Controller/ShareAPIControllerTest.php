@@ -3739,7 +3739,7 @@ class ShareAPIControllerTest extends TestCase {
 		}
 
 		$attributesExpectations = $withAttributes ? [
-			'attributes' => '[{"scope":"permissions","key":"download","value":true}]',
+			'attributes' => '{"scope":"permissions","key":"download","value":true}',
 		] : ['attributes' => null];
 
 		$linkExpectations = $shareType === IShare::TYPE_LINK ? [
@@ -4182,10 +4182,6 @@ class ShareAPIControllerTest extends TestCase {
 		);
 
 		$share = $this->getConfiguredShare($shareParams);
-		if (isset($shareParams['setAttributes'])) {
-			$expects['attributes'] = \json_encode($shareParams['setAttributes']);
-		}
-
 		$this->userManager->method('get')->willReturnMap($users);
 
 		$recipientGroup = $this->createMock(IGroup::class);
