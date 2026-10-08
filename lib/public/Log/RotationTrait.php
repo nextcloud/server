@@ -57,7 +57,7 @@ trait RotationTrait {
 
 		$fileSize = @filesize($this->filePath);
 
-		if ($fileSize = false || $fileSize < $this->maxSize) {
+		if ($fileSize === false || $fileSize < $this->maxSize) {
 			return false;
 		}
 
