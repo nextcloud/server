@@ -11,7 +11,8 @@ namespace Test\Log;
 
 use OC\Log\Rotate;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Server;
+use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RotateTest extends TestCase {
@@ -22,8 +23,6 @@ class RotateTest extends TestCase {
 		parent::setUp();
 
 		$this->logFile = sys_get_temp_dir() . '/nextcloud-log-rotate-' . bin2hex(random_bytes(8));
-		$this->overwriteSystemConfig('logfile', $this->logFile);
-		$this->overwriteSystemConfig('log_rotate_size', 5);
 	}
 
 	#[\Override]
@@ -34,10 +33,48 @@ class RotateTest extends TestCase {
 		parent::tearDown();
 	}
 
+	private function createJob(IConfig $config, LoggerInterface $logger): Rotate {
+		return new Rotate(
+			$this->createMock(ITimeFactory::class),
+			$config,
+			$logger,
+		);
+	}
+
+	private function createConfig(string $logFile): IConfig {
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValueString')
+			->willReturnCallback(static function (string $key, string $default = '') use ($logFile): string {
+				return match ($key) {
+					'datadirectory' => sys_get_temp_dir(),
+					'logfile' => $logFile,
+					default => $default,
+				};
+			});
+		$config->method('getSystemValueInt')
+			->with('log_rotate_size', $this->anything())
+			->willReturn(5);
+
+		return $config;
+	}
+
 	public function testRotatesFileAtConfiguredSize(): void {
 		file_put_contents($this->logFile, '12345');
 
-		$job = new Rotate(Server::get(ITimeFactory::class));
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->once())
+			->method('info')
+			->with(
+				'Log file "{filePath}" reached the configured rotation size of {maxSize} bytes and was moved to "{rotatedFile}"',
+				[
+					'app' => Rotate::class,
+					'filePath' => $this->logFile,
+					'maxSize' => 5,
+					'rotatedFile' => $this->logFile . '.1',
+				],
+			);
+
+		$job = $this->createJob($this->createConfig($this->logFile), $logger);
 		$job->run(null);
 
 		$this->assertFileDoesNotExist($this->logFile);
@@ -47,10 +84,26 @@ class RotateTest extends TestCase {
 	public function testDoesNotRotateFileBelowConfiguredSize(): void {
 		file_put_contents($this->logFile, '1234');
 
-		$job = new Rotate(Server::get(ITimeFactory::class));
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->never())->method('info');
+
+		$job = $this->createJob($this->createConfig($this->logFile), $logger);
 		$job->run(null);
 
 		$this->assertSame('1234', file_get_contents($this->logFile));
+		$this->assertFileDoesNotExist($this->logFile . '.1');
+	}
+
+	public function testDoesNotRotateWhenLogFilePathIsEmpty(): void {
+		file_put_contents($this->logFile, '12345');
+
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->never())->method('info');
+
+		$job = $this->createJob($this->createConfig(''), $logger);
+		$job->run(null);
+
+		$this->assertSame('12345', file_get_contents($this->logFile));
 		$this->assertFileDoesNotExist($this->logFile . '.1');
 	}
 }
