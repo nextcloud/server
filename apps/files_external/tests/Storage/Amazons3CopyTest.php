@@ -11,6 +11,7 @@ namespace OCA\Files_External\Tests\Storage;
 use Aws\Command;
 use Aws\S3\Exception\S3Exception;
 use OCA\Files_External\Lib\Storage\AmazonS3;
+use OCP\Cache\CappedMemoryCache;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\NullLogger;
 
@@ -26,10 +27,12 @@ class Amazons3CopyTest extends \Test\TestCase {
 			->getMock();
 
 		// The constructor is disabled, so the properties copy() relies on are uninitialised
-		$this->invokePrivate($storage, 'initCaches');
 		$this->invokePrivate($storage, 'storageClass', ['STANDARD']);
-		// invokePrivate() cannot reach these two: $logger is private, so it is invisible on
-		// the mock subclass, and 'test' resolves to the test() method before the property
+		// invokePrivate() cannot reach these: the caches and $logger are private, so they are
+		// invisible on the mock subclass, and 'test' resolves to the test() method before the property
+		foreach (['objectCache', 'directoryCache', 'filesCache'] as $cache) {
+			(new \ReflectionProperty(AmazonS3::class, $cache))->setValue($storage, new CappedMemoryCache());
+		}
 		(new \ReflectionProperty(AmazonS3::class, 'logger'))->setValue($storage, new NullLogger());
 		(new \ReflectionProperty(AmazonS3::class, 'test'))->setValue($storage, false);
 
