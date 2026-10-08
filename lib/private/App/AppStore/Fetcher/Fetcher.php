@@ -151,8 +151,8 @@ abstract class Fetcher {
 			if (is_array($jsonBlob)) {
 				// No caching when the version has been updated
 				if (isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->getVersion()) {
-					// If the timestamp is older than 3600 seconds request the files new
-					$invalidateAfterSeconds = self::INVALIDATE_AFTER_SECONDS;
+					// If the timestamp is old, request the files new
+					$invalidateAfterSeconds = static::INVALIDATE_AFTER_SECONDS;
 
 					if ($allowUnstable) {
 						$invalidateAfterSeconds = self::INVALIDATE_AFTER_SECONDS_UNSTABLE;
