@@ -6,7 +6,9 @@
  */
 
 use Rector\DeadCode\Rector\ClassMethod\RemoveDuplicatedReturnSelfDocblockRector;
+use Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveReturnTagIncompatibleWithNativeTypeRector;
+use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPublicMethodParameterRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\AddSeeTestAnnotationRector;
@@ -63,6 +65,10 @@ return (require __DIR__ . '/rector-shared.php')
 		$nextcloudDir . '/lib/public/SystemReport',
 		$nextcloudDir . '/lib/private/SystemReport',
 		$nextcloudDir . '/tests/lib/SystemReport',
+		$nextcloudDir . '/lib/public/MessageQueue',
+		$nextcloudDir . '/lib/private/MessageQueue',
+		$nextcloudDir . '/core/Command/MessageQueue',
+		$nextcloudDir . '/tests/lib/MessageQueue',
 	])
 	->withAutoloadPaths([
 		// ensure rector properly autoload the public interfaces
@@ -102,4 +108,11 @@ return (require __DIR__ . '/rector-shared.php')
 		// non-final type; removing it breaks psalm's
 		// LessSpecificImplementedReturnType check (psalm-strict).
 		RemoveDuplicatedReturnSelfDocblockRector::class,
+		// Message handler fixtures declare the handled message through their parameter type
+		RemoveUnusedPublicMethodParameterRector::class => [
+			$nextcloudDir . '/tests/lib/MessageQueue/Fixtures',
+		],
+		RemoveEmptyClassMethodRector::class => [
+			$nextcloudDir . '/tests/lib/MessageQueue/Fixtures',
+		],
 	]);

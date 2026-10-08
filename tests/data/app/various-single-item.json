@@ -29,6 +29,7 @@
 		"providers": []
 	},
 	"commands": [],
+	"message-handlers": [],
 	"remote": [],
 	"public": [],
 	"repair-steps": {

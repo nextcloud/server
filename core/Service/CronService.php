@@ -16,6 +16,7 @@ use OC\Authentication\LoginCredentials\Store;
 use OC\BackgroundJob\JobClassesRegistry;
 use OC\BackgroundJob\JobRuns;
 use OC\DB\Connection;
+use OC\MessageQueue\Consumer;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Session\CryptoWrapper;
 use OC\Session\Memory;
@@ -29,6 +30,7 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\ISession;
 use OCP\ITempManager;
+use OCP\MessageQueue\Queue;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -54,6 +56,7 @@ class CronService {
 		private readonly JobRuns $jobRuns,
 		private readonly JobClassesRegistry $jobClassesRegistry,
 		private readonly ISetupManager $setupManager,
+		private readonly Consumer $messageQueueConsumer,
 		private readonly bool $isCLI,
 	) {
 	}
@@ -271,6 +274,11 @@ class CronService {
 			}
 		}
 
+		if ($jobClasses === null) {
+			$queues = $onlyTimeSensitive ? [Queue::High, Queue::Default] : Queue::cases();
+			$this->consumeMessages($queues, max(60, $endTime - time()));
+		}
+
 		// Makes sure last error isn't caught by shutdown function
 		error_clear_last();
 	}
@@ -287,6 +295,27 @@ class CronService {
 				$job->start($this->jobList);
 				$this->jobList->setLastJob($job);
 			}
+			$this->consumeMessages(Queue::cases(), 10);
+		}
+	}
+
+	/**
+	 * @param list<Queue> $queues
+	 */
+	private function consumeMessages(array $queues, int $timeLimit): void {
+		if (!$this->config->getSystemValueBool('message_queue.consume_in_cron', true)) {
+			return;
+		}
+
+		try {
+			$this->messageQueueConsumer->consume(
+				queues: $queues,
+				timeLimit: $timeLimit,
+				stopWhenEmpty: true,
+				output: $this->verboseCallback,
+			);
+		} catch (\Throwable $e) {
+			$this->logger->error('Error while consuming the message queue: ' . $e->getMessage(), ['app' => 'cron', 'exception' => $e]);
 		}
 	}
 

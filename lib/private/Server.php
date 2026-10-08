@@ -95,6 +95,7 @@ use OC\Memcache\ArrayCache;
 use OC\Memcache\Factory;
 use OC\Memcache\NullCache;
 use OC\Memcache\Redis;
+use OC\MessageQueue\MessageBus;
 use OC\Notification\Manager;
 use OC\OCM\Model\OCMProvider;
 use OC\OCM\OCMDiscoveryService;
@@ -251,6 +252,7 @@ use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
 use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
+use OCP\MessageQueue\IMessageBus;
 use OCP\OCM\ICapabilityAwareOCMProvider;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCM\IOCMProvider;
@@ -591,6 +593,7 @@ class Server extends ServerContainer {
 
 		$this->registerAlias(ILogFactory::class, LogFactory::class);
 		$this->registerAlias(IJobList::class, JobList::class);
+		$this->registerAlias(IMessageBus::class, MessageBus::class);
 
 		$this->registerService(Router::class, static function (Server $c) {
 			$cacheFactory = $c->get(ICacheFactory::class);

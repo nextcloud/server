@@ -93,6 +93,9 @@ class InfoParser {
 		if (!array_key_exists('commands', $array)) {
 			$array['commands'] = [];
 		}
+		if (!array_key_exists('message-handlers', $array)) {
+			$array['message-handlers'] = [];
+		}
 		if (!array_key_exists('activity', $array)) {
 			$array['activity'] = [];
 		}
@@ -159,6 +162,9 @@ class InfoParser {
 		}
 		if (isset($array['commands']['command']) && is_array($array['commands']['command'])) {
 			$array['commands'] = $array['commands']['command'];
+		}
+		if (isset($array['message-handlers']['handler']) && is_array($array['message-handlers']['handler'])) {
+			$array['message-handlers'] = $array['message-handlers']['handler'];
 		}
 		if (isset($array['two-factor-providers']['provider']) && is_array($array['two-factor-providers']['provider'])) {
 			$array['two-factor-providers'] = $array['two-factor-providers']['provider'];

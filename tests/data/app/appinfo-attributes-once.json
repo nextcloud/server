@@ -99,6 +99,7 @@
     "commands": {
         "command": "OCA\\AttributesOnce\\Command\\Run"
     },
+    "message-handlers": [],
     "settings": {
         "admin": [
             "OCA\\AttributesOnce\\Settings\\Admin"

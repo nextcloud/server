@@ -74,6 +74,7 @@
     "commands": {
         "command": "OCA\\MultiOnce\\Command\\Migrate"
     },
+    "message-handlers": [],
     "settings": {
         "admin": [
             "OCA\\MultiOnce\\Settings\\Admin"
