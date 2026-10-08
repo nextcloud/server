@@ -69,6 +69,13 @@ class ListCommand extends Base {
 				null,
 				InputOption::VALUE_OPTIONAL,
 				'only get the tasks that ended before a specific date (Unix timestamp)'
+			)
+			->addOption(
+				'limit',
+				'l',
+				InputOption::VALUE_OPTIONAL,
+				'Maximum number of tasks to retrieve (0 for unlimited)',
+				'10'
 			);
 		parent::configure();
 	}
@@ -88,7 +95,15 @@ class ListCommand extends Base {
 		$scheduledAfter = $input->getOption('scheduledAfter') !== null ? (int)$input->getOption('scheduledAfter') : null;
 		$endedBefore = $input->getOption('endedBefore') !== null ? (int)$input->getOption('endedBefore') : null;
 
-		$tasks = $this->taskProcessingManager->getTasks($userIdFilter, $type, $appId, $customId, $status, $scheduledAfter, $endedBefore);
+		$limit = (int)$input->getOption('limit');
+		if ($limit < 0) {
+			$output->writeln('<error>The limit must not be negative</error>');
+			return Base::FAILURE;
+		}
+		// Allow --limit 0 to mean unlimited
+		$actualLimit = ($limit === 0) ? null : $limit;
+
+		$tasks = $this->taskProcessingManager->getTasks($userIdFilter, $type, $appId, $customId, $status, $scheduledAfter, $endedBefore, $actualLimit);
 		$arrayTasks = array_map(static function (Task $task) {
 			$jsonTask = $task->jsonSerialize();
 			$jsonTask['error_message'] = $task->getErrorMessage();
