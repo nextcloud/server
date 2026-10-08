@@ -61,7 +61,7 @@ class UserManagementEventListenerTest extends TestCase {
 	public function testUserEnabled(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('User enabled: "alice"', ['app' => 'admin_audit']);
+			->with('User enabled: "alice"', ['app' => 'admin_audit', 'operation' => 'users.user.enabled']);
 
 		$event = new UserChangedEvent(
 			$this->user,
@@ -76,7 +76,7 @@ class UserManagementEventListenerTest extends TestCase {
 	public function testUserDisabled(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('User disabled: "alice"', ['app' => 'admin_audit']);
+			->with('User disabled: "alice"', ['app' => 'admin_audit', 'operation' => 'users.user.disabled']);
 
 		$event = new UserChangedEvent(
 			$this->user,
@@ -91,7 +91,7 @@ class UserManagementEventListenerTest extends TestCase {
 	public function testUserEmailChanged(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('Email address changed for user alice', ['app' => 'admin_audit']);
+			->with('Email address changed for user alice', ['app' => 'admin_audit', 'operation' => 'users.user.email_changed']);
 
 		$event = new UserChangedEvent(
 			$this->user,
@@ -106,7 +106,7 @@ class UserManagementEventListenerTest extends TestCase {
 	public function testUserCreated(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('User created: "alice"', ['app' => 'admin_audit']);
+			->with('User created: "alice"', ['app' => 'admin_audit', 'operation' => 'users.user.created']);
 
 		$this->listener->handle(new UserCreatedEvent($this->user, 'password'));
 	}
@@ -114,7 +114,7 @@ class UserManagementEventListenerTest extends TestCase {
 	public function testUserDeleted(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('User deleted: "alice"', ['app' => 'admin_audit']);
+			->with('User deleted: "alice"', ['app' => 'admin_audit', 'operation' => 'users.user.deleted']);
 
 		$this->listener->handle(new UserDeletedEvent($this->user));
 	}
@@ -124,7 +124,7 @@ class UserManagementEventListenerTest extends TestCase {
 
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('Password of user "alice" has been changed', ['app' => 'admin_audit']);
+			->with('Password of user "alice" has been changed', ['app' => 'admin_audit', 'operation' => 'users.user.password_changed']);
 
 		$this->listener->handle(new PasswordUpdatedEvent($this->user, 'new-password'));
 	}
@@ -141,7 +141,7 @@ class UserManagementEventListenerTest extends TestCase {
 	public function testUserIdAssigned(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('UserID assigned: "alice"', ['app' => 'admin_audit']);
+			->with('UserID assigned: "alice"', ['app' => 'admin_audit', 'operation' => 'users.user.id_assigned']);
 
 		$this->listener->handle(new UserIdAssignedEvent('alice'));
 	}
@@ -149,7 +149,7 @@ class UserManagementEventListenerTest extends TestCase {
 	public function testUserIdUnassigned(): void {
 		$this->logger->expects($this->once())
 			->method('info')
-			->with('UserID unassigned: "alice"', ['app' => 'admin_audit']);
+			->with('UserID unassigned: "alice"', ['app' => 'admin_audit', 'operation' => 'users.user.id_unassigned']);
 
 		$this->listener->handle(new UserIdUnassignedEvent('alice'));
 	}

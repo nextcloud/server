@@ -55,4 +55,20 @@ class CriticalActionPerformedEventListenerTest extends TestCase {
 
 		$this->listener->handle(new Event());
 	}
+
+	public function testOperationIsPassedThrough(): void {
+		$this->logger->expects($this->once())
+			->method('info')
+			->with(
+				'Federated share with id "42" was accepted',
+				['app' => 'admin_audit', 'operation' => 'federatedfilesharing.share.accepted'],
+			);
+
+		$this->listener->handle(new CriticalActionPerformedEvent(
+			'Federated share with id "%s" was accepted',
+			['42'],
+			false,
+			'federatedfilesharing.share.accepted',
+		));
+	}
 }
