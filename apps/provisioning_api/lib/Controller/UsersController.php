@@ -738,9 +738,7 @@ class UsersController extends AUserDataOCSController {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		$data = $this->getEditableFieldsForUser($currentLoggedInUser->getUID());
-
-		return new DataResponse($data);
+		return $this->getEditableFieldsForUser($currentLoggedInUser->getUID());
 	}
 
 	/**
@@ -852,7 +850,7 @@ class UsersController extends AUserDataOCSController {
 
 		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
 		$isAdminOrSubadmin = $isAdmin
- 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUser);
+			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUser);
 
 		$permittedFields = [];
 
@@ -870,6 +868,7 @@ class UsersController extends AUserDataOCSController {
 				|| (
 					$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 					&& !$this->groupManager->isAdmin($targetUser->getUID())
+					)
 				) {
 				// They have permissions over the user
 				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
@@ -1789,7 +1788,7 @@ class UsersController extends AUserDataOCSController {
 		// Self lookups and full or delegated admins receive all target group memberships.
 		if (
 			$targetUser->getUID() === $currentLoggedInUser->getUID()
-			||  $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+			|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 		) {
 			$groups = array_map(
@@ -1814,7 +1813,7 @@ class UsersController extends AUserDataOCSController {
 		if (!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
-		
+
 		// Return only target membership details in groups administered by the caller.
 		$gids = array_values(array_intersect(
 			array_map(static fn (IGroup $group) => $group->getGID(), $subAdminManager->getSubAdminsGroups($currentLoggedInUser)),
@@ -1835,7 +1834,7 @@ class UsersController extends AUserDataOCSController {
 			$gids,
 		);
 
-		return new DataResponse([ 'groups' => $groups ]);
+		return new DataResponse(['groups' => $groups]);
 	}
 
 	/**
@@ -1882,7 +1881,7 @@ class UsersController extends AUserDataOCSController {
 				},
 				array_values($subAdminManager->getSubAdminsGroups($targetUser)),
 			);
-			return new DataResponse([ 'groups' => $groups ]);
+			return new DataResponse(['groups' => $groups]);
 		}
 		throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 	}
@@ -1929,7 +1928,7 @@ class UsersController extends AUserDataOCSController {
 				$isDelegatedAdmin
 				&& $groupid !== 'admin'
 			)
-			&& !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)
+			&& !$subAdminManager->isSubAdminOfGroup($currentLoggedInUser, $group)
 		) {
 			throw new OCSException('', 104);
 		}
