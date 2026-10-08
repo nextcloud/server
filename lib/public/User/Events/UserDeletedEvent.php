@@ -9,27 +9,25 @@ declare(strict_types=1);
 
 namespace OCP\User\Events;
 
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
 
 /**
  * @since 18.0.0
  */
+#[Listenable(since: '18.0.0')]
 class UserDeletedEvent extends Event {
-	/** @var IUser */
-	private $user;
-
 	/**
-	 * @param IUser $user
 	 * @since 18.0.0
 	 */
-	public function __construct(IUser $user) {
+	public function __construct(
+		private readonly IUser $user,
+	) {
 		parent::__construct();
-		$this->user = $user;
 	}
 
 	/**
-	 * @return IUser
 	 * @since 18.0.0
 	 */
 	public function getUser(): IUser {
