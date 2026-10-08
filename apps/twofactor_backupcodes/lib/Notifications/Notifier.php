@@ -8,8 +8,11 @@ declare(strict_types=1);
  */
 namespace OCA\TwoFactorBackupCodes\Notifications;
 
+use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
@@ -19,6 +22,8 @@ class Notifier implements INotifier {
 	public function __construct(
 		private IFactory $factory,
 		private IURLGenerator $url,
+		private BackupCodesProvider $provider,
+		private IUserManager $userManager,
 	) {
 	}
 
@@ -56,6 +61,16 @@ class Notifier implements INotifier {
 
 		switch ($notification->getSubject()) {
 			case 'create_backupcodes':
+				$user = $this->userManager->get($notification->getUser());
+				if ($user === null) {
+					throw new UnknownNotificationException();
+				}
+				if (!$this->provider->isActive($user)) {
+					// No other 2FA available, so this provider is also not working anymore.
+					// Dismiss the notification.
+					throw new AlreadyProcessedException();
+				}
+
 				$notification->setParsedSubject(
 					$l->t('Generate backup codes')
 				)->setParsedMessage(
