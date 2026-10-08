@@ -432,9 +432,17 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			foreach ($schemaManager->listTableForeignKeys($table) as $foreignKey) {
 				$foreignTable = $foreignKey->getForeignTableName();
 
-				// Ignore references to tables which aren't being converted.
+				// $tables is the complete set of tables being converted.
+				// Every FK parent must therefore be in scope; anything else means the
+				// caller passed an incomplete list or the schema changed underneath us.
 				if (!isset($tableSet[$foreignTable])) {
-					continue;
+					throw new RuntimeException(sprintf(
+						'Foreign key on table "%s" references table "%s", '
+						. 'which is not in the list of tables to convert. '
+						. 'The table list must contain every table being converted.',
+						$table,
+						$foreignTable,
+					));
 				}
 
 				// Ignore self-references. They don't impose an ordering
@@ -477,16 +485,19 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 
 		/*
-		 * A cycle means there is no valid topological ordering.
+		 *  If not all tables were emitted, some subset of them forms a
+		 * dependency cycle (or depends on one). There is no valid
+		 * topological ordering in that case.
 		 *
-		 * Don't silently produce an invalid ordering. Keep the original
-		 * order for the remaining tables; PostgreSQL may still reject
-		 * the conversion, but the failure will accurately expose the
-		 * cyclic dependency rather than being hidden by this sorter.
+		 * $remaining is the set of tables that couldn't be ordered;
+		 * it includes every table involved in a cycle plus anything
+		 * transitively blocked behind one.
 		 */
 		if (count($sortedTables) !== count($tables)) {
 			$remaining = array_diff($tables, $sortedTables);
-			$sortedTables = array_merge($sortedTables, $remaining);
+			throw new RuntimeException(sprintf(
+				'Cyclic foreign key dependency detected among tables: %s', implode(', ', $remaining)
+			));
 		}
 
 		if ($dependenciesFirst) {
