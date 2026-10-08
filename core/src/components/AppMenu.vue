@@ -699,13 +699,6 @@ async function onGridKeydown(event: KeyboardEvent) {
 		mask: var(--app-icon-url) center / contain no-repeat;
 	}
 
-	// Masked backgrounds are not force-adjusted the way <img> is.
-	@media (forced-colors: active) {
-		&__current-app-glyph {
-			background-color: CanvasText;
-		}
-	}
-
 	&__current-app-cog {
 		mask: var(--header-menu-icon-mask);
 	}

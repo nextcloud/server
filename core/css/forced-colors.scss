@@ -1,0 +1,100 @@
+/*!
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+// Custom properties are not remapped in forced-colors mode, and theme
+// stylesheets pin hex tokens on :root and [data-theme-*]. Those tokens then
+// leak into masks, gradients, and author !important colors (header icons
+// stay white on a forced white canvas). System colors are kept as specified.
+// Selectors here outrank the theme rules, which load later.
+// Channel lists (--color-*-rgb) stay numeric: rgba(var(--color-*-rgb), a)
+// cannot take a system color.
+@media (forced-colors: active) {
+	html:root,
+	html body[data-themes],
+	html:root :is(
+		[data-theme-default],
+		[data-theme-light],
+		[data-theme-dark],
+		[data-theme-light-highcontrast],
+		[data-theme-dark-highcontrast]
+	) {
+		// Page and surface backgrounds
+		--color-main-background: Canvas;
+		--color-main-background-translucent: Canvas;
+		--color-main-background-blur: Canvas;
+		--color-background-hover: Canvas;
+		--color-background-dark: Canvas;
+		--color-background-darker: Canvas;
+		--color-background-plain: Canvas;
+		--color-placeholder-light: GrayText;
+		--color-placeholder-dark: GrayText;
+		--color-background-assistant: Canvas;
+		--color-background-selection: Highlight;
+
+		// Text and icons. Header glyphs paint with plain-text.
+		--color-main-text: CanvasText;
+		--color-background-plain-text: AccentColor;
+		--color-text-maxcontrast: GrayText;
+		--color-text-maxcontrast-default: GrayText;
+		--color-text-maxcontrast-background-blur: GrayText;
+		--color-text-error: CanvasText;
+		--color-text-success: CanvasText;
+		--color-text-warning: CanvasText;
+		--color-text-selection: HighlightText;
+
+		// Borders
+		--color-border: ButtonBorder;
+		--color-border-dark: ButtonBorder;
+		--color-border-maxcontrast: ButtonBorder;
+		--color-border-error: ButtonBorder;
+		--color-border-success: ButtonBorder;
+		--color-border-assistant: ButtonBorder;
+
+		// Foreground elements (icons, status marks)
+		--color-element-error: CanvasText;
+		--color-element-info: CanvasText;
+		--color-element-success: CanvasText;
+		--color-element-warning: CanvasText;
+		--color-element-assistant: AccentColor;
+		--color-element-assistant-icon: AccentColor;
+
+		// Status backgrounds stay on the canvas so their text remains readable
+		--color-error: Canvas;
+		--color-error-hover: Canvas;
+		--color-error-text: CanvasText;
+		--color-warning: Canvas;
+		--color-warning-hover: Canvas;
+		--color-warning-text: CanvasText;
+		--color-success: Canvas;
+		--color-success-hover: Canvas;
+		--color-success-text: CanvasText;
+		--color-info: Canvas;
+		--color-info-hover: Canvas;
+		--color-info-text: CanvasText;
+
+		--color-favorite: CanvasText;
+		--color-mark: Mark;
+		--color-loading-light: Canvas;
+		--color-loading-dark: CanvasText;
+		--color-scrollbar: ButtonBorder Canvas;
+		--color-box-shadow: ButtonBorder;
+
+		// Primary actions. AccentColor is a foreground color, so icons that
+		// paint with background-color stay visible on Canvas.
+		--color-primary: AccentColor;
+		--color-primary-text: AccentColorText;
+		--color-primary-hover: AccentColor;
+		--color-primary-element: AccentColor;
+		--color-primary-element-hover: AccentColor;
+		--color-primary-element-text: AccentColorText;
+		--color-primary-element-text-dark: AccentColorText;
+		--color-primary-light: Canvas;
+		--color-primary-light-hover: Canvas;
+		--color-primary-light-text: AccentColor;
+		--color-primary-element-light: Canvas;
+		--color-primary-element-light-text: AccentColor;
+		--color-primary-element-light-hover: Canvas;
+	}
+}
