@@ -78,7 +78,7 @@ class StorageObjectStore implements IObjectStore {
 	}
 
 	#[\Override]
-	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration, ?string $filename = null): ?string {
 		return null;
 	}
 }

@@ -4,18 +4,34 @@
  */
 
 import type { IFileAction, INode, IView } from '@nextcloud/files'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { DefaultType, FileType } from '@nextcloud/files'
+import { getClient } from '@nextcloud/files/dav'
 import { t } from '@nextcloud/l10n'
+import { join } from 'path'
 import { useFilesStore } from '../store/files.ts'
 import { pinia } from '../store/index.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { logger } from '../utils/logger.ts'
 import { isDownloadable } from '../utils/permissions.ts'
+
+/**
+ * Asked only when a single file is downloaded.
+ * Listing every file would sign a URL for the whole folder, and those URLs expire.
+ */
+const directDownloadPropfind = `<?xml version="1.0"?>
+<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+	<d:prop>
+		<d:getetag />
+		<oc:downloadURL />
+		<nc:download-url-expiration />
+	</d:prop>
+</d:propfind>`
 
 export const action: IFileAction = {
 	id: 'download',
@@ -74,15 +90,46 @@ export const action: IFileAction = {
  *
  * @param url The url of the asset to download
  * @param name Optionally the recommended name of the download (browsers might ignore it)
+ * @param checkAvailability Probe the URL with HEAD before navigating to it
  */
-async function triggerDownload(url: string, name?: string) {
-	// try to see if the resource is still available
-	await axios.head(url)
+async function triggerDownload(url: string, name?: string, checkAvailability = true) {
+	// A pre-signed object-storage URL is signed for GET. HEAD against it is rejected.
+	if (checkAvailability) {
+		await axios.head(url)
+	}
 
 	const hiddenElement = document.createElement('a')
 	hiddenElement.download = name ?? ''
 	hiddenElement.href = url
 	hiddenElement.click()
+}
+
+/**
+ * Pre-signed object-storage URL for one file, when the server offers one that is still valid.
+ *
+ * @param node The file to download
+ */
+async function getDirectDownloadUrl(node: INode): Promise<string | null> {
+	try {
+		const response = await getClient().stat(join(node.root, node.path), {
+			details: true,
+			data: directDownloadPropfind,
+		}) as ResponseDataDetailed<FileStat>
+		const props = response.data.props ?? {}
+		const url = props.downloadURL
+		if (typeof url !== 'string' || url === '') {
+			return null
+		}
+
+		const expiration = Number(props['download-url-expiration'])
+		if (Number.isFinite(expiration) && expiration * 1000 <= Date.now()) {
+			return null
+		}
+		return url
+	} catch (error) {
+		logger.debug('Direct download URL is not available, downloading through Nextcloud.', { error })
+		return null
+	}
 }
 
 /**
@@ -125,6 +172,11 @@ async function downloadNodes(nodes: INode[]) {
 
 	if (nodes.length === 1) {
 		if (nodes[0].type === FileType.File) {
+			const directUrl = await getDirectDownloadUrl(nodes[0])
+			if (directUrl) {
+				await triggerDownload(directUrl, nodes[0].displayname, false)
+				return
+			}
 			await triggerDownload(nodes[0].encodedSource, nodes[0].displayname)
 			return
 		} else {

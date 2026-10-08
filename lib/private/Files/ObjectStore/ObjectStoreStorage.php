@@ -939,7 +939,10 @@ class ObjectStoreStorage extends Common implements IChunkedFileWrite {
 	#[Override]
 	public function getDirectDownloadById(string $fileId): array|false {
 		$expiration = new \DateTimeImmutable('+60 minutes');
-		$url = $this->objectStore->preSignedUrl($this->getURN((int)$fileId), $expiration);
+		$cacheEntry = $this->getCache()->get((int)$fileId);
+		$name = $cacheEntry ? $cacheEntry->getName() : null;
+		$filename = is_string($name) && $name !== '' ? $name : null;
+		$url = $this->objectStore->preSignedUrl($this->getURN((int)$fileId), $expiration, $filename);
 		return $url ? ['url' => $url, 'expiration' => $expiration->getTimestamp()] : false;
 	}
 
