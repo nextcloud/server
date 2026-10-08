@@ -91,6 +91,7 @@ class HooksTest extends TestCase {
 
 	public function testEmailChangedMail(): void {
 		$this->user->method('getEMailAddress')->willReturn('new@example.com');
+		$order = [];
 
 		$this->template->expects($this->once())->method('addBodyText')
 			->with('Your email address on https://cloud.example.com/ was changed.');
@@ -102,12 +103,20 @@ class HooksTest extends TestCase {
 					['Previous email address', [[EMailDetailsRow::PART_TEXT, 'old@example.com']]],
 					['New email address', [[EMailDetailsRow::PART_TEXT, 'new@example.com']]],
 				],
-			]));
+			]))
+			->willReturnCallback(function () use (&$order): void {
+				$order[] = 'details';
+			});
 		$this->template->expects($this->once())->method('addBodyNote')
-			->with('If you did not request this, please contact an administrator.', '', IEMailTemplate::NOTE_WARNING);
+			->with('If you did not request this, please contact an administrator.', '', IEMailTemplate::NOTE_WARNING)
+			->willReturnCallback(function () use (&$order): void {
+				$order[] = 'note';
+			});
 		$this->mailer->expects($this->once())->method('send');
 
 		$this->hooks->handle(new UserChangedEvent($this->user, 'eMailAddress', 'new@example.com', 'old@example.com'));
+
+		$this->assertSame(['details', 'note'], $order);
 	}
 
 	public function testEmailRemovedMail(): void {

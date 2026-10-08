@@ -160,6 +160,7 @@ class NewUserMailHelperTest extends TestCase {
 		:root{color-scheme:light dark;supported-color-schemes:light dark}
 		body{margin:0;padding:0;width:100%!important}
 		@media only screen and (max-width:640px){
+			.nc-page-pad{padding:0!important}
 			.nc-card{border-radius:0!important;width:100%!important}
 			.nc-pad{padding-left:20px!important;padding-right:20px!important}
 			.nc-button{display:block!important;margin:0 0 12px 0!important}
@@ -181,7 +182,7 @@ class NewUserMailHelperTest extends TestCase {
 <body class="nc-page" style="-moz-box-sizing:border-box;-ms-text-size-adjust:100%;-webkit-box-sizing:border-box;-webkit-text-size-adjust:100%;Margin:0;background:#f4f4f5;box-sizing:border-box;margin:0;min-width:100%;padding:0;width:100%!important">
 <table role="presentation" class="nc-page" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;border-collapse:collapse;border-spacing:0;width:100%">
 	<tr>
-		<td align="center" style="padding:32px 0">
+		<td class="nc-page-pad" align="center" style="padding:32px 0">
 			<table role="presentation" class="nc-card" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-collapse:separate;border-radius:16px;border-spacing:0;max-width:600px;overflow:hidden;text-align:left;width:600px">				<tr>
 					<td class="nc-pad" style="background:#00679e;padding:24px 36px">
 						<img class="logo" src="" alt="TestCloud" style="-ms-interpolation-mode:bicubic;border:none;display:block;max-height:48px;max-width:200px;outline:0;text-decoration:none;width:auto">
@@ -277,6 +278,7 @@ EOF;
 		:root{color-scheme:light dark;supported-color-schemes:light dark}
 		body{margin:0;padding:0;width:100%!important}
 		@media only screen and (max-width:640px){
+			.nc-page-pad{padding:0!important}
 			.nc-card{border-radius:0!important;width:100%!important}
 			.nc-pad{padding-left:20px!important;padding-right:20px!important}
 			.nc-button{display:block!important;margin:0 0 12px 0!important}
@@ -298,7 +300,7 @@ EOF;
 <body class="nc-page" style="-moz-box-sizing:border-box;-ms-text-size-adjust:100%;-webkit-box-sizing:border-box;-webkit-text-size-adjust:100%;Margin:0;background:#f4f4f5;box-sizing:border-box;margin:0;min-width:100%;padding:0;width:100%!important">
 <table role="presentation" class="nc-page" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;border-collapse:collapse;border-spacing:0;width:100%">
 	<tr>
-		<td align="center" style="padding:32px 0">
+		<td class="nc-page-pad" align="center" style="padding:32px 0">
 			<table role="presentation" class="nc-card" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-collapse:separate;border-radius:16px;border-spacing:0;max-width:600px;overflow:hidden;text-align:left;width:600px">				<tr>
 					<td class="nc-pad" style="background:#00679e;padding:24px 36px">
 						<img class="logo" src="" alt="TestCloud" style="-ms-interpolation-mode:bicubic;border:none;display:block;max-height:48px;max-width:200px;outline:0;text-decoration:none;width:auto">
@@ -398,6 +400,7 @@ EOF;
 		:root{color-scheme:light dark;supported-color-schemes:light dark}
 		body{margin:0;padding:0;width:100%!important}
 		@media only screen and (max-width:640px){
+			.nc-page-pad{padding:0!important}
 			.nc-card{border-radius:0!important;width:100%!important}
 			.nc-pad{padding-left:20px!important;padding-right:20px!important}
 			.nc-button{display:block!important;margin:0 0 12px 0!important}
@@ -419,7 +422,7 @@ EOF;
 <body class="nc-page" style="-moz-box-sizing:border-box;-ms-text-size-adjust:100%;-webkit-box-sizing:border-box;-webkit-text-size-adjust:100%;Margin:0;background:#f4f4f5;box-sizing:border-box;margin:0;min-width:100%;padding:0;width:100%!important">
 <table role="presentation" class="nc-page" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;border-collapse:collapse;border-spacing:0;width:100%">
 	<tr>
-		<td align="center" style="padding:32px 0">
+		<td class="nc-page-pad" align="center" style="padding:32px 0">
 			<table role="presentation" class="nc-card" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-collapse:separate;border-radius:16px;border-spacing:0;max-width:600px;overflow:hidden;text-align:left;width:600px">				<tr>
 					<td class="nc-pad" style="background:#00679e;padding:24px 36px">
 						<img class="logo" src="" alt="TestCloud" style="-ms-interpolation-mode:bicubic;border:none;display:block;max-height:48px;max-width:200px;outline:0;text-decoration:none;width:auto">

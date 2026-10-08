@@ -27,6 +27,9 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 	public const USER_EMAIL = 'frodo@hobb.it';
 	private IMailer&MockObject $mailer;
 
+	/** @var list<string> order of the note and details blocks across all templates */
+	private array $blockOrder = [];
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -123,6 +126,8 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 
 		$vcalendar = $this->getNoAttendeeVCalendar();
 		$this->provider->send($vcalendar->VEVENT, $this->calendarDisplayName, $principalEmailAddresses, $users);
+
+		$this->assertSame(['details', 'note', 'details', 'note'], $this->blockOrder);
 	}
 
 	public function testSendWithAttendeesWhenOwnerIsOrganizer(): void {
@@ -320,11 +325,17 @@ class EmailProviderTest extends AbstractNotificationProviderTestCase {
 						['When', ['weekdayName, datetime - time (UTC)']],
 						['Where', ['Location 123']],
 					];
-			}));
+			}))
+			->willReturnCallback(function (): void {
+				$this->blockOrder[] = 'details';
+			});
 
 		$template->expects($this->once())
 			->method('addBodyNote')
-			->with('DESCRIPTION 456', 'Description');
+			->with('DESCRIPTION 456', 'Description')
+			->willReturnCallback(function (): void {
+				$this->blockOrder[] = 'note';
+			});
 
 		$template->expects($this->once())
 			->method('addFooter')
