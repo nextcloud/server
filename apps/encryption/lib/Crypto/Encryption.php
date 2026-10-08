@@ -255,58 +255,63 @@ class Encryption implements IEncryptionModule {
 	}
 
 	/**
-	 * encrypt data
+	 * Encrypt complete blocks from the data and buffer any trailing partial block.
 	 *
-	 * @param string $data you want to encrypt
-	 * @param int $position
-	 * @return string encrypted data
+	 * @param string $data Plaintext to encrypt
+	 * @param string $position Zero-based index of the first block, as a string.
+	 *                         Subsequent complete blocks use consecutive indexes.
+	 *                         An `end` suffix is applied to the final complete
+	 *                         block when there is no trailing partial block.
+	 * @return string Encrypted complete blocks; a trailing partial block is buffered
+	 *                for a subsequent call or for `end()`.
 	 */
 	#[\Override]
-	public function encrypt($data, $position = 0) {
-		// If extra data is left over from the last round, make sure it
-		// is integrated into the next block
+	public function encrypt($data, $position = '0') {
+		// Prepend any partial plaintext block buffered by the previous call.
 		if ($this->writeCache) {
-			// Concat writeCache to start of $data
 			$data = $this->writeCache . $data;
-
-			// Clear the write cache, ready for reuse - it has been
-			// flushed and its old contents processed
 			$this->writeCache = '';
 		}
 
+		$blockSize = $this->getUnencryptedBlockSize(true);
+		$position = (string)$position;
+		$hasEndSuffix = str_ends_with($position, 'end');
+		if ($hasEndSuffix) {
+			// Keep the terminal marker separate while advancing block indexes.
+			$position = substr($position, 0, -3);
+		}
+		// Precondition: The position is expected to be a base-10 block index string.
+		$blockPosition = (int)$position;
+
+		// A call may contain multiple complete plaintext blocks.
 		$encrypted = '';
-		// While there still remains some data to be processed & written
 		while (strlen($data) > 0) {
-			// Remaining length for this iteration, not of the
-			// entire file (may be greater than 8192 bytes)
+			// Remaining bytes may span multiple blocks.
 			$remainingLength = strlen($data);
 
-			// If data remaining to be written is less than the
-			// size of 1 unencrypted block
-			if ($remainingLength < $this->getUnencryptedBlockSize(true)) {
-				// Set writeCache to contents of $data
-				// The writeCache will be carried over to the
-				// next write round, and added to the start of
-				// $data to ensure that written blocks are
-				// always the correct length. If there is still
-				// data in writeCache after the writing round
-				// has finished, then the data will be written
-				// to disk by $this->flush().
+			if ($remainingLength < $blockSize) {
+				// Buffer the incomplete block to combine with the next call,
+				// or to encrypt as the final block in end().
 				$this->writeCache = $data;
-
-				// Clear $data ready for next round
-				$data = '';
-			} else {
-				// Read the chunk from the start of $data
-				$chunk = substr($data, 0, $this->getUnencryptedBlockSize(true));
-
-				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version + 1, (string)$position);
-
-				// Remove the chunk we just processed from
-				// $data, leaving only unprocessed data in $data
-				// var, for handling on the next round
-				$data = substr($data, $this->getUnencryptedBlockSize(true));
+				break;
 			}
+
+			$chunk = substr($data, 0, $blockSize);
+			$chunkPosition = (string)$blockPosition;
+			if ($hasEndSuffix && $remainingLength === $blockSize) {
+				$chunkPosition .= 'end';
+			}
+
+			// Each complete block must be signed with its own position.
+			$encrypted .= $this->crypt->symmetricEncryptFileContent(
+				$chunk,
+				$this->fileKey,
+				$this->version + 1,
+				$chunkPosition,
+			);
+
+			$blockPosition++;
+			$data = substr($data, $blockSize);
 		}
 
 		return $encrypted;
