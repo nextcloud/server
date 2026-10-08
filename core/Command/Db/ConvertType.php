@@ -345,7 +345,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		for ($chunk = 0; $chunk < $numChunks; $chunk++) {
 			$query->setFirstResult($chunk * $chunkSize);
 
-			 = $query->executeQuery();
+			$result = $query->executeQuery();
 
 			try {
 				$toDB->beginTransaction();
