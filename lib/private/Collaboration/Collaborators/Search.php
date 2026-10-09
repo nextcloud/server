@@ -39,6 +39,9 @@ class Search implements ISearch {
 		/** @var ISearchResult $searchResult */
 		$searchResult = $this->container->resolve(SearchResult::class);
 
+		// confirm lookup server is not empty
+		$lookup = $lookup && !empty($this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com'));
+
 		foreach ($shareTypes as $type) {
 			if (!isset($this->pluginList[$type])) {
 				continue;
