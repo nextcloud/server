@@ -207,6 +207,38 @@ class ViewControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
 
+	public static function dataTestRedirectToFileFolder(): array {
+		return [
+			'files view' => ['files', true],
+			'no view' => ['', true],
+			'personal files' => ['personal', true],
+			// The tags view puts the tag id in dir
+			'tags view' => ['tags', false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataTestRedirectToFileFolder')]
+	public function testRedirectToFileFolder(string $view, bool $redirects): void {
+		$this->viewController->method('getStorageInfo')->willReturn([]);
+		$this->config->method('getUserValue')->willReturnArgument(3);
+
+		$node = $this->createMock(File::class);
+		$node->method('getPath')->willReturn('/testuser1/files/Folder/photo.jpg');
+		$node->method('getParent')->willReturn($this->createMock(Folder::class));
+
+		$baseFolderFiles = $this->createMock(IUserFolder::class);
+		$baseFolderFiles->method('getById')->with(123)->willReturn([$node]);
+		$baseFolderFiles->method('getFirstNodeById')->with(123)->willReturn($node);
+		$baseFolderFiles->method('getRelativePath')->willReturnMap([
+			['/testuser1/files/Folder/photo.jpg', '/Folder/photo.jpg'],
+			['', '/Folder'],
+		]);
+		$this->rootFolder->method('getUserFolder')->with('testuser1')->willReturn($baseFolderFiles);
+
+		$response = $this->viewController->index('/1', $view, '123');
+		$this->assertSame($redirects, $response instanceof RedirectResponse);
+	}
+
 	public static function dataTestShortRedirect(): array {
 		// openfile is true by default
 		// opendetails is undefined by default
