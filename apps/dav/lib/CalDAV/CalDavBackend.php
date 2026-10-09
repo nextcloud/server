@@ -1537,7 +1537,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	#[\Override]
 	public function createCalendarObject($calendarId, $objectUri, $calendarData, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
 		$this->cachedObjects = [];
-		$extraData = $this->getDenormalizedData($calendarData);
+		$extraData = $this->getDenormalizedData($calendarData, $calendarType);
 
 		return $this->atomic(function () use ($calendarId, $objectUri, $calendarData, $extraData, $calendarType) {
 			// Try to detect duplicate uids in the target collection
@@ -1615,7 +1615,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	#[\Override]
 	public function updateCalendarObject($calendarId, $objectUri, $calendarData, $calendarType = self::CALENDAR_TYPE_CALENDAR) {
 		$this->cachedObjects = [];
-		$extraData = $this->getDenormalizedData($calendarData);
+		$extraData = $this->getDenormalizedData($calendarData, $calendarType);
 
 		return $this->atomic(function () use ($calendarId, $objectUri, $calendarData, $extraData, $calendarType) {
 			// Read the object before overwriting it so the update event can carry
@@ -3401,17 +3401,21 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *   * uid - value of the UID property
 	 *
 	 * @param string $calendarData
+	 * @param int $calendarType
 	 * @return array
 	 */
-	public function getDenormalizedData(string $calendarData): array {
+	public function getDenormalizedData(string $calendarData, int $calendarType = self::CALENDAR_TYPE_CALENDAR): array {
 
-		$derived = [
-			'etag' => md5($calendarData),
-			'size' => strlen($calendarData),
-		];
 		// validate data and extract base component
 		/** @var VCalendar $vObject */
 		$vObject = Reader::read($calendarData);
+
+		$derived = [
+			'etag' => $calendarType === self::CALENDAR_TYPE_SUBSCRIPTION
+				? CalendarObjectEtagHelper::computeWithoutDtstamp($vObject)
+				: md5($calendarData),
+			'size' => strlen($calendarData),
+		];
 
 		// Extracts componentType, uid, classification, firstOccurence and lastOccurence from a single event/todo/journal component.
 		// RECURRENCE-ID is irrelevant here: it plays no part in this computation, so it works just as well on a recurrence exception as

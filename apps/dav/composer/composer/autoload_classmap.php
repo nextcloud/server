@@ -59,6 +59,7 @@ return array(
     'OCA\\DAV\\CalDAV\\CalendarImpl' => $baseDir . '/../lib/CalDAV/CalendarImpl.php',
     'OCA\\DAV\\CalDAV\\CalendarManager' => $baseDir . '/../lib/CalDAV/CalendarManager.php',
     'OCA\\DAV\\CalDAV\\CalendarObject' => $baseDir . '/../lib/CalDAV/CalendarObject.php',
+    'OCA\\DAV\\CalDAV\\CalendarObjectEtagHelper' => $baseDir . '/../lib/CalDAV/CalendarObjectEtagHelper.php',
     'OCA\\DAV\\CalDAV\\CalendarProvider' => $baseDir . '/../lib/CalDAV/CalendarProvider.php',
     'OCA\\DAV\\CalDAV\\CalendarRoot' => $baseDir . '/../lib/CalDAV/CalendarRoot.php',
     'OCA\\DAV\\CalDAV\\DefaultCalendarValidator' => $baseDir . '/../lib/CalDAV/DefaultCalendarValidator.php',
