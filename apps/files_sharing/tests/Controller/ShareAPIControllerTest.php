@@ -1018,12 +1018,10 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$file1UserShareOwner = [
-			'type' => IShare::TYPE_USER,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'initiator',
-			'owner' => 'currentUser',
-			'node' => $file1,
-			'id' => 4,
+			...self::getShareWithExpects(nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setShareOwner' => 'currentUser',
+			'setId' => 4,
 		];
 
 		$file1UserShareOwnerExpected = [
@@ -1032,12 +1030,10 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$file1UserShareInitiator = [
-			'type' => IShare::TYPE_USER,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'currentUser',
-			'owner' => 'owner',
-			'node' => $file1,
-			'id' => 8,
+			...self::getShareWithExpects(nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setSharedBy' => 'currentUser',
+			'setId' => 8,
 		];
 
 		$file1UserShareInitiatorExpected = [
@@ -1046,26 +1042,16 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$file1UserShareRecipient = [
-			'type' => IShare::TYPE_USER,
-			'sharedWith' => 'currentUser',
-			'sharedBy' => 'initiator',
-			'owner' => 'owner',
-			'node' => $file1,
-			'id' => 15,
-		];
-
-		$file1UserShareRecipientExpected = [
-			'id' => 15,
-			'share_type' => IShare::TYPE_USER,
+			...self::getShareWithExpects(nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setSharedWith' => 'currentUser',
+			'setId' => 15,
 		];
 
 		$file1UserShareOther = [
-			'type' => IShare::TYPE_USER,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'initiator',
-			'owner' => 'owner',
-			'node' => $file1,
-			'id' => 16,
+			...self::getShareWithExpects(nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setId' => 16,
 		];
 
 		$file1UserShareOtherExpected = [
@@ -1074,12 +1060,10 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$file1GroupShareOwner = [
-			'type' => IShare::TYPE_GROUP,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'initiator',
-			'owner' => 'currentUser',
-			'node' => $file1,
-			'id' => 23,
+			...self::getShareWithExpects(IShare::TYPE_GROUP, nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setShareOwner' => 'currentUser',
+			'setId' => 23,
 		];
 
 		$file1GroupShareOwnerExpected = [
@@ -1088,12 +1072,10 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$file1GroupShareRecipient = [
-			'type' => IShare::TYPE_GROUP,
-			'sharedWith' => 'currentUserGroup',
-			'sharedBy' => 'initiator',
-			'owner' => 'owner',
-			'node' => $file1,
-			'id' => 42,
+			...self::getShareWithExpects(IShare::TYPE_GROUP, nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setSharedWith' => 'currentUserGroup',
+			'setId' => 42,
 		];
 
 		$file1GroupShareRecipientExpected = [
@@ -1101,22 +1083,11 @@ class ShareAPIControllerTest extends TestCase {
 			'share_type' => IShare::TYPE_GROUP,
 		];
 
-		$file1GroupShareOther = [
-			'type' => IShare::TYPE_GROUP,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'initiator',
-			'owner' => 'owner',
-			'node' => $file1,
-			'id' => 108,
-		];
-
 		$file1LinkShareOwner = [
-			'type' => IShare::TYPE_LINK,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'initiator',
-			'owner' => 'currentUser',
-			'node' => $file1,
-			'id' => 415,
+			...self::getShareWithExpects(IShare::TYPE_LINK, nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setShareOwner' => 'currentUser',
+			'setId' => 415,
 		];
 
 		$file1LinkShareOwnerExpected = [
@@ -1125,12 +1096,10 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$file1EmailShareOwner = [
-			'type' => IShare::TYPE_EMAIL,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'initiator',
-			'owner' => 'currentUser',
-			'node' => $file1,
-			'id' => 416,
+			...self::getShareWithExpects(IShare::TYPE_EMAIL, nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setShareOwner' => 'currentUser',
+			'setId' => 416,
 		];
 
 		$file1EmailShareOwnerExpected = [
@@ -1139,12 +1108,10 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$file1CircleShareOwner = [
-			'type' => IShare::TYPE_CIRCLE,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'initiator',
-			'owner' => 'currentUser',
-			'node' => $file1,
-			'id' => 423,
+			...self::getShareWithExpects(IShare::TYPE_CIRCLE, nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setShareOwner' => 'currentUser',
+			'setId' => 423,
 		];
 
 		$file1CircleShareOwnerExpected = [
@@ -1153,12 +1120,10 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$file1RoomShareOwner = [
-			'type' => IShare::TYPE_ROOM,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'initiator',
-			'owner' => 'currentUser',
-			'node' => $file1,
-			'id' => 442,
+			...self::getShareWithExpects(IShare::TYPE_ROOM, nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setShareOwner' => 'currentUser',
+			'setId' => 442,
 		];
 
 		$file1RoomShareOwnerExpected = [
@@ -1167,13 +1132,11 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$file1RemoteShareOwner = [
-			'type' => IShare::TYPE_REMOTE,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'initiator',
-			'owner' => 'currentUser',
-			'expirationDate' => new \DateTime('2000-01-01T01:02:03'),
-			'node' => $file1,
-			'id' => 815,
+			...self::getShareWithExpects(IShare::TYPE_REMOTE, nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setShareOwner' => 'currentUser',
+			'setExpirationDate' => new \DateTime('2000-01-01T01:02:03'),
+			'setId' => 815,
 		];
 
 		$file1RemoteShareOwnerExpected = [
@@ -1182,13 +1145,11 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$file1RemoteGroupShareOwner = [
-			'type' => IShare::TYPE_REMOTE_GROUP,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'initiator',
-			'owner' => 'currentUser',
-			'expirationDate' => new \DateTime('2000-01-01T01:02:03'),
-			'node' => $file1,
-			'id' => 816,
+			...self::getShareWithExpects(IShare::TYPE_REMOTE_GROUP, nodeInfo: false)['methods'],
+			'setNode' => $file1,
+			'setShareOwner' => 'currentUser',
+			'setExpirationDate' => new \DateTime('2000-01-01T01:02:03'),
+			'setId' => 816,
 		];
 
 		$file1RemoteGroupShareOwnerExpected = [
@@ -1197,12 +1158,10 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$file2UserShareOwner = [
-			'type' => IShare::TYPE_USER,
-			'sharedWith' => 'recipient',
-			'sharedBy' => 'initiator',
-			'owner' => 'currentUser',
-			'node' => $file2,
-			'id' => 823,
+			...self::getShareWithExpects(nodeInfo: false)['methods'],
+			'setNode' => $file2,
+			'setShareOwner' => 'currentUser',
+			'setId' => 823,
 		];
 
 		$file2UserShareOwnerExpected = [
@@ -1544,52 +1503,8 @@ class ShareAPIControllerTest extends TestCase {
 			fn ($sharesByType) => array_map(
 				fn ($shareList) => array_map(
 					function (array $shareParams): IShare {
-						$share = Server::get(IManager::class)->newShare();
-						$share->setShareType($shareParams['type'])
-							->setSharedBy($shareParams['sharedBy'])
-							->setShareOwner($shareParams['owner'])
-							->setPermissions(Constants::PERMISSION_READ)
-							->setId($shareParams['id']);
-						if (isset($shareParams['sharedWith'])) {
-							$share->setSharedWith($shareParams['sharedWith']);
-						}
-						if (isset($shareParams['sharedWithDisplayName'])) {
-							$share->setSharedWithDisplayName($shareParams['sharedWithDisplayName']);
-						}
-						if (isset($shareParams['sharedWithAvatar'])) {
-							$share->setSharedWithAvatar($shareParams['sharedWithAvatar']);
-						}
-						if (isset($shareParams['attributes'])) {
-							$shareAttributes = $this->createMock(IShareAttributes::class);
-							$shareAttributes->method('toArray')->willReturn($shareParams['attributes']);
-							$shareAttributes->method('getAttribute')->with('permissions', 'download')->willReturn(true);
-							$share->setAttributes($shareAttributes);
-
-							$expects['attributes'] = \json_encode($shareParams['attributes']);
-						}
-						if (isset($shareParams['node'])) {
-							$node = $this->mockSimpleNode(...$shareParams['node']);
-							$share->setNode($node);
-						}
-						if (isset($shareParams['note'])) {
-							$share->setNote($shareParams['note']);
-						}
-						if (isset($shareParams['expirationDate'])) {
-							$share->setExpirationDate($shareParams['expirationDate']);
-						}
-						if (isset($shareParams['token'])) {
-							$share->setToken($shareParams['token']);
-						}
-						if (isset($shareParams['label'])) {
-							$share->setLabel($shareParams['label']);
-						}
-						if (isset($shareParams['password'])) {
-							$share->setPassword($shareParams['password']);
-						}
-						if (isset($shareParams['sendPasswordByTalk'])) {
-							$share->setSendPasswordByTalk($shareParams['sendPasswordByTalk']);
-						}
-						return $share;
+						$shareParams['setNode'] = $this->mockSimpleNode(...$shareParams['setNode']);
+						return $this->getConfiguredShare($shareParams);
 					},
 					$shareList
 				),
@@ -3687,6 +3602,120 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 
+	/**
+	 * @param IShare::TYPE_* $shareType
+	 * @param array|null|false $nodeInfo a node configuration array {@see self::createMockNode()}, null for the default $file, false for no node
+	 * @param bool $withAttributes whether to add share attributes or not
+	 * @return array dictionary with methods key a dictionary of IShare methods and their return values, and expects key an array representing the expected formatted share
+	 */
+	private static function getShareWithExpects(int $shareType = IShare::TYPE_USER, array|null|false $nodeInfo = null, bool $withAttributes = false): array {
+		$file = [
+			'class' => File::class,
+			'mimeType' => 'myMimeType',
+			'path' => 'file',
+			'id' => 3,
+			'permissions' => Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE
+		];
+
+		$nodeInfo ??= $file;
+		$setNodeMethod = $nodeInfo === false ? [] : ['setNode' => $nodeInfo ];
+
+		$setAttributesMethod = $withAttributes === true ? [
+			'setAttributes' => [
+				'scope' => 'permissions',
+				'key' => 'download',
+				'value' => true
+			]
+		] : [];
+
+		$setSharedWithMethod = $shareType !== IShare::TYPE_LINK ? ['setSharedWith' => 'recipient'] : [];
+
+		$shareMethods = [
+			'setId' => 42,
+			'setSharedBy' => 'initiator',
+			'setShareType' => $shareType,
+			'setShareOwner' => 'owner',
+			'setShareTime' => new \DateTime('2000-01-01T00:01:02'),
+			'setPermissions' => Constants::PERMISSION_READ,
+			'setTarget' => 'myTarget',
+			'setNote' => 'personal note',
+			...$setSharedWithMethod,
+			...$setNodeMethod,
+			...$setAttributesMethod,
+		];
+
+		$nodeExpectations = [];
+		if ($nodeInfo !== false) {
+			$nodeExpectations['item_source'] = $nodeInfo['id'];
+			$nodeExpectations['file_source'] = $nodeExpectations['item_source'];
+			$nodeExpectations['path'] = $nodeInfo['path'];
+			$nodeExpectations['item_type'] = $nodeInfo['class'] === File::class ? 'file' : 'folder';
+			$nodeExpectations['mimetype'] = $nodeInfo['mimeType'];
+		}
+
+		$attributesExpectations = $withAttributes ? [
+			'attributes' => '{"scope":"permissions","key":"download","value":true}',
+		] : ['attributes' => null];
+
+		$linkExpectations = $shareType === IShare::TYPE_LINK ? [
+			'share_with_displayname' => '(Shared link)',
+			'send_password_by_talk' => false,
+		] : [];
+		$mailExpectations = $shareType === IShare::TYPE_EMAIL ? [
+			'send_password_by_talk' => false,
+		] : [];
+
+		$expectations = [
+			'id' => '42',
+			'share_type' => $shareType,
+			'uid_owner' => 'initiator',
+			'displayname_owner' => 'initiator',
+			'permissions' => 1,
+			'stime' => 946684862,
+			'parent' => null,
+			'expiration' => null,
+			'token' => null,
+			'uid_file_owner' => 'owner',
+			'displayname_file_owner' => 'owner',
+			'path' => 'file',
+			'storage_id' => 'storageId',
+			'storage' => 100,
+			'file_parent' => 1,
+			'file_target' => 'myTarget',
+			'share_with' => 'recipient',
+			'share_with_displayname' => 'recipient',
+			'note' => 'personal note',
+			'label' => '',
+			'mail_send' => 0,
+			'mimetype' => 'myMimeType',
+			'has_preview' => false,
+			'hide_download' => 0,
+			'can_edit' => false,
+			'can_delete' => false,
+			'item_size' => 123456,
+			'item_mtime' => 1234567890,
+			'is-mount-root' => false,
+			'mount-type' => '',
+			'item_permissions' => 1,
+			...$attributesExpectations,
+			...$nodeExpectations,
+			...$linkExpectations,
+			...$mailExpectations,
+		];
+
+		return ['methods' => $shareMethods, 'expects' => $expectations];
+	}
+
+	private static function formatShareCase(
+		array $methodsWithExpects,
+		array $extraMethods = [],
+		array $extraExpects = [],
+		array $users = [],
+		bool $exception = false,
+	): array {
+		return [[ ...$methodsWithExpects['expects'], ...$extraExpects], [ ...$methodsWithExpects['methods'], ...$extraMethods],  $users, $exception];
+	}
+
 	public static function dataFormatShare(): array {
 		$owner = ['getDisplayName' => 'ownerDN'];
 		$initiator = ['getDisplayName' => 'initiatorDN'];
@@ -3695,826 +3724,355 @@ class ShareAPIControllerTest extends TestCase {
 			'getSystemEMailAddress' => 'recipient'
 		];
 
+		$nodePermissions = Constants::PERMISSION_READ | Constants::PERMISSION_CREATE | Constants::PERMISSION_UPDATE;
 		$folder = [
 			'class' => Folder::class,
 			'mimeType' => 'myFolderMimeType',
 			'path' => 'folder',
 			'id' => 2,
-		];
-		$file = [
-			'class' => File::class,
-			'mimeType' => 'myMimeType',
-			'path' => 'file',
-			'id' => 3,
+			'permissions' => $nodePermissions,
 		];
 		$fileWithPreview = [
 			'class' => File::class,
 			'mimeType' => 'mimeWithPreview',
 			'path' => 'fileWithPreview',
 			'id' => 4,
+			'permissions' => $nodePermissions,
 		];
 
 		$result = [];
 
-		$share = [
-			'type' => IShare::TYPE_USER,
-			'owner' => 'owner',
-			'sharedWith' => 'recipient',
-			'attributes' => [
-				'scope' => 'permissions',
-				'key' => 'download',
-				'value' => true
-			],
-			'node' => $file,
-			'note' => 'personal note',
+		$shareWithExpects = self::getShareWithExpects(withAttributes: true);
+		$expects = ['share_with_displayname_unique' => 'recipient'];
+
+		$result['User share with user backend down'] = self::formatShareCase($shareWithExpects, extraExpects: $expects);
+
+		// User backend up
+		$shareWithExpects = self::getShareWithExpects(withAttributes: true);
+		$expects = [
+			'displayname_owner' => 'initiatorDN',
+			'displayname_file_owner' => 'ownerDN',
+			'share_with_displayname_unique' => 'recipient',
+			'share_with_displayname' => 'recipientDN',
 		];
 
-		// User backend down
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_USER,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'path' => 'file',
-				'item_type' => 'file',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 3,
-				'file_source' => 3,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'recipient',
-				'share_with_displayname' => 'recipient',
-				'share_with_displayname_unique' => 'recipient',
-				'note' => 'personal note',
-				'label' => '',
-				'mail_send' => 0,
-				'mimetype' => 'myMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => '[{"scope":"permissions","key":"download","value":true}]',
-				'item_permissions' => 1,
-			],
-			$share,
-			[], false
-		];
-		// User backend up
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_USER,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiatorDN',
-				'permissions' => 1,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'ownerDN',
-				'note' => 'personal note',
-				'label' => '',
-				'path' => 'file',
-				'item_type' => 'file',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 3,
-				'file_source' => 3,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'recipient',
-				'share_with_displayname' => 'recipientDN',
-				'share_with_displayname_unique' => 'recipient',
-				'mail_send' => 0,
-				'mimetype' => 'myMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => '[{"scope":"permissions","key":"download","value":true}]',
-				'item_permissions' => 1,
-			], $share, [
+		$result['User share with user backend up and attributes'] = self::formatShareCase($shareWithExpects,
+			extraExpects: $expects,
+			users: [
 				['owner', $owner],
 				['initiator', $initiator],
 				['recipient', $recipient],
-			], false
-		];
+			]);
 
 		// Same but no attributes
-		$share = [
-			'type' => IShare::TYPE_USER,
-			'owner' => 'owner',
-			'sharedWith' => 'recipient',
-			'node' => $file,
-			'note' => 'personal note',
-		];
+		$shareWithExpects = self::getShareWithExpects();
+		$expects = ['share_with_displayname_unique' => 'recipient'];
 
 		// User backend down
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_USER,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'attributes' => null,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => 'personal note',
-				'label' => '',
-				'path' => 'file',
-				'item_type' => 'file',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 3,
-				'file_source' => 3,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'recipient',
-				'share_with_displayname' => 'recipient',
-				'share_with_displayname_unique' => 'recipient',
-				'mail_send' => 0,
-				'mimetype' => 'myMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-			], $share, [], false
+		$result['User share with user backend down, no share attributes'] = self::formatShareCase($shareWithExpects, extraExpects: $expects);
+
+		$shareWithExpects = self::getShareWithExpects();
+		$methods = [ 'setShareOwner' => 'currentUser'];
+		$expects = [
+			'uid_file_owner' => 'currentUser',
+			'displayname_file_owner' => 'currentUser',
+			'share_with_displayname_unique' => 'recipient',
+			'can_edit' => true,
+			'can_delete' => true,
+			'item_permissions' => 11,
 		];
 
-		$share['owner'] = 'currentUser';
-
-		// User backend down
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_USER,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'attributes' => null,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'currentUser',
-				'displayname_file_owner' => 'currentUser',
-				'note' => 'personal note',
-				'label' => '',
-				'path' => 'file',
-				'item_type' => 'file',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 3,
-				'file_source' => 3,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'recipient',
-				'share_with_displayname' => 'recipient',
-				'share_with_displayname_unique' => 'recipient',
-				'mail_send' => 0,
-				'mimetype' => 'myMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => true,
-				'can_delete' => true,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 11,
-			], $share, [], false
-		];
+		$result['User share with user backend down, currentUser owns share'] = self::formatShareCase($shareWithExpects, $methods, $expects);
 
 		// with existing group
-		$share = [
-			'type' => IShare::TYPE_GROUP,
-			'owner' => 'owner',
-			'sharedWith' => 'recipientGroup',
-			'node' => $file,
-			'note' => 'personal note',
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_GROUP);
+		$methods = [
+			'setSharedWith' => 'recipientGroup',
+		];
+		$expects = [
+			'share_with' => 'recipientGroup',
+			'share_with_displayname' => 'recipientGroupDisplayName',
 		];
 
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_GROUP,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'attributes' => null,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => 'personal note',
-				'label' => '',
-				'path' => 'file',
-				'item_type' => 'file',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 3,
-				'file_source' => 3,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'recipientGroup',
-				'share_with_displayname' => 'recipientGroupDisplayName',
-				'mail_send' => 0,
-				'mimetype' => 'myMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-			], $share, [], false
-		];
+		$result['Group share with existing group'] = self::formatShareCase($shareWithExpects, $methods, $expects);
 
 		// with unknown group / no group backend
-		$share['sharedWith'] = 'recipientGroup2';
-
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_GROUP,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => 'personal note',
-				'label' => '',
-				'path' => 'file',
-				'item_type' => 'file',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 3,
-				'file_source' => 3,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'recipientGroup2',
-				'share_with_displayname' => 'recipientGroup2',
-				'mail_send' => 0,
-				'mimetype' => 'myMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-			], $share, [], false
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_GROUP);
+		$methods = [ 'setSharedWith' => 'recipientGroup2'];
+		$expects = [
+			'share_with' => 'recipientGroup2',
+			'share_with_displayname' => 'recipientGroup2',
 		];
 
-		$share = [
-			'type' => IShare::TYPE_LINK,
-			'owner' => 'owner',
-			'node' => $file,
-			'note' => 'personal note',
-			'password' => 'mypassword',
-			'expirationDate' => new \DateTime('2001-01-02T00:00:00'),
-			'token' => 'myToken',
+		$result['Group share with unknown group or group with no backend'] = self::formatShareCase($shareWithExpects, $methods, $expects);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_LINK);
+		$methods = [
+			'setPassword' => 'mypassword',
+			'setExpirationDate' => new \DateTime('2001-01-02T00:00:00'),
+			'setToken' => 'myToken',
+			'setLabel' => 'new link share',
+		];
+		$expects = [
+			'password' => 'redacted',
+			'expiration' => '2001-01-02 00:00:00',
+			'token' => null,
+			'url' => null,
 			'label' => 'new link share',
+			'share_with' => 'redacted',
 		];
 
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_LINK,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'attributes' => null,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => '2001-01-02 00:00:00',
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => 'personal note',
-				'label' => 'new link share',
-				'path' => 'file',
-				'item_type' => 'file',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 3,
-				'file_source' => 3,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'password' => 'redacted',
-				'share_with' => 'redacted',
-				'share_with_displayname' => '(Shared link)',
-				'send_password_by_talk' => false,
-				'mail_send' => 0,
-				'url' => null,
-				'mimetype' => 'myMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-			], $share, [], false
+		$result['Link share'] = self::formatShareCase($shareWithExpects, $methods, $expects);
+
+		$methods['setSendPasswordByTalk'] = true;
+		$expects['send_password_by_talk'] = true;
+
+		$result['Link share with send password by talk'] = self::formatShareCase($shareWithExpects, $methods, $expects);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_LINK);
+		$methods = [
+			'setSharedBy' => 'currentUser',
+			'setToken' => 'myToken',
+		];
+		$expects = [
+			'uid_owner' => 'currentUser',
+			'displayname_owner' => 'currentUser',
+			'token' => 'myToken',
+			'share_with' => null,
+			'can_edit' => true,
+			'can_delete' => true,
+			'item_permissions' => 11,
+			'url' => 'myLink',
+			'password' => null,
 		];
 
-		$share['sendPasswordByTalk'] = true;
+		$result['Link share with current user as initiator'] = self::formatShareCase($shareWithExpects, $methods, $expects);
 
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_LINK,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => '2001-01-02 00:00:00',
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => 'personal note',
-				'label' => 'new link share',
-				'path' => 'file',
-				'item_type' => 'file',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 3,
-				'file_source' => 3,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'password' => 'redacted',
-				'share_with' => 'redacted',
-				'share_with_displayname' => '(Shared link)',
-				'send_password_by_talk' => true,
-				'mail_send' => 0,
-				'url' => null,
-				'mimetype' => 'myMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-			], $share, [], false
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_LINK);
+		$methods = [
+			'setShareOwner' => 'currentUser',
+			'setToken' => 'myToken',
+		];
+		$expects = [
+			'token' => 'myToken',
+			'share_with' => null,
+			'can_edit' => true,
+			'can_delete' => true,
+			'url' => 'myLink',
+			'password' => null,
+			'uid_file_owner' => 'currentUser',
+			'displayname_file_owner' => 'currentUser',
+			'item_permissions' => 7,
 		];
 
-		$share = [
-			'type' => IShare::TYPE_REMOTE,
-			'owner' => 'owner',
-			'sharedWith' => 'user@server.com',
-			'node' => $folder,
-			'note' => 'personal note',
-			'expirationDate' => new \DateTime('2001-02-03T04:05:06'),
+		$users = [[ 'currentUser', ['getDisplayName' => 'currentUser']]];
+		$result['Link share with current user as file owner'] = self::formatShareCase($shareWithExpects, $methods, $expects, $users);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_LINK);
+		$methods = [
+			'setSharedBy' => 'currentUser',
+			'setToken' => 'myToken',
+			'setPermissions' => Constants::PERMISSION_ALL,
+		];
+		$expects = [
+			'share_with' => null,
+			'can_edit' => true,
+			'can_delete' => true,
+			'password' => null,
+			'uid_owner' => 'currentUser',
+			'displayname_owner' => 'currentUser',
+			'permissions' => 31,
+			'item_permissions' => 31,
+			'token' => null,
+			'url' => null,
 		];
 
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_REMOTE,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => '2001-02-03 04:05:06',
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => 'personal note',
-				'label' => '',
-				'path' => 'folder',
-				'item_type' => 'folder',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 2,
-				'file_source' => 2,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'user@server.com',
-				'share_with_displayname' => 'foobar',
-				'mail_send' => 0,
-				'mimetype' => 'myFolderMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-				'is_trusted_server' => false,
-			], $share, [], false
+		$users = [['currentUser', ['getDisplayName' => 'currentUser']]];
+		$result['Link share with current user as initiator and share permissions higher than node permissions'] = self::formatShareCase($shareWithExpects, $methods, $expects, $users);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_REMOTE, $folder);
+		$methods = [
+			'setSharedWith' => 'user@server.com',
+			'setExpirationDate' => new \DateTime('2001-02-03T04:05:06'),
+		];
+		$expects = [
+			'expiration' => '2001-02-03 04:05:06',
+			'share_with' => 'user@server.com',
+			'share_with_displayname' => 'foobar',
+			'is_trusted_server' => false,
 		];
 
-		$share = [
-			'type' => IShare::TYPE_REMOTE_GROUP,
-			'owner' => 'owner',
-			'sharedWith' => 'user@server.com',
-			'node' => $folder,
-			'note' => 'personal note',
-			'expirationDate' => new \DateTime('2001-02-03T04:05:06'),
+		$result['Remote share'] = self::formatShareCase($shareWithExpects, $methods, $expects);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_REMOTE_GROUP, $folder);
+		$methods = [
+			'setSharedWith' => 'user@server.com',
+			'setExpirationDate' => new \DateTime('2001-02-03T04:05:06'),
+		];
+		$expects = [
+			'expiration' => '2001-02-03 04:05:06',
+			'share_with' => 'user@server.com',
+			'share_with_displayname' => 'foobar',
+			'is_trusted_server' => false,
 		];
 
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_REMOTE_GROUP,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => '2001-02-03 04:05:06',
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => 'personal note',
-				'label' => '',
-				'path' => 'folder',
-				'item_type' => 'folder',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 2,
-				'file_source' => 2,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'user@server.com',
-				'share_with_displayname' => 'foobar',
-				'mail_send' => 0,
-				'mimetype' => 'myFolderMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-				'is_trusted_server' => false,
-			], $share, [], false
-		];
+		$result['Remote group share'] = self::formatShareCase($shareWithExpects, $methods, $expects);
 
 		// Circle with id, display name and avatar set by the Circles app
-		$share = [
-			'type' => IShare::TYPE_CIRCLE,
-			'owner' => 'owner',
-			'sharedWith' => 'Circle (Public circle, circleOwner) [4815162342]',
-			'sharedWithDisplayName' => 'The display name',
-			'sharedWithAvatar' => 'path/to/the/avatar',
-			'node' => $folder,
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_CIRCLE, $folder);
+		$methods = [
+			'setSharedWith' => 'Circle (Public circle, circleOwner) [4815162342]',
+			'setSharedWithDisplayName' => 'The display name',
+			'setSharedWithAvatar' => 'path/to/the/avatar',
+			'setNote' => '',
+		];
+		$expects = [
+			'note' => '',
+			'share_with' => '4815162342',
+			'share_with_displayname' => 'The display name',
+			'share_with_avatar' => 'path/to/the/avatar',
 		];
 
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_CIRCLE,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'attributes' => null,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => '',
-				'label' => '',
-				'path' => 'folder',
-				'item_type' => 'folder',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 2,
-				'file_source' => 2,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => '4815162342',
-				'share_with_displayname' => 'The display name',
-				'share_with_avatar' => 'path/to/the/avatar',
-				'mail_send' => 0,
-				'mimetype' => 'myFolderMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-			], $share, [], false
-		];
+		$result['Circle with id, display name and avatar set by the Circles app'] = self::formatShareCase($shareWithExpects, $methods, $expects);
 
 		// Circle with id set by the Circles app
-		$share = [
-			'type' => IShare::TYPE_CIRCLE,
-			'owner' => 'owner',
-			'sharedWith' => 'Circle (Public circle, circleOwner) [4815162342]',
-			'node' => $folder,
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_CIRCLE, $folder);
+		$methods = [
+			'setSharedWith' => 'Circle (Public circle, circleOwner) [4815162342]',
+			'setNote' => '',
+		];
+		$expects = [
+			'share_with' => '4815162342',
+			'share_with_displayname' => 'Circle (Public circle, circleOwner)',
+			'share_with_avatar' => '',
+			'note' => '',
 		];
 
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_CIRCLE,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => '',
-				'label' => '',
-				'path' => 'folder',
-				'item_type' => 'folder',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 2,
-				'file_source' => 2,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => '4815162342',
-				'share_with_displayname' => 'Circle (Public circle, circleOwner)',
-				'share_with_avatar' => '',
-				'mail_send' => 0,
-				'mimetype' => 'myFolderMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-			], $share, [], false
-		];
+		$result['Circle with id set by the Circles app'] = self::formatShareCase($shareWithExpects, $methods, $expects);
 
 		// Circle with id not set by the Circles app
-		$share = [
-			'type' => IShare::TYPE_CIRCLE,
-			'owner' => 'owner',
-			'sharedWith' => 'Circle (Public circle, circleOwner)',
-			'node' => $folder,
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_CIRCLE, $folder);
+		$methods = [
+			'setSharedWith' => 'Circle (Public circle, circleOwner)',
+			'setNote' => '',
+		];
+		$expects = [
+			'note' => '',
+			'share_with' => 'Circle',
+			'share_with_displayname' => 'Circle (Public circle, circleOwner)',
+			'share_with_avatar' => '',
 		];
 
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_CIRCLE,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => '',
-				'label' => '',
-				'path' => 'folder',
-				'item_type' => 'folder',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 2,
-				'file_source' => 2,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'Circle',
-				'share_with_displayname' => 'Circle (Public circle, circleOwner)',
-				'share_with_avatar' => '',
-				'mail_send' => 0,
-				'mimetype' => 'myFolderMimeType',
-				'has_preview' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-			], $share, [], false
-		];
+		$result['Circle with id not set by the Circles app'] = self::formatShareCase($shareWithExpects, $methods, $expects);
 
 		// No node
-		$share = [
-			'type' => IShare::TYPE_USER,
-			'owner' => 'owner',
-			'sharedWith' => 'recipient',
-			'note' => 'personal note',
+		$shareWithExpects = self::getShareWithExpects(nodeInfo: false);
+		$result['No node'] = self::formatShareCase($shareWithExpects, exception: true);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_EMAIL, $folder);
+		$methods = [
+			'setSharedWith' => 'user@server.com',
+			'setPassword' => 'password',
+			'setNote' => '',
+		];
+		$expects = [
+			'note' => '',
+			'share_with' => 'user@server.com',
+			'share_with_displayname' => 'mail display name',
+			'password' => 'redacted',
+			'password_expiration_time' => null,
 		];
 
-		$result[] = [
-			[], $share, [], true
+		$result['Mail share'] = self::formatShareCase($shareWithExpects, $methods, $expects);
+
+		$methods['setSendPasswordByTalk'] = true;
+		$expects['send_password_by_talk'] = true;
+
+		$result['Mail share with send password by talk'] = self::formatShareCase($shareWithExpects, $methods, $expects);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_EMAIL);
+		$methods = [
+			'setSharedWith' => 'user@server.com',
+			'setSharedBy' => 'currentUser',
+			'setToken' => 'myToken',
+		];
+		$expects = [
+			'share_with' => 'user@server.com',
+			'share_with_displayname' => 'mail display name',
+			'uid_owner' => 'currentUser',
+			'displayname_owner' => 'currentUser',
+			'token' => 'myToken',
+			'can_edit' => true,
+			'can_delete' => true,
+			'item_permissions' => 11,
+			'password' => null,
+			'password_expiration_time' => null,
 		];
 
-		$share = [
-			'type' => IShare::TYPE_EMAIL,
-			'owner' => 'owner',
-			'sharedWith' => 'user@server.com',
-			'node' => $folder,
-			'password' => 'password',
+		$result['Mail share with current user as initiator and token'] = self::formatShareCase($shareWithExpects, $methods, $expects);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_EMAIL);
+		$methods = [
+			'setSharedWith' => 'user@server.com',
+			'setShareOwner' => 'currentUser',
+			'setToken' => 'myToken',
+		];
+		$expects = [
+			'share_with' => 'user@server.com',
+			'share_with_displayname' => 'mail display name',
+			'uid_file_owner' => 'currentUser',
+			'displayname_file_owner' => 'currentUser',
+			'token' => 'myToken',
+			'can_edit' => true,
+			'can_delete' => true,
+			'item_permissions' => 7,
+			'password' => null,
+			'password_expiration_time' => null,
 		];
 
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_EMAIL,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => '',
-				'label' => '',
-				'path' => 'folder',
-				'item_type' => 'folder',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 2,
-				'file_source' => 2,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'user@server.com',
-				'share_with_displayname' => 'mail display name',
-				'mail_send' => 0,
-				'mimetype' => 'myFolderMimeType',
-				'has_preview' => false,
-				'password' => 'redacted',
-				'send_password_by_talk' => false,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'password_expiration_time' => null,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-			], $share, [], false
+		$users = [[ 'currentUser', [ 'getDisplayName' => 'currentUser' ]],];
+		$result['Mail share with current user as file owner'] = self::formatShareCase($shareWithExpects, $methods, $expects, $users);
+
+		$shareWithExpects = self::getShareWithExpects(IShare::TYPE_EMAIL);
+		$methods = [
+			'setSharedWith' => 'user@server.com',
+			'setSharedBy' => 'currentUser',
+			'setToken' => 'myToken',
+			'setPermissions' => Constants::PERMISSION_ALL,
+		];
+		$expects = [
+			'share_with' => 'user@server.com',
+			'share_with_displayname' => 'mail display name',
+			'uid_owner' => 'currentUser',
+			'displayname_owner' => 'currentUser',
+			'token' => null,
+			'can_edit' => true,
+			'can_delete' => true,
+			'permissions' => 31,
+			'item_permissions' => 31,
+			'password' => null,
+			'password_expiration_time' => null,
 		];
 
-		$share['sendPasswordByTalk'] = true;
-
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_EMAIL,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'owner',
-				'displayname_file_owner' => 'owner',
-				'note' => '',
-				'label' => '',
-				'path' => 'folder',
-				'item_type' => 'folder',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 2,
-				'file_source' => 2,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'user@server.com',
-				'share_with_displayname' => 'mail display name',
-				'mail_send' => 0,
-				'mimetype' => 'myFolderMimeType',
-				'has_preview' => false,
-				'password' => 'redacted',
-				'send_password_by_talk' => true,
-				'hide_download' => 0,
-				'can_edit' => false,
-				'can_delete' => false,
-				'password_expiration_time' => null,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 1,
-			], $share, [], false
-		];
+		$users = [['currentUser', ['getDisplayName' => 'currentUser']]];
+		$result['Mail share with current user as initiator and share permissions higher than node permissions'] = self::formatShareCase($shareWithExpects, $methods, $expects, $users);
 
 		// Preview is available
-		$share = [
-			'type' => IShare::TYPE_USER,
-			'owner' => 'currentUser',
-			'sharedWith' => 'recipient',
-			'node' => $fileWithPreview,
-			'note' => 'personal note',
+		$shareWithExpects = self::getShareWithExpects(nodeInfo: $fileWithPreview);
+		$methods = [
+			'setShareOwner' => 'currentUser',
+		];
+		$expects = [
+			'uid_file_owner' => 'currentUser',
+			'displayname_file_owner' => 'currentUser',
+			'share_with_displayname_unique' => 'recipient',
+			'has_preview' => true,
+			'can_edit' => true,
+			'can_delete' => true,
+			'item_permissions' => 11,
 		];
 
-		$result[] = [
-			[
-				'id' => '42',
-				'share_type' => IShare::TYPE_USER,
-				'uid_owner' => 'initiator',
-				'displayname_owner' => 'initiator',
-				'permissions' => 1,
-				'stime' => 946684862,
-				'parent' => null,
-				'expiration' => null,
-				'token' => null,
-				'uid_file_owner' => 'currentUser',
-				'displayname_file_owner' => 'currentUser',
-				'note' => 'personal note',
-				'label' => '',
-				'path' => 'fileWithPreview',
-				'item_type' => 'file',
-				'storage_id' => 'storageId',
-				'storage' => 100,
-				'item_source' => 4,
-				'file_source' => 4,
-				'file_parent' => 1,
-				'file_target' => 'myTarget',
-				'share_with' => 'recipient',
-				'share_with_displayname' => 'recipient',
-				'share_with_displayname_unique' => 'recipient',
-				'mail_send' => 0,
-				'mimetype' => 'mimeWithPreview',
-				'has_preview' => true,
-				'hide_download' => 0,
-				'can_edit' => true,
-				'can_delete' => true,
-				'item_size' => 123456,
-				'item_mtime' => 1234567890,
-				'is-mount-root' => false,
-				'mount-type' => '',
-				'attributes' => null,
-				'item_permissions' => 11,
-			], $share, [], false
-		];
+		$result['With preview available'] = self::formatShareCase($shareWithExpects, $methods, $expects);
 
 		return $result;
 	}
@@ -4529,6 +4087,7 @@ class ShareAPIControllerTest extends TestCase {
 		$users = array_map(
 			function ($user) {
 				$mock = $this->createMock(IUser::class);
+				$mock->method('getUID')->willReturn($user[0]);
 				foreach ($user[1] as $method => $return) {
 					$mock->method($method)->willReturn($return);
 				}
@@ -4537,80 +4096,7 @@ class ShareAPIControllerTest extends TestCase {
 			$users
 		);
 
-		$share = Server::get(IManager::class)->newShare();
-		$share->setShareType($shareParams['type'])
-			->setSharedBy('initiator')
-			->setShareOwner($shareParams['owner'])
-			->setPermissions(Constants::PERMISSION_READ)
-			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
-			->setTarget('myTarget')
-			->setId(42);
-		if (isset($shareParams['sharedWith'])) {
-			$share->setSharedWith($shareParams['sharedWith']);
-		}
-		if (isset($shareParams['sharedWithDisplayName'])) {
-			$share->setSharedWithDisplayName($shareParams['sharedWithDisplayName']);
-		}
-		if (isset($shareParams['sharedWithAvatar'])) {
-			$share->setSharedWithAvatar($shareParams['sharedWithAvatar']);
-		}
-		if (isset($shareParams['attributes'])) {
-			$shareAttributes = $this->createMock(IShareAttributes::class);
-			$shareAttributes->method('toArray')->willReturn($shareParams['attributes']);
-			$shareAttributes->method('getAttribute')->with('permissions', 'download')->willReturn(true);
-			$share->setAttributes($shareAttributes);
-
-			$expects['attributes'] = \json_encode($shareParams['attributes']);
-		}
-		if (isset($shareParams['node'])) {
-			/** @var Node&MockObject */
-			$node = $this->createMock($shareParams['node']['class']);
-
-			$node->method('getMimeType')->willReturn($shareParams['node']['mimeType']);
-
-			$mountPoint = $this->createMock(IMountPoint::class);
-			$mountPoint->method('getMountType')->willReturn('');
-			$node->method('getMountPoint')->willReturn($mountPoint);
-
-			$node->method('getPath')->willReturn($shareParams['node']['path']);
-			$node->method('getId')->willReturn($shareParams['node']['id']);
-
-			$parent = $this->createMock(Folder::class);
-			$parent->method('getId')->willReturn(1);
-			$node->method('getParent')->willReturn($parent);
-
-			$node->method('getSize')->willReturn(123456);
-			$node->method('getMTime')->willReturn(1234567890);
-
-			$cache = $this->createMock(ICache::class);
-			$cache->method('getNumericStorageId')->willReturn(100);
-			$storage = $this->createMock(IStorage::class);
-			$storage->method('getId')->willReturn('storageId');
-			$storage->method('getCache')->willReturn($cache);
-
-			$node->method('getStorage')->willReturn($storage);
-
-			$share->setNode($node);
-		}
-		if (isset($shareParams['note'])) {
-			$share->setNote($shareParams['note']);
-		}
-		if (isset($shareParams['expirationDate'])) {
-			$share->setExpirationDate($shareParams['expirationDate']);
-		}
-		if (isset($shareParams['token'])) {
-			$share->setToken($shareParams['token']);
-		}
-		if (isset($shareParams['label'])) {
-			$share->setLabel($shareParams['label']);
-		}
-		if (isset($shareParams['password'])) {
-			$share->setPassword($shareParams['password']);
-		}
-		if (isset($shareParams['sendPasswordByTalk'])) {
-			$share->setSendPasswordByTalk($shareParams['sendPasswordByTalk']);
-		}
-
+		$share = $this->getConfiguredShare($shareParams);
 		$this->userManager->method('get')->willReturnMap($users);
 
 		$recipientGroup = $this->createMock(IGroup::class);
@@ -4678,6 +4164,61 @@ class ShareAPIControllerTest extends TestCase {
 		} catch (NotFoundException $e) {
 			$this->assertTrue($exception);
 		}
+	}
+
+	private function getConfiguredShare(array $shareMethods): IShare {
+		$share = $this->newShare();
+		foreach ($shareMethods as $method => $value) {
+			if ($method === 'setAttributes') {
+				$shareAttributes = $this->createMock(IShareAttributes::class);
+				$shareAttributes->method('toArray')->willReturn($value);
+				$shareAttributes->method('getAttribute')->with('permissions', 'download')->willReturn(true);
+				$value = $shareAttributes;
+			} elseif ($method === 'setNode') {
+				if (!$value instanceof Node) {
+					['class' => $nodeClass, 'mimeType' => $mime, 'path' => $path, 'id' => $id, 'permissions' => $permissions] = $value;
+					$node = $this->createMockNode($nodeClass, $id, $path, $mime, $permissions);
+					$value = $node;
+				}
+			}
+
+			$share->{$method}($value);
+		}
+
+		return $share;
+	}
+
+	/**
+	 * @param class-string<Node> $class
+	 */
+	private function createMockNode(string $class, int $id, string $path, string $mimeType, int $permissions): Node&MockObject {
+		$node = $this->createMock($class);
+		$node->method('getMimeType')->willReturn($mimeType);
+
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$mountPoint->method('getMountType')->willReturn('');
+		$node->method('getMountPoint')->willReturn($mountPoint);
+
+		$node->method('getPath')->willReturn($path);
+		$node->method('getId')->willReturn($id);
+
+		$parent = $this->createMock(Folder::class);
+		$parent->method('getId')->willReturn(1);
+		$node->method('getParent')->willReturn($parent);
+
+		$node->method('getSize')->willReturn(123456);
+		$node->method('getMTime')->willReturn(1234567890);
+
+		$cache = $this->createMock(ICache::class);
+		$cache->method('getNumericStorageId')->willReturn(100);
+		$storage = $this->createMock(IStorage::class);
+		$storage->method('getId')->willReturn('storageId');
+		$storage->method('getCache')->willReturn($cache);
+
+		$node->method('getStorage')->willReturn($storage);
+		$node->method('getPermissions')->willReturn($permissions);
+
+		return $node;
 	}
 
 	public static function dataFormatRoomShare(): array {
@@ -4777,42 +4318,10 @@ class ShareAPIControllerTest extends TestCase {
 	 */
 	#[DataProvider(methodName: 'dataFormatRoomShare')]
 	public function testFormatRoomShare(array $expects, bool $helperAvailable, array $formatShareByHelper): void {
-		$file = $this->createMock(File::class);
-
-		$file->method('getMimeType')->willReturn('myMimeType');
-		$file->method('getPath')->willReturn('file');
-		$file->method('getId')->willReturn(3);
-
-		$parent = $this->createMock(Folder::class);
-		$parent->method('getId')->willReturn(1);
-		$file->method('getParent')->willReturn($parent);
-
-		$file->method('getSize')->willReturn(123456);
-		$file->method('getMTime')->willReturn(1234567890);
-
-		$mountPoint = $this->createMock(IMountPoint::class);
-		$mountPoint->method('getMountType')->willReturn('');
-		$file->method('getMountPoint')->willReturn($mountPoint);
-
-		$cache = $this->createMock(ICache::class);
-		$cache->method('getNumericStorageId')->willReturn(100);
-		$storage = $this->createMock(IStorage::class);
-		$storage->method('getId')->willReturn('storageId');
-		$storage->method('getCache')->willReturn($cache);
-
-		$file->method('getStorage')->willReturn($storage);
-
-		$share = Server::get(IManager::class)->newShare();
-		$share->setShareType(IShare::TYPE_ROOM)
-			->setSharedWith('recipientRoom')
-			->setSharedBy('initiator')
-			->setShareOwner('owner')
-			->setPermissions(Constants::PERMISSION_READ)
-			->setNode($file)
-			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
-			->setTarget('myTarget')
-			->setNote('personal note')
-			->setId(42);
+		$share = $this->getConfiguredShare([
+			...self::getShareWithExpects(IShare::TYPE_ROOM)['methods'],
+			'setSharedWith' => 'recipientRoom',
+		]);
 
 		$userFolder = $this->createMock(IUserFolder::class);
 		$userFolder->method('getFirstNodeById')
