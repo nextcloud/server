@@ -46,6 +46,10 @@ class ZipFolderPlugin extends ServerPlugin {
 	private array $missingInfo = [];
 	private bool $tarArchive = false;
 
+	public const string MISSING_FILES_FILENAME = 'missing_files';
+	public const string MISSING_FILES_EXTENSION = '.json';
+	public const string MISSING_FILES_FULL_FILENAME = self::MISSING_FILES_FILENAME . self::MISSING_FILES_EXTENSION;
+
 	/**
 	 * Whether handleDownload has fully streamed an archive for the current request.
 	 * Used by afterDownload to decide whether to suppress sabre/dav's own response logic.
@@ -244,13 +248,21 @@ class ZipFolderPlugin extends ServerPlugin {
 		if ($this->reportMissingFiles && !empty($this->missingInfo)) {
 			$json = json_encode($this->missingInfo, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_INVALID_UTF8_SUBSTITUTE);
 
+			$missingFilesFileName = self::MISSING_FILES_FULL_FILENAME;
+			if ($files !== []) {
+				$names = array_map(static fn (NcNode $node): string => $node->getName(), $content);
+				// only when filtering there is the risk of a conflict
+				for ($i = 1; in_array($missingFilesFileName, $names, true); $i++) {
+					$missingFilesFileName = self::MISSING_FILES_FILENAME . " ($i)" . self::MISSING_FILES_EXTENSION;
+				}
+			}
 			if ($json !== false) {
 				$stream = fopen('php://temp', 'r+');
 				fwrite($stream, $json);
 				rewind($stream);
-				$streamer->addFileFromStream($stream, 'missing_files.json', (float)strlen($json), false);
+				$streamer->addFileFromStream($stream, $missingFilesFileName, (float)strlen($json), false);
 			} else {
-				$this->logger->error("Error while generating missing_files.json when generating archive for '$archiveName', error: " . json_last_error_msg());
+				$this->logger->error("Error while generating {$missingFilesFileName} when generating archive for '$archiveName', error: " . json_last_error_msg());
 			}
 		}
 		$streamer->finalize();

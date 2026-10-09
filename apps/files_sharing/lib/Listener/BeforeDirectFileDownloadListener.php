@@ -14,6 +14,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IUserSession;
 
 /**
@@ -41,7 +42,12 @@ class BeforeDirectFileDownloadListener implements IEventListener {
 		}
 
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$node = $userFolder->get($event->getPath());
+		try {
+			$node = $userFolder->get($event->getPath());
+		} catch (NotFoundException) {
+			return;
+		}
+
 		if (!$this->viewOnly->isDownloadable($node)) {
 			$event->setSuccessful(false);
 			$event->setErrorMessage('Access to this resource has been denied.');
