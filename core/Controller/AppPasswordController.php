@@ -67,7 +67,7 @@ class AppPasswordController extends OCSController {
 	public function getAppPassword(): DataResponse {
 		// We do not allow the creation of new tokens if this is an app password
 		if ($this->session->exists('app_password')) {
-			throw new OCSForbiddenException('You cannot request an new apppassword with an apppassword');
+			throw new OCSForbiddenException('You cannot request a new apppassword with an apppassword');
 		}
 
 		if ($this->userSession->getImpersonatingUserID() !== null
