@@ -199,18 +199,35 @@ class ZipFolderPluginTest extends TestCase {
 				'downloadBlocked' => [],
 				'expectedMissingFiles' => ['allowed.txt' => 'File could not be opened (fopen). Please check the server logs for more information.'],
 			],
+			// colliding missing_files.json
+			'colliding missing files file' => [
+				'children' => [
+					['name' => 'missing_files.json', 'content' => 'allowed', 'readSize' => null],
+					['name' => 'blocked.txt', 'content' => 'blocked', 'readSize' => null],
+				],
+				'filesFilter' => [ZipFolderPlugin::MISSING_FILES_FULL_FILENAME, 'blocked.txt'],
+				'downloadBlocked' => ['blocked.txt'],
+				'expectedMissingFiles' => ['blocked.txt' => 'blocked'],
+				'expectedMissingFilesFilename' => ZipFolderPlugin::MISSING_FILES_FILENAME . ' (1)' . ZipFolderPlugin::MISSING_FILES_EXTENSION,
+			],
 		];
 	}
 
 	/**
 	 * Tests that when files in a directory cannot be downloaded and the
 	 * `archive_report_missing_files` is enabled, an entry is added to the
-	 * `missing_files.json` file.
+	 * {@see ZipFolderPlugin::MISSING_FILES_FULL_FILENAME} file.
 	 *
 	 * @param list<array{name: string, content: (string|false|Exception), readSize: ?int}> $children
 	 */
 	#[DataProvider(methodName: 'dataDownloadingAFolderWithMissingFilesReportingShouldSucceed')]
-	public function testDownloadingAFolderWithMissingFilesReportingShouldSucceed(array $children, array $filesFilter, array $downloadBlocked, array $expectedMissingFiles): void {
+	public function testDownloadingAFolderWithMissingFilesReportingShouldSucceed(
+		array $children,
+		array $filesFilter,
+		array $downloadBlocked,
+		array $expectedMissingFiles,
+		string $expectedMissingFilesFilename = ZipFolderPlugin::MISSING_FILES_FULL_FILENAME,
+	): void {
 		$plugin = $this->createPlugin(true);
 
 		$folderPath = '/user/files/folder';
@@ -246,7 +263,7 @@ class ZipFolderPluginTest extends TestCase {
 		$continueHandling = $plugin->handleDownload($request, $this->response);
 
 		$output = $this->getActualOutputForAssertion();
-		$this->assertStringContainsString('missing_files.json', $output, "$output does not contain missin_files.json");
+		$this->assertStringContainsString($expectedMissingFilesFilename, $output, "$output does not contain expected missing files file");
 		foreach ($expectedMissingFiles as $file => $error) {
 			$stringToMatch = sprintf('%s": "%s"', $file, $error);
 			$this->assertStringContainsString($stringToMatch, $output, "$output does not contain $stringToMatch");
