@@ -290,14 +290,58 @@ class ChunkingV2Plugin extends ServerPlugin {
 
 	public function beforeDelete(RequestInterface $request, ResponseInterface $response) {
 		try {
-			$this->prepareUpload(dirname($request->getPath()));
-			$this->checkPrerequisites();
-		} catch (StorageInvalidException|BadRequest|NotFound $e) {
+			// DELETE targets the upload folder itself, unlike PUT and MOVE,
+			// which target a child within the upload folder.
+			$this->prepareUpload($request->getPath());
+		} catch (NotFound) {
+			// Not an upload folder handled by this plugin. Let normal DAV
+			// processing produce the appropriate result.
 			return true;
+		}
+
+		if (!$this->uploadFolder instanceof UploadFolder) {
+			return true;
+		}
+
+		// No v2 metadata means this request cannot be handled as a v2 upload.
+		// It may be a Chunking v1 upload, or the v2 session may have already
+		// expired. In either case, there is no backend write token to cancel.
+		// Let normal DAV deletion handle the upload folder.
+		if ($this->uploadId === null && $this->uploadPath === null) {
+			return true;
+		}
+
+		// Partially present metadata indicates a corrupt/inconsistent v2
+		// session. Do not delete the remaining upload state silently.
+		if ($this->uploadId === null || $this->uploadPath === null) {
+			throw new PreconditionFailed(
+				'Incomplete metadata for chunked upload'
+			);
+		}
+
+		$storage = $this->uploadFolder->getStorage();
+		if (!$storage->instanceOfStorage(IChunkedFileWrite::class)) {
+			throw new StorageInvalidException(
+				'Storage does not support chunked file writing'
+			);
+		}
+
+		if (
+			$storage->instanceOfStorage(ObjectStoreStorage::class)
+			&& !$storage->getObjectStore() instanceof IObjectStoreMultiPartUpload
+		) {
+			throw new StorageInvalidException(
+				'Storage does not support multi part uploads'
+			);
 		}
 
 		[$storage, $storagePath] = $this->getUploadStorage($this->uploadPath);
 		$storage->cancelChunkedWrite($storagePath, $this->uploadId);
+
+		// The backend session no longer exists. Avoid attempting to cancel it
+		// again if ordinary DAV deletion subsequently has to be retried.
+		$this->cache->remove($this->uploadFolder->getName());
+
 		return true;
 	}
 
