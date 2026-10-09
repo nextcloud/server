@@ -90,12 +90,9 @@
 		<FilesListVirtual
 			v-else
 			ref="filesListVirtual"
+			:loading="loading"
 			:currentFolder
 			:currentView
-			:loading="loading && !isRefreshing"
-			:loading="loading"
-			:current-folder="currentFolder"
-			:current-view="currentView"
 			:nodes="dirContentsSorted"
 			:summary="summary">
 			<template #empty>
