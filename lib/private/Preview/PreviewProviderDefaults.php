@@ -31,6 +31,7 @@ class PreviewProviderDefaults {
 			XBitmap::class,
 			Krita::class,
 			WebP::class,
+			CDR::class,
 			AVIF::class,
 		];
 	}
