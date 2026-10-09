@@ -8,11 +8,9 @@
 		:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
 		data-key="source"
 		:data-sources="nodes"
+		:loading="loading"
 		:gridMode="userConfig.grid_view"
 		:extraProps="{
-		:loading="loading"
-		:grid-mode="userConfig.grid_view"
-		:extra-props="{
 			isMimeAvailable,
 			isMtimeAvailable,
 			isSizeAvailable,
