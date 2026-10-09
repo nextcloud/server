@@ -30,6 +30,7 @@ use Sabre\DAV\Tree;
 use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 use Test\TestCase;
+use ZipArchive;
 
 class ZipFolderPluginTest extends TestCase {
 	private Tree&MockObject $tree;
@@ -147,6 +148,7 @@ class ZipFolderPluginTest extends TestCase {
 	}
 
 	public static function dataDownloadingAFolderWithMissingFilesReportingShouldSucceed(): array {
+		$duplicatedFilename = ZipFolderPlugin::MISSING_FILES_FILENAME . ' (1)' . ZipFolderPlugin::MISSING_FILES_EXTENSION;
 		return [
 			// files are reporting as missing either because they are download-blocked or because some error happened
 			'full directory download' => [
@@ -165,9 +167,10 @@ class ZipFolderPluginTest extends TestCase {
 				],
 				'filesFilter' => [],
 				'downloadBlocked' => ['blocked.txt'],
+				'expectedArchiveFiles' => ['folder/allowed.txt', ZipFolderPlugin::MISSING_FILES_FULL_FILENAME],
 				'expectedMissingFiles' => [
-					'blocked.txt' => 'blocked',
-					'error.txt' => 'File could not be added to the archive. Please check the server logs for more information.'
+					'folder/blocked.txt' => 'blocked',
+					'folder/error.txt' => 'File could not be added to the archive. Please check the server logs for more information.'
 				],
 			],
 			// files filtered out should not be reported as missing
@@ -179,6 +182,7 @@ class ZipFolderPluginTest extends TestCase {
 				],
 				'filesFilter' => ['allowed.txt', 'blocked.txt'],
 				'downloadBlocked' => ['blocked.txt'],
+				'expectedArchiveFiles' => ['allowed.txt', ZipFolderPlugin::MISSING_FILES_FULL_FILENAME],
 				'expectedMissingFiles' => ['blocked.txt' => 'blocked'],
 			],
 			// incomplete download
@@ -188,6 +192,7 @@ class ZipFolderPluginTest extends TestCase {
 				],
 				'filesFilter' => ['allowed.txt'],
 				'downloadBlocked' => [],
+				'expectedArchiveFiles' => ['allowed.txt', ZipFolderPlugin::MISSING_FILES_FULL_FILENAME],
 				'expectedMissingFiles' => ['allowed.txt' => 'Read 2 out of 7 bytes from storage. This means the connection may have been closed due to a network/storage error.'],
 			],
 			// failed fopen
@@ -197,6 +202,7 @@ class ZipFolderPluginTest extends TestCase {
 				],
 				'filesFilter' => ['allowed.txt'],
 				'downloadBlocked' => [],
+				'expectedArchiveFiles' => [ZipFolderPlugin::MISSING_FILES_FULL_FILENAME],
 				'expectedMissingFiles' => ['allowed.txt' => 'File could not be opened (fopen). Please check the server logs for more information.'],
 			],
 			// colliding missing_files.json
@@ -207,8 +213,9 @@ class ZipFolderPluginTest extends TestCase {
 				],
 				'filesFilter' => [ZipFolderPlugin::MISSING_FILES_FULL_FILENAME, 'blocked.txt'],
 				'downloadBlocked' => ['blocked.txt'],
+				'expectedArchiveFiles' => [ZipFolderPlugin::MISSING_FILES_FULL_FILENAME, $duplicatedFilename],
 				'expectedMissingFiles' => ['blocked.txt' => 'blocked'],
-				'expectedMissingFilesFilename' => ZipFolderPlugin::MISSING_FILES_FILENAME . ' (1)' . ZipFolderPlugin::MISSING_FILES_EXTENSION,
+				'expectedMissingFilesFilename' => $duplicatedFilename,
 			],
 		];
 	}
@@ -226,6 +233,7 @@ class ZipFolderPluginTest extends TestCase {
 		array $filesFilter,
 		array $downloadBlocked,
 		array $expectedMissingFiles,
+		array $expectedArchiveFiles,
 		string $expectedMissingFilesFilename = ZipFolderPlugin::MISSING_FILES_FULL_FILENAME,
 	): void {
 		$plugin = $this->createPlugin(true);
@@ -262,11 +270,27 @@ class ZipFolderPluginTest extends TestCase {
 		$request = $this->createRequest($folderPath, $filesFilter);
 		$continueHandling = $plugin->handleDownload($request, $this->response);
 
-		$output = $this->getActualOutputForAssertion();
-		$this->assertStringContainsString($expectedMissingFilesFilename, $output, "$output does not contain expected missing files file");
-		foreach ($expectedMissingFiles as $file => $error) {
-			$stringToMatch = sprintf('%s": "%s"', $file, $error);
-			$this->assertStringContainsString($stringToMatch, $output, "$output does not contain $stringToMatch");
+		$archivePath = tempnam(sys_get_temp_dir(), 'zipfolderplugin') . '.zip';
+		file_put_contents($archivePath, $this->getActualOutputForAssertion());
+		$archive = new ZipArchive();
+		try {
+			$this->assertTrue($archive->open($archivePath, ZipArchive::RDONLY), 'Archive is not a valid zip file');
+
+			$fileNames = [];
+			for ($i = 0; $i < $archive->numFiles; $i++) {
+				$name = $archive->getNameIndex($i);
+				if (!str_ends_with($name, '/')) {
+					$fileNames[] = $name;
+				}
+			}
+			$this->assertEqualsCanonicalizing($expectedArchiveFiles, $fileNames);
+
+			$report = json_decode($archive->getFromName($expectedMissingFilesFilename), true, 512, JSON_THROW_ON_ERROR);
+			$this->assertEquals($expectedMissingFiles, $report);
+
+			$archive->close();
+		} finally {
+			unlink($archivePath);
 		}
 
 		// assert that the handling should be stopped
@@ -348,7 +372,7 @@ class ZipFolderPluginTest extends TestCase {
 
 		$archivePath = tempnam(sys_get_temp_dir(), 'zipfolderplugin') . '.zip';
 		file_put_contents($archivePath, $this->getActualOutputForAssertion());
-		$zip = new \ZipArchive();
+		$zip = new ZipArchive();
 		try {
 			$this->assertTrue($zip->open($archivePath), 'Archive is not a valid zip file');
 			$this->assertSame('first', $zip->getFromName('folder/first.txt'));
