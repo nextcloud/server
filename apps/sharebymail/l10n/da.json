@@ -17,7 +17,7 @@
     "Failed to send share by email. Got an invalid email address" : "Kunne ikke sende deling via mail. Fik en ugyldig mail adresse",
     "Failed to send share by email" : "Kunne ikke sende deling via e-mail",
     "%1$s shared %2$s with you" : " %1$s delte %2$s med dig",
-    "Note" : "Note",
+    "Note" : "Bemærkning",
     "Valid until" : "Gyldig indtil",
     "Password" : "Adgangskode",
     "Required" : "Påkrævet",

@@ -20,6 +20,8 @@ OC.L10N.register(
     "The old password was not correct, please try again." : "Vana salasõna polnud õige, palun proovi uuesti.",
     "The current log-in password was not correct, please try again." : "Sisselogimise senine salasõna polnud õige, palun proovi uuesti.",
     "Private key password successfully updated." : "Privaatvõtme salasõna uuendamine õnnestus.",
+    "Encryption status could not be determined." : "Krüptimise oleku tuvastamine ei õnnestunud.",
+    "Server-side encryption could not be initialized. Please contact your administrator for guidance." : "Serveripoolse krüptimise valmendamine ei õnnestunud. Palun võta ühendust peakasutaja või süsteemihalduriga.",
     "Bad Signature" : "Vigane allkiri",
     "Missing Signature" : "Allkiri puudub",
     "one-time password for server-side-encryption" : "ühekordne salasõna serveripoolse krüptimise jaoks",
@@ -67,7 +69,7 @@ OC.L10N.register(
     "Update Private Key Password" : "Uuenda privaatvõtme salasõna",
     "Enable password recovery:" : "Luba salasõna taastamine:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Valiku lubamine võimaldab salasõna kaotamise korral taastada ligipääsu krüptitud failidele",
-    "Enabled" : "Sisse lülitatud",
+    "Enabled" : "Kasutusel",
     "Disabled" : "Välja lülitatud",
     "Your private key password no longer matches your log-in password. Set your old private key password to your current log-in password." : "Sinu privaatvõtme salasõna enam ei vasta sinu kasutajakonto salasõnale (seda kasutad sisselogimisel). Palun muuda privaatvõtme salasõna kasutajakontoga samaks.",
     "Enable password recovery" : "Võta salasõnade taastamine kasutusele"
