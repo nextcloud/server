@@ -40,7 +40,7 @@ OC.L10N.register(
     "Sending email failed" : "Odosielanie e-mailu zlyhalo",
     "Logged in account is not mail address owner" : "Prihlásený účet nie je vlastníkom e-mailovej adresy",
     "Email confirmation" : "Overenie e-mailu",
-    "To enable the email address %s please click the button below." : "Pre povolenie e-mailovej adresy %s prosím kliknite na tlačítko nižšie.",
+    "To enable the email address %s please click the button below." : "Pre povolenie e-mailovej adresy %s prosím kliknite na tlačidlo nižšie.",
     "Confirm" : "Potvrdiť",
     "Email was already removed from account and cannot be confirmed anymore." : "E-mail bol odobraný z účtu a už nemôže byť overený.",
     "Could not verify mail because the token is expired." : "Nepodarilo sa overiť e-mail, pretože platnosť tokenu uplynula.",
