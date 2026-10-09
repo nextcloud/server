@@ -309,20 +309,35 @@ async function open(options: LegacyOpenOptions = {}): Promise<void> {
 		nodes.push(target)
 	}
 
-	await getViewer().open(nodes, target, {
+	const session = await getViewer().open(nodes, target, {
 		enableSidebar,
 		canLoop,
 		startSlideshow,
-		onPrev,
-		onNext,
-		// The viewer being closed from the inside has to clear what the
-		// getters answer with, or the file stays open as far as they know
-		onClose: () => {
-			state = emptyState()
-			onClose()
+		loadMore: async () => {
+			const more = (await loadMore()).map(nodeFromFileInfo)
+			nodes.push(...more)
+			return more
 		},
-		loadMore: async () => (await loadMore()).map(nodeFromFileInfo),
 	}, handlerId)
+
+	// The viewer says which file it moved to, not which way: one step
+	// forward, wrapping around the end, is next, anything else previous
+	let current = target
+	session.addEventListener('update:file', ({ detail: [file] }) => {
+		const from = nodes.indexOf(current)
+		current = file
+		if (nodes.indexOf(file) === (from + 1) % nodes.length) {
+			onNext(file)
+		} else {
+			onPrev(file)
+		}
+	})
+	// The viewer being closed from the inside has to clear what the
+	// getters answer with, or the file stays open as far as they know
+	session.addEventListener('close', () => {
+		state = emptyState()
+		onClose()
+	})
 }
 
 /**
@@ -369,7 +384,7 @@ export function installLegacyViewerApi(): void {
 
 		compare(fileInfo: LegacyFileInfo, compareFileInfo: LegacyFileInfo): Promise<void> {
 			deprecated('compare()', 'getViewer().compare()')
-			return getViewer().compare(nodeFromFileInfo(fileInfo), nodeFromFileInfo(compareFileInfo))
+			return getViewer().compare(nodeFromFileInfo(fileInfo), nodeFromFileInfo(compareFileInfo)).then(() => {})
 		},
 
 		close(): void {
