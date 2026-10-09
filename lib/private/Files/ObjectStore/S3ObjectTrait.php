@@ -302,14 +302,16 @@ trait S3ObjectTrait {
 		}
 	}
 
-	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration, ?string $filename = null): ?string {
 		if (!$this->isUsePresignedUrl()) {
 			return null;
 		}
 
+		// A cross-origin anchor click saves the file only when this header is part of the signed response.
 		$command = $this->getConnection()->getCommand('GetObject', [
 			'Bucket' => $this->getBucket(),
 			'Key' => $urn,
+			'ResponseContentDisposition' => $this->attachmentContentDisposition($filename),
 		]);
 
 		try {
@@ -319,5 +321,18 @@ trait S3ObjectTrait {
 		} catch (AwsException) {
 			return null;
 		}
+	}
+
+	/**
+	 * Content-Disposition for a direct download. The name is percent-encoded so it cannot break the header.
+	 */
+	protected function attachmentContentDisposition(?string $filename): string {
+		$filename = str_replace(["\r", "\n"], '', (string)$filename);
+		if ($filename === '' || $filename === '.' || $filename === '..') {
+			return 'attachment';
+		}
+
+		$encoded = rawurlencode($filename);
+		return 'attachment; filename="' . $encoded . '"; filename*=UTF-8\'\'' . $encoded;
 	}
 }
