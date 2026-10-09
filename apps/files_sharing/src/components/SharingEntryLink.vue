@@ -51,12 +51,14 @@
 		</div>
 
 		<!-- pending actions -->
+		<!-- Auto placement prevents top/bottom placement flip on items toggle -->
 		<NcActions
 			v-if="!pending && pendingDataIsMissing"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
 			:open.sync="open"
+			placement="auto"
 			@close="onCancel">
 			<!-- pending data menu -->
 			<NcActionText
