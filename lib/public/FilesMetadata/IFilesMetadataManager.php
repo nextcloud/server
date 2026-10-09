@@ -64,8 +64,21 @@ interface IFilesMetadataManager {
 	 * @return IFilesMetadata
 	 * @throws FilesMetadataNotFoundException if not found
 	 * @since 28.0.0
+	 * @deprecated 36.0.0 use `getMetadataForNode` instead.
 	 */
 	public function getMetadata(int $fileId, bool $generate = false): IFilesMetadata;
+
+	/**
+	 * returns metadata of a file id
+	 *
+	 * @param Node $node file id
+	 * @param boolean $generate Generate if metadata does not exist
+	 *
+	 * @return IFilesMetadata
+	 * @throws FilesMetadataNotFoundException if not found
+	 * @since 36.0.0
+	 */
+	public function getMetadataForNode(Node $node, bool $generate = false): IFilesMetadata;
 
 	/**
 	 * returns metadata of multiple file ids

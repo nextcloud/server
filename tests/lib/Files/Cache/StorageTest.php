@@ -27,7 +27,7 @@ class StorageTest extends TestCase {
 		$fileId = $cache->put('foo.txt', ['size' => 1, 'mtime' => 1, 'mimetype' => 'text/plain', 'upload_time' => 25]);
 
 		$metadataManager = Server::get(IFilesMetadataManager::class);
-		$metadata = $metadataManager->getMetadata($fileId, true);
+		$metadata = $metadataManager->getMetadata($fileId, true, $cache->getNumericStorageId());
 		$metadata->setString('test-key', 'value', true);
 		$metadataManager->saveMetadata($metadata);
 
