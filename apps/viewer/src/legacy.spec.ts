@@ -8,6 +8,8 @@ import type { LegacyViewerApi } from './legacy.ts'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const warn = vi.fn()
+// What open() resolves with: the viewer tells its opener through it
+let session = new EventTarget()
 const viewerOpen = vi.fn()
 const viewerClose = vi.fn()
 const viewerCompare = vi.fn()
@@ -50,6 +52,8 @@ function viewer(): LegacyViewerApi {
 describe('OCA.Viewer compatibility layer', () => {
 	beforeEach(() => {
 		vi.clearAllMocks()
+		session = new EventTarget()
+		viewerOpen.mockResolvedValue(session)
 		canViewMock.mockReturnValue(true)
 		installLegacyViewerApi()
 	})
@@ -148,11 +152,50 @@ describe('OCA.Viewer compatibility layer', () => {
 		const onClose = vi.fn()
 		await viewer().open({ fileInfo: { fileid: 1, filename: '/a.jpg', mime: 'image/jpeg' }, onClose })
 
-		// the viewer calls back rather than being told
-		viewerOpen.mock.calls[0][2].onClose()
+		// the viewer tells rather than being told
+		session.dispatchEvent(new CustomEvent('close', { detail: [] }))
 
 		expect(onClose).toHaveBeenCalledOnce()
 		expect(viewer().file).toBe('')
+	})
+
+	it('tells which way the viewer moved, wrapping around the end', async () => {
+		const onPrev = vi.fn()
+		const onNext = vi.fn()
+		const list = [1, 2, 3].map((fileid) => ({ fileid, filename: `/${fileid}.jpg`, mime: 'image/jpeg' }))
+		await viewer().open({ fileInfo: list[0], list, onPrev, onNext })
+		const [nodes] = viewerOpen.mock.calls[0]
+		const moveTo = (index: number) => session.dispatchEvent(new CustomEvent('update:file', { detail: [nodes[index]] }))
+
+		moveTo(1)
+		moveTo(2)
+		expect(onNext.mock.calls.map(([file]) => file)).toEqual([nodes[1], nodes[2]])
+		// past the last one, back to the first
+		moveTo(0)
+		expect(onNext).toHaveBeenLastCalledWith(nodes[0])
+		moveTo(2)
+		expect(onPrev).toHaveBeenCalledExactlyOnceWith(nodes[2])
+	})
+
+	it('counts the files loaded on the way when telling which way', async () => {
+		const onNext = vi.fn()
+		const loadMore = vi.fn(() => [{ fileid: 2, filename: '/2.jpg', mime: 'image/jpeg' }])
+		const fileInfo = { fileid: 1, filename: '/1.jpg', mime: 'image/jpeg' }
+		await viewer().open({ fileInfo, list: [fileInfo], loadMore, onNext })
+		const [more] = await viewerOpen.mock.calls[0][2].loadMore()
+
+		session.dispatchEvent(new CustomEvent('update:file', { detail: [more] }))
+
+		expect(onNext).toHaveBeenCalledExactlyOnceWith(more)
+	})
+
+	it('compares the file with the one given to compare it with, as the base', async () => {
+		viewerCompare.mockResolvedValue(session)
+		await viewer().compare({ fileid: 2, filename: '/new.md', mime: 'text/markdown' }, { fileid: 1, filename: '/old.md', mime: 'text/markdown' })
+
+		const [file, base] = viewerCompare.mock.calls[0]
+		expect(file.fileid).toBe(2)
+		expect(base.fileid).toBe(1)
 	})
 
 	it('answers mimetypes by asking the handlers', () => {
