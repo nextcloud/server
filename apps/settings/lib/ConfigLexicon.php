@@ -30,6 +30,8 @@ class ConfigLexicon implements ILexicon {
 	public const USER_LIST_SHOW_NEW_USER_FORM = 'user_list_show_new_user_form';
 	public const USER_LIST_SHOW_LANGUAGES = 'user_list_show_languages';
 
+	public const PROFILE_PRIVATE = 'profile_private';
+
 	#[\Override]
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
@@ -93,6 +95,13 @@ class ConfigLexicon implements ILexicon {
 				defaultRaw: false,
 				definition: 'Show languages in user list',
 				lazy: true,
+			),
+			new Entry(
+				key: self::PROFILE_PRIVATE,
+				type: ValueType::BOOL,
+				defaultRaw: false,
+				definition: 'Set profiles as private to the instance',
+				lazy: false,
 			),
 		];
 	}
