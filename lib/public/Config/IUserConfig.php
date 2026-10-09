@@ -202,7 +202,13 @@ interface IUserConfig {
 	 * @param bool $lazy search within lazy loaded config
 	 * @param ValueType|null $typedAs enforce type for the returned values
 	 *
-	 * @return array<string, string|int|float|bool|array> [appId => value]
+	 * @return (
+	 *      $typedAs is ValueType::INT ? array<string, int> : (
+	 *      $typedAs is ValueType::FLOAT ? array<string, float> : (
+	 *      $typedAs is ValueType::BOOL ? array<string, bool> : (
+	 *      $typedAs is ValueType::ARRAY ? array<string, array> : (
+	 *      $typedAs is ValueType ? array<string, string> :
+	 *      array<string, string|int|float|bool|array>))))) [appId => value]
 	 * @throws \InvalidArgumentException if $userId or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
@@ -220,7 +226,13 @@ interface IUserConfig {
 	 * @param ValueType|null $typedAs enforce type for the returned values
 	 * @param array|null $userIds limit the search to a list of user ids
 	 *
-	 * @return array<string, string|int|float|bool|array> [userId => value]
+	 * @return (
+	 *      $typedAs is ValueType::INT ? array<string, int> : (
+	 *      $typedAs is ValueType::FLOAT ? array<string, float> : (
+	 *      $typedAs is ValueType::BOOL ? array<string, bool> : (
+	 *      $typedAs is ValueType::ARRAY ? array<string, array> : (
+	 *      $typedAs is ValueType ? array<string, string> :
+	 *      array<string, string|int|float|bool|array>))))) [userId => value]
 	 * @throws \InvalidArgumentException if $app or $key is invalid (too long, or empty string)
 	 *
 	 * @since 32.0.0
