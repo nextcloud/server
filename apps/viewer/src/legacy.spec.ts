@@ -11,6 +11,12 @@ const warn = vi.fn()
 const viewerOpen = vi.fn()
 const viewerClose = vi.fn()
 const viewerCompare = vi.fn()
+const viewerOpenFolder = vi.fn()
+// What the registry answers: a grouped handler for pictures, one on its own for text
+const handlers = new Map([
+	['images', { id: 'images', group: 'media', enabled: (nodes: Array<{ mime?: string }>) => nodes.every((node) => node.mime?.startsWith('image/')) }],
+	['text', { id: 'text', enabled: (nodes: Array<{ mime?: string }>) => nodes.every((node) => node.mime === 'text/markdown') }],
+])
 const canViewMock = vi.fn<(node?: unknown) => boolean>(() => true)
 const stat = vi.fn()
 
@@ -25,8 +31,9 @@ vi.mock('@nextcloud/auth', () => ({
 }))
 
 vi.mock('@nextcloud/viewer', () => ({
-	getViewer: () => ({ open: viewerOpen, close: viewerClose, compare: viewerCompare }),
+	getViewer: () => ({ open: viewerOpen, openFolder: viewerOpenFolder, close: viewerClose, compare: viewerCompare }),
 	canView: (node: unknown) => canViewMock(node),
+	getHandlers: () => handlers,
 }))
 
 vi.mock('@nextcloud/files/dav', async (orig) => {
@@ -67,14 +74,39 @@ describe('OCA.Viewer compatibility layer', () => {
 	})
 
 	it('opens a file given by path, looking it up first', async () => {
-		stat.mockResolvedValue({ data: { filename: '/files/emma/x.jpg', basename: 'x.jpg', mime: 'image/jpeg', type: 'file', props: { fileid: 7 } } })
+		stat.mockResolvedValue({ data: { filename: '/files/emma/notes.md', basename: 'notes.md', mime: 'text/markdown', type: 'file', props: { fileid: 7 } } })
 
-		await viewer().open({ path: '/x.jpg' })
+		await viewer().open({ path: '/notes.md' })
 
-		expect(stat).toHaveBeenCalledWith('/files/emma/x.jpg', expect.objectContaining({ details: true }))
+		expect(stat).toHaveBeenCalledWith('/files/emma/notes.md', expect.objectContaining({ details: true }))
 		const [nodes, target] = viewerOpen.mock.calls[0]
+		// A note is shown on its own, its folder not listed for it, as before
 		expect(nodes).toHaveLength(1)
+		expect(target.basename).toBe('notes.md')
+		expect(viewerOpenFolder).not.toHaveBeenCalled()
+	})
+
+	// As the viewer app did for a picture, a video or a sound given no list
+	it('pages through the folder of a picture opened alone', async () => {
+		stat.mockResolvedValue({ data: { filename: '/files/emma/Holidays/x.jpg', basename: 'x.jpg', mime: 'image/jpeg', type: 'file', props: { fileid: 7 } } })
+
+		await viewer().open({ path: '/Holidays/x.jpg', canLoop: false })
+
+		expect(viewerOpen).not.toHaveBeenCalled()
+		const [folder, target, options] = viewerOpenFolder.mock.calls[0]
+		expect(folder.source).toMatch(/\/remote.php\/dav\/files\/emma\/Holidays$/)
+		expect(folder.path).toBe('/Holidays')
 		expect(target.basename).toBe('x.jpg')
+		expect(options.canLoop).toBe(false)
+	})
+
+	it('keeps to the list it is given, without listing the folder', async () => {
+		const info = { fileid: 1, filename: '/a.jpg', basename: 'a.jpg', mime: 'image/jpeg' }
+
+		await viewer().open({ fileInfo: info, list: [info] })
+
+		expect(viewerOpen).toHaveBeenCalledOnce()
+		expect(viewerOpenFolder).not.toHaveBeenCalled()
 	})
 
 	it('opens the node from the list rather than a second copy of it', async () => {
@@ -105,6 +137,8 @@ describe('OCA.Viewer compatibility layer', () => {
 			fileInfo: { source: 'https://cloud.example/apps/pizza/topping/pineapple.jpg', basename: 'pineapple.jpg', mime: 'image/jpeg' },
 		})
 
+		// Not on dav, so there is no folder to list for it
+		expect(viewerOpenFolder).not.toHaveBeenCalled()
 		const [, target] = viewerOpen.mock.calls[0]
 		expect(target.source).toBe('https://cloud.example/apps/pizza/topping/pineapple.jpg')
 		expect(target.basename).toBe('pineapple.jpg')
@@ -146,7 +180,8 @@ describe('OCA.Viewer compatibility layer', () => {
 
 	it('forgets the file when the viewer closes itself', async () => {
 		const onClose = vi.fn()
-		await viewer().open({ fileInfo: { fileid: 1, filename: '/a.jpg', mime: 'image/jpeg' }, onClose })
+		const info = { fileid: 1, filename: '/a.jpg', mime: 'image/jpeg' }
+		await viewer().open({ fileInfo: info, list: [info], onClose })
 
 		// the viewer calls back rather than being told
 		viewerOpen.mock.calls[0][2].onClose()

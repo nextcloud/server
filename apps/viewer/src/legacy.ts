@@ -7,10 +7,10 @@ import type { IFile, NodeData } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { File, Permission } from '@nextcloud/files'
+import { File, Folder, Permission } from '@nextcloud/files'
 import { getClient, getDefaultPropfind, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
 import { getLoggerBuilder } from '@nextcloud/logger'
-import { canView, getViewer } from '@nextcloud/viewer'
+import { canView, getHandlers, getViewer } from '@nextcloud/viewer'
 
 /**
  * The release this shim goes away in.
@@ -245,6 +245,45 @@ const mimetypes = new Proxy([] as string[], {
 })
 
 /**
+ * Whether the viewer used to page through the folder of a file opened alone.
+ *
+ * It did for a file whose handler is part of a group, which images, videos
+ * and sounds are, and left a document or a note on its own, without listing
+ * its folder for it.
+ *
+ * @param file - the file opened without a list
+ */
+function pagesThroughFolder(file: IFile): boolean {
+	const handler = [...getHandlers().values()].find((candidate) => {
+		try {
+			return candidate.enabled([file])
+		} catch {
+			return false
+		}
+	})
+	return handler?.group !== undefined
+}
+
+/**
+ * The folder holding a file on dav, to page through.
+ *
+ * @param file - the file opened
+ */
+function parentFolder(file: IFile): Folder | undefined {
+	// A file from outside dav has no folder the viewer could list: its root
+	// is the folder its address ends in, where a dav file has a files home
+	if (!file.root?.startsWith('/files/')) {
+		return undefined
+	}
+	return new Folder({
+		source: file.source.slice(0, file.source.lastIndexOf('/')),
+		root: file.root,
+		owner: file.owner,
+		permissions: Permission.READ,
+	})
+}
+
+/**
  * Open a file, the way the viewer app used to be asked to.
  *
  * @param options - what to open, and how
@@ -309,7 +348,7 @@ async function open(options: LegacyOpenOptions = {}): Promise<void> {
 		nodes.push(target)
 	}
 
-	await getViewer().open(nodes, target, {
+	const viewerOptions = {
 		enableSidebar,
 		canLoop,
 		startSlideshow,
@@ -322,7 +361,18 @@ async function open(options: LegacyOpenOptions = {}): Promise<void> {
 			onClose()
 		},
 		loadMore: async () => (await loadMore()).map(nodeFromFileInfo),
-	}, handlerId)
+	}
+
+	// Given no list, the viewer app paged through the folder of the file, as
+	// the Files list sorts it: an app opening a picture by path, from a chat
+	// or a note, still gets the rest of that folder to step through
+	const folder = list.length === 0 && pagesThroughFolder(target) ? parentFolder(target) : undefined
+	if (folder) {
+		await getViewer().openFolder(folder, target, viewerOptions, handlerId)
+		return
+	}
+
+	await getViewer().open(nodes, target, viewerOptions, handlerId)
 }
 
 /**
