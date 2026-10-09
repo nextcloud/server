@@ -126,7 +126,7 @@ class ZipFolderPlugin extends ServerPlugin {
 			if ($streamMetadata['timed_out'] ?? false) {
 				return $this->l10n->t('Timeout while reading from stream.');
 			}
-			if (!($streamMetadata['eof'] ?? true) || $read != $nodeSize) {
+			if (!($streamMetadata['eof'] ?? true) || $read !== $nodeSize) {
 				return $this->l10n->t('Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error.', [$read, $nodeSize]);
 			}
 		}
