@@ -224,7 +224,7 @@ OC.L10N.register(
     "Your browser does not support copying, please copy the link manually:" : "Váš prehliadač nepodporuje kopírovanie, prosím skopírujte odkaz manuálne:",
     "Successfully copied public link" : "Úspešne skopírovaný verejný odkaz",
     "Please enter the following required information before creating the share" : "Pred vytvorením zdieľania zadajte následujúce potrebné informácie",
-    "Password protection (enforced)" : "Ochrana heslom (vynúttená)",
+    "Password protection (enforced)" : "Ochrana heslom (vynútená)",
     "Password protection" : "Ochrana heslom",
     "Enter a password" : "Zadajte heslo",
     "Enable link expiration (enforced)" : "Povoliť expiráciu odkazu (vyžadované)",
