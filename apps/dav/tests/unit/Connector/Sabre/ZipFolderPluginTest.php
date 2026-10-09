@@ -111,8 +111,8 @@ class ZipFolderPluginTest extends TestCase {
 	public function testDownloadingAFolderShouldFailWhenItemsAreBlocked(array $filesFilter): void {
 		$plugin = $this->createPlugin(false);
 		$folderPath = '/user/files/folder';
-		$allowedFile = $this->createFile("{$folderPath}/allowed.txt", 'allowed');
-		$blockedFile = $this->createFile("{$folderPath}/blocked.txt", 'secret');
+		$allowedFile = $this->createFile("{$folderPath}/allowed.txt", 'allowed', strlen('allowed'));
+		$blockedFile = $this->createFile("{$folderPath}/blocked.txt", 'secret', strlen('secret'));
 		$files = [$allowedFile, $blockedFile];
 		$childNodes = [
 			'allowed.txt' => $this->createNode($allowedFile),
@@ -149,25 +149,64 @@ class ZipFolderPluginTest extends TestCase {
 		return [
 			// files are reporting as missing either because they are download-blocked or because some error happened
 			'full directory download' => [
-				'children' => ['allowed.txt' => 'allowed', 'blocked.txt' => 'blocked', 'error.txt' => new \RuntimeException('read error')],
+				'children' => [
+					['name' => 'allowed.txt', 'content' => 'allowed', 'readSize' => null],
+					[
+						'name' => 'blocked.txt',
+						'content' => 'blocked',
+						'readSize' => null
+					],
+					[
+						'name' => 'error.txt',
+						'content' => new \RuntimeException('read error'),
+						'readSize' => null
+					],
+				],
 				'filesFilter' => [],
-				'downloadBlocked' => [ 'blocked.txt' ],
-				'expectedMissingFiles' => [ 'blocked.txt' => 'blocked', 'error.txt' => 'File could not be added to the archive. Please check the server logs for more information.' ],
+				'downloadBlocked' => ['blocked.txt'],
+				'expectedMissingFiles' => [
+					'blocked.txt' => 'blocked',
+					'error.txt' => 'File could not be added to the archive. Please check the server logs for more information.'
+				],
 			],
 			// files filtered out should not be reported as missing
 			'filtering some files' => [
-				'children' => [ 'allowed.txt' => 'allowed', 'blocked.txt' => 'blocked', 'error.txt' => new \RuntimeException('read error') ],
+				'children' => [
+					['name' => 'allowed.txt', 'content' => 'allowed', 'readSize' => null],
+					['name' => 'blocked.txt', 'content' => 'blocked', 'readSize' => null],
+					['name' => 'error.txt', 'content' => new \RuntimeException('read error'), 'readSize' => null],
+				],
 				'filesFilter' => ['allowed.txt', 'blocked.txt'],
 				'downloadBlocked' => ['blocked.txt'],
-				'expectedMissingFiles' => [ 'blocked.txt' => 'blocked' ],
+				'expectedMissingFiles' => ['blocked.txt' => 'blocked'],
+			],
+			// incomplete download
+			'incomplete file download' => [
+				'children' => [
+					['name' => 'allowed.txt', 'content' => 'allowed', 'readSize' => 2],
+				],
+				'filesFilter' => ['allowed.txt'],
+				'downloadBlocked' => [],
+				'expectedMissingFiles' => ['allowed.txt' => 'Read 2 out of 7 bytes from storage. This means the connection may have been closed due to a network/storage error.'],
+			],
+			// failed fopen
+			'fopen failed' => [
+				'children' => [
+					['name' => 'allowed.txt', 'content' => false, 'readSize' => null],
+				],
+				'filesFilter' => ['allowed.txt'],
+				'downloadBlocked' => [],
+				'expectedMissingFiles' => ['allowed.txt' => 'File could not be opened (fopen). Please check the server logs for more information.'],
 			],
 		];
 	}
 
-	/*
+	/**
 	 * Tests that when files in a directory cannot be downloaded and the
 	 * `archive_report_missing_files` is enabled, an entry is added to the
 	 * `missing_files.json` file.
+	 *
+	 * @param list<array{name: string, content: (string|false|Exception), readSize: ?int}> $children
 	 */
 	#[DataProvider(methodName: 'dataDownloadingAFolderWithMissingFilesReportingShouldSucceed')]
 	public function testDownloadingAFolderWithMissingFilesReportingShouldSucceed(array $children, array $filesFilter, array $downloadBlocked, array $expectedMissingFiles): void {
@@ -176,8 +215,9 @@ class ZipFolderPluginTest extends TestCase {
 		$folderPath = '/user/files/folder';
 		$childFiles = [];
 		$childNodes = [];
-		foreach ($children as $childName => $content) {
-			$childFile = $this->createFile("{$folderPath}/{$childName}", $content);
+		foreach ($children as $childData) {
+			['name' => $childName, 'content' => $content, 'readSize' => $readSize] = $childData;
+			$childFile = $this->createFile("{$folderPath}/{$childName}", $content, $readSize);
 			$childFiles[$childName] = $childFile;
 			$childNodes[$childName] = $this->createNode($childFile);
 		}
@@ -224,7 +264,7 @@ class ZipFolderPluginTest extends TestCase {
 		$plugin = $this->createPlugin(true);
 
 		$folderPath = '/user/files/folder';
-		$allowedFile = $this->createFile("{$folderPath}/allowed.txt", 'allowed');
+		$allowedFile = $this->createFile("{$folderPath}/allowed.txt", 'allowed', strlen('allowed'));
 		$blockedFolder = $this->createFolderNode("{$folderPath}/blocked", []);
 		$blockedFolder->expects($this->never())->method('getDirectoryListing');
 		$brokenFolder = $this->createMock(Folder::class);
@@ -339,20 +379,24 @@ class ZipFolderPluginTest extends TestCase {
 		return $child;
 	}
 
-	private function createFile(string $path, string|Exception $contents): File&MockObject {
-		$length = is_string($contents) ? strlen($contents) : 0;
+	private function createFile(string $path, string|false|Exception $fopenReturns, ?int $readSize = null): File&MockObject {
+		$fileSize = is_string($fopenReturns) ? strlen($fopenReturns) : 0;
 		$file = $this->createMock(File::class);
 		$file->method('getPath')->willReturn($path);
 		$file->method('getName')->willReturn(basename($path));
-		$file->method('getSize')->willReturn($length);
+		$file->method('getSize')->willReturn($fileSize);
 		$file->method('getMTime')->willReturn(123);
-		$file->method('fopen')->with('rb')->willReturnCallback(static function () use ($contents) {
-			if (!is_string($contents)) {
-				throw $contents;
+		$file->method('fopen')->with('rb')->willReturnCallback(static function () use ($readSize, $fopenReturns) {
+			if ($fopenReturns instanceof Exception) {
+				throw $fopenReturns;
+			}
+
+			if ($fopenReturns === false) {
+				return $fopenReturns;
 			}
 
 			$stream = fopen('php://temp', 'r+');
-			fwrite($stream, $contents);
+			fwrite($stream, $readSize !== null ? substr($fopenReturns, 0, $readSize) : $fopenReturns);
 			rewind($stream);
 
 			return $stream;

@@ -17,6 +17,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\IUserFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IAttributes;
@@ -31,6 +32,8 @@ class BeforeZipCreatedListenerTest extends TestCase {
 	private IUserFolder&MockObject $userFolder;
 	private BeforeZipCreatedListener $listener;
 
+	private IUser&MockObject $user;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -39,10 +42,8 @@ class BeforeZipCreatedListenerTest extends TestCase {
 		$this->userFolder = $this->createMock(IUserFolder::class);
 		$this->listener = new BeforeZipCreatedListener($this->userSession, $this->rootFolder);
 
-		$user = $this->createMock(IUser::class);
-		$user->method('getUID')->willReturn('user');
-		$this->userSession->method('getUser')->willReturn($user);
-		$this->rootFolder->method('getUserFolder')->with('user')->willReturn($this->userFolder);
+		$this->user = $this->createMock(IUser::class);
+		$this->user->method('getUID')->willReturn('user');
 	}
 
 	public static function dataHandle(): array {
@@ -168,6 +169,42 @@ class BeforeZipCreatedListenerTest extends TestCase {
 				'expectedMessage' => 'Access to this resource and its children has been denied.',
 				'expectedExclusions' => [],
 			],
+			'partial archive enabled, with string path resolved through user folder, no filtering => should succeed event' => [
+				'folderPath' => $rootFromFolder,
+				'folderIsDirectoryPath' => true,
+				'withUser' => true,
+				'rootDownloadable' => true,
+				'files' => ['allowed.txt' => true, 'blocked.txt' => false],
+				'filesFilter' => [],
+				'allowPartialArchive' => true,
+				'expectedSuccess' => true,
+				'expectedMessage' => null,
+				'expectedExclusions' => ['blocked.txt' => 'Download is disabled for this resource'],
+			],
+			'partial archive enabled, with string path and no user => should succeed event' => [
+				'folderPath' => $rootFromFolder,
+				'folderIsDirectoryPath' => true,
+				'withUser' => false,
+				'rootDownloadable' => true,
+				'files' => ['allowed.txt' => true, 'blocked.txt' => false],
+				'filesFilter' => [],
+				'allowPartialArchive' => true,
+				'expectedSuccess' => true,
+				'expectedMessage' => null,
+				'expectedExclusions' => ['blocked.txt' => null],
+			],
+			'partial archive enabled, with non-existing string path, with user => should succeed event' => [
+				'folderPath' => $rootFromFolder,
+				'folderIsDirectoryPath' => true,
+				'getFolderShouldThrowNotFound' => true,
+				'rootDownloadable' => true,
+				'files' => ['allowed.txt' => true, 'blocked.txt' => false],
+				'filesFilter' => [],
+				'allowPartialArchive' => true,
+				'expectedSuccess' => true,
+				'expectedMessage' => null,
+				'expectedExclusions' => ['blocked.txt' => null],
+			],
 		];
 	}
 
@@ -181,10 +218,14 @@ class BeforeZipCreatedListenerTest extends TestCase {
 		bool $expectedSuccess,
 		?string $expectedMessage,
 		array $expectedExclusions,
+		bool $folderIsDirectoryPath = false,
+		bool $getFolderShouldThrowNotFound = false,
+		bool $withUser = true,
 	): void {
 		$fileNodes = [];
 		$fileNodesByName = [];
-		$folderPathFromUserRoot = "/user/files{$folderPath}";
+		$userRootPath = '/user/files';
+		$folderPathFromUserRoot = $userRootPath . $folderPath;
 		foreach ($files as $relativePath => $downloadable) {
 			$pathWithFolder = "{$folderPathFromUserRoot}/{$relativePath}";
 			$file = $this->createSharedFile($downloadable, $pathWithFolder);
@@ -192,8 +233,7 @@ class BeforeZipCreatedListenerTest extends TestCase {
 			$fileNodes[] = $file;
 		}
 		$folder = $this->createSharedFolder($rootDownloadable, $folderPathFromUserRoot, $fileNodes);
-		$this->userFolder->method('get')->willReturn($folder);
-		$folder->method('get')->willReturnCallback(function (string $path) use ($folderPath, $fileNodesByName, $folder) {
+		$folder->method('get')->willReturnCallback(function (string $path) use ($folderPath, $fileNodesByName) {
 			$path = str_replace($folderPath . '/', '', $path);
 			return match (true) {
 				isset($fileNodesByName[$path]) => $fileNodesByName[$path],
@@ -201,7 +241,23 @@ class BeforeZipCreatedListenerTest extends TestCase {
 			};
 		});
 
-		$event = new BeforeZipCreatedEvent($folder, $filesFilter, $allowPartialArchive);
+		if ($withUser) {
+			$this->userSession->method('getUser')->willReturn($this->user);
+		}
+
+		if ($folderIsDirectoryPath && $withUser) {
+			$this->rootFolder->expects($this->once())->method('getUserFolder')->willReturn($this->userFolder);
+			$this->userFolder->expects($this->once())->method('getPath')->willReturn($userRootPath);
+			if ($getFolderShouldThrowNotFound) {
+				$this->userFolder->expects($this->once())->method('get')->with($folderPath)->willThrowException(new NotFoundException());
+			} else {
+				$this->userFolder->expects($this->once())->method('get')->with($folderPath)->willReturn($folder);
+			}
+		} else {
+			$this->rootFolder->expects($this->never())->method('getUserFolder');
+		}
+
+		$event = new BeforeZipCreatedEvent($folderIsDirectoryPath ? $folderPath : $folder, $filesFilter, $allowPartialArchive);
 		$this->listener->handle($event);
 
 		$this->assertEquals($expectedSuccess, $event->isSuccessful());
