@@ -96,36 +96,36 @@ class ZipFolderPlugin extends ServerPlugin {
 
 		if ($node instanceof NcFile) {
 			$nodeSize = $node->getSize();
-			$stream = $node->fopen('rb');
 
-			if ($stream === false) {
+			$source = $node->fopen('rb');
+			if ($source === false) {
 				return $this->l10n->t('File could not be opened (fopen). Please check the server logs for more information.');
 			}
 
 			$read = 0;
-			$stream = CountWrapper::wrap($stream, function (int $readCount) use (&$read) {
+			$stream = CountWrapper::wrap($source, function (int $readCount) use (&$read) {
 				$read = $readCount;
 			});
 
 			if ($stream === false) {
+				fclose($source);
 				return $this->l10n->t('Unable to check file for consistency check');
 			}
 
-			$fileAddedToStream = $streamer->addFileFromStream($stream, $filename, $nodeSize, $mtime);
+			try {
+				$fileAddedToStream = $streamer->addFileFromStream($stream, $filename, $nodeSize, $mtime);
+				$streamMetadata = stream_get_meta_data($stream);
+			} finally {
+				// fclose closes stream and source, and $read is set by the wrapper now
+				fclose($stream);
+			}
+
 			if (!$fileAddedToStream) {
-				return $this->l10n->t('The archive was already finalized');
+				return $this->l10n->t('The archive was already finalized, stream was not a stream or was closed');
 			}
-
-			$streamMetadata = stream_get_meta_data($stream);
-			if (get_resource_type($stream) !== 'stream') {
-				return $this->l10n->t('Resource is not a stream or is closed.');
-			}
-			fclose($stream);
-
 			if ($streamMetadata['timed_out'] ?? false) {
 				return $this->l10n->t('Timeout while reading from stream.');
 			}
-
 			if (!($streamMetadata['eof'] ?? true) || $read != $nodeSize) {
 				return $this->l10n->t('Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error.', [$read, $nodeSize]);
 			}
@@ -225,11 +225,16 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 
 		if ($this->reportMissingFiles && !empty($this->missingInfo)) {
-			$json = json_encode($this->missingInfo, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-			$stream = fopen('php://temp', 'r+');
-			fwrite($stream, $json);
-			rewind($stream);
-			$streamer->addFileFromStream($stream, 'missing_files.json', (float)strlen($json), false);
+			$json = json_encode($this->missingInfo, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_INVALID_UTF8_SUBSTITUTE);
+
+			if ($json !== false) {
+				$stream = fopen('php://temp', 'r+');
+				fwrite($stream, $json);
+				rewind($stream);
+				$streamer->addFileFromStream($stream, 'missing_files.json', (float)strlen($json), false);
+			} else {
+				$this->logger->error("Error while generating missing_files.json when generating archive for '$archiveName', error: " . json_last_error_msg());
+			}
 		}
 		$streamer->finalize();
 		$this->streamed = true; // archive fully streamed
@@ -256,8 +261,11 @@ class ZipFolderPlugin extends ServerPlugin {
 			}
 
 			$streamError = $this->streamNode($streamer, $node, $rootPath);
-			if ($this->reportMissingFiles && $streamError !== null) {
-				$this->missingInfo[$filename] = $streamError;
+			if ($streamError !== null) {
+				$this->logger->warning('Could not add file to the archive: ' . $streamError, ['path' => $node->getPath()]);
+				if ($this->reportMissingFiles) {
+					$this->missingInfo[$filename] = $streamError;
+				}
 			}
 
 			if ($node instanceof NcFolder) {
@@ -268,8 +276,7 @@ class ZipFolderPlugin extends ServerPlugin {
 				throw $e;
 			}
 
-			$logMessage = $this->l10n->t('Error while streaming the file');
-			$this->logger->error($logMessage, ['exception' => $e]);
+			$this->logger->error("Error while streaming file '$filename'", ['exception' => $e]);
 			$this->missingInfo[$filename] = $this->l10n->t('File could not be added to the archive. Please check the server logs for more information.');
 			return;
 		}
