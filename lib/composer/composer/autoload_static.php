@@ -1892,6 +1892,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\DB\\Schema\\Index' => __DIR__ . '/../../..' . '/lib/private/DB/Schema/Index.php',
         'OC\\DB\\Schema\\Table' => __DIR__ . '/../../..' . '/lib/private/DB/Schema/Table.php',
         'OC\\DB\\SetTransactionIsolationLevel' => __DIR__ . '/../../..' . '/lib/private/DB/SetTransactionIsolationLevel.php',
+        'OC\\DB\\Types\\TimestampImmutableType' => __DIR__ . '/../../..' . '/lib/private/DB/Types/TimestampImmutableType.php',
+        'OC\\DB\\Types\\TinyIntType' => __DIR__ . '/../../..' . '/lib/private/DB/Types/TinyIntType.php',
         'OC\\Dashboard\\Manager' => __DIR__ . '/../../..' . '/lib/private/Dashboard/Manager.php',
         'OC\\DatabaseException' => __DIR__ . '/../../..' . '/lib/private/DatabaseException.php',
         'OC\\DatabaseSetupException' => __DIR__ . '/../../..' . '/lib/private/DatabaseSetupException.php',
