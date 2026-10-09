@@ -80,11 +80,10 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		$storageId = $node->getStorage()->getCache()->getNumericStorageId();
 		try {
 			/** @var FilesMetadata $metadata */
-			$metadata = $this->metadataRequestService->getMetadataFromFileId($node->getId());
+			$metadata = $this->metadataRequestService->getMetadataFromFileId($node->getId(), $node->getMountPoint()->getNumericStorageId());
 		} catch (FilesMetadataNotFoundException) {
-			$metadata = new FilesMetadata($node->getId());
+			$metadata = new FilesMetadata($node->getId(), $node->getMountPoint()->getNumericStorageId());
 		}
-		$metadata->setStorageId($storageId);
 
 		// if $process is LIVE, we enforce LIVE
 		// if $process is NAMED, we go NAMED
@@ -116,6 +115,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	/**
 	 * @param int $fileId file id
 	 * @param boolean $generate Generate if metadata does not exists
+	 * @param ?int $storageId
 	 *
 	 * @inheritDoc
 	 * @return IFilesMetadata
@@ -123,16 +123,26 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	 * @since 28.0.0
 	 */
 	#[\Override]
-	public function getMetadata(int $fileId, bool $generate = false): IFilesMetadata {
+	public function getMetadata(int $fileId, bool $generate = false, ?int $storageId = null): IFilesMetadata {
+		if ($storageId === null) {
+			$storageId = $this->metadataRequestService->getStorageIdForFileId($fileId);
+		}
 		try {
-			return $this->metadataRequestService->getMetadataFromFileId($fileId);
+			return $this->metadataRequestService->getMetadataFromFileId($fileId, $storageId);
 		} catch (FilesMetadataNotFoundException $ex) {
 			if ($generate) {
-				return new FilesMetadata($fileId);
+				return new FilesMetadata($fileId, $storageId);
 			}
 
 			throw $ex;
 		}
+	}
+
+	#[\Override]
+	public function getMetadataForNode(Node $node, bool $generate = false): IFilesMetadata {
+		/** @var FilesMetadata $metadata */
+		$metadata = $this->getMetadata($node->getId(), $generate, $node->getMountPoint()->getNumericStorageId());
+		return $metadata;
 	}
 
 	/**
@@ -231,7 +241,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		}
 
 		try {
-			$this->indexRequestService->dropIndexForFiles($fileIds);
+			$this->indexRequestService->dropIndexForFiles($storage, $fileIds);
 		} catch (DBException $e) {
 			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileIds' => $fileIds]);
 		}

@@ -46,6 +46,14 @@ interface IFilesMetadata extends JsonSerializable {
 	public function getFileId(): int;
 
 	/**
+	 * returns the storage id linked to this metadata
+	 *
+	 * @return int
+	 * @since 36.0.0
+	 */
+	public function getStorageId(): int;
+
+	/**
 	 * returns last time metadata were updated in the database
 	 *
 	 * @return int timestamp
