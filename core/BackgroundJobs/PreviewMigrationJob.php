@@ -45,6 +45,7 @@ class PreviewMigrationJob extends TimedJob {
 
 		$storage = $this->rootFolder->getMountPoint()->getStorage();
 		if ($storage === null) {
+			$this->logger->warning('Preview migration skipped: the root mount point has no storage.');
 			$this->appConfig->setValueBool('core', 'previewMovedDone', true);
 			return;
 		}
@@ -52,7 +53,12 @@ class PreviewMigrationJob extends TimedJob {
 		$cache = $storage->getCache();
 		$previewRootId = $cache->getId(rtrim($this->previewRootPath, '/'));
 		if ($previewRootId === -1) {
-			// No previews have ever been generated on this instance.
+			// No previews were ever generated, or the storage config no longer
+			// matches the one the filecache data was recorded under.
+			$this->logger->warning('Preview migration skipped: no preview root found at "{path}" on storage "{storageId}".', [
+				'path' => $this->previewRootPath,
+				'storageId' => $storage->getId(),
+			]);
 			$this->appConfig->setValueBool('core', 'previewMovedDone', true);
 			return;
 		}
