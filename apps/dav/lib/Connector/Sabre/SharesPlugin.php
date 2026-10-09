@@ -326,23 +326,22 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 * on a path only for share-ownerless mounts and otherwise filters by initiator, so the same-mount shortcut is
 	 * only safe on share-ownerless mounts.
 	 */
-	private function operationAddsShares(Node $sourceParent, Node $targetNode): bool {
+	private function operationAddsShares(Folder $sourceParent, Node $targetNode): bool {
 		$targetMountPoint = $targetNode->getMountPoint();
 		$sameMount = $sourceParent->getMountPoint()->getMountPoint() === $targetMountPoint->getMountPoint();
-		$sourceParentPath = $sourceParent->getPath();
 		// on share-ownerless mounts the shares of a node already include the ones received by the user
 		$includeIncoming = !($targetMountPoint instanceof IShareOwnerlessMount);
 
-		foreach ($this->getNodeAndAncestorsInMount($targetNode) as $node) {
-			$path = $node->getPath();
-			// check that the source path is below the target path and in the same mount shares containing the target path
-			// also cover the source path
-			if ($sameMount && ($sourceParentPath === $path || str_starts_with($sourceParentPath, $path . '/'))) {
+		foreach ($this->getNodeAndAncestorsInMount($targetNode) as $targetOrAncestor) {
+			// check that the source path is below the target path and in the same mount
+			// shares containing the target path also cover the source path
+			if ($sameMount && $targetOrAncestor instanceof Folder && ($sourceParent->getPath() === $targetOrAncestor->getPath()
+					|| $targetOrAncestor->isSubNode($sourceParent))) {
 				return false;
 			}
 
 			// note: getShare only returns shares originating from the node itself and not shares that contain the node
-			if ($this->getShare($node, $includeIncoming) !== []) {
+			if ($this->getShare($targetOrAncestor, $includeIncoming) !== []) {
 				return true;
 			}
 		}
