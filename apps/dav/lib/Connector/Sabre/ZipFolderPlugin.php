@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Connector\Sabre;
 
-use Icewind\Streams\CountWrapper;
 use OC\Streamer;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -45,6 +44,7 @@ class ZipFolderPlugin extends ServerPlugin {
 	private ?Server $server = null;
 	private bool $reportMissingFiles;
 	private array $missingInfo = [];
+	private bool $tarArchive = false;
 
 	/**
 	 * Whether handleDownload has fully streamed an archive for the current request.
@@ -95,16 +95,17 @@ class ZipFolderPlugin extends ServerPlugin {
 		}
 
 		if ($node instanceof NcFile) {
-			$nodeSize = $node->getSize();
 
 			$source = $node->fopen('rb');
 			if ($source === false) {
 				return $this->l10n->t('File could not be opened (fopen). Please check the server logs for more information.');
 			}
+			// get the size after fopen, so the file is locked
+			$nodeSize = $node->getSize();
 
-			$read = 0;
-			$stream = CountWrapper::wrap($source, function (int $readCount) use (&$read) {
-				$read = $readCount;
+			$entry = null;
+			$stream = ArchiveEntryStream::wrap($source, $nodeSize, $this->tarArchive, static function (ArchiveEntryStream $closed) use (&$entry): void {
+				$entry = $closed;
 			});
 
 			if ($stream === false) {
@@ -113,21 +114,36 @@ class ZipFolderPlugin extends ServerPlugin {
 			}
 
 			try {
+				// todo: if tar archive, ask the storage for the size, so outdated files are never truncated or 0-padded
 				$fileAddedToStream = $streamer->addFileFromStream($stream, $filename, $nodeSize, $mtime);
-				$streamMetadata = stream_get_meta_data($stream);
 			} finally {
-				// fclose closes stream and source, and $read is set by the wrapper now
+				// also closes $source and passes the final read state to the callback
 				fclose($stream);
 			}
+			assert($entry instanceof ArchiveEntryStream);
 
 			if (!$fileAddedToStream) {
 				return $this->l10n->t('The archive was already finalized, stream was not a stream or was closed');
 			}
-			if ($streamMetadata['timed_out'] ?? false) {
-				return $this->l10n->t('Timeout while reading from stream.');
+
+			$throwable = $entry->getThrowable();
+			if ($throwable !== null) {
+				$this->logger->error('Reading the file failed while adding it to the archive', ['exception' => $throwable, 'path' => $node->getPath()]);
 			}
-			if (!($streamMetadata['eof'] ?? true) || $read !== $nodeSize) {
-				return $this->l10n->t('Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error.', [$read, $nodeSize]);
+
+			$bytesRead = $entry->getBytesRead();
+			if ($entry->hasFailed() || $bytesRead < $nodeSize) {
+				$message = $entry->hasFailed()
+					? $this->l10n->t('Reading the file failed after %1$d of %2$d bytes.', [$bytesRead, $nodeSize])
+					: $this->l10n->t('Read %d out of %d bytes from storage. This means the connection may have been closed due to a network/storage error.', [$bytesRead, $nodeSize]);
+				if ($this->tarArchive) {
+					$message .= ' ' . $this->l10n->t('The missing part of the file was filled with empty bytes.');
+				}
+				return $message;
+			}
+
+			if ($entry->isTruncated()) {
+				return $this->l10n->t('The file is larger than its recorded size, only the first %d bytes were added.', [$nodeSize]);
 			}
 		}
 
@@ -211,6 +227,7 @@ class ZipFolderPlugin extends ServerPlugin {
 			$rootPath = dirname($folder->getPath());
 		}
 
+		$this->tarArchive = $tarRequest;
 		$streamer = new Streamer($tarRequest, -1, -1, $this->timezoneFactory);
 		$streamer->sendHeaders($archiveName);
 		// For full folder downloads we also add the folder itself to the archive

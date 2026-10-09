@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use Exception;
+use Icewind\Streams\CallbackWrapper;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Node;
@@ -298,6 +299,54 @@ class ZipFolderPluginTest extends TestCase {
 		$this->assertFalse($continueHandling);
 	}
 
+	/*
+	 * Tests that a file whose storage stream throws after part of it was
+	 * written is completed and reported, and the entries after it are intact.
+	 */
+	public function testFileFailingMidReadKeepsArchiveValid(): void {
+		$plugin = $this->createPlugin(true);
+
+		$folderPath = '/user/files/folder';
+		$firstFile = $this->createFile("{$folderPath}/first.txt", 'first');
+		$brokenFile = $this->createFile("{$folderPath}/broken.bin", str_repeat('b', 10000), null, 2);
+		$lastFile = $this->createFile("{$folderPath}/last.txt", 'last');
+		$folder = $this->createFolderNode($folderPath, [$firstFile, $brokenFile, $lastFile]);
+
+		$this->tree->expects($this->once())
+			->method('getNodeForPath')
+			->with($folderPath)
+			->willReturn($this->createDirectoryNode($folder));
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnArgument(0);
+		$this->logger->expects($this->once())
+			->method('error')
+			->with('Reading the file failed while adding it to the archive', $this->callback(
+				static fn (array $context): bool => $context['exception'] instanceof \RuntimeException && $context['path'] === "{$folderPath}/broken.bin"
+			));
+
+		ob_start();
+		$continueHandling = $plugin->handleDownload($this->createRequest($folderPath), $this->response);
+		$this->assertFalse($continueHandling);
+
+		$archivePath = tempnam(sys_get_temp_dir(), 'zipfolderplugin') . '.zip';
+		file_put_contents($archivePath, $this->getActualOutputForAssertion());
+		$zip = new \ZipArchive();
+		try {
+			$this->assertTrue($zip->open($archivePath), 'Archive is not a valid zip file');
+			$this->assertSame('first', $zip->getFromName('folder/first.txt'));
+			$this->assertSame(str_repeat('b', 8192), $zip->getFromName('folder/broken.bin'));
+			$this->assertSame('last', $zip->getFromName('folder/last.txt'));
+			$this->assertSame(
+				['folder/broken.bin' => 'Reading the file failed after 8192 of 10000 bytes.'],
+				json_decode($zip->getFromName('missing_files.json'), true),
+			);
+			$zip->close();
+		} finally {
+			unlink($archivePath);
+		}
+	}
+
 	private function createPlugin(bool $reportMissingFiles): ZipFolderPlugin {
 		$this->config->method('getSystemValueBool')
 			->with('archive_report_missing_files', true)
@@ -379,14 +428,17 @@ class ZipFolderPluginTest extends TestCase {
 		return $child;
 	}
 
-	private function createFile(string $path, string|false|Exception $fopenReturns, ?int $readSize = null): File&MockObject {
+	/**
+	 * @param ?int $throwOnRead number of the stream read that throws, null to never throw
+	 */
+	private function createFile(string $path, string|false|Exception $fopenReturns, ?int $readSize = null, ?int $throwOnRead = null): File&MockObject {
 		$fileSize = is_string($fopenReturns) ? strlen($fopenReturns) : 0;
 		$file = $this->createMock(File::class);
 		$file->method('getPath')->willReturn($path);
 		$file->method('getName')->willReturn(basename($path));
 		$file->method('getSize')->willReturn($fileSize);
 		$file->method('getMTime')->willReturn(123);
-		$file->method('fopen')->with('rb')->willReturnCallback(static function () use ($readSize, $fopenReturns) {
+		$file->method('fopen')->with('rb')->willReturnCallback(static function () use ($readSize, $fopenReturns, $throwOnRead) {
 			if ($fopenReturns instanceof Exception) {
 				throw $fopenReturns;
 			}
@@ -398,8 +450,16 @@ class ZipFolderPluginTest extends TestCase {
 			$stream = fopen('php://temp', 'r+');
 			fwrite($stream, $readSize !== null ? substr($fopenReturns, 0, $readSize) : $fopenReturns);
 			rewind($stream);
+			if ($throwOnRead === null) {
+				return $stream;
+			}
 
-			return $stream;
+			$reads = 0;
+			return CallbackWrapper::wrap($stream, static function () use (&$reads, $throwOnRead): void {
+				if (++$reads === $throwOnRead) {
+					throw new \RuntimeException('storage read failed');
+				}
+			});
 		});
 
 		return $file;

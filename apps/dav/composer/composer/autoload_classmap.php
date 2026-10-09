@@ -229,6 +229,7 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\AddExtraHeadersPlugin' => $baseDir . '/../lib/Connector/Sabre/AddExtraHeadersPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\AnonymousOptionsPlugin' => $baseDir . '/../lib/Connector/Sabre/AnonymousOptionsPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\AppleQuirksPlugin' => $baseDir . '/../lib/Connector/Sabre/AppleQuirksPlugin.php',
+    'OCA\\DAV\\Connector\\Sabre\\ArchiveEntryStream' => $baseDir . '/../lib/Connector/Sabre/ArchiveEntryStream.php',
     'OCA\\DAV\\Connector\\Sabre\\Auth' => $baseDir . '/../lib/Connector/Sabre/Auth.php',
     'OCA\\DAV\\Connector\\Sabre\\BearerAuth' => $baseDir . '/../lib/Connector/Sabre/BearerAuth.php',
     'OCA\\DAV\\Connector\\Sabre\\BlockLegacyClientPlugin' => $baseDir . '/../lib/Connector/Sabre/BlockLegacyClientPlugin.php',
