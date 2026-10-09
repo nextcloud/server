@@ -75,7 +75,9 @@ class ViewOnly {
 					return false;
 				}
 			} elseif ($file instanceof Folder) {
-				return $this->dirRecursiveCheck($file);
+				if (!$this->dirRecursiveCheck($file)) {
+					return false;
+				}
 			}
 		}
 

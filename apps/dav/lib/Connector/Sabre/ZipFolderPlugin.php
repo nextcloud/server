@@ -88,10 +88,7 @@ class ZipFolderPlugin extends ServerPlugin {
 	 * @return ?string an error message if an error occurred and reporting is enabled, null otherwise
 	 * @throws NotPermittedException|LockedException
 	 */
-	protected function streamNode(Streamer $streamer, NcNode $node, string $rootPath): ?string {
-		// Remove the root path from the filename to make it relative to the requested folder
-		$filename = str_replace($rootPath, '', $node->getPath());
-
+	protected function streamNode(Streamer $streamer, NcNode $node, string $filename): ?string {
 		$mtime = $node->getMTime();
 		if ($node instanceof NcFolder) {
 			$streamer->addEmptyDir($filename, $mtime);
@@ -278,7 +275,7 @@ class ZipFolderPlugin extends ServerPlugin {
 	 * @throws \Exception if adding a node fails and missing files are not reported
 	 */
 	private function streamTree(Streamer $streamer, BeforeZipCreatedEvent $event, NcNode $node, string $rootPath): void {
-		$filename = ltrim(str_replace($rootPath, '', $node->getPath()), '/');
+		$filename = ltrim(substr($node->getPath(), strlen($rootPath)), '/');
 		$children = [];
 		try {
 			$reason = $event->getExclusionReason($node);
@@ -289,7 +286,7 @@ class ZipFolderPlugin extends ServerPlugin {
 				return;
 			}
 
-			$streamError = $this->streamNode($streamer, $node, $rootPath);
+			$streamError = $this->streamNode($streamer, $node, $filename);
 			if ($streamError !== null) {
 				$this->logger->warning('Could not add file to the archive: ' . $streamError, ['path' => $node->getPath()]);
 				if ($this->reportMissingFiles) {
