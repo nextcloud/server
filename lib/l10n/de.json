@@ -163,6 +163,7 @@
     "Cannot create or write into the data directory %s" : "Das Datenverzeichnis %s kann nicht erstellt oder es kann darin nicht geschrieben werden.",
     "%1$s shared %2$s with you" : "%1$s hat %2$s mit dir geteilt",
     "Note" : "Notiz",
+    "Valid until" : "Gültig bis",
     "Open %s" : "%s öffnen",
     "%1$s via %2$s" : "%1$s über %2$s",
     "%s added a note to a file shared with you" : "%s hat eine Notiz zu einer Datei, die mit dir geteilt wurde, hinzugefügt",

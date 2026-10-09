@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Missing recovery key password" : "Chýba kľúč pre obnovu hesla",
     "Please repeat the recovery key password" : "Prosím zopakujte heslo kľúča pre obnovu",
-    "Repeated recovery key password does not match the provided recovery key password" : "Zopakované heslo kľúča pre obnovenie nesúhlasí zo zadaným heslom",
+    "Repeated recovery key password does not match the provided recovery key password" : "Zopakované heslo kľúča na obnovenie sa nezhoduje so zadaným heslom kľúča na obnovenie",
     "Recovery key successfully enabled" : "Záchranný kľúč bol úspešne povolený",
     "Could not enable recovery key. Please check your recovery key password!" : "Nepodarilo sa povoliť záchranný kľúč. Skontrolujte prosím Vaše heslo záchranného kľúča!",
     "Recovery key successfully disabled" : "Záchranný kľúč bol úspešne zakázaný",
