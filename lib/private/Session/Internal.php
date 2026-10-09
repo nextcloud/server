@@ -217,6 +217,10 @@ class Internal extends Session {
 			}
 			return $result;
 		} catch (\Error $e) {
+			$this->logger?->error('trapping a session error', [
+				'loginFlow' => '?',
+				'exception' => $e,
+			]);
 			$this->trapError($e->getCode(), $e->getMessage());
 		}
 	}
