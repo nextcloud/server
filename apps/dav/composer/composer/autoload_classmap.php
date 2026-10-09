@@ -336,6 +336,7 @@ return array(
     'OCA\\DAV\\Events\\SubscriptionDeletedEvent' => $baseDir . '/../lib/Events/SubscriptionDeletedEvent.php',
     'OCA\\DAV\\Events\\SubscriptionUpdatedEvent' => $baseDir . '/../lib/Events/SubscriptionUpdatedEvent.php',
     'OCA\\DAV\\Exception\\ExampleEventException' => $baseDir . '/../lib/Exception/ExampleEventException.php',
+    'OCA\\DAV\\Exception\\InvalidSyncTokenException' => $baseDir . '/../lib/Exception/InvalidSyncTokenException.php',
     'OCA\\DAV\\Exception\\ServerMaintenanceMode' => $baseDir . '/../lib/Exception/ServerMaintenanceMode.php',
     'OCA\\DAV\\Exception\\UidConflict' => $baseDir . '/../lib/Exception/UidConflict.php',
     'OCA\\DAV\\Exception\\UnsupportedLimitOnInitialSyncException' => $baseDir . '/../lib/Exception/UnsupportedLimitOnInitialSyncException.php',
