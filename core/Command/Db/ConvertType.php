@@ -200,6 +200,8 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			}
 		}
 		$intersectingTables = array_intersect($toTables, $fromTables);
+		$intersectingTables = $this->sortTablesByForeignKeys($toDB, $intersectingTables);
+
 		$this->convertDB($fromDB, $toDB, $intersectingTables, $input, $output);
 		return 0;
 	}
@@ -265,6 +267,9 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		if (!empty($toTables)) {
 			$output->writeln('<info>Clearing schema in new database</info>');
 		}
+	
+		$toTables = $this->sortTablesByForeignKeys($db, $toTables, true);
+	
 		foreach ($toTables as $table) {
 			$db->createSchemaManager()->dropTable($table);
 		}
@@ -398,6 +403,108 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 
 		return $this->columnTypes[$tableName][$columnName];
+	}
+
+	/**
+	 * Sort tables so that tables referenced by foreign keys are copied
+	 * before the tables containing those foreign keys.
+	 *
+	 * The dependency information is obtained from the target database,
+	 * making this independent of the source/target database vendor.
+	 *
+	 * @param Connection $connection Target database connection
+	 * @param array<string> $tables Tables to sort
+	 * @param bool $dependenciesFirst Whether to place FK dependencies before dependent tables
+	 * @return array<string> Tables in dependency order
+	 */
+	protected function sortTablesByForeignKeys(Connection $connection, array $tables, bool $dependenciesFirst = false): array {
+		$tableSet = array_fill_keys($tables, true);
+
+		// dependencies[table] = tables that must be copied before it
+		$dependencies = array_fill_keys($tables, []);
+
+		// dependents[table] = tables that depend on it
+		$dependents = array_fill_keys($tables, []);
+
+		$schemaManager = $connection->createSchemaManager();
+
+		foreach ($tables as $table) {
+			foreach ($schemaManager->listTableForeignKeys($table) as $foreignKey) {
+				$foreignTable = $foreignKey->getForeignTableName();
+
+				// $tables is the complete set of tables being converted.
+				// Every FK parent must therefore be in scope; anything else means the
+				// caller passed an incomplete list or the schema changed underneath us.
+				if (!isset($tableSet[$foreignTable])) {
+					throw new RuntimeException(sprintf(
+						'Foreign key on table "%s" references table "%s", '
+						. 'which is not in the list of tables to convert. '
+						. 'The table list must contain every table being converted.',
+						$table,
+						$foreignTable,
+					));
+				}
+
+				// Ignore self-references. They don't impose an ordering
+				// requirement on the table itself.
+				if ($foreignTable === $table) {
+					continue;
+				}
+
+				$dependencies[$table][$foreignTable] = true;
+				$dependents[$foreignTable][$table] = true;
+			}
+		}
+
+		/*
+		 * Kahn's topological sort.
+		 *
+		 * Tables without dependencies can be copied immediately.
+		 */
+		$readyTables = [];
+
+		foreach ($tables as $table) {
+			if ($dependencies[$table] === []) {
+				$readyTables[] = $table;
+			}
+		}
+
+		$sortedTables = [];
+
+		while ($readyTables !== []) {
+			$table = array_shift($ready);
+			$sortedTables[] = $table;
+
+			foreach (array_keys($dependents[$table]) as $dependent) {
+				unset($dependencies[$dependent][$table]);
+
+				if ($dependencies[$dependent] === []) {
+					$readyTables[] = $dependent;
+				}
+			}
+		}
+
+		/*
+		 *  If not all tables were emitted, some subset of them forms a
+		 * dependency cycle (or depends on one). There is no valid
+		 * topological ordering in that case.
+		 *
+		 * $remaining is the set of tables that couldn't be ordered;
+		 * it includes every table involved in a cycle plus anything
+		 * transitively blocked behind one.
+		 */
+		if (count($sortedTables) !== count($tables)) {
+			$remaining = array_diff($tables, $sortedTables);
+			throw new RuntimeException(sprintf(
+				'Cyclic foreign key dependency detected among tables: %s', implode(', ', $remaining)
+			));
+		}
+
+		if ($dependenciesFirst) {
+			$sortedTables = array_reverse($sortedTables);
+		}
+
+		return $sortedTables;
 	}
 
 	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
