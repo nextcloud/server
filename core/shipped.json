@@ -98,6 +98,7 @@
     "systemtags",
     "text",
     "theming",
+    "twofactor_backupcodes",
     "twofactor_totp",
     "updatenotification",
     "user_status",
@@ -117,7 +118,6 @@
     "settings",
     "sharing",
     "theming",
-    "twofactor_backupcodes",
     "workflowengine"
   ]
 }
