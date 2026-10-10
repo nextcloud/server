@@ -146,13 +146,25 @@ class IMipPlugin extends SabreIMipPlugin {
 		$recipientName = $iTipMessage->recipientName ? (string)$iTipMessage->recipientName : null;
 
 		$newEvents = $iTipMessage->message;
-		$oldEvents = $this->getVCalendar();
 
-		$modified = $this->eventComparisonService->findModified($newEvents, $oldEvents);
-		/** @var VEvent $vEvent */
-		$vEvent = array_pop($modified['new']);
-		/** @var VEvent $oldVevent */
-		$oldVevent = !empty($modified['old']) && is_array($modified['old']) ? array_pop($modified['old']) : null;
+		if (strcasecmp($iTipMessage->method, self::METHOD_REPLY) === 0) {
+			// A reply only changes the attendee's PARTSTAT, which the comparison below
+			// does not look at: sabre never adds LAST-MODIFIED to a reply, and an attendee
+			// must not change SEQUENCE. Comparing would drop every reply to an event that
+			// was stored without LAST-MODIFIED (e.g. an Outlook invitation), see #50665
+			$replyEvents = $newEvents->select('VEVENT');
+			/** @var VEvent $vEvent */
+			$vEvent = array_pop($replyEvents);
+			$oldVevent = null;
+		} else {
+			$oldEvents = $this->getVCalendar();
+
+			$modified = $this->eventComparisonService->findModified($newEvents, $oldEvents);
+			/** @var VEvent $vEvent */
+			$vEvent = array_pop($modified['new']);
+			/** @var VEvent $oldVevent */
+			$oldVevent = !empty($modified['old']) && is_array($modified['old']) ? array_pop($modified['old']) : null;
+		}
 		$isModified = isset($oldVevent);
 
 		// No changed events after all - this shouldn't happen if there is significant change yet here we are
