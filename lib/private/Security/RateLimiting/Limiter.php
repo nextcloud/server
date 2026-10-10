@@ -66,6 +66,37 @@ class Limiter implements ILimiter {
 	}
 
 	/**
+	 * Checks whether the anonymous rate limit is already reached for the given
+	 * identifier and IP without registering an attempt
+	 */
+	public function isAnonRateLimitReached(
+		string $identifier,
+		int $anonLimit,
+		string $ip,
+	): bool {
+		$ipSubnet = (new IpAddress($ip))->getSubnet();
+
+		$anonHashIdentifier = hash('sha512', 'anon::' . $identifier . $ipSubnet);
+		return $this->backend->getAttempts($identifier, $anonHashIdentifier) >= $anonLimit;
+	}
+
+	/**
+	 * Registers a failed attempt for an anonymous request without checking the limit
+	 *
+	 * @param int $anonPeriod in seconds
+	 */
+	public function registerAnonAttempt(
+		string $identifier,
+		int $anonPeriod,
+		string $ip,
+	): void {
+		$ipSubnet = (new IpAddress($ip))->getSubnet();
+
+		$anonHashIdentifier = hash('sha512', 'anon::' . $identifier . $ipSubnet);
+		$this->backend->registerAttempt($identifier, $anonHashIdentifier, $anonPeriod);
+	}
+
+	/**
 	 * Registers attempt for an authenticated request
 	 *
 	 * @param int $userPeriod in seconds

@@ -19,6 +19,7 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
+use OCP\Share\Exceptions\ShareNotFound;
 
 class OCSMiddleware extends Middleware {
 	private int $ocsVersion = 2;
@@ -49,6 +50,10 @@ class OCSMiddleware extends Middleware {
 			}
 
 			return $this->buildNewResponse($controller, $code, $exception->getMessage());
+		}
+
+		if ($controller instanceof OCSController && $exception instanceof ShareNotFound) {
+			return $this->buildNewResponse($controller, Http::STATUS_NOT_FOUND, $exception->getMessage());
 		}
 
 		throw $exception;
