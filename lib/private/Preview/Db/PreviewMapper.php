@@ -29,6 +29,7 @@ class PreviewMapper extends QBMapper {
 	private const string TABLE_NAME = 'previews';
 	private const string LOCATION_TABLE_NAME = 'preview_locations';
 	private const string VERSION_TABLE_NAME = 'preview_versions';
+	private const int MAX_INSERT_PARAMETERS = 900;
 	public const MAX_CHUNK_SIZE = 1000;
 
 	// Columns selected by joinLocation() that do not belong to the previews table
@@ -59,6 +60,8 @@ class PreviewMapper extends QBMapper {
 		/** @var Preview $preview */
 		$preview = $entity;
 
+		// The version row reuses the preview id, so it has to exist before it is written.
+		$preview->generateId();
 		$preview->setMimetypeId($this->mimeTypeLoader->getId($preview->getMimeType()));
 		$preview->setSourceMimetypeId($this->mimeTypeLoader->getId($preview->getSourceMimeType()));
 
@@ -74,6 +77,77 @@ class PreviewMapper extends QBMapper {
 			$entity->setVersionId((string)$preview->getId());
 		}
 		return parent::insert($preview);
+	}
+
+	/**
+	 * Insert many migrated previews using multi-row INSERT statements.
+	 *
+	 * Only the columns set by the preview migration are written.
+	 *
+	 * @param list<Preview> $previews
+	 */
+	public function insertMany(array $previews): void {
+		$columns = [
+			'id' => IQueryBuilder::PARAM_STR,
+			'file_id' => IQueryBuilder::PARAM_INT,
+			'storage_id' => IQueryBuilder::PARAM_INT,
+			'old_file_id' => IQueryBuilder::PARAM_INT,
+			'location_id' => IQueryBuilder::PARAM_STR,
+			'width' => IQueryBuilder::PARAM_INT,
+			'height' => IQueryBuilder::PARAM_INT,
+			'mimetype_id' => IQueryBuilder::PARAM_INT,
+			'source_mimetype_id' => IQueryBuilder::PARAM_INT,
+			'mtime' => IQueryBuilder::PARAM_INT,
+			'size' => IQueryBuilder::PARAM_INT,
+			'max' => IQueryBuilder::PARAM_BOOL,
+			'cropped' => IQueryBuilder::PARAM_BOOL,
+			'encrypted' => IQueryBuilder::PARAM_BOOL,
+			'etag' => IQueryBuilder::PARAM_STR,
+		];
+
+		// Oracle before 23ai does not support multi-row VALUES.
+		$multiRow = $this->db->getDatabaseProvider() !== IDBConnection::PLATFORM_ORACLE;
+		$bulk = [];
+		foreach ($previews as $preview) {
+			if (!$multiRow || ($preview->getVersion() !== null && $preview->getVersion() !== '')) {
+				$this->insert($preview);
+				continue;
+			}
+			$preview->generateId();
+			$bulk[] = $preview;
+		}
+
+		$platform = $this->db->getDatabasePlatform();
+		$sql = 'INSERT INTO ' . $this->db->getQueryBuilder()->getTableName(self::TABLE_NAME)
+			. ' (' . implode(', ', array_map($platform->quoteSingleIdentifier(...), array_keys($columns))) . ') VALUES ';
+		$placeholders = '(' . implode(', ', array_fill(0, count($columns), '?')) . ')';
+		$types = array_values($columns);
+
+		foreach (array_chunk($bulk, intdiv(self::MAX_INSERT_PARAMETERS, count($columns))) as $chunk) {
+			$params = [];
+			$paramTypes = [];
+			foreach ($chunk as $preview) {
+				array_push($params,
+					$preview->getId(),
+					$preview->getFileId(),
+					$preview->getStorageId(),
+					$preview->getOldFileId(),
+					$preview->getLocationId(),
+					$preview->getWidth(),
+					$preview->getHeight(),
+					$this->mimeTypeLoader->getId($preview->getMimeType()),
+					$this->mimeTypeLoader->getId($preview->getSourceMimeType()),
+					$preview->getMtime(),
+					$preview->getSize(),
+					$preview->isMax(),
+					$preview->isCropped(),
+					$preview->isEncrypted(),
+					$preview->getEtag(),
+				);
+				array_push($paramTypes, ...$types);
+			}
+			$this->db->executeStatement($sql . implode(', ', array_fill(0, count($chunk), $placeholders)), $params, $paramTypes);
+		}
 	}
 
 	#[Override]
