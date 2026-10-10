@@ -127,6 +127,24 @@ class QBMapperDBTest extends TestCase {
 		$this->assertEquals($datetime->format('Y-m-d H:i:s'), $dbEntity->getDatetime()->format('Y-m-d H:i:s'));
 	}
 
+	public function testInsertIgnoreConflict(): void {
+		$mapper = new QBDBTestMapper($this->connection);
+
+		$entity = new QBDBTestEntity();
+		$entity->setId(200001);
+		$entity->setDatetime(new \DateTimeImmutable('2000-01-01 23:45:00'));
+		$this->assertSame(1, $mapper->insertIgnoreConflict($entity));
+
+		$conflicting = new QBDBTestEntity();
+		$conflicting->setId(200001);
+		$conflicting->setDatetime(new \DateTimeImmutable('2010-05-05 05:05:05'));
+		$this->assertSame(0, $mapper->insertIgnoreConflict($conflicting));
+
+		// the conflicting insert must not have modified the existing row
+		$dbEntity = $mapper->getById(200001);
+		$this->assertEquals('2000-01-01 23:45:00', $dbEntity->getDatetime()->format('Y-m-d H:i:s'));
+	}
+
 	protected function prepareTestingTable(): void {
 		if ($this->schemaSetup) {
 			$this->connection->getQueryBuilder()->delete('testing')->executeStatement();
