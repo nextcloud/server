@@ -79,6 +79,8 @@ OC.L10N.register(
     "Your email address on %s was changed by an administrator." : "%s üzerindeki e-posta adresiniz bir yönetici tarafından değiştirildi.",
     "Email address for %1$s changed on %2$s" : "%2$s üzerindeki %1$s e-posta değiştirildi",
     "Email address changed for %s" : "%s e-posta adresi değiştirildi",
+    "Previous email address" : "Önceki e-posta adresi",
+    "New email address" : "Yeni e-posta adresi",
     "No email address set" : "E-posta adresi belirtilmemiş",
     "Appearance and accessibility" : "Görünüm ve erişilebilirlik",
     "Personal settings" : "Kişisel ayarlar",

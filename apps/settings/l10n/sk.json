@@ -77,6 +77,8 @@
     "Your email address on %s was changed by an administrator." : "Vaša emailová adresa na %s bola zmenená administrátorom.",
     "Email address for %1$s changed on %2$s" : "Emailová adresa pre %1$s zmenená na %2$s",
     "Email address changed for %s" : "Emailová adresa zmenená pre %s",
+    "Previous email address" : "Predchádzajúca e-mailová adresa",
+    "New email address" : "Nová e-mailová adresa",
     "No email address set" : "Emailová adresa nie je nastavená",
     "Appearance and accessibility" : "Vzhľad a správanie",
     "Personal settings" : "Osobné nastavenia",
