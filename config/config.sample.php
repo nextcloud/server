@@ -1649,6 +1649,13 @@ $CONFIG = [
 	 *   - ``OC\Preview\Imaginary``
 	 *   - ``OC\Preview\ImaginaryPDF``
 	 *
+	 * The order of this list is the order in which providers are tried for a
+	 * file. If a provider fails, the next matching one is tried.
+	 *
+	 * When this key is unset and ``preview_imaginary_url`` is set,
+	 * ``OC\Preview\Imaginary`` is tried first, and ``OC\Preview\HEIC`` is
+	 * appended as a fallback when ImageMagick can decode HEIC.
+	 *
 	 * Defaults to the following providers:
 	 *
 	 *  - ``OC\Preview\PNG``
