@@ -104,6 +104,7 @@
     "concurrently": "^10.0.5",
     "eslint": "^10.12.0",
     "eslint-plugin-no-only-tests": "^3.4.0",
+    "fake-indexeddb": "^6.2.5",
     "is-svg": "^6.1.0",
     "jsdom": "^30.1.2",
     "jsdom-testing-mocks": "^1.16.0",
