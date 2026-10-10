@@ -1353,6 +1353,7 @@ return array(
     'OC\\Authentication\\Token\\PublicKeyTokenProvider' => $baseDir . '/lib/private/Authentication/Token/PublicKeyTokenProvider.php',
     'OC\\Authentication\\Token\\RemoteWipe' => $baseDir . '/lib/private/Authentication/Token/RemoteWipe.php',
     'OC\\Authentication\\Token\\TokenCleanupJob' => $baseDir . '/lib/private/Authentication/Token/TokenCleanupJob.php',
+    'OC\\Authentication\\Token\\TokenScopes' => $baseDir . '/lib/private/Authentication/Token/TokenScopes.php',
     'OC\\Authentication\\TwoFactorAuth\\Db\\ProviderUserAssignmentDao' => $baseDir . '/lib/private/Authentication/TwoFactorAuth/Db/ProviderUserAssignmentDao.php',
     'OC\\Authentication\\TwoFactorAuth\\EnforcementState' => $baseDir . '/lib/private/Authentication/TwoFactorAuth/EnforcementState.php',
     'OC\\Authentication\\TwoFactorAuth\\Manager' => $baseDir . '/lib/private/Authentication/TwoFactorAuth/Manager.php',

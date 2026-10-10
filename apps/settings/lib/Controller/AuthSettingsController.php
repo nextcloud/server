@@ -14,6 +14,7 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\RemoteWipe;
+use OC\Authentication\Token\TokenScopes;
 use OCA\Settings\Activity\Provider;
 use OCA\Settings\ConfigLexicon;
 use OCP\Activity\IManager;
@@ -52,6 +53,7 @@ class AuthSettingsController extends Controller {
 		private LoggerInterface $logger,
 		private IConfig $serverConfig,
 		private IL10N $l,
+		private TokenScopes $tokenScopes,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -245,10 +247,22 @@ class AuthSettingsController extends Controller {
 		}
 
 		$currentName = $token->getName();
+		$currentScope = $token->getScopeAsArray();
 
-		if ($scope !== $token->getScopeAsArray()) {
-			$token->setScope([IToken::SCOPE_FILESYSTEM => $scope[IToken::SCOPE_FILESYSTEM]]);
-			$this->publishActivity($scope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+		try {
+			$newScope = $this->tokenScopes->mergeUpdate($currentScope, $scope);
+		} catch (\InvalidArgumentException) {
+			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		if ($newScope !== $currentScope) {
+			$token->setScope($newScope);
+			if ($this->tokenScopes->fromBlob($newScope) !== $this->tokenScopes->fromBlob($currentScope)) {
+				$this->publishActivity(Provider::APP_TOKEN_SCOPES_CHANGED, $token->getId(), ['name' => $currentName]);
+			} elseif ($newScope[IToken::SCOPE_FILESYSTEM] !== ($currentScope[IToken::SCOPE_FILESYSTEM] ?? false)) {
+				// Only legacy tokens without scopes flip filesystem on its own
+				$this->publishActivity($newScope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+			}
 		}
 
 		if (mb_strlen($name) > 128) {
