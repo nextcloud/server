@@ -7,7 +7,7 @@ import type { INode } from '@nextcloud/files'
 import type { ResponseDataDetailed, SearchResult } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { defaultRootPath, getDavNameSpaces, getDavProperties, resultToNode } from '@nextcloud/files/dav'
+import { defaultRootPath, getDavNameSpaces, getDavProperties, getRemoteURL, resultToNode } from '@nextcloud/files/dav'
 import { getBaseUrl } from '@nextcloud/router'
 import escapeHTML from 'escape-html'
 import { logger } from '../utils/logger.ts'
@@ -81,4 +81,78 @@ export async function searchNodes(query: string, { dir, signal }: SearchNodesOpt
 
 	// otherwise return the result mapped to Nextcloud nodes
 	return data.results.map((result) => resultToNode(result, defaultRootPath, getBaseUrl()))
+}
+
+/**
+ * Maximum number of file ids per `searchNodesById` request,
+ * the DAV search backend accepts at most 100 operators per query.
+ */
+export const MAX_SEARCH_FILE_IDS = 98
+
+/**
+ * Fetch the nodes with the given file ids that are within a directory.
+ * Ids outside of the directory, or that do not exist anymore, are not returned.
+ *
+ * @param fileIds - File ids to fetch, at most `MAX_SEARCH_FILE_IDS`
+ * @param options - Options
+ * @param options.dir - The directory to scope the search to, including its subdirectories
+ * @param options.signal - Abort signal for the request
+ */
+export async function searchNodesById(fileIds: number[], { dir, signal }: SearchNodesOptions): Promise<INode[]> {
+	const user = getCurrentUser()
+	if (!user || fileIds.length === 0) {
+		return []
+	}
+
+	if (fileIds.length > MAX_SEARCH_FILE_IDS) {
+		throw new Error(`Cannot search for more than ${MAX_SEARCH_FILE_IDS} file ids at once`)
+	}
+
+	if (dir && !dir.startsWith('/')) {
+		dir = `/${dir}`
+	}
+
+	const conditions = fileIds.map((fileId) => `<d:eq><d:prop><oc:fileid/></d:prop><d:literal>${Number(fileId)}</d:literal></d:eq>`)
+	const where = conditions.length > 1 ? `<d:or>${conditions.join('')}</d:or>` : conditions[0]
+
+	logger.debug('Fetching nodes by file id', { fileIds, dir })
+	const { data } = await client.search('/', {
+		details: true,
+		signal,
+		data: `
+<d:searchrequest ${getDavNameSpaces()}>
+	 <d:basicsearch>
+		 <d:select>
+			 <d:prop>
+			 ${getDavProperties()}
+			 </d:prop>
+		 </d:select>
+		 <d:from>
+			 <d:scope>
+				 <d:href>/files/${user.uid}${dir ? escapeHTML(dir) : ''}</d:href>
+				 <d:depth>infinity</d:depth>
+			 </d:scope>
+		 </d:from>
+		 <d:where>${where}</d:where>
+		 <d:orderby/>
+		 <d:limit>
+			 <d:nresults>${fileIds.length}</d:nresults>
+		 </d:limit>
+	</d:basicsearch>
+</d:searchrequest>`,
+	}) as ResponseDataDetailed<SearchResult>
+
+	if (signal?.aborted) {
+		return []
+	}
+
+	// Search results have absolute hrefs, make them relative to the DAV root like
+	// listings so the node sources match, also when Nextcloud runs in a subfolder
+	const davPath = new URL(getRemoteURL()).pathname
+	return data.results.map((result) => {
+		if (result.filename.startsWith(davPath)) {
+			result.filename = result.filename.slice(davPath.length)
+		}
+		return resultToNode(result)
+	})
 }
