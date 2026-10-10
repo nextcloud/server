@@ -68,10 +68,17 @@ class LockdownManager implements ILockdownManager {
 	#[\Override]
 	public function canAccessFilesystem() {
 		$scope = $this->getScopeAsArray();
-		if ($scope && $this->tokenScopes->fromBlob($scope) === null) {
+		if ($scope && !$this->isScoped()) {
 			return $scope[IToken::SCOPE_FILESYSTEM] ?? false;
 		}
 		return $this->hasScope(TokenScopes::FILES_READ);
+	}
+
+	/**
+	 * Malformed scopes count as scoped, so they fail closed
+	 */
+	public function isScoped(): bool {
+		return $this->tokenScopes->fromBlob($this->getScopeAsArray() ?? []) !== null;
 	}
 
 	/**

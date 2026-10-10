@@ -81,6 +81,25 @@ class LockdownManagerTest extends TestCase {
 		$this->assertSame($expected, $this->managerWithScope($scope)->hasScope($requested));
 	}
 
+	public function testIsScopedWithoutToken(): void {
+		$manager = new LockdownManager($this->sessionCallback, new TokenScopes());
+		$this->assertFalse($manager->isScoped());
+	}
+
+	public static function isScoped(): array {
+		return [
+			'legacy' => [[IToken::SCOPE_FILESYSTEM => true], false],
+			'scoped' => [[TokenScopes::KEY => [TokenScopes::CALENDAR_READ]], true],
+			'empty scopes' => [[TokenScopes::KEY => []], true],
+			'malformed' => [[TokenScopes::KEY => TokenScopes::CALENDAR_READ], true],
+		];
+	}
+
+	#[DataProvider('isScoped')]
+	public function testIsScoped(array $scope, bool $expected): void {
+		$this->assertSame($expected, $this->managerWithScope($scope)->isScoped());
+	}
+
 	private function managerWithScope(array $scope): LockdownManager {
 		$token = new PublicKeyToken();
 		$token->setScope($scope);
