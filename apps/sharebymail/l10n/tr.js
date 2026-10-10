@@ -20,7 +20,7 @@ OC.L10N.register(
     "Failed to send share by email" : "Paylaşım e-postası gönderilemedi",
     "%1$s shared %2$s with you" : "%1$s, sizinle %2$s ögesini paylaştı",
     "Note" : "Not",
-    "Valid until" : "Geçerlilik",
+    "Valid until" : "Geçerlilik sonu",
     "Password" : "Parola",
     "Required" : "Zorunlu",
     "Open shared item" : "Paylaşılan ögeyi aç",
