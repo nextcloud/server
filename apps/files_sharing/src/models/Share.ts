@@ -373,6 +373,14 @@ export default class Share {
 	}
 
 	/**
+	 * Source name when this received share was renamed.
+	 * Empty when the recipient still sees the source name.
+	 */
+	get originalDisplayName(): string {
+		return this._share.original_displayname || ''
+	}
+
+	/**
 	 * Get the parent folder id if any
 	 */
 	get fileParent(): number {

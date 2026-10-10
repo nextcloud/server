@@ -12,6 +12,7 @@ use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\Files_Sharing\External\Mount as SharingExternalMount;
+use OCA\Files_Sharing\OriginalDisplayName;
 use OCP\Accounts\IAccountManager;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
@@ -71,6 +72,7 @@ class FilesPlugin extends ServerPlugin {
 	public const CREATION_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}creation_time';
 	public const LAST_ACTIVITY_PROPERTYNAME = '{http://nextcloud.org/ns}last_activity';
 	public const SHARE_NOTE = '{http://nextcloud.org/ns}note';
+	public const ORIGINAL_DISPLAYNAME_PROPERTYNAME = '{http://nextcloud.org/ns}original-displayname';
 	public const SHARE_HIDE_DOWNLOAD_PROPERTYNAME = '{http://nextcloud.org/ns}hide-download';
 	public const SUBFOLDER_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-folder-count';
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
@@ -134,6 +136,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::MOUNT_TYPE_PROPERTYNAME;
 		$server->protectedProperties[] = self::IS_FEDERATED_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHARE_NOTE;
+		$server->protectedProperties[] = self::ORIGINAL_DISPLAYNAME_PROPERTYNAME;
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
 		$allowedProperties = ['{DAV:}getetag'];
@@ -421,6 +424,30 @@ class FilesPlugin extends ServerPlugin {
 				$user = $this->userSession->getUser();
 				return $node->getNoteFromShare(
 					$user?->getUID()
+				);
+			});
+
+			$propFind->handle(self::ORIGINAL_DISPLAYNAME_PROPERTYNAME, function () use ($node): ?string {
+				if ($this->isPublic) {
+					return null;
+				}
+
+				try {
+					$file = $node->getNode();
+					$storage = $file->getStorage();
+				} catch (\OCP\Files\NotFoundException|StorageNotAvailableException) {
+					return null;
+				}
+
+				if ($file->getInternalPath() !== '' || !$storage->instanceOfStorage(ISharedStorage::class)) {
+					return null;
+				}
+
+				/** @var ISharedStorage $storage */
+				return OriginalDisplayName::forShare(
+					$storage->getShare(),
+					$node->getName(),
+					true,
 				);
 			});
 

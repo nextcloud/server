@@ -715,4 +715,86 @@ class FilesPluginTest extends TestCase {
 
 		$this->assertEquals('false', $propFind->get(FilesPlugin::HAS_PREVIEW_PROPERTYNAME));
 	}
+
+	public function testOriginalDisplayNameWhenShareWasRenamed(): void {
+		$node = $this->createTestNode(Directory::class);
+		$file = $this->createMock(\OCP\Files\Folder::class);
+		$storage = $this->createMock(\OCP\Files\Storage\ISharedStorage::class);
+		$share = $this->createMock(\OCP\Share\IShare::class);
+		$cacheEntry = $this->createMock(\OCP\Files\Cache\ICacheEntry::class);
+
+		$file->method('getInternalPath')->willReturn('');
+		$file->method('getStorage')->willReturn($storage);
+		$storage->method('instanceOfStorage')->willReturn(true);
+		$storage->method('getShare')->willReturn($share);
+		$cacheEntry->method('getName')->willReturn('Project-A');
+		$share->method('getNodeCacheEntry')->willReturn($cacheEntry);
+		$node->method('getName')->willReturn('Project-A-with-Alice');
+		$node->method('getNode')->willReturn($file);
+
+		$propFind = new PropFind('/dummyPath', [FilesPlugin::ORIGINAL_DISPLAYNAME_PROPERTYNAME], 0);
+		$this->plugin->handleGetProperties($propFind, $node);
+
+		$this->assertSame('Project-A', $propFind->get(FilesPlugin::ORIGINAL_DISPLAYNAME_PROPERTYNAME));
+	}
+
+	public function testOriginalDisplayNameIsHiddenWhenNamesMatch(): void {
+		$node = $this->createTestNode(Directory::class);
+		$file = $this->createMock(\OCP\Files\Folder::class);
+		$storage = $this->createMock(\OCP\Files\Storage\ISharedStorage::class);
+		$share = $this->createMock(\OCP\Share\IShare::class);
+		$cacheEntry = $this->createMock(\OCP\Files\Cache\ICacheEntry::class);
+
+		$file->method('getInternalPath')->willReturn('');
+		$file->method('getStorage')->willReturn($storage);
+		$storage->method('instanceOfStorage')->willReturn(true);
+		$storage->method('getShare')->willReturn($share);
+		$cacheEntry->method('getName')->willReturn('Project-A');
+		$share->method('getNodeCacheEntry')->willReturn($cacheEntry);
+		$node->method('getName')->willReturn('Project-A');
+		$node->method('getNode')->willReturn($file);
+
+		$propFind = new PropFind('/dummyPath', [FilesPlugin::ORIGINAL_DISPLAYNAME_PROPERTYNAME], 0);
+		$this->plugin->handleGetProperties($propFind, $node);
+
+		$this->assertNull($propFind->get(FilesPlugin::ORIGINAL_DISPLAYNAME_PROPERTYNAME));
+	}
+
+	public function testOriginalDisplayNameIsHiddenForChildrenOfAShare(): void {
+		$node = $this->createTestNode(Directory::class);
+		$file = $this->createMock(\OCP\Files\Folder::class);
+		$storage = $this->createMock(\OCP\Files\Storage\ISharedStorage::class);
+		$file->method('getInternalPath')->willReturn('inside');
+		$file->method('getStorage')->willReturn($storage);
+		$storage->method('instanceOfStorage')->willReturn(true);
+		$storage->expects($this->never())->method('getShare');
+		$node->method('getNode')->willReturn($file);
+
+		$propFind = new PropFind('/dummyPath', [FilesPlugin::ORIGINAL_DISPLAYNAME_PROPERTYNAME], 0);
+		$this->plugin->handleGetProperties($propFind, $node);
+
+		$this->assertNull($propFind->get(FilesPlugin::ORIGINAL_DISPLAYNAME_PROPERTYNAME));
+	}
+
+	public function testOriginalDisplayNameIsHiddenOnPublicLinks(): void {
+		$node = $this->createTestNode(Directory::class);
+		$node->expects($this->never())->method('getNode');
+
+		$publicPlugin = new FilesPlugin(
+			$this->tree,
+			$this->config,
+			$this->request,
+			$this->previewManager,
+			$this->userSession,
+			$this->filenameValidator,
+			$this->accountManager,
+			isPublic: true,
+		);
+		$publicPlugin->initialize($this->server);
+
+		$propFind = new PropFind('/dummyPath', [FilesPlugin::ORIGINAL_DISPLAYNAME_PROPERTYNAME], 0);
+		$publicPlugin->handleGetProperties($propFind, $node);
+
+		$this->assertNull($propFind->get(FilesPlugin::ORIGINAL_DISPLAYNAME_PROPERTYNAME));
+	}
 }
