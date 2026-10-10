@@ -6,6 +6,7 @@
 import type { IFileAction, INode, IView } from '@nextcloud/files'
 
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
+import { getRequestToken } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
@@ -142,7 +143,41 @@ async function downloadNodes(nodes: INode[]) {
 		// The URL contains the path encoded so we need to decode as the query.append will re-encode it
 		const filenames = nodes.map((node) => decodeURIComponent(node.encodedSource.slice(url.href.length + 1)))
 		url.searchParams.append('accept', 'zip')
-		url.searchParams.append('files', JSON.stringify(filenames))
+
+		if (url.pathname.at(-1) !== '/') {
+			url.pathname = `${url.pathname}/`
+		}
+
+		// try to see if the resource is still available
+		await axios.head(url.href)
+
+		// Send the file list in the request body to avoid too long URLs.
+		// A native form submission lets the browser stream the archive to disk.
+		const form = document.createElement('form')
+		form.method = 'POST'
+		// Pass the parameters in the body as POST requests with query parameters are not supported by all DAV plugins
+		url.search = ''
+		form.action = url.href
+		form.style.display = 'none'
+		const fields = {
+			accept: 'zip',
+			files: JSON.stringify(filenames),
+			requesttoken: getRequestToken() ?? '',
+		}
+		for (const [name, value] of Object.entries(fields)) {
+			const input = document.createElement('input')
+			input.type = 'hidden'
+			input.name = name
+			input.value = value
+			form.appendChild(input)
+		}
+		document.body.appendChild(form)
+		try {
+			form.submit()
+		} finally {
+			form.remove()
+		}
+		return
 	}
 
 	if (url.pathname.at(-1) !== '/') {
