@@ -21,6 +21,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IAppConfig;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\Image;
@@ -46,6 +47,7 @@ class Generator {
 		private readonly PreviewMapper $previewMapper,
 		private readonly StorageFactory $storageFactory,
 		private readonly PreviewMigrationService $migrationService,
+		private readonly ICacheFactory $cacheFactory,
 	) {
 	}
 
@@ -261,7 +263,19 @@ class Generator {
 	 *
 	 * @return int number of concurrent threads, or 0 if it cannot be determined
 	 */
-	private static function getHardwareConcurrency(): int {
+	private function getHardwareConcurrency(): int {
+		// /proc/cpuinfo is slow to read
+		$cache = $this->cacheFactory->createLocal('preview');
+		$cached = $cache->get('hardware_concurrency');
+		if (is_int($cached)) {
+			return $cached;
+		}
+		$concurrency = self::readHardwareConcurrency();
+		$cache->set('hardware_concurrency', $concurrency, 3600);
+		return $concurrency;
+	}
+
+	private static function readHardwareConcurrency(): int {
 		if (function_exists('ini_get')) {
 			$openBasedir = ini_get('open_basedir');
 			if (empty($openBasedir) || strpos($openBasedir, '/proc/cpuinfo') !== false) {
@@ -291,7 +305,7 @@ class Generator {
 			return $this->cachedNumConcurrentPreviews[$type];
 		}
 
-		$hardwareConcurrency = self::getHardwareConcurrency();
+		$hardwareConcurrency = $this->getHardwareConcurrency();
 		switch ($type) {
 			case 'preview_concurrency_all':
 				$fallback = $hardwareConcurrency > 0 ? $hardwareConcurrency * 2 : 8;
