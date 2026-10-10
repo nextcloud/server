@@ -11,6 +11,7 @@ namespace OCA\DAV\Connector\Sabre;
 use Exception;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\User\LoginException;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCA\DAV\Connector\Sabre\Exception\TooManyRequests;
@@ -115,6 +116,9 @@ class Auth extends AbstractBasic {
 			return $this->auth($request, $response);
 		} catch (NotAuthenticated $e) {
 			throw $e;
+		} catch (LoginException $e) {
+			Server::get(LoggerInterface::class)->info($e->getMessage(), ['exception' => $e]);
+			throw new NotAuthenticated($e->getMessage(), 0, $e);
 		} catch (Exception $e) {
 			$class = get_class($e);
 			$msg = $e->getMessage();
