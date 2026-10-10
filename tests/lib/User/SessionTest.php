@@ -24,6 +24,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\DB\Exception as DbException;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
@@ -1133,6 +1134,54 @@ class SessionTest extends TestCase {
 			->with($sessionId, $uid, $loginName, $password, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::DO_NOT_REMEMBER);
 
 		$this->assertTrue($userSession->createSessionToken($request, $uid, $loginName, $password));
+	}
+
+	public static function dataCreateSessionTokenConflict(): array {
+		return [
+			'same user' => ['user123', true],
+			'other user' => ['otheruser', false],
+		];
+	}
+
+	#[DataProvider('dataCreateSessionTokenConflict')]
+	public function testCreateSessionTokenConflict(string $existingUid, bool $expectSuccess): void {
+		$manager = $this->createMock(Manager::class);
+		$session = $this->createMock(ISession::class);
+		$user = $this->createMock(IUser::class);
+		$userSession = new Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config, $this->random, $this->lockdownManager, $this->logger, $this->dispatcher);
+
+		$request = new Request([
+			'server' => [
+				'HTTP_USER_AGENT' => 'Firefox',
+			]
+		], $this->createMock(IRequestId::class), $this->createMock(IConfig::class), $this->createMock(CsrfTokenManager::class));
+
+		$uid = 'user123';
+		$sessionId = 'abcxyz';
+
+		$manager->method('get')
+			->with($uid)
+			->willReturn($user);
+		$session->method('getId')
+			->willReturn($sessionId);
+
+		$exception = $this->createMock(DbException::class);
+		$exception->method('getReason')->willReturn(DbException::REASON_UNIQUE_CONSTRAINT_VIOLATION);
+		$this->tokenProvider->expects($this->once())
+			->method('generateToken')
+			->willThrowException($exception);
+
+		$existing = new PublicKeyToken();
+		$existing->setUid($existingUid);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($sessionId)
+			->willReturn($existing);
+
+		if (!$expectSuccess) {
+			$this->expectExceptionMessage('Token conflict handled, but UIDs do not match');
+		}
+		$this->assertTrue($userSession->createSessionToken($request, $uid, $uid));
 	}
 
 	public function testCreateRememberedSessionToken(): void {
