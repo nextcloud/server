@@ -76,7 +76,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.2.0
 	- license: MIT
 - vue
-	- version: 3.5.41
+	- version: 3.5.43
 	- license: MIT
 - @nextcloud/dialogs
 	- version: 7.5.0
@@ -109,16 +109,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.41.0
 	- license: AGPL-3.0-or-later
 - @vue/reactivity
-	- version: 3.5.41
-	- license: MIT
-- @vue/shared
-	- version: 3.5.41
+	- version: 3.5.43
 	- license: MIT
 - @vue/runtime-core
-	- version: 3.5.41
+	- version: 3.5.43
 	- license: MIT
 - @vue/runtime-dom
-	- version: 3.5.41
+	- version: 3.5.43
+	- license: MIT
+- @vue/shared
+	- version: 3.5.43
 	- license: MIT
 - axios
 	- version: 1.20.0
