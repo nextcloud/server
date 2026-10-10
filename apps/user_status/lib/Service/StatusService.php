@@ -81,7 +81,7 @@ class StatusService {
 	/**
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @return UserStatus[]
+	 * @return list<UserStatus>
 	 */
 	public function findAll(?int $limit = null, ?int $offset = null): array {
 		// Return empty array if user enumeration is disabled or limited to groups
@@ -91,9 +91,9 @@ class StatusService {
 			return [];
 		}
 
-		return array_map(function ($status) {
+		return array_values(array_map(function ($status) {
 			return $this->processStatus($status);
-		}, $this->mapper->findAll($limit, $offset));
+		}, $this->mapper->findAll($limit, $offset)));
 	}
 
 	/**
