@@ -105,7 +105,7 @@
     "eslint": "^10.11.0",
     "eslint-plugin-no-only-tests": "^3.4.0",
     "is-svg": "^6.1.0",
-    "jsdom": "^30.1.1",
+    "jsdom": "^30.1.2",
     "jsdom-testing-mocks": "^1.16.0",
     "mime": "^4.1.0",
     "msw": "^2.15.0",
