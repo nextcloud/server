@@ -100,7 +100,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.9.0",
     "@zip.js/zip.js": "^2.23.0",
-    "axe-core": "^4.13.0",
+    "axe-core": "^4.14.0",
     "concurrently": "^10.0.5",
     "eslint": "^10.11.0",
     "eslint-plugin-no-only-tests": "^3.4.0",
