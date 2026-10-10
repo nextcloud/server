@@ -291,6 +291,7 @@
     "Advanced settings" : "Avancerade inställningar",
     "Share label" : "Etikett för delning",
     "Share link token" : "Token för delningslänk",
+    "Set the public share link token to something easy to remember or generate a new token. Tokens can be up to {maxLength} characters long and may only contain letters, numbers, and hyphens. It is not recommended to use a guessable token for shares which contain sensitive information." : "Ange token för den offentliga delningslänken till något som är lätt att komma ihåg, eller generera en ny token. Token kan vara upp till {maxLength} tecken långa och får bara innehålla bokstäver, siffror och bindestreck. Det rekommenderas inte att använda en lättgissad token för delningar som innehåller känslig information.",
     "Generating…" : "Genererar …",
     "Generate new token" : "Generera ny token",
     "Set password" : "Ange lösenord",

@@ -77,6 +77,8 @@
     "Your email address on %s was changed by an administrator." : "Din email adresse på %s er blevet ændret af en administrator",
     "Email address for %1$s changed on %2$s" : "Email adresse for %1$s ændret på %2$s",
     "Email address changed for %s" : "Email adresse ændret for %s",
+    "Previous email address" : "Tidligere e-mailadresse",
+    "New email address" : "Ny e-mailadresse",
     "No email address set" : "Der er ikke angivet e-mailadresse",
     "Appearance and accessibility" : "Udseende og tilgængelighed",
     "Personal settings" : "Personlige indstillinger",
