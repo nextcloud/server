@@ -175,8 +175,10 @@ class SMB extends Common implements INotifyStorage {
 			$this->throwUnavailable($e);
 		} catch (InvalidArgumentException $e) {
 			$this->throwUnavailable($e);
-		} catch (NotFoundException $e) {
+	   } catch (NotFoundException $e) {
+			$this->assertRootAvailable($path, $e);
 			throw new \OCP\Files\NotFoundException($e->getMessage(), 0, $e);
+		}
 		} catch (ForbiddenException $e) {
 			// with php-smbclient, this exception is thrown when the provided password is invalid.
 			// we check if we can stat the root, which should only fail in authentication failures
@@ -194,31 +196,34 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	/**
-	 * @throws StorageAuthException
+	 * A missing share (NT_STATUS_BAD_NETWORK_NAME, e.g. when the backing dataset is locked)
+	 * is reported by php-smbclient as a plain NotFound for every path. Before reporting a path
+	 * as not found, make sure the storage root itself is reachable, otherwise the scanner
+	 * would remove the whole storage from the cache.
+	 *
+	 * @throws StorageNotAvailableException
 	 */
-	protected function throwUnavailable(\Exception $e): never {
-		$this->logger->error('Error while getting file info', ['exception' => $e]);
-		throw new StorageAuthException($e->getMessage(), $e);
+	private function assertRootAvailable(string $fullPath, \Exception $e): void {
+		$rootPath = $this->buildPath('');
+		if (ltrim($fullPath, '/') !== ltrim($rootPath, '/')) {
+			try {
+				$this->share->stat($rootPath);
+				return;
+			} catch (\Exception $rootException) {
+				$e = $rootException;
+			}
+		}
+		$this->logger->warning('Storage root not reachable, marking storage as unavailable', ['exception' => $e]);
+		throw new StorageNotAvailableException($e->getMessage(), StorageNotAvailableException::STATUS_ERROR, $e);
 	}
 
 	/**
-	 * get the acl from fileinfo that is relevant for the configured user
+	 * @throws StorageAuthException
+	 * @throws StorageNotAvailableException
 	 */
-	private function getACL(IFileInfo $file): ?ACL {
-		try {
-			$acls = $file->getAcls();
-		} catch (Exception $e) {
-			$this->logger->warning('Error while getting file acls', ['exception' => $e]);
-			return null;
-		}
-		foreach ($acls as $user => $acl) {
-			[, $user] = $this->splitUser($user); // strip domain
-			if ($user === $this->server->getAuth()->getUsername()) {
-				return $acl;
-			}
-		}
-
-		return null;
+	protected function throwUnavailable(\Exception $e): never {
+		$this->logger->warning('Storage not available', ['exception' => $e]);
+		throw new StorageNotAvailableException($e->getMessage(), StorageNotAvailableException::STATUS_ERROR, $e);
 	}
 
 	/**
@@ -272,7 +277,8 @@ class SMB extends Common implements INotifyStorage {
 			$this->logger->error('Error while getting folder content', ['exception' => $e]);
 			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
 		} catch (NotFoundException $e) {
-			throw new \OCP\Files\NotFoundException($e->getMessage(), 0, $e);
+		$this->assertRootAvailable($path, $e);
+		throw new \OCP\Files\NotFoundException($e->getMessage(), 0, $e);
 		}
 	}
 
