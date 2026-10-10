@@ -22,7 +22,7 @@ OC.L10N.register(
     "The profile does not exist or is unavailable." : "Profil neexistuje alebo nie je dostupný.",
     "Back to %s" : "Späť na %s",
     "Provides a customisable user profile interface." : "Poskytuje prispôsobiteľné rozhranie používateľského profilu.",
-    "Edit Profile" : "Upraviť rofil",
+    "Edit Profile" : "Upraviť profil",
     "The profile does not exist." : "Profil neexistuje."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
