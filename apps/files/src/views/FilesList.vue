@@ -3,7 +3,11 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcAppContent :pageHeading="pageHeading" data-cy-files-content>
+	<component
+		:is="embedded ? 'div' : 'NcAppContent'"
+		v-bind="embedded ? {} : { pageHeading }"
+		:class="{ 'app-content': embedded }"
+		data-cy-files-content>
 		<div class="files-list__header" :class="{ 'files-list__header--public': isPublic }">
 			<!-- Uploader -->
 			<Teleport :disabled="!isNarrow" to="body">
@@ -23,7 +27,7 @@
 			</Teleport>
 
 			<!-- Current folder breadcrumbs -->
-			<BreadCrumbs :path="directory" @reload="fetchContent" />
+			<BreadCrumbs :path="directory" :root="rootDir" @reload="fetchContent" />
 
 			<!-- Loading indicator -->
 			<NcLoadingIcon
@@ -150,7 +154,7 @@
 				</NcEmptyContent>
 			</template>
 		</FilesListVirtual>
-	</NcAppContent>
+	</component>
 </template>
 
 <script lang="ts">
@@ -233,6 +237,19 @@ export default defineComponent({
 			type: Boolean,
 			default: false,
 		},
+
+		// Skip the NcAppContent wrapper when rendered standalone via `renderFilesView()`,
+		// but keep its `app-content` class the layout and actions menus rely on.
+		embedded: {
+			type: Boolean,
+			default: false,
+		},
+
+		/** The directory to start the breadcrumbs with */
+		rootDir: {
+			type: String,
+			default: '/',
+		},
 	},
 
 	setup() {
@@ -268,12 +285,18 @@ export default defineComponent({
 		const newFileMenuActions = useNewFileMenuActions(currentFolder, dirContents)
 
 		// wait until the current folder is set up to notifiy the list is initialized
-		const stopWatching = watch(currentFolder, () => {
-			if (currentFolder.value.fileid !== undefined && currentFolder.value.fileid! > 0) {
-				nextTick(async () => emit('files:list:initialized'))
-				stopWatching()
-			}
-		}, { immediate: true })
+		const isFolderLoaded = () => currentFolder.value.fileid !== undefined && currentFolder.value.fileid! > 0
+		if (isFolderLoaded()) {
+			// e.g. the list is rendered again while the store still holds the previous folder
+			nextTick(async () => emit('files:list:initialized'))
+		} else {
+			const stopWatching = watch(currentFolder, () => {
+				if (isFolderLoaded()) {
+					nextTick(async () => emit('files:list:initialized'))
+					stopWatching()
+				}
+			})
+		}
 
 		return {
 			currentFolder,
@@ -713,6 +736,7 @@ export default defineComponent({
 	display: flex;
 	overflow: hidden;
 	flex-direction: column;
+	height: 100%;
 	max-height: 100%;
 	position: relative !important;
 }

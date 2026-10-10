@@ -69,7 +69,11 @@ export const useSearchStore = defineStore('search', () => {
 	function updateSearch() {
 		// emit the search event to update the filter
 		emit('files:search:updated', { query: query.value, scope: scope.value })
-		const router = window.OCP.Files.Router as RouterService
+		const router = window.OCP.Files.Router as RouterService | undefined
+		// no file list is rendered on the current page
+		if (!router) {
+			return
+		}
 
 		// if we are on the search view and the query was unset or scope was set to 'filter' we need to move back to the files view
 		if (router.params.view === VIEW_ID && (query.value === '' || scope.value === 'filter')) {
@@ -116,10 +120,10 @@ export const useSearchStore = defineStore('search', () => {
 	function initialize() {
 		subscribe('files:navigation:changed', onViewChanged)
 
-		const router = window.OCP.Files.Router as RouterService
+		const router = window.OCP.Files.Router as RouterService | undefined
 		// if we initially load the search view (e.g. hard page refresh)
 		// then we need to initialize the store from the router
-		if (router.params.view === VIEW_ID) {
+		if (router?.params.view === VIEW_ID) {
 			query.value = [router.query.query].flat()[0] ?? ''
 
 			if (query.value) {

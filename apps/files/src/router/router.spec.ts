@@ -9,7 +9,7 @@ import { emit } from '@nextcloud/event-bus'
 import { File, Folder } from '@nextcloud/files'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import RouterService from '../services/RouterService.ts'
-import { router } from './router.ts'
+import { getFilesAppRouter } from './router.ts'
 
 const stores = vi.hoisted(() => ({
 	getPath: vi.fn(),
@@ -38,7 +38,21 @@ const deletedFile = new File({
 	source: 'https://cloud.example.com/remote.php/dav/files/test/folder/other',
 })
 
+describe('Router: Files app router', () => {
+	it('is created once on first use', () => {
+		expect(getFilesAppRouter()).toBe(getFilesAppRouter())
+	})
+
+	it('ignores deleted nodes on pages without a file list', () => {
+		window.OCP = { Files: {} } as unknown as typeof window.OCP
+
+		expect(() => emit('files:node:deleted', deletedFile)).not.toThrow()
+		expect(stores.getPath).not.toHaveBeenCalled()
+	})
+})
+
 describe('Router: deleting the current file', () => {
+	const router = getFilesAppRouter()
 	let service: RouterService
 
 	beforeEach(async () => {

@@ -9,7 +9,7 @@ import { shallowMount } from '@vue/test-utils'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { nextTick, toRaw } from 'vue'
 import FileEntryGrid from './FileEntryGrid.vue'
-import { router } from '../router/router.ts'
+import { getFilesAppRouter } from '../router/router.ts'
 import { useActiveStore } from '../store/active.ts'
 
 // useFileListWidth builds its ResizeObserver while the module is evaluated, so
@@ -24,6 +24,8 @@ vi.hoisted(() => {
 })
 
 vi.mock('@nextcloud/auth')
+
+const router = getFilesAppRouter()
 
 const source = new File({
 	id: 42,
