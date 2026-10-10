@@ -72,7 +72,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 	 * exceeds this value would fail with "Missing metadata for chunked upload"
 	 * even while chunks are still actively being uploaded.
 	 */
-	private const UPLOAD_SESSION_TTL = 24 * 60 * 60;
+	private const UPLOAD_SESSION_TTL = 72 * 60 * 60;
 
 	public function __construct(ICacheFactory $cacheFactory) {
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
