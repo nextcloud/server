@@ -72,7 +72,7 @@
     "dompurify": "^3.4.16",
     "escape-html": "^1.0.3",
     "focus-trap": "^8.2.2",
-    "marked": "^18.0.14",
+    "marked": "^18.1.0",
     "moment": "^2.31.0",
     "p-queue": "^9.3.3",
     "pinia": "^4.0.3",
