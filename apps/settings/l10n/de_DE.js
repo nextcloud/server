@@ -79,6 +79,8 @@ OC.L10N.register(
     "Your email address on %s was changed by an administrator." : "Ihre E-Mail-Adresse auf %s wurde von der Administration geändert.",
     "Email address for %1$s changed on %2$s" : "E-Mail-Adresse für %1$s geändert auf %2$s",
     "Email address changed for %s" : "E-Mail-Adresse geändert für %s",
+    "Previous email address" : "Vorherige E-Mail-Adresse",
+    "New email address" : "Neue E-Mail-Adresse",
     "No email address set" : "Keine E-Mail-Adresse angegeben",
     "Appearance and accessibility" : "Aussehen und Barrierefreiheit",
     "Personal settings" : "Persönliche Einstellungen",
