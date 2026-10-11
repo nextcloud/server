@@ -291,6 +291,7 @@ class FilesPlugin extends ServerPlugin {
 			}
 		}
 		$response->addHeader('X-Accel-Buffering', 'no');
+		$response->addHeader('Cache-Control', 'private, no-cache, must-revalidate');
 	}
 
 	/**
