@@ -13,7 +13,7 @@ import { t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, toRaw } from 'vue'
 import logger from '../../logger.ts'
 
 addPasswordConfirmationInterceptors(axios)
@@ -32,8 +32,9 @@ export const usePreviewSettingsStore = defineStore('preview-settings', () => {
 	 * Send a change and take the state returned by the server
 	 *
 	 * @param request The request returning the new settings
+	 * @param previous The state to restore if the request fails
 	 */
-	async function save(request: () => Promise<{ data: OCSResponse<PreviewSettings> }>): Promise<void> {
+	async function save(request: () => Promise<{ data: OCSResponse<PreviewSettings> }>, previous?: PreviewSettings): Promise<void> {
 		saving.value = true
 		try {
 			const { data } = await request()
@@ -41,6 +42,9 @@ export const usePreviewSettingsStore = defineStore('preview-settings', () => {
 		} catch (error) {
 			logger.error('Could not save the preview settings', { error })
 			showError(t('settings', 'Could not save the preview settings'))
+			if (previous) {
+				settings.value = previous
+			}
 		} finally {
 			saving.value = false
 		}
@@ -71,9 +75,10 @@ export const usePreviewSettingsStore = defineStore('preview-settings', () => {
 	 * Store the enabled providers in their current order
 	 *
 	 * @param classes The provider classes, in try-order
+	 * @param previous The state to restore if the request fails
 	 */
-	async function saveProviders(classes: string[]): Promise<void> {
-		await save(() => axios.put(PROVIDERS_URL, { providers: classes }, { confirmPassword: PwdConfirmationMode.Lax }))
+	async function saveProviders(classes: string[], previous?: PreviewSettings): Promise<void> {
+		await save(() => axios.put(PROVIDERS_URL, { providers: classes }, { confirmPassword: PwdConfirmationMode.Lax }), previous)
 	}
 
 	/**
@@ -89,7 +94,14 @@ export const usePreviewSettingsStore = defineStore('preview-settings', () => {
 		if (enabled) {
 			classes.push(providerClass)
 		}
-		await saveProviders(classes)
+
+		// Flip the switch right away, the server answer then sets the order
+		const previous = structuredClone(toRaw(settings.value))
+		const provider = settings.value.providers.find(({ class: name }) => name === providerClass)
+		if (provider) {
+			provider.enabled = enabled
+		}
+		await saveProviders(classes, previous)
 	}
 
 	/**

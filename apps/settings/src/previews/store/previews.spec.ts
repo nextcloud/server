@@ -97,6 +97,25 @@ describe('store:previews', () => {
 		)
 	})
 
+	it('flips the provider switch before the server answers', async () => {
+		vi.mocked(axios.put).mockReturnValue(new Promise(() => {}))
+
+		const store = usePreviewSettingsStore()
+		store.toggleProvider('OC\\Preview\\HEIC', true)
+
+		expect(store.settings.providers.find(({ name }) => name === 'HEIC')!.enabled).toBe(true)
+	})
+
+	it('turns the provider switch back when the save fails', async () => {
+		vi.mocked(axios.put).mockRejectedValue(new Error('Request failed'))
+
+		const store = usePreviewSettingsStore()
+		await store.toggleProvider('OC\\Preview\\HEIC', true)
+
+		expect(store.settings.providers.find(({ name }) => name === 'HEIC')!.enabled).toBe(false)
+		expect(showError).toHaveBeenCalledOnce()
+	})
+
 	it('drops a disabled provider from the try-order', async () => {
 		vi.mocked(axios.put).mockResolvedValue(ocs(settings([])))
 
