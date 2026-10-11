@@ -106,7 +106,7 @@ OC.L10N.register(
     "Office" : "Kontor",
     "Overview" : "Overblik",
     "Quick presets" : "Hurtige forudindstillinger",
-    "Basic settings" : "Grundlæggende Indstillinger",
+    "Basic settings" : "Grundlæggende indstillinger",
     "Sharing" : "Deling",
     "Availability" : "Tilgængelighed",
     "Calendar" : "Kalender",
