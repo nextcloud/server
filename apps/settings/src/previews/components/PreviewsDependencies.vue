@@ -43,5 +43,10 @@ const store = usePreviewSettingsStore()
 	display: grid;
 	grid-template-columns: max-content 1fr;
 	gap: var(--default-grid-baseline) calc(var(--default-grid-baseline) * 4);
+
+	dt {
+		font-weight: bold;
+		text-align: start;
+	}
 }
 </style>

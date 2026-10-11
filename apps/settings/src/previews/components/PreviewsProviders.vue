@@ -129,11 +129,24 @@ function position(provider: PreviewProvider): number {
 <style module>
 .providers {
 	width: 100%;
+	/* core styles keep table cells on one line */
+	white-space: normal;
 
 	th, td {
 		padding-block: var(--default-grid-baseline);
 		padding-inline-end: calc(var(--default-grid-baseline) * 4);
 		text-align: start;
+	}
+
+	td {
+		overflow-wrap: anywhere;
+	}
+
+	/* the provider name is enough on narrow screens */
+	@media (max-width: 640px) {
+		th:nth-child(2), td:nth-child(2) {
+			display: none;
+		}
 	}
 
 	thead th {
