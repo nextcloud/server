@@ -14,6 +14,7 @@ namespace NCU\Files\NodeAttributes;
  *
  * Over WebDAV each value is a child element named `$childName` in the namespace
  * of the attribute, e.g. `<oc:share-types><oc:share-type>0</oc:share-type></oc:share-types>`.
+ * A value can also be a record, written as one element per field.
  * As JSON it has the shape the WebDAV client produces: `{ "share-type": [0] }`.
  *
  * @experimental 36.0.0
@@ -21,7 +22,7 @@ namespace NCU\Files\NodeAttributes;
 final class NodeAttributeList implements \JsonSerializable {
 	/**
 	 * @param string $childName local name of the child elements
-	 * @param list<bool|int|float|string> $values
+	 * @param list<bool|int|float|string|array<string, bool|int|float|string|null>> $values
 	 * @experimental 36.0.0
 	 */
 	public function __construct(
@@ -38,7 +39,7 @@ final class NodeAttributeList implements \JsonSerializable {
 	}
 
 	/**
-	 * @return list<bool|int|float|string>
+	 * @return list<bool|int|float|string|array<string, bool|int|float|string|null>>
 	 * @experimental 36.0.0
 	 */
 	public function getValues(): array {
@@ -46,7 +47,7 @@ final class NodeAttributeList implements \JsonSerializable {
 	}
 
 	/**
-	 * @return array<string, list<bool|int|float|string>>
+	 * @return array<string, list<bool|int|float|string|array<string, bool|int|float|string|null>>>
 	 * @experimental 36.0.0
 	 */
 	#[\Override]

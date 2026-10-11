@@ -18,7 +18,7 @@ use Sabre\Xml\XmlSerializable;
 class NodeAttributeListXml implements XmlSerializable {
 	/**
 	 * @param string $childElement child element name in Clark notation
-	 * @param list<bool|int|float|string> $values
+	 * @param list<bool|int|float|string|array<string, bool|int|float|string|null>> $values
 	 */
 	public function __construct(
 		private readonly string $childElement,
@@ -28,8 +28,22 @@ class NodeAttributeListXml implements XmlSerializable {
 
 	#[\Override]
 	public function xmlSerialize(Writer $writer): void {
+		$namespace = substr($this->childElement, 0, (int)strrpos($this->childElement, '}') + 1);
 		foreach ($this->values as $value) {
-			$writer->writeElement($this->childElement, is_bool($value) ? ($value ? 'true' : 'false') : (string)$value);
+			if (!is_array($value)) {
+				$writer->writeElement($this->childElement, self::toText($value));
+				continue;
+			}
+
+			$writer->startElement($this->childElement);
+			foreach ($value as $field => $fieldValue) {
+				$writer->writeElement($namespace . $field, $fieldValue === null ? null : self::toText($fieldValue));
+			}
+			$writer->endElement();
 		}
+	}
+
+	private static function toText(bool|int|float|string $value): string {
+		return is_bool($value) ? ($value ? 'true' : 'false') : (string)$value;
 	}
 }
