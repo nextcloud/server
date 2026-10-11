@@ -16,7 +16,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IRequestId;
 use OCP\ITagManager;
@@ -52,7 +51,6 @@ abstract class RequestTestCase extends TestCase {
 			\OCP\Server::get(IMountManager::class),
 			\OCP\Server::get(ITagManager::class),
 			$this->createMock(IRequest::class),
-			\OCP\Server::get(IPreview::class),
 			\OCP\Server::get(IEventDispatcher::class),
 			\OCP\Server::get(IFactory::class)->get('dav'),
 		);

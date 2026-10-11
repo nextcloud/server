@@ -6,11 +6,13 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Files\Filesystem;
+use OC\Files\NodeAttributes\NodeAttributeRegistry;
 use OC\Files\Storage\Wrapper\DirPermissionsMask;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
 use OC\OCM\OCMSignatoryManager;
 use OCA\DAV\Connector\Sabre\BearerAuth;
+use OCA\DAV\Connector\Sabre\NodeAttributesPlugin;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\DAV\Connector\Sabre\ServerFactory;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
@@ -27,11 +29,11 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\NodeAttributes\NodeAttributeContext;
 use OCP\Files\Storage\IStorage;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\ITagManager;
@@ -91,7 +93,6 @@ $serverFactory = new ServerFactory(
 	Server::get(IMountManager::class),
 	Server::get(ITagManager::class),
 	$request,
-	Server::get(IPreview::class),
 	$eventDispatcher,
 	$l10nFactory->get('dav'),
 );
@@ -183,6 +184,10 @@ $server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin,
 		$filesDropPlugin->enable();
 	}
 	$filesDropPlugin->setShare($share);
+	$server->addPlugin(new NodeAttributesPlugin(
+		Server::get(NodeAttributeRegistry::class),
+		static fn (): NodeAttributeContext => NodeAttributeContext::forShare($share),
+	));
 
 	$view = new View($node->getPath());
 	return $view;

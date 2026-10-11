@@ -24,7 +24,6 @@ use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FilesMetadata\Model\IMetadataValueWrapper;
 use OCP\IConfig;
-use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -84,7 +83,6 @@ class FilesPlugin extends ServerPlugin {
 	 * @param Tree $tree
 	 * @param IConfig $config
 	 * @param IRequest $request
-	 * @param IPreview $previewManager
 	 * @param IUserSession $userSession
 	 * @param bool $isPublic Whether this is public WebDAV. If true, some returned information will be stripped off.
 	 * @param bool $downloadAttachment
@@ -94,7 +92,6 @@ class FilesPlugin extends ServerPlugin {
 		private Tree $tree,
 		private IConfig $config,
 		private IRequest $request,
-		private IPreview $previewManager,
 		private IUserSession $userSession,
 		private IFilenameValidator $validator,
 		private IAccountManager $accountManager,
@@ -397,9 +394,6 @@ class FilesPlugin extends ServerPlugin {
 				return null;
 			});
 
-			$propFind->handle(self::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
-				return json_encode($this->previewManager->isAvailable($node->getFileInfo()), JSON_THROW_ON_ERROR);
-			});
 			$propFind->handle(self::SIZE_PROPERTYNAME, function () use ($node): int|float {
 				return $node->getSize();
 			});
