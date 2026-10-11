@@ -10,7 +10,7 @@ namespace OC\Files\ObjectStore;
 use Aws\Command;
 use Aws\Exception\AwsException;
 use Aws\Exception\MultipartUploadException;
-use Aws\Multipart\UploadState
+use Aws\Multipart\UploadState;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartCopy;
