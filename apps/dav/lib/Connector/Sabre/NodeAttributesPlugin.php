@@ -13,6 +13,8 @@ use Closure;
 use NCU\Files\NodeAttributes\NodeAttributeContext;
 use NCU\Files\NodeAttributes\NodeAttributeList;
 use OC\Files\NodeAttributes\NodeAttributeRegistry;
+use OCA\DAV\Files\NodeAttributes\IFolderListingPreload;
+use OCP\Files\Folder;
 use Sabre\DAV\ICollection;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -52,13 +54,14 @@ class NodeAttributesPlugin extends ServerPlugin {
 			return;
 		}
 
-		$nodes = [$collection->getNode()];
+		$folder = $collection->getNode();
+		$children = [];
 		foreach ($collection->getChildren() as $child) {
 			if ($child instanceof Node) {
-				$nodes[] = $child->getNode();
+				$children[] = $child->getNode();
 			}
 		}
-		$this->preload($nodes, $attributes);
+		$this->preload([$folder, ...$children], $attributes, $folder);
 	}
 
 	/**
@@ -122,15 +125,20 @@ class NodeAttributesPlugin extends ServerPlugin {
 	/**
 	 * @param list<\OCP\Files\Node> $nodes
 	 * @param list<string> $attributes
+	 * @param ?Folder $listing the folder when the nodes are the folder followed by its children
 	 */
-	private function preload(array $nodes, array $attributes): void {
+	private function preload(array $nodes, array $attributes, ?Folder $listing = null): void {
 		$context = ($this->contextResolver)();
 		if ($context === null || $nodes === []) {
 			return;
 		}
 
 		foreach ($this->registry->getProvidersFor($attributes) as $group) {
-			$group['provider']->preload($context, $nodes, $group['attributes']);
+			if ($listing !== null && $group['provider'] instanceof IFolderListingPreload) {
+				$group['provider']->preloadListing($context, $listing, array_slice($nodes, 1), $group['attributes']);
+			} else {
+				$group['provider']->preload($context, $nodes, $group['attributes']);
+			}
 		}
 		foreach ($nodes as $node) {
 			$this->preloaded[$node->getId()] = true;
