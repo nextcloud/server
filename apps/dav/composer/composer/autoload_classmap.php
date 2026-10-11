@@ -460,6 +460,8 @@ return array(
     'OCA\\DAV\\SystemTag\\SystemTagsRelationsCollection' => $baseDir . '/../lib/SystemTag/SystemTagsRelationsCollection.php',
     'OCA\\DAV\\Traits\\PrincipalProxyTrait' => $baseDir . '/../lib/Traits/PrincipalProxyTrait.php',
     'OCA\\DAV\\Upload\\AssemblyStream' => $baseDir . '/../lib/Upload/AssemblyStream.php',
+    'OCA\\DAV\\Upload\\AsyncRequestPlugin' => $baseDir . '/../lib/Upload/AsyncRequestPlugin.php',
+    'OCA\\DAV\\Upload\\AsyncRequestService' => $baseDir . '/../lib/Upload/AsyncRequestService.php',
     'OCA\\DAV\\Upload\\ChunkingPlugin' => $baseDir . '/../lib/Upload/ChunkingPlugin.php',
     'OCA\\DAV\\Upload\\ChunkingV2Plugin' => $baseDir . '/../lib/Upload/ChunkingV2Plugin.php',
     'OCA\\DAV\\Upload\\CleanupService' => $baseDir . '/../lib/Upload/CleanupService.php',
