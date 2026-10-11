@@ -300,7 +300,11 @@ trait S3ObjectTrait {
 		]);
 
 		$size = $psrStream->getSize();
-		if ($size === null || !$canSeek) {
+		if ($size !== null && $size >= $this->putSizeLimit) {
+			// The known size already selects multipart, so don't first copy
+			// up to the single-PUT limit into a temporary stream.
+			$this->writeMultiPart($urn, $psrStream, $metaData);
+		} elseif ($size === null || !$canSeek) {
 			// The s3 single-part upload requires the size to be known for the stream.
 			// So for input streams that don't have a known size, we need to copy (part of)
 			// the input into a temporary stream so the size can be determined
@@ -327,11 +331,8 @@ trait S3ObjectTrait {
 				$this->writeMultiPart($urn, $loadStream, $metaData);
 			}
 		} else {
-			if ($size < $this->putSizeLimit) {
-				$this->writeSingle($urn, $psrStream, $metaData);
-			} else {
-				$this->writeMultiPart($urn, $psrStream, $metaData);
-			}
+			// The remaining case is a known-size, seekable stream below the limit.
+			$this->writeSingle($urn, $psrStream, $metaData);
 		}
 		$psrStream->close();
 	}
