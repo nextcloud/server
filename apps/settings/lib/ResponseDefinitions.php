@@ -35,6 +35,37 @@ namespace OCA\Settings;
  *   app: string,
  *   fields: list<SettingsDeclarativeFormField>,
  * }
+ *
+ * @psalm-type SettingsPreviewProvider = array{
+ *   class: string,
+ *   name: string,
+ *   mimetypes: string,
+ *   requirement: 'none'|'imagick'|'office'|'ffmpeg'|'imaginary',
+ *   available: bool,
+ *   enabled: bool,
+ * }
+ *
+ * @psalm-type SettingsPreviewSettings = array{
+ *   configIsReadOnly: bool,
+ *   enabled: bool,
+ *   maxX: ?int,
+ *   maxY: ?int,
+ *   maxMemory: ?int,
+ *   maxFilesizeImage: ?int,
+ *   jpegQuality: ?int,
+ *   webpQuality: ?int,
+ *   concurrencyNew: ?int,
+ *   concurrencyAll: ?int,
+ *   expirationDays: ?int,
+ *   providersConfigured: bool,
+ *   providers: list<SettingsPreviewProvider>,
+ *   dependencies: array{
+ *     imagick: bool,
+ *     ffmpeg: ?string,
+ *     office: ?string,
+ *     imaginary: bool,
+ *   },
+ * }
  */
 class ResponseDefinitions {
 }
