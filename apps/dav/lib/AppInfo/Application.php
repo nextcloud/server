@@ -29,6 +29,8 @@ use OCA\DAV\CardDAV\Notification\Notifier as NotifierCardDAV;
 use OCA\DAV\CardDAV\Search\ContactAccountScopedSearchProvider;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\ConfigLexicon;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\DAV\Connector\Sabre\TagsPlugin;
 use OCA\DAV\Events\AddressBookCreatedEvent;
 use OCA\DAV\Events\AddressBookDeletedEvent;
 use OCA\DAV\Events\AddressBookShareUpdatedEvent;
@@ -47,6 +49,8 @@ use OCA\DAV\Events\CardUpdatedEvent;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
+use OCA\DAV\Files\NodeAttributes\FavoriteProvider;
+use OCA\DAV\Files\NodeAttributes\HasPreviewProvider;
 use OCA\DAV\Listener\ActivityUpdaterListener;
 use OCA\DAV\Listener\AddMissingIndicesListener;
 use OCA\DAV\Listener\AddressbookListener;
@@ -128,6 +132,8 @@ class Application extends App implements IBootstrap {
 	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias('CardDAVSyncService', SyncService::class);
+		$context->registerNodeAttributeProvider(HasPreviewProvider::class, [FilesPlugin::HAS_PREVIEW_PROPERTYNAME]);
+		$context->registerNodeAttributeProvider(FavoriteProvider::class, [TagsPlugin::FAVORITE_PROPERTYNAME]);
 		$context->registerService(AppCalendarPlugin::class, function (ContainerInterface $c) {
 			return new AppCalendarPlugin(
 				$c->get(ICalendarManager::class),
