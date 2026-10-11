@@ -10,6 +10,7 @@ namespace OC\Files\ObjectStore;
 use Aws\Command;
 use Aws\Exception\AwsException;
 use Aws\Exception\MultipartUploadException;
+use Aws\Multipart\UploadState
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartCopy;
@@ -127,12 +128,13 @@ trait S3ObjectTrait {
 	}
 
 	/**
-	 * Multipart upload helper that tries to avoid orphaned fragments in S3
+	 * Uploads an object to S3 using multipart upload.
 	 *
 	 * @param string $urn the unified resource name used to identify the object
-	 * @param StreamInterface $stream stream with the data to write
-	 * @param array $metaData the metadata to set for the object
-	 * @throws \Exception when something goes wrong, message will be logged
+	 * @param StreamInterface $stream stream containing the data to upload
+	 * @param array $metaData metadata to set on the object; `mimetype` is used as its content type
+	 * @throws BadGateway if the upload fails or aborting a failed upload also fails
+	 * @throws \Exception if setting up the multipart uploader fails
 	 */
 	protected function writeMultiPart(string $urn, StreamInterface $stream, array $metaData): void {
 		$mimetype = $metaData['mimetype'] ?? null;
@@ -145,10 +147,13 @@ trait S3ObjectTrait {
 		$exception = null;
 		$state = null;
 		$size = $stream->getSize();
+		$startPosition = $stream->isSeekable() ? $stream->tell() : null;
+		$canResume = $startPosition === 0;
+		$partLengths = [];
 
-		// retry multipart upload once with concurrency at half on failure
+		// Retry part failures by resuming once at lower concurrency when the
+		// source can be replayed from the beginning.
 		while (!$uploaded && $attempts <= 1) {
-			$totalWritten = 0;
 			$uploader = new MultipartUploader($this->getConnection(), $stream, [
 				'bucket' => $this->bucket,
 				'concurrency' => $concurrency,
@@ -160,13 +165,16 @@ trait S3ObjectTrait {
 					'Metadata' => $this->buildS3Metadata($metaData),
 					'StorageClass' => $this->storageClass,
 				] + $this->getServerSideEncryptionParameters(),
-				'before_upload' => function (Command $command) use (&$totalWritten): void {
-					$totalWritten += $command['ContentLength'];
+				'before_upload' => function (Command $command) use (&$partLengths): void {
+					$partLengths[(int)$command['PartNumber']] = (int)$command['ContentLength'];
 				},
-				'before_complete' => function ($_command) use (&$totalWritten, $size, &$uploader, &$attempts): void {
-					if ($size !== null && $totalWritten !== $size) {
-						$e = new \Exception('Incomplete multi part upload, expected ' . $size . ' bytes, wrote ' . $totalWritten);
-						throw new MultipartUploadException($uploader->getState(), $e);
+				'before_complete' => function ($_command) use ($size, &$uploader, &$partLengths): void {
+					if ($size !== null) {
+						$this->validateMultipartUploadSize(
+							$uploader->getState(),
+							$size,
+							$partLengths,
+						);
 					}
 				},
 			]);
@@ -178,13 +186,25 @@ trait S3ObjectTrait {
 				$exception = $e;
 				$attempts++;
 
+				// S3 may have completed the object even if the response failed.
+				// Do not retry CompleteMultipartUpload errors.
+				if ($this->isMultipartCompletionFailure($e)) {
+					break;
+				}
+
+				// A non-seekable source cannot safely be resumed.
+				if (!$canResume) {
+					break;
+				}
+
+				// Reuse the upload ID and successful part records from this attempt.
+				$state = $e->getState();
+
 				if ($concurrency > 1) {
 					$concurrency = round($concurrency / 2);
 				}
 
-				if ($stream->isSeekable()) {
-					$stream->rewind();
-				}
+				$stream->seek($startPosition);
 			} catch (MultipartUploadException $e) {
 				$exception = $e;
 				break;
@@ -196,10 +216,72 @@ trait S3ObjectTrait {
 			// slow down s3 bucket with orphaned fragments
 			$uploadInfo = $exception->getState()->getId();
 			if ($exception->getState()->isInitiated() && (array_key_exists('UploadId', $uploadInfo))) {
-				$this->getConnection()->abortMultipartUpload($uploadInfo);
+				try {
+					$this->getConnection()->abortMultipartUpload($uploadInfo);
+				} catch (\Throwable $abortException) {
+					throw new BadGateway(
+						'Error while uploading to S3 bucket; aborting the multipart upload also failed: '
+							. $abortException->getMessage(),
+						0,
+						$exception,
+					);
+				}
 			}
 
 			throw new BadGateway('Error while uploading to S3 bucket', 0, $exception);
+		}
+	}
+
+	private function isMultipartCompletionFailure(S3MultipartUploadException $exception): bool {
+		for ($cause = $exception->getPrevious(); $cause !== null; $cause = $cause->getPrevious()) {
+			if ($cause instanceof AwsException
+				&& $cause->getCommand()->getName() === 'CompleteMultipartUpload'
+			) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Ensure a multipart upload contains all expected parts at their expected sizes.
+	 *
+	 * @param \Aws\Multipart\UploadState $state
+	 * @param int|float $size
+	 * @param array<int, int> $partLengths Content lengths submitted for each part
+	 * @throws MultipartUploadException
+	 */
+	protected function validateMultipartUploadSize($state, $size, array $partLengths): void {
+		$partSize = $state->getPartSize();
+		$expectedPartCount = $size > 0 ? (int)ceil($size / $partSize) : 0;
+		$expectedPartNumbers = $expectedPartCount > 0
+			? range(1, $expectedPartCount)
+			: [];
+		$uploadedParts = $state->getUploadedParts();
+		$uploadedPartNumbers = array_map('intval', array_keys($uploadedParts));
+
+		$uploadedBytes = 0;
+		$validLengths = true;
+		foreach ($expectedPartNumbers as $partNumber) {
+			if (!isset($uploadedParts[$partNumber])) {
+				continue;
+			}
+
+			$expectedPartLength = min($partSize, $size - (($partNumber - 1) * $partSize));
+			if (!isset($partLengths[$partNumber]) || $partLengths[$partNumber] !== $expectedPartLength) {
+				$validLengths = false;
+				continue;
+			}
+
+			$uploadedBytes += $partLengths[$partNumber];
+		}
+
+		if ($uploadedPartNumbers !== $expectedPartNumbers || !$validLengths || $uploadedBytes !== $size) {
+			$e = new \Exception(
+				'Incomplete multipart upload, expected ' . $size . ' bytes, wrote ' . $uploadedBytes
+			);
+			throw new MultipartUploadException($state, $e);
 		}
 	}
 
