@@ -817,11 +817,6 @@
       <code><![CDATA[$shareType]]></code>
     </InvalidArgument>
   </file>
-  <file src="apps/dav/lib/Connector/Sabre/ShareeList.php">
-    <InvalidArgument>
-      <code><![CDATA[$share->getShareType()]]></code>
-    </InvalidArgument>
-  </file>
   <file src="apps/dav/lib/Connector/Sabre/TagsPlugin.php">
     <NullableReturnStatement>
       <code><![CDATA[null]]></code>
