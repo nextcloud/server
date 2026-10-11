@@ -46,6 +46,18 @@ class RegistrationContextTest extends TestCase {
 		]);
 	}
 
+	public function testRegisterNodeAttributeProvider(): void {
+		$attributes = ['{http://nextcloud.org/ns}has-preview'];
+
+		$this->context->for('myapp')->registerNodeAttributeProvider('ProviderClass', $attributes);
+
+		$registrations = $this->context->getNodeAttributeProviders();
+		self::assertCount(1, $registrations);
+		self::assertSame('myapp', $registrations[0]->getAppId());
+		self::assertSame('ProviderClass', $registrations[0]->getService());
+		self::assertSame($attributes, $registrations[0]->getAttributes());
+	}
+
 	public function testRegisterEventListener(): void {
 		$event = 'abc';
 		$service = 'def';
