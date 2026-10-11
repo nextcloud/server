@@ -13,6 +13,7 @@ namespace Test\Security;
 use OC\Security\Crypto;
 use OCP\IConfig;
 use OCP\Server;
+use phpseclib3\Crypt\AES;
 
 class CryptoTest extends \Test\TestCase {
 	public static function defaultEncryptionProvider(): array {
@@ -128,5 +129,127 @@ class CryptoTest extends \Test\TestCase {
 				'insecure-static-password'
 			)
 		);
+	}
+
+	public static function consecutivePasswordProvider(): array {
+		return [[''], ['explicit-password']];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('consecutivePasswordProvider')]
+	public function testDecryptConsecutiveFieldsDerivesKeyOnce(string $password): void {
+		$writer = $this->createCryptoWithDerivationCount(1);
+		$ciphertexts = [];
+		for ($field = 0; $field < 6; $field++) {
+			$ciphertexts[] = $writer->encrypt('field ' . $field, $password);
+		}
+
+		$reader = $this->createCryptoWithDerivationCount(1);
+		foreach ($ciphertexts as $field => $ciphertext) {
+			$this->assertSame('field ' . $field, $reader->decrypt($ciphertext, $password));
+		}
+	}
+
+	public function testAlternatingPasswordsDeriveAgain(): void {
+		$first = $this->crypto->encrypt('first', 'password-A');
+		$second = $this->crypto->encrypt('second', 'password-B');
+		$reader = $this->createCryptoWithDerivationCount(3);
+
+		$this->assertSame('first', $reader->decrypt($first, 'password-A'));
+		$this->assertSame('second', $reader->decrypt($second, 'password-B'));
+		$this->assertSame('first', $reader->decrypt($first, 'password-A'));
+	}
+
+	public function testAlternatingEncryptDecryptKeepsCurrentKeyAndRefreshesIv(): void {
+		$crypto = $this->createCryptoWithDerivationCount(1);
+		$ivs = [];
+		for ($field = 0; $field < 6; $field++) {
+			$ciphertext = $crypto->encrypt('same plaintext', 'same-password');
+			$ivs[] = explode('|', $ciphertext)[1];
+			$this->assertSame('same plaintext', $crypto->decrypt($ciphertext, 'same-password'));
+		}
+		$this->assertCount(6, array_unique($ivs));
+	}
+
+	public function testLegacyAndVersion3DeriveDifferentKeys(): void {
+		$legacy = 'e16599188e3d212f5c7f17fdc2abca46|M1WfLAxbcAmITeD6|509457885d6ca5e6c3bfd3741852687a7f2bffce197f8d5ae97b65818b15a1b7f616b68326ff312371540f4ca8ac55f8e2de4aa13aab3474bd3431e51214e3ee';
+		$current = $this->crypto->encrypt('current', 'mypass');
+		$reader = $this->createCryptoWithDerivationCount(3);
+
+		$this->assertSame('current', $reader->decrypt($current, 'mypass'));
+		$this->assertSame('legacy test', $reader->decrypt($legacy, 'mypass'));
+		$this->assertSame('current', $reader->decrypt($current, 'mypass'));
+	}
+
+	public function testReusedKeyStillRejectsTamperedCiphertextIvAndHmac(): void {
+		$ciphertext = $this->crypto->encrypt('plaintext', 'password');
+		$reader = $this->createCryptoWithDerivationCount(1);
+		$this->assertSame('plaintext', $reader->decrypt($ciphertext, 'password'));
+
+		foreach ([0, 1, 2] as $part) {
+			$parts = explode('|', $ciphertext);
+			$parts[$part][0] = $parts[$part][0] === '0' ? '1' : '0';
+			try {
+				$reader->decrypt(implode('|', $parts), 'password');
+				$this->fail('Tampered ciphertext was accepted');
+			} catch (\RuntimeException $e) {
+				$this->assertSame('HMAC does not match.', $e->getMessage());
+			}
+			$this->assertSame('plaintext', $reader->decrypt($ciphertext, 'password'));
+		}
+	}
+
+	public function testWrongPasswordDoesNotPoisonKeyReuse(): void {
+		$ciphertext = $this->crypto->encrypt('plaintext', 'password');
+		$reader = $this->createCryptoWithDerivationCount(3);
+		$this->assertSame('plaintext', $reader->decrypt($ciphertext, 'password'));
+		try {
+			$reader->decrypt($ciphertext, 'wrong-password');
+			$this->fail('Wrong password was accepted');
+		} catch (\RuntimeException $e) {
+			$this->assertSame('HMAC does not match.', $e->getMessage());
+		}
+		$this->assertSame('plaintext', $reader->decrypt($ciphertext, 'password'));
+	}
+
+	public function testChangedDefaultSecretDerivesAgain(): void {
+		$first = $this->crypto->encrypt('first', 'secret-A');
+		$second = $this->crypto->encrypt('second', 'secret-B');
+		$config = $this->createMock(IConfig::class);
+		$config->method('getSystemValue')->with('secret')->willReturnOnConsecutiveCalls('secret-A', 'secret-B');
+		$reader = $this->createCryptoWithDerivationCount(2, $config);
+
+		$this->assertSame('first', $reader->decrypt($first));
+		$this->assertSame('second', $reader->decrypt($second));
+	}
+
+	public function testLegacyEmptySecretFallbackCanReplaceTheCurrentKey(): void {
+		$reader = $this->createCryptoWithDerivationCount(2);
+		$cipher = new AES('cbc');
+		$cipher->setPassword('', 'pbkdf2', 'sha1', 'phpseclib');
+		$iv = str_repeat("\0", 16);
+		$cipher->setIV($iv);
+		$ciphertext = bin2hex($cipher->encrypt('empty-key fixture'));
+		$iv = bin2hex($iv);
+		$hmac = bin2hex($reader->calculateHMAC($ciphertext . $iv, 'configured-secret'));
+
+		$this->assertSame('empty-key fixture', $reader->decrypt($ciphertext . '|' . $iv . '|' . $hmac . '|2'));
+	}
+
+	private function createCryptoWithDerivationCount(int $count, ?IConfig $config = null): Crypto {
+		if ($config === null) {
+			$config = $this->createMock(IConfig::class);
+			$config->method('getSystemValue')->with('secret')->willReturn('configured-secret');
+			$config->method('getSystemValueString')->with('secret')->willReturn('configured-secret');
+		}
+		$crypto = new Crypto($config);
+		$cipher = $this->getMockBuilder(AES::class)
+			->setConstructorArgs(['cbc'])
+			->onlyMethods(['setPassword'])
+			->getMock();
+		$cipher->expects($this->exactly($count))
+			->method('setPassword')
+			->willReturnCallback(fn (...$parameters) => (new \ReflectionMethod(AES::class, 'setPassword'))->invokeArgs($cipher, $parameters));
+		$this->invokePrivate($crypto, 'cipher', [$cipher]);
+		return $crypto;
 	}
 }

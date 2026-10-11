@@ -28,6 +28,7 @@ use SensitiveParameter;
  */
 class Crypto implements ICrypto {
 	private AES $cipher;
+	private ?string $cipherPasswordHash = null;
 	private int $ivLength = 16;
 
 	public function __construct(
@@ -77,11 +78,7 @@ class Crypto implements ICrypto {
 			$password = $this->config->getSystemValueString('secret');
 		}
 		$keyMaterial = hash_hkdf('sha512', $password);
-		// Pin the PBKDF2 parameters to phpseclib v2 defaults ('sha1' hash, 'phpseclib' salt).
-		// phpseclib v3 changed the default salt to 'phpseclib/salt', which would derive a
-		// different AES key and break decryption of previously stored ciphertexts.
-		// TODO: We should put our own salt into the HKDF derivation to avoid this dependency on phpseclib's defaults!
-		$this->cipher->setPassword(substr($keyMaterial, 0, 32), 'pbkdf2', 'sha1', 'phpseclib');
+		$this->setCipherPassword(substr($keyMaterial, 0, 32));
 
 		$iv = \random_bytes($this->ivLength);
 		$this->cipher->setIV($iv);
@@ -176,9 +173,7 @@ class Crypto implements ICrypto {
 				$hmacKey = substr($keyMaterial, 32);
 			}
 		}
-		// Match the v2-compatible PBKDF2 parameters used in encrypt(), see the note there.
-		// TODO: We should put our own salt into the HKDF derivation to avoid this dependency on phpseclib's defaults!
-		$this->cipher->setPassword($encryptionKey, 'pbkdf2', 'sha1', 'phpseclib');
+		$this->setCipherPassword($encryptionKey);
 		$this->cipher->setIV($iv);
 
 		if ($isOwnCloudV2Migration) {
@@ -198,6 +193,21 @@ class Crypto implements ICrypto {
 		}
 
 		return $result;
+	}
+
+	private function setCipherPassword(#[SensitiveParameter] string $password): void {
+		// Keep only one fingerprint; the derived key remains in the cipher.
+		$passwordHash = hash('sha256', $password, true);
+		if ($this->cipherPasswordHash !== null && hash_equals($this->cipherPasswordHash, $passwordHash)) {
+			return;
+		}
+
+		// Pin the PBKDF2 parameters to phpseclib v2 defaults ('sha1' hash, 'phpseclib' salt).
+		// phpseclib v3 changed the default salt to 'phpseclib/salt', which would derive a
+		// different AES key and break decryption of previously stored ciphertexts.
+		// TODO: We should put our own salt into the HKDF derivation to avoid this dependency on phpseclib's defaults!
+		$this->cipher->setPassword($password, 'pbkdf2', 'sha1', 'phpseclib');
+		$this->cipherPasswordHash = $passwordHash;
 	}
 
 	private function hex2bin(string $hex): string {
