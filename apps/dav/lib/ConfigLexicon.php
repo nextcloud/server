@@ -21,7 +21,8 @@ use OCP\Config\ValueType;
  * {@see ILexicon}
  */
 class ConfigLexicon implements ILexicon {
-	public const SYSTEM_ADDRESSBOOK_EXPOSED = 'system_addressbook_exposed';
+	public const string SYSTEM_ADDRESSBOOK_EXPOSED = 'system_addressbook_exposed';
+	public const string ENABLE_PAGINATION = 'enable_pagination';
 
 	#[\Override]
 	public function getStrictness(): Strictness {
@@ -36,6 +37,13 @@ class ConfigLexicon implements ILexicon {
 				ValueType::BOOL,
 				defaultRaw: true,
 				definition: 'Whether to not expose the system address book to users',
+				lazy: true,
+			),
+			new Entry(
+				self::ENABLE_PAGINATION,
+				ValueType::BOOL,
+				defaultRaw: true,
+				definition: 'Whether to enable pagination support for PROPFIND, REPORT and SEARCH requests',
 				lazy: true,
 			),
 		];
