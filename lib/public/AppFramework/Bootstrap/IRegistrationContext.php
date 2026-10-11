@@ -319,6 +319,17 @@ interface IRegistrationContext {
 	public function registerReferenceProvider(string $class): void;
 
 	/**
+	 * Register a provider of file and folder attributes, served over WebDAV
+	 * and by the node serializer alike
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<\OCP\Files\NodeAttributes\INodeAttributeProvider> $class
+	 * @param list<string> $attributes the attributes the provider serves, in Clark notation, e.g. `{http://nextcloud.org/ns}has-preview`
+	 * @since 36.0.0
+	 */
+	public function registerNodeAttributeProvider(string $class, array $attributes): void;
+
+	/**
 	 * Register an implementation of \OCP\Profile\ILinkAction that
 	 * will handle the implementation of a profile link action
 	 *
