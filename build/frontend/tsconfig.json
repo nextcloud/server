@@ -1,4 +1,4 @@
 {
 	"extends": "../../tsconfig.json",
-	"include": ["./apps", "./core", "../../apps/settings/src/authtokens"]
+	"include": ["./apps", "./core", "../../apps/settings/src/authtokens", "../../apps/settings/src/previews"]
 }

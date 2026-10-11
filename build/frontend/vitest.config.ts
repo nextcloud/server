@@ -47,6 +47,7 @@ export default defineConfig({
 		include: [
 			'{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)',
 			'../../apps/settings/src/authtokens/**/*.spec.ts',
+			'../../apps/settings/src/previews/**/*.spec.ts',
 		],
 		env: {
 			LANG: 'en_US',
@@ -62,6 +63,7 @@ export default defineConfig({
 			include: [
 				'apps/*/src/**',
 				'../../apps/settings/src/authtokens/**',
+				'../../apps/settings/src/previews/**',
 				'core/src/**',
 			],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
