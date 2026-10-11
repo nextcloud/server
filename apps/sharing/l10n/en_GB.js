@@ -3,6 +3,6 @@ OC.L10N.register(
     {
     "The owner does not exist: %s" : "The owner does not exist: %s",
     "Sharing" : "Sharing",
-    "TODO" : "TODO"
+    "This app provides APIs and occ commands to manage shares." : "This app provides APIs and occ commands to manage shares."
 },
 "nplurals=2; plural=(n != 1);");

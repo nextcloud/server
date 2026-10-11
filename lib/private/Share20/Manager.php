@@ -80,9 +80,9 @@ use OCP\Share\IShareProviderGetUsers;
 use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
-use OCP\Util;
 use Override;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -193,7 +193,7 @@ class Manager implements IManager {
 			/** @psalm-suppress UndefinedClass */
 			$circle = Circles::detailsCircle($share->getSharedWith());
 			if ($circle === null) {
-				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid circle'));
+				throw new \InvalidArgumentException($this->l->t('Share recipient is not a valid team'));
 			}
 		} elseif ($share->getShareType() !== IShare::TYPE_ROOM && $share->getShareType() !== IShare::TYPE_DECK) {
 			// We cannot handle other types yet
@@ -348,19 +348,6 @@ class Manager implements IManager {
 					);
 				}
 			}
-		}
-
-		$accepted = true;
-		$message = '';
-		Util::emitHook('\OC\Share', 'verifyExpirationDate', [
-			'expirationDate' => &$expirationDate,
-			'accepted' => &$accepted,
-			'message' => &$message,
-			'passwordSet' => $share->getPassword() !== null,
-		]);
-
-		if (!$accepted) {
-			throw new \Exception($message);
 		}
 
 		$share->setExpirationDate($expirationDate);
@@ -581,9 +568,8 @@ class Manager implements IManager {
 				$this->verifyPassword($share->getPassword());
 
 				// If a password is set. Hash it!
-				if ($share->getShareType() === IShare::TYPE_LINK
-					&& $share->getPassword() !== null) {
-					$share->setPassword($this->hasher->hash($share->getPassword()));
+				if (($share->getShareType() === IShare::TYPE_LINK || $share->getShareType() === IShare::TYPE_EMAIL) && $share->getPassword() !== null && !$share->isPasswordHashed()) {
+					$share->setPasswordHash($this->hasher->hash($share->getPassword()));
 				}
 			}
 
@@ -602,9 +588,11 @@ class Manager implements IManager {
 				}
 			}
 
-			$target = $shareFolder . '/' . $share->getNode()->getName();
-			$target = Filesystem::normalizePath($target);
-			$share->setTarget($target);
+			if ($share->getTarget() === null) {
+				$target = $shareFolder . '/' . $share->getNode()->getName();
+				$target = Filesystem::normalizePath($target);
+				$share->setTarget($target);
+			}
 
 			// Pre share event
 			$event = new BeforeShareCreatedEvent($share);
@@ -625,12 +613,23 @@ class Manager implements IManager {
 				$share->setTarget($target);
 			}
 		} catch (AlreadySharedException $e) {
+			$existingShare = $e->getExistingShare();
+
+			/*
+			 * Reusing a share which is hidden because one of the accounts involved
+			 * in it is disabled would leave the recipient without access, so report
+			 * it to the sharer instead. Such a share has to be deleted first.
+			 */
+			if ($this->isHiddenDisabledUserShare($existingShare)) {
+				throw $e;
+			}
+
 			// If a share for the same target already exists, dont create a new one,
 			// but do trigger the hooks and notifications again
 			$oldShare = $share;
 
 			// Reuse the node we already have
-			$share = $e->getExistingShare();
+			$share = $existingShare;
 			$share->setNode($oldShare->getNode());
 		}
 
@@ -835,7 +834,7 @@ class Manager implements IManager {
 
 			// If a password is set. Hash it!
 			if (!empty($share->getPassword())) {
-				$share->setPassword($this->hasher->hash($share->getPassword()));
+				$share->setPasswordHash($this->hasher->hash($share->getPassword()));
 				if ($share->getShareType() === IShare::TYPE_EMAIL) {
 					// Shares shared by email have temporary passwords
 					$this->setSharePasswordExpirationTime($share);
@@ -853,7 +852,12 @@ class Manager implements IManager {
 		} else {
 			// Reset the password to the original one, as it is either the same
 			// as the "new" password or a hashed version of it.
-			$share->setPassword($originalShare->getPassword());
+			$password = $originalShare->getPassword();
+			if ($password !== null && $originalShare->isPasswordHashed()) {
+				$share->setPasswordHash($password);
+			} else {
+				$share->setPassword($password);
+			}
 		}
 
 		return false;
@@ -1181,7 +1185,7 @@ class Manager implements IManager {
 				$added++;
 				if ($onlyValid) {
 					try {
-						$this->checkShare($share, $added);
+						$this->checkShare($share, $added, $userId);
 					} catch (ShareNotFound $e) {
 						// Ignore since this basically means the share is deleted
 						continue;
@@ -1243,7 +1247,7 @@ class Manager implements IManager {
 		// remove all shares which are already expired
 		foreach ($shares as $key => $share) {
 			try {
-				$this->checkShare($share);
+				$this->checkShare($share, viewer: $userId);
 			} catch (ShareNotFound $e) {
 				unset($shares[$key]);
 			}
@@ -1282,10 +1286,10 @@ class Manager implements IManager {
 			$shares = new \IteratorIterator($shares);
 		}
 
-		return new \CallbackFilterIterator($shares, function (IShare $share) {
+		return new \CallbackFilterIterator($shares, function (IShare $share) use ($userId) {
 			// remove all shares which are already expired
 			try {
-				$this->checkShare($share);
+				$this->checkShare($share, viewer: $userId);
 				return true;
 			} catch (ShareNotFound $e) {
 				return false;
@@ -1319,7 +1323,7 @@ class Manager implements IManager {
 		$share = $provider->getShareById($id, $recipient);
 
 		if ($onlyValid) {
-			$this->checkShare($share);
+			$this->checkShare($share, viewer: $recipient);
 		}
 
 		return $share;
@@ -1327,8 +1331,8 @@ class Manager implements IManager {
 
 	#[Override]
 	public function getShareByToken(string $token): IShare {
-		// tokens cannot be valid local usernames
-		if ($this->userManager->userExists($token)) {
+		// tokens cannot be valid local usernames or empty
+		if ($token === '' || $this->userManager->userExists($token)) {
 			throw new ShareNotFound();
 		}
 		$share = null;
@@ -1404,26 +1408,50 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Whether a share has to be hidden because one of the accounts involved in it
+	 * is disabled.
+	 *
+	 * A share initiated by an account that got disabled stays visible to the owner
+	 * of the shared item, so that they can still manage or delete it.
+	 *
+	 * @param ?string $viewer Account the share is checked for, if known
+	 */
+	private function isHiddenDisabledUserShare(IShare $share, ?string $viewer = null): bool {
+		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'yes') !== 'yes') {
+			return false;
+		}
+
+		$uids = [$share->getShareOwner()];
+		if ($viewer !== $share->getShareOwner() && $share->getSharedBy() !== $share->getShareOwner()) {
+			$uids[] = $share->getSharedBy();
+		}
+
+		foreach ($uids as $uid) {
+			$user = $this->userManager->get($uid);
+			if ($user?->isEnabled() === false) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check expire date and disabled owner
 	 *
 	 * @param int &$added If given, will be decremented if the share is deleted
+	 * @param ?string $viewer Account the share is checked for, defaults to the account of the current session
 	 * @throws ShareNotFound
 	 */
-	private function checkShare(IShare $share, int &$added = 1): void {
+	private function checkShare(IShare $share, int &$added = 1, ?string $viewer = null): void {
 		if ($share->isExpired()) {
 			$this->deleteShare($share);
 			// Remove 1 to added, because this share was deleted
 			$added--;
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
-		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'yes') === 'yes') {
-			$uids = array_unique([$share->getShareOwner(), $share->getSharedBy()]);
-			foreach ($uids as $uid) {
-				$user = $this->userManager->get($uid);
-				if ($user?->isEnabled() === false) {
-					throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
-				}
-			}
+		if ($this->isHiddenDisabledUserShare($share, $viewer ?? $this->userSession->getUser()?->getUID())) {
+			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
 
 		// For link and email shares, verify the share owner can still create such shares
@@ -1452,13 +1480,17 @@ class Manager implements IManager {
 			return false;
 		}
 
+		if (!$share->isPasswordHashed()) {
+			throw new RuntimeException('The password must be hashed already.');
+		}
+
 		$newHash = '';
 		if (!$this->hasher->verify($password, $share->getPassword(), $newHash)) {
 			return false;
 		}
 
 		if (!empty($newHash)) {
-			$share->setPassword($newHash);
+			$share->setPasswordHash($newHash);
 			$provider = $this->factory->getProviderForType($share->getShareType());
 			$provider->update($share);
 		}
@@ -1641,6 +1673,11 @@ class Manager implements IManager {
 
 	#[Override]
 	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true): bool {
+		// Password enforcement requires the default password prompt to be enabled.
+		if (!$this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT)) {
+			return false;
+		}
+
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
 		if ($excludedGroups !== '' && $checkGroupMembership) {
 			$excludedGroups = json_decode($excludedGroups);

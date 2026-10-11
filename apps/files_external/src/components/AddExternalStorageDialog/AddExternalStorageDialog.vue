@@ -21,6 +21,7 @@ import { t } from '@nextcloud/l10n'
 import { computed, ref, toRaw, watch, watchEffect } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import ApplicableEntities from './ApplicableEntities.vue'
@@ -28,7 +29,7 @@ import AuthMechanismConfiguration from './AuthMechanismConfiguration.vue'
 import BackendConfiguration from './BackendConfiguration.vue'
 import MountOptions from './MountOptions.vue'
 import { DEFAULT_MOUNT_OPTIONS } from '../../store/storages.ts'
-import { pruneUnusedAuthMechanismOptions } from '../../utils/externalStorageUtils.ts'
+import { appliesToAllAccounts, pruneUnusedAuthMechanismOptions } from '../../utils/externalStorageUtils.ts'
 
 const open = defineModel<boolean>('open', { default: true })
 
@@ -48,6 +49,11 @@ watchEffect(() => {
 		internalStorage.value = structuredClone(toRaw(storage))
 	}
 })
+
+const isUnrestricted = computed(() => appliesToAllAccounts(
+	internalStorage.value.applicableUsers,
+	internalStorage.value.applicableGroups,
+))
 
 const backend = computed({
 	get() {
@@ -105,6 +111,11 @@ watch(authMechanisms, () => {
 			v-model:groups="internalStorage.applicableGroups"
 			v-model:users="internalStorage.applicableUsers"
 			:class="$style.externalStorageDialog__dropdown" />
+
+		<NcNoteCard
+			v-if="isAdmin && isUnrestricted"
+			type="info"
+			:text="t('files_external', 'Without a restriction this storage is available to every account on this server.')" />
 
 		<NcSelect
 			v-model="backend"

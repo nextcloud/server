@@ -98,6 +98,7 @@ OC.L10N.register(
     "Actions" : "Radnje",
     "Checking …" : "Provjeravam …",
     "Recheck status" : "Ponovno provjeri status",
+    "All accounts" : "Svi računi",
     "Delete" : "Izbriši",
     "System provided storage" : "Pohrana koju pruža sustav",
     "Saved" : "Spremljeno",

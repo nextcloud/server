@@ -32,7 +32,7 @@ OC.L10N.register(
     "Clear status message" : "Limpar mensagem de status",
     "Set status message" : "Definir mensagem de status",
     "Online" : "On-line",
-    "Away" : "Fora",
+    "Away" : "Ausente",
     "Busy" : "Ocupado",
     "Do not disturb" : "Não perturbe",
     "Invisible" : "Invisível",

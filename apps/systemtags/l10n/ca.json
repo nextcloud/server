@@ -62,6 +62,7 @@
     "Update" : "Actualitza",
     "Delete" : "Suprimeix",
     "Reset" : "Reinicialitza",
+    "Loading …" : "S'està carregant ...",
     "_{tag} will be set to 1 file._::_{tag} will be set to {count} files._" : ["{tag} s'establirà en 1 fitxer.","{tag} s'establirà en {count} fitxers."],
     "_{tags} and {lastTag} will be set to 1 file._::_{tags} and {lastTag} will be set to {count} files._" : ["{tags} i {lastTag} s'establiran en 1 fitxer.","{tags} i {lastTag} s'establiran en {count} fitxers."],
     "_{tags} and {lastTag} will be removed from 1 file._::_{tags} and {lastTag} will be removed from {count} files._" : ["{tags} i {lastTag} s'eliminaran d'1 fitxer.","{tags} i {lastTag} s'eliminaran de {count} fitxers."],

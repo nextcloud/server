@@ -86,7 +86,7 @@ class ApiTest extends TestCase {
 		$mount = $this->view->getMount($this->filename);
 		$mount->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
 
-		$this->userFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$this->userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->appConfig = $this->createMock(IAppConfig::class);
 	}
@@ -152,7 +152,6 @@ class ApiTest extends TestCase {
 	}
 
 	public function testCreateShareUserFile(): void {
-		$this->setUp(); // for some reasons phpunit refuses to do this for us only for this test
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->filename, Constants::PERMISSION_ALL, IShare::TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
 		$ocs->cleanup();
@@ -276,6 +275,8 @@ class ApiTest extends TestCase {
 	public function testEnforceLinkPassword(): void {
 		$password = md5(time());
 		$config = Server::get(IConfig::class);
+		$appConfig = Server::get(IAppConfig::class);
+		$appConfig->setValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT, true);
 		$config->setAppValue('core', 'shareapi_enforce_links_password', 'yes');
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
@@ -321,6 +322,7 @@ class ApiTest extends TestCase {
 		$ocs->cleanup();
 
 		$config->setAppValue('core', 'shareapi_enforce_links_password', 'no');
+		$appConfig->setValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT, false);
 		$this->addToAssertionCount(1);
 	}
 
@@ -795,7 +797,6 @@ class ApiTest extends TestCase {
 	 * test multiple shared folder if the path gets constructed correctly
 	 */
 	public function testGetShareMultipleSharedFolder(): void {
-		$this->setUp();
 		$node1 = $this->userFolder->get($this->folder . $this->subfolder);
 		$share1 = $this->shareManager->newShare();
 		$share1->setNode($node1)
@@ -872,7 +873,7 @@ class ApiTest extends TestCase {
 		$share1->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share1);
 
-		$user2Folder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
+		$user2Folder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
 		$node2 = $user2Folder->get($this->subfolder . $this->filename);
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node2)
@@ -884,7 +885,7 @@ class ApiTest extends TestCase {
 		$share2->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share2);
 
-		$user3Folder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER3);
+		$user3Folder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER3);
 		$node3 = $user3Folder->get($this->filename);
 		$share3 = $this->shareManager->newShare();
 		$share3->setNode($node3)
@@ -1135,7 +1136,7 @@ class ApiTest extends TestCase {
 		$share1->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share1);
 
-		$user2folder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
+		$user2folder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
 		$node2 = $user2folder->get($this->folder . '/' . $this->filename);
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node2)

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "View profile" : "Vis profil",
     "Profile" : "Profil",
+    "Searching …" : "Søker ...",
     "Not found" : "Ikke funnet",
     "Insert" : "Sett inn",
     "You have not added any info yet" : "Du har ikke lagt inn noe informasjon ennå",

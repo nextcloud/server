@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Promemoria cancellato per \"{fileName}\"",
     "Failed to clear reminder" : "Impossibile cancellare il promemoria",
     "Reminder at custom date & time" : "Promemoria a data e ora personalizzate",
-    "We will remind you of this file" : "Ti ricorderemo questo file",
     "Cancel" : "Annulla",
     "Clear reminder" : "Elimina promemoria",
     "Set reminder" : "Imposta promemoria",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Imposta promemoria per questo fine settimana",
     "Next week" : "Settimana successiva",
     "Set reminder for next week" : "Imposta promemoria per la prossima settimana",
-    "Set reminder for \"{fileName}\"" : "Imposta promemoria per \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Imposta promemoria per \"{fileName}\"",
+    "We will remind you of this file" : "Ti ricorderemo questo file"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

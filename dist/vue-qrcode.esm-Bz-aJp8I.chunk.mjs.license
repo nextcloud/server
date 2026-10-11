@@ -1,0 +1,15 @@
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Chen Fengyuan (https://chenfengyuan.com/)
+SPDX-FileCopyrightText: Ryan Day <soldair@gmail.com>
+SPDX-FileCopyrightText: dijkstrajs developers
+
+This file is generated from multiple sources. Included packages:
+- @chenfengyuan/vue-qrcode
+	- version: 2.0.0
+	- license: MIT
+- dijkstrajs
+	- version: 1.0.3
+	- license: MIT
+- qrcode
+	- version: 1.5.4
+	- license: MIT

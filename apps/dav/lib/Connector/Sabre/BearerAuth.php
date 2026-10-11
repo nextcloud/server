@@ -7,12 +7,16 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use Firebase\JWT\JWK;
+use Firebase\JWT\JWT;
+use OC\OCM\OCMSignatoryManager;
 use OCP\AppFramework\Http;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Security\Signature\Model\Signatory;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -29,6 +33,8 @@ class BearerAuth extends AbstractBearer {
 		private string $principalPrefix = 'principals/users/',
 		private string $token = '',
 		private bool $allowOcmAccessToken = false,
+		private ?IManager $shareManager = null,
+		private ?OCMSignatoryManager $ocmSignatoryManager = null,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -48,6 +54,14 @@ class BearerAuth extends AbstractBearer {
 	public function validateBearerToken($bearerToken) {
 		\OC_Util::setupFS();
 		$this->token = $bearerToken;
+		if ($this->allowOcmAccessToken) {
+			$sharedSecret = $this->resolveOcmSharedSecret($bearerToken);
+			if ($sharedSecret !== null) {
+				$this->token = $sharedSecret;
+				\OC_User::setIncognitoMode(true);
+				return $this->principalPrefix . $sharedSecret;
+			}
+		}
 
 		// public.php sets incognito mode for anonymous share access, which makes
 		// Session::getUser() return null and consequently Session::isLoggedIn()
@@ -57,18 +71,64 @@ class BearerAuth extends AbstractBearer {
 		// auth backends, that backend will re-enable incognito mode itself.
 		\OC_User::setIncognitoMode(false);
 
-		if (!$this->userSession->isLoggedIn()) {
-			$this->userSession->tryTokenLogin($this->request, $this->allowOcmAccessToken);
-		}
-		if ($this->userSession->isLoggedIn()) {
+		if ($this->userSession->tryTokenLogin($this->request)) {
 			return $this->setupUserFs($this->userSession->getUser()->getUID());
 		}
 
 		return false;
 	}
 
+	private function resolveOcmSharedSecret(string $accessToken): ?string {
+		if ($this->shareManager === null || $this->ocmSignatoryManager === null) {
+			return null;
+		}
+
+		try {
+			$jwks = $this->ocmSignatoryManager->getLocalJwks();
+			$headers = new \stdClass();
+			$claims = JWT::decode($accessToken, JWK::parseKeySet(['keys' => $jwks]), $headers);
+			if (($headers->typ ?? null) !== 'at+jwt' || !is_string($headers->kid ?? null)) {
+				return null;
+			}
+
+			$issuer = parse_url($headers->kid, PHP_URL_SCHEME)
+				. '://' . Signatory::extractIdentityFromUri($headers->kid);
+			if (!is_string($claims->iss ?? null)
+				|| !hash_equals($issuer, $claims->iss)
+				|| !is_string($claims->sub ?? null)
+				|| !is_string($claims->aud ?? null)
+				|| !is_string($claims->client_id ?? null)
+				|| !isset($claims->iat, $claims->exp)
+			) {
+				return null;
+			}
+
+			$share = $this->shareManager->getShareById('ocFederatedSharing:' . $claims->client_id);
+			if (!in_array($share->getShareType(), [IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP], true)
+				|| !hash_equals($share->getShareOwner(), $claims->sub)
+				|| !hash_equals((string)$share->getSharedWith(), $claims->aud)
+			) {
+				return null;
+			}
+
+			$sharedSecret = $share->getToken();
+			if ($sharedSecret === null || $sharedSecret === '') {
+				return null;
+			}
+
+			$shareByToken = $this->shareManager->getShareByToken($sharedSecret);
+			if (!hash_equals($share->getFullId(), $shareByToken->getFullId())) {
+				return null;
+			}
+
+			return $sharedSecret;
+		} catch (\Throwable) {
+			return null;
+		}
+	}
+
 	public function getShare(): IShare {
-		$shareManager = Server::get(IManager::class);
+		$shareManager = $this->shareManager ?? Server::get(IManager::class);
 		$share = $shareManager->getShareByToken($this->token);
 		return $share;
 	}

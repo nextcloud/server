@@ -14,6 +14,7 @@ use OCA\Files_Sharing\DeleteOrphanedSharesJob;
 use OCA\Files_Trashbin\Storage;
 use OCP\App\IAppManager;
 use OCP\Constants;
+use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Server;
@@ -125,7 +126,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	public function testClearShares(): void {
 		$this->loginAsUser($this->user1);
 
-		$user1Folder = \OC::$server->getUserFolder($this->user1);
+		$user1Folder = Server::get(IRootFolder::class)->getUserFolder($this->user1);
 		$testFolder = $user1Folder->newFolder('test');
 		$testSubFolder = $testFolder->newFolder('sub');
 

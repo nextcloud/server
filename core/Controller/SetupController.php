@@ -50,7 +50,7 @@ class SetupController {
 			return;
 		}
 
-		if (isset($post['install']) && $post['install'] == 'true') {
+		if (isset($post['install']) && $post['install'] === 'true') {
 			// We have to launch the installation process :
 			$e = $this->setupHelper->install($post);
 			$errors = ['errors' => $e];
@@ -81,6 +81,12 @@ class SetupController {
 			'dbtablespace' => '',
 			'dbhost' => 'localhost',
 			'dbtype' => '',
+			'dbsslmode' => '',
+			'dbsslca' => '',
+			'dbsslcert' => '',
+			'dbsslkey' => '',
+			'dbsslcrl' => '',
+			'dbsslnoverify' => false,
 			'hasAutoconfig' => false,
 			'serverRoot' => \OC::$SERVERROOT,
 			'version' => implode('.', $this->serverVersion->getVersion()),
@@ -93,7 +99,9 @@ class SetupController {
 		// include common nextcloud webpack bundle
 		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
+		Util::addStyle('core', 'main');
 		Util::addScript('core', 'install');
+		Util::addStyle('core', 'install');
 		Util::addTranslations('core');
 
 		$this->initialStateService->provideInitialState('core', 'config', $parameters);

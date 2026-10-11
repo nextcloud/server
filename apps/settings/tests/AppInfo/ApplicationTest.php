@@ -57,6 +57,6 @@ class ApplicationTest extends TestCase {
 
 	#[\PHPUnit\Framework\Attributes\DataProvider(methodName: 'dataContainerQuery')]
 	public function testContainerQuery(string $service, string $expected): void {
-		$this->assertTrue($this->container->query($service) instanceof $expected);
+		$this->assertTrue($this->container->get($service) instanceof $expected);
 	}
 }

@@ -2,6 +2,7 @@ OC.L10N.register(
     "user_ldap",
     {
     "Failed to clear the mappings." : "ไม่สามารถล้างการแมป",
+    "LDAP" : "LDAP",
     "Could not find the desired feature" : "ไม่พบคุณลักษณะที่ต้องการ",
     "Invalid Host" : "โฮสต์ไม่ถูกต้อง",
     "Connection Settings" : "ตั้งค่าการเชื่อมต่อ",

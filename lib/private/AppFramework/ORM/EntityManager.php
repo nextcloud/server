@@ -35,9 +35,7 @@ final class EntityManager {
 	 * @return EntityInfo<T>
 	 */
 	public function getEntityInfo(string $entityClass): EntityInfo {
-		if (!isset($this->entitiesInfo[$entityClass])) {
-			$this->entitiesInfo[$entityClass] = new EntityInfo($entityClass);
-		}
+		$this->entitiesInfo[$entityClass] ??= new EntityInfo($entityClass);
 
 		/** @var EntityInfo<T> $entityInfo */
 		$entityInfo = $this->entitiesInfo[$entityClass];
@@ -135,7 +133,7 @@ final class EntityManager {
 
 			if ($propertyAttributes->column !== null) {
 				$type = $this->getParameterType($propertyAttributes->column->type, false);
-				$values[$propertyAttributes->column->name] = $insert->createNamedParameter($property->getValue($entity), $type);
+				$values[$propertyAttributes->column->name] = $insert->createNamedParameter($this->toParameterValue($property->getValue($entity)), $type);
 			}
 		}
 
@@ -198,7 +196,7 @@ final class EntityManager {
 
 			if ($propertyAttributes->column !== null) {
 				$type = $this->getParameterType($propertyAttributes->column->type, false);
-				$update->set($propertyAttributes->column->name, $update->createNamedParameter($value, $type));
+				$update->set($propertyAttributes->column->name, $update->createNamedParameter($this->toParameterValue($value), $type));
 			}
 		}
 
@@ -279,6 +277,18 @@ final class EntityManager {
 		};
 	}
 
+	public function toParameterValue(mixed $value): mixed {
+		if ($value instanceof \BackedEnum) {
+			return $value->value;
+		}
+
+		if (is_array($value)) {
+			return array_map($this->toParameterValue(...), $value);
+		}
+
+		return $value;
+	}
+
 	/**
 	 * @internal Only for unit tests.
 	 *
@@ -326,7 +336,11 @@ final class EntityManager {
 		}
 
 		if ($columnAttribute->default !== null) {
-			$options['default'] = $columnAttribute->default;
+			// Column::$default is documented as scalar|\BackedEnum, so unwrapping a \BackedEnum
+			// case here always yields a scalar.
+			/** @var scalar $default */
+			$default = $this->toParameterValue($columnAttribute->default);
+			$options['default'] = $default;
 		}
 
 		// A composite primary key can't rely on a single autoincrement column; see insert().

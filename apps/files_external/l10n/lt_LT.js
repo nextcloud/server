@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "Veiksmai",
     "Checking …" : "Tikrinama  ...",
     "Recheck status" : "Dar kartą patikrinkite būseną",
+    "All accounts" : "Visos paskyros",
     "Delete" : "Ištrinti",
     "System provided storage" : "Sistema suteikė saugyklą",
     "Saved" : "Įrašyta",

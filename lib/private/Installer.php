@@ -505,7 +505,7 @@ class Installer {
 						if (file_exists($app_dir['path'] . "/$filename/appinfo/info.xml")) {
 							if ($this->config->getAppValue($filename, 'installed_version') === '') {
 								$enabled = $this->appManager->isDefaultEnabled($filename);
-								if (($enabled || in_array($filename, $this->appManager->getAlwaysEnabledApps()))
+								if (($enabled || in_array($filename, $this->appManager->getAlwaysEnabledApps(), true))
 									  && $this->config->getAppValue($filename, 'enabled') !== 'no') {
 									if ($softErrors) {
 										try {
@@ -534,7 +534,7 @@ class Installer {
 	}
 
 	private function installAppLastSteps(string $appPath, array $info, ?IOutput $output = null, string $enabled = 'no'): string {
-		\OC_App::registerAutoloading($info['id'], $appPath);
+		$this->appManager->registerAutoloading($info['id'], $appPath, true);
 
 		$previousVersion = $this->config->getAppValue($info['id'], 'installed_version', '');
 		$ms = new MigrationService($info['id'], Server::get(Connection::class));

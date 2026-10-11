@@ -16,12 +16,12 @@ use OC\User\User;
 use OCP\Config\IUserConfig;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudId;
-use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use OCP\User\Events\UserDeletedEvent;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -29,27 +29,13 @@ use Test\TestCase;
 
 #[Group('DB')]
 class ManagerTest extends TestCase {
-	private IConfig&MockObject $config;
-	private IEventDispatcher&MockObject $eventDispatcher;
-	private ICacheFactory&MockObject $cacheFactory;
-	private ICache&MockObject $cache;
-	private LoggerInterface&MockObject $logger;
 	private IUserManager $manager;
 
 	#[\Override]
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->createMock(IConfig::class);
-		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
-		$this->cache = $this->createMock(ICache::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
-
-		$this->cacheFactory->method('createDistributed')
-			->willReturn($this->cache);
-
-		$this->manager = new Manager($this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$this->manager = $this->createInstanceWithMocks(Manager::class);
 	}
 
 	public function testGetBackends(): void {
@@ -181,7 +167,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(true);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
@@ -219,7 +205,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('bLeNdEr'))
 			->willReturn(true);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
@@ -233,7 +219,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('fo'))
 			->willReturn(['foo', 'afoo', 'Afoo1', 'Bfoo']);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
@@ -252,7 +238,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->willReturn(['foo1', 'foo2']);
 		$backend1->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$backend2 = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend2->expects($this->once())
@@ -260,7 +246,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
 			->willReturn(['foo3']);
 		$backend2->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend1);
 		$this->manager->registerBackend($backend2);
@@ -334,7 +320,7 @@ class ManagerTest extends TestCase {
 			->with($this->equalTo('foo'))
 			->willReturn(false);
 		$backend->expects($this->never())
-			->method('loginName2UserName');
+			->method('getUserNameFromLoginName');
 
 		$this->manager->registerBackend($backend);
 
@@ -666,13 +652,16 @@ class ManagerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnArgument(2);
 
-		$this->manager = new Manager($config, $this->cacheFactory, $this->eventDispatcher, $this->logger);
+		$this->manager = new Manager($config, $this->getAutoMock(ICacheFactory::class), $this->getAutoMock(IEventDispatcher::class), $this->getAutoMock(LoggerInterface::class));
 		$backend = new \Test\Util\User\Dummy();
 
 		$this->manager->registerBackend($backend);
 		$backend->createUser('foo', 'bar');
 		$this->assertTrue($this->manager->userExists('foo'));
-		$this->manager->get('foo')->delete();
+		$fooUser = $this->manager->get('foo');
+		$fooUser->delete();
+		// Call manually as event dispatcher is a mock
+		self::invokePrivate($this->manager, 'handleUserDeletedEvent', [new UserDeletedEvent($fooUser)]);
 		$this->assertFalse($this->manager->userExists('foo'));
 	}
 
@@ -688,7 +677,7 @@ class ManagerTest extends TestCase {
 			});
 
 		$this->manager = $this->getMockBuilder(Manager::class)
-			->setConstructorArgs([$this->config, $this->cacheFactory, $this->eventDispatcher, $this->logger])
+			->setConstructorArgs([$this->getAutoMock(IConfig::class), $this->getAutoMock(ICacheFactory::class), $this->getAutoMock(IEventDispatcher::class), $this->getAutoMock(LoggerInterface::class)])
 			->onlyMethods(['getUserConfig', 'get'])
 			->getMock();
 		$this->manager->method('getUserConfig')->willReturn($userConfig);

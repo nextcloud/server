@@ -6,11 +6,11 @@ OC.L10N.register(
     "{author} commented" : "{author} komentoval",
     "You commented on %1$s" : "Komentovali ste %1$s",
     "You commented on {file}" : "Komentovali ste {file}",
-    "%1$s commented on %2$s" : "%1$s komentoval %2$s",
+    "%1$s commented on %2$s" : "%1$s komentoval/a %2$s",
     "{author} commented on {file}" : "{author} komentoval {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentáre</strong> pre súbory",
     "Files" : "Súbory",
-    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Boli ste spomenutý v \"{file}\", v komentári užívateľom ktorý bol už vymazaný",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Boli ste spomenutý v „{file}“ v komentári účtu, ktorý bol odvtedy odstránený.",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} vás spomenul v komentári k “{file}”",
     "Go to file" : "Prejsť na súbor",
     "Files app plugin to add comments to files" : "Zásuvný modul aplikácie súborov, ktorý umožňuje súborom pridávať komentáre",
@@ -18,7 +18,7 @@ OC.L10N.register(
     "Delete comment" : "Zmazať komentár",
     "Cancel edit" : "Zrušiť upravovanie",
     "New comment" : "Nový komentár",
-    "Write a comment …" : "Napísať komentár ...",
+    "Write a comment …" : "Napísať komentár …",
     "Post comment" : "Odoslať komentár",
     "@ for mentions, : for emoji, / for smart picker" : "@ pre spomienky, : pre emotikony, / pre inteligentný výber",
     "Could not reload comments" : "Nepodarilo sa obnoviť komentáre",
@@ -33,6 +33,6 @@ OC.L10N.register(
     "Comment deleted" : "Komentár bol odstránený",
     "An error occurred while trying to delete the comment" : "Vyskytla sa chyba pri mazaní komentára",
     "An error occurred while trying to create the comment" : "Vyskytla sa chyba pri vytváraní komentára",
-    "Write a comment …" : "Napísať komentár ..."
+    "Write a comment …" : "Napísať komentár …"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid LDAP UUIDs" : "UUID de LDAP incorrectos",
     "None found" : "Non se atopou ningún",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Atopáronse UUID incorrectos de contas ou grupos LDAP. Revise a súa configuración de «Anular a detección de UUID» na parte Experto da configuración LDAP e utilice «occ ldap:update-uuid» para actualizalos.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["Atopouse %n grupo","Atopáronse %n grupos"],
     "> 1000 groups found" : "> 1000 grupos atopados",
     "> 1000 users found" : "> 1000 usuarios atopados",
@@ -133,7 +134,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Permite o acceso contra un atributo de correo-e. Permitiense 'mail' e 'mailPrimaryAddress'.",
     "LDAP/AD Email Address:" : "Enderezo de correo LDAP/AD:",
     "Other Attributes:" : "Outros atributos:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Define o filtro que se aplica cando se intenta o acceso. `%%uid` substitúe o nome de usuario e a acción de acceso. Exemplo: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Tenta recibir un DN para o nome de acceso indicado e o filtro de acceso actual",
     "Test Login name" : "Probar o nome de acceso",
     "Verify settings" : "Verificar os axustes",
@@ -267,6 +267,7 @@ OC.L10N.register(
     "Pronouns Field" : "Campo de pronomes",
     "User profile Pronouns will be set from the specified attribute" : "Os pronomes no perfil de usuario definiranse a partir do atributo especificado",
     "UUID Attribute for Users:" : "Atributo do UUID para usuarios:",
-    "UUID Attribute for Groups:" : "Atributo do UUID para grupos:"
+    "UUID Attribute for Groups:" : "Atributo do UUID para grupos:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Define o filtro que se aplica cando se intenta o acceso. `%%uid` substitúe o nome de usuario e a acción de acceso. Exemplo: `uid=%%uid`"
 },
 "nplurals=2; plural=(n != 1);");

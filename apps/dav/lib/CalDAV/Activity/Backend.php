@@ -578,7 +578,7 @@ class Backend {
 		$vObject = Reader::read($objectData['calendardata']);
 		$component = $componentType = null;
 		foreach ($vObject->getComponents() as $component) {
-			if (in_array($component->name, ['VEVENT', 'VTODO'])) {
+			if (in_array($component->name, ['VEVENT', 'VTODO'], true)) {
 				$componentType = $component->name;
 				break;
 			}

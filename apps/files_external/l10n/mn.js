@@ -94,6 +94,7 @@ OC.L10N.register(
     "Actions" : "Үйл ажиллагаа",
     "Checking …" : "Шалгаж байна …",
     "Recheck status" : "Төлөвийг дахин шалгах",
+    "All accounts" : "Бүх бүртгэлүүд",
     "Delete" : "Устгах",
     "System provided storage" : "Системээс хангасан хадгалах сан",
     "Saved" : "Хадгалах",

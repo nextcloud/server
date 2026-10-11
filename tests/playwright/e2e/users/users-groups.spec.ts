@@ -10,7 +10,8 @@ import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-with-user.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
+import { awaitPasswordGuardedRequest } from '../../support/utils/password-confirmation.ts'
+import { getToast } from '../../support/utils/toast.ts'
 
 // ── Create group ──────────────────────────────────────────────────────────────
 
@@ -26,8 +27,7 @@ test('Account Management: Can create a group', async ({ page }) => {
 		await page.getByLabel('Group name').fill(groupName)
 		await page.getByLabel('Group name').press('Enter')
 
-		await handlePasswordConfirmation(page)
-		await createGroupsResponsePromise
+		await awaitPasswordGuardedRequest(page, createGroupsResponsePromise)
 
 		await expect(settingsPage.customGroupsList()).toContainText(groupName)
 	} finally {
@@ -67,9 +67,8 @@ userGroupTest('Account Management: Assign user to a group', async ({ page, testG
 
 	await page.getByRole('option', { name: new RegExp(testGroup.slice(0, 8)) }).click()
 
-	await handlePasswordConfirmation(page)
 	await settingsPage.saveEditDialog()
-	await expect(page.getByText(/Account updated/i)).toBeVisible()
+	await expect(getToast(page, /Account updated/i)).toBeVisible()
 
 	// user is now group now shows 1 member
 	await expect(settingsPage.groupMemberCount(testGroup)).toHaveText('1')
@@ -103,7 +102,6 @@ test.describe('Settings: Delete an empty group', () => {
 		// and delete the group
 		await page.getByRole('button', { name: 'Delete group' }).click()
 		await page.getByRole('dialog').getByRole('button', { name: 'Confirm' }).click()
-		await handlePasswordConfirmation(page)
 
 		// Group must be gone from the UI
 		await expect(settingsPage.groupListItem(groupName)).toHaveCount(0)
@@ -145,7 +143,6 @@ test.describe('Settings: Delete a non-empty group', () => {
 		// and delete the group
 		await page.getByRole('button', { name: 'Delete group' }).click()
 		await page.getByRole('dialog').getByRole('button', { name: 'Confirm' }).click()
-		await handlePasswordConfirmation(page)
 
 		await expect(settingsPage.groupListItem(groupName)).toHaveCount(0)
 

@@ -7,6 +7,8 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+use OC\App\InfoParser;
+use OC\Files\Filesystem;
 use OC\NavigationManager;
 use OC\Profiler\BuiltInProfiler;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
@@ -18,6 +20,7 @@ use OC\User\DisabledUserException;
 use OCP\App\Events\AppsLoadedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
+use OCP\Files\ISetupManager;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAppConfig;
@@ -103,6 +106,11 @@ class OC {
 	private static float $loaderEnd;
 
 	/**
+	 * @psalm-suppress ImpureStaticProperty
+	 */
+	private static bool $oneTimeChecksDone = false;
+
+	/**
 	 * @throws \RuntimeException when the 3rdparty directory is missing or
 	 *                           the app path list is empty or contains an invalid path
 	 */
@@ -127,7 +135,7 @@ class OC {
 			new \OC\AllConfig(new \OC\SystemConfig(self::$config))
 		);
 		$scriptName = $fakeRequest->getScriptName();
-		if (substr($scriptName, -1) == '/') {
+		if (substr($scriptName, -1) === '/') {
 			$scriptName .= 'index.php';
 			//make sure suburi follows the same rules as scriptName
 			if (substr(OC::$SUBURI, -9) !== 'index.php') {
@@ -308,7 +316,9 @@ class OC {
 		Util::addTranslations('core');
 		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
+		Util::addStyle('core', 'main');
 		Util::addScript('core', 'update');
+		Util::addStyle('core', 'update');
 
 		$initialState = Server::get(IInitialStateService::class);
 		$serverVersion = Server::get(\OCP\ServerVersion::class);
@@ -345,6 +355,9 @@ class OC {
 
 		/** @var \OC\App\AppManager $appManager */
 		$appManager = Server::get(\OCP\App\IAppManager::class);
+		$l10nFactory = Server::get(\OCP\L10N\IFactory::class);
+		$infoParser = new InfoParser();
+		$lang = $l10nFactory->findLanguage();
 
 		// get third party apps
 		$ocVersion = $serverVersion->getVersion();
@@ -354,22 +367,24 @@ class OC {
 		$incompatibleShippedApps = [];
 		$incompatibleDisabledApps = [];
 		foreach ($incompatibleApps as $appInfo) {
+			$appInfo = $infoParser->applyL10N($appInfo, $lang);
 			if ($appManager->isShipped($appInfo['id'])) {
 				$incompatibleShippedApps[] = $appInfo['name'] . ' (' . $appInfo['id'] . ')';
 			}
-			if (!in_array($appInfo['id'], $incompatibleOverwrites)) {
+			if (!in_array($appInfo['id'], $incompatibleOverwrites, true)) {
 				$incompatibleDisabledApps[] = $appInfo;
 			}
 		}
 
 		if (!empty($incompatibleShippedApps)) {
-			$l = Server::get(\OCP\L10N\IFactory::class)->get('core');
+			$l = $l10nFactory->get('core');
 			$hint = $l->t('Application %1$s is not present or has a non-compatible version with this server. Please check the apps directory.', [implode(', ', $incompatibleShippedApps)]);
 			throw new \OCP\HintException('Application ' . implode(', ', $incompatibleShippedApps) . ' is not present or has a non-compatible version with this server. Please check the apps directory.', $hint);
 		}
 
 		$appConfig = Server::get(IAppConfig::class);
-		$appsToUpgrade = array_map(function ($app) use (&$appConfig) {
+		$appsToUpgrade = array_map(function ($app) use (&$appConfig, $infoParser, $lang) {
+			$app = $infoParser->applyL10N($app, $lang);
 			return [
 				'id' => $app['id'],
 				'name' => $app['name'],
@@ -656,6 +671,9 @@ class OC {
 		}
 	}
 
+	/*
+	 * Called only once at the beginning to setup things
+	 */
 	public static function boot(): void {
 		// prevent any XML processing from loading external entities
 		libxml_set_external_entity_loader(static function () {
@@ -673,7 +691,7 @@ class OC {
 		// register autoloader
 		self::$loaderStart = microtime(true);
 
-		self::$CLI = (php_sapi_name() == 'cli');
+		self::$CLI = (php_sapi_name() === 'cli');
 
 		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
@@ -714,31 +732,74 @@ class OC {
 			print($e->getMessage());
 			exit();
 		}
+		self::setRequiredIniValues();
+
+		// initialize intl fallback if necessary
+		OC_Util::isSetLocaleWorking();
 	}
 
-	public static function init(): void {
+	/**
+	 * Run one time checks if not already run. This allows checking after server boot, to have access to translations and pretty error rendering while still checking only once in worker mode.
+	 */
+	private static function oneTimeChecks(): void {
+		if (self::$oneTimeChecksDone) {
+			return;
+		}
+
+		// Check for PHP SimpleXML extension earlier since we need it before our other checks and want to provide a useful hint for web users
+		// see https://github.com/nextcloud/server/pull/2619
+		if (!function_exists('simplexml_load_file')) {
+			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed. Install the extension or make sure it is enabled.');
+		}
+
+		// Check whether the sample configuration has been copied
+		if (self::$config->getValue('copied_sample_config', false)) {
+			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
+			Server::get(ITemplateManager::class)->printErrorPage(
+				$l->t('Sample configuration detected'),
+				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
+				503
+			);
+			return;
+		}
+
+		self::checkConfig();
+
+		self::$oneTimeChecksDone = true;
+	}
+
+	/*
+	 * Called before each request served if the same worker serves several request
+	 */
+	public static function initForRequest(): void {
+		self::resetStaticProperties();
+
 		// First handle PHP configuration and copy auth headers to the expected
 		// $_SERVER variable before doing anything Server object related
-		self::setRequiredIniValues();
 		self::handleAuthHeaders();
 
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
 
+		self::oneTimeChecks();
+
 		$loaderStart = microtime(true);
+
+		$config = Server::get(IConfig::class);
+		$request = Server::get(IRequest::class);
 
 		try {
 			$profiler = new BuiltInProfiler(
-				Server::get(IConfig::class),
-				Server::get(IRequest::class),
+				$config,
+				$request,
 			);
 			$profiler->start();
 		} catch (\Throwable $e) {
 			logger('core')->error('Failed to start profiler: ' . $e->getMessage(), ['app' => 'base']);
 		}
 
-		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
+		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'], true)) {
 			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
 		}
 
@@ -751,10 +812,6 @@ class OC {
 			error_reporting(E_ALL);
 		}
 
-		// initialize intl fallback if necessary
-		OC_Util::isSetLocaleWorking();
-
-		$config = Server::get(IConfig::class);
 		if (!defined('PHPUNIT_RUN')) {
 			$errorHandler = new OC\Log\ErrorHandler(
 				Server::get(\Psr\Log\LoggerInterface::class),
@@ -778,12 +835,6 @@ class OC {
 
 		$eventLogger->start('init_session', 'Initialize session');
 
-		// Check for PHP SimpleXML extension earlier since we need it before our other checks and want to provide a useful hint for web users
-		// see https://github.com/nextcloud/server/pull/2619
-		if (!function_exists('simplexml_load_file')) {
-			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
-		}
-
 		$systemConfig = Server::get(\OC\SystemConfig::class);
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 		if ($systemConfig->getValue('installed', false)) {
@@ -793,7 +844,6 @@ class OC {
 			self::initSession();
 		}
 		$eventLogger->end('init_session');
-		self::checkConfig();
 		self::checkInstalled($systemConfig);
 
 		if (!self::$CLI) {
@@ -849,14 +899,6 @@ class OC {
 		Server::get(\OCP\IUserManager::class)->registerBackend(new \OC\User\Database());
 		Server::get(\OCP\IGroupManager::class)->addBackend(new \OC\Group\Database());
 
-		// Subscribe to the hook
-		\OCP\Util::connectHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			'\OC\User\Database',
-			'preLoginNameUsedAsUserName'
-		);
-
 		//setup extra user backends
 		if (!\OCP\Util::needUpgrade()) {
 			OC_User::setupBackends();
@@ -887,18 +929,6 @@ class OC {
 		$lockProvider = Server::get(\OCP\Lock\ILockingProvider::class);
 		register_shutdown_function([$lockProvider, 'releaseAll']);
 
-		// Check whether the sample configuration has been copied
-		if ($systemConfig->getValue('copied_sample_config', false)) {
-			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
-			Server::get(ITemplateManager::class)->printErrorPage(
-				$l->t('Sample configuration detected'),
-				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
-				503
-			);
-			return;
-		}
-
-		$request = Server::get(IRequest::class);
 		$host = $request->getInsecureServerHost();
 		/**
 		 * if the host passed in headers isn't trusted
@@ -906,7 +936,7 @@ class OC {
 		 */
 		if (!OC::$CLI
 			&& !Server::get(\OC\Security\TrustedDomainHelper::class)->isTrustedDomain($host)
-			&& $config->getSystemValueBool('installed', false)
+			&& $config->getSystemValueBool('installed')
 		) {
 			// Allow access to CSS resources
 			$isScssRequest = false;
@@ -1002,29 +1032,14 @@ class OC {
 			// NOTE: This will be replaced to use OCP
 			$userSession = Server::get(\OC\User\Session::class);
 			$userSession->listen('\OC\User', 'postLogin', function () use ($userSession) {
-				if (!defined('PHPUNIT_RUN') && $userSession->isLoggedIn()) {
+				if (!defined('PHPUNIT_RUN') && $userSession->isLoggedIn() && ($user = $userSession->getUser()) !== null) {
 					// reset brute force delay for this IP address and username
-					$uid = $userSession->getUser()->getUID();
+					$uid = $user->getUID();
 					$request = Server::get(IRequest::class);
 					$throttler = Server::get(IThrottler::class);
 					$throttler->resetDelay($request->getRemoteAddress(), 'login', ['user' => $uid]);
 
-					try {
-						$cache = new \OC\Cache\File();
-						$cache->gc();
-					} catch (\OC\ServerNotAvailableException $e) {
-						// not a GC exception, pass it on
-						throw $e;
-					} catch (\OC\ForbiddenException $e) {
-						// filesystem blocked for this request, ignore
-					} catch (\Exception $e) {
-						// a GC exception should not prevent users from using OC,
-						// so log the exception
-						Server::get(LoggerInterface::class)->warning('Exception when running cache gc.', [
-							'app' => 'core',
-							'exception' => $e,
-						]);
-					}
+					Server::get(ISetupManager::class)->setupForUser($user);
 				}
 			});
 		}
@@ -1051,9 +1066,9 @@ class OC {
 	}
 
 	private static function registerAppRestrictionsHooks(): void {
-		/** @var \OC\Group\Manager $groupManager */
-		$groupManager = Server::get(\OCP\IGroupManager::class);
-		$groupManager->listen('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
+		$eventDispatcher = Server::get(IEventDispatcher::class);
+		$eventDispatcher->addListener(GroupDeletedEvent::class, function (GroupDeletedEvent $event) {
+			$group = $event->getGroup();
 			$appManager = Server::get(\OCP\App\IAppManager::class);
 			$apps = $appManager->getEnabledAppsForGroup($group);
 			foreach ($apps as $appId) {
@@ -1231,7 +1246,7 @@ class OC {
 		// This prevents browsers from redirecting to the default page and then
 		// attempting to parse HTML as CSS and similar.
 		$destinationHeader = $request->getHeader('Sec-Fetch-Dest');
-		if (in_array($destinationHeader, ['font', 'script', 'style'])) {
+		if (in_array($destinationHeader, ['font', 'script', 'style'], true)) {
 			http_response_code(404);
 			return;
 		}
@@ -1330,6 +1345,43 @@ class OC {
 			return $appAPIService->validateExAppRequestToNC($request);
 		} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
 			return false;
+		}
+	}
+
+	/**
+	 * @internal
+	 */
+	private static function resetStaticProperties(): void {
+		// FIXME needed because these use a static var
+		\OC_Hook::clear();
+		\OC_Util::$styles = [];
+		\OC_Util::$headers = [];
+		\OC_User::setIncognitoMode(false);
+		\OC_User::$_setupedBackends = [];
+		\OC_Helper::reset();
+		Filesystem::reset();
+		/** @psalm-suppress InternalMethod */
+		\OCP\Util::resetStaticProperties();
+	}
+
+	/**
+	 * @internal
+	 */
+	public static function handleRequests(callable $handler): void {
+		if (function_exists('frankenphp_handle_request') && isset($_SERVER['FRANKENPHP_WORKER']) && $_SERVER['FRANKENPHP_WORKER'] === '1') {
+			$maxRequests = (int)($_SERVER['MAX_REQUESTS'] ?? 0);
+			for ($nbRequests = 0; !$maxRequests || $nbRequests < $maxRequests; ++$nbRequests) {
+				$keepRunning = \frankenphp_handle_request($handler);
+
+				// Call the garbage collector to reduce the chances of it being triggered in the middle of a page generation
+				gc_collect_cycles();
+
+				if (!$keepRunning) {
+					break;
+				}
+			}
+		} else {
+			$handler();
 		}
 	}
 }

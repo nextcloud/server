@@ -95,6 +95,7 @@ final class APasswordSharePropertyTypeTest extends TestCase {
 			new ShareUser('user', null),
 			new DateTimeImmutable(),
 			ShareState::Active,
+			null,
 			[],
 			[],
 			[],

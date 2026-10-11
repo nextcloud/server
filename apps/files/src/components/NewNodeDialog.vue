@@ -7,8 +7,8 @@
 		data-cy-files-new-node-dialog
 		:name="name"
 		:open="open"
-		close-on-click-outside
-		out-transition
+		closeOnClickOutside
+		outTransition
 		@update:open="emit('close', null)">
 		<template #actions>
 			<NcButton
@@ -16,7 +16,7 @@
 				variant="primary"
 				:disabled="validity !== ''"
 				@click="submit">
-				{{ t('files', 'Create') }}
+				{{ submitLabel }}
 			</NcButton>
 		</template>
 		<form
@@ -28,7 +28,7 @@
 				v-model="localDefaultName"
 				data-cy-files-new-node-dialog-input
 				:error="validity !== ''"
-				:helper-text="validity"
+				:helperText="validity"
 				:label="label" />
 
 			<!-- Hidden file warning -->
@@ -88,6 +88,14 @@ const props = defineProps({
 	label: {
 		type: String,
 		default: t('files', 'Folder name'),
+	},
+
+	/**
+	 * Label of the submit button
+	 */
+	submitLabel: {
+		type: String,
+		default: t('files', 'Create'),
 	},
 
 	/**

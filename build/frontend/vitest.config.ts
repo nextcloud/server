@@ -36,8 +36,18 @@ export default defineConfig({
 	resolve: {
 		preserveSymlinks: true,
 	},
+	server: {
+		fs: {
+			// The dependencies are installed in the repository root, which is outside of the vite root,
+			// so it needs to be allowed explicitly for assets like `*.svg?raw` to be loadable.
+			allow: [resolve(import.meta.dirname, '../..')],
+		},
+	},
 	test: {
-		include: ['apps/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+		include: [
+			'{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)',
+			'../../apps/settings/src/authtokens/**/*.spec.ts',
+		],
 		env: {
 			LANG: 'en_US',
 			TZ: 'UTC',
@@ -51,7 +61,8 @@ export default defineConfig({
 		coverage: {
 			include: [
 				'apps/*/src/**',
-				/* 'core/src/**', */
+				'../../apps/settings/src/authtokens/**',
+				'core/src/**',
 			],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
 			reporter: ['lcov', 'text'],
@@ -74,6 +85,12 @@ export default defineConfig({
 		onUnhandledError(error) {
 			// TODO: remove when this is fixed: https://github.com/nextcloud-libraries/nextcloud-vue/issues/8090
 			if (error.message.includes('`fallbackFocus` was specified but was not a node, or did not return a node')) {
+				return false
+			}
+			// NcPopover passes its fallback as `fallBackFocus`, which focus-trap does
+			// not know, and jsdom has no layout so nothing counts as tabbable.
+			// TODO: remove once NcPopover sets `fallbackFocus`.
+			if (error.message.includes('Your focus-trap must have at least one container with at least one tabbable node')) {
 				return false
 			}
 		},

@@ -48,7 +48,7 @@ class DeleteConfig extends Base {
 		$configName = $configNames[0];
 
 		if (count($configNames) > 1) {
-			if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
+			if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys(), true)) {
 				$output->writeln('<error>System config ' . implode(' => ', $configNames) . ' could not be deleted because it did not exist</error>');
 				return 1;
 			}
@@ -66,7 +66,7 @@ class DeleteConfig extends Base {
 			$output->writeln('<info>System config value ' . implode(' => ', $configNames) . ' deleted</info>');
 			return 0;
 		} else {
-			if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
+			if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys(), true)) {
 				$output->writeln('<error>System config ' . $configName . ' could not be deleted because it did not exist</error>');
 				return 1;
 			}

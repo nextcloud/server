@@ -437,12 +437,12 @@ abstract class StoragesService {
 		$appIdsList = $this->appConfig->getValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS);
 
 		if ($this->dbConfig->hasHomeFolderOverwriteMount()) {
-			if (!in_array(Application::APP_ID, $appIdsList)) {
+			if (!in_array(Application::APP_ID, $appIdsList, true)) {
 				$appIdsList[] = Application::APP_ID;
 				$this->appConfig->setValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS, $appIdsList);
 			}
 		} else {
-			if (in_array(Application::APP_ID, $appIdsList)) {
+			if (in_array(Application::APP_ID, $appIdsList, true)) {
 				$appIdsList = array_values(array_filter($appIdsList, fn ($v) => $v !== Application::APP_ID));
 				$this->appConfig->setValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS, $appIdsList);
 			}

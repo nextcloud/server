@@ -12,6 +12,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Quota;
+use OCP\Files\ISetupManager;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\Server;
@@ -40,7 +41,7 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->createUser($this->user, $this->user);
 		$this->savedQuotaIncludeExternalStorage = $this->getIncludeExternalStorage();
 
-		Filesystem::tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 		\OC_User::setUserId($this->user);
 		Filesystem::init($this->user, '/' . $this->user . '/files');
 
@@ -60,7 +61,7 @@ class HelperStorageTest extends \Test\TestCase {
 			$this->storageMock->getCache()->clear();
 			$this->storageMock = null;
 		}
-		Filesystem::tearDown();
+		Server::get(ISetupManager::class)->tearDown();
 
 		\OC_User::setUserId('');
 		Server::get(IConfig::class)->deleteAllUserValues($this->user);

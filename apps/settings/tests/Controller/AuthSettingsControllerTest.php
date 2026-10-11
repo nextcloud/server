@@ -16,6 +16,7 @@ use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\IWipeableToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\RemoteWipe;
+use OCA\Settings\Activity\Provider;
 use OCA\Settings\Controller\AuthSettingsController;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
@@ -271,6 +272,140 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertEquals([], $this->controller->destroy($tokenId)->getData());
 	}
 
+	public function testDestroyOthersRevokesEveryTokenButTheCurrent(): void {
+		$currentToken = $this->mockAuthToken(10);
+		$otherToken = $this->mockAuthToken(11);
+		$appPassword = $this->mockAuthToken(12);
+
+		$this->session->method('getId')->willReturn('sessionid');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sessionid')
+			->willReturn($currentToken);
+		$this->tokenProvider->expects($this->once())
+			->method('getTokenByUser')
+			->with($this->uid)
+			->willReturn([$currentToken, $otherToken, $appPassword]);
+
+		$revokedIds = [];
+		$this->tokenProvider->expects($this->exactly(2))
+			->method('invalidateTokenById')
+			->willReturnCallback(function (string $uid, int $id) use (&$revokedIds): void {
+				$this->assertSame($this->uid, $uid);
+				$revokedIds[] = $id;
+			});
+
+		$this->mockActivityManager();
+
+		$response = $this->controller->destroyOthers();
+
+		$this->assertSame([11, 12], $revokedIds, 'the current session token must not be revoked');
+		$this->assertSame(['revoked' => [11, 12]], $response->getData());
+	}
+
+	public function testDestroyOthersKeepsWipePendingTokens(): void {
+		$currentToken = $this->mockAuthToken(10);
+		$otherToken = $this->mockAuthToken(11);
+		$wipingToken = $this->mockAuthToken(12, IToken::WIPE_TOKEN);
+
+		$this->session->method('getId')->willReturn('sessionid');
+		$this->tokenProvider->method('getToken')->willReturn($currentToken);
+		$this->tokenProvider->method('getTokenByUser')->willReturn([$currentToken, $otherToken, $wipingToken]);
+
+		$this->tokenProvider->expects($this->once())
+			->method('invalidateTokenById')
+			->with($this->uid, 11);
+
+		$this->mockActivityManager();
+
+		$this->assertSame(['revoked' => [11]], $this->controller->destroyOthers()->getData());
+	}
+
+	public function testDestroyOthersPublishesOneAggregateActivity(): void {
+		$currentToken = $this->mockAuthToken(10);
+
+		$this->session->method('getId')->willReturn('sessionid');
+		$this->tokenProvider->method('getToken')->willReturn($currentToken);
+		$this->tokenProvider->method('getTokenByUser')
+			->willReturn([$currentToken, $this->mockAuthToken(11), $this->mockAuthToken(12)]);
+
+		$event = $this->createMock(IEvent::class);
+		$event->method('setApp')->willReturnSelf();
+		$event->method('setType')->willReturnSelf();
+		$event->method('setAffectedUser')->willReturnSelf();
+		$event->method('setAuthor')->willReturnSelf();
+		$event->expects($this->once())
+			->method('setSubject')
+			->with(Provider::APP_TOKEN_DELETED_ALL, ['count' => 2])
+			->willReturnSelf();
+		// Aggregate event, so there is no single app_token to attach.
+		$event->expects($this->never())
+			->method('setObject');
+
+		$this->activityManager->expects($this->once())
+			->method('generateEvent')
+			->willReturn($event);
+		$this->activityManager->expects($this->once())
+			->method('publish');
+
+		$this->controller->destroyOthers();
+	}
+
+	public function testDestroyOthersWithNothingToRevokePublishesNoActivity(): void {
+		$currentToken = $this->mockAuthToken(10);
+
+		$this->session->method('getId')->willReturn('sessionid');
+		$this->tokenProvider->method('getToken')->willReturn($currentToken);
+		$this->tokenProvider->method('getTokenByUser')->willReturn([$currentToken]);
+
+		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
+		$this->activityManager->expects($this->never())->method('publish');
+
+		$this->assertSame(['revoked' => []], $this->controller->destroyOthers()->getData());
+	}
+
+	public function testDestroyOthersWithAppPassword(): void {
+		$this->session->expects($this->once())
+			->method('exists')
+			->with('app_password')
+			->willReturn(true);
+
+		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
+
+		$response = $this->controller->destroyOthers();
+		$this->assertSame(Http::STATUS_BAD_REQUEST, $response->getStatus());
+	}
+
+	public function testDestroyOthersWhileImpersonating(): void {
+		$this->userSession->method('getImpersonatingUserID')->willReturn('admin');
+
+		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
+
+		$response = $this->controller->destroyOthers();
+		$this->assertSame(Http::STATUS_SERVICE_UNAVAILABLE, $response->getStatus());
+	}
+
+	public function testDestroyOthersSessionNotAvailable(): void {
+		$this->session->method('getId')
+			->willThrowException(new SessionNotAvailableException());
+
+		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
+
+		$response = $this->controller->destroyOthers();
+		$this->assertSame(Http::STATUS_SERVICE_UNAVAILABLE, $response->getStatus());
+	}
+
+	public function testDestroyOthersInvalidSessionToken(): void {
+		$this->session->method('getId')->willReturn('sessionid');
+		$this->tokenProvider->method('getToken')
+			->willThrowException(new InvalidTokenException('Token does not exist'));
+
+		$this->tokenProvider->expects($this->never())->method('invalidateTokenById');
+
+		$response = $this->controller->destroyOthers();
+		$this->assertSame(Http::STATUS_SERVICE_UNAVAILABLE, $response->getStatus());
+	}
+
 	public function testDestroyWrongUser(): void {
 		$tokenId = 124;
 		$token = $this->createMock(PublicKeyToken::class);
@@ -445,6 +580,13 @@ class AuthSettingsControllerTest extends TestCase {
 		$response = $this->controller->update(42, [IToken::SCOPE_FILESYSTEM => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	private function mockAuthToken(int $id, int $type = IToken::PERMANENT_TOKEN): PublicKeyToken&MockObject {
+		$token = $this->createMock(PublicKeyToken::class);
+		$token->method('getId')->willReturn($id);
+		$token->method('getType')->willReturn($type);
+		return $token;
 	}
 
 	private function mockActivityManager(): void {

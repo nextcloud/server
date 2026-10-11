@@ -11,6 +11,7 @@ namespace Test\Preview;
 
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
+use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
 use OCP\Server;
 use OCP\Snowflake\ISnowflakeGenerator;
@@ -21,6 +22,7 @@ class PreviewMapperTest extends TestCase {
 	private PreviewMapper $previewMapper;
 	private IDBConnection $connection;
 	private ISnowflakeGenerator $snowflake;
+	private IMimeTypeLoader $mimeTypeLoader;
 
 	#[\Override]
 	public function setUp(): void {
@@ -28,6 +30,7 @@ class PreviewMapperTest extends TestCase {
 		$this->previewMapper = Server::get(PreviewMapper::class);
 		$this->connection = Server::get(IDBConnection::class);
 		$this->snowflake = Server::get(ISnowflakeGenerator::class);
+		$this->mimeTypeLoader = Server::get(IMimeTypeLoader::class);
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('preview_locations')->executeStatement();
@@ -66,7 +69,7 @@ class PreviewMapperTest extends TestCase {
 		$this->assertEquals('default', $previews[43][0]->getObjectStoreName());
 	}
 
-	private function createPreviewForFileId(int $fileId, ?int $bucket = null): string {
+	private function createPreviewForFileId(int $fileId, ?int $bucket = null, int $size = 100, ?string $version = null, bool $cropped = true): string {
 		$locationId = null;
 		if ($bucket) {
 			$qb = $this->connection->getQueryBuilder();
@@ -83,15 +86,16 @@ class PreviewMapperTest extends TestCase {
 		$preview->generateId();
 		$preview->setFileId($fileId);
 		$preview->setStorageId(1);
-		$preview->setCropped(true);
+		$preview->setCropped($cropped);
 		$preview->setMax(true);
-		$preview->setWidth(100);
+		$preview->setWidth($size);
 		$preview->setSourceMimeType('image/jpeg');
-		$preview->setHeight(100);
+		$preview->setHeight($size);
 		$preview->setSize(100);
 		$preview->setMtime(time());
 		$preview->setMimetype('image/jpeg');
 		$preview->setEtag('abcdefg');
+		$preview->setVersion($version);
 
 		if ($locationId !== null) {
 			$preview->setLocationId($locationId);
@@ -99,6 +103,66 @@ class PreviewMapperTest extends TestCase {
 		$this->previewMapper->insert($preview);
 
 		return $preview->id;
+	}
+
+	/**
+	 * The previews table is joined with preview_versions, which also has a
+	 * file_id column, so the condition has to be qualified with the alias.
+	 */
+	public function testGetByFileId(): void {
+		$fileId = 4242;
+		$this->createPreviewForFileId($fileId);
+		$this->createPreviewForFileId($fileId, size: 256);
+		$this->createPreviewForFileId(4243);
+
+		$previews = iterator_to_array($this->previewMapper->getByFileId($fileId));
+
+		$this->assertCount(2, $previews);
+		foreach ($previews as $preview) {
+			$this->assertSame($fileId, $preview->getFileId());
+		}
+	}
+
+	/**
+	 * Same ambiguity, reached through the specification lookup that
+	 * Generator::savePreview() uses to recover from a unique constraint
+	 * violation. It passes the cropped flag as a PHP bool, and false is the
+	 * common case, so both values have to be covered.
+	 */
+	#[\PHPUnit\Framework\Attributes\TestWith([false])]
+	#[\PHPUnit\Framework\Attributes\TestWith([true])]
+	public function testGetPreviewForSpecification(bool $cropped): void {
+		$fileId = 4244;
+		$previewId = $this->createPreviewForFileId($fileId, cropped: $cropped);
+
+		$preview = $this->previewMapper->getPreviewForSpecification([
+			'file_id' => $fileId,
+			'width' => 100,
+			'height' => 100,
+			'mimetype_id' => $this->mimeTypeLoader->getId('image/jpeg'),
+			'cropped' => $cropped,
+			'version_id' => '-1',
+		]);
+
+		$this->assertNotNull($preview);
+		$this->assertEquals($previewId, $preview->getId());
+	}
+
+	/**
+	 * version lives in the joined preview_versions table, so it has to keep
+	 * resolving to that alias rather than to the previews table.
+	 */
+	public function testGetPreviewForSpecificationOnJoinedColumn(): void {
+		$fileId = 4245;
+		$previewId = $this->createPreviewForFileId($fileId, version: '1000');
+
+		$preview = $this->previewMapper->getPreviewForSpecification([
+			'file_id' => $fileId,
+			'version' => '1000',
+		]);
+
+		$this->assertNotNull($preview);
+		$this->assertEquals($previewId, $preview->getId());
 	}
 
 	public function testLargeIdInsertRetrieve(): void {

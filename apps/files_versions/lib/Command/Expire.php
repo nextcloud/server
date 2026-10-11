@@ -8,7 +8,6 @@
 
 namespace OCA\Files_Versions\Command;
 
-use OC\Command\FileAccess;
 use OCA\Files_Versions\Storage;
 use OCP\Command\ICommand;
 use OCP\Files\StorageNotAvailableException;
@@ -17,8 +16,6 @@ use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Expire implements ICommand {
-	use FileAccess;
-
 	public function __construct(
 		private string $user,
 		private string $fileName,

@@ -45,7 +45,7 @@ package-lock.json                             @nextcloud/server-dependabot
 /apps/files_trashbin/appinfo/info.xml         @icewind1991 @sorbaugh
 /apps/files_versions/appinfo/info.xml         @artonge @icewind1991
 /apps/oauth2/appinfo/info.xml                 @julien-nc @ChristophWurst
-/apps/provisioning_api/appinfo/info.xml       @provokateurin @nickvergessen
+/apps/provisioning_api/appinfo/info.xml       @come-nc @artonge
 /apps/settings/appinfo/info.xml               @hweihwang @sorbaugh
 /apps/sharebymail/appinfo/info.xml            @provokateurin @skjnldsv
 /apps/systemtags/appinfo/info.xml             @Antreesy @marcelklehr
@@ -72,9 +72,9 @@ package-lock.json                             @nextcloud/server-dependabot
 
 # Two-Factor Authentication
 # https://github.com/nextcloud/wg-two-factor-authentication#members
-**/TwoFactorAuth                    @ChristophWurst @miaulalala @nickvergessen
-/apps/twofactor_backupcodes         @ChristophWurst @miaulalala @nickvergessen
-/core/templates/twofactor*          @ChristophWurst @miaulalala @nickvergessen
+**/TwoFactorAuth                    @ChristophWurst @miaulalala
+/apps/twofactor_backupcodes         @ChristophWurst @miaulalala
+/core/templates/twofactor*          @ChristophWurst @miaulalala
 
 # Limit login to IP
 # Watch login routes for https://github.com/nextcloud/limit_login_to_ip
@@ -84,6 +84,22 @@ package-lock.json                             @nextcloud/server-dependabot
 openapi*.json                       @provokateurin @nextcloud/server-backend
 ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 
+# IDP team
+/lib/public/Accounts                @nextcloud/idp
+/lib/private/Accounts               @nextcloud/idp
+/lib/public/Authentication          @nextcloud/idp
+/lib/private/Authentication         @nextcloud/idp
+/lib/public/*User*                  @nextcloud/idp
+/lib/private/User                   @nextcloud/idp
+/lib/public/*Group*                 @nextcloud/idp
+/lib/private/Group                  @nextcloud/idp
+/lib/public/Teams                   @nextcloud/idp
+/lib/private/Teams                  @nextcloud/idp
+/lib/public/LDAP                    @nextcloud/idp
+/lib/private/LDAP                   @nextcloud/idp
+/apps/user_ldap                     @nextcloud/idp
+/apps/profile                       @nextcloud/idp
+
 # Talk team
 /lib/private/Comments               @nickvergessen @nextcloud/talk-backend
 /lib/private/Federation             @nickvergessen @nextcloud/talk-backend @nextcloud/server-backend
@@ -92,7 +108,7 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 /lib/public/Federation              @nickvergessen @nextcloud/talk-backend @nextcloud/server-backend
 /lib/public/OCM                     @nickvergessen @nextcloud/talk-backend @nextcloud/server-backend
 /lib/public/Talk                    @nickvergessen @nextcloud/talk-backend
-/lib/public/UserStatus              @nickvergessen @nextcloud/talk-backend
+/lib/public/UserStatus              @nickvergessen @nextcloud/talk-backend @nextcloud/idp
 */Notifications/*                   @nickvergessen @nextcloud/talk-backend
 
 # Groupware team
@@ -107,5 +123,4 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 /apps/dav/lib/Connector/Sabre/BlockLegacyClientPlugin.php @nextcloud/desktop
 
 # Personal interest
-*/Activity/*                                              @nickvergessen @nextcloud/server-backend
-/apps/workflowengine/lib                                  @nickvergessen @blizzz
+/apps/workflowengine/lib                                  @blizzz

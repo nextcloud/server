@@ -4,7 +4,7 @@
  */
 
 import { getNavigation, View } from '@nextcloud/files'
-import { enableAutoDestroy, mount } from '@vue/test-utils'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { defineComponent } from 'vue'
 import { useViews, useVisibleViews } from './useViews.ts'
@@ -20,7 +20,7 @@ const TestComponent = defineComponent({
 	},
 })
 
-enableAutoDestroy(afterEach)
+enableAutoUnmount(afterEach)
 
 describe('Composables: useViews', () => {
 	const navigation = getNavigation()

@@ -19,6 +19,33 @@ class PostgreSQL extends AbstractDatabase {
 	// #[\Override] TODO: Uncomment this when we only support PHP 8.5+ support
 	protected const array CONNECTION_ENCRYPTION_OPTIONS = [...parent::CONNECTION_ENCRYPTION_OPTIONS, 'pgsql_ssl'];
 
+	// #[\Override] TODO: Uncomment this when we only support PHP 8.5+ support
+	protected const array SUPPORTED_ENCRYPTION_OPTIONS = ['dbsslmode', 'dbsslca', 'dbsslcert', 'dbsslkey', 'dbsslcrl'];
+
+	/**
+	 * Installer options mapped onto the `pgsql_ssl` connection parameters, as read by
+	 * {@see \OC\DB\ConnectionFactory::createConnectionParams()}.
+	 */
+	private const array SSL_PARAMETERS = [
+		'dbsslmode' => 'mode',
+		'dbsslca' => 'rootcert',
+		'dbsslcert' => 'cert',
+		'dbsslkey' => 'key',
+		'dbsslcrl' => 'crl',
+	];
+
+	#[\Override]
+	protected function getEncryptionConfig(array $config): array {
+		$pgsqlSsl = [];
+		foreach (self::SSL_PARAMETERS as $option => $parameter) {
+			if (!empty($config[$option])) {
+				$pgsqlSsl[$parameter] = (string)$config[$option];
+			}
+		}
+
+		return $pgsqlSsl === [] ? [] : ['pgsql_ssl' => $pgsqlSsl];
+	}
+
 	/**
 	 * @throws DatabaseSetupException
 	 */

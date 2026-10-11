@@ -13,7 +13,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Отстранет потсетник за \"{fileName}\"",
     "Failed to clear reminder" : "Неуспешно остранување на потсетник",
     "Reminder at custom date & time" : "Потсетник на прилагоден датум & време",
-    "We will remind you of this file" : "Ќе ве потсетиме за оваа датотека",
     "Cancel" : "Откажи",
     "Clear reminder" : "Отстрани потсетник",
     "Set reminder" : "Постави потсетник",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Постави потсетник за овој викенд",
     "Next week" : "Следна недела",
     "Set reminder for next week" : "Постави потсетник за наредната недела",
-    "Set reminder for \"{fileName}\"" : "Постави потсетник за \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Постави потсетник за \"{fileName}\"",
+    "We will remind you of this file" : "Ќе ве потсетиме за оваа датотека"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

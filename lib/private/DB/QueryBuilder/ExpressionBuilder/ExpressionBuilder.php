@@ -461,4 +461,14 @@ class ExpressionBuilder implements IExpressionBuilder {
 	protected function prepareColumn($column, $type) {
 		return $this->helper->quoteColumnNames($column);
 	}
+
+	#[\Override]
+	public function exists(IQueryBuilder $subQuery): IQueryFunction {
+		return new QueryFunction('EXISTS (' . $subQuery->getSQL() . ')');
+	}
+
+	#[\Override]
+	public function notExists(IQueryBuilder $subQuery): IQueryFunction {
+		return new QueryFunction('NOT EXISTS (' . $subQuery->getSQL() . ')');
+	}
 }

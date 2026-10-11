@@ -13,6 +13,7 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Wrapper\Quota;
 use OCP\Files;
+use OCP\Files\FileInfo;
 use OCP\Files\NotEnoughSpaceException;
 use OCP\ITempManager;
 use OCP\Server;
@@ -249,6 +250,26 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		rewind($stream);
 		$this->expectException(NotEnoughSpaceException::class);
 		$instance->writeStream('files/test.txt', $stream);
+	}
+
+	public function testWriteStreamAllowsUploadPathWithUnlimitedFreeSpace(): void {
+		$storage = $this->getMockBuilder(Local::class)
+			->onlyMethods(['free_space'])
+			->setConstructorArgs([['datadir' => $this->tmpDir]])
+			->getMock();
+		$storage->expects($this->any())
+			->method('free_space')
+			->willReturn(FileInfo::SPACE_UNLIMITED);
+		$storage->mkdir('uploads');
+
+		$instance = new Quota(['storage' => $storage, 'quota' => 5.0]);
+
+		$stream = fopen('php://temp', 'w+');
+		fwrite($stream, 'foobar');
+		rewind($stream);
+
+		$this->assertEquals(6, $instance->writeStream('uploads/chunk', $stream, 6));
+		$this->assertEquals('foobar', $instance->file_get_contents('uploads/chunk'));
 	}
 
 	public function testNoWriteStreamQuotaZero(): void {

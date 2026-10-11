@@ -18,6 +18,7 @@ use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -39,6 +40,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected LoggerInterface&MockObject $logger;
 	protected GroupsController&MockObject $api;
 	private GroupDisplayNameCache&MockObject $groupDisplayNameCache;
+	private IURLGenerator&MockObject $urlGenerator;
 
 	private IRootFolder $rootFolder;
 
@@ -56,6 +58,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->groupDisplayNameCache = $this->createMock(GroupDisplayNameCache::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->groupManager
 			->method('getSubAdmin')
@@ -75,6 +78,7 @@ class GroupsControllerTest extends \Test\TestCase {
 				$this->rootFolder,
 				$this->logger,
 				$this->groupDisplayNameCache,
+				$this->urlGenerator,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();

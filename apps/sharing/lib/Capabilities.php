@@ -9,14 +9,13 @@ declare(strict_types=1);
 
 namespace OCA\Sharing;
 
+use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\ISharePermissionPreset;
 use NCU\Sharing\Source\IShareSourceType;
 use OCA\Sharing\AppInfo\Application;
 use OCP\Capabilities\ICapability;
 use OCP\L10N\IFactory;
-use OCP\Server;
-use OCP\Share\IManager;
 
 /**
  * @psalm-import-type SharingSourceType from ResponseDefinitions
@@ -26,6 +25,7 @@ final readonly class Capabilities implements ICapability {
 	public function __construct(
 		private IFactory $l10nFactory,
 		private ISharingRegistry $registry,
+		private ISharingManager $manager,
 	) {
 	}
 
@@ -40,7 +40,7 @@ final readonly class Capabilities implements ICapability {
 	 */
 	#[\Override]
 	public function getCapabilities(): array {
-		if (!Server::get(IManager::class)->shareApiEnabled()) {
+		if (!$this->manager->isApiEnabled()) {
 			return [];
 		}
 

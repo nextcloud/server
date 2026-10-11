@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid LDAP UUIDs" : "UUID LDAP tidak valid",
     "None found" : "Tidak ditemukan",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "UUID tidak valid dari akun atau grup LDAP telah ditemukan. Harap tinjau pengaturan \"Override UUID detection\" Anda di bagian Expert dari konfigurasi LDAP dan gunakan \"occ ldap:update-uuid\" untuk memperbaruinya.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["%n grup ditemukan"],
     "> 1000 groups found" : "> 1000 grup ditemukan",
     "> 1000 users found" : "> 1000 pengguna ditemukan",
@@ -133,7 +134,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Memungkinkan login menggunakan atribut email. 'mail' dan 'mailPrimaryAddress' diperbolehkan.",
     "LDAP/AD Email Address:" : "Alamat Email LDAP/AD:",
     "Other Attributes:" : "Atribut Lain:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Mendefinisikan filter yang akan diterapkan saat percobaan login. `%%uid` menggantikan nama pengguna dalam tindakan login. Contoh: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Mencoba menerima DN untuk nama login yang diberikan dan filter login saat ini",
     "Test Login name" : "Uji nama Login",
     "Verify settings" : "Verifikasi setelan",
@@ -267,6 +267,7 @@ OC.L10N.register(
     "Pronouns Field" : "Kolom Kata Ganti",
     "User profile Pronouns will be set from the specified attribute" : "Kata Ganti profil pengguna akan diatur dari atribut yang ditentukan",
     "UUID Attribute for Users:" : "Atribut UUID untuk Pengguna:",
-    "UUID Attribute for Groups:" : "Atribut UUID untuk Grup:"
+    "UUID Attribute for Groups:" : "Atribut UUID untuk Grup:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Mendefinisikan filter yang akan diterapkan saat percobaan login. `%%uid` menggantikan nama pengguna dalam tindakan login. Contoh: `uid=%%uid`"
 },
 "nplurals=1; plural=0;");

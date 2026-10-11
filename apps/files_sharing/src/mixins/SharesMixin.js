@@ -9,16 +9,13 @@ import { emit } from '@nextcloud/event-bus'
 import { ShareType } from '@nextcloud/sharing'
 import debounce from 'debounce'
 import PQueue from 'p-queue'
-import { fetchNode } from '../../../files/src/services/WebdavClient.ts'
-import {
-	ATOMIC_PERMISSIONS,
-	getBundledPermissions,
-} from '../lib/SharePermissionsToolBox.js'
+import { getBundledPermissions } from '../lib/SharePermissionsToolBox.js'
 import Share from '../models/Share.ts'
 import Config from '../services/ConfigService.ts'
 import logger from '../services/logger.ts'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 import SharesRequests from './ShareRequests.js'
+import { fetchNode } from '~/apps/files/src/services/WebdavClient.ts'
 
 export default {
 	mixins: [SharesRequests],
@@ -138,20 +135,19 @@ export default {
 			return this.config.isDefaultInternalExpireDateEnforced
 		},
 		hasCustomPermissions() {
-			const basePermissions = getBundledPermissions(true)
+			const basePermissions = getBundledPermissions(this.config.excludeReshareFromEdit)
 			const bundledPermissions = [
 				basePermissions.ALL,
 				basePermissions.ALL_FILE,
 				basePermissions.READ_ONLY,
 				basePermissions.FILE_DROP,
 			]
-			const permissionsWithoutShare = this.share.permissions & ~ATOMIC_PERMISSIONS.SHARE
-			return !bundledPermissions.includes(permissionsWithoutShare)
+			return !bundledPermissions.includes(this.share.permissions)
 		},
 		maxExpirationDateEnforced() {
 			if (this.isExpiryDateEnforced) {
 				if (this.isPublicShare) {
-					return this.config.defaultExpirationDate
+					return this.config.maxExpirationDate
 				}
 				if (this.isRemoteShare) {
 					return this.config.defaultRemoteExpirationDateString
@@ -262,27 +258,6 @@ export default {
 		},
 
 		/**
-		 * Note changed, let's save it to a different key
-		 *
-		 * @param {string} note the share note
-		 */
-		onNoteChange(note) {
-			this.$set(this.share, 'newNote', note.trim())
-		},
-
-		/**
-		 * When the note change, we trim, save and dispatch
-		 *
-		 */
-		onNoteSubmit() {
-			if (this.share.newNote) {
-				this.share.note = this.share.newNote
-				this.$delete(this.share, 'newNote')
-				this.queueUpdate('note')
-			}
-		},
-
-		/**
 		 * Delete share button handler
 		 */
 		async onDelete() {
@@ -345,10 +320,14 @@ export default {
 					try {
 						const updatedShare = await this.updateShare(this.share.id, properties)
 
+						if (propertyNames.includes('expireDate') && (this.share.expireDate ?? '') === properties.expireDate) {
+							this.share.expireDate = updatedShare.expiration
+						}
+
 						if (propertyNames.includes('password')) {
 							// reset password state after sync
 							this.share.password = this.share.newPassword || undefined
-							this.$delete(this.share, 'newPassword')
+							this.$set(this.share, 'newPassword', undefined)
 
 							// updates password expiration time after sync
 							this.share.passwordExpirationTime = updatedShare.password_expiration_time
@@ -419,7 +398,7 @@ export default {
 				if (this.share.newPassword === this.share.password) {
 					this.share.password = ''
 				}
-				this.$delete(this.share, 'newPassword')
+				this.$set(this.share, 'newPassword', undefined)
 			}
 
 			// re-open menu if closed

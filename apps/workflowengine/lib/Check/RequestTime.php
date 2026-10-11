@@ -81,7 +81,7 @@ class RequestTime implements ICheck {
 	 */
 	#[\Override]
 	public function validateCheck($operator, $value) {
-		if (!in_array($operator, ['in', '!in'])) {
+		if (!in_array($operator, ['in', '!in'], true)) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
 

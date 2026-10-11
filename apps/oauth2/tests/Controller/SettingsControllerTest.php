@@ -16,7 +16,7 @@ use PHPUnit\Framework\Attributes\Group;
 use Test\TestCase;
 
 #[Group(name: 'DB')]
-class SettingsControllerTest extends TestCase {
+final class SettingsControllerTest extends TestCase {
 	public function testInvalidRedirectUri(): void {
 		$settingsController = Server::get(SettingsController::class);
 		$result = $settingsController->addClient('test', 'invalidurl');

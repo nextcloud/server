@@ -189,6 +189,7 @@ class CloudFederationProviderFilesTest extends TestCase {
 		$this->discoveryService->method('discover')
 			->willThrowException(new \Exception('network error'));
 
+		$this->userManager->method('getUserNameFromLoginName')->with('localuser')->willReturn('localuser');
 		$this->userManager->method('get')->with('localuser')->willReturn(null);
 		$this->filenameValidator->method('isFilenameValid')->willReturn(true);
 
@@ -268,6 +269,7 @@ class CloudFederationProviderFilesTest extends TestCase {
 
 		// Exchange succeeds → share creation continues; we stop it at the user
 		// lookup stage to avoid a full integration setup.
+		$this->userManager->method('getUserNameFromLoginName')->with('localuser')->willReturn('localuser');
 		$this->userManager->method('get')->with('localuser')->willReturn(null);
 		$this->filenameValidator->method('isFilenameValid')->willReturn(true);
 
@@ -296,6 +298,7 @@ class CloudFederationProviderFilesTest extends TestCase {
 
 		// Discovery failure is caught and logged; share creation continues.
 		// We stop it at the user lookup stage.
+		$this->userManager->method('getUserNameFromLoginName')->with('localuser')->willReturn('localuser');
 		$this->userManager->method('get')->with('localuser')->willReturn(null);
 		$this->filenameValidator->method('isFilenameValid')->willReturn(true);
 
@@ -348,6 +351,7 @@ class CloudFederationProviderFilesTest extends TestCase {
 		$httpClient->method('post')->willReturn($response);
 		$this->clientService->method('newClient')->willReturn($httpClient);
 
+		$this->userManager->method('getUserNameFromLoginName')->with('localuser')->willReturn('localuser');
 		$this->userManager->method('get')->with('localuser')->willReturn(null);
 		$this->filenameValidator->method('isFilenameValid')->willReturn(true);
 

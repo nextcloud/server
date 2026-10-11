@@ -50,6 +50,34 @@ class UserStatusMapper extends QBMapper {
 	}
 
 	/**
+	 * Finds statuses one page at a time ordered by id, using keyset (seek) pagination
+	 * instead of OFFSET/LIMIT, so each page costs the same regardless of how deep it is.
+	 *
+	 * @param int|null $limit
+	 * @param int|null $lastId Id of the last status from the previous page, or null to fetch the first page
+	 * @return UserStatus[]
+	 */
+	public function findAllAfterId(?int $limit = null, ?int $lastId = null): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb
+			->select('*')
+			->from($this->tableName)
+			->where($qb->expr()->eq('is_backup', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL)));
+
+		if ($lastId !== null) {
+			$qb->andWhere($qb->expr()->gt('id', $qb->createNamedParameter($lastId, IQueryBuilder::PARAM_INT)));
+		}
+
+		$qb->orderBy('id', 'ASC');
+
+		if ($limit !== null) {
+			$qb->setMaxResults($limit);
+		}
+
+		return $this->findEntities($qb);
+	}
+
+	/**
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return array

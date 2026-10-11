@@ -15,7 +15,8 @@ class Sqlite extends AbstractDatabase {
 
 	#[\Override]
 	public function validate(array $config): array {
-		return [];
+		// SQLite needs no credentials, but an encrypted connection is not a thing either
+		return $this->validateEncryptionOptions($config);
 	}
 
 	#[\Override]

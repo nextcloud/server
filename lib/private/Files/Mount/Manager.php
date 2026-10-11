@@ -249,7 +249,7 @@ class Manager implements IMountManager {
 	 */
 	public function getMountsByMountProvider(string $path, array $mountProviders): array {
 		$this->getSetupManager()->setupForProvider($path, $mountProviders);
-		if (\in_array('', $mountProviders)) {
+		if (\in_array('', $mountProviders, true)) {
 			return $this->mounts;
 		}
 

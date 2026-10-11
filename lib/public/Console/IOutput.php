@@ -86,6 +86,16 @@ interface IOutput {
 	public function writeTableInOutputFormat(array $items): void;
 
 	/**
+	 * Write a tree, in the format specified with --output. A value that is itself iterable becomes
+	 * a labelled branch, rendered under a key that names it; anything else becomes a leaf, rendered
+	 * as-is. For JSON, this is the nested structure itself, wrapped under $root when it is not empty.
+	 *
+	 * @param iterable<string, iterable|string> $nodes
+	 * @since 36.0.0
+	 */
+	public function writeTree(iterable $nodes, string $root = ''): void;
+
+	/**
 	 * Write a multidimensional iterator of items in the format specified with --output
 	 *
 	 * @param \Iterator<array<string, mixed>> $items

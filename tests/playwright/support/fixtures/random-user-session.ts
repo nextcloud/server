@@ -4,6 +4,7 @@
  */
 
 import { login } from '@nextcloud/e2e-test-server/playwright'
+import { installPasswordConfirmationHandler } from '../utils/password-confirmation.ts'
 import { test as randomUserTest } from './random-user.ts'
 
 /**
@@ -20,6 +21,7 @@ export const test = randomUserTest.extend({
 			await new Promise((resolve) => setTimeout(resolve, 800))
 			await login(page.request, user)
 		}
+		await installPasswordConfirmationHandler(page, user.password)
 		await use(page)
 	},
 })

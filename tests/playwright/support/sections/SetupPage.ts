@@ -103,8 +103,10 @@ export class SetupPage {
 		return this.page.getByRole('heading', { name: 'Recommended apps' })
 	}
 
+	/** Leaves the recommended apps for the start page, styled (and on some versions exposed) as a button. */
 	skipButton(): Locator {
-		return this.page.getByRole('button', { name: 'Skip' })
+		return this.page.getByRole('link', { name: 'Skip' })
+			.or(this.page.getByRole('button', { name: 'Skip' }))
 	}
 
 	installRecommendedButton(): Locator {

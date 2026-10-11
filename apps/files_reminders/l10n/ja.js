@@ -10,13 +10,14 @@ OC.L10N.register(
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "\"files_reminder\"アプリが正しく動作するには、通知アプリが必要です。通知を有効にするか、files_reminderを無効にしてください。",
     "Set file reminders" : "ファイルのリマインダーを設定する",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 File reminders**\n\nファイルのリマインダーを設定します。\n\n注意：`File reminders`アプリを使用するには、`Notifications`アプリがインストールされ、有効になっていることを確認してください。Notifications` アプリは `File reminders` アプリが正しく動作するために必要な API を提供します。",
+    "We reminded you of this file {relativeDueDate}" : "このファイル {relativeDueDate} について、改めてお知らせしました。",
+    "We will remind you of this file {relativeDueDate}" : "このファイル {relativeDueDate}について、改めてお知らせいたします。",
     "Please choose a valid date & time" : "有効な日付と時間を選択してください。",
     "Reminder set for \"{fileName}\"" : "\"{fileName}\"のリマインダーを設定しました",
     "Failed to set reminder" : "リマインダーの設定に失敗しました",
     "Reminder cleared for \"{fileName}\"" : "\"{fileName}\"のリマインダーをクリアしました",
     "Failed to clear reminder" : "リマインダーのクリアに失敗しました",
     "Reminder at custom date & time" : "カスタム日時でのリマインダー",
-    "We will remind you of this file" : "このファイルをリマインドします",
     "Cancel" : "キャンセル",
     "Clear reminder" : "リマインダーをクリア",
     "Set reminder" : "リマインダーを設定",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "今週末のリマインダーを設定する",
     "Next week" : "来週",
     "Set reminder for next week" : "来週のリマインダーを設定する",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\"のリマインダーを設定"
+    "Set reminder for \"{fileName}\"" : "\"{fileName}\"のリマインダーを設定",
+    "We will remind you of this file" : "このファイルをリマインドします"
 },
 "nplurals=1; plural=0;");

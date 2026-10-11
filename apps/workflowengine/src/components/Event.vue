@@ -3,125 +3,114 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="event">
-		<div v-if="operation.isComplex && operation.fixedEntity !== ''" class="isComplex">
-			<img class="option__icon" :src="entity.icon" alt="">
-			<span class="option__title option__title_single">{{ operation.triggerHint }}</span>
+	<div :class="$style.event">
+		<div v-if="operation.isComplex && operation.fixedEntity !== ''">
+			<img :class="$style.optionIcon" :src="entity?.icon" alt="">
+			<span :class="[$style.optionTitle, $style.singleTitle]">{{ operation.triggerHint }}</span>
 		</div>
 		<NcSelect
 			v-else
+			:aria-label-combobox="t('workflowengine', 'Trigger')"
+			:class="$style.trigger"
 			:disabled="allEvents.length <= 1"
+			:modelValue="currentEvent"
 			:multiple="true"
 			:options="allEvents"
-			:model-value="currentEvent"
 			:placeholder="placeholderString"
-			class="event__trigger"
 			label="displayName"
-			@input="updateEvent">
+			@update:modelValue="updateEvent">
 			<template #option="option">
-				<img class="option__icon" :src="option.entity.icon" alt="">
-				<span class="option__title">{{ option.displayName }}</span>
+				<img :class="$style.optionIcon" :src="option.entity.icon" alt="">
+				<span :class="$style.optionTitle">{{ option.displayName }}</span>
 			</template>
 			<template #selected-option="option">
-				<img class="option__icon" :src="option.entity.icon" alt="">
-				<span class="option__title">{{ option.displayName }}</span>
+				<img :class="$style.optionIcon" :src="option.entity.icon" alt="">
+				<span :class="$style.optionTitle">{{ option.displayName }}</span>
 			</template>
 		</NcSelect>
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+/* eslint vue/multi-word-component-names: "warn" */
+
+import type { FlatEntityEvent, Rule } from '../types.ts'
+
 import { showWarning } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import { useWorkflowStore } from '../store.ts'
 
-export default {
-	/* eslint vue/multi-word-component-names: "warn" */
-	name: 'Event',
-	components: {
-		NcSelect,
-	},
+const props = defineProps<{ rule: Rule }>()
 
-	props: {
-		rule: {
-			type: Object,
-			required: true,
-		},
-	},
+const emit = defineEmits<{ update: [rule: Rule] }>()
 
-	computed: {
-		entity() {
-			return this.$store.getters.getEntityForOperation(this.operation)
-		},
+const store = useWorkflowStore()
 
-		operation() {
-			return this.$store.getters.getOperationForRule(this.rule)
-		},
+const operation = computed(() => store.operationForRule(props.rule)!)
+const entity = computed(() => store.entityForOperation(operation.value))
+const allEvents = computed(() => store.events)
 
-		allEvents() {
-			return this.$store.getters.getEventsForOperation(this.operation)
-		},
+const currentEvent = computed(() => allEvents.value.filter((event) => event.entity.id === props.rule.entity && props.rule.events.includes(event.eventName)))
 
-		currentEvent() {
-			return this.allEvents.filter((event) => event.entity.id === this.rule.entity && this.rule.events.indexOf(event.eventName) !== -1)
-		},
+// TRANSLATORS: Users should select a trigger for a workflow action
+const placeholderString = t('workflowengine', 'Select a trigger')
 
-		placeholderString() {
-			// TRANSLATORS: Users should select a trigger for a workflow action
-			return t('workflowengine', 'Select a trigger')
-		},
-	},
+/**
+ * Apply the picked triggers. Picking events of another entity switches the rule
+ * over to that entity, because a rule only ever watches one.
+ *
+ * @param events - The triggers that are now picked
+ */
+function updateEvent(events: FlatEntityEvent[]): void {
+	if (events.length === 0) {
+		// TRANSLATORS: Users must select an event as of "happening" or "incident" which triggers an action
+		showWarning(t('workflowengine', 'At least one event must be selected'))
+		return
+	}
 
-	methods: {
-		updateEvent(events) {
-			if (events.length === 0) {
-				// TRANSLATORS: Users must select an event as of "happening" or "incident" which triggers an action
-				showWarning(t('workflowengine', 'At least one event must be selected'))
-				return
-			}
-			const existingEntity = this.rule.entity
-			const newEntities = events.map((event) => event.entity.id).filter((value, index, self) => self.indexOf(value) === index)
-			let newEntity = null
-			if (newEntities.length > 1) {
-				newEntity = newEntities.filter((entity) => entity !== existingEntity)[0]
-			} else {
-				newEntity = newEntities[0]
-			}
+	const existingEntity = props.rule.entity
+	const newEntities = [...new Set(events.map((event) => event.entity.id))]
+	const newEntity = newEntities.length > 1
+		? newEntities.filter((entityId) => entityId !== existingEntity)[0]
+		: newEntities[0]
 
-			this.$set(this.rule, 'entity', newEntity)
-			this.$set(this.rule, 'events', events.filter((event) => event.entity.id === newEntity).map((event) => event.eventName))
-			this.$emit('update', this.rule)
-		},
-	},
+	store.setRuleTrigger(
+		props.rule,
+		newEntity,
+		events.filter((event) => event.entity.id === newEntity).map((event) => event.eventName),
+	)
+	emit('update', props.rule)
 }
 </script>
 
-<style scoped lang="scss">
-	.event {
-		margin-bottom: 5px;
+<style module lang="scss">
+.event {
+	margin-bottom: 5px;
 
-		&__trigger {
-			max-width: 550px;
-		}
+	img {
+		vertical-align: text-top;
 	}
+}
 
-	.isComplex {
-		img {
-			vertical-align: text-top;
-		}
-		span {
-			padding-top: 2px;
-			display: inline-block;
-		}
-	}
+.trigger {
+	max-width: 550px;
+}
 
-	.option__title {
-		margin-inline-start: 5px;
-		color: var(--color-main-text);
-	}
+.optionTitle {
+	margin-inline-start: 5px;
+	color: var(--color-main-text);
+}
 
-	.option__icon {
-		width: 16px;
-		height: 16px;
-		filter: var(--background-invert-if-dark);
-	}
+.singleTitle {
+	padding-top: 2px;
+	display: inline-block;
+}
+
+.optionIcon {
+	width: 16px;
+	height: 16px;
+	filter: var(--background-invert-if-dark);
+}
 </style>

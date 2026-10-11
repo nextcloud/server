@@ -21,7 +21,7 @@ if ($configDir) {
 require_once __DIR__ . '/../lib/base.php';
 require_once __DIR__ . '/autoload.php';
 
-\OC::$composerAutoloader->addPsr4('Tests\\', OC::$SERVERROOT . '/tests/', true);
+\OC::$composerAutoloader->addPsr4('Tests\\Core\\', OC::$SERVERROOT . '/tests/Core/', true);
 
 $dontLoadApps = getenv('TEST_DONT_LOAD_APPS');
 if (!$dontLoadApps) {
@@ -33,6 +33,12 @@ if (!$dontLoadApps) {
 		}
 		$appManager->loadApp($file->getFilename());
 	}
+}
+
+// Recorded on CI by default; set TEST_LOG_HTTP to a path for a manual run.
+$logHttp = getenv('TEST_LOG_HTTP') ?: (getenv('CI') ? OC::$SERVERROOT . '/http-requests.log' : '');
+if ($logHttp !== '') {
+	\Test\HttpRequestLogger::install($logHttp);
 }
 
 OC_Hook::clear();

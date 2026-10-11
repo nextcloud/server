@@ -2,6 +2,7 @@ OC.L10N.register(
     "oauth2",
     {
     "Your client is not authorized to connect. Please inform the administrator of your client." : "このクライアント(認証依頼元)は認証されていないので接続できません。クライアント側の管理者に問い合わせてください。",
+    "Client name cannot be empty." : "クライアント名は空欄にできません。",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "リダイレクトURLは、完全なURL（例えばhttps://yourdomain.com/path）である必要があります。",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "他のWebアプリケーションからのOAuth2互換認証を許可します。",

@@ -13,8 +13,10 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OCP\Constants;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\Share\IShare;
 
@@ -39,12 +41,12 @@ class Updater {
 	 * @param string $path
 	 */
 	private static function moveShareInOrOutOfShare($path): void {
-		$userFolder = \OC::$server->getUserFolder();
-
-		// If the user folder can't be constructed (e.g. link share) just return.
-		if ($userFolder === null) {
+		$userInSession = Server::get(IUserSession::class)->getUser();
+		if (!$userInSession) {
 			return;
 		}
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder($userInSession->getUID());
+
 		$user = $userFolder->getOwner();
 		if (!$user) {
 			throw new \Exception('user folder has no owner');

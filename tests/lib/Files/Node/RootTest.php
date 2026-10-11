@@ -10,7 +10,6 @@ namespace Test\Files\Node;
 
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
-use OC\Files\Node\Folder;
 use OC\Files\Node\Root;
 use OC\Files\Storage\Storage;
 use OC\Files\View;
@@ -18,6 +17,7 @@ use OC\Memcache\ArrayCache;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
@@ -208,7 +208,7 @@ class RootTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('hasKey')
 			->willReturn(true);
-		$folder = $this->createMock(Folder::class);
+		$folder = $this->createMock(IUserFolder::class);
 		$cappedMemoryCache
 			->expects($this->once())
 			->method('get')

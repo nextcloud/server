@@ -20,6 +20,7 @@ OC.L10N.register(
     "_Binding and searching works on the configured LDAP connection (%s)_::_Binding and searching works on all of the %n configured LDAP connections (%s)_" : ["A ligacão e a pesquisa funcionam na conexão LDAP configurada (%s)","A ligacão e a pesquisa funcionam em todas as %n conexões LDAP configuradas (%s)","A ligacão e a pesquisa funcionam em todas as %n conexões LDAP configuradas (%s)"],
     "None found" : "Nenhum encontrado",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Foram encontrados UUIDs inválidos de contas ou grupos LDAP. Por favor, revise as configurações de \"Substituir detecção UUID\" na parte Especialista da configuração LDAP e use \"occ ldap:update-uuid\" para atualizá-los.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["%n grupo encontrado","%n grupos encontrado","%n grupos encontrados"],
     "> 1000 groups found" : "> 1000 grupos encontrados",
     "> 1000 users found" : "> 1000 usuários encontrados",
@@ -96,7 +97,6 @@ OC.L10N.register(
     "When logging in, {instanceName} will find the user based on the following attributes:" : "Ao fazer login, {instanceName} encontrará o usuário com base nos seguintes atributos:",
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Permite o login com base em um atributo de e-mail. Os atributos 'mail' e 'mailPrimaryAddress' são permitidos.",
     "Other Attributes:" : "Outros Atributos:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Define o filtro a ser aplicado quando for tentado o login. `%%uid` substitui o nome de usuário na ação de login. Exemplo: `uid=%%uid`",
     "Test Login name" : "Testar o nome de login",
     "Verify settings" : "Verificar definições",
     "No object found in the given Base DN. Please revise." : "Nenhum objeto encontrado na Base DN fornecida. Por favor verifique.",
@@ -209,6 +209,7 @@ OC.L10N.register(
     "\"$home\" Placeholder Field" : "Campo Reservado \"$home\"",
     "User profile Pronouns will be set from the specified attribute" : "Os Pronomes no perfil do usuário serão definidos a partir do atributo especificado",
     "UUID Attribute for Users:" : "Atributo UUID para utilizadores:",
-    "UUID Attribute for Groups:" : "Atributo UUID para grupos:"
+    "UUID Attribute for Groups:" : "Atributo UUID para grupos:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Define o filtro a ser aplicado quando for tentado o login. `%%uid` substitui o nome de usuário na ação de login. Exemplo: `uid=%%uid`"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

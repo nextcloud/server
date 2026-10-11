@@ -134,6 +134,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		]);
 
 		Util::addScript('core', 'login_flow');
+		Util::addStyle('core', 'login_flow');
 		return new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow',
@@ -178,6 +179,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		]);
 
 		Util::addScript('core', 'login_flow');
+		Util::addStyle('core', 'login_flow');
 		return new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow',
@@ -266,6 +268,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	private function handleFlowDone(bool $result): StandaloneTemplateResponse {
 		if ($result) {
 			Util::addScript('core', 'login_flow');
+			Util::addStyle('core', 'login_flow');
 			$this->initialState->provideInitialState('loginFlowState', 'done');
 			return new StandaloneTemplateResponse(
 				$this->appName,

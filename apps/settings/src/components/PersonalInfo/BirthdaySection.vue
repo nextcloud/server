@@ -3,22 +3,22 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<section>
-		<HeaderBar
-			:scope="birthdate.scope"
-			:input-id="inputId"
-			:readable="birthdate.readable" />
-
-		<NcDateTimePickerNative
-			:id="inputId"
-			type="date"
-			label=""
-			:model-value="timezoneAdjustedValue"
-			@input="onInput" />
-
-		<p class="property__helper-text-message">
-			{{ t('settings', 'Enter your date of birth') }}
-		</p>
+	<section class="property-section">
+		<div class="property">
+			<NcDateTimePickerNative
+				:id="inputId"
+				class="property__field"
+				type="date"
+				:label="birthdate.readable"
+				:model-value="timezoneAdjustedValue"
+				@input="onInput" />
+			<VisibilityScopeControl
+				class="property__scope"
+				:readable="birthdate.readable"
+				:name="birthdate.name"
+				:scope="birthdate.scope"
+				@update:scope="onScopeChange" />
+		</div>
 	</section>
 </template>
 
@@ -26,8 +26,8 @@
 import { loadState } from '@nextcloud/initial-state'
 import debounce from 'debounce'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
-import HeaderBar from './shared/HeaderBar.vue'
-import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
+import VisibilityScopeControl from './shared/VisibilityScopeControl.vue'
+import { NAME_READABLE_ENUM, SCOPE_ENUM } from '../../constants/AccountPropertyConstants.ts'
 import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService.js'
 import { handleError } from '../../utils/handlers.js'
 
@@ -48,7 +48,7 @@ export default {
 
 	components: {
 		NcDateTimePickerNative,
-		HeaderBar,
+		VisibilityScopeControl,
 	},
 
 	data() {
@@ -59,6 +59,7 @@ export default {
 
 		return {
 			birthdate: {
+				scope: SCOPE_ENUM.PRIVATE,
 				...birthdate,
 				readable: NAME_READABLE_ENUM[birthdate.name],
 			},
@@ -97,6 +98,10 @@ export default {
 	},
 
 	methods: {
+		onScopeChange(scope) {
+			this.birthdate.scope = scope
+		},
+
 		onInput(e) {
 			const day = e.getDate().toString().padStart(2, '0')
 			const month = (e.getMonth() + 1).toString().padStart(2, '0')
@@ -140,14 +145,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-section {
-	padding: 10px 10px;
+.property-section {
+	padding: 6px 0;
+}
 
-	:deep(button:disabled) {
-		cursor: default;
+.property {
+	position: relative;
+
+	&__field {
+		width: 100%;
 	}
 
-	.property__helper-text-message {
+	&__scope {
+		position: absolute;
+		inset-block-end: 0; // due to NcDateTimePickerNative's label handling, we need to use inset-block-end instead of block start
+		inset-inline-start: calc(100% + 8px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--default-clickable-area);
+		height: var(--default-clickable-area);
+	}
+
+	&__helper-text-message {
 		color: var(--color-text-maxcontrast);
 		padding: 4px 0;
 		display: flex;

@@ -20,14 +20,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
 	/** URL of the app icon, used as a CSS mask. */
 	icon: string
+
 	/** Render the circle as an outline only (no fill or gradient). */
 	outlined?: boolean
-}>(), {
-	outlined: false,
-})
+}>()
 
 // Escaped so a crafted path cannot break out of the url() token.
 const iconStyle = computed(() => ({
@@ -52,6 +51,7 @@ $bevel:
 	justify-content: center;
 	width: var(--app-icon-circle-size);
 	height: var(--app-icon-circle-size);
+	min-height: var(--app-icon-circle-size);
 	border-radius: 50%;
 	transform: scale(var(--app-icon-scale, 1));
 	transition: transform var(--animation-quick) ease-out;

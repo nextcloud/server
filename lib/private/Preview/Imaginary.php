@@ -147,7 +147,9 @@ class Imaginary extends ProviderV2 {
 				$imaginaryUrl . '/pipeline', [
 					'query' => ['operations' => json_encode($operations), 'key' => $imaginaryKey],
 					'stream' => true,
-					'content-type' => $file->getMimeType(),
+					'headers' => [
+						'Content-Type' => $file->getMimeType(),
+					],
 					'body' => $stream,
 					'nextcloud' => ['allow_local_address' => true],
 					'timeout' => 120,

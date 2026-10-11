@@ -245,6 +245,7 @@ async function updateAndDispatchNodeTagsEvent(fileId: number) {
 			:inputLabel="t('systemtags', 'Search or create collaborative tags')"
 			:placeholder="t('systemtags', 'Collaborative tags …')"
 			:options="sortedTags"
+			:limit="null"
 			:modelValue="selectedTags"
 			:createOption="createOption"
 			:disabled="disabled"

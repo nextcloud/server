@@ -9,5 +9,5 @@ declare(strict_types=1);
 
 namespace OCA\OAuth2\Exceptions;
 
-class AccessTokenNotFoundException extends \Exception {
+final class AccessTokenNotFoundException extends \Exception {
 }

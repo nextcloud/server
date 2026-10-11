@@ -130,7 +130,7 @@ class ThemingController extends Controller {
 				break;
 			case 'disableUserTheming':
 			case 'disable-user-theming':
-				if (!in_array($value, ['yes', 'true', 'no', 'false'])) {
+				if (!in_array($value, ['yes', 'true', 'no', 'false'], true)) {
 					$error = $this->l10n->t('%1$s should be true or false', ['disable-user-theming']);
 				} else {
 					$this->appConfig->setAppValueBool('disable-user-theming', $value === 'yes' || $value === 'true');
@@ -402,7 +402,7 @@ class ThemingController extends Controller {
 	#[NoSameSiteCookieRequired]
 	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();
-		if (!in_array($themeId, array_keys($themes))) {
+		if (!in_array($themeId, array_keys($themes), true)) {
 			return new NotFoundResponse();
 		}
 

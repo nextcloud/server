@@ -128,6 +128,7 @@
   "audio/wav": "RIFF/WAVe standard Audio",
   "audio/webm": "WebM audio",
   "audio/x-scpls": "MP3 ShoutCast playlist",
+  "image/avif": "AVIF image",
   "image/bmp": "Windows BMP image",
   "image/bpg": "Better Portable Graphics image",
   "image/emf": "EMF image",

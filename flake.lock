@@ -2,11 +2,11 @@
   "nodes": {
     "crane": {
       "locked": {
-        "lastModified": 1763938834,
-        "narHash": "sha256-j8iB0Yr4zAvQLueCZ5abxfk6fnG/SJ5JnGUziETjwfg=",
+        "lastModified": 1780099841,
+        "narHash": "sha256-EVZd2RsbpreRUDSi9rBwPY+ZxoyMaiEBbZxxhljbaS4=",
         "owner": "ipetkov",
         "repo": "crane",
-        "rev": "d9e753122e51cee64eb8d2dddfe11148f339f5a2",
+        "rev": "0532eb17955225173906d671fb36306bdeb1e2dc",
         "type": "github"
       },
       "original": {
@@ -57,11 +57,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773062095,
-        "narHash": "sha256-u+cK9IoJokO4YzQwMc2s8Vti0RL/LVSrROOEn2opc5U=",
+        "lastModified": 1781543995,
+        "narHash": "sha256-wsSyxNWOSMofu4F5xGYGMrB1d8cepvBNhxhm9bGGmXg=",
         "owner": "nix-community",
         "repo": "flakelight",
-        "rev": "c99e4d5f40e578cb2d8f460ea2bbd5dc26316d24",
+        "rev": "fd1d557721e07b5a9d319442e4bcb5d286600011",
         "type": "github"
       },
       "original": {
@@ -74,6 +74,7 @@
       "inputs": {
         "flakelight": "flakelight",
         "mill-scale": "mill-scale",
+        "nix2container": "nix2container",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -82,17 +83,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1779986920,
-        "narHash": "sha256-8jciU/p8sshgDQqvdsczjkdO/Z7RBCDpnDxZmTDvl+A=",
+        "lastModified": 1788825298,
+        "narHash": "sha256-fpmF9MvR3iXkjYJerhmEhE0Deyfm6dNTx6JLMsrWsXI=",
         "ref": "refs/heads/main",
-        "rev": "a3f2355deae7ebd87004fcb4a82588e1b35d7850",
-        "revCount": 407,
+        "rev": "7121474198b2fcf8d6c8eddec5998d481a6dbb98",
+        "revCount": 465,
         "type": "git",
-        "url": "https://codeberg.org/icewind/haze.git"
+        "url": "https://codeberg.org/icewind/haze"
       },
       "original": {
         "type": "git",
-        "url": "https://codeberg.org/icewind/haze.git"
+        "url": "https://codeberg.org/icewind/haze"
       }
     },
     "mill-scale": {
@@ -105,17 +106,38 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1772297202,
-        "narHash": "sha256-UEzHO/tCmhPhr8RpWtbm1MTa7ABobwt3nCjrcuDAPm0=",
+        "lastModified": 1780231986,
+        "narHash": "sha256-OyafczPtzE0Xa2zl3j/KvV2+ZVYGhYQHt0MOVWtDXlY=",
         "ref": "refs/heads/main",
-        "rev": "8690e1514863b934de12f2a503c9431d186ce30b",
-        "revCount": 68,
+        "rev": "f5cbda29b945df03256bf63c22fa4cd5fa429e67",
+        "revCount": 72,
         "type": "git",
         "url": "https://codeberg.org/icewind/mill-scale.git"
       },
       "original": {
         "type": "git",
         "url": "https://codeberg.org/icewind/mill-scale.git"
+      }
+    },
+    "nix2container": {
+      "inputs": {
+        "nixpkgs": [
+          "haze",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775487831,
+        "narHash": "sha256-2lguQpLPQaxpQCJjXhmEEAfabwsAhkP29Z7fgLzHARA=",
+        "owner": "nlewo",
+        "repo": "nix2container",
+        "rev": "76be9608a7f4d6c985d28b0e7be903ae2547df3e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nlewo",
+        "repo": "nix2container",
+        "type": "github"
       }
     },
     "nixpkgs": {
@@ -176,11 +198,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764557621,
-        "narHash": "sha256-kX5PoY8hQZ80+amMQgOO9t8Tc1JZ70gYRnzaVD4AA+o=",
+        "lastModified": 1780197589,
+        "narHash": "sha256-FVCr2Ij/jKf59a4LW481eeOF6rJRreOBrVgW/aUBTrw=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "93316876c2229460a5d6f5f052766cc4cef538ce",
+        "rev": "21632e942d89bf1cce4e5a63d7e58a215a0cbfcc",
         "type": "github"
       },
       "original": {

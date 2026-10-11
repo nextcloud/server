@@ -9,7 +9,7 @@ import type { BrowserContext } from '@playwright/test'
 import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { expect, test } from '@playwright/test'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
+import { awaitPasswordGuardedRequest, installPasswordConfirmationHandler } from '../../support/utils/password-confirmation.ts'
 
 test.describe('Login: WebAuthn', () => {
 	test.skip(({ browserName }) => browserName !== 'chromium', 'WebAuthn emulator only is supported in Chromium-based browsers')
@@ -21,6 +21,7 @@ test.describe('Login: WebAuthn', () => {
 	test.beforeEach(async ({ page, context }) => {
 		user = await createRandomUser()
 		await login(context.request, user)
+		await installPasswordConfirmationHandler(page, user.password)
 
 		cdpSession = await page.context().newCDPSession(page)
 		await cdpSession.send('WebAuthn.enable', { enableUI: false })
@@ -50,8 +51,7 @@ test.describe('Login: WebAuthn', () => {
 		await expect(securitySection.getByRole('note').filter({ hasText: /No devices configured/i })).toBeVisible()
 
 		await page.getByRole('button', { name: /Add WebAuthn device/i }).click()
-		await handlePasswordConfirmation(page, user.password)
-		await registrationChallenge
+		await awaitPasswordGuardedRequest(page, registrationChallenge)
 
 		const deviceNameInput = page.getByLabel('Device name')
 		await expect(deviceNameInput).toBeVisible()
@@ -67,9 +67,7 @@ test.describe('Login: WebAuthn', () => {
 		await expect(deviceItem).toBeVisible()
 
 		await deviceItem.getByRole('button', { name: 'Actions' }).click()
-		await handlePasswordConfirmation(page, user.password)
 		await page.getByRole('menuitem', { name: 'Delete' }).click()
-		await handlePasswordConfirmation(page, user.password)
 
 		await expect(securitySection.getByRole('note').filter({ hasText: /No devices configured/i })).toBeVisible()
 		await expect(deviceList).toHaveCount(0)
@@ -83,8 +81,7 @@ test.describe('Login: WebAuthn', () => {
 		await page.goto('/settings/user/security')
 
 		await page.getByRole('button', { name: /Add WebAuthn device/i }).click()
-		await handlePasswordConfirmation(page, user.password)
-		await registrationChallenge
+		await awaitPasswordGuardedRequest(page, registrationChallenge)
 
 		const registrationComplete = page.waitForResponse((r) => r.url().includes('/settings/api/personal/webauthn/registration') && r.request().method() === 'POST')
 		const deviceNameInput = page.getByLabel('Device name')

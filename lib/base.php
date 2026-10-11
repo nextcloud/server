@@ -9,4 +9,4 @@ declare(strict_types=1);
 require_once __DIR__ . '/OC.php';
 
 \OC::boot();
-\OC::init();
+\OC::initForRequest();

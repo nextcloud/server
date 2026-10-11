@@ -73,6 +73,7 @@ OC.L10N.register(
     "External storages" : "Външни хранилища",
     "Status" : "Състояние",
     "Actions" : "Действия",
+    "All accounts" : "Всички акаунти",
     "Delete" : "Изтриване",
     "Saved" : "Запазено",
     "Error while saving" : "Грешка при запазване",

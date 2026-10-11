@@ -81,6 +81,13 @@ final class ShareSource {
 			++$sourceDisplayNames[$displayName];
 		}
 
+		usort(
+			$sources,
+			static fn (ShareSource $a, ShareSource $b): int
+				=> ($a->class <=> $b->class)
+				?: ($a->value <=> $b->value),
+		);
+
 		return array_map(static fn (ShareSource $source): array => $source->format($registry, $l10nFactory, $sourceDisplayNames[$source->getMetadata($registry)->getDisplayName()] === 1), $sources);
 	}
 

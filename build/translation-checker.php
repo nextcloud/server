@@ -16,6 +16,8 @@ $txConfig = file_get_contents(__DIR__ . '/../.tx/config');
 
 $untranslatedApps = [
 	'testing',
+	// Not an app, only the legacy viewer API until Nextcloud 39
+	'viewer',
 ];
 
 $txConfigAppMap = [

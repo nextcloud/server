@@ -24,6 +24,8 @@
     "Invalid LDAP UUIDs" : "UUIDanna LDAP neamhbhailí",
     "None found" : "Níor aimsíodh aon cheann",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Fuarthas UUIDanna neamhbhailí de chuntais nó de ghrúpaí LDAP. Athbhreithnigh do shocruithe \"Sáraigh braite UUID\" sa chuid Saineolaithe de chumraíocht LDAP agus úsáid \"occ ldap:update-uuid\" chun iad a nuashonrú le do thoil.",
+    "LDAP" : "LDAP",
+    "LDAP configuration" : "Cumraíocht LDAP",
     "_%n group found_::_%n groups found_" : ["%n grúpa aimsithe","%n grúpaí aimsithe","%n grúpaí aimsithe","%n grúpaí aimsithe","%n grúpaí aimsithe"],
     "> 1000 groups found" : "> Fuarthas 1000 grúpaí",
     "> 1000 users found" : "> Fuarthas 1000 úsáideoirí",
@@ -53,6 +55,8 @@
     "Base User Tree" : "Crann Úsáideora Bonn",
     "Optional; one attribute per line" : "Roghnach; tréith amháin in aghaidh an líne",
     "User Search Attributes" : "Tréithe Cuardaigh Úsáideora",
+    "User Active/Inactive Attribute" : "Tréith Úsáideora Gníomhach/Neamhghníomhach",
+    "User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not." : "Maidir le tréith an úsáideora a léiríonn cé acu atá an t-úsáideoir gníomhach nó neamhghníomhach, ba cheart go mbeadh sí `TRUE` má tá sé gníomhach, agus `FALSE` mura bhfuil.",
     "When switched on, users imported from LDAP which are then missing will be disabled" : "Nuair a chuirtear ar siúl é, díchumasófar úsáideoirí a allmhairítear ó LDAP atá in easnamh ansin",
     "Disable users missing from LDAP" : "Díchumasaigh úsáideoirí in easnamh ó LDAP",
     "Group Display Name Field" : "Réimse Ainm Taispeána Grúpa",
@@ -131,7 +135,7 @@
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Ceadaíonn sé logáil isteach i gcoinne tréith ríomhphoist. Ceadaítear 'mail' agus 'mailPrimaryAddress'.",
     "LDAP/AD Email Address:" : "Seoladh Ríomhphoist LDAP/AD:",
     "Other Attributes:" : "Tréithe Eile:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Sainmhíníonn sé seo an scagaire atá le cur i bhfeidhm nuair a dhéantar iarracht logáil isteach. Cuireann `%%uid` ionad an ainm úsáideora sa ghníomh logála isteach. Sampla: `uid=%%uid`",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "Sainmhíníonn sé an scagaire atá le cur i bhfeidhm nuair a dhéantar iarracht logáil isteach. Cuirtear `%uid` in áit an ainm úsáideora sa ghníomh logála isteach. Sampla: `uid=%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Iarrachtaí DN a fháil don ainm logála isteach tugtha agus don scagaire logála isteach reatha",
     "Test Login name" : "Ainm Logála Isteach Tástála",
     "Verify settings" : "Fíoraigh socruithe",
@@ -265,6 +269,7 @@
     "Pronouns Field" : "Réimse Forainmneacha",
     "User profile Pronouns will be set from the specified attribute" : "Socrófar Forainmneacha próifíle úsáideora ón aitreabúid sonraithe",
     "UUID Attribute for Users:" : "Tréith UUID d'Úsáideoirí:",
-    "UUID Attribute for Groups:" : "Tréith UUID do Ghrúpaí:"
+    "UUID Attribute for Groups:" : "Tréith UUID do Ghrúpaí:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Sainmhíníonn sé seo an scagaire atá le cur i bhfeidhm nuair a dhéantar iarracht logáil isteach. Cuireann `%%uid` ionad an ainm úsáideora sa ghníomh logála isteach. Sampla: `uid=%%uid`"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

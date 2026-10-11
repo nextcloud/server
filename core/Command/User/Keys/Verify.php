@@ -80,7 +80,7 @@ class Verify extends Command {
 		$output->writeln('Derived public key:');
 		$output->writeln($publicKeyDerived);
 
-		if ($publicKey != $publicKeyDerived) {
+		if ($publicKey !== $publicKeyDerived) {
 			if (!$input->getOption('update')) {
 				$output->writeln('<error>Stored public key does not match stored private key</error>');
 				return static::FAILURE;

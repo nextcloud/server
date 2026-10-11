@@ -12,16 +12,23 @@ use OC\Files\Cache\FailedCache;
 use OC\Files\Filesystem;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Temporary;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\Constants;
 use OCP\Files\Config\IMountProviderCollection;
-use OCP\Files\NotFoundException;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\IUserFolder;
+use OCP\Files\Node;
+use OCP\Files\Storage\IStorage;
 use OCP\IUserManager;
 use OCP\Server;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class SharedStorageTest
@@ -460,19 +467,89 @@ class SharedStorageTest extends TestCase {
 	}
 
 	public function testInitWithNotFoundSource(): void {
+		$storage = $this->createSharedStorage(null);
+
+		$this->assertInstanceOf(FailedStorage::class, $storage->getSourceStorage());
+		$this->assertInstanceOf(FailedCache::class, $storage->getCache());
+	}
+
+	/**
+	 * @param list<Node>|null $allNodes nodes returned by getById, or null if getById must not be called
+	 */
+	private function createSharedStorage(?Node $firstNode, ?array $allNodes = null): SharedStorage {
+		$ownerFolder = $this->createMock(IUserFolder::class);
+		$ownerFolder->expects($this->once())
+			->method('getFirstNodeById')
+			->with(42)
+			->willReturn($firstNode);
+		if ($allNodes === null) {
+			$ownerFolder->expects($this->never())->method('getById');
+		} else {
+			$ownerFolder->expects($this->once())
+				->method('getById')
+				->with(42)
+				->willReturn($allNodes);
+		}
+
 		$share = $this->createMock(IShare::class);
-		$share->method('getShareOwner')->willReturn(self::TEST_FILES_SHARING_API_USER1);
-		$share->method('getNodeId')->willReturn(1);
-		$ownerView = $this->createMock(View::class);
-		$ownerView->method('getPath')->willThrowException(new NotFoundException());
-		$storage = new SharedStorage([
-			'ownerView' => $ownerView,
+		$share->method('getShareOwner')->willReturn('owner');
+		$share->method('getNodeId')->willReturn(42);
+		$share->method('getPermissions')->willReturn(Constants::PERMISSION_ALL);
+
+		$rootFolder = $this->createMock(IRootFolder::class);
+		$rootFolder->method('getUserFolder')->with('owner')->willReturn($ownerFolder);
+
+		return new SharedStorage([
+			'ownerView' => $this->createMock(View::class),
 			'superShare' => $share,
 			'groupedShares' => [$share],
-			'user' => 'user1',
+			'user' => 'recipient',
+			'rootFolder' => $rootFolder,
+			'logger' => $this->createMock(LoggerInterface::class),
 		]);
+	}
 
-		// trigger init
+	private function createSourceNode(IStorage $storage, string $internalPath): Folder&MockObject {
+		$node = $this->createMock(Folder::class);
+		$node->method('getStorage')->willReturn($storage);
+		$node->method('getPath')->willReturn('/owner/' . $internalPath);
+		$node->method('getInternalPath')->willReturn($internalPath);
+		return $node;
+	}
+
+	private function createRecursiveSourceNode(): Folder&MockObject {
+		$storage = $this->createMock(Wrapper::class);
+		$storage->method('isWrapperOf')->willReturn(true);
+		return $this->createSourceNode($storage, 'files/recursive');
+	}
+
+	public function testInitUsesFirstNodeById(): void {
+		$sourceStorage = $this->createMock(IStorage::class);
+		$storage = $this->createSharedStorage($this->createSourceNode($sourceStorage, 'files/source'));
+
+		$this->assertSame($sourceStorage, $storage->getSourceStorage());
+		$this->assertSame('files/source/sub', $storage->getUnjailedPath('sub'));
+	}
+
+	public function testInitFallsBackToNonRecursiveNodeWhenFirstNodeIsRecursive(): void {
+		$sourceStorage = $this->createMock(IStorage::class);
+		$recursiveNode = $this->createRecursiveSourceNode();
+		$storage = $this->createSharedStorage(
+			$recursiveNode,
+			[$recursiveNode, $this->createSourceNode($sourceStorage, 'files/source')],
+		);
+
+		$this->assertSame($sourceStorage, $storage->getSourceStorage());
+		$this->assertSame('files/source/sub', $storage->getUnjailedPath('sub'));
+	}
+
+	public function testInitWithOnlyRecursiveSources(): void {
+		$recursiveNode = $this->createRecursiveSourceNode();
+		$storage = $this->createSharedStorage(
+			$recursiveNode,
+			[$recursiveNode, $this->createRecursiveSourceNode()],
+		);
+
 		$this->assertInstanceOf(FailedStorage::class, $storage->getSourceStorage());
 		$this->assertInstanceOf(FailedCache::class, $storage->getCache());
 	}

@@ -209,20 +209,6 @@ class SetupManager implements ISetupManager {
 			return $storage;
 		}, 50, $existingMounts);
 
-		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
-		$this->storageFactory->addStorageWrapper(Quota::class, function ($mountPoint, $storage, IMountPoint $mount) use ($quotaIncludeExternal) {
-			// set up quota for home storages, even for other users
-			// which can happen when using sharing
-			if ($mount instanceof HomeMountPoint) {
-				$user = $mount->getUser();
-				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
-					return $user->getQuotaBytes();
-				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
-			}
-
-			return $storage;
-		}, 50, $existingMounts);
-
 		$this->storageFactory->addStorageWrapper('readonly', function (string $mountPoint, IStorage $storage, IMountPoint $mount) {
 			/*
 			 * Do not allow any operations that modify the storage
@@ -237,6 +223,28 @@ class SetupManager implements ISetupManager {
 					),
 				]);
 			}
+			return $storage;
+		}, 50, $existingMounts);
+	}
+
+	/**
+	 * Some wrapper are inited after BeforeFileSystemSetupEvent, to permit
+	 * custom apps to preventively register their own handler
+	 *
+	 * @param IMountPoint[] $existingMounts
+	 */
+	private function setupCustomizableWrappers(array $existingMounts): void {
+		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
+		$this->storageFactory->addStorageWrapper(Quota::class, function ($mountPoint, $storage, IMountPoint $mount) use ($quotaIncludeExternal) {
+			// set up quota for home storages, even for other users
+			// which can happen when using sharing
+			if ($mount instanceof HomeMountPoint) {
+				$user = $mount->getUser();
+				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
+					return $user->getQuotaBytes();
+				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
+			}
+
 			return $storage;
 		}, 50, $existingMounts);
 	}
@@ -290,7 +298,7 @@ class SetupManager implements ISetupManager {
 			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (
 				string $providerClass,
 			) use ($user) {
-				return !in_array($providerClass, $this->setupUserMountProviders[$user->getUID()]);
+				return !in_array($providerClass, $this->setupUserMountProviders[$user->getUID()], true);
 			});
 		});
 		$this->afterUserFullySetup($user, $previouslySetupProviders);
@@ -327,6 +335,8 @@ class SetupManager implements ISetupManager {
 				$this->storageFactory->addStorageWrapper($wrapperName, $wrapper['callable'], $wrapper['priority'], $mounts);
 			}
 		}
+
+		$this->setupCustomizableWrappers($mounts);
 
 		$userDir = '/' . $user->getUID() . '/files';
 
@@ -384,7 +394,7 @@ class SetupManager implements ISetupManager {
 		));
 		$newProviders = array_diff($allProviders, $previouslySetupProviders);
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($previouslySetupProviders) {
-			return !in_array($mount->getMountProvider(), $previouslySetupProviders);
+			return !in_array($mount->getMountProvider(), $previouslySetupProviders, true);
 		});
 		$this->registerMounts($user, $mounts, $newProviders);
 
@@ -525,7 +535,7 @@ class SetupManager implements ISetupManager {
 
 		$mountProvider = $cachedMount->getMountProvider();
 		$mountPoint = $cachedMount->getMountPoint();
-		$isMountProviderSetup = in_array($mountProvider, $setupProviders);
+		$isMountProviderSetup = in_array($mountProvider, $setupProviders, true);
 		$isPathSetupAsAuthoritative = $this->isPathSetup($mountPoint);
 		if (!$isMountProviderSetup && !$isPathSetupAsAuthoritative) {
 			if ($mountProvider === '') {
@@ -584,7 +594,7 @@ class SetupManager implements ISetupManager {
 				$mountProvider = $cachedMount->getMountProvider();
 
 				// skip setup for already set up providers
-				if (in_array($mountProvider, $setupProviders)) {
+				if (in_array($mountProvider, $setupProviders, true)) {
 					continue;
 				}
 
@@ -720,7 +730,7 @@ class SetupManager implements ISetupManager {
 			return !is_subclass_of($provider, IHomeMountProvider::class);
 		});
 
-		if (in_array('', $providers)) {
+		if (in_array('', $providers, true)) {
 			$this->setupForUser($user);
 			return;
 		}

@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "Напоминание очищено для \"{fileName}\"",
     "Failed to clear reminder" : "Не удалось удалить напоминание",
     "Reminder at custom date & time" : "Напоминание в указанную дату и время",
-    "We will remind you of this file" : "Мы напомним вам об этом файле",
     "Cancel" : "Отмена",
     "Clear reminder" : "Очистить напоминание",
     "Set reminder" : "Установить напоминание",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Установить напоминание на эти выходные",
     "Next week" : "Следующая неделя",
     "Set reminder for next week" : "Установить напоминание на следующую неделю",
-    "Set reminder for \"{fileName}\"" : "Установить напоминание для \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Установить напоминание для \"{fileName}\"",
+    "We will remind you of this file" : "Мы напомним вам об этом файле"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

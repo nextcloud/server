@@ -61,7 +61,7 @@ test.describe('files_trashbin: file row', () => {
 		await filesListPage.open('trashbin')
 
 		// The owner's own deletions render as "You" regardless of display name
-		await expectTrashbinRow(filesListPage, fileId, 'test-file .txt', 'All files', 'You')
+		await expectTrashbinRow(filesListPage, fileId, 'test-file.txt', 'All files', 'You')
 	})
 
 	test('shows data for a file deleted by a sharee in a group share', async ({ user, aliceRequest, bob, bobRequest, group, filesListPage }) => {
@@ -75,7 +75,7 @@ test.describe('files_trashbin: file row', () => {
 
 		await filesListPage.open('trashbin')
 
-		await expectTrashbinRow(filesListPage, fileId, 'test-file .txt', 'Shared', 'Bob')
+		await expectTrashbinRow(filesListPage, fileId, 'test-file.txt', 'Shared', 'Bob')
 	})
 })
 
@@ -92,7 +92,6 @@ async function expectFileDownload(page: Page, trigger: () => Promise<void>) {
 async function expectTrashbinRow(filesListPage: TrashbinListPage, rowId: number, name: string, location: string, deletedBy: string) {
 	const row = filesListPage.getRowForFileId(rowId)
 	await expect(row).toBeVisible()
-	// Name and extension render as separate spans, so the composed text has a space
 	await expect(filesListPage.fileNameCell(row)).toHaveText(name)
 	await expect(filesListPage.originalLocationCell(row)).toHaveText(location)
 	await expect(filesListPage.deletedByCell(row)).toHaveText(deletedBy)

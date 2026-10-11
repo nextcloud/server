@@ -31,6 +31,7 @@ use OCP\GlobalScale\IGlobalScaleService;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ICrypto;
@@ -40,9 +41,9 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
-class OauthApiController extends Controller {
+final class OauthApiController extends Controller {
 	// the authorization code expires after 10 minutes
-	public const AUTHORIZATION_CODE_EXPIRES_AFTER = 10 * 60;
+	public const int AUTHORIZATION_CODE_EXPIRES_AFTER = 10 * 60;
 
 	public function __construct(
 		string $appName,
@@ -88,6 +89,7 @@ class OauthApiController extends Controller {
 	): JSONResponse {
 
 		// We only handle two types
+		/** @psalm-suppress DocblockTypeContradiction We don't trust user input */
 		if ($grant_type !== 'authorization_code' && $grant_type !== 'refresh_token') {
 			$response = new JSONResponse([
 				'error' => 'invalid_grant',
@@ -101,9 +103,17 @@ class OauthApiController extends Controller {
 			$code = $refresh_token;
 		}
 
+		if ($code === null) {
+			$response = new JSONResponse([
+				'error' => 'invalid_request',
+			], Http::STATUS_BAD_REQUEST);
+			$response->throttle(['invalid_request' => 'token not found']);
+			return $response;
+		}
+
 		try {
 			$accessToken = $this->accessTokenMapper->getByCode($code);
-		} catch (AccessTokenNotFoundException $e) {
+		} catch (AccessTokenNotFoundException) {
 			$response = new JSONResponse([
 				'error' => 'invalid_request',
 			], Http::STATUS_BAD_REQUEST);
@@ -113,7 +123,7 @@ class OauthApiController extends Controller {
 
 		if ($grant_type === 'authorization_code') {
 			// check this token is in authorization code state
-			$deliveredTokenCount = $accessToken->getTokenCount();
+			$deliveredTokenCount = $accessToken->tokenCount;
 			if ($deliveredTokenCount > 0) {
 				$response = new JSONResponse([
 					'error' => 'invalid_request',
@@ -124,7 +134,7 @@ class OauthApiController extends Controller {
 
 			// check authorization code expiration
 			$now = $this->timeFactory->now()->getTimestamp();
-			$codeCreatedAt = $accessToken->getCodeCreatedAt();
+			$codeCreatedAt = $accessToken->codeCreatedAt;
 			if ($codeCreatedAt < $now - self::AUTHORIZATION_CODE_EXPIRES_AFTER) {
 				// we know this token is not useful anymore
 				$this->accessTokenMapper->delete($accessToken);
@@ -139,32 +149,25 @@ class OauthApiController extends Controller {
 		}
 
 		try {
-			$client = $this->clientMapper->getByUid($accessToken->getClientId());
-		} catch (ClientNotFoundException $e) {
+			$client = $this->clientMapper->getByUid($accessToken->clientId);
+		} catch (ClientNotFoundException) {
 			$response = new JSONResponse([
 				'error' => 'invalid_request',
 			], Http::STATUS_BAD_REQUEST);
-			$response->throttle(['invalid_request' => 'client not found', 'client_id' => $accessToken->getClientId()]);
+			$response->throttle(['invalid_request' => 'client not found', 'client_id' => $accessToken->clientId]);
 			return $response;
 		}
 
+		/**
+		 * @psalm-suppress NoInterfaceProperties, MixedArrayAccess
+		 * IRequest exposes $server via a magic @property-read for the request's $_SERVER superglobal.
+		 */
 		if (isset($this->request->server['PHP_AUTH_USER'])) {
-			$client_id = $this->request->server['PHP_AUTH_USER'];
-			$client_secret = $this->request->server['PHP_AUTH_PW'];
+			$client_id = (string)$this->request->server['PHP_AUTH_USER'];
+			$client_secret = (string)$this->request->server['PHP_AUTH_PW'];
 		}
 
-		try {
-			$storedClientSecretHash = $client->getSecret();
-			$clientSecretHash = bin2hex($this->crypto->calculateHMAC($client_secret));
-		} catch (\Exception $e) {
-			$this->logger->error('OAuth client secret decryption error', ['exception' => $e]);
-			// we don't throttle here because it might not be a bruteforce attack
-			return new JSONResponse([
-				'error' => 'invalid_client',
-			], Http::STATUS_BAD_REQUEST);
-		}
-		// The client id and secret must match. Else we don't provide an access token!
-		if ($client->getClientIdentifier() !== $client_id || $storedClientSecretHash !== $clientSecretHash) {
+		if ($client_secret === null) {
 			$response = new JSONResponse([
 				'error' => 'invalid_client',
 			], Http::STATUS_BAD_REQUEST);
@@ -172,14 +175,34 @@ class OauthApiController extends Controller {
 			return $response;
 		}
 
-		$decryptedToken = $this->crypto->decrypt($accessToken->getEncryptedToken(), $code);
+		try {
+			$storedClientSecretHash = $client->secret;
+			$clientSecretHash = bin2hex($this->crypto->calculateHMAC($client_secret));
+		} catch (\Exception $exception) {
+			$this->logger->error('OAuth client secret decryption error', ['exception' => $exception]);
+			// we don't throttle here because it might not be a bruteforce attack
+			return new JSONResponse([
+				'error' => 'invalid_client',
+			], Http::STATUS_BAD_REQUEST);
+		}
+
+		// The client id and secret must match. Else we don't provide an access token!
+		if ($client->clientIdentifier !== $client_id || !hash_equals($storedClientSecretHash, $clientSecretHash)) {
+			$response = new JSONResponse([
+				'error' => 'invalid_client',
+			], Http::STATUS_BAD_REQUEST);
+			$response->throttle(['invalid_client' => 'client ID or secret does not match']);
+			return $response;
+		}
+
+		$decryptedToken = $this->crypto->decrypt($accessToken->encryptedToken, $code);
 
 		// Obtain the appToken associated
 		try {
-			$appToken = $this->tokenProvider->getTokenById($accessToken->getTokenId());
+			$appToken = $this->tokenProvider->getTokenById($accessToken->tokenId);
 		} catch (ExpiredTokenException $e) {
 			$appToken = $e->getToken();
-		} catch (InvalidTokenException $e) {
+		} catch (InvalidTokenException) {
 			//We can't do anything...
 			$this->accessTokenMapper->delete($accessToken);
 			$response = new JSONResponse([
@@ -200,7 +223,7 @@ class OauthApiController extends Controller {
 		$this->db->beginTransaction();
 		try {
 			$updatedRows = $this->accessTokenMapper->rotateToken(
-				$accessToken->getId(),
+				$accessToken->id,
 				$code,
 				$newCode,
 				$newEncryptedToken,
@@ -228,15 +251,16 @@ class OauthApiController extends Controller {
 			$this->tokenProvider->updateToken($appToken);
 
 			$this->db->commit();
-		} catch (\Throwable $e) {
+		} catch (\Throwable $throwable) {
 			if ($this->db->inTransaction()) {
 				$this->db->rollBack();
 			}
+
 			// rotate() and updateToken() write the auth token to the cache,
 			// so if we are past rotate() we must invalidate the new token
 			$this->tokenProvider->invalidateToken($newToken);
 
-			throw $e;
+			throw $throwable;
 		}
 
 		$this->throttler->resetDelay($this->request->getRemoteAddress(), 'login', ['user' => $appToken->getUID()]);
@@ -263,7 +287,7 @@ class OauthApiController extends Controller {
 	 */
 	private function pushTokenToSecondary(IToken $appToken, string $newToken, ?int $expires): ?string {
 		$user = $this->userManager->get($appToken->getUID());
-		if ($user === null) {
+		if (!$user instanceof IUser) {
 			$this->logger->warning('could not push oauth token to secondary: unknown user', ['uid' => $appToken->getUID()]);
 			return null;
 		}
@@ -271,13 +295,15 @@ class OauthApiController extends Controller {
 		try {
 			/** @var IGlobalScaleService $globalScaleService */
 			$globalScaleService = $this->container->get(IGlobalScaleService::class);
-		} catch (ContainerExceptionInterface $e) {
-			$this->logger->warning('could not push oauth token to secondary: globalsiteselector is not available', ['exception' => $e]);
+		} catch (ContainerExceptionInterface $containerException) {
+			$this->logger->warning('could not push oauth token to secondary: globalsiteselector is not available', ['exception' => $containerException]);
 			return null;
 		}
 
 		try {
-			return $globalScaleService->sendToSecondary($user, $this->urlGenerator->linkToRoute('oauth2.OauthApi.pushToken'), [
+			/** @var non-empty-string $pushRouteUrl */
+			$pushRouteUrl = $this->urlGenerator->linkToRoute('oauth2.OauthApi.pushToken');
+			return $globalScaleService->sendToSecondary($user, $pushRouteUrl, [
 				'uid' => $appToken->getUID(),
 				'loginName' => $appToken->getLoginName(),
 				'name' => $appToken->getName(),
@@ -287,9 +313,10 @@ class OauthApiController extends Controller {
 				'expires' => $expires,
 				'token' => $newToken,
 			]);
-		} catch (\Exception $e) {
-			$this->logger->warning('could not push oauth token to secondary', ['exception' => $e]);
+		} catch (\Exception $exception) {
+			$this->logger->warning('could not push oauth token to secondary', ['exception' => $exception]);
 		}
+
 		return null;
 	}
 
@@ -311,8 +338,8 @@ class OauthApiController extends Controller {
 		try {
 			/** @var IGlobalScaleService $globalScaleService */
 			$globalScaleService = $this->container->get(IGlobalScaleService::class);
-		} catch (ContainerExceptionInterface $e) {
-			$this->logger->warning('could not receive oauth token from primary: globalsiteselector is not available', ['exception' => $e]);
+		} catch (ContainerExceptionInterface $containerException) {
+			$this->logger->warning('could not receive oauth token from primary: globalsiteselector is not available', ['exception' => $containerException]);
 			$response = new JSONResponse([], Http::STATUS_BAD_REQUEST);
 			$response->throttle();
 			return $response;
@@ -337,8 +364,8 @@ class OauthApiController extends Controller {
 				(array)$decoded['scope'],
 				$decoded['expires'] !== null ? (int)$decoded['expires'] : null,
 			);
-		} catch (\Exception $e) {
-			$this->logger->warning('could not create pushed oauth token', ['exception' => $e]);
+		} catch (\Exception $exception) {
+			$this->logger->warning('could not create pushed oauth token', ['exception' => $exception]);
 			$response = new JSONResponse([], Http::STATUS_BAD_REQUEST);
 			$response->throttle();
 			return $response;

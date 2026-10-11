@@ -64,6 +64,17 @@ interface IFunctionBuilder {
 	public function substring($input, $start, $length = null): IQueryFunction;
 
 	/**
+	 * Takes a substring from the input string using a regex pattern
+	 *
+	 * @param string|ILiteral|IParameter|IQueryFunction $input The input string
+	 * @param string|ILiteral|IParameter|IQueryFunction $pattern The pattern to match and return
+	 *
+	 * @return IQueryFunction
+	 * @since 36.0.0
+	 */
+	public function regexSubstring($input, $pattern): IQueryFunction;
+
+	/**
 	 * Takes the sum of all rows in a column
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $field the column to sum
@@ -178,4 +189,12 @@ interface IFunctionBuilder {
 	 * @since 34.0.0
 	 */
 	public function now(): IQueryFunction;
+
+	/**
+	 * @param string|ILiteral|IParameter|IQueryFunction $value The value that might be null
+	 * @param string|ILiteral|IParameter|IQueryFunction $default The value to use if the first one is null
+	 * @return IQueryFunction
+	 * @since 35.0.0
+	 */
+	public function coalesce(string|ILiteral|IParameter|IQueryFunction $value, string|ILiteral|IParameter|IQueryFunction $default): IQueryFunction;
 }

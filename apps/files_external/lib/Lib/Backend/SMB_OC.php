@@ -31,6 +31,7 @@ class SMB_OC extends Backend {
 			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
 			->setText($l->t('SMB/CIFS using Nextcloud login'))
 			->addParameters([
+				// TRANSLATORS Host is a device or system that provides resources, services, or a runtime environment
 				new DefinitionParameter('host', $l->t('Host')),
 				(new DefinitionParameter('username_as_share', $l->t('Login as share')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN),

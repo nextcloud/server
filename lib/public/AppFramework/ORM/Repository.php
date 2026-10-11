@@ -98,7 +98,7 @@ class Repository {
 				ColumnType::Bigint, ColumnType::Smallint, ColumnType::Integer => (int)$value,
 				ColumnType::Float => (float)$value,
 				ColumnType::Boolean => (bool)$value,
-				ColumnType::Binary, ColumnType::Decimal, ColumnType::Text, ColumnType::String => (string)$value,
+				ColumnType::Binary, ColumnType::Decimal, ColumnType::Guid, ColumnType::Text, ColumnType::String => (string)$value,
 				ColumnType::Time, ColumnType::Date, ColumnType::Datetime, ColumnType::DatetimeTz => $value instanceof \DateTime
 					? $value
 					: new \DateTime((string)$value),
@@ -108,6 +108,16 @@ class Repository {
 				ColumnType::Json => is_array($value) ? $value : json_decode((string)$value, true),
 				ColumnType::Blob => $value,
 			};
+
+			$enumType = $entityInfo->mappingColumnToEnumType[$column] ?? null;
+
+			if ($enumType !== null) {
+				if (!is_string($value) && !is_int($value)) {
+					throw new \LogicException('Can only convert int and string to enum');
+				}
+
+				$value = $enumType::from($value);
+			}
 
 			$entity->$property = $value;
 		}
@@ -384,9 +394,12 @@ class Repository {
 	/**
 	 * Finds entities by a set of criteria, keyed by property name.
 	 *
-	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
 	 * @param array<string, \SortDirection> $orderBy
 	 * @return \Generator<T>
+	 *
+	 * @note If you need to implement pagination, prefer using findByAfterId instead.
+	 *
 	 * @since 35.0.0
 	 */
 	public function findBy(array $criteria, array $orderBy = [], ?int $limit = null, ?int $offset = null): \Generator {
@@ -404,7 +417,79 @@ class Repository {
 	}
 
 	/**
-	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
+	 * Finds entities by a set of criteria, keyed by property name, one page at a time ordered by
+	 * their primary key — using keyset (seek) pagination instead of OFFSET/LIMIT.
+	 *
+	 * Unlike findBy()'s $offset, which forces the database to scan and discard every preceding
+	 * row on every call, $lastId lets it seek straight to the right spot through the primary
+	 * key's index, so each page costs the same regardless of how deep it is. Pass null to fetch
+	 * the first page, then the id of the last entity returned to fetch the next one; stop once
+	 * fewer than $limit entities come back.
+	 *
+	 * @warning This does not support tables with composite primary keys
+	 *
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
+	 * @param int|string|null $lastId The primary key of the last entity from the previous
+	 *                                page, or null to fetch the first page.
+	 * @return \Generator<T>
+	 * @throws \LogicException if the entity has a composite primary key
+	 * @since 35.0.0
+	 */
+	public function findByAfterId(array $criteria, int|float|string|null $lastId, int $limit): \Generator {
+		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
+		$idColumn = $entityInfo->mappingPropertyToColumn[$entityInfo->getSingleIdProperty()->getName()];
+
+		[$qb, $relations] = $this->getJoinedSelectQueryBuilder($criteria);
+
+		if ($lastId !== null) {
+			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$idColumn], false);
+			$qb->andWhere($qb->expr()->gt('e.' . $idColumn, $qb->createNamedParameter($lastId, $type)));
+		}
+
+		$qb->orderBy('e.' . $idColumn, \SortDirection::Ascending);
+		$qb->setMaxResults($limit);
+
+		return $this->yieldJoinedEntities($qb, $relations);
+	}
+
+	/**
+	 * Finds entities by a set of criteria, keyed by property name, one page at a time ordered by
+	 * their primary key in descending order — using keyset (seek) pagination instead of
+	 * OFFSET/LIMIT.
+	 *
+	 * This is the mirror image of findByAfterId(), walking from the highest id downwards instead
+	 * of from the lowest id upwards. Pass null to fetch the first page (starting from the highest
+	 * id), then the id of the last entity returned to fetch the next one; stop once fewer than
+	 * $limit entities come back.
+	 *
+	 * @warning This does not support tables with composite primary keys
+	 *
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
+	 * @param int|string|null $lastId The primary key of the last entity from the previous
+	 *                                page, or null to fetch the first page.
+	 * @return \Generator<T>
+	 * @throws \LogicException if the entity has a composite primary key
+	 * @since 35.0.0
+	 */
+	public function findByBeforeId(array $criteria, int|float|string|null $lastId, int $limit): \Generator {
+		$entityInfo = $this->entityManager->getEntityInfo($this->getEntityClass());
+		$idColumn = $entityInfo->mappingPropertyToColumn[$entityInfo->getSingleIdProperty()->getName()];
+
+		[$qb, $relations] = $this->getJoinedSelectQueryBuilder($criteria);
+
+		if ($lastId !== null) {
+			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$idColumn], false);
+			$qb->andWhere($qb->expr()->lt('e.' . $idColumn, $qb->createNamedParameter($lastId, $type)));
+		}
+
+		$qb->orderBy('e.' . $idColumn, \SortDirection::Descending);
+		$qb->setMaxResults($limit);
+
+		return $this->yieldJoinedEntities($qb, $relations);
+	}
+
+	/**
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
 	 * @return int The number of rows deleted
 	 * @throws Exception
 	 * @since 35.0.0
@@ -417,6 +502,8 @@ class Repository {
 
 		foreach ($criteria as $property => $value) {
 			$column = $entityInfo->mappingPropertyToColumn[$property];
+			/** @psalm-suppress MixedAssignment can be anything */
+			$value = $this->entityManager->toParameterValue($value);
 			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$column], is_array($value));
 			if ($value === null) {
 				$qb->andWhere($qb->expr()->isNull($column));
@@ -439,7 +526,7 @@ class Repository {
 	/**
 	 * Finds a single entity by a set of criteria, keyed by property name.
 	 *
-	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
 	 * @param array<string, \SortDirection> $orderBy
 	 * @return T
 	 * @throws DoesNotExistException
@@ -454,7 +541,7 @@ class Repository {
 	}
 
 	/**
-	 * @param array<string, int|float|string|null|\DateTime|list<int|float|string>> $criteria
+	 * @param array<string, int|float|string|null|\DateTime|\BackedEnum|list<int|float|string|\BackedEnum>> $criteria
 	 * @param array<string, \SortDirection> $orderBy
 	 * @return array{0: IQueryBuilder, 1: array<string, array{attributes: PropertyAttributes, entityInfo: EntityInfo}>}
 	 */
@@ -464,6 +551,8 @@ class Repository {
 
 		foreach ($criteria as $property => $value) {
 			$column = $entityInfo->mappingPropertyToColumn[$property];
+			/** @psalm-suppress MixedAssignment $value is caller-supplied criteria, unwrapped of any \BackedEnum case. */
+			$value = $this->entityManager->toParameterValue($value);
 			$type = $this->entityManager->getParameterType($entityInfo->mappingColumnToTypes[$column], is_array($value));
 			if ($value === null) {
 				$qb->andWhere($qb->expr()->isNull('e.' . $column));

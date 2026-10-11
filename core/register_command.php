@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2013-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+use OC\Console\CommandAdapter;
 use OC\Core\Command;
 use OC\Core\Command\App\Disable;
 use OC\Core\Command\App\Enable;
@@ -33,6 +34,7 @@ use OC\Core\Command\Config\Preset;
 use OC\Core\Command\Db\AddMissingColumns;
 use OC\Core\Command\Db\AddMissingIndices;
 use OC\Core\Command\Db\AddMissingPrimaryKeys;
+use OC\Core\Command\Db\CheckSchema;
 use OC\Core\Command\Db\ConvertFilecacheBigInt;
 use OC\Core\Command\Db\ConvertMysqlToMB4;
 use OC\Core\Command\Db\ConvertType;
@@ -88,6 +90,8 @@ use OC\Core\Command\Preview\Generate;
 use OC\Core\Command\Preview\ResetRenderedTexts;
 use OC\Core\Command\Router\ListRoutes;
 use OC\Core\Command\Router\MatchRoute;
+use OC\Core\Command\Search\ProvidersCommand;
+use OC\Core\Command\Search\QueryCommand;
 use OC\Core\Command\Security\BruteforceAttempts;
 use OC\Core\Command\Security\BruteforceResetAttempts;
 use OC\Core\Command\Security\ExportCertificates;
@@ -186,6 +190,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->addCommand(Server::get(DbLocks::class));
 	$application->addCommand(Server::get(ExpectedSchema::class));
 	$application->addCommand(Server::get(ExportSchema::class));
+	$application->addCommand(Server::get(CheckSchema::class));
 
 	$application->addCommand(Server::get(GenerateMetadataCommand::class));
 	$application->addCommand(Server::get(PreviewCommand::class));
@@ -261,6 +266,8 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->addCommand(Server::get(ExportCertificates::class));
 	$application->addCommand(Server::get(ImportCertificate::class));
 	$application->addCommand(Server::get(RemoveCertificate::class));
+	$application->addCommand(new CommandAdapter(ProvidersCommand::class, null, \OC::$server));
+	$application->addCommand(new CommandAdapter(QueryCommand::class, null, \OC::$server));
 	$application->addCommand(Server::get(BruteforceAttempts::class));
 	$application->addCommand(Server::get(BruteforceResetAttempts::class));
 	$application->addCommand(Server::get(SetupChecks::class));

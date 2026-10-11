@@ -202,7 +202,8 @@ describe('Dynamic update of favorite folders', () => {
 			contents: [],
 		})
 
-		expect(eventBus.emit).toHaveBeenCalledTimes(2)
+		expect(eventBus.emit).toHaveBeenCalledTimes(3)
+		expect(eventBus.emit).toHaveBeenCalledWith('files:node:deleted', folder)
 		expect(eventBus.emit).toHaveBeenCalledWith('files:favorites:removed', folder)
 		expect(eventBus.emit).toHaveBeenCalledWith('files:node:updated', folder)
 		expect(fo).toHaveBeenCalled()

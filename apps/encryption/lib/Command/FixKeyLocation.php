@@ -323,7 +323,7 @@ class FixKeyLocation extends Command {
 				throw new \Exception('Invalid base path ' . $basePath);
 			}
 			while ($child = readdir($dh)) {
-				if ($child != '..' && $child != '.') {
+				if ($child !== '..' && $child !== '.') {
 					$childPath = $basePath . '/' . $child;
 
 					// recurse if the child is not a key folder

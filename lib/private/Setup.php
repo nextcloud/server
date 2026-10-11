@@ -16,6 +16,7 @@ use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Authentication\Token\PublicKeyTokenProvider;
 use OC\Authentication\Token\TokenCleanupJob;
+use OC\Core\BackgroundJobs\CheckCodeIntegrityJob;
 use OC\Core\BackgroundJobs\CleanupBackgroundJobsJob;
 use OC\Core\BackgroundJobs\ExpirePreviewsJob;
 use OC\Core\BackgroundJobs\GenerateMetadataJob;
@@ -536,6 +537,7 @@ class Setup {
 		$jobList->add(PreviewMigrationJob::class);
 		$jobList->add(ExpirePreviewsJob::class);
 		$jobList->add(CleanupBackgroundJobsJob::class);
+		$jobList->add(CheckCodeIntegrityJob::class);
 	}
 
 	/**

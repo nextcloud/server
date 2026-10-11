@@ -5,7 +5,9 @@ name: Playwright Tests
 
 on:
   pull_request:
-    branches: [master]
+    branches:
+      - master
+      - stable35
     types:
       - opened
       - synchronize
@@ -22,7 +24,7 @@ jobs:
     steps:
       - name: Evaluate e2e tests execution conditions
         id: gate-e2e
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v8.0.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const pr = context.payload.pull_request
@@ -121,7 +123,7 @@ jobs:
         npm run build --if-present
 
     - name: Install Playwright browsers
-      run: npx playwright install --with-deps
+      run: npm run playwright:install-ci --if-present
 
     - name: Run Playwright tests
       run: npm run playwright -- --shard='${{ matrix.shardIndex }}/${{ matrix.shardTotal }}'
@@ -228,7 +230,7 @@ jobs:
         npm run build --if-present
 
     - name: Install Playwright browsers
-      run: npx playwright install --with-deps
+      run: npm run playwright:install-ci --if-present
 
     - name: Run Playwright setup tests
       run: npm run playwright:setup

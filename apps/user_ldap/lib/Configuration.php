@@ -27,6 +27,7 @@ use Psr\Log\LoggerInterface;
  * @property string $ldapTLS
  * @property string $turnOffCertCheck
  * @property string $ldapIgnoreNamingRules
+ * @property string $ldapUserActiveState
  * @property string $ldapUserDisplayName
  * @property string $ldapUserDisplayName2
  * @property string $ldapUserAvatarRule
@@ -121,6 +122,7 @@ class Configuration {
 		'ldapTLS' => null,
 		'turnOffCertCheck' => null,
 		'ldapIgnoreNamingRules' => null,
+		'ldapUserActiveState' => null,
 		'ldapUserDisplayName' => null,
 		'ldapUserDisplayName2' => null,
 		'ldapUserAvatarRule' => null,
@@ -503,6 +505,7 @@ class Configuration {
 			'ldap_base_users' => '',
 			'ldap_base_groups' => '',
 			'ldap_userlist_filter' => '',
+			'ldap_user_active_state' => '',
 			'ldap_user_filter_mode' => 0,
 			'ldap_userfilter_objectclass' => '',
 			'ldap_userfilter_groups' => '',
@@ -586,6 +589,7 @@ class Configuration {
 			'ldap_userfilter_objectclass' => 'ldapUserFilterObjectclass',
 			'ldap_userfilter_groups' => 'ldapUserFilterGroups',
 			'ldap_userlist_filter' => 'ldapUserFilter',
+			'ldap_user_active_state' => 'ldapUserActiveState',
 			'ldap_user_filter_mode' => 'ldapUserFilterMode',
 			'ldap_user_avatar_rule' => 'ldapUserAvatarRule',
 			'ldap_login_filter' => 'ldapLoginFilter',

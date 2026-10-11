@@ -35,8 +35,8 @@ export function registerSidebarFavoriteAction() {
 			return starOutlineSvg
 		},
 
-		onClick({ node, view }) {
-			favoriteNode(node, view, !node.attributes.favorite)
+		onClick({ node, view, folder }) {
+			favoriteNode(node, view, !node.attributes.favorite, folder)
 		},
 	})
 }

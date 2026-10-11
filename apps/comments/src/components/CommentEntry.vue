@@ -105,6 +105,13 @@
 				:arguments="richContent.mentions"
 				useMarkdown
 				@click="onExpand" />
+
+			<!-- Reference preview card, rendered outside the clamped message box -->
+			<NcReferenceList
+				v-if="!editor && !editing"
+				class="comment__reference-list"
+				:text="richContent.message"
+				interactiveOptIn />
 		</div>
 	</component>
 </template>
@@ -132,6 +139,7 @@ import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.ts'
 // Dynamic loading
 const NcRichContenteditable = defineAsyncComponent(() => import('@nextcloud/vue/components/NcRichContenteditable'))
 const NcRichText = defineAsyncComponent(() => import('@nextcloud/vue/components/NcRichText'))
+const NcReferenceList = defineAsyncComponent(() => import('@nextcloud/vue/components/NcRichText').then((module) => module.NcReferenceList))
 
 export default {
 	name: 'CommentEntry',
@@ -148,6 +156,7 @@ export default {
 		NcButton,
 		NcDateTime,
 		NcLoadingIcon,
+		NcReferenceList,
 		NcRichContenteditable,
 		NcRichText,
 	},
@@ -390,6 +399,11 @@ $comment-padding: 10px;
 			max-width: 100%;
 			height: auto;
 		}
+	}
+
+	&__reference-list {
+		margin-top: var(--default-grid-baseline);
+		max-width: 100%;
 	}
 }
 

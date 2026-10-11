@@ -52,6 +52,7 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Controller\\StoragesController' => __DIR__ . '/..' . '/../lib/Controller/StoragesController.php',
         'OCA\\Files_External\\Controller\\UserGlobalStoragesController' => __DIR__ . '/..' . '/../lib/Controller/UserGlobalStoragesController.php',
         'OCA\\Files_External\\Controller\\UserStoragesController' => __DIR__ . '/..' . '/../lib/Controller/UserStoragesController.php',
+        'OCA\\Files_External\\Event\\LoadAdditionalBackendEvent' => __DIR__ . '/..' . '/../lib/Event/LoadAdditionalBackendEvent.php',
         'OCA\\Files_External\\Event\\StorageCreatedEvent' => __DIR__ . '/..' . '/../lib/Event/StorageCreatedEvent.php',
         'OCA\\Files_External\\Event\\StorageDeletedEvent' => __DIR__ . '/..' . '/../lib/Event/StorageDeletedEvent.php',
         'OCA\\Files_External\\Event\\StorageUpdatedEvent' => __DIR__ . '/..' . '/../lib/Event/StorageUpdatedEvent.php',

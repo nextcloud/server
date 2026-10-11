@@ -140,6 +140,22 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	}
 
 	/**
+	 * Test renaming AVIF images, which had no mapping and so were stored
+	 * as whatever the content sniffer made of them, or as nothing at all
+	 */
+	public function testRenameAvifType(): void {
+		$currentMimeTypes = [
+			['test.avif', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.avif', 'image/avif'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
 	 * Test renaming the richdocuments additional office mime types
 	 */
 	public function testRenameWindowsProgramTypes(): void {

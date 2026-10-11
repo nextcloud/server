@@ -126,7 +126,6 @@ class Application {
 							}
 						}
 						// load from register_command.php
-						\OC_App::registerAutoloading($app, $appPath);
 						$file = $appPath . '/appinfo/register_command.php';
 						if (file_exists($file)) {
 							try {

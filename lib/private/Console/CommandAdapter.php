@@ -20,6 +20,8 @@ use OCP\Defaults;
 use OCP\Server;
 use Override;
 use Psr\Container\ContainerInterface;
+use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
+use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -139,7 +141,7 @@ class CommandAdapter extends Base {
 			}
 			$default = $reflection->hasDefaultValue() ? $reflection->getDefaultValue() : null;
 
-			$this->addArgument($arg->name, $mode, $arg->description, $default, $arg->suggestedValues);
+			$this->addArgument($arg->name, $mode, $arg->description, $default, $this->wrapForNativeCompletion($arg->suggestedValues));
 		}
 
 		foreach ($this->options as $option) {
@@ -169,7 +171,7 @@ class CommandAdapter extends Base {
 					throw new \LogicException(\sprintf('The option "$%s" of "%s" must have a default value of false.', $name, $reflection->getSourceName()));
 				}
 
-				$this->addOption($option->name, $option->shortcut, InputOption::VALUE_OPTIONAL, $option->description, $default, $option->suggestedValues);
+				$this->addOption($option->name, $option->shortcut, InputOption::VALUE_OPTIONAL, $option->description, $default, $this->wrapForNativeCompletion($option->suggestedValues));
 				continue;
 			}
 
@@ -201,7 +203,7 @@ class CommandAdapter extends Base {
 				$mode = InputOption::VALUE_REQUIRED;
 			}
 
-			$this->addOption($option->name, $option->shortcut, $mode, $option->description, $default, $option->suggestedValues);
+			$this->addOption($option->name, $option->shortcut, $mode, $option->description, $default, $this->wrapForNativeCompletion($option->suggestedValues));
 		}
 	}
 
@@ -278,6 +280,78 @@ class CommandAdapter extends Base {
 		}
 
 		return $result instanceof ExitCode ? $result->value : $result;
+	}
+
+	#[Override]
+	public function completeOptionValues($optionName, CompletionContext $context) {
+		$option = $this->findOption($optionName);
+		if ($option !== null && $option->suggestedValues !== []) {
+			return $this->resolveSuggestedValues($option->suggestedValues, $context->getCurrentWord());
+		}
+
+		return parent::completeOptionValues($optionName, $context);
+	}
+
+	#[Override]
+	public function completeArgumentValues($argumentName, CompletionContext $context) {
+		$argument = $this->findArgument($argumentName);
+		if ($argument !== null && $argument->suggestedValues !== []) {
+			return $this->resolveSuggestedValues($argument->suggestedValues, $context->getCurrentWord());
+		}
+
+		return parent::completeArgumentValues($argumentName, $context);
+	}
+
+	private function findArgument(string $name): ?Argument {
+		foreach ($this->arguments as $argument) {
+			if ($argument['arg']->name === $name) {
+				return $argument['arg'];
+			}
+		}
+		return null;
+	}
+
+	private function findOption(string $name): ?Option {
+		foreach ($this->options as $option) {
+			if ($option['option']->name === $name) {
+				return $option['option'];
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Symfony's native completion only understands an actual \Closure, not our
+	 * callable-array convention, so wrap it to route through resolveSuggestedValues().
+	 */
+	private function wrapForNativeCompletion(array|\Closure $suggestedValues): array|\Closure {
+		if ($suggestedValues === [] || $suggestedValues instanceof \Closure) {
+			return $suggestedValues;
+		}
+
+		return fn (CompletionInput $input): array => $this->resolveSuggestedValues($suggestedValues, $input->getCompletionValue());
+	}
+
+	/**
+	 * A callable array [ClassName::class, 'method'] is called as static, or on an
+	 * instance resolved from the container if the method isn't static.
+	 *
+	 * @return string[]
+	 */
+	private function resolveSuggestedValues(array|\Closure $suggestedValues, string $currentWord): array {
+		if ($suggestedValues instanceof \Closure) {
+			return array_values($suggestedValues($currentWord));
+		}
+
+		if (\is_string($suggestedValues[0] ?? null) && \is_string($suggestedValues[1] ?? null) && \method_exists($suggestedValues[0], $suggestedValues[1])) {
+			[$class, $method] = $suggestedValues;
+			$reflectionMethod = new \ReflectionMethod($class, $method);
+			$callable = $reflectionMethod->isStatic() ? [$class, $method] : [$this->container->get($class), $method];
+
+			return array_values($callable($currentWord));
+		}
+
+		return $suggestedValues;
 	}
 
 	#[Override]

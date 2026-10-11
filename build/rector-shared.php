@@ -68,11 +68,11 @@ $config = RectorConfig::configure()
 		'rename_property' => true,
 	])
 	->withSets([
-		NextcloudSets::NEXTCLOUD_27,
-		PHPUnitSetList::PHPUNIT_100,
+		NextcloudSets::NEXTCLOUD_32,
+		PHPUnitSetList::COMPOSER_BASED,
 	]);
 
-$config->registerService(NextcloudNamespaceSkipVoter::class, tag:ClassNameImportSkipVoterInterface::class);
+$config->registerService(NextcloudNamespaceSkipVoter::class);
 
 /* Ignore all files ignored by git */
 $ignoredEntries = shell_exec('git status --porcelain --ignored ' . escapeshellarg($nextcloudDir));

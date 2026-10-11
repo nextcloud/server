@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-namespace Test\lib\Config;
+namespace Test\Config;
 
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;

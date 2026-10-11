@@ -53,7 +53,6 @@ class CleanupDeletedUsers extends TimedJob {
 					$userId,
 					$backend,
 					Server::get(IEventDispatcher::class),
-					$this->userManager,
 					$this->config,
 				);
 				$user->delete();

@@ -24,7 +24,7 @@ use Psr\Log\LoggerInterface;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class DirectEditingViewController extends Controller {
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		private IEventDispatcher $eventDispatcher,
 		private IManager $directEditingManager,
@@ -34,8 +34,7 @@ class DirectEditingViewController extends Controller {
 	}
 
 	/**
-	 * @param string $token
-	 * @return Response
+	 * @param non-empty-string $token
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]

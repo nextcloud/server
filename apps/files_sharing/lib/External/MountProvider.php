@@ -54,8 +54,9 @@ class MountProvider implements IMountProvider, IPartialMountProvider {
 		$data['certificateManager'] = Server::get(ICertificateManager::class);
 		$data['HttpClientService'] = Server::get(IClientService::class);
 		$data['verify'] = !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates');
+		$data['recipient'] = $user;
 
-		return new Mount(self::STORAGE, $mountPoint, $data, $manager, $storageFactory);
+		return new Mount(self::STORAGE, $mountPoint, $data, $manager, $user, $storageFactory);
 	}
 
 	#[\Override]

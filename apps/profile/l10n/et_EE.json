@@ -10,6 +10,7 @@
     "Search for a user profile. Start typing" : "Otsi kasutajaprofiili. Kirjuta midagi",
     "Insert selected user profile link" : "Lisa valitud kasutajaprofiili link",
     "Insert" : "Lisa",
+    "You & {user}" : "Sina ja {user}",
     "You have not added any info yet" : "Sa pole veel mingit infot lisanud",
     "{user} has not added any info yet" : "{user} pole veel mingit infot lisanud",
     "Error opening the user status modal, try hard refreshing the page" : "Kasutaja oleku modaalse vaate avamine ei õnnestunud, proovi lehte värskendada",

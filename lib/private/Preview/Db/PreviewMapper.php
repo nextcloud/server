@@ -31,6 +31,13 @@ class PreviewMapper extends QBMapper {
 	private const string VERSION_TABLE_NAME = 'preview_versions';
 	public const MAX_CHUNK_SIZE = 1000;
 
+	// Columns selected by joinLocation() that do not belong to the previews table
+	private const array JOINED_COLUMN_ALIASES = [
+		'version' => 'v',
+		'bucket_name' => 'l',
+		'object_store_name' => 'l',
+	];
+
 	public function __construct(
 		IDBConnection $db,
 		private readonly IMimeTypeLoader $mimeTypeLoader,
@@ -84,11 +91,15 @@ class PreviewMapper extends QBMapper {
 	public function delete(Entity $entity): Entity {
 		/** @var Preview $preview */
 		$preview = $entity;
-		if ($preview->getVersion() !== null && $preview->getVersion() !== '') {
+
+		$versionId = $preview->getVersionId();
+		if ($versionId !== null && $versionId !== '' && $versionId !== '-1') {
 			$qb = $this->db->getQueryBuilder();
 			$qb->delete(self::VERSION_TABLE_NAME)
-				->where($qb->expr()->eq('file_id', $qb->createNamedParameter($preview->getFileId())))
-				->andWhere($qb->expr()->eq('version', $qb->createNamedParameter($preview->getVersion())))
+				->where($qb->expr()->eq(
+					'id',
+					$qb->createNamedParameter($versionId),
+				))
 				->executeStatement();
 		}
 
@@ -130,7 +141,7 @@ class PreviewMapper extends QBMapper {
 	public function getByFileId(int $fileId): \Generator {
 		$selectQb = $this->db->getQueryBuilder();
 		$this->joinLocation($selectQb)
-			->where($selectQb->expr()->eq('file_id', $selectQb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+			->where($selectQb->expr()->eq('p.file_id', $selectQb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 		yield from $this->yieldEntities($selectQb);
 	}
 
@@ -203,7 +214,8 @@ class PreviewMapper extends QBMapper {
 
 	public function deleteAll(): void {
 		$delete = $this->db->getQueryBuilder();
-		$delete->delete($this->getTableName());
+		$delete->delete($this->getTableName())
+			->executeStatement();
 	}
 
 	/**
@@ -213,10 +225,17 @@ class PreviewMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$this->joinLocation($qb)
 			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId)))
+			->orderBy('p.id', 'ASC')
 			->setMaxResults($limit);
 
 		if ($maxAgeDays !== null) {
-			$qb->andWhere($qb->expr()->lt('mtime', $qb->createNamedParameter((new DateTimeImmutable())->sub(new DateInterval('P' . $maxAgeDays . 'D'))->getTimestamp(), IQueryBuilder::PARAM_INT)));
+			$qb->andWhere($qb->expr()->lt(
+				'p.mtime',
+				$qb->createNamedParameter(
+					(new DateTimeImmutable())->sub(new DateInterval('P' . $maxAgeDays . 'D'))->getTimestamp(),
+					IQueryBuilder::PARAM_INT,
+				),
+			));
 		}
 
 		return $this->yieldEntities($qb);
@@ -242,7 +261,19 @@ class PreviewMapper extends QBMapper {
 		$this->joinLocation($qb);
 
 		foreach ($parameters as $key => $value) {
-			$qb->andWhere($qb->expr()->eq($key, $qb->createNamedParameter($value)));
+			// The previews table is joined with preview_versions, which shares
+			// the file_id column name, so plain column names have to be aliased.
+			$column = str_contains($key, '.')
+				? $key
+				: (self::JOINED_COLUMN_ALIASES[$key] ?? 'p') . '.' . $key;
+			// An untyped false binds as an empty string, which PostgreSQL
+			// rejects for a boolean column.
+			$type = match (true) {
+				is_bool($value) => IQueryBuilder::PARAM_BOOL,
+				is_int($value) => IQueryBuilder::PARAM_INT,
+				default => IQueryBuilder::PARAM_STR,
+			};
+			$qb->andWhere($qb->expr()->eq($column, $qb->createNamedParameter($value, $type)));
 		}
 
 		try {

@@ -131,7 +131,6 @@
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Omogućuje prijavu provjerom atributa adrese e-pošte. Dopušteni su „mail” i „mailPrimaryAddress”.",
     "LDAP/AD Email Address:" : "Adresa e-pošte za LDAP/AD:",
     "Other Attributes:" : "Ostali atributi:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definira filtar koji se primjenjuje prilikom prijave. „%%uid” zamjenjuje korisničko tijekom prijave. Primjer: „uid=%%uid”",
     "Attempts to receive a DN for the given login name and the current login filter" : "Pokušaji dohvaćanja DN-a za zadano korisničko ime za prijavu i trenutačni filtar za prijavu",
     "Test Login name" : "Ispitaj ime za prijavu",
     "Verify settings" : "Provjeri postavke",
@@ -265,6 +264,7 @@
     "Pronouns Field" : "Polje zamjenica",
     "User profile Pronouns will be set from the specified attribute" : "Zamjenice korisničkog profila bit će postavljene iz navedenog atributa",
     "UUID Attribute for Users:" : "Atribut UUID za korisnike:",
-    "UUID Attribute for Groups:" : "Atribut UUID za grupe:"
+    "UUID Attribute for Groups:" : "Atribut UUID za grupe:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Definira filtar koji se primjenjuje prilikom prijave. „%%uid” zamjenjuje korisničko tijekom prijave. Primjer: „uid=%%uid”"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

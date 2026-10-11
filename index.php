@@ -8,9 +8,6 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-require_once __DIR__ . '/lib/versioncheck.php';
-
-use OC\Files\Filesystem;
 use OC\ServiceUnavailableException;
 use OC\User\LoginException;
 use OCP\HintException;
@@ -20,27 +17,15 @@ use OCP\Server;
 use OCP\Template\ITemplateManager;
 use Psr\Log\LoggerInterface;
 
+require_once __DIR__ . '/lib/versioncheck.php';
 require_once __DIR__ . '/lib/OC.php';
 
 \OC::boot();
 
-function resetStaticProperties(): void {
-	// FIXME needed because these use a static var
-	\OC_Hook::clear();
-	\OC_Util::$styles = [];
-	\OC_Util::$headers = [];
-	\OC_User::setIncognitoMode(false);
-	\OC_User::$_setupedBackends = [];
-	\OC_App::reset();
-	\OC_Helper::reset();
-	Filesystem::reset();
-}
-
-$handler = static function (): void {
+\OC::handleRequests(static function (): void {
 	try {
-		resetStaticProperties();
-		OC::init();
-		OC::handleRequest();
+		\OC::initForRequest();
+		\OC::handleRequest();
 	} catch (ServiceUnavailableException $ex) {
 		Server::get(LoggerInterface::class)->error($ex->getMessage(), [
 			'app' => 'index',
@@ -124,20 +109,4 @@ $handler = static function (): void {
 		}
 		Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
 	}
-};
-
-if (function_exists('frankenphp_handle_request') && isset($_SERVER['FRANKENPHP_WORKER']) && $_SERVER['FRANKENPHP_WORKER'] === '1') {
-	$maxRequests = (int)($_SERVER['MAX_REQUESTS'] ?? 0);
-	for ($nbRequests = 0; !$maxRequests || $nbRequests < $maxRequests; ++$nbRequests) {
-		$keepRunning = \frankenphp_handle_request($handler);
-
-		// Call the garbage collector to reduce the chances of it being triggered in the middle of a page generation
-		gc_collect_cycles();
-
-		if (!$keepRunning) {
-			break;
-		}
-	}
-} else {
-	$handler();
-}
+});

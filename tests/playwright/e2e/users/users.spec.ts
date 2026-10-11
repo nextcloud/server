@@ -8,7 +8,6 @@ import { createRandomUser } from '@nextcloud/e2e-test-server/playwright'
 import { expect } from '@playwright/test'
 import { test } from '../../support/fixtures/admin-session.ts'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
 
 test.describe('Settings: Create and delete accounts', () => {
 	test('can create a user with username and password', async ({ page }) => {
@@ -24,8 +23,7 @@ test.describe('Settings: Create and delete accounts', () => {
 			await dialog.getByLabel(/Password/).and(page.locator('input')).fill('password123')
 
 			await dialog.getByRole('button', { name: 'Add new account' }).click()
-			await handlePasswordConfirmation(page)
-			await dialog.waitFor({ state: 'hidden' })
+			await expect(dialog).toBeHidden({ timeout: 30_000 })
 
 			await expect(settingsPage.userRow(newUserId)).toContainText(newUserId)
 		} finally {
@@ -48,8 +46,7 @@ test.describe('Settings: Create and delete accounts', () => {
 			await dialog.getByLabel(/Password/).and(page.locator('input')).fill('password123')
 
 			await dialog.getByRole('button', { name: 'Add new account' }).click()
-			await handlePasswordConfirmation(page)
-			await dialog.waitFor({ state: 'hidden' })
+			await expect(dialog).toBeHidden({ timeout: 30_000 })
 
 			await expect(settingsPage.userRow(newUserId)).toContainText(newUserId)
 		} finally {
@@ -67,7 +64,6 @@ test.describe('Settings: Create and delete accounts', () => {
 
 			await settingsPage.openActionsMenu(testUser.userId)
 			await page.getByRole('menuitem', { name: 'Delete account' }).click()
-			await handlePasswordConfirmation(page)
 
 			// Confirm the deletion in the confirmation dialog
 			await page.getByRole('dialog').getByRole('button', { name: `Delete ${testUser.userId}` }).click()

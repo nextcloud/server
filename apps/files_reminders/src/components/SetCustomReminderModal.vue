@@ -8,10 +8,9 @@ import type { INode } from '@nextcloud/files'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit as emitEventBus } from '@nextcloud/event-bus'
-import { t } from '@nextcloud/l10n'
-import { onBeforeMount, onMounted, ref } from 'vue'
+import { formatRelativeTime, t } from '@nextcloud/l10n'
+import { computed, onBeforeMount, onMounted, ref, toRaw } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
@@ -32,6 +31,15 @@ const opened = ref(false)
 const isValid = ref(true)
 const customDueDate = ref<Date>()
 const nowDate = ref(new Date())
+
+const informationText = computed(() => {
+	const relativeDueDate = formatRelativeTime(customDueDate.value ?? 0)
+	return (nowDate.value.getTime() >= (customDueDate.value?.getTime() ?? 0))
+		// TRANSLATORS: {relativeDueDate} will be replaced with a relative time, e.g. "2 hours ago" or "in 3 days".
+		? t('files_reminders', 'We reminded you of this file {relativeDueDate}', { relativeDueDate })
+		// TRANSLATORS: {relativeDueDate} will be replaced with a relative time, e.g. "2 hours ago" or "in 3 days".
+		: t('files_reminders', 'We will remind you of this file {relativeDueDate}', { relativeDueDate })
+})
 
 onBeforeMount(() => {
 	const dueDate = props.node.attributes['reminder-due-date']
@@ -65,7 +73,7 @@ async function setCustom(): Promise<void> {
 
 	try {
 		await setReminder(props.node.fileid!, customDueDate.value)
-		const node = props.node.clone()
+		const node = toRaw(props.node).clone()
 		node.attributes['reminder-due-date'] = customDueDate.value.toISOString()
 		emitEventBus('files:node:updated', node)
 		showSuccess(t('files_reminders', 'Reminder set for "{fileName}"', { fileName: props.node.displayname }))
@@ -82,7 +90,7 @@ async function setCustom(): Promise<void> {
 async function clear(): Promise<void> {
 	try {
 		await clearReminder(props.node.fileid!)
-		const node = props.node.clone()
+		const node = toRaw(props.node).clone()
 		node.attributes['reminder-due-date'] = ''
 		emitEventBus('files:node:updated', node)
 		showSuccess(t('files_reminders', 'Reminder cleared for "{fileName}"', { fileName: props.node.displayname }))
@@ -132,8 +140,7 @@ function onInput(): void {
 				@input="onInput" />
 
 			<NcNoteCard v-if="isValid && customDueDate" type="info">
-				{{ t('files_reminders', 'We will remind you of this file') }}
-				<NcDateTime :timestamp="customDueDate" />
+				{{ informationText }}
 			</NcNoteCard>
 
 			<NcNoteCard v-else type="error">

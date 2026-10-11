@@ -13,6 +13,7 @@ OC.L10N.register(
     "LDAP/AD integration" : "LDAP/AD 통합",
     "Invalid LDAP UUIDs" : "잘못된 LDAP UUID",
     "None found" : "아무것도 찾지 못함",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["그룹 %n개 찾음"],
     "> 1000 groups found" : "그룹 1000개 초과 찾음",
     "> 1000 users found" : "사용자 1000명 초과 찾음",

@@ -125,7 +125,7 @@ class Template extends Base implements ITemplate {
 			$headers = '';
 			foreach (array_merge(\OC_Util::$headers, $this->headers) as $header) {
 				$headers .= '<' . Util::sanitizeHTML($header['tag']);
-				if (strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes'])))) {
+				if (strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes'])), true)) {
 					$headers .= ' defer';
 				}
 				foreach ($header['attributes'] as $name => $value) {

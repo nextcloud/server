@@ -130,7 +130,7 @@ interface IURLGenerator {
 	/**
 	 * Return the url to the logout action.
 	 *
-	 * @return non-empty-string
+	 * @return string
 	 * @since 35.0.0
 	 */
 	public function getLogoutUrl(): string;

@@ -15,13 +15,17 @@ OC.L10N.register(
     "Password to access {file} was sent to you" : "ססמת הגישה אל {file} נשלחה אליך",
     "Share by mail" : "שיתוף בדוא״ל",
     "Failed to send share by email" : "שליחת השיתוף בדוא״ל נכשלה",
-    "Note:" : "הערה:",
+    "Note" : "פתק",
+    "Valid until" : "בתוקף עד",
+    "Password" : "ססמה",
+    "Required" : "נדרש",
     "%1$s via %2$s" : "%1$s דרך %2$s",
     "It is protected with the following password:" : "הוא מוגן בססמה הבאה:",
     "This is the password:" : "זו הססמה:",
     "You can choose a different password at any time in the share dialog." : "ניתן לבחור בססמה אחרת בכל עת בתיבת דו־שיח השיתוף.",
     "Could not find share" : "לא ניתן למצוא את השיתוף",
     "Share provider which allows you to share files by mail" : "ספק השיתוף שמאפשר לך לשתף קבצים בדוא״ל",
-    "Send password by mail" : "שליחת ססמה בדוא״ל"
+    "Send password by mail" : "שליחת ססמה בדוא״ל",
+    "Note:" : "הערה:"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

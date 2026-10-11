@@ -4,7 +4,7 @@
  */
 
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
 let personalInfoParameters
 vi.mock('@nextcloud/initial-state', () => ({
@@ -35,10 +35,19 @@ async function mountBirthdaySection() {
 	})
 }
 
+// The component reads its initial state at module scope, so every test has to import it freshly.
+// Transforming its module graph once up front keeps that import out of the tests' timeout budget.
+beforeAll(async () => {
+	await import('./BirthdaySection.vue')
+})
+
+beforeEach(() => {
+	vi.resetModules()
+})
+
 afterEach(() => {
 	vi.unstubAllEnvs()
 	personalInfoParameters = undefined
-	vi.resetModules()
 })
 
 describe('BirthdaySection', () => {

@@ -13,6 +13,11 @@ import { action } from './openLocallyAction.ts'
 
 vi.mock('@nextcloud/auth')
 vi.mock('@nextcloud/axios')
+// Only mock the toasts, the dialog classes are needed to test the confirmation dialog
+vi.mock('@nextcloud/dialogs', async (importOriginal) => ({
+	...await importOriginal<typeof nextcloudDialogs>(),
+	showError: vi.fn(),
+}))
 
 const view = {
 	id: 'files',

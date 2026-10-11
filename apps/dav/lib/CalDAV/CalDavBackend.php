@@ -153,6 +153,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}deleted-at' => ['deleted_at', 'int'],
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}default-alarm-part-day' => ['default_alarm_pday', 'int'],
 		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}default-alarm-full-day' => ['default_alarm_fday', 'int'],
+		'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_NEXTCLOUD . '}disable-alarm-notifications' => ['disable_alarm_notifications', 'bool'],
 	];
 
 	/**
@@ -1059,20 +1060,25 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * Returns all calendar objects with limited metadata for a calendar
+	 * Returns non-deleted calendar objects with a caller-selected set of fields.
 	 *
-	 * Every item contains an array with the following keys:
-	 *   * id - the table row id
-	 *   * etag - An arbitrary string
-	 *   * uri - a unique key which will be used to construct the uri. This can
-	 *     be any arbitrary string.
-	 *   * calendardata - The iCalendar-compatible calendar data
+	 * By default, the selected fields are id, uid, etag, uri, and calendardata.
+	 * The returned array is keyed by object UID, so uid MUST be included in
+	 * $fields when a custom field list is provided.
 	 *
-	 * @param mixed $calendarId
+	 * Values are returned in their raw database representation. Results are
+	 * restricted to the specified calendar type.
+	 *
+	 * @param int $calendarId
 	 * @param int $calendarType
-	 * @return array
+	 * @param list<string> $fields Empty to use the default field list.
+	 * @return array<string, array<string, mixed>>
 	 */
-	public function getLimitedCalendarObjects(int $calendarId, int $calendarType = self::CALENDAR_TYPE_CALENDAR, array $fields = []):array {
+	public function getLimitedCalendarObjects(
+		int $calendarId,
+		int $calendarType = self::CALENDAR_TYPE_CALENDAR,
+		array $fields = [],
+	): array {
 		$query = $this->db->getQueryBuilder();
 		$query->select($fields ?: ['id', 'uid', 'etag', 'uri', 'calendardata'])
 			->from('calendarobjects')
@@ -1101,39 +1107,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * Returns all calendar objects within a calendar.
+	 * Returns metadata for all non-deleted calendar objects within a calendar.
 	 *
-	 * Every item contains an array with the following keys:
-	 *   * calendardata - The iCalendar-compatible calendar data
-	 *   * uri - a unique key which will be used to construct the uri. This can
-	 *     be any arbitrary string, but making sure it ends with '.ics' is a
-	 *     good idea. This is only the basename, or filename, not the full
-	 *     path.
-	 *   * lastmodified - a timestamp of the last modification time
-	 *   * etag - An arbitrary string, surrounded by double-quotes. (e.g.:
-	 *   '"abcdef"')
-	 *   * size - The size of the calendar objects, in bytes.
-	 *   * component - optional, a string containing the type of object, such
-	 *     as 'vevent' or 'vtodo'. If specified, this will be used to populate
-	 *     the Content-Type header.
+	 * Calendar data is intentionally not returned; getCalendarObject() can be
+	 * used when the iCalendar data is needed.
 	 *
-	 * Note that the etag is optional, but it's highly encouraged to return for
-	 * speed reasons.
-	 *
-	 * The calendardata is also optional. If it's not returned
-	 * 'getCalendarObject' will be called later, which *is* expected to return
-	 * calendardata.
-	 *
-	 * If neither etag or size are specified, the calendardata will be
-	 * used/fetched to determine these numbers. If both are specified the
-	 * amount of times this is needed is reduced by a great degree.
+	 * Results are restricted to the specified calendar type. Objects with a
+	 * non-null deleted_at value are excluded.
 	 *
 	 * @param mixed $calendarId
 	 * @param int $calendarType
 	 * @return array
 	 */
 	#[\Override]
-	public function getCalendarObjects($calendarId, $calendarType = self::CALENDAR_TYPE_CALENDAR):array {
+	public function getCalendarObjects($calendarId, $calendarType = self::CALENDAR_TYPE_CALENDAR): array {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'componenttype', 'classification'])
 			->from('calendarobjects')
@@ -1387,16 +1374,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * Returns information from a single calendar object, based on it's object
-	 * uri.
+	 * Returns a calendar object based on its URI.
 	 *
-	 * The object uri is only the basename, or filename and not a full path.
+	 * The object URI is only the basename, or filename, and not a full path.
+	 * Unlike getCalendarObjects(), this method includes calendardata.
 	 *
-	 * The returned array must have the same keys as getCalendarObjects. The
-	 * 'calendardata' object is required here though, while it's not required
-	 * for getCalendarObjects.
+	 * Soft-deleted objects can also be returned when addressed by their
+	 * stored URI.
 	 *
-	 * This method must return null if the object did not exist.
+	 * This method returns null if the object does not exist.
 	 *
 	 * @param mixed $calendarId
 	 * @param string $objectUri
@@ -1404,7 +1390,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array|null
 	 */
 	#[\Override]
-	public function getCalendarObject($calendarId, $objectUri, int $calendarType = self::CALENDAR_TYPE_CALENDAR) {
+	public function getCalendarObject($calendarId, $objectUri, int $calendarType = self::CALENDAR_TYPE_CALENDAR): ?array {
 		$key = $calendarId . '::' . $objectUri . '::' . $calendarType;
 		if (isset($this->cachedObjects[$key])) {
 			return $this->cachedObjects[$key];
@@ -1414,7 +1400,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->from('calendarobjects')
 			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
-			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)));
+			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)))
+			->setMaxResults(1);
 		$stmt = $query->executeQuery();
 		$row = $stmt->fetchAssociative();
 		$stmt->closeCursor();
@@ -1445,12 +1432,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * Returns a list of calendar objects.
+	 * Returns multiple non-deleted calendar objects by URI.
 	 *
-	 * This method should work identical to getCalendarObject, but instead
-	 * return all the calendar objects in the list as an array.
+	 * Performs a bulk lookup to avoid issuing one database query per URI.
+	 * The URI list is processed in chunks to avoid database parameter limits.
 	 *
-	 * If the backend supports this, it may allow for some speed-ups.
+	 * Objects whose deleted_at value is non-null are excluded. URIs without
+	 * a matching object are omitted, and result order is not guaranteed to
+	 * match the order of $uris.
 	 *
 	 * @param mixed $calendarId
 	 * @param string[] $uris
@@ -1458,7 +1447,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	#[\Override]
-	public function getMultipleCalendarObjects($calendarId, array $uris, $calendarType = self::CALENDAR_TYPE_CALENDAR):array {
+	public function getMultipleCalendarObjects($calendarId, array $uris, $calendarType = self::CALENDAR_TYPE_CALENDAR): array {
 		if (empty($uris)) {
 			return [];
 		}
@@ -2166,7 +2155,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$result = [];
 			while ($row = $stmt->fetchAssociative()) {
 				$path = $uriMapper[$row['calendarid']] . '/' . $row['uri'];
-				if (!in_array($path, $result)) {
+				if (!in_array($path, $result, true)) {
 					$result[] = $path;
 				}
 			}
@@ -3043,7 +3032,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		foreach ($this->subscriptionPropertyMap as $xmlName => [$dbName, $type]) {
 			if (array_key_exists($xmlName, $properties)) {
 				$values[$dbName] = $properties[$xmlName];
-				if (in_array($dbName, $propertiesBoolean)) {
+				if (in_array($dbName, $propertiesBoolean, true)) {
 					$values[$dbName] = true;
 				}
 			}
@@ -3423,75 +3412,126 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		// validate data and extract base component
 		/** @var VCalendar $vObject */
 		$vObject = Reader::read($calendarData);
-		/** @var \Sabre\VObject\Component\VEvent[]|\Sabre\VObject\Component\VTodo[]|\Sabre\VObject\Component\VJournal[] $components */
-		$components = $vObject->getBaseComponents();
-		if (count($components) !== 1) {
-			throw new BadRequest('A valid calendar object must contain at least one VJOURNAL, VEVENT, or VTODO component type');
-		}
-		$component = $components[0];
-		// extract basic information
-		$derived['componentType'] = $component->name;
-		$derived['uid'] = $component->UID ? $component->UID->getValue() : null;
-		$derived['classification'] = $component->CLASS ? match ($component->CLASS->getValue()) {
-			'PUBLIC' => self::CLASSIFICATION_PUBLIC,
-			'CONFIDENTIAL' => self::CLASSIFICATION_CONFIDENTIAL,
-			default => self::CLASSIFICATION_PRIVATE,
-		} : self::CLASSIFICATION_PUBLIC;
-		// extract start and end dates
-		// VTODO components can have no start date
-		/** @var  */
-		$startDate = $component->DTSTART instanceof \Sabre\VObject\Property\ICalendar\DateTime ? $component->DTSTART->getDateTime() : null;
-		$endDate = $startDate ? clone $startDate : null;
-		if ($startDate) {
-			// Recurring
-			if ($component->RRULE || $component->RDATE) {
-				// RDATE can have both instances and multiple values
-				// RDATE;TZID=America/Toronto:20250701T000000,20260701T000000
-				// RDATE;TZID=America/Toronto:20270701T000000
-				if ($component->RDATE) {
-					foreach ($component->RDATE as $instance) {
-						foreach ($instance->getDateTimes() as $entry) {
-							if ($entry > $endDate) {
-								$endDate = $entry;
+
+		// Extracts componentType, uid, classification, firstOccurence and lastOccurence from a single event/todo/journal component.
+		// RECURRENCE-ID is irrelevant here: it plays no part in this computation, so it works just as well on a recurrence exception as
+		// it does on a series master or a non-recurring component.
+		$extract = function (Component $component): array {
+			$data = [];
+			$data['componentType'] = $component->name;
+			$data['uid'] = $component->UID ? $component->UID->getValue() : null;
+			$data['classification'] = $component->CLASS ? match ($component->CLASS->getValue()) {
+				'PUBLIC' => self::CLASSIFICATION_PUBLIC,
+				'CONFIDENTIAL' => self::CLASSIFICATION_CONFIDENTIAL,
+				default => self::CLASSIFICATION_PRIVATE,
+			} : self::CLASSIFICATION_PUBLIC;
+			// extract start and end dates
+			// VTODO components can have no start date
+			$startDate = $component->DTSTART instanceof \Sabre\VObject\Property\ICalendar\DateTime ? $component->DTSTART->getDateTime() : null;
+			$endDate = $startDate ? clone $startDate : null;
+			if ($startDate) {
+				// Recurring
+				if ($component->RRULE || $component->RDATE) {
+					// RDATE can have both instances and multiple values
+					// RDATE;TZID=America/Toronto:20250701T000000,20260701T000000
+					// RDATE;TZID=America/Toronto:20270701T000000
+					if ($component->RDATE) {
+						foreach ($component->RDATE as $instance) {
+							foreach ($instance->getDateTimes() as $entry) {
+								if ($entry > $endDate) {
+									$endDate = $entry;
+								}
 							}
 						}
 					}
-				}
-				// RRULE can be infinate or limited by a UNTIL or COUNT
-				if ($component->RRULE) {
-					try {
-						$rule = new EventReaderRRule($component->RRULE->getValue(), $startDate);
-						$endDate = $rule->isInfinite() ? new DateTime(self::MAX_DATE) : $rule->concludes();
-					} catch (NoInstancesException $e) {
-						$this->logger->debug('Caught no instance exception for calendar data. This usually indicates invalid calendar data.', [
-							'app' => 'dav',
-							'exception' => $e,
-						]);
-						throw new Forbidden($e->getMessage());
+					// RRULE can be infinate or limited by a UNTIL or COUNT
+					$isInfinite = false;
+					if ($component->RRULE) {
+						try {
+							$rule = new EventReaderRRule($component->RRULE->getValue(), $startDate);
+							$isInfinite = $rule->isInfinite();
+							$endDate = $isInfinite ? new DateTime(self::MAX_DATE) : $rule->concludes();
+						} catch (NoInstancesException $e) {
+							$this->logger->debug('Caught no instance exception for calendar data. This usually indicates invalid calendar data.', [
+								'app' => 'dav',
+								'exception' => $e,
+							]);
+							throw new Forbidden($e->getMessage());
+						}
+					}
+					// $endDate is still just the start of the last occurrence at this point.
+					// Add the duration of a single occurrence so time-range searches keep
+					// matching this object for as long as that last occurrence is ongoing.
+					// Skip this for an infinite RRULE, since $endDate is already the sentinel MAX_DATE.
+					if (!$isInfinite) {
+						if ($component->DTEND instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+							$endDate = $endDate->add($startDate->diff($component->DTEND->getDateTime()));
+						} elseif ($component->DURATION instanceof \Sabre\VObject\Property\ICalendar\Duration) {
+							$endDate = $endDate->add($component->DURATION->getDateInterval());
+						} elseif ($component->DUE instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+							$endDate = $endDate->add($startDate->diff($component->DUE->getDateTime()));
+						} elseif ($component->name === 'VEVENT' && !$component->DTSTART->hasTime()) {
+							$endDate = $endDate->modify('+1 day');
+						}
+					}
+					// Singleton
+				} else {
+					if ($component->DTEND instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+						// VEVENT component types
+						$endDate = $component->DTEND->getDateTime();
+					} elseif ($component->DURATION  instanceof \Sabre\VObject\Property\ICalendar\Duration) {
+						// VEVENT / VTODO component types
+						$endDate = $startDate->add($component->DURATION->getDateInterval());
+					} elseif ($component->DUE  instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
+						// VTODO component types
+						$endDate = $component->DUE->getDateTime();
+					} elseif ($component->name === 'VEVENT' && !$component->DTSTART->hasTime()) {
+						// VEVENT component type without time is automatically one day
+						$endDate = (clone $startDate)->modify('+1 day');
 					}
 				}
-				// Singleton
+			}
+			// convert dates to timestamp and prevent negative values
+			$data['firstOccurence'] = $startDate ? max(0, $startDate->getTimestamp()) : 0;
+			$data['lastOccurence'] = $endDate ? max(0, $endDate->getTimestamp()) : 0;
+
+			return $data;
+		};
+
+		// $extract() only understands these component types; getBaseComponent() itself is not
+		// restricted to them and may also return e.g. a VFREEBUSY or VAVAILABILITY component.
+		$supportedComponentTypes = ['VEVENT', 'VTODO', 'VJOURNAL'];
+
+		// If there is exactly one base component of a supported type, extract its data directly.
+		$baseComponent = $vObject->getBaseComponent();
+		if ($baseComponent !== null && in_array($baseComponent->name, $supportedComponentTypes, true)) {
+			return $derived + $extract($baseComponent);
+		}
+
+		// No supported base component is present, e.g. a scheduling object made up solely of recurrence exceptions without an
+		// accompanying series master (for example, an attendee that was only added to specific occurrences of a recurring event).
+		// Derive the denormalized data by combining the occurrence range of every exception present.
+		/** @var list<Component> $exceptionComponents */
+		$exceptionComponents = array_values(array_filter(
+			$vObject->getComponents(),
+			static fn (Component $component): bool => in_array($component->name, $supportedComponentTypes, true)
+		));
+		if (empty($exceptionComponents)) {
+			throw new BadRequest('A valid calendar object must contain at least one VJOURNAL, VEVENT, or VTODO component type');
+		}
+
+		$combined = null;
+		foreach ($exceptionComponents as $component) {
+			$exceptionData = $extract($component);
+			if ($combined === null) {
+				$combined = $exceptionData;
 			} else {
-				if ($component->DTEND instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
-					// VEVENT component types
-					$endDate = $component->DTEND->getDateTime();
-				} elseif ($component->DURATION  instanceof \Sabre\VObject\Property\ICalendar\Duration) {
-					// VEVENT / VTODO component types
-					$endDate = $startDate->add($component->DURATION->getDateInterval());
-				} elseif ($component->DUE  instanceof \Sabre\VObject\Property\ICalendar\DateTime) {
-					// VTODO component types
-					$endDate = $component->DUE->getDateTime();
-				} elseif ($component->name === 'VEVENT' && !$component->DTSTART->hasTime()) {
-					// VEVENT component type without time is automatically one day
-					$endDate = (clone $startDate)->modify('+1 day');
-				}
+				$combined['firstOccurence'] = min($combined['firstOccurence'], $exceptionData['firstOccurence']);
+				$combined['lastOccurence'] = max($combined['lastOccurence'], $exceptionData['lastOccurence']);
 			}
 		}
-		// convert dates to timestamp and prevent negative values
-		$derived['firstOccurence'] = $startDate ? max(0, $startDate->getTimestamp()) : 0;
-		$derived['lastOccurence'] = $endDate ? max(0, $endDate->getTimestamp()) : 0;
 
-		return $derived;
+		return $derived + $combined;
 	}
 
 	/**
@@ -3684,7 +3724,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			$indexComponents = ['VEVENT', 'VJOURNAL', 'VTODO'];
 			foreach ($vCalendar->getComponents() as $component) {
-				if (!in_array($component->name, $indexComponents)) {
+				if (!in_array($component->name, $indexComponents, true)) {
 					continue;
 				}
 
@@ -3708,7 +3748,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						$indexedParametersForProperty = self::INDEXED_PARAMETERS[$property->name];
 
 						foreach ($parameters as $key => $value) {
-							if (in_array($key, $indexedParametersForProperty)) {
+							if (in_array($key, $indexedParametersForProperty, true)) {
 								// is this a shitty db?
 								if ($this->db->supports4ByteText()) {
 									$value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
@@ -3914,11 +3954,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return 0;
 		}
 
+		$cutoff = max(0, time() - $retention);
+
 		$query = $this->db->getQueryBuilder();
 		$query->delete('calendarchanges')
 			->where(
 				$query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
-				$query->expr()->lte('created_at', $query->createNamedParameter($retention)),
+				$query->expr()->lte('created_at', $query->createNamedParameter($cutoff, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
 			);
 		return $query->executeStatement();
 	}

@@ -8,7 +8,7 @@ import type { FileSource, FilesStore, RootOptions, RootsStore, Service } from '.
 
 import { subscribe } from '@nextcloud/event-bus'
 import { defineStore } from 'pinia'
-import Vue, { ref } from 'vue'
+import { ref } from 'vue'
 import { fetchNode } from '../services/WebdavClient.ts'
 import { logger } from '../utils/logger.ts'
 import { useActiveStore } from './active.ts'
@@ -251,7 +251,7 @@ export const useFilesStore = defineStore('files', () => {
 	function onAddFavorite(node: INode) {
 		const ourNode = getNode(node.source)
 		if (ourNode) {
-			Vue.set(ourNode.attributes, 'favorite', 1)
+			ourNode.attributes.favorite = 1
 		}
 	}
 
@@ -263,7 +263,7 @@ export const useFilesStore = defineStore('files', () => {
 	function onRemoveFavorite(node: INode) {
 		const ourNode = getNode(node.source)
 		if (ourNode) {
-			Vue.set(ourNode.attributes, 'favorite', 0)
+			ourNode.attributes.favorite = 0
 		}
 	}
 })

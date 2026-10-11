@@ -1,2 +1,7 @@
 {
+  "core/src/views/Login.vue": {
+    "vue/multi-word-component-names": {
+      "count": 1
+    }
+  }
 }

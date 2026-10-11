@@ -26,18 +26,24 @@ use NCU\Sharing\Recipient\ShareRecipient;
 use NCU\Sharing\Share;
 use NCU\Sharing\ShareAccessContext;
 use NCU\Sharing\ShareState;
+use NCU\Sharing\ShareUserStatus;
 use NCU\Sharing\Source\IShareSourceType;
 use NCU\Sharing\Source\ShareSource;
+use OC\AppFramework\Http\PaginationTrait;
 use OCA\Sharing\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -45,15 +51,17 @@ use RuntimeException;
 use ValueError;
 
 // TODO: Add "recipient suggestions" endpoint
-// TODO: Add rate limiting
 
 /**
  * @psalm-import-type SharingShare from ResponseDefinitions
  * @psalm-import-type SharingRecipient from ResponseDefinitions
  * @psalm-import-type SharingState from ResponseDefinitions
+ * @psalm-import-type SharingUserStatus from ResponseDefinitions
  * @psalm-import-type SharingPermissionPreset from ResponseDefinitions
  */
 final class ApiV1Controller extends OCSController {
+	use PaginationTrait;
+
 	public ShareAccessContext $accessContext;
 
 	public function __construct(
@@ -76,11 +84,11 @@ final class ApiV1Controller extends OCSController {
 	 * Search for recipients that can be added to a share.
 	 *
 	 * @param ?list<class-string<IShareRecipientType>> $filterRecipientTypeClasses Type classes of recipients to filter by
-	 * @param string $query The query to search for
+	 * @param string $query The query to search for, if the query is empty, recommended recipients will be returned
 	 * @param int<1, 100> $limit The maximum number of participants
 	 * @param non-negative-int $offset The offset of the participants
 	 * @param ?string $id If provided, recipients that are already part of the share will not be returned.
-	 * @return DataResponse<Http::STATUS_OK, list<SharingRecipient>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<SharingRecipient>, array{Link?: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
 	 *
 	 * 200: Recipients returned
 	 * 400: Invalid recipient search parameters
@@ -88,6 +96,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/recipients')]
+	#[UserRateLimit(limit: 60, period: 60)]
 	public function searchRecipients(?array $filterRecipientTypeClasses, string $query, int $limit = 10, int $offset = 0, ?string $id = null): DataResponse {
 		/** @psalm-suppress DocblockTypeContradiction */
 		if ($limit < 1) {
@@ -104,13 +113,25 @@ final class ApiV1Controller extends OCSController {
 			return new DataResponse('The offset is too low.', Http::STATUS_BAD_REQUEST);
 		}
 
+		if (!$this->accessContext->currentUser instanceof IUser) {
+			throw new \RuntimeException('No user in session for endpoint that requires authentication');
+		}
+
 		try {
 			try {
 				$this->dbConnection->beginTransaction();
 				$forShare = ($id === null) ? null : $this->manager->getShare($this->accessContext, $id);
 				$recipients = $this->manager->searchRecipients($this->accessContext, $filterRecipientTypeClasses, $query, $limit, $offset, $forShare);
+
 				$this->dbConnection->commit();
-				return new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients));
+
+				$headers = $this->buildOffsetNextPageLinkHeader($recipients, [
+					'filterRecipientTypeClasses' => $filterRecipientTypeClasses,
+					'query' => $query,
+					'id' => $id,
+				], $limit, $offset);
+
+				return new DataResponse(ShareRecipient::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $recipients), headers: $headers);
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
@@ -142,6 +163,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v1/share')]
+	#[UserRateLimit(limit: 30, period: 60)]
 	public function createShare(): DataResponse {
 		try {
 			try {
@@ -150,7 +172,7 @@ final class ApiV1Controller extends OCSController {
 				$share = $this->manager->createShare($this->accessContext);
 
 				$this->dbConnection->commit();
-				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager), Http::STATUS_CREATED);
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext), Http::STATUS_CREATED);
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
@@ -174,6 +196,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/state')]
+	#[UserRateLimit(limit: 60, period: 60)]
 	public function updateShareState(string $id, string $state): DataResponse {
 		try {
 			$shareState = ShareState::from($state);
@@ -186,16 +209,53 @@ final class ApiV1Controller extends OCSController {
 				$this->dbConnection->beginTransaction();
 
 				$share = $this->manager->getShare($this->accessContext, $id);
-				$this->manager->updateShareState($this->accessContext, $share, $shareState);
-				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->updateShareState($this->accessContext, $share, $shareState);
 				$this->dbConnection->commit();
-				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
 			}
 		} catch (ShareOperationForbiddenException $shareOperationForbiddenException) {
 			return new DataResponse($shareOperationForbiddenException->getHint(), Http::STATUS_FORBIDDEN);
+		} catch (ShareNotFoundException $shareNotFoundException) {
+			return new DataResponse($shareNotFoundException->getHint(), Http::STATUS_NOT_FOUND);
+		}
+	}
+
+	/**
+	 * Update the user status for a share.
+	 *
+	 * @param string $id ID of the share
+	 * @param SharingUserStatus $userStatus New user status for the share
+	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, string, array{}>
+	 *
+	 * 200: User status for share updated successfully
+	 * 400: Invalid share user status
+	 * 404: Share not found
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/user-status')]
+	#[UserRateLimit(limit: 60, period: 60)]
+	public function updateShareUserStatus(string $id, string $userStatus): DataResponse {
+		try {
+			$shareUserStatus = ShareUserStatus::from($userStatus);
+		} catch (ValueError $valueError) {
+			return new DataResponse($valueError->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+
+		try {
+			try {
+				$this->dbConnection->beginTransaction();
+
+				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->updateShareUserStatus($this->accessContext, $share, $shareUserStatus);
+				$this->dbConnection->commit();
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
+			} catch (Exception $exception) {
+				$this->dbConnection->rollBack();
+				throw $exception;
+			}
 		} catch (ShareNotFoundException $shareNotFoundException) {
 			return new DataResponse($shareNotFoundException->getHint(), Http::STATUS_NOT_FOUND);
 		}
@@ -216,6 +276,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v1/share/{id}/source')]
+	#[UserRateLimit(limit: 60, period: 60)]
 	public function addShareSource(string $id, string $class, string $value): DataResponse {
 		try {
 			try {
@@ -224,7 +285,7 @@ final class ApiV1Controller extends OCSController {
 				$share = $this->manager->getShare($this->accessContext, $id);
 				$share = $this->manager->addShareSource($this->accessContext, $share, new ShareSource($class, $value));
 				$this->dbConnection->commit();
-				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
@@ -252,6 +313,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/api/v1/share/{id}/source')]
+	#[UserRateLimit(limit: 60, period: 60)]
 	public function removeShareSource(string $id, string $class, string $value): DataResponse {
 		try {
 			try {
@@ -260,7 +322,7 @@ final class ApiV1Controller extends OCSController {
 				$share = $this->manager->getShare($this->accessContext, $id);
 				$share = $this->manager->removeShareSource($this->accessContext, $share, new ShareSource($class, $value));
 				$this->dbConnection->commit();
-				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
@@ -288,6 +350,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v1/share/{id}/recipient')]
+	#[UserRateLimit(limit: 120, period: 60)]
 	public function addShareRecipient(string $id, string $class, string $value, ?string $instance): DataResponse {
 		try {
 			try {
@@ -296,7 +359,7 @@ final class ApiV1Controller extends OCSController {
 				$share = $this->manager->getShare($this->accessContext, $id);
 				$share = $this->manager->addShareRecipient($this->accessContext, $share, new ShareRecipient($class, $value, $instance));
 				$this->dbConnection->commit();
-				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
@@ -325,6 +388,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/api/v1/share/{id}/recipient')]
+	#[UserRateLimit(limit: 120, period: 60)]
 	public function removeShareRecipient(string $id, string $class, string $value, ?string $instance): DataResponse {
 		try {
 			try {
@@ -333,7 +397,7 @@ final class ApiV1Controller extends OCSController {
 				$share = $this->manager->getShare($this->accessContext, $id);
 				$share = $this->manager->removeShareRecipient($this->accessContext, $share, new ShareRecipient($class, $value, $instance));
 				$this->dbConnection->commit();
-				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
@@ -362,6 +426,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/recipient/secret')]
+	#[UserRateLimit(limit: 20, period: 60)]
 	public function updateShareRecipientSecret(string $id, string $class, string $value, ?string $instance, string $secret): DataResponse {
 		try {
 			try {
@@ -370,7 +435,7 @@ final class ApiV1Controller extends OCSController {
 				$share = $this->manager->getShare($this->accessContext, $id);
 				$share = $this->manager->updateShareRecipientSecret($this->accessContext, $share, new ShareRecipient($class, $value, $instance), $secret);
 				$this->dbConnection->commit();
-				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
@@ -399,6 +464,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/property')]
+	#[UserRateLimit(limit: 120, period: 60)]
 	public function updateShareProperty(string $id, string $class, ?string $value): DataResponse {
 		try {
 			try {
@@ -407,7 +473,7 @@ final class ApiV1Controller extends OCSController {
 				$share = $this->manager->getShare($this->accessContext, $id);
 				$share = $this->manager->updateShareProperty($this->accessContext, $share, new ShareProperty($class, $value));
 				$this->dbConnection->commit();
-				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
@@ -436,6 +502,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/permission')]
+	#[UserRateLimit(limit: 240, period: 60)]
 	public function updateSharePermission(string $id, string $class, bool $enabled): DataResponse {
 		try {
 			try {
@@ -444,13 +511,51 @@ final class ApiV1Controller extends OCSController {
 				$share = $this->manager->getShare($this->accessContext, $id);
 				$share = $this->manager->updateSharePermission($this->accessContext, $share, new SharePermission($class, $enabled));
 				$this->dbConnection->commit();
-				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
 			}
 		} catch (ShareInvalidException $shareInvalidException) {
 			return new DataResponse($shareInvalidException->getHint(), Http::STATUS_BAD_REQUEST);
+		} catch (ShareOperationForbiddenException $shareOperationForbiddenException) {
+			return new DataResponse($shareOperationForbiddenException->getHint(), Http::STATUS_FORBIDDEN);
+		} catch (ShareNotFoundException $shareNotFoundException) {
+			return new DataResponse($shareNotFoundException->getHint(), Http::STATUS_NOT_FOUND);
+		}
+	}
+
+	/**
+	 * Update a permission for a recipient of a share.
+	 *
+	 * @param string $id ID of the share
+	 * @param class-string<IShareRecipientType> $recipientClass Type class of the recipient
+	 * @param non-empty-string $recipientValue Value of the recipient
+	 * @param ?non-empty-string $recipientInstance Instance of the recipient
+	 * @param class-string<ISharePermissionType> $permissionClass Type class of the permission
+	 * @param bool $enabled Enabled state of the permission
+	 * @return DataResponse<Http::STATUS_OK, SharingShare, array{}>|DataResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, string, array{}>
+	 *
+	 * 200: Share recipient permission updated successfully
+	 * 403: Updating the share recipient permission is not allowed
+	 * 404: Share not found
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/recipient/permission')]
+	#[UserRateLimit(limit: 240, period: 60)]
+	public function updateShareRecipientPermission(string $id, string $recipientClass, string $recipientValue, ?string $recipientInstance, string $permissionClass, bool $enabled): DataResponse {
+		try {
+			try {
+				$this->dbConnection->beginTransaction();
+
+				$share = $this->manager->getShare($this->accessContext, $id);
+				$share = $this->manager->updateShareRecipientPermission($this->accessContext, $share, new ShareRecipient($recipientClass, $recipientValue, $recipientInstance), new SharePermission($permissionClass, $enabled));
+				$this->dbConnection->commit();
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
+			} catch (Exception $exception) {
+				$this->dbConnection->rollBack();
+				throw $exception;
+			}
 		} catch (ShareOperationForbiddenException $shareOperationForbiddenException) {
 			return new DataResponse($shareOperationForbiddenException->getHint(), Http::STATUS_FORBIDDEN);
 		} catch (ShareNotFoundException $shareNotFoundException) {
@@ -472,6 +577,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/share/{id}/permission/preset')]
+	#[UserRateLimit(limit: 60, period: 60)]
 	public function selectSharePermissionPreset(string $id, string $permissionPresetClass): DataResponse {
 		try {
 			try {
@@ -480,7 +586,7 @@ final class ApiV1Controller extends OCSController {
 				$share = $this->manager->getShare($this->accessContext, $id);
 				$share = $this->manager->selectSharePermissionPreset($this->accessContext, $share, $permissionPresetClass);
 				$this->dbConnection->commit();
-				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
@@ -504,6 +610,7 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/api/v1/share/{id}')]
+	#[UserRateLimit(limit: 60, period: 60)]
 	public function deleteShare(string $id): DataResponse {
 		try {
 			try {
@@ -538,6 +645,9 @@ final class ApiV1Controller extends OCSController {
 	#[PublicPage]
 	// This should be a GET, but GET doesn't allow a request body which is required for the $arguments.
 	#[ApiRoute(verb: 'POST', url: '/api/v1/share/{id}')]
+	#[UserRateLimit(limit: 120, period: 60)]
+	#[AnonRateLimit(limit: 1, period: 5)]
+	#[BruteForceProtection(action: 'getShare')]
 	public function getShare(string $id, ?string $secret = null, array $arguments = []): DataResponse {
 		try {
 			try {
@@ -545,13 +655,16 @@ final class ApiV1Controller extends OCSController {
 
 				$share = $this->manager->getShare(new ShareAccessContext($this->accessContext->currentUser, $secret, $arguments, $this->accessContext->overrideChecks), $id);
 				$this->dbConnection->commit();
-				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager));
+				return new DataResponse($share->format($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext));
 			} catch (Exception $exception) {
 				$this->dbConnection->rollBack();
 				throw $exception;
 			}
 		} catch (ShareNotFoundException $shareNotFoundException) {
-			return new DataResponse($shareNotFoundException->getHint(), Http::STATUS_NOT_FOUND);
+			$response = new DataResponse($shareNotFoundException->getHint(), Http::STATUS_NOT_FOUND);
+			// Share might not be found due to the secret being wrong or filtering removing the share due to wrong arguments.
+			$response->throttle();
+			return $response;
 		}
 	}
 
@@ -560,6 +673,8 @@ final class ApiV1Controller extends OCSController {
 	 *
 	 * @param ?class-string<IShareSourceType> $filterSourceTypeClass Source type class to filter by.
 	 * @param ?non-empty-string $filterSourceTypeValue Source type value to filter by.
+	 * @param ?SharingState $filterState State to filter by.
+	 * @param ?SharingUserStatus $filterUserStatus User status to filter by.
 	 * @param ?string $lastShareID The ID of the previous share. This is used as an offset and only shares with higher IDs are returned.
 	 * @param int<1, 100> $limit The number of shares to return.
 	 * @return DataResponse<Http::STATUS_OK, list<SharingShare>, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, string, array{}>
@@ -569,7 +684,8 @@ final class ApiV1Controller extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/shares')]
-	public function getShares(?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $lastShareID, int $limit = 100): DataResponse {
+	#[UserRateLimit(limit: 240, period: 60)]
+	public function getShares(?string $filterSourceTypeClass, ?string $filterSourceTypeValue, ?string $filterState, ?string $filterUserStatus, ?string $lastShareID, int $limit = 100): DataResponse {
 		/** @psalm-suppress DocblockTypeContradiction */
 		if ($limit < 1) {
 			return new DataResponse('The limit is too low.', Http::STATUS_BAD_REQUEST);
@@ -589,12 +705,28 @@ final class ApiV1Controller extends OCSController {
 			return new DataResponse('The filter source type is not registered: ' . $filterSourceTypeClass, Http::STATUS_BAD_REQUEST);
 		}
 
+		if ($filterState !== null) {
+			try {
+				$filterState = ShareState::from($filterState);
+			} catch (ValueError $valueError) {
+				return new DataResponse($valueError->getMessage(), Http::STATUS_BAD_REQUEST);
+			}
+		}
+
+		if ($filterUserStatus !== null) {
+			try {
+				$filterUserStatus = ShareUserStatus::from($filterUserStatus);
+			} catch (ValueError $valueError) {
+				return new DataResponse($valueError->getMessage(), Http::STATUS_BAD_REQUEST);
+			}
+		}
+
 		try {
 			$this->dbConnection->beginTransaction();
 
-			$shares = $this->manager->getShares($this->accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $lastShareID, $limit);
+			$shares = $this->manager->getShares($this->accessContext, $filterSourceTypeClass, $filterSourceTypeValue, $filterState, $filterUserStatus, $lastShareID, $limit);
 			$this->dbConnection->commit();
-			return new DataResponse(Share::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $shares));
+			return new DataResponse(Share::formatMultiple($this->registry, $this->l10nFactory, $this->urlGenerator, $this->userManager, $this->accessContext, $shares));
 		} catch (Exception $exception) {
 			$this->dbConnection->rollBack();
 			throw $exception;

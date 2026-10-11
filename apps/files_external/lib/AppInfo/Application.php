@@ -59,7 +59,6 @@ use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
-use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
@@ -92,7 +91,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$context->registerEventListener(UserCreatedEvent::class, MountCacheService::class);
 		$context->registerEventListener(UserAddedEvent::class, MountCacheService::class);
 		$context->registerEventListener(UserRemovedEvent::class, MountCacheService::class);
-		$context->registerEventListener(PostLoginEvent::class, MountCacheService::class);
+		$context->registerEventListener(UserLoggedInEvent::class, MountCacheService::class);
 
 		$context->registerEventListener(UserLoggedInEvent::class, StorePasswordListener::class);
 		$context->registerEventListener(PasswordUpdatedEvent::class, StorePasswordListener::class);

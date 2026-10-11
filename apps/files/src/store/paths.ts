@@ -10,7 +10,6 @@ import { subscribe } from '@nextcloud/event-bus'
 import { File, FileType, getNavigation } from '@nextcloud/files'
 import { dirname } from '@nextcloud/paths'
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 import { logger } from '../utils/logger.ts'
 import { useFilesStore } from './files.ts'
 
@@ -41,11 +40,11 @@ export function usePathsStore(...args) {
 			addPath(payload: PathOptions) {
 				// If it doesn't exists, init the service state
 				if (!this.paths[payload.service]) {
-					Vue.set(this.paths, payload.service, {})
+					this.paths[payload.service] = {}
 				}
 
 				// Now we can set the provided path
-				Vue.set(this.paths[payload.service], payload.path, payload.source)
+				this.paths[payload.service][payload.path] = payload.source
 			},
 
 			deletePath(service: Service, path: string) {
@@ -54,7 +53,7 @@ export function usePathsStore(...args) {
 					return
 				}
 
-				Vue.delete(this.paths[service], path)
+				delete this.paths[service][path]
 			},
 
 			onCreatedNode(node: Node) {
@@ -133,7 +132,7 @@ export function usePathsStore(...args) {
 					// ensure sources are unique
 					const children = new Set(folder._children ?? [])
 					children.delete(node.source)
-					Vue.set(folder, '_children', [...children.values()])
+					folder._children = [...children.values()]
 					logger.debug('Children updated', { parent: folder, node, children: folder._children })
 					return
 				}
@@ -151,7 +150,7 @@ export function usePathsStore(...args) {
 					// ensure sources are unique
 					const children = new Set(folder._children ?? [])
 					children.add(node.source)
-					Vue.set(folder, '_children', [...children.values()])
+					folder._children = [...children.values()]
 					logger.debug('Children updated', { parent: folder, node, children: folder._children })
 					return
 				}

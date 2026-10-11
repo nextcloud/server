@@ -11,6 +11,7 @@ namespace OCA\DAV\CardDAV;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Constants;
 use OCP\IAddressBookEnabled;
+use OCP\IAddressBookWritable;
 use OCP\ICreateContactFromString;
 use OCP\IURLGenerator;
 use Sabre\VObject\Component\VCard;
@@ -18,7 +19,7 @@ use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
 
-class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
+class AddressBookImpl implements ICreateContactFromString, IAddressBookEnabled, IAddressBookWritable {
 
 	/**
 	 * AddressBookImpl constructor.
@@ -55,6 +56,14 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 	#[\Override]
 	public function getUri(): string {
 		return $this->addressBookInfo['uri'];
+	}
+
+	/**
+	 * @return string the principal URI of the address book owner
+	 * @since 35.0.0
+	 */
+	public function getPrincipalUri(): string {
+		return $this->addressBookInfo['principaluri'];
 	}
 
 	/**
@@ -250,7 +259,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 		];
 
 		foreach ($vCard->children() as $property) {
-			if ($property->name === 'PHOTO' && in_array($property->getValueType(), ['BINARY', 'URI'])) {
+			if ($property->name === 'PHOTO' && in_array($property->getValueType(), ['BINARY', 'URI'], true)) {
 				$url = $this->urlGenerator->getAbsoluteURL(
 					$this->urlGenerator->linkTo('', 'remote.php') . '/dav/');
 				$url .= implode('/', [
@@ -261,7 +270,7 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 				]) . '?photo';
 
 				$result['PHOTO'] = 'VALUE=uri:' . $url;
-			} elseif (in_array($property->name, ['URL', 'GEO', 'CLOUD', 'ADR', 'EMAIL', 'IMPP', 'TEL', 'X-SOCIALPROFILE', 'RELATED', 'LANG', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
+			} elseif (in_array($property->name, ['URL', 'GEO', 'CLOUD', 'ADR', 'EMAIL', 'IMPP', 'TEL', 'X-SOCIALPROFILE', 'RELATED', 'LANG', 'X-ADDRESSBOOKSERVER-MEMBER'], true)) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
 				}
@@ -348,6 +357,19 @@ class AddressBookImpl implements IAddressBookEnabled, ICreateContactFromString {
 			return (bool)$properties[0]->getPropertyvalue();
 		}
 		return true;
+	}
+
+	#[\Override]
+	public function isWritable(): bool {
+		if (!$this->userId) {
+			return true;
+		}
+
+		if ($this->isSystemAddressBook()) {
+			return false;
+		}
+
+		return $this->getPermissions() & Constants::PERMISSION_UPDATE;
 	}
 
 	#[\Override]

@@ -1,5 +1,6 @@
 { "translations": {
     "Your client is not authorized to connect. Please inform the administrator of your client." : "Klienten har inte behörighet att ansluta. Informera klientens administratör.",
+    "Client name cannot be empty." : "Klientnamnet får inte vara tomt.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "URL:en för omdirigering måste vara fullständig, till exempel https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Tillåter OAuth 2.0-kompatibel autentisering från andra webbappar.",

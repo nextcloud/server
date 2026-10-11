@@ -10,6 +10,7 @@ namespace Test\TaskProcessing;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
+use OC\TaskProcessing\Db\Task as DbTask;
 use OC\TaskProcessing\Db\TaskMapper;
 use OC\TaskProcessing\Manager;
 use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
@@ -32,6 +33,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Security\IRemoteHostValidator;
 use OCP\Server;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\GetTaskProcessingProvidersEvent;
@@ -768,6 +770,12 @@ class TaskProcessingTest extends \Test\TestCase {
 	private IJobList&MockObject $jobList;
 	private IUserMountCache&MockObject $userMountCache;
 	private RegistrationContext&MockObject $registrationContext;
+	private IRemoteHostValidator&MockObject $remoteHostValidator;
+
+	/** @var list<string> hosts the mocked IRemoteHostValidator rejects */
+	private array $invalidRemoteHosts = [];
+	/** Makes the mocked IRemoteHostValidator reject every host */
+	private bool $rejectAllRemoteHosts = false;
 
 	/** @var array<class-string, IProvider> */
 	private array $providers;
@@ -836,6 +844,11 @@ class TaskProcessingTest extends \Test\TestCase {
 		);
 
 		$this->userMountCache = $this->createMock(IUserMountCache::class);
+		$this->invalidRemoteHosts = [];
+		$this->rejectAllRemoteHosts = false;
+		$this->remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
+		$this->remoteHostValidator->expects($this->any())->method('isValid')
+			->willReturnCallback(fn (string $host): bool => !$this->rejectAllRemoteHosts && !in_array($host, $this->invalidRemoteHosts, true));
 		$this->config = Server::get(IConfig::class);
 		$this->appConfig = Server::get(IAppConfig::class);
 		$this->manager = new Manager(
@@ -857,6 +870,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
 			Server::get(ITimeFactory::class),
+			$this->remoteHostValidator,
 		);
 	}
 
@@ -904,6 +918,106 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertNull($task->getId());
 		self::expectException(ValidationException::class);
 		$this->manager->scheduleTask($task);
+	}
+
+	public static function invalidWebhookDataProvider(): array {
+		return [
+			'uri without method' => ['https://example.com/hook', null],
+			'method without uri' => [null, 'HTTP:POST'],
+			'empty uri with method' => ['', 'HTTP:POST'],
+			'uri with empty method' => ['https://example.com/hook', ''],
+			'unknown method prefix' => ['https://example.com/hook', 'FTP:GET'],
+			'unknown http verb' => ['https://example.com/hook', 'HTTP:PATCH'],
+			'lowercase http verb' => ['https://example.com/hook', 'HTTP:post'],
+			'unsupported uri scheme' => ['file:///etc/passwd', 'HTTP:GET'],
+			'relative uri for http method' => ['/some/path', 'HTTP:POST'],
+			'malformed uri' => ['https://', 'HTTP:POST'],
+			'appapi method without exapp id' => ['/some/path', 'AppAPI:POST'],
+			'appapi method with too many parts' => ['/some/path', 'AppAPI:my_app:POST:extra'],
+			'appapi method with invalid exapp id' => ['/some/path', 'AppAPI:My App:POST'],
+			'appapi method with unknown http verb' => ['/some/path', 'AppAPI:my_app:PATCH'],
+			'absolute uri for appapi method' => ['https://example.com/hook', 'AppAPI:my_app:POST'],
+			'uri too long' => ['https://example.com/' . str_repeat('a', 4000), 'HTTP:POST'],
+			'method too long' => ['/some/path', 'AppAPI:' . str_repeat('a', 64) . ':POST'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidWebhookDataProvider')]
+	public function testProviderShouldBeRegisteredAndWebhookFailValidation(?string $webhookUri, ?string $webhookMethod): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri($webhookUri);
+		$task->setWebhookMethod($webhookMethod);
+		self::expectException(ValidationException::class);
+		$this->manager->scheduleTask($task);
+	}
+
+	public static function validWebhookDataProvider(): array {
+		return [
+			'no webhook' => [null, null],
+			'empty webhook' => ['', ''],
+			'http get' => ['http://example.com/hook', 'HTTP:GET'],
+			'https post' => ['https://example.com/hook?foo=bar', 'HTTP:POST'],
+			'https put' => ['https://example.com/hook', 'HTTP:PUT'],
+			'https delete' => ['https://example.com/hook', 'HTTP:DELETE'],
+			'appapi post' => ['/some/path', 'AppAPI:my_app:POST'],
+			'appapi get' => ['/', 'AppAPI:my-app2:GET'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('validWebhookDataProvider')]
+	public function testProviderShouldBeRegisteredAndWebhookPassValidation(?string $webhookUri, ?string $webhookMethod): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri($webhookUri);
+		$task->setWebhookMethod($webhookMethod);
+		$this->manager->scheduleTask($task);
+		self::assertNotNull($task->getId());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+		// clean up so the scheduled task does not interfere with other tests
+		$this->manager->deleteTask($task);
+	}
+
+	public static function localWebhookHostDataProvider(): array {
+		return [
+			'localhost' => ['http://localhost/hook', 'localhost'],
+			'ipv4 loopback' => ['http://127.0.0.1:8080/hook', '127.0.0.1'],
+			'ipv6 loopback' => ['http://[::1]/hook', '[::1]'],
+			'private network' => ['https://192.168.1.1/hook', '192.168.1.1'],
+			'local hostname' => ['https://server.local/hook', 'server.local'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('localWebhookHostDataProvider')]
+	public function testProviderShouldBeRegisteredAndLocalWebhookHostFailValidation(string $webhookUri, string $host): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		$this->invalidRemoteHosts = [$host];
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri($webhookUri);
+		$task->setWebhookMethod('HTTP:POST');
+		self::expectException(ValidationException::class);
+		$this->manager->scheduleTask($task);
+	}
+
+	public function testProviderShouldBeRegisteredAndAppApiWebhookSkipsHostValidation(): void {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', SuccessfulSyncProvider::class)
+		]);
+		// AppAPI webhooks use an absolute path, so no remote host is involved
+		$this->rejectAllRemoteHosts = true;
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setWebhookUri('/some/path');
+		$task->setWebhookMethod('AppAPI:my_app:POST');
+		$this->manager->scheduleTask($task);
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+		// clean up so the scheduled task does not interfere with other tests
+		$this->manager->deleteTask($task);
 	}
 
 	public function testProviderShouldBeRegisteredAndTaskWithFilesFailValidation(): void {
@@ -1268,6 +1382,54 @@ class TaskProcessingTest extends \Test\TestCase {
 	public function testNonexistentTask(): void {
 		$this->expectException(NotFoundException::class);
 		$this->manager->getTask(2147483646);
+	}
+
+	/**
+	 * Insert a task without going through a provider, to control its timestamps and status.
+	 */
+	private function insertTask(int $status, ?int $scheduledAt, ?int $startedAt): DbTask {
+		$task = new Task(TextToText::ID, ['input' => 'Hello'], 'test', null);
+		$task->setStatus($status);
+		$task->setScheduledAt($scheduledAt);
+		$task->setStartedAt($startedAt);
+		/** @var DbTask $entity */
+		$entity = $this->taskMapper->insert(DbTask::fromPublicTask($task));
+		return $entity;
+	}
+
+	public function testCountTasks(): void {
+		// Far in the future, so that tasks of other tests are outside of the window
+		$now = time() + 365 * 24 * 3600;
+		$window = $now - 7200;
+		$totalBefore = $this->manager->countTasks();
+		$entities = [];
+
+		try {
+			// Scheduled within the window, picked up after 1 minute
+			$entities[] = $this->insertTask(Task::STATUS_SUCCESSFUL, $now - 3600, $now - 3540);
+			// Scheduled within the window, picked up after 10 minutes
+			$entities[] = $this->insertTask(Task::STATUS_SUCCESSFUL, $now - 3600, $now - 3000);
+			// Scheduled within the window, picked up after 10 minutes, but failed
+			$entities[] = $this->insertTask(Task::STATUS_FAILED, $now - 3600, $now - 3000);
+			// Scheduled within the window, never picked up
+			$entities[] = $this->insertTask(Task::STATUS_CANCELLED, $now - 3600, null);
+			// Scheduled before the window, picked up after 10 minutes
+			$entities[] = $this->insertTask(Task::STATUS_SUCCESSFUL, $now - 90000, $now - 89400);
+
+			self::assertEquals($totalBefore + 5, $this->manager->countTasks());
+			self::assertEquals(4, $this->manager->countTasks(scheduleAfter: $window));
+			self::assertEquals(1, $this->manager->countTasks(status: Task::STATUS_FAILED, scheduleAfter: $window));
+			// Tasks that were never picked up are not counted as slow
+			self::assertEquals(2, $this->manager->countTasks(scheduleAfter: $window, minPickupDelay: 60 * 4));
+			self::assertEquals(1, $this->manager->countTasks(status: Task::STATUS_SUCCESSFUL, scheduleAfter: $window, minPickupDelay: 60 * 4));
+			self::assertEquals(0, $this->manager->countTasks(scheduleAfter: $window, minPickupDelay: 60 * 20));
+			self::assertEquals(4, $this->manager->countTasks(taskTypeIds: [TextToText::ID], scheduleAfter: $window));
+			self::assertEquals(0, $this->manager->countTasks(taskTypeIds: [TextToImage::ID], scheduleAfter: $window));
+		} finally {
+			foreach ($entities as $entity) {
+				$this->taskMapper->delete($entity);
+			}
+		}
 	}
 
 	public function testOldTasksShouldBeCleanedUp(): void {
@@ -1654,6 +1816,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(ICacheFactory::class),
 			Server::get(IFactory::class),
 			Server::get(ITimeFactory::class),
+			$this->remoteHostValidator,
 		);
 	}
 

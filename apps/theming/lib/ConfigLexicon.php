@@ -24,6 +24,8 @@ class ConfigLexicon implements ILexicon {
 	/** The cache buster index */
 	public const CACHE_BUSTER = 'cachebuster';
 	public const USER_THEMING_DISABLED = 'disable-user-theming';
+	public const TOAST_TIMEOUT = 'toast_timeout';
+	public const TOAST_TIMEOUT_DEFAULT = 7000;
 
 	/** Name of the software running on this instance (usually "Nextcloud") */
 	public const PRODUCT_NAME = 'productName';
@@ -114,6 +116,13 @@ class ConfigLexicon implements ILexicon {
 
 	#[\Override]
 	public function getUserConfigs(): array {
-		return [];
+		return [
+			new Entry(
+				self::TOAST_TIMEOUT,
+				ValueType::INT,
+				defaultRaw: self::TOAST_TIMEOUT_DEFAULT,
+				definition: 'How long toast notifications remain visible in milliseconds.',
+			),
+		];
 	}
 }

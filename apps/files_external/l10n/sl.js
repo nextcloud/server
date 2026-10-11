@@ -73,6 +73,7 @@ OC.L10N.register(
     "External storages" : "Zunanje shrambe",
     "Status" : "Stanje",
     "Actions" : "Dejanja",
+    "All accounts" : "Vsi računi",
     "Delete" : "Izbriši",
     "Saved" : "Shranjeno",
     "Error while saving" : "Napaka med shranjevanjem",

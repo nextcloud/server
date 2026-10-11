@@ -28,7 +28,7 @@ jobs:
       src: ${{ steps.changes.outputs.src }}
 
     steps:
-      - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
         id: changes
         continue-on-error: true
         with:
@@ -61,7 +61,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #v2.37.2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         timeout-minutes: 5
         with:
           php-version: '8.3'
@@ -97,7 +97,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #v2.37.2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         timeout-minutes: 5
         with:
           php-version: '8.3'
@@ -108,7 +108,14 @@ jobs:
         run: composer i
 
       - name: Psalm taint analysis
-        run: composer run psalm:security -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif
+        run: composer run psalm:security -- --threads=1 --monochrome --no-progress --output-format=github --update-baseline --report=results.sarif --report-show-info=false
+
+      # Psalm exits 0 on taint findings when a report file is generated
+      - name: Fail on taint analysis findings
+        run: |
+          count=$(jq '[.runs[].results[]] | length' results.sarif)
+          echo "Taint analysis findings: $count"
+          test "$count" -eq 0
 
       - name: Show potential changes in Psalm baseline
         if: always()
@@ -116,7 +123,7 @@ jobs:
 
       - name: Upload Security Analysis results to GitHub
         if: always()
-        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v3
+        uses: github/codeql-action/upload-sarif@1c5b675653bb5c22dbe9b12b556ec555138e09fd # v4.38.1
         with:
           sarif_file: results.sarif
 
@@ -134,7 +141,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #v2.37.2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         timeout-minutes: 5
         with:
           php-version: '8.3'
@@ -167,7 +174,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #v2.37.2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         timeout-minutes: 5
         with:
           php-version: '8.3'
@@ -196,7 +203,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #v2.37.2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
           php-version: '8.3'
           extensions: ctype,curl,dom,fileinfo,gd,imagick,intl,json,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip

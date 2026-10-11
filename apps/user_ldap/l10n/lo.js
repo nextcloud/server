@@ -131,7 +131,6 @@ OC.L10N.register(
     "LDAP/AD Username:" : "LDAP/AD Username:",
     "LDAP/AD Email Address:" : "LDAP/AD Email Address:",
     "Other Attributes:" : "Other Attributes:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Attempts to receive a DN for the given login name and the current login filter",
     "Test Login name" : "Test Login name",
     "Verify settings" : "Verify settings",
@@ -260,6 +259,7 @@ OC.L10N.register(
     "Pronouns Field" : "Pronouns Field",
     "User profile Pronouns will be set from the specified attribute" : "User profile Pronouns will be set from the specified attribute",
     "UUID Attribute for Users:" : "UUID Attribute for Users:",
-    "UUID Attribute for Groups:" : "UUID Attribute for Groups:"
+    "UUID Attribute for Groups:" : "UUID Attribute for Groups:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`"
 },
 "nplurals=1; plural=0;");

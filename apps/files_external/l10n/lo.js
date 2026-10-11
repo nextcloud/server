@@ -84,6 +84,7 @@ OC.L10N.register(
     "Compatibility with Mac NFD encoding (slow)" : "Compatibility with Mac NFD encoding (slow)",
     "Status" : "ສະຖານະ",
     "Actions" : "ການດຳເນີນການ",
+    "All accounts" : "All accounts",
     "Delete" : "ລຶບ",
     "Saved" : "Saved",
     "Allow people to mount external storage" : "Allow people to mount external storage",

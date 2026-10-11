@@ -30,7 +30,6 @@ use Psr\Log\LoggerInterface;
 #[\PHPUnit\Framework\Attributes\Group('DB')]
 class InstallerTest extends TestCase {
 	private static $appid = 'testapp';
-	private $appstore;
 	private AppFetcher&MockObject $appFetcher;
 	private IClientService&MockObject $clientService;
 	private ITempManager&MockObject $tempManager;
@@ -51,9 +50,6 @@ class InstallerTest extends TestCase {
 		$this->appManager = $this->createMock(AppManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 
-		$config = Server::get(IConfig::class);
-		$this->appstore = $config->setSystemValue('appstoreenabled', true);
-		$config->setSystemValue('appstoreenabled', true);
 		$installer = Server::get(Installer::class);
 		$installer->removeApp(self::$appid);
 	}
@@ -75,7 +71,6 @@ class InstallerTest extends TestCase {
 	protected function tearDown(): void {
 		$installer = Server::get(Installer::class);
 		$installer->removeApp(self::$appid);
-		Server::get(IConfig::class)->setSystemValue('appstoreenabled', $this->appstore);
 
 		parent::tearDown();
 	}

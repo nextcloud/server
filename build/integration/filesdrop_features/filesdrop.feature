@@ -44,9 +44,10 @@ Feature: FilesDrop
     And user "user0" created a folder "/drop"
     And as "user0" creating a share with
       | path         | drop                                                     |
-      | shareType    | 3                                                        |
+      | shareType    | 4                                                        |
       | publicUpload | true                                                     |
       | attributes   | [{"scope":"fileRequest","key":"enabled","value":true}]   |
+      | shareWith    |                                                          |
     And Updating last share with
       | permissions | 4 |
     When Dropping file "/folder/a.txt" with "abc"
@@ -71,9 +72,10 @@ Feature: FilesDrop
     And user "user0" created a folder "/drop"
     And as "user0" creating a share with
       | path         | drop                                                     |
-      | shareType    | 3                                                        |
+      | shareType    | 4                                                        |
       | publicUpload | true                                                     |
       | attributes   | [{"scope":"fileRequest","key":"enabled","value":true}]   |
+      | shareWith    |                                                          |
     And Updating last share with
       | permissions | 4 |
     When Creating folder "folder" in drop
@@ -85,9 +87,10 @@ Feature: FilesDrop
     And user "user0" created a folder "/drop"
     And as "user0" creating a share with
       | path         | drop                                                     |
-      | shareType    | 3                                                        |
+      | shareType    | 4                                                        |
       | publicUpload | true                                                     |
       | attributes   | [{"scope":"fileRequest","key":"enabled","value":true}]   |
+      | shareWith    |                                                          |
     And Updating last share with
       | permissions | 4 |
     When Creating folder "folder" in drop as "nickname"
@@ -99,9 +102,10 @@ Feature: FilesDrop
     And user "user0" created a folder "/drop"
     And as "user0" creating a share with
       | path         | drop                                                     |
-      | shareType    | 3                                                        |
+      | shareType    | 4                                                        |
       | publicUpload | true                                                     |
       | attributes   | [{"scope":"fileRequest","key":"enabled","value":true}]   |
+      | shareWith    |                                                          |
     And Updating last share with
       | permissions | 4 |
     When dropping file "/folder/a.txt" with "abc"

@@ -26,6 +26,8 @@ OC.L10N.register(
     "Invalid LDAP UUIDs" : "無効な LDAP UUID",
     "None found" : "該当なし",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAPアカウントまたはグループの無効なUUIDが見つかりました。LDAP設定のエキスパート部分にある \"Override UUID detection\" の設定を見直して、\"occ ldap:update-uuid\"を使ってアップデートしてください。",
+    "LDAP" : "LDAP",
+    "LDAP configuration" : "LDAPの設定",
     "_%n group found_::_%n groups found_" : ["グループ%nが見つかりました "],
     "> 1000 groups found" : "1000 以上のグループが見つかりました",
     "> 1000 users found" : "1000 以上のユーザーが見つかりました",
@@ -133,7 +135,7 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "メール属性に対してログインが許可されています。\"mail\" と \"mailPrimaryAddress\" が利用可能です。",
     "LDAP/AD Email Address:" : "LDAP/ADメールアドレス:",
     "Other Attributes:" : "その他の属性:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "ログイン実行時に適用するフィルターを定義します。`%%uid` にはログイン操作におけるユーザー名が入ります。例： `uid=%%uid`",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "ログインが試行された際に適用するフィルターを定義します。`%uid` は、ログインアクション内のユーザー名を置き換えます。例：`uid=%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "指定されたログイン名と現在のログインフィルタのDNを取得します",
     "Test Login name" : "テスト用ログイン名",
     "Verify settings" : "設定のチェック",
@@ -267,6 +269,7 @@ OC.L10N.register(
     "Pronouns Field" : "代名詞フィールド",
     "User profile Pronouns will be set from the specified attribute" : "ユーザープロファイルの代名詞は、指定された属性から設定されます",
     "UUID Attribute for Users:" : "ユーザーのUUID属性:",
-    "UUID Attribute for Groups:" : "グループの UUID 属性:"
+    "UUID Attribute for Groups:" : "グループの UUID 属性:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "ログイン実行時に適用するフィルターを定義します。`%%uid` にはログイン操作におけるユーザー名が入ります。例： `uid=%%uid`"
 },
 "nplurals=1; plural=0;");

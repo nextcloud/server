@@ -24,6 +24,7 @@ use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Security\Ip\IRemoteAddress;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
@@ -61,6 +62,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		private LoggerInterface $logger,
 		ICacheFactory $cacheFactory,
 		private IRemoteAddress $remoteAddress,
+		private IUserSession $userSession,
 	) {
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 
@@ -322,7 +324,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	#[\Override]
 	public function isAdmin($userId) {
-		if (!$this->remoteAddress->allowsAdminActions()) {
+		if (!$this->remoteAddress->allowsAdminActions()
+			&& ($userId === $this->userSession->getUser()?->getUID())) {
 			return false;
 		}
 
@@ -356,7 +359,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	#[\Override]
 	public function isInGroup($userId, $group) {
-		return in_array($group, $this->getUserIdGroupIds($userId));
+		return in_array($group, $this->getUserIdGroupIds($userId), true);
 	}
 
 	#[\Override]

@@ -22,6 +22,7 @@
 			"OC\\": "lib/private",
 			"OC\\Core\\": "core/",
 			"OCP\\": "lib/public",
+			"OCA\\Viewer\\": "apps/viewer/lib",
 			"NCU\\": "lib/unstable"
 		}
 	},

@@ -28,6 +28,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
@@ -1719,7 +1720,7 @@ class ViewTest extends \Test\TestCase {
 		$fileId = $view->getFileInfo('shareddir')->getId();
 		$userObject = Server::get(IUserManager::class)->createUser('test2', 'IHateNonMockableStaticClasses');
 
-		$userFolder = \OC::$server->getUserFolder(self::$user);
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::$user);
 		$shareDir = $userFolder->get('shareddir');
 		$shareManager = Server::get(IShareManager::class);
 		$share = $shareManager->newShare();
@@ -2187,12 +2188,14 @@ class ViewTest extends \Test\TestCase {
 		Filesystem::mount($storage, [], self::$user . '/');
 		$storage->mkdir('files');
 
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			$hookType,
-			HookHelper::class,
-			'cancellingCallback'
-		);
+		if ($hookType !== '') {
+			Util::connectHook(
+				Filesystem::CLASSNAME,
+				$hookType,
+				HookHelper::class,
+				'cancellingCallback'
+			);
+		}
 
 		call_user_func_array([$view, $operation], $operationArgs);
 
@@ -2579,12 +2582,15 @@ class ViewTest extends \Test\TestCase {
 				$eventHandler,
 				'preCallback'
 			);
-			Util::connectHook(
-				Filesystem::CLASSNAME,
-				'post_' . $hookType,
-				$eventHandler,
-				'postCallback'
-			);
+			// there is no post_read signal, read is only emitted before the operation
+			if ($hookType !== 'read') {
+				Util::connectHook(
+					Filesystem::CLASSNAME,
+					'post_' . $hookType,
+					$eventHandler,
+					'postCallback'
+				);
+			}
 		}
 	}
 
@@ -2850,6 +2856,49 @@ class ViewTest extends \Test\TestCase {
 		$this->assertFalse($view->fopen('foo.txt', 'r'));
 
 		$this->assertFalse($cache->inCache('foo.txt'));
+	}
+
+	/**
+	 * Regression test: checks that when fopen fails, the view checks the correct path and removes the cache entry.
+	 */
+	public function testFopenGoneViewBelowMountRoot(): void {
+		$storage = new Temporary([]);
+		$storage->mkdir('sub');
+		$storage->file_put_contents('foo.txt', 'bar');
+		$storage->file_put_contents('sub/foo.txt', 'bar');
+		$storage->getScanner()->scan('');
+		$cache = $storage->getCache();
+
+		Filesystem::mount($storage, [], '/test/');
+		$view = new View('/test/sub');
+
+		$storage->unlink('sub/foo.txt');
+
+		$this->assertTrue($cache->inCache('sub/foo.txt'));
+		$this->assertFalse($view->fopen('foo.txt', 'r'));
+		$this->assertFalse($cache->inCache('sub/foo.txt'));
+	}
+
+	public function testFopenFailureOnExistingFileDoesNotPropagate(): void {
+		/** @var Temporary&MockObject $storage */
+		$storage = $this->getMockBuilder(Temporary::class)
+			->setConstructorArgs([[]])
+			->onlyMethods(['fopen'])
+			->getMock();
+		$storage->method('fopen')
+			->willReturn(false);
+		$storage->mkdir('sub');
+		$storage->file_put_contents('sub/foo.txt', 'bar');
+		$storage->getScanner()->scan('');
+		$cache = $storage->getCache();
+		$cache->update($cache->getId('sub'), ['mtime' => 100]);
+
+		Filesystem::mount($storage, [], '/test/');
+		$view = new View('/test/sub');
+
+		$this->assertFalse($view->fopen('foo.txt', 'r'));
+		$this->assertTrue($cache->inCache('sub/foo.txt'));
+		$this->assertEquals(100, $cache->get('sub')->getMTime());
 	}
 
 	public function testMountpointParentsCreated(): void {

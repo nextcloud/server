@@ -24,6 +24,9 @@ final class EntityInfo {
 	/** @var array<string, ColumnType> */
 	public array $mappingColumnToTypes = [];
 
+	/** @var array<string, class-string<\BackedEnum>> */
+	public array $mappingColumnToEnumType = [];
+
 	/** @var array<string, string> */
 	public array $mappingColumnToProperty = [];
 
@@ -72,6 +75,9 @@ final class EntityInfo {
 					$this->mappingColumnToTypes[$instance->name] = $instance->type;
 					$this->mappingColumnToProperty[$instance->name] = $property->getName();
 					$this->mappingPropertyToColumn[$property->getName()] = $instance->name;
+					if ($instance->enumType !== null) {
+						$this->mappingColumnToEnumType[$instance->name] = $instance->enumType;
+					}
 				} elseif ($instance instanceof Id) {
 					$propertyAttributes->id = $instance;
 					$this->idProperties[] = $property;
@@ -86,6 +92,10 @@ final class EntityInfo {
 
 			if ($propertyAttributes->id instanceof Id && !$propertyAttributes->column instanceof Column) {
 				throw new \RuntimeException($this->entityClass . ' has an Id attribute on ' . $property->getName() . ' but not the corresponding required Column attribute.');
+			}
+
+			if ($propertyAttributes->column instanceof Column && $propertyAttributes->column->enumType !== null) {
+				$this->validateEnumType($property, $propertyAttributes->column);
 			}
 
 			if ($propertyAttributes->oneToOne instanceof OneToOne
@@ -163,6 +173,36 @@ final class EntityInfo {
 
 		if ($targetProperty->getAttributes(JoinColumn::class, \ReflectionAttribute::IS_INSTANCEOF) === []) {
 			throw new \RuntimeException($prefix . $oneToOne->targetEntity . '::' . $mappedBy . ' has no JoinColumn attribute.');
+		}
+	}
+
+	private function validateEnumType(\ReflectionProperty $property, Column $column): void {
+		/** @var class-string $enumType */
+		$enumType = $column->enumType;
+		$prefix = $this->entityClass . '::' . $property->getName() . " declares enumType: {$enumType}, but ";
+
+		if (!enum_exists($enumType)) {
+			throw new \RuntimeException($prefix . 'that class is not an enum.');
+		}
+
+		if (!is_a($enumType, \BackedEnum::class, true)) {
+			throw new \RuntimeException($prefix . 'that enum is not backed. Only backed enums (`enum Foo: string` or `enum Foo: int`) can be mapped to a column.');
+		}
+
+		$propertyType = $property->getType();
+		if ($propertyType instanceof \ReflectionNamedType && ltrim($propertyType->getName(), '\\') !== ltrim($enumType, '\\')) {
+			throw new \RuntimeException($prefix . 'the property is typed as ' . $propertyType->getName() . ' instead.');
+		}
+
+		$backingType = (new \ReflectionEnum($enumType))->getBackingType();
+		$backingTypeName = $backingType instanceof \ReflectionNamedType ? $backingType->getName() : null;
+		$compatibleColumnTypes = match ($backingTypeName) {
+			'int' => [ColumnType::Bigint, ColumnType::Smallint, ColumnType::Integer],
+			'string' => [ColumnType::Binary, ColumnType::Decimal, ColumnType::Text, ColumnType::String],
+			default => [],
+		};
+		if (!in_array($column->type, $compatibleColumnTypes, true)) {
+			throw new \RuntimeException($prefix . "its column type ({$column->type->name}) cannot hold a(n) {$backingTypeName}-backed enum's value.");
 		}
 	}
 }

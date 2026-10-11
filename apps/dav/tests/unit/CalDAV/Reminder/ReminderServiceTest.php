@@ -774,4 +774,55 @@ EOD;
 
 		$this->reminderService->processReminders();
 	}
+
+	public function testProcessRemindersSkipsMutedRecipient():void {
+		$reminder = [
+			'id' => 1,
+			'calendar_id' => 1337,
+			'object_id' => 42,
+			'uid' => 'wej2z68l9h',
+			'is_recurring' => false,
+			'recurrence_id' => 1465430400,
+			'is_recurrence_exception' => false,
+			'event_hash' => '5c70531aab15c92b52518ae10a2f78a4',
+			'alarm_hash' => 'de919af7429d3b5c11e8b9d289b411a6',
+			'type' => 'EMAIL',
+			'is_relative' => true,
+			'notification_date' => 1465429500,
+			'is_repeat_based' => false,
+			'calendardata' => self::CALENDAR_DATA,
+			'displayname' => 'Displayname 123',
+			'principaluri' => 'principals/users/user001',
+		];
+
+		$this->backend->expects($this->once())
+			->method('getRemindersToProcess')
+			->willReturn([$reminder]);
+
+		$this->notificationProviderManager->expects($this->once())
+			->method('hasProvider')
+			->with('EMAIL')
+			->willReturn(true);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user001');
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('user001')
+			->willReturn($user);
+
+		$this->backend->expects($this->once())
+			->method('isReminderMutedForPrincipal')
+			->with($reminder, 'principals/users/user001')
+			->willReturn(true);
+
+		$this->notificationProviderManager->expects($this->never())
+			->method('getProvider');
+
+		$this->backend->expects($this->once())
+			->method('removeReminder')
+			->with(1);
+
+		$this->reminderService->processReminders();
+	}
 }

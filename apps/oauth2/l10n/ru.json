@@ -1,5 +1,6 @@
 { "translations": {
     "Your client is not authorized to connect. Please inform the administrator of your client." : "Ваш клиент не имеет разрешения на подключение. Сообщите об этом администратору вашего клиента.",
+    "Client name cannot be empty." : "Имя клиента не может быть пустым.",
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "URL перенаправления должен быть полным URL, например: https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "Позволяет другим веб-приложениям выполнять аутентификацию, совместимую с OAuth2.",

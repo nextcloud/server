@@ -14,7 +14,7 @@ import { resolve } from 'node:path'
 import { FilesListPage } from '../../support/sections/FilesListPage.ts'
 import { uploadContent } from '../../support/utils/dav.ts'
 import { AuthBackend, createStorageWithConfig, deleteAllGlobalStorages, StorageBackend } from '../../support/utils/files_external.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
+import { awaitPasswordGuardedRequest, installPasswordConfirmationHandler } from '../../support/utils/password-confirmation.ts'
 
 const ACTION_CREDENTIALS_EXTERNAL_STORAGE = 'credentials-external-storage'
 
@@ -60,12 +60,13 @@ test.describe('Files user credentials', () => {
 		await createStorageWithConfig(storageUser.userId, StorageBackend.DAV, AuthBackend.UserProvided, { host, secure: 'false' })
 
 		await login(context.request, user1)
+		await installPasswordConfirmationHandler(page, user1.password)
 		const filesListPage = new FilesListPage(page)
 
 		await page.goto('apps/files/extstoragemounts')
 		await expect(filesListPage.getRowForFile(storageUser.userId)).toBeVisible()
 
-		await setStorageCredentials(page, filesListPage, storageUser.userId, storageUser, user1)
+		await setStorageCredentials(page, filesListPage, storageUser.userId, storageUser)
 
 		// Credentials are set, so the "enter credentials" action is gone
 		await expect(filesListPage.getInlineActionEntryForFile(storageUser.userId, ACTION_CREDENTIALS_EXTERNAL_STORAGE)).toHaveCount(0)
@@ -79,12 +80,13 @@ test.describe('Files user credentials', () => {
 		await createStorageWithConfig('storage1', StorageBackend.DAV, AuthBackend.UserGlobalAuth, { host, secure: 'false' })
 
 		await login(context.request, user2)
+		await installPasswordConfirmationHandler(page, user2.password)
 		const filesListPage = new FilesListPage(page)
 
 		await page.goto('apps/files/extstoragemounts')
 		await expect(filesListPage.getRowForFile('storage1')).toBeVisible()
 
-		await setStorageCredentials(page, filesListPage, 'storage1', storageUser, user2)
+		await setStorageCredentials(page, filesListPage, 'storage1', storageUser)
 
 		await expect(filesListPage.getInlineActionEntryForFile('storage1', ACTION_CREDENTIALS_EXTERNAL_STORAGE)).toHaveCount(0)
 
@@ -96,6 +98,7 @@ test.describe('Files user credentials', () => {
 		await createStorageWithConfig('storage2', StorageBackend.DAV, AuthBackend.UserGlobalAuth, { host, secure: 'false' })
 
 		await login(context.request, user2)
+		await installPasswordConfirmationHandler(page, user2.password)
 		const filesListPage = new FilesListPage(page)
 
 		await page.goto('apps/files/extstoragemounts')
@@ -134,14 +137,12 @@ async function expectStorageContainsImage(filesListPage: FilesListPage, mountNam
  * @param filesListPage - The files list page object
  * @param mountName - The mount point name of the storage row
  * @param storageUser - The user owning the backing WebDAV storage (its credentials)
- * @param sessionUser - The logged-in user (for the password-confirmation dialog)
  */
 async function setStorageCredentials(
 	page: Page,
 	filesListPage: FilesListPage,
 	mountName: string,
 	storageUser: User,
-	sessionUser: User,
 ): Promise<void> {
 	const credentialsSet = page.waitForResponse((response) => response.request().method() === 'PUT'
 		&& response.url().includes('/apps/files_external/userglobalstorages/'))
@@ -156,6 +157,5 @@ async function setStorageCredentials(
 	await expect(storageDialog).toHaveCount(0)
 
 	// Submitting the credentials triggers a password-confirmation prompt
-	await handlePasswordConfirmation(page, sessionUser.password)
-	await credentialsSet
+	await awaitPasswordGuardedRequest(page, credentialsSet)
 }

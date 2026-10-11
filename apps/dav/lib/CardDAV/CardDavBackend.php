@@ -731,6 +731,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				return '"' . $etag . '"';
 			}
 
+			$storedEtag = $this->getCardEtag($addressBookId, $cardUri);
+
 			$query->update($this->dbCardsTable)
 				->set('carddata', $query->createNamedParameter($cardData, IQueryBuilder::PARAM_LOB))
 				->set('lastmodified', $query->createNamedParameter(time()))
@@ -743,8 +745,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			$this->etagCache[$etagCacheKey] = $etag;
 
-			$this->addChange($addressBookId, $cardUri, 2);
 			$this->updateProperties($addressBookId, $cardUri, $cardData);
+
+			if ($storedEtag === $etag) {
+				return '"' . $etag . '"';
+			}
+
+			$this->addChange($addressBookId, $cardUri, 2);
 
 			$addressBookData = $this->getAddressBookById($addressBookId);
 			$shares = $this->getShares($addressBookId);
@@ -829,9 +836,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				->andWhere($query->expr()->eq('uri', $query->createNamedParameter($cardUri)))
 				->executeStatement();
 
-			$this->addChange($addressBookId, $cardUri, 3);
-
 			if ($ret === 1) {
+				$this->addChange($addressBookId, $cardUri, 3);
+
 				if ($cardId !== null) {
 					$this->dispatcher->dispatchTyped(new CardDeletedEvent($addressBookId, $addressBookData, $shares, $objectRow));
 					$this->purgeProperties($addressBookId, $cardId);
@@ -1434,7 +1441,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				);
 
 			foreach ($vCard->children() as $property) {
-				if (!in_array($property->name, self::INDEXED_PROPERTIES)) {
+				if (!in_array($property->name, self::INDEXED_PROPERTIES, true)) {
 					continue;
 				}
 				$preferred = 0;
@@ -1497,6 +1504,22 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
+	 * Get the etag currently stored for a contact, or null if there is none
+	 */
+	protected function getCardEtag(int $addressBookId, string $uri): ?string {
+		$query = $this->db->getQueryBuilder();
+		$query->select('etag')->from($this->dbCardsTable)
+			->where($query->expr()->eq('uri', $query->createNamedParameter($uri)))
+			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
+
+		$result = $query->executeQuery();
+		$etag = $result->fetchOne();
+		$result->closeCursor();
+
+		return $etag === false ? null : (string)$etag;
+	}
+
+	/**
 	 * For shared address books the sharee is set in the ACL of the address book
 	 *
 	 * @param int $addressBookId
@@ -1527,11 +1550,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			return 0;
 		}
 
+		$cutoff = max(0, time() - $retention);
+
 		$query = $this->db->getQueryBuilder();
 		$query->delete('addressbookchanges')
 			->where(
 				$query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
-				$query->expr()->lte('created_at', $query->createNamedParameter($retention)),
+				$query->expr()->lte('created_at', $query->createNamedParameter($cutoff, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
 			);
 		return $query->executeStatement();
 	}

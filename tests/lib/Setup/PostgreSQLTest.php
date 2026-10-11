@@ -65,6 +65,79 @@ class PostgreSQLTest extends TestCase {
 		$this->database->initialize($this->options(['pgsql_ssl' => self::PGSQL_SSL]));
 	}
 
+	/**
+	 * The database independent options provided by the web installer and the CLI have to
+	 * end up in the `pgsql_ssl` connection parameters.
+	 */
+	public function testInitializeMapsEncryptionOptions(): void {
+		$this->config->expects($this->once())
+			->method('setValues')
+			->with([
+				'dbname' => 'nextcloud',
+				'dbhost' => 'db.example.org',
+				'dbtableprefix' => 'oc_',
+				'pgsql_ssl' => self::PGSQL_SSL + ['crl' => '/client.crl'],
+			]);
+
+		$this->database->initialize($this->options([
+			'dbsslmode' => 'verify-full',
+			'dbsslca' => '/rootCA.crt',
+			'dbsslcert' => '/client.crt',
+			'dbsslkey' => '/client.key',
+			'dbsslcrl' => '/client.crl',
+		]));
+	}
+
+	/**
+	 * A `pgsql_ssl` value provided as raw config value, e.g. through an autoconfig file,
+	 * must survive the mapped options.
+	 */
+	public function testInitializeMergesWithRawPgsqlSsl(): void {
+		$this->config->expects($this->once())
+			->method('setValues')
+			->with([
+				'dbname' => 'nextcloud',
+				'dbhost' => 'db.example.org',
+				'dbtableprefix' => 'oc_',
+				'pgsql_ssl' => ['rootcert' => '/rootCA.crt', 'mode' => 'verify-full'],
+			]);
+
+		$this->database->initialize($this->options([
+			'pgsql_ssl' => ['rootcert' => '/rootCA.crt'],
+			'dbsslmode' => 'verify-full',
+		]));
+	}
+
+	public function testValidateRejectsUnsupportedEncryptionOptions(): void {
+		// There is no PDO attribute to skip the host verification for PostgreSQL,
+		// the sslmode covers it
+		$errors = $this->database->validate($this->options(['dbsslnoverify' => true]));
+
+		$this->assertEquals([
+			'The database option "dbsslnoverify" is not supported by PostgreSQL',
+		], $errors);
+	}
+
+	public function testValidateRejectsIncompleteClientCertificate(): void {
+		$errors = $this->database->validate($this->options(['dbsslkey' => '/client.key']));
+
+		$this->assertEquals([
+			'The database options "dbsslcert" and "dbsslkey" have to be provided together',
+		], $errors);
+	}
+
+	public function testValidateAcceptsEncryptionOptions(): void {
+		$errors = $this->database->validate($this->options([
+			'dbsslmode' => 'verify-full',
+			'dbsslca' => '/rootCA.crt',
+			'dbsslcert' => '/client.crt',
+			'dbsslkey' => '/client.key',
+			'dbsslcrl' => '/client.crl',
+		]));
+
+		$this->assertEquals([], $errors);
+	}
+
 	public static function emptyPgsqlSsl(): array {
 		return [
 			'not provided' => [[]],

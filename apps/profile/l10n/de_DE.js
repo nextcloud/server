@@ -12,6 +12,7 @@ OC.L10N.register(
     "Search for a user profile. Start typing" : "Suche nach einem Benutzerprofil. Mit der Eingabe beginnen",
     "Insert selected user profile link" : "Link zum ausgewählten Benutzerprofil einfügen",
     "Insert" : "Einfügen",
+    "You & {user}" : "Sie und {user}",
     "You have not added any info yet" : "Sie haben noch keine Infos hinzugefügt",
     "{user} has not added any info yet" : "{user} hat noch keine Infos hinzugefügt",
     "Error opening the user status modal, try hard refreshing the page" : "Fehler beim Modal-öffnen des Benutzerstatus, versuchen Sie die Seite zu aktualisieren",

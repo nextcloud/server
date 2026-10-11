@@ -94,6 +94,7 @@ OC.L10N.register(
     "Actions" : "Ενέργειες",
     "Checking …" : "Γίνεται έλεγχος ...",
     "Recheck status" : "Επανέλεγχος κατάστασης",
+    "All accounts" : "Όλοι οι λογαριασμοί",
     "Delete" : "Διαγραφή",
     "System provided storage" : "Αποθηκευτικός χώρος παρεχόμενος από το σύστημα",
     "Saved" : "Αποθηκεύτηκαν",

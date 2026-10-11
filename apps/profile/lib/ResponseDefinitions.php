@@ -14,7 +14,8 @@ namespace OCA\Profile;
  *   label: string,
  *   text: string,
  *   href: string,
- *   img: string
+ *   img: string,
+ *   themedIcon?: bool,
  * }
  */
 class ResponseDefinitions {

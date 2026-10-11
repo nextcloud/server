@@ -181,8 +181,8 @@ class TaskProcessingApiController extends OCSController {
 			return new DataResponse([
 				'task' => $json,
 			]);
-		} catch (PreConditionNotMetException) {
-			return new DataResponse(['message' => $this->l->t('The given provider is not available')], Http::STATUS_PRECONDITION_FAILED);
+		} catch (PreConditionNotMetException $e) {
+			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_PRECONDITION_FAILED);
 		} catch (ValidationException $e) {
 			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		} catch (UnauthorizedException) {
@@ -554,7 +554,7 @@ class TaskProcessingApiController extends OCSController {
 	 */
 	private function getFileContentsInternal(Task $task, int $fileId): StreamResponse|DataResponse {
 		$ids = $this->taskProcessingManager->extractFileIdsFromTask($task);
-		if (!in_array($fileId, $ids)) {
+		if (!in_array($fileId, $ids, true)) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
 		}
 		if ($task->getUserId() !== null) {
@@ -738,6 +738,31 @@ class TaskProcessingApiController extends OCSController {
 	#[ApiRoute(verb: 'POST', url: '/tasks_consumer/tasks/{taskId}/cancel', root: '/taskprocessing')]
 	public function cancelTaskExAppEndpoint(int $taskId): DataResponse {
 		return $this->handleCancelTaskInternal($taskId);
+	}
+
+	/**
+	 * Get a task's position in the queue
+	 *
+	 * @param int $taskId The id of the task
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND|Http::STATUS_PRECONDITION_FAILED, array{message: string}, array{}>
+	 *
+	 * 200: The position was found
+	 * 404: Task not found
+	 * 412: The task is not scheduled
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'GET', url: '/tasks/{taskId}/queue_position', root: '/taskprocessing')]
+	public function getTaskQueuePosition(int $taskId): DataResponse {
+		try {
+			$position = $this->taskProcessingManager->getTaskQueuePosition($taskId, $this->userId);
+			return new DataResponse($position);
+		} catch (NotFoundException) {
+			return new DataResponse(['message' => $this->l->t('Task not found')], Http::STATUS_NOT_FOUND);
+		} catch (PreConditionNotMetException $e) {
+			return new DataResponse(['message' => $e->getMessage()], Http::STATUS_PRECONDITION_FAILED);
+		} catch (Exception) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	/**

@@ -26,6 +26,8 @@ OC.L10N.register(
     "Invalid LDAP UUIDs" : "無效的 LDAP UUID",
     "None found" : "找不到",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "找到無效的 LDAP 帳號或群組 UUID。請審閱您在 LDAP 專家設定中的「覆寫 UUID 偵測」設定，並使用「occ ldap:update-uuid」來更新它們。",
+    "LDAP" : "LDAP",
+    "LDAP configuration" : "LDAP 組態",
     "_%n group found_::_%n groups found_" : ["找到 %n 個群組"],
     "> 1000 groups found" : "找到 > 1000 個群組",
     "> 1000 users found" : "找到 > 1000 個使用者",
@@ -55,6 +57,8 @@ OC.L10N.register(
     "Base User Tree" : "基本使用者樹",
     "Optional; one attribute per line" : "選填；一行一項特性",
     "User Search Attributes" : "使用者搜尋特性",
+    "User Active/Inactive Attribute" : "使用 Active/Inactive 屬性",
+    "User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not." : "使用者屬性，用以標示使用者是否為活躍狀態；若為活躍狀態，應設為 `TRUE`；若非活躍狀態，則設為 `FALSE`。",
     "When switched on, users imported from LDAP which are then missing will be disabled" : "開啟後，從 LDAP 匯入但隨後消失的使用者將被停用",
     "Disable users missing from LDAP" : "停用 LDAP 中沒有的使用者",
     "Group Display Name Field" : "群組顯示名稱欄位",
@@ -133,7 +137,7 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "允許以電子郵件特性登入。允許使用「mail」與「mailPrimaryAddress」。",
     "LDAP/AD Email Address:" : "LDAP/AD 電子郵件地址：",
     "Other Attributes:" : "其他特性：",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "定義試圖登入時所要套用的過濾條件。「%%uid」會在登入動作時取代使用者名稱。範例：「uid=%%uid」",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "定義試圖登入時所要套用的過濾條件。「%uid」會在登入動作時取代使用者名稱。範例：「uid=%ud」",
     "Attempts to receive a DN for the given login name and the current login filter" : "嘗試接收指定登入名稱與目前登入過濾條件的 DN",
     "Test Login name" : "測試登入名稱",
     "Verify settings" : "驗證設定",
@@ -267,6 +271,7 @@ OC.L10N.register(
     "Pronouns Field" : "代名詞欄位",
     "User profile Pronouns will be set from the specified attribute" : "使用者個人資料代名詞將從指定的屬性設定",
     "UUID Attribute for Users:" : "使用者的 UUID 特性：",
-    "UUID Attribute for Groups:" : "群組的 UUID 特性："
+    "UUID Attribute for Groups:" : "群組的 UUID 特性：",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "定義試圖登入時所要套用的過濾條件。「%%uid」會在登入動作時取代使用者名稱。範例：「uid=%%uid」"
 },
 "nplurals=1; plural=0;");

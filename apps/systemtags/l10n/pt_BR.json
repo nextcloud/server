@@ -44,6 +44,7 @@
     "Collaborative tagging functionality which shares tags among people." : "Funcionalidade de etiquetas colaborativas que compartilha etiquetas entre pessoas.",
     "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidade de etiquetas colaborativas que compartilha etiquetas entre pessoas. Ótimo para equipes. \n\t(Se você for um provedor com instalação multi-tenancy, é recomendável desativar este aplicativo, pois as etiquetas são compartilhadas.)",
     "Search tags" : "Pesquisar etiquetas",
+    "No tags available" : "Não há etiquetas disponíveis",
     "Public" : "Público",
     "Restricted" : "Restrito",
     "Invisible" : "Invisível",

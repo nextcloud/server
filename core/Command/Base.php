@@ -134,7 +134,7 @@ class Base extends Command implements CompletionAwareInterface {
 		for ($i = 0; $iterator->valid(); $i++) {
 			$chunk[] = $iterator->current();
 			$iterator->next();
-			if (count($chunk) == $count) {
+			if (count($chunk) === $count) {
 				// Got a full chunk, yield and start a new one
 				yield $chunk;
 				$chunk = [];

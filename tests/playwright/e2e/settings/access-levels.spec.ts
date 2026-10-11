@@ -18,7 +18,7 @@ userTest.describe('Settings: Access levels – regular user', () => {
 
 		const appNavigation = page.locator('#app-navigation-vue')
 		await expect(appNavigation.getByRole('list', { name: 'Personal' })).toBeVisible()
-		await expect(appNavigation.getByRole('link', { name: /Personal info/i })).toBeVisible()
+		await expect(appNavigation.getByRole('link', { name: 'Profile & contact' })).toBeVisible()
 		// Regular users must not see the Administration section
 		await expect(appNavigation.getByRole('list', { name: 'Administration' })).toHaveCount(0)
 	})
@@ -34,7 +34,7 @@ adminTest.describe('Settings: Access levels – admin user', () => {
 
 		const appNavigation = page.locator('#app-navigation-vue')
 		await expect(appNavigation.getByRole('list', { name: 'Personal' })).toBeVisible()
-		await expect(appNavigation.getByRole('link', { name: /Personal info/i })).toBeVisible()
+		await expect(appNavigation.getByRole('link', { name: 'Profile & contact' })).toBeVisible()
 		// Admins must see the Administration section
 		await expect(appNavigation.getByRole('list', { name: 'Administration' })).toBeVisible()
 		await expect(appNavigation.getByRole('link', { name: /Overview/i })).toBeVisible()

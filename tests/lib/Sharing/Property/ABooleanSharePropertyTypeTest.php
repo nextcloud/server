@@ -67,6 +67,7 @@ final class ABooleanSharePropertyTypeTest extends TestCase {
 			new ShareUser('user', null),
 			new DateTimeImmutable(),
 			ShareState::Active,
+			null,
 			[],
 			[],
 			[],

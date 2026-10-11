@@ -23,7 +23,6 @@ return array(
     'OCA\\Files_Versions\\Expiration' => $baseDir . '/../lib/Expiration.php',
     'OCA\\Files_Versions\\Listener\\CreateVersionListenerForWorkflow' => $baseDir . '/../lib/Listener/CreateVersionListenerForWorkflow.php',
     'OCA\\Files_Versions\\Listener\\FileEventsListener' => $baseDir . '/../lib/Listener/FileEventsListener.php',
-    'OCA\\Files_Versions\\Listener\\LegacyRollbackListener' => $baseDir . '/../lib/Listener/LegacyRollbackListener.php',
     'OCA\\Files_Versions\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',
     'OCA\\Files_Versions\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
     'OCA\\Files_Versions\\Listener\\RegisterWorkflowIntegrationListener' => $baseDir . '/../lib/Listener/RegisterWorkflowIntegrationListener.php',

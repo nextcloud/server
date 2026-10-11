@@ -152,7 +152,12 @@ class SyncService extends ASyncService {
 					if (is_null($vCard)) {
 						$this->backend->deleteCard($addressBookId, $cardId);
 					} else {
-						$this->backend->updateCard($addressBookId, $cardId, $vCard->serialize());
+						$cardData = $vCard->serialize();
+						// Writing an identical card would still bump the address book
+						// sync token and make every client re-download the card
+						if ($card['carddata'] !== $cardData) {
+							$this->backend->updateCard($addressBookId, $cardId, $cardData);
+						}
 					}
 				}
 			}, $this->dbConnection);

@@ -18,8 +18,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportLegacyOcClient extends Command {
+final class ImportLegacyOcClient extends Command {
 	private const string ARGUMENT_CLIENT_ID = 'client-id';
+
 	private const string ARGUMENT_CLIENT_SECRET = 'client-secret';
 
 	public function __construct(
@@ -67,10 +68,11 @@ class ImportLegacyOcClient extends Command {
 		$hashedClientSecret = bin2hex($this->crypto->calculateHMAC($clientSecret));
 
 		$client = new Client();
-		$client->setName('ownCloud Desktop Client');
-		$client->setRedirectUri('http://localhost:*');
-		$client->setClientIdentifier($clientId);
-		$client->setSecret($hashedClientSecret);
+		$client->name = 'ownCloud Desktop Client';
+		$client->redirectUri = 'http://localhost:*';
+		$client->clientIdentifier = $clientId;
+		$client->secret = $hashedClientSecret;
+
 		$this->clientMapper->insert($client);
 
 		$output->writeln('<info>Client imported successfully</info>');

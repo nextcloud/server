@@ -52,7 +52,7 @@ class Config implements \OCP\GlobalScale\IConfig {
 
 	#[Override]
 	public function isPrimaryAdmin(string $userId): bool {
-		return in_array($userId, $this->config->getSystemValue('gss.master.admin', []))
-			|| in_array($userId, $this->config->getSystemValue('gss.primary.admin', []));
+		return in_array($userId, $this->config->getSystemValue('gss.master.admin', []), true)
+			|| in_array($userId, $this->config->getSystemValue('gss.primary.admin', []), true);
 	}
 }

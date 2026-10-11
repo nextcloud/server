@@ -89,7 +89,7 @@ class ServerContainer extends SimpleContainer {
 					/* The application constructor will register the container, see App::__construct */
 					$app = new $applicationClassName();
 					if (isset($this->appContainers[$namespace])) {
-						$this->appContainers[$namespace]->offsetSet($applicationClassName, $app);
+						$this->appContainers[$namespace]->setInInternalContainer($applicationClassName, $app);
 						/** @psalm-suppress NoValue false-positive (see comment above) */
 						return $this->appContainers[$namespace];
 					}
@@ -120,31 +120,13 @@ class ServerContainer extends SimpleContainer {
 	 * @psalm-param S $name
 	 * @psalm-return (S is class-string<T> ? T : mixed)
 	 * @throws QueryException
-	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 */
 	#[\Override]
-	public function query(string $name, bool $autoload = true, array $chain = []): mixed {
-		$name = $this->sanitizeName($name);
-
-		if (str_starts_with($name, 'OCA\\')) {
-			// Skip server container query for app namespace classes
-			try {
-				return parent::query($name, false, $chain);
-			} catch (QueryException $e) {
-				// Continue with general autoloading then
-			}
-			// In case the service starts with OCA\ we try to find the service in
-			// the apps container first.
-			if (($appContainer = $this->getAppContainerForService($name)) !== null) {
-				try {
-					return $appContainer->queryNoFallback($name, $chain);
-				} catch (QueryException $e) {
-					// Didn't find the service or the respective app container
-					// In this case the service won't be part of the core container,
-					// so we can throw directly
-					throw $e;
-				}
-			}
+	protected function query(string $name, bool $autoload = true, array $chain = []): mixed {
+		$name = $this->resolveAlias($name);
+		// In case the service starts with OCA\ we try to find the service in the apps container.
+		if (($appContainer = $this->getAppContainerForService($name)) !== null) {
+			return $appContainer->query($name, $autoload, $chain, fallback:false);
 		}
 
 		return parent::query($name, $autoload, $chain);
@@ -166,9 +148,5 @@ class ServerContainer extends SimpleContainer {
 		} catch (QueryException $e) {
 			return null;
 		}
-	}
-
-	public function getWebRoot() {
-		return '';
 	}
 }

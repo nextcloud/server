@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-namespace Tests\lib\Config;
+namespace Test\Config;
 
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;

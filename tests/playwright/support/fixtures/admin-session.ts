@@ -6,6 +6,7 @@
 import { User } from '@nextcloud/e2e-test-server'
 import { login } from '@nextcloud/e2e-test-server/playwright'
 import { test as baseTest } from '@playwright/test'
+import { installPasswordConfirmationHandler } from '../utils/password-confirmation.ts'
 
 const admin = new User('admin', 'admin')
 
@@ -18,6 +19,7 @@ export const test = baseTest.extend({
 			await new Promise((resolve) => setTimeout(resolve, 800))
 			await login(context.request, admin)
 		}
+		await installPasswordConfirmationHandler(page, admin.password)
 		await use(page)
 	},
 })

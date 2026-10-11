@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid LDAP UUIDs" : "Неисправни LDAP UUID идентификатори",
     "None found" : "Није пронађен ниједан",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Пронађени су неисправни UUID бројеви LDAP налога или група. Молимо вас да ревидирате своја „Премости UUID детекцију\" подешавања у Експерт делу LDAP конфигурације и употребите „occ ldap:update-uuid” да их ажурирате.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["пронађена је %n група","пронађене су %n групе","пронађено је %n група"],
     "> 1000 groups found" : "пронађено је >1000 група",
     "> 1000 users found" : "пронаћено је > 1000 корисника",
@@ -131,7 +132,6 @@ OC.L10N.register(
     "LDAP/AD Username:" : "LDAP/AD корисничко име:",
     "LDAP/AD Email Address:" : "LDAP/AD и-мејл адреса:",
     "Other Attributes:" : "Остали атрибути:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Дефинише филтер који ће се применити, када се покуша пријава. `%%uid` замењује корисничко име у пријави. Пример: `uid=%%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Покушава да прими Име домена (DN) за наведено име пријаве и текући филтер пријаве",
     "Test Login name" : "Испробај име за пријаву",
     "Verify settings" : "Провери поставке",
@@ -260,6 +260,7 @@ OC.L10N.register(
     "Pronouns Field" : "Поље заменица",
     "User profile Pronouns will be set from the specified attribute" : "Заменице корисничког профила ће се поставити из наведеног атрибута",
     "UUID Attribute for Users:" : "UUID параметри за кориснике:",
-    "UUID Attribute for Groups:" : "UUID параметри за групе:"
+    "UUID Attribute for Groups:" : "UUID параметри за групе:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Дефинише филтер који ће се применити, када се покуша пријава. `%%uid` замењује корисничко име у пријави. Пример: `uid=%%uid`"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

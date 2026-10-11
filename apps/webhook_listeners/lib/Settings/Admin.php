@@ -15,6 +15,8 @@ use OCP\Settings\IDelegatedSettings;
 
 /**
  * Empty settings class, used only for admin delegation for now as there is no UI
+ * ATTENTION this admin delegation can create tokens with full admin rights and is therefore considered as a full admin role
+ *
  */
 class Admin implements IDelegatedSettings {
 	/**
@@ -38,7 +40,7 @@ class Admin implements IDelegatedSettings {
 	#[\Override]
 	public function getName(): ?string {
 		/* Use section name alone */
-		return null;
+		return 'Attention: can create tokens with full admin rights';
 	}
 
 	#[\Override]

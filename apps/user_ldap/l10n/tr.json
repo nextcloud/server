@@ -1,6 +1,6 @@
 { "translations": {
     "Password change rejected. Hint: %s" : "Parola değişimi reddedildi. İpucu: %s",
-    "Mandatory field \"%s\" left empty" : "\"%s\" zorunlu alanı boş olamaz",
+    "Mandatory field \"%s\" left empty" : "\"%s\" zorunlu alanı boş bırakılamaz",
     "A password is given, but not an LDAP agent" : "Bir parola belirtilmiş ancak bir LDAP aracısı değil",
     "No password is given for the user agent" : "Kullanıcı uygulaması için bir parola belirtilmemiş",
     "No LDAP base DN was given" : "LDAP base DN değeri belirtilmemiş",
@@ -24,6 +24,8 @@
     "Invalid LDAP UUIDs" : "LDAP UUID değerleri geçersiz",
     "None found" : "Herhangi bir şey bulunamadı",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAP hesapları ya da grupları için geçersiz UUID değerleri bulundu. Lütfen LDAP yapılandırmasının Uzman bölümündeki \"UUID algılaması değiştirilsin\" seçeneğini gözden geçirin ve bunları güncellemek için \"occ ldap:update-uuid\" komutunu kullanın.",
+    "LDAP" : "LDAP",
+    "LDAP configuration" : "LDAP yapılandırması",
     "_%n group found_::_%n groups found_" : ["%n grup bulundu","%n grup bulundu"],
     "> 1000 groups found" : "> 1000 grup bulundu",
     "> 1000 users found" : "> 1000 kullanıcı bulundu",
@@ -43,7 +45,7 @@
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your {instanceName} server." : "Önerilmez, yalnızca deneme amacıyla kullanın! Bağlantı yalnızca bu seçenek ile çalışıyorsa LDAP sunucusunun SSL sertifikasını {instanceName} sunucuzun içine aktarın.",
     "Turn off SSL certificate validation." : "SSL sertifika doğrulaması kullanılmasın.",
     "Cache Time-To-Live" : "Ön Bellek Time-To-Live Değeri",
-    "in seconds. A change empties the cache." : "saniye cinsinden. Değişiklik ön belleği temizler.",
+    "in seconds. A change empties the cache." : "saniye olarak. Değişiklik ön belleği temizler.",
     "Directory Settings" : "Dizin Ayarları",
     "User Display Name Field" : "Görüntülenecek Kullanıcı Adı Alanı",
     "The LDAP attribute to use to generate the user's display name." : "Görüntülenecek kullanıcı adını üretmek için kullanılacak LDAP özniteliği.",
@@ -53,6 +55,8 @@
     "Base User Tree" : "Temel Kullanıcı Ağacı",
     "Optional; one attribute per line" : "İsteğe bağlı; her satıra bir öznitelik",
     "User Search Attributes" : "Kullanıcı arama öznitelikleri",
+    "User Active/Inactive Attribute" : "Kullanıcı Etkin/Etkisiz özniteliği",
+    "User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not." : "Kullanıcının etkin ya da etkisiz olup olmadığı kullanıcı özniteliği. Etkinse `TRUE`, etkisizse `FALSE` olmalıdır.",
     "When switched on, users imported from LDAP which are then missing will be disabled" : "Açıldığında, LDAP üzerinden içe aktarılmış ancak daha sonra kaybolmuş kullanıcılar kullanımdan kaldırılır",
     "Disable users missing from LDAP" : "LDAP üzerinde bulunmayan kullanıcılar kullanımdan kaldırılsın",
     "Group Display Name Field" : "Görüntülenecek Grup Adı Alanı",
@@ -131,7 +135,7 @@
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "E-posta adresi ile oturum açılmasını sağlar. 'mail' ve 'mailPrimaryAddress' kullanılabilir.",
     "LDAP/AD Email Address:" : "LDAP/AD e-posta adresi:",
     "Other Attributes:" : "Diğer öznitelikler:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Oturum açma girişiminde uygulanacak süzgeci tanımlar. Oturum açma işleminde `%%uid` kullanıcı adı ile değiştirilir. Örnek: `uid=%%uid`",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "Oturum açma girişiminde uygulanacak süzgeci tanımlar. `%uid`, oturum açılırken kullanıcı adı ile değiştirilir. Örnek: `uid=%uid`",
     "Attempts to receive a DN for the given login name and the current login filter" : "Belirtilen kullanıcı adı ve geçerli oturum açma süzgeci için bir etki alanı adı almayı dener",
     "Test Login name" : "Kullanıcı adını sına",
     "Verify settings" : "Ayarları doğrula",
@@ -256,7 +260,7 @@
     "The filter specifies which LDAP users shall have access to the %s instance." : "Süzgeç, %s kopyasına erişmesi gereken LDAP kullanıcılarını belirtir.",
     "Saving" : "Kaydediliyor",
     "Back" : "Geri",
-    "Continue" : "Sürdür",
+    "Continue" : "İlerle",
     "Please renew your password." : "Lütfen parolanızı yenileyin.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Uyarı:</b> PHP LDAP modülü kurulmamış, arka yüz çalışmayacak. Lütfen kurması için BT yöneticiniz ile görüşün.",
     "Configuration Active" : "Yapılandırma etkin",
@@ -265,6 +269,7 @@
     "Pronouns Field" : "Hitap alanı",
     "User profile Pronouns will be set from the specified attribute" : "Kullanıcı profilindeki hitap alanının değeri belirtilen öznitelikten alınır",
     "UUID Attribute for Users:" : "Kullanıcılar için UUID Özniteliği:",
-    "UUID Attribute for Groups:" : "Gruplar için UUID Özniteliği:"
+    "UUID Attribute for Groups:" : "Gruplar için UUID Özniteliği:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Oturum açma girişiminde uygulanacak süzgeci tanımlar. Oturum açma işleminde `%%uid` kullanıcı adı ile değiştirilir. Örnek: `uid=%%uid`"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

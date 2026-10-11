@@ -56,7 +56,7 @@ class ShowConfig extends Base {
 		$configID = $input->getArgument('configID');
 		if (!is_null($configID)) {
 			$configIDs[] = $configID;
-			if (!in_array($configIDs[0], $availableConfigs)) {
+			if (!in_array($configIDs[0], $availableConfigs, true)) {
 				$output->writeln('Invalid configID');
 				return self::FAILURE;
 			}

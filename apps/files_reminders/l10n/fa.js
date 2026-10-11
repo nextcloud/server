@@ -16,7 +16,6 @@ OC.L10N.register(
     "Reminder cleared for \"{fileName}\"" : "یادآوری برای \"{fileName}\" پاک شد",
     "Failed to clear reminder" : "پاک کردن یادآوری انجام نشد",
     "Reminder at custom date & time" : "یادآوری در تاریخ و ساعت دلخواه",
-    "We will remind you of this file" : "ما این فایل را به شما یادآوری خواهیم کرد",
     "Cancel" : "لغو",
     "Clear reminder" : "پاک کردن یادآوری",
     "Set reminder" : "تنظیم یادآوری",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "تنظیم یادآوری برای این آخر هفته",
     "Next week" : "هفته آینده",
     "Set reminder for next week" : "تنظیم یادآوری برای هفته آینده",
-    "Set reminder for \"{fileName}\"" : "تنظیم یادآوری برای \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "تنظیم یادآوری برای \"{fileName}\"",
+    "We will remind you of this file" : "ما این فایل را به شما یادآوری خواهیم کرد"
 },
 "nplurals=2; plural=(n > 1);");

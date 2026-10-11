@@ -80,7 +80,7 @@ class ManagerTest extends \Test\TestCase {
 			$this->image,
 			$this->ncUserManager,
 			$this->notificationManager,
-			$this->shareManager
+			$this->shareManager,
 		);
 
 		$this->manager->setLdapAccess($this->access);

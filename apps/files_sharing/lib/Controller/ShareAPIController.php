@@ -242,9 +242,8 @@ class ShareAPIController extends OCSController {
 			$result['expiration'] = $expiration->format('Y-m-d H:i:s');
 		}
 
-		$currentUserPermissions = $recipientNode?->getPermissions() ?? Constants::PERMISSION_ALL;
-		$userHasEnoughPermissions = ($currentUserPermissions & $share->getPermissions()) === $share->getPermissions();
-		$token = $userHasEnoughPermissions ? $share->getToken() : null;
+		$userHasEnoughPermissions = ($node->getPermissions() & $share->getPermissions()) === $share->getPermissions();
+		$token = $userHasEnoughPermissions && $this->canEditShare($share) ? $share->getToken() : null;
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$sharedWith = $this->userManager->get($share->getSharedWith());
@@ -891,7 +890,7 @@ class ShareAPIController extends OCSController {
 		$resharingRight = false;
 		$known = [];
 		foreach ($shares as $share) {
-			if (in_array($share->getId(), $known) || $share->getSharedWith() === $this->userId) {
+			if (in_array($share->getId(), $known, true) || $share->getSharedWith() === $this->userId) {
 				continue;
 			}
 
@@ -1070,7 +1069,7 @@ class ShareAPIController extends OCSController {
 				continue;
 			}
 
-			if (in_array($share->getId(), $known)
+			if (in_array($share->getId(), $known, true)
 				|| ($share->getSharedWith() === $this->userId && $share->getShareType() === IShare::TYPE_USER)) {
 				continue;
 			}

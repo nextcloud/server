@@ -81,6 +81,7 @@ OC.L10N.register(
     "Compatibility with Mac NFD encoding (slow)" : "Compatibilidad con codificación Mac NFD (lenta)",
     "External storages" : "Almacenamiento externo",
     "Actions" : "Acciones",
+    "All accounts" : "Todas las cuentas",
     "Delete" : "Eliminar",
     "Saved" : "Guardado",
     "Allow people to mount external storage" : "Permitir a los usuarios montar almacenamientos externos",

@@ -9,8 +9,11 @@ declare(strict_types=1);
 
 namespace OCA\DAV\CalDAV\Reminder;
 
+use OCA\DAV\DAV\Sharing\Plugin;
+use OCA\DAV\Db\PropertyMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
+use Sabre\Uri;
 
 /**
  * Class Backend
@@ -20,14 +23,22 @@ use OCP\IDBConnection;
 class Backend {
 
 	/**
+	 * WebDAV property a sharee sets on their own view of a shared calendar
+	 * to mute reminders, stored via the generic custom-properties backend.
+	 */
+	private const string PROPERTY_DISABLE_ALARM_NOTIFICATIONS = '{' . Plugin::NS_NEXTCLOUD . '}disable-alarm-notifications';
+
+	/**
 	 * Backend constructor.
 	 *
 	 * @param IDBConnection $db
 	 * @param ITimeFactory $timeFactory
+	 * @param PropertyMapper $propertyMapper
 	 */
 	public function __construct(
 		protected IDBConnection $db,
 		protected ITimeFactory $timeFactory,
+		private PropertyMapper $propertyMapper,
 	) {
 	}
 
@@ -39,18 +50,47 @@ class Backend {
 	 */
 	public function getRemindersToProcess():array {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['cr.id', 'cr.calendar_id','cr.object_id','cr.is_recurring','cr.uid','cr.recurrence_id','cr.is_recurrence_exception','cr.event_hash','cr.alarm_hash','cr.type','cr.is_relative','cr.notification_date','cr.is_repeat_based','co.calendardata', 'c.displayname', 'c.principaluri'])
+		$query->select(['cr.id', 'cr.calendar_id','cr.object_id','cr.is_recurring','cr.uid','cr.recurrence_id','cr.is_recurrence_exception','cr.event_hash','cr.alarm_hash','cr.type','cr.is_relative','cr.notification_date','cr.is_repeat_based','co.calendardata', 'c.displayname', 'c.principaluri', 'c.uri', 'c.disable_alarm_notifications'])
 			->from('calendar_reminders', 'cr')
 			->where($query->expr()->lte('cr.notification_date', $query->createNamedParameter($this->timeFactory->getTime())))
 			->join('cr', 'calendarobjects', 'co', $query->expr()->eq('cr.object_id', 'co.id'))
 			->join('cr', 'calendars', 'c', $query->expr()->eq('cr.calendar_id', 'c.id'))
-			->groupBy('cr.event_hash', 'cr.notification_date', 'cr.type', 'cr.id', 'cr.calendar_id', 'cr.object_id', 'cr.is_recurring', 'cr.uid', 'cr.recurrence_id', 'cr.is_recurrence_exception', 'cr.alarm_hash', 'cr.is_relative', 'cr.is_repeat_based', 'co.calendardata', 'c.displayname', 'c.principaluri');
+			->groupBy('cr.event_hash', 'cr.notification_date', 'cr.type', 'cr.id', 'cr.calendar_id', 'cr.object_id', 'cr.is_recurring', 'cr.uid', 'cr.recurrence_id', 'cr.is_recurrence_exception', 'cr.alarm_hash', 'cr.is_relative', 'cr.is_repeat_based', 'co.calendardata', 'c.displayname', 'c.principaluri', 'c.uri', 'c.disable_alarm_notifications');
 		$stmt = $query->executeQuery();
 
 		return array_map(
 			[$this, 'fixRowTyping'],
 			$stmt->fetchAllAssociative()
 		);
+	}
+
+	/**
+	 * Whether the given principal has muted reminders for this reminder's calendar.
+	 *
+	 * The calendar owner's setting is stored directly on the `calendars` row (already
+	 * part of $reminder). A sharee's setting is their own WebDAV property on their view
+	 * of the shared calendar, stored via the generic custom-properties backend.
+	 *
+	 * @param array $reminder A row as returned by getRemindersToProcess()
+	 */
+	public function isReminderMutedForPrincipal(array $reminder, string $principalUri): bool {
+		if ($principalUri === $reminder['principaluri']) {
+			return $reminder['disable_alarm_notifications'];
+		}
+
+		[, $shareeUid] = Uri\split($principalUri);
+		[, $ownerUid] = Uri\split($reminder['principaluri']);
+		if ($shareeUid === null || $ownerUid === null) {
+			return false;
+		}
+
+		$path = 'calendars/' . $shareeUid . '/' . $reminder['uri'] . '_shared_by_' . $ownerUid;
+		$properties = $this->propertyMapper->findPropertyByPathAndName($shareeUid, $path, self::PROPERTY_DISABLE_ALARM_NOTIFICATIONS);
+		if (empty($properties)) {
+			return false;
+		}
+
+		return $properties[0]->getPropertyvalue() === '1';
 	}
 
 	/**
@@ -192,6 +232,9 @@ class Backend {
 		$row['is_relative'] = (bool)$row['is_relative'];
 		$row['notification_date'] = (int)$row['notification_date'];
 		$row['is_repeat_based'] = (bool)$row['is_repeat_based'];
+		if (array_key_exists('disable_alarm_notifications', $row)) {
+			$row['disable_alarm_notifications'] = (bool)$row['disable_alarm_notifications'];
+		}
 
 		return $row;
 	}

@@ -85,6 +85,7 @@ OC.L10N.register(
     "External storages" : "Emmagatzematges externs",
     "Status" : "Estat",
     "Actions" : "Accions",
+    "All accounts" : "Tots els comptes",
     "Delete" : "Suprimir",
     "Saved" : "S'ha desat",
     "Error while saving" : "S'ha produït un error en desar",

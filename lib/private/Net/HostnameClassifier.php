@@ -41,7 +41,7 @@ class HostnameClassifier {
 		$hostname = rtrim($hostname, '.');
 		// Disallow local network top-level domains from RFC 6762
 		$topLevelDomain = substr((strrchr($hostname, '.') ?: ''), 1);
-		if (in_array($topLevelDomain, self::LOCAL_TOPLEVEL_DOMAINS)) {
+		if (in_array($topLevelDomain, self::LOCAL_TOPLEVEL_DOMAINS, true)) {
 			return true;
 		}
 

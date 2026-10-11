@@ -10,7 +10,6 @@ OC.L10N.register(
     "Reminder set for \"{fileName}\"" : "\"{fileName}\"에 대한 알림 목록",
     "Failed to set reminder" : "알림을 설정할 수 없음",
     "Failed to clear reminder" : "알림을 초기화할 수 없음",
-    "We will remind you of this file" : "이 파일에 대해 알림을 드립니다",
     "Cancel" : "취소",
     "Clear reminder" : "알림 초기화",
     "Set reminder" : "알림 설정",
@@ -22,6 +21,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "알림을 주말로 설정",
     "Next week" : "다음주",
     "Set reminder for next week" : "알림을 다음주로 설정",
-    "Set reminder for \"{fileName}\"" : "\"{fileName}\"에 대한 알림 지정"
+    "Set reminder for \"{fileName}\"" : "\"{fileName}\"에 대한 알림 지정",
+    "We will remind you of this file" : "이 파일에 대해 알림을 드립니다"
 },
 "nplurals=1; plural=0;");

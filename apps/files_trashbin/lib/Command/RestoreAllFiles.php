@@ -165,7 +165,7 @@ class RestoreAllFiles extends Base {
 			$output);
 
 		$trashCount = count($userTrashItems);
-		if ($trashCount == 0) {
+		if ($trashCount === 0) {
 			$output->writeln('User has no deleted files in the trashbin matching the given filters');
 			return;
 		}

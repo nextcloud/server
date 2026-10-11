@@ -12,6 +12,7 @@ use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarFactory;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
+use OCA\DAV\CalDAV\Principal\Collection as PrincipalCollection;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
@@ -88,7 +89,7 @@ $debugging = Server::get(IConfig::class)->getSystemValue('debug', false);
 $sendInvitations = Server::get(IAppConfig::class)->getValueBool('dav', 'sendInvitations', true);
 
 // Root nodes
-$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
+$principalCollection = new PrincipalCollection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
 $addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', $logger, $davL10n, $config, $federatedCalendarFactory);

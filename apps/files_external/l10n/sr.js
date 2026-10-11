@@ -86,6 +86,7 @@ OC.L10N.register(
     "External storages" : "Спољашње складиште",
     "Status" : "Стање",
     "Actions" : "Радње",
+    "All accounts" : "Сви налози",
     "Delete" : "Обриши",
     "Saved" : "Сачувано",
     "Error while saving" : "Грешка приликом чувања",

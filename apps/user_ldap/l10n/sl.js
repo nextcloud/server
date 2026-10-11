@@ -11,6 +11,7 @@ OC.L10N.register(
     "Your password will expire today." : "Geslo vam poteče danes!",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Geslo bo poteklo čez %n dan.","Geslo bo poteklo čez %n dneva","Geslo bo poteklo čez %n dni.","Geslo bo poteklo čez %n dni."],
     "LDAP/AD integration" : "Združevalnik za LDAP / AD",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["%s najdena skupina","%s najdeni skupini","%s najdene skupine","%s najdenih skupin"],
     "> 1000 groups found" : "> 1000 najdenih skupin",
     "> 1000 users found" : "> 1000 najdenih uporabnikov",

@@ -26,6 +26,8 @@ OC.L10N.register(
     "Invalid LDAP UUIDs" : "無效的 LDAP UUID",
     "None found" : "未找到",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "LDAP 帳戶或群組的 UUID 無效。請查看 LDAP 配置專家部分中的“覆蓋 UUID 檢測”設置，並使用“occ ldap:update-uuid”更新它們。",
+    "LDAP" : "LDAP",
+    "LDAP configuration" : "LDAP 配置",
     "_%n group found_::_%n groups found_" : ["找到 %n 個群組"],
     "> 1000 groups found" : "找到 > 1000 個群組",
     "> 1000 users found" : "找到 > 1000 位用戶",
@@ -133,7 +135,7 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "允許以電子郵件特性登入。允許使用「mail」與「mailPrimaryAddress」。",
     "LDAP/AD Email Address:" : "LDAP/AD 電郵地址：",
     "Other Attributes:" : "其他屬性：",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "定義試圖登入時所要使用的過濾條件。「%%uid」會在登入操作時取代用戶名稱。示例：「uid=%%uid」",
+    "Defines the filter to apply, when login is attempted. `%uid` replaces the username in the login action. Example: `uid=%uid`" : "定義試圖登入時所要使用的過濾條件。「%uid」會在登入操作時取代用戶名稱。示例：「uid=%uid」",
     "Attempts to receive a DN for the given login name and the current login filter" : "嘗試接收給定登錄名和目前登錄過濾器的 DN",
     "Test Login name" : "測試登入用戶名",
     "Verify settings" : "驗證設定",
@@ -267,6 +269,7 @@ OC.L10N.register(
     "Pronouns Field" : "代名詞欄位",
     "User profile Pronouns will be set from the specified attribute" : "用戶個人資料代名詞將從指定的屬性設置",
     "UUID Attribute for Users:" : "用戶的UUID值：",
-    "UUID Attribute for Groups:" : "群組的UUID值："
+    "UUID Attribute for Groups:" : "群組的UUID值：",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "定義試圖登入時所要使用的過濾條件。「%%uid」會在登入操作時取代用戶名稱。示例：「uid=%%uid」"
 },
 "nplurals=1; plural=0;");

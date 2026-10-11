@@ -483,7 +483,7 @@ class TemplateManager implements ITemplateManager {
 			throw new \RuntimeException('username is reserved name: ' . $appdata);
 		}
 
-		if (!empty($skeletonDirectory)) {
+		if (!empty($skeletonDirectory) && $userDirectory->getFreeSpace() !== 0) {
 			$this->logger->debug('copying skeleton for ' . $userId . ' from ' . $skeletonDirectory . ' to ' . $userDirectory->getFullPath('/'), ['app' => 'files_skeleton']);
 			$this->copyr($skeletonDirectory, $userDirectory);
 			// update the file cache

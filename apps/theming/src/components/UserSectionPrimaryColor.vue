@@ -9,7 +9,6 @@ import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
-import { colord } from 'colord'
 import debounce from 'debounce'
 import { computed, ref, useTemplateRef, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -18,6 +17,7 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import IconColorPalette from 'vue-material-design-icons/PaletteOutline.vue'
 import IconUndo from 'vue-material-design-icons/UndoVariant.vue'
+import { isSameColor } from '../utils/color.ts'
 import { logger } from '../utils/logger.ts'
 
 const emit = defineEmits<{
@@ -36,7 +36,7 @@ watch(primaryColor, debounce((newColor) => {
 	onUpdate(newColor)
 }, 1000))
 
-const isDefaultPrimaryColor = computed(() => colord(primaryColor.value).isEqual(colord(defaultPrimaryColor)))
+const isDefaultPrimaryColor = computed(() => isSameColor(primaryColor.value, defaultPrimaryColor))
 
 /**
  * Global styles are reloaded so we might need to update the current value

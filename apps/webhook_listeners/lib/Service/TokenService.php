@@ -63,6 +63,8 @@ class TokenService {
 	 * ]
 	 * Created auth tokens are valid for 1 hour.
 	 *
+	 * With this, admin tokens can be created. Therefore, the admin delegation for webhooks is considered a full admin role. This is by design.
+	 *
 	 * @param WebhookListener $webhookListener
 	 * @param ?string $triggerUserId the user that triggered the webhook call
 	 * @return array{

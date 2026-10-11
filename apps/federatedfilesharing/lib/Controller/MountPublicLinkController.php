@@ -95,7 +95,7 @@ class MountPublicLinkController extends Controller {
 			$allowedShareIds = [];
 		}
 
-		$authenticated = in_array($share->getId(), $allowedShareIds)
+		$authenticated = in_array($share->getId(), $allowedShareIds, true)
 			|| $this->shareManager->checkPassword($share, $password);
 
 		if ($share->isPasswordProtected() && !$authenticated) {

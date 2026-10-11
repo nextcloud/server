@@ -26,6 +26,7 @@ OC.L10N.register(
     "Invalid LDAP UUIDs" : "Недопустимые UUID LDAP",
     "None found" : "Ничего не найдено",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Обнаружены недопустимые идентификаторы UUID учетных записей или групп LDAP. Пожалуйста, ознакомьтесь с вашими настройками \"Переопределение обнаружения UUID\" в экспертной части конфигурации LDAP и используйте \"occ ldap:update-uuid\", чтобы обновить их.",
+    "LDAP" : "LDAP",
     "_%n group found_::_%n groups found_" : ["Найдена %n группа","Найдено %n группы","Найдено %n групп","Найдено %n группы"],
     "> 1000 groups found" : "Найдено более 1000 групп",
     "> 1000 users found" : "Найдено более 1000 пользователей",
@@ -133,7 +134,6 @@ OC.L10N.register(
     "Allows login against an email attribute. 'mail' and 'mailPrimaryAddress' allowed." : "Разрешает вход в систему по атрибуту электронной почты. «mail» и «mailPrimaryAddress» разрешены.",
     "LDAP/AD Email Address:" : "LDAP/AD Адрес электронной почты:",
     "Other Attributes:" : "Другие атрибуты:",
-    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Определяет фильтр для применения при попытке входа.  «%% uid» заменяет имя пользователя для входа в систему. Например: \"uid=%%uid\"",
     "Attempts to receive a DN for the given login name and the current login filter" : "Попытки получить DN для данного имени пользователя и текущего фильтра LDAP",
     "Test Login name" : "Проверить логин",
     "Verify settings" : "Проверить настройки",
@@ -267,6 +267,7 @@ OC.L10N.register(
     "Pronouns Field" : " Поле местоимений",
     "User profile Pronouns will be set from the specified attribute" : "Местоимения в профиле пользователя будут заданы из указанного атрибута",
     "UUID Attribute for Users:" : "UUID-атрибуты для пользователей:",
-    "UUID Attribute for Groups:" : "UUID-атрибуты для групп:"
+    "UUID Attribute for Groups:" : "UUID-атрибуты для групп:",
+    "Defines the filter to apply, when login is attempted. `%%uid` replaces the username in the login action. Example: `uid=%%uid`" : "Определяет фильтр для применения при попытке входа.  «%% uid» заменяет имя пользователя для входа в систему. Например: \"uid=%%uid\""
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

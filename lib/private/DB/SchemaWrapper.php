@@ -73,7 +73,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	}
 
 	#[\Override]
-	public function getTable(string $tableName): ITable {
+	public function getTable($tableName): ITable {
 		try {
 			return new Table($this->schema->getTable($this->connection->getPrefix() . $tableName));
 		} catch (DBALSchemaException $e) {
@@ -85,12 +85,12 @@ class SchemaWrapper implements ISchemaWrapper {
 	 * Does this schema have a table with the given name?
 	 */
 	#[\Override]
-	public function hasTable(string $tableName): bool {
+	public function hasTable($tableName): bool {
 		return $this->schema->hasTable($this->connection->getPrefix() . $tableName);
 	}
 
 	#[\Override]
-	public function createTable(string $tableName): ITable {
+	public function createTable($tableName): ITable {
 		unset($this->tablesToDelete[$tableName]);
 		try {
 			return new Table($this->schema->createTable($this->connection->getPrefix() . $tableName));
@@ -100,7 +100,7 @@ class SchemaWrapper implements ISchemaWrapper {
 	}
 
 	#[\Override]
-	public function dropTable(string $tableName): self {
+	public function dropTable($tableName): self {
 		$this->tablesToDelete[$tableName] = true;
 		$this->schema->dropTable($this->connection->getPrefix() . $tableName);
 		return $this;

@@ -4,9 +4,9 @@
  -->
 <template>
 	<NcDialog
-		is-form
+		isForm
 		:name="label"
-		:open.sync="open"
+		@closing="emit('close')"
 		@submit="createFederatedShare">
 		<NcTextField
 			ref="input"
@@ -26,29 +26,29 @@
 </template>
 
 <script setup lang="ts">
-import type Vue from 'vue'
-
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { getSharingToken } from '@nextcloud/sharing/public'
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { nextTick, onMounted, ref, useTemplateRef, watch } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import logger from '../../logger.js'
+import { logger } from '../../utils/logger.ts'
 
 defineProps<{
 	label: string
 }>()
 
+const emit = defineEmits<{
+	close: []
+}>()
+
 const loading = ref(false)
 const remoteUrl = ref('')
-// Todo: @nextcloud/vue should expose the types correctly
-const input = ref<Vue & { focus: () => void }>()
-const open = ref(true)
+const input = useTemplateRef('input')
 
 // Focus when mounted
 onMounted(() => nextTick(() => input.value!.focus()))

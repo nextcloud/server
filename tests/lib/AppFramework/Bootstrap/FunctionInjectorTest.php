@@ -34,12 +34,10 @@ class FunctionInjectorTest extends TestCase {
 		});
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testInjectFnNotRegisteredButNullable(): void {
 		(new FunctionInjector($this->container))->injectFn(static function (?Foo $p1): void {
 		});
-
-		// Nothing to assert. No errors means everything is fine.
-		$this->addToAssertionCount(1);
 	}
 
 	public function testInjectFnByType(): void {
@@ -51,18 +49,13 @@ class FunctionInjectorTest extends TestCase {
 
 		(new FunctionInjector($this->container))->injectFn(static function (Foo $p1): void {
 		});
-
-		// Nothing to assert. No errors means everything is fine.
-		$this->addToAssertionCount(1);
 	}
 
+	#[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
 	public function testInjectFnByName(): void {
 		$this->container->registerParameter('test', 'abc');
 
 		(new FunctionInjector($this->container))->injectFn(static function ($test): void {
 		});
-
-		// Nothing to assert. No errors means everything is fine.
-		$this->addToAssertionCount(1);
 	}
 }

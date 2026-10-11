@@ -76,6 +76,7 @@ class NewUserMailHelper {
 			'instancename' => $this->themingDefaults->getName(),
 			'resetTokenGenerated' => $generatePasswordResetToken,
 		]);
+		$emailTemplate->setLanguage($l10n->getLanguageCode());
 
 		$emailTemplate->setSubject($l10n->t('Your %s account was created', [$this->themingDefaults->getName()]));
 		$emailTemplate->addHeader();

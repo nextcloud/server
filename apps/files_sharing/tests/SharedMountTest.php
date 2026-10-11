@@ -166,6 +166,9 @@ class SharedMountTest extends TestCase {
 		return [
 			['/user/files/foo.txt', '/foo.txt', false],
 			['/user/files/folder/foo.txt', '/folder/foo.txt', false],
+			['/user/files/foo.txt/', '/foo.txt', false],
+			['/user/files/folder/foo.txt/', '/folder/foo.txt', false],
+			['/user/files/folder//foo.txt', '/folder/foo.txt', false],
 			['/data/user/files/foo.txt', null, true],
 			['/data/user/files/', null, true],
 			['/files/foo.txt', null, true],

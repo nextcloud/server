@@ -607,6 +607,6 @@ Feature: sharing
       | id | A_NUMBER |
       | item_source | A_NUMBER |
       | share_type | 3 |
-      | permissions | 23 |
+      | permissions | 31 |
       | file_target | /subfolder |
       | expireDate  |            |

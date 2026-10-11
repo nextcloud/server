@@ -110,6 +110,7 @@ OC.L10N.register(
     "Actions" : "اقدامات",
     "Checking …" : "در حال بررسی…",
     "Recheck status" : "بررسی مجدد وضعیت",
+    "All accounts" : "همه حساب‌ها",
     "Delete" : "حذف",
     "System provided storage" : "ذخیره‌ساز ارائه‌شده توسط سیستم",
     "Saved" : "ذخیره شد",

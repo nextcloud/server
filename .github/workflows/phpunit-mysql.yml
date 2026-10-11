@@ -9,52 +9,14 @@
 name: PHPUnit mysql
 
 on:
-  pull_request:
-  schedule:
-    - cron: "5 2 * * *"
+  workflow_call:
 
 permissions:
   contents: read
 
-concurrency:
-  group: phpunit-mysql-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
 jobs:
-  changes:
-    runs-on: ubuntu-latest-low
-    permissions:
-      contents: read
-      pull-requests: read
-
-    outputs:
-      src: ${{ steps.changes.outputs.src }}
-
-    steps:
-      - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
-        id: changes
-        continue-on-error: true
-        with:
-          filters: |
-            src:
-              - '.github/workflows/**'
-              - '3rdparty/**'
-              - '**/appinfo/**'
-              - '**/lib/**'
-              - '**/templates/**'
-              - '**/tests/**'
-              - 'vendor/**'
-              - 'vendor-bin/**'
-              - '.php-cs-fixer.dist.php'
-              - 'composer.json'
-              - 'composer.lock'
-              - '**.php'
-
   phpunit-mysql:
     runs-on: ubuntu-latest
-
-    needs: changes
-    if: needs.changes.outputs.src != 'false'
 
     strategy:
       fail-fast: false
@@ -62,10 +24,12 @@ jobs:
         include:
           - mysql-versions: '8.4'
             php-versions: '8.3'
+            partitioning: false
           - mysql-versions: '9.7'
             php-versions: '8.5'
+            partitioning: true
 
-    name: MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }}) - database tests
+    name: MySQL ${{ matrix.mysql-versions }} (PHP ${{ matrix.php-versions }})${{ case(matrix.partitioning, ' Partitioning', '') }} - database tests
 
     services:
       cache:
@@ -93,7 +57,7 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2.37.2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         timeout-minutes: 5
         with:
           php-version: ${{ matrix.php-versions }}
@@ -124,27 +88,25 @@ jobs:
           ./occ maintenance:install --verbose --database=mysql --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f tests/enable_all.php
 
+      - name: Enable partitioning for oc_filecache
+        if: ${{ matrix.partitioning }}
+        run: |
+          echo "alter table oc_filecache drop primary key, add primary key (fileid, storage);" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword nextcloud
+          echo "alter table oc_filecache partition by hash(storage) partitions 5;" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword nextcloud
+
       - name: PHPUnit
         run: composer run test:db -- --log-junit junit.xml
         env:
           DB_ROOT_USER: root
           DB_ROOT_PASS: rootpassword
 
+      - name: Show partition info
+        if: ${{ matrix.partitioning }}
+        run: |
+          echo "SELECT table_name, partition_name, table_rows FROM information_schema.partitions WHERE partition_name is not null;" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword nextcloud
+          echo "SELECT table_rows FROM information_schema.tables WHERE table_name = 'oc_filecache';" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword nextcloud
+
       - name: Print logs
         if: always()
         run: |
           cat data/nextcloud.log
-
-  summary:
-    permissions:
-      contents: none
-    runs-on: ubuntu-latest-low
-    needs: [changes, phpunit-mysql]
-
-    if: always()
-
-    name: phpunit-mysql-summary
-
-    steps:
-      - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.phpunit-mysql.result != 'success' }}; then exit 1; fi

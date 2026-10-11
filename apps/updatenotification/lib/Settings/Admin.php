@@ -22,6 +22,7 @@ use OCP\L10N\IFactory;
 use OCP\ServerVersion;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
@@ -58,7 +59,7 @@ class Admin implements ISettings {
 
 		$updateState = $this->updateChecker->getUpdateState();
 
-		$notifyGroups = $this->appConfig->getValueArray(Application::APP_NAME, 'notify_groups', ['admin']);
+		$notifyGroups = $this->appConfig->getValueArray(Application::APP_ID, 'notify_groups', ['admin']);
 
 		$defaultUpdateServerURL = 'https://updates.nextcloud.com/updater_server/';
 		$updateServerURL = $this->config->getSystemValue('updater.server.url', $defaultUpdateServerURL);
@@ -90,7 +91,9 @@ class Admin implements ISettings {
 		];
 		$this->initialState->provideInitialState('data', $params);
 
-		return new TemplateResponse('updatenotification', 'admin', [], '');
+		Util::addStyle(Application::APP_ID, 'settings-admin');
+		Util::addScript(Application::APP_ID, 'settings-admin');
+		return new TemplateResponse(Application::APP_ID, 'admin', [], '');
 	}
 
 	protected function filterChanges(array $changes): array {

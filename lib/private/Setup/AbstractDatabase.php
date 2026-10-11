@@ -25,6 +25,19 @@ abstract class AbstractDatabase {
 	 */
 	protected const array CONNECTION_ENCRYPTION_OPTIONS = ['dbdriveroptions'];
 
+	/**
+	 * Installer options describing an encrypted database connection independently of the
+	 * database in use, as provided by the web installer and `occ maintenance:install`.
+	 * @var string[]
+	 */
+	protected const array ENCRYPTION_OPTIONS = ['dbsslmode', 'dbsslca', 'dbsslcert', 'dbsslkey', 'dbsslcrl', 'dbsslnoverify'];
+
+	/**
+	 * The subset of {@see static::ENCRYPTION_OPTIONS} this database supports.
+	 * @var string[]
+	 */
+	protected const array SUPPORTED_ENCRYPTION_OPTIONS = [];
+
 	protected string $dbprettyname = 'abstract';
 
 	protected string $dbUser;
@@ -55,14 +68,44 @@ abstract class AbstractDatabase {
 		if (substr_count($config['dbname'], '.') >= 1) {
 			$errors[] = $this->trans->t('You cannot use dots in the database name %s', [$this->dbprettyname]);
 		}
+		return array_merge($errors, $this->validateEncryptionOptions($config));
+	}
+
+	/**
+	 * Validate the installer options configuring an encrypted database connection.
+	 *
+	 * @param array $config The options passed to the installer
+	 * @return string[]
+	 */
+	protected function validateEncryptionOptions(array $config): array {
+		$errors = [];
 		foreach (static::CONNECTION_ENCRYPTION_OPTIONS as $option) {
 			if (isset($config[$option]) && !is_array($config[$option])) {
-				// Fail instead of ignoring the option, otherwise the instance would be
-				// installed with an unencrypted connection without the admin noticing.
 				$errors[] = $this->trans->t('The database option "%1$s" for %2$s has to be a list of values', [$option, $this->dbprettyname]);
 			}
 		}
+		foreach (static::ENCRYPTION_OPTIONS as $option) {
+			if (!empty($config[$option]) && !in_array($option, static::SUPPORTED_ENCRYPTION_OPTIONS, true)) {
+				$errors[] = $this->trans->t('The database option "%1$s" is not supported by %2$s', [$option, $this->dbprettyname]);
+			}
+		}
+		// A client certificate is useless without its private key and vice versa
+		if (in_array('dbsslcert', static::SUPPORTED_ENCRYPTION_OPTIONS, true)
+			&& empty($config['dbsslcert']) !== empty($config['dbsslkey'])) {
+			$errors[] = $this->trans->t('The database options "dbsslcert" and "dbsslkey" have to be provided together');
+		}
 		return $errors;
+	}
+
+	/**
+	 * Translate the `ENCRYPTION_OPTIONS` into the system config values that
+	 * configure an encrypted connection for this database.
+	 *
+	 * @param array $config The options passed to the installer
+	 * @return array<string, array> System config values, empty if no option was provided
+	 */
+	protected function getEncryptionConfig(array $config): array {
+		return [];
 	}
 
 	public function initialize(array $config): void {
@@ -95,6 +138,13 @@ abstract class AbstractDatabase {
 				continue;
 			}
 			$configValues[$option] = $config[$option];
+		}
+
+		// The database independent options end up in the same config values, so they are
+		// applied on top of any raw value provided, e.g. through an autoconfig file.
+		// array_replace() instead of array_merge() to keep the numeric PDO attribute keys.
+		foreach ($this->getEncryptionConfig($config) as $option => $value) {
+			$configValues[$option] = array_replace($configValues[$option] ?? [], $value);
 		}
 
 		$this->config->setValues($configValues);

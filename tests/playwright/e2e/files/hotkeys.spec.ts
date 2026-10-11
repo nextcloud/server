@@ -62,13 +62,31 @@ test.describe('Files hotkey handling', () => {
 		await expect(filesListPage.getFavoriteIconForFile('abcd')).toHaveCount(0)
 	})
 
-	test('Pressing DELETE should delete the folder', async ({ page, filesListPage }) => {
+	test('Pressing DELETE should delete the folder after confirmation', async ({ page, filesListPage }) => {
 		await filesListPage.getFilesList().press('ArrowDown')
 		await expect(page).toHaveURL(/\/apps\/files\/files\/\d+/)
 		await expect(filesListPage.getRows()).toHaveCount(2)
 
 		await filesListPage.getFilesList().press('Delete')
 
+		await page.getByRole('dialog', { name: 'Confirm deletion' })
+			.getByRole('button', { name: 'Delete folder' })
+			.click()
+
 		await expect(filesListPage.getRows()).toHaveCount(1)
+	})
+
+	test('Cancelling the confirmation of the DELETE hotkey keeps the folder', async ({ page, filesListPage }) => {
+		await filesListPage.getFilesList().press('ArrowDown')
+		await expect(page).toHaveURL(/\/apps\/files\/files\/\d+/)
+		await expect(filesListPage.getRows()).toHaveCount(2)
+
+		await filesListPage.getFilesList().press('Delete')
+
+		const dialog = page.getByRole('dialog', { name: 'Confirm deletion' })
+		await dialog.getByRole('button', { name: 'Cancel' }).click()
+
+		await expect(dialog).toBeHidden()
+		await expect(filesListPage.getRows()).toHaveCount(2)
 	})
 })

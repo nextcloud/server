@@ -49,6 +49,7 @@ export const entry: NewMenuEntry = {
 					'mount-type': context.attributes?.['mount-type'],
 					'owner-id': context.attributes?.['owner-id'],
 					'owner-display-name': context.attributes?.['owner-display-name'],
+					'hide-download': context.attributes?.['hide-download'],
 				},
 			})
 

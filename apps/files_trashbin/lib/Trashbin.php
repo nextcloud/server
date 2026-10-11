@@ -668,7 +668,7 @@ class Trashbin implements IEventListener {
 	 */
 	public static function deleteAll() {
 		$user = OC_User::getUser();
-		$userRoot = \OC::$server->getUserFolder($user)->getParent();
+		$userRoot = Server::get(IRootFolder::class)->getUserFolder($user)->getParent();
 		$view = new View('/' . $user);
 		$fileInfos = $view->getDirectoryContent('files_trashbin/files');
 
@@ -743,7 +743,7 @@ class Trashbin implements IEventListener {
 	 * @return int|float size of deleted files
 	 */
 	public static function delete($filename, $user, $timestamp = null) {
-		$userRoot = \OC::$server->getUserFolder($user)->getParent();
+		$userRoot = Server::get(IRootFolder::class)->getUserFolder($user)->getParent();
 		$view = new View('/' . $user);
 		$size = 0;
 
@@ -1244,12 +1244,13 @@ class Trashbin implements IEventListener {
 		// oc_filecache `name` column has a limit of 250 chars
 		$maxLength = 250;
 		if ($length > $maxLength) {
-			$trashFilename = substr_replace(
-				$trashFilename,
-				'',
-				$maxLength / 2,
-				$length - $maxLength
-			);
+			// truncate at the middle, since the last characters are fairly likely to have meaningful information such as version numbering
+
+			$charsToRemove = $length - $maxLength + 1;
+			$charLength = mb_strlen($trashFilename);
+			$start = mb_substr($trashFilename, 0, intdiv($charLength, 2) - $charsToRemove);
+			$end = mb_substr($trashFilename, intdiv($charLength, 2));
+			return $start . '_' . $end;
 		}
 		return $trashFilename;
 	}

@@ -56,6 +56,10 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 			$store->writeObject($urn, $countStream);
 		} catch (\Exception $exception) {
 			throw new NotPermittedException('Unable to save preview to object store', previous: $exception);
+		} finally {
+			if (is_resource($countStream)) {
+				fclose($countStream);
+			}
 		}
 		return $size;
 	}
@@ -165,6 +169,13 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		}
 
 		return $this->objectStoreCache[$objectStoreName][$bucketName];
+	}
+
+	#[Override]
+	public function deleteUnreferencedPreview(Preview $preview): void {
+		// The urn embeds the preview id, so this object belongs to this entity
+		// alone and can be removed safely.
+		$this->deletePreview($preview);
 	}
 
 	public function getUrn(Preview $preview, array $config): string {

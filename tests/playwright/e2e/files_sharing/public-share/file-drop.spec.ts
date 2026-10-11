@@ -40,7 +40,7 @@ test.describe('files_sharing: Public share - file drop', () => {
 		const menu = page.getByRole('menu')
 		await expect(menu.getByRole('menuitem')).toHaveCount(2)
 		await expect(menu.getByRole('menuitem', { name: 'Upload files' })).toBeVisible()
-		await expect(menu.getByRole('menuitem', { name: 'Upload folders' })).toBeVisible()
+		await expect(menu.getByRole('menuitem', { name: 'Upload folder' })).toBeVisible()
 	})
 
 	test('offers the same options on the dedicated upload button', async ({ page, publicShare }) => {
@@ -51,7 +51,7 @@ test.describe('files_sharing: Public share - file drop', () => {
 		const menu = page.getByRole('menu')
 		await expect(menu.getByRole('menuitem')).toHaveCount(2)
 		await expect(menu.getByRole('menuitem', { name: 'Upload files' })).toBeVisible()
-		await expect(menu.getByRole('menuitem', { name: 'Upload folders' })).toBeVisible()
+		await expect(menu.getByRole('menuitem', { name: 'Upload folder' })).toBeVisible()
 	})
 
 	test('can upload files and reports the progress', async ({ page, user, ownerRequest, publicShare }) => {
@@ -63,7 +63,9 @@ test.describe('files_sharing: Public share - file drop', () => {
 		// stall the transfer and never move the bar.
 		const { promise: held, resolve: release } = Promise.withResolvers<void>()
 		await page.route(/\/public\.php\/dav\/files\//, async (route) => {
-			if (route.request().url().includes('first.txt')) {
+			// hold back only the second file, the uploader also probes the
+			// destination collection before it starts uploading
+			if (!route.request().url().includes('second.md')) {
 				await route.continue()
 				return
 			}
@@ -81,7 +83,9 @@ test.describe('files_sharing: Public share - file drop', () => {
 		// While the second file is still in flight the bar reports the first one as
 		// done — a partial value, not a finished upload. The exact percentage is
 		// the uploader's own byte accounting, so only the range is asserted.
-		const progress = page.getByRole('progressbar')
+		// the file drop renders an upload picker of its own, but the files app
+		// re-renders it while uploading, so the list header reports the progress
+		const progress = page.locator('[data-cy-upload-picker]').getByRole('progressbar')
 		await expect(progress).toBeVisible()
 		await expect.poll(async () => Number(await progress.getAttribute('value') ?? 0), {
 			message: 'the progress bar should report partial progress',

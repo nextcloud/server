@@ -94,6 +94,7 @@ OC.L10N.register(
     "Actions" : "Tindakan",
     "Checking …" : "Memeriksa …",
     "Recheck status" : "Periksa ulang status",
+    "All accounts" : "Semua akun",
     "Delete" : "Hapus",
     "System provided storage" : "Penyimpanan yang disediakan sistem",
     "Saved" : "Disimpan",

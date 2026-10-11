@@ -80,13 +80,12 @@ interface IRegistrationContext {
 	public function registerService(string $name, callable $factory, bool $shared = true): void;
 
 	/**
-	 * @param string $alias
-	 * @psalm-param string|class-string $alias
-	 * @param string $target
-	 * @psalm-param string|class-string $target
+	 * Shortcut for returning a service from a service under a different key,
+	 * e.g. to tell the container to return a class when queried for an
+	 * interface
 	 *
-	 * @return void
-	 * @see IContainer::registerAlias()
+	 * @psalm-param string|class-string $alias
+	 * @psalm-param string|class-string $target
 	 *
 	 * @since 20.0.0
 	 */
@@ -150,6 +149,22 @@ interface IRegistrationContext {
 	 * @since 20.0.0
 	 */
 	public function registerSearchProvider(string $class): void;
+
+	/**
+	 * Register an account-scoped search provider
+	 *
+	 * Unlike a unified search provider, this searches on behalf of an account passed explicitly
+	 * rather than the calling session, and returns structured metadata rather than display strings.
+	 * `\NCU\Search\IAccountScopedSearchProvider` is currently experimental and may still change.
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<\NCU\Search\IAccountScopedSearchProvider> $class
+	 *
+	 * @return void
+	 *
+	 * @since 36.0.0
+	 */
+	public function registerAccountScopedSearchProvider(string $class): void;
 
 	/**
 	 * Register an alternative login option
@@ -387,6 +402,15 @@ interface IRegistrationContext {
 	 * @since 28.0.0
 	 */
 	public function registerSetupCheck(string $setupCheckClass): void;
+
+	/**
+	 * Register an implementation of \OCP\SystemReport\ISystemReportSection that
+	 * will contribute a section to the system report
+	 *
+	 * @param class-string<\OCP\SystemReport\ISystemReportSection> $sectionClass
+	 * @since 36.0.0
+	 */
+	public function registerSystemReportSection(string $sectionClass): void;
 
 	/**
 	 * Register an implementation of \OCP\Settings\IDeclarativeSettings that

@@ -16,7 +16,6 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\SetupCheck\SetupResult;
 use OCP\TaskProcessing\IManager;
-use OCP\TaskProcessing\Task;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -48,16 +47,7 @@ class TaskProcessingWorkerIsRunningTest extends TestCase {
 	}
 
 	public function testPass(): void {
-		$tasks = [];
-		for ($i = 0; $i < 10; $i++) {
-			$task = new Task('test', ['test' => 'test'], 'settings', 'user' . $i);
-			$task->setStartedAt($this->timeFactory->now()->getTimestamp());
-			$task->setScheduledAt($this->timeFactory->now()->getTimestamp());
-			$task->setEndedAt($this->timeFactory->now()->getTimestamp());
-			$task->setStatus(Task::STATUS_SUCCESSFUL);
-			$tasks[] = $task;
-		}
-		$this->taskProcessingManager->method('getTasks')->willReturn($tasks);
+		$this->taskProcessingManager->method('countTasks')->willReturn(10);
 		$this->timeFactory->method('now')->willReturn(new \DateTimeImmutable());
 		$this->appConfig->method('getValueString')->willReturn((string)$this->timeFactory->now()->getTimestamp());
 
@@ -65,19 +55,29 @@ class TaskProcessingWorkerIsRunningTest extends TestCase {
 	}
 
 	public function testFail(): void {
-		$tasks = [];
-		for ($i = 0; $i < 10; $i++) {
-			$task = new Task('test', ['test' => 'test'], 'settings', 'user' . $i);
-			$task->setStartedAt($this->timeFactory->now()->getTimestamp());
-			$task->setScheduledAt($this->timeFactory->now()->getTimestamp());
-			$task->setEndedAt($this->timeFactory->now()->getTimestamp());
-			$task->setStatus(Task::STATUS_SUCCESSFUL);
-			$tasks[] = $task;
-		}
-		$this->taskProcessingManager->method('getTasks')->willReturn($tasks);
+		$this->taskProcessingManager->method('countTasks')->willReturn(10);
 		$this->timeFactory->method('now')->willReturn(new \DateTimeImmutable());
 		$this->appConfig->method('getValueString')->willReturn((string)($this->timeFactory->now()->getTimestamp() - 60 * 10));
 
 		$this->assertEquals(SetupResult::WARNING, $this->check->run()->getSeverity());
+	}
+
+	public function testTasksAreOnlyCounted(): void {
+		$now = new \DateTimeImmutable();
+		$this->timeFactory->method('now')->willReturn($now);
+		// The tasks themselves are never needed, only whether there are any
+		$this->taskProcessingManager->expects($this->never())->method('getTasks');
+		$this->taskProcessingManager->expects($this->once())
+			->method('countTasks')
+			->willReturnCallback(function (?int $status = null, array $taskTypeIds = [], ?int $scheduleAfter = null, ?int $minPickupDelay = null) use ($now): int {
+				$this->assertNull($status);
+				$this->assertSame([], $taskTypeIds);
+				$this->assertSame($now->getTimestamp() - 60 * 60 * 24 * TaskProcessingWorkerIsRunning::HAS_TASKS_IN_LAST_X_DAYS, $scheduleAfter);
+				$this->assertNull($minPickupDelay);
+				return 0;
+			});
+		$this->appConfig->expects($this->never())->method('getValueString');
+
+		$this->assertEquals(SetupResult::SUCCESS, $this->check->run()->getSeverity());
 	}
 }

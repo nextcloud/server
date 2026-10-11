@@ -20,5 +20,6 @@ class LoadAdditionalSettingsScriptsListener implements IEventListener {
 	#[\Override]
 	public function handle(Event $event): void {
 		Util::addScript(Application::APP_ID, 'workflowengine');
+		Util::addStyle(Application::APP_ID, 'workflowengine');
 	}
 }

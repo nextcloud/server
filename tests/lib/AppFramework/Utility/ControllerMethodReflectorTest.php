@@ -63,6 +63,41 @@ class MiddleController extends BaseController {
 	 */
 	public function test5(int $rangedOne, int $rangedTwo, ?int $rangedThree, ?int $rangedFour) {
 	}
+
+	/**
+	 * @psalm-param positive-int $positive
+	 * @psalm-param non-negative-int $nonNegative
+	 * @psalm-param negative-int $negative
+	 * @psalm-param non-positive-int $nonPositive
+	 * @psalm-param positive-int|null $positiveOrNull
+	 * @psalm-param ?non-negative-int $nonNegativeOrNull
+	 * @return void
+	 */
+	public function test6(int $positive, int $nonNegative, int $negative, int $nonPositive, ?int $positiveOrNull, ?int $nonNegativeOrNull) {
+	}
+
+	/**
+	 * @psalm-param non-empty-string $nonEmpty
+	 * @psalm-param non-empty-lowercase-string $nonEmptyLowercase
+	 * @psalm-param lowercase-string $lowercase
+	 * @psalm-param non-falsy-string $nonFalsy
+	 * @psalm-param numeric-string $numeric
+	 * @psalm-param non-empty-string|null $nonEmptyOrNull
+	 * @psalm-param ?non-empty-string $nonEmptyOrNullPrefix
+	 * @psalm-param string $plain
+	 * @return void
+	 */
+	public function test7(
+		string $nonEmpty,
+		string $nonEmptyLowercase,
+		string $lowercase,
+		string $nonFalsy,
+		string $numeric,
+		?string $nonEmptyOrNull,
+		?string $nonEmptyOrNullPrefix,
+		string $plain,
+	) {
+	}
 }
 
 class EndController extends MiddleController {
@@ -274,5 +309,87 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$rangeInfo3 = $reader->getRange('rangedFour');
 		$this->assertSame(-70, $rangeInfo3['min']);
 		$this->assertSame(-30, $rangeInfo3['max']);
+	}
+
+	public function testRangeDetectionIntAliases(): void {
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
+		$reader->reflect('Test\AppFramework\Utility\EndController', 'test6');
+
+		$positive = $reader->getRange('positive');
+		$this->assertSame(1, $positive['min']);
+		$this->assertSame(PHP_INT_MAX, $positive['max']);
+
+		$nonNegative = $reader->getRange('nonNegative');
+		$this->assertSame(0, $nonNegative['min']);
+		$this->assertSame(PHP_INT_MAX, $nonNegative['max']);
+
+		$negative = $reader->getRange('negative');
+		$this->assertSame(PHP_INT_MIN, $negative['min']);
+		$this->assertSame(-1, $negative['max']);
+
+		$nonPositive = $reader->getRange('nonPositive');
+		$this->assertSame(PHP_INT_MIN, $nonPositive['min']);
+		$this->assertSame(0, $nonPositive['max']);
+
+		$positiveOrNull = $reader->getRange('positiveOrNull');
+		$this->assertSame(1, $positiveOrNull['min']);
+		$this->assertSame(PHP_INT_MAX, $positiveOrNull['max']);
+
+		$nonNegativeOrNull = $reader->getRange('nonNegativeOrNull');
+		$this->assertSame(0, $nonNegativeOrNull['min']);
+		$this->assertSame(PHP_INT_MAX, $nonNegativeOrNull['max']);
+	}
+
+	public function testStringConstraintDetection(): void {
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
+		$reader->reflect('Test\AppFramework\Utility\EndController', 'test7');
+
+		$this->assertSame('non-empty-string', $reader->getStringConstraint('nonEmpty'));
+		$this->assertSame('non-empty-lowercase-string', $reader->getStringConstraint('nonEmptyLowercase'));
+		$this->assertSame('lowercase-string', $reader->getStringConstraint('lowercase'));
+		$this->assertSame('non-falsy-string', $reader->getStringConstraint('nonFalsy'));
+		$this->assertSame('numeric-string', $reader->getStringConstraint('numeric'));
+		$this->assertSame('non-empty-string', $reader->getStringConstraint('nonEmptyOrNull'));
+		$this->assertSame('non-empty-string', $reader->getStringConstraint('nonEmptyOrNullPrefix'));
+		$this->assertNull($reader->getStringConstraint('plain'));
+	}
+
+	public static function stringConstraintDataProvider(): array {
+		return [
+			['non-empty-string', '', false],
+			['non-empty-string', 'a', true],
+			['non-empty-lowercase-string', '', false],
+			['non-empty-lowercase-string', 'ABC', false],
+			['non-empty-lowercase-string', 'abc', true],
+			['lowercase-string', '', true],
+			['lowercase-string', 'ABC', false],
+			['lowercase-string', 'abc', true],
+			['non-falsy-string', '', false],
+			['non-falsy-string', '0', false],
+			['non-falsy-string', '0.0', true],
+			['non-falsy-string', 'a', true],
+			['numeric-string', 'abc', false],
+			['numeric-string', '42', true],
+			['numeric-string', '4.2', true],
+			[null, '', true],
+			[null, 'anything', true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('stringConstraintDataProvider')]
+	public function testSatisfiesStringConstraint(?string $constraint, string $value, bool $expected): void {
+		$reader = new ControllerMethodReflector(Server::get(LoggerInterface::class));
+		$reader->reflect('Test\AppFramework\Utility\EndController', 'test7');
+
+		$parameter = match ($constraint) {
+			'non-empty-string' => 'nonEmpty',
+			'non-empty-lowercase-string' => 'nonEmptyLowercase',
+			'lowercase-string' => 'lowercase',
+			'non-falsy-string' => 'nonFalsy',
+			'numeric-string' => 'numeric',
+			default => 'plain',
+		};
+
+		$this->assertSame($expected, $reader->satisfiesStringConstraint($parameter, $value));
 	}
 }

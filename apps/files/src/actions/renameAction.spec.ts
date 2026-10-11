@@ -9,7 +9,7 @@ import * as eventBus from '@nextcloud/event-bus'
 import { File, Folder, Permission } from '@nextcloud/files'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { useFilesStore } from '../store/files.ts'
-import { getPinia } from '../store/index.ts'
+import { pinia } from '../store/index.ts'
 import { action } from './renameAction.ts'
 
 const view = {
@@ -25,7 +25,7 @@ beforeEach(() => {
 		permissions: Permission.CREATE,
 		root: '/files/admin',
 	})
-	const files = useFilesStore(getPinia())
+	const files = useFilesStore(pinia)
 	files.setRoot({ service: 'files', root })
 })
 
@@ -89,7 +89,6 @@ describe('Rename action enabled tests', () => {
 	})
 
 	test('Disabled if more than one node', () => {
-		// @ts-expect-error mocking for tests
 		window.OCA = { Files: { Sidebar: {} } }
 
 		const file1 = new File({

@@ -39,12 +39,12 @@ final class TestShareRecipientTypeArguments implements IShareRecipientType {
 	}
 
 	#[\Override]
-	public function getRecipientDisplayName(string $recipient): ?string {
+	public function getRecipientDisplayName(string $recipient, ?string $instance): ?string {
 		return null;
 	}
 
 	#[\Override]
-	public function getRecipientIcon(string $recipient): null|ShareIconSVG|ShareIconURL {
+	public function getRecipientIcon(string $recipient, ?string $instance): null|ShareIconSVG|ShareIconURL {
 		return null;
 	}
 

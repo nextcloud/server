@@ -10,13 +10,14 @@ OC.L10N.register(
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "O aplicativo \"files_reminders\" precisa do aplicativo de notificações para funcionar corretamente. Você deve ativar notificações ou desativar o files_reminder.",
     "Set file reminders" : "Defina lembretes de arquivo",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Lembretes de arquivos** \n\nDefina lembretes de arquivos. \n\nObservação: para usar o aplicativo `Lembretes de arquivos`, certifique-se de que o aplicativo `Notificações` esteja instalado e habilitado. O aplicativo `Notificações` fornece as APIs necessárias para que o aplicativo `Lembretes de arquivos` funcione corretamente.",
+    "We reminded you of this file {relativeDueDate}" : "Nós lembramos você sobre esse arquivo {relativeDueDate}",
+    "We will remind you of this file {relativeDueDate}" : "Nós lembraremos você sobre esse arquivo {relativeDueDate}",
     "Please choose a valid date & time" : "Por favor escolha uma data & hora válida.",
     "Reminder set for \"{fileName}\"" : "Lembrete definido para \"{fileName}\"",
     "Failed to set reminder" : "Falha ao definir lembrete",
     "Reminder cleared for \"{fileName}\"" : "Lembrete removido para \"{fileName}\"",
     "Failed to clear reminder" : "Falha ao remover lembrete",
     "Reminder at custom date & time" : "Lembrete em data e hora personalizadas",
-    "We will remind you of this file" : "Lembraremos você desse arquivo",
     "Cancel" : "Cancelar",
     "Clear reminder" : "Limpar lembrete",
     "Set reminder" : "Definir lembrete",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "Set reminder for this weekend" : "Definir lembrete para este fim de semana",
     "Next week" : "Próxima semana",
     "Set reminder for next week" : "Definir lembrete para a próxima semana",
-    "Set reminder for \"{fileName}\"" : "Definir lembrete para \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Definir lembrete para \"{fileName}\"",
+    "We will remind you of this file" : "Lembraremos você desse arquivo"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

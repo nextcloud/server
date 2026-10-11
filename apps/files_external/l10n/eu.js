@@ -107,6 +107,7 @@ OC.L10N.register(
     "Actions" : "Ekintzak",
     "Checking …" : "Egiaztatzen...",
     "Recheck status" : "Egiaztatu berriro egoera",
+    "All accounts" : "Kontu guztiak",
     "Delete" : "Ezabatu",
     "System provided storage" : "Sistemak emandako biltegiratzea",
     "Saved" : "Gordeta",

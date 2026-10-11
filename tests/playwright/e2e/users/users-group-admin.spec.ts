@@ -9,7 +9,7 @@ import { runOcc } from '@nextcloud/e2e-test-server/docker'
 import { createRandomUser, login } from '@nextcloud/e2e-test-server/playwright'
 import { test as baseTest, expect } from '@playwright/test'
 import { SettingsUsersPage } from '../../support/sections/SettingsUsersPage.ts'
-import { handlePasswordConfirmation } from '../../support/utils/password-confirmation.ts'
+import { installPasswordConfirmationHandler } from '../../support/utils/password-confirmation.ts'
 import { makeSubAdmin } from '../../support/utils/users.ts'
 
 const test = baseTest.extend<{ subadmin: User, group: string }>({
@@ -32,6 +32,7 @@ test.describe('Settings: Create accounts as a group admin', () => {
 	test('can create a user with the group pre-filled', async ({ page, context, subadmin, group }) => {
 		// Log in as the subadmin (not as admin)
 		await login(context.request, subadmin)
+		await installPasswordConfirmationHandler(page, subadmin.password)
 
 		const settingsPage = new SettingsUsersPage(page)
 		await settingsPage.open()
@@ -49,8 +50,7 @@ test.describe('Settings: Create accounts as a group admin', () => {
 		await dialog.getByLabel(/Password/).and(page.locator('input')).fill('password123')
 
 		await dialog.getByRole('button', { name: 'Add new account' }).click()
-		await handlePasswordConfirmation(page, subadmin.password)
-		await dialog.waitFor({ state: 'hidden' })
+		await expect(dialog).toBeHidden({ timeout: 30_000 })
 
 		await expect(settingsPage.userRow(newUserId)).toContainText(newUserId)
 

@@ -51,9 +51,9 @@ const useAppTokenLogin = ref(false)
 
 		<LoginFlowAuthAppToken
 			v-else
-			:app-token-url="appTokenUrl"
+			:appTokenUrl="appTokenUrl"
 			:direct="direct ?? false"
-			:state-token="stateToken" />
+			:stateToken="stateToken" />
 
 		<NcButton
 			:class="$style.loginFlowAuth__button"

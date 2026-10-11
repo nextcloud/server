@@ -96,6 +96,7 @@ class SecurityHeadersTest extends TestCase {
 			// description => modifiedHeaders
 			'basic' => [[]],
 			'no-space-in-x-robots' => [['X-Robots-Tag' => 'noindex,nofollow']],
+			'reordered-x-robots' => [['X-Robots-Tag' => 'nofollow, noindex']],
 			'strict-origin-when-cross-origin' => [['Referrer-Policy' => 'strict-origin-when-cross-origin']],
 			'referrer-no-referrer-when-downgrade' => [['Referrer-Policy' => 'no-referrer-when-downgrade']],
 			'referrer-strict-origin' => [['Referrer-Policy' => 'strict-origin']],
@@ -137,6 +138,7 @@ class SecurityHeadersTest extends TestCase {
 		return [
 			// description => modifiedHeaders
 			'x-robots-none' => [['X-Robots-Tag' => 'none'], "- The `X-Robots-Tag` HTTP header is not set to `noindex,nofollow`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n"],
+			'x-robots-additional-directive' => [['X-Robots-Tag' => 'noindex,nofollow,noarchive'], "- The `X-Robots-Tag` HTTP header is not set to `noindex,nofollow`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.\n"],
 			'referrer-origin' => [['Referrer-Policy' => 'origin'], "- The `Referrer-Policy` HTTP header is not set to `no-referrer`, `no-referrer-when-downgrade`, `strict-origin`, `strict-origin-when-cross-origin` or `same-origin`. This can leak referer information. See the {w3c-recommendation}.\n"],
 			'referrer-origin-when-cross-origin' => [['Referrer-Policy' => 'origin-when-cross-origin'], "- The `Referrer-Policy` HTTP header is not set to `no-referrer`, `no-referrer-when-downgrade`, `strict-origin`, `strict-origin-when-cross-origin` or `same-origin`. This can leak referer information. See the {w3c-recommendation}.\n"],
 			'referrer-unsafe-url' => [['Referrer-Policy' => 'unsafe-url'], "- The `Referrer-Policy` HTTP header is not set to `no-referrer`, `no-referrer-when-downgrade`, `strict-origin`, `strict-origin-when-cross-origin` or `same-origin`. This can leak referer information. See the {w3c-recommendation}.\n"],

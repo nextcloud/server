@@ -129,7 +129,7 @@ class Auth extends AbstractBasic {
 	private function requiresCSRFCheck(): bool {
 
 		$methodsWithoutCsrf = ['GET', 'HEAD', 'OPTIONS'];
-		if (in_array($this->request->getMethod(), $methodsWithoutCsrf)) {
+		if (in_array($this->request->getMethod(), $methodsWithoutCsrf, true)) {
 			return false;
 		}
 
@@ -204,7 +204,7 @@ class Auth extends AbstractBasic {
 			$startPos = strrpos($data[1], '/') + 1;
 			$user = $this->userSession->getUser()->getUID();
 			$data[1] = substr_replace($data[1], $user, $startPos);
-		} elseif (in_array('XMLHttpRequest', explode(',', $request->getHeader('X-Requested-With') ?? ''))) {
+		} elseif (in_array('XMLHttpRequest', explode(',', $request->getHeader('X-Requested-With') ?? ''), true)) {
 			// For ajax requests use dummy auth name to prevent browser popup in case of invalid creditials
 			$response->addHeader('WWW-Authenticate', 'DummyBasic realm="' . $this->realm . '"');
 			$response->setStatus(Http::STATUS_UNAUTHORIZED);

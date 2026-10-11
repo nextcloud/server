@@ -9,26 +9,19 @@ declare(strict_types=1);
 
 namespace OCA\Files\Db;
 
-use OCP\AppFramework\Db\QBMapper;
-use OCP\IDBConnection;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\ORM\Repository;
 
 /**
- * @template-extends QBMapper<TransferOwnership>
+ * @template-extends Repository<TransferOwnership>
  */
-class TransferOwnershipMapper extends QBMapper {
-	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'user_transfer_owner', TransferOwnership::class);
-	}
+final class TransferOwnershipMapper extends Repository {
+	public const string entityClass = TransferOwnership::class;
 
+	/**
+	 * @throws DoesNotExistException
+	 */
 	public function getById(int $id): TransferOwnership {
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select('*')
-			->from($this->getTableName())
-			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($id))
-			);
-
-		return $this->findEntity($qb);
+		return $this->findOneBy(['id' => $id]);
 	}
 }

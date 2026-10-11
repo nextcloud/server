@@ -5,7 +5,7 @@
 <template>
 	<fieldset class="ldap-wizard__groups">
 		<legend>
-			{{ t('user_ldap', 'Groups meeting these criteria are available in {instanceName}:', { instanceName }) }}
+			{{ t('user_ldap', 'Groups meeting these criteria are available in {instanceName}:', { instanceName }, { escape: false }) }}
 		</legend>
 
 		<div class="ldap-wizard__groups__line ldap-wizard__groups__filter-selection">
@@ -37,7 +37,7 @@
 				<NcTextArea
 					v-model="ldapConfigProxy.ldapGroupFilter"
 					:placeholder="t('user_ldap', 'Edit LDAP Query')"
-					:helperText="t('user_ldap', 'The filter specifies which LDAP groups shall have access to the {instanceName} instance.', { instanceName })" />
+					:helperText="t('user_ldap', 'The filter specifies which LDAP groups shall have access to the {instanceName} instance.', { instanceName }, { escape: false })" />
 			</div>
 			<div v-else>
 				<span>{{ t('user_ldap', 'LDAP Filter:') }}</span>

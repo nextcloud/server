@@ -79,7 +79,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		$userDN = $this->access->username2dn($uid);
 
 		if (isset($this->cachedGroupMembers[$gid])) {
-			return in_array($userDN, $this->cachedGroupMembers[$gid]);
+			return in_array($userDN, $this->cachedGroupMembers[$gid], true);
 		}
 
 		$cacheKeyMembers = 'inGroup-members:' . $gid;
@@ -157,7 +157,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 			return false;
 		}
 
-		$isInGroup = in_array($userDN, $members);
+		$isInGroup = in_array($userDN, $members, true);
 		$this->access->connection->writeToCache($cacheKey, $isInGroup);
 		$this->access->connection->writeToCache($cacheKeyMembers, $members);
 		$this->cachedGroupMembers[$gid] = $members;
@@ -1245,7 +1245,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 					$this->access->cacheGroupExists($gid);
 				}
 			}
-			return $dn != null;
+			return $dn !== null && $dn !== false;
 		}
 		throw new Exception('Could not create group in LDAP backend.');
 	}

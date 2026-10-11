@@ -15,7 +15,7 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\StreamGeneratorResponse;
+use OCP\AppFramework\Http\StreamTraversableResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\ICalendarExport;
@@ -46,7 +46,7 @@ class CalendarExportController extends OCSController {
 	 * @param array{rangeStart:string,rangeCount:positive-int} $options configuration options
 	 * @param string|null $user system user id
 	 *
-	 * @return StreamGeneratorResponse<Http::STATUS_OK, array{Content-Type:'text/calendar; charset=UTF-8'|'application/calendar+json; charset=UTF-8'|'application/calendar+xml; charset=UTF-8'}> | DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{error?: non-empty-string}, array{}>
+	 * @return StreamTraversableResponse<Http::STATUS_OK, array{Content-Type:'text/calendar; charset=UTF-8'|'application/calendar+json; charset=UTF-8'|'application/calendar+xml; charset=UTF-8'}> | DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_UNAUTHORIZED, array{error?: non-empty-string}, array{}>
 	 *
 	 * 200: data in requested format
 	 * 400: invalid parameters
@@ -99,7 +99,7 @@ class CalendarExportController extends OCSController {
 			'xcal' => 'application/calendar+xml; charset=UTF-8',
 			default => 'text/calendar; charset=UTF-8'
 		};
-		$response = new StreamGeneratorResponse($this->exportService->export($calendar, $options), $contentType, Http::STATUS_OK);
+		$response = new StreamTraversableResponse($this->exportService->export($calendar, $options), Http::STATUS_OK, ['Content-Type' => $contentType]);
 		$response->cacheFor(0);
 
 		return $response;

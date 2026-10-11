@@ -4,10 +4,10 @@
 -->
 
 <template>
-	<section>
-		<HeaderBar
-			:input-id="inputId"
-			:readable="propertyReadable" />
+	<section class="language-section">
+		<h3 class="language-section__heading">
+			<label :for="inputId">{{ t('settings', 'Language') }}</label>
+		</h3>
 
 		<LanguageSectionEntry
 			v-if="isEditable"
@@ -24,9 +24,8 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
-import HeaderBar from '../shared/HeaderBar.vue'
 import LanguageSectionEntry from './LanguageSectionEntry.vue'
-import { ACCOUNT_SETTING_PROPERTY_ENUM, ACCOUNT_SETTING_PROPERTY_READABLE_ENUM } from '../../../constants/AccountPropertyConstants.js'
+import { ACCOUNT_SETTING_PROPERTY_ENUM } from '../../../constants/AccountPropertyConstants.js'
 
 const { languageMap: { activeLanguage, commonLanguages, otherLanguages } } = loadState('settings', 'personalInfoParameters', {})
 
@@ -35,7 +34,6 @@ export default {
 
 	components: {
 		LanguageSectionEntry,
-		HeaderBar,
 	},
 
 	setup() {
@@ -43,7 +41,6 @@ export default {
 		return {
 			commonLanguages,
 			otherLanguages,
-			propertyReadable: ACCOUNT_SETTING_PROPERTY_READABLE_ENUM.LANGUAGE,
 		}
 	},
 
@@ -66,7 +63,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-section {
-	padding: 10px 10px;
+.language-section {
+	padding: 6px 0;
+
+	&__heading {
+		margin: 0 0 6px;
+		font-size: 16px;
+		font-weight: bold;
+	}
 }
 </style>

@@ -12,7 +12,7 @@ use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\File as DavFile;
 use OCA\Files_Versions\Sabre\VersionFile;
-use OCP\Files\Folder;
+use OCP\Files\IUserFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ISharedStorage;
 use Sabre\DAV\Exception\NotFound;
@@ -27,7 +27,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 	private ?Server $server = null;
 
 	public function __construct(
-		private ?Folder $userFolder,
+		private ?IUserFolder $userFolder,
 	) {
 	}
 

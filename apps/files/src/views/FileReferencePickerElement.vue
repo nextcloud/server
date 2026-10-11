@@ -9,16 +9,18 @@
 
 <script setup lang="ts">
 import type { IFilePickerButton } from '@nextcloud/dialogs'
-import type { Node as NcNode } from '@nextcloud/files'
+import type { INode } from '@nextcloud/files'
 
 import { FilePickerBuilder } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { onMounted } from 'vue'
-import { generateFileUrl } from '../../../files_sharing/src/utils/generateUrl.ts'
+import { generateFileUrl } from '../utils/generateUrl.ts'
 import { logger } from '../utils/logger.ts'
 
 defineProps<{
+	// eslint-disable-next-line vue/no-unused-properties -- Provided as per API but not used
 	providerId: string
+	// eslint-disable-next-line vue/no-unused-properties -- Provided as per API but not used
 	accessible: boolean
 }>()
 
@@ -51,7 +53,7 @@ onMounted(async () => {
  *
  * @param selected - currently selected nodes
  */
-function buttonFactory(selected: NcNode[]): IFilePickerButton[] {
+function buttonFactory(selected: INode[]): IFilePickerButton[] {
 	const buttons = [] as IFilePickerButton[]
 	const node = selected[0]
 	if (node === undefined) {
@@ -73,7 +75,7 @@ function buttonFactory(selected: NcNode[]): IFilePickerButton[] {
 /**
  * @param node - selected node
  */
-function onSubmit(node: NcNode) {
+function onSubmit(node: INode) {
 	emit('submit', generateFileUrl(node.fileid!))
 }
 </script>

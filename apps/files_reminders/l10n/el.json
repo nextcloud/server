@@ -14,7 +14,6 @@
     "Reminder cleared for \"{fileName}\"" : "Εκκαθαρίστηκε η υπενθύμιση για \"{fileName}\"",
     "Failed to clear reminder" : "Αποτυχία εκκαθάρισης υπενθύμισης",
     "Reminder at custom date & time" : "Υπενθύμιση σε προσαρμοσμένη ημερομηνία & ώρα",
-    "We will remind you of this file" : "Θα σας υπενθυμίσουμε αυτό το αρχείο",
     "Cancel" : "Ακύρωση",
     "Clear reminder" : "Εκκαθάριση υπενθύμισης",
     "Set reminder" : "Ορισμός υπενθύμισης",
@@ -28,6 +27,7 @@
     "Set reminder for this weekend" : "Ορισμός υπενθύμισης για αυτό το Σαββατοκύριακο",
     "Next week" : "Επόμενη εβδομάδα",
     "Set reminder for next week" : "Ορισμός υπενθύμισης για την επόμενη εβδομάδα",
-    "Set reminder for \"{fileName}\"" : "Ορισμός υπενθύμισης για \"{fileName}\""
+    "Set reminder for \"{fileName}\"" : "Ορισμός υπενθύμισης για \"{fileName}\"",
+    "We will remind you of this file" : "Θα σας υπενθυμίσουμε αυτό το αρχείο"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

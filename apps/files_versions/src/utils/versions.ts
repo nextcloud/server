@@ -8,6 +8,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
+import { File, Permission } from '@nextcloud/files'
 import { getClient } from '@nextcloud/files/dav'
 import { getCanonicalLocale } from '@nextcloud/l10n'
 import { encodePath, join } from '@nextcloud/paths'
@@ -35,6 +36,39 @@ export interface Version {
 }
 
 const client = getClient()
+
+/**
+ * Build a node for a version, so that it can be handed to the viewer.
+ *
+ * The version content lives at its own dav endpoint, which is what the
+ * node points at: the preview a version has is a 250px thumbnail meant
+ * for this list, too small to show as the file itself. A version is
+ * named after its id on the server and reads as the date it was taken,
+ * so that is its display name.
+ *
+ * @param version - The version to build a node for
+ * @param node - The file the version belongs to
+ */
+export function versionToNode(version: Version, node: INode): File {
+	const owner = getCurrentUser()?.uid ?? null
+
+	return new File({
+		id: Number(version.fileId),
+		source: version.source,
+		root: `/versions/${owner}/versions/${version.fileId}`,
+		displayname: version.basename,
+		// The current version reports no mime of its own
+		mime: version.mime || node.mime || 'application/octet-stream',
+		size: version.size,
+		mtime: new Date(version.mtime),
+		owner,
+		permissions: Permission.READ,
+		attributes: {
+			etag: version.etag,
+			hasPreview: false,
+		},
+	})
+}
 
 /**
  * Get file versions for a given node

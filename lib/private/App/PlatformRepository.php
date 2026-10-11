@@ -29,7 +29,7 @@ class PlatformRepository {
 
 		// Extensions scanning
 		foreach ($loadedExtensions as $name) {
-			if (in_array($name, ['standard', 'Core'])) {
+			if (in_array($name, ['standard', 'Core'], true)) {
 				continue;
 			}
 

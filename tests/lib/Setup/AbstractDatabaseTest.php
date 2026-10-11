@@ -171,6 +171,41 @@ class AbstractDatabaseTest extends TestCase {
 		], $errors);
 	}
 
+	public static function encryptionOptions(): array {
+		return [
+			'dbsslmode' => ['dbsslmode', 'verify-full'],
+			'dbsslca' => ['dbsslca', '/ca.pem'],
+			'dbsslcert' => ['dbsslcert', '/client.crt'],
+			'dbsslkey' => ['dbsslkey', '/client.key'],
+			'dbsslcrl' => ['dbsslcrl', '/crl.pem'],
+			'dbsslnoverify' => ['dbsslnoverify', true],
+		];
+	}
+
+	/**
+	 * A database that cannot be configured to use an encrypted connection has to reject
+	 * every such option instead of installing an unencrypted instance silently.
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('encryptionOptions')]
+	public function testValidateRejectsUnsupportedEncryptionOptions(string $option, string|bool $value): void {
+		$errors = $this->database->validate($this->options([$option => $value]));
+
+		$this->assertContains("The database option \"$option\" is not supported by Test", $errors);
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('encryptionOptions')]
+	public function testInitializeSkipsUnsupportedEncryptionOptions(string $option, string|bool $value): void {
+		$this->config->expects($this->once())
+			->method('setValues')
+			->with([
+				'dbname' => 'nextcloud',
+				'dbhost' => 'db.example.org',
+				'dbtableprefix' => 'oc_',
+			]);
+
+		$this->database->initialize($this->options([$option => $value]));
+	}
+
 	public function testValidateAcceptsEncryptionOptions(): void {
 		$errors = $this->database->validate($this->options([
 			'dbdriveroptions' => [self::MYSQL_ATTR_SSL_CA => '/ca.pem'],

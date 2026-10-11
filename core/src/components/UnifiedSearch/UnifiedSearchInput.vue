@@ -127,7 +127,7 @@ const emit = defineEmits<{
 	/** Open the currently selected result (Enter). */
 	activate: []
 	/** Reveal the popover filters from the pre-typing funnel. */
-	'open-filters': []
+	openFilters: []
 	/** Dismiss the search from the trailing X on an already-empty field. */
 	close: []
 }>()
@@ -206,7 +206,7 @@ function onInput(event: Event) {
  */
 function openFilters() {
 	inputRef.value?.focus()
-	emit('open-filters')
+	emit('openFilters')
 }
 
 /**
@@ -274,11 +274,12 @@ defineExpose({ focus })
 	position: relative;
 	z-index: 51;
 
+	// No percentage max-width: the ancestors shrink-wrap to this element, so the
+	// cap would resolve against its own width.
 	&:not(.unified-search-input--mobile) {
 		display: flex;
 		align-items: center;
-		width: clamp(200px, 35vw, 600px);
-		max-width: calc(100% - 32px);
+		width: var(--unified-search-width);
 	}
 
 	&--mobile {
