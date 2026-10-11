@@ -12,17 +12,17 @@ namespace OC\Core\Command\App;
 use OC\Installer;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\Command\Completion;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
-use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Enable extends Command implements CompletionAwareInterface {
+class Enable extends Command {
 	protected int $exitCode = 0;
 
 	public function __construct(
@@ -41,13 +41,19 @@ class Enable extends Command implements CompletionAwareInterface {
 			->addArgument(
 				'app-id',
 				InputArgument::REQUIRED | InputArgument::IS_ARRAY,
-				'enable the specified app'
+				'enable the specified app',
+				suggestedValues: function (): array {
+					$allApps = $this->appManager->getAllAppsInAppsFolders();
+					$enabledApps = $this->appManager->getEnabledApps();
+					return array_diff($allApps, $enabledApps);
+				}
 			)
 			->addOption(
 				'groups',
 				'g',
 				InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-				'enable the app only for a list of groups'
+				'enable the app only for a list of groups',
+				suggestedValues: Completion::completeGroupId(...)
 			)
 			->addOption(
 				'force',
@@ -123,35 +129,5 @@ class Enable extends Command implements CompletionAwareInterface {
 			}
 		}
 		return $groups;
-	}
-
-	/**
-	 * @param string $optionName
-	 * @param CompletionContext $context
-	 * @return string[]
-	 */
-	#[\Override]
-	public function completeOptionValues($optionName, CompletionContext $context): array {
-		if ($optionName === 'groups') {
-			return array_map(function (IGroup $group) {
-				return $group->getGID();
-			}, $this->groupManager->search($context->getCurrentWord()));
-		}
-		return [];
-	}
-
-	/**
-	 * @param string $argumentName
-	 * @param CompletionContext $context
-	 * @return string[]
-	 */
-	#[\Override]
-	public function completeArgumentValues($argumentName, CompletionContext $context): array {
-		if ($argumentName === 'app-id') {
-			$allApps = $this->appManager->getAllAppsInAppsFolders();
-			$enabledApps = $this->appManager->getEnabledApps();
-			return array_diff($allApps, $enabledApps);
-		}
-		return [];
 	}
 }
