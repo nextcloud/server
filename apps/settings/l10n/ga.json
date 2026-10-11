@@ -77,6 +77,8 @@
     "Your email address on %s was changed by an administrator." : "D'athraigh riarthóir do sheoladh ríomhphoist ar %s.",
     "Email address for %1$s changed on %2$s" : "Athraíodh seoladh ríomhphoist %1$s ar %2$s",
     "Email address changed for %s" : "Athraíodh an seoladh ríomhphoist le haghaidh%s",
+    "Previous email address" : "Seoladh ríomhphoist roimhe seo",
+    "New email address" : "Seoladh ríomhphoist nua",
     "No email address set" : "Níl seoladh ríomhphoist socraithe",
     "Appearance and accessibility" : "Cuma agus inrochtaineacht",
     "Personal settings" : "Socruithe pearsanta",
