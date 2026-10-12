@@ -599,7 +599,7 @@ class KeyManager {
 	 * @param string $keyId
 	 * @return string returns openssl key
 	 */
-	public function getSystemPrivateKey($keyId) {
+	public function getSystemPrivateKey($keyId): string {
 		return $this->keyStorage->getSystemUserKey($keyId . '.' . $this->privateKeyId, Encryption::ID);
 	}
 
