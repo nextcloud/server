@@ -75,7 +75,8 @@ class ServerFactory {
 		// /public.php/webdav/ shows the files in the share in the root itself
 		// and not under /public.php/webdav/files/{token} so we should keep
 		// compatibility for that.
-		$needsSharesInRoot = $baseUri === '/public.php/webdav/';
+		// use WEBROOT to support URL prefixes case too.
+		$needsSharesInRoot = $baseUri === \OC::$WEBROOT . '/public.php/webdav/';
 		$useCollection = $isPublicShare && !$needsSharesInRoot;
 		$debugEnabled = $this->config->getSystemValue('debug', false);
 		[$tree, $rootCollection] = $this->getTree($useCollection);
