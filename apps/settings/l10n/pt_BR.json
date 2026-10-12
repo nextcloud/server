@@ -77,6 +77,8 @@
     "Your email address on %s was changed by an administrator." : "Seu e-mail em %s foi alterado por um administrador.",
     "Email address for %1$s changed on %2$s" : "O  endereço de e-mail para %1$s foi alterado em %2$s",
     "Email address changed for %s" : "E-mail alterado para %s",
+    "Previous email address" : "Endereço de e-mail anterior",
+    "New email address" : "Novo endereço de e-mail",
     "No email address set" : "Nenhum endereço de e-mail foi configurado",
     "Appearance and accessibility" : "Aparência e acessibilidade",
     "Personal settings" : "Configurações pessoais",
