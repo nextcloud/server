@@ -80,6 +80,7 @@ OC.L10N.register(
     "Created" : "Créée",
     "Mount point" : "Point de montage",
     "Checksum" : "Somme de contrôle",
+    "Share status" : "Statut du partage",
     "Shared with" : "Partagé avec",
     "Tags" : "Étiquettes",
     "Content" : "Contenu",
