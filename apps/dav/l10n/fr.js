@@ -190,7 +190,7 @@ OC.L10N.register(
     "Third" : "Troisième",
     "Fourth" : "Quatrième",
     "Fifth" : "Cinquième",
-    "Last" : "Dernièr",
+    "Last" : "Dernier",
     "Second Last" : "Avant-dernier",
     "Third Last" : "Troisième dernier",
     "Fourth Last" : "Quatrième dernier",
