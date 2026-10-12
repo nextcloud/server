@@ -80,8 +80,8 @@ class Get extends Command {
 			}
 		}
 
+		$node = $this->rootFolder->getUserFolder($input->getArgument('userId'))->getFirstNodeById($fileId);
 		if ($input->getOption('refresh')) {
-			$node = $this->rootFolder->getUserFolder($input->getArgument('userId'))->getFirstNodeById($fileId);
 			if (!$node) {
 				throw new NotFoundException();
 			}
@@ -90,7 +90,7 @@ class Get extends Command {
 				IFilesMetadataManager::PROCESS_LIVE | IFilesMetadataManager::PROCESS_BACKGROUND
 			);
 		} else {
-			$metadata = $this->filesMetadataManager->getMetadata($fileId);
+			$metadata = $this->filesMetadataManager->getMetadataForNode($node);
 		}
 
 		if ($input->getOption('as-array')) {

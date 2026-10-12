@@ -106,7 +106,7 @@ class GenerateMetadataJob extends TimedJob {
 			}
 
 			try {
-				$this->filesMetadataManager->getMetadata($node->getId(), false);
+				$this->filesMetadataManager->getMetadataForNode($node, false);
 			} catch (FilesMetadataNotFoundException) {
 				try {
 					$this->filesMetadataManager->refreshMetadata(
