@@ -1,22 +1,26 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Share20;
 
+use OC\OneTimePassword\OneTimePassword;
 use OC\Share20\Share;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Class ShareTest
  *
  * @package Test\Share20
  */
+#[Group(name: 'OTP')]
 class ShareTest extends \Test\TestCase {
 	protected IShare $share;
 
@@ -56,5 +60,25 @@ class ShareTest extends \Test\TestCase {
 
 		$this->share->setProviderId('foo');
 		$this->share->setProviderId('bar');
+	}
+
+	public static function dataTestIsPasswordProtected() {
+		return [
+			[null, null, false],
+			['', null, false],
+			['pw', null, true],
+			[null, new OneTimePassword('mock', 'rec'), true],
+			['', new OneTimePassword('mock', 'rec'), true],
+			['pw', new OneTimePassword('mock', 'rec'), true],
+		];
+	}
+
+	#[DataProvider('dataTestIsPasswordProtected')]
+	public function testIsPasswordProtected(?string $password, ?OneTimePassword $otp, bool $expected): void {
+		$this->share
+			->setPassword($password)
+			->setOneTimePassword($otp);
+
+		$this->assertEquals($expected, $this->share->isPasswordProtected());
 	}
 }
