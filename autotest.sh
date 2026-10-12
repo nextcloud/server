@@ -355,6 +355,7 @@ function execute_tests {
 	# trigger installation
 	echo "Installing ...."
 	"$PHP" ./occ maintenance:install -vvv --database="$_DB" --database-name="$DATABASENAME" --database-host="$DATABASEHOST" --database-user="$DATABASEUSER" --database-pass=owncloud --admin-user="$ADMINLOGIN" --admin-pass=admin --data-dir="$DATADIR"
+	NC_debug=true "$PHP" ./occ testing:prepare-ci
 
 	#test execution
 	echo "Testing with $DB ..."

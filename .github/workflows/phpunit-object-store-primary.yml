@@ -64,6 +64,7 @@ jobs:
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          NC_debug=true ./occ testing:prepare-ci
           php -f tests/enable_all.php
 
       - name: Wait for S3

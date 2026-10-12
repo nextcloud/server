@@ -86,6 +86,7 @@ jobs:
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
           ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=127.0.0.1 --database-port=1521 --database-user=system --database-pass=oracle --admin-user admin --admin-pass admin
+          NC_debug=true ./occ testing:prepare-ci
           php -f tests/enable_all.php
 
       - name: PHPUnit
