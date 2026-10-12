@@ -94,6 +94,7 @@ use OC\Core\Command\TaskProcessing\EnabledCommand;
 use OC\Core\Command\TaskProcessing\GetCommand;
 use OC\Core\Command\TaskProcessing\Statistics;
 use OC\Core\Command\TaskProcessing\WorkerCommand;
+use OC\Core\Command\Testing\PrepareCi;
 use OC\Core\Command\TwoFactorAuth\Cleanup;
 use OC\Core\Command\TwoFactorAuth\Enforce;
 use OC\Core\Command\TwoFactorAuth\State;
@@ -182,6 +183,7 @@ if ($config->getSystemValueBool('installed', false)) {
 		$application->add(Server::get(MigrateCommand::class));
 		$application->add(Server::get(GenerateCommand::class));
 		$application->add(Server::get(ExecuteCommand::class));
+		$application->add(Server::get(PrepareCi::class));
 	}
 
 	$application->add(Server::get(Command\Encryption\Disable::class));
