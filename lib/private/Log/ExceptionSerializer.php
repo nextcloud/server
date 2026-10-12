@@ -7,18 +7,8 @@
 
 namespace OC\Log;
 
-use OC\Core\Controller\SetupController;
-use OC\Http\Client\Client;
-use OC\Security\IdentityProof\Key;
-use OC\Setup;
 use OC\SystemConfig;
-use OCA\Encryption\Controller\RecoveryController;
-use OCA\Encryption\Controller\SettingsController;
-use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Crypto\Encryption;
-use OCA\Encryption\KeyManager;
-use OCA\Encryption\Listeners\UserEventsListener;
-use OCA\Encryption\Services\PassphraseService;
 use OCA\Encryption\Session;
 use OCP\HintException;
 
@@ -98,92 +88,7 @@ class ExceptionSerializer {
 	) {
 	}
 
-	protected array $methodsWithSensitiveParametersByClass = [
-		SetupController::class => [
-			'run',
-			'display',
-			'loadAutoConfig',
-		],
-		Setup::class => [
-			'install'
-		],
-		Key::class => [
-			'__construct'
-		],
-		Client::class => [
-			'request',
-			'delete',
-			'deleteAsync',
-			'get',
-			'getAsync',
-			'head',
-			'headAsync',
-			'options',
-			'optionsAsync',
-			'patch',
-			'post',
-			'postAsync',
-			'put',
-			'putAsync',
-		],
-		\Redis::class => [
-			'auth'
-		],
-		\RedisCluster::class => [
-			'__construct'
-		],
-		Crypt::class => [
-			'symmetricEncryptFileContent',
-			'encrypt',
-			'generatePasswordHash',
-			'encryptPrivateKey',
-			'decryptPrivateKey',
-			'isValidPrivateKey',
-			'symmetricDecryptFileContent',
-			'checkSignature',
-			'createSignature',
-			'decrypt',
-			'multiKeyDecrypt',
-			'multiKeyEncrypt',
-		],
-		RecoveryController::class => [
-			'adminRecovery',
-			'changeRecoveryPassword'
-		],
-		SettingsController::class => [
-			'updatePrivateKeyPassword',
-		],
-		Encryption::class => [
-			'encrypt',
-			'decrypt',
-		],
-		KeyManager::class => [
-			'checkRecoveryPassword',
-			'storeKeyPair',
-			'setRecoveryKey',
-			'setPrivateKey',
-			'setFileKey',
-			'setAllFileKeys',
-		],
-		Session::class => [
-			'setPrivateKey',
-			'prepareDecryptAll',
-		],
-		\OCA\Encryption\Users\Setup::class => [
-			'setupUser',
-		],
-		UserEventsListener::class => [
-			'handle',
-			'onUserCreated',
-			'onUserLogin',
-			'onBeforePasswordUpdated',
-			'onPasswordUpdated',
-			'onPasswordReset',
-		],
-		PassphraseService::class => [
-			'setPassphraseForUser',
-		],
-	];
+	protected array $methodsWithSensitiveParametersByClass = [];
 
 	private function editTrace(array &$sensitiveValues, array $traceLine): array {
 		if (isset($traceLine['args'])) {

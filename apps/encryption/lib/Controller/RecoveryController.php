@@ -29,7 +29,13 @@ class RecoveryController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	public function adminRecovery(string $recoveryPassword, string $confirmPassword, bool $adminEnableRecovery): DataResponse {
+	public function adminRecovery(
+		#[\SensitiveParameter]
+		string $recoveryPassword,
+		#[\SensitiveParameter]
+		string $confirmPassword,
+		bool $adminEnableRecovery,
+	): DataResponse {
 		// Check if both passwords are the same
 		if (empty($recoveryPassword)) {
 			$errorMessage = $this->l->t('Missing recovery key password');
@@ -70,7 +76,14 @@ class RecoveryController extends Controller {
 		}
 	}
 
-	public function changeRecoveryPassword(string $newPassword, string $oldPassword, string $confirmPassword): DataResponse {
+	public function changeRecoveryPassword(
+		#[\SensitiveParameter]
+		string $newPassword,
+		#[\SensitiveParameter]
+		string $oldPassword,
+		#[\SensitiveParameter]
+		string $confirmPassword,
+	): DataResponse {
 		//check if both passwords are the same
 		if (empty($oldPassword)) {
 			$errorMessage = $this->l->t('Please provide the old recovery password');

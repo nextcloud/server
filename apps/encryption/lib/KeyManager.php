@@ -171,11 +171,10 @@ class KeyManager {
 		return $this->recoveryKeyId;
 	}
 
-	/**
-	 * @param string $password
-	 * @return bool
-	 */
-	public function checkRecoveryPassword($password) {
+	public function checkRecoveryPassword(
+		#[\SensitiveParameter]
+		string $password,
+	): bool {
 		$recoveryKey = $this->keyStorage->getSystemUserKey($this->recoveryKeyId . '.' . $this->privateKeyId, Encryption::ID);
 		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey, $password);
 
@@ -185,13 +184,13 @@ class KeyManager {
 		return false;
 	}
 
-	/**
-	 * @param string $uid
-	 * @param string $password
-	 * @param array $keyPair
-	 * @return bool
-	 */
-	public function storeKeyPair($uid, $password, $keyPair) {
+	public function storeKeyPair(
+		string $uid,
+		#[\SensitiveParameter]
+		string $password,
+		#[\SensitiveParameter]
+		array $keyPair,
+	): bool {
 		// Save Public Key
 		$this->setPublicKey($uid, $keyPair['publicKey']);
 
@@ -206,12 +205,12 @@ class KeyManager {
 		return false;
 	}
 
-	/**
-	 * @param string $password
-	 * @param array $keyPair
-	 * @return bool
-	 */
-	public function setRecoveryKey($password, $keyPair) {
+	public function setRecoveryKey(
+		#[\SensitiveParameter]
+		string $password,
+		#[\SensitiveParameter]
+		array $keyPair,
+	): bool {
 		// Save Public Key
 		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId()
 			. '.' . $this->publicKeyId,
@@ -237,12 +236,11 @@ class KeyManager {
 		return $this->keyStorage->setUserKey($userId, $this->publicKeyId, $key, Encryption::ID);
 	}
 
-	/**
-	 * @param $userId
-	 * @param string $key
-	 * @return bool
-	 */
-	public function setPrivateKey($userId, $key) {
+	public function setPrivateKey(
+		string $userId,
+		#[\SensitiveParameter]
+		string $key,
+	): bool {
 		return $this->keyStorage->setUserKey($userId,
 			$this->privateKeyId,
 			$key,
@@ -251,22 +249,27 @@ class KeyManager {
 
 	/**
 	 * write file key to key storage
-	 *
-	 * @param string $path
-	 * @param string $key
-	 * @return boolean
 	 */
-	public function setFileKey($path, $key) {
+	public function setFileKey(
+		#[\SensitiveParameter]
+		string $path,
+		#[\SensitiveParameter]
+		string $key,
+	): bool {
 		return $this->keyStorage->setFileKey($path, $this->fileKeyId, $key, Encryption::ID);
 	}
 
 	/**
 	 * set all file keys (the file key and the corresponding share keys)
 	 *
-	 * @param string $path
-	 * @param array $keys
+	 * @param array{data:string,keys:array<string,string>} $keys
 	 */
-	public function setAllFileKeys($path, $keys) {
+	public function setAllFileKeys(
+		#[\SensitiveParameter]
+		string $path,
+		#[\SensitiveParameter]
+		array $keys,
+	): void {
 		$this->setFileKey($path, $keys['data']);
 		foreach ($keys['keys'] as $uid => $keyFile) {
 			$this->setShareKey($path, $uid, $keyFile);
