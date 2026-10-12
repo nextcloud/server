@@ -395,6 +395,68 @@ class EncryptionTest extends Storage {
 	}
 
 	/**
+	 * The unencrypted block size depends on the encoding stored in the file header,
+	 * which the encryption module only knows once begin() has read the header.
+	 */
+	public function testFixUnencryptedSizeUsesBlockSizeOfFileEncoding(): void {
+		$begun = false;
+		$module = $this->createMock(IEncryptionModule::class);
+		$module->method('begin')->willReturnCallback(function () use (&$begun) {
+			$begun = true;
+			return [];
+		});
+		$module->method('getUnencryptedBlockSize')->willReturnCallback(function (bool $signed) use (&$begun) {
+			return $begun ? 6072 : 8096;
+		});
+		$module->method('decrypt')->willReturn(str_repeat('a', 42));
+		$module->method('end')->willReturn('');
+
+		$header = ['cipher' => 'AES-256-CTR', 'signed' => 'true', 'oc_encryption_module' => 'UNIT_TEST_MODULE'];
+		$content = str_pad(Util::HEADER_START, $this->headerSize, '-') . str_repeat('x', 2 * 8192 + 100);
+		$stream = fopen('php://memory', 'r+');
+		fwrite($stream, $content);
+		rewind($stream);
+		$cache = $this->createMock(ICache::class);
+		$cache->method('get')->with('legacy.txt')->willReturn(['fileid' => 42]);
+		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$sourceStorage->method('fopen')->with('legacy.txt', 'r')->willReturn($stream);
+		$sourceStorage->method('getCache')->willReturn($cache);
+
+		$expected = 2 * 6072 + 42;
+		$cache->expects($this->once())->method('update')->with(42, ['unencrypted_size' => $expected]);
+
+		$instance = $this->getMockBuilder(Encryption::class)
+			->setConstructorArgs(
+				[
+					[
+						'storage' => $sourceStorage,
+						'root' => 'foo',
+						'mountPoint' => '/',
+						'mount' => $this->mount
+					],
+					$this->encryptionManager,
+					$this->util,
+					$this->logger,
+					$this->file,
+					null,
+					$this->keyStore,
+					$this->mountManager,
+					$this->arrayCache,
+				]
+			)
+			->onlyMethods(['getHeader', 'getHeaderSize', 'getEncryptionModule'])
+			->getMock();
+		$instance->method('getHeader')->willReturn($header);
+		$instance->method('getHeaderSize')->willReturn($this->headerSize);
+		$instance->method('getEncryptionModule')->willReturn($module);
+
+		$this->assertEquals(
+			$expected,
+			$this->invokePrivate($instance, 'fixUnencryptedSize', ['legacy.txt', strlen($content), 0])
+		);
+	}
+
+	/**
 	 *
 	 * @param string $source
 	 * @param string $target
