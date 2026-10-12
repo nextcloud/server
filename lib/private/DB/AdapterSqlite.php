@@ -83,7 +83,18 @@ class AdapterSqlite extends Adapter {
 	}
 
 	#[\Override]
-	public function getInsertIgnoreConflictSql(string $sql): string {
-		return $sql . ' ON CONFLICT DO NOTHING';
+	public function insertIgnoreConflict(string $table, array $values): int {
+		$builder = $this->conn->getQueryBuilder();
+		$builder->insert($table);
+		$updates = [];
+		foreach ($values as $key => $value) {
+			$builder->setValue($key, $builder->createNamedParameter($value));
+		}
+
+		return $this->conn->executeStatement(
+			$builder->getSQL() . ' ON CONFLICT DO NOTHING',
+			$builder->getParameters(),
+			$builder->getParameterTypes()
+		);
 	}
 }

@@ -130,14 +130,15 @@ class QBMapperDBTest extends TestCase {
 	public function testInsertIgnoreConflict(): void {
 		$mapper = new QBDBTestMapper($this->connection);
 
-		$entity = new QBDBTestEntity();
+		$entity = new class extends Entity {
+			protected ?string $datetime = null;
+		};
 		$entity->setId(200001);
-		$entity->setDatetime(new \DateTimeImmutable('2000-01-01 23:45:00'));
+		$entity->setDatetime('2000-01-01 23:45:00');
 		$this->assertSame(1, $mapper->insertIgnoreConflict($entity));
 
-		$conflicting = new QBDBTestEntity();
-		$conflicting->setId(200001);
-		$conflicting->setDatetime(new \DateTimeImmutable('2010-05-05 05:05:05'));
+		$conflicting = clone $entity;
+		$conflicting->setDatetime('2010-05-05 05:05:05');
 		$this->assertSame(0, $mapper->insertIgnoreConflict($conflicting));
 
 		// the conflicting insert must not have modified the existing row

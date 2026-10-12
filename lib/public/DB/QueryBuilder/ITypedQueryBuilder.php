@@ -347,12 +347,4 @@ interface ITypedQueryBuilder extends IQueryBuilder {
 	 */
 	#[Override]
 	public function forUpdate(ConflictResolutionMode $conflictResolutionMode = ConflictResolutionMode::Ordinary): self;
-
-	/**
-	 * @inheritDoc
-	 * @return $this
-	 * @since 36.0.0
-	 */
-	#[Override]
-	public function ignoreConflictsOnInsert(): self;
 }

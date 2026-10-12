@@ -173,9 +173,7 @@ abstract class QBMapper {
 		// be saved
 		$properties = $entity->getUpdatedFields();
 
-		$qb = $this->db->getQueryBuilder();
-		$qb->insert($this->tableName);
-		$qb->ignoreConflictsOnInsert();
+		$values = [];
 
 		// build the fields
 		foreach ($properties as $property => $updated) {
@@ -185,11 +183,10 @@ abstract class QBMapper {
 
 			$column = $entity->propertyToColumn($property);
 			$getter = 'get' . ucfirst($property);
-			$type = $this->getParameterTypeForProperty($entity, $property);
-			$qb->setValue($column, $qb->createNamedParameter($entity->$getter(), $type));
+			$values[$column] = $entity->$getter();
 		}
 
-		return $qb->executeStatement();
+		return $this->db->insertIgnoreConflict($this->tableName, $values);
 	}
 
 	/**
