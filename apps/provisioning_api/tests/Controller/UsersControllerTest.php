@@ -2322,10 +2322,12 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->willReturn($targetUser);
 		$this->groupManager
-			->expects($this->exactly(3))
+			->expects($this->once())
 			->method('isAdmin')
 			->with('UID')
 			->willReturn(true);
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$targetUser
 			->expects($this->any())
 			->method('getUID')
@@ -2361,10 +2363,12 @@ class UsersControllerTest extends TestCase {
 			->with('UserToEdit')
 			->willReturn($targetUser);
 		$this->groupManager
-			->expects($this->exactly(3))
+			->expects($this->once())
 			->method('isAdmin')
 			->with('UID')
 			->willReturn(true);
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$targetUser
 			->expects($this->any())
 			->method('getUID')
@@ -2408,13 +2412,10 @@ class UsersControllerTest extends TestCase {
 			->method('isAdmin')
 			->with('admin')
 			->willReturn(true);
-		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
-			->disableOriginalConstructor()
-			->getMock();
 		$this->groupManager
-			->expects($this->once())
-			->method('getSubAdmin')
-			->willReturn($subAdminManager);
+			->expects($this->never())
+			->method('getSubAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
 		$targetUser
 			->expects($this->any())
 			->method('getUID')
@@ -2559,11 +2560,10 @@ class UsersControllerTest extends TestCase {
 			->method('isAdmin')
 			->with('admin')
 			->willReturn(true);
-		$subAdminManager = $this->createMock(SubAdmin::class);
 		$this->groupManager
-			->expects($this->once())
-			->method('getSubAdmin')
-			->willReturn($subAdminManager);
+			->expects($this->never())
+			->method('getSubAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
 		$targetUser
 			->expects($this->any())
 			->method('getUID')
@@ -2608,11 +2608,10 @@ class UsersControllerTest extends TestCase {
 			->method('isAdmin')
 			->with('admin')
 			->willReturn(true);
-		$subAdminManager = $this->createMock(SubAdmin::class);
 		$this->groupManager
-			->expects($this->once())
-			->method('getSubAdmin')
-			->willReturn($subAdminManager);
+			->expects($this->never())
+			->method('getSubAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
 		$targetUser
 			->expects($this->any())
 			->method('getUID')
@@ -3526,9 +3525,12 @@ class UsersControllerTest extends TestCase {
 	public function testGetUsersGroupsSelfTargetted(): void {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(3))
+			->expects($this->once())
 			->method('getUID')
 			->willReturn('UserToLookup');
+		$this->groupManager->expects($this->never())->method('isAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$targetUser
 			->expects($this->once())
@@ -3555,9 +3557,11 @@ class UsersControllerTest extends TestCase {
 	public function testGetUsersGroupsForAdminUser(): void {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('admin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$targetUser
 			->expects($this->once())
@@ -3695,6 +3699,9 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testAddToGroupWithTargetGroupNotExisting(): void {
+		$this->mockAuthenticatedCallerForValidation();
+		$this->mockGroupOperationTargetForValidation();
+
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(102);
 
@@ -3707,6 +3714,10 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testAddToGroupWithNoGroupSpecified(): void {
+		$this->mockAuthenticatedCallerForValidation();
+		$this->mockGroupOperationTargetForValidation();
+		$this->groupManager->expects($this->never())->method('get');
+
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(101);
 
@@ -3717,11 +3728,12 @@ class UsersControllerTest extends TestCase {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(103);
 
-		$targetGroup = $this->createMock(IGroup::class);
-		$this->groupManager->expects($this->once())
+		$this->mockAuthenticatedCallerForValidation();
+		$this->userManager->expects($this->once())
 			->method('get')
-			->with('GroupToAddTo')
-			->willReturn($targetGroup);
+			->with('TargetUser')
+			->willReturn(null);
+		$this->groupManager->expects($this->never())->method('get');
 
 		$this->api->addToGroup('TargetUser', 'GroupToAddTo');
 	}
@@ -3857,6 +3869,9 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testRemoveFromGroupWithNoTargetGroup(): void {
+		$this->mockGroupOperationTargetForValidation();
+		$this->groupManager->expects($this->never())->method('get');
+
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(101);
 
@@ -3870,6 +3885,9 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testRemoveFromGroupWithEmptyTargetGroup(): void {
+		$this->mockGroupOperationTargetForValidation();
+		$this->groupManager->expects($this->never())->method('get');
+
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(101);
 
@@ -3883,6 +3901,8 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testRemoveFromGroupWithNotExistingTargetGroup(): void {
+		$this->mockGroupOperationTargetForValidation();
+
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(102);
 
@@ -3905,16 +3925,11 @@ class UsersControllerTest extends TestCase {
 		$this->expectExceptionCode(103);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
-		$targetGroup = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
 			->willReturn($loggedInUser);
-		$this->groupManager
-			->expects($this->once())
-			->method('get')
-			->with('TargetGroup')
-			->willReturn($targetGroup);
+		$this->groupManager->expects($this->never())->method('get');
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -4439,9 +4454,11 @@ class UsersControllerTest extends TestCase {
 			->willReturn($targetUser);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('admin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -4466,9 +4483,11 @@ class UsersControllerTest extends TestCase {
 			->willReturn($targetUser);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('admin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -4644,6 +4663,8 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testResendWelcomeMessageWithNotExistingTargetUser(): void {
+		$this->mockAuthenticatedCallerForValidation();
+
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(998);
 
@@ -5045,6 +5066,191 @@ class UsersControllerTest extends TestCase {
 
 		$expectedResp = new DataResponse($expected);
 		$this->assertEquals($expectedResp, $this->api->getEditableFields('userId'));
+	}
+
+	public static function dataEndpointsRequiringSessionUser(): array {
+		return [
+			'get user' => ['getUser', ['target']],
+			'get current user' => ['getCurrentUser', []],
+			'get enabled apps' => ['getEnabledApps', []],
+			'edit user' => ['editUser', ['target', 'manager', 'manager']],
+			'edit email collection' => [
+				'editUserMultiValue',
+				['target', IAccountManager::COLLECTION_EMAIL, 'old@example.com', 'new@example.com'],
+			],
+			'wipe devices' => ['wipeUserDevices', ['target']],
+			'delete user' => ['deleteUser', ['target']],
+			'enable user' => ['enableUser', ['target']],
+			'disable user' => ['disableUser', ['target']],
+			'get groups' => ['getUsersGroups', ['target']],
+			'get group details' => ['getUsersGroupsDetails', ['target']],
+			'get subadmin group details' => ['getUserSubAdminGroupsDetails', ['target']],
+			'add to group' => ['addToGroup', ['target', 'staff']],
+			'remove from group' => ['removeFromGroup', ['target', 'staff']],
+			'resend welcome mail' => ['resendWelcomeMessage', ['target']],
+		];
+	}
+
+	/** @param list<string> $arguments */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEndpointsRequiringSessionUser')]
+	public function testEndpointRejectsMissingSessionUser(string $method, array $arguments): void {
+		$this->userSession->expects($this->once())->method('getUser')->willReturn(null);
+		$this->userManager->expects($this->never())->method('get');
+		$this->groupManager->expects($this->never())->method('isAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
+
+		$this->expectException(OCSException::class);
+		$this->expectExceptionCode(OCSController::RESPOND_UNAUTHORISED);
+
+		$this->api->{$method}(...$arguments);
+	}
+
+	public static function dataGroupOperationMissingTargetPrecedence(): array {
+		return [
+			'add with empty group' => ['addToGroup', ''],
+			'add with missing group' => ['addToGroup', 'missing'],
+			'remove with empty group' => ['removeFromGroup', ''],
+			'remove with missing group' => ['removeFromGroup', 'missing'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGroupOperationMissingTargetPrecedence')]
+	public function testGroupOperationChecksTargetBeforeGroup(string $method, string $groupId): void {
+		$this->mockAuthenticatedCallerForValidation();
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('missing')
+			->willReturn(null);
+		$this->groupManager->expects($this->never())->method('get');
+		$this->groupManager->expects($this->never())->method('isAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
+
+		$this->expectException(OCSException::class);
+		$this->expectExceptionCode(103);
+
+		$this->api->{$method}('missing', $groupId);
+	}
+
+	public static function dataEnableDisableMethods(): array {
+		return [
+			'enable' => ['enableUser'],
+			'disable' => ['disableUser'],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEnableDisableMethods')]
+	public function testEnableDisableMissingTargetReturnsNotFound(string $method): void {
+		$this->mockAuthenticatedCallerForValidation();
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('missing')
+			->willReturn(null);
+		$this->groupManager->expects($this->never())->method('isAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
+
+		$this->expectException(OCSException::class);
+		$this->expectExceptionCode(OCSController::RESPOND_NOT_FOUND);
+
+		$this->api->{$method}('missing');
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEnableDisableMethods')]
+	public function testEnableDisableRejectsSelfBeforeRoleChecks(string $method): void {
+		$caller = $this->mockAuthenticatedCallerForValidation();
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('caller')
+			->willReturn($caller);
+		$caller->expects($this->never())->method('setEnabled');
+		$this->groupManager->expects($this->never())->method('isAdmin');
+		$this->groupManager->expects($this->never())->method('isDelegatedAdmin');
+		$this->groupManager->expects($this->never())->method('getSubAdmin');
+
+		$this->expectException(OCSException::class);
+		$this->expectExceptionCode(101);
+
+		$this->api->{$method}('caller');
+	}
+
+	public static function dataDelegatedAdminEnableDisable(): array {
+		return [
+			'enable ordinary user' => ['enableUser', true, false],
+			'disable ordinary user' => ['disableUser', false, false],
+			'enable admin denied' => ['enableUser', true, true],
+			'disable admin denied' => ['disableUser', false, true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDelegatedAdminEnableDisable')]
+	public function testDelegatedAdminEnableDisableTargetProtection(
+		string $method,
+		bool $enabled,
+		bool $targetIsAdmin,
+	): void {
+		$caller = $this->mockAuthenticatedCallerForValidation();
+		$target = $this->createMock(IUser::class);
+		$target->method('getUID')->willReturn('target');
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('target')
+			->willReturn($target);
+
+		$this->groupManager->expects($this->exactly(2))
+			->method('isAdmin')
+			->willReturnCallback(function (string $uid) use ($targetIsAdmin): bool {
+				return match ($uid) {
+					'caller' => false,
+					'target' => $targetIsAdmin,
+					default => throw new RuntimeException('Unexpected user ID: ' . $uid),
+				};
+			});
+		$this->groupManager->expects($this->once())
+			->method('isDelegatedAdmin')
+			->with('caller')
+			->willReturn(true);
+
+		if ($targetIsAdmin) {
+			$subAdmin = $this->createMock(SubAdmin::class);
+			$this->groupManager->expects($this->once())
+				->method('getSubAdmin')
+				->willReturn($subAdmin);
+			$subAdmin->expects($this->once())
+				->method('isUserAccessible')
+				->with($caller, $target)
+				->willReturn(false);
+			$target->expects($this->never())->method('setEnabled');
+
+			$this->expectException(OCSException::class);
+			$this->expectExceptionCode(OCSController::RESPOND_NOT_FOUND);
+			$this->api->{$method}('target');
+		} else {
+			$this->groupManager->expects($this->never())->method('getSubAdmin');
+			$target->expects($this->once())->method('setEnabled')->with($enabled);
+
+			$response = $this->api->{$method}('target');
+			$this->assertSame(Http::STATUS_OK, $response->getStatus());
+			$this->assertSame([], $response->getData());
+		}
+	}
+
+	private function mockAuthenticatedCallerForValidation(): IUser {
+		$caller = $this->createMock(IUser::class);
+		$caller->method('getUID')->willReturn('caller');
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($caller);
+
+		return $caller;
+	}
+
+	private function mockGroupOperationTargetForValidation(): void {
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with('TargetUser')
+			->willReturn($this->createMock(IUser::class));
 	}
 
 	private function mockAccount($targetUser, $accountProperties) {
