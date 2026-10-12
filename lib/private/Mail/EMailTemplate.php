@@ -42,6 +42,8 @@ class EMailTemplate implements IEMailTemplate {
 	protected ?string $senderName = null;
 	/** @var array<array{name: string, content: string, mimeType: string}> images to embed inline, referenced via cid: */
 	protected array $inlineImages = [];
+	/** absolute URL of the logo, if added to the body, will be replaced with cid: if logo is to be attached to the email */
+	private string $logoUrl = '';
 
 	protected string $head = <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -298,16 +300,36 @@ EOF;
 			$logoSizeDimensions = ' width="' . $this->logoWidth . '" height="' . $this->logoHeight . '"';
 		}
 
-		$logoImage = $this->themingDefaults->getLogoImage();
-		if ($logoImage !== null) {
-			// Embed the logo directly in the message instead of linking to it, so mail
-			// clients don't have to fetch it from the internet (some (e.g. gmail) block that).
-			$logoSrc = 'cid:logo';
-			$this->inlineImages[] = ['name' => 'logo'] + $logoImage;
-		} else {
-			$logoSrc = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
+		$this->logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
+		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $this->logoUrl, $this->themingDefaults->getName(), $logoSizeDimensions]);
+	}
+
+	/**
+	 * Renders the HTML email with the logo embedded instead of linked, so mail
+	 * clients don't have to fetch it from the internet (some (e.g. gmail) block that).
+	 *
+	 * The caller must attach the images returned by getInlineImages() afterwards.
+	 */
+	public function renderHtmlWithInlineImages(): string {
+		$html = $this->renderHtml();
+		$this->inlineImages = [];
+		if ($this->logoUrl === '') {
+			return $html;
 		}
-		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $logoSrc, $this->themingDefaults->getName(), $logoSizeDimensions]);
+
+		$logoSrc = 'src="' . $this->logoUrl . '"';
+		$position = strpos($html, $logoSrc);
+		if ($position === false) {
+			return $html;
+		}
+
+		$logoImage = $this->themingDefaults->getLogoImage();
+		if ($logoImage === null) {
+			return $html;
+		}
+		$this->inlineImages[] = ['name' => 'logo'] + $logoImage;
+
+		return substr_replace($html, 'src="cid:logo"', $position, strlen($logoSrc));
 	}
 
 	#[\Override]
@@ -319,6 +341,7 @@ EOF;
 
 	/**
 	 * Images that must be embedded inline in the message, referenced via `cid:<name>` in the HTML body
+	 * returned by the last renderHtmlWithInlineImages() call
 	 *
 	 * @return array<array{name: string, content: string, mimeType: string}>
 	 */
