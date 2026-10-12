@@ -17,6 +17,7 @@ SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
 SPDX-FileCopyrightText: Matt Zabriskie
@@ -106,6 +107,9 @@ This file is generated from multiple sources. Included packages:
 	- license: AGPL-3.0-or-later
 - @nextcloud/event-bus
 	- version: 3.3.3
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 4.1.0
@@ -214,4 +218,7 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - vue
 	- version: 3.5.43
+	- license: MIT
+- webdav
+	- version: 5.11.0
 	- license: MIT
