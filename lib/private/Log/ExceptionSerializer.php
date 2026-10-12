@@ -193,6 +193,18 @@ class ExceptionSerializer {
 		return $traceLine;
 	}
 
+	private function processSensitiveParameterValues(array &$sensitiveValues, array $traceLine): array {
+		if (isset($traceLine['args'])) {
+			foreach ($traceLine['args'] as &$arg) {
+				if ($arg instanceof \SensitiveParameterValue) {
+					$sensitiveValues[] = $arg->getValue();
+					$arg = self::SENSITIVE_VALUE_PLACEHOLDER;
+				}
+			}
+		}
+		return $traceLine;
+	}
+
 	private function filterTrace(array $trace) {
 		$sensitiveValues = [];
 		$trace = array_map(function (array $traceLine) use (&$sensitiveValues) {
@@ -208,7 +220,7 @@ class ExceptionSerializer {
 					return $this->editTrace($sensitiveValues, $traceLine);
 				}
 			}
-			return $traceLine;
+			return $this->processSensitiveParameterValues($sensitiveValues, $traceLine);
 		}, $trace);
 		return array_map(function (array $traceLine) use ($sensitiveValues) {
 			if (isset($traceLine['args'])) {
@@ -218,7 +230,7 @@ class ExceptionSerializer {
 		}, $trace);
 	}
 
-	private function removeValuesFromArgs($args, $values): array {
+	private function removeValuesFromArgs(array $args, array $values): array {
 		$workArgs = [];
 		foreach ($args as $key => $arg) {
 			if (in_array($arg, $values, true)) {
@@ -231,18 +243,22 @@ class ExceptionSerializer {
 		return $workArgs;
 	}
 
-	private function encodeTrace($trace) {
+	private function encodeTrace(array $trace): array {
 		$trace = array_map(function (array $line) {
 			if (isset($line['args'])) {
-				$line['args'] = array_map([$this, 'encodeArg'], $line['args']);
+				$line['args'] = array_map($this->encodeArg(...), $line['args']);
 			}
 			return $line;
 		}, $trace);
 		return $this->filterTrace($trace);
 	}
 
-	private function encodeArg($arg, $nestingLevel = 5) {
+	private function encodeArg(mixed $arg, int $nestingLevel = 5): mixed {
 		if (is_object($arg)) {
+			if ($arg instanceof \SensitiveParameterValue) {
+				// Keep SensitiveParameterValue as-is, it will be handled later
+				return $arg;
+			}
 			if ($nestingLevel === 0) {
 				return [
 					'__class__' => get_class($arg),
