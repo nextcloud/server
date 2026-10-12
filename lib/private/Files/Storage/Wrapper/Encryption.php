@@ -433,6 +433,8 @@ class Encryption extends Wrapper {
 			return 0;
 		}
 
+		// the block size depends on the encoding the module reads from the header
+		$encryptionModule->begin($this->getFullPath($path), $this->uid, 'r', $header, []);
 		$signed = isset($header['signed']) && $header['signed'] === 'true';
 		$unencryptedBlockSize = $encryptionModule->getUnencryptedBlockSize($signed);
 
@@ -465,7 +467,6 @@ class Encryption extends Wrapper {
 		fclose($stream);
 
 		// we have to decrypt the last chunk to get it actual size
-		$encryptionModule->begin($this->getFullPath($path), $this->uid, 'r', $header, []);
 		$decryptedLastChunk = $encryptionModule->decrypt($lastChunkContentEncrypted, $lastChunkNr . 'end');
 		$decryptedLastChunk .= $encryptionModule->end($this->getFullPath($path), $lastChunkNr . 'end');
 
