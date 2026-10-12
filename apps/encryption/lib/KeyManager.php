@@ -335,11 +335,9 @@ class KeyManager {
 	}
 
 	/**
-	 * @param $userId
-	 * @return string
 	 * @throws PrivateKeyMissingException
 	 */
-	public function getPrivateKey($userId) {
+	public function getPrivateKey(string $userId): string {
 		$privateKey = $this->keyStorage->getUserKey($userId,
 			$this->privateKeyId, Encryption::ID);
 
