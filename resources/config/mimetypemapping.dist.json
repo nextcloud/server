@@ -94,6 +94,7 @@
 	"jps": ["image/jpeg"],
 	"js": ["application/javascript", "text/plain"],
 	"json": ["application/json", "text/plain"],
+	"jxl": ["image/jxl"],
 	"k25": ["image/x-dcraw"],
 	"kdbx": ["application/x-kdbx"],
 	"kdc": ["image/x-dcraw"],
