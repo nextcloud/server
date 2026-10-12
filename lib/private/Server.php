@@ -155,7 +155,6 @@ use OC\Template\JSCombiner;
 use OC\Translation\TranslationManager;
 use OC\User\AvailabilityCoordinator;
 use OC\User\DisplayNameCache;
-use OC\User\Listeners\BeforeUserDeletedListener;
 use OC\User\Listeners\UserChangedListener;
 use OC\User\Listeners\UserLoggedInWithCookieListener;
 use OC\User\Session;
@@ -290,7 +289,6 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Talk\IBroker;
 use OCP\Teams\ITeamManager;
 use OCP\Translation\ITranslationManager;
-use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
@@ -1358,7 +1356,6 @@ class Server extends ServerContainer implements IServerContainer {
 		$eventDispatcher->addServiceListener(LoginFailed::class, LoginFailedListener::class);
 		$eventDispatcher->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
 		$eventDispatcher->addServiceListener(UserChangedEvent::class, UserChangedListener::class);
-		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
 		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, UserLoggedInWithCookieListener::class);
 
 		FilesMetadataManager::loadListeners($eventDispatcher);
