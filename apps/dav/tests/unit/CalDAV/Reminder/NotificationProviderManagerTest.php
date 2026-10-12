@@ -75,6 +75,16 @@ class NotificationProviderManagerTest extends TestCase {
 		$this->providerManager->registerProvider(Capabilities::class);
 	}
 
+	public function testProviderIsCreatedWhenUsed(): void {
+		$provider = $this->createMock(PushProvider::class);
+		$this->providerManager->registerProvider(PushProvider::class);
+		$this->overwriteService(PushProvider::class, $provider);
+
+		$this->assertSame($provider, $this->providerManager->getProvider('DISPLAY'));
+		$this->assertSame($provider, $this->providerManager->getProvider('DISPLAY'));
+		$this->restoreService(PushProvider::class);
+	}
+
 	public function testHasProvider(): void {
 		$this->assertTrue($this->providerManager->hasProvider('EMAIL'));
 		$this->assertFalse($this->providerManager->hasProvider('EMAIL123'));

@@ -20,8 +20,11 @@ use Psr\Container\ContainerExceptionInterface;
  */
 class NotificationProviderManager {
 
-	/** @var INotificationProvider[] */
-	private $providers = [];
+	/** @var array<string, class-string<INotificationProvider>> */
+	private array $providerClasses = [];
+
+	/** @var array<string, INotificationProvider> */
+	private array $providers = [];
 
 	/**
 	 * Checks whether a provider for a given ACTION exists
@@ -31,7 +34,7 @@ class NotificationProviderManager {
 	 */
 	public function hasProvider(string $type):bool {
 		return (\in_array($type, ReminderService::REMINDER_TYPES, true)
-			&& isset($this->providers[$type]));
+			&& isset($this->providerClasses[$type]));
 	}
 
 	/**
@@ -41,30 +44,35 @@ class NotificationProviderManager {
 	 * @return INotificationProvider
 	 * @throws NotificationProvider\ProviderNotAvailableException
 	 * @throws NotificationTypeDoesNotExistException
+	 * @throws ContainerExceptionInterface
 	 */
 	public function getProvider(string $type):INotificationProvider {
 		if (in_array($type, ReminderService::REMINDER_TYPES, true)) {
-			if (isset($this->providers[$type])) {
-				return $this->providers[$type];
+			if (!isset($this->providerClasses[$type])) {
+				throw new ProviderNotAvailableException($type);
 			}
-			throw new ProviderNotAvailableException($type);
+			if (!isset($this->providers[$type])) {
+				$provider = Server::get($this->providerClasses[$type]);
+				if (!$provider instanceof INotificationProvider) {
+					throw new \InvalidArgumentException('Invalid notification provider registered');
+				}
+				$this->providers[$type] = $provider;
+			}
+			return $this->providers[$type];
 		}
 		throw new NotificationTypeDoesNotExistException($type);
 	}
 
 	/**
-	 * Registers a new provider
+	 * Registers a new provider, it is only instantiated when it is used
 	 *
-	 * @param string $providerClassName
-	 * @throws ContainerExceptionInterface
+	 * @param class-string<INotificationProvider> $providerClassName
 	 */
 	public function registerProvider(string $providerClassName):void {
-		$provider = Server::get($providerClassName);
-
-		if (!$provider instanceof INotificationProvider) {
+		if (!is_subclass_of($providerClassName, INotificationProvider::class)) {
 			throw new \InvalidArgumentException('Invalid notification provider registered');
 		}
 
-		$this->providers[$provider::NOTIFICATION_TYPE] = $provider;
+		$this->providerClasses[$providerClassName::NOTIFICATION_TYPE] = $providerClassName;
 	}
 }
