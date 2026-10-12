@@ -18,6 +18,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IImage;
@@ -169,6 +170,9 @@ class GeneratorTest extends TestCase {
 		$image->method('height')->willReturn(2048);
 		$image->method('valid')->willReturn(true);
 		$image->method('dataMimeType')->willReturn('image/png');
+		$image->method('data')->willReturn('my data');
+		$image->method('resizeCopy')
+			->willReturnCallback(fn (int $size): IImage => $this->getMockImage($size, $size, 'my resized data'));
 
 		$this->getAutoMock(GeneratorHelper::class)->method('getThumbnail')
 			->willReturnCallback(function ($provider, $file, $x, $y) use ($invalidProvider, $validProvider, $image): false|IImage {
@@ -178,9 +182,6 @@ class GeneratorTest extends TestCase {
 					return false;
 				}
 			});
-
-		$image->method('data')
-			->willReturn('my data');
 
 		$this->getAutoMock(PreviewMapper::class)->method('insert')
 			->willReturnCallback(fn (Preview $preview): Preview => $preview);
@@ -213,9 +214,9 @@ class GeneratorTest extends TestCase {
 				$this->fail('file name is wrong:' . $preview->getName());
 			});
 
-		$image = $this->getMockImage(2048, 2048, 'my resized data');
-		$this->getAutoMock(GeneratorHelper::class)->method('getImage')
-			->willReturn($image);
+		// The generated max preview is reused, not decoded again
+		$this->getAutoMock(GeneratorHelper::class)->expects($this->never())
+			->method('getImage');
 
 		$this->getAutoMock(IEventDispatcher::class)->expects($this->once())
 			->method('dispatchTyped')
@@ -481,6 +482,54 @@ class GeneratorTest extends TestCase {
 		} else {
 			$this->assertSame($filename, $result->getName());
 		}
+	}
+
+	#[TestWith([false, '256-256.png'])]
+	#[TestWith([true, '2048-2048-max.png'])]
+	public function testResizeFromSmallestCachedPreview(bool $cropped, string $expectedSource): void {
+		$file = $this->getFile(42, 'myMimeType');
+
+		$this->getAutoMock(IPreview::class)->method('isMimeSupported')
+			->willReturn(true);
+
+		$maxPreview = new Preview();
+		$maxPreview->setWidth(2048);
+		$maxPreview->setHeight(2048);
+		$maxPreview->setMax(true);
+		$maxPreview->setSize(1000);
+		$maxPreview->setVersion(null);
+		$maxPreview->setMimeType('image/png');
+
+		$previews = [$maxPreview];
+		foreach ([1024, 256] as $size) {
+			$preview = new Preview();
+			$preview->setWidth($size);
+			$preview->setHeight($size);
+			$preview->setMax(false);
+			$preview->setSize(1000);
+			$preview->setCropped($cropped);
+			$preview->setVersion(null);
+			$preview->setMimeType('image/png');
+			$previews[] = $preview;
+		}
+
+		$this->getAutoMock(PreviewMapper::class)->method('getAvailablePreviews')
+			->willReturn([42 => $previews]);
+
+		$this->getAutoMock(GeneratorHelper::class)->expects($this->once())
+			->method('getImage')
+			->willReturnCallback(function (ISimpleFile $source) use ($expectedSource): IImage {
+				$this->assertSame($expectedSource, $source->getName());
+				return $this->getMockImage(256, 256);
+			});
+
+		$this->getAutoMock(PreviewMapper::class)->method('insert')
+			->willReturnCallback(fn (Preview $preview): Preview => $preview);
+		$this->getAutoMock(StorageFactory::class)->method('writePreview')
+			->willReturn(1000);
+
+		$result = $this->generator->getPreview($file, 32, 32);
+		$this->assertSame('64-64.png', $result->getName());
 	}
 
 	public function testUnreadbleFile(): void {
