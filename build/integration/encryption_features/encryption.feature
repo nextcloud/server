@@ -52,6 +52,25 @@ Feature: encryption
     Then the HTTP status code should be "200"
     And Downloaded content should be "the second content"
 
+  # Files written by older versions use the base64 encoding and may have no
+  # unencrypted size in the file cache, so it has to be recalculated from the
+  # blocks of the file.
+  Scenario: Download a base64 encoded file with an unknown unencrypted size
+    Given invoking occ with "config:system:set encryption.use_legacy_base64_encoding --value true --type boolean"
+    And the command was successful
+    And user "user0" exists
+    And As an "user0"
+    And User "user0" adds a file of 20000 bytes to "/legacy.bin"
+    And invoking occ with "config:system:delete encryption.use_legacy_base64_encoding"
+    And the command was successful
+    And invoking occ with "app:enable testing"
+    And the command was successful
+    And invoking occ with "testing:set-unencrypted-size user0 /legacy.bin 0"
+    And the command was successful
+    When Downloading file "/legacy.bin"
+    Then the HTTP status code should be "200"
+    And File "/legacy.bin" should have prop "d:getcontentlength" equal to "20000"
+
   # With "part_file_in_storage" disabled the part file is written to the user
   # home while the target lives on another storage, so the upload has to read the
   # part file back to move it over. A part file never has a file cache entry, so
