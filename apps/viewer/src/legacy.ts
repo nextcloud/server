@@ -146,11 +146,32 @@ function directoryOf(source: string): string {
 }
 
 /**
+ * The root a node served from an address is relative to.
+ *
+ * An address on dav sits under a home of one of its services, such as
+ * `/files/emma`, and a node has to be relative to that home. Anything else
+ * has no home, so the folder the file sits in stands in for it and the node
+ * still knows its own name.
+ *
+ * @param source - the address the file is served from
+ */
+function rootOf(source: string): string {
+	const davRemote = getRemoteURL() + '/'
+	if (source.startsWith(davRemote)) {
+		const [service, home] = source.slice(davRemote.length).split('/')
+		if (service && home) {
+			return `/${service}/${home}`
+		}
+	}
+	return directoryOf(source)
+}
+
+/**
  * Build a node out of what an app handed over.
  *
  * Callers filled in what they had, so most of this is defaulting. A file
- * with a `source` of its own is served from somewhere that is not dav, and
- * keeps it; everything else is addressed under the user's files.
+ * with a `source` of its own keeps it; everything else is addressed under
+ * the user's files.
  *
  * @param info - the file info an app passed to open
  */
@@ -169,10 +190,7 @@ function nodeFromFileInfo(info: LegacyFileInfo): IFile {
 
 	const data: NodeData = {
 		source,
-		// A file under the user's files is relative to their dav home. One
-		// served from somewhere else has no home, so the folder it sits in
-		// stands in for it and the node still knows its own name.
-		root: info.source === undefined ? getRootPath() : directoryOf(info.source),
+		root: info.source === undefined ? getRootPath() : rootOf(info.source),
 		displayname: info.basename ?? basenameOf(source),
 		mime: info.mime ?? 'application/octet-stream',
 		owner,
