@@ -156,6 +156,21 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	}
 
 	/**
+	 * Test renaming JPEG XL images, which had no mapping either
+	 */
+	public function testRenameJxlType(): void {
+		$currentMimeTypes = [
+			['test.jxl', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.jxl', 'image/jxl'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
 	 * Test renaming the richdocuments additional office mime types
 	 */
 	public function testRenameWindowsProgramTypes(): void {
