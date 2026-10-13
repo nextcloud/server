@@ -39,7 +39,6 @@ use Psr\Log\LoggerInterface;
  * Note that &run is deprecated and won't work anymore.
  *
  * Hooks provided:
- *   post_login(uid)
  *   logout()
  * @deprecated 36.0.0 No more non-deprecated methods in there
  */
