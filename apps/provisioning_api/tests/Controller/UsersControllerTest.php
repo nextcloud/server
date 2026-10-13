@@ -461,6 +461,267 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->api->getDisabledUsersDetails('MyCustomSearch', 3)->getData());
 	}
 
+	public function testGetEnabledUsersDetailsAsAdminSkipsDisabledUntilPageIsFull(): void {
+		$loggedInUser = $this->createUserMock('admin', true);
+		$this->userSession
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->groupManager
+			->method('getSubAdmin')
+			->willReturn($this->subAdminManager);
+		$this->groupManager
+			->method('isAdmin')
+			->willReturn(true);
+		$this->userManager
+			->expects($this->exactly(3))
+			->method('search')
+			->willReturnMap([
+				['MyCustomSearch', 2, 0, ['user1' => $this->createUserMock('user1', false), 'user2' => $this->createUserMock('user2', false)]],
+				['MyCustomSearch', 2, 2, ['alice' => $this->createUserMock('alice', true), 'user3' => $this->createUserMock('user3', false)]],
+				['MyCustomSearch', 2, 4, ['bob' => $this->createUserMock('bob', true), 'joe' => $this->createUserMock('joe', true)]],
+			]);
+
+		$this->request
+			->method('getRequestUri')
+			->willReturn('/ocs/v2.php/cloud/users/details?search=MyCustomSearch&limit=2&enabled=1');
+		$this->urlGenerator
+			->method('getAbsoluteURL')
+			->with('/ocs/v2.php/cloud/users/details')
+			->willReturn('https://cloud.example.com/ocs/v2.php/cloud/users/details');
+
+		$response = $this->api->getUsersDetails('MyCustomSearch', 2, 0, true);
+		$this->assertSame(['alice', 'bob'], array_keys($response->getData()['users']));
+		$this->assertSame(
+			'<https://cloud.example.com/ocs/v2.php/cloud/users/details?search=MyCustomSearch&enabled=1&limit=2&offset=5>; rel="next"',
+			$response->getHeaders()['Link']
+		);
+	}
+
+	public function testGetDisabledUsersDetailsAsAdminViaEnabledFilter(): void {
+		$this->userSession
+			->method('getUser')
+			->willReturn($this->createUserMock('admin', true));
+		$this->groupManager
+			->method('getSubAdmin')
+			->willReturn($this->subAdminManager);
+		$this->groupManager
+			->method('isAdmin')
+			->willReturn(true);
+		$this->userManager
+			->expects($this->exactly(2))
+			->method('search')
+			->willReturnMap([
+				['MyCustomSearch', 2, 0, ['alice' => $this->createUserMock('alice', true), 'user1' => $this->createUserMock('user1', false)]],
+				['MyCustomSearch', 2, 2, ['user2' => $this->createUserMock('user2', false), 'bob' => $this->createUserMock('bob', true)]],
+			]);
+
+		$this->request
+			->method('getRequestUri')
+			->willReturn('/ocs/v2.php/cloud/users/details?search=MyCustomSearch&limit=2&enabled=0');
+		$this->urlGenerator
+			->method('getAbsoluteURL')
+			->with('/ocs/v2.php/cloud/users/details')
+			->willReturn('https://cloud.example.com/ocs/v2.php/cloud/users/details');
+
+		$response = $this->api->getUsersDetails('MyCustomSearch', 2, 0, false);
+		$this->assertSame(['user1', 'user2'], array_keys($response->getData()['users']));
+		$this->assertSame(
+			'<https://cloud.example.com/ocs/v2.php/cloud/users/details?search=MyCustomSearch&enabled=0&limit=2&offset=3>; rel="next"',
+			$response->getHeaders()['Link']
+		);
+	}
+
+	public function testGetUsersDetailsWithoutEnabledFilterReturnsAllUsers(): void {
+		$this->userSession
+			->method('getUser')
+			->willReturn($this->createUserMock('admin', true));
+		$this->groupManager
+			->method('getSubAdmin')
+			->willReturn($this->subAdminManager);
+		$this->groupManager
+			->method('isAdmin')
+			->willReturn(true);
+		$this->userManager
+			->expects($this->once())
+			->method('search')
+			->with('MyCustomSearch', 2, 0)
+			->willReturn(['alice' => $this->createUserMock('alice', true), 'user1' => $this->createUserMock('user1', false)]);
+
+		$this->request
+			->method('getRequestUri')
+			->willReturn('/ocs/v2.php/cloud/users/details?search=MyCustomSearch&limit=2');
+		$this->urlGenerator
+			->method('getAbsoluteURL')
+			->with('/ocs/v2.php/cloud/users/details')
+			->willReturn('https://cloud.example.com/ocs/v2.php/cloud/users/details');
+
+		$response = $this->api->getUsersDetails('MyCustomSearch', 2, 0);
+		$this->assertSame(['alice', 'user1'], array_keys($response->getData()['users']));
+		$this->assertSame(
+			'<https://cloud.example.com/ocs/v2.php/cloud/users/details?search=MyCustomSearch&limit=2&offset=2>; rel="next"',
+			$response->getHeaders()['Link']
+		);
+	}
+
+	public function testGetEnabledUsersDetailsAsAdminStopsAtEndOfResults(): void {
+		$loggedInUser = $this->createUserMock('admin', true);
+		$this->userSession
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->groupManager
+			->method('getSubAdmin')
+			->willReturn($this->subAdminManager);
+		$this->groupManager
+			->method('isAdmin')
+			->willReturn(true);
+		$this->userManager
+			->expects($this->exactly(2))
+			->method('search')
+			->willReturnMap([
+				['MyCustomSearch', 2, 0, ['alice' => $this->createUserMock('alice', true), 'user1' => $this->createUserMock('user1', false)]],
+				['MyCustomSearch', 2, 2, ['user2' => $this->createUserMock('user2', false)]],
+			]);
+
+		$response = $this->api->getUsersDetails('MyCustomSearch', 2, 0, true);
+		$this->assertSame(['alice'], array_keys($response->getData()['users']));
+		$this->assertArrayNotHasKey('Link', $response->getHeaders());
+	}
+
+	public function testGetUsersDetailsAsSubAdminFiltersByEnabledState(): void {
+		$loggedInUser = $this->createUserMock('subadmin', true);
+		$this->userSession
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->groupManager
+			->method('isAdmin')
+			->willReturn(false);
+		$firstGroup = $this->createMock(IGroup::class);
+		$secondGroup = $this->createMock(IGroup::class);
+		$subAdminManager = $this->createMock(SubAdmin::class);
+		$subAdminManager
+			->method('isSubAdmin')
+			->with($loggedInUser)
+			->willReturn(true);
+		$subAdminManager
+			->method('getSubAdminsGroups')
+			->with($loggedInUser)
+			->willReturn([$firstGroup, $secondGroup]);
+		$this->groupManager
+			->method('getSubAdmin')
+			->willReturn($subAdminManager);
+		$this->groupManager
+			->expects($this->never())
+			->method('displayNamesInGroup');
+
+		$firstGroup
+			->method('searchUsers')
+			->with('MyCustomSearch')
+			->willReturn([
+				$this->createUserMock('user1', false),
+				$this->createUserMock('bob', true),
+				$this->createUserMock('alice', true),
+			]);
+		$secondGroup
+			->method('searchUsers')
+			->with('MyCustomSearch')
+			->willReturn([
+				$this->createUserMock('alice', true),
+				$this->createUserMock('user2', false),
+				$this->createUserMock('joe', true),
+				$this->createUserMock('jim', true),
+			]);
+
+		$response = $this->api->getUsersDetails('MyCustomSearch', 2, 1, true);
+		$this->assertSame(['alice', 'joe'], array_keys($response->getData()['users']));
+
+		$response = $this->api->getUsersDetails('MyCustomSearch', 2, 0, false);
+		$this->assertSame(['user1', 'user2'], array_keys($response->getData()['users']));
+	}
+
+	public function testGetEnabledLastLoggedInUsersSkipsDisabledAndMissingUntilPageIsFull(): void {
+		$this->userSession
+			->method('getUser')
+			->willReturn($this->createUserMock('admin', true));
+		$users = [
+			'user1' => $this->createUserMock('user1', false),
+			'alice' => $this->createUserMock('alice', true),
+			'bob' => $this->createUserMock('bob', true),
+		];
+		$this->userManager
+			->method('get')
+			->willReturnCallback(fn (string $uid) => $users[$uid] ?? null);
+		$this->userManager
+			->expects($this->exactly(2))
+			->method('getLastLoggedInUsers')
+			->willReturnMap([
+				[2, 0, 'MyCustomSearch', ['user1', 'alice']],
+				[2, 2, 'MyCustomSearch', ['removed', 'bob']],
+			]);
+
+		$this->request
+			->method('getRequestUri')
+			->willReturn('/ocs/v2.php/cloud/users/recent?search=MyCustomSearch&limit=2&enabled=1');
+		$this->urlGenerator
+			->method('getAbsoluteURL')
+			->with('/ocs/v2.php/cloud/users/recent')
+			->willReturn('https://cloud.example.com/ocs/v2.php/cloud/users/recent');
+
+		$api = $this->getMockBuilder(UsersController::class)
+			->setConstructorArgs([
+				'provisioning_api',
+				$this->request,
+				$this->userManager,
+				$this->config,
+				$this->groupManager,
+				$this->userSession,
+				$this->accountManager,
+				$this->subAdminManager,
+				$this->l10nFactory,
+				$this->rootFolder,
+				$this->urlGenerator,
+				$this->logger,
+				$this->newUserMailHelper,
+				$this->secureRandom,
+				$this->remoteWipe,
+				$this->knownUserService,
+				$this->eventDispatcher,
+				$this->phoneNumberUtil,
+				$this->appManager,
+				$this->appConfig,
+				$this->groupDisplayNameCache,
+			])
+			->onlyMethods(['getUserData'])
+			->getMock();
+		$api->method('getUserData')
+			->willReturnCallback(fn (string $uid) => ['id' => $uid]);
+
+		$response = $api->getLastLoggedInUsers('MyCustomSearch', 2, 0, true);
+		$this->assertSame(['alice', 'bob'], array_keys($response->getData()['users']));
+		$this->assertSame(
+			'<https://cloud.example.com/ocs/v2.php/cloud/users/recent?search=MyCustomSearch&enabled=1&limit=2&offset=4>; rel="next"',
+			$response->getHeaders()['Link']
+		);
+	}
+
+	public function testSearchFilteredUsersCollectsDisabledUsers(): void {
+		$pages = [
+			0 => [$this->createUserMock('alice', true), null],
+			2 => [$this->createUserMock('user1', false), $this->createUserMock('bob', true)],
+			4 => [$this->createUserMock('user2', false)],
+		];
+
+		[$users, $nextOffset, $hasMore] = self::invokePrivate($this->api, 'searchFilteredUsers', [
+			fn (?int $limit, int $offset): array => $pages[$offset] ?? [],
+			2,
+			0,
+			false,
+		]);
+
+		$this->assertSame(['user1', 'user2'], array_map(fn (IUser $user): string => $user->getUID(), $users));
+		$this->assertSame(5, $nextOffset);
+		$this->assertTrue($hasMore);
+	}
+
 	public function testAddUserAlreadyExisting(): void {
 		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(102);

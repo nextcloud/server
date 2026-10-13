@@ -47,16 +47,18 @@ trait PaginationTrait {
 	 *
 	 * @param array<string, mixed> $params Query parameters for the next page, e.g. the incremented offset
 	 * @param non-negative-int|null $limit
+	 * @param non-negative-int|null $forceOffset Offset of the next page when it is not `$offset + $limit`,
+	 *                                           e.g. because some results were skipped
 	 * @return array{Link?: string}
 	 */
-	protected function buildOffsetNextPageLinkHeader(array|bool $items, array $params, ?int $limit, int $offset): array {
+	protected function buildOffsetNextPageLinkHeader(array|bool $items, array $params, ?int $limit, int $offset, ?int $forceOffset = null): array {
 		if (!$this->resolveHasMoreResults($items, $limit)) {
 			return [];
 		}
 
 		$params = array_merge($params, [
 			'limit' => ($limit ?? 100),
-			'offset' => $offset + ($limit ?? 100),
+			'offset' => $forceOffset ?? $offset + ($limit ?? 100),
 		]);
 		$path = (string)parse_url($this->request->getRequestUri(), PHP_URL_PATH);
 		$url = $this->urlGenerator->getAbsoluteURL($path) . '?' . http_build_query($params);

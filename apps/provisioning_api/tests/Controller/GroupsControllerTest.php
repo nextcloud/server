@@ -512,6 +512,87 @@ class GroupsControllerTest extends \Test\TestCase {
 		], $data['groups']);
 	}
 
+	public function testGetEnabledGroupUsersDetailsSkipsDisabledUntilPageIsFull(): void {
+		$gid = 'ncg1';
+
+		$this->asAdmin();
+
+		$users = [];
+		foreach (['user1' => false, 'alice' => true, 'user2' => false, 'bob' => true, 'joe' => true] as $uid => $enabled) {
+			$users[$uid] = $this->createUser($uid);
+			$users[$uid]->method('isEnabled')->willReturn($enabled);
+		}
+		$this->userManager
+			->method('get')
+			->willReturnCallback(fn (string $uid) => $users[$uid] ?? null);
+		$this->groupManager
+			->method('getUserGroupIds')
+			->willReturn([]);
+
+		$group = $this->createGroup($gid);
+		$group->expects($this->exactly(2))
+			->method('searchUsers')
+			->willReturnMap([
+				['', 2, 0, [$users['user1'], $users['alice']]],
+				['', 2, 2, [$users['user2'], $users['bob']]],
+			]);
+		$this->groupManager
+			->method('get')
+			->with($gid)
+			->willReturn($group);
+
+		$this->request
+			->method('getRequestUri')
+			->willReturn('/ocs/v2.php/cloud/groups/ncg1/users/details?limit=2&enabled=1');
+		$this->urlGenerator
+			->method('getAbsoluteURL')
+			->with('/ocs/v2.php/cloud/groups/ncg1/users/details')
+			->willReturn('https://cloud.example.com/ocs/v2.php/cloud/groups/ncg1/users/details');
+
+		$response = $this->api->getGroupUsersDetails($gid, '', 2, 0, true);
+
+		$this->assertSame(['alice', 'bob'], array_keys($response->getData()['users']));
+		$this->assertSame(
+			'<https://cloud.example.com/ocs/v2.php/cloud/groups/ncg1/users/details?search=&enabled=1&limit=2&offset=4>; rel="next"',
+			$response->getHeaders()['Link']
+		);
+	}
+
+	public function testGetDisabledGroupUsersDetailsViaEnabledFilter(): void {
+		$gid = 'ncg1';
+
+		$this->asAdmin();
+
+		$users = [];
+		foreach (['alice' => true, 'user1' => false, 'bob' => true] as $uid => $enabled) {
+			$users[$uid] = $this->createUser($uid);
+			$users[$uid]->method('isEnabled')->willReturn($enabled);
+		}
+		$this->userManager
+			->method('get')
+			->willReturnCallback(fn (string $uid) => $users[$uid] ?? null);
+		$this->groupManager
+			->method('getUserGroupIds')
+			->willReturn([]);
+
+		$group = $this->createGroup($gid);
+		$group->expects($this->exactly(2))
+			->method('searchUsers')
+			->willReturnMap([
+				['', 2, 0, [$users['alice'], $users['user1']]],
+				['', 2, 2, [$users['bob']]],
+			]);
+		$this->groupManager
+			->method('get')
+			->with($gid)
+			->willReturn($group);
+
+		$response = $this->api->getGroupUsersDetails($gid, '', 2, 0, false);
+
+		$this->assertSame(['user1'], array_keys($response->getData()['users']));
+		$this->assertArrayNotHasKey('Link', $response->getHeaders());
+	}
+
 	public function testGetGroupUsersDetailsEncoded(): void {
 		$gid = 'Department A/B C/D';
 
