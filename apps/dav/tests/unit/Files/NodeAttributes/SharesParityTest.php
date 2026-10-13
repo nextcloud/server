@@ -91,8 +91,8 @@ class SharesParityTest extends TestCase {
 		}, array_filter($shares, static fn (array $data): bool => $data[0] === $type)));
 
 		$shareManager = $this->createMock(IManager::class);
-		$shareManager->method('getSharesBy')->willReturnCallback(static fn (string $userId, int $type): array => $toShares($outgoing, $type));
-		$shareManager->method('getSharedWith')->willReturnCallback(static fn (string $userId, int $type): array => $toShares($incoming, $type));
+		$shareManager->method('getSharesByNodes')->willReturnCallback(static fn (string $userId, int $type): array => array_filter([42 => $toShares($outgoing, $type)]));
+		$shareManager->method('getSharedWithByNodes')->willReturnCallback(static fn (string $userId, int $type): array => array_filter([42 => $toShares($incoming, $type)]));
 		return $shareManager;
 	}
 

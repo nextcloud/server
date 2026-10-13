@@ -52,10 +52,9 @@ class SharesProvider implements IFolderListingPreload {
 			return;
 		}
 
-		foreach ($nodes as $node) {
-			if (!isset($this->shares[$userId][$node->getId()])) {
-				$this->shares[$userId][$node->getId()] = $this->getShares($userId, $node);
-			}
+		$nodes = array_values(array_filter($nodes, fn (Node $node): bool => !isset($this->shares[$userId][$node->getId()])));
+		if ($nodes !== []) {
+			$this->shares[$userId] = $this->getShares($userId, $nodes) + ($this->shares[$userId] ?? []);
 		}
 	}
 
@@ -104,20 +103,28 @@ class SharesProvider implements IFolderListingPreload {
 	}
 
 	/**
-	 * Shares the user created on the node, and the ones the user received for it
+	 * Shares the user created on the nodes, and the ones the user received for them
 	 *
-	 * @return list<IShare>
+	 * @param non-empty-list<Node> $nodes
+	 * @return array<int, list<IShare>> by file id
 	 */
-	private function getShares(string $userId, Node $node): array {
-		$shares = [];
+	private function getShares(string $userId, array $nodes): array {
+		$shares = array_fill_keys(array_map(static fn (Node $node): int => $node->getId(), $nodes), []);
 		foreach (self::SHARE_TYPES as $shareType) {
-			$shares[] = $this->shareManager->getSharesBy($userId, $shareType, $node, false, -1);
+			$typeShares = [$this->shareManager->getSharesByNodes($userId, $shareType, $nodes)];
 			try {
-				$shares[] = $this->shareManager->getSharedWith($userId, $shareType, $node, -1);
+				$typeShares[] = $this->shareManager->getSharedWithByNodes($userId, $shareType, $nodes);
 			} catch (BackendError) {
 				// a share provider that is not available has no shares to show
 			}
+			foreach ($typeShares as $sharesByFileId) {
+				foreach ($sharesByFileId as $fileId => $fileShares) {
+					if (isset($shares[$fileId])) {
+						array_push($shares[$fileId], ...$fileShares);
+					}
+				}
+			}
 		}
-		return array_values(array_merge(...$shares));
+		return $shares;
 	}
 }

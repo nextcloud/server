@@ -95,11 +95,11 @@ class SharesProviderTest extends TestCase {
 	#[DataProvider('dataShareTypes')]
 	public function testOutgoingSharesOfANode(array $shareTypes): void {
 		$node = $this->node(File::class, 11, '/alice/files/report.md');
-		$this->shareManager->method('getSharesBy')
-			->willReturnCallback(fn (string $userId, int $type, Node $sharedNode, bool $reshares, int $limit): array => $userId === 'alice' && $sharedNode === $node && !$reshares && $limit === -1 && in_array($type, $shareTypes, true)
-				? [$this->share($type)]
+		$this->shareManager->method('getSharesByNodes')
+			->willReturnCallback(fn (string $userId, int $type, array $nodes): array => $userId === 'alice' && $nodes === [$node] && in_array($type, $shareTypes, true)
+				? [11 => [$this->share($type)]]
 				: []);
-		$this->shareManager->method('getSharedWith')->willReturn([]);
+		$this->shareManager->method('getSharedWithByNodes')->willReturn([]);
 
 		[$types] = $this->getValues($node);
 		self::assertSame($shareTypes, $types);
@@ -107,11 +107,11 @@ class SharesProviderTest extends TestCase {
 
 	public function testReceivedSharesAreIncludedForANode(): void {
 		$node = $this->node(Folder::class, 12, '/alice/files/Shared');
-		$this->shareManager->method('getSharesBy')
-			->willReturnCallback(fn (string $userId, int $type): array => $type === IShare::TYPE_LINK ? [$this->share(IShare::TYPE_LINK)] : []);
-		$this->shareManager->method('getSharedWith')
-			->willReturnCallback(fn (string $userId, int $type, ?Node $sharedNode, int $limit): array => $userId === 'alice' && $sharedNode === $node && $limit === -1 && $type === IShare::TYPE_GROUP
-				? [$this->share(IShare::TYPE_GROUP, 'staff', 'Staff')]
+		$this->shareManager->method('getSharesByNodes')
+			->willReturnCallback(fn (string $userId, int $type): array => $type === IShare::TYPE_LINK ? [12 => [$this->share(IShare::TYPE_LINK)]] : []);
+		$this->shareManager->method('getSharedWithByNodes')
+			->willReturnCallback(fn (string $userId, int $type, array $nodes): array => $userId === 'alice' && $nodes === [$node] && $type === IShare::TYPE_GROUP
+				? [12 => [$this->share(IShare::TYPE_GROUP, 'staff', 'Staff')]]
 				: []);
 
 		[$types, $sharees] = $this->getValues($node);
@@ -124,9 +124,9 @@ class SharesProviderTest extends TestCase {
 
 	public function testUnavailableShareProviderIsSkipped(): void {
 		$node = $this->node(File::class, 11, '/alice/files/report.md');
-		$this->shareManager->method('getSharesBy')
-			->willReturnCallback(fn (string $userId, int $type): array => $type === IShare::TYPE_USER ? [$this->share(IShare::TYPE_USER, 'bob', 'Bob')] : []);
-		$this->shareManager->method('getSharedWith')
+		$this->shareManager->method('getSharesByNodes')
+			->willReturnCallback(fn (string $userId, int $type): array => $type === IShare::TYPE_USER ? [11 => [$this->share(IShare::TYPE_USER, 'bob', 'Bob')]] : []);
+		$this->shareManager->method('getSharedWithByNodes')
 			->willReturnCallback(static fn (string $userId, int $type): array => $type === IShare::TYPE_ROOM ? throw new BackendError() : []);
 
 		[$types] = $this->getValues($node);
@@ -135,15 +135,35 @@ class SharesProviderTest extends TestCase {
 
 	public function testShareTypesAreUnique(): void {
 		$node = $this->node(File::class, 11, '/alice/files/report.md');
-		$this->shareManager->method('getSharesBy')
+		$this->shareManager->method('getSharesByNodes')
 			->willReturnCallback(fn (string $userId, int $type): array => $type === IShare::TYPE_USER
-				? [$this->share(IShare::TYPE_USER, 'bob', 'Bob'), $this->share(IShare::TYPE_USER, 'carol', 'Carol')]
+				? [11 => [$this->share(IShare::TYPE_USER, 'bob', 'Bob'), $this->share(IShare::TYPE_USER, 'carol', 'Carol')]]
 				: []);
-		$this->shareManager->method('getSharedWith')->willReturn([]);
+		$this->shareManager->method('getSharedWithByNodes')->willReturn([]);
 
 		[$types, $sharees] = $this->getValues($node);
 		self::assertSame([IShare::TYPE_USER], $types);
 		self::assertSame(['bob', 'carol'], array_column($sharees, 'id'));
+	}
+
+	public function testNodesAreLoadedTogether(): void {
+		$first = $this->node(File::class, 31, '/alice/files/a.md');
+		$second = $this->node(File::class, 32, '/alice/files/Other/b.md');
+
+		// One call per share type and direction for all the nodes
+		$this->shareManager->expects(self::exactly(8))
+			->method('getSharesByNodes')
+			->with('alice', self::anything(), [$first, $second])
+			->willReturnCallback(fn (string $userId, int $type): array => $type === IShare::TYPE_LINK ? [32 => [$this->share(IShare::TYPE_LINK)]] : []);
+		$this->shareManager->expects(self::exactly(8))
+			->method('getSharedWithByNodes')
+			->with('alice', self::anything(), [$first, $second])
+			->willReturn([]);
+
+		$this->provider->preload($this->context, [$first, $second], self::ATTRIBUTES);
+
+		self::assertSame([], $this->getValues($first)[0]);
+		self::assertSame([IShare::TYPE_LINK], $this->getValues($second)[0]);
 	}
 
 	public function testFolderListingLoadsTheChildrenAtOnce(): void {
@@ -157,12 +177,12 @@ class SharesProviderTest extends TestCase {
 			->willReturn([21 => [$this->share(IShare::TYPE_LINK)]]);
 		// The folder itself is looked up on its own, its children are not
 		$this->shareManager->expects(self::exactly(8))
-			->method('getSharesBy')
-			->with('alice', self::anything(), $folder, false, -1)
+			->method('getSharesByNodes')
+			->with('alice', self::anything(), [$folder])
 			->willReturn([]);
 		$this->shareManager->expects(self::exactly(8))
-			->method('getSharedWith')
-			->with('alice', self::anything(), $folder, -1)
+			->method('getSharedWithByNodes')
+			->with('alice', self::anything(), [$folder])
 			->willReturn([]);
 
 		$this->provider->preloadListing($this->context, $folder, [$shared, $notShared], self::ATTRIBUTES);
@@ -178,10 +198,10 @@ class SharesProviderTest extends TestCase {
 		$received = $this->node(Folder::class, 41, '/alice/files/X/Y');
 
 		$this->shareManager->expects(self::never())->method('getSharesInFolder');
-		$this->shareManager->method('getSharesBy')->willReturn([]);
-		$this->shareManager->method('getSharedWith')
-			->willReturnCallback(fn (string $userId, int $type, Node $node): array => $node === $received && $type === IShare::TYPE_USER
-				? [$this->share(IShare::TYPE_USER, 'alice', 'Alice')]
+		$this->shareManager->method('getSharesByNodes')->willReturn([]);
+		$this->shareManager->method('getSharedWithByNodes')
+			->willReturnCallback(fn (string $userId, int $type, array $nodes): array => $nodes === [$folder, $received] && $type === IShare::TYPE_USER
+				? [41 => [$this->share(IShare::TYPE_USER, 'alice', 'Alice')]]
 				: []);
 
 		$this->provider->preload($this->context, [$folder, $received], self::ATTRIBUTES);
@@ -192,9 +212,9 @@ class SharesProviderTest extends TestCase {
 
 	public function testPreloadingTwiceOnlyLoadsNewNodes(): void {
 		$this->shareManager->expects(self::exactly(16))
-			->method('getSharesBy')
+			->method('getSharesByNodes')
 			->willReturn([]);
-		$this->shareManager->method('getSharedWith')->willReturn([]);
+		$this->shareManager->method('getSharedWithByNodes')->willReturn([]);
 
 		$this->provider->preload($this->context, [$this->node(File::class, 1, '/alice/files/a')], self::ATTRIBUTES);
 		$this->provider->preload($this->context, [$this->node(File::class, 1, '/alice/files/a')], self::ATTRIBUTES);
@@ -204,7 +224,7 @@ class SharesProviderTest extends TestCase {
 	public function testNothingOnPublicShares(): void {
 		$context = NodeAttributeContext::forShare($this->createMock(IShare::class));
 		$node = $this->node(File::class, 11, '/bob/files/Shared/report.md');
-		$this->shareManager->expects(self::never())->method('getSharesBy');
+		$this->shareManager->expects(self::never())->method('getSharesByNodes');
 
 		$this->provider->preload($context, [$node], self::ATTRIBUTES);
 		self::assertSame([], $this->provider->getAttributes($context, $node, self::ATTRIBUTES));
