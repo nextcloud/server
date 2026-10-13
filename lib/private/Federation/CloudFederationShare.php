@@ -42,7 +42,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 * @param string $resourceType ('file', 'calendar',...)
 	 * @param string $sharedSecret
 	 * @param bool $useExchangeToken whether to use exchange-token protocol (new way) or sharedSecret (old way)
-	 * @param string|null $remoteDomain remote domain for constructing webdav URI
+	 * @param string $webdavUri
 	 */
 	public function __construct($shareWith = '',
 		$name = '',
@@ -56,7 +56,7 @@ class CloudFederationShare implements ICloudFederationShare {
 		$resourceType = '',
 		$sharedSecret = '',
 		$useExchangeToken = false,
-		$remoteDomain = null,
+		$webdavUri = '',
 	) {
 		$this->setShareWith($shareWith);
 		$this->setResourceName($name);
@@ -68,7 +68,6 @@ class CloudFederationShare implements ICloudFederationShare {
 		$this->setSharedByDisplayName($sharedByDisplayName);
 
 		if ($useExchangeToken) {
-			$webdavUri = $remoteDomain ? 'https://' . $remoteDomain . '/public.php/webdav/' : '';
 			$this->setProtocol([
 				'name' => 'webdav',
 				'webdav' => [

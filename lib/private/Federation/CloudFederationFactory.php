@@ -11,6 +11,7 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationNotification;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
+use OCP\IURLGenerator;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
 use Psr\Log\LoggerInterface;
@@ -19,6 +20,7 @@ class CloudFederationFactory implements ICloudFederationFactory {
 	public function __construct(
 		private IOCMDiscoveryService $ocmDiscoveryService,
 		private ICloudIdManager $cloudIdManager,
+		private IURLGenerator $urlGenerator,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -72,6 +74,13 @@ class CloudFederationFactory implements ICloudFederationFactory {
 			]);
 		}
 
+		$webDavUri = '';
+		if ($useExchangeToken) {
+			$webDavUri = $this->urlGenerator->getAbsoluteURL(
+				$this->ocmDiscoveryService->getLocalOCMProvider(false)->extractProtocolEntry('file', 'webdav'),
+			);
+		}
+
 		return new CloudFederationShare(
 			$shareWith,
 			$name,
@@ -85,7 +94,7 @@ class CloudFederationFactory implements ICloudFederationFactory {
 			$resourceType,
 			$sharedSecret,
 			$useExchangeToken,
-			$remoteDomain
+			$webDavUri
 		);
 	}
 
