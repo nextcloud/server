@@ -165,6 +165,40 @@ class PreviewMapperTest extends TestCase {
 		$this->assertEquals($previewId, $preview->getId());
 	}
 
+	public function testInsertManyStoresLocation(): void {
+		$locationId = $this->previewMapper->getLocationId('preview-3', 'default');
+		$previews = [];
+		foreach ([4246 => $locationId, 4247 => null] as $fileId => $previewLocationId) {
+			$preview = new Preview();
+			$preview->setFileId($fileId);
+			$preview->setStorageId(1);
+			$preview->setOldFileId($fileId + 1000);
+			$preview->setCropped(false);
+			$preview->setMax(true);
+			$preview->setEncrypted(false);
+			$preview->setWidth(64);
+			$preview->setHeight(64);
+			$preview->setSize(100);
+			$preview->setMtime(time());
+			$preview->setMimetype('image/jpeg');
+			$preview->setSourceMimeType('image/jpeg');
+			$preview->setEtag('abcdefg');
+			if ($previewLocationId !== null) {
+				$preview->setLocationId($previewLocationId);
+			}
+			$previews[] = $preview;
+		}
+
+		$this->previewMapper->insertMany($previews);
+
+		$stored = $this->previewMapper->getAvailablePreviews([4246, 4247]);
+		$this->assertSame($locationId, (string)$stored[4246][0]->getLocationId());
+		$this->assertSame('preview-3', $stored[4246][0]->getBucketName());
+		$this->assertSame('default', $stored[4246][0]->getObjectStoreName());
+		$this->assertSame(5246, $stored[4246][0]->getOldFileId());
+		$this->assertNull($stored[4247][0]->getLocationId());
+	}
+
 	public function testLargeIdInsertRetrieve(): void {
 		$fileId = PHP_INT_MAX;
 		$originalPreviewId = $this->createPreviewForFileId($fileId);
