@@ -8,7 +8,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { File, Permission } from '@nextcloud/files'
-import { getClient, getDefaultPropfind, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
+import { getClient, getDefaultPropfind, getRemoteURL, getRootPath, parsePermissions, resultToNode } from '@nextcloud/files/dav'
 import { getLoggerBuilder } from '@nextcloud/logger'
 import { canView, getViewer } from '@nextcloud/viewer'
 
@@ -41,7 +41,8 @@ interface LegacyFileInfo {
 	hasPreview?: boolean
 	size?: number
 	mtime?: number
-	permissions?: number
+	/** A bitmask, or the dav permission string, such as `RGDNVW` */
+	permissions?: number | string
 }
 
 interface LegacyOpenOptions {
@@ -167,6 +168,19 @@ function rootOf(source: string): string {
 }
 
 /**
+ * The permissions of a file info as a bitmask. Apps passed what dav answers,
+ * a string such as `RGDNVW`, which a node does not take.
+ *
+ * @param permissions - the permissions an app passed, if any
+ */
+function permissionsOf(permissions: number | string | undefined): number {
+	if (typeof permissions === 'string') {
+		return parsePermissions(permissions)
+	}
+	return permissions ?? Permission.READ
+}
+
+/**
  * Build a node out of what an app handed over.
  *
  * Callers filled in what they had, so most of this is defaulting. A file
@@ -194,7 +208,7 @@ function nodeFromFileInfo(info: LegacyFileInfo): IFile {
 		displayname: info.basename ?? basenameOf(source),
 		mime: info.mime ?? 'application/octet-stream',
 		owner,
-		permissions: info.permissions ?? Permission.READ,
+		permissions: permissionsOf(info.permissions),
 		attributes: {
 			etag: info.etag,
 			hasPreview: info.hasPreview,
