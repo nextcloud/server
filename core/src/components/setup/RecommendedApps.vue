@@ -114,7 +114,7 @@ async function installApps() {
 		app.loading = true
 	}
 
-	const results = await Promise.allSettled(appsToInstall.map((app) => appstoreApi.enableApp(app.id)))
+	const results = await Promise.allSettled(await appstoreApi.enableApps(appsToInstall))
 	results.forEach((result, index) => {
 		const app = appsToInstall[index]!
 		app.loading = false
