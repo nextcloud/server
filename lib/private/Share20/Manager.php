@@ -79,6 +79,7 @@ use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderGetUsers;
 use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
+use OCP\Share\IShareProviderSupportsFileIds;
 use OCP\Share\IShareProviderWithNotification;
 use Override;
 use Psr\Log\LoggerInterface;
@@ -1232,6 +1233,81 @@ class Manager implements IManager {
 		$shares = $shares2;
 
 		return $shares;
+	}
+
+	#[Override]
+	public function getSharesByNodes(string $userId, int $shareType, array $nodes): array {
+		try {
+			$provider = $this->factory->getProviderForType($shareType);
+		} catch (ProviderException) {
+			return [];
+		}
+
+		if ($this->config->getAppValue('files_sharing', 'hide_disabled_user_shares', 'no') === 'yes'
+			&& $this->userManager->get($userId)?->isEnabled() === false) {
+			return [];
+		}
+
+		$shares = [];
+		$lookup = [];
+		foreach ($nodes as $node) {
+			if ($node->getMountPoint() instanceof IShareOwnerlessMount) {
+				// Every share of the path, not only the ones the user created
+				$shares[] = array_filter($provider->getSharesByPath($node), static fn (IShare $share): bool => $share->getShareType() === $shareType);
+			} elseif ($provider instanceof IShareProviderSupportsFileIds) {
+				$lookup[] = $node->getId();
+			} else {
+				$shares[] = $provider->getSharesBy($userId, $shareType, $node, false, -1, 0);
+			}
+		}
+		foreach (array_chunk(array_values(array_unique($lookup)), 1000) as $fileIds) {
+			/** @var IShareProviderSupportsFileIds $provider */
+			$shares[] = $provider->getSharesByFileIds($userId, $shareType, $fileIds);
+		}
+
+		return $this->groupValidSharesByFileId(array_merge(...$shares), $userId);
+	}
+
+	#[Override]
+	public function getSharedWithByNodes(string $userId, int $shareType, array $nodes): array {
+		try {
+			$provider = $this->factory->getProviderForType($shareType);
+		} catch (ProviderException) {
+			return [];
+		}
+
+		$shares = [];
+		if ($provider instanceof IShareProviderSupportsFileIds) {
+			$fileIds = array_values(array_unique(array_map(static fn (Node $node): int => $node->getId(), $nodes)));
+			foreach (array_chunk($fileIds, 1000) as $chunk) {
+				$shares[] = $provider->getSharedWithByFileIds($userId, $shareType, $chunk);
+			}
+		} else {
+			foreach ($nodes as $node) {
+				$shares[] = $provider->getSharedWith($userId, $shareType, $node, -1, 0);
+			}
+		}
+
+		return $this->groupValidSharesByFileId(array_merge(...$shares), $userId);
+	}
+
+	/**
+	 * Drop the expired and invalid shares, like `getSharesBy()` and `getSharedWith()` do
+	 *
+	 * @param list<IShare> $shares
+	 * @return array<int, list<IShare>>
+	 */
+	private function groupValidSharesByFileId(array $shares, string $userId): array {
+		$result = [];
+		foreach ($shares as $share) {
+			try {
+				$this->checkShare($share, viewer: $userId);
+			} catch (ShareNotFound) {
+				continue;
+			}
+			$result[$share->getNodeId()][] = $share;
+		}
+		return $result;
 	}
 
 	#[Override]

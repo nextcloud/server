@@ -28,6 +28,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
+use OCP\Share\IShareProviderSupportsFileIds;
 use Override;
 use Psr\Log\LoggerInterface;
 
@@ -36,7 +37,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\FederatedFileSharing
  */
-class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAllSharesInFolder {
+class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAllSharesInFolder, IShareProviderSupportsFileIds {
 	public const SHARE_TYPE_REMOTE = 6;
 
 	/** @var string */
@@ -559,6 +560,19 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 */
 	#[\Override]
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset) {
+		return $this->getSharesByInternal($userId, $shareType, $node === null ? null : [$node->getId()], $reshares, $limit, $offset);
+	}
+
+	#[\Override]
+	public function getSharesByFileIds(string $userId, int $shareType, array $fileIds): array {
+		return $this->getSharesByInternal($userId, $shareType, $fileIds, false, -1, 0);
+	}
+
+	/**
+	 * @param list<int>|null $fileIds
+	 * @return list<IShare>
+	 */
+	private function getSharesByInternal($userId, $shareType, ?array $fileIds, $reshares, $limit, $offset): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')
 			->from('share');
@@ -590,8 +604,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 			);
 		}
 
-		if ($node !== null) {
-			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+		if ($fileIds !== null) {
+			$qb->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
 		}
 
 		if ($limit !== -1) {
@@ -673,6 +687,19 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	 */
 	#[\Override]
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset) {
+		return $this->getSharedWithInternal($userId, $shareType, $node === null ? null : [$node->getId()], $limit, $offset);
+	}
+
+	#[\Override]
+	public function getSharedWithByFileIds(string $userId, int $shareType, array $fileIds): array {
+		return array_values($this->getSharedWithInternal($userId, $shareType, $fileIds, -1, 0));
+	}
+
+	/**
+	 * @param list<int>|null $fileIds
+	 * @return IShare[]
+	 */
+	private function getSharedWithInternal($userId, $shareType, ?array $fileIds, $limit, $offset): array {
 		/** @var IShare[] $shares */
 		$shares = [];
 
@@ -695,8 +722,8 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		$qb->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)));
 
 		// Filter by node if provided
-		if ($node !== null) {
-			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+		if ($fileIds !== null) {
+			$qb->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
 		}
 
 		$cursor = $qb->executeQuery();

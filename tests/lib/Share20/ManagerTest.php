@@ -5749,6 +5749,100 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->assertSame($expected, $manager->currentUserCanEnumerateTargetUser($currentUser, $targetUser));
 	}
+
+	private function nodeWithId(int $id, bool $ownerless = false): File&MockObject {
+		$node = $this->createMock(File::class);
+		$node->method('getId')->willReturn($id);
+		$node->method('getMountPoint')->willReturn($this->createMock($ownerless ? IShareOwnerlessMount::class : IMountPoint::class));
+		return $node;
+	}
+
+	private function shareOn(int $fileId, int $shareType = IShare::TYPE_USER): IShare {
+		$share = $this->manager->newShare();
+		$share->setNodeId($fileId);
+		$share->setShareType($shareType);
+		return $share;
+	}
+
+	public function testGetSharesByNodesInOneLookup(): void {
+		$nodes = [$this->nodeWithId(1), $this->nodeWithId(2), $this->nodeWithId(3)];
+		$first = $this->shareOn(1);
+		$second = $this->shareOn(1);
+		$third = $this->shareOn(3);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getSharesByFileIds')
+			->with('user', IShare::TYPE_USER, [1, 2, 3])
+			->willReturn([$first, $third, $second]);
+		$this->defaultProvider->expects($this->never())->method('getSharesBy');
+
+		$this->assertSame([1 => [$first, $second], 3 => [$third]], $this->manager->getSharesByNodes('user', IShare::TYPE_USER, $nodes));
+	}
+
+	public function testGetSharesByNodesOnOwnerlessMounts(): void {
+		$ownerless = $this->nodeWithId(1, true);
+		$regular = $this->nodeWithId(2);
+		$byOthers = $this->shareOn(1);
+		$otherType = $this->shareOn(1, IShare::TYPE_LINK);
+		$mine = $this->shareOn(2);
+
+		// Every share of the path, of the requested type
+		$this->defaultProvider->expects($this->once())
+			->method('getSharesByPath')
+			->with($ownerless)
+			->willReturn([$byOthers, $otherType]);
+		$this->defaultProvider->expects($this->once())
+			->method('getSharesByFileIds')
+			->with('user', IShare::TYPE_USER, [2])
+			->willReturn([$mine]);
+
+		$this->assertSame([1 => [$byOthers], 2 => [$mine]], $this->manager->getSharesByNodes('user', IShare::TYPE_USER, [$ownerless, $regular]));
+	}
+
+	public function testGetSharedWithByNodesInOneLookup(): void {
+		$nodes = [$this->nodeWithId(1), $this->nodeWithId(2)];
+		$share = $this->shareOn(2, IShare::TYPE_GROUP);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getSharedWithByFileIds')
+			->with('user', IShare::TYPE_GROUP, [1, 2])
+			->willReturn([$share]);
+		$this->defaultProvider->expects($this->never())->method('getSharedWith');
+
+		$this->assertSame([2 => [$share]], $this->manager->getSharedWithByNodes('user', IShare::TYPE_GROUP, $nodes));
+	}
+
+	public function testLookupByNodesFallsBackToEachNode(): void {
+		$provider = $this->createMock(IShareProvider::class);
+		$this->factory->setProvider($provider);
+		$nodes = [$this->nodeWithId(1), $this->nodeWithId(2)];
+		$outgoing = $this->shareOn(2);
+		$incoming = $this->shareOn(1);
+
+		$provider->expects($this->exactly(2))
+			->method('getSharesBy')
+			->willReturnCallback(fn (string $userId, int $shareType, Node $node, bool $reshares, int $limit, int $offset): array => $node->getId() === 2 && !$reshares && $limit === -1 ? [$outgoing] : []);
+		$provider->expects($this->exactly(2))
+			->method('getSharedWith')
+			->willReturnCallback(fn (string $userId, int $shareType, Node $node, int $limit, int $offset): array => $node->getId() === 1 && $limit === -1 ? [$incoming] : []);
+
+		$this->assertSame([2 => [$outgoing]], $this->manager->getSharesByNodes('user', IShare::TYPE_USER, $nodes));
+		$this->assertSame([1 => [$incoming]], $this->manager->getSharedWithByNodes('user', IShare::TYPE_USER, $nodes));
+	}
+
+	public function testLookupByNodesSkipsExpiredShares(): void {
+		$expired = $this->shareOn(1);
+		$expired->setExpirationDate(new \DateTime('-1 day'));
+		$valid = $this->shareOn(1);
+
+		$manager = $this->createManagerMock()
+			->onlyMethods(['deleteShare'])
+			->getMock();
+		$manager->expects($this->once())->method('deleteShare')->with($expired);
+		$this->defaultProvider->method('getSharesByFileIds')->willReturn([$expired, $valid]);
+
+		$this->assertSame([1 => [$valid]], $manager->getSharesByNodes('user', IShare::TYPE_USER, [$this->nodeWithId(1)]));
+	}
 }
 
 class DummyFactory implements IProviderFactory {

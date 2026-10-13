@@ -1017,6 +1017,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Share\\IShareProviderGetUsers' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProviderGetUsers.php',
         'OCP\\Share\\IShareProviderSupportsAccept' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProviderSupportsAccept.php',
         'OCP\\Share\\IShareProviderSupportsAllSharesInFolder' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProviderSupportsAllSharesInFolder.php',
+        'OCP\\Share\\IShareProviderSupportsFileIds' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProviderSupportsFileIds.php',
         'OCP\\Share\\IShareProviderWithNotification' => __DIR__ . '/../../..' . '/lib/public/Share/IShareProviderWithNotification.php',
         'OCP\\Share\\ShareReview\\Events\\ShareReviewAccessCheckEvent' => __DIR__ . '/../../..' . '/lib/public/Share/ShareReview/Events/ShareReviewAccessCheckEvent.php',
         'OCP\\Share\\ShareReview\\IShareReviewSource' => __DIR__ . '/../../..' . '/lib/public/Share/ShareReview/IShareReviewSource.php',
