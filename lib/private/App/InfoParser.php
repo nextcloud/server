@@ -36,8 +36,9 @@ class InfoParser {
 
 		$fileCacheKey = $file . filemtime($file);
 		if ($this->cache !== null) {
-			if ($cachedValue = $this->cache->get($fileCacheKey)) {
-				return json_decode($cachedValue, true);
+			$cachedValue = $this->cache->get($fileCacheKey);
+			if (is_array($cachedValue)) {
+				return $cachedValue;
 			}
 		}
 
@@ -218,7 +219,7 @@ class InfoParser {
 		 * @var AppInfoXmlDefinition $array
 		 */
 		if ($this->cache !== null) {
-			$this->cache->set($fileCacheKey, json_encode($array));
+			$this->cache->set($fileCacheKey, $array);
 		}
 		return $array;
 	}
