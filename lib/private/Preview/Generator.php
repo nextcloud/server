@@ -128,8 +128,11 @@ class Generator {
 		}
 
 		// Get the max preview and infer the max preview sizes from that
-		$maxPreview = $this->getMaxPreview($previews, $file, $mimeType, $previewVersion);
-		$maxPreviewImage = null; // only load the image when we need it
+		// The image is only set if the max preview was just generated
+		[$maxPreview, $maxPreviewImage] = $this->getMaxPreview($previews, $file, $mimeType, $previewVersion);
+		if ($maxPreviewImage instanceof IStreamImage) {
+			$maxPreviewImage = null;
+		}
 		if ($maxPreview->getSize() === 0) {
 			$this->storageFactory->deletePreview($maxPreview);
 			$this->previewMapper->delete($maxPreview);
@@ -180,12 +183,20 @@ class Generator {
 						throw new NotFoundException();
 					}
 
-					if ($maxPreviewImage === null) {
-						$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
-					}
-
 					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
-					$previewFile = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
+					$source = $maxPreviewImage === null ? $this->findResizeSource($previews, $maxPreview, $width, $height, $previewVersion) : null;
+					if ($source !== null) {
+						$sourceImage = $this->helper->getImage(new PreviewFile($source, $this->storageFactory, $this->previewMapper));
+						$previewFile = $this->generatePreview($file, $sourceImage, $width, $height, $crop, $source->getWidth(), $source->getHeight(), $previewVersion, $cacheResult);
+						if ($sourceImage instanceof Image) {
+							$sourceImage->destroy();
+						}
+					} else {
+						if ($maxPreviewImage === null) {
+							$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
+						}
+						$previewFile = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
+					}
 				}
 			} catch (\InvalidArgumentException $e) {
 				throw new NotFoundException('', 0, $e);
@@ -205,6 +216,28 @@ class Generator {
 		}
 
 		return $previewFile;
+	}
+
+	/**
+	 * Smallest cached, uncropped preview larger than the requested size
+	 *
+	 * @param Preview[] $previews
+	 */
+	private function findResizeSource(array $previews, Preview $maxPreview, int $width, int $height, ?string $version): ?Preview {
+		$source = null;
+		foreach ($previews as $preview) {
+			if ($preview->isMax() || $preview->isCropped()
+				|| $preview->getVersion() !== $version
+				|| $preview->getMimetype() !== $maxPreview->getMimetype()
+				|| $preview->getWidth() < $width || $preview->getHeight() < $height
+				|| ($preview->getWidth() === $width && $preview->getHeight() === $height)) {
+				continue;
+			}
+			if ($source === null || $preview->getWidth() * $preview->getHeight() < $source->getWidth() * $source->getHeight()) {
+				$source = $preview;
+			}
+		}
+		return $source;
 	}
 
 	/**
@@ -328,14 +361,15 @@ class Generator {
 
 	/**
 	 * @param Preview[] $previews
+	 * @return array{Preview, ?IImage} the max preview and its image, if it was generated
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(array $previews, File $file, string $mimeType, ?string $version): Preview {
+	private function getMaxPreview(array $previews, File $file, string $mimeType, ?string $version): array {
 		// We don't know the max preview size, so we can't use getCachedPreview.
 		// It might have been generated with a higher resolution than the current value.
 		foreach ($previews as $preview) {
 			if ($preview->isMax() && ($version === $preview->getVersion())) {
-				return $preview;
+				return [$preview, null];
 			}
 		}
 
@@ -350,7 +384,7 @@ class Generator {
 				[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
 				foreach ($previews as $preview) {
 					if ($preview->isMax() && ($version === $preview->getVersion())) {
-						return $preview;
+						return [$preview, null];
 					}
 				}
 			}
@@ -359,10 +393,11 @@ class Generator {
 	}
 
 	/**
+	 * @return array{Preview, IImage}
 	 * @throws DBException
 	 * @throws NotFoundException
 	 */
-	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): Preview {
+	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): array {
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
 			// Filter out providers that does not support this mime
@@ -413,7 +448,7 @@ class Generator {
 					$previewEntry->setMimetype($preview->dataMimeType());
 					$previewEntry->setEtag($file->getEtag());
 					$previewEntry->setMtime((new \DateTime())->getTimestamp());
-					return $this->savePreview($previewEntry, $preview);
+					return [$this->savePreview($previewEntry, $preview), $preview];
 				} catch (NotPermittedException) {
 					throw new NotFoundException();
 				}
