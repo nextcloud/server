@@ -41,12 +41,10 @@ use Psr\Log\LoggerInterface;
  * Hooks provided:
  *   post_login(uid)
  *   logout()
+ * @deprecated 36.0.0 No more non-deprecated methods in there
  */
 class OC_User {
 	public static $_setupedBackends = [];
-
-	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
-	private static $incognitoMode = false;
 
 	/**
 	 * Adds the backend to the list of used backends
@@ -98,6 +96,7 @@ class OC_User {
 	/**
 	 * setup the configured backends in config.php
 	 * @suppress PhanDeprecatedFunction
+	 * @internal Should not be used by applications
 	 */
 	public static function setupBackends() {
 		Server::get(IAppManager::class)->loadApps(['prelogin']);
@@ -136,6 +135,7 @@ class OC_User {
 	 * has already happened (e.g. via Single Sign On).
 	 *
 	 * Log in a user and regenerate a new session.
+	 * @internal Should not be called by applications
 	 */
 	public static function loginWithApache(IApacheBackend $backend): bool {
 		$uid = $backend->getCurrentUserId();
@@ -201,6 +201,7 @@ class OC_User {
 	 *                   true: authenticated
 	 *                   false: not authenticated
 	 *                   null: not handled / no backend available
+	 * @deprecated 36.0.0 Should not be used by new apps, for user_saml we need to refactor to drop it
 	 */
 	public static function handleApacheAuth(): ?bool {
 		$backend = self::findFirstActiveUsedBackend();
@@ -221,6 +222,7 @@ class OC_User {
 
 	/**
 	 * Sets user id for session and triggers emit
+	 * @deprecated 36.0.0 Use IUserSession
 	 */
 	public static function setUserId(?string $uid): void {
 		$userSession = Server::get(IUserSession::class);
@@ -234,21 +236,24 @@ class OC_User {
 
 	/**
 	 * Set incognito mode, e.g. if a user wants to open a public link
+	 * @deprecated 36.0.0 Use IUserSession::setIncognitoMode instead
 	 */
 	public static function setIncognitoMode(bool $status): void {
-		self::$incognitoMode = $status;
+		Server::get(IUserSession::class)->setIncognitoMode($status);
 	}
 
 	/**
 	 * Get incognito mode status
+	 * @deprecated 36.0.0 Use IUserSession::isIncognitoMode instead
 	 */
 	public static function isIncognitoMode(): bool {
-		return self::$incognitoMode;
+		return Server::get(IUserSession::class)->isIncognitoMode();
 	}
 
 	/**
 	 * Returns the current logout URL valid for the currently logged-in user
 	 * @return string
+	 * @deprecated 36.0.0 Use IURLGenerator
 	 */
 	public static function getLogoutUrl(IURLGenerator $urlGenerator): string {
 		return $urlGenerator->getLogoutUrl();
@@ -258,21 +263,23 @@ class OC_User {
 	 * Check if the user is an admin user
 	 *
 	 * @param string $uid uid of the admin
+	 * @deprecated 36.0.0 Use IUserManager and IGroupManager
 	 */
 	public static function isAdminUser(string $uid): bool {
 		$user = Server::get(IUserManager::class)->get($uid);
 		$isAdmin = $user && Server::get(IGroupManager::class)->isAdmin($user->getUID());
-		return $isAdmin && self::$incognitoMode === false;
+		return $isAdmin && !self::isIncognitoMode();
 	}
 
 	/**
 	 * get the user id of the user currently logged in.
 	 *
 	 * @return string|false uid or false
+	 * @deprecated 36.0.0 Use IUserSession or DI
 	 */
 	public static function getUser(): string|false {
 		$uid = Server::get(ISession::class)?->get('user_id');
-		if (!is_null($uid) && self::$incognitoMode === false) {
+		if (!is_null($uid) && !self::isIncognitoMode()) {
 			return $uid;
 		} else {
 			return false;
@@ -287,6 +294,7 @@ class OC_User {
 	 * @param string $recoveryPassword for the encryption app to reset encryption keys
 	 *
 	 * Change the password of a user
+	 * @deprecated 36.0.0 Use OCP APIs
 	 */
 	public static function setPassword(string $uid, string $password, ?string $recoveryPassword = null): bool {
 		$user = Server::get(IUserManager::class)->get($uid);

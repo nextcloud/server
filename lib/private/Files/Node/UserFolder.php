@@ -86,6 +86,7 @@ class UserFolder extends Folder implements IUserFolder {
 			'used' => $used,
 			'quota' => $quota,
 			'total' => $total,
+			'relative' => $relative,
 		];
 		$memcache->set($this->getPath(), $info, 5 * 60);
 
