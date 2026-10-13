@@ -50,8 +50,6 @@ use OCP\L10N\IFactory;
 use RuntimeException;
 use ValueError;
 
-// TODO: Add "recipient suggestions" endpoint
-
 /**
  * @psalm-import-type SharingShare from ResponseDefinitions
  * @psalm-import-type SharingRecipient from ResponseDefinitions

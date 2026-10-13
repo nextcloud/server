@@ -51,9 +51,7 @@ use Psr\Clock\ClockInterface;
 use Random\Randomizer;
 use RuntimeException;
 
-// TODO: Test sharing to federated users, groups and circles
 // TODO: Implement share transfers
-// TODO: Cache share owner
 
 /**
  * @psalm-import-type SharingShare from Share
