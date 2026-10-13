@@ -244,6 +244,7 @@ export default Vue.extend({
 			try {
 				const node = await fetchNode(path)
 				if (node) {
+					emit('files:node:updated', node)
 					emit('systemtags:node:updated', node)
 				}
 			} catch (error) {
