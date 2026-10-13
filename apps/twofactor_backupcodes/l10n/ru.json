@@ -14,7 +14,7 @@
     "Regenerate backup codes" : "Перевыпустить резервные коды",
     "Print backup codes" : "Распечатать резервные коды",
     "Save backup codes" : "Сохранить резервные коды",
-    "If you regenerate backup codes, you automatically invalidate old codes." : "При перевыпуске резервных кодов, старые автоматически становятся недействительными.",
+    "If you regenerate backup codes, you automatically invalidate old codes." : "При перевыпуске резервных кодов старые автоматически становятся недействительными.",
     "{name} backup codes" : "Резервные коды {name}",
     "Unable to open a new tab for printing" : "Невозможно открыть новую вкладку для печати",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Использовать для двухфакторной аутентификации один из ранее выпущенных резервных кодов.",
