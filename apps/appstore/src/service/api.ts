@@ -7,7 +7,8 @@ import type { OCSResponse } from '@nextcloud/typings/ocs'
 import type { IAppstoreApp, IAppstoreCategory } from '../apps.d.ts'
 
 import axios from '@nextcloud/axios'
-import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
+import { n, t } from '@nextcloud/l10n'
+import { addPasswordConfirmationInterceptors, PwdConfirmationMode, withStrictPasswordConfirmation } from '@nextcloud/password-confirmation'
 import { generateOcsUrl } from '@nextcloud/router'
 import PQueue from 'p-queue'
 import { APPSTORE_CATEGORY_ICONS } from '../constants.ts'
@@ -41,6 +42,22 @@ export async function enableApp(appId: string, force = false, groups?: string[])
 }
 
 /**
+ * Enable multiple apps
+ *
+ * @param apps - The apps to enable
+ * @param force - Whether to force enable the app
+ * @param groups - The groups to enable the app for
+ */
+export async function enableApps(apps: IAppstoreApp[], force = false, groups?: string[]) {
+	return withStrictPasswordConfirmation((axios) => apps.map((app) => queue
+		.add(async () => {
+			await axios.post(Url.enable, { appId: app.id, groups, force: force || undefined })
+		})), {
+		text: t('appstore', 'Enabling following apps: {apps}', { apps: apps.map((app) => app.name).join(', ') }),
+	})
+}
+
+/**
  * Disable app by its app id
  *
  * @param appId - The app to disable
@@ -59,6 +76,20 @@ export async function disableApp(appId: string) {
 export async function updateApp(appId: string) {
 	return queue.add(async () => {
 		await axios.post(Url.update, { appId }, { confirmPassword: PwdConfirmationMode.Strict })
+	})
+}
+
+/**
+ * Update multiple apps
+ *
+ * @param appIds - The app ids to update
+ */
+export async function updateApps(appIds: string[]) {
+	return withStrictPasswordConfirmation((axios) => appIds.map((appId) => queue
+		.add(async () => {
+			await axios.post(Url.update, { appId })
+		})), {
+		text: n('appstore', 'Updating %n app.', 'Updating %n apps.', appIds.length),
 	})
 }
 
