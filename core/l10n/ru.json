@@ -518,7 +518,7 @@
     "Use another method" : "Использовать другой метод",
     "Access through untrusted domain" : "Доступ через недоверенный домен",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Обратитесь к администратору. Если вы являетесь администратором этого сервера, отредактируйте параметр «trusted_domains» в файле «config/config.php». Пример настройки можно найти в файле «config/config.sample.php».",
-    "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Дополнительная информация как это настроить может быть найдена в %1$sдокументации %2$s",
+    "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Подробнее о настройке — в %1$sдокументации%2$s.",
     "Maintenance mode" : "Режим обслуживания",
     "This %s instance is currently in maintenance mode, which may take a while." : "Этот сервер %s находится в режиме технического обслуживания, которое может занять некоторое время.",
     "This page will refresh itself when the instance is available again." : "Эта страница обновится автоматически когда сервер снова станет доступен.",

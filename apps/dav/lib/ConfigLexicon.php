@@ -21,6 +21,8 @@ use OCP\Config\ValueType;
  * {@see ILexicon}
  */
 class ConfigLexicon implements ILexicon {
+	public const RATE_LIMIT_PERIOD_SHARE_ADDRESSBOOK_OR_CALENDAR = 'rateLimitPeriodShareAddressbookOrCalendar';
+	public const RATE_LIMIT_SHARE_ADDRESSBOOK_OR_CALENDAR = 'rateLimitShareAddressbookOrCalendar';
 	public const SYSTEM_ADDRESSBOOK_EXPOSED = 'system_addressbook_exposed';
 
 	#[\Override]
@@ -31,6 +33,20 @@ class ConfigLexicon implements ILexicon {
 	#[\Override]
 	public function getAppConfigs(): array {
 		return [
+			new Entry(
+				self::RATE_LIMIT_PERIOD_SHARE_ADDRESSBOOK_OR_CALENDAR,
+				ValueType::INT,
+				3600,
+				'The time window, in seconds, over which share requests for address books or calendars are counted for rate limiting',
+				true,
+			),
+			new Entry(
+				self::RATE_LIMIT_SHARE_ADDRESSBOOK_OR_CALENDAR,
+				ValueType::INT,
+				100,
+				'The maximum number of address book or calendar share requests allowed per user within the configured rate limit period',
+				true,
+			),
 			new Entry(
 				self::SYSTEM_ADDRESSBOOK_EXPOSED,
 				ValueType::BOOL,

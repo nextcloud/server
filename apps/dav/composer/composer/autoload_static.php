@@ -313,6 +313,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\DAV\\Sharing\\SharingService' => __DIR__ . '/..' . '/../lib/DAV/Sharing/SharingService.php',
         'OCA\\DAV\\DAV\\Sharing\\Xml\\Invite' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Xml/Invite.php',
         'OCA\\DAV\\DAV\\Sharing\\Xml\\ShareRequest' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Xml/ShareRequest.php',
+        'OCA\\DAV\\DAV\\Sharing\\Xml\\ShareRequestElement' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Xml/ShareRequestElement.php',
         'OCA\\DAV\\DAV\\SystemPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/SystemPrincipalBackend.php',
         'OCA\\DAV\\DAV\\ViewOnlyPlugin' => __DIR__ . '/..' . '/../lib/DAV/ViewOnlyPlugin.php',
         'OCA\\DAV\\Db\\Absence' => __DIR__ . '/..' . '/../lib/Db/Absence.php',

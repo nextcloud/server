@@ -45,6 +45,28 @@ class InfoParserTest extends TestCase {
 		$this->parserTest($expectedJson, $xmlFile, self::$cache);
 	}
 
+	public function testCachesParsedArray(): void {
+		$file = OC::$SERVERROOT . '/tests/data/app/valid-info.xml';
+		$cache = new CappedMemoryCache();
+		$data = (new InfoParser($cache))->parse($file);
+
+		$this->assertSame($data, $cache->get($file . filemtime($file)));
+
+		$cache->set($file . filemtime($file), ['id' => 'from-cache']);
+		$this->assertSame(['id' => 'from-cache'], (new InfoParser($cache))->parse($file));
+	}
+
+	public function testIgnoresCachedJson(): void {
+		$file = OC::$SERVERROOT . '/tests/data/app/valid-info.xml';
+		$cache = new CappedMemoryCache();
+		$cache->set($file . filemtime($file), json_encode(['id' => 'json-from-cache']));
+
+		$data = (new InfoParser($cache))->parse($file);
+
+		$this->assertSame('files_encryption', $data['id']);
+		$this->assertSame($data, $cache->get($file . filemtime($file)));
+	}
+
 	#[\PHPUnit\Framework\Attributes\DataProvider('appDataProvider')]
 	public function testApplyL10N(array $data, array $expected, string $language): void {
 		$parser = new InfoParser();
