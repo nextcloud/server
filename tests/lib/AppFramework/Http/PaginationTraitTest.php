@@ -37,8 +37,8 @@ class PaginationTraitTest extends TestCase {
 				return $this->hasMoreResults($items, $limit);
 			}
 
-			public function nextLinkHeaders(array|bool $items, array $params, ?int $limit, int $offset): array {
-				return $this->buildOffsetNextPageLinkHeader($items, $params, $limit, $offset);
+			public function nextLinkHeaders(array|bool $items, array $params, ?int $limit, int $offset, ?int $forceOffset = null): array {
+				return $this->buildOffsetNextPageLinkHeader($items, $params, $limit, $offset, $forceOffset);
 			}
 
 			public function cursorLinkHeaders(array|bool $items, array $params, ?int $limit, int|string|null $lastId): array {
@@ -82,6 +82,19 @@ class PaginationTraitTest extends TestCase {
 
 		$this->assertSame([
 			'Link' => '<https://cloud.example.com/ocs/v2.php/apps/provisioning_api/api/v1/groups?search=foo&limit=5&offset=5>; rel="next"',
+		], $headers);
+	}
+
+	public function testNextLinkUsesForcedOffset(): void {
+		$this->request->method('getRequestUri')->willReturn('/ocs/v2.php/cloud/users/details?limit=5&offset=10');
+		$this->urlGenerator->method('getAbsoluteURL')
+			->with('/ocs/v2.php/cloud/users/details')
+			->willReturn('https://cloud.example.com/ocs/v2.php/cloud/users/details');
+
+		$headers = $this->subject->nextLinkHeaders(true, ['enabled' => 1], 5, 10, 23);
+
+		$this->assertSame([
+			'Link' => '<https://cloud.example.com/ocs/v2.php/cloud/users/details?enabled=1&limit=5&offset=23>; rel="next"',
 		], $headers);
 	}
 

@@ -158,14 +158,17 @@ class UsersController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
+	 * @param bool|null $enabled Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset
 	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>, groups: list<Provisioning_APIUserDetailsGroupDisplayname>}, array{Link?: string}>
 	 *
 	 * 200: Users details returned
 	 */
 	#[NoAdminRequired]
-	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
+	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0, ?bool $enabled = null): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		$users = [];
+		$hasMore = null;
+		$nextOffset = null;
 
 		// Admin? Or SubAdmin?
 		$uid = $currentUser->getUID();
@@ -173,19 +176,47 @@ class UsersController extends AUserDataOCSController {
 		$isAdmin = $this->groupManager->isAdmin($uid);
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
 		if ($isAdmin || $isDelegatedAdmin) {
-			$users = $this->userManager->search($search, $limit, $offset);
-			$users = array_keys($users);
+			$searchUsers = fn (?int $limit, int $offset): array => $this->userManager->search($search, $limit, $offset);
+			if ($enabled !== null) {
+				[$users, $nextOffset, $hasMore] = $this->searchFilteredUsers(
+					$searchUsers,
+					$limit,
+					$offset,
+					enabled: $enabled,
+				);
+				$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
+			} else {
+				$users = $searchUsers($limit, $offset);
+				$users = array_keys($users);
+			}
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
-			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
-			foreach ($subAdminOfGroups as $key => $group) {
-				$subAdminOfGroups[$key] = $group->getGID();
-			}
+			if ($enabled !== null) {
+				$users = [];
+				/* The groups are searched together, so offset and limit are applied to the combined list */
+				$tempLimit = ($limit === null ? null : $limit + $offset);
+				foreach ($subAdminManager->getSubAdminsGroups($currentUser) as $group) {
+					foreach ($group->searchUsers($search) as $user) {
+						if ($user->isEnabled() === $enabled) {
+							$users[$user->getUID()] = $user->getUID();
+						}
+					}
+					if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+						break;
+					}
+				}
+				$users = array_slice(array_values($users), $offset, $limit);
+			} else {
+				$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
+				foreach ($subAdminOfGroups as $key => $group) {
+					$subAdminOfGroups[$key] = $group->getGID();
+				}
 
-			$users = [];
-			foreach ($subAdminOfGroups as $group) {
-				$users[] = array_keys($this->groupManager->displayNamesInGroup($group, $search, $limit, $offset));
+				$users = [];
+				foreach ($subAdminOfGroups as $group) {
+					$users[] = array_keys($this->groupManager->displayNamesInGroup($group, $search, $limit, $offset));
+				}
+				$users = array_merge(...$users);
 			}
-			$users = array_merge(...$users);
 		}
 
 		$usersDetails = [];
@@ -209,9 +240,11 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+		$params = [
 			'search' => $search,
-		], $limit, $offset);
+			'enabled' => $enabled
+		];
+		$headers = $this->buildOffsetNextPageLinkHeader($hasMore ?? $users, $params, $limit, $offset, $nextOffset);
 		return new DataResponse([
 			'users' => $usersDetails,
 			'groups' => $this->findGroupsWithDisplayname($usersDetails),
@@ -309,6 +342,7 @@ class UsersController extends AUserDataOCSController {
 	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of users returned
 	 * @param int $offset Offset
+	 * @param bool|null $enabled Only return users with this enabled state, or all users if null. Use the `Link` header for the next page offset
 	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{Link?: string}>
 	 *
 	 * 200: Users details returned based on last logged in information
@@ -318,6 +352,7 @@ class UsersController extends AUserDataOCSController {
 		string $search = '',
 		?int $limit = null,
 		int $offset = 0,
+		?bool $enabled = null,
 	): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {
@@ -331,9 +366,24 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		$users = [];
+		$hasMore = null;
+		$nextOffset = null;
 
 		// For Admin alone user sorting based on lastLogin. For sub admin and groups this is not supported
-		$users = $this->userManager->getLastLoggedInUsers($limit, $offset, $search);
+		if ($enabled !== null) {
+			[$users, $nextOffset, $hasMore] = $this->searchFilteredUsers(
+				fn (?int $limit, int $offset): array => array_map(
+					fn (string $userId): ?IUser => $this->userManager->get($userId),
+					$this->userManager->getLastLoggedInUsers($limit, $offset, $search),
+				),
+				$limit,
+				$offset,
+				enabled: $enabled,
+			);
+			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
+		} else {
+			$users = $this->userManager->getLastLoggedInUsers($limit, $offset, $search);
+		}
 
 		$usersDetails = [];
 		foreach ($users as $userId) {
@@ -355,9 +405,11 @@ class UsersController extends AUserDataOCSController {
 			}
 		}
 
-		$headers = $this->buildOffsetNextPageLinkHeader($users, [
+		$params = [
 			'search' => $search,
-		], $limit, $offset);
+			'enabled' => $enabled
+		];
+		$headers = $this->buildOffsetNextPageLinkHeader($hasMore ?? $users, $params, $limit, $offset, $nextOffset);
 		return new DataResponse([
 			'users' => $usersDetails
 		], headers: $headers);
