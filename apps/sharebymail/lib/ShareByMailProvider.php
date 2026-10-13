@@ -1047,7 +1047,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			->setTarget($data['file_target'])
 			->setMailSend((bool)$data['mail_send'])
 			->setNote($data['note'])
-			->setToken($data['token']);
+			->setToken($data['token'])
+			->setStatus((int)$data['accepted']);
 
 		$shareTime = new \DateTime();
 		$shareTime->setTimestamp((int)$data['stime']);
