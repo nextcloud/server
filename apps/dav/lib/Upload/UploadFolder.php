@@ -94,10 +94,18 @@ class UploadFolder implements ICollection {
 
 	#[\Override]
 	public function delete() {
-		$this->node->delete();
+		// refuse while an assembly is still reading these chunks, otherwise it ends
+		// up streaming from files that are being removed underneath it
+		$futureFile = new FutureFile($this->node, '.file');
+		$futureFile->lockAssembly();
+		try {
+			$this->node->delete();
 
-		// Background cleanup job is not needed anymore
-		$this->cleanupService->removeJob($this->uid, $this->getName());
+			// Background cleanup job is not needed anymore
+			$this->cleanupService->removeJob($this->uid, $this->getName());
+		} finally {
+			$futureFile->unlockAssembly();
+		}
 	}
 
 	#[\Override]
