@@ -15,7 +15,9 @@ use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\Config\Lexicon\Preset;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class PresetController extends Controller {
@@ -24,6 +26,7 @@ class PresetController extends Controller {
 		string $appName,
 		IRequest $request,
 		private readonly PresetManager $presetManager,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -36,6 +39,12 @@ class PresetController extends Controller {
 		foreach (Preset::cases() as $case) {
 			if ($case->name === $presetName) {
 				$this->presetManager->setLexiconPreset($case);
+				$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+					'Configuration preset "%s" was applied',
+					['presetName' => $case->name],
+					false,
+					'settings.preset.applied',
+				));
 				return $this->getCurrentPreset();
 			}
 		}

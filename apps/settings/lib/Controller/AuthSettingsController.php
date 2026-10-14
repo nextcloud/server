@@ -28,11 +28,13 @@ use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
@@ -52,6 +54,7 @@ class AuthSettingsController extends Controller {
 		private LoggerInterface $logger,
 		private IConfig $serverConfig,
 		private IL10N $l,
+		private IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -131,6 +134,11 @@ class AuthSettingsController extends Controller {
 		$tokenData['canRename'] = true;
 
 		$this->publishActivity(Provider::APP_TOKEN_CREATED, $deviceToken->getId(), ['name' => $deviceToken->getName()]);
+		$this->auditLog(
+			'App password with ID "%s" and name "%s" was created',
+			['tokenId' => $deviceToken->getId(), 'tokenName' => $deviceToken->getName()],
+			'auth.app_password.created',
+		);
 
 		return new JSONResponse([
 			'token' => $token,
@@ -183,8 +191,10 @@ class AuthSettingsController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
-		$this->publishActivity($subject, $token->getId(), ['name' => $token->getName()]);
+		$tokenId = $token->getId();
+		$this->tokenProvider->invalidateTokenById($this->userId, $tokenId);
+		$this->publishActivity($subject, $tokenId, ['name' => $token->getName()]);
+		$this->auditLog('App password with ID "%s" was deleted', ['tokenId' => $tokenId], 'auth.app_password.deleted');
 		return new JSONResponse([]);
 	}
 
@@ -218,8 +228,10 @@ class AuthSettingsController extends Controller {
 				continue;
 			}
 
-			$this->tokenProvider->invalidateTokenById($this->userId, $token->getId());
-			$revoked[] = $token->getId();
+			$tokenId = $token->getId();
+			$this->tokenProvider->invalidateTokenById($this->userId, $tokenId);
+			$revoked[] = $tokenId;
+			$this->auditLog('App password with ID "%s" was deleted', ['tokenId' => $tokenId], 'auth.app_password.deleted');
 		}
 
 		if ($revoked !== []) {
@@ -249,6 +261,11 @@ class AuthSettingsController extends Controller {
 		if ($scope !== $token->getScopeAsArray()) {
 			$token->setScope([IToken::SCOPE_FILESYSTEM => $scope[IToken::SCOPE_FILESYSTEM]]);
 			$this->publishActivity($scope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+			$this->auditLog(
+				'Filesystem access of app password with ID "%s" was %s',
+				['tokenId' => $token->getId(), 'filesystemAccess' => $scope[IToken::SCOPE_FILESYSTEM] ? 'granted' : 'revoked'],
+				'auth.app_password.scope_changed',
+			);
 		}
 
 		if (mb_strlen($name) > 128) {
@@ -284,6 +301,10 @@ class AuthSettingsController extends Controller {
 		} catch (BadMethodCallException $e) {
 			$this->logger->warning('could not publish activity', ['exception' => $e]);
 		}
+	}
+
+	private function auditLog(string $message, array $parameters, string $operation): void {
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent($message, $parameters, false, $operation));
 	}
 
 	/**
@@ -325,6 +346,7 @@ class AuthSettingsController extends Controller {
 		if (!$this->remoteWipe->markTokenForWipe($token)) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
+		$this->auditLog('Remote wipe was requested for app password with ID "%s"', ['tokenId' => $token->getId()], 'auth.remote_wipe.requested');
 
 		return new JSONResponse([]);
 	}

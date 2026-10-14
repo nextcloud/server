@@ -95,4 +95,9 @@ enum Operation: string {
 	case ShareLeft = 'sharing.share.left';
 	case ShareAttributesUpdated = 'sharing.share.attributes_updated';
 	case ShareTokenUpdated = 'sharing.share.token_updated';
+
+	// App passwords and remote wipe
+	case AppPasswordCreated = 'auth.app_password.created';
+	case AppPasswordDeleted = 'auth.app_password.deleted';
+	case RemoteWipeRequested = 'auth.remote_wipe.requested';
 }
