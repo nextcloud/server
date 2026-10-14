@@ -106,6 +106,8 @@ async function ocsEntryToNode(ocsEntry: any, unmounted = false): Promise<Folder 
 			root: getRootPath(),
 			attributes: {
 				...ocsEntry,
+				// 'id' is a forbidden property name
+				'share-id': ocsEntry.id,
 				'has-preview': hasPreview,
 				'hide-download': ocsEntry?.hide_download === 1,
 				// Also check the sharingStatusAction.ts code
