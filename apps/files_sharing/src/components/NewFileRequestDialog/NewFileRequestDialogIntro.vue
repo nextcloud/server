@@ -8,9 +8,12 @@
 		<!-- Request label -->
 		<fieldset class="file-request-dialog__label" data-cy-file-request-dialog-fieldset="label">
 			<legend>
-				{{ t('files_sharing', 'What are you requesting?') }}
+				<label class="file-request-dialog__legend-label" for="file-request-dialog-label">
+					{{ t('files_sharing', 'What are you requesting?') }}
+				</label>
 			</legend>
 			<NcTextField
+				id="file-request-dialog-label"
 				:model-value="label"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Request subject')"
@@ -23,9 +26,12 @@
 		<!-- Request destination -->
 		<fieldset class="file-request-dialog__destination" data-cy-file-request-dialog-fieldset="destination">
 			<legend>
-				{{ t('files_sharing', 'Where should these files go?') }}
+				<label class="file-request-dialog__legend-label" for="file-request-dialog-destination">
+					{{ t('files_sharing', 'Where should these files go?') }}
+				</label>
 			</legend>
 			<NcTextField
+				id="file-request-dialog-destination"
 				:model-value="destination"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Upload destination')"
@@ -37,9 +43,10 @@
 				trailing-button-icon="undo"
 				:trailing-button-label="t('files_sharing', 'Revert to default')"
 				name="destination"
+				aria-haspopup="dialog"
 				@click="onPickDestination"
-				@keypress.prevent.stop="/* prevent typing in the input, we use the picker */"
-				@paste.prevent.stop="/* prevent pasting in the input, we use the picker */"
+				@keydown="onDestinationKeydown"
+				@paste.prevent.stop
 				@trailing-button-click="$emit('update:destination', '')">
 				<IconFolder :size="18" />
 			</NcTextField>
@@ -53,9 +60,12 @@
 		<!-- Request note -->
 		<fieldset class="file-request-dialog__note" data-cy-file-request-dialog-fieldset="note">
 			<legend>
-				{{ t('files_sharing', 'Add a note') }}
+				<label class="file-request-dialog__legend-label" for="file-request-dialog-note">
+					{{ t('files_sharing', 'Add a note') }}
+				</label>
 			</legend>
 			<NcTextArea
+				id="file-request-dialog-note"
 				:model-value="note"
 				:disabled="disabled"
 				:label="t('files_sharing', 'Note for recipient')"
@@ -138,6 +148,22 @@ export default defineComponent({
 	},
 
 	methods: {
+		onDestinationKeydown(event: KeyboardEvent) {
+			if (event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault()
+				this.onPickDestination()
+				return
+			}
+
+			// Destination is chosen in the picker, not by editing this field
+			if (event.ctrlKey || event.metaKey || event.altKey) {
+				return
+			}
+			if (event.key.length === 1 || event.key === 'Backspace' || event.key === 'Delete') {
+				event.preventDefault()
+			}
+		},
+
 		onPickDestination() {
 			const filepicker = getFilePickerBuilder(t('files_sharing', 'Select a destination'))
 				.addMimeTypeFilter('httpd/unix-directory')
@@ -168,6 +194,16 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.file-request-dialog__legend-label {
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+}
+
+.file-request-dialog__destination :deep(.input-field__input) {
+	cursor: pointer;
+}
+
 .file-request-dialog__note :deep(textarea) {
 	width: 100% !important;
 	min-height: 80px;
