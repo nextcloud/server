@@ -31,6 +31,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ICrypto;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -59,6 +60,8 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 	protected CleaningDBConfig $dbConfig;
 	/** @var list<Event> */
 	protected array $dispatchedEvents = [];
+	/** @var list<CriticalActionPerformedEvent> */
+	protected array $auditEvents = [];
 	protected IEventDispatcher&MockObject $eventDispatcher;
 	protected IAppConfig&MockObject $appConfig;
 
@@ -74,7 +77,11 @@ abstract class StoragesServiceTestCase extends \Test\TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->eventDispatcher->method('dispatchTyped')
 			->willReturnCallback(function (Event $event): void {
-				$this->dispatchedEvents[] = $event;
+				if ($event instanceof CriticalActionPerformedEvent) {
+					$this->auditEvents[] = $event;
+				} else {
+					$this->dispatchedEvents[] = $event;
+				}
 			});
 		$this->appConfig = $this->createMock(IAppConfig::class);
 
