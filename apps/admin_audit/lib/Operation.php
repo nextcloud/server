@@ -95,4 +95,14 @@ enum Operation: string {
 	case OwnershipTransferAccepted = 'files.ownership_transfer.accepted';
 	case OwnershipTransferRejected = 'files.ownership_transfer.rejected';
 	case OwnershipTransferred = 'files.ownership.transferred';
+
+	// Files sharing
+	case ShareAccepted = 'sharing.share.accepted';
+	case ShareLeft = 'sharing.share.left';
+	case ShareRestored = 'sharing.share.restored';
+	case ShareAttributesUpdated = 'sharing.share.attributes_updated';
+	case ShareTokenUpdated = 'sharing.share.token_updated';
+	case RemoteShareAccepted = 'files_sharing.remote_share.accepted';
+	case RemoteShareDeclined = 'files_sharing.remote_share.declined';
+	case RemoteShareRemoved = 'files_sharing.remote_share.removed';
 }
