@@ -16,8 +16,10 @@ use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -33,6 +35,7 @@ final readonly class ClientService {
 		private IAuthTokenProvider $tokenProvider,
 		private LoggerInterface $logger,
 		private AccessTokenMapper $accessTokenMapper,
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -57,6 +60,13 @@ final readonly class ClientService {
 		$client->secret = $hashedSecret;
 		$client->clientIdentifier = $this->secureRandom->generate(64, self::validChars);
 		$client = $this->clientMapper->insert($client);
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'OAuth2 client with ID "%s" and name "%s" was created with redirect URI "%s"',
+			['clientId' => $client->id, 'clientName' => $client->name, 'redirectUri' => $client->redirectUri],
+			false,
+			'oauth2.client.created',
+		));
 
 		return [
 			'id' => $client->id,
@@ -97,5 +107,12 @@ final readonly class ClientService {
 
 		$this->accessTokenMapper->deleteByClientId($id);
 		$this->clientMapper->delete($client);
+
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'OAuth2 client with ID "%s" and name "%s" was deleted',
+			['clientId' => $id, 'clientName' => $client->name],
+			false,
+			'oauth2.client.deleted',
+		));
 	}
 }
