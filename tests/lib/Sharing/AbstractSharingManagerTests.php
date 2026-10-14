@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Test\Sharing;
 
+use NCU\Sharing\ISharingBackend;
 use NCU\Sharing\ISharingManager;
 use NCU\Sharing\ISharingRegistry;
 use NCU\Sharing\Permission\SharePermission;
@@ -32,6 +33,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use OCP\Snowflake\ISnowflakeGenerator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Test\TestCase;
 
@@ -737,6 +739,49 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		], $share);
 	}
 
+	public function testCreateShareRemoteOwner(): void {
+		$accessContext = new ShareAccessContext(overrideChecks: true);
+
+		$before = $this->manager->getTime();
+		$id = Server::get(ISnowflakeGenerator::class)->nextId();
+		$this->dbConnection->beginTransaction();
+		Server::get(ISharingBackend::class)->createShare($id, new ShareUser('owner', 'https://example.com'), $this->manager->getTime());
+		$this->dbConnection->commit();
+		$share = $this->getShare($accessContext, $id);
+		$after = $this->manager->getTime();
+		$this->assertDateBetween($before, $after, $this->parseTime($share['last_updated']));
+		unset($share['last_updated']);
+		$this->assertEquals([
+			'id' => $id,
+			'owner' => [
+				'user_id' => 'owner',
+				'instance' => 'https://example.com',
+				'display_name' => 'owner',
+				'icon' => [
+					'light' => 'http://localhost/index.php/avatar/owner@https%253A%2F%2Fexample.com/64',
+					'dark' => 'http://localhost/index.php/avatar/owner@https%253A%2F%2Fexample.com/64/dark',
+				],
+			],
+			'state' => ShareState::Draft->value,
+			'user_status' => null,
+			'sources' => [],
+			'recipients' => [],
+			'properties' => [],
+			'permissions' => [
+				[
+					'class' => ReshareSharePermissionType::class,
+					'source_class' => null,
+					'display_name' => 'Share with others',
+					'hint' => null,
+					'presets' => [],
+					'enabled' => false,
+					'priority' => 90,
+				],
+			],
+			'permission_preset' => null,
+		], $share);
+	}
+
 	/**
 	 * @return list<array{list<ShareSource>, list<ShareRecipient>, list<ShareProperty>, list<SharePermission>, ?string}>
 	 */
@@ -1059,6 +1104,43 @@ abstract class AbstractSharingManagerTests extends TestCase {
 		}
 
 		$eventDispatcher->removeListener(RestrictInteractionEvent::class, $listener);
+	}
+
+	public function testAddShareRecipientByRemoteInitiator(): void {
+		$accessContext = new ShareAccessContext($this->owner);
+
+		$before = $this->manager->getTime();
+		$this->dbConnection->beginTransaction();
+		$share = $this->manager->createShare($accessContext);
+		Server::get(ISharingBackend::class)->addShareRecipient($share->id, new ShareRecipient(TestShareRecipientType1::class, 'recipient1', null, $this->manager->generateSecret(), new ShareUser('initiator', 'https://example.com')));
+		$this->dbConnection->commit();
+		$after = $this->manager->getTime();
+		$formatted = $this->getShare($accessContext, $share->id);
+		$this->assertDateBetween($before, $after, $this->parseTime($formatted['last_updated']));
+		$this->assertEquals([
+			[
+				'class' => TestShareRecipientType1::class,
+				'value' => 'recipient1',
+				'instance' => null,
+				'display_name' => 'Recipient 1',
+				'icon' => [
+					'svg' => '<svg/>',
+				],
+				'secret' => [
+					'updatable' => false,
+				],
+				'initiator' => [
+					'user_id' => 'initiator',
+					'instance' => 'https://example.com',
+					'display_name' => 'initiator',
+					'icon' => [
+						'light' => 'http://localhost/index.php/avatar/initiator@https%253A%2F%2Fexample.com/64',
+						'dark' => 'http://localhost/index.php/avatar/initiator@https%253A%2F%2Fexample.com/64/dark',
+					],
+				],
+				'permissions' => [],
+			],
+		], $formatted['recipients']);
 	}
 
 	#[DataProvider(methodName: 'dataRecipient2')]
