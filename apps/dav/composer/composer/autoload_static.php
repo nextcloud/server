@@ -248,6 +248,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\DAV\\Sharing\\IShareable' => __DIR__ . '/..' . '/../lib/DAV/Sharing/IShareable.php',
         'OCA\\DAV\\DAV\\Sharing\\Plugin' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Plugin.php',
         'OCA\\DAV\\DAV\\Sharing\\SharingMapper' => __DIR__ . '/..' . '/../lib/DAV/Sharing/SharingMapper.php',
+        'OCA\\DAV\\DAV\\Sharing\\SharingPrivilegeSetTrait' => __DIR__ . '/..' . '/../lib/DAV/Sharing/SharingPrivilegeSetTrait.php',
         'OCA\\DAV\\DAV\\Sharing\\SharingService' => __DIR__ . '/..' . '/../lib/DAV/Sharing/SharingService.php',
         'OCA\\DAV\\DAV\\Sharing\\Xml\\Invite' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Xml/Invite.php',
         'OCA\\DAV\\DAV\\Sharing\\Xml\\ShareRequest' => __DIR__ . '/..' . '/../lib/DAV/Sharing/Xml/ShareRequest.php',

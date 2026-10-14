@@ -12,6 +12,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCA\DAV\DAV\Sharing\SharingPrivilegeSetTrait;
 use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCP\DB\Exception;
 use OCP\IConfig;
@@ -31,6 +32,8 @@ use Sabre\DAV\PropPatch;
  * @property CalDavBackend $caldavBackend
  */
 class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable, IMoveTarget {
+	use SharingPrivilegeSetTrait;
+
 	private IConfig $config;
 	protected IL10N $l10n;
 	private bool $useTrashbin = true;
@@ -133,6 +136,11 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 			$acl[] = [
 				'privilege' => '{DAV:}write',
 				'principal' => $this->getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			];
+			$acl[] = [
+				'privilege' => '{DAV:}write-acl',
+				'principal' => $this->getOwner(),
 				'protected' => true,
 			];
 		} else {
