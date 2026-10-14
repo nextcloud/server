@@ -63,7 +63,6 @@ final class Version1000Date20250929161325 extends SimpleMigrationStep {
 		$recipientsTable->addColumn('initiator_user_id', Types::STRING, ['length' => 64]);
 		$recipientsTable->addColumn('initiator_instance', Types::STRING, ['length' => 128, 'notnull' => false]);
 		$recipientsTable->setPrimaryKey(['id']);
-		$recipientsTable->addUniqueIndex(['share_id', 'recipient_class_id', 'recipient_value']);
 		$recipientsTable->addForeignKeyConstraint($shareTable->getName(), ['share_id'], ['id'], ['onDelete' => 'CASCADE']);
 		// TODO: Maybe needs composite index with share_id
 		$recipientsTable->addUniqueIndex(['recipient_secret']);
