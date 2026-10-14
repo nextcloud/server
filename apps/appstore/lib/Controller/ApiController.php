@@ -43,6 +43,8 @@ class ApiController extends OCSController {
 
 	private const int OFFICIAL_APP_LEVEL = 200;
 
+	private const string USERCONTENT_PROXY_URL = 'https://usercontent.apps.nextcloud.com/';
+
 	/** @var array */
 	private $allApps = [];
 
@@ -305,13 +307,17 @@ class ApiController extends OCSController {
 
 	/**
 	 * Convert URL to proxied URL so CSP is no problem
+	 *
+	 * The app store already serves its screenshot URLs in this form; only an
+	 * app's own info.xml still names the source.
 	 */
 	private function createProxyPreviewUrl(string $url): string {
-		if ($url === '') {
-			return '';
+		if ($url === '' || str_starts_with($url, self::USERCONTENT_PROXY_URL)) {
+			return $url;
 		}
 
-		return 'https://usercontent.apps.nextcloud.com/' . base64_encode($url);
+		// The proxy stores its files under the URL-safe alphabet
+		return self::USERCONTENT_PROXY_URL . strtr(base64_encode($url), '+/', '-_');
 	}
 
 	private function fetchApps(): void {
@@ -544,7 +550,7 @@ class ApiController extends OCSController {
 					$phpDependencies
 				),
 				'level' => ($app['isFeatured'] === true) ? 200 : 100,
-				'screenshot' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($app['screenshots'][0]['url']) : '',
+				'screenshot' => $this->createProxyPreviewUrl($app['screenshots'][0]['url'] ?? ''),
 				'ratingOverall' => $app['ratingOverall'],
 				'ratingNumOverall' => $app['ratingNumOverall'],
 				'removable' => $existsLocally,
