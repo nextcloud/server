@@ -583,34 +583,42 @@ class FilesPlugin extends ServerPlugin {
 			return;
 		}
 
-		$propPatch->handle(self::LASTMODIFIED_PROPERTYNAME, function ($time) use ($node) {
-			if (empty($time)) {
-				return false;
-			}
-			$node->touch($time);
-			return true;
-		});
-		$propPatch->handle(self::GETETAG_PROPERTYNAME, function ($etag) use ($node) {
-			if (empty($etag)) {
-				return false;
-			}
-			return $node->setEtag($etag) !== -1;
-		});
-		$propPatch->handle(self::CREATIONDATE_PROPERTYNAME, function ($time) use ($node) {
-			if (empty($time)) {
-				return false;
-			}
-			$dateTime = new \DateTimeImmutable($time);
-			$node->setCreationTime($dateTime->getTimestamp());
-			return true;
-		});
-		$propPatch->handle(self::CREATION_TIME_PROPERTYNAME, function ($time) use ($node) {
-			if (empty($time)) {
-				return false;
-			}
-			$node->setCreationTime((int)$time);
-			return true;
-		});
+		// The mtime, etag and creation time are written straight to the file
+		// cache, bypassing the storage permission wrappers that guard content
+		// writes. Only register the handlers when the caller has update rights,
+		// otherwise a read-only share (including anonymous public links) could
+		// corrupt the owner's metadata. Sabre reports 403 for the properties
+		// that are left without a handler.
+		if ($node->getFileInfo()->isUpdateable()) {
+			$propPatch->handle(self::LASTMODIFIED_PROPERTYNAME, function ($time) use ($node) {
+				if (empty($time)) {
+					return false;
+				}
+				$node->touch($time);
+				return true;
+			});
+			$propPatch->handle(self::GETETAG_PROPERTYNAME, function ($etag) use ($node) {
+				if (empty($etag)) {
+					return false;
+				}
+				return $node->setEtag($etag) !== -1;
+			});
+			$propPatch->handle(self::CREATIONDATE_PROPERTYNAME, function ($time) use ($node) {
+				if (empty($time)) {
+					return false;
+				}
+				$dateTime = new \DateTimeImmutable($time);
+				$node->setCreationTime($dateTime->getTimestamp());
+				return true;
+			});
+			$propPatch->handle(self::CREATION_TIME_PROPERTYNAME, function ($time) use ($node) {
+				if (empty($time)) {
+					return false;
+				}
+				$node->setCreationTime((int)$time);
+				return true;
+			});
+		}
 
 		$this->handleUpdatePropertiesMetadata($propPatch, $node);
 
@@ -650,8 +658,7 @@ class FilesPlugin extends ServerPlugin {
 				$mutation,
 				function (mixed $value) use ($accessRight, $knownMetadata, $node, $mutation, $filesMetadataManager): bool {
 					/** @var FilesMetadata $metadata */
-					$metadata = $filesMetadataManager->getMetadata((int)$node->getFileId(), true);
-					$metadata->setStorageId($node->getNode()->getStorage()->getCache()->getNumericStorageId());
+					$metadata = $filesMetadataManager->getMetadataForNode($node->getNode(), true);
 					$metadataKey = substr($mutation, strlen(self::FILE_METADATA_PREFIX));
 
 					// confirm metadata key is editable via PROPPATCH

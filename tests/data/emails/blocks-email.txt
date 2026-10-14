@@ -1,0 +1,27 @@
+Alice Martin (alice.martin@example.org)
+
+Alice Martin invited you to an event
+
+Q3 board review
+Thursday, October 15, 2026
+  When: 14:00 - 15:30 (Europe/Berlin)
+  Where: Meeting room 2
+         Join in Nextcloud Talk (https://example.org/call/abc?x=1&y=2)
+  Attendees: Alice Martin (organizer)
+             You
+             and 3 others
+
+Description
+> We'll go through the Q3 numbers.
+> Please review the report beforehand.
+
+This share is password protected. The password is sent in a separate email.
+
+Will you attend?
+Accept: https://example.org/invitation/accept
+Maybe: https://example.org/invitation/tentative
+Decline: https://example.org/invitation/decline
+
+
+-- 
+TestCloud - A safe home for your data

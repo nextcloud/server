@@ -99,7 +99,9 @@ class SetupController {
 		// include common nextcloud webpack bundle
 		Util::addScript('core', 'common');
 		Util::addScript('core', 'main');
+		Util::addStyle('core', 'main');
 		Util::addScript('core', 'install');
+		Util::addStyle('core', 'install');
 		Util::addTranslations('core');
 
 		$this->initialStateService->provideInitialState('core', 'config', $parameters);

@@ -55,6 +55,8 @@
     "Base User Tree" : "Árvore de Usuário Base",
     "Optional; one attribute per line" : "Opcional; um atributo por linha",
     "User Search Attributes" : "Atributos de Busca de Usuário",
+    "User Active/Inactive Attribute" : "Atributo de usuário ativo/inativo",
+    "User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not." : "Atributo do usuário que indica se ele está ativo ou inativo; deve ser `TRUE` se estiver ativo e `FALSE` caso contrário.",
     "When switched on, users imported from LDAP which are then missing will be disabled" : "Quando ativado, os usuários importados do LDAP que estiverem ausentes serão desativados",
     "Disable users missing from LDAP" : "Desativar usuários ausentes no LDAP",
     "Group Display Name Field" : "Campo de nome de exibição do Grupo",

@@ -97,6 +97,7 @@ OC.L10N.register(
     "Decline" : "Kieltäydy",
     "Remember to upload the files to %s" : "Muista lähettää tiedostot kansioon %s",
     "We would like to kindly remind you that you have not yet uploaded any files to the shared folder." : "Muistutamme, ettet ole lähettänyt yhtäkään tiedostoa jaettuun kansioon.",
+    "Valid until" : "Kelvollinen",
     "Open \"%s\"" : "Avaa \"%s\"",
     "Filter accounts" : "Suodata tilejä",
     "you" : "sinä",

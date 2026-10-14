@@ -2,12 +2,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: MIT
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
-SPDX-FileCopyrightText: Vlad Shilov <omgovich@ya.ru>
 
 This file is generated from multiple sources. Included packages:
-- colord
-	- version: 2.10.0
-	- license: MIT
 - nextcloud-ui
 	- version: 1.0.0
 	- license: AGPL-3.0-or-later

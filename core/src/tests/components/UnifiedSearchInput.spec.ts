@@ -25,7 +25,7 @@ import UnifiedSearchInput from '../../components/UnifiedSearch/UnifiedSearchInpu
 
 function factory(propsData = {}) {
 	return shallowMount(UnifiedSearchInput, {
-		propsData: { query: '', expanded: false, filtersRevealed: false, ...propsData },
+		props: { query: '', expanded: false, filtersRevealed: false, ...propsData },
 	})
 }
 
@@ -215,7 +215,7 @@ describe('UnifiedSearchInput trailing controls', () => {
 	// the source string, and the label lands in either props or attrs depending on
 	// how NcButton declares it, so read both.
 	const labelOf = (button) => button.attributes('aria-label') ?? button.props('ariaLabel')
-	const byLabel = (wrapper, label) => wrapper.findAllComponents({ name: 'NcButton' }).wrappers.find((button) => labelOf(button) === label)
+	const byLabel = (wrapper, label) => wrapper.findAllComponents({ name: 'NcButton' }).find((button) => labelOf(button) === label)
 
 	it('shows no trailing control while resting (blurred + empty)', () => {
 		const wrapper = factory()
@@ -231,11 +231,11 @@ describe('UnifiedSearchInput trailing controls', () => {
 		expect(byLabel(wrapper, 'Close search')).toBeTruthy()
 	})
 
-	it('emits open-filters when the funnel is clicked', async () => {
+	it('emits openFilters when the funnel is clicked', async () => {
 		const wrapper = factory()
 		await focusField(wrapper)
 		byLabel(wrapper, 'Filters').vm.$emit('click')
-		expect(wrapper.emitted('open-filters')).toBeTruthy()
+		expect(wrapper.emitted('openFilters')).toBeTruthy()
 	})
 
 	it('dismisses the search when the empty-field close-X is clicked', async () => {
@@ -260,7 +260,7 @@ describe('UnifiedSearchInput trailing controls', () => {
 		byLabel(wrapper, 'Clear search').vm.$emit('click')
 		expect(wrapper.emitted('update:query')?.at(-1)).toEqual([''])
 		expect(wrapper.emitted('close')).toBeUndefined()
-		expect(wrapper.emitted('open-filters')).toBeUndefined()
+		expect(wrapper.emitted('openFilters')).toBeUndefined()
 	})
 
 	it('keeps the close-X but drops the funnel once filters are revealed', async () => {
@@ -329,7 +329,7 @@ describe('UnifiedSearchInput trailing controls', () => {
 		byLabel(wrapper, 'Filters')!.vm.$emit('click')
 
 		expect(focusSpy).toHaveBeenCalled()
-		expect(wrapper.emitted('open-filters')).toBeTruthy()
+		expect(wrapper.emitted('openFilters')).toBeTruthy()
 	})
 })
 

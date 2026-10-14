@@ -37,11 +37,14 @@ final readonly class SnowflakeGenerator implements ISnowflakeGenerator {
 
 		// Relative time
 		$seconds = $timestamp->getTimestamp() - self::TS_OFFSET;
+		if ($seconds < 0) {
+			throw new \InvalidArgumentException('Snowflake IDs cannot be generated for a time before ' . date(DATE_ATOM, self::TS_OFFSET));
+		}
 		$milliseconds = (int)$timestamp->format('v');
 
 		$serverId = $this->serverInfo->getServerId();
 		$isCli = (int)$this->isCli(); // 1 bit
-		$sequenceId = $this->sequenceGenerator->nextId($seconds, $milliseconds, $serverId); //  12 bits
+		$sequenceId = $this->sequenceGenerator->nextId($serverId, $seconds, $milliseconds); //  12 bits
 		if ($sequenceId > 0xFFF || $sequenceId === false) {
 			// Throttle a bit, wait for next millisecond
 			usleep(1000);

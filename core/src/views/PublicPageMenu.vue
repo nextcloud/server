@@ -20,10 +20,10 @@
 		<NcHeaderMenu
 			v-if="secondaryActions.length > 0"
 			id="public-page-menu"
-			:aria-label="t('core', 'More actions')"
-			:open.sync="showMenu">
+			v-model:open="showMenu"
+			:aria-label="t('core', 'More actions')">
 			<template #trigger>
-				<IconMore :size="20" />
+				<NcIconSvgWrapper :path="mdiDotsHorizontal" :size="20" />
 			</template>
 			<ul
 				:aria-label="t('core', 'More actions')"
@@ -43,6 +43,7 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
 
+import { mdiDotsHorizontal } from '@mdi/js'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { useIsSmallMobile } from '@nextcloud/vue/composables/useIsMobile'
@@ -53,7 +54,7 @@ import {
 } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
-import IconMore from 'vue-material-design-icons/DotsHorizontal.vue'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import PublicPageMenuCustomEntry from '../components/PublicPageMenu/PublicPageMenuCustomEntry.vue'
 import PublicPageMenuEntry from '../components/PublicPageMenu/PublicPageMenuEntry.vue'
 import PublicPageMenuExternalDialog from '../components/PublicPageMenu/PublicPageMenuExternalDialog.vue'

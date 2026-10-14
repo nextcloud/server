@@ -59,6 +59,8 @@
     "Additional settings" : "Papildu iestatījumi",
     "Oracle connection could not be established" : "Nevar izveidot savienojumu ar Oracle",
     "Set an admin password." : "Iestatīt pārvaldītāja paroli.",
+    "Note" : "Piezīme",
+    "Valid until" : "Derīgs līdz",
     "Open %s" : "Atvērt %s",
     "%s added a note to a file shared with you" : "%s pievienoja piezīmi ar Tevi kopīgotai datnei",
     "Unknown share type" : "Nezināms kopīgošanas veids",

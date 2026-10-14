@@ -58,6 +58,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IAppConfig;
 use OCP\IBinaryFinder;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\Preview\IProviderV2;
@@ -161,6 +162,7 @@ class PreviewManager implements IPreview {
 				$this->container->get(PreviewMapper::class),
 				$this->container->get(StorageFactory::class),
 				$this->container->get(PreviewMigrationService::class),
+				$this->container->get(ICacheFactory::class),
 			);
 		}
 		return $this->generator;

@@ -45,6 +45,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			// todo: make login work without these
 			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
+			Util::addStyle('core', 'main');
 			Util::addTranslations('core');
 		}
 
@@ -52,6 +53,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			// include common nextcloud webpack bundle
 			Util::addScript('core', 'common');
 			Util::addScript('core', 'main');
+			Util::addStyle('core', 'main');
 			Util::addTranslations('core');
 
 			if ($event->getResponse()->getRenderAs() !== TemplateResponse::RENDER_AS_ERROR) {

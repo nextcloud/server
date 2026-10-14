@@ -90,7 +90,7 @@ OC.L10N.register(
     "When" : "Når",
     "and" : "og",
     "Add a new filter" : "Tilføj et nyt filter",
-    "Cancel" : "Annullér",
+    "Cancel" : "Annuller",
     "Delete" : "Slet",
     "Available flows" : "Tilgængelige flows",
     "For details on how to write your own flow, check out the development documentation." : "Se udviklerdokumentationen for at få oplysninger om, hvordan du skriver dit eget flow.",

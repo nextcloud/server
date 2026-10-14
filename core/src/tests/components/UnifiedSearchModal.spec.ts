@@ -2,9 +2,9 @@
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { shallowMount } from '@vue/test-utils'
+import { flushPromises, shallowMount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { computed, ref } from 'vue'
+import { computed, markRaw, ref } from 'vue'
 
 // @nextcloud/vue's Window._nc_focus_trap augmentation is not in this test's program,
 // so reach the shared trap stack through a cast. onEscapeKey only compares identity,
@@ -28,12 +28,12 @@ vi.mock('@nextcloud/event-bus', () => ({ subscribe: vi.fn(), emit: vi.fn() }))
 vi.mock('@nextcloud/initial-state', () => ({
 	loadState: vi.fn((_app: string, _key: string, fallback: unknown) => fallback),
 }))
-vi.mock('../../services/UnifiedSearchService.js', () => ({
+vi.mock('../../services/UnifiedSearchService.ts', () => ({
 	getProviders: vi.fn(() => Promise.resolve([])),
 	getContacts: vi.fn(() => Promise.resolve([])),
 	search: vi.fn(() => ({ request: () => Promise.resolve({ data: { ocs: { data: { entries: [] } } } }), cancel: vi.fn() })),
 }))
-vi.mock('../../store/unified-search-external-filters.js', () => ({
+vi.mock('../../store/unifiedSearch.ts', () => ({
 	useSearchStore: () => ({ externalFilters: [], scopeToApp: false }),
 }))
 // The real module builds a logger at import time (detectUser() and all), and the modal
@@ -53,10 +53,6 @@ let resetSpy: ReturnType<typeof vi.fn>
 let searchStates: ReturnType<typeof ref>
 let revealOrderOverride: ReturnType<typeof ref>
 
-// VTU v1 (the legacy Vue 2.7 project) has no flushPromises export; drain the
-// microtask + timer queue so resolved provider fetches and their .then run.
-const flushPromises = () => new Promise((resolve) => setTimeout(resolve))
-
 /**
  * A loaded, non-empty category state for the snapshot.
  */
@@ -64,10 +60,14 @@ function loaded(entries: unknown[], hasMore = false) {
 	return { status: 'loaded', entries, cursor: hasMore ? 'cursor-1' : null, hasMore, loadMoreFailed: false }
 }
 
-function factory(open = true) {
+function factory(open = true, options = {}) {
 	return shallowMount(UnifiedSearchModal, {
-		propsData: { open, query: '' },
-		global: { mocks: { t: (_: string, s: string) => s, n: (_: string, s: string) => s } },
+		props: { open, query: '' },
+		global: {
+			mocks: { t: (_: string, s: string) => s, n: (_: string, s: string) => s },
+			renderStubDefaultSlot: true,
+		},
+		...options,
 	})
 }
 
@@ -151,7 +151,7 @@ describe('UnifiedSearchModal controller wiring', () => {
 		await wrapper.vm.$nextTick()
 
 		// files: loaded + non-empty -> shown. talk: blocked -> withheld. deck: empty -> dropped.
-		const titles = wrapper.findAll('.result-title').wrappers.map((w) => w.text())
+		const titles = wrapper.findAll('.result-title').map((w) => w.text())
 		expect(titles).toEqual(['Files'])
 	})
 
@@ -368,7 +368,7 @@ describe('UnifiedSearchModal filter triggers', () => {
 
 	it('turns the Date trigger primary when a date filter is applied', async () => {
 		const wrapper = factory()
-		const dateTrigger = () => wrapper.findAllComponents({ name: 'NcActions' }).wrappers
+		const dateTrigger = () => wrapper.findAllComponents({ name: 'NcActions' })
 			.find((w) => w.attributes('data-cy-unified-search-filter') === 'date')
 
 		// Gray (secondary) with no date filter...
@@ -387,7 +387,7 @@ describe('UnifiedSearchModal filter triggers', () => {
 		await wrapper.vm.$nextTick()
 
 		const spy = vi.spyOn(wrapper.vm, 'addProviderFilter')
-		const providerEntry = wrapper.findAllComponents({ name: 'NcActionButton' }).wrappers
+		const providerEntry = wrapper.findAllComponents({ name: 'NcActionButton' })
 			.find((w) => w.text().includes('Files'))
 		providerEntry!.vm.$emit('click')
 
@@ -400,7 +400,8 @@ describe('UnifiedSearchModal filter row reveal', () => {
 	const filterRow = (wrapper) => wrapper.find('[data-cy-unified-search-filters]')
 
 	it('hides the filter row on a focused-but-empty query until the funnel reveals it', async () => {
-		const wrapper = factory() // open, empty query, filtersRevealed defaults to false
+		// Visibility is only computed for attached elements
+		const wrapper = factory(true, { attachTo: document.body }) // open, empty query, filtersRevealed defaults to false
 		expect(wrapper.vm.showFilterRow).toBe(false)
 		expect(filterRow(wrapper).isVisible()).toBe(false)
 
@@ -484,13 +485,13 @@ describe('UnifiedSearchModal header visibility', () => {
 
 describe('UnifiedSearchModal controller wiring (init)', () => {
 	it('runs a query typed before providers finished loading, once initialized', async () => {
-		const { getProviders } = await import('../../services/UnifiedSearchService.js')
+		const { getProviders } = await import('../../services/UnifiedSearchService.ts')
 		;(getProviders as unknown as ReturnType<typeof vi.fn>).mockResolvedValueOnce([{ id: 'files', name: 'Files', order: 0 }])
 
 		// Open with a query already present: the open() handler starts the async provider
 		// fetch and calls find() before it resolves, so nothing is dispatched yet.
 		const wrapper = shallowMount(UnifiedSearchModal, {
-			propsData: { open: false, query: 'hello' },
+			props: { open: false, query: 'hello' },
 			global: { mocks: { t: (_: string, s: string) => s, n: (_: string, s: string) => s } },
 		})
 		// The focus trap needs a tabbable node the stubbed panel lacks; skip it here.
@@ -667,7 +668,7 @@ describe('UnifiedSearchModal keyboard selection', () => {
 
 		wrapper.vm.moveActive('next') // -1 → 0
 		wrapper.vm.moveActive('next') // 0 → 1 (below the fold)
-		await wrapper.vm.$nextTick()
+		await flushPromises()
 
 		expect(secondRow.scrollIntoView).toHaveBeenCalled()
 		secondRow.remove()
@@ -833,7 +834,8 @@ describe('UnifiedSearchModal escape to close', () => {
 		const wrapper = factory()
 		const ourTrap = {} as unknown as NonNullable<typeof wrapper.vm.focusTrap>
 		const overlayTrap = {} as typeof ourTrap
-		wrapper.vm.focusTrap = ourTrap
+		// The modal keeps its trap raw, so the stack holds the same object
+		wrapper.vm.focusTrap = markRaw(ourTrap)
 		setTrapStack([ourTrap, overlayTrap])
 
 		wrapper.vm.onEscapeKey(new KeyboardEvent('keydown', { key: 'Escape', cancelable: true }))
@@ -845,7 +847,8 @@ describe('UnifiedSearchModal escape to close', () => {
 	it('closes on Escape when our trap is the top of the stack (no overlay open)', () => {
 		const wrapper = factory()
 		const ourTrap = {} as unknown as NonNullable<typeof wrapper.vm.focusTrap>
-		wrapper.vm.focusTrap = ourTrap
+		// The modal keeps its trap raw, so the stack holds the same object
+		wrapper.vm.focusTrap = markRaw(ourTrap)
 		setTrapStack([ourTrap])
 
 		wrapper.vm.onEscapeKey(new KeyboardEvent('keydown', { key: 'Escape', cancelable: true }))
@@ -888,14 +891,14 @@ describe('UnifiedSearchModal result presentation', () => {
 
 	// The overflow heading is the only NcButton carrying the group's heading id, so we
 	// find the "More from" control by that rather than a style class.
-	const moreFromButton = (wrapper: ReturnType<typeof factory>) => wrapper.findAllComponents({ name: 'NcButton' }).wrappers
+	const moreFromButton = (wrapper: ReturnType<typeof factory>) => wrapper.findAllComponents({ name: 'NcButton' })
 		.find((w) => w.attributes('id') === 'unified-search-result-files')
 
-	const buttonWithText = (wrapper: ReturnType<typeof factory>, text: string) => wrapper.findAllComponents({ name: 'NcButton' }).wrappers
+	const buttonWithText = (wrapper: ReturnType<typeof factory>, text: string) => wrapper.findAllComponents({ name: 'NcButton' })
 		.find((w) => w.text().includes(text))
 
 	// Find the back control by its ariaLabel ("Back to all results").
-	const backButton = (wrapper: ReturnType<typeof factory>) => wrapper.findAllComponents({ name: 'NcButton' }).wrappers
+	const backButton = (wrapper: ReturnType<typeof factory>) => wrapper.findAllComponents({ name: 'NcButton' })
 		.find((w) => w.props('ariaLabel') === 'Back to all results')
 
 	it('caps a category at three rows in the aggregate view, and navigableRows follows', async () => {
@@ -1515,7 +1518,7 @@ describe('UnifiedSearchModal reveal order', () => {
 		// files has top priority but was slow, so it was revealed last.
 		const wrapper = await withRevealOrder(['talk', 'deck', 'files'])
 
-		const titles = wrapper.findAll('.result-title').wrappers.map((w) => w.text())
+		const titles = wrapper.findAll('.result-title').map((w) => w.text())
 		expect(titles).toEqual(['Talk', 'Deck', 'Files'])
 		// navigableRows must agree with the DOM, or aria-activedescendant names a row
 		// somewhere other than where the highlight is.
@@ -1527,7 +1530,7 @@ describe('UnifiedSearchModal reveal order', () => {
 		// controller keeps it out of the order and the modal must not second-guess that.
 		const wrapper = await withRevealOrder(['files', 'talk'])
 
-		const titles = wrapper.findAll('.result-title').wrappers.map((w) => w.text())
+		const titles = wrapper.findAll('.result-title').map((w) => w.text())
 		expect(titles).toEqual(['Files', 'Talk'])
 	})
 })

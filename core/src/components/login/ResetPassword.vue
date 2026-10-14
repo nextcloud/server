@@ -3,14 +3,53 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import axios from '@nextcloud/axios'
+import { t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
+import { ref } from 'vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import LoginButton from './LoginButton.vue'
+import LoginNameInput from './LoginNameInput.vue'
+import { logger } from '../../utils/logger.ts'
+
+const username = defineModel<string>('username', { required: true })
+
+defineEmits<{
+	abort: []
+}>()
+
+const loading = ref(false)
+const message = ref<'' | 'send-success' | 'send-error'>('')
+
+/**
+ * Request a password reset email for the entered account.
+ */
+async function submit() {
+	loading.value = true
+	message.value = ''
+
+	try {
+		const { data } = await axios.post(generateUrl('/lostpassword/email'), { user: username.value })
+		if (data.status !== 'success') {
+			throw new Error(`got status ${data.status}`)
+		}
+		message.value = 'send-success'
+	} catch (error) {
+		logger.error('could not send reset email request', { error })
+		message.value = 'send-error'
+	} finally {
+		loading.value = false
+	}
+}
+</script>
+
 <template>
-	<form class="reset-password-form" @submit.prevent="submit">
+	<form :class="$style.resetPasswordForm" @submit.prevent="submit">
 		<h2>{{ t('core', 'Reset password') }}</h2>
 
-		<LoginNameInput
-			id="user"
-			:user.sync="user"
-			@update:user="updateUsername" />
+		<LoginNameInput id="user" v-model:user="username" />
 
 		<LoginButton :loading="loading" :value="t('core', 'Reset password')" />
 
@@ -28,102 +67,11 @@
 			type="error">
 			{{ t('core', 'Couldn\'t send reset email. Please contact your administrator.') }}
 		</NcNoteCard>
-		<NcNoteCard
-			v-else-if="message === 'reset-error'"
-			type="error">
-			{{ t('core', 'Password cannot be changed. Please contact your administrator.') }}
-		</NcNoteCard>
 	</form>
 </template>
 
-<script lang="ts">
-import axios from '@nextcloud/axios'
-import { t } from '@nextcloud/l10n'
-import { generateUrl } from '@nextcloud/router'
-import { defineComponent } from 'vue'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import LoginButton from './LoginButton.vue'
-import LoginNameInput from './LoginNameInput.vue'
-import { logger } from '../../utils/logger.ts'
-
-export default defineComponent({
-	name: 'ResetPassword',
-	components: {
-		LoginButton,
-		NcButton,
-		NcNoteCard,
-		LoginNameInput,
-	},
-
-	props: {
-		username: {
-			type: String,
-			required: true,
-		},
-
-		resetPasswordLink: {
-			type: String,
-			required: true,
-		},
-	},
-
-	emits: ['abort', 'update:username'],
-
-	setup() {
-		return {
-			t,
-		}
-	},
-
-	data() {
-		return {
-			error: false,
-			loading: false,
-			message: '',
-			user: this.username,
-		}
-	},
-
-	watch: {
-		username(value) {
-			this.user = value
-		},
-	},
-
-	methods: {
-		updateUsername() {
-			this.$emit('update:username', this.user)
-		},
-
-		async submit() {
-			this.loading = true
-			this.error = false
-			this.message = ''
-			const url = generateUrl('/lostpassword/email')
-
-			try {
-				const { data } = await axios.post(url, { user: this.user })
-				if (data.status !== 'success') {
-					throw new Error(`got status ${data.status}`)
-				}
-
-				this.message = 'send-success'
-			} catch (error) {
-				logger.error('could not send reset email request', { error })
-
-				this.error = true
-				this.message = 'send-error'
-			} finally {
-				this.loading = false
-			}
-		},
-	},
-})
-</script>
-
-<style lang="scss" scoped>
-.reset-password-form {
+<style module>
+.resetPasswordForm {
 	display: flex;
 	flex-direction: column;
 	gap: .5rem;

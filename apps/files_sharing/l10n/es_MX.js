@@ -105,6 +105,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Ha recibido {share} para el grupo {group} como un recurso compartido por {user}",
     "Accept" : "Aceptar",
     "Decline" : "Rechazar",
+    "Valid until" : "Válido hasta",
     "Filter accounts" : "Filtrar cuentas",
     "you" : "tú",
     "The request will expire on {date} at midnight and will be password protected." : "La solicitud caducará el {date} a la medianoche y estará protegida por contraseña.",

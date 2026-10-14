@@ -8,7 +8,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { File, Permission } from '@nextcloud/files'
-import { getClient, getDefaultPropfind, getRemoteURL, getRootPath, resultToNode } from '@nextcloud/files/dav'
+import { getClient, getDefaultPropfind, getRemoteURL, getRootPath, parsePermissions, resultToNode } from '@nextcloud/files/dav'
 import { getLoggerBuilder } from '@nextcloud/logger'
 import { canView, getViewer } from '@nextcloud/viewer'
 
@@ -41,7 +41,8 @@ interface LegacyFileInfo {
 	hasPreview?: boolean
 	size?: number
 	mtime?: number
-	permissions?: number
+	/** A bitmask, or the dav permission string, such as `RGDNVW` */
+	permissions?: number | string
 }
 
 interface LegacyOpenOptions {
@@ -146,11 +147,45 @@ function directoryOf(source: string): string {
 }
 
 /**
+ * The root a node served from an address is relative to.
+ *
+ * An address on dav sits under a home of one of its services, such as
+ * `/files/emma`, and a node has to be relative to that home. Anything else
+ * has no home, so the folder the file sits in stands in for it and the node
+ * still knows its own name.
+ *
+ * @param source - the address the file is served from
+ */
+function rootOf(source: string): string {
+	const davRemote = getRemoteURL() + '/'
+	if (source.startsWith(davRemote)) {
+		const [service, home] = source.slice(davRemote.length).split('/')
+		if (service && home) {
+			return `/${service}/${home}`
+		}
+	}
+	return directoryOf(source)
+}
+
+/**
+ * The permissions of a file info as a bitmask. Apps passed what dav answers,
+ * a string such as `RGDNVW`, which a node does not take.
+ *
+ * @param permissions - the permissions an app passed, if any
+ */
+function permissionsOf(permissions: number | string | undefined): number {
+	if (typeof permissions === 'string') {
+		return parsePermissions(permissions)
+	}
+	return permissions ?? Permission.READ
+}
+
+/**
  * Build a node out of what an app handed over.
  *
  * Callers filled in what they had, so most of this is defaulting. A file
- * with a `source` of its own is served from somewhere that is not dav, and
- * keeps it; everything else is addressed under the user's files.
+ * with a `source` of its own keeps it; everything else is addressed under
+ * the user's files.
  *
  * @param info - the file info an app passed to open
  */
@@ -169,14 +204,11 @@ function nodeFromFileInfo(info: LegacyFileInfo): IFile {
 
 	const data: NodeData = {
 		source,
-		// A file under the user's files is relative to their dav home. One
-		// served from somewhere else has no home, so the folder it sits in
-		// stands in for it and the node still knows its own name.
-		root: info.source === undefined ? getRootPath() : directoryOf(info.source),
+		root: info.source === undefined ? getRootPath() : rootOf(info.source),
 		displayname: info.basename ?? basenameOf(source),
 		mime: info.mime ?? 'application/octet-stream',
 		owner,
-		permissions: info.permissions ?? Permission.READ,
+		permissions: permissionsOf(info.permissions),
 		attributes: {
 			etag: info.etag,
 			hasPreview: info.hasPreview,
@@ -309,20 +341,35 @@ async function open(options: LegacyOpenOptions = {}): Promise<void> {
 		nodes.push(target)
 	}
 
-	await getViewer().open(nodes, target, {
+	const session = await getViewer().open(nodes, target, {
 		enableSidebar,
 		canLoop,
 		startSlideshow,
-		onPrev,
-		onNext,
-		// The viewer being closed from the inside has to clear what the
-		// getters answer with, or the file stays open as far as they know
-		onClose: () => {
-			state = emptyState()
-			onClose()
+		loadMore: async () => {
+			const more = (await loadMore()).map(nodeFromFileInfo)
+			nodes.push(...more)
+			return more
 		},
-		loadMore: async () => (await loadMore()).map(nodeFromFileInfo),
 	}, handlerId)
+
+	// The viewer says which file it moved to, not which way: one step
+	// forward, wrapping around the end, is next, anything else previous
+	let current = target
+	session.addEventListener('update:file', ({ detail: [file] }) => {
+		const from = nodes.indexOf(current)
+		current = file
+		if (nodes.indexOf(file) === (from + 1) % nodes.length) {
+			onNext(file)
+		} else {
+			onPrev(file)
+		}
+	})
+	// The viewer being closed from the inside has to clear what the
+	// getters answer with, or the file stays open as far as they know
+	session.addEventListener('close', () => {
+		state = emptyState()
+		onClose()
+	})
 }
 
 /**
@@ -369,7 +416,7 @@ export function installLegacyViewerApi(): void {
 
 		compare(fileInfo: LegacyFileInfo, compareFileInfo: LegacyFileInfo): Promise<void> {
 			deprecated('compare()', 'getViewer().compare()')
-			return getViewer().compare(nodeFromFileInfo(fileInfo), nodeFromFileInfo(compareFileInfo))
+			return getViewer().compare(nodeFromFileInfo(fileInfo), nodeFromFileInfo(compareFileInfo)).then(() => {})
 		},
 
 		close(): void {

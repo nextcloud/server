@@ -3,16 +3,15 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<transition name="unified-search-modal" appear>
+	<Transition name="unified-search-modal" appear>
 		<div
 			v-if="open"
 			class="unified-search-modal-root">
 			<!-- Modal for picking custom time range -->
 			<CustomDateRangeModal
-				:isOpen="showDateRangeModal"
+				v-model:isOpen="showDateRangeModal"
 				class="unified-search__date-range"
-				@set:customDateRange="setCustomDateRange"
-				@update:isOpen="showDateRangeModal = $event" />
+				@setCustomDateRange="setCustomDateRange" />
 
 			<div id="unified-search-results" ref="panel" class="unified-search-modal__container">
 				<!-- Polite status region: announces searching / done / result count to
@@ -33,27 +32,27 @@
 							:showTrailingButton="searchQuery.length > 0"
 							:trailingButtonLabel="t('core', 'Clear search')"
 							@update:modelValue="onMobileSearchInput"
-							@trailing-button-click="searchQuery = ''" />
+							@trailingButtonClick="searchQuery = ''" />
 						<NcLoadingIcon v-if="isBusy" :size="20" />
 						<NcButton
 							variant="tertiary"
 							:aria-label="t('core', 'Close search')"
 							@click="onUpdateOpen(false)">
 							<template #icon>
-								<IconClose :size="20" />
+								<NcIconSvgWrapper :path="mdiClose" />
 							</template>
 						</NcButton>
 					</div>
 					<div v-show="showFilterRow" class="unified-search-modal__filters" data-cy-unified-search-filters>
 						<NcActions
+							v-model:open="providerActionMenuIsOpen"
 							wide
 							size="small"
-							:open.sync="providerActionMenuIsOpen"
-							:menu-name="t('core', 'Type')"
+							:menuName="t('core', 'Type')"
 							:variant="providerFilterActive ? 'primary' : 'secondary'"
 							data-cy-unified-search-filter="places">
 							<template #icon>
-								<IconShapeOutline :size="20" />
+								<NcIconSvgWrapper :path="mdiShapeOutline" />
 							</template>
 							<!-- Provider id's may be duplicated since, plugin filters could depend on a provider that is already in the defaults.
 					provider.id concatenated to provider.name is used to create the item id, if same then, there should be an issue. -->
@@ -69,14 +68,14 @@
 							</NcActionButton>
 						</NcActions>
 						<NcActions
+							v-model:open="dateActionMenuIsOpen"
 							size="small"
 							wide
-							:open.sync="dateActionMenuIsOpen"
-							:menu-name="t('core', 'Date')"
+							:menuName="t('core', 'Date')"
 							:variant="dateFilterActive ? 'primary' : 'secondary'"
 							data-cy-unified-search-filter="date">
 							<template #icon>
-								<IconCalendarBlankOutline :size="20" />
+								<NcIconSvgWrapper :path="mdiCalendarBlankOutline" />
 							</template>
 							<NcActionButton :closeAfterClick="true" @click="applyQuickDateRange('today')">
 								{{ t('core', 'Today') }}
@@ -102,8 +101,8 @@
 							:searchList="userContacts"
 							:emptyContentText="t('core', 'Not found')"
 							data-cy-unified-search-filter="people"
-							@search-term-change="debouncedFilterContacts"
-							@item-selected="applyPersonFilter">
+							@searchTermChange="debouncedFilterContacts"
+							@itemSelected="applyPersonFilter">
 							<template #trigger>
 								<NcButton
 									wide
@@ -111,7 +110,7 @@
 									variant="secondary"
 									:pressed="personFilterActive">
 									<template #icon>
-										<IconAccountMultipleOutline :size="20" />
+										<NcIconSvgWrapper :path="mdiAccountMultipleOutline" />
 									</template>
 									{{ t('core', 'People') }}
 								</NcButton>
@@ -132,7 +131,7 @@
 									:size="24"
 									disableMenu
 									hideStatus />
-								<IconCalendarBlankOutline v-else-if="filter.type === 'date'" />
+								<NcIconSvgWrapper v-else-if="filter.type === 'date'" :path="mdiCalendarBlankOutline" />
 								<img v-else :src="filter.icon" alt="">
 							</template>
 						</FilterChip>
@@ -142,7 +141,7 @@
 				<div v-if="showEmptyContentInfo" class="unified-search-modal__no-content">
 					<NcEmptyContent :name="emptyContentMessage">
 						<template #icon>
-							<IconMagnify :size="64" />
+							<NcIconSvgWrapper :size="64" :path="mdiMagnify" />
 						</template>
 					</NcEmptyContent>
 					<!-- Offered even with zero results, so the user can reach external providers. -->
@@ -169,7 +168,7 @@
 							:aria-label="t('core', 'Back to all results')"
 							@click="closeDetailView">
 							<template #icon>
-								<IconArrowLeft class="unified-search-modal__rtl-icon" :size="20" />
+								<NcIconSvgWrapper class="unified-search-modal__rtl-icon" :path="mdiArrowLeft" />
 							</template>
 							{{ t('core', 'Back') }}
 						</NcButton>
@@ -194,7 +193,7 @@
 								@click="openDetailView(group)">
 								{{ t('core', 'More from {name}', { name: group.name }) }}
 								<template #icon>
-									<IconArrowRight class="unified-search-modal__rtl-icon" :size="20" />
+									<NcIconSvgWrapper class="unified-search-modal__rtl-icon" :path="mdiArrowRight" />
 								</template>
 							</NcButton>
 							<!-- In detail view the name is in the header, so skip the in-list heading (avoids a duplicate id). -->
@@ -220,13 +219,13 @@
 									@click="loadMoreResultsForProvider(group)">
 									{{ t('core', 'Load more results') }}
 									<template #icon>
-										<IconDotsHorizontal :size="20" />
+										<NcIconSvgWrapper :path="mdiDotsHorizontal" />
 									</template>
 								</NcButton>
 								<NcButton v-if="group.inAppSearch" alignment="end-reverse" variant="tertiary-no-background">
 									{{ t('core', 'Search in') }} {{ group.name }}
 									<template #icon>
-										<IconArrowRight :size="20" />
+										<NcIconSvgWrapper :path="mdiArrowRight" />
 									</template>
 								</NcButton>
 							</div>
@@ -246,13 +245,14 @@
 				the scrim). NcModal's `.modal-mask` styles are scoped, so no foreign CSS leaks in. -->
 			<div class="unified-search-modal__scrim modal-mask" @click="onScrimClick" />
 		</div>
-	</transition>
+	</Transition>
 </template>
 
 <script lang="ts">
 import type { FocusTrap } from 'focus-trap'
 import type { CategorySearchParams } from '../../services/UnifiedSearchController.ts'
 
+import { mdiAccountMultipleOutline, mdiArrowLeft, mdiArrowRight, mdiCalendarBlankOutline, mdiClose, mdiDotsHorizontal, mdiMagnify, mdiShapeOutline } from '@mdi/js'
 import { subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { getCanonicalLocale, n, t } from '@nextcloud/l10n'
@@ -266,16 +266,9 @@ import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
-import IconAccountMultipleOutline from 'vue-material-design-icons/AccountMultipleOutline.vue'
-import IconArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
-import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-import IconCalendarBlankOutline from 'vue-material-design-icons/CalendarBlankOutline.vue'
-import IconClose from 'vue-material-design-icons/Close.vue'
-import IconDotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
-import IconMagnify from 'vue-material-design-icons/Magnify.vue'
-import IconShapeOutline from 'vue-material-design-icons/ShapeOutline.vue'
 import ConnectedServicesBar from './ConnectedServicesBar.vue'
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import SearchableList from './SearchableList.vue'
@@ -283,8 +276,8 @@ import FilterChip from './SearchFilterChip.vue'
 import SearchResult from './SearchResult.vue'
 import SearchResultSkeleton from './SearchResultSkeleton.vue'
 import { useUnifiedSearch } from '../../composables/useUnifiedSearch.ts'
-import { getContacts, getProviders } from '../../services/UnifiedSearchService.js'
-import { useSearchStore } from '../../store/unified-search-external-filters.js'
+import { getContacts, getProviders } from '../../services/UnifiedSearchService.ts'
+import { useSearchStore } from '../../store/unifiedSearch.ts'
 import { unifiedSearchLogger } from '../../utils/logger.ts'
 
 /**
@@ -313,14 +306,6 @@ interface NavigableRow {
 export default defineComponent({
 	name: 'UnifiedSearchModal',
 	components: {
-		IconAccountMultipleOutline,
-		IconArrowLeft,
-		IconArrowRight,
-		IconCalendarBlankOutline,
-		IconClose,
-		IconDotsHorizontal,
-		IconMagnify,
-		IconShapeOutline,
 
 		ConnectedServicesBar,
 		CustomDateRangeModal,
@@ -330,6 +315,7 @@ export default defineComponent({
 		NcAvatar,
 		NcButton,
 		NcEmptyContent,
+		NcIconSvgWrapper,
 		NcLoadingIcon,
 		NcTextField,
 		SearchableList,
@@ -378,6 +364,14 @@ export default defineComponent({
 		const { searchStates, revealOrder, search, loadMore, reset } = useUnifiedSearch()
 
 		return {
+			mdiAccountMultipleOutline,
+			mdiArrowLeft,
+			mdiArrowRight,
+			mdiCalendarBlankOutline,
+			mdiClose,
+			mdiDotsHorizontal,
+			mdiMagnify,
+			mdiShapeOutline,
 			t,
 			searchStates,
 			revealOrder,
@@ -1612,12 +1606,12 @@ export default defineComponent({
 	transition: opacity 250ms;
 }
 
-.unified-search-modal-enter,
+.unified-search-modal-enter-from,
 .unified-search-modal-leave-to {
 	opacity: 0;
 }
 
-.unified-search-modal-enter .unified-search-modal__container,
+.unified-search-modal-enter-from .unified-search-modal__container,
 .unified-search-modal-leave-to .unified-search-modal__container {
 	transform: translateY(-6px);
 }
@@ -1629,7 +1623,7 @@ export default defineComponent({
 		transition: none;
 	}
 
-	.unified-search-modal-enter .unified-search-modal__container,
+	.unified-search-modal-enter-from .unified-search-modal__container,
 	.unified-search-modal-leave-to .unified-search-modal__container {
 		transform: none;
 	}

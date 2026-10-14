@@ -57,6 +57,8 @@ OC.L10N.register(
     "Base User Tree" : "Crann Úsáideora Bonn",
     "Optional; one attribute per line" : "Roghnach; tréith amháin in aghaidh an líne",
     "User Search Attributes" : "Tréithe Cuardaigh Úsáideora",
+    "User Active/Inactive Attribute" : "Tréith Úsáideora Gníomhach/Neamhghníomhach",
+    "User attribute whether user is active or inactive, should be `TRUE` if active, `FALSE` if not." : "Maidir le tréith an úsáideora a léiríonn cé acu atá an t-úsáideoir gníomhach nó neamhghníomhach, ba cheart go mbeadh sí `TRUE` má tá sé gníomhach, agus `FALSE` mura bhfuil.",
     "When switched on, users imported from LDAP which are then missing will be disabled" : "Nuair a chuirtear ar siúl é, díchumasófar úsáideoirí a allmhairítear ó LDAP atá in easnamh ansin",
     "Disable users missing from LDAP" : "Díchumasaigh úsáideoirí in easnamh ó LDAP",
     "Group Display Name Field" : "Réimse Ainm Taispeána Grúpa",

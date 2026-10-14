@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Actions;
 
 use OC\Files\Node\NonExistingFile;
+use OCA\AdminAudit\Operation;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
@@ -43,6 +44,7 @@ class Files extends Action {
 			return;
 		}
 		$this->log(
+			Operation::FileRead,
 			'File with id "%s" accessed: "%s"',
 			$params,
 			array_keys($params)
@@ -69,6 +71,7 @@ class Files extends Action {
 		}
 
 		$this->log(
+			Operation::FileRenamed,
 			'File renamed with id "%s" from "%s" to "%s"',
 			$params,
 			array_keys($params)
@@ -95,6 +98,7 @@ class Files extends Action {
 			return;
 		}
 		$this->log(
+			Operation::FileCreated,
 			'File with id "%s" created: "%s"',
 			$params,
 			array_keys($params)
@@ -121,6 +125,7 @@ class Files extends Action {
 			return;
 		}
 		$this->log(
+			Operation::FileCopied,
 			'File id copied from: "%s" to "%s", path from "%s" to "%s"',
 			$params,
 			array_keys($params)
@@ -148,6 +153,7 @@ class Files extends Action {
 		}
 
 		$this->log(
+			Operation::FileWritten,
 			'File with id "%s" written to: "%s"',
 			$params,
 			array_keys($params)
@@ -171,6 +177,7 @@ class Files extends Action {
 			return;
 		}
 		$this->log(
+			Operation::FileDeleted,
 			'File with id "%s" deleted: "%s"',
 			$params,
 			array_keys($params)

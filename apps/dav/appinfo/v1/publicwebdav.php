@@ -33,7 +33,6 @@ use OCP\ISession;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory as IL10nFactory;
-use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -50,12 +49,7 @@ while (ob_get_level()) {
 Server::get(ISession::class)->close();
 
 // Backends
-$authBackend = new LegacyPublicAuth(
-	Server::get(IRequest::class),
-	Server::get(\OCP\Share\IManager::class),
-	Server::get(ISession::class),
-	Server::get(IThrottler::class)
-);
+$authBackend = Server::get(LegacyPublicAuth::class);
 $bearerAuthBackend = new BearerAuth(
 	Server::get(IUserSession::class),
 	Server::get(ISession::class),

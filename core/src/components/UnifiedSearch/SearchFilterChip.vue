@@ -2,6 +2,26 @@
  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import { mdiClose } from '@mdi/js'
+import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+
+const props = defineProps<{
+	text: string
+	pretext: string
+}>()
+
+// The parent reads the filter from its own v-for scope, so no payload is needed.
+defineEmits<{
+	delete: []
+}>()
+
+// Accessible name for the icon-only remove button (screen readers can't read a bare ×).
+const removeLabel = computed(() => t('core', 'Remove filter: {name}', { name: props.text }))
+</script>
+
 <template>
 	<div class="chip">
 		<span class="icon">
@@ -13,51 +33,11 @@
 			type="button"
 			class="close-button"
 			:aria-label="removeLabel"
-			@click="deleteChip">
-			<CloseIcon :size="18" />
+			@click="$emit('delete')">
+			<NcIconSvgWrapper :path="mdiClose" :size="18" />
 		</button>
 	</div>
 </template>
-
-<script>
-import { t } from '@nextcloud/l10n'
-import CloseIcon from 'vue-material-design-icons/Close.vue'
-
-export default {
-	name: 'SearchFilterChip',
-	components: {
-		CloseIcon,
-	},
-
-	props: {
-		text: {
-			type: String,
-			required: true,
-		},
-
-		pretext: {
-			type: String,
-			required: true,
-		},
-	},
-
-	emits: ['delete'],
-
-	computed: {
-		// Accessible name for the icon-only remove button (screen readers can't read a bare ×).
-		removeLabel() {
-			return t('core', 'Remove filter: {name}', { name: this.text })
-		},
-	},
-
-	methods: {
-		deleteChip() {
-			// The parent reads the filter from its own v-for scope, so no payload is needed.
-			this.$emit('delete')
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 .chip {

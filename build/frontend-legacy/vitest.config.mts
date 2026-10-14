@@ -48,7 +48,7 @@ export default defineConfig({
 		},
 	},
 	test: {
-		include: ['./{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+		include: ['./apps/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
 		environment: 'jsdom',
 		environmentOptions: {
 			jsdom: {
@@ -56,8 +56,8 @@ export default defineConfig({
 			},
 		},
 		coverage: {
-			include: ['./apps/*/src/**', 'core/src/**'],
-			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],
+			include: ['./apps/*/src/**'],
+			exclude: ['**.spec.*', '**.test.*', '**.cy.*', './apps/settings/src/authtokens/**'],
 			reporter: ['lcov', 'text'],
 			reportsDirectory: resolve(import.meta.dirname, '../../coverage/legacy'),
 		},
@@ -68,6 +68,8 @@ export default defineConfig({
 		exclude: [
 			...defaultExclude,
 			...gitIgnore,
+			// the app password section is Vue 3, it is tested by the Vue 3 frontend
+			'**/apps/settings/src/authtokens/**',
 		],
 		globalSetup: './__tests__/setup-global.js',
 		server: {

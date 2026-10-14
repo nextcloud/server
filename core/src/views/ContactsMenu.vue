@@ -11,7 +11,7 @@ import { getBuilder } from '@nextcloud/browser-storage'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import debounce from 'debounce'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -32,7 +32,7 @@ const user = getCurrentUser()!
 const contactsAppURL = generateUrl('/apps/contacts')
 const contactsAppMgmtURL = generateUrl('/settings/apps/social/contacts')
 
-const contactsMenuInput = ref<HTMLInputElement>()
+const contactsMenuInput = useTemplateRef('contactsMenuInput')
 
 const actions = ref(window.OC?.ContactsMenu?.actions || [])
 const contactsAppEnabled = ref(false)
@@ -149,21 +149,21 @@ const userTeams: ITeam[] = []
 		id="contactsmenu"
 		class="contactsmenu"
 		:aria-label="t('core', 'Search contacts')"
-		exclude-click-outside-selectors=".v-popper__popper"
-		@open="onOpened">
+		excludeClickOutsideSelectors=".v-popper__popper"
+		@update:open="$event && onOpened()">
 		<template #trigger>
 			<NcIconSvgWrapper class="contactsmenu__trigger-icon" :path="mdiContacts" />
 		</template>
 		<div class="contactsmenu__menu">
 			<div class="contactsmenu__menu__search-container">
 				<div class="contactsmenu__menu__input-wrapper">
-					<NcActions force-menu :aria-label="t('core', 'Filter by team')" variant="tertiary">
+					<NcActions forceMenu :aria-label="t('core', 'Filter by team')" variant="tertiary">
 						<template #icon>
 							<NcIconSvgWrapper :path="mdiAccountGroupOutline" />
 						</template>
 						<template #default>
 							<NcActionButton
-								:modelValue.sync="selectedTeam"
+								v-model="selectedTeam"
 								value="$_all_$"
 								type="radio">
 								{{ t('core', 'All teams') }}
@@ -171,7 +171,7 @@ const userTeams: ITeam[] = []
 							<NcActionButton
 								v-for="team of teams"
 								:key="team.teamId"
-								:modelValue.sync="selectedTeam"
+								v-model="selectedTeam"
 								:value="team.teamId"
 								type="radio">
 								{{ team.displayName }}
@@ -183,16 +183,16 @@ const userTeams: ITeam[] = []
 						ref="contactsMenuInput"
 						v-model="searchTerm"
 						class="contactsmenu__menu__search"
-						trailing-button-icon="close"
+						trailingButtonIcon="close"
 						:label="selectedTeamName
 							? t('core', 'Search contacts in team {team}', { team: selectedTeamName })
 							: t('core', 'Search contacts …')
 						"
-						:trailing-button-label="t('core', 'Reset search')"
-						:show-trailing-button="searchTerm !== ''"
+						:trailingButtonLabel="t('core', 'Reset search')"
+						:showTrailingButton="searchTerm !== ''"
 						type="search"
-						@input="onInputDebounced"
-						@trailing-button-click="onReset" />
+						@update:modelValue="onInputDebounced"
+						@trailingButtonClick="onReset" />
 				</div>
 				<NcButton
 					v-for="action in actions"
