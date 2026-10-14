@@ -241,6 +241,7 @@ return array(
     'OCA\\DAV\\DAV\\Sharing\\IShareable' => $baseDir . '/../lib/DAV/Sharing/IShareable.php',
     'OCA\\DAV\\DAV\\Sharing\\Plugin' => $baseDir . '/../lib/DAV/Sharing/Plugin.php',
     'OCA\\DAV\\DAV\\Sharing\\SharingMapper' => $baseDir . '/../lib/DAV/Sharing/SharingMapper.php',
+    'OCA\\DAV\\DAV\\Sharing\\SharingPrivilegeSetTrait' => $baseDir . '/../lib/DAV/Sharing/SharingPrivilegeSetTrait.php',
     'OCA\\DAV\\DAV\\Sharing\\SharingService' => $baseDir . '/../lib/DAV/Sharing/SharingService.php',
     'OCA\\DAV\\DAV\\Sharing\\Xml\\Invite' => $baseDir . '/../lib/DAV/Sharing/Xml/Invite.php',
     'OCA\\DAV\\DAV\\Sharing\\Xml\\ShareRequest' => $baseDir . '/../lib/DAV/Sharing/Xml/ShareRequest.php',
