@@ -113,4 +113,8 @@ enum Operation: string {
 	case FederatedShareUnshared = 'federatedfilesharing.share.unshared';
 	case FederatedShareRevoked = 'federatedfilesharing.share.revoked';
 	case FederatedSharePermissionsUpdated = 'federatedfilesharing.share.permissions_updated';
+
+	// Cloud federation API
+	case CloudFederationShareReceived = 'cloud_federation_api.share.received';
+	case CloudFederationNotificationReceived = 'cloud_federation_api.notification.received';
 }
