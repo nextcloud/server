@@ -26,6 +26,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IAppConfig;
+use OCP\Log\Audit\CriticalActionPerformedEvent;
 use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -218,6 +219,20 @@ abstract class StoragesService {
 
 		$this->eventDispatcher->dispatchTyped(new StorageCreatedEvent($newStorage));
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'External storage "%s" was created with mount point "%s", backend "%s", authentication mechanism "%s", applicable users "%s", applicable groups "%s" and scope "%s"',
+			[
+				'storageId' => $configId,
+				'mountPoint' => $newStorage->getMountPoint(),
+				'backend' => $newStorage->getBackend()->getIdentifier(),
+				'authMechanism' => $newStorage->getAuthMechanism()->getIdentifier(),
+				'applicableUsers' => implode(', ', $newStorage->getApplicableUsers()),
+				'applicableGroups' => implode(', ', $newStorage->getApplicableGroups()),
+				'scope' => $this->getScopeName($this->getType()),
+			],
+			false,
+			'files_external.storage.created',
+		));
 
 		$newStorage->setStatus(StorageNotAvailableException::STATUS_SUCCESS);
 
@@ -396,6 +411,17 @@ abstract class StoragesService {
 		}
 
 		$this->triggerChangeHooks($oldStorage, $updatedStorage);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'External storage "%s" was updated with mount point "%s", applicable users "%s" and applicable groups "%s"',
+			[
+				'storageId' => $id,
+				'mountPoint' => $updatedStorage->getMountPoint(),
+				'applicableUsers' => implode(', ', $updatedStorage->getApplicableUsers()),
+				'applicableGroups' => implode(', ', $updatedStorage->getApplicableGroups()),
+			],
+			false,
+			'files_external.storage.updated',
+		));
 
 		$this->updateOverwriteHomeFolders();
 
@@ -421,11 +447,25 @@ abstract class StoragesService {
 		$deletedStorage = $this->getStorageConfigFromDBMount($existingMount);
 		$this->eventDispatcher->dispatchTyped(new StorageDeletedEvent($deletedStorage));
 		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
+		$this->eventDispatcher->dispatchTyped(new CriticalActionPerformedEvent(
+			'External storage "%s" with mount point "%s" and scope "%s" was deleted',
+			[
+				'storageId' => $id,
+				'mountPoint' => $deletedStorage->getMountPoint(),
+				'scope' => $this->getScopeName((int)$deletedStorage->getType()),
+			],
+			false,
+			'files_external.storage.deleted',
+		));
 
 		// delete oc_storages entries and oc_filecache
 		Storage::cleanByMountId($id);
 
 		$this->updateOverwriteHomeFolders();
+	}
+
+	private function getScopeName(int $type): string {
+		return $type === StorageConfig::MOUNT_TYPE_PERSONAL ? 'personal' : 'admin';
 	}
 
 	public function updateOverwriteHomeFolders(): void {

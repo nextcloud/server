@@ -117,4 +117,11 @@ enum Operation: string {
 	// Cloud federation API
 	case CloudFederationShareReceived = 'cloud_federation_api.share.received';
 	case CloudFederationNotificationReceived = 'cloud_federation_api.notification.received';
+
+	// External storage
+	case ExternalStorageCreated = 'files_external.storage.created';
+	case ExternalStorageUpdated = 'files_external.storage.updated';
+	case ExternalStorageDeleted = 'files_external.storage.deleted';
+	case ExternalStorageCredentialsUpdated = 'files_external.credentials.updated';
+	case ExternalStorageUserCredentialsUpdated = 'files_external.user_credentials.updated';
 }

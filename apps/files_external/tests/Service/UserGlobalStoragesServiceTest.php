@@ -331,4 +331,9 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		// we don't test this here
 		$this->addToAssertionCount(1);
 	}
+
+	public function testAuditEvents(): void {
+		// we don't test this here
+		$this->addToAssertionCount(1);
+	}
 }
