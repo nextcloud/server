@@ -843,6 +843,7 @@ return array(
     'OCP\\OCM\\IOCMProvider' => $baseDir . '/lib/public/OCM/IOCMProvider.php',
     'OCP\\OCM\\IOCMResource' => $baseDir . '/lib/public/OCM/IOCMResource.php',
     'OCP\\OCM\\OCMCapabilities' => $baseDir . '/lib/public/OCM/OCMCapabilities.php',
+    'OCP\\OCM\\Permissions' => $baseDir . '/lib/public/OCM/Permissions.php',
     'OCP\\OCS\\IDiscoveryService' => $baseDir . '/lib/public/OCS/IDiscoveryService.php',
     'OCP\\OpenMetrics\\IMetricFamily' => $baseDir . '/lib/public/OpenMetrics/IMetricFamily.php',
     'OCP\\OpenMetrics\\Metric' => $baseDir . '/lib/public/OpenMetrics/Metric.php',
