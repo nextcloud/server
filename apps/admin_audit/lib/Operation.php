@@ -124,4 +124,14 @@ enum Operation: string {
 	case ExternalStorageDeleted = 'files_external.storage.deleted';
 	case ExternalStorageCredentialsUpdated = 'files_external.credentials.updated';
 	case ExternalStorageUserCredentialsUpdated = 'files_external.user_credentials.updated';
+
+	// Encryption
+	case EncryptionRecoveryKeyEnabled = 'encryption.recovery_key.enabled';
+	case EncryptionRecoveryKeyDisabled = 'encryption.recovery_key.disabled';
+	case EncryptionRecoveryKeyPasswordChanged = 'encryption.recovery_key.password_changed';
+	case EncryptionUserRecoveryUpdated = 'encryption.user_recovery.updated';
+	case EncryptionUserFilesRecovered = 'encryption.user_files.recovered';
+	case EncryptionUserKeysRegenerated = 'encryption.user_keys.regenerated';
+	case EncryptionPrivateKeyPasswordChanged = 'encryption.private_key.password_changed';
+	case EncryptionHomeStorageUpdated = 'encryption.home_storage.updated';
 }
