@@ -186,4 +186,12 @@ enum Operation: string {
 
 	// Two-factor backup codes
 	case TwoFactorBackupCodesGenerated = 'twofactor_backupcodes.codes.generated';
+
+	// LDAP user and group backend
+	case LdapConfigCreated = 'user_ldap.config.created';
+	case LdapConfigUpdated = 'user_ldap.config.updated';
+	case LdapConfigCopied = 'user_ldap.config.copied';
+	case LdapConfigDeleted = 'user_ldap.config.deleted';
+	case LdapConfigPasswordRevealed = 'user_ldap.config.password_revealed';
+	case LdapMappingCleared = 'user_ldap.mapping.cleared';
 }
